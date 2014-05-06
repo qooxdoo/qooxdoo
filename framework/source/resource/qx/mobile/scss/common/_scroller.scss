@@ -1,15 +1,22 @@
 .scroll {
   position:relative;
-
-  height:100%;
-
   overflow:hidden;
+  height:100%;
+}
+
+// Bugfix for Blackberry Z10
+.root.blackberry {
+  .scroll {
+    z-index: 0;
+  }
 }
 
 .iscroll {
   width:100%;
-  position:absolute;
-  padding-bottom:10px; // TODO: Experimental
+
+  .content {
+    padding-bottom: 10px;
+  }
 }
 
 // Bugfix for Android 2.x, adds a scale(1) to the element,
@@ -18,25 +25,35 @@
   @include transform(scale(1));
 }
 
-.scroll-container {
-  // iOS6 flickering bug fix
-  -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
- 
-  position:relative;
-  overflow:hidden;
-}
-
-.scroll-container-child {
-  position:relative;
-}
-
-.scroll-container.scrollable-top:before, .scroll-container.scrollable-bottom:after {
-  pointer-events:none;
-}
-
 .scroll.native {
+  @include touch-action(pan);
+
+  overflow-y:scroll;
+  overflow-x:scroll;
+  
   -webkit-overflow-scrolling:touch;
-  overflow:scroll;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+.scrollbarV > div {
+  @include background-clip(padding-box);
+  @include box-sizing(border-box);
+  @include border-radius(rem(4));
+
+  background-color: #888888;
+  position: absolute;
+  z-index: 100;
+  width: 100%;
+
+}
+
+.scrollbarV {
+  position: absolute;
+  top: rem(2);
+  right: rem(2);
+  bottom: rem(2);
+  width: rem(6);
+  z-index: 100;
+
+  margin-top: 0 !important;
+}

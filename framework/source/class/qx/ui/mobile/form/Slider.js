@@ -24,6 +24,7 @@
  * It lets the user move a slider handle along a horizontal
  * groove and translates the handle's position into an integer value
  * within the defined range.
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -57,27 +58,16 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     qx.ui.form.INumberForm
   ],
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   construct : function()
   {
     this.base(arguments);
     this._registerEventListener();
-    this._updateKnobPosition();
+    this._refresh();
+
+    this.addCssClass("gap");
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -96,7 +86,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Integer",
       init : 0,
-      apply : "_updateKnobPosition",
+      apply : "_refresh",
       event : "changeMinimum"
     },
 
@@ -109,7 +99,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Integer",
       init : 100,
-      apply : "_updateKnobPosition",
+      apply : "_refresh",
       event : "changeMaximum"
     },
 
@@ -134,7 +124,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       check : "Boolean",
       init : false,
-      apply : "_updateKnobPosition"
+      apply : "_refresh"
     },
 
 
@@ -146,19 +136,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       init : "percent",
       check : [ "value", "percent" ],
-      nullable : true, 
+      nullable : true,
       apply : "_applyDisplayValue"
     }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -169,11 +151,12 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     __value: 0,
 
 
+
     /**
      * Increments the current value.
      */
     nextValue : function() {
-       this.setValue(this.getValue() + this.getStep());
+      this.setValue(this.getValue() + this.getStep());
     },
 
 
@@ -181,7 +164,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      * Decrements the current value.
      */
     previousValue : function() {
-       this.setValue(this.getValue() - this.getStep());
+      this.setValue(this.getValue() - this.getStep());
     },
 
 
@@ -210,12 +193,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _registerEventListener : function()
     {
-      this.addListener("touchstart", this._onTouchStart, this);
-      this.addListener("touchmove", this._onTouchMove, this);
+      this.addListener("pointerdown", this._onPointerDown, this);
+      this.addListener("track", this._onTrack, this);
+      this.addListener("touchmove", qx.bom.Event.stopPropagation, this);
       this.addListener("appear", this._refresh, this);
 
-      qx.bom.Element.addListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
-      qx.bom.Element.addListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
       qx.event.Registration.addListener(window, "orientationchange", this._refresh, this);
       this.addListenerOnce("domupdated", this._refresh, this);
@@ -227,12 +209,11 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     _unregisterEventListener : function()
     {
-      this.removeListener("touchstart", this._onTouchStart, this);
-      this.removeListener("touchmove", this._onTouchMove, this);
+      this.removeListener("pointerdown", this._onPointerDown, this);
+      this.removeListener("track", this._onTrack, this);
+      this.removeListener("touchmove", qx.bom.Event.stopPropagation, this);
       this.removeListener("appear", this._refresh, this);
 
-      qx.bom.Element.removeListener(this._getKnobElement(), "touchstart", this._onTouchStart, this);
-      qx.bom.Element.removeListener(this._getKnobElement(), "transitionEnd", this._onTransitionEnd, this);
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);
       qx.event.Registration.removeListener(window, "orientationchange", this._refresh, this);
       this.removeListener("domupdated", this._refresh, this);
@@ -255,25 +236,25 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _updateSizes : function()
     {
       var containerElement = this.getContainerElement();
-      this._containerElementWidth = qx.bom.element.Dimension.getWidth(containerElement);
-      this._containerElementLeft = qx.bom.element.Location.getLeft(containerElement);
-      this._pixelPerStep = this._getPixelPerStep(this._containerElementWidth);
+      if(containerElement) {
+        this._containerElementWidth = qx.bom.element.Dimension.getWidth(containerElement);
+        this._containerElementLeft = qx.bom.element.Location.getLeft(containerElement);
+        this._pixelPerStep = this._getPixelPerStep(this._containerElementWidth);
+      }
     },
 
 
     /**
-     * Event handler. Called when the touch start event occurs.
+     * Event handler. Called when the <code>pointerdown</code> event occurs.
      *
-     * @param evt {qx.event.type.Touch} The touch event
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchStart: function(evt)
+    _onPointerDown: function(evt)
     {
-      this._lastPosition = 0;
-      if (!evt.isMultiTouch())
+      if (evt.isPrimary())
       {
         this._updateSizes();
-        var position = this._lastPosition =  this._getPosition(evt.getDocumentLeft());
-
+        var position = this._getPosition(evt.getDocumentLeft());
         this.setValue(this._positionToValue(position));
 
         evt.stopPropagation();
@@ -282,34 +263,14 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     /**
-     * Event handler. Called when the transition end event occurs.
+     * Event handler. Called when the <code>track</code> event occurs.
      *
-     * @param evt {qx.event.type.Event} The causing event
+     * @param evt {qx.event.type.Track} The track event.
      */
-    _onTransitionEnd : function(evt)
-    {
-      var knobElement = this._getKnobElement();
-      qx.bom.element.Style.set(knobElement, "transition", null);
-
-      var element = this.getContainerElement();
-      qx.bom.element.Style.set(element, "transition", null);
-    },
-
-
-    /**
-     * Event handler. Called when the touch move event occurs.
-     *
-     * @param evt {qx.event.type.Touch} The touch event
-     */
-    _onTouchMove : function(evt)
+    _onTrack : function(evt)
     {
       var position = this._getPosition(evt.getDocumentLeft());
-      // Optimize Performance - only update the position when needed
-      if (Math.abs(this._lastPosition - position) > this._pixelPerStep /2)
-      {
-        this._lastPosition = position;
-        this.setValue(this._positionToValue(position));
-      }
+      this.setValue(this._positionToValue(position));
       evt.stopPropagation();
       evt.preventDefault();
     },
@@ -351,7 +312,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     _setValue : function(value)
     {
       this.__value = value;
-      this._updateKnobPosition();
+      qx.bom.AnimationFrame.request(this._refresh, this);
     },
 
     /**
@@ -373,12 +334,13 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
       var width = this._containerElementWidth;
       var position = Math.floor(this._percentToPosition(width, percent));
-      var element = this._getKnobElement();
 
-      qx.bom.element.Style.set(element, "width", width - (width - position) + "px");
-
-      qx.bom.element.Attribute.set(element, "data-value", this.getValue());
-      qx.bom.element.Attribute.set(element, "data-percent", Math.floor(percent));
+      var knobElement = this._getKnobElement();
+      if (knobElement) {
+        qx.bom.element.Style.set(this._getKnobElement(), "width", width - (width - position) + "px");
+        qx.bom.element.Attribute.set(this._getKnobElement(), "data-value", this.getValue());
+        qx.bom.element.Attribute.set(this._getKnobElement(), "data-percent", Math.floor(percent));
+      }
     },
 
 
@@ -394,8 +356,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     /**
-     * @deprecated {3.1} This method is not available anymore. 
-     * 
+     * @deprecated {3.5} This method is not available anymore.
+     *
      * Determines whether the knob position needs an offset.
      * This offset is needed for preventing the knob to be shown outside the
      * range.
@@ -515,17 +477,8 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       return this.getMaximum() - this.getMinimum();
     }
-
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

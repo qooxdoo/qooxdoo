@@ -36,6 +36,7 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
   {
     this.base(arguments, layout);
     this.initSelectable();
+    this.initRemovable();
     this.initShowArrow();
   },
 
@@ -79,6 +80,17 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
 
 
     /**
+     * Whether the row is removable.
+     */
+    removable :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyRemovable"
+    },
+
+
+    /**
      * Whether to show an arrow in the row.
      */
     showArrow :
@@ -96,8 +108,6 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
       init : true
     }
   },
-
-
 
 
  /*
@@ -152,7 +162,8 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
       while (element.tagName != "LI") {
         element = element.parentNode;
       }
-      return qx.dom.Hierarchy.getElementIndex(element);
+
+      return element.getAttribute("data-row");
     },
 
 
@@ -163,6 +174,17 @@ qx.Class.define("qx.ui.mobile.list.renderer.Abstract",
         this.addCssClass("arrow");
       } else {
         this.removeCssClass("arrow");
+      }
+    },
+
+
+    // property apply
+    _applyRemovable : function(value, old)
+    {
+      if (value) {
+        this.addCssClass("removable");
+      } else {
+        this.removeCssClass("removable");
       }
     },
 

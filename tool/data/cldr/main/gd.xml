@@ -6,14 +6,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9792 $"/>
+		<generation date="$Date: 2014-02-25 16:17:53 -0600 (Tue, 25 Feb 2014) $"/>
 		<language type="gd"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern draft="unconfirmed">{0} ({1})</localePattern>
-			<localeSeparator draft="unconfirmed">, </localeSeparator>
+			<localeSeparator draft="unconfirmed">{0}, {1}</localeSeparator>
 		</localeDisplayPattern>
 		<languages>
 			<language type="aa" draft="unconfirmed">Afar</language>
@@ -22,7 +22,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="am" draft="unconfirmed">Amharais</language>
 			<language type="ang" draft="unconfirmed">Seann-Bheurla</language>
 			<language type="ar" draft="unconfirmed">Arabais</language>
-			<language type="art" draft="unconfirmed">Cànan fuadain</language>
 			<language type="az" draft="unconfirmed">Asarbaideànais</language>
 			<language type="az" alt="short" draft="unconfirmed">Azeri</language>
 			<language type="be" draft="unconfirmed">Bealaruisis</language>
@@ -32,7 +31,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="br" draft="unconfirmed">Breatnais</language>
 			<language type="bs" draft="unconfirmed">Bosnais</language>
 			<language type="ca" draft="unconfirmed">Catalanais</language>
-			<language type="cel" draft="unconfirmed">Cànan Ceilteach</language>
 			<language type="co" draft="unconfirmed">Corsais</language>
 			<language type="cs" draft="unconfirmed">Seicis</language>
 			<language type="cy" draft="unconfirmed">Cuimris</language>
@@ -67,7 +65,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="fy" draft="unconfirmed">Frìsis Iarach</language>
 			<language type="ga" draft="unconfirmed">Gaeilge</language>
 			<language type="gd" draft="unconfirmed">Gàidhlig</language>
-			<language type="gem" draft="unconfirmed">Cànan Gearmanach</language>
 			<language type="gl" draft="unconfirmed">Gailìsis</language>
 			<language type="gn" draft="unconfirmed">Guaraní</language>
 			<language type="gsw" draft="unconfirmed">Gearmailtis Eilbheiseach</language>
@@ -115,14 +112,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mk" draft="unconfirmed">Masadonais</language>
 			<language type="ml" draft="unconfirmed">Malayalam</language>
 			<language type="mn" draft="unconfirmed">Mongolais</language>
-			<language type="mo" draft="unconfirmed">Moldobhais</language>
 			<language type="mr" draft="unconfirmed">Marathi</language>
 			<language type="ms" draft="unconfirmed">Malaidhis</language>
 			<language type="mt" draft="unconfirmed">Maltais</language>
 			<language type="my" draft="unconfirmed">Burmais</language>
-			<language type="myn" draft="unconfirmed">Cànan Mayan</language>
 			<language type="na" draft="unconfirmed">Nauru</language>
-			<language type="nah" draft="unconfirmed">Nahuatl</language>
 			<language type="naq" draft="unconfirmed">Nama</language>
 			<language type="nb" draft="unconfirmed">Bokmål na Nirribhidh</language>
 			<language type="ne" draft="unconfirmed">Neapàilis</language>
@@ -139,13 +133,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="pa" draft="unconfirmed">Panjabi</language>
 			<language type="pi" draft="unconfirmed">Pali</language>
 			<language type="pl" draft="unconfirmed">Pòlainnis</language>
-			<language type="ps" references="R034" draft="unconfirmed">Paistiu</language>
+			<language type="ps" draft="unconfirmed" references="R034">Paistiu</language>
 			<language type="pt" draft="unconfirmed">Portagailis</language>
 			<language type="pt_BR" draft="unconfirmed">Portagailis Bhraisil</language>
 			<language type="qu" draft="unconfirmed">Ceatsua</language>
 			<language type="rap" draft="unconfirmed">Rapanui</language>
 			<language type="rm" draft="unconfirmed">Rumains</language>
 			<language type="ro" draft="unconfirmed">Ròmanais</language>
+			<language type="ro_MD">Moldobhais</language>
 			<language type="ru" draft="unconfirmed">Ruisis</language>
 			<language type="rw" draft="unconfirmed">Kinyarwanda</language>
 			<language type="sa" draft="unconfirmed">Sanskrit</language>
@@ -154,14 +149,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sd" draft="unconfirmed">Sindhi</language>
 			<language type="se" draft="unconfirmed">Sàmais Thuathach</language>
 			<language type="sga" draft="unconfirmed">Seann-Ghaeilge</language>
-			<language type="sgn" draft="unconfirmed">Cainnt-Shanais</language>
 			<language type="sh" draft="unconfirmed">Sèirb-Chròthaisis</language>
 			<language type="si" draft="unconfirmed">Sinhala</language>
 			<language type="sk" draft="unconfirmed">Slòbhacais</language>
 			<language type="sl" draft="unconfirmed">Slòbhainis</language>
 			<language type="sm" draft="unconfirmed">Samothanais</language>
 			<language type="sma" draft="unconfirmed">Sàmais Dheasach</language>
-			<language type="smi" draft="unconfirmed">Sàmais</language>
 			<language type="smj" draft="unconfirmed">Sàmais Lule</language>
 			<language type="smn" draft="unconfirmed">Sàmais Inari</language>
 			<language type="sms" draft="unconfirmed">Sàmais Skolt</language>
@@ -173,7 +166,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sv" draft="unconfirmed">Suainis</language>
 			<language type="sw" draft="unconfirmed">Swahili</language>
 			<language type="ta" draft="unconfirmed">Taimilis</language>
-			<language type="tai" draft="unconfirmed">Cànan nan Tàidh</language>
 			<language type="te" draft="unconfirmed">Telugu</language>
 			<language type="tet" draft="unconfirmed">Tetum</language>
 			<language type="tg" draft="unconfirmed">Taidigis</language>
@@ -193,7 +185,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="uz" draft="unconfirmed">Usbagais</language>
 			<language type="vi" draft="unconfirmed">Bhiet-Namais</language>
 			<language type="vo" draft="unconfirmed">Volapük</language>
-			<language type="wen" draft="unconfirmed">Sòrbais</language>
 			<language type="wo" draft="unconfirmed">Wolof</language>
 			<language type="xh" draft="unconfirmed">Xhosa</language>
 			<language type="yi" draft="unconfirmed">Iùdhais</language>
@@ -234,7 +225,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Telu" draft="unconfirmed">Telugu</script>
 			<script type="Tfng" draft="unconfirmed">Tifinagh</script>
 			<script type="Tglg" draft="unconfirmed">Tagalog</script>
-			<script type="Thai" references="R035" draft="unconfirmed">Tàidh</script>
+			<script type="Thai" draft="unconfirmed" references="R035">Tàidh</script>
 			<script type="Tibt" draft="unconfirmed">Tibeiteach</script>
 			<script type="Zmth" draft="unconfirmed">Comharran matamataig</script>
 			<script type="Zsym" draft="unconfirmed">Comharran</script>
@@ -314,12 +305,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="BY" draft="unconfirmed">A' Bhealaruis</territory>
 			<territory type="BZ" draft="unconfirmed">Beilìs</territory>
 			<territory type="CA" draft="unconfirmed">Canada</territory>
-			<territory type="CC" draft="unconfirmed">Na h-Eileanan Cocos [Keeling]</territory>
+			<territory type="CC" draft="unconfirmed">Na h-Eileanan Cocos (Keeling)</territory>
 			<territory type="CD" draft="unconfirmed">Congo-Kinshasa</territory>
-			<territory type="CD" alt="variant" draft="unconfirmed">Congo [DRC]</territory>
+			<territory type="CD" alt="variant" draft="unconfirmed">Congo (DRC)</territory>
 			<territory type="CF" draft="unconfirmed">Poblachd Meadhan Afraga</territory>
 			<territory type="CG" draft="unconfirmed">Congo-Brazzaville</territory>
-			<territory type="CG" alt="variant" draft="unconfirmed">Congo [Poblachd]</territory>
+			<territory type="CG" alt="variant" draft="unconfirmed">Congo (Poblachd)</territory>
 			<territory type="CH" draft="unconfirmed">An Eilbheis</territory>
 			<territory type="CI" draft="unconfirmed">Côte d’Ivoire</territory>
 			<territory type="CI" alt="variant" draft="unconfirmed">An Costa Ìbhri</territory>
@@ -354,7 +345,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FI" draft="unconfirmed">An Fhionnlann</territory>
 			<territory type="FJ" draft="unconfirmed">Fìdi</territory>
 			<territory type="FK" draft="unconfirmed">Na h-Eileanan Fàclannach</territory>
-			<territory type="FK" alt="variant" draft="unconfirmed">Na h-Eileanan Fàclannach [Islas Malvinas]</territory>
+			<territory type="FK" alt="variant" draft="unconfirmed">Na h-Eileanan Fàclannach (Islas Malvinas)</territory>
 			<territory type="FM" draft="unconfirmed">Na Meanbh-Eileanan</territory>
 			<territory type="FO" draft="unconfirmed">Na h-Eileanan Fàro</territory>
 			<territory type="FR" draft="unconfirmed">An Fhraing</territory>
@@ -429,9 +420,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MG" draft="unconfirmed">Madagasgar</territory>
 			<territory type="MH" draft="unconfirmed">Eileanan Mharshall</territory>
 			<territory type="MK" draft="unconfirmed">A' Mhasadon</territory>
-			<territory type="MK" alt="variant" draft="unconfirmed">A' Mhasadon [FYROM]</territory>
+			<territory type="MK" alt="variant" draft="unconfirmed">A' Mhasadon (FYROM)</territory>
 			<territory type="ML" draft="unconfirmed">Màili</territory>
-			<territory type="MM" draft="unconfirmed">Miànmar [Burma]</territory>
+			<territory type="MM" draft="unconfirmed">Miànmar (Burma)</territory>
 			<territory type="MN" draft="unconfirmed">Dùthaich nam Mongol</territory>
 			<territory type="MO" draft="unconfirmed">Macàthu SAR na Sìne</territory>
 			<territory type="MO" alt="short" draft="unconfirmed">Macàthu</territory>
@@ -1062,6 +1053,32 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</short>
 				<exemplarCity draft="unconfirmed">Baile Àtha Cliath</exemplarCity>
 			</zone>
+			<metazone type="Europe_Central">
+				<short>
+					<generic draft="unconfirmed">CET</generic>
+					<standard draft="unconfirmed">CET</standard>
+					<daylight draft="unconfirmed">CEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Europe_Eastern">
+				<short>
+					<generic draft="unconfirmed">EET</generic>
+					<standard draft="unconfirmed">EET</standard>
+					<daylight draft="unconfirmed">EEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Europe_Western">
+				<short>
+					<generic draft="unconfirmed">WET</generic>
+					<standard draft="unconfirmed">WET</standard>
+					<daylight draft="unconfirmed">WEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="GMT">
+				<short>
+					<standard draft="unconfirmed">GMT</standard>
+				</short>
+			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
@@ -1100,7 +1117,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
+					<pattern draft="unconfirmed">¤#,##0.00</pattern>
+				</currencyFormat>
+				<currencyFormat type="accounting">
 					<pattern draft="unconfirmed">¤#,##0.00;(¤#,##0.00)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -1125,81 +1145,99 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one" draft="unconfirmed">{0} latha</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} latha</unitPattern>
-			<unitPattern count="two" draft="unconfirmed">{0} latha</unitPattern>
-			<unitPattern count="two" alt="short" draft="unconfirmed">{0} latha</unitPattern>
-			<unitPattern count="few" draft="unconfirmed">{0} làithean</unitPattern>
-			<unitPattern count="few" alt="short" draft="unconfirmed">{0} làithean</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} latha</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} latha</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one" draft="unconfirmed">{0} uair a thìde</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} uair</unitPattern>
-			<unitPattern count="two" draft="unconfirmed">{0} uair a thìde</unitPattern>
-			<unitPattern count="two" alt="short" draft="unconfirmed">{0} uair</unitPattern>
-			<unitPattern count="few" draft="unconfirmed">{0} uairean a thìde</unitPattern>
-			<unitPattern count="few" alt="short" draft="unconfirmed">{0} uair</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} uair a thìde</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} uair</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one" draft="unconfirmed">{0} mhionaid</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} mhion</unitPattern>
-			<unitPattern count="two" draft="unconfirmed">{0} mhionaid</unitPattern>
-			<unitPattern count="two" alt="short" draft="unconfirmed">{0} mhion</unitPattern>
-			<unitPattern count="few" draft="unconfirmed">{0} mionaidean</unitPattern>
-			<unitPattern count="few" alt="short" draft="unconfirmed">{0} mion</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} mionaid</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} mion</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one" draft="unconfirmed">{0} mhìos</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} mhìos</unitPattern>
-			<unitPattern count="two" draft="unconfirmed">{0} mhìosan</unitPattern>
-			<unitPattern count="two" alt="short" draft="unconfirmed">{0} mhìos</unitPattern>
-			<unitPattern count="few" draft="unconfirmed">{0} mìosan</unitPattern>
-			<unitPattern count="few" alt="short" draft="unconfirmed">{0} mìos</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} mìos</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} mìos</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one" draft="unconfirmed">{0} diog</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} d</unitPattern>
-			<unitPattern count="two" draft="unconfirmed">{0} dhiog</unitPattern>
-			<unitPattern count="two" alt="short" draft="unconfirmed">{0} dh</unitPattern>
-			<unitPattern count="few" draft="unconfirmed">{0} diogan</unitPattern>
-			<unitPattern count="few" alt="short" draft="unconfirmed">{0} d</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} diog</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} d</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one" draft="unconfirmed">{0} seachdain</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} s</unitPattern>
-			<unitPattern count="two" draft="unconfirmed">{0} sheachdain</unitPattern>
-			<unitPattern count="two" alt="short" draft="unconfirmed">{0} sh</unitPattern>
-			<unitPattern count="few" draft="unconfirmed">{0} seachdainean</unitPattern>
-			<unitPattern count="few" alt="short" draft="unconfirmed">{0} s</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} seachdain</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} s</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one" draft="unconfirmed">{0} bhliadhna</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} bhl</unitPattern>
-			<unitPattern count="two" draft="unconfirmed">{0} bhliadhna</unitPattern>
-			<unitPattern count="two" alt="short" draft="unconfirmed">{0} bhl</unitPattern>
-			<unitPattern count="few" draft="unconfirmed">{0} bliadhna</unitPattern>
-			<unitPattern count="few" alt="short" draft="unconfirmed">{0} bl</unitPattern>
-			<unitPattern count="other" draft="unconfirmed">{0} bliadhna</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} bl</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} latha</unitPattern>
+				<unitPattern count="two">{0} latha</unitPattern>
+				<unitPattern count="few">{0} làithean</unitPattern>
+				<unitPattern count="other">{0} latha</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} uair a thìde</unitPattern>
+				<unitPattern count="two">{0} uair a thìde</unitPattern>
+				<unitPattern count="few">{0} uairean a thìde</unitPattern>
+				<unitPattern count="other">{0} uair a thìde</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} mhionaid</unitPattern>
+				<unitPattern count="two">{0} mhionaid</unitPattern>
+				<unitPattern count="few">{0} mionaidean</unitPattern>
+				<unitPattern count="other">{0} mionaid</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mhìos</unitPattern>
+				<unitPattern count="two">{0} mhìosan</unitPattern>
+				<unitPattern count="few">{0} mìosan</unitPattern>
+				<unitPattern count="other">{0} mìos</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} diog</unitPattern>
+				<unitPattern count="two">{0} dhiog</unitPattern>
+				<unitPattern count="few">{0} diogan</unitPattern>
+				<unitPattern count="other">{0} diog</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} seachdain</unitPattern>
+				<unitPattern count="two">{0} sheachdain</unitPattern>
+				<unitPattern count="few">{0} seachdainean</unitPattern>
+				<unitPattern count="other">{0} seachdain</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} bhliadhna</unitPattern>
+				<unitPattern count="two">{0} bhliadhna</unitPattern>
+				<unitPattern count="few">{0} bliadhna</unitPattern>
+				<unitPattern count="other">{0} bliadhna</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} latha</unitPattern>
+				<unitPattern count="two">{0} latha</unitPattern>
+				<unitPattern count="few">{0} làithean</unitPattern>
+				<unitPattern count="other">{0} latha</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} uair</unitPattern>
+				<unitPattern count="two">{0} uair</unitPattern>
+				<unitPattern count="few">{0} uair</unitPattern>
+				<unitPattern count="other">{0} uair</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} mhion</unitPattern>
+				<unitPattern count="two">{0} mhion</unitPattern>
+				<unitPattern count="few">{0} mion</unitPattern>
+				<unitPattern count="other">{0} mion</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mhìos</unitPattern>
+				<unitPattern count="two">{0} mhìos</unitPattern>
+				<unitPattern count="few">{0} mìos</unitPattern>
+				<unitPattern count="other">{0} mìos</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} d</unitPattern>
+				<unitPattern count="two">{0} dh</unitPattern>
+				<unitPattern count="few">{0} d</unitPattern>
+				<unitPattern count="other">{0} d</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} s</unitPattern>
+				<unitPattern count="two">{0} sh</unitPattern>
+				<unitPattern count="few">{0} s</unitPattern>
+				<unitPattern count="other">{0} s</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} bhl</unitPattern>
+				<unitPattern count="two">{0} bhl</unitPattern>
+				<unitPattern count="few">{0} bl</unitPattern>
+				<unitPattern count="other">{0} bl</unitPattern>
+			</unit>
+		</unitLength>
 	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2" draft="unconfirmed">{0} agus {1}</listPatternPart>
 			<listPatternPart type="end" draft="unconfirmed">{0}, agus {1}</listPatternPart>
+			<listPatternPart type="2" draft="unconfirmed">{0} agus {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

@@ -1,0 +1,152 @@
+//
+// COMMON
+//
+// This stylesheet contains all styles, which are necessary/useful for ALL themes.
+//
+
+.mobile *, .mobile  {
+  @include tap-highlight-color(rgba(0,0,0,0));
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height:100%;
+  overflow:hidden;
+}
+
+.mobile input {
+  line-height:1;
+  vertical-align:middle;
+}
+
+.mobile .selectable, .mobile input, .mobile .text-area {
+  @include user-select(auto);
+}
+
+.no-wrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exclude {
+  display:none !important;
+}
+
+.disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.transparent {
+  opacity: 0 !important;
+}
+
+a:hover, a:active {
+  outline: none;
+}
+
+.mobile.root {
+  @include user-select(none);
+  @include text-size-adjust(none);
+  overflow-x: hidden;
+  
+  height:100%;
+  width:100%;
+}
+
+img {
+  @include flex-shrink(0);
+}
+
+img:not([src]) {
+  display:none;
+}
+
+img:before {
+  content:'';
+  display:block; 
+  position:absolute;
+}
+
+img.no-content {
+  content: '';
+  display: block; 
+  position:relative;
+}
+
+.root canvas {
+  @include touch-action(none);
+}
+
+// QOOXDOO CONSOLE
+
+.mobile .qxconsole {
+  width: 100%;
+  font-size: 13px;
+}
+
+.mobile .qxconsole .messages {
+  overflow:scroll !important;
+  -webkit-overflow-scrolling: touch;
+}
+
+
+// ANDROID BUGFIXES
+
+// Bugfix for Android 2.x, adds a scale(1) to the element,
+// to enable to transform child elements.
+.root.android.v2 img {
+  @include transform(scale(1));
+}
+
+// Android ICS (4.0 - 4.0.4) Fix for input field overlay bug
+// See: https://code.google.com/p/android/issues/detail?id=30964
+.root.android.v4 {
+  .text-field:not(.selectbox), .number-field, .password-field {
+    -webkit-user-modify: read-write-plaintext-only;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
+    outline-style: none;
+  }
+}
+
+
+// Android 2.x Fix for password field overlay bug
+// See: http://stackoverflow.com/questions/9423101/disable-android-browsers-input-overlays
+.root.android.v2 {
+  .password-field, .text-field:not(.selectbox), .number-field  {
+    position:relative;
+    top:-10000px;
+    @include transform(translate3d(0,10000px,0));
+  }
+}
+
+// IOS BUGFIXES
+
+// iOS flickering bug fix for slider.
+.ios .slider, .slider > div:after{
+  -webkit-backface-visibility: hidden;
+}
+
+@media (orientation:landscape) {
+  .ios-viewport-fix {
+    @include transform(translate3d(0,0,0));
+    position: fixed;
+    bottom: 0;
+    width:100%;
+    height: 672px !important;
+  }
+}
+
+// WEBKIT ONLY
+
+input::-webkit-input-placeholder {
+  line-height:normal;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

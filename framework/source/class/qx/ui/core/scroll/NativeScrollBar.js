@@ -59,9 +59,9 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     this.addState("native");
 
     this.getContentElement().addListener("scroll", this._onScroll, this);
-    this.addListener("mousedown", this._stopPropagation, this);
-    this.addListener("mouseup", this._stopPropagation, this);
-    this.addListener("mousemove", this._stopPropagation, this);
+    this.addListener("pointerdown", this._stopPropagation, this);
+    this.addListener("pointerup", this._stopPropagation, this);
+    this.addListener("pointermove", this._stopPropagation, this);
     this.addListener("appear", this._onAppear, this);
 
     this.getContentElement().add(this._getScrollPaneElement());
@@ -73,6 +73,11 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     } else {
       this.initOrientation();
     }
+
+    // prevent drag & drop on scrolling
+    this.addListener("track", function(e) {
+      e.stopPropagation();
+    }, this);
   },
 
 
@@ -123,7 +128,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
 
 
     /**
-     * Step size for each click on the up/down or left/right buttons.
+     * Step size for each tap on the up/down or left/right buttons.
      */
     singleStep :
     {

@@ -78,7 +78,13 @@ qx.Mixin.define("qx.core.MEvent",
         this.removeListener(type, listener, this, capture);
         listener.call(self||this, e);
       };
-      listener.$$wrapped_callback = callback;
+      // check for wrapped callback storage
+      if (!listener.$$wrapped_callback) {
+        listener.$$wrapped_callback = {};
+      }
+      // store the call for each type in case the listener is
+      // used for more than one type [BUG #8038]
+      listener.$$wrapped_callback[type] = callback;
 
       return this.addListener(type, callback, this, capture);
     },
@@ -98,9 +104,9 @@ qx.Mixin.define("qx.core.MEvent",
     {
       if (!this.$$disposed) {
         // special handling for wrapped once listener
-        if (listener.$$wrapped_callback) {
-          var callback = listener.$$wrapped_callback;
-          delete listener.$$wrapped_callback;
+        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type]) {
+          var callback = listener.$$wrapped_callback[type];
+          delete listener.$$wrapped_callback[type];
           listener = callback;
         }
         return this.__Registration.removeListener(this, type, listener, self, capture);

@@ -790,6 +790,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     "test: getResponseHeader()": function() {
       var fakeReq = this.getFakeReq();
+      fakeReq.open();
       fakeReq.setResponseHeaders({
         "key": "value"
       });
@@ -804,6 +805,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
 
     "test: getAllResponseHeaders()": function() {
       var fakeReq = this.getFakeReq();
+      fakeReq.open();
       fakeReq.setResponseHeaders({
         "key1": "value1",
         "key2": "value2"

@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.bom.Viewport_StandardMode",
     {
       qx.bom.Element.addListener(
         document.body,
-        "click",
+        "tap",
         function()
         {
           this.debug("Document Dimension: " + qx.bom.Document.getWidth() + "x" + qx.bom.Document.getHeight());

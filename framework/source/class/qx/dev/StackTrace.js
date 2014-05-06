@@ -22,6 +22,7 @@
  *
  * @require(qx.lang.normalize.String)
  * @ignore(qx.bom.client.EcmaScript.*)
+ * @ignore(qx.Class.*)
  */
 qx.Bootstrap.define("qx.dev.StackTrace",
 {
@@ -103,7 +104,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             }
 
             var className = null;
-            if (qx.Class.getByName(errorClassName)) {
+            if (qx.Class && qx.Class.getByName(errorClassName)) {
               className = errorClassName;
             } else {
               className = callerClassName;

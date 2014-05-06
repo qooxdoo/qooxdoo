@@ -391,7 +391,6 @@ class Locale(object):
         self._console.indent()
 
         result = {}
-        numClass = len(content)
         for num,classId in enumerate(content):
             #translation, cached = self.getTranslation(classId, variants) # should be a method on clazz
             translation, cached = self._classesObj[classId].messageStrings(variants)
@@ -410,12 +409,12 @@ class Locale(object):
                         "occurrences" : []
                     }
 
-                    if "plural" in source:
-                        #target["plural"] = self.parseAsUnicodeString(source["plural"])
-                        target["plural"] = source["plural"]
+                if "plural" in source:
+                    #target["plural"] = self.parseAsUnicodeString(source["plural"])
+                    target["plural"] = source["plural"]
 
-                    if "hint" in source:
-                        target["hint"] = source["hint"]
+                if "hint" in source:
+                    target["hint"] = source["hint"]
 
                 target["occurrences"].append({
                     "file" : self._classesObj[classId].relpath,

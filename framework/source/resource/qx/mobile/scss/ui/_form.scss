@@ -1,0 +1,197 @@
+//
+// FORM 
+//
+
+.form {
+  @include background-clip(padding-box);
+  margin-bottom: rem(10);
+  background-color:transparent;
+  border: none;
+  padding: 0;
+  cursor:pointer;
+}
+
+.form-row {
+  list-style-type: none;
+  padding: rem(5) rem(0) rem(5) rem(0);
+}
+
+.form-row.form-separation-row:last-child {
+  background-color:transparent;
+  margin-bottom: 0px;
+}
+
+.form-row.error + .form-row.error {
+  border-top: 0;
+}
+
+.form-row.vbox input {
+  width: 100%;
+}
+
+.form-row.vbox * + * {
+  margin-top: rem(10);
+}
+
+.form-row * {
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+
+.form-row label {
+  padding-right: rem(10);
+}
+
+
+.text-area {
+  @include background-clip(padding-box);
+  @include background($input-background);
+  @include border-radius($input-border-radius);
+  border: rem(1) solid $input-border-color;
+  resize: none;
+  outline: none;
+  width:100%;
+
+  height: rem(150);
+  min-height: rem(150);
+
+  padding:rem(10);
+  box-sizing:border-box;
+
+  color:  $input-text-color;
+}
+
+.form-row-scroll {
+  @include border-radius($input-border-radius);
+  border: rem(1) solid $input-border-color;
+
+  overflow:hidden !important;
+  height: rem(150);
+  width: 100%;
+
+  .text-area {
+    @include border-radius(0);
+    border:0px solid transparent;
+    background: none;
+  }
+}
+
+// [BUG #7871] Bugfix for IE 10 for enabling word-wrap within a flexbox layout. 
+.form-row label > p {
+  -ms-flex: 1;
+  box-flex: 1;
+}
+
+.form-title {
+  color: $group-title-text-color;
+  font-weight: normal;
+  line-height: rem(20);
+  font-size: rem(16);
+  text-indent: rem(5);
+  margin-top: rem(10);
+  margin-bottom: rem(10);
+}
+
+.form-separation-row {
+  padding: 0px;
+  background-color: $form-border-color;
+  height: rem(1);
+}
+
+.form-element-error {
+  color: red;
+  text-align: right;
+  border-top: 0;
+  padding: 0px rem(10) rem(10) rem(10);
+}
+
+.form-row-group-title {
+  color: $form-title-text-color;
+  font-weight:normal;
+  border:none;
+}
+
+.form.single-placeholder {
+  @include background($form-background);
+  @include border-radius($form-border-radius);
+  border:rem(1) solid $form-border-color;
+  padding: rem(10);
+
+  .form-row-group-title {
+    font-weight: $form-font-weight;
+    padding: rem(0) rem(0) rem(10) rem(0);
+  }
+
+  .form-row {
+    .slider  {
+      width: 50%;
+      margin-left: rem(20);
+    }
+  }
+}
+
+.form.single {
+  font-weight: $form-font-weight;
+
+  .text-field, .number-field, .password-field {
+    display:block;
+    width: 50%;
+  }
+
+  .form-row-group-title {
+    padding: rem(10) rem(10) rem(10) rem(10);
+  }
+
+  .form-row-content, .form-element-error {
+    @include background($form-background);
+    border-left:rem(1) solid $form-border-color;
+    border-right:rem(1) solid $form-border-color;
+  }
+
+  .form-row-content .label {
+    color: $form-label-text-color;
+  }
+
+  .form-row-content {
+    border-top: 0;
+    padding: rem(10) rem(10) rem(10) rem(10);
+  }
+
+  .form-row-content + .form-row-content {
+    padding-top: 0px;
+  }
+
+  // If one row is excluded: hide its separationRow
+  .form-row-content.exclude + .form-separation-row {
+    border-top: 0;
+  }
+}
+
+.form-row-group-title:nth-child(n+2) {
+  margin-top: rem(20);
+}
+
+.form-row-group-first, 
+.form-row-group-last {
+  @include background($form-background);
+  height: 0px;
+  padding: rem(2);
+  position: relative;
+}
+
+.form-row-group-first {
+  @include border-radius-top($form-border-radius);
+  border-top: rem(1) solid $form-border-color;
+  border-left: rem(1) solid $form-border-color;
+  border-right: rem(1) solid $form-border-color;
+  top: rem(2);
+}
+
+.form-row-group-last {
+  @include border-radius-bottom($form-border-radius);
+  border-top: 0px transparent;
+  border-bottom: rem(1) solid $form-border-color;
+  border-left: rem(1) solid $form-border-color;
+  border-right: rem(1) solid $form-border-color;
+  top: rem(-2);
+}

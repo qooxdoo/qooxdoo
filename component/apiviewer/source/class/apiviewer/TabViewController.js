@@ -38,8 +38,8 @@ qx.Class.define("apiviewer.TabViewController",
 
   events :
   {
-    /** This event if dispatched if one of the internal links is clicked */
-    "classLinkClicked" : "qx.event.type.Data",
+    /** This event if dispatched if one of the internal links is tapped */
+    "classLinkTapped" : "qx.event.type.Data",
 
     "changeSelection" : "qx.event.type.Data"
   },
@@ -57,7 +57,7 @@ qx.Class.define("apiviewer.TabViewController",
      * class viewer.
      */
     onSelectItem : function(itemName) {
-      this.fireDataEvent("classLinkClicked", itemName);
+      this.fireDataEvent("classLinkTapped", itemName);
     },
 
     showItem : function(itemName) {
@@ -116,14 +116,6 @@ qx.Class.define("apiviewer.TabViewController",
       var oldData = event.getOldData();
       var data = event.getData();
       this.fireDataEvent("changeSelection", data, oldData);
-    },
-
-    __createAndStopEvent : function(nativeEvent, target)
-    {
-      var qxEvent = new qx.event.type.Mouse();
-      qxEvent.init(nativeEvent, target, null, true, true);
-      qxEvent.stop();
-      return qxEvent;
     }
   },
 

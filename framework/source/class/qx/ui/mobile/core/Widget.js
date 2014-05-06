@@ -115,6 +115,15 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /** Fired when a finger swipes over the screen. */
     swipe : "qx.event.type.Touch",
 
+    /** Fired when two pointers performing a rotate gesture on the screen. */
+    rotate : "qx.event.type.Rotate",
+
+    /** Fired when two pointers performing a pinch in/out gesture on the screen. */
+    pinch : "qx.event.type.Pinch",
+
+    /** Fired when an active pointer moves on the screen (after pointerdown till pointerup). */
+    track : "qx.event.type.Track",
+
     /**
      * This event if fired if a keyboard key is released.
      **/
@@ -191,7 +200,12 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * When the widget gets inactive
      */
-    deactivate : "qx.event.type.Focus"
+    deactivate : "qx.event.type.Focus",
+
+    /**
+     * Fired when an active pointer moves on the screen or the mouse wheel is used.
+     */
+    roll : "qx.event.type.Roll"
   },
 
 
@@ -314,6 +328,19 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       check : "Number",
       nullable : true,
       init : null,
+      apply : "_transform"
+    },
+
+
+    /**
+    * This property controls whether the transformation uses the length unit <code>px<code> or <code>rem</code>.
+    * This feature is important for creating a resolution independent transformation.
+    */
+    transformUnit :
+    {
+      check : ["rem", "px"],
+      nullable : false,
+      init : "rem",
       apply : "_transform"
     },
 
@@ -1030,7 +1057,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
       if (this.__layoutManager) {
         this.__layoutManager.connectToWidget(null);
-        for (var i=0; i < length; i++) {
+        for (var i=0; i < this._getChildren().length; i++) {
           var child = this._getChildren()[i];
           this.__layoutManager.disconnectFromChildWidget(child);
         }
@@ -1156,12 +1183,17 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
       }
 
-      if(this.getTranslateX() != null && this.getTranslateY() != null) {
+      var resolutionFactor = 1;
+      if (this.getTransformUnit() == "rem") {
+        resolutionFactor = 16;
+      }
+
+      if (this.getTranslateX() != null && this.getTranslateY() != null) {
         var isTransform3d = qx.core.Environment.get("css.transform.3d");
-        if(isTransform3d && this.getTranslateZ() != null) {
-          propertyValue = propertyValue + "translate3d("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px,"+this.getTranslateZ()+"px) ";
+        if (isTransform3d && this.getTranslateZ() != null) {
+          propertyValue = propertyValue + "translate3d(" + (this.getTranslateX()/resolutionFactor) + this.getTransformUnit() + "," + (this.getTranslateY()/resolutionFactor) + this.getTransformUnit() + "," + (this.getTranslateZ()/resolutionFactor) + this.getTransformUnit() + ") ";
         } else {
-          propertyValue = propertyValue + "translate("+this.getTranslateX()+"px"+","+this.getTranslateY()+"px) ";
+          propertyValue = propertyValue + "translate(" + (this.getTranslateX()/resolutionFactor) + this.getTransformUnit() + "," + (this.getTranslateY()/resolutionFactor) + this.getTransformUnit() + ") ";
         }
       }
 

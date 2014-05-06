@@ -35,7 +35,8 @@
  * http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
  *
  * For IE9, we create a gradient in a canvas element and render this gradient
- * as background image.
+ * as background image. Due to restrictions in the <code>background-image</code>
+ * css property, we can not allow negative start values in that case.
  */
 qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 {
@@ -169,6 +170,22 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           var colors = this.__getColors();
           var height = isVertical ? 200 : 1;
           var width = isVertical ? 1 : 200;
+          var range = Math.max(100, this.getEndColorPosition() - this.getStartColorPosition());
+
+          // use the px difference as dimension
+          if (unit === "px") {
+            if (isVertical) {
+              height = Math.max(height, this.getEndColorPosition() - this.getStartColorPosition());
+            } else {
+              width = Math.max(width, this.getEndColorPosition() - this.getStartColorPosition());
+            }
+          } else {
+            if (isVertical) {
+              height = Math.max(height, (this.getEndColorPosition() - this.getStartColorPosition()) * 2);
+            } else {
+              width = Math.max(width, (this.getEndColorPosition() - this.getStartColorPosition()) * 2);
+            }
+          }
 
           this.__canvas.width = width;
           this.__canvas.height = height;
@@ -180,15 +197,31 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
             var lingrad = ctx.createLinearGradient(0, 0, width, 0);
           }
 
-          lingrad.addColorStop(this.getStartColorPosition() / 100, colors.start);
-          lingrad.addColorStop(this.getEndColorPosition() / 100, colors.end);
+          // don't allow negative start values
+          if (unit === "%") {
+            lingrad.addColorStop(Math.max(0, this.getStartColorPosition()) / range, colors.start);
+            lingrad.addColorStop(this.getEndColorPosition() / range, colors.end);
+          } else {
+            var comp = isVertical ? height : width;
+            lingrad.addColorStop(Math.max(0, this.getStartColorPosition()) / comp, colors.start);
+            lingrad.addColorStop(this.getEndColorPosition() / comp, colors.end);
+          }
 
           ctx.fillStyle = lingrad;
           ctx.fillRect(0, 0, width, height);
 
           var value = "url(" + this.__canvas.toDataURL() + ")";
           styles["background-image"] = value;
-          styles["background-size"] = "100% 100%";
+          if (unit === "%") {
+            if (isVertical) {
+              styles["background-size"] = "100% " + range + "%";
+            } else {
+              styles["background-size"] = range + "% 100%";
+            }
+          } else {
+            styles["background-size"] = isVertical ? height + " 100%" : "100% " + width + "%";
+          }
+
 
       // old IE filter fallback
       } else if (qx.core.Environment.get("css.gradient.filter") &&
@@ -224,7 +257,8 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
           styles["filter"] = value;
         }
 
-        // Elements with transparent backgrounds will not receive receive mouse
+        // Elements with transparent backgrounds will not receive receive pointer
+        
         // events if a Gradient filter is set.
         if (!styles["background-color"] ||
             styles["background-color"] == "transparent")

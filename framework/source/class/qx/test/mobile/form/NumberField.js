@@ -87,6 +87,26 @@ qx.Class.define("qx.test.mobile.form.NumberField",
     },
 
 
+    testResetValue : function()
+    {
+      var numberField = new qx.ui.mobile.form.NumberField();
+      this.getRoot().add(numberField);
+
+      this.assertEquals('',numberField.getValue());
+      this.assertEquals(null, qx.bom.element.Attribute.get(numberField.getContainerElement(),'value'));
+
+      numberField.setValue(15);
+      this.assertEquals(15,numberField.getValue());
+
+      numberField.resetValue();
+
+      this.assertEquals(null,qx.bom.element.Attribute.get(numberField.getContainerElement(),'value'));
+      this.assertEquals('',numberField.getValue());
+
+      numberField.destroy();
+    },
+
+
     testEnabled : function()
     {
       var numberField = new qx.ui.mobile.form.NumberField();

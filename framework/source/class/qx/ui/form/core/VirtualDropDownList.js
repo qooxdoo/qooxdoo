@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
           });
 
           control.getSelection().addListener("change", this._onListChangeSelection, this);
-          control.addListener("click", this._handleMouse, this);
+          control.addListener("tap", this._handlePointer, this);
           control.addListener("changeModel", this._onChangeModel, this);
           control.addListener("changeDelegate", this._onChangeDelegate, this);
 
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      *
      * @param event {qx.event.type.Mouse} The mouse event.
      */
-    _handleMouse : function(event) {
+    _handlePointer : function(event) {
       this.__selectPreselected();
     },
 

@@ -967,7 +967,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding   : states.dragover ? [4, 4, 2, 4] : 4,
           textColor : states.selected ? "text-selected" : undefined,
-          decorator : states.selected ? "selected" : undefined
+          decorator : states.selected ? "selected" : undefined,
+          opacity : states.drag ? 0.5 : undefined
         };
       }
     },
@@ -3022,25 +3023,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "cell-date" : "cell",
     "cell-html" : "cell",
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HTMLAREA
-    ---------------------------------------------------------------------------
-    */
-
-    "htmlarea" :
-    {
-      "include" : "widget",
-
-      style : function(states)
-      {
-        return {
-          backgroundColor : "htmlarea-background"
-        };
-      }
-    },
 
 
     /*

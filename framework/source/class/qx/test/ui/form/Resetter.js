@@ -47,7 +47,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
 
 
     testReset: function() {
-      // set the initla values
+      // set the initial values
       this.__username.setValue("A");
       this.__password1.setValue("B");
       this.__password2.setValue("C");
@@ -66,6 +66,29 @@ qx.Class.define("qx.test.ui.form.Resetter",
       this.assertEquals("A", this.__username.getValue());
       this.assertEquals("B", this.__password1.getValue());
       this.assertEquals("C", this.__password2.getValue());
+    },
+
+
+    testRemove: function() {
+      // set the initial values
+      this.__username.setValue("A");
+      this.__password1.setValue("B");
+      // add the fields to the form manager
+      this.__resetter.add(this.__username);
+      this.__resetter.add(this.__password1);
+      // change the values of the fields
+      this.__username.setValue("a");
+      this.__password1.setValue("b");
+      // remove one item
+      this.assertTrue(this.__resetter.remove(this.__password1));
+      // remove again to see that it has not been removed
+      this.assertFalse(this.__resetter.remove(this.__password1));
+      // reset the manager
+      this.__resetter.reset();
+
+      // check if the initial values are reset or kept
+      this.assertEquals("A", this.__username.getValue());
+      this.assertEquals("b", this.__password1.getValue());
     },
 
 

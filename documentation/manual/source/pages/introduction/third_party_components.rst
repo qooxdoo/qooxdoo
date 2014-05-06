@@ -3,10 +3,16 @@
 Third-party Components
 ***************************
 
-The qooxdoo project makes use of components and tools from other projects and endeavours. This applies to the framework %{JS} class code, the tool chain, and static resources. This page gives an overview over those components which are included with the SDK or other deliverables. Please refer to the contained files for version information of a particular component.
+The qooxdoo project makes use of components and tools from other projects and
+endeavours. This applies to the framework %{JS} class code, the tool chain, and
+static resources. This page gives an overview over those components which are
+included with the SDK or other deliverables. Please refer to the contained
+files for version information of a particular component.
 
-Besides foreign files we have included in the project, we also want to list the tools we use to either produce or consume genuine files of our source tree (beyond basic text editors ;-), so it is easy to oversee all the project's dependencies.
-
+Besides foreign files we have included in the project, we also want to list the
+tools we use to either produce or consume genuine files of our source tree
+(beyond basic text editors ;-), so it is easy to oversee all the project's
+dependencies.
 
 .. _pages/introduction/third_party_components#js_code:
 
@@ -44,6 +50,9 @@ application.
     - `MIT`_
 
   * - `JSON 3 <https://github.com/bestiejs/json3>`_
+    - `MIT`_
+
+  * - `PluginDetect PDF.js <http://www.pinlady.net/PluginDetect/PDFjs/>`_
     - `MIT`_
 
 Application %{JS} Code
@@ -104,7 +113,7 @@ Tool Chain
 ===========
 
 These are the Python modules we use that are not self-written nor part of a
-vanilla Python 2.5 SDK. While they are shipped with our SDK they are only used
+vanilla Python 2.6 SDK. While they are shipped with our SDK they are only used
 while the tool chain runs, and never become part of the resulting custom
 application.
 
@@ -139,14 +148,35 @@ application.
    * - `pyparsing <http://pypi.python.org/pypi/pyparsing/>`_
      - `MIT`_
 
-   * - `pyScss <https://pypi.python.org/pypi/pyScss>`_
+   * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
      - `MIT`_
 
-   * - `simplejson <http://pypi.python.org/pypi/simplejson>`_
+   * - `six <https://pypi.python.org/pypi/six/>`_
      - `MIT`_
 
    * - `textile <http://pypi.python.org/pypi/textile/>`_
      - `BSD <http://www.opensource.org/licenses/bsd-license.php>`_
+
+These are the Node.js modules we use that are not self-written nor part of a
+vanilla Node.js v0.10+. While they are shipped with our SDK they are only used
+while the tool chain runs, and never become part of the resulting custom
+application.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - Module
+     - License
+
+   * - `async <https://npmjs.org/package/async>`_
+     - `MIT`_
+
+   * - `deepmerge <https://npmjs.org/package/deepmerge>`_
+     - `MIT`_
+
+   * - `shelljs <https://npmjs.org/package/shelljs>`_
+     - `BSD (3-Clause)`_
 
 
 .. _pages/introduction/third_party_components#other:

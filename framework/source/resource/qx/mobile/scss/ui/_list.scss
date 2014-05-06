@@ -1,0 +1,102 @@
+//
+// LIST
+//
+
+.list {
+  @include background-clip(padding-box);
+  @include border-radius($list-border-radius);
+
+  padding: 0;
+  cursor:pointer;
+
+  img[src] {
+    display: block;
+  }
+}
+
+.list-item {
+  @include background($list-background);
+  list-style-type: none;
+  padding: rem(10) rem(25) rem(10) rem(10);
+  position: relative;
+  color: $list-title-text-color;
+  border: rem(1) solid $list-border-color;
+  margin-top: rem(-1);
+}
+
+.list-item.active {
+  @include background($list-active-background);
+
+  * {
+    color: $list-active-text-color;
+  }
+}
+
+.list-item.removable:not(.track) {
+  @include transition(-webkit-transform 300ms ease-out, opacity 300ms ease-out);
+}
+
+.list-item.arrow:after {
+  @include transform(rotate(45deg));
+  @include transform-origin(50% 50%);
+
+  content:"";
+  
+  border-top: $list-arrow-thickness solid $list-arrow-color;
+  border-right: $list-arrow-thickness solid $list-arrow-color;
+  
+  width: $list-arrow-size*2;
+  height: $list-arrow-size*2;
+  
+  position: absolute;
+  right: rem(16);
+  top: 50%;
+  margin-top: -1.5*($list-arrow-size);
+}
+
+.list-item.arrow.active:after {
+  border-color: $list-active-arrow-color;
+}
+
+.list-item:first-child, .list-item:first-child a {
+  @include border-radius-top($list-border-radius);
+  border-top: rem(1) solid $list-border-color;
+}
+
+.list-item:last-child, .list-item:last-child a {
+  @include border-radius-bottom($list-border-radius);
+}
+
+.list-item-title {
+  font-size: $list-title-font-size;
+  font-weight: $list-title-font-weight;
+  font-style: $application-font;
+}
+
+.list-item-subtitle {
+  color: $list-subtitle-text-color;
+  font-weight: normal;
+  font-size: $list-subtitle-font-size;
+}
+
+.list-item-image {
+  margin-right: rem(8);
+}
+
+.group-item {
+  @extend .list-item;
+  @include background($list-group-header-background);
+  @include background-clip(padding-box);
+  padding: rem(5) rem(25) rem(5) rem(10);
+  height: $list-group-header-height;
+  line-height: $list-group-header-height;
+  color: $list-group-header-color;
+}
+
+.group-item-title {
+  font: $list-group-header-font;
+}
+
+.group-item-image {
+  margin-right: rem(8);
+}

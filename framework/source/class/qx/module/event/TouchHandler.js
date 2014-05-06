@@ -22,6 +22,8 @@
  * based on low-level event sequences on the given element
  *
  * @require(qx.module.Event)
+ *
+ * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.TouchHandler", {
 
@@ -30,7 +32,7 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
     /**
      * List of events that require a touch handler
      */
-    TYPES : ["tap", "longtap", "swipe", "touchstart", "touchend", "touchmove", "touchcancel"],
+    TYPES : ["touchstart", "touchend", "touchmove", "touchcancel"],
 
     /**
      * Creates a touch handler for the given element when a touch event listener
@@ -41,10 +43,10 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
     register : function(element)
     {
       if (!element.__touchHandler) {
-        if (!element.__emitter) {
-          element.__emitter = new qx.event.Emitter();
+        if (!element.$$emitter) {
+          element.$$emitter = new qx.event.Emitter();
         }
-        element.__touchHandler = new qx.event.handler.TouchCore(element, element.__emitter);
+        element.__touchHandler = new qx.event.handler.TouchCore(element, element.$$emitter);
       }
     },
 
@@ -57,12 +59,12 @@ qx.Bootstrap.define("qx.module.event.TouchHandler", {
     unregister : function(element)
     {
       if (element.__touchHandler) {
-        if (!element.__emitter) {
+        if (!element.$$emitter) {
           element.__touchHandler = null;
         }
         else {
           var hasTouchListener = false;
-          var listeners = element.__emitter.getListeners();
+          var listeners = element.$$emitter.getListeners();
           qx.module.event.TouchHandler.TYPES.forEach(function(type) {
             if (type in listeners && listeners[type].length > 0) {
               hasTouchListener = true;

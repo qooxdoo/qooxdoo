@@ -24,6 +24,7 @@
 qx.Class.define("qx.test.ui.form.FormManager",
 {
   extend : qx.test.ui.LayoutTestCase,
+  include : qx.dev.unit.MMock,
 
 
   construct : function()
@@ -117,6 +118,33 @@ qx.Class.define("qx.test.ui.form.FormManager",
     },
 
 
+    testRemove : function() {
+      // add the widgets
+      this.__form.add(this.__tf1, "TF1");
+      this.__form.add(this.__tf2, "TF2");
+
+      // get the view
+      var view = new qx.test.DummyFormRenderer(this.__form);
+
+      // check the items
+      this.assertEquals(view.groups[0].items[0], this.__tf1);
+      this.assertEquals(view.groups[0].items[1], this.__tf2);
+      view.dispose();
+
+      // remove twice to see if the remove is reported correctly
+      this.assertTrue(this.__form.remove(this.__tf1));
+      this.assertFalse(this.__form.remove(this.__tf1));
+
+      // get the view
+      var view = new qx.test.DummyFormRenderer(this.__form);
+
+      // check the items
+      this.assertEquals(view.groups[0].items[0], this.__tf2);
+      view.dispose();
+
+    },
+
+
     testAddTwoWithValidator : function() {
       // add the widgets
       this.__tf1.setRequired(true);
@@ -166,6 +194,41 @@ qx.Class.define("qx.test.ui.form.FormManager",
     },
 
 
+    testRemoveHeader : function() {
+      this.__form.addGroupHeader("affe0");
+      this.__form.add(this.__tf1, "TF1");
+
+      this.__form.addGroupHeader("affe1");
+      this.__form.add(this.__tf2, "TF2");
+
+      // get the view
+      var view = new qx.test.DummyFormRenderer(this.__form);
+
+      // check the items
+      this.assertEquals(view.groups[0].items[0], this.__tf1);
+      this.assertEquals(view.groups[1].items[0], this.__tf2);
+
+      // check the title
+      this.assertEquals("affe0", view.groups[0].title);
+      this.assertEquals("affe1", view.groups[1].title);
+      view.dispose();
+
+      // remove twice to see if the remove is reported correctly
+      this.assertTrue(this.__form.removeGroupHeader("affe1"));
+      this.assertFalse(this.__form.removeGroupHeader("affe1"));
+
+      // get the view
+      var view = new qx.test.DummyFormRenderer(this.__form);
+
+      // check the items
+      this.assertEquals(view.groups[0].items[0], this.__tf1);
+      this.assertEquals(view.groups[0].items[1], this.__tf2);
+      this.assertEquals("affe0", view.groups[0].title);
+      view.dispose();
+    },
+
+
+
     testAddTwoWithTwoGroups : function() {
       this.__form.addGroupHeader("affe");
       this.__form.add(this.__tf1, "TF1");
@@ -207,6 +270,37 @@ qx.Class.define("qx.test.ui.form.FormManager",
       b2.dispose();
       b1.dispose();
       view.dispose();
+    },
+
+
+    testRemoveButton : function() {
+      var b1 = new qx.ui.form.Button();
+      var b2 = new qx.ui.form.RepeatButton();
+
+      this.__form.addButton(b1);
+      this.__form.addButton(b2);
+
+      // get the view
+      var view = new qx.test.DummyFormRenderer(this.__form);
+
+      // check the buttons
+      this.assertEquals(b1, view.buttons[0].button);
+      this.assertEquals(b2, view.buttons[1].button);
+      view.dispose();
+
+      // remove twice to see if the remove is reported correctly
+      this.assertTrue(this.__form.removeButton(b1));
+      this.assertFalse(this.__form.removeButton(b1));
+
+      // get the view
+      var view = new qx.test.DummyFormRenderer(this.__form);
+
+      // check the button
+      this.assertEquals(b2, view.buttons[0].button);
+
+      view.dispose();
+      b2.dispose();
+      b1.dispose();
     },
 
 
@@ -399,6 +493,35 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // just call the method and check if its not throwing an error
       // all other stuff is tested in the resetter unit tests
       this.__form.redefineResetter();
+    },
+
+
+    testEvent : function() {
+      var handler = this.spy();
+      this.__form.addListener("change", handler);
+      this.__form.add(this.__tf1, "TF1");
+      this.assertCalledOnce(handler);
+
+      this.__form.addGroupHeader("GROUP");
+      this.assertCalledTwice(handler);
+
+      this.__form.add(this.__tf2, "TF2");
+      this.assertEquals(3, handler.callCount);
+
+      this.__form.remove(this.__tf1);
+      this.assertEquals(4, handler.callCount);
+
+      this.__form.removeGroupHeader("GROUP");
+      this.assertEquals(5, handler.callCount);
+
+      var b = new qx.ui.form.Button();
+      this.__form.addButton(b);
+      this.assertEquals(6, handler.callCount);
+
+      this.__form.removeButton(b);
+      this.assertEquals(7, handler.callCount);
+
+      b.dispose();
     },
 
 

@@ -72,12 +72,53 @@ As you may have guessed, the last three mixins do not work cross browser due to 
 
 Each entry of the theme is automatically made available using the ``setDecorator`` function of the widget class. The instances needed are automatically created when required initially. This mechanism keeps instance numbers down and basically ignores decorators which are defined but never used.
 
+
+.. _pages/desktop/ui_decorators#writing_decorator_mixins:
+
+Writing Decorator Mixins
+========================
+
+The recommended way is to write a simple decoration mixin and add it to the default decorator qooxdoo delivers. There is only one method your mixin should supply:
+
+* ``_style<yourName>``: This method has a styles map as parameter which should be manipulated directly. That way, you can just append your styles and That's it. But you should make sure you don't manipulate / override any style another mixin could uses.
+
+As you can see, every mixin can define its own methods for ``style``. The theme system combines all the methods given by the separate widgets to one big working method.
+
+Here is a sample text shadow decorator mixin:
+
+::
+
+  qx.Mixin.define("my.MTextShadow", {
+    properties : {
+      textShadowColor : {
+        nullable : true,
+        check : "Color"
+      }
+    },
+
+    members : {
+      _styleTextShadow : function(styles) {
+        var color = this.getTextShadowColor();
+        if (color === null) {
+          return;
+        }
+        color = qx.theme.manager.Color.getInstance().resolve(color);
+        styles["text-shadow"] = color + " 1px 1px";
+      }
+    }
+  });
+
+  // patch the original decorator class
+  qx.Class.patch(qx.ui.decoration.Decorator, my.MTextShadow);
+
+
+
 .. _pages/desktop/ui_decorators#writing_decorators:
 
 Writing Decorators
 ==================
 
-It is easily possible to write custom decorators. `The interface <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.IDecorator>`_ is quite trivial to implement. There are only five methods which needs to be implemented:
+It is possible to write custom decorators, although they are not usable in the decoration theme. You can only create instances in the application code and assign the instances. For that reason, the recommendation is to write a decorator mixin instead. `The interface <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.decoration.IDecorator>`_ is quite trivial to implement. There are only three methods which needs to be implemented:
 
 * ``getInsets``: Returns a map of insets (space the decorator needs) e.g. the border width plus padding
 * ``getPadding``: Returns the configured padding minus the border width.
@@ -86,16 +127,3 @@ It is easily possible to write custom decorators. `The interface <http://demo.qo
 Decorators are regarded as immutable. Once they are used somewhere there is no need to be able to change them anymore.
 
 Each decorator configuration means exactly one decorator instance (created with the first usage). Even when dozens of widgets use the decorator only one instance is used. To cache the styles is a good way to improve the initial time to create new element instances.
-
-.. _pages/desktop/ui_decorators#writing_decorator_mixins:
-
-Writing Decorator Mixins
-========================
-
-If you want to use your custom decorator with some build in decorator mixins, you can write you decorator as mixin and use it in combination with all the other mixins. Its comparable to writing a standalone decorator. You are able to implement the following methods:
-
-* ``_style<yourName>``: This method has a styles map as parameter which should be manipulated directly. That way, you can just append your styles and That's it.
-
-* ``_getDefaultInsetsFor<yourName>``: This method should return the desired insets for this feature. Again, the system takes care of calculating the proper insets for the combination of the mixins.
-
-As you can see, every mixin can define its own methods for ``style`` and ``insets``. The theme system combines all the methods given by the separate widgets to one big working method.

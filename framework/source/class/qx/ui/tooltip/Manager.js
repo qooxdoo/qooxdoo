@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     this.base(arguments);
 
     // Register events
-    qx.event.Registration.addListener(document.body, "mouseover", this.__onMouseOverRoot, this, true);
+    qx.event.Registration.addListener(document.body, "pointerover", this.__onPointerOverRoot, this, true);
 
     // Instantiate timers
     this.__showTimer = new qx.event.Timer();
@@ -51,8 +51,8 @@ qx.Class.define("qx.ui.tooltip.Manager",
     this.__hideTimer = new qx.event.Timer();
     this.__hideTimer.addListener("interval", this.__onHideInterval, this);
 
-    // Init mouse position
-    this.__mousePosition = { left: 0, top: 0 };
+    // Init pointer position
+    this.__pointerPosition = { left: 0, top: 0 };
   },
 
 
@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
   members :
   {
-    __mousePosition : null,
+    __pointerPosition : null,
     __hideTimer : null,
     __showTimer : null,
     __sharedToolTip: null,
@@ -187,16 +187,16 @@ qx.Class.define("qx.ui.tooltip.Manager",
         this.__showTimer.startWith(value.getShowTimeout());
 
         // Register hide handler
-        Registration.addListener(el, "mouseout", this.__onMouseOutRoot, this, true);
+        Registration.addListener(el, "pointerout", this.__onPointerOutRoot, this, true);
         Registration.addListener(el, "focusout", this.__onFocusOutRoot, this, true);
-        Registration.addListener(el, "mousemove", this.__onMouseMoveRoot, this, true);
+        Registration.addListener(el, "pointermove", this.__onPointerMoveRoot, this, true);
       }
       else
       {
         // Deregister hide handler
-        Registration.removeListener(el, "mouseout", this.__onMouseOutRoot, this, true);
+        Registration.removeListener(el, "pointerout", this.__onPointerOutRoot, this, true);
         Registration.removeListener(el, "focusout", this.__onFocusOutRoot, this, true);
-        Registration.removeListener(el, "mousemove", this.__onMouseMoveRoot, this, true);
+        Registration.removeListener(el, "pointermove", this.__onPointerMoveRoot, this, true);
       }
     },
 
@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
         if (current.getPlaceMethod() == "widget") {
           current.placeToWidget(current.getOpener());
         } else {
-          current.placeToPoint(this.__mousePosition);
+          current.placeToPoint(this.__pointerPosition);
         }
 
         current.show();
@@ -255,18 +255,18 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
     /*
     ---------------------------------------------------------------------------
-      MOUSE EVENT HANDLER
+      POINTER EVENT HANDLER
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Global mouse move event handler
+     * Global pointer move event handler
      *
-     * @param e {qx.event.type.Mouse} The move mouse event
+     * @param e {qx.event.type.Pointer} The move pointer event
      */
-    __onMouseMoveRoot : function(e)
+    __onPointerMoveRoot : function(e)
     {
-      var pos = this.__mousePosition;
+      var pos = this.__pointerPosition;
 
       pos.left = Math.round(e.getDocumentLeft());
       pos.top = Math.round(e.getDocumentTop());
@@ -278,11 +278,13 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * is found this instance is bound to the target widget and the tooltip is
      * set as {@link #current}
      *
-     * @param e {qx.event.type.Mouse} mouseOver event
+     * @param e {qx.event.type.Pointer} pointerover event
      */
-    __onMouseOverRoot : function(e)
+    __onPointerOverRoot : function(e)
     {
       var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
+      // take first coordinates as backup if no move event will be fired (e.g. touch devices)
+      this.__onPointerMoveRoot(e);
       this.showToolTip(target);
     },
 
@@ -356,9 +358,9 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * Resets the property {@link #current} if there was a
      * tooltip and no new one is created.
      *
-     * @param e {qx.event.type.Mouse} mouseOut event
+     * @param e {qx.event.type.Pointer} pointerout event
      */
-    __onMouseOutRoot : function(e)
+    __onPointerOutRoot : function(e)
     {
       var target = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
       if (!target) {
@@ -366,10 +368,9 @@ qx.Class.define("qx.ui.tooltip.Manager",
       }
 
       var related = qx.ui.core.Widget.getWidgetByElement(e.getRelatedTarget());
-      if (!related) {
+      if (!related && e.getPointerType() == "mouse") {
         return;
       }
-
 
       var tooltip = this.getCurrent();
 
@@ -438,10 +439,10 @@ qx.Class.define("qx.ui.tooltip.Manager",
   destruct : function()
   {
     // Deregister events
-    qx.event.Registration.removeListener(document.body, "mouseover", this.__onMouseOverRoot, this, true);
+    qx.event.Registration.removeListener(document.body, "pointerover", this.__onPointerOverRoot, this, true);
 
     // Dispose timers
     this._disposeObjects("__showTimer", "__hideTimer", "__sharedToolTip");
-    this.__mousePosition = null;
+    this.__pointerPosition = null;
   }
 });

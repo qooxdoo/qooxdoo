@@ -241,40 +241,54 @@ qx.Bootstrap.define("qx.bom.Html",
       // Append to fragment and filter out scripts... or...
       if (fragment)
       {
-        var scripts=[], elem;
-        for (var i=0; ret[i]; i++)
-        {
-          elem = ret[i];
-
-          if (elem.nodeType == 1 && elem.tagName.toLowerCase() === "script" && (!elem.type || elem.type.toLowerCase() === "text/javascript"))
-          {
-            // Trying to remove the element from DOM
-            if (elem.parentNode) {
-              elem.parentNode.removeChild(ret[i]);
-            }
-
-            // Store in script list
-            scripts.push(elem);
-          }
-          else
-          {
-            if (elem.nodeType === 1)
-            {
-              // Recursively search for scripts and append them to the list of elements to process
-              var scriptList = qx.lang.Array.fromCollection(elem.getElementsByTagName("script"));
-              ret.splice.apply(ret, [i+1, 0].concat(scriptList));
-            }
-
-            // Finally append element to fragment
-            fragment.appendChild(elem);
-          }
-        }
-
-        return scripts;
+        return qx.bom.Html.extractScripts(ret, fragment);
       }
 
       // Otherwise return the array of all elements
       return ret;
+    },
+
+
+    /**
+     * Extracts script elements from an element list. Optionally
+     * attaches them to a given document fragment
+     *
+     * @param elements {Element[]} list of elements
+     * @param fragment {Document?} document fragment
+     * @return {Element[]} Array containing the script elements
+     */
+    extractScripts : function(elements, fragment) {
+      var scripts=[], elem;
+      for (var i=0; elements[i]; i++) {
+        elem = elements[i];
+
+        if (elem.nodeType == 1 && elem.tagName.toLowerCase() === "script" && (!elem.type || elem.type.toLowerCase() === "text/javascript"))
+        {
+          // Trying to remove the element from DOM
+          if (elem.parentNode) {
+            elem.parentNode.removeChild(elements[i]);
+          }
+
+          // Store in script list
+          scripts.push(elem);
+        }
+        else
+        {
+          if (elem.nodeType === 1)
+          {
+            // Recursively search for scripts and append them to the list of elements to process
+            var scriptList = qx.lang.Array.fromCollection(elem.getElementsByTagName("script"));
+            elements.splice.apply(elements, [i+1, 0].concat(scriptList));
+          }
+
+          // Finally append element to fragment
+          if (fragment) {
+            fragment.appendChild(elem);
+          }
+        }
+      }
+
+      return scripts;
     }
   }
 });

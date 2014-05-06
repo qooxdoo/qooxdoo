@@ -38,7 +38,7 @@ msgstr ""
 "Nu pot adăuga codul furnizat la URL, e prea lung. Anulez acest avertisment "
 "în viitor?"
 
-msgid "Click OK to discard your changes."
+msgid "Tap OK to discard your changes."
 msgstr "Apasă OK pentru a nu salva modificările."
 
 msgid "Custom Code"

@@ -104,7 +104,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           textColor : "tooltip-text",
           decorator : "tooltip",
           padding : [ 1, 3, 2, 3 ],
-          offset : [ 15, 5, 5, 5 ]
+          offset : [ 10, 5, 5, 5 ]
         };
       }
     },
@@ -958,25 +958,6 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
     /*
     ---------------------------------------------------------------------------
-      HTMLAREA
-    ---------------------------------------------------------------------------
-    */
-
-    "htmlarea" :
-    {
-      "include" : "widget",
-
-      style : function(states)
-      {
-        return {
-          backgroundColor : "white"
-        }
-      }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
       SCROLLBAR
     ---------------------------------------------------------------------------
     */
@@ -1484,7 +1465,8 @@ qx.Theme.define("qx.theme.simple.Appearance",
           padding : padding,
           backgroundColor : backgroundColor,
           textColor : states.selected ? "text-selected" : undefined,
-          decorator : states.lead ? "lead-item" : states.dragover ? "dragover" : undefined
+          decorator : states.lead ? "lead-item" : states.dragover ? "dragover" : undefined,
+          opacity : states.drag ? 0.5 : undefined
         };
       }
     },

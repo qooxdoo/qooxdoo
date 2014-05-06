@@ -222,6 +222,37 @@ qx.Class.define("testrunner.runner.ModelUtil", {
         return siblings.getItem(index + 1);
       }
       return null;
+    },
+
+
+    /**
+     * Recursively traverses a model tree and checks if one of
+     * the test classes includes the given mixin.
+     *
+     * @param node {qx.core.Object} test model (root) node
+     * @param mixin {qx.Mixin}  mixin to look for
+     * @param win {Window?} AUT window. Default: Top-level (test runner)
+     * @return {Boolean} <code>true</code> if at least one test class
+     * in the model includes the mixin
+     */
+    hasTestClassWithMixin : function(node, mixin, win) {
+      var autWindow = win || window;
+      var children = node.getChildren ? node.getChildren() : [];
+      for (var i=0, l=children.length; i<l; i++) {
+        var child = children.getItem(i);
+        if (child.getType() == "class") {
+          var clazz = autWindow.qx.Class.getByName(child.getFullName());
+          if (autWindow.qx.Class.hasMixin(clazz, mixin)) {
+            return true;
+          }
+        } else {
+          if (arguments.callee(child, mixin, win)) {
+            return true;
+          }
+        }
+      }
+
+      return false;
     }
   }
 });

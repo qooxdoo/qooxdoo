@@ -93,7 +93,7 @@ qx.Class.define("qx.test.ui.form.Label",
         }, this);
       }, this);
 
-      this.clickOn(this.__label);
+      this.tapOn(this.__label);
 
       this.wait();
     },
@@ -119,7 +119,7 @@ qx.Class.define("qx.test.ui.form.Label",
         }, self);
       }, 1000);
 
-      this.clickOn(this.__label);
+      this.tapOn(this.__label);
 
       this.wait();
     },
@@ -202,7 +202,7 @@ qx.Class.define("qx.test.ui.form.Label",
       this.__formWidget.setReadOnly(true);
       this.__label.setBuddy(this.__formWidget);
 
-      this.clickOn(this.__label);
+      this.tapOn(this.__label);
     }
 
   },

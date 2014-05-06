@@ -79,6 +79,11 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
     } else {
       this.initOrientation();
     }
+
+    // prevent drag & drop on scrolling
+    this.addListener("track", function(e) {
+      e.stopPropagation();
+    }, this);
   },
 
 
@@ -147,7 +152,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
 
 
     /**
-     * Step size for each click on the up/down or left/right buttons.
+     * Step size for each tap on the up/down or left/right buttons.
      */
     singleStep :
     {

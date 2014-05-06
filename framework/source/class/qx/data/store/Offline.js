@@ -128,7 +128,11 @@ qx.Class.define("qx.data.store.Offline",
         this.getModel().dispose();
       }
 
-      this.setModel(this._marshaler.toModel(data, true));
+      var model = this._marshaler.toModel(data, true);
+      if (model === undefined) {
+        model = null;
+      }
+      this.setModel(model);
     },
 
 

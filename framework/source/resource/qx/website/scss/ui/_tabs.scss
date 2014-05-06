@@ -1,0 +1,95 @@
+.qx-tabs > ul {
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.qx-tabs > ul:after {
+  content: " ";
+  display: block;
+  clear: both;
+}
+
+.qx-tabs-button:first-child {
+  margin-left: rem(0);
+}
+
+.qx-tabs-button {
+  float: left;
+  margin-bottom: rem(-1);
+  cursor: pointer;
+  border: rem(1) solid transparent;
+  margin-left: rem(3);
+}
+
+.qx-tabs-button > button {
+  background-color: transparent;
+  border: 0;
+  color: $highlight-color;
+  outline: none;
+  cursor: pointer;
+  padding: rem(8) rem(12);
+  font-size: rem(13);
+}
+
+.qx-tabs-button > button[disabled] {
+  color: $highlight-color-disabled;
+}
+
+.qx-tabs-button > button:focus {
+  text-decoration: underline;
+}
+
+.qx-tabs-button-active {
+  border: rem(1) solid $border-color;
+  border-bottom: rem(1) solid $background-color;
+  @include border-radius(rem(2) rem(2) 0 0);
+  @include background($background-color);
+}
+
+.qx-tabs-button:hover {
+  border-bottom: rem(1) solid $border-color;
+  @include border-radius(rem(2) rem(2) 0 0);
+  background-color: darken($background-color, 10%);
+}
+
+.qx-tabs-button-active:hover {
+  border: rem(1) solid $border-color;
+  border-bottom: rem(1) solid $background-color;
+  @include background($background-color);
+}
+
+.qx-tabs-button-active > button {
+  color: black;
+}
+
+.qx-tabs-container {
+  border: rem(1) solid $border-color;
+} 
+
+.qx-tabs-page {
+  padding: rem(10);
+  @include user-select(text);
+}
+
+
+.qx-tabs-button[disabled] {
+  color: $highlight-color-disabled;
+}
+
+.qx-tabs-justify > li {
+  display: table-cell;
+  width: 1%;
+  text-align: center;
+  float: none;
+  border-bottom-color: transparent;
+  position: relative;
+  top: rem(1);
+}
+.qx-tabs-justify > .qx-tabs-button-active {
+  border-bottom: rem(1) solid $background-color;
+}
+
+.qx-tabs-right > li {
+  float: right;
+}

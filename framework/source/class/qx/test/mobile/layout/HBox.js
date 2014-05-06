@@ -47,11 +47,11 @@ qx.Class.define("qx.test.mobile.layout.HBox",
 
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1, {flex:1});
-      this.assertTrue(widget1.hasCssClass("boxFlex1"));
+      this.assertTrue(widget1.hasCssClass("flex1"));
 
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2, {flex:2});
-      this.assertTrue(widget2.hasCssClass("boxFlex2"));
+      this.assertTrue(widget2.hasCssClass("flex2"));
 
       widget1.destroy();
       widget2.destroy();
@@ -66,12 +66,12 @@ qx.Class.define("qx.test.mobile.layout.HBox",
       var widget1 = new qx.ui.mobile.core.Widget();
       composite.add(widget1, {flex:1});
       composite.remove(widget1);
-      this.assertFalse(widget1.hasCssClass("boxFlex1"));
+      this.assertFalse(widget1.hasCssClass("flex1"));
 
       var widget2 = new qx.ui.mobile.core.Widget();
       composite.add(widget2, {flex:2});
       composite.remove(widget2);
-      this.assertFalse(widget2.hasCssClass("boxFlex2"));
+      this.assertFalse(widget2.hasCssClass("flex2"));
 
       this.getRoot().remove(composite);
       this.assertTrue(composite.hasCssClass("hbox"));

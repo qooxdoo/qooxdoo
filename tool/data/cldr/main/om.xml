@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9791 $"/>
+		<generation date="$Date: 2014-02-25 15:16:49 -0600 (Tue, 25 Feb 2014) $"/>
 		<language type="om"/>
 	</identity>
 	<localeDisplayNames>
@@ -18,7 +18,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="az">Afaan Azerbaijani</language>
 			<language type="be">Afaan Belarusia</language>
 			<language type="bg">Afaan Bulgariya</language>
-			<language type="bh">Afaan Bihari</language>
 			<language type="bn">Afaan Baangladeshi</language>
 			<language type="bs">Afaan Bosniyaa</language>
 			<language type="ca">Afaan Katalaa</language>
@@ -321,7 +320,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</otherNumberingSystems>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern>¤#,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>

@@ -1,0 +1,42 @@
+
+//
+// SELECTBOX
+//
+
+.selectbox {
+  @extend .hbox;
+  @extend .flex-align-center;
+  
+  @include user-select(none);
+  @include border-radius($selectbox-border-radius); 
+  @include background($selectbox-background);
+  
+  border:none;
+  cursor:pointer;
+
+  vertical-align:middle;
+  height: rem(32);
+
+  text-indent: rem(5);
+
+  border: rem(1) solid $selectbox-border-color;
+  color: $selectbox-text-color;
+}
+
+.selectbox-selected > div > .list-itemlabel {
+  position:relative;
+}
+
+.selectbox-selected > .list-itemimage, .selectbox-unselected > .list-itemimage  {
+  display:none;
+}
+
+.selectbox.active {
+  @include background($selectbox-active-background);
+  color: $selectbox-active-text-color;
+}
+
+.selectbox-selected {
+  @include background($selectbox-item-selected-background);
+  color: $selectbox-item-selected-text-color !important;
+}

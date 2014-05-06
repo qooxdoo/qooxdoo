@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       {
         case "textfield" :
           control = new qx.ui.form.TextField();
-          control.setFocusable(qx.event.handler.MouseEmulation.ON);
+          control.setFocusable(false);
           control.addState("inner");
           this._add(control, {flex : 1});
           break;
@@ -303,11 +303,11 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
 
     // overridden
-    _handleMouse : function(event) {
+    _handlePointer : function(event) {
       this.base(arguments, event);
 
       var type = event.getType();
-      if (type !== "click") {
+      if (type !== "tap") {
         return;
       }
 

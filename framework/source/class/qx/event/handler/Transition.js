@@ -143,7 +143,7 @@ qx.Class.define("qx.event.handler.Transition",
      */
     registerEvent: qx.core.Environment.select("engine.name",
     {
-      "webkit|gecko" : function(target, type, capture)
+      "webkit|gecko|mshtml" : function(target, type, capture)
       {
         var hash = qx.core.ObjectRegistry.toHashCode(target) + type;
 
@@ -177,7 +177,7 @@ qx.Class.define("qx.event.handler.Transition",
      */
     unregisterEvent: qx.core.Environment.select("engine.name",
     {
-      "webkit|gecko" : function(target, type, capture)
+      "webkit|gecko|mshtml" : function(target, type, capture)
       {
         var events = this.__registeredEvents;
 

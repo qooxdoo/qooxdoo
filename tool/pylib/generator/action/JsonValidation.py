@@ -27,25 +27,11 @@ from generator import Context
 from generator.config.Manifest import Manifest
 
 ##
-# Assure that sufficient Python version is present.
-#
-# @param fn function
-#
-def __assurePython26(fn):
-    def _fn(arg1, arg2):
-        if sys.version_info >= (2, 6) and sys.version_info < (3, 0):
-            fn(arg1, arg2)
-        else:
-            Context.console.warn("No schema check possible - validation requires Python 2.6+.")
-    return _fn
-
-##
 # Validates Manifest and prints to stdout/stderr.
 #
 # @param jobconf generator.config.Job.Job
 # @param confObj generator.config.Config.Config
 #
-@__assurePython26
 def validateManifest(jobObj, confObj):
     errors = []
     console = Context.console
@@ -78,7 +64,6 @@ def validateManifest(jobObj, confObj):
 # @param confObj generator.config.Config.Config
 # @param isRootConf boolean
 #
-@__assurePython26
 def validateConfig(confObj, schema):
     confDict = deepcopy(confObj._rawdata)
     global_let = confObj.get("let")

@@ -131,25 +131,6 @@ qx.Class.define("qx.test.mobile.basic.Atom",
     },
 
 
-    testGap : function()
-    {
-      var imageURL = qx.util.ResourceManager.getInstance().toUri("qx/icon/Tango/48/places/user-home.png");
-      var atom = new qx.ui.mobile.basic.Atom("myText", imageURL);
-      this.getRoot().add(atom);
-
-      this.assertEquals('4px', qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
-
-      atom.setGap(5);
-
-      this.assertEquals( '5px', qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
-
-      atom.setIconPosition('bottom');
-
-      this.assertEquals('0px',qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
-      this.assertEquals('5px',qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginTop'));
-    },
-
-
     testSetLabelAndIcon : function() {
 
       var testText = "test234";

@@ -44,7 +44,7 @@ qx.Bootstrap = {
   {
     var splits = name.split(".");
     var part = splits[0];
-    var parent = this.__root && this.__root[part] ? this.__root : window;
+    var parent = qx.$$namespaceRoot && qx.$$namespaceRoot[part] ? qx.$$namespaceRoot : window;
 
     for (var i=0, len=splits.length-1; i<len; i++, part=splits[i])
     {
@@ -103,7 +103,7 @@ qx.Bootstrap = {
   define : function(name, config)
   {
     if (!config) {
-      var config = { statics : {} };
+      config = { statics : {} };
     }
 
     var clazz;
@@ -131,6 +131,7 @@ qx.Bootstrap = {
       proto = clazz.prototype;
       // Enable basecalls within constructor
       proto.base = qx.Bootstrap.base;
+      proto.name = proto.classname = name;
 
       var members = config.members || {};
       var key, member;
@@ -153,7 +154,7 @@ qx.Bootstrap = {
     {
       clazz = config.statics || {};
 
-      // Merge class into former class (nedded for 'optimize: ["statics"]')
+      // Merge class into former class (needed for 'optimize: ["statics"]')
       if (qx.Bootstrap.$$registry && qx.Bootstrap.$$registry[name]) {
         var formerClass = qx.Bootstrap.$$registry[name];
 
@@ -167,7 +168,7 @@ qx.Bootstrap = {
           for (var curProp in clazz) {
             formerClass[curProp] = clazz[curProp];
           }
-          return;
+          return formerClass;
         }
       }
     }
@@ -186,6 +187,7 @@ qx.Bootstrap = {
     // Store names in constructor/object
     clazz.name = clazz.classname = name;
     clazz.basename = basename;
+    clazz.$$events = config.events;
 
     // Execute defer section
     if (config.defer) {
@@ -193,7 +195,9 @@ qx.Bootstrap = {
     }
 
     // Store class reference in global class registry
-    qx.Bootstrap.$$registry[name] = clazz;
+    if (name != null) {
+      qx.Bootstrap.$$registry[name] = clazz;
+    }
 
     return clazz;
   }
@@ -208,10 +212,6 @@ qx.Bootstrap.define("qx.Bootstrap",
 {
   statics :
   {
-    /** Root for create namespace. **/
-    __root : null,
-
-
     /** Timestamp of qooxdoo based application startup */
     LOADSTART : qx.$$start || new Date(),
 
@@ -288,7 +288,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @internal
      */
     setRoot : function(root) {
-      this.__root = root;
+      qx.$$namespaceRoot = root;
     },
 
     /**

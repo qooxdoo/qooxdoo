@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
     if(qx.ui.mobile.core.Blocker.ROOT == null) {
       qx.ui.mobile.core.Blocker.ROOT = qx.core.Init.getApplication().getRoot();
     }
-    this.forceHide(); 
+    this.forceHide();
     qx.ui.mobile.core.Blocker.ROOT.add(this);
   },
 
@@ -138,21 +138,9 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
 
 
     /**
-     * Event handler. Called when the touch event occurs.
-     * Prevents the default of the event.
-     *
-     * @param evt {qx.event.type.Touch} The touch event
-     */
-    _onTouch : function(evt)
-    {
-      evt.preventDefault();
-    },
-
-
-    /**
      * Event handler. Called when the scroll event occurs.
      *
-     * @param evt {qx.event.type.Touch} The touch event
+     * @param evt {Event} The scroll event
      */
     _onScroll : function(evt)
     {
@@ -167,8 +155,8 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
     {
       qx.event.Registration.addListener(window, "resize", this._updateSize, this);
       qx.event.Registration.addListener(window, "scroll", this._onScroll, this);
-      this.addListener("touchstart", this._onTouch, this);
-      this.addListener("touchmove", this._onTouch, this);
+      this.addListener("pointerdown", qx.bom.Event.preventDefault, this);
+      this.addListener("pointerup", qx.bom.Event.preventDefault, this);
     },
 
 
@@ -179,8 +167,8 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
     {
       qx.event.Registration.removeListener(window, "resize", this._updateSize, this);
       qx.event.Registration.removeListener(window, "scroll", this._onScroll, this);
-      this.removeListener("touchstart", this._onTouch, this);
-      this.removeListener("touchmove", this._onTouch, this);
+      this.removeListener("pointerdown", qx.bom.Event.preventDefault, this);
+      this.removeListener("pointerup", qx.bom.Event.preventDefault, this);
     }
   },
 

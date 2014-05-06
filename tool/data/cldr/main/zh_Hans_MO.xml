@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9287 $"/>
+		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
 		<language type="zh"/>
 		<script type="Hans"/>
 		<territory type="MO"/>
@@ -20,6 +20,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ast" draft="contributed">阿斯图里亚思文</language>
 			<language type="es_ES" draft="contributed">伊比利亚西班牙文</language>
 			<language type="mdr" draft="contributed">曼达尔</language>
+			<language type="om" draft="contributed">奥罗莫文</language>
 			<language type="pt_PT" draft="contributed">伊比利亚葡萄牙文</language>
 		</languages>
 		<scripts>
@@ -30,10 +31,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Zzzz" draft="contributed">未知语系</script>
 		</scripts>
 		<territories>
-			<territory type="CC" draft="contributed">科科斯（基林）群岛</territory>
 			<territory type="CP" draft="contributed">克利柏顿岛</territory>
-			<territory type="FM" draft="contributed">密克罗尼西亚</territory>
-			<territory type="GP" draft="contributed">瓜德罗普</territory>
 			<territory type="ME" draft="contributed">黑山</territory>
 			<territory type="PM" draft="contributed">圣皮埃尔和密克隆</territory>
 		</territories>
@@ -42,8 +40,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</variants>
 		<types>
 			<type type="big5han" key="collation" draft="contributed">繁体中文排序顺序 (Big5)</type>
+			<type type="dictionary" key="collation" draft="contributed">字典排序</type>
 			<type type="gb2312han" key="collation" draft="contributed">简体中文排序顺序 (GB2312)</type>
+			<type type="phonebook" key="collation" draft="contributed">电话簿排序</type>
 			<type type="pinyin" key="collation" draft="contributed">拼音排序顺序</type>
+			<type type="reformed" key="collation" draft="contributed">改良排序</type>
+			<type type="traditional" key="collation" draft="contributed">传统排序</type>
 		</types>
 		<codePatterns>
 			<codePattern type="script" draft="contributed">语系：{0}</codePattern>
@@ -54,26 +56,26 @@ For terms of use, see http://www.unicode.org/copyright.html
 	</characters>
 	<dates>
 		<calendars>
-			<calendar type="buddhist">
+			<calendar type="chinese">
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern draft="contributed">Gy年M月d日EEEE</pattern>
+							<pattern numbers="hanidec" draft="contributed">U年MMMd日EEEE</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
 						<dateFormat>
-							<pattern draft="contributed">Gy年M月d日</pattern>
+							<pattern numbers="hanidec" draft="contributed">U年MMMd日</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
 						<dateFormat>
-							<pattern draft="contributed">Gy年M月d日</pattern>
+							<pattern numbers="hanidec" draft="contributed">U年MMMd日</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern draft="contributed">Gd/M/yy</pattern>
+							<pattern draft="contributed">U-M-d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -107,9 +109,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MEd" draft="contributed">M-dE</dateFormatItem>
 						<dateFormatItem id="MMdd" draft="contributed">MM-dd</dateFormatItem>
 						<dateFormatItem id="MMMMdd" draft="contributed">M月d日</dateFormatItem>
-						<dateFormatItem id="yM" draft="contributed">y年M月</dateFormatItem>
-						<dateFormatItem id="yMd" draft="contributed">y年M月d日</dateFormatItem>
-						<dateFormatItem id="yMEd" draft="contributed">y年M月d日，E</dateFormatItem>
+						<dateFormatItem id="yyyyMd" draft="contributed">Gy年M月d日</dateFormatItem>
+						<dateFormatItem id="yyyyMEd" draft="contributed">Gy年M月d日，E</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="contributed">{0}–{1}</intervalFormatFallback>
@@ -174,6 +175,26 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 				</dateFormats>
 				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1}{0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1}{0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern draft="contributed">{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="Md" draft="contributed">M-d</dateFormatItem>
 						<dateFormatItem id="MEd" draft="contributed">M-dE</dateFormatItem>
@@ -185,6 +206,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback draft="contributed">{0}–{1}</intervalFormatFallback>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d" draft="contributed">d日至d日</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="Hmv">
 							<greatestDifference id="H" draft="contributed">vHH:mm–HH:mm</greatestDifference>
 							<greatestDifference id="m" draft="contributed">vHH:mm–HH:mm</greatestDifference>
@@ -245,36 +269,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="Hm" draft="contributed">HH:mm</dateFormatItem>
-						<dateFormatItem id="Hms" draft="contributed">HH:mm:ss</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="japanese">
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern draft="contributed">Gy年M月d日EEEE</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern draft="contributed">Gy年M月d日</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern draft="contributed">Gy年M月d日</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="contributed">Gd/M/yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
 			</calendar>
 			<calendar type="roc">
 				<dateFormats>
@@ -299,14 +293,26 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
+				<dateTimeFormats>
+					<availableFormats>
+						<dateFormatItem id="Md" draft="contributed">M-d</dateFormatItem>
+						<dateFormatItem id="MEd" draft="contributed">M-dE</dateFormatItem>
+						<dateFormatItem id="MMM" draft="contributed">M月</dateFormatItem>
+					</availableFormats>
+				</dateTimeFormats>
 			</calendar>
 		</calendars>
 		<fields>
-			<field type="era">
-				<displayName draft="contributed">纪元</displayName>
-			</field>
 			<field type="day">
 				<displayName draft="contributed">天</displayName>
+			</field>
+			<field type="second">
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0}秒后</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0}秒前</relativeTimePattern>
+				</relativeTime>
 			</field>
 		</fields>
 		<timeZoneNames>
@@ -321,12 +327,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="America/Santo_Domingo">
 				<exemplarCity draft="contributed">圣多明戈</exemplarCity>
-			</zone>
-			<zone type="Indian/Antananarivo">
-				<exemplarCity draft="contributed">安塔那那利佛</exemplarCity>
-			</zone>
-			<zone type="America/Grand_Turk">
-				<exemplarCity draft="contributed">大特克</exemplarCity>
 			</zone>
 			<zone type="Europe/Zaporozhye">
 				<exemplarCity draft="contributed">扎波罗什</exemplarCity>
@@ -391,38 +391,119 @@ For terms of use, see http://www.unicode.org/copyright.html
 	<numbers>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern draft="contributed">¤#,##0.00</pattern>
+				</currencyFormat>
+				<currencyFormat type="accounting">
+					<pattern draft="contributed">¤#,##0.00;(¤#,##0.00)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 			<unitPattern count="other" draft="contributed">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
+			<currency type="ANG">
+				<displayName draft="contributed">荷属安的列斯盾</displayName>
+				<displayName count="other" draft="contributed">荷兰安的列斯盾</displayName>
+			</currency>
 			<currency type="AWG">
 				<displayName draft="contributed">阿鲁巴弗罗林</displayName>
-			</currency>
-			<currency type="BAM">
-				<displayName draft="contributed">波斯尼亚-黑塞哥维那可兑换马克</displayName>
+				<displayName count="other" draft="contributed">阿鲁巴弗罗林</displayName>
 			</currency>
 			<currency type="BAN">
-				<displayName draft="contributed">波士尼亚-赫塞哥维纳第纳尔 (1994-1997)</displayName>
+				<displayName draft="contributed">波士尼亚-赫塞哥维纳第纳尔 (1994–1997)</displayName>
 			</currency>
-			<currency type="FKP">
-				<displayName draft="contributed">福克兰群岛镑</displayName>
+			<currency type="CNY">
+				<symbol draft="contributed">CN¥</symbol>
 			</currency>
 			<currency type="KZT">
 				<displayName draft="contributed">哈萨克斯坦腾格</displayName>
+				<displayName count="other" draft="contributed">哈萨克斯坦腾格</displayName>
 			</currency>
 			<currency type="MOP">
 				<symbol>MOP$</symbol>
 			</currency>
 			<currency type="NIO">
 				<displayName draft="contributed">尼加拉瓜科多巴</displayName>
+				<displayName count="other" draft="contributed">尼加拉瓜科多巴</displayName>
 			</currency>
 			<currency type="XAG">
 				<displayName draft="contributed">白银</displayName>
 			</currency>
 		</currencies>
 	</numbers>
+	<units>
+		<unitLength type="long">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="contributed">{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="duration-second">
+				<unitPattern count="other" draft="contributed">{0}秒</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<unit type="length-centimeter">
+				<unitPattern count="other" draft="contributed">{0}厘米</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="other" draft="contributed">{0}英尺</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="other" draft="contributed">{0}英寸</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="other" draft="contributed">{0}公里</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="other" draft="contributed">{0}光年</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="other" draft="contributed">{0}米</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="other" draft="contributed">{0}英里</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="other" draft="contributed">{0}毫米</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="other" draft="contributed">{0}皮米</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="other" draft="contributed">{0}码</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<unit type="length-centimeter">
+				<unitPattern count="other" draft="contributed">{0}厘米</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="other" draft="contributed">{0}英尺</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="other" draft="contributed">{0}英寸</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="other" draft="contributed">{0}公里</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="other" draft="contributed">{0}光年</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="other" draft="contributed">{0}米</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="other" draft="contributed">{0}英里</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="other" draft="contributed">{0}毫米</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="other" draft="contributed">{0}皮米</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="other" draft="contributed">{0}码</unitPattern>
+			</unit>
+		</unitLength>
+	</units>
 </ldml>
 

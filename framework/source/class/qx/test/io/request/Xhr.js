@@ -334,7 +334,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       server.respond();
 
       this.assertArrayEquals([0, 1, 2, 3, 4], readyStates);
-      this.assertArrayEquals([0, 0, 200, 200], statuses);
+      this.assertArrayEquals([0, 200, 200, 200], statuses);
       this.assertEquals("text/html", req.getResponseHeader("Content-Type"));
       this.assertEquals("OK", req.getStatusText());
       this.assertEquals("FOUND", req.getResponseText());

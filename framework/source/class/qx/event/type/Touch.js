@@ -20,8 +20,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * Touch event object.
  *
  * For more information see:
@@ -56,6 +54,8 @@ qx.Class.define("qx.event.type.Touch",
 
         clone.scale = nativeEvent.scale;
         clone.rotation = nativeEvent.rotation;
+        clone._rotation = nativeEvent._rotation;
+        clone.delta = nativeEvent.delta;
         clone.srcElement = nativeEvent.srcElement;
 
         clone.targetTouches = [];
@@ -105,7 +105,7 @@ qx.Class.define("qx.event.type.Touch",
        *     https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getTargetTouches : function() {
-          return this._native.targetTouches;
+        return this._native.targetTouches;
       },
 
 
@@ -124,7 +124,7 @@ qx.Class.define("qx.event.type.Touch",
        *     https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
        */
       getChangedTargetTouches : function() {
-          return this._native.changedTouches;
+        return this._native.changedTouches;
       },
 
 
@@ -163,7 +163,23 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Float} The rotation delta
        */
       getRotation : function() {
-        return this._native.rotation;
+        if(typeof this._native._rotation === "undefined") {
+          return this._native.rotation;
+        } else {
+          return this._native._rotation;
+        }
+      },
+
+
+      /**
+       * Returns an array with the calculated delta coordinates of all active touches,
+       * relative to the position on <code>touchstart</code> event.
+       *
+       * @return {Array} an array with objects for each active touch which contains the delta as <code>x</code> and
+       * <code>y</code>, the touch identifier as <code>identifier</code> and the movement axis as <code>axis</code>.
+       */
+      getDelta : function() {
+        return this._native.delta;
       },
 
 
@@ -213,7 +229,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Integer} The vertical position of the touch
        */
       getScreenTop: function(touchIndex) {
-          return this.__getEventSpecificTouch(touchIndex).screenY;
+        return this.__getEventSpecificTouch(touchIndex).screenY;
       },
 
 
@@ -225,7 +241,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Integer} The horizontal position of the touch
        */
       getViewportLeft : function(touchIndex) {
-          return this.__getEventSpecificTouch(touchIndex).clientX;
+        return this.__getEventSpecificTouch(touchIndex).clientX;
       },
 
 
@@ -237,7 +253,7 @@ qx.Class.define("qx.event.type.Touch",
        * @return {Integer} The vertical position of the touch
        */
       getViewportTop : function(touchIndex) {
-          return this.__getEventSpecificTouch(touchIndex).clientY;
+        return this.__getEventSpecificTouch(touchIndex).clientY;
       },
 
 

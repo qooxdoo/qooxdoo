@@ -5,3 +5,6 @@
 /simulator/
 /test/
 /source/script/
+
+# node-related files
+/node_modules

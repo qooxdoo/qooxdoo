@@ -20,7 +20,7 @@
 /**
  * Contains some common methods available to all log appenders.
  */
-qx.Class.define("qx.log.appender.Util",
+qx.Bootstrap.define("qx.log.appender.Util",
 {
   statics :
   {

@@ -130,7 +130,7 @@ qx.Class.define("showcase.page.table.Content",
       resizeBehavior.setWidth(3, 90);
       resizeBehavior.setWidth(4, 95);
 
-      table.addListener("cellClick", function(e) {
+      table.addListener("cellTap", function(e) {
         if (e.getColumn() === 1) {
           table.getSelectionModel().iterateSelection(function(index) {
             var url = tableModel.getRowData(index)[5];

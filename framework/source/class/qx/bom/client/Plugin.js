@@ -191,6 +191,20 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
     /**
      * Fetches the version of the pdf plugin.
+     *
+     * There are two built-in PDF viewer shipped with browsers:
+     *
+     * <ul>
+     *  <li>Chrome PDF Viewer</li>
+     *  <li>PDF.js (Firefox)</li>
+     * </ul>
+     *
+     * While the Chrome PDF Viewer is implemented as plugin and therefore
+     * detected by this method PDF.js is <strong>not</strong>.
+     *
+     * See the dedicated environment key (<em>plugin.pdfjs</em>) instead,
+     * which you might check additionally.
+     *
      * @return {String} The version of the plugin, if available,
      *  an empty string otherwise
      * @internal
@@ -247,6 +261,20 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
     /**
      * Checks if the pdf plugin is available.
+     *
+     * There are two built-in PDF viewer shipped with browsers:
+     *
+     * <ul>
+     *  <li>Chrome PDF Viewer</li>
+     *  <li>PDF.js (Firefox)</li>
+     * </ul>
+     *
+     * While the Chrome PDF Viewer is implemented as plugin and therefore
+     * detected by this method PDF.js is <strong>not</strong>.
+     *
+     * See the dedicated environment key (<em>plugin.pdfjs</em>) instead,
+     * which you might check additionally.
+     *
      * @return {Boolean} <code>true</code> if the plugin is available
      * @internal
      */

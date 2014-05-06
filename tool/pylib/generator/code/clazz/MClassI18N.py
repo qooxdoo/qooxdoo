@@ -39,7 +39,7 @@ class MClassI18N(object):
     # returns array of message dicts [{method:, line:, column:, hint:, id:, plural:},...]
     def messageStrings(self, variants):
         # this duplicates codef from Locale.getTranslation
-        
+
         classVariants     = self.classVariants()
         relevantVariants  = self.projectClassVariantsToCurrent(classVariants, variants)
         variantsId        = util.toString(relevantVariants)
@@ -82,7 +82,7 @@ class MClassI18N(object):
                 var = oper.getFirstChild()
                 if var.isVar():
                     varname = (treeutil.assembleVariable(var))[0]
-                    for entry in [ ".tr", ".trn", ".trc", ".marktr" ]:
+                    for entry in [ ".tr", ".trn", ".trc", ".trnc", ".marktr" ]:
                         if varname.endswith(entry):
                             self._addTranslationBlock(entry[1:], messages, node, var)
                             break
@@ -93,7 +93,7 @@ class MClassI18N(object):
 
         return messages
 
-     
+
     def _addTranslationBlock(self, method, data, node, var):
         entry = {
             "method" : method,
@@ -105,9 +105,11 @@ class MClassI18N(object):
         # tr(msgid, args)
         # trn(msgid, msgid_plural, count, args)
         # trc(hint, msgid, args)
+        # trnc(hint, msgid, msgid_plural, count, args)
         # marktr(msgid)
 
-        if method == "trn" or method == "trc": minArgc=2
+        if method == "trnc": minArgc=3
+        elif method == "trn" or method == "trc": minArgc=2
         else: minArgc=1
 
         params = node.getChild("arguments", False)
@@ -137,7 +139,7 @@ class MClassI18N(object):
 
         lenStrings = len(strings)
         if lenStrings > 0:
-            if method == "trc":
+            if method in ("trc", "trnc"):
                 entry["hint"] = strings[0]
                 if lenStrings > 1 and strings[1]:  # msgid must not be ""
                     entry["id"]   = strings[1]
@@ -147,6 +149,9 @@ class MClassI18N(object):
 
             if method == "trn" and lenStrings > 1:
                 entry["plural"] = strings[1]
+
+            if method == "trnc" and lenStrings > 2:
+                entry["plural"] = strings[2]
 
         # register the entry only if we have a proper key
         if "id" in entry:

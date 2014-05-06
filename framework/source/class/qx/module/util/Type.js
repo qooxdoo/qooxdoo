@@ -24,11 +24,14 @@
  * <pre class="javascript">
  * q.type.get("abc"); // return "String" e.g.
  * </pre>
+ *
+ * @group (Utilities)
  */
 qx.Bootstrap.define("qx.module.util.Type", {
   statics : {
     /**
      * Get the internal class of the value. The following classes are possible:
+     * <pre>
      * <code>"String"</code>,
      * <code>"Array"</code>,
      * <code>"Object"</code>,

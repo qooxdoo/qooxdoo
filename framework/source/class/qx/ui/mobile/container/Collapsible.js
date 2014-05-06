@@ -70,6 +70,8 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
 
     this.initCollapsed();
     this.initCombined();
+
+    this.addCssClass("gap");
   },
 
 
@@ -182,7 +184,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
 
     // property apply
     _applyCollapsed : function(value, old) {
-      if(value == true) {
+      if(value === true) {
         this._content.exclude();
         this.addCssClass("collapsed");
       } else {
@@ -194,7 +196,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
 
     // property apply
     _applyCombined : function(value, old) {
-      if(value == true) {
+      if(value === true) {
         this.addCssClass("combined");
       }
       else {

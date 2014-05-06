@@ -15,6 +15,32 @@
     }
   ],
 
+  "export" :
+    [
+      "api",
+      "api-data",
+      "build",
+      "build-mobile",
+      "build-website",
+      "clean",
+      "distclean",
+      "fix",
+      "info",
+      "inspector",
+      "lint",
+      "migration",
+      "pretty",
+      "profiling",
+      "source",
+      "source-all",
+      "source-hybrid",
+      "source-mobile",
+      "source-website",
+      "translation",
+      "validate-config",
+      "validate-manifest"
+    ],
+
   "default-job" : "source",
 
   "let" :
@@ -35,8 +61,6 @@
       "build-script",
       "image-combine",
       "libraries",
-      "simulation-build",
-      "simulation-run",
       "translation"
     ],
 
@@ -60,8 +84,7 @@
     {
       "environment" :
       {
-        "qx.nativeScrollBars" : true,
-        "qx.emulatemouse" : true
+        "qx.nativeScrollBars" : true
       },
 
       "compile-options" :
@@ -191,12 +214,6 @@
         "APPLICATION_MAIN_CLASS" : "${APPLICATION}.MobileApplication"
       },
 
-      "environment" :
-      {
-        "qx.mobile.emulatetouch" : true,
-        "qx.mobile.nativescroll" : false
-      },
-
       "compile-options" :
       {
         "paths": {
@@ -220,8 +237,7 @@
 
       "environment" :
       {
-        "qx.mobile.emulatetouch" : true,
-        "qx.mobile.nativescroll" : false
+        "qx.mobile.emulatetouch" : true
       },
 
       "compile-options" :
@@ -247,41 +263,6 @@
       "=packages" : {}
     },
 
-
-    // -- Simulation Jobs ------------------------------------------------------
-
-    "simulation-run" :
-    {
-      "environment" :
-      {
-        "simulator.selServer"   : "${SELENIUM_SERVER}",
-        "simulator.selPort"     : "${SELENIUM_PORT}",
-        "simulator.testBrowser" : "${SELENIUM_BROWSER}",
-        "simulator.autHost"     : "${AUT_HOST}",
-        "simulator.autPath"     : "${AUT_PATH}",
-        "simulator.reportServer": "${SIMULATOR_REPORTSERVER}",
-        "simulator.applicationLog" : true,
-        "simulator.globalErrorLogging" : true
-      }
-    },
-
-    "simulation-build" :
-    {
-      "let" :
-      {
-        "SIMULATION_INCLUDE" : "feedreader.simulation.ria.*"
-      }
-    },
-
-    "simulation-build-mobile" :
-    {
-      "extend" : ["simulation-build"],
-
-      "let" :
-      {
-        "SIMULATION_INCLUDE" : "feedreader.simulation.mobile.*"
-      }
-    },
 
     // -- Image Jobs ------------------------------------------------------
 

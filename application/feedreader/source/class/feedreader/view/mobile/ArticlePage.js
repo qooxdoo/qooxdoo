@@ -19,6 +19,7 @@
 ************************************************************************ */
 /**
  * Mobile page responsible for shoing a single article.
+ * @require(qx.module.Attribute)
  */
 qx.Class.define("feedreader.view.mobile.ArticlePage",
 {
@@ -73,13 +74,9 @@ qx.Class.define("feedreader.view.mobile.ArticlePage",
         var html = feedreader.ArticleBuilder.createHtml(value);
         this.__article.setHtml(html);
 
-        q("a").forEach(function(item) {
-          item.ontouchend = function(e) {
-            window.open(item.href, "_blank");
-          }
-        });
+        q("a").setAttribute("target", "_blank");
       }
-       
+
     }
   }
 });

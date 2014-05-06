@@ -25,10 +25,6 @@
     "source",
     "source-all",
     "source-hybrid",
-    "simulation-build",
-    "simulation-run",
-    "test",
-    "test-source",
     "translation",
     "validate-config",
     "validate-manifest"
@@ -46,7 +42,7 @@
     "APPLICATION"  : "github",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "qx.theme.Modern",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."

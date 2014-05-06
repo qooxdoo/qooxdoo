@@ -11,6 +11,7 @@ body.community .community a {
 body.community .community a:hover {
   text-decoration: underline;
 }
+
 body#community .atom {
   overflow: hidden;
 }
@@ -27,6 +28,7 @@ body#community .atom > a > img {
   width: 64px;
   height: 64px;
 }
+
 body.demos #tools {
   zoom: 1;
 }
@@ -111,6 +113,7 @@ body.demos .versions ul:first-child {
 body.demos .versions ul.last {
   clear: both;
 }
+
 body#demos #content {
   width: auto;
 }
@@ -142,10 +145,7 @@ body#demos #domains section.domain.expanded {
 body#demos #domains section.domain.expanded .hint {
   display: block;
 }
-body#demos #domains section.domain.expanded .demo .note,
-body#demos #domains section.domain.expanded .demo .primary,
-body#demos #domains section.domain.expanded .demo .secondary,
-body#demos #domains section.domain.expanded .demo ul {
+body#demos #domains section.domain.expanded .demo ul, body#demos #domains section.domain.expanded .demo .primary, body#demos #domains section.domain.expanded .demo .secondary, body#demos #domains section.domain.expanded .demo .note {
   display: block !important;
 }
 body#demos #domains section.domain.expanded .demo img {
@@ -162,42 +162,13 @@ body#demos #domains section.domain.compact:hover {
   cursor: pointer;
   background-color: #dddddd;
 }
-body#demos #domains section.domain .demo > a,
-body#demos #domains section.domain .demo > div > a,
-body#demos #domains section.domain .demo > div > h1,
-body#demos #domains section.domain .demo > div > h2,
-body#demos #domains section.domain .demo > div > h3,
-body#demos #domains section.domain .demo > div > h4,
-body#demos #domains section.domain .demo > div > p,
-body#demos #domains section.domain .demo > div > ul,
-body#demos #domains section.domain .demo > h1,
-body#demos #domains section.domain .demo > h2,
-body#demos #domains section.domain .demo > h3,
-body#demos #domains section.domain .demo > h4,
-body#demos #domains section.domain .demo > p,
-body#demos #domains section.domain .demo > ul,
-body#demos #domains section.domain .title > a,
-body#demos #domains section.domain .title > div > a,
-body#demos #domains section.domain .title > div > h1,
-body#demos #domains section.domain .title > div > h2,
-body#demos #domains section.domain .title > div > h3,
-body#demos #domains section.domain .title > div > h4,
-body#demos #domains section.domain .title > div > p,
-body#demos #domains section.domain .title > div > ul,
-body#demos #domains section.domain .title > h1,
-body#demos #domains section.domain .title > h2,
-body#demos #domains section.domain .title > h3,
-body#demos #domains section.domain .title > h4,
-body#demos #domains section.domain .title > p,
-body#demos #domains section.domain .title > ul {
+body#demos #domains section.domain .title > h1, body#demos #domains section.domain .title > h2, body#demos #domains section.domain .title > h3, body#demos #domains section.domain .title > h4, body#demos #domains section.domain .title > a, body#demos #domains section.domain .title > p, body#demos #domains section.domain .title > ul, body#demos #domains section.domain .title > div > h1, body#demos #domains section.domain .title > div > h2, body#demos #domains section.domain .title > div > h3, body#demos #domains section.domain .title > div > h4, body#demos #domains section.domain .title > div > a, body#demos #domains section.domain .title > div > p, body#demos #domains section.domain .title > div > ul, body#demos #domains section.domain .demo > h1, body#demos #domains section.domain .demo > h2, body#demos #domains section.domain .demo > h3, body#demos #domains section.domain .demo > h4, body#demos #domains section.domain .demo > a, body#demos #domains section.domain .demo > p, body#demos #domains section.domain .demo > ul, body#demos #domains section.domain .demo > div > h1, body#demos #domains section.domain .demo > div > h2, body#demos #domains section.domain .demo > div > h3, body#demos #domains section.domain .demo > div > h4, body#demos #domains section.domain .demo > div > a, body#demos #domains section.domain .demo > div > p, body#demos #domains section.domain .demo > div > ul {
   padding: 0 5px;
 }
-body#demos #domains section.domain .demo > a:first-child,
-body#demos #domains section.domain .title > a:first-child {
+body#demos #domains section.domain .title > a:first-child, body#demos #domains section.domain .demo > a:first-child {
   padding-top: 10px;
 }
-body#demos #domains section.domain .demo > h2,
-body#demos #domains section.domain .title > h2 {
+body#demos #domains section.domain .title > h2, body#demos #domains section.domain .demo > h2 {
   padding-top: 10px;
 }
 body#demos #domains section.domain .title {
@@ -239,8 +210,7 @@ body#demos #domains section.domain .demo ul {
 body#demos #domains section.domain .demo ul span {
   font-size: 10px;
 }
-body#demos #domains section.domain .demo .primary,
-body#demos #domains section.domain .demo .secondary {
+body#demos #domains section.domain .demo .primary, body#demos #domains section.domain .demo .secondary {
   display: block;
   float: left;
   width: 130px;
@@ -248,12 +218,10 @@ body#demos #domains section.domain .demo .secondary {
   display: none;
   margin-bottom: 1em;
 }
-body#demos #domains section.domain .demo .primary:first-child,
-body#demos #domains section.domain .demo .secondary:first-child {
+body#demos #domains section.domain .demo .primary:first-child, body#demos #domains section.domain .demo .secondary:first-child {
   margin-left: 0;
 }
-body#demos #domains section.domain .demo .primary h3,
-body#demos #domains section.domain .demo .secondary h3 {
+body#demos #domains section.domain .demo .primary h3, body#demos #domains section.domain .demo .secondary h3 {
   font-weight: normal;
 }
 body#demos #domains section.domain .demo .primary {
@@ -273,6 +241,7 @@ body#demos #domains.all .expanded {
 body#demos section + p.note {
   margin-top: -1em;
 }
+
 body#docs #main #content {
   position: relative;
   display: block;
@@ -289,14 +258,10 @@ body#docs code {
   white-space: pre;
   display: block;
 }
-body#docs h1 .headerlink, body#docs h2 .headerlink,
-body#docs h3 .headerlink, body#docs h4 .headerlink,
-body#docs h5 .headerlink {
+body#docs h1 .headerlink, body#docs h2 .headerlink, body#docs h3 .headerlink, body#docs h4 .headerlink, body#docs h5 .headerlink {
   visibility: hidden;
 }
-body#docs h1:hover .headerlink, body#docs h2:hover .headerlink,
-body#docs h3:hover .headerlink, body#docs h4:hover .headerlink,
-body#docs h5:hover .headerlink {
+body#docs h1:hover .headerlink, body#docs h2:hover .headerlink, body#docs h3:hover .headerlink, body#docs h4:hover .headerlink, body#docs h5:hover .headerlink {
   visibility: visible;
 }
 body#docs #boxes {
@@ -352,6 +317,7 @@ body#docs #boxes .teaser.row {
 body#docs #boxes .teaser p {
   margin-bottom: 0;
 }
+
 body#downloads #domains {
   display: block;
   float: left;
@@ -386,20 +352,7 @@ body#downloads #domains .domain {
   background-color: #f0f0f0;
   height: 302px;
 }
-body#downloads #domains .domain > a,
-body#downloads #domains .domain > div > a,
-body#downloads #domains .domain > div > h1,
-body#downloads #domains .domain > div > h2,
-body#downloads #domains .domain > div > h3,
-body#downloads #domains .domain > div > h4,
-body#downloads #domains .domain > div > p,
-body#downloads #domains .domain > div > ul,
-body#downloads #domains .domain > h1,
-body#downloads #domains .domain > h2,
-body#downloads #domains .domain > h3,
-body#downloads #domains .domain > h4,
-body#downloads #domains .domain > p,
-body#downloads #domains .domain > ul {
+body#downloads #domains .domain > h1, body#downloads #domains .domain > h2, body#downloads #domains .domain > h3, body#downloads #domains .domain > h4, body#downloads #domains .domain > a, body#downloads #domains .domain > p, body#downloads #domains .domain > ul, body#downloads #domains .domain > div > h1, body#downloads #domains .domain > div > h2, body#downloads #domains .domain > div > h3, body#downloads #domains .domain > div > h4, body#downloads #domains .domain > div > a, body#downloads #domains .domain > div > p, body#downloads #domains .domain > div > ul {
   padding: 0 10px;
 }
 body#downloads #domains .domain > a:first-child {
@@ -421,6 +374,7 @@ body#downloads #domains .domain p {
 body#downloads #domains .domain .highlight {
   background-color: transparent;
 }
+
 body#home section#wrapper > h1 {
   display: none;
 }
@@ -457,6 +411,13 @@ body#home #domains {
   height: 458px;
   margin-bottom: 43px;
   background: url(../images/domains-bg.png) repeat-x #f4f4f4;
+  /*
+  top: -10px;
+  margin: 0 -12px;
+  border: 12px solid #f7f7f7;
+  border-radius: 11px;
+  background-color: #f7f7f7;
+  */
 }
 body#home #domains:after {
   display: block;
@@ -507,7 +468,7 @@ body#home #domains .container .icons img {
 body#home #domains .container .icons img.active {
   opacity: 1;
 }
-body#home #domains h1, body#home #domains h2, body#home #domains p {
+body#home #domains p, body#home #domains h1, body#home #domains h2 {
   margin-top: 0;
   margin-bottom: 0;
 }
@@ -556,8 +517,7 @@ body#home #domains section.domain header {
 body#home #domains section.domain header:first-child {
   margin-left: 0;
 }
-body#home #domains section.domain header div.tagline,
-body#home #domains section.domain header h2 {
+body#home #domains section.domain header h2, body#home #domains section.domain header div.tagline {
   padding: 0 10px;
 }
 body#home #domains section.domain header h2 {
@@ -604,15 +564,13 @@ body#home #domains section.domain div.description p:first-child {
 body#home #domains section.domain div.description h3 {
   margin: 5px 0 3px 0;
 }
-body#home #domains section.domain div.description div.introduction,
-body#home #domains section.domain div.description div.sample {
+body#home #domains section.domain div.description div.introduction, body#home #domains section.domain div.description div.sample {
   display: block;
   float: left;
   width: 200px;
   margin-left: 10px;
 }
-body#home #domains section.domain div.description div.introduction:first-child,
-body#home #domains section.domain div.description div.sample:first-child {
+body#home #domains section.domain div.description div.introduction:first-child, body#home #domains section.domain div.description div.sample:first-child {
   margin-left: 0;
 }
 body#home #domains section.domain div.description div.introduction div.feature {
@@ -716,12 +674,11 @@ body#home #domains section.domain.active div.description {
 body#home #domains section.domain.active div.description:first-child {
   margin-left: 0;
 }
-body#home #domains section.domain.active div.description div.action,
-body#home #domains section.domain.active div.description div.sample {
+body#home #domains section.domain.active div.description div.sample, body#home #domains section.domain.active div.description div.action {
   display: block;
 }
 body#home #domains section.domain.active header {
-  background: url("../images/close.png") no-repeat scroll 94% 29% #ffffff;
+  background: url("../images/close.png") no-repeat scroll 94% 29% white;
   border-color: #e0e0e0;
 }
 body#home #domains section.domain#mobile.active div.description {

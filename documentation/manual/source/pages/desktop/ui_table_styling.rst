@@ -168,7 +168,7 @@ Customizing the appearance of the header cells can be divided into the following
  * Using a custom font
 
 Beside the settings for alignment and paddings all other appearance customizations are directly applied to the header cell appearance. If you want to e.g. change the hover effect for the header cell you can easily change the decorator (and the padding if necessary) to get an custom styling.
-Exchanging the sort icon is also supported. The sort icons are shown whenever the user does click at one header cell the very first time.
+Exchanging the sort icon is also supported. The sort icons are shown whenever the user does tap at one header cell the very first time.
 
 
 The default appearance for each header cell looks like this:
@@ -469,7 +469,7 @@ If you want to hide the focus indicator itself this is a one-liner
 Resize Line
 -----------
 
-This is a minor topic, since it only can be customized by its color. You may ask: what is the resize line all about? Point your mouse cursor to a column border and start the resizing of the column by clicking at the border. The vertical line which gets visible is the resize line. So a table with a green resize line would like this:
+This is a minor topic, since it only can be customized by its color. You may ask: what is the resize line all about? Point your input device to a column border and start the resizing of the column by tapping at the border. The vertical line which gets visible is the resize line. So a table with a green resize line would like this:
 
 ::
 

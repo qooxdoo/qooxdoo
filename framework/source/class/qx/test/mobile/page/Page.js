@@ -67,9 +67,9 @@ qx.Class.define("qx.test.mobile.page.Page",
     },
 
 
-    testMenu : function() {
+    testMenu: function() {
       var page = new qx.ui.mobile.page.Page();
-     this.getRoot().add(page);
+      this.getRoot().add(page);
 
       var eventFired = false;
 

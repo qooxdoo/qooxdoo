@@ -18,9 +18,12 @@
 ************************************************************************ */
 
 /**
- * Normalization for touch events
- *
+ * Normalization for touch events. For cross-device applications that
+ * support both mouse and touchscreen interaction, consider using
+ * <a href="#Pointer">Pointer</a> and/or Gesture events (e.g. <a href="Tap"></a>).
  * @require(qx.module.Event)
+ *
+ * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.Touch", {
   statics :
@@ -28,7 +31,7 @@ qx.Bootstrap.define("qx.module.event.Touch", {
     /**
      * List of event types to be normalized
      */
-    TYPES : ["tap", "longtap", "swipe"],
+    TYPES : ["tap", "longtap", "swipe", "dbltap"],
 
 
     /**

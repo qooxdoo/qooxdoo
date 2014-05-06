@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
   properties :
   {
     /**
-     * ToolTip to show if the mouse hovers of the icon
+     * ToolTip to show if the pointer hovers of the icon
      */
     toolTip :
     {

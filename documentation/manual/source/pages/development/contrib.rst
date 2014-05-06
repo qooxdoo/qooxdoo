@@ -145,7 +145,7 @@ proxies:
   Internet Options.
 * On MacOS, the Internet Config is queried in this case.
 * See the `module documentation
-  <http://docs.python.org/release/2.5.4/lib/module-urllib.html>`__ for more
+  <http://docs.python.org/2/library/urllib.html>`__ for more
   details.
 
 The remainder of this chapter now details the maintainer view, or how to provide
@@ -293,6 +293,38 @@ offers. You just use an URL like
 
 as the Manifest's download URL, with e.g. *branch_name* being *master* and *suffix*
 being *.zip*.
+
+
+Pull Request Maintenance
+========================
+
+This list should ease validating pull requests:
+
+* Check pull request manually - is something obvious missing?
+* Review the changes on your machine in a *contrib-catalog* clone:
+
+  * `Merge it locally <https://help.github.com/articles/merging-a-pull-request>`__ e.g. by
+    ``curl https://github.com/qooxdoo/contrib-catalog/pull/{n}.patch | git am``
+  * Validate the Manifest: ``./generate.py validate-manifest ../path/to/catalog/Manifest.json``
+  * Is an (optional) archive download (e.g. *\*.zip/\*.tar.gz*) provided? Then a
+    valid SHA1 checksum has to be provided too or the contrib can't be used.
+  * The SHA1 checksum can be checked like this:
+
+    * ``curl -LO https://github.com/{user}/{contrib}/archive/master.zip``
+
+    * ``shasum master.zip``
+
+  * You can also try out the catalog changes locally (not always needed):
+
+    * Adapt the *CONTRIB_CATALOG_BASEURL* setting of the *base.json* within your
+      qooxdoo clone to let it point to your own contrib-catalog repo and
+      then create a new app which uses the new contrib -
+      is the contrib downloaded correctly?
+
+* If everything is okay use the *"Merge pull request"* button from GitHub.
+
+If there are merge conflicts or something is wrong/missing just point out the issues
+and ask the author of the pull request for improvement.
 
 
 Future Work: Web Interface to the Catalog

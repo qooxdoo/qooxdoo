@@ -4,13 +4,6 @@
   tap-highlight-color: $args;
 }
 
-@mixin user-select($args) {
-  -webkit-user-select: $args;
-  -moz-user-select: $args;
-  -ms-user-select: $args;
-  user-select: $args;
-}
-
 @mixin text-size-adjust($args) {
   -webkit-text-size-adjust: $args;
   -moz-text-size-adjust: $args;
@@ -23,12 +16,6 @@
   transform: $args;
 }
 
-@mixin box-sizing($args) {
-  -webkit-box-sizing: $args;
-  -moz-box-sizing: $args;
-  box-sizing: $args;
-}
-
 @mixin perspective($args) {
   -webkit-perspective: $args;
   -moz-perspective: $args;
@@ -39,12 +26,6 @@
   -webkit-transform-style: $args;
   -moz-transform-style: $args;
   transform-style: $args;
-}
-
-@mixin transition($args) {
-  -webkit-transition: $args;
-  -moz-transition: $args;
-  transition: $args;
 }
 
 @mixin transition-duration($args) {
@@ -95,6 +76,8 @@
   transform-origin: $args;
 }
 
+// FLEXIBLE BOX LAYOUT: OLD SYNTAX
+
 @mixin box-orient($args) {
   -webkit-box-orient: $args;
   -moz-box-orient: $args;
@@ -104,27 +87,23 @@
 @mixin box-align($args) {
   -webkit-box-align: $args;
   -moz-box-align: $args;
-  -ms-flex-align: $args;
   box-align: $args;
 }
 
 @mixin box-flex($args) {
-  -webkit-box-flex: $args;
-  -moz-box-flex: $args;
-  -ms-flex: $args $args auto;
+  -webkit-box-flex: $args;      /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: $args;         /* OLD - Firefox 19- */
   box-flex: $args;
 }
 
 @mixin box-direction($args) {
   -webkit-box-direction: $args;
   -moz-box-direction: $args;
-  box-direction: $args;
 }
 
 @mixin box-pack($args) {
   -webkit-box-pack: $args;
   -moz-box-pack: $args;
-  -ms-flex-pack: $args;
   box-pack: $args;
 }
 
@@ -134,85 +113,50 @@
   box-flex-group: $args;
 }
 
-@mixin box-ordinal-group($args) {
-  -moz-box-ordinal-group:$args;
-  -webkit-box-ordinal-group:$args; 
-  box-ordinal-group:$args;
+// FLEXIBLE BOX LAYOUT: SYNTAX 08 2012
+
+@mixin flex($args) {
+  -webkit-flex: $args $args auto;   /* Chrome */
+  -ms-flex: $args $args auto;       /* IE 10 */ 
+  flex: $args $args auto;           /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
-// FLEXBOX LAYOUT: SYNTAX 08 2012
 
-@mixin flexbox-direction($args) {
-  -ms-flex-direction: $args;
+@mixin flex-align-items($args) {
+  -ms-flex-align: $args;            /* IE 10 */
+  -ms-align-items: $args;           /* IE 10+ */
+  -webkit-align-items: $args;       /* Chrome */
+  align-items: $args;               /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
-@mixin border-radius($args) {
-  -webkit-border-radius: $args;
-  -moz-border-radius: $args;
-  border-radius: $args;
+@mixin flex-direction($args) {
+  -ms-flex-direction: $args;        /* IE 10 */
+  -webkit-flex-direction: $args;    /* Chrome */
+  flex-direction: $args;            /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
-@mixin border-radius-top($args) {
-  -moz-border-radius-topleft:$args;
-  -moz-border-radius-topright:$args;
-  
-  -webkit-border-radius-topleft:$args;
-  -webkit-border-radius-topright:$args;
 
-  border-top-right-radius: $args;
-  border-top-left-radius: $args;
+@mixin flex-justify-content($args) {
+  -ms-justify-content: $args;       /* IE 10+ */
+  -ms-flex-pack: $args;             /* IE 10 */
+  -webkit-justify-content: $args;   /* Chrome */
+  justify-content: $args;           /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
-@mixin border-radius-right($args) {
-  -moz-border-radius-bottomright:$args;
-  -moz-border-radius-topright:$args;
-  
-  -webkit-border-radius-bottomright:$args;
-  -webkit-border-radius-topright:$args;
 
-  border-top-right-radius: $args;
-  border-bottom-right-radius: $args;
+@mixin flex-shrink($args) {
+  -webkit-flex-shrink: $args;       /* Chrome */
+  -ms-flex-negative: $args;         /* IE 10 */
+  flex-shrink: $args;               /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
-@mixin border-radius-left($args) {
-  -moz-border-radius-bottomleft:$args;
-  -moz-border-radius-topleft:$args;
-  
-  -webkit-border-radius-bottomleft:$args;
-  -webkit-border-radius-topleft:$args;
-
-  border-top-left-radius: $args;
-  border-bottom-left-radius: $args;
-}
-
-@mixin border-radius-bottom($args) {
-  -moz-border-radius-bottomleft:$args;
-  -moz-border-radius-bottomright:$args;
-  
-  -webkit-border-radius-bottomleft:$args;
-  -webkit-border-radius-bottomright:$args;
-
-  border-bottom-right-radius: $args;
-  border-bottom-left-radius: $args;
-}
-
-@mixin border-radius-bottom-left($args) {
-  -moz-border-radius-bottomleft:$args;
-  -webkit-border-radius-bottomleft:$args;
-  border-bottom-left-radius: $args;
-}
+// -------------------------------
 
 @mixin border-image($args) {
   -webkit-border-image: $args;
   -moz-border-image: $args;
   // Implementation seems to differ
   // border-image: $args;
-}
-
-@mixin box-shadow($args) {
-  -webkit-box-shadow: $args;
-  -moz-box-shadow: $args;
-  box-shadow: $args;
 }
 
 @mixin box-inset-shadow($args) {
@@ -233,12 +177,6 @@
   box-shadow: inset $arg1, inset $arg2, inset $arg3, inset $arg4;
 }
 
-@mixin background-clip($args) {
-  -webkit-background-clip: $args;
-  -moz-background-clip: $args;
-  background-clip: $args;
-}
-
 @mixin appearance($args) {
   -webkit-appearance: $args;
   -moz-appearance: $args;
@@ -247,8 +185,8 @@
 
 @mixin triangle-up($size,$color) {
   display:block;
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
 
   border-left: $size solid transparent;
   border-right: $size solid transparent;
@@ -257,8 +195,8 @@
 
 @mixin triangle-down($size,$color) {
   display:block;
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
 
   border-left: $size solid transparent;
   border-right: $size solid transparent;
@@ -267,8 +205,8 @@
 
 @mixin triangle-left($size,$color) {
   display:block;
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-top: $size solid transparent;
   border-bottom: $size solid transparent;
   border-right: $size solid $color;
@@ -276,95 +214,9 @@
 
 @mixin triangle-right($size,$color) {
   display:block;
-  width: 0; 
-  height: 0; 
+  width: 0;
+  height: 0;
   border-top: $size solid transparent;
   border-bottom: $size solid transparent;
   border-left: $size solid $color;
-}
-
-// From top to bottom
-@mixin gradient-vertical($begin, $end) {
-  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), to($end));
-  background-image: -webkit-linear-gradient(top, $begin, $end);
-  background-image: -moz-linear-gradient(top, $begin, $end);
-  background-image: -ms-linear-gradient(top, $begin, $end);
-  background-image: linear-gradient(to bottom, $begin, $end);
-}
-
-// From top to bottom with intermediate color
-@mixin gradient-vertical-three($begin, $mid, $end, $stop: 50%) {
-  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), color-stop(50%, $mid), to($end));
-  background-image: -webkit-linear-gradient(top, $begin, $mid $stop, $end);
-  background-image: -moz-linear-gradient(top, $begin, $mid $stop, $end);
-  background-image: -ms-linear-gradient(top, $begin, $mid $stop, $end);
-  background-image: linear-gradient(to bottom, $begin, $mid $stop, $end);
-}
-
-// From top to bottom with two intermediate colors
-@mixin gradient-vertical-four($begin, $mid1, $mid2, $end, $stop1: 33%, $stop2: 66%) {
-  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), color-stop($stop1, $mid1), color-stop($stop2, $mid2), to($end));
-  background-image: -webkit-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: -moz-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: -ms-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: linear-gradient(to bottom, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-}
-
-// From top to bottom with three intermediate colors
-@mixin gradient-vertical-five($begin, $mid1, $mid2, $mid3, $end, $stop1: 25%, $stop2: 50%, $stop3: 75%) {
-  background-image: -webkit-gradient(linear, center top, center bottom, from($begin), color-stop($stop1, $mid1), color-stop($stop2, $mid2), color-stop($stop3, $mid3), to($end));
-  background-image: -webkit-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
-  background-image: -moz-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
-  background-image: -ms-linear-gradient(top, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
-  background-image: linear-gradient(to bottom, $begin, $mid1 $stop1, $mid2 $stop2, $mid3 $stop3, $end);
-}
-
-// From left to right
-@mixin gradient-horizontal($begin, $end) {
-  background-image: -webkit-gradient(linear, center left, center right, from($begin), to($end));
-  background-image: -webkit-linear-gradient(left, $begin, $end);
-  background-image: -moz-linear-gradient(left, $begin, $end);
-  background-image: -ms-linear-gradient(left, $begin, $end);
-  background-image: linear-gradient(to right, $begin, $end);
-}
-
-// From left to right with intermediate color
-@mixin gradient-horizontal-three($begin, $mid, $end, $stop: 50%) {
-  background-image: -webkit-gradient(linear, center left, center bottom, from($begin), color-stop($stop, $mid), to($end));
-  background-image: -webkit-linear-gradient(left, $begin, $mid $stop, $end);
-  background-image: -moz-linear-gradient(left, $begin, $mid $stop, $end);
-  background-image: -ms-linear-gradient(left, $begin, $mid $stop, $end);
-  background-image: linear-gradient(to right, $begin, $mid $stop, $end);
-}
-
-// From left to right with two intermediate colors
-@mixin gradient-horizontal-four($begin, $mid1, $mid2, $end, $stop1: 33%, $stop2: 66%) {
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    right top,
-    from($begin),
-    color-stop($stop1, $mid1),
-    color-stop($stop2, $mid2),
-    to($end)
-  );
-  background-image: -webkit-linear-gradient(left, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: -moz-linear-gradient(left, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-  background-image: linear-gradient(to right, $begin, $mid1 $stop1, $mid2 $stop2, $end);
-}
-
-// Radial with two stops
-@mixin gradient-radial($x, $y, $begin, $stop1, $end, $stop2) {
-  background-image: -webkit-radial-gradient($x $y, circle, $begin $stop1, $end $stop2);
-  background-image: -moz-radial-gradient($x $y, circle, $begin $stop1, $end $stop2);
-  background-image: -ms-radial-gradient($x $y, circle, $begin $stop1, $end $stop2);
-  background-image: radial-gradient($x $y, circle, $begin $stop1, $end $stop2);
-}
-
-// Radial with two stops
-@mixin gradient-ellipse($x, $y, $begin, $stop1, $end, $stop2) {
-  background-image: -webkit-radial-gradient($x $y, ellipse farthest-side, $begin $stop1, $end $stop2);
-  background-image: -moz-radial-gradient($x $y, ellipse farthest-side, $begin $stop1, $end $stop2);
-  background-image: -ms-radial-gradient($x $y, ellipse farthest-side, $begin $stop1, $end $stop2);
-  background-image: radial-gradient($x $y, ellipse farthest-side, $begin $stop1, $end $stop2);
 }

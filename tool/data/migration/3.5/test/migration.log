@@ -1,0 +1,91 @@
+
+UPGRADE TO 3.0
+----------------------------------------------------------------------------
+  * Number of script input files: 9
+  * Number of HTML input files: 0
+  * Update to version: 3.0
+  * Searching for patch module...
+  * Searching for info expression data...
+    - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/info/01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of infos: 20
+  * Searching for patch expression data...
+    - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.0/patches/01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of patches: 3
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Decoration.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/simulation/DemoSimulation.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Theme.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Appearance.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Font.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/__init__.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/test/DemoTest.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/Application.js
+   - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/Application.js:23: Found match 'extend : qx.application.Standalone' in
+    - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/Application.js:23: Please make sure to read the migration guide at http://manual.qooxdoo.org/3.0/pages/desktop/migration/migration_from_2_x.html.
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Color.js
+  * Done
+
+UPGRADE TO 3.0.1
+----------------------------------------------------------------------------
+  * Number of script input files: 9
+  * Number of HTML input files: 0
+  * Update to version: 3.0.1
+  * Searching for patch module...
+  * Searching for info expression data...
+    - Compiling expressions...
+    - Number of infos: 0
+  * Searching for patch expression data...
+    - Compiling expressions...
+    - Number of patches: 0
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Decoration.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/simulation/DemoSimulation.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Theme.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Appearance.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Font.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/__init__.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/test/DemoTest.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/Application.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Color.js
+  * Done
+
+UPGRADE TO 3.1
+----------------------------------------------------------------------------
+  * Number of script input files: 9
+  * Number of HTML input files: 0
+  * Update to version: 3.1
+  * Searching for patch module...
+  * Searching for info expression data...
+    - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/info/01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of infos: 11
+  * Searching for patch expression data...
+    - /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/patches/01-main.dat
+    - Compiling expressions...
+      - 01-main.dat
+    - Number of patches: 1
+
+  FILE PROCESSING:
+----------------------------------------------------------------------------
+  * Processing script files:
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Decoration.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/simulation/DemoSimulation.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Theme.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Appearance.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Font.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/__init__.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/test/DemoTest.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/Application.js
+  - File: /Users/martinwittemann/Sites/workspace/qx/tool/data/migration/3.1/test/source/class/test/theme/Color.js
+  * Done

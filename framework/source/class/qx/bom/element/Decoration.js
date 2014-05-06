@@ -600,24 +600,6 @@ qx.Class.define("qx.bom.element.Decoration",
           this.__warnings[source] = true;
         }
       }
-    },
-
-
-    /**
-     * For IE browsers the alpha image loader might be necessary. This accessor
-     * method provides an API for high-level classes to check if the alpha image
-     * loader is enabled.
-     *
-     * @return {Boolean} <code>true</code> when the AlphaImageLoader is used, <code>false</code> otherwise.
-     * @deprecated{3.0}
-     */
-    isAlphaImageLoaderEnabled : function ()
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'qx.core.Environment.get(\"css.alphaimageloaderneeded\")' instead.");
-      }
-      return qx.core.Environment.get("css.alphaimageloaderneeded");
     }
   }
 });

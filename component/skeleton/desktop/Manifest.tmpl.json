@@ -17,7 +17,7 @@
       }
     ],
 
-    "version" : "trunk",
+    "version" : "master",
     "qooxdoo-versions": ["${QOOXDOO_VERSION}"]
   },
   

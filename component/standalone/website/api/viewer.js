@@ -21,286 +21,243 @@
  * @lint ignoreUndefined(q, qxWeb, samples, hljs)
  */
 q.ready(function() {
+
+  // prevent touch scrolling
+  q(document).on("touchmove", function(e) {
+    e.preventDefault();
+  });
+
   // remove the warning
   q("#warning").setStyle("display", "none");
 
-  var title = "qx.Website API Documentation";
+  var title, docTitle;
   var customTitle = q.$$qx.core.Environment.get("apiviewer.title");
   if (customTitle) {
     title = customTitle;
+    docTitle = title;
   }
   else {
     var version = q.$$qx.core.Environment.get("qx.version");
     if (version) {
-      title = "qx.Website " + version + " API Documentation";
+      title = "API Documentation <span>qx.Website " + version + "</span>";
+      docTitle = "qx.Website " + version + " API Documentation";
     }
   }
-  q("h1").setHtml(title);
-  document.title = title;
+  q("h1#headline").setHtml(title);
+  document.title = docTitle;
 
-  // global storage for the method index
-  var data = {};
-
-  // plugin toggle
-  q("#plugintoggle").on("click", function() {
-    var txt = this.getChildren("span");
-    var hide = txt.getHtml() == "show";
-    txt.setHtml(hide ? "hide" : "show");
-    q(".plugin").setStyle("display", hide ? "block" : "none");
-    q("li.plugin").setStyle("display", hide ? "list-item" : "none");
-  });
-
-  // load API data of q
-  q.io.xhr("script/qxWeb.json").on("loadend", function(xhr) {
-    var handleSuccess = function() {
-      var ast = JSON.parse(xhr.responseText);
-
-      // constructor
-      var construct = getByType(ast, "constructor");
-      data["Core"] = {"static" : [], "member": []};
-      data["Core"]["static"].push(getByType(construct, "method"));
-
-      createData(ast);
-      renderList();
-      renderContent();
-      loadEventNorm();
-      loadPolyfills();
-      onContentReady();
-      attachOnScroll();
-
-      if (location.hash) {
-        location.href = location.href;
-        __lastHashChange = Date.now();
-        // [BUG #7518] initial scroll to hash (again) on first page load
-        // cause sample loading screwed scroll position slightly up
-        fixScrollPosition();
-        scrollNavItemIntoView(false);
-      }
-      else {
-        // force a scroll event so the topmost module's samples are loaded
-        window.setTimeout(function() {
-          var cont = document.getElementById("content");
-          if (cont.scrollTop == 0) {
-            cont.scrollTop = 1;
-            cont.scrollTop = 0;
-          }
-        }, 100);
-      }
-    };
-
-    var isFileProtocol = function() {
-      return (location.protocol.indexOf("file") === 0);
-    };
-
-    if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-      if (q.env.get("engine.name") == "mshtml" && isFileProtocol()) {
-        // postpone data processing in IE when using file protocol
-        // to prevent rendering no module doc at all
-        window.setTimeout(handleSuccess, 0);
-      } else {
-        handleSuccess();
-      }
-    } else {
-      q("#warning").setStyle("display", "block");
-      if (isFileProtocol()) {
-        q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
-      }
-    }
-  }).send();
-
-  var __lastHashChange = null;
-  q(window).on("hashchange", function(ev) {
-    __lastHashChange = Date.now();
-    scrollNavItemIntoView(false);
-  });
-
-  var loadEventNorm = function() {
-    var norm = q.env.get("q.eventtypes");
-    if (norm) {
-      norm = norm.split(",");
-      norm.forEach(function(name) {
-        loading++;
-        q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
-          loading--;
-          if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-            var ast = JSON.parse(xhr.responseText);
-            renderEventNorm(ast);
-          } else {
-            console && console.warn("Event normalization '" + name + "' could not be loaded.");
-          }
-          onContentReady();
-        }).send();
-      });
-    }
+  var icons = {
+    "Core": "&#xF0C7;",
+    "Extras": "&#xF01D;",
+    "Polyfill": "&#xF0DA;",
+    "Widget": "&#xF124;",
+    "IO": "&#xF0BB;",
+    "Event_Normalization": "&#xF076;",
+    "Utilities": "&#xF04E;",
+    "Plugin_API": "&#xF063;"
   };
 
-  var eventNormAsts = [];
-  var renderEventNorm = function(ast) {
-    eventNormAsts.push(ast);
-    if (q.env.get("q.eventtypes").split(",").length > eventNormAsts.length) {
-      return;
-    }
+  var listOrder = [
+    "Core",
+    "Extras",
+    "IO",
+    "Event_Normalization",
+    "Utilities",
+    "Polyfill",
+    "Widget",
+    "Plugin_API"
+  ];
 
-    q("#list").append(q.create("<h1>Event Types</h1>"));
-    for (var i=0; i < eventNormAsts.length; i++) {
-      renderClass(eventNormAsts[i], "event.");
-    }
-  };
+  var onFilterInput = function() {
+    var value = filterField.getValue();
 
-
-  polyfillClasses = [];
-  var loadPolyfills = function() {
-    if (!(q.$$qx.module.Polyfill && q.$$qx.lang.normalize) ) {
-      return;
-    }
-
-    polyfillClasses = Object.keys(q.$$qx.lang.normalize);
-    for (var clazz in q.$$qx.lang.normalize) {
-      loading++;
-      q.io.xhr("script/qx.lang.normalize." + clazz + ".json").on("loadend", function(xhr) {
-        loading--;
-        if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-          var ast = JSON.parse(xhr.responseText);
-          renderPolyfill(ast);
-        } else {
-          console && console.warn("Polyfill '" + clazz + "' could not be loaded.");
+    if (!value) {
+      clearInterval(debouncedHideFiltered.intervalId);
+      delete debouncedHideFiltered.intervalId;
+      q("#list .qx-accordion-button")._forEachElementWrapped(function(button) {
+        button.setData("results", "");
+        if (q.env.get("engine.name") == "mshtml") {
+          // IE won't re-apply the element's styles (which use the data
+          // attribute) if element.dataset is used
+          button.setAttribute("data-results", "");
         }
-        onContentReady();
-      }).send();
-    }
-  };
-
-
-  var polyfillAsts = [];
-  var renderPolyfill = function(ast) {
-    polyfillAsts.push(ast);
-    if (polyfillClasses.length > polyfillAsts.length) {
+      });
+      q("#list .qx-accordion-page ul").show();
+      q("#list .qx-accordion-page li").show();
+      q("#list .qx-accordion-page > a").show();
+      q("#list .qx-accordion-button").removeClass("no-matches"); // allow click on every group button
+      q("#list").render();
       return;
     }
 
-    q("#list").append(q.create("<h1>Polyfills</h1>"));
-    for (var i=0; i < polyfillAsts.length; i++) {
-      renderClass(polyfillAsts[i], "normalize.");
-    }
+    debouncedHideFiltered(value);
   };
 
+  var filterField = q(".filter input");
+  filterField.on("input", onFilterInput);
 
-  var loadedClasses = [];
-  var loadClass = function(name) {
-    if (loadedClasses.indexOf(name) != -1) {
-      return;
-    }
-    // ignore the q class
-    if (name == "q") {
-      return;
-    }
+  var debouncedHideFiltered = q.func.debounce(function(value) {
+    hideFiltered(value);
+  }, 500);
 
-    loadedClasses.push(name);
-    loading++;
-    q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
-      loading--;
-      if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-        var ast = JSON.parse(xhr.responseText);
-        renderClass(ast);
-      } else {
-        name = getModuleNameFromClassName(name);
-        q("#content").append(
-          q.create("<h1>" + name + "</h1><p style='color: #C00F00'><em>Failed to load " + name + " documentation!</em></p>")
-        );
+  var hideFiltered = function(query) {
+    q("#list .qx-accordion-page > a").hide(); // module headers
+    q("#list .qx-accordion-page ul").hide(); // method lists
+    q("#list .qx-accordion-page li").hide(); // method items
+    q("#list .qx-accordion-button").removeClass("no-matches"); // allow click on every group button
+    var regEx = new RegExp(query, "i");
+
+    q("#list .qx-accordion-button").forEach(function(groupButton) {
+      var groupResults = 0;
+      groupButton = q(groupButton);
+      var groupPage = groupButton.getNext();
+      groupPage.find("> ul > li").forEach(function(item) {
+        item = q(item);
+        var methodName = item.getChildren("a").getHtml();
+        if (regEx.exec(methodName)) {
+          groupResults++;
+          item.show(); // method items
+          item.getParents().show(); // method lists
+          item.getParents().getPrev().show(); // module headers
+        }
+      });
+      groupButton.setData("results", groupResults);
+      if (q.env.get("engine.name") == "mshtml") {
+        // IE won't re-apply the element's styles (which use the data
+        // attribute) if element.dataset is used
+        groupButton.setAttribute("data-results", groupResults);
       }
-      onContentReady();
-    }).send();
-  };
-
-
-
-  /**
-   * DATA PROCESSING
-   */
-  var desc = "";
-  var createData = function(ast) {
-    desc = getByType(ast, "desc").attributes.text;
-    attachData(getByType(ast, "methods-static"), "static");
-    attachData(getByType(ast, "methods"), "member");
-    // sort all methods
-    for (var module in data) {
-      data[module]["static"].sort(sortMethods);
-      data[module]["member"].sort(sortMethods);
-    }
-  };
-
-
-  var attachData = function(ast, type) {
-    ast && ast.children.forEach(function(item) {
-      // skip internal methods
-      if (isInternal(item)) {
-        return;
+      if (groupResults == 0) {
+        groupButton.addClass("no-matches");
       }
-      var module = getModuleName(item.attributes.sourceClass);
-      if (!data[module]) {
-        data[module] = {"static": [], "member": [], fileName: item.attributes.sourceClass};
-      }
-      data[module][type].push(item);
     });
+
+    q("#list").render();
   };
 
 
-  var sortMethods = function(a, b) {
-    return getMethodName(a) > getMethodName(b) ? 1 : -1;
-  };
+  q("html").on("tap", function(ev) {
+    var showNav = q("#showNav");
+    var value = parseInt(showNav.getValue());
+    if (value == 1 && q("#navContainer").contains(ev.getTarget()).length == 0) {
+      q("#navContainer").setStyle("left", "");
+      showNav.setValue(0);
+    }
+
+    else if (value == 0 && showNav[0] == ev.getTarget()) {
+      q("#navContainer").setStyle("left", "0px");
+      showNav.setValue(1);
+    }
+  });
+
+  q.matchMedia("(max-width: 800px), (orientation:portrait)").on("change", function(e) {
+    if (!e.matches) {
+      // reset the left property (menu is open and query changes)
+      q("#navContainer").setStyle("left", "");
+    }
+  });
 
 
   /**
    * LIST
    * @lint ignoreUndefined(q)
    */
-  var renderList = function() {
-    var keys = getDataKeys();
-    q("#list").append(q.create("<h1>Modules</h1>"));
+  var renderList = function(data) {
+    var keys = data.getKeys();
     for (var i = 0; i < keys.length; i++) {
-      var module = keys[i];
-      renderListModule(module, data[module]);
+      var moduleName = keys[i];
+      var module = data.getModule(moduleName);
+      renderListModule(moduleName, module);
     }
   };
 
 
-  var renderListModule = function(name, data, prefix) {
+  var renderListModule = function(id, data) {
+    var name = id.replace(/_/g, " ");
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
+    var className = convertNameToCssClass(id, "nav-");
 
-    var list = q("#list");
-    var className = convertNameToCssClass(name, "nav-");
-    if (prefix && prefix != "event." && prefix != "normalize.") {
-      list.append(q.create("<a href='#" + name + "'><h1 class='"+className+"'>" + name + "</h1></a>"));
-    } else {
-      list.append(q.create("<a href='#" + name + "'><h2 class='"+className+"'>" + name + "</h2></a>"));
-    }
-
-    var ul = q.create("<ul></ul>").appendTo(list);
-    data["static"].forEach(function(ast) {
-      var name = getMethodName(ast, prefix);
+    var factoryName;
+    var ul = q.create("<ul></ul>");
+    data["static"].forEach(function(methodAst) {
+      var methodName = Data.getMethodName(methodAst, data.prefix);
       var missing = false;
       if (checkMissing !== false) {
-        missing = isMethodMissing(name, data.classname);
+        missing = isMethodMissing(methodName, data.classname);
       }
       q.template.get("list-item", {
-        name: name + "()",
-        classname: convertNameToCssClass(name, "nav-"),
+        name: methodName + "()",
+        classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
-        link: name,
-        plugin: isPluginMethod(name)
+        link: methodName,
+        plugin: methodAst.attributes.plugin
       }).appendTo(ul);
     });
-    data["member"].forEach(function(ast) {
-      var name = getMethodName(ast, prefix);
-      var missing = isMethodMissing(name, data.classname);
+
+    data["member"].forEach(function(methodAst) {
+      var methodName = Data.getMethodName(methodAst, data.prefix);
+      var methodIsFactory = Data.isFactory(methodAst, name);
+      factoryName = methodIsFactory ? methodName + "()": factoryName;
+      if (methodIsFactory) {
+        return;
+      }
+
+      var missing = isMethodMissing(methodName, data.classname);
       q.template.get("list-item", {
-        name: name + "()",
-        classname: convertNameToCssClass(name, "nav-"),
+        name: methodName + "()",
+        classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
-        link: name,
-        plugin: isPluginMethod(name)
+        link: methodName,
+        plugin: methodAst.attributes.plugin
       }).appendTo(ul);
     });
+
+    var group = data.group;
+    var groupId = "list-group-" + group;
+
+    var groupPage = q("#list").find("> ul > #" + groupId);
+    if (groupPage.length == 0) {
+      var groupIcon = icons[group];
+      if (groupIcon) {
+        groupIcon = "data-icon='" + groupIcon + "'";
+      }
+      var button = q.create("<li " + groupIcon + " data-qx-accordion-page='#" + groupId + "' class='qx-accordion-button'>" + group.replace("_", " ") + "</li>")
+        .appendTo("#list > ul");
+      groupPage = q.create("<li class='qx-accordion-page' id='" + groupId + "'></li>").appendTo("#list > ul");
+    }
+
+    if (name !== "Core") {
+      var headerText = factoryName || name;
+      var header = q.create('<h2 class="nav-' + id + '">' + headerText + '</h2>');
+      groupPage.append(q.create('<a href="#' + id + '"></a>').append(header));
+    }
+
+    groupPage.append(ul);
+  };
+
+
+  var sortList = function() {
+    var groups = {};
+    q("#list").find(">ul > .qx-accordion-button").forEach(function(li) {
+      li = q(li);
+      var groupName = li.getData("qxAccordionPage").replace("#list-group-", "");
+      var next = li.getNext()[0];
+      li.remove();
+      next.parentNode.removeChild(next);
+      groups[groupName] = [
+        li[0],
+        next
+      ];
+    });
+
+    listOrder.forEach(function(groupName) {
+      q("#list >ul").append(groups[groupName]);
+      delete groups[groupName];
+    });
+
+    for (var groupName in groups) {
+      q("#list >ul").append(groups[groupName]);
+    }
   };
 
 
@@ -342,47 +299,68 @@ q.ready(function() {
     return false;
   };
 
+
   /**
    * CONTENT
    */
-  var renderContent = function() {
-    var keys = getDataKeys();
+  renderContent = function(data) {
+    var keys = data.getKeys();
     for (var i = 0; i < keys.length; i++) {
-      renderModule(keys[i], data[keys[i]]);
+      var moduleName = keys[i];
+      var module = data.getModule(moduleName);
+      renderModule(keys[i], module);
     }
   };
 
 
-  var renderModule = function(name, data, prefix) {
+  var renderModule = function(name, data) {
     // render module desc
-    var module = q.create("<div class='module'>").appendTo("#content");
-    module.append(q.create("<h1 id='" + name + "'>" + name + "</h1>"));
-
-    if (data.superclass) {
-      var newName = data.superclass.split(".");
-      newName = newName[newName.length -1];
-      var ignore = IGNORE_TYPES.indexOf(newName) != -1 ||
-                   MDC_LINKS[data.superclass] !== undefined;
-
-      var superClass = ignore ? newName :
-      "<a href='#" + newName + "'>" + newName + "</a>";
-      module.append(q.create(
-        "<div class='extends'><h2>Extends</h2>" +
-        superClass +
-        "</div>"
-      ));
-
-      if (!ignore) {
-        loadClass(data.superclass);
+    var group = data.group;
+    if (!group) {
+      if (data.static[0]) {
+        group = data.static[0].attributes.group;
       }
     }
+    if (!group) {
+      if (data.member[0]) {
+        group = data.member[0].attributes.group;
+      }
+    }
+    if (!group) {
+      group = "Extras";
+    }
+    var groupIcon = icons[group];
+    if (groupIcon) {
+      groupIcon = "data-icon='" + groupIcon + "'";
+    }
 
-    if (data.fileName) {
-      addClassDoc(data.fileName, module);
-    } else if (data.desc) {
-      module.append(parse(data.desc));
-    } else if (name == "Core") {
-      module.append(parse(desc));
+    var groupEl = q("#content #group_" + group);
+    if (groupEl.length === 0) {
+      groupEl = q.create('<div id="group_' + group + '"></div>').appendTo("#content");
+    }
+
+    var module = q.create("<div class='module'>").appendTo(groupEl);
+    module.append(q.create("<h1 " + groupIcon + "id='" + name + "'>" + name.replace(/_/g, " ") + "</h1>"));
+
+    if (data.superClass) {
+      var newName = data.superClass.split(".");
+      newName = newName[newName.length -1];
+      var ignore = Data.IGNORE_TYPES.indexOf(newName) != -1 ||
+                   Data.MDC_LINKS[data.superClass] !== undefined;
+      var link = newName;
+      if (newName == "qxWeb") {
+        link = "Core";
+        newName = "q";
+        ignore = false;
+      }
+
+      var superClass = ignore ? newName :
+      "<span> extends <a href='#" + link + "'>" + newName + "</a></span>";
+      module.getChildren("h1").append(q.create(superClass));
+    }
+
+    if (data.desc) {
+      module.append(q.create("<div>").setHtml(parse(data.desc)));
     }
 
     if (data.events) {
@@ -403,63 +381,83 @@ q.ready(function() {
       module.append(typesEl);
     }
 
+    if (data.templates) {
+      renderWidgetSettings(data, module, "templates", "#widget.setTemplate");
+    }
+
+    if (data.config) {
+      renderWidgetSettings(data, module, "config");
+    }
+
     data["static"].forEach(function(method) {
-      module.append(renderMethod(method, prefix));
+      module.append(renderMethod(method, data.prefix));
     });
     data["member"].forEach(function(method) {
-      module.append(renderMethod(method, prefix));
+      var methodDoc = renderMethod(method, data.prefix);
+      if (Data.isFactory(method, name)) {
+        methodDoc.addClass("factory");
+        module.append(q.create("<h2>Factory Method</h2>"));
+      }
+      module.append(methodDoc);
     });
+  };
+
+  var getItemParent = function(itemName) {
+    var parent = null;
+    var ns = itemName.split(".");
+    if (ns.length > 1) {
+      ns.pop();
+      parent = ns.join(".");
+    }
+    return parent;
   };
 
 
   var renderMethod = function(method, prefix) {
-    // skip internal methods
-    if (isInternal(method)) {
-      return;
-    }
     // add the name
-    var data = {name: getMethodName(method, prefix)};
+    var data = {name: Data.getMethodName(method, prefix)};
 
     // module
-    data.module = getModuleName(method.attributes.sourceClass);
+    data.module = Data.getModuleName(method.attributes.sourceClass);
 
     // add the description
-    data.desc = parse(getByType(method, "desc").attributes.text) || "";
+    var parent = getItemParent(data.name);
+    data.desc = parse(Data.getByType(method, "desc").attributes.text || "", parent);
 
     // add link to overridden method
     if (data.desc == "" && method.attributes.docFrom) {
-      var moduleName = getModuleNameFromClassName(method.attributes.docFrom);
+      var moduleName = Data.getModuleNameFromClassName(method.attributes.docFrom);
       var link = q.string.firstLow(moduleName) + "." + method.attributes.name;
       data.desc = "<p>Overrides method <a href='#" + link + "'>" + link + "</a></p>";
     }
 
     // add the return type
-    var returnType = getByType(method, "return");
+    var returnType = Data.getByType(method, "return");
     if (returnType) {
-      data.returns = {desc: parse(getByType(returnType, "desc").attributes.text || "")};
+      data.returns = {desc: parse(Data.getByType(returnType, "desc").attributes.text || "", parent)};
       data.returns.types = [];
-      getByType(returnType, "types").children.forEach(function(item) {
+      Data.getByType(returnType, "types").children.forEach(function(item) {
         var type = item.attributes.type;
         data.returns.types.push(type);
-        if (IGNORE_TYPES.indexOf(type) == -1 && MDC_LINKS[type] == undefined) {
-          loadClass(type);
-        }
       });
     }
-    data.returns.printTypes = printTypes;
+    data.returns.printTypes = printTypes.bind(null, data);
 
     // add the parameters
     data.params = [];
-    var params = getByType(method, "params");
+    var params = Data.getByType(method, "params");
     for (var j=0; j < params.children.length; j++) {
       var param = params.children[j];
-      var paramData = {name: param.attributes.name};
-      paramData.desc = parse(getByType(param, "desc").attributes.text || "");
+      var paramData = {
+        name: param.attributes.name,
+        optional: param.attributes.optional
+      };
+      paramData.desc = parse(Data.getByType(param, "desc").attributes.text || "", parent);
       if (param.attributes.defaultValue) {
         paramData.defaultValue = param.attributes.defaultValue;
       }
       paramData.types = [];
-      var types = getByType(param, "types");
+      var types = Data.getByType(param, "types");
       for (var k=0; k < types.children.length; k++) {
         var type = types.children[k];
         var typeString = type.attributes.type;
@@ -470,68 +468,19 @@ q.ready(function() {
         }
         paramData.types.push(typeString);
       }
-      paramData.printTypes = printTypes;
+      paramData.printTypes = printTypes.bind(null, paramData);
       data.params.push(paramData);
     }
     data.printParams = printParams;
     data.paramsExist = data.params.length > 0;
 
-    data.plugin = isPluginMethod(data.name);
+    data.plugin = method.attributes.plugin;
+    if (data.plugin) {
+      data.icon = icons["Plugin_API"];
+      data.title = "Plugin API";
+    }
 
     return q.template.get("method", data);
-  };
-
-
-  var addClassDoc = function(name, parent) {
-    if (name) {
-      name = name.split("#")[0];
-    } else {
-      parent.append(desc);
-      return;
-    }
-    loading++;
-    q.io.xhr("script/" + name + ".json").on("loadend", function(xhr) {
-      loading--;
-      if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
-        var ast = JSON.parse(xhr.responseText);
-        // class doc
-        var desc = getByType(ast, "desc");
-        var classDoc;
-        if (desc && desc.attributes && desc.attributes.text) {
-          classDoc = q.create(parse(desc.attributes.text));
-          classDoc.insertAfter(parent.find("h1"));
-        }
-
-        var eventsEl = renderEvents(getEvents(ast));
-        if (eventsEl) {
-          if (classDoc) {
-            eventsEl.insertAfter(classDoc.getLast());
-          } else {
-            eventsEl.insertAfter(parent.find("h1"));
-          }
-        }
-      } else {
-        parent.append(
-          q.create("<p style='color: #C00F00'><em>Failed to load module documentation!</em></p>")
-        );
-      }
-      onContentReady();
-    }).send();
-  };
-
-
-  var getEvents = function(ast) {
-    var events = getByType(ast, "events");
-    var data = [];
-    events.children.forEach(function(event) {
-      var name = event.attributes.name;
-      var desc = getByType(event, "desc").attributes.text;
-      var type = getByType(event, "types").children[0].attributes.type;
-      // ignore undefined as type
-      type = type == "undefined" ? "" : addTypeLink(type);
-      data.push({name: name, type: type, desc: desc});
-    });
-    return data;
   };
 
 
@@ -539,6 +488,11 @@ q.ready(function() {
     if (events.length == 0) {
       return null;
     }
+    events.forEach(function(ev) {
+      if (ev.type) {
+        ev.type = addTypeLink(ev.type);
+      }
+    });
     return q.template.get("events", {events: events});
   };
 
@@ -552,6 +506,9 @@ q.ready(function() {
     var params = "";
     for (var i = 0; i < this.params.length; i++) {
       params += this.params[i].name;
+      if (this.params[i].optional) {
+        params += "?";
+      }
       if (i < this.params.length - 1) {
         params += ", ";
       }
@@ -559,9 +516,9 @@ q.ready(function() {
     return params;
   };
 
-  var printTypes = function() {
+  var printTypes = function(data) {
     var params = "";
-    var types = this.types || this.returns.types;
+    var types = data.types || data.returns.types;
     for (var i = 0; i < types.length; i++) {
       params += addTypeLink(types[i]);
       if (i < types.length - 1) {
@@ -572,262 +529,159 @@ q.ready(function() {
   };
 
 
-  var renderClass = function(ast, prefix) {
-    var module = {"member": [], "static" : []};
-
-    getByType(ast, "methods").children.forEach(function(method) {
-      // skip internal methods
-      if (isInternal(method)) {
-        return;
-      }
-      module.member.push(method);
-    });
-
-    getByType(ast, "methods-static").children.forEach(function(method) {
-      // skip internal methods
-      if (isInternal(method)) {
-        return;
-      }
-      module["static"].push(method);
-    });
-    var name = ast.attributes.name;
-
-    // event normalization types
-    var constants = getByType(ast, "constants");
-    for (var i=0; i < constants.children.length; i++) {
-      var constant = constants.children[i];
-      if (constant.attributes.name == "TYPES") {
-        module.types = constant.attributes.value;
-        break;
-      }
+  var renderWidgetSettings = function(data, module, type, linkTarget) {
+    var upperType = q.string.firstUp(type);
+    if (!linkTarget) {
+      linkTarget = "#widget.set" + upperType;
     }
-
-    module.desc = getByType(ast, "desc").attributes.text || "";
-    module.events = getEvents(ast);
-    module.classname = ast.attributes.fullName;
-    module.superclass= ast.attributes.superClass;
-
-    renderListModule(name, module, prefix || name + ".");
-    renderModule(name, module, prefix || name + ".");
+    module.append(q.create("<h2>" + upperType + " <a title='More information on " + type + "' class='info' href='" + linkTarget + "'>i</a></h2>"));
+    var parent = data.fileName.split(".");
+    parent = parent.pop().toLowerCase();
+    var desc = parse(data[type], parent);
+    module.append(q.create("<div>").setHtml(desc).addClass("widget-settings"));
   };
 
 
   /**
    * PARSER
    */
-   var parse = function(text) {
-     if (!text) {
-       return;
-     }
+  var parse = function(text, parent) {
+    if (!text) {
+      return;
+    }
 
-     // @links: methods
-     text = text.replace(/\{@link .*#(.*?)\}/g, "<code><a href='#.$1'>.$1()</a></code>");
-     // @links: core
-     text = text.replace(/\{@link q\}/g, "<a href='#Core'>Core</a>");
-     // @links: modules
-     var links;
-     var regexp = /\{@link (.*?)\}/g;
-     while ((links = regexp.exec(text)) != null) {
-       var name = getModuleName(links[1]);
-       text = text.replace(links[0], "<a href='#" + name + "'>" + name + "</a>");
-     }
-     return text;
-   };
+    if (!parent) {
+      parent = "";
+    }
+
+    // @links: internal (within module)
+    text = text.replace(/\{@link\s+#(.*?)\}/g, "<code><a href='#" + parent + ".$1'>" + parent + ".$1()</a></code>");
+
+    // @links: methods
+    text = text.replace(/\{@link .*?#(.*?)\}/g, "<code><a href='#.$1'>.$1()</a></code>");
+    // @links: core
+    text = text.replace(/\{@link q\}/g, "<a href='#Core'>Core</a>");
+    // @links: modules
+    var links;
+    var regexp = /\{@link (.*?)\}/g;
+    while ((links = regexp.exec(text)) != null) {
+      var name = Data.getModuleName(links[1]);
+      text = text.replace(links[0], "<a href='#" + name + "'>" + name + "</a>");
+    }
+
+    // escape all html tags in pre tags
+    var blocks = text.split(/<pre.*?>/g);
+    blocks.forEach(function(block, i) {
+      var innerBlock = block.split("</pre>");
+      if (innerBlock.length <= 1) {
+        return;
+      }
+      innerBlock[0] = q.string.escapeHtml(innerBlock[0]);
+      blocks[i] = innerBlock.join("</code></pre>");
+    });
+    text = blocks.join("<pre><code>");
+
+    // replace experimental text
+    text = text.replace(/\b(experimental)\b/gi, function(exp) {
+      return "<span class='warning'>" + exp + "</span>";
+    });
+
+    return text;
+  };
 
 
   /**
    * FINALIZE
    */
-  var loading = 0;
   // no highlighting for IE < 9
   var useHighlighter = !(q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9);
+
   var onContentReady = function() {
-    if (loading > 0) {
-      return;
-    }
-    // enable syntax highlighting
-    if (useHighlighter) {
-      q('pre').forEach(function(el) {hljs.highlightBlock(el);});
-    }
+    var listRendered = q("#list").find("> ul > li").length > 0;
+    if (!listRendered) {
+      renderList(this);
+      sortList();
+      renderContent(this);
+      loadSamples();
+      var acc = q("#list").accordion();
 
-    fixInternalLinks();
-  };
+      // wait for the accordion pages to be measured
+      var buttonTops;
+      var listOffset = q("#list").getPosition().top;
+      setTimeout(function() {
+        acc.fadeIn(200);
+        buttonTops = [];
+        acc.find(".qx-accordion-button").forEach(function(button, index) {
+          buttonTops[index] = (q(button).getPosition().top);
+        });
+      }, 200);
 
-  // replace links to qx classes with internal targets, e.g.
-  // #qx.bom.rest.Resource -> #Resource
-  var fixInternalLinks = function() {
-    q("a").forEach(function(lnk) {
-      var href = lnk.getAttribute("href");
-      if (href.indexOf("#qx") === 0) {
-        var target = href.substr(1);
-        var tmp = href.split(".");
-        href = "#" + tmp[tmp.length - 1];
-        lnk.setAttribute("href", href);
-        lnk.innerHTML = lnk.innerHTML.replace(target, href.substr(1));
-      }
-    });
-  };
 
-  // load sample code as modules are scrolled into view
-  var seenModules = [];
-  var loadModuleSamples = function(module) {
-    var moduleName = module.getChildren("h1").getHtml();
-    var sampleUri = "./samples/" + moduleName + ".js";
-    q.io.script(sampleUri).send();
-  };
-
-  var attachOnScroll = function() {
-    var lastCheck;
-
-    var onScroll = function(ev) {
-      if (lastCheck && Date.now() - lastCheck < 500) {
-        return;
-      }
-      q(".module").forEach(function(item, index, modules) {
-        var module = modules.eq(index);
-        if (seenModules.indexOf(module[0]) == -1) {
-          var pos = module.getPosition();
-          var content = q("#content");
-          var isVisible = pos.top < content.getHeight() && (pos.bottom > 0 ||
-            (pos.bottom + content.getHeight()) > 0);
-          if (isVisible) {
-            loadModuleSamples(module);
-            seenModules.push(module[0]);
+      acc.on("changeSelected", function(index) {
+        var buttonTop = buttonTops[index] - listOffset;
+        var scrollTop = q("#navContainer").getProperty("scrollTop");
+        q("#navContainer").animate({
+          duration: 500,
+          keep: 100,
+          timing: "linear",
+          keyFrames: {
+            0: {scrollTop: scrollTop},
+            100: {scrollTop: buttonTop}
           }
-        }
+        });
       });
-      lastCheck = Date.now();
-    };
-
-    q("#content").on("scroll", onScroll);
-  };
-
-
-  /**
-   * HELPERS
-   */
-   var getDataKeys = function() {
-     var keys = [];
-     for (var key in data) {
-       keys.push(key);
-     }
-     keys.sort(function(a, b) {
-       if (a == "Core") {
-         return -1;
-       }
-       if (b == "Core") {
-         return 1;
-       }
-       return a < b ? -1 : +1;
-     });
-     return keys;
-   };
-
-
-  var getByType = function(ast, type) {
-    if (ast.children) {
-      for (var i=0; i < ast.children.length; i++) {
-        var item = ast.children[i];
-        if (item.type == type) {
-          return item;
-        }
-      }
-    }
-    return {attributes: {}, children: []};
-  };
-
-
-  var getModuleName = function(attach) {
-   if (!attach) {
-     return "Core";
-   }
-   attach = attach.replace("qx.module.", "");
-   return attach;
-  };
-
-  var getModuleNameFromClassName = function(name) {
-    name = name.split(".");
-    return name[name.length -1];
-  };
-
-  var isInternal = function(item) {
-    return item.attributes.isInternal ||
-      item.attributes.access == "private" ||
-      item.attributes.access == "protected";
-  };
-
-
-  var isPluginMethod = function(name) {
-    return name.indexOf(".$") != -1;
-  };
-
-
-  var getMethodName = function(item, prefix) {
-    var attachData = getByType(item, "attachStatic");
-    if (prefix) {
-      if (!item.attributes.isStatic) {
-        prefix = prefix.toLowerCase();
-      }
-      return prefix + item.attributes.name;
-    } else if (item.attributes.name == "ctor") {
-      return "q";
-    } else if (item.attributes.isStatic) {
-      return "q." + (attachData.attributes.targetMethod || item.attributes.name);
     } else {
-      return "." + item.attributes.name;
+      // enable syntax highlighting
+      if (useHighlighter) {
+        q('pre').forEach(function(el) {hljs.highlightBlock(el);});
+      }
+
+      fixInternalLinks();
+      if (q(".filter input").getValue()) {
+        setTimeout(onFilterInput, 200);
+      }
+      window.onhashchange = highlightNavItem;
     }
+  };
+
+  var highlightNavItem = function() {
+    var hash = window.location.hash,
+        navItems = q("."+convertNameToCssClass(hash, "nav-"));
+    q("#list .qx-accordion-page ul > li").removeClass("selected");
+    navItems.addClass("selected");
+  };
+
+
+  var loadSamples = function() {
+    q.io.script("script/samples.js").send();
   };
 
 
   var addTypeLink = function(type) {
     // special case for pseudo typed arrays
     if (type.indexOf("[]") != -1) {
-      return "<a target='_blank' href='" + MDC_LINKS["Array"] + "'>" + type + "</a>";
+      return "<a target='_blank' href='" + Data.MDC_LINKS["Array"] + "'>" + type + "</a>";
     }
     if (type == "qxWeb") {
       return "<a href='#Core'>q</a>";
-    } else if (MDC_LINKS[type]) {
-      return "<a target='_blank' href='" + MDC_LINKS[type] + "'>" + type + "</a>";
-    } else if (IGNORE_TYPES.indexOf(type) == -1) {
+    } else if (Data.MDC_LINKS[type]) {
+      return "<a target='_blank' href='" + Data.MDC_LINKS[type] + "'>" + type + "</a>";
+    } else if (Data.IGNORE_TYPES.indexOf(type) == -1) {
       var name = type.split(".");
       name = name[name.length -1];
-      if (IGNORE_TYPES.indexOf(name) == -1) {
+      if (Data.IGNORE_TYPES.indexOf(name) == -1) {
         return "<a href='#" + name + "'>" + name + "</a>";
       }
     }
     return type;
   };
 
-  var IGNORE_TYPES = ["qxWeb", "var", "null", "Emitter"];
-
-  var MDC_LINKS = {
-    "Event" : "https://developer.mozilla.org/en/DOM/event",
-    "Window" : "https://developer.mozilla.org/en/DOM/window",
-    "Document" : "https://developer.mozilla.org/en/DOM/document",
-    "Element" : "https://developer.mozilla.org/en/DOM/element",
-    "Node" : "https://developer.mozilla.org/en/DOM/node",
-    "Date" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date",
-    "Function" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function",
-    "Array" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array",
-    "Object" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
-    "Map" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
-    "RegExp" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/RegExp",
-    "Error" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error",
-    "Number" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",
-    "Integer" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",
-    "Boolean" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean",
-    "String" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String",
-    "undefined" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/undefined",
-    "arguments" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/arguments",
-    "Font" : "https://developer.mozilla.org/en/CSS/font",
-    "Color" : "https://developer.mozilla.org/en/CSS/color"
-  };
 
   // mobile support
   if (q.env.get("device.type") != "desktop") {
-    q("#list").setStyles({position: "absolute", bottom: "auto"});
-    q("#content").setStyles({position: "absolute", bottom: "auto"});
-    q("#header-wrapper").setStyle("position", "absolute");
+    q("#list").setStyles({position: "absolute", bottom: "auto", marginTop: "10px"});
+    q(".filter").setStyle("position", "static");
+    q("#navContainer").addClass("mobile-navContainer");
   }
 
   var outdentWhitespace = function (snippet) {
@@ -846,8 +700,6 @@ q.ready(function() {
     snippet = snippet.replace(/\n/, "").replace(/[\s]+$/, "");
     return snippet;
   };
-
-  __sampleFinalizeTimeout = null;
 
   var appendSample = function(sample, header) {
     if (!header[0]) {
@@ -913,8 +765,6 @@ q.ready(function() {
       codeContainer.append(jsEl);
     }
 
-    styleCodeBoxes(codeContainer);
-
     if (useHighlighter) {
       htmlEl && hljs.highlightBlock(htmlEl);
       cssEl && hljs.highlightBlock(cssEl);
@@ -923,49 +773,9 @@ q.ready(function() {
 
     addMethodLinks(jsEl, header.getParents().getAttribute("id"));
 
-    if (useHighlighter && sample.executable &&
-      q.env.get("engine.name") != "mshtml")
-    {
+    if (sample.executable && q.env.get("engine.name") != "mshtml" && q.env.get("device.type") == "desktop") {
       createFiddleButton(sample).appendTo(sampleEl);
     }
-
-    if (__sampleFinalizeTimeout) {
-      clearTimeout(__sampleFinalizeTimeout);
-    }
-    __sampleFinalizeTimeout = setTimeout(function() {
-      if (__lastHashChange && (Date.now() - __lastHashChange) <= 2000) {
-        fixScrollPosition();
-      }
-    }, 500);
-  };
-
-  /**
-   * Styles the sample container based on the amount of code elements
-   * @param codeContainer {qxWeb} Collection containing the container element
-   */
-  var styleCodeBoxes = function(codeContainer) {
-    var codeBoxes = codeContainer.find("pre");
-    if (codeBoxes.length > 1) {
-      codeContainer.setStyles({display: "table",
-                              width: "100%"});
-      codeBoxes.setStyle("display", "table-cell");
-    }
-
-    if (codeBoxes.length == 2) {
-      codeBoxes.eq(0).setStyle("width", "50%");
-      codeBoxes.eq(1).setStyle("width", "50%");
-    }
-    else if (codeBoxes.length == 3) {
-      codeBoxes.eq(0).setStyle("width", "25%");
-      codeBoxes.eq(1).setStyle("width", "25%");
-      codeBoxes.eq(2).setStyle("width", "50%");
-    }
-
-    codeBoxes.getFirst().setStyle("borderTopLeftRadius", codeContainer.getStyle("borderTopLeftRadius"));
-    codeBoxes.getLast().setStyles({
-      borderTopRightRadius: codeContainer.getStyle("borderTopRightRadius"),
-      borderRight: "none"
-    });
   };
 
   /**
@@ -991,19 +801,17 @@ q.ready(function() {
     }
   };
 
-  var createFiddleButton = function(sample) {
-    var qUrl = "http://demo.qooxdoo.org/devel/framework/q-" +
-    q.env.get("qx.version") + ".min.js";
-    var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
+  var qVersion = q.env.get("qx.version");
+  var qUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/q-" +
+    qVersion + ".min.js";
+  var indigoUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/indigo-" +
+      qVersion + ".css";
+  var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
+  var indigoLink = '<link rel="stylesheet" type="text/css" href="' + indigoUrl + '"/>';
 
-    return q.create("<iframe></iframe>").setAttributes({
-      src: "fiddleframe.html",
-      marginheight: 0,
-      marginwidth: 0,
-      frameborder: 0
-    })
-    .addClass("fiddleframe").on("load", function(ev) {
-      var iframeBody = q(this[0].contentWindow.document.body);
+  var createFiddleButton = function(sample) {
+    return q.create("<button class='fiddlebutton'>Edit/run on jsFiddle</button>").on("tap", function() {
+      var iframeBody = q(q("#fiddleframe")[0].contentWindow.document.body);
 
       if (sample.javascript) {
         iframeBody.find("#js").setAttribute("value", sample.javascript);
@@ -1015,38 +823,33 @@ q.ready(function() {
 
       if (sample.html) {
         iframeBody.find("#html").setAttribute("value", sample.html);
-        iframeBody.find("#html").setAttribute("value", qScript + '\n' + sample.html);
+        iframeBody.find("#html").setAttribute("value", qScript + '\n' + indigoLink + '\n' + sample.html);
       }
       else {
         iframeBody.find("#html").setAttribute("value", qScript);
       }
 
-      var button = iframeBody.find("button");
-      this.setStyles({
-        width: (button.getWidth() + 2) + "px",
-        height: button.getHeight() + "px"
-      });
+      iframeBody.find("form")[0].submit();
     });
   };
 
-  var fixScrollPosition = function() {
-    var hash = window.location.hash;
-    window.location.hash = '';
-    window.location.hash = hash;
-  };
+  var scrollContentIntoView = q.func.debounce(function() {
+    var el = q(location.hash.replace(".", "\\.").replace("$", "\\$"));
+    if (el.length > 0) {
+      el[0].scrollIntoView();
 
-  var scrollNavItemIntoView = function(forceIfAlreadyInViewport) {
-    var hash = window.location.hash,
-        navItems = q("."+convertNameToCssClass(hash, "nav-")),
-        navParent = q("#list");
-
-    if (navItems && navItems.length === 1) {
-      elInViewport = isElementInViewport(navItems, navParent);
-      if (!elInViewport || (elInViewport && forceIfAlreadyInViewport)) {
-        navItems[0].scrollIntoView(true);
+      var listSelector = el[0].id ? ".nav-" + el[0].id.replace(".", "").replace("$", "") : null;
+      if (listSelector) {
+        var page = q(listSelector).getAncestors(".qx-accordion-page");
+        var index = q("#list .qx-accordion-page").indexOf(page);
+        q("#list").select(index);
       }
     }
-  };
+
+    highlightNavItem();
+
+  }, 300);
+
 
   var isElementInViewport = function(el, diffBoundingRectContainer) {
     var rect = el.getOffset(),
@@ -1063,6 +866,41 @@ q.ready(function() {
   var convertNameToCssClass = function(name, prefix) {
     return (prefix || "")+name.replace(/(\.|\$|#)*/g, "");
   };
+
+
+  var appendWidgetMarkup = function(methodName, sample) {
+    if (!sample.showMarkup) {
+      return;
+    }
+    var moduleName = q.string.firstUp(methodName.substr(1));
+    var markupHeader = q("#" + moduleName).getParents().find(".widget-markup");
+    var pen = q("#playpen");
+    if (sample.html) {
+      pen.setHtml(sample.html.join("\n"));
+    }
+    sample.javascript();
+    var html = pen.getHtml();
+    var textNode = document.createTextNode(html);
+    var codeEl = q.create('<code>');
+    codeEl[0].appendChild(textNode);
+
+    var accordion = q.template.get("widget-dom", {
+      title: "Expand",
+      pageId: "widget-dom-" + methodName.replace(".", "")
+    })
+    .insertAfter(markupHeader);
+    //markupHeader.remove();
+    var pre = accordion.find("pre").append(codeEl);
+    accordion.accordion();
+
+    if (useHighlighter) {
+      hljs.highlightBlock(pre[0]);
+    }
+
+    pen.find(".qx-widget").dispose();
+    pen.setHtml("");
+  };
+
 
   /**
    * Adds sample code to a method's documentation. Code can be supplied wrapped in
@@ -1112,6 +950,27 @@ q.ready(function() {
       method.append(headerElement);
     }
 
+    appendWidgetMarkup(methodName, sampleMap);
     appendSample(sampleMap, headerElement);
+    scrollContentIntoView();
   };
+
+  var configReplacements = q.$$qx.core.Environment.get("apiviewer.modulenamereplacements");
+  var replacements = [];
+  for (var exp in configReplacements) {
+    replacements.push({
+      regExp: new RegExp(exp),
+      replacement: configReplacements[exp]
+    });
+  }
+
+  Data.MODULE_NAME_REPLACEMENTS = replacements;
+  var data = new Data();
+  data.on("ready", onContentReady, data);
+  data.on("loadingFailed", function() {
+    q("#warning").setStyle("display", "block");
+    if (isFileProtocol()) {
+      q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
+    }
+  });
 });

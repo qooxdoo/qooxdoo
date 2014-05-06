@@ -651,19 +651,6 @@
     },
 
 
-    "publish" :
-    {
-      "desc"    : "(this is an admin job for the qooxdoo project web site)",
-
-      "extend" : [ "scan-local-lib" ],
-
-      "shell" :
-      {
-        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn ${BUILD_PATH}/* root@qooxdoo.org:/var/www/qooxdoo/demo/${QOOXDOO_VERSION}/${APPLICATION}"
-      }
-    },
-
-
     "fix" :
     {
       "desc"    : "normalize whitespace in .js files of the current library (tabs, eol, ...)",
@@ -683,6 +670,21 @@
       "collect-environment-info" : {}
     },
 
+    "compile-framework-scss" :
+    {
+      "desc"   : "Compile the theme scss",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile",
+        "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss"
+      },
+      "shell" :
+      {
+        "command" : "sass -C -t compressed --load-path ${QX_SHARED_THEME_PATH} --update ${QX_MOBILE_THEME_PATH}/scss/:${QX_MOBILE_THEME_PATH}/css/",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
+      }
+    },
 
     // -- various includer jobs that can be used in "extend" key ---------------
 

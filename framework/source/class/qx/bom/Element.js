@@ -31,6 +31,8 @@
  * @require(qx.event.handler.Touch)
  * @require(qx.event.handler.Offline)
  * @require(qx.event.handler.Input)
+ * @require(qx.event.handler.Pointer)
+ * @require(qx.event.handler.Gesture)
  */
 qx.Class.define("qx.bom.Element",
 {

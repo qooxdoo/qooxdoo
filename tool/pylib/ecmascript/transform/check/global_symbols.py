@@ -75,12 +75,12 @@ def test_ident_is_jsignored(node):
     var_root = treeutil.findVarRoot(node)
     name = treeutil.assembleVariable(var_root)[0]
     return name_is_jsignored(name, node)
-    
+
 ##
 # Check a node against builtin symbols.
 # builtins[] -> Node -> bool
 def test_ident_is_builtin(builtins=lang.GLOBALS):
-    GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) 
+    GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x)
         for x in builtins + lang.QXGLOBALS))
     def test(node):
         var_root = treeutil.findVarRoot(node)
@@ -100,8 +100,7 @@ def globals_filter_by_builtins(global_names):
 # (class_names[], name_spaces[]) -> Node -> bool
 def test_ident_is_libsymbol(class_names, name_spaces):
     def test(node):
-        name = treeutil.assembleVariable(node)[0]
-        return test_for_libsymbol(name, class_names, name_spaces)
+        return test_for_libsymbol(node, class_names, name_spaces)
     return test
 
 
@@ -110,18 +109,21 @@ def test_ident_is_libsymbol(class_names, name_spaces):
 # - A known qx global is either exactly a name space, or a dotted identifier
 #   that is a dotted extension of a known class.
 #
-# (There is still a copy in MClassDependencies._splitQxClass).
-#
 def test_for_libsymbol(symbol, class_names, name_spaces):
     res_name = ''
+
+    # node may be unicode string or Node obj => unify
+    if not isinstance(symbol, unicode):
+        symbol = treeutil.assembleVariable(symbol)[0]
+
     # check for a name space match
     if symbol in name_spaces:
         res_name = symbol
     # see if symbol is a (dot-exact) prefix of any of class_names
     else:
         for class_name in class_names:
-            if (symbol.startswith(class_name) and 
-                    re.search(r'^%s(?=\.|$)' % re.escape(class_name), symbol)): 
+            if (symbol.startswith(class_name) and
+                    re.search(r'^%s(?=\.|$)' % re.escape(class_name), symbol)):
                     # e.g. re.search(r'^mylib.Foo(?=\.|$)', 'mylib.Foo.Bar' is
                     # true, but not with 'mylib.FooBar'
                 # take the longest match

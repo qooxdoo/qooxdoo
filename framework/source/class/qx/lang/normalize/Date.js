@@ -17,22 +17,34 @@
 
 ************************************************************************ */
 /**
- * This class takes care of the normalization of the native 'Date' object.
- * Therefore it checks the availability of the following methods and appends
- * it, if not available. This means you can use the methods during
- * development in every browser. For usage samples, check out the attached links.
+ * This class is responsible for the normalization of the native 'Date' object.
+ * It checks if these methods are available and, if not, appends them to
+ * ensure compatibility in all browsers.
+ * For usage samples, check out the attached links.
  *
- * *now*:
- * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date/now">MDN documentation</a> |
- * <a href="http://es5.github.com/#x15.9.4.4">Annotated ES5 Spec</a>
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.Date", {
-  defer : function() {
+
+  statics : {
+
+    /**
+     * Returns the time elapsed since January 1, 1970 in milliseconds.
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Date/now">MDN documentation</a> |
+     * <a href="http://es5.github.com/#x15.9.4.4">Annotated ES5 Spec</a>
+     *
+     * @return {Integer} Milliseconds since the Unix Epoch
+     */
+    now : function() {
+      return +new Date();
+    }
+  },
+
+  defer : function(statics) {
     // Date.now
     if (!qx.core.Environment.get("ecmascript.date.now")) {
-      Date.now = function() {
-        return +new Date();
-      }
+      Date.now = statics.now;
     }
   }
 });

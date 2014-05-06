@@ -40,12 +40,6 @@ qx.Class.define("qx.ui.mobile.form.TextField",
   {
     this.base(arguments);
 
-    // Fix for Android 2.x: Re-call focus method on "touchstart" event.
-    if (qx.core.Environment.get("os.name") == "android"
-        && qx.core.Environment.get("os.version").charAt(0) == "2") {
-      this.addListener("touchstart", this.focus);
-    }
-
     this.addListener("keypress", this._onKeyPress, this);
   },
 
@@ -66,12 +60,6 @@ qx.Class.define("qx.ui.mobile.form.TextField",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     // overridden
@@ -83,7 +71,7 @@ qx.Class.define("qx.ui.mobile.form.TextField",
 
     /**
     * Event handler for <code>keypress</code> event.
-    * @param evt {qx.event.type.KeySequence} the keypress event. 
+    * @param evt {qx.event.type.KeySequence} the keypress event.
     */
     _onKeyPress : function(evt) {
       // On return
@@ -94,18 +82,7 @@ qx.Class.define("qx.ui.mobile.form.TextField",
   },
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
   destruct : function() {
-    if (qx.core.Environment.get("os.name") == "android"
-        && qx.core.Environment.get("os.version").charAt(0) == "2") {
-      this.removeListener("touchstart", this.focus);
-    }
-
     this.removeListener("keypress", this._onKeyPress, this);
   }
 });

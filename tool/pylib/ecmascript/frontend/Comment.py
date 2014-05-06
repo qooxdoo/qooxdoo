@@ -282,7 +282,7 @@ class Comment(object):
     #      'type': [{'dimensions': 0, 'type': u'Boolean'}]}]
     #
     def parse(self, format_=True, process_txt=True, want_errors=False):
-        
+
         hint_sign = re.compile(r'^\s*@(@?\w+)')
 
         def getOpts():
@@ -339,7 +339,7 @@ class Comment(object):
                           "error" : "parseError",
                           "message" : "Unable to parse JSDoc entry",
                           "category": hint_key,
-                          "text": line.strip() 
+                          "text": line.strip()
                         }
                     else:
                         context.console.warn(
@@ -442,7 +442,7 @@ class Comment(object):
     # next: still wider, matching more elements
     py_term_argument = py.Regex(r'(?u)[^\s,)]+')
 
-    py_comment_term = (py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') + 
+    py_comment_term = (py_js_identifier.copy().setResultsName('t_functor') + py.Suppress('(') +
         py.Optional(py.delimitedList(py_term_argument)) # 'foo.Bar#baz'
         .setResultsName('t_arguments') + py.Suppress(')'))
 
@@ -629,12 +629,6 @@ class Comment(object):
             'functor' : presult.t_functor,
             'arguments' : presult.t_arguments.asList() if presult.t_arguments else []
         }
-        ##
-        # @deprecated {3.0} use @ignore(foo) instead of @lint ignoreUndefined
-        if res['functor'] == 'ignoreUndefined':
-            msg = u"'@lint ignoreUndefined' is deprecated. Use '@ignore' (same arguments) instead."
-            res['error'] = 'deprecationWarning'
-            res['message'] = msg
         return res
 
     gr_at_attach = ( py.Suppress('@') + py.Literal('attach') + py.Suppress('{') +
@@ -667,6 +661,21 @@ class Comment(object):
             'targetClass'  : presult.clazz,
             'targetMethod' : presult.method[0] if presult.method else '',
         }
+        return res
+
+    ##
+    # "@group (Foo)"
+    gr_at_group = ( py.Suppress('@') + py.Literal('group') + py.Suppress('(') +
+        py_js_identifier.copy()('clazz') +
+        py.Suppress(')') )
+    def parse_at_group(self, line):
+        grammar = self.gr_at_group
+        presult = grammar.parseString(line)
+        res = {
+            'category' : 'group',
+            'name' : presult.clazz
+        }
+
         return res
 
     gr_at_require = py.Suppress('@') + py_comment_term + py.restOfLine("text")

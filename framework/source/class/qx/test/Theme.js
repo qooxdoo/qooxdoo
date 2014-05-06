@@ -135,7 +135,6 @@ qx.Class.define("qx.test.Theme",
       qx.Theme.define("qx.test.Theme.themes.A", {
         decorations : {
           "basic" : {
-            decorator : qx.ui.decoration.Uniform,
             style : {}
           }
         }

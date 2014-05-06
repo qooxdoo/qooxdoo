@@ -54,6 +54,7 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
   members :
   {
     setUp : function() {
+      this.base(arguments);
       this.manager.setLocale("en_QX");
     },
 
@@ -110,13 +111,13 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
       this.__testListEn();
 
       this.manager.setLocale("de_QX");
-      var title0 = q(".list * .list-itemlabel").eq(0).getHtml();
+      var title0 = q(".list * .list-item-title").eq(0).getHtml();
       this.assertEquals("Eins". title0);
-      var subtitle0 = q(".list * .subtitle").eq(0).getHtml();
+      var subtitle0 = q(".list * .list-item-subtitle").eq(0).getHtml();
       this.assertEquals("Zwei", subtitle0);
-      var title1 = q(".list * .list-itemlabel").eq(1).getHtml();
+      var title1 = q(".list * .list-item-title").eq(1).getHtml();
       this.assertEquals("Servus Jonathan!", title1);
-      var subtitle1 = q(".list * .subtitle").eq(1).getHtml();
+      var subtitle1 = q(".list * .list-item-subtitle").eq(1).getHtml();
       this.assertEquals("Jonathan", subtitle1);
 
       this.manager.setLocale("en_QX");
@@ -124,14 +125,37 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
     },
 
     __testListEn : function() {
-      var title0 = q(".list * .list-itemlabel").eq(0).getHtml();
+      //debugger
+      var title0 = q(".list * .list-item-title").eq(0).getHtml();
       this.assertEquals("test one". title0);
-      var subtitle0 = q(".list * .subtitle").eq(0).getHtml();
+      var subtitle0 = q(".list * .list-item-subtitle").eq(0).getHtml();
       this.assertEquals("test two", subtitle0);
-      var title1 = q(".list * .list-itemlabel").eq(1).getHtml();
+      var title1 = q(".list * .list-item-title").eq(1).getHtml();
       this.assertEquals("test Hello test Jonny!", title1);
-      var subtitle1 = q(".list * .subtitle").eq(1).getHtml();
+      var subtitle1 = q(".list * .list-item-subtitle").eq(1).getHtml();
       this.assertEquals("test Jonny", subtitle1);
+    },
+
+    testFormRendererSingle : function()
+    {
+      var manager = qx.locale.Manager.getInstance();
+
+      var title = new qx.ui.mobile.form.Title(this.tr("test one"));
+      var form = new qx.ui.mobile.form.Form();
+      form.add(new qx.ui.mobile.form.TextField(), this.tr("test two"));
+
+      this.getRoot().add(title);
+      var renderer = new qx.ui.mobile.form.renderer.Single(form);
+      this.getRoot().add(renderer);
+
+      this.assertEquals("test one", title.getValue());
+      this.assertEquals("test two", renderer._labels[0].getValue());
+      manager.setLocale("de_QX");
+      this.assertEquals("Eins", title.getValue());
+      this.assertEquals("Zwei", renderer._labels[0].getValue());
+      manager.setLocale("en_QX");
+
+      title.destroy();
     }
   }
 });

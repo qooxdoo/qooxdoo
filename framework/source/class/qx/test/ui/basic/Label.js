@@ -45,6 +45,8 @@ qx.Class.define("qx.test.ui.basic.Label",
     {
       this.base(arguments);
       this.getSandbox().restore();
+      qx.bom.webfonts.Manager.getInstance().dispose();
+      delete qx.bom.webfonts.Manager.$$instance;
     },
 
     testHeightForWidth : function()

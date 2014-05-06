@@ -18,6 +18,8 @@
 ************************************************************************ */
 /**
  * Utility module to give some support to work with arrays.
+ *
+ * @group (Utilities)
  */
 qx.Bootstrap.define("qx.module.util.Array", {
   statics : {

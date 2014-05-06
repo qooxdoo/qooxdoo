@@ -185,7 +185,7 @@
     },
 
     "libraries" : {
-      
+
       "library" :
       [
         {
@@ -285,7 +285,9 @@
         "qx.globalErrorHandling" : true,
         "testrunner.testParts" : false,
         "qx.allowUrlSettings" : true,
-        "qx.application" : "${TEST_LOADER}"
+        "qx.application" : "${TEST_LOADER}",
+        "qx.testNameSpace" : "${TEST_NAMESPACE}",
+        "qx.standaloneAutorun" : false
       },
 
       "cache" :
@@ -531,11 +533,6 @@
         "PLATFORM": "ios",
         "TESTRUNNER_CSS" : "testrunner/view/mobile/css/styles.css",
         "TEST_LOADER" : "testrunner.TestLoaderMobile"
-      },
-
-      "environment" :
-      {
-        "qx.mobile.emulatetouch" : true
       },
 
       "asset-let" : {

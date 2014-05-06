@@ -100,6 +100,9 @@ qx.Class.define("qx.ui.root.Inline",
     // Resize handling for the window
     var window = qx.dom.Node.getWindow(el);
     qx.event.Registration.addListener(window, "resize", this._onWindowResize, this);
+
+    // quick fix for [BUG #7680]
+    this.getContentElement().setStyle("-webkit-backface-visibility", "hidden");
   },
 
 

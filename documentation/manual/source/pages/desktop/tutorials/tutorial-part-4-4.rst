@@ -23,7 +23,7 @@ The actual test code is contained in classes living within the namespace of the 
   qx.Class.define("tweets.test.DemoTest",
   {
     extend : qx.dev.unit.TestCase,
-  
+
     members :
     {
       /*
@@ -31,7 +31,7 @@ The actual test code is contained in classes living within the namespace of the 
       TESTS
       ---------------------------------------------------------------------------
       */
-  
+
       /**
       * Here are some simple tests
       */
@@ -40,7 +40,7 @@ The actual test code is contained in classes living within the namespace of the 
         this.assertEquals(4, 3+1, "This should never fail!");
         this.assertFalse(false, "Can false be true?!");
       },
-  
+
       /**
       * Here are some more advanced tests
       */
@@ -66,7 +66,7 @@ qx.dev.unit.TestCase includes the assertion functions from `qx.core.Assert <http
 Building and running the test application
 =========================================
 
-In the top-level directory of the tweets tutorial application, run ``generate.py test``. This command builds both a stand-alone application containing the test classes (the AUT, or "application under test") and the Testrunner GUI which loads the AUT in an Iframe and visualizes the results. Load the Testrunner by opening the file ``test/index.html`` in your favorite browser and click the "Run Tests" button.
+In the top-level directory of the tweets tutorial application, run ``generate.py test``. This command builds both a stand-alone application containing the test classes (the AUT, or "application under test") and the Testrunner GUI which loads the AUT in an Iframe and visualizes the results. Load the Testrunner by opening the file ``test/index.html`` in your favorite browser and tap the "Run Tests" button.
 
 .. note::
 
@@ -90,20 +90,20 @@ First of all, create a corresponding class **tweets.test.TweetView** in the ``so
   qx.Class.define("tweets.test.TweetView",
   {
     extend : qx.dev.unit.TestCase,
-  
+
     members :
     {
       setUp : function()
       {
         this.__tweetView = new tweets.TweetView();
       },
-  
+
       tearDown : function()
       {
         this.__tweetView.dispose();
         this.__tweetView = null;
       },
-  
+
       testSetIcon : function()
       {
         var expectedSource = qx.util.ResourceManager.getInstance().toUri("logo.png");
@@ -146,9 +146,9 @@ Once again, create a new test class named **tweets.test.IdenticaService**. The `
         {
           this.resume();
         }, this);
-  
+
         this.__identicaService.fetchTweets();
-  
+
         this.wait(5000);
       }
 

@@ -52,6 +52,8 @@
  * @ignore(importClass)
  * @ignore(QxSelenium)
  * @ignore(ThreadSafeSeleniumSessionStorage.*)
+ *
+ * @deprecated{4.0}
  */
 qx.Class.define("simulator.QxSelenium", {
 

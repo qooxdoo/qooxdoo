@@ -2,7 +2,7 @@
 
 HoverButton
 ***********
-The HoverButton is an :doc:`atom`, which fires repeatedly execute events while the mouse is over the widget. 
+The HoverButton is an :doc:`atom`, which fires repeatedly execute events while the pointer is over the widget.
 
 .. _pages/widget/hoverbutton#preview_image:
 
@@ -25,7 +25,7 @@ Features
 
 Description
 -----------
-The HoverButton is an :doc:`atom`, which fires repeatedly execute events while the mouse is over the widget. The interval time for the HoverButton event can be configured by the developer. 
+The HoverButton is an :doc:`atom`, which fires repeatedly execute events while the pointer is over the widget. The interval time for the HoverButton event can be configured by the developer.
 
 .. _pages/widget/hoverbutton#demos:
 

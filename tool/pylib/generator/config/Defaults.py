@@ -69,10 +69,9 @@ class Defaults(object):
         # overriding the config file and the FOO macro.
         u"GENERATOR_OPTS"  : getGenOpts(),
         u"HOME"            : getUserHome("."),
-        u"PYTHON_CMD"      : sys.executable,
+        u"PYTHON_CMD"      : '"' + sys.executable + '"',
         u"TMPDIR"          : tempfile.gettempdir(),
         u"QOOXDOO_VERSION" : getQooxdooVersion(),
         u"QOOXDOO_REVISION": getQooxdooRevision(),
         u"USERNAME"        : os.getenv("USERNAME"),
     }
-

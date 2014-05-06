@@ -246,6 +246,69 @@ qx.Class.define("qx.test.lang.Object",
       this.assertNotIdentical(("Juhu").constructor, objConstructor);
       this.assertNotIdentical((/abc/).constructor, objConstructor);
       qxObj.dispose();
+    },
+
+    testEquals : function(){
+
+      var a = {a: 'text', b:[0,1]};
+      var b = {a: 'text', b:[0,1]};
+      var c = {a: 'text', b: 0};
+      var d = {a: 'text', b: false};
+      var e = {a: 'text', b:[1,0]};
+      var f = {a: 'text', b:[1,0], f: function(){ this.f = this.b; }};
+      var g = {a: 'text', b:[1,0], f: function(){ this.f = this.b; }};
+      var h = {a: 'text', b:[1,0], f: function(){ this.a = this.b; }};
+
+      var i = {
+          a: 'text',
+          c: {
+              b: [1, 0],
+              f: function(){
+                  this.a = this.b;
+              }
+          }
+      };
+
+      var j = {
+          a: 'text',
+          c: {
+              b: [1, 0],
+              f: function(){
+                  this.a = this.b;
+              }
+          }
+      };
+      var k = {a: 'text', b: null};
+      var l = {a: 'text', b: undefined};
+
+
+
+      this.assertTrue(qx.lang.Object.equals(a,b));
+      this.assertFalse(qx.lang.Object.equals(a,c));
+      this.assertFalse(qx.lang.Object.equals(c,d));
+      this.assertFalse(qx.lang.Object.equals(a,e));
+      this.assertFalse(qx.lang.Object.equals(f,g));
+      this.assertFalse(qx.lang.Object.equals(h,g));
+      this.assertFalse(qx.lang.Object.equals(i,j));
+      this.assertFalse(qx.lang.Object.equals(d,k));
+      this.assertFalse(qx.lang.Object.equals(k,l));
+
+
+      this.assertFalse(qx.lang.Object.equals({}, null));
+      this.assertFalse(qx.lang.Object.equals({}, undefined));
+      this.assertTrue(qx.lang.Object.equals('qooxdoo','qooxdoo'));
+      this.assertTrue(qx.lang.Object.equals(5,5));
+      this.assertFalse(qx.lang.Object.equals(5,10));
+      this.assertFalse(qx.lang.Object.equals(1,'1'));
+      this.assertTrue(qx.lang.Object.equals([],[]));
+      this.assertTrue(qx.lang.Object.equals([1,2],[1,2]));
+      this.assertFalse(qx.lang.Object.equals([1,2],[2,1]));
+      this.assertFalse(qx.lang.Object.equals([1,2],[1,2,3]));
+      this.assertTrue(qx.lang.Object.equals(new Date("03/31/2014"), new Date("03/31/2014")));
+      this.assertFalse(qx.lang.Object.equals({1:{name:"mhc",age:28}, 2:{name:"arb",age:26}},{1:{name:"mhc",age:28}, 2:{name:"arb",age:27}}));
+      this.assertFalse(qx.lang.Object.equals(function(x){return x;},function(y){return y+2;}));
+
     }
+
   }
 });

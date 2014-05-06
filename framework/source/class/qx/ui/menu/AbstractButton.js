@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     this._setLayout(new qx.ui.menu.ButtonLayout);
 
     // Add listeners
-    this.addListener("click", this._onClick);
+    this.addListener("tap", this._onTap);
     this.addListener("keypress", this._onKeyPress);
 
     // Add command listener
@@ -228,17 +228,17 @@ qx.Class.define("qx.ui.menu.AbstractButton",
 
 
     /**
-     * Event listener for click
+     * Event listener for tap
      *
-     * @param e {qx.event.type.Mouse} mouseup event
+     * @param e {qx.event.type.Pointer} pointer event
      */
-    _onClick : function(e) {
+    _onTap : function(e) {
       // pass
     },
 
 
     /**
-     * Event listener for mouseup event
+     * Event listener for keypress event
      *
      * @param e {qx.event.type.KeySequence} keypress event
      */

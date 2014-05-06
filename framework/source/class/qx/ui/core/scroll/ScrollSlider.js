@@ -33,9 +33,9 @@ qx.Class.define("qx.ui.core.scroll.ScrollSlider",
   {
     this.base(arguments, orientation);
 
-    // Remove mousewheel/keypress events
+    // Remove roll/keypress events
     this.removeListener("keypress", this._onKeyPress);
-    this.removeListener("mousewheel", this._onMouseWheel);
+    this.removeListener("roll", this._onRoll);
   },
 
 

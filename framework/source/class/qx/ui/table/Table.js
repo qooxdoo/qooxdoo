@@ -261,14 +261,14 @@ qx.Class.define("qx.ui.table.Table",
     "verticalScrollBarChanged" : "qx.event.type.Data",
 
     /**
-     * Dispatched when a data cell has been clicked.
+     * Dispatched when a data cell has been tapped.
      */
-    "cellClick" : "qx.ui.table.pane.CellEvent",
+    "cellTap" : "qx.ui.table.pane.CellEvent",
 
     /**
-     * Dispatched when a data cell has been clicked.
+     * Dispatched when a data cell has been tapped.
      */
-    "cellDblclick" : "qx.ui.table.pane.CellEvent",
+    "cellDbltap" : "qx.ui.table.pane.CellEvent",
 
     /**
      * Dispatched when the context menu is needed in a data cell
@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.table.Table",
   statics :
   {
     /** Events that must be redirected to the scrollers. */
-    __redirectEvents : { cellClick: 1, cellDblclick: 1, cellContextmenu: 1 }
+    __redirectEvents : { cellTap: 1, cellDbltap: 1, cellContextmenu: 1 }
   },
 
 
@@ -473,14 +473,14 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * Whether the focus should moved when the mouse is moved over a cell. If false
-     * the focus is only moved on mouse clicks.
+     * Whether the focus should moved when the pointer is moved over a cell. If false
+     * the focus is only moved on pointer taps.
      */
-    focusCellOnMouseMove :
+    focusCellOnPointerMove :
     {
       check : "Boolean",
       init : false,
-      apply : "_applyFocusCellOnMouseMove"
+      apply : "_applyFocusCellOnPointerMove"
     },
 
     /**
@@ -543,17 +543,17 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * Whether to reset the selection when a header cell is clicked. Since
+     * Whether to reset the selection when a header cell is tapped. Since
      * most data models do not have provisions to retain a selection after
      * sorting, the default is to reset the selection in this case. Some data
      * models, however, do have the capability to retain the selection, so
      * when using those, this property should be set to false.
      */
-    resetSelectionOnHeaderClick :
+    resetSelectionOnHeaderTap :
     {
       check : "Boolean",
       init : true,
-      apply : "_applyResetSelectionOnHeaderClick"
+      apply : "_applyResetSelectionOnHeaderTap"
     },
 
 
@@ -1115,12 +1115,12 @@ qx.Class.define("qx.ui.table.Table",
 
 
     // property modifier
-    _applyFocusCellOnMouseMove : function(value, old)
+    _applyFocusCellOnPointerMove : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i].setFocusCellOnMouseMove(value);
+        scrollerArr[i].setFocusCellOnPointerMove(value);
       }
     },
 
@@ -1159,12 +1159,12 @@ qx.Class.define("qx.ui.table.Table",
 
 
     // property modifier
-    _applyResetSelectionOnHeaderClick : function(value, old)
+    _applyResetSelectionOnHeaderTap : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i].setResetSelectionOnHeaderClick(value);
+        scrollerArr[i].setResetSelectionOnHeaderTap(value);
       }
     },
 
@@ -1682,12 +1682,12 @@ qx.Class.define("qx.ui.table.Table",
      *
      * This is used to temporarily remove the highlighting of the currently
      * focused row, and is expected to be used most typically by adding a
-     * listener on the "mouseout" event, so that the focus highlighting is
-     * suspended when the mouse leaves the table:
+     * listener on the "pointerout" event, so that the focus highlighting is
+     * suspended when the pointer leaves the table:
      *
-     *     table.addListener("mouseout", table.clearFocusedRowHighlight);
+     *     table.addListener("pointerout", table.clearFocusedRowHighlight);
      *
-     * @param evt {qx.event.type.Mouse} Incoming mouse event
+     * @param evt {qx.event.type.Pointer} Incoming pointer event
      */
     clearFocusedRowHighlight : function(evt)
     {

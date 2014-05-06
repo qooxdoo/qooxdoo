@@ -27,5 +27,7 @@
  * @require(qx.lang.normalize.Array)
  * @require(qx.lang.normalize.Error)
  * @require(qx.lang.normalize.Object)
+ *
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.module.Polyfill", {});

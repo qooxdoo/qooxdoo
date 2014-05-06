@@ -67,8 +67,8 @@ Default Jobs
     * - profiling
       - includer job, to activate profiling
     * - simulation-build
-      - create a runner app for simulated interaction tests
-    * - simulation-run
+      - create a runner app for simulated interaction tests (deprecated)
+    * - simulation-run (deprecated)
       - launches simulated interaction tests generated with simulation-build
     * - source
       - create source version of current application
@@ -76,8 +76,6 @@ Default Jobs
       - create source version of current application, with all classes
     * - source-httpd-config
       - generate a httpd configuration for the source version
-    * - source-hybrid
-      - create a hybrid application (application classes as individual files, others concatenated)
     * - source-hybrid
       - create a hybrid application (application classes as individual files, others concatenated)
     * - source-server

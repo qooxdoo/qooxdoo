@@ -10,6 +10,7 @@ Autosizing
 Bada
 Bookmarklet
 Builtin
+CLI
 Configs
 Contextmenu
 Cordova
@@ -28,7 +29,10 @@ GitHub
 Github
 Globbing
 Graphviz
+Gruntfile
+Gruntify
 HBox
+Heterogenous
 Hmmm
 Hotkey
 IDesktop
@@ -76,6 +80,7 @@ Organisation
 Outdent
 Parameterizing
 Parsers
+Photoshop
 Placeholer
 Plugin
 Plugins
@@ -163,6 +168,7 @@ booleans
 brainer
 browserless
 bz
+camelCased
 cancelable
 cellrenderer
 centric
@@ -215,6 +221,7 @@ destructor
 destructors
 detailPage
 dev
+devicePixelRatio
 dialogs
 distclean
 doctype
@@ -247,6 +254,7 @@ formItem
 frontend
 getApplication
 getChildrenContainer
+getConfig
 getInvalidMessages
 getValid
 getValue
@@ -264,6 +272,7 @@ gz
 gzipped
 hdpi
 helloworld
+hideAnimation
 homogenous
 htaccess
 htm
@@ -295,6 +304,7 @@ instanceof
 instantiation
 internationalisation
 interoperate
+intialized
 invalidMessage
 invoker
 io
@@ -372,6 +382,7 @@ onUpdate
 online
 optimizations
 organisation
+overriden
 paddings
 param
 parameterize
@@ -390,6 +401,7 @@ polymorphism
 popup
 popups
 postfix
+ppi
 pre
 predefine
 predefining
@@ -448,6 +460,7 @@ selectable
 selectbox
 seralization
 serializer
+setConfig
 setData
 setFont
 setStyle
@@ -456,6 +469,7 @@ setValue
 sigil
 sitemap
 smartphone
+smartphones
 sortable
 spacings
 specialities
@@ -530,6 +544,7 @@ transfering
 trc
 tri
 trn
+trnc
 txt
 ui
 uncomment

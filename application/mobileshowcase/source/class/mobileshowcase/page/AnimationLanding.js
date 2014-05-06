@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Tino Butz (tbtz)
+     * Tino Butz (tbtz)
      * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
@@ -24,15 +24,13 @@
  */
 qx.Class.define("mobileshowcase.page.AnimationLanding",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
-    this.base(arguments, false);
-    this.setTitle("Animation");
-    this.setShowBackButton(true);
+    this.base(arguments, true);
+    this.setTitle("Page Transitions");
     this.setShowBackButtonOnTablet(true);
-    this.setBackButtonText("Back");
   },
 
   properties :
@@ -49,21 +47,34 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
 
   members :
   {
-    __landingText : '<strong>Tap "back" button for the reverse animation</strong>',
-
     // overridden
     _initialize : function()
     {
       this.base(arguments);
 
-      var embed = new qx.ui.mobile.embed.Html(this.__landingText);
-
-      if(this._isTablet) {
-        qx.event.Registration.addListener(this, "appear", this.__deactiveAnimation, this);
+     
+      if (this._isTablet) {
+        this.addListener("disappear", this.__deactiveAnimation, this);
       }
 
-      var textGroup = new qx.ui.mobile.form.Group([embed]);
-      this.getContent().add(textGroup);
+      var list = new qx.ui.mobile.list.List({
+        configureItem: function(item, data, row) {
+          item.setTitle(data.title);
+          item.setShowArrow(true);
+        }
+      });
+      list.addCssClass("animation-list-2");
+
+      var animationData = mobileshowcase.page.Animation.ANIMATION_DATA;
+
+      list.setModel(new qx.data.Array(animationData));
+      list.addListener("changeSelection", function(evt) {
+        // In Tablet Mode, animation should be shown for this showcase part.
+        // On animation landing >> setShowAnimation(false) is called.
+        this.getLayoutParent().getLayout().setShowAnimation(true);
+        qx.core.Init.getApplication().getRouting().executeGet("/animation/" + animationData[evt.getData()].animation);
+      }, this);
+      this.getContent().add(list);
     },
 
 
@@ -79,16 +90,6 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
     _back : function()
     {
       qx.core.Init.getApplication().getRouting().executeGet("/animation", {animation:this.getAnimation(), reverse:true});
-    },
-
-
-    /*
-    *****************************************************************************
-      DESTRUCTOR
-    *****************************************************************************
-    */
-    destruct : function() {
-       this._disposeObjects("__landingText");
     }
   }
 });

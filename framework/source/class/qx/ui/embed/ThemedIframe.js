@@ -49,7 +49,7 @@
 qx.Class.define("qx.ui.embed.ThemedIframe",
 {
   extend : qx.ui.embed.AbstractIframe,
-  include : qx.ui.core.scroll.MWheelHandling,
+  include : qx.ui.core.scroll.MRoll,
 
   construct : function(source)
   {
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
       var body = this._getIframeElement().getBody();
       if (body) {
         this._startIframeObserver();
-        this._addWheelListener();
+        this._addRollListener();
       }
 
       this.fireEvent("load");
@@ -225,14 +225,15 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
 
 
     /**
-     * Attach mouse wheel listener to the iframe
+     * Attach roll listener to the iframe
      */
-    _addWheelListener : function()
+    _addRollListener : function()
     {
       try
       {
         var body = this._getIframeElement().getBody();
-        qx.bom.Element.addListener(body, "mousewheel", this._onMouseWheel, this);
+        qx.bom.Element.addListener(body, "roll", this._onRoll, this);
+        qx.bom.Element.addListener(body, "pointerdown", this._onPointerDownForRoll, this);
       } catch (e) {
         this._disableScollbars();
       }

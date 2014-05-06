@@ -1,0 +1,18 @@
+//
+// SPINNER
+//
+
+.spinner {
+  @include transform-origin(50% 50%);
+  @include border-radius($spinner-size);
+
+  width: $spinner-size;
+  height: $spinner-size;
+  border-bottom: $spinner-border-thickness solid $spinner-border-color;
+  border-left: $spinner-border-thickness solid rgba(0,0,0,0);
+  border-right: $spinner-border-thickness solid rgba(0,0,0,0);
+  border-top: $spinner-border-thickness solid $spinner-border-color;
+
+  display:inline !important;
+  vertical-align: middle;
+}

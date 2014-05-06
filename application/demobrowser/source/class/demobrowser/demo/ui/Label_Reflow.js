@@ -62,7 +62,7 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
       dialog.add(btn_toggle, {row: 1, column: 1});
 
       var growText = false;
-      btn_toggle.addListener("click", function()
+      btn_toggle.addListener("tap", function()
       {
         var label = pane.getChildren()[0];
         label.setValue(
@@ -82,7 +82,7 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
       dialog.add(btn_resize, {row: 1, column: 2});
 
       var growPane = false;
-      btn_resize.addListener("click", function(e)
+      btn_resize.addListener("tap", function(e)
       {
         if (growPane) {
           pane.setWidth(600);

@@ -20,7 +20,7 @@
 
 /**
  * The menu is a popup like control which supports buttons. It comes
- * with full keyboard navigation and an improved timeout based mouse
+ * with full keyboard navigation and an improved timeout based pointer
  * control behavior.
  *
  * This class is the container for all derived instances of
@@ -49,9 +49,9 @@ qx.Class.define("qx.ui.menu.Menu",
     var root = this.getApplicationRoot();
     root.add(this);
 
-    // Register mouse listeners
-    this.addListener("mouseover", this._onMouseOver);
-    this.addListener("mouseout", this._onMouseOut);
+    // Register pointer listeners
+    this.addListener("pointerover", this._onPointerOver);
+    this.addListener("pointerout", this._onPointerOut);
 
     // add resize listener
     this.addListener("resize", this._onResize, this);
@@ -298,13 +298,29 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * Opens the menu at the mouse cursor position
+     * Opens the menu at the mouse position
      *
      * @param e {qx.event.type.Mouse}  Mouse event to align to
+     * @deprecated {4.0}
      */
     openAtMouse : function(e)
     {
-      this.placeToMouse(e);
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
+          "Please use '_onPointerOver' instead.");
+      }
+      this.openAtPointer(e);
+    },
+
+
+    /**
+     * Opens the menu at the pointer position
+     *
+     * @param e {qx.event.type.Pointer} Pointer event to align to
+     */
+    openAtPointer : function(e)
+    {
+      this.placeToPointer(e);
       this.__updateSlideBar();
       this.show();
 
@@ -706,11 +722,11 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * Event listener for mouseover event.
+     * Event listener for pointerover event.
      *
-     * @param e {qx.event.type.Mouse} mouseover event
+     * @param e {qx.event.type.Pointer} pointerover event
      */
-    _onMouseOver : function(e)
+    _onPointerOver : function(e)
     {
       // Cache manager
       var mgr = qx.ui.menu.Manager.getInstance();
@@ -760,11 +776,11 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * Event listener for mouseout event.
+     * Event listener for pointerout event.
      *
-     * @param e {qx.event.type.Mouse} mouseout event
+     * @param e {qx.event.type.Pointer} pointerout event
      */
-    _onMouseOut : function(e)
+    _onPointerOut : function(e)
     {
       // Cache manager
       var mgr = qx.ui.menu.Manager.getInstance();
@@ -793,6 +809,7 @@ qx.Class.define("qx.ui.menu.Menu",
       }
     }
   },
+
 
   /*
   *****************************************************************************

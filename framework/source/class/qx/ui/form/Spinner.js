@@ -94,10 +94,7 @@ qx.Class.define("qx.ui.form.Spinner",
     // EVENTS
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
-    if (!(qx.event.handler.MouseEmulation.ON)) {
-      this.addListener("mousewheel", this._onMouseWheel, this);
-    }
-
+    this.addListener("roll", this._onRoll, this);
 
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
@@ -149,7 +146,7 @@ qx.Class.define("qx.ui.form.Spinner",
       init : true
     },
 
-    /** The amount to increment on each event (keypress or mousedown) */
+    /** The amount to increment on each event (keypress or pointerdown) */
     singleStep:
     {
       check : "Number",
@@ -641,17 +638,21 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * Callback method for the "mouseWheel" event.<br/>
+     * Callback method for the "roll" event.<br/>
      * Increments or decrements the value of the spinner.
      *
-     * @param e {qx.event.type.Mouse} mouseWheel event
+     * @param e {qx.event.type.Roll} roll event
      */
-    _onMouseWheel: function(e)
+    _onRoll: function(e)
     {
-      var delta = e.getWheelDelta("y");
-      if (delta > 0) {
+      // only wheel
+      if (e.getPointerType() != "wheel") {
+        return;
+      }
+      var delta = e.getDelta().y;
+      if (delta < 0) {
         this._countDown();
-      } else if (delta < 0) {
+      } else if (delta > 0) {
         this._countUp();
       }
 
@@ -765,7 +766,7 @@ qx.Class.define("qx.ui.form.Spinner",
         if (newValue > this.getMaximum())
         {
           var diff = this.getMaximum() - newValue;
-          newValue = this.getMinimum() + diff;
+          newValue = this.getMinimum() - diff - 1;
         }
       }
 
@@ -792,7 +793,7 @@ qx.Class.define("qx.ui.form.Spinner",
         if (newValue < this.getMinimum())
         {
           var diff = this.getMinimum() + newValue;
-          newValue = this.getMaximum() - diff;
+          newValue = this.getMaximum() + diff + 1;
         }
       }
 

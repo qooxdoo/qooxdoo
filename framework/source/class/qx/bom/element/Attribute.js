@@ -139,7 +139,6 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         $$widget    : 1,
 
         // Native properties
-        disabled    : 1,
         checked     : 1,
         readOnly    : 1,
         multiple    : 1,
@@ -189,16 +188,6 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         disabled: 1,
         multiple: 1,
         maxLength: 1
-      },
-
-
-      // Use getAttribute(name, 2) for these to query for the real value, not
-      // the interpreted one.
-      original :
-      {
-        href : 1,
-        src  : 1,
-        type : 1
       }
     },
 
@@ -244,16 +233,8 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       // normalize name
       name = hints.names[name] || name;
 
-      // respect original values
-      // http://msdn2.microsoft.com/en-us/library/ms536429.aspx
-      if (qx.core.Environment.get("engine.name") == "mshtml" &&
-        parseInt(qx.core.Environment.get("browser.documentmode"), 10) < 8 &&
-        hints.original[name])
-      {
-        value = element.getAttribute(name, 2);
-      }
       // respect properties
-      else if (hints.property[name])
+      if (hints.property[name])
       {
         value = element[name];
 
@@ -269,6 +250,12 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         }
       } else { // fallback to attribute
         value = element.getAttribute(name);
+
+        // All modern browsers interpret "" as true but not IE8, which set the property to "" reset
+        if (hints.bools[name] && !(qx.core.Environment.get("engine.name") == "mshtml" &&
+        parseInt(qx.core.Environment.get("browser.documentmode"), 10) <= 8 )) {
+          return qx.Bootstrap.isString(value); // also respect empty strings as true
+        }
       }
 
       if (hints.bools[name]) {
@@ -298,8 +285,8 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       name = hints.names[name] || name;
 
       // respect booleans
-      if (hints.bools[name]) {
-        value = !!value;
+      if (hints.bools[name] && !qx.lang.Type.isBoolean(value)) {
+        value = qx.lang.Type.isString(value);
       }
 
       // apply attribute

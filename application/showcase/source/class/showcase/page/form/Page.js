@@ -58,7 +58,7 @@ qx.Class.define("showcase.page.form.Page",
       "Selection" : "Open the select box to see the list of selectables.",
       "Text" : "The placeholder disappears once you start to type in a text field.",
       "Buttons" : "Hold the repeat button to see the value increase.",
-      "MenuButton" : "Click the \"MenuButton\" to open the menu."
+      "MenuButton" : "Tap the \"MenuButton\" to open the menu."
     },
 
     __features : {

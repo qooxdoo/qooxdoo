@@ -37,10 +37,10 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     var manager = this.__manager = new clazz(this);
 
     // Add widget event listeners
-    this.addListener("mousedown", manager.handleMouseDown, manager);
-    this.addListener("mouseup", manager.handleMouseUp, manager);
-    this.addListener("mouseover", manager.handleMouseOver, manager);
-    this.addListener("mousemove", manager.handleMouseMove, manager);
+    this.addListener("pointerdown", manager.handlePointerDown, manager);
+    this.addListener("tap", manager.handleTap, manager);
+    this.addListener("pointerover", manager.handlePointerOver, manager);
+    this.addListener("pointermove", manager.handlePointerMove, manager);
     this.addListener("losecapture", manager.handleLoseCapture, manager);
     this.addListener("keypress", manager.handleKeyPress, manager);
 
@@ -89,7 +89,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
 
     /**
      * Enable drag selection (multi selection of items through
-     * dragging the mouse in pressed states).
+     * dragging the pointer in pressed states).
      *
      * Only possible for the selection modes <code>multi</code> and <code>additive</code>
      */
@@ -101,7 +101,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     },
 
     /**
-     * Enable quick selection mode, where no click is needed to change the selection.
+     * Enable quick selection mode, where no tap is needed to change the selection.
      *
      * Only possible for the modes <code>single</code> and <code>one</code>.
      */
@@ -279,7 +279,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     /**
      * Returns the last selection context.
      *
-     * @return {String | null} One of <code>click</code>, <code>quick</code>,
+     * @return {String | null} One of <code>tap</code>, <code>quick</code>,
      *    <code>drag</code> or <code>key</code> or <code>null</code>.
      */
     getSelectionContext : function() {
@@ -317,7 +317,7 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
 
     /**
      * Returns the current lead item. Generally the item which was last modified
-     * by the user (clicked on etc.)
+     * by the user (tapped on etc.)
      *
      * @return {qx.ui.core.Widget} The lead item or <code>null</code>
      */

@@ -6,14 +6,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8663 $"/>
-		<generation date="$Date: 2013-05-02 15:03:19 -0500 (Thu, 02 May 2013) $"/>
+		<version number="$Revision: 9852 $"/>
+		<generation date="$Date: 2014-02-28 23:57:43 -0600 (Fri, 28 Feb 2014) $"/>
 		<language type="et"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern>{0} ({1})</localePattern>
-			<localeSeparator>,</localeSeparator>
+			<localeSeparator>{0}, {1}</localeSeparator>
 			<localeKeyTypePattern>{0}: {1}</localeKeyTypePattern>
 		</localeDisplayPattern>
 		<languages>
@@ -25,53 +25,43 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ady">adõgee</language>
 			<language type="ae">avesta</language>
 			<language type="af">afrikaani</language>
-			<language type="afa">afroaasia keel</language>
 			<language type="afh">afrihili</language>
 			<language type="agq">aghemi</language>
 			<language type="ain">ainu</language>
 			<language type="ak">akani</language>
 			<language type="akk">akadi</language>
 			<language type="ale">aleuudi</language>
-			<language type="alg">algonkini keel</language>
 			<language type="alt">altai</language>
 			<language type="am">amhari</language>
 			<language type="an">aragoni</language>
 			<language type="ang">vanainglise</language>
 			<language type="anp">angika</language>
-			<language type="apa">apatši keel</language>
 			<language type="ar">araabia</language>
+			<language type="ar_001">araabia (tänapäevane)</language>
 			<language type="arc">aramea</language>
 			<language type="arn">araukaani</language>
 			<language type="arp">arapaho</language>
-			<language type="art">muu tehiskeel</language>
 			<language type="arw">aravaki</language>
 			<language type="as">assami</language>
 			<language type="asa">asa</language>
 			<language type="ast">astuuria</language>
-			<language type="ath">atapaski keeled</language>
-			<language type="aus">austraali keel</language>
 			<language type="av">avaari</language>
 			<language type="awa">avadhi</language>
 			<language type="ay">aimara</language>
 			<language type="az">aserbaidžaani</language>
 			<language type="az" alt="short">aseri</language>
 			<language type="ba">baškiiri</language>
-			<language type="bad">banda</language>
-			<language type="bai">bamileke keel</language>
 			<language type="bal">belutši</language>
 			<language type="ban">bali</language>
 			<language type="bas">basa</language>
-			<language type="bat">balti keel</language>
 			<language type="bax">bamuni</language>
 			<language type="bbj">ghomala</language>
 			<language type="be">valgevene</language>
 			<language type="bej">bedža</language>
 			<language type="bem">bemba</language>
-			<language type="ber">berberi</language>
 			<language type="bez">bena</language>
 			<language type="bfd">bafuti</language>
 			<language type="bg">bulgaaria</language>
-			<language type="bh">bihari</language>
 			<language type="bho">bhodžpuri</language>
 			<language type="bi">bislama</language>
 			<language type="bik">bikoli</language>
@@ -80,14 +70,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="bla">siksika</language>
 			<language type="bm">bambara</language>
 			<language type="bn">bengali</language>
-			<language type="bnt">bantu</language>
 			<language type="bo">tiibeti</language>
 			<language type="br">bretooni</language>
 			<language type="bra">bradži</language>
 			<language type="brx">bodo</language>
 			<language type="bs">bosnia</language>
 			<language type="bss">akoose</language>
-			<language type="btk">bataki</language>
 			<language type="bua">burjaadi</language>
 			<language type="bug">bugi</language>
 			<language type="bum">bulu</language>
@@ -95,14 +83,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="byv">medumba</language>
 			<language type="ca">katalaani</language>
 			<language type="cad">kado</language>
-			<language type="cai">Kesk-Ameerika indiaani keel</language>
 			<language type="car">kariibi</language>
-			<language type="cau">kaukaasia keel</language>
 			<language type="cay">cayuga</language>
 			<language type="cch">atsami</language>
 			<language type="ce">tšetšeeni</language>
 			<language type="ceb">sebu</language>
-			<language type="cel">keldi keel</language>
 			<language type="cgg">chiga</language>
 			<language type="ch">tšamorro</language>
 			<language type="chb">tšibtša</language>
@@ -115,26 +100,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="chr">tšerokii</language>
 			<language type="chy">šaieeni</language>
 			<language type="ckb">sorani kurdi</language>
-			<language type="cmc">tšami keeled</language>
 			<language type="co">korsika</language>
 			<language type="cop">kopti</language>
-			<language type="cpe">inglispõhjalised kreool- ja pidžinkeeled</language>
-			<language type="cpf">prantsuspõhjalised kreool- ja pidžinkeeled</language>
-			<language type="cpp">portugalipõhjalised kreooli-/pidžinkeeled</language>
 			<language type="cr">krii</language>
 			<language type="crh">krimmitatari</language>
-			<language type="crp">kreool- või pidžinkeel</language>
 			<language type="cs">tšehhi</language>
 			<language type="csb">kašuubi</language>
 			<language type="cu">kirikuslaavi</language>
-			<language type="cus">muu kuši keel</language>
 			<language type="cv">tšuvaši</language>
 			<language type="cy">kõmri</language>
 			<language type="da">taani</language>
 			<language type="dak">siuu</language>
 			<language type="dar">dargi</language>
 			<language type="dav">taita</language>
-			<language type="day">dajaki</language>
 			<language type="de">saksa</language>
 			<language type="de_CH">saksa (kõrgsaksa)</language>
 			<language type="del">delavari</language>
@@ -143,7 +121,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="din">dinka</language>
 			<language type="dje">zarma</language>
 			<language type="doi">dogri</language>
-			<language type="dra">draviidi keel</language>
 			<language type="dsb">alamsorbi</language>
 			<language type="dua">duala</language>
 			<language type="dum">keskhollandi</language>
@@ -162,10 +139,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="en">inglise</language>
 			<language type="en_GB">inglise (Briti)</language>
 			<language type="en_US">inglise (USA)</language>
+			<language type="en_US" alt="short">inglise (USA)</language>
 			<language type="enm">keskinglise</language>
 			<language type="eo">esperanto</language>
 			<language type="es">hispaania</language>
-			<language type="es_ES">hispaania (Ibeeria)</language>
+			<language type="es_ES">hispaania (Euroopa)</language>
 			<language type="et">eesti</language>
 			<language type="eu">baski</language>
 			<language type="ewo">evondo</language>
@@ -175,7 +153,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ff">fulbe</language>
 			<language type="fi">soome</language>
 			<language type="fil">filipino</language>
-			<language type="fiu">soomeugri keel</language>
 			<language type="fj">fidži</language>
 			<language type="fo">fääri</language>
 			<language type="fon">foni</language>
@@ -191,7 +168,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="gay">gajo</language>
 			<language type="gba">gbaja</language>
 			<language type="gd">gaeli</language>
-			<language type="gem">germaani keel</language>
 			<language type="gez">etioopia</language>
 			<language type="gil">kiribati</language>
 			<language type="gl">galeegi</language>
@@ -214,7 +190,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="he">heebrea</language>
 			<language type="hi">hindi</language>
 			<language type="hil">hiligainoni</language>
-			<language type="him">himtšali</language>
 			<language type="hit">heti</language>
 			<language type="hmn">hmongi</language>
 			<language type="ho">motu</language>
@@ -232,20 +207,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ie">interlingue</language>
 			<language type="ig">ibo</language>
 			<language type="ii">sichuani jii</language>
-			<language type="ijo">idžo</language>
 			<language type="ik">injupiaki</language>
 			<language type="ilo">iloko</language>
-			<language type="inc">india keel</language>
-			<language type="ine">indoeuroopa keel</language>
 			<language type="inh">inguši</language>
 			<language type="io">ido</language>
-			<language type="ira">iraani keeled</language>
-			<language type="iro">irokeesi keel</language>
 			<language type="is">islandi</language>
 			<language type="it">itaalia</language>
 			<language type="iu">inuktituti</language>
 			<language type="ja">jaapani</language>
 			<language type="jbo">lojbani</language>
+			<language type="jgo" draft="contributed">ngomba</language>
 			<language type="jmc">machame</language>
 			<language type="jpr">juudipärsia</language>
 			<language type="jrb">juudiaraabia</language>
@@ -256,7 +227,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kac">katšini</language>
 			<language type="kaj">jju</language>
 			<language type="kam">kamba</language>
-			<language type="kar">kareni keel</language>
 			<language type="kaw">kaavi</language>
 			<language type="kbd">kabardi-tšerkessi</language>
 			<language type="kbl">kanembu</language>
@@ -266,7 +236,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kfo">koro</language>
 			<language type="kg">kongo</language>
 			<language type="kha">khasi</language>
-			<language type="khi">khoisani keel</language>
 			<language type="kho">saki</language>
 			<language type="khq">koyra chiini</language>
 			<language type="ki">kikuju</language>
@@ -285,7 +254,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kr">kanuri</language>
 			<language type="krc">karatšai-balkaari</language>
 			<language type="krl">karjala</language>
-			<language type="kro">kruu</language>
 			<language type="kru">oraoni</language>
 			<language type="ks">kašmiiri</language>
 			<language type="ksb">shambala</language>
@@ -325,7 +293,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mai">maithili</language>
 			<language type="mak">makassari</language>
 			<language type="man">malinke</language>
-			<language type="map">austroneesia keel</language>
 			<language type="mas">masai</language>
 			<language type="mde">maba</language>
 			<language type="mdf">mokša</language>
@@ -336,19 +303,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mg">malagassi</language>
 			<language type="mga">keskiiri</language>
 			<language type="mgh">makhuwa-meetto</language>
+			<language type="mgo" draft="contributed">meta'</language>
 			<language type="mh">maršalli</language>
 			<language type="mi">maoori</language>
 			<language type="mic">mikmaki</language>
 			<language type="min">minangkabau</language>
-			<language type="mis">üksikkeeled</language>
 			<language type="mk">makedoonia</language>
-			<language type="mkh">moni-khmeeri keel</language>
 			<language type="ml">malajalami</language>
 			<language type="mn">mongoli</language>
 			<language type="mnc">mandžu</language>
 			<language type="mni">manipuri</language>
-			<language type="mno">manobo keel</language>
-			<language type="mo">moldova</language>
 			<language type="moh">mohoogi</language>
 			<language type="mos">more</language>
 			<language type="mr">marathi</language>
@@ -356,17 +320,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mt">malta</language>
 			<language type="mua">mundangi</language>
 			<language type="mul">mitu keelt</language>
-			<language type="mun">munda keel</language>
 			<language type="mus">maskogi</language>
 			<language type="mwl">miranda</language>
 			<language type="mwr">marvari</language>
 			<language type="my">birma</language>
 			<language type="mye">myene</language>
-			<language type="myn">maia keeled</language>
 			<language type="myv">ersa</language>
 			<language type="na">nauru</language>
-			<language type="nah">nahua</language>
-			<language type="nai">Põhja-Ameerika indiaani keel</language>
 			<language type="nap">napoli</language>
 			<language type="naq">nama</language>
 			<language type="nb">norra bokmål</language>
@@ -376,7 +336,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="new">nevari</language>
 			<language type="ng">ndonga</language>
 			<language type="nia">niasi</language>
-			<language type="nic">Nigeri-Kordofani keel</language>
 			<language type="niu">niue</language>
 			<language type="nl">hollandi</language>
 			<language type="nl_BE">flaami</language>
@@ -389,7 +348,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="nqo">nkoo</language>
 			<language type="nr">lõunandebele</language>
 			<language type="nso">pedi</language>
-			<language type="nub">nuubia keel</language>
 			<language type="nus">nueri</language>
 			<language type="nv">navaho</language>
 			<language type="nwc">vananevari</language>
@@ -405,26 +363,21 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="os">osseedi</language>
 			<language type="osa">oseidži</language>
 			<language type="ota">osmanitürgi</language>
-			<language type="oto">otomi keel</language>
 			<language type="pa">pandžabi</language>
-			<language type="paa">paapua keel</language>
 			<language type="pag">pangasinani</language>
 			<language type="pal">pahlavi</language>
 			<language type="pam">pampanga</language>
 			<language type="pap">papiamento</language>
 			<language type="pau">belau</language>
 			<language type="peo">vanapärsia</language>
-			<language type="phi">filipiini keel</language>
 			<language type="phn">foiniikia</language>
 			<language type="pi">paali</language>
 			<language type="pl">poola</language>
 			<language type="pon">poonpei</language>
-			<language type="pra">praakriti keel</language>
 			<language type="pro">vanaprovansi</language>
 			<language type="ps">puštu</language>
-			<language type="ps" alt="variant">puštu</language>
 			<language type="pt">portugali</language>
-			<language type="pt_PT">portugali (Ibeeria)</language>
+			<language type="pt_PT">portugali (Euroopa)</language>
 			<language type="qu">ketšua</language>
 			<language type="raj">radžastani</language>
 			<language type="rap">rapanui</language>
@@ -432,7 +385,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="rm">retoromaani</language>
 			<language type="rn">rundi</language>
 			<language type="ro">rumeenia</language>
-			<language type="roa">romaani keel</language>
+			<language type="ro_MD">moldova</language>
 			<language type="rof">rombo</language>
 			<language type="rom">mustlaskeel</language>
 			<language type="root">root</language>
@@ -443,8 +396,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sa">sanskriti</language>
 			<language type="sad">sandave</language>
 			<language type="sah">jakuudi</language>
-			<language type="sai">Lõuna-Ameerika indiaani keel</language>
-			<language type="sal">sališi keel</language>
 			<language type="sam">samaaria aramea</language>
 			<language type="saq">samburu</language>
 			<language type="sas">sasaki</language>
@@ -459,25 +410,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="see">seneca</language>
 			<language type="seh">sena</language>
 			<language type="sel">sölkupi</language>
-			<language type="sem">semi keel</language>
 			<language type="ses">koyraboro senni</language>
 			<language type="sg">sango</language>
 			<language type="sga">vanaiiri</language>
-			<language type="sgn">viipekeel</language>
 			<language type="sh">serbia-horvaadi</language>
 			<language type="shi">tachelhiti</language>
 			<language type="shn">šani</language>
 			<language type="shu">Tšaadi araabia</language>
 			<language type="si">singali</language>
 			<language type="sid">sidamo</language>
-			<language type="sio">siuu keel</language>
-			<language type="sit">hiina-tiibeti keel</language>
 			<language type="sk">slovaki</language>
 			<language type="sl">sloveeni</language>
-			<language type="sla">slaavi keel</language>
 			<language type="sm">samoa</language>
 			<language type="sma">lõunasaami</language>
-			<language type="smi">muu saami</language>
 			<language type="smj">lule saami</language>
 			<language type="smn">inari saami</language>
 			<language type="sms">koltasaami</language>
@@ -485,13 +430,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="snk">soninke</language>
 			<language type="so">somaali</language>
 			<language type="sog">sogdi</language>
-			<language type="son">songai</language>
 			<language type="sq">albaania</language>
 			<language type="sr">serbia</language>
 			<language type="srn">sranani</language>
 			<language type="srr">sereri</language>
 			<language type="ss">svaasi</language>
-			<language type="ssa">Niiluse-Sahara keel</language>
 			<language type="ssy">saho</language>
 			<language type="st">lõunasotho</language>
 			<language type="su">sunda</language>
@@ -505,7 +448,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="syc">klassikaline süüria</language>
 			<language type="syr">süüria</language>
 			<language type="ta">tamili</language>
-			<language type="tai">tai keel</language>
 			<language type="te">telugu</language>
 			<language type="tem">temne</language>
 			<language type="teo">teso</language>
@@ -532,8 +474,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="tsi">tšimši</language>
 			<language type="tt">tatari</language>
 			<language type="tum">tumbuka</language>
-			<language type="tup">tupii keeled</language>
-			<language type="tut">altai keel</language>
 			<language type="tvl">tuvalu</language>
 			<language type="tw">tvii</language>
 			<language type="twq">taswaqi</language>
@@ -542,7 +482,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="tzm">Kesk-Maroko tamazighti</language>
 			<language type="udm">udmurdi</language>
 			<language type="ug">uiguuri</language>
-			<language type="ug" alt="variant">uiguuri keel</language>
 			<language type="uga">ugariti</language>
 			<language type="uk">ukraina</language>
 			<language type="umb">umbundu</language>
@@ -557,11 +496,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="vun">vunjo</language>
 			<language type="wa">vallooni</language>
 			<language type="wae">walseri</language>
-			<language type="wak">vakaši keel</language>
 			<language type="wal">volamo</language>
 			<language type="war">varai</language>
 			<language type="was">vašo</language>
-			<language type="wen">sorbi keel</language>
 			<language type="wo">volofi</language>
 			<language type="xal">kalmõki</language>
 			<language type="xh">koosa</language>
@@ -572,16 +509,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ybb">yemba</language>
 			<language type="yi">jidiši</language>
 			<language type="yo">joruba</language>
-			<language type="ypk">jupiki keel</language>
 			<language type="yue">kantoni</language>
 			<language type="za">tšuangi</language>
 			<language type="zap">sapoteegi</language>
 			<language type="zbl">blissümbolid</language>
 			<language type="zen">zenaga</language>
+			<language type="zgh">tamasikti (Maroko)</language>
 			<language type="zh">hiina</language>
 			<language type="zh_Hans">hiina keel - lihtsustatud</language>
 			<language type="zh_Hant">hiina keel - traditsiooniline</language>
-			<language type="znd">zande</language>
 			<language type="zu">suulu</language>
 			<language type="zun">sunji</language>
 			<language type="zxx">mittekeeleline</language>
@@ -589,7 +525,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</languages>
 		<scripts>
 			<script type="Arab">araabia</script>
-			<script type="Arab" alt="variant">Pärsia-araabia</script>
+			<script type="Arab" alt="variant">pärsia-araabia</script>
 			<script type="Armn">armeenia</script>
 			<script type="Avst" draft="unconfirmed">avesta</script>
 			<script type="Bali">bali</script>
@@ -776,7 +712,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CD" alt="variant">Kongo-Kinshasa</territory>
 			<territory type="CF">Kesk-Aafrika Vabariik</territory>
 			<territory type="CG">Kongo-Brazzaville</territory>
-			<territory type="CG" alt="variant">Kongo-Brazzaville</territory>
 			<territory type="CH">Šveits</territory>
 			<territory type="CI">Côte d'Ivoire</territory>
 			<territory type="CI" alt="variant">Elevandiluurannik</territory>
@@ -812,12 +747,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FI">Soome</territory>
 			<territory type="FJ">Fidži</territory>
 			<territory type="FK">Falklandi saared</territory>
-			<territory type="FK" alt="variant">Falklandi saared</territory>
 			<territory type="FM">Mikroneesia Liiduriigid</territory>
 			<territory type="FO">Fääri saared</territory>
 			<territory type="FR">Prantsusmaa</territory>
 			<territory type="GA">Gabon</territory>
 			<territory type="GB">Suurbritannia</territory>
+			<territory type="GB" alt="short">Suurbritannia</territory>
 			<territory type="GD">Grenada</territory>
 			<territory type="GE">Gruusia</territory>
 			<territory type="GF">Prantsuse Guajaana</territory>
@@ -887,7 +822,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MG">Madagaskar</territory>
 			<territory type="MH">Marshalli saared</territory>
 			<territory type="MK">Makedoonia</territory>
-			<territory type="MK" alt="variant">Makedoonia</territory>
 			<territory type="ML">Mali</territory>
 			<territory type="MM">Myanmar</territory>
 			<territory type="MN">Mongoolia</territory>
@@ -925,9 +859,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="PK">Pakistan</territory>
 			<territory type="PL">Poola</territory>
 			<territory type="PM">Saint Pierre ja Miquelon</territory>
-			<territory type="PN">Pitcairn</territory>
+			<territory type="PN">Pitcairni saared</territory>
 			<territory type="PR">Puerto Rico</territory>
-			<territory type="PS">Palestiina ala</territory>
+			<territory type="PS">Palestiina alad</territory>
 			<territory type="PS" alt="short">Palestiina</territory>
 			<territory type="PT">Portugal</territory>
 			<territory type="PW">Belau</territory>
@@ -969,7 +903,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="TJ">Tadžikistan</territory>
 			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Ida-Timor</territory>
-			<territory type="TL" alt="variant">Ida-Timor</territory>
 			<territory type="TM">Türkmenistan</territory>
 			<territory type="TN">Tuneesia</territory>
 			<territory type="TO">Tonga</territory>
@@ -982,6 +915,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="UG">Uganda</territory>
 			<territory type="UM">Ühendriikide hajasaared</territory>
 			<territory type="US">Ameerika Ühendriigid</territory>
+			<territory type="US" alt="short">USA</territory>
 			<territory type="UY">Uruguay</territory>
 			<territory type="UZ">Usbekistan</territory>
 			<territory type="VA">Vatikan</territory>
@@ -993,11 +927,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="VU">Vanuatu</territory>
 			<territory type="WF">Wallis ja Futuna</territory>
 			<territory type="WS">Samoa</territory>
+			<territory type="XK">Kosovo</territory>
 			<territory type="YE">Jeemen</territory>
 			<territory type="YT">Mayotte</territory>
 			<territory type="ZA">Lõuna-Aafrika Vabariik</territory>
 			<territory type="ZM">Sambia</territory>
 			<territory type="ZW">Zimbabwe</territory>
+			<territory type="ZZ">Tundmatu piirkond</territory>
 		</territories>
 		<variants>
 			<variant type="1901">saksa traditsiooniline kirjaviis</variant>
@@ -1065,6 +1001,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="deva" key="numbers">Devanagari numbrid</type>
 			<type type="dictionary" key="collation">Sõnastiku sortimisjärjestus</type>
 			<type type="ducet" key="collation">Unicode'i sortimise vaikejärjestus</type>
+			<type type="eor" key="collation" draft="unconfirmed">sortimisjärjestuse mitmekeelne Euroopa dokumendid</type>
 			<type type="ethi" key="numbers">Etioopia numbrid</type>
 			<type type="ethiopic" key="calendar">Etioopia kalender</type>
 			<type type="ethiopic-amete-alem" key="calendar">Etioopia amete alemi kalender</type>
@@ -1122,6 +1059,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="searchjl" key="collation">Otsing hanguli alguskonsonandi alusel</type>
 			<type type="secondary" key="colStrength">Rõhumärkide sortimine</type>
 			<type type="shifted" key="colAlternate">Sordi sümboleid eirates</type>
+			<type type="standard" key="collation">Standardne sortimisjärjestus</type>
 			<type type="stroke" key="collation">elementide kirjutamise järjekorras</type>
 			<type type="taml" key="numbers">Tamili numbrid</type>
 			<type type="tamldec" key="numbers">Tamili numbrid</type>
@@ -1167,9 +1105,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<exemplarCharacters>[a b c d e f g h i j k l m n o p q r s š z ž t u v w õ ä ö ü x y]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á à â å ā æ ç é è ê ë ē í ì î ï ī ñ ó ò ŏ ô ø ō œ ú ù û ū]</exemplarCharacters>
 		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S Š Z Ž T U V Õ Ä Ö Ü X Y]</exemplarCharacters>
-		<ellipsis type="final">{0} …</ellipsis>
-		<ellipsis type="initial">… {0}</ellipsis>
+		<ellipsis type="final">{0}…</ellipsis>
+		<ellipsis type="initial">…{0}</ellipsis>
 		<ellipsis type="medial">{0} … {1}</ellipsis>
+		<ellipsis type="word-final">{0} …</ellipsis>
+		<ellipsis type="word-initial">… {0}</ellipsis>
+		<ellipsis type="word-medial">{0} … {1}</ellipsis>
 		<moreInformation>?</moreInformation>
 	</characters>
 	<delimiters>
@@ -1199,7 +1140,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>dd.MM.yy GGGGG</pattern>
+							<pattern>dd.MM.y GGGGG</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -1227,6 +1168,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, d</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">d. MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E, d. MMMM y G</dateFormatItem>
 						<dateFormatItem id="h">h a</dateFormatItem>
 						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
@@ -1236,7 +1181,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="M">M</dateFormatItem>
 						<dateFormatItem id="Md">d.M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d.M</dateFormatItem>
-						<dateFormatItem id="MMdd">dd.MM</dateFormatItem>
 						<dateFormatItem id="MMM">MMMM</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, d. MMM</dateFormatItem>
@@ -1244,17 +1188,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMMMEd">E, d. MMMM</dateFormatItem>
 						<dateFormatItem id="mmss">mm.ss</dateFormatItem>
 						<dateFormatItem id="ms">mm.ss</dateFormatItem>
-						<dateFormatItem id="y">y</dateFormatItem>
-						<dateFormatItem id="yM">M.y</dateFormatItem>
-						<dateFormatItem id="yMd">d.M.y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d.M y</dateFormatItem>
-						<dateFormatItem id="yMM">MM.y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d. MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, d. MMMM y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, d.M y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, d. MMMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">QQQQ y G</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0}–{1}</intervalFormatFallback>
@@ -1278,7 +1222,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH.mm–HH.mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">HH.mma–HH.mma v</greatestDifference>
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
 						</intervalFormatItem>
@@ -1316,39 +1260,39 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="M">E, d. MMM–E, d. MMM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
-							<greatestDifference id="y">y–y</greatestDifference>
+							<greatestDifference id="y">y–y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">MM.y–MM.y</greatestDifference>
-							<greatestDifference id="y">MM.y–MM.y</greatestDifference>
+							<greatestDifference id="M">MM.y–MM.y G</greatestDifference>
+							<greatestDifference id="y">MM.y–MM.y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">dd.MM.y–dd.MM.y</greatestDifference>
-							<greatestDifference id="M">dd.MM.y–dd.MM.y</greatestDifference>
-							<greatestDifference id="y">dd.MM.y–dd.MM.y</greatestDifference>
+							<greatestDifference id="d">dd.MM.y–dd.MM.y G</greatestDifference>
+							<greatestDifference id="M">dd.MM.y–dd.MM.y G</greatestDifference>
+							<greatestDifference id="y">dd.MM.y–dd.MM.y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E, dd.MM.y–E, dd.MM.y</greatestDifference>
-							<greatestDifference id="M">E, dd.MM.y–E, dd.MM.y</greatestDifference>
-							<greatestDifference id="y">E, dd.MM.y–E, dd.MM.y</greatestDifference>
+							<greatestDifference id="d">E, dd.MM.y–E, dd.MM.y G</greatestDifference>
+							<greatestDifference id="M">E, dd.MM.y–E, dd.MM.y G</greatestDifference>
+							<greatestDifference id="y">E, dd.MM.y–E, dd.MM.y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM–MMM y</greatestDifference>
-							<greatestDifference id="y">MMM y–MMM y</greatestDifference>
+							<greatestDifference id="M">MMM–MMM y G</greatestDifference>
+							<greatestDifference id="y">MMM y–MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d.–d. MMM y</greatestDifference>
-							<greatestDifference id="M">d. MMM–d. MMM y</greatestDifference>
-							<greatestDifference id="y">d. MMM y–d. MMM y</greatestDifference>
+							<greatestDifference id="d">d.–d. MMM y G</greatestDifference>
+							<greatestDifference id="M">d. MMM–d. MMM y G</greatestDifference>
+							<greatestDifference id="y">d. MMM y–d. MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E, d. MMM–E, d. MMM y</greatestDifference>
-							<greatestDifference id="M">E, d. MMM–E, d. MMM y</greatestDifference>
-							<greatestDifference id="y">E, d. MMM y–E, d. MMM y</greatestDifference>
+							<greatestDifference id="d">E, d. MMM–E, d. MMM y G</greatestDifference>
+							<greatestDifference id="M">E, d. MMM–E, d. MMM y G</greatestDifference>
+							<greatestDifference id="y">E, d. MMM y–E, d. MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MMMM–MMMM y</greatestDifference>
-							<greatestDifference id="y">MMMM y – MMMM y</greatestDifference>
+							<greatestDifference id="M">MMMM–MMMM y G</greatestDifference>
+							<greatestDifference id="y">MMMM y – MMMM y G</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1585,6 +1529,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<era type="0">e.m.a.</era>
 						<era type="1">m.a.j.</era>
 					</eraAbbr>
+					<eraNarrow>
+						<era type="0">e.m.a.</era>
+						<era type="0" alt="variant" draft="unconfirmed">ema</era>
+						<era type="1">m.a.j.</era>
+						<era type="1" alt="variant" draft="unconfirmed">maj</era>
+					</eraNarrow>
 				</eras>
 				<dateFormats>
 					<dateFormatLength type="full">
@@ -1654,6 +1604,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, d</dateFormatItem>
+						<dateFormatItem id="Ehm">E h:mm a</dateFormatItem>
+						<dateFormatItem id="EHm">E HH:mm</dateFormatItem>
+						<dateFormatItem id="Ehms">E h:mm:ss a</dateFormatItem>
+						<dateFormatItem id="EHms">E HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">d. MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E, d. MMMM y G</dateFormatItem>
 						<dateFormatItem id="h">h a</dateFormatItem>
 						<dateFormatItem id="H">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
@@ -1663,7 +1621,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="M">M</dateFormatItem>
 						<dateFormatItem id="Md">d.M</dateFormatItem>
 						<dateFormatItem id="MEd">E, d.M</dateFormatItem>
-						<dateFormatItem id="MMdd">dd.MM</dateFormatItem>
 						<dateFormatItem id="MMM">MMMM</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, d. MMM</dateFormatItem>
@@ -1675,7 +1632,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="yM">M.y</dateFormatItem>
 						<dateFormatItem id="yMd">d.M.y</dateFormatItem>
 						<dateFormatItem id="yMEd">E, d.M y</dateFormatItem>
-						<dateFormatItem id="yMM">MM.y</dateFormatItem>
 						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMd">d. MMM y</dateFormatItem>
 						<dateFormatItem id="yMMMEd">E, d. MMMM y</dateFormatItem>
@@ -1683,6 +1639,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
 					</availableFormats>
+					<appendItems>
+						<appendItem request="Timezone">{0} {1}</appendItem>
+					</appendItems>
 					<intervalFormats>
 						<intervalFormatFallback>{0}–{1}</intervalFormatFallback>
 						<intervalFormatItem id="d">
@@ -1705,7 +1664,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH.mm–HH.mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
-							<greatestDifference id="a">HH.mma–HH.mma v</greatestDifference>
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
 						</intervalFormatItem>
@@ -1721,7 +1680,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="H">HH–HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
-							<greatestDifference id="M">M–M</greatestDifference>
+							<greatestDifference id="M">MM–MM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Md">
 							<greatestDifference id="d">dd.MM–dd.MM</greatestDifference>
@@ -1787,21 +1746,45 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</field>
 			<field type="year">
 				<displayName>aasta</displayName>
-				<relative type="-1">Eelmine aasta</relative>
-				<relative type="0">Sel aastal</relative>
-				<relative type="1">Järgmine aasta</relative>
+				<relative type="-1">eelmine aasta</relative>
+				<relative type="0">käesolev aasta</relative>
+				<relative type="1">järgmine aasta</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} aasta pärast</relativeTimePattern>
+					<relativeTimePattern count="other">{0} aasta pärast</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} aasta eest</relativeTimePattern>
+					<relativeTimePattern count="other">{0} aasta eest</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="month">
 				<displayName>kuu</displayName>
-				<relative type="-1">Eelmine kuu</relative>
-				<relative type="0">See kuu</relative>
-				<relative type="1">Järgmine kuu</relative>
+				<relative type="-1">eelmine kuu</relative>
+				<relative type="0">käesolev kuu</relative>
+				<relative type="1">järgmine kuu</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} kuu pärast</relativeTimePattern>
+					<relativeTimePattern count="other">{0} kuu pärast</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} kuu eest</relativeTimePattern>
+					<relativeTimePattern count="other">{0} kuu eest</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="week">
 				<displayName>nädal</displayName>
-				<relative type="-1">Eelmine nädal</relative>
-				<relative type="0">See nädal</relative>
-				<relative type="1">Järgmine nädal</relative>
+				<relative type="-1">eelmine nädal</relative>
+				<relative type="0">käesolev nädal</relative>
+				<relative type="1">järgmine nädal</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} nädala pärast</relativeTimePattern>
+					<relativeTimePattern count="other">{0} nädala pärast</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} nädala eest</relativeTimePattern>
+					<relativeTimePattern count="other">{0} nädala eest</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="day">
 				<displayName>päev</displayName>
@@ -1810,41 +1793,107 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="0">täna</relative>
 				<relative type="1">homme</relative>
 				<relative type="2">ülehomme</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} päeva pärast</relativeTimePattern>
+					<relativeTimePattern count="other">{0} päeva pärast</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} päeva eest</relativeTimePattern>
+					<relativeTimePattern count="other">{0} päeva eest</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="weekday">
 				<displayName>nädalapäev</displayName>
+			</field>
+			<field type="sun">
+				<relative type="-1">eelmine pühapäev</relative>
+				<relative type="0">käesolev pühapäev</relative>
+				<relative type="1">järgmine pühapäev</relative>
+			</field>
+			<field type="mon">
+				<relative type="-1">eelmine esmaspäev</relative>
+				<relative type="0">käesolev esmaspäev</relative>
+				<relative type="1">järgmine esmaspäev</relative>
+			</field>
+			<field type="tue">
+				<relative type="-1">eelmine teisipäev</relative>
+				<relative type="0">käesolev teisipäev</relative>
+				<relative type="1">järgmine teisipäev</relative>
+			</field>
+			<field type="wed">
+				<relative type="-1">eelmine kolmapäev</relative>
+				<relative type="0">käesolev kolmapäev</relative>
+				<relative type="1">järgmine kolmapäev</relative>
+			</field>
+			<field type="thu">
+				<relative type="-1">eelmine neljapäev</relative>
+				<relative type="0">käesolev neljapäev</relative>
+				<relative type="1">järgmine neljapäev</relative>
+			</field>
+			<field type="fri">
+				<relative type="-1">eelmine reede</relative>
+				<relative type="0">käesolev reede</relative>
+				<relative type="1">järgmine reede</relative>
+			</field>
+			<field type="sat">
+				<relative type="-1">eelmine laupäev</relative>
+				<relative type="0">käesolev laupäev</relative>
+				<relative type="1">järgmine laupäev</relative>
 			</field>
 			<field type="dayperiod">
 				<displayName>enne/pärast lõunat</displayName>
 			</field>
 			<field type="hour">
 				<displayName>tund</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} tunni pärast</relativeTimePattern>
+					<relativeTimePattern count="other">{0} tunni pärast</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} tunni eest</relativeTimePattern>
+					<relativeTimePattern count="other">{0} tunni eest</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="minute">
 				<displayName>minut</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} minuti pärast</relativeTimePattern>
+					<relativeTimePattern count="other">{0} minuti pärast</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} minuti eest</relativeTimePattern>
+					<relativeTimePattern count="other">{0} minuti eest</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="second">
 				<displayName>sekund</displayName>
+				<relative type="0">nüüd</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">{0} sekundi pärast</relativeTimePattern>
+					<relativeTimePattern count="other">{0} sekundi pärast</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">{0} sekundi eest</relativeTimePattern>
+					<relativeTimePattern count="other">{0} sekundi eest</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="zone">
-				<displayName>vöönd</displayName>
+				<displayName>ajavöönd</displayName>
 			</field>
 		</fields>
 		<timeZoneNames>
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
 			<gmtZeroFormat>GMT</gmtZeroFormat>
-			<regionFormat>{0} aeg</regionFormat>
+			<regionFormat>({0})</regionFormat>
+			<regionFormat type="daylight">{0} (+1)</regionFormat>
+			<regionFormat type="standard">{0} (+0)</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
-			<fallbackRegionFormat>{1} ({0})</fallbackRegionFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>määramata</exemplarCity>
 			</zone>
 			<zone type="Asia/Yerevan">
 				<exemplarCity>Jerevan</exemplarCity>
-			</zone>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity>Lõunapoolus</exemplarCity>
 			</zone>
 			<zone type="Antarctica/DumontDUrville">
 				<exemplarCity>Dumont d’Urville</exemplarCity>
@@ -1921,11 +1970,24 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Europe/Paris">
 				<exemplarCity>Pariis</exemplarCity>
 			</zone>
-			<zone type="Asia/Tbilisi">
-				<exemplarCity>Thbilisi</exemplarCity>
+			<zone type="Europe/London">
+				<long>
+					<daylight>Briti suveaeg</daylight>
+				</long>
+			</zone>
+			<zone type="America/Godthab">
+				<exemplarCity>Nuuk</exemplarCity>
+			</zone>
+			<zone type="America/Scoresbysund">
+				<exemplarCity>Ittoqqortoormiit</exemplarCity>
 			</zone>
 			<zone type="Europe/Athens">
 				<exemplarCity>Ateena</exemplarCity>
+			</zone>
+			<zone type="Europe/Dublin">
+				<long>
+					<daylight>Iiri suveaeg</daylight>
+				</long>
 			</zone>
 			<zone type="Asia/Jerusalem">
 				<exemplarCity>Jeruusalemm</exemplarCity>
@@ -1944,6 +2006,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="Europe/Rome">
 				<exemplarCity>Rooma</exemplarCity>
+			</zone>
+			<zone type="Asia/Tokyo">
+				<exemplarCity>Tōkyō</exemplarCity>
 			</zone>
 			<zone type="Asia/Bishkek">
 				<exemplarCity>Biškek</exemplarCity>
@@ -2989,7 +3054,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<percentSign>%</percentSign>
 			<plusSign>+</plusSign>
 			<minusSign>-</minusSign>
-			<exponential>E</exponential>
+			<exponential>×10^</exponential>
+			<superscriptingExponent>×</superscriptingExponent>
 			<perMille>‰</perMille>
 			<infinity>∞</infinity>
 			<nan>NaN</nan>
@@ -3073,7 +3139,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
+					<pattern>#,##0.00 ¤</pattern>
+				</currencyFormat>
+				<currencyFormat type="accounting">
 					<pattern>#,##0.00 ¤;(#,##0.00 ¤)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -4001,9 +4070,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">Usbekistani sommi</displayName>
 			</currency>
 			<currency type="VEB">
-				<displayName>Venezuela bolívar (1871-2008)</displayName>
-				<displayName count="one">Venezuela bolívar (1871-2008)</displayName>
-				<displayName count="other">Venezuela boliivarit (1871-2008)</displayName>
+				<displayName>Venezuela bolívar (1871–2008)</displayName>
+				<displayName count="one">Venezuela bolívar (1871–2008)</displayName>
+				<displayName count="other">Venezuela boliivarit (1871–2008)</displayName>
 			</currency>
 			<currency type="VEF">
 				<displayName>Venezuela bolívar</displayName>
@@ -4122,9 +4191,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">LAVi randi</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Sambia kvatša (1968-2012)</displayName>
-				<displayName count="one">Sambia kvatša (1968-2012)</displayName>
-				<displayName count="other">Sambia kvatšat (1968-2012)</displayName>
+				<displayName>Sambia kvatša (1968–2012)</displayName>
+				<displayName count="one">Sambia kvatša (1968–2012)</displayName>
+				<displayName count="other">Sambia kvatšat (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>Sambia kvatša</displayName>
@@ -4138,113 +4207,613 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Zimbabwe dollar</displayName>
 			</currency>
 		</currencies>
+		<miscPatterns numberSystem="latn">
+			<pattern type="atLeast">⩾{0}</pattern>
+			<pattern type="range">{0}‒{1}</pattern>
+		</miscPatterns>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one">{0} ööpäev</unitPattern>
-			<unitPattern count="one" alt="short">{0} päeva</unitPattern>
-			<unitPattern count="other">{0} ööpäeva</unitPattern>
-			<unitPattern count="other" alt="short">{0} päeva</unitPattern>
-		</unit>
-		<unit type="day-future">
-			<unitPattern count="one">{0} päeva pärast</unitPattern>
-			<unitPattern count="other">{0} päeva pärast</unitPattern>
-		</unit>
-		<unit type="day-past">
-			<unitPattern count="one">{0} päeva eest</unitPattern>
-			<unitPattern count="other">{0} päeva eest</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">{0} tundi</unitPattern>
-			<unitPattern count="one" alt="short">{0} tundi</unitPattern>
-			<unitPattern count="other">{0} tundi</unitPattern>
-			<unitPattern count="other" alt="short">{0} tundi</unitPattern>
-		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one">{0} tunni pärast</unitPattern>
-			<unitPattern count="other">{0} tunni pärast</unitPattern>
-		</unit>
-		<unit type="hour-past">
-			<unitPattern count="one">{0} tunni eest</unitPattern>
-			<unitPattern count="other">{0} tunni eest</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">{0} minut</unitPattern>
-			<unitPattern count="one" alt="short">{0} min</unitPattern>
-			<unitPattern count="other">{0} minutit</unitPattern>
-			<unitPattern count="other" alt="short">{0} min</unitPattern>
-		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one">{0} minuti pärast</unitPattern>
-			<unitPattern count="other">{0} minuti pärast</unitPattern>
-		</unit>
-		<unit type="minute-past">
-			<unitPattern count="one">{0} minuti eest</unitPattern>
-			<unitPattern count="other">{0} minuti eest</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">{0} kuu</unitPattern>
-			<unitPattern count="one" alt="short">{0} kuud</unitPattern>
-			<unitPattern count="other">{0} kuud</unitPattern>
-			<unitPattern count="other" alt="short">{0} kuud</unitPattern>
-		</unit>
-		<unit type="month-future">
-			<unitPattern count="one">{0} kuu pärast</unitPattern>
-			<unitPattern count="other">{0} kuu pärast</unitPattern>
-		</unit>
-		<unit type="month-past">
-			<unitPattern count="one">{0} kuu eest</unitPattern>
-			<unitPattern count="other">{0} kuu eest</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">{0} sekund</unitPattern>
-			<unitPattern count="one" alt="short">{0} s</unitPattern>
-			<unitPattern count="other">{0} sekundit</unitPattern>
-			<unitPattern count="other" alt="short">{0} s</unitPattern>
-		</unit>
-		<unit type="second-future">
-			<unitPattern count="one">{0} sekundi pärast</unitPattern>
-			<unitPattern count="other">{0} sekundi pärast</unitPattern>
-		</unit>
-		<unit type="second-past">
-			<unitPattern count="one">{0} sekundi eest</unitPattern>
-			<unitPattern count="other">{0} sekundi eest</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">{0} nädal</unitPattern>
-			<unitPattern count="one" alt="short">{0} nädal</unitPattern>
-			<unitPattern count="other">{0} nädalat</unitPattern>
-			<unitPattern count="other" alt="short">{0} nädalat</unitPattern>
-		</unit>
-		<unit type="week-future">
-			<unitPattern count="one">{0} nädala pärast</unitPattern>
-			<unitPattern count="other">{0} nädala pärast</unitPattern>
-		</unit>
-		<unit type="week-past">
-			<unitPattern count="one">{0} nädala eest</unitPattern>
-			<unitPattern count="other">{0} nädala eest</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} aasta</unitPattern>
-			<unitPattern count="one" alt="short">{0} a</unitPattern>
-			<unitPattern count="other">{0} aastat</unitPattern>
-			<unitPattern count="other" alt="short">{0} a</unitPattern>
-		</unit>
-		<unit type="year-future">
-			<unitPattern count="one">{0} aasta pärast</unitPattern>
-			<unitPattern count="other">{0} aasta pärast</unitPattern>
-		</unit>
-		<unit type="year-past">
-			<unitPattern count="one">{0} aasta eest</unitPattern>
-			<unitPattern count="other">{0} aasta eest</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<compoundUnit type="per">
+				<compoundUnitPattern>{0} {1} kohta</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0} maa gravitatsiooni</unitPattern>
+				<unitPattern count="other">{0} maa gravitatsiooni</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0} kaareminut</unitPattern>
+				<unitPattern count="other">{0} kaareminut</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0} kaaresekund</unitPattern>
+				<unitPattern count="other">{0} kaaresekund</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0} kraad</unitPattern>
+				<unitPattern count="other">{0} kraadi</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0} aaker</unitPattern>
+				<unitPattern count="other">{0} aakrit</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">{0} hektar</unitPattern>
+				<unitPattern count="other">{0} hektarit</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0} ruutjalg</unitPattern>
+				<unitPattern count="other">{0} ruutjalga</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0} ruutkilomeeter</unitPattern>
+				<unitPattern count="other">{0} ruutkilomeetrit</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0} ruutmeeter</unitPattern>
+				<unitPattern count="other">{0} ruutmeetrit</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} ruutmiil</unitPattern>
+				<unitPattern count="other">{0} ruutmiili</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0} ööpäev</unitPattern>
+				<unitPattern count="other">{0} ööpäeva</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} tund</unitPattern>
+				<unitPattern count="other">{0} tundi</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0} millisekund</unitPattern>
+				<unitPattern count="other">{0} millisekundit</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} minut</unitPattern>
+				<unitPattern count="other">{0} minutit</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} kuu</unitPattern>
+				<unitPattern count="other">{0} kuud</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} sekund</unitPattern>
+				<unitPattern count="other">{0} sekundit</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} nädal</unitPattern>
+				<unitPattern count="other">{0} nädalat</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} aasta</unitPattern>
+				<unitPattern count="other">{0} aastat</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0} sentimeeter</unitPattern>
+				<unitPattern count="other">{0} sentimeetrit</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">{0} jalg</unitPattern>
+				<unitPattern count="other">{0} jalga</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">{0} toll</unitPattern>
+				<unitPattern count="other">{0} tolli</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0} kilomeeter</unitPattern>
+				<unitPattern count="other">{0} kilomeetrit</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">{0} valgusaasta</unitPattern>
+				<unitPattern count="other">{0} valgusaastat</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0} meeter</unitPattern>
+				<unitPattern count="other">{0} meetrit</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0} miil</unitPattern>
+				<unitPattern count="other">{0} miili</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0} millimeeter</unitPattern>
+				<unitPattern count="other">{0} millimeetrit</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0} pikomeeter</unitPattern>
+				<unitPattern count="other">{0} pikomeetrit</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0} jard</unitPattern>
+				<unitPattern count="other">{0} jardi</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">{0} gramm</unitPattern>
+				<unitPattern count="other">{0} grammi</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">{0} kilogramm</unitPattern>
+				<unitPattern count="other">{0} kilogrammi</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">{0} unts</unitPattern>
+				<unitPattern count="other">{0} untsi</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0} nael</unitPattern>
+				<unitPattern count="other">{0} naela</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">{0} hobujõud</unitPattern>
+				<unitPattern count="other">{0} hobujõudu</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">{0} kilovatt</unitPattern>
+				<unitPattern count="other">{0} kilovatti</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">{0} vatt</unitPattern>
+				<unitPattern count="other">{0} vatti</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">{0} hektopaskal</unitPattern>
+				<unitPattern count="other">{0} hektopaskalit</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} toll elavhõbedasammast</unitPattern>
+				<unitPattern count="other">{0} tolli elavhõbedasammast</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">{0} millibaar</unitPattern>
+				<unitPattern count="other">{0} millibaari</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0} kilomeeter tunnis</unitPattern>
+				<unitPattern count="other">{0} kilomeetrit tunnis</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0} meeter sekundis</unitPattern>
+				<unitPattern count="other">{0} meetrit sekundis</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} miil tunnis</unitPattern>
+				<unitPattern count="other">{0} miili tunnis</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0} Celsiuse kraad</unitPattern>
+				<unitPattern count="other">{0} Celsiuse kraadi</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0} Fahrenheiti kraad</unitPattern>
+				<unitPattern count="other">{0} Fahrenheiti kraadi</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0} kuupkilomeeter</unitPattern>
+				<unitPattern count="other">{0} kuupkilomeetrit</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0} kuupmiil</unitPattern>
+				<unitPattern count="other">{0} kuupmiili</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0} liiter</unitPattern>
+				<unitPattern count="other">{0} liitrit</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<compoundUnit type="per">
+				<compoundUnitPattern>{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0} G</unitPattern>
+				<unitPattern count="other">{0} G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0}′</unitPattern>
+				<unitPattern count="other">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0}″</unitPattern>
+				<unitPattern count="other">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0} aaker</unitPattern>
+				<unitPattern count="other">{0} aakrit</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">{0} ha</unitPattern>
+				<unitPattern count="other">{0} ha</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0} ft²</unitPattern>
+				<unitPattern count="other">{0} ft²</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0} km²</unitPattern>
+				<unitPattern count="other">{0} km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0} m²</unitPattern>
+				<unitPattern count="other">{0} m²</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} mi²</unitPattern>
+				<unitPattern count="other">{0} mi²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0} päev</unitPattern>
+				<unitPattern count="other">{0} päeva</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} h</unitPattern>
+				<unitPattern count="other">{0} h</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0} ms</unitPattern>
+				<unitPattern count="other">{0} ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} min</unitPattern>
+				<unitPattern count="other">{0} min</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} kuu</unitPattern>
+				<unitPattern count="other">{0} kuud</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} s</unitPattern>
+				<unitPattern count="other">{0} s</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} nädal</unitPattern>
+				<unitPattern count="other">{0} nädalat</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} a</unitPattern>
+				<unitPattern count="other">{0} a</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0} cm</unitPattern>
+				<unitPattern count="other">{0} cm</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">{0} jalg</unitPattern>
+				<unitPattern count="other">{0} jalga</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">{0} toll</unitPattern>
+				<unitPattern count="other">{0} tolli</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0} km</unitPattern>
+				<unitPattern count="other">{0} km</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">{0} valgusa.</unitPattern>
+				<unitPattern count="other">{0} valgusa.</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0} m</unitPattern>
+				<unitPattern count="other">{0} m</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0} miil</unitPattern>
+				<unitPattern count="other">{0} miili</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0} mm</unitPattern>
+				<unitPattern count="other">{0} mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0} pm</unitPattern>
+				<unitPattern count="other">{0} pm</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0} jard</unitPattern>
+				<unitPattern count="other">{0} jardi</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">{0} g</unitPattern>
+				<unitPattern count="other">{0} g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">{0} kg</unitPattern>
+				<unitPattern count="other">{0} kg</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">{0} oz</unitPattern>
+				<unitPattern count="other">{0} oz</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0} lb</unitPattern>
+				<unitPattern count="other">{0} lb</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">{0} hj</unitPattern>
+				<unitPattern count="other">{0} hj</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">{0} kW</unitPattern>
+				<unitPattern count="other">{0} kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">{0} W</unitPattern>
+				<unitPattern count="other">{0} W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">{0} hPa</unitPattern>
+				<unitPattern count="other">{0} hPa</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} toll Hg</unitPattern>
+				<unitPattern count="other">{0} tolli Hg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">{0} mbar</unitPattern>
+				<unitPattern count="other">{0} mbar</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0} km/h</unitPattern>
+				<unitPattern count="other">{0} km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0} m/s</unitPattern>
+				<unitPattern count="other">{0} m/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} mi/h</unitPattern>
+				<unitPattern count="other">{0} mi/h</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0} °C</unitPattern>
+				<unitPattern count="other">{0} °C</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0} °F</unitPattern>
+				<unitPattern count="other">{0} °F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0} km³</unitPattern>
+				<unitPattern count="other">{0} km³</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0} mi³</unitPattern>
+				<unitPattern count="other">{0} mi³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0} l</unitPattern>
+				<unitPattern count="other">{0} l</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<compoundUnit type="per">
+				<compoundUnitPattern>{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one">{0}G</unitPattern>
+				<unitPattern count="other">{0}G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one">{0}′</unitPattern>
+				<unitPattern count="other">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one">{0}″</unitPattern>
+				<unitPattern count="other">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one">{0}°</unitPattern>
+				<unitPattern count="other">{0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0} aaker</unitPattern>
+				<unitPattern count="other">{0} aakrit</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one">{0}ha</unitPattern>
+				<unitPattern count="other">{0}ha</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0} ft²</unitPattern>
+				<unitPattern count="other">{0} ft²</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one">{0}km²</unitPattern>
+				<unitPattern count="other">{0}km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one">{0}m²</unitPattern>
+				<unitPattern count="other">{0}m²</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} mi²</unitPattern>
+				<unitPattern count="other">{0} mi²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one">{0} p</unitPattern>
+				<unitPattern count="other">{0} p</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} h</unitPattern>
+				<unitPattern count="other">{0} h</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one">{0}ms</unitPattern>
+				<unitPattern count="other">{0}ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} min</unitPattern>
+				<unitPattern count="other">{0} min</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} k</unitPattern>
+				<unitPattern count="other">{0} k</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} s</unitPattern>
+				<unitPattern count="other">{0} s</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} n</unitPattern>
+				<unitPattern count="other">{0} n</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} a</unitPattern>
+				<unitPattern count="other">{0} a</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one">{0} cm</unitPattern>
+				<unitPattern count="other">{0} cm</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one">{0} jalg</unitPattern>
+				<unitPattern count="other">{0} jalga</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one">{0} toll</unitPattern>
+				<unitPattern count="other">{0} tolli</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one">{0} km</unitPattern>
+				<unitPattern count="other">{0} km</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one">{0} valgusa.</unitPattern>
+				<unitPattern count="other">{0} valgusa.</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one">{0} m</unitPattern>
+				<unitPattern count="other">{0} m</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0} miil</unitPattern>
+				<unitPattern count="other">{0} miili</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one">{0} mm</unitPattern>
+				<unitPattern count="other">{0} mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one">{0} pm</unitPattern>
+				<unitPattern count="other">{0} pm</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0} jard</unitPattern>
+				<unitPattern count="other">{0} jardi</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one">{0} g</unitPattern>
+				<unitPattern count="other">{0} g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one">{0} kg</unitPattern>
+				<unitPattern count="other">{0} kg</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one">{0} oz</unitPattern>
+				<unitPattern count="other">{0} oz</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one">{0} lb</unitPattern>
+				<unitPattern count="other">{0} lb</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one">{0} hj</unitPattern>
+				<unitPattern count="other">{0} hj</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one">{0}kW</unitPattern>
+				<unitPattern count="other">{0}kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one">{0}W</unitPattern>
+				<unitPattern count="other">{0}W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one">{0} hPa</unitPattern>
+				<unitPattern count="other">{0} hPa</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} toll Hg</unitPattern>
+				<unitPattern count="other">{0} tolli Hg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one">{0} mbar</unitPattern>
+				<unitPattern count="other">{0} mbar</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one">{0}km/h</unitPattern>
+				<unitPattern count="other">{0}km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one">{0}m/s</unitPattern>
+				<unitPattern count="other">{0}m/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} mi/h</unitPattern>
+				<unitPattern count="other">{0} mi/h</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one">{0} °</unitPattern>
+				<unitPattern count="other">{0} °</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one">{0} °F</unitPattern>
+				<unitPattern count="other">{0} °F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one">{0} km³</unitPattern>
+				<unitPattern count="other">{0} km³</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0} mi³</unitPattern>
+				<unitPattern count="other">{0} mi³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0} l</unitPattern>
+				<unitPattern count="other">{0} l</unitPattern>
+			</unit>
+		</unitLength>
+		<durationUnit type="hm">
+			<durationUnitPattern>h:mm</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="hms">
+			<durationUnitPattern>h:mm:ss</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="ms">
+			<durationUnitPattern>m:ss</durationUnitPattern>
+		</durationUnit>
 	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2">{0} ja {1}</listPatternPart>
-			<listPatternPart type="end">{0} ja {1}</listPatternPart>
-			<listPatternPart type="middle">{0}, {1}</listPatternPart>
 			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0} ja {1}</listPatternPart>
+			<listPatternPart type="2">{0} ja {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit">
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0}, {1}</listPatternPart>
+			<listPatternPart type="2">{0}, {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit-narrow">
+			<listPatternPart type="start" draft="contributed">{0} {1}</listPatternPart>
+			<listPatternPart type="middle" draft="contributed">{0} {1}</listPatternPart>
+			<listPatternPart type="end" draft="contributed">{0} {1}</listPatternPart>
+			<listPatternPart type="2" draft="contributed">{0} {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit-short">
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0}, {1}</listPatternPart>
+			<listPatternPart type="2">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

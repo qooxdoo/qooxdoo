@@ -13,9 +13,9 @@ qooxdoo mobile was tested with the native browsers of the following operating
 systems:
 
 * iOS
-* Android 1.6+
-* BlackBerry 10 OS (Playbook + Z10)
-* Windows Phone 8 (Experimental)
+* Android 1.6+ (Stock Browser and Chrome Mobile)
+* Windows Phone 8
+* BlackBerry 10 OS
 
 Supported Desktop Browsers
 ==========================
@@ -34,16 +34,14 @@ Features
 
 * `Mobile widget set <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile>`_
 * :doc:`Theming via CSS and SCSS <theming>`
-* iOS theme
-* Android theme
-* Custom theme
+* Pointer events: pointerdown, pointerup, pointermove, pointerover, pointerout
 * Touch events: touchstart, touchmove, touchend, touchcancel
-* Gesture events: swipe, tap, longtap
+* Gesture events: swipe, tap, longtap, dbltap, roll
 * Animations between pages
-* Touch event emulation for debugging in desktop browsers
 * Fixed toolbars and momentum scrolling via `iScroll <http://cubiq.org/iscroll-4>`_
 * Basic `PhoneGap <http://www.phonegap.com/>`_ support
 * Support for high-resolution displays ("Retina display support")
+* Built-in handling of high DPI images for variable pixel densities
 
 
 .. _pages/mobile_overview#api:
@@ -80,8 +78,6 @@ Environment Keys
 
 The following environment keys are available:
 
-* ``qx.mobile.emulatetouch: true|false`` - Enables desktop browser touch emulation.
-  Enable this option if you want to debug the application in your desktop browser.
 * ``qx.mobile.nativescroll: true|false`` - Whether to use native scrolling or
   `iScroll`_ for scrolling.
 * ``device.pixelRatio: Number`` - the ratio between physical pixels and device-independent pixels (dips) on the device.

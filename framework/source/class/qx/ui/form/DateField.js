@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.form.DateField",
     this._createChildControl("button");
 
     // register listeners
-    this.addListener("click", this._onClick, this);
+    this.addListener("tap", this._onTap, this);
     this.addListener("blur", this._onBlur, this);
 
     // forward the focusin and focusout events to the textfield. The textfield
@@ -435,7 +435,7 @@ qx.Class.define("qx.ui.form.DateField",
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
           control.setAutoHide(false);
           control.add(this.getChildControl("list"));
-          control.addListener("mouseup", this._onChangeDate, this);
+          control.addListener("pointerup", this._onChangeDate, this);
           control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
           break;
       }
@@ -453,9 +453,9 @@ qx.Class.define("qx.ui.form.DateField",
    */
 
    /**
-    * Handler method which handles the click on the calender popup.
+    * Handler method which handles the tap on the calender popup.
     *
-    * @param e {qx.event.type.Mouse} The mouse event of the click.
+    * @param e {qx.event.type.Pointer} The pointer event.
     */
     _onChangeDate : function(e)
     {
@@ -471,9 +471,9 @@ qx.Class.define("qx.ui.form.DateField",
     /**
      * Toggles the popup's visibility.
      *
-     * @param e {qx.event.type.Mouse} Mouse click event
+     * @param e {qx.event.type.Pointer} Pointer tap event
      */
-    _onClick : function(e) {
+    _onTap : function(e) {
       this.close();
     },
 
@@ -483,8 +483,7 @@ qx.Class.define("qx.ui.form.DateField",
      *
      * @param e {qx.event.type.Focus} The blur event.
      */
-    _onBlur : function(e)
-    {
+    _onBlur : function(e) {
       this.close();
     },
 

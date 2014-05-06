@@ -2,7 +2,7 @@
 
 Button
 ******
-A Button widget is used to display plain text and/or an icon. The button supports mouse and key events. 
+A Button widget is used to display plain text and/or an icon. The button supports pointer and key events.
 
 .. _pages/widget/button#preview_image:
 
@@ -18,14 +18,14 @@ Preview Image
 Features
 --------
 * Contain text and/or icon.
-* Mouse and keyboard support.
+* Pointer and keyboard support.
 * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
 
 .. _pages/widget/button#description:
 
 Description
 -----------
-The button widget is a normal widget for a GUI. The button supports plain text and icon. Also it is possible to handle user interactions with mouse and keyboard.
+The button widget is a normal widget for a GUI. The button supports plain text and icon. Also it is possible to handle user interactions with pointer and keyboard.
 
 .. _pages/widget/button#demos:
 

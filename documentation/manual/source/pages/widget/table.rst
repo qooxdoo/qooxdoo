@@ -33,7 +33,7 @@ Display grid data                                 Takes an array containing an a
 
 Set custom header                                 Pre-built header renderer for icons and labels. Can be easily extended to supply a custom header cell renderer.
 
-Column sorting                                    Built-in sorting accessible to the user by a click on the table header.
+Column sorting                                    Built-in sorting accessible to the user by a tap on the table header.
 
 Reorganizing of columns                           Columns can be reorganized by the user via Drag&Drop.
 

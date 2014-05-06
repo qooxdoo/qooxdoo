@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.container.SlideBar",
       this.initOrientation();
     }
 
-    this.addListener("mousewheel", this._onMouseWheel, this);
+    this.addListener("roll", this._onRoll, this);
   },
 
 
@@ -325,16 +325,16 @@ qx.Class.define("qx.ui.container.SlideBar",
     */
 
     /**
-     * Scrolls pane on mousewheel events
+     * Scrolls pane on roll events
      *
-     * @param e {qx.event.type.Mouse} the mouse event
+     * @param e {qx.event.type.Roll} the roll event
      */
-    _onMouseWheel : function(e)
+    _onRoll : function(e)
     {
       var delta = 0;
       var pane = this.getChildControl("scrollpane");
       if (this.getOrientation() === "horizontal") {
-        delta = e.getWheelDelta("x");
+        delta = e.getDelta().x;
 
         var position = pane.getScrollX();
         var max = pane.getScrollMaxX();
@@ -347,9 +347,11 @@ qx.Class.define("qx.ui.container.SlideBar",
           delta == 0)
         ) {
           e.stop();
+        } else {
+          e.stopMomentum();
         }
       } else {
-        delta = e.getWheelDelta("y");
+        delta = e.getDelta().y;
 
         var position = pane.getScrollY();
         var max = pane.getScrollMaxY();
@@ -362,14 +364,16 @@ qx.Class.define("qx.ui.container.SlideBar",
           delta == 0
         )) {
           e.stop();
+        } else {
+          e.stopMomentum();
         }
       }
-      if (qx.event.handler.MouseEmulation.ON) {
-        this.scrollBy(delta);
-      } else {
-        this.scrollBy(delta * this.getScrollStep());
-      }
+      this.scrollBy(parseInt(delta, 10));
 
+      // block all momentum scrolling
+      if (e.getMomentum()) {
+        e.stop();
+      }
     },
 
 

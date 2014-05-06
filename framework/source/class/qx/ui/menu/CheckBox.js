@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
 
     // overridden
-    _onClick : function(e)
+    _onTap : function(e)
     {
       if (e.isLeftPressed()) {
         this.execute();

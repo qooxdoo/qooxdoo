@@ -738,7 +738,6 @@ qx.Class.define("qx.util.fsm.State",
 
         default:
           throw new Error("Invalid onexit type: " + typeof (value));
-          return null;
       }
     },
 

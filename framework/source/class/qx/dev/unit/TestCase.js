@@ -85,7 +85,7 @@ qx.Class.define("qx.dev.unit.TestCase",
      * *Important*
      *
      * The used *deferredFunction* is the last function which is executed before
-     * the whole test case is disposed. But you are able to use a new 
+     * the whole test case is disposed. But you are able to use a new
      * <code>wait()</code> / <code>resume()</code> pair in the call sequence of the deferred function.
      *
      * @param deferredFunction {Function?} Function to run
@@ -101,20 +101,20 @@ qx.Class.define("qx.dev.unit.TestCase",
         true
       );
     },
-    
-    
+
+
     /**
      * Cancel a timeout started with <code>wait()</code> and return a function,
-     * which calls {@link #resume}. This function is useful 
+     * which calls {@link #resume}. This function is useful
      * to wrap an event handler or callback function within the resume call sequence.
      * It provides the deferred function with all parameters from original caller.
      <pre>
       obj.addListener("appear", this.resumeHandler(function(e){
-        // do some nice 
+        // do some nice
       }));
 
       this.wait();
-     </pre> 
+     </pre>
      * @param deferredFunction {Function} Function to run as event handler or callback
      * @param self {Object?} reference to the ‘this’ variable inside the
      * callback. By default the test instance is used.

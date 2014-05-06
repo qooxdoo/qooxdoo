@@ -47,30 +47,57 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
       );
       this._names = [];
     }
+    this._form = form;
+    this._render();
 
-    // add the groups
-    var groups = form.getGroups();
-    for (var i = 0; i < groups.length; i++) {
-      var group = groups[i];
-      this.addItems(
-        group.items, group.labels, group.title, group.options, group.headerOptions
-      );
-    }
-
-    // add the buttons
-    var buttons = form.getButtons();
-    var buttonOptions = form.getButtonOptions();
-    for (var i = 0; i < buttons.length; i++) {
-      this.addButton(buttons[i], buttonOptions[i]);
-    }
+    form.addListener("change", this._onFormChange, this);
   },
 
 
   members :
   {
     _names : null,
+    _form : null,
     _visibilityBindingIds : null,
     _labels : null,
+
+
+    /**
+     * Renders the for: add's the items and buttons.
+     */
+    _render : function() {
+      // add the groups
+      var groups = this._form.getGroups();
+      for (var i = 0; i < groups.length; i++) {
+        var group = groups[i];
+        this.addItems(
+          group.items, group.labels, group.title, group.options, group.headerOptions
+        );
+      }
+
+      // add the buttons
+      var buttons = this._form.getButtons();
+      var buttonOptions = this._form.getButtonOptions();
+      for (var i = 0; i < buttons.length; i++) {
+        this.addButton(buttons[i], buttonOptions[i]);
+      }
+    },
+
+
+    /**
+     * Handler responsible for updating the rendered widget as soon as the
+     * form changes.
+     */
+    _onFormChange : function() {
+      this._removeAll();
+      // remove all created labels
+      for (var i=0; i < this._labels.length; i++) {
+        this._labels[i].dispose();
+      };
+      this._labels = [];
+
+      this._render();
+    },
 
 
     /**
@@ -156,7 +183,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
     }
     this._names = null;
 
-    // remove all created lables
+    // remove all created labels
     for (var i=0; i < this._labels.length; i++) {
       this._labels[i].dispose();
     };

@@ -3,6 +3,12 @@
 Simulator: Locating elements
 ****************************
 
+.. note::
+
+    The Simulator component is based on Selenium RC, which is deprecated. It is thus no
+    longer supported and will be removed from the qooxdoo framework in the near future.
+    The `qxwebdriver-java library <https://github.com/qooxdoo/qxwebdriver-java/>`_ provides a modern alternative based on Selenium RC's replacement, WebDriver.
+
 Selenium locators
 -----------------
 

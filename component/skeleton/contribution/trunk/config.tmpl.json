@@ -49,7 +49,7 @@
     // using a contrib: library, it will be downloaded into the path specified
     // by the 'cache/downloads' config key
     /*
-    "libraries" : 
+    "libraries" :
     {
       "library" :
       [
@@ -66,13 +66,13 @@
     /*
     ,"build-script" :
     {
-      "compile-options" : 
+      "compile-options" :
       {
         "code" :
         {
           "format" : false
         }
-      }      
+      }
     }
     */
   }

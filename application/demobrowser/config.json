@@ -45,16 +45,11 @@
     "inspector",
     "lint",
     "pretty",
-    "publish",
     "source",
     "source-data",
     "source-hybrid",
-    "test",
-    "test-source",
     "translation",
     "migration",
-    "simulation-build",
-    "simulation-run",
     "validate-config",
     "validate-manifest"
   ],
@@ -71,7 +66,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["simulation-run", "translation", "lint"],
+    "job-shadowing" : ["translation", "lint"],
 
     "environment" : [ "non-literal-keys" ]
   },
@@ -219,35 +214,9 @@
         // do the compiling with a different config
         "build-demobrowser"
       ]
-    },
+    }
 
     // -------------------------------------------------------------------------
-
-    "simulation-run" :
-    {
-      "let" :
-      {
-        "SELENIUM_SERVER" : "localhost",
-        "SELENIUM_PORT" : 4444,
-        "SELENIUM_BROWSER" : "*firefox3",
-        "AUT_HOST" : "http://localhost",
-        "AUT_PATH"     : "/qx/trunk/qooxdoo/application/demobrowser/build/index.html",
-        "SIMULATOR_APPLICATION" : "simulator.reporter.Application",
-        "SIMULATOR_REPORTSERVER" : false
-      },
-
-      "environment" :
-      {
-        "simulator.selServer"   : "${SELENIUM_SERVER}",
-        "simulator.selPort"     : "${SELENIUM_PORT}",
-        "simulator.testBrowser" : "${SELENIUM_BROWSER}",
-        "simulator.autHost"     : "${AUT_HOST}",
-        "simulator.autPath"     : "${AUT_PATH}",
-        "simulator.reportServer": "${SIMULATOR_REPORTSERVER}",
-        "simulator.applicationLog" : true,
-        "simulator.globalErrorLogging" : true
-      }
-    }
 
     ,"info" :
     {

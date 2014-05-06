@@ -2,7 +2,7 @@
 
 RepeatButton
 ************
-The RepeatButton is a special button, which fires an event, while the mouse button is pressed on the button. 
+The RepeatButton is a special button, which fires an event, while the pointer is pressed on the button.
 
 .. _pages/widget/repeatbutton#preview_image:
 
@@ -18,7 +18,7 @@ Preview Image
 Features
 --------
 * Contain text and/or icon.
-* Mouse support.
+* Pointer support.
 * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
 * Event interval is adjustable.
 
@@ -26,7 +26,7 @@ Features
 
 Description
 -----------
-The RepeatButton is a special button, which fires an event, while the mouse button is pressed on the button. The interval time for the RepeatButton event can be configured by the developer. 
+The RepeatButton is a special button, which fires an event, while the pointer is pressed on the button. The interval time for the RepeatButton event can be configured by the developer.
 
 .. _pages/widget/repeatbutton#demos:
 

@@ -98,7 +98,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
         width:150
       }), {row: 0, column: 0});
 
-      var resizeWidget = new qx.ui.basic.Label("click me").set({
+      var resizeWidget = new qx.ui.basic.Label("tap me").set({
         decorator: "main",
         backgroundColor: "green",
         allowGrowX: false,
@@ -130,7 +130,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
       }), {row: 2, column: 1});
 
       var increment = 10;
-      resizeWidget.addListener("click", function(e)
+      resizeWidget.addListener("tap", function(e)
       {
         resizeWidget.setWidth(50 + increment);
         increment = -increment;

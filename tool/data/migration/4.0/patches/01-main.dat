@@ -1,0 +1,14 @@
+\._addInScrollComposite\(=._addToScrollContainer(
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')compact("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "compact", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')nowrap("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "nowrap", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')ismap("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "ismap", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')declare("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "declare", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')noshade("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "noshade", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')checked("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "checked", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')disabled("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "disabled", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')readOnly("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "readOnly", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')multiple("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "multiple", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')selected("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "selected", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')noresize("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "noresize", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')defer("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "defer", false);
+\bqx\.bom\.element\.Attribute\.set\(.*,\s*("|')allowTransparency("|'),\s*(""|'')\);=qx.bom.element.Attribute.set(document, "allowTransparency", false);

@@ -53,7 +53,7 @@ qx.Class.define("qx.test.locale.Locale",
         "test two": "test two",
         "test Hello %1!": "test Hello %1!",
         "test Jonny": "test Jonny",
-        "test One car": "test One car",
+        "test one car": "test one car",
         "test %1 cars": "test %1 cars"
       });
       manager.addTranslation("de_QX", {
@@ -61,7 +61,7 @@ qx.Class.define("qx.test.locale.Locale",
         "test two": "Zwei",
         "test Hello %1!": "Servus %1!",
         "test Jonny": "Jonathan",
-        "test One car": "Ein Auto",
+        "test one car": "Ein Auto",
         "test %1 cars": "%1 Autos"
       });
       manager.setLocale("en_QX");
@@ -69,29 +69,43 @@ qx.Class.define("qx.test.locale.Locale",
       this.assertEquals("en", manager.getLanguage());
       this.assertEquals("QX", manager.getTerritory());
 
-      // simple case
+      // tr(): simple case
       var one = this.tr("test one");
       this.assertEquals("test one", one);
 
-      // format string
+      // tr(): format string
       var hello = this.tr("test Hello %1!", "Fabian");
       this.assertEquals("test Hello Fabian!", hello);
 
-      // format string with translated arguments
+      // tr(): format string with translated arguments
       var hiJonny = this.tr("test Hello %1!", this.tr("test Jonny"));
       this.assertEquals("test Hello test Jonny!", hiJonny);
 
-      // plural
-      var car = this.trn("test One car", "test %1 cars", 0, 0);
+      // trn(): plural
+      var car = this.trn("test one car", "test %1 cars", 0, 0);
       this.assertEquals("test 0 cars", car);
 
-      var car = this.trn("test One car", "test %1 cars", 1);
-      this.assertEquals("test One car", car);
+      car = this.trn("test one car", "test %1 cars", 1);
+      this.assertEquals("test one car", car);
 
-      var cars = this.trn("test One car", "test %1 cars", 5, 5);
+      var cars = this.trn("test one car", "test %1 cars", 5, 5);
       this.assertEquals("test 5 cars", cars);
 
+      // trc(): comments
+      one = this.trc("comment simple", "test one");
+      this.assertEquals("test one", one);
+      hello = this.trc("comment format", "test Hello %1!", "Fabian");
+      this.assertEquals("test Hello Fabian!", hello);
+      hiJonny = this.trc("comment format args", "test Hello %1!", this.tr("test Jonny"));
+      this.assertEquals("test Hello test Jonny!", hiJonny);
 
+      // trnc(): comments and plural
+      car = this.trnc("comment count 0", "test one car", "test %1 cars", 0, 0);
+      this.assertEquals("test 0 cars", car);
+      car = this.trnc("comment count 1", "test one car", "test %1 cars", 1);
+      this.assertEquals("test one car", car);
+      cars = this.trnc("comment count 5", "test one car", "test %1 cars", 5, 5);
+      this.assertEquals("test 5 cars", cars);
 
       // check listener
       var fired = false;

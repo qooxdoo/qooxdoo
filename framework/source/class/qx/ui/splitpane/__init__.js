@@ -1,5 +1,5 @@
 /**
- * A SplitPane is used to divide two Widgets. These widgets can be resized by clicking the splitter widget and moving the slider.
+ * A SplitPane is used to divide two Widgets. These widgets can be resized by tapping the splitter widget and moving the slider.
  * The orientation property states if the widgets should be aligned horizontally or vertically.
  *
  * *Example*

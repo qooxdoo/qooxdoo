@@ -1,0 +1,44 @@
+//
+// INPUT FIELDS
+//
+
+.mobile {
+  input.invalid {
+    border: rem(1) solid $input-invalid-border-color !important;
+  }
+
+  input:focus
+  {
+    @include box-shadow(rem(0) rem(0) rem(2) rem(1) $input-active-border-color);
+  }
+
+  input, select {
+    vertical-align: middle;
+  }
+
+  input, select, .text-area {
+    font-family: $application-font;
+    font-size: rem(15);
+  }
+}
+
+.text-field, .number-field, .password-field {
+  @include background-clip(padding-box);
+  @include box-sizing(border-box);
+  text-indent: rem(4);
+  height: rem(26);
+}
+
+.text-field, .password-field, .number-field {
+  @include border-radius($input-border-radius);
+  @include background($input-background);
+
+  border: rem(1) solid $input-border-color;
+  color:  $input-text-color;
+  width: 100%;
+  outline: none;
+}
+
+.text-field.invalid, .checkbox.invalid, .radio.invalid, .password-field.invalid, .text-area.invalid {
+  border: rem(1) solid $input-invalid-border-color !important;
+}

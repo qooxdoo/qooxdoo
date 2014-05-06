@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.menu.RadioButton",
 
 
     // overridden
-    _onClick : function(e)
+    _onTap : function(e)
     {
       if (e.isLeftPressed()) {
         this.execute();

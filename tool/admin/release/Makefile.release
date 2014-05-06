@@ -26,6 +26,7 @@
 
 # Ubuntu's /bin/sh struggles with 'time' (bug#4398)
 SHELL = /bin/bash
+.SHELLFLAGS = -Oextglob  # allow ?(...), etc. glob patterns
 
 FRAMEWORK_VERSION := $(shell cat version.txt)
 FRAMEWORK_SVNINFO := $(shell python tool/admin/bin/svninfo.py .)
@@ -36,6 +37,7 @@ CMD_NICE = nice -n 10
 export PYTHONPATH = $(CURDIR)/tool/pylib
 PATH_TOOL_BIN = $(CURDIR)/tool/bin
 PATH_TOOL_RESOURCES = $(CURDIR)/tool/admin/www/resources
+PATH_FRAMEWORK_RESOURCES = $(CURDIR)/framework/source/resource/qx/mobile
 CMD_PYTHON = $(CMD_NICE) python -t -O
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_MV = $(CMD_NICE) mv
@@ -47,10 +49,12 @@ CMD_GIT = $(CMD_NICE) git
 CMD_GIT_WHEREAMI = $(CMD_GIT) describe --contains --all HEAD
 CMD_RST2HTML = $(CMD_NICE) rst2html.py
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
-CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
+CMD_ANY2UNIX = | xargs --null $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
-CMD_SCSS = $(PATH_TOOL_BIN)/scss.py
-CMD_SCSS_OPTS = -C -o
+CMD_SCSS = $(CMD_NICE) sass
+CMD_SCSS_WEBSITE_OPTS = --no-cache --style expanded
+CMD_SCSS_FRAMEWORK_OPTS = --no-cache --style compressed
+
 
 ifeq ($(DO_RELEASE),)
 # --------  DEVELOPMENT SETTINGS --------------------------------------
@@ -64,9 +68,13 @@ OPT_GENERATOR =
 QOOXDOO_RELEASE = QOOXDOO_RELEASE=1
 endif
 
+
+CMD_GRUNT := grunt
+CMD_NPM := npm
 CMD_GENERATOR := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py" $(OPT_GENERATOR)
 CMD_GENERATOR_NOOPTS := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py"
 STAGING_HOST = qooxdoo@webtechfe-test01.schlund.de
+PRODUCTION_HOST = qooxdoo@webtechfe01.schlund.de
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
 FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
@@ -80,14 +88,16 @@ CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
+APPLICATIONS = websitewidgetbrowser tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
 COMPONENTS = apiviewer testrunner inspector server website
 FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
 
-WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template textselection transform util
+WEBSITE_MODULES = core animation blocker cookie dataset dev io matchmedia messaging placeholder placement rest storage template textselection transform util ui
 WEBSITE_MODULES_ZIP = q-modules-$(FRAMEWORK_VERSION).js.zip
 WEBSITE_MODULES_MIN_ZIP = q-modules-$(FRAMEWORK_VERSION).min.js.zip
+WEBSITE_VERSION_STR = -${FRAMEWORK_VERSION}
+#WEBSITE_VERSION_STR = ""
 
 
 ################################################################################
@@ -97,7 +107,7 @@ WEBSITE_MODULES_MIN_ZIP = q-modules-$(FRAMEWORK_VERSION).min.js.zip
 release: release-sdk
 
 release-sdk: distclean release-sdk-sans-clean
-release-sdk-sans-clean: release-sdk-info apiviewer apiviewer-website website server showcase manual-build release-sdk-svn-collect release-sdk-archive
+release-sdk-sans-clean: release-sdk-info framework-api framework-dependencies website-api website server showcase manual-build release-sdk-svn-collect release-sdk-archive
 
 
 release-sdk-info:
@@ -136,11 +146,16 @@ release-sdk-svn-collect:
 	@$(CMD_SYNC_OFFLINE) application/showcase/build/* $(RELEASE_SDK)/application/showcase/build
 	@# libs
 	@for COMPONENT in `echo server website`; do \
+		$(CMD_MKDIR) $(RELEASE_SDK)/component/standalone/$$COMPONENT/script/; \
+		for F in `echo component/standalone/$$COMPONENT/script/q*.js`; do \
+			L=`basename $$F`; \
+			if [[ ( "$$COMPONENT" == "website" ) && ( "$$L" =~ 'q-source' ) ]] ; then \
+				continue; \
+			fi; \
+			$(CMD_SYNC_OFFLINE) $$F $(RELEASE_SDK)/component/standalone/$$COMPONENT/script/$$L; \
+		done; \
 		if [ "$$COMPONENT" == "website" ]; then \
-			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/q-*$(FRAMEWORK_VERSION)*.js $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
 			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/api/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/api; \
-		else \
-			$(CMD_SYNC_OFFLINE) component/standalone/$$COMPONENT/script/* $(RELEASE_SDK)/component/standalone/$$COMPONENT/script; \
 		fi; \
 	done
 
@@ -153,7 +168,7 @@ release-sdk-svn-collect:
 	@$(CMD_REMOVE) $(RELEASE_SDK)/tool/admin/
 
 	@echo "  * Switching to Unix line endings..."
-	@$(CMD_FIND) $(RELEASE_SDK) $(FILES_TEXT) $(CMD_ANY2UNIX)
+	@$(CMD_FIND) $(RELEASE_SDK) $(FILES_TEXT) -print0 $(CMD_ANY2UNIX)
 
 	@echo "  * Synchronizing documentation..."
 	@$(CMD_REMOVE) $(RELEASE_SDK)/documentation/manual/
@@ -173,24 +188,21 @@ release-sdk-archive:
 
 
 ################################################################################
-# APIVIEWER TARGETS
+# APIVIEWER COMPONENT TARGETS
 ################################################################################
 
 info-apiviewer:
 	@echo
 	@echo "****************************************************************************"
-	@echo "  GENERATING APIVIEWER"
+	@echo "  GENERATING APIVIEWER COMPONENT"
 	@echo "****************************************************************************"
 
 
-apiviewer: info-apiviewer exec-apiviewer-build
-
-apiviewer-website:
-	@time ( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
-
-exec-apiviewer-build:
-	@time ( cd framework && $(CMD_GENERATOR) api ) || exit 1
-
+#apiviewer: info-apiviewer exec-apiviewer-build
+#
+#exec-apiviewer-build:
+#	@time ( cd framework && $(CMD_GENERATOR) api ) || exit 1
+#
 
 ################################################################################
 # WEBSITE TARGETS
@@ -204,6 +216,9 @@ info-website:
 
 
 website: info-website exec-website-build
+
+website-api:
+	@time ( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
 
 exec-website-build:
 	@time ( cd component/standalone/website && $(CMD_GENERATOR) build,build-min,build-module-all,build-module-all-min ) || exit 1
@@ -327,13 +342,17 @@ distclean:
 	@for APPLICATION in $(APPLICATIONS); do \
 		F="application/$$APPLICATION"; \
 		if [ -e $$F ]; then \
-			if [ "$$APPLICATION" != "todo" ]; then \
+			if [ "$$APPLICATION" != "websitewidgetbrowser" ]; then \
 				(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$F"; exit 1 )); \
 			fi; \
 		fi; \
 	done
 	@for APPLICATION in $(COMPONENTS); do \
-		F="component/$$APPLICATION"; \
+		if [[ "$$APPLICATION" == server || "$$APPLICATION" == website ]]; then \
+			F="component/standalone/$$APPLICATION"; \
+		else \
+			F="component/$$APPLICATION"; \
+		fi; \
 		if [ -e $$F ]; then \
 			(( cd $$F && $(CMD_GENERATOR) distclean ) || ( echo "Unable to distclean $$f"; exit 1 )); \
 		fi; \
@@ -345,10 +364,7 @@ distclean:
 ######################################
 # LINT
 ######################################
-lint: lint-apps lint-components lint-framework
-
-lint-framework:
-	@( cd framework && $(CMD_GENERATOR) lint ) || exit 1
+lint: lint-apps lint-components framework-lint
 
 lint-apps:
 	@for APPLICATION in $(APPLICATIONS); do \
@@ -379,10 +395,7 @@ lint-components:
 ######################################
 # FIX
 ######################################
-fix: fix-apps fix-components fix-framework
-
-fix-framework:
-	@( cd framework && $(CMD_GENERATOR) fix ) || exit 1
+fix: fix-apps fix-components framework-fix
 
 fix-apps:
 	@for APPLICATION in $(APPLICATIONS); do \
@@ -413,10 +426,7 @@ fix-components:
 ######################################
 # TRANSLATION
 ######################################
-translation: translate-apps translate-components translate-framework
-
-translate-framework:
-	@( cd framework && $(CMD_GENERATOR) translation ) || exit 1
+translation: translate-apps translate-components framework-translation
 
 translate-apps:
 	@for APPLICATION in $(APPLICATIONS); do \
@@ -440,8 +450,9 @@ build-apps:
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build,build-mobile,build-website ) || exit 1; \
 			elif [ "$$APPLICATION" = "todo" ]; then \
 				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-mini ) || exit 1; \
-		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
-			( cd application/$$APPLICATION && $(CMD_GENERATOR) build-indigo ) || exit 1; \
+			elif [ "$$APPLICATION" = "websitewidgetbrowser" ]; then \
+				( cd application/$$APPLICATION && $(CMD_NPM) install ) || exit 1; \
+				( cd application/$$APPLICATION && $(CMD_GRUNT) build ) || exit 1; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		fi; \
@@ -450,12 +461,14 @@ build-apps:
 build-components:
 	@time for COMPONENT in $(COMPONENTS); do \
 		if [ "$$COMPONENT" = "website" ]; then \
+			( cd component/standalone/$$COMPONENT && $(CMD_NPM) install ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all-min ) || exit 1; \
-			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) api ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) test ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) api ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) sass ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
@@ -467,16 +480,13 @@ build-components:
 		fi; \
 	done
 
-build-framework:
-	@for TARGET in $(FRAMEWORK_TARGETS); do ( cd framework && $(CMD_GENERATOR) $$TARGET ) || exit 1; done
-
 source: source-apps source-components
 source-apps:
 	@time for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
 	@time for APPLICATION in $(APPLICATIONS); do \
 		if [ "$$APPLICATION" = "feedreader" ]; then \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) source,source-mobile ) || exit 1; \
-		elif [ "$$APPLICATION" = "todo" ]; then \
+		elif [ "$$APPLICATION" = "todo" ]; then noop; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; \
 		fi; \
@@ -498,7 +508,7 @@ tutorials-build:
 			if [ -d $$F ]; then \
 				paths="$$paths $$TUTORIAL/$$STEP"; \
 				if [ "$$TUTORIAL" = "website" ]; then \
-					cp component/standalone/website/script/q-$(FRAMEWORK_VERSION).min.js $$F; \
+					cp component/standalone/website/script/q.min.js $$F; \
 				else \
 					( cd $$F && $(CMD_GENERATOR) build ) || exit 1; \
 				fi; \
@@ -529,7 +539,7 @@ tutorials-publish:
 	done;
 
 ################################################################################
-# RESOURCE TARGETS
+# RESOURCE *WEBSITE* TARGETS
 #
 # Re-creates files in the distribution directories of tool/admin/www/resources
 # which will then be published to the production websites (among others).
@@ -543,7 +553,7 @@ resources-build-css:
 	@echo "  * Compiling style sheets..."
 	@cd $(PATH_TOOL_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		echo "     - $$SCSS_FILE..."; \
-		$(CMD_SCSS) $(CMD_SCSS_OPTS) ../stylesheets/$${SCSS_FILE/%.scss/.css} $$SCSS_FILE; \
+		$(CMD_SCSS) $(CMD_SCSS_WEBSITE_OPTS) $$SCSS_FILE ../stylesheets/$${SCSS_FILE/%.scss/.css}; \
 	done
 
 ##
@@ -566,6 +576,27 @@ resources-publish:
 	@echo "  * Syncing resources..."
 	@$(CMD_SYNC_ONLINE) $(PATH_TOOL_RESOURCES)/stylesheets/ $(STAGING_HOST):/var/www/qooxdoo/resources/stylesheets/ || exit 1;
 	@$(CMD_SYNC_ONLINE) $(PATH_TOOL_RESOURCES)/javascripts/ $(STAGING_HOST):/var/www/qooxdoo/resources/javascripts/ || exit 1;
+
+################################################################################
+# RESOURCE *FRAMEWORK* TARGETS
+#
+# Create build artifacts from resource files (e.g. scss -> css compilation)
+################################################################################
+
+resources-framework-build: resources-framework-build-css
+
+resources-framework-build-css:
+	@echo "  * Compiling style sheets..."
+	@cd $(PATH_FRAMEWORK_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+		echo "     - $$SCSS_FILE..."; \
+		$(CMD_SCSS) $(CMD_SCSS_FRAMEWORK_OPTS) --load-path ../../scss $$SCSS_FILE ../css/$${SCSS_FILE/%.scss/.css}; \
+	done
+
+resources-framework-check:
+	@cd $(PATH_FRAMEWORK_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+		F="../css/$${SCSS_FILE/%.scss/.css}"; \
+		[ $$F -nt $$SCSS_FILE ] || ( echo "Missing $$F; run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
+	done
 
 ################################################################################
 # DOCUMENTATION TARGETS
@@ -623,31 +654,178 @@ manual-check-pdf:
 		[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 );
 
 ################################################################################
+# FRAMEWORK TARGETS
+################################################################################
+
+# generic recipe for framework targets
+# strip 'framework-' from target and run as generator job
+framework_target = \
+	_targ_=$(subst framework-,,$(1)); \
+	echo; \
+	echo "****************************************************************************"; \
+	echo "  Generating Framework $${_targ_}"; \
+	echo "****************************************************************************"; \
+	( cd framework && $(CMD_GENERATOR) $${_targ_} ) || exit 1
+
+# list all framework targets here explicitly, so they can be invoked individually
+framework-api:
+	@$(call framework_target,$@)
+
+framework-test:
+	@$(call framework_target,$@)
+
+framework-test-mobile:
+	@$(call framework_target,$@)
+
+framework-dependencies:
+	@$(call framework_target,$@)
+
+# do-all rule (uses FRAMEWORK_TARGETS)
+framework-build: $(addprefix framework-,$(FRAMEWORK_TARGETS))
+
+framework-lint:
+	@$(call framework_target,$@)
+
+framework-fix:
+	@$(call framework_target,$@)
+
+framework-translation:
+	@$(call framework_target,$@)
+
+framework-check:
+	@for TARGET in $(FRAMEWORK_TARGETS); do \
+		if [ "$$TARGET" = "dependencies" ]; then \
+			F="framework/source/script/dependencies.json"; \
+			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+		else \
+			F="framework/$$TARGET/script"; \
+			[ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
+		fi; \
+	done
+
+framework-publish:
+	@echo "  * Syncing framework..."
+	@ssh $(STAGING_HOST) "$(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework"
+	@for APPLICATION in $(FRAMEWORK_TARGETS); do \
+	  echo "    - $$APPLICATION..."; \
+		if [ "$$APPLICATION" = "api" ]; then \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/apiviewer || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "test" ]; then \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "test-mobile" ]; then \
+			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/mobile-tests || exit 1; \
+		fi; \
+	done
+
+################################################################################
+# APPLICATIONS TARGETS
+################################################################################
+
+apps-publish:
+	@echo "  * Syncing applications..."
+	@for APPLICATION in $(APPLICATIONS); do \
+		echo "    - $$APPLICATION..."; \
+		if [ "$$APPLICATION" = "feedreader" ]; then \
+			echo "    - $$APPLICATION-mobile..."; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-mobile/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-mobile || exit 1; \
+			echo "    - $$APPLICATION-website..."; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-website/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-website || exit 1; \
+		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-indigo/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		elif [ "$$APPLICATION" = "todo" ]; then \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/script $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/todo.* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		elif [ "$$APPLICATION" = "websitewidgetbrowser" ]; then \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/demo $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/script $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/*.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/*.css $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		else \
+			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		fi; \
+	done
+
+################################################################################
+# COMPONENTS TARGETS
+################################################################################
+
+components-publish:
+	@echo "  * Syncing components..."
+	@for COMPONENT in $(COMPONENTS); do \
+		echo "    - $$COMPONENT..."; \
+		if [ "$$COMPONENT" = "inspector" ]; then \
+			$(CMD_SYNC_ONLINE) component/$$COMPONENT/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT || exit 1; \
+		elif [ "$$COMPONENT" = "testrunner" ]; then \
+			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$COMPONENT-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT/script/$$COMPONENT-portable.js || exit 1; \
+		elif [ "$$COMPONENT" = "website" ]; then \
+			WS="component/standalone/$$COMPONENT/script"; \
+			for F in `echo $$WS/q*.js $$WS/indigo.css`; do \
+				L=`basename $$F`; \
+				if [[ "$$L" =~ 'q-source' ]] ; then \
+					continue; \
+				fi; \
+				$(call make_versioned,L) \
+				$(CMD_SYNC_ONLINE) $$F $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework/$$L || exit 1; \
+			done; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$(WEBSITE_MODULES_ZIP) $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$(WEBSITE_MODULES_MIN_ZIP) $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/api/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-api || exit 1; \
+			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/test/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-tests || exit 1; \
+		elif [ "$$COMPONENT" = "server" ]; then \
+			for F in `echo component/standalone/$$COMPONENT/script/qx-oo*.js`; do \
+				L=`basename $$F`; \
+				if [ "$$COMPONENT" == "website" ]; then \
+					if [[ "$$L" =~ 'q-source' ]] ; then \
+						continue; \
+					fi; \
+				fi; \
+				$(call make_versioned,L) \
+				$(CMD_SYNC_ONLINE) $$F $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework/$$L || exit 1; \
+			done; \
+		fi; \
+	done
+
+################################################################################
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps publish-build-components publish-build-q-zip tutorials-build build-framework resources-build manual-build
+publish-build: build-apps build-components publish-build-q-zip tutorials-build framework-build resources-build resources-framework-build manual-build
 
-publish-build-components:
-	@( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/testrunner && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/testrunner && $(CMD_GENERATOR) portable-build ) || exit 1;
-	@( cd component/standalone/website && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) build-min ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) build-module-all ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) build-module-all-min ) || exit 1
-	@( cd component/standalone/website && $(CMD_GENERATOR) test ) || exit 1
-	@( cd component/standalone/server && $(CMD_GENERATOR) build ) || exit 1
-	@( cd component/standalone/server && $(CMD_GENERATOR) build-min ) || exit 1
+##
+# "q-core.js" -> "q-core-3.1.js" (also for .min.js files)
+#
+# text expansion macro that works also with shell vars within recipes
+# syntax: $(call make_versioned,L)
+#
+make_versioned = \
+	_ext_=$$(echo $${$(1)} | sed -r -e 's/^([[:alnum:]-]+)(\.min)?(\.[^.]+)$$/\2\3/'); \
+	_base_=$$(echo $${$(1)} | sed -r -e 's/^([[:alnum:]-]+)(\.min)?(\.[^.]+)$$/\1/'); \
+	$(1)="$${_base_}$(WEBSITE_VERSION_STR)$${_ext_}";
 
 publish-build-q-zip:
-	@( cd component/standalone/website && \
-	   $(CMD_ZIP_CREATE) script/$(WEBSITE_MODULES_ZIP) $(addprefix script/q-,$(addsuffix -$(FRAMEWORK_VERSION).js,$(WEBSITE_MODULES))) ) || exit 1
-	@( cd component/standalone/website && \
-	   $(CMD_ZIP_CREATE) script/$(WEBSITE_MODULES_MIN_ZIP) $(addprefix script/q-,$(addsuffix -$(FRAMEWORK_VERSION).min.js,$(WEBSITE_MODULES))) ) || exit 1
+	@( cd component/standalone/website; \
+		D=`mktemp -d --tmpdir=.`; \
+		mkdir $$D/script; \
+		for F in $(WEBSITE_MODULES); do \
+			for FF in `echo script/q-$$F.* script/*.css`; do \
+				L=`basename $$FF`; \
+				$(call make_versioned,L) \
+				$(CMD_SYNC_OFFLINE) $$FF $$D/script/$$L; \
+			done; \
+		done; \
+		shopt -s extglob; \
+		rm -f script/$(WEBSITE_MODULES_ZIP) script/$(WEBSITE_MODULES_MIN_ZIP); \
+		eval "$(CMD_ZIP) -qj script/$(WEBSITE_MODULES_ZIP) $$D/script/!(*.min).js" $$D/script/*.css || exit 1; \
+		eval "$(CMD_ZIP) -qj script/$(WEBSITE_MODULES_MIN_ZIP) $$D/script/*.min.js" $$D/script/*.css  || exit 1; \
+		rm -fr $$D; \
+	)
 
-publish-check: check-banner check-apps check-components check-framework manual-check resources-check
+publish-check: check-banner check-apps check-components framework-check manual-check resources-check resources-framework-check
 	@echo "    - Looks good"
 
 check-banner:
@@ -661,6 +839,8 @@ check-apps:
 			F="application/$$TARGET/build-indigo/script/$$TARGET.js"; \
 		elif [ "$$TARGET" = "todo" ] ; then \
 			F="application/$$TARGET/$$TARGET.js"; \
+		elif [ "$$TARGET" = "websitewidgetbrowser" ] ; then \
+			F="application/$$TARGET/script/indigo.css"; \
 		else \
 			F="application/$$TARGET/build/script/$$TARGET.js"; \
 		fi; \
@@ -678,14 +858,14 @@ check-components:
 			F="component/testrunner/build/script/$$TARGET-portable.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "website" ]; then \
-			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).js"; \
+			F="component/standalone/$$TARGET/script/q.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/q-$(FRAMEWORK_VERSION).min.js"; \
+			F="component/standalone/$$TARGET/script/q.min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 			for MODULE in $(WEBSITE_MODULES); do \
-				F="component/standalone/$$TARGET/script/q-$$MODULE-$(FRAMEWORK_VERSION).js"; \
+				F="component/standalone/$$TARGET/script/q-$$MODULE.js"; \
 				[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-				F="component/standalone/$$TARGET/script/q-$$MODULE-$(FRAMEWORK_VERSION).min.js"; \
+				F="component/standalone/$$TARGET/script/q-$$MODULE.min.js"; \
 				[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 			done; \
 			F="component/standalone/$$TARGET/script/$(WEBSITE_MODULES_ZIP)"; \
@@ -693,21 +873,10 @@ check-components:
 			F="component/standalone/$$TARGET/script/$(WEBSITE_MODULES_MIN_ZIP)"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		elif [ "$$TARGET" = "server" ]; then \
-			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).min.js"; \
+			F="component/standalone/$$TARGET/script/qx-oo.min.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-			F="component/standalone/$$TARGET/script/qx-oo-$(FRAMEWORK_VERSION).js"; \
+			F="component/standalone/$$TARGET/script/qx-oo.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-		fi; \
-	done
-
-check-framework:
-	@for TARGET in $(FRAMEWORK_TARGETS); do \
-		if [ "$$TARGET" = "dependencies" ]; then \
-			F="framework/source/script/dependencies.json"; \
-			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-		else \
-			F="framework/$$TARGET/script"; \
-			[ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 		fi; \
 	done
 
@@ -721,77 +890,36 @@ publish-index:
 	@$(CMD_SYNC_ONLINE) temp/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
 	@$(CMD_REMOVE) temp
 
-# Putting components after framework, to be able to add to testrunner/script/testrunner-portable.js
-# to save:	ssh $(STAGING_HOST) $(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION/script/;
-publish-apps:
-	@echo "  * Syncing applications..."
-	@for APPLICATION in $(APPLICATIONS); do \
-		echo "    - $$APPLICATION..."; \
-		if [ "$$APPLICATION" = "feedreader" ]; then \
-			echo "    - $$APPLICATION-mobile..."; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-mobile/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-mobile || exit 1; \
-			echo "    - $$APPLICATION-website..."; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-website/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION-website || exit 1; \
-		elif [ "$$APPLICATION" = "mobileshowcase" ]; then \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build-indigo/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		elif [ "$$APPLICATION" = "todo" ]; then \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/script $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/todo.* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/index.html $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		else \
-			$(CMD_SYNC_ONLINE) application/$$APPLICATION/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
-		fi; \
-	done
-	@echo "  * Syncing framework..."
-	@ssh $(STAGING_HOST) "$(CMD_MKDIR) /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework"
-	@for APPLICATION in $(FRAMEWORK_TARGETS); do \
-	  echo "    - $$APPLICATION..."; \
-		if [ "$$APPLICATION" = "api" ]; then \
-			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/apiviewer || exit 1; \
-		fi; \
-		if [ "$$APPLICATION" = "test" ]; then \
-			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/testrunner || exit 1; \
-		fi; \
-		if [ "$$APPLICATION" = "test-mobile" ]; then \
-			$(CMD_SYNC_ONLINE) framework/$$APPLICATION/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/mobile-tests || exit 1; \
-		fi; \
-	done
-	@echo "  * Syncing components..."
-	@for COMPONENT in $(COMPONENTS); do \
-		if [ "$$COMPONENT" = "inspector" ]; then \
-			echo "    - $$COMPONENT..."; \
-			$(CMD_SYNC_ONLINE) component/$$COMPONENT/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT || exit 1; \
-		elif [ "$$COMPONENT" = "testrunner" ]; then \
-			echo "    - $$COMPONENT..."; \
-			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$COMPONENT-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT/script/$$COMPONENT-portable.js || exit 1; \
-		elif [ "$$COMPONENT" = "website" ]; then \
-			echo "    - $$COMPONENT..."; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			for MODULE in $(WEBSITE_MODULES); do \
-				$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$$MODULE-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-				$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/q-$$MODULE-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			done; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$(WEBSITE_MODULES_ZIP) $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/$(WEBSITE_MODULES_MIN_ZIP) $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/api/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-api || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/test/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT-tests || exit 1; \
-		elif [ "$$COMPONENT" = "server" ]; then \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-			$(CMD_SYNC_ONLINE) component/standalone/$$COMPONENT/script/qx-oo-$(FRAMEWORK_VERSION).min.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/framework || exit 1; \
-		fi; \
-	done
-
+ifeq ($(DO_RELEASE),)
+##
+# a publish-production target that only syncs the current version on the production
+# server instead of the entire /demo/ etc. folders (should be much faster)
+publish-production:
+	@echo "  * Pushing version to production host..."
+	@# devel backup
+	@echo "    - Pushing devel backup..."
+	@ssh -A $(STAGING_HOST) $(CMD_SYNC_ONLINE) --verbose /var/www/qooxdoo/demo/0.0.devel_backlog/ $(PRODUCTION_HOST):/var/www/qooxdoo/demo/0.0.devel_backlog/
+	@# demos
+	@echo "    - Pushing demos..."
+	@ssh -A $(STAGING_HOST) $(CMD_SYNC_ONLINE) --verbose /var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/ $(PRODUCTION_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
+	@# manual
+	@echo "    - Pushing manual..."
+	@ssh -A $(STAGING_HOST) $(CMD_SYNC_ONLINE) --verbose /var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/ $(PRODUCTION_HOST):/var/www/qooxdoo/manual/$(FRAMEWORK_VERSION)/
+else
+##
+# Syncs the entire .../demo/ and .../manual/ trees to production.
 publish-production:
 	@echo "  * Pushing to production host..."
 	@ssh -A $(STAGING_HOST) /var/www/qooxdoo/bin/webtechfe01.mirror.sh
+endif
+
 
 publish-backup:
 	@echo "  * Backing up devel version on server; this will take some time..."
 	@ssh $(STAGING_HOST) "$(CMD_SYNC_BACKUP) /var/www/qooxdoo/demo/devel /var/www/qooxdoo/demo/0.0.devel_backlog/"
 
-publish-staging: publish-check publish-backup publish-index publish-apps tutorials-publish resources-publish manual-publish
+# Putting components after framework, to be able to add to testrunner/script/testrunner-portable.js
+publish-staging: publish-check publish-backup publish-index framework-publish apps-publish components-publish tutorials-publish resources-publish manual-publish
 
 publish: publish-staging publish-production
 

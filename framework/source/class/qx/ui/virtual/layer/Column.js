@@ -98,7 +98,6 @@ qx.Class.define("qx.ui.virtual.layer.Column",
       // hide element before changing the child nodes to avoid
       // premature reflow calculations
       el.style.display = "none";
-      window.affe = el;
       el.innerHTML = html.join("");
 
       el.style.display = "block";

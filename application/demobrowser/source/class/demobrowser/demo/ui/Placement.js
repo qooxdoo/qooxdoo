@@ -60,7 +60,7 @@ qx.Class.define("demobrowser.demo.ui.Placement",
       root.add(this.createTestField("left-bottom"), { right: 20, top: 350 });
 
       // DOM align test
-      root.add(this.createDomClick(), { left: 200, top: 100 });
+      root.add(this.createDomTest(), { left: 200, top: 100 });
     },
 
 
@@ -94,7 +94,7 @@ qx.Class.define("demobrowser.demo.ui.Placement",
 
       var button = new qx.ui.form.Button("Open Popup");
       composite.add(button);
-      button.addListener("mousedown", function(e)
+      button.addListener("pointerdown", function(e)
       {
         popup.placeToWidget(button);
         popup.show();
@@ -104,7 +104,7 @@ qx.Class.define("demobrowser.demo.ui.Placement",
     },
 
 
-    createDomClick : function()
+    createDomTest : function()
     {
       var composite = new qx.ui.container.Composite(new qx.ui.layout.VBox(4));
 
@@ -127,7 +127,7 @@ qx.Class.define("demobrowser.demo.ui.Placement",
 
       var button = new qx.ui.form.Button("Open DOM-Popup");
       composite.add(button);
-      button.addListener("mousedown", function(e)
+      button.addListener("pointerdown", function(e)
       {
         popup.placeToElement(document.getElementById("domanchor"));
         popup.show();

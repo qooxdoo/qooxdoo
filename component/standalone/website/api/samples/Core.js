@@ -78,6 +78,33 @@ addSample("q.define", {javascript :function() {
   myDog.bark();
 }, executable: true});
 
+addSample("q.define", {
+  javascript:function() {
+var Dog = q.define({
+  statics : {
+    complexData : null,
+
+    bark : function() {
+      console.log("wuff");
+    }
+  },
+  defer : function(statics) {
+    // inside the 'defer' block you have access to the statics
+    // e.g. to use the plugin API and add method to q
+    q.$attachStatic({
+      'bark' : statics.bark
+    });
+
+    // or to initialize complex data types
+    statics.complexData = [];
+  }
+});
+
+// works
+q.bark();
+console.log(Dog.complexData.length);
+}, executable: true });
+
 addSample(".concat", {
   html: ['<ul>',
          '  <li class="info">item 1</li>',

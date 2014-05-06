@@ -301,6 +301,7 @@ qx.Class.define("widgetbrowser.pages.ToolBar",
       w.setBackgroundColor("text-disabled");
       w.setMinHeight(100);
       w.setWidth(200);
+      this._widgets.push(w);
 
       var menu = new qx.ui.menu.Menu();
       w.setContextMenu(menu);

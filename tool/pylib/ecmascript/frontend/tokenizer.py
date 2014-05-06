@@ -129,10 +129,10 @@ class Tokenizer(object):
         for tok in self.scanner:
             # some inital values (tok isinstanceof Scanner.Token())
             token = {
-                "source" : tok.value, 
+                "source" : tok.value,
                 "detail" : "",
-                "line"   : self.line, 
-                "column" : tok.spos - self.sol + 1, 
+                "line"   : self.line,
+                "column" : tok.spos - self.sol + 1,
                 "id"     : self.uniqueId
                 }
 
@@ -144,29 +144,29 @@ class Tokenizer(object):
             # end of file
             elif tok.name == 'eof':
                 token['type'] = 'eof'
-            
+
             # line break
             elif tok.name == 'nl':
                 token['type']   = 'eol'
                 token['source'] = '\n'
                 self.line += 1                  # increase line count
                 self.sol  = tok.spos + tok.len  # char pos of next line start
-            
+
             # float
             elif tok.name == 'float':
                 token['type'] = 'number'
                 token['detail'] = 'float'
-            
+
             # hex integer
             elif tok.name == 'hexnum':
                 token['type'] = 'number'
                 token['detail'] = 'int'
-            
+
             # integer
             elif tok.name == 'number':
                 token['type'] = 'number'
                 token['detail'] = 'int'
-            
+
             # string
             elif tok.value in ('"', "'"):
                 # accumulate strings
@@ -234,7 +234,7 @@ class Tokenizer(object):
                             token['detail'] = 'inline'
                         else:
                             print >> sys.stderr, "Inline comment out of context"
-                    
+
                     # comment, multiline
                     elif tok.value == '/*':
                         # accumulate multiline comments
@@ -261,16 +261,34 @@ class Tokenizer(object):
 
                         else:
                             print >> sys.stderr, "Multiline comment out of context"
-                                    
+
                     # every other operator goes as is
                     else:
                         token['type'] = 'token'
                         token['detail'] = lang.TOKENS[tok.value]
-                
+
                 # JS keywords
                 elif tok.value in lang.RESERVED:
-                    token['type'] = 'reserved'
-                    token['detail'] = lang.RESERVED[tok.value]
+                    # valid syntax:
+                    #   a.import            // following if condition checks for this
+                    #   a = { import: 1 }   // Note: Generator will still (incorrectly) grumble about that
+                    #
+                    # See: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Reserved_Words#Reserved_word_usage
+                    try:
+                        prev = self.out_stream[-1]
+                        prevprev = self.out_stream[-2]
+
+                        # only allow FUTURE_RESERVED words because of backwards compatibility
+                        # Note: In ES5 RESERVED_WORDS are allowed here also
+                        if tok.value in lang.FUTURE_RESERVED and self.isPropertyWithinMemberExpression(tok, prev, prevprev):
+                            token['type'] = 'name'
+                            token['detail'] = 'public'  # wouldn't be reserved word if not public
+                        else:
+                            token['type'] = 'reserved'
+                            token['detail'] = lang.RESERVED[tok.value]
+                    except (IndexError):
+                        token['type'] = 'reserved'
+                        token['detail'] = lang.RESERVED[tok.value]
 
                 # JS/BOM objects
                 elif tok.value in lang.BUILTIN:
@@ -375,7 +393,7 @@ class Tokenizer(object):
 
 
     ##
-    # generic element parser for delimited strings (string/regex literals, 
+    # generic element parser for delimited strings (string/regex literals,
     # comments)
     # both start token and terminator token will be part of the element
     def parseDelimited(self, scanner, terminator):
@@ -412,6 +430,22 @@ class Tokenizer(object):
         else:
             return False
 
+    ##
+    # Whether tok is a property within a MemberExpression.
+    #
+    # Example:
+    #   foo.bar.interestingProperty
+    #     tok = interestingProperty
+    #     prevtok = .
+    #     preprevtok = bar
+    #
+    #   returns True
+    #
+    def isPropertyWithinMemberExpression(self, tok, prevtok, prevprevtok):
+        pt = prevtok
+        ppt = prevprevtok
+        return (tok.name == 'ident' and (pt['detail'] == 'DOT' and pt['type'] == 'token') and
+                (ppt['detail'] in ('public', 'protected', 'private') and ppt['type'] == 'name'))
 
     ##
     # check if there is a preceding non-white token on this line

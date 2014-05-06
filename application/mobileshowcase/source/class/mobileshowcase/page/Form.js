@@ -23,14 +23,12 @@
  */
 qx.Class.define("mobileshowcase.page.Form",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("Form");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
@@ -50,6 +48,7 @@ qx.Class.define("mobileshowcase.page.Form",
     __radio2 : null,
     __form : null,
     __submitButton : null,
+    __resetButton : null,
     __numberField : null,
 
 
@@ -61,14 +60,15 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this.getContent().add(new qx.ui.mobile.form.renderer.Single(this.__form));
 
-      this.__submitButton = new qx.ui.mobile.form.Button("Submit");
-      this.__submitButton.addListener("tap", this._onButtonTap, this);
-      this.__submitButton.addListener("touchstart", qx.bom.Event.preventDefault, this);
-      this.__submitButton.setEnabled(false);
+      this.__submitButton = this._createSubmitButton();
       this.getContent().add(this.__submitButton);
+
+      this.__resetButton = this._createResetButton();
+      this.getContent().add(this.__resetButton);
 
       this.__result = new qx.ui.mobile.form.Label();
       this.__result.addCssClass("registration-result");
+
       var popupContent = new qx.ui.mobile.container.Composite();
       this.__closeResultPopup = new qx.ui.mobile.form.Button("OK");
       this.__closeResultPopup.addListener("tap", function() {
@@ -84,6 +84,29 @@ qx.Class.define("mobileshowcase.page.Form",
 
 
     /**
+    * Factory for the Submit Button.
+    * @return {qx.ui.mobile.form.Button} reset button
+    */
+    _createSubmitButton : function() {
+      var submitButton = new qx.ui.mobile.form.Button("Submit");
+      submitButton.addListener("tap", this._onSubmitButtonTap, this);
+      submitButton.setEnabled(false);
+      return submitButton;
+    },
+
+
+    /**
+    * Factory for the Reset Button.
+    * @return {qx.ui.mobile.form.Button} reset button
+    */
+    _createResetButton : function() {
+      var resetButton = new qx.ui.mobile.form.Button("Reset");
+      resetButton.addListener("tap", this._onResetButtonTap, this);
+      return resetButton;
+    },
+
+
+    /**
      * Creates the form for this showcase.
      *
      * @return {qx.ui.mobile.form.Form} the created form.
@@ -92,26 +115,32 @@ qx.Class.define("mobileshowcase.page.Form",
     {
       var form = new qx.ui.mobile.form.Form();
 
+      // NAME FIELD
       this.__name = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
       this.__name.setRequired(true);
+      this.__name.setLiveUpdate(true);
 
       form.addGroupHeader("Contact");
       form.add(this.__name, "Username");
 
+      // PASSWORD FIELD
       this.__password = new qx.ui.mobile.form.PasswordField().set({placeholder:"Password"});
+      this.__password.setLiveUpdate(true);
       form.add(this.__password, "Password");
 
+      // REMEMBER PASSWORD CHECKBOX
       this.__rememberPass = new qx.ui.mobile.form.CheckBox();
       form.add(this.__rememberPass, "Remember password? ");
       this.__rememberPass.setModel("password_reminder");
       this.__rememberPass.bind("model",this.__password,"value");
+
       this.__password.bind("value",this.__rememberPass,"model");
 
       // NUMBER FIELD
       this.__numberField = new qx.ui.mobile.form.NumberField();
-      this.__numberField.setValue("0");
       this.__numberField.setMaximum(150);
       this.__numberField.setMinimum(0);
+      this.__numberField.setLiveUpdate(true);
       form.add(this.__numberField,"Age");
 
       form.addGroupHeader("Gender");
@@ -125,7 +154,7 @@ qx.Class.define("mobileshowcase.page.Form",
       form.add(this.__radio2, "Female");
 
       form.addGroupHeader("Feedback");
-      var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad","Magazine","Twitter","Other"]);
+      var dd = new qx.data.Array(["Web search", "From a friend", "Offline ad", "Magazine", "Twitter", "Other"]);
       var selQuestion = "How did you hear about us ?";
 
       this.__sel = new qx.ui.mobile.form.SelectBox();
@@ -208,12 +237,14 @@ qx.Class.define("mobileshowcase.page.Form",
     },
 
 
-    /**
-     * Event handler.
-     *
-     * @param evt {qx.event.type.Tap} The tap event.
-     */
-    _onButtonTap : function()
+    /**  Event handler */
+    _onResetButtonTap : function() {
+      this.__form.reset();
+    },
+
+
+    /** Event handler. */
+    _onSubmitButtonTap : function()
     {
       if(this.__form.validate())
       {
@@ -232,7 +263,7 @@ qx.Class.define("mobileshowcase.page.Form",
         // Scroll to invalid field.
         var invalidItems = this.__form.getInvalidItems();
 
-        this.scrollToWidget(invalidItems[0].getLayoutParent(), 500);
+        this._getScrollContainer().scrollToWidget(invalidItems[0].getLayoutParent(), 500);
       }
     },
 
@@ -243,13 +274,6 @@ qx.Class.define("mobileshowcase.page.Form",
         this.__resultPopup.hide();
       }
       this.base(arguments);
-    },
-
-
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

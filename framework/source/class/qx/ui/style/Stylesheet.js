@@ -71,10 +71,5 @@ qx.Class.define("qx.ui.style.Stylesheet",
       delete this.__rules[this.__rules.indexOf(selector)];
       qx.bom.Stylesheet.removeRule(this.__sheet, selector);
     }
-  },
-
-
-  destruct : function() {
-    qx.bom.Stylesheet.removeSheet(this.__sheet);
   }
 });

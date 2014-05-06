@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A button which opens the connected menu when clicking on it.
+ * A button which opens the connected menu when tapping on it.
  */
 qx.Class.define("qx.ui.form.MenuButton",
 {
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.form.MenuButton",
 
   properties :
   {
-    /** The menu instance to show when clicking on the button */
+    /** The menu instance to show when tapping on the button */
     menu :
     {
       check : "qx.ui.menu.Menu",
@@ -188,8 +188,7 @@ qx.Class.define("qx.ui.form.MenuButton",
 
 
     // overridden
-    _onMouseDown : function(e)
-    {
+    _onPointerDown : function(e) {
       // call the base function to get into the capture phase [BUG #4340]
       this.base(arguments, e);
 
@@ -215,8 +214,7 @@ qx.Class.define("qx.ui.form.MenuButton",
 
 
     // overridden
-    _onMouseUp : function(e)
-    {
+    _onPointerUp : function(e) {
       // call base for firing the execute event
       this.base(arguments, e);
 
@@ -227,16 +225,14 @@ qx.Class.define("qx.ui.form.MenuButton",
 
 
     // overridden
-    _onMouseOver : function(e)
-    {
+    _onPointerOver : function(e) {
       // Add hovered state
       this.addState("hovered");
     },
 
 
     // overridden
-    _onMouseOut : function(e)
-    {
+    _onPointerOut : function(e) {
       // Just remove the hover state
       this.removeState("hovered");
     },

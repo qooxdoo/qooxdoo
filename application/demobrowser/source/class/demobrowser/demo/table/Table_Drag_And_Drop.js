@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.table.Table_Drag_And_Drop",
 
       table.setDraggable(true);
       table.setDroppable(true);
-      table.setFocusCellOnMouseMove(true);
+      table.setFocusCellOnPointerMove(true);
 
       table.addListener("dragstart", this._handleDragStart, this);
       table.addListener("droprequest", this._handleDropRequest, this);

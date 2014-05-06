@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     }
 
     if (childProperty != null) {
-      this.setChildProperty(childProperty)
+      this.setChildProperty(childProperty);
     }
 
     if(model != null) {
@@ -164,13 +164,13 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Control whether clicks or double clicks should open or close the clicked
+     * Control whether tap or double tap should open or close the tapped
      * item.
      */
     openMode :
     {
-      check: ["click", "dblclick", "none"],
-      init: "dblclick",
+      check: ["tap", "dbltap", "none"],
+      init: "dbltap",
       apply: "_applyOpenMode",
       event: "changeOpenMode",
       themeable: true
@@ -445,6 +445,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       this._layer = this._provider.createLayer();
       this._layer.addListener("updated", this._onUpdated, this);
       this.getPane().addLayer(this._layer);
+      this.getPane().addListenerOnce("resize", function(e) {
+        // apply width to pane on first rendering pass
+        // to avoid visible flickering
+        this.getPane().getColumnConfig().setItemSize(0, e.getData().width);
+      }, this);
     },
 
 
@@ -499,7 +504,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // Interface implementation
     isNode : function(item) {
-      return qx.ui.tree.core.Util.hasChildren(item, this.getChildProperty());
+      return qx.ui.tree.core.Util.isNode(item, this.getChildProperty());
     },
 
 
@@ -543,17 +548,17 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     {
       var pane = this.getPane();
 
-      //"click", "dblclick", "none"
-      if (value === "dblclick") {
-        pane.addListener("cellDblclick", this._onOpen, this);
-      } else if (value === "click") {
-        pane.addListener("cellClick", this._onOpen, this);
+      //"tap", "dbltap", "none"
+      if (value === "dbltap") {
+        pane.addListener("cellDbltap", this._onOpen, this);
+      } else if (value === "tap") {
+        pane.addListener("cellTap", this._onOpen, this);
       }
 
-      if (old === "dblclick") {
-        pane.removeListener("cellDblclick", this._onOpen, this);
-      } else if (old === "click") {
-        pane.removeListener("cellClick", this._onOpen, this);
+      if (old === "dbltap") {
+        pane.removeListener("cellDbltap", this._onOpen, this);
+      } else if (old === "tap") {
+        pane.removeListener("cellTap", this._onOpen, this);
       }
     },
 
@@ -708,9 +713,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     /**
-     * Event handler to open/close clicked nodes.
+     * Event handler to open/close tapped nodes.
      *
-     * @param event {qx.ui.virtual.core.CellEvent} The cell click event.
+     * @param event {qx.ui.virtual.core.CellEvent} The cell tap event.
      */
     _onOpen : function(event)
     {
@@ -1117,11 +1122,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     var pane = this.getPane()
     if (pane != null)
     {
-      if (pane.hasListener("cellDblclick")) {
-        pane.removeListener("cellDblclick", this._onOpen, this);
+      if (pane.hasListener("cellDbltap")) {
+        pane.removeListener("cellDbltap", this._onOpen, this);
       }
-      if (pane.hasListener("cellClick")) {
-        pane.removeListener("cellClick", this._onOpen, this);
+      if (pane.hasListener("cellTap")) {
+        pane.removeListener("cellTap", this._onOpen, this);
       }
     }
 

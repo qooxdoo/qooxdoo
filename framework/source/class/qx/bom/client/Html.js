@@ -203,7 +203,13 @@ qx.Bootstrap.define("qx.bom.client.Html",
      */
     getLocalStorage : function() {
       try {
-        return window.localStorage != null;
+        var has = window.localStorage != null;
+        // write once to make sure to catch safari's private mode [BUG #7718]
+        if (has) {
+          window.sessionStorage.setItem("$qx_check", "test");
+          window.sessionStorage.removeItem("$qx_check");
+        }
+        return has;
       } catch (exc) {
         // Firefox Bug: Local execution of window.sessionStorage throws error
         // see https://bugzilla.mozilla.org/show_bug.cgi?id=357323
@@ -220,7 +226,13 @@ qx.Bootstrap.define("qx.bom.client.Html",
      */
     getSessionStorage : function() {
       try {
-        return window.sessionStorage != null;
+        var has = window.sessionStorage != null;
+        // write once to make sure to catch safari's private mode [BUG #7718]
+        if (has) {
+          window.sessionStorage.setItem("$qx_check", "test");
+          window.sessionStorage.removeItem("$qx_check");
+        }
+        return has;
       } catch (exc) {
         // Firefox Bug: Local execution of window.sessionStorage throws error
         // see https://bugzilla.mozilla.org/show_bug.cgi?id=357323
@@ -465,6 +477,16 @@ qx.Bootstrap.define("qx.bom.client.Html",
         return "selection";
       }
       return null;
+    },
+
+
+    /**
+     * Check for the isEqualNode DOM method.
+     *
+     * @return {Boolean} <code>true</code> if isEqualNode is supported by DOM nodes
+     */
+    getIsEqualNode : function() {
+      return typeof document.documentElement.isEqualNode === "function";
     }
   },
 
@@ -500,5 +522,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.image.naturaldimensions", statics.getNaturalDimensions);
     qx.core.Environment.add("html.history.state", statics.getHistoryState);
     qx.core.Environment.add("html.selection", statics.getSelection);
+    qx.core.Environment.add("html.node.isequalnode", statics.getIsEqualNode);
   }
 });

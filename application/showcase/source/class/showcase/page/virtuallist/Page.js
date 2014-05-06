@@ -55,7 +55,7 @@ qx.Class.define("showcase.page.virtuallist.Page",
       " items and reuses them. This saves both creation time and memory.",
 
     __tryThis : {
-      "Close Group" : "Click on the arrow of a group item to close the group.",
+      "Close Group" : "Tap on the arrow of a group item to close the group.",
       "Change User Data" : "Select a user and change values for e.g. status.",
       "Add User" : "Press the add user button and enter name and group.",
       "Delete User" : "Select a user and press the delete button."

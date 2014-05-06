@@ -1,0 +1,35 @@
+$rating-background: 270deg, #E3B64A, #D5771D;
+$rating-background-disabled: 270deg, desaturate(#E3B64A, 100%), desaturate(#D5771D, 100%);
+$rating-background-off: 270deg, #eee, #cfcfcf;
+$rating-color-off: #cfcfcf;
+
+.qx-rating-item {
+  font-size: rem(22);
+  background-image: -webkit-linear-gradient($rating-background);
+  color: #E3B64A;
+  @include background-clip(text);
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: rem(1) #BB6718;
+  margin-right: rem(10);
+  cursor: pointer;
+}
+
+.qx-rating-item.qx-rating-item-off {
+  background-image: -webkit-linear-gradient($rating-background-off);
+  color: $rating-color-off;
+  @include background-clip(text);
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: rem(1) $rating-color-off;
+}
+
+.qx-rating-item[disabled] {
+  background-image: -webkit-linear-gradient($rating-background-disabled);
+  -webkit-text-stroke: rem(1) desaturate(#BB6718, 100%);
+  color: desaturate(#D5771D, 100%);
+}
+
+.qx-rating-item.qx-rating-item-off[disabled] {
+  background-image: -webkit-linear-gradient($rating-background-off);
+  -webkit-text-stroke: rem(1) desaturate($rating-color-off, 100%);
+  color: $rating-color-off;
+}

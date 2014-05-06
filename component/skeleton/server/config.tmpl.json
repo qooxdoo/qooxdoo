@@ -170,7 +170,8 @@
       "desc" : "create a local 'server' library",
       "extend" : ["server::build-min"],
       "let" : {
-        "BUILD_PATH" : "./script"
+        "BUILD_PATH" : "./script",
+        "SFILES_VERSION_PART" : "-${QOOXDOO_VERSION}"
       }
     },
 
@@ -210,7 +211,7 @@
       }
     },
 
-    "dependencies" : 
+    "dependencies" :
     {
       "=exclude" : [ "$${APPLICATION}.test.*" ]
     }

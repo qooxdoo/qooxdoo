@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     var textField = this._createChildControl("textfield");
     this._createChildControl("button");
 
-    this.addListener("click", this._onClick);
+    this.addListener("tap", this._onTap);
 
     // forward the focusin and focusout events to the textfield. The textfield
     // is not focusable so the events need to be forwarded manually.
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         case "textfield":
           control = new qx.ui.form.TextField();
-          control.setFocusable(qx.event.handler.MouseEmulation.ON);
+          control.setFocusable(false);
           control.addState("inner");
           control.addListener("changeValue", this._onTextFieldChangeValue, this);
           control.addListener("blur", this.close, this);
@@ -269,15 +269,15 @@ qx.Class.define("qx.ui.form.ComboBox",
     /**
      * Toggles the popup's visibility.
      *
-     * @param e {qx.event.type.Mouse} Mouse click event
+     * @param e {qx.event.type.Pointer} Pointer tap event
      */
-    _onClick : function(e) {
+    _onTap : function(e) {
       this.close();
     },
 
 
     // overridden
-    _onListMouseDown : function(e) {
+    _onListPointerDown : function(e) {
       this._setPreselectedItem();
     },
 
@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       var current = e.getData();
       if (current.length > 0)
       {
-        // Ignore quick context (e.g. mouseover)
+        // Ignore quick context (e.g. pointerover)
         // and configure the new value when closing the popup afterwards
         var list = this.getChildControl("list");
         var ctx = list.getSelectionContext();

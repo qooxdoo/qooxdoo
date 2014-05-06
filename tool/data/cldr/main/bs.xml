@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8663 $"/>
-		<generation date="$Date: 2013-05-02 15:03:19 -0500 (Thu, 02 May 2013) $"/>
+		<version number="$Revision: 9852 $"/>
+		<generation date="$Date: 2014-02-28 23:57:43 -0600 (Fri, 28 Feb 2014) $"/>
 		<language type="bs"/>
 	</identity>
 	<localeDisplayNames>
@@ -24,46 +24,35 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ady">adigejski</language>
 			<language type="ae">avestanski</language>
 			<language type="af">afrikanerski</language>
-			<language type="afa">afro-azijatski</language>
 			<language type="afh">afrihili</language>
 			<language type="ain">ainu</language>
 			<language type="ak">akan</language>
 			<language type="akk">akadijski</language>
 			<language type="ale">aljut</language>
-			<language type="alg">algonkvijanski jezik</language>
 			<language type="alt">južni altai</language>
 			<language type="am">amharski</language>
 			<language type="an">aragonežanski</language>
 			<language type="ang">staroengleski</language>
 			<language type="anp">angika</language>
-			<language type="apa">apački jezik</language>
 			<language type="ar">arapski</language>
 			<language type="arc">armajski</language>
 			<language type="arn">arokanijski</language>
 			<language type="arp">arapaho</language>
-			<language type="art">veštački</language>
 			<language type="arw">aravak</language>
 			<language type="as">asemijski</language>
 			<language type="ast">asturijski</language>
-			<language type="ath">atapaskan</language>
-			<language type="aus">australijski jezik</language>
 			<language type="av">avarski</language>
 			<language type="awa">avadhi</language>
 			<language type="ay">ajmara</language>
 			<language type="az">azerbejdžanski</language>
 			<language type="ba">baškir</language>
-			<language type="bad">banda</language>
-			<language type="bai">bamileke</language>
 			<language type="bal">baluči</language>
 			<language type="ban">balinezijski</language>
 			<language type="bas">basa</language>
-			<language type="bat">baltički jezik</language>
 			<language type="be">beloruski</language>
 			<language type="bej">beja</language>
 			<language type="bem">bemba</language>
-			<language type="ber">berber</language>
 			<language type="bg">bugarski</language>
-			<language type="bh">biharski</language>
 			<language type="bho">bojpuri</language>
 			<language type="bi">bislama</language>
 			<language type="bik">bikol</language>
@@ -71,24 +60,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="bla">siksika</language>
 			<language type="bm">bambara</language>
 			<language type="bn">bengalski</language>
-			<language type="bnt">bantu</language>
 			<language type="bo">tibetanski</language>
 			<language type="br">bretonski</language>
 			<language type="bra">braj</language>
 			<language type="bs">bosanski</language>
-			<language type="btk">batak</language>
 			<language type="bua">buriat</language>
 			<language type="bug">buginežanskii</language>
 			<language type="byn">blin</language>
 			<language type="ca">katalonski</language>
 			<language type="cad">kado</language>
-			<language type="cai">jezik centralno-američkih indijanaca</language>
 			<language type="car">karipski</language>
-			<language type="cau">kavkaski</language>
 			<language type="cch">atsam</language>
 			<language type="ce">čečenski</language>
 			<language type="ceb">cebuano</language>
-			<language type="cel">keltski jezik</language>
 			<language type="ch">čamoro</language>
 			<language type="chb">čibča</language>
 			<language type="chg">čagatai</language>
@@ -99,32 +83,24 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="chp">čipvijanski</language>
 			<language type="chr">čeroki</language>
 			<language type="chy">čejenski</language>
-			<language type="cmc">čamski jezik</language>
 			<language type="co">korzikanski</language>
 			<language type="cop">koptski</language>
-			<language type="cpe">kreolski ili pidžin zasnovan na engleskom</language>
-			<language type="cpf">kreolski ili pidžin zasnovan na francuskom</language>
-			<language type="cpp">kreolski ili pidžin baziran na portugalskom</language>
 			<language type="cr">kri</language>
 			<language type="crh">krimeanski turski</language>
-			<language type="crp">kreolski ili pidžin</language>
 			<language type="cs">češki</language>
 			<language type="csb">kašubijanski</language>
 			<language type="cu">staroslovenski</language>
-			<language type="cus">kušitički jezik</language>
 			<language type="cv">čuvaški</language>
 			<language type="cy">velški</language>
 			<language type="da">danski</language>
 			<language type="dak">dakota</language>
 			<language type="dar">dargva</language>
-			<language type="day">dajaški</language>
 			<language type="de">njemački</language>
 			<language type="del">delaver</language>
 			<language type="den">slavski</language>
 			<language type="dgr">dogrib</language>
 			<language type="din">dinka</language>
 			<language type="doi">dogri</language>
-			<language type="dra">dravidijski jezik</language>
 			<language type="dsb">niski sorbijanski</language>
 			<language type="dua">duala</language>
 			<language type="dum">srednji holandski</language>
@@ -150,7 +126,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ff">fulah</language>
 			<language type="fi">finski</language>
 			<language type="fil">filipinski</language>
-			<language type="fiu">ugro-finski jezik</language>
 			<language type="fj">fidžijski</language>
 			<language type="fo">farski</language>
 			<language type="fon">fon</language>
@@ -166,7 +141,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="gay">gajo</language>
 			<language type="gba">gbaja</language>
 			<language type="gd">škotski galski</language>
-			<language type="gem">germanski jezik</language>
 			<language type="gez">džiz</language>
 			<language type="gil">gilbertški</language>
 			<language type="gl">galski</language>
@@ -187,7 +161,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="he">hebrejski</language>
 			<language type="hi">hindi</language>
 			<language type="hil">hiligajnon</language>
-			<language type="him">himačali</language>
 			<language type="hit">hitite</language>
 			<language type="hmn">hmong</language>
 			<language type="ho">hiri motu</language>
@@ -204,15 +177,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ie">interlingve</language>
 			<language type="ig">igbo</language>
 			<language type="ii">sičuan ji</language>
-			<language type="ijo">ijo</language>
 			<language type="ik">inupiak</language>
 			<language type="ilo">iloko</language>
-			<language type="inc">indik</language>
-			<language type="ine">indo-evropski jezik</language>
 			<language type="inh">ingušetski</language>
 			<language type="io">ido</language>
-			<language type="ira">iranski jezik</language>
-			<language type="iro">irokvojanski</language>
 			<language type="is">islandski</language>
 			<language type="it">talijanski</language>
 			<language type="iu">inuktitut</language>
@@ -227,14 +195,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kac">kačin</language>
 			<language type="kaj">žju</language>
 			<language type="kam">kamba</language>
-			<language type="kar">karenski</language>
 			<language type="kaw">kavi</language>
 			<language type="kbd">kabardijski</language>
 			<language type="kcg">tjap</language>
 			<language type="kfo">koro</language>
 			<language type="kg">kongo</language>
 			<language type="kha">kasi</language>
-			<language type="khi">koisanski jezik</language>
 			<language type="kho">kotanizijski</language>
 			<language type="ki">kikuju</language>
 			<language type="kj">kuanjama</language>
@@ -250,7 +216,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kr">kanuri</language>
 			<language type="krc">karačaj-balkar</language>
 			<language type="krl">karelijski</language>
-			<language type="kro">kru</language>
 			<language type="kru">kurukh</language>
 			<language type="ks">kašmiri</language>
 			<language type="ku">kurdski</language>
@@ -284,7 +249,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mai">maitili</language>
 			<language type="mak">makasar</language>
 			<language type="man">mandingo</language>
-			<language type="map">austronežanski</language>
 			<language type="mas">masai</language>
 			<language type="mdf">mokša</language>
 			<language type="mdr">mandar</language>
@@ -295,31 +259,23 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mi">maorski</language>
 			<language type="mic">mikmak</language>
 			<language type="min">minangkabau</language>
-			<language type="mis">razni jezici</language>
 			<language type="mk">makedonski</language>
-			<language type="mkh">mon-kmerski jezik</language>
 			<language type="ml">malajalam</language>
 			<language type="mn">mongolski</language>
 			<language type="mnc">manču</language>
 			<language type="mni">manipuri</language>
-			<language type="mno">manobo jezik</language>
-			<language type="mo">moldavski</language>
 			<language type="moh">mahavski</language>
 			<language type="mos">mosi</language>
 			<language type="mr">marati</language>
 			<language type="ms">malajski</language>
 			<language type="mt">melteški</language>
 			<language type="mul">više jezika</language>
-			<language type="mun">munda jezik</language>
 			<language type="mus">kriški</language>
 			<language type="mwl">mirandeški</language>
 			<language type="mwr">marvari</language>
 			<language type="my">burmanski</language>
-			<language type="myn">majanski jezik</language>
 			<language type="myv">erzija</language>
 			<language type="na">nauru</language>
-			<language type="nah">nahuatl</language>
-			<language type="nai">jezik severno-američkih indijanaca</language>
 			<language type="nap">neapolitanski</language>
 			<language type="nb">norveški bokmål</language>
 			<language type="nd">severni ndebele</language>
@@ -328,7 +284,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="new">nevari</language>
 			<language type="ng">ndonga</language>
 			<language type="nia">nias</language>
-			<language type="nic">niger-kordofanijski jezik</language>
 			<language type="niu">niuean</language>
 			<language type="nl">holandski</language>
 			<language type="nl_BE">flamanski</language>
@@ -339,7 +294,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="nqo">n’ko</language>
 			<language type="nr">južni ndebele</language>
 			<language type="nso">severni soto</language>
-			<language type="nub">nubijski jezik</language>
 			<language type="nv">navaho</language>
 			<language type="nwc">klasični nevari</language>
 			<language type="ny">njanja</language>
@@ -354,21 +308,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="os">osetski</language>
 			<language type="osa">osage</language>
 			<language type="ota">otomanski turski</language>
-			<language type="oto">otomanski jezik</language>
 			<language type="pa">pandžabski</language>
-			<language type="paa">papuanski jezik</language>
 			<language type="pag">pangasinski</language>
 			<language type="pal">pahlavi</language>
 			<language type="pam">pampanga</language>
 			<language type="pap">papiamento</language>
 			<language type="pau">palauanski</language>
 			<language type="peo">staropersijski</language>
-			<language type="phi">filipinski jezik</language>
 			<language type="phn">feničanski</language>
 			<language type="pi">pali</language>
 			<language type="pl">poljski</language>
 			<language type="pon">ponpejski</language>
-			<language type="pra">prakritski jezik</language>
 			<language type="pro">staroprovansalski</language>
 			<language type="ps">paštunski</language>
 			<language type="pt">portugalski</language>
@@ -379,7 +329,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="rm">reto-romanski</language>
 			<language type="rn">rundi</language>
 			<language type="ro">rumunski</language>
-			<language type="roa">romanski jezik</language>
+			<language type="ro_MD">moldavski</language>
 			<language type="rom">romani</language>
 			<language type="root">run</language>
 			<language type="ru">ruski</language>
@@ -388,8 +338,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sa">sanskrit</language>
 			<language type="sad">sandave</language>
 			<language type="sah">jakut</language>
-			<language type="sai">jezik južno-američkih indijanaca</language>
-			<language type="sal">sališanski jezik</language>
 			<language type="sam">samaritanski aramejski</language>
 			<language type="sas">sasak</language>
 			<language type="sat">santali</language>
@@ -399,22 +347,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sd">sindi</language>
 			<language type="se">severni sami</language>
 			<language type="sel">selkap</language>
-			<language type="sem">semitski jezik</language>
 			<language type="sg">sango</language>
 			<language type="sga">staroirski</language>
-			<language type="sgn">jezik znakova</language>
 			<language type="sh">srpskohrvatski</language>
 			<language type="shn">šan</language>
 			<language type="si">singaleski</language>
 			<language type="sid">sidamo</language>
-			<language type="sio">siuanski jezik</language>
-			<language type="sit">sino-tibetanski jezik</language>
 			<language type="sk">slovački</language>
 			<language type="sl">slovenački</language>
-			<language type="sla">slovenski jezik</language>
 			<language type="sm">samoanski</language>
 			<language type="sma">južni sami</language>
-			<language type="smi">sami jezik</language>
 			<language type="smj">lule sami</language>
 			<language type="smn">inari sami</language>
 			<language type="sms">skoltski jezik</language>
@@ -422,13 +364,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="snk">soninke</language>
 			<language type="so">somalski</language>
 			<language type="sog">sodžijenski</language>
-			<language type="son">songai</language>
 			<language type="sq">albanski</language>
 			<language type="sr">srpski</language>
 			<language type="srn">srananski tongo</language>
 			<language type="srr">serer</language>
 			<language type="ss">svati</language>
-			<language type="ssa">nilo-saharski jezik</language>
 			<language type="st">sesoto</language>
 			<language type="su">sudanski</language>
 			<language type="suk">sukuma</language>
@@ -440,7 +380,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="syc">klasični sirijski</language>
 			<language type="syr">sirijski</language>
 			<language type="ta">tamilski</language>
-			<language type="tai">tai jezik</language>
 			<language type="te">telugu</language>
 			<language type="tem">timne</language>
 			<language type="ter">tereno</language>
@@ -465,8 +404,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="tsi">tsimšian</language>
 			<language type="tt">tatarski</language>
 			<language type="tum">tumbuka</language>
-			<language type="tup">tupi jezik</language>
-			<language type="tut">altaički jezik</language>
 			<language type="tvl">tuvalu</language>
 			<language type="tw">tvi</language>
 			<language type="ty">tahićanski</language>
@@ -485,11 +422,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="vo">volapük</language>
 			<language type="vot">votski</language>
 			<language type="wa">valun</language>
-			<language type="wak">vakašanski jezik</language>
 			<language type="wal">valamo</language>
 			<language type="war">varej</language>
 			<language type="was">vašo</language>
-			<language type="wen">sorbijanski jezik</language>
 			<language type="wo">volof</language>
 			<language type="xal">kalmik</language>
 			<language type="xh">khosa</language>
@@ -497,7 +432,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="yap">japeški</language>
 			<language type="yi">jidiš</language>
 			<language type="yo">jorubanski</language>
-			<language type="ypk">jupik</language>
 			<language type="yue" draft="provisional">kantonski</language>
 			<language type="za">zuang</language>
 			<language type="zap">zapotečki</language>
@@ -506,7 +440,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="zh">kineski</language>
 			<language type="zh_Hans">kineski (pojednostavljen)</language>
 			<language type="zh_Hant">kineski (tradicionalni)</language>
-			<language type="znd">zande</language>
 			<language type="zu">zulu</language>
 			<language type="zun">zuni</language>
 			<language type="zxx">bez lingvističkog sadržaja</language>
@@ -723,13 +656,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CA">Kanada</territory>
 			<territory type="CC">Kokos (Keling) Ostrva</territory>
 			<territory type="CD">Demokratska Republika Kongo</territory>
-			<territory type="CD" alt="variant" draft="provisional">Kongo [DRC]</territory>
+			<territory type="CD" alt="variant" draft="provisional">Kongo (DRC)</territory>
 			<territory type="CF">Centralno Afrička Republika</territory>
 			<territory type="CG">Kongo</territory>
 			<territory type="CG" alt="variant" draft="provisional">Republika Kongo</territory>
 			<territory type="CH">Švajcarska</territory>
 			<territory type="CI">Obala Slonovače</territory>
-			<territory type="CI" alt="variant" draft="provisional">Obala Slonovače</territory>
 			<territory type="CK">Kukova Ostrva</territory>
 			<territory type="CL">Čile</territory>
 			<territory type="CM">Kamerun</territory>
@@ -1020,9 +952,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[a b c č ć d {dž} đ e f g h i j k l {lj} m n {nj} o p r s š t u v z ž]</exemplarCharacters>
+		<exemplarCharacters>[a b c ć č d đ {dž} e f g h i j k l {lj} m n {nj} o p r s š t u v z ž]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[q w x y]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="provisional">[A B C Č Ć D {DŽ} E F G H I J K L {LJ} M N {NJ} O P Q R S Š T U V W X Y Z Ž]</exemplarCharacters>
+		<exemplarCharacters type="index" draft="provisional">[A B C Ć Č D {DŽ} E F G H I J K L {LJ} M N {NJ} O P Q R S Š T U V W X Y Z Ž]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart draft="unconfirmed">‘</quotationStart>
@@ -1051,7 +983,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>dd.MM.yy. GGGGG</pattern>
+							<pattern>dd.MM.y. GGGGG</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -1059,6 +991,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, dd.</dateFormatItem>
+						<dateFormatItem id="Gy">y. G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y. G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">dd. MMM y. G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E, dd. MMM y. G</dateFormatItem>
 						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
@@ -1070,15 +1006,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMMd">dd. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E, dd. MMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="y">y.</dateFormatItem>
-						<dateFormatItem id="yM">MM.y.</dateFormatItem>
-						<dateFormatItem id="yMd">dd.MM.y.</dateFormatItem>
-						<dateFormatItem id="yMEd">E, dd.MM.y.</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y.</dateFormatItem>
-						<dateFormatItem id="yMMMd">dd. MMM y.</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E, dd. MMM y.</dateFormatItem>
-						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
-						<dateFormatItem id="yQQQQ">y QQQQ</dateFormatItem>
+						<dateFormatItem id="y">y. G</dateFormatItem>
+						<dateFormatItem id="yyyy">y. G</dateFormatItem>
+						<dateFormatItem id="yyyyM">MM.y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">dd.MM.y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E, dd.MM.y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">dd. MMM y. G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E, dd. MMM y. G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">G y QQQ</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">G y QQQQ</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -1237,6 +1174,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="Ed">E, dd.</dateFormatItem>
+						<dateFormatItem id="Gy">y. G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y. G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">dd. MMM y. G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E, dd. MMM y. G</dateFormatItem>
 						<dateFormatItem id="hm">hh:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">hh:mm:ss a</dateFormatItem>
@@ -1413,9 +1354,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="Antarctica/Rothera">
 				<exemplarCity>Rotera</exemplarCity>
-			</zone>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity>Južni pol</exemplarCity>
 			</zone>
 			<zone type="Antarctica/Syowa">
 				<exemplarCity>Šova</exemplarCity>
@@ -1605,9 +1543,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="America/Toronto">
 				<exemplarCity>Toronto (Kanada)</exemplarCity>
-			</zone>
-			<zone type="America/Montreal">
-				<exemplarCity>Montreal (kanada)</exemplarCity>
 			</zone>
 			<zone type="America/Iqaluit">
 				<exemplarCity>Ikaluit</exemplarCity>
@@ -2187,9 +2122,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="America/Phoenix">
 				<exemplarCity>Feniks (SAD)</exemplarCity>
-			</zone>
-			<zone type="America/Shiprock">
-				<exemplarCity>Šiprok (SAD)</exemplarCity>
 			</zone>
 			<zone type="America/Denver">
 				<exemplarCity>Denver (SAD)</exemplarCity>
@@ -3216,11 +3148,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">UAE dirama</displayName>
 			</currency>
 			<currency type="AFA">
-				<displayName>Avganistanski avgani (1927-2002)</displayName>
-				<displayName count="one">Avganistanski avgan (1927-2002)</displayName>
-				<displayName count="few">Avganistanska avgana (1927-2002)</displayName>
-				<displayName count="many">Avganistanskih avgana (1927-2002)</displayName>
-				<displayName count="other">Avganistanski avgan (1927-2002)</displayName>
+				<displayName>Avganistanski avgani (1927–2002)</displayName>
+				<displayName count="one">Avganistanski avgan (1927–2002)</displayName>
+				<displayName count="few">Avganistanska avgana (1927–2002)</displayName>
+				<displayName count="many">Avganistanskih avgana (1927–2002)</displayName>
+				<displayName count="other">Avganistanski avgan (1927–2002)</displayName>
 			</currency>
 			<currency type="AFN">
 				<displayName>Avganistanski avgani</displayName>
@@ -3230,11 +3162,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">Avganistanski avgan</displayName>
 			</currency>
 			<currency type="ALK">
-				<displayName>Albanski lek (1946-1965)</displayName>
-				<displayName count="one">albanski lek (1946-1965)</displayName>
-				<displayName count="few">Albanska leka (1946-1965)</displayName>
-				<displayName count="many">Albanskih leka (1946-1965)</displayName>
-				<displayName count="other">albanski lek (1946-1965)</displayName>
+				<displayName>Albanski lek (1946–1965)</displayName>
+				<displayName count="one">albanski lek (1946–1965)</displayName>
+				<displayName count="few">Albanska leka (1946–1965)</displayName>
+				<displayName count="many">Albanskih leka (1946–1965)</displayName>
+				<displayName count="other">albanski lek (1946–1965)</displayName>
 			</currency>
 			<currency type="ALL">
 				<displayName>Albanski lek</displayName>
@@ -3265,25 +3197,25 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">Angolijskih kvanzi</displayName>
 			</currency>
 			<currency type="AOK">
-				<displayName>Angolijska kvanza (1977-1991)</displayName>
-				<displayName count="one">Angolijska kvanza (1977-1991)</displayName>
-				<displayName count="few">Angolijske kvanze (1977-1991)</displayName>
-				<displayName count="many">Angolijskih kvanzi (1977-1991)</displayName>
-				<displayName count="other">Angolijskih kvanzi (1977-1991)</displayName>
+				<displayName>Angolijska kvanza (1977–1991)</displayName>
+				<displayName count="one">Angolijska kvanza (1977–1991)</displayName>
+				<displayName count="few">Angolijske kvanze (1977–1991)</displayName>
+				<displayName count="many">Angolijskih kvanzi (1977–1991)</displayName>
+				<displayName count="other">Angolijskih kvanzi (1977–1991)</displayName>
 			</currency>
 			<currency type="AON">
-				<displayName>Angolijska nova kvanza (1990-2000)</displayName>
-				<displayName count="one">angolijska nova kvanza (1990-2000)</displayName>
-				<displayName count="few">angolijske nove kvanze (1990-2000)</displayName>
-				<displayName count="many">angolijskih novih kvanzi (1990-2000)</displayName>
-				<displayName count="other">angolski novi kvanze (1990-2000)</displayName>
+				<displayName>Angolijska nova kvanza (1990–2000)</displayName>
+				<displayName count="one">angolijska nova kvanza (1990–2000)</displayName>
+				<displayName count="few">angolijske nove kvanze (1990–2000)</displayName>
+				<displayName count="many">angolijskih novih kvanzi (1990–2000)</displayName>
+				<displayName count="other">angolski novi kvanze (1990–2000)</displayName>
 			</currency>
 			<currency type="AOR">
-				<displayName>Angolijska kvanza reajustado (1995-1999)</displayName>
-				<displayName count="one">angolijska kvanza reađustado (1995-1999)</displayName>
-				<displayName count="few">angalske kvanze reađustado (1995-1999)</displayName>
-				<displayName count="many">angolijskih kvanzi reađustado (1995-1999)</displayName>
-				<displayName count="other">angolijskih kvanzi reađustado (1995-1999)</displayName>
+				<displayName>Angolijska kvanza reajustado (1995–1999)</displayName>
+				<displayName count="one">angolijska kvanza reađustado (1995–1999)</displayName>
+				<displayName count="few">angalske kvanze reađustado (1995–1999)</displayName>
+				<displayName count="many">angolijskih kvanzi reađustado (1995–1999)</displayName>
+				<displayName count="other">angolijskih kvanzi reađustado (1995–1999)</displayName>
 			</currency>
 			<currency type="ARA">
 				<displayName>Argentinski austral</displayName>
@@ -3305,11 +3237,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other" draft="provisional">argentinskih pezosa moneda nacional</displayName>
 			</currency>
 			<currency type="ARP">
-				<displayName>Argentinski pezo (1983-1985)</displayName>
-				<displayName count="one">argentinski pezo (1983-1985)</displayName>
-				<displayName count="few">argentinska pezosa (1983-1985)</displayName>
-				<displayName count="many">argentinskih pezosa (1983-1985)</displayName>
-				<displayName count="other">argentinskih pezosa (1983-1985)</displayName>
+				<displayName>Argentinski pezo (1983–1985)</displayName>
+				<displayName count="one">argentinski pezo (1983–1985)</displayName>
+				<displayName count="few">argentinska pezosa (1983–1985)</displayName>
+				<displayName count="many">argentinskih pezosa (1983–1985)</displayName>
+				<displayName count="other">argentinskih pezosa (1983–1985)</displayName>
 			</currency>
 			<currency type="ARS">
 				<displayName>Argentinski pezo</displayName>
@@ -3340,11 +3272,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">arubanskih florina</displayName>
 			</currency>
 			<currency type="AZM">
-				<displayName>Azerbejdžanski manat (1993-2006)</displayName>
-				<displayName count="one">azerbejdžanski manat (1993-2006)</displayName>
-				<displayName count="few">azerbejdžanska manata (1993-2006)</displayName>
-				<displayName count="many">azerbejdžanskih manata (1993-2006)</displayName>
-				<displayName count="other">azerbejdžanskih manata (1993-2006)</displayName>
+				<displayName>Azerbejdžanski manat (1993–2006)</displayName>
+				<displayName count="one">azerbejdžanski manat (1993–2006)</displayName>
+				<displayName count="few">azerbejdžanska manata (1993–2006)</displayName>
+				<displayName count="many">azerbejdžanskih manata (1993–2006)</displayName>
+				<displayName count="other">azerbejdžanskih manata (1993–2006)</displayName>
 			</currency>
 			<currency type="AZN">
 				<displayName>Azerbejdžanski manat</displayName>
@@ -3432,11 +3364,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">bugarskih leva</displayName>
 			</currency>
 			<currency type="BGO">
-				<displayName>Bugarski lev (1879-1952)</displayName>
-				<displayName count="one">bugarski lev (1879-1952)</displayName>
-				<displayName count="few">Bugarska leva (1879-1952)</displayName>
-				<displayName count="many">Bugarskih leva (1879-1952)</displayName>
-				<displayName count="other">Bugarskih leva (1879-1952)</displayName>
+				<displayName>Bugarski lev (1879–1952)</displayName>
+				<displayName count="one">bugarski lev (1879–1952)</displayName>
+				<displayName count="few">Bugarska leva (1879–1952)</displayName>
+				<displayName count="many">Bugarskih leva (1879–1952)</displayName>
+				<displayName count="other">Bugarskih leva (1879–1952)</displayName>
 			</currency>
 			<currency type="BHD">
 				<displayName>Bahreinski dinar</displayName>
@@ -3474,11 +3406,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">bolivijskih boliviana</displayName>
 			</currency>
 			<currency type="BOL">
-				<displayName>Bolivijski boliviano (1863-1963)</displayName>
-				<displayName count="one">bolivijski boliviano (1863-1963)</displayName>
-				<displayName count="few">bolivijska boliviana (1863-1963)</displayName>
-				<displayName count="many">bolivijskih boliviana (1863-1963)</displayName>
-				<displayName count="other">bolivijskih boliviana (1863-1963)</displayName>
+				<displayName>Bolivijski boliviano (1863–1963)</displayName>
+				<displayName count="one">bolivijski boliviano (1863–1963)</displayName>
+				<displayName count="few">bolivijska boliviana (1863–1963)</displayName>
+				<displayName count="many">bolivijskih boliviana (1863–1963)</displayName>
+				<displayName count="other">bolivijskih boliviana (1863–1963)</displayName>
 			</currency>
 			<currency type="BOP">
 				<displayName>Bolivijski pezo</displayName>
@@ -3495,25 +3427,25 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">bolivijskih mvdola</displayName>
 			</currency>
 			<currency type="BRB">
-				<displayName>Brazilski kruzeiro novo (1967-1986)</displayName>
-				<displayName count="one">brazilski novi kruzeiro (1967-1986)</displayName>
-				<displayName count="few">brazilska nova kruzeira (1967-1986)</displayName>
-				<displayName count="many">brazilskih novih kruzeira (1967-1986)</displayName>
-				<displayName count="other">brazilskih novih kruzeira (1967-1986)</displayName>
+				<displayName>Brazilski kruzeiro novo (1967–1986)</displayName>
+				<displayName count="one">brazilski novi kruzeiro (1967–1986)</displayName>
+				<displayName count="few">brazilska nova kruzeira (1967–1986)</displayName>
+				<displayName count="many">brazilskih novih kruzeira (1967–1986)</displayName>
+				<displayName count="other">brazilskih novih kruzeira (1967–1986)</displayName>
 			</currency>
 			<currency type="BRC">
-				<displayName>Brazilski kruzado (1986-1989)</displayName>
-				<displayName count="one">brazilskih kruzado (1986-1989)</displayName>
-				<displayName count="few">brazilska kruzadosa (1986-1989)</displayName>
-				<displayName count="many">brazilskih kruzadosa (1986-1989)</displayName>
-				<displayName count="other">brazilskih kruzadosa (1986-1989)</displayName>
+				<displayName>Brazilski kruzado (1986–1989)</displayName>
+				<displayName count="one">brazilskih kruzado (1986–1989)</displayName>
+				<displayName count="few">brazilska kruzadosa (1986–1989)</displayName>
+				<displayName count="many">brazilskih kruzadosa (1986–1989)</displayName>
+				<displayName count="other">brazilskih kruzadosa (1986–1989)</displayName>
 			</currency>
 			<currency type="BRE">
-				<displayName>Brazilski kruzeiro (1990-1993)</displayName>
-				<displayName count="one">brazilski kruzeiro (1990-1993)</displayName>
-				<displayName count="few">brazilska kruzeira (1990-1993)</displayName>
-				<displayName count="many">brazilskih kruzeira (1990-1993)</displayName>
-				<displayName count="other">brazilskih kruzeira (1990-1993)</displayName>
+				<displayName>Brazilski kruzeiro (1990–1993)</displayName>
+				<displayName count="one">brazilski kruzeiro (1990–1993)</displayName>
+				<displayName count="few">brazilska kruzeira (1990–1993)</displayName>
+				<displayName count="many">brazilskih kruzeira (1990–1993)</displayName>
+				<displayName count="other">brazilskih kruzeira (1990–1993)</displayName>
 			</currency>
 			<currency type="BRL">
 				<displayName>Brazilski real</displayName>
@@ -3523,25 +3455,25 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">brazilskih reala</displayName>
 			</currency>
 			<currency type="BRN">
-				<displayName>Brazilski kruzado novo (1989-1990)</displayName>
-				<displayName count="one">brazilski novi kruzado (1989-1990)</displayName>
-				<displayName count="few">brazilska nova kruzada (1989-1990)</displayName>
-				<displayName count="many">brazilskih novih kruzada (1989-1990)</displayName>
-				<displayName count="other">brazilskih novih kruzada (1989-1990)</displayName>
+				<displayName>Brazilski kruzado novo (1989–1990)</displayName>
+				<displayName count="one">brazilski novi kruzado (1989–1990)</displayName>
+				<displayName count="few">brazilska nova kruzada (1989–1990)</displayName>
+				<displayName count="many">brazilskih novih kruzada (1989–1990)</displayName>
+				<displayName count="other">brazilskih novih kruzada (1989–1990)</displayName>
 			</currency>
 			<currency type="BRR">
-				<displayName>Brazilski kruzeiro (1993-1994)</displayName>
-				<displayName count="one">brazilski kruzeiro (1993-1994)</displayName>
-				<displayName count="few">brazilijska kruzeira (1993-1994)</displayName>
-				<displayName count="many">brazilskih kruzeira (1993-1994)</displayName>
-				<displayName count="other">brazilskih kruzeira (1993-1994)</displayName>
+				<displayName>Brazilski kruzeiro (1993–1994)</displayName>
+				<displayName count="one">brazilski kruzeiro (1993–1994)</displayName>
+				<displayName count="few">brazilijska kruzeira (1993–1994)</displayName>
+				<displayName count="many">brazilskih kruzeira (1993–1994)</displayName>
+				<displayName count="other">brazilskih kruzeira (1993–1994)</displayName>
 			</currency>
 			<currency type="BRZ">
-				<displayName>Brazilski kruzeiro (1942-1967)</displayName>
-				<displayName count="one">brazilski kruzeiro (1942-1967)</displayName>
-				<displayName count="few">brazilijska kruzeira (1942-1967)</displayName>
-				<displayName count="many">brazilskih kruzeira (1942-1967)</displayName>
-				<displayName count="other">brazilskih kruzeira (1942-1967)</displayName>
+				<displayName>Brazilski kruzeiro (1942–1967)</displayName>
+				<displayName count="one">brazilski kruzeiro (1942–1967)</displayName>
+				<displayName count="few">brazilijska kruzeira (1942–1967)</displayName>
+				<displayName count="many">brazilskih kruzeira (1942–1967)</displayName>
+				<displayName count="other">brazilskih kruzeira (1942–1967)</displayName>
 			</currency>
 			<currency type="BSD">
 				<displayName>Bahamski dolar</displayName>
@@ -3572,11 +3504,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">bocvanskih pula</displayName>
 			</currency>
 			<currency type="BYB">
-				<displayName>Beloruska nova rublja (1994-1999)</displayName>
-				<displayName count="one">beloruska nova rublja (1994-1999)</displayName>
-				<displayName count="few">beloruske nove rublje (1994-1999)</displayName>
-				<displayName count="many">beloruskih novih rublji (1994-1999)</displayName>
-				<displayName count="other">beloruskih novih rublji (1994-1999)</displayName>
+				<displayName>Beloruska nova rublja (1994–1999)</displayName>
+				<displayName count="one">beloruska nova rublja (1994–1999)</displayName>
+				<displayName count="few">beloruske nove rublje (1994–1999)</displayName>
+				<displayName count="many">beloruskih novih rublji (1994–1999)</displayName>
+				<displayName count="other">beloruskih novih rublji (1994–1999)</displayName>
 			</currency>
 			<currency type="BYR">
 				<displayName>Beloruska rublja</displayName>
@@ -3677,11 +3609,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">kostarikanskih kolona</displayName>
 			</currency>
 			<currency type="CSD">
-				<displayName>Srpski dinar (2002-2006)</displayName>
-				<displayName count="one">srpski dinar (2002-2006)</displayName>
-				<displayName count="few">srpska dinara (2002-2006)</displayName>
-				<displayName count="many">srpskih dinara (2002-2006)</displayName>
-				<displayName count="other">srpskih dinara (2002-2006)</displayName>
+				<displayName>Srpski dinar (2002–2006)</displayName>
+				<displayName count="one">srpski dinar (2002–2006)</displayName>
+				<displayName count="few">srpska dinara (2002–2006)</displayName>
+				<displayName count="many">srpskih dinara (2002–2006)</displayName>
+				<displayName count="other">srpskih dinara (2002–2006)</displayName>
 			</currency>
 			<currency type="CSK">
 				<displayName>Čehoslovačka tvrda koruna</displayName>
@@ -3888,11 +3820,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">gruzijskih larisa</displayName>
 			</currency>
 			<currency type="GHC">
-				<displayName>Ganijski cedi (1979-2007)</displayName>
-				<displayName count="one">ganski ced (1979-2007)</displayName>
-				<displayName count="few">ganska ceda (1979-2007)</displayName>
-				<displayName count="many">ganskih ceda (1979-2007)</displayName>
-				<displayName count="other">ganskih ceda (1979-2007)</displayName>
+				<displayName>Ganijski cedi (1979–2007)</displayName>
+				<displayName count="one">ganski ced (1979–2007)</displayName>
+				<displayName count="few">ganska ceda (1979–2007)</displayName>
+				<displayName count="many">ganskih ceda (1979–2007)</displayName>
+				<displayName count="other">ganskih ceda (1979–2007)</displayName>
 			</currency>
 			<currency type="GHS">
 				<displayName>Ganijski cedi</displayName>
@@ -4147,18 +4079,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">severnokorejski von</displayName>
 			</currency>
 			<currency type="KRH">
-				<displayName>Južno-korejski hvan (1953-1962)</displayName>
-				<displayName count="one">južno-korejski hvan (1953-1962)</displayName>
-				<displayName count="few">južno-korejska hvana (1953-1962)</displayName>
-				<displayName count="many">južno-korejskih hvana (1953-1962)</displayName>
-				<displayName count="other">južno-korejski hvana (1953-1962)</displayName>
+				<displayName>Južno-korejski hvan (1953–1962)</displayName>
+				<displayName count="one">južno-korejski hvan (1953–1962)</displayName>
+				<displayName count="few">južno-korejska hvana (1953–1962)</displayName>
+				<displayName count="many">južno-korejskih hvana (1953–1962)</displayName>
+				<displayName count="other">južno-korejski hvana (1953–1962)</displayName>
 			</currency>
 			<currency type="KRO">
-				<displayName>Južno-korejski Von (1945-1953)</displayName>
-				<displayName count="one">južno-korejski von (1945-1953)</displayName>
-				<displayName count="few">južno-korejska vona (1945-1953)</displayName>
-				<displayName count="many">južno-korejskih vona (1945-1953)</displayName>
-				<displayName count="other">južno-korejski von (1945-1953)</displayName>
+				<displayName>Južno-korejski Von (1945–1953)</displayName>
+				<displayName count="one">južno-korejski von (1945–1953)</displayName>
+				<displayName count="few">južno-korejska vona (1945–1953)</displayName>
+				<displayName count="many">južno-korejskih vona (1945–1953)</displayName>
+				<displayName count="other">južno-korejski von (1945–1953)</displayName>
 			</currency>
 			<currency type="KRW">
 				<displayName>Južno-korejski Von</displayName>
@@ -4335,11 +4267,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">makedonskih dinara</displayName>
 			</currency>
 			<currency type="MKN">
-				<displayName>Makedonski denar (1992-1993)</displayName>
-				<displayName count="one">makedonski denar (1992-1993)</displayName>
-				<displayName count="few">makedonska denara (1992-1993)</displayName>
-				<displayName count="many">makedonskih denara (1992-1993)</displayName>
-				<displayName count="other">makedonskih dinara (1992-1993)</displayName>
+				<displayName>Makedonski denar (1992–1993)</displayName>
+				<displayName count="one">makedonski denar (1992–1993)</displayName>
+				<displayName count="few">makedonska denara (1992–1993)</displayName>
+				<displayName count="many">makedonskih denara (1992–1993)</displayName>
+				<displayName count="other">makedonskih dinara (1992–1993)</displayName>
 			</currency>
 			<currency type="MLF">
 				<displayName>Malijanski franak</displayName>
@@ -4419,11 +4351,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">meksičkih pezosa</displayName>
 			</currency>
 			<currency type="MXP">
-				<displayName>Meksijski srebrno pezo (1861-1992)</displayName>
-				<displayName count="one">meksički srebrni pezos (1861-1992)</displayName>
-				<displayName count="few">meksička srebrna pezosa (1861-1992)</displayName>
-				<displayName count="many">meksičkih srebrnih pezosa (1861-1992)</displayName>
-				<displayName count="other">meksički srebrni pezos (1861-1992)</displayName>
+				<displayName>Meksijski srebrno pezo (1861–1992)</displayName>
+				<displayName count="one">meksički srebrni pezos (1861–1992)</displayName>
+				<displayName count="few">meksička srebrna pezosa (1861–1992)</displayName>
+				<displayName count="many">meksičkih srebrnih pezosa (1861–1992)</displayName>
+				<displayName count="other">meksički srebrni pezos (1861–1992)</displayName>
 			</currency>
 			<currency type="MXV">
 				<displayName>Meksijski unidad de inverzion</displayName>
@@ -4447,11 +4379,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">mozambijski eskudo</displayName>
 			</currency>
 			<currency type="MZM">
-				<displayName>Mozambijski metikal (1980-2006)</displayName>
-				<displayName count="one">mozambijski metikal (1980-2006)</displayName>
-				<displayName count="few">mozambijska metikala (1980-2006)</displayName>
-				<displayName count="many">mozambijskih metikala (1980-2006)</displayName>
-				<displayName count="other">mozambijski metikal (1980-2006)</displayName>
+				<displayName>Mozambijski metikal (1980–2006)</displayName>
+				<displayName count="one">mozambijski metikal (1980–2006)</displayName>
+				<displayName count="few">mozambijska metikala (1980–2006)</displayName>
+				<displayName count="many">mozambijskih metikala (1980–2006)</displayName>
+				<displayName count="other">mozambijski metikal (1980–2006)</displayName>
 			</currency>
 			<currency type="MZN">
 				<displayName>Mozambijski metikal</displayName>
@@ -4475,11 +4407,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">nigerijski nair</displayName>
 			</currency>
 			<currency type="NIC">
-				<displayName>Nikaragvanška kordoba (1988-1991)</displayName>
-				<displayName count="one">nikaragvanska kordoba (1988-1991)</displayName>
-				<displayName count="few">nikaragvanske kordobe (1988-1991)</displayName>
-				<displayName count="many">nikaragvanskih kordoba (1988-1991)</displayName>
-				<displayName count="other">nikaragvanska kordoba (1988-1991)</displayName>
+				<displayName>Nikaragvanška kordoba (1988–1991)</displayName>
+				<displayName count="one">nikaragvanska kordoba (1988–1991)</displayName>
+				<displayName count="few">nikaragvanske kordobe (1988–1991)</displayName>
+				<displayName count="many">nikaragvanskih kordoba (1988–1991)</displayName>
+				<displayName count="other">nikaragvanska kordoba (1988–1991)</displayName>
 			</currency>
 			<currency type="NIO">
 				<displayName>Nikaragvanška kordoba</displayName>
@@ -4545,11 +4477,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">peruanskih nuevo sola</displayName>
 			</currency>
 			<currency type="PES">
-				<displayName>Peruvijski sol (1863-1965)</displayName>
-				<displayName count="one">peruanski sol (1863-1965)</displayName>
-				<displayName count="few">peruanska sola (1863-1965)</displayName>
-				<displayName count="many">peruanskih sola (1863-1965)</displayName>
-				<displayName count="other">peruanski sol (1863-1965)</displayName>
+				<displayName>Peruvijski sol (1863–1965)</displayName>
+				<displayName count="one">peruanski sol (1863–1965)</displayName>
+				<displayName count="few">peruanska sola (1863–1965)</displayName>
+				<displayName count="many">peruanskih sola (1863–1965)</displayName>
+				<displayName count="other">peruanski sol (1863–1965)</displayName>
 			</currency>
 			<currency type="PGK">
 				<displayName>Papua Nova Gvineja kina</displayName>
@@ -4581,11 +4513,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol draft="provisional">zl</symbol>
 			</currency>
 			<currency type="PLZ">
-				<displayName>Poljski zloti (1950-1995)</displayName>
-				<displayName count="one">poljski zlot (1950-1995)</displayName>
-				<displayName count="few">poljske zlote (1950-1995)</displayName>
-				<displayName count="many">poljskih zlota (1950-1995)</displayName>
-				<displayName count="other">poljski zlot (1950-1995)</displayName>
+				<displayName>Poljski zloti (1950–1995)</displayName>
+				<displayName count="one">poljski zlot (1950–1995)</displayName>
+				<displayName count="few">poljske zlote (1950–1995)</displayName>
+				<displayName count="many">poljskih zlota (1950–1995)</displayName>
+				<displayName count="other">poljski zlot (1950–1995)</displayName>
 			</currency>
 			<currency type="PTE">
 				<displayName>Portugalski eskudo</displayName>
@@ -4616,11 +4548,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">rodezijski dolar</displayName>
 			</currency>
 			<currency type="ROL">
-				<displayName>Rumunski leu (1952-2006)</displayName>
-				<displayName count="one">rumunski leu (1952-2006)</displayName>
-				<displayName count="few">rumunska leua (1952-2006)</displayName>
-				<displayName count="many">rumunskih leua (1952-2006)</displayName>
-				<displayName count="other">rumunskih leua (1952-2006)</displayName>
+				<displayName>Rumunski leu (1952–2006)</displayName>
+				<displayName count="one">rumunski leu (1952–2006)</displayName>
+				<displayName count="few">rumunska leua (1952–2006)</displayName>
+				<displayName count="many">rumunskih leua (1952–2006)</displayName>
+				<displayName count="other">rumunskih leua (1952–2006)</displayName>
 			</currency>
 			<currency type="RON">
 				<displayName>Rumunski leu</displayName>
@@ -4645,11 +4577,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">ruskih rublji</displayName>
 			</currency>
 			<currency type="RUR">
-				<displayName>Ruska rublja (1991-1998)</displayName>
-				<displayName count="one">ruska rublja (1991-1998)</displayName>
-				<displayName count="few">ruske rublje (1991-1998)</displayName>
-				<displayName count="many">ruskih rublji (1991-1998)</displayName>
-				<displayName count="other">ruskih rublji (1991-1998)</displayName>
+				<displayName>Ruska rublja (1991–1998)</displayName>
+				<displayName count="one">ruska rublja (1991–1998)</displayName>
+				<displayName count="few">ruske rublje (1991–1998)</displayName>
+				<displayName count="many">ruskih rublji (1991–1998)</displayName>
+				<displayName count="other">ruskih rublji (1991–1998)</displayName>
 			</currency>
 			<currency type="RWF">
 				<displayName>Ruandski franak</displayName>
@@ -4680,11 +4612,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">sejšelska rupija</displayName>
 			</currency>
 			<currency type="SDD">
-				<displayName>Sudanski dinar (1992-2007)</displayName>
-				<displayName count="one">sudanski dinar (1992-2007)</displayName>
-				<displayName count="few">sudanska dinara (1992-2007)</displayName>
-				<displayName count="many">sudanskih dinara (1992-2007)</displayName>
-				<displayName count="other">sudanski dinar (1992-2007)</displayName>
+				<displayName>Sudanski dinar (1992–2007)</displayName>
+				<displayName count="one">sudanski dinar (1992–2007)</displayName>
+				<displayName count="few">sudanska dinara (1992–2007)</displayName>
+				<displayName count="many">sudanskih dinara (1992–2007)</displayName>
+				<displayName count="other">sudanski dinar (1992–2007)</displayName>
 			</currency>
 			<currency type="SDG">
 				<displayName>Sudanska funta</displayName>
@@ -4694,11 +4626,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">sudanska funta</displayName>
 			</currency>
 			<currency type="SDP">
-				<displayName>Sudanska funta (1957-1998)</displayName>
-				<displayName count="one">sudanska funta (1957-1998)</displayName>
-				<displayName count="few">sudanske funte (1957-1998)</displayName>
-				<displayName count="many">sudanskih funti (1957-1998)</displayName>
-				<displayName count="other">sudanska funta (1957-1998)</displayName>
+				<displayName>Sudanska funta (1957–1998)</displayName>
+				<displayName count="one">sudanska funta (1957–1998)</displayName>
+				<displayName count="few">sudanske funte (1957–1998)</displayName>
+				<displayName count="many">sudanskih funti (1957–1998)</displayName>
+				<displayName count="other">sudanska funta (1957–1998)</displayName>
 			</currency>
 			<currency type="SEK">
 				<displayName>Švedska kruna</displayName>
@@ -4820,11 +4752,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">tadžikistanski somon</displayName>
 			</currency>
 			<currency type="TMM">
-				<displayName>Turkmenistanski manat (1993-2009)</displayName>
-				<displayName count="one">turkmenistanski manat (1993-2009)</displayName>
-				<displayName count="few">turkmenistanska manata (1993-2009)</displayName>
-				<displayName count="many">turkmenistanskih manata (1993-2009)</displayName>
-				<displayName count="other">turkmenistanski manat (1993-2009)</displayName>
+				<displayName>Turkmenistanski manat (1993–2009)</displayName>
+				<displayName count="one">turkmenistanski manat (1993–2009)</displayName>
+				<displayName count="few">turkmenistanska manata (1993–2009)</displayName>
+				<displayName count="many">turkmenistanskih manata (1993–2009)</displayName>
+				<displayName count="other">turkmenistanski manat (1993–2009)</displayName>
 			</currency>
 			<currency type="TMT">
 				<displayName>Turkmenistanski manat</displayName>
@@ -4855,11 +4787,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">timorski eskudo</displayName>
 			</currency>
 			<currency type="TRL">
-				<displayName>Turska lira (1922-2005)</displayName>
-				<displayName count="one">turska lira (1922-2005)</displayName>
-				<displayName count="few">turske lire (1922-2005)</displayName>
-				<displayName count="many">turskih lira (1922-2005)</displayName>
-				<displayName count="other">turkskih lira (1922-2005)</displayName>
+				<displayName>Turska lira (1922–2005)</displayName>
+				<displayName count="one">turska lira (1922–2005)</displayName>
+				<displayName count="few">turske lire (1922–2005)</displayName>
+				<displayName count="many">turskih lira (1922–2005)</displayName>
+				<displayName count="other">turkskih lira (1922–2005)</displayName>
 			</currency>
 			<currency type="TRY">
 				<displayName>Turska lira</displayName>
@@ -4904,11 +4836,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">ukrajinski karbovantsiv</displayName>
 			</currency>
 			<currency type="UGS">
-				<displayName>Ugandijski šiling (1966-1987)</displayName>
-				<displayName count="one">ugandski šiling (1966-1987)</displayName>
-				<displayName count="few">ugandska šilinga (1966-1987)</displayName>
-				<displayName count="many">ugandskih šilinga (1966-1987)</displayName>
-				<displayName count="other">ugandski šiling (1966-1987)</displayName>
+				<displayName>Ugandijski šiling (1966–1987)</displayName>
+				<displayName count="one">ugandski šiling (1966–1987)</displayName>
+				<displayName count="few">ugandska šilinga (1966–1987)</displayName>
+				<displayName count="many">ugandskih šilinga (1966–1987)</displayName>
+				<displayName count="other">ugandski šiling (1966–1987)</displayName>
 			</currency>
 			<currency type="UGX">
 				<displayName>Ugandijski šiling</displayName>
@@ -4946,11 +4878,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">urugvajski pesos en unidades indexadas</displayName>
 			</currency>
 			<currency type="UYP">
-				<displayName>Urugvajski pezo (1975-1993)</displayName>
-				<displayName count="one">urugvajski pezos (1975-1993)</displayName>
-				<displayName count="few">urugvajska pezosa (1975-1993)</displayName>
-				<displayName count="many">urugvajskih pezosa (1975-1993)</displayName>
-				<displayName count="other">urugvajski pezos (1975-1993)</displayName>
+				<displayName>Urugvajski pezo (1975–1993)</displayName>
+				<displayName count="one">urugvajski pezos (1975–1993)</displayName>
+				<displayName count="few">urugvajska pezosa (1975–1993)</displayName>
+				<displayName count="many">urugvajskih pezosa (1975–1993)</displayName>
+				<displayName count="other">urugvajski pezos (1975–1993)</displayName>
 			</currency>
 			<currency type="UYU">
 				<displayName>Urugvajski pezo</displayName>
@@ -4967,11 +4899,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">uzbekistanski som</displayName>
 			</currency>
 			<currency type="VEB">
-				<displayName>Venecuelanski bolivar (1871-2008)</displayName>
-				<displayName count="one">venecuelski bolivar (1871-2008)</displayName>
-				<displayName count="few">venecuelska bolivara (1871-2008)</displayName>
-				<displayName count="many">venecuelskih bolivara (1871-2008)</displayName>
-				<displayName count="other">venecuelskih bolivara (1871-2008)</displayName>
+				<displayName>Venecuelanski bolivar (1871–2008)</displayName>
+				<displayName count="one">venecuelski bolivar (1871–2008)</displayName>
+				<displayName count="few">venecuelska bolivara (1871–2008)</displayName>
+				<displayName count="many">venecuelskih bolivara (1871–2008)</displayName>
+				<displayName count="other">venecuelskih bolivara (1871–2008)</displayName>
 			</currency>
 			<currency type="VEF">
 				<displayName>Venecuelanski bolivar</displayName>
@@ -4988,11 +4920,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">vijetnamski dong</displayName>
 			</currency>
 			<currency type="VNN">
-				<displayName>Vijetnamski dong (1978-1985)</displayName>
-				<displayName count="one">vijetnamski dong (1978-1985)</displayName>
-				<displayName count="few">vijetnamska donga (1978-1985)</displayName>
-				<displayName count="many">vijetnamskih donga (1978-1985)</displayName>
-				<displayName count="other">vijetnamski dong (1978-1985)</displayName>
+				<displayName>Vijetnamski dong (1978–1985)</displayName>
+				<displayName count="one">vijetnamski dong (1978–1985)</displayName>
+				<displayName count="few">vijetnamska donga (1978–1985)</displayName>
+				<displayName count="many">vijetnamskih donga (1978–1985)</displayName>
+				<displayName count="other">vijetnamski dong (1978–1985)</displayName>
 			</currency>
 			<currency type="VUV">
 				<displayName>Vanatuški vatu</displayName>
@@ -5198,11 +5130,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">južnoafričkih randa</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>Zambijska kvača (1968-2012)</displayName>
-				<displayName count="one">zambijska kvača (1968-2012)</displayName>
-				<displayName count="few">zambijske kvače (1968-2012)</displayName>
-				<displayName count="many">zambijskih kvača (1968-2012)</displayName>
-				<displayName count="other">zambijske kvače (1968-2012)</displayName>
+				<displayName>Zambijska kvača (1968–2012)</displayName>
+				<displayName count="one">zambijska kvača (1968–2012)</displayName>
+				<displayName count="few">zambijske kvače (1968–2012)</displayName>
+				<displayName count="many">zambijskih kvača (1968–2012)</displayName>
+				<displayName count="other">zambijske kvače (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>Zambijska kvača</displayName>
@@ -5212,25 +5144,25 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">zambijske kvače</displayName>
 			</currency>
 			<currency type="ZRN">
-				<displayName>Zairski novi zair (1993-1998)</displayName>
-				<displayName count="one">zairski novi zair (1993-1998)</displayName>
-				<displayName count="few">zairska nova zaira (1993-1998)</displayName>
-				<displayName count="many">zairskih novih zaira (1993-1998)</displayName>
-				<displayName count="other">zairskih novih zaira (1993-1998)</displayName>
+				<displayName>Zairski novi zair (1993–1998)</displayName>
+				<displayName count="one">zairski novi zair (1993–1998)</displayName>
+				<displayName count="few">zairska nova zaira (1993–1998)</displayName>
+				<displayName count="many">zairskih novih zaira (1993–1998)</displayName>
+				<displayName count="other">zairskih novih zaira (1993–1998)</displayName>
 			</currency>
 			<currency type="ZRZ">
-				<displayName>Zairski zair (1971-1993)</displayName>
-				<displayName count="one">zairski zair (1971-1993)</displayName>
-				<displayName count="few">zairska zaira (1971-1993)</displayName>
-				<displayName count="many">zairskih zaira (1971-1993)</displayName>
-				<displayName count="other">zairskih zaira (1971-1993)</displayName>
+				<displayName>Zairski zair (1971–1993)</displayName>
+				<displayName count="one">zairski zair (1971–1993)</displayName>
+				<displayName count="few">zairska zaira (1971–1993)</displayName>
+				<displayName count="many">zairskih zaira (1971–1993)</displayName>
+				<displayName count="other">zairskih zaira (1971–1993)</displayName>
 			</currency>
 			<currency type="ZWD">
-				<displayName>Zimbabvejski dolar (1980-2008)</displayName>
-				<displayName count="one">zimbabvejski dolar (1980-2008)</displayName>
-				<displayName count="few">zimbabvejska dolara (1980-2008)</displayName>
-				<displayName count="many">zimbabvejskih dolara (1980-2008)</displayName>
-				<displayName count="other">zimbabvejski dolari (1980-2008)</displayName>
+				<displayName>Zimbabvejski dolar (1980–2008)</displayName>
+				<displayName count="one">zimbabvejski dolar (1980–2008)</displayName>
+				<displayName count="few">zimbabvejska dolara (1980–2008)</displayName>
+				<displayName count="many">zimbabvejskih dolara (1980–2008)</displayName>
+				<displayName count="other">zimbabvejski dolari (1980–2008)</displayName>
 			</currency>
 			<currency type="ZWL">
 				<displayName>Zimbabvejski dolar (2009)</displayName>
@@ -5249,83 +5181,100 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</currencies>
 	</numbers>
 	<units>
-		<!-- Copied from sr_Latn -->
-		<unit type="day">
-			<unitPattern count="one">{0} dan</unitPattern>
-			<unitPattern count="one" alt="short" draft="provisional">{0} dan</unitPattern>
-			<unitPattern count="few">{0} dana</unitPattern>
-			<unitPattern count="few" alt="short" draft="provisional">{0} dana</unitPattern>
-			<unitPattern count="many">{0} dana</unitPattern>
-			<unitPattern count="many" alt="short" draft="provisional">{0} dana</unitPattern>
-			<unitPattern count="other">{0} dana</unitPattern>
-			<unitPattern count="other" alt="short" draft="provisional">{0} dan</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">{0} sat</unitPattern>
-			<unitPattern count="one" alt="short" draft="provisional">{0} sat</unitPattern>
-			<unitPattern count="few">{0} sata</unitPattern>
-			<unitPattern count="few" alt="short" draft="provisional">{0} sata</unitPattern>
-			<unitPattern count="many">{0} sati</unitPattern>
-			<unitPattern count="many" alt="short" draft="provisional">{0} sati</unitPattern>
-			<unitPattern count="other">{0} sati</unitPattern>
-			<unitPattern count="other" alt="short" draft="provisional">{0} sat</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">{0} minut</unitPattern>
-			<unitPattern count="one" alt="short" draft="provisional">{0} min</unitPattern>
-			<unitPattern count="few">{0} minute</unitPattern>
-			<unitPattern count="few" alt="short" draft="provisional">{0} min</unitPattern>
-			<unitPattern count="many">{0} minuta</unitPattern>
-			<unitPattern count="many" alt="short" draft="provisional">{0} min</unitPattern>
-			<unitPattern count="other">{0} minuta</unitPattern>
-			<unitPattern count="other" alt="short" draft="provisional">{0} min</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">{0} mesec</unitPattern>
-			<unitPattern count="one" alt="short" draft="provisional">{0} mes</unitPattern>
-			<unitPattern count="few">{0} meseca</unitPattern>
-			<unitPattern count="few" alt="short" draft="provisional">{0} mes</unitPattern>
-			<unitPattern count="many">{0} meseci</unitPattern>
-			<unitPattern count="many" alt="short" draft="provisional">{0} mes</unitPattern>
-			<unitPattern count="other">{0} meseci</unitPattern>
-			<unitPattern count="other" alt="short" draft="provisional">{0} mes</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">{0} sekunda</unitPattern>
-			<unitPattern count="one" alt="short" draft="provisional">{0} sek</unitPattern>
-			<unitPattern count="few">{0} sekunde</unitPattern>
-			<unitPattern count="few" alt="short" draft="provisional">{0} sek</unitPattern>
-			<unitPattern count="many">{0} sekundi</unitPattern>
-			<unitPattern count="many" alt="short" draft="provisional">{0} sek</unitPattern>
-			<unitPattern count="other">{0} sekundi</unitPattern>
-			<unitPattern count="other" alt="short" draft="provisional">{0} sek</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">{0} nedelja</unitPattern>
-			<unitPattern count="one" alt="short" draft="provisional">{0} ned</unitPattern>
-			<unitPattern count="few">{0} nedelje</unitPattern>
-			<unitPattern count="few" alt="short" draft="provisional">{0} ned</unitPattern>
-			<unitPattern count="many">{0} nedelja</unitPattern>
-			<unitPattern count="many" alt="short" draft="provisional">{0} ned</unitPattern>
-			<unitPattern count="other">{0} nedelja</unitPattern>
-			<unitPattern count="other" alt="short" draft="provisional">{0} ned</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} godina</unitPattern>
-			<unitPattern count="one" alt="short">{0} god</unitPattern>
-			<unitPattern count="few">{0} godine</unitPattern>
-			<unitPattern count="few" alt="short">{0} god</unitPattern>
-			<unitPattern count="many">{0} godina</unitPattern>
-			<unitPattern count="many" alt="short">{0} god</unitPattern>
-			<unitPattern count="other">{0} godina</unitPattern>
-			<unitPattern count="other" alt="short">{0} god</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} dan</unitPattern>
+				<unitPattern count="few">{0} dana</unitPattern>
+				<unitPattern count="many">{0} dana</unitPattern>
+				<unitPattern count="other">{0} dana</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} sat</unitPattern>
+				<unitPattern count="few">{0} sata</unitPattern>
+				<unitPattern count="many">{0} sati</unitPattern>
+				<unitPattern count="other">{0} sati</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} minut</unitPattern>
+				<unitPattern count="few">{0} minute</unitPattern>
+				<unitPattern count="many">{0} minuta</unitPattern>
+				<unitPattern count="other">{0} minuta</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mesec</unitPattern>
+				<unitPattern count="few">{0} meseca</unitPattern>
+				<unitPattern count="many">{0} meseci</unitPattern>
+				<unitPattern count="other">{0} meseci</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} sekunda</unitPattern>
+				<unitPattern count="few">{0} sekunde</unitPattern>
+				<unitPattern count="many">{0} sekundi</unitPattern>
+				<unitPattern count="other">{0} sekundi</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} nedelja</unitPattern>
+				<unitPattern count="few">{0} nedelje</unitPattern>
+				<unitPattern count="many">{0} nedelja</unitPattern>
+				<unitPattern count="other">{0} nedelja</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} godina</unitPattern>
+				<unitPattern count="few">{0} godine</unitPattern>
+				<unitPattern count="many">{0} godina</unitPattern>
+				<unitPattern count="other">{0} godina</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<unit type="duration-day">
+				<unitPattern count="one">{0} dan</unitPattern>
+				<unitPattern count="few">{0} dana</unitPattern>
+				<unitPattern count="many">{0} dana</unitPattern>
+				<unitPattern count="other">{0} dan</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one">{0} sat</unitPattern>
+				<unitPattern count="few">{0} sata</unitPattern>
+				<unitPattern count="many">{0} sati</unitPattern>
+				<unitPattern count="other">{0} sat</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one">{0} min</unitPattern>
+				<unitPattern count="few">{0} min</unitPattern>
+				<unitPattern count="many">{0} min</unitPattern>
+				<unitPattern count="other">{0} min</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one">{0} mes</unitPattern>
+				<unitPattern count="few">{0} mes</unitPattern>
+				<unitPattern count="many">{0} mes</unitPattern>
+				<unitPattern count="other">{0} mes</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one">{0} sek</unitPattern>
+				<unitPattern count="few">{0} sek</unitPattern>
+				<unitPattern count="many">{0} sek</unitPattern>
+				<unitPattern count="other">{0} sek</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one">{0} ned</unitPattern>
+				<unitPattern count="few">{0} ned</unitPattern>
+				<unitPattern count="many">{0} ned</unitPattern>
+				<unitPattern count="other">{0} ned</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one">{0} god</unitPattern>
+				<unitPattern count="few">{0} god</unitPattern>
+				<unitPattern count="many">{0} god</unitPattern>
+				<unitPattern count="other">{0} god</unitPattern>
+			</unit>
+		</unitLength>
 	</units>
 	<listPatterns>
 		<!-- Copied from sr_Latn -->
 		<listPattern>
-			<listPatternPart type="2" draft="contributed">{0} i {1}</listPatternPart>
 			<listPatternPart type="end" draft="contributed">{0} i {1}</listPatternPart>
+			<listPatternPart type="2" draft="contributed">{0} i {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

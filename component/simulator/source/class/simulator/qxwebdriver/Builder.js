@@ -29,6 +29,7 @@
  * @ignore(simulator.webdriver.process)
  * @ignore(simulator.webdriver.node)
  * @ignore(simulator.webdriver.http)
+ * @deprecated{4.0}
  */
 qx.Class.define("simulator.qxwebdriver.Builder",
 {

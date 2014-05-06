@@ -83,8 +83,8 @@ qx.Class.define("fce.view.HelpWindow", {
       container.add(p2);
 
       var p3 = new qx.ui.basic.Label("Individual key/value pairs can be added to "
-        + "the <strong>Selected Features</strong> list by double-clicking, "
-        + "clicking and dragging or by selecting them and using the &quot;right "
+        + "the <strong>Selected Features</strong> list by double-taping, "
+        + "taping and dragging or by selecting them and using the &quot;right "
         + "arrow&quot; button.");
       p3.setRich(true);
       container.add(p3);
@@ -92,7 +92,7 @@ qx.Class.define("fce.view.HelpWindow", {
       var p4 = new qx.ui.basic.Label("The <strong>Selected Features</strong> list"
         + " displays the selected environment settings and allows editing of their "
         + "values. Entries can be removed by selecting them and then either pressing "
-        + "the &quot;Del&quot; key or clicking the &quot;left arrow&quot; button.");
+        + "the &quot;Del&quot; key or taping the &quot;left arrow&quot; button.");
       p4.setRich(true);
       container.add(p4);
 

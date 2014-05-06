@@ -92,6 +92,44 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       selectBox.destroy();
     },
 
+    testResetValue : function() {
+      var model = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
+      var selectBox = new qx.ui.mobile.form.SelectBox();
+      selectBox.setModel(model);
+      selectBox.setNullable(true);
+      selectBox.setValue("Item 3");
+
+      this.assertEquals(2, selectBox.getSelection());
+
+      selectBox.resetValue();
+
+      this.assertEquals(null, selectBox.getSelection());
+
+      // After
+      selectBox.destroy();
+      model.dispose();
+      model = null;
+    },
+
+    testResetValueNotNullable : function() {
+      var model = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
+      var selectBox = new qx.ui.mobile.form.SelectBox();
+      selectBox.setModel(model);
+      selectBox.setNullable(false);
+      selectBox.setValue("Item 3");
+
+      this.assertEquals(2, selectBox.getSelection());
+
+      selectBox.resetValue();
+
+      this.assertEquals(0, selectBox.getSelection());
+
+      // After
+      selectBox.destroy();
+      model.dispose();
+      model = null;
+    },
+
     testSelection : function()
     {
       var model = new qx.data.Array(["Item 1", "Item 2", "Item 3"]);
@@ -121,6 +159,16 @@ qx.Class.define("qx.test.mobile.form.SelectBox",
       this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, -1),
         qx.core.ValidationError,
         "Validation Error: Input value is out of model range",
+        "Exception assertion failed."
+      );
+
+      this.assertEquals(2, selectBox.getSelection());
+      this.assertEquals("Item 3", selectBox.getValue());
+
+      // Only type Number is allowed. Nothing is changed.
+      this.assertException(qx.lang.Function.bind(selectBox.setSelection, selectBox, "foo"),
+        qx.core.ValidationError,
+        "Validation Error: Input value is not a number",
         "Exception assertion failed."
       );
 

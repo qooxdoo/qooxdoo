@@ -799,3 +799,23 @@ addSample(".not", {
   },
   executable: true
 });
+
+addSample(".isChildOf", {
+  html: ['<div id="first">',
+         '  <p>para 1</p>',
+         '  <p class="desc">para 2</p>',
+         '</div>',
+         '<div id="second">',
+         '  <p class="summary">para 3</p>',
+         '</div>'],
+  css: ['.desc {',
+        '  color: #eee;',
+        '}'],
+  javascript: function() {
+    // you can use the 'isChildOf' method to e.g. check within an event listener
+    // if the user clicked outside a given container element.
+    q('p.desc').isChildOf('div#first'); // true
+    q('p.desc').isChildOf('div#second'); // false
+  },
+  executable: true
+});

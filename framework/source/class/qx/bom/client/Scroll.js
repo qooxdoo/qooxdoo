@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
       var osx = qx.bom.client.OperatingSystem.getName() === "osx";
       var nativeScrollBars = qx.core.Environment.get("qx.nativeScrollBars");
 
-      return scrollBarWidth == 0 && osx && nativeScrollBars;
+      return scrollBarWidth === 0 && osx && nativeScrollBars;
     },
 
 
@@ -55,8 +55,16 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
      * use native scroll.
      */
     getNativeScroll : function() {
-      return qx.core.Environment.get("os.name") == "ios" &&
-        parseInt(qx.core.Environment.get("browser.version")) > 4;
+      if (qx.core.Environment.get("os.name") == "ios" &&
+        parseInt(qx.core.Environment.get("browser.version"), 10) > 4) {
+        return true;
+      }
+
+      if (qx.core.Environment.get("event.mspointer")) {
+        return true;
+      }
+
+      return false;
     }
   },
 

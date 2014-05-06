@@ -339,6 +339,36 @@ and generic helpers e.g. for requesting the type of a value.
   // General
   q.type.get(val); // "String", "Array", "Object", "Function" ...
 
+
+Widget
+******
+The Widget module contains a collection of self-contained UI elements. They can be created from pre-existing
+HTML or entirely from JavaScript and customized by overwriting default rendering templates.
+See the dedicated manual page for more information:
+
+:ref:`%{Website} Widgets <pages/website/widgets#widgets>`
+
+::
+
+  // JS-only widget creation
+  q.create('<div></div>').slider().appendTo(document.body);
+
+  // Changing the configuration of an existing widget
+  q(".qx-slider").setConfig("step", [2, 4, 8, 16, 32]).render();
+
+  // Modifying an existing widget's rendering template
+  q(".qx-slider")
+  .setTemplate("knobContent", '<span id="knob-label">{{value}}</span>')
+  .render();
+
+  // Events
+  q(".qx-slider").on("changeValue", function(value) {
+    console.log("New slider value:", value);
+  });
+
+  // Disposal (clean up DOM references to prevent memory leaks)
+  q(".qx-slider").dispose().remove();
+
 ------------
 
 .. [#] `Remy Sharp, "What is a polyfill" <http://remysharp.com/2010/10/08/what-is-a-polyfill/>`__

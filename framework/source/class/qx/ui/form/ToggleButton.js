@@ -20,7 +20,7 @@
 /**
  * A toggle Button widget
  *
- * If the user presses the button by clicking on it pressing the enter or
+ * If the user presses the button by tapping on it pressing the enter or
  * space key, the button toggles between the pressed an not pressed states.
  * There is no execute event, only a {@link qx.ui.form.ToggleButton#changeValue}
  * event.
@@ -55,11 +55,11 @@ qx.Class.define("qx.ui.form.ToggleButton",
   {
     this.base(arguments, label, icon);
 
-    // register mouse events
-    this.addListener("mouseover", this._onMouseOver);
-    this.addListener("mouseout", this._onMouseOut);
-    this.addListener("mousedown", this._onMouseDown);
-    this.addListener("mouseup", this._onMouseUp);
+    // register pointer events
+    this.addListener("pointerover", this._onPointerOver);
+    this.addListener("pointerout", this._onPointerOut);
+    this.addListener("pointerdown", this._onPointerDown);
+    this.addListener("pointerup", this._onPointerUp);
 
     // register keyboard events
     this.addListener("keydown", this._onKeyDown);
@@ -193,15 +193,15 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
 
     /**
-     * Listener method for "mouseover" event.
+     * Listener method for "pointerover" event.
      * <ul>
      * <li>Adds state "hovered"</li>
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
      * </ul>
      *
-     * @param e {Event} Mouse event
+     * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onMouseOver : function(e)
+    _onPointerOver : function(e)
     {
       if (e.getTarget() !== this) {
         return;
@@ -218,16 +218,16 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
 
     /**
-     * Listener method for "mouseout" event.
+     * Listener method for "pointerout" event.
      * <ul>
      * <li>Removes "hovered" state</li>
      * <li>Adds "abandoned" state (if "pressed" state is set)</li>
      * <li>Removes "pressed" state (if "pressed" state is set and button is not checked)
      * </ul>
      *
-     * @param e {Event} Mouse event
+     * @param e {qx.event.type.Pointer} pointer event
      */
-    _onMouseOut : function(e)
+    _onPointerOut : function(e)
     {
       if (e.getTarget() !== this) {
         return;
@@ -247,22 +247,22 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
 
     /**
-     * Listener method for "mousedown" event.
+     * Listener method for "pointerdown" event.
      * <ul>
      * <li>Activates capturing</li>
      * <li>Removes "abandoned" state</li>
      * <li>Adds "pressed" state</li>
      * </ul>
      *
-     * @param e {Event} Mouse event
+     * @param e {qx.event.type.Pointer} pointer event
      */
-    _onMouseDown : function(e)
+    _onPointerDown : function(e)
     {
       if (!e.isLeftPressed()) {
         return;
       }
 
-      // Activate capturing if the button get a mouseout while
+      // Activate capturing if the button get a pointerout while
       // the button is pressed.
       this.capture();
 
@@ -273,7 +273,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
 
     /**
-     * Listener method for "mouseup" event.
+     * Listener method for "pointerup" event.
      * <ul>
      * <li>Releases capturing</li>
      * <li>Removes "pressed" state (if not "abandoned" state is set and "pressed" state is set)</li>
@@ -281,9 +281,9 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * <li>Toggles {@link #value} (if state "abandoned" is not set and state "pressed" is set)</li>
      * </ul>
      *
-     * @param e {Event} Mouse event
+     * @param e {qx.event.type.Pointer} pointer event
      */
-    _onMouseUp : function(e)
+    _onPointerUp : function(e)
     {
       this.releaseCapture();
 

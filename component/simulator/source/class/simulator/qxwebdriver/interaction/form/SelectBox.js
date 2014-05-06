@@ -17,11 +17,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-************************************************************************ */
-
 /**
  * Interactions for {@link qx.ui.form.SelectBox} and derived widgets
+ * @deprecated{4.0}
  */
 qx.Class.define("simulator.qxwebdriver.interaction.form.SelectBox", {
 

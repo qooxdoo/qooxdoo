@@ -22,26 +22,21 @@
  */
 qx.Class.define("mobileshowcase.page.Carousel",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("Carousel");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
   members :
   {
     // overridden
-    _initialize : function()
-    {
-      this.base(arguments);
-
+    _createScrollContainer : function() {
       var carousel = new qx.ui.mobile.container.Carousel(0.5);
-      carousel.setHeight(350);
+      carousel.setHeight(null);
 
       var page1 = new qx.ui.mobile.container.Composite();
       page1.addCssClass("carousel-example-1");
@@ -62,13 +57,17 @@ qx.Class.define("mobileshowcase.page.Carousel",
       var nextButton = new qx.ui.mobile.form.Button("Next Page");
       nextButton.addCssClass("example-button");
       nextButton.addListener("tap", function() {
-        carousel.nextPage()
+        setTimeout(function() {
+          carousel.nextPage();
+        }.bind(this), 0);
       }, carousel);
 
       var previousButton = new qx.ui.mobile.form.Button("Previous Page");
       previousButton.addCssClass("example-button");
       previousButton.addListener("tap", function() {
-        carousel.previousPage()
+        setTimeout(function() {
+          carousel.previousPage();
+        }.bind(this), 0);
       }, carousel);
 
       var page3group = new qx.ui.mobile.form.Group([previousButton,nextButton],false);
@@ -81,23 +80,51 @@ qx.Class.define("mobileshowcase.page.Carousel",
 
       var page5 = new qx.ui.mobile.container.Composite();
       page5.addCssClass("carousel-example-5");
-      page5.add(new qx.ui.mobile.basic.Label("Previous page is shown when you swipe right."),{flex:1});
+      page5.add(new qx.ui.mobile.basic.Label("You can add as many pages as you want."),{flex:1});
+
+      var moreButton = new qx.ui.mobile.form.Button("Add more pages");
+      moreButton.addCssClass("example-button");
+      moreButton.addListener("tap", function() {
+        for (var i = 0; i < 50; i++) {
+          var page = new qx.ui.mobile.container.Composite();
+          if (i % 2 === 0) {
+            page.addCssClass("carousel-example-5");
+          } else {
+            page.addCssClass("carousel-example-4");
+          }
+
+          page.add(new qx.ui.mobile.basic.Label("Dynamically added page #" + (i + 1)), {
+            flex: 1
+          });
+          carousel.add(page);
+
+          moreButton.exclude();
+        }
+      }, carousel);
+
+      var moreGroup = new qx.ui.mobile.form.Group([moreButton],false);
+      moreGroup.setLayout(new qx.ui.mobile.layout.HBox());
+
+      page5.add(moreGroup);
+
+      var page6 = new qx.ui.mobile.container.Composite();
+      page6.addCssClass("carousel-example-6");
+      page6.add(new qx.ui.mobile.basic.Label("Previous page is shown when you swipe right."),{flex:1});
 
       carousel.add(page1);
       carousel.add(page2);
       carousel.add(page3);
       carousel.add(page4);
       carousel.add(page5);
+      carousel.add(page6);
 
-      this.getContent().add(carousel);
+      return carousel;
     },
 
 
-
     // overridden
-    _back : function()
-    {
-     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
+    _createContent : function() {
+      return null;
     }
   }
 });

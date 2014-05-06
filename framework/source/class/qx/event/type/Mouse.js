@@ -47,12 +47,12 @@ qx.Class.define("qx.event.type.Mouse",
       var clone = this.base(arguments, nativeEvent, clone);
 
       clone.button = nativeEvent.button;
-      clone.clientX = nativeEvent.clientX;
-      clone.clientY = nativeEvent.clientY;
-      clone.pageX = nativeEvent.pageX;
-      clone.pageY = nativeEvent.pageY;
-      clone.screenX = nativeEvent.screenX;
-      clone.screenY = nativeEvent.screenY;
+      clone.clientX = Math.round(nativeEvent.clientX);
+      clone.clientY = Math.round(nativeEvent.clientY);
+      clone.pageX = nativeEvent.pageX ? Math.round(nativeEvent.pageX) : undefined;
+      clone.pageY = nativeEvent.pageY ? Math.round(nativeEvent.pageY) : undefined;
+      clone.screenX = Math.round(nativeEvent.screenX);
+      clone.screenY = Math.round(nativeEvent.screenY);
       clone.wheelDelta = nativeEvent.wheelDelta;
       clone.wheelDeltaX = nativeEvent.wheelDeltaX;
       clone.wheelDeltaY = nativeEvent.wheelDeltaY;
@@ -78,6 +78,20 @@ qx.Class.define("qx.event.type.Mouse",
       0 : "left",
       2 : "right",
       1 : "middle"
+    },
+
+
+    /**
+     * @type {Map} Contains the button ID to identifier data.
+     *
+     * @lint ignoreReferenceField(__buttonsDom3EventModel)
+     */
+    __buttonsDom3EventModel :
+    {
+      0 : "none",
+      1 : "left",
+      2 : "right",
+      4 : "middle"
     },
 
 
@@ -141,7 +155,12 @@ qx.Class.define("qx.event.type.Mouse",
           }
 
         default:
-          if (this._native.target !== undefined) {
+          if (!(qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.documentmode") <= 8)) {
+            // if the button value is -1, we should use the DOM level 3 .buttons attribute
+            // the value -1 is only set for pointer events: http://msdn.microsoft.com/en-us/library/ie/ff974877(v=vs.85).aspx
+            if (this._native.button === -1) {
+              return this.__buttonsDom3EventModel[this._native.buttons] || "none";
+            }
             return this.__buttonsDom2EventModel[this._native.button] || "none";
           } else {
             return this.__buttonsMshtmlEventModel[this._native.button] || "none";
@@ -201,7 +220,7 @@ qx.Class.define("qx.event.type.Mouse",
      * @return {Integer} The horizontal mouse position
      */
     getViewportLeft : function() {
-      return this._native.clientX;
+      return Math.round(this._native.clientX);
     },
 
 
@@ -213,7 +232,7 @@ qx.Class.define("qx.event.type.Mouse",
      * @signature function()
      */
     getViewportTop : function() {
-      return this._native.clientY;
+      return Math.round(this._native.clientY);
     },
 
 
@@ -227,10 +246,12 @@ qx.Class.define("qx.event.type.Mouse",
     getDocumentLeft : function()
     {
       if (this._native.pageX !== undefined) {
-        return this._native.pageX;
-      } else {
+        return Math.round(this._native.pageX);
+      } else if (this._native.srcElement) {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
-        return this._native.clientX + qx.bom.Viewport.getScrollLeft(win);
+        return Math.round(this._native.clientX) + qx.bom.Viewport.getScrollLeft(win);
+      } else {
+        return Math.round(this._native.clientX) + qx.bom.Viewport.getScrollLeft(window);
       }
     },
 
@@ -245,10 +266,12 @@ qx.Class.define("qx.event.type.Mouse",
     getDocumentTop : function()
     {
       if (this._native.pageY !== undefined) {
-        return this._native.pageY;
-      } else {
+        return Math.round(this._native.pageY);
+      } else if (this._native.srcElement) {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
-        return this._native.clientY + qx.bom.Viewport.getScrollTop(win);
+        return Math.round(this._native.clientY) + qx.bom.Viewport.getScrollTop(win);
+      } else {
+        return Math.round(this._native.clientY) + qx.bom.Viewport.getScrollTop(window);
       }
     },
 
@@ -263,7 +286,7 @@ qx.Class.define("qx.event.type.Mouse",
      * @return {Integer} The horizontal mouse position on the screen.
      */
     getScreenLeft : function() {
-      return this._native.screenX;
+      return Math.round(this._native.screenX);
     },
 
 
@@ -277,7 +300,7 @@ qx.Class.define("qx.event.type.Mouse",
      * @return {Integer} The vertical mouse position on the screen.
      */
     getScreenTop : function() {
-      return this._native.screenY;
+      return Math.round(this._native.screenY);
     }
   }
 });

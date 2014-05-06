@@ -20,6 +20,7 @@
     //"build-all",
     "dependencies",
     "clean",
+    "compile-framework-scss",
     "distclean",
     "fix",
     "images",
@@ -314,18 +315,14 @@
 
     "watch-scss" :
     {
-      "desc"  : "Demo job for watching compile-to-CSS files",
-      "extend" : ["cache"],
-      "watch-files" :
-      {
-        "paths" : ["source/resource/qx/mobile/scss"],
-        "command" :
-        {
-          // this is sort of missing the point, as most scss implementations
-          // have their built-in watch mode
-          "line" : "scss --no-cache --update source/resource/qx/mobile/scss:source/resource/qx/mobile/css",
-          "per-file" : false
-        }
+      "desc": "Watch and compile the theme scss",
+      "extend": ["cache"],
+      "let": {
+        "QX_MOBILE_THEME_PATH": "source/resource/qx/mobile",
+        "QX_SHARED_THEME_PATH": "source/resource/qx/scss"
+      },
+      "shell": {
+        "command": "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${QX_MOBILE_THEME_PATH}/scss:${QX_MOBILE_THEME_PATH}/css"
       }
     },
 

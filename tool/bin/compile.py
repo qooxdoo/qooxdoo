@@ -30,6 +30,7 @@
 # output, etc. on a single JS file.
 #
 ##
+from __future__ import print_function
 
 import sys, os, optparse, string, types, pprint, copy
 import qxenviron
@@ -55,9 +56,9 @@ from generator.runtime.Log import Log
 
 #sys.setrecursionlimit(1500)
 
-            
-#        
-# A copy from the TreeCompiler module            
+
+#
+# A copy from the TreeCompiler module
 #
 
 def _optimizeStrings(tree, id):
@@ -85,27 +86,27 @@ def _optimizeStrings(tree, id):
             funcBody.addChild(child)
 
     # Add wrapper to tree
-    tree.addChild(wrapperNode)     
+    tree.addChild(wrapperNode)
 
 
-           
+
 def interruptCleanup(interruptRegistry):
     for func in interruptRegistry.Callbacks:
         try:
             func()
-        except Error, e:
-            print >>sys.stderr, e  # just keep on with the others
-    
+        except Error as e:
+            print(e, file=sys.stderr) # just keep on with the others
+
 
 def get_args():
     parser = optparse.OptionParser(option_class=ExtendAction)
 
     usage_str = '''%prog [options] [main_action] file.js,...
-    
+
 Default action is to compress the JS code. All output is written to STDOUT.
 '''
     parser.set_usage(usage_str)
-    
+
     # General flags
     option_group = optparse.OptionGroup(parser, "General Options")
     option_group.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
@@ -120,18 +121,18 @@ Default action is to compress the JS code. All output is written to STDOUT.
     option_group.add_option("-s", "--strings", action="store_true", dest="strings", default=False, help="optimize strings")
     option_group.add_option("-p", "--privates", action="store_true", dest="privates", default=False, help="optimize privates")
     option_group.add_option("--privateskey", dest="privateskey", metavar="CACHEKEY", type="string", default="", help="cache key for privates")
-    option_group.add_option("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")            
+    option_group.add_option("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")
     option_group.add_option("-g", "--globals", action="store_true", dest="globals", default=False, help="optimize globals")
     #option_group.add_option("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")
     option_group.add_option("-r", "--variants", action="store_true", dest="variantsopt", default=False, help="optimize variants")
     option_group.add_option("--variant", action="extend", dest="variants", metavar="KEY:VALUE", type="string", default=[], help="Selected variants")
     option_group.add_option("-m", "--comments", action="store_true", dest="comments", default=False, help="optimize comments")
-    option_group.add_option("--all", action="store_true", dest="all", default=False, help="optimize all")            
+    option_group.add_option("--all", action="store_true", dest="all", default=False, help="optimize all")
     parser.add_option_group(option_group)
-    
+
     # Action modifier
     option_group = optparse.OptionGroup(parser, "Main Actions")
-    option_group.add_option("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")            
+    option_group.add_option("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")
     option_group.add_option("--tree", action="store_true", dest="tree", default=False, help="print out tree")
     option_group.add_option("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
     option_group.add_option("--deps", action="store_true", dest="dependencies", default=False, help="unresolved symbols of file")
@@ -145,12 +146,12 @@ Default action is to compress the JS code. All output is written to STDOUT.
 
 def get_args_1():
     usage_str = '''%(prog)s [options] [main_action] file.js,...
-    
+
 Default action is to compress the JS code. All output is written to STDOUT.
 '''
     parser = argparse.ArgumentParser()
     #parser = argparse.ArgumentParser(usage=usage_str)
-    
+
     # General flags
     parser.add_argument("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
     parser.add_argument("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output")
@@ -162,16 +163,16 @@ Default action is to compress the JS code. All output is written to STDOUT.
     parser.add_argument("-s", "--strings", action="store_true", dest="strings", default=False, help="optimize strings")
     parser.add_argument("-p", "--privates", action="store_true", dest="privates", default=False, help="optimize privates")
     parser.add_argument("--privateskey", dest="privateskey", metavar="CACHEKEY", type=str, default="", help="cache key for privates")
-    parser.add_argument("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")            
+    parser.add_argument("-b", "--basecalls", action="store_true", dest="basecalls", default=False, help="optimize basecalls")
     #parser.add_argument("-i", "--inline", action="store_true", dest="inline", default=False, help="optimize inline")
     parser.add_argument("-r", "--variants", action="store_true", dest="variantsopt", default=False, help="optimize variants")
     parser.add_argument("-g", "--globals", action="store_true", dest="globals", default=False, help="optimize globals")
     parser.add_argument("--variant", dest="variants", metavar="KEY:VALUE", type=str, default=[], help="Selected variants")
     parser.add_argument("-m", "--comments", action="store_true", dest="comments", default=False, help="optimize comments")
-    parser.add_argument("--all", action="store_true", dest="all", default=False, help="optimize all")            
-    
+    parser.add_argument("--all", action="store_true", dest="all", default=False, help="optimize all")
+
     # Action modifier
-    parser.add_argument("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")            
+    parser.add_argument("--pretty", action="store_true", dest="pretty", default=False, help="print out pretty printed")
     parser.add_argument("--tree", action="store_true", dest="tree", default=False, help="print out tree")
     parser.add_argument("--lint", action="store_true", dest="lint", default=False, help="ecmalint the file")
     parser.add_argument("--deps", action="store_true", dest="dependencies", default=False, help="unresolved symbols of file")
@@ -207,16 +208,16 @@ def read_config(options):
 
 def run_lint(fileName, fileContent, options, args):
     if not options.quiet:
-        print ">>> Executing ecmalint..."
-    print "Needs implementation"
+        print(">>> Executing ecmalint...")
+    print("Needs implementation")
 
 def run_tree(fileName, fileContent, options, args):
     tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
-    if not options.quiet: print ">>> Creating tree..."
+    if not options.quiet: print(">>> Creating tree...")
     tree = treegenerator.createFileTree(tokens)
     #tree = treegenerator_3.createFileTree(tokens)
-    if not options.quiet: print ">>> Printing out tree..."
-    print tree.toXml().encode('utf-8')
+    if not options.quiet: print(">>> Printing out tree...")
+    print(tree.toXml().encode('utf-8'))
     return
 
 def run_pretty(fileName, fileContent, options, args):
@@ -231,7 +232,7 @@ def run_pretty(fileName, fileContent, options, args):
     result = [u'']
     result = formatter.formatNode(tree, optns, result)
     result = u''.join(result)
-    print result
+    print(result)
     return
 
 def run_dependencies(fileName, fileContent, options, args):
@@ -241,52 +242,52 @@ def run_compile(fileName, fileContent, options, args):
     fileId = fileName
     tokens = tokenizer.Tokenizer().parseStream(fileContent, fileName)
     if not options.quiet:
-        print ">>> Creating tree..."
+        print(">>> Creating tree...")
     tree = treegenerator.createFileTree(tokens)
     tree = scopes.create_scopes(tree)
-    
+
     # optimizing tree
     if len(options.variants) > 0:
         if not options.quiet:
-            print ">>> Selecting variants..."
+            print(">>> Selecting variants...")
         varmap = {}
         for entry in options.variants:
             pos = entry.index(":")
             varmap[entry[0:pos]] = entry[pos+1:]
-            
+
         variantoptimizer.search(tree, varmap, fileId)
-    
+
     if options.all or options.basecalls:
         if not options.quiet:
-            print ">>> Optimizing basecalls..."
-        basecalloptimizer.patch(tree)   
+            print(">>> Optimizing basecalls...")
+        basecalloptimizer.patch(tree)
 
     #if options.all or options.inline:
     #    if not options.quiet:
-    #        print ">>> Optimizing inline..."
-    #    inlineoptimizer.patch(tree)   
+    #        print(">>> Optimizing inline...")
+    #    inlineoptimizer.patch(tree)
 
     if options.all or options.strings:
         if not options.quiet:
-            print ">>> Optimizing strings..."
+            print(">>> Optimizing strings...")
         _optimizeStrings(tree, fileId)
 
     if options.all or options.variables:
         if not options.quiet:
-            print ">>> Optimizing variables..."
+            print(">>> Optimizing variables...")
         variableoptimizer.search(tree)
 
     if options.all or options.globals:
         if not options.quiet:
-            print ">>> Optimizing globals..."
+            print(">>> Optimizing globals...")
         tree = globalsoptimizer.process(tree)
 
     if options.all or options.privates:
         if not options.quiet:
-            print ">>> Optimizing privates..."
+            print(">>> Optimizing privates...")
         privates = {}
         if options.cache:
-            cache = Cache(options.cache, 
+            cache = Cache(options.cache,
                 interruptRegistry=interruptRegistry
             )
             privates, _ = cache.read(options.privateskey)
@@ -295,29 +296,34 @@ def run_compile(fileName, fileContent, options, args):
         privateoptimizer.patch(tree, fileId, privates)
         if options.cache:
             cache.write(options.privateskey, privates)
-         
+
     if not options.quiet:
-        print ">>> Compiling..."
+        print(">>> Compiling...")
     result = [u'']
     result = Packer().serializeNode(tree, None, result, True)
     result = u''.join(result)
-    print result.encode('utf-8')
-    
+    print(result.encode('utf-8'))
+
     return
 
 
 def main():
     (options, args) = get_args()
-    
+
     if len(args) == 0:
-        print ">>> Missing filename!"
+        print(">>> Missing filename!")
         return
 
     for fileName in args:
         if not options.quiet:
-            print fileName, ":"
-            print ">>> Parsing file..."
-        fileContent = filetool.read(fileName, "utf-8")
+            print(fileName, ":")
+            print(">>> Parsing file...")
+
+        if fileName == "-":
+            # enables: echo "1+2" | compile.py -
+            fileContent = sys.stdin.read()
+        else:
+            fileContent = filetool.read(fileName, "utf-8")
 
         if options.config:
             read_config(options)
@@ -332,20 +338,20 @@ def main():
             run_dependencies(fileName, fileContent, options, args)
         else:
             run_compile(fileName, fileContent, options, args)
-         
+
     return
-            
+
 
 # ------------------------------------------------------------------------------
 
 interruptRegistry = InterruptRegistry()
-            
+
 if __name__ == '__main__':
     try:
         main()
 
     except KeyboardInterrupt:
-        print
-        print "Keyboard interrupt!"
+        print()
+        print("Keyboard interrupt!")
         interruptCleanup(interruptRegistry)
         sys.exit(1)

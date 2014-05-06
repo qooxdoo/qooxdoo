@@ -20,34 +20,35 @@
     }
   ],
 
-  /*
   "export" :
   [
     "api",
-    "api-data",
     "build",
+    "build-min",
     "clean",
     "distclean",
     "info",
-    "inspector",
-    "migration",
-    "profiling",
-    "source",
+    "npm-package-copy",
+    "npm-package-publish",
+    "npm-package-test",
     "test",
-    "test-source"
+    "test-source",
+    "validate-config"
   ],
-  */
   
-  "default-job" : "source-hybrid",
+  "default-job" : "build",
 
   "let" :
   {
     "APPLICATION"  : "server",
     "QOOXDOO_PATH" : "../../..",
     "QXTHEME"      : "server.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "API_INCLUDE"  : ["qx.*"],
+    "API_EXCLUDE"  : ["qx.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    //"SFILES_VERSION_PART" : "-${QOOXDOO_VERSION}",
+    "SFILES_VERSION_PART" : "",
     "BUILD_PATH"   : "script",
     "ROOT"         : "."
   },
@@ -58,6 +59,7 @@
     [
       "api",
       "apiconf::build-data",
+      "clean",
       "distclean"
     ]
   },
@@ -68,12 +70,13 @@
     
     "npm-package-copy" :
     {
+      "desc" : "create an NPM package",
       "extend" : ["cache"],
       "shell" :
       {
         "command" : [
           "mkdir -p npm/build",
-          "cp script/qx-oo-${QOOXDOO_VERSION}.js npm/build",
+          "cp script/qx-oo${SFILES_VERSION_PART}.js npm/build",
           "cp npm/package.json npm/build",
           "cp npm/readme.md npm/build"
         ]
@@ -82,6 +85,7 @@
 
     "npm-package-test" :
     {
+      "desc" : "test the NPM package",
       "extend" : ["cache"],
       "shell" :
       {
@@ -91,7 +95,7 @@
 
     "npm-package-publish" :
     {
-      // relies on npm-package-copy having run
+      "desc" : "publish the NPM package (run after npm-package-copy)",
       "extend" : ["cache"],
       "shell" :
       {
@@ -152,6 +156,11 @@
     },
 
     "distclean" : 
+    {
+      "extend" : ["clean"]
+    },
+
+    "clean" : 
     {
       "=clean-files" :
       {

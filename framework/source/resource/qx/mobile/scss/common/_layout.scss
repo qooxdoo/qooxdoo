@@ -1,4 +1,6 @@
+//
 // Card Layout
+//
 
 .layout-card {
   overflow:hidden;
@@ -7,153 +9,132 @@
 
 .layout-card-item {
   @include box-sizing(border-box);
-  //.transform(translate3d(0,0,0) rotate(0) scale(1));
 }
 
 //
 // Box-Layout
 //
 
-.hbox {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: box;
-
-  @include box-orient(horizontal);
-
+.hbox, .vbox {
   // Subtract padding and border from content width (100%) to prevent
   // 100% + X situation.
   @include box-sizing(border-box);
 }
 
-// Firefox only
-@-moz-document url-prefix() {
+// Devices which supports new flex syntax.
+.mobile.flex-ready {
+  .hbox, .vbox {
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: -webkit-flex;     /* NEW - Chrome */
+    display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  }
+
   .hbox {
-    // -moz-box elements shrink-wrap by default. The spec states that "a block-level
-    // box placed inside a block level element is positioned and sized as if it were
-    // any other block". This is not true for the (non-standard) implementation in
-    // Firefox.
-    //
-    // See https://bugzilla.mozilla.org/show_bug.cgi?id=625694
-    //
-    width: 100%;
+    @include flex-direction(row);
+  }
+
+  .vbox {
+    @include flex-direction(column);
+  }
+
+  .hbox.flex-reverse {
+    @include flex-direction(row-reverse);
+  }
+
+  .vbox.flex-reverse {
+    @include flex-direction(column-reverse);
+  }
+
+  .flex-center {
+    @include flex-align-items(center);
+    @include flex-justify-content(center);
+  }
+
+  .flex-align-start {
+    @include flex-align-items(flex-start);
+  }
+
+  .flex-align-center {
+    @include flex-align-items(center);
+  }
+
+  .flex-align-end {
+    @include flex-align-items(flex-end);
+  }
+
+  .flex-justify-start {
+    @include flex-justify-content(flex-start);
+  }
+
+  .flex-justify-center {
+    @include flex-justify-content(center);
+  }
+
+  .flex-justify-end {
+    @include flex-justify-content(flex-end);
+  }
+
+  @for $i from 0 through 6 {
+    .flex#{$i} { 
+      @include flex($i);
+    }
   }
 }
 
-.vbox { 
-  // See .hbox
-  width: 100%;
-  height: 100%;
-}
+// Devices which supports old flexbox syntax.
+.mobile:not(.flex-ready) {
+  .hbox, .vbox {
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: box;
+  }
 
-.vbox {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: box;
+  .hbox {
+    @include box-orient(horizontal);
+  }
 
-  @include box-orient(vertical);
-  @include box-sizing(border-box);
+  .vbox {
+    @include box-orient(vertical);
+    height: 100%;
+    width:100%;
+  }
 
-  @include flexbox-direction(column);
-}
+  .hbox.flex-reverse, .vbox.flex-reverse {
+    @include box-direction(reverse);
+  }
 
-.box {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: box;
-}
+  .flex-center {
+    @include box-pack(center);
+    @include box-align(center);
+  }
 
-.box-centered {
-  @extend .boxPackCenter;
-  @include box-align(center);
-}
+  .flex-align-start {
+    @include box-align(start);
+  }
 
-.content {
-   // Force block formatting context so that elements are laid out
-   // "one after the other", see http://www.w3.org/TR/CSS21/visuren.html#block-formatting
-   //
-   // Fixes clipped content in Firefox.
-  overflow: hidden;
-}
+  .flex-align-center {
+    @include box-align(center);
+  }
 
-.boxSpacer {
-  @include box-flex(1);
-}
+  .flex-align-end {
+    @include box-align(end);
+  }
 
-.boxReverse {
-  // MOZ + Webkit syntax
-  @include box-direction(reverse);
-}
+  .flex-justify-start {
+    @include box-pack(start);
+  }
 
-.hbox.boxReverse {
-  // IE10 + new flexbox syntax
-  @include flexbox-direction(row-reverse);
-}
+  .flex-justify-center {
+    @include box-pack(center);
+  }
 
-.vbox.boxReverse {
-  // IE10 + new flexbox syntax
-  @include flexbox-direction( column-reverse);
-}
+  .flex-justify-end {
+    @include box-pack(end);
+  }
 
-.boxAlignStart {
-  @include box-align(start);
-}
-
-.boxAlignCenter {
-  @include box-align(center);
-}
-
-.boxAlignEnd {
-  @include box-align(end);
-}
-
-.boxPackStart {
-  @include box-pack(start);
-}
-
-.boxPackCenter {
-  @include box-pack(center);
-}
-
-.boxPackEnd {
-  @include box-pack(end);
-}
-
-.boxFlex0 {
-  @include box-flex(0);
-}
-
-.boxFlex1, .boxFlex {
-  @include box-flex(1);
-}
-
-.boxFlex2 {
-  @include box-flex(2);
-}
-
-.boxFlex3 {
-  @include box-flex(3);
-}
-
-.boxFlex4 {
-  @include box-flex(4);
-}
-
-.boxFlex5 {
-  @include box-flex(5);
-}
-
-.boxFlex6 {
-  @include box-flex(6);
-}
-
-.boxGroup1 {
-  @include box-flex-group(1);
-}
-
-.boxGroup2 {
-  @include box-flex-group(2);
+  @for $i from 0 through 6 {
+    .flex#{$i} { 
+      @include box-flex($i);
+    }
+  }
 }

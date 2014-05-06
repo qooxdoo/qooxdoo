@@ -22,6 +22,7 @@
  * DOM manipulation module
  *
  * @ignore(qx.bom.element, qx.bom.element.AnimationJs)
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Manipulating", {
   statics :
@@ -30,12 +31,21 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Creates a new collection from the given argument. This can either be an
      * HTML string, a single DOM element or an array of elements
      *
+     * When no <code>context</code> is given the global document is used to
+     * create new DOM elements.
+     *
+     * <strong>Note:</strong> When a complex HTML string is provided the <code>innerHTML</code>
+     * mechanism of the browser is used. Some browsers do filter out elements like <code>&lt;html&gt;</code>,
+     * <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code>. The better approach is to create
+     * a single element and the appending the child nodes like in the example below.
+     *
      * @attachStatic{qxWeb}
      * @param html {String|Element[]} HTML string or DOM element(s)
+     * @param context {Document?document} Context in which the elements should be created
      * @return {qxWeb} Collection of elements
      */
-    create : function(html) {
-      return qxWeb.$init(qx.bom.Html.clean([html]));
+    create : function(html, context) {
+      return qxWeb.$init(qx.bom.Html.clean([html], context), qxWeb);
     },
 
 
@@ -74,7 +84,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      */
     append : function(html) {
       var arr = qx.bom.Html.clean([html]);
-      var children = qxWeb.$init(arr);
+      var children = qxWeb.$init(arr, qxWeb);
 
       this._forEachElement(function(item, index) {
         for (var j=0, m=children.length; j < m; j++) {
@@ -103,20 +113,18 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * @return {qxWeb} The collection for chaining
      */
     appendTo : function(parent) {
-      //var func = ;
-
       parent = qx.module.Manipulating.__getElementArray(parent);
       for (var i=0, l=parent.length; i < l; i++) {
         this._forEachElement(function(item, j) {
-        if (i == 0) {
-          // first parent: move the target node(s)
-          qx.dom.Element.insertEnd(this[j], parent[i]);
-        }
-        else {
-          // further parents: clone the target node(s)
-          qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
-        }
-      })
+          if (i == 0) {
+            // first parent: move the target node(s)
+            qx.dom.Element.insertEnd(this[j], parent[i]);
+          }
+          else {
+            // further parents: clone the target node(s)
+            qx.dom.Element.insertEnd(this.eq(j).clone(true)[0], parent[i]);
+          }
+        });
       }
 
       return this;

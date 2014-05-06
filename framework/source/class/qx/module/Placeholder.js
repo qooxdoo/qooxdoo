@@ -123,8 +123,8 @@ qx.Bootstrap.define("qx.module.Placeholder", {
         textAlign: item.getStyle("text-align"),
         width: (item.getWidth() - paddingHor - 4) + "px",
         height: (item.getHeight() - paddingVer - 4) + "px",
-        left: item.getOffset().left + "px",
-        top: item.getOffset().top + "px",
+        left: item.getPosition().left + "px",
+        top: item.getPosition().top + "px",
         fontFamily : item.getStyle("font-family"),
         fontStyle : item.getStyle("font-style"),
         fontVariant : item.getStyle("font-variant"),
@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
 
       // for browsers not supporting pointer events
       if (!qxWeb.env.get("css.pointerevents")) {
-        placeholderEl.setStyle("cursor", "text").on("click", function(item) {
+        placeholderEl.setStyle("cursor", "text").on("tap", function(item) {
           item.focus();
         }.bind(this, item));
       }

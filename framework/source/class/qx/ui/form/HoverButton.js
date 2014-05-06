@@ -19,12 +19,12 @@
 
 /**
  * The HoverButton is an {@link qx.ui.basic.Atom}, which fires repeatedly
- * execute events while the mouse is over the widget.
+ * execute events while the pointer is over the widget.
  *
- * The rate at which the execute event is fired accelerates is the mouse keeps
+ * The rate at which the execute event is fired accelerates is the pointer keeps
  * inside of the widget. The initial delay and the interval time can be set using
  * the properties {@link #firstInterval} and {@link #interval}. The
- * {@link #execute} events will be fired in a shorter amount of time if the mouse
+ * {@link #execute} events will be fired in a shorter amount of time if the pointer
  * remains over the widget, until the min {@link #minTimer} is reached.
  * The {@link #timerDecrease} property sets the amount of milliseconds which will
  * decreased after every firing.
@@ -65,8 +65,8 @@ qx.Class.define("qx.ui.form.HoverButton",
   {
     this.base(arguments, label, icon);
 
-    this.addListener("mouseover", this._onMouseOver, this);
-    this.addListener("mouseout", this._onMouseOut, this);
+    this.addListener("pointerover", this._onPointerOver, this);
+    this.addListener("pointerout", this._onPointerOut, this);
 
     this.__timer = new qx.event.AcceleratingTimer();
     this.__timer.addListener("interval", this._onInterval, this);
@@ -125,11 +125,11 @@ qx.Class.define("qx.ui.form.HoverButton",
 
 
     /**
-     * Start timer on mouse over
+     * Start timer on pointer over
      *
-     * @param e {qx.event.type.Mouse} The mouse event
+     * @param e {qx.event.type.Pointer} The pointer event
      */
-    _onMouseOver : function(e)
+    _onPointerOver : function(e)
     {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
@@ -147,11 +147,11 @@ qx.Class.define("qx.ui.form.HoverButton",
 
 
     /**
-     * Stop timer on mouse out
+     * Stop timer on pointer out
      *
-     * @param e {qx.event.type.Mouse} The mouse event
+     * @param e {qx.event.type.Pointer} The pointer event
      */
-    _onMouseOut : function(e)
+    _onPointerOut : function(e)
     {
       this.__timer.stop();
       this.removeState("hovered");

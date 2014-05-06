@@ -1,0 +1,90 @@
+.drawer {
+  @include transform(translate3d(0,0,0));
+  position: absolute;
+}
+
+.drawer.above {
+  @include background($drawer-above-background);
+  z-index: 1;
+}
+
+.drawer.below {
+  @include background($drawer-below-background);
+  @include box-inset-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.35));
+  z-index:-1;
+}
+
+.drawer.left {
+  left:0;
+  top:0;
+  height:100%;
+}
+
+.drawer.right {
+  right:0;
+  top:0;
+  height:100%;
+}
+
+.drawer.top {
+  width:100%;
+  left:0;
+  top:0;
+}
+
+.drawer.bottom {
+  width:100%;
+  left:0;
+  bottom:0;
+}
+
+.drawer.left.above.hidden, .drawer.left.below {
+  @include transform(translateX(-100%));
+}
+
+.drawer.right.above.hidden, .drawer.right.below {
+  @include transform(translateX(100%));
+}
+
+.drawer.top.above.hidden, .drawer.top.below {
+  @include transform(translateY(-100%));
+}
+
+.drawer.bottom.above.hidden, .drawer.bottom.below {
+  @include transform(translateY(100%));
+}
+
+.root.drawer-parent {
+  overflow: visible !important;
+}
+
+.drawer-parent.blocked:not(.root) > *:first-child > * {
+  pointer-events: none;
+}
+
+.drawer.above:not(.master-detail-master):not(.hidden) {
+  @include box-shadow(0px 0px rem(10) rem(5) rgba(0,0,0,0.5));
+}
+
+.drawer.top:not(.master-detail-master) {
+  border-bottom:rem(1) solid $drawer-border-color;
+}
+
+.drawer.left:not(.master-detail-master) {
+  border-right:rem(1) solid $drawer-border-color;
+}
+
+.drawer.right:not(.master-detail-master) {
+  border-left:rem(1) solid $drawer-border-color;
+}
+
+.drawer.bottom:not(.master-detail-master) {
+  border-top:rem(1) solid $drawer-border-color;
+}
+
+// Hide drawer when NavigationPage is animated
+.animationParent {
+  .drawer {
+    display:none !important;
+  }
+}

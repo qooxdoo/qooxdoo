@@ -80,7 +80,18 @@ qx.Class.define("qx.application.AbstractGui",
       // Initialize tooltip manager
       qx.ui.tooltip.Manager.getInstance();
 
+      var rule = ["touch-action: none;",
+      "-ms-touch-action: none;",
+      "-webkit-touch-callout: none;",
+      "-ms-touch-select: none;",
+      "-webkit-tap-highlight-color: rgba(0,0,0,0);",
+      "-webkit-tap-highlight-color: transparent;"].join("");
+      qx.ui.style.Stylesheet.getInstance().addRule("*", rule);
+
       this.__root = this._createRootWidget();
+
+      // make sure we start with a good scroll position
+      window.scrollTo(0, 0);
     },
 
 

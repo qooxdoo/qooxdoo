@@ -20,6 +20,7 @@
 
 /**
  * Attribute/Property handling for DOM elements.
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Attribute", {
   statics :
@@ -216,7 +217,7 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * other cases, a string is returned.
      *
      * @attach {qxWeb}
-     * @return {String|Array}
+     * @return {String|String[]} String value or Array of string values (for multiselect)
      */
     getValue : function() {
       if (this[0] && this[0].nodeType === 1) {

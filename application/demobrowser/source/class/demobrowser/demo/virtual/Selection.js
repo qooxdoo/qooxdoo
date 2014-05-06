@@ -232,7 +232,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           cellLayer.updateLayerData();
         }
       });
-      manager.attachMouseEvents(scroller.getPane());
+      manager.attachPointerEvents(scroller.getPane());
       manager.attachKeyEvents(scroller);
       manager.set({
         mode: "multi"
@@ -284,7 +284,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           cellLayer.updateLayerData();
         }
       });
-      manager.attachMouseEvents(scroller.getPane());
+      manager.attachPointerEvents(scroller.getPane());
       manager.attachKeyEvents(scroller);
       manager.set({
         mode: "multi"
@@ -331,7 +331,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           cellLayer.updateLayerData();
         }
       });
-      manager.attachMouseEvents(scroller.getPane());
+      manager.attachPointerEvents(scroller.getPane());
       manager.attachKeyEvents(scroller);
       manager.set({
         mode: "multi"
@@ -377,7 +377,7 @@ qx.Class.define("demobrowser.demo.virtual.Selection",
           cellLayer.updateLayerData();
         }
       });
-      manager.attachMouseEvents(scroller.getPane());
+      manager.attachPointerEvents(scroller.getPane());
       manager.attachKeyEvents(scroller);
       manager.set({
         mode: "multi"

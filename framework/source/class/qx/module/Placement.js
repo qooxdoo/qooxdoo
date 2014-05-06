@@ -33,6 +33,19 @@ qxWeb.define("qx.module.Placement", {
      * Moves the first element in the collection, aligning it with the given
      * target.
      *
+     * <div>
+     * <strong>NOTE:</strong> The <code>placeTo</code> method also works for hidden
+     * elements. However, the visibility / display styles are only manipulated during
+     * the placement operation. As a result a previously hidden element <strong>stays hidden</strong>
+     * </div>
+     *
+     * <div>
+     * <strong>NOTE:</strong> If the target is changing its position due e.g. a DOM manipulation the
+     * placed element <strong>is not</strong> updated automatically. You have to call <code>placeTo</code>
+     * again to place the element to the target. The element is <strong>always</strong> positioned by using
+     * <code>position:absolute</code> independently on the chosen <code>position</code> and <code>mode</code>.
+     * </div>
+     *
      * @attach{qxWeb}
      * @param target {Element} Placement target
      * @param position {String} Alignment of the object with the target, any of
@@ -61,8 +74,28 @@ qxWeb.define("qx.module.Placement", {
      * @return {qxWeb} The collection for chaining
      */
     placeTo : function(target, position, offsets, modeX, modeY) {
-      if (!this[0]) {
-        return null;
+      if (!this[0] || !target) {
+        return this;
+      }
+
+      target = qxWeb(target);
+
+      // make sure the DOM elements are rendered so we can get the size of them.
+      // It's not necessary to move them out of the viewport - just out of the
+      // layout flow.
+      var visible = this.isRendered();
+      var displayStyleValue = null;
+      var visibilityStyleValue = null;
+      if (!visible) {
+        // do not use the computed style value otherwise we will mess up the styles
+        // when resetting them, since these styles might also be set via a CSS class.
+        displayStyleValue = this[0].style.display;
+        visibilityStyleValue = this[0].style.visibility;
+        this.setStyles({
+          position: "absolute",
+          visibility: "hidden",
+          display: "block"
+        });
       }
 
       var axes = {
@@ -81,25 +114,56 @@ qxWeb.define("qx.module.Placement", {
         height : parent.getHeight()
       };
 
-      var target = qxWeb(target).getOffset();
-
-      var offsets = offsets || {
+      offsets = offsets || {
         top: 0,
         right: 0,
         bottom: 0,
         left: 0
       };
 
-      var splitted = position.split("-");
-      var edge = splitted[0];
-      var align = splitted[1];
+      var split = position.split("-");
+      var edge = split[0];
+      var align = split[1];
 
-      var position = {
+      var newPosition = {
         x : qx.module.Placement._getPositionX(edge,align),
         y : qx.module.Placement._getPositionY(edge,align)
+      };
+
+      var targetLocation;
+      var parentPositioning = parent.getStyle("position");
+      if (parentPositioning == "relative" || parentPositioning == "static") {
+        targetLocation = target.getOffset();
+      } else {
+        var targetPos = target.getPosition();
+        targetLocation = {
+          top: targetPos.top,
+          bottom: targetPos.top + target.getHeight(),
+          left: targetPos.left,
+          right: targetPos.left + target.getWidth()
+        };
       }
 
-      var newLocation = qx.module.Placement._computePlacement(axes, size, area, target, offsets, position);
+      var newLocation = qx.module.Placement._computePlacement(axes, size, area, targetLocation, offsets, newPosition);
+
+      while (parent.length > 0) {
+        if (parent.getStyle("position") == "relative" ) {
+          var offset = parent.getOffset();
+          var borderTop = parseInt(parent.getStyle("border-top-width")) || 0;
+          var borderLeft = parseInt(parent.getStyle("border-left-width")) || 0;
+          newLocation.left -= (offset.left + borderLeft);
+          newLocation.top -= (offset.top + borderTop);
+          parent = [];
+        } else {
+          parent = parent.getParents();
+        }
+      }
+
+      // Reset the styles to hide the element if it was previously hidden
+      if (!visible) {
+        this[0].style.display = displayStyleValue;
+        this[0].style.visibility = visibilityStyleValue;
+      }
 
       this.setStyles({
         position: "absolute",
@@ -144,7 +208,9 @@ qxWeb.define("qx.module.Placement", {
      * @param area {Map} Map with the keys <code>width</code> and <code>height</code>
      * containing the size of the two elements' common parent (available space for
      * placement)
-     * @param target {qxWeb} Collection containing the placement target
+     * @param target {Map} Location of the object to align the object to. This map
+     * should have the keys <code>left</code>, <code>top</code>, <code>right</code>
+     * and <code>bottom</code>
      * @param offsets {Map} Map of offsets (top, right, bottom, left)
      * @param position {Map} Map with the keys <code>x</code> and <code>y</code>,
      * containing the type of positioning for each axis
@@ -192,6 +258,8 @@ qxWeb.define("qx.module.Placement", {
         return "edge-end";
       } else if (align == "left") {
         return "align-start";
+      } else if (align == "center") {
+        return "align-center";
       } else if (align == "right") {
         return "align-end";
       }
@@ -214,6 +282,8 @@ qxWeb.define("qx.module.Placement", {
         return "edge-end";
       } else if (align == "top") {
         return "align-start";
+      } else if (align == "middle") {
+        return "align-center";
       } else if (align == "bottom") {
         return "align-end";
       }

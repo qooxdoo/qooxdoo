@@ -32,20 +32,23 @@ qx.Class.define("qx.test.mobile.form.Slider",
       this.assertEquals(0,qx.bom.element.Dataset.get(slider._getKnobElement(),"value"));
       this.assertEquals(0,qx.bom.element.Dataset.get(slider._getKnobElement(),"percent"));
 
-      slider.nextValue();
-      this.assertEquals(4,slider.getValue());
-      this.assertEquals(4,qx.bom.element.Dataset.get(slider._getKnobElement(),"value"));
-      this.assertEquals(4,qx.bom.element.Dataset.get(slider._getKnobElement(),"percent"));
+      this.assertEventFired(slider, "changeValue", function() {
+        slider.nextValue();
+      }, function(evt) {
+        this.assertEquals(4, evt.getData());
+      }.bind(this));
 
-      slider.setValue(11);
-      this.assertEquals(11,slider.getValue());
-      this.assertEquals(11,qx.bom.element.Dataset.get(slider._getKnobElement(),"value"));
-      this.assertEquals(11,qx.bom.element.Dataset.get(slider._getKnobElement(),"percent"));
+      this.assertEventFired(slider, "changeValue", function() {
+        slider.setValue(11);
+      }, function(evt) {
+        this.assertEquals(11, evt.getData());
+      }.bind(this));
 
-      slider.previousValue();
-      this.assertEquals(7,slider.getValue());
-      this.assertEquals(7,qx.bom.element.Dataset.get(slider._getKnobElement(),"value"));
-      this.assertEquals(7,qx.bom.element.Dataset.get(slider._getKnobElement(),"percent"));
+      this.assertEventFired(slider, "changeValue", function() {
+        slider.previousValue();
+      }, function(evt) {
+        this.assertEquals(7, evt.getData());
+      }.bind(this));
 
       slider.destroy();
     },

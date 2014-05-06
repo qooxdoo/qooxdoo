@@ -71,7 +71,7 @@ qx.Class.define("showcase.page.theme.Content",
         padding: [65, 0, 0, 10]
       });
 
-      calc.addListener("dblclick", function(e)
+      calc.addListener("dbltap", function(e)
       {
         var el = calc.getContentElement().getDomElement();
         el.style.WebkitTransition = "-webkit-transform 0.3s ease-in";

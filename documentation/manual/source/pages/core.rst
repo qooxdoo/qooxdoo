@@ -24,7 +24,7 @@ Properties
 
 .. toctree::
    :maxdepth: 2
- 
+
    core/understanding_properties
    core/defining_properties
    core/property_behavior
@@ -36,7 +36,7 @@ Environment
 
 .. toctree::
    :maxdepth: 2
- 
+
    core/environment
 
 
@@ -48,3 +48,11 @@ Data Binding
 
    data_binding
 
+Interaction Events
+==================
+
+.. toctree::
+   :maxdepth: 2
+
+   core/pointer
+   core/gestures

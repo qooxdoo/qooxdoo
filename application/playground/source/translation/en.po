@@ -32,7 +32,7 @@ msgid ""
 " the future?"
 msgstr ""
 
-msgid "Click OK to discard your changes."
+msgid "Tap OK to discard your changes."
 msgstr ""
 
 msgid "Custom Code"

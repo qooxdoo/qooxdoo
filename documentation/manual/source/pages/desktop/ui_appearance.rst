@@ -313,7 +313,7 @@ Appearance Queue
 
 First of all we have the appearance queue. Widgets which are visible and inserted into a visible parent are automatically processed by this queue when changes happen or on the initial display of the widget. Otherwise the change is delayed until the widget gets visible (again).
 
-The queue also minimizes the effect of multiple state changes when they happen at once. All changes are combined into one lookup to the theme e.g. changing ``hovered`` and ``focused`` directly after each other would only result into one update instead of two. In a modern GUI typically each click influence a few widgets at once and in these widgets a few states at once so this optimization really pays of.
+The queue also minimizes the effect of multiple state changes when they happen at once. All changes are combined into one lookup to the theme e.g. changing ``hovered`` and ``focused`` directly after each other would only result into one update instead of two. In a modern GUI typically each tap influence a few widgets at once and in these widgets a few states at once so this optimization really pays of.
 
 .. _pages/desktop/ui_appearance#selector_caching:
 

@@ -23,9 +23,9 @@
 # AST checking, for unknown globals etc.
 ##
 
-import os, sys, re, types, itertools
+import re
 from collections import defaultdict
-from ecmascript.frontend import treeutil, lang, Comment
+from ecmascript.frontend import treeutil, lang
 from ecmascript.frontend import tree, treegenerator
 from ecmascript.transform.optimizer import variantoptimizer
 from ecmascript.transform.check  import scopes
@@ -136,7 +136,6 @@ class LintChecker(treeutil.NodeVisitor):
                         ok = self.is_name_lint_filtered(full_name, at_hints, "ignoreDeprecated")
                 if not ok:
                     issue = warn("Deprecated global symbol used: '%s'" % full_name, self.file_name, var_node)
-                    issue.name = full_name  # @deprecated {3.0} to filter against #ignore later
                     self.issues.append(issue)
 
     def filter_configsymbols(self, global_nodes):
@@ -144,7 +143,7 @@ class LintChecker(treeutil.NodeVisitor):
             if key not in self.opts.allowed_globals])
 
     def filter_libsymbols(self, global_nodes):
-        is_libsymbol = curry3(gs.test_for_libsymbol, 
+        is_libsymbol = curry3(gs.test_for_libsymbol,
             self.opts.class_namespaces)(self.known_globals_bases) # known classes (classList + namespaces)
         return dict([(key,nodes) for (key,nodes) in global_nodes.items()
             if not is_libsymbol(key)])
@@ -157,7 +156,7 @@ class LintChecker(treeutil.NodeVisitor):
     def filter_jshints(self, global_nodes):
         new_nodes = {}
         for key, nodes in global_nodes.items():
-            new_nodes[key] = [node for node in nodes 
+            new_nodes[key] = [node for node in nodes
                 if not gs.name_is_jsignored(key,node)]
         return new_nodes
 
@@ -165,13 +164,12 @@ class LintChecker(treeutil.NodeVisitor):
         # helper functions
         not_jsignored = inverse(gs.test_ident_is_jsignored)
         not_builtin = inverse(gs.test_ident_is_builtin())
-        not_libsymbol = inverse(curry3(gs.test_for_libsymbol, 
+        not_libsymbol = inverse(curry3(gs.test_for_libsymbol,
             self.opts.class_namespaces)(self.known_globals_bases))
         not_confsymbol = lambda node: globals_table[node] not in self.opts.allowed_globals
         def warn_appender(global_nodes):
             for node in global_nodes:
                 issue = warn("Unknown global symbol used: '%s'" % globals_table[node], self.file_name, node)
-                issue.name = globals_table[node] # @deprecated {3.0} to filter against #ignore later
                 self.issues.append(issue)
 
         # ------------------------------
@@ -184,6 +182,7 @@ class LintChecker(treeutil.NodeVisitor):
                 globals_table[head_node] = assembled
 
         # filter and add remains to warnings
+
         pipeline(
             globals_table.keys()
             , bind(filter, not_builtin)
@@ -191,7 +190,7 @@ class LintChecker(treeutil.NodeVisitor):
             , bind(filter, not_libsymbol)
             , bind(filter, not_confsymbol)
             , warn_appender
-            )
+        )
 
 
     def locals_shadowing_globals(self, scope):
@@ -503,10 +502,10 @@ class LintChecker(treeutil.NodeVisitor):
         if catch_param:
             higher_scope = catch_param.scope.parent.lookup(catch_param.get("value")) # want to look at scopes *above* the catch scope
             if higher_scope: # "e" has been registered with a higher scope, either as decl'ed or global
-                issue = warn("Shadowing scoped var with catch parameter (bug#1207): %s" % 
+                issue = warn("Shadowing scoped var with catch parameter (bug#1207): %s" %
                     catch_param.get("value"), self.file_name, catch_param)
                 self.issues.append(issue)
-            
+
     ##
     # Check for try-finally without 'catch' block (issue in older IE, s. bug#3688)
     #
@@ -516,7 +515,7 @@ class LintChecker(treeutil.NodeVisitor):
             issue = warn("A finally clause without a catch might not be run (bug#3688)",
                 self.file_name, finally_node)
             self.issues.append(issue)
-            
+
 
 # - ---------------------------------------------------------------------------
 
@@ -540,7 +539,7 @@ def get_at_hints(node):
                         at_hints[cat][functor] = set()
                     # TODO: consumers are not yet prepared to handle HintArgument()s
                     # use the next to raise a helpful exception
-                    # at_hints[cat][functor].update(entry[functor]) 
+                    # at_hints[cat][functor].update(entry[functor])
                     s = set([x.source for x in entry[functor]])
                     at_hints[cat][functor].update(s)
             elif cat=="ignore":
@@ -549,7 +548,7 @@ def get_at_hints(node):
                 # dito, s.above
                 s = set([x.source for x in entry[None]])
                 at_hints[cat].update(s)
-        
+
     return at_hints
 
 

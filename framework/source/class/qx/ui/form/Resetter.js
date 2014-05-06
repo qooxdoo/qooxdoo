@@ -63,6 +63,24 @@ qx.Class.define("qx.ui.form.Resetter",
 
 
     /**
+     * Removes a widget to the reseter
+     *
+     * @param item {qx.ui.core.Widget} The widget which should be removed.
+     * @return {Boolean} <code>true</code>, if the widget has been removed.
+     */
+    remove : function(item) {
+      for (var i = 0; i < this.__items.length; i++) {
+        var storedItem = this.__items[i];
+        if (storedItem.item === item) {
+          this.__items.splice(i, 1);
+          return true;
+        }
+      }
+      return false;
+    },
+
+
+    /**
      * Resets all added form items to their initial value. The initial value
      * is the value in the widget during the {@link #add}.
      */

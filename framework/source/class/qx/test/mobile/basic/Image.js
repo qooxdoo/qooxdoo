@@ -17,10 +17,7 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-************************************************************************ */
 /**
- *
  * @asset(qx/icon/Tango/48/places/folder.png)
  */
 
@@ -40,7 +37,7 @@ qx.Class.define("qx.test.mobile.basic.Image",
       var image = new qx.ui.mobile.basic.Image("qx/icon/Tango/48/places/folder.png");
       image.addListener("loaded", function() {
         this.resume(function() {
-          // use a timeout to dipose the image because it needs to
+          // use a timeout to dispose the image because it needs to
           // end its processing after the event has been fired.
           window.setTimeout(function() {
             image.destroy();
@@ -61,7 +58,7 @@ qx.Class.define("qx.test.mobile.basic.Image",
 
       image.addListener("loadingFailed", function() {
         this.resume(function() {
-          // use a timeout to dipose the image because it needs to
+          // use a timeout to dispose the image because it needs to
           // end its processing after the event has been fired.
           window.setTimeout(function() {
             image.destroy();

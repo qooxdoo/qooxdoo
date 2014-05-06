@@ -37,7 +37,30 @@ qx.Class.define("qx.test.Bootstrap",
       }});
 
       this.assertTrue(clazz.test());
+
+      var clazz = qx.Bootstrap.define(null, {statics : {
+        test2 : function() {
+          return true;
+        }
+      }});
+
+      this.assertTrue(clazz.test2());
     },
+
+
+    testClassnameProperty : function() {
+      qx.Bootstrap.define("qx.test.MyClass", {
+        //extend : Object,
+        members : {}
+      });
+
+      var o = new qx.test.MyClass();
+      this.assertEquals("qx.test.MyClass", o.classname);
+      this.assertEquals("qx.test.MyClass", o.name);
+
+      qx.Class.undefine("qx.test.MyClass");
+    },
+
 
     testAlternativeRoot : function() {
       var qq = {};

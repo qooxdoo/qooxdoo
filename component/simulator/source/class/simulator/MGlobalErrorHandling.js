@@ -20,6 +20,8 @@
 /**
  * Allows GUI tests to access exceptions caught by the tested application's
  * global error handler.
+ *
+ * @deprecated{4.0}
  */
 
 qx.Mixin.define("simulator.MGlobalErrorHandling",

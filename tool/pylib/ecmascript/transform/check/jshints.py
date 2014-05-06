@@ -25,7 +25,7 @@ from generator.code.HintArgument import HintArgument
 from generator import Context as context
 
 ##
-# A visitor on a Scope() tree to collect identifier nodes with global scope.
+# A visitor on a syntax tree to create a tree of Hint() objects from JSDoc comments.
 #
 class CreateHintsVisitor(treeutil.NodeVisitor):
 
@@ -67,7 +67,9 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
             self.visit(cld)
 
     def _key_is_ignored(self, at_key, hint_node):
-        for hint in itertools.chain([hint_node], self.curr_hint.search_upward()):
+        for hint in itertools.chain([hint_node], self.curr_hint.search_upward() 
+                if hasattr(self,'curr_hint') else []  # self.curr_hint might not be initialized yet, see __init__
+            ):
             if hint.ident_matches(at_key, ('lint', 'ignoreJsdocKey')):
                 return True
         return False
@@ -94,6 +96,12 @@ class CreateHintsVisitor(treeutil.NodeVisitor):
                                                                          # hint.hints['ignore'][None]{'foo','bar'}
 
                 # loop again for error logging (here, so you can ignore error entries in the same comment)
+                #
+                # TODO: separation of concerns -  it's a kludge to be outputting warnings here; they should
+                # be returned to the caller of the module, together with the genuine result. the caller
+                # should decide how to handle warnings. if he handles them warnings should be transformed
+                # into a generic format and passed to a dedicated handler, e.g. the Log module. this handler
+                # might in turn consult the hint tree, to check for ignore hints.
                 for commentAttributes in commentsArray:
                     for entry in commentAttributes:
                         if 'error' in entry:

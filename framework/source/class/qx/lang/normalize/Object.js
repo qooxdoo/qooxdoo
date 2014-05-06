@@ -17,21 +17,34 @@
 
 ************************************************************************ */
 /**
- * This class takes care of the normalization of the native 'Object' object.
- * Therefore it checks the availability of the following methods and appends
- * it, if not available. This means you can use the methods during
- * development in every browser. For usage samples, check out the attached links.
+ * This class is responsible for the normalization of the native Object.
+ * It checks if these methods are available and, if not, appends them to
+ * ensure compatibility in all browsers.
+ * For usage samples, check out the attached links.
  *
- * *keys*:
- * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/keys">MDN documentation</a> |
- * <a href="http://es5.github.com/#x15.2.3.14">Annotated ES5 Spec</a>
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.Object", {
-  defer : function() {
 
+  statics : {
+
+    /**
+     * Get the keys of a map as array as returned by a "for ... in" statement.
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/keys">MDN documentation</a> |
+     * <a href="http://es5.github.com/#x15.2.3.14">Annotated ES5 Spec</a>
+     *
+     * @signature function(map)
+     * @param map {Object} the map
+     * @return {Array} array of the keys of the map
+     */
+    keys : qx.Bootstrap.keys
+  },
+
+  defer : function(statics) {
     // keys
     if (!qx.core.Environment.get("ecmascript.object.keys")) {
-      Object.keys = qx.Bootstrap.keys;
+      Object.keys = statics.keys;
     }
   }
 });

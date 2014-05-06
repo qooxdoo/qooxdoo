@@ -1,0 +1,51 @@
+//
+// CHECKBOX
+//
+
+.checkbox {
+  @include border-radius($checkbox-border-radius);
+  @include background($checkbox-background);
+
+  width:$checkbox-size;
+  height:$checkbox-size;
+
+  display:inline-block;
+  cursor:pointer;
+  text-align:center;
+
+  position:relative;
+  border: rem(1) solid $checkbox-border-color;
+  box-sizing:border-box;
+}
+
+.root.android.v2 .checkbox {
+  @include transform(scale(1));
+}
+
+.checkbox:after {
+  @include transform(rotate(-45deg));
+  @include box-shadow(rem(-1) rem(1) rem(1) 0px $checkbox-tick-shadow);
+
+  box-sizing: content-box;
+
+  position: absolute;
+  left:50%;
+  top:50%;
+  margin-left: -1*($checkbox-tick-size/2) - ($checkbox-tick-width/2);
+  margin-top: -1*($checkbox-tick-size/2) - ($checkbox-tick-width/2);
+
+  display:block;
+  opacity: 0;
+  content:"";
+  width: $checkbox-tick-size;
+  height: $checkbox-tick-size/2;
+  background: transparent;
+
+  border: $checkbox-tick-width solid $checkbox-tick-color;
+  border-top: 0;
+  border-right: 0;
+}
+
+.checkbox.checked:after {
+  opacity: 1;
+}

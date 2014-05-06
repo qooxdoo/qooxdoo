@@ -145,8 +145,7 @@ qx.Class.define("qx.ui.basic.Label",
      *   <li>The label will always take the same enabled state as the buddy
      *       widget.
      *   </li>
-     *   <li>A click on the label will focus the buddy widget.
-     *   </li>
+     *   <li>A tap on the label will focus the buddy widget.</li>
      * </ul>
      * This is the behavior of the for attribute of HTML:
      * http://www.w3.org/TR/html401/interact/forms.html#adef-for
@@ -226,7 +225,7 @@ qx.Class.define("qx.ui.basic.Label",
     __font : null,
     __invalidContentSize : null,
     __buddyEnabledBinding : null,
-    __clickListenerId : null,
+    __tapListenerId : null,
     __webfontListenerId : null,
 
 
@@ -436,14 +435,14 @@ qx.Class.define("qx.ui.basic.Label",
       {
         old.removeBinding(this.__buddyEnabledBinding);
         this.__buddyEnabledBinding = null;
-        this.removeListenerById(this.__clickListenerId);
-        this.__clickListenerId = null;
+        this.removeListenerById(this.__tapListenerId);
+        this.__tapListenerId = null;
       }
 
       if (value != null)
       {
         this.__buddyEnabledBinding = value.bind("enabled", this, "enabled");
-        this.__clickListenerId = this.addListener("click", function() {
+        this.__tapListenerId = this.addListener("tap", function() {
           // only focus focusable elements [BUG #3555]
           if (value.isFocusable()) {
             value.focus.apply(value);

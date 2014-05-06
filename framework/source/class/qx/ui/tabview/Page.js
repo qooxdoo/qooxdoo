@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.tabview.Page",
   events :
   {
     /**
-     * Fired by {@link qx.ui.tabview.TabButton} if the close button is clicked.
+     * Fired by {@link qx.ui.tabview.TabButton} if the close button is tapped.
      */
     "close" : "qx.event.type.Event"
   },
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.tabview.Page",
 
     /**
      * Fires an "close" event when the close button of the TabButton of the page
-     * is clicked.
+     * is tapped.
      */
     _onButtonClose : function() {
       this.fireEvent("close");

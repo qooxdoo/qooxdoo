@@ -109,7 +109,7 @@ qx.Class.define("demobrowser.demo.virtual.AbstractGallery",
       mode: "multi",
       drag: true
     });
-    this.manager.attachMouseEvents();
+    this.manager.attachPointerEvents();
     this.manager.attachKeyEvents(scroller);
   },
 

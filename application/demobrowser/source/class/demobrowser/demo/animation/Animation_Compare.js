@@ -19,6 +19,7 @@
 
 /**
  * @tag noPlayground
+ * @require(qx.module.event.GestureHandler)
  */
 qx.Class.define("demobrowser.demo.animation.Animation_Compare",
 {
@@ -35,7 +36,7 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         buttons[i] = button;
       }
 
-      var onClick = (function(animation, name) {
+      var onTap = (function(animation, name) {
         return function(e) {
           if (name.indexOf("Reverse") != -1) {
             qx.bom.element.AnimationCss.animateReverse(buttons[0], animation);
@@ -48,8 +49,8 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         }
       })(desc, name);
 
-      qx.bom.Event.addNativeListener(buttons[0], "click", onClick);
-      qx.bom.Event.addNativeListener(buttons[1], "click", onClick);
+      qxWeb(buttons[0]).on("tap", onTap);
+      qxWeb(buttons[1]).on("tap", onTap);
 
       return buttons;
     },
@@ -190,10 +191,28 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         100 : {"top": "20px"}
       }};
 
-      var prefix = {duration: 1000, keyFrames : {
-        0 : {"transform": "rotate(0deg)"},
-        100 : {"transform": "rotate(359deg)"}
+      var rotate = {duration: 1000, keyFrames : {
+        0 : {"rotate": "0deg"},
+        100 : {"rotate": "360deg"}
       }};
+
+      var scale = {duration: 1000, keyFrames : {
+        0 : {"scale": 1},
+        50 : {"scale": 0},
+        100 : {"scale": 1}
+      }};
+
+      var translate = {duration: 1000, keyFrames : {
+        0 : {"translate": ["0px", "0px"]},
+        50 : {"translate": ["10px", "10px"]},
+        100 : {"translate": ["0px", "0px"]}
+      }};
+
+      var skew = {duration: 1000, keyFrames : {
+        0 : {"skew": "0deg"},
+        100 : {"skew": "360deg"}
+      }};
+
 
       var tests = {
         "Width" : width,
@@ -220,7 +239,10 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         "Ease" : ease,
         "Ease In Out" : easeinout,
         "Missing Values" : missing,
-        "Transform" : prefix
+        "Rotate" : rotate,
+        "Scale" : scale,
+        "Translate" : translate,
+        "Skew" : skew
       };
 
       // CSS ANIMATIONS
@@ -250,7 +272,6 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         100: {left: "10px"}
       }};
 
-
       // STOP
       var buttons = [];
       for (var i=0; i < this.aniClasses.length; i++) {
@@ -260,7 +281,7 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         buttons[i] = button;
       }
 
-      var onClick = (function(animation) {
+      var onTap = (function(animation) {
         return function(e) {
           for (var i=0; i < handle.length; i++) {
             handle[i].stop();
@@ -268,8 +289,8 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         }
       })(infinite);
 
-      qx.bom.Event.addNativeListener(buttons[0], "click", onClick);
-      qx.bom.Event.addNativeListener(buttons[1], "click", onClick);
+      qxWeb(buttons[0]).on("tap", onTap);
+      qxWeb(buttons[1]).on("tap", onTap);
       var handle = [];
       handle.push(qx.bom.element.AnimationCss.animate(buttons[0], infinite));
       handle.push(qx.bom.element.AnimationJs.animate(buttons[1], infinite));
@@ -287,7 +308,7 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         buttons[i] = button;
       }
 
-      var onClick = (function(animation) {
+      var onTap = (function(animation) {
         return function(e) {
           for (var i=0; i < handle.length; i++) {
             if (handle2[i].el) {
@@ -303,8 +324,8 @@ qx.Class.define("demobrowser.demo.animation.Animation_Compare",
         }
       })(infinite);
 
-      qx.bom.Event.addNativeListener(buttons[0], "click", onClick);
-      qx.bom.Event.addNativeListener(buttons[1], "click", onClick);
+      qxWeb(buttons[0]).on("tap", onTap);
+      qxWeb(buttons[1]).on("tap", onTap);
       var handle2 = [];
       handle2.push(qx.bom.element.AnimationCss.animate(buttons[0], infinite));
       handle2.push(qx.bom.element.AnimationJs.animate(buttons[1], infinite));

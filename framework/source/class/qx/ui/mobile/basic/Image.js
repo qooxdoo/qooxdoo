@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2013 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -52,11 +52,18 @@ qx.Class.define("qx.ui.mobile.basic.Image",
   construct : function(source)
   {
     this.base(arguments);
+
+    if (qx.ui.mobile.basic.Image.ROOT === null) {
+      qx.ui.mobile.basic.Image.ROOT = qx.core.Init.getApplication().getRoot();
+    }
+
     if (source) {
       this.setSource(source);
     } else {
       this.initSource();
     }
+
+    qx.ui.mobile.basic.Image.ROOT.addListener("changeAppScale", this._onChangeAppScale, this);
   },
 
 
@@ -87,11 +94,12 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     /** @type {Array} Possible pixel ratios of the current device operating system */
     PIXEL_RATIOS : null,
 
-    /** @type {String} CSS rule for the high resolution overlay */
-    HIGH_RES_CSS_RULE : "",
+    /** @type {qx.ui.mobile.core.Root} the mobile application root */
+    ROOT : null,
 
-    /** @type {CSSStyleSheet} CSS stylesheet containing high resolution overlay elements */
-    STYLESHEET : null
+
+    /** @type {String} a 1px*1px sized transparent image. */
+    PLACEHOLDER_IMAGE : null
   },
 
 
@@ -133,101 +141,121 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
     // property apply
-    _applySource : function(value, old)
-    {
+    _applySource: function(value, old) {
       var source = value;
-      if (source && source.indexOf('data:') != 0) {
-        var resourceManager = qx.util.ResourceManager.getInstance();
+      var resourceManager = qx.util.ResourceManager.getInstance();
+      var uri = resourceManager.toUri(source);
 
-        // If a high resolution display is available, search for a high resolution source.
-        if(qx.core.Environment.get("device.pixelRatio") > 1) {
-          var highResolutionSource = this._findHighResolutionSource(source);
-          if(highResolutionSource != null) {
-            source = highResolutionSource;
-          }
+      if (source && source.indexOf('data:') != 0) {
+        if (resourceManager.has(source) && this._findHighResolutionSource(source)) {
+          return;
         }
-        source = resourceManager.toUri(source);
 
         var ImageLoader = qx.io.ImageLoader;
-        if (!ImageLoader.isFailed(source) && !ImageLoader.isLoaded(source)) {
-          ImageLoader.load(source, this.__loaderCallback, this);
+        if (!ImageLoader.isFailed(uri) && !ImageLoader.isLoaded(uri)) {
+          ImageLoader.load(uri, this.__loaderCallback, this);
         }
       }
-      this._setSource(source);
+
+      this._setSource(uri);
     },
 
 
     /**
-    * Detects whether there is a high resolution image available.
-    * A high resolution image is assumed to have the same file name as
+    * Event handler for "changeAppScale" on application root.
+    * Reloads the image source.
+    */
+    _onChangeAppScale : function() {
+      this._applySource(this.getSource());
+    },
+
+
+    /**
+    * Detects whether there is a high-resolution image available.
+    * A high-resolution image is assumed to have the same file name as
     * the parameter source, but with a pixelRatio identifier before the file
     * extension, like "@2x".
-    * Medium Resolution: "example.png", high resolution: "example@2x.png"
+    * Medium Resolution: "example.png", high-resolution: "example@2x.png"
     * If an image with a higher resolution is available, the method
-    * "_createHighResolutionOverlay" is called.
+    * {@link #_createHighResolutionOverlay} is called.
     *
-    * @param source {String} source of the medium resolution image.
-    * @return {String} the source of the high resolution image.
+    * @param lowResImgSrc {String} source of the low resolution image.
+    * @return {Boolean} If a high-resolution image source was found or not.
     */
-    _findHighResolutionSource : function(source) {
+    _findHighResolutionSource: function(lowResImgSrc) {
       var pixelRatioCandidates = qx.ui.mobile.basic.Image.PIXEL_RATIOS;
-      for (var i = 0; i < pixelRatioCandidates.length; i++) {
-        var targetPixelRatio = pixelRatioCandidates[i];
 
-        var fileExtIndex = source.lastIndexOf('.');
-        if (fileExtIndex > -1) {
-          var pixelRatioIdentifier = "@" + targetPixelRatio + "x";
-          var highResSource = source.slice(0, fileExtIndex) + pixelRatioIdentifier + source.slice(fileExtIndex);
+      // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
+      var factor = qx.ui.mobile.basic.Image.ROOT.getAppScale();
+      if (factor <= 1) {
+        return false;
+      }
 
-          if (qx.util.ResourceManager.getInstance().has(highResSource)) {
-            this._createHighResolutionOverlay(targetPixelRatio, source, highResSource);
-            return highResSource;
-          }
+      var i = pixelRatioCandidates.length;
+      while (i > 0 && factor > pixelRatioCandidates[--i]) {}
+
+      var hiResImgSrc;
+
+      // Search for best img with a higher resolution.
+      for (var k = i; k >= 0; k--) {
+        hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
+        if (hiResImgSrc) {
+          this._createHighResolutionOverlay(hiResImgSrc,lowResImgSrc);
+          return true;
         }
-      };
+      }
+
+      // Search for best img with a lower resolution.
+      for (var k = i + 1; k < pixelRatioCandidates.length; k++) {
+        hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
+        if (hiResImgSrc) {
+          this._createHighResolutionOverlay(hiResImgSrc,lowResImgSrc);
+          return true;
+        }
+      }
+
+      return false;
+    },
+
+    /**
+    * Returns the source name for the high-resolution image based on the passed
+    * parameters.
+    * @param source {String} the source of the medium resolution image.
+    * @param pixelRatio {Number} the pixel ratio of the high-resolution image.
+    * @return {String} the high-resolution source name or null if no source could be found.
+    */
+    _getHighResolutionSource : function(source, pixelRatio) {
+      var fileExtIndex = source.lastIndexOf('.');
+      if (fileExtIndex > -1) {
+        var pixelRatioIdentifier = "@" + pixelRatio + "x";
+        var candidate = source.slice(0, fileExtIndex) + pixelRatioIdentifier + source.slice(fileExtIndex);
+
+        if(qx.util.ResourceManager.getInstance().has(candidate)) {
+          return candidate;
+        }
+      }
       return null;
     },
 
 
     /**
-    * Creates an overlay for this image, which show the image defined by the parameter 'highResSource',
-    * but has the same size and position as the image defined by parameter "source".
+    * Creates an overlay for this image which shows the image defined by the parameter 'highResSource',
+    * but has the same size and position as the source image.
     * The original image widget is hidden by this method.
     *
-    * @param pixelRatio {String} pixel ratio of the high resolution image.
-    * @param source {String} Image source of the medium resolution image.
-    * @param highResSource {String} Image source of the high resolution image.
+    * @param highResSource {String} Image source of the high-resolution image.
+    * @param lowResSource {String} Image source of the low-resolution image.
     */
-    _createHighResolutionOverlay : function(pixelRatio, source, highResSource) {
+    _createHighResolutionOverlay : function(highResSource, lowResSource) {
+      // Replace the source through transparent pixel for making the high-resolution background image visible.
+      this._setSource(qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE);
       var resourceManager = qx.util.ResourceManager.getInstance();
-
-      var scale = (1 / pixelRatio);
-      scale = (Math.round(scale * 100) / 100);
-
-      // Activate sub-pixel rendering on iOS
-      if (qx.core.Environment.get("os.name") == "ios") {
-        scale = scale + 0.01;
-      }
-
-      var srcWidth = resourceManager.getImageWidth(source);
-      var srcHeight = resourceManager.getImageHeight(source);
-      var highResSrcWidth = resourceManager.getImageWidth(highResSource);
-      var highResSrcHeight = resourceManager.getImageHeight(highResSource);
-
-      var offsetX = (highResSrcWidth - srcWidth) / 2;
-      var offsetY = (highResSrcHeight - srcHeight) / 2;
-
-      // Fix image size to lower resolution image size.
-      this._setAttribute("width", srcWidth);
-      this._setAttribute("height", srcHeight);
-
-      var selector = "#" + this.getId() + ":before";
-      var values = [highResSrcWidth, highResSrcHeight, resourceManager.toUri(highResSource), -offsetY, -offsetX, scale];
-      var entry = qx.lang.String.format(qx.ui.mobile.basic.Image.HIGH_RES_CSS_RULE, values);
-
-      qx.bom.Stylesheet.addRule(qx.ui.mobile.basic.Image.STYLESHEET, selector, entry);
-
-      this.addCssClass("no-content");
+      this._setStyle("backgroundImage","url("+resourceManager.toUri(highResSource)+")");
+      this._setStyle("backgroundSize","100%");
+      this._setStyle("backgroundRepeat","no-repeat");
+      this._setStyle("backgroundPosition","50% 50%");
+      this._setStyle("width", resourceManager.getImageWidth(lowResSource) / 16 + "rem");
+      this._setStyle("height", resourceManager.getImageHeight(lowResSource) / 16 + "rem");
     },
 
 
@@ -289,19 +317,12 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
 
   defer : function(statics) {
-    statics.STYLESHEET = qx.bom.Stylesheet.createElement();
+    statics.PIXEL_RATIOS = ["3", "2", "1.5"];
+    statics.PLACEHOLDER_IMAGE = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+  },
 
-    if(qx.core.Environment.get("device.pixelRatio") > 1) {
-      if (qx.core.Environment.get("os.name") == "ios") {
-        statics.PIXEL_RATIOS = ["2"];
-      } else {
-        statics.PIXEL_RATIOS = [qx.core.Environment.get("device.pixelRatio"),"3","2","1.5"];
-      }
-    }
 
-    var transform = qx.core.Environment.get("css.transform");
-    if (transform) {
-      statics.HIGH_RES_CSS_RULE = "width:%1px; height:%2px; background-image: url('%3'); top:%4px; left:%5px; " + qx.bom.Style.getCssName(transform.name) + ":scale(%6);";
-    }
+  destruct : function() {
+    qx.ui.mobile.basic.Image.ROOT.removeListener("changeAppScale", this._onChangeAppScale, this);
   }
 });

@@ -36,10 +36,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
   {
     // Register listeners to the content
     var content = this.getContentElement();
-    content.addListener("mousedown", this.__onResizeMouseDown, this, true);
-    content.addListener("mouseup", this.__onResizeMouseUp, this);
-    content.addListener("mousemove", this.__onResizeMouseMove, this);
-    content.addListener("mouseout", this.__onResizeMouseOut, this);
+    content.addListener("pointerdown", this.__onResizePointerDown, this, true);
+    content.addListener("pointerup", this.__onResizePointerUp, this);
+    content.addListener("pointermove", this.__onResizePointerMove, this);
+    content.addListener("pointerout", this.__onResizePointerOut, this);
     content.addListener("losecapture", this.__onResizeLoseCapture, this);
 
     // Get a reference of the drag and drop handler
@@ -200,7 +200,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
      * Computes the new boundaries at each interval
      * of the resize sequence.
      *
-     * @param e {qx.event.type.Mouse} Last mouse event
+     * @param e {qx.event.type.Pointer} Last pointer event
      * @return {Map} A map with the computed boundaries
      */
     __computeResizeResult : function(e)
@@ -305,25 +305,25 @@ qx.Mixin.define("qx.ui.core.MResizable",
     /**
      * Updates the internally stored resize mode
      *
-     * @param e {qx.event.type.Mouse} Last mouse event
+     * @param e {qx.event.type.Pointer} Last pointer event
      */
     __computeResizeMode : function(e)
     {
       var location = this.getContentLocation();
-      var mouseTolerance = this.getResizeSensitivity();
+      var pointerTolerance = this.getResizeSensitivity();
 
-      var mouseLeft = e.getDocumentLeft();
-      var mouseTop = e.getDocumentTop();
+      var pointerLeft = e.getDocumentLeft();
+      var pointerTop = e.getDocumentTop();
 
       var resizeActive = this.__computeResizeActive(
-        location, mouseLeft, mouseTop, mouseTolerance
+        location, pointerLeft, pointerTop, pointerTolerance
       );
 
       // check again in case we have a corner [BUG #1200]
       if (resizeActive > 0) {
         // this is really a | (or)!
         resizeActive = resizeActive | this.__computeResizeActive(
-          location, mouseLeft, mouseTop, mouseTolerance * 2
+          location, pointerLeft, pointerTop, pointerTolerance * 2
         );
       }
 
@@ -336,29 +336,29 @@ qx.Mixin.define("qx.ui.core.MResizable",
      * given parameters.
      *
      * @param location {Map} The current location of the widget.
-     * @param mouseLeft {Integer} The left position of the mouse.
-     * @param mouseTop {Integer} The top position of the mouse.
-     * @param mouseTolerance {Integer} The desired distance to the edge.
+     * @param pointerLeft {Integer} The left position of the pointer.
+     * @param pointerTop {Integer} The top position of the pointer.
+     * @param pointerTolerance {Integer} The desired distance to the edge.
      * @return {Integer} The resize active number.
      */
-    __computeResizeActive : function(location, mouseLeft, mouseTop, mouseTolerance) {
+    __computeResizeActive : function(location, pointerLeft, pointerTop, pointerTolerance) {
       var resizeActive = 0;
 
       // TOP
       if (
         this.getResizableTop() &&
-        Math.abs(location.top - mouseTop) < mouseTolerance &&
-        mouseLeft > location.left - mouseTolerance &&
-        mouseLeft < location.right + mouseTolerance
+        Math.abs(location.top - pointerTop) < pointerTolerance &&
+        pointerLeft > location.left - pointerTolerance &&
+        pointerLeft < location.right + pointerTolerance
       ) {
         resizeActive += this.RESIZE_TOP;
 
       // BOTTOM
       } else if (
         this.getResizableBottom() &&
-        Math.abs(location.bottom - mouseTop) < mouseTolerance &&
-        mouseLeft > location.left - mouseTolerance &&
-        mouseLeft < location.right + mouseTolerance
+        Math.abs(location.bottom - pointerTop) < pointerTolerance &&
+        pointerLeft > location.left - pointerTolerance &&
+        pointerLeft < location.right + pointerTolerance
       ) {
         resizeActive += this.RESIZE_BOTTOM;
       }
@@ -366,18 +366,18 @@ qx.Mixin.define("qx.ui.core.MResizable",
       // LEFT
       if (
         this.getResizableLeft() &&
-        Math.abs(location.left - mouseLeft) < mouseTolerance &&
-        mouseTop > location.top - mouseTolerance &&
-        mouseTop < location.bottom + mouseTolerance
+        Math.abs(location.left - pointerLeft) < pointerTolerance &&
+        pointerTop > location.top - pointerTolerance &&
+        pointerTop < location.bottom + pointerTolerance
       ) {
         resizeActive += this.RESIZE_LEFT;
 
       // RIGHT
       } else if (
         this.getResizableRight() &&
-        Math.abs(location.right - mouseLeft) < mouseTolerance &&
-        mouseTop > location.top - mouseTolerance &&
-        mouseTop < location.bottom + mouseTolerance
+        Math.abs(location.right - pointerLeft) < pointerTolerance &&
+        pointerTop > location.top - pointerTolerance &&
+        pointerTop < location.bottom + pointerTolerance
       ) {
         resizeActive += this.RESIZE_RIGHT;
       }
@@ -392,21 +392,21 @@ qx.Mixin.define("qx.ui.core.MResizable",
     */
 
     /**
-     * Event handler for the mouse down event
+     * Event handler for the pointer down event
      *
-     * @param e {qx.event.type.Mouse} The mouse event instance
+     * @param e {qx.event.type.Pointer} The pointer event instance
      */
-    __onResizeMouseDown : function(e)
+    __onResizePointerDown : function(e)
     {
       // Check for active resize
-      if (!this.__resizeActive || !this.getEnabled()) {
+      if (!this.__resizeActive || !this.getEnabled() || e.getPointerType() == "touch") {
         return;
       }
 
       // Add resize state
       this.addState("resize");
 
-      // Store mouse coordinates
+      // Store pointer coordinates
       this.__resizeLeft = e.getDocumentLeft();
       this.__resizeTop = e.getDocumentTop();
 
@@ -448,14 +448,14 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
 
     /**
-     * Event handler for the mouse up event
+     * Event handler for the pointer up event
      *
-     * @param e {qx.event.type.Mouse} The mouse event instance
+     * @param e {qx.event.type.Pointer} The pointer event instance
      */
-    __onResizeMouseUp : function(e)
+    __onResizePointerUp : function(e)
     {
       // Check for active resize
-      if (!this.hasState("resize") || !this.getEnabled()) {
+      if (!this.hasState("resize") || !this.getEnabled() || e.getPointerType() == "touch") {
         return;
       }
 
@@ -524,13 +524,13 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
 
     /**
-     * Event handler for the mouse move event
+     * Event handler for the pointer move event
      *
-     * @param e {qx.event.type.Mouse} The mouse event instance
+     * @param e {qx.event.type.Pointer} The pointer event instance
      */
-    __onResizeMouseMove : function(e)
+    __onResizePointerMove : function(e)
     {
-      if (!this.getEnabled()) {
+      if (!this.getEnabled() || e.getPointerType() == "touch") {
         return;
       }
 
@@ -587,13 +587,16 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
 
     /**
-     * Event handler for the mouse out event
+     * Event handler for the pointer out event
      *
-     * @param e {qx.event.type.Mouse} The mouse event instance
+     * @param e {qx.event.type.Pointer} The pointer event instance
      */
-    __onResizeMouseOut : function(e)
+    __onResizePointerOut : function(e)
     {
-      // When the mouse left the window and resizing is not yet
+      if (e.getPointerType() == "touch") {
+        return;
+      }
+      // When the pointer left the window and resizing is not yet
       // active we must be sure to (especially) reset the global
       // cursor.
       if (this.getCursor() && !this.hasState("resize"))

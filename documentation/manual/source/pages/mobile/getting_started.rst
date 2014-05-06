@@ -25,7 +25,7 @@ After a few seconds the generator has analyzed all class dependencies
 and created a source version of the application. You can test the
 application by opening the ``source/index.html`` file in your Chrome /
 Safari browser. You should see a page "Page 1" with a button "Next
-Page". When you click on the button, the next page "Page 2", with a
+Page". When you tap on the button, the next page "Page 2", with a
 "Back" button in the upper left corner, is displayed.
 
 **Congratulations, you have just created your first qooxdoo mobile application!**

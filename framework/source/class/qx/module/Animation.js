@@ -10,7 +10,7 @@
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
      EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
+     See the LICENSE file in the project"s top-level directory for details.
 
    Authors:
      * Martin Wittemann (wittemann)
@@ -24,6 +24,7 @@
  *
  * @require(qx.module.Css)
  * @require(qx.module.Event)
+ * @require(qx.module.Environment)
  */
 qx.Bootstrap.define("qx.module.Animation", {
   events : {
@@ -102,8 +103,8 @@ qx.Bootstrap.define("qx.module.Animation", {
      *   is a map itself which holds css properties or transforms
      *   (Transforms only for CSS Animations).
      *
-     * *origin* maps to the transform origin: {@link https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin}
-     *   (Only for CSS animations).
+     * *origin* maps to the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform-origin">transform origin</a>
+     * (Only for CSS animations).
      *
      * *repeat* is the amount of time the animation should be run in
      *   sequence. You can also use "infinite".
@@ -119,7 +120,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * *delay* is the time in milliseconds the animation should wait before start.
      *
      * @attach {qxWeb}
-     * @param desc {Map} The animation's description.
+     * @param desc {Map} The animation"s description.
      * @param duration {Number?} The duration in milliseconds of the animation,
      *   which will override the duration given in the description.
      * @return {qxWeb} The collection for chaining.
@@ -134,7 +135,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * Starts an animation in reversed order. For further details, take a look at
      * the {@link #animate} method.
      * @attach {qxWeb}
-     * @param desc {Map} The animation's description.
+     * @param desc {Map} The animation"s description.
      * @param duration {Number?} The duration in milliseconds of the animation,
      *   which will override the duration given in the description.
      * @return {qxWeb} The collection for chaining.
@@ -147,7 +148,7 @@ qx.Bootstrap.define("qx.module.Animation", {
 
     /**
      * Animation execute either regular or reversed direction.
-     * @param desc {Map} The animation's description.
+     * @param desc {Map} The animation"s description.
      * @param duration {Number?} The duration in milliseconds of the animation,
      *   which will override the duration given in the description.
      * @param reverse {Boolean} <code>true</code>, if the animation should be reversed
@@ -283,7 +284,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      * @return {qxWeb} The collection for chaining.
      */
     fadeIn : function(duration) {
-      // remove 'display: none' style
+      // remove "display: none" style
       this.setStyle("display", "");
       return this.animate(qx.module.Animation._fadeIn, duration);
     },
@@ -314,5 +315,16 @@ qx.Bootstrap.define("qx.module.Animation", {
       "isPlaying" : statics.isPlaying,
       "getAnimationHandles" : statics.getAnimationHandles
     });
+
+    /**
+     * End value for opacity style. This value is modified for all browsers which are
+     * 'optimizing' this style value by not setting it (like IE9). This leads to a wrong
+     * end state for the 'fadeIn' animation if a opacity value is set by CSS.
+     */
+    if (qxWeb.env.get("browser.name") === "ie" && qxWeb.env.get("browser.version") <= 9) {
+      // has to be fixed using direct access since we cannot store the value as static member.
+      // The 'fadeIn' description is evualated during class definition
+      statics._fadeIn.keyFrames[100].opacity = 0.99;
+    }
   }
 });

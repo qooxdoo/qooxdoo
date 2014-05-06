@@ -73,7 +73,7 @@ qx.Class.define("qx.theme.manager.Decoration",
 
     /**
      * Returns the name which will be / is used as css class name.
-     * @param value {Decorator} The decorator string or instance.
+     * @param value {String|qx.ui.decoration.IDecorator} The decorator string or instance.
      * @return {String} The css class name.
      */
     getCssClassName : function(value) {
@@ -88,7 +88,7 @@ qx.Class.define("qx.theme.manager.Decoration",
     /**
      * Adds a css class to the global stylesheet for the given decorator.
      * This includes resolving the decorator if it's a string.
-     * @param value {Decorator} The decorator string or instance.
+     * @param value {String|qx.ui.decoration.IDecorator} The decorator string or instance.
      * @return {String} the css class name.
      */
     addCssClass : function(value) {
@@ -196,7 +196,7 @@ qx.Class.define("qx.theme.manager.Decoration",
         // styles key
         if (currentEntry.style) {
           for (var key in currentEntry.style) {
-            if (entry.style[key] == undefined) {
+            if (entry.style[key] === undefined) {
               entry.style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
             }
           }
@@ -253,7 +253,7 @@ qx.Class.define("qx.theme.manager.Decoration",
     /**
      * Whether the given decorator is cached
      *
-     * @param decorator {qx.ui.decoration.IDecorator} The decorator to check
+     * @param decorator {String|qx.ui.decoration.IDecorator} The decorator to check
      * @return {Boolean} <code>true</code> if the decorator is cached
      * @internal
      */

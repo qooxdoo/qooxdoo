@@ -19,7 +19,7 @@
 
 /**
  * A form virtual widget which allows a single selection. Looks somewhat like
- * a normal button, but opens a virtual list of items to select when clicking
+ * a normal button, but opens a virtual list of items to select when tapping
  * on it.
  *
  * @childControl spacer {qx.ui.core.Spacer} Flexible spacer widget.
@@ -41,8 +41,8 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     this._createChildControl("arrow");
 
     // Register listener
-    this.addListener("mouseover", this._onMouseOver, this);
-    this.addListener("mouseout", this._onMouseOut, this);
+    this.addListener("pointerover", this._onPointerOver, this);
+    this.addListener("pointerout", this._onPointerOut, this);
 
     this.__bindings = [];
     this.initSelection(this.getChildControl("dropdown").getSelection());
@@ -224,12 +224,12 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
 
     // overridden
-    _handleMouse : function(event)
+    _handlePointer : function(event)
     {
       this.base(arguments, event);
 
       var type = event.getType();
-      if (type === "click") {
+      if (type === "tap") {
         this.toggle();
       }
     },
@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
 
     /**
-     * Listener method for "mouseover" event.
+     * Listener method for "pointerover" event.
      *
      * <ul>
      * <li>Adds state "hovered"</li>
@@ -262,9 +262,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
      *   is set)</li>
      * </ul>
      *
-     * @param event {Event} Mouse event
+     * @param event {qx.event.type.Pointer} Pointer event
      */
-    _onMouseOver : function(event)
+    _onPointerOver : function(event)
     {
       if (!this.isEnabled() || event.getTarget() !== this) {
         return;
@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
 
     /**
-     * Listener method for "mouseout" event.
+     * Listener method for "pointerout" event.
      *
      * <ul>
      * <li>Removes "hovered" state</li>
@@ -289,9 +289,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
      *   is set)</li>
      * </ul>
      *
-     * @param event {Event} Mouse event
+     * @param event {qx.event.type.Pointer} Pointer event
      */
-    _onMouseOut : function(event)
+    _onPointerOut : function(event)
     {
       if (!this.isEnabled() || event.getTarget() !== this) {
         return;

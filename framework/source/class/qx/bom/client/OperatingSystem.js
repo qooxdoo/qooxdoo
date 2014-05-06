@@ -209,11 +209,15 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
           return androidMatch[1];
         }
       } else if (iOs) {
-        var iOsVersionRegExp = new RegExp(/(CPU|iPhone|iPod) OS (\d+)_(\d+)\s+/);
+        var iOsVersionRegExp = new RegExp(/(CPU|iPhone|iPod) OS (\d+)_(\d+)(?:_(\d+))*\s+/);
         var iOsMatch = iOsVersionRegExp.exec(userAgent);
 
         if (iOsMatch && iOsMatch[2] && iOsMatch[3]) {
-          return iOsMatch[2]+"."+ iOsMatch[3];
+          if(iOsMatch[4]) {
+            return iOsMatch[2]+"."+ iOsMatch[3]+"."+ iOsMatch[4];
+          } else {
+            return iOsMatch[2]+"."+ iOsMatch[3];
+          }
         }
       }
 

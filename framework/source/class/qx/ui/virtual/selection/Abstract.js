@@ -94,29 +94,29 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
     */
 
     /**
-     * Attach mouse events to the managed pane.
+     * Attach pointer events to the managed pane.
      */
-    attachMouseEvents : function()
+    attachPointerEvents : function()
     {
       var paneElement = this._pane.getContentElement();
-      paneElement.addListener("mousedown", this.handleMouseDown, this);
-      paneElement.addListener("mouseup", this.handleMouseUp, this);
-      paneElement.addListener("mouseover", this.handleMouseOver, this);
-      paneElement.addListener("mousemove", this.handleMouseMove, this);
+      paneElement.addListener("pointerdown", this.handlePointerDown, this);
+      paneElement.addListener("tap", this.handleTap, this);
+      paneElement.addListener("pointerover", this.handlePointerOver, this);
+      paneElement.addListener("pointermove", this.handlePointerMove, this);
       paneElement.addListener("losecapture", this.handleLoseCapture, this);
     },
 
 
     /**
-     * Detach mouse events from the managed pane.
+     * Detach pointer events from the managed pane.
      */
-    detatchMouseEvents : function()
+    detatchPointerEvents : function()
     {
       var paneElement = this._pane.getContentElement();
-      paneElement.removeListener("mousedown", this.handleMouseDown, this);
-      paneElement.removeListener("mouseup", this.handleMouseUp, this);
-      paneElement.removeListener("mouseover", this.handleMouseOver, this);
-      paneElement.removeListener("mousemove", this.handleMouseMove, this);
+      paneElement.removeListener("pointerdown", this.handlePointerDown, this);
+      paneElement.removeListener("tap", this.handleTap, this);
+      paneElement.removeListener("pointerover", this.handlePointerOver, this);
+      paneElement.removeListener("pointermove", this.handlePointerMove, this);
       paneElement.removeListener("losecapture", this.handleLoseCapture, this);
     },
 

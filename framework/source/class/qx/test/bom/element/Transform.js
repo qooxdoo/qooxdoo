@@ -83,11 +83,16 @@ qx.Class.define("qx.test.bom.element.Transform",
       this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateY(2)") != -1);
 
       // 3d case
-      qx.bom.element.Transform.translate(this.__el, ["1", "2", "3"]);
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateX(1)") != -1);
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateY(2)") != -1);
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateZ(3)") != -1);
+      var transform = qx.core.Environment.get("css.transform");
+      if (transform && transform["3d"]) {
+        qx.bom.element.Transform.translate(this.__el, ["1", "2", "3"]);
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateX(1)") != -1, "X");
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateY(2)") != -1, "Y");
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateZ(3)") != -1, "Z");
+      }
     },
+
+
 
     /**
      * CSS HELPER

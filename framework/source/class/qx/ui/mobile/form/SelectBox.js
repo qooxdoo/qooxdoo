@@ -83,9 +83,12 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     this.setReadOnly(true);
 
     this.addListener("focus", this.blur);
+    this.addListener("tap", this._onTap, this);
 
     // Selection dialog creation.
     this.__selectionDialog = this._createSelectionDialog();
+
+    this.addCssClass("gap");
 
     // When selectionDialogs changes selection, get chosen selectedIndex from it.
     this.__selectionDialog.addListener("changeSelection", this._onChangeSelection, this);
@@ -181,22 +184,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     },
 
 
-    // overridden
-    _createContainerElement : function()
-    {
-      var containerElement = this.base(arguments);
-
-      var showSelectionDialog = qx.lang.Function.bind(this.__showSelectionDialog, this);
-      qx.bom.Event.addNativeListener(containerElement, "click", showSelectionDialog, false);
-      qx.bom.Event.addNativeListener(containerElement, "touchend", showSelectionDialog, false);
-
-      qx.bom.Event.addNativeListener(containerElement, "click", qx.bom.Event.preventDefault, false);
-      qx.bom.Event.addNativeListener(containerElement, "touchstart", qx.bom.Event.preventDefault, false);
-
-      return containerElement;
-    },
-
-
     /**
      * Creates the menu dialog. Override this to customize the widget.
      *
@@ -210,7 +197,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
       menu.setUnselectedItemClass("selectbox-unselected");
 
       // Hide selectionDialog on tap on blocker.
-      menu.setHideOnBlockerClick(true);
+      menu.setHideOnBlockerTap(true);
 
       return menu;
     },
@@ -248,11 +235,17 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
      * @param value {String} the text value which should be selected.
      */
     _setValue : function(value) {
-      if(!this.isNullable() && value == null || this.getModel() == null) {
+      if(this.getModel() == null) {
         return;
       }
 
-      if(value != null) {
+      if (value == "") {
+        if (this.isNullable()) {
+          this.setSelection(null);
+        } else {
+          this.setSelection(0);
+        }
+      } else if (value != null) {
         this.setSelection(this.getModel().indexOf(value));
       } else {
         this.setSelection(null);
@@ -323,10 +316,30 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
 
     /**
+    * Handler for <code>tap</code> event on this widget.
+    * @param evt {qx.event.type.Tap} the handling tap event. 
+    */
+    _onTap : function(evt) {
+      this.__showSelectionDialog();
+
+      // request focus so that it leaves previous widget
+      // such as text field and hide virtual keyboard.
+      evt.getOriginalTarget().focus();
+    },
+
+
+    /**
      * Validates the selection value.
      * @param value {Integer} the selection value to validate.
      */
     _validateSelection : function(value) {
+      if(value != null && qx.lang.Type.isNumber(value) == false)
+      {
+        throw new qx.core.ValidationError(
+          "Validation Error: Input value is not a number"
+        );
+      }
+
       if(this.getModel() === null) {
         throw new qx.core.ValidationError(
           "Validation Error: Please apply model before selection"
@@ -363,11 +376,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     }
   },
 
-  /*
-  *****************************************************************************
-      DESTRUCTOR
-  *****************************************************************************
-  */
+
   destruct : function()
   {
     this.__selectionDialog.removeListener("changeSelection", this._onChangeSelection, this);
@@ -375,5 +384,6 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
     this._disposeObjects("__selectionDialog","__selectionDialogTitle");
 
     this.removeListener("focus", this.blur);
+    this.removeListener("tap", this._onTap, this);
   }
 });

@@ -33,8 +33,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * This class provides a handler for the orientation event.
  */
 qx.Class.define("qx.event.handler.Orientation",

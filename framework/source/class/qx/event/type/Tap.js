@@ -19,20 +19,10 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
- * Tap event object.
+ * Tap is a single pointer gesture fired when one pointer goes down and up on
+ * the same location.
  */
 qx.Class.define("qx.event.type.Tap",
 {
-    extend : qx.event.type.Touch,
-
-
-    members :
-    {
-      // overridden
-      _isTouchEnd : function() {
-        return true;
-      }
-    }
+    extend : qx.event.type.Pointer
 });

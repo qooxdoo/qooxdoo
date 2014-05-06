@@ -44,28 +44,28 @@ qx.Class.define("qx.test.bom.History", {
     testInstance : function()
     {
       var runsInIframe = !(window == window.top);
-      
+
       if (!this.$$instance)
       {
         // in iframe + IE9
-        if (runsInIframe 
+        if (runsInIframe
           && qx.core.Environment.get("browser.documentmode") == 9
         ) {
           this.assertInstance(this.__history, qx.bom.HashHistory);
-        } 
+        }
 
         // in iframe + IE<9
-        else if (runsInIframe 
-          && qx.core.Environment.get("engine.name") == "mshtml" 
+        else if (runsInIframe
+          && qx.core.Environment.get("engine.name") == "mshtml"
           && qx.core.Environment.get("browser.documentmode") < 9
         ) {
           this.assertInstance(this.__history, qx.bom.IframeHistory);
-        } 
+        }
 
         // browser with hashChange event
         else if (qx.core.Environment.get("event.hashchange")) {
           this.assertInstance(this.__history, qx.bom.NativeHistory);
-        } 
+        }
 
         // IE without hashChange event
         else if ((qx.core.Environment.get("engine.name") == "mshtml")) {

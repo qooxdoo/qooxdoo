@@ -97,13 +97,13 @@ class MClassHints(object):
             deps = []
             #asset_reg = re.compile("^[\$\.\*a-zA-Z0-9/{}_-]+$")
             asset_reg = re.compile(r"^[\$\.\*\w/{}-]+$", re.U)  # have to include "-", which is permissible in paths, e.g. "folder-open.png"
-            
+
             for item in self.HEAD["asset"].findall(data):
                 if not asset_reg.match(item):
                     raise ValueError, "Illegal asset declaration: %s" % item
                 if not item in deps:
                     deps.append(item)
-            
+
             return deps
 
         def _extractCLDRDeps(data):
@@ -150,13 +150,6 @@ class MClassHints(object):
             _unknown_  = _extractUnknownDeps(content)
             for item in _unknown_:
                 console.warn(u"Unknown compiler hint '#%s' in %s" % (item, self.id))
-
-            ##
-            # @deprecated {3.0} use @-hints in place of #-hints
-            if any([meta[x] for x in "loadtimeDeps runtimeDeps optionalDeps ignoreDeps assetDeps cldr".split()]
-                + _unknown_):
-                console.warn((u"%s: '#' compiler hints are deprecated." + 
-                    " Use the corresponding '@' JSDoc hints instead (see manual).") % self.id)
 
             console.outdent()
 

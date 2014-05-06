@@ -82,7 +82,7 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
 
   members :
   {
-    handleWidgetClick : function(e)
+    handleWidgetTap : function(e)
     {
       var widget = e.getTarget();
       this.setWidget(widget);

@@ -19,6 +19,7 @@
 
 /**
  * @tag noPlayground
+ * @require(qx.module.event.GestureHandler)
  */
 qx.Class.define("demobrowser.demo.bom.Storage",
 {
@@ -41,19 +42,19 @@ qx.Class.define("demobrowser.demo.bom.Storage",
       var removeButton = document.getElementById("remove");
 
       var self = this;
-      qx.bom.Event.addNativeListener(saveButton, "click", function() {
+      q(saveButton).on("tap", function() {
         var key = qx.bom.Input.getValue(document.getElementById("key"));
         var value = qx.bom.Input.getValue(document.getElementById("value"));
         self.__storage.setItem(key, value);
         self.updateList();
       });
 
-      qx.bom.Event.addNativeListener(clearButton, "click", function() {
+      q(clearButton).on("tap", function() {
         self.__storage.clear();
         self.updateList();
       });
 
-      qx.bom.Event.addNativeListener(removeButton, "click", function() {
+      q(removeButton).on("tap", function() {
         self.__storage.removeItem(self.__storage.getKey(0));
         self.updateList();
       });

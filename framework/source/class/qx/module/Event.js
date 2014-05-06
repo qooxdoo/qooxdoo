@@ -22,6 +22,9 @@
  * Support for native and custom events.
  *
  * @require(qx.module.Polyfill)
+ * @require(qx.module.Environment)
+ * @use(qx.module.event.PointerHandler)
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Event", {
   statics :
@@ -51,9 +54,11 @@ qx.Bootstrap.define("qx.module.Event", {
      * @param listener {Function} Listener callback
      * @param context {Object?} Context the callback function will be executed in.
      * Default: The element on which the listener was registered
+     * @param useCapture {Boolean?} Attach the listener to the capturing
+     * phase if true
      * @return {qxWeb} The collection for chaining
      */
-    on : function(type, listener, context) {
+    on : function(type, listener, context, useCapture) {
       for (var i=0; i < this.length; i++) {
         var el = this[i];
         var ctx = context || qxWeb(el);
@@ -90,14 +95,14 @@ qx.Bootstrap.define("qx.module.Event", {
 
         // add native listener
         if (qx.bom.Event.supportsEvent(el, type)) {
-          qx.bom.Event.addNativeListener(el, type, bound);
+          qx.bom.Event.addNativeListener(el, type, bound, useCapture);
         }
         // create an emitter if necessary
-        if (!el.__emitter) {
-          el.__emitter = new qx.event.Emitter();
+        if (!el.$$emitter) {
+          el.$$emitter = new qx.event.Emitter();
         }
 
-        var id = el.__emitter.on(type, bound, ctx);
+        var id = el.$$emitter.on(type, bound, ctx);
         if (!el.__listener) {
           el.__listener = {};
         }
@@ -127,9 +132,11 @@ qx.Bootstrap.define("qx.module.Event", {
      * @param type {String} Type of the event
      * @param listener {Function} Listener callback
      * @param context {Object?} Listener callback context
+     * @param useCapture {Boolean?} Attach the listener to the capturing
+     * phase if true
      * @return {qxWeb} The collection for chaining
      */
-    off : function(type, listener, context) {
+    off : function(type, listener, context, useCapture) {
       var removeAll = (listener === null && context === null);
 
       for (var j=0; j < this.length; j++) {
@@ -161,12 +168,12 @@ qx.Bootstrap.define("qx.module.Event", {
                 storedContext = el.__ctx[id];
               }
               // remove the listener from the emitter
-              el.__emitter.off(types[i], storedListener, storedContext || context);
+              el.$$emitter.off(types[i], storedListener, storedContext || context);
 
               // check if it's a bound listener which means it was a native event
               if (removeAll || storedListener.original == listener) {
                 // remove the native listener
-                qx.bom.Event.removeNativeListener(el, types[i], storedListener);
+                qx.bom.Event.removeNativeListener(el, types[i], storedListener, useCapture);
               }
 
               delete el.__listener[types[i]][id];
@@ -219,8 +226,8 @@ qx.Bootstrap.define("qx.module.Event", {
     emit : function(type, data) {
       for (var j=0; j < this.length; j++) {
         var el = this[j];
-        if (el.__emitter) {
-          el.__emitter.emit(type, data);
+        if (el.$$emitter) {
+          el.$$emitter.emit(type, data);
         }
       }
       return this;
@@ -254,16 +261,42 @@ qx.Bootstrap.define("qx.module.Event", {
      *
      * @attach {qxWeb}
      * @param type {String} Event type, e.g. <code>mousedown</code>
+     * @param listener {Function?} Event listener to check for.
+     * @param context {Object?} Context object listener to check for.
      * @return {Boolean} <code>true</code> if one or more listeners are attached
      */
-    hasListener : function(type) {
-      if (!this[0] || !this[0].__emitter ||
-        !this[0].__emitter.getListeners()[type])
+    hasListener : function(type, listener, context) {
+      if (!this[0] || !this[0].$$emitter ||
+        !this[0].$$emitter.getListeners()[type])
       {
         return false;
       }
 
-      return this[0].__emitter.getListeners()[type].length > 0;
+      if (listener) {
+        var attachedListeners = this[0].$$emitter.getListeners()[type];
+        for (var i = 0; i < attachedListeners.length; i++) {
+          var hasListener = false;
+          if (attachedListeners[i].listener == listener) {
+            hasListener = true;
+          }
+          if (attachedListeners[i].listener.original &&
+              attachedListeners[i].listener.original == listener) {
+            hasListener =  true;
+          }
+
+          if (hasListener) {
+            if (context !== undefined) {
+              if (attachedListeners[i].ctx === context) {
+                return true;
+              }
+            } else {
+              return true;
+            }
+          }
+        }
+        return false;
+      }
+      return this[0].$$emitter.getListeners()[type].length > 0;
     },
 
 
@@ -297,15 +330,15 @@ qx.Bootstrap.define("qx.module.Event", {
       }
       // make sure no emitter object has been copied
       targetCopy.forEach(function(el) {
-        el.__emitter = null;
+        el.$$emitter = null;
       });
 
       for (var i=0; i < source.length; i++) {
         var el = source[i];
-        if (!el.__emitter) {
+        if (!el.$$emitter) {
           continue;
         }
-        var storage = el.__emitter.getListeners();
+        var storage = el.$$emitter.getListeners();
         for (var name in storage) {
           for (var j = storage[name].length - 1; j >= 0; j--) {
             var listener = storage[name][j].listener;
@@ -380,26 +413,24 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
-     * Bind one or two callbacks to the collection. 
+     * Bind one or two callbacks to the collection.
      * If only the first callback is defined the collection
-     * does react on 'mouseover' only.
+     * does react on 'pointerover' only.
      *
      * @attach {qxWeb}
      *
-     * @param callbackIn {Function} callback when hovering over 
-     * @param callbackOut {Function?} callback when hovering out 
+     * @param callbackIn {Function} callback when hovering over
+     * @param callbackOut {Function?} callback when hovering out
      * @return {qxWeb} The collection for chaining
      */
     hover : function(callbackIn, callbackOut) {
-      var collection;
-      for (var j=0; j < this.length; j++) {
-        collection = qxWeb(this[j]);
-        collection.on("mouseover", callbackIn, collection);
 
-        if (qx.lang.Type.isFunction(callbackOut)) {
-          collection.on("mouseout", callbackOut, collection);
-        }
+      this.on("pointerover", callbackIn, this);
+
+      if (qx.lang.Type.isFunction(callbackOut)) {
+        this.on("pointerout", callbackOut, this);
       }
+
       return this;
     },
 

@@ -27,4 +27,5 @@ import sys, os
 scriptDir = os.path.dirname(os.path.abspath(__file__))
 scriptDir += "/tool/bin"
 sys.path.insert(0, scriptDir)
-execfile(scriptDir+"/create-application.py")
+filename = scriptDir+"/create-application.py"
+exec(compile(open(filename).read(), filename, "exec"))

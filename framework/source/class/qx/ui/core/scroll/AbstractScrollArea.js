@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
   extend : qx.ui.core.Widget,
   include : [
     qx.ui.core.scroll.MScrollBarFactory,
-    qx.ui.core.scroll.MWheelHandling,
+    qx.ui.core.scroll.MRoll,
     qx.ui.core.MDragDropScrolling
   ],
   type : "abstract",
@@ -76,23 +76,8 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       this._setLayout(grid);
     }
 
-    // Mousewheel listener to scroll vertically
-    this.addListener("mousewheel", this._onMouseWheel, this);
-
-    // @deprecated {3.0} Touch scrolling is done by mouse events now.
-    // Block can be removed.
-    if (qx.core.Environment.get("event.touch")) {
-      // touch move listener for touch scrolling
-      this.addListener("touchmove", this._onTouchMove, this);
-
-      // reset the delta on every touch session
-      this.addListener("touchstart", function() {
-        this.__old = {"x": 0, "y": 0};
-      }, this);
-
-      this.__old = {};
-      this.__impulseTimerId = {};
-    }
+    // Roll listener for scrolling
+    this._addRollHandling();
   },
 
 
@@ -193,11 +178,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
 
   members :
   {
-    // @deprecated {3.0} Both keys
-    __old : null,
-    __impulseTimerId : null,
-
-
     /*
     ---------------------------------------------------------------------------
       CHILD CONTROL SUPPORT
@@ -526,91 +506,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       if (scrollbar) {
         scrollbar.updatePosition(e.getData());
       }
-    },
-
-
-    /**
-     * Event handler for the touch move.
-     * @deprecated {3.0} Touch scrolling is done by mouse events now.
-     * @param e {qx.event.type.Touch} The touch event
-     */
-    _onTouchMove : function(e) {},
-
-
-    /**
-     * Touch move handler for one direction.
-     *
-     * @deprecated {3.0} Touch scrolling is done by mouse events now.
-     *
-     * @param dir {String} Either 'x' or 'y'
-     * @param e {qx.event.type.Touch} The touch event
-     */
-    _onTouchMoveDirectional : function(dir, e)
-    {
-      var docDir = (dir == "x" ? "Left" : "Top");
-
-      // current scrollbar
-      var scrollbar = this.getChildControl("scrollbar-" + dir, true);
-      var show = this._isChildControlVisible("scrollbar-" + dir);
-
-      if (show && scrollbar) {
-        // get the delta for the current direction
-        if(this.__old[dir] == 0) {
-          var delta = 0;
-        } else {
-          var delta = -(e["getDocument" + docDir]() - this.__old[dir]);
-        };
-        // save the old value for the current direction
-        this.__old[dir] = e["getDocument" + docDir]();
-
-        scrollbar.scrollBy(delta);
-
-        // if we have an old timeout for the current direction, clear it
-        if (this.__impulseTimerId[dir]) {
-          clearTimeout(this.__impulseTimerId[dir]);
-          this.__impulseTimerId[dir] = null;
-        }
-
-        // set up a new timer for the current direction
-        this.__impulseTimerId[dir] =
-          setTimeout(qx.lang.Function.bind(function(delta) {
-            this.__handleScrollImpulse(delta, dir);
-          }, this, delta), 100);
-      }
-    },
-
-
-    /**
-     * Helper for momentum scrolling.
-     * @param delta {Number} The delta from the last scrolling.
-     * @param dir {String} Direction of the scrollbar ('x' or 'y').
-     */
-    __handleScrollImpulse : function(delta, dir) {
-      // delete the old timer id
-      this.__impulseTimerId[dir] = null;
-
-      // do nothing if the scrollbar is not visible or we don't need to scroll
-      var show = this._isChildControlVisible("scrollbar-" + dir);
-      if (delta == 0 || !show) {
-        return;
-      }
-
-      // linear momentum calculation
-      if (delta > 0) {
-        delta = Math.max(0, delta - 3);
-      } else {
-        delta = Math.min(0, delta + 3);
-      }
-
-      // set up a new timer with the new delta
-      this.__impulseTimerId[dir] =
-        setTimeout(qx.lang.Function.bind(function(delta, dir) {
-          this.__handleScrollImpulse(delta, dir);
-        }, this, delta, dir), 20);
-
-      // scroll the desired new delta
-      var scrollbar = this.getChildControl("scrollbar-" + dir, true);
-      scrollbar.scrollBy(delta);
     },
 
 

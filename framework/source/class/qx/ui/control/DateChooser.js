@@ -21,7 +21,7 @@
 /**
  * A *date chooser* is a small calendar including a navigation bar to switch the shown
  * month. It includes a column for the calendar week and shows one month. Selecting
- * a date is as easy as clicking on it.
+ * a date is as easy as tapping on it.
  *
  * To be conform with all form widgets, the {@link qx.ui.form.IForm} interface
  * is implemented.
@@ -39,7 +39,7 @@
  * </pre>
  *
  * Additionally to a selection event an execute event is available which is
- * fired by doubleclick or taping the space / enter key. With this event you
+ * fired by doubletap or tapping the space / enter key. With this event you
  * can for example save the selection and close the date chooser.
  *
  * @childControl navigation-bar {qx.ui.container.Composite} container for the navigation bar controls
@@ -112,9 +112,9 @@ qx.Class.define("qx.ui.control.DateChooser",
       qx.locale.Manager.getInstance().addListener("changeLocale", this._updateDatePane, this);
     }
 
-    // register mouse up and down handler
-    this.addListener("mousedown", this._onMouseUpDown, this);
-    this.addListener("mouseup", this._onMouseUpDown, this);
+    // register pointer up and down handler
+    this.addListener("pointerdown", this._onPointerUpDown, this);
+    this.addListener("pointerup", this._onPointerUpDown, this);
   },
 
 
@@ -264,7 +264,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control.addState("lastYear");
           control.setFocusable(false);
           control.setToolTip(this.getChildControl("last-year-button-tooltip"));
-          control.addListener("click", this._onNavButtonClicked, this);
+          control.addListener("tap", this._onNavButtonTap, this);
           break;
 
         case "last-month-button-tooltip":
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control.addState("lastMonth");
           control.setFocusable(false);
           control.setToolTip(this.getChildControl("last-month-button-tooltip"));
-          control.addListener("click", this._onNavButtonClicked, this);
+          control.addListener("tap", this._onNavButtonTap, this);
           break;
 
         case "next-month-button-tooltip":
@@ -288,7 +288,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control.addState("nextMonth");
           control.setFocusable(false);
           control.setToolTip(this.getChildControl("next-month-button-tooltip"));
-          control.addListener("click", this._onNavButtonClicked, this);
+          control.addListener("tap", this._onNavButtonTap, this);
           break;
 
         case "next-year-button-tooltip":
@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control.addState("nextYear");
           control.setFocusable(false);
           control.setToolTip(this.getChildControl("next-year-button-tooltip"));
-          control.addListener("click", this._onNavButtonClicked, this);
+          control.addListener("tap", this._onNavButtonTap, this);
           break;
 
         case "month-year-label":
@@ -332,8 +332,8 @@ qx.Class.define("qx.ui.control.DateChooser",
           control.setAllowGrowX(true);
           control.setAllowGrowY(true);
           control.setCursor("default");
-          control.addListener("mousedown", this._onDayClicked, this);
-          control.addListener("dblclick", this._onDayDblClicked, this);
+          control.addListener("pointerdown", this._onDayTap, this);
+          control.addListener("dbltap", this._onDayDblTap, this);
           break;
 
         case "date-pane":
@@ -436,12 +436,12 @@ qx.Class.define("qx.ui.control.DateChooser",
     */
 
     /**
-     * Handler which stops the propagation of the click event if
-     * the navigation bar or calendar headers will be clicked.
+     * Handler which stops the propagation of the tap event if
+     * the navigation bar or calendar headers will be tapped.
      *
-     * @param e {qx.event.type.Mouse} The mouse up / down event
+     * @param e {qx.event.type.Pointer} The pointer up / down event
      */
-    _onMouseUpDown : function(e) {
+    _onPointerUpDown : function(e) {
       var target = e.getTarget();
 
       if (target == this.getChildControl("navigation-bar") ||
@@ -453,11 +453,11 @@ qx.Class.define("qx.ui.control.DateChooser",
 
 
     /**
-     * Event handler. Called when a navigation button has been clicked.
+     * Event handler. Called when a navigation button has been tapped.
      *
      * @param evt {qx.event.type.Data} The data event.
      */
-    _onNavButtonClicked : function(evt)
+    _onNavButtonTap : function(evt)
     {
       var year = this.getShownYear();
       var month = this.getShownMonth();
@@ -500,11 +500,11 @@ qx.Class.define("qx.ui.control.DateChooser",
 
 
     /**
-     * Event handler. Called when a day has been clicked.
+     * Event handler. Called when a day has been tapped.
      *
      * @param evt {qx.event.type.Data} The event.
      */
-    _onDayClicked : function(evt)
+    _onDayTap : function(evt)
     {
       var time = evt.getCurrentTarget().dateTime;
       this.setValue(new Date(time));
@@ -512,9 +512,9 @@ qx.Class.define("qx.ui.control.DateChooser",
 
 
     /**
-     * Event handler. Called when a day has been double-clicked.
+     * Event handler. Called when a day has been double-tapped.
      */
-    _onDayDblClicked : function() {
+    _onDayDblTap : function() {
       this.execute();
     },
 

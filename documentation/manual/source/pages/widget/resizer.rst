@@ -27,7 +27,7 @@ Features
 Description
 -----------
 
-The Resizer is a generic container just like a :doc:`composite`, which can be resized by using the mouse. Either all edges or only the right and bottom edge can be configured to be resizable. 
+The Resizer is a generic container just like a :doc:`composite`, which can be resized by using the pointer. Either all edges or only the right and bottom edge can be configured to be resizable.
 
 .. _pages/widget/resizer#demos:
 

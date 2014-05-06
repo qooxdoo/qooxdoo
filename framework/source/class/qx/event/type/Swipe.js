@@ -19,12 +19,12 @@
 
 
 /**
- *
- * Swipe event object.
+ * Swipe is a single pointer gesture fired when a pointer is moved in one direction.
+ * It contains some additional data like the primary axis, the velocity and the distance.
  */
 qx.Class.define("qx.event.type.Swipe",
 {
-    extend : qx.event.type.Touch,
+    extend : qx.event.type.Pointer,
 
 
     /*
@@ -43,12 +43,6 @@ qx.Class.define("qx.event.type.Swipe",
         clone.swipe = nativeEvent.swipe;
 
         return clone;
-      },
-
-
-      // overridden
-      _isTouchEnd : function() {
-        return true;
       },
 
 

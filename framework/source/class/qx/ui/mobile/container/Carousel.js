@@ -66,32 +66,38 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.setTransitionDuration(transitionDuration);
     }
 
-    this.__touchStartPosition = [0, 0];
     this.__snapPointsX = [];
     this.__onMoveOffset = [0, 0];
     this.__lastOffset = [0, 0];
     this.__boundsX = [0, 0];
     this.__pages = [];
     this.__paginationLabels = [];
-    this.__timers = [];
 
-    var carouselScroller = this.__carouselScroller = new qx.ui.mobile.container.Composite();
+    var carouselScroller = this.__carouselScroller = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
+    carouselScroller.setTransformUnit("px");
     carouselScroller.addCssClass("carousel-scroller");
 
-    carouselScroller.addListener("touchstart", this._onTouchStart, this);
-    carouselScroller.addListener("touchmove", this._onTouchMove, this);
+    carouselScroller.addListener("pointerdown", this._onPointerDown, this);
+    carouselScroller.addListener("pointerup", this._onPointerUp, this);
+    carouselScroller.addListener("track", this._onTrack, this);
     carouselScroller.addListener("swipe", this._onSwipe, this);
-    carouselScroller.addListener("touchend", this._onTouchEnd, this);
 
-    this.addListener("domupdated", this._onDomUpdated, this);
+    carouselScroller.addListener("touchstart", qx.bom.Event.preventDefault, this);
+    carouselScroller.addListener("touchstart", qx.bom.Event.stopPropagation, this);
+
     this.addListener("appear", this._onContainerUpdate, this);
 
+    qx.event.Registration.addListener(this.__carouselScroller.getContainerElement(),"transitionEnd",this._onScrollerTransitionEnd, this);
     qx.event.Registration.addListener(window, "orientationchange", this._onContainerUpdate, this);
     qx.event.Registration.addListener(window, "resize", this._onContainerUpdate, this);
     qx.event.Registration.addListener(this.getContentElement(), "scroll", this._onNativeScroll, this);
 
     var pagination = this.__pagination = new qx.ui.mobile.container.Composite();
+    pagination.setLayout(new qx.ui.mobile.layout.HBox());
+    pagination.setTransformUnit("px");
     pagination.addCssClass("carousel-pagination");
+
+    this.setLayout(new qx.ui.mobile.layout.VBox());
 
     this._add(carouselScroller, {
       flex: 1
@@ -132,11 +138,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * Defines the height of the carousel.
+     * Defines the height of the carousel. If value is equal to <code>null</code> 
+     * the height is set to <code>100%</code>.
      */
     height : {
       check : "Number",
       init : 200,
+      nullable : true,
       apply : "_updateCarouselLayout"
     },
 
@@ -174,16 +182,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     __carouselWidth : null,
     __paginationLabels : null,
     __pagination : null,
-    __touchStartPosition : null,
     __snapPointsX : null,
     __onMoveOffset : null,
     __lastOffset : null,
     __boundsX : null,
     __pages : null,
-    __pageWidth : 0,
     __showTransition : null,
     __isPageScrollTarget : null,
-    __timers : null,
     __deltaX : null,
     __deltaY : null,
 
@@ -203,12 +208,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       page.addCssClass("carousel-page");
 
       this.__pages.push(page);
-      this.__carouselScroller.add(page);
+      this.__carouselScroller.add(page,{flex:1});
 
       var paginationLabel = this._createPaginationLabel();
       this.__paginationLabels.push(paginationLabel);
       this.__pagination.add(paginationLabel);
 
+      this._setTransitionDuration(0);
       this._updateCarouselLayout();
     },
 
@@ -220,7 +226,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     removePageByIndex : function(pageIndex) {
       if (this.__pages && this.__pages.length > pageIndex) {
-        if (pageIndex == this.getCurrentIndex() && this.getCurrentIndex() != 0) {
+        if (pageIndex == this.getCurrentIndex() && this.getCurrentIndex() !== 0) {
           this.setCurrentIndex(this.getCurrentIndex() - 1);
         }
 
@@ -260,7 +266,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     nextPage : function() {
       if (this.getCurrentIndex() == this.__pages.length - 1) {
         if (this.isScrollLoop()) {
-          this._doScrollLoop(0);
+          this._doScrollLoop();
         }
       } else {
         this.setCurrentIndex(this.getCurrentIndex() + 1);
@@ -272,31 +278,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Scrolls the carousel to previous page.
      */
     previousPage : function() {
-      if (this.getCurrentIndex() == 0) {
+      if (this.getCurrentIndex() === 0) {
         if (this.isScrollLoop()) {
-          this._doScrollLoop(this.__pages.length - 1);
+          this._doScrollLoop();
         }
       } else {
         this.setCurrentIndex(this.getCurrentIndex() - 1);
       }
-    },
-
-
-    /**
-    * @deprecated {3.0} Please use property "currentIndex" instead.
-    * @param pageIndex {Integer} the target page index, which should be visible
-    */
-    scrollToPage : function(pageIndex) {
-      this._scrollToPage(pageIndex);
-    },
-
-
-    /**
-    * @deprecated {3.0} Please use method "getCurrentIndex()" instead.
-    * @return {Integer} the current shown page index.
-    */
-    getShownPageIndex : function() {
-      return this.getCurrentIndex();
     },
 
 
@@ -307,11 +295,11 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     _scrollToPage : function(pageIndex, showTransition) {
       if (pageIndex >= this.__pages.length || pageIndex < 0) {
-        return
+        return;
       }
 
-      var snapPoint = -pageIndex * this.__pageWidth;
-      this._updateScrollerPosition(snapPoint, 0);
+      var snapPoint = -pageIndex * this.__carouselWidth;
+      this._updateScrollerPosition(snapPoint);
 
       // Update lastOffset, because snapPoint has changed.
       this.__lastOffset[0] = snapPoint;
@@ -322,24 +310,37 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Manages the the scroll loop. First fades out carousel scroller >>
      * waits till fading is done >> scrolls to pageIndex >> waits till scrolling is done
      * >> fades scroller in.
-     * @param pageIndex {Integer} The page index to which the scroller should move to.
      */
-    _doScrollLoop : function(pageIndex) {
+    _doScrollLoop : function() {
       this._setTransitionDuration(this.getTransitionDuration());
-
       setTimeout(function() {
         this._setScrollersOpacity(0);
       }.bind(this), 0);
+    },
 
-      var delayForLayoutUpdate = Math.floor(this.getTransitionDuration() * 1000);
 
-      this.__timers.push(qx.event.Timer.once(function() {
+    /**
+    * Event handler for <code>transitionEnd</code> event on carouselScroller.
+    */
+    _onScrollerTransitionEnd : function() {
+      var opacity = qx.bom.element.Style.get(this.__carouselScroller.getContainerElement(), "opacity");
+      if (opacity === 0) {
+        var pageIndex = null;
+        if (this.getCurrentIndex() == this.__pages.length - 1) {
+          pageIndex = 0;
+        }
+
+        if (this.getCurrentIndex() === 0) {
+          pageIndex = this.__pages.length - 1;
+        }
+        this._setTransitionDuration(0);
         this.setCurrentIndex(pageIndex);
-      }, this, delayForLayoutUpdate));
 
-      this.__timers.push(qx.event.Timer.once(function() {
-        this._setScrollersOpacity(1);
-      }, this, delayForLayoutUpdate * 2));
+        setTimeout(function() {
+          this._setTransitionDuration(this.getTransitionDuration());
+          this._setScrollersOpacity(1);
+        }.bind(this), 0);
+      }
     },
 
 
@@ -405,20 +406,21 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Updates the layout of the carousel the carousel scroller and its pages.
      */
     _updateCarouselLayout : function() {
-      var carouselContainerElement = this.getContainerElement();
-      if (!carouselContainerElement) {
+      if (!this.getContainerElement()) {
         return;
       }
-      this.__carouselWidth = qx.bom.element.Dimension.getWidth(this.getContentElement());
+      this.__carouselWidth = qx.bom.element.Dimension.getWidth(this.getContainerElement());
+
+      if (this.getHeight() !== null) {
+        this._setStyle("height", this.getHeight() / 16 + "rem");
+      } else {
+        this._setStyle("height", "100%");
+      }
 
       qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "width", this.__pages.length * this.__carouselWidth + "px");
 
-      this.__pageWidth = this.__carouselWidth;
-
       for (var i = 0; i < this.__pages.length; i++) {
-        var pageContentElement = this.__pages[i].getContentElement();
-        qx.bom.element.Style.set(pageContentElement, "width", this.__carouselWidth + "px");
-        qx.bom.element.Style.set(pageContentElement, "height", this.getHeight() + "px");
+        qx.bom.element.Style.set(this.__pages[i].getContentElement(), "width", this.__carouselWidth + "px");
       }
 
       this._updatePagination(this.getCurrentIndex(), this.getCurrentIndex());
@@ -427,34 +429,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
      * Synchronizes the positions of the scroller to the current shown page index.
-     * @param evt {qx.event.type.Event} description
      */
-    _refreshScrollerPosition : function(evt) {
-      setTimeout(function() {
-        this._setTransitionDuration(this.getTransitionDuration());
-        this.scrollToPage(this.getCurrentIndex());
-      }.bind(this), 0);
-    },
-
-
-    /**
-    * Handler for <code>domupdated</code> event on carousel.
-    */
-    _onDomUpdated : function() {
-      this.__carouselWidth = qx.bom.element.Dimension.getWidth(this.getContentElement());
+    _refreshScrollerPosition : function() {
       this.__carouselScrollerWidth = qx.bom.element.Dimension.getWidth(this.__carouselScroller.getContentElement());
-      this._refreshScrollerPosition();
-    },
-
-
-    /**
-    * Handler for <code>touchend</code> event on carousel scroller.
-    * @param evt {qx.event.type.Touch} the touchend event.
-    */
-    _onTouchEnd : function(evt) {
-      if(evt.getAllTouches().length == 0) {
-        this._refreshScrollerPosition();
-      }
+      this._scrollToPage(this.getCurrentIndex());
     },
 
 
@@ -464,87 +442,103 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     _onContainerUpdate : function() {
       this._setTransitionDuration(0);
       this._updateCarouselLayout();
-    },
-
-
-    /**
-     * Event handler for touchstart events.
-     * @param evt {qx.event.type.Touch} The touch event.
-     */
-    _onTouchStart : function(evt) {
-      this.__touchStartPosition[0] = evt.getAllTouches()[0].pageX;
-      this.__touchStartPosition[1] = evt.getAllTouches()[0].pageY;
-
-      this.__lastOffset[0] = this._getScrollerOffset();
-      this.__isPageScrollTarget = null;
-
-      this.__boundsX[0] = -this.__carouselScrollerWidth + this.__carouselWidth;
+      this._refreshScrollerPosition();
     },
 
 
     /**
      * Returns the current horizontal position of the carousel scrolling container.
-     * @return {Number} the horizontonal position
+     * @return {Number} the horizontal position
      */
     _getScrollerOffset : function() {
       var transformMatrix = qx.bom.element.Style.get(this.__carouselScroller.getContentElement(), "transform");
       var transformValueArray = transformMatrix.substr(7, transformMatrix.length - 8).split(', ');
-      return parseInt(transformValueArray[4], 10);
+
+      var i = 4;
+      // Check if MSCSSMatrix is used.
+      if('MSCSSMatrix' in window) {
+        i = transformValueArray.length - 4;
+      }
+
+      return Math.floor(parseInt(transformValueArray[i], 10));
     },
 
 
     /**
-     * Event handler for touchmove events.
-     * @param evt {qx.event.type.Touch} The touch event.
+     * Event handler for <code>pointerdown</code> events.
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchMove : function(evt) {
+    _onPointerDown : function(evt) {
+      if(!evt.isPrimary()) {
+        return;
+      }
+
+      this.__lastOffset[0] = this._getScrollerOffset();
+      this.__isPageScrollTarget = null;
+
+      this.__boundsX[0] = -this.__carouselScrollerWidth + this.__carouselWidth;
+
+      this._updateScrollerPosition(this.__lastOffset[0]);
+    },
+
+
+    /**
+     * Event handler for <code>track</code> events.
+     * @param evt {qx.event.type.Track} The track event.
+     */
+    _onTrack : function(evt) {
+      if(!evt.isPrimary()) {
+        return;
+      }
+
       this._setTransitionDuration(0);
 
-      this.__deltaX = evt.getAllTouches()[0].pageX - this.__touchStartPosition[0];
-      this.__deltaY = evt.getAllTouches()[0].pageY - this.__touchStartPosition[1];
+      this.__deltaX = evt.getDelta().x;
+      this.__deltaY = evt.getDelta().y;
 
-      if (this.__isPageScrollTarget == null) {
-        var cosDelta = this.__deltaX / this.__deltaY;
-        this.__isPageScrollTarget = Math.abs(cosDelta) < 1;
+      if (this.__isPageScrollTarget === null) {
+        this.__isPageScrollTarget = (evt.getDelta().axis == "y");
       }
 
       if (!this.__isPageScrollTarget) {
-        this.__onMoveOffset[0] = this.__deltaX + this.__lastOffset[0];
-        if (!(this.__onMoveOffset[0] < this.__boundsX[1])) {
+        this.__onMoveOffset[0] = Math.floor(this.__deltaX + this.__lastOffset[0]);
+
+        if (this.__onMoveOffset[0] >= this.__boundsX[1]) {
           this.__onMoveOffset[0] = this.__boundsX[1];
         }
 
-        if (!(this.__onMoveOffset[0] > this.__boundsX[0])) {
+        if (this.__onMoveOffset[0] <= this.__boundsX[0]) {
           this.__onMoveOffset[0] = this.__boundsX[0];
         }
-        this._updateScrollerPosition(this.__onMoveOffset[0], this.__onMoveOffset[1]);
-
-        evt.preventDefault();
-        evt.stopPropagation();
+        this._updateScrollerPosition(this.__onMoveOffset[0]);
       }
     },
 
 
     /**
-    * Calculates the duration the transition will need till the next carousel
-    * snap point is reached.
-    * @param deltaX {Integer} the distance on axis between touchstart and touchend.
-    * @param duration {Number} the swipe duration.
-    * @return {Number} the transition duration.
+    * Handler for <code>pointerup</code> event on carousel scroller.
+    * @param evt {qx.event.type.Pointer} the pointerup event.
     */
-    _calculateTransitionDuration : function(deltaX, duration) {
-      var distanceX = this.__pageWidth - Math.abs(deltaX);
-      var transitionDuration = (distanceX / Math.abs(deltaX)) * duration;
-      return (transitionDuration / 1000);
+    _onPointerUp : function(evt) {
+      if(!evt.isPrimary()) {
+        return;
+      }
+
+      this._setTransitionDuration(this.getTransitionDuration());
+      this._refreshScrollerPosition();
     },
 
 
     /**
-     * Handler for swipe on carousel scroller.
+     * Handler for swipe event on carousel scroller.
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
     _onSwipe : function(evt) {
-      if (evt.getDuration() < 750 && Math.abs(evt.getDistance()) > 30) {
+      if(!evt.isPrimary()) {
+        return;
+      }
+
+      if (evt.getDuration() < 750 && Math.abs(evt.getDistance()) > 50) {
         var duration = this._calculateTransitionDuration(this.__deltaX, evt.getDuration());
         this._setTransitionDuration(duration);
         if (evt.getDirection() == "left") {
@@ -555,6 +549,20 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       } else {
         this._snapCarouselPage();
       }
+    },
+
+
+    /**
+    * Calculates the duration the transition will need till the next carousel
+    * snap point is reached.
+    * @param deltaX {Integer} the distance on axis between pointerdown and pointerup.
+    * @param duration {Number} the swipe duration.
+    * @return {Number} the transition duration.
+    */
+    _calculateTransitionDuration : function(deltaX, duration) {
+      var distanceX = this.__carouselWidth - Math.abs(deltaX);
+      var transitionDuration = (distanceX / Math.abs(deltaX)) * duration;
+      return (transitionDuration / 1000);
     },
 
 
@@ -572,7 +580,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * @deprecated {3.1} Please use _setTransitionDuration instead.
+     * @deprecated {3.5} Please use _setTransitionDuration instead.
      *
      * Determines whether a transition should be shown on carouselScroller move or not.
      * Target value will be buffered, and only be set on target element when target value is different
@@ -580,7 +588,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * @param showTransition {Boolean} Target value which triggers transition.
      */
     _setShowTransition : function(showTransition) {
-      if (showTransition == true) {
+      if (showTransition === true) {
         this._setTransitionDuration(this.getTransitionDuration());
       } else {
         this._setTransitionDuration(0);
@@ -598,7 +606,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * @deprecated {3.1} This method is not used anymore.
+     * @deprecated {3.5} This method is not used anymore.
      *
      * If velocity of swipe is above this value, the swipe will trigger a page change on carousel.
      * A swipe to left would trigger an increase, a swipe to right a decrease of pageIndex.
@@ -625,7 +633,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       // Determine nearest snapPoint.
       for (var i = 0; i < this.__pages.length; i++) {
-        var snapPoint = -i * this.__pageWidth;
+        var snapPoint = -i * this.__carouselWidth;
         var distance = this.__onMoveOffset[0] - snapPoint;
         if (Math.abs(distance) < leastDistance) {
           leastDistance = Math.abs(distance);
@@ -648,12 +656,35 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       var oldActiveLabel = this.__paginationLabels[oldActiveIndex];
       var newActiveLabel = this.__paginationLabels[newActiveIndex];
 
-      if(oldActiveLabel && oldActiveLabel.getContainerElement()) {
+      if (oldActiveLabel && oldActiveLabel.getContainerElement()) {
         oldActiveLabel.removeCssClass("active");
       }
 
-      if(newActiveLabel && newActiveLabel.getContainerElement()) {
+      if (newActiveLabel && newActiveLabel.getContainerElement()) {
         newActiveLabel.addCssClass("active");
+      }
+
+      if (this.__paginationLabels.length) {
+        var paginationStyle = getComputedStyle(this.__pagination.getContentElement());
+        var paginationWidth = parseFloat(paginationStyle.width,10);
+
+        if(isNaN(paginationWidth)) {
+          return;
+        }
+
+        var paginationLabelWidth = paginationWidth/this.__paginationLabels.length;
+
+        var left = null;
+        var translate = (this.__carouselWidth / 2) - newActiveIndex * paginationLabelWidth - paginationLabelWidth / 2;
+
+        if (paginationWidth < this.__carouselWidth) {
+          left = this.__carouselWidth / 2 - paginationWidth / 2 + "px";
+          translate = 0;
+        }
+
+        qx.bom.element.Style.set(this.__pagination.getContentElement(), "left", left);
+
+        this.__pagination.setTranslateX(translate);
       }
     },
 
@@ -661,15 +692,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     /**
      * Assign new position of carousel scrolling container.
      * @param x {Integer} scroller's x position.
-     * @param y {Integer} scroller's y position.
      */
-    _updateScrollerPosition : function(x,y) {
-      if(isNaN(x) || isNaN(y) || this.__carouselScroller.getContentElement() == null) {
+    _updateScrollerPosition : function(x) {
+      if(isNaN(x) || this.__carouselScroller.getContentElement() === null) {
         return;
       }
-
       this.__carouselScroller.setTranslateX(x);
-      this.__carouselScroller.setTranslateY(y);
     },
 
 
@@ -677,13 +705,14 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Remove all listeners.
      */
     _removeListeners : function() {
-      this.__carouselScroller.removeListener("touchstart", this._onTouchStart, this);
-      this.__carouselScroller.removeListener("touchmove", this._onTouchMove, this);
+      this.__carouselScroller.removeListener("pointerdown", this._onPointerDown, this);
+      this.__carouselScroller.removeListener("track", this._onTrack, this);
+      this.__carouselScroller.removeListener("pointerup", this._onPointerUp, this);
       this.__carouselScroller.removeListener("swipe", this._onSwipe, this);
-      this.__carouselScroller.removeListener("touchend", this._onTouchEnd, this);
+      this.__carouselScroller.removeListener("touchstart", qx.bom.Event.preventDefault, this);
+      this.__carouselScroller.removeListener("touchstart", qx.bom.Event.stopPropagation, this);
 
       this.removeListener("appear", this._onContainerUpdate, this);
-      this.removeListener("domupdated", this._onDomUpdated, this);
 
       qx.event.Registration.removeListener(window, "orientationchange", this._onContainerUpdate, this);
       qx.event.Registration.removeListener(window, "resize", this._onContainerUpdate, this);
@@ -696,11 +725,10 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
   {
     this.removeAll();
     this._removeListeners();
-    qx.util.DisposeUtil.disposeArray(this,"__timers");
 
     this._disposeObjects("__carouselScroller"," __pagination");
     qx.util.DisposeUtil.disposeArray(this,"__paginationLabels");
 
-    this.__pages = this.__paginationLabels = this.__touchStartPosition = this.__snapPointsX = this.__onMoveOffset = this.__lastOffset = this.__boundsX = this.__isPageScrollTarget = null;
+    this.__pages = this.__paginationLabels = this.__snapPointsX = this.__onMoveOffset = this.__lastOffset = this.__boundsX = this.__isPageScrollTarget = null;
   }
 });

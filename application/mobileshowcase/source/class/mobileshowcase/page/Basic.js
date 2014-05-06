@@ -28,19 +28,21 @@
  */
 qx.Class.define("mobileshowcase.page.Basic",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments,false);
     this.setTitle("Basic Widgets");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
+    this._widgets = [];
   },
 
 
   members :
   {
+
+    _widgets : null,
+
     // overridden
     _initialize : function()
     {
@@ -50,33 +52,27 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.getContent().add(new qx.ui.mobile.form.Title("Widget Modes"));
 
       // TOGGLE BUTTON
-      var toggleEnableButton = new qx.ui.mobile.form.ToggleButton(true,"Enable","Disable", 11);
+      var toggleEnableButton = new qx.ui.mobile.form.ToggleButton(true,"Enable","Disable");
 
       toggleEnableButton.addListener("changeValue", function(e) {
-        exImage.toggleEnabled();
-        exToggleButton.toggleEnabled();
-        exLabel.toggleEnabled();
-        exButton.toggleEnabled();
-        exAtomLeft.toggleEnabled();
-        exAtomRight.toggleEnabled();
-        exAtomTop.toggleEnabled();
-        exAtomBottom.toggleEnabled();
-        collapsible.toggleEnabled();
+        for (var i = 0; i < this._widgets.length; i++) {
+          this._widgets[i].toggleEnabled();
+        }
       }, this);
 
 
-      // TOGGLE LABEL WRAP BUTTONT
-      var toggleLabelWrapButton = new qx.ui.mobile.form.ToggleButton(true,"Wrap","Ellipsis", 11);
+      // TOGGLE LABEL WRAP BUTTON
+      var toggleLabelWrapButton = new qx.ui.mobile.form.ToggleButton(true,"Wrap","Ellipsis");
       toggleLabelWrapButton.addListener("changeValue", function(e) {
         exLabel.toggleWrap();
       }, this);
 
-      // WIDGETS 4 EXAMPLE
+      // EXAMPLE WIDGETS
       var exButton = new qx.ui.mobile.form.Button("Button");
 
       var exToggleButton = new qx.ui.mobile.form.ToggleButton(false);
 
-      var labelText = "qx.Mobile is qooxdoo's mobile framework. It provides specific UI classes for touch devices, handling of mobile events like swiping, and specific styling. It is suitable for various mobile web browsers on iOS and Android platforms.";
+      var labelText = "qx.Mobile is a sophisticated HTML5 framework. It provides specific UI widgets for touch devices, handling of mobile events like swiping, custom theming and much more. It is suitable for mobile web browsers on platforms such as Android, iOS, WP8 or BlackBerry 10.";
 
       var exLabel = new qx.ui.mobile.basic.Label(labelText);
       exLabel.addCssClass("space-top");
@@ -84,26 +80,23 @@ qx.Class.define("mobileshowcase.page.Basic",
       var exImage = new qx.ui.mobile.basic.Image("mobileshowcase/icon/mobile.png");
 
       // ATOMS
-      var positions = [ "left", "right", "top", "bottom" ]
-
+      var positions = [ "top", "left", "right", "bottom" ];
       var iconSrc = "mobileshowcase/icon/mobile.png";
-      var exAtomLeft = new qx.ui.mobile.basic.Atom("Icon Position: left", iconSrc);
-      exAtomLeft.setIconPosition(positions[0]);
-      exAtomLeft.addCssClass("space-top");
+      var atomGroup = new qx.ui.mobile.form.Group();
+      for (var i = 0; i < positions.length; i++) {
+        var atomExample = new qx.ui.mobile.basic.Atom("Icon Position: "+positions[i], iconSrc);
+        atomExample.setIconPosition(positions[i]);
+        atomGroup.add(atomExample);
+        this._widgets.push(atomExample);
+      }
 
-      var exAtomRight = new qx.ui.mobile.basic.Atom("Icon Position: right", iconSrc);
-      exAtomRight.setIconPosition(positions[1]);
-      exAtomRight.addCssClass("space-top");
+      var exCollapsible = this._createCollapsible();
 
-      var exAtomTop = new qx.ui.mobile.basic.Atom("Icon Position: top", iconSrc);
-      exAtomTop.setIconPosition(positions[2]);
-      exAtomTop.addCssClass("space-top");
-
-      var exAtomBottom = new qx.ui.mobile.basic.Atom("Icon Position: bottom", iconSrc);
-      exAtomBottom.setIconPosition(positions[3]);
-      exAtomBottom.addCssClass("space-top");
-
-      var collapsible = this._createCollapsible();
+      this._widgets.push(exButton);
+      this._widgets.push(exToggleButton);
+      this._widgets.push(exLabel);
+      this._widgets.push(exImage);
+      this._widgets.push(exCollapsible);
 
       // BUILD VIEW
 
@@ -121,22 +114,12 @@ qx.Class.define("mobileshowcase.page.Basic",
       this.getContent().add(toggleButtonGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Label"));
-
-      var labelGroup = new qx.ui.mobile.form.Group();
-      labelGroup.add(exLabel);
-      this.getContent().add(labelGroup);
-
+      this.getContent().add(new qx.ui.mobile.form.Group([exLabel]));
       this.getContent().add(new qx.ui.mobile.form.Title("Image"));
-
-      var imageGroup = new qx.ui.mobile.form.Group([exImage],false);
-      this.getContent().add(imageGroup);
-
+      this.getContent().add(new qx.ui.mobile.form.Group([exImage],false));
       this.getContent().add(new qx.ui.mobile.form.Title("Collapsible"));
-      this.getContent().add(new qx.ui.mobile.form.Group([collapsible],false));
-
+      this.getContent().add(new qx.ui.mobile.form.Group([exCollapsible],false));
       this.getContent().add(new qx.ui.mobile.form.Title("Atoms"));
-
-      var atomGroup = new qx.ui.mobile.form.Group([exAtomLeft,exAtomTop,exAtomRight,exAtomBottom]);
       this.getContent().add(atomGroup);
     },
 
@@ -146,13 +129,6 @@ qx.Class.define("mobileshowcase.page.Basic",
       var label = new qx.ui.mobile.basic.Label("This is the content of the Collapsible.");
       collapsible.add(label);
       return collapsible;
-    },
-
-
-    // overridden
-    _back : function()
-    {
-     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
     }
   }
 });

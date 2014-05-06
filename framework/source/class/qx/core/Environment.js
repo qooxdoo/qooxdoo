@@ -201,6 +201,10 @@
  *       <td>{@link qx.bom.client.Css#getPointerEvents}</td>
  *     </tr>
  *     <tr>
+ *       <td>css.flexboxSyntax</td><td><i>String</i> or <i>null</i></td><td><code>"flex"</code></td>
+ *       <td>{@link qx.bom.client.Css#getFlexboxSyntax}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>device</b></td>
  *     </tr>
  *     <tr>
@@ -313,7 +317,23 @@
  *       <td>event.hashchange</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Event#getHashChange}</td>
  *     </tr>
-
+ *     <tr>
+ *       <td>event.dispatchevent</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getDispatchEvent}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>event.customevent</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getCustomEvent}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>event.mouseevent</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getMouseEvent}</td>
+ *     </tr>
+*     <tr>
+*       <td>event.mousewheel</td><td><i>Map</i></td><td><code>{type: "wheel", target: window}</code></td>
+*       <td>{@link qx.bom.client.Event#getMouseWheel}</td>
+*     </tr>
+ *
  *     <tr>
  *       <td colspan="4"><b>html</b></td>
  *     </tr>
@@ -431,6 +451,10 @@
  *     <tr>
  *       <td>html.selection</td><td><i>String</i></td><td><code>getSelection</code></td>
  *       <td>{@link qx.bom.client.Html#getSelection}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>html.node.isequalnode</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getIsEqualNode}</td>
  *     </tr>
  *     <tr>
  *       <td colspan="4"><b>XML</b></td>
@@ -686,10 +710,6 @@
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
- *       <td>qx.dynamicmousewheel</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>true</code></td>
- *     </tr>
- *     <tr>
  *       <td>qx.dynlocale</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
@@ -697,18 +717,9 @@
  *       <td>qx.dyntheme</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
-
  *     <tr>
  *       <td>qx.globalErrorHandling</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td><i>default:</i> <code>true</code></td>
- *     </tr>
- *     <tr>
- *       <td>qx.emulatemouse</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td><i>default:</i> <code>false</code></td>
- *     </tr>
- *     <tr>
- *       <td>qx.mobile.emulatetouch</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td><i>default:</i> <code>false</code></td>
  *     </tr>
  *     <tr>
  *       <td>qx.mobile.nativescroll</td><td><i>Boolean</i></td><td><code>false</code></td>
@@ -779,6 +790,10 @@
  *       <td>html.dataurl</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getDataUrl}</td>
  *     </tr>
+ *     <tr>
+ *       <td>plugin.pdfjs</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>{@link qx.bom.client.Pdfjs#getPdfjs}</td>
+ *     </tr>
  *   </tbody>
  * </table>
  *
@@ -831,13 +846,18 @@ qx.Bootstrap.define("qx.core.Environment",
       "plugin.flash.strictsecurity" : "qx.bom.client.Flash.getStrictSecurityModel",
       "plugin.pdf" : "qx.bom.client.Plugin.getPdf",
       "plugin.pdf.version" : "qx.bom.client.Plugin.getPdfVersion",
+      "plugin.pdfjs" : "qx.bom.client.Pdfjs.getPdfjs",
       "io.maxrequests" : "qx.bom.client.Transport.getMaxConcurrentRequestCount",
       "io.ssl" : "qx.bom.client.Transport.getSsl",
       "io.xhr" : "qx.bom.client.Transport.getXmlHttpRequest",
       "event.touch" : "qx.bom.client.Event.getTouch",
-      "event.mspointer" : "qx.bom.client.Engine.getMsPointer",
+      "event.mspointer" : "qx.bom.client.Event.getMsPointer",
       "event.help" : "qx.bom.client.Event.getHelp",
       "event.hashchange" : "qx.bom.client.Event.getHashChange",
+      "event.dispatchevent" : "qx.bom.client.Event.getDispatchEvent",
+      "event.customevent" : "qx.bom.client.Event.getCustomEvent",
+      "event.mouseevent" : "qx.bom.client.Event.getMouseEvent",
+      "event.mousewheel" : "qx.bom.client.Event.getMouseWheel",
       "ecmascript.error.stacktrace"       : "qx.bom.client.EcmaScript.getStackTrace",
       "ecmascript.array.indexof" : "qx.bom.client.EcmaScript.getArrayIndexOf",
       "ecmascript.array.lastindexof" : "qx.bom.client.EcmaScript.getArrayLastIndexOf",
@@ -889,6 +909,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "html.image.naturaldimensions" : "qx.bom.client.Html.getNaturalDimensions",
       "html.history.state" : "qx.bom.client.Html.getHistoryState",
       "html.selection" : "qx.bom.client.Html.getSelection",
+      "html.node.isequalnode" : "qx.bom.client.Html.getIsEqualNode",
       "json" : "qx.bom.client.Json.getJson",
       "css.textoverflow" : "qx.bom.client.Css.getTextOverflow",
       "css.placeholder" : "qx.bom.client.Css.getPlaceholder",
@@ -950,19 +971,22 @@ qx.Bootstrap.define("qx.core.Environment",
      *   (Details in the class doc)
      */
     get : function(key) {
-      // @deprecated {3.0}
       if (qx.Bootstrap.DEBUG) {
-        if (key === "event.pointer") {
-          key = "css.pointerevents";
-          qx.Bootstrap.warn("The environment key 'event.pointer' is deprecated, " +
-            "please use 'css.pointerevents' instead.");
-        }
-      }
-      // @deprecated {3.1}
-      if (qx.Bootstrap.DEBUG) {
+        // @deprecated {3.5}
         if (key === "json") {
           qx.Bootstrap.warn("The environment key 'json' is deprecated " +
             "and will eventually be removed.");
+        }
+        // @deprecated {4.0}
+        if (key === "qx.emulatemouse") {
+          qx.Bootstrap.warn("The environment key 'qx.emulatemouse' has been removed. " +
+            "See the release notes for more details.");
+        }
+
+        // @deprecated {4.0}
+        if (key === "qx.mobile.emulatetouch") {
+          qx.Bootstrap.warn("The environment key 'qx.mobile.emulatetouch' has been removed. " +
+            "See the release notes for more details.");
         }
       }
       // check the cache
@@ -1268,11 +1292,10 @@ qx.Bootstrap.define("qx.core.Environment",
       this.add("qx.aspects", function() {return false;});
       this.add("qx.dynlocale", function() {return true;});
       this.add("qx.dyntheme", function() {return true;});
-      this.add("qx.mobile.emulatetouch", function() {return false;});
-      this.add("qx.emulatemouse", function() {return false;});
+      this.add("qx.mobile.emulatetouch", function() {return false;}); // @deprecated {4.0}
+      this.add("qx.emulatemouse", function() {return false;}); // @deprecated {4.0}
       this.add("qx.blankpage", function() { return "qx/static/blank.html";});
 
-      this.add("qx.dynamicmousewheel", function() {return true;});
       this.add("qx.debug.databinding", function() {return false;});
       this.add("qx.debug.dispose", function() {return false;});
 

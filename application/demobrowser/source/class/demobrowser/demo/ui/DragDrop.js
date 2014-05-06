@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var labelSource = new qx.ui.basic.Label("Source");
       container.add(labelSource, { left : 20, top: 20 });
 
-      var source = new qx.ui.form.List;
+      var source = new qx.ui.form.List();
       source.setDraggable(true);
       source.setSelectionMode("multi");
       container.add(source, { left : 20, top : 40 });
@@ -75,7 +75,6 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var check = new qx.ui.form.CheckBox("Enable drag");
       check.setValue(true);
       container.add(check, { left : 20, top : 260 });
-
 
       source.addListener("dragstart", function(e)
       {
@@ -101,11 +100,18 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         var action = e.getCurrentAction();
         var type = e.getCurrentType();
         var result;
+        var selection = this.getSelection();
+        var dragTarget = e.getDragTarget();
+        if (selection.length === 0) {
+          selection.push(dragTarget);
+        } else if (selection.indexOf(dragTarget) == -1) {
+          selection = [dragTarget];
+        }
 
         switch(type)
         {
           case "items":
-            result = this.getSelection();
+            result = selection;
 
             if (action == "copy")
             {
@@ -118,14 +124,13 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
             break;
 
           case "value":
-            result = this.getSelection()[0].getLabel();
+            result = selection[0].getLabel();
             break;
         }
 
         // Remove selected items on move
         if (action == "move")
         {
-          var selection = this.getSelection();
           for (var i=0, l=selection.length; i<l; i++) {
             this.remove(selection[i]);
           }
@@ -147,7 +152,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var labelSimple = new qx.ui.basic.Label("Simple Target");
       container.add(labelSimple, { left : 140, top: 20 });
 
-      var targetSimple = new qx.ui.form.List;
+      var targetSimple = new qx.ui.form.List();
       targetSimple.setDroppable(true);
       targetSimple.setSelectionMode("multi");
       container.add(targetSimple, { left : 140, top: 40 });
@@ -180,7 +185,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var labelEven = new qx.ui.basic.Label("Copy Even Items");
       container.add(labelEven, { left : 260, top: 20 });
 
-      var targetEven = new qx.ui.form.List;
+      var targetEven = new qx.ui.form.List();
       targetEven.setDroppable(true);
       container.add(targetEven, { left : 260, top: 40 });
 
@@ -201,7 +206,8 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
           e.preventDefault();
         }
         // accept only even items
-        if (e.getRelatedTarget().getSelection()[0].getLabel().substr(5) % 2 == 1) {
+        var item = e.getRelatedTarget().getSelection()[0] || e.getDragTarget();
+        if (item.getLabel().substr(5) % 2 == 1) {
           e.preventDefault();
         }
       });
@@ -220,11 +226,10 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
 
       // Text Field uses value
-
-      var labelSimple = new qx.ui.basic.Label("TextArea Target");
+      labelSimple = new qx.ui.basic.Label("TextArea Target");
       container.add(labelSimple, { left : 380, top: 20 });
 
-      var textareaTarget = new qx.ui.form.TextArea;
+      var textareaTarget = new qx.ui.form.TextArea();
       textareaTarget.setDroppable(true);
       textareaTarget.setHeight(100);
       container.add(textareaTarget, { left : 380, top: 40 });
@@ -318,7 +323,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       });
 
       both.addListener("drop", function(e) {
-        this.__reorderList(e.getOriginalTarget());
+        this.__reorderList(e.getOriginalTarget(), e.getDragTarget());
       }, this);
 
       indicator.addListener("drop", function(e) {
@@ -327,7 +332,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
     },
 
 
-    __reorderList : function(listItem)
+    __reorderList : function(listItem, reorderItem)
     {
 
       // Only continue if the target is a list item.
@@ -336,13 +341,14 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       }
 
       var sel = this.__list.getSortedSelection();
+      if (sel.length === 0) {
+        sel = [reorderItem];
+      } else if (sel.indexOf(reorderItem) == -1) {
+        sel = [reorderItem];
+      }
 
-      for (var i=0, l=sel.length; i<l; i++)
-      {
+      for (var i = 0, l = sel.length; i < l; i++) {
         this.__list.addBefore(sel[i], listItem);
-
-        // recover selection as it get lost during child move
-        this.__list.addToSelection(sel[i]);
       }
     }
   },

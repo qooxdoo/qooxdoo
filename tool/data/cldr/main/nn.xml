@@ -6,15 +6,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8247 $"/>
-		<generation date="$Date: 2013-02-25 16:24:27 -0600 (Mon, 25 Feb 2013) $"/>
+		<version number="$Revision: 9852 $"/>
+		<generation date="$Date: 2014-02-28 23:57:43 -0600 (Fri, 28 Feb 2014) $"/>
 		<language type="nn"/>
 	</identity>
 	<localeDisplayNames>
 		<localeDisplayPattern>
 			<localePattern>{0} ({1})</localePattern>
-			<localeSeparator>, </localeSeparator>
-			<localeKeyTypePattern draft="unconfirmed">{0}: {1}</localeKeyTypePattern>
+			<localeSeparator>{0}, {1}</localeSeparator>
+			<localeKeyTypePattern>{0}: {1}</localeKeyTypePattern>
 		</localeDisplayPattern>
 		<languages>
 			<language type="aa">afar</language>
@@ -25,50 +25,39 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ady">adyghe</language>
 			<language type="ae">avestisk</language>
 			<language type="af">afrikaans</language>
-			<language type="afa">afroasiatisk språk</language>
 			<language type="afh">afrihili</language>
 			<language type="agq">aghem</language>
 			<language type="ain">ainu</language>
 			<language type="ak">akan</language>
 			<language type="akk">akkadisk</language>
 			<language type="ale">aleutisk</language>
-			<language type="alg">algonkinsk språk</language>
 			<language type="alt">sør-altai</language>
 			<language type="am">amharisk</language>
 			<language type="an">aragonsk</language>
 			<language type="ang">gammalengelsk</language>
 			<language type="anp">angika</language>
-			<language type="apa">apache-språk</language>
 			<language type="ar">arabisk</language>
 			<language type="arc">arameisk</language>
 			<language type="arn">araukansk</language>
 			<language type="arp">arapaho</language>
-			<language type="art">kunstig språk</language>
 			<language type="arw">arawak</language>
 			<language type="as">assamisk</language>
 			<language type="asa">asu (Tanzania)</language>
 			<language type="ast">asturisk</language>
-			<language type="ath">athapaskansk språk</language>
-			<language type="aus">australsk språk</language>
 			<language type="av">avarisk</language>
 			<language type="awa">awadhi</language>
 			<language type="ay">aymara</language>
 			<language type="az">aserbajdsjansk</language>
 			<language type="ba">basjkirsk</language>
-			<language type="bad">banda</language>
-			<language type="bai">bamilekisk språk</language>
 			<language type="bal">baluchi</language>
 			<language type="ban">balinesisk</language>
 			<language type="bas">basa</language>
-			<language type="bat">baltisk språk</language>
 			<language type="bax" draft="unconfirmed">bamun</language>
 			<language type="be">kviterussisk</language>
 			<language type="bej">beja</language>
 			<language type="bem">bemba</language>
-			<language type="ber">berbisk</language>
 			<language type="bez">bena (Tanzania)</language>
 			<language type="bg">bulgarsk</language>
-			<language type="bh">bihari</language>
 			<language type="bho">bhojpuri</language>
 			<language type="bi">bislama</language>
 			<language type="bik">bikol</language>
@@ -76,26 +65,21 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="bla">siksika</language>
 			<language type="bm">bambara</language>
 			<language type="bn">bengali</language>
-			<language type="bnt">bantu</language>
 			<language type="bo">tibetansk</language>
 			<language type="br">bretonsk</language>
 			<language type="bra">braj</language>
 			<language type="brx">bodo</language>
 			<language type="bs">bosnisk</language>
 			<language type="bss" draft="unconfirmed">bakossi</language>
-			<language type="btk">batak</language>
 			<language type="bua">burjatisk</language>
 			<language type="bug">buginesisk</language>
 			<language type="byn">blin</language>
 			<language type="ca">katalansk</language>
 			<language type="cad">caddo</language>
-			<language type="cai">sentralamerikansk indiansk språk</language>
 			<language type="car">karibisk</language>
-			<language type="cau">kaukasisk språk</language>
 			<language type="cch">atsam</language>
 			<language type="ce">tsjetsjensk</language>
 			<language type="ceb">cebuansk</language>
-			<language type="cel">keltisk språk</language>
 			<language type="ch">chamorro</language>
 			<language type="chb">chibcha</language>
 			<language type="chg">chagatai</language>
@@ -106,25 +90,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="chp">chipewiansk</language>
 			<language type="chr">cherokee</language>
 			<language type="chy">cheyenne</language>
-			<language type="cmc">kamisk språk</language>
 			<language type="co">korsikansk</language>
 			<language type="cop">koptisk</language>
-			<language type="cpe">engelskbasert kreol- eller pidginspråk</language>
-			<language type="cpf">franskbasert kreol- eller pidginspråk</language>
-			<language type="cpp">portugisiskbasert kreol- eller pidginspråk</language>
 			<language type="cr">cree</language>
 			<language type="crh">krimtatarisk</language>
-			<language type="crp">kreol- eller pidginspråk</language>
 			<language type="cs">tsjekkisk</language>
 			<language type="csb">kasjubisk</language>
 			<language type="cu">kyrkjeslavisk</language>
-			<language type="cus">kusjitisk språk</language>
 			<language type="cv">tsjuvansk</language>
 			<language type="cy">walisisk</language>
 			<language type="da">dansk</language>
 			<language type="dak">dakota</language>
 			<language type="dar">dargwa</language>
-			<language type="day">dayak</language>
 			<language type="de">tysk</language>
 			<language type="de_AT">austerriksk tysk</language>
 			<language type="de_CH">sveitsisk høgtysk</language>
@@ -134,7 +111,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="din">dinka</language>
 			<language type="dje">zarma</language>
 			<language type="doi">dogri</language>
-			<language type="dra">dravidisk språk</language>
 			<language type="dsb">lågsorbisk</language>
 			<language type="dua">duala</language>
 			<language type="dum">mellumnederlandsk</language>
@@ -168,7 +144,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ff">fulani</language>
 			<language type="fi">finsk</language>
 			<language type="fil">filippinsk</language>
-			<language type="fiu">finsk-ugrisk språk</language>
 			<language type="fj">fijiansk</language>
 			<language type="fo">færøysk</language>
 			<language type="fon">fon</language>
@@ -186,7 +161,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="gay">gayo</language>
 			<language type="gba">gbaya</language>
 			<language type="gd">skotsk-gælisk</language>
-			<language type="gem">germansk språk</language>
 			<language type="gez">ges</language>
 			<language type="gil">kiribatisk</language>
 			<language type="gl">galicisk</language>
@@ -208,7 +182,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="he">hebraisk</language>
 			<language type="hi">hindi</language>
 			<language type="hil">hiligaynon</language>
-			<language type="him">himachali</language>
 			<language type="hit">hettittisk</language>
 			<language type="hmn">hmong</language>
 			<language type="ho">hiri motu</language>
@@ -226,15 +199,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ie">interlingue</language>
 			<language type="ig">ibo</language>
 			<language type="ii">sichuan-yi</language>
-			<language type="ijo">ijo</language>
 			<language type="ik">inupiak</language>
 			<language type="ilo">iloko</language>
-			<language type="inc">indisk språk</language>
-			<language type="ine">indo-europeisk språk</language>
 			<language type="inh">ingusjisk</language>
 			<language type="io">ido</language>
-			<language type="ira">iransk språk</language>
-			<language type="iro">irokansk språk</language>
 			<language type="is">islandsk</language>
 			<language type="it">italiensk</language>
 			<language type="iu">inuktitut</language>
@@ -249,7 +217,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kac">kachin</language>
 			<language type="kaj">jju</language>
 			<language type="kam">kamba</language>
-			<language type="kar">karensk</language>
 			<language type="kaw">kawi</language>
 			<language type="kbd">kabardisk</language>
 			<language type="kcg">tyap</language>
@@ -257,7 +224,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kfo">koro</language>
 			<language type="kg">kikongo</language>
 			<language type="kha">khasi</language>
-			<language type="khi">khoisanspråk</language>
 			<language type="kho">khotanesisk</language>
 			<language type="ki">kikuyu</language>
 			<language type="kj">kuanyama</language>
@@ -274,7 +240,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kr">kanuri</language>
 			<language type="krc">karachay-balkar</language>
 			<language type="krl">karelsk</language>
-			<language type="kro">kru</language>
 			<language type="kru">kurukh</language>
 			<language type="ks">kasjmiri</language>
 			<language type="ksf">bafia</language>
@@ -310,7 +275,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mai">maithili</language>
 			<language type="mak">makasar</language>
 			<language type="man">mandingo</language>
-			<language type="map">austronesisk språk</language>
 			<language type="mas">masai</language>
 			<language type="mdf">moksha</language>
 			<language type="mdr">mandar</language>
@@ -321,15 +285,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mi">maori</language>
 			<language type="mic">micmac</language>
 			<language type="min">minangkabau</language>
-			<language type="mis">anna språk</language>
 			<language type="mk">makedonsk</language>
-			<language type="mkh">mon-khmerspråk</language>
 			<language type="ml">malayalam</language>
 			<language type="mn">mongolsk</language>
 			<language type="mnc">mandsju</language>
 			<language type="mni">manipuri</language>
-			<language type="mno">manobospråk</language>
-			<language type="mo">moldavisk</language>
 			<language type="moh">mohawk</language>
 			<language type="mos">mossi</language>
 			<language type="mr">marathi</language>
@@ -337,16 +297,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mt">maltesisk</language>
 			<language type="mua">mundang</language>
 			<language type="mul">fleire språk</language>
-			<language type="mun">mundaspråk</language>
 			<language type="mus">creek</language>
 			<language type="mwl">mirandesisk</language>
 			<language type="mwr">marwari</language>
 			<language type="my">burmesisk</language>
-			<language type="myn">mayaspråk</language>
 			<language type="myv">erzya</language>
 			<language type="na">nauru</language>
-			<language type="nah">nahuatl</language>
-			<language type="nai">nordamerikansk indiansk språk</language>
 			<language type="nap">napolitansk</language>
 			<language type="nb">bokmål</language>
 			<language type="nd">nord-ndebele</language>
@@ -355,7 +311,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="new">newari</language>
 			<language type="ng">ndonga</language>
 			<language type="nia">nias</language>
-			<language type="nic">niger-kordofaniansk språk</language>
 			<language type="niu">niueansk</language>
 			<language type="nl">nederlandsk</language>
 			<language type="nl_BE">flamsk</language>
@@ -367,7 +322,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="nqo">n'ko</language>
 			<language type="nr">sør-ndebele</language>
 			<language type="nso">nordsotho</language>
-			<language type="nub">nubisk språk</language>
 			<language type="nus">nuer</language>
 			<language type="nv">navajo</language>
 			<language type="nwc">klassisk newarisk</language>
@@ -383,21 +337,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="os">ossetisk</language>
 			<language type="osa">osage</language>
 			<language type="ota">ottomansk tyrkisk</language>
-			<language type="oto">otomisk språk</language>
 			<language type="pa">panjabi</language>
-			<language type="paa">papuisk språk</language>
 			<language type="pag">pangasinan</language>
 			<language type="pal">pahlavi</language>
 			<language type="pam">pampanga</language>
 			<language type="pap">papiamento</language>
 			<language type="pau">palauisk</language>
 			<language type="peo">gammalpersisk</language>
-			<language type="phi">filippinsk språk</language>
 			<language type="phn">fønikisk</language>
 			<language type="pi">pali</language>
 			<language type="pl">polsk</language>
 			<language type="pon">ponapisk</language>
-			<language type="pra">prakrit-språk</language>
 			<language type="pro">gammalprovençalsk</language>
 			<language type="ps">pashto</language>
 			<language type="pt">portugisisk</language>
@@ -410,7 +360,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="rm">retoromansk</language>
 			<language type="rn">rundi</language>
 			<language type="ro">rumensk</language>
-			<language type="roa">romansk språk</language>
+			<language type="ro_MD">moldavisk</language>
 			<language type="rof">rombo</language>
 			<language type="rom">romani</language>
 			<language type="root">rot</language>
@@ -421,8 +371,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sa">sanskrit</language>
 			<language type="sad">sandawe</language>
 			<language type="sah">jakutsk</language>
-			<language type="sai">søramerikansk indiansk språk</language>
-			<language type="sal">salishansk språk</language>
 			<language type="sam">samaritansk arameisk</language>
 			<language type="sas">sasak</language>
 			<language type="sat">santali</language>
@@ -433,22 +381,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sd">sindhi</language>
 			<language type="se">nordsamisk</language>
 			<language type="sel">selkupisk</language>
-			<language type="sem">semittisk språk</language>
 			<language type="sg">sango</language>
 			<language type="sga">gammalirsk</language>
-			<language type="sgn">teiknspråk</language>
 			<language type="sh">serbokroatisk</language>
 			<language type="shn">shan</language>
 			<language type="si">singalesisk</language>
 			<language type="sid">sidamo</language>
-			<language type="sio">sioux-språk</language>
-			<language type="sit">sino-tibetansk språk</language>
 			<language type="sk">slovakisk</language>
 			<language type="sl">slovensk</language>
-			<language type="sla">slavisk språk</language>
 			<language type="sm">samoansk</language>
 			<language type="sma">sørsamisk</language>
-			<language type="smi">samisk språk</language>
 			<language type="smj">lulesamisk</language>
 			<language type="smn">enaresamisk</language>
 			<language type="sms">skoltesamisk</language>
@@ -456,13 +398,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="snk">soninke</language>
 			<language type="so">somali</language>
 			<language type="sog">sogdisk</language>
-			<language type="son">songhai</language>
 			<language type="sq">albansk</language>
 			<language type="sr">serbisk</language>
 			<language type="srn">sranan tongo</language>
 			<language type="srr">serer</language>
 			<language type="ss">swati</language>
-			<language type="ssa">nilo-saharaspråk</language>
 			<language type="st">sørsotho</language>
 			<language type="su">sundanesisk</language>
 			<language type="suk">sukuma</language>
@@ -474,7 +414,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="syc">klassisk syrisk</language>
 			<language type="syr">syrisk</language>
 			<language type="ta">tamil</language>
-			<language type="tai">taispråk</language>
 			<language type="te">telugu</language>
 			<language type="tem">temne</language>
 			<language type="ter">tereno</language>
@@ -499,8 +438,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="tsi">tsimshian</language>
 			<language type="tt">tatarisk</language>
 			<language type="tum">tumbuka</language>
-			<language type="tup">tupi-språk</language>
-			<language type="tut">altaisk språk</language>
 			<language type="tvl">tuvalu</language>
 			<language type="tw">twi</language>
 			<language type="twq">tasawaq</language>
@@ -520,11 +457,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="vo">volapyk</language>
 			<language type="vot">votisk</language>
 			<language type="wa">vallonsk</language>
-			<language type="wak">wakasjansk språk</language>
 			<language type="wal">walamo</language>
 			<language type="war">waray</language>
 			<language type="was">washo</language>
-			<language type="wen">sorbisk språk</language>
 			<language type="wo">wolof</language>
 			<language type="xal">kalmyk</language>
 			<language type="xh">xhosa</language>
@@ -533,7 +468,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="yav">yangben</language>
 			<language type="yi">jiddisk</language>
 			<language type="yo">joruba</language>
-			<language type="ypk">jupisk språk</language>
 			<language type="yue">kantonesisk</language>
 			<language type="za">zhuang</language>
 			<language type="zap">zapotec</language>
@@ -542,7 +476,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="zh">kinesisk</language>
 			<language type="zh_Hans">forenkla kinesisk</language>
 			<language type="zh_Hant">tradisjonell kinesisk</language>
-			<language type="znd">zande</language>
 			<language type="zu">zulu</language>
 			<language type="zun">zuni</language>
 			<language type="zxx">utan språkleg innhald</language>
@@ -758,13 +691,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CA">Canada</territory>
 			<territory type="CC">Kokosøyane</territory>
 			<territory type="CD">Kongo-Kinshasa</territory>
-			<territory type="CD" alt="variant" draft="unconfirmed">Kongo-Kinshasa</territory>
 			<territory type="CF">Den sentralafrikanske republikken</territory>
 			<territory type="CG">Kongo-Brazzaville</territory>
-			<territory type="CG" alt="variant" draft="unconfirmed">Kongo-Brazzaville</territory>
 			<territory type="CH">Sveits</territory>
 			<territory type="CI">Elfenbeinskysten</territory>
-			<territory type="CI" alt="variant">Elfenbeinskysten</territory>
 			<territory type="CK">Cookøyane</territory>
 			<territory type="CL">Chile</territory>
 			<territory type="CM">Kamerun</territory>
@@ -797,12 +727,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FI">Finland</territory>
 			<territory type="FJ">Fiji</territory>
 			<territory type="FK">Falklandsøyane</territory>
-			<territory type="FK" alt="variant" draft="unconfirmed">Falklandsøyane</territory>
 			<territory type="FM">Mikronesiaføderasjonen</territory>
 			<territory type="FO">Færøyane</territory>
 			<territory type="FR">Frankrike</territory>
 			<territory type="GA">Gabon</territory>
 			<territory type="GB">Storbritannia</territory>
+			<territory type="GB" alt="short" draft="unconfirmed">Storbritannia</territory>
 			<territory type="GD">Grenada</territory>
 			<territory type="GE">Georgia</territory>
 			<territory type="GF">Fransk Guyana</territory>
@@ -872,7 +802,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MG">Madagaskar</territory>
 			<territory type="MH">Marshalløyane</territory>
 			<territory type="MK">Makedonia</territory>
-			<territory type="MK" alt="variant" draft="unconfirmed">Makedonia</territory>
 			<territory type="ML">Mali</territory>
 			<territory type="MM">Myanmar</territory>
 			<territory type="MN">Mongolia</territory>
@@ -913,6 +842,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="PN">Pitcairn</territory>
 			<territory type="PR">Puerto Rico</territory>
 			<territory type="PS">Palestinsk territorium</territory>
+			<territory type="PS" alt="short" draft="unconfirmed">Palestina</territory>
 			<territory type="PT">Portugal</territory>
 			<territory type="PW">Palau</territory>
 			<territory type="PY">Paraguay</territory>
@@ -953,7 +883,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="TJ">Tadsjikistan</territory>
 			<territory type="TK">Tokelau</territory>
 			<territory type="TL">Aust-Timor</territory>
-			<territory type="TL" alt="variant">Aust-Timor</territory>
 			<territory type="TM">Turkmenistan</territory>
 			<territory type="TN">Tunisia</territory>
 			<territory type="TO">Tonga</territory>
@@ -966,6 +895,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="UG">Uganda</territory>
 			<territory type="UM">USAs ytre småøyar</territory>
 			<territory type="US">USA</territory>
+			<territory type="US" alt="short" draft="unconfirmed">USA</territory>
 			<territory type="UY">Uruguay</territory>
 			<territory type="UZ">Usbekistan</territory>
 			<territory type="VA">Vatikanstaten</territory>
@@ -977,6 +907,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="VU">Vanuatu</territory>
 			<territory type="WF">Wallis og Futuna</territory>
 			<territory type="WS">Samoa</territory>
+			<territory type="XK" draft="unconfirmed">Kosovo</territory>
 			<territory type="YE">Yemen</territory>
 			<territory type="YT">Mayotte</territory>
 			<territory type="ZA">Sør-Afrika</territory>
@@ -1032,6 +963,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="chinese" key="calendar">kinesisk kalender</type>
 			<type type="deva" key="numbers" draft="unconfirmed">devanagariske siffer</type>
 			<type type="ducet" key="collation">grunnleggjande Unicode-sorteringsrekkjefølgje</type>
+			<type type="eor" key="collation" draft="unconfirmed">sorteringsrekkefølge for flerspråklige europeiske dokumenter</type>
 			<type type="ethi" key="numbers" draft="unconfirmed">etiopiske numeraler</type>
 			<type type="ethiopic" key="calendar">etiopisk kalender</type>
 			<type type="ethiopic-amete-alem" key="calendar">etiopisk amete-alem-kalender</type>
@@ -1054,6 +986,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type type="islamic" key="calendar">islamsk kalender</type>
 			<type type="islamic-civil" key="calendar">islamsk sivil kalender</type>
 			<type type="japanese" key="calendar">japansk kalender</type>
+			<type type="java" key="numbers" draft="unconfirmed">javanesiske siffer</type>
 			<type type="jpan" key="numbers" draft="unconfirmed">japanskt stavede numeraler</type>
 			<type type="jpanfin" key="numbers" draft="unconfirmed">japanskt stavede financielle numeraler</type>
 			<type type="khmr" key="numbers" draft="unconfirmed">kambodiske siffer</type>
@@ -1096,6 +1029,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<ellipsis type="final" draft="unconfirmed">{0}…</ellipsis>
 		<ellipsis type="initial" draft="unconfirmed">…{0}</ellipsis>
 		<ellipsis type="medial" draft="unconfirmed">{0}…{1}</ellipsis>
+		<ellipsis type="word-final" draft="unconfirmed">{0} …</ellipsis>
+		<ellipsis type="word-initial" draft="unconfirmed">… {0}</ellipsis>
+		<ellipsis type="word-medial" draft="unconfirmed">{0} … {1}</ellipsis>
 	</characters>
 	<delimiters>
 		<quotationStart>«</quotationStart>
@@ -1124,7 +1060,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
-							<pattern>dd.MM.yy GGGGG</pattern>
+							<pattern>d.M y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
@@ -1132,27 +1068,36 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<availableFormats>
 						<dateFormatItem id="d">d.</dateFormatItem>
 						<dateFormatItem id="Ed">E d.</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">d. MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E d. MMM y G</dateFormatItem>
+						<dateFormatItem id="h" draft="contributed">h a</dateFormatItem>
+						<dateFormatItem id="H" draft="contributed">HH</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
 						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
 						<dateFormatItem id="Md">d.M.</dateFormatItem>
 						<dateFormatItem id="MEd">E d.M</dateFormatItem>
 						<dateFormatItem id="MMdd">d.M.</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMd">d. MMM</dateFormatItem>
 						<dateFormatItem id="MMMEd">E d. MMM</dateFormatItem>
-						<dateFormatItem id="MMMMd">d. MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
-						<dateFormatItem id="yM">M y</dateFormatItem>
-						<dateFormatItem id="yMd">d.M.y</dateFormatItem>
-						<dateFormatItem id="yMEd">E d.M.y</dateFormatItem>
-						<dateFormatItem id="yMM">MM.y</dateFormatItem>
-						<dateFormatItem id="yMMM">MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMd">d. MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMEd">E d. MMM y</dateFormatItem>
-						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
-						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
-						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+						<dateFormatItem id="y">y G</dateFormatItem>
+						<dateFormatItem id="yyyy">y G</dateFormatItem>
+						<dateFormatItem id="yyyyM">M y G</dateFormatItem>
+						<dateFormatItem id="yyyyMd">d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMEd">E d.M.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMM">MM.y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMd">d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEd">E d. MMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">QQQQ y G</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
@@ -1160,9 +1105,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="d">d.–d.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="h">
+							<greatestDifference id="a">h a – h a</greatestDifference>
 							<greatestDifference id="h">h–h a</greatestDifference>
 						</intervalFormatItem>
+						<intervalFormatItem id="H">
+							<greatestDifference id="H" draft="contributed">HH–HH</greatestDifference>
+						</intervalFormatItem>
 						<intervalFormatItem id="hm">
+							<greatestDifference id="a">h:mm a – h:mm a</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a</greatestDifference>
 						</intervalFormatItem>
@@ -1171,6 +1121,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH:mm–HH:mm</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">h:mm a – h:mm a v</greatestDifference>
 							<greatestDifference id="h">h:mm–h:mm a v</greatestDifference>
 							<greatestDifference id="m">h:mm–h:mm a v</greatestDifference>
 						</intervalFormatItem>
@@ -1179,14 +1130,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="m">HH:mm–HH:mm v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="hv">
+							<greatestDifference id="a">h a – h a v</greatestDifference>
 							<greatestDifference id="h">h–h a v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Hv">
+							<greatestDifference id="H" draft="contributed">HH–HH v</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="M">
 							<greatestDifference id="M">M.–M.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="Md">
-							<greatestDifference id="d">dd.MM–dd.MM</greatestDifference>
-							<greatestDifference id="M">dd.MM–dd.MM</greatestDifference>
+							<greatestDifference id="d">dd.MM.–dd.MM.</greatestDifference>
+							<greatestDifference id="M">dd.MM.–dd.MM.</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="MEd">
 							<greatestDifference id="d">E dd.MM.–E dd.MM.</greatestDifference>
@@ -1204,39 +1159,39 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<greatestDifference id="M">E d. MMM–E d. MMM</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="y">
-							<greatestDifference id="y">y–y</greatestDifference>
+							<greatestDifference id="y">y–y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yM">
-							<greatestDifference id="M">MM.y–MM.y</greatestDifference>
-							<greatestDifference id="y">MM.y–MM.y</greatestDifference>
+							<greatestDifference id="M">MM.y–MM.y G</greatestDifference>
+							<greatestDifference id="y">MM.y–MM.y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMd">
-							<greatestDifference id="d">dd.MM.y–dd.MM.y</greatestDifference>
-							<greatestDifference id="M">dd.MM.y–dd.MM.y</greatestDifference>
-							<greatestDifference id="y">dd.MM.y–dd.MM.y</greatestDifference>
+							<greatestDifference id="d">dd.MM.y–dd.MM.y G</greatestDifference>
+							<greatestDifference id="M">dd.MM.y–dd.MM.y G</greatestDifference>
+							<greatestDifference id="y">dd.MM.y–dd.MM.y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMEd">
-							<greatestDifference id="d">E dd.MM.y–E dd.MM.y</greatestDifference>
-							<greatestDifference id="M">E dd.MM.y–E dd.MM.y</greatestDifference>
-							<greatestDifference id="y">E dd.MM.y–E dd.MM.y</greatestDifference>
+							<greatestDifference id="d">E dd.MM.y–E dd.MM.y G</greatestDifference>
+							<greatestDifference id="M">E dd.MM.y–E dd.MM.y G</greatestDifference>
+							<greatestDifference id="y">E dd.MM.y–E dd.MM.y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMM">
-							<greatestDifference id="M">MMM–MMM y</greatestDifference>
-							<greatestDifference id="y">MMM y–MMM y</greatestDifference>
+							<greatestDifference id="M">MMM–MMM y G</greatestDifference>
+							<greatestDifference id="y">MMM y–MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMd">
-							<greatestDifference id="d">d.–d. MMM y</greatestDifference>
-							<greatestDifference id="M">d. MMM–d. MMM y</greatestDifference>
-							<greatestDifference id="y">d. MMM y–d. MMM y</greatestDifference>
+							<greatestDifference id="d">d.–d. MMM y G</greatestDifference>
+							<greatestDifference id="M">d. MMM–d. MMM y G</greatestDifference>
+							<greatestDifference id="y">d. MMM y–d. MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMEd">
-							<greatestDifference id="d">E d.–E d. MMM y</greatestDifference>
-							<greatestDifference id="M">E d. MMM–E d. MMM y</greatestDifference>
-							<greatestDifference id="y">E d. MMM y–E d. MMM</greatestDifference>
+							<greatestDifference id="d">E d.–E d. MMM y G</greatestDifference>
+							<greatestDifference id="M">E d. MMM–E d. MMM y G</greatestDifference>
+							<greatestDifference id="y">E d. MMM y–E d. MMM y G</greatestDifference>
 						</intervalFormatItem>
 						<intervalFormatItem id="yMMMM">
-							<greatestDifference id="M">MMMM–MMMM y</greatestDifference>
-							<greatestDifference id="y">MMMM y–MMMM y</greatestDifference>
+							<greatestDifference id="M">MMMM–MMMM y G</greatestDifference>
+							<greatestDifference id="y">MMMM y–MMMM y G</greatestDifference>
 						</intervalFormatItem>
 					</intervalFormats>
 				</dateTimeFormats>
@@ -1381,12 +1336,22 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<eras>
 					<eraNames>
 						<era type="0">f.Kr.</era>
+						<era type="0" alt="variant" draft="unconfirmed">før vesterlandsk tidsrekning</era>
 						<era type="1">e.Kr.</era>
+						<era type="1" alt="variant" draft="unconfirmed">vesterlandsk tidsrekning</era>
 					</eraNames>
 					<eraAbbr>
 						<era type="0">f.Kr.</era>
+						<era type="0" alt="variant" draft="unconfirmed">f.v.t.</era>
 						<era type="1">e.Kr.</era>
+						<era type="1" alt="variant" draft="unconfirmed">v.t.</era>
 					</eraAbbr>
+					<eraNarrow>
+						<era type="0">f.Kr.</era>
+						<era type="0" alt="variant" draft="unconfirmed">fvt</era>
+						<era type="1">e.Kr.</era>
+						<era type="1" alt="variant" draft="unconfirmed">vt</era>
+					</eraNarrow>
 				</eras>
 				<dateFormats>
 					<dateFormatLength type="full">
@@ -1433,9 +1398,33 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
+					<dateTimeFormatLength type="full">
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="long">
+						<dateTimeFormat>
+							<pattern>{1} 'kl.' {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="medium">
+						<dateTimeFormat>
+							<pattern>{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<dateTimeFormatLength type="short">
+						<dateTimeFormat>
+							<pattern>{1}, {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
 					<availableFormats>
 						<dateFormatItem id="d">d.</dateFormatItem>
 						<dateFormatItem id="Ed">E d.</dateFormatItem>
+						<dateFormatItem id="Gy">y G</dateFormatItem>
+						<dateFormatItem id="GyMMM">MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMd">d. MMM y G</dateFormatItem>
+						<dateFormatItem id="GyMMMEd">E d. MMM y G</dateFormatItem>
 						<dateFormatItem id="hm">h:mm a</dateFormatItem>
 						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
 						<dateFormatItem id="hms">h:mm:ss a</dateFormatItem>
@@ -1552,12 +1541,45 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</field>
 			<field type="year">
 				<displayName>år</displayName>
+				<relative type="-1" draft="unconfirmed">i fjor</relative>
+				<relative type="0" draft="unconfirmed">dette år</relative>
+				<relative type="1" draft="unconfirmed">neste år</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">om {0} år</relativeTimePattern>
+					<relativeTimePattern count="other">om {0} år</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">for {0} år siden</relativeTimePattern>
+					<relativeTimePattern count="other">for {0} år siden</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="month">
 				<displayName>månad</displayName>
+				<relative type="-1" draft="unconfirmed">forrige månad</relative>
+				<relative type="0" draft="unconfirmed">denne månad</relative>
+				<relative type="1" draft="unconfirmed">neste månad</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">om {0} måned</relativeTimePattern>
+					<relativeTimePattern count="other">om {0} måneder</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">for {0} måned siden</relativeTimePattern>
+					<relativeTimePattern count="other">for {0} måneder siden</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="week">
 				<displayName>veke</displayName>
+				<relative type="-1" draft="unconfirmed">forrige veke</relative>
+				<relative type="0" draft="unconfirmed">denne veke</relative>
+				<relative type="1" draft="unconfirmed">neste veke</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">om {0} uke</relativeTimePattern>
+					<relativeTimePattern count="other">om {0} uker</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">for {0} uke siden</relativeTimePattern>
+					<relativeTimePattern count="other">for {0} uker siden</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="day">
 				<displayName>dag</displayName>
@@ -1566,21 +1588,88 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="0">i dag</relative>
 				<relative type="1">i morgon</relative>
 				<relative type="2">i overmorgon</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">om {0} døgn</relativeTimePattern>
+					<relativeTimePattern count="other">om {0} døgn</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">for {0} døgn siden</relativeTimePattern>
+					<relativeTimePattern count="other">for {0} døgn siden</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="weekday">
 				<displayName>vekedag</displayName>
+			</field>
+			<field type="sun">
+				<relative type="-1" draft="unconfirmed">søndag forrige veke</relative>
+				<relative type="0" draft="unconfirmed">søndag denne veke</relative>
+				<relative type="1" draft="unconfirmed">søndag neste veke</relative>
+			</field>
+			<field type="mon">
+				<relative type="-1" draft="unconfirmed">måndag forrige veke</relative>
+				<relative type="0" draft="unconfirmed">måndag denne veke</relative>
+				<relative type="1" draft="unconfirmed">måndag neste veke</relative>
+			</field>
+			<field type="tue">
+				<relative type="-1" draft="unconfirmed">tysdag forrige veke</relative>
+				<relative type="0" draft="unconfirmed">tysdag denne veke</relative>
+				<relative type="1" draft="unconfirmed">tysdag neste veke</relative>
+			</field>
+			<field type="wed">
+				<relative type="-1" draft="unconfirmed">onsdag forrige veke</relative>
+				<relative type="0" draft="unconfirmed">onsdag denne veke</relative>
+				<relative type="1" draft="unconfirmed">onsdage neste veke</relative>
+			</field>
+			<field type="thu">
+				<relative type="-1" draft="unconfirmed">torsdag forrige veke</relative>
+				<relative type="0" draft="unconfirmed">torsdag denne veke</relative>
+				<relative type="1" draft="unconfirmed">torsdag neste veke</relative>
+			</field>
+			<field type="fri">
+				<relative type="-1" draft="unconfirmed">fredag forrige veke</relative>
+				<relative type="0" draft="unconfirmed">fredag denne veke</relative>
+				<relative type="1" draft="unconfirmed">fredag neste veke</relative>
+			</field>
+			<field type="sat">
+				<relative type="-1" draft="unconfirmed">laurdag forrige veke</relative>
+				<relative type="0" draft="unconfirmed">laurdag denne veke</relative>
+				<relative type="1" draft="unconfirmed">laurdag neste veke</relative>
 			</field>
 			<field type="dayperiod">
 				<displayName>f.m./e.m.-val</displayName>
 			</field>
 			<field type="hour">
 				<displayName>time</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">om {0} time</relativeTimePattern>
+					<relativeTimePattern count="other">om {0} timer</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">for {0} time siden</relativeTimePattern>
+					<relativeTimePattern count="other">for {0} timer siden</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="minute">
 				<displayName>minutt</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">om {0} minutt</relativeTimePattern>
+					<relativeTimePattern count="other">om {0} minutter</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">for {0} minutt siden</relativeTimePattern>
+					<relativeTimePattern count="other">for {0} minutter siden</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="second">
 				<displayName>sekund</displayName>
+				<relativeTime type="future">
+					<relativeTimePattern count="one">om {0} sekund</relativeTimePattern>
+					<relativeTimePattern count="other">om {0} sekunder</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="one">for {0} sekund siden</relativeTimePattern>
+					<relativeTimePattern count="other">for {0} sekunder siden</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="zone">
 				<displayName>sone</displayName>
@@ -1592,9 +1681,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>ukjend</exemplarCity>
-			</zone>
-			<zone type="Antarctica/South_Pole">
-				<exemplarCity>Sørpolen</exemplarCity>
 			</zone>
 			<zone type="America/Belem">
 				<exemplarCity>Belém</exemplarCity>
@@ -1752,6 +1838,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<long>
 					<standard>greenwich middeltid</standard>
 				</long>
+				<short>
+					<standard>GMT</standard>
+				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
@@ -1847,7 +1936,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</percentFormats>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern>#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
@@ -1862,7 +1951,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>UAE dirham</displayName>
 			</currency>
 			<currency type="AFA">
-				<displayName>afghani (1927-2002)</displayName>
+				<displayName>afghani (1927–2002)</displayName>
 			</currency>
 			<currency type="AFN">
 				<displayName>afghani</displayName>
@@ -1880,19 +1969,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>angolsk kwanza</displayName>
 			</currency>
 			<currency type="AOK">
-				<displayName>angolsk kwanza (1977-1990)</displayName>
+				<displayName>angolsk kwanza (1977–1990)</displayName>
 			</currency>
 			<currency type="AON">
-				<displayName>angolsk ny kwanza (1990-2000)</displayName>
+				<displayName>angolsk ny kwanza (1990–2000)</displayName>
 			</currency>
 			<currency type="AOR">
-				<displayName>angolsk kwanza reajustado (1995-1999)</displayName>
+				<displayName>angolsk kwanza reajustado (1995–1999)</displayName>
 			</currency>
 			<currency type="ARA">
 				<displayName>argentisk austral</displayName>
 			</currency>
 			<currency type="ARP">
-				<displayName>argentinsk peso (1983-1985)</displayName>
+				<displayName>argentinsk peso (1983–1985)</displayName>
 			</currency>
 			<currency type="ARS">
 				<displayName>argentinsk peso</displayName>
@@ -1963,13 +2052,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>bolivisk mvdol</displayName>
 			</currency>
 			<currency type="BRB">
-				<displayName>brasiliansk cruzeiro novo (1967-1986)</displayName>
+				<displayName>brasiliansk cruzeiro novo (1967–1986)</displayName>
 			</currency>
 			<currency type="BRC">
 				<displayName>brasiliansk cruzado</displayName>
 			</currency>
 			<currency type="BRE">
-				<displayName>brasiliansk cruzeiro (1990-1993)</displayName>
+				<displayName>brasiliansk cruzeiro (1990–1993)</displayName>
 			</currency>
 			<currency type="BRL">
 				<displayName>brasiliansk real</displayName>
@@ -1995,7 +2084,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">botswanske pula</displayName>
 			</currency>
 			<currency type="BYB">
-				<displayName>kviterussisk ny rubel (1994-1999)</displayName>
+				<displayName>kviterussisk ny rubel (1994–1999)</displayName>
 				<displayName count="one">kviterussisk ny rubel (BYB)</displayName>
 				<displayName count="other">kviterussiske nye rublar (BYB)</displayName>
 			</currency>
@@ -2150,9 +2239,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">eritreiske nakfa</displayName>
 			</currency>
 			<currency type="ESA">
-				<displayName>spansk peseta (A-konto)</displayName>
-				<displayName count="one">spansk peseta (A-konto)</displayName>
-				<displayName count="other">spanske peseta (A-konto)</displayName>
+				<displayName>spansk peseta (A–konto)</displayName>
+				<displayName count="one">spansk peseta (A–konto)</displayName>
+				<displayName count="other">spanske peseta (A–konto)</displayName>
 			</currency>
 			<currency type="ESB">
 				<displayName>spansk peseta (konvertibel konto)</displayName>
@@ -2210,7 +2299,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">georgiske lari</displayName>
 			</currency>
 			<currency type="GHC">
-				<displayName>ghanesisk cedi (1979-2007)</displayName>
+				<displayName>ghanesisk cedi (1979–2007)</displayName>
 				<displayName count="one">ghanesisk cedi (GHC)</displayName>
 				<displayName count="other">ghanesiske cedi (GHC)</displayName>
 			</currency>
@@ -2553,7 +2642,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">meksikanske peso</displayName>
 			</currency>
 			<currency type="MXP">
-				<displayName>meksikansk sølvpeso (1861-1992)</displayName>
+				<displayName>meksikansk sølvpeso (1861–1992)</displayName>
 				<displayName count="one">meksikansk sølvpeso (MXP)</displayName>
 				<displayName count="other">meksikanske sølvpeso (MXP)</displayName>
 			</currency>
@@ -2667,7 +2756,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">polske zloty</displayName>
 			</currency>
 			<currency type="PLZ">
-				<displayName>polsk zloty (1950-1995)</displayName>
+				<displayName>polsk zloty (1950–1995)</displayName>
 				<displayName count="one">polsk zloty (PLZ)</displayName>
 				<displayName count="other">polske zloty (PLZ)</displayName>
 			</currency>
@@ -2710,7 +2799,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>russisk rubel</displayName>
 			</currency>
 			<currency type="RUR">
-				<displayName>russisk rubel (1991-1998)</displayName>
+				<displayName>russisk rubel (1991–1998)</displayName>
 				<displayName count="one">russisk rubel (RUR)</displayName>
 				<displayName count="other">russiske rublar (RUR)</displayName>
 			</currency>
@@ -2892,7 +2981,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">ukrainske karbovanetz</displayName>
 			</currency>
 			<currency type="UGS">
-				<displayName>ugandisk shilling (1966-1987)</displayName>
+				<displayName>ugandisk shilling (1966–1987)</displayName>
 				<displayName count="one">ugandisk shilling (UGS)</displayName>
 				<displayName count="other">ugandiske shilling (UGS)</displayName>
 			</currency>
@@ -2922,7 +3011,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">uruguayanske peso en unidades indexadas</displayName>
 			</currency>
 			<currency type="UYP">
-				<displayName>uruguayansk peso (1975-1993)</displayName>
+				<displayName>uruguayansk peso (1975–1993)</displayName>
 				<displayName count="one">uruguayansk peso (UYP)</displayName>
 				<displayName count="other">uruguayanske peso (UYP)</displayName>
 			</currency>
@@ -2937,9 +3026,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">usbekiske sum</displayName>
 			</currency>
 			<currency type="VEB">
-				<displayName>venezuelansk bolivar (1871-2008)</displayName>
-				<displayName count="one">venezuelansk bolivar (1871-2008)</displayName>
-				<displayName count="other">venezuelanske bolivar (1871-2008)</displayName>
+				<displayName>venezuelansk bolivar (1871–2008)</displayName>
+				<displayName count="one">venezuelansk bolivar (1871–2008)</displayName>
+				<displayName count="other">venezuelanske bolivar (1871–2008)</displayName>
 			</currency>
 			<currency type="VEF">
 				<displayName>venezuelansk bolivar</displayName>
@@ -3086,7 +3175,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>sørafrikansk rand</displayName>
 			</currency>
 			<currency type="ZMK">
-				<displayName>zambisk kwacha (1968-2012)</displayName>
+				<displayName>zambisk kwacha (1968–2012)</displayName>
 			</currency>
 			<currency type="ZMW">
 				<displayName>zambisk kwacha</displayName>
@@ -3105,111 +3194,612 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other" draft="unconfirmed">Zimbabwe-dollar (2009)</displayName>
 			</currency>
 		</currencies>
+		<miscPatterns numberSystem="latn">
+			<pattern type="range" draft="unconfirmed">{0}‒{1}</pattern>
+		</miscPatterns>
 	</numbers>
 	<units>
-		<unit type="day">
-			<unitPattern count="one">{0} døgn</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} d</unitPattern>
-			<unitPattern count="other">{0} døgn</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} d</unitPattern>
-		</unit>
-		<unit type="day-future">
-			<unitPattern count="one">om {0} dag</unitPattern>
-			<unitPattern count="other">om {0} dagar</unitPattern>
-		</unit>
-		<unit type="day-past">
-			<unitPattern count="one">for {0} dag sidan</unitPattern>
-			<unitPattern count="other">for {0} dagar sidan</unitPattern>
-		</unit>
-		<unit type="hour">
-			<unitPattern count="one">{0} time</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} h</unitPattern>
-			<unitPattern count="other">{0} timar</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} h</unitPattern>
-		</unit>
-		<unit type="hour-future">
-			<unitPattern count="one">om {0} time</unitPattern>
-			<unitPattern count="other">om {0} timar</unitPattern>
-		</unit>
-		<unit type="hour-past">
-			<unitPattern count="one">for {0} time sidan</unitPattern>
-			<unitPattern count="other">for {0} timar sidan</unitPattern>
-		</unit>
-		<unit type="minute">
-			<unitPattern count="one">{0} minutt</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} mi</unitPattern>
-			<unitPattern count="other">{0} minutt</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} mi</unitPattern>
-		</unit>
-		<unit type="minute-future">
-			<unitPattern count="one">om {0} minutt</unitPattern>
-			<unitPattern count="other">om {0} minutt</unitPattern>
-		</unit>
-		<unit type="minute-past">
-			<unitPattern count="one">for {0} minutt sidan</unitPattern>
-			<unitPattern count="other">for {0} minutt sidan</unitPattern>
-		</unit>
-		<unit type="month">
-			<unitPattern count="one">{0} månad</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} må</unitPattern>
-			<unitPattern count="other">{0} månader</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} må</unitPattern>
-		</unit>
-		<unit type="month-future">
-			<unitPattern count="one">om {0} månad</unitPattern>
-			<unitPattern count="other">om {0} månader</unitPattern>
-		</unit>
-		<unit type="month-past">
-			<unitPattern count="one">for {0} månad sidan</unitPattern>
-			<unitPattern count="other">for {0} månader sidan</unitPattern>
-		</unit>
-		<unit type="second">
-			<unitPattern count="one">{0} sekund</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} s</unitPattern>
-			<unitPattern count="other">{0} sekund</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} s</unitPattern>
-		</unit>
-		<unit type="second-future">
-			<unitPattern count="one">om {0} sekund</unitPattern>
-			<unitPattern count="other">om {0} sekund</unitPattern>
-		</unit>
-		<unit type="second-past">
-			<unitPattern count="one">for {0} sekund sidan</unitPattern>
-			<unitPattern count="other">for {0} sekund sidan</unitPattern>
-		</unit>
-		<unit type="week">
-			<unitPattern count="one">{0} veke</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} v</unitPattern>
-			<unitPattern count="other">{0} veker</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} v</unitPattern>
-		</unit>
-		<unit type="week-future">
-			<unitPattern count="one">om {0} veke</unitPattern>
-			<unitPattern count="other">om {0} veker</unitPattern>
-		</unit>
-		<unit type="week-past">
-			<unitPattern count="one">for {0} veke sidan</unitPattern>
-			<unitPattern count="other">for {0} veker sidan</unitPattern>
-		</unit>
-		<unit type="year">
-			<unitPattern count="one">{0} år</unitPattern>
-			<unitPattern count="one" alt="short" draft="unconfirmed">{0} år</unitPattern>
-			<unitPattern count="other">{0} år</unitPattern>
-			<unitPattern count="other" alt="short" draft="unconfirmed">{0} år</unitPattern>
-		</unit>
-		<unit type="year-future">
-			<unitPattern count="one">om {0} år</unitPattern>
-			<unitPattern count="other">om {0} år</unitPattern>
-		</unit>
-		<unit type="year-past">
-			<unitPattern count="one">for {0} år sidan</unitPattern>
-			<unitPattern count="other">for {0} år sidan</unitPattern>
-		</unit>
+		<unitLength type="long">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="unconfirmed">{0} per {1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one" draft="unconfirmed">{0} Jordgravitasjon</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} Jordgravitasjoner</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one" draft="unconfirmed">{0} bueminutt</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} bueminutter</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one" draft="unconfirmed">{0} buesekund</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} buesekunder</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one" draft="unconfirmed">{0} grad</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} grader</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one" draft="unconfirmed">{0} amerikanskt tønneland</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} amerikanske tønneland</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one" draft="unconfirmed">{0} hektar</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} hektar</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one" draft="unconfirmed">{0} kvadratfot</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kvadratfot</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} kvadratkilometer</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kvadratkilometer</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one" draft="unconfirmed">{0} kvadratmeter</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kvadratmeter</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one" draft="unconfirmed">{0} kvadrat-engelsk mil</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kvadrat-engelske mil</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one" draft="unconfirmed">{0} døgn</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} døgn</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one" draft="unconfirmed">{0} time</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} timer</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one" draft="unconfirmed">{0} millisekund</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} millisekunder</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one" draft="unconfirmed">{0} minutt</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} minutter</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one" draft="unconfirmed">{0} måned</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} måneder</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one" draft="unconfirmed">{0} sekund</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} sekunder</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one" draft="unconfirmed">{0} uke</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} uker</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one" draft="unconfirmed">{0} år</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} år</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one" draft="unconfirmed">{0} centimeter</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} centimeter</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one" draft="unconfirmed">{0} fot</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} fot</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one" draft="unconfirmed">{0} tomme</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} tommer</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} kilometer</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kilometer</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one" draft="unconfirmed">{0} lysår</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} lysår</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one" draft="unconfirmed">{0} meter</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} meter</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one" draft="unconfirmed">{0} engelsk mil</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} engelske mil</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one" draft="unconfirmed">{0} millimeter</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} millimeter</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one" draft="unconfirmed">{0} pikometer</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} pikometer</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one" draft="unconfirmed">{0} engelsk yard</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} engelske yard</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one" draft="unconfirmed">{0} gram</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} gram</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one" draft="unconfirmed">{0} kilogram</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kilogram</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one" draft="unconfirmed">{0} unse</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} unser</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one" draft="unconfirmed">{0} skålpund</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} skålpund</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one" draft="unconfirmed">{0} hestekraft</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} hestekrafter</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one" draft="unconfirmed">{0} kilowatt</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kilowatt</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one" draft="unconfirmed">{0} watt</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} watt</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one" draft="unconfirmed">{0} hektopascal</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} hektopascal</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one" draft="unconfirmed">{0} tomme kvikksølv</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} tommer kvikksølv</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one" draft="unconfirmed">{0} millibar</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} millibar</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one" draft="unconfirmed">{0} kilometer per time</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kilometer per time</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one" draft="unconfirmed">{0} meter per sekund</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} meter per sekund</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one" draft="unconfirmed">{0} engelsk mil per time</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} engelske mil per time</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one" draft="unconfirmed">{0} grad Celsius</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} grader Celsius</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one" draft="unconfirmed">{0} grad Fahrenheit</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} grader Fahrenheit</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} kubikkilometer</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kubikkilometer</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one" draft="unconfirmed">{0} kubikk-engelsk mil</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kubikk-engelske mil</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one" draft="unconfirmed">{0} liter</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} liter</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="short">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="unconfirmed">{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one" draft="unconfirmed">{0} G</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one" draft="unconfirmed">{0}′</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one" draft="unconfirmed">{0}″</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one" draft="unconfirmed">{0}°</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0} ac</unitPattern>
+				<unitPattern count="other">{0} ac</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one" draft="unconfirmed">{0} ha</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} ha</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one" draft="unconfirmed">{0} kvadratfot</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kvadratfot</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} km²</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one" draft="unconfirmed">{0} m²</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} m²</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} mi²</unitPattern>
+				<unitPattern count="other">{0} mi²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one" draft="unconfirmed">{0} d</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} d</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one" draft="unconfirmed">{0} h</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} h</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one" draft="unconfirmed">{0} ms</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one" draft="unconfirmed">{0} min</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} min</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one" draft="unconfirmed">{0} mån</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} mån</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one" draft="unconfirmed">{0} s</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} s</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one" draft="unconfirmed">{0} u</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} u</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one" draft="unconfirmed">{0} år</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} år</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one" draft="unconfirmed">{0} cm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} cm</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one" draft="unconfirmed">{0} fot</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} fot</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one" draft="unconfirmed">{0} tomme</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} tommer</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} km</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} km</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one" draft="unconfirmed">{0} lysår</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} lysår</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one" draft="unconfirmed">{0} m</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} m</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0} mi</unitPattern>
+				<unitPattern count="other">{0} mi</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one" draft="unconfirmed">{0} mm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one" draft="unconfirmed">{0} pm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} pm</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0} yd</unitPattern>
+				<unitPattern count="other">{0} yd</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one" draft="unconfirmed">{0} g</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one" draft="unconfirmed">{0} kg</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kg</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one" draft="unconfirmed">{0} unse</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} unser</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one" draft="unconfirmed">{0} skålpund</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} skålpund</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one" draft="unconfirmed">{0} hk</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} hk</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one" draft="unconfirmed">{0} kW</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one" draft="unconfirmed">{0} W</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one" draft="unconfirmed">{0} hPa</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} hPa</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} inHg</unitPattern>
+				<unitPattern count="other">{0} inHg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one" draft="unconfirmed">{0} mbar</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} mbar</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one" draft="unconfirmed">{0} km/h</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one" draft="unconfirmed">{0} m/s</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} m/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} mi/h</unitPattern>
+				<unitPattern count="other">{0} mi/h</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one" draft="unconfirmed">{0}°C</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°C</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one" draft="unconfirmed">{0}°F</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0} km³</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} km³</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0} mi³</unitPattern>
+				<unitPattern count="other">{0} mi³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one" draft="unconfirmed">{0} l</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} l</unitPattern>
+			</unit>
+		</unitLength>
+		<unitLength type="narrow">
+			<compoundUnit type="per">
+				<compoundUnitPattern draft="unconfirmed">{0}/{1}</compoundUnitPattern>
+			</compoundUnit>
+			<unit type="acceleration-g-force">
+				<unitPattern count="one" draft="unconfirmed">{0}G</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}G</unitPattern>
+			</unit>
+			<unit type="angle-arc-minute">
+				<unitPattern count="one" draft="unconfirmed">{0}′</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}′</unitPattern>
+			</unit>
+			<unit type="angle-arc-second">
+				<unitPattern count="one" draft="unconfirmed">{0}″</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}″</unitPattern>
+			</unit>
+			<unit type="angle-degree">
+				<unitPattern count="one" draft="unconfirmed">{0}°</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0} ac</unitPattern>
+				<unitPattern count="other">{0} ac</unitPattern>
+			</unit>
+			<unit type="area-hectare">
+				<unitPattern count="one" draft="unconfirmed">{0}ha</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}ha</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<unitPattern count="one">{0} ft²</unitPattern>
+				<unitPattern count="other">{0} ft²</unitPattern>
+			</unit>
+			<unit type="area-square-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0}km²</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}km²</unitPattern>
+			</unit>
+			<unit type="area-square-meter">
+				<unitPattern count="one" draft="unconfirmed">{0}m²</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m²</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one">{0} mi²</unitPattern>
+				<unitPattern count="other">{0} mi²</unitPattern>
+			</unit>
+			<unit type="duration-day">
+				<unitPattern count="one" draft="unconfirmed">{0}d</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}d</unitPattern>
+			</unit>
+			<unit type="duration-hour">
+				<unitPattern count="one" draft="unconfirmed">{0}h</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}h</unitPattern>
+			</unit>
+			<unit type="duration-millisecond">
+				<unitPattern count="one" draft="unconfirmed">{0}ms</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}ms</unitPattern>
+			</unit>
+			<unit type="duration-minute">
+				<unitPattern count="one" draft="unconfirmed">{0}m</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one" draft="unconfirmed">{0}m</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m</unitPattern>
+			</unit>
+			<unit type="duration-second">
+				<unitPattern count="one" draft="unconfirmed">{0}s</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}s</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one" draft="unconfirmed">{0}u</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}u</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<unitPattern count="one" draft="unconfirmed">{0}å</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}å</unitPattern>
+			</unit>
+			<unit type="length-centimeter">
+				<unitPattern count="one" draft="unconfirmed">{0}cm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}cm</unitPattern>
+			</unit>
+			<unit type="length-foot">
+				<unitPattern count="one" draft="unconfirmed">{0} fot</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} fot</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one" draft="unconfirmed">{0} tomme</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} tommer</unitPattern>
+			</unit>
+			<unit type="length-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0}km</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}km</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one" draft="unconfirmed">{0} lysår</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} lysår</unitPattern>
+			</unit>
+			<unit type="length-meter">
+				<unitPattern count="one" draft="unconfirmed">{0}m</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m</unitPattern>
+			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one">{0} mi</unitPattern>
+				<unitPattern count="other">{0} mi</unitPattern>
+			</unit>
+			<unit type="length-millimeter">
+				<unitPattern count="one" draft="unconfirmed">{0}mm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}mm</unitPattern>
+			</unit>
+			<unit type="length-picometer">
+				<unitPattern count="one" draft="unconfirmed">{0}pm</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}pm</unitPattern>
+			</unit>
+			<unit type="length-yard">
+				<unitPattern count="one">{0} yd</unitPattern>
+				<unitPattern count="other">{0} yd</unitPattern>
+			</unit>
+			<unit type="mass-gram">
+				<unitPattern count="one" draft="unconfirmed">{0}g</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}g</unitPattern>
+			</unit>
+			<unit type="mass-kilogram">
+				<unitPattern count="one" draft="unconfirmed">{0}kg</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}kg</unitPattern>
+			</unit>
+			<unit type="mass-ounce">
+				<unitPattern count="one" draft="unconfirmed">{0} unse</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} unser</unitPattern>
+			</unit>
+			<unit type="mass-pound">
+				<unitPattern count="one" draft="unconfirmed">{0} skålpund</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0} skålpund</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one" draft="unconfirmed">{0}hk</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}hk</unitPattern>
+			</unit>
+			<unit type="power-kilowatt">
+				<unitPattern count="one" draft="unconfirmed">{0}kW</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}kW</unitPattern>
+			</unit>
+			<unit type="power-watt">
+				<unitPattern count="one" draft="unconfirmed">{0}W</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}W</unitPattern>
+			</unit>
+			<unit type="pressure-hectopascal">
+				<unitPattern count="one" draft="unconfirmed">{0}hPa</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}hPa</unitPattern>
+			</unit>
+			<unit type="pressure-inch-hg">
+				<unitPattern count="one">{0} inHg</unitPattern>
+				<unitPattern count="other">{0} inHg</unitPattern>
+			</unit>
+			<unit type="pressure-millibar">
+				<unitPattern count="one" draft="unconfirmed">{0}mbar</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}mbar</unitPattern>
+			</unit>
+			<unit type="speed-kilometer-per-hour">
+				<unitPattern count="one" draft="unconfirmed">{0}km/h</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}km/h</unitPattern>
+			</unit>
+			<unit type="speed-meter-per-second">
+				<unitPattern count="one" draft="unconfirmed">{0}m/s</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}m/s</unitPattern>
+			</unit>
+			<unit type="speed-mile-per-hour">
+				<unitPattern count="one">{0} mi/h</unitPattern>
+				<unitPattern count="other">{0} mi/h</unitPattern>
+			</unit>
+			<unit type="temperature-celsius">
+				<unitPattern count="one" draft="unconfirmed">{0}°</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°</unitPattern>
+			</unit>
+			<unit type="temperature-fahrenheit">
+				<unitPattern count="one" draft="unconfirmed">{0}°F</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}°F</unitPattern>
+			</unit>
+			<unit type="volume-cubic-kilometer">
+				<unitPattern count="one" draft="unconfirmed">{0}km³</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}km³</unitPattern>
+			</unit>
+			<unit type="volume-cubic-mile">
+				<unitPattern count="one">{0} mi³</unitPattern>
+				<unitPattern count="other">{0} mi³</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one" draft="unconfirmed">{0}L</unitPattern>
+				<unitPattern count="other" draft="unconfirmed">{0}L</unitPattern>
+			</unit>
+		</unitLength>
+		<durationUnit type="hm">
+			<durationUnitPattern>h:mm</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="hms">
+			<durationUnitPattern>h:mm:ss</durationUnitPattern>
+		</durationUnit>
+		<durationUnit type="ms">
+			<durationUnitPattern>m:ss</durationUnitPattern>
+		</durationUnit>
 	</units>
 	<listPatterns>
 		<listPattern>
-			<listPatternPart type="2" draft="contributed">{0} og {1}</listPatternPart>
+			<listPatternPart type="start" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle" draft="unconfirmed">{0}, {1}</listPatternPart>
 			<listPatternPart type="end" draft="contributed">{0} og {1}</listPatternPart>
+			<listPatternPart type="2" draft="contributed">{0} og {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit">
+			<listPatternPart type="start" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="end" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="2" draft="unconfirmed">{0}, {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit-narrow">
+			<listPatternPart type="start" draft="unconfirmed">{0} {1}</listPatternPart>
+			<listPatternPart type="middle" draft="unconfirmed">{0} {1}</listPatternPart>
+			<listPatternPart type="end" draft="unconfirmed">{0} {1}</listPatternPart>
+			<listPatternPart type="2" draft="unconfirmed">{0} {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="unit-short">
+			<listPatternPart type="start" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="end" draft="unconfirmed">{0}, {1}</listPatternPart>
+			<listPatternPart type="2" draft="unconfirmed">{0}, {1}</listPatternPart>
 		</listPattern>
 	</listPatterns>
 	<posix>

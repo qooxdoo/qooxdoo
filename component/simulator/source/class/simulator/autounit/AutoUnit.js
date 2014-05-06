@@ -23,6 +23,8 @@
  *
  * @ignore(simulator)
  * @ignore(selenium)
+ *
+ * @deprecated{4.0}
  */
 qx.Class.define("simulator.autounit.AutoUnit", {
 

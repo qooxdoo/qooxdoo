@@ -20,7 +20,7 @@
 
 /**
  * A Button widget which supports various states and allows it to be used
- * via the mouse and the keyboard.
+ * via the mouse, touch, pen and the keyboard.
  *
  * If the user presses the button by clicking on it, or the <code>Enter</code> or
  * <code>Space</code> keys, the button fires an {@link qx.ui.core.MExecutable#execute} event.
@@ -39,7 +39,7 @@
  *     alert("Button was clicked");
  *   }, this);
  *
- *   this.getRoot.add(button);
+ *   this.getRoot().add(button);
  * </pre>
  *
  * This example creates a button with the label "Hello World" and attaches an
@@ -77,33 +77,17 @@ qx.Class.define("qx.ui.form.Button",
     }
 
     // Add listeners
-    this.addListener("mouseover", this._onMouseOver);
-    this.addListener("mouseout", this._onMouseOut);
-    this.addListener("mousedown", this._onMouseDown);
-    this.addListener("mouseup", this._onMouseUp);
-    this.addListener("click", this._onClick);
+    this.addListener("pointerover", this._onPointerOver);
+    this.addListener("pointerout", this._onPointerOut);
+    this.addListener("pointerdown", this._onPointerDown);
+    this.addListener("pointerup", this._onPointerUp);
+    this.addListener("tap", this._onTap);
 
     this.addListener("keydown", this._onKeyDown);
     this.addListener("keyup", this._onKeyUp);
 
     // Stop events
-    this.addListener("dblclick", this._onStopEvent);
-
-    // handle the pressed states on emulate mouse because we
-    // don't get mouseover / mouseout events (only for webkit, not IE)
-    if (qx.event.handler.MouseEmulation.ON && !qx.core.Environment.get("event.mspointer")) {
-      this.addListener("mousemove", function(e) {
-        var bounds = this.getBounds();
-        var pos = {left: e.getDocumentLeft(), top: e.getDocumentTop()};
-        var inX = pos.left > bounds.left && pos.left < bounds.left + bounds.width;
-        var inY = pos.top > bounds.top && pos.top < bounds.top + bounds.height;
-        if (inX && inY) {
-          this.addState("pressed");
-        } else {
-          this.removeState("pressed");
-        }
-      });
-    }
+    this.addListener("dbltap", this._onStopEvent);
   },
 
 
@@ -204,7 +188,7 @@ qx.Class.define("qx.ui.form.Button",
     */
 
     /**
-     * Listener method for "mouseover" event
+     * Listener method for "pointerover" event
      * <ul>
      * <li>Adds state "hovered"</li>
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
@@ -212,7 +196,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Mouse event
      */
-    _onMouseOver : function(e)
+    _onPointerOver : function(e)
     {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
@@ -229,7 +213,7 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Listener method for "mouseout" event
+     * Listener method for "pointerout" event
      * <ul>
      * <li>Removes "hovered" state</li>
      * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
@@ -237,7 +221,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Mouse event
      */
-    _onMouseOut : function(e)
+    _onPointerOut : function(e)
     {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
@@ -254,7 +238,7 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Listener method for "mousedown" event
+     * Listener method for "pointerdown" event
      * <ul>
      * <li>Removes "abandoned" state</li>
      * <li>Adds "pressed" state</li>
@@ -262,7 +246,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Mouse event
      */
-    _onMouseDown : function(e)
+    _onPointerDown : function(e)
     {
       if (!e.isLeftPressed()) {
         return;
@@ -270,7 +254,7 @@ qx.Class.define("qx.ui.form.Button",
 
       e.stopPropagation();
 
-      // Activate capturing if the button get a mouseout while
+      // Activate capturing if the button get a pointerout while
       // the button is pressed.
       this.capture();
 
@@ -280,7 +264,7 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Listener method for "mouseup" event
+     * Listener method for "pointerup" event
      * <ul>
      * <li>Removes "pressed" state (if set)</li>
      * <li>Removes "abandoned" state (if set)</li>
@@ -289,7 +273,7 @@ qx.Class.define("qx.ui.form.Button",
      *
      * @param e {Event} Mouse event
      */
-    _onMouseUp : function(e)
+    _onPointerUp : function(e)
     {
       this.releaseCapture();
 
@@ -318,11 +302,11 @@ qx.Class.define("qx.ui.form.Button",
 
 
     /**
-     * Listener method for "click" event which stops the propagation.
+     * Listener method for "tap" event which stops the propagation.
      *
-     * @param e {qx.event.type.Mouse} Mouse event
+     * @param e {qx.event.type.Pointer} Pointer event
      */
-    _onClick : function(e) {
+    _onTap : function(e) {
       e.stopPropagation();
     },
 

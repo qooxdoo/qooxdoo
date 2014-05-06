@@ -1,0 +1,75 @@
+//
+// TOGGLEBUTTON 
+//
+
+$togglebutton-label-padding: rem(3);
+
+.togglebutton {
+  @include box-inset-shadow(0px rem(3) rem(2) $togglebutton-inset-shadow);
+  @include border-radius($togglebutton-border-radius);
+  @include background($togglebutton-background);
+
+  position:relative;
+  display: block;
+
+  cursor: pointer;
+
+  font-weight:$togglebutton-font-weight;
+  text-align:center;
+
+  width:  $togglebutton-width;
+  height:  $togglebutton-height;
+  line-height:  $togglebutton-height;
+
+  border: rem(1) solid $togglebutton-border-color;
+}
+
+.togglebutton:before {
+  font-size: $togglebutton-font-size;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.togglebutton.checked:before {
+  display: block;
+  content: " "attr(data-label-checked);
+  color: $togglebutton-active-text-color;
+  margin-left: $togglebutton-label-padding;
+  margin-right: $togglebutton-knob-width + $togglebutton-label-padding;
+}
+
+.togglebutton:not(.checked):before {
+  display: block;
+  content: " "attr(data-label-unchecked);
+  color: $togglebutton-text-color;
+  margin-left: $togglebutton-knob-width + $togglebutton-label-padding;
+  margin-right: $togglebutton-label-padding;
+  width: togglebutton-width;
+}
+
+.togglebutton:not(.checked) .togglebutton-switch {
+  left: 0px;
+}
+
+.togglebutton.checked {
+  @include box-inset-shadow(0px rem(3) rem(2) $togglebutton-inset-shadow);
+  @include background($togglebutton-active-background);
+}
+
+.togglebutton.checked .togglebutton-switch {
+  @include box-shadow(rem(-2) 0px rem(2) $togglebutton-knob-shadow);
+  right: 0px;
+}
+
+.togglebutton-switch {
+  @include border-radius($togglebutton-border-radius - rem(1));
+  @include box-shadow(rem(2) 0 rem(2) $togglebutton-knob-shadow);
+  @include background($togglebutton-knob-background);
+  
+  display: block;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  height: $togglebutton-height;
+  width: $togglebutton-knob-width;
+}

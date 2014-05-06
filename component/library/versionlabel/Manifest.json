@@ -1,15 +1,15 @@
 {
-  "info" : 
+  "info" :
   {
     "name" : "versionlabel",
 
     "summary" : "Custom Application",
     "description" : "This is a skeleton for a custom application with qooxdoo.",
-    
+
     "homepage" : "http://some.homepage.url/",
 
     "license" : "SomeLicense",
-    "authors" : 
+    "authors" :
     [
       {
         "name" : "First Author (uid)",
@@ -20,8 +20,8 @@
     "version" : "trunk",
     "qooxdoo-versions": ["1.6"]
   },
-  
-  "provides" : 
+
+  "provides" :
   {
     "namespace"   : "qxc.ui.versionlabel",
     "encoding"    : "utf-8",

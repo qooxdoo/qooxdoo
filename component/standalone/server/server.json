@@ -14,11 +14,14 @@
     "APPLICATION"  : "server",
     "QOOXDOO_PATH" : "../../..",
     "QXTHEME"      : "server.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    //"SFILES_VERSION_PART" : "-${QOOXDOO_VERSION}",
+    "SFILES_VERSION_PART" : "",
     "BUILD_PATH"   : "script",
-    "ROOT"         : "."
+    "ROOT"         : ".",
+    "TEST_NAMESPACE" : "test"
   },
 
 
@@ -32,7 +35,7 @@
         "exclude" : ["qx.event.GlobalError"]
       },
 
-      "lint-check" : 
+      "lint-check" :
       {
         "allowed-globals" : [ "qx.event.GlobalError" ]
       },
@@ -95,7 +98,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/qx-oo-${QOOXDOO_VERSION}.min.js",
+          "file" : "${BUILD_PATH}/qx-oo${SFILES_VERSION_PART}.min.js",
           "app-root" : "."
         },
         "code" :
@@ -118,7 +121,7 @@
       {
         "paths" :
         {
-          "file" : "${BUILD_PATH}/qx-oo-${QOOXDOO_VERSION}.js",
+          "file" : "${BUILD_PATH}/qx-oo${SFILES_VERSION_PART}.js",
           "app-root" : "."
         },
         "code" :

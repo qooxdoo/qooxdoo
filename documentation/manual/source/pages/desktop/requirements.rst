@@ -25,11 +25,14 @@ An application comprising of the %{qooxdoo} runtime and custom code written agai
    * - .. image:: /_static/logo_firefox_24x24.png
      - Firefox 3.6+
    * - .. image:: /_static/logo_opera_24x24.png
-     - Opera 12+
+     - Opera 15+
    * - .. image:: /_static/logo_safari_24x24.png
-     - Safari 4+
+     - Safari 6+
    * - .. image:: /_static/logo_chrome_24x24.png
      - Chrome
+
+Older versions should generally work but we can't guarantee that there aren't any problems.
+
 
 .. _pages/desktop/requirements#tools:
 

@@ -21,19 +21,13 @@
     "migration",
     "pretty",
     "profiling",
-    "simulation-build",
-    "simulation-run",
     "source",
     "source-all",
     "source-hybrid",
     "test",
     "test-source",
     "translation",
-    "minify-css",
-    "source-ios",
-    "source-android",
-    "build-ios",
-    "build-android"
+    "minify-css"
   ],
 
   "default-job" : "source-hybrid",
@@ -44,7 +38,7 @@
     "APPLICATION_CSS" : "${APPLICATION}/css/styles.css",  // resource id of custom css
     "QOOXDOO_PATH" : "../../../../",
     "LOCALES"      : [ "en" ],
-    "PLATFORM"     : "ios",  // provide a default
+    "PLATFORM"     : "indigo",  // provide a default
     "CSS_COMB_URI" : "./resource/${APPLICATION}/css/${PLATFORM}-style-min.css",
     "CSS_COMBINED" : "${BUILD_PATH}/${CSS_COMB_URI}",
     "ROOT"         : "."
@@ -60,7 +54,7 @@
       "build-script",
       "source-script"
     ],
-    
+
     "environment" : ["non-literal-keys"]
   },
 
@@ -95,7 +89,6 @@
       "environment" :
       {
         "qx.application" : "${APPLICATION}.Application",
-        "qx.mobile.emulatetouch" : true,
         "qx.mobile.nativescroll" : false
         /* Remove following inline comment if you want to optimize code for webkit browsers.
          Attention: if webkit engine optimization is enabled, mobile app will not be
@@ -104,29 +97,6 @@
       }
     },
 
-    "source-ios" :
-    {
-      "extend" : ["source"],
-      "let" : { "PLATFORM" : "ios" }
-    },
-
-    "source-android" :
-    {
-      "extend" : ["source"],
-      "let" : { "PLATFORM" : "android" }
-    },
-
-    "build-ios" :
-    {
-      "extend" : ["build"],
-      "let" : { "PLATFORM" : "ios" }
-    },
-
-    "build-android" :
-    {
-      "extend" : ["build"],
-      "let" : { "PLATFORM" : "android" }
-    },
 
     "source" :
     {
@@ -142,7 +112,7 @@
     "build" :
     {
       "let" : {
-        "BUILD_PATH" : "${ROOT}/build-${PLATFORM}"
+        "BUILD_PATH" : "${ROOT}/build"
       },
       "asset-let" : {
         "qx.mobile.platform" : [ "${PLATFORM}" ]
@@ -191,8 +161,7 @@
       "=exclude" :
       [
         "qx.test.*",
-        "${APPLICATION}.test.*",
-        "${APPLICATION}.simulation.*"
+        "${APPLICATION}.test.*"
       ],
       "asset-let" : {
         "qx.mobile.platform" : [ "${PLATFORM}" ]

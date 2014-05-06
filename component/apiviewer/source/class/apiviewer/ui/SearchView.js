@@ -190,7 +190,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         typeToggleButton.setKeepFocus(true);
         typeToggleButton.setValue(true);
         typeContainer.add(typeToggleButton);
-        typeToggleButton.addListener("click", function(e) {
+        typeToggleButton.addListener("execute", function(e) {
           this._searchResult(this.sinput.getValue() || "");
         }, this);
         this.__typeFilter.bind("["+i+"]", typeToggleButton, "value");

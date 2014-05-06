@@ -19,6 +19,7 @@
 ************************************************************************ */
 /**
  * CSS/Style property manipulation module
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Css", {
   statics: {
@@ -236,14 +237,28 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Returns the rendered height of the first element in the collection.
      * @attach {qxWeb}
+     * @param force {Boolean?false} When true also get the height of a <em>non displayed</em> element
      * @return {Number} The first item's rendered height
      */
-    getHeight : function() {
+    getHeight : function(force) {
       var elem = this[0];
 
       if (elem) {
         if (qx.dom.Node.isElement(elem)) {
-          return qx.bom.element.Dimension.getHeight(elem);
+
+          var elementHeight;
+          if (force) {
+            var stylesToSwap = {
+              display : "block",
+              position : "absolute",
+              visibility : "hidden"
+            };
+            elementHeight = qx.module.Css.__swap(elem, stylesToSwap, qx.module.Css.getHeight, this);
+          } else {
+            elementHeight = qx.bom.element.Dimension.getHeight(elem);
+          }
+
+          return elementHeight;
         } else if (qx.dom.Node.isDocument(elem)) {
           return qx.bom.Document.getHeight(qx.dom.Node.getWindow(elem));
         } else if (qx.dom.Node.isWindow(elem)) {
@@ -258,14 +273,28 @@ qx.Bootstrap.define("qx.module.Css", {
     /**
      * Returns the rendered width of the first element in the collection
      * @attach {qxWeb}
+     * @param force {Boolean?false} When true also get the width of a <em>non displayed</em> element
      * @return {Number} The first item's rendered width
      */
-    getWidth : function() {
+    getWidth : function(force) {
       var elem = this[0];
 
       if (elem) {
         if (qx.dom.Node.isElement(elem)) {
-          return qx.bom.element.Dimension.getWidth(elem);
+
+          var elementWidth;
+          if (force) {
+            var stylesToSwap = {
+              display : "block",
+              position : "absolute",
+              visibility : "hidden"
+            };
+            elementWidth = qx.module.Css.__swap(elem, stylesToSwap, qx.module.Css.getWidth, this);
+          } else {
+            elementWidth = qx.bom.element.Dimension.getWidth(elem);
+          }
+
+          return elementWidth;
         } else if (qx.dom.Node.isDocument(elem)) {
           return qx.bom.Document.getWidth(qx.dom.Node.getWindow(elem));
         } else if (qx.dom.Node.isWindow(elem)) {
@@ -281,16 +310,25 @@ qx.Bootstrap.define("qx.module.Css", {
      * Returns the computed location of the given element in the context of the
      * document dimensions.
      *
+     * Supported modes:
+     *
+     * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
+     * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
+     * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
+     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
+     * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+     *
      * @attach {qxWeb}
+     * @param mode {String?box} A supported option. See comment above.
      * @return {Map} A map with the keys <code>left</code>, <code>top</code>,
      * <code>right</code> and <code>bottom</code> which contains the distance
      * of the element relative to the document.
      */
-    getOffset : function() {
+    getOffset : function(mode) {
       var elem = this[0];
 
       if (elem && qx.dom.Node.isElement(elem)) {
-        return qx.bom.element.Location.get(elem);
+        return qx.bom.element.Location.get(elem, mode);
       }
 
       return null;
@@ -302,13 +340,27 @@ qx.Bootstrap.define("qx.module.Css", {
      * This is the maximum height the element can use, excluding borders,
      * margins, padding or scroll bars.
      * @attach {qxWeb}
+     * @param force {Boolean?false} When true also get the content height of a <em>non displayed</em> element
      * @return {Number} Computed content height
      */
-    getContentHeight : function()
+    getContentHeight : function(force)
     {
       var obj = this[0];
       if (qx.dom.Node.isElement(obj)) {
-        return qx.bom.element.Dimension.getContentHeight(obj);
+
+        var contentHeight;
+        if (force) {
+          var stylesToSwap = {
+            position: "absolute",
+            visibility: "hidden",
+            display: "block"
+          };
+          contentHeight = qx.module.Css.__swap(obj, stylesToSwap, qx.module.Css.getContentHeight, this);
+        } else {
+          contentHeight = qx.bom.element.Dimension.getContentHeight(obj);
+        }
+
+        return contentHeight;
       }
 
       return null;
@@ -320,13 +372,27 @@ qx.Bootstrap.define("qx.module.Css", {
      * This is the maximum width the element can use, excluding borders,
      * margins, padding or scroll bars.
      * @attach {qxWeb}
+     * @param force {Boolean?false} When true also get the content width of a <em>non displayed</em> element
      * @return {Number} Computed content width
      */
-    getContentWidth : function()
+    getContentWidth : function(force)
     {
       var obj = this[0];
       if (qx.dom.Node.isElement(obj)) {
-        return qx.bom.element.Dimension.getContentWidth(obj);
+
+        var contentWidth;
+        if (force) {
+          var stylesToSwap = {
+            position: "absolute",
+            visibility: "hidden",
+            display: "block"
+          };
+          contentWidth = qx.module.Css.__swap(obj, stylesToSwap, qx.module.Css.getContentWidth, this);
+        } else {
+          contentWidth = qx.bom.element.Dimension.getContentWidth(obj);
+        }
+
+        return contentWidth;
       }
 
       return null;
@@ -373,8 +439,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     hide : function() {
-      this._forEachElement(function(entry, idx) {
-        var item = this.eq(idx);
+      this._forEachElementWrapped(function(item) {
         var prevStyle = item.getStyle("display");
         if (prevStyle !== "none") {
           item[0].$$qPrevDisp = prevStyle;
@@ -396,8 +461,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {qxWeb} The collection for chaining
      */
     show : function() {
-      this._forEachElement(function(entry, idx) {
-        var item = this.eq(idx);
+      this._forEachElementWrapped(function(item) {
         var currentVal = item.getStyle("display");
         var prevVal = item[0].$$qPrevDisp;
         var newVal;
@@ -444,6 +508,37 @@ qx.Bootstrap.define("qx.module.Css", {
       }
 
       return defaults[tagName] || "";
+    },
+
+
+    /**
+     * Swaps the given styles of the element and execute the callback
+     * before the original values are restored.
+     *
+     * Finally returns the return value of the callback.
+     *
+     * @param element {Element} the DOM element to operate on
+     * @param styles {Map} the styles to swap
+     * @param callback {Function} the callback function
+     * @param context {Object} the context in which the callback should be called
+     * @return {Object} the return value of the callback
+     */
+    __swap : function(element, styles, callback, context)
+    {
+      // get the current values
+      var currentValues = {};
+      for (var styleProperty in styles) {
+        currentValues[styleProperty] = element.style[styleProperty];
+        element.style[styleProperty] = styles[styleProperty];
+      }
+
+      var value = callback.call(context);
+
+      for (var styleProperty in currentValues) {
+        element.style[styleProperty] = currentValues[styleProperty];
+      }
+
+      return value;
     }
   },
 

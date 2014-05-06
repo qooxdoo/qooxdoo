@@ -68,13 +68,13 @@ Additionally the manager gives us the possibility to use our application in a mo
 For our example, we just want to work in a mobile device context. That is why, we construct the manager with
 ``false``.
 
-After creation of the new manager, we have to add the "Input" page to it. In order to display the "Input" page on start, we then call its ``show`` method. 
+After creation of the new manager, we have to add the "Input" page to it. In order to display the "Input" page on start, we then call its ``show`` method.
 
 Open the "source/class/mobiletweets/Application.js" class file. You will find a comment in the ``main`` method "*Below is your actual
 application code...*" with example code below. As we don't need this
 example code, we can safely replace it with the following lines of code:
 ::
-    
+
     var manager = new qx.ui.mobile.page.Manager(false);
 
     var inputPage = new mobiletweets.page.Input();
@@ -117,7 +117,7 @@ Page Lifecycle:
     to be shown the currently shown page is stopped. The other page, if
     shown for the first time, will be initialized and started
     afterwards. For all called lifecylce methods an event is fired.*
-    
+
 Calling the "show" method triggers the following lifecycle methods:
 
 -  ``initialize``: Initializes the page to show
@@ -183,7 +183,7 @@ well::
 
     _onTap : function(evt)
     {
-       this.fireDataEvent("requestTweet", null); // Fire a data event. 
+       this.fireDataEvent("requestTweet", null); // Fire a data event.
            // Later we will send the entered "username" as a data.
     }
 
@@ -201,7 +201,7 @@ just added::
 
     // New instance of the Tweets page
     var tweetsPage = new mobiletweets.page.Tweets();
-    
+
     // Add page to manager
     manager.addDetail(tweetsPage);
 
@@ -223,7 +223,7 @@ the "Input" page will be shown with a reversed animation.
 
 New classes mean new dependencies which means we have to generate the source code
 again. Refresh the application in the browser and navigate between the
-pages by clicking on the "Show" and on the "Back" button. Nice!
+pages by tapping on the "Show" and on the "Back" button. Nice!
 
 We need Data, lots of Data!
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -359,7 +359,7 @@ line to the event listener:
 We've come full circle. By setting the username, the data will be loaded
 and we can proceed to display the data. Rebuild the application and
 refresh it in the browser. Type in a valid identica username (e.g.
-"qooxdoo") and click the "Show" button. Press the ``F7`` key to display
+"qooxdoo") and tap the "Show" button. Press the ``F7`` key to display
 the qooxdoo logging window or use the console of the browser developer
 tools. You will see the loaded tweets of the user.
 
@@ -550,7 +550,7 @@ event has to be defined in the ``events`` section of the "Tweets" class:
     events : {
       showTweet : "qx.event.type.Data"
     }
-    
+
 All we need to do now is to listen to the ``showTweet`` event in the
 "Application" class main method, retrieve the index from the data event
 and to get the corresponding tweet from the data. Finally we show our
@@ -577,7 +577,7 @@ After you have finished this tutorial, you have learned the basics of
 qooxdoo mobile. You have seen how easy it is to develop qooxdoo mobile
 applications when you are familiar with qooxdoo. There are only some new
 concepts (e.g. Pages) to learn and you are good to go. All qooxdoo
-mobile applications work on Android and iOS devices. 
+mobile applications work on Android and iOS devices.
 
 
 :doc:`%{Mobile} Deployment with Apache Cordova <deployment>`

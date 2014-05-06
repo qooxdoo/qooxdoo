@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- * Native mouse events
+ * Native pointer events
  *
  * @tag noPlayground
  *
@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.event.EventDemo",
       {
         qx.bom.Element.addListener(
           btnClear,
-          "click",
+          "tap",
           this._clearLog,
           this
         );

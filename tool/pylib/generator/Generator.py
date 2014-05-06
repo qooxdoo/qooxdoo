@@ -31,7 +31,6 @@ from generator.output.PartBuilder      import PartBuilder
 from generator.output.Script           import Script
 from generator.output.Package          import Package
 from generator.output.Part             import Part
-from generator.code.qcEnvClass       import qcEnvClass
 from generator.output.CodeGenerator  import CodeGenerator
 from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls
@@ -48,20 +47,20 @@ class Generator(object):
     def __init__(self, context):
         global console, interruptRegistry
         interruptRegistry = context['interruptRegistry']
-        self._context   = context
-        self._config    = context['config']  #config
-        self._job       = context['jobconf'] #config.getJob(job)
-        self._console   = context['console'] #console_
-        self._variants  = {}
-        self._settings  = {}
-        self.approot    = None
+        self._context = context
+        self._config = context['config']  #config
+        self._job = context['jobconf'] #config.getJob(job)
+        self._console = context['console'] #console_
+        self._variants = {}
+        self._settings = {}
+        self.approot = None
         self._classesObj= {} # {'cid':generator.code.Class}
 
         if 'cache' in context:  # in case the Generator want to use a common cache object
             self._cache = context['cache']
         else:
-            cache_path  = self._job.get("cache/compile", "cache")
-            cache_path  = self._config.absPath(cache_path)
+            cache_path = self._job.get("cache/compile", "cache")
+            cache_path = self._config.absPath(cache_path)
             self._cache = Cache(cache_path, **{
                 'interruptRegistry' : context['interruptRegistry'],
                 'console' : context['console'],
@@ -250,50 +249,43 @@ class Generator(object):
 
 
             # -----------------------------------------------------------
-            classList  = script.classes
-            variants   = script.variants
+            classList = script.classes
+            variants = script.variants
             self._partBuilder = PartBuilder(self._console, self._depLoader)
 
-            # Check for a 'packages' configuration in the job
-            if 0:
-                # this branch should work, but doesn't;
-                # create a synthetic job key and let evalPackagesConfig do the rest
-                if not self._job.get("packages"):
-                    package_config = {
-                        "parts" : {
-                            "boot" : {
-                                "include" : includeWithDeps
-                            }
-                        },
-                        "init" : "boot"
-                    }
-                    self._job.setFeature("packages", package_config)
+            # Use the 'packages' configuration in the job or fake it dynamically.
+
+            # Using a synthetic config object and running evalPackagesConfig()
+            # in any case doesn't pay off, because the Generator then prints
+            # out messages regarding parts which irritates the user and assumes
+            # that includeWithDeps is used (and fails with includeNoDeps).
+            if self._job.get("packages"):
                 (boot,
                 partPackages,           # partPackages[partId]=[0,1,3]
                 packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-                )   = evalPackagesConfig(excludeWithDeps, classList, variants)
+                ) = evalPackagesConfig(excludeWithDeps, classList, variants)
             else:
-                if self._job.get("packages"):
-                    (boot,
-                    partPackages,           # partPackages[partId]=[0,1,3]
-                    packageClasses          # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
-                    )   = evalPackagesConfig(excludeWithDeps, classList, variants)
-                else:
-                    # Emulate a 'boot' part
-                    boot           = "boot"
-                    partPackages   = { "boot" : [0] }
-                    packageClasses = [classList]
-                    # patch script object
-                    script.boot        = boot
-                    packageObj         = Package(0)
-                    packageObj.classes = script.classesObj
-                    script.packages.append(packageObj)
-                    partObj            = Part("boot")
-                    partObj.packages.append(packageObj)
-                    initial_deps = list(set(includeWithDeps).difference(script.excludes)) # defining classes from config minus expanded excludes
-                    partObj.initial_deps = initial_deps
-                    partObj.deps       = initial_deps[:]
-                    script.parts       = { "boot" : partObj }
+                # bug#7667: Tried to consolidate with if body above, but the
+                # codebase needs too many adaptions to be also compatible with
+                # includeNoDeps (e.g. "=myClass" in config). Therefore this
+                # code branch is kept: Instead of computing the deps, the
+                # classes from script.classesObj are used.
+
+                # Emulate a 'boot' part
+                boot = "boot"
+                partPackages = { "boot" : [0] }
+                packageClasses = [classList]
+                # patch script object
+                script.boot = boot
+                packageObj = Package(0)
+                packageObj.classes = script.classesObj
+                script.packages.append(packageObj)
+                partObj = Part("boot")
+                partObj.packages.append(packageObj)
+                initial_deps = list(set(includeWithDeps).difference(script.excludes)) # defining classes from config minus expanded excludes
+                partObj.initial_deps = initial_deps
+                partObj.deps = initial_deps[:]
+                script.parts = { "boot" : partObj }
 
             return boot, partPackages, packageClasses
 
@@ -326,7 +318,7 @@ class Generator(object):
         def getExcludes(excludeCfg):
             #excludeCfg = self._job.get("exclude", [])
             excludeWithDeps = []
-            excludeWithDepsHard   = []
+            excludeWithDepsHard = []
 
             if len(excludeCfg) == 0:
                 return [], []
@@ -397,7 +389,7 @@ class Generator(object):
                 self._console.debug("Expanding expressions...")
                 try:
                     includeWithDeps = textutil.expandGlobs(includeWithDeps, self._classesObj)
-                    includeNoDeps   = textutil.expandGlobs(includeNoDeps, self._classesObj)
+                    includeNoDeps = textutil.expandGlobs(includeNoDeps, self._classesObj)
                 except RuntimeError:
                     self._console.error("Invalid include block: %s" % includeCfg)
                     raise
@@ -453,7 +445,7 @@ class Generator(object):
              self._classesObj,
              self._docs,
              self._translations,
-             self._libraries)     = self.scanLibrary(config.get("library", []))
+             self._libraries) = self.scanLibrary(config.get("library", []))
 
 
             # create tool chain instances
@@ -482,20 +474,20 @@ class Generator(object):
 
         starttime = time.time()
         config = self._job
-        job    = self._job
+        job = self._job
         require = config.get("require", {})
-        use     = config.get("use", {})
+        use = config.get("use", {})
 
         # Apply output log filter, if any
         self._console.setFilter(config.get("log/filter/debug", []))
 
         # This job's triggers
-        triggersSet         = listJobTriggers()
-        jobKeySet           = set(job.getData().keys())
-        jobTriggers         = jobKeySet.intersection(triggersSet)
+        triggersSet = listJobTriggers()
+        jobKeySet = set(job.getData().keys())
+        jobTriggers = jobKeySet.intersection(triggersSet)
 
         # Create tool chain instances
-        self._actionLib     = ActionLib(self._config, self._console)
+        self._actionLib = ActionLib(self._config, self._console)
 
         # process simple triggers
         if takeout(jobTriggers, "collect-environment-info"):
@@ -561,19 +553,18 @@ class Generator(object):
 
             # Processing all combinations of variants
             environData = getVariants("environment")   # e.g. {'qx.debug':false, 'qx.aspects':[true,false]}
-            variantSets  = util.computeCombinations(environData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
+            variantSets = util.computeCombinations(environData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
             for variantSetNum, variantset in enumerate(variantSets):
-
                 # some console output
                 printVariantInfo(variantSetNum, variantset, variantSets, environData)
 
-                script           = Script()  # a new Script object represents the target code
+                script = Script()  # a new Script object represents the target code
                 script.classesAll = self._classesObj  # for deps. analysis
                 script.namespace = self.getAppName()
-                script.variants  = variantset
+                script.variants = variantset
                 script.environment = variantset
-                script.optimize  = config.get("compile-options/code/optimize", [])
-                script.locales   = config.get("compile-options/code/locales", [])
+                script.optimize = config.get("compile-options/code/optimize", [])
+                script.locales = config.get("compile-options/code/locales", [])
                 script.libraries = self._libraries
                 script.jobconfig = self._job
                 # set source/build version
@@ -661,8 +652,8 @@ class Generator(object):
         for libObj in libraryKey:
 
             checkFile, fsTime = libObj.mostRecentlyChangedFile() # use the fresh Library() object to get the newest file on disk
-            cacheId   = "lib-%s" % libObj.manipath
-            checkObj, cacheTime  = self._cache.read(cacheId, memory=True)
+            cacheId = "lib-%s" % libObj.manipath
+            checkObj, cacheTime = self._cache.read(cacheId, memory=True)
             # need re-scan?
             if not checkObj or cacheTime < fsTime:
                 self._console.debug("Re-scanning lib %s" % libObj.path)

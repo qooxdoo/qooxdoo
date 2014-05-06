@@ -56,20 +56,6 @@ qx.Mixin.define("testrunner.view.MPerformance", {
      */
     logMeasurement : function(clazz, msg, iterations, ownTime, renderTime) {
       this.__measurements.push([clazz, msg, iterations, ownTime, renderTime].join("; "));
-    },
-
-
-    /**
-     * Whether the browser's built-in profiling capabilities (console.profile)
-     * should (additionally) be used for performance tests
-     *
-     * @deprecated {2.0} since 2.0
-     * @return {Boolean} <code>true</code> if native profiling should be used
-     */
-    getProfile : function()
-    {
-      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Please use getNativeProfiling instead");
-      return this.getNativeProfiling();
     }
   }
 });

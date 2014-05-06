@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     /**
      * Enable drag selection (multi selection of items through
-     * dragging the mouse in pressed states).
+     * dragging the pointer in pressed states).
      *
      * Only possible for the modes <code>multi</code> and <code>additive</code>
      */
@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     * Enable quick selection mode, where no click is needed to change the selection.
+     * Enable quick selection mode, where no tap is needed to change the selection.
      *
      * Only possible for the modes <code>single</code> and <code>one</code>.
      */
@@ -135,8 +135,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     __dragStartX : null,
     __dragStartY : null,
     __inCapture : null,
-    __mouseX : null,
-    __mouseY : null,
+    __pointerX : null,
+    __pointerY : null,
     __moveDirectionX : null,
     __moveDirectionY : null,
     __selectionModified : null,
@@ -144,10 +144,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     __leadItem : null,
     __selection : null,
     __anchorItem : null,
-    __mouseDownOnSelected : null,
+    __pointerDownOnSelected : null,
 
     // A flag that signals an user interaction, which means the selection change
-    // was triggered by mouse or keyboard [BUG #3344]
+    // was triggered by pointer or keyboard [BUG #3344]
     _userInteraction : false,
 
     __oldScrollTop : null,
@@ -159,11 +159,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     */
 
     /**
-     * Returns the selection context. One of <code>click</code>,
+     * Returns the selection context. One of <code>tap</code>,
      * <code>quick</code>, <code>drag</code> or <code>key</code> or
      * <code>null</code>.
      *
-     * @return {String} One of <code>click</code>, <code>quick</code>,
+     * @return {String} One of <code>tap</code>, <code>quick</code>,
      *    <code>drag</code> or <code>key</code> or <code>null</code>
      */
     getSelectionContext : function() {
@@ -456,7 +456,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     /**
      * Sets the lead item. Generally the item which was last modified
-     * by the user (clicked on etc.)
+     * by the user (tapped on etc.)
      *
      * @param value {Object} Any valid item or <code>null</code>
      */
@@ -478,19 +478,19 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     /**
      * Returns the current lead item. Generally the item which was last modified
-     * by the user (clicked on etc.)
+     * by the user (tapped on etc.)
      *
      * @return {Object} The lead item or <code>null</code>
      */
     getLeadItem : function() {
-      return this.__leadItem !== null ? this.__leadItem : null;
+      return this.__leadItem;
     },
 
 
     /**
      * Sets the anchor item. This is the item which is the starting
      * point for all range selections. Normally this is the item which was
-     * clicked on the last time without any modifier keys pressed.
+     * tapped on the last time without any modifier keys pressed.
      *
      * @param value {Object} Any valid item or <code>null</code>
      */
@@ -513,7 +513,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns the current anchor item. This is the item which is the starting
      * point for all range selections. Normally this is the item which was
-     * clicked on the last time without any modifier keys pressed.
+     * tapped on the last time without any modifier keys pressed.
      *
      * @return {Object} The anchor item or <code>null</code>
      */
@@ -543,12 +543,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     * Finds the selectable instance from a mouse event
+     * Finds the selectable instance from a pointer event
      *
-     * @param event {qx.event.type.Mouse} The mouse event
+     * @param event {qx.event.type.Pointer} The pointer event
      * @return {Object|null} The resulting selectable
      */
-    _getSelectableFromMouseEvent : function(event)
+    _getSelectableFromPointerEvent : function(event)
     {
       var target = event.getTarget();
       // check for target (may be null when leaving the viewport) [BUG #4378]
@@ -809,25 +809,30 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     /*
     ---------------------------------------------------------------------------
-      MOUSE SUPPORT
+      POINTER SUPPORT
     ---------------------------------------------------------------------------
     */
 
     /**
-     * This method should be connected to the <code>mouseover</code> event
+     * This method should be connected to the <code>pointerover</code> event
      * of the managed object.
      *
-     * @param event {qx.event.type.Mouse} A valid mouse event
+     * @param event {qx.event.type.Pointer} A valid pointer event
      */
-    handleMouseOver : function(event)
+    handlePointerOver : function(event)
     {
       // All browsers (except Opera) fire a native "mouseover" event when a scroll appears
       // by keyboard interaction. We have to ignore the event to avoid a selection for
-      // "mouseover" (quick selection). For more details see [BUG #4225]
+      // "pointerover" (quick selection). For more details see [BUG #4225]
       if(this.__oldScrollTop != null &&
          this.__oldScrollTop != this._getScroll().top)
       {
         this.__oldScrollTop = null;
+        return;
+      }
+
+      // quick select should only work on mouse events
+      if (event.getPointerType() != "mouse") {
         return;
       }
 
@@ -846,7 +851,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         return;
       }
 
-      var item = this._getSelectableFromMouseEvent(event);
+      var item = this._getSelectableFromPointerEvent(event);
       if (item === null) {
         this._userInteraction = false;
         return;
@@ -855,7 +860,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._setSelectedItem(item);
 
       // Be sure that item is in view
-      // This does not feel good when mouseover is used
+      // This does not feel good when pointerover is used
       // this._scrollItemIntoView(item);
 
       // Fire change event as needed
@@ -866,18 +871,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     * This method should be connected to the <code>mousedown</code> event
+     * This method should be connected to the <code>pointerdown</code> event
      * of the managed object.
      *
-     * @param event {qx.event.type.Mouse} A valid mouse event
+     * @param event {qx.event.type.Pointer} A valid pointer event
      */
-    handleMouseDown : function(event)
+    handlePointerDown : function(event)
     {
       // this is a method invoked by an user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
 
-      var item = this._getSelectableFromMouseEvent(event);
+      var item = this._getSelectableFromPointerEvent(event);
       if (item === null) {
         this._userInteraction = false;
         return;
@@ -888,20 +893,106 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
-      // Clicking on selected items deselect on mouseup, not on mousedown
+      // tapping on selected items deselect on pointerup, not on pointerdown
       if (this.isItemSelected(item) && !isShiftPressed && !isCtrlPressed && !this.getDrag())
       {
-        this.__mouseDownOnSelected = item;
+        this.__pointerDownOnSelected = item;
         this._userInteraction = false;
         return;
       }
       else
       {
-        this.__mouseDownOnSelected = null;
+        this.__pointerDownOnSelected = null;
       }
 
       // Be sure that item is in view
       this._scrollItemIntoView(item);
+
+      // Drag selection
+      var mode = this.getMode();
+      if (
+        this.getDrag() &&
+        mode !== "single" &&
+        mode !== "one" &&
+        !isShiftPressed &&
+        !isCtrlPressed &&
+        event.getPointerType() == "mouse"
+      )
+      {
+        this._setAnchorItem(item);
+        this._setLeadItem(item);
+
+        // Cache location/scroll data
+        this.__frameLocation = this._getLocation();
+        this.__frameScroll = this._getScroll();
+
+        // Store position at start
+        this.__dragStartX = event.getDocumentLeft() + this.__frameScroll.left;
+        this.__dragStartY = event.getDocumentTop() + this.__frameScroll.top;
+
+        // Switch to capture mode
+        this.__inCapture = true;
+        this._capture();
+      }
+
+
+      // Fire change event as needed
+      this._fireChange("tap");
+
+      this._userInteraction = false;
+    },
+
+
+    /**
+     * This method should be connected to the <code>tap</code> event
+     * of the managed object.
+     *
+     * @param event {qx.event.type.Tap} A valid pointer event
+     */
+    handleTap : function(event)
+    {
+      // this is a method invoked by an user interaction, so be careful to
+      // set / clear the mark this._userInteraction [BUG #3344]
+      this._userInteraction = true;
+
+      // Read in keyboard modifiers
+      var isCtrlPressed = event.isCtrlPressed() ||
+        (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
+      var isShiftPressed = event.isShiftPressed();
+
+      if (!isCtrlPressed && !isShiftPressed && this.__pointerDownOnSelected != null)
+      {
+        var item = this._getSelectableFromPointerEvent(event);
+        if (item === null || !this.isItemSelected(item)) {
+          this._userInteraction = false;
+          return;
+        }
+
+        var mode = this.getMode();
+        if (mode === "additive")
+        {
+          // Remove item from selection
+          this._removeFromSelection(item);
+        }
+        else
+        {
+          // Replace selection
+          this._setSelectedItem(item);
+
+          if (this.getMode() === "multi")
+          {
+            this._setLeadItem(item);
+            this._setAnchorItem(item);
+          }
+        }
+        this._userInteraction = false;
+      }
+
+      var item = this._getSelectableFromPointerEvent(event);
+      if (item === null) {
+        this._userInteraction = false;
+        return;
+      }
 
       // Action depends on selected mode
       switch(this.getMode())
@@ -951,83 +1042,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           break;
       }
 
-
-      // Drag selection
-      var mode = this.getMode();
-      if (
-        this.getDrag() &&
-        mode !== "single" &&
-        mode !== "one" &&
-        !isShiftPressed &&
-        !isCtrlPressed
-      )
-      {
-        // Cache location/scroll data
-        this.__frameLocation = this._getLocation();
-        this.__frameScroll = this._getScroll();
-
-        // Store position at start
-        this.__dragStartX = event.getDocumentLeft() + this.__frameScroll.left;
-        this.__dragStartY = event.getDocumentTop() + this.__frameScroll.top;
-
-        // Switch to capture mode
-        this.__inCapture = true;
-        this._capture();
-      }
-
-
-      // Fire change event as needed
-      this._fireChange("click");
-
-      this._userInteraction = false;
-    },
-
-
-    /**
-     * This method should be connected to the <code>mouseup</code> event
-     * of the managed object.
-     *
-     * @param event {qx.event.type.Mouse} A valid mouse event
-     */
-    handleMouseUp : function(event)
-    {
-      // this is a method invoked by an user interaction, so be careful to
-      // set / clear the mark this._userInteraction [BUG #3344]
-      this._userInteraction = true;
-
-      // Read in keyboard modifiers
-      var isCtrlPressed = event.isCtrlPressed() ||
-        (qx.core.Environment.get("os.name") == "osx" && event.isMetaPressed());
-      var isShiftPressed = event.isShiftPressed();
-
-      if (!isCtrlPressed && !isShiftPressed && this.__mouseDownOnSelected != null)
-      {
-        var item = this._getSelectableFromMouseEvent(event);
-        if (item === null || !this.isItemSelected(item)) {
-          this._userInteraction = false;
-          return;
-        }
-
-        var mode = this.getMode();
-        if (mode === "additive")
-        {
-          // Remove item from selection
-          this._removeFromSelection(item);
-        }
-        else
-        {
-          // Replace selection
-          this._setSelectedItem(item);
-
-          if (this.getMode() === "multi")
-          {
-            this._setLeadItem(item);
-            this._setAnchorItem(item);
-          }
-        }
-        this._userInteraction = false;
-      }
-
       // Cleanup operation
       this._cleanup();
     },
@@ -1037,7 +1051,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * This method should be connected to the <code>losecapture</code> event
      * of the managed object.
      *
-     * @param event {qx.event.type.Mouse} A valid mouse event
+     * @param event {qx.event.type.Pointer} A valid pointer event
      */
     handleLoseCapture : function(event) {
       this._cleanup();
@@ -1045,12 +1059,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     * This method should be connected to the <code>mousemove</code> event
+     * This method should be connected to the <code>pointermove</code> event
      * of the managed object.
      *
-     * @param event {qx.event.type.Mouse} A valid mouse event
+     * @param event {qx.event.type.Pointer} A valid pointer event
      */
-    handleMouseMove : function(event)
+    handlePointerMove : function(event)
     {
       // Only relevant when capturing is enabled
       if (!this.__inCapture) {
@@ -1058,16 +1072,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
 
-      // Update mouse position cache
-      this.__mouseX = event.getDocumentLeft();
-      this.__mouseY = event.getDocumentTop();
+      // Update pointer position cache
+      this.__pointerX = event.getDocumentLeft();
+      this.__pointerY = event.getDocumentTop();
 
       // this is a method invoked by an user interaction, so be careful to
       // set / clear the mark this._userInteraction [BUG #3344]
       this._userInteraction = true;
 
       // Detect move directions
-      var dragX = this.__mouseX + this.__frameScroll.left;
+      var dragX = this.__pointerX + this.__frameScroll.left;
       if (dragX > this.__dragStartX) {
         this.__moveDirectionX = 1;
       } else if (dragX < this.__dragStartX) {
@@ -1076,7 +1090,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this.__moveDirectionX = 0;
       }
 
-      var dragY = this.__mouseY + this.__frameScroll.top;
+      var dragY = this.__pointerY + this.__frameScroll.top;
       if (dragY > this.__dragStartY) {
         this.__moveDirectionY = 1;
       } else if (dragY < this.__dragStartY) {
@@ -1089,18 +1103,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Update scroll steps
       var location = this.__frameLocation;
 
-      if (this.__mouseX < location.left) {
-        this.__scrollStepX = this.__mouseX - location.left;
-      } else if (this.__mouseX > location.right) {
-        this.__scrollStepX = this.__mouseX - location.right;
+      if (this.__pointerX < location.left) {
+        this.__scrollStepX = this.__pointerX - location.left;
+      } else if (this.__pointerX > location.right) {
+        this.__scrollStepX = this.__pointerX - location.right;
       } else {
         this.__scrollStepX = 0;
       }
 
-      if (this.__mouseY < location.top) {
-        this.__scrollStepY = this.__mouseY - location.top;
-      } else if (this.__mouseY > location.bottom) {
-        this.__scrollStepY = this.__mouseY - location.bottom;
+      if (this.__pointerY < location.top) {
+        this.__scrollStepY = this.__pointerY - location.top;
+      } else if (this.__pointerY > location.bottom) {
+        this.__scrollStepY = this.__pointerY - location.bottom;
       } else {
         this.__scrollStepY = 0;
       }
@@ -1156,7 +1170,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     /*
     ---------------------------------------------------------------------------
-      MOUSE SUPPORT INTERNALS
+      POINTER SUPPORT INTERNALS
     ---------------------------------------------------------------------------
     */
 
@@ -1171,7 +1185,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Fire change event if needed
       if (this.__selectionModified) {
-        this._fireChange("click");
+        this._fireChange("tap");
       }
 
       // Remove flags
@@ -1208,15 +1222,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     * Automatically selects items based on the mouse movement during a drag selection
+     * Automatically selects items based on the pointer movement during a drag selection
      */
     _autoSelect : function()
     {
       var inner = this._getDimension();
 
       // Get current relative Y position and compare it with previous one
-      var relX = Math.max(0, Math.min(this.__mouseX - this.__frameLocation.left, inner.width)) + this.__frameScroll.left;
-      var relY = Math.max(0, Math.min(this.__mouseY - this.__frameLocation.top, inner.height)) + this.__frameScroll.top;
+      var relX = Math.max(0, Math.min(this.__pointerX - this.__frameLocation.left, inner.width)) + this.__frameScroll.left;
+      var relY = Math.max(0, Math.min(this.__pointerY - this.__frameLocation.top, inner.height)) + this.__frameScroll.top;
 
       // Compare old and new relative coordinates (for performance reasons)
       if (this.__lastRelX === relX && this.__lastRelY === relY) {
@@ -1758,6 +1772,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     _replaceMultiSelection : function(items)
     {
+      if (items.length === 0) {
+        this.clearSelection();
+        return;
+      }
+
       var modified = false;
 
       // Build map from hash codes and filter non-selectables
@@ -1835,7 +1854,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Fires the selection change event if the selection has
      * been modified.
      *
-     * @param context {String} One of <code>click</code>, <code>quick</code>,
+     * @param context {String} One of <code>tap</code>, <code>quick</code>,
      *    <code>drag</code> or <code>key</code> or <code>null</code>
      */
     _fireChange : function(context)
@@ -1883,7 +1902,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   destruct : function()
   {
     this._disposeObjects("__scrollTimer");
-    this.__selection = this.__mouseDownOnSelected = this.__anchorItem = null;
+    this.__selection = this.__pointerDownOnSelected = this.__anchorItem = null;
     this.__leadItem = null;
   }
 });

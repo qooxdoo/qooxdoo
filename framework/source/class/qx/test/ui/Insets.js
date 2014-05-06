@@ -88,7 +88,7 @@ qx.Class.define("qx.test.ui.Insets",
       var widget = new qx.ui.core.Widget();
       this.getRoot().add(widget);
 
-      var deco = new qx.ui.decoration.Background();
+      var deco = new qx.ui.decoration.Decorator();
       widget.setDecorator(deco);
       this.assertPadding(widget, 0, 0, 0, 0);
 

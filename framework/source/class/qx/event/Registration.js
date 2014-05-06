@@ -296,8 +296,8 @@ qx.Class.define("qx.event.Registration",
 
         var msg = "Could not fire event '" + type + "' on target '" + (target ? target.classname : "undefined") +"': ";
 
-        qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.")
-        qx.core.Assert.assertNotNull(target, msg + "Invalid event target.")
+        qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.");
+        qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
       }
 
       var evt = this.createEvent(type, clazz||null, args);

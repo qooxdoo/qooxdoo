@@ -11,11 +11,11 @@ this.getRoot().add(button, {left: 30, top: 20});</script>
 </div>
 <div id="step2">
   <h3>Reaction</h3>
-  <p>Having a button is a good first step but we wanted to react on clicks as well. For that, qooxdoo offers an event. As a proof of concept, we simple show an alert to confirm that the listener has been executed. But instead of using the <code>click</code> event, we use the <code>execute</code> event, which will also be fired in case the user uses the keyboard instead of the mouse.</p>
+  <p>Having a button is a good first step but we wanted to react on taps as well. For that, qooxdoo offers an event. As a proof of concept, we simple show an alert to confirm that the listener has been executed. But instead of using the <code>click</code> event, we use the <code>execute</code> event, which will also be fired in case the user uses the keyboard instead of the pointer.</p>
   <pre>button.addListener("execute", function() {
   alert("... World!");
 });</pre>
-  <p>Copy this code over and run it again. A click on the button shows the alert message. <br><strong>Congratulations!</strong> You have build your first Application using qooxdoo.</p>
+  <p>Copy this code over and run it again. A tap on the button shows the alert message. <br><strong>Congratulations!</strong> You have build your first Application using qooxdoo.</p>
   <script type="text/javascript" charset="utf-8">var button = new qx.ui.form.Button("Hello...");
 this.getRoot().add(button, {left: 30, top: 20});
 

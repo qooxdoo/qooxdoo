@@ -31,7 +31,7 @@ A regular (non-static) class can simply be instantiated using the ``new`` keywor
 Inheritance
 ===========
 
-In order to derive the current class from another class, the reference to the super class is  provided by the key ``extend``: 
+In order to derive the current class from another class, the reference to the super class is  provided by the key ``extend``:
 ::
 
     qx.Class.define("my.great.SuperClass", {
@@ -47,10 +47,10 @@ In order to derive the current class from another class, the reference to the su
 Constructor
 ===========
 
-The constructor of a regular class is provided as a function declaration in key ``construct``: 
+The constructor of a regular class is provided as a function declaration in key ``construct``:
 ::
 
-    qx.Class.define("my.cool.Class", 
+    qx.Class.define("my.cool.Class",
     {
       extend : my.great.SuperClass,
       construct : function() {
@@ -66,10 +66,10 @@ Static members
 Static members (often called "class" members) are also part of the class definition and declared in a map to the ``statics`` key. Static *methods* are given by providing a function declaration, while all other values declare static *attributes*. Typically they are given in uppercase to distinguish them from instance members:
 ::
 
-    qx.Class.define("my.cool.Class", 
+    qx.Class.define("my.cool.Class",
     {
-      statics : 
-      { 
+      statics :
+      {
         FOO : VALUE,
         BAR : function() { ... }
       }
@@ -91,13 +91,13 @@ Static members, both methods and attributes, can be accessed by using the fully-
 Instance Members
 ================
 
-Similar to static members, instance members are also part of the class definition. For them the ``members`` key is used:  
+Similar to static members, instance members are also part of the class definition. For them the ``members`` key is used:
 ::
 
-    qx.Class.define("my.cool.Class", 
+    qx.Class.define("my.cool.Class",
     {
-      members: 
-      { 
+      members:
+      {
         foo : VALUE,
         bar : function() { ... }
       }
@@ -118,7 +118,7 @@ Accessing Static Members
 Generic form. Requires no updates if class name changes. This code can optionally be optimized for performance in build versions.
 ::
 
-    qx.Class.define("my.cool.Class", 
+    qx.Class.define("my.cool.Class",
     {
       statics : {
         PI : 3.141
@@ -165,7 +165,7 @@ Calling the Superclass Constructor
 Generic form. Requires no updates if super class (name) changes. This code can optionally be optimized for performance in build versions.
 ::
 
-    qx.Class.define("my.cool.Class", 
+    qx.Class.define("my.cool.Class",
     {
       extend : my.great.SuperClass,
       construct : function(x) {
@@ -197,10 +197,10 @@ Generic form without using ``prototype``. Requires no updates if super class (na
 Destructor
 ==========
 
-As a logical match to any existing constructor given by the key ``construct``, a destructor is explicitly given by the ``destruct`` key: 
+As a logical match to any existing constructor given by the key ``construct``, a destructor is explicitly given by the ``destruct`` key:
 ::
 
-    qx.Class.define("my.cool.Class", 
+    qx.Class.define("my.cool.Class",
     {
       extend : my.great.SuperClass,
       construct : function() {
@@ -245,7 +245,7 @@ A leading uppercase ``I`` is used as a naming convention for :doc:`interfaces <i
 Mixins
 ======
 
-Leading uppercase ``M`` as a naming convention.  A :doc:`mixin <mixins>` can have all the things a class can have, like properties, constructor, destructor and members. 
+Leading uppercase ``M`` as a naming convention.  A :doc:`mixin <mixins>` can have all the things a class can have, like properties, constructor, destructor and members.
 ::
 
     qx.Mixin.define("my.cool.MMixin");
@@ -255,10 +255,10 @@ Leading uppercase ``M`` as a naming convention.  A :doc:`mixin <mixins>` can hav
 Attaching mixins to a class
 ===========================
 
-The ``include`` key contains either a reference to an single mixin, or an array of multiple mixins: 
+The ``include`` key contains either a reference to an single mixin, or an array of multiple mixins:
 ::
 
-    qx.Class.define("my.cool.Class", 
+    qx.Class.define("my.cool.Class",
     {
       include : [my.cool.MMixin, my.other.cool.MMixin]
       ...
@@ -290,7 +290,7 @@ By the following naming convention. Goal is to be as consistent as possible. Dur
 Static classes
 ==============
 
-Explicit declaration allows for useful checks during development. For example. ``construct`` or ``members`` are not allowed for such a purely static class. 
+Explicit declaration allows for useful checks during development. For example. ``construct`` or ``members`` are not allowed for such a purely static class.
 ::
 
     qx.Class.define("my.cool.Class", {
@@ -302,7 +302,7 @@ Explicit declaration allows for useful checks during development. For example. `
 Abstract classes
 ================
 
-Declaration allows for useful checks during development and does not require explicit code. 
+Declaration allows for useful checks during development and does not require explicit code.
 ::
 
     qx.Class.define("my.cool.Class", {
@@ -314,10 +314,10 @@ Declaration allows for useful checks during development and does not require exp
 Singletons
 ==========
 
-Declaration allows for useful checks during development and does not require explicit code. A method ``getInstance()`` is added to such a singleton class. 
+Declaration allows for useful checks during development and does not require explicit code. A method ``getInstance()`` is added to such a singleton class.
 ::
 
-    qx.Class.define("my.cool.Class", 
+    qx.Class.define("my.cool.Class",
     {
       type : "singleton",
       extend :  my.great.SuperClass
@@ -328,7 +328,7 @@ Declaration allows for useful checks during development and does not require exp
 Immediate access to previously defined members
 ==============================================
 
-The closed form of the class definition does not allow immediate access to other members, as they are part of the configuration data structure themselves. While it is typically not a feature used very often, it nonetheless needs to be supported by the new class declaration. Instead of some trailing code outside the closed form of the class declaration, an optional ``defer`` method is called after the other parts of the class definition have been finished. It allows access to all previously declared ``statics``, ``members`` and dynamic ``properties``. 
+The closed form of the class definition does not allow immediate access to other members, as they are part of the configuration data structure themselves. While it is typically not a feature used very often, it nonetheless needs to be supported by the new class declaration. Instead of some trailing code outside the closed form of the class declaration, an optional ``defer`` method is called after the other parts of the class definition have been finished. It allows access to all previously declared ``statics``, ``members`` and dynamic ``properties``.
 
 .. note::
 
@@ -342,8 +342,8 @@ The closed form of the class definition does not allow immediate access to other
       {
         driveLetter : "C"
       },
-      defer: function(statics, members, properties) 
-      { 
+      defer: function(statics, members, properties)
+      {
         statics.drive = statics.driveLetter + ":\\";
         members.whatsTheDrive = function() {
           return "Drive is " + statics.drive;
@@ -356,10 +356,10 @@ The closed form of the class definition does not allow immediate access to other
 Browser specific methods
 ========================
 
-To maintain the closed form, browser switches on method level is done using :doc:`environment settings </pages/core/environment>`. Since the generator knows about environment settings it is (optionally) possible to only keep the code for each specific browser and remove the implementation for all other browsers from the code and thus generate highly-optimized browser-specific builds. It is possible to use an logical "or" directly inside a environment key. If none of the keys matches the variant, the "default" key is used: 
+To maintain the closed form, browser switches on method level is done using :doc:`environment settings </pages/core/environment>`. Since the generator knows about environment settings it is (optionally) possible to only keep the code for each specific browser and remove the implementation for all other browsers from the code and thus generate highly-optimized browser-specific builds. It is possible to use an logical "or" directly inside a environment key. If none of the keys matches the variant, the "default" key is used:
 ::
 
-    members: 
+    members:
     {
       foo: qx.core.Environment.select("engine.name",
       {
@@ -384,11 +384,9 @@ qooxdoo's class definition has a special ``events`` key. The value of the key is
     {
       extend: qx.core.Target,
 
-      events :
-      {
-        /**  Fired when the widget is clicked. */
-        "click": "qx.event.type.MouseEvent"
-      } 
+      events : {
+        "custom": "qx.event.type.Data"
+      }
       ...
     })
 

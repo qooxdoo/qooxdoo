@@ -22,7 +22,7 @@
  * related events and updates a SelectionModel.
  * <p>
  * Widgets that support selection should use this manager. This way the only
- * thing the widget has to do is mapping mouse or key events to indexes and
+ * thing the widget has to do is mapping pointer or key events to indexes and
  * call the corresponding handler method.
  *
  * @see SelectionModel
@@ -75,16 +75,16 @@ qx.Class.define("qx.ui.table.selection.Manager",
 
   members :
   {
-    __lastMouseDownHandled : null,
+    __lastPointerDownHandled : null,
 
 
     /**
-     * Handles the mouse down event.
+     * Handles the tap event.
      *
-     * @param index {Integer} the index the mouse is pointing at.
-     * @param evt {Map} the mouse event.
+     * @param index {Integer} the index the pointer is pointing at.
+     * @param evt {qx.event.type.Tap} the pointer event.
      */
-    handleMouseDown : function(index, evt)
+    handleTap : function(index, evt)
     {
       if (evt.isLeftPressed())
       {
@@ -92,14 +92,14 @@ qx.Class.define("qx.ui.table.selection.Manager",
 
         if (!selectionModel.isSelectedIndex(index))
         {
-          // This index is not selected -> We react when the mouse is pressed (because of drag and drop)
+          // This index is not selected -> We react when the pointer is pressed (because of drag and drop)
           this._handleSelectEvent(index, evt);
-          this.__lastMouseDownHandled = true;
+          this.__lastPointerDownHandled = true;
         }
         else
         {
-          // This index is already selected -> We react when the mouse is released (because of drag and drop)
-          this.__lastMouseDownHandled = false;
+          // This index is already selected -> We react when the pointer is released (because of drag and drop)
+          this.__lastPointerDownHandled = false;
         }
       }
       else if (evt.isRightPressed() && evt.getModifiers() == 0)
@@ -112,34 +112,15 @@ qx.Class.define("qx.ui.table.selection.Manager",
           selectionModel.setSelectionInterval(index, index);
         }
       }
-    },
 
-
-    /**
-     * Handles the mouse up event.
-     *
-     * @param index {Integer} the index the mouse is pointing at.
-     * @param evt {Map} the mouse event.
-     */
-    handleMouseUp : function(index, evt)
-    {
-      if (evt.isLeftPressed() && !this.__lastMouseDownHandled) {
+      if (evt.isLeftPressed() && !this.__lastPointerDownHandled) {
         this._handleSelectEvent(index, evt);
       }
     },
 
 
     /**
-     * Handles the mouse click event.
-     *
-     * @param index {Integer} the index the mouse is pointing at.
-     * @param evt {Map} the mouse event.
-     */
-    handleClick : function(index, evt) {},
-
-
-    /**
-     * Handles the key down event that is used as replacement for mouse clicks
+     * Handles the key down event that is used as replacement for pointer taps
      * (Normally space).
      *
      * @param index {Integer} the index that is currently focused.
@@ -184,7 +165,7 @@ qx.Class.define("qx.ui.table.selection.Manager",
      * Handles a select event.
      *
      * @param index {Integer} the index the event is pointing at.
-     * @param evt {Map} the mouse event.
+     * @param evt {Map} the pointer event.
      */
     _handleSelectEvent : function(index, evt)
     {

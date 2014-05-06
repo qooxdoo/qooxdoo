@@ -29,8 +29,6 @@
     "source-server",
     "source-server-reload",
     "source-httpd-config",
-    "simulation-build",
-    "simulation-run",
     "test",
     "test-source",
     "translation",
@@ -46,7 +44,7 @@
     "APPLICATION"  : "${Namespace}",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
     "QXTHEME"      : "${Namespace}.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "$${APPLICATION}.theme.*", "$${APPLICATION}.test.*", "$${APPLICATION}.simulation.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "$${APPLICATION}.theme.*", "$${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${Cache}",
     "ROOT"         : "."
@@ -76,7 +74,7 @@
     // If you want to tweak a job setting, see the following sample where
     // the "format" feature of the "build-script" job is overridden.
     // To see a list of available jobs, invoke 'generate.py x'.
-	/*
+    /*
     ,"build-script" :
     {
       "compile-options" :

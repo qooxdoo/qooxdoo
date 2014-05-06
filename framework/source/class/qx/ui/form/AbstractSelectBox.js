@@ -60,11 +60,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._onBlur, this);
 
-    // register mouse wheel listener
-    var root = qx.core.Init.getApplication().getRoot();
-    // @depreacted{3.1} Mouse wheel
-    root.addListener("mousewheel", this._onMousewheel, this, true);
-
     // register the resize listener
     this.addListener("resize", this._onResize, this);
   },
@@ -148,14 +143,14 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           });
 
           control.addListener("changeSelection", this._onListChangeSelection, this);
-          control.addListener("mousedown", this._onListMouseDown, this);
+          control.addListener("pointerdown", this._onListPointerDown, this);
           break;
 
         case "popup":
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
           control.setAutoHide(false);
           control.setKeepActive(true);
-          control.addListener("click", this.close, this);
+          control.addListener("tap", this.close, this);
           control.add(this.getChildControl("list"));
 
           control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
@@ -314,15 +309,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
 
     /**
-     * Close the pop-up if the mousewheel event isn't on the pup-up window.
-     *
-     * @param e {qx.event.type.Mouse} Mousewheel event.
-     * @deprecated{3.1} The widget does not need a mousewheel handler anymore.
-     */
-    _onMousewheel : function(e) {},
-
-
-    /**
      * Updates list minimum size.
      *
      * @param e {qx.event.type.Data} Data event
@@ -343,12 +329,12 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
 
     /**
-     * Redirects mousedown event from the list to this widget.
+     * Redirects pointerdown event from the list to this widget.
      *
-     * @param e {qx.event.type.Mouse} Mouse Event
+     * @param e {qx.event.type.Pointer} Pointer Event
      */
-    _onListMouseDown : function(e) {
-      throw new Error("Abstract method: _onListMouseDown()");
+    _onListPointerDown : function(e) {
+      throw new Error("Abstract method: _onListPointerDown()");
     },
 
 
@@ -359,21 +345,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      */
     _onPopupChangeVisibility : function(e) {
       e.getData() == "visible" ? this.addState("popupOpen") : this.removeState("popupOpen");
-    }
-  },
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    // @deprecated{3.1}
-    var root = qx.core.Init.getApplication().getRoot();
-    if (root) {
-      root.removeListener("mousewheel", this._onMousewheel, this, true);
     }
   }
 });

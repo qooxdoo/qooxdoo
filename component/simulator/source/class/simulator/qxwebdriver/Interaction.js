@@ -20,6 +20,7 @@
 /**
  * Registry for interaction methods that will be added to WebElements
  * based on the type of qooxdoo widget they represent.
+ * @deprecated{4.0}
  */
 qx.Class.define("simulator.qxwebdriver.Interaction", {
 

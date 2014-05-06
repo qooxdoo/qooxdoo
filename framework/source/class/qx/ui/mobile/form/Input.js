@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
@@ -35,36 +36,15 @@ qx.Class.define("qx.ui.mobile.form.Input",
   type : "abstract",
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
     this._setAttribute("type", this._getType());
+    this.addCssClass("gap");
 
-    // BUG #7756 
-    if(qx.core.Environment.get("os.name") == "ios") {
-      this.addListener("blur", this._onBlur, this);
-      this.addListener("focus", this._onFocus, this);
-    }
+    this.addListener("focus", this._onSelected, this);
   },
 
-
-  statics:
-  {
-    SCROLL_TIMER_ID : null
-  },
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -88,29 +68,54 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
 
     /**
-     * Handles the focus event on this input.
-     */
-    _onFocus: function() {
-      clearTimeout(qx.ui.mobile.form.Input.SCROLL_TIMER_ID);
+    * Returns the parent scroll container of this widget.
+    * @return {qx.ui.mobile.container.Scroll} the parent scroll container or <code>null</code>
+    */
+    __getScrollContainer : function() {
+      var scroll = this;
+      while (!(scroll instanceof qx.ui.mobile.container.Scroll)) {
+        if (scroll.getLayoutParent) {
+          var layoutParent = scroll.getLayoutParent();
+          if (layoutParent == null || layoutParent instanceof qx.ui.mobile.core.Root) {
+            return null;
+          }
+          scroll = layoutParent;
+        } else {
+          return null;
+        }
+      }
+      return scroll;
     },
 
 
     /**
-     * Handles the blur event on this input.
+     * Handles the <code>click</code> and <code>focus</code> event on this input widget.
+     * @param evt {qx.event.type.Event} <code>click</code> or <code>focus</code> event
      */
-    _onBlur: function() {
-      qx.ui.mobile.form.Input.SCROLL_TIMER_ID = setTimeout(function() {
-        window.scrollTo(0, 0);
-      }, 150);
+    _onSelected : function(evt) {
+      if (!(evt.getTarget() instanceof qx.ui.mobile.form.TextField) && !(evt.getTarget() instanceof qx.ui.mobile.form.NumberField)) {
+        return;
+      }
+
+      var scrollContainer = this.__getScrollContainer();
+      if(scrollContainer === null) {
+        return;
+      }
+
+      setTimeout(function() {
+        scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
+
+        // Refresh caret position after scrolling.
+        this._setStyle("position","relative");
+        qx.bom.AnimationFrame.request(function() {
+          this._setStyle("position",null);
+        }, this);
+      }.bind(this), 300);
     }
   },
 
 
   destruct : function() {
-    // BUG #7756 
-    if (qx.core.Environment.get("os.name") == "ios") {
-      this.removeListener("focus", this._onFocus, this);
-      this.removeListener("blur", this._onBlur, this);
-    }
+    this.removeListener("focus", this._onSelected, this);
   }
 });

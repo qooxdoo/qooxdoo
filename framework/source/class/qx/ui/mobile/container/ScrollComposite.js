@@ -18,7 +18,9 @@
 ************************************************************************ */
 
 /**
- * The ScrollComposite is a extension of {@linkqx.ui.mobile.container.Composite},
+ * @deprecated {4.0} Please use {@link qx.ui.mobile.container.Scroll} instead.
+ * 
+ * The ScrollComposite is a extension of {@link qx.ui.mobile.container.Composite},
  * and makes it possible to scroll vertically, if content size is greater than
  * scrollComposite's size.
  *
@@ -46,11 +48,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 {
   extend : qx.ui.mobile.container.Composite,
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   /**
    * @param layout {qx.ui.mobile.layout.Abstract?null} The layout that should be used for this
@@ -60,18 +57,24 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
   {
     this.base(arguments);
 
+    if (qx.core.Environment.get("qx.debug"))
+    {
+      qx.log.Logger.deprecatedClassWarning(arguments.callee, "The class 'qx.ui.mobile.container.ScrollComposite' is deprecated. Please use 'qx.ui.mobile.container.Scroll' instead");
+    }
+
     this.__lastOffset = [0,0];
     this.__currentOffset = [0,0];
-    this.__touchStartPoints = [0,0];
 
     this._scrollContainer = this._createScrollContainer();
 
-    this.addListener("touchstart", this._onTouchStart, this);
-    this.addListener("touchmove", this._onTouchMove, this);
-    this.addListener("touchend", this._onTouchEnd, this);
+    this.addListener("touchstart", qx.bom.Event.preventDefault, this);
+    this.addListener("touchstart", qx.bom.Event.stopPropagation, this);
+
+    this.addListener("trackstart", this._onTrackStart, this);
+    this.addListener("track", this._onTrack, this);
     this.addListener("swipe", this._onSwipe, this);
 
-    this._setLayout(new qx.ui.mobile.layout.VBox());
+    this._setLayout(new qx.ui.mobile.layout.HBox());
     this._add(this._scrollContainer, {flex:1});
 
     this._updateScrollIndicator(this.__lastOffset[1]);
@@ -117,13 +120,26 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       apply : "_updateScrollIndicator"
     },
 
+
+    /**
+    * This flag controls whether this widget has a fixed height
+    * or grows till the property value of <code>height</code> has reached.
+    */
+    fixedHeight :
+    {
+      init : false,
+      check : "Boolean",
+      apply : "_applyFixedHeight"
+    },
+
+
     /**
      * The height of this widget.
      * Allowed values are length or percentage values according to <a src="https://developer.mozilla.org/en-US/docs/CSS/height" target="_blank">CSS height syntax</a>.
      */
     height :
     {
-      init : "150px",
+      init : "10rem",
       check : "String",
       nullable : true,
       apply : "_applyHeight"
@@ -134,12 +150,13 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
   members :
   {
     _scrollContainer : null,
-    __touchStartPoints : null,
     __lastOffset : null,
     __currentOffset : null,
     __isVerticalScroll : null,
+    __onTouch : null,
     __distanceX : null,
     __distanceY : null,
+
 
 
     /**
@@ -157,57 +174,54 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      */
     _createScrollContainer : function() {
       var scrollContainer = new qx.ui.mobile.container.Composite();
+      scrollContainer.setTransformUnit("px");
       scrollContainer.addCssClass("scroll-container-child");
       return scrollContainer;
     },
 
 
     /**
-    * TouchHandler for scrollContainer
-    * @param evt {qx.event.type.Touch} The touch event
+    * Handler for <code>trackstart</code> events on scrollContainer
+    * @param evt {qx.event.type.Track} The trackstart event.
     */
-    _onTouchStart : function(evt){
+    _onTrackStart : function(evt){
+      this.__onTouch = true;
       this.__isVerticalScroll = (this.getScrollableX() && this.getScrollableY()) ? null : this.getScrollableY();
-
       this._applyNoEasing();
-      this.__touchStartPoints[0] = evt.getAllTouches()[0].screenX;
-      this.__touchStartPoints[1] = evt.getAllTouches()[0].screenY;
-
-      evt.stopPropagation();
     },
 
 
     /**
-     * Handler for touch move events on scrollContainer
-     * @param evt {qx.event.type.Touch} The touch event
+     * Handler for <code>track</code> events on scrollContainer
+     * @param evt {qx.event.type.Pointer} The pointer event.
      */
-    _onTouchMove : function(evt) {
-      this.__distanceX = evt.getAllTouches()[0].screenX - this.__touchStartPoints[0];
-      this.__distanceY = evt.getAllTouches()[0].screenY - this.__touchStartPoints[1];
-
-      if(this.__isVerticalScroll == null) {
-        var cosDelta = this.__distanceX / this.__distanceY;
-        this.__isVerticalScroll = Math.abs(cosDelta) < 2;
+    _onTrack : function(evt) {
+      if (this.__isVerticalScroll === null) {
+        this.__isVerticalScroll = (evt.getDelta().axis == "y");
       }
 
-      if(Math.abs(this.__distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
-        this.__distanceX = 0;
+      this.__distanceX = evt.getDelta().x;
+      this.__distanceY = evt.getDelta().y;
+
+      if (this.isScrollableX()) {
+        if (Math.abs(this.__distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
+          this.__distanceY = 0;
+        }
+
+        this.__currentOffset[0] = Math.floor(this.__lastOffset[0] + this.__distanceX);
+        this._scrollContainer.setTranslateX(this.__currentOffset[0]);
       }
 
-      if(Math.abs(this.__distanceY) < 3 || !this.isScrollableY() || !this.__isVerticalScroll) {
-        this.__distanceY = 0;
+      if (this.isScrollableY()) {
+        if (Math.abs(this.__distanceX) < 3 || !this.isScrollableX() || this.__isVerticalScroll) {
+          this.__distanceX = 0;
+        }
+
+        this.__currentOffset[1] = Math.floor(this.__lastOffset[1] + this.__distanceY);
+        this._scrollContainer.setTranslateY(this.__currentOffset[1]);
+
+        this._updateScrollIndicator(this.__currentOffset[1]);
       }
-
-      this.__currentOffset[0] = this.__lastOffset[0] + this.__distanceX;
-      this._scrollContainer.setTranslateX(this.__currentOffset[0]);
-
-      this.__currentOffset[1] = this.__lastOffset[1] + this.__distanceY;
-      this._scrollContainer.setTranslateY(this.__currentOffset[1]);
-
-      this._updateScrollIndicator(this.__currentOffset[1]);
-
-      evt.stopPropagation();
-      evt.preventDefault();
     },
 
 
@@ -243,30 +257,55 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     /**
-     * TouchHandler for scrollContainer
-     * @param evt {qx.event.type.Touch} The touch event.
-     */
-    _onTouchEnd : function(evt) {
-      evt.stopPropagation();
-    },
-
-
-     /**
      * Swipe handler for scrollContainer.
      * @param evt {qx.event.type.Swipe} The swipe event.
      */
-    _onSwipe : function(evt) {
-      var velocity = Math.abs(evt.getVelocity());
-
-      var swipeDuration = new Date().getTime() - evt.getStartTime();
-
-      if(this.isScrollableY() && this.__isVerticalScroll && swipeDuration < 500) {
-        this._applyMomentumEasing();
-
-        this.__currentOffset[1] = this.__currentOffset[1] + (velocity * 1.5 * this.__distanceY);
+    _onSwipe: function(evt) {
+      if (!evt.isPrimary()) {
+        return;
       }
 
-      this.scrollTo(this.__currentOffset[0], this.__currentOffset[1]);
+      if (this.isScrollableY() && this.__isVerticalScroll) {
+        var scrollLimit = this._calcScrollLimit();
+
+        this.__onTouch = false;
+        this._scrollStep(this.__currentOffset[1], evt.getVelocity(), 1, scrollLimit);
+      } else if (this.isScrollableX() && !this.__isVerticalScroll) {
+        this.scrollTo(this.__currentOffset[0], this.__currentOffset[1]);
+      }
+    },
+
+
+    /**
+    * Enables the momentum scrolling. This method will be called recursively,
+    * and divides the scroll velocity on every step by the parameter momentum.
+    * @param startPosition {Number} the last known position of the scroll area.
+    * @param velocity {Number} the current scroll velocity.
+    * @param momentum {Number} the momentum factor.
+    * @param scrollLimit {Number} scrollLimit of the scroll area.
+    */
+    _scrollStep: function(startPosition, velocity, momentum, scrollLimit) {
+      var nextPosition = startPosition + velocity * 10;
+
+      this._scrollContainer.setTranslateY(nextPosition);
+      this.__lastOffset[1] = nextPosition;
+      this._updateScrollIndicator(this.__lastOffset[1]);
+
+      if (Math.abs(velocity) > 0.01 && !this.__onTouch) {
+        if (nextPosition > 0) {
+          momentum = momentum + Math.abs(nextPosition) / 10000;
+        } else if (nextPosition < -scrollLimit[1]) {
+          momentum = momentum + Math.abs(scrollLimit[1] + nextPosition) / 10000;
+        } else {
+          momentum = momentum + 0.00005;
+        }
+        var nextVelocity = (velocity / momentum);
+        qx.bom.AnimationFrame.request(function() {
+          this._scrollStep(nextPosition, nextVelocity, momentum, scrollLimit);
+        }, this);
+      } else {
+        this.scrollTo(0, nextPosition);
+      }
     },
 
 
@@ -277,15 +316,16 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * @param positionY {Integer} target offset y
      */
     scrollTo : function(positionX, positionY) {
-      var targetElement = this._scrollContainer.getContainerElement();
-      var lowerLimitY = targetElement.scrollHeight - targetElement.offsetHeight;
-      var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth - 4;
+      positionX = Math.floor(positionX);
+      positionY = Math.floor(positionY);
+
+      var scrollLimit = this._calcScrollLimit();
 
       var oldY = this._scrollContainer.getTranslateY();
 
       // Upper Limit Y
-      if(positionY >= 0) {
-        if(oldY < 0) {
+      if (positionY >= 0) {
+        if (oldY < 0) {
           this._applyScrollBounceEasing();
         } else {
           this._applyBounceEasing();
@@ -295,40 +335,49 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
       }
 
       // Lower Limit Y
-      if(positionY < -lowerLimitY) {
-        if(oldY > -lowerLimitY) {
+      if (positionY < -scrollLimit[1]) {
+        if (oldY > -scrollLimit[1]) {
           this._applyScrollBounceEasing();
         } else {
           this._applyBounceEasing();
         }
 
-        positionY = -lowerLimitY;
+        positionY = -scrollLimit[1];
       }
-      if(!this.__isVerticalScroll ) {
+      if (!this.__isVerticalScroll) {
         // Left Limit X
-        if(positionX >= 0) {
+        if (positionX >= 0) {
           this._applyBounceEasing();
-
           positionX = 0;
         }
         // Right Limit X
-        if(positionX < -lowerLimitX) {
+        if (positionX < -scrollLimit[0]) {
           this._applyBounceEasing();
-
-          positionX = -lowerLimitX;
+          positionX = -scrollLimit[0];
         }
       }
 
-      if(this.isScrollableX()) {
-         this._scrollContainer.setTranslateX(positionX);
-         this.__lastOffset[0] = positionX;
+      if (this.isScrollableX()) {
+        this._scrollContainer.setTranslateX(positionX);
+        this.__lastOffset[0] = positionX;
       }
-      if(this.isScrollableY()) {
-         this._scrollContainer.setTranslateY(positionY);
-         this.__lastOffset[1] = positionY;
+      if (this.isScrollableY()) {
+        this._scrollContainer.setTranslateY(positionY);
+        this.__lastOffset[1] = positionY;
       }
-
       this._updateScrollIndicator(this.__lastOffset[1]);
+    },
+
+
+    /**
+    * Calculates the lower scroll limit of the scroll container.
+    * @return {Array} an array with scroll limits: [x,y]
+    */
+    _calcScrollLimit : function() {
+      var targetElement = this._scrollContainer.getContainerElement();
+      var lowerLimitY = targetElement.scrollHeight - this.getContentElement().clientHeight;
+      var lowerLimitX = targetElement.scrollWidth - targetElement.offsetWidth - 4;
+      return [lowerLimitX,lowerLimitY];
     },
 
 
@@ -416,8 +465,18 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
 
     // Property apply
+    _applyFixedHeight : function(value, old) {
+      this._applyHeight(this.getHeight());
+    },
+
+
+    // Property apply
     _applyHeight : function(value, old) {
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(), "max-height", value);
+      var cssProperty = "maxHeight";
+      if (this.getFixedHeight() === true) {
+        cssProperty = "height";
+      }
+      qx.bom.element.Style.set(this.getContainerElement(), cssProperty, this.getHeight());
     },
 
 
@@ -425,7 +484,9 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Deactivates any scroll easing for the scrollContainer.
      */
     _applyNoEasing : function() {
-       this._applyEasing(null);
+      this._scrollContainer.removeCssClass("momentum-ease");
+      this._scrollContainer.removeCssClass("bounce-ease");
+      this._scrollContainer.removeCssClass("scroll-bounce-ease");
     },
 
 
@@ -434,7 +495,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Appears like a "ease-out" easing function.
      */
     _applyMomentumEasing : function() {
-      this._applyEasing("1500ms cubic-bezier(0.000, 0.075, 0.000, 1.00)");
+      this._applyNoEasing();
+      this._scrollContainer.addCssClass("momentum-ease");
     },
 
 
@@ -443,7 +505,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Used when user drags the scrollContainer over the edge manually.
      */
     _applyBounceEasing : function() {
-      this._applyEasing("400ms cubic-bezier(0.33, 0.66, 0.66, 1)");
+      this._applyNoEasing();
+      this._scrollContainer.addCssClass("bounce-ease");
     },
 
 
@@ -454,21 +517,8 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
      * Causes the effect that scrollContainers scrolls to far and bounces back to right position.
      */
     _applyScrollBounceEasing : function() {
-      this._applyEasing("1000ms cubic-bezier(0.000, 0.075, 0.000, 1.50)");
-    },
-
-
-    /**
-     * Applies an transition easing to the scrollContainer.
-     * @param easing {String} the css transition easing value
-     */
-    _applyEasing : function(easing) {
-      if(easing != null) {
-        var transformPropertyName = qx.bom.Style.getPropertyName("transform");
-        var transformCssName = qx.bom.Style.getCssName(transformPropertyName);
-        easing = transformCssName+" "+easing;
-      }
-      qx.bom.element.Style.set(this._scrollContainer.getContainerElement(),"transition", easing);
+      this._applyNoEasing();
+      this._scrollContainer.addCssClass("scroll-bounce-ease");
     },
 
 
@@ -518,17 +568,14 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
   },
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
   destruct : function()
   {
-    this.removeListener("touchstart",this._onTouchStart,this);
-    this.removeListener("touchmove",this._onTouchMove,this);
-    this.removeListener("touchend",this._onTouchEnd,this);
+    this.removeListener("trackstart",this._onTrackStart,this);
+    this.removeListener("track",this._onTrack,this);
     this.removeListener("swipe",this._onSwipe,this);
+
+    this.removeListener("touchstart", qx.bom.Event.preventDefault, this);
+    this.removeListener("touchstart", qx.bom.Event.stopPropagation, this);
 
     var children = this.getChildren();
     for(var i = 0; i < children.length; i++) {

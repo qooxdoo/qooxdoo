@@ -40,7 +40,7 @@ msgstr ""
 "Nalze přidat ukázkový kód do URL, protože je moc dlouhý. Vypnout toto "
 "varování v budoucnosti?"
 
-msgid "Click OK to discard your changes."
+msgid "Tap OK to discard your changes."
 msgstr "Stiskněte OK pro zhození vašich změn."
 
 msgid "Custom Code"

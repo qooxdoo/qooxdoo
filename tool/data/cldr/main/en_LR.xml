@@ -6,67 +6,33 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9170 $"/>
+		<generation date="$Date: 2013-08-07 23:47:50 -0500 (Wed, 07 Aug 2013) $"/>
 		<language type="en"/>
 		<territory type="LR"/>
 	</identity>
 	<dates>
 		<timeZoneNames>
-			<zone type="Pacific/Honolulu">
+			<metazone type="Africa_Central">
 				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</zone>
-			<metazone type="Alaska">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<standard>CAT</standard>
 				</short>
 			</metazone>
-			<metazone type="America_Central">
+			<metazone type="Africa_Eastern">
 				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<standard>EAT</standard>
 				</short>
 			</metazone>
-			<metazone type="America_Eastern">
+			<metazone type="Africa_Southern">
 				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<standard>SAST</standard>
 				</short>
 			</metazone>
-			<metazone type="America_Mountain">
+			<metazone type="Africa_Western">
 				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="America_Pacific">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="Atlantic">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
-				</short>
-			</metazone>
-			<metazone type="Hawaii_Aleutian">
-				<short>
-					<generic>∅∅∅</generic>
-					<standard>∅∅∅</standard>
-					<daylight>∅∅∅</daylight>
+					<generic>WAT</generic>
+					<standard>WAT</standard>
+					<daylight>WAST</daylight>
 				</short>
 			</metazone>
 		</timeZoneNames>
@@ -76,10 +42,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currency type="LRD">
 				<symbol>$</symbol>
 			</currency>
-			<currency type="USD">
-				<symbol>US$</symbol>
-			</currency>
 		</currencies>
 	</numbers>
 </ldml>
-

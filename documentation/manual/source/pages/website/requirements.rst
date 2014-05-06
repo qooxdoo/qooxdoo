@@ -25,6 +25,9 @@ Code written against the %{Website} API will run in all major web browsers, part
    * - .. image:: /_static/logo_chrome_24x24.png
      - Chrome 2+
 
+%{Website} widgets are currently experimental and will not work in all browsers.
+
+
 
 Installation and Setup
 =======================

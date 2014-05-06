@@ -19,6 +19,7 @@
 
 /**
  * Interactions for text field widgets
+ * @deprecated{4.0}
  */
 qx.Class.define("simulator.qxwebdriver.interaction.form.AbstractField", {
 

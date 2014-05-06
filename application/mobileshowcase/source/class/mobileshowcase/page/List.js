@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,85 +13,109 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Tino Butz (tbtz)
-
-************************************************************************ */
-/* ************************************************************************
+     * Tino Butz (tbtz)
+     * Christopher Zuendorf (czuendorf)
 
 ************************************************************************ */
 
 /**
- * Mobile page responsible for showing the "list" showcase.
+ * Mobile page for showing the "list" showcase.
  */
 qx.Class.define("mobileshowcase.page.List",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
+
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("List");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
   },
 
 
   members :
   {
+    _model : null,
+
     // overridden
     /**
      * @lint ignoreDeprecated(alert)
      */
-    _initialize : function()
-    {
+    _initialize: function() {
       this.base(arguments);
 
+      this._model = this._createModel();
+
       var list = new qx.ui.mobile.list.List({
-        configureItem : function(item, data, row)
-        {
+        configureItem: function(item, data, row) {
           item.setImage("mobileshowcase/icon/internet-mail.png");
-          item.setTitle(row<4 ? ("Selectable " + data.title) : data.title);
+          item.setTitle(data.title);
           item.setSubtitle(data.subtitle);
-          item.setSelectable(row<4);
-          item.setShowArrow(row<4);
+          item.setSelectable(data.selectable);
+          item.setShowArrow(data.selectable);
+          item.setRemovable(data.removable);
+        },
+
+        configureGroupItem: function(item, data, group) {
+          item.setTitle("#" + group + " " + data.title);
+          item.setSelectable(true);
+        },
+
+        group: function(data, row) {
+          var title = "Items";
+          if (data.selectable) {
+            title = "Selectable Items";
+          } else if (data.removable) {
+            title = "Removable Items";
+          }
+          return {
+            title: title
+          };
         }
       });
 
-      var data = [];
-      for (var i=0; i < 100; i++) {
-        data.push({title:"Item" + i, subtitle:"Subtitle for Item #" + i});
-      }
+      list.setModel(this._model);
 
-      var closePopupButton = new qx.ui.mobile.form.Button("OK");
-
-      var label = new qx.ui.mobile.basic.Label("labelText");
-      var popupContent = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
-      popupContent.add(label);
-      popupContent.add(closePopupButton);
-
-      var popup = new qx.ui.mobile.dialog.Popup(popupContent);
-      popup.setModal(true);
-      popup.setTitle("Selection");
-
-      closePopupButton.addListener("tap", function() {
-        popup.hide();
-      }, this);
-
-      list.setModel(new qx.data.Array(data));
       list.addListener("changeSelection", function(evt) {
-        var itemNumber = evt.getData();
-
-        label.setValue("You selected Item #" + itemNumber);
-        popup.show();
+        this._showDialog("You selected Item #" + evt.getData());
       }, this);
+
+      list.addListener("changeGroupSelection", function(evt) {
+        this._showDialog("You selected Group #" + evt.getData());
+      }, this);
+
+      list.addListener("removeItem", function(evt) {
+       this._model.removeAt(evt.getData());
+      }, this);
+
       this.getContent().add(list);
     },
 
 
-    // overridden
-    _back : function()
-    {
-     qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
+    /**
+     * Displays a confirm dialog with the passed text.
+     * @param text {String} text to display.
+     */
+    _showDialog: function(text) {
+      qx.ui.mobile.dialog.Manager.getInstance().confirm("Selection", text, null, this, ["OK"]);
+    },
+
+
+    /**
+     * Creates the model with the example data.
+     * @return {qx.data.Array} data array.
+     */
+    _createModel: function() {
+      var data = [];
+      for (var i = 0; i < 100; i++) {
+        data.push({
+          title: "Item #" + i,
+          subtitle: "Subtitle for Item #" + i,
+          selectable: i < 6,
+          removable: i > 5 && i < 11
+        });
+      }
+      return new qx.data.Array(data);
     }
   }
 });

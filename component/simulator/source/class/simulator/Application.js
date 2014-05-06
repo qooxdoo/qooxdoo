@@ -13,10 +13,11 @@
      See the LICENSE file in the project's top-level directory for details.
 
 ************************************************************************ */
-/* ************************************************************************
-************************************************************************ */
+
 /**
  * Simulator main application class.
+ *
+ * @deprecated{4.0}
  */
 qx.Class.define("simulator.Application", {
 

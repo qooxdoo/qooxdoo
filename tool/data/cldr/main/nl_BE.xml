@@ -6,8 +6,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 8245 $"/>
-		<generation date="$Date: 2013-02-24 22:19:26 -0600 (Sun, 24 Feb 2013) $"/>
+		<version number="$Revision: 9791 $"/>
+		<generation date="$Date: 2014-02-25 15:16:49 -0600 (Tue, 25 Feb 2014) $"/>
 		<language type="nl"/>
 		<territory type="BE"/>
 	</identity>
@@ -16,7 +16,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="lv">Lets</language>
 			<language type="oc">Occitaans; Provençaals</language>
 			<language type="sh">Servo-Kroatisch</language>
-			<language type="ssa" draft="provisional">Nilo-Saharaans</language>
 		</languages>
 		<territories>
 			<territory type="013" draft="provisional">Centraal-Amerika</territory>
@@ -115,7 +114,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 	<numbers>
 		<currencyFormats numberSystem="latn">
 			<currencyFormatLength>
-				<currencyFormat>
+				<currencyFormat type="standard">
 					<pattern>#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>

@@ -34,9 +34,8 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
   {
     setUp : function()
     {
-
-      if(!this.hasWebkit() && (!this.hasGecko())) {
-          throw new qx.dev.unit.RequirementError("Only Webkit or Gecko engine supported.");
+      if (qx.core.Environment.get("browser.name") == "ie" && qx.core.Environment.get("browser.documentmode") < 10) {
+        throw new qx.dev.unit.RequirementError("Mobile tests require Webkit, Gecko or IE10+");
       }
 
       qx.test.mobile.MobileTestCase._oldApplicationFunction = qx.core.Init.getApplication;
@@ -50,8 +49,8 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
           },
           close : function() {},
           terminate : function() {}
-        }
-      }
+        };
+      };
     },
 
 

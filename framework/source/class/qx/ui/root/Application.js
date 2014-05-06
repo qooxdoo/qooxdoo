@@ -60,14 +60,6 @@ qx.Class.define("qx.ui.root.Application",
     this.__window = qx.dom.Node.getWindow(doc);
     this.__doc = doc;
 
-    // disable the tap highlight color for touch devices
-    if (qx.core.Environment.get("event.touch") && qx.core.Environment.get("qx.emulatemouse")) {
-      // only apply if the body is really already there (just in case)
-      if (doc.body) {
-        doc.body.style["WebkitTapHighlightColor"] = "rgba(0,0,0,0)";
-      }
-    }
-
     // Base call
     this.base(arguments);
 
@@ -84,6 +76,20 @@ qx.Class.define("qx.ui.root.Application",
     qx.ui.core.FocusHandler.getInstance().connectTo(this);
 
     this.getContentElement().disableScrolling();
+
+    // quick fix for [BUG #7680]
+    this.getContentElement().setStyle("-webkit-backface-visibility", "hidden");
+
+    // prevent scrolling on touch devices
+    this.addListener("touchmove", function(e) {
+      // allow native scrolling
+      var orig = e.getOriginalTarget();
+      var touchAction = qx.bom.element.Style.get(orig, "touch-action") != "none";
+      var webkitOverflowScrolling = qx.bom.element.Style.get(orig, "-webkit-overflow-scrolling") === "touch";
+      if (!touchAction && !webkitOverflowScrolling) {
+        e.preventDefault();
+      }
+    });
   },
 
 
@@ -171,8 +177,8 @@ qx.Class.define("qx.ui.root.Application",
     // overridden
     _computeSizeHint : function()
     {
-      var width = qx.bom.Viewport.getWidth(this.__window);
-      var height = qx.bom.Viewport.getHeight(this.__window);
+      var width = qx.bom.Viewport.getWidth(this.__window) + (window.scrollX || 0);
+      var height = qx.bom.Viewport.getHeight(this.__window) + (window.scrollY || 0);
 
       return {
         minWidth : width,

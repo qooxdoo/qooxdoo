@@ -19,6 +19,8 @@
 
 /**
  * Provides a file object.
+ *
+ * @deprecated{4.0}
  */
 
 qx.Class.define("simulator.RhinoFile", {

@@ -22,15 +22,15 @@
  *
  * *Example*
  *
- * Here is a little example of how to use the widget.
+ * Here is an example of how to use the widget.
  *
  * <pre class='javascript'>
  *   var title = new qx.ui.mobile.form.Title("Group");
  *   var form = new qx.ui.mobile.form.Form();
  *   form.add(new qx.ui.mobile.form.TextField(), "Username: ");
  *
- *   this.getRoot.add(title);
- *   this.getRoot.add(new qx.ui.mobile.form.renderer.Single(form));
+ *   this.getRoot().add(title);
+ *   this.getRoot().add(new qx.ui.mobile.form.renderer.Single(form));
  * </pre>
  *
  * This example creates a form and adds a row with a text field in it.
@@ -169,6 +169,13 @@ qx.Class.define("qx.ui.mobile.form.Form",
       }
 
       return null;
+    },
+
+
+    // overridden
+    reset : function() {
+      this.base(arguments);
+      this.__renderer.resetForm();
     },
 
 

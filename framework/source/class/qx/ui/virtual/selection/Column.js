@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.virtual.selection.Column",
     */
 
     // overridden
-    _getSelectableFromMouseEvent : function(event)
+    _getSelectableFromPointerEvent : function(event)
     {
       var cell = this._pane.getCellAtPosition(
         event.getDocumentLeft(),

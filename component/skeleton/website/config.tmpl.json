@@ -16,6 +16,9 @@
     "build-min",
     "build-module-all",
     "build-module-all-min",
+    "clean",
+    "distclean",
+    "info",
     "test",
     "test-source",
     "validate-config"
@@ -25,13 +28,14 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : ["api"]
+    "job-shadowing" : ["api", "test"]
   },
 
   "let" :
   {
     "APPLICATION"  : "${Namespace}",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}",
+    "QFILES_VERSION_PART" : "-$${QOOXDOO_VERSION}", // let the build* outputs contain version in fname
     "WEBSITE"      : "$${QOOXDOO_PATH}/component/standalone/website",
     "CACHE"        : "${Cache}",
     "ROOT"         : "."
@@ -44,6 +48,10 @@
   {
     "api" :
     {
+      "let" :
+      {
+        "QFILES_VERSION_PART": ""
+      },
       "run" : ["api-files"]
     },
 
@@ -54,18 +62,27 @@
       {
         "files" :
         [
-          "samples",
           "api.css",
+          "batch-icons-webfont.*",
           "default.highlight.css",
           "fiddleframe.html",
           "highlight.LICENSE",
           "highlight.pack.js",
           "index.html",
           "jsfiddle-logo_small.png",
+          "samples",
           "viewer.js"
         ],
         "source" : "$${WEBSITE}/api",
         "target" : "api"
+      }
+    },
+
+    "test" :
+    {
+      "let" :
+      {
+        "QFILES_VERSION_PART": ""
       }
     }
   }

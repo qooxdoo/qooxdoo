@@ -171,7 +171,7 @@ qx.Class.define("demobrowser.demo.animation.Animation",
           button.style.cursor = "not-allowed";
           continue;
         }
-        button.addEventListener("click",
+        button.addEventListener("tap",
           (function(animation, test) {
             return function(e) {
               qx.bom.element.Animation.animate(e.target, animation, test == "Fast Width" ? 300 : undefined);

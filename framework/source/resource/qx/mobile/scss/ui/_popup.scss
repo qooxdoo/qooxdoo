@@ -1,0 +1,127 @@
+//
+// POPUP
+//
+
+$dialog-arrow-space: rem(2);
+
+.popup {
+  @include background($dialog-background);
+  @include border-radius($dialog-border-radius);
+  @include touch-action(none);
+
+  position: absolute;
+  width: auto;
+  padding: rem(6);
+  max-width: 90%;
+  z-index: 101;
+  clear: both;
+
+  // Fallback if no gradient could be set.
+  background-color: nth($dialog-background,1);
+
+  border: rem(2) solid $dialog-border-color;
+  color: $dialog-title-text-color; 
+}
+
+.anchor-target {
+  pointer-events:none;
+}
+
+.root.ios .popup {
+  -webkit-filter: drop-shadow(0 rem(2) rem(7) rgba(0,0,0,0.5));
+}
+
+.root:not(.ios) .popup {
+  @include box-shadow(0px rem(2) rem(7) 0px rgba(0,0,0,0.5));
+}
+
+.popup-title {
+  font-weight: $dialog-font-weight;
+  font-size: rem(16);
+  margin-bottom: rem(3);
+} 
+
+.popup-content {
+  height : 100%;
+}
+
+@mixin arrow {
+  position:absolute;
+  content:"";
+}
+
+.anchor.top {
+  margin-top: $dialog-arrow-size;
+}
+
+.anchor.bottom {
+  margin-top: -$dialog-arrow-size;
+}
+
+// ARROW TOP
+
+.anchor.top:before, .anchor.top.right:before
+{
+  @include arrow;
+  @include triangle-up($dialog-arrow-size + $dialog-arrow-space, $dialog-border-color);
+}
+
+.anchor.top:after, .anchor.top.right:after
+{
+  @include arrow;
+  @include triangle-up($dialog-arrow-size, $dialog-arrow-up-color);
+}
+
+// ARROW BOTTOM
+
+.anchor.bottom:before, .anchor.bottom.right:before
+{
+  @include arrow;
+  @include triangle-down($dialog-arrow-size + $dialog-arrow-space, $dialog-border-color);
+}
+
+.anchor.bottom:after, .anchor.bottom.right:after
+{
+  @include arrow;
+  @include triangle-down($dialog-arrow-size, $dialog-arrow-down-color);
+}
+
+.anchor.top.left:before {
+  top:-($dialog-arrow-size + rem(3));
+  left: $dialog-arrow-position-offset;
+}
+
+.anchor.top.left:after {
+  top:-($dialog-arrow-size);
+  left: $dialog-arrow-position-offset + $dialog-arrow-space;
+}
+
+.anchor.bottom.left:before {
+  bottom:-($dialog-arrow-size + rem(3));
+  left: $dialog-arrow-position-offset;
+}
+
+.anchor.bottom.left:after {
+  bottom: -($dialog-arrow-size);
+  left: $dialog-arrow-position-offset + $dialog-arrow-space;
+}
+
+.anchor.top.right:before {
+  right: $dialog-arrow-position-offset;
+  top:-($dialog-arrow-size + rem(3));
+}
+
+.anchor.top.right:after {
+  right: $dialog-arrow-position-offset + $dialog-arrow-space;
+  top:-($dialog-arrow-size);
+}
+
+.anchor.bottom.right:before {
+  bottom:-($dialog-arrow-size + rem(3));
+  right: $dialog-arrow-position-offset;
+}
+
+.anchor.bottom.right:after {
+  bottom: -($dialog-arrow-size);
+  right: $dialog-arrow-position-offset + $dialog-arrow-space;
+} 

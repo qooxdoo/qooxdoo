@@ -1,0 +1,42 @@
+//
+// MENU
+// 
+
+.menu {
+  @extend .popup;
+  min-width: rem(140);
+}
+
+
+.menu {
+  .list {
+    background: none;
+  }
+
+  .list-item {
+    @include border-radius(0);
+    border-left: none !important;
+    border-right: none !important;
+  }
+
+  .list-item:first-child {
+    border-top: none !important;
+  }
+
+  .list-item:last-child {
+    border-bottom: none !important;
+  }
+
+  .scroll {
+    @include background($list-background);
+  }
+
+  .iscroll {
+    position: relative !important;
+  }
+}
+
+.item-selected {
+  @include background($menu-item-selected-background);
+  color: $menu-item-selected-text-color !important;
+}

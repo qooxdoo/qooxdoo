@@ -170,18 +170,55 @@ qx.Class.define("qx.ui.core.Widget",
     /** Fired if a touch at the screen is canceled. */
     touchcancel : "qx.event.type.Touch",
 
-    /** Fired when a finger taps on the screen. */
+    /** Fired when a pointer taps on the screen. */
     tap : "qx.event.type.Tap",
 
-    /** Fired when a finger holds on the screen. */
+    /** Fired when a pointer holds on the screen. */
     longtap : "qx.event.type.Tap",
 
-    /** Fired when a finger swipes over the screen. */
+    /** Fired when a pointer taps twice on the screen. */
+    dbltap : "qx.event.type.Tap",
+
+    /** Fired when a pointer swipes over the screen. */
     swipe : "qx.event.type.Touch",
 
+    /** Fired when two pointers performing a rotate gesture on the screen. */
+    rotate : "qx.event.type.Rotate",
+
+    /** Fired when two pointers performing a pinch in/out gesture on the screen. */
+    pinch : "qx.event.type.Pinch",
+
+    /** Fired when an active pointer moves on the screen (after pointerdown till pointerup). */
+    track : "qx.event.type.Track",
+
+    /** Fired when an active pointer moves on the screen or the mouse wheel is used. */
+    roll : "qx.event.type.Roll",
+
+    /** Fired if a pointer (mouse/touch/pen) moves or changes any of it's values. */
+    pointermove : "qx.event.type.Pointer",
+
+    /** Fired if a pointer (mouse/touch/pen) hovers the widget. */
+    pointerover : "qx.event.type.Pointer",
+
+    /** Fired if a pointer (mouse/touch/pen) leaves this widget. */
+    pointerout : "qx.event.type.Pointer",
+
     /**
-     * This event if fired if a keyboard key is released.
-     **/
+     * Fired if a pointer (mouse/touch/pen) button is pressed or
+     * a finger touches the widget.
+     */
+    pointerdown : "qx.event.type.Pointer",
+
+    /**
+     * Fired if all pointer (mouse/touch/pen) buttons are released or
+     * the finger is lifted from the widget.
+     */
+    pointerup : "qx.event.type.Pointer",
+
+    /** Fired if a pointer (mouse/touch/pen) action is canceled. */
+    pointercancel : "qx.event.type.Pointer",
+
+    /** This event if fired if a keyboard key is released. */
     keyup : "qx.event.type.KeySequence",
 
     /**
@@ -276,7 +313,7 @@ qx.Class.define("qx.ui.core.Widget",
     dragleave : "qx.event.type.Drag",
 
     /**
-     * Fired on a potential drop target when reaching it via the mouse.
+     * Fired on a potential drop target when reaching it via the pointer.
      * This event can be canceled if none of the incoming data types
      * are supported.
      *
@@ -286,7 +323,7 @@ qx.Class.define("qx.ui.core.Widget",
     dragover : "qx.event.type.Drag",
 
     /**
-     * Fired during the drag. Contains the current mouse coordinates
+     * Fired during the drag. Contains the current pointer coordinates
      * using {@link qx.event.type.Drag#getDocumentLeft} and
      * {@link qx.event.type.Drag#getDocumentTop}
      *
@@ -508,7 +545,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Mapping to native style property cursor.
      *
-     * The name of the cursor to show when the mouse pointer is over the widget.
+     * The name of the cursor to show when the pointer is over the widget.
      * This is any valid CSS2 cursor name defined by W3C.
      *
      * The following values are possible crossbrowser:
@@ -624,8 +661,8 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Whether the widget is enabled. Disabled widgets are usually grayed out
      * and do not process user created events. While in the disabled state most
-     * user input events are blocked. Only the {@link #mouseover} and
-     * {@link #mouseout} events will be dispatched.
+     * user input events are blocked. Only the {@link #pointerover} and
+     * {@link #pointerout} events will be dispatched.
      */
     enabled :
     {
@@ -1608,22 +1645,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Returns the element wrapper of the widget's container element.
-     * This method exposes widget internal and must be used with caution!
-     *
-     * @return {qx.html.Element} The widget's container element
-     * @deprecated{3.0}
-     */
-    getContainerElement : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'getContentElement' instead.");
-      }
-      return this.__contentElement;
-    },
-
-
-    /**
      * Returns the element wrapper of the widget's content element.
      * This method exposes widget internal and must be used with caution!
      *
@@ -2130,9 +2151,9 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * Enables mouse event capturing. All mouse events will dispatched on this
+     * Enables pointer event capturing. All pointer events will dispatched on this
      * widget until capturing is disabled using {@link #releaseCapture} or a
-     * mouse button is clicked. If the widgets becomes the capturing widget the
+     * pointer button is clicked. If the widgets becomes the capturing widget the
      * {@link #capture} event is fired. Once it loses capture mode the
      * {@link #losecapture} event is fired.
      *
@@ -2146,10 +2167,26 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Disables mouse capture mode enabled by {@link #capture}.
+     * Disables pointer capture mode enabled by {@link #capture}.
      */
     releaseCapture : function() {
       this.getContentElement().releaseCapture();
+    },
+
+
+    /**
+     * Checks if pointer event capturing is enabled for this widget.
+     *
+     * @return {Boolean} <code>true</code> if capturing is active
+     */
+    isCapturing : function() {
+      var el = this.getContentElement().getDomElement();
+      if (!el) {
+        return false;
+      }
+      var manager = qx.event.Registration.getManager(el);
+      var dispatcher = manager.getDispatcher(qx.event.dispatch.MouseCapture);
+      return el == dispatcher.getCaptureElement();
     },
 
 
@@ -2947,6 +2984,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (!value)
         {
           this.removeListener("contextmenu", this._onContextMenuOpen);
+          this.removeListener("longtap", this._onContextMenuOpen);
           old.removeListener("changeVisibility", this._onBeforeContextMenuOpen, this);
         }
       }
@@ -2959,6 +2997,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (!old)
         {
           this.addListener("contextmenu", this._onContextMenuOpen);
+          this.addListener("longtap", this._onContextMenuOpen);
           value.addListener("changeVisibility", this._onBeforeContextMenuOpen, this);
         }
       }
@@ -2968,11 +3007,17 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Event listener for <code>contextmenu</code> event
      *
-     * @param e {qx.event.type.Mouse} The event object
+     * @param e {qx.event.type.Pointer} The event object
      */
     _onContextMenuOpen : function(e)
     {
-      this.getContextMenu().openAtMouse(e);
+      // only allow long tap context menu on touch interactions
+      if (e.getType() == "longtap") {
+        if (e.getPointerType() !== "touch") {
+          return;
+        }
+      }
+      this.getContextMenu().openAtPointer(e);
 
       // Do not show native menu
       // don't open any other contextmenus
@@ -3034,9 +3079,6 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyDraggable : function(value, old)
     {
-      if (qx.event.handler.MouseEmulation.ON) {
-        return;
-      }
       if (!this.isEnabled() && value === true) {
         value = false;
       }
@@ -3084,7 +3126,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragStart : function(e)
     {
-      this._getDragDropCursor().placeToMouse(e);
+      this._getDragDropCursor().placeToPointer(e);
       this.getApplicationRoot().setGlobalCursor("default");
     },
 
@@ -3095,7 +3137,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param e {qx.event.type.Drag} Drag event
      */
     _onDrag : function(e) {
-      this._getDragDropCursor().placeToMouse(e);
+      this._getDragDropCursor().placeToPointer(e);
     },
 
 
@@ -3622,39 +3664,6 @@ qx.Class.define("qx.ui.core.Widget",
       LOWER LEVEL ACCESS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Computes the location of the container element in context of the document dimensions.
-     *
-     * Supported modes:
-     *
-     * * <code>margin</code>: Calculate from the margin box of the element
-     *   (bigger than the visual appearance: including margins of given element)
-     * * <code>box</code>: Calculates the offset box of the element
-     *   (default, uses the same size as visible)
-     * * <code>border</code>: Calculate the border box
-     *   (useful to align to border edges of two elements).
-     * * <code>scroll</code>: Calculate the scroll box
-     *   (relevant for absolute positioned content).
-     * * <code>padding</code>: Calculate the padding box
-     *   (relevant for static/relative positioned content).
-     *
-     * @param mode {String?box} A supported option. See comment above.
-     * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
-     *   <code>right</code> and <code>bottom</code> which contains the distance
-     *   of the element relative to the document.
-     *
-     *  @deprecated{3.0}
-     */
-    getContainerLocation : function(mode)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'getContentLocation' instead.");
-      }
-
-      return this.getContentLocation(mode);
-    },
 
 
     /**

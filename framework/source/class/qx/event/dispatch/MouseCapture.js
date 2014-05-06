@@ -89,15 +89,11 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     // overridden
     dispatchEvent : function(target, event, type)
     {
-      // Conforming to the MS implementation a mouse click will stop mouse
-      // capturing. The event is "eaten" by the capturing handler.
-      if (!qx.event.handler.MouseEmulation.ON) {
-        if (type == "click") {
-          event.stopPropagation();
+      if (type == "click") {
+        event.stopPropagation();
 
-          this.releaseCapture();
-          return;
-        }
+        this.releaseCapture();
+        return;
       }
 
       if (
@@ -128,7 +124,15 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       "dblclick": 1,
       "mousemove": 1,
       "mouseout": 1,
-      "mouseover": 1
+      "mouseover": 1,
+
+      "pointerdown" : 1,
+      "pointerup" : 1,
+      "pointermove" : 1,
+      "pointerover" : 1,
+      "pointerout" : 1,
+      "tap" : 1,
+      "dbltap" : 1
     },
 
 

@@ -105,9 +105,26 @@ qx.Class.define("qx.ui.core.EventHandler",
       touchend : 1,
       touchmove : 1,
       touchcancel : 1,
+
+      // gestures
       tap : 1,
       longtap : 1,
-      swipe : 1
+      swipe : 1,
+      dbltap : 1,
+      track : 1,
+      trackend : 1,
+      trackstart : 1,
+      pinch : 1,
+      rotate : 1,
+      roll : 1,
+
+      // pointer events
+      pointermove : 1,
+      pointerover : 1,
+      pointerout : 1,
+      pointerdown : 1,
+      pointerup : 1,
+      pointercancel : 1
     },
 
     /** @type {Integer} Whether the method "canHandleEvent" must be called */

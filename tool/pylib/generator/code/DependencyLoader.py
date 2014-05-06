@@ -44,7 +44,7 @@ import graph
 
 from misc.ExtMap                import ExtMap
 from ecmascript.frontend        import lang
-from ecmascript.transform.check import lint, global_symbols as gs
+from ecmascript.transform.check import global_symbols as gs
 from generator.code.Class       import DependencyError
 from generator.code.DependencyItem  import DependencyItem
 from generator.action           import CodeMaintenance
@@ -72,7 +72,7 @@ class DependencyLoader(object):
     ##
     # Return a class list for the current script
     def getClassList(self, includeWithDeps, excludeWithDeps, includeNoDeps, excludeWithDepsHard, script, verifyDeps=False):
-        
+
         ##
         # Resolve intelli include/exclude depdendencies
         def resolveDepsSmartCludes(includeWithDeps, excludeWithDeps):
@@ -131,7 +131,7 @@ class DependencyLoader(object):
 
 
 
-    def classlistFromInclude(self, includeWithDeps, excludeWithDeps, variants, 
+    def classlistFromInclude(self, includeWithDeps, excludeWithDeps, variants,
                              verifyDeps=False, script=None, allowBlockLoaddeps=True):
 
         def classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, loadDepsChain, allowBlockLoaddeps=True):
@@ -155,7 +155,7 @@ class DependencyLoader(object):
             if lint_check and is_app_code(classObj): # opt: and not cached
                 warns = classObj.lint_warnings(lint_opts)
                 for warn in warns:
-                    self._console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
+                    self._console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column,
                         warn.msg % tuple(warn.args)))
             self._console.outdent()
             if logInfos: self._console.dot("%s" % "." if cached else "*")
@@ -177,7 +177,7 @@ class DependencyLoader(object):
                 # cycle detection
                 assert depsItem.name not in loadDepsChain
                 loadDepsChain.append(depsItem.name)
-  
+
                 for subitem in deps["load"]:
                     # cycle check
                     if subitem.name in loadDepsChain:
@@ -195,7 +195,7 @@ class DependencyLoader(object):
                 if depsItem.name not in resultNames:
                     result.append(depsItem)
                     resultNames.append(depsItem.name)
-                
+
                 # cycle check
                 loadDepsChain.remove(depsItem.name)
 
@@ -286,7 +286,7 @@ class DependencyLoader(object):
                 classlistFromClassRecursive(depsItem, excludeWithDeps, variants, result, warn_deps, [], allowBlockLoaddeps)
 
             self._console.dotclear()
-                    
+
             # extract names of depsItems
             result = [x.name for x in result]
 
@@ -328,7 +328,7 @@ class DependencyLoader(object):
             return True
         return False
 
-    
+
     def agendaSearch(self, agenda, processNode, getNodeChildren, mode="df"):
         while agenda:
             node = agenda.pop(0)
@@ -419,7 +419,7 @@ class DependencyLoader(object):
 
 
     def sortClassesTopological(self, classList, variants, buildType=''):
-        
+
         # create graph object
         gr = graph.digraph()
 
@@ -444,7 +444,7 @@ class DependencyLoader(object):
 
         return classList
 
-    
+
     ######################################################################
     #  FEATURE SUPPORT
     ######################################################################
@@ -473,7 +473,7 @@ class DependencyLoader(object):
                 else:
                     # create
                     featureMap[dep.name][dep.attribute] = UsedFeature(dep)
-        
+
         self._console.nl()
         return featureMap
 

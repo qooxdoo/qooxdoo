@@ -1,0 +1,15 @@
+{
+  "name": "websitewidgetbrowser",
+  "description": "A browser app for qx.Website widgets",
+  "version": "4.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qooxdoo/qooxdoo"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-notify": "~0.2.16",
+    "grunt-contrib-sass": "~0.5.0"
+  }
+}

@@ -1,0 +1,57 @@
+.root {
+  @include background($navigationpage-background);
+  font-weight: normal;
+}
+
+.page {
+  /* Disable touch behaviors, like pan and zoom for IE10*/
+  @include touch-action(none);
+  @include backface-visibility(hidden);
+  @include background($navigationpage-background);
+
+  position: absolute;
+  height: 100%;
+  width:100%;
+}
+
+.page.active:not(.animationChild) {
+  z-index: 100;
+}
+
+.content:not(.group) .form-title {
+  text-indent:rem(15);
+}
+
+.root, .scroll {
+  font-family:  $application-font;
+  color:  $application-text-color;
+}
+
+.group {
+  padding: rem(10);
+}
+
+.group.bordered {
+  @include border-radius($group-border-radius);
+  @include background($group-background);
+
+  border: rem(1) solid $group-border-color;
+  margin: rem(10);
+}
+
+.hbox:not(.flex-reverse) > .gap:not(.exclude) + .gap {
+  margin-left: rem(5);
+}
+
+div:not(.hbox):not(.flex-reverse) > .gap:not(.exclude) + .gap {
+  margin-top: rem(5);
+}
+
+.hbox.flex-reverse > .gap:not(.exclude) + .gap {
+  margin-right: rem(5);
+}
+
+div:not(.hbox).flex-reverse > .gap:not(.exclude) + .gap {
+  margin-bottom: rem(5);
+}
+

@@ -17,22 +17,34 @@
 
 ************************************************************************ */
 /**
- * This class takes care of the normalization of the native 'String' object.
- * Therefore it checks the availability of the following methods and appends
- * it, if not available. This means you can use the methods during
- * development in every browser. For usage samples, check out the attached links.
+ * This class is responsible for the normalization of the native 'String' object.
+ * It checks if these methods are available and, if not, appends them to
+ * ensure compatibility in all browsers.
+ * For usage samples, check out the attached links.
  *
- * *trim*:
- * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String/Trim">MDN documentation</a> |
- * <a href="http://es5.github.com/#x15.5.4.20">Annotated ES5 Spec</a>
+ * @group (Polyfill)
  */
 qx.Bootstrap.define("qx.lang.normalize.String", {
-  defer : function() {
+
+  statics : {
+
+    /**
+     * Removes whitespace from both ends of the string.
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/String/Trim">MDN documentation</a> |
+     * <a href="http://es5.github.com/#x15.5.4.20">Annotated ES5 Spec</a>
+     *
+     * @return {String} The trimmed string
+     */
+    trim : function() {
+      return this.replace(/^\s+|\s+$/g,'');
+    }
+  },
+
+  defer : function(statics) {
     // trim
     if (!qx.core.Environment.get("ecmascript.string.trim")) {
-      String.prototype.trim = function(context) {
-        return this.replace(/^\s+|\s+$/g,'');
-      };
+      String.prototype.trim = statics.trim;
     }
   }
 });

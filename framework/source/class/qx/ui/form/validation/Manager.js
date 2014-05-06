@@ -18,6 +18,9 @@
 ************************************************************************ */
 /**
  * This validation manager is responsible for validation of forms.
+ *
+ * @ignore(qx.ui.tooltip)
+ * @ignore(qx.ui.tooltip.Manager.*)
  */
 qx.Class.define("qx.ui.form.validation.Manager",
 {
@@ -449,11 +452,59 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @param value {Boolean|null} The new valid value of the manager.
      */
     __setValid: function(value) {
+      this._showToolTip(value);
       var oldValue = this.__valid;
       this.__valid = value;
       // check for the change event
       if (oldValue != value) {
         this.fireDataEvent("changeValid", value, oldValue);
+      }
+    },
+
+
+    /**
+     * Responsible for showing a tooltip in case the validation is done for
+     * widgets based on qx.ui.core.Widget.
+     * @param valid {Boolean} <code>false</code>, if the tooltip should be shown
+     */
+    _showToolTip : function(valid) {
+      // ignore if we don't have a tooltip manager e.g. mobile apps
+      if (!qx.ui.tooltip || !qx.ui.tooltip.Manager) {
+        return;
+      }
+      var tooltip = qx.ui.tooltip.Manager.getInstance().getSharedErrorTooltip();
+
+      if (!valid) {
+        var firstInvalid;
+        for (var i = 0; i < this.__formItems.length; i++) {
+          var item = this.__formItems[i].item;
+          if (!item.isValid()) {
+            firstInvalid = item;
+            // only for desktop widgets
+            if (!(item.getContentLocation)) {
+              return;
+            }
+            // only consider items on the screen
+            if (item.isSeeable() === false) {
+              continue;
+            }
+
+            tooltip.setLabel(item.getInvalidMessage());
+
+            if (tooltip.getPlaceMethod() == "mouse") {
+              var location = item.getContentLocation();
+              var top = location.top - tooltip.getOffsetTop();
+              tooltip.placeToPoint({left: location.right, top: top});
+            } else {
+              tooltip.placeToWidget(item);
+            }
+
+            tooltip.show();
+            return;
+          }
+        }
+      } else {
+        tooltip.exclude();
       }
     },
 

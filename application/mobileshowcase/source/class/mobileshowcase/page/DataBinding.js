@@ -22,14 +22,12 @@
  */
 qx.Class.define("mobileshowcase.page.DataBinding",
 {
-  extend : qx.ui.mobile.page.NavigationPage,
+  extend : mobileshowcase.page.Abstract,
 
   construct : function()
   {
     this.base(arguments);
     this.setTitle("Data Binding");
-    this.setShowBackButton(true);
-    this.setBackButtonText("Back");
 
     this.__timer = new qx.event.Timer(50);
     this.__timer.addListener("interval", this.__onInterval, this);
@@ -88,12 +86,12 @@ qx.Class.define("mobileshowcase.page.DataBinding",
       this.__list.setVisibility("hidden");
 
       this.__increaseButton = new qx.ui.mobile.form.Button("+");
-      this.__increaseButton.addListener("touchstart", this.__onIncrease, this);
-      this.__increaseButton.addListener("touchend", this.__onTouchEnd, this);
+      this.__increaseButton.addListener("pointerdown", this.__onIncrease, this);
+      this.__increaseButton.addListener("pointerup", this.__onPointerUp, this);
 
       this.__decreaseButton = new qx.ui.mobile.form.Button("-");
-      this.__decreaseButton.addListener("touchstart", this.__onDecrease, this);
-      this.__decreaseButton.addListener("touchend", this.__onTouchEnd, this);
+      this.__decreaseButton.addListener("pointerdown", this.__onDecrease, this);
+      this.__decreaseButton.addListener("pointerup", this.__onPointerUp, this);
 
       this.__stopTimeButton = new qx.ui.mobile.form.Button("Take Time Snapshot");
       this.__stopTimeButton.addListener("tap", this.__onStopTimeButtonTap, this);
@@ -152,13 +150,13 @@ qx.Class.define("mobileshowcase.page.DataBinding",
     /**
      * Called on interval event of timer.
      */
-    __onTouchEnd : function () {
+    __onPointerUp : function () {
       this.__timer.stop();
     },
 
 
     /**
-     * Called on button increase touchstart.
+     * Called on button increase.
      */
     __onIncrease : function()
     {
@@ -168,7 +166,7 @@ qx.Class.define("mobileshowcase.page.DataBinding",
 
 
     /**
-     *  Called on button decrease touchstart.
+     *  Called on button decrease.
      */
     __onDecrease : function()
     {
@@ -221,18 +219,6 @@ qx.Class.define("mobileshowcase.page.DataBinding",
     },
 
 
-    // overridden
-    _back : function()
-    {
-      qx.core.Init.getApplication().getRouting().executeGet("/", {reverse:true});
-    },
-
-
-    /*
-    *****************************************************************************
-      DESTRUCTOR
-    *****************************************************************************
-    */
     destruct : function() {
       this.__timer.removeListener("interval", this.__onInterval, this);
 

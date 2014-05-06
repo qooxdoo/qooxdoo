@@ -17,7 +17,7 @@ Preview Image
 
 Features
 --------
-* Mouse support.
+* Pointer support.
 * Configurable steps.
 * Supports number format.
 

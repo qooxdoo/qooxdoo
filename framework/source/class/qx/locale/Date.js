@@ -191,7 +191,7 @@ qx.Class.define("qx.locale.Date",
      *
      * @param size {String} format of the date format.
      *      Possible values: "short", "medium", "long", "full"
-     * @param locale {String} optional locale to be used
+     * @param locale {String?} optional locale to be used
      * @return {String} localized date format string
      */
     getDateFormat : function(size, locale)

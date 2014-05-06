@@ -26,6 +26,7 @@
 qx.Class.define("qx.test.ui.basic.Image",
 {
   extend : qx.test.ui.LayoutTestCase,
+  include : qx.dev.unit.MMock,
 
   members :
   {
@@ -189,12 +190,11 @@ qx.Class.define("qx.test.ui.basic.Image",
     },
 
 
-    testLoadedEvent : function() {
-      var source = "../resource/qx/icon/Tango/32/places/folder.png";
-      if (qx.io.ImageLoader.isLoaded(source)) {
-        this.debug("testLoadedEvent skipped! Image already loaded.");
-        return;
-      }
+    testLoadedEvent : function() 
+    {
+      var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
+      this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
+
       var image = new qx.ui.basic.Image(source);
       image.addListener("loaded", function() {
         this.resume(function() {
@@ -206,7 +206,140 @@ qx.Class.define("qx.test.ui.basic.Image",
         });
       }, this);
 
-      this.wait();
+      this.wait(1000);
+    },
+
+
+    "test: Abort image loading on changing source" : function() 
+    {
+      // image will be received with a delay of 2 sec
+      var sourceA = "../resource/qx/test/delayedImage.php?" + Date.now();
+
+      var sourceB = "../resource/qx/icon/Tango/16/places/folder.png?" + Date.now();
+
+      var image = new qx.ui.basic.Image(sourceA);
+      // spy the load event, it must be called twice at the end of this test
+      var spyhandler = this.spy();
+      image.addListener("aborted", spyhandler, this);
+
+      this.assertTrue(qx.io.ImageLoader.isLoading(sourceA), "SourceA should be in loading state!");
+      image.setSource(sourceB);
+      this.assertFalse(qx.io.ImageLoader.isLoaded(sourceA), "SourceA should not be loaded after source change!");
+
+      this.assertCalledOnce(spyhandler);
+    },
+
+
+    "test: Abort image loading through the ImageLoader" : function() 
+    {
+      // image will be received with a delay of 2 sec
+      var Source = "../resource/qx/test/delayedImage.php?" + Date.now();
+
+      var image = new qx.ui.basic.Image(Source);
+      // spy the load event, it must be called twice at the end of this test
+      var spyhandler = this.spy();
+      image.addListener("aborted", spyhandler, this);
+
+      this.assertTrue(qx.io.ImageLoader.isLoading(Source), "Source should be in loading state!");
+      
+      qx.io.ImageLoader.abort(Source);
+
+      this.assertFalse(qx.io.ImageLoader.isLoaded(Source), "Source should not be loaded after source change!");
+
+      this.assertCalledOnce(spyhandler);
+    },
+
+
+    testLoadedEventForUnmanagedImage : function() 
+    {
+      var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
+      this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
+
+      var image = new qx.ui.basic.Image();
+      // spy the load event, it must be called twice at the end of this test
+      var spyhandler = this.spy();
+      image.addListener("loaded", spyhandler, this);
+
+      // load first time
+      image.setSource(source);
+
+      // load second time
+      image.addListenerOnce("loaded", function(){
+        image.resetSource();
+        image.setSource(source);
+      }, this);
+
+      this.wait(500, function(){
+        this.assertCalledTwice(spyhandler);
+        // use a timeout to dipose the image because it needs to
+        // end its processing after the event has been fired.
+        window.setTimeout(function() {
+          image.destroy();
+        });
+      }.bind(this));
+    },
+
+
+    testLoadedEventForManagedImage : function() 
+    {
+      var source = "qx/icon/Tango/48/places/folder.png";
+      var image = new qx.ui.basic.Image();
+      // spy the load event, it must be called twice at the end of this test
+      var spyhandler = this.spy();
+      image.addListener("loaded", spyhandler, this);
+
+      // load first time
+      image.setSource(source);
+
+      // load second time
+      image.addListenerOnce("loaded", function(){
+        image.resetSource();
+        image.setSource(source);
+      }, this);
+
+      this.wait(500, function(){
+        this.assertCalledTwice(spyhandler);
+        // use a timeout to dipose the image because it needs to
+        // end its processing after the event has been fired.
+        window.setTimeout(function() {
+          image.destroy();
+        });
+      }.bind(this));
+    },
+
+
+    testAbortedEventForUnmanagedImage : function() 
+    {
+      var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
+      this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
+
+      var image = new qx.ui.basic.Image();
+      // spy the load event, it must be called twice at the end of this test
+      var spyhandler = this.spy();
+      image.addListener("aborted", spyhandler, this);
+
+      // load first time
+      image.setSource(source);
+
+      // load second time
+      image.addListenerOnce("loaded", function(){
+        image.resetSource();
+        image.setSource(source);
+
+        // load thrice
+        image.resetSource();
+        image.setSource(source);
+      }, this);
+
+      this.wait(500, function(){
+        //even if we called setSource thrice, the loaded event must be called only twice
+        this.assertCalledOnce(spyhandler);
+        // use a timeout to dipose the image because it needs to
+        // end its processing after the event has been fired.
+        window.setTimeout(function() {
+          image.destroy();
+        });
+      }.bind(this));
     }
   }
 });

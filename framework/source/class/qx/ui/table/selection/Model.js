@@ -93,9 +93,9 @@ qx.Class.define("qx.ui.table.selection.Model",
     /**
      * @type {int} The selection mode "multiple interval". This mode only allows any
      * selection. The difference with the previous one, is that multiple
-     * selection is eased. A click on an item, toggles its selection state.
+     * selection is eased. A tap on an item, toggles its selection state.
      * On the other hand, MULTIPLE_INTERVAL_SELECTION does this behavior only
-     * when Ctrl-clicking an item.
+     * when Ctrl-tapping an item.
      */
     MULTIPLE_INTERVAL_SELECTION_TOGGLE : 5
   },

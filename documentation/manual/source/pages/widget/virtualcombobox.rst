@@ -17,12 +17,12 @@ Preview Image
 
 Features
 --------
-* Mouse and keyboard support.
+* Pointer and keyboard support.
 * Items with plain text and/or icons
 * Ellipsis: If the label does not fit into the widget's bounds an ellipsis (”...”) is rendered at the end of the label.
 * Supports filtering, sorting, grouping, data binding and custom rendering like the :doc:`virtuallist`.
 
-**Mouse and keyboard behavior:**
+**Pointer and keyboard behavior:**
 
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
 |                  |          |                                   |                                                     |
@@ -31,9 +31,9 @@ Features
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
 |                  |          | **close drop-down**               | esc; enter                                          |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
-|                  | mouse    | **open drop-down**                | click on arrow button                               |
+|                  | pointer  | **open drop-down**                | tap on arrow button                                 |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
-|                  |          | **close drop-down**               | click on item; click outside drop-down              |
+|                  |          | **close drop-down**               | tap on item; click outside drop-down                |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
 | drop-down closed | keyboard | **select next**                   | not possible                                        |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
@@ -43,7 +43,7 @@ Features
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
 |                  |          | **select last**                   | not possible                                        |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
-|                  | mouse    | **select next**                   | not possible                                        |
+|                  | pointer  | **select next**                   | not possible                                        |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
 |                  |          | **select previous**               | not possible                                        |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
@@ -55,13 +55,13 @@ Features
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
 |                  |          | **select last**                   | page down then enter                                |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
-|                  | mouse    | **select next**                   | click on item                                       |
+|                  | pointer  | **select next**                   | tap on item                                         |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
-|                  |          | **select previous**               | click on item                                       |
+|                  |          | **select previous**               | tap on item                                         |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
 |                  |          | **wrap in list**                  | no                                                  |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
-|                  |          | **preselect**                     | mouse over; key up; key down                        |
+|                  |          | **preselect**                     | pointer over; key up; key down                      |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
 |                  |          | **select drop-down item on open** | yes, first item in the list which begins with value |
 +------------------+----------+-----------------------------------+-----------------------------------------------------+
@@ -71,8 +71,8 @@ Features
 Description
 -----------
 
-The ``qx.ui.form.VirtualComboBox`` is based on the virtual infrastructure. The virtual SelectBox has both a :doc:`textfield` and a :doc:`virtuallist` drop-down. The drop-down can be used to predefine values which the user can select. 
- 
+The ``qx.ui.form.VirtualComboBox`` is based on the virtual infrastructure. The virtual SelectBox has both a :doc:`textfield` and a :doc:`virtuallist` drop-down. The drop-down can be used to predefine values which the user can select.
+
 Using the virtual infrastructure has considerable advantages when there is a huge amount of model items to render: Widgets are created only for visible items and reused. This saves both creation time and memory.
 
 The virtual ComboBox uses the same `qx.ui.list.core.IListDelegate <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.list.core.IListDelegate>`_ interface as the :doc:`virtuallist` to configure the ComboBox's behavior (item and group renderer configuration, filtering, sorting, grouping, etc.).
@@ -95,10 +95,10 @@ Here's an example. We create a simple ComboBox example with 2500 items, sorting 
       rawData[i] = "Item No " + i;
     }
     var model = qx.data.marshal.Json.createModel(rawData);
-     
+
     //create the SelectBox
     var comboBox = new qx.ui.form.VirtualComboBox(model);
-     
+
     //configure the ComboBox's behavior
     var delegate = {
       sorter : function(a, b) {
@@ -106,7 +106,7 @@ Here's an example. We create a simple ComboBox example with 2500 items, sorting 
       }
     };
     comboBox.setDelegate(delegate);
-     
+
     //log value changes
     comboBox.addListener("changeValue", function(e) {
       this.debug("Value: " + e.getData());

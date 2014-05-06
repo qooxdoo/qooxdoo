@@ -161,13 +161,11 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     _createContent : function()
     {
       this.__layout = new qx.ui.mobile.layout.Card();
-      var content = new qx.ui.mobile.container.Composite(this.__layout);
       this.__layout.addListener("updateLayout", this._onUpdateLayout, this);
-
-      this.getLayout().addListener("animationStart", this._onAnimationStart, this);
-      this.getLayout().addListener("animationEnd", this._onAnimationEnd, this);
-
-      return content;
+      this.__layout.addListener("animationStart", this._onAnimationStart, this);
+      this.__layout.addListener("animationEnd", this._onAnimationEnd, this);
+      
+      return new qx.ui.mobile.container.Composite(this.__layout);
     },
 
 
@@ -210,9 +208,9 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
     _update : function(widget) {
       var navigationBar = this.getNavigationBar();
 
-      qx.bom.element.Style.set(this.getContainerElement(), "transitionDuration", widget.getNavigationBarToggleDuration()+"s");
+      this._setStyle("transitionDuration", widget.getNavigationBarToggleDuration()+"s");
 
-      if(widget.isNavigationBarHidden()){
+      if(widget.isNavigationBarHidden()) {
         this.addCssClass("hidden");
       } else {
         navigationBar.show();
@@ -220,6 +218,10 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       }
 
       navigationBar.removeAll();
+
+      if (widget.basename) {
+        this._setAttribute("data-target-page", widget.basename.toLowerCase());
+      }
 
       var leftContainer = widget.getLeftContainer();
       if (leftContainer) {

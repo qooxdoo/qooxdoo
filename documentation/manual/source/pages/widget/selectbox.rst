@@ -19,7 +19,7 @@ Preview Image
 
 Features
 --------
-* Mouse and keyboard support.
+* Pointer and keyboard support.
 * Items with plane text and/or icons
 * Ellipsis: If the label does not fit into the widget bounds an ellipsis ("...") is rendered at the end of the label.
 

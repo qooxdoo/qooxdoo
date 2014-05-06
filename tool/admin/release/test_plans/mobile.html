@@ -1,0 +1,554 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Mobile Test Matrix</title>
+    <style type="text/css">
+    th { 
+      vertical-align: top; 
+      text-align: left;
+      page-break-after: avoid;
+    }
+
+    /* s. http://tinyurl.com/49eatag */
+    table {
+      /*margin: 10px;*/
+      page-break-inside:auto
+    }
+    tr    { page-break-inside:avoid; page-break-after:auto }
+    thead { display:table-header-group }
+    tfoot { display:table-footer-group }
+
+    td {
+      vertical-align: top;
+    }
+    td.platforms {
+      width: 4%
+    }
+
+	</style>
+    <script type="text/javascript" src="utils.js"></script>
+  </head>
+  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA();">
+  <h1 align="center">Mobile Tests - qooxdoo <span name="versstring">$(qxversion)</span></h1>
+    <table border="1" cellpadding="2" cellspacing="0">
+      <thead> <tr>
+          <th rowspan="3" colspan="2">Application Tests</th>
+          <th colspan="6">Platform</th>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold;">(Tablet) Safari</span><br>
+            <span style="font-weight: normal;">iPad&nbsp;4<br>
+            </span></td>
+          <td><span style="font-weight: bold;">(Phone)<br>
+              Safari</span><br>
+            iPhone&nbsp;5s<br>
+          </td>
+          <td style="vertical-align: top;"><b>(Tablet) Android&nbsp;4<br>
+            </b>Galaxy&nbsp;Note<b><br>
+            </b></td>
+          <td style="vertical-align: top;"><b>(Phone) Android&nbsp;4<br>
+            </b>Nexus<b><br>
+            </b></td>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold;">(Phone) IE</span><br>
+            HTC 8S</td>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold;">(Convertible) IE11<br>
+            </span>Dell XPS<span style="font-weight: bold;"><br>
+            </span></td>
+        </tr>
+        <tr>
+          <td class="platforms"><span style="font-weight: normal;"></span>MW<br>
+          </td>
+          <td>TH<br>
+          </td>
+          <td class="platforms">AP<b><br>
+            </b></td>
+          <td class="platforms">MS<br>
+          </td>
+          <td class="platforms">RS<br>
+          </td>
+          <td style="vertical-align: top;">DW<br>
+          </td>
+        </tr>
+      </thead> <tbody>
+        <!-- Don't worry about the line numbers - they will be auto-adjusted. Just make sure to use the 'name="number"' attribute -->
+        <tr>
+          <th name="number">1</th>
+          <th colspan="7">Feed Reader</th>
+        </tr>
+        <tr>
+          <td name="number" width="2%">1.1</td>
+          <td>Feed list loads and looks ok</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">1.2</td>
+          <td>Post lists for all feeds load and look ok</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">1.3</td>
+          <td>Individual posts load</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">1.4</td>
+          <td>Back navigation works</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">1.5</td>
+          <td>Drag-Scroll works</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">1.7</td>
+          <td>Resize / Orientation-change: Application adapts <strong>[c]</strong></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <th name="number">2</th>
+          <th colspan="7">Showcase</th>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.1</td>
+          <td>Showcase list loads and looks ok</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number">2.1</td>
+          <td style="vertical-align: top;">Basic Widgets: All basic
+            widgets are shown. Atoms Icon orientation, Toggle Label
+            Wrap, Enabling/Disabling works</td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number">2.1</td>
+          <td style="vertical-align: top;">Dialogs page: All dialogs can
+            be opened and closed. Menu closes on item select.</td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.2</td>
+          <td>Form page loads, form elements can be used. A number field
+            appears on "Enter your age", on mobile/tablet devices.
+            SelectBox works.</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.3</td>
+          <td>List page loads, selection works on "Selectable*" items,
+            drag-scroll of list works</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.2</td>
+          <td>Carousel Page: Page loads, all 5 pages are shown.
+            Next/Previous buttons work. Scroll loop works. Tap on
+            pagination triggers page switch. "Add more"-Button works (Page 5).</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" style="vertical-align: top;">2.8<br>
+          </td>
+          <td style="vertical-align: top;">Drawers Page: All drawers can
+            be opened and closed in positions "above" and "below".<br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.4</td>
+          <td>Tab page loads, "View *" text changes with selected tab
+            button</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" style="vertical-align: top;">2.8<br>
+          </td>
+          <td style="vertical-align: top;">Toolbar page loads<br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.12</td>
+          <td>Maps: map is usable, geolocation works, page title hides
+            on usage of toggle button.</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.3</td>
+          <td>Canvas: Draw something on the canvas and clear it.</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.5</td>
+          <td>Event page loads, tap (click), swipe (drag), touch-start
+            (mouse-down), touch-move (mouse-drag), touch-end (mouse-up)
+            events are recorded. OrientationChange is fired. (See
+            annotations below)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number">2.5<br>
+          </td>
+          <td style="vertical-align: top;">Data Binding: Label updates
+            on slider move/button clicks. Slider updates on button
+            clicks. List updates on click on "Stop current time".<br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.6</td>
+          <td>Page Transitions page loads, all page transition types
+            work (may differ on OS)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number">2.9<br>
+          </td>
+          <td style="vertical-align: top;">Theming: Application
+            looks ok in all available themes: Flat theme, Indigo theme
+            (all devices). Scale the application and check some pages<br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.10</td>
+          <td>Back button works from all pages <strong>[b]</strong> <br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">2.11</td>
+          <td>Resize / Orientation-change: Application adapts</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" style="vertical-align: top;">2.7</td>
+          <td style="vertical-align: top;">Tablet view on tablet devices
+            and desktop (See annotations below) <strong>[a]</strong></td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;">N/A<br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;">N/A<br>
+          </td>
+          <td style="vertical-align: top;">N/A<br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" style="vertical-align: top; font-weight:
+            bold;">3</td>
+          <td colspan="8" rowspan="1" style="vertical-align: top;
+            font-weight: bold;">Tutorial</td>
+        </tr>
+        <tr>
+          <td name="number" style="vertical-align: top;">3.1<br>
+          </td>
+          <td style="vertical-align: top;">MobileTweets - Step1 loads
+            (URL:
+            &lt;path_to_framework&gt;/component/tutorials/index.html)</td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top;"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div> </div>
+    <div> Legend: <img
+        src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
+      &nbsp;Ok &nbsp;&nbsp;&nbsp; (<img
+        src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
+      &nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img
+        src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
+      &nbsp;Not Ok </div>
+    <h3>Annotations</h3>
+    <ul>
+      <li>Mobile and desktop devices should be connected to "onair"
+        network. </li>
+      <li>On iOS you only need to enter credentials. For deletion of
+        your credentials, just disconnect once. </li>
+      <li>On Android you need to enter credentials (identity and
+        password), chose EAP method &gt;&gt; TTLS, and Phase2
+        authentication &gt;&gt; PAP. After testing on Android, please
+        delete WLAN connection.</li>
+      <li><strong>[a]</strong> Tablet view has 2 NavigationPages on a
+        screen on landscape orientation, and 1 NavigationPage + Popup in
+        portrait mode.</li>
+      <li><strong>[b]</strong> Mobile view just has one NavigationPage
+        and a "Back" button at NavigationBar.</li>
+      <li><strong>[c]</strong> Orientation change can be reached either,
+        by rotating the tablet device by 90 degrees, or resizing the
+        browser windows size to less/above 50:50 ratio</li>
+    </ul>
+  </body>
+</html>

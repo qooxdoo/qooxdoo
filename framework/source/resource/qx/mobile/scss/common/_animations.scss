@@ -1,12 +1,10 @@
 .animationParent {
   @include perspective(800);
   @include transform-style(preserve-3d);
-  -webkit-transform-style: preserve-3d; // We have to remove this property after animation, otherwise the dialog widget is not shown in Chrome. See Bug #5891.
 }
 
 .animationChild {
-  @include backface-visibility(hidden);
-  position: absolute; // We have to remove this property after animation, otherwise the list widget is not shown in Webkit Browsers. See Bug #5935.
+  position: absolute;
 }
 
 .in {
@@ -15,12 +13,6 @@
 
 .out {
   z-index: 0;
-}
-
-.in, .out {
-  @include animation-timing-function(ease-in-out);
-  @include animation-duration(350ms);
-  @include animation-fill-mode(both); // Apply first and persist the last frame of the animation
 }
 
 //
@@ -41,32 +33,4 @@
 
 .slideup.out.reverse {
   z-index: 10;
-}
-
-//
-// FLIP 
-//
-
-.flip {
-  @include backface-visibility(hidden);
-}
-
-
-//
-// SWAP
-//
-
-.swap {
-    @include transform(perspective(800));
-}
-
-
-//
-// CUBE LEFT
-//
-
-$cube-z-target: 0px;
-
-.cube {
-    // @include animation-duration(.55s);
 }

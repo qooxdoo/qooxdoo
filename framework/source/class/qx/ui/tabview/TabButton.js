@@ -18,8 +18,8 @@
 ************************************************************************ */
 
 /**
- * A TabButton is the clickable part sitting on the {@link qx.ui.tabview.Page}.
- * By clicking on the TabButton the user can set a Page active.
+ * A TabButton is the tapable part sitting on the {@link qx.ui.tabview.Page}.
+ * By tapping on the TabButton the user can set a Page active.
  *
  * @childControl label {qx.ui.basic.Label} label of the tab button
  * @childControl icon {qx.ui.basic.Image} icon of the tab button
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
   events :
   {
     /**
-     * Fired by {@link qx.ui.tabview.Page} if the close button is clicked.
+     * Fired by {@link qx.ui.tabview.Page} if the close button is tapped.
      *
      * Event data: The tab button.
      */
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
           control = new qx.ui.form.Button();
           control.setFocusable(false);
           control.setKeepActive(true);
-          control.addListener("click", this._onCloseButtonClick, this);
+          control.addListener("tap", this._onCloseButtonTap, this);
           this._add(control, {row: 0, column: 4});
 
           if (!this.getShowCloseButton()) {
@@ -215,9 +215,9 @@ qx.Class.define("qx.ui.tabview.TabButton",
 
 
     /**
-     * Fires a "close" event when the close button is clicked.
+     * Fires a "close" event when the close button is tapped.
      */
-    _onCloseButtonClick : function() {
+    _onCloseButtonTap : function() {
       this.fireDataEvent("close", this);
     },
 

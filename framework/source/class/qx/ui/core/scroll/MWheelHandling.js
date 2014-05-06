@@ -49,16 +49,11 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
 
       // y case
       if (scrollbarY) {
-        if (qx.event.handler.MouseEmulation.ON) {
-          scrollbarY.scrollBy(parseInt(deltaY));
-        } else {
-          var steps = parseInt(deltaY);
 
-          if (steps !== 0) {
-            scrollbarY.scrollBySteps(steps);
-          }
+        var steps = parseInt(deltaY);
+        if (steps !== 0) {
+          scrollbarY.scrollBySteps(steps);
         }
-
 
         var position = scrollbarY.getPosition();
         var max = scrollbarY.getMaximum();
@@ -71,14 +66,9 @@ qx.Mixin.define("qx.ui.core.scroll.MWheelHandling",
 
       // x case
       if (scrollbarX) {
-        if (qx.event.handler.MouseEmulation.ON) {
-          scrollbarX.scrollBySteps(deltaX);
-        } else {
-          var steps = parseInt(deltaX);
-
-          if (steps !== 0) {
-            scrollbarX.scrollBySteps(steps);
-          }
+        var steps = parseInt(deltaX);
+        if (steps !== 0) {
+          scrollbarX.scrollBySteps(steps);
         }
 
         var position = scrollbarX.getPosition();

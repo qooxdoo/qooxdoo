@@ -17,14 +17,14 @@ Preview Image
 
 Features
 --------
-* Mouse and keyboard control.
+* Pointer and keyboard control.
 * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
 
 .. _pages/widget/checkbox#description:
 
 Description
 -----------
-The CheckBox is a common widget found in many GUI applications. A CheckBox can be checked or not checked, either by mouse or keyboard. When the tri-state mode is enabled, there is an additional third state. The third state means that the CheckBox was neither checked nor unchecked, i.e. the state of the CheckBox is undetermined.
+The CheckBox is a common widget found in many GUI applications. A CheckBox can be checked or not checked, either by pointer or keyboard. When the tri-state mode is enabled, there is an additional third state. The third state means that the CheckBox was neither checked nor unchecked, i.e. the state of the CheckBox is undetermined.
 
 The CheckBox supports an optional plain text.
 

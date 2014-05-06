@@ -208,7 +208,7 @@ qx.Class.define("qx.event.handler.Application",
     */
 
     /**
-     * Initializes the native mouse event listeners.
+     * Initializes the native application event listeners.
      *
      */
     _initObserver : function()
@@ -265,7 +265,7 @@ qx.Class.define("qx.event.handler.Application",
 
 
     /**
-     * Disconnect the native mouse event listeners.
+     * Disconnect the native application event listeners.
      *
      */
     _stopObserver : function()

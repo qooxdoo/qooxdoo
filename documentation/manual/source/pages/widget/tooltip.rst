@@ -25,7 +25,7 @@ Features
 
 Description
 -----------
-A ToolTip can be attached to one ore more widgets be creating a ToolTip and calling the ``setToolTip()`` method with the ToolTip as argument on the widget. The ToolTip will be shown as soon as the mouse overs the widget.
+A ToolTip can be attached to one ore more widgets be creating a ToolTip and calling the ``setToolTip()`` method with the ToolTip as argument on the widget. The ToolTip will be shown as soon as the pointer overs the widget.
 A ToolTip can be configured to contain an icon and label and to be shown/hidden after a certain amount of time.
 
 .. _pages/widget/tooltip#demos:

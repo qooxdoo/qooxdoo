@@ -19,9 +19,7 @@
 
 /**
  * Provides a way to block elements so they will no longer receive (native)
- * events by overlaying them with a div.
- * For Internet Explorer, an additional Iframe element will be overlayed since
- * native form controls cannot be blocked otherwise.
+ * events by overlaying them with a DIV element.
  *
  * The blocker can also be applied to the entire document, e.g.:
  *
@@ -39,8 +37,7 @@ qxWeb.define("qx.module.Blocker", {
   statics :
   {
     /**
-     * Attaches a blocker div (and additionally a blocker Iframe for IE) to the
-     * given element.
+     * Attaches a blocker div to the given element.
      *
      * @param item {Element|Document} The element to be overlaid with the blocker
      * @param color {String} The color for the blocker element (any CSS color value)
@@ -58,23 +55,17 @@ qxWeb.define("qx.module.Blocker", {
 
       if (!item.__blocker) {
         item.__blocker = {
-          div : qxWeb.create("<div/>")
+          div : qxWeb.create("<div class='qx-blocker' />")
         };
-        if ((qxWeb.env.get("engine.name") == "mshtml")) {
-          item.__blocker.iframe = qx.module.Blocker.__getIframeElement(win)
-        }
-      }
-
-      qx.module.Blocker.__styleBlocker(item, color, opacity, zIndex, isDocument);
-
-      item.__blocker.div.appendTo(win.document.body);
-      if (item.__blocker.iframe) {
-        item.__blocker.iframe.appendTo(win.document.body);
       }
 
       if (isDocument) {
-        qxWeb(win).on("resize", qx.module.Blocker.__onWindowResize);
+        item.__blocker.div.insertBefore(qxWeb(win.document.body).getChildren(':first'));
+      } else {
+        item.__blocker.div.appendTo(win.document.body);
       }
+
+      qx.module.Blocker.__styleBlocker(item, color, opacity, zIndex, isDocument);
     },
 
 
@@ -92,76 +83,34 @@ qxWeb.define("qx.module.Blocker", {
       var qItem = qxWeb(item);
 
       var styles = {
-        "zIndex" : zIndex,
-        "display" : "block",
-        "position" : "absolute",
-        "backgroundColor" : color,
-        "opacity" : opacity,
-        "width" : qItem.getWidth() + "px",
-        "height" : qItem.getHeight() + "px"
+        "display" : "block"
       };
+
+      styles.backgroundColor = typeof color !== 'undefined' ? color : null;
+      styles.zIndex =  typeof zIndex !== 'undefined' ? zIndex : null;
+
+      if (qxWeb.env.get("browser.name") === "ie" && qxWeb.env.get("browser.version") <= 8) {
+        styles.opacity = typeof opacity !== 'undefined' ? opacity : 0;
+      } else {
+        styles.opacity = typeof opacity !== 'undefined' ? opacity : null;
+      }
 
       if (isDocument) {
         styles.top = 0 + "px";
         styles.left = 0 + "px";
+        styles.position = "fixed";
+        styles.width = "100%";
+        styles.height = "100%";
       }
       else {
         var pos = qItem.getOffset();
         styles.top = pos.top + "px";
         styles.left = pos.left + "px";
+        styles.position = "absolute";
+        styles.width = qItem.getWidth() + "px";
+        styles.height = qItem.getHeight() + "px";
       }
       item.__blocker.div.setStyles(styles);
-
-      if (item.__blocker.iframe) {
-        styles.zIndex = styles.zIndex - 1;
-        styles.backgroundColor = "transparent";
-        styles.opacity = 0;
-        item.__blocker.iframe.setStyles(styles);
-      }
-    },
-
-
-    /**
-     * Creates an iframe element used as a blocker in IE
-     *
-     * @param win {Window} The parent window of the item to be blocked
-     * @return {Element} Iframe blocker
-     */
-    __getIframeElement : function(win)
-    {
-      var iframe = qxWeb.create('<iframe></iframe>');
-      iframe.setAttributes({
-        frameBorder: 0,
-        frameSpacing: 0,
-        marginWidth: 0,
-        marginHeight: 0,
-        hspace: 0,
-        vspace: 0,
-        border: 0,
-        allowTransparency: false,
-        src : "javascript:false"
-      });
-
-      return iframe;
-    },
-
-
-    /**
-     * Callback for the Window's resize event. Applies the window's new sizes
-     * to the blocker element(s).
-     *
-     * @param ev {Event} resize event
-     */
-    __onWindowResize : function(ev) {
-      var win = this[0];
-      var size = {
-        width : this.getWidth() + "px",
-        height : this.getHeight() + "px"
-      }
-      qxWeb(win.document.__blocker.div).setStyles(size);
-      if (win.document.__blocker.iframe) {
-        qxWeb(win.document.__blocker.iframe).setStyles(size);
-      }
     },
 
 
@@ -177,13 +126,26 @@ qxWeb.define("qx.module.Blocker", {
         return;
       }
       item.__blocker.div.remove();
-      if (item.__blocker.iframe) {
-        item.__blocker.iframe.remove();
-      }
-      if (qxWeb.isDocument(item)) {
-        qxWeb(qxWeb.getWindow(item))
-        .off("resize", qx.module.Blocker.__onWindowResize);
-      }
+    },
+
+
+    /**
+     * Returns the blocker elements as collection
+     *
+     * @param collection {qxWeb} Collection to get the blocker elements from
+     * @return {qxWeb} collection of blocker elements
+     */
+    __getBlocker : function(collection)
+    {
+      var blockerElements = qxWeb();
+
+      collection.forEach(function(item, index) {
+        if (typeof item.__blocker !== "undefined") {
+          blockerElements = blockerElements.concat(item.__blocker.div);
+        }
+      });
+
+      return blockerElements;
     },
 
 
@@ -202,10 +164,6 @@ qxWeb.define("qx.module.Blocker", {
       if (!this[0]) {
         return this;
       }
-
-      color = color || "transparent";
-      opacity = opacity || 0;
-      zIndex = zIndex || 10000;
 
       this.forEach(function(item, index) {
         qx.module.Blocker.__attachBlocker(item, color, opacity, zIndex);
@@ -230,6 +188,27 @@ qxWeb.define("qx.module.Blocker", {
       this.forEach(qx.module.Blocker.__detachBlocker);
 
       return this;
+    },
+
+
+    /**
+     * Returns all blocker elements as collection.
+     *
+     * <strong>Note:</strong> This will only return elements if
+     * the <code>block</code> method was called at least once,
+     * since the blocker elements are created on-demand.
+     *
+     * @attach {qxWeb}
+     * @return {qxWeb} collection with all blocker elements
+     */
+    getBlocker : function()
+    {
+      if (!this[0]) {
+        return this;
+      }
+
+      var collection = qx.module.Blocker.__getBlocker(this);
+      return collection;
     }
   },
 
@@ -238,7 +217,8 @@ qxWeb.define("qx.module.Blocker", {
   {
     qxWeb.$attach({
       "block" : statics.block,
-      "unblock" : statics.unblock
+      "unblock" : statics.unblock,
+      "getBlocker" : statics.getBlocker
     });
   }
 });

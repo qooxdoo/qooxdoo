@@ -36,6 +36,10 @@
  *
  * * <code>engine.name</code> : The name of the browser engine
  * * <code>engine.version</code> : The version of the browser engine
+ *
+ * * <code>event.touch</code> : Checks if touch events are supported
+ * * <code>event.mspointer</code> : Checks if MSPointer events are available
+ * @group (Core)
  */
 qx.Bootstrap.define("qx.module.Environment", {
   statics :
@@ -77,6 +81,7 @@ qx.Bootstrap.define("qx.module.Environment", {
     qx.core.Environment.get("engine.name");
     qx.core.Environment.get("engine.version");
 
+    qx.core.Environment.get("device.name");
     qx.core.Environment.get("device.type");
 
     qx.core.Environment.get("event.touch");

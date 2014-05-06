@@ -40,7 +40,7 @@ msgstr ""
 "Der Code kann nicht an die URL angehängt werden, da er zu lang ist. Diese "
 "Warnung nicht mehr anzeigen?"
 
-msgid "Click OK to discard your changes."
+msgid "Tap OK to discard your changes."
 msgstr "Bitte wählen Sie OK, um die Änderungen zu verwerfen."
 
 msgid "Custom Code"

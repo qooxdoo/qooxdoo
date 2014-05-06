@@ -1,0 +1,73 @@
+.qx-accordion {
+  border-right: rem(1) solid $border-color;
+  border-bottom: rem(1) solid $border-color;
+  border-left: rem(1) solid $border-color;
+}
+
+.qx-accordion > ul {
+  list-style: none;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.qx-accordion-button {
+  margin-left: 0;
+  border-top: rem(1) solid $border-color;
+  cursor: pointer;
+}
+
+.qx-accordion-button > button {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  padding: rem(8) rem(12);
+  border: none;
+  outline: none;
+  font-size: rem(13);
+  background-color: transparent;
+  color: $highlight-color;
+  text-align: left;
+}
+
+.qx-accordion-button > button[disabled] {
+  color: $highlight-color-disabled;
+}
+
+.qx-accordion-button > button:focus {
+  text-decoration: underline;
+}
+
+.qx-accordion-button-active {
+  @include background($background-color);
+}
+
+.qx-accordion-button:hover {
+  background-color: darken($background-color, 10%);
+}
+
+.qx-accordion-button-active:hover {
+  @include background($background-color);
+}
+
+.qx-accordion-button-active > button {
+  color: black;
+}
+
+.qx-accordion-page {
+  overflow: hidden;
+  @include box-sizing(border-box);
+  padding: rem(8) rem(12);
+  @include user-select(text);
+  background-color: white;
+  @include transition(height 500ms, padding-top 500ms, padding-bottom 500ms, margin-top 500ms, margin-bottom 500ms);
+}
+
+.qx-accordion-page-closed {
+  height: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.qx-accordion-button[disabled] {
+  color: $highlight-color-disabled;
+}

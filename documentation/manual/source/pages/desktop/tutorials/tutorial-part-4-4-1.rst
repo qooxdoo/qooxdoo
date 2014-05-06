@@ -3,6 +3,12 @@
 Tutorial Part 4.4.1: Automated UI Testing
 *****************************************
 
+.. note::
+
+    The Simulator component is based on Selenium RC, which is deprecated. It is thus no
+    longer supported and will be removed from the qooxdoo framework in the near future.
+    The `qxwebdriver-java library <https://github.com/qooxdoo/qxwebdriver-java/>`_ provides a more modern alternative based on Selenium RC's replacement, WebDriver.
+
 Having previously covered :doc:`unit testing </pages/desktop/tutorials/tutorial-part-4-4>`, it's time to take a look at qooxdoo's built-in facilities for automated UI testing. Over the course of this tutorial, we'll set up the required infrastructure and develop a test case that interacts with the tweets application from the previous tutorials.
 
 |Simulator executing a test suite|
@@ -20,7 +26,7 @@ The Simulator is based on those parts of the Selenium project that were formerly
 
 The testing API: QxSelenium
 ===========================
-Simulator Test cases are defined as qooxdoo classes inheriting from ``simulator.unit.TestCase``. Similar to unit tests, they live in the namespace of the application they're testing and support the setUp/testSomething/tearDown pattern. Test methods interact with an application by using the **QxSelenium API**. This consists of the `DefaultSelenium <http://www.jarvana.com/jarvana/view/org/seleniumhq/selenium/selenium/2.0a2/selenium-2.0a2-javadoc.jar!/com/thoughtworks/selenium/DefaultSelenium.html>`_ API plus several qooxdoo-specific additions. You can get an API reference for these by running ``generate.py api`` in the qooxdoo SDK's ``component/simulator`` directory and then opening ``/component/simulator/api/`` in your browser.
+Simulator Test cases are defined as qooxdoo classes inheriting from ``simulator.unit.TestCase``. Similar to unit tests, they live in the namespace of the application they're testing and support the setUp/testSomething/tearDown pattern. Test methods interact with an application by using the **QxSelenium API**. This consists of the `DefaultSelenium <http://release.seleniumhq.org/selenium-remote-control/1.0-beta-2/doc/java/com/thoughtworks/selenium/DefaultSelenium.html>`_ API plus several qooxdoo-specific additions. You can get an API reference for these by running ``generate.py api`` in the qooxdoo SDK's ``component/simulator`` directory and then opening ``/component/simulator/api/`` in your browser.
 
 .. _pages/desktop/tutorials/tutorial-part-4-4-1#setup:
 
@@ -180,7 +186,7 @@ But first, we should set Selenium's execution speed (the delay after each comman
     this.getQxSelenium().setSpeed(1000);
   }
 
-The first real action of the test will be to click the "Preferences" button. This leads us to one of the main challenges when developing Selenium tests: How to locate the right element.
+The first real action of the test will be to tap the "Preferences" button. This leads us to one of the main challenges when developing Selenium tests: How to locate the right element.
 
 Locator strategies
 ------------------
@@ -190,7 +196,7 @@ Elements can be located using several different strategies, generic as well as a
 
 In this tutorial, we'll focus on the :ref:`qxhv <pages/development/simulator_locators#qxhv>` locator. Just like :ref:`qxh<pages/development/simulator_locators#qxh>`, it traverses the application's widget hierarchy, using a syntax similar to XPath to match the widgets it finds to criteria defined by the user.
 
-**Note:** The :ref:`Selenium IDE<pages/development/simulator#selenium_ide>` Firefox add-on and the :ref:`qooxdoo Inspector<pages/application/inspector_selenium#using_the_qooxdoo_inspector_to_write_selenium_tests>` can be very helpful tools for finding locators and debugging Selenium tests.
+**Note:** The :ref:`Selenium IDE<pages/development/simulator#selenium_ide>` Firefox add-on can be very helpful for finding locators and debugging Selenium tests.
 
 The qxhv locator allows us to find any widget with a given "label" property value:
 

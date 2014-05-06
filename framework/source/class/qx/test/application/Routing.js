@@ -46,6 +46,39 @@ qx.Class.define("qx.test.application.Routing",
     },
 
 
+    testBack : function() {
+      var aHandler = this.spy();
+      var bHandler = this.spy();
+      this.__r.onGet("/a", aHandler);
+      this.__r.onGet("/b", bHandler);
+      this.__r.executeGet("/a");
+      this.__r.executeGet("/b");
+      this.__r.back();
+      this.assertCalledTwice(aHandler);
+      this.assertCalledOnce(bHandler);
+    },
+
+    /**
+    * Tests the ability of app routing to detect and remove route cycles.
+    * After A >> B >> C >> B >> routing.back(), the routing should display A and not C.
+    */
+    testBackCycle : function() {
+      var aHandler = this.spy();
+      var bHandler = this.spy();
+      var cHandler = this.spy();
+      this.__r.onGet("/a", aHandler);
+      this.__r.onGet("/b", bHandler);
+      this.__r.onGet("/c", cHandler);
+      this.__r.executeGet("/a");
+      this.__r.executeGet("/b");
+      this.__r.executeGet("/c");
+      this.__r.executeGet("/b");
+      this.__r.back();
+      this.assertCalledTwice(aHandler);
+      this.assertCalledTwice(bHandler);
+      this.assertCalledOnce(cHandler);
+    },
+
     testGetCustomData : function() {
       var handler = this.spy();
       this.__r.onGet("/abc", handler);

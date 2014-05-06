@@ -43,6 +43,13 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
      */
     __units : ["%", "in", "cm", "mm", "em", "ex", "pt", "pc", "px"],
 
+    /** The used keys for transforms. */
+    __transitionKeys : {
+      "scale": true,
+      "rotate" : true,
+      "skew" : true,
+      "translate" : true
+    },
 
     /**
      * This is the main function to start the animation. For further details,
@@ -158,7 +165,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           if (units[name] == undefined) {
             var item = keyFrames[percent][name];
             if (typeof item == "string") {
-              units[name] = item.substring((parseInt(item, 10)+"").length, item.length);
+              units[name] = this.__getUnit(item);
             } else {
               units[name] = "";
             }
@@ -191,6 +198,34 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
 
     /**
+     * Checks for transform keys and returns a cloned frame
+     * with the right transform style set.
+     * @param frame {Map} A single key frame of the description.
+     * @return {Map} A modified clone of the given frame.
+     */
+    __normalizeKeyFrameTransforms : function(frame) {
+      frame = qx.lang.Object.clone(frame);
+      var transforms;
+      for (var name in frame) {
+        if (name in this.__transitionKeys) {
+          if (!transforms) {
+            transforms = {};
+          }
+          transforms[name] = frame[name];
+          delete frame[name];
+        }
+      };
+      if (transforms) {
+        var transformStyle = qx.bom.element.Transform.getCss(transforms).split(":");
+        if (transformStyle.length > 1) {
+          frame[transformStyle[0]] = transformStyle[1].replace(";", "");
+        }
+      }
+      return frame;
+    },
+
+
+    /**
      * Precalculation of the delta which will be applied during the animation.
      * The whole deltas will be calculated prior to the animation and stored
      * in a single array. This method takes care of that calculation.
@@ -208,10 +243,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       var delta = new Array(steps);
 
       var keyIndex = 1;
-      delta[0] = keyFrames[0];
+      delta[0] = this.__normalizeKeyFrameTransforms(keyFrames[0]);
       var last = keyFrames[0];
       var next = keyFrames[keys[keyIndex]];
+      var stepsToNext = Math.floor(keys[keyIndex] / (stepTime / duration * 100));
 
+      var calculationIndex = 1; // is used as counter for the timing calculation
       // for every step
       for (var i=1; i < delta.length; i++) {
         // switch key frames if we crossed a percent border
@@ -219,15 +256,40 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           last = next;
           keyIndex++;
           next = keyFrames[keys[keyIndex]];
+          stepsToNext = Math.floor(keys[keyIndex] / (stepTime / duration * 100)) - stepsToNext;
+          calculationIndex = 1;
         }
 
         delta[i] = {};
 
+        var transforms;
         // for every property
         for (var name in next) {
           var nItem = next[name] + "";
+
+          // transform values
+          if (name in this.__transitionKeys) {
+            if (!transforms) {
+              transforms = {};
+            }
+
+            if (qx.Bootstrap.isArray(last[name])) {
+              if (!qx.Bootstrap.isArray(next[name])) {
+                next[name] = [next[name]];
+              }
+              transforms[name] = [];
+              for (var j = 0; j < next[name].length; j++) {
+                var item = next[name][j] + "";
+                var x = calculationIndex / stepsToNext;
+                transforms[name][j] = this.__getNextValue(item, last[name], timing, x);
+              }
+            } else {
+              var x = calculationIndex / stepsToNext;
+              transforms[name] = this.__getNextValue(nItem, last[name], timing, x);
+            }
+
           // color values
-          if (nItem.charAt(0) == "#") {
+          } else if (nItem.charAt(0) == "#") {
             // get the two values from the frames as RGB arrays
             var value0 = qx.util.ColorUtil.cssStringToRgb(last[name]);
             var value1 = qx.util.ColorUtil.cssStringToRgb(nItem);
@@ -235,24 +297,60 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             // calculate every color chanel
             for (var j=0; j < value0.length; j++) {
               var range = value0[j] - value1[j];
-              stepValue[j] = parseInt(value0[j] - range * qx.bom.AnimationFrame.calculateTiming(timing, i / steps), 10);
-            };
+              var x = calculationIndex / stepsToNext;
+              var timingX = qx.bom.AnimationFrame.calculateTiming(timing, x);
+              stepValue[j] = parseInt(value0[j] - range * timingX, 10);
+            }
 
             delta[i][name] = qx.util.ColorUtil.rgbToHexString(stepValue);
 
-          } else if (!isNaN(parseInt(nItem, 10))) {
-            var unit = nItem.substring((parseInt(nItem, 10)+"").length, nItem.length);
-            var range = parseFloat(nItem) - parseFloat(last[name]);
-            delta[i][name] = (parseFloat(last[name]) + range * qx.bom.AnimationFrame.calculateTiming(timing, i / steps)) + unit;
+          } else if (!isNaN(parseFloat(nItem))) {
+            var x = calculationIndex / stepsToNext;
+            delta[i][name] = this.__getNextValue(nItem, last[name], timing, x);
           } else {
             delta[i][name] = last[name] + "";
           }
+        }
+        // save all transformations in the delta values
+        if (transforms) {
+          var transformStyle = qx.bom.element.Transform.getCss(transforms).split(":");
+          if (transformStyle.length > 1) {
+            delta[i][transformStyle[0]] = transformStyle[1].replace(";", "");
+          }
+        }
 
-        };
-      };
+        calculationIndex++;
+      }
       // make sure the last key frame is right
-      delta[delta.length -1] = keyFrames[100];
+      delta[delta.length -1] = this.__normalizeKeyFrameTransforms(keyFrames[100]);
+
       return delta;
+    },
+
+
+    /**
+     * Ties to parse out the unit of the given value.
+     *
+     * @param item {String} A CSS value including its unit.
+     * @return {String} The unit of the given value.
+     */
+    __getUnit : function(item) {
+      return item.substring((parseFloat(item) + "").length, item.length);
+    },
+
+
+    /**
+     * Returns the next value based on the given arguments.
+     *
+     * @param nextItem {String} The CSS value of the next frame
+     * @param lastItem {String} The CSS value of the last frame
+     * @param timing {String} The timing used for the calculation
+     * @param x {Number} The x position of the animation on the time axis
+     * @return {String} The calculated value including its unit.
+     */
+    __getNextValue : function(nextItem, lastItem, timing, x) {
+      var range = parseFloat(nextItem) - parseFloat(lastItem);
+      return (parseFloat(lastItem) + range * qx.bom.AnimationFrame.calculateTiming(timing, x)) + this.__getUnit(nextItem);
     },
 
 
@@ -413,7 +511,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           continue;
         }
 
-        var name = qx.lang.String.camelCase(key);
+        var name = qx.bom.Style.getPropertyName(key) || key;
         if (qx.bom.element.Style) {
           qx.bom.element.Style.set(el, name, styles[key]);
         } else {

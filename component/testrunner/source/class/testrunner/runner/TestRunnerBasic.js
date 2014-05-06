@@ -145,6 +145,13 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
      */
     _getTestNameSpace : function()
     {
+      // Test namespace set by URI parameter
+      if (typeof location !== "undefined" && location.search) {
+        var params = location.search;
+        if (params.indexOf("testclass=") > 0 ) {
+          return params.substr(params.indexOf("testclass=") + 10);
+        }
+      }
       return qx.core.Environment.get("qx.testNameSpace");
     },
 
@@ -206,18 +213,22 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
       this.setTestSuiteState("loading");
 
       this._externalTestClasses += 1;
-      var testNameSpace = this._testNameSpace || "test";
+      var testNameSpace = this._testNameSpace;
+      var prefix = "test";
 
       var testClassName;
       if (membersMap.classname) {
         testClassName = membersMap.classname;
-        if (testClassName.split(".")[0] !== testNameSpace) {
-          testClassName = testNameSpace + "." + testClassName;
+        testClassName = prefix + "." + testClassName;
+
+        if (testClassName.indexOf(testNameSpace) !== 0) {
+          return;
         }
+
         delete membersMap.classname;
       }
       else {
-        testClassName = testNameSpace + ".Test" + (this._externalTestClasses);
+        testClassName = prefix + ".Test" + (this._externalTestClasses);
       }
       var testClass = this._defineTestClass(testClassName, membersMap);
 

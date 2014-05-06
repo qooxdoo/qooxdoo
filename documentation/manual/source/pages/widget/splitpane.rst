@@ -3,7 +3,7 @@
 SplitPane
 *********
 
-A SplitPane is used to divide two Widgets. These widgets can be resized by clicking the splitter widget and moving the slider.
+A SplitPane is used to divide two Widgets. These widgets can be resized by tapping the splitter widget and moving the slider.
 The orientation property states if the widgets should be aligned horizontally or vertically.
 
 .. _pages/widget/splitpane#preview_image:
@@ -30,7 +30,7 @@ Features
 
 Description
 -----------
-The most important class (and the class you will use mainly) inside the ``qx.ui.splitpane`` package is the ``Pane``. One can add two widgets (of any type) to it. Besides these two widgets a ``Pane`` also contains a ``Splitter`` between them. By clicking on it (and holding down the mouse button), a ``Slider`` will appear and follow the mouse to indicate where the ``Splitter``'s will be placed when the mouse button is released. Once the mouse button is released the available space inside the ``Pane`` is redivided to both widgets according to the ``Splitter``'s new position.
+The most important class (and the class you will use mainly) inside the ``qx.ui.splitpane`` package is the ``Pane``. One can add two widgets (of any type) to it. Besides these two widgets a ``Pane`` also contains a ``Splitter`` between them. By tapping on it (and holding down the pointer), a ``Slider`` will appear and follow the pointer to indicate where the ``Splitter``'s will be placed when the pointer is released. Once the pointer is released the available space inside the ``Pane`` is redivided to both widgets according to the ``Splitter``'s new position.
 
 .. _pages/widget/splitpane#demos:
 

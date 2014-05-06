@@ -20,7 +20,7 @@ More details: :doc:`../widget/label`
 Images
 ======
 
-The second building block of applications. The image class in qooxdoo is quite sophisticated. PNG transparency is available in all browsers. Image data (e.g. format and dimension) is automatically pre-cached by the build system and distributed to the application for optional performance (avoiding page reflow during application startup for example). 
+The second building block of applications. The image class in qooxdoo is quite sophisticated. PNG transparency is available in all browsers. Image data (e.g. format and dimension) is automatically pre-cached by the build system and distributed to the application for optional performance (avoiding page reflow during application startup for example).
 
 This data also makes it possible to allow semi-automatic image sprites, a feature which becomes more important in larger applications. Image sprites combine multiple images (perhaps even with multiple states) in a single image instance. Only the relevant part is shown, all other states or images are cropped. This has positive effects on the latency (e.g. number of HTTP requests needed) and also improves the runtime performance (switching a state in an image sprite is much faster than replacing the source of an image instance). Image sprites can be introduced in any application at any time without changing the application code. The original image path is automatically interpreted as a clipped image source with the needed offsets. Please note that this feature largely depends on qooxdoo's tool chain which is required to generate the image data for the client.
 
@@ -44,7 +44,7 @@ Buttons
 
 The Button is basically an Atom with some additional events. All relevant rendering features are already provided by the Atom. Several variants of the Button are available: Repeat, Radio or Toggle Button.
 
-The Button can be connected to a Command (a class to work with key bindings etc.) and fires an ``execute`` event when clicked (or activated via the keyboard). The Repeat Button fires the ``execute`` event in an interval while being pressed. The Toggle Button (which toggles between checked and unchecked) is an exception to this and fires a ``change`` event on each transition of the ``checked`` property.
+The Button can be connected to a Command (a class to work with key bindings etc.) and fires an ``execute`` event when tapped (or activated via the keyboard). The Repeat Button fires the ``execute`` event in an interval while being pressed. The Toggle Button (which toggles between checked and unchecked) is an exception to this and fires a ``change`` event on each transition of the ``checked`` property.
 
 More details: :doc:`../widget/button`
 
@@ -66,7 +66,7 @@ Popups
 
 Popups and Tooltips are comparable in some way. Both are rendered above other content (while tooltips are even above Popups). Both widgets are automatically inserted into the application root widget (can be overridden when needed).
 
-Popups may be used for notification panels or a type of modal sub dialog. Basically they are just a container (with a configurable layout) which lays above normal content. 
+Popups may be used for notification panels or a type of modal sub dialog. Basically they are just a container (with a configurable layout) which lays above normal content.
 
 By default, popups are automatically hidden if the user interacts with some other part of the application. This behavior is controllable through the ``autoHide`` property. Popups are automatically moved back inside the viewport. In fact, it is not possible to place Popups outside the viewport (not even partly). This behavior makes sense in almost every case and improves the usability of popups in general.
 
@@ -79,7 +79,7 @@ More details: :doc:`../widget/popup`
 Tooltips
 ========
 
-Tooltips are basically Popups with an Atom in them. But Tooltips improve on many of the features of the normal Popup. The automatic positioning support as mentioned for the Popups supports offsets as well and automatically moves the Tooltip to the best possible side in relation to the mouse cursor's position. 
+Tooltips are basically Popups with an Atom in them. But Tooltips improve on many of the features of the normal Popup. The automatic positioning support as mentioned for the Popups supports offsets as well and automatically moves the Tooltip to the best possible side in relation to the pointer's position.
 
 Although it's generally not necessary, every popup can be configured with an individual timeout. This is useful when building different type of tooltips e.g. to display system notifications etc.
 

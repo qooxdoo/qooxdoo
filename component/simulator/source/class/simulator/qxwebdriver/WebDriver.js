@@ -17,9 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-************************************************************************ */
-
 /**
  * A WebDriver client with support for qx.Desktop applications.
  *
@@ -30,6 +27,7 @@
  * methods called 'interactions' will be added to the returned WebElement.
  *
  * @ignore(simulator.webdriver.*)
+ * @deprecated{4.0}
  *
  */
 qx.Class.define("simulator.qxwebdriver.WebDriver",

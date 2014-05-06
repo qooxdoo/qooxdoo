@@ -20,6 +20,8 @@
 
 /**
  * @tag noPlayground
+ * @require(qx.bom.Element) // mark as load-time dependency so that the required
+ * event dispatcher is loaded before listeners are registered
  */
 qx.Class.define("demobrowser.demo.mobile.PingPong",
 {
@@ -44,6 +46,7 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
     __score : null,
     __scoreDivLeft : null,
     __scoreDivRight : null,
+    __leftField : null,
 
     /**
      * This method contains the initial application code and gets called
@@ -70,7 +73,9 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
         "height" : "100%",
         "backgroundColor" : "black",
         "margin" : "0px",
-        "userSelect" : "none"
+        "userSelect" : "none",
+        "touchAction" : "none",
+        "msTouchAction" : "none"
       };
       var root = new qx.html.Element("div", backgroundStyles);
       root.useElement(document.body);
@@ -93,8 +98,8 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
       }
 
       // Field
-      var leftField = this.__createField("left");
-      root.add(leftField);
+      this.__leftField = this.__createField("left");
+      root.add(this.__leftField);
 
       var rightField = this.__createField("right");
       root.add(rightField);
@@ -102,16 +107,16 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
 
       // Paddles
       this.__leftPaddle = this.__createPaddle("left");
-      leftField.add(this.__leftPaddle);
-      leftField.addListener("touchmove",
-        qx.lang.Function.bind(this.__onTouchMove, this, this.__leftPaddle),
+      this.__leftField.add(this.__leftPaddle);
+      this.__leftField.addListener("pointermove",
+        qx.lang.Function.bind(this.__onPointerMove, this),
         this
       );
 
       this.__rightPaddle = this.__createPaddle("right");
       rightField.add(this.__rightPaddle);
-      rightField.addListener("touchmove",
-        qx.lang.Function.bind(this.__onTouchMove, this, this.__rightPaddle),
+      rightField.addListener("pointermove",
+        qx.lang.Function.bind(this.__onPointerMove, this),
         this
       );
 
@@ -123,7 +128,7 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
 
       // Scores
       this.__scoreDivLeft = this.__createScore();
-      leftField.add(this.__scoreDivLeft);
+      this.__leftField.add(this.__scoreDivLeft);
       this.__scoreDivRight = this.__createScore();
       rightField.add(this.__scoreDivRight);
       // initialize score
@@ -220,8 +225,17 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
     ---------------------------------------------------------------------------
     */
 
-    __onTouchMove : function(paddle, e) {
+    __onPointerMove : function(e) {
+      var paddle;
+      if (qx.dom.Hierarchy.contains(this.__leftField.getDomElement(), e.getTarget())) {
+        paddle = this.__leftPaddle;
+      } else {
+        paddle = this.__rightPaddle;
+      }
+
       paddle.setStyles({"top" : (e.getDocumentTop() - 50) + "px"});
+
+      e.preventDefault();
     },
 
 

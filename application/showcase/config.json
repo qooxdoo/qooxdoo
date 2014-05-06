@@ -7,7 +7,29 @@
       "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
     }
   ],
-  
+
+  "export" :
+    [
+      "api",
+      "api-data",
+      "build",
+      "clean",
+      "distclean",
+      "fix",
+      "info",
+      "inspector",
+      "lint",
+      "migration",
+      "pretty",
+      "profiling",
+      "source",
+      "source-all",
+      "source-hybrid",
+      "translation",
+      "validate-config",
+      "validate-manifest"
+    ],
+
   "default-job" : "source",
 
   "let" :
@@ -15,10 +37,10 @@
     "APPLICATION"  : "showcase",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "showcase.theme.Theme",
-    "LOCALES"      : [ 
-      "en", "en_GB", "en_US", 
-      "de", "de_DE", "de_AT", 
-      "es", "es_ES", "es_MX", 
+    "LOCALES"      : [
+      "en", "en_GB", "en_US",
+      "de", "de_DE", "de_AT",
+      "es", "es_ES", "es_MX",
       "ro", "ro_RO",
       "sv", "sv_SE",
       "cs",
@@ -27,18 +49,18 @@
     "ROOT"         : "."
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "job-shadowing" : ["build-files", "common", "translation", "libraries"],
-    
+
     "environment" : [ "non-literal-keys" ]
   },
 
   "jobs" :
   {
-    "libraries" : 
+    "libraries" :
     {
-      "library" : 
+      "library" :
       [
         {
           "manifest"   : "${QOOXDOO_PATH}/component/library/formdemo/Manifest.json"
@@ -61,59 +83,55 @@
       {
         "qx.mobile.nativescroll" : true
       },
-      
-      "packages" : 
+
+      "packages" :
       {
-        "parts" : 
+        "parts" :
         {
-          "boot": 
+          "boot":
           {
             "include" : ["${QXTHEME}", "showcase.Application"]
           },
-          "theme": 
+          "theme":
           {
             "include" : ["showcase.page.theme.Content"]
           },
-          "table": 
+          "table":
           {
             "include" : ["showcase.page.table.Content"]
           },
-          "form": 
+          "form":
           {
             "include" : ["showcase.page.form.Content"]
           },
-          "virtuallist": 
+          "virtuallist":
           {
             "include" : ["showcase.page.virtuallist.Content"]
           },
-          "data": 
+          "data":
           {
             "include" : ["showcase.page.databinding.Content"]
           },
-          "dragdrop": 
+          "dragdrop":
           {
             "include" : ["showcase.page.dragdrop.Content"]
           },
-          "tree": 
+          "tree":
           {
             "include" : ["showcase.page.tree.Content"]
           },
-          "htmleditor": 
-          {
-            "include" : ["showcase.page.htmleditor.Content"]
-          },
-          "i18n": 
+          "i18n":
           {
             "include" : ["showcase.page.i18n.Content"]
           }
         },
-        "sizes" : 
+        "sizes" :
         {
           "min-package" : 10
-        } 
+        }
       }
     },
-    
+
     "build-files" :
     {
       "copy-files" :
@@ -121,12 +139,12 @@
         "=files" : ["index.html", "blank.html", "resource/static", "indigo/css/fonts"]
       }
     },
-    
+
     "translation" :
     {
       "translate" : { "poentry-with-occurrences" : false  }
     },
-    
+
     "common-image" :
     {
       "let" :
@@ -146,31 +164,31 @@
       "slice-images" :
       {
         "images" :
-        {          
+        {
           "${SOURCE}/button.png" :
           {
             "prefix" : "${DEST}/button",
             "border-width" : 6
           },
-        
+
           "${SOURCE}/button-pressed.png" :
           {
             "prefix" : "${DEST}/button-pressed",
             "border-width" : 6
           },
-          
+
           "${SOURCE}/display.png" :
           {
             "prefix" : "${DEST}/display",
             "border-width" : 6
           },
-          
+
           "${SOURCE}/window.png" :
           {
             "prefix" : "${DEST}/window",
             "border-width" : 10
-          }  
-        }       
+          }
+        }
       }
     },
 
@@ -189,14 +207,14 @@
             "input"  :
             [{
               "prefix" : ["${THEME_PREFIX}"],
-              "files": [ 
+              "files": [
                 "${THEME_PATH}/button-[tb]*.png",
                 "${THEME_PATH}/button-pressed-[tb]*.png"
                ]
             }],
             "layout" : "vertical"
           },
-          
+
 
           "${THEME_PATH}/button-combined-lr.png":
           {
@@ -204,41 +222,41 @@
             "input"  :
             [{
               "prefix" : ["${THEME_PREFIX}"],
-              "files": [ 
+              "files": [
                 "${THEME_PATH}/button-[lr].png",
                 "${THEME_PATH}/button-pressed-[lr].png"
                ]
             }],
             "layout" : "horizontal"
           },
-          
-          
+
+
           "${THEME_PATH}/display-combined-tb.png":
           {
             "prefix" : ["${THEME_PREFIX}"],
             "input"  :
             [{
               "prefix" : ["${THEME_PREFIX}"],
-              "files": [ 
+              "files": [
                 "${THEME_PATH}/display-[tb]*.png"
                ]
             }],
             "layout" : "vertical"
           },
-          
+
           "${THEME_PATH}/display-combined-lr.png":
           {
             "prefix" : ["${THEME_PREFIX}"],
             "input"  :
             [{
               "prefix" : ["${THEME_PREFIX}"],
-              "files": [ 
+              "files": [
                 "${THEME_PATH}/display-[lr].png"
                ]
             }],
             "layout" : "horizontal"
           },
-          
+
 
           "${THEME_PATH}/window-combined-tb.png":
           {
@@ -246,37 +264,37 @@
             "input"  :
             [{
               "prefix" : ["${THEME_PREFIX}"],
-              "files": [ 
+              "files": [
                 "${THEME_PATH}/window-[tb]*.png"
                ]
             }],
             "layout" : "vertical"
           },
-          
+
           "${THEME_PATH}/window-combined-lr.png":
           {
             "prefix" : ["${THEME_PREFIX}"],
             "input"  :
             [{
               "prefix" : ["${THEME_PREFIX}"],
-              "files": [ 
+              "files": [
                 "${THEME_PATH}/window-[lr].png"
                ]
             }],
             "layout" : "horizontal"
-          }                  
+          }
         }
       }
     },
-    
+
     // putting it all together ...
     "image" :
     {
       "run" :
       [
         "image-clipping",
-        "image-combine"      
+        "image-combine"
       ]
-    }    
+    }
   }
 }

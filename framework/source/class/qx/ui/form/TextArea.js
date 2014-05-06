@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.form.TextArea",
     this.base(arguments, value);
     this.initWrap();
 
-    this.addListener("mousewheel", this._onMousewheel, this);
+    this.addListener("roll", this._onRoll, this);
   },
 
 
@@ -131,20 +131,19 @@ qx.Class.define("qx.ui.form.TextArea",
     },
 
     /**
-     * Handles the mouse wheel for scrolling the <code>TextArea</code>.
+     * Handles the roll for scrolling the <code>TextArea</code>.
      *
-     * @param e {qx.event.type.MouseWheel} mouse wheel event.
+     * @param e {qx.event.type.Roll} roll event.
      */
-    _onMousewheel : function(e) {
+    _onRoll : function(e) {
+      // only wheel
+      if (e.getPointerType() != "wheel") {
+        return;
+      }
       var contentElement = this.getContentElement();
       var scrollY = contentElement.getScrollY();
 
-      if (qx.event.handler.MouseEmulation.ON) {
-        contentElement.scrollToY(scrollY + e.getWheelDelta("y"));
-      } else {
-        contentElement.scrollToY(scrollY + e.getWheelDelta("y") * this.getSingleStep());
-      }
-
+      contentElement.scrollToY(scrollY + (e.getDelta().y / 30) * this.getSingleStep());
 
       var newScrollY = contentElement.getScrollY();
 

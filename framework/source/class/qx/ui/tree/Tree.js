@@ -113,13 +113,13 @@ qx.Class.define("qx.ui.tree.Tree",
   properties :
   {
     /**
-     * Control whether clicks or double clicks should open or close the clicked
+     * Control whether tap or double tap should open or close the tapped
      * folder.
      */
     openMode :
     {
-      check : ["click", "dblclick", "none"],
-      init : "dblclick",
+      check : ["tap", "dbltap", "none"],
+      init : "dbltap",
       apply : "_applyOpenMode",
       event : "changeOpenMode",
       themeable : true
@@ -457,7 +457,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
     /*
     ---------------------------------------------------------------------------
-      MOUSE EVENT HANDLER
+      POINTER EVENT HANDLER
     ---------------------------------------------------------------------------
     */
 
@@ -492,25 +492,25 @@ qx.Class.define("qx.ui.tree.Tree",
     // property apply
     _applyOpenMode : function(value, old)
     {
-      if (old == "click") {
-        this.removeListener("click", this._onOpen, this);
-      } else if (old == "dblclick") {
-        this.removeListener("dblclick", this._onOpen, this);
+      if (old == "tap") {
+        this.removeListener("tap", this._onOpen, this);
+      } else if (old == "dbltap") {
+        this.removeListener("dbltap", this._onOpen, this);
       }
 
-      if (value == "click") {
-        this.addListener("click", this._onOpen, this);
-      } else if (value == "dblclick") {
-        this.addListener("dblclick", this._onOpen, this);
+      if (value == "tap") {
+        this.addListener("tap", this._onOpen, this);
+      } else if (value == "dbltap") {
+        this.addListener("dbltap", this._onOpen, this);
       }
     },
 
 
     /**
-     * Event handler for click events, which could change a tree item's open
+     * Event handler for tap events, which could change a tree item's open
      * state.
      *
-     * @param e {qx.event.type.Mouse} The mouse click event object
+     * @param e {qx.event.type.Pointer} The tap event object
      */
     _onOpen : function(e)
     {

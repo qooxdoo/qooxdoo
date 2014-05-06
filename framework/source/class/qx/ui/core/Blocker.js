@@ -465,22 +465,6 @@ qx.Class.define("qx.ui.core.Blocker",
 
 
     /**
-     * Get/create the content blocker element
-     *
-     * @return {qx.html.Element} The blocker element
-     * @deprecated{3.0}
-     */
-    getContentBlockerElement : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'getBlockerElement' instead.");
-      }
-
-      return this.getBlockerElement();
-    },
-
-
-    /**
      * Block direct child widgets with a zIndex below <code>zIndex</code>
      *
      * @param zIndex {Integer} All child widgets with a zIndex below this value
@@ -488,57 +472,6 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     blockContent : function(zIndex) {
       this._block(zIndex, true);
-    },
-
-
-    /**
-     * Whether the content is blocked
-     *
-     * @return {Boolean} Whether the content is blocked
-     * @deprecated{3.0}
-     */
-    isContentBlocked : function() {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'isBlocked' instead.");
-      }
-
-      return this.isBlocked();
-    },
-
-
-    /**
-     * Unblock the content blocked by {@link #blockContent}, but it takes care of
-     * the amount of {@link #blockContent} calls. The blocker is only removed if
-     * the numer of {@link #unblockContent} calls is identical to
-     * {@link #blockContent} calls.
-     * @deprecated{3.0}
-     */
-    unblockContent : function()
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'unblock' instead.");
-      }
-
-      this.unblock();
-    },
-
-
-    /**
-     * Unblock the content blocked by {@link #blockContent}, but it doesn't take
-     * care of the amount of {@link #blockContent} calls. The blocker is
-     * directly removed.
-     * @deprecated{3.0}
-     */
-    forceUnblockContent : function()
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-         "Please use 'forceUnblock' instead.");
-      }
-
-      this.forceUnblock();
     },
 
 

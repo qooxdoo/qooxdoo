@@ -2,7 +2,7 @@
 
 MenuButton
 **********
-The MenuButton looks like a normal button, but it opens a menu when clicking on it.
+The MenuButton looks like a normal button, but it opens a menu when tapping on it.
 
 .. _pages/widget/menubutton#preview_image:
 
@@ -18,7 +18,7 @@ Preview Image
 Features
 --------
 * Contain text and/or icon.
-* Mouse support.
+* Pointer support.
 * Ellipsis: If the label does not fit into the widget bounds an ellipsis (”...”) is rendered at the end of the label.
 * Menu support.
 
@@ -26,7 +26,7 @@ Features
 
 Description
 -----------
-The MenuButton looks like a normal button, but it opens a menu when clicking on it.
+The MenuButton looks like a normal button, but it opens a menu when tapping on it.
 
 For using a menu see: :doc:`menu`
 

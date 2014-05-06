@@ -23,6 +23,8 @@
  *
  * If you want to query or modify styles of HTML elements,
  * take a look at {@link qx.bom.element.Style}.
+ *
+ * @require(qx.lang.String)
  */
 qx.Bootstrap.define("qx.bom.Style",
 {

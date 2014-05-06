@@ -112,6 +112,7 @@ qx.Class.define("playground.view.MobilePlayArea",
 
       qx.ui.mobile.dialog.Popup.ROOT = this._playRoot;
       qx.ui.mobile.core.Blocker.ROOT = this._playRoot;
+      qx.ui.mobile.basic.Image.ROOT = this._playRoot;
 
       var self = this;
 

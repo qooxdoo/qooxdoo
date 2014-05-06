@@ -22,6 +22,8 @@
  * {@link qx.event.handler.OrientationCore} handler for each given element.
  *
  * @require(qx.module.Event)
+ *
+ * @group (Event_Normalization)
  */
 qx.Bootstrap.define("qx.module.event.OrientationHandler", {
 
@@ -45,11 +47,11 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
       }
 
       if (!element.__orientationHandler) {
-        if (!element.__emitter) {
-          element.__emitter = new qx.event.Emitter();
+        if (!element.$$emitter) {
+          element.$$emitter = new qx.event.Emitter();
         }
 
-        element.__orientationHandler = new qx.event.handler.OrientationCore(element, element.__emitter);
+        element.__orientationHandler = new qx.event.handler.OrientationCore(element, element.$$emitter);
       }
     },
 
@@ -62,12 +64,12 @@ qx.Bootstrap.define("qx.module.event.OrientationHandler", {
     unregister : function(element)
     {
       if (element.__orientationHandler) {
-        if (!element.__emitter) {
+        if (!element.$$emitter) {
           element.__orientationHandler = null;
         }
         else {
           var hasListener = false;
-          var listeners = element.__emitter.getListeners();
+          var listeners = element.$$emitter.getListeners();
           qx.module.event.OrientationHandler.TYPES.forEach(function(type) {
             if (type in listeners && listeners[type].length > 0) {
               hasListener = true;

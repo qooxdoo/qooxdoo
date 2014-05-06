@@ -28,7 +28,6 @@ from misc          import textutil, filetool
 from misc.ExtMap   import ExtMap
 from ecmascript.transform.check      import lint
 from generator     import Context
-from generator.code.HintArgument     import HintArgument
 from generator.runtime.ShellCmd      import ShellCmd
 from ecmascript.frontend.SyntaxException import SyntaxException
 
@@ -62,7 +61,7 @@ def runLint(jobconf, classes):
 
     console = Context.console
     lib_class_names = classes.keys()
-    console.info("Checking Javascript source code...")
+    console.info("Checking JavaScript source code...")
     console.indent()
 
     # Options
@@ -94,20 +93,8 @@ def lint_classes(classesObj, opts):
             console.error(e)
             continue
 
-        ##
-        # @deprecated {3.0} deprecation support for #ignore
-        hash_ignores = classObj.getHints('ignoreDeps')
-        hash_ignores = map(HintArgument, hash_ignores)
-        warns_ = warns[:]
-        warns = []
-        for warn in warns_:
-            if (hasattr(warn, 'name') and
-                warn.name in hash_ignores):
-                continue
-            warns.append(warn)
-
         for warn in warns:
-            console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column, 
+            console.warn("%s (%d, %d): %s" % (classObj.id, warn.line, warn.column,
                 warn.msg % tuple(warn.args)))
 
 ##
@@ -134,7 +121,7 @@ def lint_comptime_opts():
     jobConf = Context.jobconf
     opts = add_config_lintopts(opts, jobConf)
     return do_check, opts
-        
+
 ##
 # Add/override attributes of <optsObj> from config.
 # Requires that the config keys and option attributes be identical (modulo "-"_")

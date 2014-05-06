@@ -4,44 +4,40 @@ Mini application tests focus on visual aspects (showcase, widget browser). Overa
 
 Unless otherwise noted, the latest stable version of each browser must be used.
 
-AS
-  uses: Own Win 7 laptop
-  Full application tests:
-    Chrome stable (Win 7)
+AP
+  Desktop: Safari OSX (Mac mini)
+  Mobile: Android Browser 4.1 (Samsung Galaxy Note)
+  Website: Safari OSX (Mac mini)
 
 CZ
-  uses: Own Macbook, iPad 2
-  Full application tests:
-    Firefox stable (OS X)
+  Desktop: IE9 Win7 (VM)
+  Website: IE9 Win7 (VM)
 
 DW
-  uses: Win7IE8 VM, own Linux PC
-  Full application tests:
-    IE 8 (Win 7)
-  Toolchain tests:
-    Source/Build, Test, Simulation (Contrib Skeleton)
-  Library tests:
-    Rhino (Linux)
+  Desktop: IE11 Win8.1 (Dell XPS)
+  Mobile: IE11 Win8.1 (Dell XPS)
+  Website: IE11 Win8.1 (Dell XPS)
+  Toolchain: Win8.1 (Dell XPS)
+
+MS
+  Desktop: Firefox stable Win7 (PC)
+  Mobile: Android 4.3 (Nexus Phone)
+  Website: Firefox stable Win7 (PC)
+  Toolchain: Linux (PC)
 
 MW
-  uses: Dell Win 8 convertible, own iPhone
-  Full application tests:
-    IE 10 (Win 8)
-  Toolchain tests:
-    Source/Build, Code Maintenance, Shell Tools (Win 8)
-  Library tests:
-    node.js (OS X)
+  Desktop: Safari iOS (iPad)
+  Mobile: Safari iOS (iPad)
+  Website: Safari iOS (iPad)
+  Toolchain: OSX (Macbook)
 
 RS
-  uses: Own Mac Mini, Galaxy Nexus
-  Full application tests:
-    Safari stable (OS X)
-  Toolchain tests:
-    Source/Build, GUI-Tools (OS X)
+  Desktop: Opera OSX (Mac mini)
+  Mobile: IE WinPhone (HTC 8S)
+  Website: Opera OSX (Mac mini)
 
 TH
-  uses: Own Linux PC, Win 7 Test PC, Nexus S
-  Full application tests:
-    Opera stable (Win 7)
-  Toolchain tests:
-    Source/Build, Migration (Linux)
+  Desktop: Chrome stable Linux (PC)
+  Mobile: Safari (iPhone 5s)
+  Website: Chrome stable (Linux)
+  Toolchain: Win7 (PC)

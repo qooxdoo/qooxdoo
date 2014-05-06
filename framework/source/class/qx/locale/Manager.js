@@ -118,7 +118,7 @@ qx.Class.define("qx.locale.Manager",
 
 
     /**
-     * Translate a message with translation hint
+     * Translate a message with translation hint (from developer addressed to translator).
      *
      * @param hint {String} hint for the translator of the message. Will be included in the .po file.
      * @param messageId {String} message id (may contain format strings)
@@ -134,6 +134,31 @@ qx.Class.define("qx.locale.Manager",
       return qx.locale.Manager.getInstance().translate(messageId, args);
     },
 
+    /**
+     * Translate a plural message with translation hint (from developer addressed to translator).
+     *
+     * Depending on the third argument the plural or the singular form is chosen.
+     *
+     * @param hint {String} hint for the translator of the message. Will be included in the .po file.
+     * @param singularMessageId {String} message id of the singular form (may contain format strings)
+     * @param pluralMessageId {String} message id of the plural form (may contain format strings)
+     * @param count {Integer} singular form if equals 1, otherwise plural
+     * @param varargs {Object} variable number of arguments applied to the format string
+     * @return {String | LocalizedString} The translated message or localized string
+     * @see qx.lang.String.format
+     */
+    trnc : function(hint, singularMessageId, pluralMessageId, count, varargs)
+    {
+      var args = qx.lang.Array.fromArguments(arguments);
+      args.splice(0, 4);
+
+      // see trn()
+      if (count != 1) {
+        return qx.locale.Manager.getInstance().translate(pluralMessageId, args);
+      } else {
+        return qx.locale.Manager.getInstance().translate(singularMessageId, args);
+      }
+    },
 
     /**
      * Mark the message for translation but return the original message.

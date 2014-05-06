@@ -18,7 +18,7 @@ Preview Image
 Features
 --------
 * Hide password
-* Mouse and keyboard control.
+* Pointer and keyboard control.
 * Set maximum input length.
 * Read only support.
 

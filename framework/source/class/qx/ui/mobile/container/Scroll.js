@@ -45,12 +45,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
   extend : qx.ui.mobile.container.Composite,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
   * @param scrollProperties {Object} A map with scroll properties which are passed to the scrolling container (may contain iScroll properties).
   */
@@ -63,12 +57,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
 
   events :
   {
@@ -89,6 +77,19 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     {
       refine : true,
       init : "scroll"
+    },
+
+
+    /**
+     * Delegation object which can have one or more functions defined by the
+     * {@link qx.ui.mobile.container.IScrollDelegate} interface.
+     *
+     * @internal
+     */
+    delegate :
+    {
+      init: null,
+      nullable: true
     }
   },
 
@@ -98,18 +99,16 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
   *****************************************************************************
   */
 
-  members :
-  {
-    _scrollProperties : null,
+  members: {
+    _scrollProperties: null,
 
 
     // overridden
-    _createContainerElement : function()
-    {
+    _createContainerElement: function() {
       var element = this.base(arguments);
       var scrollElement = this._createScrollElement();
       if (scrollElement) {
-        element.appendChild(scrollElement);
+        return scrollElement;
       }
 
       return element;
@@ -117,8 +116,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
 
     // overridden
-    _getContentElement : function()
-    {
+    _getContentElement: function() {
       var contentElement = this.base(arguments);
 
       var scrollContentElement = this._getScrollContentElement();
@@ -131,11 +129,8 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      * Calls the refresh function the used scrolling method. Needed to recalculate the
      * scrolling container.
      */
-    refresh : function() {
-      if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
-      {
-        this._refresh();
-      }
+    refresh: function() {
+      this._refresh();
     },
 
 
@@ -147,32 +142,151 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      * @param time {Integer} Time slice in which scrolling should
      *              be done.
      */
-     scrollTo : function(x, y, time)
-     {
-       this._scrollTo(x, y, time);
-     },
+    scrollTo: function(x, y, time) {
+      this._scrollTo(x, y, time);
+    },
 
 
     /**
-      * Scrolls the wrapper contents to the widgets coordinates in a given
-      * period.
-      *
-      * @param elementId {String} the elementId, the scroll container should scroll to.
-      * @param time {Integer?0} Time slice in which scrolling should
-      *              be done (in seconds).
-      *
-      */
-     scrollToElement : function(elementId, time)
-     {
-       this._scrollToElement(elementId, time);
-     }
+     * Returns the current scroll position
+     * @return {Array} an array with <code>[scrollLeft,scrollTop]</code>.
+     */
+    getPosition: function() {
+      return this._getPosition();
+    },
+
+
+    /**
+     * Detects whether this scroll container is scrollable or not.
+     * @return {Boolean} <code>true</code> or <code>false</code>
+     */
+    isScrollable: function() {
+      return this._isScrollable();
+    },
+
+
+    /**
+     * Detects whether this scroll container is scrollable or not.
+     * @return {Boolean} <code>true</code> or <code>false</code>
+     */
+    _isScrollable: function() {
+      return this._isScrollableX() || this._isScrollableY();
+    },
+
+
+    /**
+     * Detects whether this scroll container is scrollable on x axis or not.
+     * @return {Boolean} <code>true</code> or <code>false</code>
+     */
+    _isScrollableX: function() {
+      if (this.getLayoutParent() === null) {
+        return false;
+      }
+
+      var parentWidth = this.getContainerElement().clientWidth;
+      var contentWidth = this.getContentElement().scrollWidth;
+
+      var scrollContentElement = this._getScrollContentElement();
+      if(scrollContentElement) {
+        contentWidth = qx.bom.element.Dimension.getWidth(scrollContentElement);
+      }
+
+      return parentWidth < contentWidth;
+    },
+
+
+    /**
+     * Detects whether this scroll container is scrollable on y axis or not.
+     * @return {Boolean} <code>true</code> or <code>false</code>
+     */
+    _isScrollableY: function() {
+      if (this.getLayoutParent() === null) {
+        return false;
+      }
+
+      var parentHeight = this.getContainerElement().clientHeight;
+      var contentHeight = this.getContentElement().scrollHeight;
+
+      var scrollContentElement = this._getScrollContentElement();
+      if(scrollContentElement) {
+        contentHeight = qx.bom.element.Dimension.getHeight(scrollContentElement);
+      }
+
+      return parentHeight < contentHeight;
+    },
+
+
+    /**
+     * Scrolls the wrapper contents to the widgets coordinates in a given
+     * period.
+     *
+     * @param target {Element} the element to which the scroll container should scroll to.
+     * @param time {Integer?0} Time slice in which scrolling should
+     *              be done (in seconds).
+     *
+     */
+    scrollToElement: function(target, time) {
+      this._scrollToElement(target, time);
+    },
+
+
+    /**
+    * Scrolls the wrapper contents to the widgets coordinates in a given
+    * period.
+    *
+    * @param element {String} the element to which the scroll container should scroll to.
+    * @param time {Integer?0} Time slice in which scrolling should be done (in seconds).
+    *
+    */
+    _scrollToElement : function(element, time)
+    {
+      if (this._getContentElement() && this._isScrollable()) {
+        if (typeof time === "undefined") {
+          time = 0;
+        }
+
+        var location = qx.bom.element.Location.getRelative(this._getContentElement(), element, "scroll", "scroll");
+        var offset = this._getScrollOffset();
+
+        this._scrollTo(-location.left - offset[0], -location.top - offset[1], time);
+      }
+    },
+
+
+    /**
+     *
+     * Determines the scroll offset for the <code>_scrollToElement</code> method.
+     * If a delegate is available, the method calls 
+     * <code>qx.ui.mobile.container.IScrollDelegate.getScrollOffset()</code> for offset calculation.
+     *
+     * @return {Array} an array with x,y offset.
+     */
+    _getScrollOffset : function()
+    {
+      var delegate = this.getDelegate();
+      if (delegate != null && delegate.getScrollOffset) {
+        return delegate.getScrollOffset.bind(this)();
+      } else {
+        return [0,0];
+      }
+    },
+
+
+    /**
+     * Scrolls the wrapper contents to the widgets coordinates in a given
+     * period.
+     *
+     * @param widget {qx.ui.mobile.core.Widget} the widget, the scroll container should scroll to.
+     * @param time {Integer} Time slice in which scrolling should
+     *              be done.
+     */
+    scrollToWidget: function(widget, time) {
+      if (widget) {
+        this._scrollToElement(widget.getContentElement(), time);
+      }
+    }
   },
 
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
 
   defer : function(statics)
   {

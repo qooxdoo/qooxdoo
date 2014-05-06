@@ -32,10 +32,6 @@
     "source",
     "source-all",
     "source-hybrid",
-    "simulation-build",
-    "simulation-run",
-    "test",
-    "test-source",
     "translation",
     "validate-config",
     "validate-manifest"
@@ -48,7 +44,7 @@
     "APPLICATION"  : "fce",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "fce.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
@@ -138,16 +134,14 @@
       "exclude" :
       [
         "${APPLICATION}.theme.*",
-        "${APPLICATION}.test.*",
-        "${APPLICATION}.simulation.*"
+        "${APPLICATION}.test.*"
       ],
 
       "config-warnings" :
       {
         "exclude" :
         [ "${APPLICATION}.theme.*",
-          "${APPLICATION}.test.*",
-          "${APPLICATION}.simulation.*" ]
+          "${APPLICATION}.test.*" ]
       }
     },
 
@@ -204,16 +198,14 @@
       "exclude" :
       [
         "${APPLICATION}.theme.*",
-        "${APPLICATION}.test.*",
-        "${APPLICATION}.simulation.*"
+        "${APPLICATION}.test.*"
       ],
 
       "config-warnings" :
       {
         "exclude" :
         [ "${APPLICATION}.theme.*",
-          "${APPLICATION}.test.*",
-          "${APPLICATION}.simulation.*" ]
+          "${APPLICATION}.test.*" ]
       }
     },
 

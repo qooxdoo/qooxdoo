@@ -36,7 +36,7 @@ Quick start
 ===========
 
 It is easy to get started with qooxdoo. For detailed information please
-see http://manual.qooxdoo.org/3.1/pages/getting_started.html .
+see http://manual.qooxdoo.org/4.0/pages/getting_started.html .
 
 For the impatient, here is a short version:
 
@@ -50,7 +50,7 @@ then go on and extend it into an application of your liking by changing the
 
 
 API Reference
-=============
+==============
 
 You might also want to open the API viewer in a separate browser window,
 which offers the qooxdoo framework API in a convenient way (See the
@@ -79,10 +79,10 @@ Learn more
   http://demo.qooxdoo.org
 
 * Release Notes
-  http://qooxdoo.org/project/release_notes/3.1
+  http://qooxdoo.org/project/release_notes/4.0
 
 * User Manual
-  http://manual.qooxdoo.org/3.1
+  http://manual.qooxdoo.org/4.0
 
 * API Documentation
-  http://api.qooxdoo.org/3.1
+  http://api.qooxdoo.org/4.0

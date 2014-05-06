@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>My website app</title>
-  <script type="text/javascript" src="script/q-3.1.min.js"></script>
+  <script type="text/javascript" src="script/q-4.0.min.js"></script>
   <script type="text/javascript" charset="utf-8">
     if (typeof q == "undefined") {
       window.onload = function() {
@@ -24,7 +24,7 @@
       });
 
       // make the name editable
-      q("h1 span").on("click", function() {
+      q("h1 span").on("tap", function() {
         this.setHtml(prompt("What's your real name?", ""));
       });
 

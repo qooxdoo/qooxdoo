@@ -4,6 +4,26 @@ addSample("q.ready", function() {
   });
 });
 
+addSample("q.ready", function() {
+
+  var myClass = q.define("myNamespace.myClass", {
+    statics: {
+      myMethod : function() {
+        this.anotherMethod();
+      },
+
+      anotherMethod : function() {
+        // do something
+      }
+    }
+  });
+
+  // Use 'ready' together with a named function and
+  // call your method with scope correction
+  q.ready(myClass.myMethod.bind(myClass));
+});
+
+
 addSample(".on", function() {
   // Suppose you like to have one extra parameter besides your event instance
   // e.g. you like to call the 'listenerFunction' within a for loop and pass the
@@ -37,6 +57,20 @@ addSample(".on", function() {
   };
 
   q('#someElement').on('keyup', handleFilterInput, this);
+});
+
+addSample(".on", {
+  javascript: function() {
+// advanced example with event handling - the handler is called only if no "resize" events
+// where triggered for at least 500 milliseconds
+var resizeHandler = function() {
+  alert("current viewport is: " + q(window).getWidth() + " x " + q(window).getHeight());
+};
+
+var winCollection = q(window);
+winCollection.on("resize", q.func.debounce(resizeHandler, 500), winCollection);
+  },
+  executable: true
 });
 
 addSample(".hover", {

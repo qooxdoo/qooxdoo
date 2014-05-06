@@ -2,24 +2,25 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-  <title>q API Documentation</title>
-  <script type="text/javascript" charset="utf-8" src="script/q-core-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-animation-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-blocker-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-cookie-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-dataset-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-dev-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-io-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-matchmedia-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-messaging-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-placeholder-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-placement-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-rest-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-storage-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-template-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-textselection-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-transform-3.1.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="script/q-util-3.1.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-core.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-animation.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-blocker.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-cookie.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-dataset.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-dev.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-io.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-matchmedia.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-messaging.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-placeholder.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-placement.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-rest.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-storage.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-template.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-textselection.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-transform.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-util.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="script/q-ui.min.js"></script>
+  <script type="text/javascript" charset="utf-8" src="Data.js"></script>
   <script type="text/javascript" charset="utf-8" src="viewer.js"></script>
   <link href="http://resources.qooxdoo.org/stylesheets/reset.css" rel="stylesheet" type="text/css">
   <link href="http://resources.qooxdoo.org/stylesheets/base.css" rel="stylesheet" type="text/css">
@@ -42,32 +43,47 @@
     })();
   }
   </script>
+  <!-- {HEAD} -->
 </head>
 <body>
 
   <!-- HEADER -->
   <div id="header-wrapper">
     <div id="header">
-      <h1>qx.Website API Documentation</h1>
-      <div id="plugintoggle"><span>show</span> plugin API</div>
+      <button id="showNav" value="0">&#xF0AA;</button>
+      <!-- {HEADLINE} -->
+      <h1 id="headline">API Documentation <span>qx.Website</span></h1>
     </div>
     <div class="decoration"></div>
   </div>
 
   <!-- CONTENT -->
-  <div id="list"></div>
+
+  <div id="navContainer">
+    <div class="filter">
+      <span>&#xF094;</span>
+      <input type="search" placeholder="Filter Methods">
+    </div>
+    <div id="list" style="opacity: 0"
+      data-qx-class="qx.ui.website.Accordion">
+      <ul>
+      </ul>
+    </div>
+  </div>
+
+
   <div id="content">
     <div id="warning"><h1 style='color: #C00F00'>Error while loading!</h1><em>Has the application been generated? (generate.py api)</em></div>
   </div>
 
   <!-- TEMPLATES -->
   <script type="text/template" charset="utf-8" id="list-item">
-    <li class="{{classname}}{{#plugin}} plugin{{/plugin}}">{{#missing}}<b style="color: red;">!! </b>{{/missing}}<a href="#{{link}}">{{name}}</a></li>
+    <li class="{{classname}}{{#plugin}} plugin{{/plugin}}"><a href="#{{link}}" class="{{#missing}}warning{{/missing}}">{{name}}</a></li>
   </script>
 
   <script type="text/template" charset="utf-8" id="method">
   <div id="{{name}}" class="method{{#plugin}} plugin{{/plugin}}">
-    <h2 class="method-header box">{{name}} ({{{printParams}}}) <span class="returns">{{{returns.printTypes}}}</span></h2>
+    <h2 class="method-header box" {{#plugin}}data-icon="{{{icon}}}" title="{{title}}"{{/plugin}}>{{name}} ({{{printParams}}}) <span class="returns">{{{returns.printTypes}}}</span></h2>
     <div>
     {{{desc}}}
     </div>
@@ -76,7 +92,7 @@
     <div>
       <ul>
         {{#params}}
-        <li>{{{printTypes}}} <code>{{name}}</code> {{#defaultValue}}<em>(default: {{{defaultValue}}})</em> {{/defaultValue}} {{{desc}}}</li>
+        <li>{{{printTypes}}} <code>{{name}}</code>{{#optional}} <em>optional</em>{{/optional}} {{#defaultValue}}<em>(default: {{{defaultValue}}})</em> {{/defaultValue}} {{{desc}}}</li>
         {{/params}}
       </ul>
     </div>
@@ -90,7 +106,7 @@
 
   <script type="text/template" charset="utf-8" id="events">
     <div class="events">
-      <h2>Events</h2>
+      <h2>Events <a title='More information on events' class='info' href='#.on'>i</a></h2></h2>
       <ul>
         {{#events}}
         <li class="inline">{{{type}}} <code>{{name}}</code> {{{desc}}}</li>
@@ -110,5 +126,18 @@
     <div>
   </script>
 
+  <script type="text/template" charset="utf-8" id="widget-dom">
+    <div class="widget-dom">
+      <ul>
+        <li data-qx-accordion-page="#{{pageId}}" class="qx-accordion-button"><button></button></li>
+        <li id="{{pageId}}" class="qx-accordion-page"><pre></pre></li>
+      </ul>
+    </div>
+  </script>
+
+  <iframe id="fiddleframe" src="fiddleframe.html"></iframe>
+  <div id="playpen"></div>
+
+  <!-- {BODY} -->
 </body>
 </html>

@@ -21,25 +21,14 @@
     "migration",
     "pretty",
     "profiling",
-    "simulation-build",
-    "simulation-run",
     "source",
     "source-all",
     "source-hybrid",
-    "test",
-    "test-source",
     "translation",
     "minify-css",
-    "source-ios",
-    "source-android",
-    "source-indigo",
-    "build-ios",
-    "build-android",
-    "build-indigo",
     "validate-config",
     "validate-manifest",
-    "watch",
-    "watch-scss"
+    "watch"
   ],
 
   "default-job" : "source-hybrid",
@@ -51,7 +40,7 @@
     "QOOXDOO_PATH" : "../../",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "THEME"        : "indigo",  // provide a default
+    "THEME"        : "indigo",  // possible values: "indigo","flat"
     "CSS_COMB_URI" : "./resource/${APPLICATION}/css/${THEME}-style-min.css",
     "CSS_COMBINED" : "${BUILD_PATH}/${CSS_COMB_URI}",
     "ROOT"         : ".",
@@ -104,7 +93,6 @@
       {
         "qx.version"     : "${APPLICATION}",
         "qx.application" : "${APPLICATION}.Application",
-        "qx.mobile.emulatetouch" : true,
         "qx.theme" : "${THEME}"
       },
 
@@ -117,46 +105,18 @@
       }
     },
 
-    "source-ios" :
-    {
-      "extend" : ["source"],
-      "let" : { "THEME" : "ios" }
-    },
-
-    "source-android" :
-    {
-      "extend" : ["source"],
-      "let" : { "THEME" : "android" }
-    },
-
-    "source-indigo" :
-    {
-      "extend" : ["source"],
-      "let" : { "THEME" : "indigo" }
-    },
-
-    "build-ios" :
-    {
-      "extend" : ["build"],
-      "let" : { "THEME" : "ios" }
-    },
-
-    "build-android" :
-    {
-      "extend" : ["build"],
-      "let" : { "THEME" : "android" }
-    },
-
-    "build-indigo" :
-    {
-      "extend" : ["build"],
-      "let" : { "THEME" : "indigo" }
-    },
 
     "source" :
     {
       "let" : {
         "BUILD_PATH" : "${ROOT}/source"
+      },
+      "compile-options" :
+      {
+        "uris" :
+        {
+          "add-nocache-param" : true
+        }
       }
     },
 
@@ -166,7 +126,7 @@
       "let" : {
         "BUILD_PATH" : "${ROOT}/build-${THEME}"
       },
-      "=run" : ["build-resources", "build-files", "build-script", "minify-css"]
+      "=run" : ["build-resources", "build-files", "build-script", "compile-scss", "minify-css"]
     },
 
 
@@ -174,9 +134,10 @@
     {
       "extend" : ["mobile-common"],
       "add-css" : [
-        { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },
+        { "uri" : "./resource/qx/mobile/css/${THEME}.css" },
         { "uri" : "./resource/${APPLICATION_CSS}" }
-      ]
+      ],
+      "run": ["compile-scss"]
     },
 
     "build-script" :
@@ -210,13 +171,30 @@
       "=exclude" :
       [
         "qx.test.*",
-        "${APPLICATION}.test.*",
-        "${APPLICATION}.simulation.*"
+        "${APPLICATION}.test.*"
       ],
       "add-css" : [
-        { "uri" : "../${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css" },
+        { "uri" : "./resource/qx/mobile/css/${THEME}.css" },
         { "uri" : "./resource/${APPLICATION_CSS}" }
-      ]
+      ],
+      "run": ["compile-scss"]
+    },
+
+    "compile-scss" :
+    {
+      "desc"   : "Compile the theme scss once",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
+        "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "MOBILE_RESOURCE_PATH" : "source/resource/qx/mobile/css"
+      },
+      "shell" :
+      {
+        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --update ${QX_MOBILE_THEME_PATH}:${MOBILE_RESOURCE_PATH}",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
+      }
     },
 
     "minify-combine-css" :
@@ -252,22 +230,6 @@
         [
           "${CATCMD} ${ROOT}/source/resource/${APPLICATION_CSS} | ${CSSMIN_CMD} > ${BUILD_PATH}/resource/${APPLICATION_CSS}"
         ]
-      }
-    },
-
-
-    "watch-scss" :
-    {
-      "desc"   : "Watch and compile the theme scss",
-      "extend" : ["cache"],
-      "watch-files" :
-      {
-        "paths"    : ["${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss/"],
-        "command" :
-        {
-          "line"  : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/scss.py ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss/${THEME}.scss -o ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}.css --load-path=${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
-          "per-file" : false
-        }
       }
     }
   }

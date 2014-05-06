@@ -884,7 +884,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.tree = this.widgets["treeview.flat"] = tree1;
 
       tree1.addListener("changeSelection", this.treeGetSelection, this);
-      tree1.addListener("dblclick", function(e){
+      tree1.addListener("dbltap", function(e){
         qx.event.Timer.once(this.runSample, this, 50);
       }, this);
 

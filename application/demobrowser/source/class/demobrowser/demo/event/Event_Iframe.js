@@ -26,11 +26,7 @@
 /**
  * @tag noPlayground
  *
- * @use(qx.event.dispatch.Direct)
- * @use(qx.event.dispatch.DomBubbling)
- * @use(qx.event.handler.Keyboard)
- * @use(qx.event.handler.Mouse)
- * @use(qx.event.handler.Element)
+ * @require(qx.bom.Element)
  */
 qx.Class.define("demobrowser.demo.event.Event_Iframe",
 {
@@ -61,9 +57,9 @@ qx.Class.define("demobrowser.demo.event.Event_Iframe",
       this._inner = iframeDocument.getElementById("inner");
 
       qx.event.Registration.addListener(this._juhu, "contextmenu", this._preventDefault, this);
-      qx.event.Registration.addListener(this._inner, "click", this._stopPropagation, this);
-      qx.event.Registration.addListener(this._juhu, "click", this._onclick1, this);
-      qx.event.Registration.addListener(this._juhu, "click", this._onclick2, this);
+      qx.event.Registration.addListener(this._inner, "tap", this._stopPropagation, this);
+      qx.event.Registration.addListener(this._juhu, "tap", this._onTap1, this);
+      qx.event.Registration.addListener(this._juhu, "tap", this._onTap2, this);
 
       qx.event.Registration.addListener(
           iframeDocument.getElementById("input"),
@@ -73,8 +69,8 @@ qx.Class.define("demobrowser.demo.event.Event_Iframe",
 
       for (var i=1; i<10; i++) {
         var div = iframeDocument.getElementById("div"+i);
-        qx.event.Registration.addListener(div, "click", this._cascadeCapture, this, true);
-        qx.event.Registration.addListener(div, "click", this._cascadeBubble, this, false);
+        qx.event.Registration.addListener(div, "tap", this._cascadeCapture, this, true);
+        qx.event.Registration.addListener(div, "tap", this._cascadeBubble, this, false);
       }
 
       qx.event.Registration.addListener(
@@ -116,13 +112,13 @@ qx.Class.define("demobrowser.demo.event.Event_Iframe",
       e.stopPropagation();
     },
 
-    _onclick1 : function(e)
+    _onTap1 : function(e)
     {
       this.debug(e.getType() + " 1: " +  e);
-      qx.event.Registration.removeListener(this._juhu, "click", this._onclick1);
+      qx.event.Registration.removeListener(this._juhu, "tap", this._onTap1);
     },
 
-    _onclick2 : function(e)
+    _onTap2 : function(e)
     {
       this.debug(e.getType() + " 2: " + e);
     }

@@ -323,7 +323,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
 
     /**
-     * Event handler. Called when the user clicked a button for showing/hiding the
+     * Event handler. Called when the user tapped a button for showing/hiding the
      * body of an info panel.
      *
      * @param panelHashCode {Integer} hash code of the panel object.

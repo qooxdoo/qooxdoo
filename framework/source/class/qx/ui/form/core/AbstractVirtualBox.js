@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
     // Register listeners
     this.addListener("keypress", this._handleKeyboard, this);
-    this.addListener("click", this._handleMouse, this);
+    this.addListener("tap", this._handlePointer, this);
     this.addListener("blur", this._onBlur, this);
     this.addListener("resize", this._onResize, this);
 
@@ -394,11 +394,11 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
 
     /**
-     * Handles all mouse events dispatched on the widget.
+     * Handles all pointer events dispatched on the widget.
      *
-     * @param event {qx.event.type.Mouse|qx.event.type.MouseWheel} The mouse event.
+     * @param event {qx.event.type.Pointer|qx.event.type.Roll} The pointer event.
      */
-    _handleMouse : function(event) {},
+    _handlePointer : function(event) {},
 
 
     /**

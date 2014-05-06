@@ -321,16 +321,15 @@ qx.Class.define("qx.data.SingleValueBinding",
               ignoreConverter = match ? match.length > 0 : false;
             }
 
-            var data = null;
             if (!ignoreConverter) {
-              data = context.options.converter();
+              this.__setTargetValue(
+                context.targetObject,
+                context.targetPropertyChain,
+                context.options.converter()
+              );
+            } else {
+              this.__resetTargetValue(context.targetObject, context.targetPropertyChain);
             }
-
-            this.__setTargetValue(
-              context.targetObject,
-              context.targetPropertyChain,
-              data
-            );
           } else {
             this.__resetTargetValue(context.targetObject, context.targetPropertyChain);
           }

@@ -65,7 +65,6 @@ qx.Bootstrap.define("qx.bom.Range",
                 case "file":
                 case "submit":
                   return node.createTextRange();
-                  break;
 
                 default:
                   return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
@@ -76,7 +75,6 @@ qx.Bootstrap.define("qx.bom.Range",
             case "body":
             case "button":
               return node.createTextRange();
-            break;
 
             default:
               return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();

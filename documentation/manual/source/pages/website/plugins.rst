@@ -49,7 +49,7 @@ stored in the collection as well.
 Event Normalization Plugins
 ---------------------------
 Another kind of plugin is used to normalize events. %{Website} includes
-normalization for e.g. Keyboard or Mouse events. The plugin API for that use
+normalization for e.g. Keyboard or pointer events. The plugin API for that use
 case is included in the events module and offers one important method.
 
 ::

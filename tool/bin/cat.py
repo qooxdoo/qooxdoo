@@ -24,13 +24,14 @@
 #  cat.py -- a 'cat'/'type' in Python
 #
 # SYNTAX
-#  python cat.py file1 file2 ...  -- print the contents of file1 file2 ... to 
+#  python cat.py file1 file2 ...  -- print the contents of file1 file2 ... to
 #                                    STDOUT
 ##
+from __future__ import print_function
 
 import sys, os
 
 for f in sys.argv[1:]:
     if not os.path.isfile(f):
         raise IOError("not a regular file: %s" % f)
-    print open(f, "rb").read()
+    print(open(f, "rb").read())

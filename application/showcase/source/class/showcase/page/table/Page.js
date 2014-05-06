@@ -58,7 +58,7 @@ qx.Class.define("showcase.page.table.Page",
       "service so it's always up to date.",
 
     __tryThis : {
-      "Sorting" : "Click on the column header to sort the column.",
+      "Sorting" : "Tap on the column header to sort the column.",
       "Reordering" : "Drag the column header to reorder.",
       "Column Resizing" : "Drag the column header separator to resize the columns.",
       "Hide Columns" : "Use the column drop-down menu in the upper right corner.",

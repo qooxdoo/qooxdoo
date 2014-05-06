@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
 
     this.__selectionManager = new qx.ui.virtual.selection.Row(this.getPane());
     this.__selectionManager.addListener("changeSelection", this._onChangeSelection, this);
-    this.__selectionManager.attachMouseEvents();
+    this.__selectionManager.attachPointerEvents();
     this.__selectionManager.attachKeyEvents(this);
     this.__selectionManager.attachListEvents(this);
 
@@ -188,7 +188,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
 
 
     /**
-     * Enable quick selection mode, where no click is needed to change the selection.
+     * Enable quick selection mode, where no tap is needed to change the selection.
      *
      * Only possible for the modes <code>single</code> and <code>one</code>.
      */
@@ -737,7 +737,7 @@ qx.Class.define("demobrowser.demo.virtual.list.List",
 
 
     /**
-     * Returns the last selection context. One of <code>click</code>,
+     * Returns the last selection context. One of <code>tap</code>,
      * <code>quick</code>, <code>drag</code> or <code>key</code> or
      * <code>null</code>.
      */

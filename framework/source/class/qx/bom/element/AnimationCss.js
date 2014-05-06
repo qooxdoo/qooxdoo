@@ -135,6 +135,12 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["iteration-event"], this.__onAnimationIteration);
         qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["end-event"], this.__onAnimationEnd);
 
+        if (qx.core.Environment.get("qx.debug")) {
+          if (qx.bom.element.Style.get(el, "display") == "none") {
+            qx.log.Logger.warn("Some browsers will not animate elements with display==none", el);
+          }
+        }
+
         el.style[qx.lang.String.camelCase(this.__cssAnimationKeys["name"])] = style;
         // use the fill mode property if available and suitable
         if (keep && keep == 100 && this.__cssAnimationKeys["fill-mode"]) {
@@ -344,7 +350,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
             transforms[style] = frame[style];
           } else {
             var propName = qx.bom.Style.getPropertyName(style);
-            var prefixed = (propName !== null) ? 
+            var prefixed = (propName !== null) ?
               qx.bom.Style.getCssName(propName) : "";
             rule += (prefixed || style) + ":" + frame[style] + ";";
           }

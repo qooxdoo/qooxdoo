@@ -29,6 +29,7 @@
  * @require(qx.module.Manipulating)
  * @require(qx.module.Attribute)
  * @require(qx.module.Event)
+ * @require(qx.module.event.GestureHandler)
  * @require(qx.module.event.Native)
  * @require(qx.module.Css)
  * @require(qx.module.Cookie)
@@ -185,8 +186,8 @@ qx.Class.define("testrunner.view.Html", {
       .append('<label for="togglepassed">Show successful tests</label>');
 
       if (this.__nativeProfiling) {
-        controls.append(q.create('<input type="checkbox">').setAttributes({id: "nativeprofiling"}))
-        .append('<label for="nativeprofiling">Use native console profiling feature for performance tests</label>');
+        controls.append(q.create('<input type="checkbox">').setAttributes({id: "nativeprofiling"}).hide())
+        .append(q.create('<label for="nativeprofiling">Use native console profiling feature for performance tests</label>').hide());
       }
 
       return controls;
@@ -199,8 +200,8 @@ qx.Class.define("testrunner.view.Html", {
     _bindMainControls : function()
     {
       var controls = q("#controls");
-      controls.getChildren("#run").on("click", this.__runTests, this);
-      controls.getChildren("#stop").on("click", this.__stopTests, this);
+      controls.getChildren("#run").on("tap", this.__runTests, this);
+      controls.getChildren("#stop").on("tap", this.__stopTests, this);
 
       controls.getChildren("#togglestack").on("change", function(ev) {
         this.setShowStack(ev.getTarget().checked);
@@ -359,7 +360,7 @@ qx.Class.define("testrunner.view.Html", {
       .append(q.create('<iframe onload="qx.event.handler.Iframe.onevent(this)" id="autframe">'))
       .appendTo("#frame_log");
 
-      q("#setiframesrc").on("click", this.__reloadAut, this);
+      q("#setiframesrc").on("tap", this.__reloadAut, this);
 
       return frameContainer.getChildren("#autframe")[0];
     },
@@ -655,7 +656,7 @@ qx.Class.define("testrunner.view.Html", {
           else {
             this._applyTestCount(this.getTestCount());
           }
-          q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
+          q("#testfilter,#togglealltests,#run").setAttribute("disabled", false);
           q("#stop").setAttribute("disabled", "disabled");
           if (this.getAutoRun()) {
             this.__runTests();
@@ -664,7 +665,7 @@ qx.Class.define("testrunner.view.Html", {
         case "running" :
           this.setStatus("Running tests...");
           q("#testfilter,#togglealltests,#run").setAttribute("disabled", "disabled");
-          q("#stop").setAttribute("disabled", "");
+          q("#stop").setAttribute("disabled", false);
           break;
         case "finished" :
           var statusText = "Test suite finished. ";
@@ -672,17 +673,17 @@ qx.Class.define("testrunner.view.Html", {
           statusText += " Failed: " + this.getFailedTestCount();
           statusText += " Skipped: " + this.getSkippedTestCount();
           this.setStatus(statusText);
-          q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
+          q("#testfilter,#togglealltests,#run").setAttribute("disabled", false);
           q("#stop").setAttribute("disabled", "disabled");
           break;
         case "aborted" :
           this.setStatus("Test run stopped");
-          q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
+          q("#testfilter,#togglealltests,#run").setAttribute("disabled", false);
           q("#stop").setAttribute("disabled", "disabled");
           break;
         case "error" :
           this.setStatus("Invalid test file selected!");
-          q("#testfilter,#togglealltests,#run").setAttribute("disabled", "");
+          q("#testfilter,#togglealltests,#run").setAttribute("disabled", false);
           q("#stop").setAttribute("disabled", "disabled");
           break;
       }
@@ -712,6 +713,24 @@ qx.Class.define("testrunner.view.Html", {
       this._createTestList(this.__testNamesList);
 
       this._applyCookieSelection();
+
+      if (qx.Class.hasMixin(this.constructor, testrunner.view.MPerformance) &&
+        window.console && window.console.profile)
+      {
+        var autWindow = window;
+        if (qx.core.Environment.get("testrunner.testOrigin") == "iframe") {
+          autWindow = qx.bom.Iframe.getWindow(this.getIframe());
+        }
+
+        var mixin = autWindow.qx.dev.unit.MMeasure;
+        if (testrunner.runner.ModelUtil.hasTestClassWithMixin(this.__testModel, mixin, autWindow)) {
+          q("#nativeprofiling").getNext().show();
+          q("#nativeprofiling").show();
+        } else {
+          q("#nativeprofiling").getNext().hide();
+          q("#nativeprofiling").hide();
+        }
+      }
     },
 
 

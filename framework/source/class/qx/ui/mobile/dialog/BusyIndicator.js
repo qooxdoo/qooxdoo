@@ -35,54 +35,22 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
 {
   extend : qx.ui.mobile.basic.Atom,
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
 
   /**
    * @param label {String} Label to use
    */
   construct : function(label)
   {
-    // the image passed as second argument is a blank 20x20 transparent png
-    this.base(arguments, label, 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAAAAXNSR0IArs4c6QAAAAJiS0dEAP+Hj8y/AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAAB3RJTUUH2wsJDS8ybObCaQAAABBJREFUKM9jYBgFo2AUkAIAAzQAATnIy0MAAAAASUVORK5CYII=');
+    // the image passed as second argument is a blank 1px transparent png
+    this.base(arguments, label, qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE);
 
     this.addListener("appear", this._onAppear, this);
     this.addListener("disappear", this._onDisappear, this);
-
-    this.__spinnerAnimation = {
-      duration: 1000,
-      timing: "linear",
-      origin: "center center",
-      repeat: "infinite",
-      keyFrames : {
-        0: {
-          rotate : "0deg"
-        },
-        100: {
-          rotate : "359deg"
-        }
-      }
-    };
   },
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
-    // overridden
-    defaultCssClass :
-    {
-      refine : true,
-      init : "spinnerContainer"
-    },
-
 
     /**
      * The spinner css class to use.
@@ -96,15 +64,14 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
     }
   },
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
+
+  statics : {
+    SPINNER_ANIMATION : null
+  },
+
 
   members :
   {
-    __spinnerAnimation : null,
     __animationHandle : null,
 
 
@@ -112,7 +79,7 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
      * Listener for appear event.
      */
     _onAppear : function() {
-      this.__animationHandle = qx.bom.element.Animation.animate(this.getIconWidget().getContainerElement(), this.__spinnerAnimation);
+      this.__animationHandle = qx.bom.element.Animation.animate(this.getIconWidget().getContainerElement(), qx.ui.mobile.dialog.BusyIndicator.SPINNER_ANIMATION);
     },
 
 
@@ -155,6 +122,24 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
       this.__animationHandle.stop();
     }
 
-    this.__spinnerAnimation = this.__animationHandle = null;
+    this.__animationHandle = null;
+  },
+
+
+  defer : function() {
+    qx.ui.mobile.dialog.BusyIndicator.SPINNER_ANIMATION = {
+      duration: 750,
+      timing: "linear",
+      origin: "center center",
+      repeat: "infinite",
+      keyFrames : {
+        0: {
+          rotate : "0deg"
+        },
+        100: {
+          rotate : "359deg"
+        }
+      }
+    };
   }
 });
