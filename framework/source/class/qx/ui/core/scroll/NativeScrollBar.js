@@ -73,6 +73,11 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
     } else {
       this.initOrientation();
     }
+
+    // prevent drag & drop on scrolling
+    this.addListener("track", function(e) {
+      e.stopPropagation();
+    }, this);
   },
 
 

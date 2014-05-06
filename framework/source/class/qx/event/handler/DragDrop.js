@@ -50,10 +50,10 @@ qx.Class.define("qx.event.handler.DragDrop",
     this.__root = manager.getWindow().document.documentElement;
 
     // Initialize track listener
-    this.__manager.addListener(this.__root, "longtap", this._onLongtap, this, true);
-    this.__manager.addListener(this.__root, "trackstart", this._onTrackStart, this, true);
-    this.__manager.addListener(this.__root, "track", this._onTrack, this, true);
-    this.__manager.addListener(this.__root, "trackend", this._onTrackEnd, this, true);
+    this.__manager.addListener(this.__root, "longtap", this._onLongtap, this);
+    this.__manager.addListener(this.__root, "trackstart", this._onTrackStart, this);
+    this.__manager.addListener(this.__root, "track", this._onTrack, this);
+    this.__manager.addListener(this.__root, "trackend", this._onTrackEnd, this);
 
     qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
 
