@@ -389,6 +389,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __top : null,
 
     __timer : null,
+    _cellEditorIsModalWindow: false,
 
 
     /**
@@ -1862,6 +1863,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         {
           // It's a window.  Ensure that it's modal.
           this.__cellEditor.setModal(true);
+          this._cellEditorIsModalWindow = true;
 
           // At least for the time being, we disallow the close button.  It
           // acts differently than a cellEditor.close(), and invokes a bug
@@ -1888,6 +1890,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         else
         {
           // The cell editor is a traditional in-place editor.
+          this._cellEditorIsModalWindow = false;
           var size = this.__focusIndicator.getInnerSize();
           this.__cellEditor.setUserBounds(0, 0, size.width, size.height);
 
