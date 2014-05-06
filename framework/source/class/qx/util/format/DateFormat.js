@@ -1634,14 +1634,14 @@ qx.Class.define("qx.util.format.DateFormat",
       rules.push(
       {
         pattern : "w",
-        regex   : "(\\d?)",
+        regex   : "(\\d\\d?)",
         field   : "weekOfYear"
       });
 
       rules.push(
       {
         pattern : "ww",
-        regex   : "(\\d\\d?)",
+        regex   : "(\\d\\d)",
         field   : "weekOfYear"
       });
 
