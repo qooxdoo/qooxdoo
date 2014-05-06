@@ -140,21 +140,12 @@ qx.Bootstrap.define("qx.module.event.Tap", {
         return event;
       }
 
-      qx.event.type.dom.Pointer.normalize(event);
-
       var bindMethods = qx.module.event.Tap.BIND_METHODS;
       for (var i=0, l=bindMethods.length; i<l; i++) {
         if (typeof event[bindMethods[i]] != "function") {
           event[bindMethods[i]] = qx.module.event.Tap[bindMethods[i]].bind(event);
         }
       }
-
-      // bindMethods = qx.module.event.Pointer.BIND_METHODS;
-      // for (var i=0, l=bindMethods.length; i<l; i++) {
-      //   if (typeof event[bindMethods[i]] != "function") {
-      //     event[bindMethods[i]] = qx.module.event.Pointer[bindMethods[i]].bind(event);
-      //   }
-      // }
 
       return event;
     }
