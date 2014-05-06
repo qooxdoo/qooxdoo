@@ -183,37 +183,6 @@ qx.Class.define("qx.event.handler.Touch",
     },
 
 
-    /**
-     * Normalizes a mouse event to a touch event.
-     *
-     * @signature function(domEvent)
-     * @param domEvent {Event} DOM event
-     */
-    __normalizeMouseEvent : function() {},
-
-
-    /**
-     * Checks if the left mouse button is pressed.
-     *
-     * @signature function(domEvent)
-     * @param domEvent {Event} DOM event
-     * @return {Boolean} Whether the left mouse button is pressed
-     */
-    __isLeftMouseButtonPressed : function() {},
-
-
-    /**
-     * Creates and returns a Touch mock object.
-     * Fore more information see:
-     * https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchClassReference/Touch/Touch.html
-     *
-     * @signature function(domEvent)
-     * @param domEvent {Event} DOM event
-     * @return {Object} The Touch mock object
-     */
-    __createTouchObject : function() {},
-
-
     /*
     ---------------------------------------------------------------------------
       OBSERVER INIT
