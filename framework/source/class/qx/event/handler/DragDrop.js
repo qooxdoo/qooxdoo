@@ -21,7 +21,7 @@
 /**
  * Event handler, which supports drag events on DOM elements.
  *
- * @require(qx.event.handler.Pointer)
+ * @require(qx.event.handler.Gesture)
  * @require(qx.event.handler.Keyboard)
  * @require(qx.event.handler.Capture)
  */
@@ -509,6 +509,9 @@ qx.Class.define("qx.event.handler.DragDrop",
         return;
       }
 
+      // start target can be none as the drag & drop handler might
+      // be created after the first start event
+      var target = this.__startTargets ? this.__startTargets.target : e.getTraget();
       var dragable = this.__findDraggable(this.__startTargets.target);
       if (dragable) {
         // This is the source target
