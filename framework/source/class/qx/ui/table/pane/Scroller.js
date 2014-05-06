@@ -86,7 +86,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__paneClipper.addListener("roll", this._onRoll, this);
     this.__paneClipper.addListener("pointermove", this._onPointermovePane, this);
     this.__paneClipper.addListener("pointerdown", this._onPointerdownPane, this);
-    this.__paneClipper.addListener("pointerup", this._onPointerupPane, this);
     this.__paneClipper.addListener("tap", this._onTapPane, this);
     this.__paneClipper.addListener("contextmenu", this._onContextMenu, this);
     this.__paneClipper.addListener("dbltap", this._onDbltapPane, this);
@@ -1314,26 +1313,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._moveColumn = null;
       this._lastMoveTargetX = null;
       this._headerClipper.releaseCapture();
-    },
-
-
-    /**
-     * Event handler. Called when the user released a pointer button over the pane.
-     *
-     * @param e {Map} the event.
-     */
-    _onPointerupPane : function(e)
-    {
-      var table = this.getTable();
-
-      if (! table.getEnabled()) {
-        return;
-      }
-
-      var row = this._getRowForPagePos(e.getDocumentLeft(), e.getDocumentTop());
-      if (row != -1 && row != null && this._getColumnForPageX(e.getDocumentLeft()) != null) {
-        table.getSelectionManager().handleTap(row, e);
-      }
     },
 
 
