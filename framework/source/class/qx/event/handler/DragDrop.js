@@ -511,7 +511,8 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       // start target can be none as the drag & drop handler might
       // be created after the first start event
-      var dragable = this.__findDraggable(this.__startTargets.target);
+      var target = this.__startTargets ? this.__startTargets.target : e.getTarget();
+      var dragable = this.__findDraggable(target);
       if (dragable) {
         // This is the source target
         this.__dragTarget = dragable;
