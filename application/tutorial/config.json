@@ -44,7 +44,7 @@
   },
   "config-warnings" :
   {
-    "job-shadowing" : ["source", "source-hybrid", "build-resources", "build-script", "translation", "libraries"],
+    "job-shadowing" : ["source", "source-hybrid", "source-all-script", "build-resources", "build-script", "translation", "libraries"],
 
     "environment" : [ "non-literal-keys" ]
   },
@@ -85,7 +85,7 @@
       "add-css" :
       [
         {
-          "uri" : "resource/qx/mobile/css/indigo.css"
+          "uri" : "./resource/${APPLICATION}/css/indigo.css"
         }
       ]
     },
@@ -93,7 +93,8 @@
 
     "build-resources" :
     {
-      "extend" : [ "tutorial-compile" ]
+      "extend" : [ "tutorial-compile" ],
+      "run": ["compile-scss"]
     },
 
 
@@ -103,9 +104,10 @@
       "add-css" :
       [
         {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/indigo.css"
+          "uri" : "./resource/${APPLICATION}/css/indigo.css"
         }
-      ]
+      ],
+      "run": ["compile-scss"]
     },
 
     "source-hybrid" :
@@ -114,9 +116,40 @@
       "add-css" :
       [
         {
-          "uri" : "../../../framework/source/resource/qx/mobile/css/indigo.css"
+          "uri" : "./resource/${APPLICATION}/css/indigo.css"
         }
-      ]
+      ],
+      "run": ["compile-scss"]
+    },
+
+    "source-all-script" :
+    {
+      "extend" : [ "tutorial-compile" ],
+      "=exclude" : [ "qx.test.*" ],
+      "add-css" :
+      [
+        {
+          "uri" : "./resource/${APPLICATION}/css/indigo.css"
+        }
+      ],
+      "run": ["compile-scss"]
+    },
+
+    "compile-scss" :
+    {
+      "desc"   : "Compile the theme scss once",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
+        "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "MOBILE_RESOURCE_PATH" : "source/resource/$${APPLICATION}"
+      },
+      "shell" :
+      {
+        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --update ${MOBILE_RESOURCE_PATH}/scss:${MOBILE_RESOURCE_PATH}/css",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
+      }
     },
 
     "libraries" :

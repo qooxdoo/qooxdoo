@@ -22,6 +22,7 @@
 /**
  * The feed reader's mobile main application class.
  *
+ * @asset(feedreader/css/*)
  */
 qx.Class.define("feedreader.MobileApplication",
 {
