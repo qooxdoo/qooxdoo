@@ -285,8 +285,8 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
     /**
     * Returns the parent row of the item.
-    * 
-    * @param item {qx.ui.form.iForm} the form item.
+    *
+    * @param item {qx.ui.form.IForm} the form item.
     * @return {qx.ui.mobile.core.Widget} the parent row.
     */
     _getParentRow : function(item) {
