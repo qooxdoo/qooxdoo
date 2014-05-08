@@ -100,7 +100,7 @@
       "add-css" :
       [
         {
-          "uri" : "./resource/playground/css/indigo.css"
+          "uri" : "./resource/${APPLICATION}/css/indigo.css"
         }
       ]
     },
@@ -119,7 +119,7 @@
       "add-css" :
       [
         {
-          "uri" : "./resource/playground/css/indigo.css"
+          "uri" : "./resource/${APPLICATION}/css/indigo.css"
         }
       ],
       "run": ["compile-scss"]
@@ -131,7 +131,7 @@
       "add-css" :
       [
         {
-          "uri" : "./resource/playground/css/indigo.css"
+          "uri" : "./resource/${APPLICATION}/css/indigo.css"
         }
       ],
       "run": ["compile-scss"]
@@ -148,7 +148,7 @@
       "add-css" :
       [
         {
-          "uri" : "./resource/playground/css/indigo.css"
+          "uri" : "./resource/${APPLICATION}/css/indigo.css"
         }
       ],
       "run": ["compile-scss"]
