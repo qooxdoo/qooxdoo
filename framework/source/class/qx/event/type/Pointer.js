@@ -50,6 +50,9 @@ qx.Class.define("qx.event.type.Pointer",
       clone.pointerType = nativeEvent.pointerType;
       clone.isPrimary = nativeEvent.isPrimary;
       clone._original = nativeEvent._original;
+      clone.MSPOINTER_TYPE_MOUSE = nativeEvent.MSPOINTER_TYPE_MOUSE;
+      clone.MSPOINTER_TYPE_PEN = nativeEvent.MSPOINTER_TYPE_PEN;
+      clone.MSPOINTER_TYPE_TOUCH = nativeEvent.MSPOINTER_TYPE_TOUCH;
 
       return clone;
     },
