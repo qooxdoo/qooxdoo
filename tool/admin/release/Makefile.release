@@ -38,6 +38,7 @@ export PYTHONPATH = $(CURDIR)/tool/pylib
 PATH_TOOL_BIN = $(CURDIR)/tool/bin
 PATH_TOOL_RESOURCES = $(CURDIR)/tool/admin/www/resources
 PATH_FRAMEWORK_RESOURCES = $(CURDIR)/framework/source/resource/qx/mobile
+PATH_MOBILE_SKELETON_RESOURCES = $(CURDIR)/component/skeleton/mobile/source/resource
 CMD_PYTHON = $(CMD_NICE) python -t -O
 CMD_REMOVE = $(CMD_NICE) rm -rf
 CMD_MV = $(CMD_NICE) mv
@@ -89,6 +90,7 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = websitewidgetbrowser tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
+APPLICATIONS_SCSS = mobileshowcase playground feedreader tutorial
 COMPONENTS = apiviewer testrunner inspector server website
 FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
@@ -107,7 +109,7 @@ WEBSITE_VERSION_STR = -${FRAMEWORK_VERSION}
 release: release-sdk
 
 release-sdk: distclean release-sdk-sans-clean
-release-sdk-sans-clean: release-sdk-info framework-api framework-dependencies website-api website server showcase manual-build release-sdk-svn-collect release-sdk-archive
+release-sdk-sans-clean: release-sdk-info framework-api framework-dependencies resources-framework-build website-api website server showcase manual-build release-sdk-svn-collect release-sdk-archive
 
 
 release-sdk-info:
@@ -586,16 +588,31 @@ resources-publish:
 resources-framework-build: resources-framework-build-css
 
 resources-framework-build-css:
+	@echo
 	@echo "  * Compiling style sheets..."
-	@cd $(PATH_FRAMEWORK_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
-		echo "     - $$SCSS_FILE..."; \
-		$(CMD_SCSS) $(CMD_SCSS_FRAMEWORK_OPTS) --load-path ../../scss $$SCSS_FILE ../css/$${SCSS_FILE/%.scss/.css}; \
+	@cd $(PATH_MOBILE_SKELETON_RESOURCES)/custom/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+		echo "     - mobile-skeleton: $$SCSS_FILE..."; \
+		$(CMD_SCSS) $(CMD_SCSS_FRAMEWORK_OPTS) -I $(PATH_FRAMEWORK_RESOURCES)/scss -I $(PATH_FRAMEWORK_RESOURCES)/scss/theme/indigo -I $(PATH_FRAMEWORK_RESOURCES)/../scss $$SCSS_FILE ../css/$${SCSS_FILE/%.scss/.css}; \
+	done
+	@for APP in $(APPLICATIONS_SCSS); do \
+		cd $(CURDIR)/application/$$APP/source/resource/$$APP/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+			echo "     - $$APP: $$SCSS_FILE..."; \
+			$(CMD_SCSS) $(CMD_SCSS_FRAMEWORK_OPTS) -I $(PATH_FRAMEWORK_RESOURCES)/scss -I $(PATH_FRAMEWORK_RESOURCES)/scss/theme/indigo -I $(PATH_FRAMEWORK_RESOURCES)/../scss $$SCSS_FILE ../css/$${SCSS_FILE/%.scss/.css}; \
+		done; \
 	done
 
 resources-framework-check:
-	@cd $(PATH_FRAMEWORK_RESOURCES)/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+	@# check if mock content (more than one line) is now overwritten (only one compressed css line)
+	@cd $(PATH_MOBILE_SKELETON_RESOURCES)/custom/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		F="../css/$${SCSS_FILE/%.scss/.css}"; \
-		[ $$F -nt $$SCSS_FILE ] || ( echo "Missing $$F; run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
+		LINES=`cat $$F | wc -l`; \
+		[ $$LINES -eq 1 ] || ( echo "CSS file $$F seems not compressed (more than one line); run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
+	done
+	@for APP in $(APPLICATIONS_SCSS); do \
+		cd $(CURDIR)/application/$$APP/source/resource/$$APP/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+			F="../css/$${SCSS_FILE/%.scss/.css}"; \
+			[ $$F -nt $$SCSS_FILE ] || ( echo "CSS file $$F is missing (within $$APP); run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
+		done; \
 	done
 
 ################################################################################
