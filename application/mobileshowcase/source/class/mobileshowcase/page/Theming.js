@@ -44,12 +44,12 @@ qx.Class.define("mobileshowcase.page.Theming",
 
   statics :
   {
-    THEMES : [{
+    THEMES: [{
       "name": "Indigo",
-      "css": "qx/mobile/css/indigo.css"
+      "css": "resource/mobileshowcase/css/indigo.css"
     }, {
       "name": "Flat",
-      "css": "qx/mobile/css/flat.css"
+      "css": "resource/mobileshowcase/css/flat.css"
     }]
   },
 
@@ -176,7 +176,7 @@ qx.Class.define("mobileshowcase.page.Theming",
     */
     __format : function(x)
     {
-      if (x == null) {
+      if (x === null) {
         return "(unknown)";
       }
 
@@ -232,40 +232,46 @@ qx.Class.define("mobileshowcase.page.Theming",
     /**
      * Changes the used CSS of the application.
      * @param cssFile {String} The css file url.
-     * @param cssLinkIndex {String} index of the css link entry in head, which will be replaced.
      */
-    __changeCSS : function(cssFile, cssLinkIndex) {
+    __changeCSS : function(cssFile) {
       var blocker = qx.ui.mobile.core.Blocker.getInstance();
-      qx.bom.element.Style.set(blocker.getContentElement(), "transition", "all 500ms");
-      qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", "rgba(255,255,255,0)");
+      var blockerElement = blocker.getContentElement();
+
+      qx.bom.element.Style.set(blockerElement, "transition", "all 500ms");
+      qx.bom.element.Style.set(blockerElement, "backgroundColor", "rgba(255,255,255,0)");
 
       blocker.show();
 
-      setTimeout(function() {
-        qx.bom.element.Style.set(blocker.getContentElement(), "backgroundColor", "rgba(255,255,255,1)");
-      }, 0);
-
-      qx.bom.Element.addListener(blocker.getContentElement(), "transitionEnd", this._onAppFadedOut, {
+      qx.bom.Element.addListener(blockerElement, "transitionEnd", this._onAppFadedOut, {
         "self": this,
-        "cssFile": cssFile,
-        "cssLinkIndex": cssLinkIndex
+        "cssFile": cssFile
       });
+
+      setTimeout(function() {
+        qx.bom.element.Style.set(blockerElement, "backgroundColor", "rgba(255,255,255,1)");
+      }, 0);
     },
 
     /**
      * Event handler when Application has faded out.
      */
     _onAppFadedOut: function() {
-      var oldlink = document.getElementsByTagName("link").item(this.cssLinkIndex);
-
-      var newlink = document.createElement("link");
-      newlink.setAttribute("rel", "stylesheet");
-      newlink.setAttribute("type", "text/css");
-      newlink.setAttribute("href", this.cssFile);
-      document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
-
       var blocker = qx.ui.mobile.core.Blocker.getInstance();
       qx.bom.Element.removeListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedOut, this);
+
+      var root = qxWeb(".root");
+      root.setStyle("color","white");
+
+      qxWeb("link[rel^='stylesheet']").remove();
+
+      var newCssLink = document.createElement("link");
+      newCssLink.setAttribute("rel", "stylesheet");
+      newCssLink.setAttribute("type", "text/css");
+      newCssLink.setAttribute("href", this.cssFile);
+
+      qxWeb("head").append(newCssLink);
+
+      root.setStyle("color",null);
 
       setTimeout(function() {
         qx.bom.Element.addListener(blocker.getContentElement(), "transitionEnd", this.self._onAppFadedIn, this);
@@ -293,7 +299,7 @@ qx.Class.define("mobileshowcase.page.Theming",
     __switchTheme : function() {
       var cssResource = this.self.self(arguments).THEMES[this.index].css;
       var cssURI = qx.util.ResourceManager.getInstance().toUri(cssResource);
-      this.self.__changeCSS(cssURI, 1);
+      this.self.__changeCSS(cssURI);
     },
 
 
