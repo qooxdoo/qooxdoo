@@ -12,5 +12,9 @@
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "devDependencies": {
     "grunt": "~0.4.2"
+  },
+  "dependencies": {
+    "async": "^0.7.0",
+    "walker": "^1.0.6"
   }
 }
