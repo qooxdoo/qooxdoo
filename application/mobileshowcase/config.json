@@ -25,7 +25,6 @@
     "source-all",
     "source-hybrid",
     "translation",
-    "minify-css",
     "validate-config",
     "validate-manifest",
     "watch"
@@ -36,13 +35,10 @@
   "let" :
   {
     "APPLICATION"  : "mobileshowcase",
-    "APPLICATION_CSS" : "${APPLICATION}/css/styles.css",  // resource id of custom css
     "QOOXDOO_PATH" : "../../",
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "THEME"        : "indigo",  // possible values: "indigo","flat"
-    "CSS_COMB_URI" : "./resource/${APPLICATION}/css/${THEME}-style-min.css",
-    "CSS_COMBINED" : "${BUILD_PATH}/${CSS_COMB_URI}",
     "ROOT"         : ".",
     "QXTHEME"      : ""
   },
@@ -126,7 +122,7 @@
       "let" : {
         "BUILD_PATH" : "${ROOT}/build-${THEME}"
       },
-      "=run" : ["build-resources", "build-files", "build-script", "compile-scss", "minify-css"]
+      "=run" : ["compile-scss", "build-resources", "build-files", "build-script"]
     },
 
 
@@ -134,8 +130,7 @@
     {
       "extend" : ["mobile-common"],
       "add-css" : [
-        { "uri" : "./resource/qx/mobile/css/${THEME}.css" },
-        { "uri" : "./resource/${APPLICATION_CSS}" }
+        { "uri" : "./resource/${APPLICATION}/css/${THEME}.css" }
       ],
       "run": ["compile-scss"]
     },
@@ -143,10 +138,8 @@
     "build-script" :
     {
       "extend" : ["mobile-common"],
-      //"add-css" : [ { "uri" : "${CSS_COMB_URI}" } ]
       "add-css" : [
-        { "uri" : "./resource/qx/mobile/css/${THEME}.css" },
-        { "uri" : "./resource/${APPLICATION_CSS}" }
+        { "uri" : "./resource/${APPLICATION}/css/${THEME}.css" }
       ]
     },
 
@@ -174,11 +167,11 @@
         "${APPLICATION}.test.*"
       ],
       "add-css" : [
-        { "uri" : "./resource/qx/mobile/css/${THEME}.css" },
-        { "uri" : "./resource/${APPLICATION_CSS}" }
+        { "uri" : "./resource/${APPLICATION}/css/${THEME}.css" }
       ],
       "run": ["compile-scss"]
     },
+
 
     "compile-scss" :
     {
@@ -188,48 +181,12 @@
       {
         "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
         "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
-        "MOBILE_RESOURCE_PATH" : "source/resource/qx/mobile/css"
+        "MOBILE_RESOURCE_PATH" : "source/resource/$${APPLICATION}"
       },
       "shell" :
       {
-        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --update ${QX_MOBILE_THEME_PATH}:${MOBILE_RESOURCE_PATH}",
+        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --update ${MOBILE_RESOURCE_PATH}/scss:${MOBILE_RESOURCE_PATH}/css",
         "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
-      }
-    },
-
-    "minify-combine-css" :
-    {
-      "extend" : ["cache"],
-      "let" :
-      {
-        "CATCMD"     : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/cat.py",
-        "CSSMIN_CMD" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/cssmin.py"
-      },
-
-      "shell" :
-      {
-        "command" :
-        [
-          "${CATCMD} ${QOOXDOO_PATH}/framework/source/resource/qx/mobile/css/${THEME}/${THEME}.css ${ROOT}/source/resource/${APPLICATION_CSS} | ${QOOXDOO_PATH}/tool/bin/cssmin.py > ${CSS_COMBINED}"
-        ]
-      }
-    },
-
-    "minify-css" :
-    {
-      "extend" : ["cache"],
-      "let" :
-      {
-        "CATCMD"     : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/cat.py",
-        "CSSMIN_CMD" : "${PYTHON_CMD} ${QOOXDOO_PATH}/tool/bin/cssmin.py"
-      },
-
-      "shell" :
-      {
-        "command" :
-        [
-          "${CATCMD} ${ROOT}/source/resource/${APPLICATION_CSS} | ${CSSMIN_CMD} > ${BUILD_PATH}/resource/${APPLICATION_CSS}"
-        ]
       }
     }
   }

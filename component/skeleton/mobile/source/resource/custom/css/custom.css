@@ -1,0 +1,9 @@
+/*
+ * This is mock content and will be overwritten with the first 'generate.py source'.
+ */
+.root:before {
+  content: 'Application is unstyled due to missing SCSS to CSS compilation. Please install Sass (http://sass-lang.com/) and run \'generate.py\' in an OS shell.';
+  border: 1px solid chocolate;
+  padding: 5px;
+}
+
