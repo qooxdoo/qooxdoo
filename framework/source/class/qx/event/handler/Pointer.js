@@ -152,7 +152,8 @@ qx.Class.define("qx.event.handler.Pointer",
 
     // overridden
     _onPointerEvent : function(domEvent) {
-      this._fireEvent(domEvent, domEvent.type, qx.bom.Event.getTarget(domEvent));
+      var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type] || domEvent.type;
+      this._fireEvent(domEvent, type, qx.bom.Event.getTarget(domEvent));
     },
 
 
