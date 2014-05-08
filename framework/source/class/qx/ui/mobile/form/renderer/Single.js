@@ -59,15 +59,6 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     _rows : null,
     _labels : null,
 
-
-    _onFormChange : function() {
-      this._disposeArray("_labels");
-      this._disposeArray("_rows");
-      this._rows = [];
-      this._labels = [];
-      this.base(arguments);
-    },
-
     /**
      * A collection of error containers used to keep the error messages
      * resulted after form validation.
@@ -76,14 +67,14 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
     __errorMessageContainers : null,
 
 
-    // override
+    // overridden
     _getTagName : function()
     {
       return "ul";
     },
 
 
-     /**
+    /**
      * Determines whether the given item can be display in one line
      * or whether a separate line for the text label is needed.
      * @param item {qx.ui.mobile.core.Widget} the widget which should be added.
