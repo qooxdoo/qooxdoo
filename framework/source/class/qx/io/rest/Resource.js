@@ -279,7 +279,9 @@ qx.Class.define("qx.io.rest.Resource",
           onloadend: {
             callback: function(req, action) {
               return function() {
-                req.dispose();
+                window.setTimeout(function() {
+                  req.dispose();
+                }, 0);
               };
             },
             context: this
