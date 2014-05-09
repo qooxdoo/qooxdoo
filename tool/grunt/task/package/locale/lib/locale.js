@@ -31,7 +31,7 @@
 //------------------------------------------------------------------------------
 
 // third party
-var cldr = require('cldr');
+var Cldr = require('cldrjs');
 
 // local
 var util = require('./util');
@@ -48,90 +48,47 @@ module.exports = {
    * @returns {Object}
    */
   getTailoredCldrData: function(locale) {
-    // cldr
-    var delimiters = cldr.extractDelimiters(locale);
-    var dateFormats = cldr.extractDateFormats(locale);
-    var dateTimeFormats = cldr.extractDateFormatItems(locale);
-    var timeFormats = cldr.extractTimeFormats(locale);
-    var dayPeriods = cldr.extractDayPeriods(locale);
-    var dayNames = cldr.extractDayNames(locale);
-    var monthNames = cldr.extractMonthNames(locale);
-    var numberSymbols = cldr.extractNumberSymbols(locale);
-    var numberFormats = cldr.extractNumberFormats(locale);
+    Cldr.load(require('../data/cldr/main/'+locale+'/delimiters.json'));
+    Cldr.load(require('../data/cldr/main/'+locale+'/numbers.json'));
+    Cldr.load(require('../data/cldr/main/'+locale+'/ca-gregorian.json'));
+    var cldr = new Cldr(locale);
 
-    // TODO: refactoring: extract method(s) as soon as more
-    // specific data is needed (and not everything at once)
+    var delimiters = cldr.main('delimiters');
+    var dateFormats = cldr.main('dates/calendars/gregorian/dateFormats');
+    var dateTimeFormats = cldr.main('dates/calendars/gregorian/dateTimeFormats/availableFormats');
+    var timeFormats = cldr.main('dates/calendars/gregorian/timeFormats');
+    var dayPeriods = cldr.main('dates/calendars/gregorian/dayPeriods');
+    var dayNames = cldr.main('dates/calendars/gregorian/days');
+    var monthNames = cldr.main('dates/calendars/gregorian/months');
+    var numberSymbols = cldr.main('numbers/symbols-numberSystem-latn');
+    var numberFormatsPercent = cldr.main('numbers/percentFormats-numberSystem-latn/standard');
 
-    // shorthand
-    var weekDays = dayNames.format.wide;
-
-    // temp vars
-    var prefix = '';
-    var format = '';
-    var kind = '';
-
-    // tailored data for loader use
+    // tailored data for loader usage
     var specificDayNames = {};
     var specificMonthNames = {};
     var specificNumberSymbols = {};
     var specificNumberFormats = {};
     var specificDayPeriods = {};
 
-    prefix = "cldr_date_format_";
-    for (format in dateFormats) {
-      util.renameProperty(dateFormats, format, prefix+format);
-    }
+    dateFormats = util.appendPrefixToProperties(dateFormats, 'cldr_date_format_');
+    dateTimeFormats = util.appendPrefixToProperties(dateTimeFormats, 'cldr_date_time_format_');
+    timeFormats = util.appendPrefixToProperties(timeFormats, 'cldr_time_format_');
 
-    prefix = "cldr_date_time_format_";
-    for (format in dateTimeFormats) {
-      util.renameProperty(dateTimeFormats, format, prefix+format);
-    }
+    var dfa = util.appendPrefixToProperties(dayNames.format.abbreviated, 'cldr_day_format_abbreviated_');
+    var dfw = util.appendPrefixToProperties(dayNames.format.wide, 'cldr_day_format_wide_');
+    var dfs = util.appendPrefixToProperties(dayNames.format.short, 'cldr_day_format_short_');
+    var dsn = util.appendPrefixToProperties(dayNames['stand-alone'].narrow, 'cldr_day_stand-alone_narrow_');
+    specificDayNames = util.mergeObject(dfa, dfw, dfs, dsn);
 
-    prefix = "cldr_time_format_";
-    for (format in timeFormats) {
-      util.renameProperty(timeFormats, format, prefix+format);
-    }
-
-    var buildPropName = function(prefix, name) {
-      return (prefix+"_"+name).toLowerCase();
-    };
-
-    dayNames.format.abbreviated.forEach(function(day, i) {
-      var dayShort = util.getWeekDayChars(weekDays, i, 3);
-      specificDayNames[buildPropName("cldr_day_format_abbreviated", dayShort)] = day;
-    });
-
-    dayNames.format.wide.forEach(function(day, i) {
-      var dayShort = util.getWeekDayChars(weekDays, i, 3);
-      specificDayNames[buildPropName("cldr_day_format_wide", dayShort)] = day;
-    });
-
-    dayNames.format.short.forEach(function(day, i) {
-      var dayShort = util.getWeekDayChars(weekDays, i, 3);
-      specificDayNames[buildPropName("cldr_day_format_short", dayShort)] = day;
-    });
-
-    dayNames.standAlone.narrow.forEach(function(day, i) {
-      var dayShort = util.getWeekDayChars(weekDays, i, 3);
-      specificDayNames[buildPropName("cldr_day_stand-alone_narrow", dayShort)] = day;
-    });
-
-    monthNames.format.abbreviated.forEach(function(month, i) {
-      specificMonthNames[buildPropName("cldr_month_format_abbreviated", i+1)] = month;
-    });
-
-    monthNames.format.wide.forEach(function(month, i) {
-      specificMonthNames[buildPropName("cldr_month_format_wide", i+1)] = month;
-    });
-
-    monthNames.standAlone.narrow.forEach(function(month, i) {
-      specificMonthNames[buildPropName("cldr_month_stand-alone_narrow", i+1)] = month;
-    });
+    var mfa = util.appendPrefixToProperties(monthNames.format.abbreviated, 'cldr_month_format_abbreviated_');
+    var mfw = util.appendPrefixToProperties(monthNames.format.wide, 'cldr_month_format_wide_');
+    var msn = util.appendPrefixToProperties(monthNames['stand-alone'].narrow, 'cldr_month_stand-alone_narrow_');
+    specificMonthNames = util.mergeObject(mfa, mfw, msn);
 
     specificNumberSymbols.cldr_number_decimal_separator = numberSymbols.decimal;
     specificNumberSymbols.cldr_number_group_separator = numberSymbols.group;
 
-    specificNumberFormats.cldr_number_percent_format = numberFormats.percent.default;
+    specificNumberFormats.cldr_number_percent_format = numberFormatsPercent;
 
     specificDayPeriods.cldr_pm = dayPeriods.format.abbreviated.pm;
     specificDayPeriods.cldr_am = dayPeriods.format.abbreviated.am;

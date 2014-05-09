@@ -25,7 +25,7 @@ module.exports = {
     done();
   },
 
-  renameProperty: function (test) {
+  renameProperty: function(test) {
     var obj = {'a': 1, 'b': 2};
     var actual = this.util.renameProperty(obj, 'a', 'c');
     var expected = {'c': 1, 'b': 2};
@@ -34,7 +34,7 @@ module.exports = {
     test.done();
   },
 
-  mergeObject: function (test) {
+  mergeObject: function(test) {
     var obj1 = {'a': 2, 'c': 2};
     var obj2 = {'b': 3, 'c': 3};
     var actual = this.util.mergeObject(obj1, obj2);
@@ -44,12 +44,12 @@ module.exports = {
     test.done();
   },
 
-  getWeekDayChars: function (test) {
-    var m = this.util.getWeekDayChars(["Monday", "Tuesday"], 0, 1);
-    var tue = this.util.getWeekDayChars(["Monday", "Tuesday"], 1, 3);
+  appendPrefixToProperties: function(test) {
+    var obj = {'a': 1, 'b': 2};
+    var actual = this.util.appendPrefixToProperties(obj, 'my-prefix_');
+    var expected = {'my-prefix_a': 1, 'my-prefix_b': 2};
 
-    test.deepEqual(tue, "Tue");
-    test.deepEqual(m, "M");
+    test.deepEqual(actual, expected);
     test.done();
   }
 };

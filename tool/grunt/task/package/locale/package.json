@@ -34,7 +34,7 @@
     "stdout": "node test/stdout/stdout.js"
   },
   "dependencies": {
-    "cldr": "~2.2.1"
+    "cldrjs": "~0.3.5"
   },
   "devDependencies": {
     "nodeunit": "~0.8.4",

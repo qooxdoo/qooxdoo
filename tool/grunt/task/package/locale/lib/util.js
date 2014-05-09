@@ -67,17 +67,20 @@ module.exports = {
   },
 
   /**
-   * Gets a specific amount of chars of one week day (e.g. the first three chars of 'Monday' => 'Mon')
+   * Appends the given prefix to all properties (keys) of obj.
    *
-   * @param {string[]} weekDays - could be ['Monday', 'Tuesday', 'Wednesday']
-   * @param {number} dayOfWeekIndex - the desired week day to look at
-   * @param {number} charAmount - the amount of chars to extract
-   * @returns {string}
+   * @param {Object} obj - obj to manipulate
+   * @param {string} prefix - prefix to append
+   * @returns {Object}
    */
-  getWeekDayChars: function(weekDays, dayOfWeekIndex, charAmount) {
-    var validDayOfWeekIndizes = [0, 1, 2, 3, 4, 5, 6];
-    return (validDayOfWeekIndizes.indexOf(dayOfWeekIndex) === -1)
-           ? ""
-           : weekDays[dayOfWeekIndex].substr(0, charAmount);
+  appendPrefixToProperties: function(obj, prefix) {
+    var clonedObj = JSON.parse(JSON.stringify(obj));
+    for (var prop in clonedObj) {
+      renameProperty(clonedObj, prop, prefix+prop);
+    }
+    return clonedObj;
   }
 };
+
+// shortcuts
+var renameProperty = module.exports.renameProperty;
