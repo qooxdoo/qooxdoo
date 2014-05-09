@@ -17,11 +17,39 @@ knowledge of CSS.
 
 If you want to extend or change the qooxdoo mobile themes you should always
 modify the SCSS files (\*.scss) in the folder
-``<APP_ROOT>/source/resource/<APP_NAMESPACE>/mobile/scss``. After you modified
+``<APP_ROOT>/source/resource/<APP_NAMESPACE>/scss``. After you modified
 any SCSS files they have to be compiled into CSS, otherwise you will not see any
 changes.
 
 .. _pages/mobile/theming#scss-compilation:
+
+SCSS Compilation
+================
+
+%{Mobile} uses the official `Sass compiler
+<http://sass-lang.com/install>`_ to leverage the changes you
+make to your application's \*.scss files.
+
+It requires both a `Ruby <http://www.ruby-lang.org/>`_ and `RubyGems
+<http://rubygems.org/>`_ installation on your machine.
+
+You can either invoke it manually through the ``compile-scss`` Generator job
+(which utilizes the ``sass`` command line tool) or by running the
+``watch-scss`` Generator job (see further below). Moreover it is invoked
+automatically during ``build`` and ``source`` runs.
+
+Coming from CSS (... and never heard of Sass and SCSS)?
+=======================================================
+
+Two important points for clarification:
+
+* Valid CSS is also valid SCSS
+
+* If you don't want to install Sass your app will still work but you can only
+  edit the CSS files (\*.css) to adapt the appearance of your app - editing
+  the SCSS files (\*.scss) will have no effect. Furthermore you won't
+  benefit from some of the features promoted here so we strongly recommend
+  using Sass.
 
 SCSS vs. Sass
 =============
@@ -57,21 +85,7 @@ Sass:
         weight: bold
         family: serif
 
-We use the SCSS sytnax throughout.
-
-SCSS Compilation
-================
-
-%{Mobile} uses the offical `Sass compiler
-<http://sass-lang.com/install>`_ to leverage the changes you
-make to your application's \*.scss files.
-
-It requires both a `Ruby <http://www.ruby-lang.org/>`_ and `RubyGems
-<http://rubygems.org/>`_ installation on your machine.
-
-You can either invoke it manually through the ``sass`` command
-line tool or implicitly by running the ``watch-scss`` Generator job
-(see further).
+We use the SCSS syntax throughout.
 
 Watching SCSS files
 ===================
@@ -102,13 +116,14 @@ This is the job configuration of your app-specific ``config.json``:
       "extend" : ["cache"],
       "let" :
       {
-        "QX_MOBILE_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile",
+        "QX_MOBILE_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
         "QX_SHARED_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
         "MOBILE_THEME_PATH" : "source/resource/${APPLICATION}"
       },
       "shell" :
       {
-        "command" : "sass -C -t compressed -I ${MOBILE_THEME_PATH}/scss -I ${QX_MOBILE_THEME_PATH}/scss -I ${QX_SHARED_THEME_PATH} --watch ${MOBILE_THEME_PATH}/scss:${MOBILE_THEME_PATH}/css"
+        "command" : "sass -C -t compressed -I $${QX_MOBILE_THEME_PATH} -I $${QX_SHARED_THEME_PATH} --watch $${MOBILE_RESOURCE_PATH}/scss:$${MOBILE_RESOURCE_PATH}/css",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
       }
     }
 
@@ -136,7 +151,7 @@ You can change the theme used by your qx.Mobile application. Open the file
 
 Assumed you change the value to ``flat``, qx.Mobile creates a link to a stylesheet located in
 
-``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/``
+``<APP_ROOT>/source/resource/<APP_NAME>/css/``
 
 which is named:
 
@@ -169,7 +184,7 @@ For customization, please follow these steps:
     This job re-compiles your theme everytime you save the ``_styles.scss`` file.
 
 2.  Have a look in your application's resource folder:
-    ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/scss/_styles.scss``
+    ``<APP_ROOT>/source/resource/<APP_NAME>/scss/_styles.scss``
 
     This is the key file for customizing the default theme to your needs.
 
@@ -184,7 +199,7 @@ For customization, please follow these steps:
         $navigationbar-background: green;
 
     Your customized theme is compiled automatically by the SCSS watch job to:
-    ``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/custom.css``
+    ``<APP_ROOT>/source/resource/<APP_NAME>/css/custom.css``
 
 4.  Reload your qx.Mobile application and check your changes. The NavigationBar should look
     like this:
@@ -250,7 +265,7 @@ Extending the customized theme with CSS
 In addition to the customization of variables in ``_styles.scss`` you can
 extend the theme with your own CSS rules. In this case you can append your CSS statements to this file:
 
-``<APP_ROOT>/source/resource/<APP_NAME>/mobile/css/custom.scss``
+``<APP_ROOT>/source/resource/<APP_NAME>/css/custom.scss``
 
 As mentioned before, you do not need to be an expert in SCSS for theming.  But
 if you want to know more about this exciting CSS enhancement technology, please

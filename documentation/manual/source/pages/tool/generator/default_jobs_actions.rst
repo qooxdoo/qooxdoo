@@ -93,6 +93,16 @@ Remove local cache and generated .js files (source/build).
 
 .. _pages/tool/generator/generator_default_jobs#dependencies:
 
+compile-scss
+------------
+This job is available in the %{Mobile} skeleton. The *compile-scss* job
+compiles SCSS files to CSS (See the article about :doc:`mobile theming
+</pages/mobile/theming>`). The \*.scss files usually reside in your
+application's ``source/resource/<name_space>/mobile/scss`` folder, and will be
+compiled into the ``css`` sibling folder. This job is run automatically
+during each ``source`` and ``build`` run. See watch-scss_ if you
+want automatic compilations when changing the SCSS files.
+
 dependencies
 ------------
 Create dependency information for the current library which is stored as a Json
@@ -521,8 +531,7 @@ require some extra keys.
 .. _pages/tool/generator/default_jobs_actions#watch:
 
 watch
------------
-
+-----
 The *watch* job watches the *source/class* path of your application for changed
 %{JS} files, and automatically runs the default Generator job (usually
 *"source-hybrid"*) in case of a change. The config key behind it is
@@ -545,9 +554,6 @@ more difficult to maintain cross-platform.
 
 watch-scss
 -----------
-
-*(experimental)*
-
 This job is available in the %{Mobile} skeleton. The *watch-scss* job watches
 SCSS files, and compiles them to CSS once they change (See the article about
 :doc:`mobile theming </pages/mobile/theming>`). The \*.scss files usually reside
