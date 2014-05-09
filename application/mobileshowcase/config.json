@@ -27,7 +27,8 @@
     "translation",
     "validate-config",
     "validate-manifest",
-    "watch"
+    "watch",
+    "watch-scss"
   ],
 
   "default-job" : "source-hybrid",
@@ -179,13 +180,31 @@
       "extend" : ["cache"],
       "let" :
       {
-        "QX_MOBILE_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
-        "QX_SHARED_THEME_PATH" : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
-        "MOBILE_RESOURCE_PATH" : "source/resource/$${APPLICATION}"
+        "QX_MOBILE_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
+        "QX_SHARED_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "MOBILE_RESOURCE_PATH" : "source/resource/${APPLICATION}"
       },
       "shell" :
       {
         "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --update ${MOBILE_RESOURCE_PATH}/scss:${MOBILE_RESOURCE_PATH}/css",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
+      }
+    },
+
+
+    "watch-scss" :
+    {
+      "desc"   : "Watch and compile the theme scss",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "QX_MOBILE_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
+        "QX_SHARED_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "MOBILE_RESOURCE_PATH" : "source/resource/${APPLICATION}"
+      },
+      "shell" :
+      {
+        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --watch ${MOBILE_RESOURCE_PATH}/scss:${MOBILE_RESOURCE_PATH}/css",
         "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
       }
     }
