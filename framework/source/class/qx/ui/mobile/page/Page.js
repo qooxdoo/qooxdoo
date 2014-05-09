@@ -218,6 +218,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
      */
     back : function(triggeredByKeyEvent)
     {
+      qx.core.Init.getApplication().fireDataEvent("back", triggeredByKeyEvent);
       this.fireDataEvent("back", triggeredByKeyEvent);
       var value = this._back(triggeredByKeyEvent);
       return value || false;

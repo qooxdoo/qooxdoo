@@ -44,7 +44,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
     __picker : null,
     __pickerDaySlotData : null,
     __anchorMenu : null,
-    __modalDialogPopup : null,
     __resultsLabel : null,
 
 
@@ -56,30 +55,24 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__resultsLabel = new qx.ui.mobile.basic.Label("No events received so far.");
       var resultsGroup = new qx.ui.mobile.form.Group([this.__resultsLabel]);
 
-      // CLOSING BUTTONS
-      var closeDialogButton1 = new qx.ui.mobile.form.Button("Close Popup");
-      closeDialogButton1.addListener("tap", this._stop, this);
-
-      var closeDialogButton2 = new qx.ui.mobile.form.Button("Close Popup");
-      closeDialogButton2.addListener("tap", this._stop, this);
-
       // EXAMPLE WIDGETS
       var busyIndicator = new qx.ui.mobile.dialog.BusyIndicator("Please wait...");
       this.__busyPopup = new qx.ui.mobile.dialog.Popup(busyIndicator);
 
       // DEFAULT POPUP
-      this.__popup = new qx.ui.mobile.dialog.Popup(closeDialogButton1);
+      this.__popup = new qx.ui.mobile.dialog.Popup();
       this.__popup.setTitle("A Popup");
 
-      // MODAL DIALOG
-      this.__modalDialogPopup = new qx.ui.mobile.dialog.Popup(closeDialogButton2);
-      this.__modalDialogPopup.setModal(true);
-      this.__modalDialogPopup.setTitle("A Modal Popup");
+      var closeDialogButton1 = new qx.ui.mobile.form.Button("Close Popup");
+      closeDialogButton1.addListener("tap", function() {
+        this.__popup.hide();
+      }, this);
+
+      this.__popup.add(closeDialogButton1);
 
       // ANCHOR POPUP
       var showAnchorButton = new qx.ui.mobile.form.Button("Anchor Popup");
       showAnchorButton.addListener("tap", function(e) {
-          this._stop();
           this.__anchorPopup.show();
       }, this);
 
@@ -99,7 +92,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
        // PICKER DIALOG
       var showPickerButton = new qx.ui.mobile.form.Button("Picker");
       showPickerButton.addListener("tap", function(e) {
-          this._stop();
           this.__picker.show();
       }, this);
 
@@ -109,7 +101,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
       // ANCHORED MENU POPUP
       var showAnchorMenuButton = new qx.ui.mobile.form.Button("Anchor Menu");
       showAnchorMenuButton.addListener("tap", function(e) {
-        this._stop();
         this.__anchorMenu.show();
       }, this);
 
@@ -118,15 +109,8 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__anchorMenu.setTitle("Colors");
 
       // BUTTONS
-      var showModalDialogButton = new qx.ui.mobile.form.Button("Modal Popup");
-      showModalDialogButton.addListener("tap", function(e) {
-        this._stop();
-        this.__modalDialogPopup.show();
-      }, this);
-
       var showPopupButton = new qx.ui.mobile.form.Button("Popup");
       showPopupButton.addListener("tap", function(e) {
-        this._stop();
         this.__popup.show();
       }, this);
 
@@ -138,7 +122,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       var showMenuButton = new qx.ui.mobile.form.Button("Menu");
       showMenuButton.addListener("tap", function(e) {
-        this._stop();
         this.__menu.show();
       }, this);
 
@@ -240,7 +223,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
 
     /**
-     * Creates the popup widget to show when backButton is tapped
+     * Creates the anchor popup.
      */
     __createAnchorPopup : function(anchor)
     {
@@ -324,22 +307,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
      */
     __onMenuChangeSelection : function(e) {
        this.__resultsLabel.setValue("Received <b>changeSelection</b> from Menu Dialog. [index: "+ e.getData().index+ "] [item: "+ e.getData().item+"]");
-    },
-
-
-    // overridden
-    _stop : function() {
-      if (!this.__popup) {
-        return;
-      }
-
-      this.__popup.hide();
-      this.__anchorPopup.hide();
-      this.__modalDialogPopup.hide();
-      this.__busyPopup.hide();
-      this.__menu.hide();
-      this.__anchorMenu.hide();
-      this.__picker.hide();
     }
   }
 });

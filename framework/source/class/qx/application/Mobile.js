@@ -42,6 +42,26 @@ qx.Class.define("qx.application.Mobile",
   },
 
 
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** Fired when the method {@link qx.ui.mobile.page.Page#back} is called. Data indicating
+     *  whether the action was triggered by a key event or not.
+     */
+    "back" : "qx.event.type.Data",
+
+
+    /** Fired when a {@link qx.ui.mobile.dialog.Popup popup} appears on screen. */
+    "popup" : "qx.event.type.Event"
+  },
+
+
   /*
   *****************************************************************************
      MEMBERS

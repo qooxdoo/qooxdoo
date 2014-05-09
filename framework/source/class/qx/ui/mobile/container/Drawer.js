@@ -83,7 +83,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
     this.__parent.addListener("swipe", this._onParentSwipe,this);
     this.__parent.addListener("pointerdown", this._onParentPointerDown,this);
-    this.__parent.addListener("back", this.forceHide, this);
+
+    qx.core.Init.getApplication().addListener("back", this.forceHide, this);
 
     this.__pointerStartPosition = [0,0];
 
@@ -540,9 +541,10 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   */
   destruct : function()
   {
+    qx.core.Init.getApplication().removeListener("back", this.forceHide, this);
+    
     this.__parent.removeListener("swipe", this._onParentSwipe, this);
     this.__parent.removeListener("pointerdown", this._onParentPointerDown, this);
-    this.__parent.removeListener("back", this.forceHide, this);
 
     this.__pointerStartPosition = this.__parent = this.__transitionEnabled = null;
   }

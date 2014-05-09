@@ -235,6 +235,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       if (!this.__isShown)
       {
+        qx.core.Init.getApplication().fireEvent("popup");
+
         this.__registerEventListener();
 
         // Move outside of viewport
@@ -382,6 +384,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     __registerEventListener : function()
     {
+      qx.core.Init.getApplication().addListener("back", this.hide, this);
+      qx.core.Init.getApplication().addListener("popup", this.hide, this);
+
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
 
       if(this.__anchor) {
@@ -396,6 +401,9 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     __unregisterEventListener : function()
     {
+      qx.core.Init.getApplication().removeListener("back", this.hide, this);
+      qx.core.Init.getApplication().removeListener("popup", this.hide, this);
+
       qx.event.Registration.removeListener(window, "resize", this._updatePosition, this);
 
       if(this.__anchor) {
