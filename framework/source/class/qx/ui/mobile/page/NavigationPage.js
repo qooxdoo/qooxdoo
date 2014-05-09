@@ -407,7 +407,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      * @param isTablet {Boolean} value of the isTablet flag.
      */
     setIsTablet : function (isTablet) {
-      this._isTablet = isTablet
+      this._isTablet = isTablet;
     },
 
 
