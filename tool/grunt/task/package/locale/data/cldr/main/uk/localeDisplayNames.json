@@ -1,0 +1,271 @@
+{
+  "main": {
+    "uk": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}, {1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "Календар",
+          "colAlternate": "Ігнорувати сортування за символами",
+          "colBackwards": "Зворотне сортування за діактричними знаками",
+          "colCaseFirst": "Упорядкування за великими/малими символами",
+          "colCaseLevel": "Сортування з урахуванням регістру",
+          "colHiraganaQuaternary": "Сортування кана",
+          "colNormalization": "Уніфіковане сортування",
+          "colNumeric": "Цифрове сортування",
+          "colStrength": "Інтенсивність сортування",
+          "collation": "Порядок сортування",
+          "currency": "Валюта",
+          "numbers": "Цифри",
+          "timezone": "Часовий пояс",
+          "va": "Варіант мовного коду",
+          "variableTop": "Сортувати як символи",
+          "x": "Особисте використання"
+        },
+        "types": {
+          "numbers": {
+            "arab": "Арабсько-індійські цифри",
+            "arabext": "Арабсько-індійські розширені цифри",
+            "armn": "Вірменські цифри",
+            "armnlow": "Вірменські малі цифри",
+            "bali": "bali",
+            "beng": "Бенгальські цифри"
+          },
+          "collation": {
+            "big5han": "Китайський традиційний"
+          },
+          "numbers": {
+            "brah": "brah"
+          },
+          "calendar": {
+            "buddhist": "Буддійський календар"
+          },
+          "numbers": {
+            "cakm": "cakm",
+            "cham": "cham"
+          },
+          "calendar": {
+            "chinese": "Китайський календар",
+            "coptic": "Коптський календар",
+            "dangi": "dangi"
+          },
+          "numbers": {
+            "deva": "Цифри деванагарі"
+          },
+          "collation": {
+            "dictionary": "Порядок сортування: за словником",
+            "ducet": "Порядок сортування: Unicode за умовчанням",
+            "eor": "eor"
+          },
+          "numbers": {
+            "ethi": "Ефіопські цифри"
+          },
+          "calendar": {
+            "ethiopic": "Ефіопський календар",
+            "ethiopic-amete-alem": "Ефіопський Амете Алем календар"
+          },
+          "numbers": {
+            "finance": "Фінансові символи чисел",
+            "fullwide": "Цифри повної ширини"
+          },
+          "collation": {
+            "gb2312han": "Китайський спрощений"
+          },
+          "numbers": {
+            "geor": "Грузинські цифри"
+          },
+          "calendar": {
+            "gregorian": "Григоріанський календар"
+          },
+          "numbers": {
+            "grek": "Грецькі цифри",
+            "greklow": "Грецькі малі цифри",
+            "gujr": "Цифри гуджараті",
+            "guru": "Цифри гурмукхі",
+            "hanidec": "Китайські десяткові цифри",
+            "hans": "Китайські символи чисел (спрощене письмо)",
+            "hansfin": "Китайські фінансові символи чисел (спрощене письмо)",
+            "hant": "Китайські символи чисел (традиційне письмо)",
+            "hantfin": "Китайські фінансові символи чисел (традиційне письмо)",
+            "hebr": "Цифри івриту"
+          },
+          "calendar": {
+            "hebrew": "Єврейський календар"
+          },
+          "colStrength": {
+            "identical": "Сортувати всі"
+          },
+          "calendar": {
+            "indian": "Індійський світський календар",
+            "islamic": "Мусульманський календар",
+            "islamic-civil": "Мусульманський світський календар",
+            "islamic-rgsa": "islamic-rgsa",
+            "islamic-tbla": "islamic-tbla",
+            "islamic-umalqura": "islamic-umalqura",
+            "iso8601": "iso8601",
+            "japanese": "Японський календар"
+          },
+          "numbers": {
+            "java": "java",
+            "jpan": "Японські цифри",
+            "jpanfin": "Японські фінансові цифри",
+            "kali": "kali",
+            "khmr": "Кхмерські цифри",
+            "knda": "Цифри каннада",
+            "lana": "lana",
+            "lanatham": "lanatham",
+            "laoo": "Лаоські цифри",
+            "latn": "Західні цифри",
+            "lepc": "lepc",
+            "limb": "limb"
+          },
+          "colCaseFirst": {
+            "lower": "Сортувати спершу за малими символами"
+          },
+          "numbers": {
+            "mlym": "Малаяламські цифри",
+            "mong": "Монгольські цифри",
+            "mtei": "mtei",
+            "mymr": "М’янмські цифри",
+            "mymrshan": "mymrshan",
+            "native": "Місцеві цифри",
+            "nkoo": "nkoo"
+          },
+          "colBackwards": {
+            "no": "Сортувати за діактричними знаками уніфіковано"
+          },
+          "colCaseFirst": {
+            "no": "Сортувати в порядку звичайного регістру"
+          },
+          "colCaseLevel": {
+            "no": "Сортувати без урахування регістру"
+          },
+          "colHiraganaQuaternary": {
+            "no": "Сортувати за кана окремо"
+          },
+          "colNormalization": {
+            "no": "Сортувати без уніфікації"
+          },
+          "colNumeric": {
+            "no": "Сортувати за цифрами окремо"
+          },
+          "colAlternate": {
+            "non-ignorable": "Сортувати за символами"
+          },
+          "numbers": {
+            "olck": "olck",
+            "orya": "Цифри орія",
+            "osma": "osma"
+          },
+          "calendar": {
+            "persian": "Перський календар"
+          },
+          "collation": {
+            "phonebook": "Телефонна книга",
+            "phonetic": "Фонетичний порядок сортування",
+            "pinyin": "Порядок піньїн"
+          },
+          "colStrength": {
+            "primary": "Сортувати лише за основними літерами",
+            "quaternary": "Сортувати за діактричними знаками/регістром/шириною/кана"
+          },
+          "collation": {
+            "reformed": "Порядок сортування: за виправленнями"
+          },
+          "calendar": {
+            "roc": "Китайський григоріанський"
+          },
+          "numbers": {
+            "roman": "Римські цифри",
+            "romanlow": "Римські малі цифри",
+            "saur": "saur"
+          },
+          "collation": {
+            "search": "Універсальний пошук",
+            "searchjl": "Пошук за початковою приголосною хангул"
+          },
+          "colStrength": {
+            "secondary": "Сортувати за діактричними знаками"
+          },
+          "colAlternate": {
+            "shifted": "Сортувати, ігноруючи символи"
+          },
+          "numbers": {
+            "shrd": "shrd",
+            "sora": "sora"
+          },
+          "collation": {
+            "standard": "Стандартний порядок сортування",
+            "stroke": "Порядок натискання клавіш"
+          },
+          "numbers": {
+            "sund": "sund",
+            "takr": "takr",
+            "talu": "talu",
+            "taml": "Тамільські традиційні цифри",
+            "tamldec": "Тамільські цифри",
+            "telu": "Цифри телугу"
+          },
+          "colStrength": {
+            "tertiary": "Сортувати за діактричними знаками/регістром/шириною"
+          },
+          "numbers": {
+            "thai": "Тайські цифри",
+            "tibt": "Тибетські цифри"
+          },
+          "collation": {
+            "traditional": "Традиційний"
+          },
+          "numbers": {
+            "traditional": "Традиційні символи чисел"
+          },
+          "collation": {
+            "unihan": "Порядок сортування: за штрихами в корені"
+          },
+          "colCaseFirst": {
+            "upper": "Сортувати спершу за великими символами"
+          },
+          "numbers": {
+            "vaii": "Цифри ваї"
+          },
+          "colBackwards": {
+            "yes": "Сортувати за діактричними знаками у зворотньому порядку"
+          },
+          "colCaseLevel": {
+            "yes": "Сортувати з урахуванням регістру"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "Сортувати за кана інакше"
+          },
+          "colNormalization": {
+            "yes": "Сортувати за Unicode уніфіковано"
+          },
+          "colNumeric": {
+            "yes": "Сортувати за цифрами чисельно"
+          },
+          "collation": {
+            "zhuyin": "zhuyin"
+          }
+        },
+        "codePatterns": {
+          "language": "Мова: {0}",
+          "script": "Система письма: {0}",
+          "territory": "Територія: {0}"
+        }
+      }
+    }
+  }
+}

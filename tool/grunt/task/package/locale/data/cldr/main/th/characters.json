@@ -1,0 +1,31 @@
+{
+  "main": {
+    "th": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "characters": {
+        "exemplarCharacters": "[\u0E4E \u0E47 \u0E48 \u0E49 \u0E4A \u0E4B \u0E4C \u0E4D ๆ ก ข ฃ ค ฅ ฆ ง จ ฉ ช ซ ฌ ญ ฎ ฏ ฐ ฑ ฒ ณ ด ต ถ ท ธ น บ ป ผ ฝ พ ฟ ภ ม ย ร ฤ ล ฦ ว ศ ษ ส ห ฬ อ ฮ ฯ ะ \u0E31 า ำ \u0E34 \u0E35 \u0E36 \u0E37 \u0E38 \u0E39 \u0E3A เ แ โ ใ ไ ๅ]",
+        "auxiliary": "[\u200B]",
+        "punctuation": "[\\- ‐ – — , \\: ! . … ' ‘ ’ \" “ ” ( ) \\[ \\] @ * / # ′ ″]",
+        "index": "[ก ข ฃ ค ฅ ฆ ง จ ฉ ช ซ ฌ ญ ฎ ฏ ฐ ฑ ฒ ณ ด ต ถ ท ธ น บ ป ผ ฝ พ ฟ ภ ม ย ร ฤ ล ฦ ว ศ ษ ส ห ฬ อ ฮ]",
+        "ellipsis": {
+          "initial": "…{0}",
+          "medial": "{0}…{1}",
+          "final": "{0}…",
+          "word-initial": "… {0}",
+          "word-medial": "{0} … {1}",
+          "word-final": "{0} …"
+        },
+        "moreInformation": "?"
+      }
+    }
+  }
+}

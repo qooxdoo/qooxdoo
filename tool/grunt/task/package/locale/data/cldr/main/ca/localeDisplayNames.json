@@ -1,0 +1,271 @@
+{
+  "main": {
+    "ca": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ca"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}, {1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "calendari",
+          "colAlternate": "Ordenació sense tenir en compte els símbols",
+          "colBackwards": "Ordenació per accents invertida",
+          "colCaseFirst": "Ordenació per majúscules i minúscules",
+          "colCaseLevel": "Ordenació per detecció de majúscules",
+          "colHiraganaQuaternary": "Ordenació per kana",
+          "colNormalization": "Ordenació normalitzada",
+          "colNumeric": "Ordenació numèrica",
+          "colStrength": "Força de l'ordenació",
+          "collation": "ordenació",
+          "currency": "moneda",
+          "numbers": "xifres",
+          "timezone": "Zona horària",
+          "va": "Variant local",
+          "variableTop": "Ordena com a símbols",
+          "x": "ús privat"
+        },
+        "types": {
+          "numbers": {
+            "arab": "dígits àrabs i índics",
+            "arabext": "dígits àrabs i índics ampliats",
+            "armn": "numerals armenis",
+            "armnlow": "numerals armenis en minúscules",
+            "bali": "dígits balinesos",
+            "beng": "dígits bengalins"
+          },
+          "collation": {
+            "big5han": "ordre del xinès tradicional - Big5"
+          },
+          "numbers": {
+            "brah": "brah"
+          },
+          "calendar": {
+            "buddhist": "calendari budista"
+          },
+          "numbers": {
+            "cakm": "cakm",
+            "cham": "dígits txams"
+          },
+          "calendar": {
+            "chinese": "calendari xinès",
+            "coptic": "calendari copte",
+            "dangi": "dangi"
+          },
+          "numbers": {
+            "deva": "dígits devanagaris"
+          },
+          "collation": {
+            "dictionary": "ordenació de diccionari",
+            "ducet": "ordenació Unicode predeterminada",
+            "eor": "normes europees d'ordenació"
+          },
+          "numbers": {
+            "ethi": "numerals etiòpics"
+          },
+          "calendar": {
+            "ethiopic": "calendari etíop",
+            "ethiopic-amete-alem": "calendari etíop amete-alem"
+          },
+          "numbers": {
+            "finance": "Numerals financers",
+            "fullwide": "dígits d'amplada completa"
+          },
+          "collation": {
+            "gb2312han": "ordre del xinès simplificat - GB2312"
+          },
+          "numbers": {
+            "geor": "numerals georgians"
+          },
+          "calendar": {
+            "gregorian": "calendari gregorià"
+          },
+          "numbers": {
+            "grek": "numerals grecs",
+            "greklow": "numerals grecs en minúscules",
+            "gujr": "dígits gujarati",
+            "guru": "dígits gurmukhi",
+            "hanidec": "numerals decimals xinesos",
+            "hans": "numerals xinesos simplificats",
+            "hansfin": "numerals financers xinesos simplificats",
+            "hant": "numerals xinesos tradicionals",
+            "hantfin": "numerals financers xinesos tradicionals",
+            "hebr": "numerals hebreus"
+          },
+          "calendar": {
+            "hebrew": "calendari hebreu"
+          },
+          "colStrength": {
+            "identical": "Ordena-ho tot"
+          },
+          "calendar": {
+            "indian": "calendari hindú",
+            "islamic": "calendari musulmà",
+            "islamic-civil": "calendari civil islàmic",
+            "islamic-rgsa": "islamic-rgsa",
+            "islamic-tbla": "islamic-tbla",
+            "islamic-umalqura": "islamic-umalqura",
+            "iso8601": "iso8601",
+            "japanese": "calendari japonès"
+          },
+          "numbers": {
+            "java": "dígits javanesos",
+            "jpan": "numerals japonesos",
+            "jpanfin": "numerals financers japonesos",
+            "kali": "dígits kayah",
+            "khmr": "dígits khmer",
+            "knda": "dígits kannada",
+            "lana": "dígits tai tham hora",
+            "lanatham": "dígits tai tham tham",
+            "laoo": "dígits lao",
+            "latn": "dígits aràbics",
+            "lepc": "dígits lepcha",
+            "limb": "dígits limbu"
+          },
+          "colCaseFirst": {
+            "lower": "Mostra primer les minúscules"
+          },
+          "numbers": {
+            "mlym": "dígits malaiàlam",
+            "mong": "dígits mongols",
+            "mtei": "dígits meitei mayek",
+            "mymr": "dígits de Myanmar",
+            "mymrshan": "dígits shan de Myanmar",
+            "native": "Dígits natius",
+            "nkoo": "dígits n'ko"
+          },
+          "colBackwards": {
+            "no": "Ordena els accents de manera normal"
+          },
+          "colCaseFirst": {
+            "no": "Ordena per tipus de lletra normal"
+          },
+          "colCaseLevel": {
+            "no": "Ordena sense distingir majúscules i minúscules"
+          },
+          "colHiraganaQuaternary": {
+            "no": "Ordena els caràcters kana de manera independent"
+          },
+          "colNormalization": {
+            "no": "Ordena sense normalització"
+          },
+          "colNumeric": {
+            "no": "Ordena els dígits individualment"
+          },
+          "colAlternate": {
+            "non-ignorable": "Ordena els símbols"
+          },
+          "numbers": {
+            "olck": "dígits ol chiki",
+            "orya": "dígits oriya",
+            "osma": "osma"
+          },
+          "calendar": {
+            "persian": "calendari persa"
+          },
+          "collation": {
+            "phonebook": "ordre de la guia telefònica",
+            "phonetic": "Ordenació fonètica",
+            "pinyin": "ordre pinyin"
+          },
+          "colStrength": {
+            "primary": "Ordena només les lletres de base",
+            "quaternary": "Ordena per accents/majúscules/amplada/kana"
+          },
+          "collation": {
+            "reformed": "ordenació reformada"
+          },
+          "calendar": {
+            "roc": "calendari de la República de Xina"
+          },
+          "numbers": {
+            "roman": "numerals romans",
+            "romanlow": "numerals romans en minúscules",
+            "saur": "dígits saurashtra"
+          },
+          "collation": {
+            "search": "cerca de propòsit general",
+            "searchjl": "cerca per consonant inicial del hangul"
+          },
+          "colStrength": {
+            "secondary": "Ordena els accents"
+          },
+          "colAlternate": {
+            "shifted": "Ordena sense tenir en compte els símbols"
+          },
+          "numbers": {
+            "shrd": "shrd",
+            "sora": "sora"
+          },
+          "collation": {
+            "standard": "ordenació estàndard",
+            "stroke": "ordre dels traços"
+          },
+          "numbers": {
+            "sund": "dígits sudanesos",
+            "takr": "takr",
+            "talu": "dígits tai lue nous",
+            "taml": "numerals tamils tradicionals",
+            "tamldec": "dígits tamils",
+            "telu": "dígits telugu"
+          },
+          "colStrength": {
+            "tertiary": "Ordena per accent/majúscules/amplada"
+          },
+          "numbers": {
+            "thai": "dígits thai",
+            "tibt": "dígits tibetans"
+          },
+          "collation": {
+            "traditional": "ordre tradicional"
+          },
+          "numbers": {
+            "traditional": "Numerals tradicionals"
+          },
+          "collation": {
+            "unihan": "ordenació per quantitat de traços radicals"
+          },
+          "colCaseFirst": {
+            "upper": "Ordena amb majúscules primer"
+          },
+          "numbers": {
+            "vaii": "dígits vai"
+          },
+          "colBackwards": {
+            "yes": "Ordena amb ordre invers dels accents"
+          },
+          "colCaseLevel": {
+            "yes": "Ordena amb detecció de majúscules i minúscules"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "Ordena els caràcters kana de manera diferent"
+          },
+          "colNormalization": {
+            "yes": "Ordena per caràcters Unicode normalitzats"
+          },
+          "colNumeric": {
+            "yes": "Ordena els dígits numèricament"
+          },
+          "collation": {
+            "zhuyin": "zhuyin"
+          }
+        },
+        "codePatterns": {
+          "language": "Idioma: {0}",
+          "script": "Escriptura: {0}",
+          "territory": "Regió: {0}"
+        }
+      }
+    }
+  }
+}

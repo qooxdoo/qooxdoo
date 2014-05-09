@@ -1,0 +1,159 @@
+{
+  "main": {
+    "fr": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "fr"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "ère"
+          },
+          "year": {
+            "displayName": "année",
+            "relative-type--1": "l’année dernière",
+            "relative-type-0": "cette année",
+            "relative-type-1": "l’année prochaine",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "dans {0} an",
+              "relativeTimePattern-count-other": "dans {0} ans"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "il y a {0} an",
+              "relativeTimePattern-count-other": "il y a {0} ans"
+            }
+          },
+          "month": {
+            "displayName": "mois",
+            "relative-type--1": "le mois dernier",
+            "relative-type-0": "ce mois-ci",
+            "relative-type-1": "le mois prochain",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "dans {0} mois",
+              "relativeTimePattern-count-other": "dans {0} mois"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "il y a {0} mois",
+              "relativeTimePattern-count-other": "il y a {0} mois"
+            }
+          },
+          "week": {
+            "displayName": "semaine",
+            "relative-type--1": "la semaine dernière",
+            "relative-type-0": "cette semaine",
+            "relative-type-1": "la semaine prochaine",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "dans {0} semaine",
+              "relativeTimePattern-count-other": "dans {0} semaines"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "il y a {0} semaine",
+              "relativeTimePattern-count-other": "il y a {0} semaines"
+            }
+          },
+          "day": {
+            "displayName": "jour",
+            "relative-type--1": "hier",
+            "relative-type--2": "avant-hier",
+            "relative-type-0": "aujourd’hui",
+            "relative-type-1": "demain",
+            "relative-type-2": "après-demain",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "dans {0} jour",
+              "relativeTimePattern-count-other": "dans {0} jours"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "il y a {0} jour",
+              "relativeTimePattern-count-other": "il y a {0} jours"
+            }
+          },
+          "weekday": {
+            "displayName": "jour de la semaine"
+          },
+          "sun": {
+            "relative-type--1": "dimanche dernier",
+            "relative-type-0": "ce dimanche",
+            "relative-type-1": "dimanche prochain"
+          },
+          "mon": {
+            "relative-type--1": "lundi dernier",
+            "relative-type-0": "ce lundi",
+            "relative-type-1": "lundi prochain"
+          },
+          "tue": {
+            "relative-type--1": "mardi dernier",
+            "relative-type-0": "ce mardi",
+            "relative-type-1": "mardi prochain"
+          },
+          "wed": {
+            "relative-type--1": "mercredi dernier",
+            "relative-type-0": "ce mercredi",
+            "relative-type-1": "mercredi prochain"
+          },
+          "thu": {
+            "relative-type--1": "jeudi dernier",
+            "relative-type-0": "ce jeudi",
+            "relative-type-1": "jeudi prochain"
+          },
+          "fri": {
+            "relative-type--1": "vendredi dernier",
+            "relative-type-0": "ce vendredi",
+            "relative-type-1": "vendredi prochain"
+          },
+          "sat": {
+            "relative-type--1": "samedi dernier",
+            "relative-type-0": "ce samedi",
+            "relative-type-1": "samedi prochain"
+          },
+          "dayperiod": {
+            "displayName": "cadran"
+          },
+          "hour": {
+            "displayName": "heure",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "dans {0} heure",
+              "relativeTimePattern-count-other": "dans {0} heures"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "il y a {0} heure",
+              "relativeTimePattern-count-other": "il y a {0} heures"
+            }
+          },
+          "minute": {
+            "displayName": "minute",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "dans {0} minute",
+              "relativeTimePattern-count-other": "dans {0} minutes"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "il y a {0} minute",
+              "relativeTimePattern-count-other": "il y a {0} minutes"
+            }
+          },
+          "second": {
+            "displayName": "seconde",
+            "relative-type-0": "maintenant",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "dans {0} seconde",
+              "relativeTimePattern-count-other": "dans {0} secondes"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "il y a {0} seconde",
+              "relativeTimePattern-count-other": "il y a {0} secondes"
+            }
+          },
+          "zone": {
+            "displayName": "fuseau horaire"
+          }
+        }
+      }
+    }
+  }
+}

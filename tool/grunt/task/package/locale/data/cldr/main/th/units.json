@@ -1,0 +1,456 @@
+{
+  "main": {
+    "th": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "units": {
+        "long": {
+          "per": {
+            "compoundUnitPattern": "{0}ต่อ{1}"
+          },
+          "acceleration-g-force": {
+            "unitPattern-count-other": "{0} แรง G"
+          },
+          "angle-arc-minute": {
+            "unitPattern-count-other": "{0} นาที"
+          },
+          "angle-arc-second": {
+            "unitPattern-count-other": "{0} วินาที"
+          },
+          "angle-degree": {
+            "unitPattern-count-other": "{0} องศา"
+          },
+          "area-acre": {
+            "unitPattern-count-other": "{0} เอเคอร์"
+          },
+          "area-hectare": {
+            "unitPattern-count-other": "{0} เฮกตาร์"
+          },
+          "area-square-foot": {
+            "unitPattern-count-other": "{0} ตารางฟุต"
+          },
+          "area-square-kilometer": {
+            "unitPattern-count-other": "{0} ตารางกิโลเมตร"
+          },
+          "area-square-meter": {
+            "unitPattern-count-other": "{0} ตารางเมตร"
+          },
+          "area-square-mile": {
+            "unitPattern-count-other": "{0} ตารางไมล์"
+          },
+          "duration-day": {
+            "unitPattern-count-other": "{0} วัน"
+          },
+          "duration-hour": {
+            "unitPattern-count-other": "{0} ชั่วโมง"
+          },
+          "duration-millisecond": {
+            "unitPattern-count-other": "{0} มิลลิวินาที"
+          },
+          "duration-minute": {
+            "unitPattern-count-other": "{0} นาที"
+          },
+          "duration-month": {
+            "unitPattern-count-other": "{0} เดือน"
+          },
+          "duration-second": {
+            "unitPattern-count-other": "{0} วินาที"
+          },
+          "duration-week": {
+            "unitPattern-count-other": "{0} สัปดาห์"
+          },
+          "duration-year": {
+            "unitPattern-count-other": "{0} ปี"
+          },
+          "length-centimeter": {
+            "unitPattern-count-other": "{0} เซนติเมตร"
+          },
+          "length-foot": {
+            "unitPattern-count-other": "{0} ฟุต"
+          },
+          "length-inch": {
+            "unitPattern-count-other": "{0} นิ้ว"
+          },
+          "length-kilometer": {
+            "unitPattern-count-other": "{0} กิโลเมตร"
+          },
+          "length-light-year": {
+            "unitPattern-count-other": "{0} ปีแสง"
+          },
+          "length-meter": {
+            "unitPattern-count-other": "{0} เมตร"
+          },
+          "length-mile": {
+            "unitPattern-count-other": "{0} ไมล์"
+          },
+          "length-millimeter": {
+            "unitPattern-count-other": "{0} มิลลิเมตร"
+          },
+          "length-picometer": {
+            "unitPattern-count-other": "{0} พิโกเมตร"
+          },
+          "length-yard": {
+            "unitPattern-count-other": "{0} หลา"
+          },
+          "mass-gram": {
+            "unitPattern-count-other": "{0} กรัม"
+          },
+          "mass-kilogram": {
+            "unitPattern-count-other": "{0} กิโลกรัม"
+          },
+          "mass-ounce": {
+            "unitPattern-count-other": "{0} ออนซ์"
+          },
+          "mass-pound": {
+            "unitPattern-count-other": "{0} ปอนด์"
+          },
+          "power-horsepower": {
+            "unitPattern-count-other": "{0} แรงม้า"
+          },
+          "power-kilowatt": {
+            "unitPattern-count-other": "{0} กิโลวัตต์"
+          },
+          "power-watt": {
+            "unitPattern-count-other": "{0} วัตต์"
+          },
+          "pressure-hectopascal": {
+            "unitPattern-count-other": "{0} เฮกโตปาสกาล"
+          },
+          "pressure-inch-hg": {
+            "unitPattern-count-other": "{0} นิ้วปรอท"
+          },
+          "pressure-millibar": {
+            "unitPattern-count-other": "{0} มิลลิบาร์"
+          },
+          "speed-kilometer-per-hour": {
+            "unitPattern-count-other": "{0} กิโลเมตรต่อชั่วโมง"
+          },
+          "speed-meter-per-second": {
+            "unitPattern-count-other": "{0} เมตรต่อวินาที"
+          },
+          "speed-mile-per-hour": {
+            "unitPattern-count-other": "{0} ไมล์ต่อชั่วโมง"
+          },
+          "temperature-celsius": {
+            "unitPattern-count-other": "{0} องศาเซลเซียส"
+          },
+          "temperature-fahrenheit": {
+            "unitPattern-count-other": "{0} องศาฟาเรนไฮต์"
+          },
+          "volume-cubic-kilometer": {
+            "unitPattern-count-other": "{0} ลูกบาศก์กิโลเมตร"
+          },
+          "volume-cubic-mile": {
+            "unitPattern-count-other": "{0} ลูกบาศก์ไมล์"
+          },
+          "volume-liter": {
+            "unitPattern-count-other": "{0} ลิตร"
+          }
+        },
+        "short": {
+          "per": {
+            "compoundUnitPattern": "{0}/{1}"
+          },
+          "acceleration-g-force": {
+            "unitPattern-count-other": "{0} G"
+          },
+          "angle-arc-minute": {
+            "unitPattern-count-other": "{0} นาที"
+          },
+          "angle-arc-second": {
+            "unitPattern-count-other": "{0} วิ"
+          },
+          "angle-degree": {
+            "unitPattern-count-other": "{0}°"
+          },
+          "area-acre": {
+            "unitPattern-count-other": "{0} เอเคอร์"
+          },
+          "area-hectare": {
+            "unitPattern-count-other": "{0} เฮกตาร์"
+          },
+          "area-square-foot": {
+            "unitPattern-count-other": "{0} ตร.ฟุต"
+          },
+          "area-square-kilometer": {
+            "unitPattern-count-other": "{0} ตร.กม."
+          },
+          "area-square-meter": {
+            "unitPattern-count-other": "{0} ตร.ม."
+          },
+          "area-square-mile": {
+            "unitPattern-count-other": "{0} ตร.ไมล์"
+          },
+          "duration-day": {
+            "unitPattern-count-other": "{0} วัน"
+          },
+          "duration-hour": {
+            "unitPattern-count-other": "{0} ชม."
+          },
+          "duration-millisecond": {
+            "unitPattern-count-other": "{0} มิลลิวินาที"
+          },
+          "duration-minute": {
+            "unitPattern-count-other": "{0} นาที"
+          },
+          "duration-month": {
+            "unitPattern-count-other": "{0} เดือน"
+          },
+          "duration-second": {
+            "unitPattern-count-other": "{0} วิ"
+          },
+          "duration-week": {
+            "unitPattern-count-other": "{0} สัปดาห์"
+          },
+          "duration-year": {
+            "unitPattern-count-other": "{0} ปี"
+          },
+          "length-centimeter": {
+            "unitPattern-count-other": "{0} ซม."
+          },
+          "length-foot": {
+            "unitPattern-count-other": "{0} ฟุต"
+          },
+          "length-inch": {
+            "unitPattern-count-other": "{0} นิ้ว"
+          },
+          "length-kilometer": {
+            "unitPattern-count-other": "{0} กม."
+          },
+          "length-light-year": {
+            "unitPattern-count-other": "{0} ปีแสง"
+          },
+          "length-meter": {
+            "unitPattern-count-other": "{0} ม."
+          },
+          "length-mile": {
+            "unitPattern-count-other": "{0} ไมล์"
+          },
+          "length-millimeter": {
+            "unitPattern-count-other": "{0} มม."
+          },
+          "length-picometer": {
+            "unitPattern-count-other": "{0} พิโกเมตร"
+          },
+          "length-yard": {
+            "unitPattern-count-other": "{0} หลา"
+          },
+          "mass-gram": {
+            "unitPattern-count-other": "{0} ก."
+          },
+          "mass-kilogram": {
+            "unitPattern-count-other": "{0} กก."
+          },
+          "mass-ounce": {
+            "unitPattern-count-other": "{0} ออนซ์"
+          },
+          "mass-pound": {
+            "unitPattern-count-other": "{0} ปอนด์"
+          },
+          "power-horsepower": {
+            "unitPattern-count-other": "{0} แรงม้า"
+          },
+          "power-kilowatt": {
+            "unitPattern-count-other": "{0} กิโลวัตต์"
+          },
+          "power-watt": {
+            "unitPattern-count-other": "{0} วัตต์"
+          },
+          "pressure-hectopascal": {
+            "unitPattern-count-other": "{0} เฮกโตปาสกาล"
+          },
+          "pressure-inch-hg": {
+            "unitPattern-count-other": "{0} นิ้วปรอท"
+          },
+          "pressure-millibar": {
+            "unitPattern-count-other": "{0} มิลลิบาร์"
+          },
+          "speed-kilometer-per-hour": {
+            "unitPattern-count-other": "{0} กม./ชม."
+          },
+          "speed-meter-per-second": {
+            "unitPattern-count-other": "{0} ม./วิ"
+          },
+          "speed-mile-per-hour": {
+            "unitPattern-count-other": "{0} ไมล์/ชม."
+          },
+          "temperature-celsius": {
+            "unitPattern-count-other": "{0}°C"
+          },
+          "temperature-fahrenheit": {
+            "unitPattern-count-other": "{0}°F"
+          },
+          "volume-cubic-kilometer": {
+            "unitPattern-count-other": "{0} ลบ.กม."
+          },
+          "volume-cubic-mile": {
+            "unitPattern-count-other": "{0} ลบ.ไมล์"
+          },
+          "volume-liter": {
+            "unitPattern-count-other": "{0} ลิตร"
+          }
+        },
+        "narrow": {
+          "per": {
+            "compoundUnitPattern": "{0}/{1}"
+          },
+          "acceleration-g-force": {
+            "unitPattern-count-other": "{0}G"
+          },
+          "angle-arc-minute": {
+            "unitPattern-count-other": "{0}นาที"
+          },
+          "angle-arc-second": {
+            "unitPattern-count-other": "{0}วิ"
+          },
+          "angle-degree": {
+            "unitPattern-count-other": "{0}°"
+          },
+          "area-acre": {
+            "unitPattern-count-other": "{0}เอเคอร์"
+          },
+          "area-hectare": {
+            "unitPattern-count-other": "{0}เฮกตาร์"
+          },
+          "area-square-foot": {
+            "unitPattern-count-other": "{0}ตร.ฟุต"
+          },
+          "area-square-kilometer": {
+            "unitPattern-count-other": "{0}ตร.กม."
+          },
+          "area-square-meter": {
+            "unitPattern-count-other": "{0}ตร.ม."
+          },
+          "area-square-mile": {
+            "unitPattern-count-other": "{0}ตร.ไมล์"
+          },
+          "duration-day": {
+            "unitPattern-count-other": "{0}วัน"
+          },
+          "duration-hour": {
+            "unitPattern-count-other": "{0}ชม."
+          },
+          "duration-millisecond": {
+            "unitPattern-count-other": "{0} มิลลิวิ"
+          },
+          "duration-minute": {
+            "unitPattern-count-other": "{0}นาที"
+          },
+          "duration-month": {
+            "unitPattern-count-other": "{0}เดือน"
+          },
+          "duration-second": {
+            "unitPattern-count-other": "{0}วิ"
+          },
+          "duration-week": {
+            "unitPattern-count-other": "{0}สัปดาห์"
+          },
+          "duration-year": {
+            "unitPattern-count-other": "{0}ปี"
+          },
+          "length-centimeter": {
+            "unitPattern-count-other": "{0}ซม."
+          },
+          "length-foot": {
+            "unitPattern-count-other": "{0}′"
+          },
+          "length-inch": {
+            "unitPattern-count-other": "{0}″"
+          },
+          "length-kilometer": {
+            "unitPattern-count-other": "{0}กม."
+          },
+          "length-light-year": {
+            "unitPattern-count-other": "{0}ปีแสง"
+          },
+          "length-meter": {
+            "unitPattern-count-other": "{0}ม."
+          },
+          "length-mile": {
+            "unitPattern-count-other": "{0}ไมล์"
+          },
+          "length-millimeter": {
+            "unitPattern-count-other": "{0}มม."
+          },
+          "length-picometer": {
+            "unitPattern-count-other": "{0}พิโกเมตร"
+          },
+          "length-yard": {
+            "unitPattern-count-other": "{0}หลา"
+          },
+          "mass-gram": {
+            "unitPattern-count-other": "{0}ก."
+          },
+          "mass-kilogram": {
+            "unitPattern-count-other": "{0}กก."
+          },
+          "mass-ounce": {
+            "unitPattern-count-other": "{0}ออนซ์"
+          },
+          "mass-pound": {
+            "unitPattern-count-other": "{0}#"
+          },
+          "power-horsepower": {
+            "unitPattern-count-other": "{0}แรงม้า"
+          },
+          "power-kilowatt": {
+            "unitPattern-count-other": "{0}กิโลวัตต์"
+          },
+          "power-watt": {
+            "unitPattern-count-other": "{0}วัตต์"
+          },
+          "pressure-hectopascal": {
+            "unitPattern-count-other": "{0}hPa"
+          },
+          "pressure-inch-hg": {
+            "unitPattern-count-other": "{0}\" Hg"
+          },
+          "pressure-millibar": {
+            "unitPattern-count-other": "{0}มิลลิบาร์"
+          },
+          "speed-kilometer-per-hour": {
+            "unitPattern-count-other": "{0}กม./ชม."
+          },
+          "speed-meter-per-second": {
+            "unitPattern-count-other": "{0}ม./วิ"
+          },
+          "speed-mile-per-hour": {
+            "unitPattern-count-other": "{0}ไมล์/ชม."
+          },
+          "temperature-celsius": {
+            "unitPattern-count-other": "{0}°"
+          },
+          "temperature-fahrenheit": {
+            "unitPattern-count-other": "{0}°F"
+          },
+          "volume-cubic-kilometer": {
+            "unitPattern-count-other": "{0}ลบ.กม."
+          },
+          "volume-cubic-mile": {
+            "unitPattern-count-other": "{0}ลบ.ไมล์"
+          },
+          "volume-liter": {
+            "unitPattern-count-other": "{0}ลิตร"
+          }
+        },
+        "durationUnit-type-hm": {
+          "durationUnitPattern": "h:mm"
+        },
+        "durationUnit-type-hms": {
+          "durationUnitPattern": "h:mm:ss"
+        },
+        "durationUnit-type-ms": {
+          "durationUnitPattern": "m:ss"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "main": {
+    "tr": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "localeDisplayNames": {
+        "variants": {
+          "1606NICT": "1606'ya Dek Geç Ortaçağ Fransızcası",
+          "1694ACAD": "Erken Modern Fransızca",
+          "1901": "Geleneksel Almanca Yazım Kuralları",
+          "1959ACAD": "Akademik",
+          "1994": "Standart Resia Yazım Kuralları",
+          "1996": "1996 Almanca Yazım Kuralları",
+          "ALALC97": "ALALC97",
+          "ALUKU": "ALUKU",
+          "AREVELA": "Doğu Ermenicesi",
+          "AREVMDA": "Batı Ermenicesi",
+          "BAKU1926": "Birleştirilmiş Yeni Türk Alfabesi",
+          "BALANKA": "BALANKA",
+          "BARLA": "BARLA",
+          "BAUDDHA": "BAUDDHA",
+          "BISCAYAN": "BISCAYAN",
+          "BISKE": "San Giorgio/Bila Lehçesi",
+          "BOHORIC": "BOHORIC",
+          "BOONT": "Boontling",
+          "DAJNKO": "DAJNKO",
+          "EKAVSK": "EKAVSK",
+          "EMODENG": "EMODENG",
+          "FONIPA": "IPA Ses Bilimi",
+          "FONUPA": "UPA Ses Bilimi",
+          "FONXSAMP": "FONXSAMP",
+          "HEPBURN": "HEPBURN",
+          "HOGNORSK": "HOGNORSK",
+          "IJEKAVSK": "IJEKAVSK",
+          "ITIHASA": "ITIHASA",
+          "JAUER": "JAUER",
+          "JYUTPING": "JYUTPING",
+          "KKCOR": "Ortak Yazım Kuralları",
+          "KSCOR": "KSCOR",
+          "LAUKIKA": "LAUKIKA",
+          "LIPAW": "Resia Lipovaz Lehçesi",
+          "LUNA1918": "LUNA1918",
+          "METELKO": "METELKO",
+          "MONOTON": "Monotonik",
+          "NDYUKA": "NDYUKA",
+          "NEDIS": "Natisone Lehçesi",
+          "NJIVA": "Gniva/Njiva Lehçesi",
+          "NULIK": "NULIK",
+          "OSOJS": "Oseacco/Osojane Lehçesi",
+          "PAMAKA": "PAMAKA",
+          "PETR1708": "PETR1708",
+          "PINYIN": "Pinyin (Latin Alfabesinde Yazımı)",
+          "POLYTON": "Politonik",
+          "POSIX": "Bilgisayar",
+          "PUTER": "PUTER",
+          "REVISED": "Gözden Geçirilmiş Yazım Kuralları",
+          "RIGIK": "RIGIK",
+          "ROZAJ": "Resia Lehçesi",
+          "RUMGR": "RUMGR",
+          "SAAHO": "Saho",
+          "SCOTLAND": "Standart İskoç İngilizcesi",
+          "SCOUSE": "Scouse",
+          "SOLBA": "Stolvizza/Solbica Lehçesi",
+          "SOTAV": "SOTAV",
+          "SURMIRAN": "SURMIRAN",
+          "SURSILV": "SURSILV",
+          "SUTSILV": "SUTSILV",
+          "TARASK": "Taraskievica Yazım Kuralları",
+          "UCCOR": "Birleştirilmiş Yazım Kuralları",
+          "UCRCOR": "Gözden Geçirilmiş Birleştirilmiş Yazım Kuralları",
+          "ULSTER": "ULSTER",
+          "UNIFON": "UNIFON",
+          "VAIDIKA": "VAIDIKA",
+          "VALENCIA": "Valensiyaca",
+          "VALLADER": "VALLADER",
+          "WADEGILE": "Wade-Giles (Latin Alfabesinde Yazımı)"
+        }
+      }
+    }
+  }
+}

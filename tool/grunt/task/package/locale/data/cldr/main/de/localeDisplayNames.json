@@ -1,0 +1,271 @@
+{
+  "main": {
+    "de": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "de"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}, {1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "Kalender",
+          "colAlternate": "Sortierung ohne Symbole",
+          "colBackwards": "Umgekehrte Sortierung von Akzenten",
+          "colCaseFirst": "Sortierung nach Groß- bzw. Kleinbuchstaben",
+          "colCaseLevel": "Sortierung nach Groß- oder Kleinschreibung",
+          "colHiraganaQuaternary": "Kana-Sortierung",
+          "colNormalization": "Normierte Sortierung",
+          "colNumeric": "Sortierung nach Zahlen",
+          "colStrength": "Sortierstärke",
+          "collation": "Sortierung",
+          "currency": "Währung",
+          "numbers": "Zahlen",
+          "timezone": "Zeitzone",
+          "va": "Lokale Variante",
+          "variableTop": "Nach Symbolen sortieren",
+          "x": "Privatnutzung"
+        },
+        "types": {
+          "numbers": {
+            "arab": "Arabisch-indische Ziffern",
+            "arabext": "Erweiterte arabisch-indische Ziffern",
+            "armn": "Armenische Ziffern",
+            "armnlow": "Armenische Ziffern in Kleinschrift",
+            "bali": "bali",
+            "beng": "Bengalische Ziffern"
+          },
+          "collation": {
+            "big5han": "Traditionelles Chinesisch - Big5"
+          },
+          "numbers": {
+            "brah": "brah"
+          },
+          "calendar": {
+            "buddhist": "Buddhistischer Kalender"
+          },
+          "numbers": {
+            "cakm": "cakm",
+            "cham": "cham"
+          },
+          "calendar": {
+            "chinese": "Chinesischer Kalender",
+            "coptic": "Koptischer Kalender",
+            "dangi": "Dangi Kalender"
+          },
+          "numbers": {
+            "deva": "Devanagari-Ziffern"
+          },
+          "collation": {
+            "dictionary": "Lexikographische Sortierreihenfolge",
+            "ducet": "Unicode-Sortierung",
+            "eor": "Sortierreihenfolge für mehrsprachige europäische Dokumente"
+          },
+          "numbers": {
+            "ethi": "Äthiopische Ziffern"
+          },
+          "calendar": {
+            "ethiopic": "Äthiopischer Kalender",
+            "ethiopic-amete-alem": "Äthiopischer Kalender \"Amete Alem\""
+          },
+          "numbers": {
+            "finance": "Finanzzahlen",
+            "fullwide": "Vollbreite Ziffern"
+          },
+          "collation": {
+            "gb2312han": "Vereinfachtes Chinesisch - GB2312"
+          },
+          "numbers": {
+            "geor": "Georgische Ziffern"
+          },
+          "calendar": {
+            "gregorian": "Gregorianischer Kalender"
+          },
+          "numbers": {
+            "grek": "Griechische Ziffern",
+            "greklow": "Griechische Ziffern in Kleinschrift",
+            "gujr": "Gujarati-Ziffern",
+            "guru": "Gurmukhi-Ziffern",
+            "hanidec": "Chinesische Dezimalzahlen",
+            "hans": "Vereinfacht-chinesische Ziffern",
+            "hansfin": "Vereinfacht-chinesische Finanzziffern",
+            "hant": "Traditionell-chinesische Ziffern",
+            "hantfin": "Traditionell-chinesische Finanzziffern",
+            "hebr": "Hebräische Ziffern"
+          },
+          "calendar": {
+            "hebrew": "Hebräischer Kalender"
+          },
+          "colStrength": {
+            "identical": "Alle sortieren"
+          },
+          "calendar": {
+            "indian": "Indischer Nationalkalender",
+            "islamic": "Islamischer Kalender",
+            "islamic-civil": "Bürgerlicher islamischer Kalender",
+            "islamic-rgsa": "islamic-rgsa",
+            "islamic-tbla": "islamic-tbla",
+            "islamic-umalqura": "islamic-umalqura",
+            "iso8601": "iso8601",
+            "japanese": "Japanischer Kalender"
+          },
+          "numbers": {
+            "java": "java",
+            "jpan": "Japanische Ziffern",
+            "jpanfin": "Japanische Finanzziffern",
+            "kali": "kali",
+            "khmr": "Khmer-Ziffern",
+            "knda": "Kannada-Ziffern",
+            "lana": "lana",
+            "lanatham": "lanatham",
+            "laoo": "Laotische Ziffern",
+            "latn": "Westliche Ziffern",
+            "lepc": "lepc",
+            "limb": "limb"
+          },
+          "colCaseFirst": {
+            "lower": "Kleinbuchstaben zuerst aufführen"
+          },
+          "numbers": {
+            "mlym": "Malayalam-Ziffern",
+            "mong": "Mongolische Ziffern",
+            "mtei": "mtei",
+            "mymr": "Myanmar-Ziffern",
+            "mymrshan": "mymrshan",
+            "native": "Native Ziffern",
+            "nkoo": "nkoo"
+          },
+          "colBackwards": {
+            "no": "Akzente normal sortieren"
+          },
+          "colCaseFirst": {
+            "no": "Normal sortieren"
+          },
+          "colCaseLevel": {
+            "no": "Nach Groß-/Kleinschreibung sortieren"
+          },
+          "colHiraganaQuaternary": {
+            "no": "Kana separat sortieren"
+          },
+          "colNormalization": {
+            "no": "Ohne Normierung sortieren"
+          },
+          "colNumeric": {
+            "no": "Ziffern einzeln sortieren"
+          },
+          "colAlternate": {
+            "non-ignorable": "Symbole sortieren"
+          },
+          "numbers": {
+            "olck": "olck",
+            "orya": "Oriya-Ziffern",
+            "osma": "osma"
+          },
+          "calendar": {
+            "persian": "Persischer Kalender"
+          },
+          "collation": {
+            "phonebook": "Telefonbuch-Sortierung",
+            "phonetic": "Sortierung nach Phonetik",
+            "pinyin": "Pinyin-Sortierregeln"
+          },
+          "colStrength": {
+            "primary": "Nur Basisbuchstaben sortieren",
+            "quaternary": "Akzente/Fall/Breite/Kana sortieren"
+          },
+          "collation": {
+            "reformed": "Reformierte Sortierreihenfolge"
+          },
+          "calendar": {
+            "roc": "Kalender der Republik China"
+          },
+          "numbers": {
+            "roman": "Römische Ziffern",
+            "romanlow": "Römische Ziffern in Kleinschrift",
+            "saur": "saur"
+          },
+          "collation": {
+            "search": "Allgemeine Suche",
+            "searchjl": "Suche nach Anfangsbuchstaben des koreanischen Alphabets"
+          },
+          "colStrength": {
+            "secondary": "Akzente sortieren"
+          },
+          "colAlternate": {
+            "shifted": "Symbole sortieren ignorieren"
+          },
+          "numbers": {
+            "shrd": "shrd",
+            "sora": "sora"
+          },
+          "collation": {
+            "standard": "Standard-Sortierung",
+            "stroke": "Strichfolge"
+          },
+          "numbers": {
+            "sund": "sund",
+            "takr": "takr",
+            "talu": "talu",
+            "taml": "Tamilische Ziffern",
+            "tamldec": "Tamil-Ziffern",
+            "telu": "Telugu-Ziffern"
+          },
+          "colStrength": {
+            "tertiary": "Akzente/Fall/Breite sortieren"
+          },
+          "numbers": {
+            "thai": "Thai-Ziffern",
+            "tibt": "Tibetische Ziffern"
+          },
+          "collation": {
+            "traditional": "Traditionelle Sortierregeln"
+          },
+          "numbers": {
+            "traditional": "Traditionelle Zahlen"
+          },
+          "collation": {
+            "unihan": "Radikal-Strich-Sortierregeln"
+          },
+          "colCaseFirst": {
+            "upper": "Großbuchstaben zuerst aufführen"
+          },
+          "numbers": {
+            "vaii": "Vai-Ziffern"
+          },
+          "colBackwards": {
+            "yes": "Akzente umgekehrt sortieren"
+          },
+          "colCaseLevel": {
+            "yes": "Nach Groß-/Kleinschreibung sortieren"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "Kana anders sortieren"
+          },
+          "colNormalization": {
+            "yes": "Nach Unicode sortieren"
+          },
+          "colNumeric": {
+            "yes": "Ziffern numerisch sortieren"
+          },
+          "collation": {
+            "zhuyin": "zhuyin"
+          }
+        },
+        "codePatterns": {
+          "language": "Sprache: {0}",
+          "script": "Schrift: {0}",
+          "territory": "Region: {0}"
+        }
+      }
+    }
+  }
+}

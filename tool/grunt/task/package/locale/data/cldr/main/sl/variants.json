@@ -1,0 +1,89 @@
+{
+  "main": {
+    "sl": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "localeDisplayNames": {
+        "variants": {
+          "1606NICT": "pozna srednja francoščina (do 1606)",
+          "1694ACAD": "zgodnja sodobna francoščina",
+          "1901": "tradicionalni nemški pravopis",
+          "1959ACAD": "akademska beloruska slovnica",
+          "1994": "standardizirani rezijanski pravopis (1994)",
+          "1996": "novi nemški pravopis (1996)",
+          "ALALC97": "ALALC97",
+          "ALUKU": "ALUKU",
+          "AREVELA": "vzhodna armenščina",
+          "AREVMDA": "zahodna armenščina",
+          "BAKU1926": "modernizirana turška latinica",
+          "BALANKA": "BALANKA",
+          "BARLA": "BARLA",
+          "BAUDDHA": "BAUDDHA",
+          "BISCAYAN": "BISCAYAN",
+          "BISKE": "rezijansko narečje Bila (San Giorgio)",
+          "BOHORIC": "BOHORIC",
+          "BOONT": "boonvilski jezik",
+          "DAJNKO": "DAJNKO",
+          "EKAVSK": "EKAVSK",
+          "EMODENG": "EMODENG",
+          "FONIPA": "mednarodna fonetična pisava IPA",
+          "FONUPA": "uralska fonetska pisava UPA",
+          "FONXSAMP": "FONXSAMP",
+          "HEPBURN": "HEPBURN",
+          "HOGNORSK": "HOGNORSK",
+          "IJEKAVSK": "IJEKAVSK",
+          "ITIHASA": "ITIHASA",
+          "JAUER": "JAUER",
+          "JYUTPING": "JYUTPING",
+          "KKCOR": "standardni pravopis",
+          "KSCOR": "KSCOR",
+          "LAUKIKA": "LAUKIKA",
+          "LIPAW": "rezijansko narečje iz Lipovca (Lipovaz)",
+          "LUNA1918": "LUNA1918",
+          "METELKO": "METELKO",
+          "MONOTON": "monotonalni pravopis",
+          "NDYUKA": "NDYUKA",
+          "NEDIS": "nadiško narečje",
+          "NJIVA": "rezijansko narečje Njiva (Gniva)",
+          "NULIK": "NULIK",
+          "OSOJS": "rezijansko narečje iz Osojan (Oseacco)",
+          "PAMAKA": "PAMAKA",
+          "PETR1708": "PETR1708",
+          "PINYIN": "romanizacija pindžin",
+          "POLYTON": "politonalni pravopis",
+          "POSIX": "standard prenosljivosti programske opreme",
+          "PUTER": "PUTER",
+          "REVISED": "revidiran pravopis",
+          "RIGIK": "RIGIK",
+          "ROZAJ": "rezijanščina",
+          "RUMGR": "RUMGR",
+          "SAAHO": "eritrejsko narečje soho",
+          "SCOTLAND": "standardna škotska angleščina",
+          "SCOUSE": "liverpoolsko angleško narečje scouse",
+          "SOLBA": "rezijansko narečje iz Solbice (Stolvizza)",
+          "SOTAV": "SOTAV",
+          "SURMIRAN": "SURMIRAN",
+          "SURSILV": "SURSILV",
+          "SUTSILV": "SUTSILV",
+          "TARASK": "Taraškievičeva beloruska slovnica",
+          "UCCOR": "poenoten pravopis",
+          "UCRCOR": "revidiran poenoten pravopis",
+          "ULSTER": "ULSTER",
+          "UNIFON": "UNIFON",
+          "VAIDIKA": "VAIDIKA",
+          "VALENCIA": "valencijski pravopis",
+          "VALLADER": "VALLADER",
+          "WADEGILE": "romanizacija Wade-Giles"
+        }
+      }
+    }
+  }
+}

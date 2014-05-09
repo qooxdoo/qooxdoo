@@ -1,0 +1,22 @@
+{
+  "main": {
+    "uk": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "posix": {
+        "messages": {
+          "yesstr": "так:т",
+          "nostr": "ні:н"
+        }
+      }
+    }
+  }
+}

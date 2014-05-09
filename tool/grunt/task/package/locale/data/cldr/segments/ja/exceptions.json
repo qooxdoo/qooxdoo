@@ -1,0 +1,34 @@
+{
+  "segments": {
+    "identity": {
+      "version": {
+        "_cldrVersion": "25",
+        "_number": "$Revision: 91 $"
+      },
+      "generation": {
+        "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+      },
+      "language": "ja"
+    },
+    "segmentations": {
+      "LineBreak": {
+        "variables": [
+          { "$ID": "[[\\p{Line_Break=Ideographic}] [$CJ]]"},
+          { "$NS": "\\p{Line_Break=Nonstarter}"}
+        ]
+      },
+      "WordBreak": {
+        "variables": [
+          { "$Hiragana": "\\p{Hiragana}"},
+          { "$Hiragana": "($Hiragana $X)"},
+          { "$Ideographic": "[[\\p{Ideographic}] [\u3005 \u3007 \u303B]]"},
+          { "$Ideographic": "($Ideographic $X)"}
+        ],
+        "segmentRules": {
+          "13.05": " $Hiragana × $Hiragana ",
+          "13.06": " $Ideographic × $Ideographic "
+        }
+      }
+    }
+  }
+}

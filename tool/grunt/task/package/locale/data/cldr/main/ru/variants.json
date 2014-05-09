@@ -1,0 +1,89 @@
+{
+  "main": {
+    "ru": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "localeDisplayNames": {
+        "variants": {
+          "1606NICT": "Поздне-средневековый французский до 1606 г.",
+          "1694ACAD": "Французский раннего нового времени",
+          "1901": "Традиционная немецкая орфография",
+          "1959ACAD": "Академическая",
+          "1994": "Стандартизированная резьянская орфография",
+          "1996": "Правила немецкой орфографии установленные с 1996 года",
+          "ALALC97": "ALALC97",
+          "ALUKU": "ALUKU",
+          "AREVELA": "Восточно-армянский",
+          "AREVMDA": "Западно-армянский",
+          "BAKU1926": "Унифицированный тюрско-латинский алфавит",
+          "BALANKA": "BALANKA",
+          "BARLA": "BARLA",
+          "BAUDDHA": "BAUDDHA",
+          "BISCAYAN": "BISCAYAN",
+          "BISKE": "Диалект Сан-Гиоргио/Била",
+          "BOHORIC": "BOHORIC",
+          "BOONT": "Бунтлинг",
+          "DAJNKO": "DAJNKO",
+          "EKAVSK": "EKAVSK",
+          "EMODENG": "EMODENG",
+          "FONIPA": "Международный фонетический алфавит",
+          "FONUPA": "Фонетический алфавит уральских языков",
+          "FONXSAMP": "FONXSAMP",
+          "HEPBURN": "HEPBURN",
+          "HOGNORSK": "HOGNORSK",
+          "IJEKAVSK": "IJEKAVSK",
+          "ITIHASA": "ITIHASA",
+          "JAUER": "JAUER",
+          "JYUTPING": "JYUTPING",
+          "KKCOR": "Общая офография",
+          "KSCOR": "KSCOR",
+          "LAUKIKA": "LAUKIKA",
+          "LIPAW": "Липовецкий диалект резьянского языка",
+          "LUNA1918": "LUNA1918",
+          "METELKO": "METELKO",
+          "MONOTON": "Монотонный",
+          "NDYUKA": "NDYUKA",
+          "NEDIS": "Надижский диалект",
+          "NJIVA": "Гнива-нживский диалект",
+          "NULIK": "NULIK",
+          "OSOJS": "Осеакко-осоянский диалект",
+          "PAMAKA": "PAMAKA",
+          "PETR1708": "PETR1708",
+          "PINYIN": "Пиньинь",
+          "POLYTON": "Многотональный",
+          "POSIX": "Компьютерный",
+          "PUTER": "PUTER",
+          "REVISED": "Пересмотренная орфография",
+          "RIGIK": "RIGIK",
+          "ROZAJ": "Резьянский",
+          "RUMGR": "RUMGR",
+          "SAAHO": "Сахо",
+          "SCOTLAND": "Англо-шотландский",
+          "SCOUSE": "Ливерпульский",
+          "SOLBA": "Столвицко-солбицкий диалект",
+          "SOTAV": "SOTAV",
+          "SURMIRAN": "SURMIRAN",
+          "SURSILV": "SURSILV",
+          "SUTSILV": "SUTSILV",
+          "TARASK": "Тарашкевица",
+          "UCCOR": "Объединенная орфография",
+          "UCRCOR": "Объединенная пересмотренная орфография",
+          "ULSTER": "ULSTER",
+          "UNIFON": "UNIFON",
+          "VAIDIKA": "VAIDIKA",
+          "VALENCIA": "Валенсийский",
+          "VALLADER": "VALLADER",
+          "WADEGILE": "Система Уэйда – Джайлза"
+        }
+      }
+    }
+  }
+}

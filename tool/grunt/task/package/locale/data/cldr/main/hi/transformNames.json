@@ -1,0 +1,30 @@
+{
+  "main": {
+    "hi": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "hi"
+      },
+      "localeDisplayNames": {
+        "transformNames": {
+          "BGN": "BGN",
+          "Numeric": "सांख्यिक",
+          "Tone": "स्वर",
+          "UNGEGN": "UNGEGN",
+          "x-Accents": "स्वराघात",
+          "x-Fullwidth": "पूर्ण-चौड़ाई",
+          "x-Halfwidth": "आधी-चौड़ाई",
+          "x-Jamo": "जामो",
+          "x-Pinyin": "पिनयिन",
+          "x-Publishing": "प्रकाशन"
+        }
+      }
+    }
+  }
+}

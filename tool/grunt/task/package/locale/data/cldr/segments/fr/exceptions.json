@@ -1,0 +1,81 @@
+{
+  "segments": {
+    "identity": {
+      "version": {
+        "_cldrVersion": "25",
+        "_number": "$Revision: 91 $"
+      },
+      "generation": {
+        "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+      },
+      "language": "fr"
+    },
+    "segmentations": {
+      "SentenceBreak": {
+        "exceptions": [
+          { "exception": "aux."},
+          { "exception": "config."},
+          { "exception": "collab."},
+          { "exception": "M."},
+          { "exception": "dim."},
+          { "exception": "imprim."},
+          { "exception": "oct."},
+          { "exception": "syst."},
+          { "exception": "bull."},
+          { "exception": "MM."},
+          { "exception": "doc."},
+          { "exception": "hôp."},
+          { "exception": "quart."},
+          { "exception": "dir."},
+          { "exception": "adr."},
+          { "exception": "symb."},
+          { "exception": "jeu."},
+          { "exception": "anc."},
+          { "exception": "voit."},
+          { "exception": "graph."},
+          { "exception": "éd."},
+          { "exception": "fig."},
+          { "exception": "cam."},
+          { "exception": "éval."},
+          { "exception": "juil."},
+          { "exception": "dict."},
+          { "exception": "févr."},
+          { "exception": "équiv."},
+          { "exception": "sept."},
+          { "exception": "acoust."},
+          { "exception": "nov."},
+          { "exception": "anon."},
+          { "exception": "illustr."},
+          { "exception": "avr."},
+          { "exception": "dest."},
+          { "exception": "P.-D. G."},
+          { "exception": "ill."},
+          { "exception": "édit."},
+          { "exception": "encycl."},
+          { "exception": "mer."},
+          { "exception": "broch."},
+          { "exception": "ven."},
+          { "exception": "lun."},
+          { "exception": "append."},
+          { "exception": "réf."},
+          { "exception": "categ."},
+          { "exception": "sam."},
+          { "exception": "janv."},
+          { "exception": "imm."},
+          { "exception": "coll."},
+          { "exception": "mar."},
+          { "exception": "exempl."},
+          { "exception": "déc."},
+          { "exception": "ann."},
+          { "exception": "synth."},
+          { "exception": "indus."},
+          { "exception": "av. J.-C."},
+          { "exception": "niv."},
+          { "exception": "ap. J.-C."},
+          { "exception": "gouv."},
+          { "exception": "trav. publ."}
+        ]
+      }
+    }
+  }
+}

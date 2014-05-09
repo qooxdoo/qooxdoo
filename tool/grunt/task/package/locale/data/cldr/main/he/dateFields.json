@@ -1,0 +1,187 @@
+{
+  "main": {
+    "he": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "he"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "תקופה"
+          },
+          "year": {
+            "displayName": "שנה",
+            "relative-type--1": "השנה שעברה",
+            "relative-type-0": "השנה",
+            "relative-type-1": "השנה הבאה",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "בעוד שנה {0}",
+              "relativeTimePattern-count-two": "בעוד {0} שנים",
+              "relativeTimePattern-count-many": "בעוד {0} שנים",
+              "relativeTimePattern-count-other": "בעוד {0} שנים"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "לפני שנה {0}",
+              "relativeTimePattern-count-two": "לפני {0} שנים",
+              "relativeTimePattern-count-many": "לפני {0} שנים",
+              "relativeTimePattern-count-other": "לפני {0} שנים"
+            }
+          },
+          "month": {
+            "displayName": "חודש",
+            "relative-type--1": "החודש שעבר",
+            "relative-type-0": "החודש",
+            "relative-type-1": "החודש הבא",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "בעוד חודש {0}",
+              "relativeTimePattern-count-two": "בעוד {0} חודשים",
+              "relativeTimePattern-count-many": "בעוד {0} חודשים",
+              "relativeTimePattern-count-other": "בעוד {0} חודשים"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "לפני חודש {0}",
+              "relativeTimePattern-count-two": "לפני {0} חודשים",
+              "relativeTimePattern-count-many": "לפני {0} חודשים",
+              "relativeTimePattern-count-other": "לפני {0} חודשים"
+            }
+          },
+          "week": {
+            "displayName": "שבוע",
+            "relative-type--1": "השבוע שעבר",
+            "relative-type-0": "השבוע",
+            "relative-type-1": "השבוע הבא",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "בעוד שבוע {0}",
+              "relativeTimePattern-count-two": "בעוד {0} שבועות",
+              "relativeTimePattern-count-many": "בעוד {0} שבועות",
+              "relativeTimePattern-count-other": "בעוד {0} שבועות"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "לפני שבוע {0}",
+              "relativeTimePattern-count-two": "לפני {0} שבועות",
+              "relativeTimePattern-count-many": "לפני {0} שבועות",
+              "relativeTimePattern-count-other": "לפני {0} שבועות"
+            }
+          },
+          "day": {
+            "displayName": "יום",
+            "relative-type--1": "אתמול",
+            "relative-type--2": "שלשום",
+            "relative-type-0": "היום",
+            "relative-type-1": "מחר",
+            "relative-type-2": "מחרתיים",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "בעוד יום {0}",
+              "relativeTimePattern-count-two": "בעוד {0} ימים",
+              "relativeTimePattern-count-many": "בעוד {0} ימים",
+              "relativeTimePattern-count-other": "בעוד {0} ימים"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "לפני יום {0}",
+              "relativeTimePattern-count-two": "לפני {0} ימים",
+              "relativeTimePattern-count-many": "לפני {0} ימים",
+              "relativeTimePattern-count-other": "לפני {0} ימים"
+            }
+          },
+          "weekday": {
+            "displayName": "יום בשבוע"
+          },
+          "sun": {
+            "relative-type--1": "יום ראשון שעבר",
+            "relative-type-0": "יום ראשון",
+            "relative-type-1": "יום ראשון הבא"
+          },
+          "mon": {
+            "relative-type--1": "יום שני שעבר",
+            "relative-type-0": "יום שני הזה",
+            "relative-type-1": "יום שני הבא"
+          },
+          "tue": {
+            "relative-type--1": "יום שלישי שעבר",
+            "relative-type-0": "יום שלישי",
+            "relative-type-1": "יום שלישי הבא"
+          },
+          "wed": {
+            "relative-type--1": "יום רביעי שעבר",
+            "relative-type-0": "יום רביעי",
+            "relative-type-1": "יום רביעי הבא"
+          },
+          "thu": {
+            "relative-type--1": "יום חמישי שעבר",
+            "relative-type-0": "יום חמישי",
+            "relative-type-1": "יום חמישי הבא"
+          },
+          "fri": {
+            "relative-type--1": "יום שישי שעבר",
+            "relative-type-0": "יום שישי",
+            "relative-type-1": "יום שישי הבא"
+          },
+          "sat": {
+            "relative-type--1": "השבת שעברה",
+            "relative-type-0": "השבת הזאת",
+            "relative-type-1": "השבת הבאה"
+          },
+          "dayperiod": {
+            "displayName": "לפנה״צ/אחה״צ"
+          },
+          "hour": {
+            "displayName": "שעה",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "בעוד שעה {0}",
+              "relativeTimePattern-count-two": "בעוד {0} שעות",
+              "relativeTimePattern-count-many": "בעוד {0} שעות",
+              "relativeTimePattern-count-other": "בעוד {0} שעות"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "לפני שעה {0}",
+              "relativeTimePattern-count-two": "לפני {0} שעות",
+              "relativeTimePattern-count-many": "לפני {0} שעות",
+              "relativeTimePattern-count-other": "לפני {0} שעות"
+            }
+          },
+          "minute": {
+            "displayName": "דקה",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "בעוד דקה {0}",
+              "relativeTimePattern-count-two": "בעוד {0} דקות",
+              "relativeTimePattern-count-many": "בעוד {0} דקות",
+              "relativeTimePattern-count-other": "בעוד {0} דקות"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "לפני דקה {0}",
+              "relativeTimePattern-count-two": "לפני {0} דקות",
+              "relativeTimePattern-count-many": "לפני {0} דקות",
+              "relativeTimePattern-count-other": "לפני {0} דקות"
+            }
+          },
+          "second": {
+            "displayName": "שנייה",
+            "relative-type-0": "עכשיו",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "בעוד שנייה {0}",
+              "relativeTimePattern-count-two": "בעוד {0} שניות",
+              "relativeTimePattern-count-many": "בעוד {0} שניות",
+              "relativeTimePattern-count-other": "בעוד {0} שניות"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "לפני שנייה {0}",
+              "relativeTimePattern-count-two": "לפני {0} שניות",
+              "relativeTimePattern-count-many": "לפני {0} שניות",
+              "relativeTimePattern-count-other": "לפני {0} שניות"
+            }
+          },
+          "zone": {
+            "displayName": "אזור"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,870 @@
+{
+  "main": {
+    "he": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "he"
+      },
+      "units": {
+        "long": {
+          "per": {
+            "compoundUnitPattern": "{0} לכל {1}"
+          },
+          "acceleration-g-force": {
+            "unitPattern-count-one": "כוח ג׳י {0}",
+            "unitPattern-count-two": "{0} כוח ג׳י",
+            "unitPattern-count-many": "{0} כוח ג׳י",
+            "unitPattern-count-other": "{0} כוח ג׳י"
+          },
+          "angle-arc-minute": {
+            "unitPattern-count-one": "דקה {0}",
+            "unitPattern-count-two": "{0} דקות",
+            "unitPattern-count-many": "{0} דקות",
+            "unitPattern-count-other": "{0} דקות"
+          },
+          "angle-arc-second": {
+            "unitPattern-count-one": "שנייה {0}",
+            "unitPattern-count-two": "{0} שניות",
+            "unitPattern-count-many": "{0} שניות",
+            "unitPattern-count-other": "{0} שניות"
+          },
+          "angle-degree": {
+            "unitPattern-count-one": "מעלה {0}",
+            "unitPattern-count-two": "{0} מעלות",
+            "unitPattern-count-many": "{0} מעלות",
+            "unitPattern-count-other": "{0} מעלות"
+          },
+          "area-acre": {
+            "unitPattern-count-one": "אקר {0}",
+            "unitPattern-count-two": "{0} אקר",
+            "unitPattern-count-many": "{0} אקר",
+            "unitPattern-count-other": "{0} אקר"
+          },
+          "area-hectare": {
+            "unitPattern-count-one": "הקטאר {0}",
+            "unitPattern-count-two": "{0} הקטאר",
+            "unitPattern-count-many": "{0} הקטאר",
+            "unitPattern-count-other": "{0} הקטאר"
+          },
+          "area-square-foot": {
+            "unitPattern-count-one": "רגל רבועה {0}",
+            "unitPattern-count-two": "{0} רגל רבועה",
+            "unitPattern-count-many": "{0} רגל רבועה",
+            "unitPattern-count-other": "{0} רגל רבועה"
+          },
+          "area-square-kilometer": {
+            "unitPattern-count-one": "קילומטר רבוע {0}",
+            "unitPattern-count-two": "{0} קילומטר רבוע",
+            "unitPattern-count-many": "{0} קילומטר רבוע",
+            "unitPattern-count-other": "{0} קילומטר רבוע"
+          },
+          "area-square-meter": {
+            "unitPattern-count-one": "מטר רבוע {0}",
+            "unitPattern-count-two": "{0} מטר רבוע",
+            "unitPattern-count-many": "{0} מטר רבוע",
+            "unitPattern-count-other": "{0} מטר רבוע"
+          },
+          "area-square-mile": {
+            "unitPattern-count-one": "מייל רבוע {0}",
+            "unitPattern-count-two": "{0} מייל רבוע",
+            "unitPattern-count-many": "{0} מייל רבוע",
+            "unitPattern-count-other": "{0} מייל רבוע"
+          },
+          "duration-day": {
+            "unitPattern-count-one": "‏יום {0}",
+            "unitPattern-count-two": "{0} ימים",
+            "unitPattern-count-many": "{0} ימים",
+            "unitPattern-count-other": "{0} ימים"
+          },
+          "duration-hour": {
+            "unitPattern-count-one": "שעה {0}",
+            "unitPattern-count-two": "{0} שעות",
+            "unitPattern-count-many": "{0} שעות",
+            "unitPattern-count-other": "{0} שעות"
+          },
+          "duration-millisecond": {
+            "unitPattern-count-one": "אלפית שנייה {0}",
+            "unitPattern-count-two": "{0} אלפיות שנייה",
+            "unitPattern-count-many": "{0} אלפיות שנייה",
+            "unitPattern-count-other": "{0} אלפיות שנייה"
+          },
+          "duration-minute": {
+            "unitPattern-count-one": "דקה {0}",
+            "unitPattern-count-two": "{0} דקות",
+            "unitPattern-count-many": "{0} דקות",
+            "unitPattern-count-other": "{0} דקות"
+          },
+          "duration-month": {
+            "unitPattern-count-one": "חודש {0}",
+            "unitPattern-count-two": "{0} חודשים",
+            "unitPattern-count-many": "{0} חודשים",
+            "unitPattern-count-other": "{0} חודשים"
+          },
+          "duration-second": {
+            "unitPattern-count-one": "שנייה {0}",
+            "unitPattern-count-two": "{0} שניות",
+            "unitPattern-count-many": "‏{0} שניות",
+            "unitPattern-count-other": "{0} שניות"
+          },
+          "duration-week": {
+            "unitPattern-count-one": "שבוע {0}",
+            "unitPattern-count-two": "{0} שבועות",
+            "unitPattern-count-many": "{0} שבועות",
+            "unitPattern-count-other": "{0} שבועות"
+          },
+          "duration-year": {
+            "unitPattern-count-one": "שנה {0}",
+            "unitPattern-count-two": "{0} שנים",
+            "unitPattern-count-many": "{0} שנים",
+            "unitPattern-count-other": "{0} שנים"
+          },
+          "length-centimeter": {
+            "unitPattern-count-one": "סנטימטר {0}",
+            "unitPattern-count-two": "{0} סנטימטר",
+            "unitPattern-count-many": "{0} סנטימטר",
+            "unitPattern-count-other": "{0} סנטימטר"
+          },
+          "length-foot": {
+            "unitPattern-count-one": "רגל {0}",
+            "unitPattern-count-two": "{0} רגל",
+            "unitPattern-count-many": "{0} רגל",
+            "unitPattern-count-other": "{0} רגל"
+          },
+          "length-inch": {
+            "unitPattern-count-one": "אינץ׳ {0}",
+            "unitPattern-count-two": "{0} אינץ׳",
+            "unitPattern-count-many": "{0} אינץ׳",
+            "unitPattern-count-other": "{0} אינץ׳"
+          },
+          "length-kilometer": {
+            "unitPattern-count-one": "קילומטר {0}",
+            "unitPattern-count-two": "{0} קילומטר",
+            "unitPattern-count-many": "{0} קילומטר",
+            "unitPattern-count-other": "{0} קילומטר"
+          },
+          "length-light-year": {
+            "unitPattern-count-one": "שנת אור {0}",
+            "unitPattern-count-two": "{0} שנות אור",
+            "unitPattern-count-many": "{0} שנות אור",
+            "unitPattern-count-other": "{0} שנות אור"
+          },
+          "length-meter": {
+            "unitPattern-count-one": "מטר {0}",
+            "unitPattern-count-two": "{0} מטר",
+            "unitPattern-count-many": "{0} מטר",
+            "unitPattern-count-other": "{0} מטר"
+          },
+          "length-mile": {
+            "unitPattern-count-one": "מייל {0}",
+            "unitPattern-count-two": "{0} מייל",
+            "unitPattern-count-many": "{0} מייל",
+            "unitPattern-count-other": "{0} מייל"
+          },
+          "length-millimeter": {
+            "unitPattern-count-one": "מילימטר {0}",
+            "unitPattern-count-two": "{0} מילימטר",
+            "unitPattern-count-many": "{0} מילימטר",
+            "unitPattern-count-other": "{0} מילימטר"
+          },
+          "length-picometer": {
+            "unitPattern-count-one": "פיקומטר {0}",
+            "unitPattern-count-two": "{0} פיקומטר",
+            "unitPattern-count-many": "{0} פיקומטר",
+            "unitPattern-count-other": "{0} פיקומטר"
+          },
+          "length-yard": {
+            "unitPattern-count-one": "יארד {0}",
+            "unitPattern-count-two": "{0} יארד",
+            "unitPattern-count-many": "{0} יארד",
+            "unitPattern-count-other": "{0} יארד"
+          },
+          "mass-gram": {
+            "unitPattern-count-one": "גרם {0}",
+            "unitPattern-count-two": "{0} גרם",
+            "unitPattern-count-many": "{0} גרם",
+            "unitPattern-count-other": "{0} גרם"
+          },
+          "mass-kilogram": {
+            "unitPattern-count-one": "קילוגרם {0}",
+            "unitPattern-count-two": "{0} קילוגרם",
+            "unitPattern-count-many": "{0} קילוגרם",
+            "unitPattern-count-other": "{0} קילוגרם"
+          },
+          "mass-ounce": {
+            "unitPattern-count-one": "אונקיה {0}",
+            "unitPattern-count-two": "{0} אונקיות",
+            "unitPattern-count-many": "{0} אונקיות",
+            "unitPattern-count-other": "{0} אונקיות"
+          },
+          "mass-pound": {
+            "unitPattern-count-one": "ליברה {0}",
+            "unitPattern-count-two": "{0} ליבראות",
+            "unitPattern-count-many": "{0} ליבראות",
+            "unitPattern-count-other": "{0} ליבראות"
+          },
+          "power-horsepower": {
+            "unitPattern-count-one": "כוח סוס {0}",
+            "unitPattern-count-two": "{0} כוח סוס",
+            "unitPattern-count-many": "{0} כוח סוס",
+            "unitPattern-count-other": "{0} כוח סוס"
+          },
+          "power-kilowatt": {
+            "unitPattern-count-one": "קילוואט {0}",
+            "unitPattern-count-two": "{0} קילוואט",
+            "unitPattern-count-many": "{0} קילוואט",
+            "unitPattern-count-other": "{0} קילוואט"
+          },
+          "power-watt": {
+            "unitPattern-count-one": "ואט {0}",
+            "unitPattern-count-two": "{0} ואט",
+            "unitPattern-count-many": "{0} ואט",
+            "unitPattern-count-other": "{0} ואט"
+          },
+          "pressure-hectopascal": {
+            "unitPattern-count-one": "הקטופסקל {0}",
+            "unitPattern-count-two": "{0} הקטופסקל",
+            "unitPattern-count-many": "{0} הקטופסקל",
+            "unitPattern-count-other": "{0} הקטופסקל"
+          },
+          "pressure-inch-hg": {
+            "unitPattern-count-one": "אינץ׳ כספית {0}",
+            "unitPattern-count-two": "{0} אינץ׳ כספית",
+            "unitPattern-count-many": "{0} אינץ׳ כספית",
+            "unitPattern-count-other": "{0} אינץ׳ כספית"
+          },
+          "pressure-millibar": {
+            "unitPattern-count-one": "{0} מיליבר",
+            "unitPattern-count-two": "{0} מיליבר",
+            "unitPattern-count-many": "{0} מיליבר",
+            "unitPattern-count-other": "{0} מיליבר"
+          },
+          "speed-kilometer-per-hour": {
+            "unitPattern-count-one": "{0} קילומטר לשעה",
+            "unitPattern-count-two": "{0} קילומטר לשעה",
+            "unitPattern-count-many": "{0} קילומטר לשעה",
+            "unitPattern-count-other": "{0} קילומטר לשעה"
+          },
+          "speed-meter-per-second": {
+            "unitPattern-count-one": "{0} מטר לשנייה",
+            "unitPattern-count-two": "{0} מטר לשנייה",
+            "unitPattern-count-many": "{0} מטר לשנייה",
+            "unitPattern-count-other": "{0} מטר לשנייה"
+          },
+          "speed-mile-per-hour": {
+            "unitPattern-count-one": "{0} מייל לשעה",
+            "unitPattern-count-two": "{0} מייל לשעה",
+            "unitPattern-count-many": "{0} מייל לשעה",
+            "unitPattern-count-other": "{0} מייל לשעה"
+          },
+          "temperature-celsius": {
+            "unitPattern-count-one": "מעלת צלזיוס {0}",
+            "unitPattern-count-two": "{0} מעלות צלזיוס",
+            "unitPattern-count-many": "{0} מעלות צלזיוס",
+            "unitPattern-count-other": "{0} מעלות צלזיוס"
+          },
+          "temperature-fahrenheit": {
+            "unitPattern-count-one": "מעלת פרנהייט {0}",
+            "unitPattern-count-two": "{0} מעלות פרנהייט",
+            "unitPattern-count-many": "{0} מעלות פרנהייט",
+            "unitPattern-count-other": "{0} מעלות פרנהייט"
+          },
+          "volume-cubic-kilometer": {
+            "unitPattern-count-one": "{0} קילומטר מעוקב",
+            "unitPattern-count-two": "{0} קילומטר מעוקב",
+            "unitPattern-count-many": "{0} קילומטר מעוקב",
+            "unitPattern-count-other": "{0} קילומטר מעוקב"
+          },
+          "volume-cubic-mile": {
+            "unitPattern-count-one": "{0} מייל מעוקב",
+            "unitPattern-count-two": "{0} מייל מעוקב",
+            "unitPattern-count-many": "{0} מייל מעוקב",
+            "unitPattern-count-other": "{0} מייל מעוקב"
+          },
+          "volume-liter": {
+            "unitPattern-count-one": "{0} ליטר",
+            "unitPattern-count-two": "{0} ליטר",
+            "unitPattern-count-many": "{0} ליטר",
+            "unitPattern-count-other": "{0} ליטר"
+          }
+        },
+        "short": {
+          "per": {
+            "compoundUnitPattern": "{0}/{1}"
+          },
+          "acceleration-g-force": {
+            "unitPattern-count-one": "{0} G",
+            "unitPattern-count-two": "{0} G",
+            "unitPattern-count-many": "{0} G",
+            "unitPattern-count-other": "{0} G"
+          },
+          "angle-arc-minute": {
+            "unitPattern-count-one": "דקה {0}",
+            "unitPattern-count-two": "{0} דקות",
+            "unitPattern-count-many": "{0} דקות",
+            "unitPattern-count-other": "{0} דקות"
+          },
+          "angle-arc-second": {
+            "unitPattern-count-one": "שנייה {0}",
+            "unitPattern-count-two": "{0} שניות",
+            "unitPattern-count-many": "{0} שניות",
+            "unitPattern-count-other": "{0} שניות"
+          },
+          "angle-degree": {
+            "unitPattern-count-one": "מעלה {0}",
+            "unitPattern-count-two": "{0} מעלות",
+            "unitPattern-count-many": "{0} מעלות",
+            "unitPattern-count-other": "{0} מעלות"
+          },
+          "area-acre": {
+            "unitPattern-count-one": "אקר {0}",
+            "unitPattern-count-two": "{0} אקר",
+            "unitPattern-count-many": "{0} אקר",
+            "unitPattern-count-other": "{0} אקר"
+          },
+          "area-hectare": {
+            "unitPattern-count-one": "הקטאר {0}",
+            "unitPattern-count-two": "{0} הקטאר",
+            "unitPattern-count-many": "{0} הקטאר",
+            "unitPattern-count-other": "{0} הקטאר"
+          },
+          "area-square-foot": {
+            "unitPattern-count-one": "רגל רבועה {0}",
+            "unitPattern-count-two": "{0} רגל רבועה",
+            "unitPattern-count-many": "{0} רגל רבועה",
+            "unitPattern-count-other": "{0} רגל רבועה"
+          },
+          "area-square-kilometer": {
+            "unitPattern-count-one": "קמ״ר {0}",
+            "unitPattern-count-two": "{0} קמ״ר",
+            "unitPattern-count-many": "{0} קמ״ר",
+            "unitPattern-count-other": "{0} קמ״ר"
+          },
+          "area-square-meter": {
+            "unitPattern-count-one": "מ״ר {0}",
+            "unitPattern-count-two": "{0} מ״ר",
+            "unitPattern-count-many": "{0} מ״ר",
+            "unitPattern-count-other": "{0} מ״ר"
+          },
+          "area-square-mile": {
+            "unitPattern-count-one": "מייל רבוע {0}",
+            "unitPattern-count-two": "{0} מייל רבוע",
+            "unitPattern-count-many": "{0} מייל רבוע",
+            "unitPattern-count-other": "{0} מייל רבוע"
+          },
+          "duration-day": {
+            "unitPattern-count-one": "‏יום {0}",
+            "unitPattern-count-two": "{0} ימים",
+            "unitPattern-count-many": "{0} ימים",
+            "unitPattern-count-other": "{0} ימים"
+          },
+          "duration-hour": {
+            "unitPattern-count-one": "שעה {0}",
+            "unitPattern-count-two": "{0} שעות",
+            "unitPattern-count-many": "{0} שעות",
+            "unitPattern-count-other": "{0} שעות"
+          },
+          "duration-millisecond": {
+            "unitPattern-count-one": "{0} ms",
+            "unitPattern-count-two": "{0} ms",
+            "unitPattern-count-many": "{0} ms",
+            "unitPattern-count-other": "{0} ms"
+          },
+          "duration-minute": {
+            "unitPattern-count-one": "דק׳ {0}",
+            "unitPattern-count-two": "{0} דק׳",
+            "unitPattern-count-many": "{0} דק׳",
+            "unitPattern-count-other": "{0} דק׳"
+          },
+          "duration-month": {
+            "unitPattern-count-one": "חודש {0}",
+            "unitPattern-count-two": "{0} חודשים",
+            "unitPattern-count-many": "{0} חודשים",
+            "unitPattern-count-other": "{0} חודשים"
+          },
+          "duration-second": {
+            "unitPattern-count-one": "שנ׳ {0}",
+            "unitPattern-count-two": "{0} שנ׳",
+            "unitPattern-count-many": "{0} שנ׳",
+            "unitPattern-count-other": "{0} שנ׳"
+          },
+          "duration-week": {
+            "unitPattern-count-one": "שבוע {0}",
+            "unitPattern-count-two": "{0} שבועות",
+            "unitPattern-count-many": "{0} שבועות",
+            "unitPattern-count-other": "{0} שבועות"
+          },
+          "duration-year": {
+            "unitPattern-count-one": "שנה {0}",
+            "unitPattern-count-two": "{0} שנים",
+            "unitPattern-count-many": "{0} שנים",
+            "unitPattern-count-other": "{0} שנים"
+          },
+          "length-centimeter": {
+            "unitPattern-count-one": "ס״מ {0}",
+            "unitPattern-count-two": "{0} ס״מ",
+            "unitPattern-count-many": "{0} ס״מ",
+            "unitPattern-count-other": "{0} ס״מ"
+          },
+          "length-foot": {
+            "unitPattern-count-one": "רגל {0}",
+            "unitPattern-count-two": "{0} רגל",
+            "unitPattern-count-many": "{0} רגל",
+            "unitPattern-count-other": "{0} רגל"
+          },
+          "length-inch": {
+            "unitPattern-count-one": "אינץ׳ {0}",
+            "unitPattern-count-two": "{0} אינץ׳",
+            "unitPattern-count-many": "{0} אינץ׳",
+            "unitPattern-count-other": "{0} אינץ׳"
+          },
+          "length-kilometer": {
+            "unitPattern-count-one": "ק״מ {0}",
+            "unitPattern-count-two": "{0} ק״מ",
+            "unitPattern-count-many": "{0} ק״מ",
+            "unitPattern-count-other": "{0} ק״מ"
+          },
+          "length-light-year": {
+            "unitPattern-count-one": "שנת אור {0}",
+            "unitPattern-count-two": "{0} שנות אור",
+            "unitPattern-count-many": "{0} שנות אור",
+            "unitPattern-count-other": "{0} שנות אור"
+          },
+          "length-meter": {
+            "unitPattern-count-one": "מ׳ {0}",
+            "unitPattern-count-two": "{0} מ׳",
+            "unitPattern-count-many": "{0} מ׳",
+            "unitPattern-count-other": "{0} מ׳"
+          },
+          "length-mile": {
+            "unitPattern-count-one": "מייל {0}",
+            "unitPattern-count-two": "{0} מייל",
+            "unitPattern-count-many": "{0} מייל",
+            "unitPattern-count-other": "{0} מייל"
+          },
+          "length-millimeter": {
+            "unitPattern-count-one": "מ״מ {0}",
+            "unitPattern-count-two": "{0} מ״מ",
+            "unitPattern-count-many": "{0} מ״מ",
+            "unitPattern-count-other": "{0} מ״מ"
+          },
+          "length-picometer": {
+            "unitPattern-count-one": "פיקומטר {0}",
+            "unitPattern-count-two": "{0} פיקומטר",
+            "unitPattern-count-many": "{0} פיקומטר",
+            "unitPattern-count-other": "{0} פיקומטר"
+          },
+          "length-yard": {
+            "unitPattern-count-one": "יארד {0}",
+            "unitPattern-count-two": "{0} יארד",
+            "unitPattern-count-many": "{0} יארד",
+            "unitPattern-count-other": "{0} יארד"
+          },
+          "mass-gram": {
+            "unitPattern-count-one": "גר׳ {0}",
+            "unitPattern-count-two": "{0} גר׳",
+            "unitPattern-count-many": "{0} גר׳",
+            "unitPattern-count-other": "{0} גר׳"
+          },
+          "mass-kilogram": {
+            "unitPattern-count-one": "ק״ג {0}",
+            "unitPattern-count-two": "{0} ק״ג",
+            "unitPattern-count-many": "{0} ק״ג",
+            "unitPattern-count-other": "{0} ק״ג"
+          },
+          "mass-ounce": {
+            "unitPattern-count-one": "אונקיה {0}",
+            "unitPattern-count-two": "{0} אונקיות",
+            "unitPattern-count-many": "{0} אונקיות",
+            "unitPattern-count-other": "{0} אונקיות"
+          },
+          "mass-pound": {
+            "unitPattern-count-one": "ליברה {0}",
+            "unitPattern-count-two": "{0} ליבראות",
+            "unitPattern-count-many": "{0} ליבראות",
+            "unitPattern-count-other": "{0} ליבראות"
+          },
+          "power-horsepower": {
+            "unitPattern-count-one": "כ״ס {0}",
+            "unitPattern-count-two": "{0} כ״ס",
+            "unitPattern-count-many": "{0} כ״ס",
+            "unitPattern-count-other": "{0} כ״ס"
+          },
+          "power-kilowatt": {
+            "unitPattern-count-one": "{0} kW",
+            "unitPattern-count-two": "{0} kW",
+            "unitPattern-count-many": "{0} kW",
+            "unitPattern-count-other": "{0} kW"
+          },
+          "power-watt": {
+            "unitPattern-count-one": "{0} W",
+            "unitPattern-count-two": "{0} W",
+            "unitPattern-count-many": "{0} W",
+            "unitPattern-count-other": "{0} W"
+          },
+          "pressure-hectopascal": {
+            "unitPattern-count-one": "{0} hPa",
+            "unitPattern-count-two": "{0} hPa",
+            "unitPattern-count-many": "{0} hPa",
+            "unitPattern-count-other": "{0} hPa"
+          },
+          "pressure-inch-hg": {
+            "unitPattern-count-one": "{0} inHg",
+            "unitPattern-count-two": "{0} inHg",
+            "unitPattern-count-many": "{0} inHg",
+            "unitPattern-count-other": "{0} inHg"
+          },
+          "pressure-millibar": {
+            "unitPattern-count-one": "מיליבר {0}",
+            "unitPattern-count-two": "{0} מיליבר",
+            "unitPattern-count-many": "{0} מיליבר",
+            "unitPattern-count-other": "{0} מיליבר"
+          },
+          "speed-kilometer-per-hour": {
+            "unitPattern-count-one": "{0} קמ״ש",
+            "unitPattern-count-two": "{0} קמ״ש",
+            "unitPattern-count-many": "{0} קמ״ש",
+            "unitPattern-count-other": "{0} קמ״ש"
+          },
+          "speed-meter-per-second": {
+            "unitPattern-count-one": "{0} מ/ש",
+            "unitPattern-count-two": "{0} מ/ש",
+            "unitPattern-count-many": "{0} מ/ש",
+            "unitPattern-count-other": "{0} מ/ש"
+          },
+          "speed-mile-per-hour": {
+            "unitPattern-count-one": "{0} mph",
+            "unitPattern-count-two": "{0} mph",
+            "unitPattern-count-many": "{0} mph",
+            "unitPattern-count-other": "{0} mph"
+          },
+          "temperature-celsius": {
+            "unitPattern-count-one": "{0}°C",
+            "unitPattern-count-two": "{0}°C",
+            "unitPattern-count-many": "{0}°C",
+            "unitPattern-count-other": "{0}°C"
+          },
+          "temperature-fahrenheit": {
+            "unitPattern-count-one": "{0}°F",
+            "unitPattern-count-two": "{0}°F",
+            "unitPattern-count-many": "{0}°F",
+            "unitPattern-count-other": "{0}°F"
+          },
+          "volume-cubic-kilometer": {
+            "unitPattern-count-one": "{0} קמ״ק",
+            "unitPattern-count-two": "{0} קמ״ק",
+            "unitPattern-count-many": "{0} קמ״ק",
+            "unitPattern-count-other": "{0} קמ״ק"
+          },
+          "volume-cubic-mile": {
+            "unitPattern-count-one": "{0} mi³",
+            "unitPattern-count-two": "{0} mi³",
+            "unitPattern-count-many": "{0} mi³",
+            "unitPattern-count-other": "{0} mi³"
+          },
+          "volume-liter": {
+            "unitPattern-count-one": "{0} ל׳",
+            "unitPattern-count-two": "{0} ל׳",
+            "unitPattern-count-many": "{0} ל׳",
+            "unitPattern-count-other": "{0} ל׳"
+          }
+        },
+        "narrow": {
+          "per": {
+            "compoundUnitPattern": "{0}/{1}"
+          },
+          "acceleration-g-force": {
+            "unitPattern-count-one": "{0} G",
+            "unitPattern-count-two": "{0} G",
+            "unitPattern-count-many": "{0} G",
+            "unitPattern-count-other": "{0} G"
+          },
+          "angle-arc-minute": {
+            "unitPattern-count-one": "דקה {0}",
+            "unitPattern-count-two": "{0} דקות",
+            "unitPattern-count-many": "{0} דקות",
+            "unitPattern-count-other": "{0} דקות"
+          },
+          "angle-arc-second": {
+            "unitPattern-count-one": "שנ׳ {0}",
+            "unitPattern-count-two": "{0} שנ׳",
+            "unitPattern-count-many": "{0} שנ׳",
+            "unitPattern-count-other": "{0} שנ׳"
+          },
+          "angle-degree": {
+            "unitPattern-count-one": "{0}°",
+            "unitPattern-count-two": "{0}°",
+            "unitPattern-count-many": "{0}°",
+            "unitPattern-count-other": "{0}°"
+          },
+          "area-acre": {
+            "unitPattern-count-one": "אקר {0}",
+            "unitPattern-count-two": "{0} אקר",
+            "unitPattern-count-many": "{0} אקר",
+            "unitPattern-count-other": "{0} אקר"
+          },
+          "area-hectare": {
+            "unitPattern-count-one": "הקטאר {0}",
+            "unitPattern-count-two": "{0} הקטאר",
+            "unitPattern-count-many": "{0} הקטאר",
+            "unitPattern-count-other": "{0} הקטאר"
+          },
+          "area-square-foot": {
+            "unitPattern-count-one": "רגל רבועה {0}",
+            "unitPattern-count-two": "{0} רגל רבועה",
+            "unitPattern-count-many": "{0} רגל רבועה",
+            "unitPattern-count-other": "{0} רגל רבועה"
+          },
+          "area-square-kilometer": {
+            "unitPattern-count-one": "קמ״ר {0}",
+            "unitPattern-count-two": "{0} קמ״ר",
+            "unitPattern-count-many": "{0} קמ״ר",
+            "unitPattern-count-other": "{0} קמ״ר"
+          },
+          "area-square-meter": {
+            "unitPattern-count-one": "מ״ר {0}",
+            "unitPattern-count-two": "{0} מ״ר",
+            "unitPattern-count-many": "{0} מ״ר",
+            "unitPattern-count-other": "{0} מ״ר"
+          },
+          "area-square-mile": {
+            "unitPattern-count-one": "מייל רבוע {0}",
+            "unitPattern-count-two": "{0} מייל רבוע",
+            "unitPattern-count-many": "{0} מייל רבוע",
+            "unitPattern-count-other": "{0} מייל רבוע"
+          },
+          "duration-day": {
+            "unitPattern-count-one": "‏יום {0}",
+            "unitPattern-count-two": "{0} ימים",
+            "unitPattern-count-many": "{0} ימים",
+            "unitPattern-count-other": "{0} ימים"
+          },
+          "duration-hour": {
+            "unitPattern-count-one": "שעה {0}",
+            "unitPattern-count-two": "{0} שעות",
+            "unitPattern-count-many": "{0} שעות",
+            "unitPattern-count-other": "{0} שעות"
+          },
+          "duration-millisecond": {
+            "unitPattern-count-one": "{0} ms",
+            "unitPattern-count-two": "{0} ms",
+            "unitPattern-count-many": "{0} ms",
+            "unitPattern-count-other": "{0} ms"
+          },
+          "duration-minute": {
+            "unitPattern-count-one": "דק׳ {0}",
+            "unitPattern-count-two": "{0} דק׳",
+            "unitPattern-count-many": "{0} דק׳",
+            "unitPattern-count-other": "{0} דק׳"
+          },
+          "duration-month": {
+            "unitPattern-count-one": "חודש {0}",
+            "unitPattern-count-two": "{0} ח׳",
+            "unitPattern-count-many": "{0} ח׳",
+            "unitPattern-count-other": "{0} ח׳"
+          },
+          "duration-second": {
+            "unitPattern-count-one": "שנ׳ {0}",
+            "unitPattern-count-two": "{0} שנ׳",
+            "unitPattern-count-many": "{0} שנ׳",
+            "unitPattern-count-other": "{0} שנ׳"
+          },
+          "duration-week": {
+            "unitPattern-count-one": "שבוע {0}",
+            "unitPattern-count-two": "{0} שבועות",
+            "unitPattern-count-many": "{0} שבועות",
+            "unitPattern-count-other": "{0} שבועות"
+          },
+          "duration-year": {
+            "unitPattern-count-one": "שנה {0}",
+            "unitPattern-count-two": "{0} שנים",
+            "unitPattern-count-many": "{0} שנים",
+            "unitPattern-count-other": "{0} שנים"
+          },
+          "length-centimeter": {
+            "unitPattern-count-one": "ס״מ {0}",
+            "unitPattern-count-two": "{0} ס״מ",
+            "unitPattern-count-many": "{0} ס״מ",
+            "unitPattern-count-other": "{0} ס״מ"
+          },
+          "length-foot": {
+            "unitPattern-count-one": "רגל {0}",
+            "unitPattern-count-two": "{0} רגל",
+            "unitPattern-count-many": "{0} רגל",
+            "unitPattern-count-other": "{0} רגל"
+          },
+          "length-inch": {
+            "unitPattern-count-one": "אינץ׳ {0}",
+            "unitPattern-count-two": "{0} אינץ׳",
+            "unitPattern-count-many": "{0} אינץ׳",
+            "unitPattern-count-other": "{0} אינץ׳"
+          },
+          "length-kilometer": {
+            "unitPattern-count-one": "ק״מ {0}",
+            "unitPattern-count-two": "{0} ק״מ",
+            "unitPattern-count-many": "{0} ק״מ",
+            "unitPattern-count-other": "{0} ק״מ"
+          },
+          "length-light-year": {
+            "unitPattern-count-one": "שנת אור {0}",
+            "unitPattern-count-two": "{0} שנות אור",
+            "unitPattern-count-many": "{0} שנות אור",
+            "unitPattern-count-other": "{0} שנות אור"
+          },
+          "length-meter": {
+            "unitPattern-count-one": "מ׳ {0}",
+            "unitPattern-count-two": "{0} מ׳",
+            "unitPattern-count-many": "{0} מ׳",
+            "unitPattern-count-other": "{0} מ׳"
+          },
+          "length-mile": {
+            "unitPattern-count-one": "מייל {0}",
+            "unitPattern-count-two": "{0} מייל",
+            "unitPattern-count-many": "{0} מייל",
+            "unitPattern-count-other": "{0} מייל"
+          },
+          "length-millimeter": {
+            "unitPattern-count-one": "מ״מ {0}",
+            "unitPattern-count-two": "{0} מ״מ",
+            "unitPattern-count-many": "{0} מ״מ",
+            "unitPattern-count-other": "{0} מ״מ"
+          },
+          "length-picometer": {
+            "unitPattern-count-one": "פיקומטר {0}",
+            "unitPattern-count-two": "{0} פיקומטר",
+            "unitPattern-count-many": "{0} פיקומטר",
+            "unitPattern-count-other": "{0} פיקומטר"
+          },
+          "length-yard": {
+            "unitPattern-count-one": "יארד {0}",
+            "unitPattern-count-two": "{0} יארד",
+            "unitPattern-count-many": "{0} יארד",
+            "unitPattern-count-other": "{0} יארד"
+          },
+          "mass-gram": {
+            "unitPattern-count-one": "גר׳ {0}",
+            "unitPattern-count-two": "{0} גר׳",
+            "unitPattern-count-many": "{0} גר׳",
+            "unitPattern-count-other": "{0} גר׳"
+          },
+          "mass-kilogram": {
+            "unitPattern-count-one": "ק״ג {0}",
+            "unitPattern-count-two": "{0} ק״ג",
+            "unitPattern-count-many": "{0} ק״ג",
+            "unitPattern-count-other": "{0} ק״ג"
+          },
+          "mass-ounce": {
+            "unitPattern-count-one": "אונקיה {0}",
+            "unitPattern-count-two": "{0} אונקיות",
+            "unitPattern-count-many": "{0} אונקיות",
+            "unitPattern-count-other": "{0} אונקיות"
+          },
+          "mass-pound": {
+            "unitPattern-count-one": "ליברה {0}",
+            "unitPattern-count-two": "{0} ליבראות",
+            "unitPattern-count-many": "{0} ליבראות",
+            "unitPattern-count-other": "{0} ליבראות"
+          },
+          "power-horsepower": {
+            "unitPattern-count-one": "כ״ס {0}",
+            "unitPattern-count-two": "{0} כ״ס",
+            "unitPattern-count-many": "{0} כ״ס",
+            "unitPattern-count-other": "{0} כ״ס"
+          },
+          "power-kilowatt": {
+            "unitPattern-count-one": "{0} kW",
+            "unitPattern-count-two": "{0} kW",
+            "unitPattern-count-many": "{0} kW",
+            "unitPattern-count-other": "{0} kW"
+          },
+          "power-watt": {
+            "unitPattern-count-one": "{0} W",
+            "unitPattern-count-two": "{0} W",
+            "unitPattern-count-many": "{0} W",
+            "unitPattern-count-other": "{0} W"
+          },
+          "pressure-hectopascal": {
+            "unitPattern-count-one": "{0} hPa",
+            "unitPattern-count-two": "{0} hPa",
+            "unitPattern-count-many": "{0} hPa",
+            "unitPattern-count-other": "{0} hPa"
+          },
+          "pressure-inch-hg": {
+            "unitPattern-count-one": "{0} inHg",
+            "unitPattern-count-two": "{0} inHg",
+            "unitPattern-count-many": "{0} inHg",
+            "unitPattern-count-other": "{0} inHg"
+          },
+          "pressure-millibar": {
+            "unitPattern-count-one": "מיליבר {0}",
+            "unitPattern-count-two": "{0} מיליבר",
+            "unitPattern-count-many": "{0} מיליבר",
+            "unitPattern-count-other": "{0} מיליבר"
+          },
+          "speed-kilometer-per-hour": {
+            "unitPattern-count-one": "{0} קמ״ש",
+            "unitPattern-count-two": "{0} קמ״ש",
+            "unitPattern-count-many": "{0} קמ״ש",
+            "unitPattern-count-other": "{0} קמ״ש"
+          },
+          "speed-meter-per-second": {
+            "unitPattern-count-one": "{0} מ/ש",
+            "unitPattern-count-two": "{0} מ/ש",
+            "unitPattern-count-many": "{0} מ/ש",
+            "unitPattern-count-other": "{0} מ/ש"
+          },
+          "speed-mile-per-hour": {
+            "unitPattern-count-one": "{0} mph",
+            "unitPattern-count-two": "{0} mph",
+            "unitPattern-count-many": "{0} mph",
+            "unitPattern-count-other": "{0} mph"
+          },
+          "temperature-celsius": {
+            "unitPattern-count-one": "{0}°",
+            "unitPattern-count-two": "{0}°",
+            "unitPattern-count-many": "{0}°",
+            "unitPattern-count-other": "{0}°"
+          },
+          "temperature-fahrenheit": {
+            "unitPattern-count-one": "{0}°F",
+            "unitPattern-count-two": "{0}°F",
+            "unitPattern-count-many": "{0}°F",
+            "unitPattern-count-other": "{0}°F"
+          },
+          "volume-cubic-kilometer": {
+            "unitPattern-count-one": "{0} קמ״ק",
+            "unitPattern-count-two": "{0} קמ״ק",
+            "unitPattern-count-many": "{0} קמ״ק",
+            "unitPattern-count-other": "{0} קמ״ק"
+          },
+          "volume-cubic-mile": {
+            "unitPattern-count-one": "{0} mi³",
+            "unitPattern-count-two": "{0} mi³",
+            "unitPattern-count-many": "{0} mi³",
+            "unitPattern-count-other": "{0} mi³"
+          },
+          "volume-liter": {
+            "unitPattern-count-one": "{0} ל׳",
+            "unitPattern-count-two": "{0} ל׳",
+            "unitPattern-count-many": "{0} ל׳",
+            "unitPattern-count-other": "{0} ל׳"
+          }
+        },
+        "durationUnit-type-hm": {
+          "durationUnitPattern": "h:mm"
+        },
+        "durationUnit-type-hms": {
+          "durationUnitPattern": "h:mm:ss"
+        },
+        "durationUnit-type-ms": {
+          "durationUnitPattern": "m:ss"
+        }
+      }
+    }
+  }
+}

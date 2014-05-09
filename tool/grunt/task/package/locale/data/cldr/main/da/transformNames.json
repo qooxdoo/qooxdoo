@@ -1,0 +1,30 @@
+{
+  "main": {
+    "da": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "da"
+      },
+      "localeDisplayNames": {
+        "transformNames": {
+          "BGN": "BGN",
+          "Numeric": "Numerisk",
+          "Tone": "Tone",
+          "UNGEGN": "UNGEGN",
+          "x-Accents": "Accenter",
+          "x-Fullwidth": "Fuld bredde",
+          "x-Halfwidth": "Halv bredde",
+          "x-Jamo": "Jamo",
+          "x-Pinyin": "Pinyin",
+          "x-Publishing": "Publishing"
+        }
+      }
+    }
+  }
+}

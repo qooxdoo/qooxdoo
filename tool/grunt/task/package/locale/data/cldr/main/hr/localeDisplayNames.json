@@ -1,0 +1,271 @@
+{
+  "main": {
+    "hr": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "hr"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}, {1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "kalendar",
+          "colAlternate": "Zanemarivanje poredavanja simbola",
+          "colBackwards": "Obrnuto poredavanje po naglasku",
+          "colCaseFirst": "Poredavanje po velikim/malim slovima",
+          "colCaseLevel": "Poredavanje u skladu s veličinom slova",
+          "colHiraganaQuaternary": "Poredavanje po pismu kana",
+          "colNormalization": "Normalizirano poredavanje",
+          "colNumeric": "Numeričko poredavanje",
+          "colStrength": "Jačina poredavanja",
+          "collation": "Redoslijed razvrstavanja",
+          "currency": "valuta",
+          "numbers": "brojevi",
+          "timezone": "Vremenska zona",
+          "va": "Varijanta zemlje/jezika",
+          "variableTop": "Poredaj kao simbole",
+          "x": "Privatna upotreba"
+        },
+        "types": {
+          "numbers": {
+            "arab": "arapsko-indijske znamenke",
+            "arabext": "proširene arapsko-indijske znamenke",
+            "armn": "armenski brojevi",
+            "armnlow": "mali armenski brojevi",
+            "bali": "bali",
+            "beng": "znamenke bengalskog pisma"
+          },
+          "collation": {
+            "big5han": "razvrstavanje prema tradicionalnom kineskom - Big5"
+          },
+          "numbers": {
+            "brah": "brah"
+          },
+          "calendar": {
+            "buddhist": "budistički kalendar"
+          },
+          "numbers": {
+            "cakm": "cakm",
+            "cham": "cham"
+          },
+          "calendar": {
+            "chinese": "kineski kalendar",
+            "coptic": "Koptski kalendar",
+            "dangi": "Dangi kalendar"
+          },
+          "numbers": {
+            "deva": "znamenke pisma devanagari"
+          },
+          "collation": {
+            "dictionary": "rječničko razvrstavanje",
+            "ducet": "Standardno Unicode razvrstavanje",
+            "eor": "eor"
+          },
+          "numbers": {
+            "ethi": "etiopski brojevi"
+          },
+          "calendar": {
+            "ethiopic": "Etiopski kalendar",
+            "ethiopic-amete-alem": "Etiopski kalendar \"Amete Alem\""
+          },
+          "numbers": {
+            "finance": "Financijski brojevi",
+            "fullwide": "široke znamenke"
+          },
+          "collation": {
+            "gb2312han": "razvrstavanje prema pojednostavljenom kineskom - GB2312"
+          },
+          "numbers": {
+            "geor": "gruzijski brojevi"
+          },
+          "calendar": {
+            "gregorian": "gregorijanski kalendar"
+          },
+          "numbers": {
+            "grek": "grčki brojevi",
+            "greklow": "mali grčki brojevi",
+            "gujr": "gudžaratske znamenke",
+            "guru": "znamenke pisma gurmukhi",
+            "hanidec": "kineski decimalni brojevi",
+            "hans": "pojednostavljeni kineski brojevi",
+            "hansfin": "pojednostavljeni kineski financijski brojevi",
+            "hant": "tradicionalni kineski brojevi",
+            "hantfin": "tradicionalni kineski financijski brojevi",
+            "hebr": "hebrejski brojevi"
+          },
+          "calendar": {
+            "hebrew": "hebrejski kalendar"
+          },
+          "colStrength": {
+            "identical": "Poredaj sve"
+          },
+          "calendar": {
+            "indian": "indijski nacionalni kalendar",
+            "islamic": "islamski kalendar",
+            "islamic-civil": "islamski civilni kalendar",
+            "islamic-rgsa": "islamic-rgsa",
+            "islamic-tbla": "islamic-tbla",
+            "islamic-umalqura": "islamic-umalqura",
+            "iso8601": "iso8601",
+            "japanese": "japanski kalendar"
+          },
+          "numbers": {
+            "java": "java",
+            "jpan": "japanski brojevi",
+            "jpanfin": "japanski financijski brojevi",
+            "kali": "kali",
+            "khmr": "khmerske znamenke",
+            "knda": "znamenke pisma kannada",
+            "lana": "lana",
+            "lanatham": "lanatham",
+            "laoo": "laoske znamenke",
+            "latn": "arapski brojevi",
+            "lepc": "lepc",
+            "limb": "limb"
+          },
+          "colCaseFirst": {
+            "lower": "Prvo poredaj mala slova"
+          },
+          "numbers": {
+            "mlym": "malajalamske znamenke",
+            "mong": "Mongolske znamenke",
+            "mtei": "mtei",
+            "mymr": "mijanmarske znamenke",
+            "mymrshan": "mymrshan",
+            "native": "Izvorne znamenke",
+            "nkoo": "nkoo"
+          },
+          "colBackwards": {
+            "no": "Poredaj naglaske normalno"
+          },
+          "colCaseFirst": {
+            "no": "Poredaj po normalnom poretku veličine slova"
+          },
+          "colCaseLevel": {
+            "no": "Poredaj zanemarujući veličinu"
+          },
+          "colHiraganaQuaternary": {
+            "no": "Poredaj pismo kana zasebno"
+          },
+          "colNormalization": {
+            "no": "Poredaj bez normalizacije"
+          },
+          "colNumeric": {
+            "no": "Poredaj znamenke pojedinačno"
+          },
+          "colAlternate": {
+            "non-ignorable": "Poredaj simbole"
+          },
+          "numbers": {
+            "olck": "olck",
+            "orya": "orijske znamenke",
+            "osma": "osma"
+          },
+          "calendar": {
+            "persian": "Perzijski kalendar"
+          },
+          "collation": {
+            "phonebook": "razvrstavanje po abecedi",
+            "phonetic": "Fonetski poredak",
+            "pinyin": "Pinyin razvrstavanje"
+          },
+          "colStrength": {
+            "primary": "Poredaj samo po osnovnim slovima",
+            "quaternary": "Poredaj po naglascima/veličini/širini/pismu kana"
+          },
+          "collation": {
+            "reformed": "reformirano razvrstavanje"
+          },
+          "calendar": {
+            "roc": "kalendar Republike Kine"
+          },
+          "numbers": {
+            "roman": "rimski brojevi",
+            "romanlow": "mali rimski brojevi",
+            "saur": "saur"
+          },
+          "collation": {
+            "search": "Općenito pretraživanje",
+            "searchjl": "Pretraživanje po početnom suglasniku hangula"
+          },
+          "colStrength": {
+            "secondary": "Poredaj po naglasku"
+          },
+          "colAlternate": {
+            "shifted": "Poredaj zanemarujući simbole"
+          },
+          "numbers": {
+            "shrd": "shrd",
+            "sora": "sora"
+          },
+          "collation": {
+            "standard": "Standardno razvrstavanje",
+            "stroke": "razvrstavanje po redoslijedu poteza za kineski"
+          },
+          "numbers": {
+            "sund": "sund",
+            "takr": "takr",
+            "talu": "talu",
+            "taml": "tamilski brojevi",
+            "tamldec": "tamilske znamenke",
+            "telu": "znamenke teluškog pisma"
+          },
+          "colStrength": {
+            "tertiary": "Poredaj po naglascima/veličini/širini"
+          },
+          "numbers": {
+            "thai": "tajske znamenke",
+            "tibt": "tibetske znamenke"
+          },
+          "collation": {
+            "traditional": "tradicionalno razvrstavanje"
+          },
+          "numbers": {
+            "traditional": "Tradicionalni brojevi"
+          },
+          "collation": {
+            "unihan": "razvrstavanje prema korijenu i potezu"
+          },
+          "colCaseFirst": {
+            "upper": "Poredaj prvo velika slova"
+          },
+          "numbers": {
+            "vaii": "Vai znamenke"
+          },
+          "colBackwards": {
+            "yes": "Poredaj naglaske obrnuto"
+          },
+          "colCaseLevel": {
+            "yes": "Poredaj u skladu s veličinom slova"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "Poredaj pismo kana drugačije"
+          },
+          "colNormalization": {
+            "yes": "Poredaj unikod normalizirano"
+          },
+          "colNumeric": {
+            "yes": "Poredaj znamenke numerički"
+          },
+          "collation": {
+            "zhuyin": "zhuyin razvrstavanje"
+          }
+        },
+        "codePatterns": {
+          "language": "Jezik: {0}",
+          "script": "Pismo: {0}",
+          "territory": "Regija: {0}"
+        }
+      }
+    }
+  }
+}

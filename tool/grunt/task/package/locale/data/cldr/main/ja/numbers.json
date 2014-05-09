@@ -1,0 +1,99 @@
+{
+  "main": {
+    "ja": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ja"
+      },
+      "numbers": {
+        "defaultNumberingSystem": "latn",
+        "otherNumberingSystems": {
+          "native": "latn",
+          "traditional": "jpan",
+          "finance": "jpanfin"
+        },
+        "symbols-numberSystem-latn": {
+          "decimal": ".",
+          "group": ",",
+          "list": ";",
+          "percentSign": "%",
+          "plusSign": "+",
+          "minusSign": "-",
+          "exponential": "E",
+          "superscriptingExponent": "×",
+          "perMille": "‰",
+          "infinity": "∞",
+          "nan": "NaN"
+        },
+        "decimalFormats-numberSystem-latn": {
+          "standard": "#,##0.###",
+          "long": {
+            "decimalFormat": {
+              "1000-count-other": "0千",
+              "10000-count-other": "0万",
+              "100000-count-other": "00万",
+              "1000000-count-other": "000万",
+              "10000000-count-other": "0000万",
+              "100000000-count-other": "0億",
+              "1000000000-count-other": "00億",
+              "10000000000-count-other": "000億",
+              "100000000000-count-other": "0000億",
+              "1000000000000-count-other": "0兆",
+              "10000000000000-count-other": "00兆",
+              "100000000000000-count-other": "000兆"
+            }
+          },
+          "short": {
+            "decimalFormat": {
+              "1000-count-other": "0千",
+              "10000-count-other": "0万",
+              "100000-count-other": "00万",
+              "1000000-count-other": "000万",
+              "10000000-count-other": "0000万",
+              "100000000-count-other": "0億",
+              "1000000000-count-other": "00億",
+              "10000000000-count-other": "000億",
+              "100000000000-count-other": "0000億",
+              "1000000000000-count-other": "0兆",
+              "10000000000000-count-other": "00兆",
+              "100000000000000-count-other": "000兆"
+            }
+          }
+        },
+        "scientificFormats-numberSystem-latn": {
+          "standard": "#E0"
+        },
+        "percentFormats-numberSystem-latn": {
+          "standard": "#,##0%"
+        },
+        "currencyFormats-numberSystem-latn": {
+          "currencySpacing": {
+            "beforeCurrency": {
+              "currencyMatch": "[:^S:]",
+              "surroundingMatch": "[:digit:]",
+              "insertBetween": " "
+            },
+            "afterCurrency": {
+              "currencyMatch": "[:^S:]",
+              "surroundingMatch": "[:digit:]",
+              "insertBetween": " "
+            }
+          },
+          "accounting": "¤#,##0.00;(¤#,##0.00)",
+          "standard": "¤#,##0.00",
+          "unitPattern-count-other": "{0} {1}"
+        },
+        "miscPatterns-numberSystem-latn": {
+          "atLeast": "{0} 以上",
+          "range": "{0}～{1}"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "main": {
+    "nb": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "nb"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}, {1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "kalender",
+          "colAlternate": "Ignorer sortering etter symboler",
+          "colBackwards": "Omvendt sortering etter aksent",
+          "colCaseFirst": "Organisering av store og små bokstaver",
+          "colCaseLevel": "Sortering av store og små bokstaver",
+          "colHiraganaQuaternary": "Sortering av kana",
+          "colNormalization": "Normalisert sortering",
+          "colNumeric": "Numerisk sortering",
+          "colStrength": "Sorteringsstyrke",
+          "collation": "sorteringsrekkefølge",
+          "currency": "valuta",
+          "numbers": "tall",
+          "timezone": "tidssone",
+          "va": "Språkvariant",
+          "variableTop": "Sortér som symboler",
+          "x": "privat bruk"
+        },
+        "types": {
+          "numbers": {
+            "arab": "arabisk-indiske tall",
+            "arabext": "utvidede arabisk-indiske tall",
+            "armn": "armenske tallsymboler",
+            "armnlow": "små armenske tallsymboler",
+            "bali": "baliske tall",
+            "beng": "bengalske tall"
+          },
+          "collation": {
+            "big5han": "tradisjonell kinesisk sortering - Big 5"
+          },
+          "numbers": {
+            "brah": "brahmiske tall"
+          },
+          "calendar": {
+            "buddhist": "buddhistisk kalender"
+          },
+          "numbers": {
+            "cakm": "chakma-tall",
+            "cham": "cham-tall"
+          },
+          "calendar": {
+            "chinese": "kinesisk kalender",
+            "coptic": "koptisk kalender",
+            "dangi": "dangisk kalender"
+          },
+          "numbers": {
+            "deva": "devanagari-tall"
+          },
+          "collation": {
+            "dictionary": "ordlistesortering",
+            "ducet": "standard Unicode-sorteringsrekkefølge",
+            "eor": "sorteringsrekkefølge for flerspråklige europeiske dokumenter"
+          },
+          "numbers": {
+            "ethi": "etiopiske tallsymboler"
+          },
+          "calendar": {
+            "ethiopic": "etiopisk kalender",
+            "ethiopic-amete-alem": "etiopisk amete-alem-kalender"
+          },
+          "numbers": {
+            "finance": "Finansielle tall",
+            "fullwide": "tall med full bredde"
+          },
+          "collation": {
+            "gb2312han": "forenklet kinesisk sortering - GB2312"
+          },
+          "numbers": {
+            "geor": "georgiske tall"
+          },
+          "calendar": {
+            "gregorian": "gregoriansk kalender"
+          },
+          "numbers": {
+            "grek": "greske tallsymboler",
+            "greklow": "små greske tallsymboler",
+            "gujr": "gujarati-tall",
+            "guru": "gurmukhi-tall",
+            "hanidec": "kinesiske desimaltallsymboler",
+            "hans": "forenklede kinesiske tallsymboler",
+            "hansfin": "forenklede kinesiske finanstallsymboler",
+            "hant": "tradisjonelle kinesiske tallsymboler",
+            "hantfin": "tradisjonelle kinesiske finanstallsymboler",
+            "hebr": "hebraiske tallsymboler"
+          },
+          "calendar": {
+            "hebrew": "hebraisk kalender"
+          },
+          "colStrength": {
+            "identical": "Sortér alle"
+          },
+          "calendar": {
+            "indian": "indisk nasjonalkalender",
+            "islamic": "islamsk kalender",
+            "islamic-civil": "islamsk sivil kalender",
+            "islamic-rgsa": "islamsk kalender (Saudi-Arabia. synlighet)",
+            "islamic-tbla": "islamsk kalender (tabellarisk, astronomisk epoke)",
+            "islamic-umalqura": "islamsk kalender (Umm al-Qura)",
+            "iso8601": "ISO-8601-kalender",
+            "japanese": "japansk kalender"
+          },
+          "numbers": {
+            "java": "java-tall",
+            "jpan": "japanske tallsymboler",
+            "jpanfin": "japanske finanstallsymboler",
+            "kali": "kayah li-tall",
+            "khmr": "khmer-tall",
+            "knda": "kannada-tall",
+            "lana": "thai tham hora-tall",
+            "lanatham": "tai tham tham-tall",
+            "laoo": "lao-tall",
+            "latn": "vestlige tall",
+            "lepc": "lepecha-tall",
+            "limb": "limbu-tall"
+          },
+          "colCaseFirst": {
+            "lower": "Sortér små bokstaver først"
+          },
+          "numbers": {
+            "mlym": "malayalam-tall",
+            "mong": "mongolske tall",
+            "mtei": "meetei mayek-tall",
+            "mymr": "myanmar-tall",
+            "mymrshan": "myanmar shan-tall",
+            "native": "Språkspesifikke sifre",
+            "nkoo": "n'ko-tall"
+          },
+          "colBackwards": {
+            "no": "Sortér aksenttegn normalt"
+          },
+          "colCaseFirst": {
+            "no": "Sortér store og små bokstaver i vanlig rekkefølge"
+          },
+          "colCaseLevel": {
+            "no": "Sortér uavhengig av store og små bokstaver."
+          },
+          "colHiraganaQuaternary": {
+            "no": "Sortér kana separat"
+          },
+          "colNormalization": {
+            "no": "Sortér uten normalisering"
+          },
+          "colNumeric": {
+            "no": "Sortér sifre individuelt"
+          },
+          "colAlternate": {
+            "non-ignorable": "Sortér symboler"
+          },
+          "numbers": {
+            "olck": "ol chiki-tall",
+            "orya": "oriya-tall",
+            "osma": "osmanya-tall"
+          },
+          "calendar": {
+            "persian": "persisk kalender"
+          },
+          "collation": {
+            "phonebook": "telefonkatalogsortering",
+            "phonetic": "Fonetisk sorteringsrekkefølge",
+            "pinyin": "pinyinsortering"
+          },
+          "colStrength": {
+            "primary": "Sortér bare basisbokstaver",
+            "quaternary": "Sortér aksenttegn / små og store bokstaver / bredde / kana"
+          },
+          "collation": {
+            "reformed": "reformert sortering"
+          },
+          "calendar": {
+            "roc": "kalender for Republikken Kina"
+          },
+          "numbers": {
+            "roman": "romertall",
+            "romanlow": "små romertall",
+            "saur": "sarushatra-tall"
+          },
+          "collation": {
+            "search": "søk av normaltype",
+            "searchjl": "Søk etter første konsonant i hangul"
+          },
+          "colStrength": {
+            "secondary": "Sortér aksenttegn"
+          },
+          "colAlternate": {
+            "shifted": "Ignorer symboler under sortering"
+          },
+          "numbers": {
+            "shrd": "sharada-tall",
+            "sora": "sora sompeng-tall"
+          },
+          "collation": {
+            "standard": "standard sorteringsrekkefølge",
+            "stroke": "streksortering"
+          },
+          "numbers": {
+            "sund": "sundanese-tall",
+            "takr": "takri-tall",
+            "talu": "ny tai lue-tall",
+            "taml": "tamilske tallsymboler",
+            "tamldec": "tamilske tall",
+            "telu": "telugu-tall"
+          },
+          "colStrength": {
+            "tertiary": "Sortér aksenttegn / små og store bokstaver / bredde"
+          },
+          "numbers": {
+            "thai": "thailandske tall",
+            "tibt": "tibetanske tall"
+          },
+          "collation": {
+            "traditional": "tradisjonell sortering"
+          },
+          "numbers": {
+            "traditional": "Tradisjonelle tall"
+          },
+          "collation": {
+            "unihan": "radikal-strek-sortering"
+          },
+          "colCaseFirst": {
+            "upper": "Sortér store bokstaver først"
+          },
+          "numbers": {
+            "vaii": "vai-sifre"
+          },
+          "colBackwards": {
+            "yes": "Sortér aksenttegn i motsatt rekkefølge"
+          },
+          "colCaseLevel": {
+            "yes": "Sortér med skille mellom små og store bokstaver"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "Sortér med skille mellom forskjellige varianter av kana"
+          },
+          "colNormalization": {
+            "yes": "Sortér Unicode normalisert"
+          },
+          "colNumeric": {
+            "yes": "Sortér sifre numerisk"
+          },
+          "collation": {
+            "zhuyin": "zhuyin-sortering"
+          }
+        },
+        "codePatterns": {
+          "language": "Språk: {0}",
+          "script": "Skrift: {0}",
+          "territory": "Område: {0}"
+        }
+      }
+    }
+  }
+}

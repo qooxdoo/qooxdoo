@@ -1,0 +1,158 @@
+{
+  "main": {
+    "en-AU": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "en",
+        "territory": "001"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "Era"
+          },
+          "year": {
+            "displayName": "Year",
+            "relative-type--1": "Last year",
+            "relative-type-0": "This year",
+            "relative-type-1": "Next year",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "in {0} year",
+              "relativeTimePattern-count-other": "in {0} years"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} year ago",
+              "relativeTimePattern-count-other": "{0} years ago"
+            }
+          },
+          "month": {
+            "displayName": "Month",
+            "relative-type--1": "Last month",
+            "relative-type-0": "This month",
+            "relative-type-1": "Next month",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "in {0} month",
+              "relativeTimePattern-count-other": "in {0} months"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} month ago",
+              "relativeTimePattern-count-other": "{0} months ago"
+            }
+          },
+          "week": {
+            "displayName": "Week",
+            "relative-type--1": "Last week",
+            "relative-type-0": "This week",
+            "relative-type-1": "Next week",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "in {0} week",
+              "relativeTimePattern-count-other": "in {0} weeks"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} week ago",
+              "relativeTimePattern-count-other": "{0} weeks ago"
+            }
+          },
+          "day": {
+            "displayName": "Day",
+            "relative-type--1": "Yesterday",
+            "relative-type-0": "Today",
+            "relative-type-1": "Tomorrow",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "in {0} day",
+              "relativeTimePattern-count-other": "in {0} days"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} day ago",
+              "relativeTimePattern-count-other": "{0} days ago"
+            }
+          },
+          "weekday": {
+            "displayName": "Day of the Week"
+          },
+          "sun": {
+            "relative-type--1": "last Sunday",
+            "relative-type-0": "this Sunday",
+            "relative-type-1": "next Sunday"
+          },
+          "mon": {
+            "relative-type--1": "last Monday",
+            "relative-type-0": "this Monday",
+            "relative-type-1": "next Monday"
+          },
+          "tue": {
+            "relative-type--1": "last Tuesday",
+            "relative-type-0": "this Tuesday",
+            "relative-type-1": "next Tuesday"
+          },
+          "wed": {
+            "relative-type--1": "last Wednesday",
+            "relative-type-0": "this Wednesday",
+            "relative-type-1": "next Wednesday"
+          },
+          "thu": {
+            "relative-type--1": "last Thursday",
+            "relative-type-0": "this Thursday",
+            "relative-type-1": "next Thursday"
+          },
+          "fri": {
+            "relative-type--1": "last Friday",
+            "relative-type-0": "this Friday",
+            "relative-type-1": "next Friday"
+          },
+          "sat": {
+            "relative-type--1": "last Saturday",
+            "relative-type-0": "this Saturday",
+            "relative-type-1": "next Saturday"
+          },
+          "dayperiod": {
+            "displayName": "am/pm"
+          },
+          "hour": {
+            "displayName": "Hour",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "in {0} hour",
+              "relativeTimePattern-count-other": "in {0} hours"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} hour ago",
+              "relativeTimePattern-count-other": "{0} hours ago"
+            }
+          },
+          "minute": {
+            "displayName": "Minute",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "in {0} minute",
+              "relativeTimePattern-count-other": "in {0} minutes"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} minute ago",
+              "relativeTimePattern-count-other": "{0} minutes ago"
+            }
+          },
+          "second": {
+            "displayName": "Second",
+            "relative-type-0": "now",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "in {0} second",
+              "relativeTimePattern-count-other": "in {0} seconds"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} second ago",
+              "relativeTimePattern-count-other": "{0} seconds ago"
+            }
+          },
+          "zone": {
+            "displayName": "Time Zone"
+          }
+        }
+      }
+    }
+  }
+}

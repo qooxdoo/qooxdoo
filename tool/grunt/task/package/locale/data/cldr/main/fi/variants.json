@@ -1,0 +1,90 @@
+{
+  "main": {
+    "fi": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "fi"
+      },
+      "localeDisplayNames": {
+        "variants": {
+          "1606NICT": "myöhäiskeskiranska",
+          "1694ACAD": "varhaisnykyranska",
+          "1901": "saksan perinteinen oikeinkirjoitus",
+          "1959ACAD": "valkovenäjän virallinen oikeinkirjoitus",
+          "1994": "sloveenin resian murteen yhdenmukaistettu oikeinkirjoitus",
+          "1996": "saksan uusi oikeinkirjoitus",
+          "ALALC97": "amerikkalainen kirjastolatinaistus 1997",
+          "ALUKU": "alukun kreolimurre",
+          "AREVELA": "itäarmenialainen",
+          "AREVMDA": "länsiarmenialainen",
+          "BAKU1926": "yhtenäistetty turkkilainen latinalainen aakkosto",
+          "BALANKA": "BALANKA",
+          "BARLA": "BARLA",
+          "BAUDDHA": "sanskriitin buddhalainen sekamuoto",
+          "BISCAYAN": "baskin biskajalaismurre",
+          "BISKE": "sloveenin resian San Giorgion/Bilan alamurre",
+          "BOHORIC": "BOHORIC",
+          "BOONT": "englannin boontling-murre",
+          "DAJNKO": "DAJNKO",
+          "EKAVSK": "EKAVSK",
+          "EMODENG": "varhaisnykyenglanti",
+          "FONIPA": "kansainvälinen foneettinen aakkosto IPA",
+          "FONUPA": "uralilainen foneettinen aakkosto UPA",
+          "FONUPA-alt-secondary": "suomalais-ugrilainen tarkekirjoitus",
+          "FONXSAMP": "foneettinen X-SAMPA-merkistö",
+          "HEPBURN": "japanin Hepburn-latinaistus",
+          "HOGNORSK": "norjan högnorsk",
+          "IJEKAVSK": "IJEKAVSK",
+          "ITIHASA": "sanskriitin eeppinen muoto",
+          "JAUER": "retoromaanin jauer-murre",
+          "JYUTPING": "kantoninkiinan jyutping-latinaistus",
+          "KKCOR": "kornin yleiskirjoitus",
+          "KSCOR": "KSCOR",
+          "LAUKIKA": "klassinen sanskriitti",
+          "LIPAW": "sloveenin resian Lipovazin/Lipovecin alamurre",
+          "LUNA1918": "venäjän ortografia 1918",
+          "METELKO": "METELKO",
+          "MONOTON": "monotoninen kreikka",
+          "NDYUKA": "ndyukan kreolimurre",
+          "NEDIS": "sloveenin natisonen murre",
+          "NJIVA": "sloveenin resian Gnivan/Njivan alamurre",
+          "NULIK": "nykyvolapük",
+          "OSOJS": "sloveenin resian Oseaccon/Osojanen alamurre",
+          "PAMAKA": "pamakan kreolimurre",
+          "PETR1708": "venäjän Pietarin siviiliaakkosto 1708",
+          "PINYIN": "kiinan pinyin-latinaistus",
+          "POLYTON": "polytoninen kreikka",
+          "POSIX": "tietokonemäärittely POSIX",
+          "PUTER": "retoromaanin puter-muoto",
+          "REVISED": "uudistettu oikeinkirjoitus",
+          "RIGIK": "klassinen volapük",
+          "ROZAJ": "sloveenin resian murre",
+          "RUMGR": "retoromaanin rumantsch grischun -muoto",
+          "SAAHO": "afarin saho-murre",
+          "SCOTLAND": "skotlanninenglanti",
+          "SCOUSE": "englannin scouse-murre",
+          "SOLBA": "sloveenin resian Stolvizzan/Solbican alamurre",
+          "SOTAV": "SOTAV",
+          "SURMIRAN": "retoromaanin surmiran-muoto",
+          "SURSILV": "retoromaanin sursilvan-muoto",
+          "SUTSILV": "retoromaanin sutsilvan-muoto",
+          "TARASK": "valkovenäjän taraškevitsa-oikeinkirjoitus",
+          "UCCOR": "kornin yhtenäiskirjoitus",
+          "UCRCOR": "kornin uusittu yhtenäiskirjoitus",
+          "ULSTER": "skotin ulster-murre",
+          "UNIFON": "UNIFON",
+          "VAIDIKA": "sanskriitin veda-murre",
+          "VALENCIA": "katalaanin valencian murre",
+          "VALLADER": "reoromaanin vallader-muoto",
+          "WADEGILE": "kiinan Wade-Giles-latinaistus"
+        }
+      }
+    }
+  }
+}

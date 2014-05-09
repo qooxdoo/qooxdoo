@@ -1,0 +1,90 @@
+{
+  "main": {
+    "pt-PT": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "pt",
+        "territory": "PT"
+      },
+      "localeDisplayNames": {
+        "variants": {
+          "1606NICT": "Francês antigo de 1606",
+          "1694ACAD": "Francês da idade moderna",
+          "1901": "Ortografia alemã tradicional",
+          "1959ACAD": "Académica",
+          "1994": "Ortografia resiana padronizada",
+          "1996": "Ortografia alemã de 1996",
+          "ALALC97": "ALALC97",
+          "ALUKU": "ALUKU",
+          "AREVELA": "arménio oriental",
+          "AREVMDA": "arménio ocidental",
+          "BAKU1926": "Alfabeto latino turco unificado",
+          "BALANKA": "BALANKA",
+          "BARLA": "BARLA",
+          "BAUDDHA": "BAUDDHA",
+          "BISCAYAN": "biscainho",
+          "BISKE": "dialecto san giorgio/bila",
+          "BOHORIC": "BOHORIC",
+          "BOONT": "buntlingue",
+          "DAJNKO": "DAJNKO",
+          "EKAVSK": "EKAVSK",
+          "EMODENG": "EMODENG",
+          "FONIPA": "Fonética do Alfabeto Fonético Internacional",
+          "FONUPA": "Fonética do Alfabeto Fonético Urálico",
+          "FONXSAMP": "FONXSAMP",
+          "HEPBURN": "romanização hepburn",
+          "HOGNORSK": "alto noruego",
+          "IJEKAVSK": "IJEKAVSK",
+          "ITIHASA": "ITIHASA",
+          "JAUER": "JAUER",
+          "JYUTPING": "JYUTPING",
+          "KKCOR": "Ortografia Comum",
+          "KSCOR": "KSCOR",
+          "LAUKIKA": "LAUKIKA",
+          "LIPAW": "dialecto lipovaz de Resian",
+          "LUNA1918": "LUNA1918",
+          "METELKO": "METELKO",
+          "MONOTON": "monotónico",
+          "NDYUKA": "dialeto ndyuka",
+          "NEDIS": "dialecto natisone",
+          "NJIVA": "dialecto gniva/njiva",
+          "NULIK": "NULIK",
+          "OSOJS": "dialecto oseacco/osojane",
+          "PAMAKA": "dialeto pamaka",
+          "PETR1708": "PETR1708",
+          "PINYIN": "Romanização pinyin",
+          "POLYTON": "politónico",
+          "POSIX": "Computador",
+          "PUTER": "PUTER",
+          "REVISED": "Ortografia Modificada",
+          "RIGIK": "RIGIK",
+          "ROZAJ": "Resiano",
+          "RUMGR": "RUMGR",
+          "SAAHO": "Saho",
+          "SCOTLAND": "inglês padrão escocês",
+          "SCOUSE": "Scouse",
+          "SOLBA": "dialecto stolvizza/solbica",
+          "SOTAV": "SOTAV",
+          "SURMIRAN": "SURMIRAN",
+          "SURSILV": "SURSILV",
+          "SUTSILV": "SUTSILV",
+          "TARASK": "Ortografia taraskievica",
+          "UCCOR": "Ortografia Unificada",
+          "UCRCOR": "Ortografia Modificada Unificada",
+          "ULSTER": "ULSTER",
+          "UNIFON": "UNIFON",
+          "VAIDIKA": "VAIDIKA",
+          "VALENCIA": "Valenciano",
+          "VALLADER": "VALLADER",
+          "WADEGILE": "Romanização Wade-Giles"
+        }
+      }
+    }
+  }
+}

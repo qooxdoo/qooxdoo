@@ -1,0 +1,159 @@
+{
+  "main": {
+    "da": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "da"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "Æra"
+          },
+          "year": {
+            "displayName": "År",
+            "relative-type--1": "sidste år",
+            "relative-type-0": "i år",
+            "relative-type-1": "næste år",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "om {0} år",
+              "relativeTimePattern-count-other": "om {0} år"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "for {0} år siden",
+              "relativeTimePattern-count-other": "for {0} år siden"
+            }
+          },
+          "month": {
+            "displayName": "Måned",
+            "relative-type--1": "sidste måned",
+            "relative-type-0": "denne måned",
+            "relative-type-1": "næste måned",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "om {0} måned",
+              "relativeTimePattern-count-other": "om {0} måneder"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "for {0} måned siden",
+              "relativeTimePattern-count-other": "for {0} måneder siden"
+            }
+          },
+          "week": {
+            "displayName": "Uge",
+            "relative-type--1": "sidste uge",
+            "relative-type-0": "denne uge",
+            "relative-type-1": "næste uge",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "om {0} uge",
+              "relativeTimePattern-count-other": "om {0} uger"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "for {0} uge siden",
+              "relativeTimePattern-count-other": "for {0} uger siden"
+            }
+          },
+          "day": {
+            "displayName": "Dag",
+            "relative-type--1": "i går",
+            "relative-type--2": "i forgårs",
+            "relative-type-0": "i dag",
+            "relative-type-1": "i morgen",
+            "relative-type-2": "i overmorgen",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "om {0} døgn",
+              "relativeTimePattern-count-other": "om {0} døgn"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "for {0} døgn siden",
+              "relativeTimePattern-count-other": "for {0} døgn siden"
+            }
+          },
+          "weekday": {
+            "displayName": "Ugedag"
+          },
+          "sun": {
+            "relative-type--1": "sidste søndag",
+            "relative-type-0": "denne søndag",
+            "relative-type-1": "næste søndag"
+          },
+          "mon": {
+            "relative-type--1": "sidste mandag",
+            "relative-type-0": "denne mandag",
+            "relative-type-1": "næste mandag"
+          },
+          "tue": {
+            "relative-type--1": "sidste tirsdag",
+            "relative-type-0": "denne tirsdag",
+            "relative-type-1": "næste tirsdag"
+          },
+          "wed": {
+            "relative-type--1": "sidste onsdag",
+            "relative-type-0": "denne onsdag",
+            "relative-type-1": "næste onsdag"
+          },
+          "thu": {
+            "relative-type--1": "sidste torsdag",
+            "relative-type-0": "denne torsdag",
+            "relative-type-1": "næste torsdag"
+          },
+          "fri": {
+            "relative-type--1": "sidste fredag",
+            "relative-type-0": "denne fredag",
+            "relative-type-1": "næste fredag"
+          },
+          "sat": {
+            "relative-type--1": "sidste lørdag",
+            "relative-type-0": "denne lørdag",
+            "relative-type-1": "næste lørdag"
+          },
+          "dayperiod": {
+            "displayName": "AM/PM"
+          },
+          "hour": {
+            "displayName": "Time",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "om {0} time",
+              "relativeTimePattern-count-other": "om {0} timer"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "for {0} time siden",
+              "relativeTimePattern-count-other": "for {0} timer siden"
+            }
+          },
+          "minute": {
+            "displayName": "Minut",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "om {0} minut",
+              "relativeTimePattern-count-other": "om {0} minutter"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "for {0} minut siden",
+              "relativeTimePattern-count-other": "for {0} minutter siden"
+            }
+          },
+          "second": {
+            "displayName": "Sekund",
+            "relative-type-0": "nu",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "om {0} sekund",
+              "relativeTimePattern-count-other": "om {0} sekunder"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "for {0} sekund siden",
+              "relativeTimePattern-count-other": "for {0} sekunder siden"
+            }
+          },
+          "zone": {
+            "displayName": "Tidszone"
+          }
+        }
+      }
+    }
+  }
+}

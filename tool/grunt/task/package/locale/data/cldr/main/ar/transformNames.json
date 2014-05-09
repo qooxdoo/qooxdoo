@@ -1,0 +1,30 @@
+{
+  "main": {
+    "ar": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ar"
+      },
+      "localeDisplayNames": {
+        "transformNames": {
+          "BGN": "بي جي إن",
+          "Numeric": "رقمي",
+          "Tone": "أسلوب",
+          "UNGEGN": "يو إن جي إي جي إن",
+          "x-Accents": "اللكنات",
+          "x-Fullwidth": "عرض كامل",
+          "x-Halfwidth": "نصف العرض",
+          "x-Jamo": "جامو",
+          "x-Pinyin": "بن يين",
+          "x-Publishing": "نشر"
+        }
+      }
+    }
+  }
+}

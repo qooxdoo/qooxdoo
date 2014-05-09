@@ -1,0 +1,271 @@
+{
+  "main": {
+    "tr": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}, {1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "Takvim",
+          "colAlternate": "Sembolleri Sıralamayı Yoksayma",
+          "colBackwards": "Ters Aksan Sıralama",
+          "colCaseFirst": "Büyük/Küçük Harf Sıralama",
+          "colCaseLevel": "Büyük/Küçük Harfe Duyarlı Sıralama",
+          "colHiraganaQuaternary": "Kana Sıralaması",
+          "colNormalization": "Normalleştirilmiş Sıralama",
+          "colNumeric": "Sayısal Sıralama",
+          "colStrength": "Sıralama Gücü",
+          "collation": "Sıralama Düzeni",
+          "currency": "Para Birimi",
+          "numbers": "Rakamlar",
+          "timezone": "Saat Dilimi",
+          "va": "Yerel Varyant",
+          "variableTop": "Sembollere Göre Sıralama",
+          "x": "Özel Kullanım"
+        },
+        "types": {
+          "numbers": {
+            "arab": "Hint-Arap Rakamları",
+            "arabext": "Genişletilmiş Hint-Arap Rakamları",
+            "armn": "Ermeni Rakamları",
+            "armnlow": "Küçük Harf Ermeni Rakamları",
+            "bali": "Bali Rakamları",
+            "beng": "Bengal Rakamları"
+          },
+          "collation": {
+            "big5han": "Geleneksel Çince Sıralaması - Big5"
+          },
+          "numbers": {
+            "brah": "Brahmi Rakamları"
+          },
+          "calendar": {
+            "buddhist": "Budist Takvimi"
+          },
+          "numbers": {
+            "cakm": "Chakma Rakamları",
+            "cham": "Cham Rakamları"
+          },
+          "calendar": {
+            "chinese": "Çin Takvimi",
+            "coptic": "Kıpti Takvim",
+            "dangi": "Dangi Takvimi"
+          },
+          "numbers": {
+            "deva": "Devanagari Rakamları"
+          },
+          "collation": {
+            "dictionary": "Sözlük Sıralama Düzeni",
+            "ducet": "Saptanmış Unicode Sıralaması",
+            "eor": "Avrupa Sıralama Kuralları"
+          },
+          "numbers": {
+            "ethi": "Ge'ez Rakamları"
+          },
+          "calendar": {
+            "ethiopic": "Etiyopik Takvim",
+            "ethiopic-amete-alem": "Etiyopik Amete Alem Takvimi"
+          },
+          "numbers": {
+            "finance": "Finansal Sayılar",
+            "fullwide": "Tam Genişlikte Rakamlar"
+          },
+          "collation": {
+            "gb2312han": "Basitleştirilmiş Çince Sıralaması - GB2312"
+          },
+          "numbers": {
+            "geor": "Gürcü Rakamları"
+          },
+          "calendar": {
+            "gregorian": "Miladi Takvim"
+          },
+          "numbers": {
+            "grek": "Yunan Rakamları",
+            "greklow": "Küçük Harf Yunan Rakamları",
+            "gujr": "Gucerat Rakamları",
+            "guru": "Gurmukhi Rakamları",
+            "hanidec": "Çin Rakamları",
+            "hans": "Basitleştirilmiş Çin Rakamları",
+            "hansfin": "Finansal Basitleştirilmiş Çin Rakamları",
+            "hant": "Geleneksel Çin Rakamları",
+            "hantfin": "Finansal Geleneksel Çin Rakamları",
+            "hebr": "İbrani Rakamları"
+          },
+          "calendar": {
+            "hebrew": "Yahudi Takvimi"
+          },
+          "colStrength": {
+            "identical": "Tümünü Sıralama"
+          },
+          "calendar": {
+            "indian": "Ulusal Hint Takvimi",
+            "islamic": "Hicri Takvim",
+            "islamic-civil": "Arap Takvimi",
+            "islamic-rgsa": "Hicri Takvim (Suudi)",
+            "islamic-tbla": "Hicri Takvim (Astronomik Evreler)",
+            "islamic-umalqura": "Hicri Takvim (Ümmü-l Kurra Takvimi)",
+            "iso8601": "ISO-8601 Takvimi",
+            "japanese": "Japon Takvimi"
+          },
+          "numbers": {
+            "java": "Cava Rakamları",
+            "jpan": "Japon Rakamları",
+            "jpanfin": "Finansal Japon Rakamları",
+            "kali": "Kayah Li Rakamları",
+            "khmr": "Kmer Rakamları",
+            "knda": "Kannada Rakamları",
+            "lana": "Tai Tham Hora Rakamları",
+            "lanatham": "Tai Tham Tham Rakamları",
+            "laoo": "Lao Rakamları",
+            "latn": "Batı Rakamları",
+            "lepc": "Lepça Rakamları",
+            "limb": "Limbu Rakamları"
+          },
+          "colCaseFirst": {
+            "lower": "Önce Küçük Harfleri Sıralama"
+          },
+          "numbers": {
+            "mlym": "Malayalam Rakamları",
+            "mong": "Moğolca Rakamlar",
+            "mtei": "Meetei Mayek Rakamları",
+            "mymr": "Myanmar Rakamları",
+            "mymrshan": "Myanmar Shan Rakamları",
+            "native": "Yerel Rakamlar",
+            "nkoo": "N'Ko Rakamları"
+          },
+          "colBackwards": {
+            "no": "Aksanları Normal Olarak Sıralama"
+          },
+          "colCaseFirst": {
+            "no": "Normal Büyük/Küçük Harf Düzeninde Sıralama"
+          },
+          "colCaseLevel": {
+            "no": "Büyük/Küçük Harfe Duyarlı Olmadan Sıralama"
+          },
+          "colHiraganaQuaternary": {
+            "no": "Kana'yı Ayrı Sıralama"
+          },
+          "colNormalization": {
+            "no": "Normalleştirme Olmadan Sıralama"
+          },
+          "colNumeric": {
+            "no": "Rakamları Ayrı Sıralama"
+          },
+          "colAlternate": {
+            "non-ignorable": "Sembolleri Sıralama"
+          },
+          "numbers": {
+            "olck": "Ol Chiki Rakamları",
+            "orya": "Oriya Rakamları",
+            "osma": "osma"
+          },
+          "calendar": {
+            "persian": "Farsça Takvim"
+          },
+          "collation": {
+            "phonebook": "Telefon Defteri Sıralaması",
+            "phonetic": "Fonetik Sıralama Düzeni",
+            "pinyin": "Basitleştirilmiş Çince Pinyin Sıralaması"
+          },
+          "colStrength": {
+            "primary": "Yalnızca Taban Harflerini Sıralama",
+            "quaternary": "Aksanları/Büyük-Küçük Harfleri/Genişliği/Kana'yı Sıralama"
+          },
+          "collation": {
+            "reformed": "Yeni Sıralama Düzeni"
+          },
+          "calendar": {
+            "roc": "Çin Cumhuriyeti Takvimi"
+          },
+          "numbers": {
+            "roman": "Roma Rakamları",
+            "romanlow": "Küçük Harf Roma Rakamları",
+            "saur": "saur"
+          },
+          "collation": {
+            "search": "Genel Amaçlı Arama",
+            "searchjl": "Hangul İlk Sessiz Harfe Göre Arama"
+          },
+          "colStrength": {
+            "secondary": "Aksanları Sıralama"
+          },
+          "colAlternate": {
+            "shifted": "Sembolleri Yoksayarak Sıralama"
+          },
+          "numbers": {
+            "shrd": "shrd",
+            "sora": "sora"
+          },
+          "collation": {
+            "standard": "Standart Sıralama",
+            "stroke": "Geleneksel Çince Vuruş Sıralaması"
+          },
+          "numbers": {
+            "sund": "sund",
+            "takr": "takr",
+            "talu": "talu",
+            "taml": "Geleneksel Tamil Rakamları",
+            "tamldec": "Tamil Rakamları",
+            "telu": "Telugu Rakamları"
+          },
+          "colStrength": {
+            "tertiary": "Aksanları/Büyük-Küçük Harfleri/Genişliği Sıralama"
+          },
+          "numbers": {
+            "thai": "Tay Rakamları",
+            "tibt": "Tibet Rakamları"
+          },
+          "collation": {
+            "traditional": "Geleneksel Sıralama"
+          },
+          "numbers": {
+            "traditional": "Geleneksel Rakamlar"
+          },
+          "collation": {
+            "unihan": "Radical-Stroke Sıralama Düzeni"
+          },
+          "colCaseFirst": {
+            "upper": "Önce Büyük Harfleri Sıralama"
+          },
+          "numbers": {
+            "vaii": "Vai Rakamları"
+          },
+          "colBackwards": {
+            "yes": "Aksanları Ters Sıralama"
+          },
+          "colCaseLevel": {
+            "yes": "Büyük/Küçük Harfe Duyarla Sıralama"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "Kana'yı Farklı Sıralama"
+          },
+          "colNormalization": {
+            "yes": "Unicode Normalleştirilmiş Olarak Sıralama"
+          },
+          "colNumeric": {
+            "yes": "Rakamları Sayısal Olarak Sıralama"
+          },
+          "collation": {
+            "zhuyin": "Zhuyin Sıralaması"
+          }
+        },
+        "codePatterns": {
+          "language": "Dil: {0}",
+          "script": "Alfabe: {0}",
+          "territory": "Bölge: {0}"
+        }
+      }
+    }
+  }
+}

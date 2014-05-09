@@ -1,0 +1,159 @@
+{
+  "main": {
+    "pt": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "pt"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "Era"
+          },
+          "year": {
+            "displayName": "Ano",
+            "relative-type--1": "ano passado",
+            "relative-type-0": "este ano",
+            "relative-type-1": "próximo ano",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Dentro de {0} ano",
+              "relativeTimePattern-count-other": "Dentro de {0} anos"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Há {0} ano",
+              "relativeTimePattern-count-other": "Há {0} anos"
+            }
+          },
+          "month": {
+            "displayName": "Mês",
+            "relative-type--1": "mês passado",
+            "relative-type-0": "este mês",
+            "relative-type-1": "próximo mês",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Dentro de {0} mês",
+              "relativeTimePattern-count-other": "Dentro de {0} meses"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Há {0} mês",
+              "relativeTimePattern-count-other": "Há {0} meses"
+            }
+          },
+          "week": {
+            "displayName": "Semana",
+            "relative-type--1": "semana passada",
+            "relative-type-0": "esta semana",
+            "relative-type-1": "próxima semana",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Dentro de {0} semana",
+              "relativeTimePattern-count-other": "Dentro de {0} semanas"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Há {0} semana",
+              "relativeTimePattern-count-other": "Há {0} semanas"
+            }
+          },
+          "day": {
+            "displayName": "Dia",
+            "relative-type--1": "ontem",
+            "relative-type--2": "anteontem",
+            "relative-type-0": "hoje",
+            "relative-type-1": "amanhã",
+            "relative-type-2": "depois de amanhã",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Dentro de {0} dia",
+              "relativeTimePattern-count-other": "Dentro de {0} dias"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Há {0} dia",
+              "relativeTimePattern-count-other": "Há {0} dias"
+            }
+          },
+          "weekday": {
+            "displayName": "Dia da semana"
+          },
+          "sun": {
+            "relative-type--1": "domingo passado",
+            "relative-type-0": "este domingo",
+            "relative-type-1": "próximo domingo"
+          },
+          "mon": {
+            "relative-type--1": "segunda-feira passada",
+            "relative-type-0": "esta segunda-feira",
+            "relative-type-1": "próxima segunda-feira"
+          },
+          "tue": {
+            "relative-type--1": "terça-feira passada",
+            "relative-type-0": "esta terça-feira",
+            "relative-type-1": "próxima terça-feira"
+          },
+          "wed": {
+            "relative-type--1": "quarta-feira passada",
+            "relative-type-0": "esta quarta-feira",
+            "relative-type-1": "próxima quarta-feira"
+          },
+          "thu": {
+            "relative-type--1": "quinta-feira passada",
+            "relative-type-0": "esta quinta-feira",
+            "relative-type-1": "próxima quinta-feira"
+          },
+          "fri": {
+            "relative-type--1": "sexta-feira passada",
+            "relative-type-0": "esta sexta-feira",
+            "relative-type-1": "próxima sexta-feira"
+          },
+          "sat": {
+            "relative-type--1": "sábado passado",
+            "relative-type-0": "este sábado",
+            "relative-type-1": "próximo sábado"
+          },
+          "dayperiod": {
+            "displayName": "Período do dia"
+          },
+          "hour": {
+            "displayName": "Hora",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Dentro de {0} hora",
+              "relativeTimePattern-count-other": "Dentro de {0} horas"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Há {0} hora",
+              "relativeTimePattern-count-other": "Há {0} horas"
+            }
+          },
+          "minute": {
+            "displayName": "Minuto",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Dentro de {0} minuto",
+              "relativeTimePattern-count-other": "Dentro de {0} minutos"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Há {0} minuto",
+              "relativeTimePattern-count-other": "Há {0} minutos"
+            }
+          },
+          "second": {
+            "displayName": "Segundo",
+            "relative-type-0": "agora",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Dentro de {0} segundo",
+              "relativeTimePattern-count-other": "Dentro de {0} segundos"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Há {0} segundo",
+              "relativeTimePattern-count-other": "Há {0} segundos"
+            }
+          },
+          "zone": {
+            "displayName": "Fuso"
+          }
+        }
+      }
+    }
+  }
+}

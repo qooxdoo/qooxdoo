@@ -1,0 +1,187 @@
+{
+  "main": {
+    "pl": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "pl"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "era"
+          },
+          "year": {
+            "displayName": "rok",
+            "relative-type--1": "w zeszłym roku",
+            "relative-type-0": "w tym roku",
+            "relative-type-1": "w przyszłym roku",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Za {0} rok",
+              "relativeTimePattern-count-few": "Za {0} lata",
+              "relativeTimePattern-count-many": "Za {0} lat",
+              "relativeTimePattern-count-other": "Za {0} roku"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} rok temu",
+              "relativeTimePattern-count-few": "{0} lata temu",
+              "relativeTimePattern-count-many": "{0} lat temu",
+              "relativeTimePattern-count-other": "{0} roku temu"
+            }
+          },
+          "month": {
+            "displayName": "miesiąc",
+            "relative-type--1": "w zeszłym miesiącu",
+            "relative-type-0": "w tym miesiącu",
+            "relative-type-1": "w przyszłym miesiącu",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Za {0} miesiąc",
+              "relativeTimePattern-count-few": "Za {0} miesiące",
+              "relativeTimePattern-count-many": "Za {0} miesięcy",
+              "relativeTimePattern-count-other": "Za {0} miesiąca"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} miesiąc temu",
+              "relativeTimePattern-count-few": "{0} miesiące temu",
+              "relativeTimePattern-count-many": "{0} miesięcy temu",
+              "relativeTimePattern-count-other": "{0} miesiąca temu"
+            }
+          },
+          "week": {
+            "displayName": "tydzień",
+            "relative-type--1": "Zeszły tydzień",
+            "relative-type-0": "w tym tygodniu",
+            "relative-type-1": "w przyszłym tygodniu",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Za {0} tydzień",
+              "relativeTimePattern-count-few": "Za {0} tygodnie",
+              "relativeTimePattern-count-many": "Za {0} tygodni",
+              "relativeTimePattern-count-other": "Za {0} tygodnia"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} tydzień temu",
+              "relativeTimePattern-count-few": "{0} tygodnie temu",
+              "relativeTimePattern-count-many": "{0} tygodni temu",
+              "relativeTimePattern-count-other": "{0} tygodnia temu"
+            }
+          },
+          "day": {
+            "displayName": "dzień",
+            "relative-type--1": "wczoraj",
+            "relative-type--2": "przedwczoraj",
+            "relative-type-0": "dzisiaj",
+            "relative-type-1": "jutro",
+            "relative-type-2": "pojutrze",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Za {0} dzień",
+              "relativeTimePattern-count-few": "Za {0} dni",
+              "relativeTimePattern-count-many": "Za {0} dni",
+              "relativeTimePattern-count-other": "Za {0} dnia"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} dzień temu",
+              "relativeTimePattern-count-few": "{0} dni temu",
+              "relativeTimePattern-count-many": "{0} dni temu",
+              "relativeTimePattern-count-other": "{0} dnia temu"
+            }
+          },
+          "weekday": {
+            "displayName": "dzień tygodnia"
+          },
+          "sun": {
+            "relative-type--1": "w zeszłą niedzielę",
+            "relative-type-0": "w tę niedzielę",
+            "relative-type-1": "w przyszłą niedzielę"
+          },
+          "mon": {
+            "relative-type--1": "w zeszły poniedziałek",
+            "relative-type-0": "w ten poniedziałek",
+            "relative-type-1": "w przyszły poniedziałek"
+          },
+          "tue": {
+            "relative-type--1": "w zeszły wtorek",
+            "relative-type-0": "w ten wtorek",
+            "relative-type-1": "w przyszły wtorek"
+          },
+          "wed": {
+            "relative-type--1": "w zeszłą środę",
+            "relative-type-0": "w tę środę",
+            "relative-type-1": "w przyszłą środę"
+          },
+          "thu": {
+            "relative-type--1": "w zeszły czwartek",
+            "relative-type-0": "w ten czwartek",
+            "relative-type-1": "w przyszły czwartek"
+          },
+          "fri": {
+            "relative-type--1": "w zeszły piątek",
+            "relative-type-0": "w ten piątek",
+            "relative-type-1": "w przyszły piątek"
+          },
+          "sat": {
+            "relative-type--1": "w zeszłą sobotę",
+            "relative-type-0": "w tę sobotę",
+            "relative-type-1": "w przyszłą sobotę"
+          },
+          "dayperiod": {
+            "displayName": "rano / po południu / wieczorem"
+          },
+          "hour": {
+            "displayName": "godzina",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Za {0} godzinę",
+              "relativeTimePattern-count-few": "Za {0} godziny",
+              "relativeTimePattern-count-many": "Za {0} godzin",
+              "relativeTimePattern-count-other": "Za {0} godziny"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} godzinę temu",
+              "relativeTimePattern-count-few": "{0} godziny temu",
+              "relativeTimePattern-count-many": "{0} godzin temu",
+              "relativeTimePattern-count-other": "{0} godziny temu"
+            }
+          },
+          "minute": {
+            "displayName": "minuta",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Za {0} minutę",
+              "relativeTimePattern-count-few": "Za {0} minuty",
+              "relativeTimePattern-count-many": "Za {0} minut",
+              "relativeTimePattern-count-other": "Za {0} minuty"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} minutę temu",
+              "relativeTimePattern-count-few": "{0} minuty temu",
+              "relativeTimePattern-count-many": "{0} minut temu",
+              "relativeTimePattern-count-other": "{0} minuty temu"
+            }
+          },
+          "second": {
+            "displayName": "sekunda",
+            "relative-type-0": "teraz",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Za {0} sekundę",
+              "relativeTimePattern-count-few": "Za {0} sekundy",
+              "relativeTimePattern-count-many": "Za {0} sekund",
+              "relativeTimePattern-count-other": "Za {0} sekundy"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} sekundę temu",
+              "relativeTimePattern-count-few": "{0} sekundy temu",
+              "relativeTimePattern-count-many": "{0} sekund temu",
+              "relativeTimePattern-count-other": "{0} sekundy temu"
+            }
+          },
+          "zone": {
+            "displayName": "strefa czasowa"
+          }
+        }
+      }
+    }
+  }
+}

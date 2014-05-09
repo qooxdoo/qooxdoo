@@ -1,0 +1,89 @@
+{
+  "main": {
+    "ko": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ko"
+      },
+      "localeDisplayNames": {
+        "variants": {
+          "1606NICT": "중세 후기 프랑스어(1606년까지)",
+          "1694ACAD": "근대 초기 프랑스어",
+          "1901": "전통 독일어 표기법",
+          "1959ACAD": "관학식",
+          "1994": "표준 레지아어 표기법",
+          "1996": "독일어 표기법(1996년)",
+          "ALALC97": "ALA-LC 로마자 표기법(1997년 개정)",
+          "ALUKU": "알루꾸 방언",
+          "AREVELA": "동아르메니아어",
+          "AREVMDA": "서아르메니아어",
+          "BAKU1926": "통합 투르크어 라틴 알파벳",
+          "BALANKA": "BALANKA",
+          "BARLA": "BARLA",
+          "BAUDDHA": "바우다",
+          "BISCAYAN": "비스카얀",
+          "BISKE": "산조르지오/빌라 방언",
+          "BOHORIC": "BOHORIC",
+          "BOONT": "분틀링어",
+          "DAJNKO": "DAJNKO",
+          "EKAVSK": "EKAVSK",
+          "EMODENG": "EMODENG",
+          "FONIPA": "IPA 음성학",
+          "FONUPA": "UPA 음성학",
+          "FONXSAMP": "FONXSAMP",
+          "HEPBURN": "헵번식 로마자 표기법",
+          "HOGNORSK": "호그노르스크",
+          "IJEKAVSK": "IJEKAVSK",
+          "ITIHASA": "이띠아사",
+          "JAUER": "야우어",
+          "JYUTPING": "JYUTPING",
+          "KKCOR": "공통 표기법",
+          "KSCOR": "KSCOR",
+          "LAUKIKA": "라우키카",
+          "LIPAW": "레지아어 리포바치 방언",
+          "LUNA1918": "루나1918",
+          "METELKO": "METELKO",
+          "MONOTON": "단음",
+          "NDYUKA": "느듀카 방언",
+          "NEDIS": "나티소네 방언",
+          "NJIVA": "니바 방언",
+          "NULIK": "NULIK",
+          "OSOJS": "오세아코/오소가네 방언",
+          "PAMAKA": "파마카 방언",
+          "PETR1708": "PETR1708",
+          "PINYIN": "병음 로마자 표기법",
+          "POLYTON": "복음",
+          "POSIX": "Computer",
+          "PUTER": "퓨터",
+          "REVISED": "개정",
+          "RIGIK": "RIGIK",
+          "ROZAJ": "레지아어",
+          "RUMGR": "RUMGR",
+          "SAAHO": "사호어",
+          "SCOTLAND": "스코틀랜드 표준 영어",
+          "SCOUSE": "리버풀 방언",
+          "SOLBA": "스톨비자/솔비카 방언",
+          "SOTAV": "SOTAV",
+          "SURMIRAN": "서미안",
+          "SURSILV": "SURSILV",
+          "SUTSILV": "SUTSILV",
+          "TARASK": "타라쉬키에비샤 표기법",
+          "UCCOR": "통합 표기법",
+          "UCRCOR": "통합 개정 표기법",
+          "ULSTER": "얼스터",
+          "UNIFON": "UNIFON",
+          "VAIDIKA": "바이디카",
+          "VALENCIA": "발렌시아어",
+          "VALLADER": "발라더",
+          "WADEGILE": "웨이드-자일스식 로마자 표기법"
+        }
+      }
+    }
+  }
+}

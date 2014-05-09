@@ -1,0 +1,30 @@
+{
+  "main": {
+    "ja": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ja"
+      },
+      "localeDisplayNames": {
+        "transformNames": {
+          "BGN": "BGN",
+          "Numeric": "数字",
+          "Tone": "声調",
+          "UNGEGN": "UNGEGN",
+          "x-Accents": "アクセント",
+          "x-Fullwidth": "全角",
+          "x-Halfwidth": "半角",
+          "x-Jamo": "字母",
+          "x-Pinyin": "ピンイン",
+          "x-Publishing": "出版"
+        }
+      }
+    }
+  }
+}

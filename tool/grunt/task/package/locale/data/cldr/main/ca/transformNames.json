@@ -1,0 +1,30 @@
+{
+  "main": {
+    "ca": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ca"
+      },
+      "localeDisplayNames": {
+        "transformNames": {
+          "BGN": "BGN",
+          "Numeric": "Numèric",
+          "Tone": "To",
+          "UNGEGN": "UNGEGN",
+          "x-Accents": "Accents",
+          "x-Fullwidth": "Amplada completa",
+          "x-Halfwidth": "Amplada mitjana",
+          "x-Jamo": "Jamo",
+          "x-Pinyin": "Pinyin",
+          "x-Publishing": "Publicació"
+        }
+      }
+    }
+  }
+}

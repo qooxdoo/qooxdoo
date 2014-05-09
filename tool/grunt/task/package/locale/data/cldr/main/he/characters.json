@@ -1,0 +1,31 @@
+{
+  "main": {
+    "he": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "he"
+      },
+      "characters": {
+        "exemplarCharacters": "[א ב ג ד ה ו ז ח ט י כ ך ל מ ם נ ן ס ע פ ף צ ץ ק ר ש ת]",
+        "auxiliary": "[\u05BD\u05C4\u200E\u200F \u05B0 \u05B1 \u05B2 \u05B3 \u05B4 \u05B5 \u05B6 \u05B7 \u05B8 \u05B9 \u05BB \u05C2 \u05C1 \u05BC \u05BF ״]",
+        "punctuation": "[\\- ‐ – — , ; \\: ! ? . ' \" ( ) \\[ \\] / ־ ׳ ״]",
+        "index": "[א ב ג ד ה ו ז ח ט י כ ל מ נ ס ע פ צ ק ר ש ת]",
+        "ellipsis": {
+          "initial": "…{0}",
+          "medial": "{0}…{1}",
+          "final": "{0}…",
+          "word-initial": "… {0}",
+          "word-medial": "{0} … {1}",
+          "word-final": "{0} …"
+        },
+        "moreInformation": "?"
+      }
+    }
+  }
+}

@@ -1,0 +1,1041 @@
+{
+  "supplemental": {
+    "version": {
+      "_cldrVersion": "25",
+      "_number": "$Revision: 91 $"
+    },
+    "generation": {
+      "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+    },
+    "languageMatching": {
+      "written": [
+        {
+          "languageMatch": {
+            "_percent": "100",
+            "_supported": "nb",
+            "_desired": "no"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "nb",
+            "_desired": "nn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "no",
+            "_desired": "nn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
+            "_supported": "no",
+            "_desired": "da"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
+            "_supported": "nb",
+            "_desired": "da"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "bs",
+            "_desired": "hr"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "bs",
+            "_desired": "sh"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "bs",
+            "_desired": "sr"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "hr",
+            "_desired": "sh"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "hr",
+            "_desired": "sr"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "sr",
+            "_desired": "sh"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
+            "_supported": "id",
+            "_desired": "ms"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "aa",
+            "_desired": "ssy"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "de",
+            "_oneway": "true",
+            "_desired": "gsw"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "de",
+            "_oneway": "true",
+            "_desired": "lb"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "ab"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ach"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "nl",
+            "_oneway": "true",
+            "_desired": "af"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ak"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "am"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "es",
+            "_oneway": "true",
+            "_desired": "ay"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "az"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "be"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "bem"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "hi",
+            "_oneway": "true",
+            "_desired": "bh"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "bn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "br"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fil",
+            "_oneway": "true",
+            "_desired": "ceb"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "chr"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ar",
+            "_oneway": "true",
+            "_desired": "ckb"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "co"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "crs"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "cy"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ee"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "eo"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "es-419",
+            "_oneway": "true",
+            "_desired": "es-MX"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fi",
+            "_oneway": "true",
+            "_desired": "et"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "es",
+            "_oneway": "true",
+            "_desired": "eu"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "da",
+            "_oneway": "true",
+            "_desired": "fo"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "nl",
+            "_oneway": "true",
+            "_desired": "fy"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ga"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "gaa"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "gd"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "es",
+            "_oneway": "true",
+            "_desired": "gl"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "es",
+            "_oneway": "true",
+            "_desired": "gn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "hi",
+            "_oneway": "true",
+            "_desired": "gu"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ha"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "haw"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "ht"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "hy"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ia"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ig"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "is"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "id",
+            "_oneway": "true",
+            "_desired": "jv"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ka"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "kg"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "kk"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "km"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "kn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "kri"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "tr",
+            "_oneway": "true",
+            "_desired": "ku"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "ky"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "it",
+            "_oneway": "true",
+            "_desired": "la"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "lg"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "ln"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "th",
+            "_oneway": "true",
+            "_desired": "lo"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "loz"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "lua"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "mfe"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "mg"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "mi"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "bg",
+            "_oneway": "true",
+            "_desired": "mk"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ml"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "mn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "hi",
+            "_oneway": "true",
+            "_desired": "mr"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "id",
+            "_oneway": "true",
+            "_desired": "ms"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "mt"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "my"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ne"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "nb",
+            "_oneway": "true",
+            "_desired": "nn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "nso"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ny"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "nyn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "oc"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "om"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "or"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "pa"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "pcm"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ps"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "es",
+            "_oneway": "true",
+            "_desired": "qu"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "de",
+            "_oneway": "true",
+            "_desired": "rm"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "rn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "rw"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "hi",
+            "_oneway": "true",
+            "_desired": "sa"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "sd"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "si"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "sn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "so"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "sq"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "st"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "id",
+            "_oneway": "true",
+            "_desired": "su"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "sw"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ta"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "te"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "tg"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ti"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "tk"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "tlh"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "tn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "to"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "tt"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "tum"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "zh",
+            "_oneway": "true",
+            "_desired": "ug"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "ur"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "ru",
+            "_oneway": "true",
+            "_desired": "uz"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "fr",
+            "_oneway": "true",
+            "_desired": "wo"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "xh"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "yi"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "yo"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "10",
+            "_supported": "en",
+            "_oneway": "true",
+            "_desired": "zu"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "90",
+            "_supported": "sr-Cyrl",
+            "_desired": "sr-Latn"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "85",
+            "_supported": "*-Hant",
+            "_oneway": "true",
+            "_desired": "*-Hans"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "75",
+            "_supported": "*-Hans",
+            "_oneway": "true",
+            "_desired": "*-Hant"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "97",
+            "_supported": "en-*-*",
+            "_desired": "en-*-US"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "99",
+            "_supported": "en-*-*",
+            "_desired": "en-*-*"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "97",
+            "_supported": "es-*-*",
+            "_desired": "es-*-ES"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "99",
+            "_supported": "es-*-*",
+            "_desired": "es-*-419"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "98",
+            "_supported": "es-*-*",
+            "_desired": "es-*-*"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "1",
+            "_supported": "*",
+            "_desired": "*"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "20",
+            "_supported": "*-*",
+            "_desired": "*-*"
+          }
+        },
+        {
+          "languageMatch": {
+            "_percent": "96",
+            "_supported": "*-*-*",
+            "_desired": "*-*-*"
+          }
+        }
+      ]
+    }
+  }
+}

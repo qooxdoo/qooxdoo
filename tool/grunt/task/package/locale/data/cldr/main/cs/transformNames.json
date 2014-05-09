@@ -1,0 +1,30 @@
+{
+  "main": {
+    "cs": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "cs"
+      },
+      "localeDisplayNames": {
+        "transformNames": {
+          "BGN": "BGN",
+          "Numeric": "Numerický",
+          "Tone": "Tón",
+          "UNGEGN": "UNGEGN",
+          "x-Accents": "Přízvuky",
+          "x-Fullwidth": "Plná šířka",
+          "x-Halfwidth": "Poloviční šířka",
+          "x-Jamo": "Jamo",
+          "x-Pinyin": "Pchin-jin",
+          "x-Publishing": "Publikování"
+        }
+      }
+    }
+  }
+}

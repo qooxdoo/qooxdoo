@@ -1,0 +1,187 @@
+{
+  "main": {
+    "cs": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "cs"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "Letopočet"
+          },
+          "year": {
+            "displayName": "Rok",
+            "relative-type--1": "minulý rok",
+            "relative-type-0": "tento rok",
+            "relative-type-1": "příští rok",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} rok",
+              "relativeTimePattern-count-few": "za {0} roky",
+              "relativeTimePattern-count-many": "za {0} roku",
+              "relativeTimePattern-count-other": "za {0} let"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "před {0} rokem",
+              "relativeTimePattern-count-few": "před {0} lety",
+              "relativeTimePattern-count-many": "před {0} rokem",
+              "relativeTimePattern-count-other": "před {0} lety"
+            }
+          },
+          "month": {
+            "displayName": "Měsíc",
+            "relative-type--1": "minulý měsíc",
+            "relative-type-0": "tento měsíc",
+            "relative-type-1": "příští měsíc",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} měsíc",
+              "relativeTimePattern-count-few": "za {0} měsíce",
+              "relativeTimePattern-count-many": "za {0} měsíce",
+              "relativeTimePattern-count-other": "za {0} měsíců"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "před {0} měsícem",
+              "relativeTimePattern-count-few": "před {0} měsíci",
+              "relativeTimePattern-count-many": "před {0} měsícem",
+              "relativeTimePattern-count-other": "před {0} měsíci"
+            }
+          },
+          "week": {
+            "displayName": "Týden",
+            "relative-type--1": "minulý týden",
+            "relative-type-0": "tento týden",
+            "relative-type-1": "příští týden",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} týden",
+              "relativeTimePattern-count-few": "za {0} týdny",
+              "relativeTimePattern-count-many": "za {0} týdne",
+              "relativeTimePattern-count-other": "za {0} týdnů"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "před {0} týdnem",
+              "relativeTimePattern-count-few": "před {0} týdny",
+              "relativeTimePattern-count-many": "před {0} týdnem",
+              "relativeTimePattern-count-other": "před {0} týdny"
+            }
+          },
+          "day": {
+            "displayName": "Den",
+            "relative-type--1": "včera",
+            "relative-type--2": "předevčírem",
+            "relative-type-0": "dnes",
+            "relative-type-1": "zítra",
+            "relative-type-2": "pozítří",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} den",
+              "relativeTimePattern-count-few": "za {0} dny",
+              "relativeTimePattern-count-many": "za {0} dne",
+              "relativeTimePattern-count-other": "za {0} dní"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "před {0} dnem",
+              "relativeTimePattern-count-few": "před {0} dny",
+              "relativeTimePattern-count-many": "před {0} dnem",
+              "relativeTimePattern-count-other": "před {0} dny"
+            }
+          },
+          "weekday": {
+            "displayName": "Den v týdnu"
+          },
+          "sun": {
+            "relative-type--1": "minulou neděli",
+            "relative-type-0": "tuto neděli",
+            "relative-type-1": "příští neděli"
+          },
+          "mon": {
+            "relative-type--1": "minulé pondělí",
+            "relative-type-0": "toto pondělí",
+            "relative-type-1": "příští pondělí"
+          },
+          "tue": {
+            "relative-type--1": "minulé úterý",
+            "relative-type-0": "toto úterý",
+            "relative-type-1": "příští úterý"
+          },
+          "wed": {
+            "relative-type--1": "minulou středu",
+            "relative-type-0": "tuto středu",
+            "relative-type-1": "příští středu"
+          },
+          "thu": {
+            "relative-type--1": "minulý čtvrtek",
+            "relative-type-0": "tento čtvrtek",
+            "relative-type-1": "příští čtvrtek"
+          },
+          "fri": {
+            "relative-type--1": "minulý pátek",
+            "relative-type-0": "tento pátek",
+            "relative-type-1": "příští pátek"
+          },
+          "sat": {
+            "relative-type--1": "minulou sobotu",
+            "relative-type-0": "tuto sobotu",
+            "relative-type-1": "příští sobotu"
+          },
+          "dayperiod": {
+            "displayName": "AM/PM"
+          },
+          "hour": {
+            "displayName": "Hodina",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} hodinu",
+              "relativeTimePattern-count-few": "za {0} hodiny",
+              "relativeTimePattern-count-many": "za {0} hodiny",
+              "relativeTimePattern-count-other": "za {0} hodin"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "před {0} hodinou",
+              "relativeTimePattern-count-few": "před {0} hodinami",
+              "relativeTimePattern-count-many": "před {0} hodinou",
+              "relativeTimePattern-count-other": "před {0} hodinami"
+            }
+          },
+          "minute": {
+            "displayName": "Minuta",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} minutu",
+              "relativeTimePattern-count-few": "za {0} minuty",
+              "relativeTimePattern-count-many": "za {0} minuty",
+              "relativeTimePattern-count-other": "za {0} minut"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "před {0} minutou",
+              "relativeTimePattern-count-few": "před {0} minutami",
+              "relativeTimePattern-count-many": "před {0} minutou",
+              "relativeTimePattern-count-other": "před {0} minutami"
+            }
+          },
+          "second": {
+            "displayName": "Sekunda",
+            "relative-type-0": "nyní",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} sekundu",
+              "relativeTimePattern-count-few": "za {0} sekundy",
+              "relativeTimePattern-count-many": "za {0} sekundy",
+              "relativeTimePattern-count-other": "za {0} sekund"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "před {0} sekundou",
+              "relativeTimePattern-count-few": "před {0} sekundami",
+              "relativeTimePattern-count-many": "před {0} sekundou",
+              "relativeTimePattern-count-other": "před {0} sekundami"
+            }
+          },
+          "zone": {
+            "displayName": "Časové pásmo"
+          }
+        }
+      }
+    }
+  }
+}

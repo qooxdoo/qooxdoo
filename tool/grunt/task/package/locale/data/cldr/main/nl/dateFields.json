@@ -1,0 +1,159 @@
+{
+  "main": {
+    "nl": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "nl"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "Tijdperk"
+          },
+          "year": {
+            "displayName": "Jaar",
+            "relative-type--1": "vorig jaar",
+            "relative-type-0": "dit jaar",
+            "relative-type-1": "volgend jaar",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Over {0} jaar",
+              "relativeTimePattern-count-other": "Over {0} jaar"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} jaar geleden",
+              "relativeTimePattern-count-other": "{0} jaar geleden"
+            }
+          },
+          "month": {
+            "displayName": "Maand",
+            "relative-type--1": "vorige maand",
+            "relative-type-0": "deze maand",
+            "relative-type-1": "volgende maand",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Over {0} maand",
+              "relativeTimePattern-count-other": "Over {0} maanden"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} maand geleden",
+              "relativeTimePattern-count-other": "{0} maanden geleden"
+            }
+          },
+          "week": {
+            "displayName": "Week",
+            "relative-type--1": "vorige week",
+            "relative-type-0": "deze week",
+            "relative-type-1": "volgende week",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Over {0} week",
+              "relativeTimePattern-count-other": "Over {0} weken"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} week geleden",
+              "relativeTimePattern-count-other": "{0} weken geleden"
+            }
+          },
+          "day": {
+            "displayName": "Dag",
+            "relative-type--1": "gisteren",
+            "relative-type--2": "eergisteren",
+            "relative-type-0": "vandaag",
+            "relative-type-1": "morgen",
+            "relative-type-2": "overmorgen",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Over {0} dag",
+              "relativeTimePattern-count-other": "Over {0} dagen"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} dag geleden",
+              "relativeTimePattern-count-other": "{0} dagen geleden"
+            }
+          },
+          "weekday": {
+            "displayName": "Dag van de week"
+          },
+          "sun": {
+            "relative-type--1": "afgelopen zondag",
+            "relative-type-0": "deze zondag",
+            "relative-type-1": "volgende week zondag"
+          },
+          "mon": {
+            "relative-type--1": "afgelopen maandag",
+            "relative-type-0": "deze maandag",
+            "relative-type-1": "volgende week maandag"
+          },
+          "tue": {
+            "relative-type--1": "afgelopen dinsdag",
+            "relative-type-0": "deze dinsdag",
+            "relative-type-1": "volgende week dinsdag"
+          },
+          "wed": {
+            "relative-type--1": "afgelopen woensdag",
+            "relative-type-0": "deze woensdag",
+            "relative-type-1": "volgende week woensdag"
+          },
+          "thu": {
+            "relative-type--1": "afgelopen donderdag",
+            "relative-type-0": "deze donderdag",
+            "relative-type-1": "volgende week donderdag"
+          },
+          "fri": {
+            "relative-type--1": "afgelopen vrijdag",
+            "relative-type-0": "deze vrijdag",
+            "relative-type-1": "volgende week vrijdag"
+          },
+          "sat": {
+            "relative-type--1": "afgelopen zaterdag",
+            "relative-type-0": "deze zaterdag",
+            "relative-type-1": "volgende week zaterdag"
+          },
+          "dayperiod": {
+            "displayName": "AM/PM"
+          },
+          "hour": {
+            "displayName": "Uur",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Over {0} uur",
+              "relativeTimePattern-count-other": "Over {0} uur"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} uur geleden",
+              "relativeTimePattern-count-other": "{0} uur geleden"
+            }
+          },
+          "minute": {
+            "displayName": "Minuut",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Over {0} minuut",
+              "relativeTimePattern-count-other": "Over {0} minuten"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} minuut geleden",
+              "relativeTimePattern-count-other": "{0} minuten geleden"
+            }
+          },
+          "second": {
+            "displayName": "Seconde",
+            "relative-type-0": "nu",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Over {0} seconde",
+              "relativeTimePattern-count-other": "Over {0} seconden"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} seconde geleden",
+              "relativeTimePattern-count-other": "{0} seconden geleden"
+            }
+          },
+          "zone": {
+            "displayName": "Zone"
+          }
+        }
+      }
+    }
+  }
+}

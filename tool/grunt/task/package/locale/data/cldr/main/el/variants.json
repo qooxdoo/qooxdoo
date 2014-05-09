@@ -1,0 +1,89 @@
+{
+  "main": {
+    "el": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "el"
+      },
+      "localeDisplayNames": {
+        "variants": {
+          "1606NICT": "Νεότερα Μέσα Γαλλικά του 1606",
+          "1694ACAD": "Πρώιμα Σύγχρονα Γαλλικά",
+          "1901": "Παραδοσιακή γερμανική ορθογραφία",
+          "1959ACAD": "Ακαδημαϊκά",
+          "1994": "Τυποποιημένη ορθογραφία Ρεσιάν",
+          "1996": "Γερμανική ορθογραφία του 1996",
+          "ALALC97": "ALALC97",
+          "ALUKU": "ALUKU",
+          "AREVELA": "Ανατολικά Αρμενικά",
+          "AREVMDA": "Δυτικά Αρμενικά",
+          "BAKU1926": "Ενοποιημένη τουρκική λατινική αλφάβητος",
+          "BALANKA": "BALANKA",
+          "BARLA": "BARLA",
+          "BAUDDHA": "BAUDDHA",
+          "BISCAYAN": "BISCAYAN",
+          "BISKE": "Διάλεκτος Σαν Τζιόρτζιο/Βίλα",
+          "BOHORIC": "BOHORIC",
+          "BOONT": "Μπούντλινγκ",
+          "DAJNKO": "DAJNKO",
+          "EKAVSK": "EKAVSK",
+          "EMODENG": "EMODENG",
+          "FONIPA": "Διεθνής φωνητική αλφάβητος",
+          "FONUPA": "Ουραλική φωνητική αλφάβητος",
+          "FONXSAMP": "FONXSAMP",
+          "HEPBURN": "HEPBURN",
+          "HOGNORSK": "HOGNORSK",
+          "IJEKAVSK": "IJEKAVSK",
+          "ITIHASA": "ITIHASA",
+          "JAUER": "JAUER",
+          "JYUTPING": "JYUTPING",
+          "KKCOR": "Κοινή ορθογραφία",
+          "KSCOR": "KSCOR",
+          "LAUKIKA": "LAUKIKA",
+          "LIPAW": "Διάλεκτος Λιποβάζ της Ρεσιάν",
+          "LUNA1918": "LUNA1918",
+          "METELKO": "METELKO",
+          "MONOTON": "Μονοτονικό",
+          "NDYUKA": "NDYUKA",
+          "NEDIS": "Διάλεκτος Νατισόνε",
+          "NJIVA": "Διάλεκτος Γκνιβά/Ντζιβά",
+          "NULIK": "NULIK",
+          "OSOJS": "Διάλεκτος Οσεακό/Οσοτζάν",
+          "PAMAKA": "PAMAKA",
+          "PETR1708": "PETR1708",
+          "PINYIN": "Εκλατινισμένα Πινγίν",
+          "POLYTON": "Πολυτονικό",
+          "POSIX": "Υπολογιστής",
+          "PUTER": "PUTER",
+          "REVISED": "Αναθεωρημένη ορθογραφία",
+          "RIGIK": "RIGIK",
+          "ROZAJ": "Ρεσιάν",
+          "RUMGR": "RUMGR",
+          "SAAHO": "Σάχο",
+          "SCOTLAND": "Σκοτσεζικά τυποποιημένα Αγγλικά",
+          "SCOUSE": "Σκουζ",
+          "SOLBA": "Διάλεκτος Στολβιτζά/Σολμπικά",
+          "SOTAV": "SOTAV",
+          "SURMIRAN": "SURMIRAN",
+          "SURSILV": "SURSILV",
+          "SUTSILV": "SUTSILV",
+          "TARASK": "Ταρασκιεβική ορθογραφία",
+          "UCCOR": "Ενωποιημένη ορθογραφία",
+          "UCRCOR": "Ενωποιημένη αναθεωρημένη ορθογραφία",
+          "ULSTER": "ULSTER",
+          "UNIFON": "UNIFON",
+          "VAIDIKA": "VAIDIKA",
+          "VALENCIA": "Βαλενθιανά",
+          "VALLADER": "VALLADER",
+          "WADEGILE": "Εκλατινισμένα Γουάντ-Γκιλς"
+        }
+      }
+    }
+  }
+}

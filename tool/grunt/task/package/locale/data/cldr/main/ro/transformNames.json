@@ -1,0 +1,30 @@
+{
+  "main": {
+    "ro": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ro"
+      },
+      "localeDisplayNames": {
+        "transformNames": {
+          "BGN": "BGN",
+          "Numeric": "Numeric",
+          "Tone": "Ton",
+          "UNGEGN": "UNGEGN",
+          "x-Accents": "Accente",
+          "x-Fullwidth": "Cu lățime întreagă",
+          "x-Halfwidth": "Cu jumătate de lățime",
+          "x-Jamo": "Jamo",
+          "x-Pinyin": "Pinyin",
+          "x-Publishing": "Publicare"
+        }
+      }
+    }
+  }
+}

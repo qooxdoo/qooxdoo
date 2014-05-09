@@ -1,0 +1,159 @@
+{
+  "main": {
+    "hi": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "hi"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "युग"
+          },
+          "year": {
+            "displayName": "वर्ष",
+            "relative-type--1": "पिछला वर्ष",
+            "relative-type-0": "यह वर्ष",
+            "relative-type-1": "अगला वर्ष",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "{0} वर्ष में",
+              "relativeTimePattern-count-other": "{0} वर्ष में"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} वर्ष पहले",
+              "relativeTimePattern-count-other": "{0} वर्ष पहले"
+            }
+          },
+          "month": {
+            "displayName": "माह",
+            "relative-type--1": "पिछला माह",
+            "relative-type-0": "यह माह",
+            "relative-type-1": "अगला माह",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "{0} माह में",
+              "relativeTimePattern-count-other": "{0} माह में"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} माह पहले",
+              "relativeTimePattern-count-other": "{0} माह पहले"
+            }
+          },
+          "week": {
+            "displayName": "सप्ताह",
+            "relative-type--1": "पिछला सप्ताह",
+            "relative-type-0": "यह सप्ताह",
+            "relative-type-1": "अगला सप्ताह",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "{0} सप्ताह में",
+              "relativeTimePattern-count-other": "{0} सप्ताह में"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} सप्ताह पहले",
+              "relativeTimePattern-count-other": "{0} सप्ताह पहले"
+            }
+          },
+          "day": {
+            "displayName": "दिन",
+            "relative-type--1": "बीता कल",
+            "relative-type--2": "बीता परसों",
+            "relative-type-0": "आज",
+            "relative-type-1": "आने वाला कल",
+            "relative-type-2": "परसों",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "{0} दिन में",
+              "relativeTimePattern-count-other": "{0} दिन में"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} दिन पहले",
+              "relativeTimePattern-count-other": "{0} दिन पहले"
+            }
+          },
+          "weekday": {
+            "displayName": "सप्ताह का दिन"
+          },
+          "sun": {
+            "relative-type--1": "पिछला रविवार",
+            "relative-type-0": "यह रविवार",
+            "relative-type-1": "अगला रविवार"
+          },
+          "mon": {
+            "relative-type--1": "पिछला सोमवार",
+            "relative-type-0": "यह सोमवार",
+            "relative-type-1": "अगला सोमवार"
+          },
+          "tue": {
+            "relative-type--1": "पिछला मंगलवार",
+            "relative-type-0": "यह मंगलवार",
+            "relative-type-1": "अगला मंगलवार"
+          },
+          "wed": {
+            "relative-type--1": "पिछला बुधवार",
+            "relative-type-0": "यह बुधवार",
+            "relative-type-1": "अगला बुधवार"
+          },
+          "thu": {
+            "relative-type--1": "पिछला गुरुवार",
+            "relative-type-0": "यह गुरुवार",
+            "relative-type-1": "अगला गुरुवार"
+          },
+          "fri": {
+            "relative-type--1": "पिछला शुक्रवार",
+            "relative-type-0": "यह शुक्रवार",
+            "relative-type-1": "अगला शुक्रवार"
+          },
+          "sat": {
+            "relative-type--1": "पिछला शनिवार",
+            "relative-type-0": "यह शनिवार",
+            "relative-type-1": "अगला शनिवार"
+          },
+          "dayperiod": {
+            "displayName": "AM/PM"
+          },
+          "hour": {
+            "displayName": "घंटा",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "{0} घंटे में",
+              "relativeTimePattern-count-other": "{0} घंटे में"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} घंटे पहले",
+              "relativeTimePattern-count-other": "{0} घंटे पहले"
+            }
+          },
+          "minute": {
+            "displayName": "मिनट",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "{0} मिनट में",
+              "relativeTimePattern-count-other": "{0} मिनट में"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} मिनट पहले",
+              "relativeTimePattern-count-other": "{0} मिनट पहले"
+            }
+          },
+          "second": {
+            "displayName": "सेकंड",
+            "relative-type-0": "अब",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "{0} सेकंड में",
+              "relativeTimePattern-count-other": "{0} सेकंड में"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "{0} सेकंड पहले",
+              "relativeTimePattern-count-other": "{0} सेकंड पहले"
+            }
+          },
+          "zone": {
+            "displayName": "समय क्षेत्र"
+          }
+        }
+      }
+    }
+  }
+}

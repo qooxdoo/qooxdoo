@@ -1,0 +1,43 @@
+{
+  "segments": {
+    "identity": {
+      "version": {
+        "_cldrVersion": "25",
+        "_number": "$Revision: 91 $"
+      },
+      "generation": {
+        "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+      },
+      "language": "en"
+    },
+    "segmentations": {
+      "SentenceBreak": {
+        "exceptions": [
+          { "exception": "Maj."},
+          { "exception": "Mr."},
+          { "exception": "Lt.Cdr."},
+          { "exception": "Pvt."},
+          { "exception": "Lt."},
+          { "exception": "Hon.B.A."},
+          { "exception": "exec."},
+          { "exception": "Md."},
+          { "exception": "Capt."},
+          { "exception": "Col."},
+          { "exception": "Prof."},
+          { "exception": "Rev."},
+          { "exception": "Ph.D."},
+          { "exception": "pp."},
+          { "exception": "Mrs."},
+          { "exception": "PP."},
+          { "exception": "Ms."},
+          { "exception": "vs."},
+          { "exception": "Sgt."},
+          { "exception": "A.D."},
+          { "exception": "Fri."},
+          { "exception": "a.m."},
+          { "exception": "Mt."}
+        ]
+      }
+    }
+  }
+}

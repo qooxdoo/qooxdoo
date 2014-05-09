@@ -1,0 +1,31 @@
+{
+  "main": {
+    "en-IN": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "en",
+        "territory": "001"
+      },
+      "localeDisplayNames": {
+        "transformNames": {
+          "BGN": "BGN",
+          "Numeric": "Numeric",
+          "Tone": "Tone",
+          "UNGEGN": "UNGEGN",
+          "x-Accents": "Accents",
+          "x-Fullwidth": "Fullwidth",
+          "x-Halfwidth": "Halfwidth",
+          "x-Jamo": "Jamo",
+          "x-Pinyin": "Pinyin",
+          "x-Publishing": "Publishing"
+        }
+      }
+    }
+  }
+}

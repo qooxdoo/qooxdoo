@@ -1,0 +1,271 @@
+{
+  "main": {
+    "ar": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ar"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}، {1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "التقويم",
+          "colAlternate": "التصنيف بحسب تجاهل الرموز",
+          "colBackwards": "التصنيف بحسب اللكنة المعكوسة",
+          "colCaseFirst": "الترتيب بحسب الأحرف الكبيرة/الصغيرة",
+          "colCaseLevel": "التصنيف بحسب حساسية حالة الأحرف",
+          "colHiraganaQuaternary": "التصنيف بحسب الكانا",
+          "colNormalization": "التصنيف الموحد",
+          "colNumeric": "التصنيف الرقمي",
+          "colStrength": "قوة التصنيف",
+          "collation": "ترتيب الفرز",
+          "currency": "العملة",
+          "numbers": "الأرقام",
+          "timezone": "المنطقة الزمنية",
+          "va": "متغيرات اللغة",
+          "variableTop": "تصنيف كرموز",
+          "x": "استخدام خاص"
+        },
+        "types": {
+          "numbers": {
+            "arab": "الأرقام العربية الهندية",
+            "arabext": "الأرقام العربية الهندية الممتدة",
+            "armn": "الأرقام الأرمينية",
+            "armnlow": "الأرقام الأرمينية الصغيرة",
+            "bali": "bali",
+            "beng": "الأرقام البنغالية"
+          },
+          "collation": {
+            "big5han": "ترتيب فرز الصينية التقليدية (Big5)"
+          },
+          "numbers": {
+            "brah": "brah"
+          },
+          "calendar": {
+            "buddhist": "التقويم البوذي"
+          },
+          "numbers": {
+            "cakm": "cakm",
+            "cham": "cham"
+          },
+          "calendar": {
+            "chinese": "التقويم الصيني",
+            "coptic": "التقويم القبطي",
+            "dangi": "dangi"
+          },
+          "numbers": {
+            "deva": "الأرقام الديفانغارية"
+          },
+          "collation": {
+            "dictionary": "ترتيب فرز القاموس",
+            "ducet": "ترتيب فرز Unicode الافتراضي",
+            "eor": "eor"
+          },
+          "numbers": {
+            "ethi": "الأرقام الإثيوبية"
+          },
+          "calendar": {
+            "ethiopic": "التقويم الإثيوبي",
+            "ethiopic-amete-alem": "تقويم أميتي أليم الإثيوبي"
+          },
+          "numbers": {
+            "finance": "الأرقام المالية",
+            "fullwide": "أرقام كاملة العرض"
+          },
+          "collation": {
+            "gb2312han": "ترتيب فرز الصينية المبسطة (GB2312)"
+          },
+          "numbers": {
+            "geor": "الأرقام الجورجية"
+          },
+          "calendar": {
+            "gregorian": "التقويم الميلادي"
+          },
+          "numbers": {
+            "grek": "الأرقام اليونانية",
+            "greklow": "الأرقام اليونانية الصغيرة",
+            "gujr": "الأرقام الغوجاراتية",
+            "guru": "الأرقام الغورموخية",
+            "hanidec": "الأرقام العشرية الصينية",
+            "hans": "الأرقام الصينية المبسطة",
+            "hansfin": "الأرقام المالية الصينية المبسطة",
+            "hant": "الأرقام الصينية التقليدية",
+            "hantfin": "الأرقام المالية الصينية التقليدية",
+            "hebr": "الأرقام العبرية"
+          },
+          "calendar": {
+            "hebrew": "التقويم العبري"
+          },
+          "colStrength": {
+            "identical": "تصنيف الكل"
+          },
+          "calendar": {
+            "indian": "التقويم القومي الهندي",
+            "islamic": "التقويم الهجري",
+            "islamic-civil": "التقويم الإسلامي المدني",
+            "islamic-rgsa": "التقويم الإسلامي (مستخدم بالسعودية)",
+            "islamic-tbla": "التقويم الإسلامي (مجدول، العصر الفلكي)",
+            "islamic-umalqura": "التقويم الإسلامي (أم القرى)",
+            "iso8601": "iso8601",
+            "japanese": "التقويم الياباني"
+          },
+          "numbers": {
+            "java": "java",
+            "jpan": "الأرقام اليابانية",
+            "jpanfin": "الأرقام المالية اليابانية",
+            "kali": "kali",
+            "khmr": "الأرقام الخيمرية",
+            "knda": "أرقام الكانادا",
+            "lana": "lana",
+            "lanatham": "lanatham",
+            "laoo": "الأرقام اللاوية",
+            "latn": "الأرقام الغربية",
+            "lepc": "lepc",
+            "limb": "limb"
+          },
+          "colCaseFirst": {
+            "lower": "تصنيف الأحرف الصغيرة أولاً"
+          },
+          "numbers": {
+            "mlym": "الأرقام الملايلامية",
+            "mong": "الأرقام المغولية",
+            "mtei": "mtei",
+            "mymr": "أرقام ميانمار",
+            "mymrshan": "mymrshan",
+            "native": "الأرقام الأصلية",
+            "nkoo": "nkoo"
+          },
+          "colBackwards": {
+            "no": "تصنيف اللكنات بشكل عادي"
+          },
+          "colCaseFirst": {
+            "no": "ترتيب تصنيف حالة الأحرف الطبيعية"
+          },
+          "colCaseLevel": {
+            "no": "تصنيف بحسب الأحرف غير الحساسة لحالة الأحرف"
+          },
+          "colHiraganaQuaternary": {
+            "no": "تصنيف الكانا بشكل منفصل"
+          },
+          "colNormalization": {
+            "no": "التصفية بدون تسوية"
+          },
+          "colNumeric": {
+            "no": "تصنيف الأرقام على حدة"
+          },
+          "colAlternate": {
+            "non-ignorable": "تصنيف الرموز"
+          },
+          "numbers": {
+            "olck": "olck",
+            "orya": "أرقام الأوريا",
+            "osma": "osma"
+          },
+          "calendar": {
+            "persian": "التقويم الفارسي"
+          },
+          "collation": {
+            "phonebook": "ترتيب فرز دليل الهاتف",
+            "phonetic": "ترتيب الفرز الصوتي",
+            "pinyin": "الترتيب الصيني بنيين المبسط"
+          },
+          "colStrength": {
+            "primary": "تصنيف الحروف الأساسية فقط",
+            "quaternary": "تصنيف اللكنات/الحالة/العرض/الكانا"
+          },
+          "collation": {
+            "reformed": "ترتيب فرز محسَّن"
+          },
+          "calendar": {
+            "roc": "تقويم مينجو"
+          },
+          "numbers": {
+            "roman": "الأرقام الرومانية",
+            "romanlow": "الأرقام الرومانية الصغيرة",
+            "saur": "saur"
+          },
+          "collation": {
+            "search": "بحث لأغراض عامة",
+            "searchjl": "بحث باستخدام حرف الهانغول الساكن الأول"
+          },
+          "colStrength": {
+            "secondary": "تصنيف اللكنات"
+          },
+          "colAlternate": {
+            "shifted": "تصنيف تجاهل الرموز"
+          },
+          "numbers": {
+            "shrd": "shrd",
+            "sora": "sora"
+          },
+          "collation": {
+            "standard": "ترتيب الفرز القياسي",
+            "stroke": "الترتيب الصيني بنيين التقليدي"
+          },
+          "numbers": {
+            "sund": "sund",
+            "takr": "takr",
+            "talu": "talu",
+            "taml": "الأرقام التاميلية التقليدية",
+            "tamldec": "الأرقام التاميلية",
+            "telu": "الأرقام التيلوغوية"
+          },
+          "colStrength": {
+            "tertiary": "تصنيف اللكنات/الحالة/العرض"
+          },
+          "numbers": {
+            "thai": "الأرقام التايلاندية",
+            "tibt": "الأرقام التبتية"
+          },
+          "collation": {
+            "traditional": "ترتيب تقليدي"
+          },
+          "numbers": {
+            "traditional": "أرقام تقليدية"
+          },
+          "collation": {
+            "unihan": "ترتيب تصنيف الجذر والضغطات"
+          },
+          "colCaseFirst": {
+            "upper": "تصنيف الأحرف الكبيرة أولاً"
+          },
+          "numbers": {
+            "vaii": "أرقام فاي"
+          },
+          "colBackwards": {
+            "yes": "تصنيف اللكنات معكوسة"
+          },
+          "colCaseLevel": {
+            "yes": "تصنيف بحسب حساسية الأحرف"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "تصنيف الكانا بشكل مختلف"
+          },
+          "colNormalization": {
+            "yes": "تصنيف Unicode طبيعي"
+          },
+          "colNumeric": {
+            "yes": "تصنيف الأرقام بالعدد"
+          },
+          "collation": {
+            "zhuyin": "zhuyin"
+          }
+        },
+        "codePatterns": {
+          "language": "اللغة: {0}",
+          "script": "نظام الكتابة: {0}",
+          "territory": "المنطقة: {0}"
+        }
+      }
+    }
+  }
+}

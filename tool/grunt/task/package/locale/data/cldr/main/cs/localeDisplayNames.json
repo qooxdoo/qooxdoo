@@ -1,0 +1,271 @@
+{
+  "main": {
+    "cs": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "cs"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}, {1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "Kalendář",
+          "colAlternate": "Ignorovat řazení symbolů",
+          "colBackwards": "Obrácené řazení akcentů",
+          "colCaseFirst": "Řazení velkých a malých písmen",
+          "colCaseLevel": "Rozlišovaní velkých a malých písmen při řazení",
+          "colHiraganaQuaternary": "Řazení podle slabičných písem (kana)",
+          "colNormalization": "Normalizované řazení",
+          "colNumeric": "Číselné řazení",
+          "colStrength": "Síla řazení",
+          "collation": "Řazení",
+          "currency": "Měna",
+          "numbers": "Čísla",
+          "timezone": "Časové pásmo",
+          "va": "Varianta národního prostředí",
+          "variableTop": "Řadit jako symboly",
+          "x": "Soukromé použití"
+        },
+        "types": {
+          "numbers": {
+            "arab": "Arabsko-indické číslice",
+            "arabext": "Rozšířené arabsko-indické číslice",
+            "armn": "Arménské číslice",
+            "armnlow": "Malé arménské číslice",
+            "bali": "bali",
+            "beng": "Bengálské číslice"
+          },
+          "collation": {
+            "big5han": "Řazení pro tradiční čínštinu – Big5"
+          },
+          "numbers": {
+            "brah": "brah"
+          },
+          "calendar": {
+            "buddhist": "Buddhistický kalendář"
+          },
+          "numbers": {
+            "cakm": "cakm",
+            "cham": "cham"
+          },
+          "calendar": {
+            "chinese": "Čínský kalendář",
+            "coptic": "Koptský kalendář",
+            "dangi": "dangi"
+          },
+          "numbers": {
+            "deva": "Číslice písma dévanágarí"
+          },
+          "collation": {
+            "dictionary": "Slovníkové řazení",
+            "ducet": "Výchozí řazení Unicode",
+            "eor": "eor"
+          },
+          "numbers": {
+            "ethi": "Etiopské číslice"
+          },
+          "calendar": {
+            "ethiopic": "Etiopský kalendář",
+            "ethiopic-amete-alem": "Etiopský kalendář (Amete-Alem)"
+          },
+          "numbers": {
+            "finance": "Finančnický zápis čísel",
+            "fullwide": "Číslice – plná šířka"
+          },
+          "collation": {
+            "gb2312han": "Řazení pro zjednodušenou čínštinu – GB2312"
+          },
+          "numbers": {
+            "geor": "Gruzínské číslice"
+          },
+          "calendar": {
+            "gregorian": "Gregoriánský kalendář"
+          },
+          "numbers": {
+            "grek": "Řecké číslice",
+            "greklow": "Malé řecké číslice",
+            "gujr": "Gudžarátské číslice",
+            "guru": "Číslice gurmukhí",
+            "hanidec": "Čínské desítkové číslice",
+            "hans": "Číslice zjednodušené čínštiny",
+            "hansfin": "Finanční číslice zjednodušené čínštiny",
+            "hant": "Číslice tradiční čínštiny",
+            "hantfin": "Finanční číslice tradiční čínštiny",
+            "hebr": "Hebrejské číslice"
+          },
+          "calendar": {
+            "hebrew": "Hebrejský kalendář"
+          },
+          "colStrength": {
+            "identical": "Řadit vše"
+          },
+          "calendar": {
+            "indian": "Indický národní kalendář",
+            "islamic": "Muslimský kalendář",
+            "islamic-civil": "Muslimský občanský kalendář",
+            "islamic-rgsa": "islamic-rgsa",
+            "islamic-tbla": "islamic-tbla",
+            "islamic-umalqura": "islamic-umalqura",
+            "iso8601": "iso8601",
+            "japanese": "Japonský kalendář"
+          },
+          "numbers": {
+            "java": "java",
+            "jpan": "Japonské číslice",
+            "jpanfin": "Japonské finanční číslice",
+            "kali": "kali",
+            "khmr": "Khmerské číslice",
+            "knda": "Kannadské číslice",
+            "lana": "lana",
+            "lanatham": "lanatham",
+            "laoo": "Laoské číslice",
+            "latn": "Západní číslice",
+            "lepc": "lepc",
+            "limb": "limb"
+          },
+          "colCaseFirst": {
+            "lower": "Nejdříve řadit malá písmena"
+          },
+          "numbers": {
+            "mlym": "Malajálamské číslice",
+            "mong": "Mongolské číslice",
+            "mtei": "mtei",
+            "mymr": "Myanmarské číslice",
+            "mymrshan": "mymrshan",
+            "native": "Nativní číslice",
+            "nkoo": "nkoo"
+          },
+          "colBackwards": {
+            "no": "Normální řazení akcentů"
+          },
+          "colCaseFirst": {
+            "no": "Normální řazení velkých a malých písmen"
+          },
+          "colCaseLevel": {
+            "no": "Nerozlišovat při řazení velká a malá písmena"
+          },
+          "colHiraganaQuaternary": {
+            "no": "Řadit slabičná písma (kana) samostatně"
+          },
+          "colNormalization": {
+            "no": "Řadit bez normalizace"
+          },
+          "colNumeric": {
+            "no": "Řadit číslice jednotlivě"
+          },
+          "colAlternate": {
+            "non-ignorable": "Řadit symboly"
+          },
+          "numbers": {
+            "olck": "olck",
+            "orya": "Urijské číslice",
+            "osma": "osma"
+          },
+          "calendar": {
+            "persian": "Perský kalendář"
+          },
+          "collation": {
+            "phonebook": "Řazení jako v telefonním seznamu",
+            "phonetic": "Fonetické řazení",
+            "pinyin": "Řazení podle pchin-jinu"
+          },
+          "colStrength": {
+            "primary": "Řadit pouze základní písmena",
+            "quaternary": "Řadit akcenty/velká a malá písmena/šířku/kana"
+          },
+          "collation": {
+            "reformed": "Reformované řazení"
+          },
+          "calendar": {
+            "roc": "Kalendář Čínské republiky"
+          },
+          "numbers": {
+            "roman": "Římské číslice",
+            "romanlow": "Malé římské číslice",
+            "saur": "saur"
+          },
+          "collation": {
+            "search": "Obecné hledání",
+            "searchjl": "Vyhledávat podle počáteční souhlásky písma hangul"
+          },
+          "colStrength": {
+            "secondary": "Řadit akcenty"
+          },
+          "colAlternate": {
+            "shifted": "Při řazení ignorovat symboly"
+          },
+          "numbers": {
+            "shrd": "shrd",
+            "sora": "sora"
+          },
+          "collation": {
+            "standard": "Standardní řazení",
+            "stroke": "Řazení podle tahů"
+          },
+          "numbers": {
+            "sund": "sund",
+            "takr": "takr",
+            "talu": "talu",
+            "taml": "Tamilské tradiční číslice",
+            "tamldec": "Tamilské číslice",
+            "telu": "Telugské číslice"
+          },
+          "colStrength": {
+            "tertiary": "Řadit akcenty/velká a malá písmena/šířku"
+          },
+          "numbers": {
+            "thai": "Thajské číslice",
+            "tibt": "Tibetské číslice"
+          },
+          "collation": {
+            "traditional": "Tradiční řazení"
+          },
+          "numbers": {
+            "traditional": "Tradiční číslovky"
+          },
+          "collation": {
+            "unihan": "Řazení podle radikálů"
+          },
+          "colCaseFirst": {
+            "upper": "Nejdříve řadit velká písmena"
+          },
+          "numbers": {
+            "vaii": "Vaiské číslice"
+          },
+          "colBackwards": {
+            "yes": "Řadit akcenty opačně"
+          },
+          "colCaseLevel": {
+            "yes": "Rozlišovat při řazení velká a malá písmena"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "Řadit jednotlivé typy slabičných písem (kana) různě"
+          },
+          "colNormalization": {
+            "yes": "Řazení podle normalizovaného kódování Unicode"
+          },
+          "colNumeric": {
+            "yes": "Numerické řazení číslic"
+          },
+          "collation": {
+            "zhuyin": "Ču-jin"
+          }
+        },
+        "codePatterns": {
+          "language": "Jazyk: {0}",
+          "script": "Písmo: {0}",
+          "territory": "Region: {0}"
+        }
+      }
+    }
+  }
+}

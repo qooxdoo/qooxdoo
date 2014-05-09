@@ -1,0 +1,30 @@
+{
+  "main": {
+    "th": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "localeDisplayNames": {
+        "transformNames": {
+          "BGN": "ชื่อมาตรฐานอังกฤษ (BGN)",
+          "Numeric": "ตัวเลข",
+          "Tone": "ระดับเสียง",
+          "UNGEGN": "ชื่อภูมิศาสตร์มาตรฐาน UN (UNGEGN)",
+          "x-Accents": "สำเนียง",
+          "x-Fullwidth": "ตัวเต็ม",
+          "x-Halfwidth": "ตัวย่อ",
+          "x-Jamo": "จาโม",
+          "x-Pinyin": "พินอิน",
+          "x-Publishing": "เพื่อเผยแพร่"
+        }
+      }
+    }
+  }
+}

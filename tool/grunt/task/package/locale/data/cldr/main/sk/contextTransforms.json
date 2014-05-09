@@ -1,0 +1,34 @@
+{
+  "main": {
+    "sk": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "contextTransforms": {
+        "day-format-except-narrow": {
+          "uiListOrMenu": "titlecase-firstword"
+        },
+        "day-standalone-except-narrow": {
+          "uiListOrMenu": "titlecase-firstword"
+        },
+        "languages": {
+          "uiListOrMenu": "titlecase-firstword",
+          "stand-alone": "titlecase-firstword"
+        },
+        "month-format-except-narrow": {
+          "uiListOrMenu": "titlecase-firstword"
+        },
+        "month-standalone-except-narrow": {
+          "uiListOrMenu": "titlecase-firstword"
+        }
+      }
+    }
+  }
+}

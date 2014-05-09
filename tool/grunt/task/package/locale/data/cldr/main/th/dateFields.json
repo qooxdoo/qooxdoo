@@ -1,0 +1,145 @@
+{
+  "main": {
+    "th": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "root"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "สมัย"
+          },
+          "year": {
+            "displayName": "ปี",
+            "relative-type--1": "ปีที่แล้ว",
+            "relative-type-0": "ปีนี้",
+            "relative-type-1": "ปีหน้า",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-other": "ในอีก {0} ปี"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-other": "{0} ปีที่แล้ว"
+            }
+          },
+          "month": {
+            "displayName": "เดือน",
+            "relative-type--1": "เดือนที่แล้ว",
+            "relative-type-0": "เดือนนี้",
+            "relative-type-1": "เดือนหน้า",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-other": "ในอีก {0} เดือน"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-other": "{0} เดือนที่ผ่านมา"
+            }
+          },
+          "week": {
+            "displayName": "สัปดาห์",
+            "relative-type--1": "สัปดาห์ที่แล้ว",
+            "relative-type-0": "สัปดาห์นี้",
+            "relative-type-1": "สัปดาห์หน้า",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-other": "ในอีก {0} สัปดาห์"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-other": "{0} สัปดาห์ที่ผ่านมา"
+            }
+          },
+          "day": {
+            "displayName": "วัน",
+            "relative-type--1": "เมื่อวาน",
+            "relative-type--2": "เมื่อวานซืน",
+            "relative-type-0": "วันนี้",
+            "relative-type-1": "พรุ่งนี้",
+            "relative-type-2": "มะรืนนี้",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-other": "ในอีก {0} วัน"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-other": "{0} วันที่ผ่านมา"
+            }
+          },
+          "weekday": {
+            "displayName": "วันในสัปดาห์"
+          },
+          "sun": {
+            "relative-type--1": "อาทิตย์ที่แล้ว",
+            "relative-type-0": "อาทิตย์นี้",
+            "relative-type-1": "อาทิตย์หน้า"
+          },
+          "mon": {
+            "relative-type--1": "จันทร์ที่แล้ว",
+            "relative-type-0": "จันทร์นี้",
+            "relative-type-1": "จันทร์หน้า"
+          },
+          "tue": {
+            "relative-type--1": "อังคารที่แล้ว",
+            "relative-type-0": "อังคารนี้",
+            "relative-type-1": "อังคารหน้า"
+          },
+          "wed": {
+            "relative-type--1": "พุธที่แล้ว",
+            "relative-type-0": "พุธนี้",
+            "relative-type-1": "พุธหน้า"
+          },
+          "thu": {
+            "relative-type--1": "พฤหัสที่แล้ว",
+            "relative-type-0": "พฤหัสนี้",
+            "relative-type-1": "พฤหัสหน้า"
+          },
+          "fri": {
+            "relative-type--1": "ศุกร์ที่แล้ว",
+            "relative-type-0": "ศุกร์นี้",
+            "relative-type-1": "ศุกร์หน้า"
+          },
+          "sat": {
+            "relative-type--1": "เสาร์ที่แล้ว",
+            "relative-type-0": "เสาร์นี้",
+            "relative-type-1": "เสาร์หน้า"
+          },
+          "dayperiod": {
+            "displayName": "ช่วงวัน"
+          },
+          "hour": {
+            "displayName": "ชั่วโมง",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-other": "ในอีก {0} ชั่วโมง"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-other": "{0} ชั่วโมงที่ผ่านมา"
+            }
+          },
+          "minute": {
+            "displayName": "นาที",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-other": "ในอีก {0} นาที"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-other": "{0} นาทีที่ผ่านมา"
+            }
+          },
+          "second": {
+            "displayName": "วินาที",
+            "relative-type-0": "ขณะนี้",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-other": "ในอีก {0} วินาที"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-other": "{0} วินาทีที่ผ่านมา"
+            }
+          },
+          "zone": {
+            "displayName": "เขตเวลา"
+          }
+        }
+      }
+    }
+  }
+}

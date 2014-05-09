@@ -1,0 +1,159 @@
+{
+  "main": {
+    "el": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "el"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "Περίοδος"
+          },
+          "year": {
+            "displayName": "Έτος",
+            "relative-type--1": "προηγούμενο έτος",
+            "relative-type-0": "φέτος",
+            "relative-type-1": "επόμενο έτος",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Σε {0} έτος",
+              "relativeTimePattern-count-other": "Σε {0} έτη"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Πριν από {0} έτος",
+              "relativeTimePattern-count-other": "Πριν από {0} έτη"
+            }
+          },
+          "month": {
+            "displayName": "Μήνας",
+            "relative-type--1": "προηγούμενος μήνας",
+            "relative-type-0": "τρέχων μήνας",
+            "relative-type-1": "επόμενος μήνας",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Σε {0} μήνα",
+              "relativeTimePattern-count-other": "Σε {0} μήνες"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Πριν από {0} μήνα",
+              "relativeTimePattern-count-other": "Πριν από {0} μήνες"
+            }
+          },
+          "week": {
+            "displayName": "Εβδομάδα",
+            "relative-type--1": "προηγούμενη εβδομάδα",
+            "relative-type-0": "αυτήν την εβδομάδα",
+            "relative-type-1": "επόμενη εβδομάδα",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Σε {0} εβδομάδα",
+              "relativeTimePattern-count-other": "Σε {0} εβδομάδες"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Πριν από {0} εβδομάδα",
+              "relativeTimePattern-count-other": "Πριν από {0} εβδομάδες"
+            }
+          },
+          "day": {
+            "displayName": "Ημέρα",
+            "relative-type--1": "χθες",
+            "relative-type--2": "προχθές",
+            "relative-type-0": "σήμερα",
+            "relative-type-1": "αύριο",
+            "relative-type-2": "μεθαύριο",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Σε {0} ημέρα",
+              "relativeTimePattern-count-other": "Σε {0} ημέρες"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Πριν από {0} ημέρα",
+              "relativeTimePattern-count-other": "Πριν από {0} ημέρες"
+            }
+          },
+          "weekday": {
+            "displayName": "Ημέρα εβδομάδας"
+          },
+          "sun": {
+            "relative-type--1": "προηγούμενη Κυριακή",
+            "relative-type-0": "αυτήν την Κυριακή",
+            "relative-type-1": "επόμενη Κυριακή"
+          },
+          "mon": {
+            "relative-type--1": "προηγούμενη Δευτέρα",
+            "relative-type-0": "αυτήν τη Δευτέρα",
+            "relative-type-1": "επόμενη Δευτέρα"
+          },
+          "tue": {
+            "relative-type--1": "προηγούμενη Τρίτη",
+            "relative-type-0": "αυτήν την Τρίτη",
+            "relative-type-1": "επόμενη Τρίτη"
+          },
+          "wed": {
+            "relative-type--1": "προηγούμενη Τετάρτη",
+            "relative-type-0": "αυτήν την Τετάρτη",
+            "relative-type-1": "επόμενη Τετάρτη"
+          },
+          "thu": {
+            "relative-type--1": "επόμενη Πέμπτη",
+            "relative-type-0": "αυτήν την Πέμπτη",
+            "relative-type-1": "επόμενη Πέμπτη"
+          },
+          "fri": {
+            "relative-type--1": "προηγούμενη Παρασκευή",
+            "relative-type-0": "αυτήν την Παρασκευή",
+            "relative-type-1": "επόμενη Παρασκευή"
+          },
+          "sat": {
+            "relative-type--1": "προηγούμενο Σάββατο",
+            "relative-type-0": "αυτό το Σάββατο",
+            "relative-type-1": "επόμενο Σάββατο"
+          },
+          "dayperiod": {
+            "displayName": "π.μ./μ.μ."
+          },
+          "hour": {
+            "displayName": "Ώρα",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Σε {0} ώρα",
+              "relativeTimePattern-count-other": "Σε {0} ώρες"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Πριν από {0} ώρα",
+              "relativeTimePattern-count-other": "Πριν από {0} ώρες"
+            }
+          },
+          "minute": {
+            "displayName": "Λεπτό",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Σε {0} λεπτό",
+              "relativeTimePattern-count-other": "Σε {0} λεπτά"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Πριν από {0} λεπτό",
+              "relativeTimePattern-count-other": "Πριν από {0} λεπτά"
+            }
+          },
+          "second": {
+            "displayName": "Δευτερόλεπτο",
+            "relative-type-0": "τώρα",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "Σε {0} δευτερόλεπτο",
+              "relativeTimePattern-count-other": "Σε {0} δευτερόλεπτα"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "Πριν από {0} δευτερόλεπτο",
+              "relativeTimePattern-count-other": "Πριν από {0} δευτερόλεπτα"
+            }
+          },
+          "zone": {
+            "displayName": "Ζώνη"
+          }
+        }
+      }
+    }
+  }
+}

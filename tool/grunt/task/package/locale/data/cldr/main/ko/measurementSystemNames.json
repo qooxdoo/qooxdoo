@@ -1,0 +1,23 @@
+{
+  "main": {
+    "ko": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ko"
+      },
+      "localeDisplayNames": {
+        "measurementSystemNames": {
+          "US": "미국",
+          "metric": "미터법",
+          "UK": "영국"
+        }
+      }
+    }
+  }
+}

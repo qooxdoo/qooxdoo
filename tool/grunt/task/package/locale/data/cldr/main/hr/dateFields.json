@@ -1,0 +1,173 @@
+{
+  "main": {
+    "hr": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "hr"
+      },
+      "dates": {
+        "fields": {
+          "era": {
+            "displayName": "Era"
+          },
+          "year": {
+            "displayName": "Godina",
+            "relative-type--1": "prošle godine",
+            "relative-type-0": "ove godine",
+            "relative-type-1": "sljedeće godine",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} godinu",
+              "relativeTimePattern-count-few": "za {0} godine",
+              "relativeTimePattern-count-other": "za {0} godina"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "prije {0} godinu",
+              "relativeTimePattern-count-few": "prije {0} godine",
+              "relativeTimePattern-count-other": "prije {0} godina"
+            }
+          },
+          "month": {
+            "displayName": "Mjesec",
+            "relative-type--1": "prošli mjesec",
+            "relative-type-0": "ovaj mjesec",
+            "relative-type-1": "sljedeći mjesec",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} mjesec",
+              "relativeTimePattern-count-few": "za {0} mjeseca",
+              "relativeTimePattern-count-other": "za {0} mjeseci"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "prije {0} mjesec",
+              "relativeTimePattern-count-few": "prije {0} mjeseca",
+              "relativeTimePattern-count-other": "prije {0} mjeseci"
+            }
+          },
+          "week": {
+            "displayName": "Tjedan",
+            "relative-type--1": "prošli tjedan",
+            "relative-type-0": "ovaj tjedan",
+            "relative-type-1": "sljedeći tjedan",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} tjedan",
+              "relativeTimePattern-count-few": "za {0} tjedna",
+              "relativeTimePattern-count-other": "za {0} tjedana"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "prije {0} tjedan",
+              "relativeTimePattern-count-few": "prije {0} tjedna",
+              "relativeTimePattern-count-other": "prije {0} tjedana"
+            }
+          },
+          "day": {
+            "displayName": "Dan",
+            "relative-type--1": "jučer",
+            "relative-type--2": "prekjučer",
+            "relative-type-0": "danas",
+            "relative-type-1": "sutra",
+            "relative-type-2": "prekosutra",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} dan",
+              "relativeTimePattern-count-few": "za {0} dana",
+              "relativeTimePattern-count-other": "za {0} dana"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "prije {0} dan",
+              "relativeTimePattern-count-few": "prije {0} dana",
+              "relativeTimePattern-count-other": "prije {0} dana"
+            }
+          },
+          "weekday": {
+            "displayName": "Dan u tjednu"
+          },
+          "sun": {
+            "relative-type--1": "prošla nedjelja",
+            "relative-type-0": "ova nedjelja",
+            "relative-type-1": "sljedeća nedjelja"
+          },
+          "mon": {
+            "relative-type--1": "prošli ponedjeljak",
+            "relative-type-0": "ovaj ponedjeljak",
+            "relative-type-1": "sljedeći ponedjeljak"
+          },
+          "tue": {
+            "relative-type--1": "prošli utorak",
+            "relative-type-0": "ovaj utorak",
+            "relative-type-1": "sljedeći utorak"
+          },
+          "wed": {
+            "relative-type--1": "prošla srijeda",
+            "relative-type-0": "ova srijeda",
+            "relative-type-1": "sljedeća srijeda"
+          },
+          "thu": {
+            "relative-type--1": "prošli četvrtak",
+            "relative-type-0": "ovaj četvrtak",
+            "relative-type-1": "sljedeći četvrtak"
+          },
+          "fri": {
+            "relative-type--1": "prošli petak",
+            "relative-type-0": "ovaj petak",
+            "relative-type-1": "sljedeći petak"
+          },
+          "sat": {
+            "relative-type--1": "prošla subota",
+            "relative-type-0": "ova subota",
+            "relative-type-1": "sljedeća subota"
+          },
+          "dayperiod": {
+            "displayName": "Prijepodne/popodne"
+          },
+          "hour": {
+            "displayName": "Sat",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} sat",
+              "relativeTimePattern-count-few": "za {0} sata",
+              "relativeTimePattern-count-other": "za {0} sati"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "prije {0} sat",
+              "relativeTimePattern-count-few": "prije {0} sata",
+              "relativeTimePattern-count-other": "prije {0} sati"
+            }
+          },
+          "minute": {
+            "displayName": "Minuta",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} minutu",
+              "relativeTimePattern-count-few": "za {0} minute",
+              "relativeTimePattern-count-other": "za {0} minuta"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "prije {0} minutu",
+              "relativeTimePattern-count-few": "prije {0} minute",
+              "relativeTimePattern-count-other": "prije {0} minuta"
+            }
+          },
+          "second": {
+            "displayName": "Sekunda",
+            "relative-type-0": "sada",
+            "relativeTime-type-future": {
+              "relativeTimePattern-count-one": "za {0} sekundu",
+              "relativeTimePattern-count-few": "za {0} sekunde",
+              "relativeTimePattern-count-other": "za {0} sekundi"
+            },
+            "relativeTime-type-past": {
+              "relativeTimePattern-count-one": "prije {0} sekundu",
+              "relativeTimePattern-count-few": "prije {0} sekunde",
+              "relativeTimePattern-count-other": "prije {0} sekundi"
+            }
+          },
+          "zone": {
+            "displayName": "Vremenska zona"
+          }
+        }
+      }
+    }
+  }
+}

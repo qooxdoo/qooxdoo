@@ -1,0 +1,89 @@
+{
+  "main": {
+    "it": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "it"
+      },
+      "localeDisplayNames": {
+        "variants": {
+          "1606NICT": "francese medio-tardo fino al 1606",
+          "1694ACAD": "primo francese moderno",
+          "1901": "ortografia tradizionale tedesca",
+          "1959ACAD": "accademico",
+          "1994": "ortografia resiana standard",
+          "1996": "ortografia tedesca del 1996",
+          "ALALC97": "romanizzazione di ALA-LC, versione 1997",
+          "ALUKU": "dialetto aluku",
+          "AREVELA": "armeno orientale",
+          "AREVMDA": "armeno occidentale",
+          "BAKU1926": "alfabeto latino altaico unificato",
+          "BALANKA": "BALANKA",
+          "BARLA": "BARLA",
+          "BAUDDHA": "BAUDDHA",
+          "BISCAYAN": "BISCAYAN",
+          "BISKE": "dialetto San Giorgio/Bila",
+          "BOHORIC": "alfabeto bohorič",
+          "BOONT": "boontling",
+          "DAJNKO": "alfabeto Dajnko",
+          "EKAVSK": "EKAVSK",
+          "EMODENG": "primo inglese moderno",
+          "FONIPA": "alfabeto fonetico internazionale IPA",
+          "FONUPA": "alfabeto fonetico uralico UPA",
+          "FONXSAMP": "FONXSAMP",
+          "HEPBURN": "romanizzazione Hepburn",
+          "HOGNORSK": "HOGNORSK",
+          "IJEKAVSK": "IJEKAVSK",
+          "ITIHASA": "ITIHASA",
+          "JAUER": "JAUER",
+          "JYUTPING": "JYUTPING",
+          "KKCOR": "ortografia comune",
+          "KSCOR": "ortografia standard",
+          "LAUKIKA": "LAUKIKA",
+          "LIPAW": "dialetto resiano di Lipovaz",
+          "LUNA1918": "LUNA1918",
+          "METELKO": "alfabeto Metelko",
+          "MONOTON": "monotonico",
+          "NDYUKA": "dialetto Ndyuka",
+          "NEDIS": "dialetto del Natisone",
+          "NJIVA": "dialetto Gniva/Njiva",
+          "NULIK": "volapük moderno",
+          "OSOJS": "dialetto Oseacco/Osojane",
+          "PAMAKA": "dialetto Pamaka",
+          "PETR1708": "PETR1708",
+          "PINYIN": "romanizzazione Pinyin",
+          "POLYTON": "politonico",
+          "POSIX": "computer",
+          "PUTER": "PUTER",
+          "REVISED": "ortografia revisionata",
+          "RIGIK": "Volapük classico",
+          "ROZAJ": "resiano",
+          "RUMGR": "RUMGR",
+          "SAAHO": "saho",
+          "SCOTLAND": "inglese scozzese standard",
+          "SCOUSE": "scouse",
+          "SOLBA": "dialetto Stolvizza/Solbica",
+          "SOTAV": "SOTAV",
+          "SURMIRAN": "SURMIRAN",
+          "SURSILV": "SURSILV",
+          "SUTSILV": "SUTSILV",
+          "TARASK": "ortografia taraskievica",
+          "UCCOR": "ortografia unificata",
+          "UCRCOR": "ortografia rivista unificata",
+          "ULSTER": "ULSTER",
+          "UNIFON": "UNIFON",
+          "VAIDIKA": "VAIDIKA",
+          "VALENCIA": "valenziano",
+          "VALLADER": "VALLADER",
+          "WADEGILE": "romanizzazione Wade-Giles"
+        }
+      }
+    }
+  }
+}

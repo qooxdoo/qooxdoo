@@ -1,0 +1,271 @@
+{
+  "main": {
+    "pt": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "pt"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}, {1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "Calendário",
+          "colAlternate": "Ignorar classificação de símbolos",
+          "colBackwards": "Classificação reversa de acentos",
+          "colCaseFirst": "Ordem de maiúsculas/minúsculas",
+          "colCaseLevel": "Ordem com diferenciação de maiúsculas e minúsculas",
+          "colHiraganaQuaternary": "Classificação kana",
+          "colNormalization": "Classificação normalizada",
+          "colNumeric": "Classificação numérica",
+          "colStrength": "Intensidade da classificação",
+          "collation": "Ordenação",
+          "currency": "Moeda",
+          "numbers": "Números",
+          "timezone": "Fuso horário",
+          "va": "Variante de localidade",
+          "variableTop": "Classificar como símbolos",
+          "x": "Uso privado"
+        },
+        "types": {
+          "numbers": {
+            "arab": "Algarismos indo-arábicos",
+            "arabext": "Algarismos indo-arábicos por extenso",
+            "armn": "Algarismos armênios",
+            "armnlow": "Algarismos armênios minúsculos",
+            "bali": "bali",
+            "beng": "Algarismos Bengali"
+          },
+          "collation": {
+            "big5han": "Ordem do Chinês Tradicional - Big5"
+          },
+          "numbers": {
+            "brah": "brah"
+          },
+          "calendar": {
+            "buddhist": "Calendário Budista"
+          },
+          "numbers": {
+            "cakm": "cakm",
+            "cham": "cham"
+          },
+          "calendar": {
+            "chinese": "Calendário Chinês",
+            "coptic": "Calendário Coptic",
+            "dangi": "dangi"
+          },
+          "numbers": {
+            "deva": "Algarismos Devanagari"
+          },
+          "collation": {
+            "dictionary": "Ordem do dicionário",
+            "ducet": "Ordem padrão do Unicode",
+            "eor": "eor"
+          },
+          "numbers": {
+            "ethi": "Algarismos etiópicos"
+          },
+          "calendar": {
+            "ethiopic": "Calendário etiópico",
+            "ethiopic-amete-alem": "Calendário Amete Alem da Etiópia"
+          },
+          "numbers": {
+            "finance": "Numerais financeiros",
+            "fullwide": "Algarismos em extensão total"
+          },
+          "collation": {
+            "gb2312han": "Ordem do Chinês Simplificado - GB2312"
+          },
+          "numbers": {
+            "geor": "Algarismos georgianos"
+          },
+          "calendar": {
+            "gregorian": "Calendário Gregoriano"
+          },
+          "numbers": {
+            "grek": "Algarismos gregos",
+            "greklow": "Algarismos gregos minúsculos",
+            "gujr": "Algarismos Gujarati",
+            "guru": "Algarismos Gurmukhi",
+            "hanidec": "Algarismos decimais chineses",
+            "hans": "Algarismos chineses simplificados",
+            "hansfin": "Algarismos financeiros chineses simplificados",
+            "hant": "Algarismos chineses tradicionais",
+            "hantfin": "Algarismos financeiros chineses tradicionais",
+            "hebr": "Algarismos hebraicos"
+          },
+          "calendar": {
+            "hebrew": "Calendário Hebraico"
+          },
+          "colStrength": {
+            "identical": "Classificar tudo"
+          },
+          "calendar": {
+            "indian": "Calendário Nacional Indiano",
+            "islamic": "Calendário Islâmico",
+            "islamic-civil": "Calendário Civil Islâmico",
+            "islamic-rgsa": "islamic-rgsa",
+            "islamic-tbla": "islamic-tbla",
+            "islamic-umalqura": "islamic-umalqura",
+            "iso8601": "iso8601",
+            "japanese": "Calendário Japonês"
+          },
+          "numbers": {
+            "java": "java",
+            "jpan": "Algarismos japoneses",
+            "jpanfin": "Algarismos financeiros japoneses",
+            "kali": "kali",
+            "khmr": "Algarismos Khmer",
+            "knda": "Algarismos Kannada",
+            "lana": "lana",
+            "lanatham": "lanatham",
+            "laoo": "Algarismos laosianos",
+            "latn": "Algarismos ocidentais",
+            "lepc": "lepc",
+            "limb": "limb"
+          },
+          "colCaseFirst": {
+            "lower": "Classificar por minúsculas"
+          },
+          "numbers": {
+            "mlym": "Algarismos Malayalam",
+            "mong": "Algarismos mongóis",
+            "mtei": "mtei",
+            "mymr": "Algarismos Myanmar",
+            "mymrshan": "mymrshan",
+            "native": "Dígitos nativos",
+            "nkoo": "nkoo"
+          },
+          "colBackwards": {
+            "no": "Classificar acentos normalmente"
+          },
+          "colCaseFirst": {
+            "no": "Classificação normal de maiúsculas e minúsculas"
+          },
+          "colCaseLevel": {
+            "no": "Classificação sem diferenciação de maiúsculas e minúsculas"
+          },
+          "colHiraganaQuaternary": {
+            "no": "Classificar kana separadamente"
+          },
+          "colNormalization": {
+            "no": "Classificar sem normalização"
+          },
+          "colNumeric": {
+            "no": "Classificar dígitos individualmente"
+          },
+          "colAlternate": {
+            "non-ignorable": "Classificar símbolos"
+          },
+          "numbers": {
+            "olck": "olck",
+            "orya": "Algarismos Oriya",
+            "osma": "osma"
+          },
+          "calendar": {
+            "persian": "Calendário persa"
+          },
+          "collation": {
+            "phonebook": "Ordem de Lista Telefônica",
+            "phonetic": "Ordem de classificação fonética",
+            "pinyin": "Ordem Pin-yin"
+          },
+          "colStrength": {
+            "primary": "Classificar somente letras básicas",
+            "quaternary": "Classificar acentos/maiúsculas e minúsculas/largura/kana"
+          },
+          "collation": {
+            "reformed": "Ordem reformulada"
+          },
+          "calendar": {
+            "roc": "Calendário da República da China"
+          },
+          "numbers": {
+            "roman": "Algarismos romanos",
+            "romanlow": "Algarismos romanos minúsculos",
+            "saur": "saur"
+          },
+          "collation": {
+            "search": "Pesquisa de uso geral",
+            "searchjl": "Pesquisar por consonante inicial hangul"
+          },
+          "colStrength": {
+            "secondary": "Classificar acentos"
+          },
+          "colAlternate": {
+            "shifted": "Classificar ignorando símbolos"
+          },
+          "numbers": {
+            "shrd": "shrd",
+            "sora": "sora"
+          },
+          "collation": {
+            "standard": "padrão",
+            "stroke": "Ordem dos Traços"
+          },
+          "numbers": {
+            "sund": "sund",
+            "takr": "takr",
+            "talu": "talu",
+            "taml": "Algarismos Tâmil",
+            "tamldec": "Algarismos Tâmil",
+            "telu": "Algarismos Telugu"
+          },
+          "colStrength": {
+            "tertiary": "Classificar acentos/maiúsculas e minúsculas/largura"
+          },
+          "numbers": {
+            "thai": "Algarismos tailandeses",
+            "tibt": "Algarismos tibetanos"
+          },
+          "collation": {
+            "traditional": "Ordem Tradicional"
+          },
+          "numbers": {
+            "traditional": "Numerais tradicionais"
+          },
+          "collation": {
+            "unihan": "Ordem por Radical-Traços"
+          },
+          "colCaseFirst": {
+            "upper": "Classificar por maiúsculas"
+          },
+          "numbers": {
+            "vaii": "Dígitos vai"
+          },
+          "colBackwards": {
+            "yes": "Classificação reversa de acentos"
+          },
+          "colCaseLevel": {
+            "yes": "Classificação com diferenciação de maiúsculas e minúsculas"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "Classificar kana diferentemente"
+          },
+          "colNormalization": {
+            "yes": "Classificar Unicode normalizado"
+          },
+          "colNumeric": {
+            "yes": "Classificar dígitos numericamente"
+          },
+          "collation": {
+            "zhuyin": "zhuyin"
+          }
+        },
+        "codePatterns": {
+          "language": "Idioma: {0}",
+          "script": "Alfabeto: {0}",
+          "territory": "Região: {0}"
+        }
+      }
+    }
+  }
+}

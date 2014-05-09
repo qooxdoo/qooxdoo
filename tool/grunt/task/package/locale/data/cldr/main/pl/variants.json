@@ -1,0 +1,89 @@
+{
+  "main": {
+    "pl": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "pl"
+      },
+      "localeDisplayNames": {
+        "variants": {
+          "1606NICT": "szesnastowieczny francuski",
+          "1694ACAD": "siedemnastowieczny francuski",
+          "1901": "tradycyjna ortografia niemiecka",
+          "1959ACAD": "akademicki",
+          "1994": "standardowa ortografia regionu Resia",
+          "1996": "ortografia niemiecka z 1996 r.",
+          "ALALC97": "ALALC97",
+          "ALUKU": "ALUKU",
+          "AREVELA": "ormiański wchodni",
+          "AREVMDA": "ormiański zachodni",
+          "BAKU1926": "turecki zunifikowany alfabet łaciński",
+          "BALANKA": "BALANKA",
+          "BARLA": "BARLA",
+          "BAUDDHA": "BAUDDHA",
+          "BISCAYAN": "BISCAYAN",
+          "BISKE": "dialekt San Giorgio/Bila",
+          "BOHORIC": "BOHORIC",
+          "BOONT": "dialekt Boontling",
+          "DAJNKO": "DAJNKO",
+          "EKAVSK": "EKAVSK",
+          "EMODENG": "EMODENG",
+          "FONIPA": "fonetyczny międzynarodowy",
+          "FONUPA": "fonetyczny",
+          "FONXSAMP": "FONXSAMP",
+          "HEPBURN": "HEPBURN",
+          "HOGNORSK": "HOGNORSK",
+          "IJEKAVSK": "IJEKAVSK",
+          "ITIHASA": "ITIHASA",
+          "JAUER": "JAUER",
+          "JYUTPING": "JYUTPING",
+          "KKCOR": "ortografia wspólna",
+          "KSCOR": "KSCOR",
+          "LAUKIKA": "LAUKIKA",
+          "LIPAW": "dialekt Lipovaz w regionie Resia",
+          "LUNA1918": "LUNA1918",
+          "METELKO": "METELKO",
+          "MONOTON": "monotoniczny",
+          "NDYUKA": "NDYUKA",
+          "NEDIS": "dialekt Natisone",
+          "NJIVA": "dialekt Gniva/Njiva",
+          "NULIK": "NULIK",
+          "OSOJS": "dialekt Oseacco/Osojane",
+          "PAMAKA": "PAMAKA",
+          "PETR1708": "PETR1708",
+          "PINYIN": "pinyin",
+          "POLYTON": "politoniczny",
+          "POSIX": "komputerowy",
+          "PUTER": "PUTER",
+          "REVISED": "ortografia zreformowana",
+          "RIGIK": "RIGIK",
+          "ROZAJ": "dialekt regionu Resia",
+          "RUMGR": "RUMGR",
+          "SAAHO": "dialekt Saho",
+          "SCOTLAND": "standardowy szkocki angielski",
+          "SCOUSE": "dialekt Scouse",
+          "SOLBA": "dialekt Stolvizza/Solbica",
+          "SOTAV": "SOTAV",
+          "SURMIRAN": "SURMIRAN",
+          "SURSILV": "SURSILV",
+          "SUTSILV": "SUTSILV",
+          "TARASK": "ortografia taraszkiewicka",
+          "UCCOR": "ortografia ujednolicona",
+          "UCRCOR": "zreformowana ortografia ujednolicona",
+          "ULSTER": "ULSTER",
+          "UNIFON": "UNIFON",
+          "VAIDIKA": "VAIDIKA",
+          "VALENCIA": "walencki",
+          "VALLADER": "VALLADER",
+          "WADEGILE": "latynizacja Wade'a i Gilesa"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "main": {
+    "ja": {
+      "identity": {
+        "version": {
+          "_cldrVersion": "25",
+          "_number": "$Revision: 91 $"
+        },
+        "generation": {
+          "_date": "$Date: 2014-03-13 22:27:12 -0500 (Thu, 13 Mar 2014) $"
+        },
+        "language": "ja"
+      },
+      "localeDisplayNames": {
+        "localeDisplayPattern": {
+          "localePattern": "{0} ({1})",
+          "localeSeparator": "{0}、{1}",
+          "localeKeyTypePattern": "{0}: {1}"
+        },
+        "keys": {
+          "calendar": "暦法",
+          "colAlternate": "記号を無視した並べ替え",
+          "colBackwards": "アクセント（逆方向）による並べ替え",
+          "colCaseFirst": "大文字順/小文字順による並べ替え",
+          "colCaseLevel": "大文字小文字を区別した並べ替え",
+          "colHiraganaQuaternary": "仮名による並べ替え",
+          "colNormalization": "正規化による並べ替え",
+          "colNumeric": "数値による並べ替え",
+          "colStrength": "強度による並べ替え",
+          "collation": "並べ替え順序",
+          "currency": "通貨",
+          "numbers": "数値書式",
+          "timezone": "タイムゾーン",
+          "va": "ロケールのバリアント",
+          "variableTop": "記号として並べ替え",
+          "x": "私用"
+        },
+        "types": {
+          "numbers": {
+            "arab": "アラビア・インド数字",
+            "arabext": "ペルシア数字",
+            "armn": "アルメニア数字",
+            "armnlow": "アルメニア数字(小文字)",
+            "bali": "バリ数字",
+            "beng": "ベンガル数字"
+          },
+          "collation": {
+            "big5han": "繁体字中国語順(Big5)"
+          },
+          "numbers": {
+            "brah": "ブラーフミー数字"
+          },
+          "calendar": {
+            "buddhist": "タイ仏教暦"
+          },
+          "numbers": {
+            "cakm": "チャクマ数字",
+            "cham": "チャム数字"
+          },
+          "calendar": {
+            "chinese": "中国暦",
+            "coptic": "コプト暦",
+            "dangi": "ダンギ暦"
+          },
+          "numbers": {
+            "deva": "デーヴァナーガリー数字"
+          },
+          "collation": {
+            "dictionary": "辞書順",
+            "ducet": "ユニコード照合順",
+            "eor": "eor"
+          },
+          "numbers": {
+            "ethi": "エチオピア数字"
+          },
+          "calendar": {
+            "ethiopic": "エチオピア暦",
+            "ethiopic-amete-alem": "エチオピア創世紀元暦"
+          },
+          "numbers": {
+            "finance": "財務用漢数字",
+            "fullwide": "全角数字"
+          },
+          "collation": {
+            "gb2312han": "簡体字中国語順(GB2312)"
+          },
+          "numbers": {
+            "geor": "グルジア数字"
+          },
+          "calendar": {
+            "gregorian": "西暦(グレゴリオ暦)"
+          },
+          "numbers": {
+            "grek": "ギリシャ数字",
+            "greklow": "ギリシャ数字(小文字)",
+            "gujr": "グジャラート数字",
+            "guru": "グルムキー数字",
+            "hanidec": "漢数字(位取り記数法)",
+            "hans": "簡体漢数字",
+            "hansfin": "簡体大字",
+            "hant": "繁体漢数字",
+            "hantfin": "繁体大字",
+            "hebr": "ヘブライ数字"
+          },
+          "calendar": {
+            "hebrew": "ユダヤ暦"
+          },
+          "colStrength": {
+            "identical": "すべてを区別して並べ替え"
+          },
+          "calendar": {
+            "indian": "インド国定暦",
+            "islamic": "イスラム暦",
+            "islamic-civil": "太陽イスラム暦",
+            "islamic-rgsa": "イスラム暦(サウジアラビア、月観測)",
+            "islamic-tbla": "イスラム暦(天文紀元)",
+            "islamic-umalqura": "イスラム暦(ウンム・アルクラー)",
+            "iso8601": "ISO-8601",
+            "japanese": "和暦"
+          },
+          "numbers": {
+            "java": "ジャワ数字",
+            "jpan": "漢数字",
+            "jpanfin": "大字",
+            "kali": "カヤー数字",
+            "khmr": "クメール数字",
+            "knda": "カンナダ数字",
+            "lana": "ラーンナー数字",
+            "lanatham": "ラーンナー・タム数字",
+            "laoo": "ラオ数字",
+            "latn": "算用数字",
+            "lepc": "レプチャ数字",
+            "limb": "リンブ数字"
+          },
+          "colCaseFirst": {
+            "lower": "小文字優先で並べ替え"
+          },
+          "numbers": {
+            "mlym": "マラヤーラム数字",
+            "mong": "モンゴル数字",
+            "mtei": "マニプリ数字",
+            "mymr": "ミャンマー数字",
+            "mymrshan": "ミャンマー・シャン数字",
+            "native": "独自の記数法",
+            "nkoo": "ンコ数字"
+          },
+          "colBackwards": {
+            "no": "アクセント（順方向）で並べ替え"
+          },
+          "colCaseFirst": {
+            "no": "大文字小文字を通常の順序で並べ替え"
+          },
+          "colCaseLevel": {
+            "no": "大文字小文字を区別しないで並べ替え"
+          },
+          "colHiraganaQuaternary": {
+            "no": "仮名を区別しないで並べ替え"
+          },
+          "colNormalization": {
+            "no": "正規化しないで並べ替え"
+          },
+          "colNumeric": {
+            "no": "数値を独立して並べ替え"
+          },
+          "colAlternate": {
+            "non-ignorable": "記号で並べ替え"
+          },
+          "numbers": {
+            "olck": "オルチキ数字",
+            "orya": "オリヤー数字",
+            "osma": "オスマニア数字"
+          },
+          "calendar": {
+            "persian": "ペルシア暦"
+          },
+          "collation": {
+            "phonebook": "電話帳順",
+            "phonetic": "音声順による並べ替え",
+            "pinyin": "ピンイン"
+          },
+          "colStrength": {
+            "primary": "基本文字のみで並べ替え",
+            "quaternary": "アクセント/大文字小文字/全角半角/仮名で並べ替え"
+          },
+          "collation": {
+            "reformed": "リフォーム"
+          },
+          "calendar": {
+            "roc": "中華民国暦"
+          },
+          "numbers": {
+            "roman": "ローマ数字",
+            "romanlow": "ローマ数字(小文字)",
+            "saur": "サウラーシュトラ数字"
+          },
+          "collation": {
+            "search": "汎用検索",
+            "searchjl": "ハングル語頭子音による並べ替え"
+          },
+          "colStrength": {
+            "secondary": "アクセントで並べ替え"
+          },
+          "colAlternate": {
+            "shifted": "記号を無視して並べ替え"
+          },
+          "numbers": {
+            "shrd": "シャーラダー数字",
+            "sora": "ソラ・ソンペン数字"
+          },
+          "collation": {
+            "standard": "標準ソート順序",
+            "stroke": "画数順"
+          },
+          "numbers": {
+            "sund": "スンダ数字",
+            "takr": "タークリー数字",
+            "talu": "新タイ・ルー数字",
+            "taml": "タミール数字",
+            "tamldec": "タミル数字",
+            "telu": "テルグ数字"
+          },
+          "colStrength": {
+            "tertiary": "アクセント/大文字小文字/全角半角で並べ替え"
+          },
+          "numbers": {
+            "thai": "タイ数字",
+            "tibt": "チベット数字"
+          },
+          "collation": {
+            "traditional": "トラディッショナル"
+          },
+          "numbers": {
+            "traditional": "従来の記数法"
+          },
+          "collation": {
+            "unihan": "部首順"
+          },
+          "colCaseFirst": {
+            "upper": "大文字優先で並べ替え"
+          },
+          "numbers": {
+            "vaii": "ヴァイ文字の記数法"
+          },
+          "colBackwards": {
+            "yes": "アクセント（逆方向）で並べ替え"
+          },
+          "colCaseLevel": {
+            "yes": "大文字小文字を区別して並べ替え"
+          },
+          "colHiraganaQuaternary": {
+            "yes": "仮名を区別して並べ替え"
+          },
+          "colNormalization": {
+            "yes": "Unicode 正規化で並べ替え"
+          },
+          "colNumeric": {
+            "yes": "数値を数値として並べ替え"
+          },
+          "collation": {
+            "zhuyin": "注音順"
+          }
+        },
+        "codePatterns": {
+          "language": "言語: {0}",
+          "script": "文字: {0}",
+          "territory": "地域: {0}"
+        }
+      }
+    }
+  }
+}
