@@ -84,6 +84,8 @@ qx.Class.define("demobrowser.demo.table.Table_Drag_And_Drop",
 
 
     _handleDragStart: function(e) {
+      var focusedRow = this._table.getFocusedRow();
+      this._startRow = {maxIndex: focusedRow, minIndex: focusedRow};
       e.addAction("move");
       e.addType("movetransfer");
     },
@@ -93,6 +95,11 @@ qx.Class.define("demobrowser.demo.table.Table_Drag_And_Drop",
     {
       var type = e.getCurrentType();
       var sel = this._table.getSelectionModel().getSelectedRanges();
+
+      // use the focused row instead of the selection in nothing selected
+      if (sel.length == 0) {
+        sel = [this._startRow];
+      }
 
       var selMap = [];
 
