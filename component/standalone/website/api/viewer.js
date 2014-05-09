@@ -164,11 +164,16 @@ q.ready(function() {
    */
   var renderList = function(data) {
     var keys = data.getKeys();
+    var fragment = document.createDocumentFragment();
+
     for (var i = 0; i < keys.length; i++) {
       var moduleName = keys[i];
       var module = data.getModule(moduleName);
-      renderListModule(moduleName, module);
+
+      fragment.appendChild(renderListModule(moduleName, module));
     }
+
+    q("#list > ul")[0].appendChild(fragment);
   };
 
 
@@ -215,15 +220,18 @@ q.ready(function() {
     var group = data.group;
     var groupId = "list-group-" + group;
 
+    var fragment = document.createDocumentFragment();
     var groupPage = q("#list").find("> ul > #" + groupId);
     if (groupPage.length == 0) {
       var groupIcon = icons[group];
       if (groupIcon) {
         groupIcon = "data-icon='" + groupIcon + "'";
       }
-      var button = q.create("<li " + groupIcon + " data-qx-accordion-page='#" + groupId + "' class='qx-accordion-button'>" + group.replace("_", " ") + "</li>")
-        .appendTo("#list > ul");
-      groupPage = q.create("<li class='qx-accordion-page' id='" + groupId + "'></li>").appendTo("#list > ul");
+      var button = q.create("<li " + groupIcon + " data-qx-accordion-page='#" + groupId + "' class='qx-accordion-button'>" + group.replace("_", " ") + "</li>");
+      fragment.appendChild(button[0]);
+
+      groupPage = q.create("<li class='qx-accordion-page' id='" + groupId + "'></li>");
+      fragment.appendChild(groupPage[0]);
     }
 
     if (name !== "Core") {
@@ -233,6 +241,7 @@ q.ready(function() {
     }
 
     groupPage.append(ul);
+    return fragment;
   };
 
 
@@ -304,12 +313,15 @@ q.ready(function() {
    * CONTENT
    */
   renderContent = function(data) {
+    var fragment = document.createDocumentFragment();
     var keys = data.getKeys();
     for (var i = 0; i < keys.length; i++) {
       var moduleName = keys[i];
       var module = data.getModule(moduleName);
-      renderModule(keys[i], module);
+      fragment.appendChild(renderModule(keys[i], module));
     }
+
+    q("#content")[0].appendChild(fragment);
   };
 
 
@@ -336,7 +348,7 @@ q.ready(function() {
 
     var groupEl = q("#content #group_" + group);
     if (groupEl.length === 0) {
-      groupEl = q.create('<div id="group_' + group + '"></div>').appendTo("#content");
+      groupEl = q.create('<div id="group_' + group + '"></div>');
     }
 
     var module = q.create("<div class='module'>").appendTo(groupEl);
@@ -400,6 +412,8 @@ q.ready(function() {
       }
       module.append(methodDoc);
     });
+
+    return groupEl[0];
   };
 
   var getItemParent = function(itemName) {
