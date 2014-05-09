@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.mobile.core.EventHandler",
       disappear : 1,
 
       // resize event
-      resize : 1,
+      // resize : 1,
 
       // drag drop events
       dragstart : 1,
