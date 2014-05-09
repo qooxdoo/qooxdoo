@@ -207,6 +207,7 @@ customizations
 customized
 customzing
 datefield
+dbltap
 de
 debugObject
 debuggability
@@ -395,6 +396,12 @@ plugin
 plugins
 png
 po
+pointercancel
+pointerdown
+pointermove
+pointerout
+pointerover
+pointerup
 polyfill
 polyfills
 polymorphism
