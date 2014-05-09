@@ -54,14 +54,7 @@ qx.Class.define("qx.event.handler.Touch",
     this.__root = this.__window.document;
 
     qx.event.handler.TouchCore.apply(this, [this.__root]);
-
-    // IE10 works with MSPointer Events. No touch emulation needed.
-    if (!qx.core.Environment.get("event.mspointer")) {
-      this._initMouseObserver();
-    }
   },
-
-
 
 
   /*
@@ -114,8 +107,6 @@ qx.Class.define("qx.event.handler.Touch",
 
   members :
   {
-    __onMouseEventWrapper : null,
-
     __manager : null,
     __window : null,
     __root : null,
@@ -185,32 +176,6 @@ qx.Class.define("qx.event.handler.Touch",
 
     /*
     ---------------------------------------------------------------------------
-      OBSERVER INIT
-    ---------------------------------------------------------------------------
-    */
-
-
-    /**
-     * Initializes the native mouse event listeners.
-     */
-    _initMouseObserver : function() {},
-
-
-    /*
-    ---------------------------------------------------------------------------
-      OBSERVER STOP
-    ---------------------------------------------------------------------------
-    */
-
-
-    /**
-     * Disconnects the native mouse event listeners.
-     */
-    _stopMouseObserver : function() {},
-
-
-    /*
-    ---------------------------------------------------------------------------
       NATIVE EVENT OBSERVERS
     ---------------------------------------------------------------------------
     */
@@ -225,15 +190,6 @@ qx.Class.define("qx.event.handler.Touch",
     {
       this._commonTouchEventHandler(domEvent);
     }),
-
-
-    /**
-     * Handler for the native mouse events.
-     *
-     * @signature function(domEvent)
-     * @param domEvent {Event} The mouse event from the browser.
-     */
-    _onMouseEvent : function() {},
 
 
     /**
