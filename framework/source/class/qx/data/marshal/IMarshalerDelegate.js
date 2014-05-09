@@ -39,10 +39,9 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @param properties {String} A sorted order of propertynames
      *   separated by ".
      * @param parentProperty {String|null} If there is a named parent property, the
-     *   name is given here. This might be null in case of arrays and the root data.
+     *   name is given here. This might be null in case of the root data.
      * @param depth {Number} The depth level of the data.
-     * @return {String} The new which should be used for that property in
-     *   the model.
+     * @return {Boolean} <code>true</code> if the set should be ignored
      */
     ignore : function(properties, parentProperty, depth) {},
 
@@ -54,7 +53,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @param property {String} The name of the property from the data source.
      * @param properties {String} A sorted order of propertynames
      *   separated by ".
-     * @return {String} The new which should be used for that property in
+     * @return {String} The new property name which should be used for that property in
      *   the model.
      */
     getPropertyMapping : function(property, properties) {},
@@ -75,7 +74,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   separated by ".
      * @param object {Map} The object for which an class is needed.
      * @param parentProperty {String|null} If there is a named parent property, the
-     *   name is given here. This might be null in case of arrays and the root data.
+     *   name is given here. This might be null in case of the root data.
      * @param depth {Number} The depth level of the data.
      * @return {Class|null} Returns the class containing the properties
      *   corresponding to the given hash of the properties. If <code>null</code>
@@ -90,7 +89,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @param properties {String} A sorted order of propertynames
      *   separated by ".
      * @param parentProperty {String|null} If there is a named parent property, the
-     *   name is given here. This might be null in case of arrays and the root data.
+     *   name is given here. This might be null in case of the root data.
      * @param depth {Number} The depth level of the data.
      * @return {Class|null} Returns the class which should be used as superclass
      *   corresponding to the given hash of the properties. If <code>null</code>
@@ -106,7 +105,7 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @param properties {String} A sorted order of propertynames
      *   separated by ".
      * @param parentProperty {String|null} If there is a named parent property, the
-     *   name is given here. This might be null in case of arrays and the root data.
+     *   name is given here. This might be null in case of the root data.
      * @param depth {Number} The depth level of the data.
      * @return {Array|Mixin|null} Returns an array of mixins or a single mixin which
      *   will be included into the given class identified by the properties
