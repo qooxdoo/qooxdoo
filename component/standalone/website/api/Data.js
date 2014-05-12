@@ -380,6 +380,23 @@ var Data = q.define({
       }, this).send();
     },
 
+    _containsItem : function(list, item) {
+      for (var i=0, l=list.length; i<l; i++) {
+        if (list[i].name === item.name) {
+          return true;
+        }
+      }
+      return false;
+    },
+
+    _addNewItems : function(list, items) {
+      items.forEach(function(item) {
+        if (!this._containsItem(list, item)) {
+          list.push(item);
+        }
+      }.bind(this));
+    },
+
 
     _saveClassData : function(moduleName, ast) {
       if (!this.__data[moduleName]) {
@@ -396,12 +413,14 @@ var Data = q.define({
       if (!this.__data[moduleName].events) {
         this.__data[moduleName].events = [];
       }
-      this.__data[moduleName].events = this.__data[moduleName].events.concat(this._getEvents(ast));
+      this._addNewItems(this.__data[moduleName].events, this._getEvents(ast));
 
-      this.__data[moduleName].member = this.__data[moduleName].member.concat(Data.getByType(ast, "methods").children.filter(function(method) {
+      var members = Data.getByType(ast, "methods").children.filter(function(method) {
         // ignore internal and already listed methods e.g. factory methods
         return !Data.__isInternal(method) && this.__data[moduleName].member.indexOf(method) == -1;
-      }.bind(this)));
+      }.bind(this));
+
+      this.__data[moduleName].member = this.__data[moduleName].member.concat(members);
 
       this.__data[moduleName].static = this.__data[moduleName].static.concat(Data.getByType(ast, "methods-static").children.filter(function(method) {
         // ignore internal and already listed methods
@@ -424,8 +443,8 @@ var Data = q.define({
           continue;
         } else {
           if (constName == "_templates" || constName == "_config") {
-            var desc = Data.getByType(constant, "desc");
-            this.__data[moduleName][constName.replace("_", "")] = desc.attributes.text;
+            var descr = Data.getByType(constant, "desc");
+            this.__data[moduleName][constName.replace("_", "")] = descr.attributes.text;
           }
         }
       }
