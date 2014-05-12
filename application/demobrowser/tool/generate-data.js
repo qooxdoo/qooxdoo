@@ -16,9 +16,8 @@
     demoPath: 'source/demo/',
     classPath: 'source/class',
     jsSourcePath: 'source/class/demobrowser/demo',
-    outputFile: './tool/config.demo.json',
-    demoConfigJsonFile: './tool/config.demo.json',
-    demoDataJsonFile: './demodata.json'
+    demoConfigJsonFile: 'config.demo.json',
+    demoDataJsonFile: 'source/script/demodata.json'
   };
 
   // main

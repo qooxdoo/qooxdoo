@@ -5,10 +5,10 @@
   // core libraries
   var fs = require('fs');
   var util = require('util');
-  var walker = require('walker');
 
   // 3rd party packages
   var path = require('path');
+  var walker = require('walker');
 
   // global vars
   var jobSectionTemplate = {
@@ -42,14 +42,12 @@
     }
   };
 
-  // main implementation
   var DataGenerator = function (config) {
     this.config = config;
     this.demos = [];
     this.entries = [];
   };
   DataGenerator.prototype = {
-
     /**
      * catches all the entries (demo) from config.demoPath
      *
@@ -60,18 +58,28 @@
 
       walker(this.config.demoPath)
         .on('file', function (entry, stat) {
+          var path = entry.replace(dataGenerator.config.demoPath, '');
           dataGenerator.entries.push({
             entry: entry,
+            path: path,
+            level: path.split('/').length,
             type: 'file',
             stat: stat
           });
         })
         .on('dir', function (entry, stat) {
-          dataGenerator.entries.push({
-            entry: entry,
-            type: 'dir',
-            stat: stat
-          });
+          var path = entry.replace(dataGenerator.config.demoPath, '');
+          // avoid empty entries
+          if (path.length > 0) {
+            dataGenerator.entries.push({
+              entry: entry,
+              path: path,
+              level: path.split('/').length,
+              type: 'dir',
+              stat: stat
+            });
+          }
+
         })
         .on('end', function () {
           done(null, dataGenerator.entries);
@@ -81,28 +89,29 @@
     /**
      * Creates json file with all demos
      *
-     * @param done
+     * @param {function} done
      */
     createJsonDataFile: function (done) {
       var dataGenerator = this;
       var directories = this.getDirectories();
 
-      /*
-       * get directories. The variable directory has the following structure
+      /**
+       * Get directories. The variable directory has the following structure:
+       *
+       * <pre>
        * {
        *    entry: 'source/demo/ui/json',
+       *    path: 'ui/json',
        *    type: 'dir',
-       *    stat: [Object object]
+       *    stat: [Object object],
+       *    level: 2
        * }
+       * </pre>
        */
       directories.forEach(function (directory) {
-        var entry = directory.entry;
-        var directoryPath = entry.replace(dataGenerator.config.demoPath, '');
-        var directoryPathParts = directoryPath.split('/');
-
-        // add only directories at first level
-        if (directoryPathParts.length === 1) {
-          dataGenerator.addDemo(directoryPath);
+        // add only directories at first level to ignore sub-folders at 2nd level like data
+        if (directory.level === 1) {
+          dataGenerator.addDemo(directory.path);
         }
       });
 
@@ -110,32 +119,31 @@
       var fileCounter = 0;
       var files = this.getFiles();
 
-      /*
-       * get files. The variable file has the following structure
+      /**
+       * Get files. The variable file has the following structure:
+       *
+       * <pre>
        * {
        *    entry: 'source/demo/virtual/json/tree.json',
+       *    path: 'virtual/json/tree.json',
        *    type: 'file',
-       *    stat: [Object object]
+       *    stat: [Object object],
+       *    level: 2
        * }
+       * </pre>
        */
       files.forEach(function (file) {
-        var entry = file.entry;
-        var filePath = entry.replace(dataGenerator.config.demoPath, '');
-        var filePathParts = filePath.split('/');
+        // add only files at second level to ignore unneeded files
+        if (file.level === 2) {
 
-        // add only files at second level
-        if (filePathParts.length === 2) {
-          // get the equivalent js file
-          var categoryName = path.dirname(filePath);
-          var jsFile = path.basename(entry, '.html') + '.js';
-          var jsFilePath = path.join(dataGenerator.config.jsSourcePath, categoryName, jsFile);
-
+          var jsFilePath = dataGenerator.convertHtmlFilePathToJsFilePath(file.path);
           // check if javascript file exists
           if (fs.existsSync(jsFilePath)) {
             fileCounter++;
 
             // get the tags and class name from javascript file
             dataGenerator.getTagsFromJsFile(jsFilePath, function (err, tags) {
+              var filePathParts = file.path.split('/');
               dataGenerator.addDemoTest(
                 filePathParts[0],
                 filePathParts[1],
@@ -143,16 +151,16 @@
               );
               fileCounter--;
 
-              // are all files processed?
+              // are all files processed
               if (fileCounter === 0) {
                 // save json file with all demos
-                var outputFile = dataGenerator.config.outputFile;
-                var dirName = path.dirname(outputFile);
+                var demoDataJsonFile = dataGenerator.config.demoDataJsonFile;
+                var dirName = path.dirname(demoDataJsonFile);
                 if (!fs.existsSync(dirName)) {
                   fs.mkdirSync(dirName);
                 }
 
-                dataGenerator.saveAsJsonFile(outputFile, dataGenerator.getDemos());
+                dataGenerator.saveAsJsonFile(demoDataJsonFile, dataGenerator.getDemos());
                 done(null);
               }
             });
@@ -162,9 +170,25 @@
     },
 
     /**
+     * Convert a html file path to js file path
+     *
+     * @param {string} filePath
+     * @returns {*}
+     */
+    convertHtmlFilePathToJsFilePath: function (filePath) {
+      // get the equivalent js file
+      var jsFilePath = path.join(
+        this.config.jsSourcePath,
+        filePath.replace('.html', '.js')
+      );
+
+      return jsFilePath;
+    },
+
+    /**
      * Create config.demo.json file with all the jobs
      *
-     * @param done
+     * @param {function} done
      */
     createJsonConfigFile: function (done) {
       var dataGenerator = this;
@@ -224,8 +248,8 @@
     /**
      * Replace variables in jobSectionTemplate and return parsed string
      *
-     * @param demoCategory
-     * @returns {*}
+     * @param {object} demoCategory
+     * @returns {string}
      */
     createJobSection: function (demoCategory) {
       var className = [demoCategory.category, demoCategory.name].join('.');
@@ -240,31 +264,49 @@
 
     /**
      * copy all javascript files to config.scriptDestinationPath
+     *
+     * @param {function} done
      */
-    copyJsFiles: function () {
+    copyJsFiles: function (done) {
       var dataGenerator = this;
-      var className = util.format('demobrowser/demo/%s/%s', 'animation', 'Animation')
 
-      if (!fs.existsSync('source/script')) {
-        fs.mkdirSync('source/script');
-      }
-      dataGenerator.copyJsFile(
-        util.format('%s/%s.js', dataGenerator.config.classPath, className),
-        util.format('source/script/demobrowser.demo.%s.%s.js', 'animation', 'Animation'),
-        function (err, done) {
-          if (err) {
-            console.error(err);
+      var files = this.getFiles('.html');
+      files.forEach(function (file) {
+        if (file.level === 2) {
+          var demoCategory = dataGenerator.getDemoCategoryFromFile(file.path);
+          var className = util.format(
+            'demobrowser/demo/%s/%s',
+            demoCategory.category,
+            demoCategory.name
+          );
+
+          if (!fs.existsSync('source/script')) {
+            fs.mkdirSync('source/script');
           }
+
+          dataGenerator.copyJsFile(
+            util.format('%s/%s.js', dataGenerator.config.classPath, className),
+            util.format(
+              'source/script/demobrowser.demo.%s.%s.js',
+              demoCategory.category,
+              demoCategory.name
+            ),
+            function (err, done) {
+              if (err) {
+                console.error(err);
+              }
+            }
+          );
         }
-      );
+      });
     },
 
     /**
      * copy single javascript file
      *
-     * @param sourcePath
-     * @param targetPath
-     * @param done
+     * @param {string} sourcePath
+     * @param {string} targetPath
+     * @param {function} done
      */
     copyJsFile: function (sourcePath, targetPath, done) {
       var readStream = fs.createReadStream(sourcePath);
@@ -284,7 +326,7 @@
     /**
      * Adds a demo to internal data store
      *
-     * @param demoName
+     * @param {string} demoName
      */
     addDemo: function (demoName) {
       this.demos.push({
@@ -296,9 +338,9 @@
     /**
      * Adds a test to a specific demo.
      *
-     * @param demoName
-     * @param testName
-     * @param tags
+     * @param {string} demoName
+     * @param {string} testName
+     * @param {object} tags
      */
     addDemoTest: function (demoName, testName, tags) {
       this.demos.forEach(function (item) {
@@ -322,8 +364,8 @@
     /**
      * Get @tag's and qx classes from a specific js file
      *
-     * @param jsFilePath
-     * @param done
+     * @param {string} jsFilePath
+     * @param {function} done
      */
     getTagsFromJsFile: function (jsFilePath, done) {
       fs.readFile(jsFilePath, 'utf8', function (err, data) {
@@ -361,7 +403,7 @@
     /**
      * Save the internal data to a json file
      *
-     * @param fileName
+     * @param {string} fileName
      */
     saveAsJsonFile: function (fileName, content, done) {
       var data = JSON.stringify(content, null, 4);
@@ -378,9 +420,9 @@
     },
 
     /**
+     * Extract category name and file name for path
      *
-     *
-     * @param filePath
+     * @param {string} filePath
      * @returns {{name: string, category: string}}
      */
     getDemoCategoryFromFile: function (filePath) {
@@ -438,9 +480,9 @@
     /**
      * Merge jobs. Using own method to give possibility to hook into the merging
      *
-     * @param existingJobs
-     * @param newJobs
-     * @returns {*} merged jobs
+     * @param {object} existingJobs
+     * @param {object} newJobs
+     * @returns {object} merged jobs
      */
     mergeJobs: function (existingJobs, newJobs) {
       for (var key in newJobs) {
@@ -448,7 +490,6 @@
       }
       return existingJobs;
     }
-
   };
 
   module.exports = DataGenerator;
