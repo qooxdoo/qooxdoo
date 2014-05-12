@@ -998,7 +998,13 @@ qx.Class.define("qx.test.io.rest.Resource",
       res.get();
       this.respond();
 
-      this.assertCalledOnce(req.dispose);
+      setTimeout(function() {
+        this.resume(function() {
+          this.assertCalledOnce(req.dispose);
+        }, this);
+      }.bind(this), 100);
+
+      this.wait();
     },
 
     assertSend: function(method, url) {
