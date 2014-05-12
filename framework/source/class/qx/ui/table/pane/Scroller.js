@@ -385,6 +385,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __top : null,
 
     __timer : null,
+    _cellEditorIsModalWindow: false,
 
 
     /**
@@ -1830,6 +1831,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         {
           // It's a window.  Ensure that it's modal.
           this.__cellEditor.setModal(true);
+          this._cellEditorIsModalWindow = true;
 
           // At least for the time being, we disallow the close button.  It
           // acts differently than a cellEditor.close(), and invokes a bug
@@ -1856,6 +1858,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         else
         {
           // The cell editor is a traditional in-place editor.
+          this._cellEditorIsModalWindow = false;
           var size = this.__focusIndicator.getInnerSize();
           this.__cellEditor.setUserBounds(0, 0, size.width, size.height);
 
@@ -1934,23 +1937,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     cancelEditing : function()
     {
-      if (this.isEditing() && ! this.__cellEditor.pendingDispose)
+      if (this.isEditing())
       {
-        if (this._cellEditorIsModalWindow)
-        {
-          this.__cellEditor.destroy();
-          this.__cellEditor = null;
-          this.__cellEditorFactory = null;
-          this.__cellEditor.pendingDispose = true;
-        }
-        else
+        if (!this._cellEditorIsModalWindow)
         {
           this.__focusIndicator.removeState("editing");
           this.__focusIndicator.setKeepActive(true);
-          this.__cellEditor.destroy();
-          this.__cellEditor = null;
-          this.__cellEditorFactory = null;
         }
+        this.__cellEditor.destroy();
+        this.__cellEditor = null;
+        this.__cellEditorFactory = null;
       }
     },
 
