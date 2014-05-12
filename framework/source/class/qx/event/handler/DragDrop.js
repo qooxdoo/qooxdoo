@@ -572,7 +572,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         var delta = e.getDelta();
         // if the mouse moved a bit in any direction
         var distance = qx.event.handler.GestureCore.TAP_MAX_DISTANCE.mouse;
-        if (delta.x > distance || delta.y > distance) {
+        if (Math.abs(delta.x) > distance || Math.abs(delta.y) > distance) {
           this._start(e);
         }
       }
