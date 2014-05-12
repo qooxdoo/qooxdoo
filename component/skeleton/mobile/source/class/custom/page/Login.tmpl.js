@@ -23,12 +23,11 @@ qx.Class.define("${Namespace}.page.Login",
 
   members :
   {
-    __form : null,
+    __form: null,
 
 
     // overridden
-    _initialize : function()
-    {
+    _initialize: function() {
       this.base(arguments);
 
       // Username
@@ -50,17 +49,18 @@ qx.Class.define("${Namespace}.page.Login",
       // Use form renderer
       this.getContent().add(new qx.ui.mobile.form.renderer.Single(loginForm));
       this.getContent().add(loginButton);
-    }
-  },
+    },
 
 
-  /**
-  * Event handler for <code>tap</code> on the login button.
-  */
-  _onButtonTap: function() {
-    // use form validation
-    if (this.__form.validate()) {
-      qx.core.Init.getApplication().getRouting().executeGet("/overview");
+    /**
+     * Event handler for <code>tap</code> on the login button.
+     */
+    _onButtonTap: function() {
+      // use form validation
+      if (this.__form.validate()) {
+        qx.core.Init.getApplication().getRouting().executeGet("/overview");
+      }
     }
   }
+ 
 });
