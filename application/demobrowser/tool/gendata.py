@@ -183,7 +183,6 @@ def demoCategoryFromFile(file):
     file = os.path.normpath(file)
     parts = file.split(os.sep)
     return parts[2], parts[3].split(".")[0]
-gi
 
 ##
 # generator to copy demo source .js files to script dir
