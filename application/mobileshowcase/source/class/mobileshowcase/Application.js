@@ -34,13 +34,6 @@ qx.Class.define("mobileshowcase.Application",
 {
   extend : qx.application.Mobile,
 
-  /** Holds the application routing */
-  properties : {
-    routing : {
-      init: null
-    }
-  },
-
 
   members :
   {
@@ -106,30 +99,29 @@ qx.Class.define("mobileshowcase.Application",
       ]);
 
       // Initialize the navigation
-      var routing = new qx.application.Routing();
-      this.setRouting(routing);
+      var routing = this.getRouting();
 
       if (qx.core.Environment.get("device.type") == "tablet" ||
        qx.core.Environment.get("device.type") == "desktop") {
-        routing.onGet("/.*", this._showPage, overview);
-        routing.onGet("/", this._showPage, basic);
+        routing.onGet("/.*", this._show, overview);
+        routing.onGet("/", this._show, basic);
       }
 
-      routing.onGet("/", this._showPage, overview);
-      routing.onGet("/basic", this._showPage, basic);
-      routing.onGet("/dialog", this._showPage, dialogs);
-      routing.onGet("/tab", this._showPage, tab);
-      routing.onGet("/form", this._showPage, form);
-      routing.onGet("/list", this._showPage, list);
-      routing.onGet("/toolbar", this._showPage, toolbar);
-      routing.onGet("/carousel", this._showPage, carousel);
-      routing.onGet("/drawer", this._showPage, drawer);
-      routing.onGet("/databinding", this._showPage, dataBinding);
-      routing.onGet("/event", this._showPage, events);
-      routing.onGet("/maps", this._showPage, maps);
-      routing.onGet("/canvas", this._showPage, canvas);
-      routing.onGet("/theming", this._showPage, theming);
-      routing.onGet("/animation", this._showPage, animation);
+      routing.onGet("/", this._show, overview);
+      routing.onGet("/basic", this._show, basic);
+      routing.onGet("/dialog", this._show, dialogs);
+      routing.onGet("/tab", this._show, tab);
+      routing.onGet("/form", this._show, form);
+      routing.onGet("/list", this._show, list);
+      routing.onGet("/toolbar", this._show, toolbar);
+      routing.onGet("/carousel", this._show, carousel);
+      routing.onGet("/drawer", this._show, drawer);
+      routing.onGet("/databinding", this._show, dataBinding);
+      routing.onGet("/event", this._show, events);
+      routing.onGet("/maps", this._show, maps);
+      routing.onGet("/canvas", this._show, canvas);
+      routing.onGet("/theming", this._show, theming);
+      routing.onGet("/animation", this._show, animation);
 
       routing.onGet("/animation/{animation}", function(data) {
         animationLanding.setAnimation(data.params.animation);
@@ -145,15 +137,6 @@ qx.Class.define("mobileshowcase.Application",
       }, this);
 
       routing.init();
-    },
-
-
-    /*
-    * Default behaviour when a route matches. Displays the corresponding page on screen.
-    * @param data {Map} the animation properties 
-    */
-    _showPage : function(data) {
-      this.show(data.customData);
     }
   }
 });
