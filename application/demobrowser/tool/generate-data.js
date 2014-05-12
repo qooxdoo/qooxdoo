@@ -13,10 +13,10 @@
 
   // global vars
   var config = {
-    demoPath: './source/demo/',
-    classPath: './source/class',
-    jsSourcePath: './source/class/demobrowser/demo',
-    outputFile: './tool/generate-data.json',
+    demoPath: 'source/demo/',
+    classPath: 'source/class',
+    jsSourcePath: 'source/class/demobrowser/demo',
+    outputFile: './tool/config.demo.json',
     demoConfigJsonFile: './tool/config.demo.json',
     demoDataJsonFile: './demodata.json'
   };

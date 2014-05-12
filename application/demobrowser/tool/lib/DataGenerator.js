@@ -87,7 +87,14 @@
       var dataGenerator = this;
       var directories = this.getDirectories();
 
-      // get directories
+      /*
+       * get directories. The variable directory has the following structure
+       * {
+       *    entry: 'source/demo/ui/json',
+       *    type: 'dir',
+       *    stat: [Object object]
+       * }
+       */
       directories.forEach(function (directory) {
         var entry = directory.entry;
         var directoryPath = entry.replace(dataGenerator.config.demoPath, '');
@@ -102,6 +109,15 @@
       // get files
       var fileCounter = 0;
       var files = this.getFiles();
+
+      /*
+       * get files. The variable file has the following structure
+       * {
+       *    entry: 'source/demo/virtual/json/tree.json',
+       *    type: 'file',
+       *    stat: [Object object]
+       * }
+       */
       files.forEach(function (file) {
         var entry = file.entry;
         var filePath = entry.replace(dataGenerator.config.demoPath, '');
@@ -227,10 +243,14 @@
      */
     copyJsFiles: function () {
       var dataGenerator = this;
-      var className = util.format('demobrowser.demo.%s.%s')
+      var className = util.format('demobrowser/demo/%s/%s', 'animation', 'Animation')
+
+      if (!fs.existsSync('source/script')) {
+        fs.mkdirSync('source/script');
+      }
       dataGenerator.copyJsFile(
         util.format('%s/%s.js', dataGenerator.config.classPath, className),
-        util.format('source/script/%s'),
+        util.format('source/script/demobrowser.demo.%s.%s.js', 'animation', 'Animation'),
         function (err, done) {
           if (err) {
             console.error(err);
