@@ -384,7 +384,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     __registerEventListener : function()
     {
-      qx.core.Init.getApplication().addListener("back", this.hide, this);
+      qx.core.Init.getApplication().addListener("stop", this.hide, this);
       qx.core.Init.getApplication().addListener("popup", this.hide, this);
 
       qx.event.Registration.addListener(window, "resize", this._updatePosition, this);
@@ -401,7 +401,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     __unregisterEventListener : function()
     {
-      qx.core.Init.getApplication().removeListener("back", this.hide, this);
+      qx.core.Init.getApplication().removeListener("stop", this.hide, this);
       qx.core.Init.getApplication().removeListener("popup", this.hide, this);
 
       qx.event.Registration.removeListener(window, "resize", this._updatePosition, this);
@@ -423,7 +423,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       if(this.__childrenContainer == null) {
         this.__childrenContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox());
-        this.__childrenContainer.setDefaultCssClass("popup-content")
+        this.__childrenContainer.setDefaultCssClass("popup-content");
         this._add(this.__childrenContainer);
       }
 

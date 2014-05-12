@@ -303,11 +303,12 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * Lifecycle method. Called by the page manager after the {@link #initialize}
      * method when the page is shown. Fires the <code>start</code> event. You should
      * register all your event listener when this event occurs, so that no page
-     * updates are down when page is not shown.
+     * updates are done when page is not shown.
      */
     start : function() {
       this._start();
       this.fireEvent("start");
+      qx.core.Init.getApplication().fireEvent("start");
     },
 
 
@@ -332,6 +333,7 @@ qx.Class.define("qx.ui.mobile.page.Page",
     {
       this._stop();
       this.fireEvent("stop");
+      qx.core.Init.getApplication().fireEvent("stop");
     },
 
 

@@ -44,8 +44,17 @@ qx.Class.define("qx.application.Mobile",
 
   events :
   {
-    /** Fired when the method {@link qx.ui.mobile.page.Page#back} is called. Data indicating
-     *  whether the action was triggered by a key event or not.
+    /** Fired when the lifecycle method {@link #start} of any {@link qx.ui.mobile.page.Page page} is called */
+    "start" : "qx.event.type.Event",
+
+
+    /** Fired when the lifecycle method {@link #stop} of any {@link qx.ui.mobile.page.Page page} is called */
+    "stop" : "qx.event.type.Event",
+
+
+    /** 
+     * Fired when the method {@link qx.ui.mobile.page.Page#back} is called. Data indicating
+     * whether the action was triggered by a key event or not.
      */
     "back" : "qx.event.type.Data",
 
