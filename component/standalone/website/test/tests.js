@@ -108,39 +108,6 @@ testrunner.define({
     this.assertEquals(document.getElementById("foo"), collection[0]);
   },
 
-  testInit : function() {
-    var select = document.createElement("select");
-    document.getElementById("sandbox").appendChild(select);
-    var opt = document.createElement("option");
-    select.appendChild(opt);
-
-    // Element
-    var coll = q(select);
-    this.assertEquals(1, coll.length, "affe0");
-    this.assertEquals(select, coll[0]);
-
-    // Array of elements
-    coll = q([select]);
-    this.assertEquals(1, coll.length, "affe1");
-    this.assertEquals(select, coll[0]);
-
-    // NodeList
-    coll = q(document.getElementsByTagName("select"));
-    this.assertEquals(1, coll.length, "affe2");
-    this.assertEquals(select, coll[0]);
-
-    // HtmlCollection
-    if (typeof select.selectedOptions !== "undefined") {
-      coll = q(select.selectedOptions);
-      this.assertEquals(1, coll.length, "affe3");
-      this.assertEquals(opt, coll[0]);
-    }
-
-    // Bogus
-    coll = q({length: 5});
-    this.assertEquals(0, coll.length);
-  },
-
   testContext : function() {
     var container1 = document.createElement("div");
     var inner1 = document.createElement("h2");
@@ -444,6 +411,62 @@ testrunner.define({
     var elements = q.create('<h2>Juhu</h2><h3>Kinners</h3>');
     q("#sandbox p").after(elements);
     this.assertEquals(2, q("#sandbox p + h2 + h3").length);
+  },
+
+  testFocus : function()
+  {
+    var obj = {
+      focused : 0
+    };
+    var onFocus =  function(ev) {
+      this.focused++;
+    };
+    var test = q.create('<input type="text"></input><input type="text"></input>')
+    .appendTo("#sandbox").on("focus", onFocus, obj);
+
+    // IE won't focus the element immediately after adding it to the DOM
+    window.setTimeout(function() {
+      test.focus();
+    }, 200);
+
+    var that = this;
+    window.setTimeout(function() {
+      that.resume(function() {
+        this.assertEquals(1, obj.focused);
+      }, that);
+    }, 400);
+
+    this.wait();
+  },
+
+  testBlur : function()
+  {
+    var obj = {
+      blurred : 0
+    };
+    var onBlur =  function(ev) {
+      this.blurred++;
+    };
+    var test = q.create('<input type="text"></input><input type="text"></input>')
+    .appendTo("#sandbox").on("blur", onBlur, obj);
+
+    // IE won't focus the element immediately after adding it to the DOM
+    window.setTimeout(function() {
+      test.focus();
+    }, 200);
+
+    window.setTimeout(function() {
+      test.blur();
+    }, 400);
+
+    var that = this;
+    window.setTimeout(function() {
+      that.resume(function() {
+        this.assertEquals(1, obj.blurred);
+      }, that);
+    }, 500);
+
+    this.wait();
   },
 
   "test insertAfter with element" : function()
@@ -1054,8 +1077,6 @@ testrunner.define({
   {
     this.assertTrue(q.isElement(document.body));
     this.assertTrue(q.isElement(q("#sandbox")[0]));
-    this.assertTrue(q.isElement(q("#sandbox")));
-    this.assertTrue(q.isElement("#sandbox"));
     this.assertFalse(q.isElement({}));
     q.create('<span id="affe">text</span>').appendTo(this.sandbox[0]);
     this.assertFalse(q.isElement(q("#sandbox #affe")[0].firstChild));
@@ -1065,8 +1086,6 @@ testrunner.define({
   {
     this.assertTrue(q.isNode(document));
     this.assertTrue(q.isNode(q("#sandbox")[0]));
-    this.assertTrue(q.isNode(q("#sandbox")));
-    this.assertTrue(q.isNode("#sandbox"));
     this.assertFalse(q.isNode({}));
     q.create('<span id="affe">text</span>').appendTo(this.sandbox[0]);
     this.assertTrue(q.isNode(q("#sandbox #affe")[0].firstChild));
@@ -1083,14 +1102,11 @@ testrunner.define({
   testGetWindow : function()
   {
     this.assertEquals(window, q.getWindow(q("#sandbox")[0]));
-    this.assertEquals(window, q.getWindow(q("#sandbox")));
-    this.assertEquals(window, q.getWindow(q("#sandbox")[0]));
   },
 
   testIsWindow : function()
   {
     this.assertTrue(q.isWindow(window));
-    this.assertTrue(q.isWindow(q(window)));
     this.assertFalse(q.isWindow(document));
     this.assertFalse(q.isWindow(document.body));
   },
@@ -1098,8 +1114,6 @@ testrunner.define({
   testGetDocument : function()
   {
     this.assertEquals(document, q.getDocument(q("#sandbox")[0]));
-    this.assertEquals(document, q.getDocument(q("#sandbox")));
-    this.assertEquals(document, q.getDocument("#sandbox"));
     this.assertEquals(document, q.getDocument(window));
     this.assertEquals(document, q.getDocument(document));
   },
@@ -1107,32 +1121,22 @@ testrunner.define({
   testGetNodeName : function()
   {
     this.assertEquals("html", q.getNodeName(document.documentElement));
-    this.assertEquals("div", q.getNodeName("#sandbox"));
-    this.assertEquals("div", q.getNodeName(q("#sandbox")));
-    this.assertEquals("div", q.getNodeName(q("#sandbox")[0]));
   },
 
   testGetNodeText : function()
   {
     this.assertEquals("monkeycheese", q.getNodeText(q.create("<div>monkey<p>cheese</p></div>")[0]));
-    this.assertEquals("monkeycheese", q.getNodeText(q.create("<div>monkey<p>cheese</p></div>")));
-    q("#sandbox").setHtml("monkeycheese");
-    this.assertEquals("monkeycheese", q.getNodeText("#sandbox"));
   },
 
   testIsBlockNode : function()
   {
     this.assertTrue(q.isBlockNode(document.createElement("p")));
-    this.assertTrue(q.isBlockNode("#sandbox"));
-    this.assertTrue(q.isBlockNode(q("#sandbox")));
     this.assertFalse(q.isBlockNode(document.createElement("span")));
   },
 
   testIsNodeName : function()
   {
     this.assertTrue(q.isNodeName(document.createElement("p"), "p"));
-    this.assertTrue(q.isNodeName(q("#sandbox"), "div"));
-    this.assertTrue(q.isNodeName("#sandbox", "div"));
     this.assertTrue(q.isNodeName(document.createTextNode("bla"), "#text"));
   },
 
@@ -1891,18 +1895,14 @@ testrunner.define({
 
   testContext : function()
   {
-    if (!qx.core.Environment.get("event.dispatchevent")) {
-      this.skip("Requires dispatchEvent");
-    }
     window.temp = null;
     q.create('<input type="text" id="one"></input><input type="text" id="two"></input>')
-    .on("mousedown", function(ev) {
+    .on("focus", function(ev) {
       window.temp = this.getAttribute("id");
     }).appendTo("#sandbox");
 
     window.setTimeout(function() {
-      var event = new qx.event.type.dom.Custom("mousedown");
-      q("#sandbox #one")[0].dispatchEvent(event);
+      q("#sandbox #one").focus();
     }, 100);
 
     this.wait(200, function() {
@@ -1969,10 +1969,7 @@ testrunner.define({
 
   testNormalization : function()
   {
-    if (!qx.core.Environment.get("event.dispatchevent")) {
-      this.skip("Requires dispatchEvent");
-    }
-    this.__registerNormalization("mousedown", function(event) {
+    this.__registerNormalization("focus", function(event) {
       event.affe = "juhu";
       return event;
     });
@@ -1981,14 +1978,14 @@ testrunner.define({
       event.affe += " hugo";
       return event;
     };
-    this.__registerNormalization("mousedown", normalizer1);
+    this.__registerNormalization("focus", normalizer1);
 
     var normalizer2 = function(event) {
       event.affe += " affe";
       return event;
     };
 
-    this.__registerNormalization("mousedown", normalizer2);
+    this.__registerNormalization("focus", normalizer2);
 
     var obj = {
       normalized : false
@@ -2001,25 +1998,27 @@ testrunner.define({
 
     var test = q.create('<input type="text"></input>');
     test.appendTo(this.sandbox[0]);
-    test.on("mousedown", callback, obj);
+    test.on("focus", callback, obj);
 
-    q.$unregisterEventNormalization("mousedown", normalizer1);
+    q.$unregisterEventNormalization("focus", normalizer1);
 
     window.setTimeout(function() {
-      var event = new qx.event.type.dom.Custom("mousedown");
-      test[0].dispatchEvent(event);
+      test[0].focus();
     }, 100);
 
     this.wait(function() {
       this.assert(obj.normalized, "Event was not manipulated!");
-      q.$unregisterEventNormalization("mousedown", normalizer2);
+      q.$unregisterEventNormalization("focus", normalizer2);
     }, 200, this);
   },
 
+  tearDownTestNormalization : function()
+  {
+    var registry = q.$getEventNormalizationRegistry();
+    delete registry.focus;
+  },
+
   testNormalizationWildcard : function() {
-    if (!qx.core.Environment.get("event.dispatchevent")) {
-      this.skip("Requires dispatchEvent");
-    }
     var normalizer = function(event) {
       event.affe = "juhu";
       return event;
@@ -2038,14 +2037,12 @@ testrunner.define({
 
     var test = q.create('<input type="text"></input>');
     test.appendTo(this.sandbox[0]);
-    test.on("mousedown", callback, obj1);
-    test.on("mouseup", callback, obj2);
+    test.on("focus", callback, obj1);
+    test.on("blur", callback, obj2);
 
     window.setTimeout(function() {
-      var down = new qx.event.type.dom.Custom("mousedown");
-      test[0].dispatchEvent(down);
-      var up = new qx.event.type.dom.Custom("mouseup");
-      test[0].dispatchEvent(up);
+      test[0].focus();
+      test[0].blur();
     }, 100);
 
     this.wait(function() {
@@ -2055,18 +2052,14 @@ testrunner.define({
     }, 200, this);
   },
 
-  __normalizeMouse : null,
+  __normalizeFocusBlur : null,
 
   testNormalizationForMultipleTypes : function() {
-    if (!qx.core.Environment.get("event.dispatchevent")) {
-      this.skip("Requires dispatchEvent");
-    }
-
-    this.__normalizeMouse = function(event) {
+    this.__normalizeFocusBlur = function(event) {
       event.affe = "juhu";
       return event;
     };
-    this.__registerNormalization(["mousedown", "mouseup"], this.__normalizeMouse);
+    this.__registerNormalization(["focus", "blur"], this.__normalizeFocusBlur);
 
     var obj1, obj2;
     obj1 = obj2 = {
@@ -2080,30 +2073,30 @@ testrunner.define({
 
     var test = q.create('<input type="text" />');
     test.appendTo(this.sandbox[0]);
-    test.on("mousedown", callback, obj1);
-    test.on("mouseup", callback, obj2);
+    test.on("focus", callback, obj1);
+    test.on("blur", callback, obj2);
 
     window.setTimeout(function() {
-      var event = new qx.event.type.dom.Custom("mousedown");
-      test[0].dispatchEvent(event);
+      test[0].focus();
     }, 100);
 
+    // IE < 9 won't fire the focus event if blur() is called immediately after
+    // focus()
     window.setTimeout(function() {
-      var event = new qx.event.type.dom.Custom("mouseup");
-      test[0].dispatchEvent(event);
+      test[0].blur();
     }, 250);
 
     this.wait(function() {
-      this.assert(obj1.normalized, "Mousedown event was not manipulated!");
-      this.assert(obj2.normalized, "Mouseup event was not manipulated!");
+      this.assert(obj1.normalized, "Focus event was not manipulated!");
+      this.assert(obj2.normalized, "Blur event was not manipulated!");
     }, 500, this);
   },
 
   tearDownTestNormalizationForMultipleTypes : function() {
     var registry = q.$getEventNormalizationRegistry();
-    var before = registry["mousedown"].length + registry["mouseup"].length;
-    q.$unregisterEventNormalization(["mousedown", "mouseup"], this.__normalizeMouse);
-    var after = registry["mousedown"].length + registry["mouseup"].length;
+    var before = registry["focus"].length + registry["blur"].length;
+    q.$unregisterEventNormalization(["focus", "blur"], this.__normalizeFocusBlur);
+    var after = registry["focus"].length + registry["blur"].length;
     this.assertEquals((before - 2), after);
   }
 });
@@ -2117,9 +2110,6 @@ testrunner.define({
 
   testGetTarget : function()
   {
-    if (!qx.core.Environment.get("event.dispatchevent")) {
-      this.skip("Requires dispatchEvent");
-    }
     var obj = {
       target : null
     };
@@ -2130,11 +2120,10 @@ testrunner.define({
 
     var test = q.create('<input id="foo" type="text" />');
     test.appendTo(this.sandbox[0]);
-    test.on("mousedown", callback, obj);
+    test.on("focus", callback, obj);
 
     window.setTimeout(function() {
-      var event = new qx.event.type.dom.Custom("mousedown");
-      test[0].dispatchEvent(event);
+      test[0].focus();
     }, 100);
 
     this.wait(function() {
@@ -2145,9 +2134,6 @@ testrunner.define({
 
   testEventMethods : function()
   {
-    if (!qx.core.Environment.get("event.dispatchevent")) {
-      this.skip("Requires dispatchEvent");
-    }
     var methods = ["getRelatedTarget", "preventDefault", "stopPropagation"];
 
     var obj = {
@@ -2162,11 +2148,10 @@ testrunner.define({
 
     var test = q.create('<input type="text"></input>');
     test.appendTo(this.sandbox[0]);
-    test.on("mousedown", callback, obj);
+    test.on("focus", callback, obj);
 
     window.setTimeout(function() {
-      var event = new qx.event.type.dom.Custom("mousedown");
-      test[0].dispatchEvent(event);
+      test[0].focus();
     }, 100);
 
     this.wait(function() {
@@ -2178,10 +2163,6 @@ testrunner.define({
 
   testCurrentTarget : function()
   {
-    if (!qx.core.Environment.get("event.dispatchevent")) {
-      this.skip("Requires dispatchEvent");
-    }
-
     var target;
 
     var callback = function(ev) {
@@ -2190,15 +2171,14 @@ testrunner.define({
 
     test = q.create('<input type="text" />');
     test.appendTo(this.sandbox[0]);
-    test.on("mousedown", callback, this);
+    test.on("focus", callback, this);
 
-    window.setTimeout(function() {
-      var event = new qx.event.type.dom.Custom("mousedown");
-      test[0].dispatchEvent(event);
+    window.setTimeout(function(){
+      test[0].focus();
     }, 100);
 
     this.wait(function() {
-      this.assertEquals(test[0], target);
+      this.assertEquals(target, test[0]);
     }, 500, this);
   }
 });
@@ -2354,58 +2334,12 @@ testrunner.define({
     this.require(["qx.debug"]);
     var cb = function() {};
     var test = q.create('<div></div>').appendTo(this.sandbox[0])
-    .on("touchstart", cb).on("touchmove", cb);
+    .on("swipe", cb).on("tap", cb);
     this.assertEquals("qx.event.handler.TouchCore", test[0].__touchHandler.classname);
-    test.off("touchstart", cb);
-    this.assertNotNull(test[0].__touchHandler);
-    test.off("touchmove", cb)
-    this.assertNull(test[0].__touchHandler);
-  }
-});
-
-
-testrunner.define({
-  classname : "event.PointerHandler",
-
-  setUp : testrunner.globalSetup,
-  tearDown : testrunner.globalTeardown,
-
-  testRegister : function()
-  {
-    this.require(["qx.debug"]);
-    if (q.$$qx.core.Environment.get("event.mspointer")) {
-      this.skip("Pointer events supported natively.");
-    }
-    var cb = function() {};
-    var test = q.create('<div></div>').appendTo(this.sandbox[0])
-    .on("pointerdown", cb)
-    .on("pointerup");
-    this.assertEquals("qx.event.handler.PointerCore", test[0].$$pointerHandler.classname);
-    test.off("pointerdown", cb);
-    this.assertNotNull(test[0].$$pointerHandler);
-    test.off("pointerup", cb);
-    this.assertNull(test[0].$$pointerHandler);
-  }
-});
-
-
-testrunner.define({
-  classname : "event.GestureHandler",
-
-  setUp : testrunner.globalSetup,
-  tearDown : testrunner.globalTeardown,
-
-  testRegister : function()
-  {
-    var cb = function() {};
-    var test = q.create('<div></div>').appendTo(this.sandbox[0])
-    .on("tap", cb)
-    .on("swipe");
-    this.assertEquals("qx.event.handler.GestureCore", test[0].$$gestureHandler.classname);
-    test.off("tap", cb);
-    this.assertNotNull(test[0].$$gestureHandler);
     test.off("swipe", cb);
-    this.assertNull(test[0].$$gestureHandler);
+    this.assertNotNull(test[0].__touchHandler);
+    test.off("tap", cb)
+    this.assertNull(test[0].__touchHandler);
   }
 });
 
@@ -2625,7 +2559,6 @@ testrunner.define({
     };
     var test = q.create('<div id="foo"></div>').setStyles(styles)
     .appendTo(this.sandbox[0]);
-
     test.block("#00FF00", 1);
 
     var blockerDiv = test[0].__blocker.div;
@@ -2637,12 +2570,25 @@ testrunner.define({
     this.assertEquals(styles.width, blockerDiv.getWidth() + "px");
     this.assertEquals(styles.height, blockerDiv.getHeight() + "px");
 
+    if (q.env.get("engine.name") == "mshtml") {
+      var blockerIframe = test[0].__blocker.iframe;
+      this.assertElement(blockerIframe[0]);
+      this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      var blockerIframeLocation = blockerIframe.getOffset();
+      this.assertEquals(styles.top, blockerIframeLocation.top + "px");
+      this.assertEquals(styles.left, blockerIframeLocation.left + "px");
+      this.assertEquals(styles.width, blockerIframe.getWidth() + "px");
+      this.assertEquals(styles.height, blockerIframe.getHeight() + "px");
+    }
+
     this.assertEquals(1, blockerDiv.getStyle("opacity"));
     this.assertMatch(blockerDiv.getStyle("backgroundColor"), /(rgb.*?0,.*?255.*?0|#00ff00)/i);
-
     test.unblock();
-
     this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+
+    if (q.env.get("engine.name") == "mshtml") {
+      this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+    }
 
     var newStyles = {
       top: "400px",
@@ -2651,7 +2597,6 @@ testrunner.define({
       height: "175px"
     };
     test.setStyles(newStyles);
-
     test.block();
 
     this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
@@ -2661,32 +2606,42 @@ testrunner.define({
     this.assertEquals(newStyles.width, blockerDiv.getWidth() + "px");
     this.assertEquals(newStyles.height, blockerDiv.getHeight() + "px");
 
-    test.unblock();
+    if (q.env.get("engine.name") == "mshtml") {
+      this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      blockerIframeLocation = blockerIframe.getOffset();
+      this.assertEquals(newStyles.top, blockerIframeLocation.top + "px");
+      this.assertEquals(newStyles.left, blockerIframeLocation.left + "px");
+      this.assertEquals(newStyles.width, blockerIframe.getWidth() + "px");
+      this.assertEquals(newStyles.height, blockerIframe.getHeight() + "px");
+    }
   },
 
   testBlockDocument : function()
   {
     this.require(["qx.debug"]);
-
     q(document).block();
-
     var blockerDiv = document.__blocker.div;
     this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
     this.assertEquals(q(document).getWidth(), blockerDiv.getWidth());
     this.assertEquals(q(document).getHeight(), blockerDiv.getHeight());
-    this.assertEquals(q(document.body).getChildren(":first")[0], blockerDiv[0]);
-    this.assertEquals('fixed', blockerDiv.getStyle("position"));
-    this.assertEquals('100%', blockerDiv[0].style.width);
-    this.assertEquals('100%', blockerDiv[0].style.height);
+
+    if (q.env.get("engine.name") == "mshtml") {
+      var blockerIframe = document.__blocker.iframe;
+      this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+      this.assertEquals(q(document).getWidth(), blockerIframe.getWidth());
+      this.assertEquals(q(document).getHeight(), blockerIframe.getHeight());
+    }
 
     q(document).unblock();
 
     this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
+    if (q.env.get("engine.name") == "mshtml") {
+      this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerIframe[0]));
+    }
   },
 
   testBlockWindow : function() {
-    // q(window).block();
-
+    q(window).block();
   },
 
   testGetBlockerElements : function() {
@@ -2702,7 +2657,6 @@ testrunner.define({
     q.create('<div id="bar"></div>').setStyles(styles).appendTo(this.sandbox[0]);
 
     var test = this.sandbox.getChildren();
-
     test.block();
 
     var blockerCollection = test.getBlocker();
@@ -2710,8 +2664,6 @@ testrunner.define({
     this.assertEquals(2, blockerCollection.length);
     this.assertTrue(qxWeb.isElement(blockerCollection[0]));
     this.assertTrue(qxWeb.isElement(blockerCollection[1]));
-
-    test.unblock();
   },
 
   testGetBlockerWithoutBlockingBefore : function() {
@@ -2728,47 +2680,8 @@ testrunner.define({
     var blockerCollection = test.getBlocker();
     this.assertInstance(blockerCollection, q);
     this.assertEquals(0, blockerCollection.length);
-  },
-
-
-  testBlockerWithCSSClassStyling : function() {
-    this.require(["qx.debug"]);
-    var styleSheet = "./style2.css";
-    q.includeStylesheet(styleSheet);
-
-    q(document).block();
-    var blockerDiv = document.__blocker.div;
-
-    window.setTimeout((function()
-    {
-      this.resume(function()
-      {
-        var opacity = (qxWeb.env.get("browser.name") === "ie" && qxWeb.env.get("browser.version") <= 8) ? 0 : 0.7;
-
-        this.assertMatch(blockerDiv.getStyle("backgroundColor"), /(rgb.*?255,.*?0.*?0|#ff0000)/i);
-        this.assertEquals('8000', blockerDiv.getStyle('zIndex'));
-        this.assertEquals(opacity, (Math.round(blockerDiv.getStyle('opacity') * 10) / 10));
-
-        q(document).unblock();
-        q('link[href="./style2.css"]').remove();
-      });
-    }).bind(this), 500);
-
-    this.wait(1000);
-  },
-
-  testBlockerWithJSStyling : function() {
-    q(document).block('#00FF00', 0.6, 7000);
-    var blockerDiv = document.__blocker.div;
-
-    this.assertMatch(blockerDiv.getStyle("backgroundColor"), /(rgb.*?0,.*?255.*?0|#00ff00)/i);
-    this.assertEquals('7000', blockerDiv.getStyle('zIndex'));
-    this.assertEquals('0.6', (Math.round(blockerDiv.getStyle('opacity') * 10) / 10));
-
-    q(document).unblock();
   }
 });
-
 
 testrunner.define({
   classname : "ArrayUtil",
@@ -3710,17 +3623,23 @@ testrunner.define({
   tearDown : testrunner.globalTeardown,
 
   __testSelection : function(coll, selected) {
+    var ie8 = q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9;
     coll.setTextSelection(5, 9);
-    this.assertEquals(4, coll.getTextSelectionLength());
-    this.assertEquals(5, coll.getTextSelectionStart());
-    this.assertEquals(9, coll.getTextSelectionEnd());
-    this.assertEquals(selected, coll.getTextSelection());
+    this.assertEquals(4, coll.getTextSelectionLength(), "length");
+    this.assertEquals(5, coll.getTextSelectionStart(), "start");
+    this.assertEquals(9, coll.getTextSelectionEnd(), "end");
+    this.assertEquals(selected, coll.getTextSelection(), "selection");
 
     coll.clearTextSelection();
-    this.assertEquals(0, coll.getTextSelectionLength());
-    this.assertEquals(0, coll.getTextSelectionStart());
-    this.assertEquals(0, coll.getTextSelectionEnd());
-    this.assertEquals("", coll.getTextSelection());
+
+    this.assertEquals(0, coll.getTextSelectionLength(), "length");
+    if (!ie8 || coll[0].tagName.toLowerCase() !== "textarea") {
+      this.assertEquals(0, coll.getTextSelectionStart(), "start");
+    }
+    if (!ie8 || (coll[0].tagName.toLowerCase() !== "span" && coll[0].tagName.toLowerCase() !== "textarea")) {
+      this.assertEquals(0, coll.getTextSelectionEnd(), "end");
+    }
+    this.assertEquals("", coll.getTextSelection(), "selection");
   },
 
   testInput : function() {
@@ -3884,7 +3803,7 @@ testrunner.define({
     var spy = function() {
       callInfo.push(Date.now());
     };
-    var throttled = q.func.throttle(spy, 500, { trailing: false });
+    var throttled = q.func.throttle(spy, 250, { trailing: false });
 
     var intervalId = window.setInterval((function() {
       throttled();
@@ -3896,9 +3815,9 @@ testrunner.define({
 
     window.setTimeout((function() {
       this.resume(function() {
-        this.assertEquals(3, callInfo.length);
+        this.assertEquals(6, callInfo.length);
       });
-    }).bind(this), 1300);
+    }).bind(this), 1800);
 
     this.wait(2000);
   },
@@ -3910,7 +3829,7 @@ testrunner.define({
     var spy = function() {
       callInfo.push(Date.now());
     };
-    var throttled = q.func.throttle(spy, 500, { leading: false, trailing: false });
+    var throttled = q.func.throttle(spy, 250, { leading: false, trailing: false });
 
     var intervalId = window.setInterval((function() {
       throttled();
@@ -3922,9 +3841,9 @@ testrunner.define({
 
     window.setTimeout((function() {
       this.resume(function() {
-        this.assertEquals(2, callInfo.length);
+        this.assertEquals(5, callInfo.length);
       });
-    }).bind(this), 1300);
+    }).bind(this), 1800);
 
     this.wait(2000);
   },
@@ -3937,22 +3856,22 @@ testrunner.define({
       context = this;
       callInfo.push(Date.now());
     };
-    this.sandbox.on("myEvent", q.func.throttle(spy, 400), this.sandbox);
+    this.sandbox.on("myEvent", q.func.throttle(spy, 250), this.sandbox);
 
     var counter = 0;
     var intervalId = window.setInterval((function() {
       this.emit("myEvent");
 
-      if (counter === 4) {
+      if (counter === 14) {
         window.clearInterval(intervalId);
       }
       counter++;
-    }).bind(this.sandbox), 150);
+    }).bind(this.sandbox), 100);
 
     var checkContext = this.sandbox;
-    this.wait(1500, function() {
+    this.wait(2000, function() {
       this.assertEquals(checkContext, context);
-      this.assertEquals(3, callInfo.length);
+      this.assertEquals(7, callInfo.length);
     }, this);
   },
 
@@ -4049,17 +3968,17 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.$onFirstCollection("foo", clb, w);
+    w.onWidget("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(1, called);
 
-    w.$onFirstCollection("foo", clb, w);
+    w.onWidget("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(2, called);
 
-    w.$offFirstCollection("foo", clb, w);
+    w.offWidget("foo", clb, w);
     w.emit("foo");
     this.assertEquals(2, called);
   },
@@ -4070,19 +3989,19 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.$onFirstCollection("foo", clb, w);
+    w.onWidget("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(1, called);
 
-    w.$onFirstCollection("foo", function() {
+    w.onWidget("foo", function() {
       clb();
     }, w);
 
     w.emit("foo");
     this.assertEquals(3, called);
 
-    w.$offFirstCollection("foo", clb, w);
+    w.offWidget("foo", clb, w);
     w.emit("foo");
     this.assertEquals(4, called);
   },
@@ -4093,17 +4012,17 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.$onFirstCollection("foo", clb, {});
+    w.onWidget("foo", clb, {});
 
     w.emit("foo");
     this.assertEquals(1, called);
 
-    w.$onFirstCollection("foo", clb, {});
+    w.onWidget("foo", clb, {});
 
     w.emit("foo");
     this.assertEquals(2, called);
 
-    w.$offFirstCollection("foo", clb, {});
+    w.offWidget("foo", clb, {});
     w.emit("foo");
     this.assertEquals(2, called);
   },
@@ -4116,12 +4035,12 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    w.$onFirstCollection("foo", clb, w);
+    w.onWidget("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(2, called);
 
-    w.$onFirstCollection("foo", clb, w);
+    w.onWidget("foo", clb, w);
 
     w.emit("foo");
     this.assertEquals(4, called);
@@ -4129,7 +4048,7 @@ testrunner.define({
     w.getFirst().emit("foo");
     this.assertEquals(5, called);
 
-    w.$offFirstCollection("foo", clb, w);
+    w.offWidget("foo", clb, w);
     w.getFirst().emit("foo");
     this.assertEquals(5, called);
   },
@@ -4140,26 +4059,18 @@ testrunner.define({
     var clb = function() {
       called++;
     };
-    q("#sandbox").$onFirstCollection("foo", clb, q("#sandbox"));
+    q("#sandbox").onWidget("foo", clb, q("#sandbox"));
 
     q("#sandbox").emit("foo");
     this.assertEquals(1, called);
 
-    q("#sandbox").$onFirstCollection("foo", clb, q("#sandbox"));
+    q("#sandbox").onWidget("foo", clb, q("#sandbox"));
 
     q("#sandbox").emit("foo");
     this.assertEquals(2, called);
 
-    q("#sandbox").$offFirstCollection("foo", clb, q("#sandbox"));
+    q("#sandbox").offWidget("foo", clb, q("#sandbox"));
     this.assertEquals(2, called);
-  },
-
-  testInitWidgets : function() {
-    var el1 = q.create("<div id='el1' data-qx-class='qx.ui.website.Widget'></div>").appendTo(q("#sandbox"));
-    var el2 = q.create("<div id='el2' data-qx-class='qx.ui.website.Widget'></div>").appendTo(q("#sandbox"));
-    q.initWidgets("#el1");
-    this.assertTrue(el1.hasClass("qx-widget"));
-    this.assertFalse(el2.hasClass("qx-widget"));
   }
 });
 
@@ -4206,10 +4117,10 @@ testrunner.define({
     var menu = q.create("<div>").setStyle("display", "none").appendTo("#sandbox");
     var b = q.create("<button>").appendTo("#sandbox").button().setMenu(menu);
     var ev = {stopPropagation : function() {}};
-    b.emit("tap", ev);
+    b.emit("click", ev);
     this.assertEquals("block", menu.getStyle("display"));
     this.assertEquals("absolute", menu.getStyle("position"));
-    b.emit("tap", ev);
+    b.emit("click", ev);
     this.assertEquals("none", menu.getStyle("display"));
   }
 });
@@ -4355,7 +4266,7 @@ testrunner.define({
 
     var newClass = "my-cool-calendar";
     cal.setTemplate("table", cal.getTemplate("table")
-      .replace("{{cssPrefix}}-container", "{{cssPrefix}}-container " + newClass));
+      .replace("<table>", "<table class='" + newClass + "'>"));
 
     var newPrev = "prev";
     cal.setTemplate("controls", cal.getTemplate("controls")
@@ -4377,36 +4288,6 @@ testrunner.define({
 
     this.assertEquals(now.toDateString(), c0.getValue().toDateString());
     this.assertEquals(now.toDateString(), c1.getValue().toDateString());
-  },
-
-  testMinDate : function() {
-    var cal = q("#sandbox").calendar(new Date(2014, 1, 3));
-    cal.setConfig("minDate", new Date(2013, 5, 6));
-    // valid date
-    cal.setValue(new Date(2013, 5, 6));
-    this.assertException(function() {
-      cal.setValue(new Date(2013, 5, 5));
-    });
-  },
-
-  testMaxDate : function() {
-    var cal = q("#sandbox").calendar(new Date(2014, 1, 3));
-    cal.setConfig("maxDate", new Date(2015, 5, 6));
-    // valid date
-    cal.setValue(new Date(2015, 5, 6));
-    this.assertException(function() {
-      cal.setValue(new Date(2015, 5, 7));
-    });
-  },
-
-  testSelectableWeekDays : function() {
-    var cal = q("#sandbox").calendar(new Date(2014, 1, 3));
-    cal.setConfig("selectableWeekDays", [1, 2, 3, 4, 5]);
-    // valid day
-    cal.setValue(new Date(2014, 1, 3));
-    this.assertException(function() {
-      cal.setValue(new Date(2014, 1, 2));
-    });
   }
 });
 
@@ -4636,80 +4517,5 @@ testrunner.define({
     this.assertTrue(tabs.getChildren().eq(0).hasClass("qx-tabs-right"));
     tabs.setConfig("align", "left").render();
     this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-right"));
-  }
-});
-
-
-testrunner.define({
-  classname: "ui.DatePicker",
-
-  setUp : testrunner.globalSetup,
-  tearDown : testrunner.globalTeardown,
-
-  testReadOnlyInputElement : function() {
-    var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' id='datepicker' data-qx-class='qx.ui.website.DatePicker' data-qx-config-readonly='false' value=''></input");
-
-    var datepicker = q("input#datepicker").datepicker();
-
-    // config is set via data attribute 'data-qx-config-input-read-only'
-    this.assertFalse(datepicker.getAttribute('readonly'));
-
-    datepicker.dispose();
-  },
-
-  testReadOnlyInputElementWithConfig : function() {
-    var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
-
-    var datepicker = q("input.datepicker").datepicker();
-
-    this.assertTrue(datepicker.eq(0).getConfig('readonly'));
-    this.assertTrue(datepicker.eq(1).getConfig('readonly'));
-
-    this.assertTrue(datepicker.eq(0).getAttribute('readonly'));
-    this.assertTrue(datepicker.eq(1).getAttribute('readonly'));
-
-    datepicker.eq(0).setConfig('readonly', false);
-    datepicker.render();
-
-    this.assertFalse(datepicker.eq(0).getAttribute('readonly'));
-    this.assertTrue(datepicker.eq(1).getAttribute('readonly'));
-
-    datepicker.dispose();
-  },
-
-  testIconOpener : function() {
-    var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
-
-    var datepicker = q("input.datepicker").datepicker();
-    datepicker.setConfig('icon', '../../../../application/websitewidgetbrowser/demo/datepicker/office-calendar.png');
-    datepicker.render();
-
-    var icon = datepicker.getNext();
-    this.assertEquals(1, icon.length);
-    this.assertEquals('img', q.getNodeName(icon));
-    this.assertEquals('qx-datepicker-icon', icon.getClass());
-
-    datepicker.dispose();
-  },
-
-  testIconOpenerToggle : function() {
-    var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value='' />");
-
-    var datepicker = q("input.datepicker").datepicker();
-    datepicker.setConfig('icon', '../../../../application/websitewidgetbrowser/demo/datepicker/office-calendar.png');
-    datepicker.render();
-
-    datepicker.setConfig('icon', null);
-    datepicker.render();
-
-    var icon = datepicker.getNext();
-    this.assertEquals(0, icon.length);
-
-    datepicker.dispose();
   }
 });
