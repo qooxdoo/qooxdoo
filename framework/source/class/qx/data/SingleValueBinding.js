@@ -215,13 +215,17 @@ qx.Class.define("qx.data.SingleValueBinding",
 
           // get and store the next source
           if (source["get" + qx.lang.String.firstUp(propertyNames[i])] == null) {
-            source = null;
+            source = undefined;
           } else if (arrayIndexValues[i] !== "") {
-            source = source["get" + qx.lang.String.firstUp(propertyNames[i])](arrayIndexValues[i]);
+            var itemIndex = arrayIndexValues[i] === "last" ?
+              source.length - 1 : arrayIndexValues[i];
+            source = source["get" + qx.lang.String.firstUp(propertyNames[i])](itemIndex);
           } else {
             source = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
           }
           if (!source) {
+            // call the converter if no source could be found on binding creation
+            this.__setInitialValue(source, targetObject, targetPropertyChain, options, sourceObject);
             break;
           }
         }
