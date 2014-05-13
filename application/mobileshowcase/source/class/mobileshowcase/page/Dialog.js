@@ -60,15 +60,15 @@ qx.Class.define("mobileshowcase.page.Dialog",
       this.__busyPopup = new qx.ui.mobile.dialog.Popup(busyIndicator);
 
       // DEFAULT POPUP
-      this.__popup = new qx.ui.mobile.dialog.Popup();
-      this.__popup.setTitle("A Popup");
-
+      this.__popup = null;
+      
       var closeDialogButton1 = new qx.ui.mobile.form.Button("Close Popup");
+      this.__popup = new qx.ui.mobile.dialog.Popup(closeDialogButton1);
+      this.__popup.setTitle("A Popup");
+      
       closeDialogButton1.addListener("tap", function() {
         this.__popup.hide();
       }, this);
-
-      this.__popup.add(closeDialogButton1);
 
       // ANCHOR POPUP
       var showAnchorButton = new qx.ui.mobile.form.Button("Anchor Popup");
