@@ -52,7 +52,7 @@ qx.Class.define("qx.application.Mobile",
     "stop" : "qx.event.type.Event",
 
 
-    /** 
+    /**
      * Fired when the method {@link qx.ui.mobile.page.Page#back} is called. Data indicating
      * whether the action was triggered by a key event or not.
      */
@@ -110,19 +110,19 @@ qx.Class.define("qx.application.Mobile",
 
 
     /**
-      * Creates the application's routing. Override this function to create
-      * your own routing.
-      * @return {qx.application.Routing} the application's routing.
-      */
+     * Creates the application's routing. Override this function to create
+     * your own routing.
+     * @return {qx.application.Routing} the application's routing.
+     */
     _createRouting : function() {
       return new qx.application.Routing();
     },
 
 
-    /*
-    * Default behaviour when a route matches. Displays the corresponding page on screen.
-    * @param data {Map} the animation properties 
-    */
+    /**
+     * Default behaviour when a route matches. Displays the corresponding page on screen.
+     * @param data {Map} the animation properties
+     */
     _show : function(data) {
       this.show(data.customData);
     },

@@ -151,7 +151,6 @@ define.amd = true;
     }
 
     /**
-     * @name samsam.isArguments
      * @param object {Object}
      *
      * Returns ``true`` if ``object`` is an ``arguments`` object,
@@ -173,7 +172,6 @@ define.amd = true;
     }
 
     /**
-     * @name samsam.isElement
      * @param object {Object}
      *
      * Returns ``true`` if ``object`` is a DOM element node. Unlike
@@ -193,7 +191,6 @@ define.amd = true;
     }
 
     /**
-     * @name samsam.keys
      * @param object {Object}
      *
      * Return an array of own property names.
@@ -207,7 +204,6 @@ define.amd = true;
     }
 
     /**
-     * @name samsam.isDate
      * @param value {Object}
      *
      * Returns true if the object is a ``Date``, or *date-like*. Duck typing
@@ -221,7 +217,6 @@ define.amd = true;
     }
 
     /**
-     * @name samsam.isNegZero
      * @param value {Object}
      *
      * Returns ``true`` if ``value`` is ``-0``.
@@ -231,7 +226,6 @@ define.amd = true;
     }
 
     /**
-     * @name samsam.equal
      * @param obj1 {Object}
      * @param obj2 {Object}
      *
@@ -249,7 +243,6 @@ define.amd = true;
 
 
     /**
-     * @name samsam.deepEqual
      * @param obj1 {Object}
      * @param obj2 {Object}
      *
@@ -446,7 +439,6 @@ define.amd = true;
     }
 
     /**
-     * @name samsam.match
      * @param object {Object}
      * @param matcher {object}
      *
