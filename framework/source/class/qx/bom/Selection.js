@@ -599,7 +599,6 @@ qx.Bootstrap.define("qx.bom.Selection",
     {
       "selection" : function(node)
       {
-        var sel = qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node));
         var rng = qx.bom.Range.get(node);
         var parent = rng.parentElement();
 
@@ -608,7 +607,11 @@ qx.Bootstrap.define("qx.bom.Selection",
         // only collapse if the selection is really on the given node
         // -> compare the two parent elements of the ranges with each other and
         // the given node
+        if (qx.dom.Node.isText(node)) {
+          node = node.parentNode;
+        }
         if (parent == documentRange.parentElement() && parent == node) {
+          var sel = qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node));
           sel.empty();
         }
       },
