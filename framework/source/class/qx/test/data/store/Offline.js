@@ -83,6 +83,16 @@ qx.Class.define("qx.test.data.store.Offline",
     },
 
 
+    testCreateWithDelegate : function() {
+      var del = {};
+      var spy = this.spy(qx.data.marshal, "Json");
+      var store = new qx.data.store.Offline(this.__testKey, "local", del);
+      this.assertCalledWith(spy, del);
+
+      store.dispose();
+    },
+
+
     testCheckEmptyModel : function() {
       this.__initDefaultStore();
       this.assertNull(this.__store.getModel());
@@ -189,7 +199,7 @@ qx.Class.define("qx.test.data.store.Offline",
 
       this.__initDefaultStore();
       this.assertNotNull(this.__store.getModel());
-      this.assertFunction(this.__store.getModel().getX)
+      this.assertFunction(this.__store.getModel().getX);
       this.assertEquals("x", this.__store.getModel().getX());
     },
 

@@ -32,8 +32,10 @@ qx.Class.define("qx.data.store.Offline",
    * @param key {String} A unique key which is used to store the data.
    * @param storage {String?} Either "local" or "session" to determinate which
    *   storage should be used. Default: "local"
+   * @param delegate {Object} An object containing one of the methods described
+   *   in {@link qx.data.marshal.IMarshalerDelegate}.
    */
-  construct : function(key, storage)
+  construct : function(key, storage, delegate)
   {
     this.base(arguments);
 
@@ -52,7 +54,7 @@ qx.Class.define("qx.data.store.Offline",
       this._storage = qx.bom.Storage.getLocal();
     }
 
-    this._marshaler = new qx.data.marshal.Json();
+    this._marshaler = new qx.data.marshal.Json(delegate);
     this._key = key;
 
     this._initializeModel();
