@@ -43,6 +43,7 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 {
   extend : qx.ui.mobile.core.Widget,
   include : [
+    qx.ui.mobile.form.MValue,
     qx.ui.form.MForm,
     qx.ui.form.MModelProperty,
     qx.ui.mobile.form.MState
@@ -85,15 +86,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   },
 
 
-  events :
-  {
-    /**
-     * The event is fired each time the ToggleButton changes its value.
-     */
-    "changeValue" : "qx.event.type.Data"
-  },
-
-
   properties :
   {
     // overridden
@@ -109,7 +101,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   {
     __switch : null,
     __value : false,
-    __oldValue : null,
     __labelUnchecked : "OFF",
     __labelChecked : "ON",
     __lastToggleTimestamp : 0,
@@ -141,55 +132,26 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
      * It is called by setValue method of qx.ui.mobile.form.MValue mixin
      * @param value {Boolean} the new value of the toggle button
      */
-    setValue : function(value)
+    _setValue : function(value)
     {
       if(typeof value !== 'boolean') {
         throw new Error("value for "+this+" should be boolean");
       }
-
-      if (this.__oldValue != value) {
-        if (value === true) {
-          this.addCssClass("checked");
-        } else if (value === false) {
-          this.removeCssClass("checked");
-        }
-        this.__value = value;
-        this.__fireChangeValue(value);
+      if (value) {
+        this.addCssClass("checked");
+      } else {
+        this.removeCssClass("checked");
       }
+       this.__value = value;
     },
-
-
-    /**
-     * Fires the {@link #changeValue} event.
-     *
-     * @param value {var} The current value to fire.
-     */
-    __fireChangeValue : function(value)
-    {
-      if (this.__oldValue != value)
-      {
-        this.__oldValue = value;
-        this.fireDataEvent("changeValue", value);
-      }
-    },
-
 
     /**
      * Gets the value [true/false] of this toggle button.
      * It is called by getValue method of qx.ui.mobile.form.MValue mixin
      * @return {Boolean} the value of the toggle button
      */
-    getValue : function() {
+    _getValue : function() {
       return this.__value;
-    },
-
-
-    /**
-     * Resets the value.
-     */
-    resetValue : function()
-    {
-      this.setValue(null);
     },
 
 
