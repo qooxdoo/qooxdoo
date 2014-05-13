@@ -209,10 +209,52 @@ addSample(".splice", {
   }
 });
 
-addSample("q.$attach",function(){
-  q.$attach({"test" : 123}); // q("#id").test == 123
+addSample("q.$attach", {
+  html: ['<div id="root-elem">',
+         '  <div>foo <span>should be red</span>, foo <span>should be red</span></div>',
+         '  <div>bar</div>',
+         '</div>'],
+  css: ['.important {',
+        '  color: red;',
+        '}'],
+  javascript: function() {
+    // simple sample to get an idea
+    q.$attach({"test" : 123}); // q("#id").test == 123
+
+    // more sophisticated sample
+    var addClassToEveryChildNamed = function(classToAdd, childElementName) {
+      // access to DOM collection (e.g. things captured by q("#id"))
+      this._forEachElement(function(item) {
+        q(item).getChildren().forEach(function(innerItem) {
+          if (q.getNodeName(innerItem) === childElementName.toLowerCase()) {
+            q(innerItem).addClass(classToAdd);
+          }
+        });
+      });
+
+      // return this, to allow further method chaining
+      return this;
+    };
+
+    // make function available with another name (same would be also fine)
+    q.$attach({"addClassToEveryChildByName": addClassToEveryChildNamed});
+
+    // try out new method
+    q("#root-elem div").addClassToEveryChildByName("important", "span");
+  },
+  executable: true
 });
 
 addSample("q.$attachStatic",function(){
+  // simple sample to get an idea
   q.$attachStatic({"test" : 123}); // q.test == 123
+
+  // functionality which does work on DOM collections    => use attach()
+  // functionality which doesn't work on DOM collections => use attachStatic()
+  var includeStylesheet = function(uri, doc) {
+    // ...
+  };
+
+  q.$attachStatic({"includeStylesheet": includeStylesheet});
+  q.includeStylesheet("http://example.org/", doc);
 });
