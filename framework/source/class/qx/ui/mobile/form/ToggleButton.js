@@ -185,6 +185,15 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
 
     /**
+     * Resets the value.
+     */
+    resetValue : function()
+    {
+      this.setValue(null);
+    },
+
+
+    /**
      * Toggles the value of the button.
      */
     toggle : function() {

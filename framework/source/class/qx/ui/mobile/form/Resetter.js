@@ -30,9 +30,12 @@ qx.Class.define("qx.ui.mobile.form.Resetter",
      // override
     _supportsValue : function(formItem) {
       var clazz = formItem.constructor;
-      return ( this.base(arguments,formItem) ||
-        qx.Class.hasMixin(clazz, qx.ui.mobile.form.MValue)
-      );
+
+      var isFormItemSupported = (typeof formItem.getValue !== "undefined");
+      isFormItemSupported = isFormItemSupported && (typeof formItem.setValue !== "undefined");
+      isFormItemSupported = isFormItemSupported && (typeof formItem.resetValue !== "undefined");
+
+      return ( this.base(arguments,formItem) || isFormItemSupported);
     }
   }
 });
