@@ -41,8 +41,10 @@ qx.Mixin.define("qx.ui.mobile.form.MValue",
       this.setValue(value);
     }
 
-    qx.event.Registration.addListener(this.getContentElement(), "change", this._onChangeContent, this);
-    qx.event.Registration.addListener(this.getContentElement(), "input", this._onInput, this);
+    if (this._getTagName() == "input" || this._getTagName() == "textarea") {
+      qx.event.Registration.addListener(this.getContentElement(), "change", this._onChangeContent, this);
+      qx.event.Registration.addListener(this.getContentElement(), "input", this._onInput, this);
+    }
 
     this.addListener("focus", this._onFocus,this);
     this.addListener("blur", this._onBlur,this);
