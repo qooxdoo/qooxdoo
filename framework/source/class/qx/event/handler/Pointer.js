@@ -158,17 +158,6 @@ qx.Class.define("qx.event.handler.Pointer",
 
 
     /**
-     * Handler for touch events
-     * @param domEvent {Event} Native DOM event
-     */
-    _onTouchEvent: function(domEvent) {
-      this.__callBase("_onTouchEvent", [domEvent]);
-      // prevent simulated mouse event including and native focus
-      domEvent.preventDefault();
-    },
-
-
-    /**
      * Dispose this object
      */
     dispose : function()
