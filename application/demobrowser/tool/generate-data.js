@@ -1,4 +1,4 @@
-/*global module*/
+/*global module, process*/
 (function () {
   'use strict';
 
@@ -11,13 +11,23 @@
   // own packages
   var DataGenerator = require('./lib/DataGenerator');
 
+  // get parameters fro console input
+  var demoPath = null;
+  var demoDataJsonPath = null;
+
+  if (process.argv.length === 4) {
+    demoPath = process.argv.pop();
+    demoDataJsonPath = process.argv.pop();
+  }
+
+
   // global vars
   var config = {
-    demoPath: 'source/demo/',
+    demoPath: demoPath || 'source/demo/',
+    demoDataJsonFile: (demoDataJsonPath || 'source/script') + '/demodata.json',
     classPath: 'source/class',
     jsSourcePath: 'source/class/demobrowser/demo',
-    demoConfigJsonFile: 'config.demo.json',
-    demoDataJsonFile: 'source/script/demodata.json'
+    demoConfigJsonFile: 'config.demo.json'
   };
 
   // main

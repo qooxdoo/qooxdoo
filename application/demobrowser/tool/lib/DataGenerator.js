@@ -222,11 +222,15 @@
 
         // build classname (category.name)
         var className = [demoCategory.category, demoCategory.name].join('.');
-        source.push('source-' + className);
-        build.push('build-' + className);
 
-        var jobSection = dataGenerator.createJobSection(demoCategory);
-        data['jobs'] = dataGenerator.mergeJobs(data['jobs'], jobSection);
+        if (dataGenerator.isValidDemoCategory(demoCategory)) {
+          source.push('source-' + className);
+          build.push('build-' + className);
+
+          var jobSection = dataGenerator.createJobSection(demoCategory);
+          data['jobs'] = dataGenerator.mergeJobs(data['jobs'], jobSection);
+        }
+
       });
 
       data['jobs']['source'] = {
@@ -243,6 +247,19 @@
         }
         done();
       });
+    },
+
+    /**
+     * Checks if the given demo category is valid regarding naming
+     *
+     * @param demoCategory
+     * @returns {boolean}
+     */
+    isValidDemoCategory: function (demoCategory) {
+      if (['data', 'blank', 'undefined'].indexOf(demoCategory.name) > -1) {
+        return false;
+      }
+      return true;
     },
 
     /**
@@ -284,19 +301,24 @@
             fs.mkdirSync('source/script');
           }
 
-          dataGenerator.copyJsFile(
-            util.format('%s/%s.js', dataGenerator.config.classPath, className),
-            util.format(
-              'source/script/demobrowser.demo.%s.%s.js',
-              demoCategory.category,
-              demoCategory.name
-            ),
-            function (err, done) {
-              if (err) {
-                console.error(err);
+          var jsFilePath = util.format('%s/%s.js', dataGenerator.config.classPath, className);
+
+          if (fs.existsSync(jsFilePath)) {
+            dataGenerator.copyJsFile(
+              jsFilePath,
+              util.format(
+                'source/script/demobrowser.demo.%s.%s.js',
+                demoCategory.category,
+                demoCategory.name
+              ),
+              function (err, done) {
+                if (err) {
+                  console.error(err);
+                }
               }
-            }
-          );
+            );
+          }
+
         }
       });
     },
