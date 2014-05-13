@@ -81,15 +81,7 @@ qx.Class.define("qx.ui.root.Application",
     this.getContentElement().setStyle("-webkit-backface-visibility", "hidden");
 
     // prevent scrolling on touch devices
-    this.addListener("touchmove", function(e) {
-      // allow native scrolling
-      var orig = e.getOriginalTarget();
-      var touchAction = qx.bom.element.Style.get(orig, "touch-action") != "none";
-      var webkitOverflowScrolling = qx.bom.element.Style.get(orig, "-webkit-overflow-scrolling") === "touch";
-      if (!touchAction && !webkitOverflowScrolling) {
-        e.preventDefault();
-      }
-    });
+    this.addListener("touchmove", this.__stopScrolling, this);
   },
 
 
@@ -198,6 +190,27 @@ qx.Class.define("qx.ui.root.Application",
         throw new Error("The root widget does not support 'left', or 'top' paddings!");
       }
       this.base(arguments, value, old, name);
+    },
+
+
+    /**
+     * Handler for the native 'touchstart' on the window which prevents
+     * the native page scrolling.
+     * @param e {qx.event.type.Touch} The qooxdoo touch event.
+     */
+    __stopScrolling : function(e) {
+      var node = e.getOriginalTarget();
+      while (node && node.style) {
+        var touchAction = qx.bom.element.Style.get(node, "touch-action") !== "none" &&
+          qx.bom.element.Style.get(node, "touch-action") !== "";
+        var webkitOverflowScrolling = qx.bom.element.Style.get(node, "-webkit-overflow-scrolling") === "touch";
+
+        if (touchAction || webkitOverflowScrolling) {
+          return;
+        }
+        node = node.parentNode;
+      }
+      e.preventDefault();
     }
   },
 
