@@ -24,6 +24,7 @@
 qx.Class.define("qx.test.data.singlevalue.Deep",
 {
   extend : qx.dev.unit.TestCase,
+  include : [qx.dev.unit.MMock],
 
   construct : function() {
     this.base(arguments);
@@ -138,6 +139,24 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       this.assertEquals(3, m.getB());
 
       m.dispose();
+    },
+
+
+    testConverterChainBrokenInitialNull : function() {
+      var m = qx.data.marshal.Json.createModel({a: null});
+      var t = qx.data.marshal.Json.createModel({a: null});
+
+      var spy = this.spy(function() {
+        return 123;
+      });
+      m.bind("a.b", t, "a", {converter : spy});
+
+      this.assertCalledOnce(spy);
+      this.assertCalledWith(spy, null, undefined, m, t);
+      this.assertEquals(123, t.getA());
+
+      m.dispose();
+      t.dispose();
     },
 
 
@@ -398,7 +417,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
       qx.data.SingleValueBinding.bind(
         this.__a, "name", this.__b1, "lab.value",
-        {converter : function(data) {return data + "..."}}
+        {converter : function(data) {return data + "...";}}
       );
 
       this.__b1.setLab(newLabel);
