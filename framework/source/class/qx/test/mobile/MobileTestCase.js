@@ -47,6 +47,18 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
           getRoot : function() {
             return self.getRoot();
           },
+          addListener: function() {
+            return self.addListener.apply(self,arguments);
+          },
+          removeListener: function() {
+            return self.removeListener.apply(self,arguments);
+          },
+          fireEvent: function() {
+            return self.fireEvent.apply(self,arguments);
+          },
+          fireDataEvent: function() {
+            return self.fireDataEvent.apply(self,arguments);
+          },
           close : function() {},
           terminate : function() {}
         };
