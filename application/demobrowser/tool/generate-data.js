@@ -7,19 +7,14 @@
 
   // 3rd party
   var async = require('async');
+  var argv = require('optimist').argv;
 
   // own packages
   var DataGenerator = require('./lib/DataGenerator');
 
-  // get parameters fro console input
-  var demoPath = null;
-  var demoDataJsonPath = null;
-
-  if (process.argv.length === 4) {
-    demoPath = process.argv.pop();
-    demoDataJsonPath = process.argv.pop();
-  }
-
+  // get parameters from console input
+  var demoDataJsonPath = argv._.hasOwnProperty(0) ? argv._[0] : null;
+  var demoPath = argv._.hasOwnProperty(1) ? argv._[1] : null;
 
   // global vars
   var config = {
@@ -27,7 +22,8 @@
     demoDataJsonFile: (demoDataJsonPath || 'source/script') + '/demodata.json',
     classPath: 'source/class',
     jsSourcePath: 'source/class/demobrowser/demo',
-    demoConfigJsonFile: 'config.demo.json'
+    demoConfigJsonFile: 'config.demo.json',
+    verbose: argv.v === true
   };
 
   // main
@@ -45,5 +41,7 @@
 
     // copy all javascript files to config.scriptDestinationPath
     dataGenerator.copyJsFiles.bind(dataGenerator)
-  ]);
+  ], function () {
+    console.log('Demos successfully created');
+  });
 }());
