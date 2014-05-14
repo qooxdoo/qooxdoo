@@ -74,11 +74,11 @@
             console.log('read file %s (total amount (%s)', entry, dataGenerator.entries.length);
           }
 
-          var path = entry.replace(demoPath, '');
+          var filePath = entry.replace(demoPath, '');
           dataGenerator.entries.push({
             entry: entry,
-            path: path,
-            level: path.split('/').length,
+            path: filePath,
+            level: filePath.split(path.sep).length,
             type: 'file',
             stat: stat
           });
@@ -88,13 +88,13 @@
             console.log('read directory %s (total amount (%s)', entry, dataGenerator.entries.length);
           }
 
-          var path = entry.replace(demoPath, '');
+          var directoryPath = entry.replace(demoPath, '');
           // avoid empty entries
-          if (path.length > 0) {
+          if (directoryPath.length > 0) {
             dataGenerator.entries.push({
               entry: entry,
-              path: path,
-              level: path.split('/').length,
+              path: directoryPath,
+              level: directoryPath.split(path.sep).length,
               type: 'dir',
               stat: stat
             });
@@ -309,27 +309,31 @@
       files.forEach(function (file) {
         if (file.level === 2) {
           var demoCategory = dataGenerator.getDemoCategoryFromFile(file.path);
-          var className = util.format(
-            'demobrowser/demo/%s/%s',
+          var className = path.join(
+            'demobrowser',
+            'demo',
             demoCategory.category,
             demoCategory.name
           );
 
-          if (!fs.existsSync('source/script')) {
-            fs.mkdirSync('source/script');
+          if (!fs.existsSync(path.join('source', 'script'))) {
+            fs.mkdirSync(path.join('source', 'script'));
           }
 
-          var jsFilePath = util.format('%s/%s.js', dataGenerator.config.classPath, className);
+          var jsFilePath = path.join(dataGenerator.config.classPath, className + '.js');
 
           if (fs.existsSync(jsFilePath)) {
-
             fileCounter += 1;
             dataGenerator.copyJsFile(
               jsFilePath,
-              util.format(
-                'source/script/demobrowser.demo.%s.%s.js',
-                demoCategory.category,
-                demoCategory.name
+              path.join(
+                'source',
+                'script',
+                util.format(
+                  'demobrowser.demo.%s.%s.js',
+                  demoCategory.category,
+                  demoCategory.name
+                )
               ),
               function (err) {
                 if (err) {
@@ -357,15 +361,23 @@
      * @param {function} done
      */
     copyJsFile: function (sourcePath, targetPath, done) {
+      var dataGenerator = this;
+
       var readStream = fs.createReadStream(sourcePath);
       readStream.on("error", function (err) {
         done(err);
       });
       var writeStream = fs.createWriteStream(targetPath);
       writeStream.on("error", function (err) {
+        if (dataGenerator.config.verbose) {
+          console.log('[ERR] %s doesn\'t copied to %s', sourcePath, targetPath);
+        }
         done(err);
       });
       writeStream.on("close", function () {
+        if (dataGenerator.config.verbose) {
+          console.log('%s copied to %s', sourcePath, targetPath);
+        }
         done();
       });
       readStream.pipe(writeStream);
