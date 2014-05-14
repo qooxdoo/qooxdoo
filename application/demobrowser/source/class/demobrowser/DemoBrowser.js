@@ -394,25 +394,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
     /**
-     * Handler for to hide/show all test demos.
-     *
-     * @param event {qx.event.type.Data} The event.
-     */
-    _onHideShowTests : function(event)
-    {
-      var search = window.location.search;
-      var anchor = window.location.hash;
-
-      var url = "index.html";
-      if (search == "") {
-        url += "?qxenv:demobrowser.withTests:true";
-      }
-      url += anchor;
-      location.replace(url);
-    },
-
-
-    /**
      * TODOC
      * @param e {Event} TODOC
      */
@@ -580,16 +561,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.__disposeBtn = disposeBtn;
       disposeBtn.setCommand(this._cmdDisposeSample);
       menu.add(disposeBtn);
-
-      if (qx.core.Environment.get("qx.contrib") == false)
-      {
-        menu.addSeparator();
-
-        var hideTests = new qx.ui.menu.CheckBox(this.tr("Hide/Show Tests Demos"));
-        hideTests.setValue(!!qx.core.Environment.get("demobrowser.withTests"));
-        hideTests.addListener("changeValue", this._onHideShowTests, this);
-        menu.add(hideTests);
-      }
 
       var debugButton = new qx.ui.toolbar.MenuButton(this.tr("Debug"), "icon/22/apps/office-spreadsheet.png", menu);
       this.__debugButton = debugButton;
