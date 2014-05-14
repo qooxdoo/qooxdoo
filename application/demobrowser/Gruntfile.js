@@ -2,6 +2,7 @@
 require('shelljs/global');
 
 var util = require('util');
+var path = require('path');
 var qx = require("../../tool/grunt");
 
 // grunt
@@ -32,7 +33,11 @@ module.exports = function(grunt) {
     'build-data',
     'creates a Json index of all demos (demodata.js), for Demobrowser\'s navigation pane.',
     function () {
-      exec('node tool/generate-data.js build/script build/demo');
+      exec(util.format(
+        'node tool/generate-data.js %s %s',
+        path.normalize('./build/script'),
+        path.normalize('./source/demo')
+      ));
     }
   );
 
@@ -42,7 +47,11 @@ module.exports = function(grunt) {
     'source-data',
     'creates a Json index of all demos (demodata.js), for Demobrowser\'s navigation pane',
     function () {
-      exec('node tool/generate-data.js build/script build/demo');
+      exec(util.format(
+        'node tool/generate-data.js %s %s',
+        path.normalize('./source/script'),
+        path.normalize('./source/demo')
+      ));
     }
   );
 };

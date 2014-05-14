@@ -60,11 +60,11 @@
      */
     catchEntries: function (done) {
       var dataGenerator = this;
-      var demoPath = js.rtrim(this.config.demoPath, '/') + path.sep;
+      var demoPath = js.rtrim(this.config.demoPath, path.sep) + path.sep;
 
       console.log('Catch entries in %s', demoPath);
 
-      walker(this.config.demoPath)
+      walker(demoPath)
         .on('file', function (entry, stat) {
           if (dataGenerator.config.verbose) {
             console.log('read file %s (total amount (%s)', entry, dataGenerator.entries.length);
