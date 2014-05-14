@@ -81,7 +81,6 @@ qx.Class.define("qx.application.Mobile",
     main : function()
     {
       this.__root = this._createRootWidget();
-      this.__routing = this._createRouting();
 
       if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
         this.__root.setShowScrollbarY(false);
@@ -105,17 +104,10 @@ qx.Class.define("qx.application.Mobile",
      * @return {qx.application.Routing} The application's routing.
      */
     getRouting : function() {
+      if(!this.__routing) {
+        this.__routing = new qx.application.Routing();
+      }
       return this.__routing;
-    },
-
-
-    /**
-     * Creates the application's routing. Override this function to create
-     * your own routing.
-     * @return {qx.application.Routing} the application's routing.
-     */
-    _createRouting : function() {
-      return new qx.application.Routing();
     },
 
 
