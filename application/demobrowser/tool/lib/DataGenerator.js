@@ -9,7 +9,6 @@
   // 3rd party packages
   var path = require('path');
   var walker = require('walker');
-  var js = require('phpjs');
 
   // global vars
   var jobSectionTemplate = {
@@ -60,7 +59,12 @@
      */
     catchEntries: function (done) {
       var dataGenerator = this;
-      var demoPath = js.rtrim(this.config.demoPath, path.sep) + path.sep;
+
+      var demoPath = this.config.demoPath;
+      if (demoPath.substr(-1) === path.sep) {
+        demoPath = demoPath.substr(0, demoPath.length - 1);
+      }
+      demoPath += path.sep;
 
       console.log('Catch entries in %s', demoPath);
 
