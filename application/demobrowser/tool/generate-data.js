@@ -4,6 +4,7 @@
 
   // core
   var fs = require('fs');
+  var path = require('path');
 
   // 3rd party
   var async = require('async');
@@ -18,11 +19,11 @@
 
   // global vars
   var config = {
-    demoPath: demoPath || 'source/demo/',
-    demoDataJsonFile: (demoDataJsonPath || 'source/script') + '/demodata.json',
-    classPath: 'source/class',
-    jsSourcePath: 'source/class/demobrowser/demo',
-    demoConfigJsonFile: 'config.demo.json',
+    demoPath: path.normalize(demoPath || 'source/demo/'),
+    demoDataJsonFile: path.normalize((demoDataJsonPath || 'source/script') + '/demodata.json'),
+    classPath: path.normalize('source/class'),
+    jsSourcePath: path.normalize('source/class/demobrowser/demo'),
+    demoConfigJsonFile: path.normalize('config.demo.json'),
     verbose: argv.v === true
   };
 
