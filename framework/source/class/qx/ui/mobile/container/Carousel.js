@@ -409,7 +409,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       if (!this.getContainerElement()) {
         return;
       }
-      this.__carouselWidth = qx.bom.element.Dimension.getWidth(this.getContainerElement());
+      var carouselSize = qx.bom.element.Dimension.getSize(this.getContainerElement());
+      this.__carouselWidth = carouselSize.width;
 
       if (this.getHeight() !== null) {
         this._setStyle("height", this.getHeight() / 16 + "rem");
@@ -417,10 +418,12 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         this._setStyle("height", "100%");
       }
 
-      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "width", this.__pages.length * this.__carouselWidth + "px");
+      qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "width", this.__pages.length * carouselSize.width + "px");
 
       for (var i = 0; i < this.__pages.length; i++) {
-        qx.bom.element.Style.set(this.__pages[i].getContentElement(), "width", this.__carouselWidth + "px");
+        var pageContentElement = this.__pages[i].getContentElement();
+        qx.bom.element.Style.set(pageContentElement, "width", carouselSize.width + "px");
+        qx.bom.element.Style.set(pageContentElement, "height", carouselSize.height + "px");
       }
 
       this._updatePagination(this.getCurrentIndex(), this.getCurrentIndex());
