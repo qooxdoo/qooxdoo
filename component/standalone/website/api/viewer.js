@@ -230,6 +230,7 @@ q.ready(function() {
       var headerText = factoryName || name;
       var header = q.create('<h2 class="nav-' + id + '">' + headerText + '</h2>');
       groupPage.append(q.create('<a href="#' + id + '"></a>').append(header));
+			qxWeb.messaging.emit('apiviewer', 'moduleRendered', null, {id : id, data : data, header : header});
     }
 
     groupPage.append(ul);
