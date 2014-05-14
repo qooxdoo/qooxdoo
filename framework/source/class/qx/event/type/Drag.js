@@ -230,6 +230,9 @@ qx.Class.define("qx.event.type.Drag",
      *    <code>copy</code> or <code>alias</code>.
      */
     getCurrentAction : function() {
+      if (this.getDefaultPrevented()) {
+        return null;
+      }
       return this.getManager().getCurrentAction();
     },
 

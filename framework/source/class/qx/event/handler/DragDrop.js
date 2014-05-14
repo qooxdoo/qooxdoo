@@ -251,6 +251,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      *    <code>alias</code>
      */
     getCurrentAction : function() {
+      this.__detectAction();
       return this.__currentAction;
     },
 
@@ -604,6 +605,8 @@ qx.Class.define("qx.event.handler.DragDrop",
           if (this.__dropTarget) {
             this.__fireEvent("dragleave", this.__dropTarget, this.__dragTarget, false, e);
           }
+
+          this.__validDrop = true; // initial value should be true
 
           this.__validDrop = this.__fireEvent("dragover", droppable, this.__dragTarget, true, e);
           this.__dropTarget = droppable;
