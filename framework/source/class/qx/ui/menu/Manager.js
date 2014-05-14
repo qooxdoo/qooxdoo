@@ -852,6 +852,7 @@ qx.Class.define("qx.ui.menu.Manager",
         this.__objects.length > 0
         && !this._isInMenu(target)
         && !this._isMenuOpener(target)
+        && !e.getMomentum()
       ) {
         this.hideAll();
       }

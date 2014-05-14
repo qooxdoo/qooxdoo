@@ -708,7 +708,7 @@ qx.Class.define("qx.ui.menu.Menu",
       {
         var target = this._placementTarget;
         if (!target) {
-          return
+          return;
         } else if (target instanceof qx.ui.core.Widget) {
           this.placeToWidget(target, true);
         } else if (target.top !== undefined) {
