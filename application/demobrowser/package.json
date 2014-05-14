@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "async": "^0.7.0",
-    "walker": "^1.0.6"
+    "walker": "^1.0.6",
+    "shelljs": "^0.3.0"
   }
 }
