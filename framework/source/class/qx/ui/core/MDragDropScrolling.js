@@ -313,6 +313,10 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
         if (this._isScrollbarVisible(scrollable, axis)) {
           exceedanceAmount = this._calculateThresholdExceedance(diff[edgeType], this._getThresholdByEdgeType(edgeType));
 
+          if (this.__dragScrollTimer) {
+            this.__dragScrollTimer.dispose();
+          }
+
           this.__dragScrollTimer = new qx.event.Timer(50);
           this.__dragScrollTimer.addListener("interval",
             function(scrollable, axis, amount) {
@@ -333,6 +337,13 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
       if (this.__dragScrollTimer) {
         this.__dragScrollTimer.stop();
       }
+    }
+  },
+
+
+  destruct : function() {
+    if (this.__dragScrollTimer) {
+      this.__dragScrollTimer.dispose();
     }
   }
 });
