@@ -123,7 +123,7 @@
 
       "shell" :
       {
-        "command" : "node tool/generate-data.js ./source/script ./source/demo"
+        "command" : "${PYTHON_CMD} tool/gendata.py ./source/script ./source/demo"
       }
     },
 
@@ -186,7 +186,7 @@
 
       "shell" :
       {
-        "command" : "node tool/generate-data.js tool/gendata.py ./build/script ./source/demo"
+        "command" : "${PYTHON_CMD} tool/gendata.py ./build/script ./source/demo"
       }
     },
 
