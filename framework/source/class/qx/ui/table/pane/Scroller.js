@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._add(this.__top, {row: 0, column: 0, colSpan: 2});
 
     // embed header into a scrollable container
-    this._headerClipper = new qx.ui.table.pane.Clipper();
+    this._headerClipper = this._createHeaderClipper();
     this._headerClipper.add(this.__header);
     this._headerClipper.addListener("losecapture", this._onChangeCaptureHeader, this);
     this._headerClipper.addListener("pointermove", this._onPointermoveHeader, this);
@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__top.add(this._headerClipper, {flex: 1});
 
     // embed pane into a scrollable container
-    this.__paneClipper = new qx.ui.table.pane.Clipper();
+    this.__paneClipper = this._createPaneClipper();
     this.__paneClipper.add(this.__tablePane);
     this.__paneClipper.addListener("roll", this._onRoll, this);
     this.__paneClipper.addListener("pointermove", this._onPointermovePane, this);
@@ -577,6 +577,28 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     getTable : function() {
       return this.__table;
+    },
+
+
+    /**
+     * Creates and returns an instance of pane clipper.
+     *
+     * @return {qx.ui.table.pane.Clipper} pane clipper.
+     */
+    _createPaneClipper : function()
+    {
+      return new qx.ui.table.pane.Clipper();
+    },
+
+
+    /**
+     * Creates and returns an instance of header clipper.
+     *
+     * @return {qx.ui.table.pane.Clipper} pane clipper.
+     */
+    _createHeaderClipper : function()
+    {
+      return new qx.ui.table.pane.Clipper();
     },
 
 
