@@ -112,15 +112,6 @@ qx.Class.define("qx.application.Mobile",
 
 
     /**
-     * Default behaviour when a route matches. Displays the corresponding page on screen.
-     * @param data {Map} the animation properties
-     */
-    _show : function(data) {
-      this.show(data.customData);
-    },
-
-
-    /**
      * Creates the application's root widget. Override this function to create
      * your own root widget.
      *

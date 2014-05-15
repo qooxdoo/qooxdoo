@@ -137,6 +137,15 @@ qx.Class.define("mobileshowcase.Application",
       }, this);
 
       routing.init();
+    },
+
+
+    /**
+     * Default behaviour when a route matches. Displays the corresponding page on screen.
+     * @param data {Map} the animation properties
+     */
+    _show : function(data) {
+      this.show(data.customData);
     }
   }
 });

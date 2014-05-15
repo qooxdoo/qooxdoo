@@ -62,6 +62,15 @@ qx.Class.define("${Namespace}.Application",
       this.getRouting().onGet("/overview", this._show, overview);
 
       this.getRouting().init();
+    },
+
+
+    /**
+     * Default behaviour when a route matches. Displays the corresponding page on screen.
+     * @param data {Map} the animation properties
+     */
+    _show : function(data) {
+      this.show(data.customData);
     }
   }
 });
