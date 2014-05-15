@@ -1453,7 +1453,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding    : [ 2, 6 ],
           textColor  : states.selected ? "text-selected" : undefined,
-          decorator  : decorator
+          decorator  : decorator,
+          opacity : states.drag ? 0.5 : undefined
         };
       }
     },
