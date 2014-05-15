@@ -149,7 +149,11 @@ qx.Class.define("qx.event.type.MouseWheel",
           }
         } else {
           if (e.axis && e.axis == e.HORIZONTAL_AXIS) {
-            x = this.__convertWheelDelta(e.detail);
+            if ((e.detail !== undefined) && (e.detail > 0)) {
+              x = this.__convertWheelDelta(e.detail);
+            } else if (e.deltaX !== undefined){
+               x = this.__convertWheelDelta(e.deltaX);
+            }
           }
         }
         return x;
@@ -166,7 +170,11 @@ qx.Class.define("qx.event.type.MouseWheel",
           }
         } else {
           if (!(e.axis && e.axis == e.HORIZONTAL_AXIS)) {
-            y = this.__convertWheelDelta(e.detail);
+            if ((e.detail !== undefined) && (e.detail > 0)) {
+              y = this.__convertWheelDelta(e.detail);
+            }else if(e.deltaY !== undefined){
+              y = this.__convertWheelDelta(e.deltaY);
+            }
           }
         }
         return y;
