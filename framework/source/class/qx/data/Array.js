@@ -315,7 +315,8 @@ qx.Class.define("qx.data.Array",
      * Returns a new array based on the range specified by the parameters.
      *
      * @param from {Number} The start index.
-     * @param to {Number?null} The end index. If omitted, slice extracts to the
+     * @param to {Number?null} The zero-based end index. <code>slice</code> extracts
+     *   up to but not including <code>to</code>. If omitted, slice extracts to the
      *   end of the array.
      *
      * @return {qx.data.Array} A new array containing the given range of values.
