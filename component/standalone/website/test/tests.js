@@ -3710,17 +3710,22 @@ testrunner.define({
   tearDown : testrunner.globalTeardown,
 
   __testSelection : function(coll, selected) {
+    var isIe8 = q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9;
     coll.setTextSelection(5, 9);
-    this.assertEquals(4, coll.getTextSelectionLength());
-    this.assertEquals(5, coll.getTextSelectionStart());
-    this.assertEquals(9, coll.getTextSelectionEnd());
-    this.assertEquals(selected, coll.getTextSelection());
+    this.assertEquals(4, coll.getTextSelectionLength(), "selected length");
+    this.assertEquals(5, coll.getTextSelectionStart(), "selected start");
+    this.assertEquals(9, coll.getTextSelectionEnd(), "selected end");
+    this.assertEquals(selected, coll.getTextSelection(), "selected text");
 
     coll.clearTextSelection();
-    this.assertEquals(0, coll.getTextSelectionLength());
-    this.assertEquals(0, coll.getTextSelectionStart());
-    this.assertEquals(0, coll.getTextSelectionEnd());
-    this.assertEquals("", coll.getTextSelection());
+    this.assertEquals(0, coll.getTextSelectionLength(), "cleared length");
+    if (!isIe8 || coll[0].tagName.toLowerCase() !== "textarea") {
+      this.assertEquals(0, coll.getTextSelectionStart(), "cleared start");
+    }
+    if (!isIe8 || coll[0].tagName.toLowerCase() !== "span" && coll[0].tagName.toLowerCase() !== "textarea") {
+      this.assertEquals(0, coll.getTextSelectionEnd(), "cleared end");
+    }
+    this.assertEquals("", coll.getTextSelection(), "cleared text");
   },
 
   testInput : function() {
