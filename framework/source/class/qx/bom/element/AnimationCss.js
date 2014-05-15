@@ -126,9 +126,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         var style =
           name + " " +
           duration + "ms " +
-          desc.repeat + " " +
           desc.timing + " " +
           (desc.delay ? desc.delay + "ms " : "") +
+          desc.repeat + " " +
           (desc.alternate ? "alternate" : "");
 
         qx.bom.Event.addNativeListener(el, this.__cssAnimationKeys["start-event"], this.__onAnimationStart);
