@@ -148,8 +148,8 @@ qx.Class.define("qx.event.type.Pointer",
 
     /**
      * Returns the device type which the event triggered. This can be one
-     * of the following strings: <code>mouse</code>, <code>pen</code>
-     * or <code>touch</code>.
+     * of the following strings: <code>mouse</code>, <code>wheel</code>,
+     * <code>pen</code> or <code>touch</code>.
      *
      * @return {String} The type of the pointer.
      */
