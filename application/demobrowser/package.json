@@ -1,6 +1,7 @@
 {
   "name": "demobrowser",
   "version": "3.5.0",
+  "private": true,
   "description": "Contains small samples and tests for most widgets and GUI features",
   "main": "Gruntfile.js",
   "repository": {
