@@ -182,7 +182,7 @@ qx.Class.define("qx.ui.menubar.Button",
       this.addState("hovered");
 
       // Open submenu
-      if (this.getMenu())
+      if (this.getMenu() && e.getPointerType() == "mouse")
       {
         var menubar = this.getMenuBar();
 
