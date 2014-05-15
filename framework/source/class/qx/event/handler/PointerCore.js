@@ -165,10 +165,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var domType = domEvent.type;
       var evt = new qx.event.type.dom.Pointer(type, domEvent);
       this._fireEvent(evt, type, target);
-      if (domType !== type && target.parentNode) {
-        evt = new qx.event.type.dom.Pointer(domType, domEvent);
-        this._fireEvent(evt, domType, target.parentNode);
-      }
     },
 
     /**
