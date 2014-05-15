@@ -198,8 +198,7 @@ qx.Class.define("qx.ui.form.MenuButton",
       }
 
       var menu = this.getMenu();
-      if (menu)
-      {
+      if (menu) {
         // Toggle sub menu visibility
         if (!menu.isVisible()) {
           this.open();

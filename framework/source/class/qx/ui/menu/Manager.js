@@ -67,11 +67,11 @@ qx.Class.define("qx.ui.menu.Manager",
     }
 
     // Create open timer
-    this.__openTimer = new qx.event.Timer;
+    this.__openTimer = new qx.event.Timer();
     this.__openTimer.addListener("interval", this._onOpenInterval, this);
 
     // Create close timer
-    this.__closeTimer = new qx.event.Timer;
+    this.__closeTimer = new qx.event.Timer();
     this.__closeTimer.addListener("interval", this._onCloseInterval, this);
   },
 
