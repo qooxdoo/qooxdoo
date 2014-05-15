@@ -235,7 +235,7 @@
 
       var files = this.getFiles('.html');
       files.forEach(function (file) {
-        var demoCategory = dataGenerator.getDemoCategoryFromFile(file.entry);
+        var demoCategory = dataGenerator.getDemoCategoryFromFile(file.path);
 
         // check for demo-specific config file
         var configFile = file.entry.replace('.html', '.json');
