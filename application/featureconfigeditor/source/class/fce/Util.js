@@ -47,7 +47,65 @@ qx.Class.define("fce.Util", {
           temp[key] = data[key];
         }
       }
+      fce.Util.fixUnserializable(temp);
       return qx.lang.Json.stringify(temp, null, 2);
+    },
+
+
+    /**
+     * Replaces values in a map or array that cannot be serialized (e.g.
+     * because of circular references) with their string representation.
+     *
+     * @param object {Object} Map or array to process
+     * @return {Object} The processed map or array
+     */
+    fixUnserializable : function(object) {
+      if (object instanceof Array) {
+        var temp = object.concat();
+        temp.forEach(function(value, index) {
+          if (typeof value == "object") {
+            fce.Util._serializeHelper(object, index);
+          }
+        });
+      }
+      if (typeof object == "object") {
+        for (var key in object) {
+          if (typeof object[key] == "object") {
+            fce.Util._serializeHelper(object, key);
+          }
+        }
+      }
+
+      return object;
+    },
+
+
+    /**
+     * Checks if an object can be serialized
+     *
+     * @param object {Object}  object [description]
+     * @return {Boolean}        [description]
+     */
+    _isSerializable : function(object) {
+      return !(qx.dom.Node.isWindow(object) ||
+        qx.dom.Node.isDocument(object));
+    },
+
+
+    /**
+     * Replaces an Array item or Map value that cannot be serialized with
+     * its string representation
+     *
+     * @param object {Object} object that holds the value to be processed
+     * @param key {Integer|String} Array index of map key of the value
+     */
+    _serializeHelper : function(object, key) {
+      var value = object[key];
+      if (!fce.Util._isSerializable(value)) {
+        object[key] = value.toString();
+      } else {
+        object[key] = fce.Util.fixUnserializable(value);
+      }
     },
 
 
