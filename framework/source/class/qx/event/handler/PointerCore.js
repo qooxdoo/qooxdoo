@@ -162,7 +162,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       }
       var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type] || domEvent.type;
       var target = qx.bom.Event.getTarget(domEvent);
-      var domType = domEvent.type;
       var evt = new qx.event.type.dom.Pointer(type, domEvent);
       this._fireEvent(evt, type, target);
     },
