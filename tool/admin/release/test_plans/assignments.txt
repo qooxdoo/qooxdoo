@@ -4,40 +4,37 @@ Mini application tests focus on visual aspects (showcase, widget browser). Overa
 
 Unless otherwise noted, the latest stable version of each browser must be used.
 
-AP
-  Desktop: Safari OSX (Mac mini)
-  Mobile: Android Browser 4.1 (Samsung Galaxy Note)
-  Website: Safari OSX (Mac mini)
+Core
+  Source / Build
+  - Windows 8
+  - Linux
+  - OSX
+  - Windows 7
+  GUI-Tools
+  Test
+  Code Maintenance
+  Shell Tools
+  Migration
+  Contrib
 
-CZ
-  Desktop: IE9 Win7 (VM)
-  Website: IE9 Win7 (VM)
+Desktop and Website
+  - FF stable
+  - Chrome Stable
+  - IE11
+  - Safari (OSX)
+  - iOS7 (iPad)
+  - Android 4.x
+  - IE10
+  - IE8
 
-DW
-  Desktop: IE11 Win8.1 (Dell XPS)
-  Mobile: IE11 Win8.1 (Dell XPS)
-  Website: IE11 Win8.1 (Dell XPS)
-  Toolchain: Win8.1 (Dell XPS)
+Mobile
+  - iOS7 (iPad)
+  - Android 4.x
+  - Windows Phone
+  - iOS6 (iPod)
+  - Android 2.x
+  - Chrome stable
 
-MS
-  Desktop: Firefox stable Win7 (PC)
-  Mobile: Android 4.3 (Nexus Phone)
-  Website: Firefox stable Win7 (PC)
-  Toolchain: Linux (PC)
-
-MW
-  Desktop: Safari iOS (iPad)
-  Mobile: Safari iOS (iPad)
-  Website: Safari iOS (iPad)
-  Toolchain: OSX (Macbook)
-
-RS
-  Desktop: Opera OSX (Mac mini)
-  Mobile: IE WinPhone (HTC 8S)
-  Website: Opera OSX (Mac mini)
-
-TH
-  Desktop: Chrome stable Linux (PC)
-  Mobile: Safari (iPhone 5s)
-  Website: Chrome stable (Linux)
-  Toolchain: Win7 (PC)
+Server
+  - Rihno
+  - Node.js
