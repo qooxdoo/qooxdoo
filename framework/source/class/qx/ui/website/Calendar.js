@@ -107,7 +107,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
   statics : {
     /**
-     * *control*
+     * *controls*
      *
      * Template for the controls. This should be a <code>tr</code> tag containing
      * the first row of the calendar.
