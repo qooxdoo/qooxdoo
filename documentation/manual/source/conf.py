@@ -266,7 +266,7 @@ Copyright \copyright 2011--\the\year\, 1\&1 Internet AG
 \makeatother
 '''
                 )
-    
+
 }
 
 # Documents to append as an appendix to all manuals.
@@ -275,6 +275,15 @@ Copyright \copyright 2011--\the\year\, 1\&1 Internet AG
 # If false, no module index is generated.
 #latex_use_modindex = True
 
+# -- Options for linkcheck  ---------------------------------------------------
+
+linkcheck_ignore = [
+  # ignore anchor links within qooxdoo apps
+  r'http://demo.qooxdoo.org/(current|devel|\d\.\d)/(apiviewer|website-api|demobrowser)/?(index.html)?#.*',
+  r'http://api.qooxdoo.org/?(current|devel|\d\.\d)?/?#.*',
+  # ignore very long playground links
+  r'http://demo.qooxdoo.org/4.0/playground/#'
+]
 
 # -- Custom qooxdoo processing ------------------------------------------------
 
