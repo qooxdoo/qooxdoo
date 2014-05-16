@@ -186,6 +186,17 @@ qx.Bootstrap.define("qx.dom.Node",
 
 
     /**
+     * Whether the given object is a DOM document fragment node
+     *
+     * @param node {Node} the node which should be tested
+     * @return {Boolean} true when the node is a DOM document fragment
+     */
+    isDocumentFragment : function(node) {
+      return !!(node && node.nodeType === this.DOCUMENT_FRAGMENT);
+    },
+
+
+    /**
      * Whether the given object is a DOM text node
      *
      * @param node {Node} the node which should be tested

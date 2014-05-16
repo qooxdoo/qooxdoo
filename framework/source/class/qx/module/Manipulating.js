@@ -211,7 +211,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       }
 
       return arg.filter(function(item) {
-        return (item && item.nodeType === 1);
+        return (item && (item.nodeType === 1 || item.nodeType === 11));
       });
     },
 

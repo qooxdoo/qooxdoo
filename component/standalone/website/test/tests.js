@@ -213,7 +213,8 @@ testrunner.define({
     this.assertEquals(orig.getHtml(), clone.getHtml());
 
     //must be ignored:
-    q([window, document]).clone();
+    var df = document.createDocumentFragment ? document.createDocumentFragment() : undefined;
+    q([window, document, df]).clone();
   },
 
 
@@ -300,6 +301,16 @@ testrunner.define({
     q([window, document]).appendTo("#sandbox");
   },
 
+  "test appendTo documentFragment" : function() {
+    if (!document.createDocumentFragment) {
+      this.skip("requires createDocumentFragment");
+    }
+
+    var df = document.createDocumentFragment();
+    q.create("<h1 id='baz'>qux</h1>").appendTo(df);
+    this.assertEquals("baz", df.firstChild.id);
+  },
+
   "test empty" : function() {
     var test = q.create("<div><p>test</p></div>");
     test.empty();
@@ -307,6 +318,17 @@ testrunner.define({
 
     //must be ignored:
     q([window, document]).empty();
+  },
+
+  "test empty documentFragment" : function() {
+    if (!document.createDocumentFragment) {
+      this.skip("requires createDocumentFragment");
+    }
+
+    var df = document.createDocumentFragment();
+    df.appendChild(document.createElement("h1"));
+    q(df).empty();
+    this.assertEquals(0, df.childNodes.length);
   },
 
   "test empty and don't destroy children in IE" : function() {
@@ -337,6 +359,16 @@ testrunner.define({
     q([window, document]).append("<h2>Foo</h2>");
   },
 
+  testAppendHtmlStringToDocumentFragment : function() {
+    if (!document.createDocumentFragment) {
+      this.skip("requires document.createDocumentFragment");
+    }
+
+    var df = document.createDocumentFragment();
+    q(df).append("<h1 id='qux'>Affe</h1>");
+    this.assertEquals("qux", df.firstChild.id);
+  },
+
   testAppendCollection : function() {
     var test = q.create("<ul><li>Foo</li><li>Bar</li></ul>");
     test.appendTo(this.sandbox[0]);
@@ -345,6 +377,17 @@ testrunner.define({
     q("#sandbox li").append(children);
     this.assertEquals(2, q("#sandbox li").has("h2").length);
     this.assertEquals(2, q("#sandbox li").has("span").length);
+  },
+
+  testAppendCollectionToDocumentFragment : function() {
+    if (!document.createDocumentFragment) {
+      this.skip("requires document.createDocumentFragment");
+    }
+
+    var df = document.createDocumentFragment();
+    var test = q.create("<h1 id='qux'>Affe</h1>");
+    test.appendTo(df);
+    this.assertEquals("qux", df.firstChild.id);
   },
 
   testScroll : function()
@@ -415,6 +458,20 @@ testrunner.define({
     test.appendTo(this.sandbox[0]);
     var elements = q.create('<h2>Juhu</h2><h3>Kinners</h3>');
     q("#sandbox p").before(elements);
+    this.assertEquals(2, q("#sandbox h2 + h3 + p").length);
+  },
+
+  "test before documentFragment" : function() {
+    if (!document.createDocumentFragment) {
+      this.skip("requires document.createDocumentFragment");
+    }
+
+    var test = q.create('<p>Affe</p><p>Affe</p>');
+    var df = document.createDocumentFragment();
+    test.appendTo(df);
+    q(df).appendTo("#sandbox");
+    var elements = q.create('<h2>Juhu</h2><h3>Kinners</h3>');
+    test.before(elements);
     this.assertEquals(2, q("#sandbox h2 + h3 + p").length);
   },
 
@@ -570,6 +627,18 @@ testrunner.define({
   testAddCollection : function() {
     var test = q.create("<div id='testdiv'/>");
     var toAdd = q.create("<h2>Foo</h2>");
+    this.assertEquals(1, test.length);
+    test.add(toAdd);
+    this.assertEquals(2, test.length);
+  },
+
+  testAddDocumentFragment : function() {
+    if (!document.createDocumentFragment) {
+      this.skip("requires createDocumentFragment");
+    }
+
+    var test = q.create("<div id='testdiv'/>");
+    var toAdd = document.createDocumentFragment();
     this.assertEquals(1, test.length);
     test.add(toAdd);
     this.assertEquals(2, test.length);

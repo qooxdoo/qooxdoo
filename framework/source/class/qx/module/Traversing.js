@@ -61,7 +61,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
       }
       if (qx.module.Traversing.isElement(el) ||
           qx.module.Traversing.isDocument(el) ||
-          qx.module.Traversing.isWindow(el))
+          qx.module.Traversing.isWindow(el) ||
+          qx.module.Traversing.isDocumentFragment(el))
       {
         this.push(el);
       }
@@ -652,6 +653,18 @@ qx.Bootstrap.define("qx.module.Traversing", {
 
 
     /**
+     * Checks if the given object is a DOM document fragment object
+     *
+     * @attachStatic{qxWeb}
+     * @param node {Object} Object to check
+     * @return {Boolean} <code>true</code> if the object is a DOM document fragment
+     */
+    isDocumentFragment : function(node) {
+      return qx.dom.Node.isDocumentFragment(node);
+    },
+
+
+    /**
      * Returns the DOM2 <code>defaultView</code> (window) for the given node.
      *
      * @attachStatic{qxWeb}
@@ -925,6 +938,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "isNode" : statics.isNode,
       "isNodeName" : statics.isNodeName,
       "isDocument" : statics.isDocument,
+      "isDocumentFragment" : statics.isDocumentFragment,
       "getDocument" : statics.getDocument,
       "getWindow" : statics.getWindow,
       "isWindow" : statics.isWindow,

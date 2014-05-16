@@ -61,7 +61,8 @@ qx.Bootstrap.define("qxWeb", {
       var clean = [];
       for (var i = 0; i < arg.length; i++) {
         // check for node or window object
-        var isNode = !!(arg[i] && (arg[i].nodeType === 1 || arg[i].nodeType === 9));
+        var isNode = !!(arg[i] && (arg[i].nodeType === 1 ||
+          arg[i].nodeType === 9 || arg[i].nodeType === 11));
         if (isNode) {
           clean.push(arg[i]);
           continue;
@@ -195,7 +196,8 @@ qx.Bootstrap.define("qxWeb", {
       }
       selector = qx.bom.Selector.query(selector, context);
     }
-    else if ((selector.nodeType === 1 || selector.nodeType === 9) ||
+    else if ((selector.nodeType === 1 || selector.nodeType === 9 ||
+      selector.nodeType === 11) ||
       (selector.history && selector.location && selector.document))
     {
       selector = [selector];
@@ -335,9 +337,9 @@ qx.Bootstrap.define("qxWeb", {
 
 
     /**
-     * Calls a function for each DOM element node in the collection. This is used
-     * for DOM manipulations which can't be applied to document nodes or window
-     * objects.
+     * Calls a function for each DOM element  or document fragment in the
+     * collection. This is used for DOM manipulations which can't be
+     * applied to document nodes or window objects.
      *
      * @param func {Function} Callback function. Will be called with three arguments:
      * The element, the element's index within the collection and the collection itself.
@@ -346,7 +348,7 @@ qx.Bootstrap.define("qxWeb", {
      */
     _forEachElement : function(func, ctx) {
       for (var i=0, l=this.length; i<l; i++) {
-        if (this[i] && this[i].nodeType === 1) {
+        if (this[i] && (this[i].nodeType === 1 || this[i].nodeType === 11)) {
           func.apply(ctx || this, [this[i], i, this]);
         }
       }
