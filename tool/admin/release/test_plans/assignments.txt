@@ -29,7 +29,8 @@ Desktop and Website
 
 Mobile
   - iOS7 (iPad)
-  - Android 4.x
+  - Android 4.3
+  - Android 4.4 (Nexus 7)
   - Windows Phone
   - iOS6 (iPod)
   - Android 2.x
