@@ -9,7 +9,8 @@
 function autonumbering() {
   var outer = 0;
   var inner = 1;
-  var numbertags = document.getElementsByName("number");
+  var numbertags = document.getElementsByClassName("number");
+  numbertags = (numbertags && numbertags.length > 0) ? numbertags : document.getElementsByName("number");
   for (var i=0, l=numbertags.length; i<l; i++){
     var currtag = numbertags[i];
     var currval = currtag.firstChild.nodeValue;
@@ -42,7 +43,8 @@ function expandVersion(s) {
 
 //  Call this in onload handlers.
 function adjustVersionStrings(){
-  var elems = document.getElementsByName("versstring");
+  var elems = document.getElementsByClassName("versstring");
+  elems = (elems && elems.length > 0) ? elems : document.getElementsByName("versstring");
   for (var i=0, l=elems.length; i<l; i++){
     var e = elems[i];
     e.innerHTML = expandVersion(e.innerHTML);
