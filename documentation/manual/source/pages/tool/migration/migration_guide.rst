@@ -25,7 +25,7 @@ Configuration
   ends in the root directory of the SDK (like *".../qooxdoo-%{version}-sdk"*).
 
 * Check the current `release notes
-  <http://qooxdoo.org/project/release_notes/%{version}#tooling>`_ and those of
+  <http://qooxdoo.org/project/release_notes/%{version}>`_ and those of
   `previous releases <http://qooxdoo.org/project/release_notes>`_ between your
   current version and %{version} for changes to the generator configuration, as
   they have to be done by hand. Make sure you  apply them to your config.json
