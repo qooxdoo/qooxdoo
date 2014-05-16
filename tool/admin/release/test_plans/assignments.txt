@@ -13,7 +13,7 @@ Desktop and Website
   - Chrome stable
 
 Mobile
-  - Android Browser 4.1 (Samsung Galaxy Note)
+  - Android Browser 4.4 (Nexus 7)
   - Android 4.3 (Nexus Phone)
   - Safari iOS (iPad)
   - IE WinPhone (HTC 8S)
