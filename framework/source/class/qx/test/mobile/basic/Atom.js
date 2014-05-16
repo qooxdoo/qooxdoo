@@ -141,12 +141,12 @@ qx.Class.define("qx.test.mobile.basic.Atom",
 
       atom.setGap(5);
 
-      this.assertEquals( '5px', qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
+      this.assertNotEquals( '0px', qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
 
       atom.setIconPosition('bottom');
 
       this.assertEquals('0px',qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginRight'));
-      this.assertEquals('5px',qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginTop'));
+      this.assertNotEquals( '0px', qx.bom.element.Style.get(atom.getIconWidget().getContainerElement(), 'marginTop'));
     },
 
 
