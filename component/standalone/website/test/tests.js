@@ -2023,8 +2023,8 @@ testrunner.define({
   setUp : testrunner.globalSetup,
   tearDown : testrunner.globalTeardown,
 
-    __registerNormalization : function(type, normalizer) {
-    q.define("EventNormalize" + Math.random().toString().substr(2), {
+  __registerNormalization : function(type, normalizer) {
+    q.define("EventNormalize" + Date.now(), {
       statics :
       {
         normalize : normalizer
@@ -2041,10 +2041,11 @@ testrunner.define({
     if (!qx.core.Environment.get("event.dispatchevent")) {
       this.skip("Requires dispatchEvent");
     }
-    this.__registerNormalization("mousedown", function(event) {
+    var normalizer0 = function(event) {
       event.affe = "juhu";
       return event;
-    });
+    };
+    this.__registerNormalization("mousedown", normalizer0);
 
     var normalizer1 = function(event) {
       event.affe += " hugo";
@@ -2080,6 +2081,7 @@ testrunner.define({
     }, 100);
 
     this.wait(function() {
+      q.$unregisterEventNormalization("mousedown", normalizer0);
       this.assert(obj.normalized, "Event was not manipulated!");
       q.$unregisterEventNormalization("mousedown", normalizer2);
     }, 200, this);
