@@ -1774,6 +1774,13 @@ testrunner.define({
     this.wait();
   },
 
+  tearDownTestFadeInWithInvisibleElement : function() {
+    var sheets = [].filter.call(document.styleSheets, function(sheet) {
+      return sheet.href && sheet.href.indexOf("style2.css") != -1;
+    });
+    sheets.length > 0 && q(sheets[0].ownerNode).remove();
+  },
+
   testNewCollectionPlaying : function () {
     var test = q.create("<div id='testdiv'/>");
     test.appendTo(this.sandbox[0]);
