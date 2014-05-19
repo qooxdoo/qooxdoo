@@ -876,7 +876,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
       transport.onreadystatechange = transport.onload = transport.onloadend =
       transport.onabort = transport.ontimeout = transport.onerror = noop;
 
-      transport.dispose();
+      // dispose asynchronous to work with Sinon.js
+      window.setTimeout(function() {
+        transport.dispose();
+      }, 0);
     }
   }
 });
