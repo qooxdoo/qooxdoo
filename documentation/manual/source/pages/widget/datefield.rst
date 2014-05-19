@@ -16,9 +16,8 @@ Preview Image
 
 Features
 --------
-*
-er and keyboard support.
-* Own date format.
+* Pointer and keyboard support.
+* Custom date format.
 
 .. _pages/widget/datefield#description:
 
