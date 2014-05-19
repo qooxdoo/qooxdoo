@@ -319,11 +319,11 @@ class Generator(object):
             #excludeCfg = self._job.get("exclude", [])
             excludeWithDeps = []
             excludeWithDepsHard = []
+            ignore_excludes = self._job.get("config-warnings/exclude", [])
 
             if len(excludeCfg) == 0:
                 return [], []
             else:
-                ignore_excludes = self._job.get("config-warnings/exclude", [])
                 if '*' not in ignore_excludes:  # check individually
                     complain_excludes = [x for x in excludeCfg if not x in ignore_excludes]
                     if complain_excludes:
@@ -356,7 +356,8 @@ class Generator(object):
                     try:
                         expanded = textutil.expandGlob(elem, self._classesObj)
                     except RuntimeError, ex:
-                        self._console.warn("Invalid exclude block: %s\n%s" % (excludeCfg, ex))
+                        if elem not in ignore_excludes:
+                            self._console.warn("Invalid exclude block: %s\n%s" % (excludeCfg, ex))
                     else:
                         list_.extend(expanded)
 
