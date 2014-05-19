@@ -452,6 +452,7 @@ qx.Class.define("fce.view.FeatureSelector", {
      */
     __serializeNonPrimitiveValues : function(data)
     {
+      fce.Util.fixUnserializable(data);
       for (var i=0,l=data.length; i<l; i++) {
         var entry = data[i];
         for (var key in entry) {
