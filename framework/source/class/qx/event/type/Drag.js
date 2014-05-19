@@ -91,9 +91,13 @@ qx.Class.define("qx.event.type.Drag",
       if (this._native == null) {
         return 0;
       }
-
-      if (this._native.pageX !== undefined) {
-        return Math.round(this._native.pageX);
+      var x = this._native.pageX;
+      if (x !== undefined) {
+        // iOS 6 does not copy pageX over to the fake pointer event
+        if (x == 0 && this._native.pointerType == "touch") {
+          x = this._native._original.changedTouches[0].pageX || 0;
+        }
+        return Math.round(x);
       } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
         return Math.round(this._native.clientX) + qx.bom.Viewport.getScrollLeft(win);
@@ -114,8 +118,13 @@ qx.Class.define("qx.event.type.Drag",
         return 0;
       }
 
-      if (this._native.pageY !== undefined) {
-        return Math.round(this._native.pageY);
+      var y = this._native.pageY;
+      if (y !== undefined) {
+        // iOS 6 does not copy pageY over to the fake pointer event
+        if (y == 0 && this._native.pointerType == "touch") {
+          y = this._native._original.changedTouches[0].pageY || 0;
+        }
+        return Math.round(y);
       } else {
         var win = qx.dom.Node.getWindow(this._native.srcElement);
         return Math.round(this._native.clientY) + qx.bom.Viewport.getScrollTop(win);
