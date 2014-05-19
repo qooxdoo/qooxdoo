@@ -134,6 +134,7 @@ label, p, button, td, code, li {
   top: 102px;
   width: 180px;
   padding: 10px;
+  background-color: #fff;
 }
 
 #eventlog {
