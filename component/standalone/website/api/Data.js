@@ -492,6 +492,9 @@ var Data = q.define({
       var removeMethods = [];
       this.forEachMethodList(function(methods, groupName) {
         methods.forEach(function(method) {
+          if (!method.attributes.sourceClass) {
+            return;
+          }
           var returnType = Data.getByType(method, "return");
           if (returnType) {
             var type;
