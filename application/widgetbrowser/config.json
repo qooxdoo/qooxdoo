@@ -45,8 +45,7 @@
     "SELENIUM_PORT" : 4444,
     "SELENIUM_BROWSER" : "*googlechrome",
     "AUT_HOST" : "",
-    "AUT_PATH" : "",
-    "SIMULATOR_REPORTSERVER" : false
+    "AUT_PATH" : ""
   },
 
   "config-warnings" :

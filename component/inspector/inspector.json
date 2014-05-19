@@ -122,25 +122,6 @@
     },
 
 
-    "build-files-simulator" :
-    {
-      "desc"    : "copy the user extensions file from the simulator component to build dir",
-
-      "extend" : ["common"],
-
-      "copy-files" :
-      {
-        "files" :
-        [
-          "user-extensions.js"
-        ],
-
-        "target" : "${INSPECTOR_PATH}/script",
-        "source" : "${QOOXDOO_PATH}/component/simulator/tool/user-extensions"
-      }
-    },
-
-
     "build-resources":
     {
       "desc"    : "copy necessary resources for current application to build dir",
@@ -163,8 +144,7 @@
       [
         "build-resources",
         "build-script",
-        "build-files",
-        "build-files-simulator"
+        "build-files"
       ]
     }
   }
