@@ -10,12 +10,6 @@
   text-size-adjust: $args;
 }
 
-@mixin transform($args) {
-  -webkit-transform: $args;
-  -moz-transform: $args;
-  transform: $args;
-}
-
 @mixin perspective($args) {
   -webkit-perspective: $args;
   -moz-perspective: $args;
@@ -117,7 +111,7 @@
 
 @mixin flex($args) {
   -webkit-flex: $args $args auto;   /* Chrome */
-  -ms-flex: $args $args auto;       /* IE 10 */ 
+  -ms-flex: $args $args auto;       /* IE 10 */
   flex: $args $args auto;           /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 

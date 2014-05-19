@@ -105,3 +105,10 @@
   -moz-transition: $args;
   transition: $args;
 }
+
+@mixin transform($args) {
+  -webkit-transform: $args;
+  -moz-transform: $args;
+  -ms-transform: $args;
+  transform: $args;
+}

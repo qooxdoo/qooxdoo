@@ -65,7 +65,7 @@
 
 .qx-tabs-container {
   border: rem(1) solid $border-color;
-} 
+}
 
 .qx-tabs-page {
   padding: rem(10);
@@ -84,7 +84,7 @@
   float: none;
   border-bottom-color: transparent;
   position: relative;
-  top: rem(1);
+  @include transform(translate(0,rem(1)));
 }
 .qx-tabs-justify > .qx-tabs-button-active {
   border-bottom: rem(1) solid $background-color;
