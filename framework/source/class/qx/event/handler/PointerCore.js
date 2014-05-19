@@ -63,7 +63,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
     SIM_MOUSE_DISTANCE : 25,
 
-    SIM_MOUSE_DELAY : 1000,
+    SIM_MOUSE_DELAY : 2500,
 
     /**
      * Coordinates of the last touch. This needs to be static because the target could
