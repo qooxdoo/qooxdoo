@@ -646,7 +646,8 @@
       "properties": {
         "command": {
           "type": ["string", "array"]
-        }
+        },
+        "command-not-found": { "type": "string" }
       }
     },
     "simulate": {
