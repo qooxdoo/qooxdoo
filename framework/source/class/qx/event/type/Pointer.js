@@ -39,7 +39,7 @@ qx.Class.define("qx.event.type.Pointer",
     // overridden
     _cloneNativeEvent : function(nativeEvent, clone)
     {
-      var clone = this.base(arguments, nativeEvent, clone);
+      clone = this.base(arguments, nativeEvent, clone);
 
       clone.pointerId = nativeEvent.pointerId;
       clone.width = nativeEvent.width;
@@ -55,6 +55,28 @@ qx.Class.define("qx.event.type.Pointer",
       clone.MSPOINTER_TYPE_TOUCH = nativeEvent.MSPOINTER_TYPE_TOUCH;
 
       return clone;
+    },
+
+
+    // overridden
+    getDocumentLeft : function() {
+      var x = this.base(arguments);
+      // iOS 6 does not copy pageX over to the fake pointer event
+      if (x == 0 && this.getPointerType() == "touch") {
+        x = Math.round(this._native._original.changedTouches[0].pageX) || 0;
+      }
+      return x;
+    },
+
+
+    // overridden
+    getDocumentTop : function() {
+      var y = this.base(arguments);
+      // iOS 6 does not copy pageY over to the fake pointer event
+      if (y == 0 && this.getPointerType() == "touch") {
+        y = Math.round(this._native._original.changedTouches[0].pageY) || 0;
+      }
+      return y;
     },
 
 
