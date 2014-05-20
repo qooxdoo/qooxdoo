@@ -22,6 +22,7 @@
 /**
  * @require(qx.module.event.GestureHandler)
  * @require(qx.module.Attribute)
+ * @require(qx.module.event.Native)
  */
 qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
@@ -1294,16 +1295,35 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * @param el {Element} The element containing the links.
      */
     _postProcessLinks : function(el) {
-      q("[onmouseup]", el).forEach(function(item) {
-        q(item).on("pointerup", item.onmouseup)
-        .removeAttribute("onmouseup");
+      q(el).on("pointerup", function(e) {
+        var target = e.getTarget();
+        var mouseup = target.getAttribute("onmouseup");
+        if (mouseup) {
+          target.removeAttribute("onmouseup");
+          target.setAttribute("oldonmouseup", mouseup);
+        } else {
+          mouseup = target.getAttribute("oldonmouseup");
+        }
+
+        if (mouseup) {
+          Function(mouseup)();
+        }
       });
-      q("[onclick]", el).forEach(function(item) {
-        q(item).on("tap", item.onclick)
-        .removeAttribute("onclick")
-        .on("click", function(e) {
-          e.preventDefault();
-        });
+
+      q(el).on("tap", function(e) {
+        var target = e.getTarget();
+        var click = target.getAttribute("onclick");
+        if (click && click != "e.preventDefault();") {
+          target.removeAttribute("onclick");
+          target.setAttribute("oldonclick", click);
+          target.onclick = "e.preventDefault();";
+        } else {
+          click = target.getAttribute("oldonclick");
+        }
+
+        if (click) {
+          Function(click)();
+        }
       });
     }
   },
