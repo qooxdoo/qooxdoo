@@ -55,10 +55,13 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     // General
     //
 
-    "test: dispose transport on destruct": function() {
+    "test: dispose transport on destruct": function()
+    {
       this.req.dispose();
 
-      this.assertCalled(this.transport.dispose);
+      this.wait(100, function() {
+        this.assertCalled(this.transport.dispose);
+      }, this);
     },
 
     "test: getTransport()": function() {
