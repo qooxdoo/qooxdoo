@@ -74,6 +74,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       }
 
       parent.add(this);
+
+      qx.core.Init.getApplication().addListener("back", this.forceHide, this);
     } else {
       qx.core.Init.getApplication().getRoot().add(this);
     }
@@ -83,8 +85,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
     this.__parent.addListener("swipe", this._onParentSwipe,this);
     this.__parent.addListener("pointerdown", this._onParentPointerDown,this);
-
-    qx.core.Init.getApplication().addListener("back", this.forceHide, this);
 
     this.__pointerStartPosition = [0,0];
 
