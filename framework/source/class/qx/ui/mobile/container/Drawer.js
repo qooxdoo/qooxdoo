@@ -383,6 +383,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         return;
       }
 
+      this.base(arguments);
+
       if (this.getPositionZ() == "below") {
         this.__parent.setTranslateX(0);
         this.__parent.setTranslateY(0);

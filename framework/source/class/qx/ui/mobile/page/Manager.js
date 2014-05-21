@@ -124,16 +124,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     /**
-     * This flag indicates whether the masterContainer is hidden or not.
-     */
-    masterContainerHidden : {
-      init : false,
-      check : "Boolean",
-      apply : "_onLayoutChange"
-    },
-
-
-    /**
      * The caption/label of the Hide Master Button.
      */
     hideMasterButtonCaption : {
@@ -148,8 +138,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     allowMasterHideOnLandscape : {
       init : true,
-      check : "Boolean",
-      apply : "__updateMasterButtonVisibility"
+      check : "Boolean"
     },
 
 
@@ -184,6 +173,33 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     /**
+     * @deprecated {3.5} The method 'isMasterContainerHidden()' is deprecated. Please use getMasterContainer().isHidden instead.
+     */
+    isMasterContainerHidden : function() {
+       if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'isMasterContainerHidden()' is deprecated. Please use getMasterContainer().isHidden() instead.");
+      }
+      return this.__masterContainer.isHidden();
+    },
+
+
+    /**
+     * @deprecated {3.5} The method 'setMasterContainerHidden()' is deprecated. Please use this.getMasterContainer().show or this.getMasterContainer().hide instead.
+     */
+    setMasterContainerHidden : function(value) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'setMasterContainerHidden()' is deprecated. Please use getMasterContainer().show() / hide() instead.");
+      }
+
+      if(value) {
+        this.__masterContainer.hide();
+      } else {
+        this.__masterContainer.show();
+      }
+    },
+
+
+    /**
      * Creates the master container.
      *
      * @return {qx.ui.mobile.container.Composite} The created container
@@ -192,6 +208,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       var masterContainer = new qx.ui.mobile.container.Drawer(null, new qx.ui.mobile.layout.HBox());
       masterContainer.addCssClass("master-detail-master");
       masterContainer.setHideOnParentTap(false);
+      masterContainer.addListener("changeVisibility", this._onMasterChangeVisibility, this);
       return masterContainer;
     },
 
@@ -320,17 +337,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     /**
-     * Called when a masterPage reaches lifecycle state "start". Then property masterTitle will be update with masterPage's title.
-     * @param evt {qx.event.type.Event} source event.
-     */
-    _onMasterPageStart : function(evt) {
-      var masterPage = evt.getTarget();
-      var masterPageTitle = masterPage.getTitle();
-      this.setMasterTitle(masterPageTitle);
-    },
-
-
-    /**
      * Adds an array of NavigationPage to the detailContainer.
      * @param pages {qx.ui.mobile.page.NavigationPage[]|qx.ui.mobile.page.NavigationPage} Array of NavigationPages or single NavigationPage.
      */
@@ -371,9 +377,20 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     * Called when MasterContainer receives a <code>transitionEnd</code> event.
     */
     _onMasterTransitionEnd : function() {
-      if (qx.bom.Viewport.isLandscape() && this.isMasterContainerHidden() === false) {
+      if (qx.bom.Viewport.isLandscape() && this.__masterContainer.isHidden() === false) {
         this._createDetailContainerGap();
       }
+    },
+
+
+    /**
+     * Called when a masterPage reaches lifecycle state "start". Then property masterTitle will be update with masterPage's title.
+     * @param evt {qx.event.type.Event} source event.
+     */
+    _onMasterPageStart : function(evt) {
+      var masterPage = evt.getTarget();
+      var masterPageTitle = masterPage.getTitle();
+      this.setMasterTitle(masterPageTitle);
     },
 
 
@@ -434,11 +451,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     */
     _onMasterButtonTap : function() {
       this.__masterContainer.show();
-
-      if (qx.bom.Viewport.isLandscape()) {
-        this.setMasterContainerHidden(false);
-        this.__masterButton.exclude();
-      }
     },
 
 
@@ -447,11 +459,34 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     */
     _onHideMasterButtonTap : function() {
       this.__masterContainer.hide();
+    },
+
+
+    /**
+    * Event handler for <code>changeVisibility</code> event on master container.
+    * @param evt {qx.event.type.Data} the change event. 
+    */
+    _onMasterChangeVisibility: function(evt) {
+      var isMasterVisible = ("visible" === evt.getData());
 
       if (qx.bom.Viewport.isLandscape()) {
-        this.__masterButton.show();
-        this.setMasterContainerHidden(true);
+        if (this.isAllowMasterHideOnLandscape()) {
+          if (isMasterVisible) {
+            this.__masterButton.exclude();
+            this.__hideMasterButton.show();
+          } else {
+            this._removeDetailContainerGap();
+            this.__masterButton.show();
+            this.__hideMasterButton.show();
+          }
+        } else {
+          this.__masterButton.exclude();
+          this.__hideMasterButton.exclude();
+        }
+      } else {
         this._removeDetailContainerGap();
+        this.__masterButton.show();
+        this.__hideMasterButton.show();
       }
     },
 
@@ -460,25 +495,21 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     * Called when layout of masterDetailContainer changes.
     */
     _onLayoutChange : function() {
-      if(!this.__isTablet) {
-        return;
-      }
-
-      if(qx.bom.Viewport.isLandscape()) {
-        if(this.isMasterContainerHidden() === false) {
-          this.__masterContainer.show();
+      if (this.__isTablet) {
+        if (qx.bom.Viewport.isLandscape()) {
+          this.__masterContainer.setHideOnParentTap(false);
+          
+          if (this.__masterContainer.isHidden()) {
+            this.__masterContainer.show();
+          } else {
+            this.__masterContainer.hide();
+          }
         } else {
-          this._removeDetailContainerGap();
+          this.__masterContainer.setHideOnParentTap(true);
+          
           this.__masterContainer.hide();
         }
-        this.__masterContainer.setHideOnParentTap(false);
-      } else {
-        this.__masterContainer.setHideOnParentTap(true);
-        this.__masterContainer.hide();
-        this._removeDetailContainerGap();
       }
-
-      this.__updateMasterButtonVisibility();
     },
 
 
@@ -507,33 +538,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     _removeDetailContainerGap : function() {
       qx.bom.element.Style.set(this.__detailContainer.getContainerElement(), this._getGapPropertyKey(), null);
       qx.event.Registration.fireEvent(window, "resize");
-    },
-
-
-    /**
-    * Show/hides master button.
-    */
-    __updateMasterButtonVisibility : function()
-    {
-      if(!this.__isTablet) {
-        return;
-      }
-
-      if (qx.bom.Viewport.isPortrait()) {
-        this.__masterButton.show();
-        this.__hideMasterButton.show();
-      } else {
-        this.__masterButton.exclude();
-        this.__hideMasterButton.exclude();
-
-        if(this.isAllowMasterHideOnLandscape()) {
-          if(this.isMasterContainerHidden()) {
-            this.__masterButton.show();
-          } else {
-            this.__hideMasterButton.show();
-          }
-        }
-      }
     },
 
 
@@ -586,6 +590,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     }
 
     if(this.__isTablet) {
+      this.__masterContainer.removeListener("changeVisibility", this._onMasterChangeVisibility, this);
       this.__masterContainer.removeListener("resize", this._onLayoutChange, this);
       qx.event.Registration.removeListener(window, "orientationchange", this._onLayoutChange, this);
     }
