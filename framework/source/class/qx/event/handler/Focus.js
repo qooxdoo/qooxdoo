@@ -49,6 +49,8 @@ qx.Class.define("qx.event.handler.Focus",
    * Create a new instance
    *
    * @param manager {qx.event.Manager} Event manager for the window to use
+   *
+   * @ignore(qx.application.Inline)
    */
   construct : function(manager)
   {
@@ -60,6 +62,12 @@ qx.Class.define("qx.event.handler.Focus",
     this._document = this._window.document;
     this._root = this._document.documentElement;
     this._body = this._document.body;
+
+    if ((qx.core.Environment.get("os.name") == "ios" && parseFloat(qx.core.Environment.get("os.version")) > 6) &&
+      (!qx.application.Inline || !qx.core.Init.getApplication() instanceof qx.application.Inline) )
+    {
+      this.__needsScrollFix = true;
+    }
 
     // Initialize
     this._initObserver();
@@ -162,6 +170,7 @@ qx.Class.define("qx.event.handler.Focus",
     __previousActive : null,
     __down : "",
     __up : "",
+    __needsScrollFix : false,
 
     /*
     ---------------------------------------------------------------------------
@@ -1064,7 +1073,9 @@ qx.Class.define("qx.event.handler.Focus",
         this.__fireEvent(value, old, "activate", true);
       }
       // correct scroll position for iOS 7
-      window.scrollTo(0, 0);
+      if (this.__needsScrollFix) {
+        window.scrollTo(0, 0);
+      }
     },
 
     // apply routine
