@@ -190,6 +190,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       var masterContainer = new qx.ui.mobile.container.Drawer(null, new qx.ui.mobile.layout.HBox());
       masterContainer.addCssClass("master-detail-master");
       masterContainer.setHideOnParentTouch(false);
+      masterContainer.setTouchOffset(0);
       return masterContainer;
     },
 
