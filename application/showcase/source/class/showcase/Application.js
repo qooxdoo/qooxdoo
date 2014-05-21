@@ -173,9 +173,14 @@ qx.Class.define("showcase.Application",
 
       listController.bind("selection[0].readyState", this, "showLoadIndicator", {
         converter: function(value) {
+          if (value === undefined) {
+            return false;
+          }
           return value !== "complete";
         }
       });
+
+      this.__stack.setSelection([startPage]);
 
       listController.setDelegate({
         configureItem: function(item) {
