@@ -171,6 +171,7 @@ qx.Class.define("qx.event.handler.Focus",
     __down : "",
     __up : "",
     __needsScrollFix : false,
+    __relatedTarget : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -755,7 +756,9 @@ qx.Class.define("qx.event.handler.Focus",
         }
         else
         {
+          this.__relatedTarget = domEvent.relatedTarget;
           this.setFocus(target);
+          this.__relatedTarget = null;
           this.tryActivate(target);
         }
       },
@@ -1096,7 +1099,7 @@ qx.Class.define("qx.event.handler.Focus",
       }
 
       if (value) {
-        this.__fireEvent(value, old, "focus", false);
+        this.__fireEvent(value, old || this.__relatedTarget, "focus", false);
       }
     }
   },
@@ -1111,7 +1114,7 @@ qx.Class.define("qx.event.handler.Focus",
   {
     this._stopObserver();
     this._manager = this._window = this._document = this._root = this._body =
-      this.__mouseActive = null;
+      this.__mouseActive = this.__relatedTarget = null;
   },
 
   /*
