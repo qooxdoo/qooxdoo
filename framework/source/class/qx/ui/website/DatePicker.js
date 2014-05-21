@@ -210,8 +210,6 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
       } else {
         this.getCalendar().hide();
       }
-
-      e.stopPropagation();
     },
 
     /**
@@ -229,7 +227,25 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      * @param e {Event} tap event
      */
     _onBodyTap : function(e) {
-      // only check for this if the calendar is actually open
+
+      var target = qxWeb(e.getTarget());
+
+      // fast check for tap on the connected input field
+      if (this.length > 0 && target.length > 0 &&
+          this[0] == target[0]) {
+        return;
+      }
+
+      // fast check for tap on the configured icon
+      if (this.getConfig('icon') !== null) {
+        var icon = qxWeb('#' + this.getProperty('iconId'));
+        if (icon.length > 0 && target.length > 0 &&
+            icon[0] == target[0]) {
+          return;
+        }
+      }
+
+      // otherwise check if the target is a child of the (rendered) calendar
       if (this.getCalendar().isRendered()) {
         var tappedCol = qxWeb(e.getTarget());
 
