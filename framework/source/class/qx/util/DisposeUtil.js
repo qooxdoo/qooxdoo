@@ -26,6 +26,8 @@
  * @ignore(qx.ui.container.Scroll)
  * @ignore(qx.ui.container.SlideBar)
  * @ignore(qx.ui.container.Stack)
+ * @ignore(qx.ui.mobile.container.Composite)
+ * @ignore(qx.ui.mobile.core.Widget)
  */
 qx.Class.define("qx.util.DisposeUtil",
 {
@@ -180,11 +182,16 @@ qx.Class.define("qx.util.DisposeUtil",
     {
       if(qx.core.Environment.get("qx.debug"))
       {
-        qx.core.Assert.assertQxWidget(container, "First argument must be a container widget!");
-        qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
-          "Container must be a instance of qx.ui.container.Composite or " +
+        if(container instanceof qx.ui.mobile.core.Widget) {
+          qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
+          "Container must be an instance of qx.ui.mobile.container.Composite.");
+        } else {
+          qx.core.Assert.assertQxWidget(container, "First argument must be a container widget!");
+          qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
+          "Container must be an instance of qx.ui.container.Composite or " +
           "qx.ui.container.Scroll or qx.ui.container.Resizer or " +
           "qx.ui.container.SlideBar or qx.ui.container.Stack!");
+        }
       }
 
       var arr=[];
@@ -229,8 +236,13 @@ qx.Class.define("qx.util.DisposeUtil",
      */
     __isChildrenContainer : function(obj)
     {
-      var classes = [qx.ui.container.Composite, qx.ui.container.Scroll,
-      qx.ui.container.SlideBar, qx.ui.container.Stack];
+      var classes = [];
+      if(obj instanceof qx.ui.mobile.core.Widget) {
+        classes = [qx.ui.mobile.container.Composite];
+      } else {
+        classes = [qx.ui.container.Composite, qx.ui.container.Scroll,
+        qx.ui.container.SlideBar, qx.ui.container.Stack];
+      }
 
       for (var i=0,l=classes.length; i<l; i++) {
         if (typeof classes[i] !== "undefined" &&
