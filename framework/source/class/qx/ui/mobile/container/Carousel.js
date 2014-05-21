@@ -252,11 +252,14 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     // overridden
     removeAll : function() {
+      var removedPages = [];
+
       if (this.__pages) {
         for (var i = this.__pages.length - 1; i >= 0; i--) {
-          this.removePageByIndex(i);
+          removedPages.push(this.removePageByIndex(i));
         }
       }
+      return removedPages;
     },
 
 
