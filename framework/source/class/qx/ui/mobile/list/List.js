@@ -476,12 +476,11 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @param index {Integer} index of the row which should be rendered.
      */
     __renderRow : function(index) {
-      var element = this.getContentElement();
-      var itemElement = this.__provider.getItemElement(this.getModel().getItem(index), index);
+      var renderedItems = qx.bom.Selector.query(".list-item",this.getContentElement());
+      var oldNode = renderedItems[index];
+      var newNode = this.__provider.getItemElement(this.getModel().getItem(index), index);
 
-      var oldNode = element.childNodes[index];
-
-      element.replaceChild(itemElement, oldNode);
+      this.getContentElement().replaceChild(newNode, oldNode);
 
       this._domUpdated();
     },
