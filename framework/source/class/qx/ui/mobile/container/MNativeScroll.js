@@ -33,6 +33,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     this.addCssClass("native");
     if(qx.core.Environment.get("os.name") == "ios") {
       this.addListener("touchstart", this._onTouchStart, this);
+      this.addListener("touchmove", qx.bom.Event.stopPropagation,this);
     }
 
     this._snapPoints = [];
@@ -176,7 +177,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
 
     /**
-     * Handler for "touchstart" event.
+     * Handler for <code>touchstart</code> event.
      * Prevents "rubber-banding" effect of page in iOS.
      * @param evt {qx.event.type.Touch} The touch event.
      */
@@ -189,10 +190,6 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
           this.getContentElement().scrollTop = 1;
         } else if (scrollTop == maxScrollTop) {
           this.getContentElement().scrollTop = maxScrollTop - 1;
-        }
-      } else {
-        if (!(evt.getTarget() instanceof qx.ui.mobile.form.Input)) {
-          evt.preventDefault();
         }
       }
     },
@@ -276,6 +273,8 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
   destruct : function() {
     qx.bom.Event.removeNativeListener(this._getContentElement(), "scroll", this._onScroll.bind(this));
 
+    this.removeListener("touchmove", qx.bom.Event.stopPropagation,this);
+    this.removeListener("touchstart", this._onTouchStart, this);
     this.removeListener("appear", this._onAppear, this);
     this.removeListener("trackstart", this._onTrackStart, this);
     this.removeListener("trackend", this._onTrackEnd, this);

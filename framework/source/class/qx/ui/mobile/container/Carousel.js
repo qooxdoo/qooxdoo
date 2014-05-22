@@ -82,8 +82,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     carouselScroller.addListener("track", this._onTrack, this);
     carouselScroller.addListener("swipe", this._onSwipe, this);
 
-    carouselScroller.addListener("touchstart", qx.bom.Event.preventDefault, this);
-    carouselScroller.addListener("touchstart", qx.bom.Event.stopPropagation, this);
+    this.addListener("touchmove", qx.bom.Event.preventDefault, this);
 
     this.addListener("appear", this._onContainerUpdate, this);
 
@@ -715,8 +714,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       this.__carouselScroller.removeListener("track", this._onTrack, this);
       this.__carouselScroller.removeListener("pointerup", this._onPointerUp, this);
       this.__carouselScroller.removeListener("swipe", this._onSwipe, this);
-      this.__carouselScroller.removeListener("touchstart", qx.bom.Event.preventDefault, this);
-      this.__carouselScroller.removeListener("touchstart", qx.bom.Event.stopPropagation, this);
+      this.__carouselScroller.removeListener("touchmove", qx.bom.Event.preventDefault, this);
 
       this.removeListener("appear", this._onContainerUpdate, this);
 
