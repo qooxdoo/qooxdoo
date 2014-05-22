@@ -11,6 +11,18 @@ framework itself. Some contributions are actively maintained, others are rather
 stale, so you may find there code of any stage of maturity (and consequently,
 immaturity).
 
+Where to find what?
+===================
+
+This page deals with **how to use contributions** as well as what to bear in mind
+when **writing your own contributions**. If you are interested in **what contributions
+are available** check out the `catalog website <http://qooxdoo.org/contrib/catalog>`__,
+which makes finding a suitable contrib much easier.
+
+
+More Context
+------------
+
 With %{qooxdoo} 3.0 a new contribution infrastructure was introduced. The old
 contrib platform was *repository-based*, meaning that all contributions had to
 be in a certain source repository on SourceForge to be recognized as
@@ -323,14 +335,12 @@ This list should ease validating pull requests:
 
 * If everything is okay use the *"Merge pull request"* button from GitHub.
 
-If there are merge conflicts or something is wrong/missing just point out the issues
-and ask the author of the pull request for improvement.
+If there are merge conflicts or something is wrong/missing just point out the
+issues and ask the author of the pull request for improvement. If the pull
+request was created `like GitHub recommends it
+<https://help.github.com/articles/using-pull-requests>`__ there is no need for
+another pull request:
 
-
-Future Work: Web Interface to the Catalog
-============================================
-
-We're planning to also have a web interface to the catalog that
-might be a bit nicer than using Github's code browsing facility, maybe together
-with searching and sorting capabilities.
-
+  "After your pull request is sent, any new commits pushed to your branch will
+  automatically be added to the pull request. This is especially useful if you
+  need to make more changes."
