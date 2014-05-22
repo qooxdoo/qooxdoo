@@ -1313,7 +1313,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       q(el).on("tap", function(e) {
         var target = e.getTarget();
         var click = target.getAttribute("onclick");
-        if (click && click != "e.preventDefault(); return false;") {
+        if (click && click != "event.preventDefault(); return false;") {
           target.removeAttribute("onclick");
           target.setAttribute("oldonclick", click);
           target.setAttribute("onclick", "event.preventDefault(); return false;");
