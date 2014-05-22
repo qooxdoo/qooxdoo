@@ -49,10 +49,8 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
     /**
      * Handler for the pointerdown event which simply stops the momentum scrolling.
      */
-    _onPointerDownForRoll : function() {
-      qx.event.Registration.getManager(this)
-        .getHandler(qx.event.handler.Gesture)
-        .stopMomentum();
+    _onPointerDownForRoll : function(e) {
+      this.__cancelRoll = true;
     },
 
 
@@ -65,6 +63,12 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
     {
       // only wheel and touch
       if (e.getPointerType() == "mouse") {
+        return;
+      }
+
+      if (this.__cancelRoll) {
+        e.stopMomentum();
+        this.__cancelRoll = false;
         return;
       }
 

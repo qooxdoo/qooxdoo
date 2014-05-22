@@ -42,6 +42,7 @@ qx.Class.define("qx.event.type.Roll",
 
         clone.delta = nativeEvent.delta;
         clone.momentum = nativeEvent.momentum;
+        clone.timeoutId = nativeEvent.timeoutId;
 
         return clone;
       },
@@ -60,9 +61,11 @@ qx.Class.define("qx.event.type.Roll",
        * Stops the momentum events.
        */
       stopMomentum : function() {
-        qx.event.Registration.getManager(this._originalTarget)
-          .getHandler(qx.event.handler.Gesture)
-          .stopMomentum();
+        if (this._native.timeoutId) {
+          qx.event.Registration.getManager(this._originalTarget)
+            .getHandler(qx.event.handler.Gesture)
+            .stopMomentum(this._native.timeoutId);
+        }
       },
 
 

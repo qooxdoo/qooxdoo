@@ -62,6 +62,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     this.__emitter = emitter;
     this.__gesture = {};
     this.__lastTap = {};
+    this.__stopMomentum = {};
     this._initObserver();
   },
 
@@ -75,7 +76,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __initialAngle : null,
     __lastTap : null,
     __rollImpulseId : null,
-    __stopMomentum : false,
+    __stopMomentum : null,
     __initialDistance : null,
 
     /**
@@ -336,10 +337,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     /**
      * Stops the momentum scrolling currently running.
      */
-    stopMomentum : function() {
-      if (this.__rollImpulseId) {
-        this.__stopMomentum = true;
-      }
+    stopMomentum : function(id) {
+      this.__stopMomentum[id] = true;
+    },
     },
 
 
@@ -352,10 +352,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param time {Number ?} The time in ms between the last two calls
      */
     __handleRollImpulse : function(deltaX, deltaY, domEvent, target, time) {
+      var oldTimeoutId = domEvent.timeoutId;
       // do nothing if we don't need to scroll
-      if ((Math.abs(deltaY) < 0.1 && Math.abs(deltaX) < 0.1) || this.__stopMomentum) {
-        this.__stopMomentum = false;
-        this.__rollImpulseId = null;
+      if ((Math.abs(deltaY) < 0.1 && Math.abs(deltaX) < 0.1) || this.__stopMomentum[oldTimeoutId]) {
+        delete this.__stopMomentum[oldTimeoutId];
         return;
       }
 
@@ -371,7 +371,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       deltaX = deltaX / time;
 
       // set up a new timer with the new delta
-      this.__rollImpulseId = qx.bom.AnimationFrame.request(
+      var timeoutId = qx.bom.AnimationFrame.request(
         qx.lang.Function.bind(
           function(deltaX, deltaY, domEvent, target, time) {
             this.__handleRollImpulse(deltaX, deltaY, domEvent, target, time);
@@ -388,6 +388,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         y: -deltaY
       };
       domEvent.momentum = true;
+      domEvent.timeoutId = timeoutId;
       this._fireEvent(domEvent, "roll", domEvent.target || target);
     },
 
@@ -650,7 +651,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           x: -gesture.velocityX,
           y: -gesture.velocityY,
           axis : Math.abs(gesture.velocityX / gesture.velocityY) < 1 ? "y" : "x"
-        }
+        };
       }
 
       this._fireEvent(domEvent, "roll", domEvent.target || target);
