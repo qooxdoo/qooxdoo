@@ -536,17 +536,14 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   },
 
 
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
   destruct : function()
   {
     qx.core.Init.getApplication().removeListener("back", this.forceHide, this);
     
     this.__parent.removeListener("swipe", this._onParentSwipe, this);
     this.__parent.removeListener("pointerdown", this._onParentPointerDown, this);
+
+    qx.util.DisposeUtil.destroyContainer(this);
 
     this.__pointerStartPosition = this.__parent = this.__transitionEnabled = null;
   }
