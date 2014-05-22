@@ -67,15 +67,15 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
       }
 
       if (this.__cancelRoll) {
+        this.__cancelRoll = false;
         if (e.getMomentum()) {
           qx.event.Registration.getManager(e.getOriginalTarget())
             .getHandler(qx.event.handler.Gesture)
             .cancelGesture(e.getPointerId());
-        }
 
-        e.stopMomentum();
-        this.__cancelRoll = false;
-        return;
+          e.stopMomentum();
+          return;
+        }
       }
 
       var showX = this._isChildControlVisible("scrollbar-x");

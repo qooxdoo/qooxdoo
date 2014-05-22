@@ -612,6 +612,9 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     __getSwipeGesture : function(domEvent, target) {
       var gesture = this.__gesture[domEvent.pointerId];
+      if (!gesture) {
+        return;
+      }
 
       var clazz = qx.event.handler.GestureCore;
       var deltaCoordinates = this._getDeltaCoordinates(domEvent);
@@ -713,11 +716,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param target {Element} event target
      */
     __fireLongTap : function(domEvent, target) {
-      this._fireEvent(domEvent, "longtap", domEvent.target || target);
-
       var gesture = this.__gesture[domEvent.pointerId];
-      gesture.longTapTimer = null;
-      gesture.isTap = false;
+      if (gesture) {
+        this._fireEvent(domEvent, "longtap", domEvent.target || target);
+        gesture.longTapTimer = null;
+        gesture.isTap = false;
+      }
     },
 
 
