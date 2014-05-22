@@ -313,24 +313,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
-    /**
-    * Handler for the "transitionEnd" event.
-    * @param evt {Event} the event.
-    */
-    _onTransitionEnd : function(evt) {
-      if(evt) {
-        qx.bom.Element.removeListener(evt.getTarget(), "transitionEnd", this._onTransitionEnd, this);
-      }
-
-      this._disableTransition();
-
-      if (this.isHidden()) {
-        this.exclude();
-        this.__parent.removeCssClass("blocked");
-      }
-    },
-
-
     // property apply
     _applyTransitionDuration : function(value,old) {
       this.__transitionEnabled = value > 0;
@@ -345,8 +327,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       if(!this.isHidden()) {
         return;
       }
-
-      this.base(arguments);
 
       this.__parent.addCssClass("blocked");
 
@@ -364,13 +344,23 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       if (this.getTransitionDuration() > 0) {
         this._enableTransition();
-        qx.bom.Element.addListener(this._getTransitionTarget().getContentElement(), "transitionEnd", this._onTransitionEnd, this);
+        
+        var callArguments = arguments;
+        var transitionTarget = this._getTransitionTarget().getContentElement();
+        var listenerId = qx.bom.Element.addListener(transitionTarget, "transitionEnd", function(evt) {
+          this.base(callArguments);
+          this._disableTransition();
+          this.__parent.removeCssClass("blocked");
+          qx.bom.Element.removeListenerById(transitionTarget, listenerId);
+        }, this);
+
         setTimeout(function() {
           this.removeCssClass("hidden");
         }.bind(this), 0);
       } else {
+        this.base(arguments);
         this.removeCssClass("hidden");
-        this._onTransitionEnd();
+        this.__parent.removeCssClass("blocked");
       }
     },
 
@@ -383,8 +373,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         return;
       }
 
-      this.base(arguments);
-
       if (this.getPositionZ() == "below") {
         this.__parent.setTranslateX(0);
         this.__parent.setTranslateY(0);
@@ -392,13 +380,23 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       if (this.getTransitionDuration() > 0) {
         this._enableTransition();
-        qx.bom.Element.addListener(this._getTransitionTarget().getContentElement(), "transitionEnd", this._onTransitionEnd, this);
+        
+        var callArguments = arguments;
+        var transitionTarget = this._getTransitionTarget().getContentElement();
+        var listenerId = qx.bom.Element.addListener(transitionTarget, "transitionEnd", function(evt) {
+          this.base(callArguments);
+          this._disableTransition();
+          this.__parent.removeCssClass("blocked");
+          qx.bom.Element.removeListenerById(transitionTarget, listenerId);
+        }, this);
+
         setTimeout(function() {
           this.addCssClass("hidden");
         }.bind(this), 0);
       } else {
+        this.base(arguments);
         this.addCssClass("hidden");
-        this._onTransitionEnd();
+        this.__parent.removeCssClass("blocked");
       }
     },
 

@@ -82,8 +82,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__masterContainer = this._createMasterContainer();
       this.__detailContainer = this._createDetailContainer();
 
-      qx.bom.Element.addListener(this.__masterContainer.getContainerElement(),"transitionEnd",this._onMasterTransitionEnd, this);
-
       this.__masterButton = this._createMasterButton();
       this.__masterButton.addListener("tap", this._onMasterButtonTap, this);
 
@@ -374,16 +372,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     /**
-    * Called when MasterContainer receives a <code>transitionEnd</code> event.
-    */
-    _onMasterTransitionEnd : function() {
-      if (qx.bom.Viewport.isLandscape() && this.__masterContainer.isHidden() === false) {
-        this._createDetailContainerGap();
-      }
-    },
-
-
-    /**
      * Called when a masterPage reaches lifecycle state "start". Then property masterTitle will be update with masterPage's title.
      * @param evt {qx.event.type.Event} source event.
      */
@@ -427,8 +415,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      * @param evt {qx.event.type.Data} source event.
      */
     _onMasterContainerUpdate : function(evt) {
-      this._onMasterTransitionEnd();
-
       var widget = evt.getData();
       widget.getRightContainer().remove(this.__hideMasterButton);
       widget.getRightContainer().add(this.__hideMasterButton);
@@ -458,6 +444,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     * Called when user taps on hideMasterButton.
     */
     _onHideMasterButtonTap : function() {
+      this._removeDetailContainerGap();
       this.__masterContainer.hide();
     },
 
@@ -472,10 +459,10 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       if (qx.bom.Viewport.isLandscape()) {
         if (this.isAllowMasterHideOnLandscape()) {
           if (isMasterVisible) {
+            this._createDetailContainerGap();
             this.__masterButton.exclude();
             this.__hideMasterButton.show();
           } else {
-            this._removeDetailContainerGap();
             this.__masterButton.show();
             this.__hideMasterButton.show();
           }
@@ -505,8 +492,8 @@ qx.Class.define("qx.ui.mobile.page.Manager",
             this.__masterContainer.hide();
           }
         } else {
+          this._removeDetailContainerGap();
           this.__masterContainer.setHideOnParentTap(true);
-          
           this.__masterContainer.hide();
         }
       }
