@@ -172,6 +172,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
     /**
      * @deprecated {3.5} The method 'isMasterContainerHidden()' is deprecated. Please use getMasterContainer().isHidden instead.
+     * @return {Boolean} flag is value is true/false.
      */
     isMasterContainerHidden : function() {
        if (qx.core.Environment.get("qx.debug")) {
@@ -183,6 +184,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
     /**
      * @deprecated {3.5} The method 'setMasterContainerHidden()' is deprecated. Please use this.getMasterContainer().show or this.getMasterContainer().hide instead.
+     * @param value {Boolean} the target value. 
      */
     setMasterContainerHidden : function(value) {
       if (qx.core.Environment.get("qx.debug")) {
