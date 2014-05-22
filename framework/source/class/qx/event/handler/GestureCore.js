@@ -340,6 +340,17 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     stopMomentum : function(id) {
       this.__stopMomentum[id] = true;
     },
+
+
+    /**
+     * Cancels the gesture if running.
+     * @param id {Number} The pointer Id.
+     */
+    cancelGesture : function(id) {
+      if (this.__gesture[id]) {
+        this.__stopLongTapTimer(this.__gesture[id]);
+        delete this.__gesture[id];
+      }
     },
 
 

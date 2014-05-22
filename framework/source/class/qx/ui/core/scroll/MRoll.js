@@ -67,6 +67,12 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
       }
 
       if (this.__cancelRoll) {
+        if (e.getMomentum()) {
+          qx.event.Registration.getManager(e.getOriginalTarget())
+            .getHandler(qx.event.handler.Gesture)
+            .cancelGesture(e.getPointerId());
+        }
+
         e.stopMomentum();
         this.__cancelRoll = false;
         return;
