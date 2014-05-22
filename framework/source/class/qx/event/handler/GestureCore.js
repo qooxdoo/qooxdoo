@@ -49,7 +49,13 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @type {Integer} Maximum time between two tap events that will still trigger a
      * dbltap event.
      */
-    DOUBLETAP_TIME : 500
+    DOUBLETAP_TIME : 500,
+
+    /**
+     * @type {Integer} Factor which is used for adapting the delta of the mouse wheel
+     * event to the roll events,
+     */
+    ROLL_FACTOR : 18
   },
 
   /**
@@ -651,8 +657,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     _fireRoll : function(domEvent, type, target) {
       if (domEvent.type === qx.core.Environment.get("event.mousewheel").type) {
         domEvent.delta = {
-          x: qx.util.Wheel.getDelta(domEvent, "x") * 12,
-          y: qx.util.Wheel.getDelta(domEvent, "y") * 12
+          x: qx.util.Wheel.getDelta(domEvent, "x") * qx.event.handler.GestureCore.ROLL_FACTOR,
+          y: qx.util.Wheel.getDelta(domEvent, "y") * qx.event.handler.GestureCore.ROLL_FACTOR
         };
         domEvent.delta.axis = Math.abs(domEvent.delta.x / domEvent.delta.y) < 1 ? "y" : "x";
         domEvent.pointerType = "wheel";
