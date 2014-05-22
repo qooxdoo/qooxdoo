@@ -27,7 +27,8 @@
           "block": {
             "type": "array",
             "items": { "type": "string" }
-          }
+          },
+          "bypass-export-list": { "type": "boolean" }
         }
       }
     },
