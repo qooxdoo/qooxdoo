@@ -27,6 +27,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
 
     setUp : function() {
       this.root = new qx.test.ui.layout.LayoutRoot();
+      this.flush();
     },
 
     tearDown : function() {
