@@ -516,6 +516,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
           this.__onMoveOffset[0] = this.__boundsX[0];
         }
         this._updateScrollerPosition(this.__onMoveOffset[0]);
+
+        evt.preventDefault();
       }
     },
 

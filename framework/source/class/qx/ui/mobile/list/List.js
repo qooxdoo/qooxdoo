@@ -267,6 +267,8 @@ qx.Class.define("qx.ui.mobile.list.List",
         qx.bom.element.Style.set(element, "transform", "translateX(" + deltaX + "px)");
         qx.bom.element.Style.set(element, "opacity", opacity);
       }.bind(this));
+
+      evt.preventDefault();
     },
 
 
@@ -275,7 +277,7 @@ qx.Class.define("qx.ui.mobile.list.List",
     * @param evt {qx.event.type.Track} the <code>trackend</code> event
     */
     _onTrackEnd : function(evt) {
-       if (!this.__trackElement) {
+      if (!this.__trackElement) {
         return;
       }
       var element = this.__trackElement;
