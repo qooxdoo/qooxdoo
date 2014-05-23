@@ -37,6 +37,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     this.addListenerOnce("appear", this._onAppear, this);
     this.addListener("trackstart", this._onTrackStart, this);
     this.addListener("trackend", this._onTrackEnd, this);
+    this.addListener("domupdated", this._applyOverflowScroll, this);
 
     if (qx.core.Environment.get("os.name") == "ios") {
       this.addListener("touchmove", this._onTouchMove, this);
@@ -76,12 +77,32 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
 
     /**
+    * Updates the allowed scroll directions through <code>overflowX</code> and <code>overflowY</code>.
+    */
+    _applyOverflowScroll : function() {
+      if (this._isScrollableY()) {
+        this._setStyle("overflowY", "scroll");
+      } else {
+        this._setStyle("overflowX", null);
+      }
+
+      if (this._isScrollableX()) {
+        this._setStyle("overflowX", "scroll");
+      } else {
+        this._setStyle("overflowX", null);
+      }
+    },
+
+
+    /**
      * Event handler for <code>trackstart</code> events.
      */
     _onTrackStart: function() {
       this._lastScrollTime = Date.now();
       this._snapAfterMomentum = false;
       this._abortScrollAnimation = true;
+
+      this._applyOverflowScroll();
 
       if (qx.core.Environment.get("os.name") == "ios") {
         // If scroll container is scrollable
@@ -285,6 +306,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
     this.removeListener("touchmove", this._onTouchMove, this);
 
+    this.removeListener("domupdated", this._applyOverflowScroll, this);
     this.removeListener("appear", this._onAppear, this);
     this.removeListener("trackstart", this._onTrackStart, this);
     this.removeListener("trackend", this._onTrackEnd, this);
