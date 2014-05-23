@@ -27,7 +27,8 @@ Customize the code base
 * Remove unstable code or code for future releases.
 * ``generate.py fix`` in framework, each application and component. This could be done with the release makefile and the ``fix`` job.
 * Copy the .po files from the `Translation <http://qooxdoo.org/contrib/project/translation>`_ contrib to their designated places; ``generate.py translation``, commit .po files. (covered by this `bug <http://bugzilla.qooxdoo.org/show_bug.cgi?id=5429>`__).
-* Set ``tool/pylib/generator/runtime/Cache.py:CACHE_REVISION`` a unique value (e.g. a commit hash prefix); this ensures old caches of the users will be cleared.
+* Set ``tool/pylib/generator/runtime/Cache.py:CACHE_REVISION`` to a unique value (e.g. a commit hash prefix); this ensures old caches of the users will be cleared.
+* Set ``tool/grunt/lib/qx/tool/Cache.js:CACHE_REVISION`` to a unique value (e.g. a commit hash prefix); this ensures old caches of the users will be cleared.
 * Run ``generate.py api-verify`` in framework, and fix problematic links.
 * Run ``make linkcheck`` in the manual (documentation/manual), and fix problematic links where necessary.
 

@@ -68,7 +68,11 @@ class Cache(object):
         self._toolChainIsNewer = self._checkToolsNewer()
         if self._toolChainIsNewer:
             if self._context.get("cache/invalidate-on-tool-change", False):
-                self._console.info("Cleaning compile cache, as tool chain has changed")
+                self._console.info("Cleaning compile cache, as tool chain has changed.")
+                self._console.indent()
+                self._console.info("This is probably due to a SDK update.")
+                self._console.info("You may consider running 'generate.py migration' as well.")
+                self._console.outdent()
                 self.cleanCompileCache()  # will also remove checkFile
             else:
                 self._console.warn("! Detected changed tool chain; you might want to clear the cache.")
@@ -124,7 +128,7 @@ class Cache(object):
             return True
         else:
             return False
-        
+
 
     ##
     # delete the files in the compile cache
@@ -195,19 +199,19 @@ class Cache(object):
     def filename(self, cacheId):
         cacheId = cacheId.encode('utf-8')
         splittedId = cacheId.split("-")
-        
+
         if len(splittedId) == 1:
             return cacheId
-                
+
         baseId = splittedId.pop(0)
         digestId = sha_construct("-".join(splittedId)).hexdigest()
 
         return "%s-%s" % (baseId, digestId)
-        
-        
+
+
     ##
     # Read an object from cache.
-    # 
+    #
     # @param dependsOn  file name to compare cache file against
     # @param memory     if read from disk keep value also in memory; improves subsequent access
     def read(self, cacheId, dependsOn=None, memory=False, keepLock=False):
