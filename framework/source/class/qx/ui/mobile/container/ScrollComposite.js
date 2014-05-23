@@ -67,9 +67,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
 
     this._scrollContainer = this._createScrollContainer();
 
-    this.addListener("touchstart", qx.bom.Event.preventDefault, this);
-    this.addListener("touchstart", qx.bom.Event.stopPropagation, this);
-
     this.addListener("trackstart", this._onTrackStart, this);
     this.addListener("track", this._onTrack, this);
     this.addListener("swipe", this._onSwipe, this);
@@ -573,9 +570,6 @@ qx.Class.define("qx.ui.mobile.container.ScrollComposite",
     this.removeListener("trackstart",this._onTrackStart,this);
     this.removeListener("track",this._onTrack,this);
     this.removeListener("swipe",this._onSwipe,this);
-
-    this.removeListener("touchstart", qx.bom.Event.preventDefault, this);
-    this.removeListener("touchstart", qx.bom.Event.stopPropagation, this);
 
     var children = this.getChildren();
     for(var i = 0; i < children.length; i++) {

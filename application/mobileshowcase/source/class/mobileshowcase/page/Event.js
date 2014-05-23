@@ -77,6 +77,10 @@ qx.Class.define("mobileshowcase.page.Event",
       }));
       container.addCssClass("eventcontainer");
 
+      container.addListener("touchmove", function(evt) {
+        evt.preventDefault();
+      }, this);
+
       // CONTAINER TOUCH AREA
       var containerTouchArea = this.__container = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.VBox().set({
         alignX : "center",

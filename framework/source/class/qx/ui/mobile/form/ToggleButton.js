@@ -80,7 +80,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
 
     this.addListener("tap", this._onTap, this);
     this.addListener("swipe", this._onSwipe, this);
-    this.addListener("touchmove", qx.bom.Event.preventDefault, this);
 
     this.addCssClass("gap");
   },
@@ -217,7 +216,6 @@ qx.Class.define("qx.ui.mobile.form.ToggleButton",
   {
     this.removeListener("tap", this._onTap, this);
     this.removeListener("swipe", this._onSwipe, this);
-    this.removeListener("touchmove", qx.bom.Event.preventDefault, this);
 
     this._disposeObjects("__switch","__labelUnchecked","__labelChecked");
   }

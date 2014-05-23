@@ -55,8 +55,6 @@ qx.Class.define("qx.ui.mobile.navigationbar.NavigationBar",
         alignY : "middle"
       }));
     }
-
-    this.addListener("touchstart", qx.bom.Event.preventDefault, this);
   },
 
 
@@ -76,11 +74,5 @@ qx.Class.define("qx.ui.mobile.navigationbar.NavigationBar",
       refine : true,
       init : "navigationbar"
     }
-  },
-
-
-  destruct : function()
-  {
-    this.removeListener("touchstart", qx.bom.Event.preventDefault, this);
   }
 });

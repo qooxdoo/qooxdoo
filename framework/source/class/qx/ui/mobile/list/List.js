@@ -85,7 +85,6 @@ qx.Class.define("qx.ui.mobile.list.List",
     this.addListener("trackstart", this._onTrackStart, this);
     this.addListener("track", this._onTrack, this);
     this.addListener("trackend", this._onTrackEnd, this);
-    this.addListener("roll", this._onRoll, this);
 
     if (delegate) {
       this.setDelegate(delegate);
@@ -291,18 +290,6 @@ qx.Class.define("qx.ui.mobile.list.List",
         qx.bom.element.Style.set(element, "opacity", "1");
         qx.bom.element.Class.remove(element, "track");
       }.bind(this));
-    },
-
-
-    /**
-    * Event handler for <code>touchmove</code> event.
-    * @param evt {Event} the <code>touchmove</code> event
-    */
-    _onRoll : function(evt) {
-      if(this.__isScrollingBlocked) {
-        evt.preventDefault();
-        evt.stopPropagation();
-      }
     },
 
 

@@ -39,8 +39,6 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
         alignY : "middle"
       }));
     }
-
-    this.addListener("touchstart", qx.bom.Event.preventDefault, this);
   },
 
 
@@ -84,11 +82,5 @@ qx.Class.define("qx.ui.mobile.toolbar.ToolBar",
       }
       this.base(arguments, child, layoutProperties);
     }
-  },
-
-
-  destruct : function()
-  {
-    this.removeListener("touchstart", qx.bom.Event.preventDefault, this);
   }
 });

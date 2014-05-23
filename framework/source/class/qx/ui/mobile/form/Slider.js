@@ -195,7 +195,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       this.addListener("pointerdown", this._onPointerDown, this);
       this.addListener("track", this._onTrack, this);
-      this.addListener("touchmove", qx.bom.Event.stopPropagation, this);
       this.addListener("appear", this._refresh, this);
 
       qx.event.Registration.addListener(window, "resize", this._refresh, this);
@@ -211,7 +210,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     {
       this.removeListener("pointerdown", this._onPointerDown, this);
       this.removeListener("track", this._onTrack, this);
-      this.removeListener("touchmove", qx.bom.Event.stopPropagation, this);
       this.removeListener("appear", this._refresh, this);
 
       qx.event.Registration.removeListener(window, "resize", this._refresh, this);

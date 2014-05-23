@@ -48,8 +48,12 @@ qx.Class.define("qx.ui.mobile.core.Root",
     qx.event.Registration.addListener(window, "orientationchange", this._onOrientationChange, this);
 
     // [BUG #7785] Document element's clientHeight is calculated wrong on iPad iOS7
-    if (qx.core.Environment.get("os.name") == "ios" && window.innerHeight != document.documentElement.clientHeight) {
-      this.addCssClass("ios-viewport-fix");
+    if (qx.core.Environment.get("os.name") == "ios") {
+      this.addListener("touchmove", qx.bom.Event.preventDefault, this);
+
+      if (window.innerHeight != document.documentElement.clientHeight) {
+        this.addCssClass("ios-viewport-fix");
+      }
     }
 
     var flexboxSyntax = qx.core.Environment.get("css.flexboxSyntax");
@@ -276,6 +280,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
   destruct : function() {
     this.__root = null;
+    this.removeListener("touchmove", qx.bom.Event.preventDefault, this);
     qx.event.Registration.removeListener(window, "orientationchange", this._onOrientationChange, this);
   }
 });

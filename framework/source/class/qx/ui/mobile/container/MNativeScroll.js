@@ -31,16 +31,16 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
   construct : function()
   {
     this.addCssClass("native");
-    if(qx.core.Environment.get("os.name") == "ios") {
-      this.addListener("touchstart", this._onTouchStart, this);
-      this.addListener("touchmove", qx.bom.Event.stopPropagation,this);
-    }
 
     this._snapPoints = [];
 
     this.addListenerOnce("appear", this._onAppear, this);
     this.addListener("trackstart", this._onTrackStart, this);
     this.addListener("trackend", this._onTrackEnd, this);
+
+    if (qx.core.Environment.get("os.name") == "ios") {
+      this.addListener("touchmove", this._onTouchMove, this);
+    }
   },
 
 
@@ -61,12 +61,41 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
 
     /**
-    * Event handler for <code>trackstart</code> events.
+    * Event handler for <code>touchmove</code> event.
+    * Needed for preventing iOS page bounce.
+    * @param evt {qx.event.type.Touch} touchmove event. 
     */
+    _onTouchMove : function(evt) {
+      // If scroll container is scrollable
+      if (this._isScrollableY()) {
+        evt.stopPropagation();
+      } else {
+        evt.preventDefault();
+      }
+    },
+
+
+    /**
+     * Event handler for <code>trackstart</code> events.
+     */
     _onTrackStart: function() {
       this._lastScrollTime = Date.now();
       this._snapAfterMomentum = false;
       this._abortScrollAnimation = true;
+
+      if (qx.core.Environment.get("os.name") == "ios") {
+        // If scroll container is scrollable
+        if (this._isScrollableY()) {
+          var scrollTop = this.getContentElement().scrollTop;
+          var maxScrollTop = this.getContentElement().scrollHeight - this.getLayoutParent().getContentElement().offsetHeight;
+          if (scrollTop === 0) {
+            this.getContentElement().scrollTop = 1;
+          } else if (scrollTop == maxScrollTop) {
+            this.getContentElement().scrollTop = maxScrollTop - 1;
+          }
+        }
+      }
+      
     },
 
 
@@ -177,25 +206,6 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
 
     /**
-     * Handler for <code>touchstart</code> event.
-     * Prevents "rubber-banding" effect of page in iOS.
-     * @param evt {qx.event.type.Touch} The touch event.
-     */
-    _onTouchStart: function(evt) {
-      // If scroll container is scrollable
-      if (this._isScrollableY()) {
-        var scrollTop = this.getContentElement().scrollTop;
-        var maxScrollTop = this.getContentElement().scrollHeight - this.getLayoutParent().getContentElement().offsetHeight;
-        if (scrollTop === 0) {
-          this.getContentElement().scrollTop = 1;
-        } else if (scrollTop == maxScrollTop) {
-          this.getContentElement().scrollTop = maxScrollTop - 1;
-        }
-      }
-    },
-
-
-    /**
      * Mixin method. Creates the scroll element.
      *
      * @return {Element} The scroll element
@@ -273,8 +283,8 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
   destruct : function() {
     qx.bom.Event.removeNativeListener(this._getContentElement(), "scroll", this._onScroll.bind(this));
 
-    this.removeListener("touchmove", qx.bom.Event.stopPropagation,this);
-    this.removeListener("touchstart", this._onTouchStart, this);
+    this.removeListener("touchmove", this._onTouchMove, this);
+
     this.removeListener("appear", this._onAppear, this);
     this.removeListener("trackstart", this._onTrackStart, this);
     this.removeListener("trackend", this._onTrackEnd, this);
