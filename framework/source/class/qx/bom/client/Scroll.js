@@ -64,6 +64,14 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
         return true;
       }
 
+      if (qx.core.Environment.get("os.name") == "android") {
+        var osVersion = qx.core.Environment.get("os.version");
+        var splitVersion = osVersion.split(".");
+        if (splitVersion.length > 1 && splitVersion[0] > 3 && splitVersion[1] > 3) {
+          return true;
+        }
+      }
+
       if (qx.core.Environment.get("event.mspointer")) {
         return true;
       }
