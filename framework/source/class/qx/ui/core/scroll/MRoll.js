@@ -48,6 +48,8 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
 
     /**
      * Handler for the pointerdown event which simply stops the momentum scrolling.
+     *
+     * @param e {qx.event.type.Pointer} pointerdown event
      */
     _onPointerDownForRoll : function(e) {
       this.__cancelRoll = e.getPointerId();

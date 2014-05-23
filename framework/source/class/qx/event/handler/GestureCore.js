@@ -342,6 +342,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     /**
      * Stops the momentum scrolling currently running.
+     *
+     * @param id {Integer} The timeoutId of a 'roll' event
      */
     stopMomentum : function(id) {
       this.__stopMomentum[id] = true;
@@ -608,12 +610,12 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      *
      * @param domEvent {Event} DOM event
      * @param target {Element} event target
-     * @return {Map} returns the swipe data when the user performed a swipe, null if the gesture was no swipe.
+     * @return {Map|null} returns the swipe data when the user performed a swipe, null if the gesture was no swipe.
      */
     __getSwipeGesture : function(domEvent, target) {
       var gesture = this.__gesture[domEvent.pointerId];
       if (!gesture) {
-        return;
+        return null;
       }
 
       var clazz = qx.event.handler.GestureCore;
