@@ -328,6 +328,9 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         return;
       }
 
+      // Make drawer visibile before "changeVisibility" event is fired, after transition.
+      this._setStyle("visibility", "visible");
+
       this.__parent.addCssClass("blocked");
 
       if (this.getPositionZ() == "below") {
