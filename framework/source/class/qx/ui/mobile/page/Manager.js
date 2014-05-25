@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__detailContainer.add(this.__detailNavigation, {flex:1});
 
       qx.event.Registration.addListener(window, "orientationchange", this._onLayoutChange, this);
-      //this.__masterContainer.addListener("resize", this._onLayoutChange, this);
+      this.__masterContainer.addListener("resize", this._onLayoutChange, this);
 
       // On Tablet Mode, no Animation should be shown by default.
       this.__masterNavigation.getLayout().setShowAnimation(false);
