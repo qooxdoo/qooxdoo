@@ -18,6 +18,11 @@
   z-index:1;
 }
 
+// Fix for WP8 rendering problem on drawer. 
+.root:not(.android):not(.ios) {
+  outline: 1px solid rgba(0,0,0,0);
+}
+
 .title {
   font-weight: $navigationbar-font-weight;
   font-size: $navigationbar-text-size;
