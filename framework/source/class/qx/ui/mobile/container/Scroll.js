@@ -256,7 +256,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     /**
      *
      * Determines the scroll offset for the <code>_scrollToElement</code> method.
-     * If a delegate is available, the method calls 
+     * If a delegate is available, the method calls
      * <code>qx.ui.mobile.container.IScrollDelegate.getScrollOffset()</code> for offset calculation.
      *
      * @return {Array} an array with x,y offset.

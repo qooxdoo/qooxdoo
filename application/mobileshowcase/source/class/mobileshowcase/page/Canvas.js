@@ -65,7 +65,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
       canvas.addListener("track", this._onTrack, this);
 
       canvas.addListener("touchstart", qx.bom.Event.preventDefault, this);
-  
+
       canvas.setWidth(this._to(this.__canvasWidth));
       canvas.setHeight(this._to(this.__canvasHeight));
       qx.bom.element.Style.set(canvas.getContentElement(),"width", this.__canvasWidth + "px");
@@ -215,5 +215,5 @@ qx.Class.define("mobileshowcase.page.Canvas",
     {
       this._disposeObjects();
     }
-  
+
 });

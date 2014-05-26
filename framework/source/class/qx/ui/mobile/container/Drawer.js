@@ -347,7 +347,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       if (this.getTransitionDuration() > 0) {
         this._enableTransition();
-        
+
         var callArguments = arguments;
         var transitionTarget = this._getTransitionTarget().getContentElement();
         var listenerId = qx.bom.Element.addListener(transitionTarget, "transitionEnd", function(evt) {
@@ -383,7 +383,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       if (this.getTransitionDuration() > 0) {
         this._enableTransition();
-        
+
         var callArguments = arguments;
         var transitionTarget = this._getTransitionTarget().getContentElement();
         var listenerId = qx.bom.Element.addListener(transitionTarget, "transitionEnd", function(evt) {
@@ -540,7 +540,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
   destruct : function()
   {
     qx.core.Init.getApplication().removeListener("back", this.forceHide, this);
-    
+
     this.__parent.removeListener("swipe", this._onParentSwipe, this);
     this.__parent.removeListener("pointerdown", this._onParentPointerDown, this);
 

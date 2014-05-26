@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * Defines the height of the carousel. If value is equal to <code>null</code> 
+     * Defines the height of the carousel. If value is equal to <code>null</code>
      * the height is set to <code>100%</code>.
      */
     height : {

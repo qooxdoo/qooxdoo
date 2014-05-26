@@ -19,7 +19,7 @@
 
 /**
  * @deprecated {4.0} Please use {@link qx.ui.mobile.container.Scroll} instead.
- * 
+ *
  * The ScrollComposite is a extension of {@link qx.ui.mobile.container.Composite},
  * and makes it possible to scroll vertically, if content size is greater than
  * scrollComposite's size.

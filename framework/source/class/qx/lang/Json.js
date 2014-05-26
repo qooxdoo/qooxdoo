@@ -219,7 +219,7 @@ qx.Bootstrap.define("qx.lang.Json",
   // define JSON3 object
   var JSON3;
 
-  // prevent using CommonJS exports object, 
+  // prevent using CommonJS exports object,
   // by shadowing global exports object
   var exports;
 

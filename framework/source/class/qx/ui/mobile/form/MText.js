@@ -109,7 +109,7 @@ qx.Mixin.define("qx.ui.mobile.form.MText",
     // property apply
     _applyPlaceholder : function(value, old)
     {
-      // Android is not able to indent placeholder. 
+      // Android is not able to indent placeholder.
       // Adding a space before the placeholder text, as a fix.
       if (qx.core.Environment.get("os.name") == "android" && value !== null) {
         value = " " + value;

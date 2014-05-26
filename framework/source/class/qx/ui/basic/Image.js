@@ -156,14 +156,14 @@ qx.Class.define("qx.ui.basic.Image",
   events :
   {
     /**
-     * Fired if the image source can not be loaded. This event can only be 
-     * fired for the first loading of an unmanaged resource (external image). 
+     * Fired if the image source can not be loaded. This event can only be
+     * fired for the first loading of an unmanaged resource (external image).
      */
     loadingFailed : "qx.event.type.Event",
 
 
     /**
-     * Fired if the image has been loaded. This is even true for managed 
+     * Fired if the image has been loaded. This is even true for managed
      * resources (images known by generator).
      */
     loaded : "qx.event.type.Event",
@@ -294,7 +294,7 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     // property apply
-    _applySource : function(value, old) 
+    _applySource : function(value, old)
     {
       // abort loading current image
       if (old) {
@@ -472,8 +472,8 @@ qx.Class.define("qx.ui.basic.Image",
 
     /**
      * Helper function, which fires <code>loaded</code> event asynchronously.
-     * It emulates native <code>loaded</code> event of an image object. This 
-     * helper will be called, if you try to load a managed image or an 
+     * It emulates native <code>loaded</code> event of an image object. This
+     * helper will be called, if you try to load a managed image or an
      * previously loaded unmanaged image.
      */
     __fireLoadEvent : function()

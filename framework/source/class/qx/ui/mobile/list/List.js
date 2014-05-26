@@ -281,7 +281,7 @@ qx.Class.define("qx.ui.mobile.list.List",
         return;
       }
       var element = this.__trackElement;
-      
+
       if (Math.abs(evt.getDelta().x) > this.__minDeleteDistance) {
         var row = parseInt(element.getAttribute("data-row"), 10);
         this.fireDataEvent("removeItem", row);

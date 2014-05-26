@@ -190,7 +190,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     },
 
 
-    testLoadedEvent : function() 
+    testLoadedEvent : function()
     {
       var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
       this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
@@ -210,7 +210,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     },
 
 
-    "test: Abort image loading on changing source" : function() 
+    "test: Abort image loading on changing source" : function()
     {
       // image will be received with a delay of 2 sec
       var sourceA = "../resource/qx/test/delayedImage.php?" + Date.now();
@@ -230,7 +230,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     },
 
 
-    "test: Abort image loading through the ImageLoader" : function() 
+    "test: Abort image loading through the ImageLoader" : function()
     {
       // image will be received with a delay of 2 sec
       var Source = "../resource/qx/test/delayedImage.php?" + Date.now();
@@ -241,7 +241,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.addListener("aborted", spyhandler, this);
 
       this.assertTrue(qx.io.ImageLoader.isLoading(Source), "Source should be in loading state!");
-      
+
       qx.io.ImageLoader.abort(Source);
 
       this.assertFalse(qx.io.ImageLoader.isLoaded(Source), "Source should not be loaded after source change!");
@@ -250,7 +250,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     },
 
 
-    testLoadedEventForUnmanagedImage : function() 
+    testLoadedEventForUnmanagedImage : function()
     {
       var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
       this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
@@ -280,7 +280,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     },
 
 
-    testLoadedEventForManagedImage : function() 
+    testLoadedEventForManagedImage : function()
     {
       var source = "qx/icon/Tango/48/places/folder.png";
       var image = new qx.ui.basic.Image();
@@ -308,7 +308,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     },
 
 
-    testAbortedEventForUnmanagedImage : function() 
+    testAbortedEventForUnmanagedImage : function()
     {
       var source = "../resource/qx/icon/Tango/16/places/folder.png?"+ Date.now();
       this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");

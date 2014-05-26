@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.mobile.container.Navigation",
       this.__layout.addListener("updateLayout", this._onUpdateLayout, this);
       this.__layout.addListener("animationStart", this._onAnimationStart, this);
       this.__layout.addListener("animationEnd", this._onAnimationEnd, this);
-      
+
       return new qx.ui.mobile.container.Composite(this.__layout);
     },
 

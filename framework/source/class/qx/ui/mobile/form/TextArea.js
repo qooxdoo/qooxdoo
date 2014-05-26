@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     _fixChildElementsHeight : function(evt) {
       this.getContentElement().style.height = 'auto';
       this.getContentElement().style.height = this.getContentElement().scrollHeight+'px';
-      
+
       var scroll = this.__getScrollContainer();
       if(scroll) {
         scroll.refresh();

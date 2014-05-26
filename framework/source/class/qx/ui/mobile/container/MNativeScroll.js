@@ -64,7 +64,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     /**
     * Event handler for <code>touchmove</code> event.
     * Needed for preventing iOS page bounce.
-    * @param evt {qx.event.type.Touch} touchmove event. 
+    * @param evt {qx.event.type.Touch} touchmove event.
     */
     _onTouchMove : function(evt) {
       // If scroll container is scrollable
@@ -116,7 +116,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
           }
         }
       }
-      
+
     },
 
 
@@ -176,8 +176,8 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
     /**
     * Determines the next snap points for the passed current position.
-    * @param current {Integer} description 
-    * @param snapProperty {String} "top" or "left" 
+    * @param current {Integer} description
+    * @param snapProperty {String} "top" or "left"
     * @return {Integer} the determined snap point.
     */
     _determineSnapPoint: function(current, snapProperty) {
@@ -207,7 +207,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     */
     _snap : function() {
       this._abortScrollAnimation = false;
-      
+
       var current = this._getPosition();
       var nextX = this._determineSnapPoint(current[0],"left");
       var nextY = this._determineSnapPoint(current[1],"top");
@@ -269,7 +269,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
         element.scrollTop = y;
         return;
       }
-     
+
       var position = this._getPosition();
 
       if (x > position[0]) {

@@ -61,11 +61,11 @@ qx.Class.define("mobileshowcase.page.Dialog",
 
       // DEFAULT POPUP
       this.__popup = null;
-      
+
       var closeDialogButton1 = new qx.ui.mobile.form.Button("Close Popup");
       this.__popup = new qx.ui.mobile.dialog.Popup(closeDialogButton1);
       this.__popup.setTitle("A Popup");
-      
+
       closeDialogButton1.addListener("tap", function() {
         this.__popup.hide();
       }, this);

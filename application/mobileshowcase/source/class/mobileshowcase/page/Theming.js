@@ -311,7 +311,7 @@ qx.Class.define("mobileshowcase.page.Theming",
       this.self(arguments).THEMES.push(themeData);
     },
 
-    
+
     destruct : function()
     {
      qx.event.Registration.removeListener(window, "resize", this._onChangeScale);

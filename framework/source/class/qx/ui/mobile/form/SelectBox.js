@@ -317,7 +317,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
 
     /**
     * Handler for <code>tap</code> event on this widget.
-    * @param evt {qx.event.type.Tap} the handling tap event. 
+    * @param evt {qx.event.type.Tap} the handling tap event.
     */
     _onTap : function(evt) {
       this.__showSelectionDialog();

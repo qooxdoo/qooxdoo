@@ -57,7 +57,7 @@ qx.Class.define("qx.locale.LocalizedString",
     /**
      * Returns the messageId.
      *
-     * @return {String} The messageId of this localized String 
+     * @return {String} The messageId of this localized String
      */
     getMessageId : function() {
       return this.__messageId;

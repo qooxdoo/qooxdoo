@@ -258,7 +258,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         }
 
         // Elements with transparent backgrounds will not receive receive pointer
-        
+
         // events if a Gradient filter is set.
         if (!styles["background-color"] ||
             styles["background-color"] == "transparent")

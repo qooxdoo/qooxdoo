@@ -52,7 +52,7 @@ qx.Class.define("mobileshowcase.page.AnimationLanding",
     {
       this.base(arguments);
 
-     
+
       if (this._isTablet) {
         this.addListener("disappear", this.__deactiveAnimation, this);
       }
