@@ -80,7 +80,7 @@ qx.Class.define("qx.test.bom.element.Dimension",
 
     testRoundingErrorInWidthAndHeightGetters : function() {
       // width = left - right = height = bottom - top = 38.416656494140625
-      var mockElement1 = 
+      var mockElement1 =
       {
         getBoundingClientRect : function() {
           return {
@@ -91,8 +91,8 @@ qx.Class.define("qx.test.bom.element.Dimension",
           };
         }
       };
-      // exactly same width and height as mockElement1 
-      var mockElement2 = 
+      // exactly same width and height as mockElement1
+      var mockElement2 =
       {
         getBoundingClientRect : function() {
           return {
@@ -104,10 +104,10 @@ qx.Class.define("qx.test.bom.element.Dimension",
         }
       };
       // make sure both mock objects have the same width
-      this.assertEquals(mockElement1.getBoundingClientRect().right - mockElement1.getBoundingClientRect().left, 
+      this.assertEquals(mockElement1.getBoundingClientRect().right - mockElement1.getBoundingClientRect().left,
        mockElement2.getBoundingClientRect().right - mockElement2.getBoundingClientRect().left);
       // ... and the same height
-      this.assertEquals(mockElement1.getBoundingClientRect().bottom - mockElement1.getBoundingClientRect().top, 
+      this.assertEquals(mockElement1.getBoundingClientRect().bottom - mockElement1.getBoundingClientRect().top,
        mockElement2.getBoundingClientRect().bottom - mockElement2.getBoundingClientRect().top);
 
       // the width and height calculation for both objects should return the same

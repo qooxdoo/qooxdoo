@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
       var childProperty = this.getUserData("cell.childProperty");
       var showLeafs = this.getUserData("cell.showLeafs");
 
-      if (value != null && qx.ui.tree.core.Util.isNode(value, childProperty)) 
+      if (value != null && qx.ui.tree.core.Util.isNode(value, childProperty))
       {
         var eventType = "change" + qx.lang.String.firstUp(childProperty);
         // listen to children property changes
@@ -105,14 +105,14 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
         // children property has been set already, immediately add
         // listener for indent updating
         if (qx.ui.tree.core.Util.hasChildren(value, childProperty, !showLeafs)) {
-          value.get(childProperty).addListener("changeLength", 
+          value.get(childProperty).addListener("changeLength",
             this._onChangeLength, this);
           this._updateIndent();
         }
       }
 
 
-      if (old != null && qx.ui.tree.core.Util.isNode(old, childProperty)) 
+      if (old != null && qx.ui.tree.core.Util.isNode(old, childProperty))
       {
         var eventType = "change" + qx.lang.String.firstUp(childProperty);
         old.removeListener(eventType, this._onChangeChildProperty, this);

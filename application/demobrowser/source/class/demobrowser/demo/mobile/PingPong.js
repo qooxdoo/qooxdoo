@@ -242,7 +242,7 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
       if(players > 1) {
         this.__rightPaddle.setStyles({"top" : (player2 - 50) + "px"});
       }
-      
+
       e.preventDefault();
     },
 
