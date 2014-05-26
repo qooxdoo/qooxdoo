@@ -350,7 +350,13 @@ qx.Class.define("qx.data.marshal.Json",
         return data;
 
       } else if (isArray) {
-        var array = new qx.data.Array();
+        var arrayClass = qx.data.Array;
+        if (this.__delegate && this.__delegate.getArrayClass) {
+          var customArrayClass = this.__delegate.getArrayClass(parentProperty, depth);
+          arrayClass = customArrayClass || arrayClass;
+        }
+
+        var array = new arrayClass();
         // set the auto dispose for the array
         array.setAutoDisposeItems(true);
 

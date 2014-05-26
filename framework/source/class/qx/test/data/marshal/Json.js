@@ -23,6 +23,7 @@
  * @ignore(qx.data.model)
  * @ignore(qx.test.model.*)
  * @ignore(qx.Test)
+ * @ignore(qx.test.Array)
  */
 qx.Class.define("qx.test.data.marshal.Json",
 {
@@ -972,6 +973,75 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       model.getItem(0).setLabel("pistole");
       this.assertCalledTwice(spy);
+    },
+
+
+    testGetArrayClassSimple : function() {
+      qx.Class.define("qx.test.Array", {
+        extend : qx.data.Array
+      });
+
+      var delegate = {getArrayClass : function(parentProperty, depth) {
+        this.assertNull(parentProperty);
+        this.assertEquals(0, depth, "'depth' property is wrong");
+        return qx.test.Array;
+      }.bind(this)};
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+
+      var data = ["a", "b"];
+
+      this.__marshaler.toClass(data);
+      var model = this.__marshaler.toModel(data);
+
+      this.assertInstance(model, qx.test.Array);
+
+      model.dispose();
+      qx.Class.undefine("qx.test.Array");
+    },
+
+
+    testGetArrayClassAdvanced : function() {
+      qx.Class.define("qx.test.Array", {
+        extend : qx.data.Array
+      });
+      var called = 0;
+      var delegate = {getArrayClass : function(parentProperty, depth) {
+        called++;
+        if (parentProperty == "a") {
+          this.assertEquals(1, depth, "'depth' property is wrong");
+          return null;
+        } else if (parentProperty == "b") {
+          this.assertEquals(1, depth, "'depth' property is wrong");
+          return qx.test.Array;
+        } else if (parentProperty == "e") {
+          this.assertEquals(2, depth, "'depth' property is wrong");
+          return qx.test.Array;
+        } else if (parentProperty == "f") {
+          this.assertEquals(2, depth, "'depth' property is wrong");
+          return null;
+        } else {
+          this.fail("Unknown 'parentProperty' in the marshaler.");
+        }
+      }.bind(this)};
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+
+      var data = {a: [], b: [], c: {d: "d", e: [], f: []}};
+
+      this.__marshaler.toClass(data);
+      var model = this.__marshaler.toModel(data);
+
+      this.assertInstance(model.getA(), qx.data.Array);
+      this.assertInstance(model.getB(), qx.test.Array);
+      this.assertInstance(model.getC().getE(), qx.test.Array);
+      this.assertInstance(model.getC().getF(), qx.data.Array);
+      this.assertEquals(4, called);
+
+      model.dispose();
+      qx.Class.undefine("qx.test.Array");
     }
   }
 });

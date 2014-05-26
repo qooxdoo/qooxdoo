@@ -127,6 +127,20 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   be included into the property definition as validator.
      *   {@link qx.core.Property} for more details.
      */
-    getValidationRule : function(properties, propertyName) {}
+    getValidationRule : function(properties, propertyName) {},
+
+
+    /**
+     * Returns the array class which should be used by the marshaler. The passed
+     * parameters can be used to determine the array class. The return array class
+     * must implement the {@link qx.data.IListData} interface.
+     *
+     * @param parentProperty {String|null} If there is a named parent property, the
+     *   name is given here. This might be null in case of the root data.
+     * @param depth {Number} The depth level of the data.
+     * @return {Class|null} Returns the class which should be used as array class.
+     *   If <code>null</code> will be returned, {@link qx.data.Array} will be used as array class.
+     */
+    getArrayClass : function(parentProperty, depth) {}
   }
 });
