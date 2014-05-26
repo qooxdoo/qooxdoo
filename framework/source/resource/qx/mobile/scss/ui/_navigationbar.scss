@@ -6,6 +6,8 @@
   @include backface-visibility(hidden);
   @include background($navigationbar-background);
 
+  z-index: 2;
+
   min-height: $navigationbar-height;
   height: $navigationbar-height;
   color: $navigationbar-text-color; 
@@ -14,9 +16,12 @@
   padding-right: rem(16);
   position: relative;
 
-  z-index:1;
-
   -ms-touch-action: pan-x;
+}
+
+// Fix for WP8 rendering problem on drawer. 
+.root:not(.android):not(.ios) {
+  outline: 1px solid rgba(0,0,0,0);
 }
 
 .title {
