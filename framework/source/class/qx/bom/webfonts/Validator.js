@@ -236,6 +236,12 @@ qx.Class.define("qx.bom.webfonts.Validator", {
         this.__requestedHelpers = this._getRequestedHelpers();
       }
 
+      // force rerendering for chrome
+      this.__requestedHelpers.sans.style.visibility = "visible";
+      this.__requestedHelpers.sans.style.visibility = "hidden";
+      this.__requestedHelpers.serif.style.visibility = "visible";
+      this.__requestedHelpers.serif.style.visibility = "hidden";
+
       var requestedSans = qx.bom.element.Dimension.getWidth(this.__requestedHelpers.sans);
       var requestedSerif = qx.bom.element.Dimension.getWidth(this.__requestedHelpers.serif);
 
