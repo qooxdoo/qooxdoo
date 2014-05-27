@@ -540,8 +540,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         newPage.setStyles(showAnimation.keyFrames["0"]);
       }
 
-      newPage.show();
-
       // set overflow to hidden so that the content won't show
       // outside of the page as it grows
       var newOverflow = newPage.getStyle("overflow");
@@ -560,7 +558,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         // workaround for bug #7982
         newPage.stop().emit("animationEnd");
       }
-      newPage.animate(showAnimation);
+      newPage.show().animate(showAnimation);
     },
 
 
