@@ -9,6 +9,7 @@
   // 3rd party packages
   var path = require('path');
   var walker = require('walker');
+  var mkdirp = require('mkdirp');
 
   // global vars
   var jobSectionTemplate = {
@@ -183,12 +184,10 @@
                 // save json file with all demos
                 var demoDataJsonFile = dataGenerator.config.demoDataJsonFile;
                 var dirName = path.dirname(demoDataJsonFile);
-                if (!fs.existsSync(dirName)) {
-                  fs.mkdirSync(dirName);
-                }
-
-                dataGenerator.saveAsJsonFile(demoDataJsonFile, dataGenerator.getDemos());
-                done(null);
+                mkdirp(dirName, function () {
+                  dataGenerator.saveAsJsonFile(demoDataJsonFile, dataGenerator.getDemos());
+                  done(null);
+                });
               }
             });
           }
