@@ -222,6 +222,10 @@ qx.Class.define("qx.data.SingleValueBinding",
             source = source["get" + qx.lang.String.firstUp(propertyNames[i])](itemIndex);
           } else {
             source = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
+            // the value should be undefined if we can not find the last part of the property chain
+            if (source === null && propertyNames.length != (i - 1)) {
+              source = undefined;
+            }
           }
           if (!source) {
             // call the converter if no source could be found on binding creation
