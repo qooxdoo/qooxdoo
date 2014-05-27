@@ -35,9 +35,6 @@ qx.Class.define("${Namespace}.page.Overview",
 
 
     // overridden
-    /**
-     * @param {boolean ? null} triggeredByKeyEvent
-     */
     _back : function()
     {
       qx.core.Init.getApplication().getRouting().back();
