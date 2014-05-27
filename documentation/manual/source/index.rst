@@ -39,14 +39,11 @@ qooxdoo Manual v%{version}
 Welcome to the manual of qooxdoo. Here are some highlights of what you can find here. The main entries are the qooxdoo components *Core*, *Website*, *Desktop*, *Mobile* and *Server*. For a full overview proceed to the :doc:`table of contents <toc>`.
 
 .. rst-class:: toc
+.. rst-class:: table-overview 
 
 +----------+-------------------------------------------------------------------------------------+
-| |started|| **Getting Started**                                                                 |
+||started| | **Getting Started**                                                                 |
 |          |   * :doc:`pages/getting_started`                                                    |
-+----------+-------------------------------------------------------------------------------------+
-
-.. rst-class:: toc
-
 +----------+-------------------------------------------------------------------------------------+
 ||core|    | **Core**                                                                            |
 |          |   * :doc:`Classes       <pages/core/oo_introduction>`                               |
@@ -54,52 +51,28 @@ Welcome to the manual of qooxdoo. Here are some highlights of what you can find 
 |          |   * :doc:`Data Binding <pages/data_binding/data_binding>`                           |
 |          |   * :doc:`Environment   <pages/core/environment>`                                   |
 +----------+-------------------------------------------------------------------------------------+
-
-.. rst-class:: toc
-
-+----------+-------------------------------------------------------------------------------------+
 ||desktop| | **Desktop**                                                                         |
 |          |   * :doc:`Introduction  <pages/desktop/ui_overview>`                                |
 |          |   * :doc:`Tutorial      <pages/desktop/tutorials/tutorial-part-1>`                  |
 |          |   * :doc:`Reference     <pages/desktop/ui_widgets>`                                 |
-+----------+-------------------------------------------------------------------------------------+
-
-.. rst-class:: toc
-
 +----------+-------------------------------------------------------------------------------------+
 ||mobile|  | **Mobile**                                                                          |
 |          |   * :doc:`Introduction  <pages/mobile/mobile_overview>`                             |
 |          |   * :doc:`Tutorial      <pages/mobile/tutorial>`                                    |
 |          |   * :ref:`Reference     <pages/mobile_overview#api>`                                |
 +----------+-------------------------------------------------------------------------------------+
-
-.. rst-class:: toc
-
-+----------+-------------------------------------------------------------------------------------+
 ||website| | **Website**                                                                         |
 |          |   * :doc:`Introduction     <pages/website/overview>`                                |
 |          |   * :doc:`Tutorial         </pages/website/tutorial_web_developers>`                |
 |          |   * :ref:`Reference        <pages/webite_overview#api>`                             |
 +----------+-------------------------------------------------------------------------------------+
-
-.. rst-class:: toc
-
-+----------+-------------------------------------------------------------------------------------+
 ||server|  | **Server**                                                                          |
 |          |   * :doc:`Introduction    <pages/server/overview>`                                  |
-+----------+-------------------------------------------------------------------------------------+
-
-.. rst-class:: toc
-
 +----------+-------------------------------------------------------------------------------------+
 ||tooling| | **Tooling**                                                                         |
 |          |   * :ref:`Introduction <pages/tool#tooling>`                                        |
 |          |   * :ref:`Tutorial     <pages/getting_started/helloworld#helloworld>`               |
 |          |   * :ref:`Reference    <pages/references#tooling>`                                  |
-+----------+-------------------------------------------------------------------------------------+
-
-.. rst-class:: toc
-
 +----------+-------------------------------------------------------------------------------------+
 | |refer|  | **References**                                                                      |
 |          |   * :doc:`Table of Contents <toc>`                                                  |

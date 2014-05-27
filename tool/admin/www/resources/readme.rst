@@ -38,5 +38,5 @@ Manual generation of each individual file is of course possible, e.g. with
 
 ::
 
-  scss -t expanded scss/base.scss css/base.css (Sass compiler)
+  sass --watch -t expanded scss/base.scss:stylesheets/base.css (Sass compiler)
 

@@ -208,6 +208,10 @@ a.button {
   list-style-position: outside;
   margin-left: 1.5em;
 }
+#main .table-overview tr td:first-child {
+  min-width: 110px;
+  text-align: center;
+}
 #main #breadcrumb {
   position: absolute;
   top: 16.6px;

@@ -181,6 +181,13 @@ a.button {
     margin-left: 1.5em;
   }
 
+  .table-overview {
+    tr td:first-child {
+      min-width: 110px;
+      text-align: center;
+    }
+  }
+
   #breadcrumb {
     position: absolute;
     top: $line - 5px;
