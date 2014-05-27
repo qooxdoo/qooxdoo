@@ -43,7 +43,7 @@
  *     startPage.show();
  *   }, this);
  *
- *   // whenever the url /address is called show the addressbook page.
+ *   // whenever the url /address is called show the address book page.
  *   r.onGet("/address", function(data) {
  *     addressBookPage.show();
  *   }, this);
@@ -110,21 +110,21 @@ qx.Bootstrap.define("qx.application.Routing", {
 
     /**
      * Initialization method used to execute the get route for the currently set history path.
-     * If no path is set, either the given argument named <code>defaultRoute</code>
+     * If no path is set, either the given argument named <code>defaultPath</code>
      * or the {@link #DEFAULT_PATH} will be used for initialization.
      *
-     * @param defaultRoute {String?} Optional default route for initialization.
+     * @param defaultPath {String?} Optional default path for initialization.
      */
-    init : function(defaultRoute)
+    init : function(defaultPath)
     {
       if (qx.core.Environment.get("qx.debug")) {
-        if (defaultRoute != null) {
-          qx.core.Assert.assertString(defaultRoute, "Invalid argument 'defaultRoute'");
+        if (defaultPath != null) {
+          qx.core.Assert.assertString(defaultPath, "Invalid argument 'defaultPath'");
         }
       }
 
       var path = this.getState();
-      path = this._getPathOrFallback(path, defaultRoute);
+      path = this._getPathOrFallback(path, defaultPath);
       this._executeGet(path, null, true);
     },
 
@@ -447,26 +447,49 @@ qx.Bootstrap.define("qx.application.Routing", {
 
 
     /**
-    * Navigates back to the previous executed path.
-    * @param customData {var?} The given custom data that should be propagated
+    * Navigates back to the previously executed path.
+    *
+    * @param customData {Map?} The given custom data that should be propagated.
+    *   If it contains a key <code>defaultPath</code> and no history data is
+    *   available, its value is used as a target path. If it does not include
+    *   such a key, the routing's default path is used instead (again only for
+    *   empty history).
+    *   This behavior is useful for instance when reloading a page during
+    *   development but expecting the page's back button always to work.
     */
-    back : function(customData) {
-      if (qx.application.Routing.__back.length > 1) {
-        // Remove current state
-        qx.application.Routing.__back.shift();
-        // Get previous state
-        var state = qx.application.Routing.__back.shift();
+    back : function(customData)
+    {
+      var data = customData;
+      if (data) {
+        data["action"] = "back";
+      } else {
+        data = {
+          "action": "back"
+        };
+      }
 
-        var data = customData;
-        if (data) {
-          data["action"] = "back";
-        } else {
-          data = {
-            "action": "back"
-          };
-        }
+      var path, back = qx.application.Routing.__back;
+
+      if (back.length > 0) {
+        // Remove current state
+        back.shift();
+      }
+
+      if (back.length > 0) {
+        // Get previous state
+        var state = back.shift();
 
         this._executeGet(state.path, data);
+      }
+      else if (data.defaultPath)
+      {
+        path = data.defaultPath;
+        delete data.defaultPath;
+        this._executeGet(path, data);
+      }
+      else if (qx.application.Routing.DEFAULT_PATH)
+      {
+        this._executeGet(qx.application.Routing.DEFAULT_PATH, data);
       }
     },
 
