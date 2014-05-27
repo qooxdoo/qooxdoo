@@ -92,7 +92,7 @@ q.ready(function() {
       q("#list .qx-accordion-page ul").show();
       q("#list .qx-accordion-page li").show();
       q("#list .qx-accordion-page > a").show();
-      q("#list .qx-accordion-button").removeClass("no-matches"); // allow click on every group button
+      q("#list .qx-accordion-button").removeClass("no-matches").setAttribute("disabled", false); // allow click on every group button
       q("#list").render();
       return;
     }
@@ -111,7 +111,7 @@ q.ready(function() {
     q("#list .qx-accordion-page > a").hide(); // module headers
     q("#list .qx-accordion-page ul").hide(); // method lists
     q("#list .qx-accordion-page li").hide(); // method items
-    q("#list .qx-accordion-button").removeClass("no-matches"); // allow click on every group button
+    q("#list .qx-accordion-button").removeClass("no-matches").setAttribute("disabled", false); // allow click on every group button
     var regEx = new RegExp(query, "i");
 
     q("#list .qx-accordion-button").forEach(function(groupButton) {
@@ -135,7 +135,7 @@ q.ready(function() {
         groupButton.setAttribute("data-results", groupResults);
       }
       if (groupResults == 0) {
-        groupButton.addClass("no-matches");
+        groupButton.addClass("no-matches").setAttribute("disabled", true);
       }
     });
 
