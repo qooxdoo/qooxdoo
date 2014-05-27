@@ -65,7 +65,7 @@
 
 .qx-tabs-container {
   border: rem(1) solid $border-color;
-} 
+}
 
 .qx-tabs-page {
   padding: rem(10);
@@ -92,4 +92,12 @@
 
 .qx-tabs-right > li {
   float: right;
+}
+
+.qx-tabs-right > .qx-tabs-button:first-child {
+  margin-left: rem(3);
+}
+
+.qx-tabs-right > .qx-tabs-button:last-child {
+  margin-left: rem(0);
 }
