@@ -1,10 +1,12 @@
 html {
   height: 100%;
 }
+
 body {
   min-width: 930px;
   height: 100%;
 }
+
 a.button {
   line-height: 32px;
   font-size: 12px;
@@ -12,12 +14,15 @@ a.button {
   display: block;
   margin-bottom: 11px;
 }
+
 .large {
   font-size: 14px;
 }
+
 .note {
   font-size: 11px;
 }
+
 .alert {
   background-color: #ffee00;
   padding: 5px 20px;
@@ -31,6 +36,7 @@ a.button {
 .alert a:hover {
   text-decoration: underline;
 }
+
 .action .button {
   width: 165px;
   position: relative;
@@ -41,6 +47,7 @@ a.button {
   background-color: #dddddd;
   text-decoration: none !important;
 }
+
 #header-wrapper {
   background-color: #323335;
   background-image: -webkit-gradient(linear, center top, center bottom, from(#505154), to(#323335));
@@ -52,13 +59,13 @@ a.button {
 #header-wrapper .decoration {
   height: 10px;
   background-color: #3d72c9;
-  background-image: -webkit-gradient(linear, center top, center bottom, from(#5583d0), color-stop(1px,
-    #5583d0), color-stop(1px, #5583d0), to(#3d72c9));
+  background-image: -webkit-gradient(linear, center top, center bottom, from(#5583d0), color-stop(1px, #5583d0), color-stop(1px, #5583d0), to(#3d72c9));
   background-image: -webkit-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
   background-image: -moz-linear-gradient(top, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
   background-image: -o-linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
   background-image: linear-gradient(to bottom, #5583d0, #5583d0 1px, #3d72c9 1px, #3d72c9);
 }
+
 #header {
   width: 830px;
   margin: 0 auto;
@@ -68,6 +75,13 @@ a.button {
   padding-top: 20px;
   padding-bottom: 20px;
   color: #b7b7b7;
+}
+#header:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
 }
 #header h1 {
   display: block;
@@ -79,7 +93,10 @@ a.button {
   line-height: 1;
   margin-top: 0;
   margin-bottom: 0;
-  color: #ffffff;
+  color: white;
+}
+#header h1:first-child {
+  margin-left: 0;
 }
 #header nav {
   display: block;
@@ -87,6 +104,9 @@ a.button {
   width: 410px;
   margin-left: 10px;
   font-size: 13px;
+}
+#header nav:first-child {
+  margin-left: 0;
 }
 #header nav ul, #header nav ol {
   margin: 0;
@@ -99,10 +119,9 @@ a.button {
 #header nav ul li a, #header nav ol li a {
   border-bottom: 2px solid transparent;
 }
-#header nav ul li a:hover, #header nav ul li a.active:hover,
-#header nav ol li a:hover, #header nav ol li a.active:hover {
-  color: #ffffff;
-  border-color: #ffffff;
+#header nav ul li a:hover, #header nav ul li a.active:hover, #header nav ol li a:hover, #header nav ol li a.active:hover {
+  color: white;
+  border-color: white;
 }
 #header nav ul li a.active, #header nav ol li a.active {
   border-color: #b7b7b7;
@@ -111,6 +130,13 @@ a.button {
   zoom: 1;
   margin-top: 8px;
   margin-right: -35px;
+}
+#header #search:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
 }
 #header #search select, #header #search input {
   height: 21.6px;
@@ -133,6 +159,9 @@ a.button {
   border: 3px solid transparent;
   background-color: #dddddd;
 }
+#header #search input[type=search]:first-child {
+  margin-left: 0;
+}
 #header #search input[type=search]:focus {
   outline: none;
   background-color: #f0f0f0;
@@ -145,10 +174,15 @@ a.button {
   margin-top: 2px;
   visibility: visible;
 }
+#header #search select:first-child {
+  margin-left: 0;
+}
+
 #main-wrapper {
   min-height: 100%;
   padding-bottom: 194px;
 }
+
 #main {
   width: 830px;
   margin: 0 auto;
@@ -156,6 +190,13 @@ a.button {
   position: relative;
   padding-top: 60px;
   padding-bottom: 108px;
+}
+#main:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
 }
 #main ul {
   list-style-type: disc;
@@ -166,6 +207,10 @@ a.button {
   list-style-type: decimal;
   list-style-position: outside;
   margin-left: 1.5em;
+}
+#main .table-overview tr td:first-child {
+  min-width: 110px;
+  text-align: center;
 }
 #main #breadcrumb {
   position: absolute;
@@ -183,6 +228,9 @@ a.button {
   margin-left: 0;
   padding-left: 70px;
 }
+#main #sidebar:first-child {
+  margin-left: 0;
+}
 #main #sidebar aside {
   margin-bottom: 1em;
 }
@@ -199,6 +247,9 @@ a.button {
   margin-left: 10px;
   margin-left: 0;
   clear: both;
+}
+#main #content:first-child {
+  margin-left: 0;
 }
 #main #content > div h2, #main #content > section h2 {
   font-size: 19px;
@@ -237,6 +288,7 @@ a.button {
   text-decoration: none;
   color: inherit;
 }
+
 #footer-wrapper {
   border-top: 1px solid #7c7f84;
   background-color: #323335;
@@ -244,9 +296,11 @@ a.button {
   margin-top: -194px;
   padding-bottom: 21.6px;
 }
+
 #footer-wrapper + img {
   display: none;
 }
+
 #footer {
   width: 830px;
   margin: 0 auto;
@@ -255,11 +309,21 @@ a.button {
   padding-top: 21.6px;
   color: #b7b7b7;
 }
+#footer:after {
+  display: block;
+  visibility: hidden;
+  height: 0;
+  clear: both;
+  content: ".";
+}
 #footer #supported-by {
   display: block;
   float: left;
   width: 165px;
   margin-left: 10px;
+}
+#footer #supported-by:first-child {
+  margin-left: 0;
 }
 #footer #supported-by img {
   float: left;
@@ -284,6 +348,9 @@ a.button {
   width: 410px;
   margin-left: 10px;
 }
+#footer #sitemap:first-child {
+  margin-left: 0;
+}
 #footer #sitemap h3 {
   color: white;
   font-weight: bold;
@@ -297,6 +364,9 @@ a.button {
   width: 130px;
   margin-left: 10px;
 }
+#footer #sitemap div:first-child {
+  margin-left: 0;
+}
 #footer #meta {
   display: block;
   float: left;
@@ -304,6 +374,9 @@ a.button {
   margin-left: 10px;
   margin-left: 10px;
   font-size: 10px;
+}
+#footer #meta:first-child {
+  margin-left: 0;
 }
 #footer #meta .social {
   overflow: hidden;
@@ -314,62 +387,4 @@ a.button {
 }
 #footer #meta img {
   float: left;
-}
-#header:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-#header h1:first-child {
-  margin-left: 0;
-}
-#header nav:first-child {
-  margin-left: 0;
-}
-#header #search:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-#header #search input[type=search]:first-child {
-  margin-left: 0;
-}
-#header #search select:first-child {
-  margin-left: 0;
-}
-#main:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-#main #sidebar:first-child {
-  margin-left: 0;
-}
-#main #content:first-child {
-  margin-left: 0;
-}
-#footer:after {
-  display: block;
-  visibility: hidden;
-  height: 0;
-  clear: both;
-  content: ".";
-}
-#footer #supported-by:first-child {
-  margin-left: 0;
-}
-#footer #sitemap:first-child {
-  margin-left: 0;
-}
-#footer #sitemap div:first-child {
-  margin-left: 0;
-}
-#footer #meta:first-child {
-  margin-left: 0;
 }
