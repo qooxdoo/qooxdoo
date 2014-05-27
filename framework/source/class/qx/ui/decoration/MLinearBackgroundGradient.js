@@ -219,7 +219,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
               styles["background-size"] = range + "% 100%";
             }
           } else {
-            styles["background-size"] = isVertical ? height + " 100%" : "100% " + width + "%";
+            styles["background-size"] = isVertical ? height + "px 100%" : "100% " + width + "px";
           }
 
 
