@@ -304,11 +304,16 @@ def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, rend
         config = Template(open(inFile).read())
         out = open(outFile, "w")
 
+        # hack for uncommon contribution dir structure
+        contribDemoRelPathToSdk = ""
+        if options.type == "contribution"  and "demo/default" in outFile:
+          contribDemoRelPathToSdk = os.path.join("../../", relPathToSdk)
+
         context = {
           "Name": options.name,
           "Namespace": options.namespace,
           "NamespacePath" : (options.namespace).replace('.', '/'),
-          "REL_QOOXDOO_PATH": relPathToSdk,
+          "REL_QOOXDOO_PATH": contribDemoRelPathToSdk if contribDemoRelPathToSdk else relPathToSdk,
           "ABS_QOOXDOO_PATH": absPathToSdk,
           "QOOXDOO_VERSION": QOOXDOO_VERSION,
           "Cache" : options.cache,
