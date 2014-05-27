@@ -21,10 +21,28 @@
  * @lint ignoreUndefined(q, qxWeb, samples, hljs)
  */
 q.ready(function() {
+  var legacyIe = (q.env.get("engine.name") === "mshtml" &&
+    q.env.get("engine.version") < 10);
+
   FastClick.attach(document.body);
 
   // remove the warning
   q("#warning").setStyle("display", "none");
+
+  if (legacyIe) {
+    var loading = q.create("<div class='loading'>loading...</div>").appendTo(document.body);
+    var width = Math.round(q(document).getWidth() / 2);
+    var height = Math.round(q(document).getHeight() / 2);
+    var left = width - (Math.round(loading.getWidth() / 2));
+    var top = height - (Math.round(loading.getHeight() / 2));
+    var zIndex = 10000;
+    loading.setStyles({
+      top: top + "px",
+      left: left + "px",
+      zIndex: zIndex + 10
+    });
+    q(document).block("black", 0.8, zIndex);
+  }
 
   var title, docTitle;
   var customTitle = q.$$qx.core.Environment.get("apiviewer.title");
@@ -1060,6 +1078,13 @@ q.ready(function() {
       fixInternalLinks();
       setTimeout(onFilterInput, 200);
       window.onhashchange = highlightNavItem;
+
+      if (legacyIe) {
+        setTimeout(function() {
+          q(".loading").remove();
+          q(document).unblock();
+        }, 1000);
+      }
     }
   };
 
