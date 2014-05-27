@@ -56,6 +56,7 @@ qx.Class.define("qx.test.bom.Stylesheet",
       else if (sheet.cssText) {
         this.assertMatch(sheet.cssText, /@import/);
       }
+      qx.bom.Stylesheet.removeImport(sheet, uri);
     },
 
     testAddRule : function()
