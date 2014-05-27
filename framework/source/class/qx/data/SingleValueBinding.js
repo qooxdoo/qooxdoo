@@ -223,7 +223,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           } else {
             source = source["get" + qx.lang.String.firstUp(propertyNames[i])]();
             // the value should be undefined if we can not find the last part of the property chain
-            if (source === null && propertyNames.length != (i - 1)) {
+            if (source === null && (propertyNames.length - 1) != i) {
               source = undefined;
             }
           }
