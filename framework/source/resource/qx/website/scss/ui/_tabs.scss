@@ -93,3 +93,11 @@
 .qx-tabs-right > li {
   float: right;
 }
+
+.qx-tabs-right > .qx-tabs-button:first-child {
+  margin-left: rem(3);
+}
+
+.qx-tabs-right > .qx-tabs-button:last-child {
+  margin-left: rem(0);
+}
