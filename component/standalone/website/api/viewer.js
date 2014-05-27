@@ -22,6 +22,9 @@
  */
 q.ready(function() {
 
+  var legacyIe = (q.env.get("engine.name") === "mshtml" &&
+    q.env.get("engine.version") < 10);
+
   // prevent touch scrolling
   q(document).on("touchmove", function(e) {
     e.preventDefault();
@@ -29,6 +32,24 @@ q.ready(function() {
 
   // remove the warning
   q("#warning").setStyle("display", "none");
+
+  /** TODO: The code in the 'else' block of onContentReady is never executed.
+   *  This issue must be fixed before the following code can be activated:
+  if (legacyIe) {
+    var loading = q.create("<div class='loading'>loading...</div>").appendTo(document.body);
+    var width = Math.round(q(document).getWidth() / 2);
+    var height = Math.round(q(document).getHeight() / 2);
+    var left = width - (Math.round(loading.getWidth() / 2));
+    var top = height - (Math.round(loading.getHeight() / 2));
+    var zIndex = 10000;
+    loading.setStyles({
+      top: top + "px",
+      left: left + "px",
+      zIndex: zIndex + 10
+    });
+    q(document).block("black", 0.8, zIndex);
+  }
+  */
 
   var title, docTitle;
   var customTitle = q.$$qx.core.Environment.get("apiviewer.title");
@@ -642,6 +663,13 @@ q.ready(function() {
         setTimeout(onFilterInput, 200);
       }
       window.onhashchange = highlightNavItem;
+
+      if (legacyIe) {
+        setTimeout(function() {
+          q(".loading").remove();
+          q(document).unblock();
+        }, 1000);
+      }
     }
   };
 

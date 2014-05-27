@@ -12,6 +12,13 @@ body {
   min-width: 0;
 }
 
+.loading {
+  position: absolute;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 42px;
+  color: #fff;
+}
+
 #navContainer {
   position: fixed;
   top: 82px;
