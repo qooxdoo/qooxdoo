@@ -28,6 +28,9 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
 {
   members :
   {
+    __cancelRoll : null,
+
+
     /**
      * Responsible for adding the event listener needed for scroll handling.
      */
