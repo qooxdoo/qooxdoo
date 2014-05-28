@@ -112,7 +112,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
       this.getContent().add(toggleModeGroup);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Action"));
-      this.getContent().add(this._createDrawerMenu([drawerTop,drawerRight,drawerBottom,drawerLeft]));
+      this.getContent().add(this._createDrawerMenu([drawerTop, drawerRight, drawerBottom, drawerLeft]));
     },
 
 
@@ -121,6 +121,7 @@ qx.Class.define("mobileshowcase.page.Drawer",
      */
     _togglePositionZ : function(target) {
       qx.bom.element.Style.set(target.getContainerElement(),"transitionDuration","0s");
+      qx.bom.element.Style.set(target.getContainerElement(), "position", "relative");
 
       if(target.getPositionZ() == "above") {
         target.setPositionZ("below");
@@ -130,8 +131,9 @@ qx.Class.define("mobileshowcase.page.Drawer",
       }
 
       qx.event.Timer.once(function() {
-        qx.bom.element.Style.set(this,"transitionDuration", null);
-      },target.getContainerElement(),0);
+        qx.bom.element.Style.set(this, "transitionDuration", null);
+        qx.bom.element.Style.set(this, "position", null);
+      }, target.getContainerElement(), 0);
     }
   }
 });
