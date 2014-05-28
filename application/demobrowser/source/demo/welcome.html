@@ -13,7 +13,7 @@
 
     body{
       font-size: 12px;
-      font-family: "Tresbuchet MS", Tahoma, Arial, "Bitstream Vera Sans", Verdana, sans-serif;
+      font-family: "Trebuchet MS", Tahoma, Arial, "Bitstream Vera Sans", Verdana, sans-serif;
       margin: 0;
       padding: 0;
     }
@@ -80,7 +80,7 @@
     }
 
     function onLoadx(){
-      var elems = document.getElementsByClassName("verslink");
+      var elems = document.querySelectorAll(".verslink");
       for (var i=0, l=elems.length; i<l; i++){
         var e = elems[i];
         e.href = expandVersion(e.href);
