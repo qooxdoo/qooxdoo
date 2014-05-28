@@ -329,6 +329,9 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
     // overridden
     _onTap : function(e) {
+      if (!this.getEnabled()) {
+        return;
+      }
       var tappedButton = e.getCurrentTarget();
       var cssPrefix = this.getCssPrefix();
       var sameButton = false;
