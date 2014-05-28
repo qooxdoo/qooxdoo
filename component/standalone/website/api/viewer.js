@@ -23,7 +23,7 @@
 q.ready(function() {
 
   var legacyIe = (q.env.get("engine.name") === "mshtml" &&
-    q.env.get("engine.version") < 10);
+    q.env.get("engine.version") < 11);
 
   // prevent touch scrolling
   q(document).on("touchmove", function(e) {
