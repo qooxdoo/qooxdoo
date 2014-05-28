@@ -33,8 +33,6 @@ q.ready(function() {
   // remove the warning
   q("#warning").setStyle("display", "none");
 
-  /** TODO: The code in the 'else' block of onContentReady is never executed.
-   *  This issue must be fixed before the following code can be activated:
   if (legacyIe) {
     var loading = q.create("<div class='loading'>loading...</div>").appendTo(document.body);
     var width = Math.round(q(document).getWidth() / 2);
@@ -49,7 +47,6 @@ q.ready(function() {
     });
     q(document).block("black", 0.8, zIndex);
   }
-  */
 
   var title, docTitle;
   var customTitle = q.$$qx.core.Environment.get("apiviewer.title");
@@ -619,57 +616,53 @@ q.ready(function() {
   var useHighlighter = !(q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9);
 
   var onContentReady = function() {
-    var listRendered = q("#list").find("> ul > li").length > 0;
-    if (!listRendered) {
-      renderList(this);
-      sortList();
-      renderContent(this);
-      loadSamples();
-      var acc = q("#list").accordion();
+    renderList(this);
+    sortList();
+    renderContent(this);
+    loadSamples();
+    var acc = q("#list").accordion();
 
-      // wait for the accordion pages to be measured
-      var buttonTops;
-      var listOffset = q("#list").getPosition().top;
-      setTimeout(function() {
-        acc.fadeIn(200);
-        buttonTops = [];
-        acc.find(".qx-accordion-button").forEach(function(button, index) {
-          buttonTops[index] = (q(button).getPosition().top);
-        });
-      }, 200);
+    // wait for the accordion pages to be measured
+    var buttonTops;
+    var listOffset = q("#list").getPosition().top;
 
-
-      acc.on("changeSelected", function(index) {
-        var buttonTop = buttonTops[index] - listOffset;
-        var scrollTop = q("#navContainer").getProperty("scrollTop");
-        q("#navContainer").animate({
-          duration: 500,
-          keep: 100,
-          timing: "linear",
-          keyFrames: {
-            0: {scrollTop: scrollTop},
-            100: {scrollTop: buttonTop}
-          }
-        });
+    setTimeout(function() {
+      acc.fadeIn(200);
+      buttonTops = [];
+      acc.find(".qx-accordion-button").forEach(function(button, index) {
+        buttonTops[index] = (q(button).getPosition().top);
       });
-    } else {
-      // enable syntax highlighting
-      if (useHighlighter) {
-        q('pre').forEach(function(el) {hljs.highlightBlock(el);});
-      }
+    }, 200);
 
-      fixInternalLinks();
-      if (q(".filter input").getValue()) {
-        setTimeout(onFilterInput, 200);
-      }
-      window.onhashchange = highlightNavItem;
+    acc.on("changeSelected", function(index) {
+      var buttonTop = buttonTops[index] - listOffset;
+      var scrollTop = q("#navContainer").getProperty("scrollTop");
+      q("#navContainer").animate({
+        duration: 500,
+        keep: 100,
+        timing: "linear",
+        keyFrames: {
+          0: {scrollTop: scrollTop},
+          100: {scrollTop: buttonTop}
+        }
+      });
+    });
 
-      if (legacyIe) {
-        setTimeout(function() {
-          q(".loading").remove();
-          q(document).unblock();
-        }, 1000);
-      }
+    // enable syntax highlighting
+    if (useHighlighter) {
+      q('pre').forEach(function(el) {hljs.highlightBlock(el);});
+    }
+
+    if (q(".filter input").getValue()) {
+      setTimeout(onFilterInput, 200);
+    }
+    window.onhashchange = highlightNavItem;
+
+    if (legacyIe) {
+      setTimeout(function() {
+        q(".loading").remove();
+        q(document).unblock();
+      }, 1000);
     }
   };
 
@@ -918,7 +911,6 @@ q.ready(function() {
       pageId: "widget-dom-" + methodName.replace(".", "")
     })
     .insertAfter(markupHeader);
-    //markupHeader.remove();
     var pre = accordion.find("pre").append(codeEl);
     accordion.accordion();
 
