@@ -517,6 +517,15 @@ p {
   color: white;
 }
 
+#content div.qx-accordion {
+  margin-bottom: 0;
+}
+
+#content .qx-accordion ul {
+  list-style-type: none;
+  margin-bottom: 0;
+}
+
 .widget-dom .qx-accordion-button button {
   padding: 0;
   margin: 0;
@@ -552,6 +561,14 @@ p {
 .widget-dom .qx-accordion-button-active button:after {
   content: "Hide";
   cursor: pointer;
+}
+
+.widget-dom .qx-accordion-page-closed {
+  display: none;
+}
+
+.widget-dom .qx-accordion-page-closed pre {
+  height: inherit;
 }
 
 .widget-dom pre {
