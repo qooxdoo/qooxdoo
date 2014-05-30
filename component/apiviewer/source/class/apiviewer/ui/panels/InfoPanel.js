@@ -1311,12 +1311,13 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       });
 
       q(el).on("tap", function(e) {
+        var onClickValue = "event.preventDefault ? event.preventDefault() : event.returnValue = false; return false;";
         var target = e.getTarget();
         var click = target.getAttribute("onclick");
-        if (click && click != "event.preventDefault(); return false;") {
+        if (click && click != onClickValue) {
           target.removeAttribute("onclick");
           target.setAttribute("oldonclick", click);
-          target.setAttribute("onclick", "event.preventDefault(); return false;");
+          target.setAttribute("onclick", onClickValue);
         } else {
           click = target.getAttribute("oldonclick");
         }
