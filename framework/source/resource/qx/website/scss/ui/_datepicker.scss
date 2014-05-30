@@ -7,3 +7,7 @@
   vertical-align: top;
   margin-left: 4px;
 }
+
+.qx-datepicker[disabled] + .qx-datepicker-icon {
+  cursor: default;
+}

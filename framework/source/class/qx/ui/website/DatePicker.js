@@ -203,6 +203,10 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      * @param e {Event} tap event
      */
     _onTap : function(e) {
+      if (!this.getEnabled()) {
+        return;
+      }
+
       var calendar = qxWeb('div#' + this.getProperty('calendarId'));
 
       if (calendar.getStyle("display") == "none") {
