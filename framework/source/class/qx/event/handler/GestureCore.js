@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove"],
 
-    TAP_MAX_DISTANCE : {"touch": 40, "mouse": 10, "pen": 20}, // values are educated guesses
+    TAP_MAX_DISTANCE : {"touch": 40, "mouse": 20, "pen": 20}, // values are educated guesses
 
     /** @type {Map} The direction of a swipe relative to the axis */
     SWIPE_DIRECTION :
@@ -492,13 +492,13 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     _isBelowTapMaxDistance: function(domEvent) {
       var delta = this._getDeltaCoordinates(domEvent);
+      var maxDistance = qx.event.handler.GestureCore.TAP_MAX_DISTANCE[domEvent.getPointerType()];
       if (!delta) {
         return null;
       }
-      var clazz = qx.event.handler.GestureCore;
 
-      return (Math.abs(delta.x) <= clazz.TAP_MAX_DISTANCE[domEvent.pointerType] &&
-              Math.abs(delta.y) <= clazz.TAP_MAX_DISTANCE[domEvent.pointerType]);
+      return (Math.abs(delta.x) <= maxDistance &&
+              Math.abs(delta.y) <= maxDistance);
     },
 
 
