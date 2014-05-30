@@ -20,7 +20,7 @@
 #
 ################################################################################
 
-import re, os, sys, types, glob, time, string
+import re, os, sys, types, glob, time, string, platform
 
 from misc import filetool, textutil
 from generator import Context
@@ -124,7 +124,7 @@ class ActionLib(object):
         if rc != 0:
             # BUG #7997 (sass may not be installed)
             # 127 = given cmd is not found within PATH sys var and it's not a built-in shell cmd
-            if rc == 127 and cmdnotfoundmsg:
+            if (rc == 127 or (rc == 1 and platform.system() == "Windows")) and cmdnotfoundmsg:
                 self._console.info("Skipping shell command: %s" % cmdnotfoundmsg)
             else:
                 raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
