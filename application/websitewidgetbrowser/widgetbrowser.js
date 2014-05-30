@@ -238,6 +238,7 @@ q.ready(function() {
 
     var demoPageSelector = button.getData("qxTabsPage");
     if (q(demoPageSelector).getChildren(".demo-container").getChildren().length > 0) {
+      renderWidgets();
       return;
     }
     var demoName = demoPageSelector.match(/#(.*?)-/)[1];
@@ -263,10 +264,21 @@ q.ready(function() {
 
   q(".disable input").on("change", disableWidgets);
 
+  /**
+   * Re-renders all currently visible widgets (e.g. after the app scale
+   * was changed)
+   */
+  var renderWidgets = q.func.debounce (function() {
+    var c = q("#content .qx-widget").filter(function(el) {
+      return el.offsetWidth > 0;
+    }).render();
+  }, 100, false);
+
   q("#sizeSlider")
   .setTemplate("knobContent", "{{value}}%").render()
   .on("changeValue", function(value) {
     q("html").setStyle("font-size", value + "%");
+    renderWidgets();
   });
 
 
