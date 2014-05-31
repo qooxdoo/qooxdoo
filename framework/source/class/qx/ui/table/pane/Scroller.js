@@ -370,7 +370,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __focusedCol : null,
     __focusedRow : null,
 
-    __cellEditor : null,
+    _cellEditor : null,
     __cellEditorFactory : null,
 
     __topRightWidget : null,
@@ -1283,8 +1283,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       // handle edit cell if available
       if (this.isEditing()) {
-        var height = this.__cellEditor.getBounds().height;
-        this.__cellEditor.setUserBounds(0, 0, this.__lastResizeWidth, height);
+        var height = this._cellEditor.getBounds().height;
+        this._cellEditor.setUserBounds(0, 0, this.__lastResizeWidth, height);
       }
     },
 
@@ -1794,7 +1794,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @return {var} whether currently a cell is editing.
      */
     isEditing : function() {
-      return this.__cellEditor != null;
+      return this._cellEditor != null;
     },
 
 
@@ -1835,7 +1835,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         };
 
         // Get a cell editor
-        this.__cellEditor = this.__cellEditorFactory.createCellEditor(cellInfo);
+        this._cellEditor = this.__cellEditorFactory.createCellEditor(cellInfo);
 
         // We handle two types of cell editors: the traditional in-place
         // editor, where the cell editor returned by the factory must fit in
@@ -1843,25 +1843,25 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         // editing takes place.  Additionally, if the cell editor determines
         // that it does not want to edit the particular cell being requested,
         // it may return null to indicate that that cell is not editable.
-        if (this.__cellEditor === null)
+        if (this._cellEditor === null)
         {
           // This cell is not editable even though its column is.
           return false;
         }
-        else if (this.__cellEditor instanceof qx.ui.window.Window)
+        else if (this._cellEditor instanceof qx.ui.window.Window)
         {
           // It's a window.  Ensure that it's modal.
-          this.__cellEditor.setModal(true);
+          this._cellEditor.setModal(true);
 
           // At least for the time being, we disallow the close button.  It
           // acts differently than a cellEditor.close(), and invokes a bug
           // someplace.  Modal window cell editors should provide their own
           // buttons or means to activate a cellEditor.close() or equivalently
           // cellEditor.hide().
-          this.__cellEditor.setShowClose(false);
+          this._cellEditor.setShowClose(false);
 
           // Arrange to be notified when it is closed.
-          this.__cellEditor.addListener(
+          this._cellEditor.addListener(
             "close",
             this._onCellEditorModalWindowClose,
             this);
@@ -1869,17 +1869,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           // If there's a pre-open function defined for the table...
           var f = table.getModalCellEditorPreOpenFunction();
           if (f != null) {
-            f(this.__cellEditor, cellInfo);
+            f(this._cellEditor, cellInfo);
           }
 
           // Open it now.
-          this.__cellEditor.open();
+          this._cellEditor.open();
         }
         else
         {
           // The cell editor is a traditional in-place editor.
           var size = this.__focusIndicator.getInnerSize();
-          this.__cellEditor.setUserBounds(0, 0, size.width, size.height);
+          this._cellEditor.setUserBounds(0, 0, size.width, size.height);
 
           // prevent tap event from bubbling up to the table
           this.__focusIndicator.addListener("pointerdown", function(e)
@@ -1891,15 +1891,15 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             e.stopPropagation();
           }, this);
 
-          this.__focusIndicator.add(this.__cellEditor);
+          this.__focusIndicator.add(this._cellEditor);
           this.__focusIndicator.addState("editing");
           this.__focusIndicator.setKeepActive(false);
 
           // Make the focus indicator visible during editing
           this.__focusIndicator.setDecorator("table-scroller-focus-indicator");
 
-          this.__cellEditor.focus();
-          this.__cellEditor.activate();
+          this._cellEditor.focus();
+          this._cellEditor.activate();
         }
 
         return true;
@@ -1933,7 +1933,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       if (this.isEditing())
       {
-        var value = this.__cellEditorFactory.getCellEditorValue(this.__cellEditor);
+        var value = this.__cellEditorFactory.getCellEditorValue(this._cellEditor);
         var oldValue = this.getTable().getTableModel().getValue(this.__focusedCol, this.__focusedRow);
         this.getTable().getTableModel().setValue(this.__focusedCol, this.__focusedRow, value);
 
@@ -1958,13 +1958,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       if (this.isEditing())
       {
-        if (!(this.__cellEditor instanceof qx.ui.window.Window))
+        if (!(this._cellEditor instanceof qx.ui.window.Window))
         {
           this.__focusIndicator.removeState("editing");
           this.__focusIndicator.setKeepActive(true);
         }
-        this.__cellEditor.destroy();
-        this.__cellEditor = null;
+        this._cellEditor.destroy();
+        this._cellEditor = null;
         this.__cellEditorFactory = null;
       }
     },
