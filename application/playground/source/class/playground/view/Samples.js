@@ -130,7 +130,7 @@ qx.Class.define("playground.view.Samples",
           this.select(model.getItem(i));
           return;
         }
-      };
+      }
     },
 
 
@@ -146,10 +146,10 @@ qx.Class.define("playground.view.Samples",
       // CAREFUL: HACK TO GET THE SELECTION PREVENTED
       this.__list._manager.detatchPointerEvents();
       // store the old pointer handler
-      var oldHandler = this.__list._manager.handlePointerDown;
+      var oldHandler = this.__list._manager.handleTap;
       var self = this;
       // attach a new handler function
-      this.__list._manager.handlePointerDown = function(e) {
+      this.__list._manager.handleTap = function(e) {
         // fire the cancelable event
         var changeOk = self.fireEvent("beforeSelectSample", qx.event.type.Event, [false, true]);
         if (changeOk) {

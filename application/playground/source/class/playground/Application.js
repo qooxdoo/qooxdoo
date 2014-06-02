@@ -757,10 +757,8 @@ qx.Class.define("playground.Application",
      */
     __discardChanges : function() {
       var userCode = this.__editor.getCode();
-      if (userCode && this.__isCodeNotEqual(userCode, this.getOriginCode()))
-      {
-        if (!confirm(this.tr("Tap OK to discard your changes.")))
-        {
+      if (userCode && this.__isCodeNotEqual(userCode, this.getOriginCode())) {
+        if (!confirm(this.tr("Tap OK to discard your changes."))) {
           return true;
         }
       }
