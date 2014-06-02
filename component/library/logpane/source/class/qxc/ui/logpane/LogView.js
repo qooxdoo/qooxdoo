@@ -81,6 +81,7 @@ qx.Class.define("qxc.ui.logpane.LogView", {
       font : "monospace",
       padding: 3
     });
+    logArea.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
     this.add(logArea, {flex : 1});
 
     // log appender
