@@ -100,6 +100,7 @@ qx.Class.define("fce.view.Table", {
   {
 
     __columnIds : null,
+    __focusedRowOnDrag : null,
 
     /**
      * Returns the approriate renderer (boolean, number or string) for the given
@@ -131,11 +132,13 @@ qx.Class.define("fce.view.Table", {
     _setUpDragDrop : function()
     {
       this.setDraggable(true);
+      this.setFocusCellOnPointerMove(true);
       this.addListener("dragstart", function(e)
       {
         e.addType("items");
         e.addAction("copy");
-      });
+        this.__focusedRowOnDrag = this.getFocusedRow();
+      }, this);
 
       this.addListener("droprequest", function(e) {
         var action = e.getCurrentAction();
@@ -143,7 +146,17 @@ qx.Class.define("fce.view.Table", {
 
         if (type == "items" && action == "copy") {
           var items = this.getSelectedItems();
-          e.addData(type, items);
+          var selectedRows = [];
+          this.getSelectionModel().iterateSelection(function(index) {
+            selectedRows.push(index);
+          });
+          if (selectedRows.indexOf(this.__focusedRowOnDrag) != -1) {
+            e.addData(type, items);
+          } else {
+            var dataCellIndex = this.getTableModel().getColumnCount() - 1;
+            var item = this.getTableModel().getValue(dataCellIndex, this.__focusedRowOnDrag);
+            e.addData(type, new qx.data.Array([item]));
+          }
         }
 
       }, this);
