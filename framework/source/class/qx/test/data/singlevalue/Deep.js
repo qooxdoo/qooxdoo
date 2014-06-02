@@ -152,7 +152,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       m.bind("a.b", t, "a", {converter : spy});
 
       this.assertCalledOnce(spy);
-      this.assertCalledWith(spy, null, undefined, m, t);
+      this.assertCalledWith(spy, undefined, undefined, m, t);
       this.assertEquals(123, t.getA());
 
       m.dispose();
