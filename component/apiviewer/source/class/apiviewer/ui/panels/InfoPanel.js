@@ -1295,6 +1295,9 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * @param el {Element} The element containing the links.
      */
     _postProcessLinks : function(el) {
+      if (el._processed) {
+        return;
+      }
       q(el).on("pointerup", function(e) {
         var target = e.getTarget();
         var mouseup = target.getAttribute("onmouseup");
@@ -1326,6 +1329,8 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           Function(click)();
         }
       });
+
+      el._processed = true;
     }
   },
 
