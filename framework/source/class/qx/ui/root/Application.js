@@ -204,8 +204,10 @@ qx.Class.define("qx.ui.root.Application",
         var touchAction = qx.bom.element.Style.get(node, "touch-action") !== "none" &&
           qx.bom.element.Style.get(node, "touch-action") !== "";
         var webkitOverflowScrolling = qx.bom.element.Style.get(node, "-webkit-overflow-scrolling") === "touch";
+        var overflowX = qx.bom.element.Style.get(node, "overflowX") != "hidden";
+        var overflowY = qx.bom.element.Style.get(node, "overflowY") != "hidden";
 
-        if (touchAction || webkitOverflowScrolling) {
+        if (touchAction || webkitOverflowScrolling || overflowY || overflowX) {
           return;
         }
         node = node.parentNode;

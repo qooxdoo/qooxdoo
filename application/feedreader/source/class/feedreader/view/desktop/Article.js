@@ -48,7 +48,8 @@ qx.Class.define("feedreader.view.desktop.Article",
     // Configure
     this.setCssClass("blogEntry");
     this.setOverflowY("auto");
-    this.setBackgroundColor("white")
+    this.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
+    this.setBackgroundColor("white");
   },
 
 
