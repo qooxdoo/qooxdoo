@@ -307,6 +307,7 @@
       var fileCounter = 0;
       files.forEach(function (file) {
         if (file.level === 2) {
+          var demoDataJsonFilePath = path.dirname(dataGenerator.config.demoDataJsonFile);
           var demoCategory = dataGenerator.getDemoCategoryFromFile(file.path);
           var className = path.join(
             'demobrowser',
@@ -315,8 +316,8 @@
             demoCategory.name
           );
 
-          if (!fs.existsSync(path.join('source', 'script'))) {
-            fs.mkdirSync(path.join('source', 'script'));
+          if (!fs.existsSync(demoDataJsonFilePath)) {
+            fs.mkdirSync(demoDataJsonFilePath);
           }
 
           var jsFilePath = path.join(dataGenerator.config.classPath, className + '.js');
@@ -326,8 +327,7 @@
             dataGenerator.copyJsFile(
               jsFilePath,
               path.join(
-                'source',
-                'script',
+                demoDataJsonFilePath,
                 util.format(
                   'demobrowser.demo.%s.%s.js',
                   demoCategory.category,
