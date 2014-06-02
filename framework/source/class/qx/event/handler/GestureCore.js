@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove"],
 
-    TAP_MAX_DISTANCE : {"touch": 40, "mouse": 20, "pen": 20}, // values are educated guesses
+    TAP_MAX_DISTANCE : {"touch": 40, "mouse": 50, "pen": 20}, // values are educated guesses
 
     /** @type {Map} The direction of a swipe relative to the axis */
     SWIPE_DIRECTION :
