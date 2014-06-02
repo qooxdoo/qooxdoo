@@ -35,6 +35,20 @@
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+// Fix for iOS 7 webkit-scrolling issue on orientationchange.
+// Scrolling did not work anymore if user triggered an device orientation change.
+@media (orientation: landscape) {
+  .root.ios .scroll.native > * {
+    -webkit-animation: fixWebkitOverflowScroll 1s;
+  }
+
+  @-webkit-keyframes fixWebkitOverflowScroll
+  {
+    0% {height: 5000px;}
+    100% {height: auto;}
+  }
+}
+
 .scrollbarV > div {
   @include background-clip(padding-box);
   @include box-sizing(border-box);
