@@ -107,7 +107,7 @@ qx.Class.define("mobileshowcase.page.List",
      */
     _createModel: function() {
       var data = [];
-      for (var i = 0; i < 100; i++) {
+      for (var i = 0; i < 50; i++) {
         data.push({
           title: "Item #" + i,
           subtitle: "Subtitle for Item #" + i,

@@ -230,9 +230,6 @@ qx.Class.define("qx.ui.mobile.list.List",
           qx.bom.element.Class.has(element, "removable")) {
         this.__trackElement = element;
 
-        qx.bom.element.Style.set(element, "transform", "translateX(0)");
-        qx.bom.element.Style.set(element, "opacity", "1");
-
         this.__minDeleteDistance = qx.bom.element.Dimension.getWidth(element) / 2;
         qx.bom.element.Class.add(element, "track");
       }
@@ -263,10 +260,8 @@ qx.Class.define("qx.ui.mobile.list.List",
       var opacity = 1 - (Math.abs(deltaX) / this.__minDeleteDistance);
       opacity = Math.round(opacity * 100) / 100;
 
-      qx.bom.AnimationFrame.request(function() {
-        qx.bom.element.Style.set(element, "transform", "translateX(" + deltaX + "px)");
-        qx.bom.element.Style.set(element, "opacity", opacity);
-      }.bind(this));
+      qx.bom.element.Style.set(element, "transform", "translate3d(" + deltaX + "px,0,0)");
+      qx.bom.element.Style.set(element, "opacity", opacity);
 
       evt.preventDefault();
     },
@@ -285,13 +280,13 @@ qx.Class.define("qx.ui.mobile.list.List",
       if (Math.abs(evt.getDelta().x) > this.__minDeleteDistance) {
         var row = parseInt(element.getAttribute("data-row"), 10);
         this.fireDataEvent("removeItem", row);
+      } else {
+        qx.bom.AnimationFrame.request(function() {
+          qx.bom.element.Style.set(element, "transform", "translate3d(0,0,0)");
+          qx.bom.element.Style.set(element, "opacity", "1");
+          qx.bom.element.Class.remove(element, "track");
+        }.bind(this));
       }
-
-      qx.bom.AnimationFrame.request(function() {
-        qx.bom.element.Style.set(element, "transform", "translateX(0)");
-        qx.bom.element.Style.set(element, "opacity", "1");
-        qx.bom.element.Class.remove(element, "track");
-      }.bind(this));
     },
 
 
