@@ -259,6 +259,8 @@ body {
   bottom: 0;
   right: 0;
 
+  -webkit-overflow-scrolling: touch;
+
   -moz-transition: left 500ms, top 500ms;
   -webkit-transition: left 500ms, top 500ms;
   -o-transition: left 500ms, top 500ms;
