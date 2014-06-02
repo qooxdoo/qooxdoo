@@ -39,13 +39,13 @@
 // Scrolling did not work anymore if user triggered an device orientation change.
 @media (orientation: landscape) {
   .root.ios .scroll.native > * {
-    -webkit-animation: fixWebkitOverflowScroll 1s;
+    -webkit-animation: fixWebkitOverflowScroll 1ms;
   }
 
   @-webkit-keyframes fixWebkitOverflowScroll
   {
-    0% {height: 5000px;}
-    100% {height: auto;}
+    0% {padding-bottom: 1px;}
+    100% {padding-bottom: 0px}
   }
 }
 
