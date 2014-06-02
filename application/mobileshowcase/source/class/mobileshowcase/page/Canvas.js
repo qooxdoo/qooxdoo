@@ -58,6 +58,10 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
       this.getRightContainer().add(clearButton);
 
+      var canvasSize = Math.max(qx.bom.Viewport.getWidth() * 1.5, qx.bom.Viewport.getHeight() * 1.5);
+      this.__canvasWidth = canvasSize;
+      this.__canvasHeight = canvasSize;
+
       var canvas = this.__canvas = new qx.ui.mobile.embed.Canvas();
 
       canvas.addListener("trackstart", this._onTrackStart, this);
