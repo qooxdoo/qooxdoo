@@ -304,7 +304,7 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
       } else {
         var iconId = 'datepicker-icon-' + collection.getProperty('uniqueId');
 
-        // check if there is also an icon
+        // check if there is already an icon
         if (collection.getProperty('iconId') === undefined) {
           collection.setProperty('iconId', iconId);
 
