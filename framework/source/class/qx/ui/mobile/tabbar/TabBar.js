@@ -104,12 +104,22 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
      *
      * @param evt {qx.event.type.Tap} The event object
      */
-    _onTap : function(evt)
-    {
+    _onTap: function(evt) {
       var target = evt.getTarget();
-      if (target instanceof qx.ui.mobile.tabbar.TabButton) {
-        this.setSelection(target);
+
+      while (!(target instanceof qx.ui.mobile.tabbar.TabButton)) {
+        if (target.getLayoutParent) {
+          var layoutParent = target.getLayoutParent();
+          if (layoutParent == null || layoutParent instanceof qx.ui.mobile.core.Root) {
+            return null;
+          }
+          target = layoutParent;
+        } else {
+          return null;
+        }
       }
+
+      this.setSelection(target);
     },
 
 
