@@ -651,9 +651,9 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       var delta = e.getDelta().y;
       if (delta < 0) {
-        this._countDown();
-      } else if (delta > 0) {
         this._countUp();
+      } else if (delta > 0) {
+        this._countDown();
       }
 
       e.stop();

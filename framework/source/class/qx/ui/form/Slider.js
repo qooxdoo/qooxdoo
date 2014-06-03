@@ -343,7 +343,7 @@ qx.Class.define("qx.ui.form.Slider",
       var axis = this.getOrientation() === "horizontal" ? "x" : "y";
       var delta = e.getDelta()[axis];
 
-      var direction =  delta < 0 ? 1 : delta > 0 ? -1 : 0;
+      var direction =  delta > 0 ? 1 : delta < 0 ? -1 : 0;
       this.slideBy(direction * this.getSingleStep());
 
       e.stop();

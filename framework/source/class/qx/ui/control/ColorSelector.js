@@ -863,7 +863,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         return;
       }
 
-      this.setBrightness(qx.lang.Number.limit((this.getBrightness() + (e.getDelta().y / 10)), 0, 100));
+      this.setBrightness(qx.lang.Number.limit((this.getBrightness() - (e.getDelta().y / 10)), 0, 100));
     },
 
 
@@ -974,8 +974,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       var delta = e.getDelta();
-      this.setSaturation(qx.lang.Number.limit(this.getSaturation() + delta.y / 10, 0, 100));
-      this.setHue(qx.lang.Number.limit(this.getHue() - delta.x / 10, 0, 360));
+      this.setSaturation(qx.lang.Number.limit(this.getSaturation() - delta.y / 10, 0, 100));
+      this.setHue(qx.lang.Number.limit(this.getHue() + delta.x / 10, 0, 360));
     },
 
 
