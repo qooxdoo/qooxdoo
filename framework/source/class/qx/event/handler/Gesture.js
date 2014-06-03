@@ -46,7 +46,7 @@ qx.Class.define("qx.event.handler.Gesture",
       roll : 1
     },
 
-    GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove"],
+    GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove", "gesturecancel"],
 
     /** @type {Integer} Which target check to use */
     TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE + qx.event.IEventHandler.TARGET_DOCUMENT,

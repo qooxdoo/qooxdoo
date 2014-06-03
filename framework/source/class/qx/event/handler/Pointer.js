@@ -44,7 +44,8 @@ qx.Class.define("qx.event.handler.Pointer",
 
       gesturebegin : 1,
       gesturemove : 1,
-      gesturefinish : 1
+      gesturefinish : 1,
+      gesturecancel : 1
     },
 
     /** @type {Integer} Which target check to use */
@@ -136,7 +137,7 @@ qx.Class.define("qx.event.handler.Pointer",
           [domEvent, target, null, true, true]
         );
 
-        if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
+        if (type == "pointerdown" || type == "pointerup" || type == "pointermove" || type == "pointercancel") {
           qx.event.Registration.fireEvent(
             this.__root,
             qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],

@@ -29,7 +29,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     TYPES : ["tap", "swipe", "longtap", "dbltap", "track", "trackstart", "trackend", "rotate", "pinch", "roll"],
 
-    GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove"],
+    GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove", "gesturecancel"],
 
     TAP_MAX_DISTANCE : {"touch": 40, "mouse": 50, "pen": 20}, // values are educated guesses
 
@@ -155,6 +155,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         this.gestureMove(domEvent, target);
       } else if (type == "gesturefinish") {
         this.gestureFinish(domEvent, target);
+      } else if (type == "gesturecancel") {
+        this.gestureCancel(domEvent, target);
       }
     },
 
@@ -243,6 +245,21 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             this.__stopLongTapTimer(gesture);
           }
         }
+      }
+    },
+
+
+    /**
+     * Helper method for gesture cancel.
+     *
+     * @param domEvent {Event} DOM event
+     * @param target {Element} event target
+     */
+     gestureCancel : function(domEvent, target) {
+      var gesture = this.__gesture[domEvent.pointerId];
+
+      if (gesture) {
+        delete this.__gesture[domEvent.pointerId];
       }
     },
 
