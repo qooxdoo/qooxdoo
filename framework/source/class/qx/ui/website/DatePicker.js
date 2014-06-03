@@ -112,7 +112,7 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      * @attach {qxWeb}
      */
     datepicker : function(date) {
-      var datepicker =  new qx.ui.website.DatePicker(this);
+      var datepicker = new qx.ui.website.DatePicker(this);
       datepicker.init(date);
 
       return datepicker;
@@ -303,23 +303,28 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         }
       } else {
         var iconId = 'datepicker-icon-' + collection.getProperty('uniqueId');
-        collection.setProperty('iconId', iconId);
 
-        icon = qxWeb.create('<img>');
+        // check if there is also an icon
+        if (collection.getProperty('iconId') === undefined) {
+          collection.setProperty('iconId', iconId);
 
-        icon.setAttributes({
-          id: iconId,
-          src: collection.getConfig('icon')
-        });
+          icon = qxWeb.create('<img>');
 
-        icon.addClass(this.getCssPrefix() + '-icon');
+          icon.setAttributes({
+            id: iconId,
+            src: collection.getConfig('icon')
+          });
 
-        var openingMode = collection.getConfig('mode');
-        if (openingMode === 'icon' || openingMode === 'both') {
-          icon.on('tap', this._onTap, collection);
+          icon.addClass(this.getCssPrefix() + '-icon');
+
+          var openingMode = collection.getConfig('mode');
+          if (openingMode === 'icon' || openingMode === 'both') {
+            icon.on('tap', this._onTap, collection);
+          }
+
+          icon.insertAfter(collection);
         }
 
-        icon.insertAfter(collection);
       }
     },
 

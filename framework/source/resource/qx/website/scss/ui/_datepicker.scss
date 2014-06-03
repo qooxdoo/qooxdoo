@@ -5,7 +5,9 @@
 .qx-datepicker-icon {
   cursor: pointer;
   vertical-align: top;
-  margin-left: 4px;
+  margin-left: rem(4);
+  width: rem(22);
+  height: rem(22);
 }
 
 .qx-datepicker[disabled] + .qx-datepicker-icon {
