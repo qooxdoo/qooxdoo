@@ -265,7 +265,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
             "transform": "translate3d("+endX+"px,"+ endY+"px,0)"
           }
         },
-        "timing": "ease-out",
+        "timing": "ease-out"
       };
 
       if (element && element.children.length > 0) {
