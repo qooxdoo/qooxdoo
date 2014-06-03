@@ -37,6 +37,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     this.setOverflowY("auto");
 
     this.getContentElement().setStyle("-webkit-overflow-scrolling", "touch");
+    this.getContentElement().setStyle("touch-action", "pan-y");
+    this.getContentElement().setStyle("-ms-touch-action", "pan-y");
 
     this.setAppearance("detailviewer");
 

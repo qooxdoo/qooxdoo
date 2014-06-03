@@ -1603,6 +1603,8 @@ qx.Class.define("qx.ui.core.Widget",
       var el = this._createContentElement();
 
       el.setAttribute("$$widget", this.toHashCode());
+      // make sure to allow all pointer events
+      el.setStyles({"touch-action": "none", "-ms-touch-action" : "none"});
 
       if (qx.core.Environment.get("qx.debug")) {
         el.setAttribute("qxClass", this.classname);
