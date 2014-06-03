@@ -272,6 +272,9 @@ qx.Class.define("qx.ui.mobile.layout.Card",
      */
     __startAnimation : function(widget)
     {
+      if (widget.isDisposed()) {
+        return;
+      }
       // Fix size of current and next widget, then start animation.
       this.__inAnimation = true;
 
