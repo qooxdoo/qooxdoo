@@ -287,16 +287,10 @@ qx.Class.define("qx.ui.form.Button",
         this.removeState("pressed");
       }
 
-      if (hasAbandoned)
-      {
+      if (hasAbandoned) {
         this.removeState("abandoned");
       }
-      else
-      {
-        if (hasPressed) {
-          this.execute();
-        }
-      }
+
       e.stopPropagation();
     },
 
@@ -307,6 +301,7 @@ qx.Class.define("qx.ui.form.Button",
      * @param e {qx.event.type.Pointer} Pointer event
      */
     _onTap : function(e) {
+      this.execute();
       e.stopPropagation();
     },
 
