@@ -2750,8 +2750,18 @@ testrunner.define({
 
     var blockerDiv = document.__blocker.div;
     this.assertTrue(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
-    this.assertEquals(q(document).getWidth(), blockerDiv.getWidth());
-    this.assertEquals(q(document).getHeight(), blockerDiv.getHeight());
+
+    var os = q.env.get("os.name");
+    if (os == "android" || os == "ios") {
+      // in WebKit on Android and iOS, the blocker will sometimes be 1 pixel
+      // higher and/or wider than the viewport
+      this.assertTrue(Math.abs(blockerDiv.getWidth() - q(window).getWidth()) < 2);
+      this.assertTrue(Math.abs(blockerDiv.getHeight() - q(window).getHeight()) < 2);
+    } else {
+      this.assertEquals(q(window).getWidth(), blockerDiv.getWidth());
+      this.assertEquals(q(window).getHeight(), blockerDiv.getHeight());
+    }
+
     this.assertEquals(q(document.body).getChildren(":first")[0], blockerDiv[0]);
     this.assertEquals('fixed', blockerDiv.getStyle("position"));
     this.assertEquals('100%', blockerDiv[0].style.width);
@@ -2760,11 +2770,6 @@ testrunner.define({
     q(document).unblock();
 
     this.assertFalse(q.$$qx.dom.Hierarchy.isRendered(blockerDiv[0]));
-  },
-
-  testBlockWindow : function() {
-    // q(window).block();
-
   },
 
   testGetBlockerElements : function() {
