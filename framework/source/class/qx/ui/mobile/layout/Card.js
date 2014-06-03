@@ -198,10 +198,19 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       }
 
       this.__nextWidget = widget;
+
+
       if (this.__currentWidget && this.getShowAnimation() && qx.core.Environment.get("css.transform.3d")) {
         properties = properties || {};
 
+        // both are explicit identity checks for null
+        if (properties.animation === null || this.getCardAnimation().getMap()[properties.animation] === null) {
+          this._swapWidget();
+          return;
+        }
+
         this.__animation = properties.animation || this.getDefaultAnimation();
+
         if (properties.action && properties.action === "back") {
           this.__reverse = true;
         } else {

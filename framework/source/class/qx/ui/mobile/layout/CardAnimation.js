@@ -37,6 +37,7 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation",
     this.base(arguments);
 
     this._cardAnimationsMap = {
+      "none": null,
       "slide": {
         "in": qx.util.Animation.SLIDE_LEFT_IN,
         "out": qx.util.Animation.SLIDE_LEFT_OUT,
