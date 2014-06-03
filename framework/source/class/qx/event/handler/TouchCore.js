@@ -298,7 +298,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         }
       }
 
-      if (type == "touchend" || type == "touchcancel") {
+      if (type == "touchend" || type == "touchcancel" && domEvent.changedTouches[0]) {
         delete this.__touchStartPosition[domEvent.changedTouches[0].identifier];
       }
     },
