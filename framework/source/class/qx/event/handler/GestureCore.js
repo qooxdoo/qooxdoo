@@ -390,7 +390,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __handleRollImpulse : function(deltaX, deltaY, domEvent, target, time) {
       var oldTimeoutId = domEvent.timeoutId;
       // do nothing if we don't need to scroll
-      if ((Math.abs(deltaY) < 0.1 && Math.abs(deltaX) < 0.1) || this.__stopMomentum[oldTimeoutId]) {
+      if ((Math.abs(deltaY) < 1 && Math.abs(deltaX) < 1) || this.__stopMomentum[oldTimeoutId]) {
         delete this.__stopMomentum[oldTimeoutId];
         return;
       }
