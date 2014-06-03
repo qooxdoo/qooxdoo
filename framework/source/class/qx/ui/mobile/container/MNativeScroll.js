@@ -259,10 +259,10 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
         "duration": time,
         "keyFrames": {
           0: {
-            "transform": "translate3d("+startX+"px,"+ startY+"px,0)"
+            "transform": "translate3d(" + startX + "px," + startY + "px,0)"
           },
           100: {
-            "transform": "translate3d("+endX+"px,"+ endY+"px,0)"
+            "transform": "translate3d(" + endX + "px," + endY + "px,0)"
           }
         },
         "timing": "ease-out"
