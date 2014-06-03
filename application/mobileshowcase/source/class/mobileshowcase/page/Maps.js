@@ -94,6 +94,11 @@ qx.Class.define("mobileshowcase.page.Maps",
 
     // overridden
     _createContent : function() {
+      // Disable menu for Windows Phone 8.
+      if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+        return null;
+      }
+
       var menuContainer = new qx.ui.mobile.container.Composite();
       menuContainer.setId("mapMenu");
 
