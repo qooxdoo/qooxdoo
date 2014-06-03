@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       } else if (type == "gesturefinish") {
         this.gestureFinish(domEvent, target);
       } else if (type == "gesturecancel") {
-        this.gestureCancel(domEvent, target);
+        this.gestureCancel(domEvent.pointerId);
       }
     },
 
@@ -245,21 +245,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             this.__stopLongTapTimer(gesture);
           }
         }
-      }
-    },
-
-
-    /**
-     * Helper method for gesture cancel.
-     *
-     * @param domEvent {Event} DOM event
-     * @param target {Element} event target
-     */
-     gestureCancel : function(domEvent, target) {
-      var gesture = this.__gesture[domEvent.pointerId];
-
-      if (gesture) {
-        delete this.__gesture[domEvent.pointerId];
       }
     },
 
@@ -371,7 +356,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * Cancels the gesture if running.
      * @param id {Number} The pointer Id.
      */
-    cancelGesture : function(id) {
+    gestureCancel : function(id) {
       if (this.__gesture[id]) {
         this.__stopLongTapTimer(this.__gesture[id]);
         delete this.__gesture[id];
