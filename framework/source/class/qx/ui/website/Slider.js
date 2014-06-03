@@ -178,7 +178,8 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
       this._forEachElementWrapped(function(slider) {
         slider.$onFirstCollection("pointerup", slider._onSliderPointerUp, slider)
-        .$onFirstCollection("focus", slider._onSliderFocus, slider);
+        .$onFirstCollection("focus", slider._onSliderFocus, slider)
+        .setStyle("touch-action", "pan-y");
         qxWeb(document).on("pointerup", slider._onDocPointerUp, slider);
         qxWeb(window).$onFirstCollection("resize", slider._onWindowResize, slider);
 
