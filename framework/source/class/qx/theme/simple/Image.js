@@ -24,6 +24,7 @@
  * Mapping class for all images used in the simple theme.
  *
  * @asset(qx/decoration/Simple/*)
+ * @asset(qx/static/blank.png)
  */
 qx.Class.define("qx.theme.simple.Image",
 {
@@ -37,7 +38,7 @@ qx.Class.define("qx.theme.simple.Image",
      */
     URLS :
     {
-      "blank" : "qx/static/blank.gif",
+      "blank" : "qx/static/blank.png",
 
       // checkbox
       "checkbox-checked" : "decoration/checkbox/checked.png",
