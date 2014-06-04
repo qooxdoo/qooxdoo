@@ -110,16 +110,19 @@ qx.Class.define("qx.ui.mobile.tabbar.TabBar",
       while (!(target instanceof qx.ui.mobile.tabbar.TabButton)) {
         if (target.getLayoutParent) {
           var layoutParent = target.getLayoutParent();
-          if (layoutParent == null || layoutParent instanceof qx.ui.mobile.core.Root) {
-            return null;
+          if (layoutParent == null || layoutParent instanceof qx.ui.mobile.tabbar.TabBar) {
+            target = null;
+            break;
           }
           target = layoutParent;
         } else {
-          return null;
+          target = null;
+          break;
         }
       }
-
-      this.setSelection(target);
+      if (target !== null) {
+        this.setSelection(target);
+      }
     },
 
 
