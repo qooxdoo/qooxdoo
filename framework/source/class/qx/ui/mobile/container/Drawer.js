@@ -181,6 +181,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     __pointerStartPosition : null,
     __parent : null,
     __transitionEnabled : null,
+    __inTransition : null,
 
 
     // property apply
@@ -324,9 +325,11 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      */
     show : function()
     {
-      if(!this.isHidden()) {
+      if(!this.isHidden() || this.__inTransition === true) {
         return;
       }
+
+      this.__inTransition = true;
 
       // Make drawer visibile before "changeVisibility" event is fired, after transition.
       this._setStyle("visibility", "visible");
@@ -353,7 +356,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         var listenerId = qx.bom.Element.addListener(transitionTarget, "transitionEnd", function(evt) {
           this.base(callArguments);
           this._disableTransition();
-          this.__parent.removeCssClass("blocked");
+          this.__inTransition = false;
           qx.bom.Element.removeListenerById(transitionTarget, listenerId);
         }, this);
 
@@ -362,8 +365,8 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         }.bind(this), 0);
       } else {
         this.base(arguments);
+        this.__inTransition = false;
         this.removeCssClass("hidden");
-        this.__parent.removeCssClass("blocked");
       }
     },
 
@@ -372,9 +375,11 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
      * Hides the drawer.
      */
     hide : function() {
-      if(this.isHidden()) {
+      if(this.isHidden() || this.__inTransition === true) {
         return;
       }
+
+      this.__inTransition = true;
 
       if (this.getPositionZ() == "below") {
         this.__parent.setTranslateX(0);
@@ -390,6 +395,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
           this.base(callArguments);
           this._disableTransition();
           this.__parent.removeCssClass("blocked");
+          this.__inTransition = false;
           qx.bom.Element.removeListenerById(transitionTarget, listenerId);
         }, this);
 
@@ -399,6 +405,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       } else {
         this.base(arguments);
         this.addCssClass("hidden");
+        this.__inTransition = false;
         this.__parent.removeCssClass("blocked");
       }
     },
