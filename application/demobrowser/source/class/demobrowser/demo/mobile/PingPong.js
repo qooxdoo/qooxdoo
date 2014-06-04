@@ -76,19 +76,21 @@ qx.Class.define("demobrowser.demo.mobile.PingPong",
       root.useElement(document.body);
       root.setRoot(true);
 
-      if (qx.core.Environment.get("engine.name") != "webkit")
+      var engine = qx.core.Environment.get("engine.name");
+      var modernIe = engine == "mshtml" && qx.core.Environment.get("browser.documentmode") > 10;
+      if (engine != "webkit" && !modernIe)
       {
         var warningLabelStyle = {
           "color" : "green",
+          "position" : "absolute",
           "font-family": 'Lucida Grande',
           "font-size" : "12px",
-          "position" : "absolute",
           "left" : "30px",
           "top" : "20px"
         };
         var label = new qx.html.Element("div", warningLabelStyle);
         root.add(label);
-        label.setAttribute("innerHTML", "<b>This demo is supposed to be run in a WebKit-based browser.</b>");
+        label.setAttribute("innerHTML", "<b>This demo is intended for WebKit-based browsers and IE11+.</b>");
         return;
       }
 
