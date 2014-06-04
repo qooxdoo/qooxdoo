@@ -285,6 +285,11 @@ qx.Class.define("mobileshowcase.page.Event",
     * @param y {Integer} pointer position y.
     */
     _setPointerCirclePosition : function(pointerId,x,y) {
+      // Disable pointer circles Windows Phone 8 as no pointer-events:none is available.
+      if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+        return;
+      }
+
       var pointer = this.__pointers[pointerId];
       if (pointer && pointer.target && pointer.remove == false) {
         pointer.target.setTranslateX(x);
