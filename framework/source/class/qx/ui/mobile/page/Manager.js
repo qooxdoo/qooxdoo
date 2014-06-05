@@ -103,12 +103,12 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__detailNavigation.getLayout().setShowAnimation(false);
 
       this.__masterContainer.forceHide();
-
-      if (qx.bom.Viewport.isLandscape()) {
-        setTimeout(function() {
+      
+      setTimeout(function() {
+        if (qx.bom.Viewport.isLandscape()) {
           this.__masterContainer.show();
-        }.bind(this), 0);
-      }
+        }
+      }.bind(this), 300);
     } else {
       root.add(this.__detailNavigation, {flex:1});
     }
