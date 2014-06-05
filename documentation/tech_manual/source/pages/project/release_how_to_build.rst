@@ -392,7 +392,7 @@ Nightly Testing
 ---------------
 
 * Contribution skeleton test: Create a symlink to the qx git repo as expected by the demo's config.json ("../../../../qooxdoo/${QXVERSION}")
-* Branch application tests: Create a remote tracking branch for the maintenance branch and update the test config accordingly
+* Branch application tests: Update the maintenance branch name in the ``qooxdoo-git-update-patch`` job's Source Code Management and Execute Shell sections
 
 .. _pages/project/release_how_to_build.rst#announcements:
 
