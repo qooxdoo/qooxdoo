@@ -329,7 +329,7 @@
               path.join(
                 demoDataJsonFilePath,
                 util.format(
-                  'demobrowser.demo.%s.%s.js',
+                  'demobrowser.demo.%s.%s.src.js',
                   demoCategory.category,
                   demoCategory.name
                 )
