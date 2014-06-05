@@ -194,6 +194,10 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * *selectableWeekDays*
      *
      * Array of user-selectable week days (Sunday is 0). Default: <code>[0, 1, 2, 3, 4, 5, 6]</code> (no restrictions).
+     *
+     * *selectionMode*
+     *
+     * The Selection mode the calendar will use. Possible malues are 'single' and 'range' .Default: <code>single</code>
      */
     _config : {
       monthNames : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
