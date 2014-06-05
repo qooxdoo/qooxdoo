@@ -20,6 +20,7 @@
 qx.Class.define("qx.test.mobile.dialog.Menu",
 {
   extend : qx.test.mobile.MobileTestCase,
+  include : [qx.dev.unit.MMock],
 
   members :
   {
@@ -34,6 +35,8 @@ qx.Class.define("qx.test.mobile.dialog.Menu",
 
       menu.setItems(model2);
       menu.setSelectedIndex(1);
+
+      menu.destroy();
     },
 
 
@@ -56,20 +59,26 @@ qx.Class.define("qx.test.mobile.dialog.Menu",
       expected = Math.floor(expected * 100);
 
       this.assertEquals(listHeight, expected);
+
+      menu.destroy();
     },
 
 
     testMaxListHeight : function() {
+      var stub = this.stub(qx.bom.element.Dimension, "getHeight", function() {
+        return 500;
+      });
+
       var model = new qx.data.Array(["item1", "item2", "item3", "item1", "item2", "item3",
-        "item1", "item2", "item3", "item1", "item2", "item3"
+        "item1", "item2", "item3", "item1", "item2", "item3", "item2", "item3", "item2", "item3",  "item1", "item2", "item3",  "item1", "item2", "item3"
       ]);
 
       var menu = new qx.ui.mobile.dialog.Menu(model);
 
-      menu.setVisibleListItems(100000);
+      menu.setVisibleListItems(1000);
       menu.show();
 
-      var parentHeight = qx.bom.element.Style.get(qx.ui.mobile.dialog.Popup.ROOT.getContentElement(), "height");
+      var parentHeight =  qx.ui.mobile.dialog.Popup.ROOT.getHeight();
       parentHeight = parseInt(parentHeight, 10);
       parentHeight = parentHeight * 0.75;
 
@@ -78,7 +87,10 @@ qx.Class.define("qx.test.mobile.dialog.Menu",
       var listHeight = qx.bom.element.Style.get(menu._getListScroller().getContentElement(), "height");
       listHeight = parseInt(listHeight, 10);
 
-      this.assertEquals(listHeight, expectedListHeight);
+      this.assertEquals(expectedListHeight,listHeight);
+
+      menu.destroy();
+      stub.restore();
     }
   }
 

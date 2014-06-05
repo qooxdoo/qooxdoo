@@ -233,15 +233,13 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
     // overridden
     _updatePosition : function() {
-      var parentHeight = qx.bom.element.Style.get(qx.ui.mobile.dialog.Popup.ROOT.getContentElement(),"height");
+      var parentHeight = qx.ui.mobile.dialog.Popup.ROOT.getHeight();
       var listScrollerHeight = parseInt(parentHeight, 10) * 0.75;
       listScrollerHeight = parseInt(listScrollerHeight,10);
 
       if (this.getVisibleListItems() !== null) {
         var newListScrollerHeight = this.__selectionList.getListItemHeight() * this.getVisibleListItems();
-        if(newListScrollerHeight < listScrollerHeight) {
-          listScrollerHeight = newListScrollerHeight;
-        }
+        listScrollerHeight = Math.min(newListScrollerHeight, listScrollerHeight);
       }
 
       qx.bom.element.Style.set(this.__listScroller.getContainerElement(), "maxHeight", listScrollerHeight + "px");
