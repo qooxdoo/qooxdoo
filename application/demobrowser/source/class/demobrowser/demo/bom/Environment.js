@@ -64,8 +64,14 @@ qx.Class.define("demobrowser.demo.bom.Environment",
           output.add("<tr><td colspan='2'><b>" + prefix + "</b></td></tr>");
         }
 
+        var value = qx.core.Environment.get(key);
+        if (key == "event.mousewheel") {
+          // the 'target' property value is a Window object which cannot
+          // be serialized due to circular references.
+          value.target = value.target.toString();
+        }
         output.add("<tr><td>", key, "</td><td>",
-          qx.lang.Json.stringify(qx.core.Environment.get(key), null, 2), "</td></tr>");
+          qx.lang.Json.stringify(value, null, 2), "</td></tr>");
       }
 
 
