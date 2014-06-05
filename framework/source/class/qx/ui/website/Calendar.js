@@ -421,7 +421,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         }
         range.push(newStr);
 
-        this.setProperty("__range", range;
+        this.setProperty("__range", range);
         range = range.map(function(item){
           return new Date(item);
         });
