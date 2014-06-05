@@ -197,7 +197,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * *selectionMode*
      *
-     * The Selection mode the calendar will use. Possible malues are 'single' and 'range' .Default: <code>single</code>
+     * The Selection mode the calendar will use. Possible values are 'single' and 'range' . Default: <code>single</code>
      */
     _config : {
       monthNames : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
