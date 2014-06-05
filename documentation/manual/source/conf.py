@@ -56,9 +56,9 @@ copyright = u'2011-2013, 1&1 Internet AG'
 # built documents.
 #
 # The short X.Y version.
-version = '3.5.1'
+version = '3.5.2'
 # The full version, including alpha/beta/rc tags.
-release = '3.5.1'
+release = '3.5.2'
 # The current git branch (used for github links)
 git_branch = "branch_3_5_x"
 
@@ -66,7 +66,7 @@ git_branch = "branch_3_5_x"
 # use e.g. as "%{version}" anywhere in .rst files
 vMajor = "3"
 vMinor = "5"
-vPatch = "1"
+vPatch = "2"
 qxmacros = {
     "version"  : vMajor + '.' + vMinor + (('.' + vPatch) if vPatch else '')
    ,"versionL" : vMajor + '.' + vMinor + '.x' # latest in this line
