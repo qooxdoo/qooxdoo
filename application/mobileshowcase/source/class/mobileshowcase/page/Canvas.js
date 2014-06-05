@@ -41,8 +41,7 @@ qx.Class.define("mobileshowcase.page.Canvas",
     __canvasTop : 0,
     __canvas : null,
     __lastPoint : null,
-    __canvasWidth : 1000,
-    __canvasHeight : 1000,
+    __canvasSize : 1000,
     __ratio : 1,
 
 
@@ -59,8 +58,11 @@ qx.Class.define("mobileshowcase.page.Canvas",
       this.getRightContainer().add(clearButton);
 
       var canvasSize = Math.max(qx.bom.Viewport.getWidth() * 1.5, qx.bom.Viewport.getHeight() * 1.5);
-      this.__canvasWidth = canvasSize;
-      this.__canvasHeight = canvasSize;
+      
+      // Limit to maximum canvas size of iOS devices.
+      canvasSize = Math.min(canvasSize, 1448 / this.__ratio);
+      
+      this.__canvasSize = canvasSize;
 
       var canvas = this.__canvas = new qx.ui.mobile.embed.Canvas();
 
@@ -70,10 +72,10 @@ qx.Class.define("mobileshowcase.page.Canvas",
 
       canvas.addListener("touchstart", qx.bom.Event.preventDefault, this);
 
-      canvas.setWidth(this._to(this.__canvasWidth));
-      canvas.setHeight(this._to(this.__canvasHeight));
-      qx.bom.element.Style.set(canvas.getContentElement(),"width", this.__canvasWidth + "px");
-      qx.bom.element.Style.set(canvas.getContentElement(),"height", this.__canvasHeight + "px");
+      canvas.setWidth(this._to(this.__canvasSize));
+      canvas.setHeight(this._to(this.__canvasSize));
+      qx.bom.element.Style.set(canvas.getContentElement(),"width", this.__canvasSize + "px");
+      qx.bom.element.Style.set(canvas.getContentElement(),"height", this.__canvasSize + "px");
 
       this.getContent().add(canvas);
 
@@ -126,9 +128,9 @@ qx.Class.define("mobileshowcase.page.Canvas",
     __clearCanvas: function() {
       this.__canvas.getContentElement().width = this.__canvas.getContentElement().width;
       var ctx = this.__canvas.getContext2d();
-      ctx.clearRect(0, 0, this._to(this.__canvasWidth), this._to(this.__canvasHeight));
+      ctx.clearRect(0, 0, this._to(this.__canvasSize), this._to(this.__canvasSize));
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, this._to(this.__canvasWidth), this._to(this.__canvasHeight));
+      ctx.fillRect(0, 0, this._to(this.__canvasSize), this._to(this.__canvasSize));
       ctx.fill();
     },
 
