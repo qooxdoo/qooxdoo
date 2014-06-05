@@ -102,7 +102,13 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__masterNavigation.getLayout().setShowAnimation(false);
       this.__detailNavigation.getLayout().setShowAnimation(false);
 
-      this._onLayoutChange();
+      this.__masterContainer.forceHide();
+
+      if (qx.bom.Viewport.isLandscape()) {
+        setTimeout(function() {
+          this.__masterContainer.show();
+        }.bind(this), 0);
+      }
     } else {
       root.add(this.__detailNavigation, {flex:1});
     }
@@ -485,7 +491,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     */
     _onLayoutChange : function() {
       if (this.__isTablet) {
-
         if (qx.bom.Viewport.isLandscape()) {
           this.__masterContainer.setHideOnParentTap(false);
           if (this.__masterContainer.isHidden()) {
@@ -499,7 +504,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
           this.__masterContainer.setHideOnParentTap(true);
           this.__masterContainer.hide();
         }
-
       }
     },
 
