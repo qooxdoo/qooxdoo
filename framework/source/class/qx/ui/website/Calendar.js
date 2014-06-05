@@ -200,7 +200,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       dayNames : ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
       minDate : null,
       maxDate : null,
-      selectableWeekDays : [0, 1, 2, 3, 4, 5, 6]
+      selectableWeekDays : [0, 1, 2, 3, 4, 5, 6],
+      selectionMode : "single"
     },
 
 
@@ -277,30 +278,53 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @return {qx.ui.website.Calendar} The collection for chaining.
      */
     setValue : function(value) {
-      this._normalizeDate(value);
-
-      if (this.getConfig("selectableWeekDays").indexOf(value.getDay()) == -1) {
-        throw new Error("The given date's week day is not selectable.");
-      }
 
       var minDate = this.getConfig("minDate");
       var maxDate = this.getConfig("maxDate");
 
-      if (minDate) {
-        this._normalizeDate(minDate);
-        if (value < minDate) {
-          throw new Error("Given date " + value.toDateString() + " is earlier than configured minDate " + minDate.toDateString());
+      if (this.getConfig("selectionMode") == "single") {
+
+        this._normalizeDate(value);
+
+        if (this.getConfig("selectableWeekDays").indexOf(value.getDay()) == -1) {
+          throw new Error("The given date's week day is not selectable.");
         }
-      }
-      if (maxDate) {
-        this._normalizeDate(maxDate);
-        if (value > maxDate) {
-          throw new Error("Given date " + value.toDateString() + " is later than configured maxDate " + maxDate.toDateString());
+
+        if (minDate) {
+          this._normalizeDate(minDate);
+          if (value < minDate) {
+            throw new Error("Given date " + value.toDateString() + " is earlier than configured minDate " + minDate.toDateString());
+          }
         }
+
+        if (maxDate) {
+          this._normalizeDate(maxDate);
+          if (value > maxDate) {
+            throw new Error("Given date " + value.toDateString() + " is later than configured maxDate " + maxDate.toDateString());
+          }
+        }
+      }else if (this.getConfig("selectionMode") == "range") {
+
+        if (!this.getProperty("__range")) {
+          this.setProperty("__range", value.map(function(val){ return val.toDateString(); }))
+        }
+        if (value.length == 2) {
+          value.sort(function(a, b) {
+            return a - b;
+          });
+          value = this._generateRange(value);
+        } else {
+          this._normalizeDate(value[0]);
+        }
+
       }
+
       this.setProperty("value", value);
       this.showValue(value);
-      this.emit("changeValue", value);
+      if((this.getConfig("selectionMode") == "single") || ((this.getConfig("selectionMode") == "range") && (value.length >= 1))){
+        this.emit("changeValue", value);
+      }
+
       return this;
     },
 
@@ -324,6 +348,10 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @return {qx.ui.website.Calendar} The collection for chaining.
      */
     showValue : function(value) {
+
+      // If value is an array, show the last selected date
+      value = qx.Bootstrap.isArray(value) ? value[value.length -1] : value;
+
       this.setProperty("shownValue", value);
       var cssPrefix = this.getCssPrefix();
 
@@ -376,11 +404,40 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @param e {Event} The tap event.
      */
     _selectDay : function(e) {
+
       var day = qxWeb(e.getTarget());
       var newStr = day.getAttribute("value");
       var newValue = new Date(newStr);
-      this.setValue(newValue);
-      this.find("." + this.getCssPrefix() + "-day[value='" + newStr + "']").focus();
+
+      if (this.getConfig("selectionMode") == "range") {
+
+        if (!this.getProperty("__range")) {
+          this.setProperty("__range", []);
+        }
+
+        var range = this.getProperty("__range").slice(0);
+        if (range.length == 2) {
+          range.shift();
+        }
+        range.push(newStr);
+
+        this.setProperty("__range", range;
+        range = range.map(function(item){
+          return new Date(item);
+        });
+
+        this.setValue(range);
+        newStr = range;
+
+      }else{
+        this.setValue(newValue);
+        newStr = [newStr];
+      }
+
+      newStr.forEach(function(str){
+        this.find("." + this.getCssPrefix() + "-day[value='" + str + "']").focus();
+      }.bind(this));
+
     },
 
 
@@ -460,7 +517,11 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @return {String} The table rows as an HTML string.
      */
     _getWeekRows : function(date) {
+
+      date = qx.Bootstrap.isArray(date) ? date[date.length -1] : date;
+
       var weeks = [];
+      var value = null, valueString = null;
       var today = new Date();
       var helpDate = this._getHelpDate(date);
       var cssPrefix = this.getCssPrefix();
@@ -469,19 +530,34 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       if (minDate) {
         this._normalizeDate(minDate);
       }
+
       var maxDate = this.getConfig("maxDate");
       if (maxDate) {
         this._normalizeDate(maxDate);
       }
 
+      if (qx.Bootstrap.isArray(this.getProperty("value"))) {
+        valueString = this.getProperty("value").map(function(currentDate){ return currentDate.toDateString(); });
+      }
+
       for (var week=0; week<6; week++) {
+
         var data = {row: []};
 
         for (var i=0; i<7; i++) {
           var cssClasses = helpDate.getMonth() !== date.getMonth() ? cssPrefix + "-othermonth" : "";
-          if (this.getProperty("value")) {
-            cssClasses += helpDate.toDateString() === this.getProperty("value").toDateString() ? " " + cssPrefix + "-selected" : "";
+          if((this.getConfig("selectionMode") == "range")  && qx.Bootstrap.isArray(this.getProperty("value"))){
+            if(valueString.indexOf(helpDate.toDateString()) != -1){
+              cssClasses += cssPrefix + "-selected";
+            }
+          }else{
+            var range = this.getProperty("__range");
+            if (this.getProperty("value")) {
+              value = this.getConfig("selectionMode") == "range" ? new Date(range[range.length - 1]) : this.getProperty("value");
+              cssClasses += helpDate.toDateString() === value.toDateString() ? " " + cssPrefix + "-selected" : "";
+            }
           }
+
           cssClasses += today.toDateString() === helpDate.toDateString() ? " " + cssPrefix + "-today" : "";
 
           var disabled = "";
@@ -663,6 +739,48 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
           this.find("." + cssPrefix + "-day[value='" + buttonVal + "']").focus();
         }
       }
+    },
+
+    /**
+    * Generates a date list depending on the given range
+    *
+    * @param range {Array} Array containing the start and end values on the range
+    */
+    _generateRange : function(range) {
+
+      var list = [], current = range[0];
+
+      var minDate = this.getConfig("minDate") ? this.getConfig("minDate") : new Date(range[0].toDateString());
+      var maxDate = this.getConfig("maxDate") ? this.getConfig("maxDate") : new Date(range[1].toDateString());
+
+      this._normalizeDate(minDate);
+      this._normalizeDate(maxDate);
+
+      while(current <= range[1]){
+        this._normalizeDate(current)
+        list.push(new Date(current.toDateString()));
+        current.setDate(current.getDate() + 1);
+      }
+
+      // Removing non selectable days
+      list = list.filter(function(date){
+        return this.getConfig("selectableWeekDays").indexOf(date.getDay()) != -1;
+      }, this);
+
+      if(list.length == 0){
+        throw new Error("Given date range is not valid. Please verify the 'selectableWeekDays' config");
+      }
+
+      // Removing days out of defined min/max range
+      list = list.filter(function(date){
+       return (date >= minDate) && (date <= maxDate);
+      }, this);
+
+      if(list.length == 0){
+        throw new Error("Given date range is not valid. Please verify the 'minDate' and 'maxDate' configs");
+      }
+
+      return list;
     },
 
 
