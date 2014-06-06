@@ -79,12 +79,6 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     this.__pickerModel = new qx.data.Array();
 
     this.__pickerContainer = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox());
-
-    // Set PickerContainer anonymous on IE, because of pointer-events which should be ignored.
-    if(qx.core.Environment.get("browser.name") == "iemobile" || qx.core.Environment.get("browser.name") == "ie") {
-      this.__pickerContainer.setAnonymous(true);
-    }
-
     this.__pickerContainer.addCssClass("picker-container");
     this.__pickerContainer.addCssClass("gap");
     this.__pickerContainer.addCssClass("css-pointer-"+qx.core.Environment.get("css.pointerevents"));
@@ -111,7 +105,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
       this.setModal(true);
     }
 
-    this.base(arguments, this.__pickerContent, anchor) ;
+    this.base(arguments, this.__pickerContent, anchor);
   },
 
 
