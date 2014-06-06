@@ -11,7 +11,7 @@
 }
 
 .root.portrait .drawer:not(.hidden) + .master-detail-detail {
-  pointer-events:none;
+  @include pointer-none();
 }
 
 .master-detail-master.right {

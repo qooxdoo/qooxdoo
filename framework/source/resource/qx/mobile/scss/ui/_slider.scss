@@ -33,10 +33,10 @@
 .slider > div {
   @include border-radius($slider-border-radius);
   @include background($slider-active-area);
+  @include pointer-none();
 
   height: $slider-height;
   line-height: $slider-knob-height;
-  pointer-events: none;
   position: relative;
 }
 
@@ -45,12 +45,12 @@
   @include border-radius($slider-knob-border-radius);
   @include box-shadow(0 0 rem(3) $slider-shadow);
   @include background($slider-knob-background);
+  @include pointer-none();
 
   position: absolute;
   display: block;
   text-align: center;
   content: "";
-  pointer-events: none;
 
   border: rem(1) solid $slider-knob-border-color;
 

@@ -24,7 +24,7 @@ $dialog-arrow-space: rem(2);
 }
 
 .anchor-target {
-  pointer-events:none;
+  @include pointer-none();
 }
 
 .root.ios .popup {

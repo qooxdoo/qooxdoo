@@ -48,13 +48,13 @@
 .picker-container.css-pointer-true:after {
   @include border-radius($picker-spinning-wheel-border-radius);
   @include background($picker-spinning-wheel-overlay);
+  @include pointer-none();
 
   content:"";
 
   background-color:transparent !important;
   background-size: 100% $picker-height;
 
-  pointer-events:none;
   
   width: 100%;
   height: 100%;
@@ -71,7 +71,7 @@
 
 // Selected Area Overlay 
 .picker-container:before {
-  pointer-events:none;
+  @include pointer-none();
 
   content:"";
   

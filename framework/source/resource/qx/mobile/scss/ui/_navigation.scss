@@ -13,7 +13,7 @@
 }
 
 .navigation.blocked {
-  pointer-events: none;
+  @include pointer-none();
 }
 
 .navigation.hidden {
