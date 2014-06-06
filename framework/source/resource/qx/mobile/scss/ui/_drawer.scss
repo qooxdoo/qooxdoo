@@ -59,7 +59,7 @@
 }
 
 .drawer-parent.blocked:not(.root) > *:first-child > * {
-  pointer-events: none;
+  @include pointer-none();
 }
 
 .drawer.above:not(.master-detail-master):not(.hidden) {

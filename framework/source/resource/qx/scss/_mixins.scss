@@ -100,6 +100,13 @@
   box-sizing: $args;
 }
 
+@mixin pointer-none() {
+  -moz-pointer-events:none;
+  -webkit-pointer-events:none;
+  -ms-pointer-events:none;
+  pointer-events:none;
+}
+
 @mixin transition($args...) {
   -webkit-transition: $args;
   -moz-transition: $args;
