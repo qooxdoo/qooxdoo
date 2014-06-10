@@ -1628,14 +1628,8 @@ testrunner.define({
     this.assertEquals("affe", test[0].getAttribute("id"));
     this.assertEquals("affe", test.getAttribute("id"));
     test.removeAttribute("id");
-    if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 8) {
-      this.assertEquals("", test[0].getAttribute("id"));
-      this.assertEquals("", test.getAttribute("id"));
-    }
-    else {
-      this.assertNull(test[0].getAttribute("id"));
-      this.assertNull(test.getAttribute("id"));
-    }
+    this.assertNull(test[0].getAttribute("id"));
+    this.assertNull(test.getAttribute("id"));
 
     // must be ignored:
     q([window, document]).setAttribute("id", "affe");
@@ -1651,14 +1645,7 @@ testrunner.define({
     this.assertEquals("affe", test.getAttributes(["id", "x"]).id);
     this.assertEquals("y", test.getAttributes(["id", "x"]).x);
     test.removeAttributes(["id", "x"]);
-
-    // removed attributes have empty string values in old IEs
-    if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 8) {
-      this.assertEquals("", test.getAttributes(["id", "x"]).id);
-    }
-    else {
-      this.assertNull(test.getAttributes(["id", "x"]).id);
-    }
+    this.assertNull(test.getAttributes(["id", "x"]).id);
     this.assertNull(test.getAttributes(["id", "x"]).x);
   },
 

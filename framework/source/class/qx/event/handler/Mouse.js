@@ -368,10 +368,6 @@ qx.Class.define("qx.event.handler.Mouse",
         return;
       }
 
-      if (this.__rightClickFixPre) {
-        this.__rightClickFixPre(domEvent, type, target);
-      }
-
       if (this.__doubleClickFixPre) {
         this.__doubleClickFixPre(domEvent, type, target);
       }
@@ -411,36 +407,6 @@ qx.Class.define("qx.event.handler.Mouse",
       CROSS BROWSER SUPPORT FIXES
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Normalizes the click sequence of right click events in Webkit and Opera.
-     * The normalized sequence is:
-     *
-     *  1. mousedown  <- not fired by Webkit
-     *  2. mouseup  <- not fired by Webkit
-     *  3. contextmenu <- not fired by Opera
-     *
-     * @param domEvent {Event} original DOM event
-     * @param type {String} event type
-     * @param target {Element} event target of the DOM event.
-     *
-     * @signature function(domEvent, type, target)
-     */
-    __rightClickFixPre : qx.core.Environment.select("engine.name",
-    {
-      "webkit" : function(domEvent, type, target)
-      {
-        // The webkit bug has been fixed in Safari 4
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 530)
-        {
-          if (type == "contextmenu") {
-            this.__fireEvent(domEvent, "mouseup", target);
-          }
-        }
-      },
-
-      "default" : null
-    }),
 
 
     /**

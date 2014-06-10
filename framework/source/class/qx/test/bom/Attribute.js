@@ -106,14 +106,7 @@ qx.Class.define("qx.test.bom.Attribute",
       this._checkBox.setAttribute("checked", true);
       this.assertEquals(true, Attribute.get(this._checkBox, "checked"));
 
-      if ((qx.core.Environment.get("engine.name") == "mshtml") &&
-          (parseFloat(qx.core.Environment.get("engine.version")) <= 7 ||
-           (parseFloat(qx.core.Environment.get("engine.version")) == 8 &&
-           qx.core.Environment.get("browser.documentmode") == 7))) {
-        this._checkBox.setAttribute("checked", false);
-      } else {
-        this._checkBox.removeAttribute("checked");
-      }
+      this._checkBox.removeAttribute("checked");
       this.assertFalse(Attribute.get(this._checkBox, "checked"));
 
       this._el["className"] = "vanillebaer";
@@ -186,21 +179,13 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._el, "innerHTML", "<b>foo</b>");
       Attribute.reset(this._el, "innerHTML");
       this.assertNull(Attribute.get(this._el, "innerHTML"));
+      Attribute.set(this._el, "tabIndex", 10);
+      Attribute.reset(this._el, "tabIndex");
+      this.assertNull(Attribute.get(this._el, "tabIndex"));
 
-      // Skip this for Safari 2
-      if (qx.core.Environment.get("engine.name") == "webkit" &&
-        parseFloat(qx.core.Environment.get("engine.version")) < 530)
-      {
-        this.warn("Test skipped in Safari 2.");
-      } else {
-        Attribute.set(this._el, "tabIndex", 10);
-        Attribute.reset(this._el, "tabIndex");
-        this.assertNull(Attribute.get(this._el, "tabIndex"));
-
-        Attribute.set(this._input, "tabIndex", 20);
-        Attribute.reset(this._input, "tabIndex");
-        this.assertNull(Attribute.get(this._input, "tabIndex"));
-      }
+      Attribute.set(this._input, "tabIndex", 20);
+      Attribute.reset(this._input, "tabIndex");
+      this.assertNull(Attribute.get(this._input, "tabIndex"));
 
       Attribute.set(this._checkBox, "checked", true);
       Attribute.reset(this._checkBox, "checked");

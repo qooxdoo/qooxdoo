@@ -78,53 +78,6 @@ qx.Class.define("qx.test.bom.request.Xhr",
     },
 
     //
-    // Implicitly create new XHR when required
-    //
-
-    "test: create new native XHR implicitly in legacy browsers": function() {
-      this.require(["IEBelow8OrFFBelow35"]);
-
-      var req = this.req;
-      var fakeReq = this.getFakeReq();
-
-      req.open("GET", "/");
-      req.send();
-      fakeReq.respond();
-
-      this.spy(req, "_createNativeXhr");
-      req.open("GET", "/");
-      this.assertCalled(req._createNativeXhr);
-    },
-
-    "test: dispose old when new native XHR": function() {
-      this.require(["IEBelow8OrFFBelow35"]);
-
-      var req = this.req;
-
-      req.open("GET", "/");
-      req.send();
-
-      this.spy(req, "dispose");
-
-      req.open("GET", "/");
-      this.assertCalled(req.dispose);
-    },
-
-    "test: init onreadystatechange when new native XHR": function() {
-      this.require(["IEBelow8OrFFBelow35"]);
-
-      var req = this.req;
-      req.onreadystatechange = function() {};
-      req.open("GET", "/");
-
-      // Trigger creation of new native XHR
-      this.spy(req, "onreadystatechange");
-      req.open("GET", "/");
-
-      this.assertCalled(req.onreadystatechange);
-    },
-
-    //
     // open()
     //
 
@@ -887,20 +840,8 @@ qx.Class.define("qx.test.bom.request.Xhr",
       return name == "gecko" && parseFloat(version) < targetVersion;
     },
 
-    hasIEBelow8: function() {
-      return this.isIEBelow(8);
-    },
-
     hasIEBelow9: function() {
       return this.isIEBelow(9);
-    },
-
-    hasFFBelow35: function() {
-      return this.isFFBelow(3.5);
-    },
-
-    hasIEBelow8OrFFBelow35: function() {
-      return this.hasIEBelow8() || this.hasFFBelow35();
     },
 
     skip: function(msg) {

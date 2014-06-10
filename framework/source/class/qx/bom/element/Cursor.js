@@ -91,23 +91,6 @@ qx.Bootstrap.define("qx.bom.element.Cursor",
     ) {
       statics.__map["nesw-resize"] = "ne-resize";
       statics.__map["nwse-resize"] = "nw-resize";
-
-      // < IE 8
-      if (((parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
-          qx.core.Environment.get("browser.documentmode") < 8) &&
-          !qx.core.Environment.get("browser.quirksmode"))
-      ) {
-        statics.__map["ew-resize"] = "e-resize";
-        statics.__map["ns-resize"] = "n-resize";
-      }
-
-    // Opera < 12
-    } else if (
-      qx.core.Environment.get("engine.name") == "opera" &&
-      parseInt(qx.core.Environment.get("engine.version")) < 12
-    ) {
-      statics.__map["nesw-resize"] = "ne-resize";
-      statics.__map["nwse-resize"] = "nw-resize";
     }
   }
 });

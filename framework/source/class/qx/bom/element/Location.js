@@ -138,13 +138,6 @@ qx.Bootstrap.define("qx.bom.element.Location",
         var left = body.offsetLeft;
         var top = body.offsetTop;
 
-        // only for safari < version 4.0
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 530.17)
-        {
-          left += this.__num(body, "borderLeftWidth");
-          top += this.__num(body, "borderTopWidth");
-        }
-
         return {
           left : left,
           top : top
@@ -159,12 +152,6 @@ qx.Bootstrap.define("qx.bom.element.Location",
         // Start with the offset
         var left = body.offsetLeft;
         var top = body.offsetTop;
-
-        // add the body margin for firefox 3.0 and below
-        if (parseFloat(qx.core.Environment.get("engine.version")) < 1.9) {
-          left += this.__num(body, "marginLeft");
-          top += this.__num(body, "marginTop");
-        }
 
         // Correct substracted border (only in content-box mode)
         if (qx.bom.element.BoxSizing.get(body) !== "border-box")
@@ -330,14 +317,8 @@ qx.Bootstrap.define("qx.bom.element.Location",
       var top = body.offsetTop;
       var left = body.offsetLeft;
 
-      if (qx.core.Environment.get("engine.name") !== "mshtml" ||
-         !((parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
-          qx.core.Environment.get("browser.documentmode") < 8) &&
-          !qx.core.Environment.get("browser.quirksmode")))
-      {
-        top += this.__num(body, "marginTop");
-        left += this.__num(body, "marginLeft");
-      }
+      top += this.__num(body, "marginTop");
+      left += this.__num(body, "marginLeft");
 
       if (qx.core.Environment.get("engine.name") === "gecko") {
         top += this.__num(body, "borderLeftWidth");

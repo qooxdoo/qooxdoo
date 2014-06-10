@@ -59,15 +59,6 @@ qx.Class.define("qx.bom.media.Abstract",
 
     // set default value
     this._media.preload = "auto";
-
-    // Firefox 3.5 and Firefox 3.6 seem to hold the loaded event back until the
-    // media is played at least once. [#bug 5837]
-    if (qx.core.Environment.get("engine.name") === "gecko") {
-      if (parseFloat(qx.core.Environment.get("engine.version")) < 2) {
-        this._media.play();
-        this._media.pause();
-      }
-    }
   },
 
 

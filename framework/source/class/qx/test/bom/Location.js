@@ -149,27 +149,12 @@ qx.Class.define("qx.test.bom.Location",
       var div2 = document.getElementById("div2");
       var pos = qx.bom.element.Location.get(div2);
       this.assertEquals(5 + 2 + 3 + 5, pos.left, "left2");
-
-      var badIE = qx.core.Environment.get("engine.name") == "mshtml" &&
-        (parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
-         qx.core.Environment.get("browser.quirksmode") ||
-         qx.core.Environment.get("browser.documentmode") === 7);
-
-      if (badIE) {
-        this.assertEquals(12, pos.top, "top2 (IE)");
-      } else {
-        this.assertEquals(5 + 2 + 3 + 5, pos.top, "top2");
-      }
-
+      this.assertEquals(5 + 2 + 3 + 5, pos.top, "top2");
 
       var div3 = document.getElementById("div3");
       var pos = qx.bom.element.Location.get(div3);
       this.assertEquals(15 + 5 + 2 + 3, pos.left, "left3");
-      if (badIE) {
-        this.assertEquals(19, pos.top, "top3 (IE)");
-      } else {
-        this.assertEquals(15 + 5 + 2 + 3, pos.top, "top3");
-      }
+      this.assertEquals(15 + 5 + 2 + 3, pos.top, "top3");
     },
 
 
@@ -190,26 +175,12 @@ qx.Class.define("qx.test.bom.Location",
       var div2 = document.getElementById("div2");
       var pos = qx.bom.element.Location.get(div2);
       this.assertEquals(10 + 5 + 2 + 3 + 5, pos.left, "left2");
-
-      var badIE = qx.core.Environment.get("engine.name") == "mshtml" &&
-        (parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
-         qx.core.Environment.get("browser.quirksmode") ||
-         qx.core.Environment.get("browser.documentmode") === 7);
-
-      if (badIE) {
-        this.assertEquals(10 + 5 + 2 + 5, pos.top, "top2 (IE)");
-      } else  {
-        this.assertEquals(10 + 5 + 2 + 3 + 5, pos.top, "top2");
-      }
+      this.assertEquals(10 + 5 + 2 + 3 + 5, pos.top, "top2");
 
       var div3 = document.getElementById("div3");
       var pos = qx.bom.element.Location.get(div3);
       this.assertEquals(25 - 5 + 5 + 2 + 3, pos.left, "left3");
-      if (badIE) {
-        this.assertEquals(24, pos.top, "top3 (IE)");
-      } else {
-        this.assertEquals(25 - 5 + 5 + 2 + 3, pos.top, "top3");
-      }
+      this.assertEquals(25 - 5 + 5 + 2 + 3, pos.top, "top3");
     },
 
 
@@ -263,53 +234,27 @@ qx.Class.define("qx.test.bom.Location",
       var relative1 = document.getElementById("relative1");
       var pos = qx.bom.element.Location.get(relative1);
       this.assertEquals(405 + 2 + 3 + 50 + 5, pos.left);
-
-      var badIE = qx.core.Environment.get("engine.name") == "mshtml" &&
-        (parseFloat(qx.core.Environment.get("engine.version")) < 8 ||
-         qx.core.Environment.get("browser.quirksmode") ||
-         qx.core.Environment.get("browser.documentmode") === 7);
-
-      if (badIE) {
-        this.assertEquals(362, pos.top, "top2 (IE)");
-      } else {
-        this.assertEquals(305 + 2 + 3 + 50 + 5, pos.top, "top2");
-      }
+      this.assertEquals(305 + 2 + 3 + 50 + 5, pos.top, "top2");
 
       var static1 = document.getElementById("static1");
       var pos = qx.bom.element.Location.get(static1);
       this.assertEquals(465 + 2 + 3 + 5, pos.left);
-      if (badIE) {
-        this.assertEquals(369, pos.top, "top3 (IE)");
-      } else {
-        this.assertEquals(365 + 2 + 3 + 5, pos.top, "top3");
-      }
+      this.assertEquals(365 + 2 + 3 + 5, pos.top, "top3");
 
       var relative2 = document.getElementById("relative2");
       var pos = qx.bom.element.Location.get(relative2);
       this.assertEquals(475 + 2 + 3 + 10 + 5, pos.left);
-      if (badIE) {
-        this.assertEquals(386, pos.top, "top4 (IE)");
-      } else {
-        this.assertEquals(375 + 2 + 3 + 10 + 5, pos.top, "top4");
-      }
+      this.assertEquals(375 + 2 + 3 + 10 + 5, pos.top, "top4");
 
       var absolute2 = document.getElementById("absolute2");
       var pos = qx.bom.element.Location.get(absolute2);
       this.assertEquals(495 + 2 - 90 + 5, pos.left);
-      if (badIE) {
-        this.assertEquals(423, pos.top, "top4 (IE)");
-      } else {
-        this.assertEquals(395 + 2 + 30 + 5, pos.top, "top4");
-      }
+      this.assertEquals(395 + 2 + 30 + 5, pos.top, "top4");
 
       var static2 = document.getElementById("static2");
       var pos = qx.bom.element.Location.get(static2);
       this.assertEquals(412 + 3 + 2 + 10, pos.left);
-      if (badIE) {
-        this.assertEquals(435, pos.top, "top5 (IE)");
-      } else {
-        this.assertEquals(432 + 3 + 2 + 10, pos.top, "top5");
-      }
+      this.assertEquals(432 + 3 + 2 + 10, pos.top, "top5");
     },
 
 
@@ -410,11 +355,6 @@ qx.Class.define("qx.test.bom.Location",
 
     testDivFixed : function()
     {
-      if (qx.core.Environment.get("browser.name") === "ie" &&
-          parseInt(qx.core.Environment.get("browser.version"), 10) < 7)
-      {
-        this.skip("position: fixed not supported in IE 6");
-      }
       document.body.innerHTML =
       '<div style="position: absolute; left: 0px; top: 0px; width: 20px; height: 1000px;"></div>' +
       '<div id="test" style="position: fixed; width: 300px; height: 600px; top: 50px;"></div>';

@@ -235,14 +235,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
      */
     setCss : function(element, value)
     {
-      if (qx.core.Environment.get("engine.name") === "mshtml" &&
-        parseInt(qx.core.Environment.get("browser.documentmode"), 10) < 8)
-      {
-        element.style.cssText = value;
-      }
-      else {
-        element.setAttribute("style", value);
-      }
+      element.setAttribute("style", value);
     },
 
 
@@ -255,14 +248,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
      */
     getCss : function(element)
     {
-      if (qx.core.Environment.get("engine.name") === "mshtml" &&
-        parseInt(qx.core.Environment.get("browser.documentmode"), 10) < 8)
-      {
-        return element.style.cssText.toLowerCase();
-      }
-      else {
-        return element.getAttribute("style");
-      }
+      return element.getAttribute("style");
     },
 
 

@@ -78,7 +78,6 @@ qx.Class.define("qx.event.handler.Input",
     if ((qx.core.Environment.get("engine.name") == "opera")) {
       this._onKeyDownWrapper = qx.lang.Function.listener(this._onKeyDown, this);
       this._onKeyUpWrapper = qx.lang.Function.listener(this._onKeyUp, this);
-      this._onBlurWrapper = qx.lang.Function.listener(this._onBlur, this);
     }
   },
 
@@ -249,7 +248,6 @@ qx.Class.define("qx.event.handler.Input",
         qx.bom.Event.addNativeListener(target, "keyup", this._onKeyUpWrapper);
         qx.bom.Event.addNativeListener(target, "keydown", this._onKeyDownWrapper);
         // register an blur event for preventing the input event on blur
-        qx.bom.Event.addNativeListener(target, "blur", this._onBlurWrapper);
 
         qx.bom.Event.addNativeListener(target, "input", this._onInputWrapper);
       },
@@ -353,10 +351,6 @@ qx.Class.define("qx.event.handler.Input",
         // unregister key events for filtering "enter" on input events
         qx.bom.Event.removeNativeListener(target, "keyup", this._onKeyUpWrapper);
         qx.bom.Event.removeNativeListener(target, "keydown", this._onKeyDownWrapper);
-        // unregister the blur event (needed for preventing input event on blur)
-        qx.bom.Event.removeNativeListener(target, "blur", this._onBlurWrapper);
-
-
         qx.bom.Event.removeNativeListener(target, "input", this._onInputWrapper);
       },
 
@@ -472,25 +466,6 @@ qx.Class.define("qx.event.handler.Input",
         // enter is pressed
         if (e.keyCode === 13) {
           this.__enter = false;
-        }
-      },
-
-      "default" : null
-    }),
-
-
-    /**
-     * Blur event listener for opera cancels the timeout of the input event.
-     *
-     * @signature function(e)
-     * @param e {Event} DOM event object
-     */
-    _onBlur : qx.core.Environment.select("engine.name",
-    {
-      "opera" : function(e)
-      {
-        if (this.__onInputTimeoutId && qx.core.Environment.get("browser.version") < 10.6) {
-          window.clearTimeout(this.__onInputTimeoutId);
         }
       },
 

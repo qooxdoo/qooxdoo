@@ -149,10 +149,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
           var width = element.scrollWidth - paddingLeft;
 
           // IE renders the paddingRight as well with scrollbars on
-          if (
-            qx.core.Environment.get("engine.name") == "mshtml" &&
-            qx.core.Environment.get("engine.version") >= 6
-          ) {
+          if (qx.core.Environment.get("engine.name") == "mshtml") {
             width -= paddingRight;
           }
 
@@ -199,16 +196,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
         {
           // Scrollbars visible and needed. We just remove the top padding,
           // as the bottom padding is not respected in rendering.
-          var height = element.scrollHeight - paddingTop;
-
-          // IE renders the paddingBottom as well with scrollbars on
-          if (qx.core.Environment.get("engine.name") == "mshtml" &&
-             qx.core.Environment.get("engine.version") == 6)
-          {
-            height -= paddingBottom;
-          }
-
-          return height;
+          return element.scrollHeight - paddingTop;
         }
       }
     },

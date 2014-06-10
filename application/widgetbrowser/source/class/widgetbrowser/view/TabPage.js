@@ -67,18 +67,6 @@ qx.Class.define("widgetbrowser.view.TabPage",
         // Add to page
         this.add(pageContent, {top: 40, edge: 0});
 
-        // Hotfix for browser bug [#BUG #4666]
-        if (qx.core.Environment.get("browser.name") == "opera" &&
-            qx.core.Environment.get("browser.version") == "11.0") {
-          var scroll = qx.core.Init.getApplication().getScroll().getChildControl("pane").
-                   getContentElement().getDomElement();
-          pageContent.addListenerOnce("appear", function() {
-            if (scroll) {
-              scroll.scrollTop = 0;
-            }
-          });
-        }
-
         // Init controls for widgets of page
         this.initControls(pageContent.getWidgets(), controls);
 

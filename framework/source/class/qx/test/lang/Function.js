@@ -46,14 +46,6 @@ qx.Class.define("qx.test.lang.Function",
       var fcn = arguments.callee;
 
       function f1(caller) {
-
-        if(qx.core.Environment.get("engine.name") == "opera" &&
-          parseFloat(qx.core.Environment.get("engine.version")) < 9.6)
-        {
-          qx.log.Logger.warn("This test is skipped in Opera < 9.6.");
-          return ;
-        }
-
         self.assertIdentical(caller, qx.lang.Function.getCaller(arguments), "Wrong caller.");
       }
 

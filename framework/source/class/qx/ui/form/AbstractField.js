@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       if (qx.core.Environment.get("engine.name") == "gecko") {
         // see https://developer.mozilla.org/de/docs/CSS/:-moz-placeholder for details
-        if (parseFloat(qx.core.Environment.get("engine.version")) >= 19) {
+       if (parseFloat(qx.core.Environment.get("engine.version")) >= 19) {
           selector = "input::-moz-placeholder, textarea::-moz-placeholder";
         } else {
           selector = "input:-moz-placeholder, textarea:-moz-placeholder";
