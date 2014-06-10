@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta content="text/html; charset=utf-8" http-equiv="content-type">
     <title>Core Test Matrix</title>
     <style type="text/css">
      table {
@@ -45,26 +45,26 @@
      .coltitle {
        width: 230px;
      }
+     .platforms td {
+       width: 8%;
+     }
   </style>
     <script type="text/javascript" src="utils.js"></script>
   </head>
   <body onload="adjustVersionStrings(); minitests([]); colorNA();">
     <h1>Core Tests - qooxdoo <span class="versstring">$(qxversion)</span></h1>
     <h3>Tool Chain Tests - Grunt &amp; Generator</h3>
-    <h4>Reminder: Run tests via grunt frontend ('grunt source' vs. 'generate.py source')</h4>
+    <h4>Reminder: Run tests via grunt frontend ('grunt source' vs. 'generate.py
+      source')</h4>
     <table>
       <tbody>
         <tr>
           <th class="colnumber" rowspan="2">1</th>
           <th class="coltitle" rowspan="2">Source/Build<br>
-            <span class="assignee">(DW/MW/TH/MS)</span><br>
           </th>
-          <th colspan="4">Job
-            <small class="versions">(Platform:<span class="version"></span>
-                                     Python:<span class="version"></span>
-                                     Node.js:<span class="version"></span>)
-            </small>
-          </th>
+          <th colspan="4">Job <small class="versions">(Platform:<span class="version"></span>
+              Python:<span class="version"></span> Node.js:<span class="version"></span>)
+            </small> </th>
         </tr>
         <tr>
           <td>source<sup>[a]</sup></td>
@@ -75,26 +75,38 @@
         <tr>
           <td>1.1</td>
           <td>Desktop skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>1.2</td>
           <td>Inline skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>1.3</td>
           <td>Native skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>1.4</td>
@@ -107,21 +119,24 @@
         <tr>
           <td>1.5</td>
           <td>Server skeleton</td>
-          <td>
+          <td> <br>
           </td>
           <td>N/A</td>
           <td>N/A</td>
-          <td>
+          <td> <br>
           </td>
         </tr>
         <tr>
-          <td>1.6
+          <td>1.6 </td>
+          <td>Mobile skeleton </td>
+          <td><br>
           </td>
-          <td>Mobile skeleton
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -130,14 +145,10 @@
         <tr>
           <th class="colnumber" rowspan="2">2</th>
           <th class="coltitle" rowspan="2">GUI Tools<br>
-            <span class="assignee">(TH)</span><br>
           </th>
-          <th colspan="3">Job
-            <small class="versions">(Platform:<span class="version"></span>
-                                     Python:<span class="version"></span>
-                                     Node.js:<span class="version"></span>)
-            </small>
-          </th>
+          <th colspan="3">Job <small class="versions">(Platform:<span class="version"></span>
+              Python:<span class="version"></span> Node.js:<span class="version"></span>)
+            </small> </th>
         </tr>
         <tr>
           <td>api<sup>[a]</sup></td>
@@ -147,42 +158,57 @@
         <tr>
           <td>2.1</td>
           <td>Desktop skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>2.2</td>
           <td>Inline skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>2.3</td>
           <td>Native skeleton</td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
         <tr>
           <td>2.4</td>
           <td>Website skeleton</td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
         <tr>
           <td>2.5</td>
           <td>Server skeleton</td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
         <tr>
           <td>2.6</td>
-          <td>Mobile skeleton<td>
-          <td></td>
+          <td>Mobile skeleton</td>
+          <td> <br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
       </tbody>
@@ -191,15 +217,11 @@
       <tbody>
         <tr>
           <th class="colnumber" rowspan="2">3</th>
-          <th class="coltitle" rowspan="2">Test<br>
-            <span class="assignee">(DW)</span><br>
+          <th class="coltitle" rowspan="2">Test<span class="assignee"></span><br>
           </th>
-          <th colspan="3">Job
-            <small class="versions">(Platform:<span class="version"></span>
-                                     Python:<span class="version"></span>
-                                     Node.js:<span class="version"></span>)
-            </small>
-          </th>
+          <th colspan="3">Job <small class="versions">(Platform:<span class="version"></span>
+              Python:<span class="version"></span> Node.js:<span class="version"></span>)
+            </small> </th>
         </tr>
         <tr>
           <td>test<sup>[a]</sup></td>
@@ -209,44 +231,57 @@
         <tr>
           <td>3.1</td>
           <td>Desktop skeleton</td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
         <tr>
           <td>3.2</td>
           <td>Inline skeleton</td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
         <tr>
           <td>3.3</td>
           <td>Native skeleton</td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
         <tr>
           <td>3.4</td>
           <td>Website skeleton</td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
         <tr>
           <td>3.5</td>
           <td>Server skeleton</td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
         <tr>
           <td>3.6</td>
           <td>Mobile skeleton </td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -254,15 +289,11 @@
       <tbody>
         <tr>
           <th class="colnumber" rowspan="2">4</th>
-          <th class="coltitle" rowspan="2">Code Maintenance<br>
-            <span class="assignee">(MW)</span><br>
+          <th class="coltitle" rowspan="2">Code Maintenance<span class="assignee"></span><br>
           </th>
-          <th colspan="4">Job
-            <small class="versions">(Platform:<span class="version"></span>
-                                     Python:<span class="version"></span>
-                                     Node.js:<span class="version"></span>)
-            </small>
-          </th>
+          <th colspan="4">Job <small class="versions">(Platform:<span class="version"></span>
+              Python:<span class="version"></span> Node.js:<span class="version"></span>)
+            </small> </th>
         </tr>
         <tr>
           <td>lint<sup>[a]</sup></td>
@@ -273,59 +304,74 @@
         <tr>
           <td>4.1</td>
           <td>Desktop skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>4.2</td>
           <td>Inline skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>4.3</td>
           <td>Native skeleton</td>
-          <td></td>
-          <td> </td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td> <br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>4.5</td>
           <td>Server skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>4.6</td>
           <td>Mobile skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
       </tbody>
     </table>
     <table>
       <tbody>
         <tr>
-          <th class="colnumber" rowspan="2">5
+          <th class="colnumber" rowspan="2">5 </th>
+          <th class="coltitle" rowspan="2">Shell Tools<span class="assignee"></span><br>
           </th>
-          <th class="coltitle" rowspan="2">Shell Tools<br>
-            <span class="assignee">(TH)</span><br>
-          </th>
-          <th colspan="9">Job
-            <small class="versions">(Platform:<span class="version"></span>
-                                     Python:<span class="version"></span>
-                                     Node.js:<span class="version"></span>)
-            </small>
-          </th>
+          <th colspan="9">Job <small class="versions">(Platform:<span class="version"></span>
+              Python:<span class="version"></span> Node.js:<span class="version"></span>)
+            </small> </th>
         </tr>
         <tr>
           <td>watch<sup>[a]</sup></td>
@@ -341,41 +387,68 @@
         <tr>
           <td>5.1</td>
           <td>Desktop skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>5.2</td>
           <td>Inline skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>5.3</td>
           <td>Native skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>5.4</td>
@@ -384,37 +457,56 @@
           <td>N/A</td>
           <td>N/A</td>
           <td>N/A</td>
-          <td></td>
+          <td><br>
+          </td>
           <td>N/A</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>5.5</td>
           <td>Server skeleton</td>
-          <td></td>
+          <td><br>
+          </td>
           <td>N/A</td>
           <td>N/A</td>
           <td>N/A</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>5.6</td>
           <td>Mobile skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -422,15 +514,11 @@
       <tbody>
         <tr>
           <th class="colnumber" rowspan="2">6</th>
-          <th class="coltitle" rowspan="2">Migration<br>
-            <span class="assignee">(MW)</span><br>
+          <th class="coltitle" rowspan="2">Migration<span class="assignee"></span><br>
           </th>
-          <th colspan="1">Job
-            <small class="versions">(Platform:<span class="version"></span>
-                                     Python:<span class="version"></span>
-                                     Node.js:<span class="version"></span>)
-            </small>
-          </th>
+          <th colspan="1">Job <small class="versions">(Platform:<span class="version"></span>
+              Python:<span class="version"></span> Node.js:<span class="version"></span>)
+            </small> </th>
         </tr>
         <tr>
           <td>migration<sup>[l]</sup></td>
@@ -438,7 +526,7 @@
         <tr>
           <td>6.1</td>
           <td>Desktop skeleton</td>
-          <td>
+          <td> <br>
           </td>
         </tr>
       </tbody>
@@ -447,14 +535,11 @@
       <tbody>
         <tr>
           <th class="colnumber" rowspan="2">7</th>
-          <th class="coltitle" rowspan="2">qooxdoo npm packages<sup>[n]</sup><br>
-            <span class="assignee">(RS)</span><br>
+          <th class="coltitle" rowspan="2">qooxdoo npm packages<sup>[n]</sup><span
+              class="assignee"></span><br>
           </th>
-          <th colspan="3">Action
-            <small class="versions">(Platform:<span class="version"></span>
-                                     Node.js:<span class="version"></span>)
-            </small>
-          </th>
+          <th colspan="3">Action <small class="versions">(Platform:<span class="version"></span>
+              Node.js:<span class="version"></span>) </small> </th>
         </tr>
         <tr>
           <td>npm test<sup>[a]</sup></td>
@@ -464,37 +549,52 @@
         <tr>
           <td>7.1</td>
           <td>dependency</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>7.2</td>
           <td>library</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>7.3</td>
           <td>locale</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>7.4</td>
           <td>resource</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>7.5</td>
           <td>translation</td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -502,14 +602,11 @@
       <tbody>
         <tr>
           <th class="colnumber" rowspan="2">8</th>
-          <th class="coltitle" rowspan="2">qooxdoo Grunt plugins<sup>[p]</sup><br>
-            <span class="assignee">(RS)</span><br>
+          <th class="coltitle" rowspan="2">qooxdoo Grunt plugins<sup>[p]</sup><span
+              class="assignee"></span><br>
           </th>
-          <th colspan="1">Task
-            <small class="versions">(Platform:<span class="version"></span>
-                                     Node.js:<span class="version"></span>)
-            </small>
-          </th>
+          <th colspan="1">Task <small class="versions">(Platform:<span class="version"></span>
+              Node.js:<span class="version"></span>) </small> </th>
         </tr>
         <tr>
           <td>source</td>
@@ -517,7 +614,8 @@
         <tr>
           <td>8.1</td>
           <td>source<sup>[o]</sup></td>
-          <td></td>
+          <td><br>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -525,15 +623,11 @@
       <tbody>
         <tr>
           <th class="colnumber" rowspan="2">9</th>
-          <th class="coltitle" rowspan="2">Contrib Skeleton<sup>[m]</sup><br>
-            <span class="assignee">(DW)</span><br>
+          <th class="coltitle" rowspan="2">Contrib Skeleton<sup>[m]</sup><span class="assignee"></span><br>
           </th>
-          <th colspan="10">Job
-            <small class="versions">(Platform:<span class="version"></span>
-                                     Python:<span class="version"></span>
-                                     Node.js:<span class="version"></span>)
-            </small>
-          </th>
+          <th colspan="10">Job <small class="versions">(Platform:<span class="version"></span>
+              Python:<span class="version"></span> Node.js:<span class="version"></span>)
+            </small> </th>
         </tr>
         <tr>
           <td>source<sup>[a]</sup></td>
@@ -550,162 +644,136 @@
         <tr>
           <td>9.1</td>
           <td>Contrib demo<sup>[k]</sup>skeleton</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
           <td>N/A</td>
         </tr>
       </tbody>
     </table>
-
-
-
     <!--  Manual -->
     <table>
-      <thead> <tr>
-          <th rowspan="3" colspan="2">Documentation Tests</th>
-          <td colspan="7" rowspan="1">Platform</td>
+      <thead>
+        <tr>
+          <th rowspan="2" colspan="2">Documentation Tests</th>
+          <td colspan="3" rowspan="1"><span style="font-weight: bold;">Platform</span></td>
         </tr>
         <tr class="platforms">
-          <td><strong>IE11</strong><br>
-            Win7</td>
-          <td><strong>IE9</strong><br>
-            Win7</td>
-          <td><strong>Safari</strong><br>
-            iPad
+          <td><br>
           </td>
-          <td><strong>Chrome Stable</strong><br>
-            Linux</td>
-          <td><strong>Safari</strong><br>
-            OSX</td>
-          <td><strong>FF Stable</strong><br>
-            Win7</td>
-          <td><strong>Opera Stable</strong><br>
-            OSX<br>
+          <td><br>
           </td>
-        </tr>
-        <tr class="platforms">
-          <td>DW<br>
-          </td>
-          <td>CZ<br>
-          </td>
-          <td>MW<br>
-          </td>
-          <td>TH<br>
-          </td>
-          <td>AP<br>
-          </td>
-          <td>AS<br>
-          </td>
-          <td>RS<br>
+          <td><br>
           </td>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th>8</th>
-          <th rowspan="1" colspan="8">Manual</th>
+          <th rowspan="1" colspan="4">Manual</th>
         </tr>
         <tr>
           <td>13.1</td>
           <td>Check index.html (general layout, topic listing)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>13.2</td>
           <td>Check a few content pages (general layout)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>13.3</td>
           <td>Check breadcrumbs</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>13.4</td>
           <td>Try the Search tool (number of hits, display of search results)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
         <tr>
           <td>13.5</td>
-          <td>PDF (don't use index.html link, but qooxdoo.pdf; should be around 500-600 pages)</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>PDF (don't use index.html link, but qooxdoo.pdf; should be around
+            500-600 pages)</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
         </tr>
       </tbody>
     </table>
-
-
     <p>Legend:<br>
-      <img alt="" class="legendsymbol" src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png"> Ok<br>
-      <span class="legendsymbol">(<img alt="" src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)</span> Mainly Ok<br>
-      <img alt="" class="legendsymbol" src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">Not Ok
-    </p>
+      <img alt="" class="legendsymbol" src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
+      Ok<br>
+      <span class="legendsymbol">(<img alt="" src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)</span>
+      Mainly Ok<br>
+      <img alt="" class="legendsymbol" src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">Not
+      Ok </p>
     <h3>Annotations</h3>
     <dl>
       <dt>General</dt>
       <dd>The main objective of these tests is to make sure the generator jobs
-        run through, and produce applications that load ok in the browser.
-      </dd>
+        run through, and produce applications that load ok in the browser. </dd>
       <dt>[a]</dt>
       <dd>The console output should contain no warnings.</dd>
-      <dt></dt>
+      <dt><br>
+      </dt>
       <dt>[b]</dt>
-      <dd> To verify pretty-printing, look at some code (e.g.
-        Application.js, DemoTest.js) including its comments, just enough
-        to make sure it is not <strong>wildly</strong>
-        misformatted. (Don't count indent levels or ponder about opening
-        curlies). Then run a subsequent <em>source</em>
+      <dd> To verify pretty-printing, look at some code (e.g. Application.js,
+        DemoTest.js) including its comments, just enough to make sure it is not
+        <strong>wildly</strong> misformatted. (Don't count indent levels or
+        ponder about opening curlies). Then run a subsequent <em>source</em>
         job, to make sure it still compiles.</dd>
       <dt>[c]</dt>
-      <dd>Without any generation, open the local <code>index.html</code>.
-        The demo should run immediately.</dd>
+      <dd>Without any generation, open the local <code>index.html</code>. The
+        demo should run immediately.</dd>
       <dt>[d]</dt>
-      <dd>The job to run is <em>build</em>
-        (or just <code>generate.py</code> without a job). It will re-create
-        the Website library into the <code>script/</code> folder.
-        Reload the <code>index.html</code> to ensure it is working.
-      </dd>
+      <dd>The job to run is <em>build</em> (or just <code>generate.py</code>
+        without a job). It will re-create the Website library into the <code>script/</code>
+        folder. Reload the <code>index.html</code> to ensure it is working. </dd>
       <dt>[k]</dt>
-      <dd> This is to test the default demo of a contribution skeleton.
-        After creating the skeleton, change dir to <em>trunk/demo/default</em>.
-        If you're not testing in a <em>qooxdoo-contrib</em> checkout, you
-        need to adapt <em>QOOXDOO_PATH</em> in config.json. Then, run the normal tests.
+      <dd> This is to test the default demo of a contribution skeleton. After
+        creating the skeleton, change dir to <em>trunk/demo/default</em>. If
+        you're not testing in a <em>qooxdoo-contrib</em> checkout, you need to
+        adapt <em>QOOXDOO_PATH</em> in config.json. Then, run the normal tests.
       </dd>
       <dt>[l]</dt>
       <dd>
@@ -714,61 +782,63 @@
             <ul>
               <li>create a skeleton application from a previous release</li>
               <li>create a corresponding skeleton from the current release</li>
-              <li>delete the <code>source/class</code> folder from the current skeleton</li>
-              <li>copy over the <code>source/class</code> folder from the previous skeleton</li>
+              <li>delete the <code>source/class</code> folder from the current
+                skeleton</li>
+              <li>copy over the <code>source/class</code> folder from the
+                previous skeleton</li>
               <li>run <code>generate.py migration</code></li>
             </ul>
           </li>
           <li> Advanced migration test:
             <ul>
-              <li>copy the <em>Feedreader</em> application of a
-                previous release</li>
-              <li>edit <em>config.json/QOOXDOO_PATH</em> to point to
-                the qooxdoo installation under test</li>
+              <li>copy the <em>Feedreader</em> application of a previous
+                release</li>
+              <li>edit <em>config.json/QOOXDOO_PATH</em> to point to the
+                qooxdoo installation under test</li>
               <li>run <code>generate.py migration</code></li>
             </ul>
           </li>
         </ul>
         In both cases, the <em>migration</em> job should terminate normally,
-        with various log messages on the console. During migration you should
-        be offered to enter your "old" qooxdoo version, an a suitable upgrade
-        path leading up to the version under test should be printed out.  After
-        the migration, a file <em>migration.log</em> should be created that
+        with various log messages on the console. During migration you should be
+        offered to enter your "old" qooxdoo version, an a suitable upgrade path
+        leading up to the version under test should be printed out. After the
+        migration, a file <em>migration.log</em> should be created that
         contains the per-version, per-file entries, deprecation warnings and
         modification statements. After that, a <code>generate.py source</code>
         may or may not terminate normally, and the created application, if any,
-        may or may not run in the browser.
-      </dd>
+        may or may not run in the browser. </dd>
       <dt>[m]</dt>
       <dd>Testing on a single platform is enough.</dd>
       <dt>[n]</dt>
-      <dd>Go to <em>tool/grunt/task/package/{packageName}</em> run <em>npm install</em>
-        and afterwards run the npm cmd under test there.</dd>
+      <dd>Go to <em>tool/grunt/task/package/{packageName}</em> run <em>npm
+          install</em> and afterwards run the npm cmd under test there.</dd>
       <dt>[o]</dt>
       <dd>Open up the generated dir (e.g. <em>api</em> or <em>test/data/myapp</em>)
-        or app in browser and check if everything works as aspected (interact/click
-        thorugh some pages).</dd>
+        or app in browser and check if everything works as aspected
+        (interact/click thorugh some pages).</dd>
       <dt>[p]</dt>
       <dd>If not happend before:
-         <ol>
-           <li><strong>install</strong> all packages (<em>cd tool/grunt/task/package/
-            &amp;&amp; ./runNpmCmd install</em>)</li>
-           <li><strong>link</strong> all packages (<em>sudo ./runNpmCmd link</em>)</li>
-           <li><strong>install</strong> the ones needed for for the task you are going to test:
-             <ol>
-               <li><em>cd tool/grunt/task/package/{taskName}</em></li>
-               <li>check <em>package.json</em></li>
-               <li>e.g. <em>sudo npm link qx-resource</em></li>
-               <li>e.g. <em>sudo npm link qx-locale</em></li>
-               <li>e.g. <em>sudo npm link qx-dependency</em></li>
-               <li>e.g. <em>sudo npm link qx-library</em></li>
-               <li>e.g. <em>sudo npm link qx-translation</em></li>
-               <li>e.g. <em>sudo npm link qx-...</em></li>
-             </ol>
-           </li>
-           <li><strong>run</strong> task under test (<em>grunt {taskName}</em>)</li>
-           <li><strong>test</strong> task under test (<em>grunt {taskName}</em>)</li>
-         </ol>
+        <ol>
+          <li><strong>install</strong> all packages (<em>cd
+              tool/grunt/task/package/ &amp;&amp; ./runNpmCmd install</em>)</li>
+          <li><strong>link</strong> all packages (<em>sudo ./runNpmCmd link</em>)</li>
+          <li><strong>install</strong> the ones needed for for the task you are
+            going to test:
+            <ol>
+              <li><em>cd tool/grunt/task/package/{taskName}</em></li>
+              <li>check <em>package.json</em></li>
+              <li>e.g. <em>sudo npm link qx-resource</em></li>
+              <li>e.g. <em>sudo npm link qx-locale</em></li>
+              <li>e.g. <em>sudo npm link qx-dependency</em></li>
+              <li>e.g. <em>sudo npm link qx-library</em></li>
+              <li>e.g. <em>sudo npm link qx-translation</em></li>
+              <li>e.g. <em>sudo npm link qx-...</em></li>
+            </ol>
+          </li>
+          <li><strong>run</strong> task under test (<em>grunt {taskName}</em>)</li>
+          <li><strong>test</strong> task under test (<em>grunt {taskName}</em>)</li>
+        </ol>
       </dd>
     </dl>
   </body>
