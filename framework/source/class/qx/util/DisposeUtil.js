@@ -182,7 +182,7 @@ qx.Class.define("qx.util.DisposeUtil",
     {
       if(qx.core.Environment.get("qx.debug"))
       {
-        if(container instanceof qx.ui.mobile.core.Widget) {
+        if(qx.ui.mobile && container instanceof qx.ui.mobile.core.Widget) {
           qx.core.Assert.assertTrue(this.__isChildrenContainer(container),
           "Container must be an instance of qx.ui.mobile.container.Composite.");
         } else {
@@ -237,7 +237,7 @@ qx.Class.define("qx.util.DisposeUtil",
     __isChildrenContainer : function(obj)
     {
       var classes = [];
-      if(obj instanceof qx.ui.mobile.core.Widget) {
+      if(qx.ui.mobile && obj instanceof qx.ui.mobile.core.Widget) {
         classes = [qx.ui.mobile.container.Composite];
       } else {
         classes = [qx.ui.container.Composite, qx.ui.container.Scroll,
