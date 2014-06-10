@@ -15,15 +15,15 @@ Code written against the %{Website} API will run in all major web browsers, part
 .. list-table::
 
    * - .. image:: /_static/logo_ie_24x24.png
-     - Internet Explorer 6+
+     - Internet Explorer 8+
    * - .. image:: /_static/logo_firefox_24x24.png
-     - Firefox 2+
+     - Firefox 3.5+
    * - .. image:: /_static/logo_opera_24x24.png
-     - Opera 9+
+     - Opera 15+
    * - .. image:: /_static/logo_safari_24x24.png
-     - Safari 3+
+     - Safari 6+
    * - .. image:: /_static/logo_chrome_24x24.png
-     - Chrome 2+
+     - Chrome
 
 %{Website} widgets are currently experimental and will not work in all browsers.
 
