@@ -26,6 +26,7 @@
  * @ignore(qx.ui.container.Scroll)
  * @ignore(qx.ui.container.SlideBar)
  * @ignore(qx.ui.container.Stack)
+ * @ignore(qx.ui.mobile)
  * @ignore(qx.ui.mobile.container.Composite)
  * @ignore(qx.ui.mobile.core.Widget)
  */
