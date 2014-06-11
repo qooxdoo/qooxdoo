@@ -22,7 +22,7 @@
 }
 
 // Devices which supports new flex syntax.
-.mobile.flex-ready {
+.flex-ready {
   .hbox, .vbox {
     display: -ms-flexbox;      /* TWEENER - IE 10 */
     display: -webkit-flex;     /* NEW - Chrome */
@@ -76,14 +76,15 @@
   }
 
   @for $i from 0 through 6 {
-    .flex#{$i} { 
+    .flex#{$i} {
       @include flex($i);
     }
   }
 }
 
 // Devices which supports old flexbox syntax.
-.mobile:not(.flex-ready) {
+.mobile:not(.flex-ready),
+.qx-widget:not(.flex-ready) {
   .hbox, .vbox {
     display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
@@ -134,7 +135,7 @@
   }
 
   @for $i from 0 through 6 {
-    .flex#{$i} { 
+    .flex#{$i} {
       @include box-flex($i);
     }
   }
