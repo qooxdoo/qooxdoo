@@ -306,6 +306,10 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
             styles[propName] += "," + shadowStyle.join(",");
           }
         }
+      } else {
+        styles[":before"] = {
+          border: 0
+        };
       }
     },
 
