@@ -207,14 +207,16 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       page.addCssClass("carousel-page");
 
       this.__pages.push(page);
-      this.__carouselScroller.add(page,{flex:1});
+      this.__carouselScroller.add(page, {
+        flex: 1
+      });
 
       var paginationLabel = this._createPaginationLabel();
       this.__paginationLabels.push(paginationLabel);
       this.__pagination.add(paginationLabel);
 
       this._setTransitionDuration(0);
-      this._updateCarouselLayout();
+      this._onContainerUpdate();
     },
 
 
@@ -225,7 +227,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     removePageByIndex : function(pageIndex) {
       if (this.__pages && this.__pages.length > pageIndex) {
-        if (pageIndex == this.getCurrentIndex() && this.getCurrentIndex() !== 0) {
+        if (pageIndex <= this.getCurrentIndex() && this.getCurrentIndex() !== 0) {
           this.setCurrentIndex(this.getCurrentIndex() - 1);
         }
 
@@ -243,6 +245,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
         this.__pages.splice(pageIndex, 1);
         this.__paginationLabels.splice(pageIndex, 1);
+
+        this._onContainerUpdate();
 
         return targetPage;
       }
@@ -267,7 +271,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     nextPage : function() {
       if (this.getCurrentIndex() == this.__pages.length - 1) {
-        if (this.isScrollLoop()) {
+        if (this.isScrollLoop() && this.__pages.length > 1) {
           this._doScrollLoop();
         }
       } else {
@@ -281,7 +285,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     previousPage : function() {
       if (this.getCurrentIndex() === 0) {
-        if (this.isScrollLoop()) {
+        if (this.isScrollLoop() && this.__pages.length > 1) {
           this._doScrollLoop();
         }
       } else {
@@ -378,11 +382,13 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
     /**
      * Called when showPagination property is changed.
-     * Manages show(), hide() of pagination container.
+     * Manages <code>show()</code> and <code>hide()</code> of pagination container.
      */
     _applyShowPagination : function(value, old) {
-      if(value) {
-        this.__pagination.show();
+      if (value) {
+        if (this.__pages.length > 1) {
+          this.__pagination.show();
+        }
       } else {
         this.__pagination.hide();
       }
@@ -426,6 +432,14 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         var pageContentElement = this.__pages[i].getContentElement();
         qx.bom.element.Style.set(pageContentElement, "width", carouselSize.width + "px");
         qx.bom.element.Style.set(pageContentElement, "height", carouselSize.height + "px");
+      }
+
+      if (this.__pages.length == 1) {
+        this.__pagination.exclude();
+      } else {
+        if (this.isShowPagination()) {
+          this.__pagination.show();
+        }
       }
 
       this._updatePagination(this.getCurrentIndex(), this.getCurrentIndex());
