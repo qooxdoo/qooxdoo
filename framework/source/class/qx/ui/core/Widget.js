@@ -361,15 +361,7 @@ qx.Class.define("qx.ui.core.Widget",
      * respecting the selected action, to the event. This can be done using
      * the event's {@link qx.event.type.Drag#addData} method.
      */
-    droprequest : "qx.event.type.Drag",
-    
-    /**
-     * Fired when any state was added or removed by 
-     * {@link qx.ui.core.Widget#addState} respectivly 
-     * {@link qx.ui.core.Widget#removeState}. Provides a list of all current states
-     * as data and a list of all states before change as oldData.
-     */
-    statesChanged : "qx.event.type.Data"
+    droprequest : "qx.event.type.Drag"
   },
 
 
@@ -2436,7 +2428,7 @@ qx.Class.define("qx.ui.core.Widget",
     addState : function(state)
     {
       // Dynamically create state map
-      var states = this.__states.concat();
+      var states = this.__states;
       if (!states) {
         states = this.__states = {};
       }
@@ -2483,7 +2475,7 @@ qx.Class.define("qx.ui.core.Widget",
     removeState : function(state)
     {
       // Check for existing state
-      var states = this.__states.concat();
+      var states = this.__states;
       if (!states || !states[state]) {
         return;
       }
@@ -2560,9 +2552,6 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
       }
-      
-      // Fire "statesChanged" event
-      this.fireDataEvent("statesChanged", this.__states.concat(), states);
     },
 
 
@@ -2736,9 +2725,6 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
       }
-      
-      // Fire "statesChanged" event
-      this.fireDataEvent("statesChanged", this.__states.concat(), states);
     },
 
 
