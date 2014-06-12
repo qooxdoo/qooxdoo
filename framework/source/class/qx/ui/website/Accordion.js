@@ -348,7 +348,10 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
       if (!sameButton) {
         this.base(arguments, e);
       }
-    }
+    },
+
+
+    _applyAlignment : function(tabs) {}
   },
 
 

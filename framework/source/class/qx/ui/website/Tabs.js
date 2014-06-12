@@ -175,15 +175,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           }
         }
 
-        tabs.find("> ul").removeClasses([cssPrefix + "-justify", cssPrefix + "-right"]);
-
-        var align = tabs.getConfig("align");
-        if (align == "justify") {
-          tabs.find("> ul").addClass(cssPrefix + "-justify");
-        } else if (align == "right") {
-          tabs.find("> ul").addClass(cssPrefix + "-right");
-        }
-
         var buttons = tabs.getChildren("ul").getFirst()
           .getChildren("li").not("." + cssPrefix + "-page");
         buttons._forEachElementWrapped(function(button) {
@@ -205,7 +196,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         // ignore pageless buttons
         buttons = buttons.filter("." + cssPrefix + "-button");
 
-        if (align == "right") {
+        if (this.getConfig("align") == "right" &&
+          q.env.get("engine.name") == "mshtml" &&
+          q.env.get("browser.documentmode") < 10)
+        {
           buttons.remove();
           for (var i=buttons.length - 1; i>=0; i--) {
             tabs.find("> ul").append(buttons[i]);
@@ -223,6 +217,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
 
         tabs.getChildren("ul").getFirst().$onFirstCollection("keydown", this._onKeyDown, this);
+
+        this._applyAlignment(tabs);
       }.bind(this));
 
       return true;
@@ -246,15 +242,15 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
         tabs.find("> ul").setHtml("");
 
-        var toRight = this.getConfig("align") == "right" && !tabs.find("> ul").hasClass(cssPrefix + "-right");
-        var fromRight = this.getConfig("align") != "right" && tabs.find("> ul").hasClass(cssPrefix + "-right");
-        if (toRight || fromRight) {
-          content.reverse();
-          pages.reverse();
-          selected = content.length - 1 - selected;
+        if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
+          var toRight = this.getConfig("align") == "right" && !tabs.find("> ul").hasClass(cssPrefix + "-right");
+          var fromRight = this.getConfig("align") != "right" && tabs.find("> ul").hasClass(cssPrefix + "-right");
+          if (toRight || fromRight) {
+            content.reverse();
+            pages.reverse();
+            selected = content.length - 1 - selected;
+          }
         }
-
-        tabs.find("> ul").removeClasses([cssPrefix + "-justify", cssPrefix + "-right"]);
 
         content.forEach(function(content, i) {
           tabs.addButton(content, pages[i]);
@@ -268,13 +264,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           }
         });
 
-        var align = tabs.getConfig("align");
-        if (align == "justify") {
-          tabs.find("> ul").addClass(cssPrefix + "-justify");
-
-        } else if (align == "right") {
-          tabs.find("> ul").addClass(cssPrefix + "-right");
-        }
+        this._applyAlignment(tabs);
       });
 
       return this;
@@ -473,6 +463,51 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         pageSelector = button.getData(this.getCssPrefix() + "-page");
       }
       return qxWeb(pageSelector);
+    },
+
+
+    /**
+     * Apply the CSS classes for the alignment
+     *
+     * @param tabs {qx.ui.website.Tabs[]} tabs collection
+     */
+    _applyAlignment : function(tabs) {
+      var align = tabs.getConfig("align");
+      var cssPrefix = this.getCssPrefix();
+      var buttons = tabs.find("ul > li");
+
+      if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
+        tabs.addClass(cssPrefix + "-float");
+
+        if (align == "justify") {
+          tabs.addClass(cssPrefix + "-justify");
+        } else {
+          tabs.removeClass(cssPrefix + "-justify");
+        }
+
+        if (align == "right") {
+          tabs.addClass(cssPrefix + "-right");
+        } else {
+          tabs.removeClass(cssPrefix + "-right");
+        }
+      } else {
+          buttons
+          .getChildren("li").not("." + cssPrefix + "-page")
+          .filter("." + cssPrefix + "-button");
+
+        tabs.addClass("qx-flex-ready").find("> ul").addClass("qx-hbox");
+        if (align == "justify") {
+          buttons.addClass("qx-flex1");
+        } else {
+          buttons.removeClass("qx-flex1");
+        }
+
+        if (align == "right") {
+          tabs.find("> ul").addClass("qx-flex-justify-end");
+        } else {
+          tabs.find("> ul").removeClass("qx-flex-justify-end");
+        }
+      }
     },
 
 

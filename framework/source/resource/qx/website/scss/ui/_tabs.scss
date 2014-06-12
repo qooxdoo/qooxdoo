@@ -4,10 +4,14 @@
   padding: 0;
 }
 
-.qx-tabs > ul:after {
+.qx-tabs-float > ul:after {
   content: " ";
   display: block;
   clear: both;
+}
+
+.qx-tabs-float > ul > .qx-tabs-button {
+  float: left;
 }
 
 .qx-tabs-button:first-child {
@@ -15,7 +19,6 @@
 }
 
 .qx-tabs-button {
-  float: left;
   margin-bottom: rem(-1);
   cursor: pointer;
   border: rem(1) solid transparent;
@@ -77,7 +80,11 @@
   color: $highlight-color-disabled;
 }
 
-.qx-tabs-justify > li {
+.qx-tabs-button.qx-flex1 {
+  text-align: center;
+}
+
+.qx-tabs-justify > ul > .qx-tabs-button {
   display: table-cell;
   width: 1%;
   text-align: center;
@@ -86,18 +93,18 @@
   position: relative;
   @include transform(translate(0,rem(1)));
 }
-.qx-tabs-justify > .qx-tabs-button-active {
+.qx-tabs-justify > ul > .qx-tabs-button-active {
   border-bottom: rem(1) solid $background-color;
 }
 
-.qx-tabs-right > li {
+.qx-tabs-right > ul > .qx-tabs-button {
   float: right;
 }
 
-.qx-tabs-right > .qx-tabs-button:first-child {
+.qx-tabs-right > ul > .qx-tabs-button:first-child {
   margin-left: rem(3);
 }
 
-.qx-tabs-right > .qx-tabs-button:last-child {
+.qx-tabs-right > ul > .qx-tabs-button:last-child {
   margin-left: rem(0);
 }
