@@ -29,32 +29,33 @@ qx.Class.define("qx.test.ui.command.Group",
       var handler = this.spy();
       var group = new qx.ui.command.Group();
       var cmd = new qx.ui.command.Command("Meta+T");
-      
+
       cmd.addListener("execute", handler);
       group.addCommand("test", cmd);
-      
+
       group.setActive(false);
       cmd.execute();
       this.assertCallCount(handler, 0);
-      
+
       group.setActive(true);
       cmd.execute();
       this.assertCallCount(handler, 1);
     },
-    
+
+
     testRemoveCommand : function()
     {
       var group = new qx.ui.command.Group();
       var cmd = new qx.ui.command.Command("Meta+T");
-      
-      group.addCommand("test", cmd);
-      this.assertInstance(group.getCommand("test"), qx.ui.command.Command,
+
+      group.add("test", cmd);
+      this.assertInstance(group.get("test"), qx.ui.command.Command,
         "Returned value is not an instance of qx.ui.command.Command."
       );
-        
-      group.removeCommand("test");
-      
-      this.assertNull(group.getCommand("test"), 
+
+      group.remove("test");
+
+      this.assertNull(group.get("test"),
         "The returned value is not null. We expected null after removing " +
         "the command from group."
       );

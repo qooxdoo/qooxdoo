@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.command.GroupManager",
      * Add command group.
      * @param group {qx.ui.command.Group} Command group
      */
-    addGroup : function(group)
+    add : function(group)
     {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
@@ -54,15 +54,16 @@ qx.Class.define("qx.ui.command.GroupManager",
 
     /**
      * Activates a command group and deactiveted all others.
+     *
      * @param group {qx.ui.command.Group} Command group
      */
-    setActiveGroup : function(group)
+    setActive : function(group)
     {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
       }
 
-      if (!this.hasGroup(group)){
+      if (!this.has(group)){
         this.debug("Group was not added before! You have to use 'addCommand()' method before activating!");
         return;
       }
@@ -83,30 +84,19 @@ qx.Class.define("qx.ui.command.GroupManager",
 
     /**
      * Returns active command group.
+     *
      * @return {qx.ui.command.Group} Active command group
      */
-    getActiveGroup : function()
+    getActive : function()
     {
       return this.__activeGroup;
     },
 
 
     /**
-     * Deactives all command groups, even the active one.
+     * Blocks the active command group.
      */
-    blockAll : function()
-    {
-      for (var i=0; i<this.__groups.length; i++){
-        var item = this.__groups[i];
-        item.setActive(false);
-      }
-    },
-
-
-    /**
-     * Blockes active command group.
-     */
-    blockActiveGroup : function()
+    block : function()
     {
       if(this.__activeGroup){
         this.__activeGroup.setActive(false);
@@ -115,9 +105,9 @@ qx.Class.define("qx.ui.command.GroupManager",
 
 
     /**
-     * Unblocks active command group.
+     * Unblocks the active command group.
      */
-    unblockActiveGroup : function()
+    unblock : function()
     {
       if(this.__activeGroup){
         this.__activeGroup.setActive(true);
@@ -149,7 +139,7 @@ qx.Class.define("qx.ui.command.GroupManager",
      *
      * @return {Boolean} <code>true</code> if group already added
      */
-    hasGroup : function(group)
+    has : function(group)
     {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");

@@ -41,94 +41,100 @@ qx.Class.define("qx.ui.command.Group",
   {
     _cmds : null,
 
-    
+
     // property apply
     _applyActive : function(value)
     {
       for(var cmdkey in this._cmds){
-        this._cmds[cmdkey].setActive(value);          
+        this._cmds[cmdkey].setActive(value);
       }
     },
 
-    
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     /**
      * Adds a command with a key to the group.
-     * @param key {String} Key to be able to adress the command.
-     * @param command {qx.ui.command.Command} Command  
+     *
+     * @param key {String} Key to be able to addresses the command
+     *
+     * @param command {qx.ui.command.Command} Command
      */
-    addCommand : function(key, command)
+    add : function(key, command)
     {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertArgumentsCount(arguments, 2, 2, 
-          "Given parameter count mismatch! Please provide a key as string " + 
+        this.assertArgumentsCount(arguments, 2, 2,
+          "Given parameter count mismatch! Please provide a key as string " +
           "and a command intsance."
         );
         this.assertString(key, "Key parameter must be a string.");
-        this.assertInstance(command, qx.ui.command.Command, 
+        this.assertInstance(command, qx.ui.command.Command,
           "Given command is not an instance of qx.ui.command.Command"
         );
       }
-      
-      if (this.getCommand(key)){
-        throw new Error("Command with key: '" + key +  "' allready exists!");
-        return;
+
+      if (this.get(key)){
+        throw new Error("Command with key: '" + key +  "' already exists!");
       }
-      
+
       this._cmds[key] = command;
     },
 
 
     /**
      * Returns a command by key.
-     * @param key {String} Key which adresses the command.
-     * @return {qx.ui.command.Command} Command
+     *
+     * @param key {String} Key which addresses the command
+     *
+     * @return {qx.ui.command.Command | null} Corresponding command instance or null
      */
-    getCommand : function(key)
+    get : function(key)
     {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertString(key, "Key parameter must be a string.");
       }
-      
+
       var cmd = this._cmds[key];
-      if (cmd == null) {
+      if (!cmd) {
         this.debug("The key: '" + key + "' was not added before. Please use " +
-        "'addCommand()' method to add the command.");
+        "'add()' method to add the command.");
         return null;
       }
       return cmd;
     },
-    
-    
+
+
     /**
      * Removes a command by key from group. Returns the command.
-     * @param key {String} Key which adresses the command.
-     * @return {qx.ui.command.Command} Command
+     *
+     * @param key {String} Key which addresses the command
+     *
+     * @return {qx.ui.command.Command} Corresponding command instance
      */
-    removeCommand : function(key)
+    remove : function(key)
     {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertString(key, "Key parameter must be a string.");
       }
-      
+
       var cmd = this._cmds[key];
-      if (cmd == null){
+      if (!cmd){
         this.debug("The key: '" + key + "' was not added before. Please use " +
-        "'addCommand()' method to add the command.");
+        "'add()' method to add the command.");
         return null;
       }
-      
+
       delete this._cmds[key];
-      
+
       return cmd;
     }
   },
+
 
   destruct : function()
   {

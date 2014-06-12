@@ -27,45 +27,40 @@ qx.Class.define("qx.test.ui.command.GroupManager",
     testGroupManager : function()
     {
       var handler = this.spy();
-      
+
       var manager = new qx.ui.command.GroupManager();
-      
+
       var group = new qx.ui.command.Group();
       var cmd = new qx.ui.command.Command("Meta+T");
-      
+
       var group2 = new qx.ui.command.Group();
       var cmd2 = new qx.ui.command.Command("Meta+T");
-      
+
       cmd.addListener("execute", handler);
       cmd2.addListener("execute", handler);
       group.addCommand("test", cmd);
       group2.addCommand("test", cmd2);
-      
-      manager.addGroup(group);
-      manager.addGroup(group2);
-      
-      manager.setActiveGroup(group);
-      
+
+      manager.add(group);
+      manager.add(group2);
+
+      manager.setActive(group);
+
       cmd.execute();
       cmd2.execute();
       this.assertCallCount(handler, 1);
-      
-      manager.setActiveGroup(group);
+
+      manager.setActive(group);
       cmd.execute();
       cmd2.execute();
       this.assertCallCount(handler, 2);
-      
-      manager.blockAll(group);
-      cmd.execute();
-      cmd2.execute();
-      this.assertCallCount(handler, 2);
-      
-      manager.unblockActiveGroup(group);
+
+      manager.unblock(group);
       cmd.execute();
       cmd2.execute();
       this.assertCallCount(handler, 3);
-      
-      manager.blockActiveGroup(group);
+
+      manager.block(group);
       cmd.execute();
       cmd2.execute();
       this.assertCallCount(handler, 3);
