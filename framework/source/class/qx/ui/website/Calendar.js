@@ -749,6 +749,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
     * Generates a date list depending on the given range
     *
     * @param range {Array} Array containing the start and end values on the range
+    * @return {Array} Array with all the date objects contained in the given range
     */
     _generateRange : function(range) {
 
