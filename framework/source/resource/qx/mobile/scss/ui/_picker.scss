@@ -38,7 +38,7 @@
 .picker-container {
   @include border-radius($picker-spinning-wheel-border-radius);
   @include background($picker-spinning-wheel-background);
-  @include flex-justify-content(flex-start);
+  @include qx-flex-justify-content(flex-start);
   overflow:hidden;
   position:relative;
   height: $picker-height;
