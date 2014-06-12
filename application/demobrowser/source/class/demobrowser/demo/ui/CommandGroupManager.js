@@ -41,33 +41,33 @@ qx.Class.define("demobrowser.demo.ui.CommandGroupManager",
       this._manager = new qx.ui.command.GroupManager();
       this._createWidgets();
     },
-    
-    
+
+
     _createWidgets : function()
     {
       var tabview = new qx.ui.tabview.TabView();
-      
+
       var page1 = new qx.ui.tabview.Page("Page1 - press 5 to change color");
       page1.setLayout(new qx.ui.layout.Canvas());
-      
+
       var page2 = new qx.ui.tabview.Page("Page2 - press 5 to change color");
       page2.setLayout(new qx.ui.layout.Canvas());
-      
+
       var page3 = new qx.ui.tabview.Page("Page3 - press 5 to change color");
       page3.setLayout(new qx.ui.layout.Canvas());
-      
+
       page1.add(new ColorSwitch(this), {edge:0});
       page2.add(new ColorSwitch(this), {edge:0});
       page3.add(new ColorSwitch(this), {edge:0});
-      
+
       tabview.add(page1);
       tabview.add(page2);
       tabview.add(page3);
-      
+
       this.getRoot().add(tabview, {edge: 10});
     },
-    
-    
+
+
     getGroupManager : function()
     {
       return this._manager;
@@ -89,23 +89,23 @@ qx.Class.define("ColorSwitch",
     this.base(arguments);
     this.setLayout(new qx.ui.layout.VBox(15));
     this.setPadding(25);
-    
+
     this._controller = controller;
-    
+
     // create command
     var cmd = new qx.ui.command.Command("5");
     cmd.addListener("execute", this.toggleColor, this);
-        
+
     // create command group
     var group = new qx.ui.command.Group();
     this._group = group;
-    
+
     // add command into group
-    group.addCommand("toggleColor", cmd);
-    
+    group.add("toggleColor", cmd);
+
     // Register command group at command group manager
-    controller.getGroupManager().addGroup(group);
-    
+    controller.getGroupManager().add(group);
+
     this.addListener("appear", this._onAppear, this);
     this._createWidgets();
   },
@@ -114,17 +114,17 @@ qx.Class.define("ColorSwitch",
   members :
   {
     _group : null,
-    
-    
+
+
     _createWidgets : function()
     {
       var btn = new qx.ui.form.TextField();
       btn.setPlaceholder("If focused here, all commands will be disabled! Please press key \"5\"!");
       btn.addListener("focusin", this._blockCommands, this);
       btn.addListener("focusout", this._unblockCommands, this);
-      
+
       this.add(btn);
-      
+
       var label = new qx.ui.basic.Label("All tabview pages are holding a view class with same command shortcut! Press key  \"5\" on any page to change the color of the view. You will see that only the appeared page will change his color.");
       label.set({
         rich : true,
@@ -132,29 +132,29 @@ qx.Class.define("ColorSwitch",
       });
       this.add(label);
     },
-    
-    
+
+
     toggleColor : function(target, command)
     {
       this.setBackgroundColor(this.getBackgroundColor() == "#ABEFEF" ? "#ABEFAB" : "#ABEFEF");
     },
-    
-    
+
+
     _onAppear : function(e)
     {
-      this._controller.getGroupManager().setActiveGroup(this._group);
+      this._controller.getGroupManager().setActive(this._group);
     },
-    
-    
+
+
     _blockCommands : function(e)
     {
-      this._controller.getGroupManager().blockActiveGroup();
+      this._controller.getGroupManager().block();
     },
-    
-    
+
+
     _unblockCommands : function(e)
     {
-      this._controller.getGroupManager().unblockActiveGroup();
+      this._controller.getGroupManager().unblock();
     }
   }
 });
