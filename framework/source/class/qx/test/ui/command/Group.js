@@ -31,7 +31,7 @@ qx.Class.define("qx.test.ui.command.Group",
       var cmd = new qx.ui.command.Command("Meta+T");
 
       cmd.addListener("execute", handler);
-      group.addCommand("test", cmd);
+      this.assertTrue(group.add("test", cmd));
 
       group.setActive(false);
       cmd.execute();
@@ -48,12 +48,12 @@ qx.Class.define("qx.test.ui.command.Group",
       var group = new qx.ui.command.Group();
       var cmd = new qx.ui.command.Command("Meta+T");
 
-      group.add("test", cmd);
+      this.assertTrue(group.add("test", cmd));
       this.assertInstance(group.get("test"), qx.ui.command.Command,
         "Returned value is not an instance of qx.ui.command.Command."
       );
 
-      group.remove("test");
+      this.assertInstance(group.remove("test"), qx.ui.command.Command);
 
       this.assertNull(group.get("test"),
         "The returned value is not null. We expected null after removing " +
