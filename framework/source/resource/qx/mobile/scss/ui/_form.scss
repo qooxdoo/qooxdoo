@@ -1,5 +1,5 @@
 //
-// FORM 
+// FORM
 //
 
 .form {
@@ -25,11 +25,11 @@
   border-top: 0;
 }
 
-.form-row.vbox input {
+.form-row.qx-vbox input {
   width: 100%;
 }
 
-.form-row.vbox * + * {
+.form-row.qx-vbox * + * {
   margin-top: rem(10);
 }
 
@@ -76,7 +76,7 @@
   }
 }
 
-// [BUG #7871] Bugfix for IE 10 for enabling word-wrap within a flexbox layout. 
+// [BUG #7871] Bugfix for IE 10 for enabling word-wrap within a flexbox layout.
 .form-row label > p {
   -ms-flex: 1;
   box-flex: 1;
@@ -171,7 +171,7 @@
   margin-top: rem(20);
 }
 
-.form-row-group-first, 
+.form-row-group-first,
 .form-row-group-last {
   @include background($form-background);
   height: 0px;

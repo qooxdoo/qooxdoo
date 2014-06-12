@@ -4,10 +4,10 @@
 
 .toolbar-button {
   @extend .button;
-  @extend .hbox;
+  @extend .qx-hbox;
   @include background-clip(padding-box);
   @include background($toolbar-background);
-  @include border-radius($toolbar-border-radius); 
+  @include border-radius($toolbar-border-radius);
 
   overflow: hidden;
 
@@ -16,7 +16,7 @@
 
   cursor: pointer;
   font-weight: $toolbar-font-weight;
-  
+
   width:0;
   height: 100%;
   line-height:normal;
@@ -26,7 +26,7 @@
 }
 
 .toolbar-button.active {
-  @include background($toolbar-active-background); 
+  @include background($toolbar-active-background);
   color: $toolbar-active-text-color;
 }
 
@@ -36,11 +36,11 @@
 
 .toolbar {
   @include box-align(stretch);
-  
+
   z-index: 1;
   padding: $toolbar-padding;
   height: rem(50);
-  
+
   height: -moz-calc(rem(50) + $toolbar-padding);
 }
 
@@ -49,7 +49,7 @@
 }
 
 .toolbar-button > div {
-  @extend .flex1;
+  @extend .qx-flex1;
 }
 
 .toolbar-button .label {

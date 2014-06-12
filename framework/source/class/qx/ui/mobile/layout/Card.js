@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
 
     // overridden
     _getCssClasses : function() {
-      return ["layout-card","vbox"];
+      return ["layout-card","qx-vbox"];
     },
 
 
@@ -138,7 +138,7 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       this.base(arguments);
       if (widget) {
         widget.addCssClass("layout-card-item");
-        widget.addCssClass("flex1");
+        widget.addCssClass("qx-flex1");
         widget.exclude();
       }
     },

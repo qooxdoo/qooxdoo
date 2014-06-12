@@ -51,7 +51,7 @@ a:hover, a:active {
   @include user-select(none);
   @include text-size-adjust(none);
   overflow-x: hidden;
-  
+
   height:100%;
   width:100%;
 }
@@ -66,13 +66,13 @@ img:not([src]) {
 
 img:before {
   content:'';
-  display:block; 
+  display:block;
   position:absolute;
 }
 
 img.no-content {
   content: '';
-  display: block; 
+  display: block;
   position:relative;
 }
 
@@ -149,4 +149,17 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+//
+// Card Layout
+//
+
+.layout-card {
+  overflow:hidden;
+  position: relative;
+}
+
+.layout-card-item {
+  @include box-sizing(border-box);
 }

@@ -4,13 +4,13 @@
 //
 
 .selectbox {
-  @extend .hbox;
-  @extend .flex-align-center;
-  
+  @extend .qx-hbox;
+  @extend .qx-flex-align-center;
+
   @include user-select(none);
-  @include border-radius($selectbox-border-radius); 
+  @include border-radius($selectbox-border-radius);
   @include background($selectbox-background);
-  
+
   border:none;
   cursor:pointer;
 

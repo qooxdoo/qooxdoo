@@ -1,141 +1,128 @@
 //
-// Card Layout
-//
-
-.layout-card {
-  overflow:hidden;
-  position: relative;
-}
-
-.layout-card-item {
-  @include box-sizing(border-box);
-}
-
-//
 // Box-Layout
 //
 
-.hbox, .vbox {
+.qx-hbox, .qx-vbox {
   // Subtract padding and border from content width (100%) to prevent
   // 100% + X situation.
   @include box-sizing(border-box);
 }
 
 // Devices which supports new flex syntax.
-.flex-ready {
-  .hbox, .vbox {
+.qx-flex-ready {
+  .qx-hbox, .qx-vbox {
     display: -ms-flexbox;      /* TWEENER - IE 10 */
     display: -webkit-flex;     /* NEW - Chrome */
     display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
   }
 
-  .hbox {
+  .qx-hbox {
     @include flex-direction(row);
   }
 
-  .vbox {
+  .qx-vbox {
     @include flex-direction(column);
     width: 100%;
   }
 
-  .hbox.flex-reverse {
+  .qx-hbox.qx-flex-reverse {
     @include flex-direction(row-reverse);
   }
 
-  .vbox.flex-reverse {
+  .qx-vbox.qx-flex-reverse {
     @include flex-direction(column-reverse);
   }
 
-  .flex-center {
+  .qx-flex-center {
     @include flex-align-items(center);
     @include flex-justify-content(center);
   }
 
-  .flex-align-start {
+  .qx-flex-align-start {
     @include flex-align-items(flex-start);
   }
 
-  .flex-align-center {
+  .qx-flex-align-center {
     @include flex-align-items(center);
   }
 
-  .flex-align-end {
+  .qx-flex-align-end {
     @include flex-align-items(flex-end);
   }
 
-  .flex-justify-start {
+  .qx-flex-justify-start {
     @include flex-justify-content(flex-start);
   }
 
-  .flex-justify-center {
+  .qx-flex-justify-center {
     @include flex-justify-content(center);
   }
 
-  .flex-justify-end {
+  .qx-flex-justify-end {
     @include flex-justify-content(flex-end);
   }
 
   @for $i from 0 through 6 {
-    .flex#{$i} {
+    .qx-flex#{$i} {
       @include flex($i);
     }
   }
 }
 
 // Devices which supports old flexbox syntax.
-.mobile:not(.flex-ready),
-.qx-widget:not(.flex-ready) {
-  .hbox, .vbox {
+.mobile:not(.qx-flex-ready),
+.qx-widget:not(.qx-flex-ready) {
+  .qx-hbox, .qx-vbox {
     display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
     display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
     display: box;
   }
 
-  .hbox {
+  .qx-hbox {
     @include box-orient(horizontal);
   }
 
-  .vbox {
+  .qx-vbox {
     @include box-orient(vertical);
     height: 100%;
     width:100%;
   }
 
-  .hbox.flex-reverse, .vbox.flex-reverse {
+  .qx-hbox.qx-flex-reverse, .qx-vbox.qx-flex-reverse {
     @include box-direction(reverse);
   }
 
-  .flex-center {
+  .qx-flex-center {
     @include box-pack(center);
     @include box-align(center);
   }
 
-  .flex-align-start {
+  .qx-flex-align-start {
     @include box-align(start);
   }
 
-  .flex-align-center {
+  .qx-flex-align-center {
     @include box-align(center);
   }
 
-  .flex-align-end {
+  .qx-flex-align-end {
     @include box-align(end);
   }
 
-  .flex-justify-start {
+  .qx-flex-justify-start {
     @include box-pack(start);
   }
 
-  .flex-justify-center {
+  .qx-flex-justify-center {
     @include box-pack(center);
   }
 
-  .flex-justify-end {
+  .qx-flex-justify-end {
     @include box-pack(end);
   }
 
   @for $i from 0 through 6 {
-    .flex#{$i} {
+    .qx-flex#{$i} {
       @include box-flex($i);
     }
   }

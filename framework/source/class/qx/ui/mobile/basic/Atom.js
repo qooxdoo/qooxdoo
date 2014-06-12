@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
 
       this.__childrenContainer = new qx.ui.mobile.container.Composite(layout);
-      this.__childrenContainer.addCssClass("flex-center");
+      this.__childrenContainer.addCssClass("qx-flex-center");
       this.__childrenContainer.setAnonymous(true);
 
       if(this.__icon) {
@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       }
 
       if(this.__label) {
-        this.__label.addCssClass("flex-center");
+        this.__label.addCssClass("qx-flex-center");
         this.__childrenContainer.add(this.__label);
       }
 

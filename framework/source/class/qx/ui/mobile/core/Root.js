@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
 
     var flexboxSyntax = qx.core.Environment.get("css.flexboxSyntax");
     if (flexboxSyntax === "flex" || flexboxSyntax === "flexbox") {
-      this.addCssClass("flex-ready");
+      this.addCssClass("qx-flex-ready");
     }
 
     this._onOrientationChange();

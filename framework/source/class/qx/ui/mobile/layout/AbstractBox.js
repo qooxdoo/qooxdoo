@@ -116,44 +116,44 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     {
       "alignX":
       {
-        "hbox" :
+        "qx-hbox" :
         {
-          "left" : "flex-justify-start",
-          "center" : "flex-justify-center",
-          "right" : "flex-justify-end"
+          "left" : "qx-flex-justify-start",
+          "center" : "qx-flex-justify-center",
+          "right" : "qx-flex-justify-end"
         },
-        "vbox" :
+        "qx-vbox" :
         {
-          "left" : "flex-align-start",
-          "center" : "flex-align-center",
-          "right" : "flex-align-end"
+          "left" : "qx-flex-align-start",
+          "center" : "qx-flex-align-center",
+          "right" : "qx-flex-align-end"
         }
       },
       "alignY" :
       {
-        "hbox" :
+        "qx-hbox" :
         {
-          "top" : "flex-align-start",
-          "middle" : "flex-align-center",
-          "bottom" : "flex-align-end"
+          "top" : "qx-flex-align-start",
+          "middle" : "qx-flex-align-center",
+          "bottom" : "qx-flex-align-end"
         },
-        "vbox" :
+        "qx-vbox" :
         {
-          "top" : "flex-justify-start",
-          "middle" : "flex-justify-center",
-          "bottom" : "flex-justify-end"
+          "top" : "qx-flex-justify-start",
+          "middle" : "qx-flex-justify-center",
+          "bottom" : "qx-flex-justify-end"
         }
       },
       "reversed" :
       {
-        "hbox" :
+        "qx-hbox" :
         {
-          "true" : "flex-reverse",
+          "true" : "qx-flex-reverse",
           "false" : null
         },
-        "vbox" :
+        "qx-vbox" :
         {
-          "true" : "flex-reverse",
+          "true" : "qx-flex-reverse",
           "false" : null
         }
       }
@@ -190,9 +190,9 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
       if (property == "flex") {
         var old = this._getChildLayoutPropertyValue(widget, property);
         if (old != null) {
-          widget.removeCssClass("flex" + value);
+          widget.removeCssClass("qx-flex" + value);
         }
-        widget.addCssClass("flex" + value);
+        widget.addCssClass("qx-flex" + value);
       }
     },
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.mobile.layout.AbstractBox",
     {
       this.base(arguments);
       for (var i = 0; i <= 6; i++) {
-        widget.removeCssClass("flex" +i);
+        widget.removeCssClass("qx-flex" +i);
       }
     },
 
