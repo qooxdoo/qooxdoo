@@ -804,31 +804,20 @@ module.exports = {
           continue;
         }
 
-        var shortFilePath = util.filePathFrom(classIds[i]);
-        var namespace = util.namespaceFrom(classIds[i], Object.keys(basePaths));
-        if (!namespace) {
-          throw new Error("ENOENT - Missing library. No matching namespace found for " + classIds[i]);
-        }
-        // console.log(namespace, shortFilePath);
-        var curFullPath = path.join(basePaths[namespace], shortFilePath);
-        if (!fs.existsSync(curFullPath)) {
-          throw new Error("ENOENT - "+curFullPath+" doesn't exist.");
-        }
-        var jsCode = fs.readFileSync(curFullPath, {encoding: 'utf8'});
-        var tree = esprima.parse(jsCode, {comment: true, loc: true});
+        var jsCode = readFileContent([classIds[i]], basePaths);
+        var tree = esprima.parse(jsCode[0], {comment: true, loc: true});
         var classDeps = {
           'load': [],
           'run': []
         };
 
-        classNameAnnotator.annotate(tree, util.classNameFrom(shortFilePath));
+        classNameAnnotator.annotate(tree, classIds[i]);
         classDeps = findUnresolvedDeps(tree, {flattened: false});
-        var className = util.classNameFrom(shortFilePath);
 
         // Note: Excluded classes will still be entries in load and run deps!
         // Maybe it's better to remove them here too ...
-        classesDeps[className] = classDeps;
-        // console.log(className);
+        classesDeps[classIds[i]] = classDeps;
+        // console.log(classIds[i]);
 
         var loadAndRun = classDeps.load.concat(classDeps.run);
         for (var j=0; j<loadAndRun.length; j++) {
@@ -913,6 +902,38 @@ module.exports = {
     };
 
     return classList.map(augmentClassWithNamespace);
+  },
+
+  /**
+   * Reads file content given for classIds and basePaths.
+   *
+   * @param {string[]} classIds - class ids (e.g. 'qx.foo.Bar')
+   * @param {Object} basePaths - namespace (key) and filePath (value) to library
+   * @return {string[]} classCodeContent - file contents
+   * @throws {Error} ENOENT
+   */
+  readFileContent: function(classIds, basePaths) {
+    var classCodeList = [];
+    var i = 0;
+    var l = classIds.length;
+
+    for (; i<l; i++) {
+      var shortFilePath = util.filePathFrom(classIds[i]);
+      var namespace = util.namespaceFrom(classIds[i], Object.keys(basePaths));
+      if (!namespace) {
+        throw new Error("ENOENT - Missing library. No matching namespace found for " + classIds[i]);
+      }
+      // console.log(namespace, shortFilePath);
+      var curFullPath = path.join(basePaths[namespace], shortFilePath);
+      if (!fs.existsSync(curFullPath)) {
+        throw new Error("ENOENT - "+curFullPath+" doesn't exist.");
+      }
+
+      var jsCode = fs.readFileSync(curFullPath, {encoding: 'utf8'});
+      classCodeList.push(jsCode);
+    }
+
+    return classCodeList;
   },
 
   /**
@@ -1006,4 +1027,5 @@ var collectDepsRecursive = module.exports.collectDepsRecursive;
 var createAtHintsIndex = module.exports.createAtHintsIndex;
 var sortDepsTopologically = module.exports.sortDepsTopologically;
 var prependNamespace = module.exports.prependNamespace;
+var readFileContent = module.exports.readFileContent;
 var translateClassIdsToPaths = module.exports.translateClassIdsToPaths;
