@@ -264,6 +264,11 @@ qx.Class.define("qx.test.ui.form.Placeholder",
     },
 
     testChangeValuePasswordField : function() {
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 9)
+      {
+        this.skip("Skipped in IE 8 until bug #8424 is fixed.");
+      }
       this.__testChangeValue(qx.ui.form.PasswordField);
     },
 
