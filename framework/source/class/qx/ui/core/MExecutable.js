@@ -54,7 +54,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
     command :
     {
       check : function(value) {
-        return value instanceof qx.ui.command.Command || value instanceof qx.ui.command.Command;
+        return value instanceof qx.ui.core.Command || value instanceof qx.ui.command.Command;
       },
       apply : "_applyCommand",
       event : "changeCommand",
