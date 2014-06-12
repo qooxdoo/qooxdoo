@@ -89,7 +89,6 @@ module.exports = function(grunt) {
     // -----------------------------------------
     var classPaths = qxLib.getPathsFor("class", opts.libraries, {withKeys: true});
     var resBasePathMap = qxLib.getPathsFor("resource", opts.libraries, {withKeys: true});
-    // console.log(resBasePathMap);
     var allNamespaces = Object.keys(classPaths);
     grunt.log.ok('Done.');
 
@@ -113,10 +112,8 @@ module.exports = function(grunt) {
     var macroToExpansionMap = {
       "${qx.icontheme}": opts.qxIconTheme
     };
-    var assetNsBasesPaths = qxRes.flattenExpandAndGlobAssets(atHintIndex.asset, resBasePathMap, macroToExpansionMap);
-    // console.log(assetNsBasesPaths);
-    // process.exit();
-    var resData = qxRes.collectResources(assetNsBasesPaths, resBasePathMap, {metaFiles: true});
+    var assetNsPaths = qxRes.flattenExpandAndGlobAssets(atHintIndex.asset, resBasePathMap, macroToExpansionMap);
+    var resData = qxRes.collectResources(assetNsPaths, resBasePathMap, {metaFiles: true});
     grunt.log.ok('Done.');
 
 
