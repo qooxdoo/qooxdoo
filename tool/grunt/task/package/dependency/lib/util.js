@@ -95,7 +95,7 @@ module.exports = {
    *
    * @param {string} className
    * @param {string[]} allNamespaces
-   * @returns {string} namespace
+   * @returns {string|boolean} namespace
    */
   namespaceFrom: function(className, allNamespaces) {
     var exceptions = ["qxWeb", "q"];
