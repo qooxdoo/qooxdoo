@@ -39,14 +39,14 @@ qx.Class.define("qx.ui.command.GroupManager",
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
       }
-      
+
       if (qx.lang.Array.contains(this.__groups, group)){
         this.debug("Group is already added!");
         return;
       }
 
       this.__groups.push(group);
-      
+
       // deactivate added group to prevent collusions
       group.setActive(false);
     },
@@ -61,12 +61,12 @@ qx.Class.define("qx.ui.command.GroupManager",
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
       }
-      
+
       if (!this.hasGroup(group)){
         this.debug("Group was not added before! You have to use 'addCommand()' method before activating!");
         return;
       }
-      
+
       // iterate through all groups and deactivate all expect the given one
       for (var i=0; i<this.__groups.length; i++)
       {
@@ -79,8 +79,8 @@ qx.Class.define("qx.ui.command.GroupManager",
         item.setActive(false);
       }
     },
-    
-    
+
+
     /**
      * Returns active command group.
      * @return {qx.ui.command.Group} Active command group
@@ -127,7 +127,10 @@ qx.Class.define("qx.ui.command.GroupManager",
 
     /**
      * Helper function returns added command group.
-     * @return {qx.ui.command.Group || null} Command group or null
+     *
+     * @param group {qx.ui.command.Group} Command group
+     *
+     * @return {qx.ui.command.Group | null} Command group or null
      */
     _getGroup : function(group)
     {
@@ -141,14 +144,18 @@ qx.Class.define("qx.ui.command.GroupManager",
 
     /**
      * Whether a command manager was added.
+     *
+     * @param group {qx.ui.command.Group} Command group
+     *
+     * @return {Boolean} <code>true</code> if group already added
      */
     hasGroup : function(group)
     {
       if (qx.core.Environment.get("qx.debug")) {
         this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
       }
-      
-      return (this._getGroup(group) == null) ? false : true;
+
+      return !!(this._getGroup(group));
     }
   },
 
