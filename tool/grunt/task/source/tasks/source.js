@@ -166,7 +166,7 @@ module.exports = function(grunt) {
     var locResTransHash = createHashOver(locResTransContent).substr(0,12);
     var locResTransFileName = opts.appName + "." + locResTransHash + ".js";
 
-    // {"uris":["__out__:myapp.e2c18d74cbbe.js","qx:qx/Bootstrap.js", ...]}};
+    // {"uris":["__out__:myapp.e2c18d74cbbe.js","qx:qx/Bootstrap.js", ...]};
     var packagesUris = {
       "uris": ["__out__:"+locResTransFileName].concat(classListPaths)
     };
