@@ -233,7 +233,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     },
 
     "test: validate freshness": function() {
-      this.require(["php"]);
+      this.require(["php", "noIe"]);
 
       var req = this.req;
       var url = this.getUrl("qx/test/xmlhttp/time.php");
@@ -568,7 +568,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     },
 
     "test: call onreadystatechange when aborting LOADING": function() {
-      this.require(["php"]);
+      this.require(["php", "noIe9"]);
 
       var req = this.req;
       var that = this;
@@ -593,7 +593,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
     },
 
     "test: call onloadend when aborting LOADING": function() {
-      this.require(["php"]);
+      this.require(["php", "noIe9"]);
 
       var req = this.req;
       var that = this;
@@ -853,6 +853,11 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
 
     hasNoIe: function() {
       return !(qx.core.Environment.get("engine.name") == "mshtml");
+    },
+
+    hasNoIe9: function() {
+      return (qx.core.Environment.get("engine.name") !== "mshtml" ||
+        qx.core.Environment.get("browser.documentmode") !== 9);
     },
 
     hasFile: function() {
