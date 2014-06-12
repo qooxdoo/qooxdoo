@@ -61,8 +61,6 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
     this.initNativeContextMenu();
-    
-    this.__states = {};
   },
 
 
@@ -2474,9 +2472,6 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
       }
-      
-      // Fire "statesChanged" event
-      this.fireDataEvent("statesChanged", this.__states.concat(), states);
     },
 
 
@@ -2519,9 +2514,6 @@ qx.Class.define("qx.ui.core.Widget",
           }
         }
       }
-      
-      // Fire "statesChanged" event
-      this.fireDataEvent("statesChanged", this.__states.concat(), states);
     },
 
 
