@@ -31,7 +31,6 @@ var crypto = require("crypto");
 var path = require("path");
 
 // third-party
-var pathIsInside = require("path-is-inside");
 var shell = require('shelljs');
 
 // qx
@@ -68,32 +67,6 @@ function renderLoaderTmpl(tmpl, ctx) {
 
   return tmpl;
 }
-
-function calculateRelPaths(manifestPaths, qxPath, appName, ns) {
-  var resolved_qxPath = path.resolve(qxPath);
-  var gruntDir = "tool/grunt";
-  var rel = {
-    qx: "",
-    res: "",
-    class: ""
-  };
-  // qx path depending on whether app is within qooxdoo sdk or not
-  rel.qx = (pathIsInside(manifestPaths[appName].base.abs, resolved_qxPath))
-           ? path.relative(manifestPaths[appName].base.abs, resolved_qxPath)
-           : qxPath;
-
-  // paths depending on whether app is within "tool/grunt" dir ('myapp' test app) or not
-  if (pathIsInside(manifestPaths[appName].base.abs, path.join(resolved_qxPath, gruntDir))) {
-    rel.res = path.join("../", manifestPaths[ns].resource);
-    rel.class = path.join("../", manifestPaths[ns].class);
-  } else {
-    rel.res = path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].resource);
-    rel.class = path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].class);
-  }
-
-  return rel;
-}
-
 
 //------------------------------------------------------------------------------
 // Public Interface
@@ -179,21 +152,14 @@ module.exports = function(grunt) {
 
     var libinfo = { "__out__":{"sourceUri":"script"} };
     var manifestPaths = qxLib.getPathsFromManifest(opts.libraries);
-    var relPaths = {};
     var ns = "";
     for (ns in manifestPaths) {
-      relPaths = calculateRelPaths(manifestPaths, opts.qxPath, opts.appName, ns);
       libinfo[ns] = {};
-      if (ns === "qx") {
-        libinfo[ns] = {
-          "resourceUri": "../"+relPaths.qx+"/framework/source/resource",
-          "sourceUri": "../"+relPaths.qx+"/framework/source/class",
-          "sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
-        };
-      } else {
-        libinfo[ns].resourceUri = relPaths.res;
-        libinfo[ns].sourceUri = relPaths.class;
-      }
+      libinfo[ns] = {
+        "resourceUri": "resource",
+        "sourceUri": "script",
+        "sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
+      };
     }
 
     // pretty naive but works for now
