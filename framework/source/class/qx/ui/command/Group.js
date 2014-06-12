@@ -62,8 +62,9 @@ qx.Class.define("qx.ui.command.Group",
      * Adds a command with a key to the group.
      *
      * @param key {String} Key to be able to addresses the command
-     *
      * @param command {qx.ui.command.Command} Command
+     *
+     * @return {Boolean} <code>false</code> if key already added before
      */
     add : function(key, command)
     {
@@ -79,10 +80,15 @@ qx.Class.define("qx.ui.command.Group",
       }
 
       if (this.get(key)){
-        throw new Error("Command with key: '" + key +  "' already exists!");
+        if (qx.core.Environment.get("qx.debug")) {
+          this.debug("Command with key: '" + key +  "' already exists!");
+        }
+        return false;
       }
 
       this._cmds[key] = command;
+
+      return true;
     },
 
 
@@ -101,10 +107,14 @@ qx.Class.define("qx.ui.command.Group",
 
       var cmd = this._cmds[key];
       if (!cmd) {
-        this.debug("The key: '" + key + "' was not added before. Please use " +
-        "'add()' method to add the command.");
+        if (qx.core.Environment.get("qx.debug")) {
+          this.debug("The key: '" + key + "' was not added before. Please use " +
+            "'add()' method to add the command.");
+        }
+
         return null;
       }
+
       return cmd;
     },
 
@@ -114,7 +124,7 @@ qx.Class.define("qx.ui.command.Group",
      *
      * @param key {String} Key which addresses the command
      *
-     * @return {qx.ui.command.Command} Corresponding command instance
+     * @return {qx.ui.command.Command | null} Corresponding command instance or null
      */
     remove : function(key)
     {
@@ -123,9 +133,12 @@ qx.Class.define("qx.ui.command.Group",
       }
 
       var cmd = this._cmds[key];
-      if (!cmd){
-        this.debug("The key: '" + key + "' was not added before. Please use " +
-        "'add()' method to add the command.");
+      if (!cmd) {
+        if (qx.core.Environment.get("qx.debug")) {
+          this.debug("The key: '" + key + "' was not added before. Please use " +
+            "'add()' method to add the command.");
+        }
+
         return null;
       }
 
