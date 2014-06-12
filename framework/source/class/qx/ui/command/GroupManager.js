@@ -77,7 +77,9 @@ qx.Class.define("qx.ui.command.GroupManager",
 
 
     /**
-     * Removes a command group from group manager. Returns the group.
+     * Removes a command group from group manager. If removed group was the
+     * active group, active group will be set to <code>null</code> Returns the
+     * group.
      *
      * @param group {qx.ui.command.Group} Command group
      *
@@ -86,20 +88,26 @@ qx.Class.define("qx.ui.command.GroupManager",
     remove : function(group)
     {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(group, "Group must be an instance of qx.ui.command.Group");
+        this.assertInstance(group, qx.ui.command.Group, "Group must be an instance of qx.ui.command.Group");
       }
 
-      if (!this.has(group)) {
+      var index = this.__groups.indexOf(group);
+      if (index === -1){
         if (qx.core.Environment.get("qx.debug")) {
           this.debug("Group was not added before. Please use " +
             "'add()' method to add the group.");
         }
-        return null;
       }
 
-      delete this._cmds[key];
+      // reset active group
+      if (this.getActive() === group) {
+        this.__activeGroup = null;
+      }
 
-      return cmd;
+      // remove group from internal array
+      this.__groups.splice(index, 1);
+
+      return group;
     },
 
 
