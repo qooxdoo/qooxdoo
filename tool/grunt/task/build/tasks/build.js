@@ -29,6 +29,7 @@
 // native
 var crypto = require("crypto");
 var path = require("path");
+var fs = require("fs");
 
 // third-party
 var shell = require('shelljs');
@@ -186,8 +187,12 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Copy resources ...');
     // -------------------------------------
-    shell.cp("-f", opts.sourcePath+'/index.html', opts.buildPath);
-    // TODO: shell.cp resource images
+    if (!fs.existsSync(opts.buildPath)) {
+      shell.mkdir(opts.buildPath);
+    }
+    shell.cp("-f", path.join(opts.sourcePath, 'index.html'), opts.buildPath);
+    var buildResourcePath = path.join(opts.buildPath, 'resource');
+    qxRes.copyResources(buildResourcePath, resBasePathMap, assetNsPaths);
     grunt.log.ok('Done.');
 
 

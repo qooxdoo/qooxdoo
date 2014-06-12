@@ -47,6 +47,7 @@ var path = require('path');
 // third party
 var imgsize = require('image-size');
 var glob = require('glob');
+var shell = require('shelljs');
 
 // qx
 var q = require('qooxdoo');
@@ -453,7 +454,7 @@ module.exports = {
    * Collects resources as one big resource struct/info map.
    *
    * @param {Object} assetNsPaths
-   * @param {Object} resBasePathMap - base paths by namespace*
+   * @param {Object} resBasePathMap - base paths by namespace
    * @param {Object} [options]
    * @param {Object} [options.metaFiles=false] - whether to include meta entries
    * @param {Object} - resource struct/map (i.e. JSON compatible) object
@@ -510,5 +511,41 @@ module.exports = {
     }
 
     return resStruct;
+  },
+
+  /**
+   * Copies resources given in assetNsPaths from matching resBasePathMap
+   * to the resDirName.
+   *
+   * @param {String} resDirName - root dir for all resources
+   * @param {Object} assetNsPaths
+   * @param {Object} resBasePathMap - base paths by namespace
+   */
+  copyResources: function(resDirName, resBasePathMap, assetNsPaths) {
+    if (!fs.existsSync(resDirName)) {
+      shell.mkdir("-p", resDirName);
+    }
+
+    var ns = "";
+    var resNs = "";
+    var resSourcePath = "";
+    var resTargetPath = "";
+    var resTargetPathDirName = "";
+
+    var copyResource = function(resPath) {
+      resSourcePath = path.join(resBasePathMap[resNs], resPath);
+      resTargetPath = path.join(resDirName, resPath);
+      resTargetPathDirName = path.dirname(resTargetPath);
+      if (!fs.existsSync(resTargetPathDirName)) {
+        shell.mkdir("-p", resTargetPathDirName);
+      }
+      shell.cp("-f", resSourcePath, resTargetPath);
+    };
+
+    for (ns in assetNsPaths) {
+      for (resNs in assetNsPaths[ns]) {
+        assetNsPaths[ns][resNs].forEach(copyResource);
+      }
+    }
   }
 };
