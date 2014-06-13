@@ -278,7 +278,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
     /**
      * Sets the given date as the current value displays it
      *
-     * @param value {Date} Date to display.
+     * @param value {Date|Array} Date or array of dates to be displayed.
      * @return {qx.ui.website.Calendar} The collection for chaining.
      */
     setValue : function(value) {
