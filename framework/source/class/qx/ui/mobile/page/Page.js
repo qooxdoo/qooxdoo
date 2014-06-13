@@ -268,9 +268,9 @@ qx.Class.define("qx.ui.mobile.page.Page",
     {
       if (!this.isInitialized())
       {
-        this.setLifeCycleState("initialize");
         this._initialize();
         this.__initialized = true;
+        this.setLifeCycleState("initialize");
       }
     },
 
@@ -305,8 +305,8 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * updates are done when page is not shown.
      */
     start : function() {
-      this.setLifeCycleState("start");
       this._start();
+      this.setLifeCycleState("start");
     },
 
 
@@ -332,8 +332,8 @@ qx.Class.define("qx.ui.mobile.page.Page",
       if(!this.isInitialized()) {
         return;
       }
-      this.setLifeCycleState("stop");
       this._stop();
+      this.setLifeCycleState("stop");
     },
 
 
@@ -355,8 +355,8 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * Fires the <code>pause</code> event.
      */
     pause : function() {
-      this.setLifeCycleState("pause");
       this._pause();
+      this.setLifeCycleState("pause");
     },
 
 
@@ -379,8 +379,8 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * Fires the <code>resume</code> event.
      */
     resume : function() {
-      this.setLifeCycleState("resume");
       this._resume();
+      this.setLifeCycleState("resume");
     },
 
 
@@ -402,8 +402,8 @@ qx.Class.define("qx.ui.mobile.page.Page",
      * Fires the <code>wait</code> event.
      */
     wait : function() {
-      this.setLifeCycleState("wait");
       this._wait();
+      this.setLifeCycleState("wait");
     },
 
 
