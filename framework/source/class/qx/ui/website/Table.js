@@ -125,7 +125,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /** */
     __internalSelectionClass : "qx-row-selection-class",
     /** */
-    __internalInputClass : "qx-selection-input"
+    __internalInputClass : "qx-selection-input",
+    /** */
+    __allColumnSelector : "qx-all-columns"
 
   },
 
@@ -135,6 +137,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
     // overridden
     init : function() {
+
       if (!this.base(arguments)) {
         return false;
       }
@@ -237,6 +240,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
     /**
      * Unset the compare function for the given type
+     *
      * @param type {String} The type to unset the function for
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
@@ -289,8 +293,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @param func {Function} The filter function
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
-    setFilterFunction : function(func){
-       this._forEachElementWrapped(function(table) {
+    setFilterFunction : function(func) {
+      this._forEachElementWrapped(function(table) {
         table.setProperty("__filterFunction", func);
       }.bind(this));
        return this;
@@ -392,7 +396,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       if(columnName){
         this.__checkColumnExistance(columnName);
       }else{
-        columnName = "all"
+        columnName = qx.ui.website.Table.__allColumnSelector;
       }
 
       this._forEachElementWrapped(function(table) {
@@ -443,7 +447,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     __filterDom : function(keyword, columnName){
 
       var colIndex = this.__getColumnIndex(columnName);
-      var filterFunc = columnName == "all" ? this.getRowFilter() : this.getColumnFilter(columnName);
+      var filterFunc = columnName == qx.ui.website.Table.__allColumnSelector ? this.getRowFilter() : this.getColumnFilter(columnName);
+
       filterFunc = filterFunc || this.__defaultColumnFilter;
 
       var rows = this.__getDataRows(), data = {};
@@ -1161,10 +1166,11 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     * @param data {Map} Map containing the filter data
     * @return {Boolean} True wenn the row containing the current cell should be kept
     */
-    __defaultColumnFilter : function(data){
+    __defaultColumnFilter : function(data) {
 
       var caseSensitive = this.getConfig("caseSensitive");
-      var cellValue = this.__getCellValue(data.row);
+      var cell = data.columnName == qx.ui.website.Table.__allColumnSelector ? data.row : data.cell;
+      var cellValue = this.__getCellValue(cell);
 
       if(caseSensitive){
         return cellValue.indexOf(data.keyword) != -1;
