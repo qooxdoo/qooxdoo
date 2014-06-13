@@ -112,7 +112,7 @@ qx.Class.define("qx.test.Part",
           part.getPackages()[0].execute();
           self.assertJsonEquals(["file1-closure"], qx.test.PART_FILES);
         });
-      }, 300);
+      }, 1000);
 
       partLoader.preload("juhu");
 
@@ -183,7 +183,7 @@ qx.Class.define("qx.test.Part",
         self.resume(function() {
           self.fail("load called twice!");
         });
-      }
+      };
 
       partLoader.require("juhu", function() {
         this.resume(function() {
