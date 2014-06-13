@@ -167,9 +167,9 @@ qx.Class.define("qx.bom.Flash",
                     belongs to.
      * @signature function(element, win)
      */
-    destroy : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(element, win)
+    destroy : function(element, win) {
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 11)
       {
         element = this.__getFlashObject(element);
 
@@ -186,9 +186,7 @@ qx.Class.define("qx.bom.Flash",
             qx.bom.Flash.__destroyObjectInIE(element);
           });
         }
-      },
-
-      "default" : function(element, win) {
+      } else {
         element = this.__getFlashObject(element);
 
         if (element.parentNode) {
@@ -197,7 +195,8 @@ qx.Class.define("qx.bom.Flash",
 
         delete this._flashObjects[element.id];
       }
-    }),
+    },
+
 
     /**
      * Return the flash object element from DOM node.
@@ -277,9 +276,9 @@ qx.Class.define("qx.bom.Flash",
      * @param win {Window} Window to create the element for.
      * @signature function(element, attributes, params, win)
      */
-    __createSwf : qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(element, attributes, params, win)
+    __createSwf : function(element, attributes, params, win) {
+      if (qx.core.Environment.get("engine.name") == "mshtml" &&
+        qx.core.Environment.get("browser.documentmode") < 11)
       {
         // Move data from params to attributes
         params.movie = attributes.data;
@@ -290,7 +289,7 @@ qx.Class.define("qx.bom.Flash",
 
         // Prepare parameters
         var paramsStr = "";
-        for (name in params) {
+        for (var name in params) {
           paramsStr += '<param name="' + name + '" value="' + params[name] + '" />';
         }
 
@@ -316,32 +315,29 @@ qx.Class.define("qx.bom.Flash",
         }
 
         return element.firstChild;
-      },
-
-      "default" : function(element, attributes, params, win)
-      {
-        // Cleanup
-        delete attributes.classid;
-        delete params.movie;
-
-        var swf = qx.dom.Element.create("object", attributes, win);
-        swf.setAttribute("type", "application/x-shockwave-flash");
-
-        // Add parameters
-        var param;
-        for (var name in params)
-        {
-          param = qx.dom.Element.create("param", {}, win);
-          param.setAttribute("name", name);
-          param.setAttribute("value", params[name]);
-          swf.appendChild(param);
-        }
-
-        element.appendChild(swf);
-
-        return swf;
       }
-    })
+
+      // Cleanup
+      delete attributes.classid;
+      delete params.movie;
+
+      var swf = qx.dom.Element.create("object", attributes, win);
+      swf.setAttribute("type", "application/x-shockwave-flash");
+
+      // Add parameters
+      var param;
+      for (var name in params)
+      {
+        param = qx.dom.Element.create("param", {}, win);
+        param.setAttribute("name", name);
+        param.setAttribute("value", params[name]);
+        swf.appendChild(param);
+      }
+
+      element.appendChild(swf);
+
+      return swf;
+    }
   },
 
   /*
