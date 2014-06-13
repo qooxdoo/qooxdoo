@@ -1,0 +1,8 @@
+<div id="calendar-range-selection"
+  data-qx-class="qx.ui.website.Calendar"></div>
+
+<script type="text/javascript">
+  q.initWidgets("#calendar-range-selection");
+  q("#calendar-range-selection").setConfig("selectionMode","range");
+  q("#calendar-range-selection").on("changeValue", logEvent("changeValue"));
+</script>

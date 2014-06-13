@@ -21,7 +21,7 @@ q.ready(function() {
 
   var demos = {
     button : ["Default"],
-    calendar : ["Default", "Customized"],
+    calendar : ["Default", "Range Selection","Customized"],
     datepicker : ["Default", "Customized"],
     rating : ["Default", "Custom Length", "Custom Symbol", "Custom Styling"],
     slider : ["Default", "Customized"],
