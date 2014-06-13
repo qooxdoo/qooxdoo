@@ -114,12 +114,13 @@ Sometimes it's useful to create groups of commands, especially if you want to de
 ::
 
   var group1 = new qx.ui.command.Group();
-  group1.addCommand("find", findCommand);
-  group1.addCommand("copy", copyCommand);
-  group1.addCommand("paste", pasteCommand);
+  group1.add("find", new qx.ui.command.Command("Ctrl+F"));
+  group1.add("copy", new qx.ui.command.Command("Ctrl+C"));
+  group1.add("paste", new qx.ui.command.Command("Ctrl+V"));
+  group1.add("showPage2", new qx.ui.command.Command("2"));
   group1.setActive(false); // all commands will be deactivated
 
-We also provide you with a manager to handle command groups more comfortably. A common use case is to create multiple instances of one view. If every instance creates the same set of commands, a global shortcut will invoke the command on all instances. So you can easily add your command groups to a command group manager which will activate only one group. An implementation could look like this:
+We also provide you with a manager to handle command groups more comfortable. A common use case is to create multiple instances of one view. If every instance creates the same set of commands, a global shortcut will invoke the command on all instances. Now you can easily add your command groups to a command group manager which will activate only one group. An implementation could look like this:
 
 ::
 
@@ -127,8 +128,18 @@ We also provide you with a manager to handle command groups more comfortably. A 
   manager.addGroup(group1);
   manager.addGroup(group2);
   manager.addGroup(group3);
-  manager.setActiveGroup(group2); // this will deactive all command groups except group2
-  
+  manager.setActiveGroup(group2); // this will deactivate all command groups except group2
+
+
+Furthermore you are able to block even the active command group by the manager. This is useful for disabling commands on focused input field.
+
+::
+
+  var btn = new qx.ui.form.TextField();
+  btn.setPlaceholder("If focused here, all commands will be disabled!");
+  btn.addListener("focusin", manager.block, this);
+  btn.addListener("focusout", manager.unblock, this);
+
 
 Here you can find an example:
 (`Demobrowser <http://demo.qooxdoo.org/%{version}/demobrowser/#ui~CommandGroupManager.html>`__)
