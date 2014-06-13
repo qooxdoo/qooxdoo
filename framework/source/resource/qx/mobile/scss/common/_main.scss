@@ -57,7 +57,7 @@ a:hover, a:active {
 }
 
 img {
-  @include qx-flex-shrink(0);
+  @include flex-shrink(0);
 }
 
 img:not([src]) {
