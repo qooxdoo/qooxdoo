@@ -136,13 +136,24 @@ var getConfig = function() {
   return config;
 };
 
-var mergeConfig = function(config) {
+var mergeConfig = function(config, renameMap) {
   var task = "";
   var prop = "";
   var confKey = "";
   var confKeyProp = "";
+  var newTaskName = "";
+  var oldTaskName = "";
 
   var mergedConfig = deepmerge(getConfig(), config);
+
+  // possibility to rename tasks (i.e. config)
+  if (renameMap) {
+    for (oldTaskName in renameMap) {
+      newTaskName = renameMap[oldTaskName];
+      mergedConfig[newTaskName] = mergedConfig[oldTaskName];
+      delete mergedConfig[oldTaskName];
+    }
+  }
 
   // TODO:
   //  Consider:
