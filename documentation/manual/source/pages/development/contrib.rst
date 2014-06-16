@@ -322,9 +322,9 @@ This list should ease validating pull requests:
     valid SHA1 checksum has to be provided too or the contrib can't be used.
   * The SHA1 checksum can be checked like this:
 
-    * ``curl -LO https://github.com/{user}/{contrib}/archive/master.zip``
+    * ``curl -LO https://github.com/{user}/{contrib}/archive/master.(zip|tar.gz)``
 
-    * ``shasum master.zip``
+    * ``shasum master.(zip|tar.gz)`` XOR ``openssl dgst -sha1 master.(zip|tar.gz)``
 
   * You can also try out the catalog changes locally (not always needed):
 
