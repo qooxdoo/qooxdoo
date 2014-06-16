@@ -73,7 +73,8 @@ var getSupersededJobs = function() {
     // clean: "clean:clean",
     // distclean: "clean:dist",
     info: "info",
-    // source: "source"
+    // source: "source",
+    // build: "build"
   };
 };
 
@@ -113,6 +114,7 @@ var registerNodeTasks = function(grunt, relSdkPath) {
   grunt.loadTasks(relSdkPath + '/tool/grunt/task/generate');
   grunt.loadTasks(relSdkPath + '/tool/grunt/task/info/tasks');
   // grunt.loadTasks(relSdkPath + '/tool/grunt/task/source/tasks');
+  // grunt.loadTasks(relSdkPath + '/tool/grunt/task/build/tasks');
 };
 
 var registerTasks = function(grunt) {
