@@ -48,14 +48,19 @@
  *       <td>Identifies the Tabs widget</td>
  *     </tr>
  *     <tr>
+ *       <td><code>qx-flex-justify-end</code></td>
+ *       <td>Tab container (<code>ul</code>)</td>
+ *       <td>Browsers with flexbox support only: Styles the tab buttons when they are right-aligned</td>
+ *     </tr>
+ *     <tr>
  *       <td><code>qx-tabs-justify</code></td>
  *       <td>Container element</td>
- *       <td>Styles the tab buttons when they are stretched to fill out the available width</td>
+ *       <td>Internet Explorer < 10 only: Styles the tab buttons when they are stretched to fill out the available width</td>
  *     </tr>
  *     <tr>
  *       <td><code>qx-tabs-right</code></td>
  *       <td>Container element</td>
- *       <td>Styles the tab buttons when they are right-aligned</td>
+ *       <td>Internet Explorer < 10 only: Styles the tab buttons when they are right-aligned</td>
  *     </tr>
  *     <tr>
  *       <td><code>qx-tabs-button</code></td>
@@ -66,6 +71,11 @@
  *       <td><code>qx-tabs-button-active</code></td>
  *       <td>Tab (<code>li</code>)</td>
  *       <td>Identifies and styles the currently selected tab. Applied in addition to <code>qx-tabs-button</code></td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-flex-1</code></td>
+ *       <td>Tab (<code>li</code>)</td>
+ *       <td>Browsers with flexbox support only: Styles the tab buttons when they are stretched to fill out the available width</td>
  *     </tr>
  *   </tbody>
  * </table>
