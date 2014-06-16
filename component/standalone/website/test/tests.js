@@ -4637,8 +4637,10 @@ testrunner.define({
     this.assertTrue(tabs.hasClass("qx-tabs"));
     this.assertEquals(1, tabs.getChildren().length);
     this.assertTrue(tabs.getChildren().eq(0).is("ul"));
-    this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-justify"));
-    this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-right"));
+    if (q.env.get("engine.name") != "mshtml" || q.env.get("browser.documentmode") > 9) {
+      this.assertTrue(tabs.hasClass("qx-flex-ready"));
+      this.assertTrue(tabs.getChildren().eq(0).hasClass("qx-hbox"));
+    }
   },
 
   testConstructorWithDom : function() {
@@ -4648,11 +4650,6 @@ testrunner.define({
     this.assertTrue(tabs.find("ul li").getFirst().hasClass("qx-tabs-button-active"));
     this.assertEquals("block", tabs.find("#cont1").getStyle("display"));
     this.assertEquals("none", tabs.find("#cont0").getStyle("display"));
-  },
-
-  testMultipleInstances : function() {
-    var tabs = q("#sandbox").tabs("right");
-    this.assertTrue(q("#sandbox").getChildren().eq(0).hasClass("qx-tabs-right"));
   },
 
   testAddButton : function() {
@@ -4700,17 +4697,30 @@ testrunner.define({
   },
 
   testJustify : function() {
-    var tabs = q("#sandbox").tabs("justify");
-    this.assertTrue(tabs.getChildren().eq(0).hasClass("qx-tabs-justify"));
-    tabs.setConfig("align", "left").render();
-    this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-justify"));
+    var tabs = q.create('<div><ul><li class="qx-tabs-button" data-qx-tabs-page="#page1">Page 1</li></ul><div class="qx-tabs-container"><div id="page1" class="qx-tabs-page">Page 1 Content</div></div></div>')
+    .appendTo("#sandbox").tabs();
+    if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
+      this.assertFalse(tabs.hasClass("qx-tabs-justify"));
+      tabs.setConfig("align", "justify").render();
+      this.assertTrue(tabs.hasClass("qx-tabs-justify"));
+    } else {
+      this.assertTrue(tabs.find(".qx-flex1").length == 0);
+      tabs.setConfig("align", "justify").render();
+      this.assertTrue(tabs.find(".qx-flex1").length == 1);
+    }
   },
 
   testRight : function() {
     var tabs = q("#sandbox").tabs("right");
-    this.assertTrue(tabs.getChildren().eq(0).hasClass("qx-tabs-right"));
-    tabs.setConfig("align", "left").render();
-    this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-tabs-right"));
+    if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
+      this.assertTrue(tabs.hasClass("qx-tabs-right"))
+      tabs.setConfig("align", "left").render();
+      this.assertFalse(tabs.hasClass("qx-tabs-right"));
+    } else {
+      this.assertTrue(tabs.getChildren().eq(0).hasClass("qx-flex-justify-end"));
+      tabs.setConfig("align", "left").render();
+      this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-flex-justify-end"));
+    }
   }
 });
 
