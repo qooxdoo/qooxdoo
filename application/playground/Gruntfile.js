@@ -23,6 +23,7 @@ module.exports = function(grunt) {
         qxPath: "<%= common.QOOXDOO_PATH %>",
         sourcePath: "<%= common.SOURCE_PATH %>/script",
         locales:  "<%= common.LOCALES %>",
+        addCss: ["./resource/<%= common.APPLICATION %>/css/indigo.css"],
         includes: ["<%= common.APPLICATION %>.*", "qx.*"],
         excludes: [
          "qx.test.*",
