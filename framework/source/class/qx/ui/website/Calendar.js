@@ -341,7 +341,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      */
     getValue : function() {
       var value = this.getProperty("value");
-      return value ? new Date(value) : null;
+      return value ? (qx.Bootstrap.isArray(value) ? value : new Date(value)) : null;
     },
 
 
@@ -421,9 +421,14 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
         var range = this.getProperty("__range").slice(0);
         if (range.length == 2) {
-          range.shift();
+          if(newValue <= new Date(range[0])){
+            range[0] = newStr;
+          }else{
+            range[1] = newStr;
+          }
+        }else{
+          range.push(newStr);
         }
-        range.push(newStr);
 
         this.setProperty("__range", range);
         range = range.map(function(item){
