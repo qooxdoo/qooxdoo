@@ -104,6 +104,26 @@ var getConfig = function() {
       }
     },
     */
+    /* grunt-qx-build */
+    /*
+    build: {
+      options: {
+        appName: "<%= common.APPLICATION %>",
+        qxPath: "<%= common.QOOXDOO_PATH %>",
+        qxIconTheme: "<%= common.QXICONTHEME %>",
+        locales:  "<%= common.LOCALES %>",
+        sourcePath: "<%= common.SOURCE_PATH %>",
+        buildPath: "<%= common.BUILD_PATH %>",
+        environment: common.ENVIRONMENT,
+        includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
+        excludes: [],
+        libraries: [
+          "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
+          "<%= common.ROOT %>/Manifest.json"
+        ]
+      }
+    },
+    */
     /* grunt-qx-info */
     info: {
       options: {
