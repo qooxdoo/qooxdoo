@@ -79,7 +79,9 @@ qx.Class.define("qx.test.dom.Hierarchy",
     testIsRenderedIframe : function()
     {
       this.__iframe = qx.bom.Iframe.create();
-      qx.bom.Iframe.setSource(this.__iframe, "http://qooxdoo.org");
+      var src = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.html");
+      src = qx.util.Uri.getAbsolute(src);
+      qx.bom.Iframe.setSource(this.__iframe, src);
       document.body.appendChild(this.__iframe);
 
       qx.event.Registration.addListener(this.__iframe, "load", function(e) {
