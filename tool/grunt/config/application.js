@@ -114,7 +114,13 @@ var getConfig = function() {
         locales:  "<%= common.LOCALES %>",
         sourcePath: "<%= common.SOURCE_PATH %>",
         buildPath: "<%= common.BUILD_PATH %>",
-        environment: common.ENVIRONMENT,
+        environment: deepmerge(common.ENVIRONMENT, {
+          "qx.debug" : false,
+          "qx.debug.databinding" : false,
+          "qx.debug.dispose" : false,
+          "qx.debug.ui.queue" : false,
+          "qx.debug.io" : false
+        }),
         includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
         excludes: [],
         libraries: [
