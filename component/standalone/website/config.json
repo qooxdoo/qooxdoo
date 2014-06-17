@@ -14,6 +14,8 @@
     "build-min",
     "build-module-all",
     "build-module-all-min",
+    "build-module-matchmedia",
+    "build-module-matchmedia-min",
     "source",
     "test-source",
     "test-module",
