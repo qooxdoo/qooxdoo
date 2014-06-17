@@ -75,15 +75,22 @@ module.exports = {
     timeFormats = util.appendPrefixToProperties(timeFormats, 'cldr_time_format_');
 
     var dfa = util.appendPrefixToProperties(dayNames.format.abbreviated, 'cldr_day_format_abbreviated_');
+    var dfn = util.appendPrefixToProperties(dayNames.format.narrow, 'cldr_day_format_narrow_');
     var dfw = util.appendPrefixToProperties(dayNames.format.wide, 'cldr_day_format_wide_');
     var dfs = util.appendPrefixToProperties(dayNames.format.short, 'cldr_day_format_short_');
+    var dsa = util.appendPrefixToProperties(dayNames['stand-alone'].abbreviated, 'cldr_day_stand-alone_abbreviated_');
     var dsn = util.appendPrefixToProperties(dayNames['stand-alone'].narrow, 'cldr_day_stand-alone_narrow_');
-    specificDayNames = util.mergeObject(dfa, dfw, dfs, dsn);
+    var dss = util.appendPrefixToProperties(dayNames['stand-alone'].short, 'cldr_day_stand-alone_short_');
+    var dsw = util.appendPrefixToProperties(dayNames['stand-alone'].wide, 'cldr_day_stand-alone_wide_');
+    specificDayNames = util.mergeObject(dfa, dfn, dfw, dfs, dsa, dsn, dss, dsw);
 
     var mfa = util.appendPrefixToProperties(monthNames.format.abbreviated, 'cldr_month_format_abbreviated_');
+    var mfn = util.appendPrefixToProperties(monthNames.format.narrow, 'cldr_month_format_narrow_');
     var mfw = util.appendPrefixToProperties(monthNames.format.wide, 'cldr_month_format_wide_');
+    var msa = util.appendPrefixToProperties(monthNames['stand-alone'].abbreviated, 'cldr_month_stand-alone_abbreviated_');
     var msn = util.appendPrefixToProperties(monthNames['stand-alone'].narrow, 'cldr_month_stand-alone_narrow_');
-    specificMonthNames = util.mergeObject(mfa, mfw, msn);
+    var msw = util.appendPrefixToProperties(monthNames['stand-alone'].wide, 'cldr_month_stand-alone_wide_');
+    specificMonthNames = util.mergeObject(mfa, mfn, mfw, msa, msn, msw);
 
     specificNumberSymbols.cldr_number_decimal_separator = numberSymbols.decimal;
     specificNumberSymbols.cldr_number_group_separator = numberSymbols.group;

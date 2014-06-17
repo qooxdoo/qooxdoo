@@ -25,7 +25,7 @@ module.exports = {
     done();
   },
 
-  getTailoredCldrData : function (test) {
+  getTailoredCldrDataAllKeys: function (test) {
     var cldrData = this.locale.getTailoredCldrData('en');
     var expectedKeys = [
       'quotationStart',
@@ -79,6 +79,13 @@ module.exports = {
       'cldr_day_format_abbreviated_thu',
       'cldr_day_format_abbreviated_fri',
       'cldr_day_format_abbreviated_sat',
+      'cldr_day_format_narrow_sun',
+      'cldr_day_format_narrow_mon',
+      'cldr_day_format_narrow_tue',
+      'cldr_day_format_narrow_wed',
+      'cldr_day_format_narrow_thu',
+      'cldr_day_format_narrow_fri',
+      'cldr_day_format_narrow_sat',
       'cldr_day_format_wide_sun',
       'cldr_day_format_wide_mon',
       'cldr_day_format_wide_tue',
@@ -93,6 +100,13 @@ module.exports = {
       'cldr_day_format_short_thu',
       'cldr_day_format_short_fri',
       'cldr_day_format_short_sat',
+      'cldr_day_stand-alone_abbreviated_sun',
+      'cldr_day_stand-alone_abbreviated_mon',
+      'cldr_day_stand-alone_abbreviated_tue',
+      'cldr_day_stand-alone_abbreviated_wed',
+      'cldr_day_stand-alone_abbreviated_thu',
+      'cldr_day_stand-alone_abbreviated_fri',
+      'cldr_day_stand-alone_abbreviated_sat',
       'cldr_day_stand-alone_narrow_sun',
       'cldr_day_stand-alone_narrow_mon',
       'cldr_day_stand-alone_narrow_tue',
@@ -100,6 +114,20 @@ module.exports = {
       'cldr_day_stand-alone_narrow_thu',
       'cldr_day_stand-alone_narrow_fri',
       'cldr_day_stand-alone_narrow_sat',
+      'cldr_day_stand-alone_short_sun',
+      'cldr_day_stand-alone_short_mon',
+      'cldr_day_stand-alone_short_tue',
+      'cldr_day_stand-alone_short_wed',
+      'cldr_day_stand-alone_short_thu',
+      'cldr_day_stand-alone_short_fri',
+      'cldr_day_stand-alone_short_sat',
+      'cldr_day_stand-alone_wide_sun',
+      'cldr_day_stand-alone_wide_mon',
+      'cldr_day_stand-alone_wide_tue',
+      'cldr_day_stand-alone_wide_wed',
+      'cldr_day_stand-alone_wide_thu',
+      'cldr_day_stand-alone_wide_fri',
+      'cldr_day_stand-alone_wide_sat',
       'cldr_month_format_abbreviated_1',
       'cldr_month_format_abbreviated_2',
       'cldr_month_format_abbreviated_3',
@@ -112,6 +140,18 @@ module.exports = {
       'cldr_month_format_abbreviated_10',
       'cldr_month_format_abbreviated_11',
       'cldr_month_format_abbreviated_12',
+      'cldr_month_format_narrow_1',
+      'cldr_month_format_narrow_2',
+      'cldr_month_format_narrow_3',
+      'cldr_month_format_narrow_4',
+      'cldr_month_format_narrow_5',
+      'cldr_month_format_narrow_6',
+      'cldr_month_format_narrow_7',
+      'cldr_month_format_narrow_8',
+      'cldr_month_format_narrow_9',
+      'cldr_month_format_narrow_10',
+      'cldr_month_format_narrow_11',
+      'cldr_month_format_narrow_12',
       'cldr_month_format_wide_1',
       'cldr_month_format_wide_2',
       'cldr_month_format_wide_3',
@@ -124,6 +164,18 @@ module.exports = {
       'cldr_month_format_wide_10',
       'cldr_month_format_wide_11',
       'cldr_month_format_wide_12',
+      'cldr_month_stand-alone_abbreviated_1',
+      'cldr_month_stand-alone_abbreviated_2',
+      'cldr_month_stand-alone_abbreviated_3',
+      'cldr_month_stand-alone_abbreviated_4',
+      'cldr_month_stand-alone_abbreviated_5',
+      'cldr_month_stand-alone_abbreviated_6',
+      'cldr_month_stand-alone_abbreviated_7',
+      'cldr_month_stand-alone_abbreviated_8',
+      'cldr_month_stand-alone_abbreviated_9',
+      'cldr_month_stand-alone_abbreviated_10',
+      'cldr_month_stand-alone_abbreviated_11',
+      'cldr_month_stand-alone_abbreviated_12',
       'cldr_month_stand-alone_narrow_1',
       'cldr_month_stand-alone_narrow_2',
       'cldr_month_stand-alone_narrow_3',
@@ -136,6 +188,18 @@ module.exports = {
       'cldr_month_stand-alone_narrow_10',
       'cldr_month_stand-alone_narrow_11',
       'cldr_month_stand-alone_narrow_12',
+      'cldr_month_stand-alone_wide_1',
+      'cldr_month_stand-alone_wide_2',
+      'cldr_month_stand-alone_wide_3',
+      'cldr_month_stand-alone_wide_4',
+      'cldr_month_stand-alone_wide_5',
+      'cldr_month_stand-alone_wide_6',
+      'cldr_month_stand-alone_wide_7',
+      'cldr_month_stand-alone_wide_8',
+      'cldr_month_stand-alone_wide_9',
+      'cldr_month_stand-alone_wide_10',
+      'cldr_month_stand-alone_wide_11',
+      'cldr_month_stand-alone_wide_12',
       'cldr_number_decimal_separator',
       'cldr_number_group_separator',
       'cldr_number_percent_format',
@@ -144,6 +208,14 @@ module.exports = {
     ];
 
     test.deepEqual(Object.keys(cldrData), expectedKeys);
+    test.done();
+  },
+
+  getTailoredCldrDataValProbe: function (test) {
+    var cldrDataEn = this.locale.getTailoredCldrData('en');
+    var cldrDataDe = this.locale.getTailoredCldrData('de');
+    test.strictEqual("Monday", cldrDataEn["cldr_day_stand-alone_wide_mon"]);
+    test.strictEqual("Montag", cldrDataDe["cldr_day_stand-alone_wide_mon"]);
     test.done();
   }
 };
