@@ -156,8 +156,10 @@ module.exports = function(grunt) {
       libinfo[ns] = {
         "resourceUri": "resource",
         "sourceUri": "script",
-        "sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
       };
+      if (ns === "qx") {
+        libinfo.qx.sourceViewUri = "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}";
+      }
     }
 
     // pretty naive but works for now
