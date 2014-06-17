@@ -327,8 +327,9 @@ qx.Class.define("qx.data.Array",
 
 
     /**
-     * Method to remove and add new elements to the array. For every remove or
-     * add an event will be fired.
+     * Method to remove and add new elements to the array. A change event
+     * will be fired for every removal or addition unless the array is
+     * identical before and after splicing.
      *
      * @param startIndex {Integer} The index where the splice should start
      * @param amount {Integer} Defines number of elements which will be removed
