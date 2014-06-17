@@ -162,11 +162,20 @@ module.exports = function(grunt) {
       }
     }
 
+    // initial default compression by UglifyJS
+    // TODO: move in own module 'compression' along with qx-specific optimizations and remove dep in package.json
+    var UglifyJS = require("uglify-js");
+    var uglify = function(jsCode) {
+      var result = UglifyJS.minify(jsCode, {fromString: true});
+      return result.code;
+    };
+    classCodeList = classCodeList.map(uglify);
+
     // pretty naive but works for now
     var bootPart = "_";
     bootPart += locResTransContent;
     bootPart += "\n";
-    bootPart += "(function(){"+classCodeList.join("")+"})()";
+    bootPart += "(function(){"+classCodeList.join("")+"})();";
 
     var ctx = {
       EnvSettings: opts.environment,
