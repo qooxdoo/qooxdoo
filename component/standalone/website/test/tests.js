@@ -4482,6 +4482,21 @@ testrunner.define({
     this.assertException(function() {
       cal.setValue(new Date(2014, 1, 2));
     });
+  },
+
+  testPersistEnabled : function() {
+    var slider = q("#sandbox").slider()
+    this.assertTrue(slider.getEnabled());
+    this.assertFalse(slider.getAttribute("disabled"));
+    this.assertFalse(slider.find("button").getAttribute("disabled"));
+    slider.setEnabled(false);
+    this.assertFalse(slider.getEnabled());
+    this.assertTrue(slider.getAttribute("disabled"));
+    this.assertTrue(slider.find("button").getAttribute("disabled"));
+    slider.render();
+    this.assertFalse(slider.getEnabled());
+    this.assertTrue(slider.getAttribute("disabled"));
+    this.assertTrue(slider.find("button").getAttribute("disabled"));
   }
 });
 
@@ -4721,6 +4736,22 @@ testrunner.define({
       tabs.setConfig("align", "left").render();
       this.assertFalse(tabs.getChildren().eq(0).hasClass("qx-flex-justify-end"));
     }
+  },
+
+  testPersistEnabled : function() {
+    var tabs = q.create('<div><ul><li class="qx-tabs-button" data-qx-tabs-page="#page1">Page 1</li></ul><div class="qx-tabs-container"><div id="page1" class="qx-tabs-page">Page 1 Content</div></div></div>')
+    .appendTo("#sandbox").tabs();
+    this.assertTrue(tabs.getEnabled());
+    this.assertFalse(tabs.getAttribute("disabled"));
+    this.assertNull(tabs.find("button").getAttribute("disabled"));
+    tabs.setEnabled(false);
+    this.assertFalse(tabs.getEnabled());
+    this.assertTrue(tabs.getAttribute("disabled"));
+    this.assertNull(tabs.find("button").getAttribute("disabled"));
+    tabs.render();
+    this.assertFalse(tabs.getEnabled());
+    this.assertTrue(tabs.getAttribute("disabled"));
+    this.assertTrue(tabs.find("button").getAttribute("disabled"));
   }
 });
 
@@ -4796,5 +4827,19 @@ testrunner.define({
     this.assertEquals(0, icon.length);
 
     datepicker.dispose();
+  },
+
+  testPersistEnabled : function() {
+    var sandbox = q("#sandbox");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value='' />");
+    var datepicker = q("input.datepicker").datepicker();
+    this.assertTrue(datepicker.getEnabled());
+    this.assertFalse(datepicker.getAttribute("disabled"));
+    datepicker.setEnabled(false);
+    this.assertFalse(datepicker.getEnabled());
+    this.assertTrue(datepicker.getAttribute("disabled"));
+    datepicker.render();
+    this.assertFalse(datepicker.getEnabled());
+    this.assertTrue(datepicker.getAttribute("disabled"));
   }
 });

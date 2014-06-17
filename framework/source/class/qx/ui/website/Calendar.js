@@ -271,6 +271,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         this._normalizeDate(maxDate);
       }
       this.showValue(this.getProperty("shownValue"));
+      this.setEnabled(this.getEnabled());
       return this;
     },
 

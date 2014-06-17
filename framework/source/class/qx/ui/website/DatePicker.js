@@ -193,6 +193,8 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
         this.__addInputListener(datepicker);
       });
 
+      this.setEnabled(this.getEnabled());
+
       return this;
     },
 

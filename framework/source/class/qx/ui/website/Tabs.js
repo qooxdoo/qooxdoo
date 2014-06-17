@@ -275,6 +275,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         });
 
         this._applyAlignment(tabs);
+        this.setEnabled(this.getEnabled());
       });
 
       return this;
