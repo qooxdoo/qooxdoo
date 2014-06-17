@@ -276,6 +276,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           tabs.find("> ul").addClass(cssPrefix + "-right");
         }
       });
+      this.setEnabled(this.getEnabled());
 
       return this;
     },
