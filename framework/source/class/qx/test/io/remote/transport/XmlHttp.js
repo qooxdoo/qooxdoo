@@ -100,8 +100,8 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       var that = this;
       window.setTimeout(function() {
         that.request.send();
-      }, 1000);
-      this.wait(5000);
+      }, 250);
+      this.wait(7500);
     },
 
 
@@ -122,8 +122,8 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
       var that = this;
       window.setTimeout(function() {
         that.request.send();
-      }, 1000);
-      this.wait(5000);
+      }, 250);
+      this.wait(7500);
     }
   }
 });
