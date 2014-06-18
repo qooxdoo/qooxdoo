@@ -436,6 +436,55 @@ module.exports = {
       test.deepEqual(actual, expected);
 
       test.done();
+    },
+
+    copyResources: function(test) {
+      // require 'shelljs' to then monkey patch
+      var shell = require('shelljs');
+      var orig_shell_cp = shell.cp;
+      var orig_shell_mkdir = shell.mkdir;
+
+      var expectedSource = [
+        'test/data/myapp/source/resource/myapp/ace.js',
+        'test/data/myapp/source/resource/myapp/test.png'
+      ];
+      var expectedTarget = [
+        'test/data/myapp/build/resource/myapp/ace.js',
+        'test/data/myapp/build/resource/myapp/test.png'
+      ];
+
+      // monkey patch
+      shell.mkdir = function() {};
+      shell.cp = function(flag, resSourcePath, resTargetPath) {
+        test.ok(expectedSource.indexOf(resSourcePath) > -1);
+        test.ok(expectedTarget.indexOf(resTargetPath) > -1);
+      };
+
+      var absAppPath = './test/data/myapp/';
+      var relAppResourcePath = 'source/resource';
+      var resBasePathMap = {
+        'myapp': this.path.join(absAppPath, relAppResourcePath)
+      };
+      var assetNsBasesPaths = {
+        myapp: {
+          myapp: [
+            'myapp/ace.js',
+            'myapp/test.png'
+          ]
+        }
+      };
+
+      this.res.copyResources(
+        this.path.join(absAppPath, "build/resource"),
+        resBasePathMap,
+        assetNsBasesPaths
+      );
+
+      // don't forget to restore original!
+      shell.mkdir = orig_shell_mkdir;
+      shell.cp = orig_shell_cp;
+
+      test.done();
     }
   }
 };
