@@ -726,7 +726,38 @@ module.exports = {
       test.deepEqual(actualSmall, expectedClassListSmall);
 
       test.done();
+    },
+
+    readFileContent: function(test) {
+      var actualOk = this.depAnalyzer.readFileContent(
+        ['myapp.Application', 'myapp.theme.Theme'],
+        {'myapp': './test/data/myapp/source/class/',
+         'qx': '../../../../../framework/source/class/'}
+      );
+
+      test.strictEqual(actualOk[0].substr(0, 4), "/* *");
+
+      // ENOENT - Missing library
+      test.throws(
+        function() {
+          this.depAnalyzer.readFileContent(['myapp.Application'], {});
+        },
+        Error
+      );
+
+      // ENOENT - Path doesn't exist
+      test.throws(
+        function() {
+          this.depAnalyzer.readFileContent(
+            ['myapp.Foo'],
+            {'myapp': './test/data/myapp/source/class/',
+            'qx': '../../../../../framework/source/class/'}
+          );
+        },
+        Error
+      );
+
+      test.done();
     }
   }
-
 };
