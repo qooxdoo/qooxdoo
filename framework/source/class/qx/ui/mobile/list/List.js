@@ -514,6 +514,14 @@ qx.Class.define("qx.ui.mobile.list.List",
 
 
     /**
+     * Triggers a re-rendering of this list.
+     */
+    render : function() {
+      this.__render();
+    },
+
+
+    /**
     * Renders a group header.
     *
     * @param itemIndex {Integer} the current list item index.
