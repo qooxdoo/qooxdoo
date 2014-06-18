@@ -3533,6 +3533,42 @@ testrunner.define({
     },100);
 
     this.wait(1000);
+  },
+
+  testMediaQueryMatches: function () {
+    var iframe = this.__iframe[0];
+    this.sandbox.mediaQueryToClass("only screen", "testMediaQueryMatches", iframe.contentWindow);
+
+    this.assertTrue(this.sandbox.hasClass("testMediaQueryMatches"));
+  },
+
+  testMediaQueryNotMatches: function () {
+    var iframe = this.__iframe[0];
+    this.sandbox.mediaQueryToClass("only print", "testMediaQueryNotMatches", iframe.contentWindow);
+
+    this.assertFalse(this.sandbox.hasClass("testMediaQueryNotMatches"));
+  },
+
+  testMediaQueryMatchesAfterResizing: function () {
+    var sandbox = this.sandbox;
+    var iframe = this.__iframe[0];
+
+    sandbox.mediaQueryToClass(
+      "only screen and (min-width: 40.063em)",
+      "testMediaQueryMatchesAfterResizing",
+      iframe.contentWindow
+    );
+    iframe.width = 200;
+    this.assertFalse(sandbox.hasClass("testMediaQueryMatchesAfterResizing"));
+    iframe.width = 800;
+
+    window.setTimeout(function(){
+      this.resume(function (){
+        this.assertTrue(sandbox.hasClass("testMediaQueryMatchesAfterResizing"));
+      }, this);
+    }.bind(this), 100);
+
+    this.wait(1000);
   }
 
 });

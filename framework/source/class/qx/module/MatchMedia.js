@@ -76,14 +76,16 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      * @param queryString
      * @param className
      */
-    mediaQueryToClass: function (queryString, className) {
-      var query = qx.module.MatchMedia.matchMedia(queryString);
-      var callback = qx.module.MatchMedia.__applyClass.bind(this);
+    mediaQueryToClass: function (queryString, className, contextWindow) {
+      var query = qx.module.MatchMedia.matchMedia(queryString, contextWindow);
+      var callback = qx.module.MatchMedia.__applyClass.bind(this, query, className);
 
       // apply classes initially
       callback(query, className);
 
       query.on("change", callback);
+
+      return this;
     }
   },
 
