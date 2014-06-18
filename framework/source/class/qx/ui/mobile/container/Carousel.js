@@ -295,6 +295,19 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
+    * Returns the current page count of this carousel.
+    * @return {Integer} the current page count
+    */
+    getPageCount : function() {
+      if(this.__pages) {
+        return this.__pages.length;
+      }
+
+      return 0;
+    },
+
+
+    /**
      * Scrolls the carousel to the page with the given pageIndex.
      * @param pageIndex {Integer} the target page index, which should be visible
      * @param showTransition {Boolean ? true} flag if a transition should be shown or not
