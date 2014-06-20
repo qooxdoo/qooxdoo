@@ -962,30 +962,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       if (!isCtrlPressed && !isShiftPressed && this.__pointerDownOnSelected != null)
       {
+        this._userInteraction = false;
         var item = this._getSelectableFromPointerEvent(event);
         if (item === null || !this.isItemSelected(item)) {
-          this._userInteraction = false;
           return;
         }
-
-        var mode = this.getMode();
-        if (mode === "additive")
-        {
-          // Remove item from selection
-          this._removeFromSelection(item);
-        }
-        else
-        {
-          // Replace selection
-          this._setSelectedItem(item);
-
-          if (this.getMode() === "multi")
-          {
-            this._setLeadItem(item);
-            this._setAnchorItem(item);
-          }
-        }
-        this._userInteraction = false;
       }
 
       var item = this._getSelectableFromPointerEvent(event);
