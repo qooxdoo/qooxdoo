@@ -4,8 +4,8 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <title>Mobile Test Matrix</title>
     <style type="text/css">
-    th { 
-      vertical-align: top; 
+    th {
+      vertical-align: top;
       text-align: left;
       page-break-after: avoid;
     }
@@ -29,7 +29,7 @@
 	</style>
     <script type="text/javascript" src="utils.js"></script>
   </head>
-  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA();">
+  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA(); linkifyEntries();">
     <h1 align="center">Mobile Tests - qooxdoo <span name="versstring">$(qxversion)</span></h1>
     <table border="1" cellpadding="2" cellspacing="0">
       <thead>
@@ -50,7 +50,7 @@
         <!-- Don't worry about the line numbers - they will be auto-adjusted. Just make sure to use the 'name="number"' attribute -->
         <tr>
           <th name="number">1</th>
-          <th colspan="4">Feed Reader</th>
+          <th class="linkable" data-url="application/feedreader/build-mobile" colspan="4">Feed Reader</th>
         </tr>
         <tr>
           <td name="number" width="2%">1.1</td>
@@ -114,7 +114,7 @@
         </tr>
         <tr>
           <th name="number">2</th>
-          <th colspan="4">Showcase</th>
+          <th class="linkable" data-url="application/mobileshowcase/build-indigo" colspan="4">Showcase</th>
         </tr>
         <tr>
           <td name="number" width="2%">2.1</td>
@@ -128,30 +128,30 @@
         </tr>
         <tr>
           <td name="number">2.1</td>
-          <td style="vertical-align: top;">Basic Widgets: All basic widgets are
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/basic">Basic Widgets:</span> All basic widgets are
             shown. Atoms Icon orientation, Toggle Label Wrap, Enabling/Disabling
             works</td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
           <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
           <td name="number">2.1</td>
-          <td style="vertical-align: top;">Dialogs page: All dialogs can be
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/dialog">Dialogs Widgets:</span> All dialogs can be
             opened and closed. Menu closes on item select.</td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
           <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
           <td name="number" width="2%">2.2</td>
-          <td>Form page loads, form elements can be used. A number field appears
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/form">Form Elements:</span> Page loads, form elements can be used. A number field appears
             on "Enter your age", on mobile/tablet devices. SelectBox works.</td>
           <td><br>
           </td>
@@ -162,7 +162,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">2.3</td>
-          <td>List page loads, selection works on "Selectable*" items,
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/list">List:</span> Page loads, selection works on "Selectable*" items,
             drag-scroll of list works</td>
           <td><br>
           </td>
@@ -173,7 +173,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">2.2</td>
-          <td>Carousel Page: Page loads, all 5 pages are shown. Next/Previous
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/carousel">Carousel:</span> Page loads, all 5 pages are shown. Next/Previous
             buttons work. Scroll loop works. Tap on pagination triggers page
             switch. "Add more"-Button works (Page 5).</td>
           <td><br>
@@ -184,21 +184,21 @@
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">2.8<br>
+          <td name="number">2.8<br>
           </td>
-          <td style="vertical-align: top;">Drawers Page: All drawers can be
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/drawer">Drawer:</span> All drawers can be
             opened and closed in positions "above" and "below".<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
           <td name="number" width="2%">2.4</td>
-          <td>Tab page loads, "View *" text changes with selected tab button</td>
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/tab">Tab Bar:</span> Page loads, "View *" text changes with selected tab button</td>
           <td><br>
           </td>
           <td><br>
@@ -207,20 +207,20 @@
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">2.8<br>
+          <td name="number">2.8<br>
           </td>
-          <td style="vertical-align: top;">Toolbar page loads<br>
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/toolbar">Toolbar:</span> Page loads<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
           <td name="number" width="2%">2.12</td>
-          <td>Maps: map is usable, geolocation works, page title hides on usage
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/maps">Maps:</span> map is usable, geolocation works, page title hides on usage
             of toggle button.</td>
           <td><br>
           </td>
@@ -231,7 +231,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">2.3</td>
-          <td>Canvas: Draw something on the canvas and clear it.</td>
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/canvas">Canvas:</span> Draw something on the canvas and clear it.</td>
           <td><br>
           </td>
           <td><br>
@@ -241,7 +241,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">2.5</td>
-          <td>Event page loads, tap (click), swipe (drag), touch-start
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/event">Events:</span> Page loads, tap (click), swipe (drag), touch-start
             (mouse-down), touch-move (mouse-drag), touch-end (mouse-up) events
             are recorded. OrientationChange is fired. (See annotations below)</td>
           <td><br>
@@ -254,20 +254,20 @@
         <tr>
           <td name="number">2.5<br>
           </td>
-          <td style="vertical-align: top;">Data Binding: Label updates on slider
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/databinding">Data Binding:</span> Label updates on slider
             move/button clicks. Slider updates on button clicks. List updates on
             click on "Stop current time".<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
           <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
           <td name="number" width="2%">2.6</td>
-          <td>Page Transitions page loads, all page transition types work (may
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/animation">Page Transitions:</span> Page loads, all page transition types work (may
             differ on OS)</td>
           <td><br>
           </td>
@@ -279,15 +279,15 @@
         <tr>
           <td name="number">2.9<br>
           </td>
-          <td style="vertical-align: top;">Theming: Application looks ok in all
+          <td><span class="linkable" data-url="application/mobileshowcase/build-indigo#/theming">Theming:</span> Application looks ok in all
             available themes: Flat theme, Indigo theme (all devices). Scale the
             application and check some pages<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
@@ -312,32 +312,29 @@
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">2.7</td>
-          <td style="vertical-align: top;">Tablet view on tablet devices and
+          <td name="number">2.7</td>
+          <td>Tablet view on tablet devices and
             desktop (tablet devices only; see annotations below) <strong>[a]</strong></td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top; font-weight:
-            bold;">3</td>
-          <td colspan="5" rowspan="1" style="vertical-align: top;
-            font-weight: bold;">Tutorial</td>
+          <td name="number">3</td>
+          <td colspan="5" rowspan="1">Tutorial</td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">3.1<br>
+          <td name="number">3.1<br>
           </td>
-          <td style="vertical-align: top;">MobileTweets - Step1 loads (URL:
-            &lt;path_to_framework&gt;/component/tutorials/index.html)</td>
-          <td style="vertical-align: top;"><br>
+          <td class="linkable" data-url="component/tutorials/mobiletweets/step1/">MobileTweets - Step1 loads</td>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
       </tbody>
