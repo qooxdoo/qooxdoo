@@ -39,7 +39,7 @@
 	</style>
     <script type="text/javascript" src="utils.js"></script>
   </head>
-  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA();">
+  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA(); linkifyEntries();">
     <h1 align="center">Desktop Tests - qooxdoo <span name="versstring">$(qxversion)</span></h1>
     <table border="1" cellpadding="2" cellspacing="0">
       <thead>
@@ -61,7 +61,7 @@
       <tbody>
         <tr>
           <th name="number">1</th>
-          <th colspan="4">API Viewer</th>
+          <th colspan="4" class="linkable" data-url="framework/api/">API Viewer</th>
         </tr>
         <tr>
           <td name="number" width="2%">1.1</td>
@@ -160,7 +160,7 @@
         </tr>
         <tr>
           <th name="number">2</th>
-          <th rowspan="1" colspan="4">Test Runner - Framework Tests<br>
+          <th rowspan="1" colspan="4" class="linkable" data-url="framework/test/">Test Runner - Framework Tests<br>
           </th>
         </tr>
         <tr class="mini">
@@ -250,14 +250,11 @@
         </tr>
         <tr>
           <th name="number">2</th>
-          <th rowspan="1" colspan="4">Test Runner - Component Tests<br>
-          </th>
+          <th rowspan="1" class="linkable" data-url="component/testrunner/build/" colspan="4">Test Runner - Component Tests</th>
         </tr>
         <tr>
           <td name="number" width="2%">2.1</td>
-          <td>Test App loads (URL:
-            &lt;path_to_framework&gt;/component/testrunner/build/index.html)<br>
-          </td>
+          <td>Test App loads</td>
           <td><br>
           </td>
           <td><br>
@@ -319,7 +316,7 @@
         </tr>
         <tr>
           <th name="number">3</th>
-          <th rowspan="1" colspan="4">Demo Browser</th>
+          <th rowspan="1" class="linkable" data-url="application/demobrowser/build/" colspan="4">Demo Browser</th>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">3.1</td>
@@ -436,7 +433,7 @@
         </tr>
         <tr>
           <th name="number">4</th>
-          <th rowspan="1" colspan="4">Feed Reader<br>
+          <th rowspan="1" class="linkable" data-url="application/feedreader/build/" colspan="4">Feed Reader<br>
           </th>
         </tr>
         <tr class="mini">
@@ -533,7 +530,7 @@
         </tr>
         <tr>
           <th name="number">5</th>
-          <th rowspan="1" colspan="4">Tutorial</th>
+          <th rowspan="1" class="linkable" data-url="application/tutorial/build/" colspan="4">Tutorial</th>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">5.1</td>
@@ -617,7 +614,7 @@
         </tr>
         <tr>
           <th name="number">5</th>
-          <th rowspan="1" colspan="4">Playground</th>
+          <th rowspan="1" class="linkable" data-url="application/playground/build/" colspan="4">Playground</th>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">5.1</td>
@@ -792,7 +789,7 @@
         </tr>
         <tr>
           <th name="number">6</th>
-          <th rowspan="1" colspan="4">Inspector - Standalone App<br>
+          <th rowspan="1" class="linkable" data-url="component/inspector/build/" colspan="4">Inspector - Standalone App<br>
           </th>
         </tr>
         <tr class="mini">
@@ -857,7 +854,7 @@
         </tr>
         <tr>
           <th name="number">6</th>
-          <th rowspan="1" colspan="4">Inspector - Inline App<br>
+          <th rowspan="1" class="linkable" data-url="component/inspector/build/" colspan="4">Inspector - Inline App<br>
           </th>
         </tr>
         <tr>
@@ -893,7 +890,7 @@
         </tr>
         <tr>
           <th name="number">6</th>
-          <th rowspan="1" colspan="4">Inspector - Mobile App<br>
+          <th rowspan="1" class="linkable" data-url="component/inspector/build/" colspan="4">Inspector - Mobile App<br>
           </th>
         </tr>
         <tr class="mini">
@@ -928,7 +925,7 @@
         </tr>
         <tr>
           <th name="number">8</th>
-          <th rowspan="1" colspan="4">Showcase</th>
+          <th rowspan="1" class="linkable" data-url="application/showcase/build/" colspan="4">Showcase</th>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">8.1</td>
@@ -962,7 +959,7 @@
         </tr>
         <tr>
           <th name="number">9 </th>
-          <th rowspan="1" colspan="4">Widget Browser<br>
+          <th rowspan="1" class="linkable" data-url="application/widgetbrowser/build/" colspan="4">Widget Browser<br>
           </th>
         </tr>
         <tr class="mini">
@@ -993,7 +990,7 @@
         </tr>
         <tr>
           <th name="number">10 </th>
-          <th rowspan="1" colspan="4">Feature Config Editor<br>
+          <th rowspan="1" class="linkable" data-url="application/featureconfigeditor/build/" colspan="4">Feature Config Editor<br>
           </th>
         </tr>
         <tr>
@@ -1060,22 +1057,11 @@
         </tr>
         <tr>
           <th name="number">15</th>
-          <th rowspan="1" colspan="4">Tutorial Samples</th>
+          <th rowspan="1" class="linkable" data-url="component/tutorials/" colspan="4">Tutorial Samples</th>
         </tr>
         <tr>
           <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step1 loads<br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-          <td><br>
-          </td>
-        </tr>
-        <tr>
-          <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step2 loads<br>
+          <td class="linkable" data-url="component/tutorials/tweets/step1/build">TweetsApp - Step1 loads<br>
           </td>
           <td><br>
           </td>
@@ -1086,7 +1072,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step3 loads<br>
+          <td class="linkable" data-url="component/tutorials/tweets/step2/build">TweetsApp - Step2 loads<br>
           </td>
           <td><br>
           </td>
@@ -1097,7 +1083,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step4.1 loads<br>
+          <td class="linkable" data-url="component/tutorials/tweets/step3/build">TweetsApp - Step3 loads<br>
           </td>
           <td><br>
           </td>
@@ -1108,7 +1094,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step4.2 loads<br>
+          <td class="linkable" data-url="component/tutorials/tweets/step4.1/build">TweetsApp - Step4.1 loads<br>
           </td>
           <td><br>
           </td>
@@ -1119,7 +1105,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step4.2.1 loads<br>
+          <td class="linkable" data-url="component/tutorials/tweets/step4.2/build">TweetsApp - Step4.2 loads<br>
           </td>
           <td><br>
           </td>
@@ -1130,7 +1116,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step4.3 loads<br>
+          <td class="linkable" data-url="component/tutorials/tweets/step4.2.1/build">TweetsApp - Step4.2.1 loads<br>
           </td>
           <td><br>
           </td>
@@ -1141,7 +1127,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step4.4 loads<br>
+          <td class="linkable" data-url="component/tutorials/tweets/step4.3/build">TweetsApp - Step4.3 loads<br>
           </td>
           <td><br>
           </td>
@@ -1152,7 +1138,7 @@
         </tr>
         <tr>
           <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step4.4.1 loads<br>
+          <td class="linkable" data-url="component/tutorials/tweets/step4.4/build">TweetsApp - Step4.4 loads<br>
           </td>
           <td><br>
           </td>
@@ -1163,7 +1149,18 @@
         </tr>
         <tr>
           <td name="number" width="2%">13.1</td>
-          <td>TweetsApp - Step4.5 loads<br>
+          <td class="linkable" data-url="component/tutorials/tweets/step4.4.1/build">TweetsApp - Step4.4.1 loads<br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number" width="2%">13.1</td>
+          <td class="linkable" data-url="component/tutorials/tweets/step4.5/build">TweetsApp - Step4.5 loads<br>
           </td>
           <td><br>
           </td>
