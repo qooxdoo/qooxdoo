@@ -51,7 +51,7 @@
   </style>
     <script type="text/javascript" src="utils.js"></script>
   </head>
-  <body onload="adjustVersionStrings(); minitests([]); colorNA();">
+  <body onload="adjustVersionStrings(); minitests([]); colorNA(); linkifyEntries();">
     <h1>Core Tests - qooxdoo <span class="versstring">$(qxversion)</span></h1>
     <h3>Tool Chain Tests - Grunt &amp; Generator</h3>
     <h4>Reminder: Run tests via grunt frontend ('grunt source' vs. 'generate.py
@@ -689,7 +689,7 @@
         </tr>
         <tr>
           <td>13.1</td>
-          <td>Check index.html (general layout, topic listing)</td>
+          <td class="linkable" data-url="documentation/manual/build/html/">Check index.html (general layout, topic listing)</td>
           <td><br>
           </td>
           <td><br>
@@ -729,7 +729,7 @@
         </tr>
         <tr>
           <td>13.5</td>
-          <td>PDF (don't use index.html link, but qooxdoo.pdf; should be around
+          <td class="linkable" data-url="documentation/manual/build/latex/qooxdoo.pdf">PDF (don't use index.html link, but qooxdoo.pdf; should be around
             500-600 pages)</td>
           <td><br>
           </td>
