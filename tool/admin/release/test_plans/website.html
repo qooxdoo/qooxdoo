@@ -39,13 +39,13 @@
 	</style>
     <script type="text/javascript" src="utils.js"></script>
   </head>
-  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA();">
+  <body onload="adjustVersionStrings(); autonumbering(); minitests([]); colorNA(); linkifyEntries();">
     <h1 align="center">Website Tests - qooxdoo <span name="versstring">$(qxversion)</span></h1>
     <table border="1" cellpadding="2" cellspacing="0">
       <thead>
         <tr>
           <th rowspan="2" colspan="2">Application Tests</th>
-          <td colspan="3" rowspan="1" style="vertical-align: top;"><span style="font-weight: bold;">Platform</span></td>
+          <td colspan="3" rowspan="1"><span style="font-weight: bold;">Platform</span></td>
         </tr>
         <tr class="platforms">
           <td><br>
@@ -59,7 +59,7 @@
       <tbody>
         <tr>
           <th name="number">5</th>
-          <th rowspan="1" colspan="4">Feed Reader</th>
+          <th class="linkable" data-url="application/feedreader/build-website/" rowspan="1" colspan="4">Feed Reader</th>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">5.1</td>
@@ -93,7 +93,7 @@
         </tr>
         <tr>
           <th name="number">5</th>
-          <th rowspan="1" colspan="4">Todo</th>
+          <th class="linkable" data-url="application/todo/" rowspan="1" colspan="4">Todo</th>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">5.1</td>
@@ -137,80 +137,80 @@
         </tr>
         <tr>
           <th name="number">9 </th>
-          <th rowspan="1" colspan="4">Widget Browser<br>
+          <th class="linkable" data-url="application/websitewidgetbrowser/" rowspan="1" colspan="4">Widget Browser<br>
           </th>
         </tr>
         <tr class="mini">
-          <td style="vertical-align: top;" name="number">9.1<br>
+          <td name="number">9.1<br>
           </td>
-          <td style="vertical-align: top;">All tabs load and look okay<br>
+          <td>All tabs load and look okay<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr class="mini">
-          <td style="vertical-align: top;" name="number">9.2 </td>
-          <td style="vertical-align: top;">Toggling of states ("Disabled") in
+          <td name="number">9.2 </td>
+          <td>Toggling of states ("Disabled") in
             supporting tabs works and has appropriate visual effect (all themes)<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-        </tr>
-        <tr>
-          <td name="number" style="vertical-align: top;">9.3<br>
-          </td>
-          <td style="vertical-align: top;">All widgets react properly<br>
-          </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">9.4<br>
+          <td name="number">9.3<br>
           </td>
-          <td style="vertical-align: top;">Application scaling works as expected<br>
+          <td>All widgets react properly<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number">9.4<br>
+          </td>
+          <td>Application scaling works as expected<br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
           </td>
         </tr>
         <tr>
           <th name="number">14</th>
-          <th rowspan="1" colspan="4">API Viewer</th>
+          <th class="linkable" data-url="component/standalone/website/api/" rowspan="1" colspan="4">API Viewer</th>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">13.1</td>
-          <td style="vertical-align: top;">Documentation looks ok</td>
-          <td style="vertical-align: top;"><br>
+          <td>Documentation looks ok</td>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">13.2</td>
-          <td style="vertical-align: top;">No red ! in the list (which means
+          <td>No red ! in the list (which means
             method is missing)</td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr class="mini">
@@ -226,130 +226,127 @@
         </tr>
         <tr class="mini">
           <td name="number" width="2%">13.1</td>
-          <td style="vertical-align: top;">Syntax highlighting works e.g. in the
+          <td>Syntax highlighting works e.g. in the
             animation module<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">13.1</td>
-          <td style="vertical-align: top;">Links of return types and parameters
+          <td>Links of return types and parameters
             work<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">13.1</td>
-          <td style="vertical-align: top;">All groups can be opened and animate<br>
+          <td>All groups can be opened and animate<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">13.1<br>
+          <td name="number">13.1<br>
           </td>
-          <td style="vertical-align: top;">Filter works as expected (Results
+          <td>Filter works as expected (Results
             shown in the group header)<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">13.1<br>
+          <td name="number">13.1<br>
           </td>
-          <td style="vertical-align: top;">Groups without filter results should
+          <td>Groups without filter results should
             not open<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">13.1<br>
+          <td name="number">13.1<br>
           </td>
-          <td style="vertical-align: top;">Reload opens the list and former
+          <td>Reload opens the list and former
             documentation<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-        </tr>
-        <tr>
-          <td name="number" style="vertical-align: top;">13.1<br>
-          </td>
-          <td style="vertical-align: top;">jsFiddle Links work (except IE)<br>
-          </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-          <td style="vertical-align: top;"> <br>
-          </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">13.1<br>
+          <td name="number">13.1<br>
           </td>
-          <td style="vertical-align: top;">Resizing the browser removes the list
+          <td>jsFiddle Links work (except IE)<br>
+          </td>
+          <td><br>
+          </td>
+          <td> <br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
+        <tr>
+          <td name="number">13.1<br>
+          </td>
+          <td>Resizing the browser removes the list
             (responsive)<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td><br>
           </td>
-          <td style="vertical-align: top;"><br>
-          </td>
-        </tr>
-        <tr>
-          <td name="number" style="vertical-align: top;font-weight:
-            bold;">10<br>
-          </td>
-          <td colspan="4" rowspan="1" style="vertical-align:
-            top;font-weight: bold;">Tutorial<br>
+          <td><br>
           </td>
         </tr>
         <tr>
-          <td name="number" style="vertical-align: top;">10.1<br>
+          <td name="number" style="font-weight: bold;">10<br>
           </td>
-          <td style="vertical-align: top;">Notification - Step1 loads</td>
-          <td style="vertical-align: top;"><br>
+          <td colspan="4" rowspan="1" style="font-weight: bold;">Tutorial<br>
           </td>
-          <td style="vertical-align: top;"><br>
+        </tr>
+        <tr>
+          <td name="number">10.1<br>
           </td>
-          <td style="vertical-align: top;"><br>
+          <td class="linkable" data-url="component/tutorials/website/step1/notification.html">Notification - Step1 loads</td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
           </td>
         </tr>
         <tr>
           <th name="number">15</th>
-          <th rowspan="1" colspan="4">Tests (Portable TR)</th>
+          <th class="linkable" data-url="/component/standalone/website/test/" rowspan="1" colspan="4">Tests (Portable TR)</th>
         </tr>
         <tr class="mini">
           <td name="number" width="2%">13.1</td>
-          <td>Test app loads (URL:
-            &lt;path_to_framework&gt;/component/standalone/website/test/)<br>
+          <td>Test app loads<br>
           </td>
           <td><br>
           </td>
