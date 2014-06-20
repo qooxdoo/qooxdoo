@@ -41,6 +41,18 @@ function expandVersion(s) {
   return s;
 }
 
+
+function linkifyEntries() {
+  var elems = document.getElementsByClassName("linkable");
+  var baseUrl = window.location.href.split("tool")[0];
+  var l = elems.length;
+
+  while(l--) {
+    var path = elems[l].getAttribute('data-url');
+    elems[l].innerHTML = '<a href="'+baseUrl+path+'">'+elems[l].innerHTML+'</a>';
+  }
+}
+
 //  Call this in onload handlers.
 function adjustVersionStrings(){
   var elems = document.getElementsByClassName("versstring");
