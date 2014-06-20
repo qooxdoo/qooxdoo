@@ -121,7 +121,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       else if (engine === "gecko")
       {
         if (agent.indexOf("Maple") !== -1) {
-            name = "maple"
+            name = "maple";
         }
       }
 
@@ -242,9 +242,9 @@ qx.Bootstrap.define("qx.bom.client.Browser",
   },
 
   defer : function(statics) {
-    qx.core.Environment.add("browser.name", statics.getName),
-    qx.core.Environment.add("browser.version", statics.getVersion),
-    qx.core.Environment.add("browser.documentmode", statics.getDocumentMode),
-    qx.core.Environment.add("browser.quirksmode", statics.getQuirksMode)
+    qx.core.Environment.add("browser.name", statics.getName);
+    qx.core.Environment.add("browser.version", statics.getVersion);
+    qx.core.Environment.add("browser.documentmode", statics.getDocumentMode);
+    qx.core.Environment.add("browser.quirksmode", statics.getQuirksMode);
   }
 });
