@@ -23,6 +23,28 @@ testrunner.globalTeardown = function() {
   this.sandbox.remove();
 };
 
+testrunner.createMouseEvent = function(type) {
+  var domEvent;
+  if (qx.core.Environment.get("event.customevent")) {
+    domEvent = new MouseEvent(type, {
+      canBubble: true,
+      cancelable: true,
+      view: window,
+    });
+    domEvent.initMouseEvent(type, true, true, window,
+                           1, 0, 0, 0, 0,
+                           false, false, false, false,
+                           0, null);
+  } else if (document.createEvent) {
+    domEvent = document.createEvent("UIEvents");
+    domEvent.initEvent(type, true, true);
+  } else if (document.createEventObject) {
+    domEvent = document.createEventObject();
+    domEvent.type = type;
+  }
+  return domEvent;
+};
+
 testrunner.define({
   classname: "Basic",
 
@@ -2450,6 +2472,23 @@ testrunner.define({
     this.assertNotNull(test[0].$$pointerHandler);
     test.off("pointerup", cb);
     this.assertNull(test[0].$$pointerHandler);
+  },
+
+  testNativeBubbling : function() {
+    this.sandbox.on("pointerdown", function() {});
+    q(document).on("mousedown", function(e) {
+      this.resume(function() {
+        this.assertEquals("mousedown", e.getType());
+      }, this);
+    }, this);
+
+    setTimeout(function() {
+      var domEvent = testrunner.createMouseEvent("mousedown");
+      this.sandbox[0].dispatchEvent ?
+        this.sandbox[0].dispatchEvent(domEvent) :
+        this.sandbox[0].fireEvent("onmousedown", domEvent);
+    }.bind(this), 100);
+    this.wait(250);
   }
 });
 

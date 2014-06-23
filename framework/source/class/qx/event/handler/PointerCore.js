@@ -171,9 +171,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param domEvent {Event} Native DOM event
      */
     _onTouchEvent: function(domEvent) {
+      if (domEvent.$$qxProcessed) {
+        return;
+      }
+      domEvent.$$qxProcessed = true;
       var type = qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
       var changedTouches = domEvent.changedTouches;
-      domEvent.stopPropagation();
 
       if (domEvent.type == "touchstart" && this.__primaryIdentifier === null) {
         this.__primaryIdentifier = changedTouches[0].identifier;
@@ -235,7 +238,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     * @param domEvent {Event} Native DOM event
     */
     _onMouseEvent : function(domEvent) {
-      qx.bom.Event.stopPropagation(domEvent);
+      if (domEvent.$$qxProcessed) {
+        return;
+      }
+      domEvent.$$qxProcessed = true;
 
       if (this._isSimulatedMouseEvent(domEvent.clientX, domEvent.clientY)) {
         /*
