@@ -83,6 +83,9 @@ module.exports = {
       l2 = po.items.length;
       for (j=0; j<l2; j++) {
         item = po.items[j];
+        if (item.msgstr[0] === "") {
+          continue;
+        }
         result[item.msgid] = item.msgstr[0];
         if (item.msgid_plural !== null) {
           // this could fail for languages having more than one plural form
