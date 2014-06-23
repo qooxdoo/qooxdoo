@@ -278,7 +278,9 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     {
       if (request.status < 400)
       {
-        this._setScroll(this.__createScrollInstance());
+        if(!this.isDisposed()) {
+          this._setScroll(this.__createScrollInstance());
+        }
       } else {
         if (qx.core.Environment.get("qx.debug"))
         {
