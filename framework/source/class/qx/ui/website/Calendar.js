@@ -422,14 +422,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
         var range = this.getProperty("__range").slice(0);
         if (range.length == 2) {
-          if(newValue <= new Date(range[0])){
-            range[0] = newStr;
-          }else{
-            range[1] = newStr;
-          }
-        }else{
-          range.push(newStr);
+          range = [];
         }
+        range.push(newStr);
 
         this.setProperty("__range", range);
         range = range.map(function(item){
