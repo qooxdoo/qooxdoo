@@ -275,6 +275,30 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       return this;
     },
 
+    // overridden
+    setEnabled : function(value) {
+
+      var tempDate = new Date().setFullYear(5000);
+      var minDate = this.getConfig("minDate") || new Date(0);
+      var maxDate = this.getConfig("maxDate") || new Date(tempDate);
+      var currentDate = null;
+
+      if(!value || !(minDate || maxDate)){
+        this.base(arguments, value);
+      }else{
+
+        this.find("button.qx-calendar-day").map(function(button){
+          currentDate = new Date(button.getAttribute("value"));
+          button = qxWeb(button);
+          if(minDate < currentDate && maxDate > currentDate){
+            button.removeAttribute("disabled");
+          }
+        });
+      }
+
+      return this;
+    },
+
 
     /**
      * Sets the given date as the current value displays it
@@ -565,7 +589,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
           cssClasses += today.toDateString() === helpDate.toDateString() ? " " + cssPrefix + "-today" : "";
 
-          var disabled = "";
+          var disabled = this.getEnabled() ? "" : "disabled";
           if ((minDate && helpDate < minDate) || (maxDate && helpDate > maxDate) ||
             this.getConfig("selectableWeekDays").indexOf(helpDate.getDay()) == -1) {
             disabled = "disabled";
