@@ -167,17 +167,14 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       }
 
       // turn on native mouse capturing if the browser supports it
-      if (qx.core.Environment.get("browser.documentmode") !== 9) {
+      if (this.hasNativeCapture) {
         this.nativeSetCapture(element, containerCapture);
-        if (this.hasNativeCapture)
+        var self = this;
+        qx.bom.Event.addNativeListener(element, "losecapture", function()
         {
-          var self = this;
-          qx.bom.Event.addNativeListener(element, "losecapture", function()
-          {
-            qx.bom.Event.removeNativeListener(element, "losecapture", arguments.callee);
-            self.releaseCapture();
-          });
-        }
+          qx.bom.Event.removeNativeListener(element, "losecapture", arguments.callee);
+          self.releaseCapture();
+        });
       }
 
       this.__containerCapture = containerCapture;
@@ -216,13 +213,18 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     },
 
 
-    /** Whether the browser has native mouse capture support */
-    hasNativeCapture : qx.core.Environment.get("engine.name") == "mshtml",
+    /** Whether the browser should use native mouse capturing */
+    hasNativeCapture : (qx.core.Environment.get("engine.name") == "mshtml" &&
+    (qx.core.Environment.get("os.version") !== "7" ||
+    qx.core.Environment.get("browser.documentmode") < 9)),
 
 
     /**
      * If the browser supports native mouse capturing, sets the mouse capture to
      * the object that belongs to the current document.
+     *
+     * Please note that under Windows 7 (but not Windows 8), capturing is
+     * not only applied to mouse events as expected, but also to native pointer events.
      *
      * @param element {Element} The capture DOM element
      * @param containerCapture {Boolean?true} If true all events originating in

@@ -301,6 +301,8 @@ qx.Class.define("qx.ui.form.Button",
      * @param e {qx.event.type.Pointer} Pointer event
      */
     _onTap : function(e) {
+      // "execute" is fired here so that the button can be dragged
+      // without executing it (e.g. in a TabBar with overflow)
       this.execute();
       e.stopPropagation();
     },
