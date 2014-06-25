@@ -173,7 +173,20 @@ qx.Bootstrap.define("qx.module.util.Array", {
      * @return {Array} Returns a copy with no duplicates
      *   or the original array if no duplicates were found.
      */
-    unique : qx.lang.Array.unique
+    unique : qx.lang.Array.unique,
+
+    /**
+     * Returns a new array with integers from start to stop incremented or decremented by step.
+     *
+     * @signature function(start, stop, step)
+     * @attachStatic {qxWeb, array.range}
+     *
+     * @param start {Integer} start of the new array, defaults to 0
+     * @param stop {Integer} stop of the new array
+     * @param step {Integer} increment / decrement - depends whether you use positive or negative values
+     * @return {Array} Returns a new array with integers
+     */
+    range : qx.lang.Array.range
   },
 
 

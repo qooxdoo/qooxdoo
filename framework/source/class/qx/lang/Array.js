@@ -30,6 +30,15 @@
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
 
+   * Underscore.js
+     http://underscorejs.org
+
+     Copyright:
+       2009-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
 ************************************************************************ */
 
 /**
@@ -557,6 +566,34 @@ qx.Bootstrap.define("qx.lang.Array",
       }
 
       return ret;
+    },
+
+    /**
+     * Returns a new array with integers from start to stop incremented or decremented by step.
+     *
+     * @param start {Integer} start of the new array, defaults to 0
+     * @param stop {Integer} stop of the new array
+     * @param step {Integer} increment / decrement - depends whether you use positive or negative values
+     * @return {Array} Returns a new array with integers
+     */
+    range : function(start, stop, step)
+    {
+      if (arguments.length <= 1) {
+        stop = start || 0;
+        start = 0;
+      }
+      step = arguments[2] || 1;
+
+      var length = Math.max(Math.ceil((stop - start) / step), 0);
+      var idx = 0;
+      var range = Array(length);
+
+      while (idx < length) {
+        range[idx++] = start;
+        start += step;
+      }
+
+      return range;
     }
   }
 });
