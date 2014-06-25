@@ -203,7 +203,8 @@ qx.Bootstrap.define("qx.module.util.Array", {
         min : statics.min,
         remove : statics.remove,
         removeAll : statics.removeAll,
-        unique : statics.unique
+        unique : statics.unique,
+        range : statics.range
       }
     });
   }
