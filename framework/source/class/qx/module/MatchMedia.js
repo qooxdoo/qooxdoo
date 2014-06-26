@@ -14,6 +14,7 @@
 
  Authors:
  * Romeo Kenfack Tsakem (rkenfack)
+ * Tobias Oberrauch (toberrauch)
 
  ************************************************************************ */
 
@@ -38,6 +39,8 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
 
     /**
      * Adds pre-defined media queries
+     *
+     * @attachStatic {qxWeb}
      */
     addSizeClasses: function () {
       qxWeb("html").mediaQueryToClass("only screen", "small-up");
@@ -77,6 +80,10 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      * @param queryString {String} the media query to evaluate
      * @param className {String} css class name that gets bind to an element
      * @param contextWindow {Object?window} the window object which should be operated on
+     *
+     * @attach {qxWeb}
+     *
+     * @return {qx.module.MatchMedia} The own instance
      */
     mediaQueryToClass: function (queryString, className, contextWindow) {
       var query = qx.module.MatchMedia.matchMedia(queryString, contextWindow);
