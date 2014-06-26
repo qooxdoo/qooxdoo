@@ -58,8 +58,9 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
     /**
      * Adds or removes a class depending on matching a given media query
      *
-     * @param query
-     * @param className
+     * @param query {String} the media query to evaluate
+     * @param className {String} css class name that gets bind to an element
+     *
      * @private
      */
     __applyClass: function (query, className) {
@@ -73,8 +74,9 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
     /**
      * Maps a class to a html element  media query
      *
-     * @param queryString
-     * @param className
+     * @param queryString {String} the media query to evaluate
+     * @param className {String} css class name that gets bind to an element
+     * @param contextWindow {Object?window} the window object which should be operated on
      */
     mediaQueryToClass: function (queryString, className, contextWindow) {
       var query = qx.module.MatchMedia.matchMedia(queryString, contextWindow);
