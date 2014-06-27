@@ -334,6 +334,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           .insertAfter(tabs.find("> ul")[0]);
         }
 
+        var selectedPage;
         tabs.find("> ul > .qx-tabs-button")._forEachElementWrapped(function(li) {
           var page = qxWeb(li.getData("qx-tabs-page"));
 
@@ -347,13 +348,19 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           }
 
           page.appendTo(container[0]);
+          tabs._switchPages(page, null);
 
           if (li.hasClass("qx-tabs-button-active")) {
-            tabs._switchPages(null, page);
-          } else {
-            tabs._switchPages(page, null);
+            selectedPage = page;
           }
         });
+
+        if (!selectedPage) {
+          var firstButton = tabs.find(".qx-tabs-button").eq(0)
+            .addClass("qx-tabs-button-active");
+          selectedPage = this._getPage(firstButton);
+        }
+        tabs._switchPages(null, selectedPage);
 
         /*
         var content = [];
