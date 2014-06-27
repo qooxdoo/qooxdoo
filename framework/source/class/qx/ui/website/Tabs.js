@@ -189,6 +189,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
 
       this._forEachElementWrapped(function(tabs) {
+        tabs.addClass(this.getCssPrefix());
         if (tabs.getChildren("ul").length === 0) {
           var list = qxWeb.create("<ul/>");
           var content = tabs.getChildren();
@@ -200,23 +201,23 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
 
         var buttons = tabs.getChildren("ul").getFirst()
-          .getChildren("li").not(".qx-tabs-page");
+          .getChildren("li").not("." + this.getCssPrefix() + "-page");
         buttons._forEachElementWrapped(function(button) {
-          button.addClass("qx-tabs-button");
-          var pageSelector = button.getData("qx-tabs-page");
+          button.addClass(this.getCssPrefix() + "-button");
+          var pageSelector = button.getData(this.getCssPrefix() + "-page");
           if (!pageSelector) {
             return;
           }
-          button.addClass("qx-tabs-button")
+          button.addClass(this.getCssPrefix() + "-button")
             .$onFirstCollection("tap", this._onTap, tabs);
 
           var page = tabs._getPage(button);
           if (page.length > 0) {
-            page.addClass("qx-tabs-page");
+            page.addClass(this.getCssPrefix() + "-page");
             if (orientation == "vertical") {
               if (q.getNodeName(page[0]) == "div") {
                 var li = q.create("<li>")
-                .addClass("qx-tabs-page")
+                .addClass(this.getCssPrefix() + "-page")
                 .setAttribute("id", page.getAttribute("id"))
                 .setHtml(page.getHtml())
                 .insertAfter(button[0]);
@@ -241,10 +242,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           }
         }
 
-        var active = buttons.filter(".qx-tabs-button-active");
+        var active = buttons.filter("." + this.getCssPrefix() + "-button-active");
         var preselected = this.getConfig("preselected");
         if (active.length === 0 && typeof preselected == "number") {
-          active = buttons.eq(preselected).addClass("qx-tabs-button-active");
+          active = buttons.eq(preselected).addClass(this.getCssPrefix() + "-button-active");
         }
 
         if (active.length > 0) {
@@ -284,17 +285,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     },
 
 
-    // overridden
-    getCssPrefix : function() {
-      var orientation = this.getConfig("orientation");
-      if (orientation === "horizontal") {
-        return "qx-tabs";
-      } else if (orientation === "vertical") {
-        return "qx-accordion";
-      }
-    },
-
-
     /**
      * Initiates a media query listener for dynamic orientation switching
      * @param mediaQuery {String} CSS media query string
@@ -325,23 +315,23 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      */
     _renderHorizontal : function() {
       this._forEachElementWrapped(function(tabs) {
-        tabs.removeClass("qx-accordion")
-        .addClasses(["qx-tabs", "qx-flex-ready"])
+        tabs.removeClass(this.getCssPrefix() + "-vertical")
+        .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-horizontal", "qx-flex-ready"])
         .find("> ul").addClass("qx-hbox");
 
-        var container = tabs.find(".qx-tabs-container");
+        var container = tabs.find("." + this.getCssPrefix() + "-container");
         if (container.length == 0) {
-          container = qxWeb.create("<div class='qx-tabs-container'>")
+          container = qxWeb.create("<div class='" + this.getCssPrefix() +"-container'>")
           .insertAfter(tabs.find("> ul")[0]);
         }
 
         var selectedPage;
-        tabs.find("> ul > .qx-tabs-button")._forEachElementWrapped(function(li) {
-          var page = qxWeb(li.getData("qx-tabs-page"));
+        tabs.find("> ul > ." + this.getCssPrefix() + "-button")._forEachElementWrapped(function(li) {
+          var page = qxWeb(li.getData(this.getCssPrefix() + "-page"));
 
           if (q.getNodeName(page[0]) == "li") {
             var div = q.create("<div>")
-            .addClass("qx-tabs-page")
+            .addClass(this.getCssPrefix() + "-page")
             .setAttribute("id", page.getAttribute("id"))
             .setHtml(page.getHtml());
             page.remove();
@@ -351,14 +341,14 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           page.appendTo(container[0]);
           tabs._switchPages(page, null);
 
-          if (li.hasClass("qx-tabs-button-active")) {
+          if (li.hasClass(this.getCssPrefix() + "-button-active")) {
             selectedPage = page;
           }
-        });
+        }.bind(this));
 
         if (!selectedPage) {
-          var firstButton = tabs.find(".qx-tabs-button").eq(0)
-            .addClass("qx-tabs-button-active");
+          var firstButton = tabs.find("." + this.getCssPrefix() + "-button").eq(0)
+            .addClass(this.getCssPrefix() + "-button-active");
           selectedPage = this._getPage(firstButton);
         }
         tabs._switchPages(null, selectedPage);
@@ -376,14 +366,14 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @return {qx.ui.website.Tabs} The collection for chaining
      */
     _renderVertical : function() {
-      this._forEachElementWrapped(function(accordion) {
-        accordion.find("ul.qx-hbox").removeClass("qx-hbox");
-        accordion.removeClasses(["qx-tabs", "qx-flex-ready"])
-        .addClass("qx-accordion")
+      this._forEachElementWrapped(function(tabs) {
+        tabs.find("ul.qx-hbox").removeClass("qx-hbox");
+        tabs.removeClasses([this.getCssPrefix() + "-horizontal", "qx-flex-ready"])
+        .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-vertical"])
         .getChildren("ul").getFirst()
-        .getChildren("li").not(".qx-tabs-page")
+        .getChildren("li").not("." + this.getCssPrefix() + "-page")
         ._forEachElementWrapped(function(button) {
-          button.addClass("qx-tabs-button");
+          button.addClass(this.getCssPrefix() + "-button");
           var page = this._getPage(button);
           if (page.length === 0) {
             return;
@@ -392,7 +382,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           this.__deactivateTransition(page);
           if (q.getNodeName(page[0]) == "div") {
             var li = q.create("<li>")
-            .addClass("qx-tabs-page")
+            .addClass(this.getCssPrefix() + "-page")
             .setAttribute("id", page.getAttribute("id"))
             .setHtml(page.getHtml())
             .insertAfter(button[0]);
@@ -400,7 +390,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
             page = li;
           }
           this._storePageHeight(page);
-          if (button.hasClass("qx-tabs-button-active")) {
+          if (button.hasClass(this.getCssPrefix() + "-button-active")) {
             this._switchPages(null, page);
           } else {
             this._switchPages(page, null);
@@ -443,26 +433,26 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
             item.getTemplate("button"),
             {content: label}
           )
-        ).addClass("qx-tabs-button");
+        ).addClass(this.getCssPrefix() + "-button");
         var list = item.find("> ul");
         var links = list.getChildren("li");
-        if (list.hasClass("qx-tabs-right") && links.length > 0) {
+        if (list.hasClass(this.getCssPrefix() + "-right") && links.length > 0) {
           link.insertBefore(links.getFirst());
         } else {
           link.appendTo(list);
         }
 
         link.$onFirstCollection("tap", this._onTap, item)
-        .addClass("qx-tabs-button");
-        if (item.find("> ul .qx-tabs-button").length === 1) {
-          link.addClass("qx-tabs-button-active");
+        .addClass(this.getCssPrefix() + "-button");
+        if (item.find("> ul ." + this.getCssPrefix() + "-button").length === 1) {
+          link.addClass(this.getCssPrefix() + "-button-active");
         }
 
         if (pageSelector) {
-          link.setData("qx-tabs-page", pageSelector);
+          link.setData(this.getCssPrefix() + "-page", pageSelector);
           var page = this._getPage(link);
-          page.addClass("qx-tabs-page");
-          if (link.hasClass("qx-tabs-button-active")) {
+          page.addClass(this.getCssPrefix() + "-page");
+          if (link.hasClass(this.getCssPrefix() + "-button-active")) {
             this._switchPages(null, page);
           } else {
             this._switchPages(page, null);
@@ -482,12 +472,13 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      */
     select : function(index) {
       this._forEachElementWrapped(function(tabs) {
-        var buttons = tabs.find("> ul > .qx-tabs-button");
-        var oldButton = tabs.find("> ul > .qx-tabs-button-active").removeClass("qx-tabs-button-active");
+        var buttons = tabs.find("> ul > ." + this.getCssPrefix() + "-button");
+        var oldButton = tabs.find("> ul > ." + this.getCssPrefix() + "-button-active")
+        .removeClass(this.getCssPrefix() + "-button-active");
         if (this.getConfig("align") == "right") {
           index = buttons.length -1 - index;
         }
-        var newButton = buttons.eq(index).addClass("qx-tabs-button-active");
+        var newButton = buttons.eq(index).addClass(this.getCssPrefix() + "-button-active");
         tabs._showPage(newButton, oldButton);
         tabs.emit("changeSelected", index);
       });
@@ -508,12 +499,12 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       var orientation = this.getConfig("orientation");
       var tappedButton = e.getCurrentTarget();
       this._forEachElementWrapped(function(tabs) {
-        var oldButton = tabs.find("> ul > .qx-tabs-button-active");
+        var oldButton = tabs.find("> ul > ." + this.getCssPrefix() + "-button-active");
         if (oldButton[0] == tappedButton && orientation == "horizontal") {
           return;
         }
 
-        oldButton.removeClass("qx-tabs-button-active");
+        oldButton.removeClass(this.getCssPrefix() + "-button-active");
         if (orientation == "vertical") {
           this._showPage(null, oldButton);
           if (oldButton[0] == tappedButton && orientation == "vertical") {
@@ -522,14 +513,14 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
 
         var newButton;
-        var buttons = tabs.find("> ul > .qx-tabs-button")
+        var buttons = tabs.find("> ul > ." + this.getCssPrefix() + "-button")
         ._forEachElementWrapped(function(button) {
           if (tappedButton === button[0]) {
             newButton = button;
           }
         });
         tabs._showPage(newButton, oldButton);
-        newButton.addClass("qx-tabs-button-active");
+        newButton.addClass(this.getCssPrefix() + "-button-active");
         var index = buttons.indexOf(newButton[0]);
         if (this.getConfig("align") == "right") {
           index = buttons.length - 1 - index;
@@ -550,23 +541,23 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         return;
       }
       var rightAligned = this.getConfig("align") == "right";
-      var buttons = this.find("> ul > .qx-tabs-button");
+      var buttons = this.find("> ul > ." + this.getCssPrefix() + "-button");
       if (rightAligned) {
         buttons.reverse();
       }
-      var active = this.find("> ul > .qx-tabs-button-active");
+      var active = this.find("> ul > ." + this.getCssPrefix() + "-button-active");
       var next;
       if (key == "Right") {
         if (!rightAligned) {
-          next = active.getNext(".qx-tabs-button");
+          next = active.getNext("." + this.getCssPrefix() + "-button");
         } else {
-          next = active.getPrev(".qx-tabs-button");
+          next = active.getPrev("." + this.getCssPrefix() + "-button");
         }
       } else {
         if (!rightAligned) {
-          next = active.getPrev(".qx-tabs-button");
+          next = active.getPrev("." + this.getCssPrefix() + "-button");
         } else {
-          next = active.getNext(".qx-tabs-button");
+          next = active.getNext("." + this.getCssPrefix() + "-button");
         }
       }
 
@@ -620,12 +611,12 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
             "paddingBottom" : "0px"
           });
 
-          oldPage.addClass("qx-tabs-page-closed");
+          oldPage.addClass(this.getCssPrefix() + "-page-closed");
         }
 
         if (newPage && newPage.length > 0) {
           var openedHeight = newPage.getProperty("openedHeight");
-          newPage.removeClass("qx-tabs-page-closed");
+          newPage.removeClass(this.getCssPrefix() + "-page-closed");
           if (qxWeb.type.get(openedHeight) == "String") {
             newPage.setStyle("height", openedHeight);
           }
@@ -644,7 +635,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     _getPage : function(button) {
       var pageSelector;
       if (button) {
-        pageSelector = button.getData("qx-tabs-page");
+        pageSelector = button.getData(this.getCssPrefix() + "-page");
       }
       return qxWeb(pageSelector);
     },
@@ -662,26 +653,26 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
 
         if (align == "left") {
-          tabs.addClass("qx-tabs-left");
+          tabs.addClass(this.getCssPrefix() + "-left");
         } else {
-          tabs.removeClass("qx-tabs-left");
+          tabs.removeClass(this.getCssPrefix() + "-left");
         }
 
         if (align == "justify") {
-          tabs.addClass("qx-tabs-justify");
+          tabs.addClass(this.getCssPrefix() + "-justify");
         } else {
-          tabs.removeClass("qx-tabs-justify");
+          tabs.removeClass(this.getCssPrefix() + "-justify");
         }
 
         if (align == "right") {
-          tabs.addClass("qx-tabs-right");
+          tabs.addClass(this.getCssPrefix() + "-right");
         } else {
-          tabs.removeClass("qx-tabs-right");
+          tabs.removeClass(this.getCssPrefix() + "-right");
         }
       } else {
           buttons
-          .getChildren("li").not(".qx-tabs-page")
-          .filter(".qx-tabs-button");
+          .getChildren("li").not("." + this.getCssPrefix() + "-page")
+          .filter("." + this.getCssPrefix() + "-button");
 
         tabs.addClass("qx-flex-ready").find("> ul").addClass("qx-hbox");
         if (align == "justify") {
@@ -700,7 +691,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
     /**
      * Stores the page's natural height for the page opening transition
-     * @param page {qxWeb} Accordion page
+     * @param page {qxWeb} page
      */
     _storePageHeight : function(page) {
       var prevHeight = page[0].style.height;
@@ -717,8 +708,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param on {Boolean?} <code>true</code>: activate transitions
      */
     __toggleTransitions : function(on) {
-      this._forEachElementWrapped(function(accordion) {
-        accordion.find("> ul > .qx-tabs-page")
+      this._forEachElementWrapped(function(tabs) {
+        tabs.find("> ul > ." + this.getCssPrefix() + "-page")
         ._forEachElementWrapped(function(page) {
           if (on) {
             this.__activateTransition(page);
@@ -769,7 +760,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {
         qxWeb(window).$onFirstCollection("resize", tabs._onResize, tabs);
-        tabs.find(".qx-tabs-button").$offFirstCollection("tap", tabs._onTap, tabs);
+        tabs.find("." + this.getCssPrefix() + "-button").$offFirstCollection("tap", tabs._onTap, tabs);
         tabs.getChildren("ul").getFirst().$offFirstCollection("keydown", tabs._onKeyDown, tabs)
         .setHtml("");
       });
