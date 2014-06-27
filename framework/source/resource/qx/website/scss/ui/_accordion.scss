@@ -10,13 +10,13 @@
   padding: 0;
 }
 
-.qx-accordion .qx-tabs-button {
+.qx-accordion-button {
   margin-left: 0;
   border-top: rem(1) solid $border-color;
   cursor: pointer;
 }
 
-.qx-accordion .qx-tabs-button > button {
+.qx-accordion-button > button {
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -29,31 +29,31 @@
   text-align: left;
 }
 
-.qx-accordion .qx-tabs-button > button[disabled] {
+.qx-accordion-button > button[disabled] {
   color: $highlight-color-disabled;
 }
 
-.qx-accordion .qx-tabs-button > button:focus {
+.qx-accordion-button > button:focus {
   text-decoration: underline;
 }
 
-.qx-accordion .qx-tabs-button-active {
+.qx-accordion-button-active {
   @include background($background-color);
 }
 
-.qx-accordion .qx-tabs-button:hover {
+.qx-accordion-button:hover {
   background-color: darken($background-color, 10%);
 }
 
-.qx-accordion .qx-tabs-button-active:hover {
+.qx-accordion-button-active:hover {
   @include background($background-color);
 }
 
-.qx-accordion .qx-tabs-button-active > button {
+.qx-accordion-button-active > button {
   color: black;
 }
 
-.qx-accordion .qx-tabs-page {
+.qx-accordion-page {
   overflow: hidden;
   @include box-sizing(border-box);
   padding: rem(8) rem(12);
@@ -62,6 +62,12 @@
   @include transition(height 500ms, padding-top 500ms, padding-bottom 500ms, margin-top 500ms, margin-bottom 500ms);
 }
 
-.qx-accordion .qx-tabs-button[disabled] {
+.qx-accordion-page-closed {
+  height: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.qx-accordion-button[disabled] {
   color: $highlight-color-disabled;
 }
