@@ -37,8 +37,8 @@
     "qx-locale": "~0.1.0",
     "qx-resource": "~0.1.0",
     "qx-translation": "~0.1.0",
-    "shelljs": "~0.3.0",
-    "uglify-js": "~2.4.14"
+    "qx-compression": "~0.1.0",
+    "shelljs": "~0.3.0"
   },
   "devDependencies": {
     "grunt-contrib-jshint": "~0.8.0",

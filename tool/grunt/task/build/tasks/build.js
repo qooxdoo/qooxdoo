@@ -40,6 +40,7 @@ var qxLoc = require("qx-locale");
 var qxDep = require("qx-dependency");
 var qxLib = require("qx-library");
 var qxTra = require("qx-translation");
+var qxCpr = require("qx-compression");
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -85,6 +86,7 @@ module.exports = function(grunt) {
     if (!grunt.file.exists(loaderTemplatePath)) {
       grunt.log.warn('Source file "' + loaderTemplatePath + '" not found.');
     }
+
 
     grunt.log.writeln('Scanning libraries ...');
     // -----------------------------------------
@@ -162,20 +164,15 @@ module.exports = function(grunt) {
       }
     }
 
-    // initial default compression by UglifyJS
-    // TODO: move in own module 'compression' along with qx-specific optimizations and remove dep in package.json
-    var UglifyJS = require("uglify-js");
-    var uglify = function(jsCode) {
-      var result = UglifyJS.minify(jsCode, {fromString: true});
-      return result.code;
-    };
-    classCodeList = classCodeList.map(uglify);
+    var classCodeCompressedList = [];
+    for (var i=0, l=classCodeList.length; i<l; i++) {
+      classCodeCompressedList.push(qxCpr.compress(classListLoadOrder[i], classCodeList[i], {privates: false}));
+    }
 
-    // pretty naive but works for now
     var bootPart = "_";
     bootPart += locResTransContent;
     bootPart += "\n";
-    bootPart += "(function(){"+classCodeList.join("")+"})();";
+    bootPart += "(function(){"+classCodeCompressedList.join("")+"})();";
 
     var ctx = {
       EnvSettings: opts.environment,
@@ -194,7 +191,6 @@ module.exports = function(grunt) {
       DecodeUrisPlug: '',              // ...
       BootPart: bootPart
     };
-
 
     grunt.log.writeln('Copy resources ...');
     // -------------------------------------
