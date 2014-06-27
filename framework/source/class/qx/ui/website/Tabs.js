@@ -341,11 +341,13 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
             var div = q.create("<div>")
             .addClass("qx-tabs-page")
             .setAttribute("id", page.getAttribute("id"))
-            .setHtml(page.getHtml())
-            .appendTo(container[0]);
+            .setHtml(page.getHtml());
             page.remove();
             page = div;
           }
+
+          page.appendTo(container[0]);
+
           if (li.hasClass("qx-tabs-button-active")) {
             tabs._switchPages(null, page);
           } else {
