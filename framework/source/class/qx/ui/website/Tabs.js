@@ -189,7 +189,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
 
       this._forEachElementWrapped(function(tabs) {
-        tabs.addClass(this.getCssPrefix());
+        tabs.addClasses([this.getCssPrefix(), this.getCssPrefix() + "-" + orientation]);
         if (tabs.getChildren("ul").length === 0) {
           var list = qxWeb.create("<ul/>");
           var content = tabs.getChildren();
