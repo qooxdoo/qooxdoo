@@ -202,6 +202,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         var buttons = tabs.getChildren("ul").getFirst()
           .getChildren("li").not(".qx-tabs-page");
         buttons._forEachElementWrapped(function(button) {
+          button.addClass("qx-tabs-button");
           var pageSelector = button.getData("qx-tabs-page");
           if (!pageSelector) {
             return;
@@ -416,8 +417,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         accordion.find("ul.qx-hbox").removeClass("qx-hbox");
         accordion.removeClasses(["qx-tabs", "qx-flex-ready"])
         .addClass("qx-accordion")
-        .find("> ul > .qx-tabs-button")
+        .getChildren("ul").getFirst()
+        .getChildren("li").not(".qx-tabs-page")
         ._forEachElementWrapped(function(button) {
+          button.addClass("qx-tabs-button");
           var page = this._getPage(button);
           if (page.length === 0) {
             return;
@@ -694,7 +697,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       var buttons = tabs.find("ul > li");
 
       if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
-        tabs.addClass("qx-tabs-float");
 
         if (align == "justify") {
           tabs.addClass("qx-tabs-justify");
