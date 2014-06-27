@@ -93,17 +93,23 @@
   text-align: center;
 }
 
-.qx-tabs .qx-tabs-justify > ul > .qx-tabs-button {
+.qx-tabs-justify {
+}
+
+.qx-tabs-justify > ul {
+  display: table-row;
+}
+
+.qx-tabs-justify > ul > .qx-tabs-button {
   display: table-cell;
   width: 1%;
   text-align: center;
-  float: none;
   border-bottom-color: transparent;
   position: relative;
   @include transform(translate(0,rem(1)));
 }
 
-.qx-tabs .qx-tabs-justify > ul > .qx-tabs-button-active {
+.qx-tabs-justify > ul > .qx-tabs-button-active {
   border-bottom: rem(1) solid $background-color;
 }
 
