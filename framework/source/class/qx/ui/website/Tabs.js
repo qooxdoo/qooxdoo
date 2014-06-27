@@ -363,43 +363,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
         tabs._switchPages(null, selectedPage);
 
-        /*
-        var content = [];
-        var pages= [];
-        var selected;
-        tabs.find("> ul > .qx-tabs-button")._forEachElementWrapped(function(li) {
-          li.$offFirstCollection("tap", tabs._onTap, tabs);
-          pages.push(li.getData("qx-tabs-page"));
-          content.push(li.find("> button").getHtml());
-          if (li.hasClass("qx-tabs-button-active")) {
-            selected = content.length - 1;
-          }
-        });
-
-        if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
-          tabs.find("> ul").setHtml("");
-          var toRight = this.getConfig("align") == "right" && !tabs.find("> ul").hasClass("qx-tabs-right");
-          var fromRight = this.getConfig("align") != "right" && tabs.find("> ul").hasClass("qx-tabs-right");
-          if (toRight || fromRight) {
-            content.reverse();
-            pages.reverse();
-            selected = content.length - 1 - selected;
-          }
-
-          content.forEach(function(content, i) {
-            tabs.addButton(content, pages[i]);
-            var page = tabs._getPage(tabs.find("> ul > .qx-tabs-button:last-child"));
-            if (i == selected) {
-              tabs.find("> ul > .qx-tabs-button:first-child").removeClass("qx-tabs-button-active");
-              tabs.find("> ul > .qx-tabs-button:last-child").addClass("qx-tabs-button-active");
-              tabs._switchPages(null, page);
-            } else {
-              tabs._switchPages(page, null);
-            }
-          });
-        }
-        */
-
         this._applyAlignment(tabs);
         this.setEnabled(this.getEnabled());
       });
@@ -697,6 +660,12 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       var buttons = tabs.find("ul > li");
 
       if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
+
+        if (align == "left") {
+          tabs.addClass("qx-tabs-left");
+        } else {
+          tabs.removeClass("qx-tabs-left");
+        }
 
         if (align == "justify") {
           tabs.addClass("qx-tabs-justify");
