@@ -209,6 +209,6 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
   destruct : function()
   {
     this._header.removeListener("tap", this.toggleCollapsed,this);
-    this._disposeObjects("_header, _content");
+    this._disposeObjects("_header", "_content");
   }
 });
