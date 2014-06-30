@@ -71,6 +71,7 @@
  * @require(qx.module.util.Object)
  *
  * @group (Widget)
+ * @deprecated {4.1}
  */
 qx.Bootstrap.define("qx.ui.website.Accordion", {
   extend : qx.ui.website.Tabs,
@@ -125,6 +126,7 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
 
 
   construct : function(selector, context) {
+    console && console.warn("This widget is deprecated. Please use a Tabs widget with the 'orientation' config option set to 'horizontal' instead.");
     this.base(arguments, selector, context);
   },
 
