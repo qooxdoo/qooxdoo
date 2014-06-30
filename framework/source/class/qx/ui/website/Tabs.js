@@ -224,10 +224,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
                 .getChildren().appendTo(li);
                 page = li;
               }
-              if (page.getStyle("transition") &&
-                  page.getStyle("transition").indexOf("none") == -1) {
-                this._storePageHeight(page);
-              }
+              this._storePageHeight(page);
             }
           }
 
@@ -386,17 +383,14 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           if (q.getNodeName(page[0]) == "div") {
             var li = q.create("<li>")
             .addClass(this.getCssPrefix() + "-page")
-            .setAttribute("id", page.getAttribute("id"))
+            .setAttribute("id", page.getAttribute("id"));
             page.getChildren().appendTo(li);
             li.insertAfter(button[0]);
             page.remove();
             page = li;
           }
 
-          if (page.getStyle("transition") &&
-              page.getStyle("transition").indexOf("none") == -1) {
-            this._storePageHeight(page);
-          }
+          this._storePageHeight(page);
           if (button.hasClass(this.getCssPrefix() + "-button-active")) {
             this._switchPages(null, page);
           } else {
