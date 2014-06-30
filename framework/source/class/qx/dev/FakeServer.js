@@ -237,7 +237,6 @@ qx.Bootstrap.define("qx.dev.FakeServer", {
       this.__filter = null;
       this.__fakeServer.restore();
       this.__fakeServer = null;
-      this.getFakeServer();
     },
 
 
