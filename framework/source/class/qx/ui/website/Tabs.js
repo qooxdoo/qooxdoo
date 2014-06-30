@@ -231,6 +231,11 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           this._showPage(null, button);
         }.bind(this));
 
+        var container = tabs.find("> .qx-tabs-container");
+        if (container.length == 1 && container.getChildren().length === 0) {
+          container.remove();
+        }
+
         if (orientation == "horizontal" &&
           this.getConfig("align") == "right" &&
           q.env.get("engine.name") == "mshtml" &&
@@ -676,10 +681,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           tabs.removeClass(this.getCssPrefix() + "-right");
         }
       } else {
-          buttons
-          .getChildren("li").not("." + this.getCssPrefix() + "-page")
-          .filter("." + this.getCssPrefix() + "-button");
-
         tabs.addClass("qx-flex-ready").find("> ul").addClass("qx-hbox");
         if (align == "justify") {
           buttons.addClass("qx-flex1");
