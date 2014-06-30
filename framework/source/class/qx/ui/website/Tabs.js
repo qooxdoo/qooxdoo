@@ -48,9 +48,29 @@
  *       <td>Identifies the Tabs widget</td>
  *     </tr>
  *     <tr>
+ *       <td><code>qx-tabs-horizontal</code></td>
+ *       <td>Container element</td>
+ *       <td>Styles the widget in horizontal orientation</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-tabs-vertical</code></td>
+ *       <td>Container element</td>
+ *       <td>Styles the widget in vertical orientation</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-tabs-container</code></td>
+ *       <td>Tab page container (<code>div</code>)</td>
+ *       <td>Styles the tab pages' container (horizontal orientation only)</td>
+ *     </tr>
+ *     <tr>
  *       <td><code>qx-flex-justify-end</code></td>
  *       <td>Tab container (<code>ul</code>)</td>
  *       <td>Browsers with flexbox support only: Styles the tab buttons when they are right-aligned</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-tabs-left</code></td>
+ *       <td>Container element</td>
+ *       <td>Internet Explorer < 10 only: Styles the tab buttons when they are left-aligned</td>
  *     </tr>
  *     <tr>
  *       <td><code>qx-tabs-justify</code></td>
@@ -64,18 +84,23 @@
  *     </tr>
  *     <tr>
  *       <td><code>qx-tabs-button</code></td>
- *       <td>Tab (<code>li</code>)</td>
+ *       <td>Tab button (<code>li</code>)</td>
  *       <td>Identifies and styles the tabs</td>
  *     </tr>
  *     <tr>
  *       <td><code>qx-tabs-button-active</code></td>
- *       <td>Tab (<code>li</code>)</td>
+ *       <td>Tab button (<code>li</code>)</td>
  *       <td>Identifies and styles the currently selected tab. Applied in addition to <code>qx-tabs-button</code></td>
  *     </tr>
  *     <tr>
  *       <td><code>qx-flex-1</code></td>
- *       <td>Tab (<code>li</code>)</td>
+ *       <td>Tab button (<code>li</code>)</td>
  *       <td>Browsers with flexbox support only: Styles the tab buttons when they are stretched to fill out the available width</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-tabs-page</code></td>
+ *       <td>Tab page (<code>div</code> in horizontal mode, <code>li</code>)</td>
+ *       <td>Styles the tab pages.</td>
  *     </tr>
  *   </tbody>
  * </table>
@@ -148,6 +173,12 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * tab bar appropriate for wide screens. "vertical" renders it as a
      * stack of collapsible panes (sometimes called an accordion) that
      * is better suited for narrow screens.
+     *
+     * *mediaQuery*
+     * A CSS media query string that will be used with a
+     * media query listener to dynamically set the widget's
+     * orientation. The widget will be rendered in vertical mode unless
+     * the query matches.
      */
     _config : {
       preselected : 0,
