@@ -319,7 +319,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-horizontal", "qx-flex-ready"])
         .find("> ul").addClass("qx-hbox");
 
-        var container = tabs.find("." + this.getCssPrefix() + "-container");
+        var container = tabs.find("> ." + this.getCssPrefix() + "-container");
         if (container.length == 0) {
           container = qxWeb.create("<div class='" + this.getCssPrefix() +"-container'>")
           .insertAfter(tabs.find("> ul")[0]);
@@ -347,7 +347,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }.bind(this));
 
         if (!selectedPage) {
-          var firstButton = tabs.find("." + this.getCssPrefix() + "-button").eq(0)
+          var firstButton = tabs.find("> ul > ." + this.getCssPrefix() + "-button").eq(0)
             .addClass(this.getCssPrefix() + "-button-active");
           selectedPage = this._getPage(firstButton);
         }
@@ -367,7 +367,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      */
     _renderVertical : function() {
       this._forEachElementWrapped(function(tabs) {
-        tabs.find("ul.qx-hbox").removeClass("qx-hbox");
+        tabs.find("> ul.qx-hbox").removeClass("qx-hbox");
         tabs.removeClasses([this.getCssPrefix() + "-horizontal", "qx-flex-ready"])
         .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-vertical"])
         .getChildren("ul").getFirst()
@@ -654,7 +654,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      */
     _applyAlignment : function(tabs) {
       var align = tabs.getConfig("align");
-      var buttons = tabs.find("ul > li");
+      var buttons = tabs.find("> ul > li");
 
       if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
 
@@ -769,7 +769,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {
         qxWeb(window).off("resize", tabs._onResize, tabs);
-        tabs.find("." + this.getCssPrefix() + "-button").$offFirstCollection("tap", tabs._onTap, tabs);
+        tabs.find("> ul > ." + this.getCssPrefix() + "-button").$offFirstCollection("tap", tabs._onTap, tabs);
         tabs.getChildren("ul").getFirst().$offFirstCollection("keydown", tabs._onKeyDown, tabs)
         .setHtml("");
       });

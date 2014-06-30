@@ -54,22 +54,22 @@
 
 // horizontal orientation:
 
-.qx-tabs-horizontal .qx-tabs-button:first-child {
+.qx-tabs-horizontal > ul > .qx-tabs-button:first-child {
   margin-left: rem(0);
 }
 
-.qx-tabs-horizontal .qx-tabs-button {
+.qx-tabs-horizontal > ul > .qx-tabs-button {
   margin-bottom: rem(-1);
   margin-left: rem(3);
   border: rem(1) solid transparent;
 }
 
-.qx-tabs-horizontal .qx-tabs-button-active {
+.qx-tabs-horizontal > ul > .qx-tabs-button-active {
   border: rem(1) solid $border-color;
   @include border-radius(rem(2) rem(2) 0 0);
 }
 
-.qx-tabs-horizontal .qx-tabs-button-active:after {
+.qx-tabs-horizontal > ul > .qx-tabs-button-active:after {
   display: block;
   position: relative;
   top: rem(1);
@@ -79,22 +79,22 @@
   height: rem(1);
 }
 
-.qx-tabs-horizontal .qx-tabs-button:hover {
+.qx-tabs-horizontal > ul > .qx-tabs-button:hover {
   border-bottom: rem(1) solid $border-color;
   @include border-radius(rem(2) rem(2) 0 0);
 }
 
-.qx-tabs-horizontal .qx-tabs-button-active:hover {
+.qx-tabs-horizontal > ul > .qx-tabs-button-active:hover {
   border: rem(1) solid $border-color;
   border-bottom: rem(1) solid $background-color;
 }
 
-.qx-tabs-horizontal .qx-tabs-container {
+.qx-tabs-horizontal > .qx-tabs-container {
   clear: both;
   border: rem(1) solid $border-color;
 }
 
-.qx-tabs-horizontal .qx-tabs-button.qx-flex1 {
+.qx-tabs-horizontal > ul > .qx-tabs-button.qx-flex1 {
   text-align: center;
 }
 
