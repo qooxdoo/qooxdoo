@@ -4138,6 +4138,48 @@ testrunner.define({
 });
 
 
+testrunner.define({
+  classname: "ObjectUtil",
+
+  setUp : testrunner.globalSetup,
+  tearDown : testrunner.globalTeardown,
+
+  testObjectMerge : function() {
+
+    var target = {
+      name: 'vanillebaer',
+      test: {
+        foo: 'bar'
+      }
+    };
+
+    var source = {
+      surname: 'flachzange',
+      test: {
+        bar: 'baz'
+      }
+    };
+
+    var source2 = {
+      middlename: 'bambi',
+      secondTest: [ 0, 1, 2 ]
+    };
+
+    var result = q.object.merge(target, source, source2);
+
+    this.assertObject(result, 'Result value has to be an object!');
+    this.assertKeyInMap('name', result);
+    this.assertKeyInMap('surname', result);
+    this.assertKeyInMap('test', result);
+    this.assertEquals(result.test, source.test);
+
+    this.assertKeyInMap('middlename', result);
+    this.assertKeyInMap('secondTest', result);
+    this.assertArrayEquals(result.secondTest, [0, 1, 2]);
+  }
+});
+
+
 
 /* **************
  * WIDGETS

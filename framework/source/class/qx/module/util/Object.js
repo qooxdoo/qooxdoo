@@ -72,7 +72,29 @@ qx.Bootstrap.define("qx.module.util.Object", {
      * @param value {var} Value to look for
      * @return {Boolean} Whether the value was found in the map.
      */
-    contains : qx.lang.Object.contains
+    contains : qx.lang.Object.contains,
+
+
+    /**
+     * Merges one or more objects into the 'target' object.
+     *
+     * @attachStatic {qxWeb, object.merge}
+     *
+     * @param target {Object} target object to merge into
+     * @param varargs {var} As many items as you want to merge.
+     * @return {Object} the merged object
+     */
+    merge : function(target, varargs) {
+
+      var varargs = qxWeb.array.fromArguments(arguments);
+      var target = varargs.shift();
+
+      varargs.forEach(function(sourceObject) {
+        target = qx.Bootstrap.objectMergeWith(target, sourceObject);
+      });
+
+      return target;
+    }
   },
 
   defer : function(statics) {
@@ -81,7 +103,8 @@ qx.Bootstrap.define("qx.module.util.Object", {
         "clone" : statics.clone,
         "getValues" : statics.getValues,
         "invert" : statics.invert,
-        "contains" : statics.contains
+        "contains" : statics.contains,
+        "merge" : statics.merge
       }
     });
   }
