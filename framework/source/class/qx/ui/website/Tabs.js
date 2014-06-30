@@ -219,12 +219,15 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
                 var li = q.create("<li>")
                 .addClass(this.getCssPrefix() + "-page")
                 .setAttribute("id", page.getAttribute("id"))
-                .setHtml(page.getHtml())
                 .insertAfter(button[0]);
-                page.remove();
+                page.remove()
+                .getChildren().appendTo(li);
                 page = li;
               }
-              this._storePageHeight(page);
+              if (page.getStyle("transition") &&
+                  page.getStyle("transition").indexOf("none") == -1) {
+                this._storePageHeight(page);
+              }
             }
           }
 
@@ -258,7 +261,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           this._applyAlignment(tabs);
         }
 
-        qxWeb(window).$onFirstCollection("resize", tabs._onResize, tabs);
+        qxWeb(window).on("resize", tabs._onResize, tabs);
 
       }.bind(this));
 
@@ -332,9 +335,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           if (q.getNodeName(page[0]) == "li") {
             var div = q.create("<div>")
             .addClass(this.getCssPrefix() + "-page")
-            .setAttribute("id", page.getAttribute("id"))
-            .setHtml(page.getHtml());
-            page.remove();
+            .setAttribute("id", page.getAttribute("id"));
+            page.remove()
+            .getChildren().appendTo(div);
             page = div;
           }
 
@@ -384,12 +387,16 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
             var li = q.create("<li>")
             .addClass(this.getCssPrefix() + "-page")
             .setAttribute("id", page.getAttribute("id"))
-            .setHtml(page.getHtml())
-            .insertAfter(button[0]);
+            page.getChildren().appendTo(li);
+            li.insertAfter(button[0]);
             page.remove();
             page = li;
           }
-          this._storePageHeight(page);
+
+          if (page.getStyle("transition") &&
+              page.getStyle("transition").indexOf("none") == -1) {
+            this._storePageHeight(page);
+          }
           if (button.hasClass(this.getCssPrefix() + "-button-active")) {
             this._switchPages(null, page);
           } else {
@@ -615,10 +622,15 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
 
         if (newPage && newPage.length > 0) {
-          var openedHeight = newPage.getProperty("openedHeight");
           newPage.removeClass(this.getCssPrefix() + "-page-closed");
-          if (qxWeb.type.get(openedHeight) == "String") {
-            newPage.setStyle("height", openedHeight);
+          if (!newPage.getStyle("transition") ||
+            newPage.getStyle("transition").indexOf("none") === 0) {
+            newPage.setStyle("height", "");
+          } else {
+            var openedHeight = newPage.getProperty("openedHeight");
+            if (qxWeb.type.get(openedHeight) == "String") {
+              newPage.setStyle("height", openedHeight);
+            }
           }
         }
       }
@@ -694,10 +706,13 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param page {qxWeb} page
      */
     _storePageHeight : function(page) {
+      var prevDisplay = page[0].style.display;
       var prevHeight = page[0].style.height;
       page[0].style.height = "";
+      page[0].style.display = "block";
       page.setProperty("openedHeight", page.getHeight() + "px");
       page[0].style.height = prevHeight;
+      page[0].style.display = prevDisplay;
     },
 
 
@@ -759,7 +774,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     dispose : function() {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {
-        qxWeb(window).$onFirstCollection("resize", tabs._onResize, tabs);
+        qxWeb(window).off("resize", tabs._onResize, tabs);
         tabs.find("." + this.getCssPrefix() + "-button").$offFirstCollection("tap", tabs._onTap, tabs);
         tabs.getChildren("ul").getFirst().$offFirstCollection("keydown", tabs._onKeyDown, tabs)
         .setHtml("");
