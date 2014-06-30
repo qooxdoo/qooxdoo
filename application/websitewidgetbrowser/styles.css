@@ -86,6 +86,10 @@ video {
   -webkit-tap-highlight-color: transparent;
 }
 
+body {
+  min-width: 640px;
+}
+
 #header {
   width: auto;
   padding-left: 15px;
@@ -132,10 +136,14 @@ label, p, button, td, code, li {
   float: right;
   position: absolute;
   right: 20px;
-  top: 102px;
+  top: 138px;
   width: 180px;
   padding: 10px;
   background-color: #fff;
+  -moz-transition: right 500ms;
+  -webkit-transition: right 500ms;
+  -o-transition: right 500ms;
+  transition: right 500ms;
 }
 
 #eventlog {
@@ -145,7 +153,16 @@ label, p, button, td, code, li {
   overflow: auto;
 }
 
-#content {
+#eventlog p {
+  padding: 0 4px;
+}
+
+#eventlog p,
+#eventlog p > * {
+  background-color: transparent;
+}
+
+#container {
   margin-top: 82px;
   margin-right: 220px;
   padding: 20px;
@@ -209,4 +226,43 @@ pre.demo-cell {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
+}
+
+#content > ul > .qx-tabs-page {
+  -webkit-transition: none;
+  -moz-transition: none;
+  transition: none;
+}
+
+@media (max-width: 920px) {
+  body {
+    overflow-x: hidden;
+  }
+
+  #sidebar {
+    position: fixed;
+    right: -195px;
+    padding: 10px 10px 10px 20px;
+
+
+    box-shadow: -1px 2px 3px 0 #C4C4C4;
+  }
+
+  #sidebar:after {
+    content: 'lll';
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    color: #6D6D6D;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+  }
+
+  #container {
+    margin-right: 20px;
+  }
+
+  #sidebar.overlay {
+    right: 0;
+  }
 }

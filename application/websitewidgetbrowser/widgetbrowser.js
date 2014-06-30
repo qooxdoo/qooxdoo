@@ -256,6 +256,26 @@ q.ready(function() {
   q("h1").setHtml(appName + "<span>" + compVer + "</span>");
   document.title = compVer + " " + appName;
 
+  var toggleSideBar = function(e) {
+    var target = q(e.getTarget());
+    if ( !target.isChildOf(q("#sidebar .disable")) &&
+      e.getTarget() !== q("#sizeSlider")[0] &&
+      !target.isChildOf(q("#sizeSlider"))) {
+      q("#sidebar").toggleClass("overlay");
+    }
+  };
+
+  var onChangeWidth = function(mql) {
+    if (mql.matches) {
+      q("#sidebar").on("tap", toggleSideBar);
+    } else {
+      q("#sidebar").off("tap", toggleSideBar);
+    }
+  };
+
+  var mql = q.matchMedia("(max-width: 920px)");
+  onChangeWidth(mql);
+  mql.on("change", onChangeWidth);
 
   qxWeb.initWidgets();
 
