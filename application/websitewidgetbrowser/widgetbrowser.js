@@ -25,8 +25,7 @@ q.ready(function() {
     datepicker : ["Default", "Customized"],
     rating : ["Default", "Custom Length", "Custom Symbol", "Custom Styling"],
     slider : ["Default", "Customized"],
-    tabs : ["Default"],
-    accordion : ["Default"]
+    tabs : ["Horizontal", "Vertical", "Responsive"]
   };
 
 
