@@ -390,8 +390,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         tabs._switchPages(null, selectedPage);
 
         this._applyAlignment(tabs);
-        this.setEnabled(this.getEnabled());
       });
+      this.setEnabled(this.getEnabled());
 
       return this;
     },
@@ -436,6 +436,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
         }.bind(this));
       }.bind(this));
+      this.setEnabled(this.getEnabled());
 
       return this;
     },

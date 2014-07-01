@@ -4856,15 +4856,15 @@ testrunner.define({
   },
 
   testPersistEnabled : function() {
-    var tabs = q.create('<div><ul><li class="qx-tabs-button" data-qx-tabs-page="#page1">Page 1</li></ul><div class="qx-tabs-container"><div id="page1" class="qx-tabs-page">Page 1 Content</div></div></div>')
+    var tabs = q.create('<div><ul><li class="qx-tabs-button" data-qx-tabs-page="#page1"><button>Page 1</button></li></ul><div class="qx-tabs-container"><div id="page1" class="qx-tabs-page">Page 1 Content</div></div></div>')
     .appendTo("#sandbox").tabs();
     this.assertTrue(tabs.getEnabled());
     this.assertFalse(tabs.getAttribute("disabled"));
-    this.assertNull(tabs.find("button").getAttribute("disabled"));
+    this.assertFalse(tabs.find("button").getAttribute("disabled"));
     tabs.setEnabled(false);
     this.assertFalse(tabs.getEnabled());
     this.assertTrue(tabs.getAttribute("disabled"));
-    this.assertNull(tabs.find("button").getAttribute("disabled"));
+    this.assertTrue(tabs.find("button").getAttribute("disabled"));
     tabs.render();
     this.assertFalse(tabs.getEnabled());
     this.assertTrue(tabs.getAttribute("disabled"));
