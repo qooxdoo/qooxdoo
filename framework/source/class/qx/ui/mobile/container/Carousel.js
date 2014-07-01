@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
           self: this,
           targetIndex: pageIndex - 1
         });
-        paginationLabel.dispose();
+        qx.util.DisposeUtil.destroyContainer(paginationLabel);
 
         this.__pages.splice(pageIndex, 1);
         this.__paginationLabels.splice(pageIndex, 1);
