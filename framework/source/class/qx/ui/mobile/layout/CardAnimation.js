@@ -145,8 +145,7 @@ qx.Class.define("qx.ui.mobile.layout.CardAnimation",
   },
 
 
-  destruct : function()
-  {
-    this._disposeObjects("_cardAnimationsMap");
+  destruct : function() {
+    this._cardAnimationsMap = null;
   }
 });
