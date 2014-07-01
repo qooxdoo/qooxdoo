@@ -363,5 +363,10 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       }
       return classes;
     }
+  },
+
+
+  destruct : function() {
+    this._disposeObjects("__cardAnimation");
   }
 });
