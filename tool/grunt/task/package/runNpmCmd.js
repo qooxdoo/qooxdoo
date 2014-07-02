@@ -51,7 +51,7 @@ if (program.args < 1) {
 // extract packages to process (none given means all)
 var packages = [];
 if (program.args.length === 1) {
-  packages = ['dependency', 'library', 'resource', 'translation', 'locale'];
+  packages = ['dependency', 'library', 'resource', 'translation', 'locale', 'compression'];
 } else {
   packages = program.args.slice(1);
 }

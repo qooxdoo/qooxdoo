@@ -821,8 +821,8 @@
       <dd>If not happend before:
         <ol>
           <li><strong>install</strong> all packages (<em>cd tool/grunt/task/package/
-           &amp;&amp; ./runNpmCmd install</em>)</li>
-          <li><strong>link</strong> all packages (<em>sudo ./runNpmCmd link</em>)</li>
+           &amp;&amp; ./runNpmCmd.js install</em>)</li>
+          <li><strong>link</strong> all packages (<em>sudo ./runNpmCmd.js link</em>)</li>
           <li><strong>install</strong> the ones needed for the task you are going to test:
             <ol>
               <li><em>cd tool/grunt/task/package/{taskName}</em></li>
@@ -832,6 +832,7 @@
               <li>e.g. <em>npm link qx-dependency</em></li>
               <li>e.g. <em>npm link qx-library</em></li>
               <li>e.g. <em>npm link qx-translation</em></li>
+              <li>e.g. <em>npm link qx-compression</em></li>
               <li>e.g. <em>npm link qx-...</em></li>
               <li>install remaining ones from the npm-registry: <em>npm install</em></li>
             </ol>
