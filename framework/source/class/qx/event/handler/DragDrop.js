@@ -607,9 +607,9 @@ qx.Class.define("qx.event.handler.DragDrop",
           }
 
           this.__validDrop = true; // initial value should be true
+          this.__dropTarget = droppable;
 
           this.__validDrop = this.__fireEvent("dragover", droppable, this.__dragTarget, true, e);
-          this.__dropTarget = droppable;
         }
 
         // only previous drop target
