@@ -12,3 +12,12 @@ addSample("q.matchMedia", {
     });
   }
 });
+
+addSample("q.addSizeClasses", {
+  javascript: function() {
+    q.addSizeClasses();
+
+    console.log(q("html").getClass());
+  },
+  executable: true
+});
