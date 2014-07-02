@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     currentIndex : {
       check : "Number",
       init : 0,
-      apply : "_applyCurrentIndex",
+      apply : "_scrollToPage",
       event : "changeCurrentIndex"
     },
 
@@ -317,6 +317,8 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         return;
       }
 
+      this._updatePagination(pageIndex);
+
       var snapPoint = -pageIndex * this.__carouselWidth;
       this._updateScrollerPosition(snapPoint);
 
@@ -408,13 +410,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
     },
 
 
-    // property apply
-    _applyCurrentIndex : function(value, old) {
-      this._updatePagination(old, value);
-      this._scrollToPage(value);
-    },
-
-
     /**
      * Handles a tap on paginationLabel.
      */
@@ -455,7 +450,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         }
       }
 
-      this._updatePagination(this.getCurrentIndex(), this.getCurrentIndex());
+      this._refreshScrollerPosition();
     },
 
 
@@ -675,7 +670,11 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
         }
       }
 
-      this.setCurrentIndex(nearestPageIndex);
+      if (this.getCurrentIndex() == nearestPageIndex) {
+        this._refreshScrollerPosition();
+      } else {
+        this.setCurrentIndex(nearestPageIndex);
+      }
     },
 
 
@@ -683,17 +682,14 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      * Updates the pagination indicator of this carousel.
      * Removes the active state from from paginationLabel with oldActiveIndex,
      * Adds actives state to paginationLabel new ActiveIndex.
-     * @param oldActiveIndex {Integer} Index of paginationLabel which should loose active state
      * @param newActiveIndex {Integer} Index of paginationLabel which should have active state
      */
-    _updatePagination : function(oldActiveIndex, newActiveIndex) {
-      var oldActiveLabel = this.__paginationLabels[oldActiveIndex];
-      var newActiveLabel = this.__paginationLabels[newActiveIndex];
-
-      if (oldActiveLabel && oldActiveLabel.getContainerElement()) {
-        oldActiveLabel.removeCssClass("active");
+    _updatePagination : function(newActiveIndex) {
+      for (var i = 0; i < this.__paginationLabels.length; i++) {
+        this.__paginationLabels[i].removeCssClass("active");
       }
 
+      var newActiveLabel = this.__paginationLabels[newActiveIndex];
       if (newActiveLabel && newActiveLabel.getContainerElement()) {
         newActiveLabel.addCssClass("active");
       }

@@ -334,7 +334,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         var swipe = this.__getSwipeGesture(domEvent, target);
         if (swipe) {
           domEvent.swipe = swipe;
-          this._fireEvent(domEvent, "swipe", domEvent.target || target);
+          this._fireEvent(domEvent, "swipe", gesture.target || target);
         }
       }
 
