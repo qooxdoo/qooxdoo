@@ -436,6 +436,99 @@ qx.Bootstrap.define("qx.module.Event", {
 
 
     /**
+     * Adds a listener for the given type and checks if the target fulfills the selector check.
+     * If the check is successful the callback is executed with the target and event as arguments.
+     *
+     * @attach{qxWeb}
+     *
+     * @param eventType {String} name of the event to watch out for (attached to the document object)
+     * @param target {String|Element|Element[]|qxWeb} Selector expression, DOM element,
+     * Array of DOM elements or collection
+     * @param callback {Function} function to call if the selector matches.
+     * The callback will get the target as qxWeb collection and the event as arguments
+     * @param context {Object?} optional context object to call the callback
+     * @return {qxWeb} The collection for chaining
+     */
+    onMatchTarget : function(eventType, target, callback, context) {
+
+      context = context !== undefined ? context : this;
+
+      var listener = function(e) {
+        var eventTarget = qxWeb(e.getTarget());
+
+        if (eventTarget.is(target)) {
+          callback.call(context, eventTarget, qxWeb.object.clone(e));
+        }
+      };
+
+      // make sure to store the infos for 'offMatchTarget' at each element of the collection
+      // to be able to remove the listener separately
+      this.forEach(function(el) {
+        var matchTarget = {
+          type : eventType,
+          listener : listener,
+          callback : callback,
+          context : context
+        };
+
+        if (!el.$$matchTargetInfo) {
+          el.$$matchTargetInfo = [];
+        }
+        el.$$matchTargetInfo.push(matchTarget);
+      });
+
+      this.on(eventType, listener);
+
+      return this;
+    },
+
+
+    /**
+     * Removes a listener for the given type and selector check.
+     *
+     * @attach{qxWeb}
+     *
+     * @param eventType {String} name of the event to remove for
+     * @param target {String|Element|Element[]|qxWeb} Selector expression, DOM element,
+     * Array of DOM elements or collection
+     * @param callback {Function} function to remove
+     * @param context {Object?} optional context object to remove
+     * @return {qxWeb} The collection for chaining
+     */
+    offMatchTarget : function(eventType, target, callback, context) {
+
+      context = context !== undefined ? context : this;
+
+      this.forEach(function(el) {
+
+        if (el.$$matchTargetInfo && qxWeb.type.get(el.$$matchTargetInfo) == "Array") {
+
+          var infos = el.$$matchTargetInfo;
+
+          for (var i=infos.length - 1; i>=0; i--) {
+
+            var entry = infos[i];
+            if (entry.type == eventType &&
+                entry.callback == callback &&
+                entry.context == context) {
+
+              this.off(eventType, entry.listener);
+              infos.splice(i, 1);
+            }
+
+          }
+
+          if (infos.length === 0) {
+            el.$$matchTargetInfo = null;
+          }
+        }
+      }, this);
+
+      return this;
+    },
+
+
+    /**
      * Registers a normalization function for the given event types. Listener
      * callbacks for these types will be called with the return value of the
      * normalization function instead of the regular event object.
@@ -597,7 +690,9 @@ qx.Bootstrap.define("qx.module.Event", {
       "emit" : statics.emit,
       "hasListener" : statics.hasListener,
       "copyEventsTo" : statics.copyEventsTo,
-      "hover" : statics.hover
+      "hover" : statics.hover,
+      "onMatchTarget" : statics.onMatchTarget,
+      "offMatchTarget" : statics.offMatchTarget
     });
 
     qxWeb.$attachStatic({

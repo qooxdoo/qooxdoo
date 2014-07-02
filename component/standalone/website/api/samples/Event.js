@@ -86,3 +86,32 @@ q("#hover").hover(function() {
 },
     executable: true
 });
+
+addSample(".onMatchTarget", function() {
+q(document).onMatchTarget('pointerdown', '.demo-cell', function(target, event) {
+  // whenever a 'pointerdown' on an event target occurs and the given selector matches
+});
+});
+
+addSample(".onMatchTarget", {
+  html: ['<ul id="test">',
+    '  <li>List item</li>',
+    '  <li class="special">List item</li>',
+    '  <li>List item</li>',
+    '  <li class="special">List item</li>',
+    '  <li>List item</li>',
+    '  <li>List item</li>',
+    '</ul>'],
+  css: ['.special {',
+    '  background-color: #f00',
+    '}'
+  ],
+  javascript: function() {
+q('ul#test').onMatchTarget('pointerdown', '.special', function(target, event) {
+  // whenever a 'pointerdown' on an event target occurs and the given selector matches
+  console.log('pointer down on: ', target);
+  console.log('pointer event instance: ', event);
+});
+},
+  executable: true
+});
