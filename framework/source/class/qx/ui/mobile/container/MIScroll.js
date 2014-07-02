@@ -233,13 +233,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
 
             e.preventDefault();
           }
-
-          // we also want to alert interested parties that we are starting scrolling
-          if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
-          {
-            var iScrollStartEvent = new qx.event.message.Message('iscrollstart');
-            qx.event.message.Bus.getInstance().dispatch(iScrollStartEvent);
-          }
         }
       };
     },
