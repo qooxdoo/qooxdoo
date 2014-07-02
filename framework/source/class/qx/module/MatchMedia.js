@@ -38,7 +38,17 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
     },
 
     /**
-     * Adds pre-defined media queries
+     * Adds screen size classes based on pre-defined media queries using em.
+     * The range goes from small to medium, large and xlarge up to xxlarge:
+     *
+     * small: 0em - 40em
+     * medium: 40.063em - 64em
+     * large: 64.063em - 90em
+     * xlarge: 90.063em - 120em
+     * xxlarge: > 120.063em
+     *
+     * The suffix of the class name indicates either that the current screen
+     * is larger than this size (*-up) or in that range (*-only).
      *
      * @attachStatic {qxWeb}
      */
