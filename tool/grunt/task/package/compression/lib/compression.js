@@ -80,11 +80,11 @@ function convertIntToChar(index) {
 }
 
 function shortenPrivate(classId, name, privatesMap) {
-  if (name in privatesMap[classId]) {
-    return privatesMap[classId][name];
+  if (classId+name in privatesMap) {
+    return privatesMap[classId+name];
   }
 
-  return "__" + convertIntToChar(Object.keys(privatesMap[classId]).length);
+  return "__" + convertIntToChar(Object.keys(privatesMap).length);
 }
 
 function collectAstObjectKeyValPrivates(code) {
@@ -108,12 +108,11 @@ function replaceAstObjectKeyValPrivates(classId, code, privates, globalPrivatesM
     var startPos = node.start.pos;
     var endPos = node.end.endpos;
     var key = node.key;
-
     var classIdAndKey = classId+key;
 
-    globalPrivatesMap[classId][key] = shortenPrivate(classId, key, globalPrivatesMap);
+    globalPrivatesMap[classIdAndKey] = shortenPrivate(classId, key, globalPrivatesMap);
     var replacement = new U2.AST_ObjectKeyVal({
-      key: globalPrivatesMap[classId][key],
+      key: globalPrivatesMap[classIdAndKey],
       value: privates[l].value
     }).print_to_string({ beautify: false });
     code = splice_string(code, startPos, endPos, replacement);
@@ -143,10 +142,12 @@ function replaceAstDotPrivates(classId, code, privates, globalPrivatesMap) {
     var endPos = node.end.endpos;
     var prop = node.property;
 
-    globalPrivatesMap[classId][prop] = shortenPrivate(classId, prop, globalPrivatesMap);
+    var classIdAndProp = classId+prop;
+
+    globalPrivatesMap[classIdAndProp] = shortenPrivate(classId, prop, globalPrivatesMap);
     var replacement = new U2.AST_Dot({
       expression : node.expression,
-      property : globalPrivatesMap[classId][prop],
+      property : globalPrivatesMap[classIdAndProp],
     }).print_to_string({ beautify: false });
     code = splice_string(code, startPos, endPos, replacement);
   }
