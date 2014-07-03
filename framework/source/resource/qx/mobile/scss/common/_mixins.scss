@@ -132,7 +132,11 @@
 
 @mixin flex-justify-content($args) {
   -ms-justify-content: $args;       /* IE 10+ */
-  -ms-flex-pack: $args;             /* IE 10 */
+  @if (str-slice($args, 1, 4) == flex) { /* IE 10 */
+    -ms-flex-pack: str-slice($args, 6);
+  } @else {
+    -ms-flex-pack: $args;
+  }
   -webkit-justify-content: $args;   /* Chrome */
   justify-content: $args;           /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
