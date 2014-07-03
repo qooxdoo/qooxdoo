@@ -102,7 +102,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     /**
      * The distance needed to change the mouse position before a drag session start.
      */
-    MIN_DRAG_DISTANCE : 5,
+    MIN_DRAG_DISTANCE : 5
   },
 
 
