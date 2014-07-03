@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -14,6 +14,7 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Mustafa Sak (msak)
 
 ************************************************************************ */
 /**
@@ -21,10 +22,8 @@
  * also be used to assign an execution of a command sequence to multiple
  * widgets. It is possible to use the same Command in a MenuButton and
  * ToolBarButton for example.
- *
- * @deprecated {4.1} Please use qx.ui.command.Command instead.
  */
-qx.Class.define("qx.ui.core.Command",
+qx.Class.define("qx.ui.command.Command",
 {
   extend : qx.core.Object,
 
@@ -39,16 +38,9 @@ qx.Class.define("qx.ui.core.Command",
   construct : function(shortcut)
   {
     this.base(arguments);
-    qx.log.Logger.deprecatedMethodWarning(
-      arguments.callee, "Please use qx.ui.command.Command instead."
-    );
-
     this._shortcut = new qx.bom.Shortcut(shortcut);
-    this._shortcut.addListener("execute", this.execute, this);
 
-    if (shortcut !== undefined) {
-      this.setShortcut(shortcut);
-    }
+    this._shortcut.addListener("execute", this.execute, this);
   },
 
 
@@ -64,7 +56,22 @@ qx.Class.define("qx.ui.core.Command",
 
   properties :
   {
-    /** whether the command should be respected/enabled */
+    /** Whether the command should be activated. If 'false' execute event 
+     * wouldn't fire. This proprty will be used by command groups when 
+     * activating/deactivating all commands of the group.*/
+    active :
+    {
+      init : true,
+      check : "Boolean",
+      event : "changeActive",
+      apply : "_applyActive"
+    },
+    
+    
+    /** Whether the command should be respected/enabled. If 'false' execute event 
+     * wouldn't fire. If value of property {@link qx.ui.command.Command#active} 
+     * is 'false', enabled value can be set but has no effect until 
+     * {@link qx.ui.command.Command#active} will be set to 'true'.*/
     enabled :
     {
       init : true,
@@ -134,13 +141,29 @@ qx.Class.define("qx.ui.core.Command",
   members :
   {
     _shortcut : null,
+    
+    
+    // property apply
+    _applyActive : function(value)
+    {
+      if (value === false) {
+        this._shortcut.setEnabled(false);
+      } else {
+        // syncronize value with current "enabled" value of this command
+        this._shortcut.setEnabled(this.getEnabled());
+      }
+    },
+    
 
     // property apply
-    _applyEnabled : function(value) {
-      this._shortcut.setEnabled(value);
+    _applyEnabled : function(value)
+    {
+      if (this.getActive()) {
+        this._shortcut.setEnabled(value);
+      }
     },
-
-
+    
+    
     // property apply
     _applyShortcut : function(value) {
       this._shortcut.setShortcut(value);
@@ -148,13 +171,16 @@ qx.Class.define("qx.ui.core.Command",
 
 
     /**
-     * Fire the "execute" event on this command.
-     *
-     * @param target {Object} Object which issued the execute event
+     * Fire the "execute" event on this command. If property 
+     * <code>active</code> and <code>enabled</code> set to 
+     * <code>true</code>.
+     * @param target {Object?} Object which issued the execute event
      */
     execute : function(target)
     {
-      this.fireDataEvent("execute", target);
+      if (this.getActive() && this.getEnabled()) {
+        this.fireDataEvent("execute", target);
+      }
     },
 
 

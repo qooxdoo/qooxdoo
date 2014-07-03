@@ -839,13 +839,13 @@ qx.Class.define("testrunner.view.Html", {
      */
     _makeCommands : function()
     {
-      var runTests = new qx.ui.core.Command("Ctrl+R");
+      var runTests = new qx.ui.command.Command("Ctrl+R");
       runTests.addListener("execute", this.__runTests, this);
 
-      var stopTests = new qx.ui.core.Command("Ctrl+S");
+      var stopTests = new qx.ui.command.Command("Ctrl+S");
       stopTests.addListener("execute", this.__stopTests, this);
 
-      var reloadAut = new qx.ui.core.Command("Ctrl+Shift+R");
+      var reloadAut = new qx.ui.command.Command("Ctrl+Shift+R");
       reloadAut.addListener("execute", this.__reloadAut, this);
     }
 

@@ -14,11 +14,13 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Mustafa Sak (msak)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.Command",
+qx.Class.define("qx.test.ui.command.Command",
 {
   extend : qx.dev.unit.TestCase,
+  include : qx.dev.unit.MMock,
 
   members :
   {
@@ -240,7 +242,6 @@ qx.Class.define("qx.test.ui.core.Command",
       cmd.dispose();
     },
 
-
     testIconAsToolTipText : function() {
       // for [BUG #4534]
       var cmd = new qx.ui.command.Command("Control+D");
@@ -258,7 +259,7 @@ qx.Class.define("qx.test.ui.core.Command",
 
     testDestructExecutable : function() {
       // Create the command
-      var cmd = new qx.ui.command.Command("Meta+T");
+      var cmd = new qx.ui.command.Command("Meta+T")
 
       // Create a button linked to cmd
       var button = new qx.ui.form.Button("Command button", null,cmd);
@@ -273,12 +274,31 @@ qx.Class.define("qx.test.ui.core.Command",
 
       // test makes sure that code is running, no assert needed
     },
-
-
-    testGetShortcut : function() {
-      // for bug #7036
-      var cmd = new qx.ui.command.Command("Control+X");
-      this.assertEquals('Control+X', cmd.getShortcut());
+    
+    testFireExecuteCount : function()
+    {
+      var handler = this.spy();
+      
+      // Create the command
+      var cmd = new qx.ui.command.Command("Meta+T");
+      cmd.addListener("execute", handler);
+      
+      cmd.setEnabled(false);
+      cmd.setActive(false);
+      cmd.execute();
+      this.assertCallCount(handler, 0);
+      
+      cmd.setEnabled(true);
+      cmd.setActive(false);
+      cmd.execute();
+      this.assertCallCount(handler, 0);
+      
+      
+      cmd.setEnabled(true);
+      cmd.setActive(true);
+      cmd.execute();
+      this.assertCallCount(handler, 1);
+      
       cmd.dispose();
     }
   }
