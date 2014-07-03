@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
      * @param text {String} The text to display in the confirm box
      * @param handler {Function} The handler to call when the <code>OK</code> button
      *     was pressed. The first parameter of the function is the <code>index</code>
-     *     of the pressed button, starting from 1.
+     *     of the pressed button, starting from 0.
      * @param scope {Object} The scope of the handler
      * @param buttons {String[]} Each text entry of the array represents a button and
      *     its title
