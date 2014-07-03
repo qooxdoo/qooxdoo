@@ -217,10 +217,35 @@ Matchmedia
 A module for mediaqueries evaluation. This module is a wrapper for `media.match.js
 <https://github.com/paulirish/matchMedia.js/>`__ that implements a polyfill for
 ``window.matchMedia`` when it's not supported natively.
-
 ::
 
   q.matchMedia("screen and (min-width: 480px)").matches // true or false
+
+
+Media queries and css classes
+*****************************
+Adds screen size classes (e.g. small-only or medium-up) by pre-defined media queries using em. The range goes from small to medium, large and xlarge up to xxlarge:
+
++----------------+-----------------------+
+| class name     | size                  |
++================+=======================+
+| small          | 0em – 40em            |
++----------------+-----------------------+
+| medium         | 40.063em – 64em       |
++----------------+-----------------------+
+| large          | 64.063em – 90em       |
++----------------+-----------------------+
+| xlarge         | 90.063em – 120em      |
++----------------+-----------------------+
+| xxlarge        | 120.063em             |
++----------------+-----------------------+
+
+The suffix of the class name indicates either that the current screen is larger than this size (-up) or in that range (-only).
+
+::
+
+   q.addSizeClasses();
+   console.log(q("html").getClass());
 
 
 Messaging
