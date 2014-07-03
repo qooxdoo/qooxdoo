@@ -96,7 +96,13 @@ qx.Class.define("qx.event.handler.DragDrop",
      * for Drag & Drop. The default is "left" but could be extended with
      * "middle" or "right"
      */
-    ALLOWED_BUTTONS: ["left"]
+    ALLOWED_BUTTONS: ["left"],
+
+
+    /**
+     * The distance needed to change the mouse position before a drag session start.
+     */
+    MIN_DRAG_DISTANCE : 5,
   },
 
 
@@ -572,7 +578,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (!this.__sessionActive && e.getPointerType() == "mouse") {
         var delta = e.getDelta();
         // if the mouse moved a bit in any direction
-        var distance = qx.event.handler.GestureCore.TAP_MAX_DISTANCE.mouse;
+        var distance = qx.event.handler.DragDrop.MIN_DRAG_DISTANCE;
         if (Math.abs(delta.x) > distance || Math.abs(delta.y) > distance) {
           this._start(e);
         }
