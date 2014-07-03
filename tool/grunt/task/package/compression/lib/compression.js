@@ -70,9 +70,13 @@ function convertIntToChar(index) {
   var charTable = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var l = charTable.length - 1;
   var i = index;
+  var res = "";
 
-  // return charTable.substr(index, 1);
-  return charTable.substr(i%l, 1 + Math.floor(i/l));
+  if (Math.floor(i/l) > 0) {
+      res += convertIntToChar(Math.floor(i/l));
+  }
+  res += charTable[i % l];
+  return res;
 }
 
 function shortenPrivate(classId, name, privatesMap) {
