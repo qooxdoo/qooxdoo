@@ -92,8 +92,20 @@ function collectAstObjectKeyValPrivates(code) {
   var privates = [];
   ast.walk(new U2.TreeWalker(function(node){
     // AST_ObjectProperty (AST_ObjectKeyVal | AST_ObjectSetter | AST_ObjectGetter)
+
+    var isMembersOrStaticsProp = function(stack) {
+      var parentParentNode = false;
+
+      if (stack.length >= 3) {
+        parentParentNode = stack[stack.length-3];
+      }
+      return (parentParentNode && ["members", "statics"].indexOf(parentParentNode.key) !== -1);
+    };
+
     if (node instanceof U2.AST_ObjectKeyVal
-      && node.key.toString().indexOf("__") === 0) {
+      && isMembersOrStaticsProp(this.stack)
+      && node.key.toString().substr(0, 2) === "__"
+      && node.key.toString().substr(-2, 2) !== "__") {
       privates.push(node);
     }
   }));
@@ -120,14 +132,49 @@ function replaceAstObjectKeyValPrivates(classId, code, privates, globalPrivatesM
   return code;
 }
 
+function collectAstStrings(code) {
+  var ast = U2.parse(code);
+  var privates = [];
+  ast.walk(new U2.TreeWalker(function(node){
+    if (node instanceof U2.AST_String
+      && node.value.toString().substr(0, 2) === "__"
+      && node.value.toString().substr(-2, 2) !== "__") {
+      privates.push(node);
+    }
+  }));
+
+  return privates;
+}
+
+function replaceAstStrings(classId, code, privates, globalPrivatesMap) {
+  var l = privates.length;
+  while (l--) {
+    var node = privates[l];
+    var startPos = node.start.pos;
+    var endPos = node.end.endpos;
+    var value = node.value;
+
+    var classIdAndValue = classId+value;
+
+    globalPrivatesMap[classIdAndValue] = shortenPrivate(classId, value, globalPrivatesMap);
+    var replacement = new U2.AST_String({
+      value: globalPrivatesMap[classIdAndValue]
+    }).print_to_string({ beautify: false });
+    code = splice_string(code, startPos, endPos, replacement);
+  }
+  return code;
+}
+
 function collectAstDotPrivates(code) {
   var ast = U2.parse(code);
   var privates = [];
   ast.walk(new U2.TreeWalker(function(node){
     // AST_PropAccess (AST_Dot | AST_Sub)
+
     if (node instanceof U2.AST_PropAccess
       && typeof node.property === 'string'
-      && node.property.indexOf("__") === 0) {
+      && node.property.toString().substr(0, 2) === "__"
+      && node.property.toString().substr(-2, 2) !== "__") {
       privates.push(node);
     }
   }));
@@ -159,9 +206,9 @@ function splice_string(str, begin, end, replacement) {
 }
 
 function replacePrivates(classId, jsCode) {
-  globalPrivatesMap[classId] = {};
   var newCode = replaceAstObjectKeyValPrivates(classId, jsCode, collectAstObjectKeyValPrivates(jsCode), globalPrivatesMap);
   newCode = replaceAstDotPrivates(classId, newCode, collectAstDotPrivates(newCode), globalPrivatesMap);
+  newCode = replaceAstStrings(classId, newCode, collectAstStrings(newCode), globalPrivatesMap);
   return newCode;
 }
 
@@ -173,6 +220,7 @@ module.exports = {
 
   compress: function(classId, jsCode, options) {
     var opts = {};
+    var compressedCode = jsCode;
 
     if (!options) {
       options = {};
@@ -184,10 +232,10 @@ module.exports = {
     };
 
     // compress with UglifyJS2
-    var result = U2.minify(jsCode, {fromString: true});
-    var compressedCode = result.code;
+    var result = U2.minify(compressedCode, {fromString: true});
+    compressedCode = result.code;
 
-    // qx specific optimazations on top
+    // qx specific optimizations
     if (opts.privates) {
       compressedCode = replacePrivates(classId, compressedCode);
     }
