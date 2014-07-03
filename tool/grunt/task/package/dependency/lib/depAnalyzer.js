@@ -936,6 +936,22 @@ module.exports = {
     return classCodeList;
   },
 
+  /*
+  parseAndCreateTrees: function(jsFilesContent, parserOptions) {
+    var classCodeList = [];
+    var i = 0;
+    var l = jsFilesContent.length;
+    var trees = [];
+    var parserOpts = parserOptions || {comment: true, loc: true};
+
+    for (; i<l; i++) {
+      trees.push(esprima.parse(jsFilesContent[i], parserOpts));
+    }
+
+    return trees;
+  },
+  */
+
   /**
    * Translates class ids to paths (<code>qx.foo.Bar</code> => <code>qx/foo/Bar.js</code>).
    *
