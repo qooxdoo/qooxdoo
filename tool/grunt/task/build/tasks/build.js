@@ -104,8 +104,8 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Sorting ' + Object.keys(classesDeps).length + ' classes ...');
     // ------------------------------------------------------------------------------
-    var classListLoadOrder = qxDep.sortDepsTopologically(classesDeps, "load", opts.excludes);
-    var classCodeList = qxDep.readFileContent(classListLoadOrder, classPaths);
+    var classLoadOrderList = qxDep.sortDepsTopologically(classesDeps, "load", opts.excludes);
+    var classCodeList = qxDep.readFileContent(classLoadOrderList, classPaths);
     var atHintIndex = qxDep.createAtHintsIndex(classesDeps);
     grunt.log.ok('Done.');
 
@@ -164,10 +164,14 @@ module.exports = function(grunt) {
       }
     }
 
+    grunt.log.writeln('Compress code ...');
+    // ------------------------------------------------------
     var classCodeCompressedList = [];
     for (var i=0, l=classCodeList.length; i<l; i++) {
-      classCodeCompressedList.push(qxCpr.compress(classListLoadOrder[i], classCodeList[i], {privates: false}));
+      // console.log(i, l, classLoadOrderList[i]);
+      classCodeCompressedList.push(qxCpr.compress(classLoadOrderList[i], classCodeList[i]));
     }
+    grunt.log.ok('Done.');
 
     var bootPart = "_";
     bootPart += locResTransContent;
