@@ -921,7 +921,7 @@ module.exports = {
       var shortFilePath = util.filePathFrom(classIds[i]);
       var namespace = util.namespaceFrom(classIds[i], Object.keys(basePaths));
       if (!namespace) {
-        throw new Error("ENOENT - Missing library. No matching namespace found for " + classIds[i]);
+        throw new Error("ENOENT - Unknown global symbol. No matching library/namespace found, which introduces " + classIds[i]);
       }
       // console.log(namespace, shortFilePath);
       var curFullPath = path.join(basePaths[namespace], shortFilePath);
