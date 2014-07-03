@@ -326,6 +326,10 @@ qx.Class.define("qx.ui.form.RepeatButton",
     },
 
 
+    // Nothing to do, 'execute' is already fired by _onPointerUp.
+    _onTap : function(e) {},
+
+
     /**
      * Listener method for "keyup" event.
      *
