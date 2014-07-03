@@ -302,7 +302,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
       if(this.__label) {
         this.__label.addCssClass("flex-center");
-        this.__childrenContainer.add(this.__label);
+        this.__childrenContainer.add(this.__label, {flex: 1});
       }
 
       // Show/Hide Label/Icon
