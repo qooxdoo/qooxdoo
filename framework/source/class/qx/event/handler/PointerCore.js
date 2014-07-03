@@ -87,6 +87,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     this.__emitter = emitter;
     this.__eventNames = [];
     this.__buttonStates = [];
+    this.__activeTouches = [];
 
     var engineName = qx.core.Environment.get("engine.name");
     var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
@@ -120,6 +121,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __lastButtonState : 0,
     __buttonStates : null,
     __primaryIdentifier : null,
+    __activeTouches : null,
 
     /**
      * Adds listeners to native pointer events if supported
@@ -177,6 +179,32 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       domEvent.$$qxProcessed = true;
       var type = qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
       var changedTouches = domEvent.changedTouches;
+
+      this._determineActiveTouches(domEvent.type, changedTouches);
+
+      // Detecting vacuum touches. (Touches which are not active anymore, but did not fire a touchcancel event)
+      if (domEvent.touches.length < this.__activeTouches.length) {
+        // Firing pointer cancel for previously active touches.
+        for (var i = this.__activeTouches.length - 1; i >= 0; i--) {
+          var evt = new qx.event.type.dom.Pointer("pointercancel", domEvent, {
+            identifier: this.__activeTouches[i].identifier,
+            target: domEvent.target,
+            pointerType: "touch",
+            pointerId: this.__activeTouches[i].identifier + 2
+          });
+
+          this._fireEvent(evt, "pointercancel", domEvent.target);
+        }
+
+        // Reset primary identifier
+        this.__primaryIdentifier = null;
+
+        // cleanup of active touches array.
+        this.__activeTouches = [];
+
+        // Do nothing after pointer cancel.
+        return;
+      }
 
       if (domEvent.type == "touchstart" && this.__primaryIdentifier === null) {
         this.__primaryIdentifier = changedTouches[0].identifier;
@@ -290,6 +318,37 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
       var evt = new qx.event.type.dom.Pointer(type, domEvent, mouseProps);
       this._fireEvent(evt, type, target);
+    },
+
+
+    /**
+     * Determines the current active touches.
+     * @param type {String} the DOM event type.
+     * @param changedTouches {Array} the current changed touches.
+     */
+    _determineActiveTouches: function(type, changedTouches) {
+      if (type == "touchstart") {
+        for (var i = 0; i < changedTouches.length; i++) {
+          this.__activeTouches.push(changedTouches[i]);
+        }
+      } else if (type == "touchend" || type == "touchcancel") {
+        var updatedActiveTouches = [];
+
+        for (var i = 0; i < this.__activeTouches.length; i++) {
+          var add = true;
+          for (var j = 0; j < changedTouches.length; j++) {
+            if (this.__activeTouches[i].identifier == changedTouches[j].identifier) {
+              add = false;
+              break;
+            }
+          }
+
+          if (add) {
+            updatedActiveTouches.push(this.__activeTouches[i]);
+          }
+        }
+        this.__activeTouches = updatedActiveTouches;
+      }
     },
 
 
