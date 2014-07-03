@@ -82,6 +82,13 @@ qx.Class.define("qx.ui.root.Application",
 
     // prevent scrolling on touch devices
     this.addListener("touchmove", this.__stopScrolling, this);
+
+    // handle focus for iOS which seems to deny any focus action
+    if (qx.core.Environment.get("os.name") == "ios") {
+      this.getContentElement().addListener("tap", function(e) {
+        e.getTarget().focus();
+      }, this, true);
+    }
   },
 
 
