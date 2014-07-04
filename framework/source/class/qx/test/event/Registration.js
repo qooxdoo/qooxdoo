@@ -136,6 +136,42 @@ qx.Class.define("qx.test.event.Registration",
 
       Reg.fireEvent(target, type, qx.event.type.Event, []);
       this.assertArrayEquals([false, false], fired);
+    },
+
+    "test addListenerOnce: same callback": function() {
+      qx.Class.define("Foo", {
+        extend: qx.core.Object,
+        events: {
+          "bar": "qx.event.type.Event"
+        },
+        members: {
+          fireBar: function() {
+            this.fireDataEvent("bar");
+          }
+        }
+      });
+
+      var f1 = new Foo();
+      var f2 = new Foo();
+
+      var called = {};
+      called[f1.$$hash] = 0;
+      called[f2.$$hash] = 0;
+
+      var callback = function(e) {
+        called[this.$$hash]++;
+      };
+
+      f1.addListenerOnce("bar", callback, f1);
+      f2.addListenerOnce("bar", callback, f2);
+
+      f1.fireBar();
+      f2.fireBar();
+      f1.fireBar();
+      f2.fireBar();
+
+      this.assertEquals(1, called[f1.$$hash]);
+      this.assertEquals(1, called[f2.$$hash]);
     }
   }
 });
