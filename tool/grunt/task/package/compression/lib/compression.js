@@ -64,8 +64,17 @@ function compress (classId, jsCode, options) {
 // Privates
 //------------------------------------------------------------------------------
 
+/**
+ * Global privates map (ensures 1:1 private hashing overall the whole build).
+ */
 var globalPrivatesMap = {};
 
+/**
+ * Converts index (should be int) to char(s).
+ *
+ * @param {number} index
+ * @return {string} hash
+ */
 function convertIntToChar(index) {
   var charTable = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
   var l = charTable.length - 1;
@@ -79,6 +88,13 @@ function convertIntToChar(index) {
   return res;
 }
 
+/**
+ * Shortens a string (e.g. private member or function) by hashing classId and name.
+ * If classId and name combination exists in privatesMap already than return it.
+ *
+ * @param {number} index
+ * @return {string} hash
+ */
 function shortenPrivate(classId, name, privatesMap) {
   if (classId+name in privatesMap) {
     return privatesMap[classId+name];
@@ -87,11 +103,29 @@ function shortenPrivate(classId, name, privatesMap) {
   return "__" + convertIntToChar(Object.keys(privatesMap).length);
 }
 
+/**
+ * Checks given string for qooxdoo privates convention (e.g. '__abc') but
+ * ignores JavaScript obsolete names (e.g. '__proto__').
+ *
+ * @param {string} s
+ * @return {boolean}
+ */
+function hasStartingDunderButNotTrailingDunder(s) {
+  return (s.substr(0, 2) === "__" && s.substr(-2, 2) !== "__");
+}
+
+/**
+ * Collects top level (i.e. within 'members' or 'statics' key)
+ * AST_ObjectKeyVal private nodes (e.g. {__x: 1}).
+ *
+ * @param {string} code - JavaScript code
+ * @return {string[]} privates
+ */
 function collectAstObjectKeyValPrivates(code) {
   var ast = U2.parse(code);
   var privates = [];
   ast.walk(new U2.TreeWalker(function(node){
-    // AST_ObjectProperty (AST_ObjectKeyVal | AST_ObjectSetter | AST_ObjectGetter)
+    // AST_ObjectProperty := (AST_ObjectKeyVal | AST_ObjectSetter | AST_ObjectGetter)
 
     var isMembersOrStaticsProp = function(stack) {
       var parentParentNode = false;
@@ -104,8 +138,7 @@ function collectAstObjectKeyValPrivates(code) {
 
     if (node instanceof U2.AST_ObjectKeyVal
       && isMembersOrStaticsProp(this.stack)
-      && node.key.toString().substr(0, 2) === "__"
-      && node.key.toString().substr(-2, 2) !== "__") {
+      && hasStartingDunderButNotTrailingDunder(node.key.toString())) {
       privates.push(node);
     }
   }));
@@ -113,6 +146,16 @@ function collectAstObjectKeyValPrivates(code) {
   return privates;
 }
 
+/**
+ * Replaces privates occurrences of AST_ObjectKeyVal
+ * with their hashed counterpart.
+ *
+ * @param {string} classId
+ * @param {string} code - code to be adapted
+ * @param {string} privates - nodes to be replaced
+ * @param {Object} globalPrivatesMap - classIdAndName (key) and hash (value)
+ * @return {string} code - adapted code
+ */
 function replaceAstObjectKeyValPrivates(classId, code, privates, globalPrivatesMap) {
   var l = privates.length;
   while (l--) {
@@ -127,18 +170,23 @@ function replaceAstObjectKeyValPrivates(classId, code, privates, globalPrivatesM
       key: globalPrivatesMap[classIdAndKey],
       value: privates[l].value
     }).print_to_string({ beautify: false });
-    code = splice_string(code, startPos, endPos, replacement);
+    code = replaceSourceCode(code, startPos, endPos, replacement);
   }
   return code;
 }
 
+/**
+ * Collects AST_String private nodes (e.g. a["__applyFoo"]).
+ *
+ * @param {string} code - JavaScript code
+ * @return {string[]} privates
+ */
 function collectAstStrings(code) {
   var ast = U2.parse(code);
   var privates = [];
   ast.walk(new U2.TreeWalker(function(node){
     if (node instanceof U2.AST_String
-      && node.value.toString().substr(0, 2) === "__"
-      && node.value.toString().substr(-2, 2) !== "__") {
+      && hasStartingDunderButNotTrailingDunder(node.value.toString())) {
       privates.push(node);
     }
   }));
@@ -146,6 +194,16 @@ function collectAstStrings(code) {
   return privates;
 }
 
+/**
+ * Replaces privates occurrences of AST_String
+ * with their hashed counterpart.
+ *
+ * @param {string} classId
+ * @param {string} code - code to be adapted
+ * @param {string} privates - nodes to be replaced
+ * @param {Object} globalPrivatesMap - classIdAndName (key) and hash (value)
+ * @return {string} code - adapted code
+ */
 function replaceAstStrings(classId, code, privates, globalPrivatesMap) {
   var l = privates.length;
   while (l--) {
@@ -160,27 +218,42 @@ function replaceAstStrings(classId, code, privates, globalPrivatesMap) {
     var replacement = new U2.AST_String({
       value: globalPrivatesMap[classIdAndValue]
     }).print_to_string({ beautify: false });
-    code = splice_string(code, startPos, endPos, replacement);
+    code = replaceSourceCode(code, startPos, endPos, replacement);
   }
   return code;
 }
 
+/**
+ * Collects AST_PropAccess privates nodes (e.g. this.__foo).
+ *
+ * @param {string} code - JavaScript code
+ * @return {string[]} privates
+ */
 function collectAstDotPrivates(code) {
   var ast = U2.parse(code);
   var privates = [];
   ast.walk(new U2.TreeWalker(function(node){
-    // AST_PropAccess (AST_Dot | AST_Sub)
+    // AST_PropAccess := (AST_Dot | AST_Sub)
 
     if (node instanceof U2.AST_PropAccess
       && typeof node.property === 'string'
-      && node.property.toString().substr(0, 2) === "__"
-      && node.property.toString().substr(-2, 2) !== "__") {
+      && hasStartingDunderButNotTrailingDunder(node.property.toString())) {
       privates.push(node);
     }
   }));
   return privates;
 }
 
+/**
+ * Replaces privates occurrences of AST_DOT
+ * with their hashed counterpart.
+ *
+ * @param {string} classId
+ * @param {string} code - code to be adapted
+ * @param {string} privates - nodes to be replaced
+ * @param {Object} globalPrivatesMap - classIdAndName (key) and hash (value)
+ * @return {string} code - adapted code
+ */
 function replaceAstDotPrivates(classId, code, privates, globalPrivatesMap) {
   var l = privates.length;
   while (l--) {
@@ -196,17 +269,33 @@ function replaceAstDotPrivates(classId, code, privates, globalPrivatesMap) {
       expression : node.expression,
       property : globalPrivatesMap[classIdAndProp],
     }).print_to_string({ beautify: false });
-    code = splice_string(code, startPos, endPos, replacement);
+    code = replaceSourceCode(code, startPos, endPos, replacement);
   }
   return code;
 }
 
-function splice_string(str, begin, end, replacement) {
-  return str.substr(0, begin) + replacement + str.substr(end);
+/**
+ * Replaces from 'begin' until 'end' within the given source 'code' with the 'replacement'.
+ *
+ * @param {string} code - code to be adapted
+ * @param {number} begin
+ * @param {number} end
+ * @param {string} replacement
+ */
+function replaceSourceCode(code, begin, end, replacement) {
+  return code.substr(0, begin) + replacement + code.substr(end);
 }
 
+/**
+ * Applies all replacement steps to the given code.
+ *
+ * @param {string} classId
+ * @param {string} jsCode - code to be adapted
+ * @return {string} code - adapted code
+ */
 function replacePrivates(classId, jsCode) {
-  var newCode = replaceAstObjectKeyValPrivates(classId, jsCode, collectAstObjectKeyValPrivates(jsCode), globalPrivatesMap);
+  var newCode = "";
+  newCode = replaceAstObjectKeyValPrivates(classId, jsCode, collectAstObjectKeyValPrivates(jsCode), globalPrivatesMap);
   newCode = replaceAstDotPrivates(classId, newCode, collectAstDotPrivates(newCode), globalPrivatesMap);
   newCode = replaceAstStrings(classId, newCode, collectAstStrings(newCode), globalPrivatesMap);
   return newCode;
@@ -217,7 +306,14 @@ function replacePrivates(classId, jsCode) {
 //------------------------------------------------------------------------------
 
 module.exports = {
-
+  /**
+   * Compress code and apply optimizations on top (via options).
+   *
+   * @param {string} classId
+   * @param {string} jsCode - code to be compressed
+   * @param {Object} options - whether qx specific optimizations should be enabled
+   * @return {string} code - compressed code
+   */
   compress: function(classId, jsCode, options) {
     var opts = {};
     var compressedCode = jsCode;
