@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       // if we can possibly show something
       } else if (this.__removedItems.length > 0) {
         var removedChild = this.__removedItems[0];
-        var removedItemsLength = this.__removedItems.length;
+        var removedItems = this.__removedItems;
         do {
           // if we have something we can show
           if (removedChild) {
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
             // check if it fits in in case its the last child to replace
             var fits = false;
             // if we can remove the overflow widget if its available
-            if (removedItemsLength == 1 && overflowWidgetWidth > 0) {
+            if (removedItems.length == 1 && overflowWidgetWidth > 0) {
               var addedMargin = margins - this.getSpacing();
               var wouldRequiredWidth =
                 requiredWidth -
@@ -291,14 +291,14 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
               this.__showChild(removedChild);
               requiredWidth += removedChildWidth;
               // check if we need to remove the overflow widget
-              if (overflowWidget && removedItemsLength == 0) {
+              if (overflowWidget && removedItems.length == 0) {
                 overflowWidget.setVisibility("excluded");
               }
             } else {
               return;
             }
           }
-        } while (width >= requiredWidth && removedItemsLength > 0);
+        } while (width >= requiredWidth && removedItems.length > 0);
       }
     },
 
