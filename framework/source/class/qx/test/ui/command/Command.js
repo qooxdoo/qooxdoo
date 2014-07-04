@@ -274,31 +274,38 @@ qx.Class.define("qx.test.ui.command.Command",
 
       // test makes sure that code is running, no assert needed
     },
-    
+
     testFireExecuteCount : function()
     {
       var handler = this.spy();
-      
+
       // Create the command
       var cmd = new qx.ui.command.Command("Meta+T");
       cmd.addListener("execute", handler);
-      
+
       cmd.setEnabled(false);
       cmd.setActive(false);
       cmd.execute();
       this.assertCallCount(handler, 0);
-      
+
       cmd.setEnabled(true);
       cmd.setActive(false);
       cmd.execute();
       this.assertCallCount(handler, 0);
-      
-      
+
+
       cmd.setEnabled(true);
       cmd.setActive(true);
       cmd.execute();
       this.assertCallCount(handler, 1);
-      
+
+      cmd.dispose();
+    },
+
+    testGetShortcut : function() {
+      // for bug #7036
+      var cmd = new qx.ui.command.Command("Control+X");
+      this.assertEquals('Control+X', cmd.getShortcut());
       cmd.dispose();
     }
   }

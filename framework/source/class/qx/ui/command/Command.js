@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2012 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -39,8 +39,11 @@ qx.Class.define("qx.ui.command.Command",
   {
     this.base(arguments);
     this._shortcut = new qx.bom.Shortcut(shortcut);
-
     this._shortcut.addListener("execute", this.execute, this);
+
+    if (shortcut !== undefined) {
+      this.setShortcut(shortcut);
+    }
   },
 
 
@@ -56,8 +59,8 @@ qx.Class.define("qx.ui.command.Command",
 
   properties :
   {
-    /** Whether the command should be activated. If 'false' execute event 
-     * wouldn't fire. This proprty will be used by command groups when 
+    /** Whether the command should be activated. If 'false' execute event
+     * wouldn't fire. This proprty will be used by command groups when
      * activating/deactivating all commands of the group.*/
     active :
     {
@@ -66,11 +69,11 @@ qx.Class.define("qx.ui.command.Command",
       event : "changeActive",
       apply : "_applyActive"
     },
-    
-    
-    /** Whether the command should be respected/enabled. If 'false' execute event 
-     * wouldn't fire. If value of property {@link qx.ui.command.Command#active} 
-     * is 'false', enabled value can be set but has no effect until 
+
+
+    /** Whether the command should be respected/enabled. If 'false' execute event
+     * wouldn't fire. If value of property {@link qx.ui.command.Command#active}
+     * is 'false', enabled value can be set but has no effect until
      * {@link qx.ui.command.Command#active} will be set to 'true'.*/
     enabled :
     {
@@ -141,8 +144,8 @@ qx.Class.define("qx.ui.command.Command",
   members :
   {
     _shortcut : null,
-    
-    
+
+
     // property apply
     _applyActive : function(value)
     {
@@ -153,7 +156,7 @@ qx.Class.define("qx.ui.command.Command",
         this._shortcut.setEnabled(this.getEnabled());
       }
     },
-    
+
 
     // property apply
     _applyEnabled : function(value)
@@ -162,8 +165,8 @@ qx.Class.define("qx.ui.command.Command",
         this._shortcut.setEnabled(value);
       }
     },
-    
-    
+
+
     // property apply
     _applyShortcut : function(value) {
       this._shortcut.setShortcut(value);
@@ -171,8 +174,8 @@ qx.Class.define("qx.ui.command.Command",
 
 
     /**
-     * Fire the "execute" event on this command. If property 
-     * <code>active</code> and <code>enabled</code> set to 
+     * Fire the "execute" event on this command. If property
+     * <code>active</code> and <code>enabled</code> set to
      * <code>true</code>.
      * @param target {Object?} Object which issued the execute event
      */
@@ -198,7 +201,7 @@ qx.Class.define("qx.ui.command.Command",
 
   destruct : function()
   {
+    this._shortcut.removeListener("execute", this.execute, this);
     this._disposeObjects("_shortcut");
-    this.removeListener("execute", this.execute, this);
   }
 });

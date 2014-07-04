@@ -26,153 +26,17 @@
  */
 qx.Class.define("qx.ui.core.Command",
 {
-  extend : qx.core.Object,
+  extend : qx.ui.command.Command,
 
 
   /**
-   * @param shortcut {String} Shortcuts can be composed of optional modifier
-   *    keys Control, Alt, Shift, Meta and a non modifier key.
-   *    If no non modifier key is specified, the second paramater is evaluated.
-   *    The key must be separated by a <code>+</code> or <code>-</code> character.
-   *    Examples: Alt+F1, Control+C, Control+Alt+Delete
+   * overridden
    */
   construct : function(shortcut)
   {
-    this.base(arguments);
     qx.log.Logger.deprecatedMethodWarning(
       arguments.callee, "Please use qx.ui.command.Command instead."
     );
-
-    this._shortcut = new qx.bom.Shortcut(shortcut);
-    this._shortcut.addListener("execute", this.execute, this);
-
-    if (shortcut !== undefined) {
-      this.setShortcut(shortcut);
-    }
-  },
-
-
-  events :
-  {
-    /**
-     * Fired when the command is executed. Sets the "data" property of the
-     * event to the object that issued the command.
-     */
-    "execute" : "qx.event.type.Data"
-  },
-
-
-  properties :
-  {
-    /** whether the command should be respected/enabled */
-    enabled :
-    {
-      init : true,
-      check : "Boolean",
-      event : "changeEnabled",
-      apply : "_applyEnabled"
-    },
-
-
-    /** The command shortcut as a string */
-    shortcut :
-    {
-      check : "String",
-      apply : "_applyShortcut",
-      nullable : true
-    },
-
-
-    /** The label, which will be set in all connected widgets (if available) */
-    label :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeLabel"
-    },
-
-
-    /** The icon, which will be set in all connected widgets (if available) */
-    icon :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeIcon"
-    },
-
-
-    /**
-     * The tooltip text, which will be set in all connected
-     * widgets (if available)
-     */
-    toolTipText :
-    {
-      check : "String",
-      nullable : true,
-      event : "changeToolTipText"
-    },
-
-
-    /** The value of the connected widgets */
-    value :
-    {
-      nullable : true,
-      event : "changeValue"
-    },
-
-
-    /** The menu, which will be set in all connected widgets (if available) */
-    menu :
-    {
-      check : "qx.ui.menu.Menu",
-      nullable : true,
-      event : "changeMenu"
-    }
-  },
-
-
-  members :
-  {
-    _shortcut : null,
-
-    // property apply
-    _applyEnabled : function(value) {
-      this._shortcut.setEnabled(value);
-    },
-
-
-    // property apply
-    _applyShortcut : function(value) {
-      this._shortcut.setShortcut(value);
-    },
-
-
-    /**
-     * Fire the "execute" event on this command.
-     *
-     * @param target {Object} Object which issued the execute event
-     */
-    execute : function(target)
-    {
-      this.fireDataEvent("execute", target);
-    },
-
-
-    /**
-     * Returns the used shortcut as string using the currently selected locale.
-     *
-     * @return {String} shortcut
-     */
-    toString : function()
-    {
-      return this._shortcut.toString();
-    }
-  },
-
-
-  destruct : function()
-  {
-    this._disposeObjects("_shortcut");
-    this.removeListener("execute", this.execute, this);
+    this.base(arguments, shortcut);
   }
 });
