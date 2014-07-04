@@ -84,7 +84,7 @@ qx.Mixin.define("qx.core.MEvent",
       }
       // store the call for each type in case the listener is
       // used for more than one type [BUG #8038]
-      listener.$$wrapped_callback[type] = callback;
+      listener.$$wrapped_callback[type + this.$$hash] = callback;
 
       return this.addListener(type, callback, this, capture);
     },
@@ -104,9 +104,9 @@ qx.Mixin.define("qx.core.MEvent",
     {
       if (!this.$$disposed) {
         // special handling for wrapped once listener
-        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type]) {
-          var callback = listener.$$wrapped_callback[type];
-          delete listener.$$wrapped_callback[type];
+        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.$$hash]) {
+          var callback = listener.$$wrapped_callback[type + this.$$hash];
+          delete listener.$$wrapped_callback[type + this.$$hash];
           listener = callback;
         }
         return this.__Registration.removeListener(this, type, listener, self, capture);
