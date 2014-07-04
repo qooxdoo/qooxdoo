@@ -141,23 +141,18 @@ As a starting point use the qx.Mobile "Indigo" theme. This theme can be modified
 by developers in many ways, like setting colors or change the appearance of widgets, e.g. their border
 radius, etc. See the section below on custom theming.
 
+Using qx.Mobile Flat theme
+==========================
 
-Switching themes in your qx.Mobile application
-==============================================
+If you want to use our Flat theme instead of the Indigo theme, you have to copy the content of the following file:
 
-You can change the theme used by your qx.Mobile application. Open the file
-``config.json`` in your application root folder. There you find a macro called
-``MOBILE_THEME``. Its default value is ``custom``.
+``qooxdoo/framework/source/resource/qx/mobile/scss/theme/flat/_styles.scss``
 
-Assumed you change the value to ``flat``, qx.Mobile creates a link to a stylesheet located in
+Into your project's theme file:
 
-``<APP_ROOT>/source/resource/<APP_NAME>/css/``
+``<APP_ROOT>/source/resource/<APP_NAME>/scss/_styles.scss``
 
-which is named:
-
-``flat.css``
-
-After changing this macro you have to run the source job in your application's
+After changing this, you have to run the source job in your application's
 root:
 
 ::
