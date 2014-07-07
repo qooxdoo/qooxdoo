@@ -86,7 +86,13 @@ qx.Class.define("qx.ui.root.Application",
     // handle focus for iOS which seems to deny any focus action
     if (qx.core.Environment.get("os.name") == "ios") {
       this.getContentElement().addListener("tap", function(e) {
-        e.getTarget().focus();
+        var widget = qx.ui.core.Widget.getWidgetByElement(e.getTarget());
+        while (widget && !widget.isFocusable()) {
+          widget = widget.getLayoutParent();
+        }
+        if (widget && widget.isFocusable()) {
+          widget.focus();
+        }
       }, this, true);
     }
   },
