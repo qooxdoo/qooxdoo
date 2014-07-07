@@ -231,6 +231,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           }
         }
 
+        var container = tabs.find("> ." + this.getCssPrefix() + "-container");
+
         var buttons = tabs.getChildren("ul").getFirst()
           .getChildren("li").not("." + this.getCssPrefix() + "-page");
         buttons._forEachElementWrapped(function(button) {
@@ -256,14 +258,30 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
                 page = li;
               }
               this._storePageHeight(page);
+            } else if (orientation == "horizontal") {
+              if (q.getNodeName(page[0]) == "li") {
+                var div = q.create("<div>")
+                .addClass(this.getCssPrefix() + "-page")
+                .setAttribute("id", page.getAttribute("id"));
+                page.remove()
+                .getChildren().appendTo(div);
+                page = div;
+              }
+            }
+
+            if (orientation == "horizontal") {
+              if (container.length === 0) {
+                container = qxWeb.create("<div class='" + this.getCssPrefix() +"-container'>")
+                .insertAfter(tabs.find("> ul")[0]);
+              }
+              page.appendTo(container[0]);
             }
           }
 
           this._showPage(null, button);
         }.bind(this));
 
-        var container = tabs.find("> .qx-tabs-container");
-        if (container.length == 1 && container.getChildren().length === 0) {
+        if (orientation == "vertical" && container.length == 1 && container.getChildren().length === 0) {
           container.remove();
         }
 
