@@ -30,6 +30,13 @@ Tutorials
 
    website/tutorial_web_developers
 
+Layouts
+=======
+
+.. toctree::
+   :maxdepth: 2
+
+   website/layouts
 
 Technical Topics
 ================
