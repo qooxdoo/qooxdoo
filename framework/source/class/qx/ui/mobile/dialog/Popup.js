@@ -165,7 +165,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     _updatePosition : function()
     {
-      this.removeCssClasses(['top', 'bottom', 'left', 'right', 'anchor']);
+      // Traverse single anchor classes for removal, for preventing 'domupdated' event if no CSS classes changed.
+      var anchorClasses = ['top', 'bottom', 'left', 'right', 'anchor'];
+      for (var i = 0; i < anchorClasses.length; i++) {
+        this.removeCssClass(anchorClasses[i]);
+      }
 
       if(this.__anchor)
       {

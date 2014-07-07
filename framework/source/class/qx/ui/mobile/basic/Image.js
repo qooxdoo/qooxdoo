@@ -142,22 +142,28 @@ qx.Class.define("qx.ui.mobile.basic.Image",
 
     // property apply
     _applySource: function(value, old) {
-      var source = value;
       var resourceManager = qx.util.ResourceManager.getInstance();
-      var uri = resourceManager.toUri(source);
+      var source = value;
 
       if (source && source.indexOf('data:') != 0) {
-        if (resourceManager.has(source) && this._findHighResolutionSource(source)) {
-          return;
+        var uri = resourceManager.toUri(source);
+
+        if (resourceManager.has(source)) {
+          var highResSource = this._findHighResolutionSource(source);
+          if (highResSource) {
+            source = qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE;
+            uri = resourceManager.toUri(highResSource);
+          } else {
+            source = uri;
+          }
         }
 
-        var ImageLoader = qx.io.ImageLoader;
-        if (!ImageLoader.isFailed(uri) && !ImageLoader.isLoaded(uri)) {
-          ImageLoader.load(uri, this.__loaderCallback, this);
+        if (!qx.io.ImageLoader.isFailed(uri) && !qx.io.ImageLoader.isLoaded(uri)) {
+          qx.io.ImageLoader.load(uri, this.__loaderCallback, this);
         }
       }
-
-      this._setSource(uri);
+      
+      this._setSource(source);
     },
 
 
@@ -180,7 +186,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     * {@link #_createHighResolutionOverlay} is called.
     *
     * @param lowResImgSrc {String} source of the low resolution image.
-    * @return {Boolean} If a high-resolution image source was found or not.
+    * @return {String} The soure of an high-resolution image source or <code>null</code>.
     */
     _findHighResolutionSource: function(lowResImgSrc) {
       var pixelRatioCandidates = qx.ui.mobile.basic.Image.PIXEL_RATIOS;
@@ -201,7 +207,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
         hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
         if (hiResImgSrc) {
           this._createHighResolutionOverlay(hiResImgSrc,lowResImgSrc);
-          return true;
+          return hiResImgSrc;
         }
       }
 
@@ -210,11 +216,11 @@ qx.Class.define("qx.ui.mobile.basic.Image",
         hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
         if (hiResImgSrc) {
           this._createHighResolutionOverlay(hiResImgSrc,lowResImgSrc);
-          return true;
+          return hiResImgSrc;
         }
       }
 
-      return false;
+      return null;
     },
 
     /**
@@ -248,7 +254,6 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     */
     _createHighResolutionOverlay : function(highResSource, lowResSource) {
       // Replace the source through transparent pixel for making the high-resolution background image visible.
-      this._setSource(qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE);
       var resourceManager = qx.util.ResourceManager.getInstance();
       this._setStyle("backgroundImage","url("+resourceManager.toUri(highResSource)+")");
       this._setStyle("backgroundSize","100%");

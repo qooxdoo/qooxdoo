@@ -1376,8 +1376,10 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * @param cssClass {String} The CSS class to remove
      */
     removeCssClass : function(cssClass) {
-      qx.bom.element.Class.remove(this.getContainerElement(), cssClass);
-      this._domUpdated();
+      if (this.hasCssClass(cssClass)) {
+        qx.bom.element.Class.remove(this.getContainerElement(), cssClass);
+        this._domUpdated();
+      }
     },
 
 
