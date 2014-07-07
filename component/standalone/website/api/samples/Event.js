@@ -87,6 +87,131 @@ q("#hover").hover(function() {
     executable: true
 });
 
+addSample(".hover", {
+    html: ['<div id="container">',
+     '  <div id="header">Header</div>',
+     '  <div id="content">',
+     '    <div id="visible">',
+     '      <div id="box-content">Visible</div>',
+     '    </div>',
+     '   <div id="hover">',
+     '     <div class="trigger">Hover area</div>',
+     '   </div>',
+     '  </div>',
+     '</div>' ],
+    css: [ '#header {',
+      '  background-color: orange;',
+      '  font-size: 5rem;',
+    '}',
+    '#container {',
+      '  border: 1px solid green;',
+      '  width: 300px;',
+    '}',
+
+    '#content {',
+      '  overflow: hidden;',
+      '  height: 400px;',
+    '}',
+
+    '#visible {',
+      '  background-color: red;',
+      '  position: relative;',
+    '}',
+
+    '#visible #box-content {',
+      '  height: 400px;',
+    '}',
+
+    '.trigger {',
+      '  position: relative;',
+      '  background-color: purple;',
+      '  height: 50px;',
+    '}',
+
+    '#hover {',
+      '  background-color: yellow;',
+      '  position: relative;',
+      '  height: 400px;',
+      '  top: -50px;',
+    '}' ],
+    javascript: function() {
+var animationEndPosition = '-400px';
+
+// animation description
+var desc = {
+  'keep': 100,
+  'keyFrames': {
+    0: { 'top': '-50px' },
+    100: { 'top': animationEndPosition }
+  },
+  'delay': 0,
+  'duration': 400
+};
+
+// setup / memorize collection to minimize DOM access
+var mouseOver = false;
+var hover = q('#hover');
+var trigger = q('#hover .trigger');
+
+// hover in
+var hoverIn = function(e) {
+
+  // if the user hovered over our 'trigger' element
+  if (e.getTarget() == trigger[0]) {
+
+    mouseOver = true;
+
+    // start animation if no animation currently runs and there is a need for animation
+    // -> the top position is not the target position
+    if (hover.isPlaying() === false && hover.getStyle('top') === desc.keyFrames['0'].top) {
+      desc.keyFrames['100'].top = animationEndPosition;
+      hover.animate(desc);
+      hover.setProperty('direction', 'forward');
+    }
+  }
+};
+
+// hover out
+var hoverOut = function(e) {
+
+  // extended check to be sure we're out of the 'content' element
+  var mouseOver = q(e.getRelatedTarget()).isChildOf(this);
+
+  if (mouseOver === false) {
+
+    // since we might manipulated the description we set it for safety
+    desc.keyFrames['100'].top = animationEndPosition;
+
+    // if no animation runs and it's necessary to animate
+    // -> safely reverse it
+    if (hover.isPlaying() === false && hover.getStyle('top') === desc.keyFrames['100'].top) {
+
+      hover.animateReverse(desc);
+      hover.setProperty('direction', 'reverse');
+    }
+    // 'break' the forward animation if the user hovers out during this animation
+    else if (hover.isPlaying() && hover.getProperty('direction') === 'forward') {
+
+      // get the current pos and then stop the animation - order is important here
+      var currentTopPosition = hover.getStyle('top');
+
+      hover.stop();
+
+      // begin with the current position - not the 'whole' animation
+      desc.keyFrames['100'].top = currentTopPosition;
+      hover.animateReverse(desc);
+      hover.setProperty('direction', 'reverse');
+    }
+
+  }
+};
+
+// check for hover events at the 'content' element
+q('#content').hover(hoverIn, hoverOut);
+},
+    executable: true
+});
+
 addSample(".onMatchTarget", function() {
 q(document).onMatchTarget('pointerdown', '.demo-cell', function(target, event) {
   // whenever a 'pointerdown' on an event target occurs and the given selector matches
