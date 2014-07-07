@@ -49,6 +49,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
     this.__lastRowCount = 0;
 
     this.__rowCache = [];
+
+    this.addListener("trackstart", this._onTrackStart, this);
   },
 
 
@@ -219,6 +221,17 @@ qx.Class.define("qx.ui.table.pane.Pane",
           }
         }
       }
+    },
+
+
+    /**
+     * Handler for the trackstart event which sets a new track target to make
+     * sure a content update works.
+     * @param e {qx.event.type.Track} The trackstart event.
+     */
+    _onTrackStart : function(e) {
+      var gestureHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Gesture);
+      gestureHandler.updateGestureTarget(e.getPointerId(), this.getContentElement().getDomElement());
     },
 
 
@@ -746,5 +759,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
   destruct : function() {
     this.__tableContainer = this.__paneScroller = this.__rowCache = null;
+    this.removeListener("trackstart", this._onTrackStart, this);
   }
 });

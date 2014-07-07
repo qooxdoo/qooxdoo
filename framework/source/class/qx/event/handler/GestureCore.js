@@ -365,6 +365,19 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
 
     /**
+     * Update the target of a running gesture. This is used in virtual widgets
+     * when the DOM element changes.
+     *
+     * @param id {String} The pointer id.
+     * @param target {Element} The new target element.
+     * @internal
+     */
+    updateGestureTarget : function(id, target) {
+      this.__gesture[id].target = target;
+    },
+
+
+    /**
      * Method which will be called recursively to provide a momentum scrolling.
      * @param deltaX {Number} The last offset in X direction
      * @param deltaY {Number} The last offset in Y direction
