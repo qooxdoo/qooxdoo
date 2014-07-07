@@ -310,7 +310,7 @@ qx.Class.define("qx.log.appender.Console",
     {
       if (e instanceof qx.event.type.Tap || e instanceof qx.event.type.Pointer) {
         var target = e.getTarget();
-        if (target && target.className && target.className.indexOf("navigationbar") != -1) {
+        if (target && target.className && target.className.indexOf && target.className.indexOf("navigationbar") != -1) {
           this.toggle();
         }
         return;
