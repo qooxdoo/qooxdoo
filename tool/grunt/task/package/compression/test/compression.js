@@ -219,10 +219,40 @@ module.exports = {
       test.done();
     },
 
-    /*
     replacePrivates: function(test) {
+      var fakeClass = function fn() {
+        return {
+          extend: Object,
+
+          construct: function(maxEntries)
+          {
+            this.setMaxEntries(maxEntries || 50);
+          },
+
+          members:
+          {
+            __foo : 0,
+            ignoreMe: true,
+
+            ignoreMeToo: function() {},
+            __bar: function() {},
+            baz: function() { var a = "__fugu"; }
+          },
+        };
+      };
+
+      var actualCode = this.compression.replacePrivates(
+        "qx.foo.Bar",
+        fakeClass.toString()
+      );
+
+      test.ok(actualCode.indexOf("__a") !== -1);
+      test.ok(actualCode.indexOf("__b") !== -1);
+      test.ok(actualCode.indexOf("__c") !== -1);
+
+      test.done();
     }
-    */
+
   },
 
   // test exported functions
@@ -232,9 +262,47 @@ module.exports = {
       done();
     },
 
-    /*
     compress: function(test) {
+      var fakeClass = function fn() {
+        return {
+          extend: Object,
+
+          construct: function(maxEntries)
+          {
+            this.setMaxEntries(maxEntries || 50);
+          },
+
+          members:
+          {
+            __foo : 0,
+            ignoreMe: true,
+
+            ignoreMeToo: function() {},
+            __bar: function() {},
+            baz: function() { var a = "__fugu"; }
+          },
+        };
+      };
+
+      var actualCodeWithPrivates = this.compression.compress(
+        "qx.foo.Bar",
+        fakeClass.toString(),
+        {}
+      );
+
+      test.ok(actualCodeWithPrivates.indexOf("__a") !== -1);
+      test.equal(actualCodeWithPrivates.match(/\n/g), null);
+
+      var actualCodeWithoutPrivates = this.compression.compress(
+        "qx.foo.Bar",
+        fakeClass.toString(),
+        {privates: false}
+      );
+
+      test.ok(actualCodeWithoutPrivates.indexOf("__a") === -1);
+      test.equal(actualCodeWithoutPrivates.match(/\n/g), null);
+
+      test.done();
     }
-    */
   }
 };
