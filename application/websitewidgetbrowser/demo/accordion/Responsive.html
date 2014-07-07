@@ -1,0 +1,39 @@
+<div id="accordion-responsive"
+  data-qx-class="qx.ui.website.Tabs"
+  data-qx-config-media-query="(min-width: 1000px)">
+  <ul>
+    <li class="qx-tabs-button-active" data-qx-tabs-page="#page1"><button>Page 1</button></li>
+    <li class="qx-tabs-page" id="page1">
+      <h3>Page 1 Content</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Fusce vitae consectetur orci. Nunc ut interdum tellus.
+        Nulla vitae rutrum ante, at tincidunt elit. Curabitur nec ligula nibh.
+        Donec non elit sollicitudin, cursus arcu quis, suscipit.</p>
+    </li>
+    <li data-qx-tabs-page="#page2"><button>Page 2</button></li>
+    <li class="qx-tabs-page" id="page2">
+      <h3>Page 2 Content</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Fusce vitae consectetur orci. Nunc ut interdum tellus.
+        Nulla vitae rutrum ante, at tincidunt elit. Curabitur nec ligula nibh.
+        Donec non elit sollicitudin, cursus arcu quis, suscipit.</p>
+    </li>
+    <li data-qx-tabs-page="#page3"><button>Page 3</button></li>
+    <li class="qx-tabs-page" id="page3">
+      <h3>Page 3 Content</h3>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Fusce vitae consectetur orci. Nunc ut interdum tellus.
+        Nulla vitae rutrum ante, at tincidunt elit. Curabitur nec ligula nibh.
+        Donec non elit sollicitudin, cursus arcu quis, suscipit.</p>
+    </li>
+  </ul>
+</div>
+
+<script type="text/javascript">
+q.initWidgets("#accordion-responsive");
+
+// react on application scaling
+q("#sizeSlider").on("changeValue", q.func.debounce(function() {
+  q("#accordion-responsive").render(); // trigger a render on size changes
+}, 200));
+</script>

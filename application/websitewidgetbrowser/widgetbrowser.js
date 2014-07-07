@@ -20,12 +20,13 @@
 q.ready(function() {
 
   var demos = {
+    accordion : ["Default", "Responsive"],
     button : ["Default"],
     calendar : ["Default", "Range Selection","Customized"],
     datepicker : ["Default", "Customized"],
     rating : ["Default", "Custom Length", "Custom Symbol", "Custom Styling"],
     slider : ["Default", "Customized"],
-    tabs : ["Horizontal", "Vertical", "Responsive"]
+    tabs : ["Default", "Responsive"]
   };
 
 

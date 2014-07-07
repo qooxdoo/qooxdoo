@@ -1,4 +1,4 @@
-<div id="tabs-horizontal" data-qx-class="qx.ui.website.Tabs">
+<div id="tabs-default" data-qx-class="qx.ui.website.Tabs">
   <p class="demo-options">Alignment:
     <input type="radio" value="left" name="tabalign" id="left" checked /><label for="left">Left</label>
     <input type="radio" value="justify" name="tabalign" id="justify" /><label for="justify">Justify</label>
@@ -23,10 +23,10 @@
 </div>
 
 <script type="text/javascript">
-q.initWidgets("#tabs-horizontal");
+q.initWidgets("#tabs-default");
 q("#tabs-page input[type='radio']").on("change", function(e) {
   var val = e.getTarget().value;
-  q("#tabs-page #tabs-horizontal").setConfig("align", val).render();
+  q("#tabs-page #tabs-default").setConfig("align", val).render();
 });
 
 q("#tabs-page .qx-tabs").on("changeSelected", logEvent("changeSelected"));
