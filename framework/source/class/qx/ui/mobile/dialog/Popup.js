@@ -325,8 +325,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
      */
     placeTo : function(left, top)
     {
-      this._setStyle("left",left+"px");
-      this._setStyle("top",top+"px");
+      this._setStyle("left", left + "px");
+      this._setStyle("top", top + "px");
     },
 
 
@@ -432,7 +432,11 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.__childrenContainer.add(this._createTitleWidget());
       }
 
-      this.__childrenContainer.add(widget, {flex:1});
+      this.__childrenContainer.add(widget, {
+        flex: 1
+      });
+
+      widget.addListener("domupdated", this._updatePosition, this);
 
       this.__widget = widget;
     },
@@ -550,6 +554,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       if(this.__widget)
       {
+        widget.removeListener("domupdated", this._updatePosition, this);
         this.__childrenContainer.remove(this.__widget);
         return this.__widget;
       }
