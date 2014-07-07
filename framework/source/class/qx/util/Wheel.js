@@ -53,12 +53,15 @@ qx.Bootstrap.define("qx.util.Wheel", {
     getDelta : function(domEvent, axis) {
       // default case
       if (axis === undefined) {
-        if (delta === undefined) {
-          // default case
-          var delta = -domEvent.wheelDelta;
-          if (domEvent.wheelDelta === undefined) {
-            delta = domEvent.detail;
-          }
+        // default case
+        var delta;
+        if (domEvent.wheelDelta !== undefined) {
+          delta = -domEvent.wheelDelta;
+        } else if (domEvent.detail !== 0) {
+          delta = domEvent.detail;
+        } else if (domEvent.deltaY !== undefined) {
+          // use deltaY as default for firefox
+          delta = domEvent.deltaY;
         }
         return this.__normalize(delta);
       }
