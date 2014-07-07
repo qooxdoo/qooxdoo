@@ -376,25 +376,13 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this.__rowCacheClear();
       }
 
-      //var start = new Date();
-
-      if (scrollOffset && Math.abs(scrollOffset) <= Math.min(10, this.getVisibleRowCount()))
-      {
-        //this.debug("scroll", scrollOffset);
+      if (scrollOffset && Math.abs(scrollOffset) <= Math.min(10, this.getVisibleRowCount())) {
         this._scrollContent(scrollOffset);
-      }
-      else if (onlySelectionOrFocusChanged && !this.getTable().getAlwaysUpdateCells())
-      {
-        //this.debug("update row styles");
+      } else if (onlySelectionOrFocusChanged && !this.getTable().getAlwaysUpdateCells()) {
         this._updateRowStyles(onlyRow);
-      }
-      else
-      {
-        //this.debug("full update");
+      } else {
         this._updateAllRows();
       }
-
-      //this.debug("render time: " + (new Date() - start) + "ms");
     },
 
 
