@@ -54,7 +54,7 @@ qx.Bootstrap.define("qx.util.Wheel", {
       // default case
       if (axis === undefined) {
         // default case
-        var delta;
+        var delta = 0;
         if (domEvent.wheelDelta !== undefined) {
           delta = -domEvent.wheelDelta;
         } else if (domEvent.detail !== 0) {
