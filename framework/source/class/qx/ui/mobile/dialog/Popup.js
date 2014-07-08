@@ -558,7 +558,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       if(this.__widget)
       {
-        widget.removeListener("domupdated", this._updatePosition, this);
+        this.__widget.removeListener("domupdated", this._updatePosition, this);
         this.__childrenContainer.remove(this.__widget);
         return this.__widget;
       }
