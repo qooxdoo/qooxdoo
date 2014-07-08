@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.root.Application",
           widget = widget.getLayoutParent();
         }
         if (widget && widget.isFocusable()) {
-          widget.focus();
+          widget.getContentElement().focus();
         }
       }, this, true);
     }
