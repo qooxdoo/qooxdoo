@@ -19,6 +19,9 @@
 
 /**
  * @tag noPlayground
+ * @require(qx.module.Core)
+ * @require(qx.module.event.GestureHandler)
+ * @require(qx.module.event.Tap)
  */
 qx.Class.define("demobrowser.demo.animation.Animation",
 {
@@ -171,7 +174,7 @@ qx.Class.define("demobrowser.demo.animation.Animation",
           button.style.cursor = "not-allowed";
           continue;
         }
-        button.addEventListener("tap",
+        q(button).on("tap",
           (function(animation, test) {
             return function(e) {
               qx.bom.element.Animation.animate(e.target, animation, test == "Fast Width" ? 300 : undefined);
