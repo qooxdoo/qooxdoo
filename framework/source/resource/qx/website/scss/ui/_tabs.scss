@@ -113,7 +113,7 @@
   text-align: center;
   border-bottom-color: transparent;
   position: relative;
-  @include transform(translate(0,rem(1)));
+  @include transform(translate(0,rem(1.2)));
 }
 
 .qx-tabs-horizontal.qx-tabs-justify > ul > .qx-tabs-button {
