@@ -73,8 +73,6 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      *
      * @param query {String} the media query to evaluate
      * @param className {String} css class name that gets bind to an element
-     *
-     * @private
      */
     __applyClass: function (query, className) {
       if (query.isMatching()) {
