@@ -90,10 +90,12 @@ MIGRATION_ORDER = [
     "3.0",
     "3.0.1",
     "3.5",
-    "4.0"
+    "3.5.1",
+    "4.0",
+    "4.0.1"
 ]
 
-default_old_version = "3.5"
+default_old_version = "3.5.1"
 
 LOGGING_READY = False
 
