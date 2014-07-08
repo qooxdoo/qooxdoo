@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__detailNavigation.getLayout().setShowAnimation(false);
 
       this.__masterContainer.forceHide();
-      
+
       setTimeout(function() {
         if (qx.bom.Viewport.isLandscape()) {
           this.__masterContainer.show();
