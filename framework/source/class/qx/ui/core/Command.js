@@ -29,9 +29,7 @@ qx.Class.define("qx.ui.core.Command",
   extend : qx.ui.command.Command,
 
 
-  /**
-   * overridden
-   */
+  // overridden
   construct : function(shortcut)
   {
     qx.log.Logger.deprecatedMethodWarning(
