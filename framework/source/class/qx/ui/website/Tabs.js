@@ -751,11 +751,21 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param page {qxWeb} page
      */
     _storePageHeight : function(page) {
+      var closedClass = this.getCssPrefix() + "-page-closed";
+      var isClosed = page.hasClass(closedClass);
+      if (isClosed) {
+        page.removeClass(this.getCssPrefix() + "-page-closed");
+      }
       var prevDisplay = page[0].style.display;
       var prevHeight = page[0].style.height;
       page[0].style.height = "";
       page[0].style.display = "block";
+
       page.setProperty("openedHeight", page.getHeight() + "px");
+
+      if (isClosed) {
+        page.addClass(this.getCssPrefix() + "-page-closed");
+      }
       page[0].style.height = prevHeight;
       page[0].style.display = prevDisplay;
     },
