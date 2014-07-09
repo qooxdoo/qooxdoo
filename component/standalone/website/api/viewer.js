@@ -92,7 +92,7 @@ q.ready(function() {
     if (!value) {
       clearInterval(debouncedHideFiltered.intervalId);
       delete debouncedHideFiltered.intervalId;
-      q("#list .qx-accordion-button")._forEachElementWrapped(function(button) {
+      q("#list .qx-tabs-button")._forEachElementWrapped(function(button) {
         button.setData("results", "");
         if (q.env.get("engine.name") == "mshtml") {
           // IE won't re-apply the element's styles (which use the data
@@ -100,10 +100,10 @@ q.ready(function() {
           button.setAttribute("data-results", "");
         }
       });
-      q("#list .qx-accordion-page ul").show();
-      q("#list .qx-accordion-page li").show();
-      q("#list .qx-accordion-page > a").show();
-      q("#list .qx-accordion-button").removeClass("no-matches").setAttribute("disabled", false); // allow click on every group button
+      q("#list .qx-tabs-page ul").show();
+      q("#list .qx-tabs-page li").show();
+      q("#list .qx-tabs-page > a").show();
+      q("#list .qx-tabs-button").removeClass("no-matches").setAttribute("disabled", false); // allow click on every group button
       q("#list").render();
       return;
     }
@@ -119,13 +119,13 @@ q.ready(function() {
   }, 500);
 
   var hideFiltered = function(query) {
-    q("#list .qx-accordion-page > a").hide(); // module headers
-    q("#list .qx-accordion-page ul").hide(); // method lists
-    q("#list .qx-accordion-page li").hide(); // method items
-    q("#list .qx-accordion-button").removeClass("no-matches").setAttribute("disabled", false); // allow click on every group button
+    q("#list .qx-tabs-page > a").hide(); // module headers
+    q("#list .qx-tabs-page ul").hide(); // method lists
+    q("#list .qx-tabs-page li").hide(); // method items
+    q("#list .qx-tabs-button").removeClass("no-matches").setAttribute("disabled", false); // allow click on every group button
     var regEx = new RegExp(query, "i");
 
-    q("#list .qx-accordion-button").forEach(function(groupButton) {
+    q("#list .qx-tabs-button").forEach(function(groupButton) {
       var groupResults = 0;
       groupButton = q(groupButton);
       var groupPage = groupButton.getNext();
@@ -239,9 +239,9 @@ q.ready(function() {
       if (groupIcon) {
         groupIcon = "data-icon='" + groupIcon + "'";
       }
-      var button = q.create("<li " + groupIcon + " data-qx-accordion-page='#" + groupId + "' class='qx-accordion-button'>" + group.replace("_", " ") + "</li>")
+      var button = q.create("<li " + groupIcon + " data-qx-tabs-page='#" + groupId + "' class='qx-tabs-button'>" + group.replace("_", " ") + "</li>")
         .appendTo("#list > ul");
-      groupPage = q.create("<li class='qx-accordion-page' id='" + groupId + "'></li>").appendTo("#list > ul");
+      groupPage = q.create("<li class='qx-tabs-page' id='" + groupId + "'></li>").appendTo("#list > ul");
     }
 
     if (name !== "Core") {
@@ -257,9 +257,9 @@ q.ready(function() {
 
   var sortList = function() {
     var groups = {};
-    q("#list").find(">ul > .qx-accordion-button").forEach(function(li) {
+    q("#list").find(">ul > .qx-tabs-button").forEach(function(li) {
       li = q(li);
-      var groupName = li.getData("qxAccordionPage").replace("#list-group-", "");
+      var groupName = li.getData("qxTabsPage").replace("#list-group-", "");
       var next = li.getNext()[0];
       li.remove();
       next.parentNode.removeChild(next);
@@ -620,16 +620,16 @@ q.ready(function() {
     sortList();
     renderContent(this);
     loadSamples();
-    var acc = q("#list").accordion();
+    var acc = q("#list").tabs().setConfig("orientation", "vertical").render();
 
-    // wait for the accordion pages to be measured
+    // wait for the tab pages to be measured
     var buttonTops;
     var listOffset = q("#list").getPosition().top;
 
     setTimeout(function() {
       acc.fadeIn(200);
       buttonTops = [];
-      acc.find(".qx-accordion-button").forEach(function(button, index) {
+      acc.find(".qx-tabs-button").forEach(function(button, index) {
         buttonTops[index] = (q(button).getPosition().top);
       });
     }, 200);
@@ -669,7 +669,7 @@ q.ready(function() {
   var highlightNavItem = function() {
     var hash = window.location.hash,
         navItems = q("."+convertNameToCssClass(hash, "nav-"));
-    q("#list .qx-accordion-page ul > li").removeClass("selected");
+    q("#list .qx-tabs-page ul > li").removeClass("selected");
     navItems.addClass("selected");
   };
 
@@ -862,8 +862,8 @@ q.ready(function() {
 
       var listSelector = el[0].id ? ".nav-" + el[0].id.replace(".", "").replace("$", "") : null;
       if (listSelector) {
-        var page = q(listSelector).getAncestors(".qx-accordion-page");
-        var index = q("#list .qx-accordion-page").indexOf(page);
+        var page = q(listSelector).getAncestors(".qx-tabs-page");
+        var index = q("#list .qx-tabs-page").indexOf(page);
         q("#list").select(index);
       }
     }
@@ -906,13 +906,13 @@ q.ready(function() {
     var codeEl = q.create('<code>');
     codeEl[0].appendChild(textNode);
 
-    var accordion = q.template.get("widget-dom", {
+    var tabs = q.template.get("widget-dom", {
       title: "Expand",
       pageId: "widget-dom-" + methodName.replace(".", "")
     })
     .insertAfter(markupHeader);
-    var pre = accordion.find("pre").append(codeEl);
-    accordion.accordion();
+    var pre = tabs.find("pre").append(codeEl);
+    tabs.tabs();
 
     if (useHighlighter) {
       hljs.highlightBlock(pre[0]);

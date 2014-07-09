@@ -118,7 +118,7 @@ body {
   border-radius: 5px;
 }
 
-#list .qx-accordion-button {
+#list .qx-tabs-button {
   cursor: pointer;
   list-style: none;
   padding: 5px 10px;
@@ -132,7 +132,7 @@ body {
   transition:color 1s, background-color 1s;
 }
 
-#list .qx-accordion-button:before,
+#list .qx-tabs-button:before,
 .module h1:before,
 #content .plugin h2:before {
   font-family: "Batch";
@@ -140,7 +140,7 @@ body {
   content: attr(data-icon);
 }
 
-#list .qx-accordion-button:after {
+#list .qx-tabs-button:after {
   content: attr(data-results);
   float: right;
   color: white;
@@ -158,15 +158,15 @@ body {
   transition:color 1s, background-color 1s;
 }
 
-#list .qx-accordion-button.no-matches {
+#list .qx-tabs-button.no-matches {
   pointer-events: none;
 }
 
-#list .qx-accordion-button.no-matches:after {
+#list .qx-tabs-button.no-matches:after {
   background-color: #ddd;
 }
 
-#list .qx-accordion-button-active:after {
+#list .qx-tabs-button-active:after {
   color: #3d72c9;
   background-color: white;
 }
@@ -182,21 +182,21 @@ body {
   font-weight: 600;
 }
 
-#list .qx-accordion-button-active {
+#list .qx-tabs-button-active {
   border-bottom: 1px solid #DDD;
   background-color: #3d72c9;
   color: #fff;
 }
 
-#list .qx-accordion-button:first-child {
+#list .qx-tabs-button:first-child {
   border-top: none;
 }
 
-#list .qx-accordion-button-active:first-child {
+#list .qx-tabs-button-active:first-child {
   border-radius: 5px 5px 0 0;
 }
 
-#list .qx-accordion-page {
+#list .qx-tabs-page {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -212,12 +212,12 @@ body {
   margin-bottom: 0;
 }
 
-#list .qx-accordion-page-closed {
+#list .qx-tabs-page-closed {
   height: 0;
   padding-bottom: 0;
 }
 
-#list .qx-accordion-page ul {
+#list .qx-tabs-page ul {
   border-bottom: 1px solid #DDD;
   padding-bottom: 10px;
   list-style: none;
@@ -225,7 +225,7 @@ body {
   margin-bottom: 0;
 }
 
-#list .qx-accordion-page ul > li {
+#list .qx-tabs-page ul > li {
   padding: 0px 0 1px 10px;
   -moz-transition: opacity 1s;
   -webkit-transition: opacity 1s;
@@ -233,12 +233,12 @@ body {
   transition: opacity 1s;
 }
 
-#list .qx-accordion-page ul > li a {
+#list .qx-tabs-page ul > li a {
   display: block;
 }
 
-#list .qx-accordion-page ul li:hover,
-#list .qx-accordion-page ul > .selected {
+#list .qx-tabs-page ul li:hover,
+#list .qx-tabs-page ul > .selected {
   background-color: #e7e7e7;
 }
 
@@ -519,16 +519,16 @@ p {
   color: white;
 }
 
-#content div.qx-accordion {
+#content div.qx-tabs {
   margin-bottom: 0;
 }
 
-#content .qx-accordion ul {
+#content .qx-tabs ul {
   list-style-type: none;
   margin-bottom: 0;
 }
 
-.widget-dom .qx-accordion-button button {
+.widget-dom .qx-tabs-button button {
   padding: 0;
   margin: 0;
   background: none;
@@ -536,11 +536,11 @@ p {
   cursor: pointer;
 }
 
-.widget-dom .qx-accordion-button button:focus {
+.widget-dom .qx-tabs-button button:focus {
   outline: none;
 }
 
-.widget-dom .qx-accordion-button button:before {
+.widget-dom .qx-tabs-button button:before {
 
   font-size: 14px;
   font-family: "Batch";
@@ -550,26 +550,26 @@ p {
   margin-right: 5px;
 }
 
-.widget-dom .qx-accordion-button-active button:before {
+.widget-dom .qx-tabs-button-active button:before {
   content: "\F01E";
 }
 
-.widget-dom .qx-accordion-button button:after {
+.widget-dom .qx-tabs-button button:after {
   content: "Show";
   cursor: pointer;
   text-decoration: underline;
 }
 
-.widget-dom .qx-accordion-button-active button:after {
+.widget-dom .qx-tabs-button-active button:after {
   content: "Hide";
   cursor: pointer;
 }
 
-.widget-dom .qx-accordion-page-closed {
+.widget-dom .qx-tabs-page-closed {
   display: none;
 }
 
-.widget-dom .qx-accordion-page-closed pre {
+.widget-dom .qx-tabs-page-closed pre {
   height: inherit;
 }
 

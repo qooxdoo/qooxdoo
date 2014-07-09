@@ -66,7 +66,7 @@
       <input type="search" placeholder="Filter Methods">
     </div>
     <div id="list" style="opacity: 0"
-      data-qx-class="qx.ui.website.Accordion">
+      data-qx-class="qx.ui.website.Tabs" data-qx-config-orientation="vertical">
       <ul>
       </ul>
     </div>
@@ -130,8 +130,8 @@
   <script type="text/template" charset="utf-8" id="widget-dom">
     <div class="widget-dom">
       <ul>
-        <li data-qx-accordion-page="#{{pageId}}" class="qx-accordion-button"><button></button></li>
-        <li id="{{pageId}}" class="qx-accordion-page"><pre></pre></li>
+        <li data-qx-tabs-page="#{{pageId}}" class="qx-tabs-button"><button></button></li>
+        <li id="{{pageId}}" class="qx-tabs-page"><pre></pre></li>
       </ul>
     </div>
   </script>
