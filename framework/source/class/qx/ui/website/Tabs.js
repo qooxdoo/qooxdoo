@@ -123,17 +123,25 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param align {String?} Tab button alignment. Default: <code>left</code>
      * @param preselected {Integer?} The (zero-based) index of the tab that
      * should initially be selected. Default: <code>0</code>
+     * @param orientation {String?} <code>horizontal</code> (default) or <code>vertical</code>
      * @return {qx.ui.website.Tabs}
      */
-    tabs : function(align, preselected) {
+    tabs : function(align, preselected, orientation) {
       var tabs =  new qx.ui.website.Tabs(this);
-      if (typeof preselected == "number") {
+      if (typeof preselected !== "undefined") {
         tabs.setConfig("preselected", preselected);
       }
 
       tabs.init();
       if (align) {
         tabs.setConfig("align", align);
+      }
+
+      if (orientation) {
+        tabs.setConfig("orientation", orientation);
+      }
+
+      if (align || orientation) {
         tabs.render();
       }
 

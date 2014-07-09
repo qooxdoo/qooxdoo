@@ -620,7 +620,7 @@ q.ready(function() {
     sortList();
     renderContent(this);
     loadSamples();
-    var acc = q("#list").tabs().setConfig("orientation", "vertical").render();
+    var acc = q("#list").tabs(null, null, "vertical").render();
 
     // wait for the tab pages to be measured
     var buttonTops;
