@@ -35,6 +35,7 @@
     "test-performance",
     "test-performance-source",
     "test-mobile",
+    "test-mobile-compile-scss",
     "test-mobile-source",
     "translation",
     "validate-config",
@@ -237,13 +238,35 @@
       }
     },
 
+    "test-mobile-compile-scss" :
+    {
+      "desc"   : "Compile the theme scss once",
+      "extend" : ["cache"],
+      "let" :
+      {
+        "BUILD_PATH"      : "${ROOT}/test-mobile",
+        "QX_MOBILE_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
+        "QX_SHARED_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "MOBILE_RESOURCE_PATH" : "${BUILD_PATH}/resource/testrunner/view/mobile"
+      },
+      "shell" :
+      {
+        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --update ${MOBILE_RESOURCE_PATH}/scss:${MOBILE_RESOURCE_PATH}/css",
+        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
+      }
+    },
+
     "test-mobile" :
     {
       "let" :
       {
         "TEST_INCLUDE"    : "qx.test.mobile.*",
         "BUILD_PATH"      : "${ROOT}/test-mobile"
-      }
+      },
+
+      "run" : [
+        "test-mobile-compile-scss"
+      ]
     },
 
     "test-mobile-source" :
