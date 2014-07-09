@@ -528,7 +528,7 @@ p {
   margin-bottom: 0;
 }
 
-.widget-dom .qx-tabs-button button {
+.widget-dom button {
   padding: 0;
   margin: 0;
   background: none;
@@ -536,11 +536,11 @@ p {
   cursor: pointer;
 }
 
-.widget-dom .qx-tabs-button button:focus {
+.widget-dom button:focus {
   outline: none;
 }
 
-.widget-dom .qx-tabs-button button:before {
+.widget-dom button:before {
 
   font-size: 14px;
   font-family: "Batch";
@@ -554,7 +554,7 @@ p {
   content: "\F01E";
 }
 
-.widget-dom .qx-tabs-button button:after {
+.widget-dom button:after {
   content: "Show";
   cursor: pointer;
   text-decoration: underline;

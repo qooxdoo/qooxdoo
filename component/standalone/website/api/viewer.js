@@ -890,17 +890,18 @@ q.ready(function() {
   };
 
 
-  var appendWidgetMarkup = function(methodName, sample) {
-    if (!sample.showMarkup) {
-      return;
-    }
-    var moduleName = q.string.firstUp(methodName.substr(1));
-    var markupHeader = q("#" + moduleName).getParents().find(".widget-markup");
+  var markupSamples = {};
+
+  var appendWidgetMarkup = function() {
+    var markupHeader = this.getParents().find(".widget-markup");
+    var sampleId = markupHeader.getProperty("sampleId");
+    var sample = markupSamples[sampleId];
+
     var pen = q("#playpen");
     if (sample.html) {
-      pen.setHtml(sample.html.join("\n"));
+      pen.setHtml(sample.html);
     }
-    sample.javascript();
+    (new Function(sample.javascript))();
     var html = pen.getHtml();
     var textNode = document.createTextNode(html);
     var codeEl = q.create('<code>');
@@ -908,7 +909,7 @@ q.ready(function() {
 
     var tabs = q.template.get("widget-dom", {
       title: "Expand",
-      pageId: "widget-dom-" + methodName.replace(".", "")
+      pageId: sampleId
     })
     .insertAfter(markupHeader);
     var pre = tabs.find("pre").append(codeEl);
@@ -920,6 +921,22 @@ q.ready(function() {
 
     pen.find(".qx-widget").dispose();
     pen.setHtml("");
+    this.allOff().remove();
+  };
+
+
+  var storeWidgetMarkup = function(methodName, sample) {
+    if (!sample.showMarkup) {
+      return;
+    }
+    var moduleName = q.string.firstUp(methodName.substr(1));
+    var markupHeader = q("#" + moduleName).getParents().find(".widget-markup");
+    var id = "sample-" + Date.now();
+    markupHeader.setProperty("sampleId", id);
+    markupSamples[id] = sample;
+    q.create('<div class="widget-dom"><button></button></div>').insertAfter(markupHeader)
+    .on("tap", appendWidgetMarkup);
+    return;
   };
 
 
@@ -971,8 +988,8 @@ q.ready(function() {
       method.append(headerElement);
     }
 
-    appendWidgetMarkup(methodName, sampleMap);
     appendSample(sampleMap, headerElement);
+    storeWidgetMarkup(methodName, sampleMap);
     scrollContentIntoView();
   };
 
