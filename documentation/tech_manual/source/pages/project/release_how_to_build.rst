@@ -375,23 +375,12 @@ Update Wiki
 * Adjust the `qx.Website Download page <http://qooxdoo.org/downloads/qx.website>`_.
 * Adjust the `Start page <http://qooxdoo.org/>`_. (all 4 sections: download links, gzipped lib sizes)
 
-.. _pages/project/release_how_to_build.rst#update_contrib:
-
-Update Contrib
---------------
-
-(*workspace on internal server*)
-
-* Adjust the symlinks in qooxdoo.contrib/trunk/qooxdoo.
-* Update the *qxPatchReleases* map in ``tool/admin/bin/repository.py`` (near the top of the file).
-* Simulator contrib: Add a tag corresponding to the qx patch release.
 
 .. _pages/project/release_how_to_build.rst#nightly_testing:
 
 Nightly Testing
 ---------------
 
-* Contribution skeleton test: Create a symlink to the qx git repo as expected by the demo's config.json ("../../../../qooxdoo/${QXVERSION}")
 * Branch application tests: Update the maintenance branch name in the ``qooxdoo-git-update-patch`` job's Source Code Management and Execute Shell sections
 
 .. _pages/project/release_how_to_build.rst#announcements:
