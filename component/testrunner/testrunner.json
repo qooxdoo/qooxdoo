@@ -531,7 +531,6 @@
         "TESTRUNNER_VIEW" : "testrunner.view.mobile.Mobile",
         "TESTRUNNER_MAIN_CLASS" : "testrunner.MobileApplication",
         "PLATFORM": "ios",
-        "TESTRUNNER_CSS" : "testrunner/view/mobile/css/styles.css",
         "TEST_LOADER" : "testrunner.TestLoaderMobile"
       },
 
@@ -562,9 +561,6 @@
       "add-css" : [
         {
           "uri" : "./resource/testrunner/view/mobile/css/indigo.css"
-        },
-        {
-          "uri" : "./resource/${TESTRUNNER_CSS}"
         }
       ]
     },
@@ -576,9 +572,6 @@
       "add-css" : [
         {
           "uri" : "./resource/testrunner/view/mobile/css/indigo.css"
-        },
-        {
-          "uri" : "./resource/${TESTRUNNER_CSS}"
         }
       ]
     },
