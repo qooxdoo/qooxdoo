@@ -244,10 +244,9 @@
       "extend" : ["cache"],
       "let" :
       {
-        "BUILD_PATH"      : "${ROOT}/test-mobile",
         "QX_MOBILE_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
         "QX_SHARED_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
-        "MOBILE_RESOURCE_PATH" : "${BUILD_PATH}/resource/testrunner/view/mobile"
+        "MOBILE_RESOURCE_PATH" : "${QOOXDOO_PATH}/component/testrunner/source/resource/testrunner/view/mobile"
       },
       "shell" :
       {
