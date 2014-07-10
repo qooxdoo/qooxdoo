@@ -112,9 +112,9 @@
  * @group (Widget)
  */
 qx.Bootstrap.define("qx.ui.website.Tabs", {
-  extend : qx.ui.website.Widget,
+  extend: qx.ui.website.Widget,
 
-  statics : {
+  statics: {
     /**
      * Factory method which converts the current collection into a collection of
      * tabs widgets.
@@ -126,8 +126,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param orientation {String?} <code>horizontal</code> (default) or <code>vertical</code>
      * @return {qx.ui.website.Tabs}
      */
-    tabs : function(align, preselected, orientation) {
-      var tabs =  new qx.ui.website.Tabs(this);
+    tabs: function(align, preselected, orientation) {
+      var tabs = new qx.ui.website.Tabs(this);
       if (typeof preselected !== "undefined") {
         tabs.setConfig("preselected", preselected);
       }
@@ -156,8 +156,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      *
      * Default value: <pre><li><button>{{{content}}}</button></li></pre>
      */
-    _templates : {
-      button : "<li><button>{{{content}}}</button></li>"
+    _templates: {
+      button: "<li><button>{{{content}}}</button></li>"
     },
 
 
@@ -188,32 +188,32 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * orientation. The widget will be rendered in vertical mode unless
      * the query matches.
      */
-    _config : {
-      preselected : 0,
-      align : "left",
-      orientation : "horizontal",
-      mediaQuery : null
+    _config: {
+      preselected: 0,
+      align: "left",
+      orientation: "horizontal",
+      mediaQuery: null
     }
   },
 
 
-  construct : function(selector, context) {
+  construct: function(selector, context) {
     this.base(arguments, selector, context);
   },
 
 
-  events : {
+  events: {
     /**
      * Fired when the selected page has changed. The value is
      * the newly selected page's index
      */
-    "changeSelected" : "Number"
+    "changeSelected": "Number"
   },
 
 
-  members : {
+  members: {
 
-    init : function() {
+    init: function() {
       if (!this.base(arguments)) {
         return false;
       }
@@ -222,10 +222,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         this.setConfig("orientation", this._initMediaQueryListener(mediaQuery));
       }
       var orientation = this.getConfig("orientation");
-
-      if (orientation === "vertical") {
-        this.__toggleTransitions(false);
-      }
 
       this._forEachElementWrapped(function(tabs) {
         tabs.addClasses([this.getCssPrefix(), this.getCssPrefix() + "-" + orientation]);
@@ -242,7 +238,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         var container = tabs.find("> ." + this.getCssPrefix() + "-container");
 
         var buttons = tabs.getChildren("ul").getFirst()
-          .getChildren("li").not("." + this.getCssPrefix() + "-page");
+            .getChildren("li").not("." + this.getCssPrefix() + "-page");
         buttons._forEachElementWrapped(function(button) {
           button.addClass(this.getCssPrefix() + "-button");
           var pageSelector = button.getData(this.getCssPrefix() + "-page");
@@ -256,37 +252,40 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           if (page.length > 0) {
             page.addClass(this.getCssPrefix() + "-page");
             if (orientation == "vertical") {
+              this.__deactivateTransition(page);
               if (q.getNodeName(page[0]) == "div") {
                 var li = q.create("<li>")
-                .addClass(this.getCssPrefix() + "-page")
-                .setAttribute("id", page.getAttribute("id"))
-                .insertAfter(button[0]);
+                  .addClass(this.getCssPrefix() + "-page")
+                  .setAttribute("id", page.getAttribute("id"))
+                  .insertAfter(button[0]);
                 page.remove()
-                .getChildren().appendTo(li);
+                  .getChildren().appendTo(li);
                 page = li;
               }
               this._storePageHeight(page);
             } else if (orientation == "horizontal") {
               if (q.getNodeName(page[0]) == "li") {
                 var div = q.create("<div>")
-                .addClass(this.getCssPrefix() + "-page")
-                .setAttribute("id", page.getAttribute("id"));
+                  .addClass(this.getCssPrefix() + "-page")
+                  .setAttribute("id", page.getAttribute("id"));
                 page.remove()
-                .getChildren().appendTo(div);
+                  .getChildren().appendTo(div);
                 page = div;
               }
             }
 
             if (orientation == "horizontal") {
               if (container.length === 0) {
-                container = qxWeb.create("<div class='" + this.getCssPrefix() +"-container'>")
-                .insertAfter(tabs.find("> ul")[0]);
+                container = qxWeb.create("<div class='" + this.getCssPrefix() + "-container'>")
+                  .insertAfter(tabs.find("> ul")[0]);
               }
               page.appendTo(container[0]);
             }
           }
 
           this._showPage(null, button);
+          this.__activateTransition(page);
+
         }.bind(this));
 
         if (orientation == "vertical" && container.length == 1 && container.getChildren().length === 0) {
@@ -296,10 +295,9 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         if (orientation == "horizontal" &&
           this.getConfig("align") == "right" &&
           q.env.get("engine.name") == "mshtml" &&
-          q.env.get("browser.documentmode") < 10)
-        {
+          q.env.get("browser.documentmode") < 10) {
           buttons.remove();
-          for (var i=buttons.length - 1; i>=0; i--) {
+          for (var i = buttons.length - 1; i >= 0; i--) {
             tabs.find("> ul").append(buttons[i]);
           }
         }
@@ -311,7 +309,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
 
         if (active.length > 0) {
+          var activePage = this._getPage(active);
+          this.__deactivateTransition(activePage);
           this._showPage(active, null);
+          this.__activateTransition(activePage);
         }
 
         tabs.getChildren("ul").getFirst().$onFirstCollection("keydown", this._onKeyDown, this);
@@ -324,15 +325,11 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
       }.bind(this));
 
-      if (orientation === "vertical") {
-        this.__toggleTransitions(true);
-      }
-
       return true;
     },
 
 
-    render : function() {
+    render: function() {
       var mediaQuery = this.getConfig("mediaQuery");
       if (mediaQuery) {
         this.setConfig("orientation", this._initMediaQueryListener(mediaQuery));
@@ -353,7 +350,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @return {String} The appropriate orientation: "horizontal" if the
      * media query matches, "vertical" if it doesn't
      */
-    _initMediaQueryListener : function(mediaQuery) {
+    _initMediaQueryListener: function(mediaQuery) {
       var mql = this.getProperty("mediaQueryListener");
       if (!mql) {
         mql = q.matchMedia(mediaQuery);
@@ -375,16 +372,16 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * Render the widget in horizontal mode
      * @return {qx.ui.website.Tabs} The collection for chaining
      */
-    _renderHorizontal : function() {
+    _renderHorizontal: function() {
       this._forEachElementWrapped(function(tabs) {
         tabs.removeClass(this.getCssPrefix() + "-vertical")
-        .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-horizontal", "qx-flex-ready"])
-        .find("> ul").addClass("qx-hbox");
+          .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-horizontal", "qx-flex-ready"])
+          .find("> ul").addClass("qx-hbox");
 
         var container = tabs.find("> ." + this.getCssPrefix() + "-container");
         if (container.length == 0) {
-          container = qxWeb.create("<div class='" + this.getCssPrefix() +"-container'>")
-          .insertAfter(tabs.find("> ul")[0]);
+          container = qxWeb.create("<div class='" + this.getCssPrefix() + "-container'>")
+            .insertAfter(tabs.find("> ul")[0]);
         }
 
         var selectedPage;
@@ -393,10 +390,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
           if (q.getNodeName(page[0]) == "li") {
             var div = q.create("<div>")
-            .addClass(this.getCssPrefix() + "-page")
-            .setAttribute("id", page.getAttribute("id"));
+              .addClass(this.getCssPrefix() + "-page")
+              .setAttribute("id", page.getAttribute("id"));
             page.remove()
-            .getChildren().appendTo(div);
+              .getChildren().appendTo(div);
             page = div;
           }
 
@@ -427,7 +424,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * Render the widget in vertical mode
      * @return {qx.ui.website.Tabs} The collection for chaining
      */
-    _renderVertical : function() {
+    _renderVertical: function() {
       this._forEachElementWrapped(function(tabs) {
         tabs.find("> ul.qx-hbox").removeClass("qx-hbox");
         tabs.removeClasses([this.getCssPrefix() + "-horizontal", "qx-flex-ready"])
@@ -444,8 +441,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           this.__deactivateTransition(page);
           if (q.getNodeName(page[0]) == "div") {
             var li = q.create("<li>")
-            .addClass(this.getCssPrefix() + "-page")
-            .setAttribute("id", page.getAttribute("id"));
+              .addClass(this.getCssPrefix() + "-page")
+              .setAttribute("id", page.getAttribute("id"));
             page.getChildren().appendTo(li);
             li.insertAfter(button[0]);
             page.remove();
@@ -472,7 +469,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * Re-render on browser window resize (page heights must be re-
      * calculated)
      */
-    _onResize : function() {
+    _onResize: function() {
       // make sure this runs after a MediaQueryListener callback
       // which might have changed the orientation
       setTimeout(function() {
@@ -490,12 +487,13 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param pageSelector {String} CSS Selector that identifies the associated page
      * @return {qx.ui.website.Tabs} The collection for chaining
      */
-    addButton : function(label, pageSelector) {
+    addButton: function(label, pageSelector) {
       this._forEachElementWrapped(function(item) {
         var link = qxWeb.create(
           qxWeb.template.render(
-            item.getTemplate("button"),
-            {content: label}
+            item.getTemplate("button"), {
+              content: label
+            }
           )
         ).addClass(this.getCssPrefix() + "-button");
         var list = item.find("> ul");
@@ -507,7 +505,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
         }
 
         link.$onFirstCollection("tap", this._onTap, item)
-        .addClass(this.getCssPrefix() + "-button");
+          .addClass(this.getCssPrefix() + "-button");
         if (item.find("> ul ." + this.getCssPrefix() + "-button").length === 1) {
           link.addClass(this.getCssPrefix() + "-button-active");
         }
@@ -534,13 +532,13 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param index {Integer} index of the button to select
      * @return {qx.ui.website.Tabs} The collection for chaining
      */
-    select : function(index) {
+    select: function(index) {
       this._forEachElementWrapped(function(tabs) {
         var buttons = tabs.find("> ul > ." + this.getCssPrefix() + "-button");
         var oldButton = tabs.find("> ul > ." + this.getCssPrefix() + "-button-active")
-        .removeClass(this.getCssPrefix() + "-button-active");
+          .removeClass(this.getCssPrefix() + "-button-active");
         if (this.getConfig("align") == "right") {
-          index = buttons.length -1 - index;
+          index = buttons.length - 1 - index;
         }
         var newButton = buttons.eq(index).addClass(this.getCssPrefix() + "-button-active");
         tabs._showPage(newButton, oldButton);
@@ -556,7 +554,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      *
      * @param e {Event} Tap event
      */
-    _onTap : function(e) {
+    _onTap: function(e) {
       if (!this.getEnabled()) {
         return;
       }
@@ -599,7 +597,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      *
      * @param e {Event} keydown event
      */
-    _onKeyDown : function(e) {
+    _onKeyDown: function(e) {
       var key = e.getKeyIdentifier();
       if (!(key == "Left" || key == "Right")) {
         return;
@@ -639,7 +637,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param newButton {qxWeb} selected button
      * @param oldButton {qxWeb} previously active button
      */
-    _showPage : function(newButton, oldButton) {
+    _showPage: function(newButton, oldButton) {
       var oldPage = this._getPage(oldButton);
       var newPage = this._getPage(newButton);
       if (this.getConfig("orientation") === "horizontal" && (oldPage[0] == newPage[0])) {
@@ -656,7 +654,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param oldPage {qxWeb} the previously selected page
      * @param newPage {qxWeb} the newly selected page
      */
-    _switchPages : function(oldPage, newPage) {
+    _switchPages: function(oldPage, newPage) {
       var orientation = this.getConfig("orientation");
       if (orientation === "horizontal") {
         if (oldPage) {
@@ -671,8 +669,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           oldPage.setStyle("height", oldPage.getHeight() + "px");
           oldPage.setStyles({
             "height": "0px",
-            "paddingTop" : "0px",
-            "paddingBottom" : "0px"
+            "paddingTop": "0px",
+            "paddingBottom": "0px"
           });
 
           oldPage.addClass(this.getCssPrefix() + "-page-closed");
@@ -691,7 +689,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           }
         }
       }
-
     },
 
 
@@ -701,7 +698,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * @param button {qxWeb} Tab button
      * @return {qxWeb} Tab page
      */
-    _getPage : function(button) {
+    _getPage: function(button) {
       var pageSelector;
       if (button) {
         pageSelector = button.getData(this.getCssPrefix() + "-page");
@@ -715,12 +712,11 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      *
      * @param tabs {qx.ui.website.Tabs[]} tabs collection
      */
-    _applyAlignment : function(tabs) {
+    _applyAlignment: function(tabs) {
       var align = tabs.getConfig("align");
       var buttons = tabs.find("> ul > li");
 
       if (q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 10) {
-
         if (align == "left") {
           tabs.addClass(this.getCssPrefix() + "-left");
         } else {
@@ -758,7 +754,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      * Stores the page's natural height for the page opening transition
      * @param page {qxWeb} page
      */
-    _storePageHeight : function(page) {
+    _storePageHeight: function(page) {
       var closedClass = this.getCssPrefix() + "-page-closed";
       var isClosed = page.hasClass(closedClass);
       if (isClosed) {
@@ -780,32 +776,12 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
 
     /**
-     * Activates or deactivates the CSS transition styles on all
-     * pages
-     *
-     * @param on {Boolean?} <code>true</code>: activate transitions
-     */
-    __toggleTransitions : function(on) {
-      this._forEachElementWrapped(function(tabs) {
-        tabs.find("> ul > ." + this.getCssPrefix() + "-page")
-        ._forEachElementWrapped(function(page) {
-          if (on) {
-            this.__activateTransition(page);
-          } else {
-            this.__deactivateTransition(page);
-          }
-        }.bind(this));
-      }.bind(this));
-    },
-
-
-    /**
      * Stores an element's CSS transition styles in a property
      * and removes them from the style declaration
      *
      * @param elem {qxWeb} Element
      */
-    __deactivateTransition : function(elem) {
+    __deactivateTransition: function(elem) {
       var transition = elem.getStyles([
         "transitionDelay",
         "transitionDuration",
@@ -824,7 +800,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      *
      * @param elem {qxWeb} Element
      */
-    __activateTransition : function(elem) {
+    __activateTransition: function(elem) {
       var transition = elem.getProperty("__qxtransition");
       var style = elem.getStyle("transitionProperty");
       if (transition && style.indexOf("none") != -1) {
@@ -834,7 +810,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
     },
 
 
-    dispose : function() {
+    dispose: function() {
       var cssPrefix = this.getCssPrefix();
       this._forEachElementWrapped(function(tabs) {
         qxWeb(window).off("resize", tabs._onResize, tabs);
@@ -851,9 +827,10 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
   },
 
 
-  defer : function(statics) {
+  defer: function(statics) {
     qxWeb.$attach({
-      tabs : statics.tabs
+      tabs: statics.tabs
     });
   }
 });
+

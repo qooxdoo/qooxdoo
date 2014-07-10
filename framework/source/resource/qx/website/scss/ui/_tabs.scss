@@ -1,22 +1,27 @@
-.qx-tabs > ul {
+.qx-tabs > ul,
+.qx-accordion > ul {
   list-style: none;
   margin-bottom: 0;
   padding: 0;
 }
 
-.qx-tabs .qx-tabs-button {
+.qx-tabs .qx-tabs-button,
+.qx-accordion .qx-accordion-button {
   cursor: pointer;
 }
 
-.qx-tabs .qx-tabs-button > button[disabled] {
+.qx-tabs .qx-tabs-button > button[disabled],
+.qx-accordion .qx-accordion-button > button[disabled] {
   color: $highlight-color-disabled;
 }
 
-.qx-tabs .qx-tabs-button-active {
+.qx-tabs .qx-tabs-button-active,
+.qx-accordion .qx-accordion-button-active {
   @include background($background-color);
 }
 
-.qx-tabs .qx-tabs-button > button {
+.qx-tabs .qx-tabs-button > button,
+.qx-accordion .qx-accordion-button > button {
   color: $highlight-color;
   border: none;
   outline: none;
@@ -26,27 +31,33 @@
   font-size: rem(13);
 }
 
-.qx-tabs .qx-tabs-button > button:focus {
+.qx-tabs .qx-tabs-button > button:focus,
+.qx-accordion .qx-accordion-button > button:focus {
   text-decoration: underline;
 }
 
-.qx-tabs .qx-tabs-button:hover {
+.qx-tabs .qx-tabs-button:hover,
+.qx-accordion .qx-accordion-button:hover {
   background-color: darken($background-color, 10%);
 }
 
-.qx-tabs .qx-tabs-button-active:hover {
+.qx-tabs .qx-tabs-button-active:hover,
+.qx-accordion .qx-accordion-button-active:hover {
   @include background($background-color);
 }
 
-.qx-tabs .qx-tabs-button-active > button {
+.qx-tabs .qx-tabs-button-active > button,
+.qx-accordion .qx-accordion-button-active > button {
   color: black;
 }
 
-.qx-tabs .qx-tabs-button[disabled] {
+.qx-tabs .qx-tabs-button[disabled],
+.qx-qccordion .qx-qccordion-button[disabled] {
   color: $highlight-color-disabled;
 }
 
-.qx-tabs .qx-tabs-page {
+.qx-tabs .qx-tabs-page,
+.qx-accordion .qx-accordion-page {
   padding: rem(10);
   @include user-select(text);
   background-color: white;
@@ -127,25 +138,29 @@
 
 // vertical orientation:
 
-.qx-tabs-vertical {
+.qx-tabs-vertical,
+.qx-accordion-vertical {
   border-right: rem(1) solid $border-color;
   border-bottom: rem(1) solid $border-color;
   border-left: rem(1) solid $border-color;
 }
 
-.qx-tabs-vertical .qx-tabs-button {
+.qx-tabs-vertical .qx-tabs-button,
+.qx-accordion-vertical .qx-accordion-button {
   margin-left: 0;
   border-top: rem(1) solid $border-color;
 }
 
-.qx-tabs-vertical .qx-tabs-button > button {
+.qx-tabs-vertical .qx-tabs-button > button,
+.qx-accordion-vertical .qx-accordion-button > button {
   display: inline-block;
   width: 100%;
   height: 100%;
   text-align: left;
 }
 
-.qx-tabs-vertical .qx-tabs-page {
+.qx-tabs-vertical .qx-tabs-page,
+.qx-accordion-vertical .qx-accordion-page {
   overflow: hidden;
   @include box-sizing(border-box);
   padding: rem(8) rem(12);
