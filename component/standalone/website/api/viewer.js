@@ -615,24 +615,23 @@ q.ready(function() {
   // no highlighting for IE < 9
   var useHighlighter = !(q.env.get("engine.name") == "mshtml" && q.env.get("browser.documentmode") < 9);
 
+  // setup variables to use them within the callbacks
+  var acc = null;
+  var buttonTops = null;
+  var requestAnimationFrame = qxWeb.$$qx.bom.AnimationFrame.request;
+
   var onContentReady = function() {
     renderList(this);
     sortList();
-    renderContent(this);
-    loadSamples();
-    var acc = q("#list").tabs(null, null, "vertical").render();
+
+    acc = q("#list").tabs(null, null, "vertical").render();
+
+    // decouple the creation of the content by using the next possible AnimationFrame
+    requestAnimationFrame(delayedRenderContent, this);
 
     // wait for the tab pages to be measured
     var buttonTops;
     var listOffset = q("#list").getPosition().top;
-
-    setTimeout(function() {
-      acc.fadeIn(200);
-      buttonTops = [];
-      acc.find(".qx-tabs-button").forEach(function(button, index) {
-        buttonTops[index] = (q(button).getPosition().top);
-      });
-    }, 200);
 
     acc.on("changeSelected", function(index) {
       var buttonTop = buttonTops[index] - listOffset;
@@ -647,11 +646,6 @@ q.ready(function() {
         }
       });
     });
-
-    // enable syntax highlighting
-    if (useHighlighter) {
-      q('pre').forEach(function(el) {hljs.highlightBlock(el);});
-    }
 
     if (q(".filter input").getValue()) {
       setTimeout(onFilterInput, 200);
@@ -673,6 +667,76 @@ q.ready(function() {
     navItems.addClass("selected");
   };
 
+  var delayedRenderContent = function() {
+    renderContent(this);
+
+    requestAnimationFrame(delayedAccordionFadeIn, this);
+  };
+
+  var delayedAccordionFadeIn = function() {
+    acc.fadeIn(200);
+    buttonTops = [];
+    acc.find(".qx-tabs-button").forEach(function(button, index) {
+      buttonTops[index] = (q(button).getPosition().top);
+    });
+
+    requestAnimationFrame(delayedLoadSamples, this);
+  };
+
+  var delayedLoadSamples = function() {
+    loadSamples();
+
+    // enable syntax highlighting
+    if (useHighlighter) {
+      window.setTimeout(highLightCodeBlocks, 2000);
+    }
+  };
+
+
+  var codeBlocks = null;
+  var highLightCodeBlocks = function() {
+    codeBlocks = q('pre');
+
+    var content = q('div#content');
+    content.on('scroll', qxWeb.func.debounce(highLightOnScroll.bind(content), 500));
+  };
+
+  var highLightOnScroll = function(e) {
+
+    var height = parseInt(this.getHeight(), 10);
+
+    var toRemove = [];
+    codeBlocks.every(function(item, index) {
+
+      var boundingRect = item.getBoundingClientRect();
+
+      // code element is above us -> skip it
+      if (parseInt(boundingRect.top, 10) < 0) {
+        return true;
+      }
+
+      // candidate for highlighting
+      if ((parseInt(boundingRect.top, 10) >= 0 && parseInt(boundingRect.top, 10) < height) ||
+          (parseInt(boundingRect.bottom, 10) >= 0 && parseInt(boundingRect.bottom, 10) < height)) {
+
+        hljs.highlightBlock(item);
+
+        toRemove.push(index);
+        return true;
+      }
+
+      // fast check if the code element is out of viewport (further down)
+      // -> we can stop here
+      if (parseInt(boundingRect.top, 10) > height) {
+        return false;
+      }
+
+    });
+
+    toRemove.reverse().forEach(function(item) {
+      codeBlocks.splice(item, 1);
+    });
+  };
 
   var loadSamples = function() {
     q.io.script("script/samples.js").send();
@@ -736,14 +800,6 @@ q.ready(function() {
         cssEl,
         jsEl;
 
-    var precedingSamples = header.getSiblings(".sample");
-    if (precedingSamples.length > 0) {
-      sampleEl.insertAfter(precedingSamples.eq(precedingSamples.length - 1));
-    }
-    else {
-      sampleEl.insertAfter(header);
-    }
-
     var codeContainer = q.create("<div class='samplecode'></div>").appendTo(sampleEl);
 
     var stringifyArraySnippet = function (snippet) {
@@ -787,16 +843,19 @@ q.ready(function() {
       codeContainer.append(jsEl);
     }
 
-    if (useHighlighter) {
-      htmlEl && hljs.highlightBlock(htmlEl);
-      cssEl && hljs.highlightBlock(cssEl);
-      jsEl && hljs.highlightBlock(jsEl);
-    }
-
     addMethodLinks(jsEl, header.getParents().getAttribute("id"));
 
     if (sample.executable && q.env.get("engine.name") != "mshtml" && q.env.get("device.type") == "desktop") {
       createFiddleButton(sample).appendTo(sampleEl);
+    }
+
+    // Add the created DOM elements at the end to minimize DOM access
+    var precedingSamples = header.getSiblings(".sample");
+    if (precedingSamples.length > 0) {
+      sampleEl.insertAfter(precedingSamples.eq(precedingSamples.length - 1));
+    }
+    else {
+      sampleEl.insertAfter(header);
     }
   };
 
