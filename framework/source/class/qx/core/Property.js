@@ -145,7 +145,7 @@ qx.Bootstrap.define("qx.core.Property",
   statics :
   {
     /**
-     * This is a method which does nothing than gethering dependencies for the
+     * This is a method which does nothing than gathering dependencies for the
      * module system. Calling this method is useless because it does nothing.
      */
     __gatherDependency : function() {
