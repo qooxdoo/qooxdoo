@@ -740,7 +740,6 @@ Check JavaScript source code with a lint-like utility. Takes a map.
     "ignore-catch-param"            : (true|false),
     "ignore-deprecated-symbols"     : (true|false),
     "ignore-environment-nonlit-key" : (true|false),
-    "ignore-finally-without-catch"  : (true|false),
     "ignore-multiple-mapkeys"       : (true|false),
     "ignore-multiple-vardecls"      : (true|false),
     "ignore-no-loop-block"          : (true|false),
@@ -773,9 +772,6 @@ Keys are:
 
 * **ignore-environment-nonlit-key** *(experimental)* :
     Ignore calls to *qx.core.Environment.(get|select)* with a non-literal key (Those calls cannot be optimized). *(default: false)*
-
-* **ignore-finally-without-catch** *(experimental)*  :
-    Ignore if *try* statement has a *finally* clause, but no *catch* clause, as the *finally* clause might not be run in some browsers (s. `bug#3688 <%{bug}3688>`__). *(default: false)*
 
 * **ignore-multiple-mapkeys** *(experimental)*       :
     Ignore using the same key in a map multiple times (Only the last occurrence will persist). *(default: false)*

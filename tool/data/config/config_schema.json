@@ -425,7 +425,6 @@
         "ignore-catch-param": { "type": "boolean" },
         "ignore-deprecated-symbols": { "type": "boolean" },
         "ignore-environment-nonlit-key": { "type": "boolean" },
-        "ignore-finally-without-catch": { "type": "boolean" },
         "ignore-multiple-mapkeys": { "type": "boolean" },
         "ignore-multiple-vardecls": { "type": "boolean" },
         "ignore-no-loop-block": { "type": "boolean" },

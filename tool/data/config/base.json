@@ -620,7 +620,6 @@
         ,"ignore-catch-param"               : false
         ,"ignore-deprecated-symbols"        : false
         ,"ignore-environment-nonlit-key"    : false
-        ,"ignore-finally-without-catch"     : false
         ,"ignore-multiple-mapkeys"          : false
         ,"ignore-multiple-vardecls"         : true
         ,"ignore-no-loop-block"             : false
