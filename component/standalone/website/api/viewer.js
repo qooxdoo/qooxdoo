@@ -641,7 +641,6 @@ q.ready(function() {
     requestAnimationFrame(delayedRenderContent, this);
 
     // wait for the tab pages to be measured
-    var buttonTops;
     var listOffset = q("#list").getPosition().top;
 
     acc.on("changeSelected", function(index) {
