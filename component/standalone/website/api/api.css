@@ -12,6 +12,27 @@ body {
   min-width: 0;
 }
 
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
 .loading {
   position: absolute;
   font-family: Verdana, Arial, sans-serif;
@@ -134,7 +155,8 @@ body {
 
 #list .qx-tabs-button:before,
 .module h1:before,
-#content .plugin h2:before {
+#content .plugin h2:before,
+#content .icon:before {
   font-family: "Batch";
   margin-right: 10px;
   content: attr(data-icon);
@@ -233,6 +255,11 @@ body {
   transition: opacity 1s;
 }
 
+#list .qx-tabs-page ul > li.method-deprecated {
+    color: red;
+    text-decoration: line-through;
+}
+
 #list .qx-tabs-page ul > li a {
   display: block;
 }
@@ -248,6 +275,11 @@ body {
   font-size: 14px;
   margin-top: 16px;
   line-height: 1;
+}
+
+#list h2.class-deprecated {
+    color: red;
+    text-decoration: line-through;
 }
 
 #content {
@@ -272,9 +304,28 @@ body {
   font-size: 28px;
 }
 
+#content h1.class-deprecated {
+    color: red;
+    text-decoration: line-through;
+}
+
 #content h2 {
   margin-top: 30px;
   margin-bottom: 0;
+}
+
+#content h2.method-deprecated {
+    color: red;
+    text-decoration: line-through;
+}
+
+#content .icon-container .icon {
+    float:left;
+    color: red;
+}
+
+#content .icon-container .message {
+    color: red;
 }
 
 #content .factory h2 {

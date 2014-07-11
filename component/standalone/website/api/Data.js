@@ -340,6 +340,14 @@ var Data = q.define({
             }
           }
 
+          // add deprecated status
+          var deprecatedStatus = Data.getByType(ast, "deprecated");
+          if (deprecatedStatus.children.length > 0) {
+            var deprecatedDescription = Data.getByType(deprecatedStatus, "desc");
+            var deprecatedMessage = deprecatedDescription.attributes.text;
+            this.__data[moduleName].deprecated = true;
+            this.__data[moduleName].deprecatedMessage = deprecatedMessage.length > 0 ? deprecatedMessage.length : 'Deprecated';
+          }
         } else {
           console && console.error("Couldn't load class doc for ", className);
         }
@@ -407,6 +415,7 @@ var Data = q.define({
           group : ast.attributes.group || "Extras",
           member : [],
           static : [],
+          deprecated: false
         };
       }
 
@@ -446,6 +455,14 @@ var Data = q.define({
             var descr = Data.getByType(constant, "desc");
             this.__data[moduleName][constName.replace("_", "")] = descr.attributes.text;
           }
+        }
+      }
+
+      var deprecatedStates = Data.getByType(ast, "deprecated");
+      for (var j = 0; j < deprecatedStates.children.length; j++) {
+        var deprecatedStatus = deprecatedStates.children[j];
+        if (deprecatedStatus.type === "desc") {
+          this.__data[moduleName].deprecated = deprecatedStatus.attributes;
         }
       }
     },
@@ -581,6 +598,7 @@ var Data = q.define({
      *   * types (optional) list of event type nodes (for event normalizations)
      *   * templates (optional) rendering templates documentation (for Widgets)
      *   * config (optional) config option documentation (for Widgets)
+     *   * deprecated (optional) Either module is deprecated or not
      */
     getModule : function(moduleName) {
       return this.__data[moduleName];

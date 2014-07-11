@@ -79,12 +79,22 @@
 
   <!-- TEMPLATES -->
   <script type="text/template" charset="utf-8" id="list-item">
-    <li class="{{classname}}{{#plugin}} plugin{{/plugin}}"><a href="#{{link}}" class="{{#missing}}warning{{/missing}}">{{name}}</a></li>
+    <li class="{{classname}}{{#plugin}} plugin{{/plugin}}{{#deprecated}} method-deprecated{{/deprecated}}"><a href="#{{link}}" class="{{#missing}}warning{{/missing}}">{{name}}</a></li>
   </script>
 
   <script type="text/template" charset="utf-8" id="method">
   <div id="{{name}}" class="method{{#plugin}} plugin{{/plugin}}">
-    <h2 class="method-header box" {{#plugin}}data-icon="{{{icon}}}" title="{{title}}"{{/plugin}}>{{name}} ({{{printParams}}}) <span class="returns">{{{returns.printTypes}}}</span></h2>
+    <h2 class="method-header box{{#deprecated}} method-deprecated{{/deprecated}}" {{#plugin}}data-icon="{{{icon}}}" title="{{title}}"{{/plugin}}>{{name}} ({{{printParams}}})
+      <span class="returns">{{{returns.printTypes}}}</span>
+    </h2>
+    {{#deprecated}}
+      <div class="icon-container clearfix">
+          <span class="icon" data-icon="&#xF056;"></span>
+          {{#deprecatedMessage}}
+          <span class="message">{{{deprecatedMessage}}}</span>
+          {{/deprecatedMessage}}
+      </div>
+    {{/deprecated}}
     <div>
     {{{desc}}}
     </div>

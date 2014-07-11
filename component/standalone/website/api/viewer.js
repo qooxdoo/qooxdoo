@@ -208,7 +208,8 @@ q.ready(function() {
         classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
         link: methodName,
-        plugin: methodAst.attributes.plugin
+        plugin: methodAst.attributes.plugin,
+        deprecated: data.deprecated
       }).appendTo(ul);
     });
 
@@ -219,14 +220,14 @@ q.ready(function() {
       if (methodIsFactory) {
         return;
       }
-
       var missing = isMethodMissing(methodName, data.classname);
       q.template.get("list-item", {
         name: methodName + "()",
         classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
         link: methodName,
-        plugin: methodAst.attributes.plugin
+        plugin: methodAst.attributes.plugin,
+        deprecated: data.deprecated
       }).appendTo(ul);
     });
 
@@ -246,7 +247,8 @@ q.ready(function() {
 
     if (name !== "Core") {
       var headerText = factoryName || name;
-      var header = q.create('<h2 class="nav-' + id + '">' + headerText + '</h2>');
+      var deprecatedClass = data.deprecated ? ' class-deprecated' : '';
+      var header = q.create('<h2 class="nav-' + id + deprecatedClass + '">' + headerText + '</h2>');
       groupPage.append(q.create('<a href="#' + id + '"></a>').append(header));
 			qxWeb.messaging.emit('apiviewer', 'moduleRendered', null, {id : id, data : data, header : header});
     }
@@ -358,8 +360,9 @@ q.ready(function() {
       groupEl = q.create('<div id="group_' + group + '"></div>').appendTo("#content");
     }
 
+    var deprecatedClass = data.deprecated ? 'class-deprecated' : '';
     var module = q.create("<div class='module'>").appendTo(groupEl);
-    module.append(q.create("<h1 " + groupIcon + "id='" + name + "'>" + name.replace(/_/g, " ") + "</h1>"));
+    module.append(q.create("<h1 " + groupIcon + "id='" + name + "' class='" + deprecatedClass + "'>" + name.replace(/_/g, " ") + "</h1>"));
 
     if (data.superClass) {
       var newName = data.superClass.split(".");
@@ -409,9 +412,13 @@ q.ready(function() {
     }
 
     data["static"].forEach(function(method) {
+      method.deprecated = data.deprecated;
+      method.deprecatedMessage = data.deprecatedMessage;
       module.append(renderMethod(method, data.prefix));
     });
     data["member"].forEach(function(method) {
+      method.deprecated = data.deprecated;
+      method.deprecatedMessage = data.deprecatedMessage;
       var methodDoc = renderMethod(method, data.prefix);
       if (Data.isFactory(method, name)) {
         methodDoc.addClass("factory");
@@ -498,6 +505,10 @@ q.ready(function() {
       data.icon = icons["Plugin_API"];
       data.title = "Plugin API";
     }
+
+    // add deprecated status
+    data.deprecated = method.deprecated;
+    data.deprecatedMessage = method.deprecatedMessage;
 
     return q.template.get("method", data);
   };
