@@ -335,7 +335,6 @@ Here are the configuration keys with their individual value syntax.
     "ignore-catch-param"            : (true|false),
     "ignore-deprecated-symbols"     : (true|false),
     "ignore-environment-nonlit-key" : (true|false),
-    "ignore-finally-without-catch"  : (true|false),
     "ignore-multiple-mapkeys"       : (true|false),
     "ignore-multiple-vardecls"      : (true|false),
     "ignore-no-loop-block"          : (true|false),

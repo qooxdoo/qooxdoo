@@ -110,12 +110,6 @@ class LintChecker(treeutil.NodeVisitor):
         for cld in node.children:
             self.visit(cld)
 
-    def visit_finally(self, node):
-        if not self.opts.ignore_finally_without_catch:
-            self.finally_without_catch(node)
-        # recurse
-        for cld in node.children:
-            self.visit(cld)
 
     # - ---------------------------------------------------------------------------
 
@@ -506,16 +500,6 @@ class LintChecker(treeutil.NodeVisitor):
                     catch_param.get("value"), self.file_name, catch_param)
                 self.issues.append(issue)
 
-    ##
-    # Check for try-finally without 'catch' block (issue in older IE, s. bug#3688)
-    #
-    def finally_without_catch(self, finally_node):
-        try_node = finally_node.parent
-        if not try_node.getChild("catch", 0):
-            issue = warn("A finally clause without a catch might not be run (bug#3688)",
-                self.file_name, finally_node)
-            self.issues.append(issue)
-
 
 # - ---------------------------------------------------------------------------
 
@@ -561,7 +545,6 @@ def defaultOptions():
     opts.ignore_catch_param = False
     opts.ignore_deprecated_symbols = False
     opts.ignore_environment_nonlit_key = False
-    opts.ignore_finally_without_catch = False
     opts.ignore_multiple_mapkeys = False
     opts.ignore_multiple_vardecls= True
     opts.ignore_no_loop_block = False
