@@ -1277,43 +1277,46 @@ qx.Bootstrap.define("qx.core.Environment",
      * Initializer for the default values of the framework settings.
      */
     _initDefaultQxValues : function() {
-      // an always-true key (e.g. for use in qx.core.Environment.filter() calls)
-      this.add("true", function() {return true;});
+      var retFalse = function() {return false;};
+      var retTrue = function() {return true;};
 
-      // old settings
-      this.add("qx.allowUrlSettings", function() {return false;});
-      this.add("qx.allowUrlVariants", function() {return false;});
+      // an always-true key (e.g. for use in qx.core.Environment.filter() calls)
+      this.add("true", retTrue);
+
+      // old settingsretTrue
+      this.add("qx.allowUrlSettings", retFalse);
+      this.add("qx.allowUrlVariants", retFalse);
       this.add("qx.debug.property.level", function() {return 0;});
 
       // old variants
       // make sure to reflect all changes to qx.debug here in the bootstrap class!
-      this.add("qx.debug", function() {return true;});
-      this.add("qx.debug.ui.queue", function() {return true;});
-      this.add("qx.aspects", function() {return false;});
-      this.add("qx.dynlocale", function() {return true;});
-      this.add("qx.dyntheme", function() {return true;});
-      this.add("qx.mobile.emulatetouch", function() {return false;}); // @deprecated {4.0}
-      this.add("qx.emulatemouse", function() {return false;}); // @deprecated {4.0}
+      this.add("qx.mobile.emulatetouch", retFalse); // @deprecated {4.0}
+      this.add("qx.emulatemouse", retFalse); // @deprecated {4.0}
+      this.add("qx.debug", retTrue);
+      this.add("qx.debug.ui.queue", retTrue);
+      this.add("qx.aspects", retFalse);
+      this.add("qx.dynlocale", retTrue);
+      this.add("qx.dyntheme", retTrue);
       this.add("qx.blankpage", function() { return "qx/static/blank.html";});
 
-      this.add("qx.debug.databinding", function() {return false;});
-      this.add("qx.debug.dispose", function() {return false;});
+      this.add("qx.debug.databinding", retFalse);
+      this.add("qx.debug.dispose", retFalse);
 
       // generator optimization vectors
-      this.add("qx.optimization.basecalls", function() {return false;});
-      this.add("qx.optimization.comments", function() {return false;});
-      this.add("qx.optimization.privates", function() {return false;});
-      this.add("qx.optimization.strings", function() {return false;});
-      this.add("qx.optimization.variables", function() {return false;});
-      this.add("qx.optimization.variants", function() {return false;});
+      this.add("qx.optimization.basecalls", retFalse);
+      this.add("qx.optimization.comments", retFalse);
+      this.add("qx.optimization.privates", retFalse);
+      this.add("qx.optimization.strings", retFalse);
+      this.add("qx.optimization.variables", retFalse);
+      this.add("qx.optimization.variants", retFalse);
 
       // qooxdoo modules
-      this.add("module.databinding", function() {return true;});
-      this.add("module.logger", function() {return true;});
-      this.add("module.property", function() {return true;});
-      this.add("module.events", function() {return true;});
+      this.add("module.databinding", retTrue);
+      this.add("module.logger", retTrue);
+      this.add("module.property", retTrue);
+      this.add("module.events", retTrue);
 
-      this.add("qx.nativeScrollBars", function() {return false;});
+      this.add("qx.nativeScrollBars", retFalse);
     },
 
 
