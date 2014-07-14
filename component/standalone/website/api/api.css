@@ -320,12 +320,17 @@ html[xmlns] .clearfix {
 }
 
 #content .icon-container .icon {
-    float:left;
+    float: left;
     color: red;
 }
 
 #content .icon-container .message {
     color: red;
+    float: left;
+}
+
+#content .icon-container .message p {
+    margin: 1px 0 0 -3px;
 }
 
 #content .factory h2 {

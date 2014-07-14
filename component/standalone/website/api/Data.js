@@ -346,7 +346,7 @@ var Data = q.define({
             var deprecatedDescription = Data.getByType(deprecatedStatus, "desc");
             var deprecatedMessage = deprecatedDescription.attributes.text;
             this.__data[moduleName].deprecated = true;
-            this.__data[moduleName].deprecatedMessage = deprecatedMessage.length > 0 ? deprecatedMessage.length : 'Deprecated';
+            this.__data[moduleName].deprecatedMessage = deprecatedMessage.length > 0 ? deprecatedMessage : 'Deprecated';
           }
         } else {
           console && console.error("Couldn't load class doc for ", className);

@@ -193,7 +193,6 @@ q.ready(function() {
   var renderListModule = function(id, data) {
     var name = id.replace(/_/g, " ");
     var checkMissing = q.$$qx.core.Environment.get("apiviewer.check.missingmethods");
-    var className = convertNameToCssClass(id, "nav-");
 
     var factoryName;
     var ul = q.create("<ul></ul>");
@@ -203,13 +202,22 @@ q.ready(function() {
       if (checkMissing !== false) {
         missing = isMethodMissing(methodName, data.classname);
       }
+
+      var deprecated = data.deprecated;
+      if (deprecated !== true) {
+        var deprecatedStatus = Data.getByType(methodAst, "deprecated");
+        if (deprecatedStatus.children.length > 0) {
+          deprecated = true;
+        }
+      }
+
       q.template.get("list-item", {
         name: methodName + "()",
         classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
         link: methodName,
         plugin: methodAst.attributes.plugin,
-        deprecated: data.deprecated
+        deprecated: deprecated
       }).appendTo(ul);
     });
 
@@ -221,13 +229,22 @@ q.ready(function() {
         return;
       }
       var missing = isMethodMissing(methodName, data.classname);
+
+      var deprecated = data.deprecated;
+      if (deprecated !== true) {
+        var deprecatedStatus = Data.getByType(methodAst, "deprecated");
+        if (deprecatedStatus.children.length > 0) {
+          deprecated = true;
+        }
+      }
+
       q.template.get("list-item", {
         name: methodName + "()",
         classname: convertNameToCssClass(methodName, "nav-"),
         missing: missing,
         link: methodName,
         plugin: methodAst.attributes.plugin,
-        deprecated: data.deprecated
+        deprecated: deprecated
       }).appendTo(ul);
     });
 
@@ -509,6 +526,16 @@ q.ready(function() {
     // add deprecated status
     data.deprecated = method.deprecated;
     data.deprecatedMessage = method.deprecatedMessage;
+
+    if (data.deprecated !== true) {
+      var deprecatedStatus = Data.getByType(method, "deprecated");
+      if (deprecatedStatus.children.length > 0) {
+        var deprecatedDescription = Data.getByType(deprecatedStatus, "desc");
+        var deprecatedMessage = deprecatedDescription.attributes.text;
+        data.deprecated = true;
+        data.deprecatedMessage = deprecatedMessage.length > 0 ? deprecatedMessage : '<p>Deprecated</p>';
+      }
+    }
 
     return q.template.get("method", data);
   };
