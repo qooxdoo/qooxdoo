@@ -403,16 +403,22 @@ qx.Class.define("qx.data.Array",
       this.__updateEventPropagation(startIndex + (arguments.length - 2) - amount, this.length);
 
       // fire the changeBubble event
-      var value = [];
-      for (var i=2; i < arguments.length; i++) {
-        value[i-2] = arguments[i];
-      };
-      var endIndex = (startIndex + Math.max(arguments.length - 3 , amount - 1));
-      var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
-      this.fireDataEvent("changeBubble", {
-        value: value, name: name + "", old: returnArray, item: this
-      });
+      if (removed || added) {
+        var value = [];
+        for (var i = 2; i < arguments.length; i++) {
+          value[i-2] = arguments[i];
+        }
+        var endIndex = (startIndex + Math.max(arguments.length - 3 , amount - 1));
+        var name = startIndex == endIndex ? endIndex : startIndex + "-" + endIndex;
 
+        var eventData = {
+          value: value,
+          name: name + "",
+          old: returnArray,
+          item: this
+        };
+        this.fireDataEvent("changeBubble", eventData);
+      }
       return (new qx.data.Array(returnArray));
     },
 

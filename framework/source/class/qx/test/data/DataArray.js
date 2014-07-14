@@ -570,13 +570,81 @@ qx.Class.define("qx.test.data.DataArray",
       a.dispose();
     },
 
+    testSpliceBubbleEvent: function() {
+      // test for the event (remove)
+      var a = new qx.data.Array("a", "b", "c", "d", "e");
+      var self = this;
+      this.assertEventFired(a, "changeBubble", function () {
+        a.splice(1, 2).dispose();
+      }, function(e) {
+        var data = e.getData();
+        self.assertEquals(0, data.value.length, "Wrong amount of item(s) added in the bubble event (remove).");
+        self.assertEquals(2, data.old.length, "Wrong amount of item(s) removed in the bubble event (remove).");
+        self.assertEquals("1-2", data.name, "Wrong name in the bubble event (remove).");
+      }, "changeBubble event not fired!");
+      a.dispose();
+
+      // test for the event (add)
+      a = new qx.data.Array("a", "b", "c");
+      this.assertEventFired(a, "changeBubble", function () {
+        a.splice(0, 0, "x").dispose();
+      }, function(e) {
+        var data = e.getData();
+        self.assertEquals(1, data.value.length, "Wrong amount of item(s) added in the bubble event (add).");
+        self.assertEquals(0, data.old.length, "Wrong amount of item(s) removed in the bubble event (add).");
+        self.assertEquals("0", data.name, "Wrong name in the bubble event (add).");
+      }, "changeBubble event not fired!");
+      a.dispose();
+
+      // test for the event (add/remove)
+      a = new qx.data.Array("a", "b", "c");
+      this.assertEventFired(a, "changeBubble", function () {
+        a.splice(0, 1, "x").dispose();
+      }, function(e) {
+        var data = e.getData();
+        self.assertEquals(1, data.value.length, "Wrong amount of item(s) added in the bubble event (add/remove).");
+        self.assertEquals(1, data.old.length, "Wrong amount of item(s) removed in the bubble event (add/remove).");
+        self.assertEquals("0", data.name, "Wrong name in the bubble event (add/remove).");
+      }, "changeBubble event not fired!");
+      a.dispose();
+    },
+
+
+    testSpliceEventNoChange: function() {
+      var a = new qx.data.Array(1, 2, 3);
+      this.assertEventNotFired(a, "change", function () {
+        a.splice(0, 0).dispose();
+      }, "Change event fired!");
+
+      a.dispose();
+    },
+
 
     testSpliceEventEqualContent: function() {
       var a = new qx.data.Array(1, 2, 3);
-      var self = this;
       this.assertEventNotFired(a, "change", function () {
         a.splice(0, 2, 1, 2).dispose();
       }, "Change event fired!");
+
+      a.dispose();
+    },
+
+
+    testSpliceBubbleEventNoChange: function() {
+      var a = new qx.data.Array(1, 2, 3);
+      this.assertEventNotFired(a, "changeBubble", function () {
+        a.splice(0, 0).dispose();
+      }, "Change bubble event fired!");
+
+      a.dispose();
+    },
+
+
+    testSpliceBubbleEventEqualContent: function() {
+      var a = new qx.data.Array(1, 2, 3);
+      this.assertEventNotFired(a, "changeBubble", function () {
+        a.splice(0, 2, 1, 2).dispose();
+      }, "Change bubble event fired!");
 
       a.dispose();
     },
