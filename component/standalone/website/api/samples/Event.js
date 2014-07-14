@@ -73,6 +73,34 @@ winCollection.on("resize", q.func.debounce(resizeHandler, 500), winCollection);
   executable: true
 });
 
+
+addSample(".emit", {
+  html: [ '<div id="target"></div>' ],
+  javascript: function() {
+var target = q('#target');
+// normally the listener and emitteer code won't be placed together
+// just for demo cases packaged here together
+
+// listener code
+// there can be as many as callbacks registered as you like
+// can be used for a 1:n communication
+target.on('customEvent', function(data) {
+  // 'data' is the payload of the event
+  // in our case we can do the following:
+  data.sampleMethod();
+  var index = data.index;
+});
+
+// emitter code
+// you can define whatever you like to as payload / data
+target.emit('customEvent', {
+  index: 3,
+  sampleMethod: function() { alert('sampleMethod called!'); }
+});
+},
+executable: true
+});
+
 addSample(".hover", {
     html: ['<div id="hover">Hover element</div>'],
     javascript: function() {
