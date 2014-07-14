@@ -357,7 +357,7 @@ qx.Class.define("qx.data.Array",
           if (addedItems[i] !== returnArray[i]) {
             break;
           }
-          // if all added and removed items are queal
+          // if all added and removed items are equal
           if (i == addedItems.length -1) {
             // prevent all events and return a new array
             return new qx.data.Array();
