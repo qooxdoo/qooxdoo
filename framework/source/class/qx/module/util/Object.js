@@ -77,6 +77,7 @@ qx.Bootstrap.define("qx.module.util.Object", {
 
     /**
      * Merges one or more objects into the 'target' object.
+     * *The objects are merged by overwriting existing keys.*
      *
      * @attachStatic {qxWeb, object.merge}
      *
