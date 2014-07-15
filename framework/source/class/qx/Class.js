@@ -1557,16 +1557,6 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Returns an empty function. This is needed to get an empty function with an empty closure.
-     *
-     * @return {Function} empty function
-     */
-    __createEmptyFunction : function() {
-      return function() {};
-    },
-
-
-    /**
      * Checks if the constructor needs to be wrapped.
      *
      * @param base {Class} The base class.
