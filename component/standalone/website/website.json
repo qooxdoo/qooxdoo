@@ -53,7 +53,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : [ "common", "testrunner-portable::build-script", "distclean", "clean" ],
+    "job-shadowing" : [ "common", "testrunner-portable::build-script", "distclean", "clean", "build" ],
 
     "environment" : [ "non-literal-keys" ]
   },
@@ -81,6 +81,12 @@
           "force-fresh-deps" : true,
           "format" : "dot"
         }
+      }
+    },
+
+    "build" : {
+      "let" : {
+        "QXDEBUG" : true
       }
     },
 
