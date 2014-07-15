@@ -210,7 +210,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     {
       // remove all children from the radio group
       var radioItems = this.__radioGroup.getItems();
-      for (var i = 0; i < radioItems.length; i++) {
+      for (var i = radioItems.length - 1; i >= 0; i--) {
         this.__radioGroup.remove(radioItems[i]);
       }
 
