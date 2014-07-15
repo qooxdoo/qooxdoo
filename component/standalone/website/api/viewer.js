@@ -883,7 +883,8 @@ q.ready(function() {
     addMethodLinks(jsEl, header.getParents().getAttribute("id"));
 
     if (sample.executable && q.env.get("engine.name") != "mshtml" && q.env.get("device.type") == "desktop") {
-      createFiddleButton(sample).appendTo(sampleEl);
+      //createFiddleButton(sample).appendTo(sampleEl);
+      createCodepenButton(sample).appendTo(sampleEl);
     }
 
     // Add the created DOM elements at the end to minimize DOM access
@@ -927,6 +928,34 @@ q.ready(function() {
   var qScript = '<script type="text/javascript" src="' + qUrl + '"></script>';
   var indigoLink = '<link rel="stylesheet" type="text/css" href="' + indigoUrl + '"/>';
 
+  var createCodepenButton = function (sample) {
+    var data = {
+      js_external: qUrl,
+      css_external: indigoUrl
+    };
+
+    if (sample.javascript) {
+      data.js = sample.javascript;
+    }
+
+    if (sample.css) {
+      data.css = sample.css;
+    }
+
+    if (sample.html) {
+      data.html = sample.html;
+    }
+
+    var hiddenField = q.create('<input type="hidden" name="data" value="" />');
+    hiddenField.setValue(JSON.stringify(data));
+
+    var form = q.create('<form action="http://codepen.io/pen/define" method="POST" target="_blank">' +
+        '<input class="button-codepen" type="submit" value="Edit/run on codepen">' +
+        '</form>'
+    );
+
+    return form.append(hiddenField);
+  };
   var createFiddleButton = function(sample) {
     return q.create("<button class='fiddlebutton'>Edit/run on jsFiddle</button>").on("tap", function() {
       var iframeBody = q(q("#fiddleframe")[0].contentWindow.document.body);
