@@ -956,29 +956,6 @@ q.ready(function() {
 
     return form.append(hiddenField);
   };
-  var createFiddleButton = function(sample) {
-    return q.create("<button class='fiddlebutton'>Edit/run on jsFiddle</button>").on("tap", function() {
-      var iframeBody = q(q("#fiddleframe")[0].contentWindow.document.body);
-
-      if (sample.javascript) {
-        iframeBody.find("#js").setAttribute("value", sample.javascript);
-      }
-
-      if (sample.css) {
-        iframeBody.find("#css").setAttribute("value", sample.css);
-      }
-
-      if (sample.html) {
-        iframeBody.find("#html").setAttribute("value", sample.html);
-        iframeBody.find("#html").setAttribute("value", qScript + '\n' + indigoLink + '\n' + sample.html);
-      }
-      else {
-        iframeBody.find("#html").setAttribute("value", qScript);
-      }
-
-      iframeBody.find("form")[0].submit();
-    });
-  };
 
   var scrollContentIntoView = q.func.debounce(function() {
     var el = q(location.hash.replace(".", "\\.").replace("$", "\\$"));

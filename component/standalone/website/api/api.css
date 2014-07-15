@@ -495,17 +495,6 @@ p {
   visibility: hidden;
 }
 
-.fiddlebutton {
-  padding: 3px 8px 3px 28px;
-  border: none;
-  font-weight: bold;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
-  color: #000;
-  background: transparent url('jsfiddle-logo_small.png') no-repeat left top;
-}
-
 .button-codepen {
     padding: 3px 8px 3px 28px;
     border: none;
