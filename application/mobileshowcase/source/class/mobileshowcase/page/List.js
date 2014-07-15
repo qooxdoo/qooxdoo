@@ -36,13 +36,24 @@ qx.Class.define("mobileshowcase.page.List",
   members :
   {
     _model : null,
-
+    _waypointsY: ["0%", "25%", "50%", "75%", "100%", 200],
+           
     // overridden
     /**
      * @lint ignoreDeprecated(alert)
      */
     _initialize: function() {
       this.base(arguments);
+
+      qx.bom.element.Style.set(this.getContent().getContentElement(), "position", "relative");
+
+      this.__waypointInfoLabel = new qx.ui.mobile.container.Composite();
+      this.__waypointInfoLabel.addCssClass("waypoint-info");
+      this.add(this.__waypointInfoLabel);
+
+      var scrollContainer = this._getScrollContainer();
+      scrollContainer.setWaypointsY(this._waypointsY);
+      scrollContainer.addListener("waypoint", this._onWaypoint, this);
 
       this._model = this._createModel();
 
@@ -89,6 +100,35 @@ qx.Class.define("mobileshowcase.page.List",
       }, this);
 
       this.getContent().add(list);
+    },
+
+
+    _onWaypoint : function(evt) {
+      var targetElement = this.__waypointInfoLabel.getContentElement();
+      var index = evt.getData().index;
+      var direction = evt.getData().direction;
+
+      qx.bom.element.Animation.animate(targetElement, {
+        "duration": 1000,
+        "keep": 100,
+        "keyFrames": {
+          0: {
+            "opacity": 0
+          },
+          10: {
+            "opacity": 1
+          },
+          80: {
+            "opacity": 1
+          },
+          100: {
+            "opacity": 0
+          }
+        }
+      });
+ 
+      qx.bom.element.Attribute.set(targetElement, "data-waypoint-label", this._waypointsY[index]+ " ["+direction+"]");
+      qx.bom.element.Attribute.set(targetElement, "data-waypoint", index);
     },
 
 

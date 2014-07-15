@@ -45,8 +45,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   {
     this.__initScroll();
     this.__registerEventListeners();
-
-    this.__currentX = this.__currentY = 0;
   },
 
 
@@ -59,8 +57,6 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
   members :
   {
     __scroll : null,
-    __currentX : null,
-    __currentY : null,
 
     /**
      * Mixin method. Creates the scroll element.
@@ -92,7 +88,31 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     * @return {Array} an array with the <code>[scrollLeft,scrollTop]</code>.
     */
     _getPosition : function() {
-      return [this.__currentX, this.__currentY];
+      return [this._currentX, this._currentY];
+    },
+
+
+    /**
+    * Returns the scrolling height of the inner container.
+    * @return {Number} the scrolling height.
+    */
+    _getScrollHeight : function() {
+      if(!this.getContainerElement()) {
+        return 0;
+      }
+      return this._getScrollContentElement().scrollHeight - this.getContainerElement().offsetHeight;
+    },
+
+
+    /**
+    * Returns the scrolling width of the inner container.
+    * @return {Number} the scrolling width.
+    */
+    _getScrollWidth : function() {
+      if(!this.getContainerElement()) {
+        return 0;
+      }
+      return this._getScrollContentElement().scrollWidth - this.getContainerElement().offsetWidth;
     },
 
 
@@ -193,8 +213,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           // Alert interested parties that we scrolled to end of page.
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
-            container.__currentX = -this.x;
-            container.__currentY = -this.y;
+            container._setCurrentX(-this.x);
+            container._setCurrentY(-this.y);
             if(this.y == this.maxScrollY) {
               container.fireEvent("pageEnd");
             }

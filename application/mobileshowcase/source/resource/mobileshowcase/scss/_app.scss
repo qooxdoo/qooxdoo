@@ -293,3 +293,32 @@
   font-family: Courier;
   font-weight:bold;
 }
+
+
+/* WAYPOINTS */
+$waypoint-width: 300px;
+
+.waypoint-info {
+  @include transform(translate3d(0,0,0));
+  @include transition(all 2s);
+ 
+  z-index:5;
+
+  box-sizing: border-box;
+  border-bottom: rem(2) solid #E44d26;
+  background-color: #E44d26;
+  position: absolute;
+  padding: rem(5);
+  font-size: rem(14);
+  color: white;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  opacity: 0;
+}
+
+.waypoint-info:before {
+  content: 'Fired Waypoint: 'attr(data-waypoint-label);
+  display: block;
+  text-align: center;
+}

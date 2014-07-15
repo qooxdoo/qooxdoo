@@ -38,6 +38,8 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     this.addListener("trackstart", this._onTrackStart, this);
     this.addListener("trackend", this._onTrackEnd, this);
 
+    qx.bom.Event.addNativeListener(this._getContentElement(), "scroll", this._onScroll.bind(this));
+
     if (qx.core.Environment.get("os.name") == "ios") {
       this.addListener("touchmove", this._onTouchMove, this);
     }
@@ -117,6 +119,9 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     * Event handler for <code>scroll</code> events.
     */
     _onScroll : function() {
+      this._setCurrentX(this.getContentElement().scrollLeft);
+      this._setCurrentY(this.getContentElement().scrollTop);
+
       if(this._snapTimerId) {
         clearTimeout(this._snapTimerId);
       }
@@ -137,9 +142,6 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
       if (this._scrollProperties) {
         var snap = this._scrollProperties.snap;
         if (snap) {
-          qx.bom.Event.removeNativeListener(this._getContentElement(), "scroll", this._onScroll.bind(this));
-          qx.bom.Event.addNativeListener(this._getContentElement(), "scroll", this._onScroll.bind(this));
-
           this._snapPoints = [];
           var snapTargets = this.getContentElement().querySelectorAll(snap);
           for (var i = 0; i < snapTargets.length; i++) {
@@ -227,6 +229,32 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      */
     _getScrollContentElement: function() {
       return null;
+    },
+
+
+    /**
+    * Returns the scrolling height of the inner container.
+    * @return {Number} the scrolling height.
+    */
+    _getScrollHeight : function() {
+      if(!this.getContentElement()) {
+        return 0;
+      }
+      
+      return this.getContentElement().scrollHeight - this.getContentElement().offsetHeight;
+    },
+
+
+    /**
+    * Returns the scrolling width of the inner container.
+    * @return {Number} the scrolling width.
+    */
+    _getScrollWidth : function() {
+      if(!this.getContentElement()) {
+        return 0;
+      }
+      
+      return this.getContentElement().scrollWidth - this.getContentElement().offsetWidth;
     },
 
 

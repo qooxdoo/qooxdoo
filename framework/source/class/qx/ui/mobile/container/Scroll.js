@@ -55,13 +55,30 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     if(scrollProperties) {
       this._scrollProperties = scrollProperties;
     }
+
+    this.addListener("appear", this._updateWaypoints, this);
+    this.addListener("domupdated", this._updateWaypoints, this);
+
+    this._waypointsX = [];
+    this._waypointsY = [];
+
+    this._currentX = 0;
+    this._currentY = 0;
   },
 
 
   events :
   {
     /** Fired when the user scrolls to the end of scroll area. */
-    pageEnd : "qx.event.type.Event"
+    pageEnd : "qx.event.type.Event",
+
+
+    /** Fired when a vertical or horizontal waypoint is triggered. Data: 
+    * <code> {"offset": 0,
+    *        "input": "10%",
+    *        "index": 0}</code>
+    */
+    waypoint : "qx.event.type.Data"
   },
 
 
@@ -101,6 +118,182 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
   members: {
     _scrollProperties: null,
+    _activeWaypointIndex : null,
+    _waypointsX: null,
+    _waypointsY: null,
+    _currentX : null,
+    _currentY : null,
+
+
+    /**
+    * Sets the current x position.
+    * @param value {Number} the current horizontal position. 
+    */
+    _setCurrentX : function(value) {
+      var old = this._currentX;
+      this._currentX = value;
+      this._fireWaypoint(value, old, "x");
+    },
+
+
+    /**
+    * Sets the current y position.
+    * @param value {Number} the current vertical position.  
+    */
+    _setCurrentY : function(value) {
+      var old = this._currentY;
+      this._currentY = value;
+      this._fireWaypoint(value, old,  "y");
+    },
+
+
+   /**
+    * Sets the horizontal trigger points, where a <code>waypoint</code> event will be fired.
+    * @param waypoints {Array} description 
+    */
+    setWaypointsX : function(waypoints) {
+      this._waypointsX = this._parseWaypoints(waypoints, "x");
+    },
+
+
+    /**
+     * Sets the vertical trigger points, where a <code>waypoint</code> event will be fired.
+     * @param waypoints {Array} an array with waypoint descriptions. Allowed are percentage description as string, or pixel trigger points defined as numbers. <code>["20%",200]</code>
+     */
+    setWaypointsY : function(waypoints) {
+      this._waypointsY = this._parseWaypoints(waypoints, "y");
+    },
+
+
+    /**
+     * Returns the scroll height.
+     * @return {Number} the scroll height.
+     */
+    getScrollHeight: function() {
+      return this._getScrollHeight();
+    },
+
+
+    /**
+     * Returns the scroll width.
+     * @return {Number} the scroll width.
+     */
+    getScrollWidth: function() {
+      return this._getScrollWidth();
+    },
+    
+
+    /**
+     * Re-calculates the internal waypoint offsets.
+     */
+    _updateWaypoints: function() {
+      this._calcWaypoints(this._waypointsX, this.getScrollWidth());
+      this._calcWaypoints(this._waypointsY, this.getScrollHeight());
+    },
+
+
+    /**
+     * Validates and checks the waypoint offsets.
+     * @param waypoints {Array} an array with waypoint descriptions.
+     * @param scrollSize {Number} the vertical or horizontal scroll size.
+     */
+    _calcWaypoints: function(waypoints, scrollSize) {
+      console.log(scrollSize);
+      for (var i = 0; i < waypoints.length; i++) {
+        var waypoint = waypoints[i];
+        var offset = null;
+
+        if (qx.lang.Type.isString(waypoint.input) && qx.lang.String.endsWith(waypoint.input, "%")) {
+          offset = parseInt(waypoint.input, 10) * (scrollSize / 100);
+        } else if (qx.lang.Type.isNumber(waypoint.input)) {
+          offset = waypoint.input;
+        }
+
+        waypoint["offset"] = offset;
+      }
+
+      waypoints.sort(function(a, b) {
+        return a.offset - b.offset;
+      });
+    },
+
+
+    /**
+     * Parse the plain waypoint array into waypoint objects.
+     * @param waypoints {Array} an array with waypoints description. String with description: "20%" or a number.
+     * @param axis {String} "x" or "y".
+     * @return {Array} an array with waypoint objects.
+     */
+    _parseWaypoints: function(waypoints, axis) {
+      var parsedWaypoints = [];
+
+      for (var i = 0; i < waypoints.length; i++) {
+        var waypoint = waypoints[i];
+
+        if (waypoint !== null) {
+          parsedWaypoints.push({
+            "offset": null,
+            "input": waypoint,
+            "index": i
+          });
+        }
+      }
+      return parsedWaypoints;
+    },
+
+
+    /**
+     * Fires a waypoints, when scroll position
+     * @param value {Number} old scroll position.
+     * @param old {Number} old scroll position.
+     * @param axis {String} "x" or "y".
+     */
+    _fireWaypoint: function(value, old, axis) {
+      var waypoints = null;
+      if (axis === "x") {
+        waypoints = this._waypointsX;
+      } else if (axis === "y") {
+        waypoints = this._waypointsY;
+      } else {
+        return;
+      }
+
+      var targetWaypoint = null;
+      for (var i = 0; i < waypoints.length; i++) {
+        var waypoint = waypoints[i];
+        if (waypoint.offset != null && value >= waypoint.offset) {
+          targetWaypoint = waypoint;
+        }
+      }
+      if (targetWaypoint === null) {
+        return;
+      }
+
+      var direction = null;
+      if (old <= value) {
+        if (axis == "x") {
+          direction = "left";
+        } else {
+          direction = "down";
+        }
+      } else {
+        if (axis == "x") {
+          direction = "right";
+        } else {
+          direction = "up";
+        }
+      }
+
+      if (this._activeWaypointIndex !== targetWaypoint.index) {
+        this._activeWaypointIndex = targetWaypoint.index;
+
+        this.fireDataEvent("waypoint", {
+          "axis": axis,
+          "index": targetWaypoint.index,
+          "direction": direction
+        });
+      }
+    },
 
 
     // overridden
@@ -296,5 +489,13 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     } else {
       qx.Class.include(statics, qx.ui.mobile.container.MNativeScroll);
     }
+  },
+
+
+  destruct : function() {
+    this.removeListener("appear", this._updateWaypoints, this);
+    this.removeListener("domupdated", this._updateWaypoints, this);
+
+    this._waypointsX = this._waypointsY = null;
   }
 });
