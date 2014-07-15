@@ -76,7 +76,8 @@ winCollection.on("resize", q.func.debounce(resizeHandler, 500), winCollection);
 
 addSample(".emit", {
   html: [ '<div id="target"></div>' ],
-  javascript: function() {
+  javascript: function() {/* BE AWARE OF OVERUSING THIS PATTERN. IT CAN RESULT IN BAD / UNMAINTAINABLE CODE */
+
 var target = q('#target');
 // normally the listener and emitteer code won't be placed together
 // just for demo cases packaged here together
