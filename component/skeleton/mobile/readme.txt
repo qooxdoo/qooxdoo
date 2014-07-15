@@ -9,4 +9,4 @@ for further information.
 
 short:: is a qooxdoo mobile application with full OO support and mobile GUI classes
 copy_file:: tool/data/generator/needs_generation.js source/script/custom.js
-copy_file:: framework/source/resource/qx/mobile/scss/theme/indigo/_styles.scss source/resource/custom/scss/_styles.scss
+copy_file:: framework/source/resource/qx/mobile/scss/theme/indigo/_styles.scss source/theme/custom/scss/_styles.scss

@@ -173,6 +173,11 @@ def rename_folders(root_dir, namespace):
     out_dir    = os.path.join(root_dir, "source", "class")
     expand_dir(source_dir, out_dir, namespace)
 
+    # rename in theme path
+    source_dir = os.path.join(root_dir, "source", "theme", "custom")
+    out_dir    = os.path.join(root_dir, "source", "theme")
+    expand_dir(source_dir, out_dir, namespace)
+
     # rename in resource path
     resource_dir = os.path.join(root_dir, "source", "resource", "custom")
     out_dir      = os.path.join(root_dir, "source", "resource")
