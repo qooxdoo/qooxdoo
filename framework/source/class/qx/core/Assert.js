@@ -26,8 +26,9 @@
  * Assertions are used in unit tests as well.
  *
  * @require(qx.lang.Type)
+ * @ignore(qx.Class.*)
  */
-qx.Class.define("qx.core.Assert",
+qx.Bootstrap.define("qx.core.Assert",
 {
   statics :
   {
@@ -66,7 +67,7 @@ qx.Class.define("qx.core.Assert",
       }
       var errorMsg = "Assertion error! " + fullComment;
 
-      if (qx.Class.isDefined("qx.core.AssertionError"))
+      if (qx.Class && qx.Class.isDefined("qx.core.AssertionError"))
       {
         var err = new qx.core.AssertionError(comment, msg);
         if (this.__logError) {
@@ -752,7 +753,7 @@ qx.Class.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertInterface : function(value, iface, msg) {
-      qx.Class.implementsInterface(value, iface) || this.__fail(
+      qx.Class && qx.Class.implementsInterface(value, iface) || this.__fail(
         msg || "",
         "Expected object '", value, "' to implement the interface '", iface, "'!"
       );
@@ -770,7 +771,7 @@ qx.Class.define("qx.core.Assert",
      */
     assertCssColor : function(expected, value, msg)
     {
-      var ColorUtil = qx.Class.getByName("qx.util.ColorUtil");
+      var ColorUtil = qx.Class ? qx.Class.getByName("qx.util.ColorUtil") : null;
       if (!ColorUtil) {
         throw new Error("qx.util.ColorUtil not available! Your code must have a dependency on 'qx.util.ColorUtil'");
       }

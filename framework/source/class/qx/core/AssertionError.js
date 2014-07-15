@@ -21,7 +21,7 @@
  * Assertion errors are thrown if an assertion in {@link qx.core.Assert}
  * fails.
  */
-qx.Class.define("qx.core.AssertionError",
+qx.Bootstrap.define("qx.core.AssertionError",
 {
   extend : qx.type.BaseError,
 

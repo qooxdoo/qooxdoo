@@ -117,6 +117,7 @@
  * "&lt;action&gt;Error", e.g. "indexSuccess".
  *
  * @group (IO)
+ * @ignore(qx.core.Object.*)
  */
 qx.Bootstrap.define("qx.bom.rest.Resource",
 {
@@ -1024,7 +1025,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
               var ie6 = navigator.userAgent.indexOf("MSIE 6.0") != -1;
               // keep the old behavior for IE6 and FF2
               if (ff2 || ie6) {
-                if (value instanceof qx.core.Object || qx.core.Environment.get("qx.debug.dispose.level") > 1) {
+                if (qx.core.Object && value instanceof qx.core.Object || qx.core.Environment.get("qx.debug.dispose.level") > 1) {
                   qx.Bootstrap.warn(this, "Missing destruct definition for '" + key + "' in " + this.classname + "[" + this.toHashCode() + "]: " + value);
                   delete this[key];
                 }
