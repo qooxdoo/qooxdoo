@@ -490,11 +490,6 @@ p {
   display: none;
 }
 
-#fiddleframe,
-#playpen {
-  visibility: hidden;
-}
-
 .button-codepen {
     padding: 3px 8px 3px 28px;
     border: none;
