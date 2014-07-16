@@ -267,7 +267,7 @@ q.ready(function() {
       var deprecatedClass = data.deprecated ? ' class-deprecated' : '';
       var header = q.create('<h2 class="nav-' + id + deprecatedClass + '">' + headerText + '</h2>');
       groupPage.append(q.create('<a href="#' + id + '"></a>').append(header));
-			qxWeb.messaging.emit('apiviewer', 'moduleRendered', null, {id : id, data : data, header : header});
+      qxWeb.messaging.emit('apiviewer', 'moduleRendered', null, {id : id, data : data, header : header});
     }
 
     groupPage.append(ul);
@@ -736,9 +736,12 @@ q.ready(function() {
 
     var content = q('div#content');
     content.on('scroll', qxWeb.func.debounce(highLightOnScroll.bind(content), 500));
+
+    // highlight the current viewport at startup once
+    highLightOnScroll.call(content);
   };
 
-  var highLightOnScroll = function(e) {
+  var highLightOnScroll = function() {
 
     var height = parseInt(this.getHeight(), 10);
 
