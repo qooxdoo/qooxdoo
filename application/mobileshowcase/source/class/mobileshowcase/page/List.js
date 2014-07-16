@@ -35,21 +35,31 @@ qx.Class.define("mobileshowcase.page.List",
 
   members :
   {
-    _model : null,
-    _waypointsY: ["0%", "25%", "50%", "75%", "100%", 200],
-           
-    // overridden
+    _model: null,
+    _waypointsY: null,
+    _waypointsLabel : null,
+    _loadingIndicator: null,
+    _isLoading: false,
+
+
     /**
      * @lint ignoreDeprecated(alert)
      */
     _initialize: function() {
       this.base(arguments);
 
+      this._waypointsY = ["0%", "25%", "50%", "75%", "100%", 200];
+
       qx.bom.element.Style.set(this.getContent().getContentElement(), "position", "relative");
 
-      this.__waypointInfoLabel = new qx.ui.mobile.container.Composite();
-      this.__waypointInfoLabel.addCssClass("waypoint-info");
-      this.add(this.__waypointInfoLabel);
+      this._loadingIndicator = new qx.ui.mobile.dialog.BusyIndicator("Loading more items ...");
+      this._loadingIndicator.exclude();
+      this._loadingIndicator.addCssClass("waypoint-loading-indicator");
+      this.add(this._loadingIndicator);
+
+      this._waypointsLabel = new qx.ui.mobile.container.Composite();
+      this._waypointsLabel.addCssClass("waypoint-info");
+      this.add(this._waypointsLabel);
 
       var scrollContainer = this._getScrollContainer();
       scrollContainer.setWaypointsY(this._waypointsY);
@@ -103,8 +113,12 @@ qx.Class.define("mobileshowcase.page.List",
     },
 
 
+    /**
+    * Handler for <code>waypoint</code> event on scrollContainer.
+    * @param evt {qx.event.type.Data} the waypoint event. 
+    */
     _onWaypoint : function(evt) {
-      var targetElement = this.__waypointInfoLabel.getContentElement();
+      var targetElement = this._waypointsLabel.getContentElement();
       var index = evt.getData().index;
       var direction = evt.getData().direction;
 
@@ -126,9 +140,61 @@ qx.Class.define("mobileshowcase.page.List",
           }
         }
       });
- 
+
       qx.bom.element.Attribute.set(targetElement, "data-waypoint-label", this._waypointsY[index]+ " ["+direction+"]");
-      qx.bom.element.Attribute.set(targetElement, "data-waypoint", index);
+    
+      // 100% waypoint
+      if (index == 4) {
+        this._loadMoreModelItems();
+      }
+    },
+
+
+     /**
+     * Creates the model with the example data.
+     * @return {qx.data.Array} data array.
+     */
+    _createModel: function() {
+      var data = [];
+      for (var i = 0; i < 30; i++) {
+        data.push({
+          title: "Item #" + i,
+          subtitle: "Subtitle for Item #" + i,
+          selectable: i < 6,
+          removable: i > 5 && i < 11
+        });
+      }
+      return new qx.data.Array(data);
+    },
+
+
+    /**
+    * Adds more items to the list. 
+    * Simulates infinite scrolling.
+    */
+    _loadMoreModelItems: function() {
+      var initialModelLength = this._model.length;
+
+      if(this._isLoading || initialModelLength > 200) {
+        return;
+      }
+
+      this._loadingIndicator.show();
+      this._isLoading = true;
+      
+      setTimeout(function() {
+        for (var i = 0; i < 20; i++) {
+          this._model.push({
+            title: "Item #" + (initialModelLength + i),
+            subtitle: "Subtitle for Item #" + (initialModelLength + i),
+            selectable: false,
+            removable: false
+          });
+        }
+
+        this._loadingIndicator.exclude();
+        this._isLoading = false;
+      }.bind(this), 2000);
     },
 
 
@@ -138,24 +204,6 @@ qx.Class.define("mobileshowcase.page.List",
      */
     _showDialog: function(text) {
       qx.ui.mobile.dialog.Manager.getInstance().confirm("Selection", text, null, this, ["OK"]);
-    },
-
-
-    /**
-     * Creates the model with the example data.
-     * @return {qx.data.Array} data array.
-     */
-    _createModel: function() {
-      var data = [];
-      for (var i = 0; i < 50; i++) {
-        data.push({
-          title: "Item #" + i,
-          subtitle: "Subtitle for Item #" + i,
-          selectable: i < 6,
-          removable: i > 5 && i < 11
-        });
-      }
-      return new qx.data.Array(data);
     }
   }
 });

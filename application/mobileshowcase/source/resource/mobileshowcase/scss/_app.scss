@@ -305,8 +305,7 @@ $waypoint-width: 300px;
   z-index:5;
 
   box-sizing: border-box;
-  border-bottom: rem(2) solid #E44d26;
-  background-color: #E44d26;
+  background-color: $highlight-color;
   position: absolute;
   padding: rem(5);
   font-size: rem(14);
@@ -321,4 +320,14 @@ $waypoint-width: 300px;
   content: 'Fired Waypoint: 'attr(data-waypoint-label);
   display: block;
   text-align: center;
+}
+
+.waypoint-loading-indicator {
+  padding-top: rem(6);
+  padding-bottom: rem(6);
+  background-color: $highlight-color;
+
+  * {
+    color: white !important;
+  }
 }
