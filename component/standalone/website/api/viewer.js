@@ -1044,7 +1044,7 @@ q.ready(function() {
    * Adds sample code to a method's documentation. Code can be supplied wrapped in
    * a function or as a map with one or more of the keys js, css and html.
    * Additionally, a key named executable is supported: If the value is true, a
-   * button will be created that posts the sample's code to jsFiddle for live
+   * button will be created that posts the sample's code to CodePen for live
    * editing.
    *
    * @param methodName {String} Name of the method, e.g. ".before" or "q.create"

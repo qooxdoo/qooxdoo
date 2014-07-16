@@ -148,7 +148,7 @@ The ``$qooxdoo`` root directory should be made available through a local web ser
 Pre-publish demos
 ------------------
 
-Do a ``publish`` of the demos before testing starts. This assures that all links are working which are exercised during release testing. This includes links to the manual, Demobrowser and Playground, but also library links like ``q.min.js`` that are used in JsFiddle examples.
+Do a ``publish`` of the demos before testing starts. This assures that all links are working which are exercised during release testing. This includes links to the manual, Demobrowser and Playground, but also library links like ``q.min.js`` that are used in CodePen examples.
 
 .. code-block:: bash
 
@@ -293,14 +293,6 @@ The gist of it is:
   * If you want to change two versions at the same time, it might be necessary
     that you create a branch for one, so you can create a pull request for each
     (Unclear if this is actually necessary).
-
-
-.. _pages/project/release_how_to_build.rst#file_an_issue_for_jsFiddle:
-
-File an issue for jsFiddle
-==========================
-
-`jsFiddle  <http://jsfiddle.net/>`_ offers the current qooxdoo versions in its library selection dropdown. To get that updated, you have to file a issue at the `jsfiddle-issues repository <https://github.com/jsfiddle/jsfiddle-issues/issues/>`_ on github. Take a look at this `issue <https://github.com/jsfiddle/jsfiddle-issues/issues/421>`_ for details.
 
 
 .. _pages/project/release_how_to_build.rst#post_processing:
