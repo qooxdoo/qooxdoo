@@ -198,7 +198,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      * @param scrollSize {Number} the vertical or horizontal scroll size.
      */
     _calcWaypoints: function(waypoints, scrollSize) {
-      console.log(scrollSize);
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
         var offset = null;
