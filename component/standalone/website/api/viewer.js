@@ -948,7 +948,7 @@ q.ready(function() {
     hiddenField.setValue(JSON.stringify(data));
 
     var form = q.create('<form action="http://codepen.io/pen/define" method="POST" target="_blank">' +
-        '<input class="button-codepen" type="submit" value="Edit/run on codepen">' +
+        '<input class="button-codepen" type="submit" value="Edit/run on CodePen">' +
         '</form>'
     );
 
