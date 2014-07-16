@@ -230,8 +230,16 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param e {qx.event.type.Track} The trackstart event.
      */
     _onTrack : function(e) {
+      var w = this.getTable();
+      var draggable = false;
+      while (w) {
+        if (w.getDraggable()) {
+          break;
+        }
+        w = w.getLayoutParent();
+      }
       // ignore if drag & drop is disabled
-      if (!this.getTable().getDraggable()) {
+      if (!draggable) {
         return;
       }
       var delta = e.getDelta();
