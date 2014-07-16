@@ -98,7 +98,8 @@
       {
         "OPTIMIZE" : [],
         "Q_INCLUDES" : "${QXWEB_ALL}",
-        "BUILD_PATH" : "${SCRIPT_PATH}"
+        "BUILD_PATH" : "${SCRIPT_PATH}",
+        "QXDEBUG" : true
       },
 
       "compile-options" :
