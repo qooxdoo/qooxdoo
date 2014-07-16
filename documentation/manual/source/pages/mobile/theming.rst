@@ -17,7 +17,7 @@ knowledge of CSS.
 
 If you want to extend or change the qooxdoo mobile themes you should always
 modify the SCSS files (\*.scss) in the folder
-``<APP_ROOT>/source/resource/<APP_NAMESPACE>/scss``. After you modified
+``<APP_ROOT>/source/theme/<APP_NAMESPACE>/scss``. After you modified
 any SCSS files they have to be compiled into CSS, otherwise you will not see any
 changes.
 
@@ -116,13 +116,14 @@ This is the job configuration of your app-specific ``config.json``:
       "extend" : ["cache"],
       "let" :
       {
-        "QX_MOBILE_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
-        "QX_SHARED_THEME_PATH" : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
-        "MOBILE_THEME_PATH" : "source/resource/${APPLICATION}"
+        "QX_MOBILE_THEME_PATH"      : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
+        "QX_SHARED_THEME_PATH"      : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
+        "APPLICATION_THEME_PATH"    : "source/theme/${APPLICATION}",
+        "APPLICATION_RESOURCE_PATH" : "source/resource/${APPLICATION}"
       },
       "shell" :
       {
-        "command" : "sass -C -t compressed -I $${QX_MOBILE_THEME_PATH} -I $${QX_SHARED_THEME_PATH} --watch $${MOBILE_RESOURCE_PATH}/scss:$${MOBILE_RESOURCE_PATH}/css",
+        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --update ${APPLICATION_THEME_PATH}/scss:${APPLICATION_RESOURCE_PATH}/css",
         "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
       }
     }
@@ -150,7 +151,7 @@ If you want to use our Flat theme instead of the Indigo theme, you have to copy 
 
 Into your project's theme file:
 
-``<APP_ROOT>/source/resource/<APP_NAME>/scss/_styles.scss``
+``<APP_ROOT>/source/theme/<APP_NAME>/scss/_styles.scss``
 
 After changing this, you have to run the source job in your application's
 root:
@@ -179,7 +180,7 @@ For customization, please follow these steps:
     This job re-compiles your theme everytime you save the ``_styles.scss`` file.
 
 2.  Have a look in your application's resource folder:
-    ``<APP_ROOT>/source/resource/<APP_NAME>/scss/_styles.scss``
+    ``<APP_ROOT>/source/theme/<APP_NAME>/scss/_styles.scss``
 
     This is the key file for customizing the default theme to your needs.
 
@@ -260,7 +261,7 @@ Extending the customized theme with CSS
 In addition to the customization of variables in ``_styles.scss`` you can
 extend the theme with your own CSS rules. In this case you can append your CSS statements to this file:
 
-``<APP_ROOT>/source/resource/<APP_NAME>/css/custom.scss``
+``<APP_ROOT>/source/theme/<APP_NAME>/scss/custom.scss``
 
 As mentioned before, you do not need to be an expert in SCSS for theming.  But
 if you want to know more about this exciting CSS enhancement technology, please

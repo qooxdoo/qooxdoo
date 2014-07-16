@@ -98,7 +98,7 @@ compile-scss
 This job is available in the %{Mobile} skeleton. The *compile-scss* job
 compiles SCSS files to CSS (See the article about :doc:`mobile theming
 </pages/mobile/theming>`). The \*.scss files usually reside in your
-application's ``source/resource/<name_space>/mobile/scss`` folder, and will be
+application's ``source/theme/<name_space>/mobile/scss`` folder, and will be
 compiled into the ``css`` sibling folder. This job is run automatically
 during each ``source`` and ``build`` run. See watch-scss_ if you
 want automatic compilations when changing the SCSS files.
@@ -557,6 +557,6 @@ watch-scss
 This job is available in the %{Mobile} skeleton. The *watch-scss* job watches
 SCSS files, and compiles them to CSS once they change (See the article about
 :doc:`mobile theming </pages/mobile/theming>`). The \*.scss files usually reside
-in your application's ``source/resource/<name_space>/mobile/scss`` folder, and
-will be compiled into the ``css`` sibling folder.
+in your application's ``source/theme/<name_space>/scss`` folder, and
+will be compiled into ``source/resource<name_space>/css``.
 
