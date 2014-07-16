@@ -1224,6 +1224,9 @@ qx.Bootstrap.define("qx.core.Environment",
       if (this._checks[key] == undefined) {
         // add functions directly
         if (check instanceof Function) {
+          if (!this._checksMap[key] && check.displayName) {
+            this._checksMap[key] = check.displayName.substr(0, check.displayName.length - 2);
+          }
           this._checks[key] = check;
         // otherwise, create a check function and use that
         } else {
