@@ -167,9 +167,15 @@ module.exports = function(grunt) {
     grunt.log.writeln('Compress code ...');
     // ------------------------------------------------------
     var classCodeCompressedList = [];
+    var compressOpts = {privates: true};
+    var trees = qxDep.getTrees();
+    var curClass = "";
+    var treeOrNull = null;
     for (var i=0, l=classCodeList.length; i<l; i++) {
       // console.log(i, l, classLoadOrderList[i]);
-      classCodeCompressedList.push(qxCpr.compress(classLoadOrderList[i], classCodeList[i]));
+      curClass = classLoadOrderList[i];
+      treeOrNull = curClass in trees ? trees[curClass] : null;
+      classCodeCompressedList.push(qxCpr.compress(curClass, classCodeList[i], treeOrNull, compressOpts));
     }
     grunt.log.ok('Done.');
 
