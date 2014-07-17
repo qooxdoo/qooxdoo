@@ -885,8 +885,7 @@ q.ready(function() {
 
     addMethodLinks(jsEl, header.getParents().getAttribute("id"));
 
-    if (sample.executable && q.env.get("engine.name") != "mshtml" && q.env.get("device.type") == "desktop") {
-      //createFiddleButton(sample).appendTo(sampleEl);
+    if (sample.executable) {
       createCodepenButton(sample).appendTo(sampleEl);
     }
 
