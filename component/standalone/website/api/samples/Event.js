@@ -269,3 +269,86 @@ q('ul#test').onMatchTarget('pointerdown', '.special', function(target, event) {
 },
   executable: true
 });
+
+addSample("Event.getKeyIdentifier", {
+  html: [ '<input type="text" id="website"></input>',
+    '<div id="textContainer"></div>'
+  ],
+  css: ['#website {',
+    '  position: relative;',
+    '  left: 50px;',
+    '  top: 50px;',
+    '  border: 1px solid #ADD8E6;',
+    '  width: 50%;',
+    '}',
+    '',
+    '#textContainer {',
+    '  position: relative;',
+    '  margin: 0 50px;',
+    '  padding: 10px;',
+    '  top: 75px;',
+    '  background-color: #eee;',
+    '  display: block;',
+    '  height: 150px;',
+    '  overflow: auto;',
+    '  font-size: 12px;',
+    '  font-family: Verdana;',
+    '}'
+  ],
+  javascript: function() {
+// Catch the key the user hit and display it in the div element
+q('#website').on('keypress', function(e) {
+  var userInput = e.getKeyIdentifier();
+
+  var content = q('#textContainer').getAttribute('text');
+  // special case if the div element has no content
+  content = content === null ? '' : content;
+
+  q('#textContainer').setAttribute('text', content + ' ' + userInput);
+});
+},
+executable: true
+});
+
+addSample("Event.getKeyIdentifier", {
+  html: [ '<input type="text" id="website"></input>',
+    '<div id="textContainer"></div>'
+  ],
+  css: ['#website {',
+    '  position: relative;',
+    '  left: 50px;',
+    '  top: 50px;',
+    '  border: 1px solid #ADD8E6;',
+    '  width: 50%;',
+    '}',
+    '',
+    '#textContainer {',
+    '  position: relative;',
+    '  margin: 0 50px;',
+    '  padding: 10px;',
+    '  top: 75px;',
+    '  background-color: #eee;',
+    '  display: block;',
+    '  height: 150px;',
+    '  overflow: auto;',
+    '  font-size: 12px;',
+    '  font-family: Verdana;',
+    '}'
+  ],
+  javascript: function() {
+// Use the 'keyup' event to sync the the value of an input element with a div element.
+// Hint: do not use the 'keypress' event. The value of the input element is (yet) not updated at this time
+// and you would get an old value.
+q('#website').on('keyup', function(e) {
+  // target is the input element
+  var inputValue = q(e.getTarget()).getValue();
+
+  // Sync with the div element by using the value of the input element in favor
+  // of the value supplied by the event.
+  // The value of 'e.getKeyIdentifier()' would return the key the user hit, but then
+  // you have to handle Backspace, Delete and other special keys to sync the input and div element correctly.
+  q('#textContainer').setAttribute('text', inputValue);
+});
+},
+executable: true
+});
