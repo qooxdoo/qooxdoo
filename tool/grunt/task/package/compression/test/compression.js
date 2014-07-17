@@ -287,6 +287,7 @@ module.exports = {
       var actualCodeWithPrivates = this.compression.compress(
         "qx.foo.Bar",
         fakeClass.toString(),
+        null,
         {}
       );
 
@@ -296,6 +297,7 @@ module.exports = {
       var actualCodeWithoutPrivates = this.compression.compress(
         "qx.foo.Bar",
         fakeClass.toString(),
+        null,
         {privates: false}
       );
 

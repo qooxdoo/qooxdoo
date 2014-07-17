@@ -309,13 +309,16 @@ function replacePrivates(classId, jsCode) {
 module.exports = {
   /**
    * Compress code and apply optimizations on top (via options).
+   * What should be compressed can be provided as code or as tree (AST)
+   * - if there is a tree it takes precedence over given code.
    *
    * @param {string} classId
    * @param {string} jsCode - code to be compressed
+   * @param {Object} tree - AST from esprima to be compressed
    * @param {Object} options - whether qx specific optimizations should be enabled
    * @return {string} code - compressed code
    */
-  compress: function(classId, jsCode, options) {
+  compress: function(classId, jsCode, tree, options) {
     var opts = {};
     var compressedCode = jsCode;
 
@@ -328,9 +331,25 @@ module.exports = {
       privates: options.privates === false ? false : true
     };
 
+    var debugClass = function(classId) {
+      if (classId === "qx.REPLACE.THIS") {
+        var escg = require("escodegen");
+        console.log("comp", escg.generate(tree));
+      }
+    };
+
     // compress with UglifyJS2
-    var result = U2.minify(compressedCode, {fromString: true});
-    compressedCode = result.code;
+    if (tree !== null && typeof(tree) !== "undefined") {
+      // debugClass(classId);
+      var ast = U2.AST_Node.from_mozilla_ast(tree);
+      ast.figure_out_scope();
+      var compressor = U2.Compressor({warnings: false});
+      ast = ast.transform(compressor);
+      compressedCode = ast.print_to_string();
+    } else {
+      var result = U2.minify(compressedCode, {fromString: true});
+      compressedCode = result.code;
+    }
 
     // qx specific optimizations
     if (opts.privates) {

@@ -161,6 +161,154 @@ function testFnNormal() {
   };
 }
 
+function abc() {
+  return {
+    statics :
+    {
+      __addProperties : function(clazz, properties, patch)
+      {
+        if (!qx.core.Environment.get("module.property")) {
+          throw new Error("Property module disabled.");
+        }
+
+        var config;
+
+        if (patch === undefined) {
+          patch = false;
+        }
+
+        var proto = clazz.prototype;
+
+        for (var name in properties)
+        {
+          config = properties[name];
+
+          if (qx.core.Environment.get("qx.debug")) {
+            this.__validateProperty(clazz, name, config, patch);
+          }
+
+          config.name = name;
+
+          if (!config.refine)
+          {
+            if (clazz.$$properties === undefined) {
+              clazz.$$properties = {};
+            }
+
+            clazz.$$properties[name] = config;
+          }
+
+          if (config.init !== undefined) {
+            clazz.prototype["$$init_" + name] = config.init;
+          }
+
+          if (config.event !== undefined) {
+            if (!qx.core.Environment.get("module.events")) {
+              throw new Error("Events module not enabled.");
+            }
+            var event = {};
+            event[config.event] = "qx.event.type.Data";
+            this.__addEvents(clazz, event, patch);
+          }
+
+          if (config.inheritable)
+          {
+            this.__Property.$$inheritable[name] = true;
+            if (!proto.$$refreshInheritables) {
+              this.__Property.attachRefreshInheritables(clazz);
+            }
+          }
+
+          if (!config.refine) {
+            this.__Property.attachMethods(clazz, name, config);
+          }
+        }
+      },
+
+      __validateProperty : qx.core.Environment.select("qx.debug",
+      {
+        "true": function(clazz, name, config, patch)
+        {
+          // check for properties
+          if (!qx.core.Environment.get("module.property")) {
+            throw new Error("Property module disabled.");
+          }
+
+          var has = this.hasProperty(clazz, name);
+
+          if (has)
+          {
+            var existingProperty = this.getPropertyDefinition(clazz, name);
+
+            if (config.refine && existingProperty.init === undefined) {
+              throw new Error("Could not refine an init value if there was previously no init value defined. Property '" + name + "' of class '" + clazz.classname + "'.");
+            }
+          }
+
+          if (!has && config.refine) {
+            throw new Error("Could not refine non-existent property: '" + name + "' of class: '" + clazz.classname + "'!");
+          }
+
+          if (has && !patch) {
+            throw new Error("Class " + clazz.classname + " already has a property: " + name + "!");
+          }
+
+          if (has && patch)
+          {
+            if (!config.refine) {
+              throw new Error('Could not refine property "' + name + '" without a "refine" flag in the property definition! This class: ' + clazz.classname + ', original class: ' + this.getByProperty(clazz, name).classname + '.');
+            }
+
+            for (var key in config)
+            {
+              if (key !== "init" && key !== "refine") {
+                throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
+              }
+            }
+          }
+
+          // Check 0.7 keys
+          var allowed = config.group ? this.__Property.$$allowedGroupKeys : this.__Property.$$allowedKeys;
+          for (var key in config)
+          {
+            if (allowed[key] === undefined) {
+              throw new Error('The configuration key "' + key + '" of property "' + name + '" in class "' + clazz.classname + '" is not allowed!');
+            }
+
+            if (config[key] === undefined) {
+              throw new Error('Invalid key "' + key + '" of property "' + name + '" in class "' + clazz.classname + '"! The value is undefined: ' + config[key]);
+            }
+
+            if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
+              throw new Error('Invalid type of key "' + key + '" of property "' + name + '" in class "' + clazz.classname + '"! The type of the key must be "' + allowed[key] + '"!');
+            }
+          }
+
+          if (config.transform != null)
+          {
+            if (!(typeof config.transform == "string")) {
+              throw new Error('Invalid transform definition of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String.');
+            }
+          }
+
+          if (config.check != null)
+          {
+            if (
+              !qx.Bootstrap.isString(config.check) &&
+              !qx.Bootstrap.isArray(config.check) &&
+              !qx.Bootstrap.isFunction(config.check)
+            ) {
+              throw new Error('Invalid check definition of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String, Array or Function.');
+            }
+          }
+        },
+
+        "default" : null
+      })
+    }
+  };
+}
+
 function testDisposeItemProp() {
   qx.Class.define("qx.data.marshal.Json",
   {
@@ -302,7 +450,7 @@ function testDisposeItemProp() {
 }
 
 try {
-  var compressedCode = compression.compress("my.class.id", testDisposeItemProp.toString(), {privates: true});
+  var compressedCode = compression.compress("my.class.id", abc.toString(), null, {privates: true});
   console.log(compressedCode);
 } catch (e) {
   console.log(e.message, e.line, e.col, e.pos);
