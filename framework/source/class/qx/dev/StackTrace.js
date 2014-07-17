@@ -379,7 +379,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
   {
     // This is necessary to avoid an infinite loop when logging the absence
     // of the "ecmascript.error.stacktrace" environment key.
-    statics.hasEnvironmentCheck = qx.bom.client.EcmaScript &&
-      qx.bom.client.EcmaScript.getStackTrace;
+    statics.hasEnvironmentCheck = qx.bom && qx.bom.client &&
+      qx.bom.client.EcmaScript && qx.bom.client.EcmaScript.getStackTrace;
   }
 });
