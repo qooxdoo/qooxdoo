@@ -34,18 +34,20 @@
     "stdout": "node test/stdout/stdout.js"
   },
   "dependencies": {
-    "estraverse": "~1.5.0",
-    "esprima": "~1.0.4",
-    "escope": "~1.0.1",
-    "escodegen": "~1.0.1",
-    "jshint": "~2.3.0",
-    "underscore": "~1.5.2",
-    "toposort-class": "~0.3.0",
     "doctrine": "~0.2.0",
+    "escodegen": "~1.0.1",
+    "escope": "~1.0.1",
+    "esprima": "~1.0.4",
+    "estraverse": "~1.5.0",
+    "glob": "~3.2.9",
+    "jshint": "~2.3.0",
     "minimatch": "~0.2.14",
-    "glob": "~3.2.9"
+    "toposort-class": "~0.3.0",
+    "uglify-js": "^2.4.14",
+    "underscore": "~1.5.2"
   },
   "devDependencies": {
+    "jsondiffpatch": "~0.1.8",
     "nodeunit": "~0.8.4",
     "jsdoc": "~3.3.0"
   },

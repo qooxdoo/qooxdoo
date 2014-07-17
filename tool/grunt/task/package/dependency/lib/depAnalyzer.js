@@ -64,6 +64,7 @@ var Toposort = require('toposort-class');
 var glob = require('glob');
 var minimatch = require("minimatch");
 var _ = require('underscore');
+var U2 = require('uglify-js');
 
 // not pretty (require internals of jshint) but works
 var js_builtins = require('jshint/src/vars');
@@ -219,6 +220,12 @@ function analyze_as_map(etree, optObj) {
 //------------------------------------------------------------------------------
 
 // privates may be injected by test env
+
+/**
+ * Global ast map (classId:(alreadyManipulated)AST).
+ * Does only contain manipulated trees!
+ */
+var globalAstMap = {};
 
 /**
  * Whether node is a variable node.
@@ -668,9 +675,10 @@ module.exports = {
   /**
    * Analyzes an esprima tree for unresolved references (i.e. dependencies).
    *
-   * @param tree {Object} AST from esprima
+   * @param {Object} tree - esprima AST
    * @param {Object} [opts]
    * @param {boolean} [opts.flattened=false] - whether to divide deps into load and run
+   * @param {boolean} [opts.variants=false] - whether to replace env calls with their value
    * @returns {string[]}
    * @see {@link http://esprima.org/doc/#ast|esprima AST}
    */
@@ -680,54 +688,156 @@ module.exports = {
       'run' : [],
       'athint': {}
     };
+    var depsOptimized = {
+      'load' : [],
+      'run' : [],
+      'athint': {}
+    };
+    var treeOptimized = {};
     var atHints = {};
     var filteredScopeRefs = [];
+    var filteredScopeRefsOptimized = [];
     var envCallDeps = {
       'load': [],
       'run': []
     };
+    var envCallDepsOptimized = {
+      'load': [],
+      'run': []
+    };
+    var globalScope = {};
+    var globalScopeOptimized = {};
+    var scopesRef = {};
+    var scopesRefOptimized = {};
+    var debugClass = function(classId) {
+      if (classId === "qx.REPLACE.THIS") {
+        var escg = require("escodegen");
+        console.log("dep", escg.generate(tree));
+      }
+    };
+
+    // replace env calls with their value
+    if (opts && opts.variants) {
+      tree = qxCoreEnv.optimizeEnvCall(tree);
+      // debugClass(tree.qxClassName);
+      globalAstMap[tree.qxClassName] = tree;
+
+      // reparse tree for if condition removal
+      // and as consequence more accurate deps
+      var ast = U2.AST_Node.from_mozilla_ast(tree);
+      ast.figure_out_scope();
+      var compressor = U2.Compressor({warnings: false});
+      ast = ast.transform(compressor);
+      var code = ast.print_to_string();
+      treeOptimized = esprima.parse(code, {comment: true, loc: true});
+      depsOptimized = findUnresolvedDeps(treeOptimized, {
+        flattened: false, variants: false
+      });
+    }
 
     // ignore eval scopes for now because they are subject to different
     // scoping rules. When really in need for eval you should know what
     // you're doing, anyway!
-    var globalScope = escope.analyze(tree, {ignoreEval:true}).scopes[0];
+    globalScope = escope.analyze(tree, {ignoreEval:true}).scopes[0];
+    if (opts && opts.variants) {
+      globalScopeOptimized = escope.analyze(treeOptimized, {ignoreEval:true}).scopes[0];
+    }
 
     parentAnnotator.annotate(tree);
     loadTimeAnnotator.annotate(globalScope, true);
+    if (opts && opts.variants) {
+      parentAnnotator.annotate(treeOptimized);
+      loadTimeAnnotator.annotate(globalScopeOptimized, true);
+    }
 
     // deps from Scope
-    var scopesRef = dependenciesFromAst(globalScope);
+    scopesRef = dependenciesFromAst(globalScope);
+    if (opts && opts.variants) {
+      scopesRefOptimized = dependenciesFromAst(globalScopeOptimized);
+    }
 
     // top level atHints from tree
     atHints = collectAtHintsFromComments(tree);
     deps.athint = atHints;
+    if (opts && opts.variants) {
+      depsOptimized.athint = atHints;
+    }
 
     filteredScopeRefs = util.pipeline(scopesRef,
       _.partial(util.filter, notBuiltin),     // e.g. document, window, undefined ...
       _.partial(util.filter, notQxInternal)   // e.g. qx.$$libraries, qx$$resources ...
       // check library classes
     );
+    if (opts && opts.variants) {
+      filteredScopeRefsOptimized = util.pipeline(scopesRefOptimized,
+        _.partial(util.filter, notBuiltin),     // e.g. document, window, undefined ...
+        _.partial(util.filter, notQxInternal)   // e.g. qx.$$libraries, qx$$resources ...
+        // check library classes
+      );
+    }
 
     deps.load = filteredScopeRefs.filter(notRuntime);
     deps.run = _.difference(filteredScopeRefs, deps.load);
+    if (opts && opts.variants) {
+      depsOptimized.load = filteredScopeRefsOptimized.filter(notRuntime);
+      depsOptimized.run = _.difference(filteredScopeRefsOptimized, depsOptimized.load);
+    }
 
     // add feature classes from qx.core.Environment calls
     envCallDeps = qxCoreEnv.extract(tree, filteredScopeRefs);
     deps.load = deps.load.concat(envCallDeps.load);
     deps.run = deps.run.concat(envCallDeps.run);
+    if (opts && opts.variants) {
+      envCallDepsOptimized = qxCoreEnv.extract(tree, filteredScopeRefsOptimized);
+      depsOptimized.load = depsOptimized.load.concat(envCallDeps.load);
+      depsOptimized.run = depsOptimized.run.concat(envCallDeps.run);
+    }
 
     // unify
     deps.load = unify(deps.load, tree.qxClassName);
     deps.run = unify(deps.run, tree.qxClassName);
+    if (opts && opts.variants) {
+      depsOptimized.load = unify(depsOptimized.load, tree.qxClassName);
+      depsOptimized.run = unify(depsOptimized.run, tree.qxClassName);
+    }
 
     // add/remove deps according to atHints
     deps = applyIgnoreRequireAndUse(deps, tree.qxClassName);
+    if (opts && opts.variants) {
+      depsOptimized = applyIgnoreRequireAndUse(depsOptimized, tree.qxClassName);
+    }
 
     // overlappings aren't important - remove them
     // i.e. if it's already in load remove from run
     deps.run = _.difference(deps.run, deps.load);
+    if (opts && opts.variants) {
+      depsOptimized.run = _.difference(depsOptimized.run, depsOptimized.load);
+    }
+
+    if (opts && opts.variants) {
+      var logDepsDiffAfterVaraintsOptimization = function() {
+        var jsondiffpatch = require('jsondiffpatch').create({});
+        var diff = jsondiffpatch.diff(deps, depsOptimized);
+
+        if (diff && Object.keys(diff).length > 0) {
+          console.log(tree.qxClassName);
+          console.log(diff);
+          // console.log("--- depsOptimized:");
+          // console.log(depsOptimized);
+          // console.log("--- deps:");
+          // console.log(deps);
+          // console.log("===");
+        }
+      };
+      // logDepsDiffAfterVaraintsOptimization();
+      return (opts && opts.flattened ? depsOptimized.load.concat(depsOptimized.run) : depsOptimized);
+    }
 
     return (opts && opts.flattened ? deps.load.concat(deps.run) : deps);
+  },
+
+  getTrees: function() {
+    return globalAstMap;
   },
 
   /**
@@ -812,7 +922,7 @@ module.exports = {
         };
 
         classNameAnnotator.annotate(tree, classIds[i]);
-        classDeps = findUnresolvedDeps(tree, {flattened: false});
+        classDeps = findUnresolvedDeps(tree, {flattened: false, variants: true});
 
         // Note: Excluded classes will still be entries in load and run deps!
         // Maybe it's better to remove them here too ...

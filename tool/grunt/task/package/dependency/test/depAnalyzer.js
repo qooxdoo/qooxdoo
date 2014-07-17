@@ -511,7 +511,7 @@ module.exports = {
       var jsCode = fs.readFileSync(curFullPath, {encoding: 'utf8'});
       var tree = esprima.parse(jsCode, {comment: true, loc: true});
 
-      var actualClassDeps = this.depAnalyzer.findUnresolvedDeps(tree, {flattened: false});
+      var actualClassDeps = this.depAnalyzer.findUnresolvedDeps(tree, {flattened: false, variants: false});
       var expectedClassDeps = {
         load: [
           'qx.Class',

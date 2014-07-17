@@ -69,8 +69,14 @@ atHintIndex = depAnalyzer.createAtHintsIndex(classesDeps);
 console.log(JSON.stringify(classesDeps, null, 2));
 console.log(classListLoadOrder, classListLoadOrder.length);
 
+// var escgen = require("escodegen");
+// console.log(escgen.generate(depAnalyzer.getTrees()["qx.Class"]));
+
+// console.log(Object.keys(depAnalyzer.getTrees()));
+
 // console.log(Object.keys(classesDeps).length);
 // console.log(classListLoadOrder.length);
+// console.log(Object.keys(depAnalyzer.getTrees()).length);
 
 // console.log(classListPaths);
 // console.log(atHintIndex);
