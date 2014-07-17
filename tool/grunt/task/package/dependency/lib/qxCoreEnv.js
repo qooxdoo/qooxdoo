@@ -34,6 +34,7 @@ var path = require('path');
 var esprima = require('esprima');
 var estraverse = require('estraverse');
 var escodegen = require('escodegen');
+var U2 = require('uglify-js');
 
 // local (modules may be injected by test env)
 var util = (util || require('./util'));
@@ -80,29 +81,76 @@ function getFeatureTable(classCode) {
  */
 function findVariantNodes(tree) {
   var result = [];
-  var interestingEnvMethods = {
-    'select'      : true,
-    'selectAsync' : true,
-    'get'         : true,
-    'getAsync'    : true,
-    'filter'      : true
-  };
 
-  // walk tree
   var controller = new estraverse.Controller();
   controller.traverse(tree, {
     enter : function (node, parent) {
-      // pick calls to qx.core.Environment.get|select|filter
-      if (node.type === 'CallExpression'
-          && util.get(node, 'callee.object.object.object.name') === 'qx'
-          && util.get(node, 'callee.object.object.property.name') === 'core'
-          && util.get(node, 'callee.object.property.name') === 'Environment'
-          && util.get(node, 'callee.property.name') in interestingEnvMethods) {
-            result.push(node);
+      if (isQxCoreEnvironmentCall(node)) {
+        result.push(node);
       }
     }
   });
   return result;
+}
+
+/**
+ * Picks calls to qx.core.Environment.get|select|filter
+ */
+function isQxCoreEnvironmentCall(node, methodNames) {
+    var interestingEnvMethods = ['select', 'selectAsync', 'get', 'getAsync', 'filter'];
+    var envMethods = methodNames || interestingEnvMethods;
+
+    return (node.type === 'CallExpression'
+            && util.get(node, 'callee.object.object.object.name') === 'qx'
+            && util.get(node, 'callee.object.object.property.name') === 'core'
+            && util.get(node, 'callee.object.property.name') === 'Environment'
+            && envMethods.indexOf(util.get(node, 'callee.property.name')) !== -1);
+}
+
+/**
+ *
+ */
+function replaceEnvCallGet(tree, envMap) {
+  var controller = new estraverse.Controller();
+  var resultTree = controller.replace(tree, {
+    enter : function (node, parent) {
+      if (isQxCoreEnvironmentCall(node, ["get"])) {
+        var envKey = getEnvKey(node);
+        if (envMap && envKey in envMap) {
+          return {
+            "type": "Literal",
+            "value": envMap[envKey],
+            "raw": envMap[envKey]
+          };
+        }
+      }
+    }
+  });
+
+  return resultTree;
+}
+
+function replaceEnvCallSelect(tree, envMap) {
+  var controller = new estraverse.Controller();
+  var resultTree = controller.replace(tree, {
+    enter : function (node, parent) {
+      if (isQxCoreEnvironmentCall(node, ["select"])) {
+        var envKey = getEnvKey(node);
+        try {
+          var val = getEnvSelectValueByKey(node, envKey, envMap[envKey]);
+          return val;
+        } catch (error) {
+          // intentionally empty
+          // => no return means no replacement
+          // possible reasons:
+          //   * envMap has no envKey because the envKey is runtime based (os.version)
+          //     and cannot be configured upfront.
+        }
+      }
+    }
+  });
+
+  return resultTree;
 }
 
 /**
@@ -187,6 +235,31 @@ function getEnvKey(callNode) {
   return util.get(callNode, 'arguments.0.value');
 }
 
+function getEnvSelectValueByKey(callNode, key, value) {
+  var properties = util.get(callNode, 'arguments.1.properties');
+  var selectedValue = "initial";
+  var defaultValue = "initial";
+
+  var i = 0;
+  var l = properties.length;
+  while (l--) {
+    if (properties[l].key.value === value.toString()) {
+      selectedValue = properties[l].value;
+    }
+    if (properties[l].key.value === "default") {
+      defaultValue = properties[l].value;
+    }
+  }
+
+  if (selectedValue !== "initial") {
+    return selectedValue;
+  } else if (defaultValue !== "initial") {
+    return defaultValue;
+  } else {
+    throw new Error("ENOENT - Given value matches no key from select map and no 'default' key defined.");
+  }
+}
+
 /**
  * Provides the js code of <code>qx.core.Environment</code>.
  *
@@ -203,6 +276,55 @@ function getClassCode() {
 //------------------------------------------------------------------------------
 
 module.exports = {
+
+  optimizeEnvCall: function(tree, envMap) {
+    // TODO: fake it 'till you make it
+    var envMap = {
+      "true" : true,
+      // "qx.allowUrlSettings": false,
+      "qx.allowUrlVariants": false,
+      "qx.debug.property.level": 0,
+      "qx.debug": false,
+      "qx.debug.ui.queue": true,
+      "qx.aspects": false,
+      "qx.dynlocale": true,
+      "qx.dyntheme": true,
+      // "qx.mobile.emulatetouch": false,
+      "qx.emulatemouse": false,
+      "qx.blankpage": "qx/static/blank.html",
+      "qx.debug.databinding": false,
+      "qx.debug.dispose": false,
+      "qx.optimization.basecalls": false,
+      "qx.optimization.comments": false,
+      "qx.optimization.privates": false,
+      "qx.optimization.strings": false,
+      "qx.optimization.variables": false,
+      "qx.optimization.variants": false,
+      "module.databinding": true,
+      "module.logger": true,
+      "module.property": true,
+      "module.events": true,
+      // "qx.nativeScrollBars": false,
+
+      "qx.application":"myapp.Application",
+      "qx.revision":"",
+      "qx.theme":"myapp.theme.Theme",
+      "qx.version":"4.1",
+      // "qx.debug":true,
+      // "qx.debug.databinding":false,
+      // "qx.debug.dispose":false,
+      // "qx.debug.ui.queue":true,
+      "qx.debug.io":false,
+      "qx.nativeScrollBars":true,
+      "qx.allowUrlSettings":true,
+      "qx.mobile.emulatetouch":true
+    };
+
+    var resultTree = tree;
+    var resultTree = replaceEnvCallGet(resultTree, envMap);
+    var resultTree = replaceEnvCallSelect(resultTree, envMap);
+    return resultTree;
+  },
 
   /**
    * Takes an esprima AST and returns the list of feature classes used through
@@ -239,12 +361,12 @@ module.exports = {
       envCallNodes.forEach(function (node) {
         if (getEnvMethod(node) in {select:1, get:1, filter:1}) {
           // extract environment key
-          var env_key = getEnvKey(node);
+          var envKey = getEnvKey(node);
           // look up corresponding feature class
-          var fqMethodName = featureToClass[env_key];
+          var fqMethodName = featureToClass[envKey];
           if (fqMethodName) {
             // add to result
-            // console.log(tree.qxClassName, env_key + ' : ' + featureToClass[env_key]);
+            // console.log(tree.qxClassName, envKey + ' : ' + featureToClass[envKey]);
             if (!withMethodName) {
               var posOfLastDot = fqMethodName.lastIndexOf('.');
               result = addEnvCallDependency(fqMethodName.substr(0, posOfLastDot), node, result);
