@@ -234,6 +234,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var draggable = false;
       while (w) {
         if (w.getDraggable()) {
+          draggable = true;
           break;
         }
         w = w.getLayoutParent();
