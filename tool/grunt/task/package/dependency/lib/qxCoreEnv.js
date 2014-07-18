@@ -51,7 +51,7 @@ function getFeatureTable(classCode) {
     return (node.type === 'Property'
       && node.key.type === 'Identifier'
       && node.key.name === '_checksMap'
-      && node.value.type ===  'ObjectExpression'
+      && node.value.type === 'ObjectExpression'
     );
   }
 
@@ -115,7 +115,7 @@ function replaceEnvCallGet(tree, envMap) {
   var resultTree = controller.replace(tree, {
     enter : function (node, parent) {
       if (isQxCoreEnvironmentCall(node, ["get"])) {
-        var envKey = getEnvKey(node);
+        var envKey = getKeyFromEnvCall(node);
         if (envMap && envKey in envMap) {
           return {
             "type": "Literal",
@@ -130,12 +130,15 @@ function replaceEnvCallGet(tree, envMap) {
   return resultTree;
 }
 
+/**
+ *
+ */
 function replaceEnvCallSelect(tree, envMap) {
   var controller = new estraverse.Controller();
   var resultTree = controller.replace(tree, {
     enter : function (node, parent) {
       if (isQxCoreEnvironmentCall(node, ["select"])) {
-        var envKey = getEnvKey(node);
+        var envKey = getKeyFromEnvCall(node);
         try {
           var val = getEnvSelectValueByKey(node, envKey, envMap[envKey]);
           return val;
@@ -219,7 +222,7 @@ function addEnvCallDependency(fqMethodName, node, result) {
  * @param {Object} callNode - esprima AST call node
  * @returns {String} method name
  */
-function getEnvMethod(callNode) {
+function getMethodFromEnvCall(callNode) {
   // brute force, expecting 'CallExpression'
   return util.get(callNode, 'callee.property.name');
 
@@ -231,7 +234,7 @@ function getEnvMethod(callNode) {
  * @param {Object} callNode - esprima AST call node
  * @returns {String} env key
  */
-function getEnvKey(callNode) {
+function getKeyFromEnvCall(callNode) {
   return util.get(callNode, 'arguments.0.value');
 }
 
@@ -359,9 +362,9 @@ module.exports = {
     if (envCallNodes.length >= 1) {
       envCallNodes = addLoadRunInformation(envCallNodes, scopeRefs);
       envCallNodes.forEach(function (node) {
-        if (getEnvMethod(node) in {select:1, get:1, filter:1}) {
+        if (getMethodFromEnvCall(node) in {select:1, get:1, filter:1}) {
           // extract environment key
-          var envKey = getEnvKey(node);
+          var envKey = getKeyFromEnvCall(node);
           // look up corresponding feature class
           var fqMethodName = featureToClass[envKey];
           if (fqMethodName) {
