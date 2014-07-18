@@ -22,6 +22,8 @@
  *
  * @require(qx.lang.normalize.String)
  * @ignore(qx.bom.client.EcmaScript.*)
+ * @ignore(qx.bom.client)
+ * @ignore(qx.bom)
  * @ignore(qx.Class.*)
  */
 qx.Bootstrap.define("qx.dev.StackTrace",
