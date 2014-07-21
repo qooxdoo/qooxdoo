@@ -123,7 +123,7 @@ This is the job configuration of your app-specific ``config.json``:
       },
       "shell" :
       {
-        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --update ${APPLICATION_THEME_PATH}/scss:${APPLICATION_RESOURCE_PATH}/css",
+        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --watch ${APPLICATION_THEME_PATH}/scss:${APPLICATION_RESOURCE_PATH}/css",
         "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
       }
     }
