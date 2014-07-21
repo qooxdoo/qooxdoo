@@ -676,13 +676,14 @@ module.exports = {
    * Analyzes an esprima tree for unresolved references (i.e. dependencies).
    *
    * @param {Object} tree - esprima AST
+   * @param {Object} envMap - environment settings
    * @param {Object} [opts]
    * @param {boolean} [opts.flattened=false] - whether to divide deps into load and run
    * @param {boolean} [opts.variants=false] - whether to replace env calls with their value
    * @returns {string[]}
    * @see {@link http://esprima.org/doc/#ast|esprima AST}
    */
-  findUnresolvedDeps: function(tree, opts) {
+  findUnresolvedDeps: function(tree, envMap, opts) {
     var deps = {
       'load' : [],
       'run' : [],
@@ -718,7 +719,7 @@ module.exports = {
 
     // replace env calls with their value
     if (opts && opts.variants) {
-      tree = qxCoreEnv.optimizeEnvCall(tree);
+      tree = qxCoreEnv.optimizeEnvCall(tree, envMap);
       // debugClass(tree.qxClassName);
       globalAstMap[tree.qxClassName] = tree;
 
@@ -730,7 +731,7 @@ module.exports = {
       ast = ast.transform(compressor);
       var code = ast.print_to_string();
       treeOptimized = esprima.parse(code, {comment: true, loc: true});
-      depsOptimized = findUnresolvedDeps(treeOptimized, {
+      depsOptimized = findUnresolvedDeps(treeOptimized, envMap, {
         flattened: false, variants: false
       });
     }
@@ -846,10 +847,22 @@ module.exports = {
    * @param {Object} basePaths - namespace (key) and filePath (value) to library
    * @param {string[]} initClassIds - seed class ids
    * @param {string[]} excludedClassIds - class ids to be excluded
+   * @param {Object} envMap - environment settings
+   * @param {Object} [options]
+   * @param {boolean} [options.variants=false] - whether to optimize environment calls
    * @returns {Object} classesDeps
    */
-  collectDepsRecursive: function(basePaths, initClassIds, excludedClassIds) {
+  collectDepsRecursive: function(basePaths, initClassIds, excludedClassIds, envMap, options) {
     var classesDeps = {};
+
+    if (!options) {
+      options = {};
+    }
+
+    // merge options and default values
+    var opts = {
+      variants: options.variants === true ? true : false
+    };
 
     var getClassNamesFromPaths = function(filePaths) {
       return filePaths.map(function(path) {
@@ -922,7 +935,7 @@ module.exports = {
         };
 
         classNameAnnotator.annotate(tree, classIds[i]);
-        classDeps = findUnresolvedDeps(tree, {flattened: false, variants: true});
+        classDeps = findUnresolvedDeps(tree, envMap, {flattened: false, variants: opts.variants});
 
         // Note: Excluded classes will still be entries in load and run deps!
         // Maybe it's better to remove them here too ...

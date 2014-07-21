@@ -14,10 +14,17 @@ var common = {
   "APPLICATION_MAIN_CLASS" : "<%= common.APPLICATION %>.Application",
   "SOURCE_PATH": "<%= common.ROOT %>/test/data/myapp/source",
   "ENVIRONMENT": {
+    // base.json: common
     "qx.application": "<%= common.APPLICATION %>.Application",
     "qx.revision":"",
     "qx.theme": "<%= common.APPLICATION %>.theme.Theme",
-    "qx.version":"3.6"
+    "qx.version":"3.6",
+    // base.json: build-script
+    "qx.debug" : false,
+    "qx.debug.databinding" : false,
+    "qx.debug.dispose" : false,
+    "qx.debug.ui.queue" : false,
+    "qx.debug.io" : false
   }
 };
 

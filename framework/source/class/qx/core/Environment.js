@@ -955,6 +955,40 @@ qx.Bootstrap.define("qx.core.Environment",
       "qx.mobile.nativescroll" : "qx.bom.client.Scroll.getNativeScroll"
     },
 
+    _defaults:
+    {
+        // an always-true key (e.g. for use in qx.core.Environment.filter() calls)
+        "true": true,
+        // old settings retTrue
+        "qx.allowUrlSettings": false,
+        "qx.allowUrlVariants": false,
+        "qx.debug.property.level": 0,
+        // old variants
+        // make sure to reflect all changes to qx.debug here in the bootstrap class!
+        "qx.mobile.emulatetouch": false, // @deprecated {4.0}
+        "qx.emulatemouse": false, // @deprecated {4.0}
+        "qx.debug": true,
+        "qx.debug.ui.queue": true,
+        "qx.aspects": false,
+        "qx.dynlocale": true,
+        "qx.dyntheme": true,
+        "qx.blankpage": "qx/static/blank.html",
+        "qx.debug.databinding": false,
+        "qx.debug.dispose": false,
+        // generator optimization vectors
+        "qx.optimization.basecalls": false,
+        "qx.optimization.comments": false,
+        "qx.optimization.privates": false,
+        "qx.optimization.strings": false,
+        "qx.optimization.variables": false,
+        "qx.optimization.variants": false,
+        // qooxdoo modules
+        "module.databinding": true,
+        "module.logger": true,
+        "module.property": true,
+        "module.events": true,
+        "qx.nativeScrollBars": false
+    },
 
     /**
      * The default accessor for the checks. It returns the value the current
@@ -1280,46 +1314,13 @@ qx.Bootstrap.define("qx.core.Environment",
      * Initializer for the default values of the framework settings.
      */
     _initDefaultQxValues : function() {
-      var retFalse = function() {return false;};
-      var retTrue = function() {return true;};
+      var createFuncReturning = function(val) {
+        return function() { return val; };
+      };
 
-      // an always-true key (e.g. for use in qx.core.Environment.filter() calls)
-      this.add("true", retTrue);
-
-      // old settingsretTrue
-      this.add("qx.allowUrlSettings", retFalse);
-      this.add("qx.allowUrlVariants", retFalse);
-      this.add("qx.debug.property.level", function() {return 0;});
-
-      // old variants
-      // make sure to reflect all changes to qx.debug here in the bootstrap class!
-      this.add("qx.mobile.emulatetouch", retFalse); // @deprecated {4.0}
-      this.add("qx.emulatemouse", retFalse); // @deprecated {4.0}
-      this.add("qx.debug", retTrue);
-      this.add("qx.debug.ui.queue", retTrue);
-      this.add("qx.aspects", retFalse);
-      this.add("qx.dynlocale", retTrue);
-      this.add("qx.dyntheme", retTrue);
-      this.add("qx.blankpage", function() { return "qx/static/blank.html";});
-
-      this.add("qx.debug.databinding", retFalse);
-      this.add("qx.debug.dispose", retFalse);
-
-      // generator optimization vectors
-      this.add("qx.optimization.basecalls", retFalse);
-      this.add("qx.optimization.comments", retFalse);
-      this.add("qx.optimization.privates", retFalse);
-      this.add("qx.optimization.strings", retFalse);
-      this.add("qx.optimization.variables", retFalse);
-      this.add("qx.optimization.variants", retFalse);
-
-      // qooxdoo modules
-      this.add("module.databinding", retTrue);
-      this.add("module.logger", retTrue);
-      this.add("module.property", retTrue);
-      this.add("module.events", retTrue);
-
-      this.add("qx.nativeScrollBars", retFalse);
+      for (var prop in this._defaults) {
+        this.add(prop, createFuncReturning(this._defaults[prop]));
+      }
     },
 
 

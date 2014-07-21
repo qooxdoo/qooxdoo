@@ -34,10 +34,23 @@ var path = require('path');
 var esprima = require('esprima');
 var estraverse = require('estraverse');
 var escodegen = require('escodegen');
+var _ = require('underscore');
 var U2 = require('uglify-js');
 
 // local (modules may be injected by test env)
 var util = (util || require('./util'));
+
+
+//------------------------------------------------------------------------------
+// Privates
+//------------------------------------------------------------------------------
+
+// privates may be injected by test env
+
+/**
+ * Global qx.core.Environment class code;
+ */
+var globalEnvClassCode = "";
 
 /**
  * Extracts values from <code>qx.Bootstrap.define().statics._checksMap</code>.
@@ -47,7 +60,7 @@ var util = (util || require('./util'));
  */
 function getFeatureTable(classCode) {
 
-  function isFeatureMap (node) {
+  function isChecksMap (node) {
     return (node.type === 'Property'
       && node.key.type === 'Identifier'
       && node.key.name === '_checksMap'
@@ -56,19 +69,42 @@ function getFeatureTable(classCode) {
   }
 
   var featureMap = {};
-  // parse classCode
   var tree = esprima.parse(classCode);
 
-  // search feature map
   var controller = new estraverse.Controller();
   controller.traverse(tree, {
     enter : function (node, parent) {
-      if (isFeatureMap(node)) {
+      if (isChecksMap(node)) {
         featureMap = node.value;
       }
     }
   });
+
   return eval('(' + escodegen.generate(featureMap) + ')');
+}
+
+function extractEnvDefaults(classCode) {
+  function isDefaultsMap (node) {
+    return (node.type === 'Property'
+      && node.key.type === 'Identifier'
+      && node.key.name === '_defaults'
+      && node.value.type === 'ObjectExpression'
+    );
+  }
+
+  var defaultsMap = {};
+  var tree = esprima.parse(classCode);
+
+  var controller = new estraverse.Controller();
+  controller.traverse(tree, {
+    enter : function (node, parent) {
+      if (isDefaultsMap(node)) {
+        defaultsMap = node.value;
+      }
+    }
+  });
+
+  return eval('(' + escodegen.generate(defaultsMap) + ')');
 }
 
 /**
@@ -269,9 +305,13 @@ function getEnvSelectValueByKey(callNode, key, value) {
  * @returns {string} js code
  */
 function getClassCode() {
-  return fs.readFileSync(fs.realpathSync(
-    path.join(__dirname, '../../../../../../framework/source/class/qx/core/Environment.js')),
-    {encoding: 'utf-8'});
+  if (!globalEnvClassCode) {
+    globalEnvClassCode = fs.readFileSync(fs.realpathSync(
+      path.join(__dirname, '../../../../../../framework/source/class/qx/core/Environment.js')),
+      {encoding: 'utf-8'}
+    );
+  }
+  return globalEnvClassCode;
 }
 
 //------------------------------------------------------------------------------
@@ -281,47 +321,12 @@ function getClassCode() {
 module.exports = {
 
   optimizeEnvCall: function(tree, envMap) {
-    // TODO: fake it 'till you make it
-    var envMap = {
-      "true" : true,
-      // "qx.allowUrlSettings": false,
-      "qx.allowUrlVariants": false,
-      "qx.debug.property.level": 0,
-      "qx.debug": false,
-      "qx.debug.ui.queue": true,
-      "qx.aspects": false,
-      "qx.dynlocale": true,
-      "qx.dyntheme": true,
-      // "qx.mobile.emulatetouch": false,
-      "qx.emulatemouse": false,
-      "qx.blankpage": "qx/static/blank.html",
-      "qx.debug.databinding": false,
-      "qx.debug.dispose": false,
-      "qx.optimization.basecalls": false,
-      "qx.optimization.comments": false,
-      "qx.optimization.privates": false,
-      "qx.optimization.strings": false,
-      "qx.optimization.variables": false,
-      "qx.optimization.variants": false,
-      "module.databinding": true,
-      "module.logger": true,
-      "module.property": true,
-      "module.events": true,
-      // "qx.nativeScrollBars": false,
+    if (!envMap) {
+      envMap = {};
+    }
 
-      "qx.application":"myapp.Application",
-      "qx.revision":"",
-      "qx.theme":"myapp.theme.Theme",
-      "qx.version":"4.1",
-      // "qx.debug":true,
-      // "qx.debug.databinding":false,
-      // "qx.debug.dispose":false,
-      // "qx.debug.ui.queue":true,
-      "qx.debug.io":false,
-      "qx.nativeScrollBars":true,
-      "qx.allowUrlSettings":true,
-      "qx.mobile.emulatetouch":true
-    };
+    var envDefaults = extractEnvDefaults(getClassCode());
+    _.extend(envMap, envDefaults);
 
     var resultTree = tree;
     var resultTree = replaceEnvCallGet(resultTree, envMap);
@@ -349,13 +354,11 @@ module.exports = {
     };
     var featureToClass = {};
     var envCallNodes = [];
-    var qxCoreEnvCode = "";
 
     withMethodName = withMethodName || false;
-    qxCoreEnvCode = qxCoreEnvCode || getClassCode();
 
     // { 'plugin.flash' : 'qx.bom.client.Flash#isAvailable', 'nextKey': ... }
-    featureToClass = getFeatureTable(qxCoreEnvCode);
+    featureToClass = getFeatureTable(getClassCode());
 
     envCallNodes = findVariantNodes(tree);
 

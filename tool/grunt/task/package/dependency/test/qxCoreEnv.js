@@ -105,6 +105,67 @@ module.exports = {
       test.done();
     },
 
+    extractEnvDefaults: function(test) {
+      var tree = {
+        type: 'Property',
+        key: {
+          type: 'Identifier',
+          name: '_defaults'
+        },
+        value: {      // used as input for escodegen.generate()
+          type: 'ObjectExpression',
+          properties: [
+            {
+              type: 'Property',
+              key: {
+                type: 'Literal',
+                value: 'qx.debug',
+                raw: '\'qx.debug\''
+              },
+              value: {
+                type: 'Literal',
+                value: true,
+                raw: '\'true\''
+              },
+              kind: 'init'
+            },
+            {
+              type: 'Property',
+              key: {
+                type: 'Literal',
+                value: 'qx.blankpage',
+                raw: '\'qx.blankpage\''
+              },
+              value: {
+                type: 'Literal',
+                value: 'qx/static/blank.html',
+                raw: '\'qx/static/blank.html\''
+              },
+              kind: 'init'
+            }
+            // ...
+          ]
+        }
+      };
+
+      // require 'escodegen' to then monkey patch
+      var esprima = require('esprima');
+      var orig_parse = esprima.parse;
+      esprima.parse = function() { return tree; };
+
+      var expected = {
+        'qx.debug': true,
+        'qx.blankpage': 'qx/static/blank.html'
+      };
+
+      test.deepEqual(this.qxCoreEnv.extractEnvDefaults(), expected);
+
+      // don't forget to restore original!
+      esprima.parse = orig_parse;
+
+      test.done();
+    },
+
     findVariantNodes: function(test) {
       var treeTmpl = {
         type: 'CallExpression',
@@ -235,7 +296,7 @@ module.exports = {
       test.done();
     },
 
-    getEnvMethod: function(test) {
+    getMethodFromEnvCall: function(test) {
       var fakeNode = {
         callee: {
           property: {
@@ -244,13 +305,13 @@ module.exports = {
         }
       };
 
-      var actual = this.qxCoreEnv.getEnvMethod(fakeNode);
+      var actual = this.qxCoreEnv.getMethodFromEnvCall(fakeNode);
       test.strictEqual(actual, "foo");
 
       test.done();
     },
 
-    getEnvKey: function(test) {
+    getKeyFromEnvCall: function(test) {
       var fakeNode = {
         arguments: {
           0: {
@@ -259,7 +320,7 @@ module.exports = {
         }
       };
 
-      var actual = this.qxCoreEnv.getEnvKey(fakeNode);
+      var actual = this.qxCoreEnv.getKeyFromEnvCall(fakeNode);
       test.strictEqual(actual, 123);
 
       test.done();
