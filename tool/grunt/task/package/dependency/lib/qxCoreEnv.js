@@ -56,7 +56,7 @@ var globalEnvClassCode = "";
  * Extracts values from <code>qx.Bootstrap.define().statics._checksMap</code>.
  *
  * @param {string} classCode - js code of Environment class.
- * @returns {Object} envKeys and envMethodNames
+ * @returns {Object} envKeys and envMethodNames.
  */
 function getFeatureTable(classCode) {
 
@@ -83,6 +83,12 @@ function getFeatureTable(classCode) {
   return eval('(' + escodegen.generate(featureMap) + ')');
 }
 
+/**
+ * Extracts values from <code>qx.Bootstrap.define().statics._defaults</code>.
+ *
+ * @param {string} classCode - js code of Environment class.
+ * @returns {Object} envKeys and envValues.
+ */
 function extractEnvDefaults(classCode) {
   function isDefaultsMap (node) {
     return (node.type === 'Property'
@@ -130,7 +136,12 @@ function findVariantNodes(tree) {
 }
 
 /**
- * Picks calls to qx.core.Environment.get|select|filter
+ * Figures out if node is call of qx.core.Environment.get|select|filter.
+ *
+ * @param {Object} node - esprima node
+ * @param {String[]} methodNames - method names to check for
+ * @returns {boolean}
+ * @see {@link http://esprima.org/doc/#ast|esprima AST}
  */
 function isQxCoreEnvironmentCall(node, methodNames) {
     var interestingEnvMethods = ['select', 'selectAsync', 'get', 'getAsync', 'filter'];
@@ -144,7 +155,12 @@ function isQxCoreEnvironmentCall(node, methodNames) {
 }
 
 /**
+ * Replaces get env calls with the computed value.
  *
+ * @param {Object} tree - esprima AST
+ * @param {Object} envMap - environment settings
+ * @returns {Object} resultTree - manipulated (desctructive) esprima AST
+ * @see {@link http://esprima.org/doc/#ast|esprima AST}
  */
 function replaceEnvCallGet(tree, envMap) {
   var controller = new estraverse.Controller();
@@ -167,7 +183,12 @@ function replaceEnvCallGet(tree, envMap) {
 }
 
 /**
+ * Replaces select env calls with the computed value.
  *
+ * @param {Object} tree - esprima AST
+ * @param {Object} envMap - environment settings
+ * @returns {Object} resultTree - manipulated (desctructive) esprima AST
+ * @see {@link http://esprima.org/doc/#ast|esprima AST}
  */
 function replaceEnvCallSelect(tree, envMap) {
   var controller = new estraverse.Controller();
@@ -274,6 +295,13 @@ function getKeyFromEnvCall(callNode) {
   return util.get(callNode, 'arguments.0.value');
 }
 
+/**
+ * Gets the select 'body' from a <code>qx.core.Environment.select('foo', {...})</code> call.
+ *
+ * @param {Object} callNode - esprima AST call node
+ * @param {String} key - evaluated key which will be used for value extraction of select 'body'
+ * @returns {*} env value (may be any type)
+ */
 function getEnvSelectValueByKey(callNode, key, value) {
   var properties = util.get(callNode, 'arguments.1.properties');
   var selectedValue = "initial";
@@ -320,6 +348,13 @@ function getClassCode() {
 
 module.exports = {
 
+  /**
+   * Optimizes env calls (i.e. replaces their call with the computed value).
+   *
+   * @param {Object} tree - esprima AST
+   * @param {Object} envMap - environment settings
+   * @returns {Object} resultTree - manipulated esprima AST
+   */
   optimizeEnvCall: function(tree, envMap) {
     if (!envMap) {
       envMap = {};
@@ -329,8 +364,8 @@ module.exports = {
     _.extend(envMap, envDefaults);
 
     var resultTree = tree;
-    var resultTree = replaceEnvCallGet(resultTree, envMap);
-    var resultTree = replaceEnvCallSelect(resultTree, envMap);
+    resultTree = replaceEnvCallGet(resultTree, envMap);
+    resultTree = replaceEnvCallSelect(resultTree, envMap);
     return resultTree;
   },
 

@@ -837,6 +837,13 @@ module.exports = {
     return (opts && opts.flattened ? deps.load.concat(deps.run) : deps);
   },
 
+  /**
+   * Get a map with qxClassName:manipulated AST for later reusing them.
+   * Please notice: This method will only return something useful when findUnresolvedDeps()
+   * (which is also called by collectDepsRecursive()) is called *before*.
+   *
+   * @returns {Object} globalAstMap - the keys are class names (e.g. "qx.core.Environment").
+   */
   getTrees: function() {
     return globalAstMap;
   },
