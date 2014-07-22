@@ -339,6 +339,8 @@ module.exports = {
     };
 
     // compress with UglifyJS2
+
+    // if there's an (manipulated) esprima AST use it
     if (tree !== null && typeof(tree) !== "undefined") {
       // debugClass(classId);
       var ast = U2.AST_Node.from_mozilla_ast(tree);
@@ -346,10 +348,11 @@ module.exports = {
       var compressor = U2.Compressor({warnings: false});
       ast = ast.transform(compressor);
       compressedCode = ast.print_to_string();
-    } else {
-      var result = U2.minify(compressedCode, {fromString: true});
-      compressedCode = result.code;
     }
+
+    // compress in any case
+    var result = U2.minify(compressedCode, {fromString: true});
+    compressedCode = result.code;
 
     // qx specific optimizations
     if (opts.privates) {
