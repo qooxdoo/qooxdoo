@@ -172,7 +172,9 @@ function replaceEnvCallGet(tree, envMap) {
           return {
             "type": "Literal",
             "value": envMap[envKey],
-            "raw": envMap[envKey]
+            "raw": ((typeof(envMap[envKey]) === "string")
+                   ? "\""+envMap[envKey]+"\""
+                   : envMap[envKey].toString())
           };
         }
       }
@@ -197,8 +199,7 @@ function replaceEnvCallSelect(tree, envMap) {
       if (isQxCoreEnvironmentCall(node, ["select"])) {
         var envKey = getKeyFromEnvCall(node);
         try {
-          var val = getEnvSelectValueByKey(node, envKey, envMap[envKey]);
-          return val;
+          return getEnvSelectValueByKey(node, envMap[envKey]);
         } catch (error) {
           // intentionally empty
           // => no return means no replacement
@@ -299,10 +300,10 @@ function getKeyFromEnvCall(callNode) {
  * Gets the select 'body' from a <code>qx.core.Environment.select('foo', {...})</code> call.
  *
  * @param {Object} callNode - esprima AST call node
- * @param {String} key - evaluated key which will be used for value extraction of select 'body'
- * @returns {*} env value (may be any type)
+ * @param {String} key - key which will be used for value extraction of select 'body'
+ * @throws {Error} ENOENT
  */
-function getEnvSelectValueByKey(callNode, key, value) {
+function getEnvSelectValueByKey(callNode, key) {
   var properties = util.get(callNode, 'arguments.1.properties');
   var selectedValue = "initial";
   var defaultValue = "initial";
@@ -310,7 +311,7 @@ function getEnvSelectValueByKey(callNode, key, value) {
   var i = 0;
   var l = properties.length;
   while (l--) {
-    if (properties[l].key.value === value.toString()) {
+    if (properties[l].key.value === key.toString()) {
       selectedValue = properties[l].value;
     }
     if (properties[l].key.value === "default") {
@@ -361,11 +362,13 @@ module.exports = {
     }
 
     var envDefaults = extractEnvDefaults(getClassCode());
-    _.extend(envMap, envDefaults);
+    // envMap is second param because its values
+    // should override the defaults from the framework
+    var mergedEnvMap = _.extend(envDefaults, envMap);
 
     var resultTree = tree;
-    resultTree = replaceEnvCallGet(resultTree, envMap);
-    resultTree = replaceEnvCallSelect(resultTree, envMap);
+    resultTree = replaceEnvCallGet(resultTree, mergedEnvMap);
+    resultTree = replaceEnvCallSelect(resultTree, mergedEnvMap);
     return resultTree;
   },
 
