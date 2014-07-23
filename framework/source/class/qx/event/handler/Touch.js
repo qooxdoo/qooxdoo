@@ -198,7 +198,6 @@ qx.Class.define("qx.event.handler.Touch",
     dispose : function()
     {
       this.__callBase("dispose");
-      this._stopMouseObserver();
       this.__manager = this.__window = this.__root = null;
     },
 
