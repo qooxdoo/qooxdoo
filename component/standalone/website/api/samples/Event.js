@@ -74,6 +74,28 @@ winCollection.on("resize", q.func.debounce(resizeHandler, 500), winCollection);
 });
 
 
+addSample(".hasListener", {
+  javascript: function() {
+var myListener = function(e) {};
+
+// sample code to demonstrate the pitfall with the context parameter
+q(document.body).on('pointerdown', myListener, q(window));
+
+// result will *always* be 'false'
+// -> the context to check for is a *new* collection instance and *not* identical to the one used with the 'on' method
+console.log(q(document.body).hasListener('pointerdown', myListener, q(window)));
+
+// this will work
+var context = q(window);
+q(document.body).on('pointerdown', myListener, context);
+
+// result will be 'true'
+console.log(q(document.body).hasListener('pointerdown', myListener, context));
+  },
+  executable: true
+});
+
+
 addSample(".emit", {
   html: [ '<div id="target"></div>' ],
   javascript: function() {/* BE AWARE OF OVERUSING THIS PATTERN. IT CAN RESULT IN BAD / UNMAINTAINABLE CODE */

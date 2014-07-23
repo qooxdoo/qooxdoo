@@ -257,7 +257,11 @@ qx.Bootstrap.define("qx.module.Event", {
 
     /**
      * Checks if one or more listeners for the given event type are attached to
-     * the first element in the collection
+     * the first element in the collection.
+     *
+     * *Important:* Make sure you are handing in the *identical* context object to get
+     * the correct result. Especially when using a collection instance this is a common pitfall.
+     * Check out the corresponding code sample below to get it right.
      *
      * @attach {qxWeb}
      * @param type {String} Event type, e.g. <code>mousedown</code>
