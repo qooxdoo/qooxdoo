@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
      */
     transitionDuration : {
       check : "Number",
-      init : 0.4
+      init : 0.5
     }
   },
 
@@ -569,7 +569,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       if (evt.getDuration() < 750 && Math.abs(evt.getDistance()) > 50) {
         var duration = this._calculateTransitionDuration(this.__deltaX, evt.getDuration());
-        duration = Math.min(0.5,duration);
+        duration = Math.min(this.getTransitionDuration(),duration);
 
         this._setTransitionDuration(duration);
         if (evt.getDirection() == "left") {
