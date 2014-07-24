@@ -26,6 +26,7 @@
 from generator.code.Class import Class
 from ecmascript.frontend  import treeutil
 from ecmascript.frontend.tree  import NodeAccessException
+from ecmascript.frontend.treegenerator import PackerFlags as pp
 
 class qcEnvClass(Class):
 
@@ -49,9 +50,40 @@ class qcEnvClass(Class):
                 checksMap[key] = checksMap[key].children[0].get("value")
             except NodeAccessException:
                 raise ValueError(("Error extracting checks map from %s: " +
-                                  "expected string value for key '%s' (found %s)") % 
+                                  "expected string value for key '%s' (found %s)") %
                                   (self.id, key, checksMap[key].children[0].type))
         return checksMap
+
+    def init_envKeyProviderIndex(self, classesAll):
+        self.envKeyProviderIndex = self.createEnvKeyProviderIndex(classesAll)
+
+    def createEnvKeyProviderIndex(self, classesAll):
+        envProviders = {}
+        providingEnvClasses = [className for className in classesAll.keys() if className.startswith("qx.bom.client")]
+        for className in providingEnvClasses:
+            tree = classesAll[className].tree()
+            for callnode in list(treeutil.nodeIterator(tree, ['call'])):
+                if callnode.toJS(pp).startswith("qx.core.Environment.add"):
+                    envKey = treeutil.selectNode(callnode, "arguments/constant/@value")
+                    envProviders[envKey] = className
+
+        return envProviders
+
+    def collectProvidedEnvKeys(self):
+        tree = self.tree()
+        providedKeys = []
+        for callnode in list(treeutil.nodeIterator(tree, ['call'])):
+            if callnode.toJS(pp).startswith("qx.core.Environment.add"):
+                envKey = treeutil.selectNode(callnode, "arguments/constant/@value")
+                providedKeys.append(envKey)
+
+        return providedKeys
+
+    def classNameFromEnvKeyByIndex(self, key):
+        result = ''
+        if key in self.envKeyProviderIndex:
+            result = self.envKeyProviderIndex[key]
+        return result
 
     ##
     # Looks up the environment key in a map that yields the full class plus

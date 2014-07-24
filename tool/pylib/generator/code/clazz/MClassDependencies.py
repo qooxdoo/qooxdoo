@@ -40,7 +40,6 @@ GlobalSymbolsCombinedPatt = re.compile('|'.join(r'^%s\b' % re.escape(x) for x in
 
 DEFER_ARGS = ("statics", "members", "properties")
 
-
 class MClassDependencies(object):
 
     # --------------------------------------------------------------------------
@@ -160,6 +159,7 @@ class MClassDependencies(object):
                                 # have access to the script here in Class.
 
             return result
+
         # -- Main ---------------------------------------------------------
 
         # handles cache and invokes worker function
@@ -297,18 +297,22 @@ class MClassDependencies(object):
     # DepsItems from qx.core.Environment.*() feature dependencies
     #
     def dependencies_from_envcalls(self, node):
+
         depsList = []
         if 'qx.core.Environment' not in ClassesAll:
             self.context['console'].warn("No qx.core.Environment available to extract feature keys from")
             return depsList
         qcEnvClass = ClassesAll['qx.core.Environment']
+
         for env_operand in variantoptimizer.findVariantNodes(node):
             call_node = env_operand.parent.parent
             env_key = call_node.getChild("arguments").children[0].get("value", "")
-            className, classAttribute = qcEnvClass.classNameFromEnvKey(env_key)
+            # Without qx.core.Environment._checksMap:
+            # ---------------------------------------
+            className = qcEnvClass.classNameFromEnvKeyByIndex(env_key)
             if className and className in ClassesAll:
                 #print className
-                depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
+                depsItem = DependencyItem(className, "", self.id, env_operand.get('line', -1))
                 depsItem.isCall = True  # treat as if actual call, to collect recursive deps
                 depsItem.node = call_node
                 # .inLoadContext
@@ -318,6 +322,21 @@ class MClassDependencies(object):
                 if depsItem.isLoadDep:
                     depsItem.needsRecursion = True
                 depsList.append(depsItem)
+            # With qx.core.Environment._checksMap:
+            # ------------------------------------
+            # className, classAttribute = qcEnvClass.classNameFromEnvKey(env_key)
+            # if className and className in ClassesAll:
+            #     #print className
+            #     depsItem = DependencyItem(className, classAttribute, self.id, env_operand.get('line', -1))
+            #     depsItem.isCall = True  # treat as if actual call, to collect recursive deps
+            #     depsItem.node = call_node
+            #     # .inLoadContext
+            #     qx_idnode = treeutil.findFirstChainChild(env_operand) # 'qx' node of 'qx.core.Environment....'
+            #     scope = qx_idnode.scope
+            #     depsItem.isLoadDep = scope.is_load_time
+            #     if depsItem.isLoadDep:
+            #         depsItem.needsRecursion = True
+            #     depsList.append(depsItem)
         return depsList
 
 
@@ -446,12 +465,22 @@ class MClassDependencies(object):
     # DepsItem Factory: Create a DependencyItem() for each Feature Check class.
     #
     def depsItems_from_envchecks(self, nodeline, inLoadContext):
+        # Without qx.core.Environment._checksMap:
+        # ---------------------------------------
         result = []
         qcEnvClass = ClassesAll['qx.core.Environment']
-        for key in qcEnvClass.checksMap:
-            clsname, clsattribute = qcEnvClass.classNameFromEnvKey(key)
-            result.append(DependencyItem(clsname, clsattribute, self.id, nodeline, inLoadContext))
+        for key in qcEnvClass.envKeyProviderIndex:
+            clsname = qcEnvClass.classNameFromEnvKeyByIndex(key)
+            result.append(DependencyItem(clsname, "", self.id, nodeline, inLoadContext))
         return result
+        # With qx.core.Environment._checksMap:
+        # -----------------------------------
+        # result = []
+        # qcEnvClass = ClassesAll['qx.core.Environment']
+        # for key in qcEnvClass.checksMap:
+        #     clsname, clsattribute = qcEnvClass.classNameFromEnvKey(key)
+        #     result.append(DependencyItem(clsname, clsattribute, self.id, nodeline, inLoadContext))
+        # return result
 
 
     ##

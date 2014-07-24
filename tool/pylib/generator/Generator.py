@@ -458,7 +458,7 @@ class Generator(object):
             # TODO : this could also be passed as a parameter to Class.dependencies()
             if "qx.core.Environment" in self._classesObj:
                 self._classesObj["qx.core.Environment"].init_checksMap()
-
+                self._classesObj["qx.core.Environment"].init_envKeyProviderIndex(self._classesObj)
 
 
         ##
