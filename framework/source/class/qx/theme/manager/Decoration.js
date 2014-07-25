@@ -28,6 +28,13 @@ qx.Class.define("qx.theme.manager.Decoration",
   extend : qx.core.Object,
 
 
+  statics :
+  {
+    /** The prefix for all created CSS classes*/
+    CSS_CLASSNAME_PREFIX : "qx-"
+  },
+
+
 
   construct : function() {
     this.base(arguments);
@@ -77,10 +84,11 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @return {String} The css class name.
      */
     getCssClassName : function(value) {
+      var prefix = qx.theme.manager.Decoration.CSS_CLASSNAME_PREFIX;
       if (qx.lang.Type.isString(value)) {
-        return "qx-" + value;
+        return prefix + value;
       } else {
-        return "qx-" + value.toHashCode();
+        return prefix + value.toHashCode();
       }
     },
 
