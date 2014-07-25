@@ -332,6 +332,35 @@ qx.Class.define("qx.test.core.Object",
     },
 
 
+    testDisposeBinding : function() {
+      // object dispose with a singleton
+      qx.Class.define("qx.test.Single", {
+        extend : qx.core.Object,
+        properties : {
+          a: {event: "changeA", nullable: true},
+          b: {event: "changeB", nullable: true}
+        }
+      });
+      var o = new qx.test.Single();
+      var o2 = new qx.test.Single();
+
+      o.bind("a", o2, "a");
+      o.bind("a", o, "b");
+      o2.bind("a", o, "a");
+
+      this.assertEquals(2, o.getBindings().length);
+      this.assertEquals(1, o2.getBindings().length);
+
+      o.dispose();
+      o2.dispose();
+
+      qx.Class.undefine("qx.test.Single");
+
+      this.assertEquals(0, o.getBindings().length);
+      this.assertEquals(0, o2.getBindings().length);
+    },
+
+
     testDisposeSingletonObject : function()
     {
       // object dispose with a singleton and an object
