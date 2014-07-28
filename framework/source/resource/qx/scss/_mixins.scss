@@ -159,6 +159,8 @@
 
 // Mixin for position sticky feature.
 @mixin sticky($args) {
+  // Default to 'static' if sticky is not supported.
+  position: static;
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;
