@@ -27,6 +27,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
   include : [
     qx.ui.form.MForm,
     qx.ui.form.MModelProperty,
+    qx.ui.mobile.container.MScrollHandling,
     qx.ui.mobile.form.MState
   ],
   implement : [
@@ -68,27 +69,6 @@ qx.Class.define("qx.ui.mobile.form.Input",
 
 
     /**
-    * Returns the parent scroll container of this widget.
-    * @return {qx.ui.mobile.container.Scroll} the parent scroll container or <code>null</code>
-    */
-    __getScrollContainer : function() {
-      var scroll = this;
-      while (!(scroll instanceof qx.ui.mobile.container.Scroll)) {
-        if (scroll.getLayoutParent) {
-          var layoutParent = scroll.getLayoutParent();
-          if (layoutParent == null || layoutParent instanceof qx.ui.mobile.core.Root) {
-            return null;
-          }
-          scroll = layoutParent;
-        } else {
-          return null;
-        }
-      }
-      return scroll;
-    },
-
-
-    /**
      * Handles the <code>click</code> and <code>focus</code> event on this input widget.
      * @param evt {qx.event.type.Event} <code>click</code> or <code>focus</code> event
      */
@@ -97,7 +77,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
         return;
       }
 
-      var scrollContainer = this.__getScrollContainer();
+      var scrollContainer = this._getParentScrollContainer();
       if(scrollContainer === null) {
         return;
       }
