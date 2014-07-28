@@ -289,7 +289,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
 
       var scrollable = this._findScrollableParent(e.getOriginalTarget());
 
-      if (scrollable) {
+      while (scrollable) {
         var bounds = this._getBounds(scrollable),
             xPos = e.getDocumentLeft(),
             yPos = e.getDocumentTop(),
@@ -305,8 +305,8 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
 
         edgeType = this._getEdgeType(diff, this.getDragScrollThresholdX(), this.getDragScrollThresholdY());
         if (!edgeType) {
-          // return if not within edge threshold
-          return;
+          scrollable = this._findScrollableParent(scrollable);
+          continue;
         }
         axis = this._getAxis(edgeType);
 
@@ -323,6 +323,10 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
               this._scrollBy(scrollable, axis, amount);
             }.bind(this, scrollable, axis, exceedanceAmount));
           this.__dragScrollTimer.start();
+          e.stopPropagation();
+          return;
+        } else {
+          scrollable = this._findScrollableParent(scrollable);
         }
       }
     },
