@@ -159,7 +159,10 @@
 
 // Mixin for position sticky feature.
 @mixin sticky($args) {
+<<<<<<< HEAD
   // Default to 'static' if sticky is not supported.
+=======
+>>>>>>> [BUG #8504] qx.Mobile List Group Header should be sticky
   position: -webkit-sticky;
   position: -moz-sticky;
   position: -ms-sticky;

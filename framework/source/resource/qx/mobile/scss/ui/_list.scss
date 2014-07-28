@@ -42,13 +42,13 @@
   @include transform-origin(50% 50%);
 
   content:"";
-  
+
   border-top: $list-arrow-thickness solid $list-arrow-color;
   border-right: $list-arrow-thickness solid $list-arrow-color;
-  
+
   width: $list-arrow-size*2;
   height: $list-arrow-size*2;
-  
+
   position: absolute;
   right: rem(16);
   top: 50%;
@@ -89,7 +89,7 @@
   @include background($list-group-header-background);
   @include background-clip(padding-box);
   @include sticky(0px);
-  
+
   padding: rem(5) rem(25) rem(5) rem(10);
   height: $list-group-header-height;
   line-height: $list-group-header-height;
@@ -111,7 +111,7 @@
   @include border-radius(0);
   border-top-left-radius: 0px !important;
   border-top-right-radius: 0px !important;
-  background-color: $navigationpage-background; 
+  background-color: $navigationpage-background;
   border-width: 0 !important;
 }
 
