@@ -78,7 +78,18 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     *        "input": "10%",
     *        "index": 0}</code>
     */
-    waypoint : "qx.event.type.Data"
+    waypoint : "qx.event.type.Data",
+
+
+    /**
+    * Fired when a momentum starts on an iOS device.
+    */
+    momentumStart : "qx.event.type.Event",
+
+    /**
+    * Fired when a momentum ends on an iOS device.
+    */
+    momentumEnd : "qx.event.type.Data"
   },
 
 

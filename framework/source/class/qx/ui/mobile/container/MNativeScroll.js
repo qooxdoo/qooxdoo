@@ -49,8 +49,8 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
   members :
   {
     _snapPoints : null,
-    _lastScrollTime : null,
-    _snapAfterMomentum : null,
+    _isMomentum : null,
+    _momentumStartTimerID : null,
 
 
     /**
@@ -79,10 +79,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     /**
      * Event handler for <code>trackstart</code> events.
      */
-    _onTrackStart: function() {
-      this._lastScrollTime = Date.now();
-      this._snapAfterMomentum = false;
-
+    _onTrackStart: function(evt) {
       if (qx.core.Environment.get("os.name") == "ios") {
         // If scroll container is scrollable
         if (this._isScrollableY()) {
@@ -95,7 +92,6 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
           }
         }
       }
-
     },
 
 
@@ -104,14 +100,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     * @param evt {qx.event.type.Track} the <code>track</code> event
     */
     _onTrackEnd: function(evt) {
-      var swipeDuration = Date.now() - this._lastScrollTime;
-      if (swipeDuration < 250 && (Math.abs(evt.getDelta().y) > 10 || Math.abs(evt.getDelta().x) > 10 )) {
-        setTimeout(function() {
-          this._snapAfterMomentum = true;
-        }.bind(this), 500);
-      } else {
-        this._snap();
-      }
+      this._snap();
     },
 
 
@@ -119,19 +108,35 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     * Event handler for <code>scroll</code> events.
     */
     _onScroll : function() {
-      this._setCurrentX(this.getContentElement().scrollLeft);
-      this._setCurrentY(this.getContentElement().scrollTop);
+      var scrollLeft = this.getContentElement().scrollLeft;
+      var scrollTop = this.getContentElement().scrollTop;
 
-      if(this._snapTimerId) {
-        clearTimeout(this._snapTimerId);
+      if (qx.core.Environment.get("os.name") == "ios") {
+        var scrollDeltaY = Math.abs(this._currentY - scrollTop);
+        var lowerLimitY = this.getContentElement().scrollHeight - this.getContentElement().offsetHeight;
+
+        if(this._momentumStartTimerID) {
+          clearTimeout(this._momentumStartTimerID);
+        }
+
+        if (scrollDeltaY > 2 && scrollTop > 1 && scrollTop < lowerLimitY && !this._isMomentum) {
+          this._momentumStartTimerID = setTimeout(function() {
+            this.fireEvent("momentumStart");
+            this._isMomentum = true;
+          }.bind(this), 50);
+        }
+
+        if(scrollDeltaY > 100 || scrollTop <= 0 || scrollTop < this.getContentElement().scrollHeight) {
+          if(this._isMomentum) {
+            this._snap();
+            this._isMomentum = false;
+            this.fireDataEvent("momentumEnd",this.getContentElement().scrollTop);
+          }
+        }
       }
 
-      if (this._snapAfterMomentum || qx.core.Environment.get("browser.name") == "iemobile") {
-        this._snapTimerId = setTimeout(function() {
-          this._snap();
-          this._snapAfterMomentum = false;
-        }.bind(this), 100);
-      }
+      this._setCurrentX(scrollLeft);
+      this._setCurrentY(scrollTop);
     },
 
 
