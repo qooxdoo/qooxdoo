@@ -245,7 +245,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
       if(!this.getContentElement()) {
         return 0;
       }
-      
+
       return this.getContentElement().scrollHeight - this.getContentElement().offsetHeight;
     },
 
@@ -258,7 +258,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
       if(!this.getContentElement()) {
         return 0;
       }
-      
+
       return this.getContentElement().scrollWidth - this.getContentElement().offsetWidth;
     },
 
