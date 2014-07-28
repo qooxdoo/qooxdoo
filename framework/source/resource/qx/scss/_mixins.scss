@@ -157,6 +157,16 @@
   box-flex-group: $args;
 }
 
+// Mixin for position sticky feature.
+@mixin sticky($args) {
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
+  position: sticky;
+  top: $args;
+}
+
 // FLEXIBLE BOX LAYOUT: SYNTAX 08 2012
 
 @mixin flex($args) {
