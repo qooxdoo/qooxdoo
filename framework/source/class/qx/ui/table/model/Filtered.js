@@ -285,7 +285,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
               break;
 
             case "!between":
-              if (compareValue < this.Filters[i][1] &&
+              if (compareValue < this.Filters[i][1] ||
                   compareValue > this.Filters[i][2]) {
                 filter_test = true;
               }
