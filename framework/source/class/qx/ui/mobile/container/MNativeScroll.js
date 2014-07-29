@@ -79,7 +79,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     /**
      * Event handler for <code>trackstart</code> events.
      */
-    _onTrackStart: function(evt) {
+    _onTrackStart: function() {
       if (qx.core.Environment.get("os.name") == "ios") {
         // If scroll container is scrollable
         if (this._isScrollableY()) {
