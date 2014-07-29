@@ -41,10 +41,6 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
      * @param type {String} event type
      */
     register : function(element, type) {
-      if (!element.__gestureListeners) {
-        element.__gestureListeners = 0;
-      }
-
       if (!element.$$gestureHandler) {
 
         if (!qx.core.Environment.get("event.dispatchevent")) {
@@ -55,8 +51,6 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
 
         element.$$gestureHandler = new qx.event.handler.GestureCore(element, element.$$emitter);
       }
-
-      element.__gestureListeners++;
     },
 
 
@@ -66,12 +60,20 @@ qx.Bootstrap.define("qx.module.event.GestureHandler", {
      * @param element {Element} DOM element
      */
     unregister : function(element) {
+      // check if there are any registered listeners left
       if (element.$$gestureHandler) {
-        element.__gestureListeners--;
-        if (element.__gestureListeners === 0) {
-          element.$$gestureHandler.dispose();
-          element.$$gestureHandler = null;
+        var listeners = element.$$emitter.getListeners();
+        for (var type in listeners) {
+          if (qx.module.event.GestureHandler.TYPES.indexOf(type) !== -1) {
+            if (listeners[type].length > 0) {
+              return;
+            }
+          }
         }
+
+        // no more listeners, get rid of the handler
+        element.$$gestureHandler.dispose();
+        element.$$gestureHandler = undefined;
       }
     }
   },
