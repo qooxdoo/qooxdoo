@@ -302,7 +302,7 @@ $waypoint-width: 300px;
   @include transform(translate3d(0,0,0));
   @include transition(all 2s);
  
-  z-index:5;
+  z-index: 10;
 
   box-sizing: border-box;
   background-color: $highlight-color;
