@@ -22,6 +22,7 @@
   color: $list-title-text-color;
   border: rem(1) solid $list-border-color;
   margin-top: rem(-1);
+  z-index:0;
 }
 
 .list-item.active {
@@ -87,8 +88,8 @@
   @extend .list-item;
   @include background($list-group-header-background);
   @include background-clip(padding-box);
-  @include sticky(-1px);
-
+  @include sticky(0px);
+  
   padding: rem(5) rem(25) rem(5) rem(10);
   height: $list-group-header-height;
   line-height: $list-group-header-height;
@@ -103,4 +104,27 @@
 
 .group-item-image {
   margin-right: rem(8);
+}
+
+// Special treatment of first group-item because of border-radius and sticky position
+.group-item:first-child {
+  @include border-radius(0);
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  background-color: $navigationpage-background; 
+  border-width: 0 !important;
+}
+
+.group-item:first-child:after {
+  @extend .list-item;
+  @include background($list-group-header-background);
+  @include background-clip(padding-box);
+  position:absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  display:block;
+  z-index: -1;
 }
