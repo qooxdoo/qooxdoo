@@ -2466,21 +2466,24 @@ testrunner.define({
     var cb = function() {};
     var test = q.create('<div></div>').appendTo(this.sandbox[0])
     .on("pointerdown", cb)
-    .on("pointerup");
+    .on("pointerup", cb);
     this.assertEquals("qx.event.handler.PointerCore", test[0].$$pointerHandler.classname);
     test.off("pointerdown", cb);
-    this.assertNotNull(test[0].$$pointerHandler);
+    this.assertNotUndefined(test[0].$$pointerHandler);
     test.off("pointerup", cb);
-    this.assertNull(test[0].$$pointerHandler);
+    this.assertUndefined(test[0].$$pointerHandler);
+  },
+
+  __onMouseDown : function(e) {
+    this.resume(function() {
+      q(document).off("mousedown", this.__onMouseDown, this);
+      this.assertEquals("mousedown", e.getType());
+    }, this);
   },
 
   testNativeBubbling : function() {
     this.sandbox.on("pointerdown", function() {});
-    q(document).on("mousedown", function(e) {
-      this.resume(function() {
-        this.assertEquals("mousedown", e.getType());
-      }, this);
-    }, this);
+    q(document).on("mousedown", this.__onMouseDown, this);
 
     setTimeout(function() {
       var domEvent = testrunner.createMouseEvent("mousedown");
@@ -2489,6 +2492,29 @@ testrunner.define({
         this.sandbox[0].fireEvent("onmousedown", domEvent);
     }.bind(this), 100);
     this.wait(250);
+  },
+
+  testDisposeHandler: function() {
+    var cb = function() {};
+    this.sandbox
+      .on("pointerdown", cb)
+      .on("pointerup", cb)
+      .off("pointerdown", cb);
+    this.assertNotUndefined(this.sandbox[0].$$pointerHandler);
+    this.sandbox.off("pointerup", cb);
+    this.assertUndefined(this.sandbox[0].$$pointerHandler);
+  },
+
+  testRemoveMultiple: function() {
+    var cb = function() {};
+    this.sandbox
+      .on("pointerdown", cb)
+      .on("pointerup", cb)
+      .off("pointerup", cb)
+      .off("pointerup", cb);
+    this.assertNotUndefined(this.sandbox[0].$$pointerHandler);
+    this.sandbox.off("pointerdown", cb);
+    this.assertUndefined(this.sandbox[0].$$pointerHandler);
   }
 });
 
@@ -2504,12 +2530,35 @@ testrunner.define({
     var cb = function() {};
     var test = q.create('<div></div>').appendTo(this.sandbox[0])
     .on("tap", cb)
-    .on("swipe");
+    .on("swipe", cb);
     this.assertEquals("qx.event.handler.GestureCore", test[0].$$gestureHandler.classname);
     test.off("tap", cb);
     this.assertNotNull(test[0].$$gestureHandler);
     test.off("swipe", cb);
-    this.assertNull(test[0].$$gestureHandler);
+    this.assertUndefined(test[0].$$gestureHandler);
+  },
+
+  testDisposeHandler: function() {
+    var cb = function() {};
+    this.sandbox
+      .on("tap", cb)
+      .on("swipe", cb)
+      .off("tap", cb);
+    this.assertNotUndefined(this.sandbox[0].$$gestureHandler);
+    this.sandbox.off("swipe", cb);
+    this.assertUndefined(this.sandbox[0].$$gestureHandler);
+  },
+
+  testRemoveMultiple: function() {
+    var cb = function() {};
+    this.sandbox
+      .on("tap", cb)
+      .on("swipe", cb)
+      .off("swipe", cb)
+      .off("swipe", cb);
+    this.assertNotUndefined(this.sandbox[0].$$gestureHandler);
+    this.sandbox.off("tap", cb);
+    this.assertUndefined(this.sandbox[0].$$gestureHandler);
   }
 });
 
