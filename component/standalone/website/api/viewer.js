@@ -86,7 +86,10 @@ q.ready(function() {
     "Plugin_API"
   ];
 
+  var searchPopupShown = false;
   var onFilterInput = function() {
+    hideSearchPopup();
+
     var value = filterField.getValue();
 
     if (!value) {
@@ -111,8 +114,33 @@ q.ready(function() {
     debouncedHideFiltered(value);
   };
 
+  if (q.env.get("os.name") == "osx") {
+    q("#searchcmd").setHtml("cmd");
+  }
+
+  var showSearchPopup = function() {
+    if (!q.localStorage.getItem("qx-got-search") && !searchPopupShown) {
+      q("#searchpopup")
+        .placeTo(q(".filter")[0], "right-top", {left: 2, top: -5})
+        .show();
+      searchPopupShown = true;
+    }
+  };
+
+  var hideSearchPopup = function() {
+    q("#searchpopup").fadeOut();
+  };
+
+  q("#gotsearch").on("tap", function() {
+    q.localStorage.setItem("qx-got-search", true);
+  });
+
   var filterField = q(".filter input");
-  filterField.on("input", onFilterInput);
+  filterField.on("input", onFilterInput).on("focus", showSearchPopup).on("blur", function() {
+    window.setTimeout(function() {
+      hideSearchPopup();
+    }, 200);
+  });
 
   var debouncedHideFiltered = q.func.debounce(function(value) {
     hideFiltered(value);
