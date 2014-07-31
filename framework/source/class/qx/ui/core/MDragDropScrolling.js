@@ -287,7 +287,13 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
         this.__dragScrollTimer.stop();
       }
 
-      var scrollable = this._findScrollableParent(e.getOriginalTarget());
+      var target = e.getOriginalTarget();
+      var scrollable;
+      if (this._isScrollable(target)) {
+        scrollable = target;
+      } else {
+        scrollable = this._findScrollableParent(target);
+      }
 
       while (scrollable) {
         var bounds = this._getBounds(scrollable),
