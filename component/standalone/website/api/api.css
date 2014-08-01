@@ -111,6 +111,8 @@ html[xmlns] .clearfix {
   font-family: "Batch";
   font-weight: bold;
   color: #3d72c9;
+  -webkit-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
   line-height: 14px
 }
@@ -140,6 +142,8 @@ html[xmlns] .clearfix {
 
 #searchpopup #arrow {
   position: absolute;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
   transform: rotate(45deg);
   border-left: 1px solid #DDD;
   height: 20px;
