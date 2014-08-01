@@ -24,6 +24,7 @@
 qx.Class.define("qx.test.core.Object",
 {
   extend : qx.dev.unit.TestCase,
+  include : qx.dev.unit.MMock,
 
   events :
   {
@@ -260,6 +261,74 @@ qx.Class.define("qx.test.core.Object",
 
       this.assertEquals(0, o.getBindings().length);
       this.assertEquals(0, o2.getBindings().length);
+    },
+
+
+    testDisposeBindingWithChain : function()
+    {
+      // object dispose with a singleton
+      qx.Class.define("qx.test.Single", {
+        extend : qx.core.Object,
+        properties : {
+          a: {event: "changeA", nullable: true}
+        }
+      });
+      var o = new qx.test.Single();
+      var o2 = new qx.test.Single();
+      var o3 = new qx.test.Single();
+
+      o.bind("a.a", o2, "a");
+      o.setA(o3);
+
+      this.assertEquals(1, o.getBindings().length);
+
+      o.dispose();
+
+      this.assertEquals(0, o.getBindings().length);
+      this.assertEventNotFired(o2, "changeA", function() {
+        o3.setA("affe");
+      });
+
+      o2.dispose();
+      o3.dispose();
+
+      qx.Class.undefine("qx.test.Single");
+    },
+
+    testDisposeBindingWithSelfChain : function()
+    {
+      // object dispose with a singleton
+      qx.Class.define("qx.test.Single", {
+        extend : qx.core.Object,
+         properties : {
+          a: {event: "changeA", nullable: true},
+          b: {event: "changeB", nullable: true, apply: "applyB"}
+        },
+        members : {
+          applyB : function() {},
+          init : function() {
+            this.bind("a.a", this, "b");
+          }
+        }
+      });
+      var o = new qx.test.Single();
+      var o2 = new qx.test.Single();
+
+      var spy = this.spy(o, "applyB");
+      o.init();
+      o.setA(o2);
+
+      this.assertEquals(1, o.getBindings().length);
+
+      o.dispose();
+      o2.setA("affe");
+
+      this.assertEquals(0, o.getBindings().length);
+      this.assertCalledOnce(spy);
+
+      o2.dispose();
+
+      qx.Class.undefine("qx.test.Single");
     },
 
 
