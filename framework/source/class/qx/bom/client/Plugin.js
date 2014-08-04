@@ -304,10 +304,22 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
 
       // IE checks
       if (qx.bom.client.Engine.getName() == "mshtml") {
-        var obj = new ActiveXObject(activeXName);
-
         try {
-          var version = obj.versionInfo;
+          var obj = new ActiveXObject(activeXName);
+          var version;
+
+          // pdf version detection
+          if (obj.GetVersions && obj.GetVersions()) {
+            version = obj.GetVersions().split(',');
+            if (version.length > 1) {
+              version = version[0].split('=');
+              if (version.length === 2) {
+                return version[1];
+              }
+            }
+          }
+
+          version = obj.versionInfo;
           if (version != undefined) {
             return version;
           }
@@ -365,8 +377,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
       // IE checks
       if (qx.bom.client.Engine.getName() == "mshtml") {
 
-        var control = window.ActiveXObject;
-        if (!control) {
+        if (!this.getActiveX()) {
           return false;
         }
 
