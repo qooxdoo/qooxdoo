@@ -377,7 +377,17 @@ qx.Class.define("qx.event.handler.Input",
      */
     _onKeyPress : qx.core.Environment.select("engine.name",
     {
-      "mshtml|opera" : function(e, target)
+      "mshtml" : function(e, target)
+      {
+        if (e.keyCode === 13) {
+          if (target.value !== this.__oldValue) {
+            this.__oldValue = target.value;
+            qx.event.Registration.fireEvent(target, "change", qx.event.type.Data, [target.value]);
+          }
+        }
+      },
+
+      "opera" : function(e, target)
       {
         if (e.keyCode === 13) {
           if (target.value !== this.__oldValue) {

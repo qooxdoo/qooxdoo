@@ -126,7 +126,7 @@ qx.Class.define("qx.event.handler.Focus",
      */
     FOCUSABLE_ELEMENTS : qx.core.Environment.select("engine.name",
     {
-      "mshtml|gecko" :
+      "mshtml" :
       {
         a : 1,
         body : 1,
@@ -140,7 +140,29 @@ qx.Class.define("qx.event.handler.Focus",
         textarea : 1
       },
 
-      "opera|webkit" :
+      "gecko" :
+      {
+        a : 1,
+        body : 1,
+        button : 1,
+        frame : 1,
+        iframe : 1,
+        img : 1,
+        input : 1,
+        object : 1,
+        select : 1,
+        textarea : 1
+      },
+
+      "opera" :
+      {
+        button : 1,
+        input : 1,
+        select : 1,
+        textarea : 1
+      },
+
+      "webkit" :
       {
         button : 1,
         input : 1,
@@ -818,7 +840,18 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit|gecko" : function(domEvent) {
+      "webkit" : function(domEvent) {
+        var target = qx.bom.Event.getTarget(domEvent);
+        var focusTarget = this.__findFocusableElement(target);
+
+        if (focusTarget) {
+          this.setFocus(focusTarget);
+        } else {
+          qx.bom.Event.preventDefault(domEvent);
+        }
+      },
+
+      "gecko" : function(domEvent) {
         var target = qx.bom.Event.getTarget(domEvent);
         var focusTarget = this.__findFocusableElement(target);
 
@@ -900,7 +933,13 @@ qx.Class.define("qx.event.handler.Focus",
 
       },
 
-      "webkit|opera" : function(domEvent)
+      "webkit" : function(domEvent)
+      {
+        var target = qx.bom.Event.getTarget(domEvent);
+        this.tryActivate(this.__fixFocus(target));
+      },
+
+      "opera" : function(domEvent)
       {
         var target = qx.bom.Event.getTarget(domEvent);
         this.tryActivate(this.__fixFocus(target));
@@ -918,7 +957,19 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __fixFocus : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
-      "mshtml|webkit" : function(target)
+      "mshtml" : function(target)
+      {
+        var focusedElement = this.getFocus();
+        if (focusedElement && target != focusedElement &&
+            (focusedElement.nodeName.toLowerCase() === "input" ||
+            focusedElement.nodeName.toLowerCase() === "textarea")) {
+          target = focusedElement;
+        }
+
+        return target;
+      },
+
+      "webkit" : function(target)
       {
         var focusedElement = this.getFocus();
         if (focusedElement && target != focusedElement &&
@@ -943,7 +994,15 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeSelectStart : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
-      "mshtml|webkit" : function(domEvent)
+      "mshtml" : function(domEvent)
+      {
+        var target = qx.bom.Event.getTarget(domEvent);
+        if (!this.__isSelectable(target)) {
+          qx.bom.Event.preventDefault(domEvent);
+        }
+      },
+
+      "webkit" : function(domEvent)
       {
         var target = qx.bom.Event.getTarget(domEvent);
         if (!this.__isSelectable(target)) {

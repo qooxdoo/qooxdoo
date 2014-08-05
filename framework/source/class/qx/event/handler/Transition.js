@@ -143,7 +143,37 @@ qx.Class.define("qx.event.handler.Transition",
      */
     registerEvent: qx.core.Environment.select("engine.name",
     {
-      "webkit|gecko|mshtml" : function(target, type, capture)
+      "webkit" : function(target, type, capture)
+      {
+        var hash = qx.core.ObjectRegistry.toHashCode(target) + type;
+
+        var nativeType = qx.event.handler.Transition.TYPE_TO_NATIVE[type];
+
+        this.__registeredEvents[hash] =
+        {
+          target:target,
+          type : nativeType
+        };
+
+        qx.bom.Event.addNativeListener(target, nativeType, this.__onEventWrapper);
+      },
+
+      "gecko" : function(target, type, capture)
+      {
+        var hash = qx.core.ObjectRegistry.toHashCode(target) + type;
+
+        var nativeType = qx.event.handler.Transition.TYPE_TO_NATIVE[type];
+
+        this.__registeredEvents[hash] =
+        {
+          target:target,
+          type : nativeType
+        };
+
+        qx.bom.Event.addNativeListener(target, nativeType, this.__onEventWrapper);
+      },
+
+      "mshtml" : function(target, type, capture)
       {
         var hash = qx.core.ObjectRegistry.toHashCode(target) + type;
 
@@ -177,7 +207,41 @@ qx.Class.define("qx.event.handler.Transition",
      */
     unregisterEvent: qx.core.Environment.select("engine.name",
     {
-      "webkit|gecko|mshtml" : function(target, type, capture)
+      "webkit" : function(target, type, capture)
+      {
+        var events = this.__registeredEvents;
+
+        if (!events) {
+          return;
+        }
+
+        var hash = qx.core.ObjectRegistry.toHashCode(target) + type;
+
+        if (events[hash]) {
+          delete events[hash];
+        }
+
+        qx.bom.Event.removeNativeListener(target, qx.event.handler.Transition.TYPE_TO_NATIVE[type], this.__onEventWrapper);
+      },
+
+      "gecko" : function(target, type, capture)
+      {
+        var events = this.__registeredEvents;
+
+        if (!events) {
+          return;
+        }
+
+        var hash = qx.core.ObjectRegistry.toHashCode(target) + type;
+
+        if (events[hash]) {
+          delete events[hash];
+        }
+
+        qx.bom.Event.removeNativeListener(target, qx.event.handler.Transition.TYPE_TO_NATIVE[type], this.__onEventWrapper);
+      },
+
+      "mshtml" : function(target, type, capture)
       {
         var events = this.__registeredEvents;
 

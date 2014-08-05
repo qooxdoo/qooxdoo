@@ -264,7 +264,16 @@ qx.Bootstrap.define("qx.bom.Input",
         element.style.overflowY = styleValue;
       },
 
-      "gecko|webkit" : function(element, wrap)
+      "gecko" : function(element, wrap)
+      {
+        var wrapValue = wrap ? "soft" : "off";
+        var styleValue = wrap ? "" : "auto";
+
+        element.setAttribute("wrap", wrapValue);
+        element.style.overflow = styleValue;
+      },
+
+      "webkit" : function(element, wrap)
       {
         var wrapValue = wrap ? "soft" : "off";
         var styleValue = wrap ? "" : "auto";
