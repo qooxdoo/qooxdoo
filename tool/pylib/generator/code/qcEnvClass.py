@@ -69,16 +69,6 @@ class qcEnvClass(Class):
 
         return envProviders
 
-    def collectProvidedEnvKeys(self):
-        tree = self.tree()
-        providedKeys = []
-        for callnode in list(treeutil.nodeIterator(tree, ['call'])):
-            if callnode.toJS(pp).startswith("qx.core.Environment.add"):
-                envKey = treeutil.selectNode(callnode, "arguments/constant/@value")
-                providedKeys.append(envKey)
-
-        return providedKeys
-
     def classNameFromEnvKeyByIndex(self, key):
         result = ''
         if key in self.envKeyProviderIndex:
