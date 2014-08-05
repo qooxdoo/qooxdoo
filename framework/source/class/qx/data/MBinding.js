@@ -24,8 +24,15 @@
  */
 qx.Mixin.define("qx.data.MBinding",
 {
+  construct : function() {
+    // store the hash code for disposing object won't have a hash code after dispose.
+    this.__objectHash = this.toHashCode();
+  },
+
+
   members :
   {
+    __objectHash : null,
 
     /**
      * The bind method delegates the call to the
@@ -92,5 +99,13 @@ qx.Mixin.define("qx.data.MBinding",
     getBindings: function() {
       return qx.data.SingleValueBinding.getAllBindingsForObject(this);
     }
+  },
+
+
+  destruct : function() {
+    // restore the object hash for disposing the bindings
+    this.$$hash = this.__objectHash;
+    this.removeAllBindings();
+    delete this.$$hash;
   }
 });
