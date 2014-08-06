@@ -26,8 +26,11 @@ qx.Class.define("qx.data.SingleValueBinding",
 
   statics :
   {
-    /** internal reference for all bindings */
+    /** internal reference for all bindings indexed by source object */
     __bindings: {},
+
+    /** internal reference for all bindings indexed by target object */
+    __bindingsByTarget : {},
 
 
     /**
@@ -1031,13 +1034,24 @@ qx.Class.define("qx.data.SingleValueBinding",
       id, sourceObject, sourceEvent, targetObject, targetProperty
     )
     {
+      var hash;
+
       // add the listener id to the internal registry
-      if (this.__bindings[sourceObject.toHashCode()] === undefined) {
-        this.__bindings[sourceObject.toHashCode()] = [];
+      hash = sourceObject.toHashCode();
+      if (this.__bindings[hash] === undefined) {
+        this.__bindings[hash] = [];
       }
-      this.__bindings[sourceObject.toHashCode()].push(
-        [id, sourceObject, sourceEvent, targetObject, targetProperty]
-      );
+
+      var binding = [id, sourceObject, sourceEvent, targetObject, targetProperty];
+      this.__bindings[hash].push(binding);
+
+
+      // add same binding data indexed by target object
+      hash = targetObject.toHashCode();
+      if (this.__bindingsByTarget[hash] === undefined) {
+        this.__bindingsByTarget[hash] = [];
+      }
+      this.__bindingsByTarget[hash].push(binding);
     },
 
 
@@ -1178,12 +1192,22 @@ qx.Class.define("qx.data.SingleValueBinding",
       }
 
       // remove the id from the internal reference system
-      var bindings = this.__bindings[sourceObject.toHashCode()];
+      var bindings = this.getAllBindingsForObject(sourceObject);
       // check if the binding exists
       if (bindings != undefined) {
         for (var i = 0; i < bindings.length; i++) {
           if (bindings[i][0] == id) {
-            qx.lang.Array.remove(bindings, bindings[i]);
+            // remove binding data from internal reference indexed by target object
+            var target = bindings[i][3];
+            if (this.__bindingsByTarget[target.toHashCode()]) {
+              qx.lang.Array.remove(this.__bindingsByTarget[target.toHashCode()], bindings[i]);
+            }
+
+            // remove binding data from internal reference indexed by source object
+            var source = bindings[i][1];
+            if (this.__bindings[source.toHashCode()]) {
+              qx.lang.Array.remove(this.__bindings[source.toHashCode()], bindings[i]);
+            }
             return;
           }
         }
@@ -1211,7 +1235,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       }
 
       // get the bindings
-      var bindings = this.__bindings[object.toHashCode()];
+      var bindings = this.getAllBindingsForObject(object);
       if (bindings != undefined)
       {
         // remove every binding with the removeBindingFromObject function
@@ -1233,12 +1257,19 @@ qx.Class.define("qx.data.SingleValueBinding",
      *   sourceEvent, targetObject and targetProperty in that order.
      */
     getAllBindingsForObject : function(object) {
+      var hash = object.toHashCode();
       // create an empty array if no binding exists
-      if (this.__bindings[object.toHashCode()] === undefined) {
-        this.__bindings[object.toHashCode()] = [];
+      if (this.__bindings[hash] === undefined) {
+        this.__bindings[hash] = [];
       }
 
-      return this.__bindings[object.toHashCode()];
+      // get all bindings of object as source
+      var sourceBindings = this.__bindings[hash];
+
+      // get all bindings of object as target
+      var targetBindings = this.__bindingsByTarget[hash] ? this.__bindingsByTarget[hash] : [];
+
+      return qx.lang.Array.unique(sourceBindings.concat(targetBindings));
     },
 
 

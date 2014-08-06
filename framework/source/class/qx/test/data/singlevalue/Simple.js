@@ -256,14 +256,14 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       // check if the bindings are there
       var bindingsA = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
       var bindingsB = qx.data.SingleValueBinding.getAllBindingsForObject(this.__b);
-      this.assertEquals(2, bindingsA.length, "There are more than 2 bindings!");
-      this.assertEquals(1, bindingsB.length, "There are more than 2 bindings!");
+      this.assertEquals(3, bindingsA.length, "There are more than 3 bindings!");
+      this.assertEquals(3, bindingsB.length, "There are more than 3 bindings!");
 
       // remove all bindings
       qx.data.SingleValueBinding.removeAllBindings();
 
-      var bindingsA = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
-      var bindingsB = qx.data.SingleValueBinding.getAllBindingsForObject(this.__b);
+      bindingsA = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
+      bindingsB = qx.data.SingleValueBinding.getAllBindingsForObject(this.__b);
       this.assertEquals(0, bindingsA.length, "Still bindings there!");
       this.assertEquals(0, bindingsB.length, "Still bindings there!");
     },

@@ -251,8 +251,8 @@ qx.Class.define("qx.test.core.Object",
       o.bind("a", o, "b");
       o2.bind("a", o, "a");
 
-      this.assertEquals(2, o.getBindings().length);
-      this.assertEquals(1, o2.getBindings().length);
+      this.assertEquals(3, o.getBindings().length);
+      this.assertEquals(2, o2.getBindings().length);
 
       o.dispose();
       o2.dispose();
