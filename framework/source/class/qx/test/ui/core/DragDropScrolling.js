@@ -142,6 +142,46 @@ qx.Class.define("qx.test.ui.core.DragDropScrolling",
 
       this._scrollBy(this.list, "y", exceedanceAmount);
       this.assertEquals(Math.ceil(initPos + amount), scrollbar.getPosition());
+    },
+
+    testRootWidget : function()
+    {
+      var behavior;
+
+      // application root
+      behavior = new qx.ui.core.DragDropScrolling();
+      this.assertTrue(behavior._getWidget() === this.getRoot(), "Root widget must be application root!");
+      behavior.dispose();
+
+      // explicit widget
+      var widget = new qx.ui.core.Widget();
+      behavior = new qx.ui.core.DragDropScrolling(widget);
+      this.assertTrue(behavior._getWidget() === widget, "Wrong root widget!");
+      behavior.dispose();
+      widget.dispose();
+    },
+
+    testListenerTargets : function()
+    {
+      var behavior;
+
+      // application root
+      behavior = new qx.ui.core.DragDropScrolling();
+      this.assertTrue(behavior._getWidget().hasListener("drag"), "'drag' event listener not found !");
+      this.assertTrue(behavior._getWidget().hasListener("dragend"), "'dragend' event listener not found !");
+      behavior.dispose();
+
+      // explicit widget
+      var widget = new qx.ui.core.Widget();
+      behavior = new qx.ui.core.DragDropScrolling(widget);
+      this.assertTrue(widget.hasListener("drag"), "'drag' event listener not found !");
+      this.assertTrue(widget.hasListener("dragend"), "'dragend' event listener not found !");
+      behavior.dispose();
+      widget.dispose();
+
+      // list widget
+      this.assertTrue(this.list.hasListener("drag"), "'drag' event listener not found !");
+      this.assertTrue(this.list.hasListener("dragend"), "'dragend' event listener not found !");
     }
   }
 });

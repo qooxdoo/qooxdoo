@@ -30,8 +30,14 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
 
   construct : function()
   {
-    this.addListener("drag", this.__onDrag, this);
-    this.addListener("dragend", this.__onDragend, this);
+    var widget = this;
+
+    if (this instanceof qx.ui.core.DragDropScrolling) {
+      widget = this._getWidget();
+    }
+
+    widget.addListener("drag", this.__onDrag, this);
+    widget.addListener("dragend", this.__onDragend, this);
 
     this.__xDirs = ["left", "right"];
     this.__yDirs = ["top", "bottom"];
