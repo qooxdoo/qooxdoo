@@ -209,6 +209,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
       return qx.bom.Style.getPropertyName("userModify");
     },
 
+
     /**
      * Returns the vendor-specific name of the <code>float</code> style property
      *
@@ -221,17 +222,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
       var style = document.documentElement.style;
       return style.cssFloat !== undefined ? "cssFloat" :
         style.styleFloat !== undefined ? "styleFloat" : null;
-    },
-
-
-    /**
-     * Checks if translate3d can be used.
-     * @return {Boolean} <code>true</code>, if it could be used.
-     * @internal
-     * @ignore(WebKitCSSMatrix)
-     */
-    getTranslate3d : function() {
-      return 'WebKitCSSMatrix' in window && 'm11' in new WebKitCSSMatrix();
     },
 
 
