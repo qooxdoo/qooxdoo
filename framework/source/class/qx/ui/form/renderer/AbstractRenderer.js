@@ -37,7 +37,6 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
   {
     this.base(arguments);
 
-    this._visibilityBindingIds = [];
     this._labels = [];
 
     // translation support
@@ -58,12 +57,11 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
   {
     _names : null,
     _form : null,
-    _visibilityBindingIds : null,
     _labels : null,
 
 
     /**
-     * Renders the for: add's the items and buttons.
+     * Renders the form: add's the items and buttons.
      */
     _render : function() {
       // add the groups
@@ -93,7 +91,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
       // remove all created labels
       for (var i=0; i < this._labels.length; i++) {
         this._labels[i].dispose();
-      };
+      }
       this._labels = [];
 
       this._render();
@@ -107,8 +105,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
      */
     _connectVisibility : function(item, label) {
       // map the items visibility to the label
-      var id = item.bind("visibility", label, "visibility");
-      this._visibilityBindingIds.push({id: id, item: item});
+      item.bind("visibility", label, "visibility");
     },
 
 
@@ -128,7 +125,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
           }
           var newText = this._createLabelText(entry.name, entry.item);
           entry.label.setValue(newText);
-        };
+        }
       },
 
       "false" : null
@@ -182,16 +179,5 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
     this._names = null;
-
-    // remove all created labels
-    for (var i=0; i < this._labels.length; i++) {
-      this._labels[i].dispose();
-    };
-
-    // remove the visibility bindings
-    for (var i = 0; i < this._visibilityBindingIds.length; i++) {
-      var entry = this._visibilityBindingIds[i];
-      entry.item.removeBinding(entry.id);
-    };
   }
 });

@@ -551,14 +551,6 @@ qx.Class.define("qx.ui.basic.Label",
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
 
-    // remove the binding
-    if (this.__buddyEnabledBinding != null) {
-      var buddy = this.getBuddy();
-      if (buddy != null && !buddy.isDisposed()) {
-        buddy.removeBinding(this.__buddyEnabledBinding);
-      }
-    }
-
     if (this.__font && this.__webfontListenerId) {
       this.__font.removeListenerById(this.__webfontListenerId);
     }
