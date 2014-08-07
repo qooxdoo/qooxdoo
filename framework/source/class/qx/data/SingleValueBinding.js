@@ -1247,6 +1247,43 @@ qx.Class.define("qx.data.SingleValueBinding",
 
 
     /**
+     * Removes all bindings between given objects.
+     *
+     * @param object {qx.core.Object} The object of which the bindings should be
+     *   removed.
+     * @param relatedObject {qx.core.Object} The object of which related
+     *   bindings should be removed.
+     * @throws {qx.core.AssertionError} If the object is not in the internal
+     *   registry of the bindings.
+     * @throws {Error} If one of the bindings listed internally can not be
+     *   removed.
+     */
+    removeRelatedBindings : function(object, relatedObject) {
+      // check for the null value
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertNotNull(object,
+          "Can not remove the bindings for null object!");
+        qx.core.Assert.assertNotNull(relatedObject,
+          "Can not remove the bindings for null object!");
+      }
+
+      // get the bindings
+      var bindings = this.getAllBindingsForObject(object);
+      if (bindings != undefined)
+      {
+        // remove every binding with the removeBindingFromObject function
+        for (var i = bindings.length - 1; i >= 0; i--) {
+          var source = bindings[i][1];
+          var target = bindings[i][3];
+          if (source === relatedObject || target === relatedObject) {
+            this.removeBindingFromObject(object, bindings[i][0]);
+          }
+        }
+      }
+    },
+
+
+    /**
      * Returns an array which lists all bindings.
      *
      * @param object {qx.core.Object} The object of which the bindings should

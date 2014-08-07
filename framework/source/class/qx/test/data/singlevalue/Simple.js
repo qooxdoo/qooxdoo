@@ -663,6 +663,41 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.assertException(function() {
         qx.data.SingleValueBinding.bind(undefined, "appearance", this.__b, "appearance");
       }, qx.core.AssertionError, "");
-    }
+    },
+
+
+    testRemoveRelatedBindings: function(){
+      var c = new qx.test.data.singlevalue.TextFieldDummy();
+
+      // add three bindings
+      qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
+      qx.data.SingleValueBinding.bind(this.__a, "zIndex", this.__b, "zIndex");
+      qx.data.SingleValueBinding.bind(this.__b, "zIndex", this.__a, "zIndex");
+
+      // add another binding to __a, which should not be affected
+      qx.data.SingleValueBinding.bind(c, "appearance", this.__a, "appearance");
+
+      // add another binding to __b, which should not be affected
+      qx.data.SingleValueBinding.bind(c, "appearance", this.__b, "appearance");
+
+      // check if the bindings are there
+      var bindingsA = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
+      var bindingsB = qx.data.SingleValueBinding.getAllBindingsForObject(this.__b);
+      this.assertEquals(4, bindingsA.length, "There are more than 4 bindings!");
+      this.assertEquals(4, bindingsB.length, "There are more than 3 bindings!");
+
+      // remove related bindings between __a and __b, do not affect bindings to c
+      qx.data.SingleValueBinding.removeRelatedBindings(this.__a, this.__b);
+
+      // __a object should have one binding to object c
+      bindingsA = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
+      this.assertEquals(1, bindingsA.length, "There must be one binding!");
+      this.assertTrue(bindingsA[0][1] === c, "Source object of the binding must be object 'c'!");
+
+      // __a object should have one binding to object c
+      bindingsB = qx.data.SingleValueBinding.getAllBindingsForObject(this.__b);
+      this.assertEquals(1, bindingsB.length, "There must be one binding!");
+      this.assertTrue(bindingsA[0][1] === c, "Source object of the binding must be object 'c'!");
+    },
   }
 });
