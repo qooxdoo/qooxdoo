@@ -694,10 +694,10 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.assertEquals(1, bindingsA.length, "There must be one binding!");
       this.assertTrue(bindingsA[0][1] === c, "Source object of the binding must be object 'c'!");
 
-      // __a object should have one binding to object c
+      // __b object should have one binding to object c
       bindingsB = qx.data.SingleValueBinding.getAllBindingsForObject(this.__b);
       this.assertEquals(1, bindingsB.length, "There must be one binding!");
       this.assertTrue(bindingsA[0][1] === c, "Source object of the binding must be object 'c'!");
-    },
+    }
   }
 });
