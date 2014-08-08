@@ -69,7 +69,7 @@ qx.Class.define("mobileshowcase.page.List",
 
       var list = new qx.ui.mobile.list.List({
         configureItem: function(item, data, row) {
-          item.setImage("mobileshowcase/icon/internet-mail.png");
+          item.setImage(data.image);
           item.setTitle(data.title);
           item.setSubtitle(data.subtitle);
           item.setSelectable(data.selectable);
@@ -160,6 +160,7 @@ qx.Class.define("mobileshowcase.page.List",
         data.push({
           title: "Item #" + i,
           subtitle: "Subtitle for Item #" + i,
+          image: "mobileshowcase/icon/internet-mail.png",
           selectable: i < 6,
           removable: i > 5 && i < 11
         });
