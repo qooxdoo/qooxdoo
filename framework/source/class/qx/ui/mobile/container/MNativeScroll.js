@@ -78,6 +78,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
     /**
      * Event handler for <code>trackstart</code> events.
+     * @param evt {qx.event.type.Track} touchmove event.
      */
     _onTrackStart: function(evt) {
       this._onTrack = true;
@@ -108,6 +109,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
     /**
     * Event handler for <code>trackend</code> events.
+    * @param evt {qx.event.type.Track} touchmove event.
     */
     _onTrackEnd: function(evt) {
       this._onTrack = false;

@@ -41,10 +41,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
 {
   extend : qx.ui.mobile.container.Composite,
 
-  /**
-   * @param anchor {qx.ui.mobile.core.Widget ? null} The anchor widget for this item. If no anchor is available,
-   *       the menu will be displayed modal and centered on screen.
-   */
+
   construct : function()
   {
     this.base(arguments);
@@ -108,7 +105,9 @@ qx.Class.define("qx.ui.mobile.control.Picker",
     _pickerModel : null,
 
 
-    // overridden
+    /**
+    * Handler for <code>appear</code> event of this widget.
+    */
     _onAppear: function() {
       var itemHeight = this._calcItemHeight();
       this._slots.forEach(function(slot, index) {
