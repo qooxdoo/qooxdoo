@@ -106,7 +106,7 @@
   margin-right: rem(8);
 }
 
-// Special treatment of first group-item because of border-radius and sticky position
+// Special treatment of first group-item because of border-radius and sticky position.
 .group-item:first-child {
   @include border-radius(0);
   border-top-left-radius: 0px !important;
