@@ -3625,14 +3625,14 @@ testrunner.define({
 
   testMediaQueryMatches: function () {
     var iframe = this.__iframe[0];
-    this.sandbox.mediaQueryToClass("only screen", "testMediaQueryMatches", iframe.contentWindow);
+    this.sandbox.mediaQueryToClass("only screen", "testMediaQueryMatches", iframe.window);
 
     this.assertTrue(this.sandbox.hasClass("testMediaQueryMatches"));
   },
 
   testMediaQueryNotMatches: function () {
     var iframe = this.__iframe[0];
-    this.sandbox.mediaQueryToClass("only print", "testMediaQueryNotMatches", iframe.contentWindow);
+    this.sandbox.mediaQueryToClass("only print", "testMediaQueryNotMatches", iframe.window);
 
     this.assertFalse(this.sandbox.hasClass("testMediaQueryNotMatches"));
   },
@@ -3644,10 +3644,9 @@ testrunner.define({
     sandbox.mediaQueryToClass(
       "only screen and (min-width: 40.063em)",
       "testMediaQueryMatchesAfterResizing",
-      iframe.contentWindow
+      iframe.window
     );
-    iframe.width = 200;
-    this.assertFalse(sandbox.hasClass("testMediaQueryMatchesAfterResizing"));
+
     iframe.width = 800;
 
     window.setTimeout(function(){
