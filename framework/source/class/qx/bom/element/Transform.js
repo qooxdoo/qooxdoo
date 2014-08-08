@@ -29,9 +29,6 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 {
   statics :
   {
-    /** The dimensions of the transforms */
-    __dimensions : ["X", "Y", "Z"],
-
     /** Internal storage of the CSS names */
     __cssKeys : qx.core.Environment.get("css.transform"),
 
@@ -40,17 +37,17 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * Method to apply multiple transforms at once to the given element. It
      * takes a map containing the transforms you want to apply plus the values
      * e.g.<code>{scale: 2, rotate: "5deg"}</code>.
+     * 3d suffixed properties will be taken if they are available.
      * The values can be either singular, which means a single value will
-     * be added to the CSS. If you give an array, the values will be split up
-     * and each array entry will be used for the X, Y or Z dimension in that
-     * order e.g. <code>{scale: [2, 0.5]}</code> will result in a element
-     * double the size in X direction and half the size in Y direction.
+     * be added to the CSS. If you give an array, the values will be join to
+     * a string.
      * Make sure your browser supports all transformations you apply.
+     *
      * @param el {Element} The element to apply the transformation.
      * @param transforms {Map} The map containing the transforms and value.
      */
     transform : function(el, transforms) {
-      var transformCss = this.__mapToCss(transforms);
+      var transformCss = this.getTransformValue(transforms);
       if (this.__cssKeys != null) {
         var style = this.__cssKeys["name"];
         el.style[style] = transformCss;
@@ -110,7 +107,7 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @return {String} The CSS value.
      */
     getCss : function(transforms) {
-      var transformCss = this.__mapToCss(transforms);
+      var transformCss = this.getTransformValue(transforms);
       if (this.__cssKeys != null) {
         var style = this.__cssKeys["name"];
         return qx.bom.Style.getCssName(style) + ":" + transformCss + ";";
@@ -278,46 +275,45 @@ qx.Bootstrap.define("qx.bom.element.Transform",
 
 
     /**
-     * Internal helper which converts the given transforms map to a valid CSS
-     * string.
+     * Converts the given transforms map to a valid CSS string.
+     *
      * @param transforms {Map} A map containing the transforms.
      * @return {String} The CSS transforms.
      */
-    __mapToCss : function(transforms) {
-      var value = "";
-      for (var func in transforms) {
-
-        var params = transforms[func];
-
-        // use 3d properties
-        if (qx.core.Environment.get("css.transform.3d"))
-        {
-          params = qx.Bootstrap.isArray(params) ? params.join(", ") : params;
-          value += func + "3d(" + params + ") ";
-        }
-
-        // use 2d properties
-        else {
-          // if an array is given
-          if (qx.Bootstrap.isArray(params)) {
-            for (var i=0; i < params.length; i++) {
-              if (params[i] === undefined ||
-                (i == 2 && !qx.core.Environment.get("css.transform.3d"))) {
-                continue;
-              }
-              value += func + this.__dimensions[i] + "(";
-              value += params[i];
-              value += ") ";
-            }
-          // case for single values given
-          } else {
-            // single value case
-            value += func + "(" + transforms[func] + ") ";
-          }
-        }
+    getTransformValue : function(transforms) {
+      var cssValue = "";
+      var suffix3d = "";
+      if (qx.core.Environment.get("css.transform.3d")) {
+        suffix3d = "3d";
       }
 
-      return value;
+      for (var property in transforms) {
+        var value = transforms[property];
+        // normalize array
+        if (qx.Bootstrap.isArray(value)) {
+          // normalize parameter count, all three axis are necessary
+          for (var i = 2; i >= 0; i--) {
+            if (value[i] === undefined) {
+              value[i] = 0;
+            }
+
+            else {
+              // value found on index, no need to normalize other axis
+              break;
+            }
+          }
+
+          // no 3d, remove z axis from array
+          if (!suffix3d) {
+            value.splice(2);
+          }
+          value = value.join(", ");
+        }
+
+        cssValue += property + suffix3d + "(" + value + ") ";
+      }
+
+      return cssValue;
     }
   }
 });

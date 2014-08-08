@@ -47,28 +47,74 @@ qx.Class.define("qx.test.bom.element.Transform",
 
     testTranslate : function() {
       qx.bom.element.Transform.translate(this.__el, "123px");
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate(123px)") != -1);
+
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate3d(123px)") != -1);
+      }
+
+      // 2d property
+      else {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate(123px)") != -1);
+      }
     },
 
     testRotate : function() {
       qx.bom.element.Transform.rotate(this.__el, "123deg");
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("rotate(123deg)") != -1);
+
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("rotate3d(123deg)") != -1);
+      }
+
+      // 2d property
+      else {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("rotate(123deg)") != -1);
+      }
     },
 
     testSkew : function() {
       qx.bom.element.Transform.skew(this.__el, "123deg");
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("skew(123deg)") != -1);
+
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("skew3d(123deg)") != -1);
+      }
+
+      // 2d property
+      else {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("skew(123deg)") != -1);
+      }
     },
 
     testScale : function() {
       qx.bom.element.Transform.scale(this.__el, 1.5);
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("scale(1.5)") != -1);
+
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("scale3d(1.5)") != -1);
+      }
+
+      // 2d property
+      else {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("scale(1.5)") != -1);
+      }
     },
 
     testTransform : function() {
       qx.bom.element.Transform.transform(this.__el, {scale: 1.2, translate: "123px"});
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate(123px)") != -1);
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("scale(1.2)") != -1);
+
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate3d(123px)") != -1);
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("scale3d(1.2)") != -1);
+      }
+
+      // 2d property
+      else {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate(123px)") != -1);
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("scale(1.2)") != -1);
+      }
     },
 
 
@@ -77,18 +123,16 @@ qx.Class.define("qx.test.bom.element.Transform",
      * ARRAY VALUES
      */
     test3D : function() {
-      // 2d case
-      qx.bom.element.Transform.translate(this.__el, ["1", "2"]);
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateX(1)") != -1);
-      this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateY(2)") != -1);
+      qx.bom.element.Transform.translate(this.__el, ["1", "2", "3"]);
 
-      // 3d case
-      var transform = qx.core.Environment.get("css.transform");
-      if (transform && transform["3d"]) {
-        qx.bom.element.Transform.translate(this.__el, ["1", "2", "3"]);
-        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateX(1)") != -1, "X");
-        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateY(2)") != -1, "Y");
-        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translateZ(3)") != -1, "Z");
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate3d(1, 2, 3)") != -1, "translate3d");
+      }
+
+      // 2d property
+      else {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate(1, 2)") != -1);
       }
     },
 
@@ -100,8 +144,15 @@ qx.Class.define("qx.test.bom.element.Transform",
 
     testGetCss : function() {
       var value = qx.bom.element.Transform.getCss({scale: 1.2});
-      var expected = qx.bom.Style.getCssName(this.__keys.name) + ":scale(1.2) ;";
-      this.assertEquals(expected, value);
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertEquals(qx.bom.Style.getCssName(this.__keys.name) + ":scale3d(1.2) ;", value);
+      }
+
+      // 2d property
+      else {
+        this.assertEquals(qx.bom.Style.getCssName(this.__keys.name) + ":scale(1.2) ;", value);
+      }
     },
 
 
@@ -138,6 +189,79 @@ qx.Class.define("qx.test.bom.element.Transform",
       qx.bom.element.Transform.setBackfaceVisibility(this.__el, true);
       this.assertEquals("visible", this.__el.style[this.__keys["backface-visibility"]]);
       this.assertTrue(qx.bom.element.Transform.getBackfaceVisibility(this.__el));
+    },
+
+    testGetTransformValue : function() {
+      var cssValue;
+
+      // one axis
+      cssValue = qx.bom.element.Transform.getTransformValue({
+        translate : [1]
+      });
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(cssValue.indexOf("translate3d(1, 0, 0)") != -1, "Expected 'translate3d(1, 0, 0)'");
+      }
+
+      // 2d properties
+      else {
+        this.assertTrue(cssValue.indexOf("translate(1, 0)") != -1, "Expected 'translate(1, 0)'");
+      }
+
+
+      // two axis
+      cssValue = qx.bom.element.Transform.getTransformValue({
+        translate : [1, 2]
+      });
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(cssValue.indexOf("translate3d(1, 2, 0)") != -1, "Expected 'translate3d(1, 2, 0)'");
+      }
+
+      // 2d properties
+      else {
+        this.assertTrue(cssValue.indexOf("translate(1, 2)") != -1, "Expected 'translate(1, 2)'");
+      }
+
+
+      // three axis
+      cssValue = qx.bom.element.Transform.getTransformValue({
+        translate : [1, 2, 3]
+      });
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(cssValue.indexOf("translate3d(1, 2, 3)") != -1, "Expected 'translate3d(1, 2, 3)'");
+      }
+
+      // 2d properties
+      else {
+        this.assertTrue(cssValue.indexOf("translate(1, 2)") != -1, "Expected 'translate(1, 2)'");
+      }
+    },
+
+    testTransformArray : function() {
+      qx.bom.element.Transform.transform(this.__el, {
+        translate : ["1px", "2px", "3px"],
+        scale : [1, 2, 3],
+        rotate : ["1deg", "2deg", "3deg"],
+        skew : ["1deg", "2deg", "3deg"]
+      });
+
+      // 3d property
+      if (qx.core.Environment.get("css.transform.3d")) {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate3d(1px, 2px, 3px)") != -1, "translate3d");
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("scale3d(1, 2, 3)") != -1, "scale3d");
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("rotate3d(1deg, 2deg, 3deg)") != -1, "rotate3d");
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("skew3d(1deg, 2deg, 3deg)") != -1, "skew3d");
+      }
+
+      // 2d property
+      else {
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("translate(1px, 2px)") != -1, "translate");
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("scale(1, 2)") != -1, "scale");
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("rotate(1deg, 2deg)") != -1, "rotate");
+        this.assertTrue(this.__el.style[this.__keys.name].indexOf("skew(1deg, 2deg)") != -1, "skew");
+      }
     }
   }
 });
