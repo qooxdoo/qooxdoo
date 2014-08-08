@@ -53,6 +53,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
     this._slots = new qx.data.Array();
 
     this.addListener("appear", this._onAppear, this);
+    this.initVisibleItems();
   },
 
 
@@ -86,7 +87,8 @@ qx.Class.define("qx.ui.mobile.control.Picker",
     */
     visibleItems : {
       init : 5,
-      check : [3,5,7,9]
+      check : [3,5,7,9],
+      apply : "_applyVisibleItems"
     },
 
 
@@ -114,6 +116,12 @@ qx.Class.define("qx.ui.mobile.control.Picker",
           slot.container.scrollTo(0, slot.selectedIndex * itemHeight);
         });
       }, this);
+    },
+
+
+    // property apply
+    _applyVisibleItems : function(value) {
+      this._setAttribute("data-items",value);
     },
 
 
