@@ -288,21 +288,32 @@ qx.Bootstrap.define("qx.bom.element.Transform",
       for (var func in transforms) {
 
         var params = transforms[func];
-        // if an array is given
-        if (qx.Bootstrap.isArray(params)) {
-          for (var i=0; i < params.length; i++) {
-            if (params[i] == undefined ||
-              (i == 2 && !qx.core.Environment.get("css.transform.3d"))) {
-              continue;
+
+        // use 3d properties
+        if (qx.core.Environment.get("css.transform.3d"))
+        {
+          params = qx.Bootstrap.isArray(params) ? params.join(", ") : params;
+          value += func + "3d(" + params + ") ";
+        }
+
+        // use 2d properties
+        else {
+          // if an array is given
+          if (qx.Bootstrap.isArray(params)) {
+            for (var i=0; i < params.length; i++) {
+              if (params[i] === undefined ||
+                (i == 2 && !qx.core.Environment.get("css.transform.3d"))) {
+                continue;
+              }
+              value += func + this.__dimensions[i] + "(";
+              value += params[i];
+              value += ") ";
             }
-            value += func + this.__dimensions[i] + "(";
-            value += params[i];
-            value += ") ";
+          // case for single values given
+          } else {
+            // single value case
+            value += func + "(" + transforms[func] + ") ";
           }
-        // case for single values given
-        } else {
-          // single value case
-          value += func + "(" + transforms[func] + ") ";
         }
       }
 
