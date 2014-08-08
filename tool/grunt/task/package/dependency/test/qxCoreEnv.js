@@ -45,62 +45,19 @@ module.exports = {
     },
 
     getFeatureTable: function(test) {
-      var tree = {
-        type: 'Property',
-        key: {
-          type: 'Identifier',
-          name: '_checksMap'
-        },
-        value: {      // used as input for escodegen.generate()
-          type: 'ObjectExpression',
-          properties: [
-            {
-              type: 'Property',
-              key: {
-                type: 'Literal',
-                value: 'engine.version',
-                raw: '\'engine.version\''
-              },
-              value: {
-                type: 'Literal',
-                value: 'qx.bom.client.Engine.getVersion',
-                raw: '\'qx.bom.client.Engine.getVersion\''
-              },
-              kind: 'init'
-            },
-            {
-              type: 'Property',
-              key: {
-                type: 'Literal',
-                value: 'engine.name',
-                raw: '\'engine.name\''
-              },
-              value: {
-                type: 'Literal',
-                value: 'qx.bom.client.Engine.getName',
-                raw: '\'qx.bom.client.Engine.getName\''
-              },
-              kind: 'init'
-            }
-            // ...
-          ]
-        }
-      };
-
-      // require 'escodegen' to then monkey patch
-      var esprima = require('esprima');
-      var orig_parse = esprima.parse;
-      esprima.parse = function() { return tree; };
+      var classCode = "qx.Bootstrap.define('qx.bom.client.Engine', {\n"+
+                      "  defer : function(statics) {\n"+
+                      "    qx.core.Environment.add('engine.version', statics.getVersion);\n"+
+                      "    qx.core.Environment.add('engine.name', statics.getName);\n"+
+                      "  }\n"+
+                      "});\n";
 
       var expected = {
-        'engine.version': 'qx.bom.client.Engine.getVersion',
-        'engine.name': 'qx.bom.client.Engine.getName'
+        'engine.version': 'qx.bom.client.Engine',
+        'engine.name': 'qx.bom.client.Engine'
       };
 
-      test.deepEqual(this.qxCoreEnv.getFeatureTable(), expected);
-
-      // don't forget to restore original!
-      esprima.parse = orig_parse;
+      test.deepEqual(this.qxCoreEnv.getFeatureTable({'qx.bom.client.Engine': classCode}), expected);
 
       test.done();
     },
@@ -678,6 +635,17 @@ module.exports = {
       // js code is string and has more than 1300 lines
       test.strictEqual((typeof actual), "string");
       test.ok(actual.split('\n').length > 1300);
+
+      test.done();
+    },
+
+    getEnvKeyProviderCode: function(test) {
+      var classToCodeMap = this.qxCoreEnv.getEnvKeyProviderCode();
+
+      // js code is stored as buffer and has more than 200 lines
+      var qxBomClientEngineCode = classToCodeMap['qx.bom.client.Engine'].toString('utf-8');
+      test.strictEqual((typeof qxBomClientEngineCode), "string");
+      test.ok(qxBomClientEngineCode.split('\n').length > 200);
 
       test.done();
     }
