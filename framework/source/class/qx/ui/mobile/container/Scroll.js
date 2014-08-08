@@ -57,7 +57,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     }
 
     this.addListener("appear", this._updateWaypoints, this);
-    this.addListener("domupdated", this._updateWaypoints, this);
 
     this._waypointsX = [];
     this._waypointsY = [];
@@ -69,6 +68,10 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
   events :
   {
+    /** Fired when the scroll container reaches its end position (including momentum/inertia). */
+    scrollEnd : "qx.event.type.Event",
+
+
     /** Fired when the user scrolls to the end of scroll area. */
     pageEnd : "qx.event.type.Event",
 
@@ -129,9 +132,12 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
   members: {
     _scrollProperties: null,
-    _activeWaypointIndex : null,
+    _activeWaypointX : null,
+    _activeWaypointY : null,
     _waypointsX: null,
     _waypointsY: null,
+    _calculatedWaypointsX : null,
+    _calculatedWaypointsY : null,
     _currentX : null,
     _currentY : null,
 
@@ -163,7 +169,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     * @param waypoints {Array} description 
     */
     setWaypointsX : function(waypoints) {
-      this._waypointsX = this._parseWaypoints(waypoints, "x");
+      this._waypointsX = waypoints;
     },
 
 
@@ -172,7 +178,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      * @param waypoints {Array} an array with waypoint descriptions. Allowed are percentage description as string, or pixel trigger points defined as numbers. <code>["20%",200]</code>
      */
     setWaypointsY : function(waypoints) {
-      this._waypointsY = this._parseWaypoints(waypoints, "y");
+      this._waypointsY = waypoints;
     },
 
 
@@ -198,57 +204,58 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      * Re-calculates the internal waypoint offsets.
      */
     _updateWaypoints: function() {
-      this._calcWaypoints(this._waypointsX, this.getScrollWidth());
-      this._calcWaypoints(this._waypointsY, this.getScrollHeight());
+      this._calculatedWaypointsX = [];
+      this._calculatedWaypointsY = [];
+      this._calcWaypoints(this._waypointsX, this._calculatedWaypointsX, this.getScrollWidth());
+      this._calcWaypoints(this._waypointsY, this._calculatedWaypointsY, this.getScrollHeight());
     },
 
 
     /**
      * Validates and checks the waypoint offsets.
      * @param waypoints {Array} an array with waypoint descriptions.
+     * @param results {Array} the array where calculated waypoints will be added.
      * @param scrollSize {Number} the vertical or horizontal scroll size.
      */
-    _calcWaypoints: function(waypoints, scrollSize) {
+    _calcWaypoints: function(waypoints, results, scrollSize) {
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
-        var offset = null;
-
-        if (qx.lang.Type.isString(waypoint.input) && qx.lang.String.endsWith(waypoint.input, "%")) {
-          offset = parseInt(waypoint.input, 10) * (scrollSize / 100);
-        } else if (qx.lang.Type.isNumber(waypoint.input)) {
-          offset = waypoint.input;
-        }
-
-        waypoint["offset"] = offset;
-      }
-
-      waypoints.sort(function(a, b) {
-        return a.offset - b.offset;
-      });
-    },
-
-
-    /**
-     * Parse the plain waypoint array into waypoint objects.
-     * @param waypoints {Array} an array with waypoints description. String with description: "20%" or a number.
-     * @param axis {String} "x" or "y".
-     * @return {Array} an array with waypoint objects.
-     */
-    _parseWaypoints: function(waypoints, axis) {
-      var parsedWaypoints = [];
-
-      for (var i = 0; i < waypoints.length; i++) {
-        var waypoint = waypoints[i];
-
-        if (waypoint !== null) {
-          parsedWaypoints.push({
-            "offset": null,
+        if (qx.lang.Type.isString(waypoint)) {
+          if (qx.lang.String.endsWith(waypoint, "%")) {
+            var offset = parseInt(waypoint, 10) * (scrollSize / 100);
+            results.push({
+              "offset": offset,
+              "input": waypoint,
+              "index": i,
+              "element": null
+            });
+          } else if (qx.lang.String.startsWith(waypoint, ".")) {
+            // Dynamically created waypoints, based upon a selector.
+            var element = this.getContentElement();
+            var waypointElements = qx.bom.Selector.query(waypoint,element);
+            for (var j = 0; j < waypointElements.length; j++) {
+              var position = qx.bom.element.Location.getRelative(waypointElements[j],element);
+              results.push({
+                "offset": position.top + this._currentY,
+                "input": waypoint,
+                "index": i,
+                "element" : j
+              });
+            }
+          }
+        } else if (qx.lang.Type.isNumber(waypoint)) {
+          results.push({
+            "offset": waypoint,
             "input": waypoint,
-            "index": i
+            "index": i,
+            "element": null
           });
         }
       }
-      return parsedWaypoints;
+
+      results.sort(function(a, b) {
+        return a.offset - b.offset;
+      });
     },
 
 
@@ -259,47 +266,58 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      * @param axis {String} "x" or "y".
      */
     _fireWaypoint: function(value, old, axis) {
-      var waypoints = null;
+      var waypoints = this._calculatedWaypointsY;
       if (axis === "x") {
-        waypoints = this._waypointsX;
-      } else if (axis === "y") {
-        waypoints = this._waypointsY;
-      } else {
+        waypoints = this._calculatedWaypointsX;
+      }
+
+      if(waypoints === null) {
         return;
       }
 
-      var targetWaypoint = null;
+      var nextWaypoint = null;
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
-        if (waypoint.offset != null && value >= waypoint.offset) {
-          targetWaypoint = waypoint;
+        if (waypoint.offset !== null && value >= waypoint.offset) {
+          nextWaypoint = waypoint;
+        } else {
+          break;
         }
       }
-      if (targetWaypoint === null) {
+      if (nextWaypoint === null) {
         return;
       }
 
       var direction = null;
       if (old <= value) {
+        direction = "down";
         if (axis == "x") {
           direction = "left";
-        } else {
-          direction = "down";
         }
       } else {
+        direction = "up";
         if (axis == "x") {
           direction = "right";
-        } else {
-          direction = "up";
         }
       }
 
-      if (this._activeWaypointIndex !== targetWaypoint.index) {
-        this._activeWaypointIndex = targetWaypoint.index;
+      var activeWaypoint = this._activeWaypointY;
+      if(axis === "x") {
+        activeWaypoint = this._activeWaypointX;
+      }
+
+      if (activeWaypoint === null || (activeWaypoint.index !== nextWaypoint.index || activeWaypoint.element !== nextWaypoint.element)) {
+        activeWaypoint = nextWaypoint;
+
+        this._activeWaypointY = activeWaypoint;
+        if(axis === "x") {
+          this._activeWaypointX = activeWaypoint;
+        }
 
         this.fireDataEvent("waypoint", {
           "axis": axis,
-          "index": targetWaypoint.index,
+          "index": nextWaypoint.index,
+          "element": nextWaypoint.element,
           "direction": direction
         });
       }

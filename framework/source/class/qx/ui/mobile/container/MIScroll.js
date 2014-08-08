@@ -126,7 +126,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
     */
     _scrollTo : function(x, y, time)
     {
-      if (this.__scroll && this._isScrollable()) {
+      if (this._isScrollable()) {
         // Normalize scrollable values
         var lowerLimitY = qx.bom.element.Dimension.getHeight(this._getScrollContentElement()) - this.getContainerElement().offsetHeight;
         if (y > lowerLimitY) {
@@ -138,7 +138,14 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           x = lowerLimitX;
         }
 
-        this.__scroll.scrollTo(-x, -y, time);
+        if(this.__scroll) {
+          this.__scroll.scrollTo(-x, -y, time);
+        } else {
+          // Case when iScroll is not loaded yet, but user tries 
+          // to set a different scroll position. Position is applied on "__onScrollLoaded".
+          this._setCurrentY(x);
+          this._setCurrentY(y);
+        }
       }
     },
 
@@ -215,6 +222,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           {
             container._setCurrentX(-this.x);
             container._setCurrentY(-this.y);
+            container.fireEvent("scrollEnd");
             if(this.y == this.maxScrollY) {
               container.fireEvent("pageEnd");
             }
@@ -224,6 +232,8 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           // Alert interested parties that we scrolled to end of page.
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
+            container._setCurrentX(-this.x);
+            container._setCurrentY(-this.y);
             if(this.y == this.maxScrollY) {
               container.fireEvent("pageEnd");
             }
@@ -293,6 +303,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       {
         if(!this.isDisposed()) {
           this._setScroll(this.__createScrollInstance());
+          this._scrollTo(this._currentX, this._currentY);
         }
       } else {
         if (qx.core.Environment.get("qx.debug"))
