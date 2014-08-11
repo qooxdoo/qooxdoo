@@ -12,7 +12,8 @@
   "license": "LGPL",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "devDependencies": {
-    "grunt": "~0.4.2"
+    "grunt": "~0.4.2",
+    "grunt-contrib-clean": "~0.5.0"
   },
   "dependencies": {
     "async": "^0.7.0",
