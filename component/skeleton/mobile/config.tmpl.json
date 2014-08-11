@@ -173,8 +173,8 @@
       {
         "QX_MOBILE_THEME_PATH"      : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
         "QX_SHARED_THEME_PATH"      : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
-        "APPLICATION_THEME_PATH"    : "source/theme/$${APPLICATION}",
-        "APPLICATION_RESOURCE_PATH" : "source/resource/$${APPLICATION}"
+        "APPLICATION_THEME_PATH"    : "source/theme/$${APPLICATION_PATH}",
+        "APPLICATION_RESOURCE_PATH" : "source/resource/$${APPLICATION_PATH}"
       },
       "shell" :
       {
@@ -191,8 +191,8 @@
       {
         "QX_MOBILE_THEME_PATH"      : "$${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
         "QX_SHARED_THEME_PATH"      : "$${QOOXDOO_PATH}/framework/source/resource/qx/scss",
-        "APPLICATION_THEME_PATH"    : "source/theme/$${APPLICATION}",
-        "APPLICATION_RESOURCE_PATH" : "source/resource/$${APPLICATION}"
+        "APPLICATION_THEME_PATH"    : "source/theme/$${APPLICATION_PATH}",
+        "APPLICATION_RESOURCE_PATH" : "source/resource/$${APPLICATION_PATH}"
       },
       "shell" :
       {
