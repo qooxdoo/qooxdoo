@@ -68,33 +68,37 @@ var retrieveGeneratorJobsFromCache = function(files, cache) {
 };
 
 var getSupersededJobs = function() {
-  return {
-    // defer replacement of generate:clean and generate:distclean
-    // clean: "clean:clean",
-    // distclean: "clean:dist",
-    info: "info",
-    // source: "source",
-    // build: "build"
-  };
+  return [
+    "clean",
+    "info",
+    "source",
+    "build"
+  ];
 };
 
 var getMalfunctionedJobs = function() {
-  return {
-    // the migration job doesn't work because user input is needed
-    migration: "migration"
-  };
+  return [
+    "migration" // the migration job doesn't work because user input is needed
+  ];
 };
 
-var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs, malfunctionedJobs) {
+var getCancelledJobs = function() {
+  // blacklist jobs that shouldn't be looped through anymore to the python toolchain
+  return [
+    "distclean"
+  ];
+};
+
+var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs, malfunctionedJobs, cancelledJobs) {
   var sortedJobNames = Object.keys(jobs).sort();
   sortedJobNames.forEach(function (jobName) {
     var jobDesc = jobs[jobName];
 
-    if (supersededJobs[jobName] === undefined) {
+    if (supersededJobs.indexOf(jobName) === -1 && cancelledJobs.indexOf(jobName) === -1) {
       // register generator job as task if there's
       // no replacement implemented in node
       // and the job can be used with grunt
-      if (malfunctionedJobs[jobName] === undefined) {
+      if (malfunctionedJobs.indexOf(jobName) === -1) {
         grunt.registerTask(jobName, jobDesc, function (job) {
           grunt.task.run(["generate:"+jobName]);
         });
@@ -109,12 +113,11 @@ var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs, malfunc
 };
 
 var registerNodeTasks = function(grunt, relSdkPath) {
-  // TODO:
-  //   * move to registerGeneratorJobs
   grunt.loadTasks(relSdkPath + '/tool/grunt/task/generate');
   grunt.loadTasks(relSdkPath + '/tool/grunt/task/info/tasks');
-  // grunt.loadTasks(relSdkPath + '/tool/grunt/task/source/tasks');
-  // grunt.loadTasks(relSdkPath + '/tool/grunt/task/build/tasks');
+  grunt.loadTasks(relSdkPath + '/tool/grunt/task/source/tasks');
+  grunt.loadTasks(relSdkPath + '/tool/grunt/task/build/tasks');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 };
 
 var registerTasks = function(grunt) {
@@ -127,12 +130,12 @@ var registerTasks = function(grunt) {
 
   var jobs = retrieveGeneratorJobsFromCache(files, cache);
   if (jobs) {
-    registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs());
+    registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs(), getCancelledJobs());
     registerNodeTasks(grunt, conf.QOOXDOO_PATH);
   } else {
     jobs = queryAndWriteCurrentJobs(files.jobsAndDesc, cache);
     if (jobs !== null) {
-      registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs());
+      registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs(), getCancelledJobs());
     }
     registerNodeTasks(grunt, conf.QOOXDOO_PATH);
   }

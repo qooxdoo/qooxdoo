@@ -67,7 +67,6 @@ var getConfig = function() {
     common: common,
 
     /* grunt-contrib-clean */
-    /*
     clean: {
       options: {
         force: true
@@ -85,9 +84,7 @@ var getConfig = function() {
       cache: ["<%= common.CACHE_KEY.compile %>",
               "<%= common.CACHE_KEY.downloads %>"]
     },
-    */
     /* grunt-qx-source */
-    /*
     source: {
       options: {
         appName: "<%= common.APPLICATION %>",
@@ -104,9 +101,7 @@ var getConfig = function() {
         ]
       }
     },
-    */
     /* grunt-qx-build */
-    /*
     build: {
       options: {
         appName: "<%= common.APPLICATION %>",
@@ -130,7 +125,6 @@ var getConfig = function() {
         ]
       }
     },
-    */
     /* grunt-qx-info */
     info: {
       options: {
