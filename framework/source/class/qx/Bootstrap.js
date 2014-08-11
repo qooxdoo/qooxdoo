@@ -650,6 +650,12 @@ qx.Bootstrap.define("qx.Bootstrap",
      */
     getClass : function(value)
     {
+      // The typeof null and undefined is "object" under IE8
+      if(value === undefined) {
+        return "Undefined"
+      }else if(value === null) {
+        return "Null";
+      }
       var classString = Object.prototype.toString.call(value);
       return (
         qx.Bootstrap.__classToTypeMap[classString] ||
