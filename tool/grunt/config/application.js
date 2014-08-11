@@ -67,20 +67,21 @@ var getConfig = function() {
     common: common,
 
     /* grunt-contrib-clean */
-    // defer replacement of generate:clean and generate:distclean
     /*
     clean: {
       options: {
         force: true
       },
-      clean: ["<%= common.SOURCE_PATH %>/script/<%= common.APPLICATION %>*.js",
-              "<%= common.BUILD_PATH %>/script/<%= common.APPLICATION %>*.js"],
-      dist:  ["<%= common.SOURCE_PATH %>/script",
+      source: ["<%= common.SOURCE_PATH %>/script"],
+      build: ["<%= common.BUILD_PATH %>"],
+      api: ["<%= common.ROOT %>/api"],
+      test: ["<%= common.ROOT %>/test"],
+      inspector: ["<%= common.ROOT %>/inspector"],
+      app: ["<%= common.SOURCE_PATH %>/script",
               "<%= common.BUILD_PATH %>",
               "<%= common.ROOT %>/api",
               "<%= common.ROOT %>/test",
-              "<%= common.ROOT %>/inspector",
-              "<%= common.ROOT %>/simulator"],
+              "<%= common.ROOT %>/inspector"],
       cache: ["<%= common.CACHE_KEY.compile %>",
               "<%= common.CACHE_KEY.downloads %>"]
     },
