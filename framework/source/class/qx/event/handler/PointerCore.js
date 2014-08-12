@@ -156,7 +156,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param domEvent {Event}  Native DOM event
      */
     _onPointerEvent : function(domEvent) {
-      if (!qx.core.Environment.get("event.mspointer")) {
+      if (!qx.core.Environment.get("event.mspointer") ||
+          // workaround for bug #8533
+          (qx.core.Environment.get("browser.documentmode") === 10 && domEvent.type.toLowerCase().indexOf("ms") == -1)
+        )
+      {
         return;
       }
       if (!this.__nativePointerEvents) {
