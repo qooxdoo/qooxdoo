@@ -94,23 +94,24 @@ run through the Grunt frontend (in Grunt lingo those are called **tasks**
 then) via ``grunt generate:{oldJobName}``. This ensures that you are still able to use
 all the Generator functionality already available.
 
-Some implemented Grunt task may already replace their Generator job counterparts.
+We've reimplemented some former jobs as Grunt task in JavaScript
+and they may already be used instead of their Generator job counterparts.
 But note that the task implementation might not be feature-complete yet.
 Currently implemented are ``info``, ``source``, ``build`` and ``clean``.
 
-Here are some Grunt tasks and their Generator job counterparts:
+Here are those Grunt tasks and their Generator job counterparts:
 
 ============================   ======================================   ===========================================
 Grunt                          Generator                                Comments
 ============================   ======================================   ===========================================
-grunt                          generate.py                              *runs the default job from the* ``config.json``
+grunt                          generate.py                              *runs the default task/job*
 grunt source                   generate.py source                       \-
 grunt build                    generate.py build                        \-
 grunt info                     generate.py info                         *different output but same functionality*
 grunt clean                    generate.py distclean                    *removes local app artifacts with cache*
-grunt clean:app                generate.py clean                        *removes local app artifacts w/o cache*
-grunt clean:build              \-                                       *removes only build dir*
-grunt clean:source             \-                                       *removes only source/script dir*
+grunt clean:app                \-                                       *removes local app artifacts w/o cache*
+grunt clean:build              generate.py clean                        *removes only build dir / Generator removes build and source/script!*
+grunt clean:source             generate.py clean                        *removes only source/script dir / Generator removes build and source/script!*
 grunt clean:api                \-                                       *removes only api dir*
 grunt clean:test               \-                                       *removes only test dir*
 grunt clean:inspector          \-                                       *removes only inspector dir*
@@ -188,7 +189,7 @@ The only parts specific to qooxdoo are:
 This will register a task for each Generator job (under the same name). The
 tasks may be written in Python (from the Generator) or in JavaScript. After
 ``qxTasks.registerTasks()`` you are free to include the Grunt plugins
-you like to use.
+you like to use (custom or 3rd party).
 
 
 Gruntify existing apps
