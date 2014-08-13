@@ -37,10 +37,16 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * Method to apply multiple transforms at once to the given element. It
      * takes a map containing the transforms you want to apply plus the values
      * e.g.<code>{scale: 2, rotate: "5deg"}</code>.
-     * 3d suffixed properties will be taken if they are available.
+     * The values can be either singular, which means a single value will
+     * be added to the CSS. If you give an array, the values will be split up
+     * and each array entry will be used for the X, Y or Z dimension in that
+     * order e.g. <code>{scale: [2, 0.5]}</code> will result in a element
+     * double the size in X direction and half the size in Y direction.
      * The values can be either singular, which means a single value will
      * be added to the CSS. If you give an array, the values will be join to
      * a string.
+     * 3d suffixed properties will be taken for translate and scale if they are
+     * available and an array with three values is given.
      * Make sure your browser supports all transformations you apply.
      *
      * @param el {Element} The element to apply the transformation.
@@ -313,13 +319,21 @@ qx.Bootstrap.define("qx.bom.element.Transform",
     },
 
 
+    /**
+     * Helper function to create 3d property.
+     *
+     * @param property {String} Property of transform, e.g. translate
+     * @param params {Array} Array with three values, each one stands for an axis.
+     *
+     * @return {String} Computed property and its value
+     */
     _compute3dProperty : function(property, params)
     {
       var cssValue = "";
       property += "3d";
 
       for (var i=0; i < params.length; i++) {
-        if (params[i] == undefined) {
+        if (params[i] == null) {
           params[i] = 0;
         }
       }
@@ -330,12 +344,20 @@ qx.Bootstrap.define("qx.bom.element.Transform",
     },
 
 
+    /**
+     * Helper function to create axis related properties.
+     *
+     * @param property {String} Property of transform, e.g. rotate
+     * @param params {Array} Array with values, each one stands for an axis.
+     *
+     * @return {String} Computed property and its value
+     */
     _computeAxisProperties : function(property, params)
     {
       var value = "";
       var dimensions = ["X", "Y", "Z"];
       for (var i=0; i < params.length; i++) {
-        if (params[i] == undefined ||
+        if (params[i] == null ||
           (i == 2 && !qx.core.Environment.get("css.transform.3d"))) {
           continue;
         }
