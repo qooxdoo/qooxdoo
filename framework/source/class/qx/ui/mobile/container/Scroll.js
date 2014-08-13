@@ -352,6 +352,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
      */
     refresh: function() {
       this._refresh();
+      this._updateWaypoints();
     },
 
 
