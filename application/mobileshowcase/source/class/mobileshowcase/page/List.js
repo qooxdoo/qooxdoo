@@ -36,6 +36,7 @@ qx.Class.define("mobileshowcase.page.List",
   members :
   {
     _model: null,
+    _scrollContainer : null,
     _waypointsY: null,
     _waypointsLabel : null,
     _loadingIndicator: null,
@@ -61,7 +62,7 @@ qx.Class.define("mobileshowcase.page.List",
       this._waypointsLabel.addCssClass("waypoint-info");
       this.add(this._waypointsLabel);
 
-      var scrollContainer = this._getScrollContainer();
+      var scrollContainer = this._scrollContainer = this._getScrollContainer();
       scrollContainer.setWaypointsY(this._waypointsY);
       scrollContainer.addListener("waypoint", this._onWaypoint, this);
 
@@ -188,11 +189,13 @@ qx.Class.define("mobileshowcase.page.List",
           this._model.push({
             title: "Item #" + (initialModelLength + i),
             subtitle: "Subtitle for Item #" + (initialModelLength + i),
+            image: "mobileshowcase/icon/internet-mail.png",
             selectable: false,
             removable: false
           });
         }
 
+        this._scrollContainer.refresh();
         this._loadingIndicator.exclude();
         this._isLoading = false;
       }.bind(this), 2000);
