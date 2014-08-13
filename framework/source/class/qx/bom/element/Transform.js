@@ -281,39 +281,70 @@ qx.Bootstrap.define("qx.bom.element.Transform",
      * @return {String} The CSS transforms.
      */
     getTransformValue : function(transforms) {
-      var cssValue = "";
-      var suffix3d = "";
-      if (qx.core.Environment.get("css.transform.3d")) {
-        suffix3d = "3d";
-      }
+      var value = "";
+      var properties3d = ["translate", "scale"];
 
       for (var property in transforms) {
-        var value = transforms[property];
-        // normalize array
-        if (qx.Bootstrap.isArray(value)) {
-          // normalize parameter count, all three axis are necessary
-          for (var i = 2; i >= 0; i--) {
-            if (value[i] === undefined) {
-              value[i] = 0;
-            }
+        var params = transforms[property];
 
-            else {
-              // value found on index, no need to normalize other axis
-              break;
-            }
+        // if an array is given
+        if (qx.Bootstrap.isArray(params)) {
+          // use 3d properties for translate and scale if all 3 parameter are given
+          if (params.length === 3 &&
+            properties3d.indexOf(property) > -1 &&
+            qx.core.Environment.get("css.transform.3d")
+          ) {
+            value += this._compute3dProperty(property, params);
           }
 
-          // no 3d, remove z axis from array
-          if (!suffix3d) {
-            value.splice(2);
+          // use axis related properties
+          else {
+            value += this._computeAxisProperties(property, params);
           }
-          value = value.join(", ");
+
+        // case for single values given
+        } else {
+          // single value case
+          value += property + "(" + params + ") ";
         }
-
-        cssValue += property + suffix3d + "(" + value + ") ";
       }
 
+      return value.trim();
+    },
+
+
+    _compute3dProperty : function(property, params)
+    {
+      var cssValue = "";
+      property += "3d";
+
+      for (var i=0; i < params.length; i++) {
+        if (params[i] == undefined) {
+          params[i] = 0;
+        }
+      }
+
+      cssValue += property + "(" + params.join(", ") + ") ";
+
       return cssValue;
+    },
+
+
+    _computeAxisProperties : function(property, params)
+    {
+      var value = "";
+      var dimensions = ["X", "Y", "Z"];
+      for (var i=0; i < params.length; i++) {
+        if (params[i] == undefined ||
+          (i == 2 && !qx.core.Environment.get("css.transform.3d"))) {
+          continue;
+        }
+        value += property + dimensions[i] + "(";
+        value += params[i];
+        value += ") ";
+      }
+
+      return value;
     }
   }
 });
