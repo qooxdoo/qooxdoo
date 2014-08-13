@@ -62,10 +62,10 @@ packages.forEach(function(pkg){
     function (error, stdout, stderr) {
       if (stdout || stderr) {
         if (stdout) {
-          console.log('~~~ stdout ~~~:' + stdout);
+          console.log('~~~ stdout ~~~:\n' + stdout);
         }
         if (stderr) {
-          console.log('~~~ stderr ~~~:' + stderr);
+          console.log('~~~ stderr ~~~:\n' + stderr);
         }
       } else {
         console.log('Done. npm command (\''+command+'\') didn\'t produce '+
