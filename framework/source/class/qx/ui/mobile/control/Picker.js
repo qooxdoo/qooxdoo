@@ -32,8 +32,11 @@
  *   var data = evt.getData();
  * },this);
  *
- * picker.addSlot(new qx.data.Array(["Windows Phone", "iOS", "Android"]));
- * picker.addSlot(new qx.data.Array(["Tablet", "Smartphone", "Phablet"]));
+ * var slotData1 = [{title:"Windows Phone"}, {title:"iOS"}, {title:"Android"}];
+ * var slotData2 = [{title:"Tablet"}, {title:"Smartphone"}, {title:"Phablet"}];
+ *
+ * picker.addSlot(new qx.data.Array(slotData1));
+ * picker.addSlot(new qx.data.Array(slotData2));
  * </pre>
  *
  */
