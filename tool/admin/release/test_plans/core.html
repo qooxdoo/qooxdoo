@@ -820,25 +820,14 @@
       <dt>[p]</dt>
       <dd>If not happend before:
         <ol>
-          <li><strong>install</strong> all packages (<em>cd tool/grunt/task/package/
-           &amp;&amp; ./runNpmCmd.js install</em>)</li>
-          <li><strong>link</strong> all packages (<em>sudo ./runNpmCmd.js link</em>)</li>
-          <li><strong>install</strong> the ones needed for the task you are going to test:
-            <ol>
-              <li><em>cd tool/grunt/task/package/{taskName}</em></li>
-              <li>check <em>package.json</em></li>
-              <li>e.g. <em>npm link qx-resource</em></li>
-              <li>e.g. <em>npm link qx-locale</em></li>
-              <li>e.g. <em>npm link qx-dependency</em></li>
-              <li>e.g. <em>npm link qx-library</em></li>
-              <li>e.g. <em>npm link qx-translation</em></li>
-              <li>e.g. <em>npm link qx-compression</em></li>
-              <li>e.g. <em>npm link qx-...</em></li>
-              <li>install remaining ones from the npm-registry: <em>npm install</em></li>
-            </ol>
-          </li>
-          <li><strong>run</strong> task under test (<em>grunt {taskName}</em>)</li>
-          <li><strong>test</strong> task under test (e.g. open browser for source version)</li>
+          <li><em>cd tool/grunt</em></li>
+          <li><em>./setup.js</em></li>
+        </ol>
+          Then:
+        <ol>
+          <li><em>cd tool/grunt/{taskName}</em></li>
+          <li>run task under test (<em>grunt {taskName}</em>)</li>
+          <li>test task under test (e.g. open browser for source/build version)</li>
         </ol>
       </dd>
     </dl>
