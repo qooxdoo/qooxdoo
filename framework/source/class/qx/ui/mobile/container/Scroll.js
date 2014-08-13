@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
               "index": i,
               "element": null
             });
-          } else if (qx.lang.String.startsWith(waypoint, ".")) {
+          } else {
             // Dynamically created waypoints, based upon a selector.
             var element = this.getContentElement();
             var waypointElements = qx.bom.Selector.query(waypoint,element);
@@ -488,7 +488,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       if (delegate != null && delegate.getScrollOffset) {
         return delegate.getScrollOffset.bind(this)();
       } else {
-        return [0,0];
+        return [0, 0];
       }
     },
 
