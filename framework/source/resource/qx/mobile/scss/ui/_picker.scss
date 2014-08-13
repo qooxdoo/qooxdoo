@@ -59,6 +59,7 @@
 }
 
 .picker:before {
+  @include transform(translate3d(0,-50%,0));
   content: "";
   position: absolute;
   top: 50%;
@@ -72,24 +73,20 @@
 
 .picker[data-items="3"]:before {
   display: block;
-  margin-top: -16.65%;
   height: 33.3%;
 }
 
 .picker[data-items="5"]:before {
   display: block;
-  margin-top: -10%;
   height: 20%;
 }
 
 .picker[data-items="7"]:before {
   display: block;
-  margin-top: -7.14%;
   height: 14.28%;
 }
 
 .picker[data-items="9"]:before {
   display: block;
-  margin-top: -5.55%;
   height:  11.11%;
 }
