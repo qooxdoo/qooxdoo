@@ -56,9 +56,9 @@ qx.Bootstrap.define("qx.bom.client.Scroll",
      */
     getNativeScroll : function()
     {
-      // iOS 5+
+      // iOS 8+
       if (qx.core.Environment.get("os.name") == "ios" &&
-        parseInt(qx.core.Environment.get("browser.version"), 10) > 4) {
+        parseInt(qx.core.Environment.get("browser.version"), 10) > 7) {
         return true;
       }
 
