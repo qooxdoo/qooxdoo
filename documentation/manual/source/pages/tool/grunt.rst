@@ -86,6 +86,31 @@ Learn what's the `difference between the grunt-cli and grunt itself
 <http://gruntjs.com/getting-started>`_.
 
 
+Setup the qooxdoo Grunt toolchain
+=================================
+
+The toolchain itself needs a setup where all required npm packages are installed
+and the qooxdoo packages are wired together. You have to run:
+
+.. code-block:: bash
+
+   $ cd /tool/grunt
+   $ ./setup.js
+
+Make sure that your current user owns all files within the SDK under
+``tool/grunt`` and the path where global npm packages are installed to (run
+``npm`` solely to get this path shown in the very last line) is also writable for your
+current user.  Otherwise change the ownership (e.g. ``sudo chown -R $USER
+myGlobalNpmNodeModulesPath`` - so this could be ``sudo chown -R $USER
+/opt/local/lib/node_modules/``). This enables the script (and you) to use npm
+from now on without ``sudo`` which is a `best practice strongly recommended by
+the creator of npm itself
+<http://foohack.com/2010/08/intro-to-npm/#what_no_sudo>`_. Another way to
+achieve this is by `creating your own global node_modules dir within your home
+dir (see section "Get away from sudo: npm without root")
+<http://justjs.com/posts/npm-link-developing-your-own-npm-modules-without-tears>`_.
+
+
 Using the Generator through Grunt
 =================================
 
