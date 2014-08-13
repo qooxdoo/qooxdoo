@@ -127,19 +127,19 @@ module.exports = function(grunt) {
   );
 
   // 'extend' source job
-  grunt.task.renameTask('source', 'generate-source');
+  grunt.task.renameTask('source', 'temp');
   grunt.task.registerTask(
     'source',
     'Generate the source version of qx.Website and the widget CSS',
-    ["generate-source", "sass:indigo", "notify:source"]
+    ["generate:source", "sass:indigo", "notify:source"]
   );
 
   // 'extend' build job
-  grunt.task.renameTask('build', 'generate-build');
+  grunt.task.renameTask('build', 'temp');
   grunt.task.registerTask(
     'build',
     'Generate the build version of qx.Website and the widget CSS',
-    ["generate-build", "sass:indigo", "notify:build"]
+    ["generate:build", "sass:indigo", "notify:build"]
   );
 
 
