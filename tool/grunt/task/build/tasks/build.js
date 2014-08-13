@@ -59,7 +59,8 @@ function renderLoaderTmpl(tmpl, ctx) {
     if (ctx[tmplVar] === "") {
       tmpl = tmpl.replace(regex, "");
     } if (ctx[tmplVar][0] === "_") {
-      // get rid of '_' and preserve dollar signs
+      // get rid of '_' as first char which is used
+      // to trigger preservation of dollar signs
       ctx[tmplVar] = ctx[tmplVar].substr(1).replace(/\$/g, "$$$$");
       tmpl = tmpl.replace(regex, ctx[tmplVar]);
     } else {
