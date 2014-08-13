@@ -176,6 +176,13 @@ $picker-highlight-border-width: rem(2);
 $picker-spinning-wheel-divider-color: $color-3;
 $picker-spinning-wheel-divider-width: rem(1);
 
+// Deprecated in 4.1
+$picker-spinning-wheel-border-radius: rem(2);
+$picker-label-height: rem(25);
+$picker-label-font-size: rem(16);
+$picker-height: rem(160);
+// -----------------
+
 // RadioButton
 
 $radiobutton-size: rem(32);

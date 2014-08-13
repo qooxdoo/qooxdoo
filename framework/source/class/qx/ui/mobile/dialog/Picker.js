@@ -18,7 +18,8 @@
 ************************************************************************ */
 
 /**
- *
+ * @deprecated {4.1} Please use qx.ui.mobile.control.Picker instead.
+ * 
  * The picker widget gives the user the possibility to select a value out of an array
  * of values. The picker widget is always shown in a {@link qx.ui.mobile.dialog.Popup}.
  *
@@ -69,6 +70,11 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
    */
   construct : function(anchor)
   {
+    if (qx.core.Environment.get("qx.debug"))
+    {
+      qx.log.Logger.deprecatedClassWarning(this, "Please use 'qx.ui.mobile.control.Picker' instead.");
+    }
+
     // parameter init.
     this.__selectedIndex = {};
     this.__targetIndex = {};
@@ -142,7 +148,7 @@ qx.Class.define("qx.ui.mobile.dialog.Picker",
     defaultCssClass :
     {
       refine : true,
-      init : "picker"
+      init : "picker-dialog"
     }
   },
 
