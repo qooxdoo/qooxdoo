@@ -79,7 +79,8 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     /** Fired when a vertical or horizontal waypoint is triggered. Data: 
     * <code> {"offset": 0,
     *        "input": "10%",
-    *        "index": 0}</code>
+    *        "index": 0,
+    *        "element" : 0}</code>
     */
     waypoint : "qx.event.type.Data",
 
