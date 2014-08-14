@@ -279,13 +279,21 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       var nextWaypoint = null;
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
-        if (waypoint.offset !== null && value >= waypoint.offset) {
-          nextWaypoint = waypoint;
-        } else {
-          break;
+        if (waypoint.offset !== null) {
+          if (value >= waypoint.offset) {
+            nextWaypoint = waypoint;
+          } else {
+            break;
+          }
         }
       }
+
       if (nextWaypoint === null) {
+        if (axis === "x") {
+          this._activeWaypointX = null;
+        } else {
+          this._activeWaypointY = null;
+        }
         return;
       }
 
@@ -303,7 +311,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       }
 
       var activeWaypoint = this._activeWaypointY;
-      if(axis === "x") {
+      if (axis === "x") {
         activeWaypoint = this._activeWaypointX;
       }
 
@@ -311,10 +319,9 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
         activeWaypoint = nextWaypoint;
 
         this._activeWaypointY = activeWaypoint;
-        if(axis === "x") {
+        if (axis === "x") {
           this._activeWaypointX = activeWaypoint;
         }
-
         this.fireDataEvent("waypoint", {
           "axis": axis,
           "index": nextWaypoint.index,
@@ -524,8 +531,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
   destruct : function() {
     this.removeListener("appear", this._updateWaypoints, this);
-    this.removeListener("domupdated", this._updateWaypoints, this);
-
     this._waypointsX = this._waypointsY = null;
   }
 });
