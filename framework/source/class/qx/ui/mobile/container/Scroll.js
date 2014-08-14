@@ -280,7 +280,9 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
         if (waypoint.offset !== null) {
-          if (value >= waypoint.offset) {
+          
+          if ((value > -1 && value >= waypoint.offset) ||
+           (value < 0 && waypoint.offset < 0 && value <= waypoint.offset)) {
             nextWaypoint = waypoint;
           } else {
             break;
@@ -317,7 +319,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
       if (activeWaypoint === null || (activeWaypoint.index !== nextWaypoint.index || activeWaypoint.element !== nextWaypoint.element)) {
         activeWaypoint = nextWaypoint;
-
         this._activeWaypointY = activeWaypoint;
         if (axis === "x") {
           this._activeWaypointX = activeWaypoint;
