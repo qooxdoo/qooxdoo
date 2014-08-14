@@ -38,10 +38,10 @@ qx.Class.define("mobileshowcase.page.Dialog",
   {
     __anchorPopup : null,
     __popup : null,
-    __dialogpopup : null,
     __busyPopup : null,
     __menu : null,
     __picker : null,
+    __pickerDialog : null,
     __pickerDaySlotData : null,
     __anchorMenu : null,
     __resultsLabel : null,
@@ -92,7 +92,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
        // PICKER DIALOG
       var showPickerButton = new qx.ui.mobile.form.Button("Picker");
       showPickerButton.addListener("tap", function(e) {
-        this._pickerDialog.show();
+        this.__pickerDialog.show();
       }, this);
 
       this._createPicker(showPickerButton);
@@ -162,7 +162,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
     * @return {qx.ui.mobile.dialog.Picker} the date picker.
     */
     _createPicker : function(anchor) {
-      var pickerDialog = this._pickerDialog = new qx.ui.mobile.dialog.Popup(anchor);
+      var pickerDialog = this.__pickerDialog = new qx.ui.mobile.dialog.Popup(anchor);
       pickerDialog.setTitle("Picker");
       
       var picker = this.__picker = new qx.ui.mobile.control.Picker();
