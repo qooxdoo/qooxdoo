@@ -194,10 +194,11 @@ qx.Class.define("mobileshowcase.page.List",
             removable: false
           });
         }
-
-        this._scrollContainer.refresh();
+        
         this._loadingIndicator.exclude();
         this._isLoading = false;
+
+        this._scrollContainer.refresh();
       }.bind(this), 2000);
     },
 
