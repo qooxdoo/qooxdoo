@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
 
     /**
-     * Fires a waypoints, when scroll position
+     * Fires a waypoints event when scroll position changes.
      * @param value {Number} old scroll position.
      * @param old {Number} old scroll position.
      * @param axis {String} "x" or "y".
