@@ -184,7 +184,7 @@ q.Class.define("qx.tool.Cache",
      * @return {String} path
      */
     getPath: function() {
-        return this.__path;
+      return this.__path;
     },
 
     /**
@@ -228,6 +228,17 @@ q.Class.define("qx.tool.Cache",
       }
 
       return fileContent;
+    },
+
+    /**
+     * Gets the file status of a cache item (by cacheId).
+     *
+     * @param cacheId {String} CacheId (e.g. relative path to src class).
+     * @return {Object} stat object.
+     */
+    stat: function(cacheId) {
+      var hexedPath = this.__buildAbsFilePath(this.__path, cacheId);
+      return fs.statSync(hexedPath);
     },
 
     /**
