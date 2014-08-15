@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       {
         this.assertArgumentsCount(arguments, 2, 2);
         this.assert(
-          size > 0 || size === null,
+          size >= 0 || size === null,
           "'size' must be 'null' or an integer larger than 0."
         );
       }
@@ -370,7 +370,6 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       }
 
       var range = this.__findRangeByIndex(index);
-
       if (range.startIndex == index) {
         return range.rangeStart;
       } else {
@@ -411,7 +410,9 @@ qx.Class.define("qx.ui.virtual.core.Axis",
       var i=0;
       while (sum < minSizeSum)
       {
-        var itemSize = customSizes[startIndex++] || defaultSize;
+        var itemSize = customSizes[startIndex] != null ? customSizes[startIndex] : defaultSize;
+        startIndex++;
+
         sum += itemSize;
         sizes[i++] = itemSize;
         if (startIndex >= this.itemCount) {
