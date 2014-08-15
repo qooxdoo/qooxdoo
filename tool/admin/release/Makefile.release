@@ -454,7 +454,7 @@ build-apps:
 				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-mini ) || exit 1; \
 			elif [ "$$APPLICATION" = "websitewidgetbrowser" ]; then \
 				( cd application/$$APPLICATION && $(CMD_NPM) install ) || exit 1; \
-				( cd application/$$APPLICATION && $(CMD_GRUNT) build ) || exit 1; \
+				( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		fi; \
