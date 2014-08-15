@@ -4,15 +4,21 @@
 
 'use strict';
 
+// native
+var os = require('os');
+
 var common = {
   "APPLICATION" : "myapp",
   "QOOXDOO_PATH": "../../../..",
+  "QOOXDOO_VERSION": "4.1",
   "LOCALES": ["en", "de"],
   "QXTHEME": "<%= common.APPLICATION %>.theme.Theme",
   "QXICONTHEME": ["Tango"],
   "ROOT": ".",
+  "TMPDIR": os.tmpdir(),
   "APPLICATION_MAIN_CLASS" : "<%= common.APPLICATION %>.Application",
   "SOURCE_PATH": "<%= common.ROOT %>/test/data/myapp/source",
+  "CACHE": "<%= common.TMPDIR %>/qx<%= common.QOOXDOO_VERSION %>/cache",
   "ENVIRONMENT": {
     // base.json: common
     "qx.application": "<%= common.APPLICATION %>.Application",
@@ -56,6 +62,7 @@ module.exports = function(grunt) {
         qxIconTheme: "<%= common.QXICONTHEME %>",
         locales:  "<%= common.LOCALES %>",
         sourcePath: "<%= common.SOURCE_PATH %>/script",
+        cachePath: "<%= common.CACHE %>",
         environment: common.ENVIRONMENT,
         includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
         excludes: [],

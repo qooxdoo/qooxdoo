@@ -118,7 +118,8 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Collecting classes ...');
     // -----------------------------------------
-    var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes, opts.excludes, opts.environment, {variants: false});
+    var depsCollectingOptions = {variants: false, cachePath: opts.cachePath};
+    var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes, opts.excludes, opts.environment, depsCollectingOptions);
     grunt.log.ok('Done.');
 
 
