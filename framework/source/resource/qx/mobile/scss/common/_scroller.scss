@@ -35,6 +35,11 @@
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
+// Disable horizontal scrollbar on native scroll mode.
+::-webkit-scrollbar {
+  display:none;
+}
+
 // Fix for iOS 7 webkit-scrolling issue on orientationchange.
 // Scrolling did not work anymore if user triggered an device orientation change.
 @media (orientation: landscape) {
