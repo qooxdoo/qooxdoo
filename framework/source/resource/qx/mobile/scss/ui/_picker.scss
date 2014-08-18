@@ -91,6 +91,11 @@
   height:  11.11%;
 }
 
+// Android 4.4 on Chrome bug with pointer-events:none
+.root.android.v4 .picker:after {
+  display:none !important;
+}
+
 //
 // Deprecated CSS rules for qx.ui.mobile.dialog.Picker
 //
