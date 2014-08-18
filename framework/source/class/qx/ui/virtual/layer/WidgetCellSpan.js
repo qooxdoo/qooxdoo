@@ -151,6 +151,24 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
 
 
     /**
+     * Get the spacer widget, for span cells
+     *
+     * @return {qx.ui.core.Spacer} The spacer widget.
+     */
+    _getSpacer : function()
+    {
+      var spacer = this.__spacerPool.pop();
+      if (!spacer)
+      {
+        spacer = new qx.ui.core.Spacer();
+        spacer.setUserData("cell.empty", 1);
+        spacer.setUserData("cell.spanning", 1);
+      }
+      return spacer;
+    },
+
+
+    /**
      * Get the cell provider for the non spanning cells
      *
      * @return {qx.ui.virtual.core.IWidgetCellProvider} the cell provider
@@ -171,12 +189,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
           }
           else
           {
-            var widget = spacerPool.pop();
-            if (!widget)
-            {
-              widget = new qx.ui.core.Spacer();
-              widget.setUserData("cell.spanning", 1);
-            }
+            var widget = self._getSpacer();
           }
           return widget;
         },

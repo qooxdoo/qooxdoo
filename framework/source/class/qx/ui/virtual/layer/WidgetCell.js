@@ -102,29 +102,33 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
      */
      getRenderedCellWidget : function(row, column)
      {
-       var columnCount = this.getColumnSizes().length;
-       var rowCount = this.getRowSizes().length;
+        if (this._getChildren().length === 0) {
+          return null;
+        }
 
-       var firstRow = this.getFirstRow();
-       var firstColumn = this.getFirstColumn();
+        var columnCount = this.getColumnSizes().length;
+        var rowCount = this.getRowSizes().length;
 
-       if (
+        var firstRow = this.getFirstRow();
+        var firstColumn = this.getFirstColumn();
+
+        if (
          row < firstRow ||
          row >= firstRow + rowCount ||
          column < firstColumn ||
          column >= firstColumn + columnCount
-       ) {
+        ) {
          return null;
-       }
+        }
 
-       var childIndex = (column - firstColumn) + (row - firstRow) * columnCount;
-       var widget = this._getChildren()[childIndex];
+        var childIndex = (column - firstColumn) + (row - firstRow) * columnCount;
+        var widget = this._getChildren()[childIndex];
 
-       if (widget.getUserData("cell.empty")) {
+        if (!widget || widget.getUserData("cell.empty")) {
          return null;
-       } else {
+        } else {
          return widget;
-       }
+        }
      },
 
 
