@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @return {Integer} width of the element
      */
     getWidth: function(element) {
-      var rect = element.getBoundingClientRect();
+      var rect = this._getBoundingClientRect(element);
       return Math.round(rect.right - rect.left);
     },
 
@@ -65,8 +65,32 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @return {Integer} height of the element
      */
     getHeight: function(element) {
-      var rect = element.getBoundingClientRect();
+      var rect = this._getBoundingClientRect(element);
       return Math.round(rect.bottom - rect.top);
+    },
+
+
+    /**
+     * Helper function to return the value of native .getBoundingClientRect().
+     * As IE11 returns bogus values for .getBoundingClientRect() inside an
+     * iframe where an element is displayed full screen, we need to correct the
+     * values.
+     */
+    _getBoundingClientRect : function(element)
+    {
+      var rect = element.getBoundingClientRect();
+
+      // To be able to fix IE11 bug multiply all properties with 100
+      if (qx.core.Environment.get("browser.documentmode") === 11 &&
+          !!document.msFullscreenElement &&
+          window !== window.top
+      ) {
+        for (var property in rect) {
+          rect[property] *= 100;
+        }
+      }
+
+      return rect;
     },
 
 
