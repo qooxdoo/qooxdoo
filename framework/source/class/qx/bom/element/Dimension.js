@@ -75,6 +75,10 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * As IE11 returns bogus values for .getBoundingClientRect() inside an
      * iframe where an element is displayed full screen, we need to correct the
      * values.
+     *
+     * @param element {Element} element to query
+     *
+     * @return {Map} Map of client rectangle properties
      */
     _getBoundingClientRect : function(element)
     {
@@ -83,14 +87,37 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
       // To be able to fix IE11 bug multiply all properties with 100
       if (qx.core.Environment.get("browser.documentmode") === 11 &&
           !!document.msFullscreenElement &&
-          window !== window.top
+          window !== window.top &&
+          this.__isChildOfFullScreenElement(element)
       ) {
+        // store corrected values in a new object, because ClientRect object
+        // of IE11 is read only
+        var tmp = {};
         for (var property in rect) {
-          rect[property] *= 100;
+          tmp[property] = rect[property] * 100;
         }
+        rect = tmp;
       }
 
       return rect;
+    },
+
+
+    /**
+     * Helper function to check if element is self or child of element who is
+     * currently in full screen.
+     *
+     * @param element {Element} element to query
+     *
+     * @return {Boolean} True if element if self or child of full screen element
+     */
+    __isChildOfFullScreenElement : function(element)
+    {
+      if (document.msFullscreenElement === element) {
+        return true;
+      }
+
+      return qx.dom.Hierarchy.contains(document.msFullscreenElement, element);
     },
 
 
