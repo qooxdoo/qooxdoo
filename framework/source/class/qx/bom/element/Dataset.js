@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
     get : function(element, name) {
       if (element.dataset) {
         name = qx.lang.String.camelCase(name);
-        return element.dataset[name];
+        return (!element.dataset[name] ? undefined : element.dataset[name]);
       } else {
         var attrName = "data-" + qx.lang.String.hyphenate(name);
         return element.hasAttribute(attrName) ?
