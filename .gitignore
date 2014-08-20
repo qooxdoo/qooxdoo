@@ -32,6 +32,3 @@
 
 # Node/NPM
 node_modules/
-
-# git submodules
-/tool/admin/www
