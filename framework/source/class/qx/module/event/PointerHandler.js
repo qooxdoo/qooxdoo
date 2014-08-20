@@ -90,9 +90,14 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
           }
         }
 
-        // no more listeners, get rid of the handler
-        element.$$pointerHandler.dispose();
-        element.$$pointerHandler = undefined;
+        // in a standalone or in-line application the pointer handler of
+        // document will be qx.event.handler.Pointer, do not dispose that handler.
+        // see constructor of qx.event.handler.Pointer
+        if (element.$$pointerHandler.classname === "qx.event.handler.PointerCore") {
+          // no more listeners, get rid of the handler
+          element.$$pointerHandler.dispose();
+          element.$$pointerHandler = undefined;
+        }
       }
     }
   },
