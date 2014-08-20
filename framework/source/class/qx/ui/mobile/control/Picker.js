@@ -145,7 +145,8 @@ qx.Class.define("qx.ui.mobile.control.Picker",
      */
     _createPickerSlot : function(slotModel, slotIndex, delegate) {
       var scrollContainer = new qx.ui.mobile.container.Scroll({
-        "snap": ".list-item"
+        "snap": ".list-item",
+        "vScrollbar" : false
       });
       scrollContainer.setWaypointsY([".list-item"]);
 
