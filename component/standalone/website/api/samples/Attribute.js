@@ -9,6 +9,21 @@ addSample(".getAttribute", {
   executable: true
 });
 
+addSample(".setAttributes", {
+  html: ['<div id="container"></div>'],
+  javascript: function() {var input = q.create('<input type="text"></input>');
+input.setAttributes({
+  value: 'foo',
+  placeholder: 'Search ...',
+  name: 'searchBox',
+  tabIndex: 5,
+  style: 'color:red'
+});
+input.appendTo('#container');
+},
+  executable: true
+});
+
 addSample(".removeAttribute", {
   html: ['<p class="foo">Foo</p>',
          '<p class="bar">Bar</p>',
