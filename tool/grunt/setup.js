@@ -27,6 +27,7 @@ var shell = require('shelljs');
 
 program
   .version('0.0.1')
+  .option('-n, --noglobalmod', 'Don\'t create global symlinks')
   .on('--help', function(){
     console.log('  Run this for bootstraping the Grunt toolchain.');
     console.log('');
@@ -42,7 +43,9 @@ shell.cd("task/package");
 // exclude runNpmCmd.js through filtering
 packages = shell.ls(".").filter(function(dirOrFile) { return !dirOrFile.match(/\.js$/); });
 shell.exec("node runNpmCmd.js install");
-shell.exec("node runNpmCmd.js link");
+if (!program.noglobalmod) {
+  shell.exec("node runNpmCmd.js link");
+}
 shell.cd(rootDir);
 
 // install all tasks and use linked packages ("qx-*")
