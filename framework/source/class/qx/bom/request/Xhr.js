@@ -381,6 +381,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // "NS_ERROR_XPC_NOT_ENOUGH_ARGS" when calling send() without arguments
       data = typeof data == "undefined" ? null : data;
 
+      // Whitelisting the allowed data types regarding the spec
+      // -> http://www.w3.org/TR/XMLHttpRequest2/#the-send-method
+      // All other data input will be transformed to a string to e.g. prevent
+      // an SendError in Firefox (at least <= 31) and to harmonize it with the
+      // behaviour of all other browsers (Chrome, IE and Safari)
+      var dataType = qx.Bootstrap.getClass(data);
+      data = (data !== null && this.__dataTypeWhiteList.indexOf(dataType) === -1) ? data.toString() : data;
+
       // Some browsers may throw an error when sending of async request fails.
       // This violates the spec which states only sync requests should.
       try {
@@ -770,6 +778,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      __conditional: null,
 
     /**
+     * @type {Array} Whitelist with all allowed data types for the request payload
+     */
+    __dataTypeWhiteList: null,
+
+    /**
      * Init native XHR.
      */
     __initNativeXhr: function() {
@@ -786,6 +799,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // Reset flags
       this.__disposed = this.__send = this.__abort = false;
+
+      // Initialize data white list
+      this.__dataTypeWhiteList = [ "ArrayBuffer", "Blob", "HTMLDocument", "String", "FormData" ];
     },
 
     /**
