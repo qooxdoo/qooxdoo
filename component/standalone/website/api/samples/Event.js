@@ -74,6 +74,33 @@ winCollection.on("resize", q.func.debounce(resizeHandler, 500), winCollection);
 });
 
 
+addSample(".off", function() {
+// adding a handler to your collection (happened earlier)
+var myHandler = function(e) {
+  var target = e.getTarget();
+  // more code ...
+};
+q("#navigationBar").on("tap", myHandler);
+
+// removing the listener - it's important to remove it with the same arguments
+q("#navigationBar").off("tap", myHandler);
+
+// this WON'T remove the listener, since you hand in a different context
+// same for adding a listener with a context and forget to pass the third argument
+q("#navigationBar").off("tap", myHandler, window); // WRONG: listener still there
+});
+
+
+addSample(".allOff", function() {
+// before removing DOM elements, remove *all tap* listeners
+q("#navigationBar").allOff("tap").remove();
+
+// before removing DOM elements, remove *all* listeners
+q("#navigationBar").allOff().remove();
+}
+);
+
+
 addSample(".hasListener", {
   javascript: function() {
 var myListener = function(e) {};
