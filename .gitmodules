@@ -1,3 +1,3 @@
 [submodule "tool/admin/www"]
 	path = tool/admin/www
-	url = https://github.com/qooxdoo/qooxdoo.org.git
+	url = https://github.com/qooxdoo/www.git
