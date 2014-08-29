@@ -73,6 +73,7 @@ qx.Class.define("demobrowser.demo.data.ExtendedList",
           return new qx.ui.form.CheckBox();
         },
         bindItem : function(controller, item, id) {
+          controller.bindProperty("", "model", null, item, id);
           controller.bindProperty("name", "label", null, item, id);
           controller.bindProperty("online", "value", null, item, id);
           controller.bindPropertyReverse("online", "value", null, item, id);
