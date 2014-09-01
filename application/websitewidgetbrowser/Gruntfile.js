@@ -62,10 +62,10 @@ module.exports = function(grunt) {
   );
 
   // 'extend' source job
-  grunt.task.renameTask('source', 'generate-source');
+  grunt.task.renameTask('source', 'temp');
   grunt.task.registerTask(
     'source',
     'Concat the samples and generate the API.',
-    ["generate-source", "sass:indigo", "notify:source"]
+    ["generate:source", "sass:indigo", "notify:source"]
   );
 };
