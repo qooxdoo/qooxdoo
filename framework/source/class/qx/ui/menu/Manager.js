@@ -383,8 +383,6 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       TIMER EVENT HANDLERS
@@ -425,6 +423,45 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      CONTEXTMENU EVENT HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+
+    /**
+     * Internal function registers a handler to stop next
+     * <code>contextmenu</code> event.
+     * This function will be called by {@link qx.ui.menu.Button#_onTap}, if
+     * right click was pressed.
+     *
+     * @internal
+     */
+    preventContextMenuOnce : function()
+    {
+      qx.event.Registration.addListener(document.body, "contextmenu", this.__onPreventContextMenu, this, true);
+    },
+
+
+    /**
+     * Internal event handler to stop <code>contextmenu</code> event bubbling,
+     * if target is inside the opened menu.
+     *
+     * @internal
+     */
+    __onPreventContextMenu : function(e)
+    {
+      var target = e.getTarget();
+      target = qx.ui.core.Widget.getWidgetByElement(target, true);
+      if (this._isInMenu(target)) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+
+      // stop only once
+      qx.event.Registration.removeListener(document.body, "contextmenu", this.__onPreventContextMenu, this, true);
+    },
 
 
     /*
