@@ -448,6 +448,8 @@ qx.Class.define("qx.ui.menu.Manager",
      * Internal event handler to stop <code>contextmenu</code> event bubbling,
      * if target is inside the opened menu.
      *
+     * @param e {qx.event.type.Mouse} contextmenu event
+     *
      * @internal
      */
     __onPreventContextMenu : function(e)
