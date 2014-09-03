@@ -102,30 +102,14 @@ qx.Class.define("qx.ui.menu.Button",
     // overridden
     _onTap : function(e)
     {
-      if (e.isLeftPressed()) {
+      if (e.isLeftPressed() && this.getMenu()) {
         this.execute();
-
         // don't close menus if the button is a sub menu button
-        if (this.getMenu()) {
-          this.getMenu().open();
-          return;
-        }
-        qx.ui.menu.Manager.getInstance().hideAll();
+        this.getMenu().open();
+        return;
       }
 
-      // right click
-      else {
-        // only prevent contextmenu event if button has no further context menu.
-        if (!this.getContextMenu()) {
-          qx.ui.menu.Manager.getInstance().preventContextMenuOnce();
-        }
-      }
-    },
-
-
-    // overridden
-    _onKeyPress : function(e) {
-      this.execute();
+      this.base(arguments, e);
     }
   }
 });

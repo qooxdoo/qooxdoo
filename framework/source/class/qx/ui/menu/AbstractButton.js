@@ -232,8 +232,20 @@ qx.Class.define("qx.ui.menu.AbstractButton",
      *
      * @param e {qx.event.type.Pointer} pointer event
      */
-    _onTap : function(e) {
-      // pass
+    _onTap : function(e)
+    {
+      if (e.isLeftPressed()) {
+        this.execute();
+        qx.ui.menu.Manager.getInstance().hideAll();
+      }
+
+      // right click
+      else {
+        // only prevent contextmenu event if button has no further context menu.
+        if (!this.getContextMenu()) {
+          qx.ui.menu.Manager.getInstance().preventContextMenuOnce();
+        }
+      }
     },
 
 
@@ -243,7 +255,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
      * @param e {qx.event.type.KeySequence} keypress event
      */
     _onKeyPress : function(e) {
-      // pass
+      this.execute();
     },
 
 
