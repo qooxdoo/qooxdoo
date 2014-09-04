@@ -212,7 +212,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
           if (!cssNames[name]) {
             cssNames[name] = qx.bom.Style.getCssName(name);
           }
-          html.push(cssNames[name], ":", value, ";");
+          html.push(cssNames[name], ":", value === "" ? "\"\"" : value, ";");
         }
       }
 

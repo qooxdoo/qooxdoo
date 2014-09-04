@@ -141,6 +141,12 @@ qx.Class.define("qx.test.bom.element.Style",
     {
       var css = qx.bom.element.Style.compile({"float" : "left"});
       this.assertEquals("float:left;", css);
+    },
+
+    testCompileContent : function()
+    {
+      var css = qx.bom.element.Style.compile({"content" : ""});
+      this.assertEquals("content:\"\";", css);
     }
   }
 });
