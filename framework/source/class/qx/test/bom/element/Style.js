@@ -129,6 +129,18 @@ qx.Class.define("qx.test.bom.element.Style",
       this.assertEquals(expected[0], qx.bom.element.Style.get(this.__element, "borderWidth"));
       this.assertEquals(expected[1], qx.bom.element.Style.get(this.__element, "borderStyle"));
       this.assertEquals(expected[2], qx.bom.element.Style.get(this.__element, "borderColor"));
+    },
+
+    testSetFloat : function()
+    {
+      qx.bom.element.Style.set(this.__element, "float", "left");
+      this.assertEquals("left", this.__element.style.float);
+    },
+
+    testCompileFloat : function()
+    {
+      var css = qx.bom.element.Style.compile({"float" : "left"});
+      this.assertEquals("float:left;", css);
     }
   }
 });
