@@ -226,7 +226,12 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
 
 
   destruct : function() {
-    qx.Class.undefine("qx.test.ui.tree.virtual.Leaf");
-    qx.Class.undefine("qx.test.ui.tree.virtual.Node");
+    if (qx.Class.isDefined("qx.test.ui.tree.virtual.Leaf")) {
+      qx.Class.undefine("qx.test.ui.tree.virtual.Leaf");
+    }
+
+    if (qx.Class.isDefined("qx.test.ui.tree.virtual.Node")) {
+      qx.Class.undefine("qx.test.ui.tree.virtual.Node");
+    }
   }
 });

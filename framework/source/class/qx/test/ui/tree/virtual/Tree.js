@@ -586,11 +586,5 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         nativeArray[i].dispose();
       }
     }
-  },
-
-
-  destruct : function() {
-    qx.Class.undefine("qx.test.ui.tree.virtual.Leaf");
-    qx.Class.undefine("qx.test.ui.tree.virtual.Node");
   }
 });
