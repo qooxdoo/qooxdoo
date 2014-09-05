@@ -52,7 +52,11 @@ module.exports = function(grunt) {
     },
 
     clean: {
+      options: {
+        force: true
+      },
       tests: ['tmp'],
+      cache: ["<%= common.CACHE %>"]
     },
 
     source: {

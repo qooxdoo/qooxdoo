@@ -111,6 +111,7 @@ var getConfig = function() {
         locales:  "<%= common.LOCALES %>",
         sourcePath: "<%= common.SOURCE_PATH %>",
         buildPath: "<%= common.BUILD_PATH %>",
+        cachePath: "<%= common.CACHE %>",
         environment: deepmerge(common.ENVIRONMENT, {
           "qx.debug" : false,
           "qx.debug.databinding" : false,

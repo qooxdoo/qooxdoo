@@ -99,7 +99,8 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Collecting classes ...');
     // -----------------------------------------
-    var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes, opts.excludes, opts.environment, {variants: true});
+    var depsCollectingOptions = {variants: true, cachePath: opts.cachePath, buildType: "build"};
+    var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes, opts.excludes, opts.environment, depsCollectingOptions);
     grunt.log.ok('Done.');
 
 
@@ -167,16 +168,14 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Compress code ...');
     // ------------------------------------------------------
+
     var classCodeCompressedList = [];
-    var compressOpts = {privates: true};
-    var trees = qxDep.getTrees();
+    var compressOpts = {privates: true, cachePath: opts.cachePath};
     var curClass = "";
-    var treeOrNull = null;
     for (var i=0, l=classCodeList.length; i<l; i++) {
       // console.log(i, l, classLoadOrderList[i]);
       curClass = classLoadOrderList[i];
-      treeOrNull = curClass in trees ? trees[curClass] : null;
-      classCodeCompressedList.push(qxCpr.compress(curClass, classCodeList[i], treeOrNull, compressOpts));
+      classCodeCompressedList.push(qxCpr.compress(curClass, classCodeList[i], opts.environment, compressOpts));
     }
     grunt.log.ok('Done.');
 

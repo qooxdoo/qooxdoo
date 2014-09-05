@@ -111,6 +111,7 @@ q.Class.define("qx.tool.Cache",
      * @param cacheId {String} CacheId (e.g. relative path to src class).
      */
     __buildAbsFilePath: function(basePath, cacheId) {
+      // console.log(cacheId, '->', this.__buildDigest(cacheId, '-'));
       return path.join(basePath, this.__buildDigest(cacheId, '-'));
     },
 
@@ -179,6 +180,23 @@ q.Class.define("qx.tool.Cache",
     },
 
     /**
+     * Creates a full quallified cache id.
+     *
+     * @param kind {String} identifier (e.g. 'deps' or 'tree').
+     * @param envMap {object} env map which is used for distinct cache ids.
+     * @param className {String} class name.
+     * @param buildType {String} build type (e.g. 'build' or 'source').
+     * @return {String} cache id
+     */
+    createCacheId: function(kind, envMap, className, buildType) {
+      var hashedEnvMap = crypto.createHash('sha1').update(JSON.stringify(envMap)).digest("hex");
+
+      return (!buildType)
+             ? kind + '#' + hashedEnvMap + '-' + className
+             : kind + '#' + buildType + '#' + hashedEnvMap + '-' + className;
+    },
+
+    /**
      * Get basepath for all caching dirs/files.
      *
      * @return {String} path
@@ -205,6 +223,7 @@ q.Class.define("qx.tool.Cache",
      * @param cacheId {String} CacheId (e.g. relative path to src class).
      * @param memory {Boolean?false} If the content should be cached in memory.
      * @param {String} content found by cacheId.
+     * @throws {Error} ENOENT
      * @return {String} content.
      */
     read: function(cacheId, memory) {
@@ -212,7 +231,7 @@ q.Class.define("qx.tool.Cache",
       var fileContent = null;
 
       if (this.__isInMemCache(cacheId)) {
-        return this.__getFromMemCache(cacheId);
+        return this.__getFromMemCache(cacheId).content;
       }
 
       try {
@@ -220,7 +239,7 @@ q.Class.define("qx.tool.Cache",
         var buffer = fs.readFileSync(hexedPath);
         fileContent = buffer.toString();
       } catch(e) {
-        throw new Error("Couldn't read cache object at " + hexedPath);
+        throw new Error("ENOENT - Couldn't read cache object at " + hexedPath);
       }
 
       if (memory) {
