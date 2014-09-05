@@ -60,19 +60,6 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
         checkbox.activate();
       });
 
-      // propagate stopped enter key press to the editor
-      checkbox.addListener("keydown", function(e)
-      {
-        if (e.getKeyIdentifier() == "Enter")
-        {
-          var clone = qx.event.Pool.getInstance().getObject(qx.event.type.KeySequence);
-          var target = editor.getContentElement().getDomElement();
-          clone.init(e.getNativeEvent(), target, e.getKeyIdentifier());
-          clone.setType("keypress");
-          qx.event.Registration.dispatchEvent(target, clone);
-        }
-      }, this);
-
       return editor;
     },
 
