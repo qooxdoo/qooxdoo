@@ -460,8 +460,10 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
 
     openNode : function(node) {},
+    _openNode : function(node) {},
 
 
-    closeNode : function(node) {}
+    closeNode : function(node) {},
+    _closeNode : function(node) {}
   }
 });
