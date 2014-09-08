@@ -89,7 +89,7 @@ testrunner.define({
   testDependencies : function()
   {
     if (q.$$qx.core.Environment.get("qx.debug")) {
-      this.skip("Only reasonable in non-debug version.")
+      this.skip("Only reasonable in non-debug version.");
     }
     this.assertUndefined(q.$$qx.Class, "Class");
     this.assertUndefined(q.$$qx.Interface, "Interface");
@@ -2275,7 +2275,7 @@ testrunner.define({
       target = ev.getCurrentTarget();
     };
 
-    test = q.create('<input type="text" />');
+    var test = q.create('<input type="text" />');
     test.appendTo(this.sandbox[0]);
     test.on("mousedown", callback, this);
 
@@ -2286,6 +2286,59 @@ testrunner.define({
 
     this.wait(function() {
       this.assertEquals(test[0], target);
+    }, 500, this);
+  },
+
+
+  testCurrentTargetMultiElementsDispatch : function() {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
+
+    var target;
+
+    var callback = function(ev) {
+      target = ev.getCurrentTarget();
+    };
+
+    var test = q.create('<div/><div/><div/>')
+      .appendTo(this.sandbox[0])
+      .on("mousedown", callback, this);
+
+    window.setTimeout(function() {
+      var event = new qx.event.type.dom.Custom("mousedown");
+      test[1].dispatchEvent(event);
+    }, 100);
+
+    this.wait(function() {
+      this.assertEquals(test[1], target);
+    }, 500, this);
+  },
+
+
+  testCurrentTargetMultiElementsEmit : function() {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
+
+    var target;
+
+    var callback = function(ev) {
+      target = ev.getCurrentTarget();
+    };
+
+    var test = q.create('<div id="0"/><div id="1"/><div id="2"/>')
+      .appendTo(this.sandbox[0])
+      .on("mousedown", callback, this);
+
+    window.setTimeout(function() {
+      window.affe = true;
+      test.eq(1).emit("mousedown", {});
+      window.affe = false;
+    }, 100);
+
+    this.wait(function() {
+      this.assertEquals(test[1].getAttribute("id"), target.getAttribute("id"));
     }, 500, this);
   }
 });
