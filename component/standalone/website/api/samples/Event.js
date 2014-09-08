@@ -346,7 +346,10 @@ addSample("Event.getKeyIdentifier", {
   ],
   javascript: function() {
 // Catch the key the user hit and display it in the div element
-q('#website').on('keypress', function(e) {
+// IMPORTANT: use the 'keyup' or 'keydown' event when working with the 'getKeyIdentifier' method
+// The 'keypress' event is due browser incompatibilities not recommended
+// (e.g. some identifiers like 'Enter' or 'Backspace' are simply not working for Chrome)
+q('#website').on('keyup', function(e) {
   var userInput = e.getKeyIdentifier();
 
   var content = q('#textContainer').getAttribute('text');
