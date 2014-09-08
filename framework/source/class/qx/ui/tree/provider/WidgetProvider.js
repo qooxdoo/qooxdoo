@@ -274,10 +274,11 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
 
       var row = widget.getUserData("cell.row");
       var item = this._tree.getLookupTable().getItem(row);
+
       if (event.getData()) {
-        this._tree.openNode(item);
+        this._tree._openNode(item);
       } else {
-        this._tree.closeNode(item);
+        this._tree._closeNode(item);
       }
     }
   },
