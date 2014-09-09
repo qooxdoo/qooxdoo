@@ -359,7 +359,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     setCompareFunction : function(type, compareFunc) {
       type = qxWeb.string.firstUp(type);
       this._forEachElementWrapped(function(table) {
-        table.setProperty("__compare" + type, compareFunc);
+        table.setProperty("_compare" + type, compareFunc);
       }.bind(this));
       return this;
     },
@@ -373,9 +373,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     unsetCompareFunction : function(type) {
       type = qxWeb.string.firstUp(type);
-      var compareFunc = this["__compare" + type] || this.__compareString;
+      var compareFunc = this["_compare" + type] || this._compareString;
       this._forEachElementWrapped(function(table) {
-        table.setProperty("__compare" + type, compareFunc);
+        table.setProperty("_compare" + type, compareFunc);
       }.bind(this));
       return this;
     },
@@ -388,7 +388,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     getCompareFunction : function(type) {
       type = qxWeb.string.firstUp(type);
-      return this.eq(0).getProperty("__compare" + type) || this["__compare" + type];
+      return this.eq(0).getProperty("_compare" + type) || this["_compare" + type];
     },
 
 
@@ -1154,7 +1154,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       var meta = this.__getDataForColumn(columnName);
       var columnType = qxWeb.string.firstUp(meta.type);
 
-      if(!this["__compare" + columnType] && !this.getProperty("__compare"+ columnType)) {
+      if(!this["_compare" + columnType] && !this.getProperty("_compare"+ columnType)) {
         columnType = "String";
       }
 
@@ -1178,7 +1178,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @param direction {String} The sorting direction
      * @return {Integer} The result of the comparison
      */
-    __compareNumber : function(x, y, direction) {
+    _compareNumber : function(x, y, direction) {
       x = qx.ui.website.Table.__isNumber(x) ? Number(x) : 0;
       y = qx.ui.website.Table.__isNumber(y) ? Number(y) : 0;
       if (direction == "asc") {
@@ -1207,7 +1207,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @param direction {String} The sorting direction
      * @return {Integer} The result of the comparison
      */
-    __compareDate : function(x, y, direction) {
+    _compareDate : function(x, y, direction) {
 
       x = qx.ui.website.Table.__isDate(x) ? new Date(x) : new Date(0);
       y = qx.ui.website.Table.__isDate(y) ? new Date(y) : new Date(0);
@@ -1228,7 +1228,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @param direction {String} The sorting direction
      * @return {Integer} The result of the comparison
      */
-    __compareString : function(x, y, direction) {
+    _compareString : function(x, y, direction) {
       if (!this.getConfig("caseSensitive")) {
         x = x.toLowerCase();
         y = y.toLowerCase();
