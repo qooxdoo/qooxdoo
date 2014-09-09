@@ -18,13 +18,69 @@
 
 ************************************************************************ */
 
-
-
 /**
  * This is a widget that enhances an HTML table with some basic features like
  * Sorting and Filtering.
  *
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ *
+ * <h2>CSS Classes</h2>
+ * <table>
+ *   <thead>
+ *     <tr>
+ *       <td>Class Name</td>
+ *       <td>Applied to</td>
+ *       <td>Description</td>
+ *     </tr>
+ *   </thead>
+ *   <tbody>
+ *     <tr>
+ *       <td><code>qx-table</code></td>
+ *       <td>Table element</td>
+ *       <td>Identifies the Table widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-table-cell</code></td>
+ *       <td>Table cell (<code>td</code>)</td>
+ *       <td>Identifies and styles a cell of the widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-table-header</code></td>
+ *       <td>Table header (<code>th</code>)</td>
+ *       <td>Identifies and styles a header of the table widget</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-table-row-selection</code></td>
+ *       <td>Table cell (<code>td</code>)</td>
+ *       <td>Identifies and styles the cells containing the inputs for the row selection</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-table-selection-input</code></td>
+ *       <td><code>input</code></td>
+ *       <td>Identifies and styles input element to select a table row</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-table-input-label</code></td>
+ *       <td>Label element (<code>label</code>)</td>
+ *       <td>Identifies and styles label contained in the selection cell. This label can be used to create custom inputs</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-table-row-selected</code></td>
+ *       <td>Selected row (<code>tr</code>)</td>
+ *       <td>Identifies and styles the selected table rows</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-table-sort-asc</code></td>
+ *       <td>Table header (<code>th</code>)</td>
+ *       <td>Identifies and styles the header of the current ascendant sorted column</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-table-sort-desc</code></td>
+ *       <td>Table header (<code>th</code>)</td>
+ *       <td>Identifies and styles the header of the current descendant sorted column</td>
+ *     </tr>
+ *   </tbody>
+ * </table>
  *
  * @group (Widget)
  *
@@ -105,7 +161,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     table : function(model) {
       var table = new qx.ui.website.Table(this);
-      table.init(model);
+      table.setProperty("__model", model);
+      table.init();
       return table;
     },
 
@@ -162,7 +219,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /** */
     __internalHeaderClass : "qx-table-header",
     /** */
-    __internalSelectionClass : "qx-table-row-selection-class",
+    __internalSelectionClass : "qx-table-row-selection",
     /** */
     __internalInputClass : "qx-table-selection-input",
     /** */
@@ -176,7 +233,13 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /** */
     __modelSortingKey : "cellKey",
     /** */
-    __inputLabelClass : "qx-table-input-label"
+    __inputLabelClass : "qx-table-input-label",
+    /** */
+    __selectedRowClass : "qx-table-row-selected",
+    /** */
+    __ascSortingClass : "qx-table-sort-asc",
+    /** */
+    __descSortingClass :  "qqx-table-sort-desc"
 
   },
 
@@ -191,7 +254,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         return false;
       }
 
-      var model = arguments[0];
+      var model = this.getProperty("__model");
 
       this._forEachElementWrapped(function(table) {
 
@@ -202,6 +265,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         if(!table[0].tHead){
           throw new Error("A Table header element is required for this widget.");
         }
+
+        table.find("tbody td").addClass("qx-table-cell");
 
         table.setProperty("__inputName", "input" + qx.ui.website.Table.__getUID());
         table.__getColumnMetaData(model);
@@ -250,6 +315,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       }.bind(this));
       return this;
     },
+
+
 
 
     /**
@@ -457,8 +524,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     sort : function(columnName, dir) {
 
       this.__checkColumnExistance(columnName);
+
       this._forEachElementWrapped(function(table) {
-        table.__setSortingClass(columnName, dir);
+        table.setSortingClass(columnName, dir);
         table.__sortDOM(table.__sort(columnName, dir));
       }.bind(this));
 
@@ -475,7 +543,6 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
     filter : function(keyword, columnName) {
-
       if (columnName) {
         this.__checkColumnExistance(columnName);
         if (keyword == "") {
@@ -587,6 +654,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         table.__applyTemplate(table.getProperty("__model"));
 
         if (qx.ui.website.Table.__selectionTypes.indexOf(rowSelection) != -1) {
+
           table.__processSelectionInputs(rowSelection);
         }
 
@@ -854,7 +922,11 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         return elem.parentNode.parentNode;
       });
 
-      this.emit("selectionChanged", qxWeb(selectedRows));
+      selectedRows = qxWeb(selectedRows);
+      qxWeb("."+clazz.__selectedRowClass).removeClass(clazz.__selectedRowClass);
+      selectedRows.addClass(clazz.__selectedRowClass);
+
+      this.emit("selectionChange", {rows : qxWeb(selectedRows)});
 
       return this;
     },
@@ -958,8 +1030,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
           }else {
             renderedRow.replaceChild(cell, this.getCell(i, renderedColIndex)[0]);
           }
-          this.emit("cellRender", {cell : cell, value : model[i][j]});
-
+          this.emit("cellRender", {cell : cell, row : i, col : j, value : model[i][j]});
         }
 
         if(i == rowCount-1) {
@@ -1044,7 +1115,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @param columnName {String} The name of the sorted column
      * @param dir {String} The sorting direction
      */
-    __setSortingClass : function(columnName, dir) {
+    setSortingClass : function(columnName, dir) {
+
       var data = {
         columnName: columnName,
         direction: dir
@@ -1064,9 +1136,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     __addSortingClassToCol : function(HeaderOrFooter, columnName, dir) {
       if (HeaderOrFooter && HeaderOrFooter.rows.length > 0) {
-        qxWeb(HeaderOrFooter.rows.item(0).cells).removeClasses(["qx-sort-asc", "qx-sort-desc"]);
+        qxWeb(HeaderOrFooter.rows.item(0).cells).removeClasses(["qx-table-sort-asc", "qx-table-sort-desc"]);
         var cell = qxWeb("["+qx.ui.website.Table.__dataColName+"='" + columnName + "'], #" + columnName);
-        cell.addClass("qx-sort-" + dir);
+        cell.addClass("qx-table-sort-" + dir);
       }
     },
 
