@@ -47,7 +47,7 @@ qx.Bootstrap.define("qx.event.Emitter",
      */
     on : function(name, listener, ctx) {
       var id = qx.event.Emitter.__storage.length;
-      this.__getStorage(name).push({listener: listener, ctx: ctx, id: id});
+      this.__getStorage(name).push({listener: listener, ctx: ctx, id: id, name: name});
       qx.event.Emitter.__storage.push({name: name, listener: listener, ctx: ctx});
       return id;
     },
@@ -194,6 +194,26 @@ qx.Bootstrap.define("qx.event.Emitter",
      */
     getListeners : function() {
       return this.__listener;
+    },
+
+
+    /**
+     * Returns the data entry for a given event id. If the entry could
+     * not be found, undefined will be returned.
+     * @internal
+     * @param id {Number} The listeners id
+     * @return {Map|undefined} The data entry if found
+     */
+    getEntryById : function(id) {
+      for (var name in this.__listener) {
+        var store = this.__listener[name];
+
+        for (var i=0, j=store.length; i<j; i++) {
+          if (store[i].id === id) {
+            return store[i];
+          }
+        }
+      }
     },
 
 
