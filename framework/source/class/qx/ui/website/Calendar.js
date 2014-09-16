@@ -577,7 +577,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
           var cssClasses = helpDate.getMonth() !== date.getMonth() ? cssPrefix + "-othermonth" : "";
           if((this.getConfig("selectionMode") == "range")  && qx.Bootstrap.isArray(this.getProperty("value"))){
             if(valueString.indexOf(helpDate.toDateString()) != -1){
-              cssClasses += cssPrefix + "-selected";
+              cssClasses += " "+cssPrefix + "-selected";
             }
           }else{
             var range = this.getProperty("__range");
