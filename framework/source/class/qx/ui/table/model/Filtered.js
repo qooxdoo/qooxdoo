@@ -32,7 +32,6 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
     this.numericAllowed = new Array("==", "!=", ">", "<", ">=", "<=");
     this.betweenAllowed = new Array("between", "!between");
-    this.__applyingFilters = false;
     this.Filters = new Array();
 
   },
@@ -41,7 +40,6 @@ qx.Class.define("qx.ui.table.model.Filtered",
   members :
   {
     __fullArr : null,
-    __applyingFilters : null,
 
 
     /**
@@ -348,10 +346,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       var rowArr = this.getData();
 
       dispatchEvent = (dispatchEvent != null ? dispatchEvent : true);
-      if (!this.__applyingFilters) {
-        this.__fullArr = rowArr.slice(0);
-        this.__applyingFilters = true;
-      }
+      this.__fullArr = rowArr.slice(0);
 
       if (numOfRows == null || numOfRows < 1) {
         numOfRows = 1;
