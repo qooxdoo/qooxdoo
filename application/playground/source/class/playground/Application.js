@@ -395,6 +395,8 @@ qx.Class.define("playground.Application",
       qx.bom.Cookie.set("playgroundMode", mode, 100);
       this.__mode = mode;
 
+      this.__enableWebsiteMode(mode == "website");
+
       // update the views (changes the play application)
       this.__playArea.setMode(mode);
       this.__header.setMode(mode);
@@ -402,8 +404,6 @@ qx.Class.define("playground.Application",
 
       // erase the code
       this.__editor.setCode("");
-
-      this.__enableWebsiteMode(mode == "website");
 
       return true;
     },
