@@ -143,6 +143,30 @@ qx.Class.define("qx.test.html.Element",
     },
 
 
+    testAddListenerOnce: function() {
+      var el = new qx.html.Element("div", {
+        width: '100px'
+      });
+      el.hide();
+      qx.core.Init.getApplication().getRoot().getContentElement().add(el);
+      var called = 0;
+      el.addListenerOnce("appear", function() {
+          this.debug("appear!");
+          called++;
+      }, this);
+      el.show();
+      qx.html.Element.flush();
+      el.hide();
+      qx.html.Element.flush();
+      el.show();
+
+      this.wait(100, function() {
+         this.assertEquals(1, called);
+         el.dispose();
+      }, this);
+    },
+
+
     testBasics : function()
     {
       //

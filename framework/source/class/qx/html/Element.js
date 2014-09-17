@@ -2617,6 +2617,11 @@ qx.Class.define("qx.html.Element",
 
       if (this.__element)
       {
+        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.$$hash]) {
+          var callback = listener.$$wrapped_callback[type + this.$$hash];
+          delete listener.$$wrapped_callback[type + this.$$hash];
+          listener = callback;
+        }
         qx.event.Registration.removeListener(this.__element, type, listener, self, capture);
       }
       else
