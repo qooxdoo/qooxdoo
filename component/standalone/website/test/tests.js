@@ -1676,6 +1676,8 @@ testrunner.define({
     test.setProperty("affe", "AFFE");
     this.assertEquals("AFFE", test[0].affe);
     this.assertEquals("AFFE", test.getProperty("affe"));
+    test.removeProperty("affe");
+    this.assertUndefined(test.getProperty("affe"));
   },
 
   testProperties : function() {
@@ -1684,6 +1686,9 @@ testrunner.define({
     this.assertEquals("AFFE", test[0].affe);
     this.assertEquals("AFFE", test.getProperties(["affe", "x"]).affe);
     this.assertEquals("y", test.getProperties(["affe", "x"]).x);
+    test.removeProperties(["affe", "x"]);
+    this.assertUndefined(test.getProperty("affe"));
+    this.assertUndefined(test.getProperty("x"));
   },
 
   testGetSetValue : function()
