@@ -54,6 +54,9 @@ qx.Class.define("qx.test.util.Validate",
       this.assertException(function() {
         qx.util.Validate.email("Custom Error Message")("not an email");
       }, qx.core.ValidationError, "Custom Error Message");
+
+      //Valid since new domain extensions
+      qx.util.Validate.email()("foo@bar.qooxdoo");
     },
 
     testString : function()
