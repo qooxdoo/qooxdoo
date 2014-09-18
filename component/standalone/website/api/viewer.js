@@ -470,7 +470,8 @@ q.ready(function() {
           types[i] = "all";
         }
       }
-      var typesEl = renderTypes(types);
+      var idPrefix = name.toLowerCase() + '-';
+      var typesEl = renderTypes(idPrefix, types);
       module.append(typesEl);
     }
 
@@ -608,8 +609,11 @@ q.ready(function() {
   };
 
 
-  var renderTypes = function(types) {
-    return q.template.get("types", {types: types});
+  var renderTypes = function(idPrefix, types) {
+    return q.template.get("types", {
+        idPrefix: idPrefix,
+        types: types
+    });
   };
 
 
@@ -1113,6 +1117,7 @@ q.ready(function() {
       console && console.warn("Unable to add sample: No doc element found for method", methodName);
       return;
     }
+    method.show();
 
     var sampleMap;
     if (typeof sample == "object" && sample.javascript) {
