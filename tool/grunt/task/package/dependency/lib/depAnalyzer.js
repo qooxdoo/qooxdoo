@@ -1001,6 +1001,8 @@ module.exports = {
               cache.write(curCacheId, JSON.stringify(classDeps));
             }
           }
+        } else {
+          classDeps = figureOutDeps(classIds[i], basePaths);
         }
 
         // Note: Excluded classes will still be entries in load and run deps!

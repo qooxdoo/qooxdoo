@@ -634,7 +634,7 @@ module.exports = {
 
       // js code is string and has more than 1300 lines
       test.strictEqual((typeof actual), "string");
-      test.ok(actual.split('\n').length > 1300);
+      test.ok(actual.split('\n').length > 1000);
 
       test.done();
     },
