@@ -167,14 +167,16 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       }
 
       // turn on native mouse capturing if the browser supports it
-      if (this.hasNativeCapture) {
-        this.nativeSetCapture(element, containerCapture);
-        var self = this;
-        qx.bom.Event.addNativeListener(element, "losecapture", function()
-        {
-          qx.bom.Event.removeNativeListener(element, "losecapture", arguments.callee);
-          self.releaseCapture();
-        });
+      if (qx.core.Environment.get("browser.documentmode") !== 9) {
+        if (this.hasNativeCapture) {
+          this.nativeSetCapture(element, containerCapture);
+          var self = this;
+          qx.bom.Event.addNativeListener(element, "losecapture", function()
+          {
+            qx.bom.Event.removeNativeListener(element, "losecapture", arguments.callee);
+           self.releaseCapture();
+          });
+        }
       }
 
       this.__containerCapture = containerCapture;
