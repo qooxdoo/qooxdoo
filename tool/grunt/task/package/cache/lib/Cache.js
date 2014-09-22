@@ -45,7 +45,7 @@ q.Class.define("Cache",
   extend: qx.core.Object,
 
   /**
-   * @param basePath {String} Basepath for all caching dirs/files.
+   * @param {String} basePath - Basepath for all caching dirs/files.
    */
   construct: function(basePath)
   {
@@ -86,8 +86,8 @@ q.Class.define("Cache",
     /**
      * Builds digest from cacheId (prefix-abc => prefix-a5e5260b8...).
      *
-     * @param cacheId {String} CacheId (e.g. relative path to src class).
-     * @param separator {String} Separator - cacheId should have at least one (e.g. '-').
+     * @param {String} cacheId - CacheId (e.g. relative path to src class).
+     * @param {String} separator - Separator - cacheId should have at least one (e.g. '-').
      * @return {String} Digest from cacheId.
      */
     __buildDigest: function(cacheId, separator) {
@@ -107,8 +107,8 @@ q.Class.define("Cache",
     /**
      * Builds absolute file path based on cacheId.
      *
-     * @param basePath {String} Basepath for all caching dirs/files.
-     * @param cacheId {String} CacheId (e.g. relative path to src class).
+     * @param {String} basePath - Basepath for all caching dirs/files.
+     * @param {String} cacheId - CacheId (e.g. relative path to src class).
      */
     __buildAbsFilePath: function(basePath, cacheId) {
       // console.log(cacheId, '->', this.__buildDigest(cacheId, '-'));
@@ -118,8 +118,8 @@ q.Class.define("Cache",
     /**
      * Adds content under cacheId to memory based cached.
      *
-     * @param cacheId {String} CacheId (e.g. relative path to src class).
-     * @param content {String} Data to cache (e.g. JSON).
+     * @param {String} cacheId - CacheId (e.g. relative path to src class).
+     * @param {String} content - Data to cache (e.g. JSON).
      */
     __addToMemCache: function(cacheId, content) {
       var tmstmp = new Date().getTime();
@@ -132,7 +132,7 @@ q.Class.define("Cache",
     /**
      * Gets content by cacheId from memory based cached.
      *
-     * @param cacheId {String} CacheId (e.g. relative path to src class).
+     * @param {String} cacheId - CacheId (e.g. relative path to src class).
      */
     __getFromMemCache: function(cacheId) {
       return Cache.MEMCACHE[cacheId];
@@ -141,7 +141,7 @@ q.Class.define("Cache",
     /**
      * Has memory based cache content under cacheId?
      *
-     * @param cacheId {String} CacheId (e.g. relative path to src class).
+     * @param {String} cacheId - CacheId (e.g. relative path to src class).
      * @return {Boolean} Whether cacheId is in cache.
      */
     __isInMemCache: function(cacheId) {
@@ -151,8 +151,8 @@ q.Class.define("Cache",
     /**
      * Create cache dir (if not yet created) and update checkfile.
      *
-     * @param path {String} Basepath for all caching dirs/files.
-     * @param checkfilePath {String} Path to checkfile.
+     * @param {String} path - Basepath for all caching dirs/files.
+     * @param {String} checkfilePath - Path to checkfile.
      */
     __createCacheDir: function(path, checkfilePath) {
       if (!fs.existsSync(path)) {
@@ -168,8 +168,8 @@ q.Class.define("Cache",
     /**
      * Update checkfile with given data (e.g. CACHE_REVISION)
      *
-     * @param checkfilePath {String} Path to checkfile.
-     * @param data {String} Data to write.
+     * @param {String} checkfilePath - Path to checkfile.
+     * @param {String} data - Data to write.
      */
     __updateCheckfile: function(checkfilePath, data) {
       try {
@@ -182,10 +182,10 @@ q.Class.define("Cache",
     /**
      * Creates a full quallified cache id.
      *
-     * @param kind {String} identifier/category (e.g. 'deps' or 'tree').
-     * @param envMap {object} env map which is used for distinct cache ids.
-     * @param cacheId {String} unique cacheId - e.g. class name.
-     * @param buildType {String} build type (e.g. 'build' or 'source').
+     * @param {String} kind - identifier/category (e.g. 'deps' or 'tree').
+     * @param {object} envMap - env map which is used for distinct cache ids.
+     * @param {String} cacheId - unique cacheId - e.g. class name.
+     * @param {String} buildType - build type (e.g. 'build' or 'source').
      * @return {String} cache id
      */
     createCacheId: function(kind, envMap, cacheId, buildType) {
@@ -207,7 +207,7 @@ q.Class.define("Cache",
 
     /**
      *
-     * @param cacheId {String} CacheId (e.g. relative path to src class).
+     * @param {String} cacheId - CacheId (e.g. relative path to src class).
      * @return {Boolean} Whether cacheId is in cache.
      */
     has: function(cacheId) {
@@ -220,11 +220,10 @@ q.Class.define("Cache",
      * TODO:
      *   * misses relevant parts from Cache.py
      *
-     * @param cacheId {String} CacheId (e.g. relative path to src class).
-     * @param memory {Boolean?false} If the content should be cached in memory.
-     * @param {String} content found by cacheId.
+     * @param {String} cacheId - CacheId (e.g. relative path to src class).
+     * @param {Boolean} [memory=false] - If the content should be cached in memory.
      * @throws {Error} ENOENT
-     * @return {String} content.
+     * @return {String} content - found by cacheId.
      */
     read: function(cacheId, memory) {
       memory = memory || false;
@@ -252,7 +251,7 @@ q.Class.define("Cache",
     /**
      * Gets the file status of a cache item (by cacheId).
      *
-     * @param cacheId {String} CacheId (e.g. relative path to src class).
+     * @param {String} cacheId - CacheId (e.g. relative path to src class).
      * @return {Object} stat object.
      */
     stat: function(cacheId) {
@@ -266,9 +265,9 @@ q.Class.define("Cache",
      * TODO:
      *   * misses relevant parts from Cache.py
      *
-     * @param cacheId {String} CacheId (e.g. relative path to src class).
-     * @param content {String} Content to write.
-     * @param memory {Boolean?false} If the content should be cached in memory, too.
+     * @param {String} cacheId - CacheId (e.g. relative path to src class).
+     * @param {String} content - Content to write.
+     * @param {Boolean} [memory=false] - If the content should be cached in memory, too.
      */
     write: function(cacheId, content, memory) {
       memory = memory || true;

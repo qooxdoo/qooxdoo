@@ -30,7 +30,7 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/nodeunit test",
-    "api": "./node_modules/.bin/jsdoc lib lib/annotator -d api",
+    "api": "./node_modules/.bin/jsdoc lib -d api",
     "stdout": "node test/stdout/stdout.js"
   },
   "dependencies": {
