@@ -221,15 +221,15 @@ q.Class.define("Cache",
      *   * misses relevant parts from Cache.py
      *
      * @param {String} cacheId - CacheId (e.g. relative path to src class).
-     * @param {Boolean} [memory=false] - If the content should be cached in memory.
+     * @param {Boolean} [memory=false] - If the content should be read from the memory.
      * @throws {Error} ENOENT
      * @return {String} content - found by cacheId.
      */
     read: function(cacheId, memory) {
-      memory = memory || false;
+      memory = memory || true;
       var fileContent = null;
 
-      if (this.__isInMemCache(cacheId)) {
+      if (memory && this.__isInMemCache(cacheId)) {
         return this.__getFromMemCache(cacheId).content;
       }
 
