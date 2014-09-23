@@ -127,9 +127,6 @@ application.
    * - `argparse <https://pypi.python.org/pypi/argparse/>`_
      - `Python License 2 <http://opensource.org/licenses/Python-2.0>`_
 
-   * - `cssmin <http://pypi.python.org/pypi/cssmin/>`_
-     - `BSD-compat <https://github.com/zacharyvoase/cssmin/blob/master/LICENSE>`_
-
    * - `demjson <http://deron.meranda.us/python/demjson/>`_
      - `LGPL 3 <http://www.gnu.org/licenses/lgpl-3.0.html>`_
 
