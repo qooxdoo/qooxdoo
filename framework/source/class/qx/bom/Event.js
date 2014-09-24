@@ -282,6 +282,18 @@ qx.Bootstrap.define("qx.bom.Event",
         return true;
       }
 
+      if (qx.core.Environment.get("engine.name") === "webkit" &&
+        qx.core.Environment.get("browser.name") === "safari")
+      {
+        var supportedEvents = [
+          'loadeddata', 'progress', 'timeupdate', 'seeked', 'canplay', 'play',
+          'playing', 'pause', 'loadedmetadata', 'ended', 'volumechange'
+        ];
+        if (type.toLowerCase() in supportedEvents) {
+          return true;
+        }
+      }
+
       // The 'transitionend' event can only be detected on window objects,
       // not DOM elements [BUG #7249]
       if (target != window && type.toLowerCase().indexOf("transitionend") != -1) {
