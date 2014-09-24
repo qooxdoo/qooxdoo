@@ -17,6 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Alexander Steitz (aback)
      * Christian Hagendorn (chris_schmidt)
+     * Tobias Oberrauch (toberrauch) <tobias.oberrauch@1und1.de>
 
    ======================================================================
 
@@ -282,14 +283,19 @@ qx.Bootstrap.define("qx.bom.Event",
         return true;
       }
 
-      if (qx.core.Environment.get("engine.name") === "webkit" &&
-        qx.core.Environment.get("browser.name") === "safari")
-      {
+      /**
+       * add exception for safari mobile ()
+       * @see http://bugzilla.qooxdoo.org/show_bug.cgi?id=8244
+       */
+      if (
+        qx.core.Environment.get("engine.name") === "webkit" &&
+        qx.core.Environment.get("browser.name") === "mobile safari"
+      ) {
         var supportedEvents = [
           'loadeddata', 'progress', 'timeupdate', 'seeked', 'canplay', 'play',
           'playing', 'pause', 'loadedmetadata', 'ended', 'volumechange'
         ];
-        if (type.toLowerCase() in supportedEvents) {
+        if (supportedEvents.indexOf(type.toLowerCase() > -1)) {
           return true;
         }
       }
