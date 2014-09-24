@@ -319,7 +319,7 @@ q('ul#test').onMatchTarget('pointerdown', '.special', function(target, event) {
   executable: true
 });
 
-addSample("Event.getKeyIdentifier", {
+addSample("keyboard-keyup", {
   html: [ '<input type="text" id="website"></input>',
     '<div id="textContainer"></div>'
   ],
@@ -362,7 +362,7 @@ q('#website').on('keyup', function(e) {
 executable: true
 });
 
-addSample("Event.getKeyIdentifier", {
+addSample("keyboard-keyup", {
   html: [ '<input type="text" id="website"></input>',
     '<div id="textContainer"></div>'
   ],
