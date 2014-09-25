@@ -2358,6 +2358,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     // overridden
     _onChangeTheme : function() {
+      if (this.isDisposed()) {
+        return;
+      }
+
       this.base(arguments);
 
       // update the appearance
