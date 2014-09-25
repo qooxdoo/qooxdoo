@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Appearance.getInstance().addListener(
+      qx.theme.manager.Meta.getInstance().addListener(
         "changeTheme", this._onChangeTheme, this
       );
     }
@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
     this.__aliasManager = null;
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Appearance.getInstance().removeListener(
+      qx.theme.manager.Meta.getInstance().removeListener(
         "changeTheme", this._onChangeTheme, this
       );
     }

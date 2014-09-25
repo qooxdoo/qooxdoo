@@ -106,7 +106,6 @@ qx.Class.define("qx.test.theme.manager.Meta",
 
     tearDown : function()
     {
-return;
       this.__button.destroy();
 
 
