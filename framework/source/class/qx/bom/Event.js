@@ -275,9 +275,12 @@ qx.Bootstrap.define("qx.bom.Event",
      */
     supportsEvent : function(target, type)
     {
+      var browserName = qx.core.Environment.get("browser.name");
+      var engineName = qx.core.Environment.get("engine.name");
+
       // transitionEnd support can not be detected generically for Internet Explorer 10+ [BUG #7875]
       if (type.toLowerCase().indexOf("transitionend") != -1
-          && qx.core.Environment.get("engine.name") === "mshtml"
+          && engineName === "mshtml"
           && qx.core.Environment.get("browser.documentmode") > 9)
       {
         return true;
@@ -287,9 +290,10 @@ qx.Bootstrap.define("qx.bom.Event",
        * add exception for safari mobile ()
        * @see http://bugzilla.qooxdoo.org/show_bug.cgi?id=8244
        */
+      var safariBrowserNames = ["mobile safari", "safari"];
       if (
-        qx.core.Environment.get("engine.name") === "webkit" &&
-        qx.core.Environment.get("browser.name") === "mobile safari"
+        engineName === "webkit" &&
+        safariBrowserNames.indexOf(browserName) > -1
       ) {
         var supportedEvents = [
           'loadeddata', 'progress', 'timeupdate', 'seeked', 'canplay', 'play',
