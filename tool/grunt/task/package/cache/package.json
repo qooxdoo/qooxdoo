@@ -1,7 +1,7 @@
 {
-  "name": "qx-dependency",
-  "description": "Collect dependencies of qooxdoo code (e.g. unresolved symbols and asset-hints)",
-  "main": "lib/depAnalyzer.js",
+  "name": "qx-cache",
+  "description": "Handles file-caching on disc.",
+  "main": "lib/Cache.js",
   "version": "0.1.0",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "author": {
@@ -30,25 +30,14 @@
   },
   "scripts": {
     "test": "./node_modules/.bin/nodeunit test",
-    "api": "./node_modules/.bin/jsdoc lib lib/annotator -d api",
+    "api": "./node_modules/.bin/jsdoc lib -d api",
     "stdout": "node test/stdout/stdout.js"
   },
   "dependencies": {
-    "doctrine": "~0.2.0",
-    "escodegen": "~1.0.1",
-    "escope": "~1.0.1",
-    "esprima": "~1.0.4",
-    "estraverse": "~1.5.0",
-    "glob": "~3.2.9",
-    "jshint": "~2.3.0",
-    "minimatch": "~0.2.14",
-    "qx-cache": "~0.1.0",
-    "toposort-class": "~0.3.0",
-    "uglify-js": "^2.4.14",
-    "underscore": "~1.5.2"
+    "qooxdoo": "~4.0.1",
+    "shelljs": "~0.3.0"
   },
   "devDependencies": {
-    "jsondiffpatch": "~0.1.8",
     "nodeunit": "~0.8.4",
     "jsdoc": "~3.3.0"
   },

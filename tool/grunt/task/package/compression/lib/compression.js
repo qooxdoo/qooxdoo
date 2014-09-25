@@ -33,12 +33,8 @@
 // third party
 var U2 = require("uglify-js");
 
-// lib (modules may be injected by test env)
-// TODO: needs to be a proper dependency
-// or publishing of this package won't be possible
-if (!qx) { var qx = {}; }
-if (!qx.tool) { qx.tool = {}; }
-qx.tool.Cache = (qx.tool.Cache || require('../../../../lib/qx/tool/Cache'));
+// qx
+var Cache = (Cache || require('qx-cache'));
 
 //------------------------------------------------------------------------------
 // Attic
@@ -367,7 +363,7 @@ module.exports = {
     // compress with UglifyJS2
 
     // if there's an esprima AST use it
-    var cacheOrNull = (opts.cachePath) ? new qx.tool.Cache(opts.cachePath) : null;
+    var cacheOrNull = (opts.cachePath) ? new Cache(opts.cachePath) : null;
 
     if (cacheOrNull) {
       var curCacheId = cacheOrNull.createCacheId('tree', envMap, classId);

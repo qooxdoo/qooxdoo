@@ -14,6 +14,7 @@
 
    Authors:
      * Alexander Steitz (aback)
+     * Tobias Oberrauch (toberrauch) <tobias.oberrauch@1und1.de>
 
 ************************************************************************ */
 
@@ -58,6 +59,19 @@ qx.Class.define("qx.test.bom.Event",
           });
           this.assertTrue(qx.bom.Event.supportsEvent(el, pointerEventsToCheck[i]), "Failed to check support for '" + pointerEventsToCheck[i] + "'");
         }
+      }
+    },
+
+    testSafariMobile: function () {
+      var el = qx.dom.Element.create("audio");
+
+      var supportedEvents = [
+        'loadeddata', 'progress', 'timeupdate', 'seeked', 'canplay', 'play',
+        'playing', 'pause', 'loadedmetadata', 'ended', 'volumechange'
+      ];
+
+      for (var i = 0, l = supportedEvents.length; i < l; i++) {
+        this.assertTrue(qx.bom.Event.supportsEvent(el, supportedEvents[i]), "Failed to check support for '" + supportedEvents[i] + "'");
       }
     }
   }

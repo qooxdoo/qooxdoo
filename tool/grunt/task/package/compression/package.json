@@ -34,6 +34,7 @@
     "stdout": "node test/stdout/stdout.js"
   },
   "dependencies": {
+    "qx-cache": "~0.1.0",
     "uglify-js": "~2.4.14"
   },
   "devDependencies": {

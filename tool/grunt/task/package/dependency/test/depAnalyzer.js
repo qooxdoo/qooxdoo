@@ -40,11 +40,6 @@ module.exports = {
         loadTimeAnnotator: require('../lib/annotator/loadTime'),
         qxCoreEnv: require('../lib/qxCoreEnv'),
         util: require('../lib/util'),
-        qx: {
-          tool: {
-            Cache: require('../../../../lib/qx/tool/Cache')
-          }
-        }
       };
 
       this.depAnalyzer = sandbox('lib/depAnalyzer.js', boxGlobals);

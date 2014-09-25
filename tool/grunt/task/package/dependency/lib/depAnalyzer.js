@@ -69,19 +69,15 @@ var U2 = require('uglify-js');
 // not pretty (require internals of jshint) but works
 var js_builtins = require('jshint/src/vars');
 
+// qx
+var Cache = (Cache || require('qx-cache'));
+
 // local (modules may be injected by test env)
 var parentAnnotator = (parentAnnotator || require('./annotator/parent'));
 var classNameAnnotator = (classNameAnnotator || require('./annotator/className'));
 var loadTimeAnnotator = (loadTimeAnnotator || require('./annotator/loadTime'));
 var qxCoreEnv = (qxCoreEnv || require('./qxCoreEnv'));
 var util = (util || require('./util'));
-
-// lib (modules may be injected by test env)
-// TODO: needs to be a proper dependency
-// or publishing of this package won't be possible
-if (!qx) { var qx = {}; }
-if (!qx.tool) { qx.tool = {}; }
-qx.tool.Cache = (qx.tool.Cache || require('../../../../lib/qx/tool/Cache'));
 
 //------------------------------------------------------------------------------
 // Attic
@@ -1027,7 +1023,7 @@ module.exports = {
 
     // start with globbed initClassIds
     initClassIds = globClassIds(initClassIds, basePaths);
-    var cacheOrNull = (opts.cachePath) ? new qx.tool.Cache(opts.cachePath) : null;
+    var cacheOrNull = (opts.cachePath) ? new Cache(opts.cachePath) : null;
     var result = recurse(basePaths, initClassIds, initClassIds, excludedClassIds, cacheOrNull);
     return result;
   },

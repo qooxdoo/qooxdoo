@@ -40,6 +40,19 @@ var tasks = [];
 
 // install all packages and link them
 shell.cd("task/package");
+
+// cache is used by others so install first
+shell.exec("node runNpmCmd.js install cache");
+if (!program.noglobalmod) {
+  shell.exec("node runNpmCmd.js link cache");
+}
+var usingCachePackages = ["dependency", "compression"];
+usingCachePackages.forEach(function(pkg) {
+  shell.cd(pkg);
+  shell.exec("npm link qx-cache");
+  shell.cd("../");
+});
+
 // exclude runNpmCmd.js through filtering
 packages = shell.ls(".").filter(function(dirOrFile) { return !dirOrFile.match(/\.js$/); });
 shell.exec("node runNpmCmd.js install");
@@ -52,10 +65,10 @@ shell.cd(rootDir);
 tasks = ['source', 'build'];
 tasks.forEach(function(task){
   shell.cd("task/"+task);
-  packages.forEach(function(pkg){
+  packages.forEach(function(pkg) {
     shell.exec("npm link qx-"+pkg);
   });
-  packages.forEach(function(pkg){
+  packages.forEach(function(pkg) {
     shell.exec("npm install");
   });
   shell.cd(rootDir);
