@@ -215,8 +215,9 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
 
     /** Whether the browser should use native mouse capturing */
     hasNativeCapture : (qx.core.Environment.get("engine.name") == "mshtml" &&
-    (qx.core.Environment.get("os.version") !== "7" ||
-    qx.core.Environment.get("browser.documentmode") < 9)),
+      qx.core.Environment.get("browser.documentmode") < 9 ||
+      (parseInt(qx.core.Environment.get("os.version"), 10) > 7 && qx.core.Environment.get("browser.documentmode") > 9)
+    ),
 
 
     /**
