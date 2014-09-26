@@ -49,6 +49,14 @@ qx.Class.define("qx.test.ui.table.model.Simple",
       this.assertEquals("test2", data.col2);
 
       tableModel.dispose();
+    },
+
+    testSetRows: function () {
+      var tableModel = new qx.ui.table.model.Simple();
+      tableModel.setRows([["foo"], ["foo"]]);
+      tableModel.setRows([["bar"]]);
+
+      this.assertEquals(1, tableModel.getRowCount(), 'There should only be one row in this table');
     }
   }
 });
