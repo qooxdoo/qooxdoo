@@ -120,7 +120,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      *
      * @param node {qx.core.Object} Node to open.
      */
-    _openNode : function(node)
+    openNodeWithoutScrolling : function(node)
     {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);
@@ -144,7 +144,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
      *
      * @param node {qx.core.Object} Node to close.
      */
-    _closeNode : function(node)
+    closeNodeWithoutScrolling : function(node)
     {
       this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(node, qx.core.Object);

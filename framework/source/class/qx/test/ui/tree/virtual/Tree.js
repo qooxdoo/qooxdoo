@@ -568,7 +568,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       var scrollY = this.tree.getScrollY();
 
       // open third node without auto scrolling
-      this.tree._openNode(root.getChildren().getItem(2));
+      this.tree.openNodeWithoutScrolling(root.getChildren().getItem(2));
       qx.ui.core.queue.Manager.flush();
 
       // check scroll y position
@@ -605,7 +605,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     __openNodes : function(nodes)
     {
       for (var i = 0; i < nodes.length; i++) {
-        this.tree._openNode(nodes[i]);
+        this.tree.openNodeWithoutScrolling(nodes[i]);
       }
     },
 

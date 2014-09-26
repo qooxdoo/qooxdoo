@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // Interface implementation
-    _openNode : function(node)
+    openNodeWithoutScrolling : function(node)
     {
       // suspend automatically scrolling selection into view
       this.setAutoScrollIntoView(false);
@@ -425,7 +425,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
 
     // Interface implementation
-    _closeNode : function(node)
+    closeNodeWithoutScrolling : function(node)
     {
       // suspend automatically scrolling selection into view
       this._setAutoScrollIntoView(false);

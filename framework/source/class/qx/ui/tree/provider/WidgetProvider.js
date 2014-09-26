@@ -276,9 +276,9 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       var item = this._tree.getLookupTable().getItem(row);
 
       if (event.getData()) {
-        this._tree._openNode(item);
+        this._tree.openNodeWithoutScrolling(item);
       } else {
-        this._tree._closeNode(item);
+        this._tree.closeNodeWithoutScrolling(item);
       }
     }
   },
