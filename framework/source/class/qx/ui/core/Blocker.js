@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.core.Blocker",
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Color.getInstance().addListener(
+      qx.theme.manager.Meta.getInstance().addListener(
         "changeTheme", this._onChangeTheme, this
       );
     }
