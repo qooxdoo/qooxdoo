@@ -177,7 +177,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
      *
      * @param value {Boolean} Set <code>false</code> to suspend auto scrolling.
      */
-    _setAutoScrollIntoView : function(value)
+    setAutoScrollIntoView : function(value)
     {
       this._manager._autoScrollIntoView = value;
     },
@@ -188,7 +188,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
      *
      * @return {Boolean} Returns <code>false</code> if auto scrolling is suspended.
      */
-    _getAutoScrollIntoView : function()
+    getAutoScrollIntoView : function()
     {
       return this._manager._autoScrollIntoView;
     },

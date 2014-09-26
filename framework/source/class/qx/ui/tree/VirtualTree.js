@@ -381,12 +381,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     _openNode : function(node)
     {
       // suspend automatically scrolling selection into view
-      this._setAutoScrollIntoView(false);
+      this.setAutoScrollIntoView(false);
 
       this.openNode(node);
 
       // enable automatically scrolling selection into view
-      this._setAutoScrollIntoView(true);
+      this.setAutoScrollIntoView(true);
     },
 
 
