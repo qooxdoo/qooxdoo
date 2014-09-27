@@ -2248,6 +2248,9 @@ qx.Class.define("qx.ui.core.Widget",
         value = qx.theme.manager.Decoration.getInstance().addCssClass(value);
         content.addClass(value);
       }
+      if (value || old){
+        qx.ui.core.queue.Layout.add(this);
+      }
     },
 
 
