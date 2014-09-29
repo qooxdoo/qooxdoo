@@ -132,6 +132,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
   members :
   {
+    __layout : null,
     __label : null,
     __icon : null,
     __childrenContainer : null,
@@ -139,19 +140,22 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
         // property apply
     _applyIconPosition : function(value, old) {
-      var targetLayout;
       var verticalLayout = ["top", "bottom"].indexOf(value) != -1;
 
+      if(this.__layout != null) {
+        this.__layout.dispose();
+      }
+
       if(verticalLayout) {
-        targetLayout = new qx.ui.mobile.layout.VBox();
+        this.__layout = new qx.ui.mobile.layout.VBox();
       } else {
-        targetLayout = new qx.ui.mobile.layout.HBox();
+        this.__layout = new qx.ui.mobile.layout.HBox();
       }
 
       var isReverse = ["right", "bottom"].indexOf(value) != -1;
-      targetLayout.setReversed(isReverse);
+      this.__layout.setReversed(isReverse);
 
-      this.__childrenContainer.setLayout(targetLayout);
+      this.__childrenContainer.setLayout(this.__layout);
 
       this._domUpdated();
     },
@@ -281,18 +285,21 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         this.__icon.exclude();
       }
 
-      var layout;
       var verticalLayout = [ "top", "bottom" ].indexOf(this.getIconPosition()) != -1;
       // If Atom has no Label, only Icon is shown, and should vertically centered.
       var hasNoLabel = !this.__label;
 
-      if(verticalLayout || hasNoLabel){
-        layout = new qx.ui.mobile.layout.VBox();
-      } else {
-        layout = new qx.ui.mobile.layout.HBox();
+      if(this.__layout != null) {
+        this.__layout.dispose();
       }
 
-      this.__childrenContainer = new qx.ui.mobile.container.Composite(layout);
+      if(verticalLayout || hasNoLabel){
+        this.__layout = new qx.ui.mobile.layout.VBox();
+      } else {
+        this.__layout = new qx.ui.mobile.layout.HBox();
+      }
+
+      this.__childrenContainer = new qx.ui.mobile.container.Composite(this.__layout);
       this.__childrenContainer.addCssClass("qx-flex-center");
       this.__childrenContainer.setAnonymous(true);
 
@@ -325,6 +332,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
   */
 
   destruct : function() {
-    this._disposeObjects("__label", "__icon", "__childrenContainer");
+    this._disposeObjects("__layout", "__label", "__icon", "__childrenContainer");
   }
 });
