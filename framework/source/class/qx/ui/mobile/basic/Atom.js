@@ -141,12 +141,13 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         // property apply
     _applyIconPosition : function(value, old) {
       var verticalLayout = ["top", "bottom"].indexOf(value) != -1;
+      var hasNoLabel = !this.__label;
 
       if(this.__layout != null) {
         this.__layout.dispose();
       }
 
-      if(verticalLayout) {
+      if(verticalLayout || hasNoLabel) {
         this.__layout = new qx.ui.mobile.layout.VBox();
       } else {
         this.__layout = new qx.ui.mobile.layout.HBox();
