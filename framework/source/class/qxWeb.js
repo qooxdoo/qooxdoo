@@ -331,7 +331,9 @@ qx.Bootstrap.define("qxWeb", {
      * @ignore(debugger)
      */
     debug : function() {
-      debugger;
+      if (qx.core.Environment.get("qx.debug")) {
+        debugger;
+      }
       return this;
     },
 
