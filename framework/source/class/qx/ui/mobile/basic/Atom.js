@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       var verticalLayout = ["top", "bottom"].indexOf(value) != -1;
       var hasNoLabel = !this.__label;
 
-      this.__applyLayout(verticalLayout, hasNoLabel);
+      this.__createLayout(verticalLayout, hasNoLabel);
 
       var isReverse = ["right", "bottom"].indexOf(value) != -1;
       this.__layout.setReversed(isReverse);
@@ -212,11 +212,11 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
      * @param verticalLayout {Boolean} Whether icon and label should be vertically aligned.
      * @return {Boolean} Whether there is a label.
      */
-    __applyLayout : function(verticalLayout, hasNoLabel)
+    __createLayout : function(verticalLayout, hasNoLabel)
     {
       if (verticalLayout || hasNoLabel)
       {
-        if (this.__layout != null)
+        if (this.__layout)
         {
           if (this.__layout.classname !== "qx.ui.mobile.layout.VBox")
           {
@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       // horizontal layout and has label
       else
       {
-        if (this.__layout != null)
+        if (this.__layout)
         {
           if (this.__layout.classname !== "qx.ui.mobile.layout.HBox")
           {
@@ -325,9 +325,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       // If Atom has no Label, only Icon is shown, and should vertically centered.
       var hasNoLabel = !this.__label;
 
-      this.__applyLayout(verticalLayout, hasNoLabel);
+      this.__createLayout(verticalLayout, hasNoLabel);
 
-      if(this.__childrenContainer != null) {
+      if(this.__childrenContainer) {
         this.__childrenContainer.dispose();
       }
 
