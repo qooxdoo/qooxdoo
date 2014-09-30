@@ -2,6 +2,8 @@
 var util = require('util');
 var qx = require("../../../tool/grunt");
 
+var path = require('path');
+
 // grunt
 module.exports = function(grunt) {
 
@@ -15,6 +17,7 @@ module.exports = function(grunt) {
       "APPLICATION" : "website",
       "LOCALES": ["en"],
       "QOOXDOO_PATH" : "../../..",
+      "TESTRUNNER_ROOT" : "../../testrunner",
       "QXTHEME": "<%= common.APPLICATION %>.theme.Theme"
     },
 
@@ -81,6 +84,34 @@ module.exports = function(grunt) {
           message: 'qx.Website unminified build version generated.'
         }
       }
+    },
+
+    replace: {
+      templVarWithMinifiedCss: {
+        src: 'test/script/testrunner-portable.js',
+        overwrite: true,
+        replacements: [{
+          from: /%\{Styles\}/g,
+          to: function (matchedWord) {
+            var qxPath = grunt.template.process('<%= common.QOOXDOO_PATH %>', {data:this.common});
+            var testrunnerRoot = grunt.template.process('<%= common.TESTRUNNER_ROOT %>', {data:this.common});
+
+            var resetCss = path.join(qxPath, '/component/library/indigo/source/resource/indigo/css/reset.css');
+            var baseCss = path.join(qxPath, '/component/library/indigo/source/resource/indigo/css/base.css');
+            var testrunnerCss = path.join(testrunnerRoot, '/source/resource/testrunner/view/html/css/testrunner.css');
+
+            var contentResetCss = fs.readFileSync(resetCss, {encoding: 'utf8'});
+            var contentBaseCss = fs.readFileSync(baseCss, {encoding: 'utf8'});
+            var contentTestrunnerCss = fs.readFileSync(testrunnerCss, {encoding: 'utf8'});
+
+            var CleanCSS = require('clean-css');
+            var concatOfFiles = contentResetCss + contentBaseCss + contentTestrunnerCss;
+            var minifiedCss = new CleanCSS().minify(concatOfFiles);
+
+            return minifiedCss.replace(/'/g, '"');
+          }
+        }]
+      }
     }
   };
 
@@ -95,6 +126,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-notify');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-text-replace');
 
   // 'extend' API job
   grunt.task.renameTask('api', 'generate-api');
@@ -142,6 +174,17 @@ module.exports = function(grunt) {
     ["generate:build", "sass:indigo", "notify:build"]
   );
 
+  grunt.task.registerTask(
+    'test',
+    'Build testrunner',
+    ["generate:test", "replace:templVarWithMinifiedCss"]
+  );
+
+  grunt.task.registerTask(
+    'test-module',
+    'Build testrunner with module files',
+    ["generate:test-module", "replace:templVarWithMinifiedCss"]
+  );
 
   // pre-process the index file
   var fs = require('fs');
