@@ -258,3 +258,34 @@ addSample("q.$attachStatic",function(){
   q.$attachStatic({"includeStylesheet": includeStylesheet});
   q.includeStylesheet("http://example.org/", doc);
 });
+
+
+addSample(".debug", function() {
+// This code only works in the 'qx.debug' mode. In production mode this method
+// simply does nothing and returns the collection.
+
+// Suppose you have the following chain of methods
+q("#mySelector").getParents().getSiblings().setStyle('color', '#f00');
+
+// Comparable to the 'logThis' method.
+// Can be inserted at any point in the chain and blocks the further processing. If you like to use a
+// non-blocking method take a look at the 'logThis' method.
+// -> calls the native debugger of your favorite browser for easy introspection
+q("#mySelector").getParents().debug().getSiblings().setStyle('color', '#f00');
+q("#mySelector").getParents().getSiblings().debug().setStyle('color', '#f00');
+});
+
+
+addSample(".logThis", function() {
+// This code only works in the 'qx.debug' mode. In production mode this method
+// simply does nothing and returns the collection.
+
+// Suppose you have the following chain of methods
+q("#mySelector").getParents().getSiblings().setStyle('color', '#f00');
+
+// Comparable to the 'debug' method.
+// Instead of a hard stop using the debugger (like the 'debug' method) this method is non-blocking
+// -> logs certains infos (length, DOM elements and the collection instance) to your console
+q("#mySelector").getParents().logThis().getSiblings().setStyle('color', '#f00');
+q("#mySelector").getParents().getSiblings().logThis().setStyle('color', '#f00');
+});
