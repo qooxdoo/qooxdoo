@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Decoration.getInstance().addListener(
+      qx.theme.manager.Meta.getInstance().addListener(
         "changeTheme", this.__resolveImages, this
       );
     }
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
 
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Decoration.getInstance().removeListener(
+      qx.theme.manager.Meta.getInstance().removeListener(
         "changeTheme", this.__resolveImages, this
       );
     }

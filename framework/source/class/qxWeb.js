@@ -327,11 +327,49 @@ qx.Bootstrap.define("qxWeb", {
      * Calls the browser's native debugger to easily allow debugging within
      * chained calls.
      *
+     * Unlike the {@link .logThis} method this implementation blocks the further processing.
+     *
      * @return {q} The collection for chaining
      * @ignore(debugger)
      */
     debug : function() {
-      debugger;
+      if (qx.core.Environment.get("qx.debug")) {
+        debugger;
+      }
+      return this;
+    },
+
+
+    /**
+     * Logs information about the current collection, its DOM elements and the
+     * length. Very useful during development to easily check the current state of
+     * your collection and avoid common pitfalls like an empty collection.
+     *
+     * Unlike the {@link .debug} method this implementation works non-blocking.
+     *
+     * @return {q} The collection for chaining
+     *
+     */
+    logThis : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+
+        // loop over the collection elements to make sure we get the current content
+        // of the collection and not the reference values later (they might change depending on
+        // manipulation of the collection)
+        var elements = [];
+        this.forEach(function(item) {
+          elements.push(item);
+        });
+
+        var length = this.length;
+
+        console.group("*** Collection infos ***");
+        console.info("Length:", length);
+        console.info("Elements:", elements);
+        console.info("Instance:", this);
+        console.groupEnd();
+      }
+
       return this;
     },
 

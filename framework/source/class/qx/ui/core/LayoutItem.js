@@ -32,12 +32,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Appearance.getInstance().addListener(
-        "changeTheme", this._onChangeTheme, this
-      );
-      qx.theme.manager.Color.getInstance().addListener(
-        "changeTheme", this._onChangeTheme, this
-      );
+      qx.theme.manager.Meta.getInstance().addListener("changeTheme", this._onChangeTheme, this);
     }
   },
 
@@ -1039,10 +1034,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
   {
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Appearance.getInstance().removeListener(
-        "changeTheme", this._onChangeTheme, this
-      );
-      qx.theme.manager.Color.getInstance().removeListener(
+      qx.theme.manager.Meta.getInstance().removeListener(
         "changeTheme", this._onChangeTheme, this
       );
     }

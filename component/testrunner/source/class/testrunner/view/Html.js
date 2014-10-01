@@ -55,9 +55,9 @@ qx.Class.define("testrunner.view.Html", {
    */
   construct : function(rootElement)
   {
-    // "portable" TR: Run the generator job "gen-css" to replace %{Styles} with
-    // the (minified) contents of testrunner.css in the generated script file
-    // (build version)
+    // "portable" TR: Run the Grunt task "replace:templVarWithMinifiedCss" to replace %{Styles_}
+    // (without '_' => this is just to avoid replacing within the comment) with the (minified)
+    // contents of testrunner.css in the generated script file (build version)
     if (!qx.core.Environment.get("qx.debug") &&
       qx.core.Environment.get("testrunner.testOrigin") == "external")
     {

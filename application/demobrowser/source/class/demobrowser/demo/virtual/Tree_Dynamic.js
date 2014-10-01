@@ -85,10 +85,10 @@ qx.Class.define("demobrowser.demo.virtual.Tree_Dynamic",
 
                 qx.event.Timer.once(function()
                 {
-                  tree._setAutoScrollIntoView(false);
+                  tree.setAutoScrollIntoView(false);
                   value.getChildren().removeAll();
                   this.createRandomData(value);
-                  tree._setAutoScrollIntoView(true);
+                  tree.setAutoScrollIntoView(true);
                 }, that, 1000);
               }
 

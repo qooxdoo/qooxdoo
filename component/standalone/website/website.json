@@ -181,7 +181,9 @@
       "run" : [
         "build-min-test",
         "testrunner-portable::build-script",
-        "testrunner-portable::gen-css"
+        // and "testrunner-portable::gen-css"
+        // but this is superseded by Grunt task
+        // replace:templVarWithMinifiedCss
       ]
     },
 
@@ -196,7 +198,9 @@
       "run" : [
         "build-module-all-min",
         "testrunner-portable::build-script",
-        "testrunner-portable::gen-css"
+        // and "testrunner-portable::gen-css"
+        // but this is superseded by Grunt task
+        // replace:templVarWithMinifiedCss
       ]
     },
 

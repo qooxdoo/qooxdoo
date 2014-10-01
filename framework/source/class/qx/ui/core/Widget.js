@@ -2248,6 +2248,9 @@ qx.Class.define("qx.ui.core.Widget",
         value = qx.theme.manager.Decoration.getInstance().addCssClass(value);
         content.addClass(value);
       }
+      if (value || old){
+        qx.ui.core.queue.Layout.add(this);
+      }
     },
 
 
@@ -2358,6 +2361,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     // overridden
     _onChangeTheme : function() {
+      if (this.isDisposed()) {
+        return;
+      }
+
       this.base(arguments);
 
       // update the appearance
