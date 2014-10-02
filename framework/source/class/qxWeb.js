@@ -327,7 +327,7 @@ qx.Bootstrap.define("qxWeb", {
      * Calls the browser's native debugger to easily allow debugging within
      * chained calls.
      *
-     * Unlike the {@link .logThis} method this implementation blocks the further processing.
+     * Unlike the <a href="#.logThis">logThis</a> method this implementation blocks the further processing.
      *
      * @return {q} The collection for chaining
      * @ignore(debugger)
@@ -345,7 +345,7 @@ qx.Bootstrap.define("qxWeb", {
      * length. Very useful during development to easily check the current state of
      * your collection and avoid common pitfalls like an empty collection.
      *
-     * Unlike the {@link .debug} method this implementation works non-blocking.
+     * Unlike the <a href="#.debug">debug</a> method this implementation works non-blocking.
      *
      * @return {q} The collection for chaining
      *
