@@ -217,7 +217,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       for (var i = 0, l = changedTouches.length; i < l; i++) {
         var touch = changedTouches[i];
 
-        var touchTarget = document.elementFromPoint(touch.clientX,touch.clientY) || domEvent.target;
+        var touchTarget = domEvent.view.document.elementFromPoint(touch.clientX,touch.clientY) || domEvent.target;
 
         var touchProps = {
           clientX: touch.clientX,
