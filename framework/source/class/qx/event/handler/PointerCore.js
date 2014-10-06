@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           identifier: touch.identifier,
           screenX: touch.screenX,
           screenY: touch.screenY,
-          target: document.elementFromPoint(touch.clientX, touch.clientY),
+          target: domEvent.view.document.elementFromPoint(touch.clientX, touch.clientY),
           pointerType: "touch",
           pointerId: touch.identifier + 2
         };
