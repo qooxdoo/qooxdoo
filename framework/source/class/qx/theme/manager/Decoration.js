@@ -152,6 +152,21 @@ qx.Class.define("qx.theme.manager.Decoration",
 
 
     /**
+     * Removes all previously by {@link #addCssClass} created CSS rule from
+     * the global stylesheet.
+     */
+    removeAllCssClasses : function()
+    {
+      // remove old rules
+      for (var i=0; i < this.__rules.length; i++) {
+        var selector = this.__rules[i];
+        qx.ui.style.Stylesheet.getInstance().removeRule(selector);
+      };
+      this.__rules = [];
+    },
+
+
+    /**
      * Returns the dynamically interpreted result for the incoming value
      *
      * @param value {String} dynamically interpreted idenfier
@@ -278,11 +293,7 @@ qx.Class.define("qx.theme.manager.Decoration",
       var aliasManager = qx.util.AliasManager.getInstance();
 
       // remove old rules
-      for (var i=0; i < this.__rules.length; i++) {
-        var selector = this.__rules[i];
-        qx.ui.style.Stylesheet.getInstance().removeRule(selector);
-      };
-      this.__rules = [];
+      this.removeAllCssClasses();
 
       if (old)
       {
@@ -300,6 +311,26 @@ qx.Class.define("qx.theme.manager.Decoration",
 
       this._disposeMap("__dynamic");
       this.__dynamic = {};
+    },
+
+
+    /**
+     * Clears internal caches and removes all previously created CSS classes.
+     */
+    clearDecoration : function()
+    {
+      // remove aliases
+      var aliasManager = qx.util.AliasManager.getInstance();
+      var aliases = this.getTheme() || [];
+      for (var alias in aliases) {
+        aliasManager.remove(alias);
+      }
+
+      // remove old rules
+      this.removeAllCssClasses();
+
+      this._disposeMap("__dynamic");
+      this.__dynamic = {};
     }
   },
 
@@ -312,6 +343,6 @@ qx.Class.define("qx.theme.manager.Decoration",
   */
 
   destruct : function() {
-    this._disposeMap("__dynamic");
+    this.clearDecoration();
   }
 });

@@ -16,6 +16,12 @@
      * Mustafa Sak (msak)
 
 ************************************************************************ */
+/**
+ * @ignore(qx.test.theme.manager.MockAll)
+ * @ignore(qx.test.theme.manager.MockAppearance)
+ * @ignore(qx.test.theme.manager.MockDecoration)
+ * @ignore(qx.test.theme.manager.MockColor)
+ */
 
 qx.Class.define("qx.test.theme.manager.Meta",
 {

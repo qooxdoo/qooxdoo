@@ -28,6 +28,7 @@ qx.Class.define("qx.theme.manager.Meta",
 
   events :
   {
+    /** Fires if any theme manager has been changed. */
     "changeTheme" : "qx.event.type.Event"
   },
 
@@ -104,21 +105,28 @@ qx.Class.define("qx.theme.manager.Meta",
 
     __timer : null,
 
+
+    /**
+     * Fires <code>changeTheme</code> event.
+     *
+     * @param e {qx.event.type.Data} Data event.
+     */
     _fireEvent : function(e)
     {
       if (e.getTarget() === qx.theme.manager.Color.getInstance()) {
-        var dec = qx.theme.manager.Decoration.getInstance().getTheme();
-
-        //qx.theme.manager.Decoration.getInstance().removeListener("changeTheme", this._fireEvent, this);
-        qx.theme.manager.Decoration.getInstance()._applyTheme(null);
-        qx.theme.manager.Decoration.getInstance()._applyTheme(dec);
-        //qx.theme.manager.Decoration.getInstance().addListener("changeTheme", this._fireEvent, this);
+        // force clearing all previously created CSS rules, to be able to
+        // re-create decorator rules with changed color theme
+        qx.theme.manager.Decoration.getInstance().clearDecoration();
       }
 
       this.fireEvent("changeTheme");
     },
 
 
+    /**
+     * Removes listeners for <code>changeTheme</code> event of all
+     * related theme managers.
+     */
     _suspendEvents : function()
     {
       var colorMgr = qx.theme.manager.Color.getInstance();
@@ -150,6 +158,10 @@ qx.Class.define("qx.theme.manager.Meta",
     },
 
 
+    /**
+     * Activates listeners for <code>changeTheme</code> event of all related
+     * theme managers, to forwards the event to this meta manager instance.
+     */
     _activateEvents : function()
     {
       var colorMgr = qx.theme.manager.Color.getInstance();
@@ -178,7 +190,6 @@ qx.Class.define("qx.theme.manager.Meta",
       if (!appearanceMgr.hasListener("changeTheme")) {
         appearanceMgr.addListener("changeTheme", this._fireEvent, this);
       }
-
     },
 
 
