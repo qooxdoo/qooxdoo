@@ -68,6 +68,7 @@ qx.Class.define("qx.html.Label",
       var rich = this.__rich;
       var el = qx.bom.Label.create(this._content, rich);
 
+      el.style.overflow = 'hidden';
       return el;
     },
 
