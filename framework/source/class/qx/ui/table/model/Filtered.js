@@ -212,6 +212,9 @@ qx.Class.define("qx.ui.table.model.Filtered",
       var compareValue;
       var rowArr = this.getData();
       var rowLength = rowArr.length;
+      var count;
+      var hidden = 0;
+      var rowsToHide = [];
       for (var row = 0; row<rowLength;row++)
       {
         filter_test = false;
@@ -309,18 +312,30 @@ qx.Class.define("qx.ui.table.model.Filtered",
           }
         }
 
-        // Hide row if necessary.
+        // instead of hiding a single row, push it into the hiding-store for later hiding.
         if (filter_test == true) {
-          this.hideRows(row, 1, false);
-          row--;
-          rowLength--;
+          rowsToHide.push(row);
         }
+      }
+
+      var rowsToHideLength = rowsToHide.length;
+      for (i = 0; i < rowsToHideLength; i++) {
+        row = rowsToHide[i];
+        count = 1;
+        // count direct follow-up rows
+        while (i + 1 < rowsToHide.length && rowsToHide[i] == rowsToHide[i+1]-1) {
+          count++;
+          i++;
+        }
+        this.hideRows(row - hidden, count, false);
+
+        hidden += count;
       }
 
       var data =
       {
         firstRow    : 0,
-        lastRow     : rowLength - 1,
+        lastRow     : this.getData().length - 1,
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
