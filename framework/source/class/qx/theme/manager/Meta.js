@@ -116,7 +116,7 @@ qx.Class.define("qx.theme.manager.Meta",
       if (e.getTarget() === qx.theme.manager.Color.getInstance()) {
         // force clearing all previously created CSS rules, to be able to
         // re-create decorator rules with changed color theme
-        qx.theme.manager.Decoration.getInstance().clearDecoration();
+        qx.theme.manager.Decoration.getInstance().refresh();
       }
 
       this.fireEvent("changeTheme");
