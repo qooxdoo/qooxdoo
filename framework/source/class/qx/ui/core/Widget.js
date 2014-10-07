@@ -686,7 +686,8 @@ qx.Class.define("qx.ui.core.Widget",
     anonymous :
     {
       init : false,
-      check : "Boolean"
+      check : "Boolean",
+      apply : "_applyAnonymous"
     },
 
 
@@ -1496,6 +1497,16 @@ qx.Class.define("qx.ui.core.Widget",
       VISIBILITY SUPPORT: USER API
     ---------------------------------------------------------------------------
     */
+
+    // property apply
+    _applyAnonymous : function(value) {
+      if (value) {
+        this.getContentElement().setAttribute("qxanonymous", "true");
+      } else {
+        this.getContentElement().removeAttribute("qxanonymous");
+      }
+    },
+
 
     /**
      * Make this widget visible.

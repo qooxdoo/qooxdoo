@@ -304,7 +304,8 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       this.__fireTrack("trackend", domEvent, gesture.target);
 
       if (gesture.isTap) {
-        if (target !== gesture.target) {
+        if (!this._equalTargets(target, gesture.target)) {
+
           delete this.__gesture[domEvent.pointerId];
           return;
         }
@@ -339,6 +340,17 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       }
 
       delete this.__gesture[domEvent.pointerId];
+    },
+
+
+    /**
+     * Simple compare function which checks if the two given targets are identical.
+     * @param endTarget {Element} The target of the finish event.
+     * @param startTarget {Element} The target of the start event.
+     * @return {Boolean} <code>true</code>, if the targets are identical.
+     */
+    _equalTargets : function(endTarget, startTarget) {
+      return endTarget === startTarget;
     },
 
 
