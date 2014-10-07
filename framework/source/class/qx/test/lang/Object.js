@@ -190,6 +190,13 @@ qx.Class.define("qx.test.lang.Object",
       // change the original
       original.a[0].b = 1;
       this.assertEquals(0, clone.a[0].b);
+
+      original = [];
+      original.push({a: {b: 0}});
+      clone = qx.lang.Object.clone(original, true);
+      this.assertEquals(0, clone[0].a.b);
+      original[0].a.b = 1;
+      this.assertEquals(0, clone[0].a.b);
     },
 
     testInvert : function()
