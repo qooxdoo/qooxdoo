@@ -346,7 +346,7 @@ qx.Class.define("qx.theme.manager.Decoration",
       var theme = this.getTheme();
       if (theme && theme.alias) {
         for (var alias in theme.aliases) {
-          aliasManager.add(alias, value.aliases[alias]);
+          aliasManager.add(alias, theme.aliases[alias]);
         }
       }
     }
