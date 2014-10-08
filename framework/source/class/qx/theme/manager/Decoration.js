@@ -321,9 +321,12 @@ qx.Class.define("qx.theme.manager.Decoration",
     {
       // remove aliases
       var aliasManager = qx.util.AliasManager.getInstance();
-      var aliases = this.getTheme() || [];
-      for (var alias in aliases) {
-        aliasManager.remove(alias);
+
+      var theme = this.getTheme();
+      if (!aliasManager.isDisposed() && theme && theme.alias) {
+        for (var alias in theme.aliases) {
+          aliasManager.remove(alias, theme.aliases[alias]);
+        }
       }
 
       // remove old rules

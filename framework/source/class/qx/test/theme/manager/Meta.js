@@ -112,6 +112,7 @@ qx.Class.define("qx.test.theme.manager.Meta",
 
     tearDown : function()
     {
+      return;
       this.__button.destroy();
 
 
@@ -177,6 +178,16 @@ qx.Class.define("qx.test.theme.manager.Meta",
       // mocked appearance theme defines a padding with 30px 80px
       var elem = this.__button.getContentElement().getDomElement();
       this.assertEquals(qx.bom.element.Style.get(elem, "padding"), "30px 80px");
+    },
+
+    testColorThemeChanged : function()
+    {
+      qx.theme.manager.Color.getInstance().setTheme(qx.test.theme.manager.mock.Color);
+      qx.ui.core.queue.Manager.flush();
+
+      // mocked color theme defines a gradient with 'orange' and 'yellow'
+      var elem = this.__button.getContentElement().getDomElement();
+      this.assertNotNull(qx.bom.element.Style.get(elem, "background-image").match(/orange.*yellow/));
     }
   },
 
