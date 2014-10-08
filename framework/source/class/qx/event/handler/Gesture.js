@@ -165,15 +165,6 @@ qx.Class.define("qx.event.handler.Gesture",
     },
 
 
-    // overridden
-    _equalTargets : function(endTarget, startTarget) {
-      while (endTarget && endTarget.getAttribute("qxanonymous")) {
-        endTarget = endTarget.parentNode
-      }
-      return endTarget === startTarget;
-    },
-
-
     /**
      * Fire a touch event with the given parameters
      *
