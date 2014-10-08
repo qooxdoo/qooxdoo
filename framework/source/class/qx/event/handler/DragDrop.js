@@ -535,14 +535,15 @@ qx.Class.define("qx.event.handler.DragDrop",
 
         // fire cancelable dragstart
         if (!this.__fireEvent("dragstart", this.__dragTarget, this.__dropTarget, true, e)) {
-          this.__dragTargetWidget = null;
-          return;
+          return false;
         }
 
         this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
         this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
         this.__manager.addListener(this.__root, "keypress", this._onKeyPress, this, true);
         this.__sessionActive = true;
+
+        return true;
       }
     },
 
@@ -580,7 +581,11 @@ qx.Class.define("qx.event.handler.DragDrop",
         // if the mouse moved a bit in any direction
         var distance = qx.event.handler.DragDrop.MIN_DRAG_DISTANCE;
         if (Math.abs(delta.x) > distance || Math.abs(delta.y) > distance) {
-          this._start(e);
+          if (!this._start(e)) {
+            this.__escaped = true;
+            this.clearSession();
+            return;
+          }
         }
       }
 
