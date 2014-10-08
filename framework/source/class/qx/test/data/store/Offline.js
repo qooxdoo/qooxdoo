@@ -116,6 +116,20 @@ qx.Class.define("qx.test.data.store.Offline",
       model.dispose();
     },
 
+    testSetModelDebounce: function () {
+      this.__initDefaultStore();
+
+      var storeModelCallback = this.spy(this.__store._storage, "setItem");
+      var model = this.__createDefaultModel();
+      this.__store.setModel(model);
+      this.__store.setModel(model);
+      this.__store.setModel(model);
+
+      this.wait(3000, function() {
+        this.assertCalledOnce(storeModelCallback);
+      }, this);
+    },
+
 
     testChangeModel : function() {
       this.__initDefaultStore();
