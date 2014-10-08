@@ -34,7 +34,7 @@
 /**
  * Utility module to give some support to work with functions.
  */
-qx.Bootstrap.define("qx.util.Function", {
+qx.Class.define("qx.util.Function", {
 
   statics: {
     /**
