@@ -122,10 +122,12 @@ qx.Class.define("qx.test.data.store.Offline",
       var storeModelCallback = this.spy(this.__store._storage, "setItem");
       var model = this.__createDefaultModel();
       this.__store.setModel(model);
+      model.setA('b');
       this.__store.setModel(model);
+      model.setA('c');
       this.__store.setModel(model);
 
-      this.wait(3000, function() {
+      this.wait(1000, function() {
         this.assertCalledOnce(storeModelCallback);
       }, this);
     },
