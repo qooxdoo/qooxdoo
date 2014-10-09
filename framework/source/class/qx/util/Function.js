@@ -47,7 +47,7 @@ qx.Class.define("qx.util.Function", {
      * @param callback {Function} the callback which should be executed after the given delay
      * if the wrapper method is *not* called during this delay.
      * @param delay {Number} Delay in milliseconds
-     * @param immediate {Boolean} whether to run the callback at the beginning and then debounce
+     * @param immediate {Boolean?} whether to run the callback at the beginning and then debounce, default is <code>false</code>
      * @return {Function} a wrapper function which <em>shields</em> the given callback function
      */
     debounce: function (callback, delay, immediate) {
