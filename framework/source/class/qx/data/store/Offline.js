@@ -117,7 +117,13 @@ qx.Class.define("qx.data.store.Offline",
         this.__modelListenerId = value.addListener(
           "changeBubble", this._storeModel, this
         );
-        this._storeModel();
+        // save value immediately if the is no old value
+        if (old) {
+          this._storeModel();
+        } else {
+          this.__storeModel();
+        }
+
       } else {
         this._storage.removeItem(this._key);
       }
