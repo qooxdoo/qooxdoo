@@ -508,6 +508,9 @@ qx.Class.define("qx.event.handler.DragDrop",
      * Helper to start the drag & drop session. It is responsible for firing the
      * dragstart event and attaching the key listener.
      * @param e {qx.event.type.Pointer} Either a longtap or pointermove event.
+     *
+     * @return {Boolean} Returns <code>false</code> if drag session should be
+     * canceled.
      */
     _start : function(e) {
       // only for primary pointer and allowed buttons
