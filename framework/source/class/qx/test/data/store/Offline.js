@@ -154,7 +154,7 @@ qx.Class.define("qx.test.data.store.Offline",
       this.__store.setModel(model);
       this.assertEquals("a", this.__store.getModel().getA());
 
-      // dipose the store to test the load of the model
+      // dispose the store to test the load of the model
       this.__store.dispose();
       model.dispose();
 
