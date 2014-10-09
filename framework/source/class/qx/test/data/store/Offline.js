@@ -126,6 +126,8 @@ qx.Class.define("qx.test.data.store.Offline",
       this.__store.setModel(model);
       model.setA('c');
       this.__store.setModel(model);
+      model.setA('a');
+      this.__store.setModel(model);
 
       this.wait(1000, function() {
         this.assertCalledOnce(storeModelCallback);
