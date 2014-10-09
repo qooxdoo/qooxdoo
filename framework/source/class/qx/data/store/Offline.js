@@ -57,8 +57,7 @@ qx.Class.define("qx.data.store.Offline",
 
     this._storeModel = qx.util.Function.debounce(
       this.__storeModel.bind(this),
-      qx.data.store.Offline.STORE_MODEL_DELAY,
-      true
+      qx.data.store.Offline.STORE_MODEL_DELAY
     );
 
     this._marshaler = new qx.data.marshal.Json(delegate);
@@ -82,7 +81,10 @@ qx.Class.define("qx.data.store.Offline",
   },
 
   statics: {
-    STORE_MODEL_DELAY: 2500
+    /**
+     * Defines the delay between the requested and actuale execution of the setItem method
+     */
+    STORE_MODEL_DELAY: 400
   },
 
   members :
@@ -90,6 +92,12 @@ qx.Class.define("qx.data.store.Offline",
     _storage : null,
 
     __modelListenerId : null,
+
+    /**
+     * The actual method that will called after a delay of STORE_MODEL_DELAY
+     *
+     * @private
+     */
     __storeModel: function() {
       var value = qx.util.Serializer.toNativeObject(this.getModel());
       this._storage.setItem(this._key, value);
