@@ -95,8 +95,6 @@ qx.Class.define("qx.data.store.Offline",
 
     /**
      * The actual method that will called after a delay of STORE_MODEL_DELAY
-     *
-     * @private
      */
     __storeModel: function() {
       var value = qx.util.Serializer.toNativeObject(this.getModel());
