@@ -192,7 +192,7 @@ qx.Class.define("qx.test.data.store.Offline",
       this.wait(1000, function () {
         this.assertEquals("a", this.__store.getModel().getA());
 
-        // dipose the store to test the load of the model
+        // dispose the store to test the load of the model
         this.__store.dispose();
         model.dispose();
 
@@ -203,7 +203,7 @@ qx.Class.define("qx.test.data.store.Offline",
         this.wait(1000, function () {
           this.assertEquals("b", this.__store.getModel().getA(), "1");
 
-          // dipose the store to test the load of the model
+          // dispose the store to test the load of the model
           this.__store.dispose();
 
           this.__initDefaultStore();
