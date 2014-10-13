@@ -44,30 +44,40 @@ qx.Class.define("qx.test.mobile.page.Page",
 
       page.show();
 
-      this.assertTrue(initializedEvent);
-      this.assertTrue(startEvent);
+      this.assertTrue(initializedEvent, "Initialize event is not fired!");
+      this.assertTrue(startEvent, "Start event is not fired!");
       page.destroy();
     },
 
 
-    testBack : function() {
+    testBack : function()
+    {
       var page = new qx.ui.mobile.page.Page();
       this.getRoot().add(page);
 
-      var eventFired = false;
+      var eventFiredOnApplication = false;
+      var eventFiredOnPage = false;
+
+      var application = qx.core.Init.getApplication();
+      var id = application.addListener("back", function() {
+        eventFiredOnApplication = true;
+      }, this);
 
       page.addListener("back", function() {
-        eventFired = true;
+        eventFiredOnPage = true;
       }, this);
       page.back();
 
-      this.assertTrue(eventFired);
+      this.assertTrue(eventFiredOnApplication, "Back event on application is not fired!");
+      this.assertTrue(eventFiredOnPage, "Back event on page is not fired!");
 
+      application.removeListenerById(id);
       page.destroy();
     },
 
 
-    testMenu: function() {
+    testMenu: function()
+    {
       var page = new qx.ui.mobile.page.Page();
       this.getRoot().add(page);
 
