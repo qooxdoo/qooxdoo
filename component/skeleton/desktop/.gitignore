@@ -8,3 +8,4 @@
 
 # node-related files
 /node_modules
+npm-debug.log
