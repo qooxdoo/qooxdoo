@@ -24,7 +24,7 @@ qx.Class.define("qx.test.mobile.page.Page",
 
   members :
   {
-    testLifecycle : function()
+    testShow : function()
     {
       var initializedEvent = false;
       var startEvent = false;
@@ -33,12 +33,12 @@ qx.Class.define("qx.test.mobile.page.Page",
       this.getRoot().add(page);
 
       page.addListener("initialize", function() {
-        this.assertFalse(startEvent);
+        this.assertFalse(startEvent, "Start event is fired before initialize event was fired!");
         initializedEvent = true;
       }, this);
 
       page.addListener("start", function() {
-        this.assertTrue(initializedEvent);
+        this.assertTrue(initializedEvent, "Start event is fired before initialize event was fired!");
         startEvent = true;
       }, this);
 
