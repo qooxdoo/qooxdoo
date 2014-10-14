@@ -601,28 +601,31 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
-    * Removes the rows content in the table body
+    * Removes the rows of in the table body
+    * @param domData {String|qxWeb} Html string or collection containing the rows to be added
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
-    removeContent : function() {
+    setContent : function(domData) {
 
       this.find('tbody').empty();
+
+      this.appendContent(domData);
 
       return this;
     },
 
 
     /**
-    * Removes the rows content in the table body
+    * Appends new rows to the table
+    * @param domData {String|qxWeb} Html string or collection containing the rows to be appended
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
-    setContent : function(domData) {
+    appendContent : function(domData) {
 
       domData = qxWeb(domData);
 
       var docFragment = document.createDocumentFragment();
       var rows = domData.find("tr");
-      var cells = null;
 
       rows.forEach(function(row) {
         if(row.getElementsByTagName("td").length > 0) {
