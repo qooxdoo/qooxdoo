@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @ignore(Foo)
+ */
 qx.Class.define("qx.test.event.Registration",
 {
   extend : qx.dev.unit.TestCase,

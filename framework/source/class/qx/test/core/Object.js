@@ -18,9 +18,8 @@
 ************************************************************************ */
 
 /**
- * @ignore(qx.test.Single.getInstance)
+ * @ignore(qx.test.Single.getInstance, qx.test.Single)
  */
-
 qx.Class.define("qx.test.core.Object",
 {
   extend : qx.dev.unit.TestCase,
