@@ -287,13 +287,22 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       dialog.setModal(true);
       dialog.setTitle(title);
 
+      // prevent the back action until the dialog is visible
       var onBackButton = function(evt)
       {
         if(dialog.isVisible() && !!evt.getData()) {
           evt.preventDefault();
         }
       };
-      qx.core.Init.getApplication().addListener("back", onBackButton, this);
+      dialog.addListener("changeVisibility", function(evt)
+      {
+        var application = qx.core.Init.getApplication();
+        if (evt.getData() === "visible") {
+          application.addListener("back", onBackButton, this);
+        } else {
+          application.removeListener("back", onBackButton, this);
+        }
+      });
 
       if(dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG)
       {
@@ -327,7 +336,6 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
           var callback = (function(index){
             return function()
             {
-              qx.core.Init.getApplication().removeListener("back", onBackButton, this);
               dialog.hide();
               if(handler) {
                 handler.call(scope, index, inputText ? inputText.getValue() : null);
