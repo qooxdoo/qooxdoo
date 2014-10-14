@@ -516,7 +516,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       // only for primary pointer and allowed buttons
       var isButtonOk = qx.event.handler.DragDrop.ALLOWED_BUTTONS.indexOf(e.getButton()) !== -1;
       if (!e.isPrimary() || !isButtonOk) {
-        return;
+        return false;
       }
 
       // start target can be none as the drag & drop handler might
