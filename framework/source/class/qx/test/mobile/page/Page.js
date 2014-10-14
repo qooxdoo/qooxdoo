@@ -28,6 +28,7 @@ qx.Class.define("qx.test.mobile.page.Page",
     {
       var initializedEvent = false;
       var startEvent = false;
+      var stopEvent = false;
 
       var page = new qx.ui.mobile.page.Page();
       this.getRoot().add(page);
@@ -42,10 +43,140 @@ qx.Class.define("qx.test.mobile.page.Page",
         startEvent = true;
       }, this);
 
+      page.addListener("stop", function() {
+        stopEvent = true;
+      }, this);
+
       page.show();
 
       this.assertTrue(initializedEvent, "Initialize event is not fired!");
       this.assertTrue(startEvent, "Start event is not fired!");
+      this.assertFalse(stopEvent, "Stop event is fired!");
+      page.destroy();
+    },
+
+
+    testInitialize : function()
+    {
+      var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
+
+      var initializedEvent = false;
+
+      page.addListener("initialize", function() {
+        initializedEvent = true;
+      }, this);
+      page.initialize();
+
+      this.assertTrue(initializedEvent, "Initialize event is not fired!");
+
+      page.destroy();
+    },
+
+
+    testStart : function()
+    {
+      var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
+
+      var eventFiredOnApplication = false;
+      var eventFiredOnPage = false;
+
+      var application = qx.core.Init.getApplication();
+      var id = application.addListener("start", function() {
+        eventFiredOnApplication = true;
+      }, this);
+
+      page.addListener("start", function() {
+        eventFiredOnPage = true;
+      }, this);
+      page.start();
+
+      this.assertTrue(eventFiredOnApplication, "Start event on application is not fired!");
+      this.assertTrue(eventFiredOnPage, "Start event on page is not fired!");
+
+      application.removeListenerById(id);
+      page.destroy();
+    },
+
+
+    testStop : function()
+    {
+      var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
+
+      var eventFiredOnApplication = false;
+      var eventFiredOnPage = false;
+
+      var application = qx.core.Init.getApplication();
+      var id = application.addListener("stop", function() {
+        eventFiredOnApplication = true;
+      }, this);
+
+      page.addListener("stop", function() {
+        eventFiredOnPage = true;
+      }, this);
+      page.initialize();
+      page.stop();
+
+      this.assertTrue(eventFiredOnApplication, "Stop event on application is not fired!");
+      this.assertTrue(eventFiredOnPage, "Stop event on page is not fired!");
+
+      application.removeListenerById(id);
+      page.destroy();
+    },
+
+
+    testPause : function()
+    {
+      var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
+
+      var pausedEvent = false;
+
+      page.addListener("pause", function() {
+        pausedEvent = true;
+      }, this);
+      page.pause();
+
+      this.assertTrue(pausedEvent, "Pause event is not fired!");
+
+      page.destroy();
+    },
+
+
+    testResume : function()
+    {
+      var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
+
+      var resumeEvent = false;
+
+      page.addListener("resume", function() {
+        resumeEvent = true;
+      }, this);
+      page.resume();
+
+      this.assertTrue(resumeEvent, "Resume event is not fired!");
+
+      page.destroy();
+    },
+
+
+    testWait : function()
+    {
+      var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
+
+      var waitEvent = false;
+
+      page.addListener("wait", function() {
+        waitEvent = true;
+      }, this);
+      page.wait();
+
+      this.assertTrue(waitEvent, "Wait event is not fired!");
+
       page.destroy();
     },
 
