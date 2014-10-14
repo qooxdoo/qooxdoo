@@ -93,6 +93,34 @@ qx.Class.define("qx.test.mobile.page.Page",
     },
 
 
+    testPreventBack : function()
+    {
+      var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
+
+      var eventFiredOnApplication = false;
+      var eventFiredOnPage = false;
+
+      var application = qx.core.Init.getApplication();
+      var id = application.addListener("back", function(evt) {
+        eventFiredOnApplication = true;
+        evt.preventDefault();
+      }, this);
+
+      page.addListener("back", function() {
+        eventFiredOnPage = true;
+      }, this);
+
+      page.back();
+
+      this.assertTrue(eventFiredOnApplication, "The 'back' event on application is not fired!");
+      this.assertFalse(eventFiredOnPage, "The 'back' event on page is fired!");
+
+      application.removeListenerById(id);
+      page.destroy();
+    },
+
+
     testMenu: function() {
       this.__testEventOnPage("menu");
     },
