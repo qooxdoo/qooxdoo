@@ -601,6 +601,44 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
+    * Removes the rows content in the table body
+    * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
+    */
+    removeContent : function() {
+
+      this.find('tbody').empty();
+
+      return this;
+    },
+
+
+    /**
+    * Removes the rows content in the table body
+    * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
+    */
+    setContent : function(domData) {
+
+      domData = qxWeb(domData);
+
+      var docFragment = document.createDocumentFragment();
+      var rows = domData.find("tr");
+      var cells = null;
+
+      rows.forEach(function(row) {
+        if(row.getElementsByTagName("td").length > 0) {
+          docFragment.appendChild(row);
+        }
+      });
+
+      this.find('tbody')[0].appendChild(docFragment);
+
+      this.render();
+
+      return this;
+    },
+
+
+    /**
     * Filters the rendered table cells
     * @param keyword {String} The keyword to use to filter
     * @param columnName {String ?} The column name
@@ -968,8 +1006,10 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
           this.emit("cellClicked", {
             columnIndex : columnIndex,
-            columnName: colName,
-            cell: qxWeb(cell)
+            columnName : colName,
+            cell : qxWeb(cell),
+            row : row,
+            target : target
           });
         }
       }
