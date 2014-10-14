@@ -74,11 +74,11 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       }
 
       parent.add(this);
-
-      qx.core.Init.getApplication().addListener("back", this.forceHide, this);
     } else {
       qx.core.Init.getApplication().getRoot().add(this);
     }
+
+    qx.core.Init.getApplication().addListener("back", this._onBack, this);
 
     this.__parent = this.getLayoutParent();
     this.__parent.addCssClass("drawer-parent");
@@ -142,6 +142,16 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
     /** Indicates whether the drawer should hide when the parent area of it is tapped.  */
     hideOnParentTap : {
+      check : "Boolean",
+      init : true
+    },
+
+
+    /**
+     * Indicates whether the drawer should hide when a back action appear form a key event.
+     */
+    hideOnBack :
+    {
       check : "Boolean",
       init : true
     },
@@ -481,6 +491,22 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
+     * Handles a back event which appears on the application.
+     *
+     * @param evt {qx.event.type.Data} The back event.
+     */
+    _onBack : function(evt)
+    {
+      var triggeredByKeyEvent = !!evt.getData();
+      if (triggeredByKeyEvent && !this.isHidden() && this.getHideOnBack())
+      {
+        evt.preventDefault();
+        this.hide();
+      }
+    },
+
+
+    /**
      * Handles a tap on drawers's root.
      * @param evt {qx.module.event.Pointer} Handled pointer event.
      */
@@ -546,7 +572,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
   destruct : function()
   {
-    qx.core.Init.getApplication().removeListener("back", this.forceHide, this);
+    qx.core.Init.getApplication().removeListener("back", this._onBack, this);
 
     this.__parent.removeListener("swipe", this._onParentSwipe, this);
     this.__parent.removeListener("pointerdown", this._onParentPointerDown, this);
