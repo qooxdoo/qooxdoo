@@ -330,7 +330,6 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         }
         widget.add(buttonContainer);
       }
-      dialog.setModal(true);
       dialog.show();
       if(inputText) {
         inputText.getContainerElement().focus();
