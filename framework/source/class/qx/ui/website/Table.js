@@ -992,10 +992,13 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       }
 
       if (cell.hasClass(clazz.__internalSelectionClass)) {
+
         window.setTimeout(function(){
           this.__processSelection(cell);
         }.bind(this), 5);
+
       }else{
+
         if (cell && cell.length > 0) {
           var row = cell[0].parentNode, cells = row.cells;
           var colNumber = qx.ui.website.Table.__getIndex(cells, cell[0]);
@@ -1008,7 +1011,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
             columnIndex : columnIndex,
             columnName : colName,
             cell : qxWeb(cell),
-            row : row,
+            row : qxWeb(row),
             target : target
           });
         }
