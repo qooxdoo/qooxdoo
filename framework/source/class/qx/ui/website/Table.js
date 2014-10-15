@@ -738,7 +738,6 @@ qx.Bootstrap.define("qx.ui.website.Table", {
           this.__createInputs("radio");
           break;
       }
-
       return this;
 
     },
@@ -750,7 +749,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     __createInputs : function(type) {
-      var rows = this[0].getElementsByTagName("tr");
+      this.__createInput(this.__getHeaderRow(), type);
+      var rows = this.find("tbody")[0].getElementsByTagName("tr");
       for (var i = 0; i < rows.length; i++) {
         this.__createInput(rows.item(i), type);
       }
@@ -820,12 +820,22 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     * Returns the row containing the cells with the column names
     * @return {HTMLTableRowElement} The row with meta information
     */
-    __getHeaderRow : function(){
+    __getHeaderRow : function() {
       var tHeadOrFoot = this[0].tHead;
       if (!tHeadOrFoot) {
         throw new Error("A Table header element is required for this widget.");
       }
-      return tHeadOrFoot.rows.item(0);
+      var rows = tHeadOrFoot.rows;
+      if(rows.length == 1) {
+        return rows.item(0);
+      } else {
+        rows = qxWeb(".qx-table-header-row");
+        if(rows.length > 0) {
+          return rows[0];
+        }
+      }
+
+      return null;
     },
 
 
@@ -840,8 +850,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       this.__addClassToHeaderAndFooter(this[0].tFoot);
 
       var data = {}, cells = null, colName = null, cell = null;
+      var headerRow = this.__getHeaderRow();
 
-      cells = this[0].tHead.rows.item(0).cells;
+      cells = headerRow.cells;
 
       for (var i = 0, l = cells.length; i < l; i++) {
 
@@ -872,8 +883,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     __addClassToHeaderAndFooter : function(footOrHead) {
       if (footOrHead && footOrHead.rows.length > 0) {
         if (footOrHead.rows.item(0).cells.length > 0) {
-          if (!qxWeb(footOrHead.rows.item(0).cells.item(0)).hasClass(qx.ui.website.Table.__internalHeaderClass)) {
-            qxWeb(footOrHead.rows.item(0).cells).addClass(qx.ui.website.Table.__internalHeaderClass);
+          var row = this.__getHeaderRow();
+          if (!qxWeb(row.cells.item(0)).hasClass(qx.ui.website.Table.__internalHeaderClass)) {
+            qxWeb(row.cells).addClass(qx.ui.website.Table.__internalHeaderClass);
           }
         }
       }
@@ -1257,7 +1269,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
       this.setProperty("__sortingData", data);
       this.__addSortingClassToCol(this[0].tHead, columnName, dir);
-      this.__addSortingClassToCol(this[0].tFoot, columnName, dir);
+      //this.__addSortingClassToCol(this[0].tFoot, columnName, dir);
     },
 
 
@@ -1268,8 +1280,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @param dir {String} The sorting direction
      */
     __addSortingClassToCol : function(HeaderOrFooter, columnName, dir) {
-      if (HeaderOrFooter && HeaderOrFooter.rows.length > 0) {
-        qxWeb(HeaderOrFooter.rows.item(0).cells).removeClasses(["qx-table-sort-asc", "qx-table-sort-desc"]);
+      var rows = this.__getHeaderRow();
+      if (HeaderOrFooter && rows) {
+        qxWeb(rows.cells).removeClasses(["qx-table-sort-asc", "qx-table-sort-desc"]);
         var cell = qxWeb("["+qx.ui.website.Table.__dataColName+"='" + columnName + "'], #" + columnName);
         cell.addClass("qx-table-sort-" + dir);
       }
@@ -1401,8 +1414,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     __getDataRows : function() {
 
-      var tableNode = this[0];
-      var rows = tableNode.rows, model = [], cell=null,  cells = [];
+      var rows = this.find("tbody")[0].rows, model = [], cell=null,  cells = [];
 
       for (var i = 0, l = rows.length; i < l; i++) {
         cells = rows.item(i).cells;
@@ -1438,7 +1450,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
           }
         }
       }
-      if (data.cell[0].nodeName.toUpperCase() == "TH") {
+      if (data.cell.hasClass("qx-table-header")) {
         this.sort(data.columnName, dir);
       }
     },
