@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.command.Group",
         );
       }
 
-      if (this.get(key)){
+      if (this.has(key)){
         if (qx.core.Environment.get("qx.debug")) {
           this.debug("Command with key: '" + key +  "' already exists!");
         }
@@ -116,6 +116,23 @@ qx.Class.define("qx.ui.command.Group",
       }
 
       return cmd;
+    },
+
+
+    /**
+     * Returns true if a command is registered by key.
+     *
+     * @param key {String} Key which addresses the command
+     *
+     * @return {Boolean} Returns <code>true</code> if a command is registered by a key
+     */
+    has : function(key)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        this.assertString(key, "Key parameter must be a string.");
+      }
+
+      return !!(this._cmds[key]);
     },
 
 
