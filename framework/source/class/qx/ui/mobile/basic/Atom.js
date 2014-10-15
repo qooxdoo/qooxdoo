@@ -144,11 +144,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       var hasNoLabel = !this.__label;
 
       this.__createLayout(verticalLayout, hasNoLabel);
-
       var isReverse = ["right", "bottom"].indexOf(value) != -1;
-      this.__layout.setReversed(isReverse);
-
       this.__childrenContainer.setLayout(this.__layout);
+      this.__layout.setReversed(isReverse);
 
       this._domUpdated();
     },
