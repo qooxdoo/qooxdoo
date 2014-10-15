@@ -601,28 +601,31 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
-    * Removes the rows content in the table body
+    * Removes the rows of in the table body
+    * @param domData {String|qxWeb} Html string or collection containing the rows to be added
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
-    removeContent : function() {
+    setContent : function(domData) {
 
       this.find('tbody').empty();
+
+      this.appendContent(domData);
 
       return this;
     },
 
 
     /**
-    * Removes the rows content in the table body
+    * Appends new rows to the table
+    * @param domData {String|qxWeb} Html string or collection containing the rows to be appended
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
-    setContent : function(domData) {
+    appendContent : function(domData) {
 
       domData = qxWeb(domData);
 
       var docFragment = document.createDocumentFragment();
       var rows = domData.find("tr");
-      var cells = null;
 
       rows.forEach(function(row) {
         if(row.getElementsByTagName("td").length > 0) {
@@ -716,39 +719,22 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     */
     __processSelectionInputs : function(rowSelection) {
 
-      var currentSelection = this.getProperty("__rowSelection") || "none";
-      var cssPrefix = this.getCssPrefix();
-
       switch (rowSelection) {
 
         case "none":
-          if (currentSelection != "none") {
-            qxWeb("." + qx.ui.website.Table.__internalSelectionClass).remove();
-          }
+          qxWeb("." + qx.ui.website.Table.__internalSelectionClass).remove();
           break;
-
-        case "multiple":
-          if (currentSelection == "none") {
-            this.__createInputs("checkbox");
-          } else if (currentSelection == "single") {
-            qxWeb("." + qx.ui.website.Table.__internalSelectionClass + " input").setAttribute("type", "checkbox");
-            qxWeb("."+cssPrefix+"-radio").removeClass(cssPrefix+"-radio").addClass(cssPrefix+"-checkbox");
-          }
+        case "multiple": case "single":
+          this.__createInputs("checkbox");
           break;
 
         case "single":
-          if (currentSelection == "none") {
-            this.__createInputs("radio");
-          } else if (currentSelection == "multiple") {
-            qxWeb("." + qx.ui.website.Table.__internalSelectionClass + " input").setAttribute("type", "radio");
-            qxWeb("."+cssPrefix+"-checkbox").removeClass(cssPrefix+"-checkbox").addClass(cssPrefix+"-radio");
-          }
+          this.__createInputs("radio");
           break;
       }
 
-      this.setProperty("__rowSelection", rowSelection);
-
       return this;
+
     },
 
 
@@ -758,7 +744,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     __createInputs : function(type) {
-      var rows = this[0].rows;
+      var rows = this[0].getElementsByTagName("tr");
       for (var i = 0; i < rows.length; i++) {
         this.__createInput(rows.item(i), type);
       }
@@ -782,13 +768,25 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
       var clazz = qx.ui.website.Table, inputName = this.getProperty("__inputName");
       var className = (nodeName == "th") ? clazz.__internalSelectionClass + " " + clazz.__internalHeaderClass : clazz.__internalSelectionClass;
-      var id = qx.ui.website.Table.__getUID();
-      var inputNode = qxWeb.create("<" + nodeName + " class='" + className + "'><input id='"+id+"' name='" + inputName + "' class='"+cssPrefix+"-"+type+" "+ clazz.__internalInputClass + "' type='" + type + "' /><label class='"+clazz.__inputLabelClass+"' for='"+id+"'></label></" + nodeName + ">");
-      if (row.cells.item(0)) {
-        inputNode.insertBefore(qxWeb(row.cells.item(0)));
+
+      var currentInput = qxWeb(row).find("."+clazz.__internalSelectionClass);
+
+      if(currentInput.length > 0) {
+        if(currentInput[0].type != type) {
+          currentInput[0].type = type;
+        }
       } else {
-        inputNode.appendTo(qxWeb(row))
+
+        var id = qx.ui.website.Table.__getUID();
+        var inputNode = qxWeb.create("<" + nodeName + " class='" + className + "'><input id='"+id+"' name='" + inputName + "' class='"+cssPrefix+"-"+type+" "+ clazz.__internalInputClass + "' type='" + type + "' /><label class='"+clazz.__inputLabelClass+"' for='"+id+"'></label></" + nodeName + ">");
+        if (row.cells.item(0)) {
+          inputNode.insertBefore(qxWeb(row.cells.item(0)));
+        } else {
+          inputNode.appendTo(qxWeb(row))
+        }
       }
+
+
     },
 
 
@@ -1029,61 +1027,63 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     __applyTemplate : function(model) {
 
-      var cell, row;
-      var tHead = this.__getHeaderRow();
-      var createdRow = null, colMeta = null;
-      var renderedRow = null;
+      if(model && model.length > 0) {
+        var cell, row;
+        var tHead = this.__getHeaderRow();
+        var createdRow = null, colMeta = null;
+        var renderedRow = null;
 
-      var inputType = (this.getConfig("rowSelection") == "single") ? "radio" : "checkbox";
+        var inputType = (this.getConfig("rowSelection") == "single") ? "radio" : "checkbox";
 
-      if (this.__getRoot().rows.length > model.length) {
-        this.__deleteRows(model.length);
-      }
-
-      var renderedColIndex = 0, templateApplied = false;
-      var coltemplate = this.getTemplate("columnDefault");
-      var colName = null;
-
-      for (var i = 0, rowCount = model.length; i < rowCount; i++) {
-
-        row = model[i];
-
-        if (!this.__isRowRendered(i)) {
-          createdRow = this.__getRoot().insertRow(i);
-          if (this.__selectionRendered()) {
-            this.__createInput(createdRow, inputType, "td");
-          }
+        if (this.__getRoot().rows.length > model.length) {
+          this.__deleteRows(model.length);
         }
 
-        for (var j = 0, colCount = row.length; j < colCount; j++) {
+        var renderedColIndex = 0, templateApplied = false;
+        var coltemplate = this.getTemplate("columnDefault");
+        var colName = null;
 
-          renderedColIndex = this.__selectionRendered() ? j + 1 : j;
-          colName = this.__getColumName(tHead.cells.item(renderedColIndex));
-          colMeta = this.__getDataForColumn(colName);
-          coltemplate = this.getTemplate(colName) || coltemplate;
-          renderedRow = this.__getRoot().rows.item(i);
-          cell = qxWeb.create(qxWeb.template.render(coltemplate, model[i][j]))[0];
+        for (var i = 0, rowCount = model.length; i < rowCount; i++) {
 
-          if(cell.nodeName.toUpperCase() != "TD") {
-            break;
+          row = model[i];
+
+          if (!this.__isRowRendered(i)) {
+            createdRow = this.__getRoot().insertRow(i);
+            if (this.__selectionRendered()) {
+              this.__createInput(createdRow, inputType, "td");
+            }
           }
 
-          if (!this.__isCellRendered(i, renderedColIndex)) {
-            renderedRow.appendChild(cell);
-          }else {
-            renderedRow.replaceChild(cell, this.getCell(i, renderedColIndex)[0]);
+          for (var j = 0, colCount = row.length; j < colCount; j++) {
+
+            renderedColIndex = this.__selectionRendered() ? j + 1 : j;
+            colName = this.__getColumName(tHead.cells.item(renderedColIndex));
+            colMeta = this.__getDataForColumn(colName);
+            coltemplate = this.getTemplate(colName) || coltemplate;
+            renderedRow = this.__getRoot().rows.item(i);
+            cell = qxWeb.create(qxWeb.template.render(coltemplate, model[i][j]))[0];
+
+            if(cell.nodeName.toUpperCase() != "TD") {
+              break;
+            }
+
+            if (!this.__isCellRendered(i, renderedColIndex)) {
+              renderedRow.appendChild(cell);
+            }else {
+              renderedRow.replaceChild(cell, this.getCell(i, renderedColIndex)[0]);
+            }
+            this.emit("cellRender", {cell : cell, row : i, col : j, value : model[i][j]});
           }
-          this.emit("cellRender", {cell : cell, row : i, col : j, value : model[i][j]});
+
+          if(i == rowCount-1) {
+            templateApplied = true;
+          }
+
         }
 
-        if(i == rowCount-1) {
-          templateApplied = true;
+        if (templateApplied) {
+          this.emit("modelApplied", model);
         }
-
-      }
-
-      if (templateApplied) {
-        this.emit("modelApplied", model);
       }
 
       return this;
