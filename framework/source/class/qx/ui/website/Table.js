@@ -99,7 +99,11 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /** Fires at each selection change */
     "selectionChange" : "qxWeb",
     /** Fires each time a cell of the widget is clicked */
-    "cellClicked" : "Object",
+    "cellClick" : "Object",
+    /** Fires each time a cell of the widget is hovered */
+    "cellHover" : "Object",
+     /** Fires each time the mouse leave a cell of the table widget */
+    "cellOut" : "Object",
     /** Fires after the model has been applied to the widget */
     "modelApplied" : "Array",
     /** Fires each time the value of a cell is rendered into the cell */
@@ -274,6 +278,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         table.setSortingFunction(table.__defaultColumnSort);
 
         table.__registerEvents();
+
+        this.setProperty("__hovered", null);
 
       }.bind(this));
 
@@ -762,6 +768,15 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
       var cssPrefix = this.getCssPrefix();
 
+      var clazz = qx.ui.website.Table;
+      var headerInput = qxWeb("." + clazz.__internalHeaderClass + " input");
+      var selectionMode = this.getConfig("rowSelection");
+
+      var checked = "";
+      if(headerInput.length > 0) {
+        checked = (selectionMode == "multiple") && headerInput[0].checked ? "checked" : "";
+      }
+
       if (typeof nodeName == "undefined") {
         nodeName = qxWeb.getNodeName(qxWeb(row.cells.item(0)));
       }
@@ -778,14 +793,13 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       } else {
 
         var id = qx.ui.website.Table.__getUID();
-        var inputNode = qxWeb.create("<" + nodeName + " class='" + className + "'><input id='"+id+"' name='" + inputName + "' class='"+cssPrefix+"-"+type+" "+ clazz.__internalInputClass + "' type='" + type + "' /><label class='"+clazz.__inputLabelClass+"' for='"+id+"'></label></" + nodeName + ">");
+        var inputNode = qxWeb.create("<" + nodeName + " class='" + className + "'><input id='"+id+"' name='" + inputName + "' "+checked+" class='"+cssPrefix+"-"+type+" "+ clazz.__internalInputClass + "' type='" + type + "' /><label class='"+clazz.__inputLabelClass+"' for='"+id+"'></label></" + nodeName + ">");
         if (row.cells.item(0)) {
           inputNode.insertBefore(qxWeb(row.cells.item(0)));
         } else {
           inputNode.appendTo(qxWeb(row))
         }
       }
-
 
     },
 
@@ -890,12 +904,18 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     __registerEvents : function() {
+
       this.on("tap", this.__detectClickedCell);
-      this.on("cellClicked", function(data) {
+
+      this.on("cellClick", function(data) {
         if(data.cell && data.cell.hasClass(qx.ui.website.Table.__internalHeaderClass)){
           this.getProperty("__sortingFunction").bind(this)(data);
         }
       }, this);
+
+      this.on("pointerover", this.__cellHover, this);
+      this.on("pointerout", this.__cellOut, this);
+
       return this;
     },
 
@@ -967,6 +987,29 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       return this;
     },
 
+    __fireEvent : function(eventType, cell, target) {
+
+      var row = cell[0].parentNode, cells = row.cells;
+      var colNumber = qx.ui.website.Table.__getIndex(cells, cell[0]);
+      var tHead = this.__getHeaderRow();
+      var headCell = tHead.cells.item(colNumber);
+      var colName = this.__getColumName(headCell);
+      var columnIndex = this.getConfig("rowSelection") != "none" ? this.__getColumnIndex(colName) -1 : this.__getColumnIndex(colName);
+
+      var data = {
+        cell : qxWeb(cell),
+        row : qxWeb(row),
+        target : target,
+        columnIndex : columnIndex,
+        columnName : colName
+      };
+
+      this.emit(eventType, data);
+
+      return data;
+
+    },
+
 
     /**
      * Click callbak
@@ -998,24 +1041,71 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       }else{
 
         if (cell && cell.length > 0) {
-          var row = cell[0].parentNode, cells = row.cells;
-          var colNumber = qx.ui.website.Table.__getIndex(cells, cell[0]);
-          var tHead = this.__getHeaderRow();
-          var headCell = tHead.cells.item(colNumber);
-          var colName = this.__getColumName(headCell);
-          var columnIndex = this.getConfig("rowSelection") != "none" ? this.__getColumnIndex(colName) -1 : this.__getColumnIndex(colName);
-
-          this.emit("cellClicked", {
-            columnIndex : columnIndex,
-            columnName : colName,
-            cell : qxWeb(cell),
-            row : qxWeb(row),
-            target : target
-          });
+          this.__fireEvent("cellClick", cell, target);
         }
       }
 
       return this;
+    },
+
+
+    /**
+    * Pointerover callback
+    *
+    * @param e {Event} The native over event.
+    */
+    __cellHover : function(e) {
+
+      var target = e.getTarget();
+      var cell = qxWeb(target);
+      var hovered = this.getProperty("__hovered");
+
+      if(!cell.hasClass("qx-table-cell") && !cell.hasClass("qx-table-header")) {
+        cell = cell.getClosest(".qx-table-cell, .qx-table-header");
+      }
+
+      if(cell && (cell.length > 0) && ((hovered && (hovered.cell[0] != cell[0])) || (!hovered)) && !cell.hasClass("qx-table-row-selection")) {
+
+        if(hovered) {
+          this.emit("cellOut", this.getProperty("__hovered"));
+        }
+
+        this.setProperty("__hovered", this.__fireEvent("cellHover", cell, target));
+      }
+
+    },
+
+
+    /**
+    * pointerout callback
+    *
+    * @param e {Event} The native over event.
+    */
+    __cellOut : function(e) {
+
+      var relatedTarget = e.getRelatedTarget();
+      var cell = qxWeb(relatedTarget);
+
+      if(this.getProperty("__hovered")) {
+
+        if(!cell.isChildOf(this)) {
+
+          this.emit("cellOut", this.getProperty("__hovered"));
+          this.setProperty("__hovered", null);
+
+        }else {
+
+          if(!cell.hasClass("qx-table-cell") && !cell.hasClass("qx-table-header")) {
+            cell = cell.getClosest(".qx-table-cell, .qx-table-header");
+            if(cell.hasClass("qx-table-row-selection")) {
+              this.emit("cellOut", this.getProperty("__hovered"));
+              this.setProperty("__hovered", null);
+            }
+          }
+
+        }
+      }
+
     },
 
 
