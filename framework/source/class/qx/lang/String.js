@@ -296,7 +296,7 @@ qx.Bootstrap.define("qx.lang.String",
 
       while (i--) {
         // be sure to always use a string for replacement.
-        str = str.replace(new RegExp("%" + (i + 1), "g"), args[i] + "");
+        str = str.replace(new RegExp("%" + (i + 1), "g"), function(){return args[i] + "";});
       }
 
       return str;
