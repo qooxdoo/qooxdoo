@@ -162,29 +162,29 @@ var mergeConfig = function(config, renameMap) {
   //  Consider:
   //    * Recycle '={confKey}'-syntax from config.json or sth. better?
   //    * Introduce '!{confKeyProp}'-syntax for removing of confKeyProp?!
-  //
-  // for (task in mergedConfig) {
-  //   for (prop in mergedConfig[task]) {
-  //     if (prop === "options") {
-  //       for (confKey in mergedConfig[task].options) {
-  //         if (q.Bootstrap.isObject(mergedConfig[task].options[confKey])) {
-  //           for (confKeyProp in mergedConfig[task].options[confKey]) {
-  //             if (confKeyProp[0] === "!") {
-  //               // remove !{confKeyProp}
-  //               delete mergedConfig[task].options[confKey][confKeyProp.substr(1)];
-  //               delete mergedConfig[task].options[confKey][confKeyProp];
-  //             }
-  //           }
-  //         }
-  //         if (confKey[0] === "=") {
-  //           // overwrite std mergedConfig and remove "={confKey}"
-  //           mergedConfig[task].options[confKey.substr(1)] = mergedConfig[task].options[confKey];
-  //           delete mergedConfig[task].options[confKey];
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+
+  for (task in mergedConfig) {
+    for (prop in mergedConfig[task]) {
+      if (prop === "options") {
+        for (confKey in mergedConfig[task].options) {
+          if (q.Bootstrap.isObject(mergedConfig[task].options[confKey])) {
+            for (confKeyProp in mergedConfig[task].options[confKey]) {
+              if (confKeyProp[0] === "!") {
+                // remove !{confKeyProp}
+                delete mergedConfig[task].options[confKey][confKeyProp.substr(1)];
+                delete mergedConfig[task].options[confKey][confKeyProp];
+              }
+            }
+          }
+          if (confKey[0] === "=") {
+            // overwrite std mergedConfig and remove "={confKey}"
+            mergedConfig[task].options[confKey.substr(1)] = mergedConfig[task].options[confKey];
+            delete mergedConfig[task].options[confKey];
+          }
+        }
+      }
+    }
+  }
 
   return mergedConfig;
 };
