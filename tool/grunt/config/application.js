@@ -93,6 +93,7 @@ var getConfig = function() {
         locales:  "<%= common.LOCALES %>",
         sourcePath: "<%= common.SOURCE_PATH %>/script",
         cachePath: "<%= common.CACHE %>",
+        loaderTemplate: "<%= common.QOOXDOO_PATH %>/tool/data/generator/loader.tmpl.js",
         environment: common.ENVIRONMENT,
         includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
         excludes: [],
@@ -112,6 +113,7 @@ var getConfig = function() {
         sourcePath: "<%= common.SOURCE_PATH %>",
         buildPath: "<%= common.BUILD_PATH %>",
         cachePath: "<%= common.CACHE %>",
+        loaderTemplate: "<%= common.QOOXDOO_PATH %>/tool/data/generator/loader.tmpl.js",
         environment: deepmerge(common.ENVIRONMENT, {
           "qx.debug" : false,
           "qx.debug.databinding" : false,
