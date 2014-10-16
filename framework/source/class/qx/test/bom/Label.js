@@ -253,6 +253,35 @@ qx.Class.define("qx.test.bom.Label",
       {
         this.assertTrue(true);
       }
+    },
+
+
+    testSanitizer : function()
+    {
+      var element = document.createElement("div");
+      element.useHtml = true;
+
+      // function to sanitize string
+      qx.bom.Label.setSanitizer(function(html) {
+        if (html.indexOf("<script") > -1) {
+          return '';
+        }
+
+        return html;
+      });
+
+      // test clean string
+      var value = "foo<b></b>";
+      qx.bom.Label.setValue(element, value);
+      this.assertEquals(qx.bom.Label.getValue(element), value);
+
+      // test dirty string
+      value = "foo<script></script>";
+      qx.bom.Label.setValue(element, value);
+      this.assertEquals(qx.bom.Label.getValue(element), '');
+
+      // reset function to sanitize string
+      qx.bom.Label.setSanitizer(null);
     }
   }
 });

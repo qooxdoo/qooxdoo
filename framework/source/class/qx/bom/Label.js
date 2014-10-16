@@ -220,6 +220,32 @@ qx.Bootstrap.define("qx.bom.Label",
     },
 
 
+    /** Sanitizer function */
+    __sanitizer : null,
+
+
+    /**
+     * Sets a function to sanitize values. It will be used by {@link #setValue}.
+     * The function to sanitize will get the <code>string</code> value and
+     * should return a sanitized / cleared <code>string</code>.
+     *
+     * @param func {Function | null} Function to sanitize / clean HTML code
+     *  from given string parameter
+     *
+     * @return {Booelean|String} Returns sanitized string
+     */
+    setSanitizer : function(func)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (func) {
+          qx.core.Assert.assertFunction(func);
+        }
+      }
+
+      qx.bom.Label.__sanitizer = func;
+    },
+
+
     /**
      * Sets the content of the element.
      *
@@ -234,6 +260,9 @@ qx.Bootstrap.define("qx.bom.Label",
       value = value || "";
 
       if (element.useHtml) {
+        if (qx.bom.Label.__sanitizer && typeof(qx.bom.Label.__sanitizer) === "function") {
+          value = qx.bom.Label.__sanitizer(value);
+        }
         element.innerHTML = value;
       } else if (!qx.core.Environment.get("css.textoverflow") &&
         qx.core.Environment.get("html.xul"))
