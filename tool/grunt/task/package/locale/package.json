@@ -37,7 +37,7 @@
     "cldrjs": "~0.3.5"
   },
   "devDependencies": {
-    "nodeunit": "~0.8.4",
+    "nodeunit": "^0.9.0",
     "jsdoc": "3.3.0-alpha9"
   },
   "//": "before publishing create README.md then this can be removed",
