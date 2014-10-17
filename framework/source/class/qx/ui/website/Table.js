@@ -127,7 +127,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     */
     _config : {
       caseSensitive : false,
-      rowSelection : "none"
+      rowSelection : "none",
+      sortable : false
     },
 
 
@@ -404,6 +405,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     setSortingFunction : function(func) {
+
+      func = func || function() {};
 
       this._forEachElementWrapped(function(table) {
         table.setProperty("__sortingFunction", func);
@@ -999,8 +1002,15 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       return this;
     },
 
-    __fireEvent : function(eventType, cell, target) {
 
+    /**
+    * Fires a custom table events
+    * @param eventType {String} The event type
+    * @param cell {HTMLTableCellElement} The event target
+    * @param target {HTMLElement} The native event target
+    * @return {Map} Map containing the event data
+    */
+    __fireEvent : function(eventType, cell, target) {
       var row = cell[0].parentNode, cells = row.cells;
       var colNumber = qx.ui.website.Table.__getIndex(cells, cell[0]);
       var tHead = this.__getHeaderRow();
