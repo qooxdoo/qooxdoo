@@ -231,8 +231,6 @@ qx.Bootstrap.define("qx.bom.Label",
      *
      * @param func {Function | null} Function to sanitize / clean HTML code
      *  from given string parameter
-     *
-     * @return {Booelean|String} Returns sanitized string
      */
     setSanitizer : function(func)
     {
