@@ -611,42 +611,63 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
     /**
     * Removes the rows of in the table body
-    * @param domData {String|qxWeb} Html string or collection containing the rows to be added
+    * @param tableData {String|qxWeb} Html string or collection containing the rows to be added
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
-    setContent : function(domData) {
-
-      this.find('tbody').empty();
-
-      this.appendContent(domData);
-
+    setContent : function(tableData) {
+      var rows = this.__extractTableRows(tableData);
+      var tbody = this.find('tbody');
+      tbody.empty();
+      rows.appendTo(tbody)
+      this.render();
       return this;
     },
 
 
     /**
     * Appends new rows to the table
-    * @param domData {String|qxWeb} Html string or collection containing the rows to be appended
+    * @param tableData {String|qxWeb} Html string or collection containing the rows to be appended
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
-    appendContent : function(domData) {
-
-      domData = qxWeb(domData);
-
-      var docFragment = document.createDocumentFragment();
-      var rows = domData.find("tr");
-
-      rows.forEach(function(row) {
-        if(row.getElementsByTagName("td").length > 0) {
-          docFragment.appendChild(row);
-        }
-      });
-
-      this.find('tbody')[0].appendChild(docFragment);
-
+    appendContent : function(tableData) {
+      var rows = this.__extractTableRows(tableData);
+      var tbody = this.find('tbody');
+      rows.appendTo(tbody)
       this.render();
-
       return this;
+    },
+
+
+    /**
+    * Extracts table rows from a given HTML String or qxWeb collection
+    * @param data {qxWeb|String} Data containing the rows to be extracted
+    * @return {qxWeb} Collection containing extracted rows
+    */
+    __extractTableRows : function(data) {
+      var rows = qxWeb();
+      if (typeof data == "string") {
+        var markup = data;
+        data = qxWeb.create(data);
+        if (qxWeb.getNodeName(data) != "table") {
+          data = qxWeb.create("<table>" + markup + "</table>");
+        }
+        rows = data.find("tbody tr");
+      } else if (qxWeb.isNode(data) || (data instanceof qxWeb)) {
+        data = qxWeb(data);
+        var nodeName = qxWeb.getNodeName(data);
+        switch (nodeName) {
+          case "table":
+            rows = qxWeb(data).find("tbody tr");
+            break;
+          case "tr":
+            rows = data;
+            break;
+          case "tbody":
+            rows = qxWeb(data).find("tr");
+            break;
+        }
+      }
+      return rows;
     },
 
 
