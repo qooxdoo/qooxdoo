@@ -632,7 +632,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     appendContent : function(tableData) {
       var rows = this.__extractTableRows(tableData);
       var tbody = this.find('tbody');
-      rows.appendTo(tbody)
+      rows.appendTo(tbody);
       this.render();
       return this;
     },
