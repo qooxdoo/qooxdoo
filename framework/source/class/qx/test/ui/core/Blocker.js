@@ -128,6 +128,86 @@ qx.Class.define("qx.test.ui.core.Blocker",
         this.assertTrue(this.__blockedEventFired, "'blocked' event was not fired, after block() was executed!");
         this.assertTrue(this.__unblockedEventFired, "'unblocked' event was not fired, after unblock() was executed!");
       }, this);
+    },
+
+    testRestoreActiveAndFocusedWidgets : function()
+    {
+      var activeWidget, focusedWidget;
+      var focusHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
+
+      var txt2 = new qx.ui.form.TextField();
+      this.getRoot().add(txt2, {left: 100, top:0});
+      txt2.focus();
+
+      var txt1 = new qx.ui.form.TextField();
+      this.getRoot().add(txt1);
+      // set active widget after focusing a widget, because focus() sets the same widget as active one.
+      txt1.activate();
+
+      this.flush();
+
+      var blockerElement = this.__blocker.getBlockerElement();
+
+      this.__blocker.block();
+      this.flush();
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+
+      activeWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getActive());
+      this.assertFalse(activeWidget === txt1, "text field 1 must not be active");
+
+      focusedWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
+      this.assertFalse(focusedWidget === txt2, "text field 2 must not be focused");
+
+      this.__blocker.unblock();
+      this.flush();
+      this.assertFalse(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
+
+      activeWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getActive());
+      this.assertTrue(activeWidget === txt1, "text field 1 must be active");
+
+      focusedWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
+      this.assertTrue(focusedWidget === txt2, "text field 2 must be focused");
+
+      // clear
+      txt1.destroy();
+      txt2.destroy();
+      this.flush();
+    },
+
+
+    testRestoreDisposedWidget : function()
+    {
+      var widget;
+      var focusHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
+      var txt = new qx.ui.form.TextField();
+      this.getRoot().add(txt);
+      txt.focus();
+      this.flush();
+
+      var blockerElement = this.__blocker.getBlockerElement();
+
+      this.__blocker.block();
+      this.flush();
+      this.assertTrue(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertTrue(blockerElement.isIncluded(), "isIncluded()");
+
+      // destroy text field
+      txt.destroy();
+      this.flush();
+
+      this.__blocker.unblock();
+      this.flush();
+      this.assertFalse(this.__blocker.isBlocked(), "isBlocked()");
+      this.assertFalse(blockerElement.isIncluded(), "isIncluded()");
+
+      // text field must not be focused
+      widget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
+      this.assertFalse(widget === txt, "text field must be focused, because it is destroyed");
+
+      txt.destroy();
+      this.flush();
     }
   }
 });
