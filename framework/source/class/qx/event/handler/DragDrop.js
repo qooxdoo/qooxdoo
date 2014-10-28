@@ -650,7 +650,8 @@ qx.Class.define("qx.event.handler.DragDrop",
      * @param e {qx.event.type.Track} The trackend event
      */
     _onTrackEnd : function(e) {
-      if (!e.isPrimary()) {
+      if (!e.isPrimary() || !this.__sessionActive) {
+        this.__escaped = false;
         return;
       }
 
