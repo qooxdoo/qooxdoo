@@ -190,14 +190,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       if (domEvent.touches.length < this.__activeTouches.length) {
         // Firing pointer cancel for previously active touches.
         for (var i = this.__activeTouches.length - 1; i >= 0; i--) {
-          var evt = new qx.event.type.dom.Pointer("pointercancel", domEvent, {
+          var cancelEvent = new qx.event.type.dom.Pointer("pointercancel", domEvent, {
             identifier: this.__activeTouches[i].identifier,
             target: domEvent.target,
             pointerType: "touch",
             pointerId: this.__activeTouches[i].identifier + 2
           });
 
-          this._fireEvent(evt, "pointercancel", domEvent.target);
+          this._fireEvent(cancelEvent, "pointercancel", domEvent.target);
         }
 
         // Reset primary identifier
