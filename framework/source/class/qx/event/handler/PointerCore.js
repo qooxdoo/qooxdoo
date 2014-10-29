@@ -238,18 +238,19 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           this._fireEvent(overEvt, "pointerover", touchProps.target);
         }
 
-        var evt = new qx.event.type.dom.Pointer(type, domEvent, touchProps);
         if (touch.identifier == this.__primaryIdentifier) {
-          evt.isPrimary = true;
+          touchProps.isPrimary = true;
           // always simulate left click on touch interactions for primary pointer
-          evt.button = 0;
-          evt.buttons = 1;
+          touchProps.button = 0;
+          touchProps.buttons = 1;
           qx.event.handler.PointerCore.__lastTouch = {
             "x": touch.clientX,
             "y": touch.clientY,
             "time": new Date().getTime()
           };
         }
+
+        var evt = new qx.event.type.dom.Pointer(type, domEvent, touchProps);
 
         this._fireEvent(evt, type, touchProps.target);
 
