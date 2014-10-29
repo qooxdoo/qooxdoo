@@ -60,6 +60,8 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       isPrimary: false
     },
 
+    READONLY_PROPERTIES : [],
+
     BIND_METHODS : ["getPointerType", "getViewportLeft", "getViewportTop",
       "getDocumentLeft", "getDocumentTop", "getScreenLeft", "getScreenTop"],
 
@@ -221,32 +223,17 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
 
     _initEvent : function(domEvent, customProps) {
       var evt = this._event;
+      var properties = {};
 
       qx.event.type.dom.Pointer.normalize(domEvent);
 
-      var properties = {};
+      var addProps = function(propName) {
+        properties[propName] = customProps[propName] || domEvent[propName];
+      };
 
-      // mouse properties
-      var mousePropNames = qx.event.type.dom.Pointer.MOUSE_PROPERTIES;
-      for (var i = 0; i < mousePropNames.length; i++) {
-        var propName = mousePropNames[i];
-        if (propName in domEvent) {
-          properties[propName] = domEvent[propName];
-        }
-        if (customProps && customProps[propName] !== undefined) {
-          properties[propName] = customProps[propName];
-        }
-      }
-
-      // pointer properties
-      for (var pointerPropName in qx.event.type.dom.Pointer.POINTER_PROPERTIES) {
-        properties[pointerPropName] = qx.event.type.dom.Pointer.POINTER_PROPERTIES[pointerPropName];
-        if (pointerPropName in domEvent) {
-          properties[pointerPropName] = domEvent[pointerPropName];
-        }
-        if (customProps && customProps[pointerPropName] !== undefined) {
-          properties[pointerPropName] = customProps[pointerPropName];
-        }
+      qx.event.type.dom.Pointer.MOUSE_PROPERTIES.forEach(addProps);
+      for (var propName in qx.event.type.dom.Pointer.POINTER_PROPERTIES) {
+        properties[propName] = customProps[propName] || domEvent[propName] || qx.event.type.dom.Pointer.POINTER_PROPERTIES[propName];
       }
 
       var buttons;
@@ -264,13 +251,9 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
           buttons = 0;
       }
 
-      if (buttons) {
+      if (buttons !== undefined) {
         properties.buttons = buttons;
         properties.pressure = buttons ? 0.5 : 0;
-      }
-
-      if (domEvent.pressure) {
-        properties.pressure = domEvent.pressure;
       }
 
       if (evt.initMouseEvent) {
@@ -284,7 +267,9 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       }
 
       for (var prop in properties) {
-        evt[prop] = properties[prop];
+        if (evt[prop] !== properties[prop] && qx.event.type.dom.Pointer.READONLY_PROPERTIES.indexOf(prop) === -1) {
+          evt[prop] = properties[prop];
+        }
       }
 
       // normalize Windows 8 pointer types
@@ -303,6 +288,16 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
       if (evt.pointerType == "mouse") {
         evt.isPrimary = true;
       }
+    }
+  },
+
+
+  defer: function(statics) {
+    if (qx.core.Environment.get("engine.name") == "gecko") {
+      statics.READONLY_PROPERTIES.push("buttons");
+    }
+    else if (qx.core.Environment.get("os.name") == "ios" && parseFloat(qx.core.Environment.get("os.version")) >= 8) {
+      statics.READONLY_PROPERTIES = statics.READONLY_PROPERTIES.concat(statics.MOUSE_PROPERTIES);
     }
   }
 });
