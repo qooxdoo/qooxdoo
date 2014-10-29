@@ -227,14 +227,16 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
 
       qx.event.type.dom.Pointer.normalize(domEvent);
 
-      var addProps = function(propName) {
-        properties[propName] = customProps[propName] || domEvent[propName];
-      };
-
-      qx.event.type.dom.Pointer.MOUSE_PROPERTIES.forEach(addProps);
-      for (var propName in qx.event.type.dom.Pointer.POINTER_PROPERTIES) {
-        properties[propName] = customProps[propName] || domEvent[propName] || qx.event.type.dom.Pointer.POINTER_PROPERTIES[propName];
-      }
+      Object.keys(qx.event.type.dom.Pointer.POINTER_PROPERTIES).concat(qx.event.type.dom.Pointer.MOUSE_PROPERTIES)
+      .forEach(function(propName) {
+        if (typeof customProps[propName] !== "undefined") {
+          properties[propName] = customProps[propName];
+        } else if (typeof domEvent[propName] !== "undefined") {
+          properties[propName] = domEvent[propName];
+        } else if (typeof qx.event.type.dom.Pointer.POINTER_PROPERTIES[propName] !== "undefined") {
+          properties[propName] = qx.event.type.dom.Pointer.POINTER_PROPERTIES[propName];
+        }
+      });
 
       var buttons;
       switch (domEvent.which) {
