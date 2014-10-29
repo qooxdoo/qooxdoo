@@ -49,11 +49,9 @@ qx.Class.define("qx.event.handler.DragDrop",
     this.__manager = manager;
     this.__root = manager.getWindow().document.documentElement;
 
-    // Initialize track listener
+    // Initialize listener
     this.__manager.addListener(this.__root, "longtap", this._onLongtap, this);
-    this.__manager.addListener(this.__root, "trackstart", this._onTrackStart, this);
-    this.__manager.addListener(this.__root, "track", this._onTrack, this);
-    this.__manager.addListener(this.__root, "trackend", this._onTrackEnd, this);
+    this.__manager.addListener(this.__root, "pointerdown", this._onPointerdown, this);
 
     qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
 
@@ -142,7 +140,6 @@ qx.Class.define("qx.event.handler.DragDrop",
     __validAction : false,
     __dragTargetWidget : null,
     __startTargets : null,
-    __escaped : false,
 
 
     /*
@@ -454,6 +451,9 @@ qx.Class.define("qx.event.handler.DragDrop",
     clearSession : function()
     {
       // Deregister from root events
+      this.__manager.removeListener(this.__root, "pointermove", this._onPointermove, this);
+      this.__manager.removeListener(this.__root, "pointerup", this._onPointerup, this);
+
       this.__manager.removeListener(this.__root, "keydown", this._onKeyDown, this, true);
       this.__manager.removeListener(this.__root, "keyup", this._onKeyUp, this, true);
       this.__manager.removeListener(this.__root, "keypress", this._onKeyPress, this, true);
@@ -552,40 +552,42 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
-     * Event handler for the trackstart event which stores the initial targets.
-     * @param e {qx.event.type.Track} The track event.
+     * Event handler for the pointerdown event which stores the initial targets and the coordinates.
+     * @param e {qx.event.type.Pointer} The pointerdown event.
      */
-    _onTrackStart : function(e) {
+    _onPointerdown : function(e) {
       if (e.isPrimary()) {
-        this.__startTargets = {target: e.getTarget(), original: e.getOriginalTarget()};
+        this.__startTargets = {
+          target: e.getTarget(),
+          original: e.getOriginalTarget(),
+          left : e.getDocumentLeft(),
+          top : e.getDocumentTop()
+        };
+
+        this.__manager.addListener(this.__root, "pointermove", this._onPointermove, this);
+        this.__manager.addListener(this.__root, "pointerup", this._onPointerup, this);
       }
     },
 
 
     /**
-     * Event handler for the track event which starts the session for mouse interactions and
+     * Event handler for the pointermove event which starts the drag session and
      * is responsible for firing the drag, dragover and dragleave event.
-     * @param e {qx.event.type.Track} The track event.
+     * @param e {qx.event.type.Pointer} The pointermove event.
      */
-    _onTrack : function(e) {
+    _onPointermove : function(e) {
       // only allow drag & drop for primary pointer
       if (!e.isPrimary()) {
         return;
       }
 
-      // ignore on escaped sessions
-      if (this.__escaped) {
-        return;
-      }
-
       // start the drag session for mouse
       if (!this.__sessionActive && e.getPointerType() == "mouse") {
-        var delta = e.getDelta();
+        var delta = this._getDelta(e);
         // if the mouse moved a bit in any direction
         var distance = qx.event.handler.DragDrop.MIN_DRAG_DISTANCE;
-        if (Math.abs(delta.x) > distance || Math.abs(delta.y) > distance) {
+        if (delta && (Math.abs(delta.x) > distance || Math.abs(delta.y) > distance)) {
           if (!this._start(e)) {
-            this.__escaped = true;
             this.clearSession();
             return;
           }
@@ -603,7 +605,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       // find current hovered droppable
       var doc = this.__manager.getWindow().document;
-      var el = doc.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
+      var el = e.getTarget();
       var cursor = this.getCursor();
       if (!cursor) {
         cursor = qx.ui.core.DragDropCursor.getInstance();
@@ -646,10 +648,34 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
-     * Handler for the trackend event which is responsible fore firing the drop event.
-     * @param e {qx.event.type.Track} The trackend event
+     * Helper function to compute the delta between current cursor position from given event
+     * and the stored coordinates at {@link #_onPointerdown}.
+     *
+     * @param e {qx.event.type.Pointer} The pointer event
+     *
+     * @return {Map} containing the deltaX as x, and deltaY as y.
      */
-    _onTrackEnd : function(e) {
+    _getDelta : function(e)
+    {
+      if (!this.__startTargets) {
+        return null;
+      }
+
+      var deltaX = e.getDocumentLeft() - this.__startTargets.left;
+      var deltaY = e.getDocumentTop() - this.__startTargets.top;
+
+      return {
+        "x": deltaX,
+        "y": deltaY
+      };
+    },
+
+
+    /**
+     * Handler for the pointerup event which is responsible fore firing the drop event.
+     * @param e {qx.event.type.Pointer} The pointerup event
+     */
+    _onPointerup : function(e) {
       if (!e.isPrimary()) {
         return;
       }
@@ -666,7 +692,6 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       // Clean up
       this.clearSession();
-      this.__escaped = false;
     },
 
 
@@ -742,7 +767,6 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         case "Escape":
           this.clearSession();
-          this.__escaped = true;
       }
     }
   },

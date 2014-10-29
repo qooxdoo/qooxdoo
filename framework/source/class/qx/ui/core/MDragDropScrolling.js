@@ -288,6 +288,9 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
       }
 
       var target = e.getOriginalTarget();
+      if (!target) {
+        return;
+      }
       var scrollable;
       if (this._isScrollable(target)) {
         scrollable = target;

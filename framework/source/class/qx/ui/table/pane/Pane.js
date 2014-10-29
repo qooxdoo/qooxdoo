@@ -49,8 +49,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     this.__lastRowCount = 0;
 
     this.__rowCache = [];
-
-    this.addListener("track", this._onTrack, this);
   },
 
 
@@ -220,36 +218,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
             this.updateContent(false, null, row, true);
           }
         }
-      }
-    },
-
-
-    /**
-     * Handler for the track event which sets a new track target to make
-     * sure drag & drop works after a content update.
-     * @param e {qx.event.type.Track} The trackstart event.
-     */
-    _onTrack : function(e) {
-      var w = this.getTable();
-      var draggable = false;
-      while (w) {
-        if (w.getDraggable()) {
-          draggable = true;
-          break;
-        }
-        w = w.getLayoutParent();
-      }
-      // ignore if drag & drop is disabled
-      if (!draggable) {
-        return;
-      }
-      var delta = e.getDelta();
-      // if the mouse moved a bit in any direction
-      var distance = qx.event.handler.DragDrop.MIN_DRAG_DISTANCE;
-      if (Math.abs(delta.x) > distance || Math.abs(delta.y) > distance) {
-        // reset the target for drag & drop
-        var gestureHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Gesture);
-        gestureHandler.updateGestureTarget(e.getPointerId(), this.getContentElement().getDomElement());
       }
     },
 
