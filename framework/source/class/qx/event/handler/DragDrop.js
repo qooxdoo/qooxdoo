@@ -604,7 +604,6 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
 
       // find current hovered droppable
-      var doc = this.__manager.getWindow().document;
       var el = e.getTarget();
       var cursor = this.getCursor();
       if (!cursor) {
