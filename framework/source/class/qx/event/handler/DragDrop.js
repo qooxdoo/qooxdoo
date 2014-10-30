@@ -452,7 +452,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     {
       // Deregister from root events
       this.__manager.removeListener(this.__root, "pointermove", this._onPointermove, this);
-      this.__manager.removeListener(this.__root, "pointerup", this._onPointerup, this);
+      this.__manager.removeListener(this.__root, "pointerup", this._onPointerup, this, true);
 
       this.__manager.removeListener(this.__root, "keydown", this._onKeyDown, this, true);
       this.__manager.removeListener(this.__root, "keyup", this._onKeyUp, this, true);
@@ -565,7 +565,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         };
 
         this.__manager.addListener(this.__root, "pointermove", this._onPointermove, this);
-        this.__manager.addListener(this.__root, "pointerup", this._onPointerup, this);
+        this.__manager.addListener(this.__root, "pointerup", this._onPointerup, this, true);
       }
     },
 
