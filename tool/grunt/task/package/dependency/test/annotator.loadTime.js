@@ -37,14 +37,19 @@ module.exports = {
         '{\n'+                                                         // 2
         '  statics:\n'+                                                // 3
         '  {\n'+                                                       // 4
-        '    addEnvCallToLoad: function() {\n'+                        // 5
-        '      qx.core.Environment.get("engine.name");\n'+             // 6
-        '    }\n'+                                                     // 7
-        '  },\n'+                                                      // 8
-        '  defer: function(statics) {\n'+                              // 9
-        '    qx.core.Environment.get("engine.name");\n'+               // 10
-        '  }\n'+                                                       // 11
-        '});';                                                         // 12
+        '    myStaticMethod: function() {\n'+                          // 5
+        '      a.b.foo("abc");\n'+                                     // 6
+        '    },\n'+                                                    // 7
+        '    myStaticMethod2: function() {\n'+                         // 8
+        '      a.b.foo("abc");\n'+                                     // 9
+        '    }\n'+                                                     // 10
+        '  },\n'+                                                      // 11
+        '  defer: function(statics) {\n'+                              // 12
+        '    var x = 1;\n'+                                            // 13
+        '    a.b.foo("abc");\n'+                                       // 14
+        '    statics.myStaticMethod();\n'+                             // 15
+        '  }\n'+                                                       // 16
+        '});';                                                         // 17
 
       var esprima = require('esprima');
       var tree = esprima.parse(qxFooMyClass);
@@ -53,16 +58,23 @@ module.exports = {
       var escope = require('escope');
       var scopes = escope.analyze(tree).scopes;
       var scope1_global = scopes[0];
-      var scope2_addEnvCallToLoad = scopes[1];
-      var scope3_defer = scopes[2];
+      var scope2_myStaticMethod = scopes[1];
+      var scope3_myStaticMethod2 = scopes[2];
+      var scope4_defer = scopes[3];
 
       this.ltAnnotator.annotate(scope1_global, true);
-      this.ltAnnotator.annotate(scope2_addEnvCallToLoad, true);
-      this.ltAnnotator.annotate(scope3_defer, true);
+      this.ltAnnotator.annotate(scope2_myStaticMethod, true);
+      this.ltAnnotator.annotate(scope3_myStaticMethod2, true);
+      this.ltAnnotator.annotate(scope4_defer, true);
 
+      // should be load time because is global scope
       test.deepEqual(scope1_global.isLoadTime, true);
-      test.deepEqual(scope2_addEnvCallToLoad.isLoadTime, false);
-      test.deepEqual(scope3_defer.isLoadTime, true);
+      // should be load time because of defer which uses this and therefore pulls it 'into' load time
+      test.deepEqual(scope2_myStaticMethod.isLoadTime, true);
+      // should be run time
+      test.deepEqual(scope3_myStaticMethod2.isLoadTime, false);
+      // should be load time because is defer scope
+      test.deepEqual(scope4_defer.isLoadTime, true);
 
       test.done();
     }

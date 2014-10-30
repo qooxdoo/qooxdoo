@@ -211,9 +211,11 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      * @return {qx.ui.mobile.container.Composite} The created container
      */
     _createMasterContainer : function() {
-      var masterContainer = new qx.ui.mobile.container.Drawer(null, new qx.ui.mobile.layout.HBox());
+      var masterContainer = new qx.ui.mobile.container.Drawer(null, new qx.ui.mobile.layout.HBox()).set({
+        hideOnParentTap : false,
+        hideOnBack : false
+      });
       masterContainer.addCssClass("master-detail-master");
-      masterContainer.setHideOnParentTap(false);
       masterContainer.addListener("changeVisibility", this._onMasterChangeVisibility, this);
       return masterContainer;
     },

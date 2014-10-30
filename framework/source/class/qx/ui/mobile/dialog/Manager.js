@@ -287,6 +287,23 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
       dialog.setModal(true);
       dialog.setTitle(title);
 
+      // prevent the back action until the dialog is visible
+      var onBackButton = function(evt)
+      {
+        if(dialog.isVisible() && !!evt.getData()) {
+          evt.preventDefault();
+        }
+      };
+      dialog.addListener("changeVisibility", function(evt)
+      {
+        var application = qx.core.Init.getApplication();
+        if (evt.getData() === "visible") {
+          application.addListener("back", onBackButton, this);
+        } else {
+          application.removeListener("back", onBackButton, this);
+        }
+      });
+
       if(dialogType == qx.ui.mobile.dialog.Manager.WAITING_DIALOG)
       {
         var waitingWidget = new qx.ui.mobile.container.Composite(new qx.ui.mobile.layout.HBox().set({alignX: "center"}));
@@ -330,11 +347,13 @@ qx.Class.define("qx.ui.mobile.dialog.Manager",
         }
         widget.add(buttonContainer);
       }
-      dialog.setModal(true);
+
       dialog.show();
+
       if(inputText) {
         inputText.getContainerElement().focus();
       }
+
       return dialog;
     }
   }

@@ -45,10 +45,10 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
      * @param value {var} New value of the attribute
      */
     set : function(element, name, value) {
-      if (element.dataset) {
+     if (element.dataset) {
         name = qx.lang.String.camelCase(name);
-        if (value == null) {
-          delete element.dataset[name];
+        if ((value === null) || (value == undefined)) {
+           delete element.dataset[name];
         } else {
           element.dataset[name] = value;
         }
@@ -100,6 +100,17 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
         }
         return res;
       }
+    },
+
+
+    /**
+    * Checks if any element in the collection has a "data-*" attribute
+    * @param element {Element} The DOM Element to check the presence of data-* attrubutes on.
+    * @return {Boolean} True if any element in the collection has a "data-*" attribute
+    */
+    hasData : function(element)
+    {
+      return Object.keys(qxWeb(element).getAllData()).length > 0;
     },
 
 

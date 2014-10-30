@@ -649,6 +649,14 @@ qx.Class.define("qx.ui.menu.Menu",
           this.moveTo(left, 0);
         });
       }
+      else if (top === 0)
+      {
+        var height = this._placementTarget.getBounds().top;
+        this._assertSlideBar(function() {
+          this.setHeight(height);
+        });
+        this.moveTo(left, 0);
+      }
       else if (top + menuBounds.height > rootHeight)
       {
         this._assertSlideBar(function() {

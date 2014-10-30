@@ -305,6 +305,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
       if (gesture.isTap) {
         if (target !== gesture.target) {
+
           delete this.__gesture[domEvent.pointerId];
           return;
         }

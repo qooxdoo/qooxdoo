@@ -3803,6 +3803,14 @@ testrunner.define({
      //must be ignored:
      q(window).removeData("fooBar");
      q(document).removeData("fooBar");
+   },
+
+   testHasData : function() {
+    this.assertFalse(this.__element.hasData());
+    this.__element.setData("type", "test");
+    this.assertTrue(this.__element.hasData());
+    this.__element.removeData("type");
+    this.assertFalse(this.__element.hasData());
    }
 
 });

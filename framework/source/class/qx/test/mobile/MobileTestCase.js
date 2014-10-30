@@ -53,6 +53,9 @@ qx.Class.define("qx.test.mobile.MobileTestCase",
           removeListener: function() {
             return self.removeListener.apply(self,arguments);
           },
+          removeListenerById: function() {
+            return self.removeListenerById.apply(self,arguments);
+          },
           fireEvent: function() {
             return self.fireEvent.apply(self,arguments);
           },

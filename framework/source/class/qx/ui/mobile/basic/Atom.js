@@ -144,11 +144,9 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
       var hasNoLabel = !this.__label;
 
       this.__createLayout(verticalLayout, hasNoLabel);
-
       var isReverse = ["right", "bottom"].indexOf(value) != -1;
-      this.__layout.setReversed(isReverse);
-
       this.__childrenContainer.setLayout(this.__layout);
+      this.__layout.setReversed(isReverse);
 
       this._domUpdated();
     },
@@ -210,7 +208,7 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
      * present layout if neccessary.
      *
      * @param verticalLayout {Boolean} Whether icon and label should be vertically aligned.
-     * @return {Boolean} Whether there is a label.
+     * @param hasNoLabel {Boolean} Whether the atom currently contains a label.
      */
     __createLayout : function(verticalLayout, hasNoLabel)
     {

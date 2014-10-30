@@ -99,7 +99,11 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /** Fires at each selection change */
     "selectionChange" : "qxWeb",
     /** Fires each time a cell of the widget is clicked */
-    "cellClicked" : "Object",
+    "cellClick" : "Object",
+    /** Fires each time a cell of the widget is hovered */
+    "cellHover" : "Object",
+     /** Fires each time the mouse leave a cell of the table widget */
+    "cellOut" : "Object",
     /** Fires after the model has been applied to the widget */
     "modelApplied" : "Array",
     /** Fires each time the value of a cell is rendered into the cell */
@@ -123,7 +127,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     */
     _config : {
       caseSensitive : false,
-      rowSelection : "none"
+      rowSelection : "none",
+      sortable : false
     },
 
 
@@ -275,6 +280,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
         table.__registerEvents();
 
+        this.setProperty("__hovered", null);
+
       }.bind(this));
 
       return true;
@@ -398,6 +405,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     setSortingFunction : function(func) {
+
+      func = func || function() {};
 
       this._forEachElementWrapped(function(table) {
         table.setProperty("__sortingFunction", func);
@@ -601,6 +610,68 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
+    * Removes the rows of in the table body
+    * @param tableData {String|qxWeb} Html string or collection containing the rows to be added
+    * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
+    */
+    setContent : function(tableData) {
+      var rows = this.__extractTableRows(tableData);
+      var tbody = this.find('tbody');
+      tbody.empty();
+      rows.appendTo(tbody)
+      this.render();
+      return this;
+    },
+
+
+    /**
+    * Appends new rows to the table
+    * @param tableData {String|qxWeb} Html string or collection containing the rows to be appended
+    * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
+    */
+    appendContent : function(tableData) {
+      var rows = this.__extractTableRows(tableData);
+      var tbody = this.find('tbody');
+      rows.appendTo(tbody);
+      this.render();
+      return this;
+    },
+
+
+    /**
+    * Extracts table rows from a given HTML String or qxWeb collection
+    * @param data {qxWeb|String} Data containing the rows to be extracted
+    * @return {qxWeb} Collection containing extracted rows
+    */
+    __extractTableRows : function(data) {
+      var rows = qxWeb();
+      if (typeof data == "string") {
+        var markup = data;
+        data = qxWeb.create(data);
+        if (qxWeb.getNodeName(data) != "table") {
+          data = qxWeb.create("<table>" + markup + "</table>");
+        }
+        rows = data.find("tbody tr");
+      } else if (qxWeb.isNode(data) || (data instanceof qxWeb)) {
+        data = qxWeb(data);
+        var nodeName = qxWeb.getNodeName(data);
+        switch (nodeName) {
+          case "table":
+            rows = qxWeb(data).find("tbody tr");
+            break;
+          case "tr":
+            rows = data;
+            break;
+          case "tbody":
+            rows = qxWeb(data).find("tr");
+            break;
+        }
+      }
+      return rows;
+    },
+
+
+    /**
     * Filters the rendered table cells
     * @param keyword {String} The keyword to use to filter
     * @param columnName {String ?} The column name
@@ -678,39 +749,21 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     */
     __processSelectionInputs : function(rowSelection) {
 
-      var currentSelection = this.getProperty("__rowSelection") || "none";
-      var cssPrefix = this.getCssPrefix();
-
       switch (rowSelection) {
 
         case "none":
-          if (currentSelection != "none") {
-            qxWeb("." + qx.ui.website.Table.__internalSelectionClass).remove();
-          }
+          qxWeb("." + qx.ui.website.Table.__internalSelectionClass).remove();
           break;
-
-        case "multiple":
-          if (currentSelection == "none") {
-            this.__createInputs("checkbox");
-          } else if (currentSelection == "single") {
-            qxWeb("." + qx.ui.website.Table.__internalSelectionClass + " input").setAttribute("type", "checkbox");
-            qxWeb("."+cssPrefix+"-radio").removeClass(cssPrefix+"-radio").addClass(cssPrefix+"-checkbox");
-          }
+        case "multiple": case "single":
+          this.__createInputs("checkbox");
           break;
 
         case "single":
-          if (currentSelection == "none") {
-            this.__createInputs("radio");
-          } else if (currentSelection == "multiple") {
-            qxWeb("." + qx.ui.website.Table.__internalSelectionClass + " input").setAttribute("type", "radio");
-            qxWeb("."+cssPrefix+"-checkbox").removeClass(cssPrefix+"-checkbox").addClass(cssPrefix+"-radio");
-          }
+          this.__createInputs("radio");
           break;
       }
-
-      this.setProperty("__rowSelection", rowSelection);
-
       return this;
+
     },
 
 
@@ -720,7 +773,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     __createInputs : function(type) {
-      var rows = this[0].rows;
+      this.__createInput(this.__getHeaderRow(), type);
+      var rows = this.find("tbody")[0].getElementsByTagName("tr");
       for (var i = 0; i < rows.length; i++) {
         this.__createInput(rows.item(i), type);
       }
@@ -738,19 +792,39 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
       var cssPrefix = this.getCssPrefix();
 
+      var clazz = qx.ui.website.Table;
+      var headerInput = qxWeb("." + clazz.__internalHeaderClass + " input");
+      var selectionMode = this.getConfig("rowSelection");
+
+      var checked = "";
+      if(headerInput.length > 0) {
+        checked = (selectionMode == "multiple") && headerInput[0].checked ? "checked" : "";
+      }
+
       if (typeof nodeName == "undefined") {
         nodeName = qxWeb.getNodeName(qxWeb(row.cells.item(0)));
       }
 
       var clazz = qx.ui.website.Table, inputName = this.getProperty("__inputName");
       var className = (nodeName == "th") ? clazz.__internalSelectionClass + " " + clazz.__internalHeaderClass : clazz.__internalSelectionClass;
-      var id = qx.ui.website.Table.__getUID();
-      var inputNode = qxWeb.create("<" + nodeName + " class='" + className + "'><input id='"+id+"' name='" + inputName + "' class='"+cssPrefix+"-"+type+" "+ clazz.__internalInputClass + "' type='" + type + "' /><label class='"+clazz.__inputLabelClass+"' for='"+id+"'></label></" + nodeName + ">");
-      if (row.cells.item(0)) {
-        inputNode.insertBefore(qxWeb(row.cells.item(0)));
+
+      var currentInput = qxWeb(row).find("."+clazz.__internalSelectionClass);
+
+      if(currentInput.length > 0) {
+        if(currentInput[0].type != type) {
+          currentInput[0].type = type;
+        }
       } else {
-        inputNode.appendTo(qxWeb(row))
+
+        var id = qx.ui.website.Table.__getUID();
+        var inputNode = qxWeb.create("<" + nodeName + " class='" + className + "'><input id='"+id+"' name='" + inputName + "' "+checked+" class='"+cssPrefix+"-"+type+" "+ clazz.__internalInputClass + "' type='" + type + "' /><label class='"+clazz.__inputLabelClass+"' for='"+id+"'></label></" + nodeName + ">");
+        if (row.cells.item(0)) {
+          inputNode.insertBefore(qxWeb(row.cells.item(0)));
+        } else {
+          inputNode.appendTo(qxWeb(row))
+        }
       }
+
     },
 
 
@@ -770,12 +844,22 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     * Returns the row containing the cells with the column names
     * @return {HTMLTableRowElement} The row with meta information
     */
-    __getHeaderRow : function(){
+    __getHeaderRow : function() {
       var tHeadOrFoot = this[0].tHead;
       if (!tHeadOrFoot) {
         throw new Error("A Table header element is required for this widget.");
       }
-      return tHeadOrFoot.rows.item(0);
+      var rows = tHeadOrFoot.rows;
+      if(rows.length == 1) {
+        return rows.item(0);
+      } else {
+        rows = qxWeb(".qx-table-header-row");
+        if(rows.length > 0) {
+          return rows[0];
+        }
+      }
+
+      return null;
     },
 
 
@@ -790,8 +874,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       this.__addClassToHeaderAndFooter(this[0].tFoot);
 
       var data = {}, cells = null, colName = null, cell = null;
+      var headerRow = this.__getHeaderRow();
 
-      cells = this[0].tHead.rows.item(0).cells;
+      cells = headerRow.cells;
 
       for (var i = 0, l = cells.length; i < l; i++) {
 
@@ -822,8 +907,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     __addClassToHeaderAndFooter : function(footOrHead) {
       if (footOrHead && footOrHead.rows.length > 0) {
         if (footOrHead.rows.item(0).cells.length > 0) {
-          if (!qxWeb(footOrHead.rows.item(0).cells.item(0)).hasClass(qx.ui.website.Table.__internalHeaderClass)) {
-            qxWeb(footOrHead.rows.item(0).cells).addClass(qx.ui.website.Table.__internalHeaderClass);
+          var row = this.__getHeaderRow();
+          if (!qxWeb(row.cells.item(0)).hasClass(qx.ui.website.Table.__internalHeaderClass)) {
+            qxWeb(row.cells).addClass(qx.ui.website.Table.__internalHeaderClass);
           }
         }
       }
@@ -854,12 +940,18 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     __registerEvents : function() {
+
       this.on("tap", this.__detectClickedCell);
-      this.on("cellClicked", function(data) {
+
+      this.on("cellClick", function(data) {
         if(data.cell && data.cell.hasClass(qx.ui.website.Table.__internalHeaderClass)){
           this.getProperty("__sortingFunction").bind(this)(data);
         }
       }, this);
+
+      this.on("pointerover", this.__cellHover, this);
+      this.on("pointerout", this.__cellOut, this);
+
       return this;
     },
 
@@ -933,6 +1025,36 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
+    * Fires a custom table events
+    * @param eventType {String} The event type
+    * @param cell {HTMLTableCellElement} The event target
+    * @param target {HTMLElement} The native event target
+    * @return {Map} Map containing the event data
+    */
+    __fireEvent : function(eventType, cell, target) {
+      var row = cell[0].parentNode, cells = row.cells;
+      var colNumber = qx.ui.website.Table.__getIndex(cells, cell[0]);
+      var tHead = this.__getHeaderRow();
+      var headCell = tHead.cells.item(colNumber);
+      var colName = this.__getColumName(headCell);
+      var columnIndex = this.getConfig("rowSelection") != "none" ? this.__getColumnIndex(colName) -1 : this.__getColumnIndex(colName);
+
+      var data = {
+        cell : qxWeb(cell),
+        row : qxWeb(row),
+        target : target,
+        columnIndex : columnIndex,
+        columnName : colName
+      };
+
+      this.emit(eventType, data);
+
+      return data;
+
+    },
+
+
+    /**
      * Click callbak
      *
      * @param e {Event} The native click event.
@@ -954,27 +1076,79 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       }
 
       if (cell.hasClass(clazz.__internalSelectionClass)) {
+
         window.setTimeout(function(){
           this.__processSelection(cell);
         }.bind(this), 5);
-      }else{
-        if (cell && cell.length > 0) {
-          var row = cell[0].parentNode, cells = row.cells;
-          var colNumber = qx.ui.website.Table.__getIndex(cells, cell[0]);
-          var tHead = this.__getHeaderRow();
-          var headCell = tHead.cells.item(colNumber);
-          var colName = this.__getColumName(headCell);
-          var columnIndex = this.getConfig("rowSelection") != "none" ? this.__getColumnIndex(colName) -1 : this.__getColumnIndex(colName);
 
-          this.emit("cellClicked", {
-            columnIndex : columnIndex,
-            columnName: colName,
-            cell: qxWeb(cell)
-          });
+      }else{
+
+        if (cell && cell.length > 0) {
+          this.__fireEvent("cellClick", cell, target);
         }
       }
 
       return this;
+    },
+
+
+    /**
+    * Pointerover callback
+    *
+    * @param e {Event} The native over event.
+    */
+    __cellHover : function(e) {
+
+      var target = e.getTarget();
+      var cell = qxWeb(target);
+      var hovered = this.getProperty("__hovered");
+
+      if(!cell.hasClass("qx-table-cell") && !cell.hasClass("qx-table-header")) {
+        cell = cell.getClosest(".qx-table-cell, .qx-table-header");
+      }
+
+      if(cell && (cell.length > 0) && ((hovered && (hovered.cell[0] != cell[0])) || (!hovered)) && !cell.hasClass("qx-table-row-selection")) {
+
+        if(hovered) {
+          this.emit("cellOut", this.getProperty("__hovered"));
+        }
+
+        this.setProperty("__hovered", this.__fireEvent("cellHover", cell, target));
+      }
+
+    },
+
+
+    /**
+    * pointerout callback
+    *
+    * @param e {Event} The native over event.
+    */
+    __cellOut : function(e) {
+
+      var relatedTarget = e.getRelatedTarget();
+      var cell = qxWeb(relatedTarget);
+
+      if(this.getProperty("__hovered")) {
+
+        if(!cell.isChildOf(this)) {
+
+          this.emit("cellOut", this.getProperty("__hovered"));
+          this.setProperty("__hovered", null);
+
+        }else {
+
+          if(!cell.hasClass("qx-table-cell") && !cell.hasClass("qx-table-header")) {
+            cell = cell.getClosest(".qx-table-cell, .qx-table-header");
+            if(cell.hasClass("qx-table-row-selection")) {
+              this.emit("cellOut", this.getProperty("__hovered"));
+              this.setProperty("__hovered", null);
+            }
+          }
+
+        }
+      }
+
     },
 
 
@@ -986,61 +1160,63 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     __applyTemplate : function(model) {
 
-      var cell, row;
-      var tHead = this.__getHeaderRow();
-      var createdRow = null, colMeta = null;
-      var renderedRow = null;
+      if(model && model.length > 0) {
+        var cell, row;
+        var tHead = this.__getHeaderRow();
+        var createdRow = null, colMeta = null;
+        var renderedRow = null;
 
-      var inputType = (this.getConfig("rowSelection") == "single") ? "radio" : "checkbox";
+        var inputType = (this.getConfig("rowSelection") == "single") ? "radio" : "checkbox";
 
-      if (this.__getRoot().rows.length > model.length) {
-        this.__deleteRows(model.length);
-      }
-
-      var renderedColIndex = 0, templateApplied = false;
-      var coltemplate = this.getTemplate("columnDefault");
-      var colName = null;
-
-      for (var i = 0, rowCount = model.length; i < rowCount; i++) {
-
-        row = model[i];
-
-        if (!this.__isRowRendered(i)) {
-          createdRow = this.__getRoot().insertRow(i);
-          if (this.__selectionRendered()) {
-            this.__createInput(createdRow, inputType, "td");
-          }
+        if (this.__getRoot().rows.length > model.length) {
+          this.__deleteRows(model.length);
         }
 
-        for (var j = 0, colCount = row.length; j < colCount; j++) {
+        var renderedColIndex = 0, templateApplied = false;
+        var coltemplate = this.getTemplate("columnDefault");
+        var colName = null;
 
-          renderedColIndex = this.__selectionRendered() ? j + 1 : j;
-          colName = this.__getColumName(tHead.cells.item(renderedColIndex));
-          colMeta = this.__getDataForColumn(colName);
-          coltemplate = this.getTemplate(colName) || coltemplate;
-          renderedRow = this.__getRoot().rows.item(i);
-          cell = qxWeb.create(qxWeb.template.render(coltemplate, model[i][j]))[0];
+        for (var i = 0, rowCount = model.length; i < rowCount; i++) {
 
-          if(cell.nodeName.toUpperCase() != "TD") {
-            break;
+          row = model[i];
+
+          if (!this.__isRowRendered(i)) {
+            createdRow = this.__getRoot().insertRow(i);
+            if (this.__selectionRendered()) {
+              this.__createInput(createdRow, inputType, "td");
+            }
           }
 
-          if (!this.__isCellRendered(i, renderedColIndex)) {
-            renderedRow.appendChild(cell);
-          }else {
-            renderedRow.replaceChild(cell, this.getCell(i, renderedColIndex)[0]);
+          for (var j = 0, colCount = row.length; j < colCount; j++) {
+
+            renderedColIndex = this.__selectionRendered() ? j + 1 : j;
+            colName = this.__getColumName(tHead.cells.item(renderedColIndex));
+            colMeta = this.__getDataForColumn(colName);
+            coltemplate = this.getTemplate(colName) || coltemplate;
+            renderedRow = this.__getRoot().rows.item(i);
+            cell = qxWeb.create(qxWeb.template.render(coltemplate, model[i][j]))[0];
+
+            if(cell.nodeName.toUpperCase() != "TD") {
+              break;
+            }
+
+            if (!this.__isCellRendered(i, renderedColIndex)) {
+              renderedRow.appendChild(cell);
+            }else {
+              renderedRow.replaceChild(cell, this.getCell(i, renderedColIndex)[0]);
+            }
+            this.emit("cellRender", {cell : cell, row : i, col : j, value : model[i][j]});
           }
-          this.emit("cellRender", {cell : cell, row : i, col : j, value : model[i][j]});
+
+          if(i == rowCount-1) {
+            templateApplied = true;
+          }
+
         }
 
-        if(i == rowCount-1) {
-          templateApplied = true;
+        if (templateApplied) {
+          this.emit("modelApplied", model);
         }
-
-      }
-
-      if (templateApplied) {
-        this.emit("modelApplied", model);
       }
 
       return this;
@@ -1124,7 +1300,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
       this.setProperty("__sortingData", data);
       this.__addSortingClassToCol(this[0].tHead, columnName, dir);
-      this.__addSortingClassToCol(this[0].tFoot, columnName, dir);
+      //this.__addSortingClassToCol(this[0].tFoot, columnName, dir);
     },
 
 
@@ -1135,8 +1311,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @param dir {String} The sorting direction
      */
     __addSortingClassToCol : function(HeaderOrFooter, columnName, dir) {
-      if (HeaderOrFooter && HeaderOrFooter.rows.length > 0) {
-        qxWeb(HeaderOrFooter.rows.item(0).cells).removeClasses(["qx-table-sort-asc", "qx-table-sort-desc"]);
+      var rows = this.__getHeaderRow();
+      if (HeaderOrFooter && rows) {
+        qxWeb(rows.cells).removeClasses(["qx-table-sort-asc", "qx-table-sort-desc"]);
         var cell = qxWeb("["+qx.ui.website.Table.__dataColName+"='" + columnName + "'], #" + columnName);
         cell.addClass("qx-table-sort-" + dir);
       }
@@ -1268,8 +1445,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     __getDataRows : function() {
 
-      var tableNode = this[0];
-      var rows = tableNode.rows, model = [], cell=null,  cells = [];
+      var rows = this.find("tbody")[0].rows, model = [], cell=null,  cells = [];
 
       for (var i = 0, l = rows.length; i < l; i++) {
         cells = rows.item(i).cells;
@@ -1305,7 +1481,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
           }
         }
       }
-      if (data.cell[0].nodeName.toUpperCase() == "TH") {
+      if (data.cell.hasClass("qx-table-header")) {
         this.sort(data.columnName, dir);
       }
     },

@@ -251,10 +251,10 @@ qx.Bootstrap.define("qx.Part",
           var states = [];
           for (var i = 0; i < parts.length; i++) {
             states.push(parts[i].getReadyState());
-          };
+          }
           callback.call(self, states);
         }
-      }
+      };
 
       for (var i=0; i<parts.length; i++) {
         parts[i].load(onLoad, this);

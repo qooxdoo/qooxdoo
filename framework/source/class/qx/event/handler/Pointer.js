@@ -118,6 +118,11 @@ qx.Class.define("qx.event.handler.Pointer",
         target = qx.bom.Event.getTarget(domEvent);
       }
 
+      // respect anonymous elements
+      while (target && target.getAttribute("qxanonymous")) {
+        target = target.parentNode
+      }
+
       if (!type) {
         type = domEvent.type;
       }
