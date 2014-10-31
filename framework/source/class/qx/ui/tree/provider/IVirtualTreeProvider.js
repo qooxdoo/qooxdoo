@@ -76,7 +76,7 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
     styleSelectabled : function(row)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInteger(row);
+      this.assertPositiveInteger(row);
     },
 
 
@@ -88,7 +88,7 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
     styleUnselectabled : function(row)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInteger(row);
+      this.assertPositiveInteger(row);
     },
 
 
@@ -102,7 +102,7 @@ qx.Interface.define("qx.ui.tree.provider.IVirtualTreeProvider",
     isSelectable : function(row)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInteger(row);
+      this.assertPositiveInteger(row);
     }
   }
 });

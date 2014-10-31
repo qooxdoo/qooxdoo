@@ -55,9 +55,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      *
      * @return {qx.ui.core.Widget[]} List of items.
      */
-    getSelection : function() {
-      return true;
-    },
+    getSelection : function() {},
 
     /**
      * Replaces current selection with the given items.
@@ -66,15 +64,14 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      * @throws {Error} if the item is not a child element.
      */
     setSelection : function(items) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertArray(items);
     },
 
     /**
      * Clears the whole selection at once.
      */
-    resetSelection : function() {
-      return true;
-    },
+    resetSelection : function() {},
 
     /**
      * Detects whether the given item is currently selected.
@@ -84,7 +81,8 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      * @throws {Error} if the item is not a child element.
      */
     isSelected : function(item) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(item);  
     },
 
     /**
@@ -92,9 +90,7 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      *
      * @return {Boolean} Whether the selection is empty.
      */
-    isSelectionEmpty : function() {
-      return true;
-    },
+    isSelectionEmpty : function() {},
 
     /**
      * Returns all elements which are selectable.
@@ -104,7 +100,8 @@ qx.Interface.define("qx.ui.core.ISingleSelection",
      * @return {qx.ui.core.Widget[]} The contained items.
      */
     getSelectables: function(all) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertBoolean(all);
     }
   }
 });

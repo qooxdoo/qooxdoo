@@ -33,6 +33,7 @@ qx.Interface.define("qx.ui.window.IWindowManager",
      * @param desktop {IDesktop} The connected desktop
      */
     setDesktop : function(desktop) {
+      this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(desktop, qx.ui.window.IDesktop);
     },
 
@@ -42,7 +43,11 @@ qx.Interface.define("qx.ui.window.IWindowManager",
      * @param active {Window} new active window
      * @param oldActive {Window} old active window
      */
-    changeActiveWindow : function(active, oldActive) {},
+    changeActiveWindow : function(active, oldActive) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertInstance(active, qx.ui.window.Window);
+      this.assertInstance(oldActive, qx.ui.window.Window);
+    },
 
     /**
      * Update the window order and modality blocker
@@ -55,6 +60,7 @@ qx.Interface.define("qx.ui.window.IWindowManager",
      * @param win {Window} window to bring to front
      */
     bringToFront : function(win) {
+      this.assertArgumentsCount(arguments, 1, 1);
       this.assertInstance(win, qx.ui.window.Window);
     },
 
@@ -64,6 +70,7 @@ qx.Interface.define("qx.ui.window.IWindowManager",
      * @param win {Window} window to sent to back
      */
     sendToBack : function(win) {
+      this.assertArgumentsCount(arguments, 1, 1);
       this.assertInstance(win, qx.ui.window.Window);
     }
   }

@@ -38,7 +38,10 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      *
      * @param item {var} Item to modify.
      */
-    configureItem : function(item) {},
+    configureItem : function(item) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(item, Object);
+    },
 
 
     /**
@@ -51,7 +54,10 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      * @param data {var} The data which will be checked.
      * @return {Boolean} True, if the data passes the filter, false otherwise.
      */
-    filter : function(data) {},
+    filter : function(data) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(data, Object);
+    },
 
 
     /**
@@ -77,6 +83,11 @@ qx.Interface.define("qx.data.controller.IControllerDelegate",
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {var} The id for the binding.
      */
-    bindItem : function(controller, item, id) {}
+    bindItem : function(controller, item, id) {
+      this.assertArgumentsCount(arguments, 2, 3);
+      this.assertInstance(controller, Object);
+      this.assertInstance(item, Object);
+      this.assertPositiveNumber(id);
+    }
   }
 });

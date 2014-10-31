@@ -89,7 +89,13 @@ qx.Interface.define("qx.bom.request.IRequest",
      * @param async {Boolean?true}
      *  Whether or not to perform the operation asynchronously.
      */
-    open: function(method, url, async) {},
+    open: function(method, url, async) {
+      this.assertArgumentsCount(arguments, 2, 3);
+      this.assertString(method);
+      this.assertString(url);
+      this.assert(async === undefined || async === null || qx.lang.Type.isBoolean(async), "Expected value to be undefined, null or boolean but found " + async);
+      this.assert(async || );
+    },
 
     /**
      * Sends request.
@@ -97,7 +103,11 @@ qx.Interface.define("qx.bom.request.IRequest",
      * @param data {String|Document?null}
      *  Optional data to send.
      */
-    send: function(data) {},
+    send: function(data) {
+      this.assertArgumentsCount(arguments, 0, 1);
+      this.assert(data === undefined || data === null || qx.lang.Type.isString(data) /*|| test Document*/, "Expected value to be undefined, null, string or document but found " + data);
+kols      this.assertString(data, true);
+    },
 
     /**
      * Abort request
@@ -119,7 +129,10 @@ qx.Interface.define("qx.bom.request.IRequest",
      * @return {String}
      *  Response header.
      */
-    getResponseHeader: function(header) {},
+    getResponseHeader: function(header) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertString(header);
+    },
 
     /**
      * Sets a request header to be used by the request.
@@ -129,7 +142,11 @@ qx.Interface.define("qx.bom.request.IRequest",
      * @param value {String}
      *  The value to set as the body of the header.
      */
-    setRequestHeader: function(key, value) {},
+    setRequestHeader: function(key, value) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertString(key);
+      this.assertString(value);
+    },
 
     //
     // Handlers

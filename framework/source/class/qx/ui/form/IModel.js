@@ -51,7 +51,10 @@ qx.Interface.define("qx.ui.form.IModel",
      *
      * @param value {var} The data.
      */
-    setModel : function(value) {},
+    setModel : function(value) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(value, Object);
+    },
 
 
     /**

@@ -46,7 +46,10 @@ qx.Interface.define("qx.ui.virtual.selection.ISelectionDelegate",
      * @param item {var} The item to be checked
      * @return {Boolean} Whether the given item is selectable
      */
-    isItemSelectable : function(item) {},
+    isItemSelectable : function(item) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(item, Object);
+    },
 
 
     /**
@@ -57,6 +60,11 @@ qx.Interface.define("qx.ui.virtual.selection.ISelectionDelegate",
      *    or <code>lead</code>
      * @param wasAdded {Boolean} Whether the given style should be added or removed.
      */
-    styleSelectable : function(item, type, wasAdded) {}
+    styleSelectable : function(item, type, wasAdded) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertInstance(item, Object);
+      this.assertString(type);
+      this.assertBoolean(wasAdded);
+    }
   }
 });

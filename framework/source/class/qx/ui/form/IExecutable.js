@@ -60,7 +60,8 @@ qx.Interface.define("qx.ui.form.IExecutable",
      * @param command {qx.ui.command.Command} The command.
      */
     setCommand : function(command) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(command, qx.ui.command.Command);
     },
 
 

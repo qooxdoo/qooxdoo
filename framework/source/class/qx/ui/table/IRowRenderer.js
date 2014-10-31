@@ -43,7 +43,11 @@ qx.Interface.define("qx.ui.table.IRowRenderer",
      *      update.
      * @param rowElement {Element} the DOM element that renders the data row.
      */
-    updateDataRowElement : function(rowInfo, rowElement) {},
+    updateDataRowElement : function(rowInfo, rowElement) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertMap(rowInfo);
+      this.assertElement(rowElement);
+    },
 
 
     /**
@@ -51,7 +55,10 @@ qx.Interface.define("qx.ui.table.IRowRenderer",
      *
      * @param height {Integer} The row's (border-box) height in pixel
      */
-    getRowHeightStyle : function(height) {},
+    getRowHeightStyle : function(height) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(height);
+    },
 
 
     /**
@@ -60,7 +67,10 @@ qx.Interface.define("qx.ui.table.IRowRenderer",
      * @param rowInfo {Map} A map containing the information about the row to
      *      update. See {@link #updateDataRowElement} for more information.
      */
-    createRowStyle : function(rowInfo) {},
+    createRowStyle : function(rowInfo) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertMap(rowInfo);
+    },
 
 
     /**
@@ -69,7 +79,9 @@ qx.Interface.define("qx.ui.table.IRowRenderer",
      * @param rowInfo {Map} A map containing the information about the row to
      *      update. See {@link #updateDataRowElement} for more information.
      */
-    getRowClass : function(rowInfo) {}
-
+    getRowClass : function(rowInfo) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertMap(rowInfo);
+    }
   }
 });

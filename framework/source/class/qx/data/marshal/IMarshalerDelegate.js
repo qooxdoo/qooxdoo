@@ -43,7 +43,12 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @param depth {Number} The depth level of the data.
      * @return {Boolean} <code>true</code> if the set should be ignored
      */
-    ignore : function(properties, parentProperty, depth) {},
+    ignore : function(properties, parentProperty, depth) {
+      var args = this.assertArgumentsCount(arguments, 3, 3);
+      this.assertString(properties);
+      this.assert(qx.lang.Type.isString(parentProperty) || parentProperty === null, "Expected value to be string or null but found " + parentProperty);
+      this.assertPositiveNumber(depth);
+    },
 
 
     /**
@@ -56,7 +61,11 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @return {String} The new property name which should be used for that property in
      *   the model.
      */
-    getPropertyMapping : function(property, properties) {},
+    getPropertyMapping : function(property, properties) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertString(property);
+      this.assertString(properties);
+    },
 
 
     /**
@@ -80,7 +89,13 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, the marshaler will create a class.
      */
-    getModelClass : function(properties, object, parentProperty, depth) {},
+    getModelClass : function(properties, object, parentProperty, depth) {
+      this.assertArgumentsCount(arguments, 4, 4);
+      this.assertString(properties);
+      this.assertMap(object);
+      this.assert(qx.lang.Type.isString(parentProperty) || parentProperty === null, "Expected value to be string or null but found " + parentProperty);
+      this.assertPositiveNumber(depth);
+    },
 
 
     /**
@@ -95,7 +110,12 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   corresponding to the given hash of the properties. If <code>null</code>
      *   will be returned, {@link qx.core.Object} will be used as superclass.
      */
-    getModelSuperClass : function(properties, parentProperty, depth) {},
+    getModelSuperClass : function(properties, parentProperty, depth) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertString(properties);
+      this.assert(qx.lang.Type.isString(parentProperty) || parentProperty === null, "Expected value to be string or null but found " + parentProperty);
+      this.assertPositiveNumber(depth);
+    },
 
 
     /**
@@ -112,7 +132,12 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   given in the parameter. If <code>null</code> will be returned, no mixin
      *   will be included.
      */
-    getModelMixins : function(properties, parentProperty, depth) {},
+    getModelMixins : function(properties, parentProperty, depth) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertString(properties);
+      this.assert(qx.lang.Type.isString(parentProperty) || parentProperty === null, "Expected value to be string or null but found " + parentProperty);
+      this.assertPositiveNumber(depth);
+    },
 
 
     /**
@@ -127,7 +152,11 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      *   be included into the property definition as validator.
      *   {@link qx.core.Property} for more details.
      */
-    getValidationRule : function(properties, propertyName) {},
+    getValidationRule : function(properties, propertyName) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertString(properties);
+      this.assertString(propertyName);
+    },
 
 
     /**
@@ -141,6 +170,10 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @return {Class|null} Returns the class which should be used as array class.
      *   If <code>null</code> will be returned, {@link qx.data.Array} will be used as array class.
      */
-    getArrayClass : function(parentProperty, depth) {}
+    getArrayClass : function(parentProperty, depth) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assert(qx.lang.Type.isString(parentProperty) || parentProperty === null, "Expected value to be string or null but found " + parentProperty);
+      this.assertPositiveNumber(depth);
+    }
   }
 });

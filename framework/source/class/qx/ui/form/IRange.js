@@ -44,7 +44,8 @@ qx.Interface.define("qx.ui.form.IRange",
      * @param min {Number} The minimum.
      */
     setMinimum : function(min) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertNumber(min);
     },
 
 
@@ -68,7 +69,8 @@ qx.Interface.define("qx.ui.form.IRange",
      * @param max {Number} The maximum.
      */
     setMaximum : function(max) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertNumber(max);
     },
 
 
@@ -92,7 +94,8 @@ qx.Interface.define("qx.ui.form.IRange",
      * @param step {Number} The value of the step.
      */
     setSingleStep : function(step) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertNumber(step);
     },
 
 
@@ -116,7 +119,8 @@ qx.Interface.define("qx.ui.form.IRange",
      * @param step {Number} The value of the step.
      */
     setPageStep : function(step) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertNumber(step);
     },
 
 

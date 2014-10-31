@@ -33,7 +33,10 @@ qx.Interface.define("qx.util.format.IFormat",
      * @return {String} the formatted object.
      * @throws {Error} the abstract function warning.
      */
-    format : function(obj) {},
+    format : function(obj) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(obj, Object);
+    },
 
 
     /**
@@ -44,6 +47,9 @@ qx.Interface.define("qx.util.format.IFormat",
      * @return {var} the parsed object.
      * @throws {Error} the abstract function warning.
      */
-    parse : function(str) {}
+    parse : function(str) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertString(str);
+    }
   }
 });
