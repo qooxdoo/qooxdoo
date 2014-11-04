@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.core.Blocker",
       if (focusElementsLength > 0)       {
         widget = this.__focusElements.pop();
 
-        if (widget && !widget.isDisposed()) {
+        if (widget && !widget.isDisposed() && widget.isFocusable()) {
           widget.focus();
         }
       }
