@@ -190,14 +190,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       if (domEvent.touches.length < this.__activeTouches.length) {
         // Firing pointer cancel for previously active touches.
         for (var i = this.__activeTouches.length - 1; i >= 0; i--) {
-          var evt = new qx.event.type.dom.Pointer("pointercancel", domEvent, {
+          var cancelEvent = new qx.event.type.dom.Pointer("pointercancel", domEvent, {
             identifier: this.__activeTouches[i].identifier,
             target: domEvent.target,
             pointerType: "touch",
             pointerId: this.__activeTouches[i].identifier + 2
           });
 
-          this._fireEvent(evt, "pointercancel", domEvent.target);
+          this._fireEvent(cancelEvent, "pointercancel", domEvent.target);
         }
 
         // Reset primary identifier
@@ -238,18 +238,19 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           this._fireEvent(overEvt, "pointerover", touchProps.target);
         }
 
-        var evt = new qx.event.type.dom.Pointer(type, domEvent, touchProps);
         if (touch.identifier == this.__primaryIdentifier) {
-          evt.isPrimary = true;
+          touchProps.isPrimary = true;
           // always simulate left click on touch interactions for primary pointer
-          evt.button = 0;
-          evt.buttons = 1;
+          touchProps.button = 0;
+          touchProps.buttons = 1;
           qx.event.handler.PointerCore.__lastTouch = {
             "x": touch.clientX,
             "y": touch.clientY,
             "time": new Date().getTime()
           };
         }
+
+        var evt = new qx.event.type.dom.Pointer(type, domEvent, touchProps);
 
         this._fireEvent(evt, type, touchProps.target);
 
