@@ -46,6 +46,11 @@ qx.Class.define("qx.test.data.singlevalue.Resolve",
       model.dispose();
     },
 
+    testResolveArrayIndex : function() {
+      var arr = new qx.data.Array([23]);
+      this.assertEquals(23, qx.data.SingleValueBinding.resolvePropertyChain(arr,"[0]"));
+    },
+
 
     testResolveWithArray : function() {
       var model = qx.data.marshal.Json.createModel({a: {b: [{c: 12}]}});
@@ -54,11 +59,18 @@ qx.Class.define("qx.test.data.singlevalue.Resolve",
     },
 
 
+    testResolveNestedArray : function() {
+      var model = qx.data.marshal.Json.createModel({a: [[23]]});
+      this.assertEquals(23, qx.data.SingleValueBinding.resolvePropertyChain(model, "a[0][0]"));
+      model.dispose();
+    },
+
+
     testResolveNotExistant : function() {
       var model = qx.data.marshal.Json.createModel({a: 12});
       this.assertException(function() {
         this.assertEquals(12, qx.data.SingleValueBinding.resolvePropertyChain(model, "b"));
-      })
+      });
       model.dispose();
     }
   }
