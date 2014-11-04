@@ -222,6 +222,7 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
 
 
     _initEvent : function(domEvent, customProps) {
+      customProps = customProps || {};
       var evt = this._event;
       var properties = {};
 
