@@ -147,6 +147,24 @@ qx.Class.define("qx.test.bom.element.Style",
     {
       var css = qx.bom.element.Style.compile({"content" : ""});
       this.assertEquals("content:\"\";", css);
-    }
+    },
+
+    testSetOpacity : function()
+    {
+      if (!qx.core.Environment.get("css.opacity")) {
+        throw new qx.dev.unit.RequirementError("css.opacity");
+      }
+      qx.bom.element.Style.set(this.__element, "opacity", 1);
+      this.assertEquals("1", this.__element.style.opacity);
+    },
+
+    testCompileOpacity : function()
+    {
+      if (!qx.core.Environment.get("css.opacity")) {
+        throw new qx.dev.unit.RequirementError("css.opacity");
+      }
+      var css = qx.bom.element.Style.compile({"opacity" : 1});
+      this.assertEquals("opacity:1;", css);
+    },
   }
 });

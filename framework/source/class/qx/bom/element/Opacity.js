@@ -98,10 +98,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
 
       "default" : function(opacity)
       {
-        if (opacity >= 1) {
-          return "";
-        }
-
         return "opacity:" + opacity + ";";
       }
     }),
@@ -149,10 +145,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
       },
 
       "default" : function(element, opacity) {
-        if (opacity >= 1) {
-          opacity = "";
-        }
-
         element.style.opacity = opacity;
       }
     }),
