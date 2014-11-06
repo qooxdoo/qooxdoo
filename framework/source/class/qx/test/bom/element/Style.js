@@ -165,6 +165,6 @@ qx.Class.define("qx.test.bom.element.Style",
       }
       var css = qx.bom.element.Style.compile({"opacity" : 1});
       this.assertEquals("opacity:1;", css);
-    },
+    }
   }
 });
