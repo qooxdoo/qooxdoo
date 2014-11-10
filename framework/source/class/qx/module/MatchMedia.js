@@ -29,12 +29,10 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      * Evaluates the specified mediaquery list
      *
      * @param query {String} the media query to evaluate
-     * @param ctxWindow {Object?window} the window object which should be operated on
-     * @attachStatic {qxWeb, matchMedia}
      * @return {qx.bom.MediaQuery}  The media query
      */
-    matchMedia: function (query, ctxWindow) {
-      return new qx.bom.MediaQuery(query, ctxWindow);
+    matchMedia: function (query) {
+      return new qx.bom.MediaQuery(query);
     },
 
     /**
@@ -87,14 +85,13 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      *
      * @param queryString {String} the media query to evaluate
      * @param className {String} css class name that gets bind to an element
-     * @param contextWindow {Object?window} the window object which should be operated on
      *
      * @attach {qxWeb}
      *
      * @return {qx.module.MatchMedia} The own instance
      */
-    mediaQueryToClass: function (queryString, className, contextWindow) {
-      var query = qx.module.MatchMedia.matchMedia(queryString, contextWindow);
+    mediaQueryToClass: function (queryString, className) {
+      var query = qx.module.MatchMedia.matchMedia(queryString);
       var callback = qx.module.MatchMedia.__applyClass.bind(this, query, className);
 
       // apply classes initially
