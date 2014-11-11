@@ -139,7 +139,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     __validDrop : false,
     __validAction : false,
     __dragTargetWidget : null,
-    __startTargets : null,
+    __startConfig : null,
 
 
     /*
@@ -475,7 +475,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       // Clear init
       this.__dragTarget = null;
       this.__sessionActive = false;
-      this.__startTargets = null;
+      this.__startConfig = null;
       this.__rebuildStructures();
     },
 
@@ -521,13 +521,13 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       // start target can be none as the drag & drop handler might
       // be created after the first start event
-      var target = this.__startTargets ? this.__startTargets.target : e.getTarget();
+      var target = this.__startConfig ? this.__startConfig.target : e.getTarget();
       var dragable = this.__findDraggable(target);
       if (dragable) {
         // This is the source target
         this.__dragTarget = dragable;
 
-        var widgetOriginalTarget = qx.ui.core.Widget.getWidgetByElement(this.__startTargets.original);
+        var widgetOriginalTarget = qx.ui.core.Widget.getWidgetByElement(this.__startConfig.original);
         while (widgetOriginalTarget && widgetOriginalTarget.isAnonymous()) {
           widgetOriginalTarget = widgetOriginalTarget.getLayoutParent();
         }
@@ -557,7 +557,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     _onPointerdown : function(e) {
       if (e.isPrimary()) {
-        this.__startTargets = {
+        this.__startConfig = {
           target: e.getTarget(),
           original: e.getOriginalTarget(),
           left : e.getDocumentLeft(),
@@ -656,12 +656,12 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     _getDelta : function(e)
     {
-      if (!this.__startTargets) {
+      if (!this.__startConfig) {
         return null;
       }
 
-      var deltaX = e.getDocumentLeft() - this.__startTargets.left;
-      var deltaY = e.getDocumentTop() - this.__startTargets.top;
+      var deltaX = e.getDocumentLeft() - this.__startConfig.left;
+      var deltaY = e.getDocumentTop() - this.__startConfig.top;
 
       return {
         "x": deltaX,
