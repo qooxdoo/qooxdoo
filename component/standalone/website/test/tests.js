@@ -3458,8 +3458,14 @@ testrunner.define({
 
   classname : "MatchMedia",
 
-  setUp : function(){
+  setUp : function()
+  {
     testrunner.globalSetup.call(this);
+
+    if (qxWeb.env.get("qx.debug")) {
+      this.skip("Only reasonable in non-debug version.");
+    }
+
     this.__iframe = q.create('<iframe src="media.html" frameborder="0" width="500" height="400" name="Testframe"></iframe>');
     this.__iframe.appendTo(this.sandbox[0]);
   },
