@@ -92,8 +92,8 @@ qx.Class.define("qx.io.request.Xhr",
     "readyStateChange": "qx.event.type.Event",
 
     /**
-    * Fired when request completes without eror and transport’s status
-    * indicates success.
+     * Fired when request completes without error and transport status
+     * indicates success.
      *
      * Refer to {@link qx.util.Request#isSuccessful} for a list of HTTP
      * status considered successful.
