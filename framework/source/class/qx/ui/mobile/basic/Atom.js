@@ -205,10 +205,10 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
     /**
      * Takes care of lazily creating the layout and disposing an already
-     * present layout if neccessary.
+     * present layout if necessary.
      *
      * @param verticalLayout {Boolean} Whether icon and label should be vertically aligned.
-     * @return {Boolean} Whether there is a label.
+     * @param hasNoLabel {Boolean} Whether the Atom has a label.
      */
     __createLayout : function(verticalLayout, hasNoLabel)
     {
