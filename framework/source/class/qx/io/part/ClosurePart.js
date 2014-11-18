@@ -28,22 +28,39 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
 {
   extend : qx.io.part.Part,
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   /**
-   * @param name {String} Name of the part as defined in the config file at
-   *    compile time.
-   * @param packages {Package[]} List of dependent packages
-   * @param loader {qx.Part} The loader of this part.
+   * Constructor
+   *
+   * @param name {String}
+   *   Name of the part as defined in the config file at compile time.
+   *
+   * @param packages {Package[]}
+   *   List of dependent packages
+   *
+   * @param loader {qx.Part}
+   *   The loader of this part.
    */
-  construct : function(name, packages, loader)
-  {
+  construct : function(name, packages, loader) {
     qx.io.part.Part.call(this, name, packages, loader);
   },
 
 
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     __packagesToLoad : 0,
-
 
     // overridden
     preload : function(callback, self)
@@ -55,8 +72,8 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       for (var i = 0; i < this._packages.length; i++)
       {
         var pkg = this._packages[i];
-        if (pkg.getReadyState() == "initialized") {
 
+        if (pkg.getReadyState() == "initialized") {
           pkg.loadClosure(function(pkg) {
             packagesLoaded++;
             that._loader.notifyPackageResult(pkg);
@@ -69,14 +86,16 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       }
     },
 
-
     /**
      * Loads the closure part including all its packages. The loading will
-     * be done parallel. After all packages are available, the closures are
+     * be done in parallel. After all packages are available, the closures are
      * executed in the correct order.
      *
-     * @param callback {Function} The function to call after the loading.
-     * @param self {Object?} The context of the callback.
+     * @param callback {Function}
+     *   The function to call after the loading.
+     *
+     * @param self {Object?}
+     *   The context of the callback.
      */
     load : function(callback, self)
     {
@@ -113,6 +132,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
         else if (pkgReadyState == "error")
         {
           this._markAsCompleted("error");
+
           return;
         }
         else {
@@ -127,7 +147,6 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       }
     },
 
-
     /**
      * Executes the packages in their correct order and marks the part as
      * complete after execution.
@@ -137,16 +156,17 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       for (var i = 0; i < this._packages.length; i++) {
         this._packages[i].execute();
       }
+
       this._markAsCompleted("complete");
     },
-
 
     /**
      * Handler for every package load. It checks for errors and decreases the
      * packages to load. If all packages has been loaded, it invokes the
      * execution.
      *
-     * @param pkg {qx.io.part.Package} The loaded package.
+     * @param pkg {qx.io.part.Package}
+     *   The loaded package.
      */
     _onPackageLoad : function(pkg)
     {
@@ -156,13 +176,16 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       }
 
       // one error package results in an error part
-      if (pkg.getReadyState() == "error") {
+      if (pkg.getReadyState() == "error")
+      {
         this._markAsCompleted("error");
+
         return;
       }
 
       // every package could be loaded -> execute the closures
       this.__packagesToLoad--;
+
       if (this.__packagesToLoad <= 0) {
         this.__executePackages();
       }

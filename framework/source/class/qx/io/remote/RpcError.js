@@ -53,7 +53,6 @@ qx.Class.define("qx.io.remote.RpcError",
            */
           ScriptError       : -1,
 
-
           /*
            * Unknown Error
            *
@@ -63,7 +62,6 @@ qx.Class.define("qx.io.remote.RpcError",
            */
           Unknown           : 0,
 
-
           /**
            * Illegal Service
            *
@@ -72,14 +70,12 @@ qx.Class.define("qx.io.remote.RpcError",
            */
           IllegalService    : 1,
 
-
           /**
            * Service Not Found
            *
            * The requested service does not exist at the JSON-RPC server.
            */
           ServiceNotFound   : 2,
-
 
           /**
            * Class Not Found
@@ -92,7 +88,6 @@ qx.Class.define("qx.io.remote.RpcError",
            */
           ClassNotFound     : 3, // not used in this implementation
 
-
           /**
            * Method Not Found
            *
@@ -100,7 +95,6 @@ qx.Class.define("qx.io.remote.RpcError",
            * service.
            */
           MethodNotFound    : 4,
-
 
           /**
            * Parameter Mismatch
@@ -113,7 +107,6 @@ qx.Class.define("qx.io.remote.RpcError",
            * in server scripts.
            */
           ParameterMismatch : 5,
-
 
           /**
            * Permission Denied

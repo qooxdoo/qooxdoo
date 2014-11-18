@@ -29,11 +29,16 @@
  */
 qx.Bootstrap.define("qx.io.ImageLoader",
 {
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
   statics :
   {
     /** @type {Map} Internal data structure to cache image sizes */
     __data : {},
-
 
     /** @type {Map} Default image size */
     __defaultSize :
@@ -52,48 +57,64 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * Whether the given image has previously been loaded using the
      * {@link #load} method.
      *
-     * @param source {String} Image source to query
-     * @return {Boolean} <code>true</code> when the image is loaded
+     * @param source {String}
+     *   Image source to query
+     *
+     * @return {Boolean}
+     *   <code>true</code>  the image is loaded
+     *   <code>false</code> the image is not loaded
      */
     isLoaded : function(source)
     {
       var entry = this.__data[source];
+
       return !!(entry && entry.loaded);
     },
-
 
     /**
      * Whether the given image has previously been requested using the
      * {@link #load} method but failed.
      *
-     * @param source {String} Image source to query
-     * @return {Boolean} <code>true</code> when the image loading failed
+     * @param source {String}
+     *   Image source to query
+     *
+     * @return {Boolean}
+     *   <code>true</code>  the image loading failed
+     *   <code>false</code> the image loading succeeded
      */
     isFailed : function(source)
     {
       var entry = this.__data[source];
+
       return !!(entry && entry.failed);
     },
-
 
     /**
      * Whether the given image is currently loading.
      *
-     * @param source {String} Image source to query
-     * @return {Boolean} <code>true</code> when the image is loading in the moment.
+     * @param source {String}
+     *   Image source to query
+     *
+     * @return {Boolean}
+     *   <code>true</code>  the image is loading.
+     *   <code>false</code> the image is not loading.
      */
     isLoading : function(source)
     {
       var entry = this.__data[source];
+
       return !!(entry && entry.loading);
     },
 
-
     /**
-     * Returns the format of a previously loaded image
+     * Returns the format of a previously loaded image.
      *
-     * @param source {String} Image source to query
-     * @return {String ? null} The format of the image or <code>null</code>
+     * @param source {String}
+     *   Image source to query
+     *
+     * @return {String ? null}
+     *   <code><format></code> the format of the image
+     *   <code>null</code>     no format
      */
     getFormat : function(source)
     {
@@ -102,9 +123,10 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       if (! entry || ! entry.format)
       {
         var result = this.__dataUrlRegExp.exec(source);
+
         if (result != null)
         {
-          // If width and height aren't defined, provide some defaults
+          // If width and height aren't defined, provide some defaults.
           var width =
             (entry && qx.lang.Type.isNumber(entry.width)
              ? entry.width
@@ -124,62 +146,78 @@ qx.Bootstrap.define("qx.io.ImageLoader",
             };
         }
       }
+
       return entry ? entry.format : null;
     },
 
-
     /**
-     * Returns the size of a previously loaded image
+     * Returns the size of a previously loaded image.
      *
-     * @param source {String} Image source to query
-     * @return {Map} The dimension of the image (<code>width</code> and
-     *    <code>height</code> as key). If the image is not yet loaded, the
-     *    dimensions are given as <code>null</code> for width and height.
+     * @param source {String}
+     *   Image source to query
+     *
+     * @return {Map}
+     *   <code>{width : w, height : h}</code>
+     *   width, height the dimension of the loaded image.
+     *   null, null    the image is not yet loaded
      */
-    getSize : function(source) {
+    getSize : function(source)
+    {
       var entry = this.__data[source];
+
       return entry ? { width: entry.width, height: entry.height } : this.__defaultSize;
     },
 
-
     /**
-     * Returns the image width
+     * Returns the image width.
      *
-     * @param source {String} Image source to query
-     * @return {Integer} The width or <code>null</code> when the image is not loaded
+     * @param source {String}
+     *   Image source to query
+     *
+     * @return {Integer}
+     *   <code><width></code> the image is loaded
+     *   <code>null</code>    the image is not loaded
      */
     getWidth : function(source)
     {
       var entry = this.__data[source];
+
       return entry ? entry.width : null;
     },
 
-
     /**
-     * Returns the image height
+     * Returns the image height.
      *
-     * @param source {String} Image source to query
-     * @return {Integer} The height or <code>null</code> when the image is not loaded
+     * @param source {String}
+     *   Image source to query
+     *
+     * @return {Integer}
+     *   <code><height></code> the image is loaded
+     *   <code>null</code>     the image is not loaded
      */
     getHeight : function(source)
     {
       var entry = this.__data[source];
+
       return entry ? entry.height : null;
     },
-
 
     /**
      * Loads the given image. Supports a callback which is
      * executed when the image is loaded.
      *
-     * This method works asychronous.
+     * This method works asychronously.
      *
-     * @param source {String} Image source to load
-     * @param callback {Function} Callback function to execute
-     *   The first parameter of the callback is the given source url, the
-     *   second parameter is the data entry which contains additional
-     *   information about the image.
-     * @param context {Object} Context in which the given callback should be executed
+     * @param source {String}
+     *   Image source to load
+     *
+     * @param callback {Function}
+     *   Callback function(url, data) to execute:
+     *   <code><url></code>   source URL
+     *   <code><data></code>  containing additional information about the image
+     *
+     * @param context {Object}
+     *   Context in which the given callback should be executed
      */
     load : function(source, callback, context)
     {
@@ -235,11 +273,11 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       }
     },
 
-
     /**
      * Abort the loading for the given url.
      *
-     * @param source {String} URL of the image to abort its loading.
+     * @param source {String}
+     *   URL of the image to abort its loading.
      */
     abort : function (source)
     {
@@ -271,15 +309,19 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       this.__data[source] = null;
     },
 
-
     /**
      * Internal event listener for all load/error events.
      *
      * @signature function(event, element, source)
      *
-     * @param event {Event} Native event object
-     * @param element {Element} DOM element which represents the image
-     * @param source {String} The image source loaded
+     * @param event {Event}
+     *   Native event object
+     *
+     * @param element {Element}
+     *   DOM element which represents the image
+     *
+     * @param source {String}
+     *   The image source loaded
      */
     __onload : qx.event.GlobalError.observeMethod(function(event, element, source)
     {
@@ -301,8 +343,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
 
         // try to determine the image format
         var result = this.__knownImageTypesRegExp.exec(source);
-        if (result != null)
-        {
+
+        if (result != null) {
           entry.format = result[1];
         }
       }
@@ -328,28 +370,30 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       }
     }),
 
-
     /**
      * Returns the natural width of the given image element.
      *
-     * @param element {Element} DOM element which represents the image
-     * @return {Integer} Image width
+     * @param element {Element}
+     *   DOM element which represents the image
+     *
+     * @return {Integer}
+     *   Image width
      */
-    __getWidth : function(element)
-    {
+    __getWidth : function(element) {
       return qx.core.Environment.get("html.image.naturaldimensions") ?
         element.naturalWidth : element.width;
     },
 
-
     /**
      * Returns the natural height of the given image element.
      *
-     * @param element {Element} DOM element which represents the image
-     * @return {Integer} Image height
+     * @param element {Element}
+     *   DOM element which represents the image
+     *
+     * @return {Integer}
+     *   Image height
      */
-    __getHeight : function(element)
-    {
+    __getHeight : function(element) {
       return qx.core.Environment.get("html.image.naturaldimensions") ?
         element.naturalHeight : element.height;
     },
@@ -357,8 +401,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
     /**
      * Dispose stored images.
      */
-    dispose : function()
-    {
+    dispose : function() {
       this.__data = {};
     }
   }

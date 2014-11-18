@@ -34,8 +34,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
   extend : qx.core.Object,
 
 
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -57,8 +55,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
   },
 
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -67,7 +63,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
   properties :
   {
-
     /**
      * Indicates whether queue is enabled or not.
      */
@@ -87,7 +82,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
       nullable : true
     },
 
-
     /**
      * Maximum number of parallel requests.
      */
@@ -96,7 +90,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
       check : "Integer",
       init : qx.core.Environment.get("io.maxrequests")
     },
-
 
     /**
      * Default timeout for remote requests in milliseconds.
@@ -109,8 +102,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
   },
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -119,7 +110,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
   members :
   {
-
     __queue : null,
     __active : null,
     __totalRequests : null,
@@ -131,31 +121,32 @@ qx.Class.define("qx.io.remote.RequestQueue",
     ---------------------------------------------------------------------------
     */
 
-
     /**
-     * Get a list of queued requests
+     * Get a list of queued requests.
      *
-     * @return {Request[]} The list of queued requests
+     * @return {Request[]}
+     *   The list of queued requests
      */
-    getRequestQueue : function() {
+    getRequestQueue : function()
+    {
       return this.__queue;
     },
 
-
     /**
      * Get a list of active queued requests, each one wrapped in an instance of
-     * {@link qx.io.remote.Exchange}
+     * {@link qx.io.remote.Exchange}.
      *
-     * @return {Exchange[]} The list of active queued requests, each one
+     * @return {Exchange[]}
+     *   The list of active queued requests, each one
      *   wrapped in an instance of {@link qx.io.remote.Exchange}
      */
-    getActiveQueue : function() {
+    getActiveQueue : function()
+    {
       return this.__active;
     },
 
-
     /**
-     * Generates debug output
+     * Generates debug output.
      */
     _debug : function()
     {
@@ -172,12 +163,10 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
     },
 
-
     /**
      * Checks the queue if any request is left to send and uses the transport
      * layer to send the open requests.
      * This method calls itself until every request in the queue is send.
-     *
      */
     _check : function()
     {
@@ -185,22 +174,26 @@ qx.Class.define("qx.io.remote.RequestQueue",
       this._debug();
 
       // Check queues and stop timer if not needed anymore
-      if (this.__active.length == 0 && this.__queue.length == 0) {
+      if (this.__active.length == 0 && this.__queue.length == 0)
+      {
         this.__timer.stop();
       }
 
       // Checking if enabled
-      if (!this.getEnabled()) {
+      if (!this.getEnabled())
+      {
         return;
       }
 
       // Checking active queue fill
-      if ( this.__queue.length == 0 ||(this.__queue[0].isAsynchronous() && this.__active.length >= this.getMaxConcurrentRequests())) {
+      if ( this.__queue.length == 0 ||(this.__queue[0].isAsynchronous() && this.__active.length >= this.getMaxConcurrentRequests()))
+      {
         return;
       }
 
       // Checking number of total requests
-      if (this.getMaxTotalRequests() != null && this.__totalRequests >= this.getMaxTotalRequests()) {
+      if (this.getMaxTotalRequests() != null && this.__totalRequests >= this.getMaxTotalRequests())
+      {
         return;
       }
 
@@ -231,17 +224,18 @@ qx.Class.define("qx.io.remote.RequestQueue",
       vTransport.send();
 
       // Retry
-      if (this.__queue.length > 0) {
+      if (this.__queue.length > 0)
+      {
         this._check();
       }
     },
-
 
     /**
      * Removes a transport object from the active queue and disposes the
      * transport object in order stop the request.
      *
-     * @param vTransport {qx.io.remote.Exchange} Transport object
+     * @param vTransport {qx.io.remote.Exchange}
+     *   Transport object
      */
     _remove : function(vTransport)
     {
@@ -256,8 +250,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLING
@@ -265,7 +257,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     */
 
     __activeCount : 0,
-
 
     /**
      * Listens for the "sending" event of the transport object and increases
@@ -289,23 +280,24 @@ qx.Class.define("qx.io.remote.RequestQueue",
       e.getTarget().getRequest()._onsending(e);
     },
 
-
     /**
      * Listens for the "receiving" event of the transport object and delegate
      * the event to the current request object.
      *
-     * @param e {qx.event.type.Event} event object
+     * @param e {qx.event.type.Event}
+     *   Event object
      */
-    _onreceiving : function(e) {
+    _onreceiving : function(e)
+    {
       e.getTarget().getRequest()._onreceiving(e);
     },
 
-
     /**
-     * Listens for the "completed" event of the transport object and decreases
+     * Listens for the 'completed' event of the transport object and decreases
      * the counter for active requests.
      *
-     * @param e {qx.event.type.Event} event object
+     * @param e {qx.event.type.Event}
+     *   Event object
      */
     _oncompleted : function(e)
     {
@@ -321,12 +313,12 @@ qx.Class.define("qx.io.remote.RequestQueue",
         }
       }
 
-      // delegate the event to the handler method of the request depending
+      // Delegate the event to the handler method of the request depending
       // on the current type of the event ( completed|aborted|timeout|failed )
       var request = e.getTarget().getRequest();
       var requestHandler = "_on" + e.getType();
 
-      // remove the request from the queue,
+      // Remove the request from the queue,
       // keep local reference, see [BUG #4422]
       this._remove(e.getTarget());
 
@@ -363,8 +355,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       TIMEOUT HANDLING
@@ -375,7 +365,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * Listens for the "interval" event of the transport object and checks
      * if the active requests are timed out.
      *
-     * @param e {qx.event.type.Event} event object
+     * @param e {qx.event.type.Event}
+     *   Event object
      */
     _oninterval : function(e)
     {
@@ -427,14 +418,11 @@ qx.Class.define("qx.io.remote.RequestQueue",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       MODIFIERS
     ---------------------------------------------------------------------------
     */
-
 
     // property apply
     _applyEnabled : function(value, old)
@@ -447,8 +435,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       CORE METHODS
@@ -458,49 +444,55 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * Add the request to the pending requests queue.
      *
-     * @param vRequest {var} The request
+     * @param vRequest {var}
+     *   The request
      */
     add : function(vRequest)
     {
       vRequest.setState("queued");
 
-      if (vRequest.isAsynchronous()) {
+      if (vRequest.isAsynchronous())
+      {
         this.__queue.push(vRequest);
-      } else {
+      }
+      else
+      {
         this.__queue.unshift(vRequest);
       }
 
       this._check();
 
-      if (this.getEnabled()) {
+      if (this.getEnabled())
+      {
         this.__timer.start();
       }
     },
 
-
     /**
      * Remove the request from the pending requests queue.
      *
-     *  The underlying transport of the request is forced into the aborted
-     *  state ("aborted") and listeners of the "aborted"
-     *  signal are notified about the event. If the request isn't in the
-     *  pending requests queue, this method is a noop.
+     * The underlying transport of the request is forced into the 'aborted'
+     * state and listeners of the 'aborted'
+     * signal are notified about the event. If the request isn't in the
+     * pending requests queue, this method is a noop.
      *
-     * @param vRequest {var} The request
+     * @param vRequest {var}
+     *   The request
      */
     abort : function(vRequest)
     {
       var vTransport = vRequest.getTransport();
 
-      if (vTransport) {
+      if (vTransport)
+      {
         vTransport.abort();
-      } else if (qx.lang.Array.contains(this.__queue, vRequest)) {
+      }
+      else if (qx.lang.Array.contains(this.__queue, vRequest))
+      {
         qx.lang.Array.remove(this.__queue, vRequest);
       }
     }
   },
-
-
 
 
   /*

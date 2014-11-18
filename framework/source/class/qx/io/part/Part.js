@@ -26,11 +26,25 @@
  */
 qx.Bootstrap.define("qx.io.part.Part",
 {
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   /**
-   * @param name {String} Name of the part as defined in the config file at
-   *    compile time.
-   * @param packages {Package[]} List of dependent packages
-   * @param loader {qx.Part} The loader of this part.
+   * Constructor
+   *
+   * @param name {String}
+   *   Name of the part as defined in the config file at compile time.
+   *
+   * @param packages {Package[]}
+   *   List of dependent packages
+   *
+   * @param loader {qx.Part}
+   *   The loader of this part.
    */
   construct : function(name, packages, loader)
   {
@@ -50,6 +64,12 @@ qx.Bootstrap.define("qx.io.part.Part",
   },
 
 
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     _readyState : null,
@@ -57,54 +77,57 @@ qx.Bootstrap.define("qx.io.part.Part",
     _packages : null,
     __name : null,
 
-
     /**
-     * Get the ready state of the part. The value is one of
-     * <ul>
-     * <li>
-     *   <b>initialized</b>: The part is initialized. The {@link #load}
-     *   method has not yet been called
-     * </li>
-     * <li><b>loading</b>: The part is still loading.</li>
-     * <li><b>complete</b>: The part has been loaded successfully</li>
-     * </li>
+     * Get the ready state of the part.
      *
-     * @return {String} The ready state.
+     * @return {String}
+     * <ul>
+     *  <li>
+     *   <b>initialized</b>: The part is initialized. The {@link #load}
+     *    method has not yet been called
+     *  </li>
+     *  <li><b>loading</b>: The part is still loading.</li>
+     *  <li><b>complete</b>: The part has been loaded successfully</li>
+     * </ul>
      */
     getReadyState : function() {
       return this._readyState;
     },
 
-
     /**
-     * The part name as defined in the config file
+     * The part name as defined in the config file.
      *
-     * @return {String} The part name
+     * @return {String}
+     *   The part name
      */
     getName : function() {
       return this.__name;
     },
 
-
     /**
      * Internal helper for testing purposes.
+     *
      * @internal
-     * @return {qx.io.part.Package[]} All contained packages in an array.
+     *
+     * @return {qx.io.part.Package[]}
+     *   All contained packages in an array.
      */
-    getPackages : function()
-    {
+    getPackages : function() {
       return this._packages;
     },
-
 
     /**
      * Method for preloading this part.
      * Empty implementation! Regular parts can not be preloaded.
      *
-     * @param callback {Function} Callback for the preload.
-     * @param self {Object?} The context of the callback.
+     * @param callback {Function}
+     *   callback for the preload.
+     *
+     * @param self {Object?}
+     *   the context of the callback.
      */
-    preload : function(callback, self) {
+    preload : function(callback, self)
+    {
       // Just do nothing because you can not preload regular parts.
       // Also, loading the part here is not a good idea because it could break
       // the load order of the packages if someone uses preload right after
@@ -116,7 +139,6 @@ qx.Bootstrap.define("qx.io.part.Part",
       }
     },
 
-
     /**
      * Loads the part asynchronously. The callback is called after the part and
      * its dependencies are fully loaded. If the part is already loaded the
@@ -124,14 +146,17 @@ qx.Bootstrap.define("qx.io.part.Part",
      *
      * @internal
      *
-     * @param callback {Function} Function to execute on completion
-     * @param self {Object?window} Context to execute the given function in
+     * @param callback {Function}
+     *   Function to execute on completion
+     *
+     * @param self {Object?window}
+     *   Context to execute the given function in
      */
     load : function(callback, self)
     {
-       if (this._checkCompleteLoading(callback, self)) {
-         return;
-       };
+      if (this._checkCompleteLoading(callback, self)) {
+        return;
+      };
 
       this._readyState = "loading";
 
@@ -175,27 +200,32 @@ qx.Bootstrap.define("qx.io.part.Part",
 
 
     /**
-     * Helper for appending a listener for this part.
+     * Helper for appending a listener to this part.
      *
-     * @param callback {Function} The function to call when the part is loaded.
-     * @param self {Object?} The context of the callback.
-     * @param part {qx.io.part.Part|qx.io.part.ClosurePart} The part to listen
-     *   to.
+     * @param callback {Function}
+     *   The function to call when the part is loaded.
+     *
+     * @param self {Object?}
+     *   The context of the callback.
+     *
+     * @param part {qx.io.part.Part|qx.io.part.ClosurePart}
+     *   The part to listen to.
      */
     _appendPartListener : function(callback, self, part)
     {
       var that = this;
+
       this._loader.addPartListener(this, function() {
         that._signalStartup();
         callback.call(self, part._readyState);
       });
     },
 
-
     /**
      * Helper for marking the part as complete.
      *
-     * @param readyState {String} The new ready state.
+     * @param readyState {String}
+     *   The new ready state.
      */
     _markAsCompleted : function(readyState)
     {
@@ -203,46 +233,54 @@ qx.Bootstrap.define("qx.io.part.Part",
       this._loader.notifyPartResult(this);
     },
 
-
-
     /**
      * Method used to start up the application in case not all parts
      * necessary to initialize the application are in the boot part. [BUG #3793]
      */
-    _signalStartup : function() {
+    _signalStartup : function()
+    {
       // signal the application startup if not already done
       if (!qx.$$loader.applicationHandlerReady) {
         qx.$$loader.signalStartup();
       }
     },
 
-
     /**
      * Helper for checking if the part is loaded completely.
      *
-     * @param callback {Function} The function to be called if the part has
-     *   been loaded completely.
-     * @param self {Object} The context of the callback function.
-     * @return {Boolean} true, if the part is loading, complete or has an error.
+     * @param callback {Function}
+     *   The function to be called if the part has been loaded completely.
+     *
+     * @param self {Object}
+     *   The context of the callback function.
+     *
+     * @return {Boolean}
+     *   <code>true</code> the part is loading, complete or has an error.
      */
     _checkCompleteLoading : function(callback, self)
     {
       // check if its already loaded
       var readyState = this._readyState;
-      if (readyState == "complete" || readyState == "error") {
-        if (callback) {
+
+      if (readyState == "complete" || readyState == "error")
+      {
+        if (callback)
+        {
           var that = this;
+
           setTimeout(function() {
             that._signalStartup();
             callback.call(self, readyState);
           }, 0);
         }
+
         return true;
       }
       // add a listener if it is currently loading
       else if (readyState == "loading" && callback)
       {
         this._appendPartListener(callback, self, this);
+
         return true;
       }
     }
