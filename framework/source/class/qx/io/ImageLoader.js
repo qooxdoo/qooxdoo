@@ -37,20 +37,32 @@ qx.Bootstrap.define("qx.io.ImageLoader",
 
   statics :
   {
-    /** @type {Map} Internal data structure to cache image sizes */
+    /**
+     * @type {Map}
+     *   Internal data structure to cache image sizes
+     */
     __data : {},
 
-    /** @type {Map} Default image size */
+    /**
+     * @type {Map}
+     *   Default image size
+     */
     __defaultSize :
     {
       width : null,
       height : null
     },
 
-    /** @type {RegExp} Known image types */
+    /**
+     * @type {RegExp}
+     *   Known image types
+     */
     __knownImageTypesRegExp : /\.(png|gif|jpg|jpeg|bmp)\b/i,
 
-    /** @type {RegExp} Image types of a data URL */
+    /**
+     * @type {RegExp}
+     *   Image types of a data URL
+     */
     __dataUrlRegExp : /^data:image\/(png|gif|jpg|jpeg|bmp)\b/i,
 
     /**
@@ -224,12 +236,14 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       // Shorthand
       var entry = this.__data[source];
 
-      if (!entry) {
+      if (!entry)
+      {
         entry = this.__data[source] = {};
       }
 
       // Normalize context
-      if (callback && !context) {
+      if (callback && !context)
+      {
         context = window;
       }
 
@@ -238,9 +252,12 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       {
         if (callback)
         {
-          if (entry.loading) {
+          if (entry.loading)
+          {
             entry.callbacks.push(callback, context);
-          } else {
+          }
+          else
+          {
             callback.call(context, source, entry);
           }
         }
@@ -251,7 +268,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         entry.loading = true;
         entry.callbacks = [];
 
-        if (callback) {
+        if (callback)
+        {
           entry.callbacks.push(callback, context);
         }
 
@@ -301,7 +319,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         delete entry.element;
         delete entry.loading;
 
-        for (var i=0, l=callbacks.length; i<l; i+=2) {
+        for (var i=0, l=callbacks.length; i<l; i+=2)
+        {
           callbacks[i].call(callbacks[i+1], source, entry);
         }
       }
@@ -344,7 +363,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         // try to determine the image format
         var result = this.__knownImageTypesRegExp.exec(source);
 
-        if (result != null) {
+        if (result != null)
+        {
           entry.format = result[1];
         }
       }
@@ -365,7 +385,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       delete entry.element;
 
       // Execute callbacks
-      for (var i=0, l=callbacks.length; i<l; i+=2) {
+      for (var i=0, l=callbacks.length; i<l; i+=2)
+      {
         callbacks[i].call(callbacks[i+1], source, entry);
       }
     }),
@@ -379,7 +400,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @return {Integer}
      *   Image width
      */
-    __getWidth : function(element) {
+    __getWidth : function(element)
+    {
       return qx.core.Environment.get("html.image.naturaldimensions") ?
         element.naturalWidth : element.width;
     },
@@ -393,7 +415,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * @return {Integer}
      *   Image height
      */
-    __getHeight : function(element) {
+    __getHeight : function(element)
+    {
       return qx.core.Environment.get("html.image.naturaldimensions") ?
         element.naturalHeight : element.height;
     },
@@ -401,7 +424,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
     /**
      * Dispose stored images.
      */
-    dispose : function() {
+    dispose : function()
+    {
       this.__data = {};
     }
   }

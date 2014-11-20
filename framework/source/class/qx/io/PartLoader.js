@@ -42,9 +42,12 @@ qx.Class.define("qx.io.PartLoader",
     var self = this;
 
     loader.onpart = function(part) {
-      if (part.getReadyState() == "complete") {
+      if (part.getReadyState() == "complete")
+      {
         self.fireDataEvent("partLoaded", part);
-      } else {
+      }
+      else
+      {
         self.fireDataEvent("partLoadingError", part.getName());
       }
     }
@@ -98,7 +101,8 @@ qx.Class.define("qx.io.PartLoader",
      * @param self {Object?window}
      *   Context to execute the given function in
      */
-    require : function(partNames, callback, self) {
+    require : function(partNames, callback, self)
+    {
       this.getInstance().require(partNames, callback, self);
     }
   },
@@ -127,7 +131,8 @@ qx.Class.define("qx.io.PartLoader",
      * @param self {Object?window}
      *   Context to execute the given function in
      */
-    require : function(partNames, callback, self) {
+    require : function(partNames, callback, self)
+    {
       this._loader.require(partNames, callback, self);
     },
 
@@ -140,7 +145,8 @@ qx.Class.define("qx.io.PartLoader",
      * @return {qx.io.part.Part}
      *   The corresponding part instance
      */
-    getPart : function(name) {
+    getPart : function(name)
+    {
       return this.getParts()[name];
     },
 
@@ -154,7 +160,8 @@ qx.Class.define("qx.io.PartLoader",
      *   <code>true</code>  the part is available
      *   <code>false</code> the part is unavailable
      */
-    hasPart : function(name) {
+    hasPart : function(name)
+    {
       return this.getPart(name) !== undefined;
     },
 
@@ -164,7 +171,8 @@ qx.Class.define("qx.io.PartLoader",
      * @return {Map}
      *   Map containing all parts.
      */
-    getParts : function() {
+    getParts : function()
+    {
       return this._loader.getParts();
     }
   }
