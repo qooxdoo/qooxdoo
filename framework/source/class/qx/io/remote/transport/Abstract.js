@@ -132,7 +132,10 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /** The state of the current request */
     state :
     {
-      check : [ "created", "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
+      check : [
+        "created", "configured", "sending", "receiving",
+        "completed", "aborted", "timeout", "failed"
+      ],
       init : "created",
       event : "changeState",
       apply : "_applyState"
@@ -198,7 +201,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @abstract
      *
      * @throws {Error}
-     *   The abstract function warning.
+     *   Abstract function warning.
      */
     send : function()
     {
@@ -281,7 +284,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *   Value for the header
      *
      * @throws {Error}
-     *   The abstract function warning.
+     *   Abstract function warning
      */
     setRequestHeader : function(vLabel, vValue)
     {
@@ -310,7 +313,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *   The request header
      *
      * @throws {Error}
-     *   The abstract function warning.
+     *   Abstract function warning.
      */
     getResponseHeader : function(vLabel)
     {
@@ -329,7 +332,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *   The hash of all response headers
      *
      * @throws {Error}
-     *   The abstract function warning.
+     *   Abstract function warning.
      */
     getResponseHeaders : function()
     {
@@ -352,11 +355,11 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @abstract
      *
      * @return {Integer}
-     *   <n>  The status code
-     *   <-1> No status code
+     *   <code><n></code>  The status code
+     *   <code><-1></code> No status code
      *
      * @throws {Error}
-     *   The abstract function warning.
+     *   Abstract function warning.
      */
     getStatusCode : function()
     {
@@ -372,11 +375,11 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @abstract
      *
      * @return {String}
-     *   <text> The status text
-     *   <null> No status text
+     *   <code><text></code> The status text
+     *   <code><null></code> No status text
      *
      * @throws {Error}
-     *   The abstract function warning.
+     *   Abstract function warning.
      */
     getStatusText : function()
     {
@@ -401,11 +404,11 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @abstract
      *
      * @return {String}
-     *   <text> The respnse text
-     *   <null> No response text
+     *   <code><text></code> The respnse text
+     *   <code><null></code> No response text
      *
      * @throws {Error}
-     *   The abstract function warning.
+     *   Astract function warning
      */
     getResponseText : function()
     {
@@ -423,11 +426,11 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @abstract
      *
      * @return {Object}
-     *  <xml>  The XML object
-     *  <null> No XML object
+     *  <code><xml></code>  The XML object
+     *  <code><null></code> No XML object
      *
      * @throws {Error}
-     *   The abstract function warning.
+     *   Abstract function warning
      */
     getResponseXml : function()
     {
@@ -443,10 +446,10 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * @abstract
      *
      * @return {Integer}
-     *   The length of the content
+     *   Length of the content
      *
      * @throws {Error}
-     *   The abstract function warning.
+     *   Abstract function warning
      */
     getFetchedLength : function()
     {

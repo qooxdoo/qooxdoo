@@ -63,9 +63,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
   properties :
   {
-    /**
-     * Indicates whether queue is enabled or not.
-     */
+    /** Indicates whether queue is enabled or not. */
     enabled :
     {
       init : true,
@@ -73,27 +71,21 @@ qx.Class.define("qx.io.remote.RequestQueue",
       apply : "_applyEnabled"
     },
 
-    /**
-     * The maximum number of total requests.
-     */
+    /** The maximum number of total requests. */
     maxTotalRequests :
     {
       check : "Integer",
       nullable : true
     },
 
-    /**
-     * Maximum number of parallel requests.
-     */
+    /** Maximum number of parallel requests. */
     maxConcurrentRequests :
     {
       check : "Integer",
       init : qx.core.Environment.get("io.maxrequests")
     },
 
-    /**
-     * Default timeout for remote requests in milliseconds.
-     */
+    /** Default timeout for remote requests in milliseconds. */
     defaultTimeout :
     {
       check : "Integer",
@@ -115,6 +107,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     __totalRequests : null,
     __timer : null,
 
+
     /*
     ---------------------------------------------------------------------------
       QUEUE HANDLING
@@ -125,7 +118,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * Get a list of queued requests.
      *
      * @return {Request[]}
-     *   The list of queued requests
+     *   List of queued requests
      */
     getRequestQueue : function()
     {
@@ -137,7 +130,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * {@link qx.io.remote.Exchange}.
      *
      * @return {Exchange[]}
-     *   The list of active queued requests, each one
+     *   List of active queued requests, each one
      *   wrapped in an instance of {@link qx.io.remote.Exchange}
      */
     getActiveQueue : function()
@@ -262,7 +255,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * Listens for the "sending" event of the transport object and increases
      * the counter for active requests.
      *
-     * @param e {qx.event.type.Event} event object
+     * @param e {qx.event.type.Event}
+     *   Event object
      */
     _onsending : function(e)
     {
@@ -411,6 +405,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
           {
             this.warn("Timeout: transport " + vTransport.toHashCode());
             this.warn(vTime + "ms > " + vTimeout + "ms");
+
             vTransport.timeout();
           }
         }
@@ -445,7 +440,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * Add the request to the pending requests queue.
      *
      * @param vRequest {var}
-     *   The request
+     *   Request
      */
     add : function(vRequest)
     {
@@ -477,7 +472,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * pending requests queue, this method is a noop.
      *
      * @param vRequest {var}
-     *   The request
+     *   Request
      */
     abort : function(vRequest)
     {

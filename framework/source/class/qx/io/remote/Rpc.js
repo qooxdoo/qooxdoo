@@ -94,14 +94,14 @@ qx.Class.define("qx.io.remote.Rpc",
 
   /**
    * @param url {String}
-   *   identifies the url where the service is found.  Note that if the url is
+   *   Identifies the url where the service is found.  Note that if the url is
    *   to a domain (server) other than where the qooxdoo script came from, i.e.
    *   it is cross-domain, then you must also call the setCrossDomain(true)
    *   method to enable the ScriptTransport instead of the XmlHttpTransport,
    *   since the latter can not handle cross-domain requests.
    *
    * @param serviceName {String}
-   *   identifies the service. For the Java implementation, this is the fully
+   *   Identifies the service. For the Java implementation, this is the fully
    *   qualified name of the class that offers the service methods
    *   (e.g. "my.pkg.MyService").
    */
@@ -134,24 +134,16 @@ qx.Class.define("qx.io.remote.Rpc",
 
   events :
   {
-    /**
-     * Fired when call is completed.
-     */
+    /** Fired when call is completed. */
     "completed" : "qx.event.type.Event",
 
-    /**
-     * Fired when call aborted.
-     */
+    /** Fired when call aborted. */
     "aborted" : "qx.event.type.Event",
 
-    /**
-     * Fired when call failed.
-     */
+    /** Fired when call failed. */
     "failed" : "qx.event.type.Event",
 
-    /**
-     * Fired when call timed out.
-     */
+    /** Fired when call timed out. */
     "timeout" : "qx.event.type.Event"
   },
 
@@ -234,14 +226,14 @@ qx.Class.define("qx.io.remote.Rpc",
      * that don't support this auto-generation, this method returns null.
      *
      * @param instanceId {String ? null}
-     *   an optional identifier for the server side instance that should be
+     *   Optional identifier for the server side instance that should be
      *   used. All calls to the same service with the same instance id are
      *   routed to the same object instance on the server. The instance id can
      *   also be used to provide additional data for the service instantiation
      *   on the server.
      *
      * @return {String}
-     *   The url
+     *   URL
      */
     makeServerURL : function(instanceId)
     {
@@ -343,9 +335,7 @@ qx.Class.define("qx.io.remote.Rpc",
       nullable : true
     },
 
-    /**
-      Use Basic HTTP Authentication
-    */
+    /** Use Basic HTTP Authentication */
     useBasicHttpAuth :
     {
       check : "Boolean",
@@ -404,19 +394,19 @@ qx.Class.define("qx.io.remote.Rpc",
      * extending this one may override this method.
      *
      * @param id {Integer}
-     *   The unique sequence number of this request.
+     *   Unique sequence number of this request.
      *
      * @param method {String}
-     *   The name of the method to be called
+     *   Name of the method to be called
      *
      * @param parameters {Array}
-     *   An array containing the arguments to the called method.
+     *   Array containing the arguments to the called method.
      *
      * @param serverData {var}
      *   "Out-of-band" data to be provided to the server.
      *
      * @return {Object}
-     *   The object to be converted to JSON and passed to the JSON-RPC
+     *   Object to be converted to JSON and passed to the JSON-RPC
      *   server.
      */
     createRpcData: function(id, method, parameters, serverData)
@@ -476,21 +466,21 @@ qx.Class.define("qx.io.remote.Rpc",
      * @lint ignoreDeprecated(eval)
      *
      * @param args {Array}
-     *   array of arguments
+     *   Array of arguments
      *
      * @param callType {Integer}
-     *   <0> sync,
-     *   <1> async with handler,
+     *   <0> sync
+     *   <1> async with handler
      *   <2> async event listeners
      *
      * @param refreshSession {Boolean}
-     *   whether a new session should be requested
+     *   Whether a new session should be requested
      *
      * @return {var}
-     *   The method call reference.
+     *   Method call reference.
      *
      * @throws {Error}
-     *   An error.
+     *   Error
      */
     _callInternal : function(args, callType, refreshSession)
     {
@@ -704,7 +694,6 @@ qx.Class.define("qx.io.remote.Rpc",
             {
               response = response && response.length > 0 ? eval('(' + response + ')') : null;
             }
-
           // No special date handling required, JSON assumed
           }
           else
@@ -828,7 +817,8 @@ qx.Class.define("qx.io.remote.Rpc",
      * the correct session id afterwards).
      *
      * @param url {String}
-     *   The URL to examine.
+     *   URL to examine.
+     *
      * @return {String}
      *   The (possibly re-written) URL.
      */
@@ -871,10 +861,10 @@ qx.Class.define("qx.io.remote.Rpc",
      * YOU HAVE BEEN WARNED.
      *
      * @param methodName {String}
-     *   The name of the method to call
+     *   Name of the method to call
      *
      * @return {var}
-     *   The result returned by the server
+     *   Result returned by the server
      */
     callSync : function(methodName)
     {
@@ -907,13 +897,13 @@ qx.Class.define("qx.io.remote.Rpc",
      * number value is a value which increments with each request.)
      *
      * @param handler {Function}
-     *   The callback function.
+     *   Callback function.
      *
      * @param methodName {String}
-     *   The name of the method to call.
+     *   Name of the method to call.
      *
      * @return {var}
-     *   The method call reference.
+     *   Method call reference.
      */
     callAsync : function(handler, methodName)
     {
@@ -984,7 +974,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * indicating that there was an error when refreshing the session.
      *
      * @param handler {Function}
-     *   A callback function that is called when the refresh is complete (or
+     *   Callback function that is called when the refresh is complete (or
      *   failed).
      */
     refreshSession : function(handler)
@@ -1019,7 +1009,8 @@ qx.Class.define("qx.io.remote.Rpc",
      * Controlled by {@link #CONVERT_DATES}.
      *
      * @return {Boolean}
-     *   Whether to convert.
+     *   <code>true</code> convert
+     *   <code>false</code> don't convert
      */
     _isConvertDates: function()
     {
@@ -1032,7 +1023,8 @@ qx.Class.define("qx.io.remote.Rpc",
      * Controlled by {@link #RESPONSE_JSON}.
      *
      * @return {Boolean}
-     *   Whether to expect JSON.
+     *   <code>true</code> Expect JSON
+     *   <code>false</code> Don't expect JSON
      */
     _isResponseJson: function()
     {
@@ -1045,7 +1037,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * will be called with an exception.
      *
      * @param opaqueCallRef {var}
-     *   The call reference as returned by <code>callAsync</code> or
+     *   Call reference as returned by <code>callAsync</code> or
      *   <code>callAsyncListeners</code>
      */
     abort : function(opaqueCallRef)

@@ -73,8 +73,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *   Image source to query
      *
      * @return {Boolean}
-     *   <code>true</code>  the image is loaded
-     *   <code>false</code> the image is not loaded
+     *   <code>true</code>  Image is loaded
+     *   <code>false</code> Image is not loaded
      */
     isLoaded : function(source)
     {
@@ -91,8 +91,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *   Image source to query
      *
      * @return {Boolean}
-     *   <code>true</code>  the image loading failed
-     *   <code>false</code> the image loading succeeded
+     *   <code>true</code>  Image loading failed
+     *   <code>false</code> Image loading succeeded
      */
     isFailed : function(source)
     {
@@ -108,8 +108,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *   Image source to query
      *
      * @return {Boolean}
-     *   <code>true</code>  the image is loading.
-     *   <code>false</code> the image is not loading.
+     *   <code>true</code>  Image is loading.
+     *   <code>false</code> Image is not loading.
      */
     isLoading : function(source)
     {
@@ -125,8 +125,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *   Image source to query
      *
      * @return {String ? null}
-     *   <code><format></code> the format of the image
-     *   <code>null</code>     no format
+     *   <code><format></code> Format of the image
+     *   <code>null</code>     No format
      */
     getFormat : function(source)
     {
@@ -170,8 +170,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *
      * @return {Map}
      *   <code>{width : w, height : h}</code>
-     *   width, height the dimension of the loaded image.
-     *   null, null    the image is not yet loaded
+     *   width, height Dimension of the loaded image
+     *   null          Image is not yet loaded
      */
     getSize : function(source)
     {
@@ -187,8 +187,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *   Image source to query
      *
      * @return {Integer}
-     *   <code><width></code> the image is loaded
-     *   <code>null</code>    the image is not loaded
+     *   <code><width></code> Image is loaded
+     *   <code>null</code>    Image is not loaded
      */
     getWidth : function(source)
     {
@@ -204,8 +204,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *   Image source to query
      *
      * @return {Integer}
-     *   <code><height></code> the image is loaded
-     *   <code>null</code>     the image is not loaded
+     *   <code><height></code> Image is loaded
+     *   <code>null</code>     Image is not loaded
      */
     getHeight : function(source)
     {
@@ -225,8 +225,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *
      * @param callback {Function}
      *   Callback function(url, data) to execute:
-     *   <code><url></code>   source URL
-     *   <code><data></code>  containing additional information about the image
+     *   <code><url></code>  Source URL
+     *   <code><data></code> containing additional information about the image
      *
      * @param context {Object}
      *   Context in which the given callback should be executed
@@ -286,7 +286,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         // Start loading of image
         el.src = source;
 
-        // save the element for aborting
+        // Save the element for aborting
         entry.element = el;
       }
     },
@@ -311,7 +311,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         // Cleanup listeners
         element.onload = element.onerror = null;
 
-        // prevent further loading
+        // Prevent further loading
         element.src = "";
 
         // Cleanup entry
@@ -340,7 +340,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *   DOM element which represents the image
      *
      * @param source {String}
-     *   The image source loaded
+     *   Image source loaded
      */
     __onload : qx.event.GlobalError.observeMethod(function(event, element, source)
     {
@@ -360,7 +360,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         entry.width = this.__getWidth(element);
         entry.height = this.__getHeight(element);
 
-        // try to determine the image format
+        // Try to determine the image format
         var result = this.__knownImageTypesRegExp.exec(source);
 
         if (result != null)

@@ -41,7 +41,7 @@ qx.Class.define("qx.io.remote.Request",
    * Constructor.
    *
    * @param vUrl {String}
-   *   Target url to issue the request to.
+   *   Target url to issue the request to
    *
    * @param vMethod {String}
    *   Determines http method (GET, POST, PUT, etc.) to use. See "method" property
@@ -227,7 +227,10 @@ qx.Class.define("qx.io.remote.Request",
      */
     state :
     {
-      check : [ "configured", "queued", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
+      check : [
+        "configured", "queued", "sending", "receiving",
+        "completed", "aborted", "timeout", "failed"
+      ],
       init : "configured",
       apply : "_applyState",
       event : "changeState"
@@ -242,7 +245,13 @@ qx.Class.define("qx.io.remote.Request",
      */
     responseType :
     {
-      check : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ],
+      check : [
+        "text/plain",
+        "text/javascript",
+        "application/json",
+        "application/xml",
+        "text/html"
+      ],
       init : "text/plain",
       apply : "_applyResponseType"
     },
@@ -431,7 +440,8 @@ qx.Class.define("qx.io.remote.Request",
      * Determine if this request is in the 'configured' state.
      *
      * @return {Boolean}
-     *   <true> if the request is in the 'configured' state; <false> otherwise.
+     *   <code>true</code>  Request is in the 'configured' state
+     *   <code>false</code> Otherwise.
      */
     isConfigured : function()
     {
@@ -442,7 +452,8 @@ qx.Class.define("qx.io.remote.Request",
      * Determine if this request is in the 'queued' state.
      *
      * @return {Boolean}
-     *   <true> if the request is in the 'queued' state; <false> otherwise.
+     *   <code>true</code> Request is in the 'queued' state
+     *   <code>false</code> Otherwise
      */
     isQueued : function()
     {
@@ -453,7 +464,8 @@ qx.Class.define("qx.io.remote.Request",
      * Determine if this request is in the 'sending' state.
      *
      * @return {Boolean}
-     *   <true> if the request is in the 'sending' state; <false> otherwise.
+     *   <code>true</code>  Request is in the 'sending' state
+     *   <code>false</code> Otherwise
      */
     isSending : function()
     {
@@ -464,7 +476,8 @@ qx.Class.define("qx.io.remote.Request",
      * Determine if this request is in the 'receiving' state.
      *
      * @return {Boolean}
-     *   <true> if the request is in the 'receiving' state; <false> otherwise.
+     *   <code>true</code>  Request is in the 'receiving' state
+     *   <code>false</code> Otherwise
      */
     isReceiving : function()
     {
@@ -475,7 +488,8 @@ qx.Class.define("qx.io.remote.Request",
      * Determine if this request is in the 'completed' state.
      *
      * @return {Boolean}
-     *   <true> if the request is in the 'completed' state; <false> otherwise.
+     *   <code>true</code>  Request is in the 'completed' state
+     *   <code>false</code> Otherwise
      */
     isCompleted : function()
     {
@@ -486,7 +500,8 @@ qx.Class.define("qx.io.remote.Request",
      * Determine if this request is in the 'aborted' state.
      *
      * @return {Boolean}
-     *   <true> if the request is in the 'aborted' state; <false> otherwise.
+     *   <code>true</code>  Request is in the 'aborted' state
+     *   <code>false</code> Otherwise
      */
     isAborted : function()
     {
@@ -497,7 +512,8 @@ qx.Class.define("qx.io.remote.Request",
      * Determine if this request is in the 'timeout' state.
      *
      * @return {Boolean}
-     *   <true> if the request is in the 'timeout' state; <false> otherwise.
+     *   <code>true</code>  Request is in the 'timeout' state
+     *   <code>false</code> Otherwise
      */
     isTimeout : function()
     {
@@ -508,7 +524,8 @@ qx.Class.define("qx.io.remote.Request",
      * Determine if this request is in the 'failed' state.
      *
      * @return {Boolean}
-     *   <true> if the request is in the 'failed' state; <false> otherwise.
+     *   <code>true</code>  Request is in the 'failed' state
+     *   <code>false</code> Otherwise
      */
     isFailed : function()
     {
@@ -526,7 +543,7 @@ qx.Class.define("qx.io.remote.Request",
      * Dispatches a clone of the given event on this instance.
      *
      * @param e {qx.event.type.Event}
-     *   The original event
+     *   Original event
      */
     __forwardEvent : qx.event.GlobalError.observeMethod(function(e)
     {
@@ -694,6 +711,7 @@ qx.Class.define("qx.io.remote.Request",
         this.removeParameter("nocache");
         this.removeRequestHeader("Pragma");
         this.removeRequestHeader("Cache-Control");
+
         return;
       }
 
@@ -765,10 +783,10 @@ qx.Class.define("qx.io.remote.Request",
      * [1]<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">RFC 2616: HTTP Message Headers</a>
      *
      * @param vId {String}
-     *   The identifier to use for this added header
+     *   Identifier to use for this added header
      *
      * @param vValue {String}
-     *   The value to use for this added header
+     *   Value to use for this added header
      */
     setRequestHeader : function(vId, vValue)
     {
@@ -779,7 +797,7 @@ qx.Class.define("qx.io.remote.Request",
      * Remove a previously-added request header
      *
      * @param vId {String}
-     *   The id of the header to be removed
+     *   Id of the header to be removed
      */
     removeRequestHeader : function(vId)
     {
@@ -790,10 +808,10 @@ qx.Class.define("qx.io.remote.Request",
      * Retrieve the value of a header which was previously set.
      *
      * @param vId {String}
-     *   The id of the header value being requested
+     *   Id of the header value being requested
      *
      * @return {String}
-     *   The value of the header with the specified id
+     *   Value of the header with the specified id
      */
     getRequestHeader : function(vId)
     {
@@ -804,7 +822,7 @@ qx.Class.define("qx.io.remote.Request",
      * Return the object containing all of the headers which have been added.
      *
      * @return {Object}
-     *   The returned object has as its property names each of the ids of headers
+     *   Returned object has as its property names each of the ids of headers
      *   which have been added, and as each property value, the value of the
      *   property corresponding to that id.
      */
@@ -908,11 +926,11 @@ qx.Class.define("qx.io.remote.Request",
      * Returns the object containg all parameters for the request.
      *
      * @param bFromData {Boolean}
-     *   If <i>false</i> then retrieve the URL parameter list.
-     *   If <i>true</i> then retrieve the data parameter list.
+     *   <code>false</code> Retrieve the URL parameter list.
+     *   <code>true</code>  Retrieve the data parameter list.
      *
      * @return {Object}
-     *   The returned object has as its property names each of the ids of
+     *   Returned object has as its property names each of the ids of
      *   parameters which have been added, and as each property value, the
      *   value of the property corresponding to that id.
      */
@@ -967,8 +985,8 @@ qx.Class.define("qx.io.remote.Request",
      *   Identifier of the form field to get.
      *
      * @return {String|null}
-     *    Value of form field or <code>null</code> if no value
-     *    exists for the passed identifier.
+     *   <code><value></code> Value of form field
+     *   <code>null</code>    No value exists for the passed identifier
      */
     getFormField : function(vId)
     {
@@ -979,7 +997,7 @@ qx.Class.define("qx.io.remote.Request",
      * Returns the object containg all form fields for the POST request.
      *
      * @return {Object}
-     *   The returned object has as its property names each of the ids of
+     *   Returned object has as its property names each of the ids of
      *   form fields which have been added, and as each property value, the value
      *   of the property corresponding to that id.
      */
@@ -992,7 +1010,7 @@ qx.Class.define("qx.io.remote.Request",
      * Obtain the sequence (id) number used for this request
      *
      * @return {Integer}
-     *   The sequence number of this request
+     *   Sequence number of this request
      */
     getSequenceNumber : function()
     {

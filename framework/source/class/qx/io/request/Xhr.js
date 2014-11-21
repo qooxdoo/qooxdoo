@@ -67,11 +67,18 @@ qx.Class.define("qx.io.request.Xhr",
   extend: qx.io.request.AbstractRequest,
 
   /**
-   * @param url {String?} The URL of the resource to request.
-   * @param method {String?} The HTTP method.
+   * Constructor
+   *
+   * @param url {String?}
+   *   URL of the resource to request.
+   *
+   * @param method {String?}
+   *   HTTP method.
    */
-  construct: function(url, method) {
-    if (method !== undefined) {
+  construct: function(url, method)
+  {
+    if (method !== undefined)
+    {
       this.setMethod(method);
     }
 
@@ -81,7 +88,6 @@ qx.Class.define("qx.io.request.Xhr",
 
   // Only document events with transport specific details.
   // For a complete list of events, refer to AbstractRequest.
-
   events:
   {
     /**
@@ -199,6 +205,7 @@ qx.Class.define("qx.io.request.Xhr",
      */
     _parser: null,
 
+
     /*
     ---------------------------------------------------------------------------
       CONFIGURE TRANSPORT
@@ -208,9 +215,11 @@ qx.Class.define("qx.io.request.Xhr",
     /**
      * Create XHR transport.
      *
-     * @return {qx.bom.request.Xhr} Transport.
+     * @return {qx.bom.request.Xhr}
+     *   Transport 
      */
-    _createTransport: function() {
+    _createTransport: function()
+    {
       return new qx.bom.request.Xhr();
     },
 
@@ -220,18 +229,22 @@ qx.Class.define("qx.io.request.Xhr",
      * Append request data to URL if HTTP method is GET. Append random
      * string to URL if required by value of {@link #cache}.
      *
-     * @return {String} The configured URL.
+     * @return {String}
+     *   Configured URL
      */
-    _getConfiguredUrl: function() {
-      var url = this.getUrl(),
-          serializedData;
+    _getConfiguredUrl: function()
+    {
+      var url = this.getUrl();
+      var serializedData;
 
-      if (this.getMethod() === "GET" && this.getRequestData()) {
+      if (this.getMethod() === "GET" && this.getRequestData())
+      {
         serializedData = this._serializeData(this.getRequestData());
         url = qx.util.Uri.appendParamsToUrl(url, serializedData);
       }
 
-      if (this.getCache() === false) {
+      if (this.getCache() === false)
+      {
         // Make sure URL cannot be served from cache and new request is made
         url = qx.util.Uri.appendParamsToUrl(url, {nocache: new Date().valueOf()});
       }
@@ -245,25 +258,31 @@ qx.Class.define("qx.io.request.Xhr",
           isAllowsBody = qx.util.Request.methodAllowsRequestBody(this.getMethod());
 
       // Follow convention to include X-Requested-With header when same origin
-      if (!qx.util.Request.isCrossDomain(this.getUrl())) {
+      if (!qx.util.Request.isCrossDomain(this.getUrl()))
+      {
         headers["X-Requested-With"] = "XMLHttpRequest";
       }
 
       // Include Cache-Control header if configured
-      if (qx.lang.Type.isString(this.getCache())) {
+      if (qx.lang.Type.isString(this.getCache()))
+      {
         headers["Cache-Control"] = this.getCache();
       }
 
       // By default, set content-type urlencoded for requests with body
-      if (this.getRequestData() !== "null" && isAllowsBody) {
+      if (this.getRequestData() !== "null" && isAllowsBody)
+      {
         headers["Content-Type"] = "application/x-www-form-urlencoded";
       }
 
       // What representations to accept
-      if (this.getAccept()) {
-        if (qx.core.Environment.get("qx.debug.io")) {
+      if (this.getAccept())
+      {
+        if (qx.core.Environment.get("qx.debug.io"))
+        {
           this.debug("Accepting: '" + this.getAccept() + "'");
         }
+
         headers["Accept"] = this.getAccept();
       }
 
@@ -271,12 +290,14 @@ qx.Class.define("qx.io.request.Xhr",
     },
 
     // overridden
-    _getMethod: function() {
+    _getMethod: function()
+    {
       return this.getMethod();
     },
 
     // overridden
-    _isAsync: function() {
+    _isAsync: function()
+    {
       return this.isAsync();
     },
 
@@ -289,20 +310,24 @@ qx.Class.define("qx.io.request.Xhr",
     /**
      * Create response parser.
      *
-     * @return {qx.util.ResponseParser} parser.
+     * @return {qx.util.ResponseParser}
+     *   Parser
      */
-    _createResponseParser: function() {
+    _createResponseParser: function()
+    {
         return new qx.util.ResponseParser();
     },
 
     /**
      * Returns response parsed with parser determined by content type.
      *
-     * @return {String|Object} The parsed response of the request.
+     * @return {String|Object}
+     *   Parsed response of the request
      */
-    _getParsedResponse: function() {
-      var response = this._transport.responseText,
-          contentType = this.getResponseContentType() || "";
+    _getParsedResponse: function()
+    {
+      var response = this._transport.responseText;
+      var contentType = this.getResponseContentType() || "";
 
       return this._parser.parse(response, contentType);
     },
@@ -314,9 +339,13 @@ qx.Class.define("qx.io.request.Xhr",
      * @see qx.util.ResponseParser#setParser
      *
      * @param parser {String|Function}
-     * @return {Function} The parser function
+     *   Parser
+     *
+     * @return {Function}
+     *   Parser function
      */
-    setParser: function(parser) {
+    setParser: function(parser)
+    {
       return this._parser.setParser(parser);
     }
   }

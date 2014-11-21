@@ -76,7 +76,6 @@ qx.Class.define("qx.io.request.Jsonp",
 
   events:
   {
-
     /**
      * Fired when request completes without error and data has been received.
      */
@@ -137,9 +136,11 @@ qx.Class.define("qx.io.request.Jsonp",
     /**
      * Create JSONP transport.
      *
-     * @return {qx.bom.request.Jsonp} Transport.
+     * @return {qx.bom.request.Jsonp}
+     *   Transport
      */
-    _createTransport: function() {
+    _createTransport: function()
+    {
       return new qx.bom.request.Jsonp();
     },
 
@@ -149,18 +150,22 @@ qx.Class.define("qx.io.request.Jsonp",
      * Append request data to URL. Also append random string
      * to URL if required by value of {@link #cache}.
      *
-     * @return {String} The configured URL.
+     * @return {String}
+     *   Configured URL
      */
-    _getConfiguredUrl: function() {
-      var url = this.getUrl(),
-          serializedData;
+    _getConfiguredUrl: function()
+    {
+      var url = this.getUrl();
+      var serializedData;
 
-      if (this.getRequestData()) {
+      if (this.getRequestData())
+      {
         serializedData = this._serializeData(this.getRequestData());
         url = qx.util.Uri.appendParamsToUrl(url, serializedData);
       }
 
-      if (!this.getCache()) {
+      if (!this.getCache())
+      {
         // Make sure URL cannot be served from cache and new request is made
         url = qx.util.Uri.appendParamsToUrl(url, {nocache: new Date().valueOf()});
       }
@@ -173,11 +178,14 @@ qx.Class.define("qx.io.request.Jsonp",
      *
      * See {@link qx.bom.request.Jsonp}.
      *
-     * @return {Object} The parsed response of the request.
+     * @return {Object}
+     *   Parsed response of the request.
      */
-    _getParsedResponse: function() {
+    _getParsedResponse: function()
+    {
       return this._transport.responseJson;
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -190,9 +198,11 @@ qx.Class.define("qx.io.request.Jsonp",
      *
      * See {@link qx.bom.request.Jsonp#setCallbackParam}.
      *
-     * @param param {String} Name of the callback parameter.
+     * @param param {String}
+     *   Name of the callback parameter.
      */
-    setCallbackParam: function(param) {
+    setCallbackParam: function(param)
+    {
       this._transport.setCallbackParam(param);
     },
 
@@ -201,9 +211,11 @@ qx.Class.define("qx.io.request.Jsonp",
      *
      * See {@link qx.bom.request.Jsonp#setCallbackName}.
      *
-     * @param name {String} Name of the callback function.
+     * @param name {String}
+     *   Name of the callback function.
      */
-    setCallbackName: function(name) {
+    setCallbackName: function(name)
+    {
       this._transport.setCallbackName(name);
     }
   }

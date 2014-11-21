@@ -103,14 +103,21 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       crossDomain           : false,
       fileUpload            : true,
       programaticFormFields : true,
-      responseTypes         : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ]
+      responseTypes         : [
+        "text/plain",
+        "text/javascript",
+        "application/json",
+        "application/xml",
+        "text/html"
+      ]
     },
 
     /**
      * Returns always true, because iframe transport is supported by all browsers.
      *
      * @return {Boolean}
-     *   <true> iframe is supported
+     *   <code>true</code>  iframe is supported
+     *   <code>false</code> iframe is not supported
      */
     isSupported : function()
     {
@@ -154,6 +161,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     __form : null,
     __frame : null,
     __onreadystatechangeWrapper : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -259,14 +267,13 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       this.setState("sending");
     },
 
-
     /**
      * Converting complete state to numeric value and update state property
      *
      * @signature function(e)
      *
      * @param e {qx.event.type.Event}
-     *   The event object
+     *   Event object
      */
     _onload : qx.event.GlobalError.observeMethod(function(e)
     {
@@ -286,14 +293,13 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       this._switchReadyState(qx.io.remote.transport.Iframe._numericMap.complete);
     }),
 
-
     /**
      * Converting named readyState to numeric value and update state property
      *
      * @signature function(e)
      *
      * @param e {qx.event.type.Event}
-     *   The event object
+     *   Event object
      */
     _onreadystatechange : qx.event.GlobalError.observeMethod(function(e)
     {
@@ -303,7 +309,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Switches the readystate by setting the internal state.
      *
-     * @param vReadyState {String} readystate value
+     * @param vReadyState {String}
+     *   readystate value
      */
     _switchReadyState : function(vReadyState)
     {
@@ -338,10 +345,10 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * This method is not implemented at the moment.
      *
      * @param vLabel {String}
-     *   The request header name
+     *   Request header name
      *
      * @param vValue {var}
-     *   The request header value
+     *   Request header value
      */
     setRequestHeader : function(vLabel, vValue) {},
 
@@ -357,7 +364,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * This method is not implemented at the moment and returns always "null".
      *
      * @param vLabel {String}
-     *   The response header name
+     *   Response header name
      *
      * @return {null}
      *   Returns null
@@ -373,7 +380,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * This method is not implemented at the moment and returns an empty map.
      *
      * @return {Map}
-     *  An empty map
+     *   An empty map
      */
     getResponseHeaders : function()
     {
@@ -391,7 +398,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * This method needs implementation (returns always 200).
      *
      * @return {Integer}
-     *   The status code
+     *   Status code
      */
     getStatusCode : function()
     {
@@ -403,12 +410,13 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * This method needs implementation (returns always an empty string)
      *
      * @return {String}
-     *   The status code text
+     *   Status code text
      */
     getStatusText : function()
     {
       return "";
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -420,7 +428,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Returns the DOM window object of the used iframe.
      *
      * @return {Object}
-     *   The DOM window object
+     *   DOM window object
      */
     getIframeWindow : function()
     {
@@ -431,7 +439,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Returns the document node of the used iframe.
      *
      * @return {Object}
-     *   The document node
+     *   Document node
      */
     getIframeDocument : function()
     {
@@ -442,7 +450,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Returns the body node of the used iframe.
      *
      * @return {Object}
-     *   The body node
+     *   Body node
      */
     getIframeBody : function()
     {
@@ -460,7 +468,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Returns the iframe content (innerHTML) as text.
      *
      * @return {String}
-     *   The iframe content as text
+     *   Iframe content as text
      */
     getIframeTextContent : function()
     {
@@ -493,7 +501,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Returns the iframe content as HTML.
      *
      * @return {String}
-     *   The iframe content as HTML
+     *   Iframe content as HTML
      */
     getIframeHtmlContent : function()
     {
@@ -519,7 +527,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Returns the content of the response
      *
      * @return {null | String}
-     *   null or text of the response (=iframe content).
+     *   <code>null</code>   No text
+     *   <code><text></code> Text of the response (=iframe content).
      */
     getResponseContent : function()
     {

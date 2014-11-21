@@ -241,6 +241,7 @@ qx.Class.define("qx.io.remote.transport.Script",
         vUrl += "&" + vParametersList.join("&");
       }
 
+
       // --------------------------------------
       //   Sending data
       // --------------------------------------
@@ -276,7 +277,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      * Switches the readystate by setting the internal state.
      *
      * @param vReadyState {String}
-     *   The readystate value
+     *   readystate value
      */
     _switchReadyState : function(vReadyState)
     {
@@ -298,6 +299,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       }
     },
 
+
     /*
     ---------------------------------------------------------------------------
       REQUEST HEADER SUPPORT
@@ -309,10 +311,14 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * This method is not implemented at the moment.
      *
-     * @param vLabel {String} Request header name
-     * @param vValue {var} Request header value
+     * @param vLabel {String}
+     *   Request header name
+     *
+     * @param vValue {var}
+     *   Request header value
      */
     setRequestHeader : function(vLabel, vValue) {},
+
 
     /*
     ---------------------------------------------------------------------------
@@ -342,12 +348,13 @@ qx.Class.define("qx.io.remote.transport.Script",
      * This method is not implemented at the moment and returns an empty map.
      *
      * @return {Map}
-     *   An empty map
+     *   Empty map
      */
     getResponseHeaders : function()
     {
       return {};
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -360,7 +367,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      * This method needs implementation (returns always 200).
      *
      * @return {Integer}
-     *   The status code
+     *   Status code
      */
     getStatusCode : function()
     {

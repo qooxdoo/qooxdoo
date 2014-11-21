@@ -74,6 +74,7 @@ qx.Class.define("qx.io.remote.Response",
   {
     __lowerHeaders: null,
 
+
     /*
     ---------------------------------------------------------------------------
       USER METHODS
@@ -98,8 +99,9 @@ qx.Class.define("qx.io.remote.Response",
      *
      * @param vHeader {String}
      *   Response header name
+     *
      * @return {Object | null}
-     *   The header value or null;
+     *   Header value or null;
      */
     getResponseHeader : function(vHeader)
     {
@@ -117,6 +119,7 @@ qx.Class.define("qx.io.remote.Response",
      *
      * @param value {var}
      *   Current value
+     *
      * @param old {var}
      *   Previous value
      */

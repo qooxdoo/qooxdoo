@@ -22,15 +22,14 @@
  */
 qx.Interface.define("qx.io.request.authentication.IAuthentication",
 {
-
   members :
   {
     /**
      * Headers to include in request for authentication purposes.
      *
-     * @return {Map[]} Array of maps. Each map represent a header and
-     *          must have the properties <code>key</code> and <code>value</code>
-     *         with a value of type string.
+     * @return {Map[]}
+     *   Array of maps. Each map represent a header and must have the properties
+     *   <code>key</code> and <code>value</code> with a value of type string.
      */
     getAuthHeaders: function() {}
   }

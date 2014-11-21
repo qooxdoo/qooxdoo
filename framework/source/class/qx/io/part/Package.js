@@ -39,14 +39,14 @@ qx.Bootstrap.define("qx.io.part.Package",
    * Constructor
    *
    * @param urls {String[]}
-   *   A list of script URLs
+   *   List of script URLs
    *
    * @param id {var}
-   *   unique package hash key
+   *   Unique package hash key
    *
    * @param loaded {Boolean?false}
-   *   <code>true</code> the package is loaded
-   *   <code>false</code> the package is not loaded
+   *   <code>true</code>  Package is loaded
+   *   <code>false</code> Package is not loaded
    */
   construct : function(urls, id, loaded)
   {
@@ -75,9 +75,11 @@ qx.Bootstrap.define("qx.io.part.Package",
     /**
      * Get the package ID.
      *
-     * @return {String} The package id
+     * @return {String}
+     *   Package id
      */
-    getId : function() {
+    getId : function()
+    {
       return this.__id;
     },
 
@@ -87,16 +89,17 @@ qx.Bootstrap.define("qx.io.part.Package",
      * @return {String}
      * <ul>
      *  <li>
-     *   <b>initialized</b>: The package is initialized. The {@link #load}
+     *   <b>initialized</b>: Package is initialized. The {@link #load}
          method has not yet been called
      *  </li>
-     *  <li><b>loading</b>: The package is still loading.</li>
-     *  <li><b>complete</b>: The package has been loaded successfully</li>
-     *  <li><b>cached</b>: The package is loaded but is not executed
+     *  <li><b>loading</b>: Package is still loading.</li>
+     *  <li><b>complete</b>: Package has been loaded successfully</li>
+     *  <li><b>cached</b>: Package is loaded but is not executed
          (for closure parts)</li>
      * </ul>
      */
-    getReadyState : function() {
+    getReadyState : function()
+    {
       return this.__readyState;
     },
 
@@ -106,9 +109,10 @@ qx.Bootstrap.define("qx.io.part.Package",
      * @internal
      *
      * @return {String[]}
-     *   An array of URLs of this package.
+     *   Array of URLs of this package
      */
-    getUrls : function() {
+    getUrls : function()
+    {
       return this.__urls;
     },
 
@@ -117,11 +121,12 @@ qx.Bootstrap.define("qx.io.part.Package",
      * if a {@link qx.io.part.ClosurePart} is used.
      *
      * @param closure {Function}
-     *   The code of this package wrapped in a closure.
+     *   Code of this package wrapped in a closure
      */
     saveClosure : function(closure)
     {
-      if (this.__readyState == "error") {
+      if (this.__readyState == "error")
+      {
         return;
       }
 
@@ -134,6 +139,7 @@ qx.Bootstrap.define("qx.io.part.Package",
       else
       {
         clearTimeout(this.__timeoutId);
+
         this.__readyState = "cached";
         this.__notifyPackageResult(this);
       }
@@ -165,14 +171,15 @@ qx.Bootstrap.define("qx.io.part.Package",
      * {@link qx.io.part.ClosurePart} is used.
      *
      * @param notifyPackageResult {Function}
-     *   The callback if all scripts are done loading in this package.
+     *   Callback if all scripts are done loading in this package
      *
      * @param self {Object?}
-     *   The context of the callback.
+     *   Context of the callback
      */
     loadClosure : function(notifyPackageResult, self)
     {
-      if (this.__readyState !== "initialized") {
+      if (this.__readyState !== "initialized")
+      {
         return;
       }
 
@@ -204,14 +211,15 @@ qx.Bootstrap.define("qx.io.part.Package",
      * Load the part's script URLs in the correct order.
      *
      * @param notifyPackageResult {Function}
-     *   The callback if all scripts are done loading this package.
+     *   Callback if all scripts are done loading this package
      *
      * @param self {Object?}
-     *   The context of the callback.
+     *   Context of the callback
      */
     load : function(notifyPackageResult, self)
     {
-      if (this.__readyState !== "initialized") {
+      if (this.__readyState !== "initialized")
+      {
         return;
       }
 

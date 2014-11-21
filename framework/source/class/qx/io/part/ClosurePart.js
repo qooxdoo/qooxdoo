@@ -45,9 +45,10 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
    *   List of dependent packages
    *
    * @param loader {qx.Part}
-   *   The loader of this part.
+   *   Loader of this part
    */
-  construct : function(name, packages, loader) {
+  construct : function(name, packages, loader)
+  {
     qx.io.part.Part.call(this, name, packages, loader);
   },
 
@@ -65,7 +66,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
     // overridden
     preload : function(callback, self)
     {
-      // store how many packages are already preloaded
+      // Store how many packages are already preloaded
       var packagesLoaded = 0;
       var that = this;
 
@@ -77,7 +78,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
           pkg.loadClosure(function(pkg) {
             packagesLoaded++;
             that._loader.notifyPackageResult(pkg);
-            // everything loaded?
+            // Is everything loaded?
             if (packagesLoaded >= that._packages.length && callback) {
               callback.call(self);
             }
@@ -92,20 +93,22 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
      * executed in the correct order.
      *
      * @param callback {Function}
-     *   The function to call after the loading.
+     *   Function to call after the loading
      *
      * @param self {Object?}
-     *   The context of the callback.
+     *   Context of the callback
      */
     load : function(callback, self)
     {
-      if (this._checkCompleteLoading(callback, self)) {
+      if (this._checkCompleteLoading(callback, self))
+      {
         return;
       };
 
       this._readyState = "loading";
 
-      if (callback) {
+      if (callback)
+      {
         this._appendPartListener(callback, self, this);
       }
 
@@ -116,8 +119,9 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
         var pkg = this._packages[i];
         var pkgReadyState = pkg.getReadyState();
 
-        // trigger loading
-        if (pkgReadyState == "initialized") {
+        // Trigger loading
+        if (pkgReadyState == "initialized")
+        {
           pkg.loadClosure(this._loader.notifyPackageResult, this._loader);
         }
 
@@ -135,14 +139,16 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
 
           return;
         }
-        else {
+        else
+        {
           // "complete" and "cached"
           this.__packagesToLoad--;
         }
       }
 
-      // execute closures in case everything is already loaded/cached
-      if (this.__packagesToLoad <= 0) {
+      // Execute closures in case everything is already loaded/cached
+      if (this.__packagesToLoad <= 0)
+      {
         this.__executePackages();
       }
     },
@@ -153,7 +159,8 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
      */
     __executePackages : function()
     {
-      for (var i = 0; i < this._packages.length; i++) {
+      for (var i = 0; i < this._packages.length; i++)
+      {
         this._packages[i].execute();
       }
 
@@ -166,16 +173,17 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
      * execution.
      *
      * @param pkg {qx.io.part.Package}
-     *   The loaded package.
+     *   Loaded package.
      */
     _onPackageLoad : function(pkg)
     {
-      // if the part already has an error, ignore the callback
-      if (this._readyState == "error") {
+      // If the part already has an error, ignore the callback
+      if (this._readyState == "error")
+      {
         return;
       }
 
-      // one error package results in an error part
+      // One error package results in an error part
       if (pkg.getReadyState() == "error")
       {
         this._markAsCompleted("error");
@@ -183,10 +191,11 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
         return;
       }
 
-      // every package could be loaded -> execute the closures
+      // Every package could be loaded -> execute the closures
       this.__packagesToLoad--;
 
-      if (this.__packagesToLoad <= 0) {
+      if (this.__packagesToLoad <= 0)
+      {
         this.__executePackages();
       }
     }

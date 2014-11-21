@@ -50,20 +50,27 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       crossDomain           : false,
       fileUpload            : false,
       programaticFormFields : false,
-      responseTypes         : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ]
+      responseTypes         : [
+        "text/plain",
+        "text/javascript",
+        "application/json",
+        "application/xml",
+        "text/html"
+      ]
     },
 
     /**
      * Return a new XMLHttpRequest object suitable for the client browser.
      *
      * @return {Object}
-     *   The native XMLHttpRequest object
+     *   Native XMLHttpRequest object
      *
      * @signature function()
      */
     createRequestObject : qx.core.Environment.select("engine.name",
     {
-      "default" : function() {
+      "default" : function()
+      {
         return new XMLHttpRequest;
       },
 
@@ -96,7 +103,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Whether the transport type is supported by the client.
      *
      * @return {Boolean}
-     *   supported or not
+     *   <code>true</code>  Supported
+     *   <code>false</code> Not supported
      */
     isSupported : function()
     {
@@ -150,7 +158,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Returns the native request object
      *
      * @return {Object}
-     *   The native XmlHTTPRequest object
+     *   Native XmlHTTPRequest object
      */
     getRequest : function()
     {
@@ -172,7 +180,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     /**
      * Implementation for sending the request
-     *
      */
     send : function()
     {
@@ -427,7 +434,9 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Sets the internal state and informs the transport layer.
      *
      * @signature function(e)
-     * @param e {Event} native event
+     *
+     * @param e {Event}
+     *   Native event
      */
     _onreadystatechange : qx.event.GlobalError.observeMethod(function(e)
     {
@@ -498,7 +507,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * For qx.io.remote.transport.XmlHttp, ready state is a number between 1 to 4.
      *
-     * @return {Integer} ready state number
+     * @return {Integer}
+     *   readystate number
      */
     getReadyState : function()
     {
@@ -524,10 +534,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Set a request header to this transports request.
      *
      * @param vLabel {String}
-     *   The request header name
+     *   Request header name
      *
      * @param vValue {var}
-     *   The request header value
+     *   Request header value
      */
     setRequestHeader : function(vLabel, vValue)
     {
@@ -556,10 +566,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * [1]<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">RFC 2616: HTTP Message Headers</a>
      *
      * @param vLabel {String}
-     *   The response header name
+     *   Response header name
      *
      * @return {String|null}
-     *   The response header value
+     *   Response header value
      */
     getResponseHeader : function(vLabel)
     {
@@ -601,7 +611,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Provides a hash of all response headers.
      *
-     * @return {var} hash of all response headers
+     * @return {var}
+     *   Hash of all response headers
      */
     getResponseHeaders : function()
     {
@@ -637,7 +648,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Returns the current status code of the request if available or -1 if not.
      *
      * @return {Integer}
-     *   The current status code
+     *   Current status code
      */
     getStatusCode : function()
     {
@@ -665,7 +676,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Provides the status text for the current request if available and null
      * otherwise.
      *
-     * @return {String} current status code text
+     * @return {String}
+     *   Current status code text
      */
     getStatusText : function()
     {
@@ -693,7 +705,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * incomplete data will be made available to the caller.
      *
      * @return {String}
-     *    The content of the response as string
+     *    Content of the response as string
      */
     getResponseText : function()
     {
@@ -717,7 +729,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * be made available to the caller.
      *
      * @return {String}
-     *   The content of the response as XML
+     *   Content of the response as XML
      *
      * @throws {Error}
      *   If an error within the response occurs.
@@ -772,10 +784,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     },
 
     /**
-     * Returns the length of the content as fetched thus far
+     * Returns the length of the content as fetched thus far.
      *
      * @return {Integer}
-     *   Length of the response text.
+     *   Length of the response text
      */
     getFetchedLength : function()
     {
@@ -785,7 +797,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     },
 
     /**
-     * Returns the content of the response
+     * Returns the content of the response.
      *
      * @return {null | String}
      *   Response content if available

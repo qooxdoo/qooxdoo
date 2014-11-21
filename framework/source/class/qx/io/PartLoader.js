@@ -95,8 +95,8 @@ qx.Class.define("qx.io.PartLoader",
      *
      * @param callback {Function}
      *   Function to execute on completion:
-     *   <code><array></code> an array of ready states of the parts specified in the partNames
-     *           argument.
+     *   <code><array></code> an array of ready states of the parts specified in the
+     *   partNames argument.
      *
      * @param self {Object?window}
      *   Context to execute the given function in
@@ -157,8 +157,8 @@ qx.Class.define("qx.io.PartLoader",
      *   Name of the part as defined in the config file at compile time.
      *
      * @return {Boolean}
-     *   <code>true</code>  the part is available
-     *   <code>false</code> the part is unavailable
+     *   <code>true</code>  Part is available
+     *   <code>false</code> Part is unavailable
      */
     hasPart : function(name)
     {
@@ -169,7 +169,7 @@ qx.Class.define("qx.io.PartLoader",
      * Returns a map of all known parts.
      *
      * @return {Map}
-     *   Map containing all parts.
+     *   Map containing all parts
      */
     getParts : function()
     {
