@@ -30,12 +30,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   extend : qx.io.remote.transport.Abstract,
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -50,21 +44,31 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       crossDomain           : false,
       fileUpload            : false,
       programaticFormFields : false,
-      responseTypes         : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ]
+      responseTypes         : [
+        "text/plain",
+        "text/javascript",
+        "application/json",
+        "application/xml",
+        "text/html"
+      ]
     },
 
 
     /**
      * Return a new XMLHttpRequest object suitable for the client browser.
      *
-     * @return {Object} native XMLHttpRequest object
+     * @return {Object}
+     *   Native XMLHttpRequest object
+     *
      * @signature function()
      */
     createRequestObject : qx.core.Environment.select("engine.name",
     {
-      "default" : function() {
+      "default" : function()
+      {
         return new XMLHttpRequest;
       },
+
 
       // IE7's native XmlHttp does not care about trusted zones. To make this
       // work in the localhost scenario, you can use the following registry setting:
@@ -78,11 +82,13 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // fallback to XMLHTTP if ActiveX is disabled.
       "mshtml" : function()
       {
-        if (window.ActiveXObject && qx.xml.Document.XMLHTTP) {
+        if (window.ActiveXObject && qx.xml.Document.XMLHTTP)
+        {
           return new ActiveXObject(qx.xml.Document.XMLHTTP);
         }
 
-        if (window.XMLHttpRequest) {
+        if (window.XMLHttpRequest)
+        {
           return new XMLHttpRequest;
         }
       }
@@ -92,19 +98,16 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Whether the transport type is supported by the client.
      *
-     * @return {Boolean} supported or not
+     * @return {Boolean}
+     *   <code>true</code>  Supported
+     *   <code>false</code> Not supported
      */
-    isSupported : function() {
+    isSupported : function()
+    {
       return !!this.createRequestObject();
     }
   },
 
-
-  /*
-   *****************************************************************************
-      PROPERTIES
-   *****************************************************************************
-   */
 
    properties :
    {
@@ -123,12 +126,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
    },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     /*
@@ -145,7 +142,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Returns the native request object
      *
-     * @return {Object} native XmlHTTPRequest object
+     * @return {Object}
+     *   Native XmlHTTPRequest object
      */
     getRequest : function()
     {
@@ -159,8 +157,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       USER METHODS
@@ -169,7 +165,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     /**
      * Implementation for sending the request
-     *
      */
     send : function()
     {
@@ -198,7 +193,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
         if (value instanceof Array)
         {
-          for (var i=0; i<value.length; i++) {
+          for (var i=0; i<value.length; i++)
+          {
             vParametersList.push(encodeURIComponent(vId) + "=" + encodeURIComponent(value[i]));
           }
         }
@@ -208,7 +204,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         }
       }
 
-      if (vParametersList.length > 0) {
+      if (vParametersList.length > 0)
+      {
         vUrl += (vUrl.indexOf("?") >= 0 ? "&" : "?") + vParametersList.join("&");
       }
 
@@ -266,9 +263,12 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
           enc4 = chr3 & 63;
 
-          if (isNaN(chr2)) {
+          if (isNaN(chr2))
+          {
             enc3 = enc4 = 64;
-          } else if (isNaN(chr3)) {
+          }
+          else if (isNaN(chr3))
+          {
             enc4 = 64;
           }
 
@@ -326,14 +326,16 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       var vRequestHeaders = this.getRequestHeaders();
 
-      for (var vId in vRequestHeaders) {
+      for (var vId in vRequestHeaders)
+      {
         vRequest.setRequestHeader(vId, vRequestHeaders[vId]);
       }
 
       // --------------------------------------
       //   Sending data
       // --------------------------------------
-      try {
+      try
+      {
         if (qx.core.Environment.get("qx.debug"))
         {
           if (qx.core.Environment.get("qx.debug.io.remote.data"))
@@ -349,17 +351,21 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           qx.core.Environment.get("engine.name") == "mshtml" &&
           (qx.core.Environment.get("engine.version") == 9 &&
            qx.core.Environment.get("browser.documentmode") == 9)
-        ) {
+         )
+        {
           qx.event.Timer.once(function() {
             vRequest.send(this.getData());
           }, this, 0);
-        } else {
+        }
+        else
+        {
           vRequest.send(this.getData());
         }
       }
       catch(ex)
       {
-        if (vLocalRequest) {
+        if (vLocalRequest)
+        {
           this.failedLocally();
         }
         else
@@ -374,7 +380,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // --------------------------------------
       //   Readystate for sync reqeusts
       // --------------------------------------
-      if (!vAsynchronous) {
+      if (!vAsynchronous)
+      {
         this._onreadystatechange();
       }
     },
@@ -389,7 +396,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      */
     failedLocally : function()
     {
-      if (this.getState() === "failed") {
+      if (this.getState() === "failed")
+      {
         return;
       }
 
@@ -398,8 +406,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       this.failed();
     },
-
-
 
 
     /*
@@ -413,7 +419,9 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Sets the internal state and informs the transport layer.
      *
      * @signature function(e)
-     * @param e {Event} native event
+     *
+     * @param e {Event}
+     *   Native event
      */
     _onreadystatechange : qx.event.GlobalError.observeMethod(function(e)
     {
@@ -426,7 +434,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         case "timeout":
           if (qx.core.Environment.get("qx.debug"))
           {
-            if (qx.core.Environment.get("qx.debug.io.remote")) {
+            if (qx.core.Environment.get("qx.debug.io.remote"))
+            {
               this.warn("Ignore Ready State Change");
             }
           }
@@ -442,12 +451,14 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         // The status code is only meaningful when we reach ready state 4.
         // (Important for Opera since it goes through other states before
         // reaching 4, and the status code is not valid before 4 is reached.)
-        if (!qx.io.remote.Exchange.wasSuccessful(this.getStatusCode(), vReadyState, this.__localRequest)) {
+        if (!qx.io.remote.Exchange.wasSuccessful(this.getStatusCode(), vReadyState, this.__localRequest))
+        {
           // Fix for bug #2272
           // The IE doesn't set the state to 'sending' even though the send method
           // is called. This only occurs if the server (which is called) goes
           // down or a network failure occurs.
-          if (this.getState() === "configured") {
+          if (this.getState() === "configured")
+          {
             this.setState("sending");
           }
 
@@ -457,17 +468,17 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       }
 
       // Sometimes the xhr call skips the send state
-      if (vReadyState == 3 && this.__lastReadyState == 1) {
+      if (vReadyState == 3 && this.__lastReadyState == 1)
+      {
         this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
       }
 
       // Updating internal state
-      while (this.__lastReadyState < vReadyState) {
+      while (this.__lastReadyState < vReadyState)
+      {
         this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
       }
     }),
-
-
 
 
     /*
@@ -481,20 +492,21 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * For qx.io.remote.transport.XmlHttp, ready state is a number between 1 to 4.
      *
-     * @return {Integer} ready state number
+     * @return {Integer}
+     *   readystate number
      */
     getReadyState : function()
     {
       var vReadyState = null;
 
-      try {
+      try
+      {
         vReadyState = this.getRequest().readyState;
-      } catch(ex) {}
+      }
+      catch(ex) {}
 
       return vReadyState;
     },
-
-
 
 
     /*
@@ -506,14 +518,16 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Set a request header to this transports request.
      *
-     * @param vLabel {String} Request header name
-     * @param vValue {var} Request header value
+     * @param vLabel {String}
+     *   Request header name
+     *
+     * @param vValue {var}
+     *   Request header value
      */
-    setRequestHeader : function(vLabel, vValue) {
+    setRequestHeader : function(vLabel, vValue)
+    {
       this.getRequestHeaders()[vLabel] = vValue;
     },
-
-
 
 
     /*
@@ -536,16 +550,21 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * [1]<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">RFC 2616: HTTP Message Headers</a>
      *
-     * @param vLabel {String} Response header name
-     * @return {String|null} Response header value
+     * @param vLabel {String}
+     *   Response header name
+     *
+     * @return {String|null}
+     *   Response header value
      */
     getResponseHeader : function(vLabel)
     {
       var vResponseHeader = null;
 
-      try {
+      try
+      {
         vResponseHeader = this.getRequest().getResponseHeader(vLabel) || null;
-      } catch(ex) {}
+      }
+      catch(ex) {}
 
       return vResponseHeader;
     },
@@ -554,7 +573,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Returns all response headers of the request.
      *
-     * @return {var} response headers
+     * @return {var}
+     *   The response headers
      */
     getStringResponseHeaders : function()
     {
@@ -564,7 +584,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       {
         var vLoadHeader = this.getRequest().getAllResponseHeaders();
 
-        if (vLoadHeader) {
+        if (vLoadHeader)
+        {
           vSourceHeader = vLoadHeader;
         }
       }
@@ -577,7 +598,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Provides a hash of all response headers.
      *
-     * @return {var} hash of all response headers
+     * @return {var}
+     *   Hash of all response headers
      */
     getResponseHeaders : function()
     {
@@ -592,7 +614,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         {
           var vPair = vValues[i].match(/^([^:]+)\s*:\s*(.+)$/i);
 
-          if (vPair) {
+          if (vPair)
+          {
             vHeader[vPair[1]] = vPair[2];
           }
         }
@@ -600,8 +623,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       return vHeader;
     },
-
-
 
 
     /*
@@ -613,22 +634,26 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Returns the current status code of the request if available or -1 if not.
      *
-     * @return {Integer} current status code
+     * @return {Integer}
+     *   Current status code
      */
     getStatusCode : function()
     {
       var vStatusCode = -1;
 
-      try {
+      try
+      {
         vStatusCode = this.getRequest().status;
 
         // [BUG #4476]
         // IE sometimes tells 1223 when it should be 204
-        if (vStatusCode === 1223) {
+        if (vStatusCode === 1223)
+        {
           vStatusCode = 204;
         }
 
-      } catch(ex) {}
+      }
+      catch(ex) {}
 
       return vStatusCode;
     },
@@ -638,20 +663,21 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Provides the status text for the current request if available and null
      * otherwise.
      *
-     * @return {String} current status code text
+     * @return {String}
+     *   Current status code text
      */
     getStatusText : function()
     {
       var vStatusText = "";
 
-      try {
+      try
+      {
         vStatusText = this.getRequest().statusText;
-      } catch(ex) {}
+      }
+      catch(ex) {}
 
       return vStatusText;
     },
-
-
 
 
     /*
@@ -665,7 +691,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * otherwise.  By passing true as the "partial" parameter of this method,
      * incomplete data will be made available to the caller.
      *
-     * @return {String} Content of the response as string
+     * @return {String}
+     *    Content of the response as string
      */
     getResponseText : function()
     {
@@ -689,8 +716,11 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * passing true as the "partial" parameter of this method, incomplete data will
      * be made available to the caller.
      *
-     * @return {String} Content of the response as XML
-     * @throws {Error} If an error within the response occurs.
+     * @return {String}
+     *   Content of the response as XML
+     *
+     * @throws {Error}
+     *   If an error within the response occurs.
      */
     getResponseXml : function()
     {
@@ -701,9 +731,11 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       if (qx.io.remote.Exchange.wasSuccessful(vStatus, vReadyState, this.__localRequest))
       {
-        try {
+        try
+        {
           vResponseXML = this.getRequest().responseXML;
-        } catch(ex) {}
+        }
+        catch(ex) {}
       }
 
       // Typical behaviour on file:// on mshtml
@@ -721,11 +753,13 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         }
 
         // Re-check if fixed...
-        if (!vResponseXML.documentElement) {
+        if (!vResponseXML.documentElement)
+        {
           throw new Error("Missing Document Element!");
         }
 
-        if (vResponseXML.documentElement.tagName == "parseerror") {
+        if (vResponseXML.documentElement.tagName == "parseerror")
+        {
           throw new Error("XML-File is not well-formed!");
         }
       }
@@ -739,30 +773,35 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
 
     /**
-     * Returns the length of the content as fetched thus far
+     * Returns the length of the content as fetched thus far.
      *
-     * @return {Integer} Length of the response text.
+     * @return {Integer}
+     *   Length of the response text
      */
     getFetchedLength : function()
     {
       var vText = this.getResponseText();
+
       return typeof vText == "string" ? vText.length : 0;
     },
 
 
     /**
-     * Returns the content of the response
+     * Returns the content of the response.
      *
-     * @return {null | String} Response content if available
+     * @return {null | String}
+     *   Response content if available
      */
     getResponseContent : function()
     {
       var state = this.getState();
+
       if (state !== "completed" && state != "failed")
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core.Environment.get("qx.debug.io.remote")) {
+          if (qx.core.Environment.get("qx.debug.io.remote"))
+          {
             this.warn("Transfer not complete or failed, ignoring content!");
           }
         }
@@ -772,7 +811,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.debug.io.remote")) {
+        if (qx.core.Environment.get("qx.debug.io.remote"))
+        {
           this.debug("Returning content for responseType: " + this.getResponseType());
         }
       }
@@ -819,12 +859,17 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
             if (vText && vText.length > 0)
             {
               var ret;
-              if (this.getParseJson()){
+
+              if (this.getParseJson())
+              {
                 ret = qx.lang.Json.parse(vText);
                 ret = (ret === 0 ? 0 : (ret || null));
-              } else {
+              }
+              else
+              {
                 ret = vText;
               }
+
               return ret;
             }
             else
@@ -835,6 +880,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           catch(ex)
           {
             this.error("Could not execute json: [" + vText + "]", ex);
+
             return "<pre>Could not execute json: \n" + vText + "\n</pre>";
           }
 
@@ -847,18 +893,23 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
             }
           }
 
-          try {
+          try
+          {
             if(vText && vText.length > 0)
             {
               var ret = window.eval(vText);
+
               return (ret === 0 ? 0 : (ret || null));
             }
             else
             {
               return null;
             }
-          } catch(ex) {
+          }
+          catch(ex)
+          {
             this.error("Could not execute javascript: [" + vText + "]", ex);
+
             return null;
           }
 
@@ -882,8 +933,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -894,14 +943,18 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Apply method for the "state" property.
      * Fires an event for each state value to inform the listeners.
      *
-     * @param value {var} Current value
-     * @param old {var} Previous value
+     * @param value {var}
+     *   Current value
+     *
+     * @param old {var}
+     *   Previous value
      */
     _applyState : function(value, old)
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.debug.io.remote")) {
+        if (qx.core.Environment.get("qx.debug.io.remote"))
+        {
           this.debug("State: " + value);
         }
       }
@@ -946,13 +999,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   },
 
 
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
   defer : function()
   {
     // basic registration to qx.io.remote.Exchange
@@ -960,14 +1006,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     qx.io.remote.Exchange.registerType(qx.io.remote.transport.XmlHttp, "qx.io.remote.transport.XmlHttp");
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

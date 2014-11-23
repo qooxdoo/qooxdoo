@@ -32,14 +32,16 @@ qx.Class.define("qx.io.PartLoader",
   {
     this.base(arguments);
 
-
     var loader = this._loader = qx.Part.getInstance();
-
     var self = this;
+
     loader.onpart = function(part) {
-      if (part.getReadyState() == "complete") {
+      if (part.getReadyState() == "complete")
+      {
         self.fireDataEvent("partLoaded", part);
-      } else {
+      }
+      else
+      {
         self.fireDataEvent("partLoadingError", part.getName());
       }
     }
@@ -49,10 +51,11 @@ qx.Class.define("qx.io.PartLoader",
   events :
   {
     /**
-     * Fired if a parts was loaded. The data of the event instance point to the
+     * Fired if a part was loaded. The data of the event instance point to the
      * loaded part instance.
      */
     "partLoaded" : "qx.event.type.Data",
+
 
     /**
      * Fired if a part could not be loaded. The event's
@@ -66,18 +69,23 @@ qx.Class.define("qx.io.PartLoader",
   statics :
   {
     /**
-     * Loads one or more parts asynchronously. The callback is called after all
+     * Loads one or more part(s) asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
-     * loaded the callback is called immediately.
+     * loaded, the callback is called immediately.
      *
-     * @param partNames {String[]} List of parts names to load as defined in the
-     *    config file at compile time.
-     * @param callback {Function} Function to execute on completion.
-     *   The function has one parameter which is an array of ready states of
-     *   the parts specified in the partNames argument.
-     * @param self {Object?window} Context to execute the given function in
+     * @param partNames {String[]}
+     *   List of parts names to load as defined in the config file at compile time.
+     *
+     * @param callback {Function}
+     *   Function to execute on completion:
+     *   <code><array></code> an array of ready states of the parts specified in the
+     *   partNames argument.
+     *
+     * @param self {Object?window}
+     *   Context to execute the given function in
      */
-    require : function(partNames, callback, self) {
+    require : function(partNames, callback, self)
+    {
       this.getInstance().require(partNames, callback, self);
     }
   },
@@ -86,17 +94,22 @@ qx.Class.define("qx.io.PartLoader",
   members :
   {
     /**
-     * Loads one or more parts asynchronously. The callback is called after all
+     * Loads one or more part(s) asynchronously. The callback is called after all
      * parts and their dependencies are fully loaded. If the parts are already
      * loaded the callback is called immediately.
      *
-     * @param partNames {String|String[]} List of parts names to load as defined
-     *    in the config file at compile time. The method also accepts a single
-     *    string as parameter to only load one part.
-     * @param callback {Function} Function to execute on completion
-     * @param self {Object?window} Context to execute the given function in
+     * @param partNames {String|String[]}
+     *   List of parts names to load as defined in the config file at compile time.
+     *   The method also accepts a single string as parameter to only load one part.
+     *
+     * @param callback {Function}
+     *   Function to execute on completion
+     *
+     * @param self {Object?window}
+     *   Context to execute the given function in
      */
-    require : function(partNames, callback, self) {
+    require : function(partNames, callback, self)
+    {
       this._loader.require(partNames, callback, self);
     },
 
@@ -104,31 +117,42 @@ qx.Class.define("qx.io.PartLoader",
     /**
      * Get the part instance of the part with the given name.
      *
-     * @param name {String} Name of the part as defined in the config file at
-     *    compile time.
-     * @return {qx.io.part.Part} The corresponding part instance
+     * @param name {String}
+     *   Name of the part as defined in the config file at compile time.
+     *
+     * @return {qx.io.part.Part}
+     *   The corresponding part instance
      */
-    getPart : function(name) {
+    getPart : function(name)
+    {
       return this.getParts()[name];
     },
 
 
     /**
      * Checks if a part with the given name is available.
-     * @param name {String} Name of the part as defined in the config file at
-     *    compile time.
-     * @return {Boolean} <code>true</code>, if the part is available
+     *
+     * @param name {String}
+     *   Name of the part as defined in the config file at compile time.
+     *
+     * @return {Boolean}
+     *   <code>true</code>  Part is available
+     *   <code>false</code> Part is unavailable
      */
-    hasPart : function(name) {
+    hasPart : function(name)
+    {
       return this.getPart(name) !== undefined;
     },
 
 
     /**
      * Returns a map of all known parts.
-     * @return {Map} Map containing all parts.
+     *
+     * @return {Map}
+     *   Map containing all parts
      */
-    getParts : function() {
+    getParts : function()
+    {
       return this._loader.getParts();
     }
   }

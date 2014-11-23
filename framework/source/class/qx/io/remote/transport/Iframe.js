@@ -22,11 +22,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-************************************************************************ */
-
 /**
  * Transports requests to a server using an IFRAME.
  *
@@ -39,14 +34,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
   extend : qx.io.remote.transport.Abstract,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -58,7 +45,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
     // This is to prevent the "mixed secure and insecure content" warning in IE with https
     var vFrameSource;
-    if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+
+    if ((qx.core.Environment.get("engine.name") == "mshtml"))
+    {
       vFrameSource = "javascript:void(0)";
     }
 
@@ -88,14 +77,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -110,7 +91,13 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       crossDomain           : false,
       fileUpload            : true,
       programaticFormFields : true,
-      responseTypes         : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ]
+      responseTypes         : [
+        "text/plain",
+        "text/javascript",
+        "application/json",
+        "application/xml",
+        "text/html"
+      ]
     },
 
 
@@ -118,12 +105,13 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Returns always true, because iframe transport is supported by all browsers.
      *
      * @return {Boolean}
+     *   <code>true</code>  iframe is supported
+     *   <code>false</code> iframe is not supported
      */
-    isSupported : function() {
+    isSupported : function()
+    {
       return true;
     },
-
-
 
 
     /*
@@ -149,22 +137,14 @@ qx.Class.define("qx.io.remote.transport.Iframe",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-
     __data : null,
     __lastReadyState : 0,
     __form : null,
     __frame : null,
     __onreadystatechangeWrapper : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -174,7 +154,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
     /**
      * Sends a request with the use of a form.
-     *
      */
     send : function()
     {
@@ -193,7 +172,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
         if (value instanceof Array)
         {
-          for (var i=0; i<value.length; i++) {
+          for (var i=0; i<value.length; i++)
+          {
             vParametersList.push(encodeURIComponent(vId) + "=" + encodeURIComponent(value[i]));
           }
         }
@@ -203,7 +183,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
         }
       }
 
-      if (vParametersList.length > 0) {
+      if (vParametersList.length > 0)
+      {
         vUrl += (vUrl.indexOf("?") >= 0 ? "&" : "?") + vParametersList.join("&");
       }
 
@@ -274,19 +255,22 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Converting complete state to numeric value and update state property
      *
      * @signature function(e)
-     * @param e {qx.event.type.Event} event object
+     *
+     * @param e {qx.event.type.Event}
+     *   Event object
      */
     _onload : qx.event.GlobalError.observeMethod(function(e)
     {
-
       // Timing-issue in Opera
       // Do not switch state to complete in case load event fires before content
       // of iframe was updated
-      if (qx.core.Environment.get("engine.name") == "opera" && this.getIframeHtmlContent() == "") {
+      if (qx.core.Environment.get("engine.name") == "opera" && this.getIframeHtmlContent() == "")
+      {
         return;
       }
 
-      if (this.__form.src) {
+      if (this.__form.src)
+      {
         return;
       }
 
@@ -298,9 +282,12 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Converting named readyState to numeric value and update state property
      *
      * @signature function(e)
-     * @param e {qx.event.type.Event} event object
+     *
+     * @param e {qx.event.type.Event}
+     *   Event object
      */
-    _onreadystatechange : qx.event.GlobalError.observeMethod(function(e) {
+    _onreadystatechange : qx.event.GlobalError.observeMethod(function(e)
+    {
       this._switchReadyState(qx.io.remote.transport.Iframe._numericMap[this.__frame.readyState]);
     }),
 
@@ -308,7 +295,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Switches the readystate by setting the internal state.
      *
-     * @param vReadyState {String} readystate value
+     * @param vReadyState {String}
+     *   readystate value
      */
     _switchReadyState : function(vReadyState)
     {
@@ -324,12 +312,11 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       }
 
       // Updating internal state
-      while (this.__lastReadyState < vReadyState) {
+      while (this.__lastReadyState < vReadyState)
+      {
         this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
       }
     },
-
-
 
 
     /*
@@ -343,8 +330,11 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      *
      * This method is not implemented at the moment.
      *
-     * @param vLabel {String} request header name
-     * @param vValue {var} request header value
+     * @param vLabel {String}
+     *   Request header name
+     *
+     * @param vValue {var}
+     *   Request header value
      */
     setRequestHeader : function(vLabel, vValue) {},
 
@@ -360,23 +350,31 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      *
      * This method is not implemented at the moment and returns always "null".
      *
-     * @param vLabel {String} Response header name
-     * @return {null} Returns null
+     * @param vLabel {String}
+     *   Response header name
+     *
+     * @return {null}
+     *   Returns null
      */
-    getResponseHeader : function(vLabel) {
+    getResponseHeader : function(vLabel)
+    {
       return null;
     },
+
 
     /**
      * Provides an hash of all response headers.
      *
      * This method is not implemented at the moment and returns an empty map.
      *
-     * @return {Map} empty map
+     * @return {Map}
+     *   An empty map
      */
-    getResponseHeaders : function() {
+    getResponseHeaders : function()
+    {
       return {};
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -388,21 +386,27 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Returns the current status code of the request if available or -1 if not.
      * This method needs implementation (returns always 200).
      *
-     * @return {Integer} status code
+     * @return {Integer}
+     *   Status code
      */
-    getStatusCode : function() {
+    getStatusCode : function()
+    {
       return 200;
     },
+
 
     /**
      * Provides the status text for the current request if available and null otherwise.
      * This method needs implementation (returns always an empty string)
      *
-     * @return {String} status code text
+     * @return {String}
+     *   Status code text
      */
-    getStatusText : function() {
+    getStatusText : function()
+    {
       return "";
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -413,9 +417,11 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Returns the DOM window object of the used iframe.
      *
-     * @return {Object} DOM window object
+     * @return {Object}
+     *   DOM window object
      */
-    getIframeWindow : function() {
+    getIframeWindow : function()
+    {
       return qx.bom.Iframe.getWindow(this.__frame);
     },
 
@@ -423,9 +429,11 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Returns the document node of the used iframe.
      *
-     * @return {Object} document node
+     * @return {Object}
+     *   Document node
      */
-    getIframeDocument : function() {
+    getIframeDocument : function()
+    {
       return qx.bom.Iframe.getDocument(this.__frame);
     },
 
@@ -433,13 +441,13 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Returns the body node of the used iframe.
      *
-     * @return {Object} body node
+     * @return {Object}
+     *   Body node
      */
-    getIframeBody : function() {
+    getIframeBody : function()
+    {
       return qx.bom.Iframe.getBody(this.__frame);
     },
-
-
 
 
     /*
@@ -451,26 +459,32 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Returns the iframe content (innerHTML) as text.
      *
-     * @return {String} iframe content as text
+     * @return {String}
+     *   Iframe content as text
      */
     getIframeTextContent : function()
     {
       var vBody = this.getIframeBody();
 
-      if (!vBody) {
+      if (!vBody)
+      {
         return null;
       }
 
-      if (!vBody.firstChild) {
+      if (!vBody.firstChild)
+      {
         return "";
       }
 
       // Mshtml returns the content inside a PRE
       // element if we use plain text
       if (vBody.firstChild.tagName &&
-          vBody.firstChild.tagName.toLowerCase() == "pre") {
+          vBody.firstChild.tagName.toLowerCase() == "pre")
+      {
         return vBody.firstChild.innerHTML;
-      } else {
+      }
+      else
+      {
         return vBody.innerHTML;
       }
     },
@@ -479,11 +493,13 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Returns the iframe content as HTML.
      *
-     * @return {String} iframe content as HTML
+     * @return {String}
+     *   Iframe content as HTML
      */
     getIframeHtmlContent : function()
     {
       var vBody = this.getIframeBody();
+
       return vBody ? vBody.innerHTML : null;
     },
 
@@ -492,16 +508,21 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * Returns the length of the content as fetched thus far.
      * This method needs implementation (returns always 0).
      *
-     * @return {Integer} Returns 0
+     * @return {Integer}
+     *   Returns 0
      */
-    getFetchedLength : function() {
+    getFetchedLength : function()
+    {
       return 0;
     },
+
 
     /**
      * Returns the content of the response
      *
-     * @return {null | String} null or text of the response (=iframe content).
+     * @return {null | String}
+     *   <code>null</code>   No text
+     *   <code><text></code> Text of the response (=iframe content).
      */
     getResponseContent : function()
     {
@@ -519,7 +540,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.debug.io.remote")) {
+        if (qx.core.Environment.get("qx.debug.io.remote"))
+        {
           this.debug("Returning content for responseType: " + this.getResponseType());
         }
       }
@@ -540,6 +562,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
         case "text/html":
           vText = this.getIframeHtmlContent();
+
           if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.debug.io.remote.data"))
@@ -551,6 +574,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
         case "application/json":
           vText = this.getIframeHtmlContent();
+
           if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.debug.io.remote.data"))
@@ -559,14 +583,18 @@ qx.Class.define("qx.io.remote.transport.Iframe",
             }
           }
 
-          try {
+          try
+          {
             return vText && vText.length > 0 ? qx.lang.Json.parse(vText) : null;
-          } catch(ex) {
+          }
+          catch(ex)
+          {
             return this.error("Could not execute json: (" + vText + ")", ex);
           }
 
         case "text/javascript":
           vText = this.getIframeHtmlContent();
+
           if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.debug.io.remote.data"))
@@ -575,14 +603,18 @@ qx.Class.define("qx.io.remote.transport.Iframe",
             }
           }
 
-          try {
+          try
+          {
             return vText && vText.length > 0 ? window.eval(vText) : null;
-          } catch(ex) {
+          }
+          catch(ex)
+          {
             return this.error("Could not execute javascript: (" + vText + ")", ex);
           }
 
         case "application/xml":
           vText = this.getIframeDocument();
+
           if (qx.core.Environment.get("qx.debug"))
           {
             if (qx.core.Environment.get("qx.debug.io.remote.data"))
@@ -600,13 +632,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
   },
 
 
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
   defer : function()
   {
     // basic registration to qx.io.remote.Exchange
@@ -614,14 +639,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     qx.io.remote.Exchange.registerType(qx.io.remote.transport.Iframe, "qx.io.remote.transport.Iframe");
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {
@@ -632,7 +649,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
       // Reset source to a blank image for gecko
       // Otherwise it will switch into a load-without-end behaviour
-      if ((qx.core.Environment.get("engine.name") == "gecko")) {
+      if ((qx.core.Environment.get("engine.name") == "gecko"))
+      {
         this.__frame.src = qx.util.ResourceManager.getInstance().toUri("qx/static/blank.gif");
       }
 
@@ -640,7 +658,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       qx.dom.Element.remove(this.__frame);
     }
 
-    if (this.__form) {
+    if (this.__form)
+    {
       qx.dom.Element.remove(this.__form);
     }
 

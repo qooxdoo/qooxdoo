@@ -26,28 +26,15 @@ qx.Class.define("qx.io.remote.Response",
   extend : qx.event.type.Event,
 
 
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTIES
-    ---------------------------------------------------------------------------
-    */
-
     /** State of the response. */
     state :
     {
       check    : "Integer",
       nullable : true
     },
+
 
     /** Status code of the response. */
     statusCode :
@@ -56,11 +43,13 @@ qx.Class.define("qx.io.remote.Response",
       nullable : true
     },
 
+
     /** Content of the response. */
     content :
     {
       nullable : true
     },
+
 
     /** The headers of the response. */
     responseHeaders :
@@ -72,17 +61,10 @@ qx.Class.define("qx.io.remote.Response",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     __lowerHeaders: null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -99,35 +81,47 @@ qx.Class.define("qx.io.remote.Response",
       clone.setStatusCode(this.getStatusCode());
       clone.setContent(this.getContent());
       clone.setResponseHeaders(this.getResponseHeaders());
+
       return clone;
     },
 
 
     /**
-     * Returns a specific response header
-     * @param vHeader {String} Response header name
-     * @return {Object | null} The header value or null;
+     * Returns a specific response header.
+     *
+     * @param vHeader {String}
+     *   Response header name
+     *
+     * @return {Object | null}
+     *   Header value or null;
      */
     getResponseHeader : function(vHeader)
     {
-      if (this.__lowerHeaders) {
+      if (this.__lowerHeaders)
+      {
         return this.__lowerHeaders[vHeader.toLowerCase()] || null;
       }
 
       return null;
     },
 
+
     /**
      * Keep lower-cased shadow of response headers for later
      * case-insensitive matching.
      *
-     * @param value {var} Current value
-     * @param old {var} Previous value
+     * @param value {var}
+     *   Current value
+     *
+     * @param old {var}
+     *   Previous value
      */
-    _applyResponseHeaders : function(value, old) {
+    _applyResponseHeaders : function(value, old)
+    {
       var lowerHeaders = {};
 
-      if (value !== null) {
+      if (value !== null)
+      {
         Object.keys(value).forEach(function(key) {
           lowerHeaders[key.toLowerCase()] = value[key];
         });

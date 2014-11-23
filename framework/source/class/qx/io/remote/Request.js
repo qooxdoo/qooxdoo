@@ -31,17 +31,11 @@ qx.Class.define("qx.io.remote.Request",
   extend : qx.core.Object,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
+   * Constructor.
+   *
    * @param vUrl {String}
-   *   Target url to issue the request to.
+   *   Target url to issue the request to
    *
    * @param vMethod {String}
    *   Determines http method (GET, POST, PUT, etc.) to use. See "method" property
@@ -59,15 +53,18 @@ qx.Class.define("qx.io.remote.Request",
     this.__dataParameters = {};
     this.__formFields = {};
 
-    if (vUrl !== undefined) {
+    if (vUrl !== undefined)
+    {
       this.setUrl(vUrl);
     }
 
-    if (vMethod !== undefined) {
+    if (vMethod !== undefined)
+    {
       this.setMethod(vMethod);
     }
 
-    if (vResponseType !== undefined) {
+    if (vResponseType !== undefined)
+    {
       this.setResponseType(vResponseType);
     }
 
@@ -78,27 +75,23 @@ qx.Class.define("qx.io.remote.Request",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events : {
-
+  events :
+  {
     /** Fired when the Request object changes its state to 'created' */
     "created" : "qx.event.type.Event",
+
 
     /** Fired when the Request object changes its state to 'configured' */
     "configured" : "qx.event.type.Event",
 
+
     /** Fired when the Request object changes its state to 'sending' */
     "sending" : "qx.event.type.Event",
 
+
     /** Fired when the Request object changes its state to 'receiving' */
     "receiving" : "qx.event.type.Event",
+
 
     /**
      * Fired once the request has finished successfully. The event object
@@ -106,23 +99,19 @@ qx.Class.define("qx.io.remote.Request",
      */
     "completed" : "qx.io.remote.Response",
 
+
     /** Fired when the pending request has been aborted. */
     "aborted" : "qx.event.type.Event",
 
+
     /** Fired when the pending request failes. */
     "failed" : "qx.io.remote.Response",
+
 
     /** Fired when the pending request times out. */
     "timeout" : "qx.io.remote.Response"
   },
 
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
 
   statics :
   {
@@ -139,33 +128,27 @@ qx.Class.define("qx.io.remote.Request",
     __seqNum : 0,
 
     /**
-     * Returns true if the given HTTP method allows a request body being transferred to the server.
-     * This is currently POST and PUT. Other methods require their data being encoded into
-     * the URL
+     * Set request body of HTTP method transferred to the server if allowed.
      *
-     * @param httpMethod {String} one of the values of the method property
+     * Other methods require their data being encoded into the URL.
+     *
+     * @param httpMethod {String}
+     *   <POST|PUT> one of the values of the method property
+     *
      * @return {Boolean}
+     *   <true> if the given HTTP method allows a request body being transferred to the server
+     *   <false> otherwise
      */
-    methodAllowsRequestBody : function(httpMethod) {
+    methodAllowsRequestBody : function(httpMethod)
+    {
       return (httpMethod == "POST") || (httpMethod == "PUT");
     }
-
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
-    /**
-     * Target url to issue the request to.
-     */
+    /** Target url to issue the request to. */
     url :
     {
       check : "String",
@@ -173,9 +156,7 @@ qx.Class.define("qx.io.remote.Request",
     },
 
 
-    /**
-     * Determines what type of request to issue (GET, POST, PUT, HEAD, DELETE).
-     */
+    /** Determines what type of request to issue (GET, POST, PUT, HEAD, DELETE). */
     method :
     {
       check : [ "GET", "POST", "PUT", "HEAD", "DELETE" ],
@@ -184,9 +165,7 @@ qx.Class.define("qx.io.remote.Request",
     },
 
 
-    /**
-     * Set the request to asynchronous.
-     */
+    /** Set the request to asynchronous. */
     asynchronous :
     {
       check : "Boolean",
@@ -194,9 +173,7 @@ qx.Class.define("qx.io.remote.Request",
     },
 
 
-    /**
-     * Set the data to be sent via this request
-     */
+    /** Set the data to be sent via this request. */
     data :
     {
       check : "String",
@@ -226,12 +203,13 @@ qx.Class.define("qx.io.remote.Request",
     },
 
 
-    /**
-     * The state that the request is in, while being processed.
-     */
+    /** The state that the request is in, while being processed. */
     state :
     {
-      check : [ "configured", "queued", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
+      check : [
+        "configured", "queued", "sending", "receiving",
+        "completed", "aborted", "timeout", "failed"
+      ],
       init : "configured",
       apply : "_applyState",
       event : "changeState"
@@ -241,13 +219,19 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Response type of request.
      *
-     * The response type is a MIME type, default is text/plain. Other supported
-     * MIME types are text/javascript, text/html, application/json,
+     * The response type is a MIME type. Default is text/plain. Other supported
+     * MIME types are text/javascript, text/html, application/json, and
      * application/xml.
      */
     responseType :
     {
-      check : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ],
+      check : [
+        "text/plain",
+        "text/javascript",
+        "application/json",
+        "application/xml",
+        "text/html"
+      ],
       init : "text/plain",
       apply : "_applyResponseType"
     },
@@ -256,7 +240,7 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Number of milliseconds before the request is being timed out.
      *
-     * If this property is null, the timeout for the request comes is the
+     * If this property is null, the timeout for the request is the
      * qx.io.remote.RequestQueue's property defaultTimeout.
      */
     timeout :
@@ -281,8 +265,9 @@ qx.Class.define("qx.io.remote.Request",
      * being added to the URL if the POST method is used but will still add
      * the Pragma and Cache-Control headers.  This is useful if your backend
      * does nasty things like mixing parameters specified in the URL into
-     * form fields in the POST request.  (One example of this nasty behavior
+     * form fields in the POST request. (One example of this nasty behavior
      * is known as "mixed mode" in Oracle, as described here:
+     *
      * http://docs.oracle.com/cd/B32110_01/web.1013/b28963/concept.htm#i1005684)
      */
     prohibitCaching :
@@ -348,11 +333,12 @@ qx.Class.define("qx.io.remote.Request",
       init : false
     },
 
+
     /**
      * If true and the responseType property is set to "application/json", getContent() will
      * return a Javascript map containing the JSON contents, i. e. the result qx.lang.Json.parse().
      * If false, the raw string data will be returned and the parsing must be done manually.
-     * This is usefull for special JSON dialects / extensions which are not supported by
+     * This is useful for special JSON dialects / extensions which are not supported by
      * qx.lang.Json.
      *
      * Note that this is currently only respected by qx.io.remote.transport.XmlHttp, i. e.
@@ -367,22 +353,14 @@ qx.Class.define("qx.io.remote.Request",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-
     __requestHeaders : null,
     __urlParameters : null,
     __dataParameters : null,
     __formFields : null,
     __seqNum : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -395,9 +373,9 @@ qx.Class.define("qx.io.remote.Request",
      *
      * The request is added to the singleton class qx.io.remote.RequestQueue's
      * list of pending requests.
-     *
      */
-    send : function() {
+    send : function()
+    {
       qx.io.remote.RequestQueue.getInstance().add(this);
     },
 
@@ -408,16 +386,15 @@ qx.Class.define("qx.io.remote.Request",
      * The request is removed from the singleton class qx.io.remote.RequestQueue's
      * list of pending events. If the request haven't been scheduled this
      * method is a noop.
-     *
      */
-    abort : function() {
+    abort : function()
+    {
       qx.io.remote.RequestQueue.getInstance().abort(this);
     },
 
 
     /**
      * Abort sending this request if it has not already been aborted.
-     *
      */
     reset : function()
     {
@@ -436,8 +413,6 @@ qx.Class.define("qx.io.remote.Request",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       STATE ALIASES
@@ -445,85 +420,107 @@ qx.Class.define("qx.io.remote.Request",
     */
 
     /**
-     * Determine if this request is in the configured state.
+     * Determine if this request is in the 'configured' state.
      *
-     * @return {Boolean} <true> if the request is in the configured state; <false> otherwise.
+     * @return {Boolean}
+     *   <code>true</code>  Request is in the 'configured' state
+     *   <code>false</code> Otherwise.
      */
-    isConfigured : function() {
+    isConfigured : function()
+    {
       return this.getState() === "configured";
     },
 
 
     /**
-     * Determine if this request is in the queued state.
+     * Determine if this request is in the 'queued' state.
      *
-     * @return {Boolean} <true> if the request is in the queued state; <false> otherwise.
+     * @return {Boolean}
+     *   <code>true</code> Request is in the 'queued' state
+     *   <code>false</code> Otherwise
      */
-    isQueued : function() {
+    isQueued : function()
+    {
       return this.getState() === "queued";
     },
 
 
     /**
-     * Determine if this request is in the sending state.
+     * Determine if this request is in the 'sending' state.
      *
-     * @return {Boolean} <true> if the request is in the sending state; <false> otherwise.
+     * @return {Boolean}
+     *   <code>true</code>  Request is in the 'sending' state
+     *   <code>false</code> Otherwise
      */
-    isSending : function() {
+    isSending : function()
+    {
       return this.getState() === "sending";
     },
 
 
     /**
-     * Determine if this request is in the receiving state.
+     * Determine if this request is in the 'receiving' state.
      *
-     * @return {Boolean} <true> if the request is in the receiving state; <false> otherwise.
+     * @return {Boolean}
+     *   <code>true</code>  Request is in the 'receiving' state
+     *   <code>false</code> Otherwise
      */
-    isReceiving : function() {
+    isReceiving : function()
+    {
       return this.getState() === "receiving";
     },
 
 
     /**
-     * Determine if this request is in the completed state.
+     * Determine if this request is in the 'completed' state.
      *
-     * @return {Boolean} <true> if the request is in the completed state; <false> otherwise.
+     * @return {Boolean}
+     *   <code>true</code>  Request is in the 'completed' state
+     *   <code>false</code> Otherwise
      */
-    isCompleted : function() {
+    isCompleted : function()
+    {
       return this.getState() === "completed";
     },
 
 
     /**
-     * Determine if this request is in the aborted state.
+     * Determine if this request is in the 'aborted' state.
      *
-     * @return {Boolean} <true> if the request is in the aborted state; <false> otherwise.
+     * @return {Boolean}
+     *   <code>true</code>  Request is in the 'aborted' state
+     *   <code>false</code> Otherwise
      */
-    isAborted : function() {
+    isAborted : function()
+    {
       return this.getState() === "aborted";
     },
 
 
     /**
-     * Determine if this request is in the timeout state.
+     * Determine if this request is in the 'timeout' state.
      *
-     * @return {Boolean} <true> if the request is in the timeout state; <false> otherwise.
+     * @return {Boolean}
+     *   <code>true</code>  Request is in the 'timeout' state
+     *   <code>false</code> Otherwise
      */
-    isTimeout : function() {
+    isTimeout : function()
+    {
       return this.getState() === "timeout";
     },
 
 
     /**
-     * Determine if this request is in the failed state.
+     * Determine if this request is in the 'failed' state.
      *
-     * @return {Boolean} <true> if the request is in the failed state; <false> otherwise.
+     * @return {Boolean}
+     *   <code>true</code>  Request is in the 'failed' state
+     *   <code>false</code> Otherwise
      */
-    isFailed : function() {
+    isFailed : function()
+    {
       return this.getState() === "failed";
     },
-
-
 
 
     /*
@@ -533,23 +530,25 @@ qx.Class.define("qx.io.remote.Request",
     */
 
     /**
-     * Dispatches a clone of the given event on this instance
+     * Dispatches a clone of the given event on this instance.
      *
-     * @param e {qx.event.type.Event} The original event
+     * @param e {qx.event.type.Event}
+     *   Original event
      */
     __forwardEvent : qx.event.GlobalError.observeMethod(function(e)
     {
       var clonedEvent = e.clone();
+
       clonedEvent.setTarget(this);
       this.dispatchEvent(clonedEvent);
     }),
 
 
-
     /**
-     * Event handler called when the request enters the queued state.
+     * Event handler called when the request enters the 'queued' state.
      *
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event}
+     *   Event indicating state change
      */
     _onqueued : function(e)
     {
@@ -562,9 +561,10 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Event handler called when the request enters the sending state.
+     * Event handler called when the request enters the 'sending' state.
      *
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event}
+     *   Event indicating state change
      */
     _onsending : function(e)
     {
@@ -577,9 +577,10 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Event handler called when the request enters the receiving state.
+     * Event handler called when the request enters the 'receiving' state.
      *
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event}
+     *   Event indicating state change
      */
     _onreceiving : function(e)
     {
@@ -592,9 +593,10 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Event handler called when the request enters the completed state.
+     * Event handler called when the request enters the 'completed' state.
      *
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event}
+     *   Event indicating state change
      */
     _oncompleted : function(e)
     {
@@ -610,9 +612,10 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Event handler called when the request enters the aborted state.
+     * Event handler called when the request enters the 'aborted' state.
      *
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event}
+     *   Event indicating state change
      */
     _onaborted : function(e)
     {
@@ -628,9 +631,10 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Event handler called when the request enters the timeout state.
+     * Event handler called when the request enters the 'timeout' state.
      *
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event}
+     *   Event indicating state change
      */
     _ontimeout : function(e)
     {
@@ -660,9 +664,10 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Event handler called when the request enters the failed state.
+     * Event handler called when the request enters the 'failed' state.
      *
-     * @param e {qx.event.type.Event} Event indicating state change
+     * @param e {qx.event.type.Event}
+     *   Event indicating state change
      */
     _onfailed : function(e)
     {
@@ -677,8 +682,6 @@ qx.Class.define("qx.io.remote.Request",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -690,7 +693,8 @@ qx.Class.define("qx.io.remote.Request",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.debug.io.remote")) {
+        if (qx.core.Environment.get("qx.debug.io.remote"))
+        {
           this.debug("State: " + value);
         }
       }
@@ -705,12 +709,12 @@ qx.Class.define("qx.io.remote.Request",
         this.removeParameter("nocache");
         this.removeRequestHeader("Pragma");
         this.removeRequestHeader("Cache-Control");
+
         return;
       }
 
       // If value isn't "no-url-params-on-post" or this isn't a POST request
-      if (value !== "no-url-params-on-post" ||
-          this.getMethod() != "POST")
+      if (value !== "no-url-params-on-post" || this.getMethod() != "POST")
       {
         // ... then add a parameter to the URL to make it unique on each
         // request.  The actual id, "nocache" is irrelevant; it's the fact
@@ -735,9 +739,12 @@ qx.Class.define("qx.io.remote.Request",
     // property apply
     _applyMethod : function(value, old)
     {
-      if (qx.io.remote.Request.methodAllowsRequestBody(value)) {
+      if (qx.io.remote.Request.methodAllowsRequestBody(value))
+      {
         this.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      } else {
+      }
+      else
+      {
         this.removeRequestHeader("Content-Type");
       }
 
@@ -751,11 +758,10 @@ qx.Class.define("qx.io.remote.Request",
 
 
     // property apply
-    _applyResponseType : function(value, old) {
+    _applyResponseType : function(value, old)
+    {
       this.setRequestHeader("X-Qooxdoo-Response-Type", value);
     },
-
-
 
 
     /*
@@ -776,10 +782,14 @@ qx.Class.define("qx.io.remote.Request",
      *
      * [1]<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2">RFC 2616: HTTP Message Headers</a>
      *
-     * @param vId {String} The identifier to use for this added header
-     * @param vValue {String} The value to use for this added header
+     * @param vId {String}
+     *   Identifier to use for this added header
+     *
+     * @param vValue {String}
+     *   Value to use for this added header
      */
-    setRequestHeader : function(vId, vValue) {
+    setRequestHeader : function(vId, vValue)
+    {
       this.__requestHeaders[vId] = vValue;
     },
 
@@ -787,20 +797,26 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Remove a previously-added request header
      *
-     * @param vId {String} The id of the header to be removed
+     * @param vId {String}
+     *   Id of the header to be removed
      */
-    removeRequestHeader : function(vId) {
+    removeRequestHeader : function(vId)
+    {
       delete this.__requestHeaders[vId];
     },
 
 
     /**
-     * Retrieve the value of a header which was previously set
+     * Retrieve the value of a header which was previously set.
      *
-     * @param vId {String} The id of the header value being requested
-     * @return {String} The value of the header with the specified id
+     * @param vId {String}
+     *   Id of the header value being requested
+     *
+     * @return {String}
+     *   Value of the header with the specified id
      */
-    getRequestHeader : function(vId) {
+    getRequestHeader : function(vId)
+    {
       return this.__requestHeaders[vId] || null;
     },
 
@@ -808,15 +824,15 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Return the object containing all of the headers which have been added.
      *
-     * @return {Object} The returned object has as its property names each of the ids of headers
-     *     which have been added, and as each property value, the value of the
-     *     property corresponding to that id.
+     * @return {Object}
+     *   Returned object has as its property names each of the ids of headers
+     *   which have been added, and as each property value, the value of the
+     *   property corresponding to that id.
      */
-    getRequestHeaders : function() {
+    getRequestHeaders : function()
+    {
       return this.__requestHeaders;
     },
-
-
 
 
     /*
@@ -847,7 +863,6 @@ qx.Class.define("qx.io.remote.Request",
      *
      * Note: Some transports, e.g. Script, do not support passing parameters
      *       as data.
-     *
      */
     setParameter : function(vId, vValue, bAsData)
     {
@@ -872,7 +887,6 @@ qx.Class.define("qx.io.remote.Request",
      *   If <i>false</i> then remove the parameter of the URL parameter list.
      *   If <i>true</i> then remove it from the list of parameters to be sent
      *   as request data.
-     *
      */
     removeParameter : function(vId, bFromData)
     {
@@ -900,7 +914,6 @@ qx.Class.define("qx.io.remote.Request",
      *
      * @return {var}
      *   The requested parameter value
-     *
      */
     getParameter : function(vId, bFromData)
     {
@@ -919,11 +932,11 @@ qx.Class.define("qx.io.remote.Request",
      * Returns the object containg all parameters for the request.
      *
      * @param bFromData {Boolean}
-     *   If <i>false</i> then retrieve the URL parameter list.
-     *   If <i>true</i> then retrieve the data parameter list.
+     *   <code>false</code> Retrieve the URL parameter list.
+     *   <code>true</code>  Retrieve the data parameter list.
      *
      * @return {Object}
-     *   The returned object has as its property names each of the ids of
+     *   Returned object has as its property names each of the ids of
      *   parameters which have been added, and as each property value, the
      *   value of the property corresponding to that id.
      */
@@ -931,8 +944,6 @@ qx.Class.define("qx.io.remote.Request",
     {
       return (bFromData ? this.__dataParameters : this.__urlParameters);
     },
-
-
 
 
     /*
@@ -947,14 +958,18 @@ qx.Class.define("qx.io.remote.Request",
      * NOTE: Adding any programatic form fields using this method will switch the
      *       Transport implementation to IframeTransport.
      *
-     * NOTE: Use of these programatic form fields disallow use of synchronous
-     *       requests and cross-domain requests.  Be sure that you do not need
+     * NOTE: Use of these programatic form fields disallows use of synchronous
+     *       requests and cross-domain requests. Be sure that you do not need
      *       those features when setting these programatic form fields.
      *
-     * @param vId {String} String identifier of the form field to add.
-     * @param vValue {String} Value of form field
+     * @param vId {String}
+     *   String identifier of the form field to add.
+     *
+     * @param vValue {String}
+     *   Value of form field
      */
-    setFormField : function(vId, vValue) {
+    setFormField : function(vId, vValue)
+    {
       this.__formFields[vId] = vValue;
     },
 
@@ -962,9 +977,11 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Remove a form field from the POST request.
      *
-     * @param vId {String} Identifier of the form field to remove.
+     * @param vId {String}
+     *   Identifier of the form field to remove.
      */
-    removeFormField : function(vId) {
+    removeFormField : function(vId)
+    {
       delete this.__formFields[vId];
     },
 
@@ -972,11 +989,15 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Get a form field in the POST request.
      *
-     * @param vId {String} Identifier of the form field to get.
-     * @return {String|null} Value of form field or <code>null</code> if no value
-     *    exists for the passed identifier.
+     * @param vId {String}
+     *   Identifier of the form field to get.
+     *
+     * @return {String|null}
+     *   <code><value></code> Value of form field
+     *   <code>null</code>    No value exists for the passed identifier
      */
-    getFormField : function(vId) {
+    getFormField : function(vId)
+    {
       return this.__formFields[vId] || null;
     },
 
@@ -984,11 +1005,13 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Returns the object containg all form fields for the POST request.
      *
-     * @return {Object} The returned object has as its property names each of the ids of
-     *     form fields which have been added, and as each property value, the value
-     *     of the property corresponding to that id.
+     * @return {Object}
+     *   Returned object has as its property names each of the ids of
+     *   form fields which have been added, and as each property value, the value
+     *   of the property corresponding to that id.
      */
-    getFormFields : function() {
+    getFormFields : function()
+    {
       return this.__formFields;
     },
 
@@ -996,21 +1019,15 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Obtain the sequence (id) number used for this request
      *
-     * @return {Integer} The sequence number of this request
+     * @return {Integer}
+     *   Sequence number of this request
      */
-    getSequenceNumber : function() {
+    getSequenceNumber : function()
+    {
       return this.__seqNum;
     }
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

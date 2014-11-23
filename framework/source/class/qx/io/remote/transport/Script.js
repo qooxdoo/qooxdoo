@@ -32,21 +32,14 @@ qx.Class.define("qx.io.remote.transport.Script",
   extend : qx.io.remote.transport.Abstract,
 
 
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
 
     var vUniqueId = ++qx.io.remote.transport.Script.__uniqueId;
 
-    if (vUniqueId >= 2000000000) {
+    if (vUniqueId >= 2000000000)
+    {
       qx.io.remote.transport.Script.__uniqueId = vUniqueId = 1;
     }
 
@@ -54,14 +47,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     this.__uniqueId = vUniqueId;
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
 
   statics :
   {
@@ -72,12 +57,14 @@ qx.Class.define("qx.io.remote.transport.Script",
      */
     __uniqueId : 0,
 
+
     /**
      * Registry for all script transport instances.
      *
      * @internal
      */
     _instanceRegistry : {},
+
 
     /**
      * Internal URL parameter prefix.
@@ -86,6 +73,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      */
     ScriptTransport_PREFIX : "_ScriptTransport_",
 
+
     /**
      * Internal URL parameter ID.
      *
@@ -93,12 +81,14 @@ qx.Class.define("qx.io.remote.transport.Script",
      */
     ScriptTransport_ID_PARAM : "_ScriptTransport_id",
 
+
     /**
      * Internal URL parameter data prefix.
      *
      * @internal
      */
     ScriptTransport_DATA_PARAM : "_ScriptTransport_data",
+
 
     /**
      * Capabilities of this transport type.
@@ -119,12 +109,12 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * Returns always true, because script transport is supported by all browsers.
      * @return {Boolean} <code>true</code>
+     *   <true> Always
      */
-    isSupported : function() {
+    isSupported : function()
+    {
       return true;
     },
-
-
 
 
     /*
@@ -154,10 +144,14 @@ qx.Class.define("qx.io.remote.transport.Script",
      * class.
      *
      * @signature function(id, content)
-     * @param id {String} Id of the corresponding transport object,
-     *     which is passed as an URL parameter to the server an
-     * @param content {String} This string is passed to the content property
-     *     of the {@link qx.io.remote.Response} object.
+     *
+     * @param id {String}
+     *   Id of the corresponding transport object,
+     *   which is passed as an URL parameter to the server an
+     *
+     * @param content {String}
+     *   This string is passed to the content property
+     *   of the {@link qx.io.remote.Response} object.
      */
     _requestFinished : qx.event.GlobalError.observeMethod(function(id, content)
     {
@@ -167,7 +161,8 @@ qx.Class.define("qx.io.remote.transport.Script",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core.Environment.get("qx.debug.io.remote")) {
+          if (qx.core.Environment.get("qx.debug.io.remote"))
+          {
             this.warn("Request finished for an unknown instance (probably aborted or timed out before)");
           }
         }
@@ -181,20 +176,12 @@ qx.Class.define("qx.io.remote.transport.Script",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-
     __lastReadyState : 0,
     __element : null,
     __uniqueId : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -204,7 +191,6 @@ qx.Class.define("qx.io.remote.transport.Script",
 
     /**
      * Sends the request using "script" elements
-     *
      */
     send : function()
     {
@@ -220,7 +206,8 @@ qx.Class.define("qx.io.remote.transport.Script",
 
       for (var vId in vParameters)
       {
-        if (vId.indexOf(qx.io.remote.transport.Script.ScriptTransport_PREFIX) == 0) {
+        if (vId.indexOf(qx.io.remote.transport.Script.ScriptTransport_PREFIX) == 0)
+        {
           this.error("Illegal parameter name. The following prefix is used internally by qooxdoo): " + qx.io.remote.transport.Script.ScriptTransport_PREFIX);
         }
 
@@ -228,7 +215,8 @@ qx.Class.define("qx.io.remote.transport.Script",
 
         if (value instanceof Array)
         {
-          for (var i=0; i<value.length; i++) {
+          for (var i=0; i<value.length; i++)
+          {
             vParametersList.push(encodeURIComponent(vId) + "=" + encodeURIComponent(value[i]));
           }
         }
@@ -238,16 +226,19 @@ qx.Class.define("qx.io.remote.transport.Script",
         }
       }
 
-      if (vParametersList.length > 0) {
+      if (vParametersList.length > 0)
+      {
         vUrl += "&" + vParametersList.join("&");
       }
+
 
       // --------------------------------------
       //   Sending data
       // --------------------------------------
       var vData = this.getData();
 
-      if (vData != null) {
+      if (vData != null)
+      {
         vUrl += "&" + qx.io.remote.transport.Script.ScriptTransport_DATA_PARAM + "=" + encodeURIComponent(vData);
       }
 
@@ -275,7 +266,8 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * Switches the readystate by setting the internal state.
      *
-     * @param vReadyState {String} readystate value
+     * @param vReadyState {String}
+     *   readystate value
      */
     _switchReadyState : function(vReadyState)
     {
@@ -291,12 +283,11 @@ qx.Class.define("qx.io.remote.transport.Script",
       }
 
       // Updating internal state
-      while (this.__lastReadyState < vReadyState) {
+      while (this.__lastReadyState < vReadyState)
+      {
         this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
       }
     },
-
-
 
 
     /*
@@ -310,10 +301,14 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * This method is not implemented at the moment.
      *
-     * @param vLabel {String} Request header name
-     * @param vValue {var} Request header value
+     * @param vLabel {String}
+     *   Request header name
+     *
+     * @param vValue {var}
+     *   Request header value
      */
     setRequestHeader : function(vLabel, vValue) {},
+
 
     /*
     ---------------------------------------------------------------------------
@@ -326,23 +321,31 @@ qx.Class.define("qx.io.remote.transport.Script",
      *
      * This method is not implemented at the moment and returns always "null".
      *
-     * @param vLabel {String} Response header name
-     * @return {null} Returns null
+     * @param vLabel {String}
+     *   Response header name
+     *
+     * @return {null}
+     *   Returns null
      */
-    getResponseHeader : function(vLabel) {
+    getResponseHeader : function(vLabel)
+    {
       return null;
     },
+
 
     /**
      * Provides an hash of all response headers.
      *
      * This method is not implemented at the moment and returns an empty map.
      *
-     * @return {Map} empty map
+     * @return {Map}
+     *   Empty map
      */
-    getResponseHeaders : function() {
+    getResponseHeaders : function()
+    {
       return {};
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -354,21 +357,27 @@ qx.Class.define("qx.io.remote.transport.Script",
      * Returns the current status code of the request if available or -1 if not.
      * This method needs implementation (returns always 200).
      *
-     * @return {Integer} status code
+     * @return {Integer}
+     *   Status code
      */
-    getStatusCode : function() {
+    getStatusCode : function()
+    {
       return 200;
     },
+
 
     /**
      * Provides the status text for the current request if available and null otherwise.
      * This method needs implementation (returns always an empty string)
      *
-     * @return {String} always an empty string.
+     * @return {String}
+     *   Always an empty string.
      */
-    getStatusText : function() {
+    getStatusText : function()
+    {
       return "";
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -380,16 +389,20 @@ qx.Class.define("qx.io.remote.transport.Script",
      * Returns the length of the content as fetched thus far.
      * This method needs implementation (returns always 0).
      *
-     * @return {Integer} Returns 0
+     * @return {Integer}
+     *   Returns 0
      */
-    getFetchedLength : function() {
+    getFetchedLength : function()
+    {
       return 0;
     },
+
 
     /**
      * Returns the content of the response.
      *
-     * @return {null | String} If successful content of response as string.
+     * @return {null | String}
+     *   If successful content of response as string.
      */
     getResponseContent : function()
     {
@@ -397,7 +410,8 @@ qx.Class.define("qx.io.remote.transport.Script",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (qx.core.Environment.get("qx.debug.io.remote")) {
+          if (qx.core.Environment.get("qx.debug.io.remote"))
+          {
             this.warn("Transfer not complete, ignoring content!");
           }
         }
@@ -407,7 +421,8 @@ qx.Class.define("qx.io.remote.transport.Script",
 
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (qx.core.Environment.get("qx.debug.io.remote")) {
+        if (qx.core.Environment.get("qx.debug.io.remote"))
+        {
           this.debug("Returning content for responseType: " + this.getResponseType());
         }
       }
@@ -425,6 +440,7 @@ qx.Class.define("qx.io.remote.transport.Script",
               this.debug("Response: " + this._responseContent);
             }
           }
+
           var ret = this._responseContent;
           return (ret === 0 ? 0 : (ret || null));
 
@@ -436,13 +452,6 @@ qx.Class.define("qx.io.remote.transport.Script",
   },
 
 
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
   defer : function()
   {
     // basic registration to qx.io.remote.Exchange
@@ -450,14 +459,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     qx.io.remote.Exchange.registerType(qx.io.remote.transport.Script, "qx.io.remote.transport.Script");
   },
 
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {
