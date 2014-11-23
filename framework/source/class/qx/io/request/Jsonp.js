@@ -74,12 +74,14 @@ qx.Class.define("qx.io.request.Jsonp",
 {
   extend: qx.io.request.AbstractRequest,
 
+
   events:
   {
     /**
      * Fired when request completes without error and data has been received.
      */
     "success": "qx.event.type.Event",
+
 
     /**
      * Fired when request completes without error.
@@ -90,6 +92,7 @@ qx.Class.define("qx.io.request.Jsonp",
      * listening to the {@link #success} event instead.
      */
     "load": "qx.event.type.Event",
+
 
     /**
      * Fired when request completes without error but no data was received.
@@ -109,6 +112,7 @@ qx.Class.define("qx.io.request.Jsonp",
     "statusError": "qx.event.type.Event"
   },
 
+
   properties:
   {
     /**
@@ -124,6 +128,7 @@ qx.Class.define("qx.io.request.Jsonp",
       init: true
     }
   },
+
 
   members:
   {
@@ -143,6 +148,7 @@ qx.Class.define("qx.io.request.Jsonp",
     {
       return new qx.bom.request.Jsonp();
     },
+
 
     /**
      * Get configured URL.
@@ -172,6 +178,7 @@ qx.Class.define("qx.io.request.Jsonp",
 
       return url;
     },
+
 
     /**
      * Return the transport’s responseJson property.
@@ -205,6 +212,7 @@ qx.Class.define("qx.io.request.Jsonp",
     {
       this._transport.setCallbackParam(param);
     },
+
 
     /**
      * Set callback name.

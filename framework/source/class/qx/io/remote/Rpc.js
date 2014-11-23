@@ -86,12 +86,6 @@ qx.Class.define("qx.io.remote.Rpc",
   extend : qx.core.Object,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * @param url {String}
    *   Identifies the url where the service is found.  Note that if the url is
@@ -126,33 +120,24 @@ qx.Class.define("qx.io.remote.Rpc",
   },
 
 
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
   events :
   {
     /** Fired when call is completed. */
     "completed" : "qx.event.type.Event",
 
+
     /** Fired when call aborted. */
     "aborted" : "qx.event.type.Event",
 
+
     /** Fired when call failed. */
     "failed" : "qx.event.type.Event",
+
 
     /** Fired when call timed out. */
     "timeout" : "qx.event.type.Event"
   },
 
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
 
   statics :
   {
@@ -167,6 +152,7 @@ qx.Class.define("qx.io.remote.Rpc",
       local       : 4
     },
 
+
     /**
      *  Locally-detected errors
      */
@@ -176,6 +162,7 @@ qx.Class.define("qx.io.remote.Rpc",
       abort   : 2,
       nodata  : 3
     },
+
 
     /**
      * Boolean flag which controls the stringification of date objects.
@@ -201,6 +188,7 @@ qx.Class.define("qx.io.remote.Rpc",
      */
     CONVERT_DATES : null,
 
+
     /**
      * Boolean flag which controls whether to expect and verify a JSON
      * response.
@@ -219,6 +207,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * is preferred over the potentially insecure <code>eval</code>.
      */
     RESPONSE_JSON : null,
+
 
     /**
      * Creates an URL for talking to a local service. A local service is one that
@@ -257,12 +246,6 @@ qx.Class.define("qx.io.remote.Rpc",
   },
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     /** The timeout for asynchronous calls in milliseconds. */
@@ -271,6 +254,7 @@ qx.Class.define("qx.io.remote.Rpc",
       check : "Integer",
       nullable : true
     },
+
 
     /**
      * Indicate that the request is cross domain.
@@ -287,6 +271,7 @@ qx.Class.define("qx.io.remote.Rpc",
       init : false
     },
 
+
     /** The URL at which the service is located. */
     url :
     {
@@ -294,12 +279,14 @@ qx.Class.define("qx.io.remote.Rpc",
       nullable : true
     },
 
+
     /** The service name.  */
     serviceName :
     {
       check : "String",
       nullable : true
     },
+
 
     /**
      * Data sent as "out of band" data in the request to the server.  The
@@ -315,6 +302,7 @@ qx.Class.define("qx.io.remote.Rpc",
       nullable : true
     },
 
+
     /**
      * Username to use for HTTP authentication. Null if HTTP authentication
      * is not used.
@@ -324,6 +312,7 @@ qx.Class.define("qx.io.remote.Rpc",
       check : "String",
       nullable : true
     },
+
 
     /**
      * Password to use for HTTP authentication. Null if HTTP authentication
@@ -335,12 +324,14 @@ qx.Class.define("qx.io.remote.Rpc",
       nullable : true
     },
 
+
     /** Use Basic HTTP Authentication */
     useBasicHttpAuth :
     {
       check : "Boolean",
       nullable : true
     },
+
 
     /**
      * EXPERIMENTAL
@@ -359,16 +350,11 @@ qx.Class.define("qx.io.remote.Rpc",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     __previousServerSuffix : null,
     __currentServerSuffix : null,
+
 
     /**
      * Factory method to create a request object. By default, a POST request
@@ -385,6 +371,7 @@ qx.Class.define("qx.io.remote.Rpc",
                                 "POST",
                                 "application/json");
     },
+
 
     /**
      * Factory method to create the object containing the remote procedure
@@ -459,6 +446,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
       return requestObject;
     },
+
 
     /**
      * Internal RPC call method
@@ -812,6 +800,7 @@ qx.Class.define("qx.io.remote.Rpc",
       }
     },
 
+
     /**
      * Helper method to rewrite a URL with a stale session id (so that it includes
      * the correct session id afterwards).
@@ -844,6 +833,7 @@ qx.Class.define("qx.io.remote.Rpc",
               url.substring(index + this.__previousServerSuffix.length));
     },
 
+
     /**
      * Makes a synchronous server call. The method arguments (if any) follow
      * after the method name (as normal JavaScript arguments, separated by
@@ -870,6 +860,7 @@ qx.Class.define("qx.io.remote.Rpc",
     {
       return this._callInternal(arguments, 0);
     },
+
 
     /**
      * Makes an asynchronous server call. The method arguments (if any) follow
@@ -909,6 +900,7 @@ qx.Class.define("qx.io.remote.Rpc",
     {
       return this._callInternal(arguments, 1);
     },
+
 
     /**
      * Makes an asynchronous server call and dispatches an event upon completion
@@ -961,6 +953,7 @@ qx.Class.define("qx.io.remote.Rpc",
       return this._callInternal(arguments, 2);
     },
 
+
     /**
      * Refreshes a server session by retrieving the session id again from the
      * server.
@@ -1002,6 +995,7 @@ qx.Class.define("qx.io.remote.Rpc",
       }
     },
 
+
     /**
      * Whether to convert date objects to pseudo literals and
      * parse with eval.
@@ -1017,6 +1011,7 @@ qx.Class.define("qx.io.remote.Rpc",
       return !!(qx.io.remote.Rpc.CONVERT_DATES);
     },
 
+
     /**
      * Whether to expect and verify a JSON response.
      *
@@ -1030,6 +1025,7 @@ qx.Class.define("qx.io.remote.Rpc",
     {
       return !!(qx.io.remote.Rpc.RESPONSE_JSON);
     },
+
 
     /**
      * Aborts an asynchronous server call. Consequently, the callback function

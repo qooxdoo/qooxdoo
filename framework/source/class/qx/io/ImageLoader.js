@@ -29,12 +29,6 @@
  */
 qx.Bootstrap.define("qx.io.ImageLoader",
 {
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -42,6 +36,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      *   Internal data structure to cache image sizes
      */
     __data : {},
+
 
     /**
      * @type {Map}
@@ -53,17 +48,20 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       height : null
     },
 
+
     /**
      * @type {RegExp}
      *   Known image types
      */
     __knownImageTypesRegExp : /\.(png|gif|jpg|jpeg|bmp)\b/i,
 
+
     /**
      * @type {RegExp}
      *   Image types of a data URL
      */
     __dataUrlRegExp : /^data:image\/(png|gif|jpg|jpeg|bmp)\b/i,
+
 
     /**
      * Whether the given image has previously been loaded using the
@@ -83,6 +81,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       return !!(entry && entry.loaded);
     },
 
+
     /**
      * Whether the given image has previously been requested using the
      * {@link #load} method but failed.
@@ -101,6 +100,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       return !!(entry && entry.failed);
     },
 
+
     /**
      * Whether the given image is currently loading.
      *
@@ -117,6 +117,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
 
       return !!(entry && entry.loading);
     },
+
 
     /**
      * Returns the format of a previously loaded image.
@@ -162,6 +163,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       return entry ? entry.format : null;
     },
 
+
     /**
      * Returns the size of a previously loaded image.
      *
@@ -180,6 +182,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       return entry ? { width: entry.width, height: entry.height } : this.__defaultSize;
     },
 
+
     /**
      * Returns the image width.
      *
@@ -197,6 +200,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       return entry ? entry.width : null;
     },
 
+
     /**
      * Returns the image height.
      *
@@ -213,6 +217,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
 
       return entry ? entry.height : null;
     },
+
 
     /**
      * Loads the given image. Supports a callback which is
@@ -291,6 +296,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       }
     },
 
+
     /**
      * Abort the loading for the given url.
      *
@@ -327,6 +333,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
 
       this.__data[source] = null;
     },
+
 
     /**
      * Internal event listener for all load/error events.
@@ -391,6 +398,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       }
     }),
 
+
     /**
      * Returns the natural width of the given image element.
      *
@@ -406,6 +414,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         element.naturalWidth : element.width;
     },
 
+
     /**
      * Returns the natural height of the given image element.
      *
@@ -420,6 +429,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       return qx.core.Environment.get("html.image.naturaldimensions") ?
         element.naturalHeight : element.height;
     },
+
 
     /**
      * Dispose stored images.

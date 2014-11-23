@@ -30,12 +30,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   extend : qx.io.remote.transport.Abstract,
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -59,6 +53,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       ]
     },
 
+
     /**
      * Return a new XMLHttpRequest object suitable for the client browser.
      *
@@ -73,6 +68,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       {
         return new XMLHttpRequest;
       },
+
 
       // IE7's native XmlHttp does not care about trusted zones. To make this
       // work in the localhost scenario, you can use the following registry setting:
@@ -113,12 +109,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   },
 
 
-  /*
-   *****************************************************************************
-      PROPERTIES
-   *****************************************************************************
-   */
-
    properties :
    {
     /**
@@ -136,12 +126,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
    },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     /*
@@ -153,6 +137,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     __localRequest : false,
     __lastReadyState : 0,
     __request : null,
+
 
     /**
      * Returns the native request object
@@ -584,6 +569,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       return vResponseHeader;
     },
 
+
     /**
      * Returns all response headers of the request.
      *
@@ -607,6 +593,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       return vSourceHeader;
     },
+
 
     /**
      * Provides a hash of all response headers.
@@ -723,6 +710,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       return vResponseText;
     },
 
+
     /**
      * Provides the XML provided by the response if any and null otherwise.  By
      * passing true as the "partial" parameter of this method, incomplete data will
@@ -783,6 +771,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       return vResponseXML;
     },
 
+
     /**
      * Returns the length of the content as fetched thus far.
      *
@@ -795,6 +784,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       return typeof vText == "string" ? vText.length : 0;
     },
+
 
     /**
      * Returns the content of the response.
@@ -1009,12 +999,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   },
 
 
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
   defer : function()
   {
     // basic registration to qx.io.remote.Exchange
@@ -1022,12 +1006,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     qx.io.remote.Exchange.registerType(qx.io.remote.transport.XmlHttp, "qx.io.remote.transport.XmlHttp");
   },
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

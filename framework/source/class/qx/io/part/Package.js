@@ -27,14 +27,6 @@
  */
 qx.Bootstrap.define("qx.io.part.Package",
 {
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * Constructor
    *
@@ -56,12 +48,6 @@ qx.Bootstrap.define("qx.io.part.Package",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     __readyState : null,
@@ -71,6 +57,7 @@ qx.Bootstrap.define("qx.io.part.Package",
     __loadWithClosure : null,
     __timeoutId : null,
     __notifyPackageResult : null,
+
 
     /**
      * Get the package ID.
@@ -82,6 +69,7 @@ qx.Bootstrap.define("qx.io.part.Package",
     {
       return this.__id;
     },
+
 
     /**
      * Get the ready state of the package.
@@ -103,6 +91,7 @@ qx.Bootstrap.define("qx.io.part.Package",
       return this.__readyState;
     },
 
+
     /**
      * Returns the Urls stored stored in the package.
      *
@@ -115,6 +104,7 @@ qx.Bootstrap.define("qx.io.part.Package",
     {
       return this.__urls;
     },
+
 
     /**
      * Method for storing the closure for this package. This is only relevant
@@ -145,6 +135,7 @@ qx.Bootstrap.define("qx.io.part.Package",
       }
     },
 
+
     /**
      * Executes the stored closure. This is only relevant if a
      * {@link qx.io.part.ClosurePart} is used.
@@ -165,6 +156,7 @@ qx.Bootstrap.define("qx.io.part.Package",
 
       this.__readyState = "complete";
     },
+
 
     /**
      * Load method if the package loads a closure. This is only relevant if a
@@ -207,6 +199,7 @@ qx.Bootstrap.define("qx.io.part.Package",
       }, qx.Part.TIMEOUT);
     },
 
+
     /**
      * Load the part's script URLs in the correct order.
      *
@@ -240,6 +233,7 @@ qx.Bootstrap.define("qx.io.part.Package",
         this
       );
     },
+
 
     /**
      * Loads a list of scripts in the correct order.
@@ -320,6 +314,7 @@ qx.Bootstrap.define("qx.io.part.Package",
 
       loadScripts(urlList.concat());
     },
+
 
     /**
      * Import the data of a package. The function is defined in the loader

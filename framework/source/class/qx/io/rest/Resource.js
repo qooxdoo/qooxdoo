@@ -121,6 +121,7 @@ qx.Class.define("qx.io.rest.Resource",
 {
   extend: qx.core.Object,
 
+
   /**
    * @param description {Map?} Each key of the map is interpreted as
    *  <code>action</code> name. The value associated to the key must be a map
@@ -164,6 +165,7 @@ qx.Class.define("qx.io.rest.Resource",
     }
   },
 
+
   events:
   {
     /**
@@ -176,6 +178,7 @@ qx.Class.define("qx.io.rest.Resource",
      */
     "success": "qx.event.type.Rest",
 
+
     /**
      * Fired when request associated to action given in prefix was successful.
      *
@@ -183,6 +186,7 @@ qx.Class.define("qx.io.rest.Resource",
      * successful.
      */
     "actionSuccess": "qx.event.type.Rest",
+
 
     /**
      * Fired when any request fails.
@@ -194,6 +198,7 @@ qx.Class.define("qx.io.rest.Resource",
      */
     "error": "qx.event.type.Rest",
 
+
     /**
      * Fired when any request associated to action given in prefix fails.
      *
@@ -201,6 +206,7 @@ qx.Class.define("qx.io.rest.Resource",
      */
     "actionError": "qx.event.type.Rest"
   },
+
 
   statics:
   {
@@ -210,15 +216,18 @@ qx.Class.define("qx.io.rest.Resource",
      */
     POLL_THROTTLE_LIMIT: 100,
 
+
     /**
      * Number of immediate long-poll responses accepted before throttling takes place.
      */
     POLL_THROTTLE_COUNT: 30,
 
+
     /**
      * A symbol used in checks to declare required parameter.
      */
     REQUIRED: true,
+
 
     /**
      * Get placeholders from URL.
@@ -235,12 +244,14 @@ qx.Class.define("qx.io.rest.Resource",
     }
   },
 
+
   members:
   {
     _resource: null,
     __longPollHandlers: null,
     __pollTimers: null,
     __routes: null,
+
 
     /**
      * Get resource.
@@ -257,6 +268,7 @@ qx.Class.define("qx.io.rest.Resource",
     {
       return new qx.bom.rest.Resource(description);
     },
+
 
     /**
      * Tailors (apply dependency injection) the given resource to fit our needs.
@@ -307,6 +319,7 @@ qx.Class.define("qx.io.rest.Resource",
       return resource;
     },
 
+
     //
     // Request
     //
@@ -331,6 +344,7 @@ qx.Class.define("qx.io.rest.Resource",
       this._resource.configureRequest(callback);
     },
 
+
     /**
      * Get request.
      *
@@ -343,6 +357,7 @@ qx.Class.define("qx.io.rest.Resource",
     {
       return new qx.io.request.Xhr();
     },
+
 
     //
     // Routes and actions
@@ -382,6 +397,7 @@ qx.Class.define("qx.io.rest.Resource",
 
       this._resource.map(action, method, url, check);
     },
+
 
     /**
      * Map actions to members.
@@ -433,6 +449,7 @@ qx.Class.define("qx.io.rest.Resource",
       this[action].action = true;
     },
 
+
     /**
      * Invoke action with parameters.
      *
@@ -466,6 +483,7 @@ qx.Class.define("qx.io.rest.Resource",
       return this._resource.invoke(action, params, data);
     },
 
+
     /**
      * Set base URL.
      *
@@ -479,6 +497,7 @@ qx.Class.define("qx.io.rest.Resource",
     {
       this._resource.setBaseUrl(baseUrl);
     },
+
 
     /**
      * Abort action.
@@ -505,6 +524,7 @@ qx.Class.define("qx.io.rest.Resource",
       this._resource.abort(varargs);
     },
 
+
     /**
      * Resend request associated to action.
      *
@@ -517,6 +537,7 @@ qx.Class.define("qx.io.rest.Resource",
     {
       this._resource.refresh(action);
     },
+
 
     /**
      * Periodically invoke action.
@@ -596,6 +617,7 @@ qx.Class.define("qx.io.rest.Resource",
 
       return timer;
     },
+
 
     /**
      * Long-poll action.
@@ -680,6 +702,7 @@ qx.Class.define("qx.io.rest.Resource",
       return handlerId;
     },
 
+
     /**
      * Get request configuration for action and parameters.
      *
@@ -700,6 +723,7 @@ qx.Class.define("qx.io.rest.Resource",
       return this._resource._getRequestConfig(action, params);
     },
 
+
     /**
      * Override to adjust the throttle limit.
      *
@@ -711,6 +735,7 @@ qx.Class.define("qx.io.rest.Resource",
       return qx.io.rest.Resource.POLL_THROTTLE_LIMIT;
     },
 
+
     /**
      * Override to adjust the throttle count.
      *
@@ -721,6 +746,7 @@ qx.Class.define("qx.io.rest.Resource",
     {
       return qx.io.rest.Resource.POLL_THROTTLE_COUNT;
     },
+
 
     /**
      * Map actions from description.
@@ -748,6 +774,7 @@ qx.Class.define("qx.io.rest.Resource",
       }, this);
     },
 
+
     /**
      * Declare event at runtime.
      *
@@ -767,6 +794,7 @@ qx.Class.define("qx.io.rest.Resource",
       }
     }
   },
+
 
   /**
    * Desctructs the Resource.

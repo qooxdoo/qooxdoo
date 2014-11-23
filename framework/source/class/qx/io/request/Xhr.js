@@ -66,6 +66,7 @@ qx.Class.define("qx.io.request.Xhr",
 {
   extend: qx.io.request.AbstractRequest,
 
+
   /**
    * Constructor
    *
@@ -86,6 +87,7 @@ qx.Class.define("qx.io.request.Xhr",
     this._parser = this._createResponseParser();
   },
 
+
   // Only document events with transport specific details.
   // For a complete list of events, refer to AbstractRequest.
   events:
@@ -97,6 +99,7 @@ qx.Class.define("qx.io.request.Xhr",
      */
     "readyStateChange": "qx.event.type.Event",
 
+
     /**
      * Fired when request completes without error and transport status
      * indicates success.
@@ -105,6 +108,7 @@ qx.Class.define("qx.io.request.Xhr",
      * status considered successful.
      */
     "success": "qx.event.type.Event",
+
 
     /**
      * Fired when request completes without error.
@@ -116,6 +120,7 @@ qx.Class.define("qx.io.request.Xhr",
      */
     "load": "qx.event.type.Event",
 
+
     /**
      * Fired when request completes without error but erroneous HTTP status.
      *
@@ -124,6 +129,7 @@ qx.Class.define("qx.io.request.Xhr",
      */
     "statusError": "qx.event.type.Event"
   },
+
 
   properties:
   {
@@ -134,6 +140,7 @@ qx.Class.define("qx.io.request.Xhr",
       init: "GET"
     },
 
+
     /**
      * Whether the request should be executed asynchronously.
      */
@@ -141,6 +148,7 @@ qx.Class.define("qx.io.request.Xhr",
       check: "Boolean",
       init: true
     },
+
 
     /**
      * The content type to accept. By default, every content type
@@ -156,6 +164,7 @@ qx.Class.define("qx.io.request.Xhr",
       check: "String",
       nullable: true
     },
+
 
     /**
      * Whether to allow request to be answered from cache.
@@ -197,9 +206,9 @@ qx.Class.define("qx.io.request.Xhr",
     }
   },
 
+
   members:
   {
-
     /**
      * @type {Function} Parser.
      */
@@ -222,6 +231,7 @@ qx.Class.define("qx.io.request.Xhr",
     {
       return new qx.bom.request.Xhr();
     },
+
 
     /**
      * Get configured URL.
@@ -251,6 +261,7 @@ qx.Class.define("qx.io.request.Xhr",
 
       return url;
     },
+
 
     // overridden
     _getConfiguredRequestHeaders: function() {
@@ -289,17 +300,20 @@ qx.Class.define("qx.io.request.Xhr",
       return headers;
     },
 
+
     // overridden
     _getMethod: function()
     {
       return this.getMethod();
     },
 
+
     // overridden
     _isAsync: function()
     {
       return this.isAsync();
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -318,6 +332,7 @@ qx.Class.define("qx.io.request.Xhr",
         return new qx.util.ResponseParser();
     },
 
+
     /**
      * Returns response parsed with parser determined by content type.
      *
@@ -331,6 +346,7 @@ qx.Class.define("qx.io.request.Xhr",
 
       return this._parser.parse(response, contentType);
     },
+
 
     /**
      * Set parser used to parse response once request has

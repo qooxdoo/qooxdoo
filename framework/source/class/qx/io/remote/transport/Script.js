@@ -32,12 +32,6 @@ qx.Class.define("qx.io.remote.transport.Script",
   extend : qx.io.remote.transport.Abstract,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -54,12 +48,6 @@ qx.Class.define("qx.io.remote.transport.Script",
   },
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -69,12 +57,14 @@ qx.Class.define("qx.io.remote.transport.Script",
      */
     __uniqueId : 0,
 
+
     /**
      * Registry for all script transport instances.
      *
      * @internal
      */
     _instanceRegistry : {},
+
 
     /**
      * Internal URL parameter prefix.
@@ -83,6 +73,7 @@ qx.Class.define("qx.io.remote.transport.Script",
      */
     ScriptTransport_PREFIX : "_ScriptTransport_",
 
+
     /**
      * Internal URL parameter ID.
      *
@@ -90,12 +81,14 @@ qx.Class.define("qx.io.remote.transport.Script",
      */
     ScriptTransport_ID_PARAM : "_ScriptTransport_id",
 
+
     /**
      * Internal URL parameter data prefix.
      *
      * @internal
      */
     ScriptTransport_DATA_PARAM : "_ScriptTransport_data",
+
 
     /**
      * Capabilities of this transport type.
@@ -111,6 +104,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       programaticFormFields : false,
       responseTypes         : [ "text/plain", "text/javascript", "application/json" ]
     },
+
 
     /**
      * Returns always true, because script transport is supported by all browsers.
@@ -143,6 +137,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       "interactive"   : 3,
       "complete"      : 4
     },
+
 
     /**
      * This method can be called by the script loaded by the ScriptTransport
@@ -181,17 +176,12 @@ qx.Class.define("qx.io.remote.transport.Script",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     __lastReadyState : 0,
     __element : null,
     __uniqueId : null,
+
 
     /*
     ---------------------------------------------------------------------------
@@ -342,6 +332,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       return null;
     },
 
+
     /**
      * Provides an hash of all response headers.
      *
@@ -374,6 +365,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       return 200;
     },
 
+
     /**
      * Provides the status text for the current request if available and null otherwise.
      * This method needs implementation (returns always an empty string)
@@ -385,6 +377,7 @@ qx.Class.define("qx.io.remote.transport.Script",
     {
       return "";
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -403,6 +396,7 @@ qx.Class.define("qx.io.remote.transport.Script",
     {
       return 0;
     },
+
 
     /**
      * Returns the content of the response.
@@ -458,12 +452,6 @@ qx.Class.define("qx.io.remote.transport.Script",
   },
 
 
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
   defer : function()
   {
     // basic registration to qx.io.remote.Exchange
@@ -471,12 +459,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     qx.io.remote.Exchange.registerType(qx.io.remote.transport.Script, "qx.io.remote.transport.Script");
   },
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

@@ -26,14 +26,6 @@
  */
 qx.Bootstrap.define("qx.io.part.Part",
 {
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * Constructor
    *
@@ -64,18 +56,13 @@ qx.Bootstrap.define("qx.io.part.Part",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     _readyState : null,
     _loader : null,
     _packages : null,
     __name : null,
+
 
     /**
      * Get the ready state of the part.
@@ -95,6 +82,7 @@ qx.Bootstrap.define("qx.io.part.Part",
       return this._readyState;
     },
 
+
     /**
      * The part name as defined in the config file.
      *
@@ -105,6 +93,7 @@ qx.Bootstrap.define("qx.io.part.Part",
     {
       return this.__name;
     },
+
 
     /**
      * Internal helper for testing purposes.
@@ -118,6 +107,7 @@ qx.Bootstrap.define("qx.io.part.Part",
     {
       return this._packages;
     },
+
 
     /**
      * Method for preloading this part.
@@ -142,6 +132,7 @@ qx.Bootstrap.define("qx.io.part.Part",
         }, 0);
       }
     },
+
 
     /**
      * Loads the part asynchronously. The callback is called after the part and
@@ -206,6 +197,7 @@ qx.Bootstrap.define("qx.io.part.Part",
       this._markAsCompleted("complete");
     },
 
+
     /**
      * Helper for appending a listener to this part.
      *
@@ -228,6 +220,7 @@ qx.Bootstrap.define("qx.io.part.Part",
       });
     },
 
+
     /**
      * Helper for marking the part as complete.
      *
@@ -239,6 +232,7 @@ qx.Bootstrap.define("qx.io.part.Part",
       this._readyState = readyState;
       this._loader.notifyPartResult(this);
     },
+
 
     /**
      * Method used to start up the application in case not all parts
@@ -252,6 +246,7 @@ qx.Bootstrap.define("qx.io.part.Part",
         qx.$$loader.signalStartup();
       }
     },
+
 
     /**
      * Helper for checking if the part is loaded completely.

@@ -31,12 +31,6 @@ qx.Class.define("qx.io.remote.Request",
   extend : qx.core.Object,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * Constructor.
    *
@@ -81,25 +75,23 @@ qx.Class.define("qx.io.remote.Request",
   },
 
 
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
   events :
   {
     /** Fired when the Request object changes its state to 'created' */
     "created" : "qx.event.type.Event",
 
+
     /** Fired when the Request object changes its state to 'configured' */
     "configured" : "qx.event.type.Event",
+
 
     /** Fired when the Request object changes its state to 'sending' */
     "sending" : "qx.event.type.Event",
 
+
     /** Fired when the Request object changes its state to 'receiving' */
     "receiving" : "qx.event.type.Event",
+
 
     /**
      * Fired once the request has finished successfully. The event object
@@ -107,22 +99,19 @@ qx.Class.define("qx.io.remote.Request",
      */
     "completed" : "qx.io.remote.Response",
 
+
     /** Fired when the pending request has been aborted. */
     "aborted" : "qx.event.type.Event",
 
+
     /** Fired when the pending request failes. */
     "failed" : "qx.io.remote.Response",
+
 
     /** Fired when the pending request times out. */
     "timeout" : "qx.io.remote.Response"
   },
 
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
 
   statics :
   {
@@ -157,26 +146,17 @@ qx.Class.define("qx.io.remote.Request",
   },
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
-    /**
-     * Target url to issue the request to.
-     */
+    /** Target url to issue the request to. */
     url :
     {
       check : "String",
       init : ""
     },
 
-    /**
-     * Determines what type of request to issue (GET, POST, PUT, HEAD, DELETE).
-     */
+
+    /** Determines what type of request to issue (GET, POST, PUT, HEAD, DELETE). */
     method :
     {
       check : [ "GET", "POST", "PUT", "HEAD", "DELETE" ],
@@ -184,23 +164,22 @@ qx.Class.define("qx.io.remote.Request",
       init : "GET"
     },
 
-    /**
-     * Set the request to asynchronous.
-     */
+
+    /** Set the request to asynchronous. */
     asynchronous :
     {
       check : "Boolean",
       init : true
     },
 
-    /**
-     * Set the data to be sent via this request.
-     */
+
+    /** Set the data to be sent via this request. */
     data :
     {
       check : "String",
       nullable : true
     },
+
 
     /**
      * Username to use for HTTP authentication.
@@ -212,6 +191,7 @@ qx.Class.define("qx.io.remote.Request",
       nullable : true
     },
 
+
     /**
      * Password to use for HTTP authentication.
      * Set to NULL if HTTP authentication is not used.
@@ -222,9 +202,8 @@ qx.Class.define("qx.io.remote.Request",
       nullable : true
     },
 
-    /**
-     * The state that the request is in, while being processed.
-     */
+
+    /** The state that the request is in, while being processed. */
     state :
     {
       check : [
@@ -235,6 +214,7 @@ qx.Class.define("qx.io.remote.Request",
       apply : "_applyState",
       event : "changeState"
     },
+
 
     /**
      * Response type of request.
@@ -256,6 +236,7 @@ qx.Class.define("qx.io.remote.Request",
       apply : "_applyResponseType"
     },
 
+
     /**
      * Number of milliseconds before the request is being timed out.
      *
@@ -267,6 +248,7 @@ qx.Class.define("qx.io.remote.Request",
       check : "Integer",
       nullable : true
     },
+
 
     /**
      * Prohibit request from being cached.
@@ -298,6 +280,7 @@ qx.Class.define("qx.io.remote.Request",
       apply : "_applyProhibitCaching"
     },
 
+
     /**
      * Indicate that the request is cross domain.
      *
@@ -313,6 +296,7 @@ qx.Class.define("qx.io.remote.Request",
       init : false
     },
 
+
     /**
      * Indicate that the request will be used for a file upload.
      *
@@ -327,6 +311,7 @@ qx.Class.define("qx.io.remote.Request",
       init : false
     },
 
+
     /**
      * The transport instance used for the request.
      *
@@ -338,6 +323,7 @@ qx.Class.define("qx.io.remote.Request",
       nullable : true
     },
 
+
     /**
      * Use Basic HTTP Authentication.
      */
@@ -346,6 +332,7 @@ qx.Class.define("qx.io.remote.Request",
       check : "Boolean",
       init : false
     },
+
 
     /**
      * If true and the responseType property is set to "application/json", getContent() will
@@ -365,12 +352,6 @@ qx.Class.define("qx.io.remote.Request",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -398,6 +379,7 @@ qx.Class.define("qx.io.remote.Request",
       qx.io.remote.RequestQueue.getInstance().add(this);
     },
 
+
     /**
      * Abort sending this request.
      *
@@ -409,6 +391,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       qx.io.remote.RequestQueue.getInstance().abort(this);
     },
+
 
     /**
      * Abort sending this request if it has not already been aborted.
@@ -448,6 +431,7 @@ qx.Class.define("qx.io.remote.Request",
       return this.getState() === "configured";
     },
 
+
     /**
      * Determine if this request is in the 'queued' state.
      *
@@ -459,6 +443,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       return this.getState() === "queued";
     },
+
 
     /**
      * Determine if this request is in the 'sending' state.
@@ -472,6 +457,7 @@ qx.Class.define("qx.io.remote.Request",
       return this.getState() === "sending";
     },
 
+
     /**
      * Determine if this request is in the 'receiving' state.
      *
@@ -483,6 +469,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       return this.getState() === "receiving";
     },
+
 
     /**
      * Determine if this request is in the 'completed' state.
@@ -496,6 +483,7 @@ qx.Class.define("qx.io.remote.Request",
       return this.getState() === "completed";
     },
 
+
     /**
      * Determine if this request is in the 'aborted' state.
      *
@@ -508,6 +496,7 @@ qx.Class.define("qx.io.remote.Request",
       return this.getState() === "aborted";
     },
 
+
     /**
      * Determine if this request is in the 'timeout' state.
      *
@@ -519,6 +508,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       return this.getState() === "timeout";
     },
+
 
     /**
      * Determine if this request is in the 'failed' state.
@@ -553,6 +543,7 @@ qx.Class.define("qx.io.remote.Request",
       this.dispatchEvent(clonedEvent);
     }),
 
+
     /**
      * Event handler called when the request enters the 'queued' state.
      *
@@ -567,6 +558,7 @@ qx.Class.define("qx.io.remote.Request",
       // Bubbling up
       this.__forwardEvent(e);
     },
+
 
     /**
      * Event handler called when the request enters the 'sending' state.
@@ -583,6 +575,7 @@ qx.Class.define("qx.io.remote.Request",
       this.__forwardEvent(e);
     },
 
+
     /**
      * Event handler called when the request enters the 'receiving' state.
      *
@@ -597,6 +590,7 @@ qx.Class.define("qx.io.remote.Request",
       // Bubbling up
       this.__forwardEvent(e);
     },
+
 
     /**
      * Event handler called when the request enters the 'completed' state.
@@ -616,6 +610,7 @@ qx.Class.define("qx.io.remote.Request",
       this.dispose();
     },
 
+
     /**
      * Event handler called when the request enters the 'aborted' state.
      *
@@ -633,6 +628,7 @@ qx.Class.define("qx.io.remote.Request",
       // Automatically dispose after event completion
       this.dispose();
     },
+
 
     /**
      * Event handler called when the request enters the 'timeout' state.
@@ -665,6 +661,7 @@ qx.Class.define("qx.io.remote.Request",
       // Automatically dispose after event completion
       this.dispose();
     },
+
 
     /**
      * Event handler called when the request enters the 'failed' state.
@@ -703,6 +700,7 @@ qx.Class.define("qx.io.remote.Request",
       }
     },
 
+
     // property apply
     _applyProhibitCaching : function(value, old)
     {
@@ -737,6 +735,7 @@ qx.Class.define("qx.io.remote.Request",
       this.setRequestHeader("Cache-Control", "no-cache");
     },
 
+
     // property apply
     _applyMethod : function(value, old)
     {
@@ -756,6 +755,7 @@ qx.Class.define("qx.io.remote.Request",
       var prohibitCaching = this.getProhibitCaching();
       this._applyProhibitCaching(prohibitCaching, prohibitCaching);
     },
+
 
     // property apply
     _applyResponseType : function(value, old)
@@ -793,6 +793,7 @@ qx.Class.define("qx.io.remote.Request",
       this.__requestHeaders[vId] = vValue;
     },
 
+
     /**
      * Remove a previously-added request header
      *
@@ -803,6 +804,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       delete this.__requestHeaders[vId];
     },
+
 
     /**
      * Retrieve the value of a header which was previously set.
@@ -817,6 +819,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       return this.__requestHeaders[vId] || null;
     },
+
 
     /**
      * Return the object containing all of the headers which have been added.
@@ -873,6 +876,7 @@ qx.Class.define("qx.io.remote.Request",
       }
     },
 
+
     /**
      * Remove a parameter from the request.
      *
@@ -895,6 +899,7 @@ qx.Class.define("qx.io.remote.Request",
         delete this.__urlParameters[vId];
       }
     },
+
 
     /**
      * Get a parameter in the request.
@@ -921,6 +926,7 @@ qx.Class.define("qx.io.remote.Request",
         return this.__urlParameters[vId] || null;
       }
     },
+
 
     /**
      * Returns the object containg all parameters for the request.
@@ -967,6 +973,7 @@ qx.Class.define("qx.io.remote.Request",
       this.__formFields[vId] = vValue;
     },
 
+
     /**
      * Remove a form field from the POST request.
      *
@@ -977,6 +984,7 @@ qx.Class.define("qx.io.remote.Request",
     {
       delete this.__formFields[vId];
     },
+
 
     /**
      * Get a form field in the POST request.
@@ -993,6 +1001,7 @@ qx.Class.define("qx.io.remote.Request",
       return this.__formFields[vId] || null;
     },
 
+
     /**
      * Returns the object containg all form fields for the POST request.
      *
@@ -1006,6 +1015,7 @@ qx.Class.define("qx.io.remote.Request",
       return this.__formFields;
     },
 
+
     /**
      * Obtain the sequence (id) number used for this request
      *
@@ -1018,12 +1028,6 @@ qx.Class.define("qx.io.remote.Request",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

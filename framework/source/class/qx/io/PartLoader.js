@@ -28,12 +28,6 @@ qx.Class.define("qx.io.PartLoader",
   extend : qx.core.Object,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -54,12 +48,6 @@ qx.Class.define("qx.io.PartLoader",
   },
 
 
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
   events :
   {
     /**
@@ -67,6 +55,7 @@ qx.Class.define("qx.io.PartLoader",
      * loaded part instance.
      */
     "partLoaded" : "qx.event.type.Data",
+
 
     /**
      * Fired if a part could not be loaded. The event's
@@ -76,12 +65,6 @@ qx.Class.define("qx.io.PartLoader",
     "partLoadingError" : "qx.event.type.Data"
   },
 
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
 
   statics :
   {
@@ -108,12 +91,6 @@ qx.Class.define("qx.io.PartLoader",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     /**
@@ -136,6 +113,7 @@ qx.Class.define("qx.io.PartLoader",
       this._loader.require(partNames, callback, self);
     },
 
+
     /**
      * Get the part instance of the part with the given name.
      *
@@ -149,6 +127,7 @@ qx.Class.define("qx.io.PartLoader",
     {
       return this.getParts()[name];
     },
+
 
     /**
      * Checks if a part with the given name is available.
@@ -164,6 +143,7 @@ qx.Class.define("qx.io.PartLoader",
     {
       return this.getPart(name) !== undefined;
     },
+
 
     /**
      * Returns a map of all known parts.

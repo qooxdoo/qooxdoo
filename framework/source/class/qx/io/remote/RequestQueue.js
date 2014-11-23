@@ -34,12 +34,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
   extend : qx.core.Object,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -55,12 +49,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
   },
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     /** Indicates whether queue is enabled or not. */
@@ -71,6 +59,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       apply : "_applyEnabled"
     },
 
+
     /** The maximum number of total requests. */
     maxTotalRequests :
     {
@@ -78,12 +67,14 @@ qx.Class.define("qx.io.remote.RequestQueue",
       nullable : true
     },
 
+
     /** Maximum number of parallel requests. */
     maxConcurrentRequests :
     {
       check : "Integer",
       init : qx.core.Environment.get("io.maxrequests")
     },
+
 
     /** Default timeout for remote requests in milliseconds. */
     defaultTimeout :
@@ -93,12 +84,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -125,6 +110,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       return this.__queue;
     },
 
+
     /**
      * Get a list of active queued requests, each one wrapped in an instance of
      * {@link qx.io.remote.Exchange}.
@@ -137,6 +123,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       return this.__active;
     },
+
 
     /**
      * Generates debug output.
@@ -155,6 +142,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
         }
       }
     },
+
 
     /**
      * Checks the queue if any request is left to send and uses the transport
@@ -223,6 +211,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
     },
 
+
     /**
      * Removes a transport object from the active queue and disposes the
      * transport object in order stop the request.
@@ -274,6 +263,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       e.getTarget().getRequest()._onsending(e);
     },
 
+
     /**
      * Listens for the "receiving" event of the transport object and delegate
      * the event to the current request object.
@@ -285,6 +275,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       e.getTarget().getRequest()._onreceiving(e);
     },
+
 
     /**
      * Listens for the 'completed' event of the transport object and decreases
@@ -463,6 +454,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
     },
 
+
     /**
      * Remove the request from the pending requests queue.
      *
@@ -489,12 +481,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

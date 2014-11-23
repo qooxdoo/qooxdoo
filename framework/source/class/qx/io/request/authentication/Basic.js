@@ -22,10 +22,9 @@
  */
 qx.Class.define("qx.io.request.authentication.Basic",
 {
-
   extend: qx.core.Object,
-
   implement: qx.io.request.authentication.IAuthentication,
+
 
   /**
    * @param username {var}
@@ -39,9 +38,11 @@ qx.Class.define("qx.io.request.authentication.Basic",
      this.__credentials = qx.util.Base64.encode(username + ':' + password);
   },
 
+
   members :
   {
     __credentials : null,
+
 
     /**
      * Headers to include for basic authentication.
@@ -56,6 +57,7 @@ qx.Class.define("qx.io.request.authentication.Basic",
       ];
     }
   },
+
 
   destruct : function()
   {

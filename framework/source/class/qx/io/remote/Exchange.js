@@ -35,12 +35,6 @@ qx.Class.define("qx.io.remote.Exchange",
   extend : qx.core.Object,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * Constructor method.
    *
@@ -56,39 +50,32 @@ qx.Class.define("qx.io.remote.Exchange",
   },
 
 
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
   events :
   {
     /** Fired whenever a request is send */
     "sending" : "qx.event.type.Event",
 
+
     /** Fired whenever a request is received */
     "receiving" : "qx.event.type.Event",
+
 
     /** Fired whenever a request is completed */
     "completed" : "qx.io.remote.Response",
 
+
     /** Fired whenever a request is aborted */
     "aborted" : "qx.event.type.Event",
 
+
     /** Fired whenever a request has failed */
     "failed" : "qx.io.remote.Response",
+
 
     /** Fired whenever a request has timed out */
     "timeout" : "qx.io.remote.Response"
   },
 
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
 
   statics :
   {
@@ -149,6 +136,7 @@ qx.Class.define("qx.io.remote.Exchange",
       qx.io.remote.Exchange.typesAvailable[vId] = vClass;
     },
 
+
     /**
      * Initializes the available type of transport classes and
      * checks for the supported ones.
@@ -180,6 +168,7 @@ qx.Class.define("qx.io.remote.Exchange",
         throw new Error("No supported transport types were found!");
       }
     },
+
 
     /**
      * Checks which supported transport class can handle the request with the
@@ -409,6 +398,7 @@ qx.Class.define("qx.io.remote.Exchange",
       }
     },
 
+
     /**
      * Status code to string conversion.
      *
@@ -562,12 +552,6 @@ qx.Class.define("qx.io.remote.Exchange",
   },
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     /** Set the request to send with this transport. */
@@ -576,6 +560,7 @@ qx.Class.define("qx.io.remote.Exchange",
       check : "qx.io.remote.Request",
       nullable : true
     },
+
 
     /**
      * Set the implementation to use to send the request with.
@@ -590,6 +575,7 @@ qx.Class.define("qx.io.remote.Exchange",
       apply : "_applyImplementation"
     },
 
+
     /** Current state of the transport layer. */
     state :
     {
@@ -603,12 +589,6 @@ qx.Class.define("qx.io.remote.Exchange",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -721,6 +701,7 @@ qx.Class.define("qx.io.remote.Exchange",
       this.error("There is no transport implementation available to handle this request: " + vRequest);
     },
 
+
     /**
      * Force the transport into the aborted ("aborted") state.
      */
@@ -753,6 +734,7 @@ qx.Class.define("qx.io.remote.Exchange",
         this.setState("aborted");
       }
     },
+
 
     /**
      * Force the transport into the timeout state.
@@ -823,6 +805,7 @@ qx.Class.define("qx.io.remote.Exchange",
       this.setState("sending");
     },
 
+
     /**
      * Event listener for "receiving" event.
      *
@@ -833,6 +816,7 @@ qx.Class.define("qx.io.remote.Exchange",
     {
       this.setState("receiving");
     },
+
 
     /**
      * Event listener for "completed" event.
@@ -845,6 +829,7 @@ qx.Class.define("qx.io.remote.Exchange",
       this.setState("completed");
     },
 
+
     /**
      * Event listener for "abort" event.
      *
@@ -856,6 +841,7 @@ qx.Class.define("qx.io.remote.Exchange",
       this.setState("aborted");
     },
 
+
     /**
      * Event listener for "failed" event.
      *
@@ -866,6 +852,7 @@ qx.Class.define("qx.io.remote.Exchange",
     {
       this.setState("failed");
     },
+
 
     /**
      * Event listener for "timeout" event.
@@ -977,6 +964,7 @@ qx.Class.define("qx.io.remote.Exchange",
       }
     },
 
+
     /**
      * Apply method for the state property.
      *
@@ -1073,24 +1061,12 @@ qx.Class.define("qx.io.remote.Exchange",
   },
 
 
-  /*
-  *****************************************************************************
-     ENVIRONMENT SETTINGS
-  *****************************************************************************
-  */
-
   environment :
   {
     "qx.debug.io.remote"       : false,
     "qx.debug.io.remote.data"  : false
   },
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

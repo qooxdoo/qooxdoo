@@ -29,12 +29,6 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
   extend : qx.io.part.Part,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   /**
    * Constructor
    *
@@ -53,15 +47,10 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
   },
 
 
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
     __packagesToLoad : 0,
+
 
     // overridden
     preload : function(callback, self)
@@ -86,6 +75,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
         }
       }
     },
+
 
     /**
      * Loads the closure part including all its packages. The loading will
@@ -153,6 +143,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       }
     },
 
+
     /**
      * Executes the packages in their correct order and marks the part as
      * complete after execution.
@@ -167,13 +158,14 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
       this._markAsCompleted("complete");
     },
 
+
     /**
      * Handler for every package load. It checks for errors and decreases the
      * packages to load. If all packages has been loaded, it invokes the
      * execution.
      *
      * @param pkg {qx.io.part.Package}
-     *   Loaded package.
+     *   Loaded package
      */
     _onPackageLoad : function(pkg)
     {

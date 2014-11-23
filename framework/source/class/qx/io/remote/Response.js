@@ -26,12 +26,6 @@ qx.Class.define("qx.io.remote.Response",
   extend : qx.event.type.Event,
 
 
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
   properties :
   {
     /** State of the response. */
@@ -41,6 +35,7 @@ qx.Class.define("qx.io.remote.Response",
       nullable : true
     },
 
+
     /** Status code of the response. */
     statusCode :
     {
@@ -48,11 +43,13 @@ qx.Class.define("qx.io.remote.Response",
       nullable : true
     },
 
+
     /** Content of the response. */
     content :
     {
       nullable : true
     },
+
 
     /** The headers of the response. */
     responseHeaders :
@@ -63,12 +60,6 @@ qx.Class.define("qx.io.remote.Response",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -94,6 +85,7 @@ qx.Class.define("qx.io.remote.Response",
       return clone;
     },
 
+
     /**
      * Returns a specific response header.
      *
@@ -112,6 +104,7 @@ qx.Class.define("qx.io.remote.Response",
 
       return null;
     },
+
 
     /**
      * Keep lower-cased shadow of response headers for later

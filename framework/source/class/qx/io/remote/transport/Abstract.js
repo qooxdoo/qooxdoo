@@ -27,12 +27,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
   extend : qx.core.Object,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -43,45 +37,40 @@ qx.Class.define("qx.io.remote.transport.Abstract",
   },
 
 
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
   events :
   {
     /** Event when a request is created */
     "created" : "qx.event.type.Event",
 
+
     /** Event when a request is configured */
     "configured" : "qx.event.type.Event",
+
 
     /** Event when a request is send */
     "sending" : "qx.event.type.Event",
 
+
     /** Event when a request is received */
     "receiving" : "qx.event.type.Event",
+
 
     /** Event when a request is completed */
     "completed" : "qx.event.type.Event",
 
+
     /** Event when a request is aborted */
     "aborted" : "qx.event.type.Event",
 
+
     /** Event when a request has failed */
     "failed" : "qx.event.type.Event",
+
 
     /** Event when a request has timed out */
     "timeout" : "qx.event.type.Event"
   },
 
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
 
   properties :
   {
@@ -92,6 +81,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       nullable : true
     },
 
+
     /** Determines what type of request to issue */
     method :
     {
@@ -99,6 +89,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       nullable : true,
       init : "GET"
     },
+
 
     /** Set the request to asynchronous */
     asynchronous :
@@ -108,12 +99,14 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       init : true
     },
 
+
     /** Set the data to be sent via this request */
     data :
     {
       check : "String",
       nullable : true
     },
+
 
     /** Username to use for HTTP authentication */
     username :
@@ -122,12 +115,14 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       nullable : true
     },
 
+
     /** Password to use for HTTP authentication */
     password :
     {
       check : "String",
       nullable : true
     },
+
 
     /** The state of the current request */
     state :
@@ -141,12 +136,14 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       apply : "_applyState"
     },
 
+
     /** Request headers */
     requestHeaders :
     {
       check : "Object",
       nullable : true
     },
+
 
     /** Request parameters to send. */
     parameters :
@@ -155,6 +152,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       nullable : true
     },
 
+
     /** Request form fields to send. */
     formFields :
     {
@@ -162,12 +160,14 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       nullable : true
     },
 
+
     /** Response Type */
     responseType :
     {
       check : "String",
       nullable : true
     },
+
 
     /** Use Basic HTTP Authentication */
     useBasicHttpAuth :
@@ -177,12 +177,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -208,6 +202,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       throw new Error("send is abstract");
     },
 
+
     /**
      * Force the transport into the aborted state ("aborted").
      *
@@ -226,6 +221,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       this.setState("aborted");
     },
 
+
     /**
      * Force the transport into the timeout state ("timeout").
      *
@@ -243,6 +239,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
       this.setState("timeout");
     },
+
 
     /**
      * Force the transport into the failed state ("failed").
@@ -320,6 +317,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       throw new Error("getResponseHeader is abstract");
     },
 
+
     /**
      * Provides a hash of all response headers.
      *
@@ -365,6 +363,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     {
       throw new Error("getStatusCode is abstract");
     },
+
 
     /**
      * Provides the status text for the current request if available and null otherwise.
@@ -415,6 +414,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
       throw new Error("getResponseText is abstract");
     },
 
+
     /**
      * Provides the XML provided by the response if any and null otherwise.
      * By passing true as the "partial" parameter of this method, incomplete data will
@@ -436,6 +436,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     {
       throw new Error("getResponseXml is abstract");
     },
+
 
     /**
      * Returns the length of the content as fetched thus far.
@@ -522,12 +523,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {

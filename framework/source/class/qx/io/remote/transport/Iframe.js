@@ -34,12 +34,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
   extend : qx.io.remote.transport.Abstract,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
   construct : function()
   {
     this.base(arguments);
@@ -83,12 +77,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
   },
 
 
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -111,6 +99,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
         "text/html"
       ]
     },
+
 
     /**
      * Returns always true, because iframe transport is supported by all browsers.
@@ -147,12 +136,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     }
   },
 
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
 
   members :
   {
@@ -267,6 +250,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       this.setState("sending");
     },
 
+
     /**
      * Converting complete state to numeric value and update state property
      *
@@ -293,6 +277,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       this._switchReadyState(qx.io.remote.transport.Iframe._numericMap.complete);
     }),
 
+
     /**
      * Converting named readyState to numeric value and update state property
      *
@@ -305,6 +290,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     {
       this._switchReadyState(qx.io.remote.transport.Iframe._numericMap[this.__frame.readyState]);
     }),
+
 
     /**
      * Switches the readystate by setting the internal state.
@@ -352,6 +338,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      */
     setRequestHeader : function(vLabel, vValue) {},
 
+
     /*
     ---------------------------------------------------------------------------
       RESPONSE HEADER SUPPORT
@@ -374,6 +361,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       return null;
     },
 
+
     /**
      * Provides an hash of all response headers.
      *
@@ -386,6 +374,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     {
       return {};
     },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -404,6 +393,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     {
       return 200;
     },
+
 
     /**
      * Provides the status text for the current request if available and null otherwise.
@@ -435,6 +425,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       return qx.bom.Iframe.getWindow(this.__frame);
     },
 
+
     /**
      * Returns the document node of the used iframe.
      *
@@ -445,6 +436,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     {
       return qx.bom.Iframe.getDocument(this.__frame);
     },
+
 
     /**
      * Returns the body node of the used iframe.
@@ -497,6 +489,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       }
     },
 
+
     /**
      * Returns the iframe content as HTML.
      *
@@ -522,6 +515,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     {
       return 0;
     },
+
 
     /**
      * Returns the content of the response
@@ -638,12 +632,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
   },
 
 
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
   defer : function()
   {
     // basic registration to qx.io.remote.Exchange
@@ -651,12 +639,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     qx.io.remote.Exchange.registerType(qx.io.remote.transport.Iframe, "qx.io.remote.transport.Iframe");
   },
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
 
   destruct : function()
   {
