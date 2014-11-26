@@ -99,7 +99,7 @@ def processVariantGet(callNode, variantMap):
 def processVariantSelect(callNode, variantMap):
     if callNode.type != "call":
         return False
-        
+
     params = callNode.getChild("arguments")
     if len(params.children) != 2:
         log("Warning", "Expecting exactly two arguments for qx.core.Environment.select. Ignoring this occurrence.", params)
@@ -149,7 +149,7 @@ def processVariantSelect(callNode, variantMap):
                     break
                 if key == "default":
                     default = mapvalue
-                    
+
         if not found:
             if default != None:
                 callNode.parent.replaceChild(callNode, default)
@@ -216,6 +216,8 @@ def reduceCall(callNode, value):
 # @return {Iter<Node>} node generator
 #
 InterestingEnvMethods = ["select", "selectAsync", "get", "getAsync", "filter"]
+InterestingEnvClasses = ["qx.core.Environment", "qxWeb.env"]
+
 def findVariantNodes(node):
     for callnode in list(treeutil.nodeIterator(node, ['call'])): # enforce eagerness so nodes that are moved are still handled
         if isEnvironmentCall(callnode):
@@ -231,7 +233,7 @@ def isEnvironmentCall(callNode):
     environParts = operand.rsplit('.',1)
     if len(environParts) != 2:
         return False
-    elif environParts[0] != "qx.core.Environment":
+    elif environParts[0] not in InterestingEnvClasses:
         return False
     elif environParts[1] not in InterestingEnvMethods:
         return False
@@ -243,9 +245,9 @@ def isEnvironmentCall(callNode):
 
 ##
 # Returns e.g.
-#   ( "qx.debug", 
+#   ( "qx.debug",
 #     {
-#       "on"  : <ecmascript.frontend.tree.Node>, 
+#       "on"  : <ecmascript.frontend.tree.Node>,
 #       "off" : <ecmascript.frontend.tree.Node>
 #     }
 #   )
@@ -253,7 +255,7 @@ def getSelectParams(callNode):
     result = (None, None)
     if callNode.type != "call":
         return result
-        
+
     params = callNode.getChild("arguments")
     if len(params.children) != 2:
         log("Warning", "Expecting exactly two arguments for qx.core.Environment.select. Ignoring this occurrence.", params)
@@ -326,7 +328,7 @@ def getFilterMap(callNode, fileId_):
 def search(node, variantMap, fileId_="", verb=False):
     if not variantMap:
         return False
-    
+
     global verbose
     global fileId
     verbose = verb

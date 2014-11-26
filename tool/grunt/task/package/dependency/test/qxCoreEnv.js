@@ -244,6 +244,32 @@ module.exports = {
       var treeBadQxEnvCall = treeTmpl;
       test.ok(!this.qxCoreEnv.isQxCoreEnvironmentCall(treeBadQxEnvCall));
 
+      var treeTmpl_qxWeb = {
+        type: 'CallExpression',
+        callee: {
+          type: 'MemberExpression',
+          object: {
+            type: 'MemberExpression',
+            object: {
+              type: 'Identifier',
+              name: 'qxWeb',
+            },
+            property: {
+              type: 'Identifier',
+              name: 'env'
+            }
+          },
+          property: {
+            type: 'Identifier',
+            name: 'toBeFilledByTests'
+          }
+        }
+      };
+
+      treeTmpl_qxWeb.callee.property.name = 'get';
+      var treeGoodGet_qxWeb = treeTmpl_qxWeb;
+      test.ok(this.qxCoreEnv.isQxCoreEnvironmentCall(treeGoodGet_qxWeb));
+
       test.done();
     },
 
