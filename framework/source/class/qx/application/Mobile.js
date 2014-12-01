@@ -55,7 +55,7 @@ qx.Class.define("qx.application.Mobile",
     /**
      * Fired when the method {@link qx.ui.mobile.page.Page#back} is called. It is possible to prevent
      * the <code>back</code> event on {@link qx.ui.mobile.page.Page} by calling the
-     * {@link qx.event.type.Event#preventDefault}. Data indicating whether the action 
+     * {@link qx.event.type.Event#preventDefault}. Data indicating whether the action
      * was triggered by a key event or not.
      */
     "back" : "qx.event.type.Data",

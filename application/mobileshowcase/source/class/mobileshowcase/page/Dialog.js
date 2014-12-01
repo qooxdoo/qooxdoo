@@ -164,7 +164,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
     _createPicker : function(anchor) {
       var pickerDialog = this.__pickerDialog = new qx.ui.mobile.dialog.Popup(anchor);
       pickerDialog.setTitle("Picker");
-      
+
       var picker = this.__picker = new qx.ui.mobile.control.Picker();
       picker.addListener("changeSelection", this.__onPickerChangeSelection,this);
 

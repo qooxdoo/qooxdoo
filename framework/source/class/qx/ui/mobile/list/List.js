@@ -558,7 +558,7 @@ qx.Class.define("qx.ui.mobile.list.List",
         }
         var item = model.getItem(index);
         var itemElement = this.__provider.getItemElement(item, index);
-        
+
         var itemHeight = null;
         if (this.getItemHeight() !== null) {
           itemHeight = this.getItemHeight() + "px";
@@ -566,7 +566,7 @@ qx.Class.define("qx.ui.mobile.list.List",
         // Fixed height
         qx.bom.element.Style.set(itemElement, "minHeight", itemHeight);
         qx.bom.element.Style.set(itemElement, "maxHeight", itemHeight);
-        
+
         this.getContentElement().appendChild(itemElement);
       }
 

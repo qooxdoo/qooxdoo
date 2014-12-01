@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     pageEnd : "qx.event.type.Event",
 
 
-    /** Fired when a vertical or horizontal waypoint is triggered. Data: 
+    /** Fired when a vertical or horizontal waypoint is triggered. Data:
     * <code> {"offset": 0,
     *        "input": "10%",
     *        "index": 0,
@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
     /**
     * Sets the current x position.
-    * @param value {Number} the current horizontal position. 
+    * @param value {Number} the current horizontal position.
     */
     _setCurrentX : function(value) {
       var old = this._currentX;
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
     /**
     * Sets the current y position.
-    * @param value {Number} the current vertical position.  
+    * @param value {Number} the current vertical position.
     */
     _setCurrentY : function(value) {
       var old = this._currentY;
@@ -167,7 +167,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
 
    /**
     * Sets the horizontal trigger points, where a <code>waypoint</code> event will be fired.
-    * @param waypoints {Array} description 
+    * @param waypoints {Array} description
     */
     setWaypointsX : function(waypoints) {
       this._waypointsX = waypoints;
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
     getScrollWidth: function() {
       return this._getScrollWidth();
     },
-    
+
 
     /**
      * Re-calculates the internal waypoint offsets.
@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
         if (waypoint.offset !== null) {
-          
+
           if ((value > -1 && value >= waypoint.offset) ||
            (value < 0 && waypoint.offset < 0 && value <= waypoint.offset)) {
             nextWaypoint = waypoint;

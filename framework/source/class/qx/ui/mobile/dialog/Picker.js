@@ -19,7 +19,7 @@
 
 /**
  * @deprecated {4.1} Please use qx.ui.mobile.control.Picker instead.
- * 
+ *
  * The picker widget gives the user the possibility to select a value out of an array
  * of values. The picker widget is always shown in a {@link qx.ui.mobile.dialog.Popup}.
  *
