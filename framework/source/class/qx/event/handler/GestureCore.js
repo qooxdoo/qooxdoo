@@ -320,19 +320,29 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             if (time < limit) {
               delete this.__lastTap[time];
             } else {
-              if (this.__isBelowDoubleTapDistance(
-                this.__lastTap[time].x, this.__lastTap[time].y, domEvent.clientX, domEvent.clientY,
+              var lastTap = this.__lastTap[time];
+              var isBelowDoubleTapDistance = this.__isBelowDoubleTapDistance(
+                lastTap.x,
+                lastTap.y,
+                domEvent.clientX,
+                domEvent.clientY,
                 domEvent.getPointerType()
-              ) && (this.__lastTap[time].target === (domEvent.target || target))) {
+              );
+              var isSameTarget = lastTap.target === (domEvent.target || target);
+              var isSameButton = lastTap.button === domEvent.button;
+
+              if (isBelowDoubleTapDistance && isSameButton && isSameTarget) {
                 this._fireEvent(domEvent, "dbltap", domEvent.target || target);
               }
             }
           }
         }
+
         this.__lastTap[Date.now()] = {
           x: domEvent.clientX,
           y: domEvent.clientY,
-          target: domEvent.target || target
+          target: domEvent.target || target,
+          button: domEvent.button
         };
 
       } else if (!this._isBelowTapMaxDistance(domEvent)) {
