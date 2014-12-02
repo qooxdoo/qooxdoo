@@ -34,14 +34,20 @@ qx.tool.Cache = require('../lib/qx/tool/Cache');
 
 
 // functions
-var queryAndWriteCurrentJobs = function(cacheFilePath, cache) {
+var queryAndWriteCurrentJobs = function(grunt, cacheFilePath, cache) {
   var cmd = 'python generate.py --list-jobs';
   var jobs = {};
 
   var stdout = shell.exec(cmd, {silent:true}).output;
   jobs.timestamp = new Date().getTime();
-  jobs.map = JSON.parse(stdout);
-  cache.write(cacheFilePath, JSON.stringify(jobs));
+  try {
+    jobs.map = JSON.parse(stdout);
+    cache.write(cacheFilePath, JSON.stringify(jobs));
+  } catch (syntaxError) {
+    grunt.warn("Abort JSON parsing. 'python generate.py --list-jobs'"+
+               "doesn't generate valid JSON:\n" + syntaxError.message);
+  }
+
   return jobs.map;
 };
 
@@ -133,7 +139,7 @@ var registerTasks = function(grunt) {
     registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs(), getCancelledJobs());
     registerNodeTasks(grunt, conf.QOOXDOO_PATH);
   } else {
-    jobs = queryAndWriteCurrentJobs(files.jobsAndDesc, cache);
+    jobs = queryAndWriteCurrentJobs(grunt, files.jobsAndDesc, cache);
     if (jobs !== null) {
       registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs(), getCancelledJobs());
     }
