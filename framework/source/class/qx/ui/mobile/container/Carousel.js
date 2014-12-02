@@ -611,43 +611,11 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
 
     /**
-     * @deprecated {3.5} Please use _setTransitionDuration instead.
-     *
-     * Determines whether a transition should be shown on carouselScroller move or not.
-     * Target value will be buffered, and only be set on target element when target value is different
-     * to the value alreay set.
-     * @param showTransition {Boolean} Target value which triggers transition.
-     */
-    _setShowTransition : function(showTransition) {
-      if (showTransition === true) {
-        this._setTransitionDuration(this.getTransitionDuration());
-      } else {
-        this._setTransitionDuration(0);
-      }
-    },
-
-
-    /**
     * Applies the CSS property "transitionDuration" to the carouselScroller.
     * @param value {Number} the target value of the transitionDuration.
     */
     _setTransitionDuration : function(value) {
       qx.bom.element.Style.set(this.__carouselScroller.getContentElement(), "transitionDuration", value+"s");
-    },
-
-
-    /**
-     * @deprecated {3.5} This method is not used anymore.
-     *
-     * If velocity of swipe is above this value, the swipe will trigger a page change on carousel.
-     * A swipe to left would trigger an increase, a swipe to right a decrease of pageIndex.
-     * If velocity is below the limit, the snap mechanism of carousel will be used:
-     * A page change is only caused when the horizontal center of the page is moved above/below
-     * the horizontal center of the carousel.
-     *
-     * @param limit {Integer} Target value of swipeVelocityLimit. Typical within the range of [0.1-10]. Default value is 1.5
-     */
-    setSwipeVelocityLimit : function(limit) {
     },
 
 

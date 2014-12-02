@@ -479,10 +479,6 @@ qx.Class.define("qx.test.core.Environment",
       this.assertNumber(qx.core.Environment.get("device.pixelRatio"));
     },
 
-    testJson : function() {
-      this.assertBoolean(qx.core.Environment.get("json"));
-    },
-
     testQx : function() {
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlSettings"), "1");
       this.assertBoolean(qx.core.Environment.get("qx.allowUrlVariants"), "2");

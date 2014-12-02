@@ -569,19 +569,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         }
         return null;
       }
-    },
-
-
-    /**
-     * @deprecated {3.5} Please use qx.ui.mobile.core.Blocker.getInstance() instead.
-     *
-     * Returns the blocker widget.
-     *
-     * @return {qx.ui.mobile.core.Blocker} Returns the blocker widget.
-     */
-    _getBlocker : function()
-    {
-      return qx.ui.mobile.core.Blocker.getInstance();
     }
   },
 

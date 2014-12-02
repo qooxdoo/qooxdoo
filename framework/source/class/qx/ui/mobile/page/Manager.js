@@ -177,35 +177,6 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     /**
-     * @deprecated {3.5} The method 'isMasterContainerHidden()' is deprecated. Please use getMasterContainer().isHidden instead.
-     * @return {Boolean} flag is value is true/false.
-     */
-    isMasterContainerHidden : function() {
-       if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'isMasterContainerHidden()' is deprecated. Please use getMasterContainer().isHidden() instead.");
-      }
-      return this.__masterContainer.isHidden();
-    },
-
-
-    /**
-     * @deprecated {3.5} The method 'setMasterContainerHidden()' is deprecated. Please use this.getMasterContainer().show or this.getMasterContainer().hide instead.
-     * @param value {Boolean} the target value.
-     */
-    setMasterContainerHidden : function(value) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'setMasterContainerHidden()' is deprecated. Please use getMasterContainer().show() / hide() instead.");
-      }
-
-      if(value) {
-        this.__masterContainer.hide();
-      } else {
-        this.__masterContainer.show();
-      }
-    },
-
-
-    /**
      * Creates the master container.
      *
      * @return {qx.ui.mobile.container.Composite} The created container

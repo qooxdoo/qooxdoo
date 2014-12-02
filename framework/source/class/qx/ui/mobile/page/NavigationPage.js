@@ -325,51 +325,6 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
 
 
     /**
-    * @deprecated {4.0} This method was moved to qx.ui.mobile.container.Scroll
-    *
-    * Scrolls the wrapper contents to the x/y coordinates in a given
-    * period.
-    *
-    * @param x {Integer} X coordinate to scroll to.
-    * @param y {Integer} Y coordinate to scroll to.
-    * @param time {Integer} Time slice in which scrolling should
-    *              be done.
-    *
-    */
-    scrollTo : function(x, y, time)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'scrollTo()' was moved to 'qx.ui.mobile.container.Scroll'.");
-      }
-      this.__scrollContainer.scrollTo(x, y, time);
-    },
-
-
-    /**
-    * @deprecated {4.0} This method was moved to qx.ui.mobile.container.Scroll
-    *
-    * Scrolls the wrapper contents to the widgets coordinates in a given
-    * period.
-    *
-    * @param widget {qx.ui.mobile.core.Widget} the widget, the scroll container should scroll to.
-    * @param time {Integer} Time slice in which scrolling should
-    *              be done.
-    *
-    */
-    scrollToWidget : function(widget, time)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'scrollToWidget()' was moved to 'qx.ui.mobile.container.Scroll'.");
-      }
-      if(widget) {
-        this.__scrollContainer.scrollToElement(widget.getId(), time);
-      }
-    },
-
-
-    /**
      * Returns the content container. Add all your widgets to this container.
      *
      * @return {qx.ui.mobile.container.Composite} The content container

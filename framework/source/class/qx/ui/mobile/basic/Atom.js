@@ -93,19 +93,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
 
 
     /**
-     * @deprecated {4.0} Please use SCSS variable $application-gap-size instead.
-     * The space between the icon and the label
-     */
-    gap :
-    {
-      check : "Integer",
-      nullable : false,
-      apply : "_applyGap",
-      init : 4
-    },
-
-
-    /**
      * Configure the visibility of the sub elements/widgets.
      * Possible values: both, text, icon
      */
@@ -168,15 +155,6 @@ qx.Class.define("qx.ui.mobile.basic.Atom",
         } else if(value === 'label') {
           this.__icon.exclude();
         }
-      }
-    },
-
-    /* @deprecated {3.5} Please use SCSS variable $application-gap-size instead. */
-    _applyGap : function(value, old)
-    {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The property 'gap' is deprecated. Please use SCSS variable $application-gap-size instead.");
       }
     },
 

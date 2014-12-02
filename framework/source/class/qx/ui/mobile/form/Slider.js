@@ -354,28 +354,6 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     /**
-     * @deprecated {3.5} This method is not available anymore.
-     *
-     * Determines whether the knob position needs an offset.
-     * This offset is needed for preventing the knob to be shown outside the
-     * range.
-     *
-     * @param position {Integer} The knob position
-     * @return {Integer} The adjusted knob position.
-     */
-    _getOffsetForKnob : function(position) {
-      var offset = 10;
-      if(position < offset) {
-        return offset;
-      } else if (position > this._containerElementWidth - offset) {
-        return this._containerElementWidth - offset;
-      }
-
-      return position;
-    },
-
-
-    /**
      * Converts the given value to percent.
      *
      * @param value {Integer} The value to convert

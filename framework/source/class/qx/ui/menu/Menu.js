@@ -298,22 +298,6 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * Opens the menu at the mouse position
-     *
-     * @param e {qx.event.type.Mouse}  Mouse event to align to
-     * @deprecated {4.0}
-     */
-    openAtMouse : function(e)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,
-          "Please use '_onPointerOver' instead.");
-      }
-      this.openAtPointer(e);
-    },
-
-
-    /**
      * Opens the menu at the pointer position
      *
      * @param e {qx.event.type.Pointer} Pointer event to align to
