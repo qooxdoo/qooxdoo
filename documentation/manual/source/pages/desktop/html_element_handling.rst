@@ -10,7 +10,7 @@ This document describes the ideas and concepts behind the classes in the ``qx.ht
 Idea
 ====
 
-The classes in ``qx.html`` are wrapper for native DOM elements, which basically were created to solve one major issue: 
+The classes in ``qx.html`` are wrapper for native DOM elements, which basically were created to solve one major issue:
 
 **Automatically keeping care of DOM manipulation and creation while dealing with large number of elements.**
 
@@ -91,13 +91,13 @@ This element is used to create iframes to embed content from other sources to th
 Canvas
 ------
 
-Renders a `HTML5 Canvas <http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html>`_ to the DOM. Has methods to access the render context as well to configure the dimensions of the Canvas.
+Renders a `HTML5 Canvas <https://html.spec.whatwg.org/multipage/scripting.html#the-canvas-element>`_ to the DOM. Has methods to access the render context as well to configure the dimensions of the Canvas.
 
 .. _pages/html_element_handling#the_queue:
 
 The Queue
 =========
 
-Internally most actions applied to the instances of ``qx.html.Element`` are applied lazily to the DOM. All style or attribute changes are queued for example to set them at once. This is especially useful to allow to bump out changes at once to the browser even when these happens in multi places and more important on more than one element. 
+Internally most actions applied to the instances of ``qx.html.Element`` are applied lazily to the DOM. All style or attribute changes are queued for example to set them at once. This is especially useful to allow to bump out changes at once to the browser even when these happens in multi places and more important on more than one element.
 
 Even things like focus handling or scrolling may be queued. It depends on if the element is currently visible etc. whether these are queued. ``focus`` makes often more sense when it is directly executed as the following code may make assumptions that the changes are applied already. Generally qooxdoo allows it to apply most changes without the queue as well using a ``direct`` flag which is part of most setters offered by ``qx.html.Element``.
