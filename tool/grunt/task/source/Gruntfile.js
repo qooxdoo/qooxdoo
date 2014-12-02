@@ -67,6 +67,7 @@ module.exports = function(grunt) {
         locales:  "<%= common.LOCALES %>",
         sourcePath: "<%= common.SOURCE_PATH %>/script",
         cachePath: "<%= common.CACHE %>",
+        loaderTemplate: "<%= common.QOOXDOO_PATH %>/tool/data/generator/loader.tmpl.js",
         environment: common.ENVIRONMENT,
         includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
         excludes: [],
