@@ -320,16 +320,21 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             if (time < limit) {
               delete this.__lastTap[time];
             } else {
+              var lastTap = this.__lastTap[time];
               if (this.__isBelowDoubleTapDistance(
-                this.__lastTap[time].x, this.__lastTap[time].y, domEvent.clientX, domEvent.clientY,
+                lastTap.x, lastTap.y, domEvent.clientX, domEvent.clientY,
                 domEvent.getPointerType()
-              )) {
+              ) && ( lastTap.button === null || ( lastTap.button == domEvent.button) ) ) {
                 this._fireEvent(domEvent, "dbltap", domEvent.target || target);
               }
             }
           }
         }
-        this.__lastTap[Date.now()] = {x: domEvent.clientX, y: domEvent.clientY};
+        this.__lastTap[Date.now()] = {
+          x: domEvent.clientX, 
+          y: domEvent.clientY, 
+          button: (domEvent.button === "undefined")?null:domEvent.button
+        };
 
       } else if (!this._isBelowTapMaxDistance(domEvent)) {
         var swipe = this.__getSwipeGesture(domEvent, target);
