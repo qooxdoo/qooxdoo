@@ -323,13 +323,17 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
               if (this.__isBelowDoubleTapDistance(
                 this.__lastTap[time].x, this.__lastTap[time].y, domEvent.clientX, domEvent.clientY,
                 domEvent.getPointerType()
-              )) {
+              ) && (this.__lastTap[time].target === (domEvent.target || target))) {
                 this._fireEvent(domEvent, "dbltap", domEvent.target || target);
               }
             }
           }
         }
-        this.__lastTap[Date.now()] = {x: domEvent.clientX, y: domEvent.clientY};
+        this.__lastTap[Date.now()] = {
+          x: domEvent.clientX,
+          y: domEvent.clientY,
+          target: domEvent.target || target
+        };
 
       } else if (!this._isBelowTapMaxDistance(domEvent)) {
         var swipe = this.__getSwipeGesture(domEvent, target);
