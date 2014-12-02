@@ -115,7 +115,7 @@ qx.Bootstrap.define("qxWeb", {
     $attachStatic : function(module) {
       for (var name in module) {
         if (qx.core.Environment.get("qx.debug")) {
-          if (qxWeb[name] != undefined) {
+          if (qxWeb[name] != undefined && override !== true) {
             throw new Error("Method '" + name + "' already available as static method.");
           }
         }
