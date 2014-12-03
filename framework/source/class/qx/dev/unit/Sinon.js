@@ -4916,6 +4916,10 @@ return sinon;}.call(typeof window != 'undefined' && window || {}));
     this.fail(msg, true);
   };
 
+  // HTTP Status 207 is missing in map to resolve code to status text
+  this.sinon.FakeXMLHttpRequest.statusCodes[207] = "Multi-Status";
+
+
   var origSinon = this.sinon;
 
   // Expose to qooxdoo
@@ -4926,10 +4930,3 @@ return sinon;}.call(typeof window != 'undefined' && window || {}));
 
 
 }).call(this);
-
-
-/** Above is the original code of SinonJS */
-
-
-// HTTP Status 207 is missing in map to resolve code to status text
-sinon.FakeXMLHttpRequest.statusCodes[207] = "Multi-Status";
