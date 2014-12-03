@@ -4926,3 +4926,10 @@ return sinon;}.call(typeof window != 'undefined' && window || {}));
 
 
 }).call(this);
+
+
+/** Above is the original code of SinonJS */
+
+
+// HTTP Status 207 is missing in map to resolve code to status text
+sinon.FakeXMLHttpRequest.statusCodes[207] = "Multi-Status";
