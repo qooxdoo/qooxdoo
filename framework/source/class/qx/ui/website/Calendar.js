@@ -277,21 +277,24 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
     // overridden
     setEnabled: function (value) {
-      var tempDate = new Date().setFullYear(5000);
-      var minDate = this.getConfig("minDate") || new Date(0);
-      var maxDate = this.getConfig("maxDate") || new Date(tempDate);
+      var minDate = this.getConfig("minDate");
+      var maxDate = this.getConfig("maxDate");
       var currentDate = null;
 
-      if (!value || !(minDate || maxDate)) {
-        // disable calendar
-        this.base(arguments, value);
-      } else {
-        // enable calendar
+      this.base(arguments, value);
+
+      if (value && (minDate || maxDate)) {
         this.find("button.qx-calendar-day").map(function (button) {
           currentDate = new Date(button.getAttribute("value"));
           button = qxWeb(button);
-          if (minDate < currentDate && maxDate > currentDate) {
-            button.removeAttribute("disabled");
+
+          // Disables a day when the current date is smaller than minDate
+          if (minDate && currentDate < minDate) {
+            button.setAttribute("disabled", true);
+          }
+          // Disables a day when it current date is greater than maxDate
+          if (maxDate && currentDate > maxDate) {
+            button.setAttribute("disabled", true);
           }
         });
       }
