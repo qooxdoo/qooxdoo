@@ -661,7 +661,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       // get the last target object of the chain
       var properties = this.__getPropertyChainArray(targetPropertyChain);
       var target = this.__getTargetFromChain(targetObject, properties);
-      if (target !== null) {
+      if (target) {
         // get the name of the last property
         var lastProperty = properties[properties.length - 1];
 
