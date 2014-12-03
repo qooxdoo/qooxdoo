@@ -269,9 +269,11 @@ q.ready(function() {
    * was changed)
    */
   var renderWidgets = q.func.debounce (function() {
-    var c = q("#content .qx-widget").filter(function(el) {
+    q("#content .qx-widget").filter(function(el) {
       return el.offsetWidth > 0;
-    }).render();
+    }).forEach(function (widget) {
+      q(widget).render();
+    });
   }, 100, false);
 
   q("#sizeSlider")
