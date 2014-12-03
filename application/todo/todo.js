@@ -40,9 +40,11 @@ q.define({
     },
 
     _onAdd : function() {
-      var name = prompt("Task name", "") || "";
-      this.__data.push({id: Date.now(), done: false, name: name});
-      this.save();
+      var name = prompt("Task name", "");
+      if (name) {
+        this.__data.push({id: Date.now(), done: false, name: name});
+        this.save();
+      }
     },
 
     _onClear : function() {
