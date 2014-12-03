@@ -134,8 +134,7 @@ img.no-content {
     @include transform(translate3d(0,0,0));
     position: fixed;
     bottom: 0;
-    width:100%;
-    height: 672px !important;
+    width: 100%;
   }
 }
 
