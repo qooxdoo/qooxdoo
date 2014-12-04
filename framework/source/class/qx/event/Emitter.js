@@ -167,7 +167,7 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param data {var?undefined} The data which should be passed to the listener.
      */
     emit : function(name, data) {
-      var storage = this.__getStorage(name);
+      var storage = this.__getStorage(name).concat();
       for (var i = 0; i < storage.length; i++) {
         var entry = storage[i];
         entry.listener.call(entry.ctx, data);
