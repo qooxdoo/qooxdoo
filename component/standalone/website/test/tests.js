@@ -1951,6 +1951,22 @@ testrunner.define({
   },
 
 
+  testOnceWith3 : function() {
+    var test = q.create("<div/>");
+    var self = this;
+    var called = 0;
+    var listener = function() {
+      called++;
+    };
+    test.once("changeName", listener);
+    test.once("changeName", listener);
+    test.once("changeName", listener);
+
+    test.emit("changeName");
+    this.assertEquals(3, called);
+  },
+
+
   testOnOffEmitNative : function()
   {
     var test = q.create("<div id='foo'/>");
