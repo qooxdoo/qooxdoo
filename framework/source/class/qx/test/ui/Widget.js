@@ -54,6 +54,10 @@ qx.Class.define("qx.test.ui.Widget",
       this.__widget.replaceState("test", "affe");
       this.assertTrue(this.__widget.hasState("affe"));
       this.assertFalse(this.__widget.hasState("test"));
+    },
+
+    testWidgetThatContainsItself: function () {
+      this.assertFalse(qx.ui.core.Widget.contains(this.__widget, this.__widget));
     }
   }
 });
