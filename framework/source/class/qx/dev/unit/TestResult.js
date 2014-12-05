@@ -128,6 +128,8 @@ qx.Class.define("qx.dev.unit.TestResult",
      * @param testFunction {Function} The test function
      * @param self {Object?} The context in which to run the test function
      * @param resume {Boolean?} Resume a currently waiting test
+     *
+     * @return {Void} The return value of the test function
      */
     run : function(test, testFunction, self, resume)
     {
@@ -204,8 +206,10 @@ qx.Class.define("qx.dev.unit.TestResult",
         }
       }
 
+      var returnValue;
+
       try {
-        testFunction.call(self || window);
+        returnValue = testFunction.call(self || window);
       }
       catch(ex)
       {
@@ -279,6 +283,8 @@ qx.Class.define("qx.dev.unit.TestResult",
         this.__removeListeners(test.getTestClass()[test.getName()]);
       }
       */
+
+      return returnValue;
     },
 
 
