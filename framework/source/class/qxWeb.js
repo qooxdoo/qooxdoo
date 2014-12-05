@@ -111,6 +111,7 @@ qx.Bootstrap.define("qxWeb", {
      * to {@link q}.
      *
      * @param module {Map} A map containing the methods to attach.
+     * @param override {Boolean?false} Force to override
      */
     $attachStatic : function(module, override) {
       for (var name in module) {
