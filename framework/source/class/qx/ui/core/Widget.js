@@ -886,11 +886,11 @@ qx.Class.define("qx.ui.core.Widget",
     {
       while (child)
       {
+        child = child.getLayoutParent();
+
         if (parent == child) {
           return true;
         }
-
-        child = child.getLayoutParent();
       }
 
       return false;
