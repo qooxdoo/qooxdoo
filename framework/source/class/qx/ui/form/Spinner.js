@@ -292,12 +292,16 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _getFilterRegExp : function()
     {
-      var decimalSeparator = qx.locale.Number.getDecimalSeparator(
-        qx.locale.Manager.getInstance().getLocale()
-      );
-      var groupSeparator = qx.locale.Number.getGroupSeparator(
-        qx.locale.Manager.getInstance().getLocale()
-      );
+      var decimalSeparator, groupSeparator, locale;
+
+      if (this.getNumberFormat() !== null) {
+        locale = this.getNumberFormat().getLocale();
+      } else {
+        locale = qx.locale.Manager.getInstance().getLocale();
+      }
+
+      decimalSeparator = qx.locale.Number.getDecimalSeparator(locale);
+      groupSeparator = qx.locale.Number.getGroupSeparator(locale);
 
       var prefix = "";
       var postfix = "";
