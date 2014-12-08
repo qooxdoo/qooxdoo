@@ -192,6 +192,10 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
 
     testPlayEvent: function()
     {
+      // BUG #8778
+      if (qx.core.Environment.get("browser.name") == "mobile chrome") {
+        this.skip("HTML5 audio/video playback must be triggered by user interaction in Chrome on Android.");
+      }
       this.assertTrue(this._media.isPaused());
 
       this._media.addListener("play", function(e)
