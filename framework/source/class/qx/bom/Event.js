@@ -299,7 +299,7 @@ qx.Bootstrap.define("qx.bom.Event",
           'loadeddata', 'progress', 'timeupdate', 'seeked', 'canplay', 'play',
           'playing', 'pause', 'loadedmetadata', 'ended', 'volumechange'
         ];
-        if (supportedEvents.indexOf(type.toLowerCase() > -1)) {
+        if (supportedEvents.indexOf(type.toLowerCase()) > -1) {
           return true;
         }
       }
