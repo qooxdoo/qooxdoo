@@ -176,6 +176,8 @@ qx.Bootstrap.define("qx.event.Emitter",
           i--;
         }
       }
+      this.__listener[name] = storage;
+
       // call on any
       storage = this.__getStorage("*");
       for (var i = storage.length - 1; i >= 0; i--) {
