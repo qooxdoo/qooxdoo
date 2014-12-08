@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
       if (element.dataset) {
         name = qx.lang.String.camelCase(name);
         if (value == null) {
-          if (typeof element.dataset.name !== "undefined") { // Otherwise Safari throws
+          if (typeof element.dataset[name] !== "undefined") { // Otherwise Safari throws
             delete element.dataset[name];
           }
         } else {
