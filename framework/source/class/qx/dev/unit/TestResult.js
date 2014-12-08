@@ -129,7 +129,7 @@ qx.Class.define("qx.dev.unit.TestResult",
      * @param self {Object?} The context in which to run the test function
      * @param resume {Boolean?} Resume a currently waiting test
      *
-     * @return {Void} The return value of the test function
+     * @return {var} The return value of the test function
      */
     run : function(test, testFunction, self, resume)
     {
@@ -153,7 +153,7 @@ qx.Class.define("qx.dev.unit.TestResult",
         var qxEx = new qx.type.BaseError("Error in asynchronous test", "resume() called before wait()");
         this._createError("failure", [qxEx], test);
         this.fireDataEvent("endTest", test);
-        return;
+        return undefined;
       }
 
       this.fireDataEvent("startTest", test);
@@ -202,7 +202,7 @@ qx.Class.define("qx.dev.unit.TestResult",
             this.fireDataEvent("endTest", test);
           }
 
-          return;
+          return undefined;
         }
       }
 

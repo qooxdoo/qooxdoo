@@ -92,7 +92,7 @@ qx.Class.define("qx.dev.unit.TestCase",
      * @param self {Object?} reference to the ‘this’ variable inside the
      * callback. By default the test instance is used.
      *
-     * @return {Void} The return value of the deferred function
+     * @return {var} The return value of the deferred function
      */
     resume : function(deferredFunction, self)
     {
