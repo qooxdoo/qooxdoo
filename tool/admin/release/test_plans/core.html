@@ -605,17 +605,24 @@
           <th class="coltitle" rowspan="2">qooxdoo Grunt plugins<sup>[p]</sup><span
               class="assignee"></span><br>
           </th>
-          <th colspan="1">Task <small class="versions">(Platform:<span class="version"></span>
+          <th colspan="2">Task <small class="versions">(Platform:<span class="version"></span>
               Node.js:<span class="version"></span>) </small> </th>
         </tr>
         <tr>
           <td>source</td>
+          <td>build</td>
         </tr>
         <tr>
           <td>8.1</td>
           <td>source<sup>[o]</sup></td>
-          <td><br>
-          </td>
+          <td><br></td>
+          <td>N/A<br></td>
+        </tr>
+        <tr>
+          <td>8.2</td>
+          <td>build<sup>[o]</sup></td>
+          <td>N/A<br></td>
+          <td><br></td>
         </tr>
       </tbody>
     </table>
@@ -801,7 +808,7 @@
         </ul>
         In both cases, the <em>migration</em> job should terminate normally,
         with various log messages on the console. During migration you should be
-        offered to enter your "old" qooxdoo version, an a suitable upgrade path
+        offered to enter your "old" qooxdoo version, a suitable upgrade path
         leading up to the version under test should be printed out. After the
         migration, a file <em>migration.log</em> should be created that
         contains the per-version, per-file entries, deprecation warnings and
@@ -815,8 +822,8 @@
           install</em> and afterwards run the npm cmd under test there.</dd>
       <dt>[o]</dt>
       <dd>Open up the generated dir (e.g. <em>api</em> or <em>test/data/myapp</em>)
-        or app in browser and check if everything works as aspected
-        (interact/click thorugh some pages).</dd>
+        or app in browser and check if everything works as expected
+        (interact/click through some pages).</dd>
       <dt>[p]</dt>
       <dd>If not happend before:
         <ol>
