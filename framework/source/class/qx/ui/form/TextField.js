@@ -70,6 +70,34 @@ qx.Class.define("qx.ui.form.TextField",
          "line-height" : innerHeight + 'px'
        });
      }
+    },
+
+
+    // overridden
+    _createContentElement : function() {
+      var el = this.base(arguments);
+      var deviceType = qx.core.Environment.get("device.type");
+      if (deviceType == "tablet" || deviceType == "mobile") {
+        el.addListener("keypress", this._onKeyPress, this);
+      }
+
+      return el;
+    },
+
+
+    /**
+    * Close the virtual keyboard if the Enter key is pressed.
+    * @param evt {qx.event.type.KeySequence} the keypress event.
+    */
+    _onKeyPress : function(evt) {
+      // On return
+      if (evt.getKeyIdentifier() == "Enter") {
+        this.blur();
+      }
     }
+  },
+
+  destruct : function() {
+    this.getContentElement().removeListener("keypress", this._onKeyPress, this);
   }
 });
