@@ -4543,7 +4543,7 @@ testrunner.define({
     var dayNames = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
     cal.setConfig("monthNames", monthNames).setConfig("dayNames", dayNames).render();
 
-    var displayedMonth = cal.find("thead tr:nth-child(1) td:nth-child(2)").getHtml();
+    var displayedMonth = cal.find("thead tr:nth-child(1)").getChildren("td").eq(1).getHtml();
     this.assertEquals(0, displayedMonth.indexOf(monthNames[now.getMonth()]));
 
     var displayedDays = cal.find("thead tr:nth-child(2) td").toArray().map(function(cell) {
