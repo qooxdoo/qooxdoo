@@ -94,46 +94,30 @@ qx.Class.define("mobileshowcase.page.Drawer",
       drawerRight.add(this._createDrawerContent(drawerRight));
 
       // Z POSITION TOGGLE BUTTON
-
-      var frontBackToggleButton = new qx.ui.mobile.form.ToggleButton(false, "Above","Below");
-
-      frontBackToggleButton.addListener("changeValue",function() {
-        this._togglePositionZ(drawerLeft);
-        this._togglePositionZ(drawerRight);
-        this._togglePositionZ(drawerTop);
-        this._togglePositionZ(drawerBottom);
-      },this);
+      var group = new qx.ui.mobile.form.Group([], false);
+      var form = new qx.ui.mobile.form.Form();
+      var radioGroup = new qx.ui.mobile.form.RadioGroup();
+      var radioAbove = new qx.ui.mobile.form.RadioButton();
+      radioAbove.setModel("above");
+      var radioBelow = new qx.ui.mobile.form.RadioButton();
+      radioBelow.setModel("below");
+      radioGroup.add(radioAbove);
+      radioGroup.add(radioBelow);
+      form.add(radioAbove, "Above");
+      form.add(radioBelow, "Below");
+      radioGroup.bind("modelSelection[0]", drawerRight, "positionZ");
+      radioGroup.bind("modelSelection[0]", drawerLeft, "positionZ");
+      radioGroup.bind("modelSelection[0]", drawerTop, "positionZ");
+      radioGroup.bind("modelSelection[0]", drawerBottom, "positionZ");
+      group.add(new qx.ui.mobile.form.renderer.Single(form));
 
       // PAGE CONTENT
 
-      var toggleModeGroup = new qx.ui.mobile.form.Group([frontBackToggleButton]);
-
       this.getContent().add(new qx.ui.mobile.form.Title("Position"));
-      this.getContent().add(toggleModeGroup);
+      this.getContent().add(group);
 
       this.getContent().add(new qx.ui.mobile.form.Title("Action"));
       this.getContent().add(this._createDrawerMenu([drawerTop, drawerRight, drawerBottom, drawerLeft]));
-    },
-
-
-    /**
-     * Toggles the z-Index position of the target drawer.
-     */
-    _togglePositionZ : function(target) {
-      qx.bom.element.Style.set(target.getContainerElement(),"transitionDuration","0s");
-      qx.bom.element.Style.set(target.getContainerElement(), "position", "relative");
-
-      if(target.getPositionZ() == "above") {
-        target.setPositionZ("below");
-      }
-      else {
-        target.setPositionZ("above");
-      }
-
-      qx.event.Timer.once(function() {
-        qx.bom.element.Style.set(this, "transitionDuration", null);
-        qx.bom.element.Style.set(this, "position", null);
-      }, target.getContainerElement(), 0);
     }
   }
 });
