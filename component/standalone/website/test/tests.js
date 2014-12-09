@@ -3440,21 +3440,23 @@ testrunner.define({
 
   classname : "MatchMedia",
 
-  setUp : function(){
+  setUp : function() {
     testrunner.globalSetup.call(this);
     this.__iframe = q.create('<iframe src="media.html" frameborder="0" width="500" height="400" name="Testframe"></iframe>');
     this.__iframe.appendTo(this.sandbox[0]);
   },
 
-  tearDown : testrunner.globalTeardown,
+  tearDown : function() {
+    testrunner.globalTeardown.call(this);
+    qxWeb(window).off('message', null, null);
+  },
 
   hasNoLegacyIe : function() {
     return (qxWeb.env.get("engine.name") != "mshtml" ||
       qxWeb.env.get("browser.documentmode") > 8);
   },
 
-  testLandscape : function(){
-
+  testLandscape : function() {
     var iframe = this.__iframe[0];
 
     iframe.width = "500px";
@@ -3489,13 +3491,12 @@ testrunner.define({
 
     window.setTimeout(function(){
       iframe.contentWindow.postMessage("all and (min-width:500px)",'*');
-    },100);
+    }, 100);
 
     this.wait(1000);
   },
 
   testMaxWidth : function(){
-
     var iframe = this.__iframe[0];
 
     iframe.width = "500px";
@@ -3514,8 +3515,8 @@ testrunner.define({
     this.wait(1000);
   },
 
-  testAnd : function(){
 
+  testAnd : function(){
     var iframe = this.__iframe[0];
 
     iframe.width = "300px";
@@ -3662,7 +3663,6 @@ testrunner.define({
 
     this.wait(1000);
   }
-
 });
 
 
@@ -4959,5 +4959,7 @@ testrunner.define({
     datepicker.render();
     this.assertFalse(datepicker.getEnabled());
     this.assertTrue(datepicker.getAttribute("disabled"));
+
+    datepicker.dispose();
    }
 });
