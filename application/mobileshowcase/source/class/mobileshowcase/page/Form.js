@@ -184,6 +184,9 @@ qx.Class.define("mobileshowcase.page.Form",
 
       this._createValidationRules(form.getValidationManager());
 
+      // make sure to restore the defaults on reset
+      form.redefineResetter();
+
       return form;
     },
 
