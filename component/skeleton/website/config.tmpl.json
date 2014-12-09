@@ -71,7 +71,8 @@
           "index.html",
           "jsfiddle-logo_small.png",
           "samples",
-          "viewer.js"
+          "viewer.js",
+          "Data.js"
         ],
         "source" : "$${WEBSITE}/api",
         "target" : "api"
