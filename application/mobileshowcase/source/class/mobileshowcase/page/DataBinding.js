@@ -85,13 +85,15 @@ qx.Class.define("mobileshowcase.page.DataBinding",
       this.__list = this.__createListDataBindings();
       this.__list.setVisibility("hidden");
 
+      var root = qx.core.Init.getApplication().getRoot();
+
       this.__increaseButton = new qx.ui.mobile.form.Button("+");
       this.__increaseButton.addListener("pointerdown", this.__onIncrease, this);
-      this.__increaseButton.addListener("pointerup", this.__onPointerUp, this);
+      root.addListener("pointerup", this.__onPointerUp, this);
 
       this.__decreaseButton = new qx.ui.mobile.form.Button("-");
       this.__decreaseButton.addListener("pointerdown", this.__onDecrease, this);
-      this.__decreaseButton.addListener("pointerup", this.__onPointerUp, this);
+      root.addListener("pointerup", this.__onPointerUp, this);
 
       this.__stopTimeButton = new qx.ui.mobile.form.Button("Take Time Snapshot");
       this.__stopTimeButton.addListener("tap", this.__onStopTimeButtonTap, this);
