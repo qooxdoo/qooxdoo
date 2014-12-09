@@ -326,7 +326,6 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
 
           icon.insertAfter(collection);
         }
-
       }
     },
 
