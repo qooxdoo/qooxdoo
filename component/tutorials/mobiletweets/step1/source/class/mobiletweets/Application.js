@@ -25,7 +25,7 @@
 /**
  * This is the main application class of your custom application "mobiletweets"
  *
- * @asset(mobiletweets/css/styles.css)
+ * @asset(mobiletweets/css/*)
  */
 qx.Class.define("mobiletweets.Application",
 {
