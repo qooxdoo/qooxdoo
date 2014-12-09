@@ -70,7 +70,8 @@
           "index.html",
           "codepen-24-black.png",
           "samples",
-          "viewer.js"
+          "viewer.js",
+          "Data.js"
         ],
         "source" : "$${WEBSITE}/api",
         "target" : "api"
