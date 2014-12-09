@@ -41,7 +41,11 @@ qx.Class.define("testrunner.view.widget.TestResultView",
       overflowY : "auto",
       selectable: true
     });
-    this.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
+
+    if (qx.core.Environment.get("device.type") !== "desktop") {
+      this.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
+      this.getContentElement().setStyle("touchAction", "auto");
+    }
     // Workaround for http://bugzilla.qooxdoo.org/show_bug.cgi?id=7679
     if (qx.core.Environment.get("engine.name") == "mshtml" &&
       qx.core.Environment.get("browser.documentmode") == 9)

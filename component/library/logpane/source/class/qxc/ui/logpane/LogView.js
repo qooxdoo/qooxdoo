@@ -81,7 +81,12 @@ qx.Class.define("qxc.ui.logpane.LogView", {
       font : "monospace",
       padding: 3
     });
-    logArea.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
+
+    if (qx.core.Environment.get("device.type") !== "desktop") {
+      logArea.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
+      logArea.getContentElement().setStyle("touchAction", "auto");
+    }
+
     this.add(logArea, {flex : 1});
 
     // log appender
