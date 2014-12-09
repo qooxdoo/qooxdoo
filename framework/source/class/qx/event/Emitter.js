@@ -168,15 +168,22 @@ qx.Bootstrap.define("qx.event.Emitter",
      */
     emit : function(name, data) {
       var storage = this.__getStorage(name).concat();
+      var toDelete = [];
       for (var i = 0; i < storage.length; i++) {
         var entry = storage[i];
         entry.listener.call(entry.ctx, data);
         if (entry.once) {
-          storage.splice(i, 1);
-          i--;
+          toDelete.push(entry);
         }
       }
-      this.__listener[name] = storage;
+
+      // listener callbacks could manipulate the storage
+      // (e.g. module.Event.once)
+      toDelete.forEach(function(entry) {
+        var origStorage = this.__getStorage(name);
+        var idx = origStorage.indexOf(entry);
+        origStorage.splice(idx, 1);
+      });
 
       // call on any
       storage = this.__getStorage("*");
