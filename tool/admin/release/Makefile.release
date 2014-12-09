@@ -92,6 +92,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 APPLICATIONS = websitewidgetbrowser tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
 APPLICATIONS_SCSS = mobileshowcase playground feedreader tutorial
 COMPONENTS = apiviewer testrunner inspector server website
+COMPONENTS_SCSS = testrunner
 FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
 
@@ -600,19 +601,45 @@ resources-framework-build-css:
 			$(CMD_SCSS) $(CMD_SCSS_FRAMEWORK_OPTS) -I $(PATH_FRAMEWORK_RESOURCES)/scss -I $(PATH_FRAMEWORK_RESOURCES)/scss/theme/indigo -I $(PATH_FRAMEWORK_RESOURCES)/../scss $$SCSS_FILE ../css/$${SCSS_FILE/%.scss/.css}; \
 		done; \
 	done
+	@for COMP in $(COMPONENTS_SCSS); do \
+		if [ "$$COMP" = "testrunner" ]; then \
+			cd $(CURDIR)/component/$$COMP/source/resource/$$COMP/view/mobile/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+				echo "     - $$COMP: $$SCSS_FILE..."; \
+				$(CMD_SCSS) $(CMD_SCSS_FRAMEWORK_OPTS) -I $(PATH_FRAMEWORK_RESOURCES)/scss -I $(PATH_FRAMEWORK_RESOURCES)/scss/theme/indigo -I $(PATH_FRAMEWORK_RESOURCES)/../scss $$SCSS_FILE ../css/$${SCSS_FILE/%.scss/.css}; \
+			done; \
+		else \
+			cd $(CURDIR)/component/$$COMP/source/resource/$$COMP/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+				echo "     - $$COMP: $$SCSS_FILE..."; \
+				$(CMD_SCSS) $(CMD_SCSS_FRAMEWORK_OPTS) -I $(PATH_FRAMEWORK_RESOURCES)/scss -I $(PATH_FRAMEWORK_RESOURCES)/scss/theme/indigo -I $(PATH_FRAMEWORK_RESOURCES)/../scss $$SCSS_FILE ../css/$${SCSS_FILE/%.scss/.css}; \
+			done; \
+		fi; \
+	done
 
 resources-framework-check:
-	@# check if mock content (more than one line) is now overwritten (only one compressed css line)
+	@# check if mock content (more than two lines) is now overwritten (only one compressed css line and in second line sourceMapping comment)
 	@cd $(PATH_MOBILE_SKELETON_RESOURCES)/custom/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		F="../css/$${SCSS_FILE/%.scss/.css}"; \
 		LINES=`cat $$F | wc -l`; \
-		[ $$LINES -eq 1 ] || ( echo "CSS file $$F seems not compressed (more than one line); run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
+		[ $$LINES -eq 2 ] || ( echo "CSS file $$F seems not compressed (more than two lines); run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
 	done
 	@for APP in $(APPLICATIONS_SCSS); do \
 		cd $(CURDIR)/application/$$APP/source/resource/$$APP/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 			F="../css/$${SCSS_FILE/%.scss/.css}"; \
 			[ $$F -nt $$SCSS_FILE ] || ( echo "CSS file $$F is missing (within $$APP); run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
 		done; \
+	done
+	@for COMP in $(COMPONENTS_SCSS); do \
+		if [ "$$COMP" = "testrunner" ]; then \
+			cd $(CURDIR)/component/$$COMP/source/resource/$$COMP/view/mobile/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+				F="../css/$${SCSS_FILE/%.scss/.css}"; \
+				[ $$F -nt $$SCSS_FILE ] || ( echo "CSS file $$F is missing (within $$COMP); run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
+			done; \
+		else \
+			cd $(CURDIR)/component/$$COMP/source/resource/$$COMP/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
+				F="../css/$${SCSS_FILE/%.scss/.css}"; \
+				[ $$F -nt $$SCSS_FILE ] || ( echo "CSS file $$F is missing (within $$COMP); run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
+			done; \
+		fi; \
 	done
 
 ################################################################################
