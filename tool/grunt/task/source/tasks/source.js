@@ -181,8 +181,8 @@ module.exports = function(grunt) {
       libinfo[ns] = {};
       if (ns === "qx") {
         libinfo[ns] = {
-          "resourceUri": "../"+relPaths.qx+"/framework/source/resource",
-          "sourceUri": "../"+relPaths.qx+"/framework/source/class",
+          "resourceUri": url.resolve(path.join('../', relPaths.qx, '/framework/source/resource'), ''),
+          "sourceUri": url.resolve(path.join('../', relPaths.qx, '/framework/source/class'), ''),
           "sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
         };
       } else {
