@@ -29,6 +29,7 @@
 // native
 var crypto = require("crypto");
 var path = require("path");
+var url = require("url");
 
 // third-party
 var pathIsInside = require("path-is-inside");
@@ -79,11 +80,11 @@ function calculateRelPaths(manifestPaths, qxPath, appName, ns) {
 
   // paths depending on whether app is within "tool/grunt" dir ('myapp' test app) or not
   if (pathIsInside(manifestPaths[appName].base.abs, path.join(resolved_qxPath, gruntDir))) {
-    rel.res = path.join("../", manifestPaths[ns].resource);
-    rel.class = path.join("../", manifestPaths[ns].class);
+    rel.res = url.resolve("../", manifestPaths[ns].resource);
+    rel.class = url.resolve("../", manifestPaths[ns].class);
   } else {
-    rel.res = path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].resource);
-    rel.class = path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].class);
+    rel.res = url.resolve("../", manifestPaths[ns].base.rel, manifestPaths[ns].resource);
+    rel.class = url.resolve("../", manifestPaths[ns].base.rel, manifestPaths[ns].class);
   }
 
   return rel;
