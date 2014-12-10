@@ -110,6 +110,10 @@ qx.Class.define("mobileshowcase.page.DataBinding",
       this.getContent().add(new qx.ui.mobile.form.Title(" "));
       this.getContent().add(this.__list);
 
+      // prevent iOS8 flickering
+      qx.bom.element.Style.set(
+        this.getContent().getContentElement(), "WebkitBackfaceVisibility", "hidden"
+      );
     },
 
 
