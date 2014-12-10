@@ -59,16 +59,32 @@ qx.Class.define("qx.bom.GeoLocation",
     /**
      * Retrieves the current position and calls the "position" event.
      *
-     * @param enableHighAccuracy {Function} provide the best possible results
-     * @param timeout {Function} maximum time in ms that is allowed to pass from
+     * @param enableHighAccuracy {Boolean} provide the best possible results
+     * @param timeout {Integer} maximum time in ms that is allowed to pass from
      * the call to getCurrentPosition() or watchPosition() until the corresponding
      * callback is invoked.
-     * @param maximumAge {Function} cache the position for a specified time.
+     * @param maximumAge {Integer} cache the position for a specified time.
      */
     getCurrentPosition: function(enableHighAccuracy, timeout, maximumAge)
     {
-      var errorHandler = qx.lang.Function.bind(this._errorHandler, this);
       var successHandler = qx.lang.Function.bind(this._successHandler, this);
+      var errorHandler;
+
+      if (qx.core.Environment.get("os.name") === "android" &&
+          qx.core.Environment.get("browser.name").indexOf("chrome") !== -1)
+      {
+        errorHandler = function() {
+          var boundDefaultHandler = this._errorHandler.bind(this);
+          this._geolocation.getCurrentPosition(successHandler, boundDefaultHandler, {
+            enableHighAccuracy: enableHighAccuracy,
+            timeout: timeout,
+            maximumAge: maximumAge
+          });
+        }.bind(this);
+      } else {
+        errorHandler = qx.lang.Function.bind(this._errorHandler, this);
+      }
+
       this._geolocation.getCurrentPosition(successHandler, errorHandler, {
         enableHighAccuracy: enableHighAccuracy,
         timeout: timeout,
@@ -80,11 +96,11 @@ qx.Class.define("qx.bom.GeoLocation",
     /**
      * Starts to watch the position. Calls the "position" event, when the position changed.
      *
-     * @param enableHighAccuracy {Function} provide the best possible results
-     * @param timeout {Function} maximum time in ms that is allowed to pass from
+     * @param enableHighAccuracy {Boolean} provide the best possible results
+     * @param timeout {Integer} maximum time in ms that is allowed to pass from
      * the call to getCurrentPosition() or watchPosition() until the corresponding
      * callback is invoked.
-     * @param maximumAge {Function} cache the position for a specified time.
+     * @param maximumAge {Integer} cache the position for a specified time.
      */
     startWatchPosition: function(enableHighAccuracy, timeout, maximumAge)
     {
@@ -115,7 +131,7 @@ qx.Class.define("qx.bom.GeoLocation",
     /**
      * Success handler.
      *
-     * @param position {Function} position event
+     * @param position {Object} position event
      */
     _successHandler: function(position) {
       this.fireEvent("position", qx.event.type.GeoPosition, [position]);
@@ -125,7 +141,7 @@ qx.Class.define("qx.bom.GeoLocation",
     /**
      * The Error handler.
      *
-     * @param error {Function} error event
+     * @param error {Object} error event
      */
     _errorHandler: function(error) {
       this.fireDataEvent("error", error);
