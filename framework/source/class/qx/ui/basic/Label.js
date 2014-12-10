@@ -517,6 +517,16 @@ qx.Class.define("qx.ui.basic.Label",
     _onWebFontStatusChange : function(ev)
     {
       if (ev.getData().valid === true) {
+
+        // safari has trouble resizing, adding it again fixed the issue [BUG #8786]
+        if (qx.core.Environment.get("browser.name") == "safari" &&
+          parseFloat(qx.core.Environment.get("browser.version")) >= 8) {
+            window.setTimeout(function() {
+              this.__invalidContentSize = true;
+              qx.ui.core.queue.Layout.add(this);
+            }.bind(this), 0);
+        }
+
         this.__invalidContentSize = true;
         qx.ui.core.queue.Layout.add(this);
       }
