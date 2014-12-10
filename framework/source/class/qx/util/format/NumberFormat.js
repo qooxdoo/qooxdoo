@@ -34,12 +34,17 @@ qx.Class.define("qx.util.format.NumberFormat",
 
   /**
    * @param locale {String} optional locale to be used
-   * @throws {Error} If the number of arguments !== 1 and the argument is not a string.
+   * @throws {Error} If the argument is not a string.
    */
   construct : function(locale)
   {
     this.base(arguments);
-    this.setLocale(locale);
+
+    if (locale) {
+      this.setLocale(locale);
+    } else {
+      this.setLocale(qx.locale.Manager.getInstance().getLocale());
+    }
   },
 
 
