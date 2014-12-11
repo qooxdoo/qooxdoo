@@ -380,8 +380,8 @@
           <td>source-httpd-config<sup>[a]</sup></td>
           <td>validate-config</td>
           <td>validate-manifest</td>
-          <td>clean</td>
-          <td>distclean</td>
+          <td>clean:app<sup>[q]</sup></td>
+          <td>clean:cache<sup>[q]</sup></td>
           <td>info</td>
         </tr>
         <tr>
@@ -857,6 +857,9 @@
           <li>test task under test (e.g. open browser for source/build version)</li>
         </ol>
       </dd>
+      <dt>[q]</dt>
+      <dd><code>grunt clean:app</code> is the equivalent to <code>./generate.py clean</code> and <code>grunt clean:cache</code>
+      is the equivalent to <code>./generate.py distclean</code>.</dd>
     </dl>
   </body>
 </html>
