@@ -56,7 +56,7 @@ qx.Class.define("showcase.page.databinding.Page",
     "selected tweet in the detail view right beside the list.",
 
     __tryThis : {
-      "Detail View" : "Taping a tweet in the list shows the details."
+      "Detail View" : "Tapping a tweet in the list shows the details."
     },
 
     __features : {
