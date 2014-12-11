@@ -956,7 +956,7 @@ q.ready(function() {
 
     addMethodLinks(jsEl, header.getParents().getAttribute("id"));
 
-    if (sample.executable) {
+    if (!legacyIe && sample.executable) {
       createCodepenButton(sample).appendTo(sampleEl);
     }
 
