@@ -1,22 +1,22 @@
 /* ************************************************************************
 
- qooxdoo - the new era of web development
+   qooxdoo - the new era of web development
 
- http://qooxdoo.org
+   http://qooxdoo.org
 
- Copyright:
- 2013 1&1 Internet AG, Germany, http://www.1und1.de
+   Copyright:
+     2013-2014 1&1 Internet AG, Germany, http://www.1und1.de
 
- License:
- LGPL: http://www.gnu.org/licenses/lgpl.html
- EPL: http://www.eclipse.org/org/documents/epl-v10.php
- See the LICENSE file in the project's top-level directory for details.
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
- Authors:
- * Romeo Kenfack Tsakem (rkenfack)
- * Tobias Oberrauch (toberrauch)
+   Authors:
+     * Romeo Kenfack Tsakem (rkenfack)
+     * Tobias Oberrauch (toberrauch)
 
- ************************************************************************ */
+************************************************************************ */
 
 /**
  * Module for mediaqueries evaluation. The module is a wrapper for media.match.js,
@@ -30,10 +30,12 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
      *
      * @param query {String} the media query to evaluate
      * @return {qx.bom.MediaQuery}  The media query
+     * @attachStatic {qxWeb, matchMedia}
      */
     matchMedia: function (query) {
       return new qx.bom.MediaQuery(query);
     },
+
 
     /**
      * Adds screen size classes (e.g. small-only or medium-up) by pre-defined media queries using em.
@@ -66,6 +68,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
       qxWeb("html").mediaQueryToClass("only screen and (min-width: 120.063em)", "xxlarge-up");
     },
 
+
     /**
      * Adds or removes a class depending on matching a given media query
      *
@@ -81,14 +84,13 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
     },
 
     /**
-     * Maps a class to a html element  media query
+     * Listens for media query updates and applies/removes the css class.
      *
      * @param queryString {String} the media query to evaluate
      * @param className {String} css class name that gets bind to an element
      *
      * @attach {qxWeb}
-     *
-     * @return {qx.module.MatchMedia} The own instance
+     * @return {qxWeb} Self instance for chaining
      */
     mediaQueryToClass: function (queryString, className) {
       var query = qx.module.MatchMedia.matchMedia(queryString);
@@ -102,6 +104,7 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
       return this;
     }
   },
+
 
   defer: function (statics) {
     qxWeb.$attachStatic({
