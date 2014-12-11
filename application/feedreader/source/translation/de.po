@@ -1,5 +1,5 @@
 # German
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -11,6 +11,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
+
+msgid "About"
+msgstr "Über"
 
 msgid "Add"
 msgstr "Hinzufügen"
@@ -32,9 +35,6 @@ msgstr "Feed Information"
 
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
-
-msgid "Help"
-msgstr "Hilfe"
 
 msgid "Language"
 msgstr "Sprache"

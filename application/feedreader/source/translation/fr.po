@@ -1,5 +1,5 @@
 # French
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -12,6 +12,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "About"
+msgstr "Á propos"
 
 msgid "Add"
 msgstr "Ajouter"
@@ -33,9 +36,6 @@ msgstr "Information sur le fil"
 
 msgid "FeedReader (qooxdoo powered)"
 msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
-
-msgid "Help"
-msgstr "Aide"
 
 msgid "Language"
 msgstr "Langue"

@@ -1,5 +1,5 @@
 # Swedish
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -12,6 +12,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+msgid "About"
+msgstr "Om"
 
 msgid "Add"
 msgstr "Lägg till"
@@ -33,9 +36,6 @@ msgstr "Flödesinformation"
 
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo driven)"
-
-msgid "Help"
-msgstr "Hjälp"
 
 msgid "Language"
 msgstr "Språk"
