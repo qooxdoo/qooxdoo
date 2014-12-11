@@ -19,6 +19,8 @@
 
 'use strict';
 
+var path = require('path');
+
 module.exports = {
 
   // test unexported functions
@@ -736,7 +738,7 @@ module.exports = {
          'qx': '../../../../../framework/source/class/'}
       );
 
-      test.strictEqual(actualOk, "test/data/myapp/source/class/myapp/Application.js");
+      test.strictEqual(actualOk, path.normalize("test/data/myapp/source/class/myapp/Application.js"));
 
       // ENOENT - Missing library
       test.throws(
