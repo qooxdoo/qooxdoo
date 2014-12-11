@@ -50,7 +50,7 @@ addSample("slider.getValue", {
   executable: true
 });
 
-addSample("slider.render", {
+addSample(".slider", {
   html: ['<div id="target"></div>'],
   javascript: function() {
     q("#target")
@@ -62,7 +62,7 @@ addSample("slider.render", {
   executable: true
 });
 
-addSample("slider.render", {
+addSample(".slider", {
   html: ['<div id="target"></div>'],
   javascript: function() {
     q("#target")
@@ -74,7 +74,7 @@ addSample("slider.render", {
   executable: true
 });
 
-addSample("slider.render", {
+addSample(".slider", {
   html: ['<div id="target"></div>'],
   javascript: function() {
     q("#target")

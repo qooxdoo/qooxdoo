@@ -14,7 +14,7 @@ addSample("rating.getValue", {
   executable: true
 });
 
-addSample("rating.render", {
+addSample(".rating", {
   html: ['<div id="target"></div>'],
   javascript: function() {
     q("#target").rating();
