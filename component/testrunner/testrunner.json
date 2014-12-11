@@ -560,7 +560,7 @@
 
       "add-css" : [
         {
-          "uri" : "./resource/testrunner/view/mobile/css/indigo.css"
+          "uri" : "../source/resource/${APPLICATION}/css/custom.css"
         }
       ]
     },
@@ -571,7 +571,7 @@
 
       "add-css" : [
         {
-          "uri" : "./resource/testrunner/view/mobile/css/indigo.css"
+          "uri" : "../source/resource/${APPLICATION}/css/custom.css"
         }
       ]
     },
