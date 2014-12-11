@@ -183,7 +183,7 @@ qx.Bootstrap.define("qx.event.Emitter",
         var origStorage = this.__getStorage(name);
         var idx = origStorage.indexOf(entry);
         origStorage.splice(idx, 1);
-      });
+      }.bind(this));
 
       // call on any
       storage = this.__getStorage("*");
