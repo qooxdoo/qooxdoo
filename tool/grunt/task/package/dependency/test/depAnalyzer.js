@@ -550,14 +550,14 @@ module.exports = {
       );
 
       test.ok(Object.keys(classesDeps).length, 247);
-      test.ok(!!classesDeps["myapp.Application"].load);
-      test.ok(!!classesDeps["myapp.Application"].run);
-      test.ok(!!classesDeps["myapp.Application"].athint);
-      test.ok(!!classesDeps["myapp.Application"].athint.ignore);
-      test.ok(!!classesDeps["myapp.Application"].athint.require);
-      test.ok(!!classesDeps["myapp.Application"].athint.use);
-      test.ok(!!classesDeps["myapp.Application"].athint.asset);
-      test.ok(!classesDeps["myapp.Application"].athint.cldr);
+      test.ok(!!classesDeps['myapp.Application'].load);
+      test.ok(!!classesDeps['myapp.Application'].run);
+      test.ok(!!classesDeps['myapp.Application'].athint);
+      test.ok(!!classesDeps['myapp.Application'].athint.ignore);
+      test.ok(!!classesDeps['myapp.Application'].athint.require);
+      test.ok(!!classesDeps['myapp.Application'].athint.use);
+      test.ok(!!classesDeps['myapp.Application'].athint.asset);
+      test.ok(!classesDeps['myapp.Application'].athint.cldr);
 
       test.done();
     },
@@ -738,7 +738,7 @@ module.exports = {
          'qx': '../../../../../framework/source/class/'}
       );
 
-      test.strictEqual(actualOk, path.normalize("test/data/myapp/source/class/myapp/Application.js"));
+      test.strictEqual(actualOk, path.normalize('test/data/myapp/source/class/myapp/Application.js'));
 
       // ENOENT - Missing library
       test.throws(
@@ -770,7 +770,7 @@ module.exports = {
          'qx': '../../../../../framework/source/class/'}
       );
 
-      test.strictEqual(actualOk[0].substr(0, 4), "/* *");
+      test.strictEqual(actualOk[0].substr(0, 4), '/* *');
 
       test.done();
     }
