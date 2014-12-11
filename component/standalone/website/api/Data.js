@@ -492,7 +492,10 @@ var Data = q.define({
             for (var i=moduleData[type].length - 1; i>=0; i--) {
               var method = moduleData[type][i];
               if (method.attributes.overriddenFrom) {
-                moduleData[type].splice(i, 1);
+                // if no desc is given
+                if (Data.getByType(method, "desc").children) {
+                  moduleData[type].splice(i, 1);
+                }
               }
             }
           }
