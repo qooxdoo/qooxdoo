@@ -524,7 +524,7 @@ qx.Class.define("testrunner.view.Html", {
       var listItem = q("#" + id).getParents()
       .setAttribute("class", "").addClass("t_" + state);
       if (state === "success" && !this.getShowPassed()) {
-        listItem.setStyle("display", "none");
+        listItem.addClass("hidden");
       }
       listItem.getChildren(".result")[0].innerHTML = state.toUpperCase();
 
