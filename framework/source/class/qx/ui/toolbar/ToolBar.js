@@ -197,109 +197,111 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      */
     _recalculateOverflow : function(width, requiredWidth)
     {
-      // do nothing if overflow handling is not enabled
-      if (!this.getOverflowHandling()) {
-        return;
-      }
+     // do nothing if overflow handling is not enabled
+     if (!this.getOverflowHandling()) {
+       return;
+     }
 
-      // get all required sizes
-      requiredWidth = requiredWidth || this.getSizeHint().width;
-      var overflowWidget = this.getOverflowIndicator();
-      var overflowWidgetWidth = 0;
-      if (overflowWidget) {
-        overflowWidgetWidth = overflowWidget.getSizeHint().width;
-      }
+     // get all required sizes
+     requiredWidth = requiredWidth || this.getSizeHint().width;
+     var overflowWidget = this.getOverflowIndicator();
+     var overflowWidgetWidth = 0;
+     if (overflowWidget) {
+       overflowWidgetWidth = overflowWidget.getSizeHint().width;
+     }
 
-      if (width == undefined && this.getBounds() != null) {
-        width = this.getBounds().width;
-      }
+     if (width == undefined && this.getBounds() != null) {
+       width = this.getBounds().width;
+     }
 
-      // if we still don't have a width, than we are not added to a parrent
-      if (width == undefined) {
-        // we should ignore it in that case
-        return;
-      }
+     // if we still don't have a width, than we are not added to a parrent
+     if (width == undefined) {
+       // we should ignore it in that case
+       return;
+     }
 
-      // if we have not enough space
-      if (width < requiredWidth) {
-        do {
-          // get the next child
-          var childToHide = this._getNextToHide();
-          // if there is no child to hide, just do nothing
-          if (!childToHide) {
-            return;
-          }
-          // get margins or spacing
-          var margins = childToHide.getMarginLeft() + childToHide.getMarginRight();
-          margins = Math.max(margins, this.getSpacing());
-          var childWidth = childToHide.getSizeHint().width + margins;
-          this.__hideChild(childToHide);
+     // if we have not enough space
+     if (width < requiredWidth) {
+       do {
+         // get the next child
+         var childToHide = this._getNextToHide();
+         // if there is no child to hide, just do nothing
+         if (!childToHide) {
+           return;
+         }
+         // get margins or spacing
+         var margins = childToHide.getMarginLeft() + childToHide.getMarginRight();
+         margins = Math.max(margins, this.getSpacing());
+         var childWidth = childToHide.getSizeHint().width + margins;
+         this.__hideChild(childToHide);
 
-          // new width is the requiredWidth - the removed childs width
-          requiredWidth -= childWidth;
+         // new width is the requiredWidth - the removed childs width
+         requiredWidth -= childWidth;
 
-          // show the overflowWidgetWidth
-          if (overflowWidget && overflowWidget.getVisibility() != "visible") {
-            overflowWidget.setVisibility("visible");
-            // if we need to add the overflow indicator, we need to add its width
-            requiredWidth += overflowWidgetWidth;
-            // add spacing or margins
-            var overflowWidgetMargins =
-              overflowWidget.getMarginLeft() +
-              overflowWidget.getMarginRight();
-            requiredWidth += Math.max(overflowWidgetMargins, this.getSpacing());
-          }
-        } while (requiredWidth > width);
+         // show the overflowWidgetWidth
+         if (overflowWidget && overflowWidget.getVisibility() != "visible") {
+           overflowWidget.setVisibility("visible");
+           // if we need to add the overflow indicator, we need to add its width
+           requiredWidth += overflowWidgetWidth;
+           // add spacing or margins
+           var overflowWidgetMargins =
+             overflowWidget.getMarginLeft() +
+             overflowWidget.getMarginRight();
+           requiredWidth += Math.max(overflowWidgetMargins, this.getSpacing());
+         }
+       } while (requiredWidth > width);
 
-      // if we can possibly show something
-      } else if (this.__removedItems.length > 0) {
-        var removedChild = this.__removedItems[0];
-        var removedItems = this.__removedItems;
-        do {
-          // if we have something we can show
-          if (removedChild) {
-            // get the margins or spacing
-            var margins = removedChild.getMarginLeft() + removedChild.getMarginRight();
-            margins = Math.max(margins, this.getSpacing());
+       // if we can possibly show something
+     } else if (this.__removedItems.length > 0) {
 
-            // check if the element has been rendered before [BUG #4542]
-            if (removedChild.getContentElement().getDomElement() == null) {
-              // if not, apply the decorator element because it can change the
-              // width of the child with padding e.g.
-              removedChild.syncAppearance();
-              // also invalidate the layout cache to trigger size hint
-              // recalculation
-              removedChild.invalidateLayoutCache();
-            }
-            var removedChildWidth = removedChild.getSizeHint().width;
+       do {
+         var removedChild = this.__removedItems[0];
+         // if we have something we can show
+         if (removedChild) {
+           // get the margins or spacing
+           var margins = removedChild.getMarginLeft() + removedChild.getMarginRight();
+           margins = Math.max(margins, this.getSpacing());
 
-            // check if it fits in in case its the last child to replace
-            var fits = false;
-            // if we can remove the overflow widget if its available
-            if (removedItems.length == 1 && overflowWidgetWidth > 0) {
-              var addedMargin = margins - this.getSpacing();
-              var wouldRequiredWidth =
-                requiredWidth -
-                overflowWidgetWidth +
-                removedChildWidth +
-                addedMargin;
-              fits = width > wouldRequiredWidth;
-            }
+           // check if the element has been rendered before [BUG #4542]
+           if (removedChild.getContentElement().getDomElement() == null) {
+             // if not, apply the decorator element because it can change the
+             // width of the child with padding e.g.
+             removedChild.syncAppearance();
+             // also invalidate the layout cache to trigger size hint
+             // recalculation
+             removedChild.invalidateLayoutCache();
+           }
+           var removedChildWidth = removedChild.getSizeHint().width;
 
-            // if it just fits in || it fits in when we remove the overflow widget
-            if (width > requiredWidth + removedChildWidth + margins || fits) {
-              this.__showChild(removedChild);
-              requiredWidth += removedChildWidth;
-              // check if we need to remove the overflow widget
-              if (overflowWidget && removedItems.length == 0) {
-                overflowWidget.setVisibility("excluded");
-              }
-            } else {
-              return;
-            }
-          }
-        } while (width >= requiredWidth && removedItems.length > 0);
-      }
+           // check if it fits in in case its the last child to replace
+           var fits = false;
+           // if we can remove the overflow widget if its available
+
+           if (this.__removedItems.length == 1 && overflowWidgetWidth > 0) {
+             var addedMargin = margins - this.getSpacing();
+             var wouldRequiredWidth =
+               requiredWidth -
+               overflowWidgetWidth +
+               removedChildWidth +
+               addedMargin;
+             fits = width > wouldRequiredWidth;
+           }
+
+           // if it just fits in || it fits in when we remove the overflow widget
+           if (width > requiredWidth + removedChildWidth + margins || fits) {
+             this.__showChild(removedChild);
+             requiredWidth += removedChildWidth;
+             // check if we need to remove the overflow widget
+             if (overflowWidget && this.__removedItems.length == 0) {
+
+               overflowWidget.setVisibility("excluded");
+             }
+           } else {
+             return;
+           }
+         }
+       } while (width >= requiredWidth && this.__removedItems.length > 0);
+     }
     },
 
 
