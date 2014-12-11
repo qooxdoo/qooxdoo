@@ -819,6 +819,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews.sourcepage.html.page"] = f3;
 
       f3.getContentElement().setAttribute("id", "qx_srcview");
+      if (qx.core.Environment.get("device.type") !== "desktop") {
+        f3.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
+        f3.getContentElement().setStyle("touchAction", "auto");
+      }
 
       return f3;
     },
@@ -832,6 +836,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews.sourcepage.js.page"] = f4;
 
       f4.getContentElement().setAttribute("id", "qx_srcview");
+      if (qx.core.Environment.get("device.type") !== "desktop") {
+        f4.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
+        f4.getContentElement().setStyle("touchAction", "auto");
+      }
 
       return f4;
     },
