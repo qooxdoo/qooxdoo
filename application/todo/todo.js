@@ -5,7 +5,15 @@ q.define({
       this.__data = [{id: Date.now(), done: false, name: "My first ToDo"}];
     }
 
-    q("#add").on("tap", this._onAdd, this);
+    // iOS8 fires two touchstart events as soon as a prompt interrupts in the handler
+    if (q.env.get("browser.name") == "mobile safari" && q.env.get("browser.version") >= 8) {
+      q("#add").on("tap", function() {
+        window.setTimeout(this._onAdd.bind(this), 500);
+      }, this);
+    } else {
+      q("#add").on("tap", this._onAdd, this);
+    }
+
     this.render();
   },
 
