@@ -270,7 +270,7 @@
 
 /* PAGE TRANSITIONS */
 
-.animation-list-1 .list-item:nth-child(even), .animation-list-2 .list-item:nth-child(odd) {
+.animation-list-1 .list-item:nth-of-type(2n), .animation-list-2 .list-item:nth-of-type(2n+1) {
   background-color: #eee !important;
 }
 
