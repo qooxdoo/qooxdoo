@@ -27,23 +27,26 @@ qx.Class.define("playground.view.WebsiteContent",
     this.setAppearance("website-content");
 
     var container = new qx.ui.container.Composite();
-    var layout = new qx.ui.layout.Grid();
+    layout = new qx.ui.layout.Grid();
     layout.setColumnAlign(1, "left", "top");
     container.setLayout(layout);
 
-    var logo = new qx.ui.basic.Image("playground/images/jsfiddle-logo.png");
+    var logo = new qx.ui.basic.Image("playground/images/codepen-256-black.png");
     container.add(logo, {row: 0, column: 0, rowSpan: 2});
-
-    var headline = new qx.ui.basic.Label(this.tr("jsFiddle"));
-    headline.setFont("jsFiddle");
+    headline = new qx.ui.basic.Label(this.tr("CodePen"));
+    headline.setFont("CodePen");
+    headline.setAlignY("top");
+    headline.setPaddingTop(15);
     container.add(headline, {row: 0, column: 1});
 
-    var message = new qx.ui.basic.Label(this.tr(
-      "If you want to give qx.Website a try, please check out <a href='http://jsfiddle.net/user/qooxdoo/fiddles/' target='_blank'>jsFiddle</a>."
+    message = new qx.ui.basic.Label(this.tr(
+      "If you want to give qx.Website a try, please check out <a href='http://codepen.io/' target='_blank'>CodePen</a>."
     ));
     message.setWidth(300);
     message.setRich(true);
     message.setWrap(true);
+    message.setAlignY("top");
+    message.setPaddingBottom(35);
     container.add(message, {row: 1, column: 1});
 
     this._setLayout(new qx.ui.layout.Canvas());
@@ -63,9 +66,6 @@ qx.Class.define("playground.view.WebsiteContent",
           (qx.core.Environment.get("engine.name") != "mshtml" ||
            qx.core.Environment.get("browser.documentmode") > 9)
         ) {
-        // rotate a bit
-        var el = container.getContentElement().getDomElement();
-        qx.bom.element.Transform.rotate(el, "-2deg");
       }
     });
   }

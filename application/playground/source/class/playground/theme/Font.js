@@ -43,7 +43,7 @@ qx.Theme.define("playground.theme.Font",
     },
 
 
-    "jsFiddle" :
+    "CodePen" :
     {
       size : 40,
       family : ["serif"],
