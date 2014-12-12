@@ -25,11 +25,6 @@ q.ready(function() {
   var legacyIe = (q.env.get("engine.name") === "mshtml" &&
     q.env.get("engine.version") < 11);
 
-  // prevent touch scrolling
-  q(document).on("touchmove", function(e) {
-    e.preventDefault();
-  });
-
   // remove the warning
   q("#warning").setStyle("display", "none");
 
