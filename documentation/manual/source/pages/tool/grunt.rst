@@ -102,13 +102,16 @@ Make sure that your current user owns all files within the SDK under
 ``npm`` solely to get this path shown in the very last line) is also writable for your
 current user.  Otherwise change the ownership (e.g. ``sudo chown -R $USER
 myGlobalNpmNodeModulesPath`` - so this could be ``sudo chown -R $USER
-/opt/local/lib/node_modules/``). This enables the script (and you) to use npm
-from now on without ``sudo`` which is a `best practice strongly recommended by
-the creator of npm itself
-<http://foohack.com/2010/08/intro-to-npm/#what_no_sudo>`_. Another way to
-achieve this is by `creating your own global node_modules dir within your home
-dir (see section "Get away from sudo: npm without root")
-<http://justjs.com/posts/npm-link-developing-your-own-npm-modules-without-tears>`_.
+/opt/local/lib/node_modules/``). This enables ``setup.js`` (and you) to use npm
+from now on without ``sudo``. See the `official docs and the attached video
+<https://docs.npmjs.com/getting-started/fixing-npm-permissions>`_,
+to understand this thoroughly.
+
+If you still get permission warnigs (i.e. ``EACCES``) just use ``sudo`` (e.g.
+``sudo ./setup.js`` or ``sudo npm install abc``) - that's okay. Newer versions
+of npm will not run arbitrary build scripts as root, if you're root. npm
+chown's the package dir to ``nobody`` and then runs scripts as the ``nobody``
+user.
 
 
 Using the Generator through Grunt
