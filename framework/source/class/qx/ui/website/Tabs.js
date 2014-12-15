@@ -667,6 +667,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       } else if (orientation === "vertical") {
         if (oldPage && oldPage.length > 0) {
           oldPage.setStyle("height", oldPage.getHeight() + "px");
+          oldPage[0].offsetHeight;
           oldPage.setStyles({
             "height": "0px",
             "paddingTop": "0px",
