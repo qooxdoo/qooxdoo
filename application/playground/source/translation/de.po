@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
@@ -40,8 +40,8 @@ msgstr ""
 "Der Code kann nicht an die URL angehängt werden, da er zu lang ist. Diese "
 "Warnung nicht mehr anzeigen?"
 
-msgid "Tap OK to discard your changes."
-msgstr "Bitte wählen Sie OK, um die Änderungen zu verwerfen."
+msgid "CodePen"
+msgstr ""
 
 msgid "Custom Code"
 msgstr "Eigener Code"
@@ -55,14 +55,8 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
-msgid ""
-"If you want to give qx.Website a try, please check out <a "
-"href='http://jsfiddle.net/user/qooxdoo/fiddles/' "
-"target='_blank'>jsFiddle</a>."
-msgstr ""
-"Wenn du qx.Website testen möchtest, schaue bei <a "
-"href='http://jsfiddle.net/user/qooxdoo/fiddles/' "
-"target='_blank'>jsFiddle</a> vorbei."
+msgid "If you want to give qx.Website a try, please check out "
+msgstr "Wenn du qx.Website testen möchtest, test es bei "
 
 msgid "Log"
 msgstr "Log"
@@ -142,6 +136,9 @@ msgstr "Anwendung gestartet"
 msgid "Syntax Highlighting"
 msgstr "Syntax Highlighting"
 
+msgid "Tap OK to discard your changes."
+msgstr "Bitte wählen Sie OK, um die Änderungen zu verwerfen."
+
 msgid ""
 "Unfortunately, an unrecoverable internal error was caused by your code. This"
 " may prevent the playground application to run properly.||"
@@ -156,9 +153,6 @@ msgid "User"
 msgstr "Eigene"
 
 msgid "Website"
-msgstr ""
-
-msgid "jsFiddle"
 msgstr ""
 
 msgid "qooxdoo"
