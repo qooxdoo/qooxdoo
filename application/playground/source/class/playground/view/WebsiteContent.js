@@ -58,7 +58,6 @@ qx.Class.define("playground.view.WebsiteContent",
         "<input type='hidden' name='data' value='" + JSON.stringify(data) + "' />" +
       "</form>."
     );
-    console.log(message.getValue());
     message.setWidth(300);
     message.setRich(true);
     message.setWrap(true);
