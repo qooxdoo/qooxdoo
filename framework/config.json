@@ -86,6 +86,8 @@
       "test-mobile",
       "test-mobile-source",
       "testrunner::tests-common",
+      "testrunner::source-mobile-script",
+      "testrunner::build-mobile-script",
       "translation"
     ]
   },
@@ -206,6 +208,28 @@
         "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"],
         "TEST_EXCLUDE" : "${TEST_PERFORMANCE_INCLUDE}"
       }
+    },
+
+    // framework has no custom.css so overwrite job and use appropriate stylesheet
+    "testrunner::source-mobile-script" :
+    {
+      "extend" : ["testrunner::source-script"],
+      "=add-css" : [
+        {
+          "uri" : "./resource/testrunner/view/mobile/css/indigo.css"
+        }
+      ]
+    },
+
+    // framework has no custom.css so overwrite job and use appropriate stylesheet
+    "testrunner::build-mobile-script" :
+    {
+      "extend" : ["testrunner::build-script"],
+      "=add-css" : [
+        {
+          "uri" : "./resource/testrunner/view/mobile/css/indigo.css"
+        }
+      ]
     },
 
     "test-performance" :
