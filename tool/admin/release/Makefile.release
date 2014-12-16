@@ -620,7 +620,7 @@ resources-framework-check:
 	@cd $(PATH_MOBILE_SKELETON_RESOURCES)/custom/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
 		F="../css/$${SCSS_FILE/%.scss/.css}"; \
 		LINES=`cat $$F | wc -l`; \
-		[ $$LINES -eq 2 ] || ( echo "CSS file $$F seems not compressed (more than two lines); run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
+		[ $$LINES -lt 3 ] || ( echo "CSS file $$F seems not compressed (more than two lines); run 'make resources-framework-build-css' first!"; exit 1 ) || exit 1; \
 	done
 	@for APP in $(APPLICATIONS_SCSS); do \
 		cd $(CURDIR)/application/$$APP/source/resource/$$APP/scss/; for SCSS_FILE in `ls [!_]*.scss`; do \
