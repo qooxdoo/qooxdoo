@@ -419,6 +419,20 @@ qx.Bootstrap.define("qx.bom.client.Html",
 
 
     /**
+     * Whether the client supports the fullscreen API.
+     *
+     * @internal
+     * @return {Boolean} <code>true</code> if fullscreen is supported
+     */
+    getFullScreen : function() {
+      return document.fullscreenEnabled ||
+             document.webkitFullscreenEnabled ||
+             document.mozFullScreenEnabled ||
+             document.msFullscreenEnabled || false;
+    },
+
+
+    /**
      * Check for a console object.
      *
      * @internal
@@ -523,5 +537,6 @@ qx.Bootstrap.define("qx.bom.client.Html",
     qx.core.Environment.add("html.history.state", statics.getHistoryState);
     qx.core.Environment.add("html.selection", statics.getSelection);
     qx.core.Environment.add("html.node.isequalnode", statics.getIsEqualNode);
+    qx.core.Environment.add("html.fullscreen", statics.getFullScreen);
   }
 });

@@ -65,22 +65,6 @@ qx.Bootstrap.define("qx.bom.FullScreen",
         this.$$instance = new qx.bom.FullScreen();
       }
       return this.$$instance;
-    },
-
-
-    /**
-     * Whether the client supports the fullscreen API.
-     *
-     * @internal
-     * @return {Boolean} <code>true</code> if fullscreen is supported
-     */
-    getFullScreen : function() {
-      var doc = window.document;
-
-      return document.fullscreenEnabled ||
-             document.webkitFullscreenEnabled ||
-             document.mozFullScreenEnabled ||
-             document.msFullscreenEnabled || false;
     }
 
   },
@@ -198,11 +182,5 @@ qx.Bootstrap.define("qx.bom.FullScreen",
         this.__doc[this.__cancelMethodName]();
       }
     }
-  },
-
-
-  defer : function (statics) {
-    qx.core.Environment.add("html.fullscreen", statics.getFullScreen);
   }
-
 });
