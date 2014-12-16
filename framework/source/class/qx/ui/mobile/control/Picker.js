@@ -24,7 +24,7 @@
  *
  * The picker widget is able to display multiple picker slots, for letting the user choose
  * several values at one time, in one single control.
- * 
+ *
  * You can add an array with objects which contain the keys <code>title</code>, a <code>subtitle</code> or an <code>image</code> (all optional).
  *
  * <pre>
@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
   construct : function()
   {
     this.base(arguments);
-    
+
     this._pickerModel = new qx.data.Array();
     this._slots = new qx.data.Array();
 
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
       };
 
       this._slots.push(slot);
-      
+
       scrollContainer.addListener("waypoint", this._onWaypoint, {
         self: this,
         slot : slot,
@@ -178,8 +178,8 @@ qx.Class.define("qx.ui.mobile.control.Picker",
 
       var slotWrapper = new qx.ui.mobile.container.Composite();
 
-      // Generate placeholder items at before and after picker data list, 
-      // for making sure the first and last item can be scrolled 
+      // Generate placeholder items at before and after picker data list,
+      // for making sure the first and last item can be scrolled
       // to the center of the picker.
       var placeholderItemCount = Math.floor(this.getVisibleItems() / 2);
       for (var i = 0; i < placeholderItemCount; i++) {
@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
 
     /**
     * Handler for <code>changeSelection</code> event on picker list.
-    * @param evt {qx.event.type.Data} the events data. 
+    * @param evt {qx.event.type.Data} the events data.
     */
     _onChangeSelection: function(evt) {
       qx.Bootstrap.bind(this.self.setSelectedIndex, this.self, this.slotIndex, evt.getData()).call();
@@ -231,7 +231,7 @@ qx.Class.define("qx.ui.mobile.control.Picker",
 
     /**
     * Handler for <code>waypoint</code> event on scroll container.
-    * @param evt {qx.event.type.Data} the waypoint data. 
+    * @param evt {qx.event.type.Data} the waypoint data.
     */
     _onWaypoint: function(evt) {
       var elementIndex = evt.getData().element;

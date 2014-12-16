@@ -108,12 +108,12 @@ qx.Class.define("qx.test.util.placement.KeepAlignAxis",
       var areaSize = 500;
 
       this.assertEquals(
-        -10,
+        0,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-start")
       );
 
       this.assertEquals(
-        -10,
+        0,
         this.axis.computeStart(size, target, offsets, areaSize, "edge-end")
       );
 

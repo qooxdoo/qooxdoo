@@ -29,6 +29,7 @@
 // native
 var crypto = require("crypto");
 var path = require("path");
+var url = require("url");
 
 // third-party
 var pathIsInside = require("path-is-inside");
@@ -79,11 +80,11 @@ function calculateRelPaths(manifestPaths, qxPath, appName, ns) {
 
   // paths depending on whether app is within "tool/grunt" dir ('myapp' test app) or not
   if (pathIsInside(manifestPaths[appName].base.abs, path.join(resolved_qxPath, gruntDir))) {
-    rel.res = path.join("../", manifestPaths[ns].resource);
-    rel.class = path.join("../", manifestPaths[ns].class);
+    rel.res = url.resolve(path.join("../", manifestPaths[ns].resource), '');
+    rel.class = url.resolve(path.join("../", manifestPaths[ns].class), '');
   } else {
-    rel.res = path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].resource);
-    rel.class = path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].class);
+    rel.res = url.resolve(path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].resource), '');
+    rel.class = url.resolve(path.join("../", manifestPaths[ns].base.rel, manifestPaths[ns].class), '');
   }
 
   return rel;
@@ -101,11 +102,9 @@ module.exports = function(grunt) {
     var opts = this.options();
     // console.log(opts);
 
-    // TODO: better way of getting this path? user may also want to override
-    var loaderTemplatePath = opts.qxPath + "/tool/data/generator/loader.tmpl.js";
-
-    if (!grunt.file.exists(loaderTemplatePath)) {
-      grunt.log.warn('Source file "' + loaderTemplatePath + '" not found.');
+    if (!grunt.file.exists(opts.loaderTemplate)) {
+      grunt.log.warn('Loader template file "' + opts.loaderTemplate + '" not found. Can\'t proceed.');
+      throw new Error('ENOENT - Loader template file "' + opts.loaderTemplate + '" not found. Can\'t proceed.');
     }
 
     grunt.log.writeln('Scanning libraries ...');
@@ -118,7 +117,7 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Collecting classes ...');
     // -----------------------------------------
-    var depsCollectingOptions = {variants: false, cachePath: opts.cachePath};
+    var depsCollectingOptions = {variants: false, cachePath: opts.cachePath, buildType: "source"};
     var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes, opts.excludes, opts.environment, depsCollectingOptions);
     grunt.log.ok('Done.');
 
@@ -181,8 +180,8 @@ module.exports = function(grunt) {
       libinfo[ns] = {};
       if (ns === "qx") {
         libinfo[ns] = {
-          "resourceUri": "../"+relPaths.qx+"/framework/source/resource",
-          "sourceUri": "../"+relPaths.qx+"/framework/source/class",
+          "resourceUri": url.resolve(path.join('../', relPaths.qx, '/framework/source/resource'), ''),
+          "sourceUri": url.resolve(path.join('../', relPaths.qx, '/framework/source/class'), ''),
           "sourceViewUri":"https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
         };
       } else {
@@ -211,7 +210,7 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Generate loader script ...');
     // ---------------------------------------------
-    var tmpl = grunt.file.read(loaderTemplatePath);
+    var tmpl = grunt.file.read(opts.loaderTemplate);
     var renderedTmpl = renderLoaderTmpl(tmpl, ctx);
 
     var appFileName = opts.appName + ".js";

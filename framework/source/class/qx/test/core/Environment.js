@@ -410,8 +410,6 @@ qx.Class.define("qx.test.core.Environment",
       this.assert(typeof userModify == "string" || userModify === null);
       var appearance = qx.core.Environment.get("css.appearance");
       this.assert(typeof appearance == "string" || appearance === null);
-      var floatProp = qx.core.Environment.get("css.float");
-      this.assert(floatProp === "cssFloat" || floatProp === "styleFloat");
       var boxSizing = qx.core.Environment.get("css.boxsizing");
       this.assert(typeof boxSizing == "string" || boxSizing === null);
       var inlineBlock = qx.core.Environment.get("css.inlineblock");
@@ -479,10 +477,6 @@ qx.Class.define("qx.test.core.Environment",
 
     testDevicePixelRatio : function() {
       this.assertNumber(qx.core.Environment.get("device.pixelRatio"));
-    },
-
-    testJson : function() {
-      this.assertBoolean(qx.core.Environment.get("json"));
     },
 
     testQx : function() {

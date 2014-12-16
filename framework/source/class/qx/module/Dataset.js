@@ -75,6 +75,15 @@ qx.Bootstrap.define("qx.module.Dataset", {
 
 
     /**
+    * Checks if any element in the collection has a "data-*" attribute
+    * @return {Boolean} True if any element in the collection has a "data-*" attribute
+    */
+    hasData : function() {
+      return qx.bom.element.Dataset.hasData(this[0]);
+    },
+
+
+    /**
      * Remove an HTML "data-*" attribute from the given DOM element
      *
      * @attach {qxWeb}
@@ -97,7 +106,8 @@ qx.Bootstrap.define("qx.module.Dataset", {
       "getData" : statics.getData,
       "setData" : statics.setData,
       "removeData" : statics.removeData,
-      "getAllData" : statics.getAllData
+      "getAllData" : statics.getAllData,
+      "hasData" : statics.hasData
     });
 
    }

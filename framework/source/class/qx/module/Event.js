@@ -75,7 +75,7 @@ qx.Bootstrap.define("qx.module.Event", {
           typeHooks[j](el, type, listener, context);
         }
 
-        var bound = function(event) {
+        var bound = function(el, event) {
           // apply normalizations
           var registry = qx.module.Event.__normalizations;
           // generic
@@ -90,7 +90,7 @@ qx.Bootstrap.define("qx.module.Event", {
           }
           // call original listener with normalized event
           listener.apply(this, [event]);
-        }.bind(ctx);
+        }.bind(ctx, el);
         bound.original = listener;
 
         // add native listener
@@ -102,14 +102,17 @@ qx.Bootstrap.define("qx.module.Event", {
           el.$$emitter = new qx.event.Emitter();
         }
 
-        var id = el.$$emitter.on(type, bound, ctx);
+        el.$$lastlistenerId = el.$$emitter.on(type, bound, ctx);
+        // save the useCapture for removing
+        el.$$emitter.getEntryById(el.$$lastlistenerId).useCapture = !!useCapture;
+
         if (!el.__listener) {
           el.__listener = {};
         }
         if (!el.__listener[type]) {
           el.__listener[type] = {};
         }
-        el.__listener[type][id] = bound;
+        el.__listener[type][el.$$lastlistenerId] = bound;
 
         if (!context) {
           // store a reference to the dynamically created context so we know
@@ -117,7 +120,7 @@ qx.Bootstrap.define("qx.module.Event", {
           if (!el.__ctx) {
             el.__ctx = {};
           }
-          el.__ctx[id] = ctx;
+          el.__ctx[el.$$lastlistenerId] = ctx;
         }
       }
       return this;
@@ -212,6 +215,16 @@ qx.Bootstrap.define("qx.module.Event", {
      */
     allOff : function(type) {
       return this.off(type || null, null, null);
+    },
+
+    /**
+     * Removes the listener with the given id.
+     * @param id {Number} The id of the listener to remove
+     * @return {qxWeb} The collection for chaining.
+     */
+    offById : function(id) {
+      var entry = this[0].$$emitter.getEntryById(id);
+      return this.off(entry.name, entry.listener.original, entry.ctx, entry.useCapture);
     },
 
     /**
@@ -690,6 +703,7 @@ qx.Bootstrap.define("qx.module.Event", {
       "on" : statics.on,
       "off" : statics.off,
       "allOff" : statics.allOff,
+      "offById" : statics.offById,
       "once" : statics.once,
       "emit" : statics.emit,
       "hasListener" : statics.hasListener,

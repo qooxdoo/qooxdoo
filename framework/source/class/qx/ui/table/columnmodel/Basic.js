@@ -353,9 +353,9 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         this.assertNotUndefined(this.__columnDataArr[col], "Column not found in table model");
       }
 
+      var oldRenderer = this.__columnDataArr[col].dataRenderer;
       this.__columnDataArr[col].dataRenderer = renderer;
 
-      var oldRenderer = this.__columnDataArr[col].dataRenderer;
       if (oldRenderer !== this.__dataRenderer) {
         return oldRenderer;
       }

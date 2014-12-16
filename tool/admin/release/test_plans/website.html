@@ -164,8 +164,19 @@
           <td><br>
           </td>
         </tr>
+        <tr class="mini">
+          <td name="number">9.3</td>
+          <td>Check responsiveness: Tabbar changes to accordion when window is to small<br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+          <td><br>
+          </td>
+        </tr>
         <tr>
-          <td name="number">9.3<br>
+          <td name="number">9.4<br>
           </td>
           <td>All widgets react properly<br>
           </td>
@@ -177,7 +188,7 @@
           </td>
         </tr>
         <tr>
-          <td name="number">9.4<br>
+          <td name="number">9.5<br>
           </td>
           <td>Application scaling works as expected<br>
           </td>
@@ -335,7 +346,7 @@
         </tr>
         <tr class="mini">
           <td name="number" width="2%">13.1</td>
-          <td>Test app loads<br>
+          <td>Test app loads<sup>[a]</sup><br>
           </td>
           <td><br>
           </td>
@@ -358,9 +369,25 @@
         <!-- TUTORIAL TESTS -->
       </tbody>
     </table>
-    <div> Legend: <img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
-      &nbsp;Ok &nbsp;&nbsp;&nbsp; (<img src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)
-      &nbsp;Mainly Ok &nbsp;&nbsp;&nbsp; <img src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">
-      &nbsp;Not Ok </div>
+    <p>Legend:<br>
+      <img alt="" class="legendsymbol" src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">
+      Ok<br>
+      <span class="legendsymbol">(<img alt="" src="http://resources.qooxdoo.org/images/icons/dialog-apply.22.png">)</span>
+      Mainly Ok<br>
+      <img alt="" class="legendsymbol" src="http://resources.qooxdoo.org/images/icons/edit-delete.22.png">Not
+      Ok </p>
+    <h3>Annotations</h3>
+    <dl>
+      <dt>[a]</dt>
+      <dd>Run all three tasks with grunt (because the CSS processing is implemented as grunt task only):
+        <ul>
+          <li><code>grunt test</code> ... check test/index.html</li>
+          <li><code>grunt test-source</code> ... check test/index-source.html</li>
+          <li><code>grunt test-module</code> ... check test/index-module.html</li>
+        </ul>
+      </dd>
+      <dt><br>
+      </dt>
+    </dl>
   </body>
 </html>

@@ -25,11 +25,6 @@ q.ready(function() {
   var legacyIe = (q.env.get("engine.name") === "mshtml" &&
     q.env.get("engine.version") < 11);
 
-  // prevent touch scrolling
-  q(document).on("touchmove", function(e) {
-    e.preventDefault();
-  });
-
   // remove the warning
   q("#warning").setStyle("display", "none");
 
@@ -88,8 +83,6 @@ q.ready(function() {
 
   var searchPopupShown = false;
   var onFilterInput = function() {
-    hideSearchPopup();
-
     var value = filterField.getValue();
 
     if (!value) {
@@ -118,17 +111,25 @@ q.ready(function() {
     q("#searchcmd").setHtml("cmd");
   }
 
-  var showSearchPopup = function() {
-    if (!q.localStorage.getItem("qx-got-search") && !searchPopupShown) {
-      q("#searchpopup")
-        .placeTo(q(".filter")[0], "right-top", {left: 2, top: -5})
-        .show();
-      searchPopupShown = true;
-    }
+  var showSearchPopup = function () {
+    q("#searchpopup")
+      .placeTo(q(".filter")[0], "right-top", {left: 2, top: -5})
+      .show();
   };
 
-  var hideSearchPopup = function() {
-    q("#searchpopup").fadeOut();
+  var hideSearchPopup = function () {
+    q("#searchpopup").hide();
+  };
+
+  var toggleSearchPopup = function() {
+    if (!q.localStorage.getItem("qx-got-search")) {
+      var results = q('#list').getAttribute('data-results') || 0;
+      if (parseInt(results) > 0) {
+        hideSearchPopup();
+      } else {
+        showSearchPopup();
+      }
+    }
   };
 
   q("#gotsearch").on("tap", function() {
@@ -136,11 +137,13 @@ q.ready(function() {
   });
 
   var filterField = q(".filter input");
-  filterField.on("input", onFilterInput).on("focus", showSearchPopup).on("blur", function() {
-    window.setTimeout(function() {
-      hideSearchPopup();
-    }, 200);
-  });
+  filterField.on("input", onFilterInput)
+    .on("focus", toggleSearchPopup)
+    .on("blur", function() {
+      window.setTimeout(function() {
+        hideSearchPopup();
+      }, 200);
+    });
 
   var debouncedHideFiltered = q.func.debounce(function(value) {
     hideFiltered(value);
@@ -152,6 +155,8 @@ q.ready(function() {
     q("#list .qx-tabs-page li").hide(); // method items
     q("#list .qx-tabs-button").removeClass("no-matches").setAttribute("disabled", false); // allow click on every group button
     var regEx = new RegExp(query, "i");
+
+    var totalResults = 0;
 
     q("#list .qx-tabs-button").forEach(function(groupButton) {
       var groupResults = 0;
@@ -193,6 +198,7 @@ q.ready(function() {
           }
         }
       });
+      totalResults += groupResults;
       groupButton.setData("results", groupResults);
       if (q.env.get("engine.name") == "mshtml") {
         // IE won't re-apply the element's styles (which use the data
@@ -204,7 +210,9 @@ q.ready(function() {
       }
     });
 
+    q("#list").setAttribute('data-results', totalResults);
     q("#list").render();
+    toggleSearchPopup();
   };
 
 
@@ -470,7 +478,8 @@ q.ready(function() {
           types[i] = "all";
         }
       }
-      var typesEl = renderTypes(types);
+      var idPrefix = name.toLowerCase() + '-';
+      var typesEl = renderTypes(idPrefix, types);
       module.append(typesEl);
     }
 
@@ -608,8 +617,11 @@ q.ready(function() {
   };
 
 
-  var renderTypes = function(types) {
-    return q.template.get("types", {types: types});
+  var renderTypes = function(idPrefix, types) {
+    return q.template.get("types", {
+        idPrefix: idPrefix,
+        types: types
+    });
   };
 
 
@@ -939,7 +951,7 @@ q.ready(function() {
 
     addMethodLinks(jsEl, header.getParents().getAttribute("id"));
 
-    if (sample.executable) {
+    if (!legacyIe && sample.executable) {
       createCodepenButton(sample).appendTo(sampleEl);
     }
 
@@ -1004,8 +1016,8 @@ q.ready(function() {
     hiddenField.setValue(JSON.stringify(data));
 
     var form = q.create('<form action="http://codepen.io/pen/define" method="POST" target="_blank">' +
-        '<input class="button-codepen" type="submit" value="Edit/run on CodePen">' +
-        '</form>'
+      '<input class="button-codepen" type="submit" value="Edit/run on CodePen">' +
+      '</form>'
     );
 
     return form.append(hiddenField);
@@ -1113,6 +1125,7 @@ q.ready(function() {
       console && console.warn("Unable to add sample: No doc element found for method", methodName);
       return;
     }
+    method.show();
 
     var sampleMap;
     if (typeof sample == "object" && sample.javascript) {

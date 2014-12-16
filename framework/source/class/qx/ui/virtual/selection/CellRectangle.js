@@ -246,7 +246,9 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
 
     // overridden
     _scrollItemIntoView : function(item) {
-      this._pane.scrollCellIntoView(item.column, item.row);
+      if (this._autoScrollIntoView) {
+        this._pane.scrollCellIntoView(item.column, item.row);
+      }
     },
 
 

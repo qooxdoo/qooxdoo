@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         this.removeCssClass(anchorClasses[i]);
       }
 
-      if(this.__anchor)
+      if (this.__anchor)
       {
         this.addCssClass('anchor');
 
@@ -363,8 +363,8 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
     {
       var container = this.getContainerElement();
       container.style.position = "absolute";
-      container.style.marginLeft = -(container.offsetWidth/2) + "px";
-      container.style.marginTop = -(container.offsetHeight/2) + "px";
+      container.style.marginLeft = -parseInt(container.offsetWidth/2) + "px";
+      container.style.marginTop = -parseInt(container.offsetHeight/2) + "px";
       container.style.left = "50%";
       container.style.top = "50%";
     },
@@ -569,19 +569,6 @@ qx.Class.define("qx.ui.mobile.dialog.Popup",
         }
         return null;
       }
-    },
-
-
-    /**
-     * @deprecated {3.5} Please use qx.ui.mobile.core.Blocker.getInstance() instead.
-     *
-     * Returns the blocker widget.
-     *
-     * @return {qx.ui.mobile.core.Blocker} Returns the blocker widget.
-     */
-    _getBlocker : function()
-    {
-      return qx.ui.mobile.core.Blocker.getInstance();
     }
   },
 

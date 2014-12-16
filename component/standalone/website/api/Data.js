@@ -496,7 +496,27 @@ var Data = q.define({
             }
           }
         }.bind(this));
+      }
+    },
 
+
+    _removeOverridden : function() {
+      for (var moduleName in this.__data) {
+        var moduleData = this.__data[moduleName];
+        ["static", "member"].forEach(function(type) {
+          if (moduleData[type]) {
+            var pluginModuleName;
+            for (var i=moduleData[type].length - 1; i>=0; i--) {
+              var method = moduleData[type][i];
+              if (method.attributes.overriddenFrom) {
+                // if no desc is given
+                if (Data.getByType(method, "desc").children) {
+                  moduleData[type].splice(i, 1);
+                }
+              }
+            }
+          }
+        }.bind(this));
       }
     },
 
@@ -647,6 +667,7 @@ var Data = q.define({
     _checkReady : function() {
       if (this.__loading === 0) {
         this._extractPluginApi();
+        this._removeOverridden();
         this._moveMethodsToReturnTypes();
         this.emit("ready");
       }

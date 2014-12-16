@@ -305,12 +305,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
       if (gesture.isTap) {
         if (target !== gesture.target) {
+
           delete this.__gesture[domEvent.pointerId];
           return;
         }
 
         this._fireEvent(domEvent, "tap", domEvent.target || target);
 
+        var isDblTap = false;
         if (Object.keys(this.__lastTap).length > 0) {
           // delete old tap entries
           var limit = Date.now() - qx.event.handler.GestureCore.DOUBLETAP_TIME;
@@ -319,16 +321,34 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
             if (time < limit) {
               delete this.__lastTap[time];
             } else {
-              if (this.__isBelowDoubleTapDistance(
-                this.__lastTap[time].x, this.__lastTap[time].y, domEvent.clientX, domEvent.clientY,
+              var lastTap = this.__lastTap[time];
+              var isBelowDoubleTapDistance = this.__isBelowDoubleTapDistance(
+                lastTap.x,
+                lastTap.y,
+                domEvent.clientX,
+                domEvent.clientY,
                 domEvent.getPointerType()
-              )) {
+              );
+              var isSameTarget = lastTap.target === (domEvent.target || target);
+              var isSameButton = lastTap.button === domEvent.button;
+
+              if (isBelowDoubleTapDistance && isSameButton && isSameTarget) {
+                isDblTap = true;
+                delete this.__lastTap[time];
                 this._fireEvent(domEvent, "dbltap", domEvent.target || target);
               }
             }
           }
         }
-        this.__lastTap[Date.now()] = {x: domEvent.clientX, y: domEvent.clientY};
+
+        if (!isDblTap) {
+          this.__lastTap[Date.now()] = {
+            x: domEvent.clientX,
+            y: domEvent.clientY,
+            target: domEvent.target || target,
+            button: domEvent.button
+          };
+        }
 
       } else if (!this._isBelowTapMaxDistance(domEvent)) {
         var swipe = this.__getSwipeGesture(domEvent, target);

@@ -160,6 +160,10 @@ function isQxCoreEnvironmentCall(node, methodNames) {
             && util.get(node, 'callee.object.object.object.name') === 'qx'
             && util.get(node, 'callee.object.object.property.name') === 'core'
             && util.get(node, 'callee.object.property.name') === 'Environment'
+            && envMethods.indexOf(util.get(node, 'callee.property.name')) !== -1) ||
+           (node.type === 'CallExpression'
+            && util.get(node, 'callee.object.object.name') === 'qxWeb'
+            && util.get(node, 'callee.object.property.name') === 'env'
             && envMethods.indexOf(util.get(node, 'callee.property.name')) !== -1);
 }
 

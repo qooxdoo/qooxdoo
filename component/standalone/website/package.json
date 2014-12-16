@@ -1,9 +1,9 @@
 {
   "name": "website",
-  "version": "4.1.0",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/qooxdoo/qooxdoo"
+  "version": "4.2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qooxdoo/qooxdoo"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
@@ -12,5 +12,9 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-notify": "~0.2.16",
     "grunt-contrib-sass": "~0.5.0"
+  },
+  "dependencies": {
+    "clean-css": "^2.2.16",
+    "grunt-text-replace": "^0.3.12"
   }
 }

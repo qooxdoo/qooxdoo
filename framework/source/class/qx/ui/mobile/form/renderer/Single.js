@@ -146,17 +146,6 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
 
 
     /**
-     * @deprecated {4.0} Please use '_addToScrollContainer' instead.
-     * Wraps the given item with a ScrollComposite.
-     * @param item {qx.ui.mobile.core.Widget} A form item to render.
-     * @param name {String} A name for the form item.
-     */
-    _addInScrollComposite: function(item, name) {
-      this._addToScrollContainer(item, name);
-    },
-
-
-    /**
      * Wraps the given item with a {@link qx.ui.mobile.container.Scroll scroll} container.
      * @param item {qx.ui.mobile.core.Widget} A form item to render.
      * @param name {String} A name for the form item.
@@ -170,30 +159,6 @@ qx.Class.define("qx.ui.mobile.form.renderer.Single",
       });
 
       this._addRow(scrollContainer,name,new qx.ui.mobile.layout.VBox());
-    },
-
-
-    /**
-     * @deprecated {3.5} Please use this._addRow(item, name, new qx.ui.mobile.layout.VBox()) instead.
-     *
-     * Adds a label and the widgets in two separate lines (rows).
-     * @param item {qx.ui.mobile.core.Widget} A form item to render.
-     * @param name {String} A name for the form item.
-     */
-    _addInSeparateLines : function(item, name) {
-      this._addRow(item, name, new qx.ui.mobile.layout.VBox());
-    },
-
-
-    /**
-     * @deprecated {3.5} Please use this._addRow(item, name, new qx.ui.mobile.layout.HBox()) instead.
-     *
-     * Adds a label and it according widget in one line (row).
-     * @param item {qx.ui.mobile.core.Widget} A form item to render.
-     * @param name {String} A name for the form item.
-     */
-    _addInOneLine : function(item, name) {
-      this._addRow(item, name, new qx.ui.mobile.layout.HBox());
     },
 
 

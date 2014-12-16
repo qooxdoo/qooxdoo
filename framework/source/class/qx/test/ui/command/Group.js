@@ -43,6 +43,19 @@ qx.Class.define("qx.test.ui.command.Group",
     },
 
 
+    testHasCommand : function()
+    {
+      var handler = this.spy();
+      var group = new qx.ui.command.Group();
+      var cmd = new qx.ui.command.Command("Meta+T");
+
+      this.assertTrue(group.add("test", cmd));
+
+      this.assertTrue(group.has("test"), "The command added with key 'test' must be registered.");
+      this.assertFalse(group.has("foo"), "The command 'foo' must not be registered.");
+    },
+
+
     testRemoveCommand : function()
     {
       var group = new qx.ui.command.Group();

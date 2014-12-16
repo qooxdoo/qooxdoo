@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * @ignore(Foo)
+ */
 qx.Class.define("qx.test.event.Registration",
 {
   extend : qx.dev.unit.TestCase,
@@ -138,6 +141,10 @@ qx.Class.define("qx.test.event.Registration",
       this.assertArrayEquals([false, false], fired);
     },
 
+
+    /**
+     * @ignore(Foo)
+     */
     "test addListenerOnce: same callback": function() {
       qx.Class.define("Foo", {
         extend: qx.core.Object,

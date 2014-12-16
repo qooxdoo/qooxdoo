@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.util.placement.KeepAlignAxis",
       }
 
       if (range1End > areaSize - range2Start) {
-        start = range1End - size;
+        start = Math.max(0, range1End - size);
       } else {
         start = range2Start;
       }

@@ -377,6 +377,20 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     },
 
 
+    // Interface implementation
+    openNodeWithoutScrolling : function(node)
+    {
+      var autoscroll = this.getAutoScrollIntoView();
+      // suspend automatically scrolling selection into view
+      this.setAutoScrollIntoView(false);
+
+      this.openNode(node);
+
+      // re set to original value
+      this.setAutoScrollIntoView(autoscroll);
+    },
+
+
     /**
      * Trigger a rebuild from the internal data structure.
      */
@@ -408,6 +422,20 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         this.fireDataEvent("close", node);
         this.buildLookupTable();
       }
+    },
+
+
+    // Interface implementation
+    closeNodeWithoutScrolling : function(node)
+    {
+      var autoscroll = this.getAutoScrollIntoView();
+      // suspend automatically scrolling selection into view
+      this.setAutoScrollIntoView(false);
+
+      this.closeNode(node);
+
+      // re set to original value
+      this.setAutoScrollIntoView(autoscroll);
     },
 
 

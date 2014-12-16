@@ -50,7 +50,10 @@ qx.Class.define("tutorial.view.Description",
     this.__embed = new qx.ui.embed.Html();
     this.__embed.setMargin(10);
     this.__embed.setOverflow("auto", "auto");
-    this.__embed.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
+    if (qx.core.Environment.get("device.type") !== "desktop") {
+      this.__embed.getContentElement().setStyle("WebkitOverflowScrolling", "touch");
+      this.__embed.getContentElement().setStyle("touchAction", "auto");
+    }
     this.add(this.__embed, {flex: 1});
 
     this.add(this.__createButtonContainer());

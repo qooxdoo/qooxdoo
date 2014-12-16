@@ -194,7 +194,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
       check: function(value) {
         return qx.lang.Type.isString(value) ||
                qx.Class.isSubClassOf(value.constructor, qx.core.Object) ||
-               qx.lang.Type.isObject(value);
+               qx.lang.Type.isObject(value) ||
+               qx.lang.Type.isArray(value);
       },
       nullable: true
     },

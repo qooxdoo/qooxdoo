@@ -74,11 +74,11 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
       }
 
       parent.add(this);
-
-      qx.core.Init.getApplication().addListener("back", this.forceHide, this);
     } else {
       qx.core.Init.getApplication().getRoot().add(this);
     }
+
+    qx.core.Init.getApplication().addListener("back", this._onBack, this);
 
     this.__parent = this.getLayoutParent();
     this.__parent.addCssClass("drawer-parent");
@@ -147,6 +147,16 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
     },
 
 
+    /**
+     * Indicates whether the drawer should hide when a back action appear form a key event.
+     */
+    hideOnBack :
+    {
+      check : "Boolean",
+      init : true
+    },
+
+
     /** Sets the size of the tapping area, where the drawer reacts on swipes for opening itself. */
     tapOffset : {
       check : "Integer",
@@ -203,96 +213,6 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
         this.__parent.setTranslateX(0);
         this.__parent.setTranslateY(0);
       }
-    },
-
-
-    /**
-    * @deprecated {3.5} Please use setSize() instead.
-    * Sets the user value of the property width.
-    * @param value {Integer} New value for property
-    */
-    setWidth : function(value) {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'setWidth()' is deprecated. Please use 'setSize()' instead.");
-      }
-      this.setSize(value);
-    },
-
-
-    /**
-    * @deprecated {3.5} Please use getSize() instead.
-    * Gets the user value of the property width.
-    * @return {Integer} the value.
-    */
-    getWidth : function() {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'getWidth()' is deprecated. Please use 'getSize()' instead.");
-      }
-      return this.getSize();
-    },
-
-
-    /**
-    * @deprecated {3.5} Please use resetSize() instead.
-    * Resets the user value of the property width.
-    */
-    resetWidth : function() {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'resetWidth()' is deprecated. Please use 'resetSize()' instead.");
-      }
-      this.resetSize();
-    },
-
-
-    /**
-    * @deprecated {3.5} Please use setSize() instead.
-    * Sets the user value of the property height.
-    * @param value {Integer} New value for property
-    */
-    setHeight : function(value) {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'setHeight()' is deprecated. Please use 'setSize()' instead.");
-      }
-      this.setSize(value);
-    },
-
-
-    /**
-    * @deprecated {3.5} Please use getSize() instead.
-    * Gets the user value of the property height.
-    * @return {Integer} the value.
-    */
-    getHeight : function() {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'getHeight()' is deprecated. Please use 'getSize()' instead.");
-      }
-      return this.getSize();
-    },
-
-
-    /**
-    * @deprecated {3.5} Please use resetSize() instead.
-    * Resets the user value of the property height.
-    */
-    resetHeight : function() {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method 'resetHeight()' is deprecated. Please use 'resetSize()' instead.");
-      }
-      this.resetSize();
-    },
-
-
-    /**
-     * @deprecated {3.5} Please use this.__parent.toggleCssClass instead.
-     */
-    _toggleParentBlockedState : function() {
-      this.__parent.toggleCssClass("blocked");
     },
 
 
@@ -481,6 +401,22 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
+     * Handles a back event which appears on the application.
+     *
+     * @param evt {qx.event.type.Data} The back event.
+     */
+    _onBack : function(evt)
+    {
+      var triggeredByKeyEvent = !!evt.getData();
+      if (triggeredByKeyEvent && !this.isHidden() && this.getHideOnBack())
+      {
+        evt.preventDefault();
+        this.hide();
+      }
+    },
+
+
+    /**
      * Handles a tap on drawers's root.
      * @param evt {qx.module.event.Pointer} Handled pointer event.
      */
@@ -546,7 +482,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
   destruct : function()
   {
-    qx.core.Init.getApplication().removeListener("back", this.forceHide, this);
+    qx.core.Init.getApplication().removeListener("back", this._onBack, this);
 
     this.__parent.removeListener("swipe", this._onParentSwipe, this);
     this.__parent.removeListener("pointerdown", this._onParentPointerDown, this);

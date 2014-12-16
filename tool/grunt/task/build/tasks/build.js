@@ -81,13 +81,10 @@ module.exports = function(grunt) {
     var opts = this.options();
     // console.log(opts);
 
-    // TODO: better way of getting this path? user may also want to override
-    var loaderTemplatePath = opts.qxPath + "/tool/data/generator/loader.tmpl.js";
-
-    if (!grunt.file.exists(loaderTemplatePath)) {
-      grunt.log.warn('Source file "' + loaderTemplatePath + '" not found.');
+    if (!grunt.file.exists(opts.loaderTemplate)) {
+      grunt.log.warn('Loader template file "' + opts.loaderTemplate + '" not found. Can\'t proceed.');
+      throw new Error('ENOENT - Loader template file "' + opts.loaderTemplate + '" not found. Can\'t proceed.');
     }
-
 
     grunt.log.writeln('Scanning libraries ...');
     // -----------------------------------------
@@ -99,7 +96,8 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Collecting classes ...');
     // -----------------------------------------
-    var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes, opts.excludes, opts.environment, {variants: true});
+    var depsCollectingOptions = {variants: true, cachePath: opts.cachePath, buildType: "build"};
+    var classesDeps = qxDep.collectDepsRecursive(classPaths, opts.includes, opts.excludes, opts.environment, depsCollectingOptions);
     grunt.log.ok('Done.');
 
 
@@ -167,16 +165,14 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Compress code ...');
     // ------------------------------------------------------
+
     var classCodeCompressedList = [];
-    var compressOpts = {privates: true};
-    var trees = qxDep.getTrees();
+    var compressOpts = {privates: true, cachePath: opts.cachePath};
     var curClass = "";
-    var treeOrNull = null;
     for (var i=0, l=classCodeList.length; i<l; i++) {
       // console.log(i, l, classLoadOrderList[i]);
       curClass = classLoadOrderList[i];
-      treeOrNull = curClass in trees ? trees[curClass] : null;
-      classCodeCompressedList.push(qxCpr.compress(curClass, classCodeList[i], treeOrNull, compressOpts));
+      classCodeCompressedList.push(qxCpr.compress(curClass, classCodeList[i], opts.environment, compressOpts));
     }
     grunt.log.ok('Done.');
 
@@ -216,7 +212,7 @@ module.exports = function(grunt) {
 
     grunt.log.writeln('Generate loader script ...');
     // ---------------------------------------------
-    var tmpl = grunt.file.read(loaderTemplatePath);
+    var tmpl = grunt.file.read(opts.loaderTemplate);
     var renderedTmpl = renderLoaderTmpl(tmpl, ctx);
 
     var appFileName = opts.appName + ".js";

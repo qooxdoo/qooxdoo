@@ -220,6 +220,30 @@ qx.Bootstrap.define("qx.bom.Label",
     },
 
 
+    /** Sanitizer function */
+    __sanitizer : null,
+
+
+    /**
+     * Sets a function to sanitize values. It will be used by {@link #setValue}.
+     * The function to sanitize will get the <code>string</code> value and
+     * should return a sanitized / cleared <code>string</code>.
+     *
+     * @param func {Function | null} Function to sanitize / clean HTML code
+     *  from given string parameter
+     */
+    setSanitizer : function(func)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        if (func) {
+          qx.core.Assert.assertFunction(func);
+        }
+      }
+
+      qx.bom.Label.__sanitizer = func;
+    },
+
+
     /**
      * Sets the content of the element.
      *
@@ -234,6 +258,9 @@ qx.Bootstrap.define("qx.bom.Label",
       value = value || "";
 
       if (element.useHtml) {
+        if (qx.bom.Label.__sanitizer && typeof(qx.bom.Label.__sanitizer) === "function") {
+          value = qx.bom.Label.__sanitizer(value);
+        }
         element.innerHTML = value;
       } else if (!qx.core.Environment.get("css.textoverflow") &&
         qx.core.Environment.get("html.xul"))
@@ -332,29 +359,8 @@ qx.Bootstrap.define("qx.bom.Label",
       // detect size
       var size = qx.bom.element.Dimension.getSize(element);
 
-      // Under Mac at least with Firefox 3.0 alpha 6 and earlier
-      // there was an issue that the text size calculation returns
-      // a size which is a bit too small and results into ellipsis
-      // even under the measured size.
-      // Linux shows the same bug (FF 3.0.6)
-      // https://bugzilla.mozilla.org/show_bug.cgi?id=450422
-      // Also FF4 with Windows7 shows the same issue see bug #4961
-      if ((qx.core.Environment.get("engine.name") == "gecko")) {
-        size.width++;
-      }
-
-      // IE9 has problems with the text size calculation for details have a look at bug #4038
-      if ((qx.core.Environment.get("engine.name") == "mshtml") && parseFloat(qx.core.Environment.get("engine.version")) >= 9) {
-        size.width++;
-      }
-      // Chrome since version 22 also has the already known missing pixel [BUG #6799]
-      if (qx.core.Environment.get("browser.name") == "chrome" && parseFloat(qx.core.Environment.get("browser.version")) >= 22) {
-        size.width++;
-      }
-      // add another pixel for safari 6. web fonts have problems otheriwse [BUG #6785]
-      if (qx.core.Environment.get("browser.name") == "safari" && parseFloat(qx.core.Environment.get("browser.version")) >= 6) {
-        size.width++;
-      }
+      // all modern browser are needing one more pixel for width
+      size.width++;
 
       return size;
     }

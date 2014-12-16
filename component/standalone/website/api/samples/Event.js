@@ -74,6 +74,33 @@ winCollection.on("resize", q.func.debounce(resizeHandler, 500), winCollection);
 });
 
 
+addSample(".off", function() {
+// adding a handler to your collection (happened earlier)
+var myHandler = function(e) {
+  var target = e.getTarget();
+  // more code ...
+};
+q("#navigationBar").on("tap", myHandler);
+
+// removing the listener - it's important to remove it with the same arguments
+q("#navigationBar").off("tap", myHandler);
+
+// this WON'T remove the listener, since you hand in a different context
+// same for adding a listener with a context and forget to pass the third argument
+q("#navigationBar").off("tap", myHandler, window); // WRONG: listener still there
+});
+
+
+addSample(".allOff", function() {
+// before removing DOM elements, remove *all tap* listeners
+q("#navigationBar").allOff("tap").remove();
+
+// before removing DOM elements, remove *all* listeners
+q("#navigationBar").allOff().remove();
+}
+);
+
+
 addSample(".hasListener", {
   javascript: function() {
 var myListener = function(e) {};
@@ -292,7 +319,7 @@ q('ul#test').onMatchTarget('pointerdown', '.special', function(target, event) {
   executable: true
 });
 
-addSample("Event.getKeyIdentifier", {
+addSample("keyboard-keyup", {
   html: [ '<input type="text" id="website"></input>',
     '<div id="textContainer"></div>'
   ],
@@ -319,7 +346,10 @@ addSample("Event.getKeyIdentifier", {
   ],
   javascript: function() {
 // Catch the key the user hit and display it in the div element
-q('#website').on('keypress', function(e) {
+// IMPORTANT: use the 'keyup' or 'keydown' event when working with the 'getKeyIdentifier' method
+// The 'keypress' event is due browser incompatibilities not recommended
+// (e.g. some identifiers like 'Enter' or 'Backspace' are simply not working for Chrome)
+q('#website').on('keyup', function(e) {
   var userInput = e.getKeyIdentifier();
 
   var content = q('#textContainer').getAttribute('text');
@@ -332,7 +362,7 @@ q('#website').on('keypress', function(e) {
 executable: true
 });
 
-addSample("Event.getKeyIdentifier", {
+addSample("keyboard-keyup", {
   html: [ '<input type="text" id="website"></input>',
     '<div id="textContainer"></div>'
   ],

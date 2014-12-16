@@ -331,14 +331,14 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /**
      * Preselects an item in the drop-down, when item starts with the
-     * __seachValue value.
+     * __searchValue value.
      */
     __preselect : function()
     {
       this.__searchTimer.stop();
 
       var searchValue = this.__searchValue;
-      if (searchValue == null || searchValue == "") {
+      if (searchValue === null || searchValue === "") {
         return;
       }
 
@@ -353,20 +353,24 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       {
         var row = (i + startRow) % length;
         var item = model.getItem(list._lookup(row));
+        if (!item) {
+          // group items aren't in the model
+          continue;
+        }
         var value = item;
 
-        if (this.getLabelPath() != null)
+        if (this.getLabelPath())
         {
           value = qx.data.SingleValueBinding.resolvePropertyChain(item,
             this.getLabelPath());
 
           var labelOptions = this.getLabelOptions();
-          if (labelOptions != null)
+          if (labelOptions)
           {
             var converter = qx.util.Delegate.getMethod(labelOptions,
               "converter");
 
-            if (converter != null) {
+            if (converter) {
               value = converter(value, item);
             }
           }

@@ -181,7 +181,9 @@ qx.Class.define("qx.ui.virtual.selection.Row",
 
     // overridden
     _scrollItemIntoView : function(item) {
-      this._pane.scrollRowIntoView(item);
+      if (this._autoScrollIntoView) {
+        this._pane.scrollRowIntoView(item);
+      }
     },
 
 

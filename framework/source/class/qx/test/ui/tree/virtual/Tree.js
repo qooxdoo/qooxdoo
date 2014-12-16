@@ -553,6 +553,36 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     },
 
 
+    testOpenNodeWithoutScrolling : function()
+    {
+      var root = this.createModelAndSetModel(1);
+      qx.ui.core.queue.Manager.flush();
+
+      // open and select the fifth leaf of fifth branch
+      var item4_4 = root.getChildren().getItem(4).getChildren().getItem(4);
+      this.tree.openNodeAndParents(item4_4);
+      this.tree.setSelection(new qx.data.Array([item4_4]));
+      qx.ui.core.queue.Manager.flush();
+
+      // store y scroll position
+      var scrollY = this.tree.getScrollY();
+
+      // open third node without auto scrolling
+      this.tree.openNodeWithoutScrolling(root.getChildren().getItem(2));
+      qx.ui.core.queue.Manager.flush();
+
+      // check scroll y position
+      this.assertEquals(this.tree.getScrollY(), scrollY, "Y position of scroller must not be changed");
+
+      // close the third node, but use API to automatically scroll selected into view
+      this.tree.closeNode(root.getChildren().getItem(2));
+      qx.ui.core.queue.Manager.flush();
+
+      // check scroll y position
+      this.assertNotEquals(this.tree.getScrollY(), scrollY, "Y position of scroller must be changed");
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHOD TO CALCULATE THE VISIBLE ITEMS
@@ -575,7 +605,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
     __openNodes : function(nodes)
     {
       for (var i = 0; i < nodes.length; i++) {
-        this.tree.openNode(nodes[i]);
+        this.tree.openNodeWithoutScrolling(nodes[i]);
       }
     },
 
@@ -586,11 +616,5 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         nativeArray[i].dispose();
       }
     }
-  },
-
-
-  destruct : function() {
-    qx.Class.undefine("qx.test.ui.tree.virtual.Leaf");
-    qx.Class.undefine("qx.test.ui.tree.virtual.Node");
   }
 });

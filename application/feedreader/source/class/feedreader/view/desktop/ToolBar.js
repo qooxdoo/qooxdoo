@@ -89,7 +89,7 @@ qx.Class.define("feedreader.view.desktop.ToolBar",
 
 
     // About button
-    var aboutBtn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/22/actions/help-about.png");
+    var aboutBtn = new qx.ui.toolbar.Button(this.tr("About"), "icon/22/actions/help-about.png");
     var aboutCmd = controller.getCommand("about");
     aboutBtn.setCommand(aboutCmd);
     aboutBtn.setToolTipText("(" + aboutCmd.toString() + ")");

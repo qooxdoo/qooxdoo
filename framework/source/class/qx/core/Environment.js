@@ -141,10 +141,6 @@
  *       <td>{@link qx.bom.client.Css#getAppearance}</td>
  *     </tr>
  *     <tr>
- *       <td>css.float</td><td><i>String</i> or <i>null</i></td><td><code>cssFloat</code></td>
- *       <td>{@link qx.bom.client.Css#getFloat}</td>
- *     </tr>
- *     <tr>
  *       <td>css.userselect</td><td><i>String</i> or <i>null</i></td><td><code>WebkitUserSelect</code></td>
  *       <td>{@link qx.bom.client.Css#getUserSelect}</td>
  *     </tr>
@@ -829,8 +825,6 @@ qx.Bootstrap.define("qx.core.Environment",
       "qx.debug.property.level": 0,
       // old variants
       // make sure to reflect all changes to qx.debug here in the bootstrap class!
-      "qx.mobile.emulatetouch": false, // @deprecated {4.0}
-      "qx.emulatemouse": false, // @deprecated {4.0}
       "qx.debug": true,
       "qx.debug.ui.queue": true,
       "qx.aspects": false,
@@ -869,24 +863,6 @@ qx.Bootstrap.define("qx.core.Environment",
      *   (Details in the class doc)
      */
     get : function(key) {
-      if (qx.Bootstrap.DEBUG) {
-        // @deprecated {3.5}
-        if (key === "json") {
-          qx.Bootstrap.warn("The environment key 'json' is deprecated " +
-            "and will eventually be removed.");
-        }
-        // @deprecated {4.0}
-        if (key === "qx.emulatemouse") {
-          qx.Bootstrap.warn("The environment key 'qx.emulatemouse' has been removed. " +
-            "See the release notes for more details.");
-        }
-
-        // @deprecated {4.0}
-        if (key === "qx.mobile.emulatetouch") {
-          qx.Bootstrap.warn("The environment key 'qx.mobile.emulatetouch' has been removed. " +
-            "See the release notes for more details.");
-        }
-      }
       // check the cache
       if (this.__cache[key] != undefined) {
         return this.__cache[key];

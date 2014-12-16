@@ -91,15 +91,17 @@ qx.Bootstrap.define("qxWeb", {
      * to {@link q}.
      *
      * @param module {Map} A map containing the methods to attach.
+     * @param override {Boolean?false} Force to override
      */
-    $attach : function(module) {
+    $attach : function(module, override) {
       for (var name in module) {
-        if (qx.core.Environment.get("qx.debug")) {
-          if (qxWeb.prototype[name] != undefined && Array.prototype[name] == undefined) {
+        if (qxWeb.prototype[name] != undefined && Array.prototype[name] == undefined && override !== true) {
+          if (qx.core.Environment.get("qx.debug")) {
             throw new Error("Method '" + name + "' already available.");
           }
+        } else {
+          qxWeb.prototype[name] = module[name];
         }
-        qxWeb.prototype[name] = module[name];
       }
     },
 
@@ -109,11 +111,12 @@ qx.Bootstrap.define("qxWeb", {
      * to {@link q}.
      *
      * @param module {Map} A map containing the methods to attach.
+     * @param override {Boolean?false} Force to override
      */
-    $attachStatic : function(module) {
+    $attachStatic : function(module, override) {
       for (var name in module) {
         if (qx.core.Environment.get("qx.debug")) {
-          if (qxWeb[name] != undefined) {
+          if (qxWeb[name] != undefined && override !== true) {
             throw new Error("Method '" + name + "' already available as static method.");
           }
         }
@@ -327,11 +330,49 @@ qx.Bootstrap.define("qxWeb", {
      * Calls the browser's native debugger to easily allow debugging within
      * chained calls.
      *
+     * Unlike the <a href="#.logThis">logThis</a> method this implementation blocks the further processing.
+     *
      * @return {q} The collection for chaining
      * @ignore(debugger)
      */
     debug : function() {
-      debugger;
+      if (qx.core.Environment.get("qx.debug")) {
+        debugger;
+      }
+      return this;
+    },
+
+
+    /**
+     * Logs information about the current collection, its DOM elements and the
+     * length. Very useful during development to easily check the current state of
+     * your collection and avoid common pitfalls like an empty collection.
+     *
+     * Unlike the <a href="#.debug">debug</a> method this implementation works non-blocking.
+     *
+     * @return {q} The collection for chaining
+     *
+     */
+    logThis : function() {
+      if (qx.core.Environment.get("qx.debug")) {
+
+        // loop over the collection elements to make sure we get the current content
+        // of the collection and not the reference values later (they might change depending on
+        // manipulation of the collection)
+        var elements = [];
+        this.forEach(function(item) {
+          elements.push(item);
+        });
+
+        var length = this.length;
+
+        console.group("*** Collection infos ***");
+        console.info("Length:", length);
+        console.info("Elements:", elements);
+        console.info("Instance:", this);
+        console.groupEnd();
+      }
+
       return this;
     },
 

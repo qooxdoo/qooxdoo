@@ -3,7 +3,7 @@
 Web Fonts
 *********
 
-qooxdoo's web fonts implementation is based on the @font-face CSS syntax. It attempts to abstract away cross-browser issues as far as possible, but due to the `browser differences in web font support <http://webfonts.info/browser-support-overview-june-2013>`_, it's up to the application developer to provide fonts in the appropriate formats.
+qooxdoo's web fonts implementation is based on the @font-face CSS syntax. It attempts to abstract away cross-browser issues as far as possible, but due to the `browser differences in web font support <http://webfonts.info/resources/overview-of-browser-support>`_, it's up to the application developer to provide fonts in the appropriate formats.
 Tools like FontForge or services like `FontSquirrel's font-face generator <http://www.fontsquirrel.com/fontface/generator>`_ can be used to convert fonts.
 
 .. _pages/ui_webfonts#theme_definition:
@@ -17,7 +17,7 @@ Like any font that should be used in a qooxdoo application, web fonts are define
     /**
      * @asset(custom/fonts/*)
      */
-    
+
     qx.Theme.define("custom.theme.Font",
     {
       fonts :

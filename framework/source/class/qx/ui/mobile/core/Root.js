@@ -61,6 +61,12 @@ qx.Class.define("qx.ui.mobile.core.Root",
       this.addCssClass("qx-flex-ready");
     }
 
+    // fix the root height when the browser tab bar animates out (closed all other tabs)
+    // (landscape + iOS8 + iPhone 6plus)
+    window.addEventListener("resize", function() {
+      qx.bom.element.Style.set(this.getContentElement(), "height", window.innerHeight + "px");
+    }.bind(this));
+
     this._onOrientationChange();
   },
 
@@ -268,6 +274,15 @@ qx.Class.define("qx.ui.mobile.core.Root",
         this.addCssClass("landscape");
         this.removeCssClass("portrait");
       }
+
+      // fix the root height on iOS 8
+      qx.bom.element.Style.set(this.getContentElement(), "height", window.innerHeight + "px");
+
+      // fix the root height after the location bar animated in
+      // (landscape + iOS8 + iPhone 6plus + more than one tab)
+      window.setTimeout(function() {
+        qx.bom.element.Style.set(this.getContentElement(), "height", window.innerHeight + "px");
+      }.bind(this), 1500);
     }
   },
 

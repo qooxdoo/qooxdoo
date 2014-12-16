@@ -178,11 +178,14 @@ qx.Class.define("mobileshowcase.page.Form",
       this.__slide.setDisplayValue("percent");
       form.add(this.__slide,"Are you human? Drag the slider to prove it.");
 
-      this.__save = new qx.ui.mobile.form.ToggleButton(false,"Agree","Reject",13);
+      this.__save = new qx.ui.mobile.form.ToggleButton(false,"YES","NO",13);
       this.__save.addListener("changeValue", this._enableFormSubmitting, this);
-      form.add(this.__save, "Agree? ");
+      form.add(this.__save, "Agree?");
 
       this._createValidationRules(form.getValidationManager());
+
+      // make sure to restore the defaults on reset
+      form.redefineResetter();
 
       return form;
     },

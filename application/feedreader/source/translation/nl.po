@@ -1,5 +1,5 @@
 # Dutch
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -11,6 +11,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "About"
+msgstr "Over"
 
 msgid "Add"
 msgstr "Toevoegen"
@@ -32,9 +35,6 @@ msgstr "Feed Informatie"
 
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
-
-msgid "Help"
-msgstr "Help"
 
 msgid "Language"
 msgstr "Taal"
@@ -74,3 +74,4 @@ msgstr "URL"
 
 msgid "User Feeds"
 msgstr "Gebruiker Feeds"
+

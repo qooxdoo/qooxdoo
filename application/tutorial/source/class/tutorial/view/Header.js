@@ -50,7 +50,7 @@ qx.Class.define("tutorial.view.Header",
     version.setFont("default");
 
     this.add(title, {left: 10, top: 5});
-    this.add(select, {left: "43%", right: "43%"});
+    this.add(select, {left: "40%", right: "40%"});
     this.add(version, {right: 10, top: 3});
   }
 });

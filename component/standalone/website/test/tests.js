@@ -89,7 +89,7 @@ testrunner.define({
   testDependencies : function()
   {
     if (q.$$qx.core.Environment.get("qx.debug")) {
-      this.skip("Only reasonable in non-debug version.")
+      this.skip("Only reasonable in non-debug version.");
     }
     this.assertUndefined(q.$$qx.Class, "Class");
     this.assertUndefined(q.$$qx.Interface, "Interface");
@@ -187,6 +187,43 @@ testrunner.define({
     var coll2 = q("h2", q(container1));
     this.assertEquals(1, coll2.length);
     this.assertEquals("inner1", coll2[0].id);
+  },
+
+  testOverrideQxWebPrototypeMethods: function () {
+    this.assertUndefined(qxWeb.prototype['__attach_test']);
+
+    qxWeb.$attach({
+      "__attach_test": function () {
+        return "foo";
+      }
+    });
+    this.assertNotUndefined(qxWeb.prototype['__attach_test']);
+    this.assertEquals("foo", qxWeb(document.body).__attach_test());
+
+    if (qx.core.Environment.get("qx.debug")) {
+      this.assertException(function () {
+        qxWeb.$attach({
+          "__attach_test": function () {
+            return "bar";
+          }
+        });
+      }, Error);
+    } else {
+      qxWeb.$attach({
+        "__attach_test": function () {
+          return "bar";
+        }
+      });
+    }
+
+    this.assertEquals("foo", qxWeb(document.body).__attach_test());
+
+    qxWeb.$attach({
+      "__attach_test": function () {
+        return "bar";
+      }
+    }, true);
+    this.assertEquals("bar", qxWeb(document.body).__attach_test());
   }
 });
 
@@ -1676,6 +1713,8 @@ testrunner.define({
     test.setProperty("affe", "AFFE");
     this.assertEquals("AFFE", test[0].affe);
     this.assertEquals("AFFE", test.getProperty("affe"));
+    test.removeProperty("affe");
+    this.assertUndefined(test.getProperty("affe"));
   },
 
   testProperties : function() {
@@ -1684,6 +1723,9 @@ testrunner.define({
     this.assertEquals("AFFE", test[0].affe);
     this.assertEquals("AFFE", test.getProperties(["affe", "x"]).affe);
     this.assertEquals("y", test.getProperties(["affe", "x"]).x);
+    test.removeProperties(["affe", "x"]);
+    this.assertUndefined(test.getProperty("affe"));
+    this.assertUndefined(test.getProperty("x"));
   },
 
   testGetSetValue : function()
@@ -1906,6 +1948,22 @@ testrunner.define({
 
     test.emit("changeName", sendData);
     this.assertEquals(1, called);
+  },
+
+
+  testOnceWith3 : function() {
+    var test = q.create("<div/>");
+    var self = this;
+    var called = 0;
+    var listener = function() {
+      called++;
+    };
+    test.once("changeName", listener);
+    test.once("changeName", listener);
+    test.once("changeName", listener);
+
+    test.emit("changeName");
+    this.assertEquals(3, called);
   },
 
 
@@ -2275,7 +2333,7 @@ testrunner.define({
       target = ev.getCurrentTarget();
     };
 
-    test = q.create('<input type="text" />');
+    var test = q.create('<input type="text" />');
     test.appendTo(this.sandbox[0]);
     test.on("mousedown", callback, this);
 
@@ -2286,6 +2344,59 @@ testrunner.define({
 
     this.wait(function() {
       this.assertEquals(test[0], target);
+    }, 500, this);
+  },
+
+
+  testCurrentTargetMultiElementsDispatch : function() {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
+
+    var target;
+
+    var callback = function(ev) {
+      target = ev.getCurrentTarget();
+    };
+
+    var test = q.create('<div/><div/><div/>')
+      .appendTo(this.sandbox[0])
+      .on("mousedown", callback, this);
+
+    window.setTimeout(function() {
+      var event = new qx.event.type.dom.Custom("mousedown");
+      test[1].dispatchEvent(event);
+    }, 100);
+
+    this.wait(function() {
+      this.assertEquals(test[1], target);
+    }, 500, this);
+  },
+
+
+  testCurrentTargetMultiElementsEmit : function() {
+    if (!qx.core.Environment.get("event.dispatchevent")) {
+      this.skip("Requires dispatchEvent");
+    }
+
+    var target;
+
+    var callback = function(ev) {
+      target = ev.getCurrentTarget();
+    };
+
+    var test = q.create('<div id="0"/><div id="1"/><div id="2"/>')
+      .appendTo(this.sandbox[0])
+      .on("mousedown", callback, this);
+
+    window.setTimeout(function() {
+      window.affe = true;
+      test.eq(1).emit("mousedown", {});
+      window.affe = false;
+    }, 100);
+
+    this.wait(function() {
+      this.assertEquals(test[1].getAttribute("id"), target.getAttribute("id"));
     }, 500, this);
   }
 });
@@ -3400,21 +3511,28 @@ testrunner.define({
 
   classname : "MatchMedia",
 
-  setUp : function(){
+  setUp : function() {
     testrunner.globalSetup.call(this);
+
+    if (qxWeb.env.get("qx.debug")) {
+      this.skip("Only reasonable in non-debug version.");
+    }
+
     this.__iframe = q.create('<iframe src="media.html" frameborder="0" width="500" height="400" name="Testframe"></iframe>');
     this.__iframe.appendTo(this.sandbox[0]);
   },
 
-  tearDown : testrunner.globalTeardown,
+  tearDown : function() {
+    testrunner.globalTeardown.call(this);
+    qxWeb(window).off('message', null, null);
+  },
 
   hasNoLegacyIe : function() {
     return (qxWeb.env.get("engine.name") != "mshtml" ||
       qxWeb.env.get("browser.documentmode") > 8);
   },
 
-  testLandscape : function(){
-
+  testLandscape : function() {
     var iframe = this.__iframe[0];
 
     iframe.width = "500px";
@@ -3426,9 +3544,9 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("all and (orientation:landscape)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
@@ -3447,15 +3565,14 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("all and (min-width:500px)",'*');
-    },100);
+    });
 
-    this.wait(1000);
+    this.wait(10000);
   },
 
   testMaxWidth : function(){
-
     var iframe = this.__iframe[0];
 
     iframe.width = "500px";
@@ -3467,15 +3584,15 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("all and (max-width:500px)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
 
-  testAnd : function(){
 
+  testAnd : function(){
     var iframe = this.__iframe[0];
 
     iframe.width = "300px";
@@ -3487,9 +3604,9 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("screen and (min-width: 400px) and (max-width: 700px)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
@@ -3506,9 +3623,9 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("all and (min-height:500px)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
@@ -3525,9 +3642,9 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("all and (min-color: 1)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
@@ -3545,9 +3662,9 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("(min-width: 700px) and (orientation: landscape)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
@@ -3563,9 +3680,9 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("screen and (max-device-width: 799px)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
@@ -3581,9 +3698,9 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
@@ -3599,9 +3716,9 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("screen and (width: 800px)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
@@ -3616,9 +3733,9 @@ testrunner.define({
       }, this);
     },this);
 
-    window.setTimeout(function(){
+    this.__iframe.on("load", function() {
       iframe.contentWindow.postMessage("not screen and (min-width: 800px)",'*');
-    },100);
+    });
 
     this.wait(1000);
   },
@@ -3657,7 +3774,6 @@ testrunner.define({
 
     this.wait(1000);
   }
-
 });
 
 
@@ -3745,6 +3861,14 @@ testrunner.define({
      //must be ignored:
      q(window).removeData("fooBar");
      q(document).removeData("fooBar");
+   },
+
+   testHasData : function() {
+    this.assertFalse(this.__element.hasData());
+    this.__element.setData("type", "test");
+    this.assertTrue(this.__element.hasData());
+    this.__element.removeData("type");
+    this.assertFalse(this.__element.hasData());
    }
 
 });
@@ -4580,7 +4704,7 @@ testrunner.define({
     var dayNames = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
     cal.setConfig("monthNames", monthNames).setConfig("dayNames", dayNames).render();
 
-    var displayedMonth = cal.find("thead tr:nth-child(1) td:nth-child(2)").getHtml();
+    var displayedMonth = cal.find("thead tr:nth-child(1)").getChildren("td").eq(1).getHtml();
     this.assertEquals(0, displayedMonth.indexOf(monthNames[now.getMonth()]));
 
     var displayedDays = cal.find("thead tr:nth-child(2) td").toArray().map(function(cell) {
@@ -5006,5 +5130,7 @@ testrunner.define({
     datepicker.render();
     this.assertFalse(datepicker.getEnabled());
     this.assertTrue(datepicker.getAttribute("disabled"));
-  }
+
+    datepicker.dispose();
+   }
 });

@@ -69,19 +69,15 @@ var U2 = require('uglify-js');
 // not pretty (require internals of jshint) but works
 var js_builtins = require('jshint/src/vars');
 
+// qx
+var Cache = (Cache || require('qx-cache'));
+
 // local (modules may be injected by test env)
 var parentAnnotator = (parentAnnotator || require('./annotator/parent'));
 var classNameAnnotator = (classNameAnnotator || require('./annotator/className'));
 var loadTimeAnnotator = (loadTimeAnnotator || require('./annotator/loadTime'));
 var qxCoreEnv = (qxCoreEnv || require('./qxCoreEnv'));
 var util = (util || require('./util'));
-
-// lib (modules may be injected by test env)
-// TODO: needs to be a proper dependency
-// or publishing of this package won't be possible
-if (!qx) { var qx = {}; }
-if (!qx.tool) { qx.tool = {}; }
-qx.tool.Cache = (qx.tool.Cache || require('../../../../lib/qx/tool/Cache'));
 
 //------------------------------------------------------------------------------
 // Attic
@@ -226,13 +222,8 @@ function analyze_as_map(etree, optObj) {
 // Privates
 //------------------------------------------------------------------------------
 
-// privates may be injected by test env
 
-/**
- * Global ast map (classId:(alreadyManipulated)AST).
- * Does only contain manipulated trees!
- */
-var globalAstMap = {};
+// privates may be injected by test env
 
 /**
  * Whether node is a variable node.
@@ -684,13 +675,15 @@ module.exports = {
    *
    * @param {Object} tree - esprima AST
    * @param {Object} envMap - environment settings
+   * @param {Object} cache - cache object
+   * @param {Object} basePaths - namespace (key) and filePath (value) to library
    * @param {Object} [opts]
    * @param {boolean} [opts.flattened=false] - whether to divide deps into load and run
    * @param {boolean} [opts.variants=false] - whether to replace env calls with their value
    * @returns {string[]}
    * @see {@link http://esprima.org/doc/#ast|esprima AST}
    */
-  findUnresolvedDeps: function(tree, envMap, opts) {
+  findUnresolvedDeps: function(tree, envMap, cache, basePaths, opts) {
     var deps = {
       'load' : [],
       'run' : [],
@@ -717,6 +710,15 @@ module.exports = {
     var globalScopeOptimized = {};
     var scopesRef = {};
     var scopesRefOptimized = {};
+    // Special handling for regular expression literal since we need to
+    // convert it to a string literal, otherwise it will be decoded
+    // as object "{}" and the regular expression would be lost.
+    var adjustRegexLiteral = function(key, value) {
+      if (key === 'value' && value instanceof RegExp) {
+        value = value.toString();
+      }
+      return value;
+    };
     var debugClass = function(classId) {
       if (classId === "qx.REPLACE.THIS") {
         var escg = require("escodegen");
@@ -726,9 +728,26 @@ module.exports = {
 
     // replace env calls with their value
     if (opts && opts.variants) {
-      tree = qxCoreEnv.optimizeEnvCall(tree, envMap);
       // debugClass(tree.qxClassName);
-      globalAstMap[tree.qxClassName] = tree;
+
+      if (cache) {
+        var curCacheId = cache.createCacheId('tree', envMap, tree.qxClassName);
+        if (cache.has(curCacheId)) {
+          var mtimeCacheFile = cache.stat(curCacheId).mtime;
+          var mtimeClassFile = fs.statSync(getAbsFilePath(tree.qxClassName, basePaths)).mtime;
+          if (new Date(mtimeCacheFile) > new Date(mtimeClassFile)) {
+            tree = JSON.parse(cache.read(curCacheId));
+          } else {
+            tree = qxCoreEnv.optimizeEnvCall(tree, envMap);
+            cache.write(curCacheId, JSON.stringify(tree, adjustRegexLiteral));
+          }
+        } else {
+          tree = qxCoreEnv.optimizeEnvCall(tree, envMap);
+          if (cache) {
+            cache.write(curCacheId, JSON.stringify(tree, adjustRegexLiteral));
+          }
+        }
+      }
 
       // reparse tree for if condition removal
       // and as consequence more accurate deps
@@ -736,9 +755,19 @@ module.exports = {
       ast.figure_out_scope();
       var compressor = U2.Compressor({warnings: false});
       ast = ast.transform(compressor);
+      // TODO: once 'to_mozilla_ast()' is available in the next release
+      // (this should be v2.4.16) we should use it instead of reparsing
+      // with esprima.
+      //
+      // see:
+      //   https://github.com/mishoo/UglifyJS2#keeping-comments-in-the-output
+      //   http://rreverser.com/using-mozilla-ast-with-uglifyjs/
+      //
+      // var code = ast.print_to_string({ comments: function(){ return true; } });
+      // treeOptimized = ast.to_mozilla_ast();
       var code = ast.print_to_string();
       treeOptimized = esprima.parse(code, {comment: true, loc: true});
-      depsOptimized = findUnresolvedDeps(treeOptimized, envMap, {
+      depsOptimized = findUnresolvedDeps(treeOptimized, envMap, cache, {
         flattened: false, variants: false
       });
     }
@@ -845,17 +874,6 @@ module.exports = {
   },
 
   /**
-   * Get a map with qxClassName:manipulated AST for later reusing them.
-   * Please notice: This method will only return something useful when findUnresolvedDeps()
-   * (which is also called by collectDepsRecursive()) is called *before*.
-   *
-   * @returns {Object} globalAstMap - the keys are class names (e.g. "qx.core.Environment").
-   */
-  getTrees: function() {
-    return globalAstMap;
-  },
-
-  /**
    * Collects dependencies recursively. Supports globbing of class ids.
    *
    * @param {Object} basePaths - namespace (key) and filePath (value) to library
@@ -877,7 +895,8 @@ module.exports = {
     // merge options and default values
     var opts = {
       variants: options.variants === true ? true : false,
-      cachePath: options.cachePath === undefined ? null : options.cachePath
+      cachePath: options.cachePath === undefined ? null : options.cachePath,
+      buildType: options.buildType === undefined ? "source" : options.buildType
     };
 
     var getClassNamesFromPaths = function(filePaths) {
@@ -943,12 +962,11 @@ module.exports = {
         var jsCode = readFileContent([classId], basePaths);
         var tree = esprima.parse(jsCode[0], {comment: true, loc: true});
         classNameAnnotator.annotate(tree, classId);
-        return findUnresolvedDeps(tree, envMap, {flattened: false, variants: opts.variants});
+        return findUnresolvedDeps(tree, envMap, cache, basePaths, {flattened: false, variants: opts.variants});
       };
 
       var i = 0;
       var l = classIds.length;
-      var cachePrefix = 'deps-';
       var curCacheId = '';
       for (; i<l; i++) {
         // skip excluded classes
@@ -961,22 +979,26 @@ module.exports = {
           'run': []
         };
 
-        curCacheId = cachePrefix + classIds[i];
-        if (cache && cache.has(curCacheId)) {
-          var mtimeCacheFile = cache.stat(curCacheId).mtime;
-          var mtimeClassFile = fs.statSync(getAbsFilePath(classIds[i], basePaths)).mtime;
-          if (new Date(mtimeCacheFile) > new Date(mtimeClassFile)) {
-            classDeps = JSON.parse(cache.read(curCacheId));
-            classesDeps[classIds[i]] = classDeps;
+        if (cache) {
+          curCacheId = cache.createCacheId('deps', envMap, classIds[i], opts.buildType);
+          if (cache.has(curCacheId)) {
+            var mtimeCacheFile = cache.stat(curCacheId).mtime;
+            var mtimeClassFile = fs.statSync(getAbsFilePath(classIds[i], basePaths)).mtime;
+            if (new Date(mtimeCacheFile) > new Date(mtimeClassFile)) {
+              classDeps = JSON.parse(cache.read(curCacheId));
+              classesDeps[classIds[i]] = classDeps;
+            } else {
+              classDeps = figureOutDeps(classIds[i], basePaths);
+              cache.write(curCacheId, JSON.stringify(classDeps));
+            }
           } else {
             classDeps = figureOutDeps(classIds[i], basePaths);
-            cache.write(curCacheId, JSON.stringify(classDeps));
+            if (cache) {
+              cache.write(curCacheId, JSON.stringify(classDeps));
+            }
           }
         } else {
           classDeps = figureOutDeps(classIds[i], basePaths);
-          if (cache) {
-            cache.write(curCacheId, JSON.stringify(classDeps));
-          }
         }
 
         // Note: Excluded classes will still be entries in load and run deps!
@@ -1001,8 +1023,9 @@ module.exports = {
 
     // start with globbed initClassIds
     initClassIds = globClassIds(initClassIds, basePaths);
-    var cacheOrNull = (opts.cachePath) ? new qx.tool.Cache(opts.cachePath) : null;
-    return recurse(basePaths, initClassIds, initClassIds, excludedClassIds, cacheOrNull);
+    var cacheOrNull = (opts.cachePath) ? new Cache(opts.cachePath) : null;
+    var result = recurse(basePaths, initClassIds, initClassIds, excludedClassIds, cacheOrNull);
+    return result;
   },
 
   /**

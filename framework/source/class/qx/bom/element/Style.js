@@ -108,7 +108,6 @@ qx.Bootstrap.define("qx.bom.element.Style",
         "userSelect" : qx.core.Environment.get("css.userselect"),
         "textOverflow" : qx.core.Environment.get("css.textoverflow"),
         "borderImage" : qx.core.Environment.get("css.borderimage"),
-        "float" : qx.core.Environment.get("css.float"),
         "userModify" : qx.core.Environment.get("css.usermodify"),
         "boxSizing" : qx.core.Environment.get("css.boxsizing")
       };
@@ -119,8 +118,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
           delete styleNames[key];
         }
         else {
-          this.__cssNames[key] = key == "float" ? "float" :
-            qx.bom.Style.getCssName(styleNames[key]);
+          this.__cssNames[key] = qx.bom.Style.getCssName(styleNames[key]);
         }
       }
 
@@ -214,7 +212,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
           if (!cssNames[name]) {
             cssNames[name] = qx.bom.Style.getCssName(name);
           }
-          html.push(cssNames[name], ":", value, ";");
+          html.push(cssNames[name], ":", value === "" ? "\"\"" : value, ";");
         }
       }
 

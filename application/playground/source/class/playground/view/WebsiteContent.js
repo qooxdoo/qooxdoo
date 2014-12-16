@@ -26,30 +26,47 @@ qx.Class.define("playground.view.WebsiteContent",
     this.base(arguments);
     this.setAppearance("website-content");
 
+    var qVersion = q.env.get("qx.version");
+    var qUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/q-" +
+      qVersion + ".min.js";
+    var indigoUrl = "http://demo.qooxdoo.org/" + qVersion + "/framework/indigo-" +
+        qVersion + ".css";
+
     var container = new qx.ui.container.Composite();
     var layout = new qx.ui.layout.Grid();
     layout.setColumnAlign(1, "left", "top");
     container.setLayout(layout);
 
-    var logo = new qx.ui.basic.Image("playground/images/jsfiddle-logo.png");
+    var logo = new qx.ui.basic.Image("playground/images/codepen-256-black.png");
     container.add(logo, {row: 0, column: 0, rowSpan: 2});
-
-    var headline = new qx.ui.basic.Label(this.tr("jsFiddle"));
-    headline.setFont("jsFiddle");
+    var headline = new qx.ui.basic.Label(this.tr("CodePen"));
+    headline.setFont("CodePen");
+    headline.setAlignY("top");
+    headline.setPaddingTop(15);
     container.add(headline, {row: 0, column: 1});
 
+    var data = {
+      js_external: qUrl,
+      css_external: indigoUrl,
+      js: "// use qxWeb here"
+    };
+
     var message = new qx.ui.basic.Label(this.tr(
-      "If you want to give qx.Website a try, please check out <a href='http://jsfiddle.net/user/qooxdoo/fiddles/' target='_blank'>jsFiddle</a>."
-    ));
+      "If you want to give qx.Website a try, please check out ") +
+      "<form action='http://codepen.io/pen/define' method='POST' target='_blank' style='display: inline;'>" +
+        "<input type='submit' value='CodePen' style='border: none; padding: 0; background: none; text-decoration: underline; cursor: pointer; font-size: 12px;'>" +
+        "<input type='hidden' name='data' value='" + JSON.stringify(data) + "' />" +
+      "</form>."
+    );
     message.setWidth(300);
     message.setRich(true);
     message.setWrap(true);
+    message.setAlignY("top");
+    message.setPaddingBottom(35);
     container.add(message, {row: 1, column: 1});
 
     this._setLayout(new qx.ui.layout.Canvas());
     this._add(container, {left: "50%", top: "50%"});
-
-
 
     this.addListener("appear", function() {
       // align in the center

@@ -172,6 +172,29 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
 
     /**
+     * Determines, if automatically scrolling of selected item is active.
+     * Set <code>false</code> to suspend auto scrolling.
+     *
+     * @param value {Boolean} Set <code>false</code> to suspend auto scrolling.
+     */
+    setAutoScrollIntoView : function(value)
+    {
+      this._manager._autoScrollIntoView = value;
+    },
+
+
+    /**
+     * Returns true, if automatically scrolling of selected item is active.
+     *
+     * @return {Boolean} Returns <code>false</code> if auto scrolling is suspended.
+     */
+    getAutoScrollIntoView : function()
+    {
+      return this._manager._autoScrollIntoView;
+    },
+
+
+    /**
      * Method to update the selection, this method can be used when the model has
      * changes.
      */

@@ -150,27 +150,6 @@ qx.Class.define("qx.ui.menu.RadioButton",
       } else {
         this.setValue(true);
       }
-    },
-
-
-    // overridden
-    _onTap : function(e)
-    {
-      if (e.isLeftPressed()) {
-        this.execute();
-      } else {
-        // don't close menus if the button has a context menu
-        if (this.getContextMenu()) {
-          return;
-        }
-      }
-      qx.ui.menu.Manager.getInstance().hideAll();
-    },
-
-
-    // overridden
-    _onKeyPress : function(e) {
-      this.execute();
     }
   }
 });

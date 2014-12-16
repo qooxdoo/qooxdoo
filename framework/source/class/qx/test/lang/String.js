@@ -39,6 +39,16 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("1-2", Str.format("%1-%2", [ "1", "2" ]));
       this.assertEquals("2-1", Str.format("%2-%1", [ "1", "2" ]));
       this.assertEquals("1-2-3-4-5-6-7-8-9-10-11", Str.format("%1-%2-%3-%4-%5-%6-%7-%8-%9-%10-%11", [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]));
+
+
+      // test .replace() short hands: http://bclary.com/2004/11/07/#a-15.5.4.11
+      this.assertEquals("foo $& bar", Str.format("foo %1 bar", [ "$&" ]));
+      this.assertEquals("foo $` bar", Str.format("foo %1 bar", [ "$`" ]));
+      this.assertEquals("foo $' bar", Str.format("foo %1 bar", [ "$'" ]));
+      this.assertEquals("foo $1 bar", Str.format("foo %1 bar", [ "$1" ]));
+      this.assertEquals("foo $22 bar", Str.format("foo %1 bar", [ "$22" ]));
+
+      this.assertEquals("foo $& bar $&", Str.format("foo %1 bar %2", [ "$&", "$&" ]));
     },
 
 

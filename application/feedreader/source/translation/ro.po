@@ -1,5 +1,5 @@
 # Romanian
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -12,6 +12,9 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "About"
+msgstr "Despre"
 
 msgid "Add"
 msgstr "Adaugă"
@@ -33,9 +36,6 @@ msgstr "Informații despre flux"
 
 msgid "FeedReader (qooxdoo powered)"
 msgstr "Cititor de Fluxuri (bazat pe qooxdoo)"
-
-msgid "Help"
-msgstr "Ajutor"
 
 msgid "Language"
 msgstr "Limbă"

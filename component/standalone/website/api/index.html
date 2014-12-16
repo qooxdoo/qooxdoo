@@ -129,11 +129,11 @@
   <script type="text/template" charset="utf-8" id="types">
     <div class="event-types">
       <h3>Applied to these event types:</h3>
-      <ul>
         {{#types}}
-        <li class="inline"><code>{{.}}</code></li>
+        <h4>{{.}}</h4>
+
+        <div id="{{ idPrefix }}{{.}}" style="display: none;"></div>
         {{/types}}
-      </ul>
     <div>
   </script>
 

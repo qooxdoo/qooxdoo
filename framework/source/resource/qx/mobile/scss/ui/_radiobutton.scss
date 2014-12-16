@@ -12,7 +12,7 @@
   text-align: center;
   position: relative;
 
-  z-index: 10;
+  z-index: 1;
 
   margin: rem(2) auto;
 
@@ -30,7 +30,7 @@
   opacity: 0;
   content: "";
 
-  z-index: 11;
+  z-index: 1;
 
   width: $radiobutton-size/2;
   height: $radiobutton-size/2;

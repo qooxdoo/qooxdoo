@@ -72,13 +72,24 @@ qx.Mixin.define("widgetbrowser.MControls",
       }
 
       if (options.focused) {
+        var toggleWidgetFocus = function (widget, status) {
+          if (status) {
+            widget.addState("focused");
+          } else {
+            widget.removeState("focused");
+          }
+        };
+
         var toggleFocused = new qx.ui.form.ToggleButton("Focused");
         toggleFocused.addListener("changeValue", function(e) {
           widgets.forEach(function(widget, index) {
-            if (this.getValue()) {
-              widget.addState("focused");
+            if (widget instanceof qx.ui.form.RadioButtonGroup) {
+              var children = widget.getChildren();
+              children.forEach(function (child) {
+                toggleWidgetFocus(child, this.getValue());
+              }, this);
             } else {
-              widget.removeState("focused");
+              toggleWidgetFocus(widget, this.getValue());
             }
           }, this);
         });

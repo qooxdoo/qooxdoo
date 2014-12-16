@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
       this.__detailNavigation.getLayout().setShowAnimation(false);
 
       this.__masterContainer.forceHide();
-      
+
       setTimeout(function() {
         if (qx.bom.Viewport.isLandscape()) {
           this.__masterContainer.show();
@@ -177,43 +177,16 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
 
     /**
-     * @deprecated {3.5} The method 'isMasterContainerHidden()' is deprecated. Please use getMasterContainer().isHidden instead.
-     * @return {Boolean} flag is value is true/false.
-     */
-    isMasterContainerHidden : function() {
-       if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'isMasterContainerHidden()' is deprecated. Please use getMasterContainer().isHidden() instead.");
-      }
-      return this.__masterContainer.isHidden();
-    },
-
-
-    /**
-     * @deprecated {3.5} The method 'setMasterContainerHidden()' is deprecated. Please use this.getMasterContainer().show or this.getMasterContainer().hide instead.
-     * @param value {Boolean} the target value.
-     */
-    setMasterContainerHidden : function(value) {
-      if (qx.core.Environment.get("qx.debug")) {
-        qx.log.Logger.deprecatedMethodWarning(arguments.callee, "The method 'setMasterContainerHidden()' is deprecated. Please use getMasterContainer().show() / hide() instead.");
-      }
-
-      if(value) {
-        this.__masterContainer.hide();
-      } else {
-        this.__masterContainer.show();
-      }
-    },
-
-
-    /**
      * Creates the master container.
      *
      * @return {qx.ui.mobile.container.Composite} The created container
      */
     _createMasterContainer : function() {
-      var masterContainer = new qx.ui.mobile.container.Drawer(null, new qx.ui.mobile.layout.HBox());
+      var masterContainer = new qx.ui.mobile.container.Drawer(null, new qx.ui.mobile.layout.HBox()).set({
+        hideOnParentTap : false,
+        hideOnBack : false
+      });
       masterContainer.addCssClass("master-detail-master");
-      masterContainer.setHideOnParentTap(false);
       masterContainer.addListener("changeVisibility", this._onMasterChangeVisibility, this);
       return masterContainer;
     },

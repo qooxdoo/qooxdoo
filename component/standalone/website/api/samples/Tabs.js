@@ -65,7 +65,7 @@
   });
 
 
-  addSample("tabs.render", {
+  addSample(".tabs", {
     html : defaultHtml,
     javascript: function() {
       q("#tabs-example")

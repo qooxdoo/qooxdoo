@@ -59,6 +59,56 @@ function isDeferFunction(node) {
 }
 
 /**
+ * Annotate deps of static method calls within <code>defer()</code>
+ * as load time (cause defer is load time too).
+ *
+ * @param {Scope} scope
+ */
+function recurseAndAnnotateDeferDeps(scope) {
+  // statics arg should be first arg of defer func
+  var staticsArgName = (scope.variables && scope.variables[1] && scope.variables[1].name)
+                       ? scope.variables[1].name
+                       : 'statics';
+
+  // store all scopes by name to be able to easily annotate them
+  var otherScopes = scope.upper.childScopes;
+  var otherScopesByName = {};
+  for (var i in otherScopes) {
+    if (otherScopes[i].block
+        && otherScopes[i].block.parent
+        && otherScopes[i].block.parent.parent
+        && otherScopes[i].block.parent.parent.parent
+        && otherScopes[i].block.parent.parent.parent.key
+        && otherScopes[i].block.parent.parent.parent.key.name
+        && otherScopes[i].block.parent.parent.parent.key.name === "statics") {
+      var methodName = otherScopes[i].block.parent.key.name;
+      otherScopesByName[methodName] = otherScopes[i];
+    }
+  }
+
+  var body = scope.variableScope.block.body.body;
+  if (body) {
+    for (var line in body) {
+      if (body[line].type && body[line].type === "ExpressionStatement") {
+        // is there a call which looks like statics.xyz()?
+        if (body[line].expression
+            && body[line].expression.callee
+            && body[line].expression.callee.object
+            && body[line].expression.callee.object.name
+            && body[line].expression.callee.object.name === staticsArgName) {
+          // this is xyz
+          var staticMethod = body[line].expression.callee.property.name;
+          // now find the matching scope and annotate it
+          if (otherScopesByName[staticMethod]) {
+            otherScopesByName[staticMethod][annotateKey] = true;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
  * Check whether node is immediate call (i.e. <code>(function(){})()</code> aka
  *  <abbr title="Immediately-Invoked Function Expression">IIFE</abbr>).
  *
@@ -89,6 +139,7 @@ module.exports = {
     } else if (scope.type === 'function') {
       if (isDeferFunction(node)) {
         scope[annotateKey] = true;
+        recurseAndAnnotateDeferDeps(scope);
       } else if (isImmediateCall(node)) {
         scope[annotateKey] = parentLoad; // inherit
       } else {

@@ -47,7 +47,7 @@ qx.Bootstrap.define("qx.event.Emitter",
      */
     on : function(name, listener, ctx) {
       var id = qx.event.Emitter.__storage.length;
-      this.__getStorage(name).push({listener: listener, ctx: ctx, id: id});
+      this.__getStorage(name).push({listener: listener, ctx: ctx, id: id, name: name});
       qx.event.Emitter.__storage.push({name: name, listener: listener, ctx: ctx});
       return id;
     },
@@ -167,15 +167,24 @@ qx.Bootstrap.define("qx.event.Emitter",
      * @param data {var?undefined} The data which should be passed to the listener.
      */
     emit : function(name, data) {
-      var storage = this.__getStorage(name);
+      var storage = this.__getStorage(name).concat();
+      var toDelete = [];
       for (var i = 0; i < storage.length; i++) {
         var entry = storage[i];
         entry.listener.call(entry.ctx, data);
         if (entry.once) {
-          storage.splice(i, 1);
-          i--;
+          toDelete.push(entry);
         }
       }
+
+      // listener callbacks could manipulate the storage
+      // (e.g. module.Event.once)
+      toDelete.forEach(function(entry) {
+        var origStorage = this.__getStorage(name);
+        var idx = origStorage.indexOf(entry);
+        origStorage.splice(idx, 1);
+      }.bind(this));
+
       // call on any
       storage = this.__getStorage("*");
       for (var i = storage.length - 1; i >= 0; i--) {
@@ -194,6 +203,26 @@ qx.Bootstrap.define("qx.event.Emitter",
      */
     getListeners : function() {
       return this.__listener;
+    },
+
+
+    /**
+     * Returns the data entry for a given event id. If the entry could
+     * not be found, undefined will be returned.
+     * @internal
+     * @param id {Number} The listeners id
+     * @return {Map|undefined} The data entry if found
+     */
+    getEntryById : function(id) {
+      for (var name in this.__listener) {
+        var store = this.__listener[name];
+
+        for (var i=0, j=store.length; i<j; i++) {
+          if (store[i].id === id) {
+            return store[i];
+          }
+        }
+      }
     },
 
 

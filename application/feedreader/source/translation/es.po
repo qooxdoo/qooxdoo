@@ -1,5 +1,5 @@
 # Spanish
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -13,6 +13,9 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Country: COLOMBIA\n"
 "X-Poedit-Language: Spanish\n"
+
+msgid "About"
+msgstr "Información"
 
 msgid "Add"
 msgstr "Agregar"
@@ -34,9 +37,6 @@ msgstr "Información del Feed"
 
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (qooxdoo powered)"
-
-msgid "Help"
-msgstr "Ayuda"
 
 msgid "Language"
 msgstr "Lenguaje"

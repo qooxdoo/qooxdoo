@@ -686,7 +686,8 @@ qx.Class.define("qx.ui.core.Widget",
     anonymous :
     {
       init : false,
-      check : "Boolean"
+      check : "Boolean",
+      apply : "_applyAnonymous"
     },
 
 
@@ -885,11 +886,11 @@ qx.Class.define("qx.ui.core.Widget",
     {
       while (child)
       {
+        child = child.getLayoutParent();
+
         if (parent == child) {
           return true;
         }
-
-        child = child.getLayoutParent();
       }
 
       return false;
@@ -1341,7 +1342,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Compute height
       var layout = this._getLayout();
       if (layout && layout.hasHeightForWidth()) {
-        var contentHeight =  layout.getHeightForWidth(width);
+        var contentHeight =  layout.getHeightForWidth(contentWidth);
       } else {
         contentHeight = this._getContentHeightForWidth(contentWidth);
       }
@@ -1496,6 +1497,16 @@ qx.Class.define("qx.ui.core.Widget",
       VISIBILITY SUPPORT: USER API
     ---------------------------------------------------------------------------
     */
+
+    // property apply
+    _applyAnonymous : function(value) {
+      if (value) {
+        this.getContentElement().setAttribute("qxanonymous", "true");
+      } else {
+        this.getContentElement().removeAttribute("qxanonymous");
+      }
+    },
+
 
     /**
      * Make this widget visible.
@@ -2248,6 +2259,9 @@ qx.Class.define("qx.ui.core.Widget",
         value = qx.theme.manager.Decoration.getInstance().addCssClass(value);
         content.addClass(value);
       }
+      if (value || old){
+        qx.ui.core.queue.Layout.add(this);
+      }
     },
 
 
@@ -2358,6 +2372,10 @@ qx.Class.define("qx.ui.core.Widget",
 
     // overridden
     _onChangeTheme : function() {
+      if (this.isDisposed()) {
+        return;
+      }
+
       this.base(arguments);
 
       // update the appearance

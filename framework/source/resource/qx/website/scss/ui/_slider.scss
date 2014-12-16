@@ -45,6 +45,7 @@ $slider-knob-background-active : darken(#F7F7F7, 25%), darken(#E8E8E8, 25%);
   @include border-radius(rem(60));
 
   line-height: 0;
+  padding: 0;
 }
 
 .qx-slider-knob:active {

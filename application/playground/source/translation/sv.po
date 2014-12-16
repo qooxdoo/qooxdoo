@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
@@ -38,8 +38,8 @@ msgstr ""
 "Kan inte lägga till exempelkoden till URL:en eftersom den är för lång. Vill "
 "du fortsättningsvis inaktivera denna varning?"
 
-msgid "Tap OK to discard your changes."
-msgstr "Klicka Ok för att överge dina ändringar."
+msgid "CodePen"
+msgstr ""
 
 msgid "Custom Code"
 msgstr "Egen kod"
@@ -53,14 +53,8 @@ msgstr "Demopresentatör"
 msgid "Desktop"
 msgstr ""
 
-msgid ""
-"If you want to give qx.Website a try, please check out <a "
-"href='http://jsfiddle.net/user/qooxdoo/fiddles/' "
-"target='_blank'>jsFiddle</a>."
-msgstr ""
-"Om du vill ge qx.Website ett försök kan du kolla in <a "
-"href='http://jsfiddle.net/user/qooxdoo/fiddles/' "
-"target='_blank'>jsFiddle</a>."
+msgid "If you want to give qx.Website a try, please check out "
+msgstr "Om du vill ge qx.Website ett försök kan du kolla in "
 
 msgid "Log"
 msgstr "Logga"
@@ -140,6 +134,9 @@ msgstr "Lyckad uppstart"
 msgid "Syntax Highlighting"
 msgstr "Syntaxmarkering"
 
+msgid "Tap OK to discard your changes."
+msgstr "Klicka Ok för att överge dina ändringar."
+
 msgid ""
 "Unfortunately, an unrecoverable internal error was caused by your code. This"
 " may prevent the playground application to run properly.||"
@@ -154,9 +151,6 @@ msgid "User"
 msgstr "Användare"
 
 msgid "Website"
-msgstr ""
-
-msgid "jsFiddle"
 msgstr ""
 
 msgid "qooxdoo"

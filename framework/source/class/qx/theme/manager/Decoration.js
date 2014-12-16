@@ -152,6 +152,21 @@ qx.Class.define("qx.theme.manager.Decoration",
 
 
     /**
+     * Removes all previously by {@link #addCssClass} created CSS rule from
+     * the global stylesheet.
+     */
+    removeAllCssClasses : function()
+    {
+      // remove old rules
+      for (var i=0; i < this.__rules.length; i++) {
+        var selector = this.__rules[i];
+        qx.ui.style.Stylesheet.getInstance().removeRule(selector);
+      };
+      this.__rules = [];
+    },
+
+
+    /**
      * Returns the dynamically interpreted result for the incoming value
      *
      * @param value {String} dynamically interpreted idenfier
@@ -278,11 +293,7 @@ qx.Class.define("qx.theme.manager.Decoration",
       var aliasManager = qx.util.AliasManager.getInstance();
 
       // remove old rules
-      for (var i=0; i < this.__rules.length; i++) {
-        var selector = this.__rules[i];
-        qx.ui.style.Stylesheet.getInstance().removeRule(selector);
-      };
-      this.__rules = [];
+      this.removeAllCssClasses();
 
       if (old)
       {
@@ -300,6 +311,47 @@ qx.Class.define("qx.theme.manager.Decoration",
 
       this._disposeMap("__dynamic");
       this.__dynamic = {};
+    },
+
+
+    /**
+     * Clears internal caches and removes all previously created CSS classes.
+     */
+    clear : function()
+    {
+      // remove aliases
+      var aliasManager = qx.util.AliasManager.getInstance();
+
+      var theme = this.getTheme();
+      if (!aliasManager.isDisposed() && theme && theme.alias) {
+        for (var alias in theme.aliases) {
+          aliasManager.remove(alias, theme.aliases[alias]);
+        }
+      }
+
+      // remove old rules
+      this.removeAllCssClasses();
+
+      this._disposeMap("__dynamic");
+      this.__dynamic = {};
+    },
+
+
+    /**
+     * Refreshes all decorator by clearing internal caches and re applying
+     * aliases.
+     */
+    refresh : function()
+    {
+      this.clear();
+
+      var aliasManager = qx.util.AliasManager.getInstance();
+      var theme = this.getTheme();
+      if (theme && theme.alias) {
+        for (var alias in theme.aliases) {
+          aliasManager.add(alias, theme.aliases[alias]);
+        }
+      }
     }
   },
 
@@ -312,6 +364,6 @@ qx.Class.define("qx.theme.manager.Decoration",
   */
 
   destruct : function() {
-    this._disposeMap("__dynamic");
+    this.clear();
   }
 });

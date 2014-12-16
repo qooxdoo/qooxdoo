@@ -160,19 +160,6 @@
       "compile" : { "type" : "build" }
     },
 
-    "gen-css" :
-    {
-      "extend" : ["base::cache"],
-
-      "shell" :
-      {
-        "command" :
-        [
-          "${PYTHON_CMD} ${TESTRUNNER_ROOT}/tool/injectcss.py ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/reset.css ${QOOXDOO_PATH}/component/library/indigo/source/resource/indigo/css/base.css ${TESTRUNNER_ROOT}/source/resource/testrunner/view/html/css/testrunner.css -t ${BUILD_SCRIPT_FILE} -q ${QOOXDOO_PATH}"
-        ]
-      }
-    },
-
     "build-resources" :
     {
       "extend" : [ "portable-common", "base::build-resources" ]
@@ -182,8 +169,10 @@
     {
       "=run" : [
         //"build-resources",
-        "build-script",
-        "gen-css"
+        "build-script"
+        // and "gen-css"
+        // but this is superseded by Grunt task
+        // replace:templVarWithMinifiedCss
       ]
     }
   }

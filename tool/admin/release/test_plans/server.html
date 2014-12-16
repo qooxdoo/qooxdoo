@@ -9,15 +9,15 @@
        margin: 10px;
        width: 100%;
      }
-     td { 
+     td {
         font-family: sans-serif;
         text-align: left;
-        vertical-align: top; 
+        vertical-align: top;
      }
-     th { 
-        font-family: sans-serif; 
-        vertical-align: middle; 
-        text-align: left 
+     th {
+        font-family: sans-serif;
+        vertical-align: middle;
+        text-align: left
      }
      dt {
        font-weight: bold;
@@ -49,8 +49,8 @@
     <tr>
       <td name="number">1.2</td>
       <td>Run the test file</td>
-      <td><sup>[b1]</sup></td>
-      <td><sup>[b2]</sup></td>
+      <td><sup>[b], [b1]</sup></td>
+      <td><sup>[b], [b2]</sup></td>
     </tr>
     <tr>
       <td name="number">1.3</td>
@@ -101,6 +101,12 @@ component/standalone/server</li>
       <li>The output should contain no warning.</li>
     </ul>
   </dd>
+  <dt>[b]</dt>
+  <dd>
+    <ul>
+      <li>The output should be 'PASS' 2 times</li>
+    </ul>
+  </dd>
   <dt>[b1]</dt>
   <dd>
     <ul>
@@ -131,8 +137,6 @@ Rhino e.g.</li>
     <ul>
       <li>run <code>./generate.py npm-package-copy</code></li>
       <li>The output should contain no warning.</li>
-      <li>The folder&nbsp; <code>npm/build</code> should contain <code>package.json,
-qx-oo-&lt;qxversion&gt;.js</code>.</li>
     </ul>
   </dd>
   <dt>[e]</dt>

@@ -129,6 +129,42 @@ qx.Class.define("qx.test.bom.element.Style",
       this.assertEquals(expected[0], qx.bom.element.Style.get(this.__element, "borderWidth"));
       this.assertEquals(expected[1], qx.bom.element.Style.get(this.__element, "borderStyle"));
       this.assertEquals(expected[2], qx.bom.element.Style.get(this.__element, "borderColor"));
+    },
+
+    testSetFloat : function()
+    {
+      qx.bom.element.Style.set(this.__element, "float", "left");
+      this.assertEquals("left", this.__element.style.float);
+    },
+
+    testCompileFloat : function()
+    {
+      var css = qx.bom.element.Style.compile({"float" : "left"});
+      this.assertEquals("float:left;", css);
+    },
+
+    testCompileContent : function()
+    {
+      var css = qx.bom.element.Style.compile({"content" : ""});
+      this.assertEquals("content:\"\";", css);
+    },
+
+    testSetOpacity : function()
+    {
+      if (!qx.core.Environment.get("css.opacity")) {
+        throw new qx.dev.unit.RequirementError("css.opacity");
+      }
+      qx.bom.element.Style.set(this.__element, "opacity", 1);
+      this.assertEquals("1", this.__element.style.opacity);
+    },
+
+    testCompileOpacity : function()
+    {
+      if (!qx.core.Environment.get("css.opacity")) {
+        throw new qx.dev.unit.RequirementError("css.opacity");
+      }
+      var css = qx.bom.element.Style.compile({"opacity" : 1});
+      this.assertEquals("opacity:1;", css);
     }
   }
 });

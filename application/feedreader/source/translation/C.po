@@ -1,5 +1,5 @@
 # Default translation
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -85,8 +85,8 @@ msgstr ""
 msgid "Open preferences window."
 msgstr ""
 
-#: feedreader/view/ToolBar.js:99
-msgid "Help"
+#: feedreader/view/ToolBar.js:92
+msgid "About"
 msgstr ""
 
 #: feedreader/view/Tree.js:66

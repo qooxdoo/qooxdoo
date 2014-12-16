@@ -24,62 +24,154 @@ qx.Class.define("qx.test.mobile.page.Page",
 
   members :
   {
-    testLifecycle : function()
+    testShow : function()
     {
       var initializedEvent = false;
       var startEvent = false;
+      var stopEvent = false;
 
       var page = new qx.ui.mobile.page.Page();
       this.getRoot().add(page);
 
       page.addListener("initialize", function() {
-        this.assertFalse(startEvent);
+        this.assertFalse(startEvent, "Start event is fired before initialize event was fired!");
         initializedEvent = true;
       }, this);
 
       page.addListener("start", function() {
-        this.assertTrue(initializedEvent);
+        this.assertTrue(initializedEvent, "Start event is fired before initialize event was fired!");
         startEvent = true;
+      }, this);
+
+      page.addListener("stop", function() {
+        stopEvent = true;
       }, this);
 
       page.show();
 
-      this.assertTrue(initializedEvent);
-      this.assertTrue(startEvent);
+      this.assertTrue(initializedEvent, "Initialize event is not fired!");
+      this.assertTrue(startEvent, "Start event is not fired!");
+      this.assertFalse(stopEvent, "Stop event is fired!");
       page.destroy();
     },
 
 
+    testInitialize : function() {
+      this.__testEventOnPage("initialize");
+    },
+
+
+    testStart : function() {
+      this.__testEventOnPageAndApplication("start");
+    },
+
+
+    testStop : function() {
+      this.__testEventOnPageAndApplication("stop", function(page) {
+        page.initialize();
+      });
+    },
+
+
+    testPause : function() {
+      this.__testEventOnPage("pause");
+    },
+
+
+    testResume : function() {
+      this.__testEventOnPage("resume");
+    },
+
+
+    testWait : function() {
+      this.__testEventOnPage("wait");
+    },
+
+
     testBack : function() {
+      this.__testEventOnPageAndApplication("back");
+    },
+
+
+    testPreventBack : function()
+    {
       var page = new qx.ui.mobile.page.Page();
       this.getRoot().add(page);
 
-      var eventFired = false;
+      var eventFiredOnApplication = false;
+      var eventFiredOnPage = false;
+
+      var application = qx.core.Init.getApplication();
+      var id = application.addListener("back", function(evt) {
+        eventFiredOnApplication = true;
+        evt.preventDefault();
+      }, this);
 
       page.addListener("back", function() {
-        eventFired = true;
+        eventFiredOnPage = true;
       }, this);
+
       page.back();
 
-      this.assertTrue(eventFired);
+      this.assertTrue(eventFiredOnApplication, "The 'back' event on application is not fired!");
+      this.assertFalse(eventFiredOnPage, "The 'back' event on page is fired!");
 
+      application.removeListenerById(id);
       page.destroy();
     },
 
 
     testMenu: function() {
+      this.__testEventOnPage("menu");
+    },
+
+
+    __testEventOnPage : function(name)
+    {
       var page = new qx.ui.mobile.page.Page();
       this.getRoot().add(page);
 
-      var eventFired = false;
+      var isEventFired = false;
 
-      page.addListener("menu", function() {
-        eventFired = true;
+      page.addListener(name, function() {
+        isEventFired = true;
       }, this);
-      page.menu();
 
-      this.assertTrue(eventFired);
+      page[name]();
 
+      this.assertTrue(isEventFired, "The '" + name + "' event is not fired!");
+
+      page.destroy();
+    },
+
+
+    __testEventOnPageAndApplication : function(name, beforeCallback)
+    {
+      var page = new qx.ui.mobile.page.Page();
+      this.getRoot().add(page);
+
+      var eventFiredOnApplication = false;
+      var eventFiredOnPage = false;
+
+      var application = qx.core.Init.getApplication();
+      var id = application.addListener(name, function() {
+        eventFiredOnApplication = true;
+      }, this);
+
+      page.addListener(name, function() {
+        eventFiredOnPage = true;
+      }, this);
+
+      if (beforeCallback) {
+        beforeCallback(page);
+      }
+
+      page[name]();
+
+      this.assertTrue(eventFiredOnApplication, "The '" + name + "' event on application is not fired!");
+      this.assertTrue(eventFiredOnPage, "The '" + name + "' event on page is not fired!");
+
+      application.removeListenerById(id);
       page.destroy();
     }
   }

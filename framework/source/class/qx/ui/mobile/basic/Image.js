@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
           qx.io.ImageLoader.load(uri, this.__loaderCallback, this);
         }
       }
-      
+
       this._setSource(source);
     },
 

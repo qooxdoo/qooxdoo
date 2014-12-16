@@ -56,16 +56,20 @@
 }
 
 .qx-calendar thead tr:first-child td:first-child {
+  border-right-color: transparent;
   border-right: 0;
 }
 
-.qx-calendar thead tr:first-child td:nth-child(2) {
+.qx-calendar .qx-calendar-month {
+  border-left-color: transparent;
+  border-right-color: transparent;
   border-left: 0;
   border-right: 0;
   text-align: center;
 }
 
 .qx-calendar thead tr:first-child td:last-child {
+  border-left-color: transparent;
   border-left: 0;
   text-align: right;
 }

@@ -141,7 +141,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
         if(this.__scroll) {
           this.__scroll.scrollTo(-x, -y, time);
         } else {
-          // Case when iScroll is not loaded yet, but user tries 
+          // Case when iScroll is not loaded yet, but user tries
           // to set a different scroll position. Position is applied on "__onScrollLoaded".
           this._setCurrentY(x);
           this._setCurrentY(y);
@@ -221,7 +221,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           // Alert interested parties that we scrolled to end of page.
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
-            
+
             container._setCurrentX(-this.x);
             container._setCurrentY(-this.y);
             container.fireEvent("scrollEnd");
@@ -234,7 +234,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
           // Alert interested parties that we scrolled to end of page.
           if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
           {
-            
+
             container._setCurrentX(-this.x);
             container._setCurrentY(-this.y);
             if(this.y == this.maxScrollY) {

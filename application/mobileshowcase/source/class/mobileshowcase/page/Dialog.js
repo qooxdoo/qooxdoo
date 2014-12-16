@@ -164,7 +164,7 @@ qx.Class.define("mobileshowcase.page.Dialog",
     _createPicker : function(anchor) {
       var pickerDialog = this.__pickerDialog = new qx.ui.mobile.dialog.Popup(anchor);
       pickerDialog.setTitle("Picker");
-      
+
       var picker = this.__picker = new qx.ui.mobile.control.Picker();
       picker.addListener("changeSelection", this.__onPickerChangeSelection,this);
 
@@ -275,7 +275,10 @@ qx.Class.define("mobileshowcase.page.Dialog",
           this._updatePickerDaySlot();
         }.bind(this), 250);
       }
-      this.__resultsLabel.setValue("Received <b>changeSelection</b> from Picker Dialog. [slot: "+ e.getData().slot+ "] [item: "+ e.getData().item.title+"]");
+
+      if (e.getData().item) {
+        this.__resultsLabel.setValue("Received <b>changeSelection</b> from Picker Dialog. [slot: "+ e.getData().slot+ "] [item: "+ e.getData().item.title+"]");
+      }
     },
 
 

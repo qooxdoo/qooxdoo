@@ -153,7 +153,7 @@ qx.Bootstrap.define("qx.lang.Object",
         var clone = [];
         for (var i=0; i < source.length; i++) {
           if (deep) {
-            clone[i] = qx.lang.Object.clone(source[i]);
+            clone[i] = qx.lang.Object.clone(source[i], deep);
           } else {
             clone[i] = source[i];
           }

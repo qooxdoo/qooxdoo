@@ -98,10 +98,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
 
       "default" : function(opacity)
       {
-        if (opacity >= 1) {
-          return "";
-        }
-
         return "opacity:" + opacity + ";";
       }
     }),
@@ -120,10 +116,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
       "mshtml" : function(element, opacity)
       {
         if (qx.core.Environment.get("css.opacity")) {
-          if (opacity >= 1) {
-            opacity = "";
-          }
-
           element.style.opacity = opacity;
         } else {
           // Read in computed filter
@@ -149,10 +141,6 @@ qx.Bootstrap.define("qx.bom.element.Opacity",
       },
 
       "default" : function(element, opacity) {
-        if (opacity >= 1) {
-          opacity = "";
-        }
-
         element.style.opacity = opacity;
       }
     }),

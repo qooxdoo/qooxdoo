@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.core.Blocker",
 
     // dynamic theme switch
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Color.getInstance().addListener(
+      qx.theme.manager.Meta.getInstance().addListener(
         "changeTheme", this._onChangeTheme, this
       );
     }
@@ -258,8 +258,8 @@ qx.Class.define("qx.ui.core.Blocker",
     {
       var focusHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
 
-      this.__activeElements.push(focusHandler.getActive());
-      this.__focusElements.push(focusHandler.getFocus());
+      this.__activeElements.push(qx.ui.core.Widget.getWidgetByElement(focusHandler.getActive()));
+      this.__focusElements.push(qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus()));
 
       if (this._widget.isFocusable()) {
         this._widget.focus();
@@ -272,29 +272,24 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     _restoreActiveWidget : function()
     {
-      var activeElementsLength = this.__activeElements.length;
-      if (activeElementsLength > 0)
-      {
-        var widget = this.__activeElements[activeElementsLength - 1];
-
-        if (widget) {
-          qx.bom.Element.activate(widget);
-        }
-
-        this.__activeElements.pop();
-      }
+      var widget;
 
       var focusElementsLength = this.__focusElements.length;
+      if (focusElementsLength > 0)       {
+        widget = this.__focusElements.pop();
 
-      if (focusElementsLength > 0)
-      {
-        var widget = this.__focusElements[focusElementsLength - 1];
-
-        if (widget) {
-          qx.bom.Element.focus(this.__focusElements[focusElementsLength - 1]);
+        if (widget && !widget.isDisposed() && widget.isFocusable()) {
+          widget.focus();
         }
+      }
 
-        this.__focusElements.pop();
+      var activeElementsLength = this.__activeElements.length;
+      if (activeElementsLength > 0) {
+        widget = this.__activeElements.pop();
+
+        if (widget && !widget.isDisposed()) {
+          widget.activate();
+        }
       }
     },
 
@@ -508,7 +503,7 @@ qx.Class.define("qx.ui.core.Blocker",
   {
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
-      qx.theme.manager.Color.getInstance().removeListener(
+      qx.theme.manager.Meta.getInstance().removeListener(
         "changeTheme", this._onChangeTheme, this
       );
     }

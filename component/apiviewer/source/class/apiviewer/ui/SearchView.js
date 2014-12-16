@@ -186,11 +186,11 @@ qx.Class.define("apiviewer.ui.SearchView",
         typeToggleButton.setGap(0);
         typeToggleButton.setIconPosition("top");
         typeToggleButton.setShow("icon");
-        typeToggleButton.bind("value", this.__typeFilter, "array["+i+"]");
+        typeToggleButton.bind("value", this.__typeFilter, "["+i+"]");
         typeToggleButton.setKeepFocus(true);
         typeToggleButton.setValue(true);
         typeContainer.add(typeToggleButton);
-        typeToggleButton.addListener("execute", function(e) {
+        typeToggleButton.addListener("changeValue", function(e) {
           this._searchResult(this.sinput.getValue() || "");
         }, this);
         this.__typeFilter.bind("["+i+"]", typeToggleButton, "value");

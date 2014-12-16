@@ -167,6 +167,10 @@ qx.Class.define("showcase.page.dragdrop.Content",
       e.addAction("move");
 
       var item = e.getDragTarget();
+      if (!(item instanceof qx.ui.form.ListItem)) {
+        e.preventDefault();
+        return;
+      }
       this.__dragFeedback.set({
         label: item.getLabel(),
         icon: item.getIcon(),

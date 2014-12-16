@@ -445,12 +445,12 @@ module.exports = {
       var orig_shell_mkdir = shell.mkdir;
 
       var expectedSource = [
-        'test/data/myapp/source/resource/myapp/ace.js',
-        'test/data/myapp/source/resource/myapp/test.png'
+        this.path.normalize('test/data/myapp/source/resource/myapp/ace.js'),
+        this.path.normalize('test/data/myapp/source/resource/myapp/test.png')
       ];
       var expectedTarget = [
-        'test/data/myapp/build/resource/myapp/ace.js',
-        'test/data/myapp/build/resource/myapp/test.png'
+        this.path.normalize('test/data/myapp/build/resource/myapp/ace.js'),
+        this.path.normalize('test/data/myapp/build/resource/myapp/test.png')
       ];
 
       // monkey patch
@@ -468,8 +468,8 @@ module.exports = {
       var assetNsBasesPaths = {
         myapp: {
           myapp: [
-            'myapp/ace.js',
-            'myapp/test.png'
+            this.path.normalize('myapp/ace.js'),
+            this.path.normalize('myapp/test.png')
           ]
         }
       };

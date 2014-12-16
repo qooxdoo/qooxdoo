@@ -101,9 +101,10 @@ qx.Bootstrap.define("qx.event.type.dom.Custom", {
      * Initializes a custom event
      *
      * @param domEvent {Event} Native event that will be used as a template for the new event
-     * @param customProps {Map} Map of event properties (will override the domEvent's values)
+     * @param customProps {Map?} Map of event properties (will override the domEvent's values)
      */
     _initEvent : function(domEvent, customProps) {
+      customProps = customProps || {};
       var properties = qx.lang.Object.clone(qx.event.type.dom.Custom.PROPERTIES);
       for (var prop in customProps) {
         properties[prop] = customProps[prop];

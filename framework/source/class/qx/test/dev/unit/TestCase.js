@@ -27,7 +27,29 @@ qx.Class.define("qx.test.dev.unit.TestCase", {
     {
       this.skip();
       this.fail("Executed code after calling skip()!");
-    }
+    },
 
+
+    testResumeHandler : function()
+    {
+      this.__do(this.resumeHandler(function(param) {
+        this.assertEquals(param, "foo");
+
+        return "bar";
+      }, this));
+
+      this.wait();
+    },
+
+    __do : function(callback)
+    {
+      window.setTimeout(this.__doSuccess.bind(this, callback), 0);
+    },
+
+    __doSuccess : function(callback)
+    {
+      var result = callback("foo");
+      this.assertEquals(result, "bar");
+    }
   }
 });
