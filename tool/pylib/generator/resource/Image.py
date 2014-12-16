@@ -26,6 +26,7 @@
 ##
 
 import re, os, sys, types, base64, struct, codecs
+import xml.etree.cElementTree as et
 
 from misc import filetool, json
 from generator import Context
@@ -46,7 +47,7 @@ class Image(Resource):
 
         console = Context.console
 
-    FILE_EXTENSIONS = "png jpeg jpg gif b64.json".split()
+    FILE_EXTENSIONS = "png jpeg jpg gif svg b64.json".split()
     FILE_EXTENSIONPATT = re.compile(r'\.(%s)$' % "|".join(FILE_EXTENSIONS), re.I)
 
     def analyzeImage(self):
@@ -261,6 +262,45 @@ class PngFile(Image):
         return (width, height)
 
 
+# http://www.libmng.com/pub/png/spec/1.2/png-1.2-pdg.html#Structure
+class SvgFile(Image):
+    def __init__(self, path):
+        super(self.__class__, self).__init__(path)
+        self.fp = open(self.path, "r")
+
+    def __del__(self):
+        self.fp.close()
+
+    def type(self):
+        return "svg"
+
+    def verify(self):
+        tag = None
+        try:
+            for event, el in et.iterparse(self.fp, ('start',)):
+                tag = el.tag
+                break
+        except (struct.error, IOError):
+            pass
+        return tag == '{http://www.w3.org/2000/svg}svg'
+
+
+    def size(self):
+        self.fp.seek(0)
+        tag = None
+        width = -1
+        height = -1
+        try:
+            for event, el in et.iterparse(self.fp, ('start',)):
+                tag = el.tag
+                width = re.sub("[^0-9]", "", el.attrib["width"])
+                height = re.sub("[^0-9]", "", el.attrib["height"])
+                break
+        except (struct.error, IOError, KeyError):
+            pass
+        return (width, height)
+
+
 # http://www.obrador.com/essentialjpeg/HeaderInfo.htm
 class JpegFile(Image):
     def __init__(self, path):
@@ -361,4 +401,4 @@ class Base64File(Image):
 
 ##
 # Filling Image's child classes list when those classes exist
-Image.CHILD_CLASSES = [PngFile, GifFile, JpegFile, Base64File]
+Image.CHILD_CLASSES = [PngFile, GifFile, JpegFile, SvgFile, Base64File]
