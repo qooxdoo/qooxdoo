@@ -3863,6 +3863,21 @@ testrunner.define({
      q(document).removeData("fooBar");
    },
 
+   testRemoveDataOnCollection : function() {
+     this.__element.setData("option", "test");
+
+     var secondElement = qxWeb.create("<div id='testEl2'></div>");
+     secondElement.setData("option", "test2");
+
+     secondElement.appendTo(this.sandbox[0]);
+
+     var collection = this.sandbox.getChildren();
+     collection.removeData("option");
+
+     this.assertNull(this.__element.getAttribute('data-option'));
+     this.assertNull(secondElement.getAttribute('data-option'));
+   },
+
    testHasData : function() {
     this.assertFalse(this.__element.hasData());
     this.__element.setData("type", "test");
