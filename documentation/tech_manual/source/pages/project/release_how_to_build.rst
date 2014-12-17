@@ -65,8 +65,14 @@ Do not run the migration if it is not necessary, as running it on already migrat
 
 .. _pages/project/release_how_to_build.rst#adjust_version_number:
 
-Adjust version number
----------------------
+Adjust copyright header and version number
+------------------------------------------
+
+Edit the year of the copyright header
+
+.. code-block:: bash
+
+    $ tool/data/generator/copyright.include.js
 
 Change relevant version strings by running the ``bumpqxversion.py`` script that does that. In the root directory, run
 
@@ -219,7 +225,7 @@ refer to it.
 
   ::
 
-    * Released: *2013-09-11*
+    * Released: *20XX-XX-XX*
     * [Overview](http://manual.qooxdoo.org/3.0.1/pages/introduction/about.html)
     * [Release notes] (http://qooxdoo.org/project/release_notes/3.0.1)
     * [Manual] (http://manual.qooxdoo.org/3.0.1/)
@@ -251,10 +257,10 @@ As soon as you have built and tested the npm package, run ``npm publish`` to upl
 
 * Make sure `Node.js <http://nodejs.org>`_ and `npm <npmjs.org>`_ is installed (tested to work with 0.6.4/1.1.13).
 * Change to ``component/standalone/server``.
-* Make sure the ``qx-oo-%{version}.js`` has been built (in /script).
+* Make sure the ``qx-oo.js`` has been built (in /script).
 * Run ``generate.py npm-package-copy``.
 * Run ``generate.py npm-package-publish`` (needs the qooxdoo user account).
-* Check if it worked in the `online registry <http://search.npmjs.org/>`_.
+* Check if it worked in the `online registry <http://npmjs.org/>`_.
 * More details can be found in the `npm documentation <https://npmjs.org/doc/misc/npm-developers.html>`_.
 
 
@@ -263,7 +269,12 @@ As soon as you have built and tested the npm package, run ``npm publish`` to upl
 Publish SDK at Maven Central
 ============================
 
-The final build should also be put at Maven Central. To release the new version of the SDK you should follow the instructions of our `maven-central-integration project <https://github.com/qooxdoo/maven-central-integration>`_ at GitHub and the instructions on the internal server (look for the project's git checkout in the workspace). It is necessary to release it using the internal server infrastructure to make sure the artifacts are correctly signed.
+The final build should also be put at Maven Central. To release the new version
+of the SDK you should follow the instructions of our `maven-central-integration
+project <https://github.com/qooxdoo/maven-central-integration>`_ at GitHub and
+the instructions on the internal server (look for the project's git checkout in
+the workspace). It is necessary to release it using the internal server
+infrastructure to make sure the artifacts are correctly signed.
 
 .. _pages/project/release_how_to_build.rst#publish_qx_website_at_cdnjs:
 
@@ -349,11 +360,22 @@ Update Online Site
 * **/demo**
 
   * Adjust the appropriate ``<major>.<minor>.x`` and ``current`` symbolic links to link to the new version.
-  * For a release of the current devel version, make a deep copy of the new version with the next devel target (e.g. with ``cp -R --preserve 1.6 1.7``), and link the ``devel`` symbolic link to it (so the next devel update doesn't overwrite the released version).
+  * For a release of the current devel version, make a deep copy of the new version with the next devel target
+    (e.g. with ``cp -R --preserve 4.0 4.1``), and link the ``devel`` symbolic link to it (so the next devel update doesn't overwrite the released version).
+
+This means:
+
+.. code-block:: bash
+
+    $ cp -R --preserve <major>.<minor> <major>.<minor>   # 4.0 4.1
+    $ rm current && ln -s <major>.<minor> current
+    $ rm devel && ln -s <major>.<minor> devel
+    $ rm <major>.<minor>.x && ln -s <major>.<minor>.x  <major>.<minor>
+
 * **/manual**
 
-  * Adjust the appropriate ``<major>.<minor>.x`` and ``current`` symbolic links to link to the new version.
-  * For a release of the current devel version, make a deep copy of the new version with the next devel target (e.g. with ``cp -R --preserve 1.6 1.7``), and link the ``devel`` symbolic link to it (so the next devel update doesn't overwrite the released version).
+    Same as for /demo.
+
 
 .. _pages/project/release_how_to_build.rst#update_wiki:
 
@@ -365,7 +387,7 @@ Update Wiki
 * Adjust the `Demo overview <http://qooxdoo.org/demos>`_.
 * Adjust the `Download page <http://qooxdoo.org/downloads>`_.
 * Adjust the `qx.Website Download page <http://qooxdoo.org/downloads/qx.website>`_.
-* Adjust the `Start page <http://qooxdoo.org/>`_. (all 4 sections: download links, gzipped lib sizes)
+* Adjust the `Start page <http://qooxdoo.org/>`_. (all 4 sections: download links)
 
 
 .. _pages/project/release_how_to_build.rst#nightly_testing:
