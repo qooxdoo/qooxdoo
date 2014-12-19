@@ -367,7 +367,8 @@ class Config(object):
     # lookup).
     def resolveIncludes(self, includeTree=graph.digraph()):
 
-        console.debug("including %s" % (self._fname.decode('utf-8') or "<unknown>",))
+        console.debug("including %s" % (
+            self._fname.decode('utf-8') if self._fname else "<unknown>",))
         config  = self._data
         jobsmap = self.getJobsMap({})
 
@@ -391,7 +392,10 @@ class Config(object):
 
                 # cycle check
                 includeTree.add_node(fapath)  # add the child
-                includeTree.add_edge(self._fname, fapath) # add edge to child
+                if self._fname:
+                    # add edge to child, but not if we are a memory-config,
+                    # since we don't create nodes for those.
+                    includeTree.add_edge(self._fname, fapath)
                 cycle_nodes = includeTree.find_cycle()
                 if cycle_nodes:
                     raise RuntimeError("Detected circular inclusion of config files: %r" % cycle_nodes)
@@ -727,7 +731,8 @@ class Config(object):
         if os.path.isabs(path):
             return path
         elif not self.getConfigDir():
-            raise RuntimeError, "Cannot absolutize path without a config file path."
+            raise RuntimeError, \
+                "Cannot absolutize path without a config file path: %s" % path
         else:
             p = os.path.normpath(os.path.abspath(
                     os.path.join(self.getConfigDir(), path)))
