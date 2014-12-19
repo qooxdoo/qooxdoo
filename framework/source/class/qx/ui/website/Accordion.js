@@ -76,6 +76,17 @@ qx.Bootstrap.define("qx.ui.website.Accordion", {
     extend: qx.ui.website.Tabs,
 
     statics: {
+        /**
+         * *button*
+         *
+         * Template used by {@link qx.ui.website.Tabs#addButton} to create a new button.
+         *
+         * Default value: <pre><li><button>{{{content}}}</button></li></pre>
+         */
+        _templates: {
+          button: "<li><button>{{{content}}}</button></li>"
+        },
+
 
         /**
          * Factory method which converts the current collection into a collection of
