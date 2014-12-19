@@ -4094,36 +4094,29 @@ testrunner.define({
 
 testrunner.define({
   classname: "FunctionUtil",
+  setUp: function() {
+    this.clock = qx.dev.unit.Sinon.getSinon().useFakeTimers();
+    testrunner.globalSetup.call(this);
+  },
+  tearDown: function() {
+    this.clock.restore();
+    this.sandbox.remove();
+  },
 
-  setUp : testrunner.globalSetup,
-  tearDown : testrunner.globalTeardown,
-
-  testFunctionDebounce : function() {
-    var called = 0;
-    var checkCalled;
-
-    var spy = function() {
-      called++;
-    };
+  testFunctionDebounce: function() {
+    var spy = qx.dev.unit.Sinon.getSinon().spy();
 
     var deferred = q.func.debounce(spy, 300);
     deferred();
 
-    window.setTimeout((function() {
-      checkCalled = (called === 0);
-    }).bind(this), 200);
+    this.clock.tick(200);
+    sinon.assert.notCalled(spy);
 
-    window.setTimeout((function() {
-      this.resume(function() {
-        this.assertTrue(checkCalled);
-        this.assertEquals(1, called);
-      });
-    }).bind(this), 800);
-
-    this.wait(1000);
+    this.clock.tick(800);
+    sinon.assert.calledOnce(spy);
   },
 
-  testFunctionDebounceWithEvents : function() {
+  testFunctionDebounceWithEvents: function() {
     var callCounter = 0;
     var context;
     var data;
@@ -4132,28 +4125,20 @@ testrunner.define({
       context = this;
       data = e;
     };
-
     this.sandbox.on("myEvent", q.func.debounce(myCallback, 200), this.sandbox);
 
-    var counter = 0;
-    var intervalId = window.setInterval((function() {
-      this.emit("myEvent", "interval_" + counter);
-      counter++;
-
-      if (counter === 20) {
-        window.clearInterval(intervalId);
-      }
-    }).bind(this.sandbox), 50);
-
+    for (var i = 0; i < 5; i++) {
+      this.clock.tick(50);
+      this.sandbox.emit("myEvent", "interval_" + i);
+    }
     var checkContext = this.sandbox;
-    this.wait(1500, function() {
-      this.assertEquals(1, callCounter);
-      this.assertEquals(checkContext, context);
-      this.assertEquals("interval_19", data);
-    }, this);
+    this.clock.tick(500);
+    this.assertEquals(1, callCounter);
+    this.assertEquals(checkContext, context);
+    this.assertEquals("interval_4", data);
   },
 
-  testFunctionDebounceWithImmediateEvents : function() {
+  testFunctionDebounceWithImmediateEvents: function() {
     var callCounter = 0;
     var context;
     var data;
@@ -4165,164 +4150,86 @@ testrunner.define({
 
     this.sandbox.on("myEvent", q.func.debounce(myCallback, 200, true), this.sandbox);
 
-    var counter = 0;
-    var intervalId = window.setInterval((function() {
-      this.emit("myEvent", "interval_" + counter);
-      counter++;
-
-      if (counter === 20) {
-        window.clearInterval(intervalId);
-
-        window.setTimeout((function() {
-          this.emit("myEvent", "interval_" + counter);
-        }).bind(this), 500);
+    for (var i = 0; i <= 20; i++) {
+      this.sandbox.emit("myEvent", "interval_" + i);
+      this.clock.tick(50);
+      if (i === 20) {
+        this.clock.tick(500);
+        this.sandbox.emit("myEvent", "interval_" + i);
       }
-    }).bind(this.sandbox), 50);
-
+    }
     var checkContext = this.sandbox;
-    this.wait(2000, function() {
-      this.assertEquals(2, callCounter);
-      this.assertEquals(checkContext, context);
-      this.assertEquals("interval_20", data);
-    }, this);
+    this.assertEquals(2, callCounter);
+    this.assertEquals(checkContext, context);
+    this.assertEquals("interval_20", data);
   },
 
 
-  testFunctionThrottle : function()
-  {
-    var intervalCounter = 0;
-    var callInfo = [];
-    var spy = function() {
-      callInfo.push(Date.now());
-    };
+  testFunctionThrottle: function() {
+    var spy = qx.dev.unit.Sinon.getSinon().spy();
     var throttled = q.func.throttle(spy, 250);
-
-    var intervalId = window.setInterval((function() {
-      throttled(intervalCounter);
-      if (intervalCounter == 20) {
-        window.clearInterval(intervalId);
-      }
-      intervalCounter++;
-    }).bind(this), 80);
-
-    window.setTimeout((function() {
-      this.resume(function() {
-        this.assertEquals(7, callInfo.length);
-      });
-    }).bind(this), 1800);
-
-    this.wait(2000);
+    for (var i = 0; i <= 20; i++) {
+      throttled(i);
+      this.clock.tick(25);
+    }
+    sinon.assert.calledTwice(spy);
   },
 
-  testFunctionThrottleNoTrailing : function()
-  {
-    var intervalCounter = 0;
-    var callInfo = [];
-    var spy = function() {
-      callInfo.push(Date.now());
-    };
-    var throttled = q.func.throttle(spy, 500, { trailing: false });
+  testFunctionThrottleNoTrailing: function() {
+    var spy = qx.dev.unit.Sinon.getSinon().spy();
+    var throttled = q.func.throttle(spy, 500, {
+      trailing: false
+    });
 
-    var intervalId = window.setInterval((function() {
+    for (var i = 0; i <= 20; i++) {
+      this.clock.tick(90);
       throttled();
-      if (intervalCounter == 20) {
-        window.clearInterval(intervalId);
-      }
-      intervalCounter++;
-    }).bind(this), 80);
-
-    window.setTimeout((function() {
-      this.resume(function() {
-        this.assertEquals(3, callInfo.length);
-      });
-    }).bind(this), 1300);
-
-    this.wait(2000);
+    }
+    sinon.assert.calledThrice(spy);
   },
 
-  testFunctionThrottleNoLeadingNoTrailing : function()
-  {
-    var intervalCounter = 0;
-    var callInfo = [];
-    var spy = function() {
-      callInfo.push(Date.now());
-    };
-    var throttled = q.func.throttle(spy, 500, { leading: false, trailing: false });
-
-    var intervalId = window.setInterval((function() {
+  testFunctionThrottleNoLeadingNoTrailing: function() {
+    var spy = qx.dev.unit.Sinon.getSinon().spy();
+    var throttled = q.func.throttle(spy, 500, {
+      leading: false,
+      trailing: false
+    });
+    for (var i = 0; i <= 20; i++) {
+      this.clock.tick(80);
       throttled();
-      if (intervalCounter == 20) {
-        window.clearInterval(intervalId);
-      }
-      intervalCounter++;
-    }).bind(this), 80);
-
-    window.setTimeout((function() {
-      this.resume(function() {
-        this.assertEquals(2, callInfo.length);
-      });
-    }).bind(this), 1300);
-
-    this.wait(2000);
+    }
+    sinon.assert.calledTwice(spy);
   },
 
-  testFunctionThrottleWithEvents : function()
-  {
-    var context;
-    var callInfo = [];
-    var spy = function(e) {
-      context = this;
-      callInfo.push(Date.now());
-    };
+  testFunctionThrottleWithEvents: function() {
+    var spy = qx.dev.unit.Sinon.getSinon().spy();
     this.sandbox.on("myEvent", q.func.throttle(spy, 400), this.sandbox);
 
-    var counter = 0;
-    var intervalId = window.setInterval((function() {
-      this.emit("myEvent");
-
-      if (counter === 4) {
-        window.clearInterval(intervalId);
-      }
-      counter++;
-    }).bind(this.sandbox), 150);
-
-    var checkContext = this.sandbox;
-    this.wait(1500, function() {
-      this.assertEquals(checkContext, context);
-      this.assertEquals(3, callInfo.length);
-    }, this);
+    for (var i = 0; i < 4; i++) {
+      this.clock.tick(350);
+      this.sandbox.emit("myEvent");
+    }
+    sinon.assert.calledThrice(spy);
   },
 
-  testFunctionThrottleWithLeadingEvents : function() {
-    var context;
-    var callInfo = [];
-    var spy = function(e) {
-      context = this;
-      callInfo.push(Date.now());
-    };
-    this.sandbox.on("myEvent", q.func.throttle(spy, 250, { trailing: false }), this.sandbox);
+  testFunctionThrottleWithLeadingEvents: function() {
+    var spy = qx.dev.unit.Sinon.getSinon().spy();
+    this.sandbox.on("myEvent", q.func.throttle(spy, 250, {
+      trailing: false
+    }), this.sandbox);
 
-    var counter = 0;
-    var intervalId = window.setInterval((function() {
-      this.emit("myEvent");
-
-      if (counter === 14) {
-        window.clearInterval(intervalId);
-
-        window.setTimeout((function() {
-          this.emit("myEvent");
-        }).bind(this), 500);
+    for (var i = 0; i < 17; i++) {
+      this.clock.tick(100);
+      this.sandbox.emit("myEvent");
+      if (i === 14) {
+        this.clock.tick(500);
+        this.sandbox.emit("myEvent");
       }
-      counter++;
-    }).bind(this.sandbox), 100);
-
-    var checkContext = this.sandbox;
-    this.wait(2500, function() {
-      this.assertEquals(6, callInfo.length);
-      this.assertEquals(checkContext, context);
-    }, this);
+    }
+    this.assertEquals(6, spy.callCount);
   }
 });
+
 
 
 testrunner.define({
