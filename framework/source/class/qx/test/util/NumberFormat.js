@@ -189,7 +189,24 @@ qx.Class.define("qx.test.util.NumberFormat",
       nf.setPostfix(" Percent");
       this.assertEquals(5, nf.parse(numberStr),
         "parsing failed after number format change");
-    }
+    },
 
+    testParseWithPrefixOrPostfix : function()
+    {
+      var spinner = new qx.ui.form.Spinner();
+      var prefix = "$ ";
+      var postfix = " €";
+      var nf = new qx.util.format.NumberFormat("fr").set({
+        maximumFractionDigits: 2,
+        minimumFractionDigits : 2,
+        prefix : prefix,
+        postfix : postfix
+      });
+
+      spinner.setNumberFormat(nf);
+      spinner.getChildControl("textfield").setValue("1,23");
+
+      this.assertEquals(spinner.getChildControl("textfield").getValue(), prefix + "1,23" + postfix);
+    }
   }
 });
