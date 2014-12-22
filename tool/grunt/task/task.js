@@ -44,7 +44,7 @@ var queryAndWriteCurrentJobs = function(grunt, cacheFilePath, cache) {
     jobs.map = JSON.parse(stdout);
     cache.write(cacheFilePath, JSON.stringify(jobs));
   } catch (syntaxError) {
-    grunt.warn("Abort JSON parsing. 'python generate.py --list-jobs'"+
+    grunt.warn("Aborted JSON parsing. 'python generate.py --list-jobs' "+
                "doesn't generate valid JSON:\n" + syntaxError.message);
   }
 
