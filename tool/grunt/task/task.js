@@ -34,6 +34,35 @@ qx.tool.Cache = require('../lib/qx/tool/Cache');
 
 
 // functions
+var isSetupDone = function(path) {
+  return fs.existsSync(path);
+};
+
+/**
+ * @see https://github.com/dylang/grunt-notify/blob/master/lib/hooks/notify-fail.js
+ */
+var abortOnError = function(grunt) {
+  // grunt.util.hooker is deprecated -
+  // the alternative would be to require hooker
+  // already within the users' Gruntfile - postponed that for now
+
+  var exit = function(e) {
+    if (e && e.message) {
+      grunt.fatal(e.message);
+    } else if (e) {
+      grunt.fatal(e);
+    }
+    // don't exit when no 'e', try to continue
+    // to next meaningful error with a message
+  };
+
+  // run on error
+  grunt.util.hooker.hook(grunt.log, 'fail', exit);
+  grunt.util.hooker.hook(grunt.log, 'error', exit);
+
+};
+
+
 var queryAndWriteCurrentJobs = function(grunt, cacheFilePath, cache) {
   var cmd = 'python generate.py --list-jobs';
   var jobs = {};
@@ -133,6 +162,14 @@ var registerTasks = function(grunt) {
     "config": "config.json",
     "jobsAndDesc": "jobsAndDesc-" + fs.realpathSync(conf.ROOT)
   };
+
+  // exit early
+  if (!isSetupDone(path.join(conf.QOOXDOO_PATH, "tool/grunt/task/source/node_modules"))) {
+    grunt.fatal("Aborted due to missing setup. Go to '" +
+                path.resolve(path.join(conf.QOOXDOO_PATH, "tool/grunt")) +
+                "' and run 'node setup.js' with admin privileges.");
+  }
+  abortOnError(grunt);
 
   var jobs = retrieveGeneratorJobsFromCache(files, cache);
   if (jobs) {
