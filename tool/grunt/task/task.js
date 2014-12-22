@@ -26,6 +26,7 @@ var path = require('path');
 
 // third party
 var shell = require('shelljs');
+var hooker = require('hooker');
 
 // lib
 var qx = {};
@@ -38,14 +39,7 @@ var isSetupDone = function(path) {
   return fs.existsSync(path);
 };
 
-/**
- * @see https://github.com/dylang/grunt-notify/blob/master/lib/hooks/notify-fail.js
- */
 var abortOnError = function(grunt) {
-  // grunt.util.hooker is deprecated -
-  // the alternative would be to require hooker
-  // already within the users' Gruntfile - postponed that for now
-
   var exit = function(e) {
     if (e && e.message) {
       grunt.fatal(e.message);
@@ -57,11 +51,9 @@ var abortOnError = function(grunt) {
   };
 
   // run on error
-  grunt.util.hooker.hook(grunt.log, 'fail', exit);
-  grunt.util.hooker.hook(grunt.log, 'error', exit);
-
+  hooker.hook(grunt.log, 'fail', exit);
+  hooker.hook(grunt.log, 'error', exit);
 };
-
 
 var queryAndWriteCurrentJobs = function(grunt, cacheFilePath, cache) {
   var cmd = 'python generate.py --list-jobs';
