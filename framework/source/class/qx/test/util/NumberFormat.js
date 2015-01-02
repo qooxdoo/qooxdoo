@@ -196,7 +196,7 @@ qx.Class.define("qx.test.util.NumberFormat",
       var spinner = new qx.ui.form.Spinner();
       var prefix = "$ ";
       var postfix = " €";
-      var numberFormat = new qx.util.format.NumberFormat("de").set({
+      var numberFormat = new qx.util.format.NumberFormat("fr").set({
         maximumFractionDigits: 2,
         minimumFractionDigits: 2,
         prefix: prefix,
