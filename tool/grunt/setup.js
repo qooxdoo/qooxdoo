@@ -45,13 +45,15 @@ shell.cd("task/package");
 shell.exec("node runNpmCmd.js install cache");
 if (!program.noglobalmod) {
   shell.exec("node runNpmCmd.js link cache");
+
+  // and then use it
+  var usingCachePackages = ["dependency", "compression"];
+  usingCachePackages.forEach(function(pkg) {
+    shell.cd(pkg);
+    shell.exec("npm link qx-cache");
+    shell.cd("../");
+  });
 }
-var usingCachePackages = ["dependency", "compression"];
-usingCachePackages.forEach(function(pkg) {
-  shell.cd(pkg);
-  shell.exec("npm link qx-cache");
-  shell.cd("../");
-});
 
 // exclude runNpmCmd.js through filtering
 packages = shell.ls(".").filter(function(dirOrFile) { return !dirOrFile.match(/\.js$/); });
