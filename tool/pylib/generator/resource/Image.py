@@ -28,6 +28,7 @@
 import re, os, sys, types, base64, struct, codecs
 
 from misc import filetool, json
+from xml.dom import minidom
 from generator import Context
 from generator.resource.Resource import Resource
 
@@ -46,7 +47,7 @@ class Image(Resource):
 
         console = Context.console
 
-    FILE_EXTENSIONS = "png jpeg jpg gif b64.json".split()
+    FILE_EXTENSIONS = "png jpeg jpg gif b64.json svg".split()
     FILE_EXTENSIONPATT = re.compile(r'\.(%s)$' % "|".join(FILE_EXTENSIONS), re.I)
 
     def analyzeImage(self):
@@ -357,6 +358,72 @@ class Base64File(Image):
     def size(self):
         (width, height) = -1,-1
         return (width, height)
+
+
+class SvgFile(Image):
+    def __init__(self, path):
+        super(self.__class__, self).__init__(path)
+
+    DPI = 72
+
+    def type(self):
+        return "svg"
+
+    def verify(self):
+        try:
+            doc = minidom.parse(self.path)
+            if len(doc.getElementsByTagName('svg')) == 1:
+                is_svg = True
+            else:
+                is_svg = False
+        except Exception:
+            is_svg = False
+
+        return is_svg
+
+    @staticmethod
+    def convert_to_pixels(str_value):
+        value = -1
+        if len(str_value) > 0:
+            str_value = str_value.replace(' ', '').replace(',', '')
+            data = re.compile('(\d+(?:\.\d+)?)(\%|em|ex|px|cm|mm|in|pt|pc)?').match(str_value)
+            if data:
+                data = data.groups()
+                if data[0]:
+                    value = float(data[0])
+                if data[1]:
+                    unit = data[1]
+
+                    if unit == 'cm':
+                        value = value * SvgFile.DPI / 2.54
+                    elif unit == 'mm':
+                        value = value * SvgFile.DPI / 25.4
+                    elif unit == 'in':
+                        value = value * SvgFile.DPI
+                    elif unit == 'pt':
+                        value = value * SvgFile.DPI / 72
+                    elif unit == 'pc':
+                        value = value * SvgFile.DPI / 6
+                    elif unit != 'px':
+                        value = -1
+
+        return int(round(value))
+
+    def size(self):
+        try:
+            doc = minidom.parse(self.path)
+            if len(doc.getElementsByTagName('svg')) == 1:
+                svg = doc.getElementsByTagName('svg')[0]
+                width = self.convert_to_pixels(svg.getAttribute('width'))
+                height = self.convert_to_pixels(svg.getAttribute('height'))
+
+                result = (width, height)
+            else:
+                result = (-1, -1)
+        except Exception:
+            result = (-1, -1)
+
+        return result
 
 
 ##
