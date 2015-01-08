@@ -54,7 +54,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * Event listeners can also be cloned.
      *
      * @attach{qxWeb}
-     * @param events {Boolean} clone event listeners. Default: <pre>false</pre>
+     * @param events {Boolean} clone event listeners. Default: <code>false</code>
      * @return {qxWeb} New collection with clones
      */
     clone : function(events) {
