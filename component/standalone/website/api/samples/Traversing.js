@@ -54,9 +54,9 @@ addSample("q.isBlockNode", {
          '  <li><span id="desc">item 2</span></li>',
          '</ul>'],
   javascript: function() {
-    var isBlockNode1 = q.isBlockNode(q("#info")[0]);
+    var isBlockNode1 = q.isBlockNode("#info");
     // (isBlockNode1 === true)
-    var isBlockNode2 = q.isBlockNode(q("#desc")[0]);
+    var isBlockNode2 = q.isBlockNode("#desc");
     // (isBlockNode2 === false)
 
     // note:
