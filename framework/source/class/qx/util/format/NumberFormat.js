@@ -255,13 +255,13 @@ qx.Class.define("qx.util.format.NumberFormat",
       var decimalSepEsc = qx.lang.String.escapeRegexpChars(qx.locale.Number.getDecimalSeparator(this.__locale) + "");
 
       var regex = new RegExp(
-        "^" +
-        qx.lang.String.escapeRegexpChars(this.getPrefix()) +
-        '([-+]){0,1}'+
-        '([0-9]{1,3}(?:'+ groupSepEsc + '{0,1}[0-9]{3}){0,}){0,1}' +
-        '(' + decimalSepEsc + '\\d+){0,1}' +
-        qx.lang.String.escapeRegexpChars(this.getPostfix()) +
-        "$"
+          "^(" +
+          qx.lang.String.escapeRegexpChars(this.getPrefix()) +
+          ')?([-+]){0,1}'+
+          '([0-9]{1,3}(?:'+ groupSepEsc + '{0,1}[0-9]{3}){0,}){0,1}' +
+          '(' + decimalSepEsc + '\\d+){0,1}(' +
+          qx.lang.String.escapeRegexpChars(this.getPostfix()) +
+          ")?$"
       );
 
       var hit = regex.exec(str);
@@ -270,9 +270,11 @@ qx.Class.define("qx.util.format.NumberFormat",
         throw new Error("Number string '" + str + "' does not match the number format");
       }
 
-      var negative = (hit[1] == "-");
-      var integerStr = hit[2] || "0";
-      var fractionStr = hit[3];
+      // hit[1] = potential prefix
+      var negative = (hit[2] == "-");
+      var integerStr = hit[3] || "0";
+      var fractionStr = hit[4];
+      // hit[5] = potential postfix
 
       // Remove the thousand groupings
       integerStr = integerStr.replace(new RegExp(groupSepEsc, "g"), "");
