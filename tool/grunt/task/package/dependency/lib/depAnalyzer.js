@@ -1106,7 +1106,7 @@ module.exports = {
     var namespace = util.namespaceFrom(classId, Object.keys(basePaths));
 
     if (!namespace) {
-      throw new Error("ENOENT - Unknown global symbol. No matching library/namespace found, which introduces " + classId);
+      throw new Error("ENOENT - Unknown global symbol. No matching library/namespace found, which introduces '" + classId + "'.");
     }
     // console.log(namespace, shortFilePath);
     var absPath = path.join(basePaths[namespace], shortFilePath);
