@@ -188,7 +188,7 @@ addSample(".hover", {
 
     '#content {',
       '  overflow: hidden;',
-      '  height: 400px;',
+      '  height: 200px;',
     '}',
 
     '#visible {',
@@ -197,7 +197,7 @@ addSample(".hover", {
     '}',
 
     '#visible #box-content {',
-      '  height: 400px;',
+      '  height: 200px;',
     '}',
 
     '.trigger {',
@@ -209,11 +209,11 @@ addSample(".hover", {
     '#hover {',
       '  background-color: yellow;',
       '  position: relative;',
-      '  height: 400px;',
+      '  height: 200px;',
       '  top: -50px;',
     '}' ],
     javascript: function() {
-var animationEndPosition = '-400px';
+var animationEndPosition = '-200px';
 
 // animation description
 var desc = {
