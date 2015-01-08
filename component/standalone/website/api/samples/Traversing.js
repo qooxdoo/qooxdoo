@@ -4,8 +4,8 @@ addSample("q.getDocument", {
          '  <li>item 2</li>',
          '</ul>'],
   javascript: function() {
-    var doc = q.getDocument(q("li:first")[0]);
-    q("ul").append("<li>"+doc.title+"</li>");
+var doc = q.getDocument("li:first");
+q("ul").append("<li>"+doc.lastModified+"</li>");
   },
   executable: true
 });
@@ -16,7 +16,7 @@ addSample("q.getNodeName", {
          '  <li>item 2</li>',
          '</ul>'],
   javascript: function() {
-    var nodeName = q.getNodeName(q("#info")[0]);
+    var nodeName = q.getNodeName("#info");
     // (nodeName === "li")
   },
   executable: true
@@ -28,9 +28,9 @@ addSample("q.getNodeText", {
          '  <li id="more">text 2 <span>span</span> text 2</li>',
          '</ul>'],
   javascript: function() {
-    var nodeTextLess = q.getNodeText(q("#less")[0]);
+    var nodeTextLess = q.getNodeText("#less");
     // (nodeTextLess === "text 1")
-    var nodeTextMore = q.getNodeText(q("#more")[0]);
+    var nodeTextMore = q.getNodeText("#more");
     // (nodeTextMore === "text 2 span text 2")
   },
   executable: true
@@ -42,7 +42,7 @@ addSample("q.getWindow", {
          '  <li>item 2</li>',
          '</ul>'],
   javascript: function() {
-    var wndw = q.getWindow(q("#info")[0]);
+    var wndw = q.getWindow("#info");
     q("ul").append("<li>"+wndw.location.href+"</li>");
   },
   executable: true
@@ -72,7 +72,7 @@ addSample("q.isDocument", {
          '  <li>item 2</li>',
          '</ul>'],
   javascript: function() {
-    var doc = q.getDocument(q("#info")[0]);
+    var doc = q.getDocument("#info");
     var isDoc = q.isDocument(doc);
     // (isDoc === true)
 
@@ -89,9 +89,9 @@ addSample("q.isElement", {
          '  <li><span id="desc">item 2</span></li>',
          '</ul>'],
   javascript: function() {
-    var isElement1 = q.isElement(q("#info")[0]);
+    var isElement1 = q.isElement("#info");
     // (isElement1 === true)
-    var isElement2 = q.isElement(q("#desc")[0]);
+    var isElement2 = q.isElement("#desc");
     // (isElement2 === true)
 
     // note:
@@ -107,7 +107,7 @@ addSample("q.isNode", {
          '  <li>item 2</li>',
          '</ul>'],
   javascript: function() {
-    var isNode1 = q.isNode(q("li:first"));
+    var isNode1 = q.isNode("li:first");
     // (isNode1 === true)
 
     // note:
@@ -123,7 +123,7 @@ addSample("q.isNodeName", {
          '  <li>item 2</li>',
          '</ul>'],
   javascript: function() {
-    var isNodeName1 = q.isNodeName(q("li:first"), "li");
+    var isNodeName1 = q.isNodeName("li:first", "li");
     // (isNodeName1 === true)
 
     // note:
@@ -160,7 +160,7 @@ addSample("q.isWindow", {
          '  <li>item 2</li>',
          '</ul>'],
   javascript: function() {
-    var isWindow = q.isWindow(q.getWindow(q("#info")[0]));
+    var isWindow = q.isWindow(q.getWindow("#info"));
     // (isWindow === true)
 
     // note:
