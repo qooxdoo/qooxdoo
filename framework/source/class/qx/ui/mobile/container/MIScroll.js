@@ -213,36 +213,34 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
       return {
         hideScrollbar: true,
         fadeScrollbar: true,
-        hScrollbar : false,
+        hScrollbar: false,
         scrollbarClass: "scrollbar",
         useTransform: true,
-        useTransition : true,
-        onScrollEnd : function() {
+        useTransition: true,
+        onScrollEnd: function () {
           // Alert interested parties that we scrolled to end of page.
-          if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
-          {
+          if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
 
             container._setCurrentX(-this.x);
             container._setCurrentY(-this.y);
             container.fireEvent("scrollEnd");
-            if(this.y == this.maxScrollY) {
+            if (this.y == this.maxScrollY) {
               container.fireEvent("pageEnd");
             }
           }
         },
-        onScrollMove : function() {
+        onScrollMove: function () {
           // Alert interested parties that we scrolled to end of page.
-          if (qx.core.Environment.get("qx.mobile.nativescroll") == false)
-          {
+          if (qx.core.Environment.get("qx.mobile.nativescroll") == false) {
 
             container._setCurrentX(-this.x);
             container._setCurrentY(-this.y);
-            if(this.y == this.maxScrollY) {
+            if (this.y == this.maxScrollY) {
               container.fireEvent("pageEnd");
             }
           }
         },
-        onBeforeScrollStart : function(e) {
+        onBeforeScrollStart: function (e) {
           // QOOXDOO ENHANCEMENT: Do not prevent default for form elements
           /* When updating iScroll, please check out that doubleTapTimer is not active (commented out)
            * in code. DoubleTapTimer creates a fake click event. Android 4.1. and newer
@@ -260,7 +258,7 @@ qx.Mixin.define("qx.ui.mobile.container.MIScroll",
             elements = elements.concat(inputElements);
             elements = elements.concat(textAreaElements);
 
-            for (var i=0, length = elements.length; i < length; i++) {
+            for (var i = 0, length = elements.length; i < length; i++) {
               elements[i].blur();
             }
 
