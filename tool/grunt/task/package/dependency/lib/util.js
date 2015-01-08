@@ -114,7 +114,7 @@ module.exports = {
     var curNs = "";
     for (; i<l; i++) {
       curNs = allNamespaces[i];
-      if (className.indexOf(curNs) !== -1) {
+      if (className.indexOf(curNs) === 0) {
         return curNs;
       }
     }
