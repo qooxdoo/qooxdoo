@@ -264,8 +264,9 @@ qx.Bootstrap.define("qx.module.Attribute", {
      * is checked (checkbox, radiobutton).
      * Supports array values for selectboxes (multiple selection) and checkboxes
      * or radiobuttons (for convenience).
+     *
      * Please note: To modify the value attribute of a checkbox or radiobutton
-     * use @link{#set} instead.
+     * use {@link #setAttribute} instead and manipulate the <code>checked</code> attribute.
      *
      * @attach {qxWeb}
      * @param value {String|Number|Array} The value to apply
