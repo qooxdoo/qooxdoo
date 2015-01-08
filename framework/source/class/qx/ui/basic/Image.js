@@ -457,17 +457,6 @@ qx.Class.define("qx.ui.basic.Image",
 
       var contentEl = this.__getContentElement();
 
-      // For SVG images, set the initial size - if available
-      var ResourceManager = qx.util.ResourceManager.getInstance();
-      if (ResourceManager.getImageFormat(source) == "svg") {
-        var sx = parseInt(ResourceManager.getImageWidth(source));
-        var sy = parseInt(ResourceManager.getImageHeight(source));
-        if (sx >= 0 && sy >= 0) {
-          this.setWidth(sx);
-          this.setHeight(sy);
-        }
-      }
-
       // Detect if the image registry knows this image
       if (qx.util.ResourceManager.getInstance().has(source)) {
         this.__setManagedImage(contentEl, source);
