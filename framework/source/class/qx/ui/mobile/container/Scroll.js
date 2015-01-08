@@ -30,7 +30,7 @@
  *
  * <pre class='javascript'>
  *   // create the scroll widget
- *   var scroll = new qx.ui.mobile.container.Scroll()
+ *   var scroll = new qx.ui.mobile.container.Scroll();
  *
  *   // add a children
  *   scroll.add(new qx.ui.mobile.basic.Label("Name: "));
