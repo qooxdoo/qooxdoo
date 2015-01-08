@@ -161,17 +161,22 @@ addSample(".map", {
         '  color: firebrick;',
         '}'],
   javascript: function() {
-    // q.map() => map method which operates on collections
-    var parentNodes = q('.desc').map(function(elem) {
-      return elem.parentNode;
-    }).toArray();
+// q.map() => map method which operates on collections
+// return type is a new q collection
+var parentNodes = q('.desc').map(function(elem) {
+  return elem.parentNode;
+});
 
-    // Array.map() => map method which operates on arrays
-    var ids = parentNodes.map(function(elem) {
-      return elem.id;
-    });
+// clone and transform it into an Array
+var parentNodesArray = parentNodes.clone().toArray();
 
-    q("#result").append("<li>"+ids.join(" *** ")+"</li>");
+// Array.map() => map method which operates on arrays
+// return type is a Array
+var ids = parentNodesArray.map(function(elem) {
+  return elem.id;
+});
+
+q("#result").append("<li>"+ids.join(" *** ")+"</li>");
   },
   executable: true
 });
