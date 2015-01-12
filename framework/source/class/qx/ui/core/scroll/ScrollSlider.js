@@ -40,6 +40,24 @@ qx.Class.define("qx.ui.core.scroll.ScrollSlider",
 
 
   members : {
+
+    // overridden
+    _createChildControlImpl : function(id, hash)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "knob":
+          control = this.base(arguments, id);
+          control.addListener("dblclick", function(e) {
+            e.stopPropagation();
+          });
+      }
+
+      return control || this.base(arguments, id);
+    },
+
     // overridden
     getSizeHint : function(compute) {
       // get the original size hint
