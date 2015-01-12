@@ -100,7 +100,7 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
      *
      * * <code>top-left</code>
      * * <code>top-center</code>
-     * * <code>top-right</code>,
+     * * <code>top-right</code>
      * * <code>bottom-left</code>
      * * <code>bottom-center</code>
      * * <code>bottom-right</code>
