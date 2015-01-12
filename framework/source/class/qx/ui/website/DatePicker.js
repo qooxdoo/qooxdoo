@@ -51,10 +51,13 @@
  *
  * @group (Widget)
  */
-qx.Bootstrap.define("qx.ui.website.DatePicker", {
+qx.Bootstrap.define('qx.ui.website.DatePicker', {
   extend : qx.ui.website.Widget,
 
   statics : {
+    /** List of valid positions to check against */
+    __validPositions : null,
+
     /**
      * *format*
      *
@@ -89,6 +92,27 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
      *
      * Default value:
      * <pre>input</pre>
+     *
+     * *position*
+     *
+     * Position of the calendar popup from the point of view of the <code>INPUT</code> element.
+     * Possible values are
+     *
+     * * <code>top-left</code>
+     * * <code>top-center</code>
+     * * <code>top-right</code>,
+     * * <code>bottom-left</code>
+     * * <code>bottom-center</code>
+     * * <code>bottom-right</code>
+     * * <code>left-top</code>
+     * * <code>left-middle</code>
+     * * <code>left-bottom</code>
+     * * <code>right-top</code>
+     * * <code>right-middle</code>
+     * * <code>right-bottom</code>
+     *
+     * Default value:
+     * <pre>bottom-left</pre>
      */
     _config : {
       format : function(date) {
@@ -99,7 +123,9 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
 
       icon : null,
 
-      mode : 'input'
+      mode : 'input',
+
+      position : 'bottom-left'
     },
 
     /**
@@ -198,6 +224,24 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
       return this;
     },
 
+    // overridden
+    setConfig : function(name, config) {
+
+      if (name === 'position') {
+
+        var validPositions = qx.ui.website.DatePicker.__validPositions;
+        if (validPositions.indexOf(config) === -1) {
+          throw new Error('Wrong config value for "position"! ' +
+                          'Only the values "' + validPositions.join('", "') + '" are supported!');
+        }
+      }
+
+      if (!this.base(arguments, name, config)) {
+        return false;
+      }
+    },
+
+
     /**
      * Listener which handles clicks/taps on the associated input element and
      * opens / hides the calendar.
@@ -211,8 +255,8 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
 
       var calendar = qxWeb('div#' + this.getProperty('calendarId'));
 
-      if (calendar.getStyle("display") == "none") {
-        this.getCalendar().show().placeTo(this, 'bottom-left');
+      if (calendar.getStyle('display') == 'none') {
+        this.getCalendar().show().placeTo(this, this.getConfig('position'));
       } else {
         this.getCalendar().hide();
       }
@@ -368,5 +412,10 @@ qx.Bootstrap.define("qx.ui.website.DatePicker", {
 
   defer : function(statics) {
     qxWeb.$attach({datepicker : statics.datepicker});
+
+    statics.__validPositions = [ 'top-left', 'top-center', 'top-right',
+                                 'bottom-left', 'bottom-center', 'bottom-right',
+                                 'left-top', 'left-middle', 'left-bottom',
+                                 'right-top', 'right-middle', 'right-bottom' ];
   }
 });

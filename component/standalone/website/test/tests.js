@@ -5054,5 +5054,40 @@ testrunner.define({
     this.assertTrue(datepicker.getAttribute("disabled"));
 
     datepicker.dispose();
+   },
+
+   testConfigurePositionOfPopup : function() {
+     var sandbox = q("#sandbox");
+
+     // set height to make sure the popup is openable at 'top' and 'bottom' position
+     sandbox.setStyle("height", "1000px");
+
+     sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value='' />");
+     var datepicker = q("input.datepicker").datepicker();
+
+     datepicker._onTap();
+
+     var positionPicker = datepicker.getPosition();
+     var positionCalendar = datepicker.getCalendar().getPosition();
+
+     this.assertTrue(positionPicker.top < positionCalendar.top);
+
+     datepicker.getCalendar().hide();
+     datepicker.setConfig("position", "top-left");
+     datepicker.render();
+
+     datepicker._onTap();
+     positionCalendar = datepicker.getCalendar().getPosition();
+     this.assertTrue(positionPicker.top > positionCalendar.top);
+
+     datepicker.getCalendar().hide();
+
+     this.assertException(function() {
+
+       this.setConfig("position", 'top-bottom');
+
+     }.bind(datepicker));
+
+     datepicker.dispose();
    }
 });
