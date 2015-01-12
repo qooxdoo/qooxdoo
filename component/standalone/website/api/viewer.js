@@ -175,6 +175,10 @@ q.ready(function() {
         if (regEx.exec(itemName)) {
 
           if (isHeader) {
+            //counting factory methods
+            if(itemName.indexOf("()") === itemName.length-2){
+              groupResults++;
+            }
             // the count of the methods is the group result
             groupResults += item.getNext().getChildren().length;
 
