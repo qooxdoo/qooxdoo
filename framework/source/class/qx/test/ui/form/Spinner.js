@@ -14,6 +14,7 @@
 
    Authors:
      * William Oprandi (woprandi)
+     * Tobias Oberrauch (toberrauch)
 
 ************************************************************************ */
 qx.Class.define("qx.test.ui.form.Spinner",
@@ -29,17 +30,12 @@ qx.Class.define("qx.test.ui.form.Spinner",
     {
       var spinner = new qx.ui.form.Spinner();
 
-      // "us" locale has dot as decimal separator
-      var nf = new qx.util.format.NumberFormat("us");
+      // "de" locale has comma as decimal separator
+      var nf = new qx.util.format.NumberFormat("de");
       spinner.setNumberFormat(nf);
 
       spinner.setValue(1.23);
-      this.assertEquals(spinner.getChildControl("textfield").getValue(), "1.23");
-
-      // "fr" locale has comma as decimal separator
-      spinner.getNumberFormat().setLocale("fr");
-      spinner.setValue(2.34);
-      this.assertEquals(spinner.getChildControl("textfield").getValue(), "2,34");
+      this.assertEquals("1,23", spinner.getChildControl("textfield").getValue());
     }
   }
 });
