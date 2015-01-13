@@ -17,17 +17,14 @@
      * Tobias Oberrauch (toberrauch)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Spinner",
-{
-  extend : qx.dev.unit.TestCase,
+qx.Class.define("qx.test.ui.form.Spinner", {
+  extend: qx.dev.unit.TestCase,
 
-  members :
-  {
+  members: {
     /**
      * Test if spinner use NumberFormat locale
      */
-    testCorrectLocaleUsed : function()
-    {
+    testCorrectLocaleUsed: function () {
       var spinner = new qx.ui.form.Spinner();
 
       // "de" locale has comma as decimal separator
