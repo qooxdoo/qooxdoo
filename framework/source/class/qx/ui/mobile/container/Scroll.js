@@ -242,9 +242,9 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
             for (var j = 0; j < waypointElements.length; j++) {
               var position = qx.bom.element.Location.getRelative(waypointElements[j], element);
               if (axis === "y") {
-                offset = position.top + this[0].scrollTop;
+                offset = position.top + this.getContentElement().scrollTop;
               } else if (axis === "x") {
-                offset = position.left + this[0].scrollLeft;
+                offset = position.left + this.getContentElement().scrollLeft;
               }
               results.push({
                 "offset": position.top + this._currentY,
