@@ -239,6 +239,8 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
       if (!this.base(arguments, name, config)) {
         return false;
       }
+
+      return this;
     },
 
 
