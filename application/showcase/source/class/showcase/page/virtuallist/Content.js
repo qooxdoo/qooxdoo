@@ -192,19 +192,27 @@ qx.Class.define("showcase.page.virtuallist.Content",
 
         var lblUsername = new qx.ui.basic.Label("Name:");
         var tfUsername = new qx.ui.form.TextField();
+        tfUsername.setLiveUpdate(true);
+
         var tfGroup = new qx.ui.form.VirtualComboBox();
+        tfGroup.getChildControl("textfield").setLiveUpdate(true);
         tfGroup.setLabelPath("name");
         tfGroup.setModel(this.messenger.getGroups());
 
         var lblGroup = new qx.ui.basic.Label("Group:");
         var btnAdd = new qx.ui.form.Button("Add");
+        btnAdd.setEnabled(false);
         var btnCancel = new qx.ui.form.Button("Cancel");
 
         this.__tfUsername = tfUsername;
+        this.__tfGroup = tfGroup;
+
+        this.__tfUsername.addListener("changeValue", this.enableAddButton, this);
+        this.__tfGroup.addListener("changeValue", this.enableAddButton, this);
 
         btnAdd.setAllowGrowX(false);
         btnCancel.setAllowGrowX(false);
-
+        this.__btnAdd = btnAdd;
         win.addListener("appear", tfUsername.focus, tfUsername);
 
         btnCancel.addListener("execute", win.close, win);
@@ -248,6 +256,16 @@ qx.Class.define("showcase.page.virtuallist.Content",
       this.__tfUsername.setValue("");
       this.__addUserDialog.open();
     },
+
+
+    enableAddButton : function(){
+      if (this.__tfUsername.getValue() && this.__tfGroup.getValue()) {
+          this.__btnAdd.setEnabled(true);
+      } else {
+          this.__btnAdd.setEnabled(false);
+      }
+    },
+
 
     removeContact: function()
     {
