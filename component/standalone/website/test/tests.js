@@ -4705,6 +4705,7 @@ testrunner.define({
 
     this.assertTrue(yesterday.hasClass('qx-calendar-past'));
     this.assertTrue(firstDayInCalendar.hasClass('qx-calendar-past'));
+    this.assertFalse(today.hasClass('qx-calendar-past'));
   }
 });
 

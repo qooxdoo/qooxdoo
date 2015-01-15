@@ -600,7 +600,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
             }
           }
 
-          cssClasses += Date.parse(today) > Date.parse(helpDate) ? " " + cssPrefix + "-past" : "";
+          // extra check for today date necessary - otherwise 'today' would be marked as past day
+          var isPast = Date.parse(today) > Date.parse(helpDate) && today.toDateString() !== helpDate.toDateString();
+          cssClasses += isPast ? " " + cssPrefix + "-past" : "";
 
           cssClasses += today.toDateString() === helpDate.toDateString() ? " " + cssPrefix + "-today" : "";
 
