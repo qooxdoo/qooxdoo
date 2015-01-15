@@ -93,6 +93,16 @@
  *       <td>Day cell (<code>td</code>)</td>
  *       <td>Identifies and styles the cell containing the selected day's button</td>
  *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-today</code></td>
+ *       <td>Day cell (<code>td</code>)</td>
+ *       <td>Identifies and styles the cell containing the current day button</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-past</code></td>
+ *       <td>Day cell (<code>td</code>)</td>
+ *       <td>Identifies and styles all cells containing day buttons in the past</td>
+ *     </tr>
  *   </tbody>
  * </table>
  *
@@ -589,6 +599,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
               cssClasses += helpDate.toDateString() === value.toDateString() ? " " + cssPrefix + "-selected" : "";
             }
           }
+
+          cssClasses += Date.parse(today) > Date.parse(helpDate) ? " " + cssPrefix + "-past" : "";
 
           cssClasses += today.toDateString() === helpDate.toDateString() ? " " + cssPrefix + "-today" : "";
 

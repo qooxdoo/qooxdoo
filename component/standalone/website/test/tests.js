@@ -4695,19 +4695,16 @@ testrunner.define({
     });
   },
 
-  testPersistEnabled : function() {
-    var slider = q("#sandbox").slider()
-    this.assertTrue(slider.getEnabled());
-    this.assertFalse(slider.getAttribute("disabled"));
-    this.assertFalse(slider.find("button").getAttribute("disabled"));
-    slider.setEnabled(false);
-    this.assertFalse(slider.getEnabled());
-    this.assertTrue(slider.getAttribute("disabled"));
-    this.assertTrue(slider.find("button").getAttribute("disabled"));
-    slider.render();
-    this.assertFalse(slider.getEnabled());
-    this.assertTrue(slider.getAttribute("disabled"));
-    this.assertTrue(slider.find("button").getAttribute("disabled"));
+  testPastDays : function() {
+    var cal = q('#sandbox').calendar()
+    cal.setValue(new Date());
+
+    var today = q('.qx-calendar-today', cal);
+    var yesterday = today.getPrev();
+    var firstDayInCalendar = q('.qx-calendar-othermonth', cal).eq(0);
+
+    this.assertTrue(yesterday.hasClass('qx-calendar-past'));
+    this.assertTrue(firstDayInCalendar.hasClass('qx-calendar-past'));
   }
 });
 
@@ -4849,6 +4846,21 @@ testrunner.define({
     this.assertEquals(1, slider._getNearestValue(0));
     this.assertEquals(4, slider._getNearestValue(slider.getWidth() / 2));
     this.assertEquals(7, slider._getNearestValue(slider.getWidth()));
+  },
+
+  testPersistEnabled : function() {
+    var slider = q("#sandbox").slider()
+    this.assertTrue(slider.getEnabled());
+    this.assertFalse(slider.getAttribute("disabled"));
+    this.assertFalse(slider.find("button").getAttribute("disabled"));
+    slider.setEnabled(false);
+    this.assertFalse(slider.getEnabled());
+    this.assertTrue(slider.getAttribute("disabled"));
+    this.assertTrue(slider.find("button").getAttribute("disabled"));
+    slider.render();
+    this.assertFalse(slider.getEnabled());
+    this.assertTrue(slider.getAttribute("disabled"));
+    this.assertTrue(slider.find("button").getAttribute("disabled"));
   }
 });
 
