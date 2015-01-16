@@ -33,7 +33,7 @@ from generator import Context
 from generator.resource.Resource import Resource
 
 class Image(Resource):
-    
+
     def __init__(self, path=None):
         global console
         super(Image, self).__init__(path)
@@ -58,7 +58,7 @@ class Image(Resource):
         # imgInfo = (width, height, format/type)
         imgInfo = self.getInfo()
         if not imgInfo or not imgInfo[0] or not imgInfo[1] or not imgInfo[2]:
-            raise RuntimeError, "Unable to get image info from file: %s" % self.path 
+            raise RuntimeError, "Unable to get image info from file: %s" % self.path
 
         self.width  = imgInfo[0]
         self.height = imgInfo[1]
@@ -78,7 +78,7 @@ class Image(Resource):
 
     ##
     # Set object properties via array and keyword arguments;
-    # supports the property format as used in .meta files: 
+    # supports the property format as used in .meta files:
     # [width, height, type [, mapped, off-x, off-y]]
     def fromMeta(self, serialspec, **kwspec):
         if serialspec:
@@ -168,14 +168,14 @@ class Image(Resource):
     # --------------------------------------------------------------------------
     # Methods using the child-classes GifFile, ...
     # --------------------------------------------------------------------------
-    
+
     CHILD_CLASSES = []
 
     def getInfo(self):
         ''' Returns (width, height, "type") of the image'''
         filename = self.path
         classes = self.CHILD_CLASSES
-        
+
         for cls in classes:
             img = cls(filename)
             if img.verify():
@@ -281,6 +281,9 @@ class SvgFile(Image):
             for event, el in et.iterparse(self.fp, ('start',)):
                 tag = el.tag
                 break
+        except (struct.error, et.ParseError):
+            # seems to be no valid XML (or XML at all)
+            pass
         except (struct.error, IOError):
             pass
         return tag == '{http://www.w3.org/2000/svg}svg'
@@ -355,7 +358,7 @@ class JpegFile(Image):
         return "jpeg"
 
     sof_range = tuple(range(0xffc0,0xffc3+1) + range(0xffc9,0xffcb+1))  # SOFn according to spec.(ITU T.81)
-    segments = { 
+    segments = {
         # (http://en.wikipedia.org/wiki/Jpeg)
         (0xffd8,) : 0,  # soi - no length bytes, no payload
         sof_range : 2,  # sofN - 2 length bytes - N is someOf(0..f) (low-nibble of marker)
