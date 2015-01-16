@@ -63,8 +63,6 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
 
   members :
   {
-    __bInListener : false,
-
     /**
      * Keep menu in sync with programmatic changes of visibility
      *
