@@ -392,7 +392,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var red = parseInt(RegExp.$1, 10);
       var green = parseInt(RegExp.$2, 10);
       var blue = parseInt(RegExp.$3, 10);
-      var alpha = parseInt(RegExp.$4, 10);
+      var alpha = parseFloat(RegExp.$4, 10);
 
       if (red === 0 && green === 0 & blue === 0 && alpha === 0) {
         return [-1, -1, -1];
