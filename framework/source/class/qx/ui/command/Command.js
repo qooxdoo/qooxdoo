@@ -194,7 +194,10 @@ qx.Class.define("qx.ui.command.Command",
      */
     toString : function()
     {
-      return this._shortcut.toString();
+      if (this._shortcut) {
+          return this._shortcut.toString();
+      }
+      return this.base(arguments);
     }
   },
 
