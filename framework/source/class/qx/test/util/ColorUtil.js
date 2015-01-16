@@ -54,6 +54,12 @@ qx.Class.define("qx.test.util.ColorUtil",
     {
       this.assertEquals("#FFFFFF", qx.util.ColorUtil.rgbToHexString([255, 255, 255]));
       this.assertEquals("#000000", qx.util.ColorUtil.rgbToHexString([0, 0, 0]));
+    },
+
+    testStringToRgbString : function()
+    {
+      this.assertEquals("rgb(0,0,0)", qx.util.ColorUtil.stringToRgbString("rgba(0,0,0,0.5)"));
+      this.assertEquals("rgb(-1,-1,-1)", qx.util.ColorUtil.stringToRgbString("rgba(0,0,0,0)"));
     }
   }
 });
