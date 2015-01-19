@@ -644,10 +644,14 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Checks if the given object is a DOM document object
      *
      * @attachStatic{qxWeb}
-     * @param node {Object} Object to check
+     * @param node {Object|qxWeb} Object to check. If the value is a qxWeb
+     * collection, isDocument will check the first item.
      * @return {Boolean} <code>true</code> if the object is a DOM document
      */
     isDocument : function(node) {
+      if (node instanceof qxWeb) {
+        node = node[0];
+      }
       return qx.dom.Node.isDocument(node);
     },
 
@@ -691,7 +695,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
      * Check whether the given object is a browser window object.
      *
      * @attachStatic{qxWeb}
-     * @param obj {Object|qxWeb} the object to be tested
+     * @param obj {Object|qxWeb} the object to be tested. If the value
+     * is a qxWeb collection, isDocument will check the first item.
      * @return {Boolean} <code>true</code> if the object is a window object
      */
     isWindow : function(obj) {

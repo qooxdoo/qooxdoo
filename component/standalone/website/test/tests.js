@@ -1204,6 +1204,7 @@ testrunner.define({
   testIsDocument : function()
   {
     this.assertTrue(q.isDocument(document));
+    this.assertTrue(q.isDocument(q(document)));
     this.assertFalse(q.isDocument(q("#sandbox")[0]));
     this.assertFalse(q.isDocument({}));
   },
