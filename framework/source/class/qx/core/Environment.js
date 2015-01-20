@@ -366,6 +366,10 @@
  *       <td>{@link qx.bom.client.Html#getClassList}</td>
  *     </tr>
  *     <tr>
+ *       <td>html.fullscreen</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Html#getFullScreen}</td>
+ *     </tr>
+ *     <tr>
  *       <td>html.geolocation</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Html#getGeoLocation}</td>
  *     </tr>
