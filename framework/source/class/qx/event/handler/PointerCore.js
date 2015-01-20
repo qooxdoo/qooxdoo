@@ -277,7 +277,6 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     * @param domEvent {Event} Native DOM event
     */
     _onMouseEvent : function(domEvent) {
-      // if (domEvent.type == "mousedown") console.log(domEvent.type, this.classname, domEvent[this.__processedFlag])
       if (domEvent[this.__processedFlag]) {
         return;
       }
@@ -408,7 +407,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       type = type || domEvent.type;
 
       var gestureEvent;
-      if (type == "pointerdown" || type == "pointerup" || type == "pointermove") {
+      if ((domEvent.pointerType !== "mouse" || domEvent.button === 0) &&
+        (type == "pointerdown" || type == "pointerup" || type == "pointermove"))
+      {
         gestureEvent = new qx.event.type.dom.Pointer(
           qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
           domEvent);

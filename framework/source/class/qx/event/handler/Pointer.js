@@ -119,7 +119,7 @@ qx.Class.define("qx.event.handler.Pointer",
 
       // respect anonymous elements
       while (target && target.getAttribute("qxanonymous")) {
-        target = target.parentNode
+        target = target.parentNode;
       }
 
       if (!type) {
@@ -141,7 +141,9 @@ qx.Class.define("qx.event.handler.Pointer",
           [domEvent, target, null, true, true]
         );
 
-        if (type == "pointerdown" || type == "pointerup" || type == "pointermove" || type == "pointercancel") {
+        if ((domEvent.getPointerType() !== "mouse" || domEvent.button === 0) &&
+          (type == "pointerdown" || type == "pointerup" || type == "pointermove" || type == "pointercancel"))
+        {
           qx.event.Registration.fireEvent(
             this.__root,
             qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
