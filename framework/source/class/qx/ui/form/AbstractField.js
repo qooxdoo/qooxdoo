@@ -964,9 +964,10 @@ qx.Class.define("qx.ui.form.AbstractField",
         if (this.getEnabled()) {
           this.getContentElement().setAttribute("placeholder", value);
 
-          if (this.getContentElement().getNodeName() === "textarea" &&
-            !this.getContentElement().getDomElement() &&
-            parseFloat(qx.core.Environment.get("browser.version")) < 36)
+          if (qx.core.Environment.get("browser.name") === "firefox" &&
+              parseFloat(qx.core.Environment.get("browser.version")) < 36 &&
+              this.getContentElement().getNodeName() === "textarea" &&
+              !this.getContentElement().getDomElement())
           {
             /* qx Bug #8870: Firefox 35 will not display a text area's
                placeholder text if the attribute is set before the
