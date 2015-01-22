@@ -661,7 +661,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      *
      * @attachStatic{qxWeb}
      * @param node {Object|qxWeb} Object to check. If the value is a qxWeb
-     * collection, isDocument will check the first item.
+     * collection, isDocumentFragment will check the first item.
      * @return {Boolean} <code>true</code> if the object is a DOM document fragment
      */
     isDocumentFragment : function(node) {
