@@ -543,7 +543,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      *
      * @param scrollY {Integer} The new scroll position.
      * @param renderSync {Boolean?false} Whether the table update should be
-     *     performed synchonously.
+     *     performed synchronously.
      */
     setScrollY : function(scrollY, renderSync)
     {
