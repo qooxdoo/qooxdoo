@@ -154,7 +154,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * Default value:
      * <pre><tr>
      *   {{#row}}<td class='{{cssClass}}'>
-     *     <button class='{{cssPrefix}}-day' value='{{date}}'>{{day}}</button>
+     *     <button class='{{cssPrefix}}-day {{hidden}}' value='{{date}}'>{{day}}</button>
      *   </td>{{/row}}
      * </tr></pre>
      *
@@ -217,7 +217,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * *hideDaysOtherMonth*
      *
-     * Hide all days of the previous/next month. If the entire last row of the calandar are days of the
+     * Hide all days of the previous/next month. If the entire last row of the calandar are days of
      * the next month the whole row is not rendered. Default: <code>false</code>
      */
     _config : {
@@ -609,7 +609,6 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
             // first day of the last displayed is already
             if (hideDaysOtherMonth === true && week === 5 && i === 0) {
-              console.debug(week, i);
               break;
             }
 
