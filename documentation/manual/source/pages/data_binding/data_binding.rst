@@ -38,7 +38,7 @@ The store component is responsible for fetching the data from its source and for
 Model
 ^^^^^
 
-The model is the centerpiece of data binding. It holds the data and acts as an integration point for the store and for the controller. The stores provide a smart way to automatically the models classes during runtime. Take a look at the :doc:`models<models>` for details.
+The model is the centerpiece of data binding. It holds the data and acts as an integration point for the store and for the controller. The stores provide a smart way to automatically create the models classes during runtime. Take a look at the :doc:`models<models>` for details.
 
 .. _pages/data_binding#controller:
 
@@ -58,6 +58,6 @@ The views for data binding can be almost any widget out of qooxdoo's rich set of
 
 Demos, API and CheatSheet
 =========================
-You should now have a basic idea of qooxdoo's data binding, so to see it in action, take a look at the `online demos <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#data>`_ and the `API reference <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.data>`_. 
+You should now have a basic idea of qooxdoo's data binding, so to see it in action, take a look at the `online demos <http://demo.qooxdoo.org/%{version}/demobrowser/index.html#data>`_ and the `API reference <http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.data>`_.
 If you want to start programming, maybe the :download:`CheatSheet <databindingcheatsheet.pdf>` can help you during your programming.
 
