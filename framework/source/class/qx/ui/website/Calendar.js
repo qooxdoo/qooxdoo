@@ -103,6 +103,12 @@
  *       <td>Day cell (<code>td</code>)</td>
  *       <td>Identifies and styles all cells containing day buttons in the past</td>
  *     </tr>
+ *     <tr>
+ *       <td><code>qx-hidden</code></td>
+ *       <td>Day (<code>button</code>)</td>
+ *       <td>Added to days of previous / next month if the configuration <code>hideDaysOtherMonth</code>
+             is set to <code>true</code></td>
+ *     </tr>
  *   </tbody>
  * </table>
  *
@@ -170,7 +176,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
                  "{{#row}}<td class='{{cssPrefix}}-dayname'>{{.}}</td>{{/row}}" +
                "</tr>",
       row : "<tr>" +
-              "{{#row}}<td class='{{cssClass}}'><button class='{{cssPrefix}}-day' {{disabled}} value='{{date}}'>{{day}}</button></td>{{/row}}" +
+              "{{#row}}<td class='{{cssClass}}'><button class='{{cssPrefix}}-day {{hidden}}' {{disabled}} value='{{date}}'>{{day}}</button></td>{{/row}}" +
             "</tr>",
       table : "<table class='{{cssPrefix}}-container'><thead>{{{thead}}}</thead><tbody>{{{tbody}}}</tbody></table>"
     },
@@ -208,6 +214,11 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * *selectionMode*
      *
      * The Selection mode the calendar will use. Possible values are 'single' and 'range' . Default: <code>single</code>
+     *
+     * *hideDaysOtherMonth*
+     *
+     * Hide all days of the previous/next month. If the entire last row of the calandar are days of the
+     * the next month the whole row is not rendered. Default: <code>false</code>
      */
     _config : {
       monthNames : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -215,7 +226,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       minDate : null,
       maxDate : null,
       selectableWeekDays : [0, 1, 2, 3, 4, 5, 6],
-      selectionMode : "single"
+      selectionMode : "single",
+      hideDaysOtherMonth: false
     },
 
 
@@ -578,6 +590,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         this._normalizeDate(maxDate);
       }
 
+      var hideDaysOtherMonth = this.getConfig("hideDaysOtherMonth");
+
       if (qx.Bootstrap.isArray(this.getProperty("value"))) {
         valueString = this.getProperty("value").map(function(currentDate){ return currentDate.toDateString(); });
       }
@@ -587,7 +601,22 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         var data = {row: []};
 
         for (var i=0; i<7; i++) {
-          var cssClasses = helpDate.getMonth() !== date.getMonth() ? cssPrefix + "-othermonth" : "";
+
+          var cssClasses = "";
+          var hidden = "";
+
+          if (helpDate.getMonth() !== date.getMonth()) {
+
+            // first day of the last displayed is already
+            if (hideDaysOtherMonth === true && week === 5 && i === 0) {
+              console.debug(week, i);
+              break;
+            }
+
+            cssClasses += cssPrefix + "-othermonth";
+            hidden += hideDaysOtherMonth ? "qx-hidden" : "";
+          }
+
           if((this.getConfig("selectionMode") == "range")  && qx.Bootstrap.isArray(this.getProperty("value"))){
             if(valueString.indexOf(helpDate.toDateString()) != -1){
               cssClasses += " "+cssPrefix + "-selected";
@@ -619,7 +648,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
             date: helpDate.toDateString(),
             cssPrefix: cssPrefix,
             cssClass: cssClasses,
-            disabled: disabled
+            disabled: disabled,
+            hidden: hidden
           });
           helpDate.setDate(helpDate.getDate() + 1);
         }

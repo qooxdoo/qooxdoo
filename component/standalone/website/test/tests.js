@@ -4707,6 +4707,17 @@ testrunner.define({
     this.assertTrue(yesterday.hasClass('qx-calendar-past'));
     this.assertTrue(firstDayInCalendar.hasClass('qx-calendar-past'));
     this.assertFalse(today.hasClass('qx-calendar-past'));
+  },
+
+  testSuppressDisplayOfDaysOfPreviousNextMonth: function() {
+    var cal = q('#sandbox').calendar();
+    cal.setValue(new Date());
+
+    cal.setConfig('hideDaysOtherMonth', true);
+    cal.render();
+
+    var previousDaysMonth = q('.qx-calendar-othermonth').getChildren().eq(0);
+    this.assertTrue(previousDaysMonth.hasClass('qx-hidden'));
   }
 });
 
