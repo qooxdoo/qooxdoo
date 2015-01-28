@@ -281,10 +281,8 @@ class SvgFile(Image):
             for event, el in et.iterparse(self.fp, ('start',)):
                 tag = el.tag
                 break
-        except (struct.error, et.ParseError):
-            # seems to be no valid XML (or XML at all)
-            pass
-        except (struct.error, IOError):
+        except (struct.error, IOError, SyntaxError):
+            # SyntaxError: seems to be no valid XML (or XML at all)
             pass
         return tag == '{http://www.w3.org/2000/svg}svg'
 
