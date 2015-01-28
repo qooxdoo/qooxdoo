@@ -119,6 +119,10 @@ qx.Bootstrap.define("qx.util.Wheel", {
     __normalize: function (delta) {
       var absDelta = Math.abs(delta);
 
+      if (absDelta === 0) {
+        return 0;
+      }
+
       // store the min value
       if (
         qx.util.Wheel.MINSCROLL == null ||
