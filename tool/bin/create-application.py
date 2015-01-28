@@ -99,8 +99,6 @@ def npm_install(skel_dir, options):
 def copyGenericIfNoSpecific(specificFilename, genericFilepath, destFilepath, appType):
     if not os.path.isfile(os.path.join(destFilepath, specificFilename)):
       shutil.copy(genericFilepath, destFilepath)
-      if appType == "contribution":
-          shutil.copy(genericFilepath, os.path.join(destFilepath, "demo", "default"))
 
 def createApplication(options):
     out = options.out
@@ -124,8 +122,7 @@ def createApplication(options):
         listSkeletons(console, APP_INFOS)
         sys.exit(1)
 
-    is_contribution = options.type == "contribution"
-    appDir = os.path.join(outDir, "trunk") if is_contribution else outDir
+    appDir = outDir
     app_infos = APP_INFOS[options.type]
 
     # copy the template structure
@@ -152,9 +149,6 @@ def createApplication(options):
 
     # rename files
     rename_folders(appDir, options.namespace)
-    if options.type == "contribution":
-        rename_folders(os.path.join(appDir, "demo", "default"), options.namespace)
-
     # clean out unwanted
     cleanSkeleton(appDir)
 
@@ -275,11 +269,6 @@ def determineRelPathToSdk(appDir, framework_dir, options):
         console.error("Relative path to qooxdoo directory is not correct: '%s'" % relPath)
         sys.exit(1)
 
-    if options.type == "contribution":
-        #relPath = os.path.join(os.pardir, os.pardir, "qooxdoo", QOOXDOO_VERSION)
-        #relPath = re.sub(r'\\', "/", relPath)
-        pass
-
     return relPath
 
 
@@ -309,16 +298,11 @@ def renderTemplates(inAndOutFilePaths, options, relPathToSdk, absPathToSdk, rend
         config = Template(open(inFile).read())
         out = open(outFile, "w")
 
-        # hack for uncommon contribution dir structure
-        contribDemoRelPathToSdk = ""
-        if options.type == "contribution"  and "demo/default" in outFile:
-          contribDemoRelPathToSdk = os.path.join("../../", relPathToSdk)
-
         context = {
           "Name": options.name,
           "Namespace": options.namespace,
           "NamespacePath" : (options.namespace).replace('.', '/'),
-          "REL_QOOXDOO_PATH": contribDemoRelPathToSdk if contribDemoRelPathToSdk else relPathToSdk,
+          "REL_QOOXDOO_PATH": relPathToSdk,
           "ABS_QOOXDOO_PATH": absPathToSdk,
           "QOOXDOO_VERSION": QOOXDOO_VERSION,
           "Cache" : options.cache,
