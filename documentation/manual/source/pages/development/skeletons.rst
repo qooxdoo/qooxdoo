@@ -143,8 +143,3 @@ Included layers
 
 
 .. _pages/development/skeletons#contribution:
-
-Contribution
-------------
-
-For a `qooxdoo-contrib <http://qooxdoo.org/contrib/>`_ application, component or library. Enables integration with the `Contribution Demo Browser <http://demo.qooxdoo.org/contrib/demobrowser/>`_.

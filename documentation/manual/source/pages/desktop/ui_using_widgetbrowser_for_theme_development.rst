@@ -4,30 +4,42 @@
 Three steps for efficient theme development
 *******************************************
 
-The widgetbrowser application is used by the framework to showcase the widgets and the available themes. With the feature to switch the themes at run-time you can quickly get an overview of the theming capabilities of the desktop widget set.
+The widgetbrowser application is used by the framework to showcase the widgets
+and the available themes. With the feature to switch the themes at run-time you
+can quickly get an overview of the theming capabilities of the desktop widget
+set.
 
-So this should be a perfect match if you like to develop an own custom theme, right? Every widget is displayed within the widgetbrowser and this would help a lot to develop an own custom them from scratch. 
+So this should be a perfect match if you like to develop an own custom theme,
+right? Every widget is displayed within the widgetbrowser and this would help a
+lot to develop an own custom them from scratch.
 
-To turn this into reality the widgetbrowser application got some enhancements and now it is very easy to use it for theme development. This little tutorial will show you the three steps you need.
+To turn this into reality the widgetbrowser application got some enhancements
+and now it is very easy to use it for theme development. This little tutorial
+will show you the three steps you need.
 
 
-Kickoff: Create a new contribution
-==================================
+Kickoff: Create a new application
+=================================
 
-A skeleton of the ``contribution`` type is perfectly suited to develop an own custom theme. Starting with a contribution you can easily integrate your own theme later on into the contrib infrastructure of qooxdoo and can share your theme with other users.
+We will demonstrate a desktop theme so we will create a desktop app here
+and integrate the widgetbrowser. If you are writing a theme for a different
+kind of app, then you have to use the corresponding type (i.e. mobile or website)
+during app creation and corresponding showcase app (i.e. Mobile Showcase or
+Website Widget Browser).
 
-Creating a contribution skeleton is one command away:
+Creating a desktop skeleton is one command away:
 
 ::
 
-      create-application.py -t contribution -n <NAME_OF_YOUR_THEME>
+      # -t desktop could be omitted cause it's the default
+      create-application.py -t desktop -n <NAME_OF_YOUR_THEME>
 
 
 
 Integration: How the widgetbrowser joins the game
 =================================================
 
-Pulling in the widgetbrowser into your application is done by editing two files: the ``config.json`` and the ``Application.js`` of your demo application. 
+Pulling in the widgetbrowser into your application is done by editing two files: the ``config.json`` and the ``Application.js`` of your demo application.
 
 The configuration has to be edited like this (original values are commented out):
 
@@ -45,7 +57,7 @@ The configuration has to be edited like this (original values are commented out)
 
     // Change the default theme of your application
     "let" :
-    {     
+    {
       // ...
 
       //"QXTHEME"      : "NAMESPACE.demo.theme.Theme",
@@ -56,7 +68,7 @@ The configuration has to be edited like this (original values are commented out)
 
 
     // Add the widgetbrowser as library at the 'libraries' job
-    "libraries" : 
+    "libraries" :
     {
       "library" :
       [
@@ -81,7 +93,7 @@ The configuration has to be edited like this (original values are commented out)
           "boot" :
           {
             "include" : [ "${APPLICATION}.Application", "${QXTHEME}" ]
-          } 
+          }
         }
       }
     }
@@ -117,7 +129,7 @@ Well this is done by editing the ``Application.js`` of your application. To keep
           ]);
         }
       }
-    }); 
+    });
 
 
 That's it! Run ``generate.py`` within the ``demo`` folder and open it in your favorite browser.
