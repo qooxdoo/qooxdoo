@@ -359,7 +359,10 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         onloadend: {
           callback: function(req, action) {
             return function() {
-              req.dispose();
+              // [#8315] // dispose asynchronous to work with Sinon.js
+              window.setTimeout(function() {
+                req.dispose();
+              }, 0)
             };
           },
           context: this
