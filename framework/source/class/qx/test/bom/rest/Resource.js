@@ -1007,7 +1007,13 @@ qx.Class.define("qx.test.bom.rest.Resource",
       res.get();
       this.respond();
 
-      this.assertCalledOnce(req.dispose);
+      window.setTimeout(function() {
+        this.resume(function() {
+          this.assertCalledOnce(req.dispose);
+        }, this);
+      }.bind(this), 100);
+
+      this.wait(200);
     },
 
     assertSend: function(method, url) {
