@@ -107,7 +107,8 @@
  *       <td><code>qx-hidden</code></td>
  *       <td>Day (<code>button</code>)</td>
  *       <td>Added to days of previous / next month if the configuration <code>hideDaysOtherMonth</code>
-             is set to <code>true</code></td>
+             is set to <code>true</code> <br /> The default style property used is <code>visibility: hidden</code>
+         </td>
  *     </tr>
  *   </tbody>
  * </table>
