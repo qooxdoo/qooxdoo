@@ -21,6 +21,8 @@
  * @asset(qx/icon/Tango/48/places/folder.png)
  * @asset(qx/icon/Tango/32/places/folder.png)
  * @asset(qx/static/blank.gif)
+ * @asset(qx/static/drawer.png)
+ * @asset(qx/static/drawer@2x.png)
  */
 
 qx.Class.define("qx.test.ui.basic.Image",
@@ -340,6 +342,39 @@ qx.Class.define("qx.test.ui.basic.Image",
           image.destroy();
         });
       }.bind(this));
+    },
+
+    testHighResImage: function () {
+      var defaultDevicePixelRatio = window.devicePixelRatio;
+      window.devicePixelRatio = 2;
+
+      var image = new qx.ui.basic.Image("qx/static/drawer.png");
+      var resourceManager = qx.util.ResourceManager.getInstance();
+
+      this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
+
+      var backgroundImage = image.getContentElement().getStyle("backgroundImage");
+      this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
+
+      window.devicePixelRatio = defaultDevicePixelRatio;
+    },
+
+    testHighResImageWithExistingDecorator: function () {
+      var defaultDevicePixelRatio = window.devicePixelRatio;
+      window.devicePixelRatio = 2;
+
+      var image = new qx.ui.basic.Image();
+      image.setDecorator("toolbar-part");
+      image.setSource("qx/static/drawer.png");
+      var resourceManager = qx.util.ResourceManager.getInstance();
+
+      this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
+
+      var backgroundImage = image.getContentElement().getStyle("backgroundImage");
+      this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
+      this.assertTrue(backgroundImage.indexOf("toolbar-part.gif") > -1);
+
+      window.devicePixelRatio = defaultDevicePixelRatio;
     }
   }
 });
