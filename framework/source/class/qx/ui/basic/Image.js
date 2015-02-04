@@ -823,7 +823,6 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _findHighResolutionSource: function(lowResImgSrc) {
       var pixelRatioCandidates = ["3", "2", "1.5"];
-      var k;
 
       // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
       var factor = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
@@ -835,6 +834,7 @@ qx.Class.define("qx.ui.basic.Image",
       while (i > 0 && factor > pixelRatioCandidates[--i]) {}
 
       var hiResImgSrc;
+      var k;
 
       // Search for best img with a higher resolution.
       for (k = i; k >= 0; k--) {
