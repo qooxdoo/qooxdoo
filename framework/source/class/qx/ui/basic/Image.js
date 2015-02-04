@@ -747,6 +747,7 @@ qx.Class.define("qx.ui.basic.Image",
      * @param source {String} source path
      */
     __setSource : function(el, source) {
+      debugger;
       var highResSource = (source && qx.util.ResourceManager.getInstance().has(source)) ?
           this._findHighResolutionSource(source) : null;
 
@@ -818,10 +819,11 @@ qx.Class.define("qx.ui.basic.Image",
      * Medium Resolution: "example.png", high-resolution: "example@2x.png"
      *
      * @param lowResImgSrc {String} source of the low resolution image.
-     * @return {String} If a high-resolution image source.
+     * @return {String|Boolean} If a high-resolution image source.
      */
     _findHighResolutionSource: function(lowResImgSrc) {
       var pixelRatioCandidates = ["3", "2", "1.5"];
+      var k;
 
       // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
       var factor = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
@@ -835,7 +837,7 @@ qx.Class.define("qx.ui.basic.Image",
       var hiResImgSrc;
 
       // Search for best img with a higher resolution.
-      for (var k = i; k >= 0; k--) {
+      for (k = i; k >= 0; k--) {
         hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
         if (hiResImgSrc) {
           return hiResImgSrc;
@@ -843,7 +845,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // Search for best img with a lower resolution.
-      for (var k = i + 1; k < pixelRatioCandidates.length; k++) {
+      for (k = i + 1; k < pixelRatioCandidates.length; k++) {
         hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
         if (hiResImgSrc) {
           return hiResImgSrc;
@@ -880,9 +882,8 @@ qx.Class.define("qx.ui.basic.Image",
      * The original image widget is hidden by this method.
      *
      * @param highResSource {String} Image source of the high-resolution image.
-     * @param lowResSource {String} Image source of the low-resolution image.
      */
-    _createHighResolutionOverlay : function(highResSource, lowResSource) {
+    _createHighResolutionOverlay : function(highResSource) {
       // Replace the source through transparent pixel for making the high-resolution background image visible.
       var el = this.getContentElement();
       el.setAttribute("src", qx.ui.basic.Image.PLACEHOLDER_IMAGE);
