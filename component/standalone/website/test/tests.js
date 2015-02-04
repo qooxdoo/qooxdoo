@@ -4718,6 +4718,15 @@ testrunner.define({
 
     var previousDaysMonth = q('.qx-calendar-othermonth').getChildren().eq(0);
     this.assertTrue(previousDaysMonth.hasClass('qx-hidden'));
+  },
+
+  testDisableDaysOfPreviousNextMonth: function() {
+    var cal = q('#sandbox').calendar(new Date());
+    cal.setConfig('disableDaysOtherMonth', true);
+    cal.render();
+
+    var previousDaysMonth = q('.qx-calendar-othermonth').getChildren().eq(0);
+    this.assertTrue(previousDaysMonth.getAttribute('disabled'));
   }
 });
 

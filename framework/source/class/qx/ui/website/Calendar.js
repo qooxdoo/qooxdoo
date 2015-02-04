@@ -220,6 +220,11 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * Hide all days of the previous/next month. If the entire last row of the calandar are days of
      * the next month the whole row is not rendered. Default: <code>false</code>
+     *
+     * *disableDaysOtherMonth*
+     *
+     * Disable all days of the previous/next month. The days are visible, but are not responding to user
+     input. Default: <code>false</code>
      */
     _config : {
       monthNames : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
@@ -228,7 +233,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       maxDate : null,
       selectableWeekDays : [0, 1, 2, 3, 4, 5, 6],
       selectionMode : "single",
-      hideDaysOtherMonth: false
+      hideDaysOtherMonth: false,
+      disableDaysOtherMonth: false
     },
 
 
@@ -294,32 +300,19 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         this._normalizeDate(maxDate);
       }
       this.showValue(this.getProperty("shownValue"));
-      this.setEnabled(this.getEnabled());
       return this;
     },
 
     // overridden
     setEnabled: function (value) {
-      var minDate = this.getConfig("minDate");
-      var maxDate = this.getConfig("maxDate");
-      var currentDate = null;
 
-      this.base(arguments, value);
-
-      if (value && (minDate || maxDate)) {
-        this.find("button.qx-calendar-day").map(function (button) {
-          currentDate = new Date(button.getAttribute("value"));
-          button = qxWeb(button);
-
-          // Disables a day when the current date is smaller than minDate
-          if (minDate && currentDate < minDate) {
-            button.setAttribute("disabled", true);
-          }
-          // Disables a day when it current date is greater than maxDate
-          if (maxDate && currentDate > maxDate) {
-            button.setAttribute("disabled", true);
-          }
-        });
+      if (value === true) {
+        // let the render process decide which state to set for the different DOM elements
+        // this highly depends on the configuration (e.g. 'minDate', 'maxDate' or 'disableDaysOtherMonth')
+        this.render();
+      } else {
+        this.setAttribute("disabled", value);
+        this.find("*").setAttribute("disabled", value);
       }
 
       return this;
@@ -592,6 +585,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       }
 
       var hideDaysOtherMonth = this.getConfig("hideDaysOtherMonth");
+      var disableDaysOtherMonth = this.getConfig("disableDaysOtherMonth");
 
       if (qx.Bootstrap.isArray(this.getProperty("value"))) {
         valueString = this.getProperty("value").map(function(currentDate){ return currentDate.toDateString(); });
@@ -605,16 +599,18 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
           var cssClasses = "";
           var hidden = "";
+          var disabled = "";
 
           if (helpDate.getMonth() !== date.getMonth()) {
 
-            // first day of the last displayed is already
+            // first day of the last displayed week is already in the next month
             if (hideDaysOtherMonth === true && week === 5 && i === 0) {
               break;
             }
 
             cssClasses += cssPrefix + "-othermonth";
             hidden += hideDaysOtherMonth ? "qx-hidden" : "";
+            disabled += disableDaysOtherMonth ? "disabled='disabled'" : "";
           }
 
           if((this.getConfig("selectionMode") == "range")  && qx.Bootstrap.isArray(this.getProperty("value"))){
@@ -635,10 +631,13 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
           cssClasses += today.toDateString() === helpDate.toDateString() ? " " + cssPrefix + "-today" : "";
 
-          var disabled = this.getEnabled() ? "" : "disabled";
-          if ((minDate && helpDate < minDate) || (maxDate && helpDate > maxDate) ||
-            this.getConfig("selectableWeekDays").indexOf(helpDate.getDay()) == -1) {
-            disabled = "disabled";
+          // if 'disableDaysOtherMonth' config is set - 'disabled' might already be set
+          if (disabled === "") {
+            disabled = this.getEnabled() ? "" : "disabled='disabled'";
+            if ((minDate && helpDate < minDate) || (maxDate && helpDate > maxDate) ||
+              this.getConfig("selectableWeekDays").indexOf(helpDate.getDay()) == -1) {
+              disabled = "disabled='disabled'";
+            }
           }
 
           cssClasses += (helpDate.getDay() === 0 || helpDate.getDay() === 6) ? " " + cssPrefix + "-weekend" : " " + cssPrefix + "-weekday";
