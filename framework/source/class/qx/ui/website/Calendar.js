@@ -306,12 +306,13 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
     // overridden
     setEnabled: function (value) {
 
+      this.setAttribute("disabled", !value);
+
       if (value === true) {
         // let the render process decide which state to set for the different DOM elements
         // this highly depends on the configuration (e.g. 'minDate', 'maxDate' or 'disableDaysOtherMonth')
         this.render();
       } else {
-        this.setAttribute("disabled", !value);
         this.find("*").setAttribute("disabled", !value);
       }
 
