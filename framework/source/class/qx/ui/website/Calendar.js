@@ -311,8 +311,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         // this highly depends on the configuration (e.g. 'minDate', 'maxDate' or 'disableDaysOtherMonth')
         this.render();
       } else {
-        this.setAttribute("disabled", value);
-        this.find("*").setAttribute("disabled", value);
+        this.setAttribute("disabled", !value);
+        this.find("*").setAttribute("disabled", !value);
       }
 
       return this;
