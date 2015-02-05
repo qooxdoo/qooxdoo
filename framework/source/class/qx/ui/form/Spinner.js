@@ -499,8 +499,10 @@ qx.Class.define("qx.ui.form.Spinner",
       var textfield = this.getChildControl("textfield");
       textfield.setFilter(this._getFilterRegExp());
 
-      this.getNumberFormat().addListener("changeNumberFormat",
-        this._onChangeNumberFormat, this);
+      if (this.getNumberFormat() !== null) {
+        this.getNumberFormat().addListener("changeNumberFormat",
+          this._onChangeNumberFormat, this);
+      }
 
       this._applyValue(this.__lastValidValue, undefined);
     },
