@@ -31,9 +31,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
 
     GESTURE_EVENTS : ["gesturebegin", "gesturefinish", "gesturemove", "gesturecancel"],
 
-    /** @type {Map} Maximum distance between two subsequent taps, values are configurable */
+    /** @type {Map} Maximum distance between a pointer-down and pointer-up event, values are configurable */
     TAP_MAX_DISTANCE : {"touch": 40, "mouse": 5, "pen": 20}, // values are educated guesses
 
+    /** @type {Map} Maximum distance between two subsequent taps, values are configurable */
     DOUBLETAP_MAX_DISTANCE : {"touch": 10, "mouse": 4, "pen": 10}, // values are educated guesses
 
     /** @type {Map} The direction of a swipe relative to the axis */
