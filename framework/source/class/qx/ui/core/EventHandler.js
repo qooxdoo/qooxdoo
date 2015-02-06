@@ -269,6 +269,17 @@ qx.Class.define("qx.ui.core.EventHandler",
       // Load listeners
       var capture = domEvent.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
       var listeners = this.__manager.getListeners(currentWidget, type, capture);
+
+      if (domEvent.getEventPhase() == qx.event.type.Event.AT_TARGET) {
+        if (!listeners) {
+          listeners = [];
+        }
+        var otherListeners = this.__manager.getListeners(currentWidget, type, !capture);
+        if (otherListeners) {
+          listeners = listeners.concat(otherListeners);
+        }
+      }
+
       if (!listeners || listeners.length === 0) {
         return;
       }
