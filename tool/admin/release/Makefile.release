@@ -970,7 +970,7 @@ publish-backup-www:
 	@ssh -A $(STAGING_HOST) $(CMD_SYNC_BACKUP_WWW) $(PRODUCTION_HOST):/home/qooxdoo/backups /home/qooxdoo/backups/from_remote
 
 # Putting components after framework, to be able to add to testrunner/script/testrunner-portable.js
-publish-staging: publish-check publish-backup publish-index framework-publish apps-publish components-publish tutorials-publish resources-publish manual-publishpublish-backup-www
+publish-staging: publish-check publish-backup publish-index framework-publish apps-publish components-publish tutorials-publish resources-publish manual-publish publish-backup-www
 
 publish: publish-staging publish-production
 
