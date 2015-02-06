@@ -527,7 +527,7 @@ var Data = q.define({
      */
     _moveMethodsToReturnTypes : function() {
       var removeMethods = [];
-      this.forEachMethodList(function(methods, groupName) {
+      this.forEachMethodList(function(methods, groupName, moduleName) {
         methods.forEach(function(method) {
           if (!method.attributes.sourceClass) {
             return;
@@ -551,7 +551,8 @@ var Data = q.define({
                 var returnTypeMethods = this.__data[module].member;
 
                 // ignore attached methods of returned types
-                if (returnTypeMethods.indexOf(method) == -1) {
+                // also ignore methods that return a different module
+                if (returnTypeMethods.indexOf(method) == -1 && moduleName.indexOf(module) != -1) {
                   var prefix;
                   if (isAttachStatic) {
                     prefix = attachStatic.attributes.targetClass == "qxWeb" ? "q" : attachStatic.attributes.targetClass;
@@ -629,10 +630,10 @@ var Data = q.define({
       for (var moduleName in this.__data) {
         var moduleData = this.__data[moduleName];
         if (moduleData.member) {
-          callback(moduleData.member, moduleData.group);
+          callback(moduleData.member, moduleData.group, moduleName);
         }
         if (moduleData.static) {
-          callback(moduleData.static, moduleData.group);
+          callback(moduleData.static, moduleData.group, moduleName);
         }
         if (moduleData.ast && moduleData.ast.children) {
           for (var i=0, l=moduleData.ast.children.length; i<l; i++) {
@@ -641,7 +642,7 @@ var Data = q.define({
                 childNode.type.indexOf("methods") === 0 &&
                 childNode.children)
             {
-              callback(childNode.children, moduleData.ast.attributes.group);
+              callback(childNode.children, moduleData.ast.attributes.group, moduleName);
             }
           }
         }
