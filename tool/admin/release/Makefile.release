@@ -85,7 +85,7 @@ FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
 CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --recursive --delete --inplace --links --safe-links --exclude='.git*'
 CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude='.git*'
 CMD_SYNC_BACKUP = $(CMD_NICE) rsync --recursive --delete --inplace --copy-links
-CMD_SYNC_BACKUP_WWW = $(CMD_NICE) rsync --verbose
+CMD_SYNC_BACKUP_WWW = $(CMD_NICE) rsync --recursive --verbose
 
 # Directories
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
@@ -967,7 +967,7 @@ publish-backup:
 
 publish-backup-www:
 	@echo "  * Backing up qooxdoo.org (e.g. wordpress, dokuwiki, bugzilla contents and apache config) ..."
-	@ssh -A $(STAGING_HOST) $(CMD_SYNC_BACKUP_WWW) $(PRODUCTION_HOST):/home/qooxdoo/backup /home/qooxdoo/backups/from_remote
+	@ssh -A $(STAGING_HOST) $(CMD_SYNC_BACKUP_WWW) $(PRODUCTION_HOST):/home/qooxdoo/backups /home/qooxdoo/backups/from_remote
 
 # Putting components after framework, to be able to add to testrunner/script/testrunner-portable.js
 publish-staging: publish-check publish-backup publish-index framework-publish apps-publish components-publish tutorials-publish resources-publish manual-publishpublish-backup-www
