@@ -53,13 +53,6 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
      * @param type {String} event type
      */
     register : function(element, type) {
-      // force qx.bom.Event.supportsEvent to return true for this type so we
-      // can use the native addEventListener (synthetic gesture events use the
-      // native dispatchEvent).
-      if (!element["on" + type]) {
-        element["on" + type] = true;
-      }
-
       if (!element.$$pointerHandler) {
 
         if (!qx.core.Environment.get("event.dispatchevent")) {

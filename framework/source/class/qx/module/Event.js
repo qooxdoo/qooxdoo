@@ -94,9 +94,8 @@ qx.Bootstrap.define("qx.module.Event", {
         bound.original = listener;
 
         // add native listener
-        if (qx.bom.Event.supportsEvent(el, type)) {
-          qx.bom.Event.addNativeListener(el, type, bound, useCapture);
-        }
+        qx.bom.Event.addNativeListener(el, type, bound, useCapture);
+
         // create an emitter if necessary
         if (!el.$$emitter) {
           el.$$emitter = new qx.event.Emitter();

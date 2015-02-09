@@ -93,15 +93,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * Register pointer event listeners
      */
     _initObserver : function() {
-      // force qx.bom.Event.supportsEvent to return true for this type so we
-      // can use the native addEventListener (synthetic gesture events use the
-      // native dispatchEvent).
-      qx.event.handler.GestureCore.TYPES.forEach(function(type) {
-        if (!this.__defaultTarget["on" + type]) {
-          this.__defaultTarget["on" + type] = true;
-        }
-      }.bind(this));
-
       qx.event.handler.GestureCore.GESTURE_EVENTS.forEach(function(gestureType) {
         qxWeb(this.__defaultTarget).on(gestureType, this.checkAndFireGesture, this);
       }.bind(this));
