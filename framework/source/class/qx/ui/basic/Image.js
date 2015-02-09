@@ -804,10 +804,11 @@ qx.Class.define("qx.ui.basic.Image",
         }
       }
 
-      if(highResSource)
+      if (highResSource) {
         this._createHighResolutionOverlay(highResSource);
-      else
+      } else {
         el.setSource(source);
+      }
     },
 
     /**
