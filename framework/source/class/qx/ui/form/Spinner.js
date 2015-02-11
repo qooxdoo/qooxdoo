@@ -490,17 +490,19 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Apply routine for the numberFormat property.<br/>
      * When setting a number format, the display of the
-     * value in the textfield will be changed immediately.
+     * value in the text-field will be changed immediately.
      *
      * @param value {Boolean} The new value of the numberFormat property
      * @param old {Boolean} The former value of the numberFormat property
      */
     _applyNumberFormat : function(value, old) {
-      var textfield = this.getChildControl("textfield");
-      textfield.setFilter(this._getFilterRegExp());
+      var textField = this.getChildControl("textfield");
+      textField.setFilter(this._getFilterRegExp());
 
-      this.getNumberFormat().addListener("changeNumberFormat",
-        this._onChangeNumberFormat, this);
+      var numberFormat = this.getNumberFormat();
+      if (numberFormat !== null) {
+        numberFormat.addListener("changeNumberFormat", this._onChangeNumberFormat, this);
+      }
 
       this._applyValue(this.__lastValidValue, undefined);
     },
