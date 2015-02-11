@@ -86,7 +86,7 @@ qx.Bootstrap.define("qx.event.Emitter",
       for (var i = storage.length - 1; i >= 0; i--) {
         var entry = storage[i];
         if (entry.listener == listener && entry.ctx == ctx) {
-          delete storage[i];
+          storage.splice(i, 1);
           qx.event.Emitter.__storage[entry.id] = null;
           return entry.id;
         }
