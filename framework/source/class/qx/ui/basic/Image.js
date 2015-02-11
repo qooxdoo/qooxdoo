@@ -959,6 +959,10 @@ qx.Class.define("qx.ui.basic.Image",
   */
 
   destruct : function() {
+    if (this.__currentContentElement) {
+      this.__currentContentElement.setAttribute("$$widget", null, true);
+    }
+
     delete this.__currentContentElement;
     if (this.__wrapper) {
       delete this.__wrapper;
