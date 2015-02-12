@@ -853,6 +853,12 @@ qx.Class.define("qx.ui.basic.Image",
   */
 
   destruct : function() {
+    for (var mode in this.__contentElements) {
+      if (this.__contentElements.hasOwnProperty(mode)) {
+        this.__contentElements[mode].setAttribute("$$widget", null, true);
+      }
+    }
+
     delete this.__currentContentElement;
     if (this.__wrapper) {
       delete this.__wrapper;
