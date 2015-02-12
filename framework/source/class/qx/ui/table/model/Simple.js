@@ -646,7 +646,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
 
       // Prepare the rowArr so it can be used for apply
-      rowArr.splice(0, 0, startIndex, Math.max(this.__rowArr.length, rowArr.length));
+      rowArr.splice(0, 0, startIndex, rowArr.length);
 
       // Replace rows
       Array.prototype.splice.apply(this.__rowArr, rowArr);
