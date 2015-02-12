@@ -55,9 +55,9 @@ qx.Bootstrap.define("qx.event.GlobalError",
     /**
      * Set the global fallback error handler
      *
-     * @param callback {Function} The error handler. The first argument is the
+     * @param callback {Function?null} The error handler. The first argument is the
      *    exception, which caused the error
-     * @param context {Object} The "this" context of the callback function
+     * @param context {Object?window} The "this" context of the callback function
      */
     setErrorHandler : function(callback, context)
     {
