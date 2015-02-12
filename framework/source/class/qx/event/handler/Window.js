@@ -177,8 +177,15 @@ qx.Class.define("qx.event.handler.Window",
      * @signature function(e)
      * @param e {Event} Native event
      */
-    _onNative : qx.event.GlobalError.observeMethod(function(e)
-    {
+    _onNative: function () {
+      var callback = qx.core.Environment.select("qx.globalErrorHandling", {
+        "true": qx.event.GlobalError.observeMethod(this.__onNativeHandler),
+        "false": this.__onNativeHandler
+      })
+      callback.apply(this, arguments);
+    },
+
+    __onNativeHandler: function (e) {
       if (this.isDisposed()) {
         return;
       }
@@ -201,22 +208,18 @@ qx.Class.define("qx.event.handler.Window",
       //
       // Internet Explorer does not have a target in resize events.
       var target = qx.bom.Event.getTarget(e);
-      if (target == null || target === win || target === doc || target === html)
-      {
+      if (target == null || target === win || target === doc || target === html) {
         var event = qx.event.Registration.createEvent(e.type, qx.event.type.Native, [e, win]);
         qx.event.Registration.dispatchEvent(win, event);
 
         var result = event.getReturnValue();
-        if (result != null)
-        {
+        if (result != null) {
           e.returnValue = result;
           return result;
         }
       }
-    })
+    }
   },
-
-
 
 
 
@@ -231,9 +234,6 @@ qx.Class.define("qx.event.handler.Window",
     this._stopWindowObserver();
     this._manager = this._window = null;
   },
-
-
-
 
 
 
