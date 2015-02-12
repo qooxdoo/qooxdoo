@@ -175,11 +175,11 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * This method works asychronous.
      *
      * @param source {String} Image source to load
-     * @param callback {Function} Callback function to execute
+     * @param callback {Function?} Callback function to execute
      *   The first parameter of the callback is the given source url, the
      *   second parameter is the data entry which contains additional
      *   information about the image.
-     * @param context {Object} Context in which the given callback should be executed
+     * @param context {Object?} Context in which the given callback should be executed
      */
     load : function(source, callback, context)
     {
