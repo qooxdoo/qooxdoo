@@ -294,11 +294,18 @@ qx.Class.define("qx.event.handler.Application",
      *
      * @signature function()
      */
-    _onNativeLoad : qx.event.GlobalError.observeMethod(function()
-    {
+    _onNativeLoad: function () {
+      var callback = qx.core.Environment.select("qx.globalErrorHandling", {
+        "true": qx.event.GlobalError.observeMethod(this.__onNativeLoadHandler),
+        "false": this.__onNativeLoadHandler
+      })
+      callback.apply(this, arguments);
+    },
+
+    __onNativeLoadHandler: function () {
       this.__domReady = true;
       this.__fireReady();
-    }),
+    },
 
 
     /**
@@ -306,30 +313,32 @@ qx.Class.define("qx.event.handler.Application",
      *
      * @signature function()
      */
-    _onNativeUnload : qx.event.GlobalError.observeMethod(function()
-    {
-      if (!this.__isUnloaded)
-      {
+    _onNativeUnload: function () {
+      var callback = qx.core.Environment.select("qx.globalErrorHandling", {
+        "true": qx.event.GlobalError.observeMethod(this.__onNativeUnloadHandler),
+        "false": this.__onNativeUnloadHandler
+      })
+      callback.apply(this, arguments);
+    },
+
+    __onNativeUnloadHandler: function () {
+      if (!this.__isUnloaded) {
         this.__isUnloaded = true;
 
-        try
-        {
+        try {
           // Fire user event
           qx.event.Registration.fireEvent(this._window, "shutdown");
         }
-        catch (e)
-        {
+        catch (e) {
           // IE doesn't execute the "finally" block if no "catch" block is present
           throw e;
         }
-        finally
-        {
+        finally {
           // Execute registry shutdown
           qx.core.ObjectRegistry.shutdown();
         }
-
       }
-    })
+    }
 
   },
 
