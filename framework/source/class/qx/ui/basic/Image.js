@@ -916,7 +916,7 @@ qx.Class.define("qx.ui.basic.Image",
         return;
       }
 
-      // Output a warning if the image could not loaded and quit
+      /// Output a warning if the image could not loaded and quit
       if (imageInfo.failed) {
         this.warn("Image could not be loaded: " + source);
         this.fireEvent("loadingFailed");
@@ -959,8 +959,10 @@ qx.Class.define("qx.ui.basic.Image",
   */
 
   destruct : function() {
-    if (this.__currentContentElement) {
-      this.__currentContentElement.setAttribute("$$widget", null, true);
+    for (var mode in this.__contentElements) {
+      if (this.__contentElements.hasOwnProperty(mode)) {
+        this.__contentElements[mode].setAttribute("$$widget", null, true);
+      }
     }
 
     delete this.__currentContentElement;
