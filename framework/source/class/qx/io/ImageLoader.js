@@ -274,10 +274,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
 
     /**
      * Calls a method based on qx.globalErrorHandling
-     *
-     * @param event {Event} Native event object
      */
-    __onload: function (event) {
+    __onload: function () {
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
         "true": qx.event.GlobalError.observeMethod(this.__onLoadHandler),
         "false": this.__onLoadHandler
