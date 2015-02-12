@@ -51,11 +51,15 @@ qx.Class.define("qx.event.Manager",
     if (win.qx !== qx)
     {
       var self = this;
-      qx.bom.Event.addNativeListener(win, "unload", qx.event.GlobalError.observeMethod(function()
-      {
+      var method = function () {
         qx.bom.Event.removeNativeListener(win, "unload", arguments.callee);
         self.dispose();
-      }));
+      };
+      if (qx.core.Environment.get("qx.globalErrorHandling")) {
+        qx.bom.Event.addNativeListener(win, "unload", qx.event.GlobalError.observeMethod(method));
+      } else {
+        qx.bom.Event.addNativeListener(win, "unload", method);
+      }
     }
 
     // Registry for event listeners
