@@ -172,10 +172,7 @@ qx.Class.define("qx.event.handler.Window",
     */
 
     /**
-     * Native listener for all supported events.
-     *
-     * @signature function(e)
-     * @param e {Event} Native event
+     * When qx.globalErrorHandling is enabled the callback will observed
      */
     _onNative: function () {
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
@@ -185,6 +182,13 @@ qx.Class.define("qx.event.handler.Window",
       callback.apply(this, arguments);
     },
 
+
+    /**
+     * Native listener for all supported events.
+     *
+     * @param e {Event} Native event
+     * @return {String?null}
+     */
     __onNativeHandler: function (e) {
       if (this.isDisposed()) {
         return;
