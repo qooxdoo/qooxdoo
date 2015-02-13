@@ -290,9 +290,7 @@ qx.Class.define("qx.event.handler.Application",
     */
 
     /**
-     * Event listener for native load event
-     *
-     * @signature function()
+     * When qx.globalErrorHandling is enabled the callback will observed
      */
     _onNativeLoad: function () {
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
@@ -302,6 +300,10 @@ qx.Class.define("qx.event.handler.Application",
       callback.apply(this, arguments);
     },
 
+
+    /**
+     * Event listener for native load event
+     */
     __onNativeLoadHandler: function () {
       this.__domReady = true;
       this.__fireReady();
@@ -309,9 +311,7 @@ qx.Class.define("qx.event.handler.Application",
 
 
     /**
-     * Event listener for native unload event
-     *
-     * @signature function()
+     * When qx.globalErrorHandling is enabled the callback will observed
      */
     _onNativeUnload: function () {
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
@@ -321,6 +321,10 @@ qx.Class.define("qx.event.handler.Application",
       callback.apply(this, arguments);
     },
 
+
+    /**
+     * Event listener for native unload event
+     */
     __onNativeUnloadHandler: function () {
       if (!this.__isUnloaded) {
         this.__isUnloaded = true;
