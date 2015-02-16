@@ -4702,6 +4702,12 @@ testrunner.define({
 
     var today = q('.qx-calendar-today', cal);
     var yesterday = today.getPrev();
+
+    // if today is the first day of the week we have to get previous day row
+    if (yesterday.length === 0) {
+      yesterday = today.getParents().getPrev().getChildren(':last');
+    }
+
     var firstDayInCalendar = q('.qx-calendar-othermonth', cal).eq(0);
 
     this.assertTrue(yesterday.hasClass('qx-calendar-past'));
