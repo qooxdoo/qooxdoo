@@ -103,6 +103,10 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {String} The name of the event.
      */
     getAnimationStart : function() {
+      // special handling for mixed prefixed / unprefixed implementations
+      if (qx.bom.Event.supportsEvent(window, "webkitanimationstart")) {
+        return "webkitAnimationStart";
+      }
       var mapping = {
         "msAnimation" : "MSAnimationStart",
         "WebkitAnimation" : "webkitAnimationStart",
@@ -121,13 +125,17 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {String} The name of the event.
      */
     getAnimationIteration : function() {
+      // special handling for mixed prefixed / unprefixed implementations
+      if (qx.bom.Event.supportsEvent(window, "webkitanimationiteration")) {
+        return "webkitAnimationIteration";
+      }
       var mapping = {
         "msAnimation" : "MSAnimationIteration",
         "WebkitAnimation" : "webkitAnimationIteration",
         "MozAnimation" : "animationiteration",
         "OAnimation" : "oAnimationIteration",
         "animation" : "animationiteration"
-      }
+      };
 
       return mapping[this.getName()];
     },
@@ -139,13 +147,17 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      * @return {String} The name of the event.
      */
     getAnimationEnd : function() {
+      // special handling for mixed prefixed / unprefixed implementations
+      if (qx.bom.Event.supportsEvent(window, "webkitanimationend")) {
+        return "webkitAnimationEnd";
+      }
       var mapping = {
         "msAnimation" : "MSAnimationEnd",
         "WebkitAnimation" : "webkitAnimationEnd",
         "MozAnimation" : "animationend",
         "OAnimation" : "oAnimationEnd",
         "animation" : "animationend"
-      }
+      };
 
       return mapping[this.getName()];
     },
