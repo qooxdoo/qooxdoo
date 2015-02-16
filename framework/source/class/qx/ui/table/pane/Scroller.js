@@ -87,6 +87,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._paneClipper.addListener("pointermove", this._onPointermovePane, this);
     this._paneClipper.addListener("pointerdown", this._onPointerdownPane, this);
     this._paneClipper.addListener("tap", this._onTapPane, this);
+    this._paneClipper.addListener("contextmenu", this._onTapPane, this);
     this._paneClipper.addListener("contextmenu", this._onContextMenu, this);
     if (qx.core.Environment.get("device.type") === "desktop") {
       this._paneClipper.addListener("dblclick", this._onDbltapPane, this);
