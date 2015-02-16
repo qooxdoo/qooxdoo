@@ -583,6 +583,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       }
       // set the manager to its initial valid value
       this.__valid = null;
+      this._showToolTip(true);
     },
 
 
