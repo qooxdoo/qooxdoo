@@ -223,8 +223,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * *disableDaysOtherMonth*
      *
-     * Disable all days of the previous/next month. The days are visible, but are not responding to user
-     input. Default: <code>false</code>
+     * Disable all days of the previous/next month. The days are visible, but are not responding to
+     * user input. Default: <code>false</code>
      */
     _config : {
       monthNames : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
