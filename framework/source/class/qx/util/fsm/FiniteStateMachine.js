@@ -1233,7 +1233,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
           {
             this.debug(this.getName() + "#" + "TERMINATED");
           }
-          this.fireDataEvent("terminated", this.getState());
+          this.fireDataEvent("terminated", thisState);
           return true;
         }
 
