@@ -142,6 +142,14 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     }
   },
 
+  events :
+  {
+    /**
+     * Fired when the finite state machine terminates. Data is the last state
+     * before termination.
+     */
+    "terminated" : "qx.event.type.Data"
+  },
 
   properties :
   {
@@ -1225,6 +1233,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
           {
             this.debug(this.getName() + "#" + "TERMINATED");
           }
+          this.fireDataEvent("terminated", this.getState());
           return true;
         }
 
