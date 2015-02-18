@@ -790,8 +790,8 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     {
       if (this.__terminated)
       {
-        throw new Error("Cannot listen to event '" + type +
-                        "', beacuse the finite state machine is not running.");
+        throw new Error("Cannot listen to event '" + event.getType() +
+                        "', because the finite state machine is not running.");
       }
 
       // Events are enqueued upon receipt.  Some events are then processed
@@ -831,7 +831,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       if (this.__terminated)
       {
         throw new Error("Cannot fire event '" + type +
-                        "', beacuse the finite state machine is not running.");
+                        "', because the finite state machine is not running.");
       }
 
       if (data)
