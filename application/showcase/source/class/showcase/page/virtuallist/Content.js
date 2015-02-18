@@ -41,6 +41,8 @@ qx.Class.define("showcase.page.virtuallist.Content",
     messenger : null,
     __addUserDialog : null,
     __tfUsername : null,
+    __tfGroup : null,
+    __btnAdd : null,
 
     _createView : function()
     {
