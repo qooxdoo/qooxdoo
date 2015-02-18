@@ -159,7 +159,7 @@ qx.Class.define("qx.event.handler.Pointer",
 
     // overridden
     _onPointerEvent : function(domEvent) {
-      if (domEvent._original && domEvent._original[this.__processedFlag]) {
+      if (domEvent._original && domEvent._original[this._processedFlag]) {
         return;
       }
 
