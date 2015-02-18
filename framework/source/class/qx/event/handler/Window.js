@@ -178,7 +178,7 @@ qx.Class.define("qx.event.handler.Window",
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
         "true": qx.event.GlobalError.observeMethod(this.__onNativeHandler),
         "false": this.__onNativeHandler
-      })
+      });
       callback.apply(this, arguments);
     },
 
@@ -187,7 +187,7 @@ qx.Class.define("qx.event.handler.Window",
      * Native listener for all supported events.
      *
      * @param e {Event} Native event
-     * @return {String?null}
+     * @return {String|undefined}
      */
     __onNativeHandler: function (e) {
       if (this.isDisposed()) {
@@ -195,9 +195,10 @@ qx.Class.define("qx.event.handler.Window",
       }
 
       var win = this._window;
+      var doc;
       try {
-        var doc = win.document;
-      } catch (ex) {
+        doc = win.document;
+      } catch(ex) {
         // IE7 sometimes dispatches "unload" events on protected windows
         // Ignore these events
         return;
