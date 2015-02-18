@@ -88,7 +88,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     this.__eventNames = [];
     this.__buttonStates = [];
     this.__activeTouches = [];
-    this.__processedFlag = "$$qx" +
+    this._processedFlag = "$$qx" +
       this.classname.substr(this.classname.lastIndexOf(".") + 1) +
       "Processed";
 
@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     __buttonStates : null,
     __primaryIdentifier : null,
     __activeTouches : null,
-    __processedFlag : null,
+    _processedFlag : null,
 
     /**
      * Adds listeners to native pointer events if supported
@@ -181,10 +181,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * @param domEvent {Event} Native DOM event
      */
     _onTouchEvent: function(domEvent) {
-      if (domEvent[this.__processedFlag]) {
+      if (domEvent[this._processedFlag]) {
         return;
       }
-      domEvent[this.__processedFlag] = true;
+      domEvent[this._processedFlag] = true;
       var type = qx.event.handler.PointerCore.TOUCH_TO_POINTER_MAPPING[domEvent.type];
       var changedTouches = domEvent.changedTouches;
 
@@ -277,10 +277,10 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     * @param domEvent {Event} Native DOM event
     */
     _onMouseEvent : function(domEvent) {
-      if (domEvent[this.__processedFlag]) {
+      if (domEvent[this._processedFlag]) {
         return;
       }
-      domEvent[this.__processedFlag] = true;
+      domEvent[this._processedFlag] = true;
 
       if (this._isSimulatedMouseEvent(domEvent.clientX, domEvent.clientY)) {
         /*
