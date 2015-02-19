@@ -64,9 +64,14 @@
  *       <td>Identifies and styles the "next month" container</td>
  *     </tr>
  *     <tr>
- *       <td><code>qx-calendar-othermonth</code></td>
+ *       <td><code>qx-calendar-previous-month</code></td>
  *       <td>Day cell (<code>td</code>)</td>
- *       <td>Identifies and styles calendar cells for days from the previous or following month</td>
+ *       <td>Identifies and styles calendar cells for days from the previous month</td>
+ *     </tr>
+ *     <tr>
+ *       <td><code>qx-calendar-next-month</code></td>
+ *       <td>Day cell (<code>td</code>)</td>
+ *       <td>Identifies and styles calendar cells for days from the next month</td>
  *     </tr>
  *     <tr>
  *       <td><code>qx-calendar-dayname</code></td>
@@ -219,7 +224,11 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * *hideDaysOtherMonth*
      *
      * Hide all days of the previous/next month. If the entire last row of the calandar are days of
-     * the next month the whole row is not rendered. Default: <code>false</code>
+     * the next month the whole row is not rendered. Default: <code>false</code> <br /> <br />
+     * <strong>Important: </strong>If you like to have a <em>mixed</em> mode like displaying the days
+     * of the previous month and hiding the days of the next month you should work with the
+     * <code>rendered</code> event to manipulate the DOM nodes after the rendering. Take a look at
+     * the samples to get a idea of it.
      *
      * *disableDaysOtherMonth*
      *
@@ -267,7 +276,11 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
   events : {
     /** Fired at each value change */
-    "changeValue" : "Date"
+    "changeValue" : "Date",
+
+    /** Fired whenvever a render process finished. This event can be used as hook to add
+        custom markup and/or manipulate existing. */
+    "rendered" : ""
   },
 
 
@@ -427,6 +440,10 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         item.$onFirstCollection("focus", this._onFocus, item, true)
         .$onFirstCollection("blur", this._onBlur, item, true);
       }, this);
+
+      // signal the rendering process is done - this is useful for application developers if they
+      // want to hook into and change / adapt the DOM elements of the calendar
+      this.emit('rendered');
 
       return this;
     },
@@ -611,7 +628,15 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
               break;
             }
 
-            cssClasses += cssPrefix + "-othermonth";
+            // set 'previous-month' and 'next-month' to make it easier for the developer to select
+            // the days after the render process
+            if ((helpDate.getMonth() < date.getMonth() && helpDate.getFullYear() == date.getFullYear()) ||
+                (helpDate.getMonth() > date.getMonth() && helpDate.getFullYear() < date.getFullYear())) {
+              cssClasses += cssPrefix + "-previous-month";
+            } else {
+              cssClasses += cssPrefix + "-next-month";
+            }
+
             hidden += hideDaysOtherMonth ? "qx-hidden" : "";
             disabled += disableDaysOtherMonth ? "disabled='disabled'" : "";
           }
