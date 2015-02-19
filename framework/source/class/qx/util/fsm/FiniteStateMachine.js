@@ -783,8 +783,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Event listener for all event types in the finite state machine
      *
      * @param event {qx.event.type.Event} The event that was dispatched.
-     *
-     * @throws {Error} If the finite state machine is terminated.
      */
     eventListener : function(event)
     {
@@ -825,8 +823,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *   then a qx.event.type.Event is instantiated.  Otherwise, an event of
      *   type qx.event.type.Data is instantiated and this data is applied to
      *   it.
-     *
-     * @throws {Error} If the finite state machine is terminated.
      */
     fireImmediateEvent : function(type, target, data)
     {
