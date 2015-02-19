@@ -108,6 +108,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
         "userSelect" : qx.core.Environment.get("css.userselect"),
         "textOverflow" : qx.core.Environment.get("css.textoverflow"),
         "borderImage" : qx.core.Environment.get("css.borderimage"),
+        "float" : qx.core.Environment.get("css.float"),
         "userModify" : qx.core.Environment.get("css.usermodify"),
         "boxSizing" : qx.core.Environment.get("css.boxsizing")
       };
@@ -118,7 +119,11 @@ qx.Bootstrap.define("qx.bom.element.Style",
           delete styleNames[key];
         }
         else {
-          this.__cssNames[key] = qx.bom.Style.getCssName(styleNames[key]);
+          if (key === 'float') {
+            this.__cssNames['cssFloat'] = key;
+          } else {
+            this.__cssNames[key] = qx.bom.Style.getCssName(styleNames[key]);
+          }
         }
       }
 

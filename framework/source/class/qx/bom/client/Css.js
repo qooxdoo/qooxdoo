@@ -211,6 +211,21 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
+     * Returns the vendor-specific name of the <code>float</code> style property
+     *
+     * @return {String|null} <code>cssFloat</code> for standards-compliant
+     * browsers, <code>styleFloat</code> for legacy IEs, <code>null</code> if
+     * the client supports neither property.
+     * @internal
+     */
+    getFloat : function() {
+      var style = document.documentElement.style;
+      return style.cssFloat !== undefined ? "cssFloat" :
+        style.styleFloat !== undefined ? "styleFloat" : null;
+    },
+
+
+    /**
      * Returns the (possibly vendor-prefixed) name this client uses for
      * <code>linear-gradient</code>.
      * http://dev.w3.org/csswg/css3-images/#linear-gradients
@@ -522,6 +537,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.userselect", statics.getUserSelect);
     qx.core.Environment.add("css.userselect.none", statics.getUserSelectNone);
     qx.core.Environment.add("css.appearance", statics.getAppearance);
+    qx.core.Environment.add("css.float", statics.getFloat);
     qx.core.Environment.add("css.boxsizing", statics.getBoxSizing);
     qx.core.Environment.add("css.inlineblock", statics.getInlineBlock);
     qx.core.Environment.add("css.opacity", statics.getOpacity);
