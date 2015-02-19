@@ -1293,6 +1293,18 @@ qx.Class.define("qx.ui.table.Table",
       );
     },
 
+
+    // overridden
+    _onContextMenuOpen : function(e)
+    {
+      // This is Widget's context menu handler which typically retrieves
+      // and displays the menu as soon as it receives a "contextmenu" event.
+      // We want to allow the cellContextmenu handler to create the menu,
+      // so we'll override this method with a null one, and do the menu
+      // placement and display handling in our _onContextMenu method.
+    },
+
+
     /**
      * To update the table if the table model has changed and remove selection.
      *
