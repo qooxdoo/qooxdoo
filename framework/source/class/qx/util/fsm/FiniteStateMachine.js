@@ -252,7 +252,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     __groupToFriendly            : null,
     __friendlyToGroups           : null,
     __bEventProcessingInProgress : false,
-    __terminated                 : true,
+    __bTerminated                 : true,
 
     /**
      * Checks whether the finite state machine is terminated or not.
@@ -261,7 +261,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     isTerminated : function()
     {
-      return this.__terminated;
+      return this.__bTerminated;
     },
 
     /**
@@ -600,7 +600,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     start : function()
     {
-      this.__terminated = false;
+      this.__bTerminated = false;
 
       var stateName = this.__startState;
 
@@ -788,10 +788,12 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     eventListener : function(event)
     {
-      if (this.__terminated)
+      if (this.__bTerminated)
       {
-        throw new Error("Cannot listen to event '" + event.getType() +
-                        "', because the finite state machine is not running.");
+        this.debug(this.getName() + ": Cannot listen to event '" +
+                   event.getType() +
+                   "', because the finite state machine is not running.");
+        return;
       }
 
       // Events are enqueued upon receipt.  Some events are then processed
@@ -828,10 +830,11 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     fireImmediateEvent : function(type, target, data)
     {
-      if (this.__terminated)
+      if (this.__bTerminated)
       {
-        throw new Error("Cannot fire event '" + type +
-                        "', because the finite state machine is not running.");
+        this.debug(this.getName() + ": Cannot listen to event '" + type +
+                   "', because the finite state machine is not running.");
+        return;
       }
 
       if (data)
@@ -1157,7 +1160,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
             case qx.util.fsm.FiniteStateMachine.StateChange.TERMINATE:
               // Terminate fsm
-              this.__terminated = true;
+              this.__bTerminated = true;
               this.setNextState(null);
               break;
 
@@ -1227,7 +1230,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         }
 
         // It the fsm has terminated, stop right here
-        if (this.__terminated)
+        if (this.__bTerminated)
         {
           if (debugFunctions)
           {
