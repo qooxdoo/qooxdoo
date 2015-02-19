@@ -143,6 +143,21 @@ qx.Class.define("qx.test.bom.element.Style",
       this.assertEquals("float:left;", css);
     },
 
+    testGetFloat : function() {
+      // important to set this value as CSS class
+      var style = document.createElement('style');
+      style.type = 'text/css';
+      style.innerHTML = '.right { float: right; }';
+      document.getElementsByTagName('head')[0].appendChild(style);
+      this.__element.className = 'right';
+
+      var floatValue = qx.bom.element.Style.get(this.__element, 'float');
+      this.assertEquals('right', floatValue);
+
+      document.getElementsByTagName('head')[0].removeChild(style);
+      this.__element.className = '';
+    },
+
     testCompileContent : function()
     {
       var css = qx.bom.element.Style.compile({"content" : ""});
