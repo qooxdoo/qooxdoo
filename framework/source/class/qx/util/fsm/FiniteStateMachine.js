@@ -252,7 +252,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     __groupToFriendly            : null,
     __friendlyToGroups           : null,
     __bEventProcessingInProgress : false,
-    __bTerminated                 : true,
+    __bTerminated                : true,
 
     /**
      * Checks whether the finite state machine is terminated or not.
@@ -823,6 +823,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *   then a qx.event.type.Event is instantiated.  Otherwise, an event of
      *   type qx.event.type.Data is instantiated and this data is applied to
      *   it.
+     *
      */
     fireImmediateEvent : function(type, target, data)
     {
