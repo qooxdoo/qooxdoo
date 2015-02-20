@@ -155,7 +155,7 @@
  *     "nextState" : qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK,
  *
  *     // action taken during transisition
- *     "action"    :
+ *     "ontransition"    :
  *       function(fsm, event)
  *       {
  *         // save current state so a future transition can get back to
@@ -203,10 +203,10 @@
  *     "nextState" : "S2",
  *
  *     // action taken during transisition
- *     "action"    :
+ *     "ontransition"    :
  *       function(fsm, event)
  *       {
- *         alert(this.getName() + "action function");
+ *         alert(this.getName() + "ontransition function");
  *       }
  *   });
  * state.addTransition(trans);
