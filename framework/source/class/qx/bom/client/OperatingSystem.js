@@ -44,7 +44,8 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
       if (
         input.indexOf("Windows") != -1 ||
         input.indexOf("Win32") != -1 ||
-        input.indexOf("Win64") != -1
+        input.indexOf("Win64") != -1 ||
+        agent.indexOf("Windows Phone") != -1
       ) {
         return "win";
 
