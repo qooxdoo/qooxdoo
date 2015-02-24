@@ -378,8 +378,9 @@ qx.Class.define("qx.data.Array",
           var end = this.length - 1;
         } else {
           var type = "add/remove";
-          var end = startIndex + Math.abs(addedItems.length - returnArray.length);
+          var end = startIndex + Math.max(addedItems.length, returnArray.length) - 1;
         }
+
         this.fireDataEvent("change",
           {
             start: startIndex,
