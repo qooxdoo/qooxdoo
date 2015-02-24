@@ -638,7 +638,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
             }
 
             hidden += hideDaysOtherMonth ? "qx-hidden" : "";
-            disabled += disableDaysOtherMonth ? "disabled='disabled'" : "";
+            disabled += disableDaysOtherMonth ? "disabled=disabled" : "";
           }
 
           if((this.getConfig("selectionMode") == "range")  && qx.Bootstrap.isArray(this.getProperty("value"))){
@@ -661,10 +661,10 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
           // if 'disableDaysOtherMonth' config is set - 'disabled' might already be set
           if (disabled === "") {
-            disabled = this.getEnabled() ? "" : "disabled='disabled'";
+            disabled = this.getEnabled() ? "" : "disabled=disabled";
             if ((minDate && helpDate < minDate) || (maxDate && helpDate > maxDate) ||
               this.getConfig("selectableWeekDays").indexOf(helpDate.getDay()) == -1) {
-              disabled = "disabled='disabled'";
+              disabled = "disabled=disabled";
             }
           }
 
