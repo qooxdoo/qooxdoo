@@ -568,6 +568,25 @@ qx.Class.define("qx.test.data.DataArray",
         self.assertEquals(1, e.getData().removed.length, "Wrong amount of items in the event. (add/remove)");
       }, "Change event not fired!");
       a.dispose();
+
+      // test for the event (add/remove) in replace
+      a = new qx.data.Array("a", "b", "c");
+      this.assertEventFired(a, "change", function () {
+        a.splice(0, 3, "x", "y", "z").dispose();
+      }, function(e) {
+        self.assertEquals(0, e.getData().start, "Wrong start index in the event. (replace)");
+        self.assertEquals(2, e.getData().end, "Wrong end index in the event. (replace)");
+        self.assertEquals("add/remove", e.getData().type, "Wrong type in the event. (replace)");
+        self.assertEquals("x", e.getData().added[0], "Wrong items in the event. (replace)");
+        self.assertEquals("y", e.getData().added[1], "Wrong items in the event. (replace)");
+        self.assertEquals("z", e.getData().added[2], "Wrong items in the event. (replace)");
+        self.assertEquals(3, e.getData().added.length, "Wrong amount of items in the event. (replace)");
+        self.assertEquals("a", e.getData().removed[0], "Wrong items in the event. (replace)");
+        self.assertEquals("b", e.getData().removed[1], "Wrong items in the event. (replace)");
+        self.assertEquals("c", e.getData().removed[2], "Wrong items in the event. (replace)");
+        self.assertEquals(3, e.getData().removed.length, "Wrong amount of items in the event. (replace)");
+      }, "Change event not fired!");
+      a.dispose();
     },
 
     testSpliceBubbleEvent: function() {

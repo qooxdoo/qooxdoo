@@ -1320,6 +1320,13 @@ qx.Class.define("qx.test.data.controller.List",
       ctrl.dispose();
       label.dispose();
       parents.dispose();
+    },
+
+
+    testSpliceAll : function() {
+      this.__setUpString();
+      this.__model.splice(0, 5, "A", "B", "C", "D", "E");
+      this.assertEquals("E", this.__list.getChildren()[4].getLabel());
     }
   }
 });
