@@ -2774,6 +2774,11 @@ qx.Class.define("qx.html.Element",
 
   destruct : function()
   {
+    if (this.$$hash) {
+      delete qx.html.Element._modified[this.$$hash];
+      delete qx.html.Element._scroll[this.$$hash];
+    }
+
     var el = this.__element;
     if (el)
     {
