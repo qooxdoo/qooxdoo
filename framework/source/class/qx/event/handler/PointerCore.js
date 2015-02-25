@@ -95,13 +95,19 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
     var engineName = qx.core.Environment.get("engine.name");
     var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
     if (engineName == "mshtml" && docMode == 10) {
-      this.__eventNames = ["MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel", "MSPointerOver", "MSPointerOut"];
+      // listen to native prefixed events and custom unprefixed (see bug #8921)
+      this.__eventNames = [
+        "MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel", "MSPointerOver", "MSPointerOut",
+        "pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"
+      ];
       this._initPointerObserver();
     } else {
       if (qx.core.Environment.get("event.mspointer")) {
         this.__nativePointerEvents = true;
       }
-      this.__eventNames = ["pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"];
+      this.__eventNames = [
+        "pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"
+      ];
       this._initPointerObserver();
     }
     if (!qx.core.Environment.get("event.mspointer")) {
@@ -110,10 +116,13 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         this._initObserver(this._onTouchEvent);
       }
 
-      this.__eventNames = ["mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "contextmenu"];
+      this.__eventNames = [
+        "mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "contextmenu"
+      ];
       this._initObserver(this._onMouseEvent);
     }
   },
+
 
   members : {
     __defaultTarget : null,
@@ -175,6 +184,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var evt = new qx.event.type.dom.Pointer(type, domEvent);
       this._fireEvent(evt, type, target);
     },
+
 
     /**
      * Handler for touch events
@@ -407,7 +417,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       type = type || domEvent.type;
 
       var gestureEvent;
-      if ((domEvent.pointerType !== "mouse" || domEvent.button === 0) &&
+      if ((domEvent.pointerType !== "mouse" || domEvent.button <= 0) &&
         (type == "pointerdown" || type == "pointerup" || type == "pointermove"))
       {
         gestureEvent = new qx.event.type.dom.Pointer(

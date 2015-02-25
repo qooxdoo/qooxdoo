@@ -141,7 +141,7 @@ qx.Class.define("qx.event.handler.Pointer",
           [domEvent, target, null, true, true]
         );
 
-        if ((domEvent.getPointerType() !== "mouse" || domEvent.button === 0) &&
+        if ((domEvent.getPointerType() !== "mouse" || domEvent.button <= 0) &&
           (type == "pointerdown" || type == "pointerup" || type == "pointermove" || type == "pointercancel"))
         {
           qx.event.Registration.fireEvent(
