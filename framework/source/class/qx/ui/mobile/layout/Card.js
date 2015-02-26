@@ -291,15 +291,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
       var fromElement = this.__currentWidget.getContainerElement();
       var toElement = widget.getContainerElement();
 
-      var onAnimationEnd = qx.lang.Function.bind(this._onAnimationEnd, this);
-
-      if(qx.core.Environment.get("browser.name") == "iemobile" || qx.core.Environment.get("browser.name") == "ie") {
-        qx.bom.Event.addNativeListener(fromElement, "MSAnimationEnd", onAnimationEnd, false);
-        qx.bom.Event.addNativeListener(toElement, "MSAnimationEnd", onAnimationEnd, false);
-      } else {
-        qx.event.Registration.addListener(fromElement, "animationEnd", this._onAnimationEnd, this);
-        qx.event.Registration.addListener(toElement, "animationEnd", this._onAnimationEnd, this);
-      }
+      qx.event.Registration.addListener(fromElement, "animationEnd", this._onAnimationEnd, this);
+      qx.event.Registration.addListener(toElement, "animationEnd", this._onAnimationEnd, this);
 
       var fromCssClasses = this.__getAnimationClasses("out");
       var toCssClasses = this.__getAnimationClasses("in");
@@ -339,13 +332,8 @@ qx.Class.define("qx.ui.mobile.layout.Card",
         var fromElement = this.__currentWidget.getContainerElement();
         var toElement = this.__nextWidget.getContainerElement();
 
-        if(qx.core.Environment.get("browser.name") == "iemobile" || qx.core.Environment.get("browser.name") == "ie") {
-          qx.bom.Event.removeNativeListener(fromElement, "MSAnimationEnd", this._onAnimationEnd, false);
-          qx.bom.Event.removeNativeListener(toElement, "MSAnimationEnd", this._onAnimationEnd, false);
-        } else {
-          qx.event.Registration.removeListener(fromElement, "animationEnd", this._onAnimationEnd, this);
-          qx.event.Registration.removeListener(toElement, "animationEnd", this._onAnimationEnd, this);
-        }
+        qx.event.Registration.removeListener(fromElement, "animationEnd", this._onAnimationEnd, this);
+        qx.event.Registration.removeListener(toElement, "animationEnd", this._onAnimationEnd, this);
 
         qx.bom.element.Class.removeClasses(fromElement, this.__getAnimationClasses("out"));
         qx.bom.element.Class.removeClasses(toElement, this.__getAnimationClasses("in"));
