@@ -141,5 +141,3 @@ Included layers
 
 * See the :doc:`%{Server} </pages/server>` documentation.
 
-
-.. _pages/development/skeletons#contribution:

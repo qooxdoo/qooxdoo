@@ -403,45 +403,6 @@ Local path
   especially for the *provides* keys, e.g. *provides/class* which points to the
   library's class path.
 
-  The other possible values are concerned with network-base libraries.
-
-contrib:// URL
-  If the value starts with ``contrib://`` there will be a lookup in the
-  :doc:`contribution catalog </pages/development/contrib>` for the given
-  contribution and version. For example::
-
-    contrib://UploadWidget/0.4/Manifest.json
-
-  will look in the catalog for a contribution named "UploadWidget" and below
-  that for a version named "0.4". This must contain a file "Manifest.json" that
-  contains a download link to an archive, and some other entries to assist in
-  downloading.
-
-  The archive will be downloaded and unpacked, and then used by the Generator
-  like a local library.
-
-http(s):// URL
-  If the value starts with ``http://`` or ``https://`` there are two cases:
-
-  * Either it points to a file that has an archive extension (like *.zip* or
-    *.tar.gz*), it will be downloaded and unpacked, just like with a contribution
-    archive. Example::
-
-      http://example.com/foo/bar/my-contrib-0.3.tar.gz
-
-  * Or it points to a file that has a *.json* extension. Then it will be
-    evaluated like a catalog entry-style *Manifest.json* file and the download
-    information therein will be used to get to the archive. Example::
-
-      http://example.com/foo/bar/MyContrib-0.3.catalog.json
-
-Mind that for network-based libraries the JSON files pointed to by a URL is
-searched for the *download* information for the archive, while the downloaded
-archive itself needs to contain a *Manifest.json* file (literally) which is
-searched for information about the actual library contents (e.g. classes).
-See the :doc:`contribution page </pages/development/contrib>` for details.
-
-
 .. _pages/tool/generator/generator_config_articles#uri_handling:
 
 URI handling

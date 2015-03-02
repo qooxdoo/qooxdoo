@@ -138,7 +138,7 @@ Define the paths to cache directories, particularly to the compile cache. Takes 
 Possible keys are
 
 * **compile** : path to the "main" cache, the directory where compile results are cached, relative to the current (default:  ":doc:`${CACHE} <generator_config_macros>`")
-* **downloads** : directory where to put downloads (e.g. ``contrib://*`` libraries), relative to the current (default: ":doc:`${CACHE} <generator_config_macros>`/downloads")
+* **downloads** : directory where to put downloads, relative to the current (default: ":doc:`${CACHE} <generator_config_macros>`/downloads")
 * **invalidate-on-tool-change** : when true, the *compile* cache (but not the downloads) will be cleared whenever the tool chain is newer (relevant mainly for trunk users; default: *true*)
 
 :ref:`Special section <pages/tool/generator/generator_config_articles#cache_key>`
@@ -705,20 +705,10 @@ Define libraries to be taken into account for this job. Takes an array of maps.
 
 Each map can contain the keys
 
-* **manifest** *(required)* : specifies the qooxdoo library to use; can take
-  several forms:
+* **manifest** *(required)* : specifies the qooxdoo library to use:
 
-  * *a local file system path*: This must reference the Manifest file of
+  * *local file system path*: This must reference the Manifest file of
     the library; may be relative to config file location.
-  * ``contrib://`` *URL*: This must reference the catalog Manifest file of a
-    contribution's version, as available in the :doc:`qooxdoo-contrib
-    </pages/development/contrib>` catalog.
-  * ``http(s)://`` *URL*: This must reference one of two things:
-
-    * *a downloadeable archive*: The URL ends in an archive extension (like
-      *.zip*), the archive contains the contribution library.
-    * *a .json file*: The referenced JSON file is a catalog-style Manifest file which
-      contains a download URL.
 
 * **uri** : URI prefix from your HTML file to the directory of the library's
   "Manifest" file

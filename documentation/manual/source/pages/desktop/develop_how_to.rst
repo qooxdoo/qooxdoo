@@ -114,13 +114,6 @@ the issue, here are some hints to guide you:
   %{qooxdoo} SDK itself and any additional %{qooxdoo} library or contribution that you
   use, are equally accessible by the web server.
 
-  * In the case of contribs referenced through the *contrib://* pseudo
-    protocol in your application configuration, these are downloaded and stored in
-    the download cache directory
-    so make sure this path is included in your considerations. Use the
-    :ref:`pages/tool/generator/generator_default_jobs#info` job to find this path on your
-    system.
-
 * Make sure the relative paths on the web server match those on your file
   system, e.g. if your app lives on the file system at
 

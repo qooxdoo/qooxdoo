@@ -43,17 +43,17 @@ For the most current information about the options please refer to the interacti
       -s NAMESPACE, --namespace=NAMESPACE
                             Applications's top-level namespace. (Default:
                             APPLICATIONNAME)
-      -t TYPE, --type=TYPE  Type of the application to create, one of: ['basic',
-                            'bom', 'contribution', 'gui', 'inline', 'mobile',
-                            'native'].'basic' -- for non-browser run times like
-                            Rhino, node.js; 'bom' -- can be used to build low-
-                            level qooxdoo applications; 'contribution' -- is
-                            suitable for qooxdoo-contrib ; 'gui' -- is a standard
-                            qooxdoo GUI application; 'inline' -- is an inline
-                            qooxdoo GUI application; 'mobile' -- is a qooxdoo
-                            mobile application with full OO support and mobile GUI
+      -t TYPE, --type=TYPE  Type of the application to create, one of: ['desktop',
+                            'inline', 'mobile', 'native', 'server',
+                            'website'].'desktop' -- is a standard qooxdoo GUI
+                            application; 'inline' -- is an inline qooxdoo GUI
+                            application; 'mobile' -- is a qooxdoo mobile
+                            application with full OO support and mobile GUI
                             classes; 'native' -- is a qooxdoo application with
-                            full OO support but no GUI classes. (Default: gui)
+                            full OO support but no GUI classes; 'server' -- for
+                            non-browser run times like Rhino, node.js; 'website'
+                            -- can be used to build low-level qooxdoo
+                            applications. (Default: desktop)
       -l LOGFILE, --logfile=LOGFILE
                             Log file
       -p PATH, --skeleton-path=PATH
