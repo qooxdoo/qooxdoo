@@ -196,6 +196,32 @@ qx.Class.define("qx.test.io.request.Xhr",
       obj.dispose();
     },
 
+    "test: send blob data with POST request": function() {
+      if (typeof window.Blob == "undefined") {
+        this.skip("Blob constructor not available");
+      }
+      var blob = new window.Blob(['abc123'], {type: 'text/plain'});
+      this.setUpFakeTransport();
+      this.req.setMethod("POST");
+      this.req.setRequestData(blob);
+      this.req.send();
+
+      this.assertCalledWith(this.transport.send, blob);
+    },
+
+    "test: send array buffer data with POST request": function() {
+      if (typeof window.ArrayBuffer == "undefined") {
+        this.skip("ArrayBuffer constructor not available");
+      }
+      var array = new window.ArrayBuffer(512);
+      this.setUpFakeTransport();
+      this.req.setMethod("POST");
+      this.req.setRequestData(array);
+      this.req.send();
+
+      this.assertCalledWith(this.transport.send, array);
+    },
+
     "test: serialize data": function() {
       var req = this.req,
           data = {"abc": "def", "uvw": "xyz"},
