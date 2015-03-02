@@ -383,7 +383,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
       requestData = this.getRequestData();
       if (["ArrayBuffer", "Blob"].indexOf(qx.Bootstrap.getClass(requestData)) == -1) {
-        requestData = this._serializeData(this.getRequestData());
+        requestData = this._serializeData(requestData);
       }
 
       this._setRequestHeaders();
