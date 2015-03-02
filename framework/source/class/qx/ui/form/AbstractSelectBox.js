@@ -144,13 +144,13 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
           control.addListener("changeSelection", this._onListChangeSelection, this);
           control.addListener("pointerdown", this._onListPointerDown, this);
+          control.getChildControl("pane").addListener("tap", this.close, this);
           break;
 
         case "popup":
-          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
+          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox());
           control.setAutoHide(false);
           control.setKeepActive(true);
-          control.addListener("tap", this.close, this);
           control.add(this.getChildControl("list"));
 
           control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
