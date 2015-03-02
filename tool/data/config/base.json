@@ -29,8 +29,7 @@
     "ADD_NOCACHE_PARAM"      : false,
     "COMPILE_WITH_LINT"      : true,
     "SOURCE_PATH"  : "${ROOT}/source",
-    "BUILD_PATH"   : "${ROOT}/build",
-    "CONTRIB_CATALOG_BASEURL": "https://github.com/qooxdoo/contrib-catalog/raw/master/contributions"
+    "BUILD_PATH"   : "${ROOT}/build"
   },
 
 
