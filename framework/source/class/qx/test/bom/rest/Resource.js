@@ -1042,8 +1042,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
       req.isDone.returns(true);
       req.getResponse.returns(response);
-      req.getTransport()._emit("success");
-      req.getTransport()._emit("loadEnd");
+      req.emit("success");
+      req.emit("loadEnd");
     },
 
     // Fake response but find and manipulate matching requests *within* res
@@ -1074,8 +1074,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
           reqWithin.isDone.returns(true);
           reqWithin.getResponse.returns(response);
         }
-        reqWithin.getTransport()._emit("success");
-        reqWithin.getTransport()._emit("loadEnd");
+        reqWithin.emit("success");
+        reqWithin.emit("loadEnd");
         this.res[requests].get[reqIdx] = reqWithin;
       }
     },
@@ -1083,8 +1083,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     // Fake erroneous response
     respondError: function() {
       var req = this.req;
-      req.getTransport()._emit("fail");
-      req.getTransport()._emit("loadEnd");
+      req.emit("fail");
+      req.emit("loadEnd");
     }
 
   }

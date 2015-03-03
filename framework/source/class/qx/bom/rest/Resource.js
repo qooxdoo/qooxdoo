@@ -23,7 +23,7 @@
  * Each instance represents a resource in terms of REST. A number of actions
  * (usually HTTP methods) unique to the resource can be defined and invoked.
  * A resource with its actions is configured declaratively by passing a resource
- * description to the constructor, or programatically using {@link #map}.
+ * description to the constructor, or programmatically using {@link #map}.
  *
  * Each action is associated to a route. A route is a combination of method,
  * URL pattern and optional parameter constraints.
@@ -37,7 +37,7 @@
  * route, is passed the URL parameters, request body data, and finally send.
  * What kind of request is send can be configured by overwriting {@link #_getRequest}.
  *
- * No contraints on the action's name or the scope of the URLs are imposed. However,
+ * No constraints on the action's name or the scope of the URLs are imposed. However,
  * if you want to follow RESTful design patterns it is recommended to name actions
  * the same as the HTTP action.
  *
@@ -108,7 +108,7 @@
  * and could therefore just as well mapped to two distinct resources (for instance,
  * named photos and photosTagged). What style to choose depends on the kind of data
  * returned. For instance, it seems sensible to stick with one resource if the filter
- * only limits the result set (i.e. the invidual results have the same properties).
+ * only limits the result set (i.e. the individual results have the same properties).
  *
  * In order to respond to successful (or erroneous) invocations of actions,
  * either listen to the generic "success" or "error" event and get the action
