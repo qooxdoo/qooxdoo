@@ -158,8 +158,7 @@ var registerTasks = function(grunt) {
   // exit early
   if (!isSetupDone(path.join(conf.QOOXDOO_PATH, "tool/grunt/task/source/node_modules"))) {
     grunt.fatal("Aborted due to missing setup. Go to '" +
-                path.resolve(path.join(conf.QOOXDOO_PATH, "tool/grunt")) +
-                "' and run 'node setup.js' with admin privileges.");
+                path.resolve(conf.QOOXDOO_PATH) + "' and run 'grunt setup'");
   }
   abortOnError(grunt);
 

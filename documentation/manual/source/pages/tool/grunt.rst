@@ -21,7 +21,7 @@ What?
 
 `Grunt`_ is a task runner or build tool (comparable for example with Make,
 Apache Maven, Apache Ant, Rake etc.). It enables you to configure tasks which
-then automates common working steps for you like e.g. building, linting, testing
+then automate common working steps for you like e.g. building, linting, testing
 or deploying your project. It's probably the most popular build tool in the
 `Node.js <http://www.nodejs.org>`_ environment right now.
 
@@ -94,24 +94,12 @@ and the qooxdoo packages are wired together. You have to run:
 
 .. code-block:: bash
 
-   $ cd /tool/grunt
-   $ ./setup.js
+   $ npm install
+   $ grunt setup
 
-Make sure that your current user owns all files within the SDK under
-``tool/grunt`` and the path where global npm packages are installed to (run
-``npm`` solely to get this path shown in the very last line) is also writable for your
-current user.  Otherwise change the ownership (e.g. ``sudo chown -R $USER
-myGlobalNpmNodeModulesPath`` - so this could be ``sudo chown -R $USER
-/opt/local/lib/node_modules/``). This enables ``setup.js`` (and you) to use npm
-from now on without ``sudo``. See the `official docs and the attached video
-<https://docs.npmjs.com/getting-started/fixing-npm-permissions>`_,
-to understand this thoroughly.
-
-If you still get permission warnigs (i.e. ``EACCES``) just use ``sudo`` (e.g.
-``sudo ./setup.js`` or ``sudo npm install abc``) - that's okay. Newer versions
-of npm will not run arbitrary build scripts as root, if you're root. npm
-chown's the package dir to ``nobody`` and then runs scripts as the ``nobody``
-user.
+.. note::
+  For Windows Users: You need a cmd prompt run as administrator when executing
+  'grunt setup' because the setup will create symlinks (i.e. symbolic links)!
 
 
 Using the Generator through Grunt
