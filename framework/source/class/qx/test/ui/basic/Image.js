@@ -345,8 +345,13 @@ qx.Class.define("qx.test.ui.basic.Image",
     },
 
     testHighResImage: function () {
-      var defaultDevicePixelRatio = window.devicePixelRatio;
-      window.devicePixelRatio = 2;
+      var devicePixelRatioStub = this.stub(
+        qx.bom.client.Device,
+        "getDevicePixelRatio",
+        function () {
+          return 2;
+        }
+      );
 
       var image = new qx.ui.basic.Image("qx/static/drawer.png");
       var resourceManager = qx.util.ResourceManager.getInstance();
@@ -356,12 +361,17 @@ qx.Class.define("qx.test.ui.basic.Image",
       var backgroundImage = image.getContentElement().getStyle("backgroundImage");
       this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
 
-      window.devicePixelRatio = defaultDevicePixelRatio;
+      devicePixelRatioStub.restore();
     },
 
     testHighResImageWithExistingDecorator: function () {
-      var defaultDevicePixelRatio = window.devicePixelRatio;
-      window.devicePixelRatio = 2;
+      var devicePixelRatioStub = this.stub(
+        qx.bom.client.Device,
+        "getDevicePixelRatio",
+        function () {
+          return 2;
+        }
+      );
 
       var image = new qx.ui.basic.Image();
       image.setDecorator("toolbar-part");
@@ -374,7 +384,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
       this.assertTrue(backgroundImage.indexOf("toolbar-part.gif") > -1);
 
-      window.devicePixelRatio = defaultDevicePixelRatio;
+      devicePixelRatioStub.restore();
     }
   }
 });
