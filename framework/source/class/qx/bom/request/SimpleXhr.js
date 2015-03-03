@@ -57,7 +57,7 @@
 qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 {
 
-  extend: Object,
+  extend: qx.event.Emitter,
 
   /**
    * @param url {String?} The URL of the resource to request.
@@ -552,7 +552,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * @return {qx.bom.request.Xhr} Self for chaining.
      */
     addListenerOnce: function(name, listener, ctx) {
-      this._transport._emitter.once(name, listener, ctx);
+      this.once(name, listener, ctx);
       return this;
     },
 
@@ -590,7 +590,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
         this._setResponse(this.__parser.parse(response, contentType));
 
-        this._transport._emit("success");
+        this.emit("success");
 
       // Erroneous HTTP status
       } else {
@@ -603,7 +603,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
         // A remote error failure
         if (this._transport.status !== 0) {
-          this._transport._emit("fail");
+          this.emit("fail");
         }
       }
     },
@@ -612,34 +612,34 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * Handles "loadEnd" event.
      */
     _onLoadEnd: function() {
-      this._transport._emit("loadEnd");
+      this.emit("loadEnd");
     },
 
     /**
      * Handles "abort" event.
      */
     _onAbort: function() {
-      this._transport._emit("abort");
+      this.emit("abort");
     },
 
     /**
      * Handles "timeout" event.
      */
     _onTimeout: function() {
-      this._transport._emit("timeout");
+      this.emit("timeout");
 
       // A network error failure
-      this._transport._emit("fail");
+      this.emit("fail");
     },
 
     /**
      * Handles "error" event.
      */
     _onError: function() {
-      this._transport._emit("error");
+      this.emit("error");
 
       // A network error failure
-      this._transport._emit("fail");
+      this.emit("fail");
     }
 
   }
