@@ -25,12 +25,16 @@ qx.Class.define("qx.test.bom.client.OperatingSystem",
     {
 
       testUsageOfGetName: function () {
-        this.assertNotEquals("", qx.bom.client.OperatingSystem.getName());
+        var osName = qx.bom.client.OperatingSystem.getName();
+        this.assertString(osName);
+        this.assertNotEquals("", osName);
       },
 
       testUsageOfGetVersion: function () {
         if (qx.bom.client.OperatingSystem.getName() !== "linux") {
-          this.assertNotEquals("", qx.bom.client.OperatingSystem.getVersion());
+          var osVersion = qx.bom.client.OperatingSystem.getVersion();
+          this.assertString(osVersion);
+          this.assertNotEquals("", osVersion);
         }
       }
     }
