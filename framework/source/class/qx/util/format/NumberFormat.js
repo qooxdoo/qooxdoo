@@ -40,10 +40,23 @@ qx.Class.define("qx.util.format.NumberFormat",
   {
     this.base(arguments);
 
-    if (locale) {
-      this.setLocale(locale);
-    } else {
+    if (arguments.length > 0) {
+      if (arguments.length === 1) {
+        if (qx.lang.Type.isString(locale)) {
+          this.setLocale(locale);
+        } else {
+          throw new Error("Wrong argument type. String is expected.");
+        }
+      } else {
+        throw new Error("Wrong number of arguments.");
+      }
+    }
+
+    if (!locale) {
       this.setLocale(qx.locale.Manager.getInstance().getLocale());
+      if (qx.core.Environment.get("qx.dynlocale")) {
+        qx.locale.Manager.getInstance().bind("locale", this, "locale");
+      }
     }
   },
 
@@ -290,6 +303,13 @@ qx.Class.define("qx.util.format.NumberFormat",
       }
 
       return parseFloat(asStr);
+    }
+  },
+
+
+  destruct: function() {
+    if (qx.core.Environment.get("qx.dynlocale")) {
+      qx.locale.Manager.getInstance().removeRelatedBindings(this);
     }
   }
 });
