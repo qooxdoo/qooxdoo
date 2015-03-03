@@ -32,6 +32,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
   {
     /** Maps user agent names to device IDs */
     __ids : {
+      "Windows Phone": "iemobile",
       "iPod" : "ipod",
       "iPad" : "ipad",
       "iPhone" : "iphone",

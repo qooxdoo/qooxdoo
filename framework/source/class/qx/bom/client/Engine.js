@@ -59,7 +59,29 @@ qx.Bootstrap.define("qx.bom.client.Engine",
       var agent = window.navigator.userAgent;
 
       var version = "";
-      if (qx.bom.client.Engine.__isOpera()) {
+      if (qx.bom.client.Engine.__isMshtml()) {
+        var isTrident = /Trident\/([^\);]+)(\)|;)/.test(agent);
+        if (/MSIE\s+([^\);]+)(\)|;)/.test(agent)) {
+          version = RegExp.$1;
+
+          // If the IE8 or IE9 is running in the compatibility mode, the MSIE value
+          // is set to an older version, but we need the correct version. The only
+          // way is to compare the trident version.
+          if (version < 8 && isTrident) {
+            if (RegExp.$1 == "4.0") {
+              version = "8.0";
+            } else if (RegExp.$1 == "5.0") {
+              version = "9.0";
+            }
+          }
+        } else if (isTrident) {
+          // IE 11 dropped the "MSIE" string
+          var match = /\brv\:(\d+?\.\d+?)\b/.exec(agent);
+          if (match) {
+            version = match[1];
+          }
+        }
+      } else if (qx.bom.client.Engine.__isOpera()) {
         // Opera has a special versioning scheme, where the second part is combined
         // e.g. 8.54 which should be handled like 8.5.4 to be compatible to the
         // common versioning system used by other browsers
@@ -99,28 +121,6 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         if (/rv\:([^\);]+)(\)|;)/.test(agent)) {
           version = RegExp.$1;
         }
-      } else if (qx.bom.client.Engine.__isMshtml()) {
-        var isTrident = /Trident\/([^\);]+)(\)|;)/.test(agent);
-        if (/MSIE\s+([^\);]+)(\)|;)/.test(agent)) {
-          version = RegExp.$1;
-
-          // If the IE8 or IE9 is running in the compatibility mode, the MSIE value
-          // is set to an older version, but we need the correct version. The only
-          // way is to compare the trident version.
-          if (version < 8 && isTrident) {
-            if (RegExp.$1 == "4.0") {
-              version = "8.0";
-            } else if (RegExp.$1 == "5.0") {
-              version = "9.0";
-            }
-          }
-        } else if (isTrident) {
-          // IE 11 dropped the "MSIE" string
-          var match = /\brv\:(\d+?\.\d+?)\b/.exec(agent);
-          if (match) {
-            version = match[1];
-          }
-        }
       } else {
         var failFunction = window.qxFail;
         if (failFunction && typeof failFunction === "function") {
@@ -144,14 +144,14 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      */
     getName : function() {
       var name;
-      if (qx.bom.client.Engine.__isOpera()) {
+      if (qx.bom.client.Engine.__isMshtml()) {
+        name = "mshtml";
+      } else if (qx.bom.client.Engine.__isOpera()) {
         name = "opera";
       } else if (qx.bom.client.Engine.__isWebkit()) {
         name = "webkit";
       } else if (qx.bom.client.Engine.__isGecko() || qx.bom.client.Engine.__isMaple()) {
         name = "gecko";
-      } else if (qx.bom.client.Engine.__isMshtml()) {
-        name = "mshtml";
       } else {
         // check for the fallback
         var failFunction = window.qxFail;
@@ -228,10 +228,26 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      * Internal helper to check for MSHTML.
      * @return {Boolean} true, if its MSHTML.
      */
-    __isMshtml : function() {
-      return window.navigator.cpuClass &&
+    __isMshtml : function () {
+      if (window.navigator.cpuClass &&
         (/MSIE\s+([^\);]+)(\)|;)/.test(window.navigator.userAgent) ||
-         /Trident\/\d+?\.\d+?/.test(window.navigator.userAgent));
+          /Trident\/\d+?\.\d+?/.test(window.navigator.userAgent))) {
+        return true;
+      }
+      if (qx.bom.client.Engine.__isWindowsPhone()) {
+        return true;
+      }
+      return false;
+    },
+
+
+
+    /**
+     * Internal helper to check for Windows phone.
+     * @return {Boolean} true, if its Windows phone.
+     */
+    __isWindowsPhone: function () {
+      return window.navigator.userAgent.indexOf("Windows Phone") > -1;
     }
   },
 

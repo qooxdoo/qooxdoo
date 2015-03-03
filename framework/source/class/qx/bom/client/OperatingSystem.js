@@ -201,10 +201,18 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
      * @return {String} version number as string or null.
      */
     __getVersionForMobileOs : function(userAgent) {
+      var windows = userAgent.indexOf("Windows Phone") != -1;
       var android = userAgent.indexOf("Android") != -1;
       var iOs = userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false ;
 
-      if (android) {
+      if (windows) {
+        var windowsVersionRegExp = new RegExp(/Windows Phone (\d+(?:\.\d+)+)/i);
+        var windowsMatch = windowsVersionRegExp.exec(userAgent);
+
+        if (windowsMatch && windowsMatch[1]) {
+          return windowsMatch[1];
+        }
+      } else if (android) {
         var androidVersionRegExp = new RegExp(/ Android (\d+(?:\.\d+)+)/i);
         var androidMatch = androidVersionRegExp.exec(userAgent);
 
