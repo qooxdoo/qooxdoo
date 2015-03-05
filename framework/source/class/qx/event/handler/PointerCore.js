@@ -61,6 +61,9 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       pointermove : "gesturemove"
     },
 
+    LEFT_BUTTON : (qx.core.Environment.get("engine.name") == "mshtml" &&
+      qx.core.Environment.get("browser.documentmode") <= 8) ? 1 : 0,
+
     SIM_MOUSE_DISTANCE : 25,
 
     SIM_MOUSE_DELAY : 2500,
@@ -417,7 +420,8 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       type = type || domEvent.type;
 
       var gestureEvent;
-      if ((domEvent.pointerType !== "mouse" || domEvent.button <= 0) &&
+      if ((domEvent.pointerType !== "mouse" ||
+           domEvent.button <= qx.event.handler.PointerCore.LEFT_BUTTON) &&
         (type == "pointerdown" || type == "pointerup" || type == "pointermove"))
       {
         gestureEvent = new qx.event.type.dom.Pointer(
