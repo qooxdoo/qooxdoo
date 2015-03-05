@@ -312,11 +312,11 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
           listener = function() {},
           ctx = this;
 
-      this.stub(stubbedTransport._emitter, "once");
+      this.stub(req, "once");
       req._transport = stubbedTransport;
 
       req.addListenerOnce(name, listener, ctx);
-      this.assertCalledWith(stubbedTransport._emitter.once, name, listener, ctx);
+      this.assertCalledWith(req.once, name, listener, ctx);
     },
 
     //
@@ -332,7 +332,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
           stubbedTransport = req._createTransport();
 
       // prep transport
-      this.stub(stubbedTransport, "_emit");
+      this.stub(req, "emit");
       this.stub(stubbedTransport, "getResponseHeader").returns(contentType);
       req._transport = req._registerTransportListener(stubbedTransport);
       req._transport.readyState = qx.bom.request.Xhr.DONE;
@@ -342,7 +342,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       req._transport.onreadystatechange();
 
       this.assertArrayEquals(obj.animals, req.getResponse().animals);
-      this.assertCalledWith(stubbedTransport._emit, "success");
+      this.assertCalledWith(req.emit, "success");
     },
 
     "test: _onReadyStateDone() fail w/ response": function() {
@@ -353,7 +353,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
           stubbedTransport = req._createTransport();
 
       // prep transport
-      this.stub(stubbedTransport, "_emit");
+      this.stub(req, "emit");
       this.stub(stubbedTransport, "getResponseHeader").returns(contentType);
       req._transport = req._registerTransportListener(stubbedTransport);
       req._transport.readyState = qx.bom.request.Xhr.DONE;
@@ -363,7 +363,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       req._transport.onreadystatechange();
 
       this.assertArrayEquals(obj.animals, req.getResponse().animals);
-      this.assertCalledWith(stubbedTransport._emit, "fail");
+      this.assertCalledWith(req.emit, "fail");
     },
 
     "test: _onReadyStateDone() fail w/o response": function() {
@@ -372,7 +372,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
           stubbedTransport = req._createTransport();
 
       // prep transport
-      this.stub(stubbedTransport, "_emit");
+      this.stub(req, "emit");
       this.stub(stubbedTransport, "getResponseHeader").returns(contentType);
       req._transport = req._registerTransportListener(stubbedTransport);
       req._transport.readyState = qx.bom.request.Xhr.DONE;
@@ -381,7 +381,7 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       req._transport.onreadystatechange();
 
       this.assertEquals("", req.getResponse());
-      this.assertCalledWith(stubbedTransport._emit, "fail");
+      this.assertCalledWith(req.emit, "fail");
     },
 
     //
@@ -393,12 +393,12 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
           stubbedTransport = req._createTransport();
 
       // prep transport
-      this.stub(stubbedTransport, "_emit");
+      this.stub(req, "emit");
       req._transport = req._registerTransportListener(stubbedTransport);
 
       req._transport.onloadend();
 
-      this.assertCalledWith(stubbedTransport._emit, "loadEnd");
+      this.assertCalledWith(req.emit, "loadEnd");
     },
 
     //
@@ -410,12 +410,12 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
           stubbedTransport = req._createTransport();
 
       // prep transport
-      this.stub(stubbedTransport, "_emit");
+      this.stub(req, "emit");
       req._transport = req._registerTransportListener(stubbedTransport);
 
       req._transport.onabort();
 
-      this.assertCalledWith(stubbedTransport._emit, "abort");
+      this.assertCalledWith(req.emit, "abort");
     },
 
     //
@@ -427,13 +427,13 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
           stubbedTransport = req._createTransport();
 
       // prep transport
-      this.stub(stubbedTransport, "_emit");
+      this.stub(req, "emit");
       req._transport = req._registerTransportListener(stubbedTransport);
 
       req._transport.ontimeout();
 
-      this.assertCalledWith(stubbedTransport._emit, "timeout");
-      this.assertEquals(2, stubbedTransport._emit.callCount); // + _emit("fail")
+      this.assertCalledWith(req.emit, "timeout");
+      this.assertEquals(2, req.emit.callCount); // + emit("fail")
     },
 
     //
@@ -445,13 +445,13 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
           stubbedTransport = req._createTransport();
 
       // prep transport
-      this.stub(stubbedTransport, "_emit");
+      this.stub(req, "emit");
       req._transport = req._registerTransportListener(stubbedTransport);
 
       req._transport.onerror();
 
-      this.assertCalledWith(stubbedTransport._emit, "error");
-      this.assertEquals(2, stubbedTransport._emit.callCount); // + _emit("fail")
+      this.assertCalledWith(req.emit, "error");
+      this.assertEquals(2, req.emit.callCount); // + emit("fail")
     }
   }
 });
