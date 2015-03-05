@@ -8,6 +8,8 @@
 
   width:$checkbox-size;
   height:$checkbox-size;
+  min-width:$checkbox-size;
+  min-height:$checkbox-size;
 
   display:inline-block;
   cursor:pointer;

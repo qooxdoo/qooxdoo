@@ -7,6 +7,8 @@
 
   width: $radiobutton-size;
   height: $radiobutton-size;
+  min-width: $radiobutton-size;
+  min-height: $radiobutton-size;
   border: rem(1) solid $radiobutton-border-color;
 
   text-align: center;
