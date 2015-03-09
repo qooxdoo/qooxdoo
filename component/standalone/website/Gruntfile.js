@@ -98,14 +98,16 @@ module.exports = function(grunt) {
 
             var resetCss = path.join(qxPath, '/component/library/indigo/source/resource/indigo/css/reset.css');
             var baseCss = path.join(qxPath, '/component/library/indigo/source/resource/indigo/css/base.css');
+            var indigoCss = path.join(qxPath, '/component/standalone/website/script/indigo.css');
             var testrunnerCss = path.join(testrunnerRoot, '/source/resource/testrunner/view/html/css/testrunner.css');
 
             var contentResetCss = fs.readFileSync(resetCss, {encoding: 'utf8'});
             var contentBaseCss = fs.readFileSync(baseCss, {encoding: 'utf8'});
+            var contentIndigoCss = fs.readFileSync(indigoCss, {encoding: 'utf8'});
             var contentTestrunnerCss = fs.readFileSync(testrunnerCss, {encoding: 'utf8'});
 
             var CleanCSS = require('clean-css');
-            var concatOfFiles = contentResetCss + contentBaseCss + contentTestrunnerCss;
+            var concatOfFiles = contentResetCss + contentBaseCss + contentIndigoCss + contentTestrunnerCss;
             var minifiedCss = new CleanCSS().minify(concatOfFiles);
 
             return minifiedCss.replace(/'/g, '"');
