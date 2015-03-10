@@ -37,6 +37,12 @@ qx.Class.define("testrunner.view.Console", {
     qx.log.appender.Native;
     qx.log.appender.Console;
 
+    if (!qx.core.Environment.get("qx.debug") &&
+      qx.core.Environment.get("testrunner.testOrigin") == "external")
+    {
+      qx.bom.Stylesheet.createElement('%{Styles}');
+    }
+
     // Workaround for http://bugzilla.qooxdoo.org/show_bug.cgi?id=8242
     var button = document.createElement("button");
     button.id = "run";
