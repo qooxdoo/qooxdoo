@@ -175,7 +175,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
      * @param e {Event} The native event from the browser.
      */
     __onAnimationStart : function(e) {
-      e.target.$$animation.emit("start", e.target);
+      if (e.target.$$animation) {
+        e.target.$$animation.emit("start", e.target);
+      }
     },
 
 
