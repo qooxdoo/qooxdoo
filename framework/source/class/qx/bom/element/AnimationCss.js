@@ -378,6 +378,34 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
       this.__rules[rule] = name;
 
       return name;
+    },
+
+
+    /**
+     * Internal helper to reset the cache.
+     */
+    __clearCache: function() {
+      this.__id = 0;
+      if (this.__sheet) {
+        this.__sheet.ownerNode.remove()
+        this.__sheet = null;
+        this.__rules = {};
+      }
+    }
+  },
+
+
+  defer : function(statics) {
+    // iOS 8 seems to stumble over the old sheet object on tab
+    // changes or leaving the browser [BUG #8986]
+    if (qx.core.Environment.get("os.name") === "ios" &&
+      parseInt(qx.core.Environment.get("os.version")) >= 8
+    ) {
+      document.addEventListener("visibilitychange", function() {
+        if (!document.hidden) {
+          statics.__clearCache();
+        }
+      }, false)
     }
   }
 });
