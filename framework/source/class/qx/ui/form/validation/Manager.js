@@ -258,7 +258,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       }
       valid = formValid && valid;
 
-      this.__setValid(valid);
+      this._setValid(valid);
 
       if (qx.lang.Object.isEmpty(this.__asyncResults)) {
         this.fireEvent("complete");
@@ -446,12 +446,12 @@ qx.Class.define("qx.ui.form.validation.Manager",
 
 
     /**
-     * Internal setter for the valid member. It generates the event if
-     * necessary and stores the new value
+     * Sets the valid state of the manager. It generates the event if
+     * necessary and stores the new value.
      *
-     * @param value {Boolean|null} The new valid value of the manager.
+     * @param value {Boolean|null} The new valid state of the manager.
      */
-    __setValid: function(value) {
+    _setValid: function(value) {
       this._showToolTip(value);
       var oldValue = this.__valid;
       this.__valid = value;
@@ -642,7 +642,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
         }
       }
       // set the actual valid state of the manager
-      this.__setValid(valid);
+      this._setValid(valid);
       // reset the results
       this.__asyncResults = {};
       // fire the complete event (no entry in the results with null)

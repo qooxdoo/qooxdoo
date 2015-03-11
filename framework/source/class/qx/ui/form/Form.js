@@ -271,6 +271,25 @@ qx.Class.define("qx.ui.form.Form",
     },
 
 
+    /**
+     * Returns all added items as a map.
+     *
+     * @return {Map} A map containing for every item an entry with its name.
+     */
+    getItems : function() {
+      var items = {};
+      // go threw all groups
+      for (var i = 0; i < this.__groups.length; i++) {
+        var group = this.__groups[i];
+        // get all items
+        for (var j = 0; j < group.names.length; j++) {
+          var name = group.names[j];
+          items[name] = group.items[j];
+        }
+      }
+      return items;
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -383,28 +402,6 @@ qx.Class.define("qx.ui.form.Form",
        INTERNAL
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Returns all added items as a map.
-     *
-     * @return {Map} A map containing for every item an entry with its name.
-     *
-     * @internal
-     */
-    getItems : function() {
-      var items = {};
-      // go threw all groups
-      for (var i = 0; i < this.__groups.length; i++) {
-        var group = this.__groups[i];
-        // get all items
-        for (var j = 0; j < group.names.length; j++) {
-          var name = group.names[j];
-          items[name] = group.items[j];
-        }
-      }
-      return items;
-    },
-
 
     /**
      * Creates and returns the used validation manager.
