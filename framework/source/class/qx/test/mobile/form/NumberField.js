@@ -48,9 +48,9 @@ qx.Class.define("qx.test.mobile.form.NumberField",
 
       this.assertEquals('',numberField.getMinimum());
 
-      numberField.setMinimum(42);
+      numberField.setMinimum(42.23);
 
-     this.assertEquals(42,numberField.getMinimum());
+     this.assertEquals(42.23,numberField.getMinimum());
 
       numberField.destroy();
 
@@ -64,9 +64,9 @@ qx.Class.define("qx.test.mobile.form.NumberField",
 
       this.assertEquals('',numberField.getMaximum());
 
-      numberField.setMaximum(42);
+      numberField.setMaximum(42.23);
 
-      this.assertEquals(42,numberField.getMaximum());
+      this.assertEquals(42.23,numberField.getMaximum());
 
       numberField.destroy();
     },
@@ -79,9 +79,9 @@ qx.Class.define("qx.test.mobile.form.NumberField",
 
       this.assertEquals('',numberField.getStep());
 
-      numberField.setStep(42);
+      numberField.setStep(42.23);
 
-      this.assertEquals(42,numberField.getStep());
+      this.assertEquals(42.23,numberField.getStep());
 
       numberField.destroy();
     },

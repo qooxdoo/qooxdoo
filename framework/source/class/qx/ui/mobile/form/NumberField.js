@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
      */
     minimum :
     {
-      check : "Integer",
+      check : "Number",
       init : '',
       apply : "_onChangeMinimum"
     },
@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
      */
     maximum :
     {
-      check : "Integer",
+      check : "Number",
       init : '',
       apply : "_onChangeMaximum"
     },
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.mobile.form.NumberField",
      */
     step :
     {
-      check : "Integer",
+      check : "Number",
       init : '',
       apply : "_onChangeStep"
     }
