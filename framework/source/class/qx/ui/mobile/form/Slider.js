@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     minimum :
     {
-      check : "Integer",
+      check : "Number",
       init : 0,
       apply : "_refresh",
       event : "changeMinimum"
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     maximum :
     {
-      check : "Integer",
+      check : "Number",
       init : 100,
       apply : "_refresh",
       event : "changeMaximum"
@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
      */
     step :
     {
-      check : "Integer",
+      check : "Number",
       init : 1,
       event : "changeStep"
     },
