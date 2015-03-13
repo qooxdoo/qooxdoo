@@ -22,6 +22,8 @@ qx.Class.define("qx.test.bom.Event",
 {
   extend : qx.dev.unit.TestCase,
 
+  include: [qx.dev.unit.MRequirements],
+
   members :
   {
     testSupportsEvent : function()
@@ -63,6 +65,8 @@ qx.Class.define("qx.test.bom.Event",
     },
 
     testSafariMobile: function () {
+      this.require(["html.audio"]);
+
       var el = qx.dom.Element.create("audio");
 
       var supportedEvents = [
