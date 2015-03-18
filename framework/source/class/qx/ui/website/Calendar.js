@@ -293,7 +293,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       }
 
       var today = new Date();
-      this._normalizeDate(today);
+      today = this._getNormalizedDate(today);
       this._forEachElementWrapped(function(calendar) {
         calendar.showValue(today);
       });
@@ -306,11 +306,11 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
     render : function() {
       var minDate = this.getConfig("minDate");
       if (minDate) {
-        this._normalizeDate(minDate);
+        minDate = this._getNormalizedDate(minDate);
       }
       var maxDate = this.getConfig("maxDate");
       if (maxDate) {
-        this._normalizeDate(maxDate);
+        maxDate = this._getNormalizedDate(maxDate);
       }
       this.showValue(this.getProperty("shownValue"));
       return this;
@@ -342,27 +342,26 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @return {qx.ui.website.Calendar} The collection for chaining.
      */
     setValue : function(value) {
-
       var minDate = this.getConfig("minDate");
       var maxDate = this.getConfig("maxDate");
 
       if (this.getConfig("selectionMode") == "single") {
 
-        this._normalizeDate(value);
+        value = this._getNormalizedDate(value);
 
         if (this.getConfig("selectableWeekDays").indexOf(value.getDay()) == -1) {
           throw new Error("The given date's week day is not selectable.");
         }
 
         if (minDate) {
-          this._normalizeDate(minDate);
+          minDate = this._getNormalizedDate(minDate);
           if (value < minDate) {
             throw new Error("Given date " + value.toDateString() + " is earlier than configured minDate " + minDate.toDateString());
           }
         }
 
         if (maxDate) {
-          this._normalizeDate(maxDate);
+          maxDate = this._getNormalizedDate(maxDate);
           if (value > maxDate) {
             throw new Error("Given date " + value.toDateString() + " is later than configured maxDate " + maxDate.toDateString());
           }
@@ -378,7 +377,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
           });
           value = this._generateRange(value);
         } else {
-          this._normalizeDate(value[0]);
+          value[0] = this._getNormalizedDate(value[0]);
         }
 
       }
@@ -540,7 +539,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       var prevDisabled = "";
       var minDate = this.getConfig("minDate");
       if (minDate) {
-        this._normalizeDate(minDate);
+        minDate = this._getNormalizedDate(minDate);
         if (date.getMonth() <= minDate.getMonth()) {
           prevDisabled = "disabled";
         }
@@ -549,7 +548,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       var nextDisabled = "";
       var maxDate = this.getConfig("maxDate");
       if (maxDate) {
-        this._normalizeDate(maxDate);
+        maxDate = this._getNormalizedDate(maxDate);
         if (date.getMonth() >= maxDate.getMonth()) {
           nextDisabled = "disabled";
         }
@@ -596,12 +595,12 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
       var minDate = this.getConfig("minDate");
       if (minDate) {
-        this._normalizeDate(minDate);
+        minDate = this._getNormalizedDate(minDate);
       }
 
       var maxDate = this.getConfig("maxDate");
       if (maxDate) {
-        this._normalizeDate(maxDate);
+        this._getNormalizedDate(maxDate);
       }
 
       var hideDaysOtherMonth = this.getConfig("hideDaysOtherMonth");
@@ -719,6 +718,22 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       date.setMinutes(0);
       date.setSeconds(0);
       date.setMilliseconds(0);
+    },
+
+    /**
+     * Returns a Date object with hours, minutes and seconds set to 0
+     * to facilitate date comparisons.
+     *
+     * @param date {Date} Date to normalize
+     * @return {Date} normalized
+     */
+    _getNormalizedDate : function(dateIn) {
+      var date = new Date(dateIn.getTime());
+      date.setHours(0);
+      date.setMinutes(0);
+      date.setSeconds(0);
+      date.setMilliseconds(0);
+      return date;
     },
 
 
@@ -857,11 +872,11 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       var minDate = this.getConfig("minDate") ? this.getConfig("minDate") : new Date(range[0].toDateString());
       var maxDate = this.getConfig("maxDate") ? this.getConfig("maxDate") : new Date(range[1].toDateString());
 
-      this._normalizeDate(minDate);
-      this._normalizeDate(maxDate);
+      minDate = this._getNormalizedDate(minDate);
+      maxDate = this._getNormalizedDate(maxDate);
 
       while(current <= range[1]){
-        this._normalizeDate(current)
+        current = this._getNormalizedDate(current)
         list.push(new Date(current.toDateString()));
         current.setDate(current.getDate() + 1);
       }
