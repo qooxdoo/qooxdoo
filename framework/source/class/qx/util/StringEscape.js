@@ -33,7 +33,6 @@ qx.Bootstrap.define("qx.util.StringEscape",
      * @param str {String} string to escape
      * @param charCodeToEntities {Map} entity to charcode map
      * @return {String} escaped string
-     * @signature function(str, charCodeToEntities)
      */
     escape : function(str, charCodeToEntities)
     {
