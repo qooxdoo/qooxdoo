@@ -197,7 +197,11 @@ qx.Bootstrap.define("qxWeb", {
       if (context instanceof qxWeb) {
         context = context[0];
       }
-      selector = qx.bom.Selector.query(selector, context);
+      if (context instanceof qxWeb && context == undefined) {
+        selector = [];
+      } else {
+        selector = qx.bom.Selector.query(selector, context);
+      }
     }
     else if ((selector.nodeType === 1 || selector.nodeType === 9 ||
       selector.nodeType === 11) ||
