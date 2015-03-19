@@ -194,10 +194,10 @@ qx.Bootstrap.define("qxWeb", {
       selector = [];
     }
     else if (qx.Bootstrap.isString(selector)) {
-      if (context instanceof qxWeb) {
+      if (context instanceof qxWeb && context.length != 0) {
         context = context[0];
       }
-      if (context instanceof qxWeb && context == undefined) {
+      if (context instanceof qxWeb) {
         selector = [];
       } else {
         selector = qx.bom.Selector.query(selector, context);
