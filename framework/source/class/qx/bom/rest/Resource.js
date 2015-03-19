@@ -193,7 +193,17 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * For example, "indexError" is fired when <code>index()</code> failed.
      */
-     "actionError": "qx.bom.rest.Resource"
+     "actionError": "qx.bom.rest.Resource",
+
+    /**
+     * Fired when a request is sent to the given endpoint.
+     */
+    "sent": "qx.bom.rest.Resource",
+
+    /**
+     * Fired when any request associated to action is sent to the given endpoint.
+     */
+     "actionSent": "qx.bom.rest.Resource"
   },
 
   statics:
@@ -364,6 +374,17 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
                 req.dispose();
               }, 0)
             };
+          },
+          context: this
+        },
+        onreadystatechange: {
+          callback: function(req, action) {
+            return function () {
+              if (req.getTransport().readyState === qx.bom.request.Xhr.HEADERS_RECEIVED) {
+                this.emit(action + "Sent");
+                this.emit("sent");
+              }
+            }
           },
           context: this
         }
@@ -544,6 +565,11 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         "loadEnd",
         reqHandler.onloadend.callback(req, action),
         reqHandler.onloadend.context
+      );
+      req.addListener(
+        "readystatechange",
+        reqHandler.onreadystatechange.callback(req, action),
+        reqHandler.onreadystatechange.context
       );
 
       req.send();
