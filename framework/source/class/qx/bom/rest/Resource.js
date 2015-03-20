@@ -566,11 +566,13 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         reqHandler.onloadend.callback(req, action),
         reqHandler.onloadend.context
       );
-      req.addListener(
-        "readystatechange",
-        reqHandler.onreadystatechange.callback(req, action),
-        reqHandler.onreadystatechange.context
-      );
+      if (reqHandler.hasOwnProperty("onreadystatechange")) {
+        req.addListener(
+          "readystatechange",
+          reqHandler.onreadystatechange.callback(req, action),
+          reqHandler.onreadystatechange.context
+        );
+      }
 
       req.send();
 
