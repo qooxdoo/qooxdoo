@@ -472,9 +472,9 @@ build-components:
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all-min ) || exit 1; \
+			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) sass ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) test ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) api ) || exit 1; \
-			( cd component/standalone/$$COMPONENT && $(CMD_GRUNT) sass ) || exit 1; \
 		elif [ "$$COMPONENT" = "server" ]; then \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
