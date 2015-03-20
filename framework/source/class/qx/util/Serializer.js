@@ -35,11 +35,11 @@ qx.Class.define("qx.util.Serializer",
      * serialized string.
      *
      * @param object {qx.core.Object} Any qooxdoo object
-     * @param qxSerializer {Function} Function used for serializing qooxdoo
+     * @param qxSerializer {Function?} Function used for serializing qooxdoo
      *   objects stored in the propertys of the object. Check for the type of
      *   classes <ou want to serialize and return the serialized value. In all
      *   other cases, just return nothing.
-     * @param dateFormat {qx.util.format.DateFormat} If a date formater is given,
+     * @param dateFormat {qx.util.format.DateFormat?} If a date formater is given,
      *   the format method of this given formater is used to convert date
      *   objects into strings.
      * @return {String} The serialized object.
@@ -82,7 +82,7 @@ qx.Class.define("qx.util.Serializer",
      *
      * @param name {String} The name of the value
      * @param value {var} The value itself
-     * @param qxSerializer {Function} The serializer for qooxdoo objects.
+     * @param qxSerializer {Function?} The serializer for qooxdoo objects.
      * @return {String} The serialized name value pair.
      */
     __toUriParameter : function(name, value, qxSerializer)
@@ -115,12 +115,12 @@ qx.Class.define("qx.util.Serializer",
      * @param object {qx.core.Object}
      *   Any qooxdoo object
      *
-     * @param qxSerializer {Function}
+     * @param qxSerializer {Function?}
      *   Function used for serializing qooxdoo objects stored in the propertys
      *   of the object. Check for the type of classes you want to serialize
      *   and return the serialized value. In all other cases, just return
      *   nothing.
-     * @param dateFormat {qx.util.format.DateFormat} If a date formater is given,
+     * @param dateFormat {qx.util.format.DateFormat?} If a date formater is given,
      *   the format method of this given formater is used to convert date
      *   objects into strings.
      * @return {String}
