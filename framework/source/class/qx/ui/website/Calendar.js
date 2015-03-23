@@ -708,19 +708,6 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
     /**
-     * Sets the hours, minutes and seconds of a date object to 0
-     * to facilitate date comparisons.
-     *
-     * @param date {Date} Date to normalize
-     */
-    _normalizeDate : function(date) {
-      date.setHours(0);
-      date.setMinutes(0);
-      date.setSeconds(0);
-      date.setMilliseconds(0);
-    },
-
-    /**
      * Returns a Date object with hours, minutes and seconds set to 0
      * to facilitate date comparisons.
      *
