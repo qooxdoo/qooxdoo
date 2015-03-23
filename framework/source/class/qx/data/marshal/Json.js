@@ -20,6 +20,8 @@
 /**
  * This class is responsible for converting json data to class instances
  * including the creation of the classes.
+ * To retrieve the native data of created models use the methods
+ *   described in {@link qx.util.Serializer}.
  */
 qx.Class.define("qx.data.marshal.Json",
 {
