@@ -724,7 +724,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * Returns a Date object with hours, minutes and seconds set to 0
      * to facilitate date comparisons.
      *
-     * @param date {Date} Date to normalize
+     * @param dateIn {Date} Date to normalize
      * @return {Date} normalized
      */
     _getNormalizedDate : function(dateIn) {
