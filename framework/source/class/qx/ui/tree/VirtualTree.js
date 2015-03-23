@@ -1092,8 +1092,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       while(index > 0)
       {
         index--;
-        var levelBevore = this.__nestingLevel[index];
-        if (levelBevore < level) {
+        var levelBefore = this.__nestingLevel[index];
+        if (levelBefore < level) {
           return this.__lookupTable.getItem(index);
         }
       }
