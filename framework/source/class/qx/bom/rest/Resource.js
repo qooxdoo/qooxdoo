@@ -202,6 +202,9 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
 
     /**
      * Fired when any request associated to action is sent to the given endpoint.
+     *
+     * For example, "indexSent" is fired when <code>index()</code> was
+     * called.
      */
      "actionSent": "qx.bom.rest.Resource"
   },
@@ -381,8 +384,13 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
           callback: function(req, action) {
             return function () {
               if (req.getTransport().readyState === qx.bom.request.Xhr.HEADERS_RECEIVED) {
-                this.emit(action + "Sent");
-                this.emit("sent");
+                var response = {
+                    "id": parseInt(req.toHashCode(), 10),
+                    "request": req,
+                    "action": action
+                };
+                this.emit(action + "Sent", response);
+                this.emit("sent", response);
               }
             }
           },
