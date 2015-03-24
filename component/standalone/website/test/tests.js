@@ -228,6 +228,20 @@ testrunner.define({
       }
     }, true);
     this.assertEquals("bar", qxWeb(document.body).__attach_test());
+  },
+
+  testIndexOf : function() {
+    this.assertEquals([].indexOf(), qxWeb().indexOf());
+    this.assertEquals([0, 1].indexOf(1),
+      qxWeb([document.documentElement, document.body]).indexOf(document.body));
+    this.assertEquals([0, 1].indexOf(0, 1),
+      qxWeb([document.documentElement, document.body]).indexOf(document.documentElement, 1));
+    this.assertEquals([0].indexOf(0, 5),
+      qxWeb("#sandbox").indexOf(qxWeb("#sandbox")[0], 5));
+    this.assertEquals([0].indexOf(0, -5),
+      qxWeb("#sandbox").indexOf(qxWeb("#sandbox")[0], -5));
+    this.assertEquals([0, 1, 0].indexOf(0, -1),
+      qxWeb([window, document.documentElement, window]).indexOf(window, -1));
   }
 });
 

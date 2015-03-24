@@ -309,18 +309,34 @@ qx.Bootstrap.define("qxWeb", {
      * Returns the index of the given element within the current
      * collection or -1 if the element is not in the collection
      * @param elem {Element|Element[]|qxWeb} Element or collection of elements
+     * @param fromIndex {Integer} The index to start the search at
      * @return {Number} The element's index
      */
-    indexOf : function(elem) {
+    indexOf : function(elem, fromIndex) {
       if (!elem) {
         return -1;
       }
 
-      if (qx.Bootstrap.isArray(elem)) {
+      if (!fromIndex) {
+        fromIndex = 0;
+      }
+
+      if (typeof fromIndex !== "number") {
+        return -1;
+      }
+
+      if (fromIndex < 0) {
+        fromIndex = this.length + fromIndex;
+        if (fromIndex < 0) {
+          fromIndex = 0;
+        }
+      }
+
+      if (qx.lang.Type.isArray(elem)) {
         elem = elem[0];
       }
 
-      for (var i=0, l=this.length; i<l; i++) {
+      for (var i = fromIndex, l = this.length; i<l; i++) {
         if (this[i] === elem) {
           return i;
         }
