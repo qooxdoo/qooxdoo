@@ -790,6 +790,8 @@ qx.Class.define("qx.event.handler.DragDrop",
 
   destruct : function()
   {
+    qx.event.Registration.removeListener(window, "blur", this._onWindowBlur, this);
+
     // Clear fields
     this.__dragTarget = this.__dropTarget = this.__manager = this.__root =
       this.__types = this.__actions = this.__keys = this.__cache = null;
