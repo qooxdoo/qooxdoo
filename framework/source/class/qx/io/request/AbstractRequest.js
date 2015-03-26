@@ -177,8 +177,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * * String
      * * Map
      * * qooxdoo Object
+     * * Blob
+     * * ArrayBuffer
+     * * FormData
      *
-     * For every supported type except strings, a URL encoded string
+     * For maps, Arrays and qooxdoo objects, a URL encoded string
      * with unsafe characters escaped is internally generated and sent
      * as part of the request.
      *
@@ -197,7 +200,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
                qx.lang.Type.isObject(value) ||
                qx.lang.Type.isArray(value) ||
                qx.Bootstrap.getClass(value) == "Blob" ||
-               qx.Bootstrap.getClass(value) == "ArrayBuffer";
+               qx.Bootstrap.getClass(value) == "ArrayBuffer" ||
+               qx.Bootstrap.getClass(value) == "FormData";
       },
       nullable: true
     },
@@ -382,7 +386,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
       //
 
       requestData = this.getRequestData();
-      if (["ArrayBuffer", "Blob"].indexOf(qx.Bootstrap.getClass(requestData)) == -1) {
+      if (["ArrayBuffer", "Blob", "FormData"].indexOf(qx.Bootstrap.getClass(requestData)) == -1) {
         requestData = this._serializeData(requestData);
       }
 

@@ -131,6 +131,26 @@ qx.Mixin.define("qx.test.io.request.MRequest",
       obj.dispose();
     },
 
+    "test: append FormData to URL with POST request": function() {
+      if (!window.FormData) {
+        this.skip("FormData API not supported");
+      }
+
+      if (!this.req.setMethod) {
+        this.skip("POST requests not supported by this transport");
+      }
+
+      var formData = new FormData();
+      formData.append("foo", "bar");
+      formData.append("baz", "qux");
+
+      this.req.setMethod("POST");
+      this.req.setRequestData(formData);
+      this.req.send();
+
+      this.assertCalledWith(this.transport.send, formData);
+    },
+
     //
     // Header and Params
     //
