@@ -170,7 +170,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
-     * Data to be send as part of the request.
+     * Data to be sent as part of the request.
      *
      * Supported types:
      *
