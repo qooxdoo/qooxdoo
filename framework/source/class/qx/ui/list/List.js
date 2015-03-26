@@ -145,6 +145,17 @@ qx.Class.define("qx.ui.list.List",
     },
 
 
+    /** Group item height */
+    groupItemHeight :
+    {
+      check : "Integer",
+      init : null,
+      nullable : true,
+      apply : "_applyGroupRowHeight",
+      themeable : true
+    },
+
+
     /**
      * The path to the property which holds the information that should be
      * displayed as a label. This is only needed if objects are stored in the
@@ -508,6 +519,10 @@ qx.Class.define("qx.ui.list.List",
       this.getPane().getRowConfig().setDefaultItemSize(value);
     },
 
+    // apply method
+    _applyGroupRowHeight : function(value, old) {
+      this.__updateGroupRowHeight();
+    },
 
     // apply method
     _applyLabelPath : function(value, old) {
@@ -598,6 +613,26 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
+     * Helper method to update row heights.
+     */
+    __updateGroupRowHeight : function()
+    {
+      var rc = this.getPane().getRowConfig();
+      var gh = this.getGroupItemHeight();
+      rc.resetItemSizes();
+
+      if (gh) {
+        for (var i = 0,l = this.__lookupTable.length; i < l; ++i)
+        {
+          if (this.__lookupTable[i] == -1) {
+            rc.setItemSize(i, gh);
+          }
+        }
+      }
+    },
+
+
+    /**
      * Internal method for building the lookup table.
      */
     __buildUpLookupTable : function()
@@ -619,6 +654,7 @@ qx.Class.define("qx.ui.list.List",
       }
 
       this._updateSelection();
+      this.__updateGroupRowHeight();
       this.__updateRowCount();
     },
 
