@@ -208,7 +208,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
         }
 
         // normalize name
-        name = this.__styleNames[name] || this.__getStyleName(name) || name;
+        name = this.__cssNames[name] || name;
 
         // process special properties
         if (special[name]) {
