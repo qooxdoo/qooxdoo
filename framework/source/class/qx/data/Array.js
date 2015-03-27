@@ -114,7 +114,7 @@ qx.Class.define("qx.data.Array",
   {
     /**
      * The change event which will be fired if there is a change in the array.
-     * The data contains a map with three key value pairs:
+     * The data contains a map with five key value pairs:
      * <li>start: The start index of the change.</li>
      * <li>end: The end index of the change.</li>
      * <li>type: The type of the change as a String. This can be 'add',
