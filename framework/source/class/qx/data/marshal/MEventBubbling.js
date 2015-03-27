@@ -37,7 +37,7 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
      * desired. It is already taken care of that properties created with the
      * {@link qx.data.marshal.Json} marshaler call this method.
      *
-     * The data will contain a map with the following three keys
+     * The data will contain a map with the following four keys
      *   <li>value: The new value of the property</li>
      *   <li>old: The old value of the property.</li>
      *   <li>name: The name of the property changed including its parent
