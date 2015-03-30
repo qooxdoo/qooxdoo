@@ -273,7 +273,7 @@ qx.Class.define("qx.test.bom.Label",
       // test clean string
       var value = "foo<b></b>";
       qx.bom.Label.setValue(element, value);
-      this.assertEquals(qx.bom.Label.getValue(element), value);
+      this.assertEquals(qx.bom.Label.getValue(element).toLowerCase(), value);
 
       // test dirty string
       value = "foo<script></script>";
