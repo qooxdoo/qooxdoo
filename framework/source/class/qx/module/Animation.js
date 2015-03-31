@@ -76,23 +76,6 @@ qx.Bootstrap.define("qx.module.Animation", {
 
     /**
      * Starts the animation with the given description.
-     * The description should be a map, which could look like this:
-     *
-     * <pre class="javascript">
-     * {
-     *   "duration": 1000,
-     *   "keep": 100,
-     *   "keyFrames": {
-     *     0 : {"opacity": 1, "scale": 1},
-     *     100 : {"opacity": 0, "scale": 0}
-     *   },
-     *   "origin": "50% 50%",
-     *   "repeat": 1,
-     *   "timing": "ease-out",
-     *   "alternate": false,
-     *   "delay": 2000
-     * }
-     * </pre>
      *
      * *duration* is the time in milliseconds one animation cycle should take.
      *

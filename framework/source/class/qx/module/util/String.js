@@ -28,9 +28,6 @@ qx.Bootstrap.define("qx.module.util.String", {
     /**
      * Converts a hyphenated string (separated by '-') to camel case.
      *
-     * Example:
-     * <pre class='javascript'>q.string.camelCase("I-like-cookies"); //returns "ILikeCookies"</pre>
-     *
      * @attachStatic {qxWeb, string.camelCase}
      * @param str {String} hyphenated string
      * @return {String} camelcase string
@@ -42,9 +39,6 @@ qx.Bootstrap.define("qx.module.util.String", {
 
     /**
      * Converts a camelcased string to a hyphenated (separated by '-') string.
-     *
-     * Example:
-     * <pre class='javascript'>q.string.hyphenate("weLikeCookies"); //returns "we-like-cookies"</pre>
      *
      * @attachStatic {qxWeb, string.hyphenate}
      * @param str {String} camelcased string
@@ -114,8 +108,6 @@ qx.Bootstrap.define("qx.module.util.String", {
 
     /**
      * Escapes the characters in a <code>String</code> using HTML entities.
-     *
-     * For example: <tt>"bread" & "butter"</tt> => <tt>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</tt>.
      * Supports all known HTML 4.0 entities, including funky accents.
      *
      * @attachStatic {qxWeb, string.escapeHtml}

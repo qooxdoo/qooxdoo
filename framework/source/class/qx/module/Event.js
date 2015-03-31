@@ -273,7 +273,6 @@ qx.Bootstrap.define("qx.module.Event", {
      *
      * *Important:* Make sure you are handing in the *identical* context object to get
      * the correct result. Especially when using a collection instance this is a common pitfall.
-     * Check out the corresponding code sample below to get it right.
      *
      * @attach {qxWeb}
      * @param type {String} Event type, e.g. <code>mousedown</code>

@@ -1,15 +1,16 @@
-addSample(".animate", function() {
+addSample(".animate", function () {
   q('#someElement').animate({
-    'duration': 150,
-    'timing': 'ease-out',
-    'keep': 100,
-    'keyFrames': {
-      0: { 'height': '250px' },
-      100: { 'height': '120px' }
+    "duration": 1000,
+    "keep": 100,
+    "keyFrames": {
+      0: {"opacity": 1, "scale": 1},
+      100: {"opacity": 0, "scale": 0}
     },
-    'repeat': 1,
-    'alternate': false,
-    'delay': 0
+    "origin": "50% 50%",
+    "repeat": 1,
+    "timing": "ease-out",
+    "alternate": false,
+    "delay": 2000
   });
 });
 

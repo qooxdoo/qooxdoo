@@ -21,12 +21,6 @@
  * Provides a way to block elements so they will no longer receive (native)
  * events by overlaying them with a DIV element.
  *
- * The blocker can also be applied to the entire document, e.g.:
- *
- * <pre class="javascript">
- * q(document).block();
- * </pre>
- *
  * @require(qx.module.Environment)
  * @require(qx.module.Manipulating)
  * @require(qx.module.Traversing)

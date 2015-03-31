@@ -20,10 +20,6 @@
  * Module for querying information about the environment / runtime.
  * It adds a static key <code>env</code> to qxWeb and offers the given methods.
  *
- * <pre class="javascript">
- * q.env.get("engine.name"); // return "webkit" e.g.
- * </pre>
- *
  * The following values are predefined:
  *
  * * <code>browser.name</code> : The name of the browser

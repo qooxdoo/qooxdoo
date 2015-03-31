@@ -21,14 +21,6 @@
  * HTML templating module. This is a wrapper for mustache.js which is a
  * "framework-agnostic way to render logic-free views".
  *
- * Here is a basic example how to use it:
- * <pre class="javascript">
- * var template = "Hi, my name is {{name}}!";
- * var view = {name: "qooxdoo"};
- * q.template.render(template, view);
- *   // return "Hi, my name is qooxdoo!"
- * </pre>
- *
  * For further details, please visit the mustache.js documentation here:
  *   https://github.com/janl/mustache.js/blob/master/README.md
  */

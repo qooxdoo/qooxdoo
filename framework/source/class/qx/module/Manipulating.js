@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      * <strong>Note:</strong> When a complex HTML string is provided the <code>innerHTML</code>
      * mechanism of the browser is used. Some browsers do filter out elements like <code>&lt;html&gt;</code>,
      * <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code>. The better approach is to create
-     * a single element and the appending the child nodes like in the example below.
+     * a single element and the appending the child nodes.
      *
      * @attachStatic{qxWeb}
      * @param html {String|Element[]} HTML string or DOM element(s)

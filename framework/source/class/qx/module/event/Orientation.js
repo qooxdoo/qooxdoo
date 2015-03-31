@@ -19,13 +19,6 @@
 
 /**
  * Normalization for orientationchange events
- * Example:
- * <pre class="javascript">
- *   q(window).on("orientationchange", function(ev) {
- *     ev.getOrientation();
- *     ev.isLandscape();
- *   });
- * </pre>
  *
  * @require(qx.module.Event)
  *
