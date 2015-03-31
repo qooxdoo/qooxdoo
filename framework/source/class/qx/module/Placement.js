@@ -83,7 +83,7 @@ qxWeb.define("qx.module.Placement", {
       // make sure the DOM elements are rendered so we can get the size of them.
       // It's not necessary to move them out of the viewport - just out of the
       // layout flow.
-      var visible = this.isRendered() && target.offsetWidth > 0 && target.offsetHeight > 0;
+      var visible = this.isRendered() && this[0].offsetWidth > 0 && this[0].offsetHeight > 0;
       var displayStyleValue = null;
       var visibilityStyleValue = null;
       if (!visible) {
