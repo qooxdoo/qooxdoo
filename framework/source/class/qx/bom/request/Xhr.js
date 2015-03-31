@@ -548,6 +548,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     getResponseHeader: function(header) {
       this.__checkDisposed();
 
+      if (qx.core.Environment.get("browser.documentmode") === 9 &&
+        this.__nativeXhr.aborted)
+      {
+        return "";
+      }
+
       return this.__nativeXhr.getResponseHeader(header);
     },
 
@@ -558,6 +564,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     getAllResponseHeaders: function() {
       this.__checkDisposed();
+
+      if (qx.core.Environment.get("browser.documentmode") === 9 &&
+        this.__nativeXhr.aborted)
+      {
+        return "";
+      }
 
       return this.__nativeXhr.getAllResponseHeaders();
     },
@@ -983,6 +995,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__timeout = true;
 
       // No longer consider request. Abort.
+      nxhr.aborted = true;
       nxhr.abort();
       this.responseText = "";
       this.responseXML = null;
