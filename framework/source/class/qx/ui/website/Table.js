@@ -690,7 +690,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         data = {
           columnName : columnName,
           columnIndex : colIndex,
-          cell : colIndex && colIndex > -1 ? qxWeb(rows[i].cells.item(colIndex)) : null,
+          cell : colIndex > -1 ? qxWeb(rows[i].cells.item(colIndex)) : null,
           row : qxWeb(rows[i]),
           keyword : keyword
         };
