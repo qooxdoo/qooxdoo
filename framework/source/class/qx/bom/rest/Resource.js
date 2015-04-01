@@ -41,69 +41,6 @@
  * if you want to follow RESTful design patterns it is recommended to name actions
  * the same as the HTTP action.
  *
- * <pre class="javascript">
- * var description = {
- *  "get": { method: "GET", url: "/photo/{id}" },
- *  "put": { method: "PUT", url: "/photo/{id}"},
- *  "post": { method: "POST", url: "/photos/"}
- * };
- * var photo = new qx.bom.rest.Resource(description);
- * // Can also be written: photo.invoke("get", {id: 1});
- * photo.get({id: 1});
- *
- * // Additionally sets request data (provide it as string or set the content type)
- * // In a RESTful environment this creates a new resource with the given 'id'
- * photo.configureRequest(function(req) {
- *  req.setRequestHeader("Content-Type", "application/json");
- * });
- * photo.put({id: 1}, {title: "Monkey"});
- *
- * // Additionally sets request data (provide it as string or set the content type)
- * // In a RESTful environment this adds a new resource to the resource collection 'photos'
- * photo.configureRequest(function(req) {
- *  req.setRequestHeader("Content-Type", "application/json");
- * });
- * photo.post(null, {title: "Monkey"});
- * </pre>
- *
- * To check for existence of URL parameters or constrain them to a certain format, you
- * can add a <code>check</code> property to the description. See {@link #map} for details.
- *
- * <pre class="javascript">
- * var description = {
- *  "get": { method: "GET", url: "/photo/{id}", check: { id: /\d+/ } }
- * };
- * var photo = new qx.bom.rest.Resource(description);
- * // photo.get({id: "FAIL"});
- * // -- Error: "Parameter 'id' is invalid"
- * </pre>
- *
- * If your description happens to use the same action more than once, consider
- * defining another resource.
- *
- * <pre class="javascript">
- * var description = {
- *  "get": { method: "GET", url: "/photos"},
- * };
- * // Distinguish "photo" (singular) and "photos" (plural) resource
- * var photos = new qx.bom.rest.Resource(description);
- * photos.get();
- * </pre>
- *
- * Basically, all routes of a resource should point to the same URL (resource in
- * terms of HTTP). One acceptable exception of this constraint are resources where
- * required parameters are part of the URL (<code>/photos/1/</code>) or filter
- * resources. For instance:
- *
- * <pre class="javascript">
- * var description = {
- *  "get": { method: "GET", url: "/photos/{tag}" }
- * };
- * var photos = new qx.bom.rest.Resource(description);
- * photos.get();
- * photos.get({tag: "wildlife"})
- * </pre>
- *
  * Strictly speaking, the <code>photos</code> instance represents two distinct resources
  * and could therefore just as well mapped to two distinct resources (for instance,
  * named photos and photosTagged). What style to choose depends on the kind of data
@@ -128,12 +65,6 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
    *  <code>action</code> name. The value associated to the key must be a map
    *  with the properties <code>method</code> and <code>url</code>.
    *  <code>check</code> is optional. Also see {@link #map}.
-   *
-   * For example:
-   *
-   * <pre class="javascript">
-   * { get: {method: "GET", url: "/photos/{id}", check: { id: /\d+/ }} }
-   * </pre>
    *
    * @see qx.bom.rest
    * @see qx.io.rest
@@ -288,25 +219,6 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @param handler {Map} Map defining callbacks and their context.
      *
-     * For example:
-     *
-     * <pre class="javascript">
-     * {
-     *   onsuccess: {
-     *    callback: function(req, action) { ... },
-     *    context: obj
-     *   }
-     *   onfail: {
-     *    callback: function(req, action) { ... },
-     *    context: obj
-     *   }
-     *   onloadend: {
-     *    callback: function(req, action) { ... },
-     *    context: obj
-     *   }
-     * }
-     * </pre>
-     *
      * @internal
      */
     setRequestHandler: function(handler) {
@@ -317,25 +229,6 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * Provides the request callbacks for 'onsuccess', 'onfail' and 'onloadend'.
      *
      * @return {Map} Map defining callbacks and their context.
-     *
-     * For example:
-     *
-     * <pre class="javascript">
-     * {
-     *   onsuccess: {
-     *    callback: function(req, action) { ... },
-     *    context: obj
-     *   }
-     *   onfail: {
-     *    callback: function(req, action) { ... },
-     *    context: obj
-     *   }
-     *   onloadend: {
-     *    callback: function(req, action) { ... },
-     *    context: obj
-     *   }
-     * }
-     * </pre>
      */
     _getRequestHandler: function() {
       return (this.__requestHandler === null) ? {
@@ -417,14 +310,6 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * @param callback {Function} Function called before request is send.
      *   Receives request, action, params and data.
-     *
-     * <pre class="javascript">
-     * res.configureRequest(function(req, action, params, data) {
-     *   if (action === "index") {
-     *     req.setRequestHeader("Accept", "application/json");
-     *   }
-     * });
-     * </pre>
      */
     configureRequest: function(callback) {
       this.__configureRequestCallback = callback;
@@ -465,13 +350,6 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
 
     /**
      * Map action to combination of method and URL pattern.
-     *
-     * <pre class="javascript">
-     *   res.map("get", "GET", "/photos/{id}", {id: /\d+/});
-     *
-     *   // GET /photos/123
-     *   res.get({id: "123"});
-     * </pre>
      *
      * @param action {String} Action to associate to request.
      * @param method {String} Method to configure request with.
@@ -686,19 +564,6 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
 
     /**
      * Abort action.
-     *
-     * Example:
-     *
-     * <pre class="javascript">
-     *   // Abort all invocations of action
-     *   res.get({id: 1});
-     *   res.get({id: 2});
-     *   res.abort("get");
-     *
-     *   // Abort specific invocation of action (by id)
-     *   var actionId = res.get({id: 1});
-     *   res.abort(actionId);
-     * </pre>
      *
      * @param varargs {String|Number} Action of which all invocations to abort
      *  (when string), or a single invocation of an action to abort (when number)
