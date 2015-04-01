@@ -690,7 +690,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         data = {
           columnName : columnName,
           columnIndex : colIndex,
-          cell : colIndex ? qxWeb(rows[i].cells.item(colIndex)) : null,
+          cell : colIndex && colIndex > -1 ? qxWeb(rows[i].cells.item(colIndex)) : null,
           row : qxWeb(rows[i]),
           keyword : keyword
         };
@@ -1435,7 +1435,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {String} The text content of the cell
      */
     __getCellValue : function(cell) {
-      return cell.getTextContent() || "";
+      return cell[0].textContent || cell[0].innerText || "";
     },
 
 
