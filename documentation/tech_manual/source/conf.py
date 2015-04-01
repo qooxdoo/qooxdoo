@@ -38,7 +38,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'qooxdoo'
-copyright = u'2013, qooxdoo developers'
+copyright = u'2013-2015, qooxdoo developers'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -234,7 +234,7 @@ qxcomponents = 'all'
 def setup(app):
     app.connect('source-read', qxmacro_resolve)
     app.add_config_value('qxcomponents', 'all', 'env')
-    
+
 ##
 # qooxdoo macro extension
 import string
