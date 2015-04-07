@@ -81,6 +81,9 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._img, "src", imgSrc);
       this.assertEquals(imgSrc, this._img.getAttribute("src", 2));
 
+      Attribute.set(this._el, "data-foo", true);
+      this.assertEquals("true", this._el.getAttribute("data-foo"));
+
     },
 
     testSetAttributeWithUndefinedValue : function()

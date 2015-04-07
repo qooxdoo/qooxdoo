@@ -311,11 +311,14 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       }
       else
       {
-        if (value === true) {
+        if (typeof value === "boolean" && name.indexOf("data-") !== 0) {
+          if (value === true) {
           element.setAttribute(name, name);
-        } else if (value === false || value === null) {
-          element.removeAttribute(name);
-        } else {
+          } else if (value === false || value === null) {
+            element.removeAttribute(name);
+          }
+        }
+        else {
           element.setAttribute(name, value);
         }
       }
