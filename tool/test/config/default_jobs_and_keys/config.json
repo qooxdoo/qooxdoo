@@ -9,14 +9,13 @@
   ]
 
   ,"export" :  // run these exported jobs
-  [     
+  [
     /* default jobs - other standard jobs like source, build, ... are covered
        by normal app testing */
     "api",
     //"api-data",
     "fix",
     "info",
-    "inspector",
     "lint",
     "pretty",
     "test",
@@ -55,22 +54,22 @@
   {
     "_default-settings"  :
     {
-      "cache" : { "compile" : "${CACHE}" }  
+      "cache" : { "compile" : "${CACHE}" }
     }
-    
+
     ,"log-classes-unused" :
     {
       //"extend" : [ "scan-local-lib" ],
       "extend" : [ "source" ],
       "log" : { "classes-unused" : [ "${APPLICATION}.*" ] }
     }
-    
+
     // -- Dependency Logging ----------------------------------------
 
     // test job for manual testing (uncomment in "export" to use)
-    ,"test-dep-logging" : 
+    ,"test-dep-logging" :
     {
-      "run" : 
+      "run" :
       [
         "log1" ,
         "log2" ,
@@ -95,7 +94,7 @@
         }
       }
     }
-    
+
     // -- using --
 
     ,"log1" :
@@ -158,6 +157,6 @@
     {
       "extend" : ["cache", "libraries", "includes", "log-dot"],
       "log" : { "dependencies" : { "type" : "used-by", "format" : "dot" }}
-    }    
+    }
   }
 }

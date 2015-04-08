@@ -48,13 +48,13 @@
 #  is a Json format with entries like this:
 #
 #  "Feedreader": {
-#    "BuildError": null, 
-#    "BuildFinished": "2012-02-28_22-17-16", 
-#    "BuildJob": "build,source", 
-#    "BuildStarted": "2012-02-28_22-15-55", 
-#    "BuildWarning": "    - Warning: qx.core.Environment call with non-literal key (qx.bom.request.Script:621)", 
+#    "BuildError": null,
+#    "BuildFinished": "2012-02-28_22-17-16",
+#    "BuildJob": "build,source",
+#    "BuildStarted": "2012-02-28_22-15-55",
+#    "BuildWarning": "    - Warning: qx.core.Environment call with non-literal key (qx.bom.request.Script:621)",
 #    "GitRevision": "79fcdbd"
-#  }, 
+#  },
 #
 #  The start and end times of these build runs are extracted for our suite of
 #  standard apps, like Feedreader, Demobrowser, FrameworkUnitTests, asf. The
@@ -90,7 +90,6 @@
 #        DS:playground:GAUGE:172800:U:U \
 #        DS:apiviewer:GAUGE:172800:U:U \
 #        DS:portal:GAUGE:172800:U:U \
-#        DS:inspector:GAUGE:172800:U:U \
 #        RRA:AVERAGE:0.5:1:28 \                # keep 4 weeks of measurements individually
 #        RRA:AVERAGE:0.5:3:90 \                # average 3 days and keep 3 month worth of these
 #        RRA:AVERAGE:0.5:6:60                  # average over 6 and keep roughly a year worth
@@ -103,7 +102,7 @@
 #  Update like this:
 #
 #    rrdtool update nightly_builds.rrd 1292676240:246:1565:205:425:428:164:117:230
-#                        # timestamp:feedreader:demobrowser:showcase:framework-tests:playground:apiviewer:portal:inspector
+#                        # timestamp:feedreader:demobrowser:showcase:framework-tests:playground:apiviewer:portal
 #
 #  Check contents
 #
@@ -124,7 +123,6 @@
 #    DEF:playground=nightly_builds.rrd:playground:AVERAGE LINE2:playground#555555:Playground \
 #    DEF:apiviewer=nightly_builds.rrd:apiviewer:AVERAGE LINE2:apiviewer#9933FF:Apiviewer \
 #    DEF:portal=nightly_builds.rrd:portal:AVERAGE LINE2:portal#00FFFF:Widgetbrowser  \
-#    DEF:inspector=nightly_builds.rrd:inspector:AVERAGE LINE2:inspector#FF9933:MobileShowcase
 #
 #    (For the actual used graph command see the template in the graph()
 #    routine).
@@ -189,7 +187,7 @@ def processCompileEnd(tokens):
         appfacts = apps[appname]
         appfacts['etime'] = endtime
 
-        format = "%Y-%m-%d_%H:%M:%S" 
+        format = "%Y-%m-%d_%H:%M:%S"
         begin = datetime.datetime.strptime(appfacts['stime'], format)
         end   = datetime.datetime.strptime(appfacts['etime'], format)
         duration_secs = timedelta_to_seconds(end - begin)
@@ -222,8 +220,8 @@ def parseTestLog(testlog):
 def parseTestJson(jsonString):
     apps = {}
     jData = json.loads(jsonString)
-    format_in = "%Y-%m-%d_%H-%M-%S" 
-    format_out = "%Y-%m-%d_%H:%M:%S" 
+    format_in = "%Y-%m-%d_%H-%M-%S"
+    format_out = "%Y-%m-%d_%H:%M:%S"
     for app, appVals in jData.items():
         if appVals['BuildError'] != None:
             continue
@@ -326,14 +324,14 @@ def processDurations(apps):
 def updateRRD(apps, tstamp=None):
     rrd_apps = ( # ((<script-identifier>, <log-data-identifier>))
         # order must match order of DS's in rrdtool create command!
-        ("feedreader", "Feedreader"), 
+        ("feedreader", "Feedreader"),
         ("demobrowser" , "Demobrowser"),
         ("showcase" , "Showcase"),
         ("framework-tests" , "FrameworkUnitTests"),
         ("playground" , "Playground"),
         ("apiviewer" , "FrameworkAPI"),
         ("portal" , "Widgetbrowser"),
-        ("inspector", "MobileShowcase"),
+        ("MobileShowcase"),
         )
 
     upd_cmd ="rrdtool update %s " % rrd_db_name
@@ -390,8 +388,6 @@ def graph(args, opts):
     CDEF:mapiviewer=apiviewer,60,/ LINE2:mapiviewer#9933FF:Apiviewer \
     DEF:portal=%(rrd_db)s:portal:AVERAGE \
     CDEF:mportal=portal,60,/ LINE2:mportal#00FFFF:Widgetbrowser  \
-    DEF:inspector=%(rrd_db)s:inspector:AVERAGE \
-    CDEF:minspector=inspector,60,/ LINE2:minspector#FF9933:MobileShowcase \
     DEF:demobrowser=%(rrd_db)s:demobrowser:AVERAGE \
     CDEF:mdemobrowser=demobrowser,60,/ LINE2:mdemobrowser#00FF00:Demobrowser \
     '''
@@ -427,7 +423,7 @@ def graph(args, opts):
     rc = os.system(one_year_stats)
     assert rc == 0
     print "  generating one_year_stats.png"
-    
+
     return
 
 

@@ -19,9 +19,8 @@ which you use during your development activities (and referred to as the
 "generator"), e.g. to build a running application from your source code.
 
 Browser-based tools run in a web browser. Among them are the Apiviewer, which
-provides an interactive API reference, the Testrunner, which allows running
-your unit test in a GUI, or the Inspector, which allows to inspect the visual
-elements of your application and manipulate their properties.
+provides an interactive API reference, and the Testrunner, which allows running
+your unit test in a GUI.
 
 As the browser-based applications are mostly described elsewhere, this section
 deals mainly with the command-line tools. It also provides a general
@@ -131,6 +130,5 @@ manual. Here are some pointers:
 
 * :doc:`application/apiviewer`
 * :doc:`development/frame_apps_testrunner`
-* :doc:`application/inspector`
 * :doc:`development/simulator`
 

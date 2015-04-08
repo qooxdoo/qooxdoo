@@ -22,7 +22,7 @@ The qooxdoo SDK has a dedicated ``tool`` folder that contains all elements that 
      |- data  -- various data files
      |- pylib -- Python modules
 
-The generator is actually the program ``tool/bin/generator.py``. 
+The generator is actually the program ``tool/bin/generator.py``.
 
 .. _pages/tool/generator/generator_usage#generate.py:
 
@@ -46,7 +46,7 @@ Since the generator is nearly completely driven by its configuration files, ther
   Arguments:
     job,...               a list of jobs (like 'source' or 'copy-files',
                           without the quotes) to run
-    x                     use 'x' (or some undefined job name) to get a 
+    x                     use 'x' (or some undefined job name) to get a
                           list of all available jobs from the configuration file
 
   Options:
@@ -111,7 +111,6 @@ This gives you a list of all jobs available through your current config file, ma
     - clean        -- remove local cache and generated .js files (source/build)
     - distclean    -- remove the cache and all generated artefacts of this library...
     - fix          -- normalize whitespace in .js files of the current library ...
-    - inspector    -- (since 0.8.2) create an inspector instance in the current library
     - lint         -- check the source code of the .js files of the current library
     - migration    -- migrate the .js files of the current library to the current ...
     - pretty       -- pretty-formatting of the source code of the current library

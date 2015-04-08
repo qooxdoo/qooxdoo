@@ -144,7 +144,7 @@ How Job References are Resolved
 How to add a new Component
 ==========================
 
-qooxdoo comes with a set of helper applications, so called "components", that can be custom-build for any standard application. Examples are the Apiviewer, Testrunner and Inspector. Suppose we had a new such component, how would this be made available as a standard job to skeleton-based applications? This section provides an implementation view to the more end-user oriented introduction :ref:`here <pages/tool/generator/generator_config_articles#include_key_top-level_-_adding_features>`.
+qooxdoo comes with a set of helper applications, so called "components", that can be custom-build for any standard application. Examples are the API Viewer and Test Runner. Suppose we had a new such component, how would this be made available as a standard job to skeleton-based applications? This section provides an implementation view to the more end-user oriented introduction :ref:`here <pages/tool/generator/generator_config_articles#include_key_top-level_-_adding_features>`.
 
 .. _pages/generator_config_background#basics:
 

@@ -38,7 +38,6 @@
       "distclean",
       "fix",
       "info",
-      "inspector",
       "lint",
       "migration",
       "pretty",
@@ -73,7 +72,7 @@
   "jobs" :
   {
     "libraries" : {
-      "extend" : [ "apicnf::libraries" ]  
+      "extend" : [ "apicnf::libraries" ]
     },
 
     "source" :

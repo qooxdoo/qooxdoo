@@ -125,17 +125,6 @@ Developer Tools
   .. toctree::
      :maxdepth: 1
 
-     application/inspector
-
-  ..
-
-    A debugging tool to inspect a qooxdoo application, featuring an interactive console, an object and widget finder, and a property editor.
-
-    `Online demo <http://demo.qooxdoo.org/%{version}/inspector>`__
-
-  .. toctree::
-     :maxdepth: 1
-
      development/simulator
 
   ..

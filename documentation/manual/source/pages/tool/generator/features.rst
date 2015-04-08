@@ -66,14 +66,6 @@ File Watching
 
 TBD [Watching files or directory trees for changes, and take a predefined action like re-generating an application, compile Less to Css files, or run a documentation generator.]
 
-Application Development
-=======================
-
-Inspector Console
--------------------
-
-The Generator allows the creation of an inspector that can load the actual application and provides various console views to inspect and tweak it. E.g. it exposes the object hierarchy of qooxdoo classes, gives access to each class' properties, etc.
-
 Code Maintenance
 ==================
 
@@ -178,7 +170,7 @@ Logging and Reporting
 Dependency Logging
 ---------------------
 
-Dependency relations between classes can be logged in several formats, json, flare, graphviz/dot or formatted text. 
+Dependency relations between classes can be logged in several formats, json, flare, graphviz/dot or formatted text.
 
 Library Classes
 -----------------

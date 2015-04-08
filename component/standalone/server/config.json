@@ -35,7 +35,7 @@
     "test-source",
     "validate-config"
   ],
-  
+
   "default-job" : "build",
 
   "let" :
@@ -55,7 +55,7 @@
 
   "config-warnings" :
   {
-    "job-shadowing" : 
+    "job-shadowing" :
     [
       "api",
       "apiconf::build-data",
@@ -67,7 +67,7 @@
   "jobs" :
   {
     // -- npm jobs -------------------------------------------------------------
-    
+
     "npm-package-copy" :
     {
       "desc" : "create an NPM package",
@@ -131,7 +131,7 @@
       "extend" : ["qxoo-common"],
       "compile-options": { "code" : { "optimize" : ["variants"] }}
     },
-    
+
     "test" :
     {
       "let" :
@@ -139,15 +139,15 @@
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "BUILD_SCRIPT_FILE" : "test/script/testrunner.js"
       },
-      
+
       "run" :
       [
         "build-basic-portable",
         "test-replace"
       ]
     },
-    
-    "test-replace" : 
+
+    "test-replace" :
     {
       "extend" : ["cache"],
       "shell" : {
@@ -155,12 +155,12 @@
       }
     },
 
-    "distclean" : 
+    "distclean" :
     {
       "extend" : ["clean"]
     },
 
-    "clean" : 
+    "clean" :
     {
       "=clean-files" :
       {
@@ -181,10 +181,6 @@
           "${ROOT}/test/script",
           "${ROOT}/test/npm/node_modules",
           "${ROOT}/npm/build"
-        ],
-        "Deleting inspector folder" :
-        [
-          "${ROOT}/inspector"
         ],
         "Deleting simulator folder" :
         [

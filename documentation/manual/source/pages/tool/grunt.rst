@@ -129,8 +129,7 @@ grunt clean:app                \-                                       *removes
 grunt clean:build              generate.py clean                        *removes only build dir / Generator removes build and source/script!*
 grunt clean:source             generate.py clean                        *removes only source/script dir / Generator removes build and source/script!*
 grunt clean:api                \-                                       *removes only api dir*
-grunt clean:test               \-                                       *removes only test dir*
-grunt clean:inspector          \-                                       *removes only inspector dir*
+grunt clean:test               \-                                       *removes only test dir*dir*
 grunt clean:cache              \-                                       *removes only global cache dir*
 grunt generate:source          generate.py source                       *all jobs are also available via generate:{jobName}*
 ============================   ======================================   ===========================================

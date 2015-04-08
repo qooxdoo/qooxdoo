@@ -571,10 +571,6 @@
         [
           "${ROOT}/test"
         ],
-        "Deleting inspector folder" :
-        [
-          "${ROOT}/inspector"
-        ],
         "Deleting simulator folder" :
         [
           "${ROOT}/simulator"

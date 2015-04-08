@@ -93,7 +93,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = websitewidgetbrowser tutorial todo feedreader mobileshowcase playground showcase widgetbrowser github demobrowser
 APPLICATIONS_SCSS = mobileshowcase playground feedreader tutorial
-COMPONENTS = apiviewer testrunner inspector server website
+COMPONENTS = apiviewer testrunner server website
 COMPONENTS_SCSS = testrunner
 FRAMEWORK_TARGETS = api test test-mobile dependencies
 TUTORIALS = mobiletweets tweets website
@@ -253,24 +253,7 @@ exec-server-build:
 showcase:
 	@time ( cd application/showcase && $(CMD_GENERATOR) build ) || exit 1
 
-#################################################################################
-## INSPECTOR TARGETS
-#################################################################################
-#
-#info-inspector:
-#	@echo
-#	@echo "****************************************************************************"
-#	@echo "  GENERATING INSPECTOR COMPONENT"
-#	@echo "****************************************************************************"
-#
-#
-#inspector: info-inspector exec-inspector-build
-#
-#exec-inspector-build:
-#	@time ( cd component/inspector && $(CMD_GENERATOR) build ) || exit 1
-#
-#
-#
+
 #################################################################################
 ## TESTRUNNER TARGETS
 #################################################################################
@@ -380,7 +363,7 @@ lint-apps:
 # The next contains a near copy of build-tutorials
 lint-components:
 	@for COMPONENT in $(COMPONENTS); do \
-		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" || "$$COMPONENT" = "inspector" ]]; then \
+		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" ]]; then \
 			( cd component/$$COMPONENT && $(CMD_GENERATOR) lint ) \
 		fi; \
 	done
@@ -411,7 +394,7 @@ fix-apps:
 # The next contains a near copy of build-tutorials
 fix-components:
 	@for COMPONENT in $(COMPONENTS); do \
-		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" || "$$COMPONENT" = "inspector" ]]; then \
+		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" ]]; then \
 			( cd component/$$COMPONENT && $(CMD_GENERATOR) fix ) \
 		fi; \
 	done
@@ -440,7 +423,7 @@ translate-apps:
 
 translate-components:
 	@for COMPONENT in $(COMPONENTS); do \
-		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" || "$$COMPONENT" = "inspector" ]]; then \
+		if [[ "$$COMPONENT" = "apiviewer" || "$$COMPONENT" = "testrunner" ]]; then \
 			( cd component/$$COMPONENT && $(CMD_GENERATOR) translation ) \
 		fi; \
 	done
@@ -805,9 +788,7 @@ components-publish:
 	@echo "  * Syncing components..."
 	@for COMPONENT in $(COMPONENTS); do \
 		echo "    - $$COMPONENT..."; \
-		if [ "$$COMPONENT" = "inspector" ]; then \
-			$(CMD_SYNC_ONLINE) component/$$COMPONENT/build/* $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT || exit 1; \
-		elif [ "$$COMPONENT" = "testrunner" ]; then \
+		if [ "$$COMPONENT" = "testrunner" ]; then \
 			$(CMD_SYNC_ONLINE) component/testrunner/build/script/$$COMPONENT-portable.js $(STAGING_HOST):/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$COMPONENT/script/$$COMPONENT-portable.js || exit 1; \
 		elif [ "$$COMPONENT" = "website" ]; then \
 			WS="component/standalone/$$COMPONENT/script"; \
@@ -894,10 +875,7 @@ check-apps:
 
 check-components:
 	@for TARGET in $(COMPONENTS); do \
-		if [ "$$TARGET" = "inspector" ]; then \
-			F="component/$$TARGET/build/script/$$TARGET.js"; \
-			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
-		elif [ "$$TARGET" = "testrunner" ]; then \
+		if [ "$$TARGET" = "testrunner" ]; then \
 			F="component/$$TARGET/build/script/$$TARGET.js"; \
 			[ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); \
 			F="component/testrunner/build/script/$$TARGET-portable.js"; \

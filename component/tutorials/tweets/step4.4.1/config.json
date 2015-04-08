@@ -16,7 +16,6 @@
     "distclean",
     "fix",
     "info",
-    "inspector",
     "lint",
     "migration",
     "pretty",
@@ -40,7 +39,7 @@
     "ROOT"         : "."
   },
 
-  "config-warnings" : 
+  "config-warnings" :
   {
     "job-shadowing" : ["simulation-run"]
   },
@@ -51,7 +50,7 @@
     {
       "let" :
       {
-        "SIMULATOR_CLASSPATH" : 
+        "SIMULATOR_CLASSPATH" :
         [
           "../selenium-java-2.5.0.jar",
           "../libs/*",

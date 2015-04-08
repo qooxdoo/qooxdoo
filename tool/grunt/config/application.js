@@ -75,12 +75,10 @@ var getConfig = function() {
       build: ["<%= common.BUILD_PATH %>"],
       api: ["<%= common.ROOT %>/api"],
       test: ["<%= common.ROOT %>/test"],
-      inspector: ["<%= common.ROOT %>/inspector"],
       app: ["<%= common.SOURCE_PATH %>/script",
               "<%= common.BUILD_PATH %>",
               "<%= common.ROOT %>/api",
-              "<%= common.ROOT %>/test",
-              "<%= common.ROOT %>/inspector"],
+              "<%= common.ROOT %>/test"],
       cache: ["<%= common.CACHE_KEY.compile %>",
               "<%= common.CACHE_KEY.downloads %>"]
     },

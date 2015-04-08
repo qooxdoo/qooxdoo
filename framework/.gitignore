@@ -1,7 +1,6 @@
 # .gitignore template for skeleton-based apps
 /api/
 /build/
-/inspector/
 /provider/
 /qxoo_api/
 /simulator/

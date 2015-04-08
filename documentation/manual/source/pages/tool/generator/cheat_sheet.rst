@@ -56,8 +56,6 @@ Default Jobs
       - normalize whitespace in .js files of the current library (tabs, eol, ...)
     * - info
       - collects environment information like the qooxdoo version etc., and prints it out
-    * - inspector
-      - create an inspector instance in the current library
     * - lint
       - check the source code of the .js files of the current library
     * - migration

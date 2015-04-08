@@ -136,17 +136,6 @@ Running this job will print out various information about your setup on the
 console. Information includes your qooxdoo and Python version, whether source
 and/or build version of your app has been built, stats on the cache, asf.
 
-.. _pages/tool/generator/generator_default_jobs#inspector:
-
-inspector
----------
-Create an instance of the Inspector in the current application. The inspector is
-a debugging tool that allows you to inspect your custom application while
-running. You need to run the *source* job first, the run the *inspector* job.
-You will then be able to open the file ``source/inspector.html`` in your
-browser. The source version of your application will be loaded into the
-inspector automatically.
-
 .. _pages/tool/generator/generator_default_jobs#lint:
 
 lint

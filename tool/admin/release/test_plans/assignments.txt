@@ -17,7 +17,7 @@ Core
   Migration
   Contrib
 
-Desktop and Website (without inspector)
+Desktop and Website
   - FF stable
   - Chrome Stable
   - IE11
@@ -26,7 +26,6 @@ Desktop and Website (without inspector)
   - Android 4.x
   - IE10
   - IE8
-  - Inspector (1-2 Browser)
 
 Mobile
   - iOS7 (iPad)
