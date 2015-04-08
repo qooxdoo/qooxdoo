@@ -91,7 +91,7 @@ CMD_SYNC_BACKUP_WWW = $(CMD_NICE) rsync --recursive --verbose
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = websitewidgetbrowser tutorial todo feedreader mobileshowcase playground showcase widgetbrowser featureconfigeditor github demobrowser
+APPLICATIONS = websitewidgetbrowser tutorial todo feedreader mobileshowcase playground showcase widgetbrowser github demobrowser
 APPLICATIONS_SCSS = mobileshowcase playground feedreader tutorial
 COMPONENTS = apiviewer testrunner inspector server website
 COMPONENTS_SCSS = testrunner
@@ -880,9 +880,7 @@ check-banner:
 
 check-apps:
 	@for TARGET in $(APPLICATIONS); do \
-		if [ "$$TARGET" = "featureconfigeditor" ] ; then \
-			F="application/$$TARGET/build/script/fce.js"; \
-		elif [ "$$TARGET" = "mobileshowcase" ] ; then \
+		if [ "$$TARGET" = "mobileshowcase" ] ; then \
 			F="application/$$TARGET/build-indigo/script/$$TARGET.js"; \
 		elif [ "$$TARGET" = "todo" ] ; then \
 			F="application/$$TARGET/$$TARGET.js"; \

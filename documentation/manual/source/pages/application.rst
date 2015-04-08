@@ -21,7 +21,7 @@ Demo Applications
   ..
 
     Contains many examples and tests for widgets, layouts and other framework functionality.
-    
+
     `Online demo <http://demo.qooxdoo.org/%{version}/demobrowser>`__
 
 .. toctree::
@@ -32,7 +32,7 @@ Demo Applications
 ..
 
   A typical rich internet application (RIA) for displaying RSS feeds.
-  
+
   `Online demo <http://demo.qooxdoo.org/%{version}/feedreader>`__
 
 .. toctree::
@@ -43,7 +43,7 @@ Demo Applications
 ..
 
   Explore qooxdoo programming interactively: edit qooxdoo code in one pane, and see the result running in another.
-  
+
   `Online demo <http://demo.qooxdoo.org/%{version}/playground>`__
 
 .. toctree::
@@ -67,7 +67,7 @@ Demo Applications
 ..
 
   A online tutorial application which contains mobile and desktop tutorial.
-  
+
   `Online demo <http://demo.qooxdoo.org/%{version}/tutorial>`__
 
 .. toctree::
@@ -78,7 +78,7 @@ Demo Applications
 ..
 
   A page-style application embedding a number of small showcase applications to highlight specific topics like tables, theming or internationalization.
-  
+
   `Online demo <http://demo.qooxdoo.org/%{version}/showcase>`__
 
 .. toctree::
@@ -106,7 +106,7 @@ Developer Tools
 ..
 
   Searchable API reference of the qooxdoo framework.
-  
+
   `Online demo <http://demo.qooxdoo.org/%{version}/apiviewer>`__
 
 .. ifconfig:: qxcomponents in ('all', 'mobile', 'gui', 'website')
@@ -119,7 +119,7 @@ Developer Tools
   ..
 
     Integrated unit testing framework similar to (but not requiring) JSUnit.
-    
+
     `Online demo <http://demo.qooxdoo.org/%{version}/testrunner>`__
 
   .. toctree::
@@ -130,7 +130,7 @@ Developer Tools
   ..
 
     A debugging tool to inspect a qooxdoo application, featuring an interactive console, an object and widget finder, and a property editor.
-    
+
     `Online demo <http://demo.qooxdoo.org/%{version}/inspector>`__
 
   .. toctree::
@@ -141,15 +141,3 @@ Developer Tools
   ..
 
     A framework to develop simulated interaction tests, using `Selenium <http://seleniumhq.org>`__.
-    
-
-  .. toctree::
-     :maxdepth: 1
-
-     application/featureconfigeditor
-
-  ..
-
-    Editing tool for environment configurations used for browser-specific builds.
-    
-    `Online demo <http://demo.qooxdoo.org/%{version}/featureconfigeditor>`__

@@ -794,13 +794,3 @@ you have two new files (``build/script/myapp_bar.js``,
 
 You can change the ``build/index.html`` manually but it gets overridden every
 time. This can be a workaround for the time being.
-
-.. _pages/tool/generator/generator_config_articles#browser-specific_builds:
-
-Browser-specific Builds
------------------------
-
-By predefining select environment keys, builds can be tailored towards specific
-clients. See the :ref:`Feature Configuration Editor article
-<pages/application/featureconfigeditor#featureconfigeditor>` for instructions.
-
