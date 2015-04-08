@@ -121,7 +121,7 @@ class Manifest(object):
                 "info": {
                     "type": "object",
                     "required": ["name", "description", "homepage", "license",
-                                 "authors", "version", "qooxdoo-versions"],
+                                 "authors", "version", "qooxdoo-versions", "category"],
                     "properties": {
                         "name": {
                             "type": "string",
