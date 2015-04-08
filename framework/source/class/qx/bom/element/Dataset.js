@@ -53,10 +53,11 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
           element.dataset[name] = value;
         }
       } else {
-        if (value === undefined) {
-          value = null;
+        if ((value === null) || (value == undefined)) {
+          qx.bom.element.Attribute.reset(element, "data-" + qx.lang.String.hyphenate(name));
+        } else {
+          qx.bom.element.Attribute.set(element, "data-" + qx.lang.String.hyphenate(name), value);
         }
-        qx.bom.element.Attribute.set(element, "data-" + qx.lang.String.hyphenate(name), value);
       }
     },
 
