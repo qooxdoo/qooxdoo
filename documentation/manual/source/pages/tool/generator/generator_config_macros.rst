@@ -133,24 +133,6 @@ This page lists the macros which are pre-defined in qooxdoo, and can (mostly) be
       - application root dir (rel. to config dir)
       - "."
 
-    * - .. _pages/tool/generator/generator_config_macros#simulation_include:
-
-        SIMULATION_INCLUDE
-      - class pattern to search for GUI test classes (deprecated)
-      - "${APPLICATION}.simulation.*"
-
-    * - .. _pages/tool/generator/generator_config_macros#simulator_classpath:
-
-        SIMULATOR_CLASSPATH
-      - Java classpath argument for GUI test runner
-      - "${SIMULATOR_ROOT}/tool/js.jar: ${SIMULATOR_ROOT}/tool/selenium-java-client-driver.jar"
-
-    * - .. _pages/tool/generator/generator_config_macros#simulator_root:
-
-        SIMULATOR_ROOT
-      - path to the framework's simulator component
-      - "${QOOXDOO_PATH}/ component/ simulator"
-
     * - .. _pages/tool/generator/generator_config_macros#source_server_port:
 
         SOURCE_SERVER_PORT

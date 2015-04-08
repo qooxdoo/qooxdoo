@@ -1206,30 +1206,6 @@ and it will work from everywhere.
 
 * **command-not-found** : message string to be shown if command is not found within PATH system variable and it's not a built-in shell command
 
-.. _pages/tool/generator/generator_config_ref#simulate:
-
-simulate (deprecated)
-=====================
-
-Runs a suite of GUI tests (simulated interaction). Takes a map.
-
-::
-
-  "simulate" :
-  {
-    "java-classpath" : ["../rhino/js.jar", "../selenium/selenium-java-client-driver.jar"],
-    "qxselenium-path" : "${SIMULATOR_ROOT}/tool",
-    "rhino-class" : "org.mozilla.javascript.tools.shell.Main",
-    "simulator-script" : "${BUILD_PATH}/script/simulator.js"
-  }
-
-Possible keys are
-
-* **java-classpath** *(required)*: Java classpath argument for Rhino application. Takes an Array. Must point to the Selenium client driver and Rhino JARs. (default: *${SIMULATOR_CLASSPATH}*)
-* **qxselenium-path** *(required)*: Location of the QxSelenium Java class. (default: *${SIMULATOR_ROOT}/tool*)
-* **rhino-class** *(required)*: Full name of the Mozilla Rhino class that should be used to run the simulation. Set to *org.mozilla.javascript.tools.debugger.Main* to run the test application in Rhino's visual debugger. (default: *org.mozilla.javascript.tools.shell.Main*)
-* **simulator-script** *(required)*: Path of the compiled Simulator application to be run. (default: *${ROOT}/simulator/script/simulator.js*)
-
 .. _pages/tool/generator/generator_config_ref#slice-images:
 
 slice-images

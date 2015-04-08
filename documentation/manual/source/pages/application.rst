@@ -121,12 +121,3 @@ Developer Tools
     Integrated unit testing framework similar to (but not requiring) JSUnit.
 
     `Online demo <http://demo.qooxdoo.org/%{version}/testrunner>`__
-
-  .. toctree::
-     :maxdepth: 1
-
-     development/simulator
-
-  ..
-
-    A framework to develop simulated interaction tests, using `Selenium <http://seleniumhq.org>`__.

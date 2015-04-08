@@ -181,10 +181,6 @@
           "${ROOT}/test/script",
           "${ROOT}/test/npm/node_modules",
           "${ROOT}/npm/build"
-        ],
-        "Deleting simulator folder" :
-        [
-          "${ROOT}/simulator"
         ]
       }
     }

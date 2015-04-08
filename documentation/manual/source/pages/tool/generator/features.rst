@@ -124,12 +124,6 @@ Unit Tests
 
 An "Application Under Test" can be generated, combining application test classes and classes from qooxdoo's unit testing framework into a runnable application. To control the testing, both command-line as well as browser-based runners are available.
 
-GUI Tests
--------------
-
-qooxdoo supports testing browser applications with Selenium. The generator can generate the necessary client driver scripts from dedicated application and framework classes that can then be run with e.g. Node.js.
-
-
 Internationalization
 =====================
 

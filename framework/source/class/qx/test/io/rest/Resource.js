@@ -79,12 +79,6 @@ qx.Class.define("qx.test.io.rest.Resource",
       });
     },
 
-    __skip : function() {
-      if (qx.core.Environment.get("browser.name") == "safari" &&
-          qx.core.Environment.get("os.name") == "osx") {
-        this.require(["noSelenium"]);
-      }
-    },
 
     //
     // Configuration
@@ -600,7 +594,6 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: poll action": function() {
-      this.__skip();
       var res = this.res,
           sandbox = this.getSandbox();
 
@@ -659,7 +652,6 @@ qx.Class.define("qx.test.io.rest.Resource",
     },
 
     "test: poll action repeatedly ends previous timer": function() {
-      this.__skip();
       var res = this.res,
           sandbox = this.getSandbox(),
           msg;

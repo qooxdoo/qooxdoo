@@ -164,8 +164,7 @@
         "exclude" :
         [
           "qx.test.*",
-          "${APPLICATION}.test.*",
-          "${APPLICATION}.simulation.*"
+          "${APPLICATION}.test.*"
         ],
         "environment" :
         [
@@ -182,8 +181,7 @@
       "exclude" :
       [
         "qx.test.*",
-        "${APPLICATION}.test.*",
-        "${APPLICATION}.simulation.*"
+        "${APPLICATION}.test.*"
       ],
 
       "compile-options" :
@@ -359,10 +357,10 @@
     {
       // will only run when invoked from "provider"
       "config-warnings" : {
-        "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+        "exclude" : [ "${APPLICATION}.test.*" ]
       }
       ,"include" : [ "=${APPLICATION}.*" ]
-      ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+      ,"exclude" : [ "${APPLICATION}.test.*" ]
 
       ,"log" :
       {
@@ -384,7 +382,7 @@
     {
       // will only run when invoked from "provider"
       "config-warnings" : {
-        "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+        "exclude" : [ "${APPLICATION}.test.*" ]
       }
       ,"compile-options" :
       {
@@ -397,7 +395,7 @@
       }
 
       ,"include" : [ "${APPLICATION}.*" ]
-      ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+      ,"exclude" : [ "${APPLICATION}.test.*" ]
 
       ,"environment" :
       {
@@ -412,7 +410,7 @@
       {
         "app-root" : "${PROVIDER_ROOT}",
         "include"  : ["${APPLICATION}.*"],
-        "exclude"  : ["${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+        "exclude"  : ["${APPLICATION}.test.*" ],
         "compile"  : ["source", "build"]
       }
     },
@@ -424,10 +422,10 @@
       ,"extend" : ["cache", "libraries"]
       ,"config-warnings" : {
         "include" : false,
-        "exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+        "exclude" : [ "${APPLICATION}.test.*" ]
       }
       ,"include" : [ "=${APPLICATION}.*" ]
-      ,"exclude" : [ "${APPLICATION}.test.*", "${APPLICATION}.simulation.*" ]
+      ,"exclude" : [ "${APPLICATION}.test.*" ]
 
       ,"log" :
       {
@@ -570,10 +568,6 @@
         "Deleting test folder" :
         [
           "${ROOT}/test"
-        ],
-        "Deleting simulator folder" :
-        [
-          "${ROOT}/simulator"
         ]
         /*
         ,"Deleting cache" :
@@ -609,8 +603,7 @@
           "q",
           "qxWeb",
           "qxsettings",
-          "qxvariants",
-          "simulator", "selenium"  // for skeletons that have simulation.* classes
+          "qxvariants"
         ]
         ,"ignore-catch-param"               : false
         ,"ignore-deprecated-symbols"        : false

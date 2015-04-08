@@ -205,9 +205,6 @@ pursue specific interests.
    * - `RRDTool <http://oss.oetiker.ch/rrdtool/>`_
      - `GPL <http://www.gnu.org/copyleft/gpl.html>`_
 
-   * - `Selenium <seleniumhq.org>`_
-     - `Apache License 2.0 <http://www.apache.org/licenses/LICENSE-2.0>`_
-
    * - `Sphinx <http://sphinx.pocoo.org/>`_
      - `BSD`_
 

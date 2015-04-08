@@ -45,8 +45,6 @@ Testing
 
    development/unit_testing
    development/frame_apps_testrunner
-   development/simulator
-   development/simulator_locators
 
 
 Code Organisation

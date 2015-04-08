@@ -235,29 +235,6 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
 
 
     /**
-     * Checks if the application is controlled by Selenium
-     *
-     * @return {Boolean} <code>false</code> if the application is controlled by Selenium
-     */
-    hasNoSelenium : function()
-    {
-      if (window.selenium) {
-        return false;
-      }
-
-      var win = window.top || window;
-      var opener = win.opener || win;
-      try {
-        // Firefox denies permission here
-        return typeof opener.selenium == "undefined";
-      }
-      catch(ex) {
-        return win.name.indexOf("selenium") < 0;
-      }
-    },
-
-
-    /**
      * Checks if the application is running on Windows 7
      *
      * @return {Boolean} <code>false</code> if operating system is Windows 7

@@ -84,7 +84,6 @@ class Key(object):
                 "settings"      : types.DictType,
                 "shell"         : types.DictType,
                 "slice-images"  : types.DictType,
-                "simulate"      : types.DictType,
                 "translate"     : types.DictType,
                 "use"           : types.DictType,
                 "variants"      : types.DictType,

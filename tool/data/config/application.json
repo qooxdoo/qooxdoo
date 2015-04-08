@@ -15,11 +15,6 @@
     {
       "path" : "${QOOXDOO_PATH}/component/testrunner/testrunner.json",
       "as"   : "testrunner"
-    },
-
-    {
-      "path" : "${QOOXDOO_PATH}/component/simulator/simulator.json",
-      "as"   : "simulator"
     }
   ],
 
@@ -60,7 +55,7 @@
       {
         "BUILD_PATH"     : "${ROOT}/api",
         "API_INCLUDE"    : ["qx.*", "${APPLICATION}.*"],
-        "API_EXCLUDE"    : ["qx.test.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"]
+        "API_EXCLUDE"    : ["qx.test.*", "${APPLICATION}.test.*"]
       }
     },
 
@@ -181,56 +176,6 @@
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/component/testrunner",
         "TEST_INCLUDE"    : "${APPLICATION}.test.*",
         "BUILD_PATH"      : "${ROOT}/test"
-      }
-    },
-
-    "simulation-run" :
-    {
-      "desc" : "launches simulated interaction tests generated with simulation-build",
-
-      "extend" : ["simulator::simulation-run"],
-
-      "let" :
-      {
-        "SIMULATOR_ROOT" : "${QOOXDOO_PATH}/component/simulator",
-        "BUILD_PATH"      : "${ROOT}/simulator"
-      }
-    },
-
-    "simulation-run-source" :
-    {
-      "desc" : "launches simulated interaction tests generated with simulation-build",
-
-      "extend" : ["simulator::simulation-run-source"],
-
-      "let" :
-      {
-        "SIMULATOR_ROOT" : "${QOOXDOO_PATH}/component/simulator",
-        "BUILD_PATH"      : "${ROOT}/simulator"
-      }
-    },
-
-    "simulation-build" :
-    {
-      "desc" : "create a runner app for simulated interaction tests",
-
-      "extend" : ["simulator::build"],
-
-      "let" :
-      {
-        "SIMULATION_INCLUDE" : "${APPLICATION}.simulation.*"
-      }
-    },
-
-    "simulation-source" :
-    {
-      "desc" : "create a runner app (source version) for simulated interaction tests",
-
-      "extend" : ["simulator::source"],
-
-      "let" :
-      {
-        "SIMULATION_INCLUDE" : "${APPLICATION}.simulation.*"
       }
     }
   }

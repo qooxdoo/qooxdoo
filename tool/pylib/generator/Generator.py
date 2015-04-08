@@ -34,7 +34,7 @@ from generator.output.Part             import Part
 from generator.output.CodeGenerator  import CodeGenerator
 from generator.action.ActionLib      import ActionLib
 from generator.action.Locale         import Locale as LocaleCls
-from generator.action                import ApiLoader, Locale, CodeMaintenance, Testing
+from generator.action                import ApiLoader, Locale, CodeMaintenance
 from generator.action                import Logging, FileSystem, Resources
 from generator.action                import MiniWebServer, JsonValidation
 from generator.output                import CodeProvider
@@ -188,10 +188,6 @@ class Generator(object):
             "translate" :
             {
               "type"   : "JClassDepJob"
-            },
-            "simulate" :
-            {
-              "type"   : "JSimpleJob"
             },
             "watch-files" :
             {
@@ -507,8 +503,6 @@ class Generator(object):
             CodeMaintenance.runMigration(self._job, config.get("library"))
         if takeout(jobTriggers, "shell"):
             self._actionLib.runShellCommands(self._job)
-        if takeout(jobTriggers, "simulate"):
-            Testing.runSimulation(self._job)
         if takeout(jobTriggers, "slice-images"):
             Resources.runImageSlicing(self._job, self._config)
         if takeout(jobTriggers, "watch-files"):

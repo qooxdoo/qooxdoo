@@ -119,8 +119,6 @@
           "=run":                      { "$ref": "#/definitions/run" },
           "shell":                     { "$ref": "#/definitions/shell" },
           "=shell":                    { "$ref": "#/definitions/shell" },
-          "simulate":                  { "$ref": "#/definitions/simulate" },
-          "=simulate":                 { "$ref": "#/definitions/simulate" },
           "slice-images":              { "$ref": "#/definitions/slice-images" },
           "=slice-images":             { "$ref": "#/definitions/slice-images" },
           "translate":                 { "$ref": "#/definitions/translate" },
@@ -648,19 +646,6 @@
           "type": ["string", "array"]
         },
         "command-not-found": { "type": "string" }
-      }
-    },
-    "simulate": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "java-classpath": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "qxselenium-path": { "type": "string" },
-        "rhino-class": { "type": "string" },
-        "simulator-script": { "type": "string" }
       }
     },
     "slice-images": {

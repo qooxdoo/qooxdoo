@@ -64,10 +64,6 @@ Default Jobs
       - pretty-formatting of the source code of the current library
     * - profiling
       - includer job, to activate profiling
-    * - simulation-build
-      - create a runner app for simulated interaction tests (deprecated)
-    * - simulation-run (deprecated)
-      - launches simulated interaction tests generated with simulation-build
     * - source
       - create source version of current application
     * - source-all
@@ -134,7 +130,6 @@ This is an overview of the available configuration keys with their corresponding
     * **require** - Define prerequisite classes needed at load time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
     * **run** - Define a list of jobs to run in place of the current job.
     * **shell** - Triggers the execution of one or more external command(s).
-    * **simulate** - Triggers the execution of a GUI test (simulated interaction) suite.
     * **slice-images** - Triggers cutting images into regions.
     * **translate** - Re-generate .po files from source classes.
     * **use** - Define prerequisite classes needed at run time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
@@ -473,14 +468,6 @@ Here are the configuration keys with their individual value syntax.
   "shell" :
   {
     "command" : ("echo foo bar baz"|["echo foo", "echo bar", "echo baz"])
-  }
-
-  "simulate" :
-  {
-    "java-classpath" : ["../rhino/js.jar", "../selenium/selenium-java-client-driver.jar"],
-    "qxselenium-path" : "${SIMULATOR_ROOT}/tool",
-    "rhino-class" : "org.mozilla.javascript.tools.shell.Main",
-    "simulator-script" : "${BUILD_PATH}/script/simulator.js"
   }
 
   "slice-images" :

@@ -1,6 +1,5 @@
 # .gitignore template for skeleton-based apps
 /api/
 /build/
-/simulator/
 /test/
 /source/script/

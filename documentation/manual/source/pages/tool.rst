@@ -130,5 +130,3 @@ manual. Here are some pointers:
 
 * :doc:`application/apiviewer`
 * :doc:`development/frame_apps_testrunner`
-* :doc:`development/simulator`
-

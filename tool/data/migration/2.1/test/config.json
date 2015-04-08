@@ -24,14 +24,12 @@
     "profiling",
     "source",
     "source-all",
-    "source-hybrid",    
-    "simulation-build",
-    "simulation-run",
+    "source-hybrid",
     "test",
     "test-source",
     "translation"
   ],
-  
+
   "default-job" : "source-hybrid",
 
   "let" :
@@ -39,7 +37,7 @@
     "APPLICATION"  : "test",
     "QOOXDOO_PATH" : "../../../../..",
     "QXTHEME"      : "test.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
+    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : "."
@@ -55,7 +53,7 @@
     // using a contrib: library, it will be downloaded into the path specified
     // by the 'cache/downloads' config key
     /*
-    "libraries" : 
+    "libraries" :
     {
       "library" :
       [
@@ -72,7 +70,7 @@
 	/*
     ,"build-script" :
     {
-      "compile-options" : 
+      "compile-options" :
       {
         "code" :
         {

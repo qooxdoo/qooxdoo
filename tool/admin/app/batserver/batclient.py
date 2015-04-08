@@ -42,7 +42,6 @@ clientconf = {
    'packarch'   : None,
    'unpack_only': False,
    'work_dir'   : '/tmp/qx',
-   'selenium_script' : None,
    #'logfile'    : 'bat_client.log',
     'logfile'   : None,
    #'disk_space' : '2G',
@@ -96,31 +95,19 @@ def get_computed_opts():
         type="string",
         help="Package archive format (e.g. \".tar.gz\" or \".zip\")"
     )
-    
-    parser.add_option(
-        "-j", "--java-classpath", dest="classpath", default=None,
-        type="string",
-        help="Java classpath for Selenium tests"
-    )
-    
-    parser.add_option(
-        "-S", "--selenium-script", dest="seleniumscript", default=None,
-        type="string",
-        help="Full path to the Selenium test script"
-    )
-    
+
     parser.add_option(
         "-f", "--log-formatter", dest="logformatter", default=None,
         type="string",
         help="Full log formatting command, e.g. '/usr/bin/python /home/dwagner/qxselenium/logFormatter.py /tmp/selenium.log /home/dwagner/qxselenium/selenium-report.html'"
     )
-    
+
     parser.add_option(
         "-A", "--aut-path", dest="autpath", default=None,
         type="string",
         help="Path to the application to be tested"
     )
-    
+
     parser.add_option(
         "-b", "--test-browsers", dest="testbrowsers", default=None,
         type="string",
@@ -138,7 +125,6 @@ def get_computed_opts():
     clientconf['packarch']   = options.packarch
     clientconf['unpack_only']   = options.unpack_only
     clientconf['classpath'] = options.classpath
-    clientconf['selenium_script'] = options.seleniumscript
     clientconf['logformatter'] = options.logformatter
     clientconf['autpath'] = options.autpath
     clientconf['testbrowsers'] = "'" + options.testbrowsers + "'"
@@ -217,7 +203,7 @@ def get_setup():
         clientconf['platform'] = 'win'
     else:
         clientconf['platform'] = 'unix'
-    return 
+    return
 
 def main():
     global server, options, args

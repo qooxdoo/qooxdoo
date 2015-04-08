@@ -72,35 +72,35 @@ class ServFunctions(object):
         wpopts = list(workpackopts)  # init workpackoptions with global
         selectWorkOpts(clientconf,wpopts,server_opts)
         return (jobid, "http://" + servconf['downloadhost'] + servconf['downloaddir'] + servconf['workpack'], wpopts)
-    
+
     def receive_report(self,jobid,clientreport):
         rfile.write(repr(jobid)+": ")
         rfile.write(clientreport)
         rfile.write(os.linesep)
         rfile.flush()
         return 0
-    
+
 def getServerOpts():
     parser = optparse.OptionParser()
-    
+
     parser.add_option(
         "-a", "--aut-host", dest="aut_host", default="http://" + servconf['bathost'], type="string",
         help="Host of the application to be tested by the client, e.g. http://example.com"
     )
-    
+
     parser.add_option(
         "-r", "--aut-port", dest="aut_port", default=None, type="string",
         help="Host of the application to be tested by the client, e.g. http://example.com"
     )
-    
+
     parser.add_option(
         "-q", "--qx-path", dest="qx_path", default=None, type="string",
         help="Qooxdoo path on the host"
     )
-    
+
     (options, args) = parser.parse_args()
 
-    return options    
+    return options
 
 def selectWorkOpts(clientconf,wpopts,server_opts):
     # select package
@@ -128,38 +128,30 @@ def selectWorkOpts(clientconf,wpopts,server_opts):
     # select amount of work
     if clientconf['unpack_only']:
         wpopts.append('--unpack-only')
-    
-    if('selenium_script' in clientconf and clientconf['selenium_script'] != None):
-        wpopts.append('--selenium-script')
-        wpopts.append(clientconf['selenium_script'])
-        
-    if('classpath' in clientconf and clientconf['classpath'] != None):
-        wpopts.append('--java-classpath')
-        wpopts.append(clientconf['classpath'])
 
     if('logformatter' in clientconf and clientconf['logformatter'] != None):
         wpopts.append('--log-formatter')
         wpopts.append(clientconf['logformatter'])
-        
+
     if('autpath' in clientconf and clientconf['autpath'] != None):
         wpopts.append('--autPath')
         wpopts.append(clientconf['autpath'])
-        
+
     if('testbrowsers' in clientconf and clientconf['testbrowsers'] != None):
         wpopts.append('--testBrowsers')
         wpopts.append(clientconf['testbrowsers'])
-    
+
     if server_opts.aut_host:
         wpopts.append("--autHost")
-        wpopts.append(server_opts.aut_host)  
-        
+        wpopts.append(server_opts.aut_host)
+
     if server_opts.aut_port:
         wpopts.append("--autPort")
         wpopts.append(server_opts.aut_port)
-        
+
     if server_opts.qx_path:
         wpopts.append("--qxPath")
-        wpopts.append(server_opts.qx_path)              
+        wpopts.append(server_opts.qx_path)
 
     return
 
