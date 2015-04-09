@@ -436,7 +436,10 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _styleSource : function()
     {
-      var source = qx.util.AliasManager.getInstance().resolve(this.getSource());
+      var AliasManager = qx.util.AliasManager.getInstance();
+      var ResourceManager = qx.util.ResourceManager.getInstance();
+
+      var source = AliasManager.resolve(this.getSource());
 
       var element = this.getContentElement();
       if (this.__wrapper) {
@@ -463,6 +466,13 @@ qx.Class.define("qx.ui.basic.Image",
 
       // Detect if the image registry knows this image
       if (qx.util.ResourceManager.getInstance().has(source)) {
+        var highResolutionSource = this._findHighResolutionSource(source);
+        if (highResolutionSource) {
+          this.setWidth(ResourceManager.getImageHeight(source));
+          this.setHeight(ResourceManager.getImageWidth(source));
+          this.setScale(true);
+          source = highResolutionSource;
+        }
         this.__setManagedImage(contentEl, source);
         this.__fireLoadEvent();
       } else if (qx.io.ImageLoader.isLoaded(source)) {
@@ -748,14 +758,9 @@ qx.Class.define("qx.ui.basic.Image",
      * @param el {Element} image DOM element
      * @param source {String} source path
      */
-    __setSource : function(el, source) {
-      var highResSource = (source && qx.util.ResourceManager.getInstance().has(source)) ?
-          this._findHighResolutionSource(source) : null;
-
-      var decorator = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
-
-      if (el.getNodeName() == "div" || highResSource && decorator) {
-
+    __setSource: function (el, source) {
+      if (el.getNodeName() == "div") {
+        var decorator = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
         // if the decorator defines any CSS background-image
         if (decorator) {
           var hasGradient = (decorator.getStartColor() && decorator.getEndColor());
@@ -764,24 +769,19 @@ qx.Class.define("qx.ui.basic.Image",
             var repeat = this.getScale() ? "scale" : "no-repeat";
 
             // get the style attributes for the given source
-            var attr = qx.bom.element.Decoration.getAttributes(highResSource || source, repeat);
+            var attr = qx.bom.element.Decoration.getAttributes(source, repeat);
             // get the background image(s) defined by the decorator
             var decStyle = decorator.getStyles(true);
 
             var combinedStyles = {
-              "backgroundImage":  attr.style.backgroundImage,
+              "backgroundImage": attr.style.backgroundImage,
               "backgroundPosition": (attr.style.backgroundPosition || "0 0"),
               "backgroundRepeat": (attr.style.backgroundRepeat || "no-repeat")
             };
-            if (highResSource) {
-              combinedStyles.backgroundSize = "100%, auto";
-              combinedStyles.backgroundRepeat = "no-repeat";
-              combinedStyles.backgroundPosition = "50% 50%";
-            }
 
             if (hasBackground) {
               combinedStyles["backgroundPosition"] += "," + decStyle["background-position"] || "0 0";
-              combinedStyles["backgroundRepeat"] += ", " + decorator.getBackgroundRepeat();
+              combinedStyles["backgroundRepeat"] += ", " + dec.getBackgroundRepeat();
             }
 
             if (hasGradient) {
@@ -794,10 +794,6 @@ qx.Class.define("qx.ui.basic.Image",
             // apply combined background images
             el.setStyles(combinedStyles);
 
-            if(el.getNodeName() == "img") {
-              el.setAttribute("src", qx.ui.basic.Image.PLACEHOLDER_IMAGE);
-            }
-
             return;
           }
         } else {
@@ -806,11 +802,7 @@ qx.Class.define("qx.ui.basic.Image",
         }
       }
 
-      if (highResSource) {
-        this._createHighResolutionOverlay(highResSource);
-      } else {
-        el.setSource(source);
-      }
+      el.setSource(source);
     },
 
     /**
@@ -875,28 +867,6 @@ qx.Class.define("qx.ui.basic.Image",
         }
       }
       return null;
-    },
-
-
-    /**
-     * Creates an overlay for this image which shows the image defined by the parameter 'highResSource',
-     * but has the same size and position as the source image.
-     * The original image widget is hidden by this method.
-     *
-     * @param highResSource {String} Image source of the high-resolution image.
-     */
-    _createHighResolutionOverlay : function(highResSource) {
-      // Replace the source through transparent pixel for making the high-resolution background image visible.
-      var el = this.getContentElement();
-      el.setAttribute("src", qx.ui.basic.Image.PLACEHOLDER_IMAGE);
-      var resourceManager = qx.util.ResourceManager.getInstance();
-      el.setStyles({
-        backgroundImage: "url("+resourceManager.toUri(highResSource)+")",
-        backgroundSize: "100%",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "50% 50%",
-        position: "absolute"
-      });
     },
 
     /**
