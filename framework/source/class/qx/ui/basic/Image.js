@@ -670,8 +670,10 @@ qx.Class.define("qx.ui.basic.Image",
       this.__setSource(el, source);
 
       // Compare with old sizes and relayout if necessary
-      this.__updateContentHint(ResourceManager.getImageWidth(source),
-        ResourceManager.getImageHeight(source));
+      this.__updateContentHint(
+        ResourceManager.getImageWidth(source),
+        ResourceManager.getImageHeight(source)
+      );
     },
 
 
