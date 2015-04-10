@@ -387,7 +387,8 @@ qx.Class.define("qx.ui.basic.Image",
       element.setStyles({
         "overflowX": "hidden",
         "overflowY": "hidden",
-        "boxSizing": "border-box"
+        "boxSizing": "border-box",
+        "backgroundSize": "100%"
       });
 
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
@@ -470,7 +471,7 @@ qx.Class.define("qx.ui.basic.Image",
         if (highResolutionSource) {
           this.setWidth(ResourceManager.getImageHeight(source));
           this.setHeight(ResourceManager.getImageWidth(source));
-          this.setScale(true);
+          this.setSource(highResolutionSource);
           source = highResolutionSource;
         }
         this.__setManagedImage(contentEl, source);
@@ -760,8 +761,10 @@ qx.Class.define("qx.ui.basic.Image",
      */
     __setSource: function (el, source) {
       if (el.getNodeName() == "div") {
+
+        // checks if a decorator already set.
+        // In this case we have to merge background styles
         var decorator = qx.theme.manager.Decoration.getInstance().resolve(this.getDecorator());
-        // if the decorator defines any CSS background-image
         if (decorator) {
           var hasGradient = (decorator.getStartColor() && decorator.getEndColor());
           var hasBackground = decorator.getBackgroundImage();
@@ -771,7 +774,7 @@ qx.Class.define("qx.ui.basic.Image",
             // get the style attributes for the given source
             var attr = qx.bom.element.Decoration.getAttributes(source, repeat);
             // get the background image(s) defined by the decorator
-            var decStyle = decorator.getStyles(true);
+            var decoratorStyle = decorator.getStyles(true);
 
             var combinedStyles = {
               "backgroundImage": attr.style.backgroundImage,
@@ -780,8 +783,8 @@ qx.Class.define("qx.ui.basic.Image",
             };
 
             if (hasBackground) {
-              combinedStyles["backgroundPosition"] += "," + decStyle["background-position"] || "0 0";
-              combinedStyles["backgroundRepeat"] += ", " + dec.getBackgroundRepeat();
+              combinedStyles["backgroundPosition"] += "," + decoratorStyle["background-position"] || "0 0";
+              combinedStyles["backgroundRepeat"] += ", " + decorator.getBackgroundRepeat();
             }
 
             if (hasGradient) {
@@ -789,7 +792,7 @@ qx.Class.define("qx.ui.basic.Image",
               combinedStyles["backgroundRepeat"] += ", no-repeat";
             }
 
-            combinedStyles["backgroundImage"] += "," + decStyle["background-image"];
+            combinedStyles["backgroundImage"] += "," + decoratorStyle["background-image"];
 
             // apply combined background images
             el.setStyles(combinedStyles);
