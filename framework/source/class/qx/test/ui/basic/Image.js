@@ -357,14 +357,34 @@ qx.Class.define("qx.test.ui.basic.Image",
       var resourceManager = qx.util.ResourceManager.getInstance();
 
       this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
-
-      var backgroundImage = image.getContentElement().getStyle("backgroundImage");
-      this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
+      this.assertEquals("qx/static/drawer@2x.png", image.getContentElement().getSource());
 
       devicePixelRatioStub.restore();
     },
 
-    testHighResImageWithExistingDecorator: function () {
+    testHighResImageWithDecoratorAndSourceInConstructor: function () {
+      var devicePixelRatioStub = this.stub(
+        qx.bom.client.Device,
+        "getDevicePixelRatio",
+        function () {
+          return 2;
+        }
+      );
+
+      var image = new qx.ui.basic.Image("qx/static/drawer.png");
+      image.setDecorator("toolbar-part");
+      var resourceManager = qx.util.ResourceManager.getInstance();
+
+      this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
+
+      var backgroundImage = image.getContentElement().getStyle("backgroundImage");
+      this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
+      this.assertTrue(backgroundImage.indexOf("toolbar-part.gif") > -1);
+
+      devicePixelRatioStub.restore();
+    },
+
+    testHighResImageWithDecoratorAndSourceInSetter: function () {
       var devicePixelRatioStub = this.stub(
         qx.bom.client.Device,
         "getDevicePixelRatio",
