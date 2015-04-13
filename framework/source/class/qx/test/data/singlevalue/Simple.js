@@ -698,6 +698,54 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       bindingsB = qx.data.SingleValueBinding.getAllBindingsForObject(this.__b);
       this.assertEquals(1, bindingsB.length, "There must be one binding!");
       this.assertTrue(bindingsA[0][1] === c, "Source object of the binding must be object 'c'!");
+    },
+
+
+
+    testNonExistingSetup: function() {
+      var a = qx.data.marshal.Json.createModel({b: {}, target: null});
+
+      qx.data.SingleValueBinding.bind(a, "b.c", a, "target");
+      this.assertNull(a.getTarget());
+
+      a.setB(qx.data.marshal.Json.createModel({c: "txt"}));
+      this.assertEquals("txt", a.getTarget());
+    },
+
+
+    testNonExistingSetupDeep: function() {
+      var a = qx.data.marshal.Json.createModel({b: {c: {d: {e: {}}}}, target: null});
+
+      qx.data.SingleValueBinding.bind(a, "b.c.d.e.f", a, "target");
+      this.assertNull(a.getTarget());
+
+      a.getB().setC(qx.data.marshal.Json.createModel({d: {e: {f: "txt"}}}));
+      this.assertEquals("txt", a.getTarget());
+    },
+
+
+    testNonExistingChange: function() {
+      var a = qx.data.marshal.Json.createModel({b: {c: "txt"}, bb: {}, target: null});
+
+      qx.data.SingleValueBinding.bind(a, "b.c", a, "target");
+      this.assertEquals("txt", a.getTarget());
+
+      a.setB(a.getBb());
+      this.assertNull(a.getTarget());
+    },
+
+
+    testNonExistingChangeDeep: function() {
+      var a = qx.data.marshal.Json.createModel({b: {c: {d: {e: {f: "txt"}}}}, target: null});
+
+      qx.data.SingleValueBinding.bind(a, "b.c.d.e.f", a, "target");
+      this.assertEquals("txt", a.getTarget());
+
+      a.getB().setC(qx.data.marshal.Json.createModel({d: {e: {}}}));
+      this.assertNull(a.getTarget());
+
+      a.getB().setC(qx.data.marshal.Json.createModel({d: {}}));
+      this.assertNull(a.getTarget());
     }
   }
 });

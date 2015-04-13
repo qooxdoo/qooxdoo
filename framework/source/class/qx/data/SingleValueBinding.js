@@ -156,7 +156,19 @@ qx.Class.define("qx.data.SingleValueBinding",
             // push the array change event
             eventNames.push("change");
           } else {
-            eventNames.push(this.__getEventNameForProperty(source, propertyNames[i]));
+            var eventName = this.__getEventNameForProperty(source, propertyNames[i]);
+            if (!eventName) {
+              if (i == 0) { // the root property can not change --> error
+                throw new qx.core.AssertionError(
+                  "Binding property " + propertyNames[i] + " of object " + source +
+                  " not possible: No event available. "
+                );
+              }
+              // call the converter if no event could be found on binding creation
+              this.__setInitialValue(undefined, targetObject, targetPropertyChain, options, sourceObject);
+              break;
+            }
+            eventNames.push(eventName);
           }
 
           // save the current source
@@ -371,6 +383,10 @@ qx.Class.define("qx.data.SingleValueBinding",
               this.__setInitialValue(currentValue, context.targetObject, context.targetPropertyChain, context.options, context.sources[context.index]);
             }
             var eventName = this.__getEventNameForProperty(source, context.propertyNames[j]);
+            if (!eventName) {
+              this.__resetTargetValue(context.targetObject, context.targetPropertyChain);
+              break;
+            }
             // bind the last property to the new target
             context.listenerIds[j] = this.__bindEventToProperty(
               source, eventName, context.targetObject, context.targetPropertyChain, context.options
@@ -388,6 +404,11 @@ qx.Class.define("qx.data.SingleValueBinding",
             var eventName = "change";
           } else {
             var eventName = this.__getEventNameForProperty(source, context.propertyNames[j]);
+          }
+
+          if (!eventName) {
+            this.__resetTargetValue(context.targetObject, context.targetPropertyChain);
+            return;
           }
           context.listenerIds[j] = source.addListener(eventName, context.listeners[j]);
         }
@@ -432,15 +453,13 @@ qx.Class.define("qx.data.SingleValueBinding",
           // push the array change event
           eventNames.push("change");
         } else {
-          try {
-            eventNames.push(
-              this.__getEventNameForProperty(target, propertyNames[i])
-            );
-          } catch (e) {
+          var eventName = this.__getEventNameForProperty(target, propertyNames[i])
+          if (!eventName) {
             // if the event names could not be terminated,
             // just ignore the target chain listening
             break;
           }
+          eventNames.push(eventName);
         }
 
         // save the current source
@@ -487,12 +506,11 @@ qx.Class.define("qx.data.SingleValueBinding",
             if (qx.Class.implementsInterface(target, qx.data.IListData)) {
               var eventName = "change";
             } else {
-              try {
-                var eventName =
-                  qx.data.SingleValueBinding.__getEventNameForProperty(
-                    target, propertyNames[j]
-                  );
-              } catch (e) {
+              var eventName =
+                qx.data.SingleValueBinding.__getEventNameForProperty(
+                  target, propertyNames[j]
+                );
+              if (!eventName) {
                 // if the event name could not be terminated,
                 // ignore the rest
                 break;
@@ -587,7 +605,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      *
      * @param source {qx.core.Object} The source where the property is stored.
      * @param propertyname {String} The name of the property.
-     * @return {String} The name of the corresponding property.
+     * @return {String|null} The name of the corresponding event or null.
      */
     __getEventNameForProperty : function(source, propertyname)
     {
@@ -604,10 +622,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         ) {
           eventName = "change" + qx.lang.String.firstUp(propertyname);
         } else {
-          throw new qx.core.AssertionError(
-            "Binding property " + propertyname + " of object " + source +
-            " not possible: No event available. "
-          );
+          return null;
         }
       }
       return eventName;
