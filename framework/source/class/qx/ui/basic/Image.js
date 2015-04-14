@@ -387,8 +387,7 @@ qx.Class.define("qx.ui.basic.Image",
       element.setStyles({
         "overflowX": "hidden",
         "overflowY": "hidden",
-        "boxSizing": "border-box",
-        "backgroundSize": "100%"
+        "boxSizing": "border-box"
       });
 
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
@@ -469,8 +468,15 @@ qx.Class.define("qx.ui.basic.Image",
       if (qx.util.ResourceManager.getInstance().has(source)) {
         var highResolutionSource = this._findHighResolutionSource(source);
         if (highResolutionSource) {
-          this.setWidth(ResourceManager.getImageHeight(source));
-          this.setHeight(ResourceManager.getImageWidth(source));
+          var imageWidth = ResourceManager.getImageHeight(source);
+          var imageHeight = ResourceManager.getImageWidth(source);
+          this.setWidth(imageWidth);
+          this.setHeight(imageHeight);
+          
+          // set backgroud size on current element (div or img)
+          var backgroundSize = imageWidth + "px, " + imageHeight + "px";
+          this.__currentContentElement.setStyle("background-size", backgroundSize);
+
           this.setSource(highResolutionSource);
           source = highResolutionSource;
         }
