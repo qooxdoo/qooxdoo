@@ -125,8 +125,11 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
         this.getLabelPath(), "label", this.getLabelOptions(), item, index
       );
 
-      try
-      {
+      var bindPath = this.__getBindPath(index);
+      var bindTarget = this._tree.getLookupTable();
+      bindTarget = qx.data.SingleValueBinding.resolvePropertyChain(bindTarget, bindPath);
+
+      if (qx.util.OOUtil.hasProperty(bindTarget.constructor, this.getChildProperty())) {
         this.bindProperty(
           this.getChildProperty() + ".length", "appearance",
           {
@@ -135,7 +138,7 @@ qx.Mixin.define("qx.ui.tree.core.MWidgetController",
             }
           }, item, index
         );
-      } catch(ex) {
+      } else {
         item.setAppearance("virtual-tree-file");
       }
 
