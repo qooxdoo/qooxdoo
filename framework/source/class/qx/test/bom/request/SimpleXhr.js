@@ -452,6 +452,35 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
 
       this.assertCalledWith(req.emit, "error");
       this.assertEquals(2, req.emit.callCount); // + emit("fail")
+    },
+
+
+    testGetResponseHeaders: function() {
+      this.useFakeServer();
+      this.getServer().autoRespond = true;
+      this.getServer().respondWith("GET", "/foo",
+        [
+          200,
+          {
+            "x-affe": "AFFE"
+          },
+          "Response Body"
+        ]);
+
+      var req = new qx.bom.request.SimpleXhr('/foo', 'GET');
+      req.on("success", function() {
+        this.resume(function() {
+          this.assertEquals("AFFE", req.getResponseHeader("x-affe"));
+          var headers = req.getAllResponseHeaders();
+          this.assertMatch(headers, /x-affe.*?AFFE/);
+        }.bind(this));
+      }.bind(this));
+
+      window.setTimeout(function() {
+        req.send();
+      }, 100);
+
+      this.wait(200);
     }
   }
 });

@@ -108,6 +108,26 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       return this.__requestHeaders[key];
     },
 
+
+    /**
+     * Returns a single response header
+     *
+     * @param header {String} Name of the header to get.
+     * @return {String} Response header
+     */
+    getResponseHeader: function(header) {
+      return this._transport.getResponseHeader(header);
+    },
+
+
+    /**
+     * Returns all response headers
+     * @return {String} String of response headers
+     */
+    getAllResponseHeaders: function() {
+      return this._transport.getAllResponseHeaders();
+    },
+
     /**
      * Sets the URL.
      *
