@@ -429,8 +429,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Apply routine for the value property.
      *
-     * It checks the min and max values, disables / enables the
-     * buttons and handles the wrap around.
+     * It disables / enables the buttons and handles the wrap around.
      *
      * @param value {Number} The new value of the spinner
      * @param old {Number} The former value of the spinner
@@ -696,17 +695,19 @@ qx.Class.define("qx.ui.form.Spinner",
       // if the result is a number
       if (!isNaN(value))
       {
-        // Fix range
+        // Fix value if invalid
         if (value > this.getMaximum()) {
-          textField.setValue(this.getMaximum() + "");
-          return;
+          value = this.getMaximum();
         } else if (value < this.getMinimum()) {
-          textField.setValue(this.getMinimum() + "");
-          return;
+          value = this.getMinimum();
         }
 
-        // set the value in the spinner
-        this.setValue(value);
+        // If value is the same than before, call direcly _applyValue()
+        if (value === this.__lastValidValue) {
+          this._applyValue(this.__lastValidValue);
+        } else {
+          this.setValue(value);
+        }
       }
       else
       {
