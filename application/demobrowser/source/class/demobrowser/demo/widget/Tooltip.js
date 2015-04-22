@@ -110,7 +110,7 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
         toolTip: new qx.ui.tooltip.ToolTip(
           "Hello World #3", "icon/16/actions/help-about.png"
         )
-      })
+      });
       this.add(button);
     },
 
