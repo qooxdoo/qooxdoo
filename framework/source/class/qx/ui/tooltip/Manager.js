@@ -324,8 +324,8 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
       //do nothing if
       if (!target //don't have a target
-          // tooltip is disabled
-          || !target.getEnabled()
+          // tooltip is disabled and the value of showToolTipWhenDisabled is false
+          || (!target.getEnabled() && !target.isShowToolTipWhenDisabled() )
           //tooltip is blocked
           || target.isBlockToolTip()
           //an invalid message isn't set and tooltips are disabled
