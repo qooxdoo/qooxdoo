@@ -311,7 +311,7 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
       }
       else
       {
-        if ((typeof value === "boolean" || value === null) &&
+        if ((hints.bools[name] || value === null) &&
           name.indexOf("data-") !== 0)
         {
           if (value === true) {
