@@ -633,7 +633,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
     /**
-     * Forces to show to show tooltip when widget is disabled
+     * Forces to show tooltip when widget is disabled.
      */
     showToolTipWhenDisabled:
     {
