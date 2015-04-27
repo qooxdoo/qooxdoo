@@ -126,7 +126,7 @@ If this happens, you would like to set the DOM element's content:
 ::
 
     widget.addEventListener("changeElement", function(e) {
-      e.getValue().innerHTML = "Hello World";
+      e.getData().innerHTML = "Hello World";
     });
 
 The anonymous function acts as an event handler that receives the event object as variable ``e``. Calling the predefined method ``getValue()`` returns the new value of property ``element``.
