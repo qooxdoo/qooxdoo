@@ -26,7 +26,6 @@ var path = require('path');
 
 // third party
 var deepmerge = require('deepmerge');
-var q = require('qooxdoo');
 
 var common = {
   "ROOT": ".",
@@ -59,136 +58,17 @@ var getQxVersion = function(relQxPath) {
 common.QOOXDOO_VERSION = getQxVersion(common.QOOXDOO_PATH);
 
 var getConfig = function() {
-  var config = {
+  return {
     generator_config: {
       let: {}
     },
 
-    common: common,
-
-    /* grunt-contrib-clean */
-    clean: {
-      options: {
-        force: true
-      },
-      source: ["<%= common.SOURCE_PATH %>/script"],
-      build: ["<%= common.BUILD_PATH %>"],
-      api: ["<%= common.ROOT %>/api"],
-      test: ["<%= common.ROOT %>/test"],
-      inspector: ["<%= common.ROOT %>/inspector"],
-      app: ["<%= common.SOURCE_PATH %>/script",
-              "<%= common.BUILD_PATH %>",
-              "<%= common.ROOT %>/api",
-              "<%= common.ROOT %>/test",
-              "<%= common.ROOT %>/inspector"],
-      cache: ["<%= common.CACHE_KEY.compile %>",
-              "<%= common.CACHE_KEY.downloads %>"]
-    },
-    /* grunt-qx-source */
-    source: {
-      options: {
-        appName: "<%= common.APPLICATION %>",
-        qxPath: "<%= common.QOOXDOO_PATH %>",
-        qxIconTheme: "<%= common.QXICONTHEME %>",
-        locales:  "<%= common.LOCALES %>",
-        sourcePath: "<%= common.SOURCE_PATH %>/script",
-        cachePath: "<%= common.CACHE %>",
-        loaderTemplate: "<%= common.QOOXDOO_PATH %>/tool/data/generator/loader.tmpl.js",
-        environment: common.ENVIRONMENT,
-        includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
-        excludes: [],
-        libraries: [
-          "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
-          "<%= common.ROOT %>/Manifest.json"
-        ]
-      }
-    },
-    /* grunt-qx-build */
-    build: {
-      options: {
-        appName: "<%= common.APPLICATION %>",
-        qxPath: "<%= common.QOOXDOO_PATH %>",
-        qxIconTheme: "<%= common.QXICONTHEME %>",
-        locales:  "<%= common.LOCALES %>",
-        sourcePath: "<%= common.SOURCE_PATH %>",
-        buildPath: "<%= common.BUILD_PATH %>",
-        cachePath: "<%= common.CACHE %>",
-        loaderTemplate: "<%= common.QOOXDOO_PATH %>/tool/data/generator/loader.tmpl.js",
-        environment: deepmerge(common.ENVIRONMENT, {
-          "qx.debug" : false,
-          "qx.debug.databinding" : false,
-          "qx.debug.dispose" : false,
-          "qx.debug.ui.queue" : false,
-          "qx.debug.io" : false
-        }),
-        includes: ["<%= common.APPLICATION_MAIN_CLASS %>", "<%= common.QXTHEME %>"],
-        excludes: [],
-        libraries: [
-          "<%= common.QOOXDOO_PATH %>/framework/Manifest.json",
-          "<%= common.ROOT %>/Manifest.json"
-        ]
-      }
-    },
-    /* grunt-qx-info */
-    info: {
-      options: {
-        qxPath: "<%= common.QOOXDOO_PATH %>",
-        cachePaths: "<%= common.CACHE_KEY %>"
-      }
-    },
+    common: common
   };
-
-  return config;
 };
 
-var mergeConfig = function(config, renameMap) {
-  var task = "";
-  var prop = "";
-  var confKey = "";
-  var confKeyProp = "";
-  var newTaskName = "";
-  var oldTaskName = "";
-
-  var mergedConfig = deepmerge(getConfig(), config);
-
-  // possibility to rename tasks (i.e. config)
-  if (renameMap) {
-    for (oldTaskName in renameMap) {
-      newTaskName = renameMap[oldTaskName];
-      mergedConfig[newTaskName] = mergedConfig[oldTaskName];
-      delete mergedConfig[oldTaskName];
-    }
-  }
-
-  // TODO:
-  //  Consider:
-  //    * Recycle '={confKey}'-syntax from config.json or sth. better?
-  //    * Introduce '!{confKeyProp}'-syntax for removing of confKeyProp?!
-
-  for (task in mergedConfig) {
-    for (prop in mergedConfig[task]) {
-      if (prop === "options") {
-        for (confKey in mergedConfig[task].options) {
-          if (q.Bootstrap.isObject(mergedConfig[task].options[confKey])) {
-            for (confKeyProp in mergedConfig[task].options[confKey]) {
-              if (confKeyProp[0] === "!") {
-                // remove !{confKeyProp}
-                delete mergedConfig[task].options[confKey][confKeyProp.substr(1)];
-                delete mergedConfig[task].options[confKey][confKeyProp];
-              }
-            }
-          }
-          if (confKey[0] === "=") {
-            // overwrite std mergedConfig and remove "={confKey}"
-            mergedConfig[task].options[confKey.substr(1)] = mergedConfig[task].options[confKey];
-            delete mergedConfig[task].options[confKey];
-          }
-        }
-      }
-    }
-  }
-
-  return mergedConfig;
+var mergeConfig = function(config) {
+  return deepmerge(getConfig(), config);
 };
 
 
