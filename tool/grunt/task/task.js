@@ -33,28 +33,6 @@ var qx = {};
 qx.tool = {};
 qx.tool.Cache = require('../lib/qx/tool/Cache');
 
-
-// functions
-var isSetupDone = function(path) {
-  return fs.existsSync(path);
-};
-
-var abortOnError = function(grunt) {
-  var exit = function(e) {
-    if (e && e.message) {
-      grunt.fatal(e.message);
-    } else if (e) {
-      grunt.fatal(e);
-    }
-    // don't exit when no 'e', try to continue
-    // to next meaningful error with a message
-  };
-
-  // run on error
-  hooker.hook(grunt.log, 'fail', exit);
-  hooker.hook(grunt.log, 'error', exit);
-};
-
 var queryAndWriteCurrentJobs = function(grunt, cacheFilePath, cache) {
   var cmd = 'python generate.py --list-jobs';
   var jobs = {};
@@ -94,57 +72,29 @@ var retrieveGeneratorJobsFromCache = function(files, cache) {
          : null;
 };
 
-var getSupersededJobs = function() {
-  return [
-    "clean",
-    "info",
-    "source",
-    "build"
-  ];
-};
-
 var getMalfunctionedJobs = function() {
   return [
     "migration" // the migration job doesn't work because user input is needed
   ];
 };
 
-var getCancelledJobs = function() {
-  // blacklist jobs that shouldn't be looped through anymore to the python toolchain
-  return [
-    "distclean"
-  ];
-};
-
-var registerGeneratorJobsAsTasks = function(grunt, jobs, supersededJobs, malfunctionedJobs, cancelledJobs) {
+var registerGeneratorJobsAsTasks = function(grunt, jobs, malfunctionedJobs) {
   var sortedJobNames = Object.keys(jobs).sort();
   sortedJobNames.forEach(function (jobName) {
     var jobDesc = jobs[jobName];
 
-    if (supersededJobs.indexOf(jobName) === -1 && cancelledJobs.indexOf(jobName) === -1) {
-      // register generator job as task if there's
-      // no replacement implemented in node
-      // and the job can be used with grunt
-      if (malfunctionedJobs.indexOf(jobName) === -1) {
-        grunt.registerTask(jobName, jobDesc, function (job) {
-          grunt.task.run(["generate:"+jobName]);
-        });
-      } else {
-        grunt.registerTask(jobName, jobDesc, function (job) {
-          grunt.warn("The '" + jobName + "' doesn't work with grunt, " +
-            "please use the real generator './generate.py " + jobName + "' instead.");
-        });
-      }
+    if (malfunctionedJobs.indexOf(jobName) === -1) {
+      grunt.registerTask(jobName, jobDesc, function (job) {
+        grunt.task.run(["generate:"+jobName]);
+      });
+    } else {
+      grunt.registerTask(jobName, jobDesc, function (job) {
+        grunt.warn("The '" + jobName + "' doesn't work with grunt, " +
+          "please use the real generator './generate.py " + jobName + "' instead.");
+      });
     }
-  });
-};
 
-var registerNodeTasks = function(grunt, relSdkPath) {
-  grunt.loadTasks(relSdkPath + '/tool/grunt/task/generate');
-  grunt.loadTasks(relSdkPath + '/tool/grunt/task/info/tasks');
-  grunt.loadTasks(relSdkPath + '/tool/grunt/task/source/tasks');
-  grunt.loadTasks(relSdkPath + '/tool/grunt/task/build/tasks');
-  grunt.loadNpmTasks('grunt-contrib-clean');
+  });
 };
 
 var registerTasks = function(grunt) {
@@ -155,23 +105,16 @@ var registerTasks = function(grunt) {
     "jobsAndDesc": "jobsAndDesc-" + fs.realpathSync(conf.ROOT)
   };
 
-  // exit early
-  if (!isSetupDone(path.join(conf.QOOXDOO_PATH, "tool/grunt/task/source/node_modules"))) {
-    grunt.fatal("Aborted due to missing setup. Go to '" +
-                path.resolve(conf.QOOXDOO_PATH) + "' and run 'grunt setup'");
-  }
-  abortOnError(grunt);
+  grunt.loadTasks(conf.QOOXDOO_PATH + '/tool/grunt/task/generate');
 
   var jobs = retrieveGeneratorJobsFromCache(files, cache);
   if (jobs) {
-    registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs(), getCancelledJobs());
-    registerNodeTasks(grunt, conf.QOOXDOO_PATH);
+    registerGeneratorJobsAsTasks(grunt, jobs, getMalfunctionedJobs());
   } else {
     jobs = queryAndWriteCurrentJobs(grunt, files.jobsAndDesc, cache);
     if (jobs !== null) {
-      registerGeneratorJobsAsTasks(grunt, jobs, getSupersededJobs(), getMalfunctionedJobs(), getCancelledJobs());
+      registerGeneratorJobsAsTasks(grunt, jobs, getMalfunctionedJobs());
     }
-    registerNodeTasks(grunt, conf.QOOXDOO_PATH);
   }
 };
 

@@ -25,9 +25,6 @@ module.exports = function(grunt) {
     function() {
       shell.cd('tool/grunt');
       shell.exec('npm install');
-      shell.exec('node setup.js');
-      shell.cd('../../framework');
-      shell.exec('npm install');
     }
   );
 };
