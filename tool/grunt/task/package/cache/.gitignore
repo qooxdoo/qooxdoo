@@ -1,9 +1,0 @@
-node_modules
-npm-debug.log
-test/tmp
-
-# jsdoc
-api
-
-# ignore caching file produced by stdout.js
-dep#build#*
