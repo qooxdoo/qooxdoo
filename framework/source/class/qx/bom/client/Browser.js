@@ -78,7 +78,10 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       var engine = qx.bom.client.Engine.getName();
       if (engine === "webkit")
       {
-        if (name === "android")
+        if (agent.match(/Edge\/\d+\.\d+/)) {
+          name = "Edge";
+        }
+        else if (name === "android")
         {
           // Fix Chrome name (for instance wrongly defined in user agent on Android 1.6)
           name = "mobile chrome";
@@ -179,6 +182,9 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       {
         if (agent.match(/OPR(\/| )([0-9]+\.[0-9])/)) {
           version = RegExp.$2;
+        }
+        if (agent.match(/Edge\/([\d+\.*]+)/)) {
+          version = RegExp.$1;
         }
       }
 
