@@ -47,12 +47,22 @@ qx.Class.define("qx.test.bom.Event",
       this.assertFalse(qx.bom.Event.supportsEvent(el2, "click2"));
 
       if (qx.core.Environment.get("event.mspointer")) {
-        var pointerEventsToCheck = [ "MSPointerDown",
-                                     "MSPointerUp",
-                                     "MSPointerOut",
-                                     "MSPointerOver",
-                                     "MSPointerCancel",
-                                     "MSPointerMove" ];
+        var pointerEventsToCheck = window.navigator.msPointerEnabled ?
+          [
+            "MSPointerDown",
+            "MSPointerUp",
+            "MSPointerOut",
+            "MSPointerOver",
+            "MSPointerCancel",
+            "MSPointerMove" ] :
+          [
+            "pointerdown",
+            "pointerup",
+            "pointerout",
+            "pointerover",
+            "pointercancel",
+            "pointermove"
+          ];
 
         for (var i=0, j=pointerEventsToCheck.length; i<j; i++) {
           el = qx.dom.Element.create("div", {name: "vanillebaer"}, window);
