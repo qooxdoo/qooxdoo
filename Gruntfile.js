@@ -1,5 +1,6 @@
 // requires
 var shell = require("shelljs");
+var path = require("path");
 
 // grunt
 module.exports = function(grunt) {
@@ -21,10 +22,21 @@ module.exports = function(grunt) {
   // setup toolchain and framework (grunt setup <=> grunt remove_node_modules)
   grunt.task.registerTask (
     'setup',
-    'Setup toolchain and apps',
+    'Install npm dependencies of whole SDK (i.e. "npm install" all package.json files)',
     function() {
-      shell.cd('tool/grunt');
-      shell.exec('npm install');
+      var rootDir = shell.pwd();
+      var isPackageJson = function(file) {
+        return file.match(/package\.json$/) && !file.match("node_modules");
+      };
+      var pkgJsonPaths = shell.find('.').filter(isPackageJson);
+
+      pkgJsonPaths.forEach(function(filePath) {
+        var basePath = path.dirname(filePath);
+        grunt.log.subhead("Installing " + basePath);
+        shell.cd(basePath);
+        shell.exec('npm install');
+        shell.cd(rootDir);
+      });
     }
   );
 };
