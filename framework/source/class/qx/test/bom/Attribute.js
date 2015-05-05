@@ -30,6 +30,8 @@ qx.Class.define("qx.test.bom.Attribute",
 
   members :
   {
+    __maxLengthValues : null,
+
     setUp : function()
     {
       var div = document.createElement("div");
@@ -51,6 +53,12 @@ qx.Class.define("qx.test.bom.Attribute",
       var img = document.createElement("img");
       this._img = img;
       document.body.appendChild(img);
+
+      this.__maxLengthValues = {
+        "mshtml": 2147483647,
+        "webkit": 524288,
+        "default": -1
+      };
     },
 
 
@@ -98,7 +106,11 @@ qx.Class.define("qx.test.bom.Attribute",
     {
       var Attribute = qx.bom.element.Attribute;
 
-      this.assertNull(Attribute.get(this._input, "maxLength"));
+      if (qx.core.Environment.get("browser.name") == "Edge") {
+        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
+      } else {
+        this.assertNull(Attribute.get(this._input, "maxLength"));
+      }
       this.assertFalse(Attribute.get(this._checkBox, "checked"));
       this.assertNull(Attribute.get(this._el, "className"));
       this.assertNull(Attribute.get(this._el, "innerHTML"));
@@ -145,14 +157,18 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._input, "maxLength", 10);
       Attribute.set(this._input, "maxLength", null);
 
-      var maxLengthValue = qx.core.Environment.select("engine.name", {
-                            "mshtml": 2147483647,
-                            "webkit": 524288,
-                            "default": -1
-                           });
+      var maxLengthValue = qx.core.Environment.select("engine.name", this.__maxLengthValues);
+
+      if (qx.core.Environment.get("browser.name") == "Edge") {
+        maxLengthValue = this.__maxLengthValues.mshtml;
+      }
 
       this.assertEquals(maxLengthValue, this._input["maxLength"]);
-      this.assertNull(Attribute.get(this._input, "maxLength"));
+      if (qx.core.Environment.get("browser.name") == "Edge") {
+        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
+      } else {
+        this.assertNull(Attribute.get(this._input, "maxLength"));
+      }
 
       Attribute.set(this._checkBox, "checked", true);
       Attribute.set(this._checkBox, "checked", null);
@@ -169,7 +185,11 @@ qx.Class.define("qx.test.bom.Attribute",
 
       Attribute.set(this._input, "maxLength", 10);
       Attribute.reset(this._input, "maxLength");
-      this.assertNull(Attribute.get(this._input, "maxLength"));
+      if (qx.core.Environment.get("browser.name") == "Edge") {
+        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
+      } else {
+        this.assertNull(Attribute.get(this._input, "maxLength"));
+      }
 
       Attribute.set(this._checkBox, "disabled", true);
       Attribute.reset(this._checkBox, "disabled");
