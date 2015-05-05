@@ -108,6 +108,7 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
     /** Maps user agent names to system IDs */
     __ids : {
       // Windows
+      "Windows NT 10.0" : "10",
       "Windows NT 6.3" : "8.1",
       "Windows NT 6.2" : "8",
       "Windows NT 6.1" : "7",
