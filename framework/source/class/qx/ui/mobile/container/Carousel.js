@@ -483,7 +483,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
 
       var i = 4;
       // Check if MSCSSMatrix is used.
-      if('MSCSSMatrix' in window) {
+      if('MSCSSMatrix' in window && !('WebKitCSSMatrix' in window)) {
         i = transformValueArray.length - 4;
       }
 
