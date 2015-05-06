@@ -38,14 +38,14 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * Factory method for the widget which converts a standard
      * collection into a collection of widgets.
      *
-     * @return {qx.ui.website.Widget} A collection of widgets.
+     * @return {qx.ui.website.Widget} A widget.
      *
      * @attach {qxWeb}
      */
     widget : function() {
-      var widgets = new qx.ui.website.Widget(this);
-      widgets.init();
-      return widgets;
+      var widget = new qx.ui.website.Widget(this);
+      widget.init();
+      return widget;
     },
 
 
@@ -60,66 +60,6 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       return new qx.ui.website.Widget(qxWeb.create(html));
     },
 
-
-    /**
-     * Special 'on' method for qx.Website widgets that prevents memory
-     * leaks and duplicate listeners.
-     *
-     * During the lifetime of a widget, multiple collection instances can
-     * be created for the same DOM element. In the initialization of each
-     * of these widget collections, listeners can be attached using this method
-     * to prevent memory leaks and duplicate listeners.
-     *
-     * This is done by storing a reference to the collection the first time a
-     * listener is attached. For subsequent listeners, this stored collection
-     * is used as the context. If the context object already has the new listener,
-     * it is not attached again. This means that new collections don't create
-     * references to DOM elements and don't need to be disposed manually.
-     *
-     * @attach {qxWeb}
-     * @param type {String} Type of the event to listen for
-     * @param listener {Function} Listener callback
-     * @param ctx {Object?} Context the callback function will be executed in.
-     * Default: The element on which the listener was registered
-     * @param useCapture {Boolean?} Attach the listener to the capturing
-     * phase if true.
-     * @return {qxWeb} The collection for chaining
-     */
-    $onFirstCollection : function(type, listener, ctx, useCapture) {
-      var propertyName = this.classname.replace(/\./g, "-") + "-context";
-      if (!this.getProperty(propertyName)) {
-        this.setProperty(propertyName, ctx);
-      }
-      var originalCtx = this.getProperty(propertyName);
-
-      if (!this.hasListener(type, listener, originalCtx)) {
-        this.on(type, listener, originalCtx, useCapture);
-      }
-
-      return this;
-    },
-
-    /**
-     * Removes a listener added with {@link #$onFirstCollection}.
-     *
-     * @attach {qxWeb}
-     * @param type {String} Type of the event to listen for
-     * @param listener {Function} Listener callback
-     * @param ctx {Object?} Context the callback function will be executed in.
-     * Default: The element on which the listener was registered
-     * @param useCapture {Boolean?} Attach the listener to the capturing
-     * phase if true. Default: false
-     * @return {qxWeb} The collection for chaining
-     */
-    $offFirstCollection : function(type, listener, ctx, useCapture) {
-      var propertyName = this.classname.replace(/\./g, "-") + "-context";
-      this._forEachElementWrapped(function(item) {
-        var originalCtx = item.getProperty(propertyName);
-        item.off(type, listener, originalCtx, useCapture);
-      });
-
-      return this;
-    },
 
     /**
      * Fetches elements with a data attribute named <code>data-qx-class</code>
@@ -260,12 +200,10 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @return {qx.ui.website.Widget} The widget instance for chaining.
      */
     _setData : function(type, name, data) {
-      this.forEach(function(item) {
-        if (!item[type]) {
-          item[type] = {};
-        }
-        item[type][name] = data;
-      });
+      if (!this["$$storage_" + type]) {
+        this["$$storage_" + type] = {};
+      }
+      this["$$storage_" + type][name] = data;
 
       return this;
     },
@@ -307,7 +245,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
      * @return {var} The value store for the given arguments.
      */
     _getData : function(type, name) {
-      var storage = this.getProperty(type);
+      var storage = this["$$storage_" + type];
       var item;
 
       if (storage) {
@@ -379,8 +317,6 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
 
   defer : function(statics) {
     qxWeb.$attach({
-      $onFirstCollection : statics.$onFirstCollection,
-      $offFirstCollection : statics.$offFirstCollection,
       widget: statics.widget
     });
     qxWeb.$attachStatic({
