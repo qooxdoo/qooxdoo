@@ -85,7 +85,7 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
   construct : function(selector, context) {
     var col = this.base(arguments, selector, context);
     if (col.length > 1) {
-      throw new Error("The collection should contain exactl one element.");
+      throw new Error("The collection must not contain more than one element.");
     }
     Array.prototype.push.apply(this, Array.prototype.slice.call(col, 0, col.length));
   },
