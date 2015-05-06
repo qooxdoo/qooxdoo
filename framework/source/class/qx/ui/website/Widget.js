@@ -144,6 +144,9 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
 
   construct : function(selector, context) {
     var col = this.base(arguments, selector, context);
+    if (col.length > 1) {
+      throw new Error("The collection should contain exactl one element.");
+    }
     Array.prototype.push.apply(this, Array.prototype.slice.call(col, 0, col.length));
   },
 
@@ -165,6 +168,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       this.addClass("qx-widget");
       this.addClass(this.getCssPrefix());
       this.setProperty("$$qx-widget-initialized", true);
+      this[0].$$widget = this;
+
       return true;
     },
 
@@ -364,6 +369,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       for (var name in this.constructor.$$events) {
         this.allOff(name);
       }
+
+      this[0].$$widget = null;
 
       return qxWeb.$init(this, qxWeb);
     }

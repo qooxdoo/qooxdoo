@@ -58,6 +58,11 @@ qx.Bootstrap.define("qxWeb", {
      * @return {q} A new initialized collection.
      */
     $init : function(arg, clazz) {
+      // restore widget instance
+      if (arg.length && arg.length == 1 && arg[0] && arg[0].$$widget) {
+        return arg[0].$$widget;
+      }
+
       var clean = [];
       for (var i = 0; i < arg.length; i++) {
         // check for node or window object
