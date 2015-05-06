@@ -23,6 +23,7 @@ q.ready(function() {
     accordion : ["Default", "Responsive"],
     button : ["Default"],
     calendar : ["Default", "Range Selection","Customized"],
+    carousel : ["Default"],
     datepicker : ["Default", "Customized"],
     rating : ["Default", "Custom Length", "Custom Symbol", "Custom Styling"],
     slider : ["Default", "Customized"],
