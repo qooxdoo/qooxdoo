@@ -5027,3 +5027,350 @@ testrunner.define({
      datepicker.dispose();
    }
 });
+
+
+testrunner.define({
+  classname: "ui.Carousel",
+
+  __carousel: null,
+  __orderStyle: null,
+  __isIeLt10: null,
+
+
+  setUp : function() {
+    testrunner.globalSetup();
+
+    this.__orderStyle = qxWeb.env.get("engine.name") === "mshtml" &&
+      qxWeb.env.get("browser.documentmode") === 10 ? "msFlexOrder" : "order";
+
+    this.__isIeLt10 = qxWeb.env.get("engine.name") === "mshtml" &&
+      qxWeb.env.get("browser.documentmode") < 10;
+
+    this.__carousel = qxWeb.create("<div>").carousel()
+      .setStyles({
+        position: "absolute",
+        top: "0px",
+        left: "0px",
+        width: "400px",
+        height: "400px"
+      })
+      .setConfig("pageSwitchDuration", 100)
+      .appendTo(this.sandbox);
+  },
+
+
+  tearDown : function() {
+    this.__carousel.dispose();
+    testrunner.globalTeardown();
+  },
+
+
+  testInitialActive: function() {
+    var p1 = qxWeb.create("<div>");
+    this.__carousel.addPage(p1);
+    this.assertEquals(this.__carousel.getActive()[0], p1[0]);
+  },
+
+
+  testOrderFirstActive: function() {
+    // IE older than 10 doesn't support the order attribute
+    if (this.__isIeLt10) {
+      this.skip("Legacy IE");
+    }
+
+    var p1 = qxWeb.create("<div>");
+    this.__carousel.addPage(p1);
+    var p2 = qxWeb.create("<div>");
+    this.__carousel.addPage(p2);
+    var p3 = qxWeb.create("<div>");
+    this.__carousel.addPage(p3);
+
+    this.assertEquals(p1.getStyle(this.__orderStyle), "0");
+    this.assertEquals(p2.getStyle(this.__orderStyle), "1");
+    this.assertEquals(p3.getStyle(this.__orderStyle), "-1");
+  },
+
+
+  testOrderLastActive: function() {
+    // IE older than 10 doesn't support the order attribute
+    if (this.__isIeLt10) {
+      this.skip("Legacy IE");
+    }
+
+    var p1 = qxWeb.create("<div>");
+    this.__carousel.addPage(p1);
+    var p2 = qxWeb.create("<div>");
+    this.__carousel.addPage(p2);
+    var p3 = qxWeb.create("<div>");
+    this.__carousel.addPage(p3);
+
+    this.__carousel.setActive(p3);
+
+    this.assertEquals(p3.getStyle(this.__orderStyle), "0");
+    this.assertEquals(p1.getStyle(this.__orderStyle), "1");
+    this.assertEquals(p2.getStyle(this.__orderStyle), "-1");
+  },
+
+
+  testOrderMiddleActive: function() {
+    // IE older than 10 doesn't support the order attribute
+    if (this.__isIeLt10) {
+      this.skip("Legacy IE");
+    }
+
+    var p1 = qxWeb.create("<div>");
+    this.__carousel.addPage(p1);
+    var p2 = qxWeb.create("<div>");
+    this.__carousel.addPage(p2);
+    var p3 = qxWeb.create("<div>");
+    this.__carousel.addPage(p3);
+
+    this.__carousel.setActive(p2);
+
+    this.assertEquals(p2.getStyle(this.__orderStyle), "0");
+    this.assertEquals(p3.getStyle(this.__orderStyle), "1");
+    this.assertEquals(p1.getStyle(this.__orderStyle), "-1");
+  },
+
+
+  testRemoveActive: function() {
+    // IE older than 10 doesn't support the order attribute
+    if (this.__isIeLt10) {
+      this.skip("Legacy IE");
+    }
+
+    var p1 = qxWeb.create("<div>");
+    this.__carousel.addPage(p1);
+    var p2 = qxWeb.create("<div>");
+    this.__carousel.addPage(p2);
+    var p3 = qxWeb.create("<div>");
+    this.__carousel.addPage(p3);
+    var p4 = qxWeb.create("<div>");
+    this.__carousel.addPage(p4);
+
+    this.__carousel.removePage(p1);
+
+    this.assertEquals(this.__carousel.getActive()[0], p2[0]);
+    this.assertEquals(p2.getStyle(this.__orderStyle), "0");
+    this.assertEquals(p3.getStyle(this.__orderStyle), "1");
+    this.assertEquals(p4.getStyle(this.__orderStyle), "-1");
+  },
+
+
+  testEmpty: function() {
+    var p1 = qxWeb.create("<div>");
+    this.__carousel.addPage(p1);
+    var p2 = qxWeb.create("<div>");
+    this.__carousel.addPage(p2);
+    var p3 = qxWeb.create("<div>");
+    this.__carousel.addPage(p3);
+
+    this.__carousel.removePage(p1);
+    this.__carousel.removePage(p2);
+    this.__carousel.removePage(p3);
+
+    this.assertEquals(0, this.__carousel.find(".qx-carousel-pagination").getChildren().length);
+    this.assertNull(this.__carousel.getActive());
+  },
+
+
+  testEmptyAndAppend: function(done) {
+    var p1 = qxWeb.create("<div>");
+    this.__carousel.addPage(p1);
+    var p2 = qxWeb.create("<div>");
+    this.__carousel.addPage(p2);
+    var p3 = qxWeb.create("<div>");
+    this.__carousel.addPage(p3);
+
+    this.__carousel.removePage(p1);
+    this.__carousel.removePage(p2);
+    this.__carousel.removePage(p3);
+
+    this.assertNull(this.__carousel.getActive());
+
+    this.__carousel.addPage(p1);
+    this.assertEquals(p1, this.__carousel.getActive());
+
+    this.__carousel.addPage(p2);
+    this.assertEquals(p1, this.__carousel.getActive());
+
+    this.__carousel.on("changeActive", function(e) {
+      this.resume(function() {
+        this.assertEquals(p2[0], e.value[0]);
+        this.assertEquals(p2[0], this.__carousel.getActive()[0]);
+      }, this);
+    }, this);
+
+    setTimeout(function() {
+      this.__carousel.nextPage();
+    }.bind(this), 100);
+
+    this.wait(250);
+  },
+
+
+  testNextPage: function() {
+    var p1 = qxWeb.create("<div>page1</div>");
+    this.__carousel.addPage(p1);
+    var p2 = qxWeb.create("<div>page2</div>");
+    this.__carousel.addPage(p2);
+    var p3 = qxWeb.create("<div>page3</div>");
+    this.__carousel.addPage(p3);
+
+    var cb3 = qx.dev.unit.Sinon.getSinon().spy(function(e) {
+      this.assertEquals(this.__carousel.getActive()[0], p1[0]);
+      this.assertEquals(this.__carousel.getActive()[0], e.value[0]);
+      this.assertEquals(p1[0], e.value[0]);
+      var activeButton = this.__carousel.find(".active");
+      this.assertEquals(this.__carousel.find(".qx-carousel-pagination-label").indexOf(activeButton), 0);
+      this.assertEquals(activeButton[0].textContent, "1");
+    }.bind(this));
+
+    var cb2 = qx.dev.unit.Sinon.getSinon().spy(function(e) {
+      this.assertEquals(this.__carousel.getActive()[0], p3[0]);
+      this.assertEquals(this.__carousel.getActive()[0], e.value[0]);
+      this.assertEquals(p3[0], e.value[0]);
+      var activeButton = this.__carousel.find(".active");
+      this.assertEquals(this.__carousel.find(".qx-carousel-pagination-label").indexOf(activeButton), 2);
+      this.assertEquals(activeButton[0].textContent, "3");
+
+      this.__carousel.once("changeActive", cb3);
+      this.__carousel.nextPage();
+    }.bind(this));
+
+    var cb1 = qx.dev.unit.Sinon.getSinon().spy(function(e) {
+      this.assertEquals(this.__carousel.getActive()[0], p2[0]);
+      this.assertEquals(this.__carousel.getActive()[0], e.value[0]);
+      this.assertEquals(p2[0], e.value[0]);
+      var activeButton = this.__carousel.find(".active");
+      this.assertEquals(this.__carousel.find(".qx-carousel-pagination-label").indexOf(activeButton), 1);
+      this.assertEquals(activeButton[0].textContent, "2");
+
+      this.__carousel.once("changeActive", cb2);
+      this.__carousel.nextPage();
+    }.bind(this));
+
+    this.__carousel.once("changeActive", cb1);
+    this.__carousel.nextPage();
+
+    window.setTimeout(function() {
+      this.resume(function() {
+        sinon.assert.calledOnce(cb1);
+        sinon.assert.calledOnce(cb2);
+        sinon.assert.calledOnce(cb3);
+      });
+    }.bind(this), 600);
+
+    this.wait(1000);
+  },
+
+
+  testPreviousPage: function() {
+    var p1 = qxWeb.create("<div>page1</div>");
+    this.__carousel.addPage(p1);
+    var p2 = qxWeb.create("<div>page2</div>");
+    this.__carousel.addPage(p2);
+    var p3 = qxWeb.create("<div>page3</div>");
+    this.__carousel.addPage(p3);
+
+    var cb3 = qx.dev.unit.Sinon.getSinon().spy(function(e) {
+      this.assertEquals(this.__carousel.getActive()[0], p1[0]);
+      this.assertEquals(this.__carousel.getActive()[0], e.value[0]);
+      this.assertEquals(p1[0], e.value[0]);
+      var activeButton = this.__carousel.find(".active");
+      this.assertEquals(this.__carousel.find(".qx-carousel-pagination-label").indexOf(activeButton), 0);
+      this.assertEquals(activeButton[0].textContent, "1");
+    }.bind(this));
+
+    var cb2 = qx.dev.unit.Sinon.getSinon().spy(function(e) {
+      this.assertEquals(this.__carousel.getActive()[0], p2[0]);
+      this.assertEquals(this.__carousel.getActive()[0], e.value[0]);
+      this.assertEquals(p2[0], e.value[0]);
+      var activeButton = this.__carousel.find(".active");
+      this.assertEquals(this.__carousel.find(".qx-carousel-pagination-label").indexOf(activeButton), 1);
+      this.assertEquals(activeButton[0].textContent, "2");
+
+      this.__carousel.once("changeActive", cb3);
+      this.__carousel.previousPage();
+    }.bind(this));
+
+    var cb1 = qx.dev.unit.Sinon.getSinon().spy(function(e) {
+      this.assertEquals(this.__carousel.getActive()[0], p3[0]);
+      this.assertEquals(this.__carousel.getActive()[0], e.value[0]);
+      this.assertEquals(p3[0], e.value[0]);
+      var activeButton = this.__carousel.find(".active");
+      this.assertEquals(this.__carousel.find(".qx-carousel-pagination-label").indexOf(activeButton), 2);
+      this.assertEquals(activeButton[0].textContent, "3");
+
+      this.__carousel.once("changeActive", cb2);
+      this.__carousel.previousPage();
+    }.bind(this));
+
+    this.__carousel.once("changeActive", cb1);
+    this.__carousel.previousPage();
+
+    window.setTimeout(function() {
+      this.resume(function() {
+        sinon.assert.calledOnce(cb1);
+        sinon.assert.calledOnce(cb2);
+        sinon.assert.calledOnce(cb3);
+      });
+    }.bind(this), 600);
+
+    this.wait(1000);
+  },
+
+
+  testPaginationUpdateOnPageRemove: function() {
+    var p1 = qxWeb.create("<div>page1</div>");
+    this.__carousel.addPage(p1);
+    var p2 = qxWeb.create("<div>page2</div>");
+    this.__carousel.addPage(p2);
+    var p3 = qxWeb.create("<div>page3</div>");
+    this.__carousel.addPage(p3);
+
+    var labels = this.__carousel.find(".qx-carousel-pagination-label");
+    this.assertEquals(3, labels.length);
+    this.assertTrue(labels.eq(0).is(".active"));
+    this.assertEquals(labels.eq(0)[0].textContent, "1");
+
+    this.__carousel.removePage(p1);
+    labels = this.__carousel.find(".qx-carousel-pagination-label");
+    this.assertEquals(2, labels.length);
+    this.assertTrue(labels.eq(0).is(".active"));
+    this.assertEquals(labels.eq(0)[0].textContent, "1");
+  },
+
+
+  testOnePage: function() {
+    var p1 = qxWeb.create("<div>page1</div>");
+    this.__carousel.addPage(p1);
+    this.__carousel.nextPage();
+    this.assertEquals(this.__carousel.getActive()[0], p1[0]);
+    this.__carousel.previousPage();
+    this.assertEquals(this.__carousel.getActive()[0], p1[0]);
+
+    this.__carousel.removePage(p1);
+    this.__carousel.nextPage();
+    this.assertNull(this.__carousel.getActive());
+  },
+
+
+  testTwoPages: function() {
+    var p1 = qxWeb.create("<div>page1</div>");
+    this.__carousel.addPage(p1);
+
+    var p2 = qxWeb.create("<div>page2</div>");
+    this.__carousel.addPage(p2);
+
+    this.assertEquals(this.__carousel.getActive()[0], p1[0]);
+    this.__carousel.previousPage();
+    this.assertEquals(this.__carousel.getActive()[0], p1[0]);
+
+    this.__carousel.nextPage();
+    this.assertEquals(this.__carousel.getActive()[0], p2[0]);
+    this.__carousel.nextPage();
+    this.assertEquals(this.__carousel.getActive()[0], p2[0]);
+  }
+
+});
