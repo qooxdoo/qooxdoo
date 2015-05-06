@@ -1,0 +1,72 @@
+$carousel-pagination-size: rem(17);
+$carousel-pagination-background: rgba($background-color,0.6);
+$carousel-pagination-border-color: rgba($background-color,0.6);
+$carousel-pagination-active-background: $highlight-color;
+$carousel-pagination-active-border-color: $background-color;
+$carousel-pagination-border-radius: $carousel-pagination-size;
+$carousel-pagination-font-size:  rem(1);
+
+.qx-carousel {
+  overflow: hidden;
+  height: 100%;
+}
+
+.qx-carousel-container {
+  width: 100%;
+  height: 100%;
+  -webkit-overflow-scrolling: auto; // disable native scrolling
+}
+
+.qx-carousel-page {
+  height: 100%;
+}
+
+.qx-carousel-container > div {
+ height: 100%;
+}
+
+.qx-carousel-pagination {
+  -webkit-backface-visibility:hidden;
+  -webkit-transition: -webkit-transform 2s;
+  -moz-transition: -moz-transform 2s;
+  transition: transform 2s;
+
+  position: relative;
+  margin-top: -$carousel-pagination-size - rem(10);
+  padding-bottom: $carousel-pagination-size/2;
+  width: 100%;
+  white-space: nowrap;
+  @include flex-justify-content(center);
+}
+
+.qx-carousel-pagination-label + .qx-carousel-pagination-label {
+  margin-left: $carousel-pagination-size/2;
+}
+
+.qx-carousel-pagination-label {
+  @include border-radius($carousel-pagination-border-radius);
+  @include background($carousel-pagination-background);
+  @include box-sizing(border-box);
+  @include flex(0 0);
+
+  border: rem(1) solid $carousel-pagination-border-color;
+  text-align: center;
+
+  display:inline-block;
+
+  min-width: $carousel-pagination-size;
+  height: $carousel-pagination-size;
+  line-height: $carousel-pagination-size;
+  overflow: hidden;
+
+  color: transparent;
+  font-size: $carousel-pagination-font-size;
+
+  cursor: pointer;
+}
+
+.qx-carousel-pagination-label.active {
+  @include background($carousel-pagination-active-background);
+  border: rem(1) solid $carousel-pagination-active-border-color;
+  color: $carousel-pagination-active-background;
+}
