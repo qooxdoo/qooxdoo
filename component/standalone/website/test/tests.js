@@ -4576,16 +4576,6 @@ testrunner.define({
     this.assertEquals(displayedPrev, newPrev);
   },
 
-  testTwoCollections : function() {
-    var now = new Date();
-    var c0 = q("#sandbox").calendar();
-    var c1 = q("#sandbox").calendar();
-    c0.setValue(now);
-
-    this.assertEquals(now.toDateString(), c0.getValue().toDateString());
-    this.assertEquals(now.toDateString(), c1.getValue().toDateString());
-  },
-
   testMinDate : function() {
     var cal = q("#sandbox").calendar(new Date(2014, 1, 3));
     cal.setConfig("minDate", new Date(2013, 5, 6));
