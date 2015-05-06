@@ -146,16 +146,14 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
       this._updateSymbolLength();
       var cssPrefix = this.getCssPrefix();
 
-      this._forEachElementWrapped(function(rating) {
-        if (rating.getAttribute("tabindex") < 0) {
-          rating.setAttribute("tabindex", 0);
-        }
-        rating.$onFirstCollection("focus", this._onFocus, rating)
-        .$onFirstCollection("blur", this._onBlur, rating)
-        .getChildren("span")
-          .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
-          .$onFirstCollection("tap", this._onTap, rating);
-      }.bind(this));
+      if (this.getAttribute("tabindex") < 0) {
+        this.setAttribute("tabindex", 0);
+      }
+      this.on("focus", this._onFocus, this)
+      .on("blur", this._onBlur, this)
+      .getChildren("span")
+        .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
+        .on("tap", this._onTap, this);
 
       return true;
     },
@@ -176,12 +174,11 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
         value = 0;
       }
       var cssPrefix = this.getCssPrefix();
-      this._forEachElementWrapped(function(rating) {
-        var children = rating.getChildren("span");
-        children.removeClass(cssPrefix + "-item-off");
-        children.slice(value, children.length).addClass(cssPrefix + "-item-off");
-        rating.emit("changeValue", rating.getValue());
-      });
+
+      var children = this.getChildren("span");
+      children.removeClass(cssPrefix + "-item-off");
+      children.slice(value, children.length).addClass(cssPrefix + "-item-off");
+      this.emit("changeValue", this.getValue());
       return this;
     },
 
@@ -194,7 +191,7 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
      */
     getValue : function() {
       var cssPrefix = this.getCssPrefix();
-      return this.eq(0).getChildren("span").not("." + cssPrefix + "-item-off").length;
+      return this.getChildren("span").not("." + cssPrefix + "-item-off").length;
     },
 
 
@@ -212,25 +209,25 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
     _updateSymbolLength : function() {
       var cssPrefix = this.getCssPrefix();
       var length = this.getConfig("length");
-      this._forEachElementWrapped(function(el) {
-        var children = el.getChildren();
-        children.setHtml(this.getConfig("symbol"));
-        var diff = length - children.length;
-        if (diff > 0) {
-          for (var i = 0; i < diff; i++) {
-            qxWeb.create("<span>" + this.getConfig("symbol") + "</span>")
-            .$onFirstCollection("tap", el._onTap, el)
-            .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
-            .appendTo(el);
-          }
-        } else {
-          for (var i = 0; i < Math.abs(diff); i++) {
-            el.getChildren().getLast()
-            .$offFirstCollection("tap", el._onTap, el)
-            .remove();
-          }
+
+      var children = this.getChildren();
+      children.setHtml(this.getConfig("symbol"));
+      var diff = length - children.length;
+      if (diff > 0) {
+        for (var i = 0; i < diff; i++) {
+          qxWeb.create("<span>" + this.getConfig("symbol") + "</span>")
+          .on("tap", this._onTap, this)
+          .addClasses([cssPrefix + "-item", cssPrefix + "-item-off"])
+          .appendTo(this);
         }
-      }.bind(this));
+      } else {
+        for (var i = 0; i < Math.abs(diff); i++) {
+          this.getChildren().getLast()
+          .off("tap", this._onTap, this)
+          .remove();
+        }
+      }
+
       return this;
     },
 
@@ -282,12 +279,10 @@ qx.Bootstrap.define("qx.ui.website.Rating", {
 
     // overridden
     dispose : function() {
-      this._forEachElementWrapped(function(rating) {
-        qxWeb(document.documentElement).off("keydown", this._onKeyDown, rating);
-        rating.$offFirstCollection("focus", this._onFocus, rating)
-        .$offFirstCollection("blur", this._onBlur, rating);
-        rating.getChildren("span").$offFirstCollection("tap", rating._onTap, rating);
-      });
+      qxWeb(document.documentElement).off("keydown", this._onKeyDown, this);
+      this.off("focus", this._onFocus, this)
+      .off("blur", this._onBlur, this);
+      this.getChildren("span").off("tap", this._onTap, this);
       this.setHtml("");
 
       return this.base(arguments);
