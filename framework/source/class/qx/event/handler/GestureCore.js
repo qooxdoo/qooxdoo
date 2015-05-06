@@ -167,6 +167,15 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         delete this.__gesture[domEvent.pointerId];
       }
 
+      /*
+        If the dom event's target or one of its ancestors have
+        a gesture handler, we don't need to fire the gesture again
+        since it bubbles.
+       */
+      if (this._hasIntermediaryHandler(target)) {
+        return;
+      }
+
       this.__gesture[domEvent.pointerId] = {
         "startTime" : new Date().getTime(),
         "lastEventTime" : new Date().getTime(),
