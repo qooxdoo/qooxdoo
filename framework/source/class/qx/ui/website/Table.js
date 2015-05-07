@@ -166,7 +166,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     table : function(model) {
       var table = new qx.ui.website.Table(this);
-      table.setProperty("__model", model);
+      table.__model = model;
       table.init();
       return table;
     },
@@ -252,6 +252,16 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
   members : {
 
+    __model: null,
+    __columnMeta: null,
+    __sortingFunction: null,
+    __filterFunction: null,
+    __filterFunc: null,
+    __filters: null,
+    __inputName: null,
+    __hovered: null,
+    __sortingData: null,
+
     // overridden
     init : function() {
 
@@ -259,30 +269,26 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         return false;
       }
 
-      var model = this.getProperty("__model");
+      var model = this.__model;
 
-      this._forEachElementWrapped(function(table) {
+      if (qxWeb.getNodeName(this).toUpperCase() !== "TABLE") {
+        throw new Error("collection should contains only table elements !!");
+      }
 
-        if (qxWeb.getNodeName(table).toUpperCase() !== "TABLE") {
-          throw new Error("collection should contains only table elements !!");
-        }
+      if(!this[0].tHead){
+        throw new Error("A Table header element is required for this widget.");
+      }
 
-        if(!table[0].tHead){
-          throw new Error("A Table header element is required for this widget.");
-        }
+      this.find("tbody td").addClass("qx-table-cell");
 
-        table.find("tbody td").addClass("qx-table-cell");
+      this.__inputName = "input" + qx.ui.website.Table.__getUID();
+      this.__getColumnMetaData(model);
+      this.setModel(model);
+      this.setSortingFunction(this.__defaultColumnSort);
 
-        table.setProperty("__inputName", "input" + qx.ui.website.Table.__getUID());
-        table.__getColumnMetaData(model);
-        table.setModel(model);
-        table.setSortingFunction(table.__defaultColumnSort);
+      this.__registerEvents();
 
-        table.__registerEvents();
-
-        this.setProperty("__hovered", null);
-
-      }.bind(this));
+      this.__hovered = null;
 
       return true;
     },
@@ -295,16 +301,15 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     setModel : function(model) {
-      this._forEachElementWrapped(function(table) {
-        if (typeof model != "undefined") {
-          if (qx.lang.Type.isArray(model)) {
-            table.setProperty("__model", model);
-            table.emit("modelChange", model);
-          } else {
-            throw new Error("model must be an Array !!");
-          }
+      if (typeof model != "undefined") {
+        if (qx.lang.Type.isArray(model)) {
+          this.__model = model;
+          this.emit("modelChange", model);
+        } else {
+          throw new Error("model must be an Array !!");
         }
-      });
+      }
+
       return this;
     },
 
@@ -316,10 +321,9 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     setColumnType : function(columnName, type) {
-      this._forEachElementWrapped(function(table) {
-        table.__checkColumnExistance(columnName);
-        table.getProperty("__columnMeta")[columnName].type = type;
-      }.bind(this));
+      this.__checkColumnExistance(columnName);
+      this.__columnMeta[columnName].type = type;
+
       return this;
     },
 
@@ -333,7 +337,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     getColumnType : function(columnName) {
       this.eq(0).__checkColumnExistance(columnName);
-      return this.eq(0).getProperty("__columnMeta")[columnName].type;
+      return this.eq(0).__columnMeta[columnName].type;
     },
 
 
@@ -365,9 +369,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     setCompareFunction : function(type, compareFunc) {
       type = qxWeb.string.firstUp(type);
-      this._forEachElementWrapped(function(table) {
-        table.setProperty("_compare" + type, compareFunc);
-      }.bind(this));
+      this.setProperty(["_compare" + type], compareFunc);
       return this;
     },
 
@@ -381,9 +383,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     unsetCompareFunction : function(type) {
       type = qxWeb.string.firstUp(type);
       var compareFunc = this["_compare" + type] || this._compareString;
-      this._forEachElementWrapped(function(table) {
-        table.setProperty("_compare" + type, compareFunc);
-      }.bind(this));
+      this.setProperty(["_compare" + type], compareFunc);
       return this;
     },
 
@@ -395,7 +395,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      */
     getCompareFunction : function(type) {
       type = qxWeb.string.firstUp(type);
-      return this.eq(0).getProperty("_compare" + type) || this["_compare" + type];
+      return this.getProperty("_compare" + type) || this["_compare" + type];
     },
 
 
@@ -405,12 +405,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     setSortingFunction : function(func) {
-
       func = func || function() {};
-
-      this._forEachElementWrapped(function(table) {
-        table.setProperty("__sortingFunction", func);
-      }.bind(this));
+      this.__sortingFunction = func;
 
       return this;
     },
@@ -421,10 +417,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     unsetSortingFunction : function() {
-
-      this._forEachElementWrapped(function(table) {
-        table.setProperty("__sortingFunction", this.__defaultColumnSort);
-      }.bind(this));
+      this.__sortingFunction = this.__defaultColumnSort;
 
       return this;
     },
@@ -435,10 +428,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     setFilterFunction : function(func) {
-
-      this._forEachElementWrapped(function(table) {
-        table.setProperty("__filterFunction", func);
-      }.bind(this));
+      this.__filterFunction = func;
 
       return this;
     },
@@ -449,9 +439,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     unsetFilterFunction : function() {
-      this._forEachElementWrapped(function(table) {
-        table.setProperty("__filterFunction", this.__defaultColumnFilter);
-      }.bind(this));
+      this.__filterFunction = this.__defaultColumnFilter;
+
       return this;
     },
 
@@ -464,14 +453,11 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     *
     */
     setColumnFilter : function(columnName, func) {
-
-      this._forEachElementWrapped(function(table) {
-        table.__checkColumnExistance(columnName);
-        if(!table.getProperty("__filterFunc")) {
-          table.setProperty("__filterFunc",{});
-        }
-        table.getProperty("__filterFunc")[columnName] = func;
-      }.bind(this));
+      this.__checkColumnExistance(columnName);
+      if(!this.__filterFunc) {
+        this.__filterFunc = {};
+      }
+      this.__filterFunc[columnName] = func;
 
       return this;
     },
@@ -485,8 +471,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     *
     */
     getColumnFilter : function(columnName) {
-      if(this.eq(0).getProperty("__filterFunc")){
-        return this.eq(0).getProperty("__filterFunc")[columnName];
+      if(this.__filterFunc){
+        return this.__filterFunc[columnName];
       }
       return null;
     },
@@ -498,13 +484,10 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
     setRowFilter : function(func) {
-
-      this._forEachElementWrapped(function(table) {
-        if(!table.getProperty("__filterFunc")) {
-          table.setProperty("__filterFunc",{})
-        }
-        table.getProperty("__filterFunc").row = func;
-      }.bind(this));
+      if(!this.__filterFunc) {
+        this.__filterFunc = {};
+      }
+      this.__filterFunc.row = func;
 
       return this;
     },
@@ -516,9 +499,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     *
     */
     getRowFilter : function() {
-
-      if(this.eq(0).getProperty("__filterFunc")) {
-        return this.eq(0).getProperty("__filterFunc").row;
+      if(this.__filterFunc) {
+        return this.__filterFunc.row;
       }
       return null;
     },
@@ -531,13 +513,10 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
      */
     sort : function(columnName, dir) {
-
       this.__checkColumnExistance(columnName);
 
-      this._forEachElementWrapped(function(table) {
-        table.setSortingClass(columnName, dir);
-        table.__sortDOM(table.__sort(columnName, dir));
-      }.bind(this));
+      this.setSortingClass(columnName, dir);
+      this.__sortDOM(this.__sort(columnName, dir));
 
       this.emit("sort", {columName : columnName, direction : dir});
 
@@ -561,22 +540,18 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         columnName = qx.ui.website.Table.__allColumnSelector;
       }
 
-      this._forEachElementWrapped(function(table) {
+      if (!this.__filters) {
+        this.__filters = {};
+      }
 
-        if (!table.getProperty("__filters")) {
-          table.setProperty("__filters", {});
-        }
+      if (this.__filters[columnName]) {
+        this.__filters[columnName].keyword = keyword;
+        this.__getRoot().appendChild(this.__filters[columnName].rows);
+      } else {
+        this.__filters[columnName] = { keyword : keyword, rows : document.createDocumentFragment() };
+      }
 
-        if (table.getProperty("__filters")[columnName]) {
-          table.getProperty("__filters")[columnName].keyword = keyword;
-          table.__getRoot().appendChild(table.getProperty("__filters")[columnName].rows);
-        } else {
-          table.getProperty("__filters")[columnName] = { keyword : keyword, rows : document.createDocumentFragment() };
-        }
-
-        table.__filterDom(keyword, columnName);
-
-      }.bind(this));
+      this.__filterDom(keyword, columnName);
 
       this.emit("filter", {columName : columnName, keyword : keyword});
 
@@ -592,18 +567,16 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     resetFilter : function(columnName) {
 
       var filters = null;
-      this._forEachElementWrapped(function(table) {
-        filters = table.getProperty("__filters");
-        if (filters) {
-          if (columnName) {
-            table.__getRoot().appendChild(filters[columnName].rows);
-          } else {
-            for (var col in filters) {
-              table.__getRoot().appendChild(filters[col].rows);
-            }
+      filters = this.__filters;
+      if (filters) {
+        if (columnName) {
+          this.__getRoot().appendChild(filters[columnName].rows);
+        } else {
+          for (var col in filters) {
+            this.__getRoot().appendChild(filters[col].rows);
           }
         }
-      });
+      }
 
       return this;
     },
@@ -618,7 +591,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       var rows = this.__extractTableRows(tableData);
       var tbody = this.find('tbody');
       tbody.empty();
-      rows.appendTo(tbody)
+      rows.appendTo(tbody);
       this.render();
       return this;
     },
@@ -696,7 +669,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         };
 
         if (!filterFunc.bind(this)(data)) {
-          this.getProperty("__filters")[columnName].rows.appendChild(rows[i])
+          this.__filters[columnName].rows.appendChild(rows[i]);
         }
 
       }
@@ -710,30 +683,25 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * @return {Map} The map containing the current sorting information
      */
     getSortingData : function() {
-      return this.eq(0).getProperty("__sortingData");
+      return this.__sortingData;
     },
 
 
     //overriden
     render : function() {
+      var sortingData = this.getSortingData();
+      var rowSelection = this.getConfig("rowSelection");
 
-      this._forEachElementWrapped(function(table) {
+      this.__applyTemplate(this.__model);
 
-        var sortingData = table.getSortingData();
-        var rowSelection = table.getConfig("rowSelection");
+      if (qx.ui.website.Table.__selectionTypes.indexOf(rowSelection) != -1) {
 
-        table.__applyTemplate(table.getProperty("__model"));
+        this.__processSelectionInputs(rowSelection);
+      }
 
-        if (qx.ui.website.Table.__selectionTypes.indexOf(rowSelection) != -1) {
-
-          table.__processSelectionInputs(rowSelection);
-        }
-
-        if (sortingData) {
-          table.__sortDOM(table.__sort(sortingData.columnName, sortingData.direction));
-        }
-
-      });
+      if (sortingData) {
+        this.__sortDOM(this.__sort(sortingData.columnName, sortingData.direction));
+      }
 
       return this;
 
@@ -748,7 +716,6 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
     __processSelectionInputs : function(rowSelection) {
-
       switch (rowSelection) {
 
         case "none":
@@ -805,7 +772,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         nodeName = qxWeb.getNodeName(qxWeb(row.cells.item(0)));
       }
 
-      var clazz = qx.ui.website.Table, inputName = this.getProperty("__inputName");
+      var inputName = this.__inputName;
       var className = (nodeName == "th") ? clazz.__internalSelectionClass + " " + clazz.__internalHeaderClass : clazz.__internalSelectionClass;
 
       var currentInput = qxWeb(row).find("."+clazz.__internalSelectionClass);
@@ -821,7 +788,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         if (row.cells.item(0)) {
           inputNode.insertBefore(qxWeb(row.cells.item(0)));
         } else {
-          inputNode.appendTo(qxWeb(row))
+          inputNode.appendTo(qxWeb(row));
         }
       }
 
@@ -833,7 +800,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     * @param columnName {String} The name of the column to check
     */
     __checkColumnExistance : function(columnName) {
-      var data = this.getProperty("__columnMeta");
+      var data = this.__columnMeta;
       if (data && !data[columnName]) {
         throw new Error("Column " + columnName + " does not exists !");
       }
@@ -893,7 +860,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
       }
 
-      this.setProperty("__columnMeta", data);
+      this.__columnMeta = data;
 
       return this;
     },
@@ -930,7 +897,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
           qxWeb(dataRows[i]).insertBefore(qxWeb(this.__getRoot().rows.item(0)));
         }
       }
-      this.setProperty("__dataRows", dataRows);
+
       return this;
     },
 
@@ -945,7 +912,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
       this.on("cellClick", function(data) {
         if(data.cell && data.cell.hasClass(qx.ui.website.Table.__internalHeaderClass)){
-          this.getProperty("__sortingFunction").bind(this)(data);
+          this.__sortingFunction.bind(this)(data);
         }
       }, this);
 
@@ -1101,7 +1068,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
       var target = e.getTarget();
       var cell = qxWeb(target);
-      var hovered = this.getProperty("__hovered");
+      var hovered = this.__hovered;
 
       if(!cell.hasClass("qx-table-cell") && !cell.hasClass("qx-table-header")) {
         cell = cell.getClosest(".qx-table-cell, .qx-table-header");
@@ -1110,10 +1077,10 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       if(cell && (cell.length > 0) && ((hovered && (hovered.cell[0] != cell[0])) || (!hovered)) && !cell.hasClass("qx-table-row-selection")) {
 
         if(hovered) {
-          this.emit("cellOut", this.getProperty("__hovered"));
+          this.emit("cellOut", hovered);
         }
 
-        this.setProperty("__hovered", this.__fireEvent("cellHover", cell, target));
+        this.__hovered = this.__fireEvent("cellHover", cell, target);
       }
 
     },
@@ -1129,20 +1096,20 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       var relatedTarget = e.getRelatedTarget();
       var cell = qxWeb(relatedTarget);
 
-      if(this.getProperty("__hovered")) {
+      if(this.__hovered) {
 
         if(!cell.isChildOf(this)) {
 
-          this.emit("cellOut", this.getProperty("__hovered"));
-          this.setProperty("__hovered", null);
+          this.emit("cellOut", this.__hovered);
+          this.__hovered = null;
 
         }else {
 
           if(!cell.hasClass("qx-table-cell") && !cell.hasClass("qx-table-header")) {
             cell = cell.getClosest(".qx-table-cell, .qx-table-header");
             if(cell.hasClass("qx-table-row-selection")) {
-              this.emit("cellOut", this.getProperty("__hovered"));
-              this.setProperty("__hovered", null);
+              this.emit("cellOut", this.__hovered);
+              this.__hovered = null;
             }
           }
 
@@ -1231,7 +1198,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     __deleteRows : function(rowCount) {
       var renderedRows = this.__getRoot().rows;
       while(renderedRows.length > rowCount){
-        this[0].deleteRow(renderedRows.length)
+        this[0].deleteRow(renderedRows.length);
       }
       return this;
     },
@@ -1243,7 +1210,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     * @return {Map} Map containing the metadata
     */
     __getDataForColumn : function(columName) {
-      return this.getProperty("__columnMeta")[columName];
+      return this.__columnMeta[columName];
     },
 
 
@@ -1298,9 +1265,8 @@ qx.Bootstrap.define("qx.ui.website.Table", {
         direction: dir
       };
 
-      this.setProperty("__sortingData", data);
+      this.__sortingData = data;
       this.__addSortingClassToCol(this[0].tHead, columnName, dir);
-      //this.__addSortingClassToCol(this[0].tFoot, columnName, dir);
     },
 
 
