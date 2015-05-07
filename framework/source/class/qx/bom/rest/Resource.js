@@ -285,6 +285,16 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
                 this.emit(action + "Sent", response);
                 this.emit("sent", response);
               }
+
+              if (req.getTransport().readyState === qx.bom.request.Xhr.OPENED) {
+                var payload = {
+                  "id": parseInt(req.toHashCode(), 10),
+                  "request": req,
+                  "action": action
+                };
+                this.emit(action + "Started", payload);
+                this.emit("started", payload);
+              }
             }
           },
           context: this

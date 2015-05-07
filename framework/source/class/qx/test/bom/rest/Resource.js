@@ -952,6 +952,27 @@ qx.Class.define("qx.test.bom.rest.Resource",
       });
     },
 
+    "test: fire started" : function() {
+
+      qx.bom.request.SimpleXhr.restore();
+
+      var res = this.res,
+          req = this.req,
+          that = this;
+
+      var listener = this.spy();
+      res.on("started", listener);
+      res.get();
+
+      window.setTimeout(function() {
+        this.resume(function() {
+          this.assertTrue(listener.calledOnce);
+        }, this);
+      }.bind(this), 200);
+
+      this.wait(500);
+    },
+
     //
     // Dispose
     //
