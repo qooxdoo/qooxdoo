@@ -137,7 +137,21 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * For example, "indexSent" is fired when <code>index()</code> was
      * called.
      */
-     "actionSent": "qx.bom.rest.Resource"
+     "actionSent": "qx.bom.rest.Resource",
+
+    /**
+     * Fired when a request is started to the given endpoint. This moment is right after the request
+     * was opened and send.
+     */
+    "started": "qx.bom.rest.Resource",
+
+    /**
+     * Fired when any request associated to action is started to the given endpoint. This moment is 
+     * right after the request was opened and send.
+     *
+     * For example, "indexStarted" is fired when <code>index()</code> was called.
+     */
+     "actionStarted": "qx.bom.rest.Resource"
   },
 
   statics:
