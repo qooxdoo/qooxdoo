@@ -26,7 +26,7 @@
  * @require(qx.module.event.GestureHandler)
  * @require(qx.module.event.Track)
  */
-qx.Class.define("qx.ui.website.Carousel",
+qx.Bootstrap.define("qx.ui.website.Carousel",
 {
   extend : qx.ui.website.Widget,
 
