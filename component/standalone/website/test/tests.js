@@ -4375,6 +4375,29 @@ testrunner.define({
     q.initWidgets("#el1");
     this.assertTrue(el1.hasClass("qx-widget"));
     this.assertFalse(el2.hasClass("qx-widget"));
+  },
+
+  testWrapper: function() {
+    var w0 = q.create('<div id="w0" class="wrapped">').widget().appendTo(q("#sandbox"));
+    var w1 = q.create('<div id="w1" class="wrapped">').widget().appendTo(q("#sandbox"));
+
+    var wrapper = q(".wrapped").toWidgetCollection();
+    this.assertInstance(wrapper, qx.core.Wrapper);
+    this.assertEquals(wrapper.length, 2);
+    this.assertEquals(wrapper[0], w0);
+    this.assertEquals(wrapper[1], w1);
+
+    this.assertEquals(wrapper.getAttribute("id"), "w0");
+
+    wrapper.setEnabled(false);
+    this.assertTrue(w0.getAttribute("disabled"));
+    this.assertTrue(w1.getAttribute("disabled"));
+
+    var spy = qx.dev.unit.Sinon.getSinon().spy();
+    wrapper.on("custom", spy).emit("custom");
+    sinon.assert.calledTwice(spy);
+    this.assertEquals(spy.firstCall.thisValue, w0);
+    this.assertEquals(spy.secondCall.thisValue, w1);
   }
 });
 

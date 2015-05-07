@@ -78,6 +78,26 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       elements._forEachElementWrapped(function(widget) {
         widget.init();
       });
+    },
+
+
+    /**
+     * Returns a wrapper Array that maps the widget API available on
+     * the first item in the current collection to all items in the
+     * collection.
+     *
+     * @attach {qxWeb}
+     * @return {qxWeb[]} Collection of widgets
+     */
+    toWidgetCollection: function() {
+      var args = this.toArray().map(function(el) { return qxWeb(el); });
+
+      // Set the context for the 'bind' call (will be replaced by new)
+      Array.prototype.unshift.call(args, null);
+      // Create temporary constructor with bound arguments
+      var Temp = qx.core.Wrapper.bind.apply(qx.core.Wrapper, args);
+
+      return new Temp();
     }
   },
 
@@ -317,7 +337,8 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
 
   defer : function(statics) {
     qxWeb.$attach({
-      widget: statics.widget
+      widget: statics.widget,
+      toWidgetCollection : statics.toWidgetCollection
     });
     qxWeb.$attachStatic({
       initWidgets : statics.initWidgets
