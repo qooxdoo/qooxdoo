@@ -213,6 +213,8 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
   members: {
 
+    __mediaQueryListener: null,
+
     init: function() {
       if (!this.base(arguments)) {
         return false;
@@ -801,6 +803,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
 
     dispose: function() {
+      this.__mediaQueryListener = undefined;
       var cssPrefix = this.getCssPrefix();
       qxWeb(window).off("resize", this._onResize, this);
       this.find("> ul > ." + this.getCssPrefix() + "-button").off("tap", this._onTap, this);
