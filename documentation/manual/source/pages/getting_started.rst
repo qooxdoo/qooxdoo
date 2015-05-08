@@ -7,7 +7,7 @@ This section provides you with resources that help you pick the qooxdoo package 
 %{Website}
 ===========
 
-:doc:`/pages/website` is a low-level package that you deploy as a single *.js* file, like you would with many other %{JS} libraries. Its contents encompasses DOM and BOM abstractions, cross-browser event handling, a selector engine, and a stripped-down version of the qooxdoo :doc:`class system </pages/core>`. It does not include any UI widgets. It is suitable if you basically want to manipulate DOM elements on a page.
+:doc:`/pages/website` is a low-level package that you deploy by including one or more *.js* file(s) in your HTML pages, like you would with many other %{JS} libraries. Its contents encompasses DOM and BOM abstractions, cross-browser event handling, a selector engine, and a stripped-down version of the qooxdoo :doc:`class system </pages/core>`. A small set of UI widgets is available. %{Website} is suitable if you basically want to manipulate DOM elements and styles on a page, as opposed to creating a single-page application written entirely in JavaScript.
 
 .. toctree::
    :maxdepth: 1
