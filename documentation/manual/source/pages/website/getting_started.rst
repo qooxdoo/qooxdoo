@@ -1,7 +1,7 @@
 Getting Started with %{qooxdoo} %{Website}
 *******************************************
 
-It's easy to start using %{Website}. Create an HTML page and ``<script>``-include the %{Website} library file, then add code that uses its API. Here is a simple example:
+It's easy to start using %{Website}. Create an HTML page and ``<script>``-include the `%{Website} library file(s) <http://qooxdoo.org/downloads/qx.website>`__, then add code that uses its API. Here is a simple example:
 
 .. code-block:: html
 
