@@ -842,7 +842,7 @@ components-publish:
 # PUBLISH TARGETS
 ################################################################################
 
-publish-build: build-apps build-components publish-build-q-zip tutorials-build framework-build resources-build resources-framework-build manual-build
+publish-build: grunt-setup build-apps build-components publish-build-q-zip tutorials-build framework-build resources-build resources-framework-build manual-build
 
 ##
 # "q-core.js" -> "q-core-3.1.js" (also for .min.js files)
