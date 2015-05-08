@@ -4,6 +4,8 @@ var qx = require("../../../tool/grunt");
 
 var path = require('path');
 
+var Data = require('api/Data.es5');
+
 // grunt
 module.exports = function(grunt) {
 
@@ -114,6 +116,15 @@ module.exports = function(grunt) {
           }
         }]
       }
+    },
+
+    babel: {
+      options: { sourceMap: false },
+      dist: {
+        files: {
+          'api/Data.es5': 'api/Data.es6'
+        }
+      }
     }
   };
 
@@ -123,6 +134,7 @@ module.exports = function(grunt) {
 
   qx.task.registerTasks(grunt);
 
+  grunt.loadNpmTasks('grunt-babel');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -135,7 +147,7 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'api',
     'Concat the samples and generate the API.',
-    ["concat:samples", "generate-api", "sass:indigo", "notify:api"]
+    ["concat:samples", "generate-api", "babel", "write-viewer-data", "sass:indigo", "notify:api"]
   );
 
   // 'extend' test jobs
@@ -209,5 +221,14 @@ module.exports = function(grunt) {
 
     // write index file
     fs.writeFileSync('api/index.new.html', index, {'encoding': 'utf8'});
+  });
+
+  grunt.registerTask('write-viewer-data', 'Writes viewer data file.', function() {
+   var ast = JSON.parse(fs.readFileSync('api/script/qxWeb.json', {encoding: 'utf8'}));
+   var dataObj = new Data(ast);
+   var rawData = dataObj.getRawData();
+   grunt.log.writeln("Produced JSON for the following modules:");
+   grunt.log.oklns(JSON.stringify(dataObj.getKeys()));
+   fs.writeFileSync('api/script/viewer-data.json', JSON.stringify(rawData), {encoding: 'utf8'});
   });
 };

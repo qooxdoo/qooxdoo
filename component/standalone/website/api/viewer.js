@@ -247,10 +247,10 @@ q.ready(function() {
    * @lint ignoreUndefined(q)
    */
   var renderList = function(data) {
-    var keys = data.getKeys();
+    var keys = Object.keys(data);
     for (var i = 0; i < keys.length; i++) {
       var moduleName = keys[i];
-      var module = data.getModule(moduleName);
+      var module = data[moduleName];
       renderListModule(moduleName, module);
     }
   };
@@ -408,10 +408,10 @@ q.ready(function() {
    * CONTENT
    */
   renderContent = function(data) {
-    var keys = data.getKeys();
+    var keys = Object.keys(data);
     for (var i = 0; i < keys.length; i++) {
       var moduleName = keys[i];
-      var module = data.getModule(moduleName);
+      var module = data[moduleName];
       renderModule(keys[i], module);
     }
   };
@@ -1166,22 +1166,157 @@ q.ready(function() {
     scrollContentIntoView();
   };
 
-  var configReplacements = q.$$qx.core.Environment.get("apiviewer.modulenamereplacements");
-  var replacements = [];
-  for (var exp in configReplacements) {
-    replacements.push({
-      regExp: new RegExp(exp),
-      replacement: configReplacements[exp]
-    });
-  }
+  // var configReplacements = q.$$qx.core.Environment.get("apiviewer.modulenamereplacements");
+  // var replacements = [];
+  // for (var exp in configReplacements) {
+  //   replacements.push({
+  //     regExp: new RegExp(exp),
+  //     replacement: configReplacements[exp]
+  //   });
+  // }
 
-  Data.MODULE_NAME_REPLACEMENTS = replacements;
-  var data = new Data();
-  data.on("ready", onContentReady, data);
-  data.on("loadingFailed", function() {
-    q("#warning").setStyle("display", "block");
-    if (isFileProtocol()) {
-      q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
+  // Data.MODULE_NAME_REPLACEMENTS = replacements;
+  // var data = new Data();
+  // console.log(data);
+  // data.on("ready", onContentReady, data);
+  // data.on("loadingFailed", function() {
+  //   q("#warning").setStyle("display", "block");
+  //   if (isFileProtocol()) {
+  //     q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
+  //   }
+  // });
+
+  q.io.xhr("script/viewer-data.json")
+    .on("loadend", function(xhr) {
+      var isFileProtocol = function() {
+        return (location.protocol.indexOf("file") === 0);
+      };
+
+      if (xhr.readyState == 4 && xhr.status >= 200 && xhr.status < 400) {
+        var viewerData = JSON.parse(xhr.responseText);
+        if (q.env.get("engine.name") == "mshtml" && isFileProtocol()) {
+          // postpone data processing in IE when using file protocol
+          // to prevent rendering no module doc at all
+          window.setTimeout(onContentReady.bind(viewerData)(), 0);
+        } else {
+          onContentReady.bind(viewerData)();
+        }
+      } else {
+        this.emit("loadingFailed");
+      }
+    }, this)
+    .on("loadingFailed", function() {
+      q("#warning").setStyle("display", "block");
+      if (isFileProtocol()) {
+        q("#warning em").setHtml("File protocol not supported. Please load the application via HTTP.");
+      }
+    })
+    .send();
+
+Data = {
+  IGNORE_TYPES: ["qxWeb", "var", "null", "Emitter", "Class"],
+  MDC_LINKS: {
+    "Event" : "https://developer.mozilla.org/en/DOM/event",
+    "Window" : "https://developer.mozilla.org/en/DOM/window",
+    "Document" : "https://developer.mozilla.org/en/DOM/document",
+    "Element" : "https://developer.mozilla.org/en/DOM/element",
+    "Node" : "https://developer.mozilla.org/en/DOM/node",
+    "Date" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date",
+    "Function" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function",
+    "Array" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array",
+    "Object" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
+    "Map" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
+    "RegExp" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/RegExp",
+    "Error" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error",
+    "Number" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",
+    "Integer" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",
+    "Boolean" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean",
+    "String" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String",
+    "undefined" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/undefined",
+    "arguments" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/arguments",
+    "Font" : "https://developer.mozilla.org/en/CSS/font",
+    "Color" : "https://developer.mozilla.org/en/CSS/color"
+  },
+  MODULE_NAME_REPLACEMENTS: [
+    { regExp: new RegExp(/qx\.module\./), replacement: "" },
+    { regExp: new RegExp(/qx\.ui\.website\./), replacement: "" }
+  ],
+  getByType: function(ast, type) {
+    if (ast.children) {
+      for (var i=0; i < ast.children.length; i++) {
+        var item = ast.children[i];
+        if (item.type == type) {
+          return item;
+        }
+      }
     }
-  });
+    return {attributes: {}, children: []};
+  },
+
+  getModuleName: function(attach) {
+    if (!attach) {
+      return "Core";
+    }
+
+    Data.MODULE_NAME_REPLACEMENTS.forEach(function(map) {
+     attach = attach.replace(map.regExp, map.replacement);
+    });
+    return attach;
+  },
+
+  getModuleNameFromClassName: function(name) {
+    name = name.split(".");
+    return name[name.length -1];
+  },
+
+  getMethodName: function(item, prefix) {
+    if (item.attributes.prefixedMethodName) {
+      return item.attributes.prefixedMethodName;
+    }
+    var attachData = Data.getByType(item, "attachStatic");
+    if (prefix) {
+      if (item.attributes.prefix) {
+        prefix = item.attributes.prefix;
+      }
+      if (!item.attributes.isStatic) {
+        prefix = prefix.toLowerCase();
+      }
+      return prefix + item.attributes.name;
+    } else if (item.attributes.name == "ctor") {
+      return "q";
+    } else if (item.attributes.isStatic) {
+      return "q." + (attachData.attributes.targetMethod || item.attributes.name);
+    } else {
+      return "." + item.attributes.name;
+    }
+  },
+
+  isFactory: function(methodAst, moduleName) {
+    var type;
+    var returnType = Data.getByType(methodAst, "return");
+    returnType && Data.getByType(returnType, "types").children.forEach(function(item) {
+      type = item.attributes.type;
+    });
+    if (type) {
+      var returnModuleName = Data.getModuleNameFromClassName(type);
+      var attach = Data.getByType(methodAst, "attach");
+      if (!attach.attributes.targetClass) {
+        attach = Data.getByType(methodAst, "attachStatic");
+      }
+      return returnModuleName == moduleName && attach.attributes.targetClass == "qxWeb";
+    }
+    return false;
+  },
+
+  __isInternal: function(item) {
+    return item.attributes.isInternal ||
+      item.attributes.access == "private" ||
+      item.attributes.access == "protected";
+  },
+
+  __sortMethods: function(a, b) {
+    return Data.getMethodName(a) > Data.getMethodName(b) ? 1 : -1;
+  }
+};
+
 });
