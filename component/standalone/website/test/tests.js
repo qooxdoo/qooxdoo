@@ -5160,6 +5160,10 @@ testrunner.define({
 
 
   setUp : function() {
+    if (q.env.get("browser.documentmode") < 9) {
+      this.skip("Legacy IE");
+    }
+
     testrunner.globalSetup();
 
     this.__orderStyle = qxWeb.env.get("engine.name") === "mshtml" &&
