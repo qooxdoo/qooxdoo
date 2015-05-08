@@ -446,7 +446,12 @@ translate-components:
 ######################################
 # BUILD
 ######################################
-build: build-apps build-components
+build: grunt-setup build-apps build-components
+
+grunt-setup:
+	@( $(CMD_NPM) install ) || exit 1; \
+	( $(CMD_GRUNT) setup; ) || exit 1;
+
 build-apps:
 	@time for APPLICATION in $(APPLICATIONS); do \
 		if [ "$$APPLICATION" = "feedreader" ]; then \
@@ -454,7 +459,6 @@ build-apps:
 			elif [ "$$APPLICATION" = "todo" ]; then \
 				( cd application/$$APPLICATION && $(CMD_GENERATOR) build-mini ) || exit 1; \
 			elif [ "$$APPLICATION" = "websitewidgetbrowser" ]; then \
-				( cd application/$$APPLICATION && $(CMD_NPM) install ) || exit 1; \
 				( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
 		else \
 			( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; \
@@ -464,7 +468,7 @@ build-apps:
 build-components:
 	@time for COMPONENT in $(COMPONENTS); do \
 		if [ "$$COMPONENT" = "website" ]; then \
-			( cd component/standalone/$$COMPONENT && $(CMD_NPM) install ) || exit 1; \
+			( cd component/standalone/$$COMPONENT ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-min ) || exit 1; \
 			( cd component/standalone/$$COMPONENT && $(CMD_GENERATOR) build-module-all ) || exit 1; \
