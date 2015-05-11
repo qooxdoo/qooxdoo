@@ -5160,7 +5160,8 @@ testrunner.define({
 
 
   setUp : function() {
-    if (q.env.get("browser.documentmode") < 9) {
+    var docMode = q.env.get("browser.documentmode");
+    if (docMode < 9 && docMode != 0) {
       this.skip("Legacy IE");
     }
 
