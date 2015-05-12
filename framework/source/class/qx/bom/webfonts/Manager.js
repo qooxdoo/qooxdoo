@@ -92,7 +92,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * checks if the webFont was applied correctly.
      *
      * @param familyName {String} Name of the web font
-     * @param sourcesList {String[]} List of source URLs. For maximum compatibility,
+     * @param sourcesList {Object} List of source URLs along with their style
+     * (italic:true/false) and weight (bold:true/false). For maximum compatibility,
      * this should include EOT, WOFF and TTF versions of the font.
      * @param callback {Function?} Optional event listener callback that will be
      * executed once the validator has determined whether the webFont was
@@ -102,9 +103,12 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      */
     require : function(familyName, sourcesList, callback, context)
     {
+      var sourceUrls = sourcesList.source;
+      var bold = sourcesList.bold;
+      var italic = sourcesList.italic;
       var sources = [];
-      for (var i=0,l=sourcesList.length; i<l; i++) {
-        var split = sourcesList[i].split("#");
+      for (var i=0,l=sourceUrls.length; i<l; i++) {
+        var split = sourceUrls[i].split("#");
         var src = qx.util.ResourceManager.getInstance().toUri(split[0]);
         if (split.length > 1) {
           src = src + "#" + split[1];
@@ -125,9 +129,9 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           this.__queueInterval.start();
         }
 
-        this.__queue.push([familyName, sources, callback, context]);
+        this.__queue.push([familyName, sources, bold, italic, callback, context]);
       } else {
-        this.__require(familyName, sources, callback, context);
+        this.__require(familyName, sources, bold, italic, callback, context);
       }
     },
 
@@ -138,13 +142,16 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * fall back to the their regular font-families.
      *
      * @param familyName {String} font-family name
+     * @param bold {Boolean} bold font-weight.
+     * @param italic {Boolean} italic font-style.
      */
-    remove : function(familyName) {
+    remove : function(familyName, bold, italic) {
+      var fontLookupKey = this.__createFontLookupKey(familyName, bold, italic);
       var index = null;
       for (var i=0,l=this.__createdStyles.length; i<l; i++) {
-        if (this.__createdStyles[i] == familyName) {
+        if (this.__createdStyles[i] == fontLookupKey) {
           index = i;
-          this.__removeRule(familyName);
+          this.__removeRule(familyName, bold, italic);
           break;
         }
       }
@@ -224,22 +231,39 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     */
 
     /**
+     * Creates a lookup key to index the created fonts.
+     * @param familyName {String} font-family name
+     * @param bold {Boolean} bold font-weight.
+     * @param italic {Boolean} italic font-style.
+     * @returns {string} the font lookup key
+     */
+    __createFontLookupKey: function (familyName, bold, italic) {
+      var lookupKey = familyName + "_" + (bold ? "b" : "n") + "_" + (italic ? "i" : "n");
+      return lookupKey;
+    },
+
+    /**
      * Does the actual work of adding stylesheet rules and triggering font
      * validation
      *
      * @param familyName {String} Name of the web font
      * @param sources {String[]} List of source URLs. For maximum compatibility,
      * this should include EOT, WOFF and TTF versions of the font.
+     * @param bold {Boolean} whether the web font should be registered using a
+     * bold font weight.
+     * @param italic {Boolean} whether the web font should be registered using an
+     * italic font style.
      * @param callback {Function?} Optional event listener callback that will be
      * executed once the validator has determined whether the webFont was
      * applied correctly.
      * @param context {Object?} Optional context for the callback function
      */
-    __require : function(familyName, sources, callback, context)
+    __require : function(familyName, sources, bold, italic, callback, context)
     {
-      if (!qx.lang.Array.contains(this.__createdStyles, familyName)) {
+      var fontLookupKey = this.__createFontLookupKey(familyName, bold, italic);
+      if (!qx.lang.Array.contains(this.__createdStyles, fontLookupKey)) {
         var sourcesMap = this.__getSourcesMap(sources);
-        var rule = this.__getRule(familyName, sourcesMap);
+        var rule = this.__getRule(familyName, bold, italic, sourcesMap);
 
         if (!rule) {
           throw new Error("Couldn't create @font-face rule for WebFont " + familyName + "!");
@@ -258,7 +282,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
             return;
           }
         }
-        this.__createdStyles.push(familyName);
+        this.__createdStyles.push(fontLookupKey);
       }
 
       if (!this.__validators[familyName]) {
@@ -340,10 +364,14 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * Assembles the body of a font-face rule for a single webFont.
      *
      * @param familyName {String} Font-family name
+     * @param bold {Boolean} whether the web font should be registered using a
+     * bold font weight.
+     * @param italic {Boolean} whether the web font should be registered using an
+     * italic font style.
      * @param sourcesMap {Map} Map of font formats and sources
      * @return {String} The computed CSS rule
      */
-    __getRule : function(familyName, sourcesMap)
+    __getRule : function(familyName, bold, italic, sourcesMap)
     {
       var rules = [];
 
@@ -360,7 +388,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var rule = "src: " + rules.join(",\n") + ";";
 
       rule = "font-family: " + familyName + ";\n" + rule;
-      rule = rule + "\nfont-style: normal;\nfont-weight: normal;";
+      rule = rule + "\nfont-style: " + (italic ? "italic" : "normal") + ";"
+      rule = rule + "\nfont-weight: " + (bold ? "bold" : "normal") + ";";
 
       return rule;
     },
@@ -416,10 +445,14 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * stylesheet
      *
      * @param familyName {String} The font-family name
+     * @param bold {Boolean} bold font-weight.
+     * @param italic {Boolean} italic font-style.
      */
-    __removeRule : function(familyName)
+    __removeRule : function(familyName, bold, italic)
     {
-      var reg = new RegExp("@font-face.*?" + familyName, "m");
+      var reg = new RegExp("@font-face.*?" + familyName + ".*font-style:"
+      + (italic ? "italic" : "normal") + ".*font-weight:"
+      + (bold ? "bold" : "normal"), "m");
       for (var i=0,l=document.styleSheets.length; i<l; i++) {
         var sheet = document.styleSheets[i];
         if (sheet.cssText) {
