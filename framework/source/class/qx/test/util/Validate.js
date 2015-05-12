@@ -57,6 +57,9 @@ qx.Class.define("qx.test.util.Validate",
 
       //Valid since new domain extensions
       qx.util.Validate.email()("foo@bar.qooxdoo");
+
+      //'+' allowed (gmail aliases)
+      qx.util.Validate.email()("foobar+alias@qooxdoo.org");
     },
 
     testString : function()
