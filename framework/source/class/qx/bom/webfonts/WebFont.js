@@ -76,7 +76,7 @@ qx.Class.define("qx.bom.webfonts.WebFont", {
       for (var i=0, l=value.length; i<l; i++) {
         var familyName = this._quoteFontFamily(value[i].family);
         families.push(familyName);
-        var sourcesList = value[i].source;
+        var sourcesList = value[i];
         qx.bom.webfonts.Manager.getInstance().require(familyName, sourcesList, this._onWebFontChangeStatus, this);
       }
 
