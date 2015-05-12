@@ -4325,6 +4325,19 @@ testrunner.define({
     });
   },
 
+  testQueryWithTwo : function() {
+    var w = q.create("<div data-qx-class='qx.ui.website.Rating'></div><div data-qx-class='qx.ui.website.Button'></div>");
+    this.assertEquals(2, w.length);
+    w.appendTo(sandbox);
+
+    var query = qxWeb("*[data-qx-class]", sandbox);
+    this.assertEquals(2, query.length);
+    this.assertEquals("qxWeb", query.classname);
+
+    this.assertEquals("qx.ui.website.Rating", query.eq(0).classname);
+    this.assertEquals("qx.ui.website.Button", query.eq(1).classname);
+  },
+
   testConstructorAndQuery : function() {
     var w = q.create("<div id='affe'>").widget().appendTo("#sandbox");
     this.assertEquals("qx.ui.website.Widget", w.getAttribute("data-qx-class"));
