@@ -247,7 +247,7 @@ q.ready(function() {
    * @lint ignoreUndefined(q)
    */
   var renderList = function(data) {
-    var keys = Object.keys(data);
+    var keys = Data.sortModuleKeys(Object.keys(data));
     for (var i = 0; i < keys.length; i++) {
       var moduleName = keys[i];
       var module = data[moduleName];
@@ -408,7 +408,7 @@ q.ready(function() {
    * CONTENT
    */
   renderContent = function(data) {
-    var keys = Object.keys(data);
+    var keys = Data.sortModuleKeys(Object.keys(data));
     for (var i = 0; i < keys.length; i++) {
       var moduleName = keys[i];
       var module = data[moduleName];
@@ -1316,6 +1316,19 @@ Data = {
 
   __sortMethods: function(a, b) {
     return Data.getMethodName(a) > Data.getMethodName(b) ? 1 : -1;
+  },
+
+  sortModuleKeys: function(keys) {
+    keys.sort(function(a, b) {
+      if (a == "Core") {
+        return -1;
+      }
+      if (b == "Core") {
+        return 1;
+      }
+      return a < b ? -1 : +1;
+    });
+    return keys;
   }
 };
 

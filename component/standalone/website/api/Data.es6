@@ -22,7 +22,7 @@
 var fs = require("fs");
 
 class Data {
-  constructor (ast) {
+  constructor(ast) {
     this.__data = {};
     this.__desc = "";
     this.__polyfillClasses = [];
@@ -126,7 +126,9 @@ class Data {
 
     this._loadEventNorm();
     this._loadPolyfills();
-    this._checkReady();
+    this._extractPluginApi();
+    this._removeOverridden();
+    this._moveMethodsToReturnTypes();
 
     // console.log(this.__data);
   }
@@ -394,7 +396,7 @@ class Data {
             var method = moduleData[type][i];
             if (method.attributes.name.indexOf("$") === 0) {
               method.attributes.plugin = true;
-              // pluginModuleName = moduleName + "_Plugin_API";
+              pluginModuleName = moduleName + "_Plugin_API";
               if (!this.__data[pluginModuleName]) {
                 this.__data[pluginModuleName] = {
                   member: [],
@@ -519,23 +521,6 @@ class Data {
     }
   }
 
-  getKeys() {
-    var keys = [];
-    for (var key in this.__data) {
-      keys.push(key);
-    }
-    keys.sort(function(a, b) {
-      if (a == "Core") {
-        return -1;
-      }
-      if (b == "Core") {
-        return 1;
-      }
-      return a < b ? -1 : +1;
-    });
-    return keys;
-  }
-
   /**
    *  Returns the API data for one module
    *  @param moduleName {String} The module name
@@ -573,12 +558,6 @@ class Data {
       data.push({name: name, type: type, desc: desc});
     });
     return data;
-  }
-
-  _checkReady() {
-    this._extractPluginApi();
-    this._removeOverridden();
-    this._moveMethodsToReturnTypes();
   }
 }
 

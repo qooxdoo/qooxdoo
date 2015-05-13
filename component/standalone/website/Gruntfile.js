@@ -228,7 +228,7 @@ module.exports = function(grunt) {
    var dataObj = new Data(ast);
    var rawData = dataObj.getRawData();
    grunt.log.writeln("Produced JSON for the following modules:");
-   grunt.log.oklns(JSON.stringify(dataObj.getKeys()));
+   grunt.log.oklns(JSON.stringify(Object.keys(rawData)));
    fs.writeFileSync('api/script/viewer-data.json', JSON.stringify(rawData), {encoding: 'utf8'});
   });
 };
