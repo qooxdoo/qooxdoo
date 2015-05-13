@@ -22,13 +22,11 @@
 var fs = require("fs");
 
 class Data {
-  constructor(ast) {
+  constructor() {
     this.__data = {};
     this.__desc = "";
     this.__polyfillClasses = [];
     this.__loadedClasses = [];
-
-    this._processAst(ast);
   }
 
   static getByType(ast, type) {
@@ -108,30 +106,6 @@ class Data {
     return Data.getMethodName(a) > Data.getMethodName(b) ? 1 : -1;
   }
 
-  _processAst(ast) {
-    // constructor
-    var construct = Data.getByType(ast, "constructor");
-    this.__data["Core"] = {"static" : [], "member": []};
-    this.__data["Core"]["static"].push(Data.getByType(construct, "method"));
-    this.__data["Core"]["desc"] = Data.getByType(ast, "desc").attributes.text;
-
-    this._saveIndex(ast);
-
-    for (var module in this.__data) {
-      var fileName = this.__data[module].fileName;
-      if (fileName) {
-        this._loadModuleDoc(fileName, module);
-      }
-    }
-
-    this._loadEventNorm();
-    this._loadPolyfills();
-    this._extractPluginApi();
-    this._removeOverridden();
-    this._moveMethodsToReturnTypes();
-
-    // console.log(this.__data);
-  }
 
   _saveIndex(ast) {
     this.__desc = Data.getByType(ast, "desc").attributes.text;
@@ -186,6 +160,7 @@ class Data {
       this.__data[module][type].push(item);
     }.bind(this));
   }
+
 
   __loadSimpleClass(type, name) {
     var ast = JSON.parse(fs.readFileSync('api/script/' + name + '.json', {encoding: 'utf8'}));
@@ -521,6 +496,20 @@ class Data {
     }
   }
 
+  _getEvents(ast) {
+    var events = Data.getByType(ast, "events");
+    var data = [];
+    events.children.forEach(function(event) {
+      var name = event.attributes.name;
+      var desc = Data.getByType(event, "desc").attributes.text;
+      var type = Data.getByType(event, "types").children[0].attributes.type;
+      // ignore undefined as type
+      type = type == "undefined" ? "" : type;
+      data.push({name: name, type: type, desc: desc});
+    });
+    return data;
+  }
+
   /**
    *  Returns the API data for one module
    *  @param moduleName {String} The module name
@@ -546,18 +535,29 @@ class Data {
     return this.__data;
   }
 
-  _getEvents(ast) {
-    var events = Data.getByType(ast, "events");
-    var data = [];
-    events.children.forEach(function(event) {
-      var name = event.attributes.name;
-      var desc = Data.getByType(event, "desc").attributes.text;
-      var type = Data.getByType(event, "types").children[0].attributes.type;
-      // ignore undefined as type
-      type = type == "undefined" ? "" : type;
-      data.push({name: name, type: type, desc: desc});
-    });
-    return data;
+  processAst(ast) {
+    // constructor
+    var construct = Data.getByType(ast, "constructor");
+    this.__data["Core"] = {"static" : [], "member": []};
+    this.__data["Core"]["static"].push(Data.getByType(construct, "method"));
+    this.__data["Core"]["desc"] = Data.getByType(ast, "desc").attributes.text;
+
+    this._saveIndex(ast);
+
+    for (var module in this.__data) {
+      var fileName = this.__data[module].fileName;
+      if (fileName) {
+        this._loadModuleDoc(fileName, module);
+      }
+    }
+
+    this._loadEventNorm();
+    this._loadPolyfills();
+    this._extractPluginApi();
+    this._removeOverridden();
+    this._moveMethodsToReturnTypes();
+
+    // console.log(this.__data);
   }
 }
 
