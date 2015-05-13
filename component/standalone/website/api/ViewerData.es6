@@ -19,9 +19,12 @@
 
 'use strict';
 
-var fs = require("fs");
+// NOTE: class used only in node env (via Grunt) so use require()!
 
-class Data {
+var fs = require("fs");
+var ViewerDataUtil = require('api/ViewerDataUtil.es5');
+
+class ViewerData {
   constructor() {
     this.__data = {};
     this.__desc = "";
@@ -29,101 +32,23 @@ class Data {
     this.__loadedClasses = [];
   }
 
-  static getByType(ast, type) {
-    if (ast.children) {
-      for (var i=0; i < ast.children.length; i++) {
-        var item = ast.children[i];
-        if (item.type == type) {
-          return item;
-        }
-      }
-    }
-    return {attributes: {}, children: []};
-  }
-
-  static getModuleName(attach) {
-    if (!attach) {
-      return "Core";
-    }
-
-    Data.MODULE_NAME_REPLACEMENTS.forEach(function(map) {
-     attach = attach.replace(map.regExp, map.replacement);
-    });
-    return attach;
-  }
-
-  static getModuleNameFromClassName(name) {
-    name = name.split(".");
-    return name[name.length -1];
-  }
-
-  static getMethodName(item, prefix) {
-    if (item.attributes.prefixedMethodName) {
-      return item.attributes.prefixedMethodName;
-    }
-    var attachData = Data.getByType(item, "attachStatic");
-    if (prefix) {
-      if (item.attributes.prefix) {
-        prefix = item.attributes.prefix;
-      }
-      if (!item.attributes.isStatic) {
-        prefix = prefix.toLowerCase();
-      }
-      return prefix + item.attributes.name;
-    } else if (item.attributes.name == "ctor") {
-      return "q";
-    } else if (item.attributes.isStatic) {
-      return "q." + (attachData.attributes.targetMethod || item.attributes.name);
-    } else {
-      return "." + item.attributes.name;
-    }
-  }
-
-  static isFactory(methodAst, moduleName) {
-    var type;
-    var returnType = Data.getByType(methodAst, "return");
-    returnType && Data.getByType(returnType, "types").children.forEach(function(item) {
-      type = item.attributes.type;
-    });
-    if (type) {
-      var returnModuleName = Data.getModuleNameFromClassName(type);
-      var attach = Data.getByType(methodAst, "attach");
-      if (!attach.attributes.targetClass) {
-        attach = Data.getByType(methodAst, "attachStatic");
-      }
-      return returnModuleName == moduleName && attach.attributes.targetClass == "qxWeb";
-    }
-    return false;
-  }
-
-  static __isInternal(item) {
-    return item.attributes.isInternal ||
-      item.attributes.access == "private" ||
-      item.attributes.access == "protected";
-  }
-
-  static __sortMethods(a, b) {
-    return Data.getMethodName(a) > Data.getMethodName(b) ? 1 : -1;
-  }
-
-
   _saveIndex(ast) {
-    this.__desc = Data.getByType(ast, "desc").attributes.text;
+    this.__desc = ViewerDataUtil.getByType(ast, "desc").attributes.text;
 
     var filterInternals = function(method) {
-      return !Data.__isInternal(method);
+      return !ViewerDataUtil.__isInternal(method);
     };
 
-    var statics = Data.getByType(ast, "methods-static");
+    var statics = ViewerDataUtil.getByType(ast, "methods-static");
     statics.children = statics.children.filter(filterInternals);
     this._attachMethodsToModules(statics, "static");
-    var members = Data.getByType(ast, "methods");
+    var members = ViewerDataUtil.getByType(ast, "methods");
     members.children = members.children.filter(filterInternals);
     this._attachMethodsToModules(members, "member");
     // sort all methods
     for (var module in this.__data) {
-      this.__data[module]["static"].sort(Data.__sortMethods);
-      this.__data[module]["member"].sort(Data.__sortMethods);
+      this.__data[module]["static"].sort(ViewerDataUtil.__sortMethods);
+      this.__data[module]["member"].sort(ViewerDataUtil.__sortMethods);
       this.__data[module]["static"].forEach(this._loadReturnTypes.bind(this));
       this.__data[module]["member"].forEach(this._loadReturnTypes.bind(this));
     }
@@ -153,7 +78,7 @@ class Data {
 
   _attachMethodsToModules(ast, type) {
     ast && ast.children && ast.children.forEach(function(item) {
-      var module = Data.getModuleName(item.attributes.sourceClass);
+      var module = ViewerDataUtil.getModuleName(item.attributes.sourceClass);
       if (!this.__data[module]) {
         this.__data[module] = {"static": [], "member": [], fileName: item.attributes.sourceClass};
       }
@@ -171,7 +96,7 @@ class Data {
 
 
   _loadEventNorm() {
-    var norm = Data.EVENT_TYPES;
+    var norm = ViewerDataUtil.EVENT_TYPES;
     if (norm) {
       norm.forEach(this.__loadSimpleClass.bind(this, "Event"));
     }
@@ -193,18 +118,6 @@ class Data {
     for (var clazz in qxLangNormalize) {
       this.__loadSimpleClass(clazz, "qx.lang.normalize." + clazz);
     }
-
-    // old implementation
-    // ==================
-    // if (!(q.$$qx.module.Polyfill && q.$$qx.lang.normalize) ) {
-    //   return;
-    // }
-
-    // this.__polyfillClasses = Object.keys(q.$$qx.lang.normalize);
-
-    // for (var clazz in q.$$qx.lang.normalize) {
-    //   this.__loadSimpleClass(clazz, "qx.lang.normalize." + clazz);
-    // }
   }
 
 
@@ -220,18 +133,18 @@ class Data {
     this.__loadedClasses.push(className);
     var ast = JSON.parse(fs.readFileSync('api/script/' + className + '.json', {encoding: 'utf8'}));
     var moduleName = ast.attributes.name;
-    Data.getByType(ast, "methods-static").children = [];
+    ViewerDataUtil.getByType(ast, "methods-static").children = [];
     if (this.__data[moduleName]) {
       this.__data[moduleName].member.forEach(function(method) {
-        var attach = Data.getByType(method, "attach");
+        var attach = ViewerDataUtil.getByType(method, "attach");
         var prefix = attach.attributes.targetClass == "qxWeb" ? "" : attach.attributes.targetClass;
         prefix += "." + method.attributes.name;
         method.attributes.prefixedMethodName = prefix;
-        Data.getByType(ast, "methods").children.unshift(method);
+        ViewerDataUtil.getByType(ast, "methods").children.unshift(method);
       });
     }
 
-    Data.getByType(ast, "methods").children.forEach(function(method) {
+    ViewerDataUtil.getByType(ast, "methods").children.forEach(function(method) {
       if (!method.attributes.prefixedMethodName) {
         method.attributes.prefixedMethodName = moduleName.toLowerCase() + "." + method.attributes.name;
       }
@@ -244,17 +157,17 @@ class Data {
       var newName = superClass.split(".");
       newName = newName[newName.length -1];
       this.__data[moduleName].superClass = superClass;
-      var ignore = Data.IGNORE_TYPES.indexOf(newName) != -1 ||
-                   Data.MDC_LINKS[superClass] !== undefined;
+      var ignore = ViewerDataUtil.IGNORE_TYPES.indexOf(newName) != -1 ||
+                   ViewerDataUtil.MDC_LINKS[superClass] !== undefined;
       if (!ignore) {
         this._loadClass(superClass);
       }
     }
 
     // add deprecated status
-    var deprecatedStatus = Data.getByType(ast, "deprecated");
+    var deprecatedStatus = ViewerDataUtil.getByType(ast, "deprecated");
     if (deprecatedStatus.children.length > 0) {
-      var deprecatedDescription = Data.getByType(deprecatedStatus, "desc");
+      var deprecatedDescription = ViewerDataUtil.getByType(deprecatedStatus, "desc");
       var deprecatedMessage = deprecatedDescription.attributes.text;
       this.__data[moduleName].deprecated = true;
       this.__data[moduleName].deprecatedMessage = deprecatedMessage.length > 0 ? deprecatedMessage : 'Deprecated';
@@ -262,11 +175,11 @@ class Data {
   }
 
   _loadReturnTypes(method) {
-    var returnType = Data.getByType(method, "return");
+    var returnType = ViewerDataUtil.getByType(method, "return");
     if (returnType) {
-      Data.getByType(returnType, "types").children.forEach(function(item) {
+      ViewerDataUtil.getByType(returnType, "types").children.forEach(function(item) {
         var type = item.attributes.type;
-        if (Data.IGNORE_TYPES.indexOf(type) == -1 && Data.MDC_LINKS[type] === undefined) {
+        if (ViewerDataUtil.IGNORE_TYPES.indexOf(type) == -1 && ViewerDataUtil.MDC_LINKS[type] === undefined) {
           this._loadClass(type);
         }
       }.bind(this));
@@ -276,7 +189,7 @@ class Data {
   _loadModuleDoc(className, moduleName) {
     var ast = JSON.parse(fs.readFileSync('api/script/' + className + '.json', {encoding: 'utf8'}));
     // class doc
-    var desc = Data.getByType(ast, "desc");
+    var desc = ViewerDataUtil.getByType(ast, "desc");
     if (desc && desc.attributes && desc.attributes.text) {
       this.__data[moduleName].desc = desc.attributes.text;
     }
@@ -318,26 +231,26 @@ class Data {
     }
     this._addNewItems(this.__data[moduleName].events, this._getEvents(ast));
 
-    var members = Data.getByType(ast, "methods").children.filter(function(method) {
+    var members = ViewerDataUtil.getByType(ast, "methods").children.filter(function(method) {
       // ignore internal and already listed methods e.g. factory methods
-      return !Data.__isInternal(method) && this.__data[moduleName].member.indexOf(method) == -1;
+      return !ViewerDataUtil.__isInternal(method) && this.__data[moduleName].member.indexOf(method) == -1;
     }.bind(this));
 
     this.__data[moduleName].member = this.__data[moduleName].member.concat(members);
 
-    this.__data[moduleName].static = this.__data[moduleName].static.concat(Data.getByType(ast, "methods-static").children.filter(function(method) {
+    this.__data[moduleName].static = this.__data[moduleName].static.concat(ViewerDataUtil.getByType(ast, "methods-static").children.filter(function(method) {
       // ignore internal and already listed methods
-      return !Data.__isInternal(method) && this.__data[moduleName].static.indexOf(method) == -1;
+      return !ViewerDataUtil.__isInternal(method) && this.__data[moduleName].static.indexOf(method) == -1;
     }.bind(this)));
 
     if (!this.__data[moduleName].desc) {
-      var desc = Data.getByType(ast, "desc");
+      var desc = ViewerDataUtil.getByType(ast, "desc");
       if (desc && desc.attributes && desc.attributes.text) {
         this.__data[moduleName].desc = desc.attributes.text;
       }
     }
 
-    var constants = Data.getByType(ast, "constants");
+    var constants = ViewerDataUtil.getByType(ast, "constants");
     for (var i=0; i < constants.children.length; i++) {
       var constant = constants.children[i];
       var constName = constant.attributes.name;
@@ -346,13 +259,13 @@ class Data {
         continue;
       } else {
         if (constName == "_templates" || constName == "_config") {
-          var descr = Data.getByType(constant, "desc");
+          var descr = ViewerDataUtil.getByType(constant, "desc");
           this.__data[moduleName][constName.replace("_", "")] = descr.attributes.text;
         }
       }
     }
 
-    var deprecatedStates = Data.getByType(ast, "deprecated");
+    var deprecatedStates = ViewerDataUtil.getByType(ast, "deprecated");
     for (var j = 0; j < deprecatedStates.children.length; j++) {
       var deprecatedStatus = deprecatedStates.children[j];
       if (deprecatedStatus.type === "desc") {
@@ -385,7 +298,7 @@ class Data {
             }
           }
           if (pluginModuleName) {
-            this.__data[pluginModuleName][type].sort(Data.__sortMethods);
+            this.__data[pluginModuleName][type].sort(ViewerDataUtil.__sortMethods);
           }
         }
       }.bind(this));
@@ -402,7 +315,7 @@ class Data {
             var method = moduleData[type][i];
             if (method.attributes.overriddenFrom) {
               // if no desc is given
-              if (Data.getByType(method, "desc").children) {
+              if (ViewerDataUtil.getByType(method, "desc").children) {
                 moduleData[type].splice(i, 1);
               }
             }
@@ -420,21 +333,21 @@ class Data {
         if (!method.attributes.sourceClass) {
           return;
         }
-        var returnType = Data.getByType(method, "return");
+        var returnType = ViewerDataUtil.getByType(method, "return");
         if (returnType) {
           var type;
-          Data.getByType(returnType, "types").children.forEach(function(item) {
+          ViewerDataUtil.getByType(returnType, "types").children.forEach(function(item) {
             type = item.attributes.type;
           });
           // if we have a return type
           if (type) {
-            var module = Data.getModuleNameFromClassName(type);
+            var module = ViewerDataUtil.getModuleNameFromClassName(type);
             // if we have docs for the return type
             if (this.__data[module] &&
                 type == this.__data[module].fileName) {
 
-              var attach = Data.getByType(method, "attach");
-              var attachStatic = Data.getByType(method, "attachStatic");
+              var attach = ViewerDataUtil.getByType(method, "attach");
+              var attachStatic = ViewerDataUtil.getByType(method, "attachStatic");
               var isAttachStatic = attachStatic.type == "attachStatic";
               var returnTypeMethods = this.__data[module].member;
 
@@ -464,7 +377,7 @@ class Data {
       // remove the methods from the former parents
       obj.parent.splice(obj.parent.indexOf(obj.method), 1);
       // get the name for the old module / class
-      var sourceModuleName = Data.getModuleName(obj.method.attributes.sourceClass);
+      var sourceModuleName = ViewerDataUtil.getModuleName(obj.method.attributes.sourceClass);
       var sourceModule = this.__data[sourceModuleName];
       // if the old module / class is empty, remove it
       if (sourceModule.static.length == 0 && sourceModule.member.length == 0) {
@@ -497,12 +410,12 @@ class Data {
   }
 
   _getEvents(ast) {
-    var events = Data.getByType(ast, "events");
+    var events = ViewerDataUtil.getByType(ast, "events");
     var data = [];
     events.children.forEach(function(event) {
       var name = event.attributes.name;
-      var desc = Data.getByType(event, "desc").attributes.text;
-      var type = Data.getByType(event, "types").children[0].attributes.type;
+      var desc = ViewerDataUtil.getByType(event, "desc").attributes.text;
+      var type = ViewerDataUtil.getByType(event, "types").children[0].attributes.type;
       // ignore undefined as type
       type = type == "undefined" ? "" : type;
       data.push({name: name, type: type, desc: desc});
@@ -537,10 +450,10 @@ class Data {
 
   processAst(ast) {
     // constructor
-    var construct = Data.getByType(ast, "constructor");
+    var construct = ViewerDataUtil.getByType(ast, "constructor");
     this.__data["Core"] = {"static" : [], "member": []};
-    this.__data["Core"]["static"].push(Data.getByType(construct, "method"));
-    this.__data["Core"]["desc"] = Data.getByType(ast, "desc").attributes.text;
+    this.__data["Core"]["static"].push(ViewerDataUtil.getByType(construct, "method"));
+    this.__data["Core"]["desc"] = ViewerDataUtil.getByType(ast, "desc").attributes.text;
 
     this._saveIndex(ast);
 
@@ -561,51 +474,4 @@ class Data {
   }
 }
 
-Data.IGNORE_TYPES = [
-  "qxWeb",
-  "var",
-  "null",
-  "Emitter",
-  "Class"
-];
-Data.MDC_LINKS = {
-  "Event" : "https://developer.mozilla.org/en/DOM/event",
-  "Window" : "https://developer.mozilla.org/en/DOM/window",
-  "Document" : "https://developer.mozilla.org/en/DOM/document",
-  "Element" : "https://developer.mozilla.org/en/DOM/element",
-  "Node" : "https://developer.mozilla.org/en/DOM/node",
-  "Date" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Date",
-  "Function" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function",
-  "Array" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Array",
-  "Object" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
-  "Map" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object",
-  "RegExp" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/RegExp",
-  "Error" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error",
-  "Number" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",
-  "Integer" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number",
-  "Boolean" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean",
-  "String" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String",
-  "undefined" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/undefined",
-  "arguments" : "https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Function/arguments",
-  "Font" : "https://developer.mozilla.org/en/CSS/font",
-  "Color" : "https://developer.mozilla.org/en/CSS/color"
-};
-Data.MODULE_NAME_REPLACEMENTS = [
-  { regExp: new RegExp(/qx\.module\./), replacement: "" },
-  { regExp: new RegExp(/qx\.ui\.website\./), replacement: "" }
-];
-Data.EVENT_TYPES = [
-  "qx.module.event.Mouse",
-  "qx.module.event.Keyboard",
-  "qx.module.event.Native",
-  "qx.module.event.Orientation",
-  "qx.module.event.Touch",
-  "qx.module.event.Pointer",
-  "qx.module.event.Swipe",
-  "qx.module.event.Track",
-  "qx.module.event.Pinch",
-  "qx.module.event.Rotate",
-  "qx.module.event.Tap"
-];
-
-module.exports = Data;
+module.exports = ViewerData;

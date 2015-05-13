@@ -4,7 +4,7 @@ var qx = require("../../../tool/grunt");
 
 var path = require('path');
 
-var Data = require('api/Data.es5');
+var fs = require('fs');
 
 // grunt
 module.exports = function(grunt) {
@@ -122,7 +122,8 @@ module.exports = function(grunt) {
       options: { sourceMap: false },
       dist: {
         files: {
-          'api/Data.es5': 'api/Data.es6'
+          'api/ViewerDataUtil.es5': 'api/ViewerDataUtil.es6',
+          'api/ViewerData.es5': 'api/ViewerData.es6'
         }
       }
     }
@@ -224,11 +225,13 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('write-viewer-data', 'Writes viewer data file.', function() {
-   var ast = JSON.parse(fs.readFileSync('api/script/qxWeb.json', {encoding: 'utf8'}));
-   var dataObj = new Data(ast);
-   var rawData = dataObj.getRawData();
-   grunt.log.writeln("Produced JSON for the following modules:");
-   grunt.log.oklns(JSON.stringify(Object.keys(rawData)));
-   fs.writeFileSync('api/script/viewer-data.json', JSON.stringify(rawData), {encoding: 'utf8'});
+    var ViewerData = require('api/ViewerData.es5');
+    var ast = JSON.parse(fs.readFileSync('api/script/qxWeb.json', {encoding: 'utf8'}));
+    var viewerData = new ViewerData();
+    viewerData.processAst(ast);
+    var rawData = viewerData.getRawData();
+    grunt.log.writeln("Produced JSON for the following modules:");
+    grunt.log.oklns(JSON.stringify(Object.keys(rawData)));
+    fs.writeFileSync('api/script/viewer-data.json', JSON.stringify(rawData), {encoding: 'utf8'});
   });
 };
