@@ -140,7 +140,11 @@ qxWeb.define("qx.module.Blocker", {
       });
 
       return blockerElements;
-    },
+    }
+  },
+
+  members :
+  {
 
 
     /**
@@ -209,10 +213,6 @@ qxWeb.define("qx.module.Blocker", {
 
   defer : function(statics)
   {
-    qxWeb.$attach({
-      "block" : statics.block,
-      "unblock" : statics.unblock,
-      "getBlocker" : statics.getBlocker
-    });
+    qxWeb.$attachAll(this);
   }
 });
