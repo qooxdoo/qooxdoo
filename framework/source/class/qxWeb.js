@@ -125,6 +125,17 @@ qx.Bootstrap.define("qxWeb", {
     },
 
     $attachAll : function(clazz, staticsNamespace) {
+      /***************************
+        members
+       ***************************/
+      for (var name in clazz.members) {
+        if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0)
+        qxWeb.prototype[name] = clazz.members[name];
+      }
+
+      /***************************
+        statics
+       ***************************/
       var destination;
       if (staticsNamespace != null) {
         qxWeb[staticsNamespace] = {};

@@ -41,22 +41,6 @@ qx.Bootstrap.define("qx.module.Animation", {
   statics :
   {
     /**
-     * Returns the stored animation handles. The handles are only
-     * available while an animation is running.
-     *
-     * @internal
-     * @return {Array} An array of animation handles.
-     */
-    getAnimationHandles : function() {
-      var animationHandles = [];
-      for (var i=0; i < this.length; i++) {
-        animationHandles[i] = this[i].$$animation;
-      }
-      return animationHandles;
-    },
-
-
-    /**
      * Animation description used in {@link #fadeOut}.
      */
     _fadeOut : {duration: 700, timing: "ease-out", keep: 100, keyFrames : {
@@ -72,6 +56,69 @@ qx.Bootstrap.define("qx.module.Animation", {
       0: {opacity: 0},
       100: {opacity: 1}
     }},
+
+
+    /**
+     * Animation execute either regular or reversed direction.
+     * @param desc {Map} The animation"s description.
+     * @param duration {Number?} The duration in milliseconds of the animation,
+     *   which will override the duration given in the description.
+     * @param reverse {Boolean} <code>true</code>, if the animation should be reversed
+     */
+    _animate : function(desc, duration, reverse) {
+      this._forEachElement(function(el, i) {
+        // stop all running animations
+        if (el.$$animation) {
+          el.$$animation.stop();
+        }
+
+        var handle;
+        if (reverse) {
+          handle = qx.bom.element.Animation.animateReverse(el, desc, duration);
+        } else {
+          handle = qx.bom.element.Animation.animate(el, desc, duration);
+        }
+
+        var self = this;
+        // only register for the first element
+        if (i == 0) {
+          handle.on("start", function() {
+            self.emit("animationStart");
+          }, handle);
+
+          handle.on("iteration", function() {
+            self.emit("animationIteration");
+          }, handle);
+        }
+
+        handle.on("end", function() {
+          for (var i=0; i < self.length; i++) {
+            if (self[i].$$animation) {
+              return;
+            }
+          }
+          self.emit("animationEnd");
+        }, el);
+      });
+    }
+  },
+
+  members :
+  {
+    /**
+     * Returns the stored animation handles. The handles are only
+     * available while an animation is running.
+     *
+     * @internal
+     * @return {Array} An array of animation handles.
+     */
+    getAnimationHandles : function() {
+      var animationHandles = [];
+      for (var i=0; i < this.length; i++) {
+        animationHandles[i] = this[i].$$animation;
+      }
+      return animationHandles;
+    },
 
 
     /**
@@ -126,51 +173,6 @@ qx.Bootstrap.define("qx.module.Animation", {
     animateReverse : function(desc, duration) {
       qx.module.Animation._animate.bind(this)(desc, duration, true);
       return this;
-    },
-
-
-    /**
-     * Animation execute either regular or reversed direction.
-     * @param desc {Map} The animation"s description.
-     * @param duration {Number?} The duration in milliseconds of the animation,
-     *   which will override the duration given in the description.
-     * @param reverse {Boolean} <code>true</code>, if the animation should be reversed
-     */
-    _animate : function(desc, duration, reverse) {
-      this._forEachElement(function(el, i) {
-        // stop all running animations
-        if (el.$$animation) {
-          el.$$animation.stop();
-        }
-
-        var handle;
-        if (reverse) {
-          handle = qx.bom.element.Animation.animateReverse(el, desc, duration);
-        } else {
-          handle = qx.bom.element.Animation.animate(el, desc, duration);
-        }
-
-        var self = this;
-        // only register for the first element
-        if (i == 0) {
-          handle.on("start", function() {
-            self.emit("animationStart");
-          }, handle);
-
-          handle.on("iteration", function() {
-            self.emit("animationIteration");
-          }, handle);
-        }
-
-        handle.on("end", function() {
-          for (var i=0; i < self.length; i++) {
-            if (self[i].$$animation) {
-              return;
-            }
-          }
-          self.emit("animationEnd");
-        }, el);
-      });
     },
 
 
@@ -286,18 +288,8 @@ qx.Bootstrap.define("qx.module.Animation", {
 
 
   defer : function(statics) {
-    qxWeb.$attach({
-      "animate" : statics.animate,
-      "animateReverse" : statics.animateReverse,
-      "fadeIn" : statics.fadeIn,
-      "fadeOut" : statics.fadeOut,
-      "play" : statics.play,
-      "pause" : statics.pause,
-      "stop" : statics.stop,
-      "isEnded" : statics.isEnded,
-      "isPlaying" : statics.isPlaying,
-      "getAnimationHandles" : statics.getAnimationHandles
-    });
+    qxWeb.$attachAll(this);
+
 
     /**
      * End value for opacity style. This value is modified for all browsers which are
