@@ -60,51 +60,6 @@ qx.Bootstrap.define("qx.module.Placeholder", {
 
 
     /**
-     * Updates the placeholders for input's and textarea's in the collection.
-     * This includes positioning, styles and DOM positioning.
-     * In case the browser supports native placeholders, this methods simply
-     * does nothing.
-     *
-     * @attach {qxWeb}
-     * @return {qxWeb} The collection for chaining
-     */
-    updatePlaceholder : function() {
-      // ignore everything if native placeholder are supported
-      if (!qxWeb.env.get("css.placeholder")) {
-        for (var i=0; i < this.length; i++) {
-          var item = qxWeb(this[i]);
-
-          // ignore all not fitting items in the collection
-          var placeholder = item.getAttribute("placeholder");
-          var tagName = item.getProperty("tagName");
-          if (!placeholder || (tagName != "TEXTAREA"&& tagName != "INPUT")) {
-            continue;
-          }
-
-          // create the element if necessary
-          var placeholderEl = item.getProperty(qx.module.Placeholder.PLACEHOLDER_NAME);
-          if (!placeholderEl) {
-            placeholderEl = qx.module.Placeholder.__createPlaceholderElement(item);
-          }
-
-          // remove and add handling
-          var itemInBody = item.isRendered();
-          var placeholderElInBody = placeholderEl.isRendered();
-          if (itemInBody && !placeholderElInBody) {
-            item.before(placeholderEl);
-          } else if (!itemInBody && placeholderElInBody) {
-            placeholderEl.remove();
-            return this;
-          }
-
-          qx.module.Placeholder.__syncStyles(item);
-        };
-      }
-      return this;
-    },
-
-
-    /**
      * Internal helper method to update the styles for a given input element.
      * @param item {qxWeb} The input element to update.
      */
@@ -170,14 +125,56 @@ qx.Bootstrap.define("qx.module.Placeholder", {
     }
   },
 
+  members :
+  {
+
+    /**
+     * Updates the placeholders for input's and textarea's in the collection.
+     * This includes positioning, styles and DOM positioning.
+     * In case the browser supports native placeholders, this methods simply
+     * does nothing.
+     *
+     * @attach {qxWeb}
+     * @return {qxWeb} The collection for chaining
+     */
+    updatePlaceholder : function() {
+      // ignore everything if native placeholder are supported
+      if (!qxWeb.env.get("css.placeholder")) {
+        for (var i=0; i < this.length; i++) {
+          var item = qxWeb(this[i]);
+
+          // ignore all not fitting items in the collection
+          var placeholder = item.getAttribute("placeholder");
+          var tagName = item.getProperty("tagName");
+          if (!placeholder || (tagName != "TEXTAREA"&& tagName != "INPUT")) {
+            continue;
+          }
+
+          // create the element if necessary
+          var placeholderEl = item.getProperty(qx.module.Placeholder.PLACEHOLDER_NAME);
+          if (!placeholderEl) {
+            placeholderEl = qx.module.Placeholder.__createPlaceholderElement(item);
+          }
+
+          // remove and add handling
+          var itemInBody = item.isRendered();
+          var placeholderElInBody = placeholderEl.isRendered();
+          if (itemInBody && !placeholderElInBody) {
+            item.before(placeholderEl);
+          } else if (!itemInBody && placeholderElInBody) {
+            placeholderEl.remove();
+            return this;
+          }
+
+          qx.module.Placeholder.__syncStyles(item);
+        };
+      }
+      return this;
+    }
+  },
+
 
   defer : function(statics) {
-    qxWeb.$attachStatic({
-      "placeholder" : {update: statics.update}
-    });
-
-    qxWeb.$attach({
-      "updatePlaceholder" : statics.updatePlaceholder
-    });
+    qxWeb.$attachAll(this, "placeholder");
   }
 });

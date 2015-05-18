@@ -28,7 +28,123 @@
 qxWeb.define("qx.module.Placement", {
 
   statics: {
+    /**
+     * Returns the appropriate axis implementation for the given placement
+     * mode
+     *
+     * @param mode {String} Placement mode
+     * @return {Object} Placement axis class
+     */
+    _getAxis : function(mode)
+    {
+      switch(mode)
+      {
+        case "keep-align":
+          return qx.util.placement.KeepAlignAxis;
 
+        case "best-fit":
+          return qx.util.placement.BestFitAxis;
+
+        case "direct":
+        default:
+          return qx.util.placement.DirectAxis;
+      }
+    },
+
+    /**
+     * Returns the computed coordinates for the element to be placed
+     *
+     * @param axes {Map} Map with the keys <code>x</code> and <code>y</code>. Values
+     * are the axis implementations
+     * @param size {Map} Map with the keys <code>width</code> and <code>height</code>
+     * containing the size of the placement target
+     * @param area {Map} Map with the keys <code>width</code> and <code>height</code>
+     * containing the size of the two elements' common parent (available space for
+     * placement)
+     * @param target {Map} Location of the object to align the object to. This map
+     * should have the keys <code>left</code>, <code>top</code>, <code>right</code>
+     * and <code>bottom</code>
+     * @param offsets {Map} Map of offsets (top, right, bottom, left)
+     * @param position {Map} Map with the keys <code>x</code> and <code>y</code>,
+     * containing the type of positioning for each axis
+     * @return {Map} Map with the keys <code>left</code> and <code>top</code>
+     * containing the computed coordinates to which the element should be moved
+     */
+    _computePlacement : function(axes, size, area, target, offsets, position)
+    {
+      var left = axes.x.computeStart(
+        size.width,
+        {start: target.left, end: target.right},
+        {start: offsets.left, end: offsets.right},
+        area.width,
+        position.x
+      );
+
+      var top = axes.y.computeStart(
+        size.height,
+        {start: target.top, end: target.bottom},
+        {start: offsets.top, end: offsets.bottom},
+        area.height,
+        position.y
+      );
+
+      return {
+        left: left,
+        top: top
+      }
+    },
+
+
+    /**
+     * Returns the X axis positioning type for the given edge and alignment
+     * values
+     *
+     * @param edge {String} edge value
+     * @param align {String} align value
+     * @return {String} X positioning type
+     */
+    _getPositionX : function(edge, align)
+    {
+      if (edge == "left") {
+        return "edge-start";
+      } else if (edge == "right") {
+        return "edge-end";
+      } else if (align == "left") {
+        return "align-start";
+      } else if (align == "center") {
+        return "align-center";
+      } else if (align == "right") {
+        return "align-end";
+      }
+    },
+
+
+    /**
+     * Returns the Y axis positioning type for the given edge and alignment
+     * values
+     *
+     * @param edge {String} edge value
+     * @param align {String} align value
+     * @return {String} Y positioning type
+     */
+    _getPositionY : function(edge, align)
+    {
+      if (edge == "top") {
+        return "edge-start";
+      } else if (edge == "bottom") {
+        return "edge-end";
+      } else if (align == "top") {
+        return "align-start";
+      } else if (align == "middle") {
+        return "align-center";
+      } else if (align == "bottom") {
+        return "align-end";
+      }
+    }
+  },
+
+  members :
+  {
     /**
      * Moves the first element in the collection, aligning it with the given
      * target.
@@ -172,129 +288,11 @@ qxWeb.define("qx.module.Placement", {
       });
 
       return this;
-    },
-
-
-    /**
-     * Returns the appropriate axis implementation for the given placement
-     * mode
-     *
-     * @param mode {String} Placement mode
-     * @return {Object} Placement axis class
-     */
-    _getAxis : function(mode)
-    {
-      switch(mode)
-      {
-        case "keep-align":
-          return qx.util.placement.KeepAlignAxis;
-
-        case "best-fit":
-          return qx.util.placement.BestFitAxis;
-
-        case "direct":
-        default:
-          return qx.util.placement.DirectAxis;
-      }
-    },
-
-    /**
-     * Returns the computed coordinates for the element to be placed
-     *
-     * @param axes {Map} Map with the keys <code>x</code> and <code>y</code>. Values
-     * are the axis implementations
-     * @param size {Map} Map with the keys <code>width</code> and <code>height</code>
-     * containing the size of the placement target
-     * @param area {Map} Map with the keys <code>width</code> and <code>height</code>
-     * containing the size of the two elements' common parent (available space for
-     * placement)
-     * @param target {Map} Location of the object to align the object to. This map
-     * should have the keys <code>left</code>, <code>top</code>, <code>right</code>
-     * and <code>bottom</code>
-     * @param offsets {Map} Map of offsets (top, right, bottom, left)
-     * @param position {Map} Map with the keys <code>x</code> and <code>y</code>,
-     * containing the type of positioning for each axis
-     * @return {Map} Map with the keys <code>left</code> and <code>top</code>
-     * containing the computed coordinates to which the element should be moved
-     */
-    _computePlacement : function(axes, size, area, target, offsets, position)
-    {
-      var left = axes.x.computeStart(
-        size.width,
-        {start: target.left, end: target.right},
-        {start: offsets.left, end: offsets.right},
-        area.width,
-        position.x
-      );
-
-      var top = axes.y.computeStart(
-        size.height,
-        {start: target.top, end: target.bottom},
-        {start: offsets.top, end: offsets.bottom},
-        area.height,
-        position.y
-      );
-
-      return {
-        left: left,
-        top: top
-      }
-    },
-
-
-    /**
-     * Returns the X axis positioning type for the given edge and alignment
-     * values
-     *
-     * @param edge {String} edge value
-     * @param align {String} align value
-     * @return {String} X positioning type
-     */
-    _getPositionX : function(edge, align)
-    {
-      if (edge == "left") {
-        return "edge-start";
-      } else if (edge == "right") {
-        return "edge-end";
-      } else if (align == "left") {
-        return "align-start";
-      } else if (align == "center") {
-        return "align-center";
-      } else if (align == "right") {
-        return "align-end";
-      }
-    },
-
-
-    /**
-     * Returns the Y axis positioning type for the given edge and alignment
-     * values
-     *
-     * @param edge {String} edge value
-     * @param align {String} align value
-     * @return {String} Y positioning type
-     */
-    _getPositionY : function(edge, align)
-    {
-      if (edge == "top") {
-        return "edge-start";
-      } else if (edge == "bottom") {
-        return "edge-end";
-      } else if (align == "top") {
-        return "align-start";
-      } else if (align == "middle") {
-        return "align-center";
-      } else if (align == "bottom") {
-        return "align-end";
-      }
     }
-
   },
 
-  defer : function(statics)
-  {
-    qxWeb.$attach({
-     "placeTo" : statics.placeTo
-    });
+
+  defer : function(statics) {
+    qxWeb.$attachAll(this);
   }
 });
