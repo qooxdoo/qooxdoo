@@ -66,12 +66,6 @@ qx.Bootstrap.define("qx.module.Cookie", {
 
 
   defer : function(statics) {
-    qxWeb.$attachStatic({
-      "cookie" : {
-        get: statics.get,
-        set: statics.set,
-        del: statics.del
-      }
-    });
+    qxWeb.$attachAll(this, "cookie")
   }
 });

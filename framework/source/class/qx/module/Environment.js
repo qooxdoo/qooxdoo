@@ -83,8 +83,6 @@ qx.Bootstrap.define("qx.module.Environment", {
     qx.core.Environment.get("event.touch");
     qx.core.Environment.get("event.mspointer");
 
-    qxWeb.$attachStatic({
-      "env" : {get: statics.get, add: statics.add}
-    });
+    qxWeb.$attachAll(this, "env");
   }
 });

@@ -22,7 +22,7 @@
  */
 qx.Bootstrap.define("qx.module.Dataset", {
 
-  statics: {
+  members: {
 
     /**
      * Sets an HTML "data-*" attribute on each item in the collection
@@ -103,13 +103,7 @@ qx.Bootstrap.define("qx.module.Dataset", {
 
   defer : function(statics)
   {
-    qxWeb.$attach({
-      "getData" : statics.getData,
-      "setData" : statics.setData,
-      "removeData" : statics.removeData,
-      "getAllData" : statics.getAllData,
-      "hasData" : statics.hasData
-    });
+    qxWeb.$attachAll(this)
 
    }
 });
