@@ -124,18 +124,32 @@ qx.Bootstrap.define("qxWeb", {
       }
     },
 
+    /**
+     * This is an API for module development and can be used to attach new methods
+     * to {@link q} during runtime according to the following conventions:
+     *
+     * Public members of the module are attached to the collection similar to
+     * {@link $attach}. Members beginning with '$' or '_' are ignored.
+     *
+     * Statics of the module are attached to {@link q} similar to
+     * {@link $attachStatic}. Statics beginning with '$' or '_', as well as constants
+     * (all upper case) and some qooxdoo-internal statics of the module are ignored.
+     *
+     *
+     * If more fine-grained control outside if these conventions is needed,
+     * simply use {@link $attach} or {@link $attach}.
+     *
+     * @param clazz {Object} the qooxdoo class definition calling this method.
+     * @param staticsNamespace {String?undefined} Specifies the namespace under which statics are attached to {@link q}.
+     */
     $attachAll : function(clazz, staticsNamespace) {
-      /***************************
-        members
-       ***************************/
+      // members
       for (var name in clazz.members) {
         if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0)
         qxWeb.prototype[name] = clazz.members[name];
       }
 
-      /***************************
-        statics
-       ***************************/
+      // statics
       var destination;
       if (staticsNamespace != null) {
         qxWeb[staticsNamespace] = {};
