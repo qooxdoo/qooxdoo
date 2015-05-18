@@ -19,7 +19,7 @@
 
 'use strict';
 
-// NOTE: class used in two env (node|browser) so don't require()!
+// NOTE: class used in two envs (node|browser) so don't require()!
 
 class ViewerDataUtil {
   static getByType(ast, type) {
