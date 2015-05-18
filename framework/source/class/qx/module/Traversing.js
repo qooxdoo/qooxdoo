@@ -31,7 +31,6 @@
 qx.Bootstrap.define("qx.module.Traversing", {
   statics :
   {
-
     /**
      * String attributes used to determine if two DOM nodes are equal
      * as defined in <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Node3-isEqualNode">
@@ -46,6 +45,367 @@ qx.Bootstrap.define("qx.module.Traversing", {
       "nodeValue"
     ],
 
+
+    /**
+     * Internal helper for getAncestors and getAncestorsUntil
+     *
+     * @attach {qxWeb}
+     * @param selector {String} Selector that indicates where to stop including
+     * ancestor elements
+     * @param filter {String?null} Optional selector to match
+     * @return {qxWeb} Collection containing the ancestor elements
+     * @internal
+     */
+    __getAncestors : function(selector, filter) {
+      var ancestors = [];
+      for (var i=0; i < this.length; i++) {
+        var parent = qx.dom.Element.getParentElement(this[i]);
+        while (parent) {
+          var found = [parent];
+          if (selector && qx.bom.Selector.matches(selector, found).length > 0) {
+            break;
+          }
+          if (filter) {
+            found = qx.bom.Selector.matches(filter, found);
+          }
+          ancestors = ancestors.concat(found);
+          parent = qx.dom.Element.getParentElement(parent);
+        }
+      }
+      return qxWeb.$init(ancestors, qxWeb);
+    },
+
+
+
+    /**
+     * Helper which returns the element from the given argument. If it's a collection,
+     * it returns it's first child. If it's a string, it tries to use the string
+     * as selector and returns the first child of the new collection.
+     * @param arg {Node|String|qxWeb} The element.
+     * @return {Node|var} If a node can be extracted, the node element will be return.
+     *   If not, at given argument will be returned.
+     */
+    __getElementFromArgument : function(arg) {
+      if (arg instanceof qxWeb) {
+        return arg[0];
+      } else if (qx.Bootstrap.isString(arg)) {
+        return qxWeb(arg)[0];
+      }
+      return arg;
+    },
+
+
+
+    /**
+     * Helper that attempts to convert the given argument into a DOM node
+     * @param arg {var} object to convert
+     * @return {Node|null} DOM node or null if the conversion failed
+     */
+    __getNodeFromArgument : function(arg) {
+      if (typeof arg == "string") {
+        arg = qxWeb(arg);
+      }
+
+      if (arg instanceof Array || arg instanceof qxWeb) {
+        arg = arg[0];
+      }
+
+      return qxWeb.isNode(arg) ? arg : null;
+    },
+
+
+    /**
+     * Returns a map containing the given DOM node's attribute names
+     * and values
+     *
+     * @param node {Node} DOM node
+     * @return {Map} Map of attribute names/values
+     */
+    __getAttributes : function(node) {
+      var attributes = {};
+
+      for (var attr in node.attributes) {
+        if (attr == "length") {
+          continue;
+        }
+        var name = node.attributes[attr].name;
+        var value = node.attributes[attr].value;
+        attributes[name] = value;
+      }
+
+      return attributes;
+    },
+
+
+    /**
+     * Helper function that iterates over a set of items and applies the given
+     * qx.dom.Hierarchy method to each entry, storing the results in a new Array.
+     * Duplicates are removed and the items are filtered if a selector is
+     * provided.
+     *
+     * @attach{qxWeb}
+     * @param collection {Array} Collection to iterate over (any Array-like object)
+     * @param method {String} Name of the qx.dom.Hierarchy method to apply
+     * @param selector {String?} Optional selector that elements to be included
+     * must match
+     * @return {Array} Result array
+     * @internal
+     */
+    __hierarchyHelper : function(collection, method, selector)
+    {
+      // Iterate ourself, as we want to directly combine the result
+      var all = [];
+      var Hierarchy = qx.dom.Hierarchy;
+      for (var i=0, l=collection.length; i<l; i++) {
+        all.push.apply(all, Hierarchy[method](collection[i]));
+      }
+
+      // Remove duplicates
+      var ret = qx.lang.Array.unique(all);
+
+      // Post reduce result by selector
+      if (selector) {
+        ret = qx.bom.Selector.matches(selector, ret);
+      }
+
+      return ret;
+    },
+
+
+    /**
+     * Checks if the given object is a DOM element
+     *
+     * @attachStatic{qxWeb}
+     * @param selector {Object|String|qxWeb} Object to check
+     * @return {Boolean} <code>true</code> if the object is a DOM element
+     */
+    isElement : function(selector) {
+      return qx.dom.Node.isElement(qx.module.Traversing.__getElementFromArgument(selector));
+    },
+
+
+    /**
+     * Checks if the given object is a DOM node
+     *
+     * @attachStatic{qxWeb}
+     * @param selector {Node|String|qxWeb} Object to check
+     * @return {Boolean} <code>true</code> if the object is a DOM node
+     */
+    isNode : function(selector) {
+      return qx.dom.Node.isNode(qx.module.Traversing.__getElementFromArgument(selector));
+    },
+
+
+    /**
+     * Whether the node has the given node name
+     *
+     * @attachStatic{qxWeb}
+     * @param selector {Node|String|qxWeb} the node to check
+     * @param  nodeName {String} the node name to check for
+     * @return {Boolean} <code>true</code> if the node has the given name
+     */
+    isNodeName : function(selector, nodeName) {
+      return qx.dom.Node.isNodeName(qx.module.Traversing.__getElementFromArgument(selector), nodeName);
+    },
+
+
+    /**
+     * Checks if the given object is a DOM document object
+     *
+     * @attachStatic{qxWeb}
+     * @param node {Object|qxWeb} Object to check. If the value is a qxWeb
+     * collection, isDocument will check the first item.
+     * @return {Boolean} <code>true</code> if the object is a DOM document
+     */
+    isDocument : function(node) {
+      if (node instanceof qxWeb) {
+        node = node[0];
+      }
+      return qx.dom.Node.isDocument(node);
+    },
+
+
+    /**
+     * Checks if the given object is a DOM document fragment object
+     *
+     * @attachStatic{qxWeb}
+     * @param node {Object|qxWeb} Object to check. If the value is a qxWeb
+     * collection, isDocumentFragment will check the first item.
+     * @return {Boolean} <code>true</code> if the object is a DOM document fragment
+     */
+    isDocumentFragment : function(node) {
+      if (node instanceof qxWeb) {
+        node = node[0];
+      }
+      return qx.dom.Node.isDocumentFragment(node);
+    },
+
+
+    /**
+     * Returns the DOM2 <code>defaultView</code> (window) for the given node.
+     *
+     * @attachStatic{qxWeb}
+     * @param selector {Node|Document|Window|String|qxWeb} Node to inspect
+     * @return {Window} the <code>defaultView</code> for the given node
+     */
+    getWindow : function(selector) {
+      return qx.dom.Node.getWindow(qx.module.Traversing.__getElementFromArgument(selector));
+    },
+
+    /**
+     * Checks whether the given object is a DOM text node
+     *
+     * @attachStatic{qxWeb}
+     * @param obj {Object} the object to be tested
+     * @return {Boolean} <code>true</code> if the object is a textNode
+     */
+    isTextNode : function(obj) {
+      return qx.dom.Node.isText(obj);
+    },
+
+
+    /**
+     * Check whether the given object is a browser window object.
+     *
+     * @attachStatic{qxWeb}
+     * @param obj {Object|qxWeb} the object to be tested. If the value
+     * is a qxWeb collection, isDocument will check the first item.
+     * @return {Boolean} <code>true</code> if the object is a window object
+     */
+    isWindow : function(obj) {
+      if (obj instanceof qxWeb) {
+        obj = obj[0];
+      }
+      return qx.dom.Node.isWindow(obj);
+    },
+
+
+    /**
+     * Returns the owner document of the given node
+     *
+     * @attachStatic{qxWeb}
+     * @param selector {Node|String|qxWeb} Node to get the document for
+     * @return {Document|null} The document of the given DOM node
+     */
+    getDocument : function(selector) {
+      return qx.dom.Node.getDocument(qx.module.Traversing.__getElementFromArgument(selector));
+    },
+
+    /**
+     * Get the DOM node's name as a lowercase string
+     *
+     * @attachStatic{qxWeb}
+     * @param selector {Node|String|qxWeb} DOM Node
+     * @return {String} node name
+     */
+    getNodeName : function(selector) {
+      return qx.dom.Node.getName(qx.module.Traversing.__getElementFromArgument(selector));
+    },
+
+    /**
+     * Returns the text content of a node where the node type may be one of
+     * NODE_ELEMENT, NODE_ATTRIBUTE, NODE_TEXT, NODE_CDATA
+     *
+     * @attachStatic{qxWeb}
+     * @param selector {Node|String|qxWeb} the node from where the search should start. If the
+     * node has subnodes the text contents are recursively retreived and joined
+     * @return {String} the joined text content of the given node or null if not
+     * appropriate.
+     */
+    getNodeText : function(selector) {
+      return qx.dom.Node.getText(qx.module.Traversing.__getElementFromArgument(selector));
+    },
+
+    /**
+     * Checks if the given node is a block node
+     *
+     * @attachStatic{qxWeb}
+     * @param selector {Node|String|qxWeb} the node to check
+     * @return {Boolean} <code>true</code> if the node is a block node
+     */
+    isBlockNode : function(selector) {
+      return qx.dom.Node.isBlockNode(qx.module.Traversing.__getElementFromArgument(selector));
+    },
+
+
+    /**
+     * Determines if two DOM nodes are equal as defined in the
+     * <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Node3-isEqualNode">DOM Level 3 isEqualNode spec</a>.
+     * Also works in legacy browsers without native <em>isEqualNode</em> support.
+     *
+     * @attachStatic{qxWeb}
+     * @param node1 {String|Element|Element[]|qxWeb} first object to compare
+     * @param node2 {String|Element|Element[]|qxWeb} second object to compare
+     * @return {Boolean} <code>true</code> if the nodes are equal
+     */
+    equalNodes : function(node1, node2) {
+      node1 = qx.module.Traversing.__getNodeFromArgument(node1);
+      node2 = qx.module.Traversing.__getNodeFromArgument(node2);
+
+      if (!node1 || !node2) {
+        return false;
+      }
+
+      if (qx.core.Environment.get("html.node.isequalnode")) {
+        return node1.isEqualNode(node2);
+      } else {
+        if (node1 === node2) {
+          return true;
+        }
+
+        // quick attributes length check
+        var hasAttributes = node1.attributes && node2.attributes;
+        if (hasAttributes &&
+            node1.attributes.length !== node2.attributes.length) {
+          return false;
+        }
+
+        var hasChildNodes = node1.childNodes && node2.childNodes;
+        // quick childNodes length check
+        if (hasChildNodes &&
+            node1.childNodes.length !== node2.childNodes.length) {
+          return false;
+        }
+
+        // string attribute check
+        var domAttributes = qx.module.Traversing.EQUALITY_ATTRIBUTES;
+        for (var i=0, l=domAttributes.length; i<l; i++) {
+          var domAttrib = domAttributes[i];
+          if (node1[domAttrib] !== node2[domAttrib]) {
+            return false;
+          }
+        }
+
+        // attribute values
+        if (hasAttributes) {
+          var node1Attributes = qx.module.Traversing.__getAttributes(node1);
+          var node2Attributes = qx.module.Traversing.__getAttributes(node2);
+          for (var attr in node1Attributes) {
+            if (node1Attributes[attr] !== node2Attributes[attr]) {
+              return false;
+            }
+          }
+        }
+
+        // child nodes
+        if (hasChildNodes) {
+          for (var j=0, m=node1.childNodes.length; j<m; j++) {
+            var child1 = node1.childNodes[j];
+            var child2 = node2.childNodes[j];
+            if (!qx.module.Traversing.equalNodes(child1, child2)) {
+              return false;
+            }
+          }
+        }
+
+        return true;
+      }
+    }
+  },
+
+
+  members :
+  {
 
     /**
      * Adds an element to the collection
@@ -194,36 +554,6 @@ qx.Bootstrap.define("qx.module.Traversing", {
      */
     getAncestorsUntil : function(selector, filter) {
       return this.__getAncestors(selector, filter);
-    },
-
-
-    /**
-     * Internal helper for getAncestors and getAncestorsUntil
-     *
-     * @attach {qxWeb}
-     * @param selector {String} Selector that indicates where to stop including
-     * ancestor elements
-     * @param filter {String?null} Optional selector to match
-     * @return {qxWeb} Collection containing the ancestor elements
-     * @internal
-     */
-    __getAncestors : function(selector, filter) {
-      var ancestors = [];
-      for (var i=0; i < this.length; i++) {
-        var parent = qx.dom.Element.getParentElement(this[i]);
-        while (parent) {
-          var found = [parent];
-          if (selector && qx.bom.Selector.matches(selector, found).length > 0) {
-            break;
-          }
-          if (filter) {
-            found = qx.bom.Selector.matches(filter, found);
-          }
-          ancestors = ancestors.concat(found);
-          parent = qx.dom.Element.getParentElement(parent);
-        }
-      }
-      return qxWeb.$init(ancestors, qxWeb);
     },
 
 
@@ -582,380 +912,15 @@ qx.Bootstrap.define("qx.module.Traversing", {
         return false;
       }
       return qx.dom.Hierarchy.isRendered(this[0]);
-    },
-
-
-    /**
-     * Helper which returns the element from the given argument. If it's a collection,
-     * it returns it's first child. If it's a string, it tries to use the string
-     * as selector and returns the first child of the new collection.
-     * @param arg {Node|String|qxWeb} The element.
-     * @return {Node|var} If a node can be extracted, the node element will be return.
-     *   If not, at given argument will be returned.
-     */
-    __getElementFromArgument : function(arg) {
-      if (arg instanceof qxWeb) {
-        return arg[0];
-      } else if (qx.Bootstrap.isString(arg)) {
-        return qxWeb(arg)[0];
-      }
-      return arg;
-    },
-
-
-    /**
-     * Checks if the given object is a DOM element
-     *
-     * @attachStatic{qxWeb}
-     * @param selector {Object|String|qxWeb} Object to check
-     * @return {Boolean} <code>true</code> if the object is a DOM element
-     */
-    isElement : function(selector) {
-      return qx.dom.Node.isElement(qx.module.Traversing.__getElementFromArgument(selector));
-    },
-
-
-    /**
-     * Checks if the given object is a DOM node
-     *
-     * @attachStatic{qxWeb}
-     * @param selector {Node|String|qxWeb} Object to check
-     * @return {Boolean} <code>true</code> if the object is a DOM node
-     */
-    isNode : function(selector) {
-      return qx.dom.Node.isNode(qx.module.Traversing.__getElementFromArgument(selector));
-    },
-
-
-    /**
-     * Whether the node has the given node name
-     *
-     * @attachStatic{qxWeb}
-     * @param selector {Node|String|qxWeb} the node to check
-     * @param  nodeName {String} the node name to check for
-     * @return {Boolean} <code>true</code> if the node has the given name
-     */
-    isNodeName : function(selector, nodeName) {
-      return qx.dom.Node.isNodeName(qx.module.Traversing.__getElementFromArgument(selector), nodeName);
-    },
-
-
-    /**
-     * Checks if the given object is a DOM document object
-     *
-     * @attachStatic{qxWeb}
-     * @param node {Object|qxWeb} Object to check. If the value is a qxWeb
-     * collection, isDocument will check the first item.
-     * @return {Boolean} <code>true</code> if the object is a DOM document
-     */
-    isDocument : function(node) {
-      if (node instanceof qxWeb) {
-        node = node[0];
-      }
-      return qx.dom.Node.isDocument(node);
-    },
-
-
-    /**
-     * Checks if the given object is a DOM document fragment object
-     *
-     * @attachStatic{qxWeb}
-     * @param node {Object|qxWeb} Object to check. If the value is a qxWeb
-     * collection, isDocumentFragment will check the first item.
-     * @return {Boolean} <code>true</code> if the object is a DOM document fragment
-     */
-    isDocumentFragment : function(node) {
-      if (node instanceof qxWeb) {
-        node = node[0];
-      }
-      return qx.dom.Node.isDocumentFragment(node);
-    },
-
-
-    /**
-     * Returns the DOM2 <code>defaultView</code> (window) for the given node.
-     *
-     * @attachStatic{qxWeb}
-     * @param selector {Node|Document|Window|String|qxWeb} Node to inspect
-     * @return {Window} the <code>defaultView</code> for the given node
-     */
-    getWindow : function(selector) {
-      return qx.dom.Node.getWindow(qx.module.Traversing.__getElementFromArgument(selector));
-    },
-
-    /**
-     * Checks whether the given object is a DOM text node
-     *
-     * @attachStatic{qxWeb}
-     * @param obj {Object} the object to be tested
-     * @return {Boolean} <code>true</code> if the object is a textNode
-     */
-    isTextNode : function(obj) {
-      return qx.dom.Node.isText(obj);
-    },
-
-
-    /**
-     * Check whether the given object is a browser window object.
-     *
-     * @attachStatic{qxWeb}
-     * @param obj {Object|qxWeb} the object to be tested. If the value
-     * is a qxWeb collection, isDocument will check the first item.
-     * @return {Boolean} <code>true</code> if the object is a window object
-     */
-    isWindow : function(obj) {
-      if (obj instanceof qxWeb) {
-        obj = obj[0];
-      }
-      return qx.dom.Node.isWindow(obj);
-    },
-
-
-    /**
-     * Returns the owner document of the given node
-     *
-     * @attachStatic{qxWeb}
-     * @param selector {Node|String|qxWeb} Node to get the document for
-     * @return {Document|null} The document of the given DOM node
-     */
-    getDocument : function(selector) {
-      return qx.dom.Node.getDocument(qx.module.Traversing.__getElementFromArgument(selector));
-    },
-
-    /**
-     * Get the DOM node's name as a lowercase string
-     *
-     * @attachStatic{qxWeb}
-     * @param selector {Node|String|qxWeb} DOM Node
-     * @return {String} node name
-     */
-    getNodeName : function(selector) {
-      return qx.dom.Node.getName(qx.module.Traversing.__getElementFromArgument(selector));
-    },
-
-    /**
-     * Returns the text content of a node where the node type may be one of
-     * NODE_ELEMENT, NODE_ATTRIBUTE, NODE_TEXT, NODE_CDATA
-     *
-     * @attachStatic{qxWeb}
-     * @param selector {Node|String|qxWeb} the node from where the search should start. If the
-     * node has subnodes the text contents are recursively retreived and joined
-     * @return {String} the joined text content of the given node or null if not
-     * appropriate.
-     */
-    getNodeText : function(selector) {
-      return qx.dom.Node.getText(qx.module.Traversing.__getElementFromArgument(selector));
-    },
-
-    /**
-     * Checks if the given node is a block node
-     *
-     * @attachStatic{qxWeb}
-     * @param selector {Node|String|qxWeb} the node to check
-     * @return {Boolean} <code>true</code> if the node is a block node
-     */
-    isBlockNode : function(selector) {
-      return qx.dom.Node.isBlockNode(qx.module.Traversing.__getElementFromArgument(selector));
-    },
-
-
-    /**
-     * Determines if two DOM nodes are equal as defined in the
-     * <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Node3-isEqualNode">DOM Level 3 isEqualNode spec</a>.
-     * Also works in legacy browsers without native <em>isEqualNode</em> support.
-     *
-     * @attachStatic{qxWeb}
-     * @param node1 {String|Element|Element[]|qxWeb} first object to compare
-     * @param node2 {String|Element|Element[]|qxWeb} second object to compare
-     * @return {Boolean} <code>true</code> if the nodes are equal
-     */
-    equalNodes : function(node1, node2) {
-      node1 = qx.module.Traversing.__getNodeFromArgument(node1);
-      node2 = qx.module.Traversing.__getNodeFromArgument(node2);
-
-      if (!node1 || !node2) {
-        return false;
-      }
-
-      if (qx.core.Environment.get("html.node.isequalnode")) {
-        return node1.isEqualNode(node2);
-      } else {
-        if (node1 === node2) {
-          return true;
-        }
-
-        // quick attributes length check
-        var hasAttributes = node1.attributes && node2.attributes;
-        if (hasAttributes &&
-            node1.attributes.length !== node2.attributes.length) {
-          return false;
-        }
-
-        var hasChildNodes = node1.childNodes && node2.childNodes;
-        // quick childNodes length check
-        if (hasChildNodes &&
-            node1.childNodes.length !== node2.childNodes.length) {
-          return false;
-        }
-
-        // string attribute check
-        var domAttributes = qx.module.Traversing.EQUALITY_ATTRIBUTES;
-        for (var i=0, l=domAttributes.length; i<l; i++) {
-          var domAttrib = domAttributes[i];
-          if (node1[domAttrib] !== node2[domAttrib]) {
-            return false;
-          }
-        }
-
-        // attribute values
-        if (hasAttributes) {
-          var node1Attributes = qx.module.Traversing.__getAttributes(node1);
-          var node2Attributes = qx.module.Traversing.__getAttributes(node2);
-          for (var attr in node1Attributes) {
-            if (node1Attributes[attr] !== node2Attributes[attr]) {
-              return false;
-            }
-          }
-        }
-
-        // child nodes
-        if (hasChildNodes) {
-          for (var j=0, m=node1.childNodes.length; j<m; j++) {
-            var child1 = node1.childNodes[j];
-            var child2 = node2.childNodes[j];
-            if (!qx.module.Traversing.equalNodes(child1, child2)) {
-              return false;
-            }
-          }
-        }
-
-        return true;
-      }
-    },
-
-
-    /**
-     * Helper that attempts to convert the given argument into a DOM node
-     * @param arg {var} object to convert
-     * @return {Node|null} DOM node or null if the conversion failed
-     */
-    __getNodeFromArgument : function(arg) {
-      if (typeof arg == "string") {
-        arg = qxWeb(arg);
-      }
-
-      if (arg instanceof Array || arg instanceof qxWeb) {
-        arg = arg[0];
-      }
-
-      return qxWeb.isNode(arg) ? arg : null;
-    },
-
-
-    /**
-     * Returns a map containing the given DOM node's attribute names
-     * and values
-     *
-     * @param node {Node} DOM node
-     * @return {Map} Map of attribute names/values
-     */
-    __getAttributes : function(node) {
-      var attributes = {};
-
-      for (var attr in node.attributes) {
-        if (attr == "length") {
-          continue;
-        }
-        var name = node.attributes[attr].name;
-        var value = node.attributes[attr].value;
-        attributes[name] = value;
-      }
-
-      return attributes;
-    },
-
-
-    /**
-     * Helper function that iterates over a set of items and applies the given
-     * qx.dom.Hierarchy method to each entry, storing the results in a new Array.
-     * Duplicates are removed and the items are filtered if a selector is
-     * provided.
-     *
-     * @attach{qxWeb}
-     * @param collection {Array} Collection to iterate over (any Array-like object)
-     * @param method {String} Name of the qx.dom.Hierarchy method to apply
-     * @param selector {String?} Optional selector that elements to be included
-     * must match
-     * @return {Array} Result array
-     * @internal
-     */
-    __hierarchyHelper : function(collection, method, selector)
-    {
-      // Iterate ourself, as we want to directly combine the result
-      var all = [];
-      var Hierarchy = qx.dom.Hierarchy;
-      for (var i=0, l=collection.length; i<l; i++) {
-        all.push.apply(all, Hierarchy[method](collection[i]));
-      }
-
-      // Remove duplicates
-      var ret = qx.lang.Array.unique(all);
-
-      // Post reduce result by selector
-      if (selector) {
-        ret = qx.bom.Selector.matches(selector, ret);
-      }
-
-      return ret;
     }
   },
 
 
   defer : function(statics) {
+    qxWeb.$attachAll(this);
+    // manually attach private method which is ignored by attachAll
     qxWeb.$attach({
-      "add" : statics.add,
-      "getChildren" : statics.getChildren,
-      "forEach" : statics.forEach,
-      "getParents" : statics.getParents,
-      "getAncestors" : statics.getAncestors,
-      "getAncestorsUntil" : statics.getAncestorsUntil,
-      "__getAncestors" : statics.__getAncestors,
-      "getClosest" : statics.getClosest,
-      "find" : statics.find,
-      "getContents" : statics.getContents,
-      "is" : statics.is,
-      "eq" : statics.eq,
-      "getFirst" : statics.getFirst,
-      "getLast" : statics.getLast,
-      "has" : statics.has,
-      "getNext" : statics.getNext,
-      "getNextAll" : statics.getNextAll,
-      "getNextUntil" : statics.getNextUntil,
-      "getPrev" : statics.getPrev,
-      "getPrevAll" : statics.getPrevAll,
-      "getPrevUntil" : statics.getPrevUntil,
-      "getSiblings" : statics.getSiblings,
-      "not" : statics.not,
-      "getOffsetParent" : statics.getOffsetParent,
-      "isRendered" : statics.isRendered,
-      "isChildOf" : statics.isChildOf,
-      "contains" : statics.contains
-    });
-
-    qxWeb.$attachStatic({
-      "isElement" : statics.isElement,
-      "isNode" : statics.isNode,
-      "isNodeName" : statics.isNodeName,
-      "isDocument" : statics.isDocument,
-      "isDocumentFragment" : statics.isDocumentFragment,
-      "getDocument" : statics.getDocument,
-      "getWindow" : statics.getWindow,
-      "isWindow" : statics.isWindow,
-      "isBlockNode" : statics.isBlockNode,
-      "getNodeName" : statics.getNodeName,
-      "getNodeText" : statics.getNodeText,
-      "isTextNode" : statics.isTextNode,
-      "equalNodes" : statics.equalNodes
+      "__getAncestors" : statics.__getAncestors
     });
   }
 });

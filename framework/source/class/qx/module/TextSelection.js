@@ -22,7 +22,40 @@
  */
 qx.Bootstrap.define("qx.module.TextSelection", {
   statics: {
+    /**
+     * Checks if the given DOM node is a text input field or textarea
+     *
+     * @param el {Element} The node to check
+     * @return {Boolean} <code>true</code> if the given node is an input field
+     *
+     * @attach {qxWeb}
+     */
+    __isInput : function(el) {
+      var tag = el.tagName ? el.tagName.toLowerCase() : null;
+      return (tag === "input" || tag === "textarea");
+    },
 
+
+    /**
+     * Returns the first text child node of the given element
+     *
+     * @param el {Element} DOM element
+     * @return {Node|null} text node
+     *
+     * @attach {qxWeb}
+     */
+    __getTextNode : function(el) {
+      for (var i=0, l=el.childNodes.length; i<l; i++) {
+        if (el.childNodes[i].nodeType === 3) {
+          return el.childNodes[i];
+        }
+      }
+      return null;
+    }
+  },
+
+  members :
+  {
     /**
      * Get the text selection of the first element.
      *
@@ -145,51 +178,11 @@ qx.Bootstrap.define("qx.module.TextSelection", {
         }
       });
       return this;
-    },
-
-
-    /**
-     * Checks if the given DOM node is a text input field or textarea
-     *
-     * @param el {Element} The node to check
-     * @return {Boolean} <code>true</code> if the given node is an input field
-     *
-     * @attach {qxWeb}
-     */
-    __isInput : function(el) {
-      var tag = el.tagName ? el.tagName.toLowerCase() : null;
-      return (tag === "input" || tag === "textarea");
-    },
-
-
-    /**
-     * Returns the first text child node of the given element
-     *
-     * @param el {Element} DOM element
-     * @return {Node|null} text node
-     *
-     * @attach {qxWeb}
-     */
-    __getTextNode : function(el) {
-      for (var i=0, l=el.childNodes.length; i<l; i++) {
-        if (el.childNodes[i].nodeType === 3) {
-          return el.childNodes[i];
-        }
-      }
-      return null;
     }
   },
 
 
   defer : function(statics) {
-    qxWeb.$attach({
-      "getTextSelection" : statics.getTextSelection,
-      "getTextSelectionLength" : statics.getTextSelectionLength,
-      "getTextSelectionStart" : statics.getTextSelectionStart,
-      "getTextSelectionEnd" : statics.getTextSelectionEnd,
-      "setTextSelection" : statics.setTextSelection,
-      "clearTextSelection" : statics.clearTextSelection
-    });
-
+    qxWeb.$attachAll(this);
   }
 });

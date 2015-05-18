@@ -27,7 +27,7 @@
  */
 qx.Bootstrap.define("qx.module.Transform",
 {
-  statics :
+  members :
   {
     /**
      * Method to apply multiple transforms at once to the given element. It
@@ -276,23 +276,6 @@ qx.Bootstrap.define("qx.module.Transform",
 
 
   defer : function(statics) {
-    qxWeb.$attach({
-      "transform" : statics.transform,
-      "translate" : statics.translate,
-      "rotate" : statics.rotate,
-      "skew" : statics.skew,
-      "scale" : statics.scale,
-
-      "setTransformStyle" : statics.setTransformStyle,
-      "getTransformStyle" : statics.getTransformStyle,
-      "setTransformOrigin" : statics.setTransformOrigin,
-      "getTransformOrigin" : statics.getTransformOrigin,
-      "setTransformPerspective" : statics.setTransformPerspective,
-      "getTransformPerspective" : statics.getTransformPerspective,
-      "setTransformPerspectiveOrigin" : statics.setTransformPerspectiveOrigin,
-      "getTransformPerspectiveOrigin" : statics.getTransformPerspectiveOrigin,
-      "setTransformBackfaceVisibility" : statics.setTransformBackfaceVisibility,
-      "getTransformBackfaceVisibility" : statics.getTransformBackfaceVisibility
-    });
+    qxWeb.$attachAll(this);
   }
 });
