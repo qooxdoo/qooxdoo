@@ -236,7 +236,7 @@ qx.Bootstrap.define("qx.module.Css", {
      */
     includeStylesheet : function(uri, doc) {
       qx.bom.Stylesheet.includeFile(uri, doc);
-    },
+    }
   },
 
 

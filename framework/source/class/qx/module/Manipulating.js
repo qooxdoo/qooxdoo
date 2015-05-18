@@ -577,8 +577,7 @@ qx.Bootstrap.define("qx.module.Manipulating", {
         0: {},
         100: {scrollTop: 1}
       }}
-    },
-
+    }
   },
 
 
