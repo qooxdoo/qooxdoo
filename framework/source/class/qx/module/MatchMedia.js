@@ -81,8 +81,11 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
       } else {
         this.removeClass(className);
       }
-    },
+    }
+  },
 
+  members :
+  {
     /**
      * Listens for media query updates and applies/removes the css class.
      *
@@ -107,12 +110,6 @@ qx.Bootstrap.define("qx.module.MatchMedia", {
 
 
   defer: function (statics) {
-    qxWeb.$attachStatic({
-      matchMedia: statics.matchMedia,
-      addSizeClasses: statics.addSizeClasses
-    });
-    qxWeb.$attach({
-      mediaQueryToClass: statics.mediaQueryToClass
-    });
+    qxWeb.$attachAll(this);
   }
 });

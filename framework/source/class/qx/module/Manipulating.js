@@ -28,6 +28,95 @@ qx.Bootstrap.define("qx.module.Manipulating", {
   statics :
   {
     /**
+     * Performs animated scrolling
+     *
+     * @param property {String} Element property to animate: <code>scrollLeft</code>
+     * or <code>scrollTop</code>
+     * @param value {Number} Final scroll position
+     * @param duration {Number} The animation's duration in ms
+     * @return {q} The collection for chaining.
+     */
+    __animateScroll : function(property, value, duration)
+    {
+      var desc = qx.lang.Object.clone(qx.module.Manipulating._animationDescription[property], true);
+      desc.keyFrames[100][property] = value;
+      return this.animate(desc, duration);
+    },
+
+
+    /**
+     * Creates a new collection from the given argument
+     * @param arg {var} Selector expression, HTML string, DOM element or list of
+     * DOM elements
+     * @return {qxWeb} Collection
+     * @internal
+     */
+    __getCollectionFromArgument : function(arg) {
+      var coll;
+      // Collection/array of DOM elements
+      if (qx.lang.Type.isArray(arg)) {
+        coll = qxWeb(arg);
+      }
+      // HTML string
+      else {
+        var arr = qx.bom.Html.clean([arg]);
+        if (arr.length > 0 && qx.dom.Node.isElement(arr[0])) {
+          coll = qxWeb(arr);
+        }
+        // Selector or single element
+        else {
+          coll = qxWeb(arg);
+        }
+      }
+
+      return coll;
+    },
+
+
+    /**
+     * Returns the innermost element of a DOM tree as determined by a simple
+     * depth-first search.
+     *
+     * @param element {Element} Root element
+     * @return {Element} innermost element
+     * @internal
+     */
+    __getInnermostElement : function(element)
+    {
+      if (element.childNodes.length == 0) {
+        return element;
+      }
+      for (var i=0,l=element.childNodes.length; i<l; i++) {
+        if (element.childNodes[i].nodeType === 1) {
+          return this.__getInnermostElement(element.childNodes[i]);
+        }
+      }
+      return element;
+    },
+
+
+    /**
+     * Returns an array from a selector expression or a single element
+     *
+     * @attach{qxWeb}
+     * @param arg {String|Element} Selector expression or DOM element
+     * @return {Element[]} Array of elements
+     * @internal
+     */
+    __getElementArray : function(arg)
+    {
+      if (!qx.lang.Type.isArray(arg)) {
+        var fromSelector = qxWeb(arg);
+        arg = fromSelector.length > 0 ? fromSelector : [arg];
+      }
+
+      return arg.filter(function(item) {
+        return (item && (item.nodeType === 1 || item.nodeType === 11));
+      });
+    },
+
+
+    /**
      * Creates a new collection from the given argument. This can either be an
      * HTML string, a single DOM element or an array of elements
      *
@@ -46,9 +135,12 @@ qx.Bootstrap.define("qx.module.Manipulating", {
      */
     create : function(html, context) {
       return qxWeb.$init(qx.bom.Html.clean([html], context), qxWeb);
-    },
+    }
+  },
 
 
+  members :
+  {
     /**
      * Clones the items in the current collection and returns them in a new set.
      * Event listeners can also be cloned.
@@ -196,27 +288,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
 
 
     /**
-     * Returns an array from a selector expression or a single element
-     *
-     * @attach{qxWeb}
-     * @param arg {String|Element} Selector expression or DOM element
-     * @return {Element[]} Array of elements
-     * @internal
-     */
-    __getElementArray : function(arg)
-    {
-      if (!qx.lang.Type.isArray(arg)) {
-        var fromSelector = qxWeb(arg);
-        arg = fromSelector.length > 0 ? fromSelector : [arg];
-      }
-
-      return arg.filter(function(item) {
-        return (item && (item.nodeType === 1 || item.nodeType === 11));
-      });
-    },
-
-
-    /**
      * Wraps each element in the collection in a copy of an HTML structure.
      * Elements will be appended to the deepest nested element in the structure
      * as determined by a depth-first search.
@@ -241,57 +312,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       });
 
       return this;
-    },
-
-
-    /**
-     * Creates a new collection from the given argument
-     * @param arg {var} Selector expression, HTML string, DOM element or list of
-     * DOM elements
-     * @return {qxWeb} Collection
-     * @internal
-     */
-    __getCollectionFromArgument : function(arg) {
-      var coll;
-      // Collection/array of DOM elements
-      if (qx.lang.Type.isArray(arg)) {
-        coll = qxWeb(arg);
-      }
-      // HTML string
-      else {
-        var arr = qx.bom.Html.clean([arg]);
-        if (arr.length > 0 && qx.dom.Node.isElement(arr[0])) {
-          coll = qxWeb(arr);
-        }
-        // Selector or single element
-        else {
-          coll = qxWeb(arg);
-        }
-      }
-
-      return coll;
-    },
-
-
-    /**
-     * Returns the innermost element of a DOM tree as determined by a simple
-     * depth-first search.
-     *
-     * @param element {Element} Root element
-     * @return {Element} innermost element
-     * @internal
-     */
-    __getInnermostElement : function(element)
-    {
-      if (element.childNodes.length == 0) {
-        return element;
-      }
-      for (var i=0,l=element.childNodes.length; i<l; i++) {
-        if (element.childNodes[i].nodeType === 1) {
-          return this.__getInnermostElement(element.childNodes[i]);
-        }
-      }
-      return element;
     },
 
 
@@ -439,36 +459,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
     },
 
 
-    /** Default animation descriptions for animated scrolling **/
-    _animationDescription: {
-      scrollLeft : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-        0: {},
-        100: {scrollLeft: 1}
-      }},
-
-      scrollTop : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-        0: {},
-        100: {scrollTop: 1}
-      }}
-    },
-
-
-    /**
-     * Performs animated scrolling
-     *
-     * @param property {String} Element property to animate: <code>scrollLeft</code>
-     * or <code>scrollTop</code>
-     * @param value {Number} Final scroll position
-     * @param duration {Number} The animation's duration in ms
-     * @return {q} The collection for chaining.
-     */
-    __animateScroll : function(property, value, duration)
-    {
-      var desc = qx.lang.Object.clone(qx.module.Manipulating._animationDescription[property], true);
-      desc.keyFrames[100][property] = value;
-      return this.animate(desc, duration);
-    },
-
     /**
      * Scrolls the elements of the collection to the given coordinate.
      *
@@ -574,37 +564,25 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       });
 
       return this;
-    }
+    },
+
+    /** Default animation descriptions for animated scrolling **/
+    _animationDescription: {
+      scrollLeft : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
+        0: {},
+        100: {scrollLeft: 1}
+      }},
+
+      scrollTop : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
+        0: {},
+        100: {scrollTop: 1}
+      }}
+    },
+
   },
 
 
   defer : function(statics) {
-    qxWeb.$attachStatic({
-      "create" : statics.create
-    });
-
-    qxWeb.$attach({
-      "append" : statics.append,
-      "appendTo" : statics.appendTo,
-      "remove" : statics.remove,
-      "empty" : statics.empty,
-
-      "before" : statics.before,
-      "insertBefore" : statics.insertBefore,
-      "after" : statics.after,
-      "insertAfter" : statics.insertAfter,
-
-      "wrap" : statics.wrap,
-
-      "clone" : statics.clone,
-
-      "getScrollLeft" : statics.getScrollLeft,
-      "setScrollLeft" : statics.setScrollLeft,
-      "getScrollTop" : statics.getScrollTop,
-      "setScrollTop" : statics.setScrollTop,
-
-      "focus" : statics.focus,
-      "blur" : statics.blur
-    });
+    qxWeb.$attachAll(this);
   }
 });
