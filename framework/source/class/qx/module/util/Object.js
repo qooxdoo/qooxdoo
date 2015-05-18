@@ -99,14 +99,6 @@ qx.Bootstrap.define("qx.module.util.Object", {
   },
 
   defer : function(statics) {
-    qxWeb.$attachStatic({
-      "object" : {
-        "clone" : statics.clone,
-        "getValues" : statics.getValues,
-        "invert" : statics.invert,
-        "contains" : statics.contains,
-        "merge" : statics.merge
-      }
-    });
+    qxWeb.$attachAll(this, "object")
   }
 });

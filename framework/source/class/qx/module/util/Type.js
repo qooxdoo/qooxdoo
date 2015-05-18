@@ -48,10 +48,6 @@ qx.Bootstrap.define("qx.module.util.Type", {
 
 
   defer : function(statics) {
-    qxWeb.$attachStatic({
-      type : {
-        get : statics.get
-      }
-    });
+    qxWeb.$attachAll(this, "type");
   }
 });

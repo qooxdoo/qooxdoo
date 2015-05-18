@@ -62,11 +62,6 @@ qx.Bootstrap.define("qx.module.util.Function", {
   },
 
   defer: function (statics) {
-    qxWeb.$attachStatic({
-      func: {
-        debounce: statics.debounce,
-        throttle: statics.throttle
-      }
-    });
+    qxWeb.$attachAll(this, "func");
   }
 });

@@ -124,6 +124,22 @@ qx.Bootstrap.define("qxWeb", {
       }
     },
 
+    $attachAll : function(clazz, staticsNamespace) {
+      var destination;
+      if (staticsNamespace != null) {
+        qxWeb[staticsNamespace] = {};
+        destination = qxWeb[staticsNamespace]
+      } else {
+        destination = qxWeb;
+      }
+
+      for (var name in clazz.statics) {
+        if (name.indexOf("$") !== 0 && name.indexOf("_") !== 0 && name !== "name" && name !== "basename" &&
+            name !== "classname" && name !== "toString" && name !== name.toUpperCase())
+        destination[name] = clazz.statics[name];
+      }
+    },
+
 
     /**
      * This is an API for module development and can be used to attach new initialization

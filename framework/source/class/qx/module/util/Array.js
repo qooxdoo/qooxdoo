@@ -191,21 +191,6 @@ qx.Bootstrap.define("qx.module.util.Array", {
 
 
   defer : function(statics) {
-    qxWeb.$attachStatic({
-      array : {
-        cast : statics.cast,
-        equals : statics.equals,
-        exclude : statics.exclude,
-        fromArguments : statics.fromArguments,
-        insertAfter : statics.insertAfter,
-        insertBefore : statics.insertBefore,
-        max : statics.max,
-        min : statics.min,
-        remove : statics.remove,
-        removeAll : statics.removeAll,
-        unique : statics.unique,
-        range : statics.range
-      }
-    });
+   qxWeb.$attachAll(this, "array");
   }
 });
