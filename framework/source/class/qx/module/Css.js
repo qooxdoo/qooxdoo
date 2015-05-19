@@ -44,7 +44,7 @@ qx.Bootstrap.define("qx.module.Css", {
               position : "absolute",
               visibility : "hidden"
             };
-            elementHeight = qx.module.Css.__swap(elem, stylesToSwap, qx.module.Css._getHeight, this);
+            elementHeight = qx.module.Css.__swap(elem, stylesToSwap, "_getHeight", this);
           } else {
             elementHeight = qx.bom.element.Dimension.getHeight(elem);
           }
@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.module.Css", {
               position : "absolute",
               visibility : "hidden"
             };
-            elementWidth = qx.module.Css.__swap(elem, stylesToSwap, qx.module.Css._getWidth, this);
+            elementWidth = qx.module.Css.__swap(elem, stylesToSwap, "_getWidth", this);
           } else {
             elementWidth = qx.bom.element.Dimension.getWidth(elem);
           }
@@ -121,7 +121,7 @@ qx.Bootstrap.define("qx.module.Css", {
             visibility: "hidden",
             display: "block"
           };
-          contentHeight = qx.module.Css.__swap(obj, stylesToSwap, qx.module.Css._getContentHeight, this);
+          contentHeight = qx.module.Css.__swap(obj, stylesToSwap, "_getContentHeight", this);
         } else {
           contentHeight = qx.bom.element.Dimension.getContentHeight(obj);
         }
@@ -155,7 +155,7 @@ qx.Bootstrap.define("qx.module.Css", {
             visibility: "hidden",
             display: "block"
           };
-          contentWidth = qx.module.Css.__swap(obj, stylesToSwap, qx.module.Css._getContentWidth, this);
+          contentWidth = qx.module.Css.__swap(obj, stylesToSwap, "_getContentWidth", this);
         } else {
           contentWidth = qx.bom.element.Dimension.getContentWidth(obj);
         }
@@ -204,11 +204,11 @@ qx.Bootstrap.define("qx.module.Css", {
      *
      * @param element {Element} the DOM element to operate on
      * @param styles {Map} the styles to swap
-     * @param callback {Function} the callback function
+     * @param methodName {String} the callback functions name
      * @param context {Object} the context in which the callback should be called
      * @return {Object} the return value of the callback
      */
-    __swap : function(element, styles, callback, context)
+    __swap : function(element, styles, methodName, context)
     {
       // get the current values
       var currentValues = {};
@@ -217,7 +217,7 @@ qx.Bootstrap.define("qx.module.Css", {
         element.style[styleProperty] = styles[styleProperty];
       }
 
-      var value = callback.call(context);
+      var value = context[methodName]();
 
       for (var styleProperty in currentValues) {
         element.style[styleProperty] = currentValues[styleProperty];
@@ -249,7 +249,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {Number} The first item's rendered height
      */
     getHeight : function(force) {
-      qx.module.Css._getHeight(force);
+      return this._getHeight(force);
     },
 
 
@@ -260,7 +260,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {Number} The first item's rendered width
      */
     getWidth : function(force) {
-      qx.module.Css._getWidth(force);
+      return this._getWidth(force);
     },
 
     /**
@@ -272,7 +272,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {Number} Computed content height
      */
     getContentHeight : function(force) {
-      qx.module.Css._getContentHeight(force);
+      return this._getContentHeight(force);
     },
 
     /**
@@ -284,7 +284,7 @@ qx.Bootstrap.define("qx.module.Css", {
      * @return {Number} Computed content width
      */
     getContentWidth : function(force) {
-      qx.module.Css._getContentWidth(force);
+      return this._getContentWidth(force);
     },
 
     /**
@@ -599,5 +599,12 @@ qx.Bootstrap.define("qx.module.Css", {
 
   defer : function(statics) {
     qxWeb.$attachAll(this);
+    // manually attach private method which is ignored by attachAll
+    qxWeb.$attach({
+      "_getWidth" : statics._getWidth,
+      "_getHeight" : statics._getHeight,
+      "_getContentHeight" : statics._getContentHeight,
+      "_getContentWidth" : statics._getContentWidth
+    });
   }
 });

@@ -2798,6 +2798,7 @@ testrunner.define({
       left: 200,
       top: 200
     };
+
     this.assertEquals(expectedLocation.left, q("#bar").getOffset().left);
     this.assertEquals(expectedLocation.top, q("#bar").getOffset().top);
 

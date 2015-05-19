@@ -27,6 +27,20 @@
 qx.Bootstrap.define("qx.module.Manipulating", {
   statics :
   {
+    /** Default animation descriptions for animated scrolling **/
+    _animationDescription: {
+      scrollLeft : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
+        0: {},
+        100: {scrollLeft: 1}
+      }},
+
+      scrollTop : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
+        0: {},
+        100: {scrollTop: 1}
+      }}
+    },
+
+
     /**
      * Performs animated scrolling
      *
@@ -564,19 +578,6 @@ qx.Bootstrap.define("qx.module.Manipulating", {
       });
 
       return this;
-    },
-
-    /** Default animation descriptions for animated scrolling **/
-    _animationDescription: {
-      scrollLeft : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-        0: {},
-        100: {scrollLeft: 1}
-      }},
-
-      scrollTop : {duration: 700, timing: "ease-in", keep: 100, keyFrames : {
-        0: {},
-        100: {scrollTop: 1}
-      }}
     }
   },
 
