@@ -221,7 +221,7 @@ info-website:
 website: info-website exec-website-build
 
 website-api:
-	@time ( cd component/standalone/website && $(CMD_GENERATOR) api ) || exit 1
+	@time ( cd component/standalone/website && $(CMD_GRUNT) api ) || exit 1
 
 exec-website-build:
 	@time ( cd component/standalone/website && $(CMD_GENERATOR) build,build-min,build-module-all,build-module-all-min ) || exit 1
