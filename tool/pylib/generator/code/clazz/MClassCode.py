@@ -293,7 +293,7 @@ class MClassCode(object):
     def optimize(self, p_tree=None, p_optimize=[], variantSet={}, featureMap={}):
 
         def load_privates():
-            cacheId  = privateoptimizer.privatesCacheId
+            cacheId = privateoptimizer.privatesCacheId
             privates, _ = cache.read(cacheId, keepLock=True)
             if privates == None:
                 privates = {}
@@ -302,6 +302,17 @@ class MClassCode(object):
         def write_privates(globalprivs):
             cacheId  = privateoptimizer.privatesCacheId
             cache.write(cacheId, globalprivs)  # removes lock by default
+
+        def load_features():
+            cacheId = featureoptimizer.cacheId
+            features, _ = cache.read(cacheId, keepLock=True)
+            if features == None:
+                features = {}
+            return features
+
+        def write_features(globalfeatures):
+            cacheId  = featureoptimizer.cacheId
+            cache.write(cacheId, globalfeatures)  # removes lock by default
 
         def getTreeCacheId(optimize=[], variantSet={}):
             classVariants = self.classVariants()
@@ -326,7 +337,12 @@ class MClassCode(object):
                 if not featureMap:
                     console.warn("Empty feature map passed to static methods optimization; skipping")
                 elif self.type == 'static' and self.id in featureMap:
-                    featureoptimizer.patch(tree, self, featureMap)
+                    optimzed_features = featureoptimizer.patch(tree, self, featureMap)
+                    if optimzed_features:
+                        optimized_statics_overall = load_features()
+                        copy = optimized_statics_overall.copy()
+                        copy.update(optimzed_features)
+                        write_features(copy)
 
             if "basecalls" in optimize:
                 basecalloptimizer.patch(tree)

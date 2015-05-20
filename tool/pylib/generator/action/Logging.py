@@ -29,6 +29,7 @@ from generator         import Context
 from misc              import filetool, textutil, json, util
 from misc.ExtMap       import ExtMap
 from ecmascript.transform.optimizer import privateoptimizer
+from ecmascript.transform.optimizer import featureoptimizer
 from generator.output.CodeGenerator   import CodeGenerator
 from generator.code.Class           import Class, CompileOptions
 
@@ -120,6 +121,17 @@ def runPrivateDebug(jobconf):
     console.info("Privates debugging...")
     privateoptimizer.debug(privates)
 
+
+def runStaticsOptimizedDebug(jobconf):
+    if not jobconf.get("log/statics-optimized", False):
+        return
+    console = Context.console
+    cache   = Context.cache
+
+    features, _ = cache.read(featureoptimizer.cacheId)
+
+    console.info("Optimized statics as JSON...")
+    featureoptimizer.debug(features)
 
 ##
 #

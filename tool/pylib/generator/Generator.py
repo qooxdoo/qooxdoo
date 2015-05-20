@@ -604,6 +604,7 @@ class Generator(object):
                 if "log" in jobTriggers:
                     Logging.runLogDependencies(self._job, script)
                     Logging.runPrivateDebug(self._job)
+                    Logging.runStaticsOptimizedDebug(self._job)
                     #Logging.runClassOrderingDebug(self._job, script)
                     Logging.runLogUnusedClasses(self._job, script)
                     Logging.runLogResources(self._job, script)
