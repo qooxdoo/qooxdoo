@@ -152,8 +152,8 @@ qx.Bootstrap.define("qxWeb", {
       // statics
       var destination;
       if (staticsNamespace != null) {
-        qxWeb[staticsNamespace] = {};
-        destination = qxWeb[staticsNamespace]
+        qxWeb[staticsNamespace] = qxWeb[staticsNamespace] || {};
+        destination = qxWeb[staticsNamespace];
       } else {
         destination = qxWeb;
       }
