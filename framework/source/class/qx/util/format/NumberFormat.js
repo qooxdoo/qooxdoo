@@ -154,15 +154,16 @@ qx.Class.define("qx.util.format.NumberFormat",
     format : function(num)
     {
       // handle special cases
+      if (isNaN(num)) {
+        return "NaN";
+      }
+
       switch (num) {
         case Infinity:
           return "Infinity";
 
         case -Infinity:
           return "-Infinity";
-
-        case NaN:
-          return "NaN";
       }
 
       var negative = (num < 0);
