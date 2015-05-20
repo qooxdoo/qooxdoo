@@ -137,7 +137,7 @@ qx.Bootstrap.define("qxWeb", {
      *
      *
      * If more fine-grained control outside if these conventions is needed,
-     * simply use {@link $attach} or {@link $attach}.
+     * simply use {@link $attach} or {@link $attachStatic}.
      *
      * @param clazz {Object} the qooxdoo class definition calling this method.
      * @param staticsNamespace {String?undefined} Specifies the namespace under which statics are attached to {@link q}.
