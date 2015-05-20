@@ -22,7 +22,7 @@
 // NOTE: class used only in node env (via Grunt) so use require()!
 
 var fs = require("fs");
-var ViewerDataUtil = require('api/ViewerDataUtil.es5');
+var ViewerDataUtil = require('./ViewerDataUtil.es5');
 
 class ViewerData {
   constructor() {

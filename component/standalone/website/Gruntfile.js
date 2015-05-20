@@ -225,7 +225,7 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('write-viewer-data', 'Writes viewer data file.', function() {
-    var ViewerData = require('api/ViewerData.es5');
+    var ViewerData = require('./api/ViewerData.es5');
     var ast = JSON.parse(fs.readFileSync('api/script/qxWeb.json', {encoding: 'utf8'}));
     var viewerData = new ViewerData();
     viewerData.processAst(ast);
