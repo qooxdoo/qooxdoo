@@ -403,6 +403,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       // Read children
       var children = this.getChildren();
 
+      var i, l;
       // Toggle state to bar
       if (old)
       {
@@ -415,7 +416,7 @@ qx.Class.define("qx.ui.tabview.TabView",
         pane.removeState(oldState);
 
         // Update pages
-        for (var i=0, l=children.length; i<l; i++) {
+        for (i=0, l=children.length; i<l; i++) {
           children[i].removeState(oldState);
         }
       }
@@ -431,7 +432,7 @@ qx.Class.define("qx.ui.tabview.TabView",
         pane.addState(newState);
 
         // Update pages
-        for (var i=0, l=children.length; i<l; i++) {
+        for (i=0, l=children.length; i<l; i++) {
           children[i].addState(newState);
         }
       }
@@ -471,7 +472,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      *    items contains more than one elements.
      */
     setSelection : function(items) {
-      var buttons = []
+      var buttons = [];
 
       for (var i = 0; i < items.length; i++) {
         buttons.push(items[i].getChildControl("button"));
@@ -602,7 +603,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       // reset the old close button states, before remove page
       // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=3763 for details
-      var page = e.getTarget()
+      var page = e.getTarget();
       var closeButton = page.getButton().getChildControl("close-button");
       closeButton.reset();
 
