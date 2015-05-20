@@ -147,6 +147,14 @@ ViewerDataUtil.MODULE_NAME_REPLACEMENTS = [
   { regExp: new RegExp(/qx\.module\./), replacement: "" },
   { regExp: new RegExp(/qx\.ui\.website\./), replacement: "" }
 ];
+ViewerDataUtil.NORMALIZE_CLASSES = {
+  "Array": "qx.lang.normalize.Array",
+  "Date": "qx.lang.normalize.Date",
+  "String": "qx.lang.normalize.String",
+  "Object": "qx.lang.normalize.Object",
+  "Function": "qx.lang.normalize.Function",
+  "Error": "qx.lang.normalize.Error"
+};
 ViewerDataUtil.EVENT_TYPES = [
   "qx.module.event.Mouse",
   "qx.module.event.Keyboard",

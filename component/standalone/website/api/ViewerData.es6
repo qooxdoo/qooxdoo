@@ -104,19 +104,11 @@ class ViewerData {
 
 
   _loadPolyfills() {
-    var qxLangNormalize = {
-      "Array":{"$$type":"Class","classname":"qx.lang.normalize.Array","name":"qx.lang.normalize.Array","basename":"Array"},
-      "Date":{"$$type":"Class","classname":"qx.lang.normalize.Date","name":"qx.lang.normalize.Date","basename":"Date"},
-      "String":{"$$type":"Class","classname":"qx.lang.normalize.String","name":"qx.lang.normalize.String","basename":"String"},
-      "Object":{"$$type":"Class","classname":"qx.lang.normalize.Object","name":"qx.lang.normalize.Object","basename":"Object"},
-      "Function":{"$$type":"Class","classname":"qx.lang.normalize.Function","name":"qx.lang.normalize.Function","basename":"Function"},
-      "Error":{"$$type":"Class","classname":"qx.lang.normalize.Error","name":"qx.lang.normalize.Error","basename":"Error"}
-    };
-
+    var qxLangNormalize = ViewerDataUtil.NORMALIZE_CLASSES;
     this.__polyfillClasses = Object.keys(qxLangNormalize);
 
     for (var clazz in qxLangNormalize) {
-      this.__loadSimpleClass(clazz, "qx.lang.normalize." + clazz);
+      this.__loadSimpleClass(clazz, qxLangNormalize[clazz]);
     }
   }
 
