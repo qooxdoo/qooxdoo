@@ -276,9 +276,10 @@ qx.Class.define("mobileshowcase.page.Dialog",
         }.bind(this), 250);
       }
 
-      if (e.getData().item) {
-        this.__resultsLabel.setValue("Received <b>changeSelection</b> from Picker Dialog. [slot: "+ e.getData().slot+ "] [item: "+ e.getData().item.title+"]");
-      }
+      this.__resultsLabel.setValue(
+        "Received <b>changeSelection</b> from Picker Dialog. [slot: " +
+        e.getData().slot + "] [item: " + e.getData().item.title + "]"
+      );
     },
 
 
