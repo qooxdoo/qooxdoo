@@ -122,31 +122,6 @@ run through the Grunt frontend (in Grunt lingo those are called **tasks**
 then) via ``grunt generate:{oldJobName}``. This ensures that you are still able to use
 all the Generator functionality already available.
 
-We've reimplemented some former jobs as Grunt task in JavaScript
-and they may already be used instead of their Generator job counterparts.
-But note that the task implementation might not be feature-complete yet.
-Currently implemented are ``info``, ``source``, ``build`` and ``clean``.
-
-Here are those Grunt tasks and their Generator job counterparts:
-
-============================   ======================================   ===========================================
-Grunt                          Generator                                Comments
-============================   ======================================   ===========================================
-grunt                          generate.py                              *runs the default task/job*
-grunt source                   generate.py source                       \-
-grunt build                    generate.py build                        \-
-grunt info                     generate.py info                         *different output but same functionality*
-grunt clean                    generate.py distclean                    *removes local app artifacts with cache*
-grunt clean:app                \-                                       *removes local app artifacts w/o cache*
-grunt clean:build              generate.py clean                        *removes only build dir / Generator removes build and source/script!*
-grunt clean:source             generate.py clean                        *removes only source/script dir / Generator removes build and source/script!*
-grunt clean:api                \-                                       *removes only api dir*
-grunt clean:test               \-                                       *removes only test dir*
-grunt clean:inspector          \-                                       *removes only inspector dir*
-grunt clean:cache              \-                                       *removes only global cache dir*
-grunt generate:source          generate.py source                       *all jobs are also available via generate:{jobName}*
-============================   ======================================   ===========================================
-
 See also the FAQ below for important differences between Grunt
 and the Generator.
 
@@ -240,7 +215,7 @@ In order to get the last two files and Grunt (locally) installed:
   #. Run ``npm install`` in your project's root dir which installs Grunt locally
      to your project (this will create a dir called ``node_modules``).
 
-Now try ``grunt info`` - it should print out something similar to ``generate.py info``.
+Now try ``grunt info`` - it should run ``generate.py info``.
 
 
 FAQ
@@ -255,9 +230,3 @@ Will Grunt also register my newly added (and exported!) jobs from my config.json
 How do I provide Generator options like ``-v``?
     You have to use ``--gargs``. For example ``generate.py lint -v``
     translates to ``grunt lint --gargs="-v"``
-
-How can I run the Generator job I have known before or why does ``grunt xyz`` differ from ``generate.py xyz``?
-    This happens probably because we are registering a task (now implemented in
-    JavaScript) under the same name as before because it should replace the former
-    one eventually. You are always able to run former Generator jobs via ``grunt
-    generate:jobName`` or of course with ``generate.py xyz``.
