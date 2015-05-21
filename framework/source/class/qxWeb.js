@@ -59,8 +59,8 @@ qx.Bootstrap.define("qxWeb", {
      */
     $init : function(arg, clazz) {
       // restore widget instance
-      if (arg.length && arg.length == 1 && arg[0] && arg[0].$$widget) {
-        return arg[0].$$widget;
+      if (arg.length && arg.length == 1 && arg[0] && arg[0].$widget instanceof qxWeb) {
+        return arg[0].$widget;
       }
 
       var clean = [];
