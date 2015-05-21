@@ -134,15 +134,15 @@ qx.Bootstrap.define("qxWeb", {
      * to {@link q} during runtime according to the following conventions:
      *
      * Public members of the module are attached to the collection similar to
-     * {@link $attach}. Members beginning with '$' or '_' are ignored.
+     * <code>qxWeb.$attach</code>. Members beginning with '$' or '_' are ignored.
      *
      * Statics of the module are attached to {@link q} similar to
-     * {@link $attachStatic}. Statics beginning with '$' or '_', as well as constants
+     * <code>qxWeb.$attachStatic</code>. Statics beginning with '$' or '_', as well as constants
      * (all upper case) and some qooxdoo-internal statics of the module are ignored.
      *
      *
      * If more fine-grained control outside if these conventions is needed,
-     * simply use {@link $attach} or {@link $attachStatic}.
+     * simply use <code>qxWeb.$attach</code> or <code>qxWeb$attachStatic</code>.
      *
      * @param clazz {Object} the qooxdoo class definition calling this method.
      * @param staticsNamespace {String?undefined} Specifies the namespace under which statics are attached to {@link q}.
