@@ -320,7 +320,9 @@ qx.Class.define("qx.ui.mobile.control.Picker",
     * Handles the <code>changeBubble</code> and <codechange></code> event on a picker slot model.
     */
     _onSlotDataChange : function() {
-      this.refresh();
+      window.setTimeout(function() {
+        this.refresh();
+      }.bind(this), 0);
     }
   },
 
