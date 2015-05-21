@@ -159,7 +159,6 @@ qx.Class.define("mobileshowcase.page.Dialog",
     /**
     * Creates the date picker dialog.
     * @param anchor {qx.ui.mobile.core.Widget} the anchor of the popup.
-    * @return {qx.ui.mobile.dialog.Picker} the date picker.
     */
     _createPicker : function(anchor) {
       var pickerDialog = this.__pickerDialog = new qx.ui.mobile.dialog.Popup(anchor);
