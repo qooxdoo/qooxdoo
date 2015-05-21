@@ -248,6 +248,7 @@ filenames
 filepath
 finetune
 fireEvent
+flexbox
 focusable
 foo
 formItem
@@ -510,6 +511,7 @@ sudirectories
 superclass
 superclasses
 superset
+symlinks
 syntaxes
 tabIndex
 tabview
@@ -586,6 +588,8 @@ wildcards
 workflow
 workspace
 xhdpi
+xlarge
 xml
 xxhdpi
+xxlarge
 zIndex
