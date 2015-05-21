@@ -20,6 +20,19 @@
 // qooxdoo init needed before running grunt
 'use strict';
 
+// native
+var fs = require('fs');
+var path = require('path');
+
+// exit early
+if (!fs.existsSync(path.join(__dirname, "/node_modules"))) {
+  console.log("Aborted due to missing setup.\n" +
+              "Go to '" + path.join(__dirname, "/../..") + "' and run those commands:\n" +
+              "npm install\n" +
+              "grunt setup");
+  process.exit();
+}
+
 var config = require('./config/application.js');
 var task = require('./task/task.js');
 
