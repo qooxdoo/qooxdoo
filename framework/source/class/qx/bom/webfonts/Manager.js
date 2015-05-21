@@ -38,12 +38,6 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     this.__validators = {};
     this.__queue = [];
     this.__preferredFormats = this.getPreferredFormats();
-    var browser = qx.core.Environment.get("browser.name");
-    var version = parseInt(qx.core.Environment.get("browser.version"), 10);
-    if ((browser == "chrome" && version < 35) ||
-      (browser == "opera") && version < 22) {
-      this.__needsAbsoluteUri = true;
-    }
   },
 
 
@@ -84,7 +78,6 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     __preferredFormats : null,
     __queue : null,
     __queueInterval : null,
-    __needsAbsoluteUri : false,
 
 
     /*
@@ -115,10 +108,6 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         var src = qx.util.ResourceManager.getInstance().toUri(split[0]);
         if (split.length > 1) {
           src = src + "#" + split[1];
-        }
-        if (this.__needsAbsoluteUri) {
-          // Workaround for bug #8157
-          src = qx.util.Uri.getAbsolute(src);
         }
         sources.push(src);
       }
