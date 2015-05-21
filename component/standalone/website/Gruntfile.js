@@ -156,7 +156,7 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'test',
     'Generate the Indigo CSS and the Test Runner (using a minified version of qx.Website).',
-    ["generate-test", "sass:indigo", "notify:test"]
+    ["generate-test", "sass:indigo", "replace:templVarWithMinifiedCss", "notify:test"]
   );
 
   grunt.task.renameTask('test-source', 'generate-test-source');
@@ -170,7 +170,7 @@ module.exports = function(grunt) {
   grunt.task.registerTask(
     'test-module',
     'Generate the Indigo CSS and the Test Runner (using a modular version of qx.Website).',
-    ["generate-test-module", "sass:indigo", "notify:test"]
+    ["generate-test-module", "sass:indigo", "replace:templVarWithMinifiedCss", "notify:test"]
   );
 
   // 'extend' source job
@@ -187,18 +187,6 @@ module.exports = function(grunt) {
     'build',
     'Generate the build version of qx.Website and the widget CSS',
     ["generate:build", "sass:indigo", "notify:build"]
-  );
-
-  grunt.task.registerTask(
-    'test',
-    'Build testrunner',
-    ["generate:test", "replace:templVarWithMinifiedCss"]
-  );
-
-  grunt.task.registerTask(
-    'test-module',
-    'Build testrunner with module files',
-    ["generate:test-module", "replace:templVarWithMinifiedCss"]
   );
 
   // pre-process the index file
