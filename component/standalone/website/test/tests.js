@@ -4312,6 +4312,40 @@ testrunner.define({
     this.assertEquals("qx.ui.website.Widget", w.getAttribute("data-qx-class"));
   },
 
+  testConstructorOnCollection : function() {
+    var w = q.create("<div>").widget();
+    this.assertEquals("qx.ui.website.Widget", w.getAttribute("data-qx-class"));
+  },
+
+  testConstructorOnCollectionWithTwo : function() {
+    var w = q.create("<div></div><div></div>");
+    this.assertEquals(2, w.length);
+
+    this.assertException(function() {
+      w = w.widget();
+    });
+  },
+
+  testQueryWithTwo : function() {
+    var w = q.create("<div data-qx-class='qx.ui.website.Rating'></div><div data-qx-class='qx.ui.website.Button'></div>");
+    this.assertEquals(2, w.length);
+    w.appendTo(sandbox);
+
+    var query = qxWeb("*[data-qx-class]", sandbox);
+    this.assertEquals(2, query.length);
+    this.assertEquals("qxWeb", query.classname);
+
+    this.assertEquals("qx.ui.website.Rating", query.eq(0).classname);
+    this.assertEquals("qx.ui.website.Button", query.eq(1).classname);
+  },
+
+  testConstructorAndQuery : function() {
+    var w = q.create("<div id='affe'>").widget().appendTo("#sandbox");
+    this.assertEquals("qx.ui.website.Widget", w.getAttribute("data-qx-class"));
+
+    this.assertEquals(w, q("#affe", sandbox));
+  },
+
   testIsCollection : function() {
     var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
     this.assertTrue(w instanceof qxWeb);
@@ -4349,123 +4383,35 @@ testrunner.define({
     this.assertUndefined(w.getTemplate("uiuibgkabfg"));
   },
 
-  testOnOffWidget : function() {
-    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
-    var called = 0;
-    var clb = function() {
-      called++;
-    };
-    w.$onFirstCollection("foo", clb, w);
-
-    w.emit("foo");
-    this.assertEquals(1, called);
-
-    w.$onFirstCollection("foo", clb, w);
-
-    w.emit("foo");
-    this.assertEquals(2, called);
-
-    w.$offFirstCollection("foo", clb, w);
-    w.emit("foo");
-    this.assertEquals(2, called);
-  },
-
-  testOnOffWidgetDifferentCallback : function() {
-    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
-    var called = 0;
-    var clb = function() {
-      called++;
-    };
-    w.$onFirstCollection("foo", clb, w);
-
-    w.emit("foo");
-    this.assertEquals(1, called);
-
-    w.$onFirstCollection("foo", function() {
-      clb();
-    }, w);
-
-    w.emit("foo");
-    this.assertEquals(3, called);
-
-    w.$offFirstCollection("foo", clb, w);
-    w.emit("foo");
-    this.assertEquals(4, called);
-  },
-
-  testOnOffWidgetDifferentContext : function() {
-    var w = new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
-    var called = 0;
-    var clb = function() {
-      called++;
-    };
-    w.$onFirstCollection("foo", clb, {});
-
-    w.emit("foo");
-    this.assertEquals(1, called);
-
-    w.$onFirstCollection("foo", clb, {});
-
-    w.emit("foo");
-    this.assertEquals(2, called);
-
-    w.$offFirstCollection("foo", clb, {});
-    w.emit("foo");
-    this.assertEquals(2, called);
-  },
-
-  testOnOffWidgetMultipleItems : function() {
-    q.create("<div></div><div></div>").appendTo(this.sandbox);
-    this.sandbox.getChildren().setData("qxClass", "qx.ui.website.Widget");
-    var w = this.sandbox.getChildren();
-    var called = 0;
-    var clb = function() {
-      called++;
-    };
-    w.$onFirstCollection("foo", clb, w);
-
-    w.emit("foo");
-    this.assertEquals(2, called);
-
-    w.$onFirstCollection("foo", clb, w);
-
-    w.emit("foo");
-    this.assertEquals(4, called);
-
-    w.getFirst().emit("foo");
-    this.assertEquals(5, called);
-
-    w.$offFirstCollection("foo", clb, w);
-    w.getFirst().emit("foo");
-    this.assertEquals(5, called);
-  },
-
-  testOnOffWidgetMultipleCollections : function() {
-    new qxWeb.$$qx.ui.website.Widget(qxWeb("#sandbox"));
-    var called = 0;
-    var clb = function() {
-      called++;
-    };
-    q("#sandbox").$onFirstCollection("foo", clb, q("#sandbox"));
-
-    q("#sandbox").emit("foo");
-    this.assertEquals(1, called);
-
-    q("#sandbox").$onFirstCollection("foo", clb, q("#sandbox"));
-
-    q("#sandbox").emit("foo");
-    this.assertEquals(2, called);
-
-    q("#sandbox").$offFirstCollection("foo", clb, q("#sandbox"));
-    this.assertEquals(2, called);
-  },
-
   testInitWidgets : function() {
     var el1 = q.create("<div id='el1' data-qx-class='qx.ui.website.Widget'></div>").appendTo(q("#sandbox"));
     var el2 = q.create("<div id='el2' data-qx-class='qx.ui.website.Widget'></div>").appendTo(q("#sandbox"));
     q.initWidgets("#el1");
     this.assertTrue(el1.hasClass("qx-widget"));
     this.assertFalse(el2.hasClass("qx-widget"));
+  },
+
+  testWrapper: function() {
+    var w0 = q.create('<div id="w0" class="wrapped">').widget().appendTo(q("#sandbox"));
+    var w1 = q.create('<div id="w1" class="wrapped">').widget().appendTo(q("#sandbox"));
+
+    var wrapper = q(".wrapped").toWidgetCollection();
+    this.assertInstance(wrapper, qx.core.Wrapper);
+    this.assertEquals(wrapper.length, 2);
+    this.assertEquals(wrapper[0], w0);
+    this.assertEquals(wrapper[1], w1);
+
+    this.assertEquals(wrapper.getAttribute("id"), "w0");
+
+    wrapper.setEnabled(false);
+    this.assertTrue(w0.getAttribute("disabled"));
+    this.assertTrue(w1.getAttribute("disabled"));
+
+    var spy = qx.dev.unit.Sinon.getSinon().spy();
+    wrapper.on("custom", spy).emit("custom");
+    sinon.assert.calledTwice(spy);
+    this.assertEquals(spy.firstCall.thisValue, w0);
+    this.assertEquals(spy.secondCall.thisValue, w1);
   }
 });
 
@@ -4581,14 +4527,6 @@ testrunner.define({
     this.assertEquals(2, rr.getValue());
   },
 
-  testTwoRatings : function() {
-    q.create("<div/><div/>").rating().appendTo("#sandbox");
-    q("#sandbox").getChildren().setValue(2);
-    this.assertEquals(2, q("#sandbox").getChildren().getValue());
-    this.assertEquals(2, q("#sandbox").getChildren().eq(0).getValue());
-    this.assertEquals(2, q("#sandbox").getChildren().eq(1).getValue());
-  },
-
   testListenerRemove : function() {
     var r = q("#sandbox").rating();
     var calledChange = 0;
@@ -4673,16 +4611,6 @@ testrunner.define({
 
     var displayedPrev = cal.find("thead tr:nth-child(1) td:nth-child(1) button").getHtml();
     this.assertEquals(displayedPrev, newPrev);
-  },
-
-  testTwoCollections : function() {
-    var now = new Date();
-    var c0 = q("#sandbox").calendar();
-    var c1 = q("#sandbox").calendar();
-    c0.setValue(now);
-
-    this.assertEquals(now.toDateString(), c0.getValue().toDateString());
-    this.assertEquals(now.toDateString(), c1.getValue().toDateString());
   },
 
   testMinDate : function() {
@@ -4817,15 +4745,6 @@ testrunner.define({
     this.assertEquals(4, slider.getValue());
   },
 
-  testTwoSliders : function() {
-    q.create("<div>").appendTo("#sandbox");
-    q.create("<div>").appendTo("#sandbox");
-    q("#sandbox").getChildren().slider();
-    q("#sandbox").getChildren().eq(1).setValue(30);
-    this.assertEquals(0, q("#sandbox").getChildren().eq(0).getValue());
-    this.assertEquals(30, q("#sandbox").getChildren().eq(1).getValue());
-  },
-
   testMinMaxValue : function() {
     var slider = q("#sandbox").slider();
     slider.setConfig("minimum", -10);
@@ -4947,12 +4866,6 @@ testrunner.define({
     this.assertEquals("none", q("#cont").getStyle("display"));
   },
 
-  testTwoTabs : function() {
-    var tabs = q.create('<div/><div/>').appendTo("#sandbox").tabs();
-    tabs.addButton("Foo");
-    this.assertEquals(2, tabs.find(".qx-tabs-button").length);
-  },
-
   testSelectPage : function() {
     var tabs = q("#sandbox").tabs();
     tabs.addButton("Foo").addButton("Bar");
@@ -5044,31 +4957,9 @@ testrunner.define({
     datepicker.dispose();
   },
 
-  testReadOnlyInputElementWithConfig : function() {
-    var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
-
-    var datepicker = q("input.datepicker").datepicker();
-
-    this.assertTrue(datepicker.eq(0).getConfig('readonly'));
-    this.assertTrue(datepicker.eq(1).getConfig('readonly'));
-
-    this.assertTrue(datepicker.eq(0).getAttribute('readonly'));
-    this.assertTrue(datepicker.eq(1).getAttribute('readonly'));
-
-    datepicker.eq(0).setConfig('readonly', false);
-    datepicker.render();
-
-    this.assertFalse(datepicker.eq(0).getAttribute('readonly'));
-    this.assertTrue(datepicker.eq(1).getAttribute('readonly'));
-
-    datepicker.dispose();
-  },
-
   testIconOpener : function() {
     var sandbox = q("#sandbox");
-    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input");
+    sandbox.append("<input type='text' class='datepicker' data-qx-class='qx.ui.website.DatePicker' value=''></input>");
 
     var datepicker = q("input.datepicker").datepicker();
     datepicker.setConfig('icon', '../../../../application/websitewidgetbrowser/demo/datepicker/office-calendar.png');

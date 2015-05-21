@@ -88,15 +88,13 @@ qx.Bootstrap.define("qx.ui.website.Button", {
         return false;
       }
 
-      this._forEachElementWrapped(function(button) {
-        if (button.getChildren("span") == 0) {
-          qxWeb.create("<span>").appendTo(button);
-        }
+      if (this.getChildren("span") == 0) {
+        qxWeb.create("<span>").appendTo(this);
+      }
 
-        if (button.getChildren("img") == 0) {
-          qxWeb.create("<img>").appendTo(button).setStyle("display", "none");
-        }
-      });
+      if (this.getChildren("img") == 0) {
+        qxWeb.create("<img>").appendTo(this).setStyle("display", "none");
+      }
 
       return true;
     },

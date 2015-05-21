@@ -75,21 +75,3 @@ addSample(".widget", {
     q("#target"); // still a widget collection (autodetected)
   }
 });
-
-addSample(".$onFirstCollection", {
-  html: ['<div id="target"></div>'],
-  javascript: function() {
-    q("#target").$onFirstCollection("click", clb); // adds a click listener
-    q("#target").$onFirstCollection("click", clb); // does not add the same listener again
-
-    q("#target").$offFirstCollection("click", clb); // remove the initial added listener
-  }
-});
-
-addSample(".$offFirstCollection", {
-  html: ['<div id="target"></div>'],
-  javascript: function() {
-    q("#target").$onFirstCollection("click", clb); // adds a click listener
-    q("#target").$offFirstCollection("click", clb); // remove the initial added listener
-  }
-});

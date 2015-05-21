@@ -285,6 +285,9 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
 
   members : {
+    __range : null,
+    _value: null,
+    _shownValue: null,
 
     // overridden
     init : function() {
@@ -292,11 +295,11 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         return false;
       }
 
+      this.__range = [];
+
       var today = new Date();
       today = this._getNormalizedDate(today);
-      this._forEachElementWrapped(function(calendar) {
-        calendar.showValue(today);
-      });
+      this.showValue(today);
 
       return true;
     },
@@ -312,7 +315,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       if (maxDate) {
         maxDate = this._getNormalizedDate(maxDate);
       }
-      this.showValue(this.getProperty("shownValue"));
+      this.showValue(this._shownValue);
       return this;
     },
 
@@ -324,9 +327,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       if (value === true) {
         // let the render process decide which state to set for the different DOM elements
         // this highly depends on the configuration (e.g. 'minDate', 'maxDate' or 'disableDaysOtherMonth')
-        this._forEachElementWrapped(function(widget) {
-          widget.render();
-        });
+        this.render();
       } else {
         this.find("*").setAttribute("disabled", !value);
       }
@@ -368,8 +369,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
         }
       }else if (this.getConfig("selectionMode") == "range") {
 
-        if (!this.getProperty("__range")) {
-          this.setProperty("__range", value.map(function(val){ return val.toDateString(); }))
+        if (!this.__range) {
+          this.__range = value.map(function(val){ return val.toDateString(); });
         }
         if (value.length == 2) {
           value.sort(function(a, b) {
@@ -382,7 +383,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
       }
 
-      this.setProperty("value", value);
+      this._value = value;
       this.showValue(value);
       if((this.getConfig("selectionMode") == "single") || ((this.getConfig("selectionMode") == "range") && (value.length >= 1))){
         this.emit("changeValue", value);
@@ -399,7 +400,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @return {qx.ui.website.Calendar} The collection for chaining.
      */
     getValue : function() {
-      var value = this.getProperty("value");
+      var value = this._value;
       return value ? (qx.Bootstrap.isArray(value) ? value : new Date(value)) : null;
     },
 
@@ -415,30 +416,27 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       // If value is an array, show the last selected date
       value = qx.Bootstrap.isArray(value) ? value[value.length -1] : value;
 
-      this.setProperty("shownValue", value);
+      this._shownValue = value;
       var cssPrefix = this.getCssPrefix();
 
-      this._forEachElementWrapped(function(item) {
-        if (item.getAttribute("tabindex") < 0) {
-          item.setAttribute("tabindex", 0);
-        }
-        item.find("." + cssPrefix + "-prev").$offFirstCollection("tap", this._prevMonth, item);
-        item.find("." + cssPrefix + "-next").$offFirstCollection("tap", this._nextMonth, item);
-        item.find("." + cssPrefix + "-day").$offFirstCollection("tap", this._selectDay, item);
-        item.$offFirstCollection("focus", this._onFocus, item, true)
-        .$offFirstCollection("blur", this._onBlur, item, true);
-      }, this);
+
+      if (this.getAttribute("tabindex") < 0) {
+        this.setAttribute("tabindex", 0);
+      }
+      this.find("." + cssPrefix + "-prev").off("tap", this._prevMonth, this);
+      this.find("." + cssPrefix + "-next").off("tap", this._nextMonth, this);
+      this.find("." + cssPrefix + "-day").off("tap", this._selectDay, this);
+      this.off("focus", this._onFocus, this, true)
+      .off("blur", this._onBlur, this, true);
 
       this.setHtml(this._getTable(value));
 
-      this._forEachElementWrapped(function(item) {
-        item.find("." + cssPrefix + "-prev").$onFirstCollection("tap", this._prevMonth, item);
-        item.find("." + cssPrefix + "-next").$onFirstCollection("tap", this._nextMonth, item);
-        item.find("td").not(".qx-calendar-invalid")
-          .find("." + cssPrefix + "-day").$onFirstCollection("tap", this._selectDay, item);
-        item.$onFirstCollection("focus", this._onFocus, item, true)
-        .$onFirstCollection("blur", this._onBlur, item, true);
-      }, this);
+      this.find("." + cssPrefix + "-prev").on("tap", this._prevMonth, this);
+      this.find("." + cssPrefix + "-next").on("tap", this._nextMonth, this);
+      this.find("td").not(".qx-calendar-invalid")
+        .find("." + cssPrefix + "-day").on("tap", this._selectDay, this);
+      this.on("focus", this._onFocus, this, true)
+      .on("blur", this._onBlur, this, true);
 
       // signal the rendering process is done - this is useful for application developers if they
       // want to hook into and change / adapt the DOM elements of the calendar
@@ -452,7 +450,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * Displays the previous month
      */
     _prevMonth : function() {
-      var shownValue = this.getProperty("shownValue");
+      var shownValue = this._shownValue;
       this.showValue(new Date(shownValue.getFullYear(), shownValue.getMonth() - 1));
     },
 
@@ -461,7 +459,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * Displays the next month
      */
     _nextMonth : function() {
-      var shownValue = this.getProperty("shownValue");
+      var shownValue = this._shownValue;
       this.showValue(new Date(shownValue.getFullYear(), shownValue.getMonth() + 1));
     },
 
@@ -477,18 +475,13 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       var newValue = new Date(newStr);
 
       if (this.getConfig("selectionMode") == "range") {
-
-        if (!this.getProperty("__range")) {
-          this.setProperty("__range", []);
-        }
-
-        var range = this.getProperty("__range").slice(0);
+        var range = this.__range.slice(0);
         if (range.length == 2) {
           range = [];
         }
         range.push(newStr);
 
-        this.setProperty("__range", range);
+        this.__range = range;
         range = range.map(function(item){
           return new Date(item);
         });
@@ -606,8 +599,8 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       var hideDaysOtherMonth = this.getConfig("hideDaysOtherMonth");
       var disableDaysOtherMonth = this.getConfig("disableDaysOtherMonth");
 
-      if (qx.Bootstrap.isArray(this.getProperty("value"))) {
-        valueString = this.getProperty("value").map(function(currentDate){ return currentDate.toDateString(); });
+      if (qx.Bootstrap.isArray(this._value)) {
+        valueString = this._value.map(function(currentDate){ return currentDate.toDateString(); });
       }
 
       for (var week=0; week<6; week++) {
@@ -640,14 +633,14 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
             disabled += disableDaysOtherMonth ? "disabled=disabled" : "";
           }
 
-          if((this.getConfig("selectionMode") == "range")  && qx.Bootstrap.isArray(this.getProperty("value"))){
+          if((this.getConfig("selectionMode") == "range")  && qx.Bootstrap.isArray(this._value)){
             if(valueString.indexOf(helpDate.toDateString()) != -1){
               cssClasses += " "+cssPrefix + "-selected";
             }
           }else{
-            var range = this.getProperty("__range");
-            if (this.getProperty("value")) {
-              value = this.getConfig("selectionMode") == "range" ? new Date(range[range.length - 1]) : this.getProperty("value");
+            var range = this.__range;
+            if (this._value) {
+              value = this.getConfig("selectionMode") == "range" ? new Date(range[range.length - 1]) : this._value;
               cssClasses += helpDate.toDateString() === value.toDateString() ? " " + cssPrefix + "-selected" : "";
             }
           }
@@ -730,7 +723,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      * @param e {Event} focus event
      */
     _onFocus : function(e) {
-      this.$onFirstCollection("keydown", this._onKeyDown, this);
+      this.on("keydown", this._onKeyDown, this);
     },
 
 
@@ -741,7 +734,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      */
     _onBlur : function(e) {
       if (this.contains(e.getRelatedTarget()).length === 0) {
-        this.$offFirstCollection("keydown", this._onKeyDown, this);
+        this.off("keydown", this._onKeyDown, this);
       }
     },
 
@@ -892,14 +885,13 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
 
     dispose : function() {
       var cssPrefix = this.getCssPrefix();
-      this._forEachElementWrapped(function(item) {
-        item.find("." + cssPrefix + "-prev").$offFirstCollection("tap", this._prevMonth, item);
-        item.find("." + cssPrefix + "-next").$offFirstCollection("tap", this._nextMonth, item);
-        item.find("." + cssPrefix + "-day").$offFirstCollection("tap", this._selectDay, item);
-        item.$offFirstCollection("focus", this._onFocus, item, true)
-        .$offFirstCollection("blur", this._onBlur, item, true)
-        .$offFirstCollection("keydown", this._onKeyDown, item);
-      }, this);
+
+      this.find("." + cssPrefix + "-prev").off("tap", this._prevMonth, this);
+      this.find("." + cssPrefix + "-next").off("tap", this._nextMonth, this);
+      this.find("." + cssPrefix + "-day").off("tap", this._selectDay, this);
+      this.off("focus", this._onFocus, this, true)
+      .off("blur", this._onBlur, this, true)
+      .off("keydown", this._onKeyDown, this);
 
       this.setHtml("");
 
