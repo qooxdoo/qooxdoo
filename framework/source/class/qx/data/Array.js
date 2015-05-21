@@ -770,11 +770,12 @@ qx.Class.define("qx.data.Array",
         qx.core.Assert.assertArray(array, "The parameter must be an array.");
       }
 
+      var oldLength = this.__array.length;
       Array.prototype.push.apply(this.__array, array);
 
       // add a listener to the new items
       for (var i = 0; i < array.length; i++) {
-        this._registerEventChaining(array[i], null, this.__array.length + i);
+        this._registerEventChaining(array[i], null, oldLength + i);
       }
 
       var oldLength = this.length;

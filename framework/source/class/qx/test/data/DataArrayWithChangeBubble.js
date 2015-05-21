@@ -104,6 +104,27 @@ qx.Class.define("qx.test.data.DataArrayWithChangeBubble",
       this.assertArrayEquals(["A", "B", "C", "D"], this.array.toArray(), "Changes are not applied!");
     },
 
+    testBubbleAfterAppend : function()
+    {
+      var that = this;
+      var model = qx.data.marshal.Json.createModel([{ a: "0" }, { a: "1"}], true);
+
+      var handler = function(e) {
+        // check the data
+        that.assertEquals("affe", e.getData().value);
+        that.assertEquals("[3].a", e.getData().name, "Indexing is wrong!");
+      }
+      var spy = this.spy(handler);
+
+      var moreModel = qx.data.marshal.Json.createModel([{ a: "2" }, { a: "3"}], true);
+      model.append(moreModel);
+
+      model.addListener("changeBubble", spy, this);
+      model.getItem(3).setA("affe");
+      this.assertCalledOnce(spy);
+      this.assertEquals(4, model.length, "Length of the model is wrong!");
+    },
+
 
     testInsertAfter : function()
     {
