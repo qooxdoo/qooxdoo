@@ -9,6 +9,7 @@
 ************************************************************************ */
 
 /**
+ * TODO: needs documentation
  */
 qx.Class.define("${Namespace}.page.Overview",
 {

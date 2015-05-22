@@ -9,6 +9,7 @@
 ************************************************************************ */
 
 /**
+ * TODO: needs documentation
  */
 qx.Class.define("${Namespace}.page.Login",
 {
@@ -62,5 +63,5 @@ qx.Class.define("${Namespace}.page.Login",
       }
     }
   }
- 
+
 });
