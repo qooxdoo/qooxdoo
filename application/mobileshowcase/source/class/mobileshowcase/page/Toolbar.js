@@ -184,7 +184,6 @@ qx.Class.define("mobileshowcase.page.Toolbar",
       searchField.addListener("keydown", function(evt) {
         if (evt.getKeyIdentifier() == "Enter") {
           this.__searchDialog.hide();
-          searchField.blur();
         }
       }.bind(this));
 
