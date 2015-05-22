@@ -24,10 +24,8 @@
 ************************************************************************ */
 /**
  *
- * @asset(qx/icon/${qx.icontheme}/16/mimetypes/media-video.png)
- * @asset(qx/icon/${qx.icontheme}/16/apps/preferences-clock.png)
- * @asset(qx/icon/${qx.icontheme}/16/apps/preferences-users.png)
- * @asset(qx/icon/${qx.icontheme}/16/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/16/status/dialog-information.png)
+ * @asset(qx/icon/${qx.icontheme}/16/categories/internet.png)
  */
 
 qx.Class.define("showcase.page.table.Content",
@@ -43,9 +41,7 @@ qx.Class.define("showcase.page.table.Content",
   {
     saveResult: function(result) {
       this._result = result;
-    },
-
-    QUERY : "Curious George"
+    }
   },
 
 
@@ -58,10 +54,11 @@ qx.Class.define("showcase.page.table.Content",
 
       // table model
       var tableModel = this._tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns(["", "Title", "Author", "Duration", "Category", "URL"]);
+      tableModel.setColumns(["", "Ocean", "URI", "language", "WOEID", ""]);
       tableModel.setData(rowData);
       tableModel.setColumnEditable(1, true);
-      tableModel.setColumnEditable(2, true);
+      tableModel.setColumnEditable(3, true);
+      tableModel.setColumnEditable(4, true);
       tableModel.setColumnSortable(3, true);
 
       var custom =
@@ -75,8 +72,8 @@ qx.Class.define("showcase.page.table.Content",
       var table = new qx.ui.table.Table(tableModel, custom);
 
       table.set({
-        width: 640,
-        height: 400,
+        width: 680,
+        height: 300,
         decorator : null,
         headerCellHeight : null,
         showCellFocusIndicator: false
@@ -88,35 +85,22 @@ qx.Class.define("showcase.page.table.Content",
 
       var tcm = table.getTableColumnModel();
       tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Number());
-      tcm.setDataCellRenderer(1, new qx.ui.table.cellrenderer.Html());
-      tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Number());
+      tcm.setDataCellRenderer(2, new qx.ui.table.cellrenderer.Html());
+      tcm.setDataCellRenderer(4, new qx.ui.table.cellrenderer.Number());
       tcm.setColumnVisible(5, false);
 
 
       tcm.setHeaderCellRenderer(1,
         new qx.ui.table.headerrenderer.Icon(
-          "icon/16/mimetypes/media-video.png", "Title"
+          "icon/16/status/dialog-information.png", "Ocean"
         )
       );
 
       tcm.setHeaderCellRenderer(2,
         new qx.ui.table.headerrenderer.Icon(
-          "icon/16/apps/preferences-users.png", "Author"
+          "icon/16/categories/internet.png", "URI"
         )
       );
-
-      tcm.setHeaderCellRenderer(3,
-        new qx.ui.table.headerrenderer.Icon(
-          "icon/16/apps/preferences-clock.png", "Duration"
-        )
-      );
-
-      tcm.setHeaderCellRenderer(4,
-        new qx.ui.table.headerrenderer.Icon(
-          "icon/16/places/folder.png", "Category"
-        )
-      );
-
 
       // Obtain the behavior object to manipulate
       var resizeBehavior = tcm.getBehavior();
@@ -127,19 +111,20 @@ qx.Class.define("showcase.page.table.Content",
 
       // We could also set them individually:
       resizeBehavior.setWidth(0, 40);
-      resizeBehavior.setWidth(3, 90);
-      resizeBehavior.setWidth(4, 95);
+      resizeBehavior.setWidth(1, 130);
+      resizeBehavior.setWidth(2, 310);
+      resizeBehavior.setWidth(4, 90);
 
       table.addListener("cellTap", function(e) {
-        if (e.getColumn() === 1) {
+        if (e.getColumn() === 2) {
           table.getSelectionModel().iterateSelection(function(index) {
-            var url = tableModel.getRowData(index)[5];
+            var url = tableModel.getRowData(index)[2];
             window.open(url);
           });
         }
       }, this);
 
-      win.setCaption(showcase.page.table.Content.QUERY + " Videos on YouTube");
+      win.setCaption("YQL Geo Places: Oceans");
       win.setLayout(new qx.ui.layout.Grow());
       win.add(table);
 
@@ -149,8 +134,7 @@ qx.Class.define("showcase.page.table.Content",
 
     _loadData : function(tableModel)
     {
-      var query = "select * from youtube.search where query=\"" +
-      showcase.page.table.Content.QUERY + "\" AND max_results=50";
+      var query = "select * from geo.oceans";
       var url = "http://query.yahooapis.com/v1/public/yql?q=" +
       encodeURIComponent(query) +
       "&format=json&diagnostics=false&" +
@@ -163,9 +147,9 @@ qx.Class.define("showcase.page.table.Content",
         var result = showcase.page.table.Content._result;
         var rows = [];
         var rawData;
-        if (result.query && result.query.results && result.query.results.video &&
-            result.query.results.video.length > 0) {
-          rawData = result.query.results.video;
+        if (result.query && result.query.results && result.query.results.place &&
+            result.query.results.place.length > 0) {
+          rawData = result.query.results.place;
         } else {
           rawData = [];
           rows.push([0, "Failed to load the data", "---", 0, false]);
@@ -174,14 +158,12 @@ qx.Class.define("showcase.page.table.Content",
         for (var i = 0; i < rawData.length; i++) {
           var row = [];
           row.push(i+1);
-          row.push("<span style=\"text-decoration:underline;cursor:pointer\">" +
-                   rawData[i].title + "</span>");
-          row.push(rawData[i].author);
-          row.push(parseInt(rawData[i].duration, 10));
-          row.push(rawData[i].categories.category);
-          row.push(rawData[i].url);
+          row.push(rawData[i].name);
+          row.push(rawData[i].uri);
+          row.push(rawData[i].lang);
+          row.push(rawData[i].woeid);
           rows.push(row);
-        };
+        }
         tableModel.setData(rows);
       });
       loader.open("GET", url);
