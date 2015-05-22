@@ -41,6 +41,12 @@ qx.Class.define("qx.ui.mobile.form.TextField",
     this.base(arguments);
 
     this.addListener("keypress", this._onKeyPress, this);
+
+    if (qx.core.Environment.get("os.name") == "ios") {
+      // IOS does not blur input fields automatically if a parent DOM element
+      // was set invisible, so blur manually on disappear
+      this.addListener("disappear", this.blur, this);
+    }
   },
 
   /*
@@ -84,5 +90,9 @@ qx.Class.define("qx.ui.mobile.form.TextField",
 
   destruct : function() {
     this.removeListener("keypress", this._onKeyPress, this);
+
+    if (qx.core.Environment.get("os.name") == "ios") {
+      this.removeListener("disappear", this.blur, this);
+    }
   }
 });
