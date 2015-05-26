@@ -98,7 +98,7 @@ qx.Class.define("inspector.console.View",
     // sync inspected object to the dom tap
     this._model.addListener("changeInspected", function(e) {
       var o = e.getData();
-      var hash = o.toHashCode ? o.toHashCode() : "???";
+      var hash = o && o.toHashCode ? o.toHashCode() : "???";
       this._domView.setObject(o, "Selection [" + hash + "]");
     }, this);
   },
