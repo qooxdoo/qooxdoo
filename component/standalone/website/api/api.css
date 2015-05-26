@@ -51,7 +51,7 @@ html[xmlns] .clearfix {
 
   z-index: 999;
   overflow: auto;
-  -webkit-overflow-scrolling: touch;
+
   border: none;
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
