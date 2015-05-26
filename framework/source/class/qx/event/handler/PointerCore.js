@@ -306,6 +306,12 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       if (domEvent.type == "mousedown") {
         this.__buttonStates[domEvent.which] = 1;
       } else if (domEvent.type == "mouseup") {
+        if (qx.core.Environment.get("os.name") == "osx" && qx.core.Environment.get("engine.name") == "gecko") {
+          if (this.__buttonStates[domEvent.which] != 1 && domEvent.ctrlKey) {
+            this.__buttonStates[1] = 0;
+          }
+        }
+
         this.__buttonStates[domEvent.which] = 0;
       }
 
