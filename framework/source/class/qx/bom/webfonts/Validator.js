@@ -37,8 +37,8 @@ qx.Class.define("qx.bom.webfonts.Validator", {
     this.base(arguments);
     if (fontFamily) {
       this.setFontFamily(fontFamily);
+      this.__requestedHelpers = this._getRequestedHelpers();
     }
-    this.__requestedHelpers = this._getRequestedHelpers();
   },
 
 
@@ -246,7 +246,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       var requestedSerif = qx.bom.element.Dimension.getWidth(this.__requestedHelpers.serif);
 
       var cls = qx.bom.webfonts.Validator;
-      if (requestedSans !== cls.__defaultSizes.sans &&
+      if (requestedSans !== cls.__defaultSizes.sans ||
           requestedSerif !== cls.__defaultSizes.serif)
       {
         return true;
