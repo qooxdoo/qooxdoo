@@ -106,6 +106,8 @@ qx.Class.define("mobileshowcase.page.Dialog",
       var anchorMenuModel = new qx.data.Array(["Red", "Green", "Blue"]);
       this.__anchorMenu = new qx.ui.mobile.dialog.Menu(anchorMenuModel, showAnchorMenuButton);
       this.__anchorMenu.setTitle("Colors");
+      this.__anchorMenu.addListener("changeSelection", this.__onMenuChangeSelection, this);
+
 
       // BUTTONS
       var showPopupButton = new qx.ui.mobile.form.Button("Popup");
