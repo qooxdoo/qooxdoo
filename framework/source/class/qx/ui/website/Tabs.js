@@ -386,7 +386,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
         var selectedPage;
         tabs.find("> ul > ." + this.getCssPrefix() + "-button")._forEachElementWrapped(function(li) {
-          var page = qxWeb(li.getData(this.getCssPrefix() + "-page"));
+          var page = this.find(li.getData(this.getCssPrefix() + "-page"));
 
           if (q.getNodeName(page[0]) == "li") {
             var div = q.create("<div>")
@@ -704,7 +704,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       if (button) {
         pageSelector = button.getData(this.getCssPrefix() + "-page");
       }
-      return qxWeb(pageSelector);
+      return this.find(pageSelector);
     },
 
 
