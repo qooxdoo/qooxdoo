@@ -1,5 +1,6 @@
 $carousel-pagination-size: rem(17);
 $carousel-pagination-background: rgba($background-color,0.6);
+$carousel-pagination-background-disabled: desaturate($highlight-color, 100%);
 $carousel-pagination-border-color: rgba($background-color,0.6);
 $carousel-pagination-active-background: $highlight-color;
 $carousel-pagination-active-border-color: $background-color;
@@ -63,6 +64,10 @@ $carousel-pagination-font-size:  rem(1);
   font-size: $carousel-pagination-font-size;
 
   cursor: pointer;
+}
+
+.qx-carousel[disabled] .qx-carousel-pagination-label.active {
+  @include background($carousel-pagination-background-disabled);
 }
 
 .qx-carousel-pagination-label.active {
