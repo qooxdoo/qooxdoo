@@ -4095,6 +4095,7 @@ testrunner.define({
   testSpan : function() {
     var coll = q.create('<span>Just some text</span>')
     .appendTo("#sandbox");
+    coll.setStyle("position", "absolute");
     this.__testSelection(coll, "some");
   },
 
