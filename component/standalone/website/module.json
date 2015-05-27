@@ -628,25 +628,32 @@
     "build-module-ui" :
     {
       "extend" : ["build-module"],
+      "config-warnings" : {
+        "exclude" : ["=qx.module.Template"]
+      },
       "let" : {
         "Q_INCLUDES" : [
-          "qx.ui.website.*",
-        ],
-        "MODULE_FILENAME" : "ui"
-      }
-    },
-
-    "build-module-ui-min" :
-    {
-      "extend" : ["build-module-min"],
-      "let" : {
-        "Q_INCLUDES" : [
-          "qx.ui.website.*",
+          "qx.ui.website.*"
         ],
         "MODULE_FILENAME" : "ui"
       },
       "exclude": [ "=qx.module.Template" ]
     },
+
+    "build-module-ui-min" :
+    {
+      "extend" : ["build-module-min"],
+      "config-warnings" : {
+        "exclude" : ["=qx.module.Template"]
+      },
+      "let" : {
+        "Q_INCLUDES" : [
+          "qx.ui.website.*"
+        ],
+        "MODULE_FILENAME" : "ui"
+      },
+      "exclude": [ "=qx.module.Template" ]
+    }
 
   }
 }
