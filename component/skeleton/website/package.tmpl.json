@@ -1,0 +1,16 @@
+{
+  "name": "${Namespace}",
+  "version": "0.1.0",
+  "repository" : {},
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-babel": "^5.0.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-sass": "~0.5.0"
+  },
+  "dependencies": {
+    "clean-css": "^2.2.16",
+    "grunt-text-replace": "^0.3.12"
+  }
+}
