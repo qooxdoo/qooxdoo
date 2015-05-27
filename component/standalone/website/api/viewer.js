@@ -741,12 +741,17 @@ q.ready(function() {
     var listOffset = q("#list").getPosition().top;
 
     acc.on("changeSelected", function(index) {
-      var buttonTop = buttonTops[index] - listOffset;
+      var buttonTop = buttonTops[index];
+      if (q.env.get("device.type") == "desktop") {
+        buttonTop -= listOffset;
+      } else {
+        buttonTop += listOffset - 10;
+      }
       var scrollTop = q("#navContainer").getProperty("scrollTop");
+
       q("#navContainer").animate({
         duration: 500,
         keep: 100,
-        timing: "linear",
         keyFrames: {
           0: {scrollTop: scrollTop},
           100: {scrollTop: buttonTop}
