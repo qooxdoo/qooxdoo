@@ -48,11 +48,13 @@ qx.Class.define("qx.ui.form.AbstractField",
      * Adds the CSS rules needed to style the native placeholder element.
      */
     __addPlaceholderRules : function() {
+      var engine = qx.core.Environment.get("engine.name");
+      var browser = qx.core.Environment.get("browser.name");
       var colorManager = qx.theme.manager.Color.getInstance();
       var color = colorManager.resolve("text-placeholder");
       var selector;
 
-      if (qx.core.Environment.get("engine.name") == "gecko") {
+      if (engine == "gecko") {
         // see https://developer.mozilla.org/de/docs/CSS/:-moz-placeholder for details
        if (parseFloat(qx.core.Environment.get("engine.version")) >= 19) {
           selector = "input::-moz-placeholder, textarea::-moz-placeholder";
@@ -60,10 +62,10 @@ qx.Class.define("qx.ui.form.AbstractField",
           selector = "input:-moz-placeholder, textarea:-moz-placeholder";
         }
         qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color + " !important");
-      } else if (qx.core.Environment.get("engine.name") == "webkit") {
+      } else if (engine == "webkit" && browser != "Edge") {
         selector = "input.qx-placeholder-color::-webkit-input-placeholder, textarea.qx-placeholder-color::-webkit-input-placeholder";
         qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color);
-      } else if (qx.core.Environment.get("engine.name") == "mshtml") {
+      } else if (engine == "mshtml" || browser == "Edge") {
         selector = "input.qx-placeholder-color:-ms-input-placeholder, textarea.qx-placeholder-color:-ms-input-placeholder";
         qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color + " !important");
       }
