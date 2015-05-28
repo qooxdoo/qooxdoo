@@ -477,7 +477,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         // Loading demos into IE fails most of the time because IE truncates
         // long URLs
         var browserName = qx.core.Environment.get("browser.name");
-        if (browserName == "ie" || browserName == "Edge") {
+        if (browserName == "ie" || browserName == "edge") {
           playgroundButton.exclude();
         }
 

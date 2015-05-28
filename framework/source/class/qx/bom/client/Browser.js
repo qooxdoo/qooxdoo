@@ -79,7 +79,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       if (engine === "webkit")
       {
         if (agent.match(/Edge\/\d+\.\d+/)) {
-          name = "Edge";
+          name = "edge";
         }
         else if (name === "android")
         {
