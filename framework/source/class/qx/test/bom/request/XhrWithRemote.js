@@ -841,7 +841,7 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
 
     hasNoIe: function() {
       return qx.core.Environment.get("engine.name") !== "mshtml" &&
-        qx.core.Environment.get("browser.name") !== "Edge";
+        qx.core.Environment.get("browser.name") !== "edge";
     },
 
     hasNoIe9: function() {

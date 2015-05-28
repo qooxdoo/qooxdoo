@@ -62,10 +62,10 @@ qx.Class.define("qx.ui.form.AbstractField",
           selector = "input:-moz-placeholder, textarea:-moz-placeholder";
         }
         qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color + " !important");
-      } else if (engine == "webkit" && browser != "Edge") {
+      } else if (engine == "webkit" && browser != "edge") {
         selector = "input.qx-placeholder-color::-webkit-input-placeholder, textarea.qx-placeholder-color::-webkit-input-placeholder";
         qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color);
-      } else if (engine == "mshtml" || browser == "Edge") {
+      } else if (engine == "mshtml" || browser == "edge") {
         selector = "input.qx-placeholder-color:-ms-input-placeholder, textarea.qx-placeholder-color:-ms-input-placeholder";
         qx.ui.style.Stylesheet.getInstance().addRule(selector, "color: " + color + " !important");
       }
