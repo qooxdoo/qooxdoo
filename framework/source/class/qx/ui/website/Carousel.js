@@ -222,9 +222,13 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
       child.addClasses(["qx-flex1", this.getCssPrefix() + "-page"])
         .appendTo(this.__pageContainer);
 
-      var paginationLabel = this._createPaginationLabel();
-      this.__paginationLabels.push(paginationLabel);
-      this.__pagination.append(paginationLabel);
+      if (this.find("." + this.getCssPrefix() + "-page").length >
+        this.__paginationLabels.length)
+      {
+        var paginationLabel = this._createPaginationLabel();
+        this.__paginationLabels.push(paginationLabel);
+        this.__pagination.append(paginationLabel);
+      }
 
       this._updateWidth();
 
