@@ -225,7 +225,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
       }
       var orientation = this.getConfig("orientation");
 
-      this.addClasses([this.getCssPrefix(), this.getCssPrefix() + "-" + orientation]);
+      this.addClasses([this.getCssPrefix(), this.getCssPrefix() + "-" + orientation, "qx-flex-ready"]);
       if (this.getChildren("ul").length === 0) {
         var list = qxWeb.create("<ul/>");
         var content = this.getChildren();
@@ -373,7 +373,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      */
     _renderHorizontal: function() {
       this.removeClass(this.getCssPrefix() + "-vertical")
-        .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-horizontal", "qx-flex-ready"])
+        .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-horizontal"])
         .find("> ul").addClass("qx-hbox");
 
       var container = this.find("> ." + this.getCssPrefix() + "-container");
@@ -424,7 +424,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
      */
     _renderVertical: function() {
       this.find("> ul.qx-hbox").removeClass("qx-hbox");
-      this.removeClasses([this.getCssPrefix() + "-horizontal", "qx-flex-ready"])
+      this.removeClasses([this.getCssPrefix() + "-horizontal"])
       .addClasses([this.getCssPrefix() + "", this.getCssPrefix() + "-vertical"])
       .getChildren("ul").getFirst()
       .getChildren("li").not("." + this.getCssPrefix() + "-page")
@@ -727,7 +727,7 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           tabs.removeClass(this.getCssPrefix() + "-right");
         }
       } else {
-        tabs.addClass("qx-flex-ready").find("> ul").addClass("qx-hbox");
+        tabs.find("> ul").addClass("qx-hbox");
         if (align == "justify") {
           buttons.addClass("qx-flex1");
         } else {
