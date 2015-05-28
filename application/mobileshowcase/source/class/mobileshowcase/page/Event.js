@@ -87,6 +87,9 @@ qx.Class.define("mobileshowcase.page.Event",
         alignY : "middle"
       }));
       containerTouchArea.addCssClass("container-touch-area");
+      container.addListener("contextmenu", function(e) {
+        e.preventDefault();
+      });
 
       containerTouchArea.addListener("tap", this._onGesture, this);
       containerTouchArea.addListener("dbltap", this._onGesture, this);
