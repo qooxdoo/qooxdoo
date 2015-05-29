@@ -407,6 +407,8 @@ qx.Bootstrap.define("qx.module.Traversing", {
   members :
   {
 
+    __getAncestors : null,
+
     /**
      * Adds an element to the collection
      *
