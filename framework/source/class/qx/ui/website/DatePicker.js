@@ -379,7 +379,9 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
       if (collection.getConfig('mode') === 'icon') {
         collection.off('tap', collection._onTap);
       } else {
-        collection.on('tap', collection._onTap);
+        if(!collection.hasListener('tap', collection._onTap)) {
+          collection.on('tap', collection._onTap);
+        }
       }
     },
 
