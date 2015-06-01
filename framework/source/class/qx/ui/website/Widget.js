@@ -128,8 +128,9 @@ qx.Bootstrap.define("qx.ui.website.Widget", {
       this.addClass("qx-widget");
       this.addClass(this.getCssPrefix());
       this.setProperty("$$qx-widget-initialized", true);
-      this[0].$widget = this;
-
+      if(this[0]) {
+        this[0].$widget = this;
+      }
       return true;
     },
 
