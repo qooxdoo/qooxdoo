@@ -243,17 +243,9 @@ qx.Class.define("qx.ui.root.Abstract",
         return;
       }
 
-      var target = e.getTarget();
-
-      // Require focused. Allow scroll when container or root widget.
-      var focusHandler = qx.ui.core.FocusHandler.getInstance();
-      if (!focusHandler.isFocused(target)) {
-        return;
-      }
-
-      // Require that widget does not accept text input
-      var nodeName = target.getContentElement().getNodeName();
-      if (nodeName === "input" || nodeName === "textarea") {
+      // do not prevent "space" key for natively focusable elements
+      var nodeName = qx.dom.Node.getName(e.getOriginalTarget());
+      if (nodeName && qx.event.handler.Focus.FOCUSABLE_ELEMENTS[nodeName]) {
         return;
       }
 
