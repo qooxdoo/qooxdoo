@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.root.Abstract",
 
       // do not prevent "space" key for natively focusable elements
       var nodeName = qx.dom.Node.getName(e.getOriginalTarget());
-      if (nodeName && qx.event.handler.Focus.FOCUSABLE_ELEMENTS[nodeName]) {
+      if (nodeName && ["input", "textarea", "select", "a"].indexOf(nodeName) > -1) {
         return;
       }
 
