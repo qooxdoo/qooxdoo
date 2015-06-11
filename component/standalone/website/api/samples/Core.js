@@ -105,6 +105,47 @@ q.bark();
 console.log(Dog.complexData.length);
 }, executable: true });
 
+
+addSample("q.define", {
+  javascript:function() {
+var Dog = q.define("Dog", {
+  extend: Object,
+
+  construct : function() {
+    this.complexData = {
+      key1: 'value1',
+      key2: 'value2'
+    };
+  },
+
+  members : {
+    complexData : null,
+
+    bark : function() {
+      console.log("wuff");
+    }
+  }
+});
+
+// works
+var firstInstance = new Dog();
+firstInstance.complexData.key1 = 'newValue1';
+
+var secondInstance = new Dog();
+secondInstance.complexData.key1 = 'newValue2';
+
+// outputs 'newValue1'
+console.log(firstInstance.complexData.key1);
+
+// outputs 'newValue2'
+console.log(secondInstance.complexData.key1);
+
+// outputs 'null' for both
+console.log(firstInstance.__proto__.complexData);
+console.log(secondInstance.__proto__.complexData);
+}, executable: true });
+
+
 addSample(".concat", {
   html: ['<ul>',
          '  <li class="info">item 1</li>',

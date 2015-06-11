@@ -200,6 +200,11 @@ qx.Bootstrap.define("qxWeb", {
      *       <tr><td>defer</td><td>Function</td><td>Function that is called at the end of
      *          processing the class declaration.</td></tr>
      *     </table>
+     *
+     * <strong>Important hint:</strong> Please do not initialize reference types
+     * (<code>Object</code> or <code>Array</code>) directly inside the <strong>members</strong> section.
+     * Only list and initialize it with <code>null</code>. Initialize your reference type inside the
+     * <code>construct</code>. Check out one of the samples below to get the idea.
      * @return {Function} The defined class.
      */
     define : function(name, config) {
