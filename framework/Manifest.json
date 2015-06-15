@@ -58,8 +58,8 @@
      }
     ],
 
-    "version"         : "5.0",
-    "qooxdoo-versions": ["5.0"],
+    "version"         : "5.1",
+    "qooxdoo-versions": ["5.1"],
 
     "sourceViewUri" : "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
   },
