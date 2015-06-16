@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.table.pane.Model",
     {
       if (this.__tableColumnModel) {
         this.__tableColumnModel.removeListener("visibilityChangedPre", this._onColVisibilityChanged, this);
-        this.__tableColumnModel.removeListener("headerCellRendererChanged", this._onColVisibilityChanged, this);
+        this.__tableColumnModel.removeListener("headerCellRendererChanged", this._onHeaderCellRendererChanged, this);
       }
       this.__tableColumnModel = tableColumnModel;
       this.__tableColumnModel.addListener("visibilityChangedPre", this._onColVisibilityChanged, this);
@@ -303,7 +303,7 @@ qx.Class.define("qx.ui.table.pane.Model",
     if (this.__tableColumnModel)
     {
       this.__tableColumnModel.removeListener("visibilityChangedPre", this._onColVisibilityChanged, this);
-      this.__tableColumnModel.removeListener("headerCellRendererChanged", this._onColVisibilityChanged, this);
+      this.__tableColumnModel.removeListener("headerCellRendererChanged", this._onHeaderCellRendererChanged, this);
     }
     this.__tableColumnModel = null;
   }
