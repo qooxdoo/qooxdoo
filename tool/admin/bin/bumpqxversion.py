@@ -94,13 +94,40 @@ def npm_version_string(vers_parts):
 #
 #
 Files = {
+    "./package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
+    "./application/demobrowser/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
     "./application/demobrowser/source/demo/welcome.html" : [
         r'var qxversion = "(%s)"'    % qxversion_regexp,
         ],
-    "./application/websitewidgetbrowser/Gruntfile.js": [
-        r'QOOXDOO_VERSION\s*:\s*"(%s)",' % qxversion_regexp,
+    "./application/feedreader/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
+    "./application/mobileshowcase/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
+    "./application/playground/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
+    "./application/showcase/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
+    "./application/todo/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
+    "./application/tutorial/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
     "./application/websitewidgetbrowser/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
+    "./application/widgetbrowser/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
+    "./component/apiviewer/package.json": [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
     "./component/skeleton/server/readme.txt" : [
@@ -118,10 +145,10 @@ Files = {
         r'"main"\s*:\s*"qx-oo-(%s)"' % qxversion_regexp,
         r'"homepage"\s*:\s*"http://manual.qooxdoo.org/(%s)/pages/core.html"' % qxversion_regexp,
         ],
-    "./component/standalone/website/Gruntfile.js": [
-        r'QOOXDOO_VERSION\s*:\s*"(%s)",' % qxversion_regexp,
-        ],
     "./component/standalone/website/package.json": [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
+        ],
+    "./component/testrunner/package.json": [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
     "./documentation/manual/source/conf.py" : [
@@ -171,6 +198,9 @@ Files = {
         ],
     "./tool/data/generator/copyright.include.js" : [
         r'qooxdoo v(%s) \|' % qxversion_regexp,
+        ],
+    "./tool/grunt/package.json" : [
+        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string)
         ],
     "./version.txt" : [
         r'^(.+)$'
