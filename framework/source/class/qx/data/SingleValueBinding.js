@@ -52,18 +52,18 @@ qx.Class.define("qx.data.SingleValueBinding",
      * automatically contain the new value. Also if the child of a changes, the
      * new value (abc of the new child) will be in the textfield.
      *
-     * There is also a possibility of binding an array. Therefor the array
+     * There is also a possibility of binding an array. Therefore the array
      * {@link qx.data.IListData} is needed because this array has change events
      * which the native does not. Imagine a qooxdoo object a which has a
      * children property containing an array holding more of its own kind.
      * Every object has a name property as a string.
      * <pre>
      * var svb = qx.data.SingleValueBinding;
-     * // bind the first childs name of 'a' to a textfield
+     * // bind the first child's name of 'a' to a textfield
      * svb.bind(a, "children[0].name", textfield, "value");
-     * // bind the last childs name of 'a' to a textfield
+     * // bind the last child's name of 'a' to a textfield
      * svb.bind(a, "children[last].name", textfield2, "value");
-     * // also deeper bindinds are possible
+     * // also deeper bindings are possible
      * svb.bind(a, "children[0].children[0].name", textfield3, "value");
      * </pre>
      *
@@ -177,7 +177,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           if (i == propertyNames.length -1) {
             // if it is an array, set the initial value and bind the event
             if (arrayIndexValues[i] !== "") {
-              // getthe current value
+              // get the current value
               var itemIndex = arrayIndexValues[i] === "last" ?
                 source.length - 1 : arrayIndexValues[i];
               var currentValue = source.getItem(itemIndex);
@@ -336,7 +336,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             if (context.options.ignoreConverter) {
               // the current property chain as string
               var currentSourceChain = context.propertyNames.slice(0,j).join(".");
-              // match for the current patten given in the options
+              // match for the current pattern given in the options
               var match = currentSourceChain.match(
                 new RegExp("^" + context.options.ignoreConverter)
               );
@@ -363,7 +363,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         if (j == context.propertyNames.length - 1) {
           // if its an array
           if (qx.Class.implementsInterface(source, qx.data.IListData)) {
-            // set the inital value
+            // set the initial value
             var itemIndex = context.arrayIndexValues[j] === "last" ?
               source.length - 1 : context.arrayIndexValues[j];
             var currentValue = source.getItem(itemIndex);
@@ -595,31 +595,31 @@ qx.Class.define("qx.data.SingleValueBinding",
 
     /**
      * Tries to return a fitting event name to the given source object and
-     * property name. First, it assumes that the propertyname is a real property
+     * property name. First, it assumes that the property name is a real property
      * and therefore it checks the property definition for the event. The second
      * possibility is to check if there is an event with the given name. The
      * third and last possibility checked is if there is an event which is named
-     * change + propertyname. If this three possibilities fail, an error will be
+     * change + propertyName. If this three possibilities fail, an error will be
      * thrown.
      *
      * @param source {qx.core.Object} The source where the property is stored.
-     * @param propertyname {String} The name of the property.
+     * @param propertyName {String} The name of the property.
      * @return {String|null} The name of the corresponding event or null.
      */
-    __getEventNameForProperty : function(source, propertyname)
+    __getEventNameForProperty : function(source, propertyName)
     {
-      // get the current event Name from the property definition
-      var eventName = this.__getEventForProperty(source, propertyname);
+      // get the current event name from the property definition
+      var eventName = this.__getEventForProperty(source, propertyName);
       // if no event name could be found
       if (eventName == null) {
-        // check if the propertyname is the event name
-        if (qx.Class.supportsEvent(source.constructor, propertyname)) {
-          eventName = propertyname;
-        // check if the change + propertyname is the event name
+        // check if the propertyName is the event name
+        if (qx.Class.supportsEvent(source.constructor, propertyName)) {
+          eventName = propertyName;
+        // check if the change + propertyName is the event name
         } else if (qx.Class.supportsEvent(
-          source.constructor, "change" + qx.lang.String.firstUp(propertyname))
+          source.constructor, "change" + qx.lang.String.firstUp(propertyName))
         ) {
-          eventName = "change" + qx.lang.String.firstUp(propertyname);
+          eventName = "change" + qx.lang.String.firstUp(propertyName);
         } else {
           return null;
         }
@@ -827,7 +827,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * arrays to fit the algorithm.
      *
      * @param propertyNames {Array} The array containing the property names.
-     *   Attention, this method can chang this parameter!!!
+     *   Attention, this method can change this parameter!!!
      * @return {Array} An array containing the values of the array properties
      *   corresponding to the property names.
      */
@@ -855,7 +855,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             }
           }
 
-          // if a property is infront of the array notation
+          // if a property is in front of the array notation
           if (name.indexOf("[") != 0) {
             // store the property name without the array notation
             propertyNames[i] = name.substring(0, name.indexOf("["));
@@ -943,7 +943,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             qx.data.SingleValueBinding.__resetTargetValue(targetObject, targetProperty);
           }
 
-          // only do something if the curren array has been changed
+          // only do something if the current array has been changed
           var start = e.getData().start;
           var end = e.getData().end;
           if (arrayIndex < start || arrayIndex > end) {
@@ -1063,7 +1063,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @param options {Map} The options map which can includes the converter.
      *   For a detailed information on the map, take a look at
      *   {@link #bind}.
-     * @param sourceObject {qx.core.Object} The source obejct for the binding.
+     * @param sourceObject {qx.core.Object} The source object for the binding.
      *
      * @return {var} The converted value. If no conversion has been done, the
      *   value property will be returned.
@@ -1160,7 +1160,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
     /**
      * Removes the binding with the given id from the given sourceObject. The
-     * id hast to be the id returned by any of the bind functions.
+     * id has to be the id returned by any of the bind functions.
      *
      * @param sourceObject {qx.core.Object} The source object of the binding.
      * @param id {var} The id of the binding.
@@ -1312,7 +1312,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * binding is left.
      */
     removeAllBindings : function() {
-      // go threw all registerd objects
+      // go threw all registered objects
       for (var hash in this.__bindings) {
         var object = qx.core.ObjectRegistry.fromHashCode(hash);
         // check for the object, perhaps its already deleted
@@ -1329,7 +1329,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
     /**
      * Returns a map containing for every bound object an array of data binding
-     * information. The key of the map is the hashcode of the bound objects.
+     * information. The key of the map is the hash code of the bound objects.
      * Every binding is represented by an array containing id, sourceObject,
      * sourceEvent, targetObject and targetProperty.
      *
