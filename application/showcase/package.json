@@ -1,14 +1,14 @@
 {
   "name": "showcase",
-  "version": "3.5.0",
+  "version": "5.0.1",
   "description": "Showcases some features of qx.Desktop",
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
   },
-  "author": "The qooxdoo team",
-  "license": "LGPL",
+  "author": "The qooxdoo project",
+  "license": "LGPL/EPL",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "devDependencies": {
     "grunt": "~0.4.2",
