@@ -1,7 +1,7 @@
 {
   "name": "qooxdoo-toolchain",
   "description": "qooxdoo toolchain dependencies",
-  "version": "4.1.0",
+  "version": "5.1.0",
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/qooxdoo/qooxdoo"
