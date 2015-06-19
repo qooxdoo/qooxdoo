@@ -1,10 +1,13 @@
 {
-  "name": "next",
-  "description": "next release dependencies",
-  "version": "4.1.0",
+  "name": "qooxdoo",
+  "version": "5.1.0",
+  "description": "Universal JavaScript Framework",
+  "author": "The qooxdoo project",
+  "license": "LGPL/EPL",
+  "homepage": "http://qooxdoo.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qooxdoo/next"
+    "url": "https://github.com/qooxdoo/qooxdoo"
   },
   "dependencies": {
     "grunt": "^0.4.5",
