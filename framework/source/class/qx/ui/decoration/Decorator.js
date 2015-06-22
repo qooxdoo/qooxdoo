@@ -159,6 +159,19 @@ qx.Class.define("qx.ui.decoration.Decorator", {
     // overridden
     _isInitialized: function() {
       return this.__initialized;
+    },
+
+
+    /**
+    * Extends an array up to the given length by repeating the elements already present.
+    * @param arr {Array} Incoming array. Has to contain at least one element.
+    * @param to {Integer} Desired length. Must be greater than or equal to the the length of arr.
+    */
+    _prolongArray: function(array, to) {
+      var initial = array.length;
+      while(array.length < to) {
+        array.push(array[array.length%initial]);
+      }
     }
   }
 });
