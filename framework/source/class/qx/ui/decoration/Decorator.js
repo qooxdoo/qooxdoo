@@ -111,6 +111,13 @@ qx.Class.define("qx.ui.decoration.Decorator", {
           this[name](styles);
         }
       }
+      for(var name in styles)
+      {
+        if(qx.lang.Type.isArray(styles[name])) {
+          styles[name] = styles[name].join(', ');
+        }
+      }
+
 
       this.__initialized = true;
       return styles;
