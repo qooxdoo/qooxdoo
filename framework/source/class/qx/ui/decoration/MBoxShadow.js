@@ -35,7 +35,6 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
     shadowHorizontalLength :
     {
       nullable : true,
-      check : "Integer",
       apply : "_applyBoxShadow"
     },
 
@@ -43,7 +42,6 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
     shadowVerticalLength :
     {
       nullable : true,
-      check : "Integer",
       apply : "_applyBoxShadow"
     },
 
@@ -51,7 +49,6 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
     shadowBlurRadius :
     {
       nullable : true,
-      check : "Integer",
       apply : "_applyBoxShadow"
     },
 
@@ -59,7 +56,6 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
     shadowSpreadRadius :
     {
       nullable : true,
-      check : "Integer",
       apply : "_applyBoxShadow"
     },
 
@@ -67,7 +63,6 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
     shadowColor :
     {
       nullable : true,
-      check : "Color",
       apply : "_applyBoxShadow"
     },
 
@@ -75,7 +70,6 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
     inset :
     {
       init : false,
-      check : "Boolean",
       apply : "_applyBoxShadow"
     },
 
@@ -106,31 +100,54 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
         return;
       }
 
-      if (qx.core.Environment.get("qx.theme"))
-      {
-        var Color = qx.theme.manager.Color.getInstance();
-        var color = Color.resolve(this.getShadowColor());
-      }
-      else
-      {
-        var color = this.getShadowColor();
+      propName = qx.bom.Style.getCssName(propName);
+
+      var vLengths = this.getShadowVerticalLength() || [0];
+      if(!qx.lang.Type.isArray(vLengths)) vLengths = [vLengths];
+      var hLengths = this.getShadowHorizontalLength() || [0];
+      if(!qx.lang.Type.isArray(hLengths)) hLengths = [hLengths];
+      var blurs = this.getShadowBlurRadius() || [0];
+      if(!qx.lang.Type.isArray(blurs)) blurs = [blurs];
+      var spreads = this.getShadowSpreadRadius() || [0];
+      if(!qx.lang.Type.isArray(spreads)) spreads = [spreads];
+      var colors = this.getShadowColor() || ["black"];
+      if(!qx.lang.Type.isArray(colors)) colors = [colors];
+      var insets = this.getInset();
+      if(!qx.lang.Type.isArray(insets)) insets = [!!insets];
+
+      var items = Math.max(vLengths.length, hLengths.length, blurs.length, spreads.length, colors.length, insets.length);
+      this._prolongArray(vLengths, items);
+      this._prolongArray(hLengths, items);
+      this._prolongArray(blurs, items);
+      this._prolongArray(spreads, items);
+      this._prolongArray(colors, items);
+      this._prolongArray(insets, items);
+
+      var Color = null;
+      if(qx.core.Environment.get("qx.theme")) {
+        Color = qx.theme.manager.Color.getInstance();
       }
 
-      if (color != null)
-      {
-        var vLength = this.getShadowVerticalLength() || 0;
-        var hLength = this.getShadowHorizontalLength() || 0;
-        var blur = this.getShadowBlurRadius() || 0;
-        var spread = this.getShadowSpreadRadius() || 0;
-        var inset = this.getInset() ? "inset " : "";
-        var value = inset + hLength + "px " + vLength + "px " + blur + "px " + spread + "px " + color;
+      for(var i=0;i<items;i++) {
+        var vLength = vLengths[i];
+        var hLength = hLengths[i];
+        var blur = blurs[i];
+        var spread = spreads[i];
+        var color = colors[i];
+        var inset = insets[i];
 
-        // apply or append the box shadow styles
-        propName = qx.bom.Style.getCssName(propName);
-        if (!styles[propName]) {
-          styles[propName] = value;
-        } else {
-          styles[propName] += "," + value;
+        if(Color) {
+          color = Color.resolve(color);
+        }
+
+        if(color != null) {
+          var value = (inset ? 'inset ' : '') + hLength + "px " + vLength + "px " + blur + "px " + spread + "px " + color;
+          // apply or append the box shadow styles
+          if (!styles[propName]) {
+            styles[propName] = value;
+          } else {
+            styles[propName] += "," + value;
+          }
         }
       }
     },
