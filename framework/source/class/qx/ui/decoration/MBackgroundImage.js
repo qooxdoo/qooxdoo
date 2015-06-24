@@ -110,11 +110,9 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      */
     _styleBackgroundImage : function(styles)
     {
+      // transform non-array values to an array containing that value
       var images = this.getBackgroundImage();
-      if(!images) {
-        return;
-      }
-
+      if(!images) { return; }
       if(!qx.lang.Type.isArray(images)) images = [images];
       var repeats = this.getBackgroundRepeat();
       if(!qx.lang.Type.isArray(repeats)) repeats = [repeats];
@@ -125,7 +123,10 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
       var origins = this.getBackgroundOrigin();
       if(!qx.lang.Type.isArray(origins)) origins = [origins];
 
-
+      // Because it's possible to set multiple values for a property there's 
+      // a chance that not all properties have the same amount of values set.
+      // Prolong the value arrays by repeating existing values until all
+      // arrays match in length.
       var items = Math.max(images.length, repeats.length, tops.length, lefts.length);
       this._prolongArray(images, items);
       this._prolongArray(repeats, items);

@@ -102,6 +102,7 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
 
       propName = qx.bom.Style.getCssName(propName);
 
+      // transform non-array values to an array containing that value
       var vLengths = this.getShadowVerticalLength() || [0];
       if(!qx.lang.Type.isArray(vLengths)) vLengths = [vLengths];
       var hLengths = this.getShadowHorizontalLength() || [0];
@@ -115,6 +116,10 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
       var insets = this.getInset();
       if(!qx.lang.Type.isArray(insets)) insets = [!!insets];
 
+      // Because it's possible to set multiple values for a property there's 
+      // a chance that not all properties have the same amount of values set.
+      // Prolong the value arrays by repeating existing values until all
+      // arrays match in length.
       var items = Math.max(vLengths.length, hLengths.length, blurs.length, spreads.length, colors.length, insets.length);
       this._prolongArray(vLengths, items);
       this._prolongArray(hLengths, items);

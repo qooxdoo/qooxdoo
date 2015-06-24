@@ -119,6 +119,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
     _styleLinearBackgroundGradient : function(styles) {
       var backgroundStyle = [];
 
+      // transform non-array values to an array containing that value
       var startColors = this.getStartColor();
       if(!startColors) { return; }
       if(!qx.lang.Type.isArray(startColors)) startColors = [startColors];
@@ -134,6 +135,10 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
       var endColorPositions = this.getEndColorPosition();
       if(!qx.lang.Type.isArray(endColorPositions)) endColorPositions = [endColorPositions];
 
+      // Because it's possible to set multiple values for a property there's 
+      // a chance that not all properties have the same amount of values set.
+      // Prolong the value arrays by repeating existing values until all
+      // arrays match in length.
       var items = Math.max(startColors.length, endColors.length, units.length, orientations.length);
       this._prolongArray(startColors, items);
       this._prolongArray(endColors, items);
