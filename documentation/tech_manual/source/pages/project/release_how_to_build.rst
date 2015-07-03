@@ -385,6 +385,7 @@ Update Wiki
 * Adjust the `Roadmap <http://qooxdoo.org/project/roadmap>`_.
 * Adjust the `Documentation overview <http://qooxdoo.org/docs>`_.
 * Adjust the `Demo overview <http://qooxdoo.org/demos>`_.
+* Adjust the `Demo listing <http://qooxdoo.org/demos/all>`_.
 * Adjust the `Download page <http://qooxdoo.org/downloads>`_.
 * Adjust the `qx.Website Download page <http://qooxdoo.org/downloads/qx.website>`_.
 * Adjust the `Start page <http://qooxdoo.org/>`_. (all 4 sections: download links)
