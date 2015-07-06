@@ -626,11 +626,19 @@ qx.Bootstrap.define("qx.module.Event", {
 
       context = context !== undefined ? context : this;
 
-      var listener = function(e) {
-        var eventTarget = qxWeb(e.getTarget());
+      var listener = function(e){
 
+        var eventTarget = qxWeb(e.getTarget());
         if (eventTarget.is(target)) {
           callback.call(context, eventTarget, qxWeb.object.clone(e));
+        } else {
+          var targetToMatch = typeof target == "string" ? this.find(target) : qxWeb(target);
+          for(var i = 0, l = targetToMatch.length; i < l; i++) {
+            if(eventTarget.isChildOf(qxWeb(targetToMatch[i]))) {
+              callback.call(context, eventTarget, qxWeb.object.clone(e));
+              break;
+            }
+          }
         }
       };
 
