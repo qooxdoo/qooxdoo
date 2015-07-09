@@ -750,7 +750,8 @@ qx.Bootstrap.define("qx.module.Event", {
       "copyEventsTo" : statics.copyEventsTo,
       "hover" : statics.hover,
       "onMatchTarget" : statics.onMatchTarget,
-      "offMatchTarget" : statics.offMatchTarget
+      "offMatchTarget" : statics.offMatchTarget,
+      "hasMatchListener" : statics.hasMatchListener
     });
 
     qxWeb.$attachStatic({
