@@ -42,7 +42,12 @@ qx.Interface.define("qx.ui.mobile.list.IListDelegate",
      * @param data {var} The data of the row. Can be used to configure the given item.
      * @param row {Integer} The row index.
      */
-    configureItem : function(item, data, row) {},
+    configureItem : function(item, data, row) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertInstance(item, qx.ui.mobile.list.renderer.Abstract);
+      this.assertInstance(data, Object);
+      this.assertPositiveInteger(row);
+    },
 
 
 

@@ -44,7 +44,8 @@ qx.Interface.define("qx.ui.table.IHeaderRenderer",
      * @return {qx.ui.core.Widget} the widget that renders the header cell.
      */
     createHeaderCell : function(cellInfo) {
-      return true;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertMap(cellInfo);
     },
 
 
@@ -58,7 +59,9 @@ qx.Interface.define("qx.ui.table.IHeaderRenderer",
      *      the same widget formally created by {@link #createHeaderCell}.
      */
     updateHeaderCell : function(cellInfo, cellWidget) {
-      return true;
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertMap(cellInfo);
+      this.assertQxWidget(cellWidget);
     }
   }
 });

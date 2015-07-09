@@ -43,7 +43,8 @@ qx.Interface.define("qx.ui.table.ICellEditorFactory",
      * @return {qx.ui.core.Widget} the widget that should be used as cell editor.
      */
     createCellEditor : function(cellInfo) {
-      return true;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertMap(cellInfo);
     },
 
 
@@ -56,7 +57,8 @@ qx.Interface.define("qx.ui.table.ICellEditorFactory",
      * @return {var} the current value from the editor.
      */
     getCellEditorValue : function(cellEditor) {
-      return true;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(cellEditor);
     }
   }
 });

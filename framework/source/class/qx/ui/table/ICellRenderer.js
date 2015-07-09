@@ -64,8 +64,9 @@ qx.Interface.define("qx.ui.table.ICellRenderer",
      *   mode of operation.
      */
     createDataCellHtml : function(cellInfo, htmlArr) {
-      return true;
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertMap(cellInfo);
+      this.assertArray(htmlArr);
     }
-
   }
 });

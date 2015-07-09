@@ -44,6 +44,9 @@ qx.Interface.define("qx.ui.core.ISingleSelectionProvider",
      * @param item {qx.ui.core.Widget} The item to be checked
      * @return {Boolean} Whether the given item is selectable
      */
-    isItemSelectable : function(item) {}
+    isItemSelectable : function(item) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(item);
+    }
   }
 });

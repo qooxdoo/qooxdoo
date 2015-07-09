@@ -36,13 +36,20 @@ qx.Interface.define("qx.ui.virtual.core.IWidgetCellProvider",
      * @param column {Integer} The cell's column index.
      * @return {qx.ui.core.LayoutItem} The configured widget for the given cell.
      */
-    getCellWidget : function(row, column) {},
+    getCellWidget : function(row, column) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertInteger(row);
+      this.assertInteger(column);
+    },
 
     /**
      * Release the given cell widget. Either pool or destroy the widget.
      *
      * @param widget {qx.ui.core.LayoutItem} The cell widget to pool.
      */
-    poolCellWidget : function(widget) {}
+    poolCellWidget : function(widget) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(widget, qx.ui.core.LayoutItem);
+    }
   }
 });

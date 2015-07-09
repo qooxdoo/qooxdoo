@@ -55,7 +55,10 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param row {Integer} row to style.
      */
-    styleSelectabled : function(row) {},
+    styleSelectabled : function(row) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(row);
+    },
 
 
     /**
@@ -63,7 +66,10 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param row {Integer} row to style.
      */
-    styleUnselectabled : function(row) {},
+    styleUnselectabled : function(row) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(row);
+    },
 
 
     /**
@@ -73,7 +79,10 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      * @return {Boolean} <code>true</code> when the row can be selected,
      *    <code>false</code> otherwise.
      */
-    isSelectable : function(row) {},
+    isSelectable : function(row) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(row);
+    },
 
 
     /**
@@ -82,7 +91,10 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param path {String} path to the property.
      */
-    setLabelPath : function(path) {},
+    setLabelPath : function(path) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertString(path);
+    },
 
 
     /**
@@ -92,7 +104,10 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param path {String} path to the property.
      */
-    setIconPath : function(path) {},
+    setIconPath : function(path) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertString(path);
+    },
 
 
     /**
@@ -101,7 +116,10 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param options {Map} options for the label binding.
      */
-    setLabelOptions : function(options) {},
+    setLabelOptions : function(options) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertMap(options);
+    },
 
 
     /**
@@ -110,7 +128,10 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param options {Map} options for the icon binding.
      */
-    setIconOptions : function(options) {},
+    setIconOptions : function(options) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertMap(options);
+    },
 
 
     /**
@@ -119,7 +140,10 @@ qx.Interface.define("qx.ui.list.provider.IListProvider",
      *
      * @param delegate {Object} delegation object.
      */
-    setDelegate : function(delegate) {},
+    setDelegate : function(delegate) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(delegate, Object);
+    },
 
 
     /**

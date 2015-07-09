@@ -45,6 +45,10 @@ qx.Interface.define("qx.ui.virtual.cell.ICell",
      *
      * @return {Map} Cell properties (see above.)
      */
-    getCellProperties : function(data, states) {}
+    getCellProperties : function(data, states) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertInstance(data, Object);
+      this.assertMap(states);
+    }
   }
 });

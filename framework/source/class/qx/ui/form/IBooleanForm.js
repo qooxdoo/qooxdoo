@@ -57,7 +57,8 @@ qx.Interface.define("qx.ui.form.IBooleanForm",
      * @param value {Boolean|null} The new value of the element.
      */
     setValue : function(value) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assert(value === null || qx.lang.Type.isBoolean(value), "Expected value to be a boolean or null but found ", value, "!");
     },
 
 

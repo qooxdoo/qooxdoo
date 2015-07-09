@@ -57,7 +57,8 @@ qx.Interface.define("qx.ui.form.IDateForm",
      * @param value {Date|null} The new value of the element.
      */
     setValue : function(value) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assert(value === null || qx.lang.Type.isDate(value), "Expected value to be a date or null but found ", value, "!");
     },
 
 

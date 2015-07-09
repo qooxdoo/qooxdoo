@@ -40,7 +40,10 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
-    configureItem : function(item) {},
+    configureItem : function(item) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(item);
+    },
 
 
     /**
@@ -49,7 +52,10 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      *
      * @param item {qx.ui.core.Widget} Group to modify.
      */
-    configureGroupItem : function(item) {},
+    configureGroupItem : function(item) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(item);
+    },
 
 
     /**
@@ -85,7 +91,12 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {Integer} The id for the binding.
      */
-    bindItem : function(controller, item, id) {},
+    bindItem : function(controller, item, id) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertInterface(controller, MWidgetController);
+      this.assertQxWidget(item);
+      this.assertPositiveInteger(id);
+    },
 
 
     /**
@@ -101,7 +112,12 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @param item {qx.ui.core.Widget} The created and used group item.
      * @param id {Integer} The id for the binding.
      */
-    bindGroupItem : function(controller, item, id) {},
+    bindGroupItem : function(controller, item, id) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertInterface(controller, MWidgetController);
+      this.assertQxWidget(item);
+      this.assertPositiveInteger(id);
+    },
 
 
     /**
@@ -113,7 +129,10 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @return {Boolean} <code>true</code> if the data passes the filter,
      *   <code>false</code> otherwise.
      */
-    filter : function(data) {},
+    filter : function(data) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(data, Object);
+    },
 
 
     /**
@@ -126,7 +145,11 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @return {Integer} should return a negative value if a < b, zero
      *   if a = b, or a positive value if a > b.
      */
-    sorter : function(a, b) {},
+    sorter : function(a, b) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertInstance(a, Object);
+      this.assertInstance(b, Object);
+    },
 
 
     /**
@@ -143,7 +166,10 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * @param data {var} The data to be checked.
      * @return {String|Object|null} The group identifier for the data.
      */
-    group : function(data) {},
+    group : function(data) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(data, Object);
+    },
 
 
 
@@ -153,6 +179,9 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
-    onPool : function(item) {}
+    onPool : function(item) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(item);
+    }
   }
 });

@@ -77,7 +77,9 @@ qx.Interface.define("qx.ui.table.IColumnMenuButton",
      */
     factory : function(item, options)
     {
-      return true;
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertString(item);
+      this.assertMap(options);
     },
 
     /**
@@ -85,9 +87,6 @@ qx.Interface.define("qx.ui.table.IColumnMenuButton",
      * visibility menu.
      *
      */
-    empty : function()
-    {
-      return true;
-    }
+    empty : function() {}
   }
 });

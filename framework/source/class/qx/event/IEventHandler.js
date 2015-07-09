@@ -56,7 +56,11 @@ qx.Interface.define("qx.event.IEventHandler",
      * @return {Boolean} Whether the event handler can handle events of the
      *     given type.
      */
-    canHandleEvent : function(target, type) {},
+    canHandleEvent : function(target, type) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertInstance(target, Object);
+      this.assertString(type);
+    },
 
 
     /**
@@ -69,7 +73,12 @@ qx.Interface.define("qx.event.IEventHandler",
      * @param capture {Boolean} Whether to attach the event to the
      *         capturing phase or the bubbling phase of the event.
      */
-    registerEvent : function(target, type, capture) {},
+    registerEvent : function(target, type, capture) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertInstance(target, Object);
+      this.assertString(type);
+      this.assertBoolean(capture);
+    },
 
 
     /**
@@ -83,6 +92,11 @@ qx.Interface.define("qx.event.IEventHandler",
      * @param capture {Boolean} Whether to attach the event to the
      *         capturing phase or the bubbling phase of the event.
      */
-    unregisterEvent : function(target, type, capture) {}
+    unregisterEvent : function(target, type, capture) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertInstance(target, Object);
+      this.assertString(type);
+      this.assertBolean(capture);
+    }
   }
 });

@@ -37,7 +37,14 @@ qx.Interface.define("qx.ui.form.renderer.IFormRenderer",
      * @param headerOptions {Map?null} The options map as defined by the form
      *   for the current group header.
      */
-    addItems : function(items, names, title, itemsOptions, headerOptions) {},
+    addItems : function(items, names, title, itemsOptions, headerOptions) {
+      this.assertArgumentsCount(arguments, 2, 5);
+      this.assertArray(items);
+      this.assertArray(names);
+      this.assertString(title);
+      this.assert(itemsOptions === null || qx.lang.Type.isArray(itemsOptions), "Expected value to be an array or null but found ", itemsOptions, "!");
+      this.assert(headerOptions === null || qx.lang.Type.isMap(headerOptions), "Expected value to be a map or null but found ", headerOptions, "!");
+    },
 
 
     /**
@@ -47,7 +54,10 @@ qx.Interface.define("qx.ui.form.renderer.IFormRenderer",
      *   the form.
      * @param options {Map?null} The added additional data.
      */
-    addButton : function(button, options) {}
-
+    addButton : function(button, options) {
+      this.assertArgumentsCount(arguments, 1, 2);
+      this.assertInstance(button, qx.ui.form.Button);
+      this.assert(options === null || qx.lang.Type.isMap(options), "Expected value to be an map or null but found ", options, "!");
+    }
   }
 });

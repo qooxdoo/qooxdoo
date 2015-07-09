@@ -36,7 +36,9 @@ qx.Interface.define("qx.event.IEventDispatcher",
      */
     canDispatchEvent : function(target, event, type)
     {
-      this.assertInstance(event, qx.event.type.Event);
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assert(target && target.nodeType === 1 /* || test for Event*/, "Expected value to be Element or Event but found " + target);
+      this.assert(event /* test for Event */);
       this.assertString(type);
     },
 
@@ -50,7 +52,9 @@ qx.Interface.define("qx.event.IEventDispatcher",
      */
     dispatchEvent : function(target, event, type)
     {
-      this.assertInstance(event, qx.event.type.Event);
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assert(target && target.nodeType === 1 /* || test for Event*/, "Expected value to be Element or Event but found " + target);
+      this.assert(event /* test for Event */);
       this.assertString(type);
     }
   }

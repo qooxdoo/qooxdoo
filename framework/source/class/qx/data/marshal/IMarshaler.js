@@ -31,10 +31,14 @@ qx.Interface.define("qx.data.marshal.IMarshaler",
      * create two different classes.
      *
      * @param data {Object} The object for which classes should be created.
-     * @param includeBubbleEvents {Boolean} Whether the model should support
+     * @param includeBubbleEvents {Boolean|null} Whether the model should support
      *   the bubbling of change events or not.
      */
-    toClass : function(data, includeBubbleEvents) {},
+    toClass : function(data, includeBubbleEvents) {
+      this.assertArgumentsCount(arguments, 1, 2);
+      this.assertInstance(data, Object);
+      this.assert(qx.lang.Type.isBoolean(includeBubbleEvents) || includeBubbleEvents === null || includeBubbleEvents === undefined, "Expected value to be boolean or null but found " + includeBubbleEvents);
+    },
 
 
     /**
@@ -45,6 +49,9 @@ qx.Interface.define("qx.data.marshal.IMarshaler",
      *
      * @return {qx.core.Object} The created model object.
      */
-    toModel : function(data) {}
+    toModel : function(data) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(data, Object);
+    }
   }
 });

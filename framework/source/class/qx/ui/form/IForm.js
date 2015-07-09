@@ -65,7 +65,8 @@ qx.Interface.define("qx.ui.form.IForm",
      * @param enabled {Boolean} The enabled state.
      */
     setEnabled : function(enabled) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertBoolean(enabled);
     },
 
 
@@ -89,7 +90,8 @@ qx.Interface.define("qx.ui.form.IForm",
      * @param required {Boolean} A flag signaling if the widget is required.
      */
     setRequired : function(required) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertBoolean(required);
     },
 
 
@@ -113,7 +115,8 @@ qx.Interface.define("qx.ui.form.IForm",
      * @param valid {Boolean} The valid state of the widget.
      */
     setValid : function(valid) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertBoolean(valid);
     },
 
 
@@ -137,7 +140,8 @@ qx.Interface.define("qx.ui.form.IForm",
      * @param message {String} The invalid message.
      */
     setInvalidMessage : function(message) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertString(message);
     },
 
 
@@ -162,7 +166,8 @@ qx.Interface.define("qx.ui.form.IForm",
      * @param message {String} The invalid message.
      */
     setRequiredInvalidMessage : function(message) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertString(message);
     },
 
 
@@ -172,6 +177,5 @@ qx.Interface.define("qx.ui.form.IForm",
      * @return {String} The current set message.
      */
     getRequiredInvalidMessage : function() {}
-
   }
 });

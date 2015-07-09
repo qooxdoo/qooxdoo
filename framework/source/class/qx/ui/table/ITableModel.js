@@ -84,7 +84,10 @@ qx.Interface.define("qx.ui.table.ITableModel",
      *                    objects. The details on the object returned are determined by the model
      *                    implementation only.
      */
-    getRowData : function(rowIndex) {},
+    getRowData : function(rowIndex) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(rowIndex);
+    },
 
 
     /**
@@ -105,7 +108,10 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the ID of the column.
      */
-    getColumnId : function(columnIndex) {},
+    getColumnId : function(columnIndex) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(columnIndex);
+    },
 
 
     /**
@@ -115,7 +121,10 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnId {String} the ID of the column.
      * @return {Integer} the index of the column.
      */
-    getColumnIndexById : function(columnId) {},
+    getColumnIndexById : function(columnId) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertString(columnId);
+    },
 
 
     /**
@@ -126,7 +135,10 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the name of the column.
      */
-    getColumnName : function(columnIndex) {},
+    getColumnName : function(columnIndex) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(columnIndex);
+    },
 
 
     /**
@@ -135,7 +147,10 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the column to check.
      * @return {Boolean} whether the column is editable.
      */
-    isColumnEditable : function(columnIndex) {},
+    isColumnEditable : function(columnIndex) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(columnIndex);
+    },
 
 
     /**
@@ -144,7 +159,10 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the column to check.
      * @return {Boolean} whether the column is sortable.
      */
-    isColumnSortable : function(columnIndex) {},
+    isColumnSortable : function(columnIndex) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(columnIndex);
+    },
 
 
     /**
@@ -153,7 +171,11 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param columnIndex {Integer} the column to sort by.
      * @param ascending {Boolean} whether to sort ascending.
      */
-    sortByColumn : function(columnIndex, ascending) {},
+    sortByColumn : function(columnIndex, ascending) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertPositiveInteger(columnindex);
+      this.assertBoolean(ascending);
+    },
 
 
     /**
@@ -180,7 +202,11 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param firstRowIndex {Integer} the index of first row.
      * @param lastRowIndex {Integer} the index of last row.
      */
-    prefetchRows : function(firstRowIndex, lastRowIndex) {},
+    prefetchRows : function(firstRowIndex, lastRowIndex) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertPositiveInteger(firstRowIndex);
+      this.assertPositiveInteger(lastRowIndex);
+    },
 
 
     /**
@@ -192,7 +218,11 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @return {var} The value of the cell.
      * @see #getValueById
      */
-    getValue : function(columnIndex, rowIndex) {},
+    getValue : function(columnIndex, rowIndex) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertPositiveInteger(columnIndex);
+      this.assertPositiveInteger(rowIndex);
+    },
 
 
     /**
@@ -205,7 +235,11 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param rowIndex {Integer} the index of the row.
      * @return {var} the value of the cell.
      */
-    getValueById : function(columnId, rowIndex) {},
+    getValueById : function(columnId, rowIndex) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertString(columnId);
+      this.assertPositiveInteger(rowIndex);
+    },
 
 
     /**
@@ -217,7 +251,12 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param value {var} The new value.
      * @see #setValueById
      */
-    setValue : function(columnIndex, rowIndex, value) {},
+    setValue : function(columnIndex, rowIndex, value) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertPositiveInteger(columnIndex);
+      this.assertPositiveInteger(rowIndex);
+      this.assertInstance(value, Object);
+    },
 
 
     /**
@@ -230,6 +269,11 @@ qx.Interface.define("qx.ui.table.ITableModel",
      * @param rowIndex {Integer} The index of the row.
      * @param value {var} The new value.
      */
-    setValueById : function(columnId, rowIndex, value) {}
+    setValueById : function(columnId, rowIndex, value) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertString(columnId);
+      this.assertPositiveInteger(rowIndex);
+      this.assertInstance(value, Object);
+    }
   }
 });

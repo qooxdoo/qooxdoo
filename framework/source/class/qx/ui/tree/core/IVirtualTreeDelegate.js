@@ -38,7 +38,10 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
-    configureItem : function(item) {},
+    configureItem : function(item) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(item);
+    },
 
 
     /**
@@ -64,7 +67,12 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {Integer} The id for the binding.
      */
-    bindItem : function(controller, item, id) {},
+    bindItem : function(controller, item, id) {
+      this.assertArgumentsCount(arguments, 3, 3);
+      this.assertInterface(controller, MWidgetController);
+      this.assertQxWidget(item);
+      this.assertInteger(id);
+    },
 
 
     /**
@@ -72,7 +80,10 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      *
      * @param item {qx.ui.core.Widget} Item to modify.
      */
-    onPool : function(item) {},
+    onPool : function(item) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(item);
+    },
 
 
     /**
@@ -82,7 +93,10 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * @param data {var} The data which will be checked.
      * @return {Boolean} True, if the data passes the filter, false otherwise.
      */
-    filter : function(data) {},
+    filter : function(data) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(data, Object);
+    },
 
 
     /**
@@ -95,6 +109,10 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTreeDelegate",
      * @return {Integer} should return a negative value if a < b, zero
      *   if a = b, or a positive value if a > b.
      */
-    sorter : function(a, b) {}
+    sorter : function(a, b) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(a, Object);
+      this.assertInstance(b, Object);
+    }
   }
 });

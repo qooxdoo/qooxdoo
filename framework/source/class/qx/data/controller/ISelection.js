@@ -28,7 +28,10 @@ qx.Interface.define("qx.data.controller.ISelection",
      * Setter for the selection.
      * @param value {qx.data.IListData} The data of the selection.
      */
-    setSelection : function(value) {},
+    setSelection : function(value) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInterface(value, qx.data.IListData);
+    },
 
 
     /**

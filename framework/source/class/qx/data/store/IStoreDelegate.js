@@ -41,7 +41,10 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      * @param data {Object} The data received by the request.
      * @return {Object} The manipulated data.
      */
-    manipulateData : function(data) {},
+    manipulateData : function(data) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(data, Object);
+    },
 
 
     /**
@@ -50,6 +53,9 @@ qx.Interface.define("qx.data.store.IStoreDelegate",
      * @param request {var} The created request, depending on the implementation
      *   of the data store.
      */
-    configureRequest : function(request) {}
+    configureRequest : function(request) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertFunction(request);
+    }
   }
 });

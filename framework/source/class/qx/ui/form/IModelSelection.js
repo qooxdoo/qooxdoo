@@ -38,7 +38,10 @@ qx.Interface.define("qx.ui.form.IModelSelection",
      *
      * @param value {Array} An array of models.
      */
-    setModelSelection : function(value) {},
+    setModelSelection : function(value) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertArray(value);
+    },
 
 
     /**

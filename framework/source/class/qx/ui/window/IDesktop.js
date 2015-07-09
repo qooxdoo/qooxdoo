@@ -30,6 +30,7 @@ qx.Interface.define("qx.ui.window.IDesktop",
      * @param manager {qx.ui.window.IWindowManager} The window manager
      */
     setWindowManager : function(manager) {
+      this.assertArgumentsCount(arguments, 1, 1);
       this.assertInterface(manager, qx.ui.window.IWindowManager);
     },
 
@@ -55,7 +56,8 @@ qx.Interface.define("qx.ui.window.IDesktop",
      *     will be blocked
      */
     blockContent : function(zIndex) {
-      this.assertInteger(zIndex);
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveInteger(zIndex);
     },
 
     /**

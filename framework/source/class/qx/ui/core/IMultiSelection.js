@@ -39,9 +39,7 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
     /**
      * Selects all items of the managed object.
      */
-    selectAll : function() {
-      return true;
-    },
+    selectAll : function() {},
 
     /**
      * Adds the given item to the existing selection.
@@ -50,7 +48,8 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
      * @throws {Error} if the item is not a child element.
      */
     addToSelection : function(item) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(item);  
     },
 
     /**
@@ -63,7 +62,8 @@ qx.Interface.define("qx.ui.core.IMultiSelection",
      * @throws {Error} if the item is not a child element.
      */
     removeFromSelection : function(item) {
-      return arguments.length == 1;
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertQxWidget(item);  
     }
   }
 });

@@ -55,7 +55,10 @@ qx.Interface.define("qx.data.IListData",
      *
      * @return {var} The element at the given index.
      */
-    getItem : function(index) {},
+    getItem : function(index) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertPositiveNumber(index);
+    },
 
 
     /**
@@ -65,7 +68,11 @@ qx.Interface.define("qx.data.IListData",
      * @param index {Number} The index of the data element.
      * @param item {var} The new item to set.
      */
-    setItem : function(index, item) {},
+    setItem : function(index, item) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertNumber(index);
+      this.assertInstance(item, Object);
+    },
 
 
     /**
@@ -79,7 +86,12 @@ qx.Interface.define("qx.data.IListData",
      *   position to the array.
      * @return {qx.data.Array} An array containing the removed elements.
      */
-    splice : function(startIndex, amount, varargs) {},
+    splice : function(startIndex, amount, varargs) {
+      this.assertArgumentsCount(arguments, 2);
+      this.assertPositiveInteger(startIndex);
+      this.assertPositiveInteger(amount);
+      this.assertInstance(varargs, Object);
+    },
 
 
     /**
@@ -88,7 +100,10 @@ qx.Interface.define("qx.data.IListData",
      * @param item {var} The item which is possibly in the data structure.
      * @return {Boolean} true, if the array contains the given item.
      */
-    contains : function(item) {},
+    contains : function(item) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(item, Object);
+    },
 
 
     /**

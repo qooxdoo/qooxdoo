@@ -35,7 +35,11 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
      *
      * @return {qx.ui.core.LayoutItem} The cell widget
      */
-    getCellWidget : function(data, states) {},
+    getCellWidget : function(data, states) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertInstance(data, Object);
+      this.assertMap(states);
+    },
 
 
     /**
@@ -45,7 +49,10 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
      *
      * @param widget {qx.ui.core.LayoutItem} The cell widget to pool
      */
-    pool : function(widget) {},
+    pool : function(widget) {
+      this.assertArgumentsCount(arguments, 1, 1);
+      this.assertInstance(widget, qx.ui.core.LayoutItem);
+    },
 
 
     /**
@@ -54,7 +61,11 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
      * @param widget {qx.ui.core.LayoutItem} The cell widget to update
      * @param states {Map} The cell widget's states
      */
-    updateStates : function(widget, states) {},
+    updateStates : function(widget, states) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertInstance(widget, qx.ui.core.LayoutItem);
+      this.assertMap(states);
+    },
 
 
     /**
@@ -63,6 +74,10 @@ qx.Interface.define("qx.ui.virtual.cell.IWidgetCell",
      * @param widget {qx.ui.core.LayoutItem} The cell widget to update
      * @param data {var} The data to display
      */
-    updateData : function(widget, data) {}
+    updateData : function(widget, data) {
+      this.assertArgumentsCount(arguments, 2, 2);
+      this.assertInstance(widget, qx.ui.core.Widget);
+      this.assertInstance(data, Object);
+    }
   }
 });

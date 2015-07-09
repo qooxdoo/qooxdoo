@@ -57,7 +57,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     isNode : function(item)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInterface(item, qx.core.Object);
+      this.assertQxObject(item);
     },
 
 
@@ -71,7 +71,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     isNodeOpen : function(node)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInterface(node, qx.core.Object);
+      this.assertQxObject(node);
     },
 
 
@@ -84,7 +84,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     getLevel : function(row)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInteger(row);
+      this.assertPositiveInteger(row);
     },
 
 
@@ -99,7 +99,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     hasChildren : function(node)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInterface(node, qx.core.Object);
+      this.assertQxObject(node);
     },
 
 
@@ -111,7 +111,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     openNode : function(node)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInterface(node, qx.core.Object);
+      this.assertQxObject(node);
     },
 
 
@@ -123,7 +123,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     openNodeWithoutScrolling : function(node)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInterface(node, qx.core.Object);
+      this.assertQxObject(node);
     },
 
 
@@ -135,7 +135,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     closeNode : function(node)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInterface(node, qx.core.Object);
+      this.assertQxObject(node);
     },
 
 
@@ -147,7 +147,7 @@ qx.Interface.define("qx.ui.tree.core.IVirtualTree",
     closeNodeWithoutScrolling : function(node)
     {
       this.assertArgumentsCount(arguments, 1, 1);
-      this.assertInterface(node, qx.core.Object);
+      this.assertQxObject(node);
     },
 
 
