@@ -5,7 +5,7 @@
    http://qooxdoo.org
 
    Copyright:
-     2004-2010 1&1 Internet AG, Germany, http://www.1und1.de
+     2004-2015 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -119,10 +119,7 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
 
   members:
   {
-
-    /**
-     * Apply value property .
-     */
+	// property apply
     _applyValue: function(value, old) {
       var max = this.getMaximum();
 
@@ -131,10 +128,11 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
         value = old;
       }
 
-      // limit value to 0
       if (value < 0) {
+        // limit value to 0
         value = 0;
       } else if (value > max) {
+        // limit value to max
         value = max;
       }
 
@@ -145,9 +143,8 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
       this._changeProgress(value / max);
     },
 
-    /**
-     * Apply maximum property
-     */
+
+    // property apply
     _applyMaximum: function(value, old) {
       var max = value;
       var val = this.getValue();
