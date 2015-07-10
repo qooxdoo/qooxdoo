@@ -478,17 +478,24 @@ this.getRoot().add(label, {left: 120, top: 12});
 textfield.bind("value", label, "value");
 
 /**
- * Bind two slider together
+ * Bind together two sliders and a progress bar
  */
 var slider1 = new qx.ui.form.Slider("horizontal");
 slider1.setWidth(300);
-this.getRoot().add(slider1, {left: 10, top: 50});
+this.getRoot().add(slider1, {left: 10, top: 70});
 var slider2 = new qx.ui.form.Slider("horizontal");
 slider2.setWidth(200);
-this.getRoot().add(slider2, {left: 10, top: 80});
-// set up the bidirectional single value binding
+this.getRoot().add(slider2, {left: 10, top: 100});
+
+var progressbar = new qx.ui.indicator.ProgressBar();
+this.getRoot().add(progressbar, {left: 10, top: 140});
+
+// set up a bidirectional single value binding between sliders
 slider1.bind("value", slider2, "value");
-slider2.bind("value", slider1, "value");</textarea>
+slider2.bind("value", slider1, "value");
+
+// set up an unidirectional single value binding towards progress bar
+slider1.bind("value", progressbar, "value");</textarea>
 
 
 <!-- ********************************************************************** -->
