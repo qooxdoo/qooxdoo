@@ -118,11 +118,11 @@ qx.Mixin.define("qx.ui.core.MExecutable",
      * @param e {qx.event.type.Event} The execute event of the command.
      */
     __onCommandExecute : function(e) {
+      if (this.__semaphore) {
+        this.__semaphore = false;
+        return;
+      }
       if (this.isEnabled()) {
-        if (this.__semaphore) {
-          this.__semaphore = false;
-          return;
-        }
         this.__semaphore = true;
         this.execute();
       }
