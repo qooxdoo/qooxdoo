@@ -1936,6 +1936,51 @@ testrunner.define({
   },
 
 
+  testOnOffWithSameTypeAndListener : function() {
+
+    q.define("Test", {
+      construct : function(id, target) {
+        this.id = id;
+        this.target = target;
+        q(this.target).on('a:b', this.onTest, this);
+      },
+      
+      members : {
+        counter: 0,
+        onTest : function() {
+          this.counter++;
+        },
+
+        removeListener : function() {
+          q(this.target).off('a:b', this.onTest, this);
+        }
+      }
+    });
+
+    var test = q.create("<div/>");
+    
+    var test1 = new Test(1, test);
+    var test2 = new Test(2, test);
+    var test3 = new Test(3, test);
+    
+    // emit and check
+    q(test).emit('a:b');
+    this.assertEquals(1, test1.counter);
+    this.assertEquals(1, test2.counter);
+    this.assertEquals(1, test3.counter);
+        
+    test1.removeListener();
+    test2.removeListener();
+    test3.removeListener();
+
+    // now the spies still should only be called once
+    q(test).emit('a:b');
+    this.assertEquals(1, test1.counter);
+    this.assertEquals(1, test2.counter);
+    this.assertEquals(1, test3.counter);
+  },
+
+
   testOnce : function() {
     var test = q.create("<div/>");
     var self = this;
