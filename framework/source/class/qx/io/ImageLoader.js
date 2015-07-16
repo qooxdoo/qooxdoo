@@ -218,7 +218,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
         }
 
         // Create image element
-        var el = new Image();
+        var el = document.createElement('img');
 
         // Create common callback routine
         var boundCallback = qx.lang.Function.listener(this.__onload, this, el, source);
@@ -297,6 +297,15 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       // Shorthand
       var entry = this.__data[source];
 
+      // [BUG #9149]: When loading a SVG IE11 won't have
+      // the width/height of the element set, unless 
+      // it is inserted into the DOM.
+      if(qx.bom.client.Engine.getName() == "mshtml" &&
+          parseFloat(qx.bom.client.Engine.getVersion()) === 11)
+      {
+        document.body.appendChild(element);
+      }
+
       var isImageAvailable = function (imgElem) {
         return (imgElem && imgElem.height !== 0);
       };
@@ -306,8 +315,8 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       if (event.type === "load" && isImageAvailable(element)) {
         // Store dimensions
         entry.loaded = true;
-        entry.width = this.__getWidth(element);
-        entry.height = this.__getHeight(element);
+        entry.width = element.width;
+        entry.height = element.height;
 
         // try to determine the image format
         var result = this.__knownImageTypesRegExp.exec(source);
@@ -317,6 +326,12 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       }
       else {
         entry.failed = true;
+      }
+
+      if(qx.bom.client.Engine.getName() == "mshtml" &&
+          parseFloat(qx.bom.client.Engine.getVersion()) === 11)
+      {
+        document.body.removeChild(element);
       }
 
       // Cleanup listeners
@@ -336,31 +351,6 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       }
     },
 
-
-    /**
-     * Returns the natural width of the given image element.
-     *
-     * @param element {Element} DOM element which represents the image
-     * @return {Integer} Image width
-     */
-    __getWidth : function(element)
-    {
-      return qx.core.Environment.get("html.image.naturaldimensions") ?
-        element.naturalWidth : element.width;
-    },
-
-
-    /**
-     * Returns the natural height of the given image element.
-     *
-     * @param element {Element} DOM element which represents the image
-     * @return {Integer} Image height
-     */
-    __getHeight : function(element)
-    {
-      return qx.core.Environment.get("html.image.naturaldimensions") ?
-        element.naturalHeight : element.height;
-    },
 
     /**
      * Dispose stored images.
