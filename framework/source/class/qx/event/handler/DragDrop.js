@@ -460,6 +460,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     clearSession : function()
     {
       // Deregister from root events
+      this.__manager.removeListener(this.__root, "track", this._onPointermove, this);
       this.__manager.removeListener(this.__root, "pointermove", this._onPointermove, this);
       this.__manager.removeListener(this.__root, "pointerup", this._onPointerup, this, true);
 
@@ -575,6 +576,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
         this.__manager.addListener(this.__root, "pointermove", this._onPointermove, this);
         this.__manager.addListener(this.__root, "pointerup", this._onPointerup, this, true);
+        this.__manager.addListener(this.__root, "track", this._onPointermove, this);
       }
     },
 
@@ -613,7 +615,9 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
 
       // find current hovered droppable
-      var el = e.getTarget();
+      // TODO: Review this (before the fix it was "e.getTarget()", but I feel this to be better)
+      var doc = this.__manager.getWindow().document;
+      var el = doc.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
       var cursor = this.getCursor();
       if (!cursor) {
         cursor = qx.ui.core.DragDropCursor.getInstance();
@@ -665,6 +669,10 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     _getDelta : function(e)
     {
+      if (e.getDelta) {
+        return e.getDelta();
+      }
+      
       if (!this.__startConfig) {
         return null;
       }
