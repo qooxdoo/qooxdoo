@@ -59,6 +59,8 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     this._createChildControl("frame");
     this._createChildControl("legend");
 
+    this.bind("legend", this.getChildControl("legend"), "label");
+
     // Processing parameters
     if (legend != null) {
       this.setLegend(legend);
@@ -96,6 +98,18 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       init      : "middle",
       apply     : "_applyLegendPosition",
       themeable : true
+    },
+
+
+    /**
+     * Property for setting the legend value.
+     */
+    legend:
+    {
+      check: "String",
+      apply: "_applyLegend",
+      event: "changeLegend",
+      nullable: true
     }
   },
 
@@ -223,35 +237,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Sets the label of the legend sub widget if the given string is
-     * valid. Otherwise the legend sub widget get not displayed.
-     *
-     * @param legend {String} new label of the legend sub widget
-     */
-    setLegend : function(legend)
+
+    _applyLegend: function(val, old)
     {
-      var control = this.getChildControl("legend");
-
-      if (legend !== null)
-      {
-        control.setLabel(legend);
-        control.show();
-      }
-      else
-      {
-        control.exclude();
-      }
-    },
-
-
-    /**
-     * Accessor method for the label of the legend sub widget
-     *
-     * @return {String} Label of the legend sub widget
-     */
-    getLegend : function() {
-      return this.getChildControl("legend").getLabel();
+      this.getChildControl("legend").setVisibility(val !== null ? "visible" : "excluded");
     },
 
 
