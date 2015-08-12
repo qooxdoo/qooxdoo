@@ -293,7 +293,7 @@ qx.Mixin.define("qx.ui.core.MDragDropScrolling",
         this.__dragScrollTimer.stop();
       }
 
-      var target = e.getOriginalTarget();
+      var target = qx.ui.core.Widget.getWidgetByElement(e.getOriginalTarget());
       if (!target) {
         return;
       }
