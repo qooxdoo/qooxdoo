@@ -857,7 +857,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     __onNativeProgress: function() {
       this._emit("progress");
-      }
     },
 
     /**
