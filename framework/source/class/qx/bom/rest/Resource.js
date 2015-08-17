@@ -503,11 +503,13 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         );
       }
       // Handle progress (which is fired multiple times)
-      req.addListener(
-        "progress",
-        reqHandler.onprogress.callback(req, action),
-        reqHandler.onprogress.context
-      );
+      if (reqHandler.hasOwnProperty("onprogress")) {
+        req.addListener(
+          "progress",
+          reqHandler.onprogress.callback(req, action),
+          reqHandler.onprogress.context
+        );
+      }
 
       req.send();
 
