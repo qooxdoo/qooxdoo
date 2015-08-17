@@ -173,6 +173,21 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     timeout: 0,
 
     /**
+     * @type {Boolean} property of the progress-event indicating if length could be computed.
+     */
+    lengthComputable: false,
+
+    /**
+     * @type {Number} property of the progress-event indicationg how much has been already loaded.
+     */
+    loadedLength: 0,
+
+    /**
+     * @type {Number} property of the progress-event indicationg the total length.
+     */
+    totalLength: 0,
+
+    /**
      * Initializes (prepares) request.
      *
      * @ignore(XDomainRequest)
@@ -854,8 +869,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
     /**
      * Track native progress event.
+     @param e {Event} The native progress event.
      */
-    __onNativeProgress: function() {
+    __onNativeProgress: function(e) {
+      this.lengthComputable = e.lengthComputable;
+      this.loadedLength = e.loaded;
+      this.totalLength = e.total;
       this._emit("progress");
     },
 
