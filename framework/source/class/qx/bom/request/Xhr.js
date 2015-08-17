@@ -829,12 +829,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr.onreadystatechange = this.__onNativeReadyStateChangeBound;
 
       // Track native abort, when supported
-      if (this.__nativeXhr.onabort) {
+      if (qx.Bootstrap.getClass(this.__nativeXhr.onabort) !== "Undefined") {
         this.__nativeXhr.onabort = this.__onNativeAbortBound;
       }
 
       // Track native progress, when supported
-      if (this.__nativeXhr.onprogress) {
+      if (qx.Bootstrap.getClass(this.__nativeXhr.onprogress) !== "Undefined") {
         this.__nativeXhr.onprogress = this.__onNativeProgressBound;
 
         this.progress = {
