@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
     "started": "qx.bom.rest.Resource",
 
     /**
-     * Fired when any request associated to action is started to the given endpoint. This moment is 
+     * Fired when any request associated to action is started to the given endpoint. This moment is
      * right after the request was opened and send.
      *
      * For example, "indexStarted" is fired when <code>index()</code> was called.
@@ -321,7 +321,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
                 "request": req,
                 "action": action,
                 "progress": {
-                  "lengthComputed": req.getTransport().progress.lengthComputed,
+                  "lengthComputable": req.getTransport().progress.lengthComputable,
                   "loaded": req.getTransport().progress.loaded,
                   "total": req.getTransport().progress.total
                 }
