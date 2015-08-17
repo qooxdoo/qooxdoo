@@ -281,6 +281,84 @@ qx.Class.define("qx.test.bom.request.SimpleXhr",
       this.assertCalledWith(stubbedTransport.send, qx.lang.Json.stringify(obj));
     },
 
+    "test: send() POST w/ FormData": function() {
+      var req = this.req,
+        method = "POST",
+        url = "http://example.org",
+        stubbedTransport = {};
+
+      if (!window.FormData) {
+        this.skip("FormData API not supported");
+      }
+
+      if (!req.setMethod) {
+        this.skip("POST requests not supported by this transport");
+      }
+
+      var formData = new FormData();
+      formData.append("foo", "bar");
+      formData.append("baz", "qux");
+
+      req.setUrl(url);
+      req.setMethod(method);
+      req.setRequestData(formData);
+      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      req.send();
+
+      this.assertCalledWith(stubbedTransport.send, formData);
+    },
+
+
+    "test: send() POST w/ Blob": function() {
+      var req = this.req,
+        method = "POST",
+        url = "http://example.org",
+        stubbedTransport = {};
+
+      if (!window.Blob) {
+        this.skip("Blob API not supported");
+      }
+
+      if (!req.setMethod) {
+        this.skip("POST requests not supported by this transport");
+      }
+
+      var blob = new window.Blob(['abc123'], {type: 'text/plain'});
+
+      req.setUrl(url);
+      req.setMethod(method);
+      req.setRequestData(blob);
+      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      req.send();
+
+      this.assertCalledWith(stubbedTransport.send, blob);
+    },
+
+    "test: send() POST w/ ArrayBuffer": function() {
+      var req = this.req,
+        method = "POST",
+        url = "http://example.org",
+        stubbedTransport = {};
+
+      if (!window.ArrayBuffer) {
+        this.skip("ArrayBuffer API not supported");
+      }
+
+      if (!req.setMethod) {
+        this.skip("POST requests not supported by this transport");
+      }
+
+      var arrayBuffer = new window.ArrayBuffer(512);
+
+      req.setUrl(url);
+      req.setMethod(method);
+      req.setRequestData(arrayBuffer);
+      stubbedTransport = this.stubTransportMethods(["open", "setRequestHeader", "send"]);
+      req.send();
+
+      this.assertCalledWith(stubbedTransport.send, arrayBuffer);
+    },
+
     //
     // abort()
     //

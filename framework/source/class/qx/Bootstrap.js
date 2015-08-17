@@ -558,7 +558,10 @@ qx.Bootstrap.define("qx.Bootstrap",
       "[object Boolean]": "Boolean",
       "[object Date]": "Date",
       "[object Function]": "Function",
-      "[object Error]": "Error"
+      "[object Error]": "Error",
+      "[object Blob]": "Blob",
+      "[object ArrayBuffer]": "ArrayBuffer",
+      "[object FormData]": "FormData"
     },
 
 
