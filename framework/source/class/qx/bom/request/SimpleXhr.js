@@ -464,6 +464,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       transport.ontimeout = qx.lang.Function.bind(this._onTimeout, this);
       transport.onerror = qx.lang.Function.bind(this._onError, this);
       transport.onabort = qx.lang.Function.bind(this._onAbort, this);
+      transport.onprogress = qx.lang.Function.bind(this._onProgress, this);
       return transport;
     },
 
@@ -678,6 +679,13 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 
       // A network error failure
       this.emit("fail");
+    },
+
+    /**
+     * Handles "error" event.
+     */
+    _onProgress: function() {
+      this.emit("progress");
     }
 
   }

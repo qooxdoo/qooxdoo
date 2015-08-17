@@ -77,6 +77,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     }
 
     this.__onNativeAbortBound = qx.Bootstrap.bind(this.__onNativeAbort, this);
+    this.__onNativeProgressBound = qx.Bootstrap.bind(this.__onNativeProgress, this);
     this.__onTimeoutBound = qx.Bootstrap.bind(this.__onTimeout, this);
 
     this.__initNativeXhr();
@@ -117,7 +118,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     "abort" : "qx.bom.request.Xhr",
 
     /** Fired on successful retrieval. */
-    "load" : "qx.bom.request.Xhr"
+    "load" : "qx.bom.request.Xhr",
+
+    /** Fired on progress. */
+    "progress" : "qx.bom.request.Xhr"
   },
 
 
@@ -522,6 +526,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     */
     ontimeout: function() {},
 
+    /**
+    * Event handler for XHR event "progress".
+    *
+    * Replace with custom method to listen to the "progress" event.
+    */
+    onprogress: function() {},
+
 
     /**
      * Add an event listener for the given event name.
@@ -647,6 +658,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__nativeXhr.onreadystatechange = noop;
       this.__nativeXhr.onload = noop;
       this.__nativeXhr.onerror = noop;
+      this.__nativeXhr.onprogress = noop;
 
       // Abort any network activity
       this.abort();
@@ -740,6 +752,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     __onNativeAbortBound: null,
 
     /**
+     * @type {Function} Bound __onNativeProgress handler.
+     */
+    __onNativeProgressBound: null,
+
+    /**
      * @type {Function} Bound __onUnload handler.
      */
     __onUnloadBound: null,
@@ -809,6 +826,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         this.__nativeXhr.onabort = this.__onNativeAbortBound;
       }
 
+      // Track native progress, when supported
+      if (this.__nativeXhr.progress) {
+        this.__nativeXhr.progress = this.__onNativeProgressBound;
+      }
+
       // Reset flags
       this.__disposed = this.__send = this.__abort = false;
 
@@ -827,6 +849,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // calling abort()
       if (!this.__abort) {
         this.abort();
+      }
+    },
+
+    /**
+     * Track native progress event.
+     */
+    __onNativeProgress: function() {
+      this._emit("progress");
       }
     },
 
