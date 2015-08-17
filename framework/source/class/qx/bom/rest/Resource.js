@@ -312,6 +312,25 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
             }
           },
           context: this
+        },
+        onprogress: {
+          callback: function(req, action) {
+            return function () {
+              var payload = {
+                "id": parseInt(req.toHashCode(), 10),
+                "request": req,
+                "action": action,
+                "progress": {
+                  "lengthComputed": req.getTransport().progress.lengthComputed,
+                  "loaded": req.getTransport().progress.loaded,
+                  "total": req.getTransport().progress.total
+                }
+              };
+              this.emit(action + "Progress", payload);
+              this.emit("progress", payload);
+            }
+          },
+          context: this
         }
       } : this.__requestHandler;
     },
@@ -483,6 +502,12 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
           reqHandler.onreadystatechange.context
         );
       }
+      // Handle progress (which is fired multiple times)
+      req.addListener(
+        "progress",
+        reqHandler.onprogress.callback(req, action),
+        reqHandler.onprogress.context
+      );
 
       req.send();
 
