@@ -173,23 +173,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     timeout: 0,
 
     /**
-     * @type {Object} Wrapper to store data of the progress event
+     * @type {Object} Wrapper to store data of the progress event which contains the keys
+       <code>lengthComputable</code>, <code>loaded</code> and <code>total</code>
      */
-    progress: {
-      /**
-       * @type {Boolean} Indicating if length could be computed.
-       */
-      lengthComputable: false,
-      /**
-       * @type {Number} property of the progress-event indicationg how much has been already loaded.
-       */
-      loaded: 0,
-
-      /**
-       * @type {Number} property of the progress-event indicationg the total length.
-       */
-      total: 0
-    },
+    progress: null,
 
 
     /**
@@ -847,8 +834,14 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // Track native progress, when supported
-      if (this.__nativeXhr.progress) {
-        this.__nativeXhr.progress = this.__onNativeProgressBound;
+      if (this.__nativeXhr.onprogress) {
+        this.__nativeXhr.onprogress = this.__onNativeProgressBound;
+
+        this.progress = {
+          lengthComputable: false,
+          loaded: 0,
+          total: 0
+        };
       }
 
       // Reset flags
