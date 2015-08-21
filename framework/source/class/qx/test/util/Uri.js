@@ -118,7 +118,33 @@ qx.Class.define("qx.test.util.Uri",
       this.assertEquals("80", result.port);
       this.assertEquals("/foo/bar?affe=true#here", result.relative);
       this.assertEquals("here", result.anchor);
-    }
+    },
+
+    "test: parseUri() with ipv6 loopback address": function() {
+        var url = "http://[::1]:80/foo/bar?affe=true#here",
+            result = this.Uri.parseUri(url);
+
+        // Some integration tests, parseUri is better covered here
+        // http://stevenlevithan.com/demo/parseuri/js/
+        this.assertEquals("http", result.protocol);
+        this.assertEquals("[::1]", result.host);
+        this.assertEquals("80", result.port);
+        this.assertEquals("/foo/bar?affe=true#here", result.relative);
+        this.assertEquals("here", result.anchor);
+      },
+      
+      "test: parseUri() with ipv6 address": function() {
+          var url = "http://[FE80:0000:0000:0000:0202:B3FF:FE1E:8329]:80/foo/bar?affe=true#here",
+              result = this.Uri.parseUri(url);
+
+          // Some integration tests, parseUri is better covered here
+          // http://stevenlevithan.com/demo/parseuri/js/
+          this.assertEquals("http", result.protocol);
+          this.assertEquals("[FE80:0000:0000:0000:0202:B3FF:FE1E:8329]", result.host);
+          this.assertEquals("80", result.port);
+          this.assertEquals("/foo/bar?affe=true#here", result.relative);
+          this.assertEquals("here", result.anchor);
+        }
 
   }
 });
