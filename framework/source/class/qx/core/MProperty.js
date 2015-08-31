@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * This mixin offers the bacis property features which include generic
+ * This mixin offers the basic property features which include generic
  * setter, getter and resetter.
  */
 qx.Mixin.define("qx.core.MProperty",
@@ -33,7 +33,8 @@ qx.Mixin.define("qx.core.MProperty",
      *
      * @param data {Map | String} a map of property values. The key is the name of the property.
      * @param value {var?} the value, only used when <code>data</code> is a string.
-     * @return {Object} this instance.
+     * @return {Object} Returns this instance if <code>data</code> is a map
+     *   or a non-generated setter is called; otherwise returns <code>value</code>.
      * @throws {Error} if a property defined does not exist
      */
     set : function(data, value)
