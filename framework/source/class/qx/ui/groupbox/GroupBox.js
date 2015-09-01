@@ -86,6 +86,17 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       init   : "groupbox"
     },
 
+    /**
+     * Label of the legend sub widget. Set if the given string is
+     * valid. Otherwise the legend sub widget is not being displayed.
+     */
+    legend:
+    {
+      check: "String",
+      apply: "_applyLegend",
+      event: "changeLegend",
+      nullable: true
+    },
 
     /**
      * Property for setting the position of the legend.
@@ -156,9 +167,26 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
     /*
     ---------------------------------------------------------------------------
-      LEGEND POSITION HANDLING
+      LEGEND HANDLING
     ---------------------------------------------------------------------------
     */
+
+    // property apply
+    _applyLegend : function(value, old)
+    {
+      var control = this.getChildControl("legend");
+
+      if (value !== null)
+      {
+        control.setLabel(value);
+        control.show();
+      }
+      else
+      {
+        control.exclude();
+      }
+    },
+
 
     /**
      * Apply method for applying the legend position. It calls the
@@ -222,38 +250,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       SETTER/GETTER
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Sets the label of the legend sub widget if the given string is
-     * valid. Otherwise the legend sub widget get not displayed.
-     *
-     * @param legend {String} new label of the legend sub widget
-     */
-    setLegend : function(legend)
-    {
-      var control = this.getChildControl("legend");
-
-      if (legend !== null)
-      {
-        control.setLabel(legend);
-        control.show();
-      }
-      else
-      {
-        control.exclude();
-      }
-    },
-
-
-    /**
-     * Accessor method for the label of the legend sub widget
-     *
-     * @return {String} Label of the legend sub widget
-     */
-    getLegend : function() {
-      return this.getChildControl("legend").getLabel();
-    },
-
 
     /**
      * Sets the icon of the legend sub widget.
