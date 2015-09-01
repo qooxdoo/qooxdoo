@@ -249,12 +249,15 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
         return;
       }
 
-      var calendar = qxWeb('div#' + this._calendarId);
+      var calendar = this.getCalendar();
 
       if (calendar.getStyle('display') == 'none') {
-        this.getCalendar().show().placeTo(this, this.getConfig('position'));
+        // set position to make sure the width of the DOM element is correct - otherwise the DOM 
+        // element would be as wide as the parent (e.g. the body element). This would mess up the
+        // positioning with 'placeTo'
+        calendar.setStyle('position', 'absolute').show().placeTo(this, this.getConfig('position'));
       } else {
-        this.getCalendar().hide();
+        calendar.hide();
       }
     },
 
@@ -361,7 +364,9 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
 
           var openingMode = collection.getConfig('mode');
           if (openingMode === 'icon' || openingMode === 'both') {
-            icon.on('tap', this._onTap, collection);
+            if (!icon.hasListener('tap', this._onTap, collection)) {
+              icon.on('tap', this._onTap, collection);
+            }
           }
 
           icon.insertAfter(collection);
@@ -379,7 +384,9 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
       if (collection.getConfig('mode') === 'icon') {
         collection.off('tap', collection._onTap);
       } else {
-        collection.on('tap', collection._onTap);
+        if(!collection.hasListener('tap', collection._onTap)) {
+          collection.on('tap', collection._onTap);
+        }
       }
     },
 
