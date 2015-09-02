@@ -1023,7 +1023,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       if (this._getProtocol() === "file:") {
         error = !this.responseText;
       } else {
-        error = !this.statusText;
+        error = !this.statusText && this.status !== 204;
       }
 
       return error;
