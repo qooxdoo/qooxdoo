@@ -1,6 +1,6 @@
 {
   "name": "tutorial",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Beginners tutorial to learn the basics of qooxdoo desktop",
   "main": "Gruntfile.js",
   "repository": {

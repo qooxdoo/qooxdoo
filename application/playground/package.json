@@ -1,6 +1,6 @@
 {
   "name": "playground",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "Interactive playground to play and experiment with source code",
   "main": "Gruntfile.js",
   "repository": {

@@ -1,6 +1,6 @@
 {
   "name": "feedreader",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "An online feed reader, qx.Desktop view",
   "main": "Gruntfile.js",
   "repository": {
