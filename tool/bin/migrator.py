@@ -94,10 +94,13 @@ MIGRATION_ORDER = [
     "4.0",
     "4.0.1",
     "4.0.2",
-    "4.1"
+    "4.1",
+    "4.1.1",
+    "5.0",
+    "5.0.1"
 ]
 
-default_old_version = "4.0"
+default_old_version = "4.1.1"
 
 LOGGING_READY = False
 
