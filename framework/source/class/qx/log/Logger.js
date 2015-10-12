@@ -509,18 +509,28 @@ qx.Bootstrap.define("qx.log.Logger",
      */
     __getAppenders: function(className, level) {
       var levels = this.__levels;
-      if (levels[level] < levels[this.__level])
-        return [];
       
-      if (!this.__filters.length)
+      // If no filters, then all appenders apply
+      if (!this.__filters.length) {
+        // Check the default level
+        if (levels[level] < levels[this.__level])
+          return [];
         return this.__appenders;
+      }
+      
       var names = [];
       for (var i = 0; i < this.__filters.length; i++) {
         var filter = this.__filters[i];
+        
+        // Filters only apply to certain levels
         if (levels[level] < levels[filter.level])
           continue;
+        
+        // No duplicates
         if (filter.appenderName && qx.lang.Array.contains(names, filter.appenderName))
           continue;
+        
+        // Test
         if (filter.loggerMatch.test(className)) {
           if (filter.appenderName)
             names.push(filter.appenderName);
@@ -528,12 +538,12 @@ qx.Bootstrap.define("qx.log.Logger",
             return this.__appenders;
         }
       }
+      
+      // Map appender names into appenders
       var appenders = [];
       var appendersByName = this.__appendersByName;
-      names.forEach(function(name, index) {
-        var appender = appendersByName[name];
-        if (appender)
-          appenders.push(appender);
+      appenders = names.map(function(name) {
+        return appendersByName[name];
       });
       return appenders;
     },
