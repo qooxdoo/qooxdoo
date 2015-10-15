@@ -144,7 +144,8 @@ qx.Bootstrap.define("qx.bom.Label",
       else
       {
         styles.whiteSpace = "nowrap";
-        styles[qx.core.Environment.get("css.textoverflow")] = "ellipsis";
+        // This is broken on iOS
+        //styles[qx.core.Environment.get("css.textoverflow")] = "ellipsis";
       }
 
       return styles;
