@@ -113,6 +113,15 @@ qx.Bootstrap.define("qx.util.RingBuffer",
         this.__entriesStoredSinceMark++;
       }
     },
+    
+    
+    /**
+     * Returns the number of entries stored
+     * @return {Integer}
+     */
+    getNumEntriesStored: function() {
+      return this.__entriesStored;
+    },
 
 
     /**
