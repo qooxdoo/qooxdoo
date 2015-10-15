@@ -97,7 +97,15 @@ qx.Bootstrap.define("qx.log.Logger",
     */
 
     /** @type {Map} Map of all known appenders by ID */
-    __appender : {},
+    __appenders : [],
+    
+    
+    /** @type {Map} Map of all known appenders by name */
+    __appendersByName: {},
+    
+    
+    /** @type {Array} Array of filters to apply when selecting appenders to append to */
+    __filters: [],
 
 
     /** @type {Integer} Last free appender ID */
