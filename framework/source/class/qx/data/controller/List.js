@@ -409,9 +409,7 @@ qx.Class.define("qx.data.controller.List",
       qx.ui.core.queue.Widget.add(this);
 
       // update on filtered lists... (bindings need to be renewed)
-      if (this.__lookupTable.length != this.getModel().getLength()) {
-        this.update();
-      }
+      this.update();
     },
 
 
