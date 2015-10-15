@@ -252,8 +252,9 @@ qx.Class.define("qx.ui.root.Abstract",
       }
 
       // Require that widget does not accept text input
-      var nodeName = target.getContentElement().getNodeName();
-      if (nodeName === "input" || nodeName === "textarea") {
+      var el = target.getContentElement();
+      var nodeName = el.getNodeName();
+      if (nodeName === "input" || nodeName === "textarea" || el.getDomElement().contentEditable === "true") {
         return;
       }
 
