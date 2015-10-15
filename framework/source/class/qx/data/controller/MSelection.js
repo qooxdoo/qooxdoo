@@ -116,11 +116,14 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // remove the old listener if necessary
       if (this.__selectionArrayListenerId != undefined && old != undefined) {
         old.removeListenerById(this.__selectionArrayListenerId);
+        this.__selectionArrayListenerId = null;
       }
       // add a new change listener to the changeArray
-      this.__selectionArrayListenerId = value.addListener(
-        "change", this.__changeSelectionArray, this
-      );
+      if (value) {
+        this.__selectionArrayListenerId = value.addListener(
+          "change", this.__changeSelectionArray, this
+        );
+      }
 
       // apply the new selection
       this._updateSelection();
@@ -226,7 +229,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
      */
     _updateSelection: function() {
       // do not update if no target is given
-      if (!this.getTarget()) {
+      if (!this.getTarget() || !this.getSelection()) {
         return;
       }
       // mark the change process in a flag
