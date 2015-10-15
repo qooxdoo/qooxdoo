@@ -497,9 +497,9 @@ qx.Bootstrap.define("qx.log.Logger",
       this.__buffer.process(entry);
 
       // Send to appenders
-      for (var id in appenders) {
-        appenders[id].process(entry);
-      }
+      appenders.forEach(function(appender) {
+        appender.process(entry);
+      });
     },
     
 
