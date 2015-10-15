@@ -204,8 +204,8 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
     {
       var contentEl = this.getContentElement();
 
-      this.setScrollX(contentEl.getScrollX());
-      this.setScrollY(contentEl.getScrollY());
+      this.setScrollX(parseInt(contentEl.getScrollX(), 10));
+      this.setScrollY(parseInt(contentEl.getScrollY(), 10));
     },
 
 
