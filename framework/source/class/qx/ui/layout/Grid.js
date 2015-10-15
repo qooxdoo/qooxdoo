@@ -1138,11 +1138,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
           var cellSize = this.__getOuterSize(widget);
 
-          if (this.getColumnFlex(col) > 0) {
-            minWidth = Math.max(minWidth, cellSize.minWidth);
-          } else {
-            minWidth = Math.max(minWidth, cellSize.width);
-          }
+          minWidth = Math.max(minWidth, cellSize.minWidth);
 
           width = Math.max(width, cellSize.width);
         }
