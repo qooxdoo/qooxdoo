@@ -257,6 +257,17 @@ qx.Class.define("qx.core.Object",
 
 
     /**
+     * Returns true if the object is being disposed, ie this.dispose() has started but 
+     * not finished
+     *
+     * @return {Boolean} Whether the object is being disposed
+     */
+    isDisposing : function() {
+      return this.$$disposing || false;
+    },
+
+
+    /**
      * Dispose this object
      *
      */
