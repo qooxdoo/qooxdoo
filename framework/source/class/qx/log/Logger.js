@@ -126,16 +126,19 @@ qx.Bootstrap.define("qx.log.Logger",
 
       // Register appender
       var id = this.__id++;
-      this.__appender[id] = appender;
+      this.__appenders[id] = appender;
+      this.__appendersByName[appender.classname] = appender;
       appender.$$id = id;
       var levels = this.__levels;
 
       // Insert previous messages
       var entries = this.__buffer.getAllLogEvents();
       for (var i=0, l=entries.length; i<l; i++) {
-        if (levels[entries[i].level] >= levels[this.__level]) {
-          appender.process(entries[i]);
-        }
+        var entry = entries[i];
+
+        var appenders = this.__getAppenders(entry.loggerName, entry.level);
+        if (qx.lang.Array.contains(appenders, appender))
+          appender.process(entry);
       }
     },
 
@@ -152,9 +155,24 @@ qx.Bootstrap.define("qx.log.Logger",
         return;
       }
 
-      delete this.__appender[id];
+      delete this.__appendersByName[appender.classname];
+      delete this.__appenders[id];
       delete appender.$$id;
     },
+
+
+    /**
+     * Adds a filter that specifies the appenders to use for a given logger name (classname)
+     * @param logger {String|RegExp} the pattern to match in the logger name
+     * @param appenderName {String?} the name of the appender class, if undefined then all appenders
+     * @param level {String?} the minimum logging level to use the appender, if undefined the default level is used
+     */
+    addFilter: function(logger, appenderName, level) {
+      if (typeof logger == "string")
+        logger = new RegExp(logger);
+      this.__filters.push({ loggerMatch: logger, level: level||this.__level, appenderName: appenderName });
+    },
+
 
 
 
@@ -225,7 +243,7 @@ qx.Bootstrap.define("qx.log.Logger",
      */
     trace : function(object) {
       var trace = qx.dev.StackTrace.getStackTrace();
-      qx.log.Logger.__log("info",
+      qx.log.Logger.__log("trace",
       [(typeof object !== "undefined" ? [object].concat(trace) : trace).join("\n")]);
     },
 
@@ -406,10 +424,22 @@ qx.Bootstrap.define("qx.log.Logger",
     /** @type {Map} Numeric translation of log levels */
     __levels :
     {
-      debug : 0,
-      info : 1,
-      warn : 2,
-      error : 3
+      trace: 0,
+      debug : 1,
+      info : 2,
+      warn : 3,
+      error : 4
+    },
+    
+    
+    __getLoggerName: function(object) {
+      if (object) {
+        if (object.classname)
+          return object.classname;
+        if (typeof object == "string")
+          return object;
+      }
+      return "[default]";
     },
 
 
@@ -422,14 +452,15 @@ qx.Bootstrap.define("qx.log.Logger",
      */
     __log : function(level, args)
     {
-      // Filter according to level
-      var levels = this.__levels;
-      if (levels[level] < levels[this.__level]) {
+      // Get object and determine appenders
+      var object = args.length < 2 ? null : args[0];
+      var loggerName = this.__getLoggerName(object);
+      var appenders = this.__getAppenders(loggerName, level);
+      if (!appenders.length) {
         return;
       }
-
+      
       // Serialize and cache
-      var object = args.length < 2 ? null : args[0];
       var start = object ? 1 : 0;
       var items = [];
       for (var i=start, l=args.length; i<l; i++) {
@@ -443,6 +474,7 @@ qx.Bootstrap.define("qx.log.Logger",
         time : time,
         offset : time-qx.Bootstrap.LOADSTART,
         level: level,
+        loggerName: loggerName,
         items: items,
         // store window to allow cross frame logging
         win: window
@@ -465,12 +497,58 @@ qx.Bootstrap.define("qx.log.Logger",
       this.__buffer.process(entry);
 
       // Send to appenders
-      var appender = this.__appender;
-      for (var id in appender) {
-        appender[id].process(entry);
-      }
+      appenders.forEach(function(appender) {
+        appender.process(entry);
+      });
     },
+    
 
+    
+    /**
+     * Finds the appenders for a given classname
+     */
+    __getAppenders: function(className, level) {
+      var levels = this.__levels;
+      
+      // If no filters, then all appenders apply
+      if (!this.__filters.length) {
+        // Check the default level
+        if (levels[level] < levels[this.__level])
+          return [];
+        return this.__appenders;
+      }
+      
+      var names = [];
+      for (var i = 0; i < this.__filters.length; i++) {
+        var filter = this.__filters[i];
+        
+        // Filters only apply to certain levels
+        if (levels[level] < levels[filter.level])
+          continue;
+        
+        // No duplicates
+        if (filter.appenderName && qx.lang.Array.contains(names, filter.appenderName))
+          continue;
+        
+        // Test
+        if (filter.loggerMatch.test(className)) {
+          if (filter.appenderName)
+            names.push(filter.appenderName);
+          else
+            return this.__appenders;
+        }
+      }
+      
+      // Map appender names into appenders
+      var appenders = [];
+      var appendersByName = this.__appendersByName;
+      appenders = names.map(function(name) {
+        return appendersByName[name];
+      });
+      return appenders;
+    },
+    
+    
 
     /**
      * Detects the type of the variable given.
