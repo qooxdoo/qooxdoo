@@ -690,8 +690,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String|null} The current value
      */
     getValue : function() {
-      var value = this.getContentElement().getValue();
-      return this.__nullValue ? null : value;
+      return this.isDisposed() || this.__nullValue ? null : this.getContentElement().getValue();
     },
 
 
