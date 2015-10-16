@@ -86,6 +86,9 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
         }
 
         document.getElementsByTagName("head")[0].appendChild(elem);
+        if (qx.core.Environment.get("engine.name") == "webkit") {
+          elem.sheet.insertRule(".qooxdoo-rule-that-does-not-exist { font-weight: inherit }", 0);
+        }
         return elem.sheet;
       }
     },
