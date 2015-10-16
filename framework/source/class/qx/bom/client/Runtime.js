@@ -45,7 +45,7 @@ qx.Bootstrap.define("qx.bom.client.Runtime",
       var name = "";
 
        // check for the Rhino runtime
-      if (typeof environment !== "undefined") {
+      if (typeof Packages === "object" && Object.prototype.toString.call(Packages) === "[object JavaPackage]") {
         name = "rhino";
       // check for the Node.js runtime
       } else if (typeof process !== "undefined") {
