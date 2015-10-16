@@ -32,12 +32,6 @@ qx.Class.define("qx.event.Idle",
   construct : function()
   {
     this.base(arguments);
-
-    var timer = new qx.event.Timer(this.getTimeoutInterval());
-    timer.addListener("interval", this._onInterval, this);
-    timer.start();
-
-    this.__timer = timer;
   },
 
 
@@ -83,7 +77,8 @@ qx.Class.define("qx.event.Idle",
 
     // property apply
     _applyTimeoutInterval : function(value) {
-      this.__timer.setInterval(value);
+      if (this.__timer)
+        this.__timer.setInterval(value);
     },
 
     /**
@@ -91,6 +86,65 @@ qx.Class.define("qx.event.Idle",
      */
     _onInterval : function() {
       this.fireEvent("interval");
+    },
+    
+    /**
+     * Starts the timer but only if there are listeners for the "interval" event
+     */
+    __startTimer: function() {
+      if (!this.__timer && this.hasListener("interval")) {
+          var timer = new qx.event.Timer(this.getTimeoutInterval());
+          timer.addListener("interval", this._onInterval, this);
+          timer.start();
+
+          this.__timer = timer;
+      }
+    },
+    
+    /**
+     * Stops the timer but only if there are no listeners for the interval event 
+     */
+    __stopTimer: function() {
+      if (this.__timer && !this.hasListener("interval")) {
+        this.__timer.stop();
+        this.__timer = null;
+      }
+    },
+    
+    /*
+     * @Override
+     */
+    addListener: function(type, listener, self, capture) {
+      var result = this.base(arguments, type, listener, self, capture);
+      this.__startTimer();
+      return result;
+    },
+    
+    /*
+     * @Override
+     */
+    addListenerOnce: function(type, listener, self, capture) {
+      var result = this.base(arguments, type, listener, self, capture);
+      this.__startTimer();
+      return result;
+    },
+    
+    /*
+     * @Override
+     */
+    removeListener: function(type, listener, self, capture) {
+      var result = this.base(arguments, type, listener, self, capture);
+      this.__stopTimer();
+      return result;
+    },
+    
+    /*
+     * @Override
+     */
+    removeListenerById: function(id) {
+      var result = this.base(arguments, id);
+      this.__stopTimer();
+      return result;
     }
 
   },
