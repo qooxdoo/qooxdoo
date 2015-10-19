@@ -2,10 +2,10 @@
 ##
 # NAME
 #  wiki2rst.py  -- convert Dokuwiki page syntax to reStructured Text
-# 
+#
 # REQUIRES
 #  pandoc (ext.program)
-# 
+#
 # SYNTAX
 #  wiki2rst.py pages pages/tutorials/tutorial-part-4-2.txt (single file)
 #  wiki2rst.py pages  (directory tree)
@@ -19,17 +19,20 @@
 #  from which e.g. internal links are calculated.
 #  For embedded HTML in Dokuwiki files it relies on the pandoc [1] program to
 #  convert it to reST.
-# 
+#
 # CAVEATS
 #  After the conversion the resulting .rst markup most likely needs some
 #  finishing touches to get the desired rendering.
 #  There is probably some legacy junk code in it, stemming from the time when we
 #  ported the entire manual from Dokuwiki to reST.
-# 
+#
 #  [1] http://www.johnmacfarlane.net/pandoc/
 ##
 
+
 import sys, os, re, codecs
+
+import qxenviron
 from pyparse.pyparsing import *
 
 # -- transform stuff ------------------------
@@ -56,7 +59,7 @@ def internalLink(url):
             url = url[2:]
         if url.startswith("."):
             url = url[1:]
-        if (url.startswith(":") or url.startswith("documentation") or 
+        if (url.startswith(":") or url.startswith("documentation") or
             url.startswith("about")):
             if url.startswith(":"):
                 url = url[1:]
@@ -115,7 +118,7 @@ def convertToRst_A(s,l,t):
     # handle intrawiki link
     else:
         url = internalLink(url)
-    
+
     # intrawiki link could be turned into an external link
     if url.startswith("http://"):
         return '`%s <%s>`_' % (text,url)
@@ -126,7 +129,7 @@ def convertToRst_A(s,l,t):
         if url.startswith('#'): # have to use the full label
             path,ext = os.path.splitext(currentInput)
             url = path + url
-        else: 
+        else:
             url = absolutizeUrl(url)
     else:                 # entire document link
         keyword = "doc"
@@ -226,7 +229,7 @@ def reindentBlock(s,n):
 
 def convertCodeBlock(s,l,t):
     # t = [ 'code', ['javascript'], False, 'qx.Class.define(....)', '</code>']
-    # TODO: the next leaves the :: on a line of its own, where it should be 
+    # TODO: the next leaves the :: on a line of its own, where it should be
     # appended to the previous paragraph!
     if len(t) < 5:
         code = t[2]
@@ -281,7 +284,7 @@ def convertTable(s,l,t):
 
 def convertNoteBlock(s,l,t):
     # t = [ 'code', ['javascript'], False, 'qx.Class.define(....)', '</code>']
-    # TODO: the next leaves the :: on a line of its own, where it should be 
+    # TODO: the next leaves the :: on a line of its own, where it should be
     # appended to the previous paragraph!
     if len(t) < 5:
         code = t[2]
@@ -315,7 +318,7 @@ def convertHtml(i):
         #eout("%r" % ret)
         return ret
     return htmlBlock
-    
+
 
 # these are the sphinx recommended heading ornaments
 linechars = {
@@ -326,7 +329,7 @@ linechars = {
     "h5" : "^",
     "h6" : '"'
     }
-    
+
 italicized1= QuotedString("//").setParseAction(convertToRst("*","*"))
 italicized2= QuotedString("__").setParseAction(convertToRst("*","*"))
 boldItalic = QuotedString("***").setParseAction(convertToRst("**","**")) # have to chose one
@@ -363,10 +366,10 @@ tableOpen, tableClose = Regex(r'^\^.*\^$', re.M), Literal("\n\n").leaveWhitespac
 tableBlock = tableOpen + SkipTo(tableClose) + tableClose
 tableBlock.setParseAction(convertTable)
 
-wikiMarkup = ( 
-    italicized1 | 
-    italicized2 | 
-    boldItalic | 
+wikiMarkup = (
+    italicized1 |
+    italicized2 |
+    boldItalic |
     urlRef | imgRef |
     h2 | h3 | h4 | h5 | h6 |
     code | codeBlock |
