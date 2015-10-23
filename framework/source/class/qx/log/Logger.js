@@ -431,6 +431,9 @@ qx.Bootstrap.define("qx.log.Logger",
       error : 4
     },
     
+    /** @type {Map} cache of appenders for a given logger and level */
+    __appendersCache: {},
+    
     
     __getLoggerName: function(object) {
       if (object) {
@@ -518,6 +521,12 @@ qx.Bootstrap.define("qx.log.Logger",
         return this.__appenders;
       }
       
+      // Check the cache
+      var cacheId = className + "|" + level;
+      var appenders = this.__appendersCache[cacheId];
+      if (appenders !== undefined)
+        return appenders;
+      
       var names = [];
       for (var i = 0; i < this.__filters.length; i++) {
         var filter = this.__filters[i];
@@ -531,11 +540,11 @@ qx.Bootstrap.define("qx.log.Logger",
           continue;
         
         // Test
-        if (filter.loggerMatch.test(className)) {
+        if (!filter.loggerMatch || filter.loggerMatch.test(className)) {
           if (filter.appenderName)
             names.push(filter.appenderName);
           else
-            return this.__appenders;
+            return this.__appendersCache[cacheId] = this.__appenders;
         }
       }
       
@@ -545,7 +554,7 @@ qx.Bootstrap.define("qx.log.Logger",
       appenders = names.map(function(name) {
         return appendersByName[name];
       });
-      return appenders;
+      return this.__appendersCache[cacheId] = appenders;
     },
     
     
