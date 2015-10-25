@@ -89,7 +89,8 @@ function loadCss(uri) {
 }
 
 var isWebkit = /AppleWebKit\/([^ ]+)/.test(navigator.userAgent);
-var isLoadParallel = 'async' in document.createElement('script');
+var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+var isLoadParallel = !isFirefox && 'async' in document.createElement('script');
 
 function loadScriptList(list, callback) {
   if (list.length == 0) {
