@@ -563,7 +563,7 @@ qx.Class.define("qx.ui.basic.Image",
       {
         if (this.getScale() && this.__getMode() != "scaled") {
           this.__setMode("scaled");
-        } else if (!this.getScale() && this.__getMode("nonScaled")) {
+        } else if (!this.getScale() && this.__getMode() != "nonScaled") {
           this.__setMode("nonScaled");
         }
 
