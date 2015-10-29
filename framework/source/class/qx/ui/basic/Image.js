@@ -608,10 +608,14 @@ qx.Class.define("qx.ui.basic.Image",
 
           if (!currentContentElement.isVisible()) {
             elementToAdd.hide();
+          } else if (!elementToAdd.isVisible()) {
+            elementToAdd.show();
           }
 
           if (!currentContentElement.isIncluded()) {
             elementToAdd.exclude();
+          } else if (!elementToAdd.isIncluded()) {
+            elementToAdd.include();
           }
 
           var container = currentContentElement.getParent();
