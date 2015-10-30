@@ -134,6 +134,31 @@ qx.Bootstrap.define("qx.bom.client.Event",
     },
 
     /**
+     * Returns the event type used in pointer layer to create mouse events.
+     *
+     * @return {String} Either <code>MouseEvents</code> or <code>UIEvents</code>
+     */
+    getMouseCreateEvent : function() {
+      /* For instance, in IE9, the pageX property of synthetic MouseEvents is
+      always 0 and cannot be overridden, so plain UIEvents have to be used with
+      mouse event properties added accordingly. */
+      try {
+        var e = document.createEvent("MouseEvents");
+        var orig = e.pageX;
+
+        e.initMouseEvent("click", false, false, window, 0, 0, 0, orig+1, 0,
+            false, false, false, false, 0, null);
+
+        if(e.pageX !== orig) {
+          return "MouseEvents";
+        }
+        return "UIEvents";
+      } catch(ex) {
+        return "UIEvents";
+      }
+    },
+
+    /**
      * Checks if the MouseWheel event is available and on which target.
      *
      * @param win {Window ? null} An optional window instance to check.
@@ -171,6 +196,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
   defer : function(statics) {
     qx.core.Environment.add("event.touch", statics.getTouch);
     qx.core.Environment.add("event.mouseevent", statics.getMouseEvent);
+    qx.core.Environment.add("event.mousecreateevent", statics.getMouseCreateEvent);
     qx.core.Environment.add("event.dispatchevent", statics.getDispatchEvent);
     qx.core.Environment.add("event.customevent", statics.getCustomEvent);
     qx.core.Environment.add("event.mspointer", statics.getMsPointer);
