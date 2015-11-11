@@ -285,7 +285,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
      */
     _onMovePointerUp : function(e)
     {
-      if (this.hasListener("roll", this._onMoveRoll, this)) {
+      if (this.hasListener("roll")) {
         this.removeListener("roll", this._onMoveRoll, this);
       }
 
