@@ -94,6 +94,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
     {
       check : "qx.lang.Type.isNumber(value)&&value>=0&&value<=this.getScrollMaxX()",
       apply : "_applyScrollX",
+      transform: "_transformScrollX",
       event : "scrollX",
       init  : 0
     },
@@ -103,6 +104,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
     {
       check : "qx.lang.Type.isNumber(value)&&value>=0&&value<=this.getScrollMaxY()",
       apply : "_applyScrollY",
+      transform: "_transformScrollY",
       event : "scrollY",
       init  : 0
     }
@@ -204,8 +206,8 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
     {
       var contentEl = this.getContentElement();
 
-      this.setScrollX(parseInt(contentEl.getScrollX(), 10));
-      this.setScrollY(parseInt(contentEl.getScrollY(), 10));
+      this.setScrollX(contentEl.getScrollX());
+      this.setScrollY(contentEl.getScrollY());
     },
 
 
@@ -500,10 +502,20 @@ qx.Class.define("qx.ui.core.scroll.ScrollPane",
       this.getContentElement().scrollToX(value);
     },
 
+    // transform property
+    _transformScrollX: function(value) {
+      return Math.round(value);
+    },
+    
 
     // property apply
     _applyScrollY : function(value) {
       this.getContentElement().scrollToY(value);
+    },
+
+    // transform property
+    _transformScrollY: function(value) {
+      return Math.round(value);
     }
   }
 });
