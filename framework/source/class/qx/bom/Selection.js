@@ -498,7 +498,10 @@ qx.Bootstrap.define("qx.bom.Selection",
           {
             node.focus();
             node.select();
-            node.setSelectionRange(start, end);
+            // IE can throw "Unspecified error" 
+            try {
+              node.setSelectionRange(start, end);
+            } catch(ex) {}
             return true;
           }
         }
@@ -624,7 +627,10 @@ qx.Bootstrap.define("qx.bom.Selection",
         // if the node is an input or textarea element use the specialized methods
         if (qx.dom.Node.isElement(node) && (nodeName == "input" || nodeName == "textarea"))
         {
-          node.setSelectionRange(0, 0);
+          // IE can throw "Unspecified error" 
+          try {
+            node.setSelectionRange(0, 0);
+          }catch(ex) {}
           if (qx.bom.Element && qx.bom.Element.blur) {
             qx.bom.Element.blur(node);
           }
