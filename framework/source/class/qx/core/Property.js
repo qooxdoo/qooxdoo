@@ -254,7 +254,7 @@ qx.Bootstrap.define("qx.core.Property",
 
 
     /**
-     * Supported keys for property defintions
+     * Supported keys for property definitions
      *
      * @internal
      */
@@ -612,7 +612,7 @@ qx.Bootstrap.define("qx.core.Property",
         }
       }
 
-      // attach a flag to makr generated property methods
+      // attach a flag to make generated property methods
       if (qx.core.Environment.get("qx.debug")) {
         members[method.get[name]].$$propertyMethod = true;
         members[method.set[name]].$$propertyMethod = true;
@@ -771,10 +771,6 @@ qx.Bootstrap.define("qx.core.Property",
 
           if (config.nullable) {
             code.push('if(init==qx.core.Property.$$inherit)init=null;');
-          } else if (config.init !== undefined) {
-            code.push('return this.', store.init[name], ';');
-          } else {
-            code.push('if(init==qx.core.Property.$$inherit)throw new Error("Inheritable property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
           }
 
           code.push('return init;');
@@ -895,7 +891,7 @@ qx.Bootstrap.define("qx.core.Property",
 
 
     /**
-     * Emit code to check the arguments pre-conditions
+     * Emit code to check the arguments preconditions
      *
      * @param code {String[]} String array to append the code to
      * @param config {Object} The property configuration map
@@ -1153,7 +1149,7 @@ qx.Bootstrap.define("qx.core.Property",
         // Delete field
         code.push('delete this.', this.$$store.runtime[name], ';');
 
-        // Complex compution of new value
+        // Complex computation of new value
         code.push('if(this.', this.$$store.user[name], '!==undefined)')
         code.push('computed=this.', this.$$store.user[name], ';');
         code.push('else if(this.', this.$$store.theme[name], '!==undefined)');
@@ -1219,7 +1215,7 @@ qx.Bootstrap.define("qx.core.Property",
         // Delete field
         code.push('delete this.', this.$$store.user[name], ';');
 
-        // Complex compution of new value
+        // Complex computation of new value
         code.push('if(this.', this.$$store.runtime[name], '!==undefined)')
         code.push('computed=this.', this.$$store.runtime[name], ';');
         code.push('if(this.', this.$$store.theme[name], '!==undefined)');

@@ -1890,7 +1890,9 @@ qx.Class.define("qx.ui.core.Widget",
      * Add a child widget at the specified index
      *
      * @param child {LayoutItem} widget to add
-     * @param index {Integer} Index, at which the widget will be inserted
+     * @param index {Integer} Index, at which the widget will be inserted. If no
+     *   widget exists at the given index, the new widget gets appended to the
+     *   current list of children.
      * @param options {Map?null} Optional layout data for widget.
      */
     _addAt : function(child, index, options)

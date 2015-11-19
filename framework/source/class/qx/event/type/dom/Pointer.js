@@ -209,9 +209,9 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
         evt = new window.MouseEvent(this._type);
       } else if (typeof document.createEvent == "function") {
         /* In IE9, the pageX property of synthetic MouseEvents is always 0
-         and cannot be overriden, so we create a plain UIEvent and add
-         the mouse event properties ourselves. */
-        evt = document.createEvent("UIEvents");
+        and cannot be overridden, so we create a plain UIEvent and add
+        the mouse event properties ourselves. */
+        evt = document.createEvent(qx.core.Environment.get("event.mousecreateevent"));
       } else if (typeof document.createEventObject == "object") {
         // IE8 doesn't support custom event types
         evt = {};

@@ -272,7 +272,7 @@ qx.Bootstrap.define("qx.event.util.Keyboard", {
     }
   },
 
-  defer : function(statics, members)
+  defer : function(statics)
   {
     // construct inverse of keyCodeToIdentifierMap
     if (!statics.identifierToKeyCodeMap)

@@ -329,10 +329,14 @@
  *       <td>event.mouseevent</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Event#getMouseEvent}</td>
  *     </tr>
-*     <tr>
-*       <td>event.mousewheel</td><td><i>Map</i></td><td><code>{type: "wheel", target: window}</code></td>
-*       <td>{@link qx.bom.client.Event#getMouseWheel}</td>
-*     </tr>
+ *     <tr>
+ *       <td>event.mousecreateevent</td><td><i>String</i></td><td><code>UIEvents</code></td>
+ *       <td>{@link qx.bom.client.Event#getMouseCreateEvent}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>event.mousewheel</td><td><i>Map</i></td><td><code>{type: "wheel", target: window}</code></td>
+ *       <td>{@link qx.bom.client.Event#getMouseWheel}</td>
+ *     </tr>
  *
  *     <tr>
  *       <td colspan="4"><b>html</b></td>
