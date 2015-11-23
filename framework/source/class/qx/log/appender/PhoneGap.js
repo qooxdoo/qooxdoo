@@ -5,15 +5,30 @@
    http://qooxdoo.org
 
    Copyright:
-     2009-2010 Deutsche Telekom AG, Germany, http://www.dtag.de
+     2009-2010 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
      EPL: http://www.eclipse.org/org/documents/epl-v10.php
      See the LICENSE file in the project's top-level directory for details.
 
-   Authors:
-     * Sebastian Werner (wpbasti)
+   ======================================================================
+
+   This class contains code based on the following work:
+
+   * Unify Project
+
+     Homepage:
+       http://unify-project.org
+
+     Copyright:
+       2009-2010 Deutsche Telekom AG, Germany, http://telekom.com
+
+     License:
+       MIT: http://www.opensource.org/licenses/mit-license.php
+
+     Authors:
+       * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 

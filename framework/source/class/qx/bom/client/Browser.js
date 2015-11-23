@@ -20,12 +20,16 @@
 
    This class contains code from:
 
+   * Unify Project
+
+     Homepage:
+       http://unify-project.org
+
      Copyright:
-       2009 Deutsche Telekom AG, Germany, http://telekom.com
+       2009-2010 Deutsche Telekom AG, Germany, http://telekom.com
 
      License:
-       LGPL: http://www.gnu.org/licenses/lgpl.html
-       EPL: http://www.eclipse.org/org/documents/epl-v10.php
+       MIT: http://www.opensource.org/licenses/mit-license.php
 
      Authors:
        * Sebastian Werner (wpbasti)
