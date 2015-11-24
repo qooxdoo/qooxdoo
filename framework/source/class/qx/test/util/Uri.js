@@ -132,7 +132,7 @@ qx.Class.define("qx.test.util.Uri",
         this.assertEquals("/foo/bar?affe=true#here", result.relative);
         this.assertEquals("here", result.anchor);
       },
-      
+
       "test: parseUri() with ipv6 address": function() {
           var url = "http://[FE80:0000:0000:0000:0202:B3FF:FE1E:8329]:80/foo/bar?affe=true#here",
               result = this.Uri.parseUri(url);

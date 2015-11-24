@@ -115,7 +115,7 @@ qx.Bootstrap.define("qx.bom.FullScreen",
       for (var i=0; i < prefix.length; i++) {
         var pfix = prefix[i].toLowerCase();
 
-        if (this.__doc[pfix + "FullScreenElement"] !== undefined || 
+        if (this.__doc[pfix + "FullScreenElement"] !== undefined ||
             this.__doc[pfix + "FullscreenElement"] !== undefined) {
           this.__eventName = pfix + "fullscreenchange";
 

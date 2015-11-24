@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.indicator.ProgressBar",
 
   members:
   {
-	// property apply
+  // property apply
     _applyValue: function(value, old) {
       var max = this.getMaximum();
 
