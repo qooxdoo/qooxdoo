@@ -1,19 +1,19 @@
 /* ************************************************************************
 
-    qooxdoo - the new era of web development
+   qooxdoo - the new era of web development
 
-    http://qooxdoo.org
+   http://qooxdoo.org
 
-    Copyright:
-      2007 by Christian Boulanger
+   Copyright:
+     2007 by Christian Boulanger
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
+    LGPL: http://www.gnu.org/licenses/lgpl.html
+    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+    See the LICENSE file in the project's top-level directory for details.
 
-    Authors:
-      * Christian Boulanger (cboulanger)
+   Authors:
+     * Christian Boulanger (cboulanger)
 
 ************************************************************************ */
 

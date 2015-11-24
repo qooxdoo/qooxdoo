@@ -1,17 +1,17 @@
 /* ************************************************************************
 
-    qooxdoo - the new era of web development
+   qooxdoo - the new era of web development
 
-    http://qooxdoo.org
+   http://qooxdoo.org
 
-    Copyright:
-      2007 by Tartan Solutions, Inc, http://www.tartansolutions.com
+   Copyright:
+     2007 by Tartan Solutions, Inc, http://www.tartansolutions.com
 
-    License:
-      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+   License:
+     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
 
-    Authors:
-      * Dan Hummon
+   Authors:
+     * Dan Hummon
 
 ************************************************************************ */
 
