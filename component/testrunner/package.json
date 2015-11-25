@@ -1,6 +1,6 @@
 {
   "name": "testrunner",
-  "version": "5.1.0",
+  "version": "5.0.2",
   "description": "Integrated unit testing infrastructure, ready to be used in all custom apps",
   "main": "Gruntfile.js",
   "repository": {
