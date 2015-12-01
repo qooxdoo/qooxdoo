@@ -280,6 +280,7 @@ qx.Class.define("qx.core.Object",
 
       // Mark as disposed (directly, not at end, to omit recursions)
       this.$$disposed = true;
+      this.$$disposing = true;
       this.$$instance = null;
       this.$$allowconstruct = null;
 
@@ -319,6 +320,8 @@ qx.Class.define("qx.core.Object",
         clazz = clazz.superclass;
       }
 
+      this.$$disposing = false;
+      
       // Additional checks
       if (qx.core.Environment.get("qx.debug"))
       {
