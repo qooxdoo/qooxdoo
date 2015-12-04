@@ -319,7 +319,7 @@ qx.Class.define("qx.data.controller.Form",
         // ignore not working items
         } catch (ex) {
           if (qx.core.Environment.get("qx.debug")) {
-            this.warn("Could not bind property " + name + " of " + this.getModel() + ". Exception: " + ex);
+            this.warn("Could not bind property " + name + " of " + this.getModel() + ":\n" + ex.stack);
           }
         }
       }
