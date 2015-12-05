@@ -533,6 +533,7 @@ qx.Class.define("qx.html.Element",
       if (!this.__element)
       {
         this.__element = this._createDomElement();
+        qx.core.ObjectRegistry.register(this);
         this.__element.$$element = this.$$hash;
 
         this._copyData(false);

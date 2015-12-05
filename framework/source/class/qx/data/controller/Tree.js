@@ -346,6 +346,7 @@ qx.Class.define("qx.data.controller.Tree",
     __changeModelChildren: function(ev) {
       // get the stored data
       var children =  ev.getTarget();
+      qx.core.ObjectRegistry.register(children);
       var treeNode = this.__childrenRef[children.toHashCode()].treeNode;
       var modelNode = this.__childrenRef[children.toHashCode()].modelNode;
       // update the subtree
@@ -671,6 +672,7 @@ qx.Class.define("qx.data.controller.Tree",
       }
       // store the binding reference
       var storage = this.__bindings[targetPath];
+      qx.core.ObjectRegistry.register(modelNode);
       if (storage[modelNode.toHashCode()]) {
         if (storage[modelNode.toHashCode()].id) {
           throw new Error(
@@ -721,6 +723,7 @@ qx.Class.define("qx.data.controller.Tree",
       }
       // check if there is already a stored item
       var storage = this.__bindings[sourcePath];
+      qx.core.ObjectRegistry.register(modelNode);
       if (storage[modelNode.toHashCode()]) {
         if (storage[modelNode.toHashCode()].reverseId) {
           throw new Error(
