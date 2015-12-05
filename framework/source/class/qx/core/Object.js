@@ -54,7 +54,7 @@ qx.Class.define("qx.core.Object",
    * Create a new instance
    */
   construct : function() {
-    qx.core.ObjectRegistry.register(this);
+    qx.core.ObjectRegistry.toHashCode(this);
   },
 
 

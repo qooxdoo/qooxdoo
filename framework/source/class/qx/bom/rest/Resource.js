@@ -382,6 +382,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         this.__requests[action] = [];
       }
 
+      qx.core.ObjectRegistry.register(req);
       this.__requests[action].push(req);
 
       return req;

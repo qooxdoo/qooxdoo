@@ -53,6 +53,7 @@ qx.Class.define("qx.ui.core.Widget",
   construct : function()
   {
     this.base(arguments);
+    qx.core.ObjectRegistry.register(this);
 
     // Create basic element
     this.__contentElement = this.__createContentElement();
