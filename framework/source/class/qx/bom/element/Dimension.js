@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @return {Integer} width of the element
      */
     getWidth: function(element) {
-      var rect = this._getBoundingClientRect(element);
+      var rect = element.getBoundingClientRect();
       return Math.round(rect.right - rect.left);
     },
 
@@ -65,59 +65,8 @@ qx.Bootstrap.define("qx.bom.element.Dimension",
      * @return {Integer} height of the element
      */
     getHeight: function(element) {
-      var rect = this._getBoundingClientRect(element);
-      return Math.round(rect.bottom - rect.top);
-    },
-
-
-    /**
-     * Helper function to return the value of native .getBoundingClientRect().
-     * As IE11 returns bogus values for .getBoundingClientRect() inside an
-     * iframe where an element is displayed full screen, we need to correct the
-     * values.
-     *
-     * @param element {Element} element to query
-     *
-     * @return {Map} Map of client rectangle properties
-     */
-    _getBoundingClientRect : function(element)
-    {
       var rect = element.getBoundingClientRect();
-
-      // To be able to fix IE11 bug multiply all properties with 100
-      if (qx.core.Environment.get("browser.documentmode") === 11 &&
-          !!document.msFullscreenElement &&
-          window !== window.top &&
-          this.__isChildOfFullScreenElement(element)
-      ) {
-        // store corrected values in a new object, because ClientRect object
-        // of IE11 is read only
-        var tmp = {};
-        for (var property in rect) {
-          tmp[property] = rect[property] * 100;
-        }
-        rect = tmp;
-      }
-
-      return rect;
-    },
-
-
-    /**
-     * Helper function to check if element is self or child of element who is
-     * currently in full screen.
-     *
-     * @param element {Element} element to query
-     *
-     * @return {Boolean} True if element if self or child of full screen element
-     */
-    __isChildOfFullScreenElement : function(element)
-    {
-      if (document.msFullscreenElement === element) {
-        return true;
-      }
-
-      return qx.dom.Hierarchy.contains(document.msFullscreenElement, element);
+      return Math.round(rect.bottom - rect.top);
     },
 
 
