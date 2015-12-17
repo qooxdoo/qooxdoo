@@ -42,7 +42,10 @@ qx.Bootstrap.define("qx.core.GlobalError",
 
     var inst = Error.call(this, this.__failMessage);
     // map stack trace properties since they're not added by Error's constructor
-    if (inst.stack) {
+    if (exc && exc.stack) {
+      this.stack = exc.stack;
+    }
+    if (!this.stack && inst.stack) {
       this.stack = inst.stack;
     }
     if (inst.stacktrace) {
