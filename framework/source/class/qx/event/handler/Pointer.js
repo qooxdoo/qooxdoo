@@ -159,14 +159,14 @@ qx.Class.define("qx.event.handler.Pointer",
     },
 
     // overridden
-    _onPointerEvent : function(domEvent) {
+    _onPointerEvent : qx.event.GlobalError.observeMethod(function(domEvent) {
       if (domEvent._original && domEvent._original[this._processedFlag]) {
         return;
       }
 
       var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type] || domEvent.type;
       this._fireEvent(domEvent, type, qx.bom.Event.getTarget(domEvent));
-    },
+    }),
 
 
     /**
