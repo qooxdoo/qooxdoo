@@ -472,7 +472,7 @@ qx.Class.define("qx.ui.basic.Image",
           var imageHeight = ResourceManager.getImageWidth(source);
           this.setWidth(imageWidth);
           this.setHeight(imageHeight);
-          
+
           // set backgroud size on current element (div or img)
           var backgroundSize = imageWidth + "px, " + imageHeight + "px";
           this.__currentContentElement.setStyle("background-size", backgroundSize);

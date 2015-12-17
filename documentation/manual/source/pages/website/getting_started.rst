@@ -7,7 +7,7 @@ It's easy to start using %{Website}. Create an HTML page and ``<script>``-includ
 
    <html>
      <head>
-       <script href="<uri_to_%{Website}_file>"/>
+       <script src="<uri_to_%{Website}_file>"/>
      </head>
    <body>
      <div>

@@ -45,8 +45,8 @@ qx.Mixin.define("qx.ui.window.MDesktop",
       nullable : true
     }
   },
-  
-  
+
+
   events:
   {
     /**

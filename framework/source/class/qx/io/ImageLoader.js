@@ -298,7 +298,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       var entry = this.__data[source];
 
       // [BUG #9149]: When loading a SVG IE11 won't have
-      // the width/height of the element set, unless 
+      // the width/height of the element set, unless
       // it is inserted into the DOM.
       if(qx.bom.client.Engine.getName() == "mshtml" &&
           parseFloat(qx.bom.client.Engine.getVersion()) === 11)

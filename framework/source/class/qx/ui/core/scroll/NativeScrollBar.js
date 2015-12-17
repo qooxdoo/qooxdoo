@@ -10,7 +10,7 @@
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
      EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's left-level directory for details.
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
      * Fabian Jakobs (fjakobs)
@@ -284,7 +284,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       // Scrollbars don't work properly in IE/Edge if the element with overflow has
       // excatly the size of the scrollbar. Thus we move the element one pixel
       // out of the view and increase the size by one.
-      if (qx.core.Environment.get("engine.name") == "mshtml" || 
+      if (qx.core.Environment.get("engine.name") == "mshtml" ||
         qx.core.Environment.get("browser.name") == "edge")
       {
         var bounds = this.getBounds();

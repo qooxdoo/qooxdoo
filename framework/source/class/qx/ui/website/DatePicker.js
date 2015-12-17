@@ -252,7 +252,7 @@ qx.Bootstrap.define('qx.ui.website.DatePicker', {
       var calendar = this.getCalendar();
 
       if (calendar.getStyle('display') == 'none') {
-        // set position to make sure the width of the DOM element is correct - otherwise the DOM 
+        // set position to make sure the width of the DOM element is correct - otherwise the DOM
         // element would be as wide as the parent (e.g. the body element). This would mess up the
         // positioning with 'placeTo'
         calendar.setStyle('position', 'absolute').show().placeTo(this, this.getConfig('position'));

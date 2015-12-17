@@ -20,30 +20,19 @@
 
    This class contains code from:
 
+   * Unify Project
+
+     Homepage:
+       http://unify-project.org
+
      Copyright:
-       2009 Deutsche Telekom AG, Germany, http://telekom.com
+       2009-2010 Deutsche Telekom AG, Germany, http://telekom.com
 
      License:
-       LGPL: http://www.gnu.org/licenses/lgpl.html
-       EPL: http://www.eclipse.org/org/documents/epl-v10.php
+       MIT: http://www.opensource.org/licenses/mit-license.php
 
      Authors:
        * Sebastian Werner (wpbasti)
-
-   ======================================================================
-
-   This class contains code from:
-
-     Copyright:
-       2011 Pocket Widget S.L., Spain, http://www.pocketwidget.com
-
-     License:
-       LGPL: http://www.gnu.org/licenses/lgpl.html
-       EPL: http://www.eclipse.org/org/documents/epl-v10.php
-
-     Authors:
-       * Javier Martinez Villacampa
-
 
 ************************************************************************ */
 
@@ -121,12 +110,6 @@ qx.Bootstrap.define("qx.bom.client.Browser",
           name = "operamini";
         }
       }
-      else if (engine === "gecko")
-      {
-        if (agent.indexOf("Maple") !== -1) {
-            name = "maple";
-        }
-      }
 
       return name;
     },
@@ -163,18 +146,6 @@ qx.Bootstrap.define("qx.bom.client.Browser",
           // Fix IE mobile before Microsoft added IEMobile string
           version = "5.0";
         }
-      }
-
-      if (qx.bom.client.Browser.getName() == "maple")
-      {
-        // Fix version detection for Samsung Smart TVs Maple browser from 2010 and 2011 models
-        reg = new RegExp("(Maple )([0-9]+\.[0-9]+\.[0-9]*)");
-        match = agent.match(reg);
-        if (!match) {
-          return "";
-        }
-
-        version = match[2];
       }
 
       if (qx.bom.client.Engine.getName() == "webkit" ||

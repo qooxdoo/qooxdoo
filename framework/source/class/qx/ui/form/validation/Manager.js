@@ -234,13 +234,13 @@ qx.Class.define("qx.ui.form.validation.Manager",
         // ignore all form items without a validator
         if (validator == null) {
           // check for the required property
-          var validatorResult = this.__validateRequired(formItem);
+          var validatorResult = this._validateRequired(formItem);
           valid = valid && validatorResult;
           this.__syncValid = validatorResult && this.__syncValid;
           continue;
         }
 
-        var validatorResult = this.__validateItem(
+        var validatorResult = this._validateItem(
           this.__formItems[i], formItem.getValue()
         );
         // keep that order to ensure that null is returned on async cases
@@ -275,7 +275,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @param formItem {qx.ui.core.Widget} The form item to check.
      * @return {var} Validation result
      */
-    __validateRequired : function(formItem) {
+    _validateRequired : function(formItem) {
       if (formItem.getRequired()) {
         // if its a widget supporting the selection
         if (this.__supportsSingleSelection(formItem)) {
@@ -306,7 +306,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
      * @return {Boolean|null} Validation result or <code>null</code> for async
      * validation
      */
-    __validateItem : function(dataEntry, value) {
+    _validateItem : function(dataEntry, value) {
       var formItem = dataEntry.item;
       var context = dataEntry.context;
       var validator = dataEntry.validator;
