@@ -171,7 +171,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * Handler for native pointer events
      * @param domEvent {Event}  Native DOM event
      */
-    _onPointerEvent : function(domEvent) {
+    _onPointerEvent : qx.event.GlobalError.observeMethod(function(domEvent) {
       if (!qx.core.Environment.get("event.mspointer") ||
           // workaround for bug #8533
           (qx.core.Environment.get("browser.documentmode") === 10 && domEvent.type.toLowerCase().indexOf("ms") == -1)
@@ -186,14 +186,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var target = qx.bom.Event.getTarget(domEvent);
       var evt = new qx.event.type.dom.Pointer(type, domEvent);
       this._fireEvent(evt, type, target);
-    },
+    }),
 
 
     /**
      * Handler for touch events
      * @param domEvent {Event} Native DOM event
      */
-    _onTouchEvent: function(domEvent) {
+    _onTouchEvent: qx.event.GlobalError.observeMethod(function(domEvent) {
       if (domEvent[this._processedFlag]) {
         return;
       }
@@ -282,14 +282,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           }
         }
       }
-    },
+    }),
 
 
     /**
     * Handler for touch events
     * @param domEvent {Event} Native DOM event
     */
-    _onMouseEvent : function(domEvent) {
+    _onMouseEvent : qx.event.GlobalError.observeMethod(function(domEvent) {
       if (domEvent[this._processedFlag]) {
         return;
       }
@@ -346,7 +346,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
       var evt = new qx.event.type.dom.Pointer(type, domEvent, mouseProps);
       this._fireEvent(evt, type, target);
-    },
+    }),
 
 
     /**

@@ -105,11 +105,11 @@ qx.Bootstrap.define("qx.event.GlobalError",
      * @param uri {String} uri to errornous script
      * @param lineNumber {Integer} line number of error
      */
-    __onErrorWindow : function(msg, uri, lineNumber)
+    __onErrorWindow : function(msg, uri, lineNumber, columnNumber, error)
     {
       if (this.__callback)
       {
-        this.handleError(new qx.core.WindowError(msg, uri, lineNumber));
+        this.handleError(new qx.core.WindowError(msg, uri, lineNumber, columnNumber, error ? error.stack : null));
       }
     },
 
