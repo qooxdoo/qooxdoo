@@ -51,7 +51,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
     // Initialize listener
     this.__manager.addListener(this.__root, "longtap", this._onLongtap, this);
-    this.__manager.addListener(this.__root, "pointerdown", this._onPointerdown, this);
+    this.__manager.addListener(this.__root, "pointerdown", this._onPointerdown, this, true);
 
     qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
 
