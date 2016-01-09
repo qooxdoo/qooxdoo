@@ -997,7 +997,17 @@ qx.Bootstrap.define("qx.Class",
       var basename = name ? qx.Bootstrap.createNamespace(name, clazz) : "";
 
       // Store names in constructor/object
-      clazz.name = clazz.classname = name;
+      clazz.classname = name;
+      function isStrictMode() {
+        return (typeof this == 'undefined');
+      }
+      if (!isStrictMode()) {
+        try {
+          clazz.name = name;
+        } catch(ex) {
+          // Nothing
+        }
+      }
       clazz.basename = basename;
 
       // Store type info
