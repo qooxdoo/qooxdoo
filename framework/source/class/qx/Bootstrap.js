@@ -185,7 +185,17 @@ qx.Bootstrap = {
     var basename = name ? this.createNamespace(name, clazz) : "";
 
     // Store names in constructor/object
-    clazz.name = clazz.classname = name;
+    clazz.classname = name;
+    function isStrictMode() {
+      return (typeof this == 'undefined');
+    }
+    if (!isStrictMode()) {
+      try {
+        clazz.name = name;
+      } catch(ex) {
+        // Nothing
+      }
+    }
     clazz.basename = basename;
     clazz.$$events = config.events;
 
