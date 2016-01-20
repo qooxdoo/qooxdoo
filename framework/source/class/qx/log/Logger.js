@@ -240,14 +240,20 @@ qx.Bootstrap.define("qx.log.Logger",
      * Prints the current stack trace at level "info"
      *
      * @param object {Object?} Contextual object (either instance or static class)
+     * @param message {var} Any number of arguments supported. An argument may
+     *   have any JavaScript data type. All data is serialized immediately and
+     *   does not keep references to other objects.
      */
-    trace : function(object) {
-      var trace = qx.dev.StackTrace.getStackTrace();
-      qx.log.Logger.__log("trace",
-      [(typeof object !== "undefined" ? [object].concat(trace) : trace).join("\n")]);
+    trace : function(object, message) {
+      if (qx.log.Logger.isLoggerEnabled("trace", object)) {
+        var trace = qx.dev.StackTrace.getStackTrace();
+        var args = qx.lang.Array.fromArguments(arguments);
+        args.push(trace.join("\n"));
+        qx.log.Logger.__log("trace", args);
+      }
     },
-
-
+    
+    
     /**
      * Prints a method deprecation warning and a stack trace if the setting
      * <code>qx.debug</code> is set to <code>true</code>.
@@ -434,7 +440,10 @@ qx.Bootstrap.define("qx.log.Logger",
     /** @type {Map} cache of appenders for a given logger and level */
     __appendersCache: {},
     
-    
+
+    /**
+     * Detects the name of the logger to use for an object
+     */
     __getLoggerName: function(object) {
       if (object) {
         if (object.classname)
@@ -443,6 +452,16 @@ qx.Bootstrap.define("qx.log.Logger",
           return object;
       }
       return "[default]";
+    },
+
+
+    /**
+     * Detects whether a logger level is enabled for an object
+     */
+    isLoggerEnabled: function(level, object) {
+      var loggerName = this.__getLoggerName(object);
+      var appenders = this.__getAppenders(loggerName, level);
+      return !!appenders.length;
     },
 
 
