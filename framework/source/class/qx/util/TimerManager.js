@@ -132,7 +132,7 @@ qx.Class.define("qx.util.TimerManager",
     start : function(callback, recurTime, context, userData, initialTime)
     {
       // Get the expiration time for this timer
-      if (! initialTime)
+      if (typeof initialTime != "number")
       {
         initialTime = recurTime || 0;
       }
