@@ -1565,7 +1565,10 @@ qx.Class.define("qx.html.Element",
         col.push(this.__element);
       }
       if (this.__element) {
-        col.fadeIn(duration);
+        col.fadeIn(duration).once("animationEnd", function() {
+          this.show();
+          qx.html.Element.flush();
+        }, this);
         return col.getAnimationHandles()[0];
       }
     },
