@@ -54,7 +54,8 @@
         },
         "uris" : {
           "script"   : "../../script",
-          "resource" : "../../resource"
+          "resource" : "../../resource",
+          "add-nocache-param": false
         },
         "code" : {
           "locales"  : "${LOCALES}",

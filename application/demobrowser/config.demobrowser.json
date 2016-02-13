@@ -31,7 +31,7 @@
   "config-warnings" :
   {
     "job-shadowing" : [
-      "info", 
+      "info",
       "translation",
       "lint"
     ]
@@ -125,6 +125,9 @@
         "code"   :
         {
           "except" : ["*"]
+        },
+        "uris": {
+          "add-nocache-param": false
         }
       },
       "compile" : { "type" : "source" }
@@ -161,7 +164,10 @@
 
       "compile-options" :
       {
-        "code" : { "=except" : [ "${APPLICATION}.*" ] }
+        "code" : { "=except" : [ "${APPLICATION}.*" ] },
+        "uris": {
+          "add-nocache-param": false
+        }
       },
 
       "compile" : { "type" : "hybrid" }
@@ -194,6 +200,9 @@
           "format" : true,
           "except" : [],
           "optimize" : ["basecalls", "variables", "privates", "strings", "variants", "whitespace"]
+        },
+        "uris": {
+          "add-nocache-param": false
         }
       },
 

@@ -27,6 +27,7 @@ qx.$$loader = {
   closureParts : %{ClosureParts},
   bootIsInline : %{BootIsInline},
   addNoCacheParam : %{NoCacheParam},
+  delayDefer: false,
 
   decodeUris : function(compressedUris)
   {

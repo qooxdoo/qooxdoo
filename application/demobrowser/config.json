@@ -109,6 +109,14 @@
       {
         "qx.icontheme" : ["Tango", "Oxygen"],
         "qx.theme"     : ["Indigo"]
+      },
+
+      "compile-options" :
+      {
+        "uris" :
+        {
+          "add-nocache-param" : false
+        }
       }
     },
 
@@ -172,6 +180,17 @@
         "source-data",
         "source-hybrid-demobrowser"
       ]
+    },
+
+    "source-script" :
+    {
+      "compile-options" :
+        {
+          "uris":
+          {
+            "add-nocache-param": false
+          }
+        }
     },
 
 
