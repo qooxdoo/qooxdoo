@@ -175,7 +175,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       var clb = function(time) {
         // check for high resolution time
         if (time < 1e10) {
-          time = this.__start + time;
+          time = qx.bom.AnimationFrame.__start + time;
         }
 
         time = time || +(new Date());
