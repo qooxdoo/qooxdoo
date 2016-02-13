@@ -115,7 +115,11 @@ qx.Bootstrap.define("qx.event.type.dom.Custom", {
       }
 
       for (var prop in properties) {
-        this._event[prop] = properties[prop];
+        try {
+          this._event[prop] = properties[prop];
+        }catch(ex) {
+          //Nothing - strict mode prevents writing to read only properties
+        }
       }
 
     }
