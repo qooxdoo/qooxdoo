@@ -1,0 +1,16 @@
+{
+	"name" : "base",
+
+	"jobs" : {
+		"qxoo" : {
+			"extend" : [ "libraries" ],
+			"compile" : {
+				"type" : "source"
+			}
+		},
+
+		"qxoo-source" : {
+			"extend" : [ "qxoo" ]
+		}
+	}
+}

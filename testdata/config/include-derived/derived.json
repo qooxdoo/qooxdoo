@@ -1,0 +1,19 @@
+{
+	"name" : "derived",
+
+	"include" : [ { "path" : "base.json" } ],
+
+	"jobs" : {
+		"libraries" : {
+			"library" : [ {
+				"manifest" : "../../qxt/Manifest.json"
+			}]
+		},
+
+		"qxoo" : {
+			"include" : [ 
+	             "sitelib.srv.Skin"
+             ]
+		}
+	}
+}

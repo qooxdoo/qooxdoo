@@ -1,0 +1,29 @@
+{
+    let: {
+		"A": "one",		// not overridden
+		"B": "two",		// overridden in joba
+		"C": "three",	// overridden in joba and jobb
+		"D": "four"		// overridden in jobb
+	},
+	
+	jobs: {
+		"joba": {
+			let: {
+				"B": "joba-two", 		// override global
+				"C": "joba-three", 		// override global, overridden in jobb
+				"E": "joba-five",		// locally defined, not overridden
+				"F": "joba-six"			// locally defined, overridden in jobb
+			}
+		},
+		
+		"jobb": {
+			extend: [ "joba" ],
+			let: {
+				"C": "jobb-three",		// override global and joba
+				"D": "jobb-four",		// override global
+				"F": "jobb-six",		// override job
+			}
+		}
+	}
+}
+

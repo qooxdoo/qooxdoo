@@ -1,0 +1,47 @@
+{
+  "cldr": {
+    "en": {
+      "alternateQuotationEnd": "’",
+      "alternateQuotationStart": "‘",
+      "quotationEnd": "”",
+      "quotationStart": "“",
+      "cldr_date_time_format_yQ": null,
+      "cldr_number_decimal_separator": ".",
+      "cldr_number_group_separator": ",",
+      "cldr_number_percent_format": "#,##0%",
+      "day": [
+        "Day"
+      ],
+      "dayperiod": [
+        "AM/PM"
+      ],
+      "era": [
+        "Era"
+      ],
+      "hour": [
+        "Hour"
+      ],
+      "minute": [
+        "Minute"
+      ],
+      "month": [
+        "Month"
+      ],
+      "second": [
+        "Second"
+      ],
+      "week": [
+        "Week"
+      ],
+      "weekday": [
+        "Day of the Week"
+      ],
+      "year": [
+        "Year"
+      ],
+      "zone": [
+        "Time Zone"
+      ]
+    }
+  }
+}

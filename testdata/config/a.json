@@ -1,0 +1,37 @@
+{
+	"include": [ {
+      "path" : "b.json"
+    } ],
+    
+    let: {
+		"A": "a-global",
+		"B": "a-global",
+		"C": "a-global",
+		"D": "a-global",
+		"E": "a-global",
+		"F": "a-global",
+		"G": "a-global",
+		"H": "a-global"
+	},
+	
+	jobs: {
+		"joba": {
+			let: {
+				"B": "a-joba",
+				"C": "a-joba",
+				"Y": "a-joba",
+				"Z": "a-joba"
+			}
+		},
+		
+		"jobb": {
+			extend: [ "joba" ],
+			let: {
+				"B": "a-jobb",
+				"D": "a-jobb",
+				"Y": "a-jobb"
+			}
+		}
+	}
+}
+

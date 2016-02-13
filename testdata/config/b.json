@@ -1,0 +1,41 @@
+{
+	let: {
+		"E": "b-global",
+		"F": "b-global"
+	},
+	
+	jobs: {
+		"jobc": {
+			let: {
+				"B": "a-jobc",
+				"C": "a-jobc",
+				"E": "a-jobc"
+			}
+		},
+		
+		"jobd": {
+			extend: [ "jobc" ],
+			let: {
+				"B": "a-jobd",
+				"D": "a-jobd"
+			}
+		},
+		
+		"jobe": {
+			extend: [ "joba" ],
+			let: {
+				"B": "a-jobe",
+				"D": "a-jobe"
+			}
+		},
+		
+		"jobf": {
+			extend: [ "jobe" ],
+			let: {
+				"B": "a-jobd",
+				"D": "a-jobd"
+			}
+		}
+	}
+}
+
