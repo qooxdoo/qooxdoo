@@ -251,17 +251,19 @@ qx.Bootstrap.define("qx.Class",
       if (config.defer)
       {
         config.defer.self = clazz;
-        config.defer(clazz, clazz.prototype,
-        {
-          add : function(name, config)
-          {
-            // build pseudo properties map
-            var properties = {};
-            properties[name] = config;
+        qx.Bootstrap.addPendingDefer(clazz, function() {
+          config.defer(clazz, clazz.prototype,
+            {
+              add : function(name, config)
+              {
+                // build pseudo properties map
+                var properties = {};
+                properties[name] = config;
 
-            // execute generic property handler
-            qx.Class.__addProperties(clazz, properties, true);
-          }
+                // execute generic property handler
+                qx.Class.__addProperties(clazz, properties, true);
+              }
+            });
         });
       }
 

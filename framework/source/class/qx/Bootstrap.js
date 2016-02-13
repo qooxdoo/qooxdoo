@@ -201,7 +201,9 @@ qx.Bootstrap = {
 
     // Execute defer section
     if (config.defer) {
-      config.defer(clazz, proto);
+      this.addPendingDefer(clazz, function() {
+        config.defer(clazz, proto);
+      });
     }
 
     // Store class reference in global class registry
@@ -409,6 +411,77 @@ qx.Bootstrap.define("qx.Bootstrap",
         - Store statics onto prototype
       */
       construct.self = clazz.constructor = proto.constructor = clazz;
+    },
+
+    __pendingDefers: [],
+    addPendingDefer: function(clazz, cb) {
+      this.__pendingDefers.push(clazz);
+      clazz.$$pendingDefer = cb;
+    },
+    executePendingDefers: function(dbClassInfo) {
+      var t = this;
+      if (!dbClassInfo) {
+        var pendingDefers = this.__pendingDefers;
+        this.__pendingDefers = [];
+        pendingDefers.forEach(execute);
+        return;
+      }
+
+      function executeForDbClassInfo(dbClassInfo) {
+        if (dbClassInfo.environment) {
+          var required = dbClassInfo.environment.required;
+          if (required) {
+            for (var key in required) {
+              var info = required[key];
+              if (info.load && info.className)
+                executeForClassName(info.className);
+            }
+          }
+        }
+        for (var key in dbClassInfo.dependsOn) {
+          var depInfo = dbClassInfo.dependsOn[key];
+          if (depInfo.require || depInfo.load === "dynamic")
+            executeForClassName(key);
+        }
+      }
+
+      function executeForClassName(className) {
+        var clazz = getByName(className);
+        if (clazz.$$deferComplete)
+          return;
+        var dbClassInfo = clazz.$$dbClassInfo;
+        if (dbClassInfo)
+          executeForDbClassInfo(dbClassInfo);
+        execute(clazz);
+      }
+
+      function execute(clazz) {
+        var cb = clazz.$$pendingDefer;
+        if (cb) {
+          delete clazz.$$pendingDefer;
+          clazz.$$deferComplete = true;
+          cb.call(clazz);
+        }
+      }
+
+      function getByName(name) {
+        var clazz = qx.Bootstrap.getByName(name);
+        if (!clazz) {
+          var splits = name.split(".");
+          var part = splits[0];
+          var root = qx.$$namespaceRoot && qx.$$namespaceRoot[part] ? qx.$$namespaceRoot : window;
+          var tmp = root;
+
+          for (var i = 0, len = splits.length - 1; tmp && i < len; i++, part = splits[i]) {
+            tmp = tmp[part];
+          }
+          if (tmp != root)
+            clazz = tmp;
+        }
+        return clazz;
+      }
+
+      executeForDbClassInfo(dbClassInfo);
     },
 
 

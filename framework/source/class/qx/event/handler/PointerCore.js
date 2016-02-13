@@ -95,35 +95,41 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       this.classname.substr(this.classname.lastIndexOf(".") + 1) +
       "Processed";
 
-    var engineName = qx.core.Environment.get("engine.name");
-    var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
-    if (engineName == "mshtml" && docMode == 10) {
-      // listen to native prefixed events and custom unprefixed (see bug #8921)
-      this.__eventNames = [
-        "MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel", "MSPointerOver", "MSPointerOut",
-        "pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"
-      ];
-      this._initPointerObserver();
-    } else {
-      if (qx.core.Environment.get("event.mspointer")) {
-        this.__nativePointerEvents = true;
-      }
-      this.__eventNames = [
-        "pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"
-      ];
-      this._initPointerObserver();
-    }
-    if (!qx.core.Environment.get("event.mspointer")) {
-      if (qx.core.Environment.get("device.touch")) {
-        this.__eventNames = ["touchstart", "touchend", "touchmove", "touchcancel"];
-        this._initObserver(this._onTouchEvent);
-      }
+    qx.event.Registration.addListener(target.defaultView, "ready", function() {
+      /*
+       * This initialisation needs to be delayed because the callbacks refer to classes which may not be loaded yet
+       */
 
-      this.__eventNames = [
-        "mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "contextmenu"
-      ];
-      this._initObserver(this._onMouseEvent);
-    }
+      var engineName = qx.core.Environment.get("engine.name");
+      var docMode = parseInt(qx.core.Environment.get("browser.documentmode"), 10);
+      if (engineName == "mshtml" && docMode == 10) {
+        // listen to native prefixed events and custom unprefixed (see bug #8921)
+        this.__eventNames = [
+          "MSPointerDown", "MSPointerMove", "MSPointerUp", "MSPointerCancel", "MSPointerOver", "MSPointerOut",
+          "pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"
+        ];
+        this._initPointerObserver();
+      } else {
+        if (qx.core.Environment.get("event.mspointer")) {
+          this.__nativePointerEvents = true;
+        }
+        this.__eventNames = [
+          "pointerdown", "pointermove", "pointerup", "pointercancel", "pointerover", "pointerout"
+        ];
+        this._initPointerObserver();
+      }
+      if (!qx.core.Environment.get("event.mspointer")) {
+        if (qx.core.Environment.get("device.touch")) {
+          this.__eventNames = ["touchstart", "touchend", "touchmove", "touchcancel"];
+          this._initObserver(this._onTouchEvent);
+        }
+
+        this.__eventNames = [
+          "mousedown", "mouseup", "mousemove", "mouseover", "mouseout", "contextmenu"
+        ];
+        this._initObserver(this._onMouseEvent);
+      }
+    }, this);
   },
 
 
