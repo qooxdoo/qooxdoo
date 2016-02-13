@@ -3,7 +3,7 @@
 QxCompiler is a compiler for Qooxdoo (http://qooxdoo.org) applications, written in Node.JS Javascript it adds these key 
 improvements over the standard python generator:
 
-* Includes Babel for adding ES6 too all Qooxdoo applications 
+* Includes Babel for adding ES6 to all Qooxdoo applications 
 * Fast (up to 24x faster) and low resource usage (tiny cache, low CPU usage)
 * Backward compatible with existing Qooxdoo apps (you can use it out-of-the-box, no changes to your code required)
 * Written in 100% Javascript
@@ -65,7 +65,7 @@ focus of this project.
 ##Contributing
 Please get stuck in to any aspects you'd like to work on - I'm open to pull requests, and you can contact me to chat 
 about features you'd like to see or help on using or extending QxCompiler.  Send me an email at john.spackman@zenesis.com
-or Skype me on john.spackman1 but the *best* place to talk about it is on the Qooxdoo mailing list at 
+or Skype me on johnspackman1 but the *best* place to talk about it is on the Qooxdoo mailing list at 
 https://lists.sourceforge.net/lists/listinfo/qooxdoo-devel
 
 
