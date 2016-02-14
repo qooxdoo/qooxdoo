@@ -19,12 +19,21 @@ var maker = new qxcompiler.makers.SimpleApp("qxt.Application", "qxt.theme.Theme"
 // Set some environment values
 maker.getAnalyser().setEnvironmentCheck("qx.debug", true);
 
-async.series([
+async.series(
+  [
+
     /*
      * An application is just a library - this is where we find the app
      */
     function(cb) {
       maker.addLibrary("../testdata/qxt", cb);
+    },
+
+    /*
+     * An application is just a library - this is where we find the app
+     */
+    function(cb) {
+      maker.addLibrary("../qooxdoo/application/demobrowser", cb);
     },
 
     /*
@@ -50,7 +59,7 @@ async.series([
       /* "qx.ui.form.AbstractField" - load dependency on "qx.ui.style.Stylesheet" implies load dependency on qx.bom.Stylesheet because of constructor dependency */
       /* "qx.module.Event" - for animation/Animation demo, dependencies via defer */
 
-      async.eachSeries(["qxt.Application" /*"qx.ui.style.Stylesheet", "qx.ui.form.AbstractField" */],
+      async.eachSeries(["demobrowser.demo.bom.Carousel" /*"qx.ui.style.Stylesheet", "qx.ui.form.AbstractField" */],
         function(className, cb) {
           maker.getAnalyser().getClassInfo(className, function (err, info) {
             if (err)
@@ -70,9 +79,10 @@ async.series([
       maker.getAnalyser().saveDatabase(cb);
     }
 
-], function(err) {
-  if (err)
-    console.log("Error: " + err);
-  else
-    console.log("Done");
-});
+  ],
+  function(err) {
+    if (err)
+      console.log("Error: " + err);
+    else
+      console.log("Done");
+  });

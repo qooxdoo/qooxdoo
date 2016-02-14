@@ -7,7 +7,7 @@ improvements over the standard python generator:
 * Fast (up to 24x faster) and low resource usage (tiny cache, low CPU usage)
 * Backward compatible with existing Qooxdoo apps (you can use it out-of-the-box, no changes to your code required)
 * Written in 100% Javascript
-* API based, easily extended
+* API based, easily extended and with dependency information available at runtime
 
 **NOTE** While QxCompiler is backward compatible with generate.py and does not require changes to your code, ES6 support
 requires that strict mode is enabled and this can introduce a few minor compatibility issues; also, QxCompiler uses a new
@@ -24,7 +24,7 @@ There are some basic functions which need to be built to make this project more 
 an easy npm-based installation, and a continuous compilation app.
 
 One of the top goals of this project is to be very fast and lightweight - fast enough to detect code changes and recompile 
-applications on the fly on a production server, with an application compile costing a few hundreds of milliseconds.
+applications on the fly on a production server, with an application recompile costing a few hundreds of milliseconds.
 
 
 ##Getting Started
@@ -75,6 +75,8 @@ for building and running test suites, creating API documentatino, building distr
 It would not be hard to replicate those extra facilities provided by generate.py using QxCompiler as a base, but it's not the 
 focus of this project.
 
+##What about config.json?  QOOXDOO_PATH?
+config.json is not used by QxCompiler
 
 ##Contributing and Getting In Touch
 Please get stuck in to any aspects you'd like to work on - I'm open to pull requests, and you can contact me to chat 
@@ -84,7 +86,7 @@ https://lists.sourceforge.net/lists/listinfo/qooxdoo-devel
 
 
 ##Feature TODO list
-* Source maps
+* Enable source maps
 * Lint processing
 * Part loading
 * Translation
