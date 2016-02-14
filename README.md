@@ -70,7 +70,8 @@ focus of this project.
 
 
 ##Documenation
-[Dependencies](docs/Dependencies.md)
+[API - Overview](docs/API.md)
+[Dependencies - How they are handled in QxCompiler](docs/Dependencies.md)
 
 
 ##Contributing
