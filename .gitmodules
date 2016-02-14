@@ -1,3 +1,3 @@
 [submodule "qooxdoo"]
 	path = qooxdoo
-	url = git@github.com:johnspackman/qooxdoo.git
+	url = https://github.com/johnspackman/qooxdoo.git
