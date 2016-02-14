@@ -9,6 +9,8 @@ var qxcompiler = require("../lib/qxcompiler");
 
 var STARTTIME = new Date();
 
+var QOOXDOO_PATH = "../qooxdoo";
+
 // Makers use an Analyser to figure out what the Target should write
 var maker = new qxcompiler.makers.SimpleApp("qxt.Application", "qxt.theme.Theme").set({
   // Targets know how to output an application
@@ -28,7 +30,7 @@ async.series(
          * Add qooxdoo library
          */
         function(cb) {
-          maker.addLibrary("../qooxdoo/framework", cb);
+          maker.addLibrary(QOOXDOO_PATH + "/framework", cb);
         },
 
         /*

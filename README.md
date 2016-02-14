@@ -36,6 +36,13 @@ git clone https://github.com/johnspackman/qxcompiler.git
 
 *(Note: this includes my fork of Qooxdoo in the "qooxdoo" subdirectory)*
 
+and then initialise the npm modules:
+
+```
+cd qxcompiler
+npm install
+```
+
 There is no command line application (yet) but it's easy to write a small app to compile with the API; there is a sample
 in test/compile-app-demo.js that builds the skeleton app in testdata/qxt.  Once you make this work, you can write
 code in your Qooxdoo app like this:
