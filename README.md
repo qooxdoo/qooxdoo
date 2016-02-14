@@ -62,6 +62,13 @@ Number one gotcha is that you have to run the compiler every time you change you
 This will get easy "real soon now" with a continuous compilation, but for the moment you have to run the compiler manually.
 
 
+##Documentation
+The documentation is a bit thin right now, but I'm working on it - please get in touch if you need help (see 
+"Contributing and Getting In Touch" below)
+* [API - Overview](docs/API.md)
+* [Dependencies - How they are handled in QxCompiler](docs/Dependencies.md)
+
+
 ##Is QxCompiler a complete replacement for generate.py?
 Not quite - QxCompiler is focused on compiling applications (including collecting resources) whereas generate.py includes features 
 for building and running test suites, creating API documentatino, building distributions, creating skeleton applications, etc.
@@ -69,12 +76,7 @@ It would not be hard to replicate those extra facilities provided by generate.py
 focus of this project.
 
 
-##Documenation
-[API - Overview](docs/API.md)
-[Dependencies - How they are handled in QxCompiler](docs/Dependencies.md)
-
-
-##Contributing
+##Contributing and Getting In Touch
 Please get stuck in to any aspects you'd like to work on - I'm open to pull requests, and you can contact me to chat 
 about features you'd like to see or help on using or extending QxCompiler.  Send me an email at john.spackman@zenesis.com
 or Skype me on johnspackman1 but the *best* place to talk about it is on the Qooxdoo mailing list at 
