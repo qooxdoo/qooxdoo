@@ -62,6 +62,10 @@ It would not be hard to replicate those extra facilities provided by generate.py
 focus of this project.
 
 
+##Documenation
+[Dependencies](docs/Dependencies.md)
+
+
 ##Contributing
 Please get stuck in to any aspects you'd like to work on - I'm open to pull requests, and you can contact me to chat 
 about features you'd like to see or help on using or extending QxCompiler.  Send me an email at john.spackman@zenesis.com
