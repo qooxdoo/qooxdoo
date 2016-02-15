@@ -32,14 +32,18 @@ Checkout the QxCompiler repository:
 
 ```
 git clone https://github.com/johnspackman/qxcompiler.git
+cd qxcompiler
 ```
 
-*(Note: this includes my fork of Qooxdoo in the "qooxdoo" subdirectory)*
+QxCompiler includes my fork of Qooxdoo in the "qooxdoo" subdirectory, but you have to initialise it:
+
+```
+git submodule update --init --recursive
+```
 
 and then initialise the npm modules:
 
 ```
-cd qxcompiler
 npm install
 ```
 
@@ -86,6 +90,8 @@ https://lists.sourceforge.net/lists/listinfo/qooxdoo-devel
 
 
 ##Feature TODO list
+* Translations
+* Compress build target JS with UglifyJS
 * Enable source maps
 * Lint processing
 * Part loading

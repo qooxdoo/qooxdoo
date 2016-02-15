@@ -29,10 +29,11 @@ any class referred to directly by the object passed to qx.Class.define.  Note th
 uses the "engine.name" check which is implemented by qx.bom.client.Engine, so there is another load time dependency there.
 
 ##Class .defer() method
-All of the above can be done with fairly simple static analysis, but the is a further difficulty - each class definition
+All of the above can be done with fairly simple static analysis, but there is a further difficulty - each class definition
 can have a defer() method which is called immediately after the class has been defined; because the code in defer() can
-do anything, it can add significant dependencies which can only be determined by figuring out what the runtime stack trace 
-would be.  
+do anything, it can add significant dependencies which can only be determined by recursively interpreting the code in .defer()
+and all of the methods it calls, ie predicting at compile-time what methods will be called at runtime so that it can make
+sure that the load order is correct.
 
 For example, qx.ui.form.AbstractField.defer() calls qx.ui.style.Stylesheet.getInstance(), the constructor for which calls 
 qx.bom.Stylesheet.createElement(); that function in turns relies on the "html.stylesheet.createstylesheet" environment check 
@@ -47,9 +48,17 @@ and introduce a recursive, unresolvable dependency.
 However this is only an issue for loading the class, if we can avoid calling defer() until all the classes have been loaded
 then the problem disappears; this is the solution used by QxCompiler in almost all cases.  It's important to note that
 a class is not fully defined until it's defer method has been called, so the exception is that any class methods which 
-are called when defining a class (such as qx.core.Environment.get()) must make sure that the defer() method has alrfeady been
+are called when defining a class (such as qx.core.Environment.get()) must make sure that the defer() method has already been
 called for that class.  In the above example, this means that mypackage.MyClassA must have q.core.Environment loaded *and* it's
 defer method called before the call to qx.Class.define("mypackage.MyClassA"...).
+
+##Is this backward compatible?
+Mostly - if you have code in a classs's .defer() method which calls methods that refer to other classes, you may find that
+your code breaks; this will only happen if that code is required to load another class though, so this is really quite
+rare.  The typical example in Qooxdoo itself is environment checks, which typically use the .defer() method to detect
+br
+
+if you find that you have code which is called via a class's .defer() method and there is an unsatisfied depende
 
 
 ##Runtime meta data

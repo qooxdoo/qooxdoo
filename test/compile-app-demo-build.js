@@ -16,32 +16,43 @@ var maker = new qxcompiler.makers.SimpleApp("qxt.Application", "qxt.theme.Theme"
   // Targets know how to output an application
   target: new qxcompiler.targets.BuildTarget("../testdata/qxt/build-output")
 });
+maker.setEnvironment({
+  "qxt.customEnvironment": "this is custom (build target)",
+  "qx.debug": false
+});
 
 async.series(
     [
-        /*
-         * An application is just a library - this is where we find the app
-         */
-        function(cb) {
-          maker.addLibrary("../testdata/qxt", cb);
-        },
+      /*
+       * An application is just a library - this is where we find the app
+       */
+      function (cb) {
+        maker.addLibrary("../testdata/qxt", cb);
+      },
 
-        /*
-         * Add qooxdoo library
-         */
-        function(cb) {
-          maker.addLibrary(QOOXDOO_PATH + "/framework", cb);
-        },
+      /*
+       * Add qooxdoo library
+       */
+      function (cb) {
+        maker.addLibrary(QOOXDOO_PATH + "/framework", cb);
+      },
 
-        /*
-         * Make it
-         */
-        function(cb) {
-          maker.make(cb);
-        }
+      /*
+       * Add a contrib
+       */
+      function (cb) {
+        maker.addLibrary("../testdata/contrib/UploadMgr", cb);
+      },
+
+      /*
+       * Make it
+       */
+      function (cb) {
+        maker.make(cb);
+      }
 
     ],
-    function(err) {
+    function (err) {
       if (err)
         console.log("Error: " + err);
       else {

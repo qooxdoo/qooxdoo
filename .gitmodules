@@ -1,3 +1,6 @@
 [submodule "qooxdoo"]
 	path = qooxdoo
 	url = https://github.com/johnspackman/qooxdoo.git
+[submodule "testdata/contrib/UploadMgr"]
+	path = testdata/contrib/UploadMgr
+	url = https://github.com/johnspackman/UploadMgr

@@ -186,1021 +186,6 @@
                 }
             }
         },
-        "source-bom.AttributeStyle_1": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "AttributeStyle_1",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.AttributeStyle_1": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "AttributeStyle_1",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.AttributeStyle_2": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "AttributeStyle_2",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.AttributeStyle_2": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "AttributeStyle_2",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Audio": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Audio",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Audio": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Audio",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Background": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Background",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Background": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Background",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Blocker": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Blocker",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Blocker": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Blocker",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Carousel": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Carousel",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Carousel": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Carousel",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Clip": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Clip",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Clip": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Clip",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Cookie": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Cookie",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Cookie": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Cookie",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Dimension": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Dimension",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Dimension": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Dimension",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Environment": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Environment",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Environment": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Environment",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Flash": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Flash",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Flash": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Flash",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Geolocation": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Geolocation",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Geolocation": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Geolocation",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Iframe": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Iframe",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Iframe": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Iframe",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Input": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Input",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Input": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Input",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Label": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Label",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Label": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Label",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Location": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Location",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Location": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Location",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Location_StandardMode": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Location_StandardMode",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Location_StandardMode": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Location_StandardMode",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.PageVisibility": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "PageVisibility",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.PageVisibility": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "PageVisibility",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Placeholder": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Placeholder",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Placeholder": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Placeholder",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.ScrollIntoView": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "ScrollIntoView",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.ScrollIntoView": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "ScrollIntoView",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Selector": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Selector",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Selector": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Selector",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Selection": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Selection",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Selection": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Selection",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Transform": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Transform",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Transform": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Transform",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Storage": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Storage",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Storage": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Storage",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Video": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Video",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Video": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Video",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Viewport": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Viewport",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Viewport": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Viewport",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Viewport_StandardMode": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Viewport_StandardMode",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Viewport_StandardMode": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Viewport_StandardMode",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.WebWorker": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "WebWorker",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.WebWorker": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "WebWorker",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-bom.Window": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Window",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Window": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Window",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
         "source-event.ElementResize": {
             "extend": [
                 "default-demo"
@@ -2411,6 +1396,1021 @@
             "let": {
                 "DPACKAGE": "data",
                 "DSNAME": "Tree_Columns",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.AttributeStyle_1": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "AttributeStyle_1",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.AttributeStyle_1": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "AttributeStyle_1",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.AttributeStyle_2": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "AttributeStyle_2",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.AttributeStyle_2": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "AttributeStyle_2",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Audio": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Audio",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Audio": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Audio",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Background": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Background",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Background": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Background",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Blocker": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Blocker",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Blocker": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Blocker",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Carousel": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Carousel",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Carousel": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Carousel",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Clip": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Clip",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Clip": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Clip",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Cookie": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Cookie",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Cookie": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Cookie",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Dimension": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Dimension",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Dimension": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Dimension",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Environment": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Environment",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Environment": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Environment",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Flash": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Flash",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Flash": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Flash",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Geolocation": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Geolocation",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Geolocation": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Geolocation",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Iframe": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Iframe",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Iframe": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Iframe",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Input": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Input",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Input": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Input",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Label": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Label",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Label": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Label",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Location": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Location",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Location": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Location",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Location_StandardMode": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Location_StandardMode",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Location_StandardMode": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Location_StandardMode",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.PageVisibility": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "PageVisibility",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.PageVisibility": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "PageVisibility",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Placeholder": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Placeholder",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Placeholder": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Placeholder",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.ScrollIntoView": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "ScrollIntoView",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.ScrollIntoView": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "ScrollIntoView",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Selection": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Selection",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Selection": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Selection",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Selector": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Selector",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Selector": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Selector",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Storage": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Storage",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Storage": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Storage",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Transform": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Transform",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Transform": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Transform",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Video": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Video",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Video": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Video",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Viewport": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Viewport",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Viewport": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Viewport",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Viewport_StandardMode": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Viewport_StandardMode",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Viewport_StandardMode": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Viewport_StandardMode",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.WebWorker": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "WebWorker",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.WebWorker": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "WebWorker",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Window": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Window",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Window": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Window",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -3721,61 +3721,26 @@
                 }
             }
         },
-        "source-mobile.Fingers": {
+        "source-root.Application": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "mobile",
-                "DSNAME": "Fingers",
+                "DPACKAGE": "root",
+                "DSNAME": "Application",
                 "BUILDTYPE": "source",
                 "EXCEPT": [
                     "*"
                 ]
             }
         },
-        "build-mobile.Fingers": {
+        "build-root.Application": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "mobile",
-                "DSNAME": "Fingers",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-mobile.PingPong": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "mobile",
-                "DSNAME": "PingPong",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-mobile.PingPong": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "mobile",
-                "DSNAME": "PingPong",
+                "DPACKAGE": "root",
+                "DSNAME": "Application",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -3811,41 +3776,6 @@
             "let": {
                 "DPACKAGE": "root",
                 "DSNAME": "Inline",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-root.Application": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Application",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-root.Application": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Application",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -3951,216 +3881,6 @@
             "let": {
                 "DPACKAGE": "root",
                 "DSNAME": "Page",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Browser": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Browser",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Browser": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Browser",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Dialog": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Dialog",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Dialog": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Dialog",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Form": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Form",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Form": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Form",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Localization": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Localization",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Localization": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Localization",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Maps": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Maps",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Maps": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Maps",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Translation": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Translation",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Translation": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Translation",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -4631,6 +4351,216 @@
                 }
             }
         },
+        "source-showcase.Browser": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Browser",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Browser": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Browser",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Dialog": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Dialog",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Dialog": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Dialog",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Form": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Form",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Form": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Form",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Localization": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Localization",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Localization": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Localization",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Maps": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Maps",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Maps": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Maps",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Translation": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Translation",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Translation": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Translation",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
         "source-treevirtual.TreeVirtual": {
             "extend": [
                 "default-demo"
@@ -4651,41 +4581,6 @@
             "let": {
                 "DPACKAGE": "treevirtual",
                 "DSNAME": "TreeVirtual",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-treevirtual.TreeVirtual_Multiple_Columns": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "treevirtual",
-                "DSNAME": "TreeVirtual_Multiple_Columns",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-treevirtual.TreeVirtual_Multiple_Columns": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "treevirtual",
-                "DSNAME": "TreeVirtual_Multiple_Columns",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -4736,6 +4631,76 @@
                 }
             }
         },
+        "source-treevirtual.TreeVirtual_Filter": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "treevirtual",
+                "DSNAME": "TreeVirtual_Filter",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-treevirtual.TreeVirtual_Filter": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "treevirtual",
+                "DSNAME": "TreeVirtual_Filter",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-treevirtual.TreeVirtual_Multiple_Columns": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "treevirtual",
+                "DSNAME": "TreeVirtual_Multiple_Columns",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-treevirtual.TreeVirtual_Multiple_Columns": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "treevirtual",
+                "DSNAME": "TreeVirtual_Multiple_Columns",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
         "source-treevirtual.TreeVirtual_Selections": {
             "extend": [
                 "default-demo"
@@ -4771,26 +4736,61 @@
                 }
             }
         },
-        "source-treevirtual.TreeVirtual_Filter": {
+        "source-mobile.Fingers": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "treevirtual",
-                "DSNAME": "TreeVirtual_Filter",
+                "DPACKAGE": "mobile",
+                "DSNAME": "Fingers",
                 "BUILDTYPE": "source",
                 "EXCEPT": [
                     "*"
                 ]
             }
         },
-        "build-treevirtual.TreeVirtual_Filter": {
+        "build-mobile.Fingers": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "treevirtual",
-                "DSNAME": "TreeVirtual_Filter",
+                "DPACKAGE": "mobile",
+                "DSNAME": "Fingers",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-mobile.PingPong": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "mobile",
+                "DSNAME": "PingPong",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-mobile.PingPong": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "mobile",
+                "DSNAME": "PingPong",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -4981,41 +4981,6 @@
                 }
             }
         },
-        "source-ui.FiniteStateMachine": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FiniteStateMachine",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.FiniteStateMachine": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FiniteStateMachine",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
         "source-ui.DragDrop": {
             "extend": [
                 "default-demo"
@@ -5036,6 +5001,41 @@
             "let": {
                 "DPACKAGE": "ui",
                 "DSNAME": "DragDrop",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.FiniteStateMachine": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FiniteStateMachine",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.FiniteStateMachine": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FiniteStateMachine",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -7613,35 +7613,6 @@
                 "source-animation.Animation_Compare",
                 "source-animation.Scroll",
                 "source-animation.Timing",
-                "source-bom.AttributeStyle_1",
-                "source-bom.AttributeStyle_2",
-                "source-bom.Audio",
-                "source-bom.Background",
-                "source-bom.Blocker",
-                "source-bom.Carousel",
-                "source-bom.Clip",
-                "source-bom.Cookie",
-                "source-bom.Dimension",
-                "source-bom.Environment",
-                "source-bom.Flash",
-                "source-bom.Geolocation",
-                "source-bom.Iframe",
-                "source-bom.Input",
-                "source-bom.Label",
-                "source-bom.Location",
-                "source-bom.Location_StandardMode",
-                "source-bom.PageVisibility",
-                "source-bom.Placeholder",
-                "source-bom.ScrollIntoView",
-                "source-bom.Selector",
-                "source-bom.Selection",
-                "source-bom.Transform",
-                "source-bom.Storage",
-                "source-bom.Video",
-                "source-bom.Viewport",
-                "source-bom.Viewport_StandardMode",
-                "source-bom.WebWorker",
-                "source-bom.Window",
                 "source-event.ElementResize",
                 "source-event.Event",
                 "source-event.Event_Bubbling",
@@ -7677,6 +7648,35 @@
                 "source-data.SingleValueBinding",
                 "source-data.TreeController",
                 "source-data.Tree_Columns",
+                "source-bom.AttributeStyle_1",
+                "source-bom.AttributeStyle_2",
+                "source-bom.Audio",
+                "source-bom.Background",
+                "source-bom.Blocker",
+                "source-bom.Carousel",
+                "source-bom.Clip",
+                "source-bom.Cookie",
+                "source-bom.Dimension",
+                "source-bom.Environment",
+                "source-bom.Flash",
+                "source-bom.Geolocation",
+                "source-bom.Iframe",
+                "source-bom.Input",
+                "source-bom.Label",
+                "source-bom.Location",
+                "source-bom.Location_StandardMode",
+                "source-bom.PageVisibility",
+                "source-bom.Placeholder",
+                "source-bom.ScrollIntoView",
+                "source-bom.Selection",
+                "source-bom.Selector",
+                "source-bom.Storage",
+                "source-bom.Transform",
+                "source-bom.Video",
+                "source-bom.Viewport",
+                "source-bom.Viewport_StandardMode",
+                "source-bom.WebWorker",
+                "source-bom.Window",
                 "source-layout.Basic",
                 "source-layout.Canvas_Fixed",
                 "source-layout.Canvas_LeftRight",
@@ -7714,19 +7714,11 @@
                 "source-layout.VBox_Separator",
                 "source-layout.VBox_ShrinkX",
                 "source-layout.VSplit",
-                "source-mobile.Fingers",
-                "source-mobile.PingPong",
-                "source-root.Inline",
                 "source-root.Application",
+                "source-root.Inline",
                 "source-root.Inline_Dynamic_Resize",
                 "source-root.Inline_Window",
                 "source-root.Page",
-                "source-showcase.Browser",
-                "source-showcase.Dialog",
-                "source-showcase.Form",
-                "source-showcase.Localization",
-                "source-showcase.Maps",
-                "source-showcase.Translation",
                 "source-table.Table",
                 "source-table.Table_Cell_Editor",
                 "source-table.Table_Conditional",
@@ -7740,18 +7732,26 @@
                 "source-table.Table_Resize_Columns",
                 "source-table.Table_Selection",
                 "source-table.Table_Window_Editor",
+                "source-showcase.Browser",
+                "source-showcase.Dialog",
+                "source-showcase.Form",
+                "source-showcase.Localization",
+                "source-showcase.Maps",
+                "source-showcase.Translation",
                 "source-treevirtual.TreeVirtual",
-                "source-treevirtual.TreeVirtual_Multiple_Columns",
                 "source-treevirtual.TreeVirtual_Events",
-                "source-treevirtual.TreeVirtual_Selections",
                 "source-treevirtual.TreeVirtual_Filter",
+                "source-treevirtual.TreeVirtual_Multiple_Columns",
+                "source-treevirtual.TreeVirtual_Selections",
+                "source-mobile.Fingers",
+                "source-mobile.PingPong",
                 "source-ui.AutoSizeTextArea",
                 "source-ui.Command",
                 "source-ui.CommandGroupManager",
                 "source-ui.Cursor",
                 "source-ui.Decoration",
-                "source-ui.FiniteStateMachine",
                 "source-ui.DragDrop",
+                "source-ui.FiniteStateMachine",
                 "source-ui.Font",
                 "source-ui.FormInvalids",
                 "source-ui.FormRenderer",
@@ -7834,35 +7834,6 @@
                 "build-animation.Animation_Compare",
                 "build-animation.Scroll",
                 "build-animation.Timing",
-                "build-bom.AttributeStyle_1",
-                "build-bom.AttributeStyle_2",
-                "build-bom.Audio",
-                "build-bom.Background",
-                "build-bom.Blocker",
-                "build-bom.Carousel",
-                "build-bom.Clip",
-                "build-bom.Cookie",
-                "build-bom.Dimension",
-                "build-bom.Environment",
-                "build-bom.Flash",
-                "build-bom.Geolocation",
-                "build-bom.Iframe",
-                "build-bom.Input",
-                "build-bom.Label",
-                "build-bom.Location",
-                "build-bom.Location_StandardMode",
-                "build-bom.PageVisibility",
-                "build-bom.Placeholder",
-                "build-bom.ScrollIntoView",
-                "build-bom.Selector",
-                "build-bom.Selection",
-                "build-bom.Transform",
-                "build-bom.Storage",
-                "build-bom.Video",
-                "build-bom.Viewport",
-                "build-bom.Viewport_StandardMode",
-                "build-bom.WebWorker",
-                "build-bom.Window",
                 "build-event.ElementResize",
                 "build-event.Event",
                 "build-event.Event_Bubbling",
@@ -7898,6 +7869,35 @@
                 "build-data.SingleValueBinding",
                 "build-data.TreeController",
                 "build-data.Tree_Columns",
+                "build-bom.AttributeStyle_1",
+                "build-bom.AttributeStyle_2",
+                "build-bom.Audio",
+                "build-bom.Background",
+                "build-bom.Blocker",
+                "build-bom.Carousel",
+                "build-bom.Clip",
+                "build-bom.Cookie",
+                "build-bom.Dimension",
+                "build-bom.Environment",
+                "build-bom.Flash",
+                "build-bom.Geolocation",
+                "build-bom.Iframe",
+                "build-bom.Input",
+                "build-bom.Label",
+                "build-bom.Location",
+                "build-bom.Location_StandardMode",
+                "build-bom.PageVisibility",
+                "build-bom.Placeholder",
+                "build-bom.ScrollIntoView",
+                "build-bom.Selection",
+                "build-bom.Selector",
+                "build-bom.Storage",
+                "build-bom.Transform",
+                "build-bom.Video",
+                "build-bom.Viewport",
+                "build-bom.Viewport_StandardMode",
+                "build-bom.WebWorker",
+                "build-bom.Window",
                 "build-layout.Basic",
                 "build-layout.Canvas_Fixed",
                 "build-layout.Canvas_LeftRight",
@@ -7935,19 +7935,11 @@
                 "build-layout.VBox_Separator",
                 "build-layout.VBox_ShrinkX",
                 "build-layout.VSplit",
-                "build-mobile.Fingers",
-                "build-mobile.PingPong",
-                "build-root.Inline",
                 "build-root.Application",
+                "build-root.Inline",
                 "build-root.Inline_Dynamic_Resize",
                 "build-root.Inline_Window",
                 "build-root.Page",
-                "build-showcase.Browser",
-                "build-showcase.Dialog",
-                "build-showcase.Form",
-                "build-showcase.Localization",
-                "build-showcase.Maps",
-                "build-showcase.Translation",
                 "build-table.Table",
                 "build-table.Table_Cell_Editor",
                 "build-table.Table_Conditional",
@@ -7961,18 +7953,26 @@
                 "build-table.Table_Resize_Columns",
                 "build-table.Table_Selection",
                 "build-table.Table_Window_Editor",
+                "build-showcase.Browser",
+                "build-showcase.Dialog",
+                "build-showcase.Form",
+                "build-showcase.Localization",
+                "build-showcase.Maps",
+                "build-showcase.Translation",
                 "build-treevirtual.TreeVirtual",
-                "build-treevirtual.TreeVirtual_Multiple_Columns",
                 "build-treevirtual.TreeVirtual_Events",
-                "build-treevirtual.TreeVirtual_Selections",
                 "build-treevirtual.TreeVirtual_Filter",
+                "build-treevirtual.TreeVirtual_Multiple_Columns",
+                "build-treevirtual.TreeVirtual_Selections",
+                "build-mobile.Fingers",
+                "build-mobile.PingPong",
                 "build-ui.AutoSizeTextArea",
                 "build-ui.Command",
                 "build-ui.CommandGroupManager",
                 "build-ui.Cursor",
                 "build-ui.Decoration",
-                "build-ui.FiniteStateMachine",
                 "build-ui.DragDrop",
+                "build-ui.FiniteStateMachine",
                 "build-ui.Font",
                 "build-ui.FormInvalids",
                 "build-ui.FormRenderer",

@@ -1,77 +1,56 @@
 {
-  "name"    : "qxt",
-
-  "include" :
-  [
+  "name": "qxt",
+  "include": [
     {
-      "path" : "${QOOXDOO_PATH}/tool/data/config/application.json"
+      "path": "${QOOXDOO_PATH}/tool/data/config/application.json"
     }
   ],
-
-  "export" :
-  [
-    "api",
-    "api-data",
-    "build",
-    "clean",
-    "distclean",
-    "fix",
-    "info",
-    "inspector",
-    "lint",
-    "migration",
-    "pretty",
-    "profiling",
-    "source",
-    "source-all",
-    "source-hybrid",
-    "simulation-build",
-    "simulation-run",
-    "test",
-    "test-source",
-    "translation"
-  ],
-  
-  "default-job" : "source",
-
-  "let" :
-  {
-    "APPLICATION"  : "qxt",
-    "QOOXDOO_PATH" : "../../qooxdoo-3.5.1-sdk",
-    "QXTHEME"      : "qxt.theme.Theme",
-    "API_EXCLUDE"  : ["qx.test.*", "${APPLICATION}.theme.*", "${APPLICATION}.test.*", "${APPLICATION}.simulation.*"],
-    "LOCALES"      : [ "en" ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
-    "ROOT"         : "."
+  "default-job": "source",
+  "let": {
+    "APPLICATION": "qxt",
+    "QOOXDOO_PATH": "../../qooxdoo",
+    "QXTHEME": "qxt.theme.Theme",
+    "API_EXCLUDE": [
+      "qx.test.*",
+      "${APPLICATION}.theme.*",
+      "${APPLICATION}.test.*",
+      "${APPLICATION}.simulation.*"
+    ],
+    "LOCALES": [
+      "en"
+    ],
+    "CACHE": "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "ROOT": "."
   },
-
-  // You only need to edit the remainder of this file, if you want to customize
-  // specific jobs, or add own job definitions.
-
-  "jobs" :
-  {
-    "source-script" : {
-       "extend" : ["log-dependencies-dot"]
-    },
-    
-    "log-dependencies-dot" : 
-    {
-      "desc" : "includer job, to generate a dot file for dependencies",
-
-      "log"  : 
-      { 
-        "dependencies" :
+  "jobs": {
+    "libraries": {
+      "library": [
         {
-          "type"   : "using"
-          ,"include-transitive-load-deps": true
-          ,"phase" : "load"
-          ,"format" : "json"
-          ,"dot"    :
-          {
-            "root"   : "${APPLICATION}.Application"
-            ,"radius" : 100
-            ,"span-tree-only" : false
-            ,"compiled-class-size" : false
+          "manifest": "${QOOXDOO_PATH}/framework/Manifest.json"
+        },
+        {
+          "manifest": "../contrib/UploadMgr/Manifest.json"
+        }
+      ],
+      "source-script": {
+        "extend": [
+          "log-dependencies-dot"
+        ]
+      },
+      "log-dependencies-dot": {
+        "desc": "includer job, to generate a dot file for dependencies",
+        "log": {
+          "dependencies": {
+            "type": "using",
+            "include-transitive-load-deps": true,
+            "phase": "load",
+            "format": "json",
+            "dot": {
+              "root": "${APPLICATION}.Application",
+              "radius": 100,
+              "span-tree-only": false,
+              "compiled-class-size": false
+            }
           }
         }
       }
