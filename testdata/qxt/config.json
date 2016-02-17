@@ -17,7 +17,7 @@
       "${APPLICATION}.simulation.*"
     ],
     "LOCALES": [
-      "en"
+      "en", "es"
     ],
     "CACHE": "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT": "."

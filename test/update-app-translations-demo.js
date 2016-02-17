@@ -21,13 +21,20 @@ maker.setEnvironment({
   "qxt.customEnvironment": "this is custom (source target)"
 });
 
+var appLibrary = null;
+
 async.series(
     [
       /*
        * An application is just a library - this is where we find the app
        */
       function (cb) {
-        maker.addLibrary("../testdata/qxt", cb);
+        maker.addLibrary("../testdata/qxt", function (err, library) {
+          if (err)
+            return cb(err);
+          appLibrary = library;
+          return cb();
+        });
       },
 
       /*
@@ -49,6 +56,13 @@ async.series(
        */
       function (cb) {
         maker.make(cb);
+      },
+
+      /*
+       * Translations
+       */
+      function (cb) {
+        maker.updateTranslations(appLibrary, cb);
       }
 
     ],

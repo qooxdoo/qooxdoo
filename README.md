@@ -65,6 +65,10 @@ The Demo Browser is compiled by running test/compile-demo-browser.js - it will c
 Number one gotcha is that you have to run the compiler every time you change your code, because it's being transpiled.
 This will get easy "real soon now" with a continuous compilation, but for the moment you have to run the compiler manually.
 
+The old style compiler hints (eg #require, #asset etc) have been deprecated in generate.py for some time now, and they
+are not supported in QxCompiler at all (there will be some warnings output "real soon now" but it is a good idea to
+do a quick grep through your code)
+
 
 ##Documentation
 The documentation is a bit thin right now, but I'm working on it - please get in touch if you need help (see 
@@ -73,14 +77,20 @@ The documentation is a bit thin right now, but I'm working on it - please get in
 * [Dependencies - How they are handled in QxCompiler](docs/Dependencies.md)
 
 
+##Minimum Requirements
+QxCompiler requires Node 4.x or 5.x - Node v0.12 and earlier will not work; you also need to have ImageMagick installed
+
+
 ##Is QxCompiler a complete replacement for generate.py?
 Not quite - QxCompiler is focused on compiling applications (including collecting resources) whereas generate.py includes features 
 for building and running test suites, creating API documentatino, building distributions, creating skeleton applications, etc.
 It would not be hard to replicate those extra facilities provided by generate.py using QxCompiler as a base, but it's not the 
 focus of this project.
 
+
 ##What about config.json?  QOOXDOO_PATH?
 config.json is not used by QxCompiler
+
 
 ##Contributing and Getting In Touch
 Please get stuck in to any aspects you'd like to work on - I'm open to pull requests, and you can contact me to chat 
@@ -95,5 +105,4 @@ https://lists.sourceforge.net/lists/listinfo/qooxdoo-devel
 * Enable source maps
 * Lint processing
 * Part loading
-* Translation
 

@@ -59,22 +59,27 @@ qx.Class.define("qxt.Application",
       this.self(arguments).myStaticDemo();
 
       console.log("qxt.customEnvironment=" + qx.core.Environment.get("qxt.customEnvironment"));
+      console.log(this.tr("Translation One"));
+      console.log(this.trn("Translation Singular", "Translation Plural", 1, 2));
+      console.log(this.trc("Comment about Translation Three", "Translation Three"));
+      console.log(this.trnc("Comment about Translation Four", "Translation Four Singular", "Translation Four Plural", 1, 2));
+      console.log(this.tr("Last month"));
 
       // Document is the application root
       var doc = this.getRoot();
 
       // Create a button
-      var button1 = new qx.ui.form.Button("First Button", "qxt/test.png");
+      var button1 = new qx.ui.form.Button(this.tr("First Button"), "qxt/test.png");
 
       // Add button to document at fixed coordinates
    	  doc.add(button1, {left: 100, top: 50});
    	  
       // Add an event listener
-      //button1.addListener("execute", () => alert("Hello World!"));
+      button1.addListener("execute", () => alert("Hello World!"));
 
       doc.add(new qx.ui.form.TextField(), { left: 100, top: 150 });
 
-      var btn = new com.zenesis.qx.upload.UploadButton("Add File(s)", "qxt/test.png");
+      var btn = new com.zenesis.qx.upload.UploadButton(this.tr("Add File(s)"), "qxt/test.png");
       var uploader = new com.zenesis.qx.upload.UploadMgr(btn, "http://www.zenesis.com/demoupload"); // "http://my.grasshopperwebsites.com:8080/demoupload"
       doc.add(btn, { left: 100, top: 250 });
     }

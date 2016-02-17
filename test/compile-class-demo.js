@@ -59,7 +59,7 @@ async.series(
       /* "qx.ui.form.AbstractField" - load dependency on "qx.ui.style.Stylesheet" implies load dependency on qx.bom.Stylesheet because of constructor dependency */
       /* "qx.module.Event" - for animation/Animation demo, dependencies via defer */
 
-      async.eachSeries(["demobrowser.demo.bom.Carousel" /*"qx.ui.style.Stylesheet", "qx.ui.form.AbstractField" */],
+      async.eachSeries(["qxt.Application" /*"qx.ui.style.Stylesheet", "qx.ui.form.AbstractField" */],
         function(className, cb) {
           maker.getAnalyser().getClassInfo(className, function (err, info) {
             if (err)

@@ -1,0 +1,42 @@
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.0\n"
+"Report-Msgid-Bugs-To: you@your.org\n"
+"POT-Creation-Date: 2016-02-16 11:02+0000\n"
+"PO-Revision-Date: 2016-02-16 11:02+0000\n"
+"Last-Translator: you <you@your.org>\n"
+"Language-Team: Team <yourteam@your.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: qxt/Application.js:62
+msgid "Translation One"
+msgstr "es: Translation One"
+
+#: qxt/Application.js:63
+msgid "Translation Singular"
+msgid_plural "Translation Plural"
+msgstr[0] "es: Translation Singular"
+msgstr[1] "es: Translation Plural"
+
+#. Comment about Translation Three
+#: qxt/Application.js:64
+msgid "Translation Three"
+msgstr ""
+
+#. Comment about Translation Four
+#: qxt/Application.js:65
+msgid "Translation Four Singular"
+msgid_plural "Translation Four Plural"
+msgstr[0] ""
+msgstr[1] ""
+
+#: qxt/Application.js:71
+msgid "First Button"
+msgstr "es: First Button"
+
+#: qxt/Application.js:81
+msgid "Add File(s)"
+msgstr "es: Add File(s)"
