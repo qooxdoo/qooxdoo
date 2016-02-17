@@ -1,3 +1,4 @@
+#!/usr/bin/node
 /*
  * This demonstrates compiling an entire application, as a "source" target
  *

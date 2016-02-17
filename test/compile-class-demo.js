@@ -1,3 +1,4 @@
+#!/usr/bin/node
 /*
  * This is a quick demo that compiles (transpiles) just a single class, used for easy debuging and testing
  *

@@ -1,3 +1,4 @@
+#!/usr/bin/node
 var fs = require("fs");
 
 function main(cb) {
