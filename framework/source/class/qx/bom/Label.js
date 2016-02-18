@@ -131,6 +131,7 @@ qx.Bootstrap.define("qx.bom.Label",
     {
       var styles = {};
 
+      styles.overflow = "hidden";
       if (html)
       {
         styles.whiteSpace = "normal";
@@ -142,7 +143,6 @@ qx.Bootstrap.define("qx.bom.Label",
       }
       else
       {
-        styles.overflow = "hidden";
         styles.whiteSpace = "nowrap";
         styles[qx.core.Environment.get("css.textoverflow")] = "ellipsis";
       }
@@ -181,7 +181,8 @@ qx.Bootstrap.define("qx.bom.Label",
       {
         el.useHtml = true;
       }
-      else if (!qx.core.Environment.get("css.textoverflow") &&
+
+      if (!qx.core.Environment.get("css.textoverflow") &&
         qx.core.Environment.get("html.xul"))
       {
         // Gecko as of Firefox 2.x and 3.0 does not support ellipsis
