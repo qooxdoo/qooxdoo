@@ -1826,7 +1826,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var value = tableModel.getValue(col, row);
 
         // scroll cell into view
-        this.scrollCellVisible(xPos, row);
+        this.scrollCellVisible(col, row);
 
         this.__cellEditorFactory = table.getTableColumnModel().getCellEditorFactory(col);
 
