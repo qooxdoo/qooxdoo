@@ -271,7 +271,11 @@ qx.Bootstrap.define("qx.event.type.dom.Pointer", {
 
       for (var prop in properties) {
         if (evt[prop] !== properties[prop] && qx.event.type.dom.Pointer.READONLY_PROPERTIES.indexOf(prop) === -1) {
-          evt[prop] = properties[prop];
+          try {
+            evt[prop] = properties[prop];
+          }catch(ex) {
+            // Nothing - cannot override properties in strict mode
+          }
         }
       }
 

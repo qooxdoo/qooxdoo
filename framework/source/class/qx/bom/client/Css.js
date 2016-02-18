@@ -25,6 +25,7 @@
  *
  * @internal
  * @ignore(WebKitCSSMatrix)
+ * @require(qx.bom.Style)
  */
 qx.Bootstrap.define("qx.bom.client.Css",
 {
