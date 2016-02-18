@@ -61,6 +61,30 @@ qx.Class.define("qx.util.ResourceManager",
 
   members :
   {
+    /**
+     * Get all known resource IDs.
+     *
+     * @param pathfragment{String|null|undefined} an options path fragment to check against with id.indexOf(pathfragment)
+     * @return {Array|null} an array containing the IDs or null if the registry is not initialized
+     */
+    getIds : function(pathfragment) {
+      var registry = this.self(arguments).__registry;
+      if(!registry) {
+        return null;
+      }
+  
+      var ids = [];
+      for (var id in registry) {
+        if (registry.hasOwnProperty(id)) {
+          if(pathfragment && id.indexOf(pathfragment) == -1) {
+            continue;
+          }
+          ids.push(id);
+        }
+      }
+  
+      return ids;
+    },
 
     /**
      * Whether the registry has information about the given resource.

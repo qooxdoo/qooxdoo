@@ -228,6 +228,16 @@ qx.Class.define("qx.test.bom.Template",
 
       // IE uses uppercase tag names
       this.assertEquals("123<span>234</span>", el.innerHTML.toLowerCase());
+    },
+
+    // test a potential exploit https://nodesecurity.io/advisories/62
+    testHtmlEscaping : function() {
+        var template = "<a href={{foo}}/>";
+        var view = {foo: 'test.com onload=alert(1)'};
+        var result = qx.bom.Template.render(template, view);
+        var expected = "<a href=test.com onload&#x3D;alert(1)/>";
+
+        this.assertEquals(expected, result);
     }
   }
 });

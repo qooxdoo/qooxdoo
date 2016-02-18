@@ -74,11 +74,11 @@ qx.Class.define("qx.ui.decoration.Abstract",
     // interface implementation
     getInsets : function()
     {
-      if (this.__insets) {
-        return this.__insets;
+      if (!this.__insets) {
+        this.__insets = this._getDefaultInsets();
       }
 
-      return this._getDefaultInsets();
+      return this.__insets;
     }
   },
 
