@@ -727,7 +727,7 @@
  *     </tr>
  *     <tr>
  *       <td>qx.globalErrorHandling</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td><i>default:</i> <code>true</code></td>
+ *       <td><i>default:</i> <code>true</code> {@link qx.event.GlobalError}</td>
  *     </tr>
  *     <tr>
  *       <td>qx.mobile.nativescroll</td><td><i>Boolean</i></td><td><code>false</code></td>
