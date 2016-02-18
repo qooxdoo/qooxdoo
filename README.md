@@ -104,8 +104,7 @@ https://lists.sourceforge.net/lists/listinfo/qooxdoo-devel
 
 
 ##Feature TODO list
-* Translations
-* Compress build target JS with UglifyJS
+* Warnings for unresolved symbols and unsupported compiler hints
 * Enable source maps
 * Lint processing
 * Part loading

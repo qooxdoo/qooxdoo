@@ -16,7 +16,8 @@ var QOOXDOO_PATH = "../qooxdoo";
 var maker = new qxcompiler.makers.SimpleApp("qxt.Application", "qxt.theme.Theme").set({
   // Targets know how to output an application
   target: new qxcompiler.targets.SourceTarget("../testdata/qxt/source-output"),
-  locales: [ "en", "es" ]
+  locales: [ "en", "es" ],
+  dbFilename: "my-qxcompiler-db.json"
 });
 maker.setEnvironment({
   "qxt.customEnvironment": "this is custom (source target)"
