@@ -642,6 +642,9 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     setValue : function(value)
     {
+      if (this.isDisposed())
+        return null;
+      
       // handle null values
       if (value === null) {
         // just do nothing if null is already set
@@ -687,8 +690,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String|null} The current value
      */
     getValue : function() {
-      var value = this.getContentElement().getValue();
-      return this.__nullValue ? null : value;
+      return (this.isDisposed() || this.__nullValue) ? null : this.getContentElement().getValue();
     },
 
 

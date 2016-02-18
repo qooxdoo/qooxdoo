@@ -383,6 +383,10 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
   */
 
   destruct : function() {
+    var behavior = this.getBehavior();
+    if (behavior) {
+      behavior.dispose();
+    }
     this.__table = null;
   }
 });
