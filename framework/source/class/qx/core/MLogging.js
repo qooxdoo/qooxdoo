@@ -77,11 +77,14 @@ qx.Mixin.define("qx.core.MLogging",
 
 
     /**
-     * Prints the current stack trace
+     * Logs an error message with the current stack trace
      *
+     * @param varargs {var} The item(s) to log. Any number of arguments is
+     * supported. If an argument is not a string, the object dump will be
+     * logged.
      */
-    trace : function() {
-      this.__Logger.trace(this);
+    trace : function(varargs) {
+      this.__logMessage("trace", arguments);
     },
 
 
