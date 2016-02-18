@@ -137,7 +137,7 @@ qx.Bootstrap.define("qx.log.Logger",
         var entry = entries[i];
 
         var appenders = this.__getAppenders(entry.loggerName, entry.level);
-        if (qx.lang.Array.contains(appenders, appender))
+        if (appenders[appender.classname])
           appender.process(entry);
       }
     },
@@ -461,7 +461,7 @@ qx.Bootstrap.define("qx.log.Logger",
     isLoggerEnabled: function(level, object) {
       var loggerName = this.__getLoggerName(object);
       var appenders = this.__getAppenders(loggerName, level);
-      return !!appenders.length;
+      return !!Object.keys(appenders).length;
     },
 
 
@@ -478,7 +478,7 @@ qx.Bootstrap.define("qx.log.Logger",
       var object = args.length < 2 ? null : args[0];
       var loggerName = this.__getLoggerName(object);
       var appenders = this.__getAppenders(loggerName, level);
-      if (!appenders.length) {
+      if (!Object.keys(appenders).length) {
         return;
       }
       
@@ -519,9 +519,8 @@ qx.Bootstrap.define("qx.log.Logger",
       this.__buffer.process(entry);
 
       // Send to appenders
-      appenders.forEach(function(appender) {
-        appender.process(entry);
-      });
+      for (var classname in appenders)
+        appenders[classname].process(entry);
     },
     
 
@@ -537,7 +536,7 @@ qx.Bootstrap.define("qx.log.Logger",
         // Check the default level
         if (levels[level] < levels[this.__level])
           return [];
-        return this.__appenders;
+        return this.__appendersByName;
       }
       
       // Check the cache
@@ -546,7 +545,7 @@ qx.Bootstrap.define("qx.log.Logger",
       if (appenders !== undefined)
         return appenders;
       
-      var names = [];
+      var appenders = {};
       for (var i = 0; i < this.__filters.length; i++) {
         var filter = this.__filters[i];
         
@@ -555,24 +554,18 @@ qx.Bootstrap.define("qx.log.Logger",
           continue;
         
         // No duplicates
-        if (filter.appenderName && qx.lang.Array.contains(names, filter.appenderName))
+        if (filter.appenderName && appenders[filter.appenderName])
           continue;
         
         // Test
         if (!filter.loggerMatch || filter.loggerMatch.test(className)) {
           if (filter.appenderName)
-            names.push(filter.appenderName);
+            appenders[filter.appenderName] = this.__appendersByName[filter.appenderName];
           else
-            return this.__appendersCache[cacheId] = this.__appenders;
+            return this.__appendersCache[cacheId] = this.__appendersByName;
         }
       }
       
-      // Map appender names into appenders
-      var appenders = [];
-      var appendersByName = this.__appendersByName;
-      appenders = names.map(function(name) {
-        return appendersByName[name];
-      });
       return this.__appendersCache[cacheId] = appenders;
     },
     
