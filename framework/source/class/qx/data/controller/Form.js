@@ -259,7 +259,7 @@ qx.Class.define("qx.data.controller.Form",
       }
 
       // first, get rid off all bindings (avoids wrong data population)
-      if (this.__objectController != null) {
+      if (this.__objectController != null && this.getTarget() != null) {
         var items = this.getTarget().getItems();
         for (var name in items) {
           var item = items[name];
