@@ -239,7 +239,7 @@ qx.Class.define("qx.event.handler.Focus",
             // Fixed cursor position issue with IE, only when nothing is selected.
             // See [BUG #3519] for details.
             var selection = qx.bom.Selection.get(element);
-            if (selection.length == 0) {
+            if (selection.length == 0 && typeof element.createTextRange == "function") {
               var textRange = element.createTextRange();
               textRange.moveStart('character', element.value.length);
               textRange.collapse();
@@ -814,7 +814,8 @@ qx.Class.define("qx.event.handler.Focus",
             // is not what we like when changing the focus element.
             // So we clear it
             try {
-              document.selection.empty();
+              if (document.selection)
+                document.selection.empty();
             } catch (ex) {
               // ignore 'Unknown runtime error'
             }

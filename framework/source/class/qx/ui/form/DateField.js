@@ -296,6 +296,8 @@ qx.Class.define("qx.ui.form.DateField",
 
       // return the parsed date
       try {
+        if (textfieldValue == null || textfieldValue.length == 0)
+          return null;
         return this.getDateFormat().parse(textfieldValue);
       } catch (ex) {
         return null;
@@ -378,8 +380,10 @@ qx.Class.define("qx.ui.form.DateField",
       {
         var textfield = this.getChildControl("textfield");
         var dateStr = textfield.getValue();
-        var currentDate = old.parse(dateStr);
-        textfield.setValue(value.format(currentDate));
+        if (dateStr != null) {
+          var currentDate = old.parse(dateStr);
+          textfield.setValue(value.format(currentDate));
+        }
       }
       catch (ex) {
         // do nothing if the former date could not be parsed
