@@ -40,7 +40,6 @@ qx.Class.define("qx.bom.media.Abstract",
     this._hasLoop = !!this._media.loop;
 
     var Function = qx.lang.Function;
-    this._handleErrorEventBound = Function.bind(this._handleErrorEvent, this);
     this._handlePlayEventBound = Function.bind(this._handlePlayEvent, this);
     this._handlePauseEventBound = Function.bind(this._handlePauseEvent, this);
     this._handleTimeUpdateEventBound = Function.bind(this._handleTimeUpdateEvent, this);
@@ -50,7 +49,6 @@ qx.Class.define("qx.bom.media.Abstract",
     this._handleLoadedMetaDataEventBound = Function.bind(this._handleLoadedMetaDataEvent, this);
 
     var Event = qx.bom.Event;
-    Event.addNativeListener(this._media, "error", this._handleErrorEventBound);
     Event.addNativeListener(this._media, "play", this._handlePlayEventBound);
     Event.addNativeListener(this._media, "pause", this._handlePauseEventBound);
     Event.addNativeListener(this._media, "timeupdate", this._handleTimeUpdateEventBound);
@@ -68,9 +66,6 @@ qx.Class.define("qx.bom.media.Abstract",
   //http://www.whatwg.org/specs/web-apps/current-work/multipage/video.html#mediaevents
   events:
   {
-    /** Fired when the media has errors */
-    "error": "qx.event.type.Data",
-
     /** Fired when the media starts to play */
     "play": "qx.event.type.Event",
 
@@ -403,13 +398,6 @@ qx.Class.define("qx.bom.media.Abstract",
       return !!this._media.loop;
     },
 
-    /**
-     * Error event handler.
-     */
-    _handleErrorEvent: function(e)
-    {
-      this.fireDataEvent("error", e);
-    },
 
     /**
      * Play event handler.
@@ -477,7 +465,6 @@ qx.Class.define("qx.bom.media.Abstract",
   {
     var Event = qx.bom.Event;
 
-    Event.removeNativeListener(this._media, "error", this._handleErrorEventBound);
     Event.removeNativeListener(this._media, "play", this._handlePlayEventBound);
     Event.removeNativeListener(this._media, "pause", this._handlePauseEventBound);
     Event.removeNativeListener(this._media, "timeupdate", this._handleTimeUpdateEventBound);
