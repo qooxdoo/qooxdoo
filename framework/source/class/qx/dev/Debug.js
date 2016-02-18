@@ -21,6 +21,11 @@
 
 /**
  * Useful debug capabilities
+ * @ignore(qx.ui.decoration.IDecorator)
+ * @ignore(qx.theme.manager.Decoration)
+ * @ignore(qx.ui.core.queue.Dispose)
+ * @ignore(qx.bom.Font)
+ * @ignore(qx.theme.manager.Font)
  */
 qx.Class.define("qx.dev.Debug",
 {
@@ -386,8 +391,10 @@ qx.Class.define("qx.dev.Debug",
 
         var undisposedObjects = [];
         // If destroy calls another destroy, flushing the queue once is not enough
-        while (!qx.ui.core.queue.Dispose.isEmpty()) {
-          qx.ui.core.queue.Dispose.flush();
+        if (qx.Class.getByName("qx.ui.core.queue.Dispose")) {
+          while (!qx.ui.core.queue.Dispose.isEmpty()) {
+            qx.ui.core.queue.Dispose.flush();
+          }
         }
         var nextHashLast = qx.core.ObjectRegistry.getNextHash();
         var postId = qx.core.ObjectRegistry.getPostId();
@@ -413,7 +420,9 @@ qx.Class.define("qx.dev.Debug",
               continue;
             }
             // Dynamic decorators
-            if (qx.Class.implementsInterface(obj, qx.ui.decoration.IDecorator) &&
+            if (qx.Interface.getByName("qx.ui.decoration.IDecorator") &&
+                qx.Class.getByName("qx.theme.manager.Decoration") && 
+                qx.Class.implementsInterface(obj, qx.ui.decoration.IDecorator) &&
               qx.theme.manager.Decoration.getInstance().isCached(obj)) {
               continue;
             }
@@ -422,8 +431,10 @@ qx.Class.define("qx.dev.Debug",
               continue;
             }
             // Dynamic fonts
-            if (obj instanceof qx.bom.Font &&
-              qx.theme.manager.Font.getInstance().isDynamic(obj)) {
+            if (qx.Class.getByName("qx.bom.Font") && 
+                obj instanceof qx.bom.Font &&
+                qx.Class.getByName("qx.theme.manager.Font") &&
+                qx.theme.manager.Font.getInstance().isDynamic(obj)) {
               continue;
             }
             undisposedObjects.push({
