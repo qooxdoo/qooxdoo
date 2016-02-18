@@ -80,6 +80,10 @@ The documentation is a bit thin right now, but I'm working on it - please get in
 ##Minimum Requirements
 QxCompiler requires Node 4.x or 5.x - Node v0.12 and earlier will not work; you also need to have ImageMagick installed
 
+```
+sudo yum install ImageMagick
+```
+
 
 ##Is QxCompiler a complete replacement for generate.py?
 Not quite - QxCompiler is focused on compiling applications (including collecting resources) whereas generate.py includes features 
