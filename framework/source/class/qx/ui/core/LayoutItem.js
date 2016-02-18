@@ -440,6 +440,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     renderLayout : function(left, top, width, height)
     {
+      // do not render if the layout item is already disposed
+      if (this.isDisposed()) {
+        return null;
+      }
+
       if (qx.core.Environment.get("qx.debug"))
       {
         var msg = "Something went wrong with the layout of " + this.toString() + "!";
