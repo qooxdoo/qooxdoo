@@ -16,7 +16,42 @@
 
 /**
  * Manages font-face definitions, making sure that each rule is only applied
- * once.
+ * once. It supports adding fonts of the same family but with different style
+ * and weight. For instance, the following declaration uses 4 different source
+ * files and combine them in a single font family.
+ *
+ * <pre class='javascript'>
+ *   sources: [
+ *     {
+ *       family: "Sansation",
+ *       source: [
+ *         "fonts/Sansation-Regular.ttf"
+ *       ]
+ *     },
+ *     {
+ *       family: "Sansation",
+ *       fontWeight: "bold",
+ *       source: [
+ *         "fonts/Sansation-Bold.ttf",
+ *       ]
+ *     },
+ *     {
+ *       family: "Sansation",
+ *       fontStyle: "italic",
+ *       source: [
+ *         "fonts/Sansation-Italic.ttf",
+ *       ]
+ *     },
+ *     {
+ *       family: "Sansation",
+ *       fontWeight: "bold",
+ *       fontStyle: "italic",
+ *       source: [
+ *         "fonts/Sansation-BoldItalic.ttf",
+ *       ]
+ *     }
+ *   ]
+ * </pre>
  */
 qx.Class.define("qx.bom.webfonts.Manager", {
 
@@ -92,8 +127,10 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * checks if the webFont was applied correctly.
      *
      * @param familyName {String} Name of the web font
-     * @param sourcesList {String[]} List of source URLs. For maximum compatibility,
-     * this should include EOT, WOFF and TTF versions of the font.
+     * @param sourcesList {Object} List of source URLs along with their style
+     * (e.g. fontStyle: "italic") and weight (e.g. fontWeight: "bold").
+     * For maximum compatibility, this should include EOT, WOFF and TTF versions
+     * of the font.
      * @param callback {Function?} Optional event listener callback that will be
      * executed once the validator has determined whether the webFont was
      * applied correctly.
@@ -102,9 +139,12 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      */
     require : function(familyName, sourcesList, callback, context)
     {
+      var sourceUrls = sourcesList.source;
+      var fontWeight = sourcesList.fontWeight;
+      var fontStyle = sourcesList.fontStyle;
       var sources = [];
-      for (var i=0,l=sourcesList.length; i<l; i++) {
-        var split = sourcesList[i].split("#");
+      for (var i=0,l=sourceUrls.length; i<l; i++) {
+        var split = sourceUrls[i].split("#");
         var src = qx.util.ResourceManager.getInstance().toUri(split[0]);
         if (split.length > 1) {
           src = src + "#" + split[1];
@@ -125,9 +165,9 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           this.__queueInterval.start();
         }
 
-        this.__queue.push([familyName, sources, callback, context]);
+        this.__queue.push([familyName, sources, fontWeight, fontStyle, callback, context]);
       } else {
-        this.__require(familyName, sources, callback, context);
+        this.__require(familyName, sources, fontWeight, fontStyle, callback, context);
       }
     },
 
@@ -138,13 +178,16 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * fall back to the their regular font-families.
      *
      * @param familyName {String} font-family name
+     * @param fontWeight {String} the font-weight.
+     * @param fontStyle {String} the font-style.
      */
-    remove : function(familyName) {
+    remove : function(familyName, fontWeight, fontStyle) {
+      var fontLookupKey = this.__createFontLookupKey(familyName, fontWeight, fontStyle);
       var index = null;
       for (var i=0,l=this.__createdStyles.length; i<l; i++) {
-        if (this.__createdStyles[i] == familyName) {
+        if (this.__createdStyles[i] == fontLookupKey) {
           index = i;
-          this.__removeRule(familyName);
+          this.__removeRule(familyName, fontWeight, fontStyle);
           break;
         }
       }
@@ -224,22 +267,39 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     */
 
     /**
+     * Creates a lookup key to index the created fonts.
+     * @param familyName {String} font-family name
+     * @param fontWeight {String} the font-weight.
+     * @param fontStyle {String} the font-style.
+     * @returns {string} the font lookup key
+     */
+    __createFontLookupKey: function (familyName, fontWeight, fontStyle) {
+      var lookupKey = familyName + "_" + (fontWeight ? fontWeight : "normal") + "_" + (fontStyle ? fontStyle : "normal");
+      return lookupKey;
+    },
+
+    /**
      * Does the actual work of adding stylesheet rules and triggering font
      * validation
      *
      * @param familyName {String} Name of the web font
      * @param sources {String[]} List of source URLs. For maximum compatibility,
      * this should include EOT, WOFF and TTF versions of the font.
+     * @param fontWeight {String} the web font should be registered using a
+     * fontWeight font weight.
+     * @param fontStyle {String} the web font should be registered using an
+     * fontStyle font style.
      * @param callback {Function?} Optional event listener callback that will be
      * executed once the validator has determined whether the webFont was
      * applied correctly.
      * @param context {Object?} Optional context for the callback function
      */
-    __require : function(familyName, sources, callback, context)
+    __require : function(familyName, sources, fontWeight, fontStyle, callback, context)
     {
-      if (!qx.lang.Array.contains(this.__createdStyles, familyName)) {
+      var fontLookupKey = this.__createFontLookupKey(familyName, fontWeight, fontStyle);
+      if (!qx.lang.Array.contains(this.__createdStyles, fontLookupKey)) {
         var sourcesMap = this.__getSourcesMap(sources);
-        var rule = this.__getRule(familyName, sourcesMap);
+        var rule = this.__getRule(familyName, fontWeight, fontStyle, sourcesMap);
 
         if (!rule) {
           throw new Error("Couldn't create @font-face rule for WebFont " + familyName + "!");
@@ -258,7 +318,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
             return;
           }
         }
-        this.__createdStyles.push(familyName);
+        this.__createdStyles.push(fontLookupKey);
       }
 
       if (!this.__validators[familyName]) {
@@ -340,10 +400,14 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * Assembles the body of a font-face rule for a single webFont.
      *
      * @param familyName {String} Font-family name
+     * @param fontWeight {String} the web font should be registered using a
+     * fontWeight font weight.
+     * @param fontStyle {String} the web font should be registered using an
+     * fontStyle font style.
      * @param sourcesMap {Map} Map of font formats and sources
      * @return {String} The computed CSS rule
      */
-    __getRule : function(familyName, sourcesMap)
+    __getRule : function(familyName, fontWeight, fontStyle, sourcesMap)
     {
       var rules = [];
 
@@ -360,7 +424,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var rule = "src: " + rules.join(",\n") + ";";
 
       rule = "font-family: " + familyName + ";\n" + rule;
-      rule = rule + "\nfont-style: normal;\nfont-weight: normal;";
+      rule = rule + "\nfont-style: " + (fontStyle ? fontStyle : "normal") + ";"
+      rule = rule + "\nfont-weight: " + (fontWeight ? fontWeight : "normal") + ";";
 
       return rule;
     },
@@ -416,10 +481,14 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * stylesheet
      *
      * @param familyName {String} The font-family name
+     * @param fontWeight {String} fontWeight font-weight.
+     * @param fontStyle {String} fontStyle font-style.
      */
-    __removeRule : function(familyName)
+    __removeRule : function(familyName, fontWeight, fontStyle)
     {
-      var reg = new RegExp("@font-face.*?" + familyName, "m");
+      var reg = new RegExp("@font-face.*?" + familyName + ".*font-style:"
+      + (fontStyle ? fontStyle : "normal") + ".*font-weight:"
+      + (fontWeight ? fontWeight : "normal"), "m");
       for (var i=0,l=document.styleSheets.length; i<l; i++) {
         var sheet = document.styleSheets[i];
         if (sheet.cssText) {
