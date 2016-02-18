@@ -199,7 +199,7 @@ qx.Bootstrap.define("qx.log.Logger",
      * logging information you would use this:
      * 
      *  <pre class="javascript">
-     *    qx.log.Logger.addFilter(/^qx.ui/, null, "debug");
+     *    qx.log.Logger.addFilter(/^qx\.ui/, null, "debug");
      *  </pre>
      *
      * Note that while the default is to log everything, as soon as you apply one filter
@@ -214,9 +214,9 @@ qx.Bootstrap.define("qx.log.Logger",
      * allows you to specify that log messages only go to one destination; for example:
      * 
      *  <pre class="javascript">
-     *    qx.log.Logger.addFilter(/^qx.ui/, "qx.log.appender.Console", "warn");
-     *    qx.log.Logger.addFilter(/^qx.io/, "qx.log.appender.Native", "debug");
-     *    qx.log.Logger.addFilter(/^qx.io/, "qx.log.appender.Console", "error");
+     *    qx.log.Logger.addFilter(/^qx\.ui/, "qx.log.appender.Console", "warn");
+     *    qx.log.Logger.addFilter(/^qx\.io/, "qx.log.appender.Native", "debug");
+     *    qx.log.Logger.addFilter(/^qx\.io/, "qx.log.appender.Console", "error");
      *  </pre>
      *
      * In this example, qx.ui.* will only go to the Console appender and only if a warning
