@@ -55,10 +55,13 @@ defer method called before the call to qx.Class.define("mypackage.MyClassA"...).
 ##Is this backward compatible?
 Mostly - if you have code in a classs's .defer() method which calls methods that refer to other classes, you may find that
 your code breaks; this will only happen if that code is required to load another class though, so this is really quite
-rare.  The typical example in Qooxdoo itself is environment checks, which typically use the .defer() method to detect
-br
+rare.  The typical example in Qooxdoo itself is environment checks, which are often needed at a fairly low level before 
+all classes are loaded, but do have dependencies caused by indirect calls from .defer().  
 
-if you find that you have code which is called via a class's .defer() method and there is an unsatisfied depende
+If you find that you have code which is called via a class's .defer() method and there is an unsatisfied dependency, the
+solution is to add an @require at the top of your code to let QxCompiler know that your class will need it.  This is 
+fairly rare though - the entire Qooxdoo library only needed 6 additonal @require statements, to add to the 269 that were
+already in use.
 
 
 ##Runtime meta data
