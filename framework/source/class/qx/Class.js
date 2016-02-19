@@ -251,17 +251,19 @@ qx.Bootstrap.define("qx.Class",
       if (config.defer)
       {
         config.defer.self = clazz;
-        config.defer(clazz, clazz.prototype,
-        {
-          add : function(name, config)
-          {
-            // build pseudo properties map
-            var properties = {};
-            properties[name] = config;
+        qx.Bootstrap.addPendingDefer(clazz, function() {
+          config.defer(clazz, clazz.prototype,
+            {
+              add : function(name, config)
+              {
+                // build pseudo properties map
+                var properties = {};
+                properties[name] = config;
 
-            // execute generic property handler
-            qx.Class.__addProperties(clazz, properties, true);
-          }
+                // execute generic property handler
+                qx.Class.__addProperties(clazz, properties, true);
+              }
+            });
         });
       }
 
@@ -997,7 +999,17 @@ qx.Bootstrap.define("qx.Class",
       var basename = name ? qx.Bootstrap.createNamespace(name, clazz) : "";
 
       // Store names in constructor/object
-      clazz.name = clazz.classname = name;
+      clazz.classname = name;
+      function isStrictMode() {
+        return (typeof this == 'undefined');
+      }
+      if (!isStrictMode()) {
+        try {
+          clazz.name = name;
+        } catch(ex) {
+          // Nothing
+        }
+      }
       clazz.basename = basename;
 
       // Store type info

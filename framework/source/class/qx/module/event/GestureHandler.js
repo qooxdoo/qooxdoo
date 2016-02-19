@@ -22,7 +22,7 @@
  * based on low-level event sequences on the given element
  *
  * @require(qx.module.Event)
- * @require(qx.module.event.PointerHandler)
+ * @use(qx.module.event.PointerHandler)
  *
  * @group (Event_Normalization)
  */
