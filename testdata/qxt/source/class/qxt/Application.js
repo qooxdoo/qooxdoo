@@ -59,11 +59,19 @@ qx.Class.define("qxt.Application",
       this.self(arguments).myStaticDemo();
 
       console.log("qxt.customEnvironment=" + qx.core.Environment.get("qxt.customEnvironment"));
+      console.log("qxt.applicationName=" + qx.core.Environment.get("qxt.applicationName"));
+
       console.log(this.tr("Translation One"));
       console.log(this.trn("Translation Singular", "Translation Plural", 1, 2));
       console.log(this.trc("Comment about Translation Three", "Translation Three"));
       console.log(this.trnc("Comment about Translation Four", "Translation Four Singular", "Translation Four Plural", 1, 2));
       console.log(this.tr("Last month"));
+
+      console.log(qx.locale.Manager.tr("Translation One"));
+      console.log(qx.locale.Manager.trn("Translation Singular", "Translation Plural", 1, 2));
+      console.log(qx.locale.Manager.trc("Comment about Translation Three", "Translation Three"));
+      console.log(qx.locale.Manager.trnc("Comment about Translation Four", "Translation Four Singular", "Translation Four Plural", 1, 2));
+      console.log(qx.locale.Manager.tr("Last month"));
 
       // Document is the application root
       var doc = this.getRoot();

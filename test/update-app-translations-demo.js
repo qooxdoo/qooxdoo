@@ -13,7 +13,7 @@ var STARTTIME = new Date();
 var QOOXDOO_PATH = "../qooxdoo";
 
 // Makers use an Analyser to figure out what the Target should write
-var maker = new qxcompiler.makers.SimpleApp("qxt.Application", "qxt.theme.Theme").set({
+var maker = new qxcompiler.makers.AppMaker("qxt.Application", "qxt.theme.Theme").set({
   // Targets know how to output an application
   target: new qxcompiler.targets.SourceTarget("../testdata/qxt/source-output"),
   locales: [ "en", "es" ]

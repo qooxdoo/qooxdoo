@@ -13,15 +13,28 @@ var STARTTIME = new Date();
 var QOOXDOO_PATH = "../qooxdoo";
 
 // Makers use an Analyser to figure out what the Target should write
-var maker = new qxcompiler.makers.SimpleApp("qxt.Application", "qxt.theme.Theme").set({
+var maker = new qxcompiler.makers.AppMaker().set({
   // Targets know how to output an application
   target: new qxcompiler.targets.SourceTarget("../testdata/qxt/source-output"),
-  locales: [ "en", "es" ],
-  dbFilename: "my-qxcompiler-db.json"
+  locales: [ "en", "es" ]
 });
 maker.setEnvironment({
   "qxt.customEnvironment": "this is custom (source target)"
 });
+maker.addApplication(new qxcompiler.Application("qxt.Application").set({
+  theme: "qxt.theme.Theme",
+  name: "appone",
+  environment: {
+    "qxt.applicationName": "App One"
+  }
+}));
+maker.addApplication(new qxcompiler.Application("qxt.Application").set({
+  theme: "qx.theme.Simple",
+  name: "apptwo",
+  environment: {
+    "qxt.applicationName": "App Two"
+  }
+}));
 
 async.series(
     [

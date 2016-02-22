@@ -13,7 +13,7 @@ var target = new qxcompiler.targets.SourceTarget("../testdata/qxt/compileclass-o
 // Makers use an Analyser to figure out what the Target should write; we don't really need this
 //  for this compile demo, but it's useful to have the analyser from the maker to get the
 //  database and write it to disk
-var maker = new qxcompiler.makers.SimpleApp("qxt.Application", "qxt.theme.Theme").set({
+var maker = new qxcompiler.makers.AppMaker("qxt.Application", "qxt.theme.Theme").set({
   target: target
 });
 

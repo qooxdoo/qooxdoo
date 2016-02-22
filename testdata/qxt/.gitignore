@@ -4,3 +4,5 @@ compileclass-output/
 hybrid-output/
 source-output/
 test/
+transpiled/
+script/

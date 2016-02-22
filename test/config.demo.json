@@ -186,6 +186,846 @@
                 }
             }
         },
+        "source-data.ExtendedList": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ExtendedList",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.ExtendedList": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ExtendedList",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.ExtendedTree": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ExtendedTree",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.ExtendedTree": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ExtendedTree",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.Flickr": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Flickr",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.Flickr": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Flickr",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.Finder": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Finder",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.Finder": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Finder",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.Form": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Form",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.Form": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Form",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.FormAndListController": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "FormAndListController",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.FormAndListController": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "FormAndListController",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.FormController": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "FormController",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.FormController": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "FormController",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.JsonToList": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "JsonToList",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.JsonToList": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "JsonToList",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.Github": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Github",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.Github": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Github",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.JsonToTree": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "JsonToTree",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.JsonToTree": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "JsonToTree",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.ListController": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ListController",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.ListController": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ListController",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.ListControllerWith3Widgets": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ListControllerWith3Widgets",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.ListControllerWith3Widgets": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ListControllerWith3Widgets",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.ListControllerWithFilter": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ListControllerWithFilter",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.ListControllerWithFilter": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ListControllerWithFilter",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.ListControllerWithObjects": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ListControllerWithObjects",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.ListControllerWithObjects": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ListControllerWithObjects",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.ModelDebugging": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ModelDebugging",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.ModelDebugging": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "ModelDebugging",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.NamesList": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "NamesList",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.NamesList": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "NamesList",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.Offline": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Offline",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.Offline": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Offline",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.OwnCodeInModel": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "OwnCodeInModel",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.OwnCodeInModel": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "OwnCodeInModel",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.SearchAsYouType": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "SearchAsYouType",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.SearchAsYouType": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "SearchAsYouType",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.SelectBox": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "SelectBox",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.SelectBox": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "SelectBox",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.Service": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Service",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.Service": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Service",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.SingleValueBinding": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "SingleValueBinding",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.SingleValueBinding": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "SingleValueBinding",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.TreeController": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "TreeController",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.TreeController": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "TreeController",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-data.Tree_Columns": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Tree_Columns",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-data.Tree_Columns": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "data",
+                "DSNAME": "Tree_Columns",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
         "source-bom.AttributeStyle_1": {
             "extend": [
                 "default-demo"
@@ -221,41 +1061,6 @@
                 }
             }
         },
-        "source-bom.AttributeStyle_2": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "AttributeStyle_2",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.AttributeStyle_2": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "AttributeStyle_2",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
         "source-bom.Audio": {
             "extend": [
                 "default-demo"
@@ -276,6 +1081,41 @@
             "let": {
                 "DPACKAGE": "bom",
                 "DSNAME": "Audio",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.AttributeStyle_2": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "AttributeStyle_2",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.AttributeStyle_2": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "AttributeStyle_2",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -466,41 +1306,6 @@
                 }
             }
         },
-        "source-bom.Dimension": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Dimension",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-bom.Dimension": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "bom",
-                "DSNAME": "Dimension",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
         "source-bom.Environment": {
             "extend": [
                 "default-demo"
@@ -521,6 +1326,41 @@
             "let": {
                 "DPACKAGE": "bom",
                 "DSNAME": "Environment",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-bom.Dimension": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Dimension",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-bom.Dimension": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "bom",
+                "DSNAME": "Dimension",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -1201,846 +2041,6 @@
                 }
             }
         },
-        "source-data.ExtendedList": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ExtendedList",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.ExtendedList": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ExtendedList",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.ExtendedTree": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ExtendedTree",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.ExtendedTree": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ExtendedTree",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.Finder": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Finder",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.Finder": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Finder",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.Flickr": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Flickr",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.Flickr": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Flickr",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.Form": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Form",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.Form": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Form",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.FormAndListController": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "FormAndListController",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.FormAndListController": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "FormAndListController",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.FormController": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "FormController",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.FormController": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "FormController",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.Github": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Github",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.Github": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Github",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.JsonToList": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "JsonToList",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.JsonToList": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "JsonToList",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.JsonToTree": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "JsonToTree",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.JsonToTree": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "JsonToTree",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.ListController": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ListController",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.ListController": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ListController",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.ListControllerWith3Widgets": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ListControllerWith3Widgets",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.ListControllerWith3Widgets": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ListControllerWith3Widgets",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.ListControllerWithFilter": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ListControllerWithFilter",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.ListControllerWithFilter": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ListControllerWithFilter",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.ListControllerWithObjects": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ListControllerWithObjects",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.ListControllerWithObjects": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ListControllerWithObjects",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.ModelDebugging": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ModelDebugging",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.ModelDebugging": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "ModelDebugging",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.NamesList": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "NamesList",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.NamesList": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "NamesList",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.Offline": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Offline",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.Offline": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Offline",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.OwnCodeInModel": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "OwnCodeInModel",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.OwnCodeInModel": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "OwnCodeInModel",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.SearchAsYouType": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "SearchAsYouType",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.SearchAsYouType": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "SearchAsYouType",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.SelectBox": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "SelectBox",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.SelectBox": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "SelectBox",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.Service": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Service",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.Service": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Service",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.SingleValueBinding": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "SingleValueBinding",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.SingleValueBinding": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "SingleValueBinding",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.TreeController": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "TreeController",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.TreeController": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "TreeController",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-data.Tree_Columns": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Tree_Columns",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-data.Tree_Columns": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "data",
-                "DSNAME": "Tree_Columns",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
         "source-event.ElementResize": {
             "extend": [
                 "default-demo"
@@ -2076,41 +2076,6 @@
                 }
             }
         },
-        "source-event.Event": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "event",
-                "DSNAME": "Event",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-event.Event": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "event",
-                "DSNAME": "Event",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
         "source-event.Event_Bubbling": {
             "extend": [
                 "default-demo"
@@ -2131,6 +2096,41 @@
             "let": {
                 "DPACKAGE": "event",
                 "DSNAME": "Event_Bubbling",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-event.Event": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "event",
+                "DSNAME": "Event",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-event.Event": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "event",
+                "DSNAME": "Event",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -2411,6 +2411,286 @@
             "let": {
                 "DPACKAGE": "event",
                 "DSNAME": "PointerEvent",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-mobile.Fingers": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "mobile",
+                "DSNAME": "Fingers",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-mobile.Fingers": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "mobile",
+                "DSNAME": "Fingers",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-mobile.PingPong": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "mobile",
+                "DSNAME": "PingPong",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-mobile.PingPong": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "mobile",
+                "DSNAME": "PingPong",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Browser": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Browser",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Browser": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Browser",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Dialog": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Dialog",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Dialog": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Dialog",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Form": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Form",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Form": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Form",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Localization": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Localization",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Localization": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Localization",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Maps": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Maps",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Maps": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Maps",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-showcase.Translation": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Translation",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-showcase.Translation": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "showcase",
+                "DSNAME": "Translation",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -3721,461 +4001,6 @@
                 }
             }
         },
-        "source-mobile.Fingers": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "mobile",
-                "DSNAME": "Fingers",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-mobile.Fingers": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "mobile",
-                "DSNAME": "Fingers",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-mobile.PingPong": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "mobile",
-                "DSNAME": "PingPong",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-mobile.PingPong": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "mobile",
-                "DSNAME": "PingPong",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Browser": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Browser",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Browser": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Browser",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Dialog": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Dialog",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Dialog": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Dialog",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Form": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Form",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Form": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Form",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Localization": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Localization",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Localization": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Localization",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Maps": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Maps",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Maps": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Maps",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-showcase.Translation": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Translation",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-showcase.Translation": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "showcase",
-                "DSNAME": "Translation",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-root.Application": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Application",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-root.Application": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Application",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-root.Inline": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Inline",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-root.Inline": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Inline",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-root.Inline_Dynamic_Resize": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Inline_Dynamic_Resize",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-root.Inline_Dynamic_Resize": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Inline_Dynamic_Resize",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-root.Inline_Window": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Inline_Window",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-root.Inline_Window": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Inline_Window",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-root.Page": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Page",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-root.Page": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "root",
-                "DSNAME": "Page",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
         "source-table.Table": {
             "extend": [
                 "default-demo"
@@ -4631,26 +4456,26 @@
                 }
             }
         },
-        "source-ui.AutoSizeTextArea": {
+        "source-root.Application": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "AutoSizeTextArea",
+                "DPACKAGE": "root",
+                "DSNAME": "Application",
                 "BUILDTYPE": "source",
                 "EXCEPT": [
                     "*"
                 ]
             }
         },
-        "build-ui.AutoSizeTextArea": {
+        "build-root.Application": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "AutoSizeTextArea",
+                "DPACKAGE": "root",
+                "DSNAME": "Application",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -4666,26 +4491,26 @@
                 }
             }
         },
-        "source-ui.Command": {
+        "source-root.Inline": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Command",
+                "DPACKAGE": "root",
+                "DSNAME": "Inline",
                 "BUILDTYPE": "source",
                 "EXCEPT": [
                     "*"
                 ]
             }
         },
-        "build-ui.Command": {
+        "build-root.Inline": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Command",
+                "DPACKAGE": "root",
+                "DSNAME": "Inline",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -4701,26 +4526,26 @@
                 }
             }
         },
-        "source-ui.CommandGroupManager": {
+        "source-root.Inline_Dynamic_Resize": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "CommandGroupManager",
+                "DPACKAGE": "root",
+                "DSNAME": "Inline_Dynamic_Resize",
                 "BUILDTYPE": "source",
                 "EXCEPT": [
                     "*"
                 ]
             }
         },
-        "build-ui.CommandGroupManager": {
+        "build-root.Inline_Dynamic_Resize": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "CommandGroupManager",
+                "DPACKAGE": "root",
+                "DSNAME": "Inline_Dynamic_Resize",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -4736,26 +4561,26 @@
                 }
             }
         },
-        "source-ui.Cursor": {
+        "source-root.Inline_Window": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Cursor",
+                "DPACKAGE": "root",
+                "DSNAME": "Inline_Window",
                 "BUILDTYPE": "source",
                 "EXCEPT": [
                     "*"
                 ]
             }
         },
-        "build-ui.Cursor": {
+        "build-root.Inline_Window": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Cursor",
+                "DPACKAGE": "root",
+                "DSNAME": "Inline_Window",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -4771,621 +4596,26 @@
                 }
             }
         },
-        "source-ui.Decoration": {
+        "source-root.Page": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Decoration",
+                "DPACKAGE": "root",
+                "DSNAME": "Page",
                 "BUILDTYPE": "source",
                 "EXCEPT": [
                     "*"
                 ]
             }
         },
-        "build-ui.Decoration": {
+        "build-root.Page": {
             "extend": [
                 "default-demo"
             ],
             "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Decoration",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.DragDrop": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "DragDrop",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.DragDrop": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "DragDrop",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.FiniteStateMachine": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FiniteStateMachine",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.FiniteStateMachine": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FiniteStateMachine",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.Font": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Font",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.Font": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Font",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.FormInvalids": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormInvalids",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.FormInvalids": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormInvalids",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.FormRenderer": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormRenderer",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.FormRenderer": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormRenderer",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.FormRendererCustom": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormRendererCustom",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.FormRendererCustom": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormRendererCustom",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.FormRendererDouble": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormRendererDouble",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.FormRendererDouble": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormRendererDouble",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.FormRendererPlaceholder": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormRendererPlaceholder",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.FormRendererPlaceholder": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormRendererPlaceholder",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.FormValidator": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormValidator",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.FormValidator": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "FormValidator",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.HeightForWidth": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "HeightForWidth",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.HeightForWidth": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "HeightForWidth",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.Label_Reflow": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Label_Reflow",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.Label_Reflow": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Label_Reflow",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.MultiPageForm": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "MultiPageForm",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.MultiPageForm": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "MultiPageForm",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.NativeContextMenu": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "NativeContextMenu",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.NativeContextMenu": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "NativeContextMenu",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.Opacity": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Opacity",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.Opacity": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Opacity",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.Placement": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Placement",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.Placement": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "Placement",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.ScrollContainer": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "ScrollContainer",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.ScrollContainer": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "ScrollContainer",
-                "BUILDTYPE": "build",
-                "EXCEPT": []
-            },
-            "compile-options": {
-                "code": {
-                    "optimize": [
-                        "variables",
-                        "basecalls",
-                        "strings",
-                        "privates",
-                        "whitespace"
-                    ]
-                }
-            }
-        },
-        "source-ui.WebFonts": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "WebFonts",
-                "BUILDTYPE": "source",
-                "EXCEPT": [
-                    "*"
-                ]
-            }
-        },
-        "build-ui.WebFonts": {
-            "extend": [
-                "default-demo"
-            ],
-            "let": {
-                "DPACKAGE": "ui",
-                "DSNAME": "WebFonts",
+                "DPACKAGE": "root",
+                "DSNAME": "Page",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -6261,6 +5491,776 @@
             "let": {
                 "DPACKAGE": "virtual",
                 "DSNAME": "Tree_Dynamic",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.AutoSizeTextArea": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "AutoSizeTextArea",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.AutoSizeTextArea": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "AutoSizeTextArea",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.Command": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Command",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.Command": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Command",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.CommandGroupManager": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "CommandGroupManager",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.CommandGroupManager": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "CommandGroupManager",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.Cursor": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Cursor",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.Cursor": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Cursor",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.Decoration": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Decoration",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.Decoration": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Decoration",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.DragDrop": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "DragDrop",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.DragDrop": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "DragDrop",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.FiniteStateMachine": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FiniteStateMachine",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.FiniteStateMachine": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FiniteStateMachine",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.Font": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Font",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.Font": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Font",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.FormInvalids": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormInvalids",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.FormInvalids": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormInvalids",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.FormRenderer": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormRenderer",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.FormRenderer": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormRenderer",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.FormRendererCustom": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormRendererCustom",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.FormRendererCustom": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormRendererCustom",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.FormRendererDouble": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormRendererDouble",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.FormRendererDouble": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormRendererDouble",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.FormRendererPlaceholder": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormRendererPlaceholder",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.FormRendererPlaceholder": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormRendererPlaceholder",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.FormValidator": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormValidator",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.FormValidator": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "FormValidator",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.HeightForWidth": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "HeightForWidth",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.HeightForWidth": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "HeightForWidth",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.Label_Reflow": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Label_Reflow",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.Label_Reflow": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Label_Reflow",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.MultiPageForm": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "MultiPageForm",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.MultiPageForm": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "MultiPageForm",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.NativeContextMenu": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "NativeContextMenu",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.NativeContextMenu": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "NativeContextMenu",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.Opacity": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Opacity",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.Opacity": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Opacity",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.Placement": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Placement",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.Placement": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "Placement",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.ScrollContainer": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "ScrollContainer",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.ScrollContainer": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "ScrollContainer",
+                "BUILDTYPE": "build",
+                "EXCEPT": []
+            },
+            "compile-options": {
+                "code": {
+                    "optimize": [
+                        "variables",
+                        "basecalls",
+                        "strings",
+                        "privates",
+                        "whitespace"
+                    ]
+                }
+            }
+        },
+        "source-ui.WebFonts": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "WebFonts",
+                "BUILDTYPE": "source",
+                "EXCEPT": [
+                    "*"
+                ]
+            }
+        },
+        "build-ui.WebFonts": {
+            "extend": [
+                "default-demo"
+            ],
+            "let": {
+                "DPACKAGE": "ui",
+                "DSNAME": "WebFonts",
                 "BUILDTYPE": "build",
                 "EXCEPT": []
             },
@@ -7613,16 +7613,40 @@
                 "source-animation.Animation_Compare",
                 "source-animation.Scroll",
                 "source-animation.Timing",
+                "source-data.ExtendedList",
+                "source-data.ExtendedTree",
+                "source-data.Flickr",
+                "source-data.Finder",
+                "source-data.Form",
+                "source-data.FormAndListController",
+                "source-data.FormController",
+                "source-data.JsonToList",
+                "source-data.Github",
+                "source-data.JsonToTree",
+                "source-data.ListController",
+                "source-data.ListControllerWith3Widgets",
+                "source-data.ListControllerWithFilter",
+                "source-data.ListControllerWithObjects",
+                "source-data.ModelDebugging",
+                "source-data.NamesList",
+                "source-data.Offline",
+                "source-data.OwnCodeInModel",
+                "source-data.SearchAsYouType",
+                "source-data.SelectBox",
+                "source-data.Service",
+                "source-data.SingleValueBinding",
+                "source-data.TreeController",
+                "source-data.Tree_Columns",
                 "source-bom.AttributeStyle_1",
-                "source-bom.AttributeStyle_2",
                 "source-bom.Audio",
+                "source-bom.AttributeStyle_2",
                 "source-bom.Background",
                 "source-bom.Blocker",
                 "source-bom.Carousel",
                 "source-bom.Clip",
                 "source-bom.Cookie",
-                "source-bom.Dimension",
                 "source-bom.Environment",
+                "source-bom.Dimension",
                 "source-bom.Flash",
                 "source-bom.Geolocation",
                 "source-bom.Iframe",
@@ -7642,33 +7666,9 @@
                 "source-bom.Viewport_StandardMode",
                 "source-bom.WebWorker",
                 "source-bom.Window",
-                "source-data.ExtendedList",
-                "source-data.ExtendedTree",
-                "source-data.Finder",
-                "source-data.Flickr",
-                "source-data.Form",
-                "source-data.FormAndListController",
-                "source-data.FormController",
-                "source-data.Github",
-                "source-data.JsonToList",
-                "source-data.JsonToTree",
-                "source-data.ListController",
-                "source-data.ListControllerWith3Widgets",
-                "source-data.ListControllerWithFilter",
-                "source-data.ListControllerWithObjects",
-                "source-data.ModelDebugging",
-                "source-data.NamesList",
-                "source-data.Offline",
-                "source-data.OwnCodeInModel",
-                "source-data.SearchAsYouType",
-                "source-data.SelectBox",
-                "source-data.Service",
-                "source-data.SingleValueBinding",
-                "source-data.TreeController",
-                "source-data.Tree_Columns",
                 "source-event.ElementResize",
-                "source-event.Event",
                 "source-event.Event_Bubbling",
+                "source-event.Event",
                 "source-event.Event_Bus",
                 "source-event.Event_Iframe",
                 "source-event.Focus",
@@ -7677,6 +7677,14 @@
                 "source-event.MouseEvent",
                 "source-event.MouseEvent_LowLevel",
                 "source-event.PointerEvent",
+                "source-mobile.Fingers",
+                "source-mobile.PingPong",
+                "source-showcase.Browser",
+                "source-showcase.Dialog",
+                "source-showcase.Form",
+                "source-showcase.Localization",
+                "source-showcase.Maps",
+                "source-showcase.Translation",
                 "source-layout.Basic",
                 "source-layout.Canvas_Fixed",
                 "source-layout.Canvas_LeftRight",
@@ -7714,19 +7722,6 @@
                 "source-layout.VBox_Separator",
                 "source-layout.VBox_ShrinkX",
                 "source-layout.VSplit",
-                "source-mobile.Fingers",
-                "source-mobile.PingPong",
-                "source-showcase.Browser",
-                "source-showcase.Dialog",
-                "source-showcase.Form",
-                "source-showcase.Localization",
-                "source-showcase.Maps",
-                "source-showcase.Translation",
-                "source-root.Application",
-                "source-root.Inline",
-                "source-root.Inline_Dynamic_Resize",
-                "source-root.Inline_Window",
-                "source-root.Page",
                 "source-table.Table",
                 "source-table.Table_Cell_Editor",
                 "source-table.Table_Conditional",
@@ -7740,28 +7735,11 @@
                 "source-table.Table_Resize_Columns",
                 "source-table.Table_Selection",
                 "source-table.Table_Window_Editor",
-                "source-ui.AutoSizeTextArea",
-                "source-ui.Command",
-                "source-ui.CommandGroupManager",
-                "source-ui.Cursor",
-                "source-ui.Decoration",
-                "source-ui.DragDrop",
-                "source-ui.FiniteStateMachine",
-                "source-ui.Font",
-                "source-ui.FormInvalids",
-                "source-ui.FormRenderer",
-                "source-ui.FormRendererCustom",
-                "source-ui.FormRendererDouble",
-                "source-ui.FormRendererPlaceholder",
-                "source-ui.FormValidator",
-                "source-ui.HeightForWidth",
-                "source-ui.Label_Reflow",
-                "source-ui.MultiPageForm",
-                "source-ui.NativeContextMenu",
-                "source-ui.Opacity",
-                "source-ui.Placement",
-                "source-ui.ScrollContainer",
-                "source-ui.WebFonts",
+                "source-root.Application",
+                "source-root.Inline",
+                "source-root.Inline_Dynamic_Resize",
+                "source-root.Inline_Window",
+                "source-root.Page",
                 "source-treevirtual.TreeVirtual",
                 "source-treevirtual.TreeVirtual_Events",
                 "source-treevirtual.TreeVirtual_Filter",
@@ -7787,6 +7765,28 @@
                 "source-virtual.Tree",
                 "source-virtual.Tree_Columns",
                 "source-virtual.Tree_Dynamic",
+                "source-ui.AutoSizeTextArea",
+                "source-ui.Command",
+                "source-ui.CommandGroupManager",
+                "source-ui.Cursor",
+                "source-ui.Decoration",
+                "source-ui.DragDrop",
+                "source-ui.FiniteStateMachine",
+                "source-ui.Font",
+                "source-ui.FormInvalids",
+                "source-ui.FormRenderer",
+                "source-ui.FormRendererCustom",
+                "source-ui.FormRendererDouble",
+                "source-ui.FormRendererPlaceholder",
+                "source-ui.FormValidator",
+                "source-ui.HeightForWidth",
+                "source-ui.Label_Reflow",
+                "source-ui.MultiPageForm",
+                "source-ui.NativeContextMenu",
+                "source-ui.Opacity",
+                "source-ui.Placement",
+                "source-ui.ScrollContainer",
+                "source-ui.WebFonts",
                 "source-widget.Atom",
                 "source-widget.Button",
                 "source-widget.Canvas",
@@ -7834,16 +7834,40 @@
                 "build-animation.Animation_Compare",
                 "build-animation.Scroll",
                 "build-animation.Timing",
+                "build-data.ExtendedList",
+                "build-data.ExtendedTree",
+                "build-data.Flickr",
+                "build-data.Finder",
+                "build-data.Form",
+                "build-data.FormAndListController",
+                "build-data.FormController",
+                "build-data.JsonToList",
+                "build-data.Github",
+                "build-data.JsonToTree",
+                "build-data.ListController",
+                "build-data.ListControllerWith3Widgets",
+                "build-data.ListControllerWithFilter",
+                "build-data.ListControllerWithObjects",
+                "build-data.ModelDebugging",
+                "build-data.NamesList",
+                "build-data.Offline",
+                "build-data.OwnCodeInModel",
+                "build-data.SearchAsYouType",
+                "build-data.SelectBox",
+                "build-data.Service",
+                "build-data.SingleValueBinding",
+                "build-data.TreeController",
+                "build-data.Tree_Columns",
                 "build-bom.AttributeStyle_1",
-                "build-bom.AttributeStyle_2",
                 "build-bom.Audio",
+                "build-bom.AttributeStyle_2",
                 "build-bom.Background",
                 "build-bom.Blocker",
                 "build-bom.Carousel",
                 "build-bom.Clip",
                 "build-bom.Cookie",
-                "build-bom.Dimension",
                 "build-bom.Environment",
+                "build-bom.Dimension",
                 "build-bom.Flash",
                 "build-bom.Geolocation",
                 "build-bom.Iframe",
@@ -7863,33 +7887,9 @@
                 "build-bom.Viewport_StandardMode",
                 "build-bom.WebWorker",
                 "build-bom.Window",
-                "build-data.ExtendedList",
-                "build-data.ExtendedTree",
-                "build-data.Finder",
-                "build-data.Flickr",
-                "build-data.Form",
-                "build-data.FormAndListController",
-                "build-data.FormController",
-                "build-data.Github",
-                "build-data.JsonToList",
-                "build-data.JsonToTree",
-                "build-data.ListController",
-                "build-data.ListControllerWith3Widgets",
-                "build-data.ListControllerWithFilter",
-                "build-data.ListControllerWithObjects",
-                "build-data.ModelDebugging",
-                "build-data.NamesList",
-                "build-data.Offline",
-                "build-data.OwnCodeInModel",
-                "build-data.SearchAsYouType",
-                "build-data.SelectBox",
-                "build-data.Service",
-                "build-data.SingleValueBinding",
-                "build-data.TreeController",
-                "build-data.Tree_Columns",
                 "build-event.ElementResize",
-                "build-event.Event",
                 "build-event.Event_Bubbling",
+                "build-event.Event",
                 "build-event.Event_Bus",
                 "build-event.Event_Iframe",
                 "build-event.Focus",
@@ -7898,6 +7898,14 @@
                 "build-event.MouseEvent",
                 "build-event.MouseEvent_LowLevel",
                 "build-event.PointerEvent",
+                "build-mobile.Fingers",
+                "build-mobile.PingPong",
+                "build-showcase.Browser",
+                "build-showcase.Dialog",
+                "build-showcase.Form",
+                "build-showcase.Localization",
+                "build-showcase.Maps",
+                "build-showcase.Translation",
                 "build-layout.Basic",
                 "build-layout.Canvas_Fixed",
                 "build-layout.Canvas_LeftRight",
@@ -7935,19 +7943,6 @@
                 "build-layout.VBox_Separator",
                 "build-layout.VBox_ShrinkX",
                 "build-layout.VSplit",
-                "build-mobile.Fingers",
-                "build-mobile.PingPong",
-                "build-showcase.Browser",
-                "build-showcase.Dialog",
-                "build-showcase.Form",
-                "build-showcase.Localization",
-                "build-showcase.Maps",
-                "build-showcase.Translation",
-                "build-root.Application",
-                "build-root.Inline",
-                "build-root.Inline_Dynamic_Resize",
-                "build-root.Inline_Window",
-                "build-root.Page",
                 "build-table.Table",
                 "build-table.Table_Cell_Editor",
                 "build-table.Table_Conditional",
@@ -7961,28 +7956,11 @@
                 "build-table.Table_Resize_Columns",
                 "build-table.Table_Selection",
                 "build-table.Table_Window_Editor",
-                "build-ui.AutoSizeTextArea",
-                "build-ui.Command",
-                "build-ui.CommandGroupManager",
-                "build-ui.Cursor",
-                "build-ui.Decoration",
-                "build-ui.DragDrop",
-                "build-ui.FiniteStateMachine",
-                "build-ui.Font",
-                "build-ui.FormInvalids",
-                "build-ui.FormRenderer",
-                "build-ui.FormRendererCustom",
-                "build-ui.FormRendererDouble",
-                "build-ui.FormRendererPlaceholder",
-                "build-ui.FormValidator",
-                "build-ui.HeightForWidth",
-                "build-ui.Label_Reflow",
-                "build-ui.MultiPageForm",
-                "build-ui.NativeContextMenu",
-                "build-ui.Opacity",
-                "build-ui.Placement",
-                "build-ui.ScrollContainer",
-                "build-ui.WebFonts",
+                "build-root.Application",
+                "build-root.Inline",
+                "build-root.Inline_Dynamic_Resize",
+                "build-root.Inline_Window",
+                "build-root.Page",
                 "build-treevirtual.TreeVirtual",
                 "build-treevirtual.TreeVirtual_Events",
                 "build-treevirtual.TreeVirtual_Filter",
@@ -8008,6 +7986,28 @@
                 "build-virtual.Tree",
                 "build-virtual.Tree_Columns",
                 "build-virtual.Tree_Dynamic",
+                "build-ui.AutoSizeTextArea",
+                "build-ui.Command",
+                "build-ui.CommandGroupManager",
+                "build-ui.Cursor",
+                "build-ui.Decoration",
+                "build-ui.DragDrop",
+                "build-ui.FiniteStateMachine",
+                "build-ui.Font",
+                "build-ui.FormInvalids",
+                "build-ui.FormRenderer",
+                "build-ui.FormRendererCustom",
+                "build-ui.FormRendererDouble",
+                "build-ui.FormRendererPlaceholder",
+                "build-ui.FormValidator",
+                "build-ui.HeightForWidth",
+                "build-ui.Label_Reflow",
+                "build-ui.MultiPageForm",
+                "build-ui.NativeContextMenu",
+                "build-ui.Opacity",
+                "build-ui.Placement",
+                "build-ui.ScrollContainer",
+                "build-ui.WebFonts",
                 "build-widget.Atom",
                 "build-widget.Button",
                 "build-widget.Canvas",
