@@ -590,7 +590,7 @@ qx.Class.define("qx.ui.basic.Image",
           
           //inherit styles from current element
           var currentStyles = currentContentElement.getAllStyles();
-          if( (currentStyles!==null) && (currentStyles!==undefined) ) {
+          if(currentStyles) {
             for(var prop in currentStyles) {
                 styles[prop] = currentStyles[prop];
             }
