@@ -590,8 +590,10 @@ qx.Class.define("qx.ui.basic.Image",
           
           //inherit styles from current element
           var currentStyles = currentContentElement.getAllStyles();
-          for(var prop in currentStyles) {
-              styles[prop] = currentStyles[prop];
+          if( (currentStyles!==null) && (currentStyles!==undefined) ) {
+            for(var prop in currentStyles) {
+                styles[prop] = currentStyles[prop];
+            }
           }
 
           // Copy dimension and location of the current content element
