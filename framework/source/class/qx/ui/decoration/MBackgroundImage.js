@@ -110,29 +110,9 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
      */
     _styleBackgroundImage : function(styles)
     {
-      // transform non-array values to an array containing that value
-      var images = this.getBackgroundImage();
-      if(!images) { return; }
-      if(!qx.lang.Type.isArray(images)) images = [images];
-      var repeats = this.getBackgroundRepeat();
-      if(!qx.lang.Type.isArray(repeats)) repeats = [repeats];
-      var tops = this.getBackgroundPositionY();
-      if(!qx.lang.Type.isArray(tops)) tops = [tops];
-      var lefts = this.getBackgroundPositionX();
-      if(!qx.lang.Type.isArray(lefts)) lefts = [lefts];
-      var origins = this.getBackgroundOrigin();
-      if(!qx.lang.Type.isArray(origins)) origins = [origins];
-
-      // Because it's possible to set multiple values for a property there's 
-      // a chance that not all properties have the same amount of values set.
-      // Prolong the value arrays by repeating existing values until all
-      // arrays match in length.
-      var items = Math.max(images.length, repeats.length, tops.length, lefts.length);
-      this._prolongArray(images, items);
-      this._prolongArray(repeats, items);
-      this._prolongArray(tops, items);
-      this._prolongArray(lefts, items);
-      this._prolongArray(origins, items);
+      if(! this.getBackgroundImage()) {
+        return;
+      }
 
       if("background" in styles) {
         if(!qx.lang.Type.isArray(styles['background'])) {
@@ -142,54 +122,59 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
         styles['background'] = [];
       }
 
-      for(var i=0;i<items;i++) {
-        var image = images[i];
-        var repeat = repeats[i];
-        var top = tops[i] || 0;
-        var left = lefts[i] || 0;
-        var origin = origins[i] || '';
+      var backgroundImageProperties = ['backgroundImage', 'backgroundRepeat', 'backgroundPositionY',
+        'backgroundPositionX', 'backgroundOrigin'];
 
-        if (top == null) {
-          top = 0;
-        }
-        if (left == null) {
-          left = 0;
-        }
-        if (!isNaN(top)) {
-          top += "px";
-        }
-        if (!isNaN(left)) {
-          left += "px";
-        }
+      (function (images, repeats, tops, lefts, origins) {
+        for(var i=0;i<images.length;i++) {
+          var image = images[i];
+          var repeat = repeats[i];
+          var top = tops[i] || 0;
+          var left = lefts[i] || 0;
+          var origin = origins[i] || '';
 
-        var id = qx.util.AliasManager.getInstance().resolve(image);
-        var source = qx.util.ResourceManager.getInstance().toUri(id);
+          if (top == null) {
+            top = 0;
+          }
+          if (left == null) {
+            left = 0;
+          }
+          if (!isNaN(top)) {
+            top += "px";
+          }
+          if (!isNaN(left)) {
+            left += "px";
+          }
 
-        var attrs = {
-          image: 'url(' + source + ')',
-          position: left + " " + top,
-          repeat: 'repeat',
-          origin: origin
-        };
-        if (repeat === "scale") {
-          attrs.size = "100% 100%";
-        } else {
-          attrs.repeat = repeat;
-        }
-        var imageMarkup = [attrs.image, attrs.position + ('size' in attrs ? ' / ' + attrs.size : ''), attrs.repeat, attrs.origin];
-        
-        styles["background"][this.getOrderGradientsFront() ? 'push' : 'unshift'](imageMarkup.join(' '));
+          var id = qx.util.AliasManager.getInstance().resolve(image);
+          var source = qx.util.ResourceManager.getInstance().toUri(id);
 
-        if (qx.core.Environment.get("qx.debug") &&
-          source &&  qx.lang.String.endsWith(source, ".png") &&
-          (repeat == "scale" || repeat == "no-repeat") &&
-          qx.core.Environment.get("engine.name") == "mshtml" &&
-          qx.core.Environment.get("browser.documentmode") < 9)
-        {
-          this.warn("Background PNGs with repeat == 'scale' or repeat == 'no-repeat'" +
-            " are not supported in this client! The image's resource id is '" + id + "'");
+          var attrs = {
+            image: 'url(' + source + ')',
+            position: left + " " + top,
+            repeat: 'repeat',
+            origin: origin
+          };
+          if (repeat === "scale") {
+            attrs.size = "100% 100%";
+          } else {
+            attrs.repeat = repeat;
+          }
+          var imageMarkup = [attrs.image, attrs.position + ('size' in attrs ? ' / ' + attrs.size : ''), attrs.repeat, attrs.origin];
+
+          styles["background"][this.getOrderGradientsFront() ? 'push' : 'unshift'](imageMarkup.join(' '));
+
+          if (qx.core.Environment.get("qx.debug") &&
+            source &&  qx.lang.String.endsWith(source, ".png") &&
+            (repeat == "scale" || repeat == "no-repeat") &&
+            qx.core.Environment.get("engine.name") == "mshtml" &&
+            qx.core.Environment.get("browser.documentmode") < 9)
+          {
+            this.warn("Background PNGs with repeat == 'scale' or repeat == 'no-repeat'" +
+              " are not supported in this client! The image's resource id is '" + id + "'");
+          }
         }
-      }
+      }).apply(this, this._getProlongedPropertyValueArrays(backgroundImageProperties));
     },
 
 

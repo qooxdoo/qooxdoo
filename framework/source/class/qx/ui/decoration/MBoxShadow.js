@@ -102,59 +102,38 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
 
       propName = qx.bom.Style.getCssName(propName);
 
-      // transform non-array values to an array containing that value
-      var vLengths = this.getShadowVerticalLength() || [0];
-      if(!qx.lang.Type.isArray(vLengths)) vLengths = [vLengths];
-      var hLengths = this.getShadowHorizontalLength() || [0];
-      if(!qx.lang.Type.isArray(hLengths)) hLengths = [hLengths];
-      var blurs = this.getShadowBlurRadius() || [0];
-      if(!qx.lang.Type.isArray(blurs)) blurs = [blurs];
-      var spreads = this.getShadowSpreadRadius() || [0];
-      if(!qx.lang.Type.isArray(spreads)) spreads = [spreads];
-      var colors = this.getShadowColor() || ["black"];
-      if(!qx.lang.Type.isArray(colors)) colors = [colors];
-      var insets = this.getInset();
-      if(!qx.lang.Type.isArray(insets)) insets = [!!insets];
-
-      // Because it's possible to set multiple values for a property there's 
-      // a chance that not all properties have the same amount of values set.
-      // Prolong the value arrays by repeating existing values until all
-      // arrays match in length.
-      var items = Math.max(vLengths.length, hLengths.length, blurs.length, spreads.length, colors.length, insets.length);
-      this._prolongArray(vLengths, items);
-      this._prolongArray(hLengths, items);
-      this._prolongArray(blurs, items);
-      this._prolongArray(spreads, items);
-      this._prolongArray(colors, items);
-      this._prolongArray(insets, items);
-
       var Color = null;
       if(qx.core.Environment.get("qx.theme")) {
         Color = qx.theme.manager.Color.getInstance();
       }
 
-      for(var i=0;i<items;i++) {
-        var vLength = vLengths[i];
-        var hLength = hLengths[i];
-        var blur = blurs[i];
-        var spread = spreads[i];
-        var color = colors[i];
-        var inset = insets[i];
+      var boxShadowProperties = ["shadowVerticalLength", "shadowHorizontalLength", "shadowBlurRadius",
+        "shadowSpreadRadius", "shadowColor", "inset"];
+        
+      (function(vLengths, hLengths, blurs, spreads, colors, insets) {
+        for(var i=0;i<vLengths.length;i++) {
+          var vLength = vLengths[i] || 0;
+          var hLength = hLengths[i] || 0;
+          var blur = blurs[i] || 0;
+          var spread = spreads[i] || 0;
+          var color = colors[i] || "black";
+          var inset = insets[i];
 
-        if(Color) {
-          color = Color.resolve(color);
-        }
+          if(Color) {
+            color = Color.resolve(color);
+          }
 
-        if(color != null) {
-          var value = (inset ? 'inset ' : '') + hLength + "px " + vLength + "px " + blur + "px " + spread + "px " + color;
-          // apply or append the box shadow styles
-          if (!styles[propName]) {
-            styles[propName] = value;
-          } else {
-            styles[propName] += "," + value;
+          if(color != null) {
+            var value = (inset ? 'inset ' : '') + hLength + "px " + vLength + "px " + blur + "px " + spread + "px " + color;
+            // apply or append the box shadow styles
+            if (!styles[propName]) {
+              styles[propName] = value;
+            } else {
+              styles[propName] += "," + value;
+            }
           }
         }
-      }
+      }).apply(this, this._getProlongedPropertyValueArrays(boxShadowProperties));
     },
 
 

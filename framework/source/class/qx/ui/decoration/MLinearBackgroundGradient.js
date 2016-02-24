@@ -119,33 +119,9 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
     _styleLinearBackgroundGradient : function(styles) {
       var backgroundStyle = [];
 
-      // transform non-array values to an array containing that value
-      var startColors = this.getStartColor();
-      if(!startColors) { return; }
-      if(!qx.lang.Type.isArray(startColors)) startColors = [startColors];
-      var endColors = this.getEndColor();
-      if(!endColors) { return; }
-      if(!qx.lang.Type.isArray(endColors)) endColors = [endColors];
-      var units = this.getColorPositionUnit();
-      if(!qx.lang.Type.isArray(units)) units = [units];
-      var orientations = this.getOrientation();
-      if(!qx.lang.Type.isArray(orientations)) orientations = [orientations];
-      var startColorPositions = this.getStartColorPosition();
-      if(!qx.lang.Type.isArray(startColorPositions)) startColorPositions = [startColorPositions];
-      var endColorPositions = this.getEndColorPosition();
-      if(!qx.lang.Type.isArray(endColorPositions)) endColorPositions = [endColorPositions];
-
-      // Because it's possible to set multiple values for a property there's 
-      // a chance that not all properties have the same amount of values set.
-      // Prolong the value arrays by repeating existing values until all
-      // arrays match in length.
-      var items = Math.max(startColors.length, endColors.length, units.length, orientations.length);
-      this._prolongArray(startColors, items);
-      this._prolongArray(endColors, items);
-      this._prolongArray(units, items);
-      this._prolongArray(orientations, items);
-      this._prolongArray(startColorPositions, items);
-      this._prolongArray(endColorPositions, items);
+      if(!this.getStartColor() || !this.getEndColor()) {
+        return;
+      }
 
       var styleImpl = this.__styleLinearBackgroundGradientAccordingToSpec;
       if (qx.core.Environment.get("css.gradient.legacywebkit")) {
@@ -158,29 +134,34 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         styleImpl = this.__styleLinearBackgroundGradientWithMSFilter;
       }
 
-      for(var i=0;i<items;i++) {
-        var startColor = this.__getColor(startColors[i]);
-        var endColor = this.__getColor(endColors[i]);
-        var unit = units[i];
-        var orientation = orientations[i];
-        var startColorPosition = startColorPositions[i];
-        var endColorPosition = endColorPositions[i];
+      var gradientProperties = ["startColor", "endColor", "colorPositionUnit", "orientation",
+        "startColorPosition", "endColorPosition"];
 
-        if(!styleImpl(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle)) {
-          break;
+      (function(startColors, endColors, units, orientations, startColorPositions, endColorPositions) {
+        for(var i=0;i<startColors.length;i++) {
+          var startColor = this.__getColor(startColors[i]);
+          var endColor = this.__getColor(endColors[i]);
+          var unit = units[i];
+          var orientation = orientations[i];
+          var startColorPosition = startColorPositions[i];
+          var endColorPosition = endColorPositions[i];
+
+          if(!styleImpl(startColor, endColor, unit, orientation, startColorPosition, endColorPosition, styles, backgroundStyle)) {
+            break;
+          }
         }
-      }
-      
-      if("background" in styles) {
-        if(!qx.lang.Type.isArray(styles['background'])) {
-          styles['background'] = [styles['background']];
+        
+        if("background" in styles) {
+          if(!qx.lang.Type.isArray(styles['background'])) {
+            styles['background'] = [styles['background']];
+          }
+        } else {
+          styles['background'] = [];
         }
-      } else {
-        styles['background'] = [];
-      }
-      var orderGradientsFront = 'getOrderGradientsFront' in this ? this.getOrderGradientsFront() : false;
-      var operation = orderGradientsFront ? Array.prototype.unshift : Array.prototype.push;
-      operation.apply(styles['background'], backgroundStyle);
+        var orderGradientsFront = 'getOrderGradientsFront' in this ? this.getOrderGradientsFront() : false;
+        var operation = orderGradientsFront ? Array.prototype.unshift : Array.prototype.push;
+        operation.apply(styles['background'], backgroundStyle);
+      }).apply(this, this._getProlongedPropertyValueArrays(gradientProperties));
     },
 
     /**
