@@ -161,7 +161,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
         var orderGradientsFront = 'getOrderGradientsFront' in this ? this.getOrderGradientsFront() : false;
         var operation = orderGradientsFront ? Array.prototype.unshift : Array.prototype.push;
         operation.apply(styles['background'], backgroundStyle);
-      }).apply(this, this._getProlongedPropertyValueArrays(gradientProperties));
+      }).apply(this, this._getExtendedPropertyValueArrays(gradientProperties));
     },
 
     /**

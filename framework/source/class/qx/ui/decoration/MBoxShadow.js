@@ -133,7 +133,7 @@ qx.Mixin.define("qx.ui.decoration.MBoxShadow",
             }
           }
         }
-      }).apply(this, this._getProlongedPropertyValueArrays(boxShadowProperties));
+      }).apply(this, this._getExtendedPropertyValueArrays(boxShadowProperties));
     },
 
 

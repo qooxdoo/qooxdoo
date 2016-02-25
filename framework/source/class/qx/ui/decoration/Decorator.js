@@ -163,11 +163,11 @@ qx.Class.define("qx.ui.decoration.Decorator", {
 
     /**
     * Ensures that every propertyValue specified in propertyNames is an array.
-    * The value arrays are prolonged to match in length.
+    * The value arrays are extended and repeated to match in length.
     * @param arr {Array} Array containing the propertyNames.
-    * @returns {Array} Array containing the prolonged value arrays.
+    * @returns {Array} Array containing the extended value arrays.
     */
-    _getProlongedPropertyValueArrays: function(propertyNames) {
+    _getExtendedPropertyValueArrays: function(propertyNames) {
       // transform non-array values to an array containing that value
       var propertyValues = propertyNames.map(function(propName) {
         var value = this.get(propName);
@@ -178,12 +178,12 @@ qx.Class.define("qx.ui.decoration.Decorator", {
       }, this);
 
       // Because it's possible to set multiple values for a property there's 
-      // a chance that not all properties have the same amount of values set.
-      // Prolong the value arrays by repeating existing values until all
+      // a chance that not all properties have the same number of values set.
+      // Extend the value arrays by repeating existing values until all
       // arrays match in length.
       var items = Math.max.apply(Math, propertyValues.map(function(prop) { return prop.length; }));
       for(var i = 0; i < propertyValues.length; i++) {
-        this.__prolongArray(propertyValues[i], items);
+        this.__extendArray(propertyValues[i], items);
       }
 
       return propertyValues;
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.decoration.Decorator", {
     * @param arr {Array} Incoming array. Has to contain at least one element.
     * @param to {Integer} Desired length. Must be greater than or equal to the the length of arr.
     */
-    __prolongArray: function(array, to) {
+    __extendArray: function(array, to) {
       var initial = array.length;
       while(array.length < to) {
         array.push(array[array.length%initial]);

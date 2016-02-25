@@ -174,7 +174,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
               " are not supported in this client! The image's resource id is '" + id + "'");
           }
         }
-      }).apply(this, this._getProlongedPropertyValueArrays(backgroundImageProperties));
+      }).apply(this, this._getExtendedPropertyValueArrays(backgroundImageProperties));
     },
 
 
