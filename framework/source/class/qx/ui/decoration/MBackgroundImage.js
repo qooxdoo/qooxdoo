@@ -19,6 +19,34 @@
 /**
  * Mixin for supporting the background images on decorators.
  * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
+ * 
+ * It is possible to define multiple background images by setting an 
+ * array containing the needed values as the property value.
+ * In case multiple values are specified, the values of the properties
+ * are repeated until all match in length.
+ *
+ * An example:
+ * <pre class="javascript">
+ *   'my-decorator': {
+ *     style: {
+ *       backgroundImage: ['foo1.png', 'foo2.png', 'bar1.png', 'bar2.png'],
+ *       backgroundRepeat: 'no-repeat',
+ *       backgroundPositionX: ['left', 'right', 'center'],
+ *       backgroundPositionY: ['center', 'top']
+ *     }
+ *   }
+ * </pre>
+ * which is the same as:
+ * <pre class="javascript">
+ *   'my-decorator': {
+ *     style: {
+ *       backgroundImage: ['foo1.png', 'foo2.png', 'bar1.png', 'bar2.png'],
+ *       backgroundRepeat: ['no-repeat', 'no-repeat', 'no-repeat', 'no-repeat'],
+ *       backgroundPositionX: ['left', 'right', 'center', 'left'],
+ *       backgroundPositionY: ['center', 'top', 'center', 'top']
+ *     }
+ *   }
+ * </pre>
  */
 qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 {

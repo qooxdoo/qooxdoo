@@ -37,6 +37,33 @@
  * For IE9, we create a gradient in a canvas element and render this gradient
  * as background image. Due to restrictions in the <code>background-image</code>
  * css property, we can not allow negative start values in that case.
+ *
+ * It is possible to define multiple background gradients by setting an 
+ * array containing the needed values as the property value.
+ * In case multiple values are specified, the values of the properties
+ * are repeated until all match in length. It is not possible to define
+ * multiple background gradients when falling back to filter rules (IE5.5 to IE8).
+ *
+ * An example:
+ * <pre class="javascript">
+ *   'my-decorator': {
+ *     style: {
+ *       startColor:['rgba(255, 0, 0, 0.5)', 'rgba(0, 255, 0, 0.5)', 'rgba(0, 0, 255, 0.5)'],
+ *       endColor: 'rgba(255, 255, 255, 0.2)',
+ *       orientation: ['horizontal', 'vertical']
+ *     }
+ *   }
+ * </pre>
+ * which is the same as:
+ * <pre class="javascript">
+ *   'my-decorator': {
+ *     style: {
+ *       startColor: ['rgba(255, 0, 0, 0.5)', 'rgba(0, 255, 0, 0.5)', 'rgba(0, 0, 255, 0.5)'],
+ *       endColor: ['rgba(255, 255, 255, 0.2)', 'rgba(255, 255, 255, 0.2)', 'rgba(255, 255, 255, 0.2)'],
+ *       orientation: ['horizontal', 'vertical', 'horizontal']
+ *     }
+ *   }
+ * </pre>
  */
 qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 {
@@ -370,6 +397,7 @@ qx.Mixin.define("qx.ui.decoration.MLinearBackgroundGradient",
 
     /**
      * Helper to get a resolved color from a name
+     * @param color {String} The color name
      * @return {Map} The resolved color
      */
     __getColor : function(color) {
