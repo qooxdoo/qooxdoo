@@ -164,8 +164,8 @@ qx.Class.define("qx.ui.decoration.Decorator", {
     /**
     * Ensures that every propertyValue specified in propertyNames is an array.
     * The value arrays are extended and repeated to match in length.
-    * @param arr {Array} Array containing the propertyNames.
-    * @returns {Array} Array containing the extended value arrays.
+    * @param propertyNames {Array} Array containing the propertyNames.
+    * @return {Array} Array containing the extended value arrays.
     */
     _getExtendedPropertyValueArrays: function(propertyNames) {
       // transform non-array values to an array containing that value
@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.decoration.Decorator", {
 
     /**
     * Extends an array up to the given length by repeating the elements already present.
-    * @param arr {Array} Incoming array. Has to contain at least one element.
+    * @param array {Array} Incoming array. Has to contain at least one element.
     * @param to {Integer} Desired length. Must be greater than or equal to the the length of arr.
     */
     __extendArray: function(array, to) {

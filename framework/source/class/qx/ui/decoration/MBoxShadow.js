@@ -27,6 +27,33 @@
  * * Safari 3.0+
  * * Opera 10.5+
  * * Chrome 4.0+
+ *
+ * It is possible to define multiple box shadows by setting an 
+ * array containing the needed values as the property value.
+ * In case multiple values are specified, the values of the properties
+ * are repeated until all match in length.
+ *
+ * An example:
+ * <pre class="javascript">
+ *   'my-decorator': {
+ *     style: {
+ *       shadowBlurRadius: 2,
+ *       shadowVerticalLength: 1,
+ *       shadowColor: ['rgba(0, 0, 0, 0.2)', 'rgba(255, 255, 255, 0.4)'],
+ *       inset: [true, false]
+ *     }
+ *   }
+ * </pre>
+ * which is the same as:
+ * <pre class="javascript">
+ *   'my-decorator': {
+ *     style: {
+ *       shadowBlurRadius: [2, 2],
+ *       shadowVerticalLength: [1, 1],
+ *       shadowColor: ['rgba(0, 0, 0, 0.2)', 'rgba(255, 255, 255, 0.4)'],
+ *       inset: [true, false]
+ *     }
+ *   }
  */
 qx.Mixin.define("qx.ui.decoration.MBoxShadow",
 {
