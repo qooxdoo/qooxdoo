@@ -83,7 +83,7 @@ qx.Class.define("qxt.Application",
    	  doc.add(button1, {left: 100, top: 50});
    	  
       // Add an event listener
-      button1.addListener("execute", () => alert("Hello World!"));
+      //button1.addListener("execute", () => alert("Hello World!"));
 
       doc.add(new qx.ui.form.TextField(), { left: 100, top: 150 });
 
