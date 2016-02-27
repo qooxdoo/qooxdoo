@@ -441,15 +441,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param dbClassInfo
      */
     executePendingDefers: function(dbClassInfo) {
-      var t = this;
-      if (!dbClassInfo) {
-        var pendingDefers = this.__pendingDefers;
-        this.__pendingDefers = [];
-        pendingDefers.forEach(execute);
-        return;
-      }
-
-      function executeForDbClassInfo(dbClassInfo) {
+      var executeForDbClassInfo = function (dbClassInfo) {
         if (dbClassInfo.environment) {
           var required = dbClassInfo.environment.required;
           if (required) {
@@ -467,7 +459,7 @@ qx.Bootstrap.define("qx.Bootstrap",
         }
       }
 
-      function executeForClassName(className) {
+      var executeForClassName = function (className) {
         var clazz = getByName(className);
         if (clazz.$$deferComplete)
           return;
@@ -477,7 +469,7 @@ qx.Bootstrap.define("qx.Bootstrap",
         execute(clazz);
       }
 
-      function execute(clazz) {
+      var execute = function (clazz) {
         var cb = clazz.$$pendingDefer;
         if (cb) {
           delete clazz.$$pendingDefer;
@@ -486,7 +478,7 @@ qx.Bootstrap.define("qx.Bootstrap",
         }
       }
 
-      function getByName(name) {
+      var getByName = function (name) {
         var clazz = qx.Bootstrap.getByName(name);
         if (!clazz) {
           var splits = name.split(".");
@@ -501,6 +493,14 @@ qx.Bootstrap.define("qx.Bootstrap",
             clazz = tmp;
         }
         return clazz;
+      }
+
+      var t = this;
+      if (!dbClassInfo) {
+        var pendingDefers = this.__pendingDefers;
+        this.__pendingDefers = [];
+        pendingDefers.forEach(execute);
+        return;
       }
 
       executeForDbClassInfo(dbClassInfo);
