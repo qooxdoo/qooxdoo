@@ -814,8 +814,9 @@ qx.Class.define("qx.event.handler.Focus",
             // is not what we like when changing the focus element.
             // So we clear it
             try {
-              if (document.selection)
+              if (document.selection) {
                 document.selection.empty();
+              }
             } catch (ex) {
               // ignore 'Unknown runtime error'
             }

@@ -296,8 +296,9 @@ qx.Class.define("qx.ui.form.DateField",
 
       // return the parsed date
       try {
-        if (textfieldValue == null || textfieldValue.length == 0)
+        if (textfieldValue == null || textfieldValue.length == 0) {
           return null;
+        }
         return this.getDateFormat().parse(textfieldValue);
       } catch (ex) {
         return null;
