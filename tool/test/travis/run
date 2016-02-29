@@ -1,0 +1,186 @@
+#!/usr/bin/env phantomjs
+var system = require('system');
+var url = system.args[1] || null;
+var loadedBefore = false;
+var VERBOSE = false;
+var CONSOLE = true;
+
+
+if (!url) {
+  throw new Error("No URL configured or given");
+}
+
+// Load color (required) support
+phantom.injectJs("colors.js");
+
+
+page = new WebPage();
+
+page.onConsoleMessage = function(msg) {
+  if (CONSOLE) {
+    return console.log(msg);
+  }
+};
+
+page.onError = function(msg, trace) {
+  if (VERBOSE) {
+    var msgStack = ["ERROR: " + msg];
+
+    if (trace && trace.length) {
+      msgStack.push("[TRACE]");
+      trace.forEach(function(t) {
+        var functionContent = "";
+
+        if (t["function"]) {
+          functionContent = "(in function '" + t["function"] + "')";
+        }
+
+        return msgStack.push(" -> " + t.file + ": " + t.line + " " + functionContent);
+      });
+    }
+    console.error(msgStack.join("\n"));
+  }
+};
+
+
+page.open(url, function(status) {
+  if (status !== "success") {
+    console.log("unable to load page");
+    phantom.exit(1);
+  }
+
+  if (loadedBefore) {
+    return;
+  }
+
+  loadedBefore = true;
+
+  // Detect non starting test suite
+  window.setTimeout(function() {
+    var testSuiteState = page.evaluate(function() {
+      return qx.core.Init.getApplication().runner.getTestSuiteState();
+    });
+
+    switch (testSuiteState) {
+      case "init":
+      case "loading":
+      case "ready":
+        console.log("unable to start test suite");
+        return phantom.exit(1);
+    }
+  }, 120000);
+
+  // Start tests when we're loaded
+  page.evaluate(function() {
+    if (typeof qx === "undefined") {
+      console.log("qooxdoo not found");
+
+      if (VERBOSE) {
+        console.log(" -> status " + page.status);
+        console.log("\n--------------------------------------------------");
+        console.log(page.content);
+        console.log();
+      }
+
+      return;
+    }
+
+    var runner = qx.core.Init.getApplication().runner;
+    if (runner.getTestSuiteState() !== "ready") {
+      return runner.addListener("changeTestSuiteState", function(e) {
+        if (e.getData() === "ready") {
+          return runner.view.run();
+        }
+      });
+    }
+    else {
+      return runner.view.run();
+    }
+  });
+
+  var processTestResults = function() {
+    var error, exception, results, skip, state, success, test, testName, _i, _len, _ref, _ref1;
+
+    var getRunnerStateAndResults = function() {
+      return page.evaluate(function() {
+        var runner;
+        var state;
+
+        try {
+          runner = qx.core.Init.getApplication().runner;
+          state = runner.getTestSuiteState();
+        }
+        catch (e) {
+          console.log("[ERROR] getting the test runners state and results failed");
+          return [null, null];
+        }
+
+        if (state === "finished") {
+          return [state, runner.view.getTestResults()];
+        }
+        else {
+          return [state, null];
+        }
+      });
+    };
+
+    var result = getRunnerStateAndResults();
+    var state = result[0];
+    var results = result[1];
+
+    if (!state) {
+      return;
+    }
+
+    if (state === "error") {
+      console.log("Error running tests");
+      phantom.exit(1);
+    }
+
+    if (state === "finished") {
+      success = 0;
+      skip = 0;
+      error = 0;
+
+      console.log("Tests finished.\n");
+
+      for (testName in results) {
+        test = results[testName];
+
+        if (test.state === "success") {
+          success++;
+          if (VERBOSE) {
+            console.log("PASS".green + (" " + testName));
+          }
+        }
+
+        if (test.state === "skip") {
+          skip++;
+          if (VERBOSE) {
+            console.log("SKIP".yellow + (" " + testName));
+          }
+        }
+
+        if (test.state === "error" || test.state === "failure") {
+          error++;
+          console.log("FAIL".red + (" " + testName));
+          _ref1 = test.messages;
+
+          for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+            exception = _ref1[_i];
+            exception = exception.replace(/\n$/, "");
+            exception = exception.replace(/\n/g, "\n  ");
+            console.log(">>>> " + exception);
+          }
+        }
+      }
+
+      console.log("\nFinished running test suite (" + success + " succeeded, " + skip + " skipped, " + error + " failed)\n");
+
+      return phantom.exit(error);
+    }
+  };
+
+  // Check for new results every 500ms
+  return window.setInterval(processTestResults, 500);
+});
