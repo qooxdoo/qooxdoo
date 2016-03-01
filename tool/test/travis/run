@@ -2,7 +2,7 @@
 var system = require('system');
 var url = system.args[1] || null;
 var loadedBefore = false;
-var VERBOSE = false;
+var VERBOSE = true;
 var CONSOLE = true;
 
 
