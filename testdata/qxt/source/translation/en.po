@@ -40,3 +40,6 @@ msgstr "en: First Button"
 #: qxt/Application.js:81
 msgid "Add File(s)"
 msgstr "en: Add File(s)"
+
+msgid "NotUsed"
+msgstr "en: Not Used"
