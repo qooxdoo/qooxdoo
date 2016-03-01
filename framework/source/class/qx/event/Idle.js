@@ -77,8 +77,9 @@ qx.Class.define("qx.event.Idle",
 
     // property apply
     _applyTimeoutInterval : function(value) {
-      if (this.__timer)
+      if (this.__timer) {
         this.__timer.setInterval(value);
+      }
     },
 
     /**

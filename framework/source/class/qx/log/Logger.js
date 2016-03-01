@@ -155,7 +155,6 @@ qx.Bootstrap.define("qx.log.Logger",
       this.__appenders[id] = appender;
       this.__appendersByName[appender.classname] = appender;
       appender.$$id = id;
-      var levels = this.__levels;
 
       // Insert previous messages
       var entries = this.__buffer.getAllLogEvents();
@@ -163,8 +162,9 @@ qx.Bootstrap.define("qx.log.Logger",
         var entry = entries[i];
 
         var appenders = this.__getAppenders(entry.loggerName, entry.level);
-        if (appenders[appender.classname])
+        if (appenders[appender.classname]) {
           appender.process(entry);
+        }
       }
     },
 
@@ -228,8 +228,9 @@ qx.Bootstrap.define("qx.log.Logger",
      * @param level {String?} the minimum logging level to use the appender, if undefined the default level is used
      */
     addFilter: function(logger, appenderName, level) {
-      if (typeof logger == "string")
+      if (typeof logger == "string") {
         logger = new RegExp(logger);
+      }
       this.__filters.push({ loggerMatch: logger, level: level||this.__level, appenderName: appenderName });
     },
 
@@ -506,10 +507,12 @@ qx.Bootstrap.define("qx.log.Logger",
      */
     __getLoggerName: function(object) {
       if (object) {
-        if (object.classname)
+        if (object.classname) {
           return object.classname;
-        if (typeof object == "string")
+        }
+        if (typeof object == "string") {
           return object;
+        }
       }
       return "[default]";
     },
@@ -579,8 +582,9 @@ qx.Bootstrap.define("qx.log.Logger",
       this.__buffer.process(entry);
 
       // Send to appenders
-      for (var classname in appenders)
+      for (var classname in appenders) {
         appenders[classname].process(entry);
+      }
     },
     
 
@@ -594,35 +598,41 @@ qx.Bootstrap.define("qx.log.Logger",
       // If no filters, then all appenders apply
       if (!this.__filters.length) {
         // Check the default level
-        if (levels[level] < levels[this.__level])
+        if (levels[level] < levels[this.__level]) {
           return [];
+        }
         return this.__appendersByName;
       }
       
       // Check the cache
       var cacheId = className + "|" + level;
       var appenders = this.__appendersCache[cacheId];
-      if (appenders !== undefined)
+      if (appenders !== undefined) {
         return appenders;
+      }
       
       var appenders = {};
       for (var i = 0; i < this.__filters.length; i++) {
         var filter = this.__filters[i];
         
         // Filters only apply to certain levels
-        if (levels[level] < levels[filter.level])
+        if (levels[level] < levels[filter.level]) {
           continue;
+        }
         
         // No duplicates
-        if (filter.appenderName && appenders[filter.appenderName])
+        if (filter.appenderName && appenders[filter.appenderName]) {
           continue;
+        }
         
         // Test
         if (!filter.loggerMatch || filter.loggerMatch.test(className)) {
-          if (filter.appenderName)
+          if (filter.appenderName) {
             appenders[filter.appenderName] = this.__appendersByName[filter.appenderName];
-          else
+          }
+          else {
             return this.__appendersCache[cacheId] = this.__appendersByName;
+          }
         }
       }
       

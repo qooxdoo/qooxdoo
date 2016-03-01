@@ -88,6 +88,10 @@
       "test-mobile-source",
       "testrunner::tests-common",
       "translation"
+    ],
+    "exclude" :
+    [
+      "qx.test.*"
     ]
   },
 
