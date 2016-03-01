@@ -11,6 +11,6 @@ before_script:
   - export PATH=$PWD/phantomjs-2.1.1-linux-x86_64/bin/:$PATH
 script:
   - tool/test/travis/setup
-  - php -S localhost:31323 1>&2 & || true
-  - tool/test/travis/run http://localhost:31323/framework/test-console/index-source.html
-  - pkill -f php || true
+  - php -S 127.0.0.1:31323 1>&2 &
+  - tool/test/travis/run http://127.0.0.1:31323/framework/test-console/index-source.html
+  - pkill -f php
