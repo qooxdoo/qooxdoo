@@ -7,4 +7,7 @@ before_script:
   - tar xf phantomjs-2.1.1-linux-x86_64.tar.bz2
   - tool/test/travis/setup
   - php -S localhost:31323 >php.log 2>&1 &
-script: PATH=`pwd`/phantomjs-2.1.1-linux-x86_64/bin/:$PATH tool/test/travis/run http://localhost:31323/framework/test-console/index-source.html
+script:
+  - PATH=`pwd`/phantomjs-2.1.1-linux-x86_64/bin/:$PATH ./tool/test/travis/run http://localhost:31323/framework/test-console/index-source.html
+  - cat php.log
+  
