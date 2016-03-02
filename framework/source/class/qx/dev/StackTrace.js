@@ -97,6 +97,9 @@ qx.Bootstrap.define("qx.dev.StackTrace",
             var callerClassName = callerArr.join(".");
 
             var errorCall = errorTrace[i];
+            var match = errorCall.match(/^https?:\/\/[^\/]+\/(.*)$/);
+            if (match && match.length == 2)
+              errorCall = match[1];
             var errorArr = errorCall.split(":");
             var errorClassName = errorArr[0];
             var lineNumber = errorArr[1];
