@@ -438,7 +438,7 @@ qx.Bootstrap.define("qx.Theme",
         // Validate patch
         if (config.patch) {
           for (var i=0,l=config.patch.length; i<l; i++) {
-            if (typeof(config.patch[i])  == "undefined" || config.patch[i].$$type !== "Theme") {
+            if (typeof(config.patch[i]) === "undefined" || config.patch[i].$$type !== "Theme") {
               throw new Error('Invalid patch in theme "' + name + '": ' + config.patch[i]);
             }
           }

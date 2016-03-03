@@ -84,7 +84,7 @@ qx.Bootstrap.define("qx.lang.Type",
     * @return {Boolean} Whether the value is a regular expression.
     */
     isRegExp : function(value) {
-      return this.getClass(value) == "RegExp";
+      return this.getClass(value) === "RegExp";
     },
 
 
@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.lang.Type",
       // e.q. by document.getElementById("ReturnedNull").
       return (
         value !== null && (
-        this.getClass(value) == "Number" ||
+        this.getClass(value) === "Number" ||
         value instanceof Number)
       );
     },
@@ -123,7 +123,7 @@ qx.Bootstrap.define("qx.lang.Type",
       // e.q. by document.getElementById("ReturnedNull").
       return (
         value !== null && (
-        this.getClass(value) == "Boolean" ||
+        this.getClass(value) === "Boolean" ||
         value instanceof Boolean)
       );
     },
@@ -144,7 +144,7 @@ qx.Bootstrap.define("qx.lang.Type",
       // e.q. by document.getElementById("ReturnedNull").
       return (
         value !== null && (
-        this.getClass(value) == "Date" ||
+        this.getClass(value) === "Date" ||
         value instanceof Date)
       );
     },
@@ -165,7 +165,7 @@ qx.Bootstrap.define("qx.lang.Type",
       // e.q. by document.getElementById("ReturnedNull").
       return (
         value !== null && (
-        this.getClass(value) == "Error" ||
+        this.getClass(value) === "Error" ||
         value instanceof Error)
       );
     }
