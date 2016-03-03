@@ -379,7 +379,7 @@ qx.Bootstrap.define("qx.Part",
         this.__partListners[key] = [];
       }
 
-      if (typeof this.onpart == "function") {
+      if (typeof this.onpart === "function") {
         this.onpart(part);
       }
     },

@@ -494,7 +494,7 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       "BROKEN_IE" : function(map)
       {
-        if (map === null || (typeof map != "object" && typeof map != "function")) {
+        if (map === null || (typeof map !== "object" && typeof map !== "function")) {
             throw new TypeError("Object.keys requires an object as argument.");
         }
 
@@ -522,7 +522,7 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       "default" : function(map)
       {
-        if (map === null || (typeof map != "object" && typeof map != "function")) {
+        if (map === null || (typeof map !== "object" && typeof map !== "function")) {
             throw new TypeError("Object.keys requires an object as argument.");
         }
 
@@ -538,7 +538,7 @@ qx.Bootstrap.define("qx.Bootstrap",
         return arr;
       }
     })[
-      typeof(Object.keys) == "function" ? "ES5" :
+      typeof(Object.keys) === "function" ? "ES5" :
         (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ? "BROKEN_IE" : "default"
     ],
 
@@ -683,7 +683,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       return (
         value !== null && (
         typeof value === "string" ||
-        qx.Bootstrap.getClass(value) == "String" ||
+        qx.Bootstrap.getClass(value) === "String" ||
         value instanceof String ||
         (!!value && !!value.$$isString))
       );
@@ -707,7 +707,7 @@ qx.Bootstrap.define("qx.Bootstrap",
         value !== null && (
         value instanceof Array ||
         (value && qx.data && qx.data.IListData && qx.util.OOUtil.hasInterface(value.constructor, qx.data.IListData) ) ||
-        qx.Bootstrap.getClass(value) == "Array" ||
+        qx.Bootstrap.getClass(value) === "Array" ||
         (!!value && !!value.$$isArray))
       );
     },
@@ -724,7 +724,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       return (
         value !== undefined &&
         value !== null &&
-        qx.Bootstrap.getClass(value) == "Object"
+        qx.Bootstrap.getClass(value) === "Object"
       );
     },
 
@@ -736,7 +736,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @return {Boolean} Whether the value is a function.
      */
     isFunction : function(value) {
-      return qx.Bootstrap.getClass(value) == "Function";
+      return qx.Bootstrap.getClass(value) === "Function";
     },
 
 

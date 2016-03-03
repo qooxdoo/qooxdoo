@@ -1239,7 +1239,7 @@ qx.Bootstrap.define("qx.Class",
 
         if (config.transform != null)
         {
-          if (!(typeof config.transform == "string")) {
+          if (!(typeof config.transform === "string")) {
             throw new Error('Invalid transform definition of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String.');
           }
         }
@@ -1284,7 +1284,7 @@ qx.Bootstrap.define("qx.Class",
 
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (proto[key] !== undefined && key.charAt(0) == "_" && key.charAt(1) == "_") {
+          if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
             throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
           }
 
