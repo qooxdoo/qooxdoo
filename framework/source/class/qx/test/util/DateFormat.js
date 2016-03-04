@@ -803,6 +803,7 @@ qx.Class.define("qx.test.util.DateFormat",
   testChangingLocales : function()
   {
     var manager = qx.locale.Manager.getInstance();
+    manager.resetLocale();
     var initialLocale = manager.getLocale();
     
     manager.setLocale('en_US');
