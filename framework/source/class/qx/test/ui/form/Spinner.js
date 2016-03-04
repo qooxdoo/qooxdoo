@@ -33,6 +33,9 @@ qx.Class.define("qx.test.ui.form.Spinner", {
 
       spinner.setValue(1.23);
       this.assertEquals("1,23", spinner.getChildControl("textfield").getValue());
+      
+      spinner.destroy();
+      nf.dispose();
     },
 
     /**
@@ -70,6 +73,9 @@ qx.Class.define("qx.test.ui.form.Spinner", {
       this.assertEquals("50min", tf.getValue());
       tf.setValue("50");
       this.assertEquals("50min", tf.getValue());
+      
+      spinner.destroy();
+      numberFormat.dispose();
     }
   }
 });
