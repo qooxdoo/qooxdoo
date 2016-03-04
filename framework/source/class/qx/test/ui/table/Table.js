@@ -215,7 +215,7 @@ qx.Class.define("qx.test.ui.table.Table",
       table.setRowHeight(111);
       this.assertFalse(executed);
 
-      table.dispose();
+      table.destroy();
     },
 
 
@@ -238,7 +238,7 @@ qx.Class.define("qx.test.ui.table.Table",
       this.assertFalse(executed, "Listener not removed");
 
       mouse.dispose();
-      table.dispose();
+      table.destroy();
     },
 
 
@@ -265,6 +265,9 @@ qx.Class.define("qx.test.ui.table.Table",
       table.getTableColumnModel().setColumnWidth(0, 100);
       // check that the table is not scrolled back to the top
       this.assertEquals(100, table.getPaneScroller(0).getScrollY());
+      
+      table.destroy();
+      tableModel.dispose();
     },
 
 
@@ -291,7 +294,7 @@ qx.Class.define("qx.test.ui.table.Table",
       this.assertEquals(null, tableSimple.getFocusedRow()); // dont use assertNull because it can be undefined
       this.assertEquals(0, tableSimple.getSelectionModel().getSelectedCount());
 
-      tableSimple.dispose();
+      tableSimple.destroy();
       tableModelSimple.dispose();
     }
   }
