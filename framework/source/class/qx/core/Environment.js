@@ -559,6 +559,10 @@
  *       <td>locale.variant</td><td><i>String</i></td><td><code>de</code></td>
  *       <td>{@link qx.bom.client.Locale#getVariant}</td>
  *     </tr>
+ *     <tr>
+ *       <td>locale.default</td><td><i>String</i></td><td><code>C</code></td>
+ *       <td>default locale C as in good tradition of unix</td>
+ *     </tr>
 
  *     <tr>
  *       <td colspan="4"><b>os</b></td>
