@@ -102,5 +102,6 @@ qx.Bootstrap.define("qx.bom.client.Locale",
   defer : function(statics) {
     qx.core.Environment.add("locale", statics.getLocale);
     qx.core.Environment.add("locale.variant", statics.getVariant);
+    qx.core.Environment.add("locale.default", "C");
   }
 });

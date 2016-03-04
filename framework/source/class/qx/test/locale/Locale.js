@@ -206,7 +206,7 @@ qx.Class.define("qx.test.locale.Locale",
 
       // try the reset of the locale
       manager.resetLocale();
-      this.assertEquals(null, manager.getLocale());
+      this.assertEquals(locale, manager.getLocale());
 
       // make sure we set the locale which was there before the test
       manager.setLocale(oldLocale);
