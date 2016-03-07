@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
         height: this.__isHorizontal ? scrollbarWidth : 100,
         maxHeight: this.__isHorizontal ? scrollbarWidth : null,
         minHeight: this.__isHorizontal ? scrollbarWidth : null
-      }
+      };
     },
 
 
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
       var content = this.getContentElement();
 
       if (this.__isHorizontal) {
-        content.scrollToX(value)
+        content.scrollToX(value);
       } else {
         content.scrollToY(value);
       }
@@ -346,7 +346,7 @@ qx.Class.define("qx.ui.core.scroll.NativeScrollBar",
 
     // interface implementation
     scrollBy : function(offset, duration) {
-      this.scrollTo(this.getPosition() + offset, duration)
+      this.scrollTo(this.getPosition() + offset, duration);
     },
 
 

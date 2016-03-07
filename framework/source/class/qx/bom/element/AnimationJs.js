@@ -531,7 +531,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       // get min difference
       var minDiff = 100;
       for (var i=0; i < keys.length - 1; i++) {
-        minDiff = Math.min(minDiff, keys[i+1] - keys[i])
+        minDiff = Math.min(minDiff, keys[i+1] - keys[i]);
       };
 
       var stepTime = duration * minDiff / 100;

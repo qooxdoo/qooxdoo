@@ -101,7 +101,7 @@ qx.Class.define("qx.test.lang.Function",
 
       var bound = qx.lang.Function.bind(callback, obj);
       this.assertException(function() {
-        bound()
+        bound();
       }, qx.core.AssertionError);
     },
 
@@ -110,8 +110,8 @@ qx.Class.define("qx.test.lang.Function",
     {
       var undef;
       var callback = function(undef, arg) {
-        this.assertTrue(arg)
-      }
+        this.assertTrue(arg);
+      };
       var bound = qx.lang.Function.bind(callback, this, undef, true);
       bound();
     },
@@ -125,7 +125,7 @@ qx.Class.define("qx.test.lang.Function",
 
       var onError = function() { this.resume(function() {
         qx.event.GlobalError.setErrorHandler(null, null);
-      })};
+      });};
       qx.event.GlobalError.setErrorHandler(onError, this);
 
       var delayed = qx.lang.Function.create(fail, {

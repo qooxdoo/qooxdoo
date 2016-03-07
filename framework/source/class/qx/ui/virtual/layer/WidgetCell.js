@@ -257,7 +257,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCell",
         lastRow: Math.min(lastRow, this._lastRow),
         firstColumn: Math.max(firstColumn, this.getFirstColumn()),
         lastColumn: Math.min(lastColumn, this._lastColumn)
-      }
+      };
 
       this._lastColumn = lastColumn;
       this._lastRow = lastRow;

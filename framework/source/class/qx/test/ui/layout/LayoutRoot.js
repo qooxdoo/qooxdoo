@@ -39,4 +39,4 @@ qx.Class.define("qx.test.ui.layout.LayoutRoot",
   {
     this._getLayout().dispose();
   }
-})
+});

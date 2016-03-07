@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       var value = "";
 
       if (selection && selection[0]) {
-        var userValue = selection[0].getUserData("row")
+        var userValue = selection[0].getUserData("row");
         value = userValue === undefined ? selection[0].getLabel() : userValue;
       }
 

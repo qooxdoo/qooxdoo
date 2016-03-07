@@ -335,7 +335,7 @@ qx.Class.define("qx.dev.unit.TestResult",
             testFunction._addedListeners.push([target, listenerId]);
           }
           return listenerId;
-        }
+        };
       }
     },
 

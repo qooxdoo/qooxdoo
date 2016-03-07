@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
     remove : function(widget) {
-      qx.lang.Array.remove(this.__queue, widget)
+      qx.lang.Array.remove(this.__queue, widget);
     },
 
 

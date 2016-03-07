@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.virtual.selection.CellLines",
         var cell = {
             row: Math.floor(i/columnCount),
             column: i % columnCount
-        }
+        };
         if (this._isSelectable(cell)) {
           selectables.push(cell);
         }

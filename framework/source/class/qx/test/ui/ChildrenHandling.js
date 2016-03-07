@@ -185,7 +185,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
 
 
       parent.addBefore(w1, c1);
-      this.assertArrayEquals([w1, c1, c2, c3], parent.getChildren(), "add new widget at begin")
+      this.assertArrayEquals([w1, c1, c2, c3], parent.getChildren(), "add new widget at begin");
       this._setChildren(parent, children);
 
       parent.addBefore(w1, c3);
@@ -247,7 +247,7 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
 
 
       parent.addAfter(w1, c3);
-      this.assertArrayEquals([c1, c2, c3, w1], parent.getChildren(), "add new widget ar end")
+      this.assertArrayEquals([c1, c2, c3, w1], parent.getChildren(), "add new widget ar end");
       this._setChildren(parent, children);
 
       parent.addAfter(w1, c1);

@@ -323,7 +323,7 @@ qx.Class.define("qx.dev.Debug",
         for (var i = 0; i < model.length; i++) {
           // print out the indentation
           for (var j = 0; j < indent; j++) {
-            message += "-"
+            message += "-";
           }
           message += "index(" + i + "): "
             + this.debugProperties(model.getItem(i), maxLevel - 1, html, indent + 1)
@@ -338,7 +338,7 @@ qx.Class.define("qx.dev.Debug",
           message += newLine;
           // print out the indentation
           for (var j = 0; j < indent; j++) {
-            message += "-"
+            message += "-";
           }
           message += " " + key + ": " + this.debugProperties(
             model["get" + qx.lang.String.firstUp(key)](), maxLevel - 1, html, indent + 1

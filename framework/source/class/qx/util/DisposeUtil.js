@@ -170,7 +170,7 @@ qx.Class.define("qx.util.DisposeUtil",
       trigger.dispose = function(){
         triggerDispose.call(trigger);
         disposeMe.dispose();
-      }
+      };
     },
 
 

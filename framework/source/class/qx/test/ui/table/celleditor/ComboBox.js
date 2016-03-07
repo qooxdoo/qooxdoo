@@ -45,14 +45,14 @@ qx.Class.define("qx.test.ui.table.celleditor.ComboBox",
               getDataCellRenderer: function(col) {
                 return {
                   _getContentHtml : function(cellInfo) {
-                    return cellInfo.value
+                    return cellInfo.value;
                   }
-                }
+                };
               }
-            }
+            };
           }
         }
-      }
+      };
     },
 
 

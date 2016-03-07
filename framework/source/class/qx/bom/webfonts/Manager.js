@@ -424,7 +424,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var rule = "src: " + rules.join(",\n") + ";";
 
       rule = "font-family: " + familyName + ";\n" + rule;
-      rule = rule + "\nfont-style: " + (fontStyle ? fontStyle : "normal") + ";"
+      rule = rule + "\nfont-style: " + (fontStyle ? fontStyle : "normal") + ";";
       rule = rule + "\nfont-weight: " + (fontWeight ? fontWeight : "normal") + ";";
 
       return rule;

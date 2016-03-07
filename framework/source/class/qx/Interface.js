@@ -642,7 +642,7 @@ qx.Bootstrap.define("qx.Interface",
                   break;
 
                 default:
-                  throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all of a primitive type.')
+                  throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all of a primitive type.');
               }
             }
           }

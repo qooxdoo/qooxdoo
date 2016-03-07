@@ -35,7 +35,7 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
 
 
     _getCellInfo : function(value) {
-      return {value: value}
+      return {value: value};
     },
 
 
@@ -76,7 +76,7 @@ qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
 
       this.factory.setValidationFunction(function(value) {
         called = true;
-        return "_" + value + "_"
+        return "_" + value + "_";
       });
 
       var editor = this.factory.createCellEditor(this._getCellInfo());

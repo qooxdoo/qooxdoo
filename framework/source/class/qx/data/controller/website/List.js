@@ -227,7 +227,7 @@ qx.Class.define("qx.data.controller.website.List",
 
         // special case for printing the content of the array
         if (typeof entry != "object") {
-          entry = {"." : data[i]}
+          entry = {"." : data[i]};
         }
 
         // create the DOM object

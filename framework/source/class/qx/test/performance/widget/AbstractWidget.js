@@ -79,7 +79,7 @@ qx.Class.define("qx.test.performance.widget.AbstractWidget",
         },
         function() {
           widgets[widgets.length - 1].setWidth(300);
-          widgets[widgets.length - 1].setHeight(100)
+          widgets[widgets.length - 1].setHeight(100);
           that.flush();
         },
         function() {

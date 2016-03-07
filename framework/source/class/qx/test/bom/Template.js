@@ -46,7 +46,7 @@ qx.Class.define("qx.test.bom.Template",
 
     testFunc : function() {
       var template = "{{name}} xyz";
-      var view = {name: function() {return "abc"}};
+      var view = {name: function() {return "abc";}};
       var result = qx.bom.Template.render(template, view);
       var expected = "abc xyz";
 

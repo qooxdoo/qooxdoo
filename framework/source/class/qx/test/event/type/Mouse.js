@@ -38,7 +38,7 @@ qx.Class.define("qx.test.event.type.Mouse",
         screenY: 400,
         wheelDelta: 20,
         detail: 20
-      }
+      };
 
       var event = new qx.event.type.MouseWheel().init(domEvent, document.body, document.body, true, true);
 

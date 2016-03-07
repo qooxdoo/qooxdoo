@@ -158,7 +158,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       var asyncValidator = new qx.ui.form.validation.AsyncValidator(
       function() {
         self.assertEquals(1, this.a);
-      })
+      });
       this.__manager.setValidator(asyncValidator);
       this.__manager.setContext({a: 1});
 

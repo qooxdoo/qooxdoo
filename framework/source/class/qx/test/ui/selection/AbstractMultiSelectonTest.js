@@ -148,7 +148,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
     testRemoveFromSelection : function()
     {
       // Sets up the item to remove and update the selection array
-      var selection = this._selection
+      var selection = this._selection;
       var itemToRemove = selection[selection.length - 1];
       delete selection[selection.length - 1];
       selection.length = selection.length - 1;

@@ -173,7 +173,7 @@ qx.Class.define("qx.test.ui.core.Test", {
     _createChildControlImpl : function(id, hash) {
       if (id == "text" || id == "text2") {
         var control = new qx.ui.form.TextField("affe");
-        this._add(control)
+        this._add(control);
         return control;
       }
       return this.base(arguments, id);

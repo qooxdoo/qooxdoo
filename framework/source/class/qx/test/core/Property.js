@@ -113,7 +113,7 @@ qx.Class.define("qx.test.core.Property",
       var chh2 = new qx.test.core.InheritanceDummy();
       var chh3 = new qx.test.core.InheritanceDummy();
 
-      pa.add(ch1)
+      pa.add(ch1);
       pa.add(ch2);
       pa.add(ch3);
       ch2.add(chh1);

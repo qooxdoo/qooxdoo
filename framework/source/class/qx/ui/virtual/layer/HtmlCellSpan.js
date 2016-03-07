@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
       {
         var left = 0;
         var column = firstColumn;
-        var height = rowSizes[x]
+        var height = rowSizes[x];
         for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];

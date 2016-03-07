@@ -266,15 +266,15 @@ qx.Class.define("qx.test.ui.layout.Flow",
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 60).set({
         alignY: "top"
-      })
+      });
       container.add(c1);
       var c2 = new qx.test.ui.layout.LayoutItem(100, 100).set({
         alignY: "middle"
-      })
+      });
       container.add(c2);
       var c3 = new qx.test.ui.layout.LayoutItem(100, 40).set({
         alignY: "bottom"
-      })
+      });
       container.add(c3);
 
       // reference
@@ -390,7 +390,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
 
       var c1 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: [5, 10, 15, 20]
-      })
+      });
       container.add(c1);
       var c2 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: [10, 20, 30, 40]
@@ -398,7 +398,7 @@ qx.Class.define("qx.test.ui.layout.Flow",
       container.add(c2);
       var c3 = new qx.test.ui.layout.LayoutItem(100, 50).set({
         margin: [15]
-      })
+      });
       container.add(c3);
 
       this.flush();

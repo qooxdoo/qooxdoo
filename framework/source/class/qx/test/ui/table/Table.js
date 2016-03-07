@@ -36,7 +36,7 @@ qx.Class.define("qx.test.ui.table.Table",
     {
       var rowData = [];
       var nextId = 0;
-      var strings = ["a", "b", "c", "d"]
+      var strings = ["a", "b", "c", "d"];
       for (var row = 0; row < rowCount; row++) {
         var date = new Date(row * row * row);
         var number = row % 2 == 0 ? row / 2 : NaN;
@@ -49,7 +49,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortInteger : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
 
       // sort descending
@@ -73,7 +73,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortIntegerNaN : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
 
       // sort descending
@@ -114,7 +114,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortIntegerNaNInsensitive : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
       model.setCaseSensitiveSorting(false);
 
@@ -156,7 +156,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortStringInsensitive : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
       model.setCaseSensitiveSorting(false);
 
@@ -181,7 +181,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortString : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
 
       // sort descending

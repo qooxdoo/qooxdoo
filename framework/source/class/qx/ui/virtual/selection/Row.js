@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.virtual.selection.Row",
       return {
         top: itemTop,
         bottom: itemBottom
-      }
+      };
     }
   }
 });

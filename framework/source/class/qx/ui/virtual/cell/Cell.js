@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       if (!value) {
         this._storeStyle(name, null);
       } else {
-        var font = qx.theme.manager.Font.getInstance().resolve(value)
+        var font = qx.theme.manager.Font.getInstance().resolve(value);
         this._storeStyle(name, qx.bom.element.Style.compile(font.getStyles()));
       }
     },
@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       }
 
       if (value === null) {
-        this._storeStyle(name, null)
+        this._storeStyle(name, null);
       } else {
         var cssKey = qx.bom.Style.getCssName(name);
         this._storeStyle(name, cssKey + ":" + value + "px");

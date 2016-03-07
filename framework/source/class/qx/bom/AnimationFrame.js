@@ -97,7 +97,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
           this.emit("frame", timePassed);
           this.id = qx.bom.AnimationFrame.request(clb, this);
         }
-      }
+      };
 
       this.id = qx.bom.AnimationFrame.request(clb, this);
     },

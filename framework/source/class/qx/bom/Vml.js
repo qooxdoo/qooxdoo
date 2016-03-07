@@ -89,7 +89,7 @@ qx.Class.define("qx.bom.Vml",
       shape.appendChild(fill);
 
       if (source || width || height) {
-        this.updateImage(shape, source, width, height, xOffset, yOffset, imageWidth, imageHeight)
+        this.updateImage(shape, source, width, height, xOffset, yOffset, imageWidth, imageHeight);
       }
 
       return shape;

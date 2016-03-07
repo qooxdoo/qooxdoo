@@ -268,7 +268,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       return {
         sans : this._getHelperElement(fontsSans),
         serif : this._getHelperElement(fontsSerif)
-      }
+      };
     },
 
 
@@ -332,7 +332,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       cls.__defaultSizes = {
         sans : qx.bom.element.Dimension.getWidth(cls.__defaultHelpers.sans),
         serif: qx.bom.element.Dimension.getWidth(cls.__defaultHelpers.serif)
-      }
+      };
     },
 
 

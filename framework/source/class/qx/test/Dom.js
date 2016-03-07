@@ -27,7 +27,7 @@ qx.Class.define("qx.test.Dom",
     setUp : function()
     {
       var div = document.createElement("div");
-      div.id = "html_basics"
+      div.id = "html_basics";
 
       div.innerHTML =
         '<div id="test1">' +
@@ -38,7 +38,7 @@ qx.Class.define("qx.test.Dom",
           '<div id="test4"></div>' +
         '</div>' +
 
-        '</div>'
+        '</div>';
 
       document.body.appendChild(div);
     },

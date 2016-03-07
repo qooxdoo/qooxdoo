@@ -46,7 +46,7 @@ qx.Theme.define("qx.theme.indigo.Appearance",
       style : function() {
         return {
           paddingTop: 0
-        }
+        };
       }
     },
 
@@ -56,7 +56,7 @@ qx.Theme.define("qx.theme.indigo.Appearance",
       style : function() {
         return {
           paddingTop: 0
-        }
+        };
       }
     },
 
@@ -161,7 +161,7 @@ qx.Theme.define("qx.theme.indigo.Appearance",
       {
         return {
           paddingTop : 5
-        }
+        };
       }
     },
 
@@ -171,7 +171,7 @@ qx.Theme.define("qx.theme.indigo.Appearance",
         return {
           padding: [0, 10, 10, 10],
           backgroundColor: "light-background"
-        }
+        };
       }
     }
   }

@@ -5,7 +5,7 @@ qx.Class.define("qx.test.log.fixture.ClassB2",
   members :
   {
     _applyNewProperty: function () {
-      this.base(arguments)
+      this.base(arguments);
 
       this._callCountApplyNewProperty++;
     }

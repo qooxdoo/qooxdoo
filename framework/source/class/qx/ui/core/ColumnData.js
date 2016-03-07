@@ -117,4 +117,4 @@ qx.Class.define("qx.ui.core.ColumnData",
   {
     "qx.tableResizeDebug" : false
   }
-})
+});

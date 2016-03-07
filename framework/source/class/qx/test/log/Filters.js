@@ -39,7 +39,7 @@ qx.Class.define("qx.test.log.Filters", {
         }
       });
 
-      Logger.addFilter("afdemo", "qx.log.appender.Native")
+      Logger.addFilter("afdemo", "qx.log.appender.Native");
       Logger.addFilter(/^test-level/, "my.TestLogger", "warn");
 
       var TestLogger = my.TestLogger;

@@ -539,7 +539,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       }
     })[
       typeof(Object.keys) === "function" ? "ES5" :
-        (function() {for (var key in {toString : 1}) { return key }})() !== "toString" ? "BROKEN_IE" : "default"
+        (function() {for (var key in {toString : 1}) { return key; }})() !== "toString" ? "BROKEN_IE" : "default"
     ],
 
 
@@ -655,7 +655,7 @@ qx.Bootstrap.define("qx.Bootstrap",
     {
       // The typeof null and undefined is "object" under IE8
       if(value === undefined) {
-        return "Undefined"
+        return "Undefined";
       }else if(value === null) {
         return "Null";
       }

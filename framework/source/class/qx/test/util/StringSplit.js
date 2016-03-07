@@ -111,7 +111,7 @@ qx.Class.define("qx.test.util.StringSplit",
 
       var ecmaSampleRe = /<(\/)?([^<>]+)>/;
       this.assertArrayEquals(["A", undefined, "B", "bold", "/", "B", "and", undefined, "CODE", "coded", "/", "CODE", ""],
-                             qx.util.StringSplit.split('A<B>bold</B>and<CODE>coded</CODE>', ecmaSampleRe))
+                             qx.util.StringSplit.split('A<B>bold</B>and<CODE>coded</CODE>', ecmaSampleRe));
 
     }
   }

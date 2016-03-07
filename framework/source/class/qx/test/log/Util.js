@@ -63,8 +63,8 @@ qx.Class.define("qx.test.log.Util",
       this.assertEquals(
         "000900 qx.core.Object:",
         text
-      )
+      );
     }
 
   }
-})
+});

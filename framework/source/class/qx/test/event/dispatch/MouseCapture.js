@@ -37,7 +37,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
         "<div id='c_1'>" +
         "<div id='c_1_1'></div>" +
         "</div>" +
-        "<div id='c_2'>"
+        "<div id='c_2'>";
 
       this.c_1 = document.getElementById("c_1");
       this.c_1_1 = document.getElementById("c_1_1");
@@ -57,7 +57,7 @@ qx.Class.define("qx.test.event.dispatch.MouseCapture",
         },
         fireEvent : function(target, type, clazz, args) {
           var event = qx.event.Registration.createEvent(type, clazz, args);
-          return manager.dispatchEvent(target, event)
+          return manager.dispatchEvent(target, event);
         }
       };
 

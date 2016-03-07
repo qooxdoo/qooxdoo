@@ -403,7 +403,7 @@ qx.Class.define("qx.test.Interface",
           getValue : function() {},
           setValue : function(value) {}
         }
-      })
+      });
     },
 
 
@@ -425,7 +425,7 @@ qx.Class.define("qx.test.Interface",
         events : {
           change : "qx.event.type.Event"
         }
-      })
+      });
 
 
       if (this.isDebugOn())
@@ -435,7 +435,7 @@ qx.Class.define("qx.test.Interface",
           {
             extend : qx.core.Object,
             implement : [qx.test.i.IEvents1]
-          })
+          });
         });
       };
     },

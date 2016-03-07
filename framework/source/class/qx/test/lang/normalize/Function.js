@@ -61,8 +61,8 @@ qx.Class.define("qx.test.lang.normalize.Function",
     {
       var undef;
       var callback = function(undef, arg) {
-        this.assertTrue(arg)
-      }
+        this.assertTrue(arg);
+      };
       var bound = callback.bind(this, undef, true);
       bound();
     }

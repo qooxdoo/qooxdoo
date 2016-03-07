@@ -374,7 +374,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         this.__ptwLiveUpdateDisappearListener = function()
         {
           this.__cleanupFromLastPlaceToWidgetLiveUpdate();
-        }
+        };
 
         this.addListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
 
@@ -506,7 +506,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         top : this.getOffsetTop(),
         right : this.getOffsetRight(),
         bottom : this.getOffsetBottom()
-      }
+      };
     },
 
 

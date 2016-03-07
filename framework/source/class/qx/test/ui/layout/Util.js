@@ -50,7 +50,7 @@ qx.Class.define("qx.test.ui.layout.Util",
             value: value,
             max: max,
             flex : Math.ceil(Math.random() * 5) // flex range from 1 .. 5
-          }
+          };
         }
 
         var availWidth = Math.round(Math.random() * 500);
@@ -108,7 +108,7 @@ qx.Class.define("qx.test.ui.layout.Util",
             value: value,
             max: max,
             flex : 1 + Math.ceil(Math.random() * 5) // flex range from 1 .. 5
-          }
+          };
           sumWeights += flexibles[j].flex;
         }
 

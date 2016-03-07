@@ -61,7 +61,7 @@ qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
       {
         var left = 0;
         var col = firstColumn;
-        var height = rowSizes[x]
+        var height = rowSizes[x];
         for(var y=0; y<columnSizes.length; y++)
         {
           var width = columnSizes[y];

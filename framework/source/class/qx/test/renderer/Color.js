@@ -33,7 +33,7 @@ qx.Class.define("qx.test.renderer.Color",
         "#Ff1" : [255,255,17], //hex3
         "#0101FF" : [1,1,255], //hex6
         "rgb(123,11,1)" : [123, 11, 1] //rgb
-      }
+      };
 
       for (var color in validColors) {
         this.assertJsonEquals(validColors[color], qx.util.ColorUtil.stringToRgb(color));
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.renderer.Color",
       {
         this.assertException(
           function() {
-            qx.util.ColorUtil.stringToRgb(invalidColors[i])
+            qx.util.ColorUtil.stringToRgb(invalidColors[i]);
           },
           Error,
           "Could not parse color"
@@ -63,7 +63,7 @@ qx.Class.define("qx.test.renderer.Color",
 
       this.assertException(
         function() {
-          qx.util.ColorUtil.stringToRgb("inactivecaptiontext")
+          qx.util.ColorUtil.stringToRgb("inactivecaptiontext");
         },
         Error,
         "Could not convert system colors to RGB"
