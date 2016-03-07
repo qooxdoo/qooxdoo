@@ -11,6 +11,35 @@ before_script:
   - export PATH=$PWD/phantomjs-2.1.1-linux-x86_64/bin/:$PATH
 script:
   - tool/test/travis/setup
-  - php -S 127.0.0.1:31323 1>&2 &
-  - tool/test/travis/run http://127.0.0.1:31323/framework/test-console/index-source.html
+  - php -S 127.0.0.1:31323 1>/dev/null 2>/dev/null &
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.application"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.bom"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Bootstrap"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Browser"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Class"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.core"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.data"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.dev"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.dom"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Dom"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.EditDistance"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.event"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.html"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Interface"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.io"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.lang"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.locale"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.log"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Mixin"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.mobile"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Part"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.performance"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.renderer"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.theme"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Theme"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.toolchain"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.type"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.ui"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.util"
+  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Xml"
   - pkill -f php
