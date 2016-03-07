@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
       if (createWidget == null) {
         createWidget = function() {
           return new qx.ui.form.ListItem();
-        }
+        };
       }
 
       var renderer = new qx.ui.virtual.cell.WidgetCell();
@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.list.provider.WidgetProvider",
           group.setAppearance("group-item");
 
           return group;
-        }
+        };
       }
 
       var renderer = new qx.ui.virtual.cell.WidgetCell();

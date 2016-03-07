@@ -27,7 +27,7 @@ qx.Class.define("qx.test.event.type.Native",
   {
     testClone : function()
     {
-      var domEvent = {}
+      var domEvent = {};
       var event = new qx.event.type.Native().init(domEvent, document.body, document.body, true, true);
 
       var clone = event.clone();

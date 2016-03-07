@@ -52,14 +52,14 @@ qx.Class.define("qx.test.io.part.Package",
     {
       var urls = [
         this.getUrl("qx/test/part/file1.js")
-      ]
+      ];
       var pkg = this.createPackage(urls, "1", false);
       this.assertEquals("initialized", pkg.getReadyState());
 
       pkg.load(function() { this.resume(function() {
         this.assertEquals("complete", pkg.getReadyState());
         this.assertEquals("file1", qx.test.PART_FILES[0]);
-      }, this)}, this);
+      }, this);}, this);
 
       this.assertEquals("loading", pkg.getReadyState());
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.test.io.part.Package",
           ["file1", "file2", "file3"],
           qx.test.PART_FILES
         );
-      }, this)}, this);
+      }, this);}, this);
 
       this.wait();
     },
@@ -107,7 +107,7 @@ qx.Class.define("qx.test.io.part.Package",
           ["file1", "file2", "file3"],
           qx.test.PART_FILES
         );
-      }, this)}, this);
+      }, this);}, this);
 
       this.wait();
     },
@@ -136,7 +136,7 @@ qx.Class.define("qx.test.io.part.Package",
       var pkg = this.createPackage(urls, "1", false);
       pkg.load(function() { this.resume(function() {
         this.assertEquals("error", pkg.getReadyState());
-      }, this)}, this);
+      }, this);}, this);
 
       this.wait();
     },
@@ -162,7 +162,7 @@ qx.Class.define("qx.test.io.part.Package",
           ["file1-closure"],
           qx.test.PART_FILES
         );
-      }, this)}, this);
+      }, this);}, this);
 
       this.wait();
     },
@@ -192,7 +192,7 @@ qx.Class.define("qx.test.io.part.Package",
           ["file1-closure"],
           qx.test.PART_FILES
         );
-      }, this)}, this);
+      }, this);}, this);
 
       this.wait();
     },
@@ -215,7 +215,7 @@ qx.Class.define("qx.test.io.part.Package",
         {
           this.assertEquals("error", pkg.getReadyState());
           this.assertJsonEquals([], qx.test.PART_FILES);
-        }, this)
+        }, this);
       }, this);
 
       qx.Part.TIMEOUT = oldTimeout;

@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.menu.Layout",
           if (spanColumn != null && column == spanColumn && sizes[spanColumn+1] == 0) {
             spanColumnWidth = Math.max(spanColumnWidth, sizes[column]);
           } else {
-            columnSizes[column] = Math.max(columnSizes[column], sizes[column])
+            columnSizes[column] = Math.max(columnSizes[column], sizes[column]);
           }
         }
 

@@ -178,4 +178,4 @@ qx.Mixin.define("qx.ui.mobile.core.MChildrenHandling",
       members.removeAll = members._removeAll;
     }
   }
-})
+});

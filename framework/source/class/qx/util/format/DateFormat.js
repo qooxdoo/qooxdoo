@@ -1277,7 +1277,7 @@ qx.Class.define("qx.util.format.DateFormat",
           {
             value = LString.escapeRegexpChars(value);
             dateValues[isMonth ? 'month' : 'weekDay'] = names.indexOf(value);
-          }
+          };
         }
 
         return cache[pattern];

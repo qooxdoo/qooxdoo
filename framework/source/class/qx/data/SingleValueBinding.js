@@ -452,7 +452,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           // push the array change event
           eventNames.push("change");
         } else {
-          var eventName = this.__getEventNameForProperty(target, propertyNames[i])
+          var eventName = this.__getEventNameForProperty(target, propertyNames[i]);
           if (!eventName) {
             // if the event names could not be terminated,
             // just ignore the target chain listening
@@ -998,7 +998,7 @@ qx.Class.define("qx.data.SingleValueBinding",
             );
           }
         }
-      }
+      };
 
       // check if an array index is given
       if (!arrayIndex) {

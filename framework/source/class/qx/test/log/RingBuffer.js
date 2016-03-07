@@ -94,4 +94,4 @@ qx.Class.define("qx.test.log.RingBuffer",
       this.assertEquals(0, appender.getAllLogEvents().length);
     }
   }
-})
+});

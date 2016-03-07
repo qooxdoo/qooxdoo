@@ -122,7 +122,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
         sorter : function(a, b) {
           return a < b ? 1 : a > b ? -1 : 0;
         }
-      }
+      };
       this.__comboBox.setDelegate(delegate);
       this.__comboBox.setValue("item 4");
       this.flush();
@@ -154,7 +154,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
           var num = parseInt(/([0-9]+)/.exec(item)[1], 10);
           return num % 2 ? true : false;
         }
-      }
+      };
       this.__comboBox.setDelegate(delegate);
       this.__comboBox.setValue("item 22");
       this.flush();

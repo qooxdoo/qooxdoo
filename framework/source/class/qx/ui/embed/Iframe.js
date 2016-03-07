@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       }
 
       try {
-        var documentElement = doc.documentElement
+        var documentElement = doc.documentElement;
       } catch(e) {
         // this may fail due to security restrictions
         return;

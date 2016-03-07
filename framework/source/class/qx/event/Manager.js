@@ -627,7 +627,7 @@ qx.Class.define("qx.event.Manager",
         qx.core.Assert.assertFunction(listener, msg + "Invalid callback function");
 
         if (self !== undefined) {
-          qx.core.Assert.assertObject(self, "Invalid context for callback.")
+          qx.core.Assert.assertObject(self, "Invalid context for callback.");
         }
 
         if (capture !== undefined) {
@@ -838,8 +838,8 @@ qx.Class.define("qx.event.Manager",
       {
         var msg = "Could not dispatch event '" + event + "' on target '" + target.classname +"': ";
 
-        qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.")
-        qx.core.Assert.assertNotNull(target, msg + "Invalid event target.")
+        qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.");
+        qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
         qx.core.Assert.assertInstance(event, qx.event.type.Event, msg + "Invalid event object.");
       }
 

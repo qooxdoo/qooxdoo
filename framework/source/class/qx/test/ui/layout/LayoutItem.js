@@ -288,4 +288,4 @@ qx.Class.define("qx.test.ui.layout.LayoutItem",
   destruct : function() {
     this.bounds = this.__layout = this.__children = null;
   }
-})
+});

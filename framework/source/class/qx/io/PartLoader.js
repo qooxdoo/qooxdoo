@@ -42,7 +42,7 @@ qx.Class.define("qx.io.PartLoader",
       } else {
         self.fireDataEvent("partLoadingError", part.getName());
       }
-    }
+    };
   },
 
 

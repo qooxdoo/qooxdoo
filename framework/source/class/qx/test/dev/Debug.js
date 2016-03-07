@@ -37,7 +37,7 @@ qx.Class.define("qx.test.dev.Debug",
           return false;
         }
         return true;
-      }
+      };
 
       var o = new qx.core.Object();
       // no need to call startDisposeProfiling - the Testrunner did that already

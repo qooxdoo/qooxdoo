@@ -85,7 +85,7 @@ qx.Class.define("qx.event.message.Bus",
      */
     unsubscribe : function(message, subscriber, context)
     {
-      return this.getInstance().unsubscribe(message, subscriber, context)
+      return this.getInstance().unsubscribe(message, subscriber, context);
     },
 
     /**

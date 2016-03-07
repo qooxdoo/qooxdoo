@@ -84,7 +84,7 @@ qx.Class.define("qx.test.dev.StackTrace",
       var converter = function(fileName) {
         this.assertString(fileName);
         return "FOO";
-      }
+      };
 
       qx.dev.StackTrace.FILENAME_TO_CLASSNAME = qx.lang.Function.bind(converter, this);
       var ex = new Error("Just a test");
@@ -103,7 +103,7 @@ qx.Class.define("qx.test.dev.StackTrace",
           trace[i] = "BAR " + trace[i];
         }
         return trace;
-      }
+      };
 
       qx.dev.StackTrace.FORMAT_STACKTRACE = qx.lang.Function.bind(formatter, this);
       var ex = new Error("Just a test");

@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           break;
 
         case "date-pane":
-          var controlLayout = new qx.ui.layout.Grid()
+          var controlLayout = new qx.ui.layout.Grid();
           control = new qx.ui.container.Composite(controlLayout);
 
           for (var i = 0; i < 8; i++) {

@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
         this.getChildControl("button-end").setVisibility("visible");
       }
 
-      return changes
+      return changes;
     },
 
     // overridden

@@ -27,7 +27,7 @@ qx.Class.define("qx.test.bom.Basic",
     setUp : function()
     {
       var div = document.createElement("div");
-      div.id = "html_basics"
+      div.id = "html_basics";
 
       div.innerHTML =
         '<div id="test1" class="hello world" title="hello world title">' +
@@ -38,7 +38,7 @@ qx.Class.define("qx.test.bom.Basic",
         '  <a id="test6" style="color:red;background:blue" href="../foo.html"><b>Foo</b>-Link</a>' +
         '  <table id="test7" valign="bottom"><tr><td colspan="3"></td></tr></table>' +
         '  <span id="test8">Black</span>' +
-        '</div>'
+        '</div>';
       document.body.appendChild(div);
     },
 

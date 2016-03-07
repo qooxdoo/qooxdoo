@@ -92,7 +92,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
         new qx.ui.form.core.VirtualDropDownList(null);
       }, Error, "Invalid parameter 'target'!");
 
-      var widget = new qx.ui.core.Widget()
+      var widget = new qx.ui.core.Widget();
       this.assertException(function() {
         new qx.ui.form.core.VirtualDropDownList(widget);
       }, Error, "Invalid parameter 'target'!");

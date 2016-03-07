@@ -1018,7 +1018,7 @@ qx.Bootstrap.define("qx.core.Environment",
     selectAsync : function(key, values, self) {
       this.getAsync(key, function(result) {
         var value = this.__pickFromValues(key, values);
-        value.call(self, result)
+        value.call(self, result);
       }, this);
     },
 

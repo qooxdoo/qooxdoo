@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
 
     this._cellLayer = new qx.ui.virtual.layer.WidgetCell(
       this.__getCellProviderForNonSpanningCells()
-    )
+    );
     this._cellLayer.setZIndex(0);
 
     this._setLayout(new qx.ui.layout.Grow());
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
              column : child.getUserData("cell.column"),
              rowSpan : child.getUserData("cell.rowspan"),
              colSpan : child.getUserData("cell.colspan")
-           }
+           };
 
            if (
              cell.row <= row && row < cell.row + cell.rowSpan &&
@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
         {
           if (!self._spanMap[row][column])
           {
-            var widget = cellProvider.getCellWidget(row, column)
+            var widget = cellProvider.getCellWidget(row, column);
           }
           else
           {
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
             cellProvider.poolCellWidget(widget);
           }
         }
-      }
+      };
 
       return nonSpanningCellProvider;
     },

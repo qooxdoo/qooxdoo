@@ -140,7 +140,7 @@ qx.Bootstrap.define("qx.dev.Profile",
 
       var data = qx.lang.Object.getValues(this.__profileData);
       data = data.sort(function(a,b) {
-        return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1
+        return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1;
       });
 
       data = data.slice(0, maxLength || 100);

@@ -103,4 +103,4 @@ qx.Bootstrap.define("qx.test.io.part.MockPackage",
       }, pkg.delay);
     }
   }
-})
+});

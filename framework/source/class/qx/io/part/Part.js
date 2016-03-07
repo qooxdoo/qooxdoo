@@ -142,7 +142,7 @@ qx.Bootstrap.define("qx.io.part.Part",
       var part = this;
       var onLoad = function() {
         part.load();
-      }
+      };
 
       for (var i=0; i<this._packages.length; i++)
       {

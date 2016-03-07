@@ -348,7 +348,7 @@ qx.Bootstrap.define("qx.core.Assert",
         msg || "",
         "Wrong number of arguments given. Expected '", minCount, "' to '",
         maxCount, "' arguments but found '", argCount, "' arguments."
-      )
+      );
     },
 
 

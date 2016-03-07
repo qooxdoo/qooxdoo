@@ -68,7 +68,7 @@ qx.Class.define("qx.util.Validate",
     number : function(errorMessage) {
       return function(value) {
         qx.util.Validate.checkNumber(value, null, errorMessage);
-      }
+      };
     },
 
 
@@ -107,7 +107,7 @@ qx.Class.define("qx.util.Validate",
     email : function(errorMessage) {
       return function(value) {
         qx.util.Validate.checkEmail(value, null, errorMessage);
-      }
+      };
     },
 
 
@@ -145,7 +145,7 @@ qx.Class.define("qx.util.Validate",
     string : function(errorMessage) {
       return function(value) {
         qx.util.Validate.checkString(value, null, errorMessage);
-      }
+      };
     },
 
 
@@ -181,7 +181,7 @@ qx.Class.define("qx.util.Validate",
     url : function(errorMessage) {
       return function(value) {
         qx.util.Validate.checkUrl(value, null, errorMessage);
-      }
+      };
     },
 
 
@@ -218,7 +218,7 @@ qx.Class.define("qx.util.Validate",
     color : function(errorMessage) {
       return function(value) {
         qx.util.Validate.checkColor(value, null, errorMessage);
-      }
+      };
     },
 
 
@@ -270,7 +270,7 @@ qx.Class.define("qx.util.Validate",
         if (value < from || value > to) {
           throw new qx.core.ValidationError("Validation Error", message);
         }
-      }
+      };
     },
 
 
@@ -293,7 +293,7 @@ qx.Class.define("qx.util.Validate",
         if (array.indexOf(value) === -1) {
           throw new qx.core.ValidationError("Validation Error", message);
         }
-      }
+      };
     },
 
 
@@ -317,7 +317,7 @@ qx.Class.define("qx.util.Validate",
         if (!reg.test(value)) {
           throw new qx.core.ValidationError("Validation Error", message);
         }
-      }
+      };
     }
   }
 });

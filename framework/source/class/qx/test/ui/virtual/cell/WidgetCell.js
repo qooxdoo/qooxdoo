@@ -108,7 +108,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
         icon: "icon/22/emotes/face-angel.png"
       };
 
-      this.__cell.updateData(item, data)
+      this.__cell.updateData(item, data);
       this.assertEquals(data.label, item.getLabel());
       this.assertEquals(data.icon, item.getIcon());
       item.dispose();
@@ -119,7 +119,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
       this.__setUpDelegate();
       var item = this.__cell.getCellWidget();
 
-      this.__cell.updateData(item)
+      this.__cell.updateData(item);
       this.assertNull(item.getLabel());
       this.assertNull(item.getIcon());
       item.dispose();
@@ -134,7 +134,7 @@ qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
 
       var that = this;
       this.assertException(function() {
-        that.__cell.updateData(item, data)
+        that.__cell.updateData(item, data);
       });
       item.dispose();
     },

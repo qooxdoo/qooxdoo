@@ -52,7 +52,7 @@ qx.Class.define("qx.test.ui.table.Dispose",
       this.assertDestroy(function()
       {
         // table
-        var model = this.createModel()
+        var model = this.createModel();
         var table = new qx.ui.table.Table(model);
 
         this.getRoot().add(table);

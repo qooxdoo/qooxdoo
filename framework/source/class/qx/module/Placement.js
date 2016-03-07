@@ -91,7 +91,7 @@ qxWeb.define("qx.module.Placement", {
       return {
         left: left,
         top: top
-      }
+      };
     },
 
 

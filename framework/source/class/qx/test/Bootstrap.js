@@ -363,8 +363,8 @@ qx.Class.define("qx.test.Bootstrap",
     {
       var undef;
       var callback = function(undef, arg) {
-        this.assertTrue(arg)
-      }
+        this.assertTrue(arg);
+      };
       var bound = qx.Bootstrap.bind(callback, this, undef, true);
       bound();
     },

@@ -95,7 +95,7 @@ qx.Class.define("qx.test.ui.form.Field",
 
       textfield.focus();
       textfield.selectAllText();
-      textfield.clearTextSelection()
+      textfield.clearTextSelection();
 
       this.flush();
 
@@ -120,7 +120,7 @@ qx.Class.define("qx.test.ui.form.Field",
       var self = this;
       this.wait(1000, function() {
         textfield.selectAllText();
-        textfield.clearTextSelection()
+        textfield.clearTextSelection();
         self.assertEquals("", textfield.getTextSelection());
         textfield.destroy();
       });

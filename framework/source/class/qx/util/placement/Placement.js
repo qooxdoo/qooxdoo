@@ -240,7 +240,7 @@ qx.Class.define("qx.util.placement.Placement",
       return {
         left: left,
         top: top
-      }
+      };
     },
 
 

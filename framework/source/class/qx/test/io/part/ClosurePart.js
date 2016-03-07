@@ -80,7 +80,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           ["file1-closure"],
           qx.test.PART_FILES
         );
-      })});
+      });});
 
       this.wait();
     },
@@ -106,7 +106,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           ["file1-closure", "file2-closure"],
           qx.test.PART_FILES
         );
-      })});
+      });});
 
       this.wait();
     },
@@ -130,7 +130,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           ["p1", "p2"],
           qx.test.Part.LOAD_ORDER
         );
-      })});
+      });});
 
       this.wait();
     },
@@ -156,7 +156,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           ["p1", "p2"],
           qx.test.Part.LOAD_ORDER
         );
-      })});
+      });});
 
       this.wait();
     },
@@ -181,7 +181,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           ["p1", "p2", "p3"],
           qx.test.Part.LOAD_ORDER
         );
-      })});
+      });});
 
       this.wait();
     },
@@ -209,7 +209,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
           ["p1", "p2"],
           qx.test.Part.LOAD_ORDER
         );
-      })});
+      });});
 
       this.wait();
     },
@@ -228,7 +228,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
       {
         self.assertEquals("error", readyState);
         self.assertJsonEquals([], qx.test.Part.LOAD_ORDER);
-      })});
+      });});
 
       this.wait();
     },
@@ -249,7 +249,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
 
       part.load(function(readyState) { self.resume(function() {
         self.assertEquals("complete", readyState);
-      })});
+      });});
       this.wait();
     },
 
@@ -272,7 +272,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
             ["p1"],
             qx.test.Part.LOAD_ORDER
           );
-        })});
+        });});
       }, 100);
 
       part.preload();
@@ -281,7 +281,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
         self.resume(function() {
           self.fail("load called twice!");
         });
-      }
+      };
 
       this.wait();
     }

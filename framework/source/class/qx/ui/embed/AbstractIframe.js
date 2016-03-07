@@ -175,4 +175,4 @@ qx.Class.define("qx.ui.embed.AbstractIframe",
       this.fireDataEvent("navigate", actualUrl);
     }
   }
-})
+});

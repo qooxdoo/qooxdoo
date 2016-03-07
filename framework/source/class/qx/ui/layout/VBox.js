@@ -261,7 +261,7 @@ qx.Class.define("qx.ui.layout.VBox",
         this.__flexs = flexs;
       }
 
-      this.__enableFlex = enableFlex
+      this.__enableFlex = enableFlex;
       this.__children = children;
 
       // Clear invalidation marker

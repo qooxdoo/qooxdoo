@@ -187,7 +187,7 @@ qx.Class.define("qx.test.core.Object",
       var called = 0;
       qx.log.Logger.error = function() {
         called += 1;
-      }
+      };
 
       emitter.fireEvent("plain", qx.event.type.Event);
       this.assertEquals(0, called);

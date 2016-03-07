@@ -201,7 +201,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_date_format_" + size;
-      return this.__mgr.localize(key, [], locale)
+      return this.__mgr.localize(key, [], locale);
     },
 
 

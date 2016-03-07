@@ -47,4 +47,4 @@ qx.Class.define("qx.test.event.MockBubblingHandler",
   defer : function(statics) {
     qx.event.Registration.addHandler(statics);
   }
-})
+});

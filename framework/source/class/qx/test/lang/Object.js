@@ -68,13 +68,13 @@ qx.Class.define("qx.test.lang.Object",
         a: undefined,
         b: null,
         c: 1
-      }
+      };
       this.assertArrayEquals(
         ["a", "b", "c"].sort(),
         Object.keys(object).sort()
       );
 
-      var object = {}
+      var object = {};
       this.assertArrayEquals(
         [],
         Object.keys(object)
@@ -106,13 +106,13 @@ qx.Class.define("qx.test.lang.Object",
         a: undefined,
         b: null,
         c: 1
-      }
+      };
       this.assertArrayEquals(
         [undefined, null, 1].sort(),
         qx.lang.Object.getValues(object).sort()
       );
 
-      var object = {}
+      var object = {};
       this.assertArrayEquals(
         [],
         qx.lang.Object.getValues(object)

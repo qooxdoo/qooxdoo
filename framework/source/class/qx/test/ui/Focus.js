@@ -82,7 +82,7 @@ qx.Class.define("qx.test.ui.Focus",
 
 
     addInput : function() {
-      this.getContainer().add(this.input, {row: 2, column: 0})
+      this.getContainer().add(this.input, {row: 2, column: 0});
     },
 
 

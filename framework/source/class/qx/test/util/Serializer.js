@@ -127,7 +127,7 @@ qx.Class.define("qx.test.util.Serializer",
     {
       var qxSerializer = function(object) {
         return object.getLabel();
-      }
+      };
 
       var item = new qx.ui.form.ListItem("a");
       this.__model.setData1(item);

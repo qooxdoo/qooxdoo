@@ -714,7 +714,7 @@ qx.Class.define("qx.test.data.DataArray",
           self.assertEquals("one", item);
           return;
         } else if (i == 1) {
-          i++
+          i++;
           self.assertEquals("two", item);
           return;
         } else if (i == 2) {
@@ -724,7 +724,7 @@ qx.Class.define("qx.test.data.DataArray",
         }
         // something went wrong!
         throw new Error("Wrong call in the handler.");
-      }
+      };
 
       // invoke the forEach
       this.__a.forEach(forEachHandler, thisContext);

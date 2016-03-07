@@ -838,7 +838,7 @@ qx.Class.define("qx.ui.list.List",
       model.removeListener("changeLength", this._onModelChange, this);
     }
 
-    var pane = this.getPane()
+    var pane = this.getPane();
     if (pane != null) {
       pane.removeListener("resize", this._onResize, this);
     }

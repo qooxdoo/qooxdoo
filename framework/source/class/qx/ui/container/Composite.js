@@ -139,4 +139,4 @@ qx.Class.define("qx.ui.container.Composite",
     qx.ui.core.MChildrenHandling.remap(members);
     qx.ui.core.MLayoutHandling.remap(members);
   }
-})
+});

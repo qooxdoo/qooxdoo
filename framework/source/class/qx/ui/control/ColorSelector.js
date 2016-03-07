@@ -1280,7 +1280,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     {
       var ColorUtil = qx.util.ColorUtil;
       var helpRgb = ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), 255]);
-      var helpRgbString = ColorUtil.rgbToRgbString(helpRgb)
+      var helpRgbString = ColorUtil.rgbToRgbString(helpRgb);
       this.getChildControl("brightness-field").setBackgroundColor(helpRgbString);
     },
 

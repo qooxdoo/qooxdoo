@@ -59,7 +59,7 @@ qx.Class.define("qx.event.Timer",
     var self = this;
     this.__oninterval = function() {
       self._oninterval.call(self);
-    }
+    };
   },
 
 

@@ -279,7 +279,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
         "true": qx.event.GlobalError.observeMethod(this.__onLoadHandler),
         "false": this.__onLoadHandler
-      })
+      });
       callback.apply(this, arguments);
     },
 

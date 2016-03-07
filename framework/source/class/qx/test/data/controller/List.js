@@ -37,7 +37,7 @@ qx.Class.define("qx.test.data.controller.List",
     setUp : function()
     {
       // prevent the icon laod error with this stub
-      this.stub(qx.io.ImageLoader, "load")
+      this.stub(qx.io.ImageLoader, "load");
 
       this.__list = new qx.ui.form.List();
     },
@@ -84,7 +84,7 @@ qx.Class.define("qx.test.data.controller.List",
       model.push("d");
 
       this.wait(function() {
-        this.assertFalse(change, "Change event has been fired.")
+        this.assertFalse(change, "Change event has been fired.");
 
         selectBox.destroy();
         model.dispose();
@@ -578,7 +578,7 @@ qx.Class.define("qx.test.data.controller.List",
       var options = {};
       options.converter = function(data) {
         return data + " Converted";
-      }
+      };
       this.__controller.setLabelOptions(options);
 
       // check the binding
@@ -599,7 +599,7 @@ qx.Class.define("qx.test.data.controller.List",
       var flag = false;
       options.onUpdate = function() {
         flag = true;
-      }
+      };
       // create the controller
       this.__controller = new qx.data.controller.List(this.__model, this.__list);
       this.__controller.setLabelOptions(options);
@@ -961,11 +961,11 @@ qx.Class.define("qx.test.data.controller.List",
       var delegate = {};
       delegate.createItem = function() {
         return new qx.ui.form.CheckBox();
-      }
+      };
 
       delegate.bindItem = function(controller, item, id) {
         controller.bindProperty(null, "enabled", null, item, id);
-      }
+      };
 
       this.__controller.setDelegate(delegate);
       this.__controller.setTarget(this.__list);
@@ -993,11 +993,11 @@ qx.Class.define("qx.test.data.controller.List",
       var delegate = {};
       delegate.createItem = function() {
         return new qx.ui.form.CheckBox();
-      }
+      };
 
       delegate.bindItem = function(controller, item, id) {
         controller.bindProperty(null, "enabled", null, item, id);
-      }
+      };
 
       this.__controller.setDelegate(delegate);
 
@@ -1018,7 +1018,7 @@ qx.Class.define("qx.test.data.controller.List",
       var delegate = {};
       delegate.bindItem = function(controller, item, id) {
         controller.bindDefaultProperties(item, id);
-      }
+      };
       this.__controller.setDelegate(delegate);
 
       this.__controller.setModel(this.__model);
@@ -1038,12 +1038,12 @@ qx.Class.define("qx.test.data.controller.List",
       var delegate = {};
       delegate.bindItem = function(controller, item, id) {
         controller.bindDefaultProperties(item, id);
-      }
+      };
       this.__controller.setDelegate(delegate);
 
       // check the binding
       for (var i = 0; i < this.__data.length; i++) {
-        this.__model.setItem(i, i + "")
+        this.__model.setItem(i, i + "");
         var label = this.__list.getChildren()[i].getLabel();
         this.assertEquals(i + "", label, "Binding " + i + " is wrong!");
       }
@@ -1209,7 +1209,7 @@ qx.Class.define("qx.test.data.controller.List",
         }
       });
 
-      var parentA = new qx.demo.Parent()
+      var parentA = new qx.demo.Parent();
       parentA.setName("parentA");
       parentA.getKid().setName("kidA");
       var parentB = new qx.demo.Parent();
@@ -1282,7 +1282,7 @@ qx.Class.define("qx.test.data.controller.List",
         }
       });
 
-      var parentA = new qx.demo.Parent()
+      var parentA = new qx.demo.Parent();
       parentA.setName("parentA");
       parentA.getKid().setName("kidA");
 

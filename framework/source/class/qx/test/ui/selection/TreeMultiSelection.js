@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.selection.TreeMultiSelection",
       var length = 10;
       this._selection = [];
       this._notInSelection = [];
-      this._mode = "multi"
+      this._mode = "multi";
 
       this._widget = new qx.ui.tree.Tree().set(
       {

@@ -306,7 +306,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
 
       var addChildren =
         this.hasChildren() &&
-        (invisible !== false || this.isOpen())
+        (invisible !== false || this.isOpen());
 
       if (addChildren)
       {
@@ -458,7 +458,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     addBefore : function(treeItem, before)
     {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assert(this.__children.indexOf(before) >= 0)
+        this.assert(this.__children.indexOf(before) >= 0);
       }
 
       // It's important to remove the item before the addAt is called
@@ -481,7 +481,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     addAfter : function(treeItem, after)
     {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assert(this.__children.indexOf(after) >= 0)
+        this.assert(this.__children.indexOf(after) >= 0);
       }
 
       // It's important to remove the item before the addAt is called

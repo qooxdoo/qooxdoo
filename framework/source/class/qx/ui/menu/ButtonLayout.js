@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
       return {
         width : neededWidth,
         height : neededHeight
-      }
+      };
     }
   }
 });

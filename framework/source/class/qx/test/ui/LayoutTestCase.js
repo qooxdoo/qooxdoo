@@ -75,8 +75,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
           },
           close : function() {},
           terminate : function() {}
-        }
-      }
+        };
+      };
 
       return cls._root;
     },
@@ -130,7 +130,7 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
         // skip pooled objects
         if (obj.$$pooled) {
-          continue
+          continue;
         }
         this.assertNotUndefined(
           regCopy[key],

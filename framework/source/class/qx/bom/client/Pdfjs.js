@@ -129,9 +129,9 @@ var PluginDetect = {
   hasOwn: function (c, d) {
     var a;
     try {
-      a = this.hasOwnProperty.call(c, d)
+      a = this.hasOwnProperty.call(c, d);
     } catch (ex) {}
-    return !!a
+    return !!a;
   },
   rgx: {
     str: /string/i,
@@ -144,94 +144,94 @@ var PluginDetect = {
   isPlainObject: function (c) {
     var a = this;
     if (!c || a.rgx.any.test(a.toString.call(c)) || c.window == c || a.rgx.num.test(a.toString.call(c.nodeType))) {
-      return 0
+      return 0;
     }
     try {
       if (!a.hasOwn(c, "constructor") && !a.hasOwn(c.constructor.prototype, "isPrototypeOf")) {
-        return 0
+        return 0;
       }
     } catch (ex) {
-      return 0
+      return 0;
     }
-    return 1
+    return 1;
   },
   isDefined: function (b) {
-    return typeof b != "undefined"
+    return typeof b != "undefined";
   },
   isArray: function (b) {
-    return this.rgx.arr.test(this.toString.call(b))
+    return this.rgx.arr.test(this.toString.call(b));
   },
   isString: function (b) {
-    return this.rgx.str.test(this.toString.call(b))
+    return this.rgx.str.test(this.toString.call(b));
   },
   isNum: function (b) {
-    return this.rgx.num.test(this.toString.call(b))
+    return this.rgx.num.test(this.toString.call(b));
   },
   isStrNum: function (b) {
-    return this.isString(b) && (/\d/).test(b)
+    return this.isString(b) && (/\d/).test(b);
   },
   isFunc: function (b) {
-    return this.rgx.fun.test(this.toString.call(b))
+    return this.rgx.fun.test(this.toString.call(b));
   },
   getNumRegx: /[\d][\d\.\_,\-]*/,
   splitNumRegx: /[\.\_,\-]/g,
   getNum: function (b, c) {
     var d = this,
       a = d.isStrNum(b) ? (d.isDefined(c) ? new RegExp(c) : d.getNumRegx).exec(b) : null;
-    return a ? a[0] : null
+    return a ? a[0] : null;
   },
   compareNums: function (h, f, d) {
     var e = this,
       c, b, a, g = parseInt;
     if (e.isStrNum(h) && e.isStrNum(f)) {
       if (e.isDefined(d) && d.compareNums) {
-        return d.compareNums(h, f)
+        return d.compareNums(h, f);
       }
       c = h.split(e.splitNumRegx);
       b = f.split(e.splitNumRegx);
       for (a = 0; a < Math.min(c.length, b.length); a++) {
         if (g(c[a], 10) > g(b[a], 10)) {
-          return 1
+          return 1;
         }
         if (g(c[a], 10) < g(b[a], 10)) {
-          return -1
+          return -1;
         }
       }
     }
-    return 0
+    return 0;
   },
   formatNum: function (b, c) {
     var d = this,
       a, e;
     if (!d.isStrNum(b)) {
-      return null
+      return null;
     }
     if (!d.isNum(c)) {
-      c = 4
+      c = 4;
     }
     c--;
     e = b.replace(/\s/g, "").split(d.splitNumRegx).concat(["0", "0", "0", "0"]);
     for (a = 0; a < 4; a++) {
       if (/^(0+)(.+)$/.test(e[a])) {
-        e[a] = RegExp.$2
+        e[a] = RegExp.$2;
       }
       if (a > c || !(/\d/).test(e[a])) {
-        e[a] = "0"
+        e[a] = "0";
       }
     }
-    return e.slice(0, 4).join(",")
+    return e.slice(0, 4).join(",");
   },
   getPROP: function (d, b, a) {
     try {
       if (d) {
-        a = d[b]
+        a = d[b];
       }
     } catch (ex) {}
-    return a
+    return a;
   },
   findNavPlugin: function (h) {
     if (h.dbug) {
-      return h.dbug
+      return h.dbug;
     }
     if (window.navigator) {
       var d = this,
@@ -249,16 +249,16 @@ var PluginDetect = {
           c = 0;
           try {
             if (d.isString(m[f]) && /[^\s]/.test(m[f])) {
-              c = a[m[f]].enabledPlugin
+              c = a[m[f]].enabledPlugin;
             }
           } catch (ex) {}
           if (c) {
             g = d.findNavPlugin_(c, n);
             if (g.obj) {
-              o = g.obj
+              o = g.obj;
             };
             if (o && !d.dbug) {
-              return o
+              return o;
             }
           }
         }
@@ -269,16 +269,16 @@ var PluginDetect = {
           c = 0;
           try {
             if (l[f] && d.isString(l[f])) {
-              c = k[l[f]]
+              c = k[l[f]];
             }
           } catch (ex) {}
           if (c) {
             g = d.findNavPlugin_(c, n);
             if (g.obj) {
-              o = g.obj
+              o = g.obj;
             };
             if (o && !d.dbug) {
-              return o
+              return o;
             }
           }
         }
@@ -287,22 +287,22 @@ var PluginDetect = {
           for (f = 0; f < b; f++) {
             c = 0;
             try {
-              c = k[f]
+              c = k[f];
             } catch (ex) {}
             if (c) {
               g = d.findNavPlugin_(c, n);
               if (g.obj) {
-                o = g.obj
+                o = g.obj;
               };
               if (o && !d.dbug) {
-                return o
+                return o;
               }
             }
           }
         }
       }
     }
-    return o
+    return o;
   },
   findNavPlugin_: function (f, d) {
     var e = this,
@@ -311,10 +311,10 @@ var PluginDetect = {
       a = {};
     if ((d.Find.test(c) && (!d.Find2 || d.Find2.test(b)) && (!d.Num || d.Num.test(RegExp.leftContext + RegExp.rightContext))) || (d.Find.test(b) && (!d.Find2 || d.Find2.test(c)) && (!d.Num || d.Num.test(RegExp.leftContext + RegExp.rightContext)))) {
       if (!d.Avoid || !(d.Avoid.test(c) || d.Avoid.test(b))) {
-        a.obj = f
+        a.obj = f;
       }
     }
-    return a
+    return a;
   },
   getVersionDelimiter: ",",
   findPlugin: function (d) {
@@ -324,33 +324,33 @@ var PluginDetect = {
         plugin: 0
       };
     if (!c.isString(d)) {
-      return a
+      return a;
     }
     if (d.length == 1) {
       c.getVersionDelimiter = d;
-      return a
+      return a;
     }
     d = d.toLowerCase().replace(/\s/g, "");
     b = c.Plugins[d];
     if (!b || !b.getVersion) {
-      return a
+      return a;
     }
     a.plugin = b;
     a.status = 1;
-    return a
+    return a;
   },
   AXO: (function () {
     var b, a;
     try {
-      b = new window.ActiveXObject()
+      b = new window.ActiveXObject();
     } catch (ex) {}
-    return b ? null : window.ActiveXObject
+    return b ? null : window.ActiveXObject;
   })(),
   getAXO: function (a) {
     var d = null,
       c, b = this;
     try {
-      d = new b.AXO(a)
+      d = new b.AXO(a);
     } catch (ex) {};
     if (d) {
       b.browser.ActiveXEnabled = !0

@@ -99,6 +99,6 @@ qx.Bootstrap.define("qx.module.util.Object", {
   },
 
   defer : function(statics) {
-    qxWeb.$attachAll(this, "object")
+    qxWeb.$attachAll(this, "object");
   }
 });

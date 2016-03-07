@@ -40,7 +40,7 @@ qx.Class.define("qx.util.Permutation",
       {
         indices[i] = 0;
         var key = keys[i];
-        map[key] = options[key][0]
+        map[key] = options[key][0];
       }
 
       var _perm = function(index, ignore)
@@ -62,7 +62,7 @@ qx.Class.define("qx.util.Permutation",
           }
           _perm(index+1, indices[index+1]);
         }
-      }
+      };
 
       _perm(0, -1);
     }

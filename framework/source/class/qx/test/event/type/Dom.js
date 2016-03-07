@@ -32,7 +32,7 @@ qx.Class.define("qx.test.event.type.Dom",
         ctrlKey: true,
         altKey: true,
         metaKey: true
-      }
+      };
 
       var event = new qx.event.type.Dom().init(domEvent, document.body, document.body, true, true);
 

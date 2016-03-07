@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.layout.LineSizeIterator",
         width: lineWidth,
         children: lineChildren,
         gapsBefore : gapsBefore
-      }
+      };
     },
 
 
@@ -116,7 +116,7 @@ qx.Class.define("qx.ui.layout.LineSizeIterator",
      */
     __computeGapBeforeChild : function(childIndex)
     {
-      var isFirstInLine = childIndex == this.__childIndex
+      var isFirstInLine = childIndex == this.__childIndex;
       if (isFirstInLine) {
         return this.__children[childIndex].getMarginLeft();
       } else {
@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.layout.LineSizeIterator",
           this.__children[childIndex-1].getMarginRight(),
           this.__children[childIndex].getMarginLeft(),
           this.__spacing
-        )
+        );
       }
     },
 
@@ -138,4 +138,4 @@ qx.Class.define("qx.ui.layout.LineSizeIterator",
       return this.__hasMoreLines;
     }
   }
-})
+});

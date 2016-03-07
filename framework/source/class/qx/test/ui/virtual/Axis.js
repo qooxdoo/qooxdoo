@@ -107,7 +107,7 @@ qx.Class.define("qx.test.ui.virtual.Axis",
 
     testEmptyAxis : function()
     {
-      this.axis.setItemSize(1, 10)
+      this.axis.setItemSize(1, 10);
       this.axis.setItemCount(0);
       this.assertEquals(0, this.axis.getTotalSize());
     },

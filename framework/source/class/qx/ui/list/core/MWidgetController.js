@@ -176,7 +176,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      */
     bindProperty : function(sourcePath, targetProperty, options, targetWidget, index)
     {
-      var type = targetWidget.getUserData("cell.type")
+      var type = targetWidget.getUserData("cell.type");
       var bindPath = this.__getBindPath(index, sourcePath, type);
 
       if (options) {
@@ -203,7 +203,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
      */
     bindPropertyReverse : function(targetPath, sourceProperty, options, sourceWidget, index)
     {
-      var type = sourceWidget.getUserData("cell.type")
+      var type = sourceWidget.getUserData("cell.type");
       var bindPath = this.__getBindPath(index, targetPath, type);
 
       var id = sourceWidget.bind(sourceProperty, this._list, bindPath, options);

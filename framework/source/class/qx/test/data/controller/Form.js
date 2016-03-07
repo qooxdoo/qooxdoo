@@ -125,7 +125,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.setModel(null);
       c.addBindingOptions("Sb",
         {converter : function(data) { return data && data.substr(0, 1);}},
-        {converter : function(data) { return data + "-item"}}
+        {converter : function(data) { return data + "-item";}}
       );
       var m = c.createModel();
 
@@ -151,7 +151,7 @@ qx.Class.define("qx.test.data.controller.Form",
 
       c.addBindingOptions("tf1",
         {converter : function(data) { return data && data.substr(0, data.length - 1);}},
-        {converter : function(data) { return data + "a"}}
+        {converter : function(data) { return data + "a";}}
       );
 
       // check if the other direction does not work
