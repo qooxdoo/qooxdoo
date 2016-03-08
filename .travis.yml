@@ -19,7 +19,6 @@ script:
   - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Class"
   - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.core"
   - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.data"
-  - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.dev"
   - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.dom"
   - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.Dom"
   - tool/test/travis/run "http://127.0.0.1:31323/framework/test-console/index-source.html?testclass=qx.test.EditDistance"
