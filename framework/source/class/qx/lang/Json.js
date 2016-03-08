@@ -1082,7 +1082,7 @@ qx.Bootstrap.define("qx.lang.Json",
       return JSON3;
     });
   }
-}(this));
+}(this||window));
 // End of original code.
 }());
 

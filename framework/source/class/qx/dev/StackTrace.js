@@ -147,8 +147,19 @@ qx.Bootstrap.define("qx.dev.StackTrace",
      */
     getStackTraceFromCaller : function(args)
     {
+      var isStrictMode = function () {
+        return (typeof this == 'undefined');
+      };
+
       var trace = [];
-      var fcn = qx.lang.Function.getCaller(args);
+      var fcn = null;
+      if (!isStrictMode()) {
+        try {
+          fcn = qx.lang.Function.getCaller(args);
+        }catch(ex) {
+          // Nothing
+        }
+      }
       var knownFunction = {};
       while (fcn)
       {

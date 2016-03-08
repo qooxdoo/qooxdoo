@@ -22,6 +22,7 @@
  * Low-level pointer event handler.
  *
  * @require(qx.bom.client.Event)
+ * @require(qx.bom.client.Device)
  */
 qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
@@ -434,7 +435,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
           domEvent);
         qx.event.type.dom.Pointer.normalize(gestureEvent);
-        gestureEvent.srcElement = target;
+        try {
+          gestureEvent.srcElement = target;
+        }catch(ex) {
+          // Nothing - strict mode prevents writing to read only properties
+        }
       }
 
       if (qx.core.Environment.get("event.dispatchevent")) {
@@ -446,7 +451,11 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         }
       } else {
         // ensure compatibility with native events for IE8
-        domEvent.srcElement = target;
+        try {
+          domEvent.srcElement = target;
+        }catch(ex) {
+          // Nothing - strict mode prevents writing to read only properties
+        }
 
         while (target) {
           if (target.$$emitter) {
