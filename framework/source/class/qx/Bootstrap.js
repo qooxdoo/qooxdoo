@@ -102,6 +102,10 @@ qx.Bootstrap = {
 
   define : function(name, config)
   {
+    var isStrictMode = function () {
+      return (typeof this == 'undefined');
+    };
+
     if (!config) {
       config = { statics : {} };
     }
@@ -186,9 +190,6 @@ qx.Bootstrap = {
 
     // Store names in constructor/object
     clazz.classname = name;
-    function isStrictMode() {
-      return (typeof this == 'undefined');
-    }
     if (!isStrictMode()) {
       try {
         clazz.name = name;

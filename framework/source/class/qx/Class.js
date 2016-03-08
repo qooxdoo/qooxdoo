@@ -933,6 +933,10 @@ qx.Bootstrap.define("qx.Class",
      */
     __createClass : function(name, type, extend, statics, construct, destruct, mixins)
     {
+      var isStrictMode = function () {
+        return (typeof this == 'undefined');
+      };
+
       var clazz;
 
       if (!extend && qx.core.Environment.get("qx.aspects") == false)
@@ -1000,9 +1004,6 @@ qx.Bootstrap.define("qx.Class",
 
       // Store names in constructor/object
       clazz.classname = name;
-      function isStrictMode() {
-        return (typeof this == 'undefined');
-      }
       if (!isStrictMode()) {
         try {
           clazz.name = name;
