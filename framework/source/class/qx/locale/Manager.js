@@ -51,6 +51,7 @@ qx.Class.define("qx.locale.Manager",
     this.__translations = qx.$$translations || {};
     this.__locales      = qx.$$locales || {};
 
+    this.initLocale();
     this.__clientLocale = this.getLocale();
   },
 
