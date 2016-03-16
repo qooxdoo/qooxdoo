@@ -10,7 +10,7 @@
 
 qx.Theme.define("tweets.theme.Decoration",
 {
-  extend : qx.theme.modern.Decoration,
+  extend : qx.theme.indigo.Decoration,
 
   decorations :
   {
