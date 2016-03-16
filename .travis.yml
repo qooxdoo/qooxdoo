@@ -17,5 +17,5 @@ script:
   - tool/test/travis/lint
   - phantomjs --debug=true tool/test/travis/run --console --url http://$HOSTNAME:31324/framework/test-travis/index-source.html
   - tool/test/travis/make-site
- -after_script:
+after_script:
   - pkill -f php &> /dev/null
