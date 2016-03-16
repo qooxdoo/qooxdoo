@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [[ $TRAVIS_PULL_REQUEST != false ]]; then
+  echo "make-site: skipped for pull requests"
+  exit 0;
+fi
+
+if [[ $TRAVIS_TAG == release_* ]]; then
+
+  echo "make-site: building site for release tag"
+
+elif [[ $TRAVIS_BRANCH == master ]]; then
+
+  # Only build for master branch
+  echo "make-site: building site for master branch"
+fi

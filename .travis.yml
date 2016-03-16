@@ -1,16 +1,21 @@
 sudo: false
 language: php
+env:
+  - PHANTOMJS_URL=https://bitbucket.org/ariya/phantomjs/downloads PHANTOMJS_VERSION=2.1.1-linux-x86_64
 php:
   - '5.6'
 cache:
   directories:
   - /tmp/qx5.1  
+  - $PWD/bin
 before_script:
-  - wget https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2
-  - tar xf phantomjs-2.1.1-linux-x86_64.tar.bz2
-  - export PATH=$PWD/phantomjs-2.1.1-linux-x86_64/bin/:$PATH
+  - php -S $HOSTNAME:31324 &> /dev/null &
+  - test ! -x bin/phantomjs && wget -qO - $PHANTOMJS_URL/phantomjs-${PHANTOMJS_VERSION}.tar.bz2 | tar xj --wildcards --strip 1 */phantomjs || true
+  - export PATH=$PWD/bin/:$PATH
 script:
   - tool/test/travis/setup
-  - php -S 127.0.0.1:31323 1>&2 &
-  - tool/test/travis/run http://127.0.0.1:31323/framework/test-console/index-source.html
-  - pkill -f php
+  - tool/test/travis/lint
+  - phantomjs --debug=true tool/test/travis/run --console --url http://$HOSTNAME:31324/framework/test-travis/index-source.html
+  - tool/test/travis/make-site
+ -after_script:
+  - pkill -f php &> /dev/null
