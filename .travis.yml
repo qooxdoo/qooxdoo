@@ -7,11 +7,11 @@ php:
 cache:
   directories:
   - /tmp/qx5.1  
-  - $PWD/bin
+  - $HOME/bin
 before_script:
   - php -S $HOSTNAME:31324 &> /dev/null &
-  - test ! -x bin/phantomjs && wget -qO - $PHANTOMJS_URL/phantomjs-${PHANTOMJS_VERSION}.tar.bz2 | tar xj --wildcards --strip 1 */phantomjs || true
-  - export PATH=$PWD/bin/:$PATH
+  - test ! -x bin/phantomjs && wget -qO - $PHANTOMJS_URL/phantomjs-${PHANTOMJS_VERSION}.tar.bz2 | tar xj --wildcards -C $HOME --strip 1 */phantomjs || true
+  - export PATH=$HOME/bin/:$PATH
 script:
   - tool/test/travis/setup
   - tool/test/travis/lint
