@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 /**
- * Playgrounds default theme, mostly the modern theme.
+ * Playgrounds default theme, mostly the indigo theme.
  */
 qx.Theme.define("playground.theme.Theme",
 {
