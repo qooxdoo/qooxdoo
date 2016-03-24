@@ -111,6 +111,13 @@ qx.Class.define("qx.ui.decoration.Decorator", {
           this[name](styles);
         }
       }
+      for(var name in styles)
+      {
+        if(qx.lang.Type.isArray(styles[name])) {
+          styles[name] = styles[name].join(', ');
+        }
+      }
+
 
       this.__initialized = true;
       return styles;
@@ -152,6 +159,46 @@ qx.Class.define("qx.ui.decoration.Decorator", {
     // overridden
     _isInitialized: function() {
       return this.__initialized;
+    },
+
+    /**
+    * Ensures that every propertyValue specified in propertyNames is an array.
+    * The value arrays are extended and repeated to match in length.
+    * @param propertyNames {Array} Array containing the propertyNames.
+    * @return {Array} Array containing the extended value arrays.
+    */
+    _getExtendedPropertyValueArrays: function(propertyNames) {
+      // transform non-array values to an array containing that value
+      var propertyValues = propertyNames.map(function(propName) {
+        var value = this.get(propName);
+        if(!qx.lang.Type.isArray(value)) {
+          value = [value];
+        }
+        return value;
+      }, this);
+
+      // Because it's possible to set multiple values for a property there's 
+      // a chance that not all properties have the same number of values set.
+      // Extend the value arrays by repeating existing values until all
+      // arrays match in length.
+      var items = Math.max.apply(Math, propertyValues.map(function(prop) { return prop.length; }));
+      for(var i = 0; i < propertyValues.length; i++) {
+        this.__extendArray(propertyValues[i], items);
+      }
+
+      return propertyValues;
+    },
+
+    /**
+    * Extends an array up to the given length by repeating the elements already present.
+    * @param array {Array} Incoming array. Has to contain at least one element.
+    * @param to {Integer} Desired length. Must be greater than or equal to the the length of arr.
+    */
+    __extendArray: function(array, to) {
+      var initial = array.length;
+      while(array.length < to) {
+        array.push(array[array.length%initial]);
+      }
     }
   }
 });

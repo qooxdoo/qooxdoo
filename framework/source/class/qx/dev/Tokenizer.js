@@ -90,7 +90,7 @@ qx.Class.define("qx.dev.Tokenizer",
         "properties" : 1,
         "extend" : 1,
         "implement" : 1
-      }
+      };
 
       var reg = function(str) {
         return new RegExp("^" + str + "$");

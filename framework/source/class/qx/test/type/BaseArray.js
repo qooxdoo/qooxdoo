@@ -65,7 +65,7 @@ qx.Class.define("qx.test.type.BaseArray",
     {
       var list = new qx.test.type.TestArray(1, 2, 3);
       list.length = 0;
-      this.assertArrayEquals([], list)
+      this.assertArrayEquals([], list);
     },
 
     testArrayJoin : function()

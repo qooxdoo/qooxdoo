@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.tree.selection.SelectionManager",
         return {
           top: top,
           bottom: top+computed.height
-        }
+        };
       }
     },
 

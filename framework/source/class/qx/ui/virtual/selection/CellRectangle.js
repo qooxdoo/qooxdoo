@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
           var cell = {
               row: row,
               column: column
-          }
+          };
           if (this._isSelectable(cell)) {
             selectables.push(cell);
           }
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
           var cell = {
               row: row,
               column: column
-          }
+          };
           if (this._isSelectable(cell)) {
             selectables.push(cell);
           }
@@ -136,9 +136,9 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
           var cell = {
               row: row,
               column: column
-          }
+          };
           if (this._isSelectable(cell)) {
-            return cell
+            return cell;
           }
         }
       }
@@ -160,9 +160,9 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
           var cell = {
               row: row,
               column: column
-          }
+          };
           if (this._isSelectable(cell)) {
-            return cell
+            return cell;
           }
         }
       }
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
       return {
         left: itemLeft,
         right: itemRight
-      }
+      };
     },
 
 
@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
       return {
         top: itemTop,
         bottom: itemBottom
-      }
+      };
     }
   }
 });

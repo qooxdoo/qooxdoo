@@ -305,9 +305,9 @@ qx.Bootstrap.define("qx.Interface",
         return false;
       }
 
-      var isBoolean = match[0] == "is" || match[0] == "toggle";
+      var isBoolean = match[0] === "is" || match[0] === "toggle";
       if (isBoolean) {
-        return qx.util.OOUtil.getPropertyDefinition(clazz, propertyName).check == "Boolean";
+        return qx.util.OOUtil.getPropertyDefinition(clazz, propertyName).check === "Boolean";
       }
 
       return true;
@@ -642,7 +642,7 @@ qx.Bootstrap.define("qx.Interface",
                   break;
 
                 default:
-                  throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all of a primitive type.')
+                  throw new Error('Invalid key "' + key + '" in interface "' + name + '"! Static constants must be all of a primitive type.');
               }
             }
           }

@@ -82,7 +82,7 @@ qx.Class.define("qx.test.ui.list.core.MultiSelection",
         selectionFromManager[i] = this._list._getDataFromRow(selectionFromManager[i]);
       }
       this.assertEquals(6, selectionFromManager.length, "On selection manager");
-      var expectedSelection = new qx.data.Array(selectionFromManager)
+      var expectedSelection = new qx.data.Array(selectionFromManager);
       this.assertTrue(selection.equals(expectedSelection), "On selection manager");
       expectedSelection.dispose();
 

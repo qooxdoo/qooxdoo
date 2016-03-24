@@ -140,7 +140,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
         var storageKey = this.__reference[key];
       // new case
       } else {
-        var storageKey = "qx" + qx.bom.storage.UserData.__id
+        var storageKey = "qx" + qx.bom.storage.UserData.__id;
         qx.bom.storage.UserData.__id++;
       }
 

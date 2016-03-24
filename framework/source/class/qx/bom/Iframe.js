@@ -135,7 +135,7 @@ qx.Class.define("qx.bom.Iframe",
       }
       catch(ex)
       {
-        return null
+        return null;
       }
     },
 
@@ -232,7 +232,7 @@ qx.Class.define("qx.bom.Iframe",
       var callback = function() {
         qx.bom.Event.removeNativeListener(iframe, "load", callback);
         iframe.$$url = qx.bom.Iframe.queryCurrentUrl(iframe);
-      }
+      };
 
       qx.bom.Event.addNativeListener(iframe, "load", callback);
     }

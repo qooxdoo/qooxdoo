@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
       if (ResourceManager.has(source))
       {
         width = ResourceManager.getImageWidth(source),
-        height = ResourceManager.getImageHeight(source)
+        height = ResourceManager.getImageHeight(source);
       }
       else if (ImageLoader.isLoaded(source))
       {

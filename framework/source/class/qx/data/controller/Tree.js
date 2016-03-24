@@ -616,7 +616,7 @@ qx.Class.define("qx.data.controller.Tree",
     __removeFolder: function(treeFolder, rootNode) {
       // get the model
       var model = treeFolder.getModel();
-      var childPath = this.__oldChildrenPath || this.getChildPath()
+      var childPath = this.__oldChildrenPath || this.getChildPath();
       var childrenGetterName = "get" + qx.lang.String.firstUp(childPath);
 
       // if the model does have a child path

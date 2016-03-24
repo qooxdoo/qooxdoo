@@ -387,7 +387,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
     __clearCache: function() {
       this.__id = 0;
       if (this.__sheet) {
-        this.__sheet.ownerNode.remove()
+        this.__sheet.ownerNode.remove();
         this.__sheet = null;
         this.__rules = {};
       }
@@ -405,7 +405,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
         if (!document.hidden) {
           statics.__clearCache();
         }
-      }, false)
+      }, false);
     }
   }
 });

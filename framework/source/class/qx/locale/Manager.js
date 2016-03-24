@@ -25,6 +25,7 @@
  *
  * @require(qx.event.dispatch.Direct)
  * @require(qx.locale.LocalizedString)
+ * @require(qx.bom.client.Locale)
  *
  * @cldr()
  */
@@ -50,18 +51,9 @@ qx.Class.define("qx.locale.Manager",
     this.__translations = qx.$$translations || {};
     this.__locales      = qx.$$locales || {};
 
-    var locale = qx.core.Environment.get("locale");
-    var variant = qx.core.Environment.get("locale.variant");
-    if (variant !== "") {
-      locale += "_" + variant;
-    }
-
-    this.__clientLocale = locale;
-
-    this.setLocale(locale || this.__defaultLocale);
+    this.initLocale();
+    this.__clientLocale = this.getLocale();
   },
-
-
 
 
   /*
@@ -186,9 +178,18 @@ qx.Class.define("qx.locale.Manager",
     locale :
     {
       check : "String",
-      nullable : true,
       apply : "_applyLocale",
-      event : "changeLocale"
+      event : "changeLocale",
+      init : (function() { 
+        var locale = qx.core.Environment.get("locale");
+        if(!locale || locale === "") {
+          return qx.core.Environment.get("locale.default");
+        }
+        var variant = qx.core.Environment.get("locale.variant");
+        if (variant !== "") {
+          locale += "_" + variant;
+        }
+        return locale; })()
     }
   },
 
@@ -204,7 +205,7 @@ qx.Class.define("qx.locale.Manager",
   members :
   {
 
-    __defaultLocale : "C",
+    __defaultLocale : qx.core.Environment.get("locale.default"),
     __locale : null,
     __language : null,
     __translations : null,

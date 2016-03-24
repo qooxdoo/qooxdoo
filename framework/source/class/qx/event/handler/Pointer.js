@@ -132,7 +132,11 @@ qx.Class.define("qx.event.handler.Pointer",
       {
         qx.event.type.dom.Pointer.normalize(domEvent);
         // ensure compatibility with native events for IE8
-        domEvent.srcElement = target;
+        try {
+          domEvent.srcElement = target;
+        }catch(ex) {
+          // Nothing - cannot change properties in strict mode
+        }
 
         qx.event.Registration.fireEvent(
           target,

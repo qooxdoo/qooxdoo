@@ -155,4 +155,4 @@ qx.Class.define("qx.test.util.RingBuffer",
       this.assertEquals(typeof allEntries[5], "function");
     }
   }
-})
+});

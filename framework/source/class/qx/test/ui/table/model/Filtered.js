@@ -55,6 +55,8 @@ qx.Class.define("qx.test.ui.table.model.Filtered",
     {
       var table = this.createTable();
       this.assertIdentical(3, table.getTableModel().getRowCount(), "Only 3 rows are not filtered");
+      
+      table.destroy();
     },
     testInArray : function()
     {
@@ -67,6 +69,8 @@ qx.Class.define("qx.test.ui.table.model.Filtered",
       this.assertInArray(4, listA, "Must be in array");
       this.assertInArray(5, listA, "Must be in array");
       this.assertInArray(6, listA, "Must be in array");
+      
+      table.destroy();
     },
     testNotInArray : function()
     {
@@ -80,6 +84,8 @@ qx.Class.define("qx.test.ui.table.model.Filtered",
       // assertNotInArray function could be useful in qx.dev.unit.TestCase class
       this.assert(listA.indexOf(3) == -1, "Must not be in array");
       this.assert(listA.indexOf(7) == -1, "Must not be in array");
+      
+      table.destroy();
     }
   }
 });

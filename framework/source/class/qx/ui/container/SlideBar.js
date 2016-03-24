@@ -420,7 +420,7 @@ qx.Class.define("qx.ui.container.SlideBar",
         contentSize.height > innerSize.height;
 
       if (overflow) {
-        this._showArrows()
+        this._showArrows();
         this._updateArrowsEnabled();
       } else {
         this._hideArrows();

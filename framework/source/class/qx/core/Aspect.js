@@ -86,7 +86,7 @@ qx.Bootstrap.define("qx.core.Aspect",
         }
 
         return ret;
-      }
+      };
 
       if (type !== "static")
       {
@@ -94,7 +94,7 @@ qx.Bootstrap.define("qx.core.Aspect",
         wrapper.base = fcn.base;
       }
 
-      fcn.wrapper = wrapper
+      fcn.wrapper = wrapper;
       wrapper.original = fcn;
 
       return wrapper;

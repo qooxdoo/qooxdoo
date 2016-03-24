@@ -282,7 +282,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
               // [#8315] // dispose asynchronous to work with Sinon.js
               window.setTimeout(function() {
                 req.dispose();
-              }, 0)
+              }, 0);
             };
           },
           context: this
@@ -309,7 +309,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
                 this.emit(action + "Started", payload);
                 this.emit("started", payload);
               }
-            }
+            };
           },
           context: this
         },
@@ -328,7 +328,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
               };
               this.emit(action + "Progress", payload);
               this.emit("progress", payload);
-            }
+            };
           },
           context: this
         }

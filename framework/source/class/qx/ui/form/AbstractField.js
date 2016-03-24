@@ -642,8 +642,9 @@ qx.Class.define("qx.ui.form.AbstractField",
      */
     setValue : function(value)
     {
-      if (this.isDisposed())
+      if (this.isDisposed()) {
         return null;
+      }
       
       // handle null values
       if (value === null) {

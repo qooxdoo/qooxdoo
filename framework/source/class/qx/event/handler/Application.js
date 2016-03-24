@@ -20,6 +20,7 @@
 
 /**
  * This handler provides events for qooxdoo application startup/shutdown logic.
+ * @require(qx.bom.client.Engine)
  */
 qx.Class.define("qx.event.handler.Application",
 {
@@ -296,7 +297,7 @@ qx.Class.define("qx.event.handler.Application",
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
         "true": qx.event.GlobalError.observeMethod(this.__onNativeLoadHandler),
         "false": this.__onNativeLoadHandler
-      })
+      });
       callback.apply(this, arguments);
     },
 
@@ -317,7 +318,7 @@ qx.Class.define("qx.event.handler.Application",
       var callback = qx.core.Environment.select("qx.globalErrorHandling", {
         "true": qx.event.GlobalError.observeMethod(this.__onNativeUnloadHandler),
         "false": this.__onNativeUnloadHandler
-      })
+      });
       callback.apply(this, arguments);
     },
 

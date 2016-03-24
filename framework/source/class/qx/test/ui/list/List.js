@@ -172,7 +172,7 @@ qx.Class.define("qx.test.ui.list.List",
         filter : function(data) {
           return ((parseInt(data.slice(5, data.length), 10) - 1) % 2 == 0);
         }
-      }
+      };
       this._list.setDelegate(delegate);
       this.flush();
 
@@ -196,7 +196,7 @@ qx.Class.define("qx.test.ui.list.List",
 
       var delegate = {
         sorter : sorter
-      }
+      };
       this._list.setDelegate(delegate);
       this.flush();
 
@@ -231,7 +231,7 @@ qx.Class.define("qx.test.ui.list.List",
         filter : function(data) {
           return ((parseInt(data.slice(5, data.length), 10) - 1) % 2 == 0);
         }
-      }
+      };
       this._list.setDelegate(delegate);
       this.flush();
 

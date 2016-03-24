@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.virtual.selection.Column",
       return {
         left: itemLeft,
         right: itemRight
-      }
+      };
     },
 
 

@@ -5,13 +5,13 @@ qx.Class.define("qx.test.log.fixture.ClassB1",
   members :
   {
     _applyOldProperty: function () {
-      this.base(arguments)
+      this.base(arguments);
 
       this._callCountApplyOldProperty++;
     },
 
     _applyNewProperty: function () {
-      this.base(arguments)
+      this.base(arguments);
 
       this._callCountApplyNewProperty++;
     }

@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
         right : this.getPaddingRight(),
         bottom : this.getPaddingBottom(),
         left : this.getPaddingLeft()
-      }
+      };
       this.__layout.renderLayout(width, 100, padding);
       this.__bCalculateWidths = false;
 

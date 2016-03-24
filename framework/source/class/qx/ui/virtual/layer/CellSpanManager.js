@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
         firstColumn: column,
         lastColumn: column + columnSpan - 1,
         id: id
-      }
+      };
       this._invalidateSortCache();
     },
 
@@ -376,7 +376,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       {
         bounds.push(this._getSingleCellBounds(
           cells[i], firstVisibleRow, firstVisibleColumn)
-        )
+        );
       }
       return bounds;
     },

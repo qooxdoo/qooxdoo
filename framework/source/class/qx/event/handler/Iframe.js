@@ -95,7 +95,7 @@ qx.Class.define("qx.event.handler.Iframe",
 
     // interface implementation
     canHandleEvent : function(target, type) {
-      return target.tagName.toLowerCase() === "iframe"
+      return target.tagName.toLowerCase() === "iframe";
     },
 
 

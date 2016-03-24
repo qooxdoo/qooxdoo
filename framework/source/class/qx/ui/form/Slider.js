@@ -985,7 +985,7 @@ qx.Class.define("qx.ui.form.Slider",
       } else if (value > this.getMaximum()) {
         value = this.getMaximum();
       } else {
-        value = this.getMinimum() + Math.round((value - this.getMinimum()) / this.getSingleStep()) * this.getSingleStep()
+        value = this.getMinimum() + Math.round((value - this.getMinimum()) / this.getSingleStep()) * this.getSingleStep();
       }
       return value;
     },

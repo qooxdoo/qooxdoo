@@ -419,7 +419,7 @@ qx.Bootstrap.define("qx.application.Routing", {
         return {
           data : entry,
           action : "back"
-        }
+        };
       }
 
       var length = forward.length;
@@ -440,7 +440,7 @@ qx.Bootstrap.define("qx.application.Routing", {
         return {
           data : entry,
           action : "forward"
-        }
+        };
       }
       return entry;
     },

@@ -10,7 +10,7 @@
 
 qx.Theme.define("${Namespace}.theme.Font",
 {
-  extend : qx.theme.modern.Font,
+  extend : qx.theme.indigo.Font,
 
   fonts :
   {

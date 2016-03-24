@@ -48,7 +48,7 @@ qx.Class.define("qx.test.event.Bubbling",
         "<div id='c_1'>" +
         "<div id='c_1_1'></div>" +
         "</div>" +
-        "<div id='c_2'>"
+        "<div id='c_2'>";
 
       this.c_1 = document.getElementById("c_1");
       this.c_1_1 = document.getElementById("c_1_1");
@@ -73,14 +73,14 @@ qx.Class.define("qx.test.event.Bubbling",
       var Reg = qx.event.Registration;
       var called;
 
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a")}, this);
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1b")}, this);
+      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a");}, this);
+      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1b");}, this);
 
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a")}, this);
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b")}, this);
+      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a");}, this);
+      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b");}, this);
 
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a")}, this);
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b")}, this);
+      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a");}, this);
+      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b");}, this);
 
       // fire event on c_1
       called = [];
@@ -110,11 +110,11 @@ qx.Class.define("qx.test.event.Bubbling",
         contexts.push(this);
       });
       Reg.addListener(this.c_1_1, "bubble", function() {
-        called.push("c_1_1a")
+        called.push("c_1_1a");
         contexts.push(this);
       });
       Reg.addListener(this.c_1_1, "bubble", function() {
-        called.push("c_1_1b")
+        called.push("c_1_1b");
         contexts.push(this);
       }, this);
 
@@ -136,14 +136,14 @@ qx.Class.define("qx.test.event.Bubbling",
       var Reg = qx.event.Registration;
       var called;
 
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a")}, this, true);
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1b")}, this);
+      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a");}, this, true);
+      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1b");}, this);
 
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a")}, this, true);
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b")}, this);
+      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a");}, this, true);
+      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b");}, this);
 
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a")}, this, true);
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b")}, this);
+      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a");}, this, true);
+      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b");}, this);
 
       // fire event on c_1
       called = [];
@@ -176,14 +176,14 @@ qx.Class.define("qx.test.event.Bubbling",
       // stop is first handler (capturing) -> handlers on the same level must be called
       Reg.addListener(this.c_1, "bubble", this._stopPropagation, this, true);
 
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a")}, this, true);
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1b")}, this);
+      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a");}, this, true);
+      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1b");}, this);
 
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a")}, this, true);
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b")}, this);
+      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a");}, this, true);
+      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b");}, this);
 
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a")}, this, true);
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b")}, this);
+      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a");}, this, true);
+      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b");}, this);
 
       // fire event on c_1
       called = [];
@@ -253,8 +253,8 @@ qx.Class.define("qx.test.event.Bubbling",
       var called;
 
       // baseline: no prevent default
-      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a")}, this);
-      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a")}, this);
+      Reg.addListener(this.c_1, "bubble", function() { called.push("c_1a");}, this);
+      Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a");}, this);
       called = [];
       var prevent = Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [true, true]);
       this.assertTrue(prevent);

@@ -230,7 +230,7 @@ qx.Mixin.define("qx.ui.treevirtual.MNode",
       // setting new state involves dispatching events.
       if (b != node.bOpened)
       {
-        this.nodeToggleOpened(node)
+        this.nodeToggleOpened(node);
       }
     },
 

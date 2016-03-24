@@ -51,7 +51,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
 
       var delegate = {
         sorter : sorter
-      }
+      };
       this.tree.setDelegate(delegate);
       this.flush();
 
@@ -79,7 +79,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
 
       var delegate = {
         sorter : sorter
-      }
+      };
       this.tree.setDelegate(delegate);
       this.flush();
 
@@ -112,7 +112,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
         filter : function(child) {
           return child.getName() == "Node 2" ? false : true;
         }
-      }
+      };
       this.tree.setDelegate(delegate);
       this.flush();
 
@@ -181,7 +181,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
 
       var prefix = "";
       for (var i = 0; i < level; i++) {
-        prefix += "-"
+        prefix += "-";
       }
       console.log(prefix + ">", model.getName());
 

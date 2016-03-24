@@ -389,7 +389,7 @@ qx.Bootstrap.define("qx.core.Property",
       {
         qx.core.Property.__executeOptimizedRefresh(clazz);
         return this.$$refreshInheritables();
-      }
+      };
     },
 
 
@@ -540,24 +540,24 @@ qx.Bootstrap.define("qx.core.Property",
       method.get[name] = "get" + upname;
       members[method.get[name]] = function() {
         return qx.core.Property.executeOptimizedGetter(this, clazz, name, "get");
-      }
+      };
 
       method.set[name] = "set" + upname;
       members[method.set[name]] = function(value) {
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", arguments);
-      }
+      };
 
       method.reset[name] = "reset" + upname;
       members[method.reset[name]] = function() {
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
-      }
+      };
 
       if (config.inheritable || config.apply || config.event || config.deferredInit)
       {
         method.init[name] = "init" + upname;
         members[method.init[name]] = function(value) {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "init", arguments);
-        }
+        };
         if (qx.core.Environment.get("qx.debug")) {
           members[method.init[name]].$$propertyMethod = true;
         }
@@ -568,7 +568,7 @@ qx.Bootstrap.define("qx.core.Property",
         method.refresh[name] = "refresh" + upname;
         members[method.refresh[name]] = function(value) {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", arguments);
-        }
+        };
         if (qx.core.Environment.get("qx.debug")) {
           members[method.refresh[name]].$$propertyMethod = true;
         }
@@ -577,24 +577,24 @@ qx.Bootstrap.define("qx.core.Property",
       method.setRuntime[name] = "setRuntime" + upname;
       members[method.setRuntime[name]] = function(value) {
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "setRuntime", arguments);
-      }
+      };
 
       method.resetRuntime[name] = "resetRuntime" + upname;
       members[method.resetRuntime[name]] = function() {
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "resetRuntime");
-      }
+      };
 
       if (config.themeable)
       {
         method.setThemed[name] = "setThemed" + upname;
         members[method.setThemed[name]] = function(value) {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "setThemed", arguments);
-        }
+        };
 
         method.resetThemed[name] = "resetThemed" + upname;
         members[method.resetThemed[name]] = function() {
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "resetThemed");
-        }
+        };
         if (qx.core.Environment.get("qx.debug")) {
           members[method.setThemed[name]].$$propertyMethod = true;
           members[method.resetThemed[name]].$$propertyMethod = true;
@@ -706,7 +706,7 @@ qx.Bootstrap.define("qx.core.Property",
         members[store] = qx.core.Aspect.wrap(instance.classname + "." + store, members[store], "property");
       }
 
-      qx.Bootstrap.setDisplayName(members[store], instance.classname + ".prototype", store)
+      qx.Bootstrap.setDisplayName(members[store], instance.classname + ".prototype", store);
 
       // Executing new function
       if (args === undefined) {
@@ -843,7 +843,7 @@ qx.Bootstrap.define("qx.core.Property",
       if (config.inheritable) {
         this.__emitStoreInheritedPropertyValue(code, config, name, variant);
       } else if (hasCallback) {
-        this.__emitNormalizeUndefinedValues(code, config, name, variant)
+        this.__emitNormalizeUndefinedValues(code, config, name, variant);
       }
 
       if (hasCallback)
@@ -1150,7 +1150,7 @@ qx.Bootstrap.define("qx.core.Property",
         code.push('delete this.', this.$$store.runtime[name], ';');
 
         // Complex computation of new value
-        code.push('if(this.', this.$$store.user[name], '!==undefined)')
+        code.push('if(this.', this.$$store.user[name], '!==undefined)');
         code.push('computed=this.', this.$$store.user[name], ';');
         code.push('else if(this.', this.$$store.theme[name], '!==undefined)');
         code.push('computed=this.', this.$$store.theme[name], ';');
@@ -1216,7 +1216,7 @@ qx.Bootstrap.define("qx.core.Property",
         code.push('delete this.', this.$$store.user[name], ';');
 
         // Complex computation of new value
-        code.push('if(this.', this.$$store.runtime[name], '!==undefined)')
+        code.push('if(this.', this.$$store.runtime[name], '!==undefined)');
         code.push('computed=this.', this.$$store.runtime[name], ';');
         code.push('if(this.', this.$$store.theme[name], '!==undefined)');
         code.push('computed=this.', this.$$store.theme[name], ';');

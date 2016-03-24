@@ -49,7 +49,7 @@ qx.Class.define("qx.test.mobile.list.List",
      * Returns the subtitle text on the given list, of the element item identified by elementIndex.
      */
     getSubtitleElement : function(list, elementIndex) {
-      return list.getContentElement().childNodes[elementIndex].childNodes[1].childNodes[1]
+      return list.getContentElement().childNodes[elementIndex].childNodes[1].childNodes[1];
     },
 
 
@@ -179,12 +179,12 @@ qx.Class.define("qx.test.mobile.list.List",
 
       var titleText = this.getTitleElement(list,0).innerHTML;;
       var subtitleText = this.getSubtitleElement(list,0).innerHTML;
-      var imageSrc = this.getImageElement(list,0).src
+      var imageSrc = this.getImageElement(list,0).src;
 
       // VERIFY
       this.assertEquals(newTitleText, titleText);
       this.assertEquals(newSubtitleText, subtitleText);
-      this.assertNotEquals("-1", imageSrc.indexOf(newImageSrc))
+      this.assertNotEquals("-1", imageSrc.indexOf(newImageSrc));
 
       this.__cleanUp(list);
     },

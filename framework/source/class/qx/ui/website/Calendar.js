@@ -856,7 +856,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
       maxDate = this._getNormalizedDate(maxDate);
 
       while(current <= range[1]){
-        current = this._getNormalizedDate(current)
+        current = this._getNormalizedDate(current);
         list.push(new Date(current.toDateString()));
         current.setDate(current.getDate() + 1);
       }

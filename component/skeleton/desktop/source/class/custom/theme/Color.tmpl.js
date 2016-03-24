@@ -10,7 +10,7 @@
 
 qx.Theme.define("${Namespace}.theme.Color",
 {
-  extend : qx.theme.modern.Color,
+  extend : qx.theme.indigo.Color,
 
   colors :
   {

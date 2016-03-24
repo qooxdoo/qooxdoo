@@ -46,14 +46,14 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
               getDataCellRenderer: function(col) {
                 return {
                   _getContentHtml : function(cellInfo) {
-                    return cellInfo.value
+                    return cellInfo.value;
                   }
-                }
+                };
               }
-            }
+            };
           }
         }
-      }
+      };
     },
 
 
@@ -99,7 +99,7 @@ qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
 
       this.factory.setValidationFunction(function(value) {
         called = true;
-        return "_" + value + "_"
+        return "_" + value + "_";
       });
 
       var editor = this.factory.createCellEditor(this._getCellInfo());

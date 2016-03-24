@@ -36,7 +36,7 @@ qx.Class.define("qx.test.ui.table.Table",
     {
       var rowData = [];
       var nextId = 0;
-      var strings = ["a", "b", "c", "d"]
+      var strings = ["a", "b", "c", "d"];
       for (var row = 0; row < rowCount; row++) {
         var date = new Date(row * row * row);
         var number = row % 2 == 0 ? row / 2 : NaN;
@@ -49,7 +49,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortInteger : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
 
       // sort descending
@@ -73,7 +73,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortIntegerNaN : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
 
       // sort descending
@@ -114,7 +114,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortIntegerNaNInsensitive : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
       model.setCaseSensitiveSorting(false);
 
@@ -156,7 +156,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortStringInsensitive : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
       model.setCaseSensitiveSorting(false);
 
@@ -181,7 +181,7 @@ qx.Class.define("qx.test.ui.table.Table",
     testSortString : function()
     {
       // table
-      var model = this.createModel()
+      var model = this.createModel();
       var table = new qx.ui.table.Table(model);
 
       // sort descending
@@ -215,7 +215,7 @@ qx.Class.define("qx.test.ui.table.Table",
       table.setRowHeight(111);
       this.assertFalse(executed);
 
-      table.dispose();
+      table.destroy();
     },
 
 
@@ -238,7 +238,7 @@ qx.Class.define("qx.test.ui.table.Table",
       this.assertFalse(executed, "Listener not removed");
 
       mouse.dispose();
-      table.dispose();
+      table.destroy();
     },
 
 
@@ -265,6 +265,9 @@ qx.Class.define("qx.test.ui.table.Table",
       table.getTableColumnModel().setColumnWidth(0, 100);
       // check that the table is not scrolled back to the top
       this.assertEquals(100, table.getPaneScroller(0).getScrollY());
+      
+      table.destroy();
+      tableModel.dispose();
     },
 
 
@@ -291,7 +294,7 @@ qx.Class.define("qx.test.ui.table.Table",
       this.assertEquals(null, tableSimple.getFocusedRow()); // dont use assertNull because it can be undefined
       this.assertEquals(0, tableSimple.getSelectionModel().getSelectedCount());
 
-      tableSimple.dispose();
+      tableSimple.destroy();
       tableModelSimple.dispose();
     }
   }

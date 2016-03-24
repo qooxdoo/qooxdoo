@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       if (createItem == null) {
         createItem = function() {
           return new qx.ui.tree.VirtualTreeItem();
-        }
+        };
       }
 
       var renderer = new qx.ui.virtual.cell.WidgetCell();

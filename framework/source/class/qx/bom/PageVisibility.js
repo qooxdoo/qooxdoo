@@ -52,7 +52,7 @@ qx.Bootstrap.define("qx.bom.PageVisibility",
     var self = this;
     // forward the event
     qx.bom.Event.addNativeListener(this.__doc, this.__eventName, function(e) {
-      self.emit("change", e)
+      self.emit("change", e);
     });
   },
 

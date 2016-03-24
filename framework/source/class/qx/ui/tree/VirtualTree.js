@@ -1147,7 +1147,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
   destruct : function()
   {
-    var pane = this.getPane()
+    var pane = this.getPane();
     if (pane != null)
     {
       if (pane.hasListener("cellDbltap")) {

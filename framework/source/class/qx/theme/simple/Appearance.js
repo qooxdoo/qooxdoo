@@ -464,7 +464,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["tree-plus"]
-        }
+        };
       }
     },
 
@@ -474,7 +474,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-minus-only"]
-        }
+        };
       }
     },
 
@@ -484,7 +484,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-plus-only"]
-        }
+        };
       }
     },
 
@@ -494,7 +494,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-minus-start"]
-        }
+        };
       }
     },
 
@@ -504,7 +504,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-plus-start"]
-        }
+        };
       }
     },
 
@@ -514,7 +514,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-minus-end"]
-        }
+        };
       }
     },
 
@@ -524,7 +524,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-plus-end"]
-        }
+        };
       }
     },
 
@@ -534,7 +534,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-minus-cross"]
-        }
+        };
       }
     },
 
@@ -544,7 +544,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-plus-cross"]
-        }
+        };
       }
     },
 
@@ -555,7 +555,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-end"]
-        }
+        };
       }
     },
 
@@ -565,7 +565,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : qx.theme.simple.Image.URLS["treevirtual-cross"]
-        }
+        };
       }
     },
 
@@ -722,7 +722,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           marginBottom: 4,
           marginLeft : 2,
           marginRight : 2
-        }
+        };
       }
     },
 
@@ -806,7 +806,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
             qx.theme.simple.Image.URLS[
               "menu-checkbox" + (states.selected ?  "-invert" : "")
             ]
-        }
+        };
       }
     },
 
@@ -822,7 +822,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
             qx.theme.simple.Image.URLS[
               "menu-radiobutton" + (states.selected ?  "-invert" : "")
             ]
-        }
+        };
       }
     },
 
@@ -935,7 +935,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
             "table-row-background-even",
           textColor: states.selected ? "text-selected" : "text",
           padding: [3, 6]
-        }
+        };
       }
     },
 
@@ -947,7 +947,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           textAlign : "right"
-        }
+        };
       }
     },
     "cell-image" : "cell",
@@ -1040,7 +1040,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           backgroundColor : "background"
-        }
+        };
       }
     },
 
@@ -1128,7 +1128,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           width: 12,
           height: 12,
           backgroundColor : backgroundColor
-        }
+        };
       }
     },
 
@@ -1139,7 +1139,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         // set an empty icon to be sure that the icon image is rendered
         return {
           icon : qx.theme.simple.Image.URLS["blank"]
-        }
+        };
       }
     },
 
@@ -1190,7 +1190,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           icon: icon,
           gap: 6
-        }
+        };
       }
     },
 
@@ -1221,7 +1221,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           height: 12,
           padding: padding,
           backgroundColor : "white"
-        }
+        };
       }
     },
 
@@ -1265,7 +1265,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           icon : qx.theme.simple.Image.URLS["arrow-up-small"],
           decorator : decorator,
           width: 17
-        }
+        };
       }
     },
 
@@ -1290,7 +1290,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           icon : qx.theme.simple.Image.URLS["arrow-down-small"],
           decorator : decorator,
           width: 17
-        }
+        };
       }
     },
 
@@ -1456,7 +1456,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
         var backgroundColor;
         if (states.selected) {
-          backgroundColor = "background-selected"
+          backgroundColor = "background-selected";
           if (states.disabled) {
             backgroundColor += "-disabled";
           }
@@ -1502,7 +1502,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : decorator,
           padding   : padding
-        }
+        };
       }
     },
 
@@ -1581,7 +1581,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           decorator : states.hovered ? "button-hover" : undefined
-        }
+        };
       }
     },
 
@@ -1977,7 +1977,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         return {
           decorator : "main",
           minWidth: 220
-        }
+        };
       }
     },
 
@@ -2110,7 +2110,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           backgroundColor: "white",
           width : 200,
           height : 20
-        }
+        };
       }
     },
 
@@ -2121,7 +2121,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           backgroundColor: states.disabled ?
             "background-disabled-checked" :
             "background-selected"
-        }
+        };
       }
     },
 
@@ -2360,25 +2360,25 @@ qx.Theme.define("qx.theme.simple.Appearance",
             marginTop : 4,
             marginBottom: 2,
             decorator : null
-          }
+          };
         } else if (states.barBottom) {
           return {
             marginTop : 2,
             marginBottom: 4,
             decorator : null
-          }
+          };
         } else if (states.barLeft) {
           return {
             marginLeft : 4,
             marginRight : 2,
             decorator : null
-          }
+          };
         } else {
           return {
             marginLeft : 2,
             marginRight : 4,
             decorator : null
-          }
+          };
         }
       }
     },
@@ -2395,25 +2395,25 @@ qx.Theme.define("qx.theme.simple.Appearance",
             marginTop : 4,
             marginBottom: 2,
             decorator : null
-          }
+          };
         } else if (states.barBottom) {
           return {
             marginTop : 2,
             marginBottom: 4,
             decorator : null
-          }
+          };
         } else if (states.barLeft) {
           return {
             marginLeft : 4,
             marginRight : 2,
             decorator : null
-          }
+          };
         } else {
           return {
             marginLeft : 2,
             marginRight : 4,
             decorator : null
-          }
+          };
         }
       }
     },
@@ -2450,7 +2450,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           if (states.barTop) {
             decorator = "tabview-page-button-top";
           } else if (states.barBottom) {
-            decorator = "tabview-page-button-bottom"
+            decorator = "tabview-page-button-bottom";
           } else if (states.barRight) {
             decorator = "tabview-page-button-right";
           } else if (states.barLeft) {
@@ -2524,7 +2524,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           padding : 5
-        }
+        };
       }
     },
 
@@ -2538,7 +2538,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           height : 14,
           backgroundColor : "background",
           decorator : "main-dark"
-        }
+        };
       }
     },
 

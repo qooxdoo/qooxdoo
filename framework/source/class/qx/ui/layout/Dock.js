@@ -799,7 +799,7 @@ qx.Class.define("qx.ui.layout.Dock",
       return {
         x : separatorWidthX || 0,
         y : separatorWidthY || 0
-      }
+      };
     },
 
 

@@ -251,17 +251,19 @@ qx.Bootstrap.define("qx.Class",
       if (config.defer)
       {
         config.defer.self = clazz;
-        config.defer(clazz, clazz.prototype,
-        {
-          add : function(name, config)
-          {
-            // build pseudo properties map
-            var properties = {};
-            properties[name] = config;
+        qx.Bootstrap.addPendingDefer(clazz, function() {
+          config.defer(clazz, clazz.prototype,
+            {
+              add : function(name, config)
+              {
+                // build pseudo properties map
+                var properties = {};
+                properties[name] = config;
 
-            // execute generic property handler
-            qx.Class.__addProperties(clazz, properties, true);
-          }
+                // execute generic property handler
+                qx.Class.__addProperties(clazz, properties, true);
+              }
+            });
         });
       }
 
@@ -931,6 +933,10 @@ qx.Bootstrap.define("qx.Class",
      */
     __createClass : function(name, type, extend, statics, construct, destruct, mixins)
     {
+      var isStrictMode = function () {
+        return (typeof this == 'undefined');
+      };
+
       var clazz;
 
       if (!extend && qx.core.Environment.get("qx.aspects") == false)
@@ -998,9 +1004,6 @@ qx.Bootstrap.define("qx.Class",
 
       // Store names in constructor/object
       clazz.classname = name;
-      function isStrictMode() {
-        return (typeof this == 'undefined');
-      }
       if (!isStrictMode()) {
         try {
           clazz.name = name;
@@ -1249,7 +1252,7 @@ qx.Bootstrap.define("qx.Class",
 
         if (config.transform != null)
         {
-          if (!(typeof config.transform == "string")) {
+          if (!(typeof config.transform === "string")) {
             throw new Error('Invalid transform definition of property "' + name + '" in class "' + clazz.classname + '"! Needs to be a String.');
           }
         }
@@ -1294,7 +1297,7 @@ qx.Bootstrap.define("qx.Class",
 
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (proto[key] !== undefined && key.charAt(0) == "_" && key.charAt(1) == "_") {
+          if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
             throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
           }
 

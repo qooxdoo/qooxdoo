@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
         if (this.__cachedProperties) {
           for (var property in this.__cachedProperties)
           {
-            this.reset(property)
+            this.reset(property);
             this.set(property, this.__cachedProperties[property]);
           }
         }

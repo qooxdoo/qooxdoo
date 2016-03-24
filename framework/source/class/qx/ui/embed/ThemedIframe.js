@@ -399,7 +399,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
         var frameSize = {
           width: qx.bom.Document.getWidth(win),
           height: qx.bom.Document.getHeight(win)
-        }
+        };
         return frameSize;
       }
       catch (e)
@@ -455,7 +455,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
       }
       else
       {
-        bar.setMaximum(1000000)
+        bar.setMaximum(1000000);
         bar.set({
           position: Math.min(bar.getPosition(), contentSize),
           maximum: contentSize - containerSize,
@@ -526,4 +526,4 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
     this._stopIframeObserver();
     this.__iframeSize = null;
   }
-})
+});

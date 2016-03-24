@@ -351,7 +351,7 @@ qx.Class.define("qx.data.Array",
         this.__updateLength();
       } else if (amount == arguments.length - 2) {
         // if we added as much items as we removed
-        var addedItems = qx.lang.Array.fromArguments(arguments, 2)
+        var addedItems = qx.lang.Array.fromArguments(arguments, 2);
         // check if the array content equals the content before the operation
         for (var i = 0; i < addedItems.length; i++) {
           if (addedItems[i] !== returnArray[i]) {

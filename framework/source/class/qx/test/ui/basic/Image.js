@@ -51,6 +51,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       } else {
         this.assertTrue(tagNameAfter == "img");
       }
+      
       image.destroy();
     },
 
@@ -363,6 +364,8 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
       this.assertEquals("qx/static/drawer@2x.png", image.getContentElement().getSource());
 
+      image.destroy();
+      
       devicePixelRatioStub.restore();
     },
 
@@ -389,6 +392,8 @@ qx.Class.define("qx.test.ui.basic.Image",
         this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
       this.assertTrue(backgroundImage.indexOf("toolbar-part.gif") > -1);
 
+      image.destroy();
+      
       devicePixelRatioStub.restore();
     },
 
@@ -416,6 +421,8 @@ qx.Class.define("qx.test.ui.basic.Image",
         this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
       this.assertTrue(backgroundImage.indexOf("toolbar-part.gif") > -1);
 
+      image.destroy();
+      
       devicePixelRatioStub.restore();
     }
   }

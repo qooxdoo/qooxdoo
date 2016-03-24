@@ -210,4 +210,4 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
       members.removeAll = members._removeAll;
     }
   }
-})
+});

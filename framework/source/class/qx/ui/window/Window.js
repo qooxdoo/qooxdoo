@@ -553,7 +553,7 @@ qx.Class.define("qx.ui.window.Window",
         this._excludeChildControl("icon");
       }
 
-      var caption = this.getCaption()
+      var caption = this.getCaption();
       if (caption) {
         this.getChildControl("title").setValue(caption);
         this._showChildControl("title");

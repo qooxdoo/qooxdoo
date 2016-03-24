@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
     this.__stylesheet = qx.bom.Stylesheet.createElement(stylesheet);
 
     this.__classes = {};
-    this.__styles = {}
+    this.__styles = {};
   },
 
 

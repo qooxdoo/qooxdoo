@@ -596,7 +596,7 @@ qx.Class.define("qx.test.data.store.Json",
       {
         this.__store.setUrl("/foo");
         server.respond();
-      }, this, 500)
+      }, this, 500);
 
       this.wait(1000);
     }

@@ -122,7 +122,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       var that = this;
       window.setTimeout(function() {
         that.immediateExecuteOn(widget);
-      })
+      });
     },
 
     immediateExecuteOn : function(widget) {

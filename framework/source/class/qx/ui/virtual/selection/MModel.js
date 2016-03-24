@@ -160,7 +160,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
             self._provider.styleUnselectabled(row);
           }
         }
-      }
+      };
 
       this._manager = new qx.ui.virtual.selection.Row(
         this.getPane(), selectionDelegate
@@ -335,7 +335,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     __synchronizeSelection : function()
     {
       if (this.__isSelectionEquals()) {
-        return
+        return;
       }
 
       var managerSelection = this._manager.getSelection();
@@ -393,7 +393,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       for (var i = 0; i < selection.getLength(); i++)
       {
         var item = selection.getItem(i);
-        var selectables = this._getSelectables()
+        var selectables = this._getSelectables();
         var index = -1;
 
         if (selectables != null) {

@@ -119,7 +119,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var called = 0;
 
       var pane = new qx.ui.virtual.core.Pane(100, 20, 10, 50);
-      pane.addListener("update", function() { called ++}, this);
+      pane.addListener("update", function() { called ++;}, this);
       pane.set({
         width: 300,
         height: 200
@@ -594,13 +594,13 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.addLayer(layer);
       this.flush();
 
-      this.pane.scrollRowIntoView(100)
+      this.pane.scrollRowIntoView(100);
       this.flush();
 
       var children = layer.getContentElement().getDomElement().childNodes;
 
       this.assertScroll(5, 0, this.pane);
-      this.assertEquals("70 / 0", children[0].innerHTML)
+      this.assertEquals("70 / 0", children[0].innerHTML);
       this.assertEquals("100 / 0", children[children.length-1].innerHTML);
     },
 
@@ -617,14 +617,14 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.addLayer(layer);
       this.flush();
 
-      this.pane.scrollColumnIntoView(100)
+      this.pane.scrollColumnIntoView(100);
       this.flush();
 
       var children = layer.getContentElement().getDomElement().childNodes;
 
       this.assertScroll(0, 15, this.pane);
-      this.assertEquals("0 / 87", children[0].innerHTML)
-      this.assertEquals("0 / 100", children[children.length-1].innerHTML)
+      this.assertEquals("0 / 87", children[0].innerHTML);
+      this.assertEquals("0 / 100", children[children.length-1].innerHTML);
     },
 
 
@@ -640,14 +640,14 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.addLayer(layer);
       this.flush();
 
-      this.pane.scrollRowIntoView(2000)
+      this.pane.scrollRowIntoView(2000);
       this.flush();
 
       var children = layer.getContentElement().getDomElement().childNodes;
 
       this.assertScroll(5, 0, this.pane);
-      this.assertEquals("0 / 969", children[0].innerHTML)
-      this.assertEquals("0 / 999", children[children.length-1].innerHTML)
+      this.assertEquals("0 / 969", children[0].innerHTML);
+      this.assertEquals("0 / 999", children[children.length-1].innerHTML);
     },
 
 
@@ -663,14 +663,14 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       this.pane.addLayer(layer);
       this.flush();
 
-      this.pane.scrollColumnIntoView(400)
+      this.pane.scrollColumnIntoView(400);
       this.flush();
 
       var children = layer.getContentElement().getDomElement().childNodes;
 
       this.assertScroll(0, 15, this.pane);
-      this.assertEquals("186 / 0", children[0].innerHTML)
-      this.assertEquals("199 / 0", children[children.length-1].innerHTML)
+      this.assertEquals("186 / 0", children[0].innerHTML);
+      this.assertEquals("199 / 0", children[children.length-1].innerHTML);
     },
 
 
@@ -728,7 +728,7 @@ qx.Class.define("qx.test.ui.virtual.Pane",
       var calls = [];
       var listener = function(e) {
         calls.push(e);
-      }
+      };
       pane.addListener("cellTap", listener);
       pane.addListener("cellDbltap", listener);
       pane.addListener("cellContextmenu", listener);

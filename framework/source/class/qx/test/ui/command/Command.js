@@ -259,7 +259,7 @@ qx.Class.define("qx.test.ui.command.Command",
 
     testDestructExecutable : function() {
       // Create the command
-      var cmd = new qx.ui.command.Command("Meta+T")
+      var cmd = new qx.ui.command.Command("Meta+T");
 
       // Create a button linked to cmd
       var button = new qx.ui.form.Button("Command button", null,cmd);

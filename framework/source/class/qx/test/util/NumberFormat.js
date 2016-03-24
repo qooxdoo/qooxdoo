@@ -37,8 +37,8 @@ qx.Class.define("qx.test.util.NumberFormat",
 
 
     tearDown : function() {
-      qx.locale.Manager.getInstance().setLocale(this.__oldLocale);
       this.__nf.dispose();
+      qx.locale.Manager.getInstance().setLocale(this.__oldLocale);
     },
 
     testNumberFormatConstructor: function() {
@@ -51,12 +51,22 @@ qx.Class.define("qx.test.util.NumberFormat",
       } catch (e) {
         this.fail("Failed on an empty arguments list");
       }
+      try {
+        nf.dispose();
+      }
+      catch(e) {
+      }
 
       try {
         nf = new qx.util.format.NumberFormat("de_DE", true);
         this.fail("Did not fail on wrong arguments number");
       } catch (e) {
 
+      }
+      try {
+        nf.dispose();
+      }
+      catch(e) {
       }
 
       for (i = 0, len= wrongArgs.length; i < len; i += 1) {
@@ -66,6 +76,11 @@ qx.Class.define("qx.test.util.NumberFormat",
         } catch (e) {
 
         }
+        try {
+          nf.dispose();
+        }
+        catch(e) {
+        }
       }
 
       for (i = 0, len= correctArgs.length; i < len; i += 1) {
@@ -73,6 +88,11 @@ qx.Class.define("qx.test.util.NumberFormat",
           nf = new qx.util.format.NumberFormat(correctArgs[i]);
         } catch (e) {
           this.fail("A correct argument did raise an error: " + correctArgs[i]);
+        }
+        try {
+          nf.dispose();
+        }
+        catch(e) {
         }
       }
     },
@@ -207,6 +227,9 @@ qx.Class.define("qx.test.util.NumberFormat",
       spinner.getChildControl("textfield").setValue("$ 1,23 €");
 
       this.assertEquals(prefix + "1,23" + postfix, spinner.getChildControl("textfield").getValue());
+      
+      spinner.destroy();
+      numberFormat.dispose();
     }
   }
 });

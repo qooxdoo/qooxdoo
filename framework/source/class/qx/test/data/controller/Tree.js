@@ -118,7 +118,7 @@ qx.Class.define("qx.test.data.controller.Tree",
     setUp : function()
     {
       // prevent the icon laod error with this stub
-      this.stub(qx.io.ImageLoader, "load")
+      this.stub(qx.io.ImageLoader, "load");
 
       this.__tree = new qx.ui.tree.Tree();
 
@@ -926,7 +926,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       // invoke a removing and setting of the bindings with the new bindItem
       delegate.bindItem = function(controller, item, id) {
         controller.bindProperty("name", "appearance", null, item, id);
-      }
+      };
       this.__controller.setDelegate(null);
       this.__controller.setDelegate(delegate);
 

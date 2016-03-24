@@ -1869,7 +1869,7 @@ qx.Class.define("qx.ui.core.Widget",
     _add : function(child, options)
     {
       if (qx.core.Environment.get("qx.debug")) {
-        this.assertInstance(child, qx.ui.core.LayoutItem.constructor, "'Child' must be an instance of qx.ui.core.LayoutItem!")
+        this.assertInstance(child, qx.ui.core.LayoutItem.constructor, "'Child' must be an instance of qx.ui.core.LayoutItem!");
       }
 
       // When moving in the same widget, remove widget first

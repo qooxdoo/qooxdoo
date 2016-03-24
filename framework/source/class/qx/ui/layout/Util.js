@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.layout.Util",
           potential : grow ? child.max - child.value : child.value - child.min,
           flex : grow ? child.flex : 1 / child.flex,
           offset : 0
-        }
+        };
       }
 
 

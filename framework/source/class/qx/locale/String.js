@@ -48,7 +48,7 @@ qx.Class.define("qx.locale.String",
      * @return {String} quotation end sign
      */
     getQuotationEnd : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_quotationEnd", [], locale)
+      return qx.locale.Manager.getInstance().localize("cldr_quotationEnd", [], locale);
     },
 
 
@@ -59,7 +59,7 @@ qx.Class.define("qx.locale.String",
      * @return {String} alternative quotation start sign
      */
     getAlternateQuotationStart : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_alternateQuotationStart", [], locale)
+      return qx.locale.Manager.getInstance().localize("cldr_alternateQuotationStart", [], locale);
     },
 
 
@@ -70,7 +70,7 @@ qx.Class.define("qx.locale.String",
      * @return {String} alternative quotation end sign
      */
     getAlternateQuotationEnd : function(locale) {
-      return qx.locale.Manager.getInstance().localize("cldr_alternateQuotationEnd", [], locale)
+      return qx.locale.Manager.getInstance().localize("cldr_alternateQuotationEnd", [], locale);
     }
   }
 });

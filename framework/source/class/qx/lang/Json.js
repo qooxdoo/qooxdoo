@@ -234,16 +234,16 @@ qx.Bootstrap.define("qx.lang.Json",
   //  to serialise the class)
   if (qx.core.Environment.get("runtime.name") === "rhino" || qx.core.Environment.get("runtime.name") === undefined)
     return;
-  
+
   // Convenience aliases.
   var getClass = {}.toString, isProperty, forEach, undef;
 
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = typeof define === "function" && define.amd, JSON3 = typeof exports == "object" && exports;
+  var isLoader = typeof define === "function" && define.amd, JSON3 = typeof exports === "object" && exports;
 
   if (JSON3 || isLoader) {
-    if (typeof JSON == "object" && JSON) {
+    if (typeof JSON === "object" && JSON) {
       // Delegate to the native `stringify` and `parse` implementations in
       // asynchronous module loaders and CommonJS environments.
       if (JSON3) {
@@ -275,16 +275,16 @@ qx.Bootstrap.define("qx.lang.Json",
   // Internal: Determines whether the native `JSON.stringify` and `parse`
   // implementations are spec-compliant. Based on work by Ken Snyder.
   function has(name) {
-    if (name == "bug-string-char-index") {
+    if (name === "bug-string-char-index") {
       // IE <= 7 doesn't support accessing string characters using square
       // bracket notation. IE 8 only supports this for primitives.
       return "a"[0] != "a";
     }
-    var value, serialized = '{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}', isAll = name == "json";
-    if (isAll || name == "json-stringify" || name == "json-parse") {
+    var value, serialized = '{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}', isAll = name === "json";
+    if (isAll || name === "json-stringify" || name === "json-parse") {
       // Test `JSON.stringify`.
       if (name == "json-stringify" || isAll) {
-        var stringify = JSON3.stringify, stringifySupported = typeof stringify == "function" && isExtended;
+        var stringify = JSON3.stringify, stringifySupported = typeof stringify === "function" && isExtended;
         if (stringifySupported) {
           // A test function object with a custom `toJSON` method.
           (value = function () {
@@ -298,7 +298,7 @@ qx.Bootstrap.define("qx.lang.Json",
               // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
               // literals.
               stringify(new Number()) === "0" &&
-              stringify(new String()) == '""' &&
+              stringify(new String()) === '""' &&
               // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
               // does not define a canonical JSON representation (this applies to
               // objects with `toJSON` properties as well, *unless* they are nested
@@ -316,35 +316,35 @@ qx.Bootstrap.define("qx.lang.Json",
               // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
               // methods entirely.
               stringify(value) === "1" &&
-              stringify([value]) == "[1]" &&
+              stringify([value]) === "[1]" &&
               // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
               // `"[null]"`.
-              stringify([undef]) == "[null]" &&
+              stringify([undef]) === "[null]" &&
               // YUI 3.0.0b1 fails to serialize `null` literals.
-              stringify(null) == "null" &&
+              stringify(null) === "null" &&
               // FF 3.1b1, 2 halts serialization if an array contains a function:
               // `[1, true, getClass, 1]` serializes as "[1,true,],". These versions
               // of Firefox also allow trailing commas in JSON objects and arrays.
               // FF 3.1b3 elides non-JSON values from objects and arrays, unless they
               // define custom `toJSON` methods.
-              stringify([undef, getClass, null]) == "[null,null,null]" &&
+              stringify([undef, getClass, null]) === "[null,null,null]" &&
               // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
               // where character escape codes are expected (e.g., `\b` => `\u0008`).
               stringify({ "a": [value, true, false, null, "\x00\b\n\f\r\t"] }) == serialized &&
               // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
               stringify(null, value) === "1" &&
-              stringify([1, 2], null, 1) == "[\n 1,\n 2\n]" &&
+              stringify([1, 2], null, 1) === "[\n 1,\n 2\n]" &&
               // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
               // serialize extended years.
-              stringify(new Date(-8.64e15)) == '"-271821-04-20T00:00:00.000Z"' &&
+              stringify(new Date(-8.64e15)) === '"-271821-04-20T00:00:00.000Z"' &&
               // The milliseconds are optional in ES 5, but required in 5.1.
-              stringify(new Date(8.64e15)) == '"+275760-09-13T00:00:00.000Z"' &&
+              stringify(new Date(8.64e15)) === '"+275760-09-13T00:00:00.000Z"' &&
               // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
               // four-digit years instead of six-digit years. Credits: @Yaffle.
-              stringify(new Date(-621987552e5)) == '"-000001-01-01T00:00:00.000Z"' &&
+              stringify(new Date(-621987552e5)) === '"-000001-01-01T00:00:00.000Z"' &&
               // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
               // values less than 1000. Credits: @Yaffle.
-              stringify(new Date(-1)) == '"1969-12-31T23:59:59.999Z"';
+              stringify(new Date(-1)) === '"1969-12-31T23:59:59.999Z"';
           } catch (exception) {
             stringifySupported = false;
           }
@@ -354,9 +354,9 @@ qx.Bootstrap.define("qx.lang.Json",
         }
       }
       // Test `JSON.parse`.
-      if (name == "json-parse" || isAll) {
+      if (name === "json-parse" || isAll) {
         var parse = JSON3.parse;
-        if (typeof parse == "function") {
+        if (typeof parse === "function") {
           try {
             // FF 3.1b1, b2 will throw an exception if a bare literal is provided.
             // Conforming implementations should also coerce the initial argument to
@@ -502,7 +502,7 @@ qx.Bootstrap.define("qx.lang.Json",
           for (property in object) {
             // Gecko <= 1.0 enumerates the `prototype` property of functions under
             // certain conditions; IE does not.
-            if (!(isFunction && property == "prototype") && hasProperty.call(object, property)) {
+            if (!(isFunction && property === "prototype") && hasProperty.call(object, property)) {
               callback(property);
             }
           }
@@ -518,7 +518,7 @@ qx.Bootstrap.define("qx.lang.Json",
             // Store each property name to prevent double enumeration. The
             // `prototype` property of functions is not enumerated due to cross-
             // environment inconsistencies.
-            if (!(isFunction && property == "prototype") && !isProperty.call(members, property) && (members[property] = 1) && isProperty.call(object, property)) {
+            if (!(isFunction && property === "prototype") && !isProperty.call(members, property) && (members[property] = 1) && isProperty.call(object, property)) {
               callback(property);
             }
           }
@@ -528,7 +528,7 @@ qx.Bootstrap.define("qx.lang.Json",
         forEach = function (object, callback) {
           var isFunction = getClass.call(object) == functionClass, property, isConstructor;
           for (property in object) {
-            if (!(isFunction && property == "prototype") && isProperty.call(object, property) && !(isConstructor = property === "constructor")) {
+            if (!(isFunction && property === "prototype") && isProperty.call(object, property) && !(isConstructor = property === "constructor")) {
               callback(property);
             }
           }
@@ -606,7 +606,7 @@ qx.Bootstrap.define("qx.lang.Json",
           // Necessary for host object support.
           value = object[property];
         } catch (exception) {}
-        if (typeof value == "object" && value) {
+        if (typeof value === "object" && value) {
           className = getClass.call(value);
           if (className == dateClass && !isProperty.call(value, "toJSON")) {
             if (value > -1 / 0 && value < 1 / 0) {
@@ -652,7 +652,7 @@ qx.Bootstrap.define("qx.lang.Json",
             } else {
               value = null;
             }
-          } else if (typeof value.toJSON == "function" && ((className != numberClass && className != stringClass && className != arrayClass) || isProperty.call(value, "toJSON"))) {
+          } else if (typeof value.toJSON === "function" && ((className != numberClass && className != stringClass && className != arrayClass) || isProperty.call(value, "toJSON"))) {
             // Prototype <= 1.6.1 adds non-standard `toJSON` methods to the
             // `Number`, `String`, `Date`, and `Array` prototypes. JSON 3
             // ignores all `toJSON` methods on these objects unless they are
@@ -681,7 +681,7 @@ qx.Bootstrap.define("qx.lang.Json",
           return quote("" + value);
         }
         // Recursively serialize objects and arrays.
-        if (typeof value == "object") {
+        if (typeof value === "object") {
           // Check for cyclic structures. This is a linear search; performance
           // is inversely proportional to the number of unique nested objects.
           for (length = stack.length; length--;) {
@@ -731,7 +731,7 @@ qx.Bootstrap.define("qx.lang.Json",
       // Public: `JSON.stringify`. See ES 5.1 section 15.12.3.
       JSON3.stringify = function (source, filter, width) {
         var whitespace, callback, properties;
-        if (typeof filter == "function" || typeof filter == "object" && filter) {
+        if (typeof filter === "function" || typeof filter === "object" && filter) {
           if (getClass.call(filter) == functionClass) {
             callback = filter;
           } else if (getClass.call(filter) == arrayClass) {
@@ -925,13 +925,13 @@ qx.Bootstrap.define("qx.lang.Json",
                 abort();
               }
               // `true`, `false`, and `null` literals.
-              if (source.slice(Index, Index + 4) == "true") {
+              if (source.slice(Index, Index + 4) === "true") {
                 Index += 4;
                 return true;
-              } else if (source.slice(Index, Index + 5) == "false") {
+              } else if (source.slice(Index, Index + 5) === "false") {
                 Index += 5;
                 return false;
-              } else if (source.slice(Index, Index + 4) == "null") {
+              } else if (source.slice(Index, Index + 4) === "null") {
                 Index += 4;
                 return null;
               }
@@ -947,32 +947,32 @@ qx.Bootstrap.define("qx.lang.Json",
       // Internal: Parses a JSON `value` token.
       var get = function (value) {
         var results, hasMembers;
-        if (value == "$") {
+        if (value === "$") {
           // Unexpected end of input.
           abort();
         }
-        if (typeof value == "string") {
-          if ((charIndexBuggy ? value.charAt(0) : value[0]) == "@") {
+        if (typeof value === "string") {
+          if ((charIndexBuggy ? value.charAt(0) : value[0]) === "@") {
             // Remove the sentinel `@` character.
             return value.slice(1);
           }
           // Parse object and array literals.
-          if (value == "[") {
+          if (value === "[") {
             // Parses a JSON array, returning a new JavaScript array.
             results = [];
             for (;; hasMembers || (hasMembers = true)) {
               value = lex();
               // A closing square bracket marks the end of the array literal.
-              if (value == "]") {
+              if (value === "]") {
                 break;
               }
               // If the array literal contains elements, the current token
               // should be a comma separating the previous element from the
               // next.
               if (hasMembers) {
-                if (value == ",") {
+                if (value === ",") {
                   value = lex();
-                  if (value == "]") {
+                  if (value === "]") {
                     // Unexpected trailing `,` in array literal.
                     abort();
                   }
@@ -982,13 +982,13 @@ qx.Bootstrap.define("qx.lang.Json",
                 }
               }
               // Elisions and leading commas are not permitted.
-              if (value == ",") {
+              if (value === ",") {
                 abort();
               }
               results.push(get(value));
             }
             return results;
-          } else if (value == "{") {
+          } else if (value === "{") {
             // Parses a JSON object, returning a new JavaScript object.
             results = {};
             for (;; hasMembers || (hasMembers = true)) {
@@ -1000,9 +1000,9 @@ qx.Bootstrap.define("qx.lang.Json",
               // If the object literal contains members, the current token
               // should be a comma separator.
               if (hasMembers) {
-                if (value == ",") {
+                if (value === ",") {
                   value = lex();
-                  if (value == "}") {
+                  if (value === "}") {
                     // Unexpected trailing `,` in object literal.
                     abort();
                   }
@@ -1014,7 +1014,7 @@ qx.Bootstrap.define("qx.lang.Json",
               // Leading commas are not permitted, object property names must be
               // double-quoted strings, and a `:` must separate each property
               // name and value.
-              if (value == "," || typeof value != "string" || (charIndexBuggy ? value.charAt(0) : value[0]) != "@" || lex() != ":") {
+              if (value === "," || typeof value !== "string" || (charIndexBuggy ? value.charAt(0) : value[0]) !== "@" || lex() !== ":") {
                 abort();
               }
               results[value.slice(1)] = get(lex());
@@ -1042,7 +1042,7 @@ qx.Bootstrap.define("qx.lang.Json",
       // `Walk(holder, name)` operation defined in ES 5.1 section 15.12.2.
       var walk = function (source, property, callback) {
         var value = source[property], length;
-        if (typeof value == "object" && value) {
+        if (typeof value === "object" && value) {
           // `forEach` can't be used to traverse an array in Opera <= 8.54
           // because its `Object#hasOwnProperty` implementation returns `false`
           // for array indices (e.g., `![1, 2, 3].hasOwnProperty("0")`).
