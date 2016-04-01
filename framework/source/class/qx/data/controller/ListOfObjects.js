@@ -60,7 +60,8 @@
  * the filter or configureItem methods.  Filtering is achieved by using 
  * {@link qx.data.controller.ArrayFilter} on the model, and the delegate has changed
  * to reflect that model items are bound directly, and not indexed from the model 
- * array. 
+ * array.  The delegate configureItem method has been replaced with bindTargetItem
+ * (which has a corresponding unbindTargetItem).
  * 
  * There is one crucial difference between ListOfObjects and List - ListOfObjects 
  * requires that all of the objects in the model are derived from qx.core.Object, 
