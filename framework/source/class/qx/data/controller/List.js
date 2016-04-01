@@ -416,7 +416,7 @@ qx.Class.define("qx.data.controller.List",
 
       // update on filtered lists... (bindings need to be renewed)
       if (!this.__warningIssued) {
-        this.warn(this.classname + " can cause item model properties to change expectedly; please consider using qx.data.controller.ListOfObjects as a soltions.  See https://github.com/qooxdoo/qooxdoo/issues/196 for more details");
+        this.warn(this.classname + " can cause item model properties to change unexpectedly; please consider using qx.data.controller.ListOfObjects as a soltion.  See https://github.com/qooxdoo/qooxdoo/issues/196 for more details");
         this.__warningIssued = true;
       }
 
