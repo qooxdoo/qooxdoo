@@ -415,7 +415,12 @@ qx.Class.define("qx.data.controller.List",
       qx.ui.core.queue.Widget.add(this);
 
       // update on filtered lists... (bindings need to be renewed)
-      this.update();
+      if (!this.__warningIssued) {
+        this.warn(this.classname + " can cause item model properties to change expectedly; please consider using qx.data.controller.ListOfObjects as a soltions.  See https://github.com/qooxdoo/qooxdoo/issues/196 for more details");
+        this.__warningIssued = true;
+      }
+
+      qx.event.Timer.once(this.update, this, 0);
     },
 
 
@@ -447,7 +452,7 @@ qx.Class.define("qx.data.controller.List",
       if (this.getTarget() == null) {
         return;
       }
-
+      
       // build up the look up table
       this.__buildUpLookupTable();
 

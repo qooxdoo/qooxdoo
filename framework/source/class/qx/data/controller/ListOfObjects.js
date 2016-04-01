@@ -53,15 +53,19 @@
  *
  * *Update from List*
  *
- * This controller is a replacement for {@link qx.data.controller.List} which is now
- * deprecated; it is a drop in replacement for List with the exception of the delegate
- * which no longer provides the filter or configureItem methods.  Filtering is
- * achieved by using {@link qx.data.controller.ArrayFilter}. 
+ * This controller is an optional upgrade for {@link qx.data.controller.List}, the
+ * use of which is discouraged because of issues when the model length changes 
+ * (@see https://github.com/qooxdoo/qooxdoo/pull/197).  It is largely a drop in 
+ * replacement for List with the exception of the delegate which no longer provides 
+ * the filter or configureItem methods.  Filtering is achieved by using 
+ * {@link qx.data.controller.ArrayFilter} on the model, and the delegate has changed
+ * to reflect that model items are bound directly, and not indexed from the model 
+ * array. 
  * 
  * There is one crucial difference between ListOfObjects and List - ListOfObjects 
  * requires that all of the objects in the model are derived from qx.core.Object, 
  * while List also supports scalar values (eg strings); however, this requires List 
- * to bind by model indexes which causes issues when the length of the model changes. 
+ * to bind by model indexes which causes the issues when the length of the model changes. 
  */
 qx.Class.define("qx.data.controller.ListOfObjects",
 {
@@ -93,7 +97,9 @@ qx.Class.define("qx.data.controller.ListOfObjects",
     targetItems.addListener("change", this.__onTargetItemsChange, this);
     this.__items = new qx.data.controller.ArrayMirror({
       createTargetItem: this._onCreateTargetItem.bind(this),
-      bindTargetItem: this._onBindTargetItem.bind(this)
+      bindTargetItem: this._onBindTargetItem.bind(this),
+      unbindTargetItem: this._onUnbindTargetItem.bind(this),
+      disposeTargetItem: this._onDisposeTargetItem.bind(this)
     }).set({
       target: targetItems
     });
@@ -191,7 +197,7 @@ qx.Class.define("qx.data.controller.ListOfObjects",
 
     /**
      * Delegation object, which can have one or more functions defined by the
-     * {@link IControllerDelegate2} interface.
+     * {@link qx.data.controller.IArrayDelegate} interface.
      */
     delegate :
     {
@@ -239,8 +245,20 @@ qx.Class.define("qx.data.controller.ListOfObjects",
     
     _onBindTargetItem: function(targetItem, modelItem) {
       var delegate = this.getDelegate();
-      if (delegate && typeof delegate.bindItem == "function")
-        return delegate.bindItem(this, targetItem, modelItem);
+      if (delegate && typeof delegate.bindTargetItem == "function")
+        return delegate.bindTargetItem(this, targetItem, modelItem);
+    },
+    
+    _onUnbindTargetItem: function(targetItem, modelItem) {
+      var delegate = this.getDelegate();
+      if (delegate && typeof delegate.unbindTargetItem == "function")
+        return delegate.unbindTargetItem(this, targetItem, modelItem);
+    },
+    
+    _onDisposeTargetItem: function(targetItem) {
+      var delegate = this.getDelegate();
+      if (delegate && typeof delegate.disposeTargetItem == "function")
+        return delegate.disposeTargetItem(this, targetItem);
     },
     
     
