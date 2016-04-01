@@ -50,17 +50,9 @@
  * The controller itself can only work if it has a model and a target set. The
  * rest of the properties may be empty.
  *
- * *Deprecated*
- *
- * This class is deprecated in favour of {@link qx.data.controller.List2} because 
- * of problems handling changing model array lengths.
- * 
- * There is one crucial difference between List2 and List - List2 required that 
- * all of the objects in the model are derived from qx.core.Object, while
- * List also supports scalar values (eg strings); however, this requires List to
- * bind by model indexes which causes issues when the length of the model changes. 
- * 
- * @deprecated {6.0} Please use qx.data.controller.List2 instead (unless your model is an array of scalars)
+ * This class is discouraged in favour of {@link qx.data.controller.ListOfObjects} because 
+ * of problems handling changing model array lengths.  For a full discussion of
+ * the problem please @see https://github.com/qooxdoo/qooxdoo/pull/197 for more details
  */
 qx.Class.define("qx.data.controller.List",
 {
@@ -420,6 +412,9 @@ qx.Class.define("qx.data.controller.List",
         this.__warningIssued = true;
       }
 
+      // Delaying this until the next timer tick will make sure that the events are 
+      //  done in the correct sequence; this is a work around for the problem reported
+      //  in https://github.com/qooxdoo/qooxdoo/issues/196.
       qx.event.Timer.once(this.update, this, 0);
     },
 
