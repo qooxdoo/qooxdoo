@@ -50,11 +50,17 @@
  * The controller itself can only work if it has a model and a target set. The
  * rest of the properties may be empty.
  *
- * *Cross reference*
+ * *Deprecated*
  *
- * * If you want to bind single values, use {@link qx.data.controller.Object}
- * * If you want to bind a tree widget, use {@link qx.data.controller.Tree}
- * * If you want to bind a form widget, use {@link qx.data.controller.Form}
+ * This class is deprecated in favour of {@link qx.data.controller.List2} because 
+ * of problems handling changing model array lengths.
+ * 
+ * There is one crucial difference between List2 and List - List2 required that 
+ * all of the objects in the model are derived from qx.core.Object, while
+ * List also supports scalar values (eg strings); however, this requires List to
+ * bind by model indexes which causes issues when the length of the model changes. 
+ * 
+ * @deprecated {6.0} Please use qx.data.controller.List2 instead (unless your model is an array of scalars)
  */
 qx.Class.define("qx.data.controller.List",
 {
