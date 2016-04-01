@@ -21,7 +21,7 @@
  * @ignore(qx.demo.Kid, qx.demo.Parent)
  */
 
-qx.Class.define("qx.test.data.controller.List2",
+qx.Class.define("qx.test.data.controller.ListOfObjects",
 {
   extend : qx.test.ui.LayoutTestCase,
   include : qx.dev.unit.MMock,
@@ -114,7 +114,7 @@ qx.Class.define("qx.test.data.controller.List2",
       parents.push(parentB);
 
       var list = new qx.ui.form.List();
-      var ctrl = new qx.data.controller.List2(parents, list, "name");
+      var ctrl = new qx.data.controller.ListOfObjects(parents, list, "name");
 
       var label = new qx.ui.basic.Label();
       label.setDecorator("main");
@@ -191,7 +191,7 @@ qx.Class.define("qx.test.data.controller.List2",
       parents.push(parentB);
 
       var list = new qx.ui.form.List();
-      var ctrl = new qx.data.controller.List2(parents, list, "name");
+      var ctrl = new qx.data.controller.ListOfObjects(parents, list, "name");
 
       var label = new qx.ui.basic.Label();
 

@@ -21,48 +21,6 @@ qx.Class.define("qx.test.data.controller.ArrayMirror", {
   extend: qx.dev.unit.TestCase,
 
   members: {
-    testScalars: function() {
-      var t = this;
-      var verifySame = function() {
-        t.assertEquals(model.getLength(), target.getLength(), "Model length != target length");
-        for (var i = 0; i < model.getLength(); i++) {
-          var modelItem = model.getItem(i);
-          var targetItem = target.getItem(i);
-          t.assertEquals(modelItem, targetItem.getTitle());
-        }
-      };
-      
-      var model = new qx.data.Array();
-      for (var i = 0; i < 10; i++)
-        model.push("Item #" + (i+1));
-      
-      var am = new qx.data.controller.ArrayMirror({
-        createTargetItem: function() {
-          return new qx.test.data.controller.DummyTargetItem()
-        }
-      });
-      am.bindChild("", "title");
-      
-      var target = new qx.data.Array();
-      am.set({
-        model: model,
-        target: target
-      });
-      verifySame();
-      model.push("Extra Item #1");
-      verifySame();
-      var modelItem = model.removeAt(4);
-      verifySame();
-      model.insertAt(6, modelItem);
-      verifySame();
-      model.shift();
-      verifySame();
-      model.insertAt(6, modelItem);
-      verifySame();
-      model.sort();
-      verifySame();
-    },
-    
     testObjects: function() {
       var t = this;
       var verifySame = function() {

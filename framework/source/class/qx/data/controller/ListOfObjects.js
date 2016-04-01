@@ -58,12 +58,12 @@
  * which no longer provides the filter or configureItem methods.  Filtering is
  * achieved by using {@link qx.data.controller.ArrayFilter}. 
  * 
- * There is one crucial difference between List2 and List - List2 required that 
- * all of the objects in the model are derived from qx.core.Object, while
- * List also supports scalar values (eg strings); however, this requires List to
- * bind by model indexes which causes issues when the length of the model changes. 
+ * There is one crucial difference between ListOfObjects and List - ListOfObjects 
+ * requires that all of the objects in the model are derived from qx.core.Object, 
+ * while List also supports scalar values (eg strings); however, this requires List 
+ * to bind by model indexes which causes issues when the length of the model changes. 
  */
-qx.Class.define("qx.data.controller.List2",
+qx.Class.define("qx.data.controller.ListOfObjects",
 {
   extend : qx.core.Object,
   include: qx.data.controller.MSelection,
@@ -92,8 +92,8 @@ qx.Class.define("qx.data.controller.List2",
     var targetItems = new qx.data.Array();
     targetItems.addListener("change", this.__onTargetItemsChange, this);
     this.__items = new qx.data.controller.ArrayMirror({
-      createTargetItem: this.__onCreateTargetItem.bind(this),
-      bindTargetItem: this.__onBindTargetItem.bind(this)
+      createTargetItem: this._onCreateTargetItem.bind(this),
+      bindTargetItem: this._onBindTargetItem.bind(this)
     }).set({
       target: targetItems
     });
@@ -230,14 +230,14 @@ qx.Class.define("qx.data.controller.List2",
        ITEMS ARRAYMIRROR DELEGATE METHODS
     ---------------------------------------------------------------------------
     */
-    __onCreateTargetItem: function() {
+    _onCreateTargetItem: function() {
       var delegate = this.getDelegate();
       if (delegate && typeof delegate.createItem == "function")
         return delegate.createItem();
       return new qx.ui.form.ListItem();
     },
     
-    __onBindTargetItem: function(targetItem, modelItem) {
+    _onBindTargetItem: function(targetItem, modelItem) {
       var delegate = this.getDelegate();
       if (delegate && typeof delegate.bindItem == "function")
         return delegate.bindItem(this, targetItem, modelItem);
