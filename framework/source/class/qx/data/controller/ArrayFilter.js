@@ -68,7 +68,8 @@ qx.Class.define("qx.data.controller.ArrayFilter", {
     /** Method called to filter */
     filterMethod: {
       init: null,
-      nullable: true
+      nullable: true,
+      apply: "_applyXxx"
     },
     
     /** Method called after the filter is complete */

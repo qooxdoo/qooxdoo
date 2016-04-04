@@ -239,8 +239,8 @@ qx.Class.define("qx.data.controller.ListOfObjects",
     */
     _onCreateTargetItem: function() {
       var delegate = this.getDelegate();
-      if (delegate && typeof delegate.createItem == "function")
-        return delegate.createItem();
+      if (delegate && typeof delegate.createTargetItem == "function")
+        return delegate.createTargetItem();
       return new qx.ui.form.ListItem();
     },
     
