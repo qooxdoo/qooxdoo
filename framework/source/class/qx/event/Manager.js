@@ -931,7 +931,7 @@ qx.Class.define("qx.event.Manager",
     },
 
     /**
-     * Check if the event with the given id has been remaved and is therefore blacklisted for event handling
+     * Check if the event with the given id has been removed and is therefore blacklisted for event handling
      *
      * @param uid {number} unique event id
      * @returns {boolean}
