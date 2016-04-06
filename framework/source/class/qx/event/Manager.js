@@ -71,10 +71,12 @@ qx.Class.define("qx.event.Manager",
 
     this.__handlerCache = {};
 
-    this.__blacklist = [];
+    this.__blacklist = {};
+    this.__blacklistLength = 0;
 
     this.__clearBlackList = new qx.util.DeferredCall(function() {
-      this.__blacklist = [];
+      this.__blacklist = {};
+      this.__blacklistLength = 0;
     }, this);
   },
 
@@ -127,6 +129,7 @@ qx.Class.define("qx.event.Manager",
     __windowId : null,
 
     __blacklist : null,
+    __blacklistLength : null,
 
 
     /*
@@ -925,10 +928,11 @@ qx.Class.define("qx.event.Manager",
     },
 
     __addToBlacklist : function(uid) {
-      if (this.__blacklist.length===0) {
+      if (this.__blacklistLength === 0) {
         this.__clearBlackList.schedule();
       }
-      this.__blacklist.push(uid);
+      this.__blacklist[uid] = true;
+      this.__blacklistLength++;
     },
 
     /**
@@ -938,7 +942,7 @@ qx.Class.define("qx.event.Manager",
      * @returns {boolean}
      */
     isBlacklisted : function(uid) {
-      return this.__blacklist.indexOf(uid) > -1;
+      return this.__blacklistLength > 0 && this.__blacklist[uid] === true;
     }
   }
 });
