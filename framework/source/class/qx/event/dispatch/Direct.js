@@ -131,7 +131,9 @@ qx.Class.define("qx.event.dispatch.Direct",
             }
           }
 
-          listeners[i].handler.call(context, event);
+          if (!this._manager.isBlacklisted(listeners[i].unique)) {
+            listeners[i].handler.call(context, event);
+          }
         }
       }
     }

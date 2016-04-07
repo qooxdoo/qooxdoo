@@ -70,6 +70,10 @@ qx.Class.define("qx.event.Manager",
     this.__dispatchers = {};
 
     this.__handlerCache = {};
+
+    this.__clearBlackList = new qx.util.DeferredCall(function() {
+      this.__blacklist = null;
+    }, this);
   },
 
 
@@ -119,6 +123,8 @@ qx.Class.define("qx.event.Manager",
     __handlerCache : null,
     __window : null,
     __windowId : null,
+
+    __blacklist : null,
 
 
     /*
@@ -657,6 +663,7 @@ qx.Class.define("qx.event.Manager",
         if (entry.handler === listener && entry.context === self)
         {
           qx.lang.Array.removeAt(entryList, i);
+          this.__addToBlacklist(entry.unique);
 
           if (entryList.length == 0) {
             this.__unregisterAtHandler(target, type, capture);
@@ -716,6 +723,7 @@ qx.Class.define("qx.event.Manager",
         if (entry.unique === unique)
         {
           qx.lang.Array.removeAt(entryList, i);
+          this.__addToBlacklist(entry.unique);
 
           if (entryList.length == 0) {
             this.__unregisterAtHandler(target, type, capture);
@@ -751,6 +759,10 @@ qx.Class.define("qx.event.Manager",
         {
           // This is quite expensive, see bug #1283
           split = entryKey.split("|");
+
+          targetMap[entryKey].forEach(function(entry) {
+            this.__addToBlacklist(entry.unique);
+          }, this);
 
           type = split[0];
           capture = split[1] === "capture";
@@ -908,6 +920,24 @@ qx.Class.define("qx.event.Manager",
       // Dispose data fields
       this.__listeners = this.__window = this.__disposeWrapper = null;
       this.__registration = this.__handlerCache = null;
+    },
+
+    __addToBlacklist : function(uid) {
+      if (this.__blacklist === null) {
+        this.__blacklist = {};
+        this.__clearBlackList.schedule();        
+      }
+      this.__blacklist[uid] = true;
+    },
+
+    /**
+     * Check if the event with the given id has been removed and is therefore blacklisted for event handling
+     *
+     * @param uid {number} unique event id
+     * @returns {boolean}
+     */
+    isBlacklisted : function(uid) {
+      return (this.__blacklist !== null && this.__blacklist[uid] === true);
     }
   }
 });
