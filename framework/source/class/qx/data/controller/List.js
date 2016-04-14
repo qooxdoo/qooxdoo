@@ -50,11 +50,9 @@
  * The controller itself can only work if it has a model and a target set. The
  * rest of the properties may be empty.
  *
- * *Cross reference*
- *
- * * If you want to bind single values, use {@link qx.data.controller.Object}
- * * If you want to bind a tree widget, use {@link qx.data.controller.Tree}
- * * If you want to bind a form widget, use {@link qx.data.controller.Form}
+ * This class is discouraged in favour of {@link qx.data.controller.ListOfObjects} because 
+ * of problems handling changing model array lengths.  For a full discussion of
+ * the problem please @see https://github.com/qooxdoo/qooxdoo/pull/197 for more details
  */
 qx.Class.define("qx.data.controller.List",
 {
@@ -409,7 +407,15 @@ qx.Class.define("qx.data.controller.List",
       qx.ui.core.queue.Widget.add(this);
 
       // update on filtered lists... (bindings need to be renewed)
-      this.update();
+      if (!this.__warningIssued) {
+        this.warn(this.classname + " can cause item model properties to change unexpectedly; please consider using qx.data.controller.ListOfObjects as a soltion.  See https://github.com/qooxdoo/qooxdoo/issues/196 for more details");
+        this.__warningIssued = true;
+      }
+
+      // Delaying this until the next timer tick will make sure that the events are 
+      //  done in the correct sequence; this is a work around for the problem reported
+      //  in https://github.com/qooxdoo/qooxdoo/issues/196.
+      qx.event.Timer.once(this.update, this, 0);
     },
 
 
@@ -441,7 +447,7 @@ qx.Class.define("qx.data.controller.List",
       if (this.getTarget() == null) {
         return;
       }
-
+      
       // build up the look up table
       this.__buildUpLookupTable();
 
