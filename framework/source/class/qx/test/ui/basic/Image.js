@@ -35,6 +35,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     testSwitchScaling : function()
     {
       var image = new qx.ui.basic.Image;
+      this.addAutoDispose(image);
       image.set({ source: "qx/icon/Tango/48/places/folder.png", scale: false });
       this.getRoot().add(image);
       this.flush();
@@ -59,6 +60,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     testSwitchPngToGif : function()
     {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
+      this.addAutoDispose(image);
       this.getRoot().add(image);
       this.flush();
 
@@ -79,6 +81,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     testSwitchGifToPng : function()
     {
       var image = new qx.ui.basic.Image("qx/static/blank.gif");
+      this.addAutoDispose(image);
       image.setScale(true);
       this.getRoot().add(image);
       this.flush();
@@ -111,6 +114,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     testSwitchDimension : function()
     {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
+      this.addAutoDispose(image);
       this.getRoot().add(image);
 
       image.set({ width: 100, height: 100 });
@@ -140,6 +144,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     testSwitchWithDecorator : function()
     {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
+      this.addAutoDispose(image);
       this.getRoot().add(image);
 
       image.setDecorator("main");
@@ -159,6 +164,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     testSwitchWithSelectable : function()
     {
       var image = new qx.ui.basic.Image("qx/icon/Tango/48/places/folder.png");
+      this.addAutoDispose(image);
       this.getRoot().add(image);
 
       image.setSelectable(true);
@@ -179,9 +185,10 @@ qx.Class.define("qx.test.ui.basic.Image",
 
     testFailedEvent : function() {
       var image = new qx.ui.basic.Image("affe.xyz" + Math.random());
+      this.addAutoDispose(image);
       image.addListener("loadingFailed", function() {
         this.resume(function() {
-          // use a timeout to dipose the image because it needs to
+          // use a timeout to dispose the image because it needs to
           // end its processing after the event has been fired.
           window.setTimeout(function() {
             image.destroy();
@@ -199,9 +206,10 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
 
       var image = new qx.ui.basic.Image(source);
+      this.addAutoDispose(image);
       image.addListener("loaded", function() {
         this.resume(function() {
-          // use a timeout to dipose the image because it needs to
+          // use a timeout to dispose the image because it needs to
           // end its processing after the event has been fired.
           window.setTimeout(function() {
             image.destroy();
@@ -221,6 +229,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       var sourceB = "../resource/qx/icon/Tango/16/places/folder.png?" + Date.now();
 
       var image = new qx.ui.basic.Image(sourceA);
+      this.addAutoDispose(image);
       // spy the load event, it must be called twice at the end of this test
       var spyhandler = this.spy();
       image.addListener("aborted", spyhandler, this);
@@ -239,6 +248,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       var Source = "../resource/qx/test/delayedImage.php?" + Date.now();
 
       var image = new qx.ui.basic.Image(Source);
+      this.addAutoDispose(image);
       // spy the load event, it must be called twice at the end of this test
       var spyhandler = this.spy();
       image.addListener("aborted", spyhandler, this);
@@ -259,6 +269,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
 
       var image = new qx.ui.basic.Image();
+      this.addAutoDispose(image);
       // spy the load event, it must be called twice at the end of this test
       var spyhandler = this.spy();
       image.addListener("loaded", spyhandler, this);
@@ -287,6 +298,7 @@ qx.Class.define("qx.test.ui.basic.Image",
     {
       var source = "qx/icon/Tango/48/places/folder.png";
       var image = new qx.ui.basic.Image();
+      this.addAutoDispose(image);
       // spy the load event, it must be called twice at the end of this test
       var spyhandler = this.spy();
       image.addListener("loaded", spyhandler, this);
@@ -317,6 +329,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.assertFalse(qx.io.ImageLoader.isLoaded(source), "Image already loaded, but this should not happen!");
 
       var image = new qx.ui.basic.Image();
+      this.addAutoDispose(image);
       // spy the load event, it must be called twice at the end of this test
       var spyhandler = this.spy();
       image.addListener("aborted", spyhandler, this);
@@ -359,6 +372,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       );
 
       var image = new qx.ui.basic.Image("qx/static/drawer.png");
+      this.addAutoDispose(image);
       var resourceManager = qx.util.ResourceManager.getInstance();
 
       this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
@@ -383,13 +397,14 @@ qx.Class.define("qx.test.ui.basic.Image",
       );
 
       var image = new qx.ui.basic.Image("qx/static/drawer.png");
+      this.addAutoDispose(image);
       image.setDecorator("toolbar-part");
       var resourceManager = qx.util.ResourceManager.getInstance();
 
       this.assertTrue(resourceManager.has("qx/static/drawer@2x.png"));
 
       var backgroundImage = image.getContentElement().getStyle("backgroundImage");
-        this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
+      this.assertTrue(backgroundImage.indexOf("drawer@2x.png") > -1);
       this.assertTrue(backgroundImage.indexOf("toolbar-part.gif") > -1);
 
       image.destroy();
@@ -411,6 +426,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       );
 
       var image = new qx.ui.basic.Image();
+      this.addAutoDispose(image);
       image.setDecorator("toolbar-part");
       image.setSource("qx/static/drawer.png");
       var resourceManager = qx.util.ResourceManager.getInstance();

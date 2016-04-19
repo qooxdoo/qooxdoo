@@ -40,16 +40,16 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
 
     tearDown : function() {
-      this.getRoot().removeAll();
+      this.getRoot().removeAll().forEach(function(widget) {
+        widget.dispose();
+      });
 
-      if (qx.core.Environment.get("qx.debug.dispose")) {
-        var cls = qx.test.ui.LayoutTestCase;
+      var cls = qx.test.ui.LayoutTestCase;
 
-        if (cls._root) {
-          cls._root.destroy();
-          cls._root = null;
-          qx.core.Init.getApplication = cls.__oldGetApp;
-        }
+      if (cls._root) {
+        cls._root.destroy();
+        cls._root = null;
+        qx.core.Init.getApplication = cls.__oldGetApp;
       }
     },
 
