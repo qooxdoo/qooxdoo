@@ -486,8 +486,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      */
     __removeRule : function(familyName, fontWeight, fontStyle)
     {
-      var reg = new RegExp("@font-face.*?" + familyName + ".*font-style:"
-      + (fontStyle ? fontStyle : "normal") + ".*font-weight:"
+      var reg = new RegExp("@font-face.*?" + familyName + ".*font-style: *"
+      + (fontStyle ? fontStyle : "normal") + ".*font-weight: *"
       + (fontWeight ? fontWeight : "normal"), "m");
       for (var i=0,l=document.styleSheets.length; i<l; i++) {
         var sheet = document.styleSheets[i];
