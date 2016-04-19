@@ -191,7 +191,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           break;
         }
       }
-      if (index) {
+      if (index !== null) {
         qx.lang.Array.removeAt(this.__createdStyles, index);
       }
       if (familyName in this.__validators) {
