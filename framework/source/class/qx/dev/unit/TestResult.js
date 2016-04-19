@@ -375,6 +375,7 @@ qx.Class.define("qx.dev.unit.TestResult",
       if (testClass[specificTearDown]) {
         testClass[specificTearDown]();
       }
+      testClass.doAutoDispose();
 
       if (qx.core.Environment.get("qx.debug.dispose")
         && qx.dev.Debug.disposeProfilingActive)
