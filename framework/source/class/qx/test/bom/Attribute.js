@@ -56,7 +56,7 @@ qx.Class.define("qx.test.bom.Attribute",
 
       this.__maxLengthValues = {
         "mshtml": 2147483647,
-        "webkit": 524288,
+        "webkit": -1,
         "default": -1
       };
     },
@@ -66,6 +66,7 @@ qx.Class.define("qx.test.bom.Attribute",
       document.body.removeChild(this._el);
       document.body.removeChild(this._checkBox);
       document.body.removeChild(this._img);
+      document.body.removeChild(this._input);
     },
 
 
@@ -108,6 +109,9 @@ qx.Class.define("qx.test.bom.Attribute",
 
       if (qx.core.Environment.get("browser.name") == "edge") {
         this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
+      }
+      else if (qx.core.Environment.get("browser.name") == "chrome") {
+        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.webkit);
       } else {
         this.assertNull(Attribute.get(this._input, "maxLength"));
       }
@@ -169,6 +173,9 @@ qx.Class.define("qx.test.bom.Attribute",
       this.assertEquals(maxLengthValue, this._input["maxLength"]);
       if (qx.core.Environment.get("browser.name") == "edge") {
         this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
+      }
+      else if (qx.core.Environment.get("browser.name") == "chrome") {
+        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.webkit);
       } else {
         this.assertNull(Attribute.get(this._input, "maxLength"));
       }
@@ -190,6 +197,9 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.reset(this._input, "maxLength");
       if (qx.core.Environment.get("browser.name") == "edge") {
         this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
+      }
+      else if (qx.core.Environment.get("browser.name") == "chrome") {
+        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.webkit);
       } else {
         this.assertNull(Attribute.get(this._input, "maxLength"));
       }
