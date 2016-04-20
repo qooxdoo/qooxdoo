@@ -32,10 +32,6 @@ qx.Class.define("qx.test.log.Filters", {
             var args = qx.log.appender.Util.toText(entry);
             (console[entry.level] || console.log).call(console, "TestLogger: " + args);
           }
-        },
-
-        defer: function(statics) {
-          qx.log.Logger.register(statics);
         }
       });
 
@@ -43,6 +39,8 @@ qx.Class.define("qx.test.log.Filters", {
       Logger.addFilter(/^test-level/, "my.TestLogger", "warn");
 
       var TestLogger = my.TestLogger;
+      qx.log.Logger.register(TestLogger);
+
       TestLogger.count = 0;
 
       this.trace("Trace Test");
@@ -58,6 +56,8 @@ qx.Class.define("qx.test.log.Filters", {
       Logger.error("test-level", "Error Test");
       qx.core.Assert.assertEquals(2, TestLogger.count);
 
+      qx.log.Logger.unregister(TestLogger);
+      qx.log.Logger.resetFilters();
     }
   }
 });
