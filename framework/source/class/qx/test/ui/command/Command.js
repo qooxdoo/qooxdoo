@@ -41,6 +41,8 @@ qx.Class.define("qx.test.ui.command.Command",
 
       this.__menuButton = new qx.ui.menu.Button("c");
       this.__menuButton.setCommand(this.__cmd);
+
+      qx.locale.Manager.getInstance().setLocale("en");
     },
 
 
@@ -50,6 +52,8 @@ qx.Class.define("qx.test.ui.command.Command",
       this.__button.destroy();
       this.__toolbarButton.destroy();
       this.__menuButton.destroy();
+
+      qx.locale.Manager.getInstance().resetLocale();
     },
 
 
