@@ -455,7 +455,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__abort = true;
       this.__nativeXhr.abort();
 
-      if (this.__nativeXhr) {
+      if (this.__nativeXhr && this.readyState !== qx.bom.request.Xhr.DONE) {
         this.readyState = this.__nativeXhr.readyState;
       }
       return this;
