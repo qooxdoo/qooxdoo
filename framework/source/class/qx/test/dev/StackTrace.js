@@ -74,7 +74,7 @@ qx.Class.define("qx.test.dev.StackTrace",
       var ex = new Error("Just a test");
       var stack = qx.dev.StackTrace.getStackTraceFromError(ex);
       for (var i=0, l=stack.length; i<l; i++) {
-        this.assertMatch(stack[i], /((?:test\.dev\.StackTrace)|(?:dev\.unit)|(?:testrunner\.js)|(?:tests\.js))/);
+        this.assertMatch(stack[i], /((?:test\.dev\.StackTrace)|(?:dev\.unit)|(?:testrunner\.js)|(?:tests\.js)|(?:qooxdoo-adapter\.js))/);
       }
     },
 

@@ -238,8 +238,8 @@ qx.Bootstrap.define("qx.dev.StackTrace",
          * at fileUrl:line:char
          */
         lineRe = /at (.*)/gm;
-        var fileReParens = /\((.*?)(:[^\/].*)\)/;
-        var fileRe = /(.*?)(:[^\/].*)/;
+        var fileReParens = /\((.*?)(:[\d:]+)\)/;
+        var fileRe = /(.*?)(:[\d:]+$)/;
         while ((hit = lineRe.exec(error.stack)) != null) {
           var fileMatch = fileReParens.exec(hit[1]);
           if (!fileMatch) {
