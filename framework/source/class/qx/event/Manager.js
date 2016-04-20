@@ -74,6 +74,7 @@ qx.Class.define("qx.event.Manager",
     this.__clearBlackList = new qx.util.DeferredCall(function() {
       this.__blacklist = null;
     }, this);
+    this.__clearBlackList.$$blackListCleaner = true;
   },
 
 

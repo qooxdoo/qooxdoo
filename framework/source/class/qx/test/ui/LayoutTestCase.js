@@ -128,8 +128,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       {
         var obj = reg[key];
 
-        // skip pooled objects
-        if (obj.$$pooled) {
+        // skip pooled objects + DeferredCall which cleans the event listener blacklist
+        if (obj.$$pooled || obj.$$blackListCleaner) {
           continue;
         }
         this.assertNotUndefined(
