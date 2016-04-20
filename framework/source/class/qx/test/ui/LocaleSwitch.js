@@ -57,6 +57,10 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       this.manager.setLocale("en_QX");
     },
 
+    tearDown : function() {
+      this.manager.resetLocale();
+    },
+
 
     testCommandInMenuButton : function()
     {
