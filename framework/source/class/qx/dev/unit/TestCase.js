@@ -179,7 +179,7 @@ qx.Class.define("qx.dev.unit.TestCase",
             if (obj instanceof qx.ui.core.Widget) {
               obj.destroy();
             }
-            else {
+            else if (obj instanceof qx.core.Object) {
               obj.dispose();
             }
           }
