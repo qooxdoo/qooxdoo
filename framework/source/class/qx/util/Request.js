@@ -48,7 +48,7 @@ qx.Bootstrap.define("qx.util.Request",
       }
 
       if (protocol.substr(0, protocol.length-1) == result.protocol &&
-          location.host === result.host &&
+          location.host === result.authority &&
           location.port === result.port) {
         return false;
       }
