@@ -498,6 +498,10 @@ qx.Class.define("qx.ui.form.Spinner",
       var textField = this.getChildControl("textfield");
       textField.setFilter(this._getFilterRegExp());
 
+      if (old) {
+        old.removeListener("changeNumberFormat", this._onChangeNumberFormat, this);
+      }
+
       var numberFormat = this.getNumberFormat();
       if (numberFormat !== null) {
         numberFormat.addListener("changeNumberFormat", this._onChangeNumberFormat, this);
@@ -823,6 +827,11 @@ qx.Class.define("qx.ui.form.Spinner",
 
   destruct : function()
   {
+    var nf = this.getNumberFormat();
+    if (nf) {
+      nf.removeListener("changeNumberFormat", this._onChangeNumberFormat, this);
+    }
+
     if (qx.core.Environment.get("qx.dynlocale")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }

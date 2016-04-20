@@ -179,5 +179,8 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
     this._names = null;
+
+    this._form.removeListener("change", this._onFormChange, this);
+    this._form = null;
   }
 });

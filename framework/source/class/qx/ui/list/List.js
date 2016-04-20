@@ -509,7 +509,6 @@ qx.Class.define("qx.ui.list.List",
         old.removeListener("changeLength", this._onModelChange, this);
       }
 
-      this._provider.removeBindings();
       this._onModelChange();
     },
 
@@ -590,6 +589,10 @@ qx.Class.define("qx.ui.list.List",
      * @param e {qx.event.type.Data} model change event.
      */
     _onModelChange : function(e) {
+      // we have to remove the bindings before we rebuild the lookup table
+      // otherwise bindings might be dispatched to wrong items
+      // see: https://github.com/qooxdoo/qooxdoo/issues/196
+      this._provider.removeBindings();
       this.__buildUpLookupTable();
       this._applyDefaultSelection();
     },

@@ -174,8 +174,9 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
               );
             }
           }
-
-          listener.handler.call(context, event);
+          if (!this._manager.isBlacklisted(listener.unique)) {
+            listener.handler.call(context, event);
+          }
         }
 
         if (event.getPropagationStopped()) {

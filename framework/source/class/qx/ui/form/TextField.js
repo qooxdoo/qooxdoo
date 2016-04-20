@@ -92,7 +92,17 @@ qx.Class.define("qx.ui.form.TextField",
     _onKeyPress : function(evt) {
       // On return
       if (evt.getKeyIdentifier() == "Enter") {
-        this.blur();
+        if (this.isFocusable()) {
+          this.blur();
+        }
+        else {
+           // When the text field is not focusable, blur() will raise an exception on
+           // touch devices and the virtual keyboard is not closed. To work around this
+           // issue, we're enabling the focus just for the blur() call.
+           this.setFocusable(true);
+           this.blur();
+           this.setFocusable(false);
+        }
       }
     }
   },
