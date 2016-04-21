@@ -10,7 +10,10 @@
     "test": "karma start",
     "pretest" : "php -S 127.0.0.1:31323 &> /dev/null &",
     "posttest" : "pkill -f 'php -S 127.0.0.1:31323' &> /dev/null",
-    "travis-test": "karma start --reporters=dots --browsers=Firefox"
+    "travis-test": "karma start --reporters=dots --browsers=Firefox",
+    "coverage": "karma start karma-coverage.conf.js",
+    "precoverage" : "php -S 127.0.0.1:31323 &> /dev/null &",
+    "postcoverage" : "pkill -f 'php -S 127.0.0.1:31323' &> /dev/null"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
