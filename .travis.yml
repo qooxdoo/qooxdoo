@@ -1,18 +1,22 @@
 sudo: false
 language: php
-env:
-  - PHANTOMJS_URL=https://bitbucket.org/ariya/phantomjs/downloads PHANTOMJS_VERSION=2.1.1-linux-x86_64
 php:
-  - '5.6'
+  - "5.6"
 cache:
   directories:
   - /tmp/qx5.1  
-  - $HOME/bin
+addons:
+  firefox: "latest"
+install:
+  - cd framework
+  - npm install
+  - ./generate.py -sI test-source
 before_script:
-  - test ! -x bin/phantomjs && wget -qO - $PHANTOMJS_URL/phantomjs-${PHANTOMJS_VERSION}.tar.bz2 | tar xj --wildcards -C $HOME --strip 1 */phantomjs || true
-  - export PATH=$HOME/bin/:$PATH
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - "php -S 0.0.0.0:31323 &> /dev/null &"
+  - sleep 3
 script:
-  - tool/test/travis/setup
-  - tool/test/travis/lint
-  - tool/test/travis/run
-  - tool/test/travis/make-site
+  - npm run-script travis-test
+after_script:
+  - "pkill -f 'php -S 0.0.0.0:31323' &> /dev/null"

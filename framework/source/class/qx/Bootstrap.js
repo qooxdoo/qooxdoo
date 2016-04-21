@@ -421,8 +421,8 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Adds a callback for a class so that it's defer method can be called, either after all classes
      * are loaded or when absolutely necessary because of load-time requirements of other classes.
      *
-     * @param clazz
-     * @param cb
+     * @param clazz {Class} Class to add a callback to
+     * @param cb {Function} Callback function
      */
     addPendingDefer: function(clazz, cb) {
       if (qx.$$loader.delayDefer) {
@@ -439,7 +439,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * only eecuted once but they are always put off until absolutely necessary to avoid potential
      * side effects and recursive and/or difficult to resolve dependencies.
      *
-     * @param dbClassInfo
+     * @param dbClassInfo {Object} qxcompiler map
      */
     executePendingDefers: function(dbClassInfo) {
       var executeForDbClassInfo = function (dbClassInfo) {

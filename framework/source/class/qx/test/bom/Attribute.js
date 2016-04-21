@@ -110,7 +110,7 @@ qx.Class.define("qx.test.bom.Attribute",
         this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
       }
       else if (qx.core.Environment.get("browser.name") == "chrome") {
-        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.default);
+        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues["default"]);
       } else {
         this.assertNull(Attribute.get(this._input, "maxLength"));
       }
@@ -171,7 +171,7 @@ qx.Class.define("qx.test.bom.Attribute",
         this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
       }
       else if (qx.core.Environment.get("browser.name") == "chrome") {
-        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.default);
+        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues["default"]);
       } else {
         this.assertNull(Attribute.get(this._input, "maxLength"));
       }
@@ -195,7 +195,7 @@ qx.Class.define("qx.test.bom.Attribute",
         this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.mshtml);
       }
       else if (qx.core.Environment.get("browser.name") == "chrome") {
-        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues.default);
+        this.assertEquals(Attribute.get(this._input, "maxLength"), this.__maxLengthValues["default"]);
       } else {
         this.assertNull(Attribute.get(this._input, "maxLength"));
       }
