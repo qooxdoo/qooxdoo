@@ -22,9 +22,13 @@ qx.Class.define("qx.test.locale.Date",
   extend : qx.dev.unit.TestCase,
 
   members :
-  {
+  {    
     setUp : function() {
       qx.locale.Manager.getInstance().setLocale("C");
+    },
+
+    tearDown : function() {
+      qx.locale.Manager.getInstance().resetLocale();
     },
 
 

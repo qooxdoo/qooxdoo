@@ -32,6 +32,10 @@ qx.Class.define("qx.test.ui.basic.Image",
 
   members :
   {
+    tearDown : function() {
+      this.getSandbox().restore();
+    },
+
     testSwitchScaling : function()
     {
       var image = new qx.ui.basic.Image;

@@ -55,6 +55,10 @@ qx.Class.define("qx.test.util.DateFormat",
 
   ],
 
+    tearDown : function() {
+      qx.locale.Manager.getInstance().resetLocale();
+    },
+
     __fillNumber : function(number, minSize)
     {
       var str = "" + number;
@@ -141,6 +145,8 @@ qx.Class.define("qx.test.util.DateFormat",
           parsedDate;
 
       dateFormat = new qx.util.format.DateFormat("EEEE d MMMM yyyy ww");
+
+      qx.locale.Manager.getInstance().setLocale("en_US");
 
       testDate = (new Date(2014, 0, 1)).getTime();
       parsedDate = dateFormat.parse("Wednesday 1 January 2014 01");
@@ -814,7 +820,7 @@ qx.Class.define("qx.test.util.DateFormat",
     var manager = qx.locale.Manager.getInstance();
     manager.resetLocale();
     var initialLocale = manager.getLocale();
-    
+
     manager.setLocale('en_US');
 
     var df = new qx.util.format.DateFormat("EEEE yyyy-mm-dd");
