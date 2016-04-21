@@ -59,9 +59,8 @@ qx.Class.define("qx.test.bom.element.AnimationJs",
       this.wait(500, function() {
         this.assertEquals("400px", qx.bom.element.Style.get(el, "width"));
         this.assertEquals("400px", qx.bom.element.Style.get(el, "height"));
+        document.body.removeChild(el);
       }, this);
-
-      document.body.removeChild(el);
     }
   }
 });

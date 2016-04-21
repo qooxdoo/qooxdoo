@@ -23,6 +23,7 @@ qx.Class.define("qx.test.bom.Location",
 
   members :
   {
+    __el : null,
     __bodyStyles : null,
     __marginTop : null,
     __marginLeft : null,
@@ -32,9 +33,11 @@ qx.Class.define("qx.test.bom.Location",
     __border : null,
     __padding : null,
 
-
     setUp : function()
     {
+      this.__el = qx.dom.Element.create("div", { "id": "testRoot" });
+      document.body.appendChild(this.__el);
+
       this.__bodyStyles = document.body.style;
       this.__marginTop = this.__bodyStyles.marginTop;
       this.__marginLeft = this.__bodyStyles.marginLeft;
@@ -63,7 +66,8 @@ qx.Class.define("qx.test.bom.Location",
       this.__bodyStyles.border = this.__border;
       this.__bodyStyles.padding = this.__padding;
 
-      document.body.innerHTML = "";
+      document.body.removeChild(this.__el);
+      this.__el = null;
     },
 
     testBodyLocationDefault : function()
@@ -134,7 +138,7 @@ qx.Class.define("qx.test.bom.Location",
 
     testDivStatic : function()
     {
-      document.body.innerHTML =
+      this.__el.innerHTML =
         '<div id="div1" style=" position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
           '<div id="div2" style="position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 150px; height: 150px;">' +
             '<div id="div3" style="position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;"></div>' +
@@ -160,7 +164,7 @@ qx.Class.define("qx.test.bom.Location",
 
     testDivRelative : function()
     {
-      document.body.innerHTML =
+      this.__el.innerHTML =
       '<div id="div1" style="position: relative; top: 5px; left: 5px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
         '<div id="div2" style="position: relative; top: 5px; left: 5px; margin: 5px; border: 2px solid #000; padding: 3px; width: 150px; height: 150px;">' +
           '<div id="div3" style="position: relative; top: -5px; left: -5px; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;"></div>' +
@@ -186,7 +190,7 @@ qx.Class.define("qx.test.bom.Location",
 
     testDivAbsolute : function()
     {
-      document.body.innerHTML =
+      this.__el.innerHTML =
       '<div id="div1" style="position: absolute; top: 200px; left: 10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px;">' +
         '<div id="div2" style="position: absolute; top: -100px; left: -10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 150px; height: 150px;">' +
           '<div id="div3" style="position: absolute; top: 100px; left: 10px; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;"></div>' +
@@ -212,7 +216,7 @@ qx.Class.define("qx.test.bom.Location",
 
     testDivMixedPositions : function()
     {
-      document.body.innerHTML =
+      this.__el.innerHTML =
       '<div id="absolute1" style="position: absolute; top: 300px; left: 400px; margin: 5px; border: 2px solid #000; padding: 3px; width: 100px; height: 100px;">' +
       ' <div id="relative1" style="position: relative; top: 50px; left: 50px; margin: 5px; border: 2px solid #000; padding: 3px; width: 300px; height: 300px;">' +
       '   <div id="static1" style="overflow: hidden; position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 250px; height: 250px;">' +
@@ -263,7 +267,7 @@ qx.Class.define("qx.test.bom.Location",
       this.__bodyStyles.marginLeft = "10px";
       this.__bodyStyles.marginTop = "20px";
 
-      document.body.innerHTML = '<div id="div">affe</div>';
+      this.__el.innerHTML = '<div id="div">affe</div>';
 
       var div = document.getElementById("div");
       var pos = qx.bom.element.Location.get(div);
@@ -275,7 +279,7 @@ qx.Class.define("qx.test.bom.Location",
     testDivWithBodyPadding : function()
     {
       this.__bodyStyles.padding = "10px";
-      document.body.innerHTML = '<div id="div"></div>';
+      this.__el.innerHTML = '<div id="div"></div>';
 
       var div = document.getElementById("div");
       var pos = qx.bom.element.Location.get(div);
@@ -288,7 +292,7 @@ qx.Class.define("qx.test.bom.Location",
     testDivWithBodyBorder : function()
     {
       this.__bodyStyles.border = "10px solid black";
-      document.body.innerHTML = '<div id="div">juhu</div>';
+      this.__el.innerHTML = '<div id="div">juhu</div>';
 
       var div = document.getElementById("div");
       var pos = qx.bom.element.Location.get(div);
@@ -310,7 +314,7 @@ qx.Class.define("qx.test.bom.Location",
 
     testDivLocationMode : function()
     {
-      document.body.innerHTML = '<div id="div" style="margin: 5px; padding: 10px; border: 3px solid green;"></div>';
+      this.__el.innerHTML = '<div id="div" style="margin: 5px; padding: 10px; border: 3px solid green;"></div>';
 
       var div = document.getElementById("div");
       var pos = qx.bom.element.Location.get(div, "margin");
@@ -337,7 +341,7 @@ qx.Class.define("qx.test.bom.Location",
 
     testDivInline : function()
     {
-      document.body.innerHTML =
+      this.__el.innerHTML =
       '<div style="width:100px">' +
        '<span id="span1" style="margin-left: 10px"><img src="about:blank" width="10px" height="10px" style="border: 0px"></img></span>' +
        '<span id="span2" style="margin-left: 10px">a</span>' +
@@ -355,7 +359,7 @@ qx.Class.define("qx.test.bom.Location",
 
     testDivFixed : function()
     {
-      document.body.innerHTML =
+      this.__el.innerHTML =
       '<div style="position: absolute; left: 0px; top: 0px; width: 20px; height: 2000px;"></div>' +
       '<div id="test" style="position: fixed; width: 300px; height: 600px; top: 50px;"></div>';
       window.scrollTo(0,100);
