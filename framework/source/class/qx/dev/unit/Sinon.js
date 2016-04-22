@@ -3365,6 +3365,8 @@ if (typeof sinon == "undefined") {
 
         // Prevent multiple executions which will completely remove these props
         this.methods = [];
+      
+        qx.util.DeferredCallManager.getInstance().refreshTimeout();
     }
 
     function stubGlobal(method, clock) {
