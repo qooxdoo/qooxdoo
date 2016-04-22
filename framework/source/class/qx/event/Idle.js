@@ -88,7 +88,7 @@ qx.Class.define("qx.event.Idle",
     _onInterval : function() {
       this.fireEvent("interval");
     },
-    
+
     /**
      * Starts the timer but only if there are listeners for the "interval" event
      */
@@ -101,17 +101,18 @@ qx.Class.define("qx.event.Idle",
           this.__timer = timer;
       }
     },
-    
+
     /**
-     * Stops the timer but only if there are no listeners for the interval event 
+     * Stops the timer but only if there are no listeners for the interval event
      */
     __stopTimer: function() {
       if (this.__timer && !this.hasListener("interval")) {
         this.__timer.stop();
+        this.__timer.dispose();
         this.__timer = null;
       }
     },
-    
+
     /*
      * @Override
      */
@@ -120,7 +121,7 @@ qx.Class.define("qx.event.Idle",
       this.__startTimer();
       return result;
     },
-    
+
     /*
      * @Override
      */
@@ -129,7 +130,7 @@ qx.Class.define("qx.event.Idle",
       this.__startTimer();
       return result;
     },
-    
+
     /*
      * @Override
      */
@@ -138,7 +139,7 @@ qx.Class.define("qx.event.Idle",
       this.__stopTimer();
       return result;
     },
-    
+
     /*
      * @Override
      */

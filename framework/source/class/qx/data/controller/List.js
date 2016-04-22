@@ -401,7 +401,11 @@ qx.Class.define("qx.data.controller.List",
      * Only the selection needs to be changed. The change of the data will
      * be done by the binding.
      */
+    __inChangeModel: false,
     __changeModel: function() {
+      if (this.__inChangeModel)
+        return;
+      this.__inChangeModel = true;
       // need an asynchronous selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
       // this.__syncTargetSelection = true;
@@ -410,6 +414,7 @@ qx.Class.define("qx.data.controller.List",
 
       // update on filtered lists... (bindings need to be renewed)
       this.update();
+      this.__inChangeModel = false;
     },
 
 
@@ -462,6 +467,9 @@ qx.Class.define("qx.data.controller.List",
           this.__removeItem();
         }
       }
+
+      // build up the look up table
+      this.__buildUpLookupTable();
 
       // sync the target selection in case someone deleted a item in
       // selection mode "one" [BUG #4839]

@@ -34,28 +34,28 @@
  * Typical use of this class is via qx.core.MLogging which is included into most
  * classes, so you would use "this.debug(...)" etc, but qx.log.Logger.debug(),
  * .warn(), .error(), .info(), and .trace() can be used directly for static code.
- * 
+ *
  * The first parameter is expected to be the context object, ie the object which
  * is sending the log; this can be null but that will prevent the filtering from
- * filtering on class name so ideally it will be a real qx.core.Object derived 
+ * filtering on class name so ideally it will be a real qx.core.Object derived
  * object.  Other parameters are any Javascript object which will be serialised
  * into the log message
- * 
+ *
  * <pre class="javascript">
  *  qx.log.Logger.warn(myObject, "This is a message to log", myParam, otherData);
  * </pre>
- * 
- * 
+ *
+ *
  * The output of logging is controlled by "appenders", which are classes that
  * accept a log message and output it somehow (see examples in qx.log.appender.*);
  * typical examples are qx.log.appender.Console which outputs to the browser
  * console, or qx.log.appender.Native which outputs messages into a popup
  * window as part of your Qooxdoo UI.
- * 
+ *
  * While it's quick and easy to add logging calls to code as and when you need it,
  * it is often convenient to control which logging calls output messages at runtime
  * rather than having to edit code. @see qx.log.Logger#addFilter
- * 
+ *
  * @require(qx.dev.StackTrace)
  */
 qx.Bootstrap.define("qx.log.Logger",
@@ -124,12 +124,12 @@ qx.Bootstrap.define("qx.log.Logger",
 
     /** @type {Map} Map of all known appenders by ID */
     __appenders : [],
-    
-    
+
+
     /** @type {Map} Map of all known appenders by name */
     __appendersByName: {},
-    
-    
+
+
     /** @type {Array} Array of filters to apply when selecting appenders to append to */
     __filters: [],
 
@@ -189,15 +189,15 @@ qx.Bootstrap.define("qx.log.Logger",
 
     /**
      * Adds a filter that specifies the appenders to use for a given logger name (classname).
-     * 
-     * By default, every log entry is output to all appenders but you can change this 
+     *
+     * By default, every log entry is output to all appenders but you can change this
      * behaviour by calling qx.log.Logger.addFilter; every log message is associated
      * with a class and a logging level (ie debug, warn, info, error, etc) and you can
-     * apply a filter on either one.  
-     * 
+     * apply a filter on either one.
+     *
      * For example, to restrict the output to only allow qx.ui.* classes to output debug
      * logging information you would use this:
-     * 
+     *
      *  <pre class="javascript">
      *    qx.log.Logger.addFilter(/^qx\.ui/, null, "debug");
      *  </pre>
@@ -206,13 +206,13 @@ qx.Bootstrap.define("qx.log.Logger",
      * you are specifying an exhaustive list of classes; so if you use the above example,
      * the ONLY classes that will be able to log is qx.ui.*.  If you want to use multiple
      * classes to the output, just add more addFilter calls.
-     * 
+     *
      * The logging level (eg "debug", "error", etc) is greater than or equal to - so in
-     * the above example, debug, error, warn, and info will be output but trace will not. 
-     * 
+     * the above example, debug, error, warn, and info will be output but trace will not.
+     *
      * The second parameter to addFilter is the classname of the appender to use; this
      * allows you to specify that log messages only go to one destination; for example:
-     * 
+     *
      *  <pre class="javascript">
      *    qx.log.Logger.addFilter(/^qx\.ui/, "qx.log.appender.Console", "warn");
      *    qx.log.Logger.addFilter(/^qx\.io/, "qx.log.appender.Native", "debug");
@@ -222,7 +222,7 @@ qx.Bootstrap.define("qx.log.Logger",
      * In this example, qx.ui.* will only go to the Console appender and only if a warning
      * is issued; qx.io.* will go to Native for debug, error, warn, and info and to
      * Console for error, warn, and info
-     * 
+     *
      * @param logger {String|RegExp} the pattern to match in the logger name
      * @param appenderName {String?} the name of the appender class, if undefined then all appenders
      * @param level {String?} the minimum logging level to use the appender, if undefined the default level is used
@@ -234,8 +234,12 @@ qx.Bootstrap.define("qx.log.Logger",
       this.__filters.push({ loggerMatch: logger, level: level||this.__level, appenderName: appenderName });
     },
 
-
-
+    /**
+     * Reset all filters
+     */
+    resetFilters: function() {
+      this.__filters = [];
+    },
 
 
 
@@ -313,8 +317,8 @@ qx.Bootstrap.define("qx.log.Logger",
         qx.log.Logger.__log("trace", args);
       }
     },
-    
-    
+
+
     /**
      * Prints a method deprecation warning and a stack trace if the setting
      * <code>qx.debug</code> is set to <code>true</code>.
@@ -497,10 +501,10 @@ qx.Bootstrap.define("qx.log.Logger",
       warn : 3,
       error : 4
     },
-    
+
     /** @type {Map} cache of appenders for a given logger and level */
     __appendersCache: {},
-    
+
 
     /**
      * Detects the name of the logger to use for an object
@@ -544,7 +548,7 @@ qx.Bootstrap.define("qx.log.Logger",
       if (!Object.keys(appenders).length) {
         return;
       }
-      
+
       // Serialize and cache
       var start = object ? 1 : 0;
       var items = [];
@@ -586,15 +590,15 @@ qx.Bootstrap.define("qx.log.Logger",
         appenders[classname].process(entry);
       }
     },
-    
 
-    
+
+
     /**
      * Finds the appenders for a given classname
      */
     __getAppenders: function(className, level) {
       var levels = this.__levels;
-      
+
       // If no filters, then all appenders apply
       if (!this.__filters.length) {
         // Check the default level
@@ -603,28 +607,28 @@ qx.Bootstrap.define("qx.log.Logger",
         }
         return this.__appendersByName;
       }
-      
+
       // Check the cache
       var cacheId = className + "|" + level;
       var appenders = this.__appendersCache[cacheId];
       if (appenders !== undefined) {
         return appenders;
       }
-      
+
       var appenders = {};
       for (var i = 0; i < this.__filters.length; i++) {
         var filter = this.__filters[i];
-        
+
         // Filters only apply to certain levels
         if (levels[level] < levels[filter.level]) {
           continue;
         }
-        
+
         // No duplicates
         if (filter.appenderName && appenders[filter.appenderName]) {
           continue;
         }
-        
+
         // Test
         if (!filter.loggerMatch || filter.loggerMatch.test(className)) {
           if (filter.appenderName) {
@@ -635,11 +639,11 @@ qx.Bootstrap.define("qx.log.Logger",
           }
         }
       }
-      
+
       return this.__appendersCache[cacheId] = appenders;
     },
-    
-    
+
+
 
     /**
      * Detects the type of the variable given.

@@ -22,7 +22,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
         label : {
           check : "String",
           init: "label",
-          event : "changeName"
+          event : "changeLabel"
         },
 
         icon : {
@@ -90,6 +90,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
     testStringListModel : function()
     {
       this.__delegate.bindItem = function(controller, item, id) {
+        controller.bindDefaultProperties(item, id);
         controller.bindProperty("", "label", null, item, id);
         controller.bindPropertyReverse("", "label", null, item, id);
         controller.bindPropertyReverse("", "icon", null, item, id);
@@ -225,8 +226,8 @@ qx.Class.define("qx.test.data.controller.ListReverse",
         controller.bindPropertyReverse("", "children[0].label", null, item, id);
       };
 
-      var childItems = new qx.data.Array(new qx.test.ListItem(), new qx.test.ListItem());
       this.__delegate.configureItem = function(item) {
+        var childItems = new qx.data.Array(new qx.test.ListItem(), new qx.test.ListItem());
         item.setChildren(childItems);
       };
 
@@ -268,8 +269,6 @@ qx.Class.define("qx.test.data.controller.ListReverse",
         items[i].getChildren().setItem(1, null);
         items[i].setChildren(null);
       };
-
-      childItems.dispose();
     }
   }
 });

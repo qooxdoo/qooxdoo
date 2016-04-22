@@ -1,3 +1,7 @@
+.. image:: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master                                                                            
+     :target: https://travis-ci.org/qooxdoo/qooxdoo
+
+
 About
 =====
 

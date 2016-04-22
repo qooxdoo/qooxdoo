@@ -47,6 +47,7 @@ qx.Class.define("qx.test.bom.Blocker",
       this.__blocker.unblock();
       this.__blocker.dispose();
       this.__blocker = null;
+      qx.dom.Element.remove(this.__blockedElement);
     },
 
     testBlockWholeDocument : function()

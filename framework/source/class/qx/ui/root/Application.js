@@ -226,7 +226,18 @@ qx.Class.define("qx.ui.root.Application",
         node = node.parentNode;
       }
       e.preventDefault();
-    }
+    },
+
+    // overridden
+    destroy : function()
+    {
+      if (this.$$disposed) {
+        return;
+      }
+
+      qx.dom.Element.remove(this.getContentElement().getDomElement());
+      this.base(arguments);
+    } 
   },
 
 

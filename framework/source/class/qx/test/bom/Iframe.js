@@ -66,6 +66,8 @@ qx.Class.define("qx.test.bom.Iframe",
       qx.dom.Element.insertBegin(this.__iframe, document.body);
 
       this.assertNotNull(qx.bom.Iframe.getWindow(this.__iframe));
+
+      qx.dom.Element.remove(this.__iframe);
     }
   }
 });

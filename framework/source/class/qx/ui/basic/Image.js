@@ -810,7 +810,7 @@ qx.Class.define("qx.ui.basic.Image",
               combinedStyles["backgroundRepeat"] += ", no-repeat";
             }
 
-            combinedStyles["backgroundImage"] += "," + decoratorStyle["background-image"];
+            combinedStyles["backgroundImage"] += "," + (decoratorStyle["background-image"] || decoratorStyle["background"]);
 
             // apply combined background images
             el.setStyles(combinedStyles);

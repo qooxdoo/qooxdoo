@@ -41,7 +41,7 @@ qx.Class.define("qx.test.mobile.container.Drawer",
     {
       var drawer = new qx.ui.mobile.container.Drawer();
 
-      var drawerCandidate = this.getRoot().getChildren()[0];
+      var drawerCandidate = this.getRoot().getChildren()[this.getRoot().getChildren().length-1];
 
       this.assertEquals(drawer, drawerCandidate, "Unexpected children of root.");
 

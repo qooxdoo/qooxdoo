@@ -747,7 +747,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       index = index || targetProperties.length - 1;
       var target = targetObject;
 
-      for (var i = 0; i < index; i++) {
+      for (var i = 0; target !== null && i < index; i++) {
         try {
           var property = targetProperties[i];
 

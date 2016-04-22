@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     /** Fired if an item will be hidden by the {@link #overflowHandling}.*/
     "hideItem" : "qx.event.type.Data",
 
-    /** Fired if an item will be show by the {@link #overflowHandling}.*/
+    /** Fired if an item will be shown by the {@link #overflowHandling}.*/
     "showItem" : "qx.event.type.Data"
   },
 

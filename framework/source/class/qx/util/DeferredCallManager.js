@@ -83,6 +83,18 @@ qx.Class.define("qx.util.DeferredCallManager",
       this.__hasCalls = true;
     },
 
+    /**
+     * Refresh the timeout if the current one is not active anymore.
+     * This is a very special case which can happen in unit tests using
+     * fakeTimers, which overrides the window.setTimeout function (amongst others)
+     * after restoring the sinon sandbox the timeout must be refreshed otherwise
+     * DeferredCalls would never fire.
+     */
+    refreshTimeout : function() {
+      if (this.__timeoutId !== null) {
+        this.__timeoutId = window.setTimeout(this.__timeoutWrapper, 0);
+      }
+    },
 
     /**
      * Cancel a scheduled deferred call

@@ -54,6 +54,8 @@ qx.Class.define("qx.dev.unit.TestCase",
 
   members :
   {
+    __autoDispose : null,
+
     /**
      * Whether If debugging code is enabled. (i.e. the setting
      * <code>qx.debug</code> has the value <code>on</code>.)
@@ -149,6 +151,41 @@ qx.Class.define("qx.dev.unit.TestCase",
     skip : function(message)
     {
       throw new qx.dev.unit.RequirementError(null, message || "Called skip()");
+    },
+
+
+    /**
+     * Add an object to the auto dispose list. This can be cleared manually or will
+     * be flushed when the test case is disposed.
+     *
+     * @param obj {qx.core.Object} Object to be automatically disposed.
+     */
+    addAutoDispose : function(obj)
+    {
+      if (!this.__autoDispose) {
+        this.__autoDispose = [];
+      }
+      this.__autoDispose.push(obj);
+    },
+
+    /**
+     * Dispose all objects that got registered for auto disposal.
+     */
+    doAutoDispose : function()
+    {
+      if (this.__autoDispose) {
+        this.__autoDispose.forEach(function(obj) {
+          if (!obj.isDisposed()) {
+            if (obj instanceof qx.ui.core.Widget) {
+              obj.destroy();
+            }
+            else if (obj instanceof qx.core.Object) {
+              obj.dispose();
+            }
+          }
+        });
+        this.__autoDispose = null;
+      }
     }
   }
 });
