@@ -29,6 +29,12 @@ module.exports = function(config) {
       // 'source/class/qx/{*.js,!(test)/**/*.js}': 'coverage'
     },
 
+    customLaunchers: {  
+      Chrome_travis_ci: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

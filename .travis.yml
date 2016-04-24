@@ -2,18 +2,29 @@ sudo: false
 language: php
 php:
   - "5.6"
+env:
+  - QXBROWSER=Firefox QXVERSION=latest
+  - QXBROWSER=Firefox QXVERSION=esr-latest
+  - QXBROWSER=Firefox QXVERSION=beta-latest
+  - QXBROWSER=Chrome_travis_ci QXVERSION=stable
+  - QXBROWSER=Chrome_travis_ci QXVERSION=beta
+  - QXBROWSER=Chrome_travis_ci QXVERSION=unstable
+
 cache:
   directories:
-  - /tmp/qx5.1  
-addons:
-  firefox: "latest"
+  - /tmp/qx5.1
+
 install:
+  - ./.travis-browser-setup.sh
+  - export CHROME_BIN=`pwd`/chrome/google-chrome
+  - export PATH=`pwd`/firefox:$PATH
   - cd framework
   - npm install
   - ./generate.py -sI test-source
+
 before_script:
-  - "export DISPLAY=:99.0"
-  - "sh -e /etc/init.d/xvfb start"
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
   - "php -S 0.0.0.0:31323 &> /dev/null &"
   - sleep 3
 script:
