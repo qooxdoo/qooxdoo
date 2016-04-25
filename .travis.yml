@@ -28,7 +28,6 @@ before_script:
   - "php -S 0.0.0.0:31323 &> /dev/null &"
   - sleep 3
 script:
-  - npm run-script travis-test
-  - npm run-script travis-coverage
+  - ./.travis-test.sh 
 after_script:
   - "pkill -f 'php -S 0.0.0.0:31323' &> /dev/null"
