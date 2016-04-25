@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 /**
- * Contains detection for QuickTime, Windows Media, DivX, Silverlight adn gears.
+ * Contains detection for QuickTime, Windows Media, DivX, Silverlight and gears.
  * If no version could be detected the version is set to an empty string as
  * default.
  *
@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
   statics :
   {
     /**
-     * Checkes for the availability of google gears plugin.
+     * Checks for the availability of google gears plugin.
      *
      * @internal
      * @return {Boolean} <code>true</code> if gears is available

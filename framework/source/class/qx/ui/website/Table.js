@@ -560,7 +560,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
-    * Resets the filter apllied on a specific column
+    * Resets the filter applied on a specific column
     * @param columnName {String ?} The column name
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
@@ -1022,7 +1022,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
-     * Click callbak
+     * Click callback
      *
      * @param e {Event} The native click event.
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
@@ -1290,7 +1290,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * Sorts the table rows for the given row and direction
      * @param columnName {String} The name of the column to be sorted
      * @param direction {String} The sorting direction
-     * @return {Array} Array containinfg the sorted rows
+     * @return {Array} Array containing the sorted rows
      */
     __sort : function(columnName, direction) {
 

@@ -223,7 +223,7 @@ qx.Bootstrap.define("qx.ui.website.Calendar", {
      *
      * *hideDaysOtherMonth*
      *
-     * Hide all days of the previous/next month. If the entire last row of the calandar are days of
+     * Hide all days of the previous/next month. If the entire last row of the calendar are days of
      * the next month the whole row is not rendered. Default: <code>false</code> <br /> <br />
      * <strong>Important: </strong>If you like to have a <em>mixed</em> mode like displaying the days
      * of the previous month and hiding the days of the next month you should work with the

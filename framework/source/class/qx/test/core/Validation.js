@@ -128,7 +128,7 @@ qx.Class.define("qx.test.core.Validation",
       // test some wrong addresses
       this.assertException(function() {model.setEmail("test");}, qx.core.ValidationError, null, "test is a mailadress?");
       this.assertException(function() {model.setEmail("@affe.de");}, qx.core.ValidationError, null, "@affe.de is never a mailadress!");
-      this.assertException(function() {model.setEmail("hans@@wurst.de");}, qx.core.ValidationError, null, "Are two @ alowed?");
+      this.assertException(function() {model.setEmail("hans@@wurst.de");}, qx.core.ValidationError, null, "Are two @ allowed?");
       this.assertException(function() {model.setEmail("m@a.d");}, qx.core.ValidationError, null, "m@a.d?");
 
       // test some working addresses
@@ -221,7 +221,7 @@ qx.Class.define("qx.test.core.Validation",
     {
       var model = this.__model;
 
-      // test some wrong inputs (alowed are male and female)
+      // test some wrong inputs (allowed are male and female)
       this.assertException(function() {model.setArray(0.999999999);}, qx.core.ValidationError, null, "A 0.999999999 is not in ['male', 'female']");
       this.assertException(function() {model.setArray("malle");}, qx.core.ValidationError, null, "'malle' is not in ['male', 'female']");
       this.assertException(function() {model.setArray("");}, qx.core.ValidationError, null, "A empty string is not in ['male', 'female']");

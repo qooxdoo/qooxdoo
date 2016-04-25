@@ -106,7 +106,7 @@ qx.Bootstrap.define("qx.bom.element.Dataset",
 
     /**
     * Checks if any element in the collection has a "data-*" attribute
-    * @param element {Element} The DOM Element to check the presence of data-* attrubutes on.
+    * @param element {Element} The DOM Element to check the presence of data-* attributes on.
     * @return {Boolean} True if any element in the collection has a "data-*" attribute
     */
     hasData : function(element)

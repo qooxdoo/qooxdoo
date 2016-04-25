@@ -33,7 +33,7 @@ qx.Class.define("qx.theme.simple.Image",
   statics :
   {
     /**
-     * Holds a map containig all the URL to the images.
+     * Holds a map containing all the URL to the images.
      * @internal
      */
     URLS :

@@ -346,7 +346,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
      * The active page should be the second in order with a order property of '0'.
      * The page left to the active has the order property set to '-1' and is the
      * only one on the left side. All other pages get increasing order numers and
-     * are alligned on the right side.
+     * are aligned on the right side.
      *
      * @return {String} The scroll direction, either 'left' or 'right'.
      */

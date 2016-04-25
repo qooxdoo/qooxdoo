@@ -140,7 +140,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
      */
     getXmlHttpRequest : function() {
       // Standard XHR can be disabled in IE's security settings,
-      // therefore provide ActiveX as fallback. Additionaly,
+      // therefore provide ActiveX as fallback. Additionally,
       // standard XHR in IE7 is broken for file protocol.
       var supports = window.ActiveXObject ?
         (function() {

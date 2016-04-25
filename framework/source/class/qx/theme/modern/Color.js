@@ -169,7 +169,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "table-row-selected" : "#fffefe",
     "table-row" : "#1a1a1a",
 
-    // equal to "border-collumn"
+    // equal to "border-column"
     "table-row-line" : "#CCC",
     "table-column-line" : "#CCC",
 

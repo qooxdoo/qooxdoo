@@ -294,7 +294,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             var value0 = qx.util.ColorUtil.cssStringToRgb(last[name]);
             var value1 = qx.util.ColorUtil.cssStringToRgb(nItem);
             var stepValue = [];
-            // calculate every color chanel
+            // calculate every color channel
             for (var j=0; j < value0.length; j++) {
               var range = value0[j] - value1[j];
               var x = calculationIndex / stepsToNext;

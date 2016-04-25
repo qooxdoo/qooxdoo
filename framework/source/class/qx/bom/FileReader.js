@@ -291,7 +291,7 @@ qx.Class.define("qx.bom.FileReader",
      * "loadend" handler
      *
      * @param e {Object}
-     *   Object wich contains a 'progress' object which contains  the members:
+     *   Object which contains a 'progress' object which contains  the members:
      *   - lengthComputable {Boolean} True if length is known; false otherwise
      *   - loaded {Number} The number of bytes transferred so far
      *   - total {Number} The length of the entire body being transferred
