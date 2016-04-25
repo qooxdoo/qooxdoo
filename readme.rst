@@ -90,3 +90,8 @@ Learn more
 
 * API Documentation
   http://api.qooxdoo.org/5.1
+
+
+.. image:: https://badges.gitter.im/qooxdoo/qooxdoo.svg
+   :alt: Join the chat at https://gitter.im/qooxdoo/qooxdoo
+   :target: https://gitter.im/qooxdoo/qooxdoo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
