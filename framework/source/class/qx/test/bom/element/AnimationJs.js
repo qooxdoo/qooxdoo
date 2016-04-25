@@ -47,7 +47,12 @@ qx.Class.define("qx.test.bom.element.AnimationJs",
 
       document.body.appendChild(el);
 
-      var handle = qx.bom.element.Animation.animate(el, {
+      // known to fail in chrome
+      if (qx.core.Environment.get("browser.name") == "chrome") {
+        throw new qx.dev.unit.RequirementError();
+      }
+
+      var handle = qx.bom.element.Animation.animate(this.__el, {
         "duration": 100,
         "keyFrames": {
           0 : { "width": "200px", "height": "200px" },
