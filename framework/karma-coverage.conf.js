@@ -33,7 +33,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress','coverage'],
+    reporters: ['progress','coverage','coveralls'],
 
 
     // web server port
@@ -55,7 +55,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['Firefox'],
 
     client: {
       captureConsole: false
@@ -68,7 +68,7 @@ module.exports = function(config) {
       dir: 'coverage',
       reporters: [
         // reporters not supporting the `file` property
-        // { type: 'html' },
+        { type: 'lcov' },
         { type: 'text-summary' }
       ]
     },
