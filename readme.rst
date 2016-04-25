@@ -1,6 +1,7 @@
 .. image:: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master                                                                            
      :target: https://travis-ci.org/qooxdoo/qooxdoo
-
+.. image:: https://coveralls.io/repos/github/peuter/qooxdoo/badge.svg?branch=master 
+     :target: https://coveralls.io/github/peuter/qooxdoo?branch=master
 
 About
 =====
