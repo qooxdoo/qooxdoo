@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
       this.__colToXPosMap = null;
 
-      // If any columns are initialy hidden, hide them now. Make it an
+      // If any columns are initially hidden, hide them now. Make it an
       // internal change so that events are not generated.
       this.__internalChange = true;
       for (var hidden=0; hidden<initiallyHiddenColumns.length; hidden++)

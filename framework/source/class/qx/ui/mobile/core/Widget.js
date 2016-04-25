@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /** Fired during a touch at the screen. */
     touchmove : "qx.event.type.Touch",
 
-    /** Fired if a touch at the screen is cancled. */
+    /** Fired if a touch at the screen is canceled. */
     touchcancel : "qx.event.type.Touch",
 
     /** Fired when a finger taps on the screen. */
@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
 
 
     /**
-     * The name attribute of the container element. Usefull when you want to find
+     * The name attribute of the container element. Useful when you want to find
      * an element by its name attribute.
      */
     name :
@@ -310,7 +310,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Whether the widget can be activated or not. When the widget is activated
      * a css class <code>active</code> is automatically added to the widget, which
-     * can indicate the acitvation status.
+     * can indicate the activation status.
      */
     activatable :
     {
@@ -1555,7 +1555,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Sets the container DOM element of the widget.
      *
-     * @param element {Element} The container DOM element of the widet
+     * @param element {Element} The container DOM element of the widget
      */
     _setContainerElement : function(element)
     {

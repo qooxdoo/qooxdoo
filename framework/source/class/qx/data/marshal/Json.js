@@ -172,7 +172,7 @@ qx.Class.define("qx.data.marshal.Json",
           key = this.__delegate.getPropertyMapping(key, hash);
         }
 
-        // stip the unwanted characters
+        // strip the unwanted characters
         key = key.replace(/-|\.|\s+/g, "");
         // check for valid JavaScript identifier (leading numbers are ok)
         if (qx.core.Environment.get("qx.debug")) {

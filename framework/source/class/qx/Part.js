@@ -180,7 +180,7 @@ qx.Bootstrap.define("qx.Part",
         throw new Error("Package not available: " + id);
       }
 
-      // save the colsure in the package itself
+      // save the closure in the package itself
       pkg.saveClosure(closure);
 
       // call the listeners
@@ -191,7 +191,7 @@ qx.Bootstrap.define("qx.Part",
       for (var i = 0; i < listeners.length; i++) {
         listeners[i]("complete", id);
       }
-      // get rid of all colsure package listeners for that package
+      // get rid of all closure package listeners for that package
       this.__packageClosureListeners[id] = [];
     },
 

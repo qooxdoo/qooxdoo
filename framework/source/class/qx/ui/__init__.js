@@ -37,14 +37,14 @@
  *   <li><b>Laying the groundwork for your GUI:</b><br/>
  *     {@link container}</li>
  *
- *   <li><b>Organising what's on the screen:</b><br/>
+ *   <li><b>Organizing what's on the screen:</b><br/>
  *     {@link tabview}; {@link splitpane} (dividing the screen);
  *     {@link groupbox}, {@link embed}</li>
  *
  *   <li><b>Typical user interaction widgets:</b><br/>
  *     {@link qx.ui.basic.Label}, {@link qx.ui.form.Button}, {@link qx.ui.form.TextField}</li>
  *
- *   <li><b>Highly specialised interaction widgets:</b><br/>
+ *   <li><b>Highly specialized interaction widgets:</b><br/>
  *     The classes of the <b>qx.ui.tree*</b> packages (like
  *     {@link qx.ui.tree.Tree}); {@link qx.ui.table}</li>
  *

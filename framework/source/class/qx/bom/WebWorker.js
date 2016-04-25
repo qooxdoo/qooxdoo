@@ -98,7 +98,7 @@ qx.Class.define("qx.bom.WebWorker",
           eval("var onmessage = null, postMessage = " + postMessage + ";" +
             req.responseText);
 
-          //pick the right onmessage because of the uglifier
+          //pick the right onmessage because of the uglyfier
           return {
             onmessage: eval("onmessage"),
             postMessage: postMessage

@@ -739,27 +739,27 @@
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.basecalls</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
+ *       <td>true if the corresponding <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.comments</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
+ *       <td>true if the corresponding <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.privates</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
+ *       <td>true if the corresponding <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.strings</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
+ *       <td>true if the corresponding <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.variables</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
+ *       <td>true if the corresponding <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.variants</td><td><i>Boolean</i></td><td><code>true</code></td>
- *       <td>true if the corresp. <i>optimize</i> key is set in the config</td>
+ *       <td>true if the corresponding <i>optimize</i> key is set in the config</td>
  *     </tr>
  *     <tr>
  *       <td>qx.revision</td><td><i>String</i></td><td><code>27348</code></td>

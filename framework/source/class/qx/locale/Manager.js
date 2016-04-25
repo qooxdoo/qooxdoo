@@ -378,7 +378,7 @@ qx.Class.define("qx.locale.Manager",
     },
 
     /**
-     * Provide localisation (CLDR) data.
+     * Provide localization (CLDR) data.
      *
      * Implements the lookup chain locale (e.g. en_US) -> language (e.g. en) ->
      * default locale (e.g. C). Localizes the arguments if possible and splices

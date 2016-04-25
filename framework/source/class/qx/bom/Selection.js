@@ -368,7 +368,7 @@ qx.Bootstrap.define("qx.bom.Selection",
      * Utility method to check for an input or textarea element
      *
      * @param node {Node} node to check
-     * @return {Boolean} Whether the given nodt is an input or textarea element
+     * @return {Boolean} Whether the given node is an input or textarea element
      */
     __isInputOrTextarea : function(node) {
       return qx.dom.Node.isElement(node) &&

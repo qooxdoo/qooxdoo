@@ -289,7 +289,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     * * expectation.withArgs(arg1, arg2, ...);
     * * expectation.withExactArgs(arg1, arg2, ...);
     * * expectation.on(obj);
-    * * expecation.verify();
+    * * expectation.verify();
     *
     * See http://sinonjs.org/docs/#mocks.
     *
@@ -479,7 +479,7 @@ qx.Mixin.define("qx.dev.unit.MMock",
     /**
      * Get the object’s own properties.
      *
-     * @param object {Object} Object to analyse.
+     * @param object {Object} Object to analyze.
      * @param targetClazz {Object} Class which marks the end of the chain.
      * @return {Array} Array of the object’s own properties.
      */

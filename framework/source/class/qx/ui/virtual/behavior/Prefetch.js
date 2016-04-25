@@ -41,13 +41,13 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
    * @param settings {Map} This map contains minimum and maximum pixels to
    * prefetch near the view port.
    * <ul>
-   *   <li>minLeft: minimim pixels to prefetch left to the view port</li>
+   *   <li>minLeft: minimum pixels to prefetch left to the view port</li>
    *   <li>maxLeft: maximum pixels to prefetch left to the view port</li>
-   *   <li>minRight: minimim pixels to prefetch right to the view port</li>
+   *   <li>minRight: minimum pixels to prefetch right to the view port</li>
    *   <li>maxRight: maximum pixels to prefetch right to the view port</li>
-   *   <li>minAbove: minimim pixels to prefetch above the view port</li>
+   *   <li>minAbove: minimum pixels to prefetch above the view port</li>
    *   <li>maxAbove: maximum pixels to prefetch above the view port</li>
-   *   <li>minBelow: minimim pixels to prefetch below the view port</li>
+   *   <li>minBelow: minimum pixels to prefetch below the view port</li>
    *   <li>maxBelow: maximum pixels to prefetch below the view port</li>
    * </ul>
    */
@@ -126,9 +126,9 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
     /**
      * Configure horizontal prefetching
      *
-     * @param minLeft {Integer} minimim pixels to prefetch left to the view port
+     * @param minLeft {Integer} minimum pixels to prefetch left to the view port
      * @param maxLeft {Integer} maximum pixels to prefetch left to the view port
-     * @param minRight {Integer} minimim pixels to prefetch right to the view port
+     * @param minRight {Integer} minimum pixels to prefetch right to the view port
      * @param maxRight {Integer} maximum pixels to prefetch right to the view port
      */
     setPrefetchX : function(minLeft, maxLeft, minRight, maxRight) {
@@ -139,9 +139,9 @@ qx.Class.define("qx.ui.virtual.behavior.Prefetch",
     /**
      * Configure vertical prefetching
      *
-     * @param minAbove {Integer} minimim pixels to prefetch above the view port
+     * @param minAbove {Integer} minimum pixels to prefetch above the view port
      * @param maxAbove {Integer} maximum pixels to prefetch above the view port
-     * @param minBelow {Integer} minimim pixels to prefetch below the view port
+     * @param minBelow {Integer} minimum pixels to prefetch below the view port
      * @param maxBelow {Integer} maximum pixels to prefetch below the view port
      */
     setPrefetchY : function(minAbove, maxAbove, minBelow, maxBelow) {

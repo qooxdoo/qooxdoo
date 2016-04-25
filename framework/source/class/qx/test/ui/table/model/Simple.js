@@ -33,7 +33,7 @@ qx.Class.define("qx.test.ui.table.model.Simple",
       tableModel.setColumns(["Col1", "Col2"], ["col1", "col2"]);
       tableModel.setDataAsMapArray(tableDataWithMeta, true);
 
-      // check the intial data
+      // check the initial data
       var data = tableModel.getRowDataAsMap(0);
       this.assertEquals(100, data.id);
       this.assertEquals("test", data.col1);

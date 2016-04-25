@@ -293,7 +293,7 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       this.wait(500, function(){
         this.assertCalledTwice(spyhandler);
-        // use a timeout to dipose the image because it needs to
+        // use a timeout to dispose the image because it needs to
         // end its processing after the event has been fired.
         window.setTimeout(function() {
           image.destroy();
@@ -322,7 +322,7 @@ qx.Class.define("qx.test.ui.basic.Image",
 
       this.wait(500, function(){
         this.assertCalledTwice(spyhandler);
-        // use a timeout to dipose the image because it needs to
+        // use a timeout to dispose the image because it needs to
         // end its processing after the event has been fired.
         window.setTimeout(function() {
           image.destroy();
@@ -363,7 +363,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       this.wait(500, function(){
         //even if we called setSource thrice, the loaded event must be called only twice
         this.assertCalledOnce(spyhandler);
-        // use a timeout to dipose the image because it needs to
+        // use a timeout to dispose the image because it needs to
         // end its processing after the event has been fired.
         window.setTimeout(function() {
           image.destroy();

@@ -133,7 +133,7 @@ qx.Class.define("qx.test.Bootstrap",
       qx.Class.undefine("qx.test.MyClass");
     },
 
-    "test: define class with contructor" : function()
+    "test: define class with constructor" : function()
     {
       var c = qx.Bootstrap.define("qx.test.Construct",
       {

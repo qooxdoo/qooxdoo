@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
       this.__cellEditorFactory = cellEditorFactoryFunction(cellInfo);
       var cellEditor = this.__cellEditorFactory.createCellEditor(cellInfo);
 
-      // save the cell info to the editor (needed for getting teh value)
+      // save the cell info to the editor (needed for getting the value)
       this.__infos[cellEditor.toHashCode()] = cellInfo;
 
       return cellEditor;

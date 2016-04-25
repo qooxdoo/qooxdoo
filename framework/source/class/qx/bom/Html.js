@@ -214,7 +214,7 @@ qx.Bootstrap.define("qx.bom.Html",
         }
       }
 
-      // Interate through items in incoming array
+      // Iterate through items in incoming array
       var obj, ret=[];
       for (var i=0, l=objs.length; i<l; i++)
       {

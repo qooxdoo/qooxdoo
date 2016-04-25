@@ -291,7 +291,7 @@ qx.Class.define("qx.test.ui.table.Table",
       tableModelSimple.removeRows(1,1);
 
       // check if the selection and the focus is gone
-      this.assertEquals(null, tableSimple.getFocusedRow()); // dont use assertNull because it can be undefined
+      this.assertEquals(null, tableSimple.getFocusedRow()); // don't use assertNull because it can be undefined
       this.assertEquals(0, tableSimple.getSelectionModel().getSelectedCount());
 
       tableSimple.destroy();

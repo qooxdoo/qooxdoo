@@ -36,7 +36,7 @@ qx.Class.define("qx.util.Serializer",
      *
      * @param object {qx.core.Object} Any qooxdoo object
      * @param qxSerializer {Function?} Function used for serializing qooxdoo
-     *   objects stored in the propertys of the object. Check for the type of
+     *   objects stored in the properties of the object. Check for the type of
      *   classes <ou want to serialize and return the serialized value. In all
      *   other cases, just return nothing.
      * @param dateFormat {qx.util.format.DateFormat?} If a date formater is given,
@@ -116,7 +116,7 @@ qx.Class.define("qx.util.Serializer",
      *   Any qooxdoo object
      *
      * @param qxSerializer {Function?}
-     *   Function used for serializing qooxdoo objects stored in the propertys
+     *   Function used for serializing qooxdoo objects stored in the properties
      *   of the object. Check for the type of classes you want to serialize
      *   and return the serialized value. In all other cases, just return
      *   nothing.
@@ -247,7 +247,7 @@ qx.Class.define("qx.util.Serializer",
      *
      * @param object {qx.core.Object} Any qooxdoo object
      * @param qxSerializer {Function?} Function used for serializing qooxdoo
-     *   objects stored in the propertys of the object. Check for the type of
+     *   objects stored in the properties of the object. Check for the type of
      *   classes <ou want to serialize and return the serialized value. In all
      *   other cases, just return nothing.
      * @param dateFormat {qx.util.format.DateFormat?} If a date formater is given,
@@ -302,7 +302,7 @@ qx.Class.define("qx.util.Serializer",
       if (object instanceof qx.core.Object) {
         if (qxSerializer != null) {
           var returnValue = qxSerializer(object);
-          // if we have something returned, ruturn that
+          // if we have something returned, return that
           if (returnValue != undefined) {
             return '"' + returnValue + '"';
           }

@@ -294,7 +294,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             var value0 = qx.util.ColorUtil.cssStringToRgb(last[name]);
             var value1 = qx.util.ColorUtil.cssStringToRgb(nItem);
             var stepValue = [];
-            // calculate every color chanel
+            // calculate every color channel
             for (var j=0; j < value0.length; j++) {
               var range = value0[j] - value1[j];
               var x = calculationIndex / stepsToNext;
@@ -524,7 +524,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
     /**
      * Dynamic calculation of the steps time considering a max step time.
      * @param duration {Number} The duration of the animation.
-     * @param keys {Array} An array containing the orderd set of key frame keys.
+     * @param keys {Array} An array containing the ordered set of key frame keys.
      * @return {Integer} The best suited step time.
      */
     __getStepTime : function(duration, keys) {
@@ -543,9 +543,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
 
     /**
-     * Helper which returns the orderd keys of the key frame map.
+     * Helper which returns the ordered keys of the key frame map.
      * @param keyFrames {Map} The map of key frames.
-     * @return {Array} An orderd list of kyes.
+     * @return {Array} An ordered list of keys.
      */
     __getOrderedKeys : function(keyFrames) {
       var keys = Object.keys(keyFrames);

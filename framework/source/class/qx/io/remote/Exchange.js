@@ -632,11 +632,11 @@ qx.Class.define("qx.io.remote.Exchange",
         vNeeds.fileUpload = true;
       }
 
-      // See if there are any programtic form fields requested
+      // See if there are any programmatic form fields requested
       for (var field in vRequest.getFormFields())
       {
         // There are.
-        vNeeds.programaticFormFields = true;
+        vNeeds.programmaticFormFields = true;
 
         // No need to search further
         break;

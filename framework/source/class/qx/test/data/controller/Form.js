@@ -72,7 +72,7 @@ qx.Class.define("qx.test.data.controller.Form",
 
 
     testInitialResetter : function() {
-      // create the controller which set the inital values and
+      // create the controller which set the initial values and
       // saves them for resetting
       var c = new qx.data.controller.Form(this.__model, this.__form);
 
@@ -138,7 +138,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.updateModel();
       this.assertEquals("b-item", m.getSb());
 
-      // distroy
+      // destroy
       sb.dispose();
       c.dispose();
       m.dispose();
@@ -162,7 +162,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.updateModel();
       this.assertEquals("affea", this.__model.getTf1());
 
-      // distroy the controller
+      // destroy the controller
       c.dispose();
     },
 
@@ -189,7 +189,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.updateModel();
       this.assertEquals("b", m.getSb());
 
-      // distroy
+      // destroy
       sb.dispose();
       c.dispose();
       m.dispose();
@@ -212,7 +212,7 @@ qx.Class.define("qx.test.data.controller.Form",
       c.updateModel();
       this.assertEquals("affee", this.__model.getTf2());
 
-      // distroy the controller
+      // destroy the controller
       c.dispose();
     },
 
@@ -223,7 +223,7 @@ qx.Class.define("qx.test.data.controller.Form",
       // check the defaults for the properties
       this.assertNull(c.getModel());
       this.assertNull(c.getTarget());
-      // distroy the controller
+      // destroy the controller
       c.dispose();
     },
 
@@ -233,7 +233,7 @@ qx.Class.define("qx.test.data.controller.Form",
       // check for the properties
       this.assertEquals(this.__model, c.getModel());
       this.assertNull(c.getTarget());
-      // distroy the objects
+      // destroy the objects
       c.dispose();
     },
 
@@ -243,7 +243,7 @@ qx.Class.define("qx.test.data.controller.Form",
       // check for the properties
       this.assertEquals(this.__form, c.getTarget());
       this.assertNull(c.getModel());
-      // distroy the objects
+      // destroy the objects
       c.dispose();
     },
 
@@ -253,7 +253,7 @@ qx.Class.define("qx.test.data.controller.Form",
       // check for the properties
       this.assertEquals(this.__form, c.getTarget());
       this.assertEquals(this.__model, c.getModel());
-      // distroy the objects
+      // destroy the objects
       c.dispose();
     },
 
@@ -291,7 +291,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(this.__tf2.getValue(), this.__model.getTf2());
       this.assertEquals(this.__cb.getValue(), this.__model.getCb());
 
-      // distroy the objects
+      // destroy the objects
       c.dispose();
     },
 
@@ -528,7 +528,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(this.__tf2.getValue(), model.getTf2());
       this.assertEquals(this.__cb.getValue(), model.getCb());
 
-      // distroy the objects
+      // destroy the objects
       c.dispose();
       model.dispose();
     },
@@ -801,7 +801,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(this.__tf1.getValue(), this.__model.getTf1().substring(1));
       this.assertEquals(this.__tf2.getValue(), this.__model.getTf2());
 
-      // distroy the objects
+      // destroy the objects
       c.dispose();
     },
 
@@ -878,7 +878,7 @@ qx.Class.define("qx.test.data.controller.Form",
     testDispose : function() {
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form);
-      // distroy the objects
+      // destroy the objects
       c.dispose();
 
       // check if the bindings has been removed
@@ -905,7 +905,7 @@ qx.Class.define("qx.test.data.controller.Form",
       this.assertEquals(this.__tf2.getValue(), this.__model.getTf2());
       this.assertEquals(this.__cb.getValue(), this.__model.getCb());
 
-      // distroy the objects
+      // destroy the objects
       tf.destroy();
       c.dispose();
     }

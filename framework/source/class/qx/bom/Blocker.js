@@ -37,7 +37,7 @@
  * correctly to get the right results (see at {@link #setBlockerZIndex} method).
  *
  *
- * The zIndex value defaults to the value "10000". Either you set an appropiate
+ * The zIndex value defaults to the value "10000". Either you set an appropriate
  * value for the blocker zIndex or for your DOM element to block. If you want
  * to block the content of your DOM element it has to have at least the zIndex
  * value of "10001" with default blocker values.

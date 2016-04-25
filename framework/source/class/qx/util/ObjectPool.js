@@ -21,7 +21,7 @@
 /**
  * This class manages pooled Object instances.
  *
- * It exists mainly to minimise the amount of browser memory usage by reusing
+ * It exists mainly to minimize the amount of browser memory usage by reusing
  * window instances after they have been closed.  However, it could equally be
  * used to pool instances of any type of Object (expect singletons).
  *

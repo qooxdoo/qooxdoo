@@ -174,7 +174,7 @@ qx.Bootstrap.define("qx.Mixin",
      *
      * @param mixins {Mixin[]} an array of mixins
      * @throws {Error} when there is a conflict between the mixins
-     * @return {Boolean} <code>true</code> if the mixin passed the compatibilty check
+     * @return {Boolean} <code>true</code> if the mixin passed the compatibility check
      */
     checkCompatibility : function(mixins)
     {

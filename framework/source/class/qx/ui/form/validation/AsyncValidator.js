@@ -39,7 +39,7 @@
  * *Warning:* Calling {@link #setValid} synchronously does not work. If you
  * have an synchronous validator, please check
  * {@link qx.ui.form.validation.Manager#add}. If you have both cases, you have
- * to wrap the synchronous call in a timeout to make it asychronous.
+ * to wrap the synchronous call in a timeout to make it asynchronous.
  */
 qx.Class.define("qx.ui.form.validation.AsyncValidator",
 {

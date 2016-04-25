@@ -342,7 +342,7 @@ qx.Class.define("qx.log.appender.Console",
         this.__cmd.value = "";
       }
 
-      // History managment
+      // History management
       if (iden == "Up" || iden == "Down")
       {
         this.__lastCommand += iden == "Up" ? -1 : 1;

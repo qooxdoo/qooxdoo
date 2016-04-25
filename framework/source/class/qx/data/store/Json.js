@@ -78,7 +78,7 @@ qx.Class.define("qx.data.store.Json",
 
     /**
      * Fired when an error (aborted, timeout or failed) occurred
-     * during the load. The data contains the respons of the request.
+     * during the load. The data contains the response of the request.
      * If you want more details, use the {@link #changeState} event.
      */
     "error" : "qx.event.type.Data"

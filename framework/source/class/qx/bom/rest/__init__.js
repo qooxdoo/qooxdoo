@@ -4,7 +4,7 @@
  * {@link Resource} allows to encapsulate the specifics of a REST interface.
  * Rather than requesting URLs with a specific HTTP method manually, a resource
  * representing the remote resource is instantiated and actions are invoked on this resource.
- * A resource with its actions can be configured declaratively or programatically.
+ * A resource with its actions can be configured declaratively or programmatically.
  *
  * There is also {@link qx.io.rest.Resource} which uses {@link Resource} under the hood.
  * The main differences between them are:

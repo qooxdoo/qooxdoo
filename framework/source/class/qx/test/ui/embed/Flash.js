@@ -179,7 +179,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
           that.assertIdentical("application/x-shockwave-flash", flash.type);
         }
 
-        // test parmas and flashvars
+        // test params and flashvars
         var params = that.__params;
         params.flashvars = "init=qx.test.ui.embed.Flash.flashCallback&flashVar1=bli bla blub&flashVar2=bulb alb ilb";
 

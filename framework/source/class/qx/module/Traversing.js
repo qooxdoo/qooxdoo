@@ -308,7 +308,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
      *
      * @attachStatic{qxWeb}
      * @param selector {Node|String|qxWeb} the node from where the search should start. If the
-     * node has subnodes the text contents are recursively retreived and joined
+     * node has subnodes the text contents are recursively retrieved and joined
      * @return {String} the joined text content of the given node or null if not
      * appropriate.
      */

@@ -104,7 +104,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     /**
      * Unblock the widget blocked by {@link #block}, but it takes care of
      * the amount of {@link #block} calls. The blocker is only removed if
-     * the numer of {@link #unblock} calls is identical to {@link #block} calls.
+     * the number of {@link #unblock} calls is identical to {@link #block} calls.
      */
     unblock : function() {
       if (this.__blocker) {

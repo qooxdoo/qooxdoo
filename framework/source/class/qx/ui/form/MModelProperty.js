@@ -35,7 +35,7 @@ qx.Mixin.define("qx.ui.form.MModelProperty",
      *     {@link qx.ui.form.MModelSelection}.
      *
      * * Avoid setting only some model properties if the widgets are added to
-     *     a {@link qx.ui.form.MModelSelection} widge.
+     *     a {@link qx.ui.form.MModelSelection} widget.
      *
      * Both restrictions result of the fact, that the set models are deputies
      * for their widget.

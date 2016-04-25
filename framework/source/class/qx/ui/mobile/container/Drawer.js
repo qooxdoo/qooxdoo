@@ -251,7 +251,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
       this.__inTransition = true;
 
-      // Make drawer visibile before "changeVisibility" event is fired, after transition.
+      // Make drawer visible before "changeVisibility" event is fired, after transition.
       this._setStyle("visibility", "visible");
 
       this.__parent.addCssClass("blocked");
@@ -417,7 +417,7 @@ qx.Class.define("qx.ui.mobile.container.Drawer",
 
 
     /**
-     * Handles a tap on drawers's root.
+     * Handles a tap on drawers' root.
      * @param evt {qx.module.event.Pointer} Handled pointer event.
      */
     _onParentPointerDown : function(evt) {

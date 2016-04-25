@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
 
 
     /**
-     * Reverses the display direction of the slider knob. If true, the maxium of
+     * Reverses the display direction of the slider knob. If true, the maxmium of
      * the slider is on the left side and minimum on the right side.
      */
     reverseDirection :
@@ -277,7 +277,7 @@ qx.Class.define("qx.ui.mobile.form.Slider",
     /**
      * Returns the current position of the knob.
      *
-     * @param documentLeft {Integer} The left positon of the knob
+     * @param documentLeft {Integer} The left position of the knob
      * @return {Integer} The current position of the container element.
      */
     _getPosition : function(documentLeft)
