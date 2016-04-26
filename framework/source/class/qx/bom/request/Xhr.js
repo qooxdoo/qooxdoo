@@ -304,7 +304,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // BUGFIX: IE < 9
-      // IE < 9 tends to cache overly agressive. This may result in stale
+      // IE < 9 tends to cache overly aggressive. This may result in stale
       // representations. Force validating freshness of cached representation.
       if (qx.core.Environment.get("engine.name") === "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9 &&

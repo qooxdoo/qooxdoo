@@ -100,7 +100,7 @@ qx.Class.define("qx.data.controller.website.List",
 
 
     /**
-     * The delegate for the list conotroller which supports almost all methods
+     * The delegate for the list controller which supports almost all methods
      * documented in {@link qx.data.controller.IControllerDelegate} except
      * <code>bindItem</code>.
      */
@@ -243,7 +243,7 @@ qx.Class.define("qx.data.controller.website.List",
           this.assertNotNull(template);
         }
 
-        // configutre item
+        // configure item
         if (configureItem) {
           configureItem(template);
         }

@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * already excluded, it takes the widget added at last.
      *
      * @return {qx.ui.core.Widget|null} The widget which should be removed next.
-     *   If null is returned, no widget is availablew to remove.
+     *   If null is returned, no widget is available to remove.
      */
     _getNextToHide : function()
     {
@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // property apply
     _applyOverflowHandling : function(value, old)
     {
-      // invalidate the own and the parrents layout cach because the size hint changes
+      // invalidate the own and the parents layout cache because the size hint changes
       this.invalidateLayoutCache();
       var parent = this.getLayoutParent();
       if (parent) {

@@ -483,7 +483,7 @@ qx.Class.define("qx.ui.core.Blocker",
 
 
     /**
-     * Sets the blocker element to avtive.
+     * Sets the blocker element to active.
      */
     __activateBlockerElement : function() {
       if (this.getKeepBlockerActive()) {

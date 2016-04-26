@@ -656,7 +656,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * action was not yet invoked and requires parameters, parameters must be
      * given.
      *
-     * Please note that IE tends to cache overly agressive. One work-around is
+     * Please note that IE tends to cache overly aggressive. One work-around is
      * to disable caching on the client side by configuring the request with
      * <code>setCache(false)</code>. If you control the server, a better
      * work-around is to include appropriate headers to explicitly control
@@ -758,7 +758,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * Ajax with long polling</a>.
      *
      * Uses {@link #refresh} internally. Make sure you understand the
-     * implications of IE's tendency to cache overly agressive.
+     * implications of IE's tendency to cache overly aggressive.
      *
      * Note no interval is given on the client side.
      *

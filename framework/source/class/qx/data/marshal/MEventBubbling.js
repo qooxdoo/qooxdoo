@@ -134,7 +134,7 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
           var dotIndex = data.name.indexOf(".") != -1 ? data.name.indexOf(".") : data.name.length;
           var bracketIndex = data.name.indexOf("[") != -1 ? data.name.indexOf("[") : data.name.length;
 
-          // braktes in the first spot is ok [BUG #5985]
+          // brackets in the first spot is ok [BUG #5985]
           if (bracketIndex == 0) {
             var newName = name + data.name;
           } else if (dotIndex < bracketIndex) {

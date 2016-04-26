@@ -436,7 +436,7 @@ qx.Bootstrap.define("qx.log.Logger",
 
 
     /**
-     * Prints a deprecation waring and a stacktrace when a subclass overrides
+     * Prints a deprecation warning and a stacktrace when a subclass overrides
      * the passed method name. The deprecation is only printed if the setting
      * <code>qx.debug</code> is set to <code>true</code>.
      *

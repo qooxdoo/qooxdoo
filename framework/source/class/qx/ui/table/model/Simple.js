@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.table.model.Simple",
   statics :
   {
     /**
-     * Default ascendeing sort method to use if no custom method has been
+     * Default ascending sort method to use if no custom method has been
      * provided.
      *
      * @param row1 {var} first row

@@ -225,7 +225,7 @@ qx.Class.define("qx.event.handler.Touch",
 
     // Prevent scrolling on the document to avoid scrolling at all
     if (qx.core.Environment.get("event.touch")) {
-      // get the handler to asure that the instance is created
+      // get the handler to assure that the instance is created
       qx.event.Registration.getManager(document).getHandler(statics);
     }
   }

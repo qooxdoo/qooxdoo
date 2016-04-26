@@ -442,7 +442,7 @@ qx.Class.define("qx.ui.embed.Flash",
      *
      * @param key {String} Flash Player attribute name.
      * @param value {String?null} The value for the attribute, <code>null</code>
-     *    if the attribut should be removed from the DOM element.
+     *    if the attribute should be removed from the DOM element.
      */
     __flashParamHelper : function(key, value)
     {

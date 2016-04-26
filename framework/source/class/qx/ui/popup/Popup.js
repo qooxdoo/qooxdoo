@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.popup.Popup",
   {
     this.base(arguments, layout);
 
-    // Initialize visibiltiy
+    // Initialize visibility
     this.initVisibility();
   },
 

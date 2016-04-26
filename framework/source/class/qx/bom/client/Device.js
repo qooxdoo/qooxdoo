@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * The class is responsible for device detection. This is specially usefull
+ * The class is responsible for device detection. This is specially useful
  * if you are on a mobile device.
  *
  * This class is used by {@link qx.core.Environment} and should not be used

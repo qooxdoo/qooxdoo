@@ -216,9 +216,9 @@ qx.Class.define("qx.test.ui.Focus",
        this.input.focus();
        this.flush();
 
-       this.assertTrue(this.ref_blur_called, "reference must be blured");
-       this.assertTrue(this.target_focus_called, "target must be focued");
-       this.assertFalse(this.target_blur_called, "target must not be blured");
+       this.assertTrue(this.ref_blur_called, "reference must be blurred");
+       this.assertTrue(this.target_focus_called, "target must be focused");
+       this.assertFalse(this.target_blur_called, "target must not be blurred");
      },
 
 
@@ -331,9 +331,9 @@ qx.Class.define("qx.test.ui.Focus",
       this.input.hide();
       this.flush();
 
-      this.assertTrue(this.ref_blur_called, "reference must be blured");
+      this.assertTrue(this.ref_blur_called, "reference must be blurred");
       this.assertTrue(this.target_focus_called, "target must be focused");
-      this.assertTrue(this.target_blur_called, "target must be blured");
+      this.assertTrue(this.target_blur_called, "target must be blurred");
 
       this.input.show();
     },
