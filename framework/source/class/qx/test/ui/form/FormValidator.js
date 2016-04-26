@@ -766,7 +766,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
 
 
 
-    // Mixed self contaned //////////
+    // Mixed self contained //////////
     testMixedSelfContained3NotNullAsyncFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
