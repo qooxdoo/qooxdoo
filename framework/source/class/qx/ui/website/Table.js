@@ -1215,7 +1215,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
-     * Gets the Root element contening the data rows
+     * Gets the Root element containing the data rows
      * @return {HTMLElement} The element containing the data rows
      */
     __getRoot : function() {
