@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.table.Table",
 
     // Make focusable
     this.setTabIndex(1);
-    this.addListener("keypress", this._onKeyPress);
+    this.addListener("keyup", this._onKeyPress);
     this.addListener("focus", this._onFocusChanged);
     this.addListener("blur", this._onFocusChanged);
 
