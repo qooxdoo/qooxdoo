@@ -196,7 +196,7 @@ qx.Class.define("qx.test.bom.History", {
 
     testRequestEvent : function()
     {
-      // "request" event just will be fired, if a user goes back or farward in
+      // "request" event just will be fired, if a user goes back or forward in
       // the history
       var self = this;
       this.__history.addListenerOnce("request", function() {

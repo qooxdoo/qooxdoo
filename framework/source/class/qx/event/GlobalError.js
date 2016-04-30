@@ -102,7 +102,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
      * handling.
      *
      * @param msg {String} browser error message
-     * @param uri {String} uri to errornous script
+     * @param uri {String} uri to erroneous script
      * @param lineNumber {Integer} line number of error
      */
     __onErrorWindow : function(msg, uri, lineNumber)

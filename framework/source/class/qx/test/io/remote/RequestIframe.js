@@ -58,7 +58,7 @@ qx.Class.define("qx.test.io.remote.RequestIframe",
         {
           completedCount++;
 
-          // Skip test when response is empty. Occuring seemlingy randomly
+          // Skip test when response is empty. Occuring seemingly randomly
           // in IE when many requests are made.
           //
           // May be due to timing issue showing under rare and obscure

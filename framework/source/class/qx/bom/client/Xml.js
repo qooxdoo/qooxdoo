@@ -79,7 +79,7 @@ qx.Bootstrap.define("qx.bom.client.Xml",
 
 
     /**
-     * Checks availablity of the getElementsByTagNameNS XML DOM method.
+     * Checks availability of the getElementsByTagNameNS XML DOM method.
      *
      * @internal
      * @return {Boolean} <code>true</code> if getElementsByTagNameNS is available

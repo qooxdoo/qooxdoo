@@ -86,8 +86,8 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
     moveToCell : function(col, row)
     {
       // check if the focus indicator is shown and if the new column is
-      // editable. if not, just exclude the incdicator because the pointer events
-      // should go to the cell itself linke with HTML links [BUG #4250]
+      // editable. if not, just exclude the indicator because the pointer events
+      // should go to the cell itself linked with HTML links [BUG #4250]
       if (
         !this.__scroller.getShowCellFocusIndicator() &&
         !this.__scroller.getTable().getTableModel().isColumnEditable(col)

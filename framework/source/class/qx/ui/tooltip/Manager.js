@@ -420,7 +420,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
       var tooltip = this.getCurrent();
 
-      // Only set to null if blured widget is the
+      // Only set to null if blurred widget is the
       // one which has created the current tooltip
       if (tooltip && tooltip == target.getToolTip()) {
         this.setCurrent(null);

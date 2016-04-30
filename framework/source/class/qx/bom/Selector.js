@@ -602,7 +602,7 @@ support = Sizzle.support = {};
 /**
  * Detects XML nodes
  * @param elem {Element|Object} An element or a document
- * @return {Boolean} True iff elem is a non-HTML XML node
+ * @return {Boolean} True if elem is a non-HTML XML node
  */
 isXML = Sizzle.isXML = function( elem ) {
   // documentElement is verified for cases where it doesn't yet exist
@@ -683,7 +683,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
   // Support: IE<10
   // Check if getElementById returns elements by name
-  // The broken getElementById methods don't pick up programatically-set names,
+  // The broken getElementById methods don't pick up programmatically-set names,
   // so use a roundabout getElementsByName test
   support.getById = assert(function( div ) {
     docElem.appendChild( div ).id = expando;
@@ -1924,7 +1924,7 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
         contextBackup = outermostContext,
         // We must always have either seed elements or outermost context
         elems = seed || byElement && Expr.find["TAG"]( "*", outermost ),
-        // Use integer dirruns iff this is the outermost matcher
+        // Use integer dirruns if this is the outermost matcher
         dirrunsUnique = (dirruns += contextBackup == null ? 1 : Math.random() || 0.1),
         len = elems.length;
 

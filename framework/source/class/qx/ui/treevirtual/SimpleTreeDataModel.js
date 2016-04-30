@@ -767,7 +767,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
 
     /**
-     * Calcultes the lastChild flags to the nodes, so that the tree can render the
+     * Calculates the lastChild flags to the nodes, so that the tree can render the
      * tree lines right.
      *
      * @param nodeId {Integer}

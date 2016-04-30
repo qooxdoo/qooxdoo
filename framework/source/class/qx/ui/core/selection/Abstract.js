@@ -1855,7 +1855,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Applies the default selection. The default item is the first item.
      *
-     * @param force {Boolean} Whether the default selection sould forced.
+     * @param force {Boolean} Whether the default selection should be forced.
      *
      * @return {var} The selected item.
      */

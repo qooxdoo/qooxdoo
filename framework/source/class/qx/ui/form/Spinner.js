@@ -706,7 +706,7 @@ qx.Class.define("qx.ui.form.Spinner",
           value = this.getMinimum();
         }
 
-        // If value is the same than before, call direcly _applyValue()
+        // If value is the same than before, call directly _applyValue()
         if (value === this.__lastValidValue) {
           this._applyValue(this.__lastValidValue);
         } else {

@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     /**
      * Helper to return the selectability of the item concerning the
-     * user interaaction.
+     * user interaction.
      *
      * @param item {qx.ui.core.Widget} The item to check.
      * @return {Boolean} true, if the item is selectable.

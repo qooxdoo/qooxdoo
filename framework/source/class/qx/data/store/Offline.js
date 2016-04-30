@@ -82,7 +82,7 @@ qx.Class.define("qx.data.store.Offline",
 
   statics: {
     /**
-     * Defines the delay between the requested and actuale execution of the setItem method
+     * Defines the delay between the requested and actual execution of the setItem method
      */
     STORE_MODEL_DELAY: 400
   },
@@ -139,7 +139,7 @@ qx.Class.define("qx.data.store.Offline",
 
 
     /**
-     * Responsible for creating the model read from the brwoser storage.
+     * Responsible for creating the model read from the browser storage.
      * @param data {var} The data read from the storage.
      */
     _setModel : function(data) {

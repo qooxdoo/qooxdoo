@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         // common versioning system used by other browsers
         if (/Opera[\s\/]([0-9]+)\.([0-9])([0-9]*)/.test(agent))
         {
-          // opera >= 10 has as a first verison 9.80 and adds the proper version
+          // opera >= 10 has as a first version 9.80 and adds the proper version
           // in a separate "Version/" postfix
           // http://my.opera.com/chooseopera/blog/2009/05/29/changes-in-operas-user-agent-string-format
           if (agent.indexOf("Version/") != -1) {

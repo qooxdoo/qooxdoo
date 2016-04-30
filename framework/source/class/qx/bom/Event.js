@@ -28,7 +28,7 @@
 
      Copyright (c) 2009 Juriy Zaytsev
 
-     Licence:
+     License:
        BSD: http://github.com/kangax/iseventsupported/blob/master/LICENSE
 
      ----------------------------------------------------------------------

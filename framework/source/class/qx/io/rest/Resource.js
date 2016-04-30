@@ -24,7 +24,7 @@
  * Each instance represents a resource in terms of REST. A number of actions
  * (usually HTTP methods) unique to the resource can be defined and invoked.
  * A resource with its actions is configured declaratively by passing a resource
- * description to the constructor, or programatically using {@link #map}.
+ * description to the constructor, or programmatically using {@link #map}.
  *
  * Each action is associated to a route. A route is a combination of method,
  * URL pattern and optional parameter constraints.
@@ -38,7 +38,7 @@
  * route, is passed the URL parameters, request body data, and finally send.
  * What kind of request is send can be configured by overwriting {@link #_getRequest}.
  *
- * No contraints on the action's name or the scope of the URLs are imposed. However,
+ * No constraints on the action's name or the scope of the URLs are imposed. However,
  * if you want to follow RESTful design patterns it is recommended to name actions
  * the same as the HTTP action.
  *
@@ -109,7 +109,7 @@
  * and could therefore just as well mapped to two distinct resources (for instance,
  * named photos and photosTagged). What style to choose depends on the kind of data
  * returned. For instance, it seems sensible to stick with one resource if the filter
- * only limits the result set (i.e. the invidual results have the same properties).
+ * only limits the result set (i.e. the individual results have the same properties).
  *
  * In order to respond to successful (or erroneous) invocations of actions,
  * either listen to the generic "success" or "error" event and get the action
@@ -236,7 +236,7 @@ qx.Class.define("qx.io.rest.Resource",
     /**
      * Get resource.
      *
-     * May be overriden to change type of resource.
+     * May be overridden to change type of resource.
      * @param description {Map?} See construct.
      * @return {qx.bom.rest.Resource} Resource implementation which does the heavy lifting.
      */
@@ -314,7 +314,7 @@ qx.Class.define("qx.io.rest.Resource",
     /**
      * Get request.
      *
-     * May be overriden to change type of request.
+     * May be overridden to change type of request.
      * @return {qx.io.request.Xhr} Xhr object
      */
     _getRequest: function() {
@@ -399,7 +399,7 @@ qx.Class.define("qx.io.rest.Resource",
      *
      * Internally called by actions dynamically created.
      *
-     * May be overriden to customize action and parameter handling.
+     * May be overridden to customize action and parameter handling.
      *
      * @lint ignoreUnused(successHandler, failHandler, loadEndHandler)
      *
@@ -472,7 +472,7 @@ qx.Class.define("qx.io.rest.Resource",
      * action was not yet invoked and requires parameters, parameters must be
      * given.
      *
-     * Please note that IE tends to cache overly agressive. One work-around is
+     * Please note that IE tends to cache overly aggressive. One work-around is
      * to disable caching on the client side by configuring the request with
      * <code>setCache(false)</code>. If you control the server, a better
      * work-around is to include appropriate headers to explicitly control
@@ -529,7 +529,7 @@ qx.Class.define("qx.io.rest.Resource",
     /**
      * Long-poll action.
      *
-     * Use Ajax long-polling to continously fetch a resource as soon as the
+     * Use Ajax long-polling to continuously fetch a resource as soon as the
      * server signals new data. The server determines when new data is available,
      * while the client keeps open a request. Requires configuration on the
      * server side. Basically, the server must not close a connection until
@@ -538,7 +538,7 @@ qx.Class.define("qx.io.rest.Resource",
      * Ajax with long polling</a>.
      *
      * Uses {@link #refresh} internally. Make sure you understand the
-     * implications of IE's tendency to cache overly agressive.
+     * implications of IE's tendency to cache overly aggressive.
      *
      * Note no interval is given on the client side.
      *

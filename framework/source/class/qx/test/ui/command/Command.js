@@ -270,7 +270,7 @@ qx.Class.define("qx.test.ui.command.Command",
 
       cmd.setEnabled(false);
       button.destroy();
-      // make sure the dipose queue is flushed
+      // make sure the dispose queue is flushed
       qx.ui.core.queue.Manager.flush();
       cmd.setEnabled(true);
 

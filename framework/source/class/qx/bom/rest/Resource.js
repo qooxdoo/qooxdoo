@@ -361,7 +361,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
     /**
      * Get request.
      *
-     * May be overriden to change type of request.
+     * May be overridden to change type of request.
      * @return {qx.bom.request.SimpleXhr|qx.io.request.AbstractRequest} Request object
      */
     _getRequest: function() {
@@ -441,7 +441,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      *
      * Internally called by actions dynamically created.
      *
-     * May be overriden to customize action and parameter handling.
+     * May be overridden to customize action and parameter handling.
      *
      * @lint ignoreUnused(successHandler, failHandler, loadEndHandler)
      *
@@ -656,7 +656,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * action was not yet invoked and requires parameters, parameters must be
      * given.
      *
-     * Please note that IE tends to cache overly agressive. One work-around is
+     * Please note that IE tends to cache overly aggressive. One work-around is
      * to disable caching on the client side by configuring the request with
      * <code>setCache(false)</code>. If you control the server, a better
      * work-around is to include appropriate headers to explicitly control
@@ -749,7 +749,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
     /**
      * Long-poll action.
      *
-     * Use Ajax long-polling to continously fetch a resource as soon as the
+     * Use Ajax long-polling to continuously fetch a resource as soon as the
      * server signals new data. The server determines when new data is available,
      * while the client keeps open a request. Requires configuration on the
      * server side. Basically, the server must not close a connection until
@@ -758,7 +758,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * Ajax with long polling</a>.
      *
      * Uses {@link #refresh} internally. Make sure you understand the
-     * implications of IE's tendency to cache overly agressive.
+     * implications of IE's tendency to cache overly aggressive.
      *
      * Note no interval is given on the client side.
      *

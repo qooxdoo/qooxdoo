@@ -331,7 +331,7 @@ qx.Class.define("qx.util.fsm.State",
         // For each function request...
         for (var i=0; i<functionRequest.length; i++)
         {
-          // Retreive the object and group list object
+          // Retrieve the object and group list object
           objectAndGroupList = functionRequest[i];
 
           // The object and group list should be an object, e.g.

@@ -95,13 +95,13 @@ qx.Class.define("qx.ui.window.Window",
     // Automatically add to application root.
     qx.core.Init.getApplication().getRoot().add(this);
 
-    // Initialize visibiltiy
+    // Initialize visibility
     this.initVisibility();
 
     // Register as root for the focus handler
     qx.ui.core.FocusHandler.getInstance().addRoot(this);
 
-    // change the reszie frames appearance
+    // change the resize frames appearance
     this._getResizeFrame().setAppearance("window-resize-frame");
   },
 
@@ -387,10 +387,10 @@ qx.Class.define("qx.ui.window.Window",
 
   members :
   {
-    /** @type {Integer} Original top value before maximation had occoured */
+    /** @type {Integer} Original top value before maximation had occurred */
     __restoredTop : null,
 
-    /** @type {Integer} Original left value before maximation had occoured */
+    /** @type {Integer} Original left value before maximation had occurred */
     __restoredLeft : null,
 
 

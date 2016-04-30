@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
 
 
     /**
-     * Renders the form: add's the items and buttons.
+     * Renders the form: adds the items and buttons.
      */
     _render : function() {
       // add the groups

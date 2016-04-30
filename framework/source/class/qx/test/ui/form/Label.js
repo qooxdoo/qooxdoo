@@ -40,7 +40,7 @@ qx.Class.define("qx.test.ui.form.Label",
     __testEnabled: function() {
       this.__label.setBuddy(this.__formWidget);
 
-      // check the inital enabled state
+      // check the initial enabled state
       this.assertTrue(this.__formWidget.getEnabled(), "Form widget is disabled.");
       this.assertTrue(this.__label.getEnabled(), "Label widget is disabled.");
 

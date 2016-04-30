@@ -119,7 +119,7 @@ qx.Class.define("qx.html.Input",
      * for disabling the fields in webkit. All other browsers use the disabled
      * attribute.
      *
-     * @param value {Boolean} true, if the inpout element should be enabled.
+     * @param value {Boolean} true, if the input element should be enabled.
      */
     setEnabled : function(value)
     {

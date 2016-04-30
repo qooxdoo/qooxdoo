@@ -560,7 +560,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
-    * Resets the filter apllied on a specific column
+    * Resets the filter applied on a specific column
     * @param columnName {String ?} The column name
     * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
     */
@@ -687,7 +687,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     },
 
 
-    //overriden
+    //overridden
     render : function() {
       var sortingData = this.getSortingData();
       var rowSelection = this.getConfig("rowSelection");
@@ -1022,7 +1022,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
-     * Click callbak
+     * Click callback
      *
      * @param e {Event} The native click event.
      * @return {qx.ui.website.Table} <code>this</code> reference for chaining.
@@ -1215,7 +1215,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
 
 
     /**
-     * Gets the Root element contening the data rows
+     * Gets the Root element containing the data rows
      * @return {HTMLElement} The element containing the data rows
      */
     __getRoot : function() {
@@ -1290,7 +1290,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
      * Sorts the table rows for the given row and direction
      * @param columnName {String} The name of the column to be sorted
      * @param direction {String} The sorting direction
-     * @return {Array} Array containinfg the sorted rows
+     * @return {Array} Array containing the sorted rows
      */
     __sort : function(columnName, direction) {
 
@@ -1476,7 +1476,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
     /**
      * Gets the index of the column with the specified name
      * @param columnName {String} The colukn name
-     * @return {Integer} The index of the column or -1 if the column does'nt exists
+     * @return {Integer} The index of the column or -1 if the column doesn't exists
      */
     __getColumnIndex : function(columnName) {
       var tHead = this.__getHeaderRow();

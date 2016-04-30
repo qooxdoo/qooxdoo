@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     */
 
     /**
-     * The internaly used radio group instance will be returned.
+     * The internally used radio group instance will be returned.
      *
      * @return {qx.ui.form.RadioGroup} Returns the used RadioGroup instance.
      */

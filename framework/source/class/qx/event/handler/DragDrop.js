@@ -531,10 +531,10 @@ qx.Class.define("qx.event.handler.DragDrop",
       // start target can be none as the drag & drop handler might
       // be created after the first start event
       var target = this.__startConfig ? this.__startConfig.target : e.getTarget();
-      var dragable = this.__findDraggable(target);
-      if (dragable) {
+      var draggable = this.__findDraggable(target);
+      if (draggable) {
         // This is the source target
-        this.__dragTarget = dragable;
+        this.__dragTarget = draggable;
 
         var widgetOriginalTarget = qx.ui.core.Widget.getWidgetByElement(this.__startConfig.original);
         while (widgetOriginalTarget && widgetOriginalTarget.isAnonymous()) {

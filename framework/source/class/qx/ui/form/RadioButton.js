@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.form.RadioButton",
       hovered : true
     },
 
-    // overridden (from MExecutable to keet the icon out of the binding)
+    // overridden (from MExecutable to keep the icon out of the binding)
     /**
      * @lint ignoreReferenceField(_bindableProperties)
      */

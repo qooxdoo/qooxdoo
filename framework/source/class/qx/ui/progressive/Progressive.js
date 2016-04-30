@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     },
 
     /**
-     * Remove a previosly added renderer.
+     * Remove a previously added renderer.
      *
      * @param name {String}
      *   Remove the renderer which was assigned this name.

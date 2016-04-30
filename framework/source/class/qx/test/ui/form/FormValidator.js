@@ -192,7 +192,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       // remove the username
       this.__username.resetValue();
 
-      // validate = faíl
+      // validate = fail
       this.assertFalse(this.__manager.validate());
       this.assertFalse(this.__manager.getValid());
       this.assertFalse(this.__username.getValid());
@@ -464,7 +464,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
 
 
     testRequiredFieldMessage : function() {
-      // set a global and an individual requred field message
+      // set a global and an individual required field message
       this.__manager.setRequiredFieldMessage("affe");
       this.__password1.setRequiredInvalidMessage("AFFEN");
 
@@ -766,7 +766,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
 
 
 
-    // Mixed self contaned //////////
+    // Mixed self contained //////////
     testMixedSelfContained3NotNullAsyncFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 

@@ -98,7 +98,6 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
     // overridden
     _getSelectableRange : function(item1, item2)
     {
-      //console.log("selecte range", item1, item2);
       var selectables = [];
 
       var minRow = Math.min(item1.row, item2.row);

@@ -231,7 +231,7 @@ qx.Bootstrap.define("qx.lang.Json",
 /*! JSON v3.2.5 | http://bestiejs.github.io/json3 | Copyright 2012-2013, Kit Cambridge | http://kit.mit-license.org */
 (function (window) {
   // This polyfill does not work under Rhino because it cannot convert POJO to object (it tries
-  //  to serialise the class)
+  //  to serialize the class)
   if (qx.core.Environment.get("runtime.name") === "rhino" || qx.core.Environment.get("runtime.name") === undefined)
     return;
 

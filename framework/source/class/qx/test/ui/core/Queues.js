@@ -30,7 +30,7 @@ qx.Class.define("qx.test.ui.core.Queues",
 
 
     setUp : function() {
-      // ensure an empty dispose queue befor starting the test
+      // ensure an empty dispose queue before starting the test
       qx.ui.core.queue.Manager.flush();
 
       this.__widget1 = new qx.ui.core.Widget();

@@ -63,7 +63,7 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
       this.getRoot().add(radio2);
       this.getRoot().add(radio3);
 
-      // Verify: inital all radios buttons should be disabled.
+      // Verify: initial all radios buttons should be disabled.
       this.assertEquals(false, radio1.getValue());
       this.assertEquals(false, radio2.getValue());
       this.assertEquals(false, radio3.getValue());

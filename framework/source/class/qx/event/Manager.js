@@ -619,7 +619,7 @@ qx.Class.define("qx.event.Manager",
      *         the event listener.
      * @param capture {Boolean ? false} Whether to remove the event listener of
      *         the bubbling or of the capturing phase.
-     * @return {Boolean} Whether the event was removed successfully (was existend)
+     * @return {Boolean} Whether the event was removed successfully (was existant)
      * @throws {Error} if the parameters are wrong
      */
     removeListener : function(target, type, listener, self, capture)
@@ -742,7 +742,7 @@ qx.Class.define("qx.event.Manager",
      * Remove all event listeners, which are attached to the given event target.
      *
      * @param target {Object} The event target to remove all event listeners from.
-     * @return {Boolean} Whether the events were existend and were removed successfully.
+     * @return {Boolean} Whether the events were existant and were removed successfully.
      */
     removeAllListeners : function(target)
     {
@@ -869,7 +869,7 @@ qx.Class.define("qx.event.Manager",
         event.setTarget(target);
       }
 
-      // Interation data
+      // Interacion data
       var classes = this.__registration.getDispatchers();
       var instance;
 
