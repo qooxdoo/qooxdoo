@@ -220,7 +220,10 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * @return {qx.core.Object} The corresponding object or <code>null</code>.
      */
     fromHashCode : function(hash) {
-      return this.__registry[hash] || null;
+      var obj = this.__registry[hash] || null;
+      if (!obj)
+      	qx.log.Logger.warn(this, "Object with hash code "+ hash + " does not exist (since Qooxdoo 6.0 fromHashCode requires that you explicitly register objects with qx.core.ObjectRegistry.register)");
+      return obj;
     },
 
 
