@@ -65,6 +65,9 @@
  * single-quoted.
  *
  * The same format patterns will be used for both parsing and output formatting.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.util.format.DateFormat",
 {

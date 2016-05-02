@@ -26,6 +26,8 @@
  * GeoLocation provides access to geographical location information
  * associated with the hosting device.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * For more information see:
  * http://www.w3.org/TR/geolocation-API/
  *

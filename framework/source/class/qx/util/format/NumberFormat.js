@@ -19,6 +19,9 @@
 
 /**
  * A formatter and parser for numbers.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.util.format.NumberFormat",
 {

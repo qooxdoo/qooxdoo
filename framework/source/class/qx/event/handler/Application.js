@@ -20,6 +20,9 @@
 
 /**
  * This handler provides events for qooxdoo application startup/shutdown logic.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @require(qx.bom.client.Engine)
  */
 qx.Class.define("qx.event.handler.Application",

@@ -35,6 +35,9 @@
 
 /**
  * Listens for native orientation change events
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Bootstrap.define("qx.event.handler.OrientationCore", {
 

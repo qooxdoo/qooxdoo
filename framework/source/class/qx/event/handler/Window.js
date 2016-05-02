@@ -22,6 +22,8 @@
 /**
  * This handler provides event for the window object.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @require(qx.event.type.Native)
  * @require(qx.event.Pool)
  */

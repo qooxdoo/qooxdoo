@@ -26,6 +26,8 @@
  * without blocking the user interface. A 'worker' is just another script
  * file that will be loaded and executed in the background.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * For more information see:
  * http://www.w3.org/TR/workers/
  */

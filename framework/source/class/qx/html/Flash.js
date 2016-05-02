@@ -20,6 +20,9 @@
 
 /**
  * Managed wrapper for the HTML Flash tag.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.html.Flash",
 {

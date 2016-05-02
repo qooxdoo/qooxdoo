@@ -25,6 +25,9 @@
  * used to simulate e.g. a background task. The static method
  * {@link #once} is a special case. It will call a function deferred after a
  * given timeout.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.event.Timer",
 {

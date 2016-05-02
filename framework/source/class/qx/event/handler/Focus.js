@@ -32,6 +32,8 @@
  * * TabIndex > 0 means that the element is focusable and tabable
  * * TabIndex < 0 means that the element, even if naturally possible, is not focusable.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @use(qx.event.dispatch.DomBubbling)
  */
 qx.Class.define("qx.event.handler.Focus",

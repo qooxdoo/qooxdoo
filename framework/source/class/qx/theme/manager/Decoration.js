@@ -21,6 +21,9 @@
 
 /**
  * Manager for decoration themes
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.theme.manager.Decoration",
 {

@@ -24,6 +24,8 @@
  * FileReaders allow retrieving the data from a local file, after the file
  * name was selected by an &lt;input type="file"&gt; element.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * For more information see:
  * http://www.w3.org/TR/FileAPI/
  */

@@ -41,6 +41,8 @@
  * value for the blocker zIndex or for your DOM element to block. If you want
  * to block the content of your DOM element it has to have at least the zIndex
  * value of "10001" with default blocker values.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
  *
  * @require(qx.bom.Element)
  * @require(qx.bom.Iframe)

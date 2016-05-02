@@ -52,6 +52,8 @@
  * from the event data, or listen to action specific events defined at runtime.
  * Action specific events follow the pattern "&lt;action&gt;Success" and
  * "&lt;action&gt;Error", e.g. "indexSuccess".
+ * 
+ * NOTE: Instances of this class must be disposed of to free resources
  *
  * @group (IO)
  * @ignore(qx.core.Object.*)

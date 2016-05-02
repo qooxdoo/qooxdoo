@@ -21,6 +21,8 @@
 /**
  * Event handler, which supports drag events on DOM elements.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @require(qx.event.handler.Gesture)
  * @require(qx.event.handler.Keyboard)
  * @require(qx.event.handler.Capture)

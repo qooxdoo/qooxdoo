@@ -22,6 +22,9 @@
  * A generic singleton that fires an "interval" event all 100 milliseconds. It
  * can be used whenever one needs to run code periodically. The main purpose of
  * this class is reduce the number of timers.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 
 qx.Class.define("qx.event.Idle",

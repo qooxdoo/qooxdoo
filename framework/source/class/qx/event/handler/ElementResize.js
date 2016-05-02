@@ -20,6 +20,9 @@
 /**
  * This handler fires a <code>resize</code> event if the size of a DOM element
  * changes.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.event.handler.ElementResize",
 {

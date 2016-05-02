@@ -37,6 +37,8 @@
  * {@link #insertInto}, {@link #insertBefore}, {@link #insertAfter},
  * {@link #moveTo}, {@link #moveBefore}, {@link #moveAfter},
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @require(qx.module.Animation)
  */
 qx.Class.define("qx.html.Element",

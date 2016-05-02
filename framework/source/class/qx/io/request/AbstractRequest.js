@@ -29,6 +29,9 @@
  *
  * To adjust the behavior of {@link #send} override
  * {@link #_getConfiguredUrl} and {@link #_getConfiguredRequestHeaders}.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.io.request.AbstractRequest",
 {
