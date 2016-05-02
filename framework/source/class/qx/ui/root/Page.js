@@ -107,8 +107,8 @@ qx.Class.define("qx.ui.root.Page",
         textAlign: "left"
       });
 
-      // Store "weak" reference to the widget in the DOM element.
-      root.setAttribute("$$widget", this.toHashCode());
+      // Store reference to the widget in the DOM element.
+      root.connectWidget(this);
 
       // Mark the element of this root with a special attribute to prevent
       // that qx.event.handler.Focus is performing a focus action.

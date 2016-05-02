@@ -338,10 +338,6 @@ qx.Class.define("qx.event.handler.Application",
           // IE doesn't execute the "finally" block if no "catch" block is present
           throw e;
         }
-        finally {
-          // Execute registry shutdown
-          qx.core.ObjectRegistry.shutdown();
-        }
       }
     }
 
