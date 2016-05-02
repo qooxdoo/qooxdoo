@@ -206,18 +206,20 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      *
      * Note:
      *  "window.controllers" is gone/hidden with Firefox 30+
-     *  "window.navigator.mozApps" is supported since Firefox 11+
+     *  "window.navigator.mozApps" is supported since Firefox 11+ and is gone/hidden with Firefox 47 beta
+     *  "window.navigator.buildID" is supported since Firefox 2+
      *  "window.navigator.product" is actually useless cause the HTML5 spec
      *    states it should be the constant "Gecko".
      *
      *  - https://developer.mozilla.org/en-US/docs/Web/API/Window.controllers
      *  - https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mozApps
+     *  - https://developer.mozilla.org/en-US/docs/Web/API/Navigator/buildID
      *  - http://www.w3.org/html/wg/drafts/html/master/webappapis.html#navigatorid
      *
      * @return {Boolean} true, if its gecko.
      */
     __isGecko : function() {
-      return window.navigator.mozApps &&
+      return (window.navigator.mozApps || window.navigator.buildID) &&
         window.navigator.product === "Gecko" &&
         window.navigator.userAgent.indexOf("Maple") == -1 &&
         window.navigator.userAgent.indexOf("Trident") == -1;
