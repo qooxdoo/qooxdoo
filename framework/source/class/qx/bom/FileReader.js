@@ -19,8 +19,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * FileReaders allow retrieving the data from a local file, after the file
  * name was selected by an &lt;input type="file"&gt; element.
  *
