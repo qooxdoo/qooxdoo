@@ -1380,8 +1380,10 @@ qx.Class.define("qx.data.SingleValueBinding",
       // go threw all objects in the registry
       for (var hash in this.__bindings) {
         var object = qx.core.ObjectRegistry.fromHashCode(hash);
-        for (var i = 0; i < this.__bindings[hash].length; i++) {
-          this.showBindingInLog(object, this.__bindings[hash][i][0]);
+        if (object) {
+	        for (var i = 0; i < this.__bindings[hash].length; i++) {
+	          this.showBindingInLog(object, this.__bindings[hash][i][0]);
+	        }
         }
       }
     }
