@@ -152,6 +152,22 @@ qx.Class.define("qx.bom.FileReader",
      * object. This is an asynchronous request. When the file is fully loaded,
      * the "load" event will be fired.
      *
+     * The data will be provided as an ArrayBuffer object.
+     *
+     * @param fileObj {File}
+     *   A File object, as obtained by calling {@link #getFile} with an
+     *   element of type &lt;input type="file"&gt;.
+     */
+    readAsArrayBuffer : function(fileObj)
+    {
+      this._fileReader.readAsArrayBuffer(fileObj);
+    },
+
+    /**
+     * Begin reading from the file referenced by the specified file
+     * object. This is an asynchronous request. When the file is fully loaded,
+     * the "load" event will be fired.
+     *
      * The data will be provided in a binary format where each byte is in the
      * range [0,255].
      *
