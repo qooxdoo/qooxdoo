@@ -393,15 +393,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       }
       else
       {
-        var nativeArray = target.toArray();
-        qx.lang.Array.removeAll(nativeArray);
-        for (var i = 0; i < source.getLength(); i++) {
-          nativeArray.push(source.getItem(i));
-        }
-        target.length = nativeArray.length;
-
-        // necessary for keeping preselected items in sync
-        target.fireDataEvent("change", {});
+        target.splice.apply(target, [0, target.length].concat(source.toArray())).dispose();
       }
     },
 
