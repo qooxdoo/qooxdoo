@@ -79,7 +79,7 @@ qx.Class.define("qx.test.ui.core.Spacer",
     },
 
 
-    testDestroyWithParten : function() {
+    testDestroyWithParent : function() {
       var layout = new qx.ui.layout.HBox();
       var container = new qx.ui.container.Composite(layout);
       var spacer = new qx.ui.core.Spacer();
