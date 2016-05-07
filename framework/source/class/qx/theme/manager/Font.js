@@ -28,6 +28,7 @@ qx.Class.define("qx.theme.manager.Font",
 {
   type : "singleton",
   extend : qx.util.ValueManager,
+  implement : [ qx.core.IDisposable ],
 
 
   /*

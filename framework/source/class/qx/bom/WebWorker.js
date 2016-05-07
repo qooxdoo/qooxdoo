@@ -34,6 +34,7 @@
 qx.Class.define("qx.bom.WebWorker",
 {
   extend : qx.core.Object,
+  implement: [ qx.core.IDisposable ],
 
 
   /**

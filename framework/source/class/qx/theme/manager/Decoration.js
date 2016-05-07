@@ -29,6 +29,7 @@ qx.Class.define("qx.theme.manager.Decoration",
 {
   type : "singleton",
   extend : qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
 
   statics :

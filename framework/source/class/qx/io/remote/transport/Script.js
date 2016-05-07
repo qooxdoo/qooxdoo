@@ -33,6 +33,7 @@
 qx.Class.define("qx.io.remote.transport.Script",
 {
   extend : qx.io.remote.transport.Abstract,
+  implement: [ qx.core.IDisposable ],
 
 
 

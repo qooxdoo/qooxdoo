@@ -42,6 +42,7 @@
 qx.Bootstrap.define("qx.event.handler.OrientationCore", {
 
   extend : Object,
+  implement : [ qx.core.IDisposable ],
 
   /**
    *

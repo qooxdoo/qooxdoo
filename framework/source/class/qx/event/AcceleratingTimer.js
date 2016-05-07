@@ -34,6 +34,7 @@
 qx.Class.define("qx.event.AcceleratingTimer",
 {
   extend : qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
   construct : function()
   {

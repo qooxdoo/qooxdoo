@@ -30,7 +30,7 @@
 qx.Class.define("qx.event.handler.DragDrop",
 {
   extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
 
 

@@ -32,6 +32,7 @@
 qx.Class.define("qx.event.Timer",
 {
   extend : qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
 
 

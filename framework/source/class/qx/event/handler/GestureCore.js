@@ -24,6 +24,7 @@
  */
 qx.Bootstrap.define("qx.event.handler.GestureCore", {
   extend : Object,
+  implement: [ qx.core.IDisposable ],
 
   statics : {
 

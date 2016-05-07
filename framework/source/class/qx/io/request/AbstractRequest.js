@@ -38,6 +38,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
   type : "abstract",
 
   extend : qx.core.Object,
+  implement: [ qx.core.IDisposable ],
 
   /**
    * @param url {String?} The URL of the resource to request.

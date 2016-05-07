@@ -32,6 +32,7 @@
 qx.Class.define("qx.bom.FileReader",
 {
   extend : qx.core.Object,
+  implement: [ qx.core.IDisposable ],
 
 
   /**

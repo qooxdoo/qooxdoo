@@ -39,6 +39,7 @@
 qx.Class.define("qx.io.remote.transport.Iframe",
 {
   extend : qx.io.remote.transport.Abstract,
+  implement: [ qx.core.IDisposable ],
 
 
 

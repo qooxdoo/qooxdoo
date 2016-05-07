@@ -31,6 +31,7 @@
 qx.Class.define("qx.io.remote.Request",
 {
   extend : qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
 
 

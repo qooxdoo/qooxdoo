@@ -29,6 +29,7 @@
 qx.Class.define("qx.bom.media.Abstract",
 {
   extend: qx.core.Object,
+  implement: [ qx.core.IDisposable ],
   type: "abstract",
 
 

@@ -44,6 +44,7 @@
 qx.Class.define("qx.html.Element",
 {
   extend : qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
 
 

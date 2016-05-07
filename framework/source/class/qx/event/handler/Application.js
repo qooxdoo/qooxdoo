@@ -28,7 +28,7 @@
 qx.Class.define("qx.event.handler.Application",
 {
   extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
 
 

@@ -35,6 +35,7 @@
 qx.Class.define("qx.io.remote.Exchange",
 {
   extend : qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
 
 

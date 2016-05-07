@@ -51,7 +51,7 @@ qx.Class.define("qx.data.controller.Tree",
 {
   extend : qx.core.Object,
   include: qx.data.controller.MSelection,
-  implement : qx.data.controller.ISelection,
+  implement : [ qx.data.controller.ISelection, qx.core.IDisposable ],
 
 
   /*
@@ -913,19 +913,5 @@ qx.Class.define("qx.data.controller.Tree",
         this.__buildTree();
       }
     }
-  },
-
-
-
-  /*
-   *****************************************************************************
-      DESTRUCTOR
-   *****************************************************************************
-   */
-
-   destruct : function() {
-     this.setTarget(null);
-     this.setModel(null);
-     this.__bindings = this.__childrenRef = this.__boundProperties = null;
-   }
+  }
 });

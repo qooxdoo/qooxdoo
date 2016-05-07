@@ -28,6 +28,7 @@
 qx.Class.define("qx.bom.Shortcut",
 {
   extend : qx.core.Object,
+  implement: [ qx.core.IDisposable ],
 
 
 

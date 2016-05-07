@@ -58,6 +58,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
 {
 
   extend: qx.event.Emitter,
+  implement: [ qx.core.IDisposable ],
 
   /**
    * @param url {String?} The URL of the resource to request.

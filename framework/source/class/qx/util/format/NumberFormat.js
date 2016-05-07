@@ -26,7 +26,7 @@
 qx.Class.define("qx.util.format.NumberFormat",
 {
   extend : qx.core.Object,
-  implement : qx.util.format.IFormat,
+  implement : [ qx.util.format.IFormat, qx.core.IDisposable ],
 
 
   /*

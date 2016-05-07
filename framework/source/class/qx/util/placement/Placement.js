@@ -290,11 +290,5 @@ qx.Class.define("qx.util.placement.Placement",
         return "align-end";
       }
     }
-  },
-
-
-  destruct : function()
-  {
-    this._disposeObjects('__defaultAxis');
   }
 });

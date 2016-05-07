@@ -29,6 +29,7 @@ qx.Class.define("qx.util.DeferredCallManager",
 {
   extend : qx.core.Object,
   type : "singleton",
+  implement : [ qx.core.IDisposable ],
 
 
   /*

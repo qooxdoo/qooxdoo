@@ -132,17 +132,5 @@ qx.Class.define("qx.log.appender.Element",
       // Scroll down
       elem.scrollTop = elem.scrollHeight;
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this.__element = null;
   }
 });
