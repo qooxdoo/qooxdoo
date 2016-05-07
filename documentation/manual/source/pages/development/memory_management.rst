@@ -10,11 +10,25 @@ Introduction
 
 Generally, qooxdoo's runtime will take care of most of the issues around object disposal, so you don't have to be too anxious if you get those 'missing destruct declaration' messages from a verbose disposer run.
 
-To destruct existing objects at the end of your application is an important feature in the ever growing area of web applications. Widgets and models are normally handling a few storage fields on each instance. These fields need the dispose process to work without memory leaks.
+Normally, JavaScript automatically cleans up. There is a built-in garbage collector in all engines, and while there were bugs in browsers like IE6, this is no longer the case.  In Qooxdoo v6.0 and later, almost all objects can be disposed automatically. 
 
-Normally, JavaScript automatically cleans up. There is a built-in garbage collector in all engines, and while there were bugs in browsers like IE6, this is no longer the case and in Qooxdoo v6.0 and later, almost all objects can be disposed automatically. 
+The principal of using garbage collection for managing objects instead of explicitly .dispose()ing them is that destructors and dispose() methods are not implemented.  This is important for many reasons, the principal being that the Javascript garbage collector does not notify us when an object is about to be collected.
 
-However some classes, particularly those which interact with some global resource (such as the browser) in some way, can't be garbage collected - they need to be explicitly disposed by calling their .dispose() method.  To find out whether a class needs to be disposed, check the API documentation for that class and it's superclasses.
+But this does not mean that objects can’t have startup and shutdown procedures - many do in fact, it’s just that cycle is (or should be) separate to garbage collection.  
+
+Historically, a common pattern in Qooxdoo classes is to use dispose/destructor as a general purpose shutdown, so if we want to move to automatic garbage collection we need to identify those classes which have a special shutdown procedure so that the calling code can respect that and free up resources.  We could take the view that all destructor/dispose methods mean that the class has special shutdown procedures but this is unnecessarily harsh because there are a lot of classes which have trivial destructor implementations, or can be easily refactored to not have a destructor.
+
+The difficulty here is in making it clear and obvious what needs to be disposed, and I’ve taken two approaches: first, each class which needs to be disposed implements the marker interface qx.core.IDisposable.  Every Object which implements that interface will be registered with ObjectRegistry exactly as before, so that it can be identified for debugging purposes.  This has the side effect that fromHashCode will also work for those objects, and that the classes can be identified reliably via reflection and (potentially) in the API viewer.
+
+Secondly, many destructors simply set member variables to null and these have been removed.  This is because they are unnecessary and by not providing one we make it clear that it is not necessary.
+
+Thirdly, in some rare cases the code has been refactored to avoid the need for a destructor where previously there was one - for example, only adding a listener for the duration of the task and removing at the end of the task, instead of keeping the listener until dispose is called.  Except in one or two places I have avoided this approach because the risk of introducing bugs with rash, unfocused changes is high.
+
+In many cases, the destructors are for classes which are typically used as singletons and need not be tracked - for example the various qx.event.handler.* and qx.event.dispatch.* classes.
+
+There is one remaining global list of objects which could benefit from refactoring - qx.data.SingleValueBinding keeps a global lookup of every bound object, so any listeners to or from an object property will prevent that object from being garbage collected.  This could be modified so that the bindings are stored with the object, rather than in a global list indexed by hash code, but note that even when binding a single property, the target object also has links back to the source object; this means that unless both source and target are unbound, the binding will prevent garbage collection of both objects.
+
+The net effect of this patch is that automatic garbage collection is now possible, with the proviso that (a) if you must release any bindings manually, and (b) you must observe any “shutdown” requirements of classes.
 
 .. _pages/memory_management#disposing_an_application:
 
