@@ -19,6 +19,8 @@ cache:
   - /tmp/qx5.1
 before_install:
   - gem install sass
+  - echo $DEPLOY_KEY
+  - echo $DEPLOY_KEY | base64
 install:
   - ./.travis-browser-setup.sh
   - export CHROME_BIN=`pwd`/chrome/google-chrome
