@@ -2,6 +2,11 @@ sudo: false
 language: php
 php:
   - "5.6"
+addons:
+  apt:
+    packages:
+      - python-sphinx
+      - texlive-full
 env:
   - QXBROWSER=Firefox QXVERSION=latest
   - QXBROWSER=Firefox QXVERSION=esr-latest
@@ -9,11 +14,11 @@ env:
   - QXBROWSER=Chrome_travis_ci QXVERSION=stable
   - QXBROWSER=Chrome_travis_ci QXVERSION=beta
   - QXBROWSER=Chrome_travis_ci QXVERSION=unstable
-
 cache:
   directories:
   - /tmp/qx5.1
-
+before_install:
+  - gem install sass
 install:
   - ./.travis-browser-setup.sh
   - export CHROME_BIN=`pwd`/chrome/google-chrome
@@ -21,7 +26,6 @@ install:
   - cd framework
   - npm install
   - ./generate.py -sI test-source
-
 before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
@@ -31,3 +35,6 @@ script:
   - ./.travis-test.sh 
 after_script:
   - "pkill -f 'php -S 0.0.0.0:31323' &> /dev/null"
+after_success:
+  - cd $TRAVIS_BUILD_DIR
+  - ./.travis-build-site.sh && ./.travis-deploy.sh
