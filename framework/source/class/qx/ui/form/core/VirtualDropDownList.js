@@ -393,7 +393,14 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       }
       else
       {
-        target.splice.apply(target, [0, target.length].concat(source.toArray())).dispose();
+        // build arguments array for splice(0, target.length, source[0], source[1], ...)
+        var spliceArg = [0, target.length];
+        spliceArg = spliceArg.concat(source.toArray());
+
+        // use apply since it allow to use an array as the argument array
+        // (calling splice directly with an array insert it in the array on which splice is called)
+        // don't forget to dispose the array created by splice
+        target.splice.apply(target, spliceArg).dispose();
       }
     },
 
