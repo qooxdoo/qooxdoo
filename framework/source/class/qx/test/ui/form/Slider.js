@@ -50,7 +50,50 @@ qx.Class.define("qx.test.ui.form.Slider",
 
       this.assertNotEquals(pos0, posFocus);
       this.assertEquals(pos30, posFocus);
-    }
+    },
 
+
+    testInitOrientation : function() {
+      var newSlider1 = new qx.ui.form.Slider();
+      this.__assertIdentical(newSlider1.getOrientation(), "horizontal");
+
+      var newSlider2 = new qx.ui.form.Slider("horizontal");
+      this.__assertIdentical(newSlider2.getOrientation(), "horizontal");
+
+      var newSlider3 = new qx.ui.form.Slider("vertical");
+      this.assertIdentical(newSlider3.getOrientation(), "vertical");
+    },
+
+
+    testSlideMethods : function() {
+      var min = this.__slider.getMinimum();
+      var max = this.__slider.getMaximum();
+
+      this.__slider.slideToBegin();
+      this.assertIdentical(this.__slider.getValue(), min);
+
+      this.__slider.slideToEnd();
+      this.assertIdentical(this.__slider.getValue(), max);
+
+      var singleStep = this.__slider.getSingleStep();
+
+      var before = this.__slider.getValue();
+      this.__slider.slideForward();
+      this.assertIdentical(this.__slider.getValue(), Math.min(before + singleStep, max));
+
+      before = this.__slider.getValue();
+      this.__slider.slideBack();
+      this.__assertIdentical(this.__slider.getValue(), Math.max(before - singleStep, min));
+
+      var pageStep = this.__slider.getPageStep();
+
+      before = this.__slider.getValue();
+      this.__slider.slidePageForward();
+      this.__assertIdentical(this.__slider.getValue(), Math.min(before + pageStep, max));
+
+      before = this.__slider.getValue();
+      this.__slider.slidePageBack();
+      this.__assertIdentical(this.__slider.getValue(), Math.max(before - pageStep, min));
+    }
   }
 });
