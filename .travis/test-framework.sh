@@ -1,6 +1,10 @@
 #!/bin/bash
 set -ev
 
+if [ "$QXBROWSER" = "" ]; then
+    exit 0
+fi
+
 if [ "${QXBROWSER}" = "Firefox" ] && [ "${QXVERSION}" = "latest" ]; then
 	npm run-script travis-coverage
 else

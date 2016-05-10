@@ -13,7 +13,7 @@ git config --global user.name "Travis CI deploy"
 git config --global user.email "no-reply@qooxdoo.org"
 git config --global push.default simple
 
-git remote add upstream "https://$DEPLOY_KEY@github.com/qooxdoo/qooxdoo.github.io.git"
+git remote add upstream "git@github.com:qooxdoo/qooxdoo.github.io.git"
 git fetch upstream
 git merge upstream/master
 

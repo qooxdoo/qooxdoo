@@ -7,8 +7,8 @@ GENERATE="./generate.py -sI"
 TARGET="$PWD/build"
 MASTER="master"
 
-if [ "$DEPLOY_KEY" = "" ]; then
-  echo "Please define the DEPLOY_KEY environment variable."
+if [ "$QXBROWSER" != "" ]; then
+  echo "Skipping site generation for non regular build."
   exit 1
 fi
 
@@ -104,8 +104,8 @@ function build_manual {
   (
     cd documentation/manual
     make html && cp -r build/html/* "$TARGET"
-    make latexpdf && cp build/latex/qooxdoo.pdf "$TARGET"
-    make epub && cp build/epub/qooxdoo.epub "$TARGET"
+    #make latexpdf && cp build/latex/qooxdoo.pdf "$TARGET"
+    #make epub && cp build/epub/qooxdoo.epub "$TARGET"
   )
 }
 
@@ -119,4 +119,7 @@ mkdir -p "$TARGET"
 for build in $(declare -f | sed -n "s/^\(build_[^ ]*\).*) *$/\1/p"); do
   $build &
 done
+
 wait
+
+find $TARGET -name '.gitignore' -exec rm {} \;
