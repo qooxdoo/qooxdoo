@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ "$QXBROWSER" = "" ]; then
+    exit 0
+fi
+
 if [ $QXBROWSER = Firefox ]; then
     wget -O /tmp/firefox.tar.bz2 "https://download.mozilla.org/?product=firefox-${QXVERSION}&lang=en-US&os=linux64"
     tar xf /tmp/firefox.tar.bz2

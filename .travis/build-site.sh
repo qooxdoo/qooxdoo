@@ -5,10 +5,10 @@
 #
 GENERATE="./generate.py -sI"
 TARGET="$PWD/build"
-MASTER="master"
+MASTER="build-site"
 
-if [ "$DEPLOY_KEY" = "" ]; then
-  echo "Please define the DEPLOY_KEY environment variable."
+if [ "$encrypted_79e2b5e847ea_key" = "" ]; then
+  echo "Skipping site generation for non regular build."
   exit 1
 fi
 
