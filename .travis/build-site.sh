@@ -8,7 +8,7 @@ TARGET="$PWD/build"
 MASTER="master"
 
 if [ "$QXBROWSER" != "" ]; then
-  echo "Skipping site generation for non regular build."
+  echo "Skipping site generation for regular build."
   exit 1
 fi
 
