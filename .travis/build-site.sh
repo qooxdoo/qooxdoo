@@ -7,7 +7,7 @@ GENERATE="./generate.py -sI"
 TARGET="$PWD/build"
 MASTER="master"
 
-if [ "$QXBROWSER" != "" ]; then
+if [ "$GH_USER_EMAIL" = "" ]; then
   echo "Skipping site generation for regular build."
   exit 1
 fi
