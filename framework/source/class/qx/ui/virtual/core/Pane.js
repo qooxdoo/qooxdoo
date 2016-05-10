@@ -673,7 +673,24 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     _onDbltap : function(e) {
        this.__handlePointerCellEvent(e, "cellDbltap");
     },
-
+    
+    /**
+     * Fixed scrollbar position whenever it is out of range
+     * it can happen when removing an item from the list reducing
+     * the max value for scrollY #8976
+     */
+    _checkScrollBounds: function() {
+      var maxx = this.getScrollMaxX();
+      var maxy = this.getScrollMaxY();
+      if (this.__scrollLeft < 0)
+        this.__scrollLeft = 0;
+      else if (this.__scrollLeft > maxx)
+        this.__scrollLeft = maxx;
+      if (this.__scrollTop < 0)
+        this.__scrollTop = 0;
+      else if (this.__scrollTop > maxy)
+        this.__scrollTop = maxy;
+    },
 
     /**
      * Converts a pointer event into a cell event and fires the cell event if the
@@ -713,8 +730,10 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     syncWidget : function(jobs)
     {
       if (this.__jobs._fullUpdate) {
+        this._checkScrollBounds();
         this._fullUpdate();
       } else if (this.__jobs._updateScrollPosition) {
+        this._checkScrollBounds();
         this._updateScrollPosition();
       }
       this.__jobs = {};
