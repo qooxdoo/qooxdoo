@@ -29,7 +29,7 @@ function build_mobile_showcase {
   echo "Building mobile showcase..."
   (
     cd application/mobileshowcase
-    $GENERATE build && cp -a build-indigo "$TARGET/mobileshowcase"
+    $GENERATE build --macro CACHE:/tmp/cache-$RANDOM && cp -a build-indigo "$TARGET/mobileshowcase"
   )
 }
 
@@ -37,7 +37,7 @@ function build_tutorial {
   echo "Building tutorial..."
   (
     cd application/tutorial
-    $GENERATE build && cp -a build "$TARGET/tutorial"
+    $GENERATE build --macro CACHE:/tmp/cache-$RANDOM && cp -a build "$TARGET/tutorial"
   )
 }
 
@@ -53,9 +53,9 @@ function build_feedreader {
   echo "Building feedreader..."
   (
     cd application/feedreader
-    $GENERATE build && cp -a build "$TARGET/feedreader"
-    $GENERATE build-mobile && cp -a build-mobile "$TARGET/feedreader-mobile"
-    $GENERATE build-website && cp -a build-website "$TARGET/feedreader-website"
+    $GENERATE build --macro CACHE:/tmp/cache-$RANDOM && cp -a build "$TARGET/feedreader"
+    $GENERATE build-mobile --macro CACHE:/tmp/cache-$RANDOM && cp -a build-mobile "$TARGET/feedreader-mobile"
+    $GENERATE build-website --macro CACHE:/tmp/cache-$RANDOM && cp -a build-website "$TARGET/feedreader-website"
   )
 }
 
@@ -63,7 +63,7 @@ function build_api {
   echo "Building framework API..."
   (
     cd framework
-    $GENERATE api && cp -a api "$TARGET"
+    $GENERATE api --macro CACHE:/tmp/cache-$RANDOM && cp -a api "$TARGET"
   )
 }
 
@@ -71,7 +71,7 @@ function build_playground {
   echo "Building playground..."
   (
     cd application/playground
-    $GENERATE build && cp -a build "$TARGET/playground"
+    $GENERATE build --macro CACHE:/tmp/cache-$RANDOM && cp -a build "$TARGET/playground"
   )
 }
 
@@ -79,7 +79,7 @@ function build_demobrowser {
   echo "Building demobrowser..."
   (
     cd application/demobrowser
-    $GENERATE build && cp -a build "$TARGET/demobrowser"
+    $GENERATE build --macro CACHE:/tmp/cache-$RANDOM && cp -a build "$TARGET/demobrowser"
   )
 }
 
@@ -87,7 +87,7 @@ function build_showcase {
   echo "Building showcase..."
   (
     cd application/showcase
-    $GENERATE build && cp -a build "$TARGET/showcase"
+    $GENERATE build --macro CACHE:/tmp/cache-$RANDOM && cp -a build "$TARGET/showcase"
   )
 }
 
@@ -95,7 +95,7 @@ function build_widgetbrowser {
   echo "Building widgetbrowser..."
   (
     cd application/widgetbrowser
-    $GENERATE build && cp -a build "$TARGET/widgetbrowser"
+    $GENERATE build --macro CACHE:/tmp/cache-$RANDOM && cp -a build "$TARGET/widgetbrowser"
   )
 }
 
