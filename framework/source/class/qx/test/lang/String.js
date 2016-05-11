@@ -231,7 +231,8 @@ qx.Class.define("qx.test.lang.String",
 
       var nativeGlobalEval = qx.lang.Function.globalEval;
       var called = false;
-
+      
+      // Patch to check if the function has been called by the stripScripts function
       qx.lang.Function.globalEval = function(str) {
           nativeGlobalEval(str);
           called = true;
