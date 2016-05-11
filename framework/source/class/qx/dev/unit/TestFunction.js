@@ -109,12 +109,12 @@ qx.Class.define("qx.dev.unit.TestFunction",
     {
       var inst = this.getTestClass();
       var method = this.getName();
-      var testFunc = this;
+      
+      inst.setTestFunc(this);
+      inst.setTestResult(testResult);
+      
       testResult.run(this, function()
       {
-        inst.setTestFunc(testFunc);
-        inst.setTestResult(testResult);
-
         try {
           inst[method]();
         } catch (ex) {
