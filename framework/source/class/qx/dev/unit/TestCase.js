@@ -106,6 +106,32 @@ qx.Class.define("qx.dev.unit.TestCase",
       );
     },
 
+    /**
+     * Cancel a timeout started with <code>wait()</code> in setUp() and run the test
+     * function. Used for asynchronous setUp of tests.
+     *
+     * @return {var} The return value of the testRun
+     */
+    resumeSetUp : function() {
+      var func = this.getTestFunc();
+      var inst = this;
+      var method = func.getName();
+
+      return this.getTestResult().run(
+        func,
+        function()
+        {
+          try {
+            inst[method]();
+          } catch (ex) {
+            throw ex;
+          }
+        },
+        this,
+        true
+      );
+    },
+
 
     /**
      * Cancel a timeout started with <code>wait()</code> and return a function,
