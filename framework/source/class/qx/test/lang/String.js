@@ -213,6 +213,36 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals('"abc \\"defg\\" hij"', qx.lang.String.quote('abc "defg" hij'));
       this.assertEquals('"abc \\\\defg\\\\ hij"', qx.lang.String.quote('abc \\defg\\ hij'));
       this.assertEquals('"abc \\"defg\\\\ hij"', qx.lang.String.quote('abc "defg\\ hij'));
+    },
+
+    testTrim : function()
+    {
+      var str = "     foo bar     ";
+
+      this.assertIdentical(qx.lang.String.trimLeft(str), "foo bar     ");
+      this.assertIdentical(qx.lang.String.trimRight(str), "     foo bar");
+    },
+
+    testStripScripts : function()
+    {
+      var str = "This is a <script>foobar</script>test";
+
+      this.assertIdentical(qx.lang.String.stripScripts(str), "This is a test");
+
+      var nativeGlobalEval = qx.lang.Function.globalEval;
+      var called = false;
+
+      qx.lang.Function.globalEval = function(str) {
+          nativeGlobalEval(str);
+          called = true;
+      };
+
+      str = "This is a test with<script>console.log('foobar');</script> script";
+
+      this.assertIdentical(qx.lang.String.stripScripts(str, true), "This is a test with script");
+      this.assertIdentical(called, true);
+
+      qx.lang.Function.globalEval = nativeGlobalEval;
     }
   }
 });
