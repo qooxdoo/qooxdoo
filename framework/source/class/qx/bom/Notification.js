@@ -35,7 +35,7 @@
  *
  * **Note**
  *
- * A notification can only be send if the user allows these notifications to
+ * A notification can only be sent if the user allows these notifications to
  * be shown. <code>qx.bom.Notification</code> automatically tries to
  * trigger a browser dialog which asks the user for permission.
  *
@@ -44,7 +44,7 @@
  * interactive event handler. So there is most likely a mouse or key
  * event involved initially to trigger it properly.
  *
- * For real life applications that means that you may add a <code>request()</code>
+ * For real life applications this means that you may add a <code>request()</code>
  * call i.e. to your applications login button to let the browser ask for
  * permission initially. After that happened and the user decided to
  * accept these notifications, they can be sent any time without the
