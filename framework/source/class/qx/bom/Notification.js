@@ -39,10 +39,9 @@
  * be shown. <code>qx.bom.Notification</code> automatically tries to
  * trigger a browser dialog which asks the user for permission.
  *
- * But there is a restriction: the dialog will only show up,
- * if the initial request was triggered from within an
- * interactive event handler. So there is most likely a mouse or key
- * event involved initially to trigger it properly.
+ * But there is a restriction: the dialog will only show up if it is triggered
+ * by code that is running inside a request handler for an interactive browser
+ * event like a mouse click or a keyboard interaction.
  *
  * For real life applications this means that you may add a <code>request()</code>
  * call i.e. to your applications login button to let the browser ask for
