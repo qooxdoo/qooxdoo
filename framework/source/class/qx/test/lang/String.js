@@ -20,6 +20,7 @@
 qx.Class.define("qx.test.lang.String",
 {
   extend : qx.dev.unit.TestCase,
+  include : [qx.dev.unit.MMock],
 
   members :
   {
@@ -228,22 +229,15 @@ qx.Class.define("qx.test.lang.String",
       var str = "This is a <script>foobar</script>test";
 
       this.assertIdentical(qx.lang.String.stripScripts(str), "This is a test");
-
-      var nativeGlobalEval = qx.lang.Function.globalEval;
-      var called = false;
       
-      // Patch to check if the function has been called by the stripScripts function
-      qx.lang.Function.globalEval = function(str) {
-          nativeGlobalEval(str);
-          called = true;
-      };
+      var spy = this.spy(qx.lang.Function, "globalEval");
 
       str = "This is a test with<script>console.log('foobar');</script> script";
 
       this.assertIdentical(qx.lang.String.stripScripts(str, true), "This is a test with script");
-      this.assertIdentical(called, true);
-
-      qx.lang.Function.globalEval = nativeGlobalEval;
+      this.assertCalledOnce(spy);
+      
+      spy.restore();
     }
   }
 });
