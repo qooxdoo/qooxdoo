@@ -682,14 +682,18 @@ qx.Class.define("qx.ui.virtual.core.Pane",
     _checkScrollBounds: function() {
       var maxx = this.getScrollMaxX();
       var maxy = this.getScrollMaxY();
-      if (this.__scrollLeft < 0)
+      if (this.__scrollLeft < 0) {
         this.__scrollLeft = 0;
-      else if (this.__scrollLeft > maxx)
+      }
+      else if (this.__scrollLeft > maxx) {
         this.__scrollLeft = maxx;
-      if (this.__scrollTop < 0)
+      }
+      if (this.__scrollTop < 0) {
         this.__scrollTop = 0;
-      else if (this.__scrollTop > maxy)
+      }
+      else if (this.__scrollTop > maxy) {
         this.__scrollTop = maxy;
+      }
     },
 
     /**

@@ -531,7 +531,7 @@ function createCache() {
 
 /**
  * Mark a function for special use by Sizzle
- * @param {Function} fn The function to mark
+ * @param fn {Function} The function to mark
  */
 function markFunction( fn ) {
 	fn[ expando ] = true;
@@ -540,7 +540,7 @@ function markFunction( fn ) {
 
 /**
  * Support testing using an element
- * @param {Function} fn Passed the created element and returns a boolean result
+ * @param fn {Function} Passed the created element and returns a boolean result
  */
 function assert( fn ) {
 	var el = document.createElement("fieldset");
@@ -561,8 +561,8 @@ function assert( fn ) {
 
 /**
  * Adds the same handler for all of the specified attrs
- * @param {String} attrs Pipe-separated list of attributes
- * @param {Function} handler The method that will be applied
+ * @param attrs {String} Pipe-separated list of attributes
+ * @param handler {Function} The method that will be applied
  */
 function addHandle( attrs, handler ) {
 	var arr = attrs.split("|"),
@@ -575,8 +575,8 @@ function addHandle( attrs, handler ) {
 
 /**
  * Checks document order of two siblings
- * @param {Element} a
- * @param {Element} b
+ * @param a {Element}
+ * @param b {Element}
  * @returns {Number} Returns less than 0 if a precedes b, greater than 0 if a follows b
  */
 function siblingCheck( a, b ) {
@@ -603,7 +603,7 @@ function siblingCheck( a, b ) {
 
 /**
  * Returns a function to use in pseudos for input types
- * @param {String} type
+ * @param type {String}
  */
 function createInputPseudo( type ) {
 	return function( elem ) {
@@ -614,7 +614,7 @@ function createInputPseudo( type ) {
 
 /**
  * Returns a function to use in pseudos for buttons
- * @param {String} type
+ * @param type {String}
  */
 function createButtonPseudo( type ) {
 	return function( elem ) {
@@ -625,7 +625,7 @@ function createButtonPseudo( type ) {
 
 /**
  * Returns a function to use in pseudos for :enabled/:disabled
- * @param {Boolean} disabled true for :disabled; false for :enabled
+ * @param disabled {Boolean} true for :disabled; false for :enabled
  */
 function createDisabledPseudo( disabled ) {
 	// Known :disabled false positives:
@@ -653,7 +653,7 @@ function createDisabledPseudo( disabled ) {
 
 /**
  * Returns a function to use in pseudos for positionals
- * @param {Function} fn
+ * @param fn {Function}
  */
 function createPositionalPseudo( fn ) {
 	return markFunction(function( argument ) {
@@ -675,7 +675,7 @@ function createPositionalPseudo( fn ) {
 
 /**
  * Checks a node for validity as a Sizzle context
- * @param {Element|Object=} context
+ * @param context {Element|Object}
  * @returns {Element|Object|Boolean} The input node if acceptable, otherwise a falsy value
  */
 function testContext( context ) {
@@ -687,7 +687,7 @@ support = Sizzle.support = {};
 
 /**
  * Detects XML nodes
- * @param {Element|Object} elem An element or a document
+ * @param elem {Element|Object} An element or a document
  * @returns {Boolean} True iff elem is a non-HTML XML node
  */
 isXML = Sizzle.isXML = function( elem ) {
@@ -699,7 +699,7 @@ isXML = Sizzle.isXML = function( elem ) {
 
 /**
  * Sets document-related variables once based on the current document
- * @param {Element|Object} [doc] An element or document object to use to set the document
+ * @param doc {Element|Object} An element or document object to use to set the document
  * @returns {Object} Returns the current document
  */
 setDocument = Sizzle.setDocument = function( node ) {
@@ -1153,7 +1153,7 @@ Sizzle.error = function( msg ) {
 
 /**
  * Document sorting and removing duplicates
- * @param {ArrayLike} results
+ * @param results {ArrayLike}
  */
 Sizzle.uniqueSort = function( results ) {
 	var elem,
@@ -1186,7 +1186,7 @@ Sizzle.uniqueSort = function( results ) {
 
 /**
  * Utility function for retrieving the text value of an array of DOM nodes
- * @param {Array|Element} elem
+ * @param elem {Array|Element}
  */
 getText = Sizzle.getText = function( elem ) {
 	var node,
@@ -2216,11 +2216,11 @@ compile = Sizzle.compile = function( selector, match /* Internal Use Only */ ) {
 /**
  * A low-level selection function that works with Sizzle's compiled
  *  selector functions
- * @param {String|Function} selector A selector or a pre-compiled
+ * @param selector {String|Function} A selector or a pre-compiled
  *  selector function built with Sizzle.compile
- * @param {Element} context
- * @param {Array} [results]
- * @param {Array} [seed] A set of elements to match against
+ * @param context {Element}
+ * @param results {Array}
+ * @param seed {Array} A set of elements to match against
  */
 select = Sizzle.select = function( selector, context, results, seed ) {
 	var i, tokens, token, type, find,

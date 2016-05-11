@@ -448,25 +448,29 @@ qx.Bootstrap.define("qx.Bootstrap",
           if (required) {
             for (var key in required) {
               var info = required[key];
-              if (info.load && info.className)
+              if (info.load && info.className) {
                 executeForClassName(info.className);
+              }
             }
           }
         }
         for (var key in dbClassInfo.dependsOn) {
           var depInfo = dbClassInfo.dependsOn[key];
-          if (depInfo.require || depInfo.load === "dynamic")
+          if (depInfo.require || depInfo.load === "dynamic") {
             executeForClassName(key);
+          }
         }
       }
 
       var executeForClassName = function (className) {
         var clazz = getByName(className);
-        if (clazz.$$deferComplete)
+        if (clazz.$$deferComplete) {
           return;
+        }
         var dbClassInfo = clazz.$$dbClassInfo;
-        if (dbClassInfo)
+        if (dbClassInfo) {
           executeForDbClassInfo(dbClassInfo);
+        }
         execute(clazz);
       }
 
@@ -490,13 +494,13 @@ qx.Bootstrap.define("qx.Bootstrap",
           for (var i = 0, len = splits.length - 1; tmp && i < len; i++, part = splits[i]) {
             tmp = tmp[part];
           }
-          if (tmp != root)
+          if (tmp != root) {
             clazz = tmp;
+          }
         }
         return clazz;
       }
 
-      var t = this;
       if (!dbClassInfo) {
         var pendingDefers = this.__pendingDefers;
         this.__pendingDefers = [];
