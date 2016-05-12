@@ -3,7 +3,8 @@
 # This is a flat build script that manages everything we want to
 # see on the github pages. Simply all build_ functions get called.
 #
-GENERATE="./generate.py -sI"
+GITINFO=$(git rev-parse --abbrev-ref HEAD)$(git log --pretty=format:':%h' -n 1)
+GENERATE="./generate.py -sI -m QOOXDOO_REVISION:$GITINFO "
 TARGET="$PWD/build"
 MASTER="master"
 
