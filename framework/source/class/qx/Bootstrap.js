@@ -425,7 +425,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @param cb {Function} Callback function
      */
     addPendingDefer: function(clazz, cb) {
-      if (qx.$$loader.delayDefer) {
+      if (qx.$$loader && qx.$$loader.delayDefer) {
         this.__pendingDefers.push(clazz);
         clazz.$$pendingDefer = cb;
       } else {
