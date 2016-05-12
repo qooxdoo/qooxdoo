@@ -37,7 +37,13 @@ qx.Class.define("qx.test.util.DeferredCall",
       qx.event.GlobalError.setErrorHandler(onError, this);
 
       deferredCall.schedule();
-      this.wait();
+      this.wait(1000, function() {
+        qx.event.GlobalError.setErrorHandler(null, null);
+        throw new qx.core.AssertionError(
+          "Asynchronous Test Error",
+          "Timeout reached before resume() was called."
+        );
+      });
     }
   }
 });

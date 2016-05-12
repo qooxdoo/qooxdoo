@@ -154,7 +154,7 @@
  *     // onexit function or by a transition's action function.
  *     "nextState" : qx.util.fsm.FiniteStateMachine.StateChange.POP_STATE_STACK,
  *
- *     // action taken during transisition
+ *     // action taken during transition
  *     "ontransition"    :
  *       function(fsm, event)
  *       {
@@ -202,7 +202,7 @@
  *     // if event matches, go to this state
  *     "nextState" : "S2",
  *
- *     // action taken during transisition
+ *     // action taken during transition
  *     "ontransition"    :
  *       function(fsm, event)
  *       {

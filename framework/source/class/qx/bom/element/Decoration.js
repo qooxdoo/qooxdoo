@@ -192,7 +192,7 @@ qx.Class.define("qx.bom.element.Decoration",
       }
       else if ((qx.core.Environment.get("engine.name") == "webkit"))
       {
-        // This stops images from being dragable in webkit
+        // This stops images from being draggable in webkit
         style.WebkitUserDrag = "none";
       }
 

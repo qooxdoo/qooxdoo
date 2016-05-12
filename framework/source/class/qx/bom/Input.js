@@ -220,7 +220,7 @@ qx.Bootstrap.define("qx.bom.Input",
 
           if (option.selected)
           {
-            // Get the specifc value for the option
+            // Get the specific value for the option
             value = clazz.getValue(option);
 
             // We don't need an array for one selects

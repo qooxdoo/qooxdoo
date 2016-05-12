@@ -37,14 +37,14 @@ qx.Class.define("qx.ui.splitpane.Slider",
 
   properties :
   {
-    // overrridden
+    // overridden
     allowShrinkX :
     {
       refine : true,
       init : false
     },
 
-    // overrridden
+    // overridden
     allowShrinkY :
     {
       refine : true,

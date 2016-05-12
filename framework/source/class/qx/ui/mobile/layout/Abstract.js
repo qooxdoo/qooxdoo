@@ -71,8 +71,8 @@ qx.Class.define("qx.ui.mobile.layout.Abstract",
 
 
     /**
-     * Returns the supported child layout properites. Needed to validate
-     * the incoming layout properites. Override this function in your implementation.
+     * Returns the supported child layout properties. Needed to validate
+     * the incoming layout properties. Override this function in your implementation.
      *
      * @return {Map} The supported child layout properties, e.g. <code>{"property":1}</code>
      */

@@ -32,54 +32,63 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
   construct : function()
   {
     this.base(arguments);
-    var manager = this.manager = qx.locale.Manager.getInstance();
-
-    // add dummy translations
-    manager.addTranslation("en_QX", {
-      "test one": "test one",
-      "test two": "test two",
-      "test Hello %1!": "test Hello %1!",
-      "test Jonny": "test Jonny"
-    });
-    manager.addTranslation("de_QX", {
-      "test one": "Eins",
-      "test two": "Zwei",
-      "test Hello %1!": "Servus %1!",
-      "test Jonny": "Jonathan"
-    });
+    this.manager = qx.locale.Manager.getInstance();
   },
 
 
 
   members :
   {
+    manager: null,
+    __translationAdded : null,
+
     setUp : function() {
       this.base(arguments);
+      if (!this.__translationAdded) {
+        // add dummy translations
+        this.manager.addTranslation("en_QX", {
+          "test one"       : "test one",
+          "test two"       : "test two",
+          "test Hello %1!" : "test Hello %1!",
+          "test Jonny"     : "test Jonny"
+        });
+        this.manager.addTranslation("de_QX", {
+          "test one"       : "Eins",
+          "test two"       : "Zwei",
+          "test Hello %1!" : "Servus %1!",
+          "test Jonny"     : "Jonathan"
+        });
+        this.__translationAdded = true;
+      }
       this.manager.setLocale("en_QX");
+    },
+
+    tearDown : function() {
+      this.base(arguments);
+      this.manager.resetLocale();
     },
 
 
     testLabel : function()
     {
-      var manager = qx.locale.Manager.getInstance();
-
       var label = new qx.ui.mobile.basic.Label(this.tr("test one"));
+      this.addAutoDispose(label);
       this.getRoot().add(label);
 
       this.assertEquals("test one", label.getValue());
-      manager.setLocale("de_QX");
+      this.manager.setLocale("de_QX");
       this.assertEquals("Eins", label.getValue());
-      manager.setLocale("en_QX");
+      this.manager.setLocale("en_QX");
 
       label.setValue(this.tr("test Hello %1!", this.tr("test Jonny")));
       this.assertEquals("test Hello test Jonny!", label.getValue());
-      manager.setLocale("de_QX");
+      this.manager.setLocale("de_QX");
       this.assertEquals("Servus Jonathan!", label.getValue());
 
       // de -> en
       label.setValue(this.tr("test two"));
       this.assertEquals("Zwei", label.getValue());
-      manager.setLocale("en_QX");
+      this.manager.setLocale("en_QX");
       this.assertEquals("test two", label.getValue());
 
       label.destroy();
@@ -106,6 +115,7 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
       ];
 
       list.setModel(new qx.data.Array(data));
+      this.addAutoDispose(list);
       this.getRoot().add(list);
 
       this.__testListEn();
@@ -138,24 +148,25 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
 
     testFormRendererSingle : function()
     {
-      var manager = qx.locale.Manager.getInstance();
-
       var title = new qx.ui.mobile.form.Title(this.tr("test one"));
+      this.addAutoDispose(title);
       var form = new qx.ui.mobile.form.Form();
       form.add(new qx.ui.mobile.form.TextField(), this.tr("test two"));
 
       this.getRoot().add(title);
       var renderer = new qx.ui.mobile.form.renderer.Single(form);
+      this.addAutoDispose(renderer);
       this.getRoot().add(renderer);
 
       this.assertEquals("test one", title.getValue());
       this.assertEquals("test two", renderer._labels[0].getValue());
-      manager.setLocale("de_QX");
+      this.manager.setLocale("de_QX");
       this.assertEquals("Eins", title.getValue());
       this.assertEquals("Zwei", renderer._labels[0].getValue());
-      manager.setLocale("en_QX");
+      this.manager.setLocale("en_QX");
 
       title.destroy();
+      renderer.destroy();
     }
   }
 });

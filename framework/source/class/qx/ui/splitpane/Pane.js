@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     /**
-     * Move handler for the spliiter which takes care of the external
+     * Move handler for the splitter which takes care of the external
      * triggered resize of children.
      *
      * @param e {qx.event.type.Data} The data even of move.

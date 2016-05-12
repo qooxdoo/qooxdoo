@@ -2186,7 +2186,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator = "button-box-pressed";
         }
 
-        // set the right left and right decoratos
+        // set the right left and right decorator
         if (states.left) {
           decorator += "-left";
         } else if (states.right) {
@@ -2259,7 +2259,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator = "button-box-pressed";
         }
 
-        // set the right left and right decoratos
+        // set the right left and right decorator
         if (states.left) {
           decorator += "-left";
         } else if (states.right) {
@@ -2295,7 +2295,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator = "button-box-pressed";
         }
 
-        // set the right left and right decoratos
+        // set the right left and right decorator
         if (states.left) {
           decorator += "-middle";
         } else if (states.right) {

@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     __menuContainer : null,
 
 
-    // overidden
+    // overridden
     show : function() {
       this.base(arguments);
 

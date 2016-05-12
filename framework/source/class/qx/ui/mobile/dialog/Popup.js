@@ -30,7 +30,7 @@
  * popup.show();
  * </pre>
  * Here we show a popup consisting of a single buttons alerting the user
- * that an error has occured.
+ * that an error has occurred.
  * It will be centered to the screen.
  * <pre class='javascript'>
  * var label = new qx.ui.mobile.basic.Label("Item1");

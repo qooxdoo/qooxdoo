@@ -179,7 +179,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
 
     testRedefine : function()
     {
-      // set the initla values
+      // set the initial values
       this.__username.setValue("A");
       this.__password1.setValue("B");
       this.__password2.setValue("C");
@@ -242,7 +242,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
 
     testResetOneItem : function()
     {
-      // set the initla values
+      // set the initial values
       this.__username.setValue("A");
       this.__password1.setValue("B");
       this.__password2.setValue("C");
@@ -273,7 +273,7 @@ qx.Class.define("qx.test.ui.form.Resetter",
 
     testRedefineOneItem : function()
     {
-      // set the initla values
+      // set the initial values
       this.__username.setValue("A");
       this.__password1.setValue("B");
       this.__password2.setValue("C");

@@ -164,7 +164,7 @@ qx.Class.define("qx.event.Registration",
      * Remove all event listeners, which are attached to the given event target.
      *
      * @param target {Object} The event target to remove all event listeners from.
-     * @return {Boolean} Whether the events were existend and were removed successfully.
+     * @return {Boolean} Whether the events were existant and were removed successfully.
      */
     removeAllListeners : function(target) {
       return this.getManager(target).removeAllListeners(target);

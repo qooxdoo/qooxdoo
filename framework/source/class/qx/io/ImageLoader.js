@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.io.ImageLoader",
      * Loads the given image. Supports a callback which is
      * executed when the image is loaded.
      *
-     * This method works asychronous.
+     * This method works asynchronous.
      *
      * @param source {String} Image source to load
      * @param callback {Function?} Callback function to execute

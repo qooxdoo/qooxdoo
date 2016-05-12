@@ -502,7 +502,7 @@ qx.Class.define("qx.data.Array",
 
     /**
      * Returns the list data as native array. Beware of the fact that the
-     * internal representation will be returnd and any manipulation of that
+     * internal representation will be returned and any manipulation of that
      * can cause a misbehavior of the array. This method should only be used for
      * debugging purposes.
      *

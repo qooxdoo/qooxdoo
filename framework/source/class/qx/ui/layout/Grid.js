@@ -37,11 +37,11 @@
  *
  * <ul>
  * <li><strong>row</strong> <em>(Integer)</em>: The row of the cell the
- *   widget should occupy. Each cell can only contain one widget. This layout
+ *   widget should occupy. Each cell can only containing one widget. This layout
  *   property is mandatory.
  * </li>
  * <li><strong>column</strong> <em>(Integer)</em>: The column of the cell the
- *   widget should occupy. Each cell can only contain one widget. This layout
+ *   widget should occupy. Each cell can only containing one widget. This layout
  *   property is mandatory.
  * </li>
  * <li><strong>rowSpan</strong> <em>(Integer)</em>: The number of rows, the
@@ -991,7 +991,7 @@ qx.Class.define("qx.ui.layout.Grid",
           minSpanWidth += colWidth.minWidth;
         }
 
-        // If there is not enought space for the preferred size
+        // If there is not enough space for the preferred size
         // increment the preferred column sizes.
         if (prefSpanWidth < hint.width)
         {
@@ -1006,7 +1006,7 @@ qx.Class.define("qx.ui.layout.Grid",
           }
         }
 
-        // If there is not enought space for the min size
+        // If there is not enough space for the min size
         // increment the min column sizes.
         if (minSpanWidth < hint.minWidth)
         {
@@ -1027,7 +1027,7 @@ qx.Class.define("qx.ui.layout.Grid",
     /**
      * Compute the min/pref/max row heights.
      *
-     * @return {Map[]} An array containg height information for each row. The
+     * @return {Map[]} An array containing height information for each row. The
      *     entries have the keys <code>minHeight</code>, <code>maxHeight</code> and
      *     <code>height</code>.
      */
@@ -1101,7 +1101,7 @@ qx.Class.define("qx.ui.layout.Grid",
     /**
      * Compute the min/pref/max column widths.
      *
-     * @return {Map[]} An array containg width information for each column. The
+     * @return {Map[]} An array containing width information for each column. The
      *     entries have the keys <code>minWidth</code>, <code>maxWidth</code> and
      *     <code>width</code>.
      */

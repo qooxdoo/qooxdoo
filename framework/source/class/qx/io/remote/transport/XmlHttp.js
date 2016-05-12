@@ -49,7 +49,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       asynchronous          : true,
       crossDomain           : false,
       fileUpload            : false,
-      programaticFormFields : false,
+      programmaticFormFields : false,
       responseTypes         : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ]
     },
 
@@ -132,7 +132,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * If true and the responseType property is set to "application/json", getResponseContent() will
      * return a Javascript map containing the JSON contents, i. e. the result qx.lang.Json.parse().
      * If false, the raw string data will be returned and the parsing must be done manually.
-     * This is usefull for special JSON dialects / extensions which are not supported by
+     * This is useful for special JSON dialects / extensions which are not supported by
      * qx.lang.Json.
      */
     parseJson :
@@ -398,7 +398,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       }
 
       // --------------------------------------
-      //   Readystate for sync reqeusts
+      //   Readystate for sync requests
       // --------------------------------------
       if (!vAsynchronous) {
         this._onreadystatechange();

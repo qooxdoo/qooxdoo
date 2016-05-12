@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           }
 
           // Found item, but is identical to start or even before start item
-          // Update min positon and try on previous page
+          // Update min position and try on previous page
           if (found >= start)
           {
             // Reduce min by the distance of the lead item to the visible

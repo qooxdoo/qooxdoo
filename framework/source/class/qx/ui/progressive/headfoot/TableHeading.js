@@ -77,10 +77,10 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
     // This layout is not connected to a widget but to this class. This class
     // must implement the method "getLayoutChildren", which must return all
-    // columns (LayoutItems) which should be recalcutated. The call
+    // columns (LayoutItems) which should be recalculated. The call
     // "layout.renderLayout" will call the method "renderLayout" on each
     // column data object The advantage of the use of the normal layout
-    // manager is that the samantics of flex and percent are exectly the same
+    // manager is that the semantics of flex and percent are exactly the same
     // as in the widget code.
     this.__layout = new qx.ui.layout.HBox();
     this.__layout.connectToWidget(this);

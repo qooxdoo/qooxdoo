@@ -211,7 +211,7 @@ qx.Class.define("qx.bom.Element",
 
       // IE copies events bound via attachEvent() when
       // using cloneNode(). Calling detachEvent() on the
-      // clone will also remove the events from the orignal.
+      // clone will also remove the events from the original.
       //
       // In order to get around this, we detach all locally
       // attached events first, do the cloning and recover

@@ -427,7 +427,7 @@ qx.Class.define("qx.ui.embed.ThemedIframe",
 
 
     /**
-     * Configures the given scollbar
+     * Configures the given scrollbar
      *
      * @param scrollbarId {String} child control id of the scrollbar to
      *   configure

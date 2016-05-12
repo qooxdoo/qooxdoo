@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
         }
       }
 
-      // in case of an user selecable list, remove the enabled items
+      // in case of an user selectable list, remove the enabled items
       if (!all) {
         for (var i = result.length -1; i >= 0; i--) {
           if (!result[i].getEnabled()) {

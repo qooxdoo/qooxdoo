@@ -304,7 +304,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // BUGFIX: IE < 9
-      // IE < 9 tends to cache overly agressive. This may result in stale
+      // IE < 9 tends to cache overly aggressive. This may result in stale
       // representations. Force validating freshness of cached representation.
       if (qx.core.Environment.get("engine.name") === "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9 &&
@@ -466,7 +466,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__abort = true;
       this.__nativeXhr.abort();
 
-      if (this.__nativeXhr) {
+      if (this.__nativeXhr && this.readyState !== qx.bom.request.Xhr.DONE) {
         this.readyState = this.__nativeXhr.readyState;
       }
       return this;
@@ -601,7 +601,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * * IE doesn't support this method so in this case an Error is thrown.
      * * after calling this method @getResponseHeader("Content-Type")@
      *   may return the original (Firefox 23, IE 10, Safari 6) or
-     *   the overriden content type (Chrome 28+, Opera 15+).
+     *   the overridden content type (Chrome 28+, Opera 15+).
      *
      *
      * @param mimeType {String} The mimeType for overriding.
@@ -1009,7 +1009,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * Check for network error.
      *
-     * @return {Boolean} Whether a network error occured.
+     * @return {Boolean} Whether a network error occurred.
      */
     __isNetworkError: function() {
       var error;

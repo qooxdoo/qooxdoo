@@ -33,7 +33,7 @@ qx.Mixin.define("qx.ui.mobile.form.MState",
     },
 
     /**
-     * Checkes whether the element has the state passed as argument
+     * Checks whether the element has the state passed as argument
      * @param state {String} the state to be checked
      * @return {Boolean} true if the element has the state, false if it doesn't.
      *

@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       return cellEditor;
     },
 
-    // interface iplementations
+    // interface implementations
     getCellEditorValue : function(cellEditor)
     {
       var value = cellEditor.getValue() || "";

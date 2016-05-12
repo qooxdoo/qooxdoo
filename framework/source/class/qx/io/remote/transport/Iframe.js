@@ -109,7 +109,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       asynchronous          : true,
       crossDomain           : false,
       fileUpload            : true,
-      programaticFormFields : true,
+      programmaticFormFields : true,
       responseTypes         : [ "text/plain", "text/javascript", "application/json", "application/xml", "text/html" ]
     },
 

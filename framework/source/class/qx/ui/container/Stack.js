@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.container.Stack",
     },
 
 
-    //overriden
+    //overridden
     _afterAddChild : function(child) {
       var selected = this.getSelection()[0];
 
@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.container.Stack",
     },
 
 
-    //overriden
+    //overridden
     _afterRemoveChild : function(child) {
       if (this.getSelection()[0] === child) {
         var first = this._getChildren()[0];

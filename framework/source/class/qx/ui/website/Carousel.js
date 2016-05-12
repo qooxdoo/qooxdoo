@@ -260,7 +260,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
     removePage: function(child) {
       child.remove();
 
-      // reset the active page if we don' have any page at all
+      // reset the active page if we don't have any page at all
       if (this._getPages().length == 0) {
         this.__pagination.empty();
         this.__paginationLabels = [];
@@ -345,8 +345,8 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
      * Updates the CSS order property of the flexbox layout.
      * The active page should be the second in order with a order property of '0'.
      * The page left to the active has the order property set to '-1' and is the
-     * only one on the left side. All other pages get increasing order numers and
-     * are alligned on the right side.
+     * only one on the left side. All other pages get increasing order numbers and
+     * are aligned on the right side.
      *
      * @return {String} The scroll direction, either 'left' or 'right'.
      */
@@ -404,7 +404,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
         return;
       }
 
-      // set the inital transition on first appear
+      // set the initial transition on first appear
       if (this._getPositionLeft() === 0 && this._getPages().length > 2 && !this._ie9) {
         this.__scrollContainer.translate([(-this.getWidth()) + "px", 0, 0]);
       }
@@ -459,7 +459,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
      * TrackEnd handler for enabling the scroll events.
      */
     _onTrackEnd: function() {
-      if (this.__startPosLeft == null || this.__blocked) { // dont end if we didn't start
+      if (this.__startPosLeft == null || this.__blocked) { // don't end if we didn't start
         return;
       }
 
@@ -646,7 +646,7 @@ qx.Bootstrap.define("qx.ui.website.Carousel",
 
 
     /**
-     * Geturns a collection of all pages.
+     * Returns a collection of all pages.
      * @return {qxWeb} All pages.
      */
     _getPages: function() {

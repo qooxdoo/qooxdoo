@@ -25,7 +25,7 @@
  * entries are deleted.
  *
  * A mark feature also exists which can be used to remember a point in time.
- * When retrieving entriues, it is possible to get only those entries
+ * When retrieving entries, it is possible to get only those entries
  * after the marked time. This is useful if data from the buffer is extracted
  * and processed. Whenever this happens, a mark() call can be used so that the
  * next extraction will only get new data.

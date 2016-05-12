@@ -141,7 +141,7 @@ qx.Bootstrap.define("qx.bom.client.Flash",
 
 
     /**
-     * Checks if the flash installation is an expres installation.
+     * Checks if the flash installation is an express installation.
      *
      * @return {Boolean} <code>true</code>, if its an express installation.
      * @internal

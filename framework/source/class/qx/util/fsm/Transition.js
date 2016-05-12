@@ -72,7 +72,7 @@ qx.Class.define("qx.util.fsm.Transition",
    *
    *       It is possible to create a default predicate -- one that will cause
    *       a transition to be acceptable always -- by either not providing a
-   *       predicate property, or by explicitely either setting the predicate
+   *       predicate property, or by explicitly either setting the predicate
    *       property to 'true' or setting it to a function that unconditionally
    *       returns 'true'.  This default transition should, of course, always
    *       be the last transition added to a state, since no transition added

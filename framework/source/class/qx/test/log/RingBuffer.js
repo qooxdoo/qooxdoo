@@ -31,22 +31,27 @@ qx.Class.define("qx.test.log.RingBuffer",
     tearDown : function()
     {
       qx.log.Logger.setLevel(this.__initialLogLevel);
+      if (this.appender) {
+        qx.log.Logger.unregister(this.appender);
+      }
+      this.appender = null;
     },
 
     testLog : function()
     {
-      var appender = new qx.log.appender.RingBuffer();
+      this.appender = new qx.log.appender.RingBuffer();
 
       qx.log.Logger.setLevel("debug");
       qx.log.Logger.clear();
-      qx.log.Logger.register(appender);
+      qx.log.Logger.register(this.appender);
       qx.log.Logger.debug("test");
 
-      var events = appender.getAllLogEvents();
+      var events = this.appender.getAllLogEvents();
       this.assertEquals(1, events.length);
       this.assertEquals("test", events[0].items[0].text);
 
-      qx.log.Logger.unregister(appender);
+      qx.log.Logger.unregister(this.appender);
+      this.appender = null;
     },
 
 

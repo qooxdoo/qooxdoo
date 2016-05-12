@@ -26,7 +26,8 @@ qx.Class.define("qx.test.bom.Selector",
     testElementClass : function()
     {
       var Element = qx.dom.Element;
-      var Attribute = qx.bom.element.Attribute;
+
+      var elements = [];
 
       for (var i=0; i<250; i++)
       {
@@ -37,12 +38,15 @@ qx.Class.define("qx.test.bom.Selector",
         });
 
         document.body.appendChild(el);
+        elements.push(el);
       }
 
       this.assertEquals(250, qx.bom.Selector.query("ul.fromcode", document.body).length);
       this.assertEquals(750, qx.bom.Selector.query("ul > li").length);
 
-      document.body.innerHTML = "";
+      elements.forEach(function(el) {
+        document.body.removeChild(el);
+      })
     }
   }
 });

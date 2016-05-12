@@ -179,7 +179,7 @@ qx.Class.define("qx.test.locale.Locale",
       this.assertEquals("Links", qx.locale.Key.getKeyName("short", "Left", "de_DE"));
       // is the localized version
       if (qx.core.Environment.get("os.name") == "osx") {
-        // there is no strg on macs, onls ctrl
+        // there is no strg on macs, only ctrl
         this.assertEquals("Ctrl", qx.locale.Key.getKeyName("short", "Control", "de_DE"));
         this.assertEquals("Control", qx.locale.Key.getKeyName("full", "Control", "de_DE"));
       } else {

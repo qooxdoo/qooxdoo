@@ -758,7 +758,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
       // undo this line from setUp() ...
       // this.injectStub(qx.bom.request, "SimpleXhr", req);
-      // ... in order to have uniqe reqs instead of always
+      // ... in order to have unique reqs instead of always
       //     the same stubbed req from the setUp method.
       qx.bom.request.SimpleXhr.restore();
 
@@ -808,7 +808,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
       // undo this line from setUp() ...
       // this.injectStub(qx.bom.request, "SimpleXhr", req);
-      // ... in order to have uniqe reqs instead of always
+      // ... in order to have unique reqs instead of always
       //     the same stubbed req from the setUp method.
       qx.bom.request.SimpleXhr.restore();
 
@@ -837,7 +837,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
       // undo this line from setUp() ...
       // this.injectStub(qx.bom.request, "SimpleXhr", req);
-      // ... in order to have uniqe reqs instead of always
+      // ... in order to have unique reqs instead of always
       //     the same stubbed req from the setUp method.
       qx.bom.request.SimpleXhr.restore();
 
@@ -872,7 +872,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
       // undo this line from setUp() ...
       // this.injectStub(qx.bom.request, "SimpleXhr", req);
-      // ... in order to have uniqe reqs instead of always
+      // ... in order to have unique reqs instead of always
       //     the same stubbed req from the setUp method.
       qx.bom.request.SimpleXhr.restore();
 

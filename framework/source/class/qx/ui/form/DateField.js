@@ -231,7 +231,7 @@ qx.Class.define("qx.ui.form.DateField",
     */
     /**
      * Sets the default date format which is returned by
-     * {@link #getDefaultDateFormatter}. You can overrride this method to
+     * {@link #getDefaultDateFormatter}. You can override this method to
      * define your own default format.
      */
     _setDefaultDateFormat : function() {

@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         // common versioning system used by other browsers
         if (/Opera[\s\/]([0-9]+)\.([0-9])([0-9]*)/.test(agent))
         {
-          // opera >= 10 has as a first verison 9.80 and adds the proper version
+          // opera >= 10 has as a first version 9.80 and adds the proper version
           // in a separate "Version/" postfix
           // http://my.opera.com/chooseopera/blog/2009/05/29/changes-in-operas-user-agent-string-format
           if (agent.indexOf("Version/") != -1) {
@@ -180,18 +180,20 @@ qx.Bootstrap.define("qx.bom.client.Engine",
      *
      * Note:
      *  "window.controllers" is gone/hidden with Firefox 30+
-     *  "window.navigator.mozApps" is supported since Firefox 11+
+     *  "window.navigator.mozApps" is supported since Firefox 11+ and is gone/hidden with Firefox 47 beta
+     *  "window.navigator.buildID" is supported since Firefox 2+
      *  "window.navigator.product" is actually useless cause the HTML5 spec
      *    states it should be the constant "Gecko".
      *
      *  - https://developer.mozilla.org/en-US/docs/Web/API/Window.controllers
      *  - https://developer.mozilla.org/en-US/docs/Web/API/Navigator.mozApps
+     *  - https://developer.mozilla.org/en-US/docs/Web/API/Navigator/buildID
      *  - http://www.w3.org/html/wg/drafts/html/master/webappapis.html#navigatorid
      *
      * @return {Boolean} true, if its gecko.
      */
     __isGecko : function() {
-      return window.navigator.mozApps &&
+      return (window.navigator.mozApps || window.navigator.buildID) &&
         window.navigator.product === "Gecko" &&
         window.navigator.userAgent.indexOf("Trident") == -1;
     },

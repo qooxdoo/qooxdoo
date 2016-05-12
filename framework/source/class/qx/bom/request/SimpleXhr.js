@@ -201,7 +201,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Gets parsed response.
      *
-     * If problems occured an empty string ("") is more likely to be returned (instead of null).
+     * If problems occurred an empty string ("") is more likely to be returned (instead of null).
      *
      * @return {String|null} The parsed response of the request.
      */
@@ -445,7 +445,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
     /**
      * Creates XHR transport.
      *
-     * May be overriden to change type of resource.
+     * May be overridden to change type of resource.
      * @return {qx.bom.request.IRequest} Transport.
      */
     _createTransport: function() {
@@ -490,7 +490,7 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
      * Serializes data.
      *
      * @param data {String|Map} Data to serialize.
-     * @param contentType {String?} Content-Type which influences the serialisation.
+     * @param contentType {String?} Content-Type which influences the serialization.
      * @return {String|null} Serialized data.
      */
     _serializeData: function(data, contentType) {

@@ -122,14 +122,12 @@ qx.Class.define("qx.util.EditDistance",
       {
         if (posA != 0 && distance[posA][posB] == distance[posA-1][posB] + 1)
         {
-          // console.log("delete " + dataA[posA-1] + ": " + (posA-1));
           operations.push({ operation : this.OPERATION_DELETE, pos : posA-1, old : dataA[posA-1], value : null });
 
           posA-=1;
         }
         else if (posB != 0 && distance[posA][posB] == distance[posA][posB-1] + 1)
         {
-          // console.log("insert " + dataB[posB-1] + " ein, in: " + (posA));
           operations.push({ operation : this.OPERATION_INSERT, pos : posA, old : null, value : dataB[posB-1] });
 
           posB-=1;
@@ -138,7 +136,6 @@ qx.Class.define("qx.util.EditDistance",
         {
           if (dataA[posA-1]!==dataB[posB-1])
           {
-            // console.log("replace " + dataA[posA-1] + " durch " + dataB[posB-1] + ".");
             operations.push({ operation : this.OPERATION_REPLACE, pos : posA-1, old : dataA[posA-1], value : dataB[posB-1] });
           }
 

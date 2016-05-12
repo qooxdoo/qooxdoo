@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.bom.client.CssAnimation",
      *  <li><code>name</code> The name of the css animation style</li>
      *  <li><code>play-state</code> The name of the play-state style</li>
      *  <li><code>start-event</code> The name of the start event</li>
-     *  <li><code>iternation-event</code> The name of the iternation event</li>
+     *  <li><code>iteration-event</code> The name of the iteration event</li>
      *  <li><code>end-event</code> The name of the end event</li>
      *  <li><code>fill-mode</code> The fill-mode style</li>
      *  <li><code>keyframes</code> The name of the keyframes selector.</li>

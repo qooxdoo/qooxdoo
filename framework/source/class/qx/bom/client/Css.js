@@ -34,7 +34,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
     __WEBKIT_LEGACY_GRADIENT : null,
 
     /**
-     * Checks what box model is used in the current environemnt.
+     * Checks what box model is used in the current environment.
      * @return {String} It either returns "content" or "border".
      * @internal
      */

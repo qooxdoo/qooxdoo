@@ -852,7 +852,7 @@ qx.Class.define("qx.ui.layout.Dock",
           case 2:
             // Find the maximum width used by these fully stretched items
             // The recommended width used by these must add the currently
-            // occupied width by the ortogonal ordered children.
+            // occupied width by the orthogonal ordered children.
             widthY = Math.max(widthY, hint.width + widthX + marginX);
             minWidthY = Math.max(minWidthY, hint.minWidth + minWidthX + marginX);
 
@@ -872,7 +872,7 @@ qx.Class.define("qx.ui.layout.Dock",
           case 4:
             // Find the maximum height used by these fully stretched items
             // The recommended height used by these must add the currently
-            // occupied height by the ortogonal ordered children.
+            // occupied height by the orthogonal ordered children.
             heightX = Math.max(heightX, hint.height + heightY + marginY);
             minHeightX = Math.max(minHeightX, hint.minHeight + minHeightY + marginY);
 

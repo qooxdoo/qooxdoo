@@ -1,3 +1,11 @@
+.. image:: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master                                                                            
+     :target: https://travis-ci.org/qooxdoo/qooxdoo
+.. image:: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 
+     :target: https://coveralls.io/github/qooxdoo/qooxdoo?branch=master
+.. image:: https://badges.gitter.im/qooxdoo/qooxdoo.svg
+     :alt: Join the chat at https://gitter.im/qooxdoo/qooxdoo
+     :target: https://gitter.im/qooxdoo/qooxdoo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
 About
 =====
 

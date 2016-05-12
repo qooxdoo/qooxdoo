@@ -104,7 +104,7 @@ qx.Bootstrap.define("qx.bom.element.Clip",
         clip = clip.trim();
 
         // Do not use "global" here. This will break Firefox because of
-        // an issue that the lastIndex will not be resetted on separate calls.
+        // an issue that the lastIndex will not be reset on separate calls.
         if (/\((.*)\)/.test(clip))
         {
           var result = RegExp.$1;

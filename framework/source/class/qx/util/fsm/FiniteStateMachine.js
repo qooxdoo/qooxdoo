@@ -440,7 +440,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
       hash = this.__friendlyToHash[friendlyName];
 
-      // Delete references to any groupos this friendly name was in
+      // Delete references to any groups this friendly name was in
       if (this.__friendlyToGroups[friendlyName])
       {
         for (var i = 0; i < this.__friendlyToGroups[friendlyName].length; i++)
@@ -966,7 +966,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       // Get the debug flags
       var debugFlags = this.getDebugFlags();
 
-      // Allow slightly faster access to determine if debug is enableda
+      // Allow slightly faster access to determine if debug is enabled
       var debugEvents =
         debugFlags & qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS;
       var debugTransitions =

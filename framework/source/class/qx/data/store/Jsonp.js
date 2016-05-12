@@ -22,7 +22,7 @@
  *
  * The JSONP data store is a specialization of {@link qx.data.store.Json}. It
  * differs in the type of transport used ({@link qx.io.request.Jsonp}). In
- * order to fullfill requirements of the JSONP service, the method
+ * order to fulfill requirements of the JSONP service, the method
  * {@link #setCallbackParam} can be used.
  *
  * Please note that the upgrade notices described in {@link qx.data.store.Json}

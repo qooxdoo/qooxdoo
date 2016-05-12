@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       }
 
       // Cache old data, clear current data
-      // Do this before starting with recompution because
+      // Do this before starting with recomputation because
       // new data may also be added by related widgets and not
       // only the widget itself.
       var oldData = {};

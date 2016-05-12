@@ -36,7 +36,7 @@ qx.Class.define("qx.test.data.controller.List",
 
     setUp : function()
     {
-      // prevent the icon laod error with this stub
+      // prevent the icon load error with this stub
       this.stub(qx.io.ImageLoader, "load");
 
       this.__list = new qx.ui.form.List();
@@ -604,7 +604,7 @@ qx.Class.define("qx.test.data.controller.List",
       this.__controller = new qx.data.controller.List(this.__model, this.__list);
       this.__controller.setLabelOptions(options);
 
-      // change something to inkoe a change of a binding
+      // change something to invoke a change of a binding
       this.__data.pop();
       this.__model.pop();
 

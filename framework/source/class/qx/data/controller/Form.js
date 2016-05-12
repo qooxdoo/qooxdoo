@@ -109,7 +109,7 @@ qx.Class.define("qx.data.controller.Form",
     /**
      * The form controller uses for setting up the bindings the fundamental
      * binding layer, the {@link qx.data.SingleValueBinding}. To achieve a
-     * binding in both directions, two bindings are neede. With this method,
+     * binding in both directions, two bindings are needed. With this method,
      * you have the opportunity to set the options used for the bindings.
      *
      * @param name {String} The name of the form item for which the options
@@ -203,10 +203,10 @@ qx.Class.define("qx.data.controller.Form",
 
 
     /**
-     * Responsible for synching the data from entered in the form to the model.
+     * Responsible for syncing the data from entered in the form to the model.
      * Please keep in mind that this method only works if you create the form
      * with <code>selfUpdate</code> set to true. Otherwise, this method will
-     * do nothing because updates will be synched automatically on every
+     * do nothing because updates will be synced automatically on every
      * change.
      */
     updateModel: function(){
@@ -277,6 +277,11 @@ qx.Class.define("qx.data.controller.Form",
       // do nothing is no target is set
       if (this.getTarget() == null) {
         return;
+      }
+      else {
+        // if form was validated with errors and model changes
+        // the errors should be cleared see #8977
+        this.getTarget().getValidationManager().reset();
       }
 
       // model and target are available

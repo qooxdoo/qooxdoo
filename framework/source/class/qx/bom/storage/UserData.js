@@ -171,7 +171,7 @@ qx.Bootstrap.define("qx.bom.storage.UserData", {
      * @param key {String} The identifier.
      */
     removeItem : function(key) {
-      // check if the item is availabel
+      // check if the item is available
       var storageName = this.__reference[key];
       if (storageName == undefined) {
         return;

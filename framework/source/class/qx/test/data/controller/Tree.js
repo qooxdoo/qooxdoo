@@ -117,7 +117,7 @@ qx.Class.define("qx.test.data.controller.Tree",
 
     setUp : function()
     {
-      // prevent the icon laod error with this stub
+      // prevent the icon load error with this stub
       this.stub(qx.io.ImageLoader, "load");
 
       this.__tree = new qx.ui.tree.Tree();
@@ -317,7 +317,7 @@ qx.Class.define("qx.test.data.controller.Tree",
       this.__model.getChildren().pop();
       this.__model.getChildren().pop();
 
-      // create a staight tree
+      // create a straight tree
       // this.__model
       //      \
       //    this.__a

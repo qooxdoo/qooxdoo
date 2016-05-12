@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     /** Fired if an item will be hidden by the {@link #overflowHandling}.*/
     "hideItem" : "qx.event.type.Data",
 
-    /** Fired if an item will be show by the {@link #overflowHandling}.*/
+    /** Fired if an item will be shown by the {@link #overflowHandling}.*/
     "showItem" : "qx.event.type.Data"
   },
 
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
        width = this.getBounds().width;
      }
 
-     // if we still don't have a width, than we are not added to a parrent
+     // if we still don't have a width, than we are not added to a parent
      if (width == undefined) {
        // we should ignore it in that case
        return;
@@ -341,7 +341,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * already excluded, it takes the widget added at last.
      *
      * @return {qx.ui.core.Widget|null} The widget which should be removed next.
-     *   If null is returned, no widget is availablew to remove.
+     *   If null is returned, no widget is available to remove.
      */
     _getNextToHide : function()
     {
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     /**
      * The removal of the toolbar items is priority based. You can change these
      * priorities with this method. The higher a priority, the earlier it will
-     * be excluded. Remmeber to use every priority only once! If you want
+     * be excluded. Remember to use every priority only once! If you want
      * override an already set priority, use the override parameter.
      * Keep in mind to only use already added items.
      *
@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // property apply
     _applyOverflowHandling : function(value, old)
     {
-      // invalidate the own and the parrents layout cach because the size hint changes
+      // invalidate the own and the parents layout cache because the size hint changes
       this.invalidateLayoutCache();
       var parent = this.getLayoutParent();
       if (parent) {
@@ -412,7 +412,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         // add the resize listener
         this.addListener("resize", this._onResize, this);
 
-      // if the handlis has been disabled
+      // if the handles has been disabled
       } else {
         this.removeListener("resize", this._onResize, this);
 
