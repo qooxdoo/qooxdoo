@@ -535,7 +535,12 @@ qx.Class.define("qx.ui.basic.Label",
     _applyValue : function(value, old)
     {
       // Sync with content element
-      this.getContentElement().setValue(value);
+      if (value.translate) {
+        this.getContentElement().setValue(value.translate());
+      }
+      else {
+        this.getContentElement().setValue(value);
+      }
 
       // Mark text size cache as invalid
       this.__invalidContentSize = true;
