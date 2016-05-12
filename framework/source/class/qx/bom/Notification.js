@@ -205,9 +205,11 @@ qx.Class.define("qx.bom.Notification", {
           icon = rm.toUri(source);
         }
 
-        // Skip icon for firefox browsers for now, because they will
-        // not show any message
-        if (qx.core.Environment.get("engine.name") == "gecko") {
+        // old versions of firefox did not display the notification if
+        // an icon was specified, so we disable the icon for firefox
+        // < version 46
+        if (qx.core.Environment.get("engine.name") == "gecko" &&
+            qx.core.Environment.get("browser.version") < 46) {
           icon = undefined;
         }
       }
