@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ev
+set -v
 
 if [ "$QXBROWSER" = "" ]; then
     exit 0
@@ -7,6 +7,7 @@ fi
 
 if [ "${QXBROWSER}" = "Firefox" ] && [ "${QXVERSION}" = "latest" ]; then
     npm run-script travis-coverage
+    RES=$?
 
     echo "Running lint..."
     ./generate.py -sI lint 2>&1 | grep 'Error:\|Warning:'
@@ -15,6 +16,8 @@ if [ "${QXBROWSER}" = "Firefox" ] && [ "${QXVERSION}" = "latest" ]; then
         exit 1
     fi
 
-else
-    npm run-script travis-test
+    exit $RES
 fi
+
+npm run-script travis-test
+exit $?
