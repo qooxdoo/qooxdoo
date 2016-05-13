@@ -535,7 +535,7 @@ qx.Class.define("qx.ui.basic.Label",
     _applyValue : function(value, old)
     {
       // Sync with content element
-      if (value.translate) {
+      if (value && qx.core.Environment.get("qx.dynlocale") && value.translate) {
         this.getContentElement().setValue(value.translate());
       }
       else {
