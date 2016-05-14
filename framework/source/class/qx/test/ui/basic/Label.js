@@ -205,15 +205,15 @@ qx.Class.define("qx.test.ui.basic.Label",
     testLocaleInitialization : function() {
       var label = new qx.ui.basic.Label();
       var localeManager = qx.locale.Manager.getInstance();
-      localeManager.addTranslation("en", {"TEST" : "false"});
-      localeManager.addTranslation("de", {"TEST" : "true"});
+      localeManager.addTranslation("en", {"TEST" : "EN"});
+      localeManager.addTranslation("de", {"TEST" : "DE"});
       localeManager.setLocale("en");
 
       var test = qx.locale.Manager.tr("TEST");
       localeManager.setLocale("de");
       label.setValue(test);
 
-      this.assertEquals("true", label.getContentElement().getValue(), "label must have the current locale set");
+      this.assertEquals("DE", label.getContentElement().getValue(), "label must have the current locale set");
     }
   }
 });
