@@ -349,6 +349,15 @@ qx.Bootstrap.define("qx.io.ImageLoader",
       for (var i = 0, l = callbacks.length; i < l; i += 2) {
         callbacks[i].call(callbacks[i + 1], source, entry);
       }
+    },
+
+
+    /**
+     * Dispose stored images.
+     */
+    dispose : function()
+    {
+      this.__data = {};
     }
   }
 });

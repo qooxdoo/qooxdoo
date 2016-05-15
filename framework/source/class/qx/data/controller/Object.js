@@ -50,7 +50,6 @@
 qx.Class.define("qx.data.controller.Object",
 {
   extend : qx.core.Object,
-  implement: [ qx.core.IDisposable ],
 
 
   /*
@@ -343,6 +342,20 @@ qx.Class.define("qx.data.controller.Object",
           return;
         }
       }
+    }
+  },
+
+
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+
+  destruct : function() {
+    // set the model to null to get the bindings removed
+    if (this.getModel() != null && !this.getModel().isDisposed()) {
+      this.setModel(null);
     }
   }
 });

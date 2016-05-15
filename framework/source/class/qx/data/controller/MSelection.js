@@ -389,5 +389,19 @@ qx.Mixin.define("qx.data.controller.MSelection",
       return this._modifingSelection > 0;
     }
 
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (this.__ownSelection) {
+      this.__ownSelection.dispose();
+    }
   }
 });

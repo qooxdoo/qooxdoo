@@ -368,5 +368,20 @@ qx.Class.define("qx.data.controller.Form",
       qx.Class.hasInterface(item.constructor, qx.ui.form.IModelSelection);
     }
 
-  }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+   destruct : function() {
+     // dispose the object controller because the bindings need to be removed
+     if (this.__objectController) {
+       this.__objectController.dispose();
+     }
+   }
 });

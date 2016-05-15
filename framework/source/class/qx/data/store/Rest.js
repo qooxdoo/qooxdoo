@@ -147,5 +147,14 @@ qx.Class.define("qx.data.store.Rest",
         oldModel.dispose();
       }
     }
+  },
+
+  destruct: function() {
+    var model = this.getModel();
+    if (model && typeof model.dispose === "function") {
+      model.dispose();
+    }
+
+    this._marshaler && this._marshaler.dispose();
   }
 });

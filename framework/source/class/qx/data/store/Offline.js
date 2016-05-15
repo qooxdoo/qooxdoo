@@ -165,5 +165,15 @@ qx.Class.define("qx.data.store.Offline",
     getKey : function() {
       return this._key;
     }
+  },
+
+  destruct : function() {
+    if (this.getModel()) {
+      this.getModel().dispose();
+    }
+
+    if (this._marshaler) {
+      this._marshaler.dispose();
+    }
   }
 });

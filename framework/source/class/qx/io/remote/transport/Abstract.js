@@ -496,5 +496,19 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
       return true;
     }
+  },
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this.setRequestHeaders(null);
+    this.setParameters(null);
+    this.setFormFields(null);
   }
 });

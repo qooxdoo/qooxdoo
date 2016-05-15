@@ -38,7 +38,6 @@
  */
 qx.Class.define("qx.log.appender.Console",
 {
-	implement: [ qx.core.IDisposable ],
   statics :
   {
     /*
