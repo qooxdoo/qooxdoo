@@ -9,16 +9,13 @@ improvements over the standard python generator:
 * Written in 100% Javascript
 * API based, easily extended and with dependency information available at runtime
 
-**NOTE** While QxCompiler is backward compatible with generate.py and does not require changes to your code, ES6 support
-requires that strict mode is enabled and this can introduce a few minor compatibility issues; also, QxCompiler uses a new
-trick for managing dependencies and for both of these reasons you must use my fork of Qooxdoo (https://github.com/johnspackman/qooxdoo 
-and use the **qxcompiler** branch).  My fork is based on Qooxdoo 5.0.1.
+**NOTE** QxCompiler no longer requires a custom branch of qooxdoo - but you must use the current master branch of Qooxdoo (https://github.com/qooxdoo/qooxdoo).
 
 
 ##Current state of play
 QxCompiler is an alpha release - it runs all of the tests in the demo browser and looks solid, but there are likely to
 be bugs.  It is included in the web framework I use internally and is likely to be in use on production servers by the
-end of March 2016.
+end of July 2016.
 
 There are some basic functions which need to be built to make this project more accessible, EG a command line application,
 an easy npm-based installation, and a continuous compilation app.
