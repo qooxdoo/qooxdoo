@@ -153,6 +153,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * @type {Object} The response of the request as a Document object.
      */
+    response: null,
+    
+    /**
+     * @type {Object} The response of the request as object.
+     */
     responseXML: null,
 
     /**
@@ -165,6 +170,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     statusText: "",
 
+    /**
+     * @type {String} The response Type to use in the request
+     */
+    responseType: "",
     /**
      * @type {Number} Timeout limit in milliseconds.
      *
@@ -400,12 +409,15 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       var dataType = qx.Bootstrap.getClass(data);
       data = (data !== null && this.__dataTypeWhiteList.indexOf(dataType) === -1) ? data.toString() : data;
 
+
+
       // Some browsers may throw an error when sending of async request fails.
       // This violates the spec which states only sync requests should.
       try {
         if (qx.core.Environment.get("qx.debug.io")) {
           qx.Bootstrap.debug(qx.bom.request.Xhr, "Send native request");
         }
+        this.__nativeXhr.responseType = this.responseType;
         this.__nativeXhr.send(data);
       } catch(SendError) {
         if (!this.__async) {
@@ -922,6 +934,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.status = 0;
       this.statusText = this.responseText = "";
       this.responseXML = null;
+      this.response = null;
 
       if (this.readyState >= qx.bom.request.Xhr.HEADERS_RECEIVED) {
         // In some browsers, XHR properties are not readable
@@ -929,8 +942,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         try {
           this.status = nxhr.status;
           this.statusText = nxhr.statusText;
-          this.responseText = nxhr.responseText;
-          this.responseXML = nxhr.responseXML;
+          this.response = nxhr.response;
+          if (typeof nxhr.response === "string") {
+            this.responseText = nxhr.responseText;
+            this.responseXML = nxhr.responseXML;
+          }
         } catch(XhrPropertiesNotReadable) {
           propertiesReadable = false;
         }
