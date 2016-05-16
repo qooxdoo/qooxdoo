@@ -226,6 +226,12 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         async = true;
       }
       this.__async = async;
+      
+      // Default values according to spec.
+      this.status = 0;
+      this.statusText = this.responseText = "";
+      this.responseXML = null;
+      this.response = null;
 
       // BUGFIX
       // IE < 9 and FF < 3.5 cannot reuse the native XHR to issue many requests
@@ -943,9 +949,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.status = nxhr.status;
           this.statusText = nxhr.statusText;
           this.response = nxhr.response;
-          if (typeof nxhr.response === "string") {
-            this.responseText = nxhr.responseText;
-            this.responseXML = nxhr.responseXML;
+          if ((nhxr.responseType === "") || (nhxr.responseType === "text")) {
+           this.responseText = nxhr.responseText;
+          }
+          if ((nhxr.responseType === "") || (nhxr.responseType === "document")) {
+           this.responseXML = nxhr.responseXML;
           }
         } catch(XhrPropertiesNotReadable) {
           propertiesReadable = false;
