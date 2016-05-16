@@ -37,6 +37,22 @@
  *  req.open("GET", url);
  *  req.send();
  * </pre>
+ *
+ * Example for binary data:
+ *
+ * <pre class="javascript">
+ *  var req = new qx.bom.request.Xhr();
+ *  req.onload = function() {
+ *    // Handle data received
+ *    var blob = req.response;
+ *    img.src = URL.createObjectURL(blob);
+ *  }
+ *
+ *  req.open("GET", url);
+ *  req.responseType = "blob";
+ *  req.send();
+ * </pre>
+ 
  * </div>
  *
  * @ignore(XDomainRequest)
@@ -226,7 +242,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         async = true;
       }
       this.__async = async;
-      
       // Default values according to spec.
       this.status = 0;
       this.statusText = this.responseText = "";
@@ -414,8 +429,6 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       // behaviour of all other browsers (Chrome, IE and Safari)
       var dataType = qx.Bootstrap.getClass(data);
       data = (data !== null && this.__dataTypeWhiteList.indexOf(dataType) === -1) ? data.toString() : data;
-
-
 
       // Some browsers may throw an error when sending of async request fails.
       // This violates the spec which states only sync requests should.
@@ -949,10 +962,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
           this.status = nxhr.status;
           this.statusText = nxhr.statusText;
           this.response = nxhr.response;
-          if ((nhxr.responseType === "") || (nhxr.responseType === "text")) {
+          if ((this.responseType === "") || (this.responseType === "text")) {
            this.responseText = nxhr.responseText;
           }
-          if ((nhxr.responseType === "") || (nhxr.responseType === "document")) {
+          if ((this.responseType === "") || (this.responseType === "document")) {
            this.responseXML = nxhr.responseXML;
           }
         } catch(XhrPropertiesNotReadable) {
