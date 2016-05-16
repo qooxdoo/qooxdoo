@@ -436,7 +436,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         if (qx.core.Environment.get("qx.debug.io")) {
           qx.Bootstrap.debug(qx.bom.request.Xhr, "Send native request");
         }
-        this.__nativeXhr.responseType = this.responseType;
+        if (this.__async) {
+          this.__nativeXhr.responseType = this.responseType;
+        }
         this.__nativeXhr.send(data);
       } catch(SendError) {
         if (!this.__async) {
