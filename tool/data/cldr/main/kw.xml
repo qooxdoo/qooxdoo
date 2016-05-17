@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9287 $"/>
-		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
+		<version number="$Revision: 12307 $"/>
 		<language type="kw"/>
 	</identity>
 	<localeDisplayNames>
@@ -52,7 +51,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<key type="calendar" draft="unconfirmed">kalans</key>
 		</keys>
 		<types>
-			<type type="gregorian" key="calendar" draft="unconfirmed">Kalans gregorek</type>
+			<type key="calendar" type="gregorian" draft="unconfirmed">Kalans gregorek</type>
 		</types>
 	</localeDisplayNames>
 	<characters>
@@ -90,11 +89,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<monthContext type="format">
 						<monthWidth type="abbreviated">
 							<month type="1">Gen</month>
-							<month type="2">Whe</month>
-							<month type="3">Mer</month>
+							<month type="2">Hwe</month>
+							<month type="3">Meu</month>
 							<month type="4">Ebr</month>
 							<month type="5">Me</month>
-							<month type="6">Efn</month>
+							<month type="6">Met</month>
 							<month type="7">Gor</month>
 							<month type="8">Est</month>
 							<month type="9">Gwn</month>
@@ -103,18 +102,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<month type="12">Kev</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1">Mys Genver</month>
-							<month type="2">Mys Whevrel</month>
-							<month type="3">Mys Merth</month>
-							<month type="4">Mys Ebrel</month>
-							<month type="5">Mys Me</month>
-							<month type="6">Mys Efan</month>
-							<month type="7">Mys Gortheren</month>
-							<month type="8">Mye Est</month>
-							<month type="9">Mys Gwyngala</month>
-							<month type="10">Mys Hedra</month>
-							<month type="11">Mys Du</month>
-							<month type="12">Mys Kevardhu</month>
+							<month type="1">mis Genver</month>
+							<month type="2">mis Hwevrer</month>
+							<month type="3">mis Meurth</month>
+							<month type="4">mis Ebrel</month>
+							<month type="5">mis Me</month>
+							<month type="6">mis Metheven</month>
+							<month type="7">mis Gortheren</month>
+							<month type="8">mis Est</month>
+							<month type="9">mis Gwynngala</month>
+							<month type="10">mis Hedra</month>
+							<month type="11">mis Du</month>
+							<month type="12">mis Kevardhu</month>
 						</monthWidth>
 					</monthContext>
 				</months>
@@ -130,18 +129,22 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<day type="sat">Sad</day>
 						</dayWidth>
 						<dayWidth type="wide">
-							<day type="sun">De Sul</day>
-							<day type="mon">De Lun</day>
-							<day type="tue">De Merth</day>
-							<day type="wed">De Merher</day>
-							<day type="thu">De Yow</day>
-							<day type="fri">De Gwener</day>
-							<day type="sat">De Sadorn</day>
+							<day type="sun">dy Sul</day>
+							<day type="mon">dy Lun</day>
+							<day type="tue">dy Meurth</day>
+							<day type="wed">dy Merher</day>
+							<day type="thu">dy Yow</day>
+							<day type="fri">dy Gwener</day>
+							<day type="sat">dy Sadorn</day>
 						</dayWidth>
 					</dayContext>
 				</days>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am">a.m.</dayPeriod>
+							<dayPeriod type="pm">p.m.</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am">a.m.</dayPeriod>
 							<dayPeriod type="pm">p.m.</dayPeriod>
@@ -260,6 +263,46 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currencyFormatLength>
 				<currencyFormat type="standard">
 					<pattern>¤#,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="one" draft="provisional">¤0K</pattern>
+					<pattern type="1000" count="two" draft="provisional">¤0K</pattern>
+					<pattern type="1000" count="other" draft="provisional">¤0K</pattern>
+					<pattern type="10000" count="one" draft="provisional">¤00K</pattern>
+					<pattern type="10000" count="two" draft="provisional">¤00K</pattern>
+					<pattern type="10000" count="other" draft="provisional">¤00K</pattern>
+					<pattern type="100000" count="one" draft="provisional">¤000K</pattern>
+					<pattern type="100000" count="two" draft="provisional">¤000K</pattern>
+					<pattern type="100000" count="other" draft="provisional">¤000K</pattern>
+					<pattern type="1000000" count="one" draft="provisional">¤0M</pattern>
+					<pattern type="1000000" count="two" draft="provisional">¤0M</pattern>
+					<pattern type="1000000" count="other" draft="provisional">¤0M</pattern>
+					<pattern type="10000000" count="one" draft="provisional">¤00M</pattern>
+					<pattern type="10000000" count="two" draft="provisional">¤00M</pattern>
+					<pattern type="10000000" count="other" draft="provisional">¤00M</pattern>
+					<pattern type="100000000" count="one" draft="provisional">¤000M</pattern>
+					<pattern type="100000000" count="two" draft="provisional">¤000M</pattern>
+					<pattern type="100000000" count="other" draft="provisional">¤000M</pattern>
+					<pattern type="1000000000" count="one" draft="provisional">¤0G</pattern>
+					<pattern type="1000000000" count="two" draft="provisional">¤0G</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">¤0G</pattern>
+					<pattern type="10000000000" count="one" draft="provisional">¤00G</pattern>
+					<pattern type="10000000000" count="two" draft="provisional">¤00G</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">¤00G</pattern>
+					<pattern type="100000000000" count="one" draft="provisional">¤000G</pattern>
+					<pattern type="100000000000" count="two" draft="provisional">¤000G</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">¤000G</pattern>
+					<pattern type="1000000000000" count="one" draft="provisional">¤0T</pattern>
+					<pattern type="1000000000000" count="two" draft="provisional">¤0T</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">¤0T</pattern>
+					<pattern type="10000000000000" count="one" draft="provisional">¤00T</pattern>
+					<pattern type="10000000000000" count="two" draft="provisional">¤00T</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">¤00T</pattern>
+					<pattern type="100000000000000" count="one" draft="provisional">¤000T</pattern>
+					<pattern type="100000000000000" count="two" draft="provisional">¤000T</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">¤000T</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>

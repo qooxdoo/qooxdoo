@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9791 $"/>
-		<generation date="$Date: 2014-02-25 15:16:49 -0600 (Tue, 25 Feb 2014) $"/>
+		<version number="$Revision: 12128 $"/>
 		<language type="ha"/>
 	</identity>
 	<localeDisplayNames>
@@ -30,18 +29,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="de">Jamusanci</language>
 			<language type="el">Girkanci</language>
 			<language type="en">Turanci</language>
-			<language type="eo" draft="unconfirmed">D'an/'Yar Kabilar Andalus</language>
+			<language type="eo" draft="unconfirmed">Dʼan/ʼYar Kabilar Andalus</language>
 			<language type="es">Ispaniyanci</language>
 			<language type="et" draft="unconfirmed">Istoniyanci</language>
-			<language type="eu" draft="unconfirmed">Dan/'Yar Kabilar Bas</language>
+			<language type="eu" draft="unconfirmed">Dan/ʼYar Kabilar Bas</language>
 			<language type="fa">Parisanci</language>
 			<language type="fi" draft="unconfirmed">Yaren mutanen Finland</language>
 			<language type="fil" draft="unconfirmed">Dan Filifin</language>
 			<language type="fo" draft="unconfirmed">Faroese</language>
 			<language type="fr">Faransanci</language>
-			<language type="fy" draft="unconfirmed">K'abilan Firsi</language>
+			<language type="fy" draft="unconfirmed">Kʼabilan Firsi</language>
 			<language type="ga" draft="unconfirmed">Dan Ailan</language>
-			<language type="gd" draft="unconfirmed">K'abilan Scots Gaelic</language>
+			<language type="gd" draft="unconfirmed">Kʼabilan Scots Gaelic</language>
 			<language type="gl" draft="unconfirmed">Bagalike</language>
 			<language type="gn" draft="unconfirmed">Guwaraniyanci</language>
 			<language type="gu" draft="unconfirmed">Gujarati</language>
@@ -61,7 +60,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="jv">Jabananci</language>
 			<language type="ka" draft="unconfirmed">Jojiyanci</language>
 			<language type="km">Harshen Kimar</language>
-			<language type="kn" draft="unconfirmed">Dan/'Yar Kabilar Kannada</language>
+			<language type="kn" draft="unconfirmed">Dan/ʼYar Kabilar Kannada</language>
 			<language type="ko">Harshen Koreya</language>
 			<language type="ku" draft="unconfirmed">Kurdanci</language>
 			<language type="ky" draft="unconfirmed">Kirgizanci</language>
@@ -73,7 +72,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mk" draft="unconfirmed">Dan Masedoniya</language>
 			<language type="ml" draft="unconfirmed">Kabilar Maleyalam</language>
 			<language type="mn" draft="unconfirmed">Mongolian</language>
-			<language type="mr" draft="unconfirmed">K'abilan Marathi</language>
+			<language type="mr" draft="unconfirmed">Kʼabilan Marathi</language>
 			<language type="ms">Harshen Malai</language>
 			<language type="mt" draft="unconfirmed">Harshen Maltis</language>
 			<language type="my">Burmanci</language>
@@ -99,14 +98,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sk" draft="unconfirmed">Basulake</language>
 			<language type="sl" draft="unconfirmed">Basulabe</language>
 			<language type="so">Somali</language>
-			<language type="sq" draft="unconfirmed">D'an/'Yar Kabilar Albaniya</language>
+			<language type="sq" draft="unconfirmed">Dʼan/ʼYar Kabilar Albaniya</language>
 			<language type="sr" draft="unconfirmed">Sabiyan</language>
 			<language type="st" draft="unconfirmed">Sesotanci</language>
 			<language type="su" draft="unconfirmed">Sundanese</language>
 			<language type="sv">Harshen Suwedan</language>
 			<language type="sw" draft="unconfirmed">Harshen Suwahili</language>
 			<language type="ta">Tamil</language>
-			<language type="te" draft="unconfirmed">D'an/'Yar Kabilar Telug</language>
+			<language type="te" draft="unconfirmed">Dʼan/ʼYar Kabilar Telug</language>
 			<language type="th">Thai</language>
 			<language type="ti" draft="unconfirmed">Tigriyanci</language>
 			<language type="tk" draft="unconfirmed">Tukmenistanci</language>
@@ -131,7 +130,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="AI">Angila</territory>
 			<territory type="AL">Albaniya</territory>
 			<territory type="AM">Armeniya</territory>
-			<territory type="AN">Antiya Na Holan</territory>
 			<territory type="AO">Angola</territory>
 			<territory type="AR">Arjantiniya</territory>
 			<territory type="AS">Samowa Ta Amurka</territory>
@@ -213,7 +211,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="HU">Hungari</territory>
 			<territory type="ID">Indunusiya</territory>
 			<territory type="IE">Ayalan</territory>
-			<territory type="IL">Izira'ila</territory>
+			<territory type="IL">Iziraʼila</territory>
 			<territory type="IN">Indiya</territory>
 			<territory type="IO">Yankin Birtaniya Na Tekun Indiya</territory>
 			<territory type="IQ">Iraƙi</territory>
@@ -479,7 +477,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<day type="tue">Talata</day>
 							<day type="wed">Laraba</day>
 							<day type="thu">Alhamis</day>
-							<day type="fri">Jumma'a</day>
+							<day type="fri">Jummaʼa</day>
 							<day type="sat">Asabar</day>
 						</dayWidth>
 					</dayContext>
@@ -546,22 +544,22 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<timeFormats>
 					<timeFormatLength type="full">
 						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
+							<pattern>h:mm:ss a zzzz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="long">
 						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
+							<pattern>h:mm:ss a z</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="medium">
 						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
+							<pattern>h:mm:ss a</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
 						<timeFormat>
-							<pattern>HH:mm</pattern>
+							<pattern>h:mm a</pattern>
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
@@ -661,6 +659,34 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currencyFormatLength>
 				<currencyFormat type="standard">
 					<pattern>¤ #,##0.00</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="one" draft="provisional">¤ 0K</pattern>
+					<pattern type="1000" count="other" draft="provisional">¤ 0K</pattern>
+					<pattern type="10000" count="one" draft="provisional">¤ 00K</pattern>
+					<pattern type="10000" count="other" draft="provisional">¤ 00K</pattern>
+					<pattern type="100000" count="one" draft="provisional">¤ 000K</pattern>
+					<pattern type="100000" count="other" draft="provisional">¤ 000K</pattern>
+					<pattern type="1000000" count="one" draft="provisional">¤ 0M</pattern>
+					<pattern type="1000000" count="other" draft="provisional">¤ 0M</pattern>
+					<pattern type="10000000" count="one" draft="provisional">¤ 00M</pattern>
+					<pattern type="10000000" count="other" draft="provisional">¤ 00M</pattern>
+					<pattern type="100000000" count="one" draft="provisional">¤ 000M</pattern>
+					<pattern type="100000000" count="other" draft="provisional">¤ 000M</pattern>
+					<pattern type="1000000000" count="one" draft="provisional">¤ 0G</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">¤ 0G</pattern>
+					<pattern type="10000000000" count="one" draft="provisional">¤ 00G</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">¤ 00G</pattern>
+					<pattern type="100000000000" count="one" draft="provisional">¤ 000G</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">¤ 000G</pattern>
+					<pattern type="1000000000000" count="one" draft="provisional">¤ 0T</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">¤ 0T</pattern>
+					<pattern type="10000000000000" count="one" draft="provisional">¤ 00T</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">¤ 00T</pattern>
+					<pattern type="100000000000000" count="one" draft="provisional">¤ 000T</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">¤ 000T</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>
@@ -836,7 +862,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 	<posix>
 		<messages>
 			<yesstr>i</yesstr>
-			<nostr>a'a:a</nostr>
+			<nostr>aʼa:a</nostr>
 		</messages>
 	</posix>
 </ldml>
