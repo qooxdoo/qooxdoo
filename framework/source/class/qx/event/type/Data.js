@@ -104,18 +104,5 @@ qx.Class.define("qx.event.type.Data",
     getOldData : function() {
       return this.__old;
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this.__data = this.__old = null;
   }
 });

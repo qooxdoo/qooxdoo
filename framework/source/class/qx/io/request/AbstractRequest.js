@@ -29,12 +29,16 @@
  *
  * To adjust the behavior of {@link #send} override
  * {@link #_getConfiguredUrl} and {@link #_getConfiguredRequestHeaders}.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.io.request.AbstractRequest",
 {
   type : "abstract",
 
   extend : qx.core.Object,
+  implement: [ qx.core.IDisposable ],
 
   /**
    * @param url {String?} The URL of the resource to request.

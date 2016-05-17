@@ -34,7 +34,10 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
   statics :
   {
-    /** @type {Boolean} Whether the application is in the shutdown phase */
+    /** 
+     * @type {Boolean} Whether the application is in the shutdown phase
+     * @deprecated {6.0} shutdown is not a valid mechanism to terminate apps 
+     * */
     inShutDown : false,
 
     /** @type {Map} Internal data structure to store objects */
@@ -217,14 +220,20 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * @return {qx.core.Object} The corresponding object or <code>null</code>.
      */
     fromHashCode : function(hash) {
-      return this.__registry[hash] || null;
+      var obj = this.__registry[hash] || null;
+      if (!obj)
+      	qx.log.Logger.warn(this, "Object with hash code "+ hash + " does not exist (since Qooxdoo 6.0 fromHashCode requires that you explicitly register objects with qx.core.ObjectRegistry.register)");
+      return obj;
     },
 
 
     /**
      * Disposing all registered object and cleaning up registry. This is
      * automatically executed at application shutdown.
-     *
+     * 
+     * @deprecated {6.0} shutdown is not a valid means to clean up because destruction order
+     * is not defined and dispose()/destructors are deprecated in favour of automatic
+     * garbage collection
      */
     shutdown : function()
     {

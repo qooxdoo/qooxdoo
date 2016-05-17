@@ -32,11 +32,14 @@
  *
  * This class should not be used directly by client programmers.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @asset(qx/static/blank.gif)
  */
 qx.Class.define("qx.io.remote.transport.Iframe",
 {
   extend : qx.io.remote.transport.Abstract,
+  implement: [ qx.core.IDisposable ],
 
 
 

@@ -29,6 +29,7 @@
 qx.Bootstrap.define("qx.event.handler.TouchCore", {
 
   extend : Object,
+  implement: [ qx.core.IDisposable ],
 
   statics :
   {

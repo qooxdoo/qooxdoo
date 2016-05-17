@@ -20,11 +20,14 @@
 /**
  * This class supports typical DOM element inline events like scroll,
  * change, select, ...
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.event.handler.Element",
 {
   extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
 
 

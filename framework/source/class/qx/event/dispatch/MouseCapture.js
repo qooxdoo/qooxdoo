@@ -261,11 +261,6 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
   },
 
 
-  destruct : function() {
-    this.__captureElement = this.__window = this.__registration = null;
-  },
-
-
   defer : function(statics) {
     qx.event.Registration.addDispatcher(statics);
   }
