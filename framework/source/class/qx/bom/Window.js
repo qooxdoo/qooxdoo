@@ -32,7 +32,7 @@ qx.Class.define("qx.bom.Window",
     /** Window handle which is currently blocked. */
     __blockerWindow : null,
 
-    /** Timer instance to poll for unblocking if the modale window was closed */
+    /** Timer instance to poll for unblocking if the modal window was closed */
     __timer : null,
 
     /** Supported options and their mapping to window options */

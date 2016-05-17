@@ -19,8 +19,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * FileReaders allow retrieving the data from a local file, after the file
  * name was selected by an &lt;input type="file"&gt; element.
  *
@@ -148,6 +146,22 @@ qx.Class.define("qx.bom.FileReader",
   {
     /** The native FileReader object associated this instance */
     _fileReader : null,
+
+    /**
+     * Begin reading from the file referenced by the specified file
+     * object. This is an asynchronous request. When the file is fully loaded,
+     * the "load" event will be fired.
+     *
+     * The data will be provided as an ArrayBuffer object.
+     *
+     * @param fileObj {File}
+     *   A File object, as obtained by calling {@link #getFile} with an
+     *   element of type &lt;input type="file"&gt;.
+     */
+    readAsArrayBuffer : function(fileObj)
+    {
+      this._fileReader.readAsArrayBuffer(fileObj);
+    },
 
     /**
      * Begin reading from the file referenced by the specified file
@@ -291,7 +305,7 @@ qx.Class.define("qx.bom.FileReader",
      * "loadend" handler
      *
      * @param e {Object}
-     *   Object wich contains a 'progress' object which contains  the members:
+     *   Object which contains a 'progress' object which contains  the members:
      *   - lengthComputable {Boolean} True if length is known; false otherwise
      *   - loaded {Number} The number of bytes transferred so far
      *   - total {Number} The length of the entire body being transferred

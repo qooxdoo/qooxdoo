@@ -149,7 +149,7 @@ qx.Class.define("qx.test.ui.tree.Tree",
     testAddBefore : function()
     {
       /*
-       * root  => add 2 befor 3 =>  root
+       * root  => add 2 before 3 =>  root
        *  - 1                        - 1
        *  - 3                        - 2
        *  - 4                        - 3

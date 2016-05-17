@@ -298,7 +298,7 @@ qx.Bootstrap.define("qx.module.Animation", {
      */
     if (qxWeb.env.get("browser.name") === "ie" && qxWeb.env.get("browser.version") <= 9) {
       // has to be fixed using direct access since we cannot store the value as static member.
-      // The 'fadeIn' description is evualated during class definition
+      // The 'fadeIn' description is evaluated during class definition
       statics._fadeIn.keyFrames[100].opacity = 0.99;
     }
   }

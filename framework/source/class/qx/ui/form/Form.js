@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.form.Form",
      * @param name {String?null} The name which is used by the data binding
      *   controller {@link qx.data.controller.Form}.
      * @param validatorContext {var?null} The context of the validator.
-     * @param options {Map?null} An additional map containin custom data which
+     * @param options {Map?null} An additional map containing custom data which
      *   will be available in your form renderer specific to the added item.
      */
     add : function(item, label, validator, name, validatorContext, options) {
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.form.Form",
      * *Hint:* The order of all add calls represent the order in the layout.
      *
      * @param button {qx.ui.form.Button} The button to add.
-     * @param options {Map?null} An additional map containin custom data which
+     * @param options {Map?null} An additional map containing custom data which
      *   will be available in your form renderer specific to the added button.
      */
     addButton : function(button, options) {

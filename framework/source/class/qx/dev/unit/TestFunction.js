@@ -35,7 +35,7 @@ qx.Class.define("qx.dev.unit.TestFunction",
 
   /**
    * There are two ways to define a test function. First by passing a class
-   * and a method name to the contructor or second by giving a the method
+   * and a method name to the constructor or second by giving a the method
    * directly.
    *
    * @param testCase {qx.dev.unit.TestCase?null} The test class, which contains the test method
@@ -109,12 +109,12 @@ qx.Class.define("qx.dev.unit.TestFunction",
     {
       var inst = this.getTestClass();
       var method = this.getName();
-      var testFunc = this;
+      
+      inst.setTestFunc(this);
+      inst.setTestResult(testResult);
+      
       testResult.run(this, function()
       {
-        inst.setTestFunc(testFunc);
-        inst.setTestResult(testResult);
-
         try {
           inst[method]();
         } catch (ex) {

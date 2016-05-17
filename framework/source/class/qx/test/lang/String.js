@@ -20,6 +20,7 @@
 qx.Class.define("qx.test.lang.String",
 {
   extend : qx.dev.unit.TestCase,
+  include : [qx.dev.unit.MMock],
 
   members :
   {
@@ -215,6 +216,30 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals('"abc \\"defg\\" hij"', qx.lang.String.quote('abc "defg" hij'));
       this.assertEquals('"abc \\\\defg\\\\ hij"', qx.lang.String.quote('abc \\defg\\ hij'));
       this.assertEquals('"abc \\"defg\\\\ hij"', qx.lang.String.quote('abc "defg\\ hij'));
+    },
+
+    testTrim : function()
+    {
+      var str = "     foo bar     ";
+
+      this.assertIdentical(qx.lang.String.trimLeft(str), "foo bar     ");
+      this.assertIdentical(qx.lang.String.trimRight(str), "     foo bar");
+    },
+
+    testStripScripts : function()
+    {
+      var str = "This is a <script>foobar</script>test";
+
+      this.assertIdentical(qx.lang.String.stripScripts(str), "This is a test");
+      
+      var spy = this.spy(qx.lang.Function, "globalEval");
+
+      str = "This is a test with<script>console.log('foobar');</script> script";
+
+      this.assertIdentical(qx.lang.String.stripScripts(str, true), "This is a test with script");
+      this.assertCalledOnce(spy);
+      
+      spy.restore();
     }
   }
 });

@@ -111,7 +111,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       asynchronous          : true,
       crossDomain           : true,
       fileUpload            : false,
-      programaticFormFields : false,
+      programmaticFormFields : false,
       responseTypes         : [ "text/plain", "text/javascript", "application/json" ]
     },
 

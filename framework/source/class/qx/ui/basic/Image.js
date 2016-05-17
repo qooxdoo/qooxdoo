@@ -473,7 +473,7 @@ qx.Class.define("qx.ui.basic.Image",
           this.setWidth(imageWidth);
           this.setHeight(imageHeight);
 
-          // set backgroud size on current element (div or img)
+          // set background size on current element (div or img)
           var backgroundSize = imageWidth + "px, " + imageHeight + "px";
           this.__currentContentElement.setStyle("background-size", backgroundSize);
 
@@ -810,7 +810,7 @@ qx.Class.define("qx.ui.basic.Image",
               combinedStyles["backgroundRepeat"] += ", no-repeat";
             }
 
-            combinedStyles["backgroundImage"] += "," + decoratorStyle["background-image"];
+            combinedStyles["backgroundImage"] += "," + (decoratorStyle["background-image"] || decoratorStyle["background"]);
 
             // apply combined background images
             el.setStyles(combinedStyles);

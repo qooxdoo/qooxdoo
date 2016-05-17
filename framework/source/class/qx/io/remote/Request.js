@@ -109,7 +109,7 @@ qx.Class.define("qx.io.remote.Request",
     /** Fired when the pending request has been aborted. */
     "aborted" : "qx.event.type.Event",
 
-    /** Fired when the pending request failes. */
+    /** Fired when the pending request fails. */
     "failed" : "qx.io.remote.Response",
 
     /** Fired when the pending request times out. */
@@ -352,7 +352,7 @@ qx.Class.define("qx.io.remote.Request",
      * If true and the responseType property is set to "application/json", getContent() will
      * return a Javascript map containing the JSON contents, i. e. the result qx.lang.Json.parse().
      * If false, the raw string data will be returned and the parsing must be done manually.
-     * This is usefull for special JSON dialects / extensions which are not supported by
+     * This is useful for special JSON dialects / extensions which are not supported by
      * qx.lang.Json.
      *
      * Note that this is currently only respected by qx.io.remote.transport.XmlHttp, i. e.
@@ -720,7 +720,7 @@ qx.Class.define("qx.io.remote.Request",
       }
       else
       {
-        // Otherwise, we don't want the nocache parameer in the URL.
+        // Otherwise, we don't want the nocache parameter in the URL.
         this.removeParameter("nocache");
       }
 
@@ -916,7 +916,7 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Returns the object containg all parameters for the request.
+     * Returns the object containing all parameters for the request.
      *
      * @param bFromData {Boolean}
      *   If <i>false</i> then retrieve the URL parameter list.
@@ -944,12 +944,12 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Add a form field to the POST request.
      *
-     * NOTE: Adding any programatic form fields using this method will switch the
+     * NOTE: Adding any programmatic form fields using this method will switch the
      *       Transport implementation to IframeTransport.
      *
-     * NOTE: Use of these programatic form fields disallow use of synchronous
+     * NOTE: Use of these programmatic form fields disallow use of synchronous
      *       requests and cross-domain requests.  Be sure that you do not need
-     *       those features when setting these programatic form fields.
+     *       those features when setting these programmatic form fields.
      *
      * @param vId {String} String identifier of the form field to add.
      * @param vValue {String} Value of form field
@@ -982,7 +982,7 @@ qx.Class.define("qx.io.remote.Request",
 
 
     /**
-     * Returns the object containg all form fields for the POST request.
+     * Returns the object containing all form fields for the POST request.
      *
      * @return {Object} The returned object has as its property names each of the ids of
      *     form fields which have been added, and as each property value, the value

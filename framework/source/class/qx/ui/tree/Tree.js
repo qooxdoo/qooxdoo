@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * Whether the Root should have an open/close button.  This may also be
      * used in conjunction with the hideNode property to provide for virtual root
      * nodes.  In the latter case, be very sure that the virtual root nodes are
-     * expanded programatically, since there will be no open/close button for the
+     * expanded programmatically, since there will be no open/close button for the
      * user to open them.
      */
     rootOpenClose :

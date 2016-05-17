@@ -177,32 +177,58 @@ qx.Class.define("qx.dev.unit.TestResult",
         }
         catch(ex)
         {
-          try {
-            this.tearDown(test);
-          }
-          catch(except) {
-            /* Any exceptions here are likely caused by setUp having failed
-               previously, so we'll ignore them. */
-          }
 
-          if (ex.classname == "qx.dev.unit.RequirementError") {
-            this._createError("skip", [ex], test);
-            this.fireDataEvent("endTest", test);
-          }
-          else {
-            if (ex instanceof qx.type.BaseError &&
-              ex.message == qx.type.BaseError.DEFAULTMESSAGE)
-            {
-              ex.message = "setUp failed";
+          if (ex instanceof qx.dev.unit.AsyncWrapper)
+          {
+
+            if (this._timeout[test.getFullName()]) {
+              // Do nothing if there's already a timeout for this test
+              return;
+            }
+
+            if (ex.getDelay()) {
+              var that = this;
+              var defaultTimeoutFunction = function() {
+                throw new qx.core.AssertionError(
+                  "Asynchronous Test Error in setUp",
+                  "Timeout reached before resume() was called."
+                );
+              };
+              var timeoutFunc = (ex.getDeferredFunction() ? ex.getDeferredFunction() : defaultTimeoutFunction);
+              var context = (ex.getContext() ? ex.getContext() : window);
+              this._timeout[test.getFullName()] = qx.event.Timer.once(function() {
+                this.run(test, timeoutFunc, context);
+              }, that, ex.getDelay());
+              this.fireDataEvent("wait", test);
+            }
+            return undefined;
+          } else {
+
+            try {
+              this.tearDown(test);
+            }
+            catch (except) {
+              /* Any exceptions here are likely caused by setUp having failed
+               previously, so we'll ignore them. */
+            }
+
+            if (ex.classname == "qx.dev.unit.RequirementError") {
+              this._createError("skip", [ex], test);
+              this.fireDataEvent("endTest", test);
             }
             else {
-              ex.message = "setUp failed: " + ex.message;
+              if (ex instanceof qx.type.BaseError && ex.message == qx.type.BaseError.DEFAULTMESSAGE) {
+                ex.message = "setUp failed";
+              }
+              else {
+                ex.message = "setUp failed: " + ex.message;
+              }
+              this._createError("error", [ex], test);
+              this.fireDataEvent("endTest", test);
             }
-            this._createError("error", [ex], test);
-            this.fireDataEvent("endTest", test);
-          }
 
-          return undefined;
+            return undefined;
+          }
         }
       }
 
@@ -375,6 +401,7 @@ qx.Class.define("qx.dev.unit.TestResult",
       if (testClass[specificTearDown]) {
         testClass[specificTearDown]();
       }
+      testClass.doAutoDispose();
 
       if (qx.core.Environment.get("qx.debug.dispose")
         && qx.dev.Debug.disposeProfilingActive)

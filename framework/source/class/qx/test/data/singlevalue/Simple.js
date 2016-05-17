@@ -227,7 +227,7 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
       this.__a.setZIndex(892);
       this.assertEquals(89, this.__b.getZIndex(), "Number binding not removed!");
 
-      // check if they are internaly removed
+      // check if they are internally removed
       var bindings = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
       this.assertEquals(0, bindings.length, "Still bindings there!");
 

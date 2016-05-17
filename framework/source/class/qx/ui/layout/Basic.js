@@ -26,7 +26,7 @@
  * *Features*
  *
  * * Basic positioning using <code>left</code> and <code>top</code> properties
- * * Respects minimum and maximum dimensions without skrinking/growing
+ * * Respects minimum and maximum dimensions without shrinking/growing
  * * Margins for top and left side (including negative ones)
  * * Respects right and bottom margins in the size hint
  * * Auto-sizing

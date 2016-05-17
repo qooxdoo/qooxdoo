@@ -47,7 +47,7 @@
  * established through an {@link qx.io.remote.Exchange Exchange} object. An
  * Exchange object can be bound to the {@link qx.io.remote.Request#transport
  * <i>.transport</i>} property of a Request, and takes care
- * that the particular request is realised over the specific Transport. This
+ * that the particular request is realized over the specific Transport. This
  * allows you to accommodate a wide variety of transport options without
  * overloading the Request object with the details.
  *
@@ -57,7 +57,7 @@
  * part other than the domain of the current document, require special treatment
  * since the security concept of most browsers restrict such requests.
  * <p>
- * Currently, those requests are realised through the dynamic insertion of a
+ * Currently, those requests are realized through the dynamic insertion of a
  * "script" tag into the current document (this is the aforementioned {@link
  * qx.io.remote.transport.Script ScriptTransport}). The "src" attribute of the
  * script tag is set to the requested URL. On insertion of the script tag the

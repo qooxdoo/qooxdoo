@@ -228,7 +228,7 @@ qx.Class.define("qx.test.Class",
         }
       });
 
-      // direct instanctiation should fail
+      // direct instantiation should fail
       if (this.isDebugOn())
       {
         this.assertException(function() {

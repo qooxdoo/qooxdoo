@@ -254,7 +254,7 @@ qx.Class.define("qx.test.data.singlevalue.Array",
       // bind the first element
       qx.data.SingleValueBinding.bind(this.__a, "array[0]", this.__label, "value");
 
-      // remove the first and add "eins" at popsition 0
+      // remove the first and add "eins" at position 0
       var array = this.__a.getArray().splice(0, 1, "eins");
 
       // check the binding

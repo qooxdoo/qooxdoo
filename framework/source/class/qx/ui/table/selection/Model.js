@@ -597,7 +597,7 @@ qx.Class.define("qx.ui.table.selection.Model",
 
     // this._dumpRanges();
     /**
-     * Logs the current ranges for debug perposes.
+     * Logs the current ranges for debug purposes.
      *
      */
     _dumpRanges : function()

@@ -18,7 +18,7 @@
 
    ======================================================================
 
-   This class uses ideas and code snipplets presented at
+   This class uses ideas and code snippets presented at
    http://webreflection.blogspot.com/2008/05/habemus-array-unlocked-length-in-ie8.html
    http://webreflection.blogspot.com/2008/05/stack-and-arrayobject-how-to-create.html
 

@@ -245,7 +245,7 @@ qx.Class.define("qx.html.Element",
           }
         }
 
-        // hiding or showind an object and deleting it right after that may
+        // hiding or showing an object and deleting it right after that may
         // cause an disposed object in the visibility queue [BUG #3607]
         if (!obj.$$disposed) {
           element.style.display = obj.__visible ? "" : "none";
@@ -605,7 +605,7 @@ qx.Class.define("qx.html.Element",
 
 
     /**
-     * Syncronize internal children hierarchy to the DOM. This is used
+     * Synchronize internal children hierarchy to the DOM. This is used
      * for further runtime updates after the element has been created
      * initially.
      *
@@ -766,7 +766,7 @@ qx.Class.define("qx.html.Element",
 
 
     /**
-     * Syncronizes data between the internal representation and the DOM. This
+     * Synchronizes data between the internal representation and the DOM. This
      * is the counterpart of {@link #_copyData} and is used for further updates
      * after the element has been created.
      *

@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * State of renderering by Progressive.
+ * State of rendering by Progressive.
  */
 qx.Class.define("qx.ui.progressive.State",
 {

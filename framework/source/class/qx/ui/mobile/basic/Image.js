@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     * {@link #_createHighResolutionOverlay} is called.
     *
     * @param lowResImgSrc {String} source of the low resolution image.
-    * @return {String} The soure of an high-resolution image source or <code>null</code>.
+    * @return {String} The source of an high-resolution image source or <code>null</code>.
     */
     _findHighResolutionSource: function(lowResImgSrc) {
       var pixelRatioCandidates = qx.ui.mobile.basic.Image.PIXEL_RATIOS;

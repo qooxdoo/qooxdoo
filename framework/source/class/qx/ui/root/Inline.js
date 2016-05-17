@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.root.Inline",
           }
 
           // check for implicit height. Set the height explicit to prevent that
-          // the element grows indefinetely
+          // the element grows indefinitely
           if (elementDimensions.height >= 1 &&
               qx.bom.element.Style.get(this.__elem, "height", 3) == "") {
             qx.bom.element.Style.set(this.__elem, "height", elementDimensions.height + "px");

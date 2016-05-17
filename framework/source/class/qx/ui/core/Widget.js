@@ -1584,7 +1584,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Detects if the widget and all its parents are visible.
      *
-     * WARNING: Please use this method with caution becuase it flushes the
+     * WARNING: Please use this method with caution because it flushes the
      * internal queues which might be an expensive operation.
      *
      * @return {Boolean} true, if the widget is currently on the screen
@@ -2943,7 +2943,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         // hovered not configured in widget, but as this is a
         // standardized name in qooxdoo and we never want a hover
-        // state for disabled widgets, remove this state everytime
+        // state for disabled widgets, remove this state every time
         this.removeState("hovered");
 
         // Blur when focused
@@ -3273,7 +3273,7 @@ qx.Class.define("qx.ui.core.Widget",
       // This is to make sure that the scroll position is computed
       // after layout changes have been applied to the DOM. Note that changes
       // scheduled for the grand parent (and up) are not tracked and need to
-      // be signalled manually.
+      // be signaled manually.
       var Layout = qx.ui.core.queue.Layout;
       var parent;
 
@@ -3629,7 +3629,7 @@ qx.Class.define("qx.ui.core.Widget",
      * to support new child control types.
      *
      * @param id {String} ID of the child control. If a # is used, the id is
-     *   the part infront of the #.
+     *   the part in front of the #.
      * @param hash {String?undefined} If a child control name contains a #,
      *   all text following the # will be the hash argument.
      * @return {qx.ui.core.Widget} The created control or <code>null</code>

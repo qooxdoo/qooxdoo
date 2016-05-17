@@ -608,7 +608,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      *   If bUseTreeLines is enabled, then further filtering of the left-most
      *   tree line may be specified here.  If <i>true</i> then the left-most
      *   tree line, between top-level siblings, will not be displayed.
-     *   If <i>false</i>, then the left-most tree line wiill be displayed
+     *   If <i>false</i>, then the left-most tree line will be displayed
      *   just like all of the other tree lines.
      *
      * @return {Map} map of image properties.

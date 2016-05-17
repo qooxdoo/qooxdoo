@@ -37,6 +37,22 @@
  *  req.open("GET", url);
  *  req.send();
  * </pre>
+ *
+ * Example for binary data:
+ *
+ * <pre class="javascript">
+ *  var req = new qx.bom.request.Xhr();
+ *  req.onload = function() {
+ *    // Handle data received
+ *    var blob = req.response;
+ *    img.src = URL.createObjectURL(blob);
+ *  }
+ *
+ *  req.open("GET", url);
+ *  req.responseType = "blob";
+ *  req.send();
+ * </pre>
+ 
  * </div>
  *
  * @ignore(XDomainRequest)
@@ -153,6 +169,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * @type {Object} The response of the request as a Document object.
      */
+    response: null,
+    
+    /**
+     * @type {Object} The response of the request as object.
+     */
     responseXML: null,
 
     /**
@@ -165,6 +186,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     statusText: "",
 
+    /**
+     * @type {String} The response Type to use in the request
+     */
+    responseType: "",
     /**
      * @type {Number} Timeout limit in milliseconds.
      *
@@ -217,6 +242,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         async = true;
       }
       this.__async = async;
+      // Default values according to spec.
+      this.status = 0;
+      this.statusText = this.responseText = "";
+      this.responseXML = null;
+      this.response = null;
 
       // BUGFIX
       // IE < 9 and FF < 3.5 cannot reuse the native XHR to issue many requests
@@ -304,7 +334,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       }
 
       // BUGFIX: IE < 9
-      // IE < 9 tends to cache overly agressive. This may result in stale
+      // IE < 9 tends to cache overly aggressive. This may result in stale
       // representations. Force validating freshness of cached representation.
       if (qx.core.Environment.get("engine.name") === "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9 &&
@@ -406,6 +436,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         if (qx.core.Environment.get("qx.debug.io")) {
           qx.Bootstrap.debug(qx.bom.request.Xhr, "Send native request");
         }
+        if (this.__async) {
+          this.__nativeXhr.responseType = this.responseType;
+        }
         this.__nativeXhr.send(data);
       } catch(SendError) {
         if (!this.__async) {
@@ -466,7 +499,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__abort = true;
       this.__nativeXhr.abort();
 
-      if (this.__nativeXhr) {
+      if (this.__nativeXhr && this.readyState !== qx.bom.request.Xhr.DONE) {
         this.readyState = this.__nativeXhr.readyState;
       }
       return this;
@@ -601,7 +634,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * * IE doesn't support this method so in this case an Error is thrown.
      * * after calling this method @getResponseHeader("Content-Type")@
      *   may return the original (Firefox 23, IE 10, Safari 6) or
-     *   the overriden content type (Chrome 28+, Opera 15+).
+     *   the overridden content type (Chrome 28+, Opera 15+).
      *
      *
      * @param mimeType {String} The mimeType for overriding.
@@ -922,6 +955,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.status = 0;
       this.statusText = this.responseText = "";
       this.responseXML = null;
+      this.response = null;
 
       if (this.readyState >= qx.bom.request.Xhr.HEADERS_RECEIVED) {
         // In some browsers, XHR properties are not readable
@@ -929,8 +963,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         try {
           this.status = nxhr.status;
           this.statusText = nxhr.statusText;
-          this.responseText = nxhr.responseText;
-          this.responseXML = nxhr.responseXML;
+          this.response = nxhr.response;
+          if ((this.responseType === "") || (this.responseType === "text")) {
+           this.responseText = nxhr.responseText;
+          }
+          if ((this.responseType === "") || (this.responseType === "document")) {
+           this.responseXML = nxhr.responseXML;
+          }
         } catch(XhrPropertiesNotReadable) {
           propertiesReadable = false;
         }
@@ -1009,7 +1048,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * Check for network error.
      *
-     * @return {Boolean} Whether a network error occured.
+     * @return {Boolean} Whether a network error occurred.
      */
     __isNetworkError: function() {
       var error;

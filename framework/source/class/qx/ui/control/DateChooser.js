@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       init   : "datechooser"
     },
 
-    // overrridden
+    // overridden
     width :
     {
       refine : true,

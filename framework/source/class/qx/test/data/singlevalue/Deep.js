@@ -282,10 +282,10 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       qx.data.SingleValueBinding.bind(this.__a, "name", this.__label, "value");
 
       // chech the initial value
-      this.assertEquals("a", this.__label.getValue(), "Single property names dont work!");
+      this.assertEquals("a", this.__label.getValue(), "Single property names don't work!");
       // check the binding
       this.__a.setName("A");
-      this.assertEquals("A", this.__label.getValue(), "Single property names dont work!");
+      this.assertEquals("A", this.__label.getValue(), "Single property names don't work!");
     },
 
 
@@ -308,7 +308,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
       // check the binding
       this.__b1.setName("A");
-      this.assertEquals("A", this.__label.getValue(), "Single property names dont work!");
+      this.assertEquals("A", this.__label.getValue(), "Single property names don't work!");
 
       // remove the binding
       qx.data.SingleValueBinding.removeBindingFromObject(this.__a, id);

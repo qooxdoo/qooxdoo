@@ -406,7 +406,7 @@ qx.Class.define("qx.ui.core.Blocker",
     /**
      * Unblock the widget blocked by {@link #block}, but it takes care of
      * the amount of {@link #block} calls. The blocker is only removed if
-     * the numer of {@link #unblock} calls is identical to {@link #block} calls.
+     * the number of {@link #unblock} calls is identical to {@link #block} calls.
      */
     unblock : function()
     {
@@ -483,7 +483,7 @@ qx.Class.define("qx.ui.core.Blocker",
 
 
     /**
-     * Sets the blocker element to avtive.
+     * Sets the blocker element to active.
      */
     __activateBlockerElement : function() {
       if (this.getKeepBlockerActive()) {

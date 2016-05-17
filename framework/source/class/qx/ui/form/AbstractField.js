@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     } else {
       // add rules for native placeholder color
       qx.ui.form.AbstractField.__addPlaceholderRules();
-      // add a class to the input to restict the placeholder color
+      // add a class to the input to restrict the placeholder color
       this.getContentElement().addClass("qx-placeholder-color");
     }
 

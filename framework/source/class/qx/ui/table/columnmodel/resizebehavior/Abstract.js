@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * are in use.
      *
      * @abstract
-     * @param numColumns {Integer} The numbrer of columns in use.
+     * @param numColumns {Integer} The number of columns in use.
      * @throws {Error} the abstract function warning.
      */
     _setNumColumns : function(numColumns) {

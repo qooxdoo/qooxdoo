@@ -89,7 +89,7 @@ qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
 
 
     /**
-     * Renders the for: add's the items and buttons.
+     * Renders the for: adds the items and buttons.
      */
     _render : function() {
       // add the groups

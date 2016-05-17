@@ -21,7 +21,7 @@
 
 // Original behavior:
 // ================================================================
-// Normally a "change" event should occour on blur of the element
+// Normally a "change" event should occur on blur of the element
 // (http://www.w3.org/TR/DOM-Level-2-Events/events.html)
 
 // However this is not true for "file" upload fields

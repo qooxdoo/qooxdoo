@@ -29,7 +29,7 @@ qx.Class.define("qx.test.util.Request",
           isCrossDomain = qx.util.Request.isCrossDomain;
 
       this.assertTrue(isCrossDomain("http://cross.domain"), "cross");
-      this.assertTrue(isCrossDomain(origin + ":123456"), "port");
+      this.assertTrue(isCrossDomain(location.protocol + "//" + location.hostname + ":123456"), "port");
       this.assertTrue(isCrossDomain("foobar" + "://" + location.host), "protocol");
     },
 

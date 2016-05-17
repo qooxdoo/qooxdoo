@@ -42,13 +42,13 @@ qx.Bootstrap.define("qx.util.Request",
 
       var protocol = location.protocol;
 
-      // URL is relative in the sence that it points to origin host
+      // URL is relative in the sense that it points to origin host
       if (!(url.indexOf("//") !== -1)) {
         return false;
       }
 
       if (protocol.substr(0, protocol.length-1) == result.protocol &&
-          location.host === result.host &&
+          location.host === result.authority &&
           location.port === result.port) {
         return false;
       }

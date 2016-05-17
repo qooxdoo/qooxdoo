@@ -1,3 +1,0 @@
-#!/bin/sh
-
-cd framework && ./generate.py test-source -sI -m TESTRUNNER_VIEW:testrunner.view.Console -m BUILD_PATH:test-travis

@@ -330,7 +330,7 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Returns the week year of a date. (that is the year of the week where this date happens to be)
      * For a week in the middle of the summer, the year is easily obtained, but for a week
-     * when New Year's Eve takes place, the year of that week is ambigous.
+     * when New Year's Eve takes place, the year of that week is ambiguous.
      * The thursday day of that week is used to determine the year.
      *
      * @param date {Date} the date to get the week in year of.
@@ -1107,7 +1107,7 @@ qx.Class.define("qx.util.format.DateFormat",
     },
 
     /**
-     * Checks wether the rule matches the wildcard or not.
+     * Checks whether the rule matches the wildcard or not.
      * @param rule {Object} the rule we try to match with the wildcard
      * @param wildcardChar {String} the character in the wildcard
      * @param wildcardSize {Integer} the number of  wildcardChar characters in the wildcard

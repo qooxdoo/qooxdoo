@@ -10,14 +10,18 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
     RENDER_ITTERATIONS : 5000,
     RESIZE_ITTERATIONS : 10000,
 
+    __el : null,
+
 
     setUp : function()
     {
-
+      this.__el = qx.dom.Element.create("div", { "id": "testRoot" });
+      document.body.appendChild(this.__el);
     },
 
     tearDown : function() {
-      document.body.innerHTML = "";
+      document.body.removeChild(this.__el);
+      this.__el = null;
     },
 
     createDivs : function(count)
@@ -35,7 +39,7 @@ qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
         divs.push(div);
       }
 
-      document.body.appendChild(container);
+      this.__el.appendChild(container);
       return divs;
     },
 

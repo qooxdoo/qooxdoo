@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.form.Resetter",
      * Resets a single given item. The item has to be added to the resetter
      * instance before. Otherwise, an error is thrown.
      *
-     * @param item {qx.ui.core.Widget} The widget, which should be resetted.
+     * @param item {qx.ui.core.Widget} The widget, which should be reset.
      */
     resetItem : function(item)
     {

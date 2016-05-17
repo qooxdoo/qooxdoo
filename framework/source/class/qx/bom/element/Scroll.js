@@ -134,7 +134,7 @@ qx.Class.define("qx.bom.element.Scroll",
      *
      * @param element {Element} DOM element to scroll into view
      * @param stop {Element?null} Any parent element which functions as
-     *   outest element to scroll. Default is the HTML document.
+     *   outermost element to scroll. Default is the HTML document.
      * @param align {String?null} Alignment of the element. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be null.
      *   Without a given alignment the method tries to scroll the widget
@@ -164,8 +164,6 @@ qx.Class.define("qx.bom.element.Scroll",
         // "overflow" is always visible for both: document.body and document.documentElement
         if (parent.scrollWidth > parent.clientWidth && (parent === body || qx.bom.element.Style.get(parent, "overflowY") != "visible"))
         {
-          // console.debug("Process: " + parent.$$hash);
-
           // Calculate parent data
           // Special handling for body element
           if (parent === body)
@@ -202,20 +200,18 @@ qx.Class.define("qx.bom.element.Scroll",
           leftOffset = elementLeft - parentLeft - parentLeftBorder;
           rightOffset = elementRight - parentRight + parentRightBorder;
 
-          // Scroll position rearrangment
+          // Scroll position rearrangement
           scrollDiff = 0;
 
           // be sure that element is on left edge
           if (alignLeft)
           {
-            // console.debug("Align left...");
             scrollDiff = leftOffset;
           }
 
           // be sure that element is on right edge
           else if (alignRight)
           {
-            // console.debug("Align right...");
             scrollDiff = rightOffset + parentScrollBarWidth;
           }
 
@@ -224,7 +220,6 @@ qx.Class.define("qx.bom.element.Scroll",
           // * when width is bigger than the inner width of the parent
           else if (leftOffset < 0 || elementWidth > parentClientWidth)
           {
-            // console.debug("Go Down...");
             scrollDiff = leftOffset;
           }
 
@@ -232,11 +227,9 @@ qx.Class.define("qx.bom.element.Scroll",
           // * when current right offset is bigger than 0
           else if (rightOffset > 0)
           {
-            // console.debug("Go Up...");
             scrollDiff = rightOffset + parentScrollBarWidth;
           }
 
-          // console.log("Scroll by: " + scrollDiff);
           parent.scrollLeft += scrollDiff;
 
           // Browsers that follow the CSSOM View Spec fire the "scroll"
@@ -258,7 +251,7 @@ qx.Class.define("qx.bom.element.Scroll",
      *
      * @param element {Element} DOM element to scroll into view
      * @param stop {Element?null} Any parent element which functions as
-     *   outest element to scroll. Default is the HTML document.
+     *   outermost element to scroll. Default is the HTML document.
      * @param align {String?null} Alignment of the element. Allowed values:
      *   <code>top</code> or <code>bottom</code>. Could also be null.
      *   Without a given alignment the method tries to scroll the widget
@@ -288,8 +281,6 @@ qx.Class.define("qx.bom.element.Scroll",
         // "overflow" is always visible for both: document.body and document.documentElement
         if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.bom.element.Style.get(parent, "overflowY") != "visible"))
         {
-          // console.debug("Process: " + parent.$$hash);
-
           // Calculate parent data
           // Special handling for body element
           if (parent === body)
@@ -326,20 +317,18 @@ qx.Class.define("qx.bom.element.Scroll",
           topOffset = elementTop - parentTop - parentTopBorder;
           bottomOffset = elementBottom - parentBottom + parentBottomBorder;
 
-          // Scroll position rearrangment
+          // Scroll position rearrangement
           scrollDiff = 0;
 
           // be sure that element is on top edge
           if (alignTop)
           {
-            // console.debug("Align top...");
             scrollDiff = topOffset;
           }
 
           // be sure that element is on bottom edge
           else if (alignBottom)
           {
-            // console.debug("Align bottom...");
             scrollDiff = bottomOffset + parentScrollBarHeight;
           }
 
@@ -348,7 +337,6 @@ qx.Class.define("qx.bom.element.Scroll",
           // * when height is bigger than the inner height of the parent
           else if (topOffset < 0 || elementHeight > parentClientHeight)
           {
-            // console.debug("Go Down...");
             scrollDiff = topOffset;
           }
 
@@ -356,7 +344,6 @@ qx.Class.define("qx.bom.element.Scroll",
           // * when current bottom offset is bigger than 0
           else if (bottomOffset > 0)
           {
-            // console.debug("Go Up...");
             scrollDiff = bottomOffset + parentScrollBarHeight;
           }
 
@@ -387,7 +374,7 @@ qx.Class.define("qx.bom.element.Scroll",
      *
      * @param element {Element} DOM element to scroll into view
      * @param stop {Element?null} Any parent element which functions as
-     *   outest element to scroll. Default is the HTML document.
+     *   outermost element to scroll. Default is the HTML document.
      * @param alignX {String} Alignment of the element. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be undefined.
      *   Without a given alignment the method tries to scroll the widget

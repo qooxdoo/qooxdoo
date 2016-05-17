@@ -148,7 +148,7 @@ qx.Bootstrap.define("qx.bom.FullScreen",
 
 
     /**
-     * Returns wether the page is shown in fullscreen mode or not. If we
+     * Returns whether the page is shown in fullscreen mode or not. If we
      * can not detect it, <code>false</code> will always be returned.
      *
      * @return {Boolean} <code>true</code>, if the page is shown fullscreen

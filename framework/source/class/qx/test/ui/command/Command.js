@@ -41,6 +41,8 @@ qx.Class.define("qx.test.ui.command.Command",
 
       this.__menuButton = new qx.ui.menu.Button("c");
       this.__menuButton.setCommand(this.__cmd);
+
+      qx.locale.Manager.getInstance().setLocale("en");
     },
 
 
@@ -50,6 +52,8 @@ qx.Class.define("qx.test.ui.command.Command",
       this.__button.destroy();
       this.__toolbarButton.destroy();
       this.__menuButton.destroy();
+
+      qx.locale.Manager.getInstance().resetLocale();
     },
 
 
@@ -266,7 +270,7 @@ qx.Class.define("qx.test.ui.command.Command",
 
       cmd.setEnabled(false);
       button.destroy();
-      // make sure the dipose queue is flushed
+      // make sure the dispose queue is flushed
       qx.ui.core.queue.Manager.flush();
       cmd.setEnabled(true);
 

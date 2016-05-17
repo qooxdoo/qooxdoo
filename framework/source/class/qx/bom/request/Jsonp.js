@@ -305,9 +305,9 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     },
 
     /**
-     * Call overriden method.
+     * Call overridden method.
      *
-     * @param method {String} Name of the overriden method.
+     * @param method {String} Name of the overridden method.
      * @param args {Array} Arguments.
      */
     __callBase: function(method, args) {

@@ -70,14 +70,14 @@ qx.Class.define("qx.ui.splitpane.Splitter",
 
   properties :
   {
-    // overrridden
+    // overridden
     allowShrinkX :
     {
       refine : true,
       init : false
     },
 
-    // overrridden
+    // overridden
     allowShrinkY :
     {
       refine : true,

@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Returns the first widget.
      *
-     * @return {qx.ui.core.Widget} Retuns the first (positioned) widget from
+     * @return {qx.ui.core.Widget} Returns the first (positioned) widget from
      *    the current root.
      */
     __getFirstWidget : function() {

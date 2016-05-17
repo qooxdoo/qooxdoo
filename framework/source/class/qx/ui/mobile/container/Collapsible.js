@@ -22,7 +22,7 @@
  * It contains a {@link qx.ui.mobile.basic.Label Label} for the header and a {@link qx.ui.mobile.container.Composite Composite}
  * for the content.
  *
- * The visiblity of the content composite toggles when user taps on header.
+ * The visibility of the content composite toggles when user taps on header.
  *
  * *Example*
  *

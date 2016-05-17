@@ -40,16 +40,16 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
 
     tearDown : function() {
-      this.getRoot().removeAll();
+      this.getRoot().removeAll().forEach(function(widget) {
+        widget.dispose();
+      });
 
-      if (qx.core.Environment.get("qx.debug.dispose")) {
-        var cls = qx.test.ui.LayoutTestCase;
+      var cls = qx.test.ui.LayoutTestCase;
 
-        if (cls._root) {
-          cls._root.destroy();
-          cls._root = null;
-          qx.core.Init.getApplication = cls.__oldGetApp;
-        }
+      if (cls._root) {
+        cls._root.destroy();
+        cls._root = null;
+        qx.core.Init.getApplication = cls.__oldGetApp;
       }
     },
 
@@ -128,8 +128,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       {
         var obj = reg[key];
 
-        // skip pooled objects
-        if (obj.$$pooled) {
+        // skip pooled objects + DeferredCall which cleans the event listener blacklist
+        if (obj.$$pooled || obj.$$blackListCleaner) {
           continue;
         }
         this.assertNotUndefined(
