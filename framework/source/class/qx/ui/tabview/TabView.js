@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     this._createChildControl("pane");
 
     // Create manager
-    var mgr = this.__radioGroup = new qx.ui.form.RadioGroup;
+    var mgr = this.__radioGroup = this._createRadioGroupInstance();
     mgr.setWrap(false);
     mgr.addListener("changeSelection", this._onChangeSelection, this);
 
@@ -159,6 +159,17 @@ qx.Class.define("qx.ui.tabview.TabView",
       return control || this.base(arguments, id);
     },
 
+    /**
+     * Creates the radio group manager instance.
+     * 
+     * Allows override customizations of the instance 
+     * 
+     * @return {qx.ui.form.RadioGroup} 
+     */
+    _createRadioGroupInstance : function() {
+      return new qx.ui.form.RadioGroup;
+    },
+    
     /**
      * Returns the element, to which the content padding should be applied.
      *
@@ -353,6 +364,15 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     indexOf : function(page) {
       return this.getChildControl("pane").indexOf(page);
+    },
+
+    /**
+     * Returns the radio group manager.
+     *
+     * @return {qx.ui.form.RadioGroup} the radio group.
+     */
+    getRadioGroup : function() {
+      return this.__radioGroup;
     },
 
 
