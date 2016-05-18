@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9287 $"/>
-		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
+		<version number="$Revision: 12307 $"/>
 		<language type="zgh"/>
 	</identity>
 	<localeDisplayNames>
@@ -293,10 +292,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<key type="currency">ⴰⴷⵔⵉⵎ</key>
 		</keys>
 		<types>
-			<type type="coptic" key="calendar">ⴰⵙⵎⵍⵓⵙⵙⴰⵏ ⴰⵇⴱⵟⵉ</type>
-			<type type="ethiopic" key="calendar">ⴰⵙⵎⵍⵓⵙⵙⴰⵏ ⵏ ⵉⵜⵢⵓⴱⵢⴰ</type>
-			<type type="gregorian" key="calendar">ⴰⵙⵎⵍⵓⵙⵙⴰⵏ ⴰⴳⵔⵉⴳⵓⵔ</type>
-			<type type="islamic" key="calendar">ⴰⵙⵎⵍⵓⵙⵙⴰⵏ ⵏ ⵍⵉⵙⵍⴰⵎ</type>
+			<type key="calendar" type="coptic">ⴰⵙⵎⵍⵓⵙⵙⴰⵏ ⴰⵇⴱⵟⵉ</type>
+			<type key="calendar" type="ethiopic">ⴰⵙⵎⵍⵓⵙⵙⴰⵏ ⵏ ⵉⵜⵢⵓⴱⵢⴰ</type>
+			<type key="calendar" type="gregorian">ⴰⵙⵎⵍⵓⵙⵙⴰⵏ ⴰⴳⵔⵉⴳⵓⵔ</type>
+			<type key="calendar" type="islamic">ⴰⵙⵎⵍⵓⵙⵙⴰⵏ ⵏ ⵍⵉⵙⵍⴰⵎ</type>
 		</types>
 	</localeDisplayNames>
 	<characters>
@@ -434,6 +433,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</quarters>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am">ⵜⵉⴼⴰⵡⵜ</dayPeriod>
+							<dayPeriod type="pm">ⵜⴰⴷⴳⴳⵯⴰⵜ</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am">ⵜⵉⴼⴰⵡⵜ</dayPeriod>
 							<dayPeriod type="pm">ⵜⴰⴷⴳⴳⵯⴰⵜ</dayPeriod>
@@ -472,28 +475,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
 						<dateFormatItem id="M">M</dateFormatItem>
@@ -568,6 +549,22 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currencyFormatLength>
 				<currencyFormat type="standard">
 					<pattern>#,##0.00¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="other" draft="provisional">0K¤</pattern>
+					<pattern type="10000" count="other" draft="provisional">00K¤</pattern>
+					<pattern type="100000" count="other" draft="provisional">000K¤</pattern>
+					<pattern type="1000000" count="other" draft="provisional">0M¤</pattern>
+					<pattern type="10000000" count="other" draft="provisional">00M¤</pattern>
+					<pattern type="100000000" count="other" draft="provisional">000M¤</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">0G¤</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">00G¤</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">000G¤</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">0T¤</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">00T¤</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">000T¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>
