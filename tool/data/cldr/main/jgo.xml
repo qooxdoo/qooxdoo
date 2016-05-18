@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9770 $"/>
-		<generation date="$Date: 2014-02-24 11:09:08 -0600 (Mon, 24 Feb 2014) $"/>
+		<version number="$Revision: 12307 $"/>
 		<language type="jgo"/>
 	</identity>
 	<localeDisplayNames>
@@ -24,7 +23,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<scripts>
 			<script type="Latn">mík -ŋwaꞌnɛ yi ɛ́ líŋɛ́nɛ Latɛ̂ŋ</script>
 			<script type="Zxxx">ntúu yi pɛ́ ká ŋwaꞌnε</script>
-			<script type="Zzzz">ntɛ-ŋwaꞌnɛ yí pɛ́ ká kɛ́ jí</script>
+			<script type="Zzzz">ntɛ-ŋwaꞌnɛ yí pɛ́ ká kɛ́ jí</script>
 		</scripts>
 		<territories>
 			<territory type="001">Mbí</territory>
@@ -115,8 +114,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<key type="numbers">Pɛnɔ́mba</key>
 		</keys>
 		<types>
-			<type type="gregorian" key="calendar">mɛlɛ́ꞌ-mɛkát</type>
-			<type type="latn" key="numbers">pɛnɔ́mba</type>
+			<type key="calendar" type="gregorian">mɛlɛ́ꞌ-mɛkát</type>
+			<type key="numbers" type="latn">pɛnɔ́mba</type>
 		</types>
 	</localeDisplayNames>
 	<characters>
@@ -342,6 +341,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</days>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am">mbaꞌmbaꞌ</dayPeriod>
+							<dayPeriod type="pm">ŋka mbɔ́t nji</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am">mbaꞌmbaꞌ</dayPeriod>
 							<dayPeriod type="pm">ŋka mbɔ́t nji</dayPeriod>
@@ -349,9 +352,13 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</dayPeriodContext>
 				</dayPeriods>
 				<eras>
-					<eraAbbr>
+					<eraNames>
 						<era type="0">tsɛttsɛt mɛŋguꞌ mi ɛ́ lɛɛnɛ Kɛlísɛtɔ gɔ ńɔ́</era>
 						<era type="1">tsɛttsɛt mɛŋguꞌ mi ɛ́ fúnɛ Kɛlísɛtɔ tɔ́ mɔ́</era>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">BCE</era>
+						<era type="1">CE</era>
 					</eraAbbr>
 				</eras>
 				<dateFormats>
@@ -463,7 +470,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</relativeTime>
 			</field>
 			<field type="day">
+				<relative type="-1">yesterday</relative>
 				<relative type="0">lɔꞋɔ</relative>
+				<relative type="1">tomorrow</relative>
 				<relativeTime type="future">
 					<relativeTimePattern count="one">Nǔu lɛ́Ꞌ {0}</relativeTimePattern>
 					<relativeTimePattern count="other">Nǔu lɛ́Ꞌ {0}</relativeTimePattern>
@@ -546,6 +555,34 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<pattern>¤ #,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="one" draft="provisional">¤ 0K</pattern>
+					<pattern type="1000" count="other" draft="provisional">¤ 0K</pattern>
+					<pattern type="10000" count="one" draft="provisional">¤ 00K</pattern>
+					<pattern type="10000" count="other" draft="provisional">¤ 00K</pattern>
+					<pattern type="100000" count="one" draft="provisional">¤ 000K</pattern>
+					<pattern type="100000" count="other" draft="provisional">¤ 000K</pattern>
+					<pattern type="1000000" count="one" draft="provisional">¤ 0M</pattern>
+					<pattern type="1000000" count="other" draft="provisional">¤ 0M</pattern>
+					<pattern type="10000000" count="one" draft="provisional">¤ 00M</pattern>
+					<pattern type="10000000" count="other" draft="provisional">¤ 00M</pattern>
+					<pattern type="100000000" count="one" draft="provisional">¤ 000M</pattern>
+					<pattern type="100000000" count="other" draft="provisional">¤ 000M</pattern>
+					<pattern type="1000000000" count="one" draft="provisional">¤ 0G</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">¤ 0G</pattern>
+					<pattern type="10000000000" count="one" draft="provisional">¤ 00G</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">¤ 00G</pattern>
+					<pattern type="100000000000" count="one" draft="provisional">¤ 000G</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">¤ 000G</pattern>
+					<pattern type="1000000000000" count="one" draft="provisional">¤ 0T</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">¤ 0T</pattern>
+					<pattern type="10000000000000" count="one" draft="provisional">¤ 00T</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">¤ 00T</pattern>
+					<pattern type="100000000000000" count="one" draft="provisional">¤ 000T</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">¤ 000T</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
 		</currencyFormats>
 		<currencies>
 			<currency type="CAD">
@@ -568,25 +605,47 @@ For terms of use, see http://www.unicode.org/copyright.html
 	</numbers>
 	<units>
 		<unitLength type="long">
+			<unit type="duration-year">
+				<displayName draft="provisional">ŋguꞋ</displayName>
+				<unitPattern count="one">ŋguꞋ {0}</unitPattern>
+				<unitPattern count="other">ŋguꞋ {0}</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">pɛsaŋ</displayName>
+				<unitPattern count="one">pɛsaŋ {0}</unitPattern>
+				<unitPattern count="other">pɛsaŋ {0}</unitPattern>
+			</unit>
 			<unit type="duration-day">
+				<displayName draft="provisional">lɛ́Ꞌ</displayName>
 				<unitPattern count="one">{0} lɛ́Ꞌ</unitPattern>
 				<unitPattern count="other">{0} lɛ́Ꞌ</unitPattern>
 			</unit>
 			<unit type="duration-hour">
+				<displayName draft="provisional">háwa</displayName>
 				<unitPattern count="one">{0} háwa</unitPattern>
 				<unitPattern count="other">{0} háwa</unitPattern>
 			</unit>
 			<unit type="duration-minute">
+				<displayName draft="provisional">minút</displayName>
 				<unitPattern count="one">{0} minút</unitPattern>
 				<unitPattern count="other">{0} minút</unitPattern>
 			</unit>
-			<unit type="duration-month">
-				<unitPattern count="one">pɛsaŋ {0}</unitPattern>
-				<unitPattern count="other">pɛsaŋ {0}</unitPattern>
-			</unit>
+		</unitLength>
+		<unitLength type="short">
 			<unit type="duration-year">
-				<unitPattern count="one">ŋguꞋ {0}</unitPattern>
-				<unitPattern count="other">ŋguꞋ {0}</unitPattern>
+				<displayName draft="provisional">ŋguꞋ</displayName>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">pɛsaŋ</displayName>
+			</unit>
+			<unit type="duration-day">
+				<displayName draft="provisional">lɛ́Ꞌ</displayName>
+			</unit>
+			<unit type="duration-hour">
+				<displayName draft="provisional">háwa</displayName>
+			</unit>
+			<unit type="duration-minute">
+				<displayName draft="provisional">minút</displayName>
 			</unit>
 		</unitLength>
 	</units>

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9728 $"/>
-		<generation date="$Date: 2014-02-12 22:14:13 -0600 (Wed, 12 Feb 2014) $"/>
+		<version number="$Revision: 12128 $"/>
 		<language type="mfe"/>
 	</identity>
 	<localeDisplayNames>
@@ -66,7 +65,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="AI">Anguilla</territory>
 			<territory type="AL">Albani</territory>
 			<territory type="AM">Armeni</territory>
-			<territory type="AN">Antiy neerlande</territory>
 			<territory type="AO">Angola</territory>
 			<territory type="AR">Larzantinn</territory>
 			<territory type="AS">Samoa amerikin</territory>
@@ -97,7 +95,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CF">Repiblik Lafrik Santral</territory>
 			<territory type="CG">Kongo</territory>
 			<territory type="CH">Laswis</territory>
-			<territory type="CI">Côte d'Ivoire</territory>
+			<territory type="CI">Côte d’Ivoire</territory>
 			<territory type="CK">Zil Cook</territory>
 			<territory type="CL">Shili</territory>
 			<territory type="CM">Kamerounn</territory>
@@ -567,6 +565,24 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<symbols numberSystem="latn">
 			<group> </group>
 		</symbols>
+		<currencyFormats numberSystem="latn">
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="other" draft="provisional">¤ 0K</pattern>
+					<pattern type="10000" count="other" draft="provisional">¤ 00K</pattern>
+					<pattern type="100000" count="other" draft="provisional">¤ 000K</pattern>
+					<pattern type="1000000" count="other" draft="provisional">¤ 0M</pattern>
+					<pattern type="10000000" count="other" draft="provisional">¤ 00M</pattern>
+					<pattern type="100000000" count="other" draft="provisional">¤ 000M</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">¤ 0G</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">¤ 00G</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">¤ 000G</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">¤ 0T</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">¤ 00T</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">¤ 000T</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+		</currencyFormats>
 		<currencies>
 			<currency type="AED">
 				<displayName>dirham Emira arab ini</displayName>
