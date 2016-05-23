@@ -24,7 +24,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
   {
     __obj : qx.theme.simple.Appearance.appearances,
 
-    testLabel :
+    testLabel : function()
     {
       var obj = this.__obj.label;
 
