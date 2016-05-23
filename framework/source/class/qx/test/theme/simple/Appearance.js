@@ -156,4 +156,4 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       this.assertIdentical(qx.test.simple.Image.URLS["arrow-left"], style({vertical: false}).icon);
     }
   }
-};
+});
