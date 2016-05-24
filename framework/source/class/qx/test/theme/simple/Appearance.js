@@ -18,7 +18,7 @@
 ************************************************************************ */
 qx.Class.define("qx.test.theme.simple.Appearance",
 {
-  extend : qx.test.unit.TestCase,
+  extend : qx.dev.unit.TestCase,
 
   members :
   {
@@ -92,7 +92,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       this.assertIdentical(100, style.showTimeout);
       this.assertIdentical(10000, style.hideTimeout);
       this.assertIdentical("tooltip-error", style.decorator);
-      this.assertIdentical("bold", font);
+      this.assertIdentical("bold", style.font);
       this.assertUndefined(style.backgroundColor);
     },
 
@@ -152,8 +152,8 @@ qx.Class.define("qx.test.theme.simple.Appearance",
     {
       var style = this.__obj["slidebar/button-backward"];
 
-      this.assertIdentical(qx.test.simple.Image.URLS["arrow-up"], style({vertical: true}).icon);
-      this.assertIdentical(qx.test.simple.Image.URLS["arrow-left"], style({vertical: false}).icon);
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-up"], style({vertical: true}).icon);
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-left"], style({vertical: false}).icon);
     }
   }
 });
