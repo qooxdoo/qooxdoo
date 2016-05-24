@@ -150,7 +150,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
 
     testSlideBarButtonBackward : function()
     {
-      var style = this.__obj["slidebar/button-backward"];
+      var style = this.__obj["slidebar/button-backward"].style;
 
       this.assertIdentical(qx.theme.simple.Image.URLS["arrow-up"], style({vertical: true}).icon);
       this.assertIdentical(qx.theme.simple.Image.URLS["arrow-left"], style({vertical: false}).icon);
