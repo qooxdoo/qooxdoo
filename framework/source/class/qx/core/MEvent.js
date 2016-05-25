@@ -75,7 +75,7 @@ qx.Mixin.define("qx.core.MEvent",
     {
       var callback = function(e)
       {
-        this.removeListener(type, listener, this, capture);
+        this.removeListener(type, listener, self||this, capture);
         listener.call(self||this, e);
       };
       // check for wrapped callback storage
