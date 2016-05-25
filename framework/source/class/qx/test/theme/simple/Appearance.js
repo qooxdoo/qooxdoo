@@ -148,12 +148,110 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       this.assertArrayEquals([2, 16, 2, 6], style.offset);
     },
 
+    testSlideBarButtonForward : function()
+    {
+      var style = this.__obj["slidebar/button-forward"].style;
+
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-down"], style({vertical: true}).icon);
+      this.assertIdentical(qx.theme.simple.Image.URLS["arrow-right"], style({vertical: false}).icon);
+
+    },
+
     testSlideBarButtonBackward : function()
     {
       var style = this.__obj["slidebar/button-backward"].style;
 
       this.assertIdentical(qx.theme.simple.Image.URLS["arrow-up"], style({vertical: true}).icon);
       this.assertIdentical(qx.theme.simple.Image.URLS["arrow-left"], style({vertical: false}).icon);
+    },
+
+    testTableStatusBar : function()
+    {
+      var style = this.__obj["table/statusbar"].style();
+
+      this.assertIdentical("statusbar", style.decorator);
+      this.assertArrayEquals([2, 5], style.padding);
+    },
+
+    testTableColumnButton : function()
+    {
+      var style = this.__obj["table/column-button"].style();
+
+      this.assertIdentical("table-header-column-button", style.decorator);
+      this.assertIdentical(3, style.padding);
+      this.assertIdentical(qx.theme.simple.Image.URLS["select-column-order"], style.icon);
+    },
+
+    testTableColumnResetButton : function()
+    {
+      var style = this.__obj["table-column-reset-button"].style();
+
+      this.assertIdentical("icon/16/actions/view-refresh.png", style.icon);
+    },
+
+    testTableScrollerHeader : function()
+    {
+      var style = this.__obj["table-scroller/header"].style();
+
+      this.assertIdentical("table-header", style.decorator);
+    },
+
+    testTableScrollerFocusIndicator : function()
+    {
+      var style = this.__obj["table-scroller/header"].style();
+
+      this.assertIdentical("main", style.decorator);
+    },
+
+    testTableScrollerResizeLine : function()
+    {
+      var style = this.__obj["table-scroller/resize-line"].style();
+
+      this.assertIdentical("button-border", style.backgroundColor);
+      this.assertIdentical(3, style.width);
+    },
+
+    testTableHeaderCell : function()
+    {
+      var styleFunc = this.__obj["table-header-cell"].style;
+
+      var states = {
+        first : true,
+        disabled : true,
+        sorted : true,
+        sortedAccending : true
+      };
+
+      var style = styleFunc(states);
+
+      this.assertIdentical(13, style.minWidth);
+      this.assertIdentical("bold", style.font);
+      this.assertIdentical(3, style.paddingTop);
+      this.assertIdentical(5, style.paddingLeft);
+
+      this.assertIdentical("table-header-cell-first", style.decorator);
+      this.assertUndefined(style.pointer);
+      this.assertIdentical(qx.theme.simple.Image.URLS["table-ascending"], style.sortIcon);
+
+      states.sortedAccending = false;
+      style = styleFunc(states);
+
+      this.assertIdentical(qx.theme.simple.Image.URLS["table-descending"], style.sortIcon);
+
+      states.sorted = false;
+      style = styleFunc(states);
+
+      this.assertUndefined(style.sortIcon);
+
+      states.disabled = false;
+      style = styleFunc(states);
+
+      this.assertIdentical("pointer", style.cursor);
+
+      states.first = false,
+      style = styleFunc(states);
+
+      this.assertIdentical("table-header-cell", style.decorator);
     }
   }
 });
