@@ -217,13 +217,26 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * <code>null</code> is returned.
      *
      * @param hash {String} The object's hash code.
+     * @param suppressWarnings {Boolean?} if true warnings are suppressed; default is false
      * @return {qx.core.Object} The corresponding object or <code>null</code>.
      */
-    fromHashCode : function(hash) {
+    fromHashCode : function(hash, suppressWarnings) {
       var obj = this.__registry[hash] || null;
-      if (!obj)
-      	qx.log.Logger.warn(this, "Object with hash code "+ hash + " does not exist (since Qooxdoo 6.0 fromHashCode requires that you explicitly register objects with qx.core.ObjectRegistry.register)");
+      if (!obj && !suppressWarnings)
+        qx.log.Logger.warn(this, "Object with hash code "+ hash + " does not exist (since Qooxdoo 6.0 fromHashCode requires that you explicitly register objects with qx.core.ObjectRegistry.register)");
       return obj;
+    },
+
+
+    /**
+     * Detects whether an object instance is indexed by its hash code as returned by {@link #toHashCode}.
+     * Unlike {@link #fromHashCode} this does not output warnings if the object does not exist
+     *
+     * @param hash {String} The object's hash code.
+     * @return {qx.core.Object} The corresponding object or <code>null</code>.
+     */
+    hasHashCode : function(hash) {
+      return !!this.__registry[hash];
     },
 
 
