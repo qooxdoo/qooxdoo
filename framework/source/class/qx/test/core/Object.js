@@ -91,6 +91,22 @@ qx.Class.define("qx.test.core.Object",
     },
 
 
+    testAddListenerOnceWithDifferentContext : function()
+    {
+      var called = 0;
+      var listener = function() {
+        // debugger;
+        called++;
+      };
+      var context1 = {name: "context1"};
+      var context2 = {name: "context2"};
+      this.addListenerOnce("test", listener, context1);
+      this.addListenerOnce("test", listener, context2);
+      this.fireEvent("test");
+      this.assertEquals(2, called);
+    },
+
+
     testRemoveListenerById : function()
     {
       var id = this.addListener("testRemoveListenerById", function() {}, this, false);
