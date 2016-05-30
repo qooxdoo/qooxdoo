@@ -56,6 +56,7 @@ qx.Class.define("qx.test.bom.Attribute",
 
       this.__maxLengthValues = {
         "mshtml": 2147483647,
+        "webkit": 524288,
         "default": -1
       };
     },
