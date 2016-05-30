@@ -242,7 +242,7 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     hasNoOsx : function()
     {
       return (qx.core.Environment.get("os.name") === "osx"?false:true);
-    }
+    },
 
 
     /**
