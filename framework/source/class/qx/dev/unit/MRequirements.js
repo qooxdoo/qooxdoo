@@ -235,6 +235,17 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
 
 
     /**
+     * Checks if the application is NOT running on OS X
+     *
+     * @return {Boolean} <code>true</code> if the operating system is NOT OX X
+     */
+    hasNoOsx : function()
+    {
+      return (qx.core.Environment.get("os.name") === "osx"?false:true);
+    },
+
+
+    /**
      * Checks if the application is running on Windows 7
      *
      * @return {Boolean} <code>false</code> if operating system is Windows 7
