@@ -233,7 +233,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       this.assertUndefined(style.pointer);
       this.assertIdentical(qx.theme.simple.Image.URLS["table-ascending"], style.sortIcon);
 
-      states.sortedAccending = false;
+      states.sortedAscending = false;
       style = styleFunc(states);
 
       this.assertIdentical(qx.theme.simple.Image.URLS["table-descending"], style.sortIcon);
@@ -347,10 +347,10 @@ qx.Class.define("qx.test.theme.simple.Appearance",
     {
       var styleFunc = this.__obj["treevirtual-file"].style;
 
-      this.assertIdentical("icon/16/mimetypes/text-plain.png", styleFunc({drag: false}));
+      this.assertIdentical("icon/16/mimetypes/text-plain.png", styleFunc({drag: false}).icon);
 
-      this.assertIdentical(0.5, styleFunc({drag: true}));
-      this.assertUndefined(styleFunc({drag: false}));
+      this.assertIdentical(0.5, styleFunc({drag: true}).opacity);
+      this.assertUndefined(styleFunc({drag: false}).opacity);
     },
 
     testTreeVirtualLine : function()
