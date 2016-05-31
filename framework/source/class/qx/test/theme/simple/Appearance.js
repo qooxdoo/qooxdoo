@@ -198,7 +198,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
 
     testTableScrollerFocusIndicator : function()
     {
-      var style = this.__obj["table-scroller/header"].style();
+      var style = this.__obj["table-scroller/focus-indicator"].style();
 
       this.assertIdentical("main", style.decorator);
     },
@@ -219,7 +219,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
         first : true,
         disabled : true,
         sorted : true,
-        sortedAccending : true
+        sortedAscending : true
       };
 
       var style = styleFunc(states);
@@ -347,7 +347,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
     {
       var styleFunc = this.__obj["treevirtual-file"].style;
 
-      this.assertIdentical("icon/16/mimetypes/text-plain.png", styleFunc());
+      this.assertIdentical("icon/16/mimetypes/text-plain.png", styleFunc({drag: false}));
 
       this.assertIdentical(0.5, styleFunc({drag: true}));
       this.assertUndefined(styleFunc({drag: false}));
@@ -473,13 +473,13 @@ qx.Class.define("qx.test.theme.simple.Appearance",
         horizontal : true
       };
 
-      var style = styleFunc({horizontal: true});
+      var style = styleFunc(states);
 
       this.assertIdentical(2, style.padding);
-      this.assertIdentical(qx.theme.simple.Image.URLS("knob-horizontal"), style.source);
+      this.assertIdentical(qx.theme.simple.Image.URLS["knob-horizontal"], style.source);
 
       style = styleFunc({horizontal: false});
-      this.assertIdentical(qx.theme.simple.Image.URLS("knob-vertical"), style.source);
+      this.assertIdentical(qx.theme.simple.Image.URLS["knob-vertical"], style.source);
     },
 
     testSplitpaneSlider: function()
@@ -514,7 +514,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       this.assertNotUndefined(style.position);
       this.assertIdentical("right-top", style.position);
       this.assertNotUndefined(style.offset);
-      this.assertArrayEquals([-2, -3], style.offset);
+      this.assertIdentical(4, style.offset);
 
       states.submenu = false;
       style = styleFunc(states);
@@ -580,7 +580,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       this.assertIdentical("menu-separator", style.decorator);
       this.assertIdentical(4, style.marginTop);
       this.assertIdentical(4, style.marginBottom);
-      this.assertIdentical(2, style.menuLeft);
+      this.assertIdentical(2, style.marginLeft);
       this.assertIdentical(2, style.marginRight);
     },
 
@@ -652,10 +652,12 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       this.assertIdentical(qx.theme.simple.Image.URLS["menu-checkbox-invert"], style.icon);
 
       states.selected = false;
+      style = styleFunc(states);
 
       this.assertIdentical(qx.theme.simple.Image.URLS["menu-checkbox"], style.icon);
 
       states.checked = false;
+      style = styleFunc(states);
 
       this.assertUndefined(style.icon);
     },
@@ -674,10 +676,12 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       this.assertIdentical(qx.theme.simple.Image.URLS["menu-radiobutton-invert"], style.icon);
 
       states.selected = false;
+      style = styleFunc(states);
 
       this.assertIdentical(qx.theme.simple.Image.URLS["menu-radiobutton"], style.icon);
 
       states.checked = false;
+      style = styleFunc(states);
 
       this.assertUndefined(style.icon);
     },
@@ -692,7 +696,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
 
     testMenuBarButton : function()
     {
-      var styleFunc = this.__obj["menubar-button"].style();
+      var styleFunc = this.__obj["menubar-button"].style;
 
       var states = {
         disabled : false,
