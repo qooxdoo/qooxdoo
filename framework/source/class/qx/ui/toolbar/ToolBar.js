@@ -594,8 +594,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
     // overridden
     _removeAll : function() {
-      this.base(arguments);
+      var children = this.base(arguments);
       this._recalculateOverflow(null, 0);
+      return children;
     },
 
 

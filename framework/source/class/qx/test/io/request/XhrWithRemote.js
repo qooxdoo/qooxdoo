@@ -120,9 +120,9 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
 
     "test: progress phases when abort after loading": function() {
       // Note:
-      //   * Breaks on Windows 7 in every browser because the loading phase
+      //   * Breaks on Windows 7 and OS X in every browser because the loading phase
       //     is never entered
-      this.require(["noIe", "noWin7"]);
+      this.require(["noIe", "noWin7", "noOsx"]);
 
       var req = this.req,
           phases = [],
