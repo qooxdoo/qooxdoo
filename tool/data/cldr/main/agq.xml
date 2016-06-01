@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9287 $"/>
-		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
+		<version number="$Revision: 12307 $"/>
 		<language type="agq"/>
 	</identity>
 	<localeDisplayNames>
@@ -66,7 +65,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="AI">Àŋgwilà</territory>
 			<territory type="AL">Àabɛnìa</territory>
 			<territory type="AM">Àmɛnyìa</territory>
-			<territory type="AN">Nedàlân Antàe</territory>
 			<territory type="AO">Àŋgolà</territory>
 			<territory type="AR">Àdzɛ̀ntinà</territory>
 			<territory type="AS">Àmɛlekan Samwà</territory>
@@ -443,6 +441,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</quarters>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am">a.g</dayPeriod>
+							<dayPeriod type="pm">a.k</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am">a.g</dayPeriod>
 							<dayPeriod type="pm">a.k</dayPeriod>
@@ -595,6 +597,22 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<pattern>#,##0.00¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="other" draft="provisional">0K¤</pattern>
+					<pattern type="10000" count="other" draft="provisional">00K¤</pattern>
+					<pattern type="100000" count="other" draft="provisional">000K¤</pattern>
+					<pattern type="1000000" count="other" draft="provisional">0M¤</pattern>
+					<pattern type="10000000" count="other" draft="provisional">00M¤</pattern>
+					<pattern type="100000000" count="other" draft="provisional">000M¤</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">0G¤</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">00G¤</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">000G¤</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">0T¤</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">00T¤</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">000T¤</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
 		</currencyFormats>
 		<currencies>
 			<currency type="AED">
@@ -649,7 +667,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Yulù</displayName>
 			</currency>
 			<currency type="GBP">
-				<displayName>Bɔ̀ŋ Sɨ̀telè è Bèletì</displayName>
+				<displayName>Bɔ̀ŋ è Bèletì</displayName>
 			</currency>
 			<currency type="GHC">
 				<displayName>Sɛ̀di è Gaanà</displayName>

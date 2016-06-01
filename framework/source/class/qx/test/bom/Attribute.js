@@ -56,6 +56,7 @@ qx.Class.define("qx.test.bom.Attribute",
 
       this.__maxLengthValues = {
         "mshtml": 2147483647,
+        "webkit": 524288,
         "default": -1
       };
     },
@@ -164,6 +165,9 @@ qx.Class.define("qx.test.bom.Attribute",
 
       if (qx.core.Environment.get("browser.name") == "edge") {
         maxLengthValue = this.__maxLengthValues.mshtml;
+      }
+      else if (qx.core.Environment.get("browser.name") == "chrome") {
+        maxLengthValue = this.__maxLengthValues["default"];
       }
 
       this.assertEquals(maxLengthValue, this._input["maxLength"]);
