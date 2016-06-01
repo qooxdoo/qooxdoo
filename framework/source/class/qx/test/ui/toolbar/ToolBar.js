@@ -150,6 +150,22 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       this.assertEquals("both", this.__b1.getShow());
       this.assertEquals("both", this.__b2.getShow());
       this.assertEquals("both", this.__b3.getShow());
+    },
+    
+    testRemoveAllChildren : function() {
+      this.__toolbar.removeAll();
+      
+      // setup toolbar with two buttons
+      this.__toolbar.add(this.__b1);
+      this.__toolbar.add(this.__b2);
+
+      // assert length of removed children array
+      var children = this.__toolbar.removeAll();
+      this.assertEquals(2, children.length);
+
+      // assert empty children array
+      children = this.__toolbar.removeAll();
+      this.assertEquals(0, children.length);
     }
   }
 });
