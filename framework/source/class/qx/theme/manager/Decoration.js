@@ -127,6 +127,7 @@ qx.Class.define("qx.theme.manager.Decoration",
       //  eg background-color comes after background.  The reordering is only applied
       //  to rules which begin with the names in REORDER; the sort order is alphabetical
       //  so that short cut rules come before actual
+      var t = this;
       Object.keys(styles).sort().forEach(function(key) {
         // if we find a map value, use it as pseudo class
         if (qx.Bootstrap.isObject(styles[key])) {
