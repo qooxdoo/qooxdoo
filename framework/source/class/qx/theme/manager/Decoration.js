@@ -128,9 +128,26 @@ qx.Class.define("qx.theme.manager.Decoration",
       var styles = instance.getStyles(true);
       
       // Sort the styles so that more specific styles come after the group styles, 
-      //  eg background-color comes after background
+      //  eg background-color comes after background.  The reordering is only applied
+      //  to rules which begin with the names in REORDER; the sort order is alphabetical
+      //  so that short cut rules come before actual
       var t = this;
-      Object.keys(styles).sort().forEach(function(key) {
+      var orderedStyles = [];
+      var unorderedStyles = [];
+      var REORDER = [ "background" ];
+      var savedStyles = {};
+      for (var key in styles) {
+        var needsOrdering = REORDER.some(function(start) {
+          return key.length >= start.length && key.substring(0, start.length) == start;
+        });
+        if (needsOrdering) {
+          unorderedStyles.push(key);
+        } else {
+          orderedStyles.push(key);
+        }
+      }
+      qx.lang.Array.append(orderedStyles, unorderedStyles.sort());
+      orderedStyles.forEach(function(key) {
         // if we find a map value, use it as pseudo class
         if (qx.Bootstrap.isObject(styles[key])) {
           var innerCss = "";
