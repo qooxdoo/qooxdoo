@@ -277,13 +277,17 @@ qx.Class.define("qx.ui.form.validation.Manager",
      */
     _validateRequired : function(formItem) {
       if (formItem.getRequired()) {
+        var validatorResult;
         // if its a widget supporting the selection
         if (this.__supportsSingleSelection(formItem)) {
-          var validatorResult = !!formItem.getSelection()[0];
-        // otherwise, a value should be supplied
+          validatorResult = !!formItem.getSelection()[0];
+
+        } else if (this.__supportsDataBindingSelection(formItem)) {
+          validatorResult = (formItem.getSelection().getLength() > 0);
+
         } else {
           var value = formItem.getValue();
-          var validatorResult = !!value || value === 0;
+          validatorResult = !!value || value === 0;
         }
         formItem.setValid(validatorResult);
         var individualMessage = formItem.getRequiredInvalidMessage();
@@ -442,6 +446,20 @@ qx.Class.define("qx.ui.form.validation.Manager",
     __supportsSingleSelection : function(formItem) {
       var clazz = formItem.constructor;
       return qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection);
+    },
+
+
+    /**
+     * Returns true, if the given item implements the
+     * {@link qx.data.controller.ISelection} interface.
+     *
+     * @param formItem {qx.core.Object} The item to check.
+     * @return {Boolean} true, if the given item implements the
+     *   necessary interface.
+     */
+    __supportsDataBindingSelection : function(formItem) {
+      var clazz = formItem.constructor;
+      return qx.Class.hasInterface(clazz, qx.data.controller.ISelection);
     },
 
 
