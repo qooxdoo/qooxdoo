@@ -503,22 +503,22 @@ qx.Class.define("qx.test.Class",
     {
       qx.Class.define("qx.Insect",
       {
-        extend : qx.core.Object,
+        extend : qx.core.Object
       });
 
       qx.Class.define("qx.Butterfly",
       {
-        extend : qx.Insect,
+        extend : qx.Insect
       });
 
       qx.Class.define("qx.Firefly",
       {
-        extend : qx.Insect,
+        extend : qx.Insect
       });
 
       qx.Class.define("qx.Grasshopper",
       {
-        extend : qx.Insect,
+        extend : qx.Insect
       });
 
       var subclasses = qx.Class.getSubclasses(qx.Insect);
