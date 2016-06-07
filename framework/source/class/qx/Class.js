@@ -687,6 +687,30 @@ qx.Bootstrap.define("qx.Class",
     },
 
 
+    /**
+     * Retreive all subclasses of a given class
+     *
+     * @param clazz {Class} the class which should be inspected
+     * 
+     * @return {Object} class name hash holding the references to the subclasses or null if the class does not exist.
+     */
+    getSubclasses : function(clazz)
+    {
+      if(!clazz) {
+        return null;
+      }
+      
+      var subclasses = {};
+      var registry = qx.Class.$$registry;
+
+      for (var name in registry) {
+        if(registry[name].superclass && registry[name].superclass == clazz) {
+          subclasses[name] = registry[name];
+        }
+      }
+
+      return subclasses;
+    },
 
 
 
