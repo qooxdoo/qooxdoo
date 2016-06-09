@@ -570,5 +570,170 @@ qx.Class.define("qx.test.core.Property",
 
       object.dispose();
     }
+
+
+    /*
+    ---------------------------------------------------------------------------
+       COMPERATOR OVERRIDE TEST
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Check whether the (numeric) value is negative zero (-0)
+     *
+     * @param value {number} Value to check
+     * @return {Boolean} whether the value is <code>-0</code>
+     */
+    __isNegativeZero : function (value) {
+      return value===0 && (1/value < 0); // 1/-0 => -Infinity
+    },
+
+
+    /**
+     * Check whether the (numeric) value is positive zero (+0)
+     *
+     * @param value {number} Value to check
+     * @return {Boolean} whether the value is <code>+0</code>
+     */
+    __isPositiveZero : function (value) {
+      return value===0 && (1/value > 0); // 1/+0 => +Infinity
+    },
+
+
+    testComparatorInline : function ()
+    {
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            comparator : "Object.is(a, b)"
+          }
+        }
+      });
+
+      var object = new qx.TestProperty();
+      object.setProp(0); // initialize with +0
+
+      //
+      // check for the event
+      //
+      var self = this;
+
+      // No change expected
+      this.assertEventNotFired(object, "changeProp", function () {
+        object.setProp(0);
+        object.setProp(+0);
+      }, function (e) {}, "'changeProp' event fired!");
+
+      // Change expected
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(-0);
+      }, function (e) {
+        var isNegativeZero = self.__isNegativeZero( e.getData() );
+        var isPositiveZero = self.__isPositiveZero( e.getOldData() );
+        self.assertTrue(isNegativeZero, "Wrong data in the event!");
+        self.assertTrue(isPositiveZero, "Wrong old data in the event!");
+      }, "Change event not fired!");
+
+      // @todo: check 'apply' and 'transform', too
+
+      object.dispose();
+    },
+
+
+    testComparatorFunction : function ()
+    {
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            comparator : function (x,y) { return Object.is(x, y); }
+          }
+        }
+      });
+
+      var object = new qx.TestProperty();
+      object.setProp(0); // initialize with +0
+
+      //
+      // check for the event
+      //
+      var self = this;
+
+      // No change expected
+      this.assertEventNotFired(object, "changeProp", function () {
+        object.setProp(0);
+        object.setProp(+0);
+      }, function (e) {}, "'changeProp' event fired!");
+
+      // Change expected
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(-0);
+      }, function (e) {
+        var isNegativeZero = self.__isNegativeZero( e.getData() );
+        var isPositiveZero = self.__isPositiveZero( e.getOldData() );
+        self.assertTrue(isNegativeZero, "Wrong data in the event!");
+        self.assertTrue(isPositiveZero, "Wrong old data in the event!");
+      }, "Change event not fired!");
+
+      // @todo: check 'apply' and 'transform', too
+
+      object.dispose();
+    },
+
+
+    testComparatorMember : function ()
+    {
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            comparator : "__fooBar"
+          }
+        },
+        members : {
+          __fooBar : function (foo, bar) {
+            return Object.is(foo, bar);
+          }
+        }
+      });
+
+      var object = new qx.TestProperty();
+      object.setProp(0); // initialize with +0
+
+      //
+      // check for the event
+      //
+      var self = this;
+
+      // No change expected
+      this.assertEventNotFired(object, "changeProp", function () {
+        object.setProp(0);
+        object.setProp(+0);
+      }, function (e) {}, "'changeProp' event fired!");
+
+      // Change expected
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(-0);
+      }, function (e) {
+        var isNegativeZero = self.__isNegativeZero( e.getData() );
+        var isPositiveZero = self.__isPositiveZero( e.getOldData() );
+        self.assertTrue(isNegativeZero, "Wrong data in the event!");
+        self.assertTrue(isPositiveZero, "Wrong old data in the event!");
+      }, "Change event not fired!");
+
+      // @todo: check 'apply' and 'transform', too
+
+      object.dispose();
+    }
   }
 });
