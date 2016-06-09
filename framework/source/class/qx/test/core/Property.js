@@ -569,7 +569,7 @@ qx.Class.define("qx.test.core.Property",
       }, "Change event not fired!");
 
       object.dispose();
-    }
+    },
 
 
     /*
