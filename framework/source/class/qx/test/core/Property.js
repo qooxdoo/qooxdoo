@@ -734,6 +734,90 @@ qx.Class.define("qx.test.core.Property",
       // @todo: check 'apply' and 'transform', too
 
       object.dispose();
+    },
+
+
+    testComparatorInlineContext : function ()
+    {
+      var context, object;
+
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            comparator : "(this.__checkCtx(a,b))"
+          }
+        },
+        members : {
+          __checkCtx : function (foo, bar) {
+            context = this;
+          }
+        }
+      });
+
+      object = new qx.TestProperty().set({prop: 4711});
+
+      this.assertIdentical(object, context);
+
+      object.dispose();
+    },
+
+
+    testComparatorFunctionContext : function ()
+    {
+      var context, object;
+
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            comparator : function (x, y) {
+              context = this;
+            }
+          }
+        }
+      });
+
+      object = new qx.TestProperty().set({prop: 4711});
+
+      this.assertIdentical(object, context);
+
+      object.dispose();
+    },
+
+
+    testComparatorMemberContext : function ()
+    {
+      var context, object;
+
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            comparator : "__checkCtx"
+          }
+        },
+        members : {
+          __checkCtx : function (foo, bar) {
+            context = this;
+          }
+        }
+      });
+
+      object = new qx.TestProperty().set({prop: 4711});
+
+      this.assertIdentical(object, context);
+
+      object.dispose();
     }
   }
 });
