@@ -272,7 +272,8 @@ qx.Bootstrap.define("qx.core.Property",
       check        : null,       // Array, String, Function
       transform    : "string",   // String
       deferredInit : "boolean",  // Boolean
-      validate     : null        // String, Function
+      validate     : null,       // String, Function
+      comparator   : null        // String, Function
     },
 
 
@@ -813,6 +814,8 @@ qx.Bootstrap.define("qx.core.Property",
 
       var store = this.__getStore(variant, name);
 
+      this.__emitComparatorFunction(code, clazz, config, name);
+
       this.__emitSetterPreConditions(code, config, name, variant, incomingValue);
 
       if (incomingValue) {
@@ -887,6 +890,48 @@ qx.Bootstrap.define("qx.core.Property",
       }
 
       return store;
+    },
+
+
+    /**
+     * Emit code for the equality check evaluation
+     *
+     * @param code {String[]} String array to append the code to
+     * @param clazz {Class} the class which originally defined the property
+     * @param config {Object} The property configuration map
+     * @param name {String} name of the property
+     */
+    __emitComparatorFunction : function (code, clazz, config, name)
+    {
+      code.push('var equ=');
+
+      if (typeof config.comparator === "function")
+      {
+        code.push('function(a,b){return !!', clazz.classname, '.$$properties.',
+                  name, '.comparator.call(this,a,b);};');
+      }
+      else if (typeof config.comparator === "string")
+      {
+        var members = clazz.prototype;
+        // Name of member?
+        if (members[config.comparator]!==undefined)
+        {
+          code.push('this.', config.comparator, ';');
+        }
+        else // 'inline' code
+        {
+          code.push('function(a,b){return !!(', config.comparator, ');};');
+        }
+      }
+      else if (typeof config.comparator === "undefined")
+      {
+        code.push('function(a,b){return a===b;};');
+      }
+      else
+      {
+        throw new Error( "Invalid type for 'comparator' attribute " +
+          "of property '" + name + "' in class '" + clazz.classname + "'" );
+      }
     },
 
 
@@ -991,7 +1036,7 @@ qx.Bootstrap.define("qx.core.Property",
       );
 
       if (incomingValue) {
-        code.push('if(this.', store, '===value)return value;');
+        code.push('if(equ(this.', store, ',value))return value;');
       } else if (resetValue) {
         code.push('if(this.', store, '===undefined)return;');
       }
@@ -1427,7 +1472,7 @@ qx.Bootstrap.define("qx.core.Property",
       code.push('}');
 
       // Compare old/new computed value
-      code.push('if(old===computed)return value;');
+      code.push('if(equ(old,computed))return value;');
 
       // Note: At this point computed can be "inherit" or "undefined".
 
@@ -1474,7 +1519,7 @@ qx.Bootstrap.define("qx.core.Property",
       }
 
       // Compare old/new computed value
-      code.push('if(old===computed)return value;');
+      code.push('if(equ(old,computed))return value;');
 
       // Normalize old value
       if (config.init !== undefined && variant !== "init") {
