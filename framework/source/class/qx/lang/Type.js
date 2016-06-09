@@ -88,8 +88,9 @@ qx.Bootstrap.define("qx.lang.Type",
     },
 
 
-     /**
-    * Whether the value is a number.
+    /**
+    * Whether the value is a number. NaN is not considered a number
+    * in this context.
     *
     * @param value {var} Value to check.
     * @return {Boolean} Whether the value is a number.
