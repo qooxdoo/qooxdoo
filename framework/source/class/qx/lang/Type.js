@@ -88,7 +88,7 @@ qx.Bootstrap.define("qx.lang.Type",
     },
 
 
-    /**
+     /**
     * Whether the value is a number.
     *
     * @param value {var} Value to check.
@@ -101,7 +101,9 @@ qx.Bootstrap.define("qx.lang.Type",
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
-        value !== null && (
+        value !== null &&
+        // Check if value is NaN
+        value === value && (
         this.getClass(value) === "Number" ||
         value instanceof Number)
       );
