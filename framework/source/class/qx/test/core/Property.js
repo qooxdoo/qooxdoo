@@ -600,6 +600,49 @@ qx.Class.define("qx.test.core.Property",
     },
 
 
+    testWrongComparatorDefinitions : function ()
+    {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        var re = new RegExp("Invalid type for 'comparator'.*");
+        var o = new qx.core.Object();
+
+        [
+          new Date(),   // date
+          [1,2,3],      // array
+          {},           // object
+          o,            // qooxdoo class
+          new RegExp(), // RegExp
+          null,         // null
+          true, false,  // boolean
+          123           // number
+        ].forEach(function (comparatorTestValue, i) {
+
+          var msg = "case[" + i + "] (" + String(comparatorTestValue) + ")";
+          this.assertException(function ()
+          {
+            qx.Class.define("qx.TestProperty", {
+              extend : qx.core.Object,
+              properties : {
+                prop : {
+                  check : "Number",
+                  comparator : comparatorTestValue
+                }
+              }
+            });
+            new qx.TestProperty().set({prop: 0});
+          }, Error, re, msg);
+
+          delete qx.TestProperty;
+        }, this);
+
+        o.dispose();
+
+      } // end-if (qx.core.Environment.get("qx.debug"))
+
+    },
+
+
     testComparatorInline : function ()
     {
       qx.Class.define("qx.TestProperty", {
