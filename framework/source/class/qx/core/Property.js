@@ -1036,7 +1036,7 @@ qx.Bootstrap.define("qx.core.Property",
       );
 
       if (incomingValue) {
-        code.push('if(equ(this.', store, ',value))return value;');
+        code.push('if(equ.call(this,this.', store, ',value))return value;');
       } else if (resetValue) {
         code.push('if(this.', store, '===undefined)return;');
       }
@@ -1472,7 +1472,7 @@ qx.Bootstrap.define("qx.core.Property",
       code.push('}');
 
       // Compare old/new computed value
-      code.push('if(equ(old,computed))return value;');
+      code.push('if(equ.call(this,old,computed))return value;');
 
       // Note: At this point computed can be "inherit" or "undefined".
 
@@ -1519,7 +1519,7 @@ qx.Bootstrap.define("qx.core.Property",
       }
 
       // Compare old/new computed value
-      code.push('if(equ(old,computed))return value;');
+      code.push('if(equ.call(this,old,computed))return value;');
 
       // Normalize old value
       if (config.init !== undefined && variant !== "init") {
