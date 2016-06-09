@@ -818,6 +818,38 @@ qx.Class.define("qx.test.core.Property",
       this.assertIdentical(object, context);
 
       object.dispose();
+    },
+
+
+    testComparatorBaseClassMember : function ()
+    {
+      var context, object;
+
+      qx.Class.define("qx.Super", {
+        extend : qx.core.Object,
+        members : {
+          __checkCtx : function (foo, bar) {
+            context = this;
+          }
+        }
+      });
+      qx.Class.define("qx.TestProperty", {
+        extend: qx.Super,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            comparator : "__checkCtx"
+          }
+        }
+      });
+
+      object = new qx.TestProperty().set({prop: 4711});
+
+      this.assertIdentical(object, context);
+
+      object.dispose();
     }
   }
 });
