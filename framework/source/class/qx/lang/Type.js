@@ -91,6 +91,11 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
     * Whether the value is a number.
     *
+    * This function checks if the _type_ of the value is Number.
+    * Global properties *NaN*, *-Infinity*, *+Infinity*,
+    * *Number.POSITIVE_INFINITY* and *Number.NEGATIVE_INFINITY*
+    * return true.
+    *
     * @param value {var} Value to check.
     * @return {Boolean} Whether the value is a number.
     */
