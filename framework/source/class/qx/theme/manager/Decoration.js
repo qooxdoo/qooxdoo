@@ -122,8 +122,13 @@ qx.Class.define("qx.theme.manager.Decoration",
       // create and add a CSS rule
       var css = "";
       var styles = instance.getStyles(true);
-      for (var key in styles) {
-
+      
+      // Sort the styles so that more specific styles come after the group styles, 
+      //  eg background-color comes after background.  The reordering is only applied
+      //  to rules which begin with the names in REORDER; the sort order is alphabetical
+      //  so that short cut rules come before actual
+      var t = this;
+      Object.keys(styles).sort().forEach(function(key) {
         // if we find a map value, use it as pseudo class
         if (qx.Bootstrap.isObject(styles[key])) {
           var innerCss = "";
@@ -133,14 +138,14 @@ qx.Class.define("qx.theme.manager.Decoration",
             inner = true;
             innerCss += innerKey + ":" + innerStyles[innerKey] + ";";
           }
-          var innerSelector = this.__legacyIe ? selector :
+          var innerSelector = t.__legacyIe ? selector :
             selector + (inner ? ":" : "");
-          this.__rules.push(innerSelector + key);
+          t.__rules.push(innerSelector + key);
           sheet.addRule(innerSelector + key, innerCss);
-          continue;
+          return;
         }
         css += key + ":" + styles[key] + ";";
-      }
+      });
 
       if (css) {
         sheet.addRule(selector, css);
