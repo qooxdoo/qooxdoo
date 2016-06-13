@@ -574,7 +574,7 @@ qx.Class.define("qx.test.core.Property",
 
     /*
     ---------------------------------------------------------------------------
-       COMPERATOR OVERRIDE TEST
+       IS-EQUAL OVERRIDE TEST
     ---------------------------------------------------------------------------
     */
 
@@ -600,11 +600,11 @@ qx.Class.define("qx.test.core.Property",
     },
 
 
-    testWrongComparatorDefinitions : function ()
+    testWrongIsEqualDefinitions : function ()
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        var re = new RegExp("Invalid type for 'comparator'.*");
+        var re = new RegExp("Invalid type for 'isEqual'.*");
         var o = new qx.core.Object();
 
         [
@@ -616,9 +616,9 @@ qx.Class.define("qx.test.core.Property",
           null,         // null
           true, false,  // boolean
           123           // number
-        ].forEach(function (comparatorTestValue, i) {
+        ].forEach(function (isEqualTestValue, i) {
 
-          var msg = "case[" + i + "] (" + String(comparatorTestValue) + ")";
+          var msg = "case[" + i + "] (" + String(isEqualTestValue) + ")";
           this.assertException(function ()
           {
             qx.Class.define("qx.TestProperty", {
@@ -626,7 +626,7 @@ qx.Class.define("qx.test.core.Property",
               properties : {
                 prop : {
                   check : "Number",
-                  comparator : comparatorTestValue
+                  isEqual : isEqualTestValue
                 }
               }
             });
@@ -643,7 +643,7 @@ qx.Class.define("qx.test.core.Property",
     },
 
 
-    testComparatorInline : function ()
+    testIsEqualInline : function ()
     {
       qx.Class.define("qx.TestProperty", {
         extend : qx.core.Object,
@@ -652,7 +652,7 @@ qx.Class.define("qx.test.core.Property",
             check : "Number",
             nullable : true,
             event : "changeProp",
-            comparator : "Object.is(a, b)"
+            isEqual : "Object.is(a, b)"
           }
         }
       });
@@ -687,7 +687,7 @@ qx.Class.define("qx.test.core.Property",
     },
 
 
-    testComparatorFunction : function ()
+    testIsEqualFunction : function ()
     {
       qx.Class.define("qx.TestProperty", {
         extend : qx.core.Object,
@@ -696,7 +696,7 @@ qx.Class.define("qx.test.core.Property",
             check : "Number",
             nullable : true,
             event : "changeProp",
-            comparator : function (x,y) { return Object.is(x, y); }
+            isEqual : function (x,y) { return Object.is(x, y); }
           }
         }
       });
@@ -731,7 +731,7 @@ qx.Class.define("qx.test.core.Property",
     },
 
 
-    testComparatorMember : function ()
+    testIsEqualMember : function ()
     {
       qx.Class.define("qx.TestProperty", {
         extend : qx.core.Object,
@@ -740,7 +740,7 @@ qx.Class.define("qx.test.core.Property",
             check : "Number",
             nullable : true,
             event : "changeProp",
-            comparator : "__fooBar"
+            isEqual : "__fooBar"
           }
         },
         members : {
@@ -780,7 +780,7 @@ qx.Class.define("qx.test.core.Property",
     },
 
 
-    testComparatorInlineContext : function ()
+    testIsEqualInlineContext : function ()
     {
       var context, object;
 
@@ -791,7 +791,7 @@ qx.Class.define("qx.test.core.Property",
             check : "Number",
             nullable : true,
             event : "changeProp",
-            comparator : "(this.__checkCtx(a,b))"
+            isEqual : "(this.__checkCtx(a,b))"
           }
         },
         members : {
@@ -809,7 +809,7 @@ qx.Class.define("qx.test.core.Property",
     },
 
 
-    testComparatorFunctionContext : function ()
+    testIsEqualFunctionContext : function ()
     {
       var context, object;
 
@@ -820,7 +820,7 @@ qx.Class.define("qx.test.core.Property",
             check : "Number",
             nullable : true,
             event : "changeProp",
-            comparator : function (x, y) {
+            isEqual : function (x, y) {
               context = this;
             }
           }
@@ -835,7 +835,7 @@ qx.Class.define("qx.test.core.Property",
     },
 
 
-    testComparatorMemberContext : function ()
+    testIsEqualMemberContext : function ()
     {
       var context, object;
 
@@ -846,7 +846,7 @@ qx.Class.define("qx.test.core.Property",
             check : "Number",
             nullable : true,
             event : "changeProp",
-            comparator : "__checkCtx"
+            isEqual : "__checkCtx"
           }
         },
         members : {
@@ -864,7 +864,7 @@ qx.Class.define("qx.test.core.Property",
     },
 
 
-    testComparatorBaseClassMember : function ()
+    testIsEqualBaseClassMember : function ()
     {
       var context, object;
 
@@ -883,7 +883,7 @@ qx.Class.define("qx.test.core.Property",
             check : "Number",
             nullable : true,
             event : "changeProp",
-            comparator : "__checkCtx"
+            isEqual : "__checkCtx"
           }
         }
       });
