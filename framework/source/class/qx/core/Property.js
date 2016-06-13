@@ -273,7 +273,7 @@ qx.Bootstrap.define("qx.core.Property",
       transform    : "string",   // String
       deferredInit : "boolean",  // Boolean
       validate     : null,       // String, Function
-      comparator   : null        // String, Function
+      isEqual      : null        // String, Function
     },
 
 
@@ -814,7 +814,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       var store = this.__getStore(variant, name);
 
-      this.__emitComparatorFunction(code, clazz, config, name);
+      this.__emitIsEqualFunction(code, clazz, config, name);
 
       this.__emitSetterPreConditions(code, config, name, variant, incomingValue);
 
@@ -901,35 +901,35 @@ qx.Bootstrap.define("qx.core.Property",
      * @param config {Object} The property configuration map
      * @param name {String} name of the property
      */
-    __emitComparatorFunction : function (code, clazz, config, name)
+    __emitIsEqualFunction : function (code, clazz, config, name)
     {
       code.push('var equ=');
 
-      if (typeof config.comparator === "function")
+      if (typeof config.isEqual === "function")
       {
         code.push('function(a,b){return !!', clazz.classname, '.$$properties.',
-                  name, '.comparator.call(this,a,b);};');
+                  name, '.isEqual.call(this,a,b);};');
       }
-      else if (typeof config.comparator === "string")
+      else if (typeof config.isEqual === "string")
       {
         var members = clazz.prototype;
         // Name of member?
-        if (members[config.comparator]!==undefined)
+        if (members[config.isEqual]!==undefined)
         {
-          code.push('this.', config.comparator, ';');
+          code.push('this.', config.isEqual, ';');
         }
         else // 'inline' code
         {
-          code.push('function(a,b){return !!(', config.comparator, ');};');
+          code.push('function(a,b){return !!(', config.isEqual, ');};');
         }
       }
-      else if (typeof config.comparator === "undefined")
+      else if (typeof config.isEqual === "undefined")
       {
         code.push('function(a,b){return a===b;};');
       }
       else
       {
-        throw new Error( "Invalid type for 'comparator' attribute " +
+        throw new Error( "Invalid type for 'isEqual' attribute " +
           "of property '" + name + "' in class '" + clazz.classname + "'" );
       }
     },
