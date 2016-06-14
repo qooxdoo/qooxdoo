@@ -118,6 +118,32 @@
  *   <tr><th>deferredInit</th><td>Boolean</td><td>
  *     Allow for a deferred initialization for reference types. Defaults to false.
  *   </td></tr>
+ *   <tr><th>isEqual</th><td>Function, String</td><td>
+ *     On setting of the property value the method of the specified name will
+ *     be called to test if two values are equal. These checks for equality are
+ *     performed by the Property-System to decide whether further actions (like
+ *     e.g. calling applier methods or firing of events) are needed.
+ *     The signature of the method is <code>function(valueA, valueB)</code>.
+ *     <br/>
+ *     The <i>isEqual</i>-value can be:
+ *     <ul>
+ *       <li>a custom check function.
+ *           The function takes two values as parameter and must return a
+ *           boolean value to indicate whether the values are considered
+ *           equal e.g. <code>function (a, b) { return Object.is(a, b); }</code>.</li>
+ *       <li>inline check code as a string
+ *           which will be invoked with two parameters <code>a</code> and
+ *           <code>b</code> and results in a boolean value to indicate whether
+ *           the values are equal e.g. <code>"a.length() == b.length()"</code>.</li>
+ *       <li>reference to a member method as string
+ *           <code>"<i>methodname</i>"</code> which will be invoked with two
+ *           parameters and returns a boolean value indicating whether the two
+ *           values are considered equal for example <code>"__areTheSame"</code>.</li>
+ *     </ul>
+ *     The default implementation (if this key is undefined) will check the
+ *     equality by using the <i>identity</i> operator (===) as if defined like
+ *     <code>"a===b"</code>.
+ *   </td></tr>
  * </table>
  *
  * *Property groups*
