@@ -43,6 +43,8 @@
  * * Internet Explorer 6.0 + 7.0 (both standard & quirks mode)
  * * Opera 9.2
  * * Safari 3.0 beta
+ *
+ * @ignore(SVGElement)
  */
 qx.Bootstrap.define("qx.bom.element.Location",
 {
@@ -246,8 +248,20 @@ qx.Bootstrap.define("qx.bom.element.Location",
         var top = offset.top + body.top - scroll.top;
       }
 
-      var right = left + elem.offsetWidth;
-      var bottom = top + elem.offsetHeight;
+      var elementWidth;
+      var elementHeight;
+      if (elem instanceof SVGElement) {
+        var rect = elem.getBoundingClientRect();
+        elementWidth = rect.width;
+        elementHeight = rect.height;
+      }
+      else {
+        elementWidth = elem.offsetWidth;
+        elementHeight = elem.offsetHeight;
+      }
+
+      var right = left + elementWidth;
+      var bottom = top + elementHeight;
 
       if (mode)
       {
@@ -257,12 +271,12 @@ qx.Bootstrap.define("qx.bom.element.Location",
         {
           var overX = qx.bom.element.Style.get(elem, "overflowX");
           if (overX == "scroll" || overX == "auto") {
-            right += elem.scrollWidth - elem.offsetWidth + this.__num(elem, "borderLeftWidth") + this.__num(elem, "borderRightWidth");
+            right += elem.scrollWidth - elementWidth + this.__num(elem, "borderLeftWidth") + this.__num(elem, "borderRightWidth");
           }
 
           var overY = qx.bom.element.Style.get(elem, "overflowY");
           if (overY == "scroll" || overY == "auto") {
-            bottom += elem.scrollHeight - elem.offsetHeight + this.__num(elem, "borderTopWidth") + this.__num(elem, "borderBottomWidth");
+            bottom += elem.scrollHeight - elementHeight + this.__num(elem, "borderTopWidth") + this.__num(elem, "borderBottomWidth");
           }
         }
 
@@ -434,6 +448,11 @@ qx.Bootstrap.define("qx.bom.element.Location",
      */
     getOffsetParent : function(element)
     {
+      // Ther is no offsetParent for SVG elements
+      if (element instanceof SVGElement) {
+        return document.body;
+      }
+
       var offsetParent = element.offsetParent || document.body;
       var Style = qx.bom.element.Style;
 

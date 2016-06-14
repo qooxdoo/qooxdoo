@@ -23,11 +23,14 @@
  * Default history manager implementation. Either polls for URL fragment
  * identifier (hash) changes or uses the native "hashchange" event.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @internal
  */
 qx.Class.define("qx.bom.NativeHistory",
 {
   extend : qx.bom.History,
+  implement: [ qx.core.IDisposable ],
 
   construct : function()
   {

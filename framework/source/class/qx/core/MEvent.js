@@ -64,19 +64,23 @@ qx.Mixin.define("qx.core.MEvent",
      *
      * @param type {String} name of the event type
      * @param listener {Function} event callback function
-     * @param self {Object ? window} reference to the 'this' variable inside the callback
+     * @param context {Object ? window} reference to the 'this' variable inside the callback
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase or the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
      * @return {String} An opaque id, which can be used to remove the event listener
      *         using the {@link #removeListenerById} method.
      */
-    addListenerOnce : function(type, listener, self, capture)
+    addListenerOnce : function(type, listener, context, capture)
     {
+      var self = this; // self is needed to remove the listener inside the callback
+      if (!context) {
+        context = this;
+      }
       var callback = function(e)
       {
-        this.removeListener(type, listener, this, capture);
-        listener.call(self||this, e);
+        self.removeListener(type, listener, context, capture);
+        listener.call(context, e);
       };
       // check for wrapped callback storage
       if (!listener.$$wrapped_callback) {
@@ -85,8 +89,7 @@ qx.Mixin.define("qx.core.MEvent",
       // store the call for each type in case the listener is
       // used for more than one type [BUG #8038]
       listener.$$wrapped_callback[type + this.$$hash] = callback;
-
-      return this.addListener(type, callback, this, capture);
+      return this.addListener(type, callback, context, capture);
     },
 
 

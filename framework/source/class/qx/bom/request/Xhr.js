@@ -37,6 +37,22 @@
  *  req.open("GET", url);
  *  req.send();
  * </pre>
+ *
+ * Example for binary data:
+ *
+ * <pre class="javascript">
+ *  var req = new qx.bom.request.Xhr();
+ *  req.onload = function() {
+ *    // Handle data received
+ *    var blob = req.response;
+ *    img.src = URL.createObjectURL(blob);
+ *  }
+ *
+ *  req.open("GET", url);
+ *  req.responseType = "blob";
+ *  req.send();
+ * </pre>
+ 
  * </div>
  *
  * @ignore(XDomainRequest)
@@ -64,6 +80,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 {
 
   extend: Object,
+  implement: [ qx.core.IDisposable ],
 
   construct: function() {
     var boundFunc = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);
@@ -153,6 +170,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
     /**
      * @type {Object} The response of the request as a Document object.
      */
+    response: null,
+    
+    /**
+     * @type {Object} The response of the request as object.
+     */
     responseXML: null,
 
     /**
@@ -165,6 +187,10 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      */
     statusText: "",
 
+    /**
+     * @type {String} The response Type to use in the request
+     */
+    responseType: "",
     /**
      * @type {Number} Timeout limit in milliseconds.
      *
@@ -217,6 +243,11 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         async = true;
       }
       this.__async = async;
+      // Default values according to spec.
+      this.status = 0;
+      this.statusText = this.responseText = "";
+      this.responseXML = null;
+      this.response = null;
 
       // BUGFIX
       // IE < 9 and FF < 3.5 cannot reuse the native XHR to issue many requests
@@ -405,6 +436,9 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       try {
         if (qx.core.Environment.get("qx.debug.io")) {
           qx.Bootstrap.debug(qx.bom.request.Xhr, "Send native request");
+        }
+        if (this.__async) {
+          this.__nativeXhr.responseType = this.responseType;
         }
         this.__nativeXhr.send(data);
       } catch(SendError) {
@@ -922,6 +956,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.status = 0;
       this.statusText = this.responseText = "";
       this.responseXML = null;
+      this.response = null;
 
       if (this.readyState >= qx.bom.request.Xhr.HEADERS_RECEIVED) {
         // In some browsers, XHR properties are not readable
@@ -929,8 +964,13 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
         try {
           this.status = nxhr.status;
           this.statusText = nxhr.statusText;
-          this.responseText = nxhr.responseText;
-          this.responseXML = nxhr.responseXML;
+          this.response = nxhr.response;
+          if ((this.responseType === "") || (this.responseType === "text")) {
+           this.responseText = nxhr.responseText;
+          }
+          if ((this.responseType === "") || (this.responseType === "document")) {
+           this.responseXML = nxhr.responseXML;
+          }
         } catch(XhrPropertiesNotReadable) {
           propertiesReadable = false;
         }

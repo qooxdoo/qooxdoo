@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9791 $"/>
-		<generation date="$Date: 2014-02-25 15:16:49 -0600 (Tue, 25 Feb 2014) $"/>
+		<version number="$Revision: 12307 $"/>
 		<language type="om"/>
 	</identity>
 	<localeDisplayNames>
@@ -240,6 +239,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</days>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am">WD</dayPeriod>
+							<dayPeriod type="pm">WB</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am">WD</dayPeriod>
 							<dayPeriod type="pm">WB</dayPeriod>
@@ -324,6 +327,34 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<pattern>¤#,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="one" draft="provisional">¤0K</pattern>
+					<pattern type="1000" count="other" draft="provisional">¤0K</pattern>
+					<pattern type="10000" count="one" draft="provisional">¤00K</pattern>
+					<pattern type="10000" count="other" draft="provisional">¤00K</pattern>
+					<pattern type="100000" count="one" draft="provisional">¤000K</pattern>
+					<pattern type="100000" count="other" draft="provisional">¤000K</pattern>
+					<pattern type="1000000" count="one" draft="provisional">¤0M</pattern>
+					<pattern type="1000000" count="other" draft="provisional">¤0M</pattern>
+					<pattern type="10000000" count="one" draft="provisional">¤00M</pattern>
+					<pattern type="10000000" count="other" draft="provisional">¤00M</pattern>
+					<pattern type="100000000" count="one" draft="provisional">¤000M</pattern>
+					<pattern type="100000000" count="other" draft="provisional">¤000M</pattern>
+					<pattern type="1000000000" count="one" draft="provisional">¤0G</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">¤0G</pattern>
+					<pattern type="10000000000" count="one" draft="provisional">¤00G</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">¤00G</pattern>
+					<pattern type="100000000000" count="one" draft="provisional">¤000G</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">¤000G</pattern>
+					<pattern type="1000000000000" count="one" draft="provisional">¤0T</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">¤0T</pattern>
+					<pattern type="10000000000000" count="one" draft="provisional">¤00T</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">¤00T</pattern>
+					<pattern type="100000000000000" count="one" draft="provisional">¤000T</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">¤000T</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
 		</currencyFormats>
 		<currencies>
 			<currency type="BRL">
@@ -340,7 +371,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Euro</displayName>
 			</currency>
 			<currency type="GBP">
-				<displayName>British Pound Sterling</displayName>
+				<displayName>British Pound</displayName>
 			</currency>
 			<currency type="INR">
 				<displayName>Indian Rupee</displayName>

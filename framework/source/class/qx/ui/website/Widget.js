@@ -31,6 +31,8 @@
  */
 qx.Bootstrap.define("qx.ui.website.Widget", {
   extend : qxWeb,
+  
+  implement: [ qx.core.IDisposable ],
 
   statics : {
 

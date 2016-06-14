@@ -55,6 +55,9 @@
  *
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/label.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.ui.basic.Label",
 {
@@ -532,17 +535,35 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     // property apply
-    _applyValue : function(value, old)
-    {
-      // Sync with content element
-      this.getContentElement().setValue(value);
+    _applyValue : qx.core.Environment.select("qx.dynlocale", {
+      "true" : function(value, old)
+      {
+        // Sync with content element
+        if (value && value.translate) {
+          this.getContentElement().setValue(value.translate());
+        }
+        else {
+          this.getContentElement().setValue(value);
+        }
 
-      // Mark text size cache as invalid
-      this.__invalidContentSize = true;
+        // Mark text size cache as invalid
+        this.__invalidContentSize = true;
 
-      // Update layout
-      qx.ui.core.queue.Layout.add(this);
-    }
+        // Update layout
+        qx.ui.core.queue.Layout.add(this);
+      },
+
+      "false" : function(value, old)
+      {
+        this.getContentElement().setValue(value);
+
+        // Mark text size cache as invalid
+        this.__invalidContentSize = true;
+
+        // Update layout
+        qx.ui.core.queue.Layout.add(this);
+      }
+    })
   },
 
 

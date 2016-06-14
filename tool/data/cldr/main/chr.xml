@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9876 $"/>
-		<generation date="$Date: 2014-03-05 23:14:25 -0600 (Wed, 05 Mar 2014) $"/>
+		<version number="$Revision: 12307 $"/>
 		<language type="chr"/>
 	</identity>
 	<localeDisplayNames>
@@ -57,7 +56,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="AT">ᎠᏍᏟᏯ</territory>
 			<territory type="AU">ᎡᎳᏗᏜ</territory>
 			<territory type="AW">ᎠᎷᏆ</territory>
-			<territory type="AX">ᎣᎴᏅᏓ ᏚᎦᏚᏛ</territory>
+			<territory type="AX">ᎣᎴᏅᏓ ᏚᎦᏚᏛᎢ</territory>
 			<territory type="AZ">ᎠᏏᎵᏆᏌᏂ</territory>
 			<territory type="BA">ᏉᏏᏂᎠ ᎠᎴ ᎲᏤᎪᏫ</territory>
 			<territory type="BB">ᏆᏇᏙᏍ</territory>
@@ -75,7 +74,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="BR">ᏆᏏᎵᎢ</territory>
 			<territory type="BS">ᎾᏍᎩ ᏆᎭᎹᏍ</territory>
 			<territory type="BT">ᏊᏔᏂ</territory>
-			<territory type="BV">ᏊᏪ ᎤᎦᏚᏛ</territory>
+			<territory type="BV">ᏊᏪ ᎤᎦᏚᏛᎢ</territory>
 			<territory type="BW">ᏆᏣᏩᎾ</territory>
 			<territory type="BY">ᏇᎳᎷᏍ</territory>
 			<territory type="BZ">ᏇᎵᏍ</territory>
@@ -95,7 +94,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CU">ᎫᏆ</territory>
 			<territory type="CV">ᎢᎬᎾᏕᎾ ᎢᏤᏳᏍᏗ</territory>
 			<territory type="CW">ᏂᎦᏓ ᎤᏂᎲ ᎾᎿ ᎫᎳᎨᎣ</territory>
-			<territory type="CX">ᏓᏂᏍᏓᏲᎯᎲ ᎤᎦᏚᏛ</territory>
+			<territory type="CX">ᏓᏂᏍᏓᏲᎯᎲ ᎤᎦᏚᏛᎢ</territory>
 			<territory type="CY">ᏌᎢᏆᏍ</territory>
 			<territory type="CZ">ᏤᎩ ᏍᎦᏚᎩ</territory>
 			<territory type="DE">ᎠᏂᏛᏥ</territory>
@@ -111,10 +110,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="ES">ᎠᏂᏍᏆᏂᏱ</territory>
 			<territory type="FI">ᏫᏂᎦᏙᎯ</territory>
 			<territory type="FJ">ᏫᏥ</territory>
-			<territory type="FK">ᏩᎩ ᎤᎦᏚᏛ</territory>
+			<territory type="FK">ᏩᎩ ᏚᎦᏚᏛᎢ</territory>
 			<territory type="FK" alt="variant">ᏩᎩ ᎤᎦᏚᏛ (ᎢᏍᎳᏍ ᎹᎸᏫᎾᏍ)</territory>
 			<territory type="FM">ᎠᏰᏟ ᏧᎾᎵᎪᎯ ᎾᎿ ᎹᎢᏉᏂᏏᏯ</territory>
-			<territory type="FO">ᏪᎶ ᏚᎦᏚᏛ</territory>
+			<territory type="FO">ᏪᎶ ᏚᎦᏚᏛᎢ</territory>
 			<territory type="FR">ᎦᎸᏥᏱ</territory>
 			<territory type="GA">ᎦᏉᏂ</territory>
 			<territory type="GB">ᎩᎵᏏᏲ</territory>
@@ -136,14 +135,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="GW">ᎫᏇ-ᏈᏌᎤᏫ</territory>
 			<territory type="GY">ᎦᏯᎾ</territory>
 			<territory type="HK">ᎰᏂᎩ ᎪᏂᎩ</territory>
-			<territory type="HM">ᎲᏗ ᎤᎦᏚᏛ ᎠᎴ ᎺᎩᏓᎾᎵᏗ ᏚᎦᏚᏛ</territory>
+			<territory type="HM">ᎲᏗ ᎤᎦᏚᏛᎢ ᎠᎴ ᎺᎩᏓᎾᎵᏗ ᏚᎦᏚᏛᎢ</territory>
 			<territory type="HR">ᎧᎶᎡᏏᎠ</territory>
 			<territory type="HT">ᎮᎢᏘ</territory>
 			<territory type="HU">ᎲᏂᎦᎵ</territory>
 			<territory type="ID">ᎢᏂᏙᏂᏍᏯ</territory>
 			<territory type="IE">ᎠᎢᎴᏂᏗ</territory>
 			<territory type="IL">ᎢᏏᎵᏱ</territory>
-			<territory type="IM">ᎤᏍᏗ ᎤᎦᏚᏛ ᎾᎿ ᎠᏍᎦᏯ</territory>
+			<territory type="IM">ᎤᏍᏗ ᎤᎦᏚᏛᎢ ᎾᎿ ᎠᏍᎦᏯ</territory>
 			<territory type="IN">ᎢᏅᏗᎾ</territory>
 			<territory type="IO">ᏈᏗᏏ ᏴᏫᏯ ᎠᎺᏉ ᎢᎬᎾᏕᏅ</territory>
 			<territory type="IQ">ᎢᎳᎩ</territory>
@@ -201,7 +200,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MZ">ᎼᏎᎻᏇᎩ</territory>
 			<territory type="NA">ᎾᎻᏈᎢᏯ</territory>
 			<territory type="NC">ᎢᏤ ᎧᎵᏙᏂᎠᏂ</territory>
-			<territory type="NF">ᏃᎵᏬᎵᎩ ᎤᎦᏚᏛ</territory>
+			<territory type="NF">ᏃᎵᏬᎵᎩ ᎤᎦᏚᏛᎢ</territory>
 			<territory type="NG">ᏂᏥᎵᏯ</territory>
 			<territory type="NI">ᏂᎧᎳᏆ</territory>
 			<territory type="NL">ᏁᏛᎳᏂ</territory>
@@ -231,7 +230,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="RU">ᏲᏂᎢ</territory>
 			<territory type="RW">ᎶᏩᏂᏓ</territory>
 			<territory type="SA">ᏌᎤᏗ ᎡᎴᏈᎠ</territory>
-			<territory type="SB">ᏐᎶᎹᏂ ᏚᎦᏚᏛ</territory>
+			<territory type="SB">ᏐᎶᎹᏂ ᏚᎦᏚᏛᎢ</territory>
 			<territory type="SC">ᏏᎡᏥᎵᏍ</territory>
 			<territory type="SD">ᏑᏕᏂ</territory>
 			<territory type="SE">ᏍᏫᏕᏂ</territory>
@@ -248,7 +247,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<key type="currency">ᎠᏕᎳ</key>
 		</keys>
 		<types>
-			<type type="gregorian" key="calendar">ᏅᏙ ᏗᏎᏗ</type>
+			<type key="calendar" type="gregorian">ᏅᏙ ᏗᏎᏗ</type>
 		</types>
 		<measurementSystemNames>
 			<measurementSystemName type="metric">ᎺᏘᎩ</measurementSystemName>
@@ -256,7 +255,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</measurementSystemNames>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[Ꭰ Ꭱ Ꭲ Ꭳ Ꭴ Ꭵ Ꭶ Ꭷ Ꭸ Ꭹ Ꭺ Ꭻ Ꭼ Ꭽ Ꭾ Ꭿ Ꮀ Ꮁ Ꮂ Ꮃ Ꮄ Ꮅ Ꮆ Ꮇ Ꮈ Ꮉ Ꮊ Ꮋ Ꮌ Ꮍ Ꮎ Ꮏ Ꮐ Ꮑ Ꮒ Ꮓ Ꮔ Ꮕ Ꮖ Ꮗ Ꮘ Ꮙ Ꮚ Ꮛ Ꮜ Ꮝ Ꮞ Ꮟ Ꮠ Ꮡ Ꮢ Ꮣ Ꮤ Ꮥ Ꮦ Ꮧ Ꮨ Ꮩ Ꮪ Ꮫ Ꮬ Ꮭ Ꮮ Ꮯ Ꮰ Ꮱ Ꮲ Ꮳ Ꮴ Ꮵ Ꮶ Ꮷ Ꮸ Ꮹ Ꮺ Ꮻ Ꮼ Ꮽ Ꮾ Ꮿ Ᏸ Ᏹ Ᏺ Ᏻ Ᏼ]</exemplarCharacters>
+		<exemplarCharacters>[ꭰ ꭱ ꭲ ꭳ ꭴ ꭵ ꭶ ꭷ ꭸ ꭹ ꭺ ꭻ ꭼ ꭽ ꭾ ꭿ ꮀ ꮁ ꮂ ꮃ ꮄ ꮅ ꮆ ꮇ ꮈ ꮉ ꮊ ꮋ ꮌ ꮍ ꮎ ꮏ ꮐ ꮑ ꮒ ꮓ ꮔ ꮕ ꮖ ꮗ ꮘ ꮙ ꮚ ꮛ ꮜ ꮝ ꮞ ꮟ ꮠ ꮡ ꮢ ꮣ ꮤ ꮥ ꮦ ꮧ ꮨ ꮩ ꮪ ꮫ ꮬ ꮭ ꮮ ꮯ ꮰ ꮱ ꮲ ꮳ ꮴ ꮵ ꮶ ꮷ ꮸ ꮹ ꮺ ꮻ ꮼ ꮽ ꮾ ꮿ ᏸ ᏹ ᏺ ᏻ ᏼ]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[]</exemplarCharacters>
 		<exemplarCharacters type="index">[Ꭰ Ꭶ Ꭽ Ꮃ Ꮉ Ꮎ Ꮖ Ꮜ Ꮣ Ꮬ Ꮳ Ꮹ Ꮿ]</exemplarCharacters>
 	</characters>
@@ -452,10 +451,28 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</days>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am">ᏌᎾᎴ</dayPeriod>
+							<dayPeriod type="noon">ᎢᎦ</dayPeriod>
+							<dayPeriod type="pm">ᏒᎯᏱᎢᏗᏢ</dayPeriod>
+							<dayPeriod type="morning1">ᏌᎾᎴ</dayPeriod>
+							<dayPeriod type="afternoon1">ᏒᎯᏱᎢᏗᏢ</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am">ᏌᎾᎴ</dayPeriod>
 							<dayPeriod type="noon">ᎢᎦ</dayPeriod>
 							<dayPeriod type="pm">ᏒᎯᏱᎢᏗᏢ</dayPeriod>
+							<dayPeriod type="morning1">ᏌᎾᎴ</dayPeriod>
+							<dayPeriod type="afternoon1">ᏒᎯᏱᎢᏗᏢ</dayPeriod>
+						</dayPeriodWidth>
+					</dayPeriodContext>
+					<dayPeriodContext type="stand-alone">
+						<dayPeriodWidth type="wide">
+							<dayPeriod type="am">ᏌᎾᎴ</dayPeriod>
+							<dayPeriod type="noon">ᎢᎦ</dayPeriod>
+							<dayPeriod type="pm">ᏒᎯᏱᎢᏗᏢ</dayPeriod>
+							<dayPeriod type="morning1">ᏌᎾᎴ</dayPeriod>
+							<dayPeriod type="afternoon1">ᏒᎯᏱᎢᏗᏢ</dayPeriod>
 						</dayPeriodWidth>
 					</dayPeriodContext>
 				</dayPeriods>
@@ -755,6 +772,34 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="one" draft="provisional">¤0K</pattern>
+					<pattern type="1000" count="other" draft="provisional">¤0K</pattern>
+					<pattern type="10000" count="one" draft="provisional">¤00K</pattern>
+					<pattern type="10000" count="other" draft="provisional">¤00K</pattern>
+					<pattern type="100000" count="one" draft="provisional">¤000K</pattern>
+					<pattern type="100000" count="other" draft="provisional">¤000K</pattern>
+					<pattern type="1000000" count="one" draft="provisional">¤0M</pattern>
+					<pattern type="1000000" count="other" draft="provisional">¤0M</pattern>
+					<pattern type="10000000" count="one" draft="provisional">¤00M</pattern>
+					<pattern type="10000000" count="other" draft="provisional">¤00M</pattern>
+					<pattern type="100000000" count="one" draft="provisional">¤000M</pattern>
+					<pattern type="100000000" count="other" draft="provisional">¤000M</pattern>
+					<pattern type="1000000000" count="one" draft="provisional">¤0G</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">¤0G</pattern>
+					<pattern type="10000000000" count="one" draft="provisional">¤00G</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">¤00G</pattern>
+					<pattern type="100000000000" count="one" draft="provisional">¤000G</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">¤000G</pattern>
+					<pattern type="1000000000000" count="one" draft="provisional">¤0T</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">¤0T</pattern>
+					<pattern type="10000000000000" count="one" draft="provisional">¤00T</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">¤00T</pattern>
+					<pattern type="100000000000000" count="one" draft="provisional">¤000T</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">¤000T</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
 			<unitPattern count="one">{0} {1}</unitPattern>
 			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
@@ -796,33 +841,63 @@ For terms of use, see http://www.unicode.org/copyright.html
 	</numbers>
 	<units>
 		<unitLength type="long">
+			<unit type="duration-year">
+				<displayName draft="provisional">ᏧᏕᏘᏴᏓ</displayName>
+				<unitPattern count="one">{0} ᏑᏕᏘᏴᏓ</unitPattern>
+				<unitPattern count="other">{0} ᏧᏕᏘᏴᏓ</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">ᎢᏯᏅᏓ</displayName>
+				<unitPattern count="one">{0} ᏏᏅᏓ</unitPattern>
+				<unitPattern count="other">{0} ᎢᏯᏅᏓ</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<displayName draft="provisional">ᎢᏳᎾᏙᏓᏆᏍᏗ</displayName>
+				<unitPattern count="one">{0} ᏒᎾᏙᏓᏆᏍᏗ</unitPattern>
+				<unitPattern count="other">{0} ᎢᏳᎾᏙᏓᏆᏍᏗ</unitPattern>
+			</unit>
 			<unit type="duration-day">
+				<displayName draft="provisional">ᏧᏒᎯᏓ</displayName>
 				<unitPattern count="one">{0} ᏏᎦ</unitPattern>
 				<unitPattern count="other">{0} ᏧᏒᎯᏓ</unitPattern>
 			</unit>
 			<unit type="duration-hour">
+				<displayName draft="provisional">ᎢᏧᏣᎶᏓ</displayName>
 				<unitPattern count="one">{0} ᏑᏣᎶᏓ</unitPattern>
 				<unitPattern count="other">{0} ᎢᏧᏣᎶᏓ</unitPattern>
 			</unit>
 			<unit type="duration-minute">
+				<displayName draft="provisional">ᎢᏧᏔᏬᏍᏔᏅ</displayName>
 				<unitPattern count="one">{0} ᎢᏯᏔᏬᏍᏔᏅ</unitPattern>
 				<unitPattern count="other">{0} ᎢᏧᏔᏬᏍᏔᏅ</unitPattern>
 			</unit>
-			<unit type="duration-month">
-				<unitPattern count="one">{0} ᏏᏅᏓ</unitPattern>
-				<unitPattern count="other">{0} ᎢᏯᏅᏓ</unitPattern>
-			</unit>
 			<unit type="duration-second">
+				<displayName draft="provisional">ᏗᏎᏢ</displayName>
 				<unitPattern count="one">{0} ᎠᏎᏢ</unitPattern>
 				<unitPattern count="other">{0} ᏗᏎᏢ</unitPattern>
 			</unit>
-			<unit type="duration-week">
-				<unitPattern count="one">{0} ᏒᎾᏙᏓᏆᏍᏗ</unitPattern>
-				<unitPattern count="other">{0} ᎢᏳᎾᏙᏓᏆᏍᏗ</unitPattern>
-			</unit>
+		</unitLength>
+		<unitLength type="short">
 			<unit type="duration-year">
-				<unitPattern count="one">{0} ᏑᏕᏘᏴᏓ</unitPattern>
-				<unitPattern count="other">{0} ᏧᏕᏘᏴᏓ</unitPattern>
+				<displayName draft="provisional">ᏧᏕᏘᏴᏓ</displayName>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">ᎢᏯᏅᏓ</displayName>
+			</unit>
+			<unit type="duration-week">
+				<displayName draft="provisional">ᎢᏳᎾᏙᏓᏆᏍᏗ</displayName>
+			</unit>
+			<unit type="duration-day">
+				<displayName draft="provisional">ᏧᏒᎯᏓ</displayName>
+			</unit>
+			<unit type="duration-hour">
+				<displayName draft="provisional">ᎢᏧᏣᎶᏓ</displayName>
+			</unit>
+			<unit type="duration-minute">
+				<displayName draft="provisional">ᎢᏧᏔᏬᏍᏔᏅ</displayName>
+			</unit>
+			<unit type="duration-second">
+				<displayName draft="provisional">ᏗᏎᏢ</displayName>
 			</unit>
 		</unitLength>
 		<unitLength type="narrow">

@@ -57,16 +57,6 @@ If you want to be notified on selection changes, you can again benefit from the 
 
 This adds a listener to the ``change`` event of the selection array. The controller also offer a ``changeSelection`` event which is not, like you might expect, an event fired as soon as any selected item changes. It is the change event for the selection property which holds the selection array.
 
-It's not recommended to set the whole selection array but you can still do that. There are two good  reasons why you shouldn't. First, you have to make sure your change listener is back in place and second, you have to make sure the old array is properly disposed. Here is a sample how it should be done.
-
-::
-
-  var oldSelection = controller.getSelection();
-  oldSelection.removeListener("change", this._onChange);
-  oldSelection.dispose();
-  controller.setSelection(newSelection);
-  newSelection.addListener("change", this._onChange);
-
 For more details about the data array, check out the :ref:`models page <pages/data_binding/models#data_array>`.
 
 

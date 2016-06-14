@@ -33,7 +33,7 @@ from misc import Path
 
 
 SCRIPT_DIR    = qxenviron.scriptDir
-FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
+FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir).decode('utf-8'))
 SKELETON_DIR  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton")))
 GENERATE_PY   = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "data", "generator", "generate.tmpl.py")))
 PACKAGE_JSON  = unicode(os.path.normpath(os.path.join(FRAMEWORK_DIR, "tool", "grunt", "data", "package.tmpl.json")))

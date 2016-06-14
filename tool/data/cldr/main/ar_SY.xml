@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9287 $"/>
-		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
+		<version number="$Revision: 11914 $"/>
 		<language type="ar"/>
 		<territory type="SY"/>
 	</identity>
@@ -107,14 +106,5 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</calendar>
 		</calendars>
 	</dates>
-	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat type="standard">
-					<pattern>¤#0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
-	</numbers>
 </ldml>
 

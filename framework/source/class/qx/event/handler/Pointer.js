@@ -26,7 +26,7 @@
 qx.Class.define("qx.event.handler.Pointer",
 {
   extend : qx.event.handler.PointerCore,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
   statics : {
 

@@ -33,7 +33,7 @@
 qx.Class.define("qx.event.handler.Touch",
 {
   extend : qx.event.handler.TouchCore,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
   /*
   *****************************************************************************

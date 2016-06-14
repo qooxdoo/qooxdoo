@@ -1310,6 +1310,8 @@ qx.Class.define("qx.data.SingleValueBinding",
     /**
      * Removes all binding in the whole application. After that not a single
      * binding is left.
+     * @deprecated {6.0} dispose and destructors are deprecated because of automatic memory management; this 
+     * will only work for objects explicitly registered with ObjectRegistry.register
      */
     removeAllBindings : function() {
       // go threw all registered objects
@@ -1372,13 +1374,16 @@ qx.Class.define("qx.data.SingleValueBinding",
     /**
      * Debug function which shows all bindings in the log console. To get only
      * one binding in the console use {@link #showBindingInLog}
+     * @deprecated {6.0} qx.core.ObjectRegistry no longer stores most objects
      */
     showAllBindingsInLog : function() {
       // go threw all objects in the registry
       for (var hash in this.__bindings) {
         var object = qx.core.ObjectRegistry.fromHashCode(hash);
-        for (var i = 0; i < this.__bindings[hash].length; i++) {
-          this.showBindingInLog(object, this.__bindings[hash][i][0]);
+        if (object) {
+	        for (var i = 0; i < this.__bindings[hash].length; i++) {
+	          this.showBindingInLog(object, this.__bindings[hash][i][0]);
+	        }
         }
       }
     }

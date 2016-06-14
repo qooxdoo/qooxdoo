@@ -173,7 +173,7 @@ qx.Bootstrap.define("qx.log.appender.Util",
 
       if (entry.object)
       {
-        var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object);
+        var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
         if (obj) {
           output.push(obj.classname + "[" + obj.$$hash + "]:");
         }
