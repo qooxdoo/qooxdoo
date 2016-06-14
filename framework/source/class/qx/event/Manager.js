@@ -127,6 +127,7 @@ qx.Class.define("qx.event.Manager",
     __windowId : null,
 
     __blacklist : null,
+    __clearBlackList : null,
 
 
     /*

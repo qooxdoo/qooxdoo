@@ -25,7 +25,6 @@
  *
  * @require(qx.event.dispatch.Direct)
  * @require(qx.locale.LocalizedString)
- * @require(qx.bom.client.Locale)
  *
  * @cldr()
  */

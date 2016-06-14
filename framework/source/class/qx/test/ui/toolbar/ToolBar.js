@@ -150,6 +150,43 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       this.assertEquals("both", this.__b1.getShow());
       this.assertEquals("both", this.__b2.getShow());
       this.assertEquals("both", this.__b3.getShow());
+    },
+    
+    testRemoveChildByIndex : function() {
+      this.__toolbar.removeAll();
+      
+      // setup toolbar with three buttons
+      this.__toolbar.add(this.__b1);
+      this.__toolbar.add(this.__b2);
+      this.__toolbar.add(this.__b3);
+
+      // assert finding child __b2 on index 1
+      var indexB2 = this.__toolbar.indexOf(this.__b2);
+      this.assertEquals(1, indexB2);
+
+      // assert removing child at index 1
+      var childB2 = this.__toolbar.removeAt(1);
+      this.assertEquals(childB2, this.__b2);
+      
+      // assert length of remaining and removed children array being now 2
+      var children = this.__toolbar.removeAll();
+      this.assertEquals(2, children.length);
+    },
+    
+    testRemoveAllChildren : function() {
+      this.__toolbar.removeAll();
+      
+      // setup toolbar with two buttons
+      this.__toolbar.add(this.__b1);
+      this.__toolbar.add(this.__b2);
+
+      // assert length of removed children array
+      var children = this.__toolbar.removeAll();
+      this.assertEquals(2, children.length);
+
+      // assert empty children array
+      children = this.__toolbar.removeAll();
+      this.assertEquals(0, children.length);
     }
   }
 });

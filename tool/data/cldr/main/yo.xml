@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9791 $"/>
-		<generation date="$Date: 2014-02-25 15:16:49 -0600 (Tue, 25 Feb 2014) $"/>
+		<version number="$Revision: 12307 $"/>
 		<language type="yo"/>
 	</identity>
 	<localeDisplayNames>
@@ -119,7 +118,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="AI">Orílẹ́ède Ààngúlílà</territory>
 			<territory type="AL">Orílẹ́ède Àlùbàníánì</territory>
 			<territory type="AM">Orílẹ́ède Améníà</territory>
-			<territory type="AN">Orílẹ́ède Nedalandi ti Antelisi</territory>
 			<territory type="AO">Orílẹ́ède Ààngólà</territory>
 			<territory type="AR">Orílẹ́ède Agentínà</territory>
 			<territory type="AS">Sámóánì ti Orílẹ́ède Àméríkà</territory>
@@ -343,7 +341,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 	<characters>
 		<exemplarCharacters>[a á à b d e é è ẹ {ẹ\u0301} {ẹ\u0300} f g {gb} h i í ì j k l m n o ó ò ọ {ọ\u0301} {ọ\u0300} p r s ṣ t u ú ù w y]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[c q v x z]</exemplarCharacters>
-		<exemplarCharacters type="index">[A B C D E F G H I J K L M N O P Q R S T U V W X Y Z]</exemplarCharacters>
+		<exemplarCharacters type="index">[A B D E F G H I J K L M N O P R S T U W Y]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
@@ -475,6 +473,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</quarters>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am">Àárọ̀</dayPeriod>
+							<dayPeriod type="pm">Ọ̀sán</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am">Àárọ̀</dayPeriod>
 							<dayPeriod type="pm">Ọ̀sán</dayPeriod>
@@ -611,6 +613,22 @@ For terms of use, see http://www.unicode.org/copyright.html
 				</currencyFormat>
 				<currencyFormat type="accounting">
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="other" draft="provisional">¤0K</pattern>
+					<pattern type="10000" count="other" draft="provisional">¤00K</pattern>
+					<pattern type="100000" count="other" draft="provisional">¤000K</pattern>
+					<pattern type="1000000" count="other" draft="provisional">¤0M</pattern>
+					<pattern type="10000000" count="other" draft="provisional">¤00M</pattern>
+					<pattern type="100000000" count="other" draft="provisional">¤000M</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">¤0G</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">¤00G</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">¤000G</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">¤0T</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">¤00T</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">¤000T</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>

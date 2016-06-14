@@ -122,6 +122,34 @@ qx.Class.define("qx.test.theme.manager.Decoration",
       }, function(e) {
         that.assertIdentical(e.getData(), qx.test.Theme.themes.A, "Setting theme failed!");
       });
+    },
+
+
+    testAddCssClass : function()
+    {
+      qx.Theme.define("qx.test.Theme.themes.B", {
+        aliases : {
+          decoration: "test/decoration",
+          custom : "test/custom"
+        },
+        decorations : {
+          "test-add-css": {
+            style: {
+              backgroundColor: "red",
+              backgroundImage: "icon/16/places/folder-open.png"
+            }
+          }
+        }
+      });
+
+      this.manager.setTheme(qx.test.Theme.themes.B);
+      var selector = this.manager.addCssClass("test-add-css");
+      var sheet = qx.ui.style.Stylesheet.getInstance();
+      var elem = document.createElement("div");
+      elem.setAttribute("class", selector);
+      document.body.appendChild(elem);
+      var compStyle = window.getComputedStyle(elem);
+      this.assertEquals("255,0,0", qx.util.ColorUtil.cssStringToRgb(compStyle.getPropertyValue("background-color")));
     }
   }
 });

@@ -590,12 +590,14 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         child.getSizeHint().width -
         2 * this.getSpacing();
       this._recalculateOverflow(null, newWidth);
+      return child;
     },
 
     // overridden
     _removeAll : function() {
-      this.base(arguments);
+      var children = this.base(arguments);
       this._recalculateOverflow(null, 0);
+      return children;
     },
 
 

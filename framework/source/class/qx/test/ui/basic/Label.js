@@ -200,6 +200,20 @@ qx.Class.define("qx.test.ui.basic.Label",
       this.assertTrue(qx.lang.Array.equals(label.getBindings()[0], textfield2.getBindings()[0]), "label and textfield1 must have the same binding");
 
       label.dispose();
+    },
+
+    testLocaleInitialization : function() {
+      var label = new qx.ui.basic.Label();
+      var localeManager = qx.locale.Manager.getInstance();
+      localeManager.addTranslation("en", {"TEST" : "EN"});
+      localeManager.addTranslation("de", {"TEST" : "DE"});
+      localeManager.setLocale("en");
+
+      var test = qx.locale.Manager.tr("TEST");
+      localeManager.setLocale("de");
+      label.setValue(test);
+
+      this.assertEquals("DE", label.getContentElement().getValue(), "label must have the current locale set");
     }
   }
 });

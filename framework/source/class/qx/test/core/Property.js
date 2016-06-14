@@ -569,6 +569,330 @@ qx.Class.define("qx.test.core.Property",
       }, "Change event not fired!");
 
       object.dispose();
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+       IS-EQUAL OVERRIDE TEST
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Check whether the (numeric) value is negative zero (-0)
+     *
+     * @param value {number} Value to check
+     * @return {Boolean} whether the value is <code>-0</code>
+     */
+    __isNegativeZero : function (value) {
+      return value===0 && (1/value < 0); // 1/-0 => -Infinity
+    },
+
+
+    /**
+     * Check whether the (numeric) value is positive zero (+0)
+     *
+     * @param value {number} Value to check
+     * @return {Boolean} whether the value is <code>+0</code>
+     */
+    __isPositiveZero : function (value) {
+      return value===0 && (1/value > 0); // 1/+0 => +Infinity
+    },
+
+
+    testWrongIsEqualDefinitions : function ()
+    {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        var re = new RegExp("Invalid type for 'isEqual'.*");
+        var o = new qx.core.Object();
+
+        [
+          new Date(),   // date
+          [1,2,3],      // array
+          {},           // object
+          o,            // qooxdoo class
+          new RegExp(), // RegExp
+          null,         // null
+          true, false,  // boolean
+          123           // number
+        ].forEach(function (isEqualTestValue, i) {
+
+          var msg = "case[" + i + "] (" + String(isEqualTestValue) + ")";
+          this.assertException(function ()
+          {
+            qx.Class.define("qx.TestProperty", {
+              extend : qx.core.Object,
+              properties : {
+                prop : {
+                  check : "Number",
+                  isEqual : isEqualTestValue
+                }
+              }
+            });
+            new qx.TestProperty().set({prop: 0});
+          }, Error, re, msg);
+
+          delete qx.TestProperty;
+        }, this);
+
+        o.dispose();
+
+      } // end-if (qx.core.Environment.get("qx.debug"))
+
+    },
+
+
+    testIsEqualInline : function ()
+    {
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            isEqual : "Object.is(a, b)"
+          }
+        }
+      });
+
+      var object = new qx.TestProperty();
+      object.setProp(0); // initialize with +0
+
+      //
+      // check for the event
+      //
+      var self = this;
+
+      // No change expected
+      this.assertEventNotFired(object, "changeProp", function () {
+        object.setProp(0);
+        object.setProp(+0);
+      }, function (e) {}, "'changeProp' event fired!");
+
+      // Change expected
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(-0);
+      }, function (e) {
+        var isNegativeZero = self.__isNegativeZero( e.getData() );
+        var isPositiveZero = self.__isPositiveZero( e.getOldData() );
+        self.assertTrue(isNegativeZero, "Wrong data in the event!");
+        self.assertTrue(isPositiveZero, "Wrong old data in the event!");
+      }, "Change event not fired!");
+
+      // @todo: check 'apply' and 'transform', too
+
+      object.dispose();
+    },
+
+
+    testIsEqualFunction : function ()
+    {
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            isEqual : function (x,y) { return Object.is(x, y); }
+          }
+        }
+      });
+
+      var object = new qx.TestProperty();
+      object.setProp(0); // initialize with +0
+
+      //
+      // check for the event
+      //
+      var self = this;
+
+      // No change expected
+      this.assertEventNotFired(object, "changeProp", function () {
+        object.setProp(0);
+        object.setProp(+0);
+      }, function (e) {}, "'changeProp' event fired!");
+
+      // Change expected
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(-0);
+      }, function (e) {
+        var isNegativeZero = self.__isNegativeZero( e.getData() );
+        var isPositiveZero = self.__isPositiveZero( e.getOldData() );
+        self.assertTrue(isNegativeZero, "Wrong data in the event!");
+        self.assertTrue(isPositiveZero, "Wrong old data in the event!");
+      }, "Change event not fired!");
+
+      // @todo: check 'apply' and 'transform', too
+
+      object.dispose();
+    },
+
+
+    testIsEqualMember : function ()
+    {
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            isEqual : "__fooBar"
+          }
+        },
+        members : {
+          __fooBar : function (foo, bar) {
+            return Object.is(foo, bar);
+          }
+        }
+      });
+
+      var object = new qx.TestProperty();
+      object.setProp(0); // initialize with +0
+
+      //
+      // check for the event
+      //
+      var self = this;
+
+      // No change expected
+      this.assertEventNotFired(object, "changeProp", function () {
+        object.setProp(0);
+        object.setProp(+0);
+      }, function (e) {}, "'changeProp' event fired!");
+
+      // Change expected
+      this.assertEventFired(object, "changeProp", function () {
+        object.setProp(-0);
+      }, function (e) {
+        var isNegativeZero = self.__isNegativeZero( e.getData() );
+        var isPositiveZero = self.__isPositiveZero( e.getOldData() );
+        self.assertTrue(isNegativeZero, "Wrong data in the event!");
+        self.assertTrue(isPositiveZero, "Wrong old data in the event!");
+      }, "Change event not fired!");
+
+      // @todo: check 'apply' and 'transform', too
+
+      object.dispose();
+    },
+
+
+    testIsEqualInlineContext : function ()
+    {
+      var context, object;
+
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            isEqual : "(this.__checkCtx(a,b))"
+          }
+        },
+        members : {
+          __checkCtx : function (foo, bar) {
+            context = this;
+          }
+        }
+      });
+
+      object = new qx.TestProperty().set({prop: 4711});
+
+      this.assertIdentical(object, context);
+
+      object.dispose();
+    },
+
+
+    testIsEqualFunctionContext : function ()
+    {
+      var context, object;
+
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            isEqual : function (x, y) {
+              context = this;
+            }
+          }
+        }
+      });
+
+      object = new qx.TestProperty().set({prop: 4711});
+
+      this.assertIdentical(object, context);
+
+      object.dispose();
+    },
+
+
+    testIsEqualMemberContext : function ()
+    {
+      var context, object;
+
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            isEqual : "__checkCtx"
+          }
+        },
+        members : {
+          __checkCtx : function (foo, bar) {
+            context = this;
+          }
+        }
+      });
+
+      object = new qx.TestProperty().set({prop: 4711});
+
+      this.assertIdentical(object, context);
+
+      object.dispose();
+    },
+
+
+    testIsEqualBaseClassMember : function ()
+    {
+      var context, object;
+
+      qx.Class.define("qx.Super", {
+        extend : qx.core.Object,
+        members : {
+          __checkCtx : function (foo, bar) {
+            context = this;
+          }
+        }
+      });
+      qx.Class.define("qx.TestProperty", {
+        extend: qx.Super,
+        properties : {
+          prop : {
+            check : "Number",
+            nullable : true,
+            event : "changeProp",
+            isEqual : "__checkCtx"
+          }
+        }
+      });
+
+      object = new qx.TestProperty().set({prop: 4711});
+
+      this.assertIdentical(object, context);
+
+      object.dispose();
     }
   }
 });

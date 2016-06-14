@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9287 $"/>
-		<generation date="$Date: 2013-08-28 21:32:04 -0500 (Wed, 28 Aug 2013) $"/>
+		<version number="$Revision: 11914 $"/>
 		<language type="af"/>
 		<territory type="NA"/>
 	</identity>
@@ -30,34 +29,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<pattern draft="unconfirmed">d MMM y G</pattern>
 						</dateFormat>
 					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">GGGGG y-MM-dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
 			</calendar>
 			<calendar type="gregorian">
 				<dateFormats>
@@ -76,45 +48,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<pattern draft="unconfirmed">d MMM y</pattern>
 						</dateFormat>
 					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern draft="unconfirmed">y-MM-dd</pattern>
-						</dateFormat>
-					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern draft="unconfirmed">HH:mm</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
 			</calendar>
 		</calendars>
 	</dates>
 	<numbers>
-		<currencyFormats numberSystem="latn">
-			<currencyFormatLength>
-				<currencyFormat type="standard">
-					<pattern>¤ #,##0.00</pattern>
-				</currencyFormat>
-			</currencyFormatLength>
-		</currencyFormats>
 		<currencies>
 			<currency type="NAD">
 				<symbol>$</symbol>

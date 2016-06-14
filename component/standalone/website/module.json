@@ -87,7 +87,6 @@
             "strings",
             "variables",
             "variants",
-            "statics",
             "whitespace"
           ],
           "format" : false

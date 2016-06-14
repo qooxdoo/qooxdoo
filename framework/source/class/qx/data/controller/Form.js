@@ -279,6 +279,11 @@ qx.Class.define("qx.data.controller.Form",
       if (this.getTarget() == null) {
         return;
       }
+      else {
+        // if form was validated with errors and model changes
+        // the errors should be cleared see #8977
+        this.getTarget().getValidationManager().reset();
+      }
 
       // model and target are available
       if (value != null) {

@@ -55,15 +55,12 @@
  * * If you want to bind single values, use {@link qx.data.controller.Object}
  * * If you want to bind a tree widget, use {@link qx.data.controller.Tree}
  * * If you want to bind a form widget, use {@link qx.data.controller.Form}
- * 
- * This class needs to be disposed, BUT this would not be necessarily if it used
- * an alternative method for async updates
  */
 qx.Class.define("qx.data.controller.List",
 {
   extend : qx.core.Object,
   include: qx.data.controller.MSelection,
-  implement : [ qx.data.controller.ISelection, qx.core.IDisposable ],
+  implement : qx.data.controller.ISelection,
 
   /*
   *****************************************************************************
@@ -409,6 +406,7 @@ qx.Class.define("qx.data.controller.List",
       if (this.__inChangeModel) {
         return;
       }
+
       this.__inChangeModel = true;
       // need an asynchronous selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)

@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Science Association http://ukij.org
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9876 $"/>
-		<generation date="$Date: 2014-03-05 23:14:25 -0600 (Wed, 05 Mar 2014) $"/>
+		<version number="$Revision: 12313 $"/>
 		<language type="ug"/>
 	</identity>
 	<localeDisplayNames>
@@ -311,7 +310,7 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 			<language type="mg" draft="contributed">ماداغاسقارچە</language>
 			<language type="mga" draft="contributed">ئوتتۇرا ئەسىر ئىرېلاندچە</language>
 			<language type="mgh" draft="contributed">ماكۇۋاچە</language>
-			<language type="mgo" draft="contributed">مېتاچە'</language>
+			<language type="mgo" draft="contributed">مېتاچە’</language>
 			<language type="mh" draft="contributed">مارشالچە</language>
 			<language type="mi" draft="contributed">ماۋرىچە</language>
 			<language type="mic" draft="contributed">مىكماكچە</language>
@@ -449,8 +448,8 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 			<language type="sux" draft="contributed">سۈمەرچە</language>
 			<language type="sv" draft="contributed">شۋېدچە</language>
 			<language type="sw" draft="contributed">سىۋالىچە</language>
+			<language type="sw_CD">كونگو سىۋالىچە</language>
 			<language type="swb" draft="contributed">كومورىچە</language>
-			<language type="swc" draft="contributed">كونگو سىۋالىچە</language>
 			<language type="syc" draft="contributed">كلاسسىك سۈرىيەچە</language>
 			<language type="syr" draft="contributed">سۈرىيەچە</language>
 			<language type="ta" draft="contributed">تامىلچە</language>
@@ -1045,97 +1044,97 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 			<key type="numbers" draft="contributed">سان</key>
 		</keys>
 		<types>
-			<type type="arab" key="numbers" draft="contributed">ئەرەبچە-ھىندىچە رەقەملەر</type>
-			<type type="arabext" key="numbers" draft="contributed">كېڭەيتىلگەن ئەرەبچە-ھىندىچە رەقەملەر</type>
-			<type type="armn" key="numbers" draft="contributed">ئەرمەنچە رەقەملەر</type>
-			<type type="armnlow" key="numbers" draft="contributed">ئەرەبچە رەقەملەر (كىچىك ھەرپ)</type>
-			<type type="bali" key="numbers" draft="contributed">بالىچە رەقەملەر</type>
-			<type type="beng" key="numbers" draft="contributed">بېنگالچە رەقەملەر</type>
-			<type type="big5han" key="collation" draft="contributed">مۇرەككەپ خەنچە تىزىش تەرتىپى - Big5</type>
-			<type type="brah" key="numbers" draft="contributed">بىراخمىچە رەقەملەر</type>
-			<type type="buddhist" key="calendar" draft="contributed">بۇددا يىلنامەسى</type>
-			<type type="cakm" key="numbers" draft="contributed">چاكماچە رەقەملەر</type>
-			<type type="cham" key="numbers" draft="contributed">چامچە رەقەملەر</type>
-			<type type="chinese" key="calendar" draft="contributed">دېھقانلار يىلنامەسى</type>
-			<type type="coptic" key="calendar" draft="contributed">كوپتىك يىلنامەسى</type>
-			<type type="dangi" key="calendar" draft="contributed">دانگى يىلنامەسى</type>
-			<type type="deva" key="numbers" draft="contributed">دېۋاناگارىچە رەقەملەر</type>
-			<type type="dictionary" key="collation" draft="contributed">لۇغەت تىزىش تەرتىپى</type>
-			<type type="ducet" key="collation" draft="contributed">كۆڭۈلدىكى يۇنىكود تىزىش تەرتىپى</type>
-			<type type="eor" key="collation" draft="contributed">ياۋروپا تەرتىپلەش قائىدىسى</type>
-			<type type="ethi" key="numbers" draft="contributed">ئېفىيوپىيەچە رەقەملەر</type>
-			<type type="ethiopic" key="calendar" draft="contributed">ئېفىيوپىيە يىلنامەسى</type>
-			<type type="ethiopic-amete-alem" key="calendar" draft="contributed">ئېفىيوپىيە ئامېتې ئالېم يىلنامەسى</type>
-			<type type="fullwide" key="numbers" draft="contributed">تولۇق كەڭلىكتىكى رەقەملەر</type>
-			<type type="gb2312han" key="collation" draft="contributed">ئاددىي خەنچە تىزىش تەرتىپى - GB2312</type>
-			<type type="geor" key="numbers" draft="contributed">گىرۇزىنچە رەقەملەر</type>
-			<type type="gregorian" key="calendar" draft="contributed">مىلادىيە يىلنامەسى</type>
-			<type type="grek" key="numbers" draft="contributed">گىرېكچە رەقەملەر</type>
-			<type type="greklow" key="numbers" draft="contributed">گىرېكچە رەقەملەر (كىچىك ھەرپ)</type>
-			<type type="gujr" key="numbers" draft="contributed">گۇجاراتچە رەقەملەر</type>
-			<type type="guru" key="numbers" draft="contributed">گۇرمۇكىچە رەقەملەر</type>
-			<type type="hanidec" key="numbers" draft="contributed">خەنچە ئونلۇق رەقەملەر</type>
-			<type type="hans" key="numbers" draft="contributed">ئاددىي خەنچە رەقەملەر</type>
-			<type type="hansfin" key="numbers" draft="contributed">ئاددىي خەنچە پۇل-مۇئامىلە رەقەملەر</type>
-			<type type="hant" key="numbers" draft="contributed">مۇرەككەپ خەنچە رەقەملەر</type>
-			<type type="hantfin" key="numbers" draft="contributed">مۇرەككەپ خەنچە پۇل-مۇئامىلە رەقەملەر</type>
-			<type type="hebr" key="numbers" draft="contributed">ئىبرانىچە رەقەملەر</type>
-			<type type="hebrew" key="calendar" draft="contributed">يەھۇدى يىلنامەسى</type>
-			<type type="indian" key="calendar" draft="contributed">ھىندىستان دۆلەت يىلنامەسى</type>
-			<type type="islamic" key="calendar" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى</type>
-			<type type="islamic-civil" key="calendar" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى (مەدىنە)</type>
-			<type type="islamic-rgsa" key="calendar" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى (سەئۇدى ئەرەبىستان ئاي)</type>
-			<type type="islamic-tbla" key="calendar" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى (ئاسترونومىيە دەۋرى)</type>
-			<type type="islamic-umalqura" key="calendar" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى (ئۇم ئەلقۇرا)</type>
-			<type type="iso8601" key="calendar" draft="contributed">ISO-8601 يىلنامەسى</type>
-			<type type="japanese" key="calendar" draft="contributed">ياپونىيە يىلنامەسى</type>
-			<type type="java" key="numbers" draft="contributed">ياۋاچە رەقەملەر</type>
-			<type type="jpan" key="numbers" draft="contributed">ياپونچە رەقەملەر</type>
-			<type type="jpanfin" key="numbers" draft="contributed">ياپونچە پۇل-مۇئامىلە رەقەملەر</type>
-			<type type="kali" key="numbers" draft="contributed">كاياھچە رەقەملەر</type>
-			<type type="khmr" key="numbers" draft="contributed">كېخمېرچە رەقەملەر</type>
-			<type type="knda" key="numbers" draft="contributed">كانناداچە رەقەملەر</type>
-			<type type="lana" key="numbers" draft="contributed">تاي تامچە خورا رەقەملەر</type>
-			<type type="lanatham" key="numbers" draft="contributed">تاي تامچە تام رەقەملەر</type>
-			<type type="laoo" key="numbers" draft="contributed">لائوسچە رەقەملەر</type>
-			<type type="latn" key="numbers" draft="contributed">غەربچە رەقەملەر</type>
-			<type type="lepc" key="numbers" draft="contributed">لەپچاچە رەقەملەر</type>
-			<type type="limb" key="numbers" draft="contributed">لىمبۇچە رەقەملەر</type>
-			<type type="mlym" key="numbers" draft="contributed">مالايالامچە رەقەملەر</type>
-			<type type="mong" key="numbers" draft="contributed">موڭغۇلچە رەقەملەر</type>
-			<type type="mtei" key="numbers" draft="contributed">مانىپۇرىچە رەقەملەر</type>
-			<type type="mymr" key="numbers" draft="contributed">بېرماچە رەقەملەر</type>
-			<type type="mymrshan" key="numbers" draft="contributed">بېرما شانچە رەقەملەر</type>
-			<type type="nkoo" key="numbers" draft="contributed">نىكوچە رەقەملەر</type>
-			<type type="olck" key="numbers" draft="contributed">ئول-چىكىچە رەقەملەر</type>
-			<type type="orya" key="numbers" draft="contributed">ئورىياچە رەقەملەر</type>
-			<type type="osma" key="numbers" draft="contributed">ئوسمانىيە رەقەملەر</type>
-			<type type="persian" key="calendar" draft="contributed">پارىس يىلنامەسى</type>
-			<type type="phonebook" key="collation" draft="contributed">تېلېفون نومۇر تىزىش تەرتىپى</type>
-			<type type="pinyin" key="collation" draft="contributed">پىنيىن تىزىش تەرتىپى</type>
-			<type type="reformed" key="collation" draft="contributed">ياخشىلانغان تەرتىپلەش تەرتىپى</type>
-			<type type="roc" key="calendar" draft="contributed">مىنگو يىلنامەسى</type>
-			<type type="roman" key="numbers" draft="contributed">رىم رەقەملەر</type>
-			<type type="romanlow" key="numbers" draft="contributed">رىم رەقەملەر (كىچىك ھەرپ)</type>
-			<type type="saur" key="numbers" draft="contributed">سائۇراشتىراچە رەقەملەر</type>
-			<type type="search" key="collation" draft="contributed">ئادەتتىكى ئىزدەش</type>
-			<type type="searchjl" key="collation" draft="contributed">كورىيەچە ئۈزۈك تاۋۇش بويىچە ئىزدەش</type>
-			<type type="shrd" key="numbers" draft="contributed">شاراداچە رەقەملەر</type>
-			<type type="sora" key="numbers" draft="contributed">سورا سومپېڭ رەقەملەر</type>
-			<type type="standard" key="collation" draft="contributed">ئۆلچەملىك تەرتىپلەش تەرتىپى</type>
-			<type type="stroke" key="collation" draft="contributed">سىزىق بويىچە تەرتىپلەش</type>
-			<type type="sund" key="numbers" draft="contributed">سۇنداچە رەقەملەر</type>
-			<type type="takr" key="numbers" draft="contributed">تاكرىچە رەقەملەر</type>
-			<type type="talu" key="numbers" draft="contributed">يېڭى تاي-لەچە رەقەملەر</type>
-			<type type="taml" key="numbers" draft="contributed">ئەنئەنىۋى تامىلچە رەقەملەر</type>
-			<type type="tamldec" key="numbers" draft="contributed">تامىلچە رەقەملەر</type>
-			<type type="telu" key="numbers" draft="contributed">تېلۇگۇچە رەقەملەر</type>
-			<type type="thai" key="numbers" draft="contributed">تايلاندچە رەقەملەر</type>
-			<type type="tibt" key="numbers" draft="contributed">تىبەتچە رەقەملەر</type>
-			<type type="traditional" key="collation" draft="contributed">ئەنئەنىۋى تەرتىپلەش تەرتىپى</type>
-			<type type="unihan" key="collation" draft="contributed">يان بۆلەك سىزىق بويچە تەرتىپلەش تەرتىپى</type>
-			<type type="vaii" key="numbers" draft="contributed">ۋايچە رەقەملەر</type>
-			<type type="zhuyin" key="collation" draft="contributed">ترانسكرىپسىيە تەرتىپلەش تەرتىپى</type>
+			<type key="calendar" type="buddhist" draft="contributed">بۇددا يىلنامەسى</type>
+			<type key="calendar" type="chinese" draft="contributed">دېھقانلار يىلنامەسى</type>
+			<type key="calendar" type="coptic" draft="contributed">كوپتىك يىلنامەسى</type>
+			<type key="calendar" type="dangi" draft="contributed">دانگى يىلنامەسى</type>
+			<type key="calendar" type="ethiopic" draft="contributed">ئېفىيوپىيە يىلنامەسى</type>
+			<type key="calendar" type="ethiopic-amete-alem" draft="contributed">ئېفىيوپىيە ئامېتې ئالېم يىلنامەسى</type>
+			<type key="calendar" type="gregorian" draft="contributed">مىلادىيە يىلنامەسى</type>
+			<type key="calendar" type="hebrew" draft="contributed">يەھۇدى يىلنامەسى</type>
+			<type key="calendar" type="indian" draft="contributed">ھىندىستان دۆلەت يىلنامەسى</type>
+			<type key="calendar" type="islamic" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى</type>
+			<type key="calendar" type="islamic-civil" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى (مەدىنە)</type>
+			<type key="calendar" type="islamic-rgsa" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى (سەئۇدى ئەرەبىستان ئاي)</type>
+			<type key="calendar" type="islamic-tbla" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى (ئاسترونومىيە دەۋرى)</type>
+			<type key="calendar" type="islamic-umalqura" draft="contributed">ئىسلام ھىجرىيە يىلنامەسى (ئۇم ئەلقۇرا)</type>
+			<type key="calendar" type="iso8601" draft="contributed">ISO-8601 يىلنامەسى</type>
+			<type key="calendar" type="japanese" draft="contributed">ياپونىيە يىلنامەسى</type>
+			<type key="calendar" type="persian" draft="contributed">پارىس يىلنامەسى</type>
+			<type key="calendar" type="roc" draft="contributed">مىنگو يىلنامەسى</type>
+			<type key="collation" type="big5han" draft="contributed">مۇرەككەپ خەنچە تىزىش تەرتىپى - Big5</type>
+			<type key="collation" type="dictionary" draft="contributed">لۇغەت تىزىش تەرتىپى</type>
+			<type key="collation" type="ducet" draft="contributed">كۆڭۈلدىكى يۇنىكود تىزىش تەرتىپى</type>
+			<type key="collation" type="eor" draft="contributed">ياۋروپا تەرتىپلەش قائىدىسى</type>
+			<type key="collation" type="gb2312han" draft="contributed">ئاددىي خەنچە تىزىش تەرتىپى - GB2312</type>
+			<type key="collation" type="phonebook" draft="contributed">تېلېفون نومۇر تىزىش تەرتىپى</type>
+			<type key="collation" type="pinyin" draft="contributed">پىنيىن تىزىش تەرتىپى</type>
+			<type key="collation" type="reformed" draft="contributed">ياخشىلانغان تەرتىپلەش تەرتىپى</type>
+			<type key="collation" type="search" draft="contributed">ئادەتتىكى ئىزدەش</type>
+			<type key="collation" type="searchjl" draft="contributed">كورىيەچە ئۈزۈك تاۋۇش بويىچە ئىزدەش</type>
+			<type key="collation" type="standard" draft="contributed">ئۆلچەملىك تەرتىپلەش تەرتىپى</type>
+			<type key="collation" type="stroke" draft="contributed">سىزىق بويىچە تەرتىپلەش</type>
+			<type key="collation" type="traditional" draft="contributed">ئەنئەنىۋى تەرتىپلەش تەرتىپى</type>
+			<type key="collation" type="unihan" draft="contributed">يان بۆلەك سىزىق بويچە تەرتىپلەش تەرتىپى</type>
+			<type key="collation" type="zhuyin" draft="contributed">ترانسكرىپسىيە تەرتىپلەش تەرتىپى</type>
+			<type key="numbers" type="arab" draft="contributed">ئەرەبچە-ھىندىچە رەقەملەر</type>
+			<type key="numbers" type="arabext" draft="contributed">كېڭەيتىلگەن ئەرەبچە-ھىندىچە رەقەملەر</type>
+			<type key="numbers" type="armn" draft="contributed">ئەرمەنچە رەقەملەر</type>
+			<type key="numbers" type="armnlow" draft="contributed">ئەرەبچە رەقەملەر (كىچىك ھەرپ)</type>
+			<type key="numbers" type="bali" draft="contributed">بالىچە رەقەملەر</type>
+			<type key="numbers" type="beng" draft="contributed">بېنگالچە رەقەملەر</type>
+			<type key="numbers" type="brah" draft="contributed">بىراخمىچە رەقەملەر</type>
+			<type key="numbers" type="cakm" draft="contributed">چاكماچە رەقەملەر</type>
+			<type key="numbers" type="cham" draft="contributed">چامچە رەقەملەر</type>
+			<type key="numbers" type="deva" draft="contributed">دېۋاناگارىچە رەقەملەر</type>
+			<type key="numbers" type="ethi" draft="contributed">ئېفىيوپىيەچە رەقەملەر</type>
+			<type key="numbers" type="fullwide" draft="contributed">تولۇق كەڭلىكتىكى رەقەملەر</type>
+			<type key="numbers" type="geor" draft="contributed">گىرۇزىنچە رەقەملەر</type>
+			<type key="numbers" type="grek" draft="contributed">گىرېكچە رەقەملەر</type>
+			<type key="numbers" type="greklow" draft="contributed">گىرېكچە رەقەملەر (كىچىك ھەرپ)</type>
+			<type key="numbers" type="gujr" draft="contributed">گۇجاراتچە رەقەملەر</type>
+			<type key="numbers" type="guru" draft="contributed">گۇرمۇكىچە رەقەملەر</type>
+			<type key="numbers" type="hanidec" draft="contributed">خەنچە ئونلۇق رەقەملەر</type>
+			<type key="numbers" type="hans" draft="contributed">ئاددىي خەنچە رەقەملەر</type>
+			<type key="numbers" type="hansfin" draft="contributed">ئاددىي خەنچە پۇل-مۇئامىلە رەقەملەر</type>
+			<type key="numbers" type="hant" draft="contributed">مۇرەككەپ خەنچە رەقەملەر</type>
+			<type key="numbers" type="hantfin" draft="contributed">مۇرەككەپ خەنچە پۇل-مۇئامىلە رەقەملەر</type>
+			<type key="numbers" type="hebr" draft="contributed">ئىبرانىچە رەقەملەر</type>
+			<type key="numbers" type="java" draft="contributed">ياۋاچە رەقەملەر</type>
+			<type key="numbers" type="jpan" draft="contributed">ياپونچە رەقەملەر</type>
+			<type key="numbers" type="jpanfin" draft="contributed">ياپونچە پۇل-مۇئامىلە رەقەملەر</type>
+			<type key="numbers" type="kali" draft="contributed">كاياھچە رەقەملەر</type>
+			<type key="numbers" type="khmr" draft="contributed">كېخمېرچە رەقەملەر</type>
+			<type key="numbers" type="knda" draft="contributed">كانناداچە رەقەملەر</type>
+			<type key="numbers" type="lana" draft="contributed">تاي تامچە خورا رەقەملەر</type>
+			<type key="numbers" type="lanatham" draft="contributed">تاي تامچە تام رەقەملەر</type>
+			<type key="numbers" type="laoo" draft="contributed">لائوسچە رەقەملەر</type>
+			<type key="numbers" type="latn" draft="contributed">غەربچە رەقەملەر</type>
+			<type key="numbers" type="lepc" draft="contributed">لەپچاچە رەقەملەر</type>
+			<type key="numbers" type="limb" draft="contributed">لىمبۇچە رەقەملەر</type>
+			<type key="numbers" type="mlym" draft="contributed">مالايالامچە رەقەملەر</type>
+			<type key="numbers" type="mong" draft="contributed">موڭغۇلچە رەقەملەر</type>
+			<type key="numbers" type="mtei" draft="contributed">مانىپۇرىچە رەقەملەر</type>
+			<type key="numbers" type="mymr" draft="contributed">بېرماچە رەقەملەر</type>
+			<type key="numbers" type="mymrshan" draft="contributed">بېرما شانچە رەقەملەر</type>
+			<type key="numbers" type="nkoo" draft="contributed">نىكوچە رەقەملەر</type>
+			<type key="numbers" type="olck" draft="contributed">ئول-چىكىچە رەقەملەر</type>
+			<type key="numbers" type="orya" draft="contributed">ئورىياچە رەقەملەر</type>
+			<type key="numbers" type="osma" draft="contributed">ئوسمانىيە رەقەملەر</type>
+			<type key="numbers" type="roman" draft="contributed">رىم رەقەملەر</type>
+			<type key="numbers" type="romanlow" draft="contributed">رىم رەقەملەر (كىچىك ھەرپ)</type>
+			<type key="numbers" type="saur" draft="contributed">سائۇراشتىراچە رەقەملەر</type>
+			<type key="numbers" type="shrd" draft="contributed">شاراداچە رەقەملەر</type>
+			<type key="numbers" type="sora" draft="contributed">سورا سومپېڭ رەقەملەر</type>
+			<type key="numbers" type="sund" draft="contributed">سۇنداچە رەقەملەر</type>
+			<type key="numbers" type="takr" draft="contributed">تاكرىچە رەقەملەر</type>
+			<type key="numbers" type="talu" draft="contributed">يېڭى تاي-لەچە رەقەملەر</type>
+			<type key="numbers" type="taml" draft="contributed">ئەنئەنىۋى تامىلچە رەقەملەر</type>
+			<type key="numbers" type="tamldec" draft="contributed">تامىلچە رەقەملەر</type>
+			<type key="numbers" type="telu" draft="contributed">تېلۇگۇچە رەقەملەر</type>
+			<type key="numbers" type="thai" draft="contributed">تايلاندچە رەقەملەر</type>
+			<type key="numbers" type="tibt" draft="contributed">تىبەتچە رەقەملەر</type>
+			<type key="numbers" type="vaii" draft="contributed">ۋايچە رەقەملەر</type>
 		</types>
 		<measurementSystemNames>
 			<measurementSystemName type="metric" draft="contributed">مېتىر</measurementSystemName>
@@ -1167,9 +1166,15 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 		<calendars>
 			<calendar type="buddhist">
 				<eras>
+					<eraNames>
+						<era type="0">بۇددا يىلنامەسى</era>
+					</eraNames>
 					<eraAbbr>
-						<era type="0" draft="contributed">بۇددا يىلنامەسى</era>
+						<era type="0">BE</era>
 					</eraAbbr>
+					<eraNarrow>
+						<era type="0">BE</era>
+					</eraNarrow>
 				</eras>
 			</calendar>
 			<calendar type="chinese">
@@ -1409,7 +1414,7 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 							<month type="8" draft="contributed">ئاۋغۇست</month>
 							<month type="9" draft="contributed">سېنتەبىر</month>
 							<month type="10" draft="contributed">ئۆكتەبىر</month>
-							<month type="11" draft="contributed">بويابىر</month>
+							<month type="11" draft="contributed">نويابىر</month>
 							<month type="12" draft="contributed">دېكابىر</month>
 						</monthWidth>
 					</monthContext>
@@ -1438,7 +1443,7 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 							<day type="tue" draft="contributed">سە</day>
 							<day type="wed" draft="contributed">چا</day>
 							<day type="thu" draft="contributed">پە</day>
-							<day type="fri" draft="contributed">چۈ</day>
+							<day type="fri" draft="contributed">جۈ</day>
 							<day type="sat" draft="contributed">شە</day>
 						</dayWidth>
 						<dayWidth type="short">
@@ -1498,14 +1503,16 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 				</quarters>
 				<dayPeriods>
 					<dayPeriodContext type="format">
+						<dayPeriodWidth type="abbreviated">
+							<dayPeriod type="am" draft="contributed">AM</dayPeriod>
+							<dayPeriod type="pm" draft="contributed">PM</dayPeriod>
+						</dayPeriodWidth>
 						<dayPeriodWidth type="narrow">
 							<dayPeriod type="am" draft="contributed">چۈشتىن بۇرۇن</dayPeriod>
-							<dayPeriod type="noon" draft="contributed">چۈش</dayPeriod>
 							<dayPeriod type="pm" draft="contributed">چۈشتىن كېيىن</dayPeriod>
 						</dayPeriodWidth>
 						<dayPeriodWidth type="wide">
 							<dayPeriod type="am" draft="contributed">چۈشتىن بۇرۇن</dayPeriod>
-							<dayPeriod type="noon" draft="contributed">چۈش</dayPeriod>
 							<dayPeriod type="pm" draft="contributed">چۈشتىن كېيىن</dayPeriod>
 						</dayPeriodWidth>
 					</dayPeriodContext>
@@ -1516,11 +1523,11 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 						<era type="1" draft="contributed">مىلادىيە</era>
 					</eraNames>
 					<eraAbbr>
-						<era type="0" draft="contributed">مىلادىيەدىن بۇرۇن</era>
+						<era type="0">BCE</era>
 						<era type="1" draft="contributed">مىلادىيە</era>
 					</eraAbbr>
 					<eraNarrow>
-						<era type="0" draft="contributed">مىلادىيەدىن بۇرۇن</era>
+						<era type="0">BCE</era>
 						<era type="1" draft="contributed">مىلادىيە</era>
 					</eraNarrow>
 				</eras>
@@ -1828,9 +1835,13 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 			</calendar>
 			<calendar type="roc">
 				<eras>
+					<eraNames>
+						<era type="0">جۇڭخۇا مىنگودىن بۇرۇن</era>
+						<era type="1">مىنگو</era>
+					</eraNames>
 					<eraAbbr>
-						<era type="0" draft="contributed">جۇڭخۇا مىنگودىن بۇرۇن</era>
-						<era type="1" draft="contributed">مىنگو</era>
+						<era type="0">Before R.O.C.</era>
+						<era type="1">مىنگو</era>
 					</eraAbbr>
 				</eras>
 			</calendar>
@@ -3013,24 +3024,30 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" count="one" draft="contributed">0مىڭ</pattern>
-					<pattern type="1000" count="other" draft="contributed">0مىڭ</pattern>
-					<pattern type="10000" count="one" draft="contributed">00مىڭ</pattern>
-					<pattern type="10000" count="other" draft="contributed">00مىڭ</pattern>
-					<pattern type="100000" count="one" draft="contributed">000مىڭ</pattern>
-					<pattern type="100000" count="other" draft="contributed">000مىڭ</pattern>
-					<pattern type="1000000" count="one" draft="contributed">0مىليون</pattern>
-					<pattern type="1000000" count="other" draft="contributed">0مىليون</pattern>
-					<pattern type="10000000" count="one" draft="contributed">00مىليون</pattern>
-					<pattern type="10000000" count="other" draft="contributed">00مىليون</pattern>
-					<pattern type="100000000" count="one" draft="contributed">000مىليون</pattern>
-					<pattern type="100000000" count="other" draft="contributed">000مىليون</pattern>
-					<pattern type="1000000000" count="one" draft="contributed">0 مىليارد</pattern>
-					<pattern type="1000000000" count="other" draft="contributed">0 مىليارد</pattern>
-					<pattern type="10000000000" count="one" draft="contributed">00 مىليارد</pattern>
-					<pattern type="10000000000" count="other" draft="contributed">00 مىليارد</pattern>
-					<pattern type="1000000000000" count="one" draft="contributed">0 تىرىليون</pattern>
-					<pattern type="1000000000000" count="other" draft="contributed">0 تىرىليون</pattern>
+					<pattern type="1000" count="one">0مىڭ</pattern>
+					<pattern type="1000" count="other">0مىڭ</pattern>
+					<pattern type="10000" count="one">00مىڭ</pattern>
+					<pattern type="10000" count="other">00مىڭ</pattern>
+					<pattern type="100000" count="one">000مىڭ</pattern>
+					<pattern type="100000" count="other">000مىڭ</pattern>
+					<pattern type="1000000" count="one">0مىليون</pattern>
+					<pattern type="1000000" count="other">0مىليون</pattern>
+					<pattern type="10000000" count="one">00مىليون</pattern>
+					<pattern type="10000000" count="other">00مىليون</pattern>
+					<pattern type="100000000" count="one">000مىليون</pattern>
+					<pattern type="100000000" count="other">000مىليون</pattern>
+					<pattern type="1000000000" count="one">0مىليارد</pattern>
+					<pattern type="1000000000" count="other">0مىليارد</pattern>
+					<pattern type="10000000000" count="one">00مىليارد</pattern>
+					<pattern type="10000000000" count="other">00مىليارد</pattern>
+					<pattern type="100000000000" count="one">000مىليارد</pattern>
+					<pattern type="100000000000" count="other">000مىليارد</pattern>
+					<pattern type="1000000000000" count="one">0T</pattern>
+					<pattern type="1000000000000" count="other">0T</pattern>
+					<pattern type="10000000000000" count="one">00T</pattern>
+					<pattern type="10000000000000" count="other">00T</pattern>
+					<pattern type="100000000000000" count="one">000T</pattern>
+					<pattern type="100000000000000" count="other">000T</pattern>
 				</decimalFormat>
 			</decimalFormatLength>
 		</decimalFormats>
@@ -3055,6 +3072,34 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 				</currencyFormat>
 				<currencyFormat type="accounting">
 					<pattern draft="contributed">¤#,##0.00;(¤#,##0.00)</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="one" draft="provisional">¤0مىڭ</pattern>
+					<pattern type="1000" count="other" draft="provisional">¤0مىڭ</pattern>
+					<pattern type="10000" count="one" draft="provisional">¤00مىڭ</pattern>
+					<pattern type="10000" count="other" draft="provisional">¤00مىڭ</pattern>
+					<pattern type="100000" count="one" draft="provisional">¤000مىڭ</pattern>
+					<pattern type="100000" count="other" draft="provisional">¤000مىڭ</pattern>
+					<pattern type="1000000" count="one" draft="provisional">¤0مىليون</pattern>
+					<pattern type="1000000" count="other" draft="provisional">¤0مىليون</pattern>
+					<pattern type="10000000" count="one" draft="provisional">¤00مىليون</pattern>
+					<pattern type="10000000" count="other" draft="provisional">¤00مىليون</pattern>
+					<pattern type="100000000" count="one" draft="provisional">¤000مىليون</pattern>
+					<pattern type="100000000" count="other" draft="provisional">¤000مىليون</pattern>
+					<pattern type="1000000000" count="one" draft="provisional">¤0مىليارد</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">¤0مىليارد</pattern>
+					<pattern type="10000000000" count="one" draft="provisional">¤00مىليارد</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">¤00مىليارد</pattern>
+					<pattern type="100000000000" count="one" draft="provisional">¤000مىليارد</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">¤000مىليارد</pattern>
+					<pattern type="1000000000000" count="one" draft="provisional">¤0T</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">¤0T</pattern>
+					<pattern type="10000000000000" count="one" draft="provisional">¤00T</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">¤00T</pattern>
+					<pattern type="100000000000000" count="one" draft="provisional">¤000T</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">¤000T</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 			<unitPattern count="one" draft="contributed">{0} {1}</unitPattern>
@@ -4559,178 +4604,222 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 				<compoundUnitPattern draft="contributed">{0}/{1}</compoundUnitPattern>
 			</compoundUnit>
 			<unit type="acceleration-g-force">
+				<displayName draft="provisional">ئېغىرلىق كۈچى</displayName>
 				<unitPattern count="one" draft="contributed">{0} ئېغىرلىق كۈچى</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} ئېغىرلىق كۈچى</unitPattern>
 			</unit>
 			<unit type="angle-degree">
+				<displayName draft="provisional">گىرادۇس</displayName>
 				<unitPattern count="one" draft="contributed">{0} گىرادۇس</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} گىرادۇس</unitPattern>
 			</unit>
-			<unit type="area-acre">
-				<unitPattern count="one" draft="contributed">{0} ئىنگلىز موسى</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئىنگلىز موسى</unitPattern>
-			</unit>
-			<unit type="area-hectare">
-				<unitPattern count="one" draft="contributed">{0} گېكتار</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} hectares</unitPattern>
-			</unit>
-			<unit type="area-square-foot">
-				<unitPattern count="one" draft="contributed">{0} كۋادرات فۇت</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} كۋادرات فۇت</unitPattern>
-			</unit>
 			<unit type="area-square-kilometer">
+				<displayName draft="provisional">كۋادرات كىلومېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} كۋادرات كىلومېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كۋادرات كىلومېتىر</unitPattern>
 			</unit>
+			<unit type="area-hectare">
+				<displayName draft="provisional">hectares</displayName>
+				<unitPattern count="one" draft="contributed">{0} گېكتار</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} hectares</unitPattern>
+			</unit>
 			<unit type="area-square-meter">
+				<displayName draft="provisional">كۋادرات مېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} كۋادرات مېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كۋادرات مېتىر</unitPattern>
 			</unit>
 			<unit type="area-square-mile">
+				<displayName draft="provisional">كۋادرات مىل</displayName>
 				<unitPattern count="one" draft="contributed">{0} كۋادرات مىل</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كۋادرات مىل</unitPattern>
 			</unit>
+			<unit type="area-acre">
+				<displayName draft="provisional">ئىنگلىز موسى</displayName>
+				<unitPattern count="one" draft="contributed">{0} ئىنگلىز موسى</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئىنگلىز موسى</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<displayName draft="provisional">كۋادرات فۇت</displayName>
+				<unitPattern count="one" draft="contributed">{0} كۋادرات فۇت</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} كۋادرات فۇت</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<displayName draft="provisional">يىل</displayName>
+				<unitPattern count="one" draft="contributed">{0} يىل</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} يىل</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">ئاي</displayName>
+				<unitPattern count="one" draft="contributed">{0} ئاي</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئاي</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<displayName draft="provisional">ھەپتە</displayName>
+				<unitPattern count="one" draft="contributed">{0} ھەپتە</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ھەپتە</unitPattern>
+			</unit>
 			<unit type="duration-day">
+				<displayName draft="provisional">كۈن</displayName>
 				<unitPattern count="one" draft="contributed">{0} كۈن</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كۈن</unitPattern>
 			</unit>
 			<unit type="duration-hour">
+				<displayName draft="provisional">سائەت</displayName>
 				<unitPattern count="one" draft="contributed">{0} سائەت</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} سائەت</unitPattern>
 			</unit>
-			<unit type="duration-millisecond">
-				<unitPattern count="one" draft="contributed">{0} مىللى سېكۇنت</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} مىللى سېكۇنت</unitPattern>
-			</unit>
 			<unit type="duration-minute">
+				<displayName draft="provisional">مىنۇت</displayName>
 				<unitPattern count="one" draft="contributed">{0} مىنۇت</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} مىنۇت</unitPattern>
 			</unit>
-			<unit type="duration-month">
-				<unitPattern count="one" draft="contributed">{0} ئاي</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئاي</unitPattern>
-			</unit>
 			<unit type="duration-second">
+				<displayName draft="provisional">سېكۇنت</displayName>
 				<unitPattern count="one" draft="contributed">{0} سېكۇنت</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} سېكۇنت</unitPattern>
 			</unit>
-			<unit type="duration-week">
-				<unitPattern count="one" draft="contributed">{0} ھەپتە</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ھەپتە</unitPattern>
-			</unit>
-			<unit type="duration-year">
-				<unitPattern count="one" draft="contributed">{0} يىل</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} يىل</unitPattern>
-			</unit>
-			<unit type="length-centimeter">
-				<unitPattern count="one" draft="contributed">{0} سانتىمېتىر</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} سانتىمېتىر</unitPattern>
-			</unit>
-			<unit type="length-foot">
-				<unitPattern count="one" draft="contributed">{0} فۇت</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} فۇت</unitPattern>
-			</unit>
-			<unit type="length-inch">
-				<unitPattern count="one" draft="contributed">{0} ديۇيم</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ديۇيم</unitPattern>
+			<unit type="duration-millisecond">
+				<displayName draft="provisional">مىللى سېكۇنت</displayName>
+				<unitPattern count="one" draft="contributed">{0} مىللى سېكۇنت</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} مىللى سېكۇنت</unitPattern>
 			</unit>
 			<unit type="length-kilometer">
+				<displayName draft="provisional">كىلومېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} كىلومېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كىلومېتىر</unitPattern>
 			</unit>
-			<unit type="length-light-year">
-				<unitPattern count="one" draft="contributed">{0} يورۇقلۇق يىلى</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} يورۇقلۇق يىلى</unitPattern>
-			</unit>
 			<unit type="length-meter">
+				<displayName draft="provisional">مېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} مېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} مېتىر</unitPattern>
 			</unit>
-			<unit type="length-mile">
-				<unitPattern count="one" draft="contributed">{0} مىل</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} مىل</unitPattern>
+			<unit type="length-centimeter">
+				<displayName draft="provisional">سانتىمېتىر</displayName>
+				<unitPattern count="one" draft="contributed">{0} سانتىمېتىر</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} سانتىمېتىر</unitPattern>
 			</unit>
 			<unit type="length-millimeter">
+				<displayName draft="provisional">مىللىمېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} مىللىمېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} مىللىمېتىر</unitPattern>
 			</unit>
 			<unit type="length-picometer">
+				<displayName draft="provisional">پىكومېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} پىكومېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} پىكومېتىر</unitPattern>
 			</unit>
+			<unit type="length-mile">
+				<displayName draft="provisional">مىل</displayName>
+				<unitPattern count="one" draft="contributed">{0} مىل</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} مىل</unitPattern>
+			</unit>
 			<unit type="length-yard">
+				<displayName draft="provisional">يارد</displayName>
 				<unitPattern count="one" draft="contributed">{0} يارد</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} يارد</unitPattern>
 			</unit>
-			<unit type="mass-gram">
-				<unitPattern count="one" draft="contributed">{0} گرام</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} گرام</unitPattern>
+			<unit type="length-foot">
+				<displayName draft="provisional">فۇت</displayName>
+				<unitPattern count="one" draft="contributed">{0} فۇت</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} فۇت</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<displayName draft="provisional">ديۇيم</displayName>
+				<unitPattern count="one" draft="contributed">{0} ديۇيم</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ديۇيم</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<displayName draft="provisional">يورۇقلۇق يىلى</displayName>
+				<unitPattern count="one" draft="contributed">{0} يورۇقلۇق يىلى</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} يورۇقلۇق يىلى</unitPattern>
 			</unit>
 			<unit type="mass-kilogram">
+				<displayName draft="provisional">كىلوگرام</displayName>
 				<unitPattern count="one" draft="contributed">{0} كىلوگرام</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كىلوگرام</unitPattern>
 			</unit>
-			<unit type="mass-ounce">
-				<unitPattern count="one" draft="contributed">{0} ئۇنسىيە</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئۇنسىيە</unitPattern>
+			<unit type="mass-gram">
+				<displayName draft="provisional">گرام</displayName>
+				<unitPattern count="one" draft="contributed">{0} گرام</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} گرام</unitPattern>
 			</unit>
 			<unit type="mass-pound">
+				<displayName draft="provisional">قاداق</displayName>
 				<unitPattern count="one" draft="contributed">{0} قاداق</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} قاداق</unitPattern>
 			</unit>
-			<unit type="power-horsepower">
-				<unitPattern count="one" draft="contributed">{0} ئات كۈچى</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئات كۈچى</unitPattern>
+			<unit type="mass-ounce">
+				<displayName draft="provisional">ئۇنسىيە</displayName>
+				<unitPattern count="one" draft="contributed">{0} ئۇنسىيە</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئۇنسىيە</unitPattern>
 			</unit>
 			<unit type="power-kilowatt">
+				<displayName draft="provisional">كىلوۋات</displayName>
 				<unitPattern count="one" draft="contributed">{0} كىلوۋات</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كىلوۋات</unitPattern>
 			</unit>
 			<unit type="power-watt">
+				<displayName draft="provisional">ۋات</displayName>
 				<unitPattern count="one" draft="contributed">{0} ۋات</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} ۋات</unitPattern>
 			</unit>
+			<unit type="power-horsepower">
+				<displayName draft="provisional">ئات كۈچى</displayName>
+				<unitPattern count="one" draft="contributed">{0} ئات كۈچى</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئات كۈچى</unitPattern>
+			</unit>
 			<unit type="pressure-hectopascal">
+				<displayName draft="provisional">يۈز پاسكال</displayName>
 				<unitPattern count="one" draft="contributed">{0} يۈز پاسكال</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} يۈز پاسكال</unitPattern>
 			</unit>
 			<unit type="pressure-inch-hg">
+				<displayName draft="provisional">ديۇيم سىماب تۈۋرۇكى</displayName>
 				<unitPattern count="one" draft="contributed">{0} ديۇيم سىماب تۈۋرۇكى</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} ديۇيم سىماب تۈۋرۇكى</unitPattern>
 			</unit>
 			<unit type="pressure-millibar">
+				<displayName draft="provisional">مىللىبار</displayName>
 				<unitPattern count="one" draft="contributed">{0} مىللىبار</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} مىللىبار</unitPattern>
 			</unit>
 			<unit type="speed-kilometer-per-hour">
+				<displayName draft="provisional">كىلومېتىر ھەر سائەت</displayName>
 				<unitPattern count="one" draft="contributed">{0} كىلومېتىر ھەر سائەت</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كىلومېتىر ھەر سائەت</unitPattern>
 			</unit>
 			<unit type="speed-meter-per-second">
+				<displayName draft="provisional">مېتىر ھەر سېكۇنت</displayName>
 				<unitPattern count="one" draft="contributed">{0} مېتىر ھەر سېكۇنت</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} مېتىر ھەر سېكۇنت</unitPattern>
 			</unit>
 			<unit type="speed-mile-per-hour">
+				<displayName draft="provisional">مىل ھەر سائەت</displayName>
 				<unitPattern count="one" draft="contributed">{0} مىل ھەر سائەت</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} مىل ھەر سائەت</unitPattern>
 			</unit>
 			<unit type="temperature-celsius">
+				<displayName draft="provisional">سېلسىيە گرادۇس</displayName>
 				<unitPattern count="one" draft="contributed">{0} سېلسىيە گرادۇس</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} سېلسىيە گرادۇس</unitPattern>
 			</unit>
 			<unit type="temperature-fahrenheit">
+				<displayName draft="provisional">فارېنگېيت گرادۇس</displayName>
 				<unitPattern count="one" draft="contributed">{0} فارېنگېيت گرادۇس</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} فارېنگېيت گرادۇس</unitPattern>
 			</unit>
 			<unit type="volume-cubic-kilometer">
+				<displayName draft="provisional">كۇب كىلومېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} كۇب كىلومېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كۇب كىلومېتىر</unitPattern>
 			</unit>
 			<unit type="volume-cubic-mile">
+				<displayName draft="provisional">كۇب مىل</displayName>
 				<unitPattern count="one" draft="contributed">{0} كۇب مىل</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كۇب مىل</unitPattern>
 			</unit>
 			<unit type="volume-liter">
+				<displayName draft="provisional">لىتېر</displayName>
 				<unitPattern count="one" draft="contributed">{0} لىتېر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} لىتېر</unitPattern>
 			</unit>
@@ -4740,178 +4829,222 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 				<compoundUnitPattern draft="contributed">{0}/{1}</compoundUnitPattern>
 			</compoundUnit>
 			<unit type="acceleration-g-force">
+				<displayName draft="provisional">ئېغىرلىق كۈچى</displayName>
 				<unitPattern count="one" draft="contributed">{0} G</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} G</unitPattern>
 			</unit>
 			<unit type="angle-degree">
+				<displayName draft="provisional">گىرادۇس</displayName>
 				<unitPattern count="one" draft="contributed">{0} گىرادۇس</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} گىرادۇس</unitPattern>
 			</unit>
-			<unit type="area-acre">
-				<unitPattern count="one" draft="contributed">{0} ئىنگلىز موسى</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئىنگلىز موسى</unitPattern>
-			</unit>
-			<unit type="area-hectare">
-				<unitPattern count="one" draft="contributed">{0} گېكتار</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} گېكتار</unitPattern>
-			</unit>
-			<unit type="area-square-foot">
-				<unitPattern count="one" draft="contributed">{0} كۋادرات فۇت</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} كۋادرات فۇت</unitPattern>
-			</unit>
 			<unit type="area-square-kilometer">
+				<displayName draft="provisional">كۋادرات كىلومېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} km²</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} km²</unitPattern>
 			</unit>
+			<unit type="area-hectare">
+				<displayName draft="provisional">hectares</displayName>
+				<unitPattern count="one" draft="contributed">{0} گېكتار</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} گېكتار</unitPattern>
+			</unit>
 			<unit type="area-square-meter">
+				<displayName draft="provisional">كۋادرات مېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} m²</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} m²</unitPattern>
 			</unit>
 			<unit type="area-square-mile">
+				<displayName draft="provisional">كۋادرات مىل</displayName>
 				<unitPattern count="one" draft="contributed">{0} كۋادرات مىل</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كۋادرات مىل</unitPattern>
 			</unit>
+			<unit type="area-acre">
+				<displayName draft="provisional">ئىنگلىز موسى</displayName>
+				<unitPattern count="one" draft="contributed">{0} ئىنگلىز موسى</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئىنگلىز موسى</unitPattern>
+			</unit>
+			<unit type="area-square-foot">
+				<displayName draft="provisional">كۋادرات فۇت</displayName>
+				<unitPattern count="one" draft="contributed">{0} كۋادرات فۇت</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} كۋادرات فۇت</unitPattern>
+			</unit>
+			<unit type="duration-year">
+				<displayName draft="provisional">يىل</displayName>
+				<unitPattern count="one" draft="contributed">{0} يىل</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} يىل</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<displayName draft="provisional">ئاي</displayName>
+				<unitPattern count="one" draft="contributed">{0} ئاي</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئاي</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<displayName draft="provisional">ھەپتە</displayName>
+				<unitPattern count="one" draft="contributed">{0} ھەپتە</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ھەپتە</unitPattern>
+			</unit>
 			<unit type="duration-day">
+				<displayName draft="provisional">كۈن</displayName>
 				<unitPattern count="one" draft="contributed">{0} كۈن</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كۈن</unitPattern>
 			</unit>
 			<unit type="duration-hour">
+				<displayName draft="provisional">سائەت</displayName>
 				<unitPattern count="one" draft="contributed">{0} سائەت</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} سائەت</unitPattern>
 			</unit>
-			<unit type="duration-millisecond">
-				<unitPattern count="one" draft="contributed">{0} مىللىسېكۇنت</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} مىللىسېكۇنت</unitPattern>
-			</unit>
 			<unit type="duration-minute">
+				<displayName draft="provisional">مىنۇت</displayName>
 				<unitPattern count="one" draft="contributed">{0} مىنۇت</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} مىنۇت</unitPattern>
 			</unit>
-			<unit type="duration-month">
-				<unitPattern count="one" draft="contributed">{0} ئاي</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئاي</unitPattern>
-			</unit>
 			<unit type="duration-second">
+				<displayName draft="provisional">سېكۇنت</displayName>
 				<unitPattern count="one" draft="contributed">{0} سېكۇنت</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} سېكۇنت</unitPattern>
 			</unit>
-			<unit type="duration-week">
-				<unitPattern count="one" draft="contributed">{0} ھەپتە</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ھەپتە</unitPattern>
-			</unit>
-			<unit type="duration-year">
-				<unitPattern count="one" draft="contributed">{0} يىل</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} يىل</unitPattern>
-			</unit>
-			<unit type="length-centimeter">
-				<unitPattern count="one" draft="contributed">{0} سانتىمېتىر</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} سانتىمېتىر</unitPattern>
-			</unit>
-			<unit type="length-foot">
-				<unitPattern count="one" draft="contributed">{0} پۇت</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} پۇت</unitPattern>
-			</unit>
-			<unit type="length-inch">
-				<unitPattern count="one" draft="contributed">{0} ئىنگلىز چىسى</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئىنگلىز چىسى</unitPattern>
+			<unit type="duration-millisecond">
+				<displayName draft="provisional">مىللى سېكۇنت</displayName>
+				<unitPattern count="one" draft="contributed">{0} مىللىسېكۇنت</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} مىللىسېكۇنت</unitPattern>
 			</unit>
 			<unit type="length-kilometer">
+				<displayName draft="provisional">كىلومېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} كىلومېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} كىلومېتىر</unitPattern>
 			</unit>
-			<unit type="length-light-year">
-				<unitPattern count="one" draft="contributed">{0} يورۇقلۇق يىلى</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} يورۇقلۇق يىلى</unitPattern>
-			</unit>
 			<unit type="length-meter">
+				<displayName draft="provisional">مېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} مېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} مېتىر</unitPattern>
 			</unit>
-			<unit type="length-mile">
-				<unitPattern count="one" draft="contributed">{0} مىل</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} مىل</unitPattern>
+			<unit type="length-centimeter">
+				<displayName draft="provisional">سانتىمېتىر</displayName>
+				<unitPattern count="one" draft="contributed">{0} سانتىمېتىر</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} سانتىمېتىر</unitPattern>
 			</unit>
 			<unit type="length-millimeter">
+				<displayName draft="provisional">مىللىمېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} مىللىمېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} مىللىمېتىر</unitPattern>
 			</unit>
 			<unit type="length-picometer">
+				<displayName draft="provisional">پىكومېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} پىكومېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} پىكومېتىر</unitPattern>
 			</unit>
+			<unit type="length-mile">
+				<displayName draft="provisional">مىل</displayName>
+				<unitPattern count="one" draft="contributed">{0} مىل</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} مىل</unitPattern>
+			</unit>
 			<unit type="length-yard">
+				<displayName draft="provisional">يارد</displayName>
 				<unitPattern count="one" draft="contributed">{0} يارد</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} يارد</unitPattern>
 			</unit>
-			<unit type="mass-gram">
-				<unitPattern count="one" draft="contributed">{0} g</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} g</unitPattern>
+			<unit type="length-foot">
+				<displayName draft="provisional">فۇت</displayName>
+				<unitPattern count="one" draft="contributed">{0} پۇت</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} پۇت</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<displayName draft="provisional">ديۇيم</displayName>
+				<unitPattern count="one" draft="contributed">{0} ئىنگلىز چىسى</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئىنگلىز چىسى</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<displayName draft="provisional">يورۇقلۇق يىلى</displayName>
+				<unitPattern count="one" draft="contributed">{0} يورۇقلۇق يىلى</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} يورۇقلۇق يىلى</unitPattern>
 			</unit>
 			<unit type="mass-kilogram">
+				<displayName draft="provisional">كىلوگرام</displayName>
 				<unitPattern count="one" draft="contributed">{0} kg</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} kg</unitPattern>
 			</unit>
-			<unit type="mass-ounce">
-				<unitPattern count="one" draft="contributed">{0} ئۇنسىيە</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئۇنسىيە</unitPattern>
+			<unit type="mass-gram">
+				<displayName draft="provisional">گرام</displayName>
+				<unitPattern count="one" draft="contributed">{0} g</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} g</unitPattern>
 			</unit>
 			<unit type="mass-pound">
+				<displayName draft="provisional">قاداق</displayName>
 				<unitPattern count="one" draft="contributed">{0} قاداق</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} قاداق</unitPattern>
 			</unit>
-			<unit type="power-horsepower">
-				<unitPattern count="one" draft="contributed">{0} ئات كۈچى</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئات كۈچى</unitPattern>
+			<unit type="mass-ounce">
+				<displayName draft="provisional">ئۇنسىيە</displayName>
+				<unitPattern count="one" draft="contributed">{0} ئۇنسىيە</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئۇنسىيە</unitPattern>
 			</unit>
 			<unit type="power-kilowatt">
+				<displayName draft="provisional">كىلوۋات</displayName>
 				<unitPattern count="one" draft="contributed">{0} kW</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} kW</unitPattern>
 			</unit>
 			<unit type="power-watt">
+				<displayName draft="provisional">ۋات</displayName>
 				<unitPattern count="one" draft="contributed">{0} W</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} W</unitPattern>
 			</unit>
+			<unit type="power-horsepower">
+				<displayName draft="provisional">ئات كۈچى</displayName>
+				<unitPattern count="one" draft="contributed">{0} ئات كۈچى</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئات كۈچى</unitPattern>
+			</unit>
 			<unit type="pressure-hectopascal">
+				<displayName draft="provisional">يۈز پاسكال</displayName>
 				<unitPattern count="one" draft="contributed">{0} ھېكتوپاسكال</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} ھېكتوپاسكال</unitPattern>
 			</unit>
 			<unit type="pressure-inch-hg">
+				<displayName draft="provisional">ديۇيم سىماب تۈۋرۇكى</displayName>
 				<unitPattern count="one" draft="contributed">{0} inHg</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} inHg</unitPattern>
 			</unit>
 			<unit type="pressure-millibar">
+				<displayName draft="provisional">مىللىبار</displayName>
 				<unitPattern count="one" draft="contributed">{0} mbar</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} mbar</unitPattern>
 			</unit>
 			<unit type="speed-kilometer-per-hour">
+				<displayName draft="provisional">كىلومېتىر ھەر سائەت</displayName>
 				<unitPattern count="one" draft="contributed">{0} سائەت/كىلومېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} سائەت/كىلومېتىر</unitPattern>
 			</unit>
 			<unit type="speed-meter-per-second">
+				<displayName draft="provisional">مېتىر ھەر سېكۇنت</displayName>
 				<unitPattern count="one" draft="contributed">{0} سېكۇنت/مېتىر</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} سېكۇنت/مېتىر</unitPattern>
 			</unit>
 			<unit type="speed-mile-per-hour">
+				<displayName draft="provisional">مىل ھەر سائەت</displayName>
 				<unitPattern count="one" draft="contributed">{0} سائەت/مىل</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} سائەت/مىل</unitPattern>
 			</unit>
 			<unit type="temperature-celsius">
+				<displayName draft="provisional">سېلسىيە گرادۇس</displayName>
 				<unitPattern count="one" draft="contributed">{0}°C</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}°C</unitPattern>
 			</unit>
 			<unit type="temperature-fahrenheit">
+				<displayName draft="provisional">فارېنگېيت گرادۇس</displayName>
 				<unitPattern count="one" draft="contributed">{0}°F</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}°F</unitPattern>
 			</unit>
 			<unit type="volume-cubic-kilometer">
+				<displayName draft="provisional">كۇب كىلومېتىر</displayName>
 				<unitPattern count="one" draft="contributed">{0} km³</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} km³</unitPattern>
 			</unit>
 			<unit type="volume-cubic-mile">
+				<displayName draft="provisional">كۇب مىل</displayName>
 				<unitPattern count="one" draft="contributed">{0} mi³</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} mi³</unitPattern>
 			</unit>
 			<unit type="volume-liter">
+				<displayName draft="provisional">لىتېر</displayName>
 				<unitPattern count="one" draft="contributed">{0} l</unitPattern>
 				<unitPattern count="other" draft="contributed">{0} l</unitPattern>
 			</unit>
@@ -4925,21 +5058,33 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 				<unitPattern count="one" draft="contributed">{0}°</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}°</unitPattern>
 			</unit>
-			<unit type="area-acre">
-				<unitPattern count="one">{0}ac</unitPattern>
-				<unitPattern count="other">{0}ac</unitPattern>
-			</unit>
 			<unit type="area-hectare">
 				<unitPattern count="one" draft="contributed">{0}گېكتار</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}گېكتار</unitPattern>
+			</unit>
+			<unit type="area-square-mile">
+				<unitPattern count="one" draft="contributed">{0}mi²</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}mi²</unitPattern>
+			</unit>
+			<unit type="area-acre">
+				<unitPattern count="one">{0}ac</unitPattern>
+				<unitPattern count="other">{0}ac</unitPattern>
 			</unit>
 			<unit type="area-square-foot">
 				<unitPattern count="one" draft="contributed">{0}ft²</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}ft²</unitPattern>
 			</unit>
-			<unit type="area-square-mile">
-				<unitPattern count="one" draft="contributed">{0}mi²</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}mi²</unitPattern>
+			<unit type="duration-year">
+				<unitPattern count="one" draft="contributed">{0} يىل</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} يىل</unitPattern>
+			</unit>
+			<unit type="duration-month">
+				<unitPattern count="one" draft="contributed">{0} ئاي</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ئاي</unitPattern>
+			</unit>
+			<unit type="duration-week">
+				<unitPattern count="one" draft="contributed">{0} ھەپتە</unitPattern>
+				<unitPattern count="other" draft="contributed">{0} ھەپتە</unitPattern>
 			</unit>
 			<unit type="duration-day">
 				<unitPattern count="one" draft="contributed">{0} كۈن</unitPattern>
@@ -4949,57 +5094,29 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 				<unitPattern count="one" draft="contributed">{0}h</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}h</unitPattern>
 			</unit>
-			<unit type="duration-millisecond">
-				<unitPattern count="one" draft="contributed">{0}ms</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}ms</unitPattern>
-			</unit>
 			<unit type="duration-minute">
 				<unitPattern count="one" draft="contributed">{0}m</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}m</unitPattern>
-			</unit>
-			<unit type="duration-month">
-				<unitPattern count="one" draft="contributed">{0} ئاي</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ئاي</unitPattern>
 			</unit>
 			<unit type="duration-second">
 				<unitPattern count="one" draft="contributed">{0}s</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}s</unitPattern>
 			</unit>
-			<unit type="duration-week">
-				<unitPattern count="one" draft="contributed">{0} ھەپتە</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} ھەپتە</unitPattern>
-			</unit>
-			<unit type="duration-year">
-				<unitPattern count="one" draft="contributed">{0} يىل</unitPattern>
-				<unitPattern count="other" draft="contributed">{0} يىل</unitPattern>
-			</unit>
-			<unit type="length-centimeter">
-				<unitPattern count="one" draft="contributed">{0}cm</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}cm</unitPattern>
-			</unit>
-			<unit type="length-foot">
-				<unitPattern count="one" draft="contributed">{0}′</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}′</unitPattern>
-			</unit>
-			<unit type="length-inch">
-				<unitPattern count="one" draft="contributed">{0}″</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}″</unitPattern>
+			<unit type="duration-millisecond">
+				<unitPattern count="one" draft="contributed">{0}ms</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}ms</unitPattern>
 			</unit>
 			<unit type="length-kilometer">
 				<unitPattern count="one" draft="contributed">{0}km</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}km</unitPattern>
 			</unit>
-			<unit type="length-light-year">
-				<unitPattern count="one" draft="contributed">{0}ly</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}ly</unitPattern>
-			</unit>
 			<unit type="length-meter">
 				<unitPattern count="one" draft="contributed">{0}m</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}m</unitPattern>
 			</unit>
-			<unit type="length-mile">
-				<unitPattern count="one" draft="contributed">{0}mi</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}mi</unitPattern>
+			<unit type="length-centimeter">
+				<unitPattern count="one" draft="contributed">{0}cm</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}cm</unitPattern>
 			</unit>
 			<unit type="length-millimeter">
 				<unitPattern count="one" draft="contributed">{0}mm</unitPattern>
@@ -5009,29 +5126,41 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 				<unitPattern count="one" draft="contributed">{0}pm</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}pm</unitPattern>
 			</unit>
+			<unit type="length-mile">
+				<unitPattern count="one" draft="contributed">{0}mi</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}mi</unitPattern>
+			</unit>
 			<unit type="length-yard">
 				<unitPattern count="one" draft="contributed">{0}yd</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}yd</unitPattern>
 			</unit>
-			<unit type="mass-gram">
-				<unitPattern count="one" draft="contributed">{0}g</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}g</unitPattern>
+			<unit type="length-foot">
+				<unitPattern count="one" draft="contributed">{0}′</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}′</unitPattern>
+			</unit>
+			<unit type="length-inch">
+				<unitPattern count="one" draft="contributed">{0}″</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}″</unitPattern>
+			</unit>
+			<unit type="length-light-year">
+				<unitPattern count="one" draft="contributed">{0}ly</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}ly</unitPattern>
 			</unit>
 			<unit type="mass-kilogram">
 				<unitPattern count="one" draft="contributed">{0}kg</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}kg</unitPattern>
 			</unit>
-			<unit type="mass-ounce">
-				<unitPattern count="one" draft="contributed">{0}oz</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}oz</unitPattern>
+			<unit type="mass-gram">
+				<unitPattern count="one" draft="contributed">{0}g</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}g</unitPattern>
 			</unit>
 			<unit type="mass-pound">
 				<unitPattern count="one" draft="contributed">{0}#</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}#</unitPattern>
 			</unit>
-			<unit type="power-horsepower">
-				<unitPattern count="one" draft="contributed">{0}hp</unitPattern>
-				<unitPattern count="other" draft="contributed">{0}hp</unitPattern>
+			<unit type="mass-ounce">
+				<unitPattern count="one" draft="contributed">{0}oz</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}oz</unitPattern>
 			</unit>
 			<unit type="power-kilowatt">
 				<unitPattern count="one" draft="contributed">{0}kW</unitPattern>
@@ -5040,6 +5169,10 @@ Reviewed by Waris Abdukerim Janbaz <oyghan@gmail.com> of the Uyghur Computer Sci
 			<unit type="power-watt">
 				<unitPattern count="one" draft="contributed">{0}W</unitPattern>
 				<unitPattern count="other" draft="contributed">{0}W</unitPattern>
+			</unit>
+			<unit type="power-horsepower">
+				<unitPattern count="one" draft="contributed">{0}hp</unitPattern>
+				<unitPattern count="other" draft="contributed">{0}hp</unitPattern>
 			</unit>
 			<unit type="pressure-hectopascal">
 				<unitPattern count="one" draft="contributed">{0}hPa</unitPattern>

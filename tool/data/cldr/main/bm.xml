@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2013 Unicode, Inc.
+<!-- Copyright © 1991-2015 Unicode, Inc.
 CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 9728 $"/>
-		<generation date="$Date: 2014-02-12 22:14:13 -0600 (Wed, 12 Feb 2014) $"/>
+		<version number="$Revision: 12128 $"/>
 		<language type="bm"/>
 	</identity>
 	<localeDisplayNames>
@@ -66,7 +65,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="AI">Angiya</territory>
 			<territory type="AL">Alibani</territory>
 			<territory type="AM">Arimeni</territory>
-			<territory type="AN">Peyiba ka Antiyi</territory>
 			<territory type="AO">Angola</territory>
 			<territory type="AR">Arizantin</territory>
 			<territory type="AS">Samowa amerikani</territory>
@@ -573,6 +571,22 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<pattern>¤#,##0.00;(¤#,##0.00)</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<currencyFormatLength type="short">
+				<currencyFormat type="standard">
+					<pattern type="1000" count="other" draft="provisional">¤0K</pattern>
+					<pattern type="10000" count="other" draft="provisional">¤00K</pattern>
+					<pattern type="100000" count="other" draft="provisional">¤000K</pattern>
+					<pattern type="1000000" count="other" draft="provisional">¤0M</pattern>
+					<pattern type="10000000" count="other" draft="provisional">¤00M</pattern>
+					<pattern type="100000000" count="other" draft="provisional">¤000M</pattern>
+					<pattern type="1000000000" count="other" draft="provisional">¤0G</pattern>
+					<pattern type="10000000000" count="other" draft="provisional">¤00G</pattern>
+					<pattern type="100000000000" count="other" draft="provisional">¤000G</pattern>
+					<pattern type="1000000000000" count="other" draft="provisional">¤0T</pattern>
+					<pattern type="10000000000000" count="other" draft="provisional">¤00T</pattern>
+					<pattern type="100000000000000" count="other" draft="provisional">¤000T</pattern>
+				</currencyFormat>
+			</currencyFormatLength>
 		</currencyFormats>
 		<currencies>
 			<currency type="AED">
@@ -627,7 +641,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>ero</displayName>
 			</currency>
 			<currency type="GBP">
-				<displayName>angilɛ Livri Siterlingi</displayName>
+				<displayName>angilɛ Livri</displayName>
 			</currency>
 			<currency type="GHC">
 				<displayName>gana Sedi</displayName>

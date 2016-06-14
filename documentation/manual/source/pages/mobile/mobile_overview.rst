@@ -131,8 +131,8 @@ You can contribute in different ways:
 * Theming: You can optimize the current CSS files or even create your own theme.
 * Widgets: Widget / Feature missing? Create an widget an post it back to us.
 * Bugs: If you have found a bug, or when you have fixed it already, please open
-  a bug report in the qooxdoo `Bugzilla <http://bugzilla.qooxdoo.org/>`_ with the
-  ``core-mobile`` component.
-* Devices: If you have an old smartphone (Android, iPhone, Blackberry, Windows Phone, WebOS, etc.)
-  that you don't need anymore, you could donate it to qooxdoo. We would be happy to test qooxdoo mobile on it.
-* Discussion/Feedback: Please post questions to `our mailing list <http://lists.sourceforge.net/lists/listinfo/qooxdoo-devel>`__.
+  a new issue in the `qooxdoo repository issues <https://github.com/qooxdoo/qooxdoo/issues>`_ or generate 
+  a pull request in `qooxdoo pull requests <https://github.com/qooxdoo/qooxdoo/pulls>`_.
+* Discussion/Feedback: Please post questions to `Stack Overflow <https://stackoverflow.com>`_ with a "qooxdoo" tag. 
+  The qooxdoo specific posts will be scanned and tried to be answered similar to the regular mailing list. 
+  
