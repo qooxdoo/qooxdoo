@@ -406,8 +406,9 @@ qx.Class.define("qx.data.controller.List",
      */
     __inChangeModel: false,
     __changeModel: function() {
-      if (this.__inChangeModel)
+      if (this.__inChangeModel) {
         return;
+      }
       this.__inChangeModel = true;
       // need an asynchronous selection update because the bindings have to be
       // executed to update the selection probably (using the widget queue)
