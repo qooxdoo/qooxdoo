@@ -1384,7 +1384,7 @@ qx.Class.define("qx.ui.table.Table",
 
       // No editing mode
       var oldFocusedRow = this.__focusedRow;
-      var consumed = true;
+      var consumed = false;
 
       // Handle keys that are independent from the modifiers
       var identifier = evt.getKeyIdentifier();
@@ -1421,11 +1421,11 @@ qx.Class.define("qx.ui.table.Table",
       }
       else
       {
+        consumed = true;
         // No editing mode
         if (evt.isCtrlPressed())
         {
           // Handle keys that depend on modifiers
-          consumed = true;
 
           switch(identifier)
           {
