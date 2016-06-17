@@ -279,7 +279,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
     },
 
     /**
-     * The <code>find()</code> method returns an index in the array, if an element in the 
+     * The <code>findIndex()</code> method returns an index in the array, if an element in the 
      * array satisfies the provided testing function. Otherwise -1 is returned.
      *
      * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex">MDN documentation</a> |
