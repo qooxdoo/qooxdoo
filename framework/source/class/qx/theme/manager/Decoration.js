@@ -131,7 +131,6 @@ qx.Class.define("qx.theme.manager.Decoration",
       //  eg background-color comes after background.  The reordering is only applied
       //  to rules which begin with the names in REORDER; the sort order is alphabetical
       //  so that short cut rules come before actual
-      var t = this;
       Object.keys(styles).sort().forEach(function(key) {
         // if we find a map value, use it as pseudo class
         if (qx.Bootstrap.isObject(styles[key])) {
@@ -142,14 +141,14 @@ qx.Class.define("qx.theme.manager.Decoration",
             inner = true;
             innerCss += innerKey + ":" + innerStyles[innerKey] + ";";
           }
-          var innerSelector = t.__legacyIe ? selector :
+          var innerSelector = this.__legacyIe ? selector :
             selector + (inner ? ":" : "");
-          t.__rules.push(innerSelector + key);
+          this.__rules.push(innerSelector + key);
           sheet.addRule(innerSelector + key, innerCss);
           return;
         }
         css += key + ":" + styles[key] + ";";
-      });
+      }, this);
 
       if (css) {
         sheet.addRule(selector, css);

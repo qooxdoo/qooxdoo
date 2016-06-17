@@ -118,6 +118,32 @@
  *   <tr><th>deferredInit</th><td>Boolean</td><td>
  *     Allow for a deferred initialization for reference types. Defaults to false.
  *   </td></tr>
+ *   <tr><th>isEqual</th><td>Function, String</td><td>
+ *     On setting of the property value the method of the specified name will
+ *     be called to test if two values are equal. These checks for equality are
+ *     performed by the Property-System to decide whether further actions (like
+ *     e.g. calling applier methods or firing of events) are needed.
+ *     The signature of the method is <code>function(valueA, valueB)</code>.
+ *     <br/>
+ *     The <i>isEqual</i>-value can be:
+ *     <ul>
+ *       <li>a custom check function.
+ *           The function takes two values as parameter and must return a
+ *           boolean value to indicate whether the values are considered
+ *           equal e.g. <code>function (a, b) { return Object.is(a, b); }</code>.</li>
+ *       <li>inline check code as a string
+ *           which will be invoked with two parameters <code>a</code> and
+ *           <code>b</code> and results in a boolean value to indicate whether
+ *           the values are equal e.g. <code>"a.length() == b.length()"</code>.</li>
+ *       <li>reference to a member method as string
+ *           <code>"<i>methodname</i>"</code> which will be invoked with two
+ *           parameters and returns a boolean value indicating whether the two
+ *           values are considered equal for example <code>"__areTheSame"</code>.</li>
+ *     </ul>
+ *     The default implementation (if this key is undefined) will check the
+ *     equality by using the <i>identity</i> operator (===) as if defined like
+ *     <code>"a===b"</code>.
+ *   </td></tr>
  * </table>
  *
  * *Property groups*
@@ -272,7 +298,8 @@ qx.Bootstrap.define("qx.core.Property",
       check        : null,       // Array, String, Function
       transform    : "string",   // String
       deferredInit : "boolean",  // Boolean
-      validate     : null        // String, Function
+      validate     : null,       // String, Function
+      isEqual      : null        // String, Function
     },
 
 
@@ -813,6 +840,8 @@ qx.Bootstrap.define("qx.core.Property",
 
       var store = this.__getStore(variant, name);
 
+      this.__emitIsEqualFunction(code, clazz, config, name);
+
       this.__emitSetterPreConditions(code, config, name, variant, incomingValue);
 
       if (incomingValue) {
@@ -887,6 +916,48 @@ qx.Bootstrap.define("qx.core.Property",
       }
 
       return store;
+    },
+
+
+    /**
+     * Emit code for the equality check evaluation
+     *
+     * @param code {String[]} String array to append the code to
+     * @param clazz {Class} the class which originally defined the property
+     * @param config {Object} The property configuration map
+     * @param name {String} name of the property
+     */
+    __emitIsEqualFunction : function (code, clazz, config, name)
+    {
+      code.push('var equ=');
+
+      if (typeof config.isEqual === "function")
+      {
+        code.push('function(a,b){return !!', clazz.classname, '.$$properties.',
+                  name, '.isEqual.call(this,a,b);};');
+      }
+      else if (typeof config.isEqual === "string")
+      {
+        var members = clazz.prototype;
+        // Name of member?
+        if (members[config.isEqual]!==undefined)
+        {
+          code.push('this.', config.isEqual, ';');
+        }
+        else // 'inline' code
+        {
+          code.push('function(a,b){return !!(', config.isEqual, ');};');
+        }
+      }
+      else if (typeof config.isEqual === "undefined")
+      {
+        code.push('function(a,b){return a===b;};');
+      }
+      else
+      {
+        throw new Error( "Invalid type for 'isEqual' attribute " +
+          "of property '" + name + "' in class '" + clazz.classname + "'" );
+      }
     },
 
 
@@ -991,7 +1062,7 @@ qx.Bootstrap.define("qx.core.Property",
       );
 
       if (incomingValue) {
-        code.push('if(this.', store, '===value)return value;');
+        code.push('if(equ.call(this,this.', store, ',value))return value;');
       } else if (resetValue) {
         code.push('if(this.', store, '===undefined)return;');
       }
@@ -1427,7 +1498,7 @@ qx.Bootstrap.define("qx.core.Property",
       code.push('}');
 
       // Compare old/new computed value
-      code.push('if(old===computed)return value;');
+      code.push('if(equ.call(this,old,computed))return value;');
 
       // Note: At this point computed can be "inherit" or "undefined".
 
@@ -1474,7 +1545,7 @@ qx.Bootstrap.define("qx.core.Property",
       }
 
       // Compare old/new computed value
-      code.push('if(old===computed)return value;');
+      code.push('if(equ.call(this,old,computed))return value;');
 
       // Normalize old value
       if (config.init !== undefined && variant !== "init") {

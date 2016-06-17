@@ -21,6 +21,7 @@
  * @ignore(qx.AbstractCar, qx.Bmw, qx.Car, qx.ConcreteCar, qx.Defer.*)
  * @ignore(qx.DeferFoo, qx.Empty, qx.FuncName, qx.MyClass, qx.MyMixin)
  * @ignore(qx.Single1.*, qx.test.u.u.*)
+ * @ignore(qx.Insect, qx.Butterfly, qx.Firefly, qx.Grasshopper, qx.Bug)
 
  */
 
@@ -495,6 +496,49 @@ qx.Class.define("qx.test.Class",
       o.dispose();
       qx.Class.undefine("qx.MyClass");
       qx.Class.undefine("qx.MyMixin");
+    },
+
+
+    testSubclasses : function()
+    {
+      qx.Class.define("qx.Insect",
+      {
+        extend : qx.core.Object
+      });
+
+      qx.Class.define("qx.Butterfly",
+      {
+        extend : qx.Insect
+      });
+
+      qx.Class.define("qx.Firefly",
+      {
+        extend : qx.Insect
+      });
+
+      qx.Class.define("qx.Grasshopper",
+      {
+        extend : qx.Insect
+      });
+
+      var subclasses = qx.Class.getSubclasses(qx.Insect);
+      
+      // we should find 3 subclasses of qx.Insect
+      this.assertEquals(Object.keys(subclasses).length,3);
+
+      // qx.Firefly should be a subclass of qx.Insect
+      this.assertEquals(subclasses["qx.Firefly"],qx.Firefly);
+
+      subclasses = qx.Class.getSubclasses(qx.Firefly);
+
+      // there should be no subclasses for qx.Firefly
+      this.assertEquals(Object.keys(subclasses).length,0);
+      
+      subclasses = qx.Class.getSubclasses(qx.Bug);
+
+      // there should be no class qx.Bug
+      this.assertEquals(subclasses,null);
+
     },
 
 

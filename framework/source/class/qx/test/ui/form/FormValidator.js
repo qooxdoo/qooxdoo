@@ -1061,6 +1061,26 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       var items = this.__manager.getItems();
       this.assertInArray(this.__username, items);
       this.assertInArray(this.__password1, items);
+    },
+    // //////////////////////////////
+
+
+    // validate //////////////////////
+    testValidateDataBindingSelection : function() {
+      "use strict";
+      var vsb = new qx.ui.form.VirtualSelectBox();
+      vsb.setRequired(true);
+      this.__manager.add(vsb);
+      this.__manager.validate();
+      this.assertFalse(vsb.isValid());
+
+      var m = qx.data.marshal.Json.createModel(['a', 'b']);
+      vsb.setModel(m);
+      this.__manager.validate();
+      this.assertTrue(vsb.isValid());
+
+      vsb.dispose();
+      m.dispose();
     }
     // //////////////////////////////
   }

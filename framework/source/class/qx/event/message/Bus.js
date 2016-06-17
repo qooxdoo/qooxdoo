@@ -322,7 +322,16 @@ qx.Class.define("qx.event.message.Bus",
     dispatchByName : function(name, data)
     {
       var message = new qx.event.message.Message(name, data);
-      return this.dispatch(message);
+
+      // Dispatch the message
+      var ret = this.dispatch(message);
+
+      // We instantiated this message, so it's our responsibility to dispose it.
+      message.dispose();
+      message = null;
+
+      // Let 'em know whether this message was dispatched to any subscribers.
+      return ret;
     },
 
 
