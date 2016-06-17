@@ -200,6 +200,18 @@ qx.Class.define("qx.bom.Font",
       apply : "_applyLineHeight"
     },
 
+    /**
+     * Characters that are used to test if the font has loaded properly. These
+     * default to "WEei" in `qx.bom.webfont.Validator` and can be overridden
+     * for certain cases like icon fonts that do not provide the predefined
+     * characters.
+     */
+    comparisonString :
+    {
+      check : "String",
+      init : null,
+      nullable : true
+    },
 
     /** A sorted list of font families */
     family :
