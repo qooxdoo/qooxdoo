@@ -117,6 +117,26 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
+     * Checks if 'find' is supported on the Array object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getArrayFind : function() {
+      return !!Array.prototype.find;
+    },
+
+
+    /**
+     * Checks if 'findIndex' is supported on the Array object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getArrayFindIndex : function() {
+      return !!Array.prototype.findIndex;
+    },
+
+
+    /**
      * Checks if 'every' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
@@ -206,6 +226,8 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.array.filter", statics.getArrayFilter);
     qx.core.Environment.add("ecmascript.array.map", statics.getArrayMap);
     qx.core.Environment.add("ecmascript.array.some", statics.getArraySome);
+    qx.core.Environment.add("ecmascript.array.find", statics.getArrayFind);
+    qx.core.Environment.add("ecmascript.array.findIndex", statics.getArrayFindIndex);
     qx.core.Environment.add("ecmascript.array.every", statics.getArrayEvery);
     qx.core.Environment.add("ecmascript.array.reduce", statics.getArrayReduce);
     qx.core.Environment.add("ecmascript.array.reduceright", statics.getArrayReduceRight);
