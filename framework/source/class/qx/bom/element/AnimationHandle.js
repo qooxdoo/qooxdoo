@@ -134,6 +134,9 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
       }
     },
 
+    /**
+     * set the animation state to ended
+     */
     __setEnded : function(){
       this.__playing = false;
       this.__ended = true;
