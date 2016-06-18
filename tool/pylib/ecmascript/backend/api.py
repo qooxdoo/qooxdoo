@@ -1412,10 +1412,15 @@ def dependendClassIterator(docTree, classNode):
     if superClassName:
         directDependencies.append(superClassName)
 
-    for list_ in ["mixins", "interfaces", "superMixins", "superInterfaces"]:
+    for list_ in ["mixins", "interfaces"]:
         listItems = classNode.get(list_, False)
         if listItems:
             directDependencies.extend(listItems.split(","))
+
+    for list_ in ["superMixins", "superInterfaces"]:
+        listNode = classNode.getChild(list_, False)
+        if listNode:
+            directDependencies.extend([depNode.get("name") for depNode in listNode.children])
 
     for dep in directDependencies:
         for cls in dependendClassIterator(docTree, classNodeFromDocTree(docTree, dep)):
