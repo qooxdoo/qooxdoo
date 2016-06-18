@@ -822,7 +822,6 @@ qx.Bootstrap.define("qx.core.Property",
     __compileGetter: function(instance, clazz, name, variant)
     {
       var config = clazz.$$properties[name];
-      var members = clazz.prototype;
       var code = [];
       var store = this.$$store;
 
