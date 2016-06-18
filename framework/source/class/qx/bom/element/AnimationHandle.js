@@ -134,7 +134,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
       }
     },
 
-    __setEnded:function(){
+    __setEnded : function(){
       this.__playing = false;
       this.__ended = true;
     }
