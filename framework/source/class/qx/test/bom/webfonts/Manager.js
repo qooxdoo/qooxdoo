@@ -141,7 +141,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
       this.wait(3000);
     },
 
-    "test: load webfont whith custom comparison string" : function()
+    "test: load webfont whith custom comparisonString" : function()
     {
       qx.bom.webfonts.Manager.VALIDATION_TIMEOUT = 100;
       var font = new qx.bom.webfonts.WebFont();
@@ -155,7 +155,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
       window.setTimeout(function() {
         that.resume(function() {
           var foundRule = this.__findRule(this.__fontDefinitions.fontawesome.family);
-          this.assertTrue(foundRule, "@font-face rule for custom comparison string font not found in document styles!");
+          this.assertTrue(foundRule, "@font-face rule for custom comparisonString font not found in document styles!");
         }, that);
 
       }, 2000);
