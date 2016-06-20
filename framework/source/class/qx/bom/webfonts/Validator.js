@@ -87,7 +87,6 @@ qx.Class.define("qx.bom.webfonts.Validator", {
     /**
      * The string to be used in the size comparison elements.
      */
-    COMPARISON_STRING : "WEei",
     __defaultSizes : null,
     __defaultHelpers : null,
 
@@ -133,8 +132,8 @@ qx.Class.define("qx.bom.webfonts.Validator", {
      */
     comparisonString :
     {
-      nullable : true,
-      init : null
+      nullable : false,
+      init : "WEei"
     },
 
     /**
@@ -286,7 +285,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
 
 
     /**
-     * Creates a span element with the comparison text ({@link #COMPARISON_STRING})
+     * Creates a span element with the comparison text ({@link #comparisonString})
      * and styled with the default CSS ({@link #HELPER_CSS}) plus the given
      * font-family value and appends it to the DOM
      *
@@ -307,7 +306,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       }
 
       var elem = document.createElement("span");
-      elem.innerHTML = comparisonString || qx.bom.webfonts.Validator.COMPARISON_STRING;
+      elem.innerHTML = this.getComparisonString();
       qx.bom.element.Style.setStyles(elem, styleMap);
       document.body.appendChild(elem);
       return elem;
