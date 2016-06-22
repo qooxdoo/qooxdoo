@@ -32,9 +32,14 @@ qx.Class.define("qx.bom.webfonts.Validator", {
   /**
    * @param fontFamily {String} The name of the font to be verified
    */
-  construct : function(fontFamily)
+  construct : function(fontFamily, comparisonString)
   {
     this.base(arguments);
+
+    if (comparisonString) {
+      this.setComparisonString(comparisonString);
+    }
+
     if (fontFamily) {
       this.setFontFamily(fontFamily);
       this.__requestedHelpers = this._getRequestedHelpers();
@@ -53,10 +58,10 @@ qx.Class.define("qx.bom.webfonts.Validator", {
   {
     /**
      * Sets of serif and sans-serif fonts to be used for size comparisons.
-     * At least one of these fonts should be present on any system
+     * At least one of these fonts should be present on any system.
      */
     COMPARISON_FONTS : {
-      sans : ["Arial", "Helvetica" , "sans-serif"],
+      sans : ["Arial", "Helvetica", "sans-serif"],
       serif : ["Times New Roman", "Georgia", "serif"]
     },
 
@@ -80,7 +85,10 @@ qx.Class.define("qx.bom.webfonts.Validator", {
 
 
     /**
-     * The string to be used in the size comparison elements.
+     * The string to be used in the size comparison elements. This is the default string
+     * which is used for the {@link #COMPARISON_FONTS} and the font to be validated. It
+     * can be overridden for the font to be validated using the {@link #comparisonString}
+     * property.
      */
     COMPARISON_STRING : "WEei",
     __defaultSizes : null,
@@ -123,6 +131,14 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       apply : "_applyFontFamily"
     },
 
+    /**
+     * Comparison string used to check whether the font has loaded or not.
+     */
+    comparisonString :
+    {
+      nullable : true,
+      init : null
+    },
 
     /**
      * Time in milliseconds from the beginning of the check until it is assumed
@@ -266,21 +282,22 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       var fontsSans = [this.getFontFamily()].concat(qx.bom.webfonts.Validator.COMPARISON_FONTS.sans);
       var fontsSerif = [this.getFontFamily()].concat(qx.bom.webfonts.Validator.COMPARISON_FONTS.serif);
       return {
-        sans : this._getHelperElement(fontsSans),
-        serif : this._getHelperElement(fontsSerif)
+        sans : this._getHelperElement(fontsSans, this.getComparisonString()),
+        serif : this._getHelperElement(fontsSerif, this.getComparisonString())
       };
     },
 
 
     /**
-     * Creates a span element with the comparison text ({@link #COMPARISON_STRING})
-     * and styled with the default CSS ({@link #HELPER_CSS}) plus the given
-     * font-family value and appends it to the DOM
+     * Creates a span element with the comparison text (either {@link #COMPARISON_STRING} or
+     * {@link #comparisonString}) and styled with the default CSS ({@link #HELPER_CSS}) plus
+     * the given font-family value and appends it to the DOM
      *
      * @param fontFamily {String} font-family string
+     * @param comparisonString {String?} String to be used to detect whether a font was loaded or not
      * @return {Element} the created DOM element
      */
-    _getHelperElement : function(fontFamily)
+    _getHelperElement : function(fontFamily, comparisonString)
     {
       var styleMap = qx.lang.Object.clone(qx.bom.webfonts.Validator.HELPER_CSS);
       if (fontFamily) {
@@ -293,7 +310,7 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       }
 
       var elem = document.createElement("span");
-      elem.innerHTML = qx.bom.webfonts.Validator.COMPARISON_STRING;
+      elem.innerHTML = comparisonString || qx.bom.webfonts.Validator.COMPARISON_STRING;
       qx.bom.element.Style.setStyles(elem, styleMap);
       document.body.appendChild(elem);
       return elem;

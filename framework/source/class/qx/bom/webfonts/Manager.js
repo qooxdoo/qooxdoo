@@ -140,6 +140,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     require : function(familyName, sourcesList, callback, context)
     {
       var sourceUrls = sourcesList.source;
+      var comparisonString = sourcesList.comparisonString;
       var fontWeight = sourcesList.fontWeight;
       var fontStyle = sourcesList.fontStyle;
       var sources = [];
@@ -165,9 +166,9 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           this.__queueInterval.start();
         }
 
-        this.__queue.push([familyName, sources, fontWeight, fontStyle, callback, context]);
+        this.__queue.push([familyName, sources, fontWeight, fontStyle, comparisonString, callback, context]);
       } else {
-        this.__require(familyName, sources, fontWeight, fontStyle, callback, context);
+        this.__require(familyName, sources, fontWeight, fontStyle, comparisonString, callback, context);
       }
     },
 
@@ -289,12 +290,13 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * fontWeight font weight.
      * @param fontStyle {String} the web font should be registered using an
      * fontStyle font style.
+     * @param comparisonString {String} String to check whether the font has loaded or not
      * @param callback {Function?} Optional event listener callback that will be
      * executed once the validator has determined whether the webFont was
      * applied correctly.
      * @param context {Object?} Optional context for the callback function
      */
-    __require : function(familyName, sources, fontWeight, fontStyle, callback, context)
+    __require : function(familyName, sources, fontWeight, fontStyle, comparisonString, callback, context)
     {
       var fontLookupKey = this.__createFontLookupKey(familyName, fontWeight, fontStyle);
       if (!qx.lang.Array.contains(this.__createdStyles, fontLookupKey)) {
@@ -322,7 +324,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       }
 
       if (!this.__validators[familyName]) {
-        this.__validators[familyName] = new qx.bom.webfonts.Validator(familyName);
+        this.__validators[familyName] = new qx.bom.webfonts.Validator(familyName, comparisonString);
         this.__validators[familyName].setTimeout(qx.bom.webfonts.Manager.VALIDATION_TIMEOUT);
         this.__validators[familyName].addListenerOnce("changeStatus", this.__onFontChangeStatus, this);
       }
