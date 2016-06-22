@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.table.Table",
 
     // Make focusable
     this.setTabIndex(1);
-    this.addListener("keydown", this._onKeyPress);
+    this.addListener("keydown", this._onKeyDown);
     this.addListener("focus", this._onFocusChanged);
     this.addListener("blur", this._onFocusChanged);
 
@@ -1375,8 +1375,20 @@ qx.Class.define("qx.ui.table.Table",
      * Event handler. Called when a key was pressed.
      *
      * @param evt {qx.event.type.KeySequence} the event.
+     * @deprecated {6.0} please use _onKeyDown instead!
      */
     _onKeyPress : function(evt)
+    {
+ -     qx.log.Logger.deprecatedMethodWarning(arguments.callee,"The method '_onKeyPress()' is deprecated. Please use '_onKeyDown()' instead.");
+ -     qx.log.Logger.deprecateMethodOverriding(this, qx.ui.table.Table, "_onKeyPress", "The method '_onKeyPress()' is deprecated. Please use '_onKeyDown()' instead.");
+       this._onKeyDown(evt);
+    },
+    /**
+     * Event handler. Called when on key down event
+     *
+     * @param evt {qx.event.type.KeySequence} the event.
+     */
+    _onKeyDown : function(evt)
     {
       if (!this.getEnabled()) {
         return;
