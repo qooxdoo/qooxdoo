@@ -132,6 +132,56 @@ qx.Class.define("qx.test.lang.normalize.Array",
       }));
     },
 
+    testFind : function() {
+      var arr = [1, 2, 3, 4];
+      arr[10] = 11;
+
+      var values = [];
+      var indexes = [];
+      var result = arr.find(function(element, index, array) {
+        values[index] = element;
+        indexes.push(index);
+        this.assertEquals(arr, array);
+      }, this);
+
+      this.assertUndefined(result);
+      this.assertArrayEquals(arr, values);
+      this.assertArrayEquals([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], indexes);
+
+      this.assertEquals(arr.find(function(element) {
+        return element == 3;
+      }), 3);
+
+      this.assertUndefined(arr.find(function(element, index) {
+        return index == 6;
+      }));
+    },
+
+    testFindIndex : function() {
+      var arr = [1, 2, 3, 4];
+      arr[10] = 11;
+
+      var values = [];
+      var indexes = [];
+      var result = arr.findIndex(function(element, index, array) {
+        values[index] = element;
+        indexes.push(index);
+        this.assertEquals(arr, array);
+      }, this);
+
+      this.assertEquals(result, -1);
+      this.assertArrayEquals(arr, values);
+      this.assertArrayEquals([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], indexes);
+
+      this.assertEquals(arr.findIndex(function(element) {
+        return element == 3;
+      }), 2);
+
+      this.assertEquals(arr.findIndex(function(element, index) {
+        return element == 6;
+      }), -1);
+    },
+
     testEvery : function() {
       var arr = [1, 2, 3, 4];
       arr[10] = 11;

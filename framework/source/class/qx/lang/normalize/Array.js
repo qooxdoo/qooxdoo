@@ -251,6 +251,58 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
 
       return true;
     },
+    
+    /**
+     * The <code>find()</code> method returns a value in the array, if an element in the 
+     * array satisfies the provided testing function. Otherwise undefined is returned.
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">MDN documentation</a> |
+     *
+     * @param callback {Function} Function to test for each element.
+     * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
+     * @return {Object} result, undefined if not found
+     */
+    find : function(callback, obj) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertFunction(callback);
+      }
+      
+      var l = this.length;
+      for (var i = 0; i < l; i++) {
+        var value = this[i];
+        if (callback.call(obj || window, value, i, this)) {
+          return value;
+        }
+      }
+      
+      return undefined;
+    },
+
+    /**
+     * The <code>findIndex()</code> method returns an index in the array, if an element in the 
+     * array satisfies the provided testing function. Otherwise -1 is returned.
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex">MDN documentation</a> |
+     *
+     * @param callback {Function} Function to test for each element.
+     * @param obj {Object?} Value to use as <code>this</code> when executing <code>callback</code>.
+     * @return {Integer} the index in the array, -1 if not found
+     */
+    findIndex : function(callback, obj) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertFunction(callback);
+      }
+      
+      var l = this.length;
+      for (var i = 0; i < l; i++) {
+        var value = this[i];
+        if (callback.call(obj || window, value, i, this)) {
+          return i;
+        }
+      }
+      
+      return -1;
+    },
 
     /**
      * The <code>reduce()</code> method applies a function against
@@ -356,6 +408,14 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
 
     if (!qx.core.Environment.get("ecmascript.array.some")) {
       Array.prototype.some = statics.some;
+    }
+
+    if (!qx.core.Environment.get("ecmascript.array.find")) {
+      Array.prototype.find = statics.find;
+    }
+
+    if (!qx.core.Environment.get("ecmascript.array.findIndex")) {
+      Array.prototype.findIndex = statics.findIndex;
     }
 
     if (!qx.core.Environment.get("ecmascript.array.every")) {
