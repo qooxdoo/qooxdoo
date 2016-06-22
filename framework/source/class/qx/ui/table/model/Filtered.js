@@ -46,7 +46,7 @@ var data = [{
 }, {
   login : "rey",
   name : "Rey",
-  email : rey@jakku.sw
+  email : "rey@jakku.sw"
 }];
 
 model.setDataAsMapArray(data);
