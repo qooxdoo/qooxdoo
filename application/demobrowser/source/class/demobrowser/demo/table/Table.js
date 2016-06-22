@@ -91,6 +91,13 @@ qx.Class.define("demobrowser.demo.table.Table",
       part = new qx.ui.toolbar.Part();
       bar.add(part);
 
+      button = new qx.ui.toolbar.CheckBox("Show ID column");
+      button.setValue(true);
+      button.addListener("execute", function() {
+          table.getTableColumnModel().setColumnVisible(0, this.getValue());
+      }, button);
+      part.add(button);
+
       button = new qx.ui.toolbar.Button("Change row with ID 10", "icon/22/actions/edit-undo.png");
       button.addListener("execute", function(evt) {
         var rowData = this.createRandomRows(1);
