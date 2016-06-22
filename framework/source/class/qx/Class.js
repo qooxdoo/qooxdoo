@@ -1329,9 +1329,11 @@ qx.Bootstrap.define("qx.Class",
             throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
           }
 
-          if (proto[key] != undefined && proto[key].$$propertyMethod) {
-            throw new Error('Overwriting generated property method "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
-          }
+        }
+
+        // If it's a property accessor, we need to install it now so that this.base can refer to it
+        if (proto[key] != undefined && proto[key].$$install) {
+        	proto[key].$$install();
         }
 
         // Added helper stuff to functions
