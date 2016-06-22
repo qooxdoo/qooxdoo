@@ -20,6 +20,51 @@
 /**
  * A filtered table model to provide support for hiding and filtering table
  * rows. Any rows that match any applied filters will be hidden.
+
+<pre class='javascript'>
+var model = new qx.ui.table.model.Filtered();
+model.setColumns(["Login", "Name", "Email"], ["login", "name", "email"]);
+
+var table = new qx.ui.table.Table(model);
+
+var data = [{
+  login : "darthvader",
+  name : "Darth Vader",
+  email : "darthvader@tatooine.org"
+}, {
+  login : "anakin",
+  name : "Anakin Skywalker",
+  email : "anakin@skywalker.org"
+}, {
+  login : "luke",
+  name : "Luke Skywalker",
+  email : "luke@tatooine.org"
+}, {
+  login : "obi-wan",
+  name : "Obi-Wan Kenobi",
+  email : "obiwan@jedi.org"
+}];
+
+model.setDataAsMapArray(data);
+
+this.getRoot().add(table);
+
+var search = new qx.ui.form.TextField();
+search.set({
+  liveUpdate : true,
+  placeholder : "Search login"
+});
+
+search.addListener("changeValue", function(e) {
+  var value = e.getData();
+
+  model.resetHiddenRows();
+  model.addNotRegex(value, "login", true);
+  model.applyFilters();
+});
+
+this.getRoot().add(search, {top : 500, left : 10});
+</pre>
  */
 qx.Class.define("qx.ui.table.model.Filtered",
 {
