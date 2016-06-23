@@ -133,7 +133,7 @@ qx.Class.define("mobileshowcase.page.Maps",
         });
         this._map = new ol.Map(
         {
-          target : document.getElementById('map'),
+          target : 'map',
           layers : [osmlayer],
           view : new ol.View(
           {
