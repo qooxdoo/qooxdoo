@@ -35,7 +35,7 @@ qx.Class.define("mobileshowcase.page.Maps",
   },
   members :
   {
-    _mapUri : "https://cdnjs.cloudflare.com/ajax/libs/ol3/3.16.0/ol.js",
+    _mapUri : "https://cdnjs.cloudflare.com/ajax/libs/ol3/3.16.0/ol-debug.js",
     _map : null,
     _marker : null,
     _geolocationEnabled : false,
@@ -66,6 +66,12 @@ qx.Class.define("mobileshowcase.page.Maps",
         this._map.updateSize();
       }
     },
+    
+    // overridden
+    _start : function()
+    {
+        this._redrawMap();
+    },
 
     // overridden
     _createScrollContainer : function()
@@ -92,7 +98,7 @@ qx.Class.define("mobileshowcase.page.Maps",
       descriptionLabel.addCssClass("osmMapLabel");
 
       // TOGGLE BUTTON
-      var toggleNavigationButton = new qx.ui.mobile.form.ToggleButton(true, "ON", "OFF", 12);
+      var toggleNavigationButton = new qx.ui.mobile.form.ToggleButton(true, "ON", "OFF");
 
       // SHOW MY POSITION BUTTON
       this._showMyPositionButton = new qx.ui.mobile.form.Button("Find me!");
