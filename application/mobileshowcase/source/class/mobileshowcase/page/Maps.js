@@ -71,12 +71,7 @@ qx.Class.define("mobileshowcase.page.Maps",
     _createScrollContainer : function()
     {
       // MapContainer
-      var layout = new qx.ui.mobile.layout.VBox().set(
-      {
-        alignX : "center",
-        alignY : "middle"
-      });
-      var mapContainer = new qx.ui.mobile.container.Composite(layout);
+      var mapContainer = new qx.ui.mobile.container.Composite();
       mapContainer.setId("map");
       mapContainer.addCssClass("map");
       return mapContainer;
@@ -131,16 +126,18 @@ qx.Class.define("mobileshowcase.page.Maps",
         var osmlayer = new ol.layer.Tile( {
           source : new ol.source.OSM()
         });
+        var view = new ol.View(
+        {
+          zoom : 10,
+          minZoom : 2,
+          maxZoom : 19
+        })
+
         this._map = new ol.Map(
         {
           target : 'map',
           layers : [osmlayer],
-          view : new ol.View(
-          {
-            zoom : 10,
-            minZoom : 2,
-            maxZoom : 19
-          })
+          view : view
         });
         this._zoomToDefaultPosition();
       }.bind(this);
