@@ -77,6 +77,8 @@ qx.Class.define("mobileshowcase.page.Maps",
     _createScrollContainer : function()
     {
       // MapContainer
+      // Do not use any layout manager  - otherwise the map will not be
+      // displayed with safari browsers.
       var mapContainer = new qx.ui.mobile.container.Composite();
       mapContainer.setId("map");
       mapContainer.addCssClass("map");
