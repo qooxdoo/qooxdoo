@@ -316,7 +316,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      * @param event {qx.event.type.Data} The change event.
      */
     _onChangeModel : function(event) {
-      this.getSelection().removeAll();
     },
 
 
