@@ -79,10 +79,10 @@ qx.Class.define("qx.ui.table.model.Filtered",
   {
     this.base(arguments);
 
-    this.numericAllowed = new Array("==", "!=", ">", "<", ">=", "<=");
-    this.betweenAllowed = new Array("between", "!between");
+    this.numericAllowed = ["==", "!=", ">", "<", ">=", "<="];
+    this.betweenAllowed = ["between", "!between"];
     this.__applyingFilters = false;
-    this.Filters = new Array();
+    this.Filters = [];
 
   },
 
@@ -99,9 +99,21 @@ qx.Class.define("qx.ui.table.model.Filtered",
      * @param the_needle {String} String to search
      * @param the_haystack {Array} Array, which should be searched
      * @return {Boolean} whether the search string was found.
+     * @deprecated {6.0} please use qx.lang.Array#contains instead
      */
     _js_in_array : function(the_needle, the_haystack)
     {
+      var func = this._js_in_array;
+      qx.log.Logger.deprecatedMethodWarning(
+          func,
+          qx.lang.String.format("The method '%1' is deprecated. Please use 'qx.lang.Array#contains' instead.", [func.name])
+        );
+      qx.log.Logger.deprecateMethodOverriding(
+          this,
+          qx.ui.table.model.Filtered,
+          func.name,
+          "The method '_js_in_array' is deprecated. Please use 'qx.lang.Array#contains' instead."
+      );
       var the_hay = the_haystack.toString();
 
       if (the_hay == '') {
@@ -136,7 +148,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
      */
     addBetweenFilter : function(filter, value1, value2, target)
     {
-      if (this._js_in_array(filter, this.betweenAllowed) && target != null)
+      if (qx.lang.Array.contains(this.betweenAllowed, filter) && target != null)
       {
         if (value1 != null && value2 != null) {
           var temp = new Array(filter, value1, value2, target);
@@ -172,7 +184,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
     {
       var temp = null;
 
-      if (this._js_in_array(filter, this.numericAllowed) && target != null)
+      if (qx.lang.Array.contains(this.numericAllowed, filter) && target != null)
       {
         if (value1 != null) {
           temp = [filter, value1, target];
@@ -270,9 +282,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
         for (i in this.Filters)
         {
 
-          if (this._js_in_array(this.Filters[i][0],
-                                this.numericAllowed) &&
-              filter_test == false)
+          if (qx.lang.Array.contains(this.numericAllowed, this.Filters[i][0]) && filter_test === false)
           {
             compareValue = this.getValueById(this.Filters[i][2], row);
             switch(this.Filters[i][0])
@@ -320,9 +330,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
               break;
             }
           }
-          else if (this._js_in_array(this.Filters[i][0],
-                                     this.betweenAllowed) &&
-                   filter_test == false)
+          else if (qx.lang.Array.contains(this.betweenAllowed, this.Filters[i][0]) && filter_test === false)
           {
             compareValue = this.getValueById(this.Filters[i][3], row);
 
@@ -345,14 +353,14 @@ qx.Class.define("qx.ui.table.model.Filtered",
               break;
             }
           }
-          else if (this.Filters[i][0] == "regex" && filter_test == false)
+          else if (this.Filters[i][0] == "regex" && filter_test === false)
           {
             compareValue = this.getValueById(this.Filters[i][2], row);
 
             var the_pattern = new RegExp(this.Filters[i][1], this.Filters[i][3]);
             filter_test = the_pattern.test(compareValue);
           }
-          else if (this.Filters[i][0] == "notregex" && filter_test == false)
+          else if (this.Filters[i][0] == "notregex" && filter_test === false)
           {
             compareValue = this.getValueById(this.Filters[i][2], row);
 
