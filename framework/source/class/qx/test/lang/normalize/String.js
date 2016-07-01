@@ -43,7 +43,7 @@ qx.Class.define("qx.test.lang.normalize.String",
       this.assertTrue ( str.startsWith("To be")         ); // true
       this.assertFalse( str.startsWith("not to be")     ); // false
       this.assertTrue ( str.startsWith("not to be", 10) ); // true
-    }
+    },
 
 
     "test endsWith()" : function ()
