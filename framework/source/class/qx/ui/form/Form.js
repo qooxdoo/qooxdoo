@@ -291,6 +291,26 @@ qx.Class.define("qx.ui.form.Form",
     },
 
 
+    /**
+     * Return an item by name.
+     *
+     * @param name {string} Item name.
+     * @return {qx.ui.form.IForm|null} The form item or null.
+     */
+    getItem : function(name) {
+      for (var i = 0; i < this.__groups.length; i++) {
+        var group = this.__groups[i];
+        for (var j = 0; j < group.names.length; j++) {
+          if (group.names[j] === name) {
+            return group.items[j];
+          }
+        }
+      }
+
+      return null;
+    },
+
+
     /*
     ---------------------------------------------------------------------------
        RESET SUPPORT
