@@ -245,6 +245,7 @@ qx.Class.define("qx.ui.form.Resetter",
         qx.Class.hasInterface(clazz, qx.ui.form.IDateForm) ||
         qx.Class.hasInterface(clazz, qx.ui.form.INumberForm) ||
         qx.Class.hasInterface(clazz, qx.ui.form.IArrayForm) ||
+        qx.Class.hasInterface(clazz, qx.ui.form.IModelForm) ||
         qx.Class.hasInterface(clazz, qx.ui.form.IStringForm)
       );
     }
