@@ -3,7 +3,7 @@
   "version": "5.1.0",
   "description": "Universal JavaScript Framework",
   "author": "The qooxdoo project",
-  "license": "LGPL/EPL",
+  "licenses": ["LGPL", "EPL"],
   "homepage": "http://qooxdoo.org",
   "repository": {
     "type": "git",
