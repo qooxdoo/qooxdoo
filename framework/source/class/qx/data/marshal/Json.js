@@ -229,23 +229,10 @@ qx.Class.define("qx.data.marshal.Json",
         extend : superClass,
         include : mixins,
         properties : properties,
-        members : members,
-        destruct : this.__disposeProperties
+        members : members
       };
 
       qx.Class.define("qx.data.model." + hash, newClass);
-    },
-
-
-    /**
-     * Destructor for all created classes which disposes all stuff stored in
-     * the properties.
-     */
-    __disposeProperties : function() {
-      var properties = qx.util.PropertyUtil.getAllProperties(this.constructor);
-      for (var desc in properties) {
-        this.__disposeItem(this.get(properties[desc].name));
-      };
     },
 
 
@@ -404,15 +391,5 @@ qx.Class.define("qx.data.marshal.Json",
 
       throw new Error("Unsupported type!");
     }
-  },
-
-  /*
-   *****************************************************************************
-      DESTRUCT
-   *****************************************************************************
-   */
-
-  destruct : function() {
-    this.__delegate = null;
   }
 });

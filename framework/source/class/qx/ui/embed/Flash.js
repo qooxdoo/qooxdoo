@@ -306,7 +306,7 @@ qx.Class.define("qx.ui.embed.Flash",
     // overridden
     _createContentElement : function() {
       var el = new qx.html.Flash();
-      el.setAttribute("$$widget", this.toHashCode());
+      el.connectWidget(this);
       return el;
     },
 

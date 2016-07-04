@@ -20,12 +20,15 @@
 
 /**
  * This handler provides events for qooxdoo application startup/shutdown logic.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @require(qx.bom.client.Engine)
  */
 qx.Class.define("qx.event.handler.Application",
 {
   extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
 
 
@@ -337,10 +340,6 @@ qx.Class.define("qx.event.handler.Application",
         catch (e) {
           // IE doesn't execute the "finally" block if no "catch" block is present
           throw e;
-        }
-        finally {
-          // Execute registry shutdown
-          qx.core.ObjectRegistry.shutdown();
         }
       }
     }

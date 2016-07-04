@@ -144,11 +144,5 @@ qx.Class.define("qx.application.Mobile",
     {
       // empty
     }
-  },
-
-
-  destruct : function()
-  {
-    this.__root = this.__routing = null;
   }
 });

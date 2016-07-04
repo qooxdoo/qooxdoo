@@ -152,8 +152,8 @@ qx.Class.define("qx.ui.root.Application",
         "overflowY" : "hidden"
       });
 
-      // Store "weak" reference to the widget in the DOM element.
-      root.setAttribute("$$widget", this.toHashCode());
+      // Store reference to the widget in the DOM element.
+      root.connectWidget(this);
 
       return root;
     },

@@ -49,9 +49,5 @@ qx.Class.define("qx.io.request.authentication.Basic",
         {key: "Authorization", value: "Basic " + this.__credentials}
       ];
     }
-  },
-
-  destruct : function() {
-    this.__credentials = null;
   }
 });

@@ -41,6 +41,9 @@
  *
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/image.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.ui.basic.Image",
 {
@@ -382,7 +385,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       var element = new qx.html.Image(tagName);
-      element.setAttribute("$$widget", this.toHashCode());
+      element.connectWidget(this);
       element.setScale(scale);
       element.setStyles({
         "overflowX": "hidden",
@@ -392,7 +395,7 @@ qx.Class.define("qx.ui.basic.Image",
 
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         var wrapper = this.__wrapper = new qx.html.Element("div");
-        wrapper.setAttribute("$$widget", this.toHashCode());
+        element.connectWidget(this);
         wrapper.setStyle("position", "absolute");
         wrapper.add(element);
         return wrapper;
@@ -954,7 +957,7 @@ qx.Class.define("qx.ui.basic.Image",
   destruct : function() {
     for (var mode in this.__contentElements) {
       if (this.__contentElements.hasOwnProperty(mode)) {
-        this.__contentElements[mode].setAttribute("$$widget", null, true);
+        this.__contentElements[mode].disconnectWidget(this);
       }
     }
 

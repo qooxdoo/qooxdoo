@@ -26,7 +26,7 @@ qx.Mixin.define("qx.core.MProperty",
   members :
   {
     /**
-     * Sets multiple properties at once by using a property list or
+     * Sets either multiple properties at once by using a property list or
      * sets one property and its value by the first and second argument.
      * As a fallback, if no generated property setter could be found, a
      * handwritten setter will be searched and invoked if available.

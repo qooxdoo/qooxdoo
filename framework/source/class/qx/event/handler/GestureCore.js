@@ -24,6 +24,7 @@
  */
 qx.Bootstrap.define("qx.event.handler.GestureCore", {
   extend : Object,
+  implement: [ qx.core.IDisposable ],
 
   statics : {
 
@@ -238,6 +239,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         }
 
         if(!this.__isMultiPointerGesture) {
+          // Workaround for bug in Chrome where cancelling mousemove events will break text selection and possibly other
+          //  mouse events.  See http://bugzilla.qooxdoo.org/show_bug.cgi?id=9218
+          if (domEvent._original && domEvent._original.type == "mousemove")
+            domEvent.preventDefault = function(){};
           this.__fireTrack("track", domEvent, gesture.target);
           this._fireRoll(domEvent, "touch", gesture.target);
         }

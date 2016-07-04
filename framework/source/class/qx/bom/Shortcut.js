@@ -21,10 +21,14 @@
 
 /**
  * Shortcuts can be used to globally define keyboard shortcuts.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.bom.Shortcut",
 {
   extend : qx.core.Object,
+  implement: [ qx.core.IDisposable ],
 
 
 

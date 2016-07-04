@@ -75,7 +75,13 @@ qx.Bootstrap.define("qx.lang.String",
      * @type {Map} Cache for often used string operations [camelCasing and hyphenation]
      * e.g. marginTop => margin-top
      */
-    __stringsMap : {},
+    __camelCaseMap : {},
+
+    /**
+     * {Map} Cache for often used hyphenation operations
+     * e.g. marginTop => margin-top
+     */
+    __hyphenationMap : {},
 
     /**
      * Converts a hyphenated string (separated by '-') to camel case.
@@ -88,14 +94,12 @@ qx.Bootstrap.define("qx.lang.String",
      */
     camelCase : function(str)
     {
-      var result = this.__stringsMap[str];
+      var result = this.__camelCaseMap[str];
       if (!result) {
         result = str.replace(/\-([a-z])/g, function(match, chr) {
           return chr.toUpperCase();
         });
-        if (str.indexOf("-") >= 0) {
-          this.__stringsMap[str] = result;
-        }
+        this.__camelCaseMap[str] = result;
       }
       return result;
     },
@@ -112,14 +116,12 @@ qx.Bootstrap.define("qx.lang.String",
      */
     hyphenate: function(str)
     {
-      var result = this.__stringsMap[str];
+      var result = this.__hyphenationMap[str];
       if (!result) {
         result = str.replace(/[A-Z]/g, function(match){
           return  ('-' + match.charAt(0).toLowerCase());
         });
-        if (str.indexOf("-") == -1) {
-          this.__stringsMap[str] = result;
-        }
+        this.__hyphenationMap[str] = result;
       }
       return result;
     },

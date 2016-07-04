@@ -55,6 +55,9 @@
  *
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/label.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.ui.basic.Label",
 {

@@ -28,6 +28,7 @@
 qx.Class.define("qx.io.remote.transport.XmlHttp",
 {
   extend : qx.io.remote.transport.Abstract,
+  implement: [ qx.core.IDisposable ],
 
 
   /*
@@ -96,6 +97,26 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      */
     isSupported : function() {
       return !!this.createRequestObject();
+    },
+    
+    
+    /** The timeout for Xhr requests */
+    __timeout: 0,
+    
+    
+    /**
+     * Sets the timeout for requests
+     */
+    setTimeout: function(timeout) {
+      this.__timeout = timeout;
+    },
+    
+    
+    /**
+     * Returns the timeout for requests
+     */
+    getTimeout: function() {
+      return this.__timeout;
     }
   },
 
@@ -306,6 +327,12 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         this.error("Failed with exception: " + ex);
         this.failed();
         return;
+      }
+      
+      // Apply timeout
+      var timeout = qx.io.remote.transport.XmlHttp.getTimeout();
+      if (timeout && vAsynchronous) {
+        vRequest.timeout = timeout;
       }
 
       // --------------------------------------

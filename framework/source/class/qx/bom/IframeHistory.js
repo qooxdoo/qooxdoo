@@ -26,11 +26,14 @@
  * Creates a hidden iFrame and uses document.write to store entries in the
  * history browser's stack.
  *
+ * This class must be disposed of after use
+ *
  * @internal
  */
 qx.Class.define("qx.bom.IframeHistory",
 {
   extend : qx.bom.History,
+  implement: [ qx.core.IDisposable ],
 
 
   construct : function()

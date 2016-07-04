@@ -37,11 +37,14 @@
  *
  * This class provides support for HTML5 transition and animation events.
  * Currently only WebKit and Firefox are supported.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.event.handler.Transition",
 {
   extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
 
 
