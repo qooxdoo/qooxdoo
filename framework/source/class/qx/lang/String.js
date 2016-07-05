@@ -210,7 +210,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @return {Boolean} whether the string ends with the given substring
      */
     endsWith : function(fullstr, substr) {
-      return fullstr.endsWith(fullstr);
+      return fullstr.endsWith(substr);
     },
 
 
