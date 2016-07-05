@@ -189,24 +189,28 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Check whether the string starts with the given substring
      *
+     * @deprecated {6.0} Please use String instance startsWith method instead
+     *
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string starts with the given substring
      */
     startsWith : function(fullstr, substr) {
-      return fullstr.indexOf(substr) === 0;
+      return fullstr.startsWith(substr);
     },
 
 
     /**
      * Check whether the string ends with the given substring
      *
+     * @deprecated {6.0} Please use String instance endsWith method instead
+     *
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string ends with the given substring
      */
     endsWith : function(fullstr, substr) {
-      return fullstr.substring(fullstr.length - substr.length, fullstr.length) === substr;
+      return fullstr.endsWith(fullstr);
     },
 
 
