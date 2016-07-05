@@ -997,92 +997,75 @@ qx.Class.define("qx.ui.table.model.Simple",
       var hidden = 0;
       var rowsToHide = [];
 
-      for (var row = 0; row<rowLength;row++)
-      {
+      for (var row = 0; row < rowLength; row++) {
         filter_test = false;
-        for (i in this.Filters)
-        {
 
-          if (qx.lang.Array.contains(this.numericAllowed, this.Filters[i][0]) && filter_test === false)
-          {
+        for (i in this.Filters) {
+
+          if (qx.lang.Array.contains(this.numericAllowed, this.Filters[i][0]) && filter_test === false) {
             compareValue = this.getValueById(this.Filters[i][2], row);
-            switch(this.Filters[i][0])
-            {
-            case "==":
-              if (compareValue == this.Filters[i][1]) {
-                filter_test = true;
-              }
 
-              break;
+            switch(this.Filters[i][0]) {
 
-            case "!=":
-              if (compareValue != this.Filters[i][1]) {
-                filter_test = true;
-              }
+              case "==":
+                if (compareValue == this.Filters[i][1]) {
+                  filter_test = true;
+                }
+                break;
 
-              break;
+              case "!=":
+                if (compareValue != this.Filters[i][1]) {
+                  filter_test = true;
+                }
+                break;
 
-            case ">":
-              if (compareValue > this.Filters[i][1]) {
-                filter_test = true;
-              }
+              case ">":
+                if (compareValue > this.Filters[i][1]) {
+                  filter_test = true;
+                }
+                break;
 
-              break;
-
-            case "<":
-              if (compareValue < this.Filters[i][1]) {
-                filter_test = true;
-              }
-
-              break;
+              case "<":
+                if (compareValue < this.Filters[i][1]) {
+                  filter_test = true;
+                }
+                break;
 
             case ">=":
               if (compareValue >= this.Filters[i][1]) {
                 filter_test = true;
               }
-
               break;
 
             case "<=":
               if (compareValue <= this.Filters[i][1]) {
                 filter_test = true;
               }
-
               break;
             }
-          }
-          else if (qx.lang.Array.contains(this.betweenAllowed, this.Filters[i][0]) && filter_test === false)
-          {
+          } else if (qx.lang.Array.contains(this.betweenAllowed, this.Filters[i][0]) && filter_test === false) {
             compareValue = this.getValueById(this.Filters[i][3], row);
 
-            switch(this.Filters[i][0])
-            {
-            case "between":
-              if (compareValue >= this.Filters[i][1] &&
-                  compareValue <= this.Filters[i][2]) {
-                filter_test = true;
-              }
+            switch(this.Filters[i][0]) {
 
-              break;
+              case "between":
+                if (compareValue >= this.Filters[i][1] && compareValue <= this.Filters[i][2]) {
+                  filter_test = true;
+                }
+                break;
 
-            case "!between":
-              if (compareValue < this.Filters[i][1] ||
-                  compareValue > this.Filters[i][2]) {
-                filter_test = true;
-              }
-
-              break;
+              case "!between":
+                if (compareValue < this.Filters[i][1] || compareValue > this.Filters[i][2]) {
+                  filter_test = true;
+                }
+                break;
             }
-          }
-          else if (this.Filters[i][0] == "regex" && filter_test === false)
-          {
+          } else if (this.Filters[i][0] == "regex" && filter_test === false) {
             compareValue = this.getValueById(this.Filters[i][2], row);
 
             var the_pattern = new RegExp(this.Filters[i][1], this.Filters[i][3]);
             filter_test = the_pattern.test(compareValue);
-          }
-          else if (this.Filters[i][0] == "notregex" && filter_test === false)
-          {
+          } else if (this.Filters[i][0] == "notregex" && filter_test === false) {
             compareValue = this.getValueById(this.Filters[i][2], row);
 
             var the_pattern = new RegExp(this.Filters[i][1], this.Filters[i][3]);
@@ -1097,21 +1080,21 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
 
       var rowsToHideLength = rowsToHide.length;
-      for (i = 0; i < rowsToHideLength; i++) {
-        row = rowsToHide[i];
-        count = 1;
-        // count direct follow-up rows
-        while (i + 1 < rowsToHide.length && rowsToHide[i] == rowsToHide[i+1]-1) {
-          count++;
-          i++;
-        }
-        this.hideRows(row - hidden, count, false);
 
-        hidden += count;
+      var rowArr = this.getData();
+
+      if (!this.__applyingFilters) {
+        this.__fullArr = rowArr.slice(0);
+        this.__applyingFilters = true;
       }
 
-      var data =
-      {
+      rowArr = rowArr.filter(function(obj, index) {
+        return !qx.lang.Array.contains(rowsToHide, index);
+      });
+
+      this.__rowArr = qx.lang.Array.clone(rowArr);
+
+      var data = {
         firstRow    : 0,
         lastRow     : this.getData().length - 1,
         firstColumn : 0,
