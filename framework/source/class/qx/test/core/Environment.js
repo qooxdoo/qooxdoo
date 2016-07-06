@@ -456,6 +456,9 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("ecmascript.object.keys"));
       this.assertBoolean(qx.core.Environment.get("ecmascript.date.now"));
       this.assertBoolean(qx.core.Environment.get("ecmascript.error.toString"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.string.trim"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.string.endsWith"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.string.startsWith"));
     },
 
     testDataUrl : function() {
