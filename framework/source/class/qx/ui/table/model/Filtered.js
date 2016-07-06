@@ -108,11 +108,19 @@ qx.Class.define("qx.ui.table.model.Filtered",
      * @param the_needle {String} String to search
      * @param the_haystack {Array} Array, which should be searched
      * @return {Boolean} whether the search string was found.
-     * @deprecated {6.0} Use qx.lang.Array.contains instead
+     * @deprecated {6.0}
      */
     _js_in_array : function(the_needle, the_haystack)
     {
-      return qx.lang.Array.contains(the_haystack, the_needle);
+      var the_hay = the_haystack.toString();
+
+      if (the_hay == '') {
+        return false;
+      }
+
+      var the_pattern = new RegExp(the_needle, 'g');
+      var matched = the_pattern.test(the_haystack);
+      return matched;
     },
 
 
