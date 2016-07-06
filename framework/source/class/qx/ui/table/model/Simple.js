@@ -993,8 +993,6 @@ qx.Class.define("qx.ui.table.model.Simple",
       var compareValue;
       var rowArr = this.getData();
       var rowLength = rowArr.length;
-      var count;
-      var hidden = 0;
       var rowsToHide = [];
 
       for (var row = 0; row < rowLength; row++) {
@@ -1071,6 +1069,11 @@ qx.Class.define("qx.ui.table.model.Simple",
             var the_pattern = new RegExp(this.Filters[i][1], this.Filters[i][3]);
             filter_test = !the_pattern.test(compareValue);
           }
+
+          // The row will be hidden, no need to check other filters
+          if (filter_test === true) {
+            break;
+          }
         }
 
         // instead of hiding a single row, push it into the hiding-store for later hiding.
@@ -1079,7 +1082,6 @@ qx.Class.define("qx.ui.table.model.Simple",
         }
       }
 
-      var rowsToHideLength = rowsToHide.length;
 
       var rowArr = this.getData();
 
