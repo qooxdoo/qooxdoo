@@ -700,7 +700,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       }
 
       // only continue when the effected property is the child property
-      if (qx.lang.String.startsWith(propertyName, this.getChildProperty()))
+      if ( propertyName.startsWith(this.getChildProperty()) )
       {
         var item = data.item;
 

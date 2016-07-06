@@ -93,7 +93,7 @@ qx.Class.define("qx.bom.element.Background",
       // only check the first 50 characters for performance, since we do not
       // know how long a base64 image url can be.
       var firstPartOfUrl = url.substr(0, 50);
-      return String.startsWith(firstPartOfUrl, "data:") && String.contains(firstPartOfUrl, "base64");
+      return firstPartOfUrl.startsWith("data:") && String.contains(firstPartOfUrl, "base64");
     },
 
 

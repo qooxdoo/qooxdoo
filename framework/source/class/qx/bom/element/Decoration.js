@@ -155,7 +155,7 @@ qx.Class.define("qx.bom.element.Decoration",
     getTagName : function(repeat, source)
     {
       if (source && qx.core.Environment.get("css.alphaimageloaderneeded") &&
-          this.__alphaFixRepeats[repeat] && qx.lang.String.endsWith(source, ".png"))
+          this.__alphaFixRepeats[repeat] && source.endsWith(".png"))
       {
         return "div";
       }

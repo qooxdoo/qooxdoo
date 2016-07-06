@@ -404,7 +404,7 @@ qx.Class.define("qx.io.remote.Exchange",
           var url = window.location.href;
 
           // Are we on a local page obtained via file: protocol?
-          if (qx.lang.String.startsWith(url.toLowerCase(), "file:"))
+          if (url.toLowerCase().startsWith("file:"))
           {
             // Yup. Can't issue remote requests from here.
             return ("Unknown status code. " +
