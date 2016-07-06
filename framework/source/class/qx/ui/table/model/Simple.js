@@ -18,7 +18,59 @@
 ************************************************************************ */
 
 /**
- * A simple table model that provides an API for changing the model data.
+ * A simple table model that provides an API for changing, filtering the model data.
+ *
+ * This is a example for filtering :
+ *
+<pre class='javascript'>
+var model = new qx.ui.table.model.Simple();
+model.setColumns(["Login", "Name", "Email"], ["login", "name", "email"]);
+
+var table = new qx.ui.table.Table(model);
+
+var data = [{
+  login : "darthvader",
+  name : "Darth Vader",
+  email : "darthvader@tatooine.org"
+}, {
+  login : "anakin",
+  name : "Anakin Skywalker",
+  email : "anakin@skywalker.org"
+}, {
+  login : "luke",
+  name : "Luke Skywalker",
+  email : "luke@tatooine.org"
+}, {
+  login : "obi-wan",
+  name : "Obi-Wan Kenobi",
+  email : "obiwan@jedi.org"
+}, {
+  login : "rey",
+  name : "Rey",
+  email : "rey@jakku.sw"
+}];
+
+model.setDataAsMapArray(data);
+
+this.getRoot().add(table);
+
+var search = new qx.ui.form.TextField();
+search.set({
+  liveUpdate : true,
+  placeholder : "Search login"
+});
+
+search.addListener("changeValue", function(e) {
+  var value = e.getData();
+
+  model.resetHiddenRows();
+  model.addNotRegex(value, "login", true);
+  model.applyFilters();
+});
+
+this.getRoot().add(search, {top : 500, left : 10});
+</pre>
+
  */
 qx.Class.define("qx.ui.table.model.Simple",
 {
@@ -36,6 +88,11 @@ qx.Class.define("qx.ui.table.model.Simple",
     this.__sortMethods = [];
 
     this.__editableColArr = null;
+
+    this.numericAllowed = ["==", "!=", ">", "<", ">=", "<="];
+    this.betweenAllowed = ["between", "!between"];
+    this.__applyingFilters = false;
+    this.Filters = [];
   },
 
   properties :
@@ -154,6 +211,8 @@ qx.Class.define("qx.ui.table.model.Simple",
     __sortMethods : null,
     __sortColumnIndex : null,
     __sortAscending : null,
+    __fullArr : null,
+    __applyingFilters : null,
 
 
     // overridden
@@ -517,6 +576,9 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     setData : function(rowArr, clearSorting)
     {
+      this.__fullArr = qx.lang.Array.clone(rowArr);
+      this.Filters = [];
+
       this.__rowArr = rowArr;
 
       // Inform the listeners
@@ -748,6 +810,364 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
 
       return dataArr;
+    },
+
+
+    /**
+     * Whether the given string (needle) is in the array (haystack)
+     *
+     * @param the_needle {String} String to search
+     * @param the_haystack {Array} Array, which should be searched
+     * @return {Boolean} whether the search string was found.
+     * @deprecated {6.0} please use qx.lang.Array#contains instead
+     */
+    _js_in_array : function(the_needle, the_haystack)
+    {
+      var func = this._js_in_array;
+      qx.log.Logger.deprecatedMethodWarning(
+          func,
+          qx.lang.String.format("The method '%1' is deprecated. Please use 'qx.lang.Array#contains' instead.", [func.name])
+        );
+      qx.log.Logger.deprecateMethodOverriding(
+          this,
+          qx.ui.table.model.Filtered,
+          func.name,
+          "The method '_js_in_array' is deprecated. Please use 'qx.lang.Array#contains' instead."
+      );
+      var the_hay = the_haystack.toString();
+
+      if (the_hay == '') {
+        return false;
+      }
+
+      var the_pattern = new RegExp(the_needle, 'g');
+      var matched = the_pattern.test(the_haystack);
+      return matched;
+    },
+
+
+    /**
+     * The addBetweenFilter method is used to add a between filter to the
+     * table model.
+     *
+     * @param filter {String}
+     *    The type of filter. Accepted strings are "between" and "!between".
+     *
+     * @param value1 {Integer}
+     *    The first value to compare against.
+     *
+     * @param value2 {Integer}
+     *    The second value to compare against.
+     *
+     * @param target {String}
+     *    The text value of the column to compare against.
+     *
+     *
+     * @throws {Error} If the filter can not recognized or one of the values
+     * is null.
+     */
+    addBetweenFilter : function(filter, value1, value2, target)
+    {
+      if (qx.lang.Array.contains(this.betweenAllowed, filter) && target != null)
+      {
+        if (value1 != null && value2 != null) {
+          var temp = new Array(filter, value1, value2, target);
+        }
+      }
+
+      if (temp != null) {
+        this.Filters.push(temp);
+      } else {
+        throw new Error("Filter not recognized or value1/value2 is null!");
+      }
+    },
+
+
+    /**
+     * The addNumericFilter method is used to add a basic numeric filter to
+     * the table model.
+     *
+     * @param filter {String}
+     *    The type of filter. Accepted strings are:
+     *    "==", "!=", ">", "<", ">=", and "<=".
+     *
+     * @param value1 {Integer}
+     *    The value to compare against.
+     *
+     * @param target {String}
+     *    The text value of the column to compare against.
+     *
+     *
+     * @throws {Error} If the filter can not recognized or the target is null.
+     */
+    addNumericFilter : function(filter, value1, target)
+    {
+      var temp = null;
+
+      if (qx.lang.Array.contains(this.numericAllowed, filter) && target != null)
+      {
+        if (value1 != null) {
+          temp = [filter, value1, target];
+        }
+      }
+
+      if (temp != null) {
+        this.Filters.push(temp);
+      } else {
+        throw new Error("Filter not recognized: value or target is null!");
+      }
+    },
+
+
+    /**
+     * The addRegex method is used to add a regular expression filter to the
+     * table model.
+     *
+     * @param regex {String}
+     *    The regular expression to match against.
+     *
+     * @param target {String}
+     *    The text value of the column to compare against.
+     *
+     * @param ignorecase {Boolean}
+     *    If true, the regular expression will ignore case.
+     *
+     *
+     * @throws {Error} If the regex is not valid.
+     */
+    addRegex : function(regex, target, ignorecase)
+    {
+      var regexarg;
+      if (ignorecase) { regexarg ='gi'; } else { regexarg ='g'; }
+      if (regex != null && target != null) {
+        var temp = new Array("regex", regex, target, regexarg);
+      }
+
+      if (temp != null) {
+        this.Filters.push(temp);
+      } else {
+        throw new Error("regex cannot be null!");
+      }
+    },
+
+
+    /**
+     * The addNotRegex method is used to add a regular expression filter to the
+     * table model and filter cells that do not match.
+     *
+     * @param regex {String}
+     *    The regular expression to match against.
+     *
+     * @param target {String}
+     *    The text value of the column to compare against.
+     *
+     * @param ignorecase {Boolean}
+     *    If true, the regular expression will ignore case.
+     *
+     *
+     * @throws {Error} If the regex is null.
+     */
+    addNotRegex : function(regex, target, ignorecase)
+    {
+      var regexarg;
+      if (ignorecase) { regexarg ='gi'; } else { regexarg ='g'; }
+      if (regex != null && target != null) {
+        var temp = new Array("notregex", regex, target, regexarg);
+      }
+
+      if (temp != null) {
+        this.Filters.push(temp);
+      } else {
+        throw new Error("notregex cannot be null!");
+      }
+    },
+
+
+    /**
+     * The applyFilters method is called to apply filters to the table model.
+     */
+    applyFilters : function()
+    {
+      var i;
+      var filter_test;
+      var compareValue;
+      var rowArr = this.getData();
+      var rowLength = rowArr.length;
+      var rowsToHide = [];
+
+      for (var row = 0; row < rowLength; row++) {
+        filter_test = false;
+
+        for (i in this.Filters) {
+
+          if (qx.lang.Array.contains(this.numericAllowed, this.Filters[i][0]) && filter_test === false) {
+            compareValue = this.getValueById(this.Filters[i][2], row);
+
+            switch(this.Filters[i][0]) {
+
+              case "==":
+                if (compareValue == this.Filters[i][1]) {
+                  filter_test = true;
+                }
+                break;
+
+              case "!=":
+                if (compareValue != this.Filters[i][1]) {
+                  filter_test = true;
+                }
+                break;
+
+              case ">":
+                if (compareValue > this.Filters[i][1]) {
+                  filter_test = true;
+                }
+                break;
+
+              case "<":
+                if (compareValue < this.Filters[i][1]) {
+                  filter_test = true;
+                }
+                break;
+
+            case ">=":
+              if (compareValue >= this.Filters[i][1]) {
+                filter_test = true;
+              }
+              break;
+
+            case "<=":
+              if (compareValue <= this.Filters[i][1]) {
+                filter_test = true;
+              }
+              break;
+            }
+          } else if (qx.lang.Array.contains(this.betweenAllowed, this.Filters[i][0]) && filter_test === false) {
+            compareValue = this.getValueById(this.Filters[i][3], row);
+
+            switch(this.Filters[i][0]) {
+
+              case "between":
+                if (compareValue >= this.Filters[i][1] && compareValue <= this.Filters[i][2]) {
+                  filter_test = true;
+                }
+                break;
+
+              case "!between":
+                if (compareValue < this.Filters[i][1] || compareValue > this.Filters[i][2]) {
+                  filter_test = true;
+                }
+                break;
+            }
+          } else if (this.Filters[i][0] == "regex" && filter_test === false) {
+            compareValue = this.getValueById(this.Filters[i][2], row);
+
+            var the_pattern = new RegExp(this.Filters[i][1], this.Filters[i][3]);
+            filter_test = the_pattern.test(compareValue);
+          } else if (this.Filters[i][0] == "notregex" && filter_test === false) {
+            compareValue = this.getValueById(this.Filters[i][2], row);
+
+            var the_pattern = new RegExp(this.Filters[i][1], this.Filters[i][3]);
+            filter_test = !the_pattern.test(compareValue);
+          }
+
+          // The row will be hidden, no need to check other filters
+          if (filter_test === true) {
+            break;
+          }
+        }
+
+        // instead of hiding a single row, push it into the hiding-store for later hiding.
+        if (filter_test === true) {
+          rowsToHide.push(row);
+        }
+      }
+
+
+      var rowArr = this.getData();
+
+      if (!this.__applyingFilters) {
+        this.__fullArr = rowArr.slice(0);
+        this.__applyingFilters = true;
+      }
+
+      rowArr = rowArr.filter(function(obj, index) {
+        return !qx.lang.Array.contains(rowsToHide, index);
+      });
+
+      this.__rowArr = qx.lang.Array.clone(rowArr);
+
+      var data = {
+        firstRow    : 0,
+        lastRow     : this.getData().length - 1,
+        firstColumn : 0,
+        lastColumn  : this.getColumnCount() - 1
+      };
+
+      // Inform the listeners
+      this.fireDataEvent("dataChanged", data);
+    },
+
+
+    /**
+     * Hides a specified number of rows.
+     *
+     * @param rowNum {Integer}
+     *    Index of the first row to be hidden in the table.
+     *
+     * @param numOfRows {Integer}
+     *    The number of rows to be hidden sequentially after rowNum.
+     *
+     * @param dispatchEvent {Boolean?true} Whether a model change event should
+     *    be fired.
+     *
+     */
+    hideRows : function(rowNum, numOfRows, dispatchEvent)
+    {
+      var rowArr = this.getData();
+
+      dispatchEvent = (dispatchEvent != null ? dispatchEvent : true);
+      if (!this.__applyingFilters) {
+        this.__fullArr = rowArr.slice(0);
+        this.__applyingFilters = true;
+      }
+
+      if (!numOfRows) {
+        numOfRows = 1;
+      }
+
+      for (var i = rowNum; i < (rowArr.length - numOfRows); ++i) {
+        rowArr[i] = rowArr[i + numOfRows];
+      }
+      this.removeRows(i, numOfRows);
+
+      // Inform the listeners
+      if (dispatchEvent) {
+        var data = {
+          firstRow    : 0,
+          lastRow     : rowArr.length - 1,
+          firstColumn : 0,
+          lastColumn  : this.getColumnCount() - 1
+        };
+
+        this.fireDataEvent("dataChanged", data);
+      }
+    },
+
+
+    /**
+     * Return the table to the original state with all rows shown and clears
+     * all filters.
+     *
+     */
+    resetHiddenRows : function()
+    {
+      if (!this.__fullArr) {
+        // nothing to reset
+        return;
+      }
+      this.Filters = [];
+
+      this.setData(qx.lang.Array.clone(this.__fullArr));
     }
   },
 
@@ -756,5 +1176,8 @@ qx.Class.define("qx.ui.table.model.Simple",
   {
     this.__rowArr = this.__editableColArr = this.__sortMethods =
       this.__sortableColArr = null;
+
+    this.__fullArr = this.numericAllowed = this.betweenAllowed =
+      this.Filters = null;
   }
 });
