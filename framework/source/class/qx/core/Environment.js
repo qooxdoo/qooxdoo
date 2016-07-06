@@ -287,6 +287,14 @@
  *       <td>{@link qx.bom.client.EcmaScript#getStringTrim}</td>
  *     </tr>
  *     <tr>
+ *       <td>ecmascript.string.startsWith</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getStringStartsWith}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.string.endsWith</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getStringEndsWith}</td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><b>engine</b></td>
  *     </tr>
  *     <tr>
