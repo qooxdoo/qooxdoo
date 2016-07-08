@@ -74,7 +74,7 @@ qx.Class.define("qx.test.event.MockHandler",
     canHandleEvent : function(target, type)
     {
       this.calls.push(["canHandleEvent", target, type]);
-      return qx.lang.String.startsWith(type, "$test");
+      return type.startsWith("$test");
     },
 
 

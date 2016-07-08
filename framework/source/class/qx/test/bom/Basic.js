@@ -84,7 +84,7 @@ qx.Class.define("qx.test.bom.Basic",
       this.assertTrue(attrib.get(document.getElementById("test5"), "readonly"));
 
       this.info("test6");
-      this.assert(qx.lang.String.endsWith(attrib.get(document.getElementById("test6"), "href"), "/foo.html"));
+      this.assert(attrib.get(document.getElementById("test6"), "href").endsWith("/foo.html"));
 
       var test6Color = style.get(document.getElementById("test6"), "color");
       this.assertCssColor("red", test6Color);

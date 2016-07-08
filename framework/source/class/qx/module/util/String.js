@@ -80,7 +80,9 @@ qx.Bootstrap.define("qx.module.util.String", {
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string starts with the given substring
      */
-    startsWith : qx.lang.String.startsWith,
+    startsWith : function (fullstr, substr) {
+      return fullstr.startsWith(substr);
+    },
 
 
     /**
@@ -92,7 +94,9 @@ qx.Bootstrap.define("qx.module.util.String", {
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string ends with the given substring
      */
-    endsWith : qx.lang.String.endsWith,
+    endsWith : function (fullstr, substr) {
+      return fullstr.endsWith(substr);
+    },
 
 
     /**
