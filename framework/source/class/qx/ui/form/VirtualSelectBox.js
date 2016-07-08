@@ -376,9 +376,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           }
         }
 
-        if (
-          qx.lang.String.startsWith(value.toLowerCase(), searchValue.toLowerCase())
-        )
+        if ( value.toLowerCase().startsWith(searchValue.toLowerCase()) )
         {
           selection.push(item);
           break;

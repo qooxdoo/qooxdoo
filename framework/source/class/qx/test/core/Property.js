@@ -19,7 +19,7 @@
 
 /**
  * @ignore(qx.Node, qx.test.A, qx.test.B, qx.test.clName, qx.test.IForm)
- * @ignore(qx.TestProperty)
+ * @ignore(qx.TestProperty, qx.Super)
  */
 
 qx.Class.define("qx.test.core.Property",

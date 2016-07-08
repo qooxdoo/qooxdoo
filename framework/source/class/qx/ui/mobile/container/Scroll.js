@@ -226,7 +226,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
         if (qx.lang.Type.isString(waypoint)) {
-          if (qx.lang.String.endsWith(waypoint, "%")) {
+          if (waypoint.endsWith("%")) {
             offset = parseInt(waypoint, 10) * (scrollSize / 100);
             results.push({
               "offset": offset,

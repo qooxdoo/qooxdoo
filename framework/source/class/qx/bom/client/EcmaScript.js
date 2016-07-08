@@ -207,6 +207,27 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
       return !!Date.now;
     },
 
+
+    /**
+     * Checks if 'startsWith' is supported on the String object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getStringStartsWith : function() {
+      return typeof String.prototype.startsWith === "function";
+    },
+
+
+    /**
+     * Checks if 'endsWith' is supported on the String object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getStringEndsWith : function() {
+      return typeof String.prototype.endsWith === "function";
+    },
+
+
     /**
      * Checks if 'trim' is supported on the String object.
      * @internal
@@ -246,6 +267,8 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
 
     // string polyfill
+    qx.core.Environment.add("ecmascript.string.startsWith", statics.getStringStartsWith);
+    qx.core.Environment.add("ecmascript.string.endsWith", statics.getStringEndsWith);
     qx.core.Environment.add("ecmascript.string.trim", statics.getStringTrim);
   }
 });

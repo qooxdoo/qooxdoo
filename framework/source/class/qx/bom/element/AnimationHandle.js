@@ -33,6 +33,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
     var css = qx.core.Environment.get("css.animation");
     this.__playState = css && css["play-state"];
     this.__playing = true;
+    this.addListenerOnce("end", this.__setEnded, this);
   },
 
 
@@ -131,6 +132,14 @@ qx.Bootstrap.define("qx.bom.element.AnimationHandle",
         this.stopped = true;
         qx.bom.element.AnimationJs.stop(this);
       }
+    },
+
+    /**
+     * Set the animation state to ended
+     */
+    __setEnded : function(){
+      this.__playing = false;
+      this.__ended = true;
     }
   }
 });

@@ -217,7 +217,7 @@ qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
     {
       var name = item.getName();
       var prefix = "";
-      if (qx.lang.String.startsWith(name, "Node")) {
+      if (name.startsWith("Node")) {
         prefix = name.substr(5, name.length - 5) + ".";
       }
       return prefix;

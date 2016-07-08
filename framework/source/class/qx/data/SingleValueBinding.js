@@ -839,7 +839,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       for (var i = 0; i < propertyNames.length; i++) {
         var name = propertyNames[i];
         // if its an array property in the chain
-        if (qx.lang.String.endsWith(name, "]")) {
+        if (name.endsWith("]")) {
           // get the inner value of the array notation
           var arrayIndex = name.substring(name.indexOf("[") + 1, name.indexOf("]"));
 
