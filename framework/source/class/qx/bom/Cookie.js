@@ -63,7 +63,7 @@ qx.Bootstrap.define("qx.bom.Cookie",
         end = document.cookie.length;
       }
 
-      return unescape(document.cookie.substring(len, end));
+      return decodeURI(document.cookie.substring(len, end));
     },
 
 
@@ -81,7 +81,7 @@ qx.Bootstrap.define("qx.bom.Cookie",
     set : function(key, value, expires, path, domain, secure)
     {
       // Generate cookie
-      var cookie = [ key, "=", escape(value) ];
+      var cookie = [ key, "=", encodeURI(value) ];
 
       if (expires)
       {
