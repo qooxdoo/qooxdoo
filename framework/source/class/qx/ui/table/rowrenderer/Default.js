@@ -80,16 +80,16 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   members :
   {
     _colors : null,
-    __fontStyle : null,
-    __fontStyleString : null,
+    _fontStyle : null,
+    _fontStyleString : null,
 
     /**
      * Initializes the colors from the color theme.
      * @internal
      */
     initThemeValues : function() {
-      this.__fontStyleString = "";
-      this.__fontStyle = {};
+      this._fontStyleString = "";
+      this._fontStyle = {};
 
       this._colors = {};
 
@@ -125,14 +125,14 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     {
       if (font)
       {
-        this.__fontStyle = font.getStyles();
-        this.__fontStyleString = qx.bom.element.Style.compile(this.__fontStyle);
-        this.__fontStyleString = this.__fontStyleString.replace(/"/g, "'");
+        this._fontStyle = font.getStyles();
+        this._fontStyleString = qx.bom.element.Style.compile(this._fontStyle);
+        this._fontStyleString = this._fontStyleString.replace(/"/g, "'");
       }
       else
       {
-        this.__fontStyleString = "";
-        this.__fontStyle = qx.bom.Font.getDefaultStyles();
+        this._fontStyleString = "";
+        this._fontStyle = qx.bom.Font.getDefaultStyles();
       }
     },
 
@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     // interface implementation
     updateDataRowElement : function(rowInfo, rowElem)
     {
-      var fontStyle = this.__fontStyle;
+      var fontStyle = this._fontStyle;
       var style = rowElem.style;
 
       // set font styles
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     {
       var rowStyle = [];
       rowStyle.push(";");
-      rowStyle.push(this.__fontStyleString);
+      rowStyle.push(this._fontStyleString);
       rowStyle.push("background-color:");
 
       if (rowInfo.focusedRow && this.getHighlightFocusRow())
@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   */
 
   destruct : function() {
-    this._colors = this.__fontStyle = this.__fontStyleString = null;
+    this._colors = this._fontStyle = this._fontStyleString = null;
 
     // remove dynamic theme listener
     if (qx.core.Environment.get("qx.dyntheme")) {
