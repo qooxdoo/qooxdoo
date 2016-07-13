@@ -8,7 +8,7 @@
      2007 by Tartan Solutions, Inc, http://www.tartansolutions.com
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     MIT: https://opensource.org/licenses/MIT
 
    Authors:
      * Dan Hummon
