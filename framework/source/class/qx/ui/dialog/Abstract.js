@@ -21,7 +21,10 @@ qx.Class.define('qx.ui.dialog.Abstract',
   extend: qx.ui.window.Window,
   type: "abstract",
 
-  construct: function() {
+  construct: function(title, message) {
+    title = title || '';
+    message = message || '';
+
     this.base(arguments);
 
     this.setLayout(new qx.ui.layout.VBox());
@@ -31,6 +34,8 @@ qx.Class.define('qx.ui.dialog.Abstract',
 
     this.add(this._getAtom());
     this.add(this._getButtonsBar());
+
+    this._initDialog(title, message);
   },
 
   properties : {
@@ -75,6 +80,9 @@ qx.Class.define('qx.ui.dialog.Abstract',
   },
 
   members: {
+    __title: null,
+    __message: null,
+
     _atom: null,
     _buttonsBar: null,
 
@@ -90,10 +98,49 @@ qx.Class.define('qx.ui.dialog.Abstract',
 
     _getButtonsBar: function() {
       if(!this._buttonsBar) {
-        this._buttonsBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, 'center'));
+        this._buttonsBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(6, 'center'));
       }
 
       return this._buttonsBar;
+    },
+
+    _initDialog : function(title, message) {
+      this.__title = title;
+      this.setMessage(message);
+    },
+
+    setTitle : function(title) {
+      this.__title = title;
+
+      var label = '<b>' + this.__title +  '</b>';
+      var message = this.getMessage();
+
+      if (message) {
+        label += '<br/>' + message;
+      }
+
+      this._getAtom().setLabel(label);
+    },
+
+    setMessage: function(message) {
+      this.__message = message;
+
+      var label = this.__message;
+      var title = this.getTitle();
+
+      if (title) {
+        label = '<b>' + title +  '</b><br/>' + label;
+      }
+
+      this._getAtom().setLabel(label);
+    },
+
+    getTitle: function() {
+      return this.__title;
+    },
+
+    getMessage: function() {
+      return this.__message;
     },
 
     show: function() {
