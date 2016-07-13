@@ -21,7 +21,12 @@ qx.Class.define('qx.ui.dialog.Abstract',
   extend: qx.ui.window.Window,
   type: "abstract",
 
-  construct: function(title, message) {
+  /**
+   * @param title {String?null} Title of dialog.
+   * @param message {String?null} Message to show.
+   * @param icon {String?null} Icon to use.
+   */
+  construct: function(title, message, icon) {
     title = title || '';
     message = message || '';
 
@@ -36,6 +41,10 @@ qx.Class.define('qx.ui.dialog.Abstract',
     this.add(this._getButtonsBar());
 
     this._initDialog(title, message);
+
+    if (icon != undefined) {
+      this._getAtom().setIcon(icon);
+    }
   },
 
   properties : {
@@ -98,17 +107,20 @@ qx.Class.define('qx.ui.dialog.Abstract',
 
     _getButtonsBar: function() {
       if(!this._buttonsBar) {
-        this._buttonsBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(6, 'center'));
+        this._buttonsBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, 'center'));
       }
 
       return this._buttonsBar;
     },
 
     _initDialog : function(title, message) {
-      this.__title = title;
+      this.setTitle(title);
       this.setMessage(message);
     },
 
+    /**
+     * @param title {String} Title of dialog.
+     */
     setTitle : function(title) {
       this.__title = title;
 
@@ -122,6 +134,9 @@ qx.Class.define('qx.ui.dialog.Abstract',
       this._getAtom().setLabel(label);
     },
 
+    /**
+     * @param message {String} Message to show.
+     */
     setMessage: function(message) {
       this.__message = message;
 
@@ -135,10 +150,23 @@ qx.Class.define('qx.ui.dialog.Abstract',
       this._getAtom().setLabel(label);
     },
 
+    /**
+     * @param icon {String} Icon to use
+     */
+    setIcon : function(icon) {
+      this._getAtom().setIcon(icon);
+    },
+
+    /**
+     * @return {String} The title of dialog.
+     */
     getTitle: function() {
       return this.__title;
     },
 
+    /**
+     * @return {String} The message of dialog.
+     */
     getMessage: function() {
       return this.__message;
     },
