@@ -74,7 +74,10 @@ qx.Class.define('qx.ui.dialog.Confirm',
 
     this.setIcon('icon/48/status/dialog-warning.png');
     this.__composeButtons();
-    this.__composeAspects(aspectOptions);
+
+    if(aspectOptions) {
+      this.__composeAspects(aspectOptions);
+    }
   },
 
   properties : {
