@@ -107,7 +107,7 @@ qx.Class.define('qx.ui.dialog.Abstract',
 
     _getButtonsBar: function() {
       if(!this._buttonsBar) {
-        this._buttonsBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(6, 'center'));
+        this._buttonsBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, 'center'));
       }
 
       return this._buttonsBar;
@@ -118,6 +118,9 @@ qx.Class.define('qx.ui.dialog.Abstract',
       this.setMessage(message);
     },
 
+    /**
+     * @param title {String} Title of dialog.
+     */
     setTitle : function(title) {
       this.__title = title;
 
@@ -131,6 +134,9 @@ qx.Class.define('qx.ui.dialog.Abstract',
       this._getAtom().setLabel(label);
     },
 
+    /**
+     * @param message {String} Message to show.
+     */
     setMessage: function(message) {
       this.__message = message;
 
@@ -144,14 +150,23 @@ qx.Class.define('qx.ui.dialog.Abstract',
       this._getAtom().setLabel(label);
     },
 
+    /**
+     * @param icon {String} Icon to use
+     */
     setIcon : function(icon) {
       this._getAtom().setIcon(icon);
     },
 
+    /**
+     * @return {String} The title of dialog.
+     */
     getTitle: function() {
       return this.__title;
     },
 
+    /**
+     * @return {String} The message of dialog.
+     */
     getMessage: function() {
       return this.__message;
     },
