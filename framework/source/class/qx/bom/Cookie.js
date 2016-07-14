@@ -62,7 +62,13 @@ qx.Bootstrap.define("qx.bom.Cookie",
         end = document.cookie.length;
       }
 
-      return decodeURIComponent(document.cookie.substring(len, end));
+      try {
+        return decodeURIComponent(document.cookie.substring(len, end));
+      }
+      catch (URIError) {
+        console.error(URIError.message);
+        return null;
+      }
     },
 
 
