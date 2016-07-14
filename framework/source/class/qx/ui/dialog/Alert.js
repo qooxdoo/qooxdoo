@@ -30,20 +30,23 @@ qx.Class.define('qx.ui.dialog.Alert',
   construct : function(title, message) {
     title = title || 'Info';
 
-    this.base(arguments, title, message);
-    
-    this._getAtom().setIcon('icon/48/status/dialog-information.png');
-
-    this.__btn = new qx.ui.form.Button('Close', 'icon/16/actions/dialog-ok.png');
-
-    this.__btn.addListener('execute', function(e) {
-      this.close();
-    }, this);
-
-    this._getButtonsBar().add(this.__btn);
+    this.base(arguments, title, message, 'icon/48/status/dialog-information.png');
+    this._getButtonsBar().add(this.__getButton());
   },
 
   members : {
-    __btn: null
+    __button: null,
+
+    __getButton : function() {
+      if(!this.__button)
+      {
+        this.__button = new qx.ui.form.Button('Close', 'icon/16/actions/dialog-ok.png');
+        this.__button.addListener('execute', function(e) {
+          this.close();
+        }, this);
+      }
+
+      return this.__button;
+    }
   }
 });
