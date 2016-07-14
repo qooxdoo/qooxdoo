@@ -21,7 +21,12 @@ qx.Class.define('qx.ui.dialog.Abstract',
   extend: qx.ui.window.Window,
   type: "abstract",
 
-  construct: function(title, message) {
+  /**
+   * @param title {String?null} Title of dialog.
+   * @param message {String?null} Message to show.
+   * @param icon {String?null} Icon to use.
+   */
+  construct: function(title, message, icon) {
     title = title || '';
     message = message || '';
 
@@ -36,6 +41,10 @@ qx.Class.define('qx.ui.dialog.Abstract',
     this.add(this._getButtonsBar());
 
     this._initDialog(title, message);
+
+    if (icon != undefined) {
+      this._getAtom.setIcon(icon);
+    }
   },
 
   properties : {
