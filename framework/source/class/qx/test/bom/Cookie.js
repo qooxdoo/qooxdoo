@@ -92,6 +92,11 @@ qx.Class.define("qx.test.bom.Cookie",
       var expectedUtf = unescape(escapedUtf);
       var resultUtf = qx.bom.Cookie.get('utf');
 
+      var escapedCookie = [ 'manualEscaped', "=", escapedUtf ];
+      document.cookie = escapedCookie.join("");
+
+      this.assertNull(qx.bom.Cookie.get('manualEscaped'));
+
       this.assertTrue((decodeURIComponent(escapedSpecial) == unescape(escapedSpecial)), 'There is some incompatible characters.');
       // this.assertTrue((decodeURIComponent(escapedUtf) == unescape(escapedUtf)), 'There is some incompatible characters.');
 
