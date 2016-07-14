@@ -144,6 +144,10 @@ qx.Class.define('qx.ui.dialog.Abstract',
       this._getAtom().setLabel(label);
     },
 
+    setIcon : function(icon) {
+      this._getAtom().setIcon(icon);
+    },
+
     getTitle: function() {
       return this.__title;
     },
