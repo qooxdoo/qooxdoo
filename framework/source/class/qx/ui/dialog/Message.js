@@ -20,12 +20,14 @@
  * This class provide a simple alert window.
  *
  * @asset(qx/icon/Oxygen/48/status/dialog-information.png)
+ * @asset(qx/icon/Oxygen/48/status/dialog-warning.png)
+ * @asset(qx/icon/Oxygen/48/status/dialog-error.png)
  * @asset(qx/icon/${qx.icontheme}/48/status/dialog-information.png)
  * @asset(qx/icon/${qx.icontheme}/48/status/dialog-warning.png)
  * @asset(qx/icon/${qx.icontheme}/48/status/dialog-error.png)
  * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
  */
-qx.Class.define('qx.ui.dialog.Alert',
+qx.Class.define('qx.ui.dialog.Message',
 {
   extend : qx.ui.dialog.Abstract,
 
@@ -40,8 +42,8 @@ qx.Class.define('qx.ui.dialog.Alert',
 
     this.base(arguments, title, message);
 
-    if(this.__defaultIcons[icon]) {
-      this.setIcon(this.__defaultIcons[icon]);
+    if (this.self(arguments).DEFAULT_ICONS[icon]) {
+      this.setIcon(this.self(arguments).DEFAULT_ICONS[icon]);
     }
     else
     {
@@ -51,20 +53,22 @@ qx.Class.define('qx.ui.dialog.Alert',
     this._getButtonsBar().add(this.__getButton());
   },
 
-  members : {
-    __button: null,
-
-    __defaultIcons :
+  statics: {
+    DEFAULT_ICONS :
     {
       "alert" : "icon/48/status/dialog-information.png",
       "warning" : "icon/48/status/dialog-warning.png",
-      "error" : "icon/48/status/dialog-warning.png/dialog-error.png"
-    },
+      "error" : "icon/48/status/dialog-error.png"
+    }
+  },
+
+  members : {
+    __button: null,
 
     __getButton : function() {
       if(!this.__button)
       {
-        this.__button = new qx.ui.form.Button('Close', 'icon/16/actions/dialog-ok.png');
+        this.__button = new qx.ui.form.Button('Acept', 'icon/16/actions/dialog-ok.png');
         this.__button.addListener('execute', function(e) {
           this.close();
         }, this);
