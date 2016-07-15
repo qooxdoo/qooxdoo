@@ -285,6 +285,7 @@ qx.Bootstrap.define("qx.core.Property",
      */
     $$allowedKeys :
     {
+      "@"          : "object",   // Anything
       name         : "string",   // String
       dereference  : "boolean",  // Boolean
       inheritable  : "boolean",  // Boolean
@@ -309,6 +310,7 @@ qx.Bootstrap.define("qx.core.Property",
      */
     $$allowedGroupKeys :
     {
+      "@"       : "object",   // Anything
       name      : "string",   // String
       group     : "object",   // Array
       mode      : "string",   // String
