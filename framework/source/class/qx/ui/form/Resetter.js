@@ -8,8 +8,7 @@
      2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -244,6 +243,8 @@ qx.Class.define("qx.ui.form.Resetter",
         qx.Class.hasInterface(clazz, qx.ui.form.IColorForm) ||
         qx.Class.hasInterface(clazz, qx.ui.form.IDateForm) ||
         qx.Class.hasInterface(clazz, qx.ui.form.INumberForm) ||
+        qx.Class.hasInterface(clazz, qx.ui.form.IArrayForm) ||
+        qx.Class.hasInterface(clazz, qx.ui.form.IModelForm) ||
         qx.Class.hasInterface(clazz, qx.ui.form.IStringForm)
       );
     }

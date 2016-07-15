@@ -8,8 +8,7 @@
      2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -568,6 +567,22 @@ qx.Class.define("qx.test.ui.form.FormManager",
       (new qx.ui.form.renderer.Double(this.__form)).dispose();
 
       b1.dispose();
+    },
+
+    testGetItem : function()
+    {
+      var f1 = new qx.ui.form.TextField();
+      var f2 = new qx.ui.form.TextField();
+      var f3 = new qx.ui.form.TextField();
+      this.__form.add(f1, "a");
+      this.__form.add(f2, "c");
+      this.__form.add(f3, "label", null, "x");
+      this.assertIdentical(f1, this.__form.getItem("a"));
+      this.assertNull(this.__form.getItem("b"));
+      this.assertIdentical(f2, this.__form.getItem("c"));
+      this.assertNull(this.__form.getItem("label"));
+      this.assertIdentical(f3, this.__form.getItem("x"));
+      [f1, f2, f3].forEach(function(o) {o.dispose();});
     }
 
   }
