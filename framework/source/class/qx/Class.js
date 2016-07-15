@@ -14,6 +14,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * John Spackman (john.spackman@zenesis.com)
 
 ************************************************************************ */
 
@@ -59,6 +60,9 @@
  *
  * By using <code>qx.Class</code> within an app, the native JS data types are
  * conveniently polyfilled according to {@link qx.lang.normalize}.
+ * 
+ * Annotations can be added to classes, constructors, destructors, and methods, properties, and statics - 
+ * see <code>qx.Annotation</code> for examples and means access annotations at runtime.
  *
  * @require(qx.Interface)
  * @require(qx.Mixin)
@@ -190,6 +194,11 @@ qx.Bootstrap.define("qx.Class",
 
       // Create the class
       var clazz = this.__createClass(name, config.type, config.extend, config.statics, config.construct, config.destruct, config.include);
+      
+      // Initialise class and constructor/destructor annotations
+      [ "@", "@construct", "@destruct" ].forEach(function(id) {
+        this.__attachAnno(clazz, id, null, config[id]);
+      }, this);
 
       // Members, properties, events and mixins are only allowed for non-static classes
       if (config.extend)
@@ -740,6 +749,9 @@ qx.Bootstrap.define("qx.Class",
     {
       "true":
       {
+        "@"          : "object",
+        "@construct" : "object",
+        "@destruct"  : "object",
         "type"       : "string",    // String
         "extend"     : "function",  // Function
         "implement"  : "object",    // Interface[]
@@ -763,6 +775,7 @@ qx.Bootstrap.define("qx.Class",
     {
       "true":
       {
+        "@"           : "object",
         "type"        : "string",    // String
         "statics"     : "object",    // Map
         "environment" : "object",    // Map
@@ -940,6 +953,30 @@ qx.Bootstrap.define("qx.Class",
 
       "default" : function(clazz) {}
     }),
+    
+    
+    /**
+     * Attaches an annotation to a class
+     */
+    __attachAnno : function(clazz, group, key, anno) {
+      if (anno !== undefined) {
+        if (clazz.$$annotations === undefined) {
+          clazz.$$annotations = {};
+          clazz.$$annotations[group] = {};
+          
+        } else if (clazz.$$annotations[group] === undefined) {
+          clazz.$$annotations[group] = {};
+        }
+        
+        if (!qx.lang.Type.isArray(anno))
+          anno = [anno];
+        
+        if (key)
+          clazz.$$annotations[group][key] = anno;
+        else
+          clazz.$$annotations[group] = anno;
+      }
+    },
 
 
     /**
@@ -992,7 +1029,7 @@ qx.Bootstrap.define("qx.Class",
 
           qx.Bootstrap.setDisplayName(construct, name, "constructor");
         }
-
+        
         // Copy statics
         if (statics)
         {
@@ -1004,6 +1041,19 @@ qx.Bootstrap.define("qx.Class",
           {
             key = a[i];
             var staticValue = statics[key];
+
+            if (qx.core.Environment.get("qx.debug")) {
+              if (key.charAt(0) === '@') {
+                if (statics[key.substring(1)] === undefined) {
+                  throw new Error('Annonation for static "' + key.substring(1) + '" of Class "' + clazz.classname + '" does not exist!');
+                }
+                if (key.charAt(1) === "_" && key.charAt(2) === "_") {
+                  throw new Error('Cannot annotate private static "' + key.substring(1) + '" of Class "' + clazz.classname);
+                }
+              }
+            }
+            if (key.charAt(0) === '@')
+              continue;
 
             if (qx.core.Environment.get("qx.aspects"))
             {
@@ -1018,6 +1068,9 @@ qx.Bootstrap.define("qx.Class",
             {
               clazz[key] = staticValue;
             }
+            
+            // Attach annotations
+            this.__attachAnno(clazz, "statics", key, statics["@" + key]);
           }
         }
       }
@@ -1202,6 +1255,9 @@ qx.Bootstrap.define("qx.Class",
         if (!config.refine) {
           this.__Property.attachMethods(clazz, name, config);
         }
+        
+        // Add annotations
+        this.__attachAnno(clazz, "properties", name, config["@"]);
       }
     },
 
@@ -1250,7 +1306,7 @@ qx.Bootstrap.define("qx.Class",
 
           for (var key in config)
           {
-            if (key !== "init" && key !== "refine") {
+            if (key !== "init" && key !== "refine" && key !== "@") {
               throw new Error("Class " + clazz.classname + " could not refine property: " + name + "! Key: " + key + " could not be refined!");
             }
           }
@@ -1320,14 +1376,32 @@ qx.Bootstrap.define("qx.Class",
 
         if (qx.core.Environment.get("qx.debug"))
         {
-          if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
-            throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
+          if (key.charAt(0) === '@') {
+            var annoKey = key.substring(1);
+            if (members[annoKey] === undefined && proto[annoKey] === undefined) {
+              throw new Error('Annonation for "' + annoKey + '" of Class "' + clazz.classname + '" does not exist!');
+            }
+            if (key.charAt(1) === "_" && key.charAt(2) === "_") {
+              throw new Error('Cannot annotate private member "' + key.substring(1) + '" of Class "' + clazz.classname);
+            }
+          } else {
+            if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
+              throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
+            }
+  
+            if (patch !== true && proto.hasOwnProperty(key)) {
+              throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
+            }
           }
-
-          if (patch !== true && proto.hasOwnProperty(key)) {
-            throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
+        }
+        
+        // Annotations are not members
+        if (key.charAt(0) === '@') {
+          var annoKey = key.substring(1);
+          if (members[annoKey] === undefined) {
+            this.__attachAnno(clazz, "members", annoKey, members[key]);
           }
-
+          continue;
         }
 
         // If it's a property accessor, we need to install it now so that this.base can refer to it
@@ -1363,6 +1437,9 @@ qx.Bootstrap.define("qx.Class",
 
         // Attach member
         proto[key] = member;
+        
+        // Attach annotations
+        this.__attachAnno(clazz, "members", key, members["@" + key]);
       }
     },
 
