@@ -24,24 +24,14 @@
  * *Example*
  *
  * <pre class='javascript'>
- *   var confirm = new qx.ui.dialog.Confirm("A title", "A message", {
- *     "context" : this,
- *     "ok" : function() {},
- *     "yes" : function() {}
- *   },
- *   {
- *     "icon" : "warning",
- *     "ok" : "Fine",
- *     "yes" : "Of course"
- *   });
+ *   var confirm = new qx.ui.dialog.Confirm("A title", "A message", [
+ *     "ok",
+ *     { button: "yes", label: "Fine", callback : function() {}, context: this},
+ *     { button: "cancel", label : "No Thanks", icon "some/icon.png"}
+ *   ]);
  *
  *   confirm.show();
  * </pre>
- *
- *   var dialog = new qx.ui.dialog.Confirm('title', 'message', {
- *     ok: function() { [something]; },
- *     context: me
- *   });
 *
 * @asset(qx/icon/Oxygen/48/status/dialog-warning.png)
 * @asset(qx/icon/Oxygen/16/actions/dialog-apply.png)
@@ -59,144 +49,121 @@ qx.Class.define('qx.ui.dialog.Confirm',
   /**
    * @param title {String?null}
    * @param message {String?null}
-   * @param buttons {String?null}
-   * @param handlers {Map?null}
+   * @param buttons {Array?null}
    */
-  construct : function(title, message, buttons, handlers, aspectOptions) {
+  construct : function(title, message, buttons) {
     this.base(arguments, title, message);
+    buttons = buttons || ["ok", "cancel"];
 
-    this.__buttons = {};
-    this.__handlers = handlers;
-
-    if (buttons) {
-      this.setButtons(buttons);
-    }
+    this._buttons = {};
+    this._callbacks = {};
 
     this.setIcon('icon/48/status/dialog-warning.png');
-    this.__composeButtons();
 
-    if(aspectOptions) {
-      this.__composeAspects(aspectOptions);
+    if (!qx.lang.Type.isArray(buttons))
+    {
+      throw new Error ('Unsupported param type. Buttons must be an array of strings or Maps.');
     }
+    this._composeButtons(buttons);
   },
 
   properties : {
-    buttons :
-    {
-      init : "okcancel",
-      check : ["okcancel", "yesno", "yesnocancel"]
+    context: {
+      init: this,
+      check: "Object"
     }
   },
 
   members : {
-    __handlers: null,
-    __buttons: null,
+    _buttons: null,
+    _callbacks: null,
 
-    __composeAspects: function(aspectOptions) {
-      if (aspectOptions['icon']) {
-        this.setIcon(aspectOptions['icon']);
-      }
-
-      var support = ["ok", "yes", "no", "cancel"];
-
-      for (var a in support) {
-        if(aspectOptions[support[a]]) {
-          this.__applyAspect(support[a], aspectOptions[support[a]]);
-        }
-      }
-    },
-
-    __applyAspect: function(id, aspect) {
-      if(qx.lang.Type.isString(aspect)) {
-        this.__getButton(id).setLabel(aspect)
-      }
-      else {
-        if (aspect['icon']) {
-          this.__getButton(id).setIcon(aspect['icon']);
-        }
-
-        if (aspect['label']) {
-          this.__getButton(id).setLabel(aspect['label']);
-        }
-      }
-    },
-
-    __composeButtons: function() {
-      var buttons = this.getButtons();
-
-      if(buttons == "okcancel")
+    /**
+     * @param buttons {Array}
+     */
+    _composeButtons : function(buttons)
+    {
+      for var(i in buttons)
       {
-        this.__getButton('ok').addListener('execute', function(e) {
-          this.__buttonHandler('ok');
-        }, this);
+        var button;
+        var buttonDeff = buttons[i];
 
-        this.__getButton('cancel').addListener('execute', function(e) {
-          this.__buttonHandler('cancel');
-        }, this);
-
-        this._getButtonsBar().add(this.__getButton('ok'));
-        this._getButtonsBar().add(this.__getButton('cancel'));
-      }
-      else if (buttons == "yesno" || buttons == "yesnocancel")
-      {
-        this.__getButton('yes').addListener('execute', function(e) {
-          this.__buttonHandler('yes');
-        }, this);
-
-        this.__getButton('no').addListener('execute', function(e) {
-          this.__buttonHandler('no');
-        }, this);
-
-        this._getButtonsBar().add(this.__getButton('yes'));
-        this._getButtonsBar().add(this.__getButton('no'));
-
-        if(buttons == "yesnocancel")
+        if (qx.lang.Type.isString(buttonDeff))
         {
-          this.__getButton('cancel').addListener('execute', function(e) {
-            this.__buttonHandler('cancel');
+          button = this._getButton(buttons[i]);
+
+          button.addListener("execute", function(e) {
+            this._buttonHandler(buttons[i]);
+          }, this);
+        }
+        else if(qx.lang.Type.isObject(buttonDeff))
+        {
+          button = this._getButton(buttonDeff['button']);
+
+          button.addListener("execute", function(e) {
+            this._buttonHandler(buttonDeff['button']);
           }, this);
 
-          this._getButtonsBar().add(this.__getButton('cancel'));
+          if(buttonDeff['label']) {
+            button.setLabel(buttonDeff['label']);
+          }
+
+          if(buttonDeff['icon']) {
+            button.setIcon(buttonDeff['icon']);
+          }
+
+          if(buttonDeff['callback']) {
+            this._callbacks[buttons[i]]['callback'] = buttonDeff['callback'];
+
+            if(buttonDeff['context']) {
+              this._callbacks[buttons[i]]['context'] = buttonDeff['context'];
+            }
+            else {
+              this._callbacks[buttons[i]]['context'] = this.getContext();
+            }
+          }
         }
+        else
+        {
+          throw new Error ('Malformed button option.');
+        }
+
+        this.add(button);
       }
     },
 
-    __getButton: function(id) {
-      if(this.__buttons[id]) return this.__buttons[id];
+    /**
+     * Internal factory method of buttons.
+     * @return {qx.ui.form.Button}
+     */
+    _getButton: function(id) {
+      if(this._buttons[id]) return this._buttons[id];
 
       switch (id) {
         case "ok":
-          this.__buttons[id] = new qx.ui.form.Button('OK', 'icon/16/actions/dialog-ok.png');
+          this._buttons[id] = new qx.ui.form.Button('OK', 'icon/16/actions/dialog-ok.png');
           break;
         case "yes":
-            this.__buttons[id] = new qx.ui.form.Button('Yes', 'icon/16/actions/dialog-apply.png');
+            this._buttons[id] = new qx.ui.form.Button('Yes', 'icon/16/actions/dialog-apply.png');
             break;
         case "no":
-          this.__buttons[id] = new qx.ui.form.Button('No', 'icon/16/actions/process-stop.png');
+          this._buttons[id] = new qx.ui.form.Button('No', 'icon/16/actions/process-stop.png');
           break;
         case "cancel":
-          this.__buttons[id] = new qx.ui.form.Button('Cancel', 'icon/16/actions/dialog-cancel.png');
+          this._buttons[id] = new qx.ui.form.Button('Cancel', 'icon/16/actions/dialog-cancel.png');
           break;
         default:
-
+          throw new Error('Unsupported «id» for button');
       }
 
-      return this.__buttons[id];
+      return this._buttons[id];
     },
 
-    __getContext: function() {
-      if(this.__handlers['context']) {
-         return this.__handlers['context'];
-      }
+    _buttonHandler: function(id) {
+      var callbackMap = this._callbacks[id];
 
-      return this;
-    },
-
-    __buttonHandler: function(id) {
-      var callback = this.__handlers[id];
-
-      if(callback) {
-        callback.call(this.__getContext());
+      if(callbackMap) {
+        callbackMap['callback'].call(callbackMap['context']);
       }
 
       this.close();
