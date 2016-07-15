@@ -42,10 +42,10 @@ qx.Bootstrap.define("qx.ui.Dialog",
       (new qx.ui.dialog.Message(title, message, icon)).show();
     },
 
-    confirm: function(message, buttons, handlers, title, aspectOptions) {
+    confirm: function(message, buttons, title) {
       title = title || "Confirm";
 
-      (new qx.ui.dialog.Confirm(title, message, buttons, handlers, aspectOptions)).show();
+      (new qx.ui.dialog.Confirm(title, message, buttons)).show();
     }
   }
 });
