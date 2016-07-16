@@ -43,7 +43,7 @@ qx.Class.define('qx.ui.dialog.Abstract',
     this._initDialog(title, message);
 
     if (icon != undefined) {
-      this._getAtom.setIcon(icon);
+      this._getAtom().setIcon(icon);
     }
   },
 
