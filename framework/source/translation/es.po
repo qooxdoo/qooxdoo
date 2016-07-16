@@ -1,5 +1,5 @@
 # Spanish
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
@@ -99,10 +99,10 @@ msgid "RGB"
 msgstr "RGB"
 
 msgid "Recent Colors"
-msgstr ""
+msgstr "Colores recientes"
 
 msgid "Reset column widths"
-msgstr "Reestablecer anchos de columnas"
+msgstr "Reestablecer ancho de columnas"
 
 msgid "Success"
 msgstr "Éxito"
@@ -120,7 +120,7 @@ msgid "Warning"
 msgstr "Advertencia"
 
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 msgid "key_full_Alt"
 msgstr "Alt"
