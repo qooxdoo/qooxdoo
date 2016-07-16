@@ -38,6 +38,9 @@ msgstr "%1 no se encuentra en el rango [%2, %3]."
 msgid "'%1' is not an email address."
 msgstr "'%1' no es un correo electrónico."
 
+msgid "Alert"
+msgstr "Alerta"
+
 msgid "Automatic"
 msgstr "Automático"
 
@@ -50,8 +53,14 @@ msgstr "Cancelar"
 msgid "Color Selector"
 msgstr "Selector de color"
 
+msgid "Confirm"
+msgstr "Confirmación"
+
 msgid "Details"
 msgstr "Detalles"
+
+msgid "Error"
+msgstr ""
 
 msgid "HSB"
 msgstr "HSB"
@@ -70,6 +79,9 @@ msgstr "Mes siguiente"
 
 msgid "Next year"
 msgstr "Año siguiente"
+
+msgid "No"
+msgstr ""
 
 msgid "OK"
 msgstr "Aceptar"
@@ -92,11 +104,23 @@ msgstr ""
 msgid "Reset column widths"
 msgstr "Reestablecer anchos de columnas"
 
+msgid "Success"
+msgstr "Éxito"
+
+msgid "TEST"
+msgstr ""
+
 msgid "This field is required"
 msgstr "Este cuadro es obligatorio"
 
 msgid "Visual"
 msgstr "Visual"
+
+msgid "Warning"
+msgstr "Advertencia"
+
+msgid "Yes"
+msgstr ""
 
 msgid "key_full_Alt"
 msgstr "Alt"
@@ -270,22 +294,33 @@ msgid_plural "%1 rows"
 msgstr[0] "una fila"
 msgstr[1] "%1 filas"
 
+#. comment format args
 msgid "test Hello %1!"
 msgstr ""
 
 msgid "test Jonny"
 msgstr ""
 
-msgid "test One car"
+msgid "test affe"
+msgstr ""
+
+#. comment simple
+msgid "test one"
+msgstr ""
+
+#. comment count 5
+msgid "test one car"
 msgid_plural "test %1 cars"
 msgstr[0] ""
 msgstr[1] ""
 
-msgid "test affe"
-msgstr ""
-
-msgid "test one"
-msgstr ""
-
 msgid "test two"
 msgstr ""
+
+#~ msgid "Message"
+#~ msgstr "Mensaje"
+
+#~ msgid "test One car"
+#~ msgid_plural "test %1 cars"
+#~ msgstr[0] ""
+#~ msgstr[1] ""
