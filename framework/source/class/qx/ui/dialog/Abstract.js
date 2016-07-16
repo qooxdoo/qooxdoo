@@ -122,7 +122,7 @@ qx.Class.define('qx.ui.dialog.Abstract',
      * @param title {String} Title of dialog.
      */
     setTitle : function(title) {
-      this.__title = this.tr(title);
+      this.__title = title;
 
       var label = '<b>' + this.__title +  '</b>';
       var message = this.getMessage();
