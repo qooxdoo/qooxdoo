@@ -37,19 +37,19 @@ qx.Bootstrap.define("qx.ui.Dialog",
     },
 
     alert: function (message) {
-      (new qx.ui.dialog.Message("Alert", message, "alert")).show();
+      (new qx.ui.dialog.Message(qx.locale.Manager.tr("Alert"), message, "alert")).show();
     },
 
     error: function(message) {
-      (new qx.ui.dialog.Message("Error", message, "error")).show();
+      (new qx.ui.dialog.Message(qx.locale.Manager.tr("Error"), message, "error")).show();
     },
 
     warning: function (message) {
-      (new qx.ui.dialog.Message("Warning", message, "warning")).show();
+      (new qx.ui.dialog.Message(qx.locale.Manager.tr("Warning"), message, "warning")).show();
     },
 
     success: function(message) {
-      (new qx.ui.dialog.Message("Success", message, "success")).show();
+      (new qx.ui.dialog.Message(qx.locale.Manager.tr("Success"), message, "success")).show();
     },
 
     /**
@@ -61,11 +61,11 @@ qx.Bootstrap.define("qx.ui.Dialog",
 
       if (qx.lang.Type.isString(options)) {
         message = options;
-        title = "Confirm";
+        title = qx.locale.Manager.tr("Confirm");
       }
       else if (qx.lang.Type.isObject(options)) {
         message = options['message'] || '';
-        title = options['title'] || "Confirm";
+        title = options['title'] || qx.locale.Manager.tr("Confirm");
         buttons = options['buttons'] || null;
         icon = options['icon'] || null;
       }
