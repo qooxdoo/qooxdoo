@@ -70,7 +70,8 @@ qx.Class.define('qx.ui.dialog.Confirm',
   properties : {
     context: {
       init: this,
-      check: "Object"
+      check: "Object",
+      apply: "_applyContext"
     }
   },
 
@@ -78,31 +79,42 @@ qx.Class.define('qx.ui.dialog.Confirm',
     _buttons: null,
     _callbacks: null,
 
+    _applyContext: function(value, old) {
+      for (var i in this._callbacks) {
+        this._callbacks[i]['context'] = value;
+      }
+    },
+
+    _buttonHandler: function(e) {
+      var callback = this._callbacks[e.getTarget().getUserData('id')];
+
+      if(callback) {
+        callback['callback'].call(callback['context']);
+      }
+
+      this.close();
+    },
+
     /**
      * @param buttons {Array}
      */
     _composeButtons : function(buttons)
     {
-      for var(i in buttons)
+      var button;
+      var buttonDeff;
+
+      for (var i in buttons)
       {
-        var button;
-        var buttonDeff = buttons[i];
+        buttonDeff = buttons[i];
 
         if (qx.lang.Type.isString(buttonDeff))
         {
-          button = this._getButton(buttons[i]);
-
-          button.addListener("execute", function(e) {
-            this._buttonHandler(buttons[i]);
-          }, this);
+          button = this._getButton(buttonDeff);
         }
         else if(qx.lang.Type.isObject(buttonDeff))
         {
-          button = this._getButton(buttonDeff['button']);
-
-          button.addListener("execute", function(e) {
-            this._buttonHandler(buttonDeff['button']);
-          }, this);
+          var buttonId = buttonDeff['button'];
+          button = this._getButton(buttonId);
 
           if(buttonDeff['label']) {
             button.setLabel(buttonDeff['label']);
@@ -113,14 +125,12 @@ qx.Class.define('qx.ui.dialog.Confirm',
           }
 
           if(buttonDeff['callback']) {
-            this._callbacks[buttons[i]]['callback'] = buttonDeff['callback'];
+            var callbackContext = buttonDeff['context'] || this.getContext();
 
-            if(buttonDeff['context']) {
-              this._callbacks[buttons[i]]['context'] = buttonDeff['context'];
-            }
-            else {
-              this._callbacks[buttons[i]]['context'] = this.getContext();
-            }
+            this._callbacks[buttonId] = {
+              callback : buttonDeff['callback'],
+              context : callbackContext
+            };
           }
         }
         else
@@ -128,7 +138,8 @@ qx.Class.define('qx.ui.dialog.Confirm',
           throw new Error ('Malformed button option.');
         }
 
-        this.add(button);
+        button.addListener("execute", this._buttonHandler, this);
+        this._getButtonsBar().add(button);
       }
     },
 
@@ -156,17 +167,8 @@ qx.Class.define('qx.ui.dialog.Confirm',
           throw new Error('Unsupported «id» for button');
       }
 
+      this._buttons[id].setUserData('id', id);
       return this._buttons[id];
-    },
-
-    _buttonHandler: function(id) {
-      var callbackMap = this._callbacks[id];
-
-      if(callbackMap) {
-        callbackMap['callback'].call(callbackMap['context']);
-      }
-
-      this.close();
     }
   }
 });
