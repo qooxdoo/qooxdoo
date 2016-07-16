@@ -153,16 +153,16 @@ qx.Class.define('qx.ui.dialog.Confirm',
 
       switch (id) {
         case "ok":
-          this._buttons[id] = new qx.ui.form.Button('OK', 'icon/16/actions/dialog-ok.png');
+          this._buttons[id] = new qx.ui.form.Button(this.tr('OK'), 'icon/16/actions/dialog-ok.png');
           break;
         case "yes":
-            this._buttons[id] = new qx.ui.form.Button('Yes', 'icon/16/actions/dialog-apply.png');
+            this._buttons[id] = new qx.ui.form.Button(this.tr('Yes'), 'icon/16/actions/dialog-apply.png');
             break;
         case "no":
-          this._buttons[id] = new qx.ui.form.Button('No', 'icon/16/actions/process-stop.png');
+          this._buttons[id] = new qx.ui.form.Button(this.tr('No'), 'icon/16/actions/process-stop.png');
           break;
         case "cancel":
-          this._buttons[id] = new qx.ui.form.Button('Cancel', 'icon/16/actions/dialog-cancel.png');
+          this._buttons[id] = new qx.ui.form.Button(this.tr('Cancel'), 'icon/16/actions/dialog-cancel.png');
           break;
         default:
           throw new Error('Unsupported «id» for button');

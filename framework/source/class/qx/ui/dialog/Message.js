@@ -68,7 +68,7 @@ qx.Class.define('qx.ui.dialog.Message',
     __getButton : function() {
       if(!this.__button)
       {
-        this.__button = new qx.ui.form.Button('Acept', 'icon/16/actions/dialog-ok.png');
+        this.__button = new qx.ui.form.Button(this.tr('OK'), 'icon/16/actions/dialog-ok.png');
         this.__button.addListener('execute', function(e) {
           this.close();
         }, this);
