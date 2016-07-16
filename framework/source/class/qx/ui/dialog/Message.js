@@ -22,9 +22,11 @@
  * @asset(qx/icon/Oxygen/48/status/dialog-information.png)
  * @asset(qx/icon/Oxygen/48/status/dialog-warning.png)
  * @asset(qx/icon/Oxygen/48/status/dialog-error.png)
+ * @asset(qx/icon/Oxygen/48/actions/dialog-apply.png)
  * @asset(qx/icon/${qx.icontheme}/48/status/dialog-information.png)
  * @asset(qx/icon/${qx.icontheme}/48/status/dialog-warning.png)
  * @asset(qx/icon/${qx.icontheme}/48/status/dialog-error.png)
+ * @asset(qx/icon/${qx.icontheme}/48/actions/dialog-apply.png)
  * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
  */
 qx.Class.define('qx.ui.dialog.Message',
@@ -58,7 +60,8 @@ qx.Class.define('qx.ui.dialog.Message',
     {
       "alert" : "icon/48/status/dialog-information.png",
       "warning" : "icon/48/status/dialog-warning.png",
-      "error" : "icon/48/status/dialog-error.png"
+      "error" : "icon/48/status/dialog-error.png",
+      "success" : "icon/48/actions/dialog-apply.png"
     }
   },
 

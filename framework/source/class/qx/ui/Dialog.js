@@ -48,6 +48,10 @@ qx.Bootstrap.define("qx.ui.Dialog",
       (new qx.ui.dialog.Message("Warning", message, "warning")).show();
     },
 
+    success: function(message) {
+      (new qx.ui.dialog.Message("Success", message, "success")).show();
+    },
+
     /**
      * This method create and shown a confirm dialog.
      * @return {qx.ui.dialog.Confirm}
