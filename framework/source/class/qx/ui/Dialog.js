@@ -45,7 +45,9 @@ qx.Bootstrap.define("qx.ui.Dialog",
     confirm: function(message, buttons, title) {
       title = title || "Confirm";
 
-      (new qx.ui.dialog.Confirm(title, message, buttons)).show();
+      var dialog = new qx.ui.dialog.Confirm(title, message, buttons);
+      dialog.show();
+      return dialog;
     }
   }
 });
