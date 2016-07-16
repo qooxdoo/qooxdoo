@@ -21,31 +21,55 @@ qx.Bootstrap.define("qx.ui.Dialog",
   type: "static",
 
   statics : {
-    alert: function(message, title, icon) {
-      title = title || "Alert";
-      icon = icon || "alert";
+    messageBox: function(options) {
+      var title, message, icon;
 
-      (new qx.ui.dialog.Message(title, message, icon)).show();
+      if (qx.lang.Type.isString(options)) {
+        message = options;
+        title = title || "Alert";
+        icon = icon || "alert";
+
+        (new qx.ui.dialog.Message(title, message, icon)).show();
+      }
+      else if (qx.lang.Type.isObject(options)) {
+        (new qx.ui.dialog.Message(options['title'], options['message'], options['icon'])).show();
+      }
     },
 
-    error: function(message, title, icon) {
-      title = title || "Error";
-      icon = icon || "error";
-
-      (new qx.ui.dialog.Message(title, message, icon)).show();
+    alert: function (message) {
+      (new qx.ui.dialog.Message("Alert", message, "alert")).show();
     },
 
-    warning: function (message, title, icon) {
-      title = title || "Warning";
-      icon = icon || "warning";
-
-      (new qx.ui.dialog.Message(title, message, icon)).show();
+    error: function(message) {
+      (new qx.ui.dialog.Message("Error", message, "error")).show();
     },
 
-    confirm: function(message, buttons, title) {
-      title = title || "Confirm";
+    warning: function (message) {
+      (new qx.ui.dialog.Message("Warning", message, "warning")).show();
+    },
 
-      var dialog = new qx.ui.dialog.Confirm(title, message, buttons);
+    /**
+     * This method create and shown a confirm dialog.
+     * @return {qx.ui.dialog.Confirm}
+     */
+    confirm: function(options) {
+      var title, message, buttons, icon;
+
+      if (qx.lang.Type.isString(options)) {
+        message = options;
+        title = "Confirm";
+      }
+      else if (qx.lang.Type.isObject(options)) {
+        message = options['message'] || '';
+        title = options['title'] || "Confirm";
+        buttons = options['buttons'] || null;
+        icon = options['icon'] || null;
+      }
+      else {
+        throw new Error('Malformed arguments for confirm dialog.');
+      }
+
+      var dialog = new qx.ui.dialog.Confirm(title, message, buttons, icon);
       dialog.show();
       return dialog;
     }
