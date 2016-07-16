@@ -16,17 +16,16 @@
 
 ************************************************************************ */
 
-qx.Class.define('qx.ui.dialog.Abstract',
-{
-  extend: qx.ui.window.Window,
-  type: "abstract",
+qx.Class.define('qx.ui.dialog.Abstract', {
+  extend : qx.ui.window.Window,
+  type : "abstract",
 
   /**
    * @param title {String?null} Title of dialog.
    * @param message {String?null} Message to show.
    * @param icon {String?null} Icon to use.
    */
-  construct: function(title, message, icon) {
+  construct : function(title, message, icon) {
     title = title || '';
     message = message || '';
 
@@ -48,8 +47,7 @@ qx.Class.define('qx.ui.dialog.Abstract',
   },
 
   properties : {
-    modal :
-    {
+    modal : {
       refine : true,
       init : true
     },
@@ -69,20 +67,17 @@ qx.Class.define('qx.ui.dialog.Abstract',
       init : false
     },
 
-    allowClose :
-    {
+    allowClose : {
       refine : true,
       init : false
     },
 
-    allowMaximize :
-    {
+    allowMaximize : {
       refine : true,
       init : false
     },
 
-    allowMinimize :
-    {
+    allowMinimize : {
       refine : true,
       init : false
     }
@@ -114,7 +109,7 @@ qx.Class.define('qx.ui.dialog.Abstract',
     },
 
     _initDialog : function(title, message) {
-      this.setTitle(title);
+      this.__title = title;
       this.setMessage(message);
     },
 

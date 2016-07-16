@@ -29,8 +29,7 @@
  * @asset(qx/icon/${qx.icontheme}/48/actions/dialog-apply.png)
  * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
  */
-qx.Class.define('qx.ui.dialog.Message',
-{
+qx.Class.define('qx.ui.dialog.Message', {
   extend : qx.ui.dialog.Abstract,
 
   /**
@@ -47,17 +46,15 @@ qx.Class.define('qx.ui.dialog.Message',
     if (this.self(arguments).DEFAULT_ICONS[icon]) {
       this.setIcon(this.self(arguments).DEFAULT_ICONS[icon]);
     }
-    else
-    {
+    else {
       this.setIcon(icon);
     }
 
     this._getButtonsBar().add(this.__getButton());
   },
 
-  statics: {
-    DEFAULT_ICONS :
-    {
+  statics : {
+    DEFAULT_ICONS : {
       "alert" : "icon/48/status/dialog-information.png",
       "warning" : "icon/48/status/dialog-warning.png",
       "error" : "icon/48/status/dialog-error.png",
@@ -66,11 +63,10 @@ qx.Class.define('qx.ui.dialog.Message',
   },
 
   members : {
-    __button: null,
+    __button : null,
 
     __getButton : function() {
-      if(!this.__button)
-      {
+      if(!this.__button) {
         this.__button = new qx.ui.form.Button(this.tr('OK'), 'icon/16/actions/dialog-ok.png');
         this.__button.addListener('execute', function(e) {
           this.close();

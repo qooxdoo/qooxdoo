@@ -42,8 +42,7 @@
 * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-apply.png)
 * @asset(qx/icon/${qx.icontheme}/16/actions/process-stop.png)
 */
-qx.Class.define('qx.ui.dialog.Confirm',
-{
+qx.Class.define('qx.ui.dialog.Confirm', {
   extend : qx.ui.dialog.Abstract,
 
   /**
@@ -61,32 +60,32 @@ qx.Class.define('qx.ui.dialog.Confirm',
     this._buttons = {};
     this._callbacks = {};
 
-    if (!qx.lang.Type.isArray(buttons))
-    {
+    if (!qx.lang.Type.isArray(buttons)) {
       throw new Error ('Unsupported param type. Buttons must be an array of strings or Maps.');
     }
+
     this._composeButtons(buttons);
   },
 
   properties : {
-    context: {
-      init: this,
-      check: "Object",
-      apply: "_applyContext"
+    context : {
+      init : this,
+      check : "Object",
+      apply : "_applyContext"
     }
   },
 
   members : {
-    _buttons: null,
-    _callbacks: null,
+    _buttons : null,
+    _callbacks : null,
 
-    _applyContext: function(value, old) {
+    _applyContext : function(value, old) {
       for (var i in this._callbacks) {
         this._callbacks[i]['context'] = value;
       }
     },
 
-    _buttonHandler: function(e) {
+    _buttonHandler : function(e) {
       var callback = this._callbacks[e.getTarget().getUserData('id')];
 
       if(callback) {
@@ -99,21 +98,17 @@ qx.Class.define('qx.ui.dialog.Confirm',
     /**
      * @param buttons {Array}
      */
-    _composeButtons : function(buttons)
-    {
+    _composeButtons : function(buttons) {
       var button;
       var buttonDeff;
 
-      for (var i in buttons)
-      {
+      for (var i in buttons) {
         buttonDeff = buttons[i];
 
-        if (qx.lang.Type.isString(buttonDeff))
-        {
+        if (qx.lang.Type.isString(buttonDeff)) {
           button = this._getButton(buttonDeff);
         }
-        else if(qx.lang.Type.isObject(buttonDeff))
-        {
+        else if(qx.lang.Type.isObject(buttonDeff)) {
           var buttonId = buttonDeff['button'];
           button = this._getButton(buttonId);
 
@@ -134,8 +129,7 @@ qx.Class.define('qx.ui.dialog.Confirm',
             };
           }
         }
-        else
-        {
+        else {
           throw new Error ('Malformed button option.');
         }
 
@@ -149,7 +143,9 @@ qx.Class.define('qx.ui.dialog.Confirm',
      * @return {qx.ui.form.Button}
      */
     _getButton: function(id) {
-      if(this._buttons[id]) return this._buttons[id];
+      if(this._buttons[id]) {
+        return this._buttons[id];
+      }
 
       switch (id) {
         case "ok":
