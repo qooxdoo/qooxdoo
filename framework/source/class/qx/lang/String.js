@@ -8,8 +8,7 @@
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -189,24 +188,28 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Check whether the string starts with the given substring
      *
+     * @deprecated {6.0} Please use String instance startsWith method instead
+     *
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string starts with the given substring
      */
     startsWith : function(fullstr, substr) {
-      return fullstr.indexOf(substr) === 0;
+      return fullstr.startsWith(substr);
     },
 
 
     /**
      * Check whether the string ends with the given substring
      *
+     * @deprecated {6.0} Please use String instance endsWith method instead
+     *
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string ends with the given substring
      */
     endsWith : function(fullstr, substr) {
-      return fullstr.substring(fullstr.length - substr.length, fullstr.length) === substr;
+      return fullstr.endsWith(substr);
     },
 
 

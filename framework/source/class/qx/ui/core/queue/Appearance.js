@@ -8,8 +8,7 @@
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -28,6 +27,9 @@ qx.Class.define("qx.ui.core.queue.Appearance",
   {
     /** @type {Array} This contains all the queued widgets for the next flush. */
     __queue : [],
+    
+    /** @type {Map} map of widgets by hash code which are in the queue */
+    __lookup : {},
 
 
     /**
@@ -37,7 +39,10 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
     remove : function(widget) {
-      qx.lang.Array.remove(this.__queue, widget);
+    	if (this.__lookup[widget.$$hash]) {
+    		qx.lang.Array.remove(this.__queue, widget);
+    		delete this.__lookup[widget.$$hash];
+    	}
     },
 
 
@@ -50,12 +55,12 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      */
     add : function(widget)
     {
-      var queue = this.__queue;
-      if (qx.lang.Array.contains(queue, widget)) {
+      if (this.__lookup[widget.$$hash]) {
         return;
       }
 
-      queue.unshift(widget);
+      this.__queue.unshift(widget);
+      this.__lookup[widget.$$hash] = widget;
       qx.ui.core.queue.Manager.scheduleFlush("appearance");
     },
 
@@ -67,7 +72,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      * @return {Boolean} <code>true</code> if the widget is queued
      */
     has : function(widget) {
-      return qx.lang.Array.contains(this.__queue, widget);
+      return !!this.__lookup[widget.$$hash];
     },
 
 
@@ -88,6 +93,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
         // Order is important to allow the same widget to be re-queued directly
         obj = queue[i];
         queue.splice(i, 1);
+        delete this.__lookup[obj.$$hash]
 
         // Only apply to currently visible widgets
         if (Visibility.isVisible(obj)) {

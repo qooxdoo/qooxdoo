@@ -8,8 +8,7 @@
      2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -288,6 +287,26 @@ qx.Class.define("qx.ui.form.Form",
         }
       }
       return items;
+    },
+
+
+    /**
+     * Return an item by name.
+     *
+     * @param name {string} Item name.
+     * @return {qx.ui.form.IForm|null} The form item or null.
+     */
+    getItem : function(name) {
+      for (var i = 0; i < this.__groups.length; i++) {
+        var group = this.__groups[i];
+        for (var j = 0; j < group.names.length; j++) {
+          if (group.names[j] === name) {
+            return group.items[j];
+          }
+        }
+      }
+
+      return null;
     },
 
 

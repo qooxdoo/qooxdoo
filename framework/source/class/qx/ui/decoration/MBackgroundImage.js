@@ -8,8 +8,7 @@
      2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -19,8 +18,8 @@
 /**
  * Mixin for supporting the background images on decorators.
  * This mixin is usually used by {@link qx.ui.decoration.Decorator}.
- * 
- * It is possible to define multiple background images by setting an 
+ *
+ * It is possible to define multiple background images by setting an
  * array containing the needed values as the property value.
  * In case multiple values are specified, the values of the properties
  * are repeated until all match in length.
@@ -119,7 +118,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
 
     /**
      * Whether to order gradients before Image-URL-based background declarations
-     * if both qx.ui.decoration.MBackgroundImage and 
+     * if both qx.ui.decoration.MBackgroundImage and
      * qx.ui.decoration.MLinearBackgroundGradient decorations are used.
      */
     orderGradientsFront :
@@ -193,7 +192,7 @@ qx.Mixin.define("qx.ui.decoration.MBackgroundImage",
           styles["background"][this.getOrderGradientsFront() ? 'push' : 'unshift'](imageMarkup.join(' '));
 
           if (qx.core.Environment.get("qx.debug") &&
-            source &&  qx.lang.String.endsWith(source, ".png") &&
+            source &&  source.endsWith(".png") &&
             (repeat == "scale" || repeat == "no-repeat") &&
             qx.core.Environment.get("engine.name") == "mshtml" &&
             qx.core.Environment.get("browser.documentmode") < 9)

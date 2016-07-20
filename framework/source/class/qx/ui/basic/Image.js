@@ -8,8 +8,7 @@
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -339,7 +338,7 @@ qx.Class.define("qx.ui.basic.Image",
         var source = this.getSource();
         var isPng = false;
         if (source != null) {
-          isPng = qx.lang.String.endsWith(source, ".png");
+          isPng = source.endsWith(".png");
         }
 
         if (this.getScale() && isPng && qx.core.Environment.get("css.alphaimageloaderneeded")) {
@@ -537,7 +536,7 @@ qx.Class.define("qx.ui.basic.Image",
       "mshtml" : function(source)
       {
         var alphaImageLoader = qx.core.Environment.get("css.alphaimageloaderneeded");
-        var isPng = qx.lang.String.endsWith(source, ".png");
+        var isPng = source.endsWith(".png");
 
         if (alphaImageLoader && isPng)
         {
@@ -587,7 +586,7 @@ qx.Class.define("qx.ui.basic.Image",
         {
           var pixel = "px";
           var styles = {};
-          
+
           //inherit styles from current element
           var currentStyles = currentContentElement.getAllStyles();
           if(currentStyles) {
@@ -741,9 +740,8 @@ qx.Class.define("qx.ui.basic.Image",
         // loading external images via HTTP/HTTPS is a common usecase, as is
         // using data URLs.
         var sourceLC = source.toLowerCase();
-        var startsWith = qx.lang.String.startsWith;
-        if (!startsWith(sourceLC, "http") &&
-            !startsWith(sourceLC, "data:image/"))
+        if (!sourceLC.startsWith("http") &&
+            !sourceLC.startsWith("data:image/"))
         {
           var self = this.self(arguments);
 

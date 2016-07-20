@@ -8,8 +8,7 @@
      2007 by Tartan Solutions, Inc, http://www.tartansolutions.com
 
    License:
-     LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
 
    Authors:
      * Dan Hummon

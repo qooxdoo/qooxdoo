@@ -8,8 +8,7 @@
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -93,7 +92,7 @@ qx.Class.define("qx.bom.element.Background",
       // only check the first 50 characters for performance, since we do not
       // know how long a base64 image url can be.
       var firstPartOfUrl = url.substr(0, 50);
-      return String.startsWith(firstPartOfUrl, "data:") && String.contains(firstPartOfUrl, "base64");
+      return firstPartOfUrl.startsWith("data:") && String.contains(firstPartOfUrl, "base64");
     },
 
 

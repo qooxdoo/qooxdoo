@@ -8,8 +8,7 @@
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -839,7 +838,7 @@ qx.Class.define("qx.data.SingleValueBinding",
       for (var i = 0; i < propertyNames.length; i++) {
         var name = propertyNames[i];
         // if its an array property in the chain
-        if (qx.lang.String.endsWith(name, "]")) {
+        if (name.endsWith("]")) {
           // get the inner value of the array notation
           var arrayIndex = name.substring(name.indexOf("[") + 1, name.indexOf("]"));
 

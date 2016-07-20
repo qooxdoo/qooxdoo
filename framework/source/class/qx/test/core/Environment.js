@@ -8,8 +8,7 @@
      2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -456,6 +455,9 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("ecmascript.object.keys"));
       this.assertBoolean(qx.core.Environment.get("ecmascript.date.now"));
       this.assertBoolean(qx.core.Environment.get("ecmascript.error.toString"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.string.trim"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.string.endsWith"));
+      this.assertBoolean(qx.core.Environment.get("ecmascript.string.startsWith"));
     },
 
     testDataUrl : function() {

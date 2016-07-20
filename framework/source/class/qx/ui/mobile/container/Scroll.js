@@ -8,8 +8,7 @@
      2004-2011 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -226,7 +225,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
         if (qx.lang.Type.isString(waypoint)) {
-          if (qx.lang.String.endsWith(waypoint, "%")) {
+          if (waypoint.endsWith("%")) {
             offset = parseInt(waypoint, 10) * (scrollSize / 100);
             results.push({
               "offset": offset,
