@@ -113,9 +113,10 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
     },
 
     __unblock: function() {
-      if (this.__blocker) {
-        if(this.getAllowBusyPopup()) this._getPopup().hide();
-        this.__blocker.unblock();
+      if (this.isBlocked()) {
+        var popup = this._getPopup();
+        if(popup) popup.hide();
+        this.getBlocker().unblock();
       }
     },
 
