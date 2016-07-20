@@ -18,39 +18,21 @@
 
 /**
  * This class provide a simple alert window.
- *
- * @asset(qx/icon/Oxygen/48/status/dialog-information.png)
- * @asset(qx/icon/Oxygen/48/status/dialog-warning.png)
- * @asset(qx/icon/Oxygen/48/status/dialog-error.png)
- * @asset(qx/icon/Oxygen/48/actions/dialog-apply.png)
- * @asset(qx/icon/${qx.icontheme}/48/status/dialog-information.png)
- * @asset(qx/icon/${qx.icontheme}/48/status/dialog-warning.png)
- * @asset(qx/icon/${qx.icontheme}/48/status/dialog-error.png)
- * @asset(qx/icon/${qx.icontheme}/48/actions/dialog-apply.png)
- * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
  */
 qx.Class.define('qx.ui.dialog.Message', {
   extend : qx.ui.dialog.Abstract,
 
   /**
-   * @param title {String?null} Title of dialog.
+   * @param caption {String?null} Title of dialog.
    * @param message {String} Message to show.
    * @param icon {String?null} Icon to use
    */
-  construct : function(title, message, icon) {
-    title = title || "Message";
+  construct : function(caption, message, icon) {
+    caption = caption || "Message";
     icon = icon || "alert";
 
-    this.base(arguments, title, message);
-
-    if (this.self(arguments).DEFAULT_ICONS[icon]) {
-      this.setIcon(this.self(arguments).DEFAULT_ICONS[icon]);
-    }
-    else {
-      this.setIcon(icon);
-    }
-
-    this._getButtonsBar().add(this.__getButton());
+    this.base(arguments, caption, message, icon);
+    this._createChildControl("ok");
   },
 
   statics : {
@@ -63,17 +45,35 @@ qx.Class.define('qx.ui.dialog.Message', {
   },
 
   members : {
-    __button : null,
 
-    __getButton : function() {
-      if(!this.__button) {
-        this.__button = new qx.ui.form.Button(this.tr('OK'), 'icon/16/actions/dialog-ok.png');
-        this.__button.addListener('execute', function(e) {
+    // overridden
+    _createChildControlImpl : function(id) {
+      var control;
+
+      if(id == "ok") {
+        control = new qx.ui.form.Button(this.tr('OK'));
+        control.addListener('execute', function(e) {
           this.close();
         }, this);
+
+        this.getChildControl("buttons-bar").add(control);
       }
 
-      return this.__button;
+      return control || this.base(arguments, id);
+    },
+
+    // property apply
+    _applyCaptionBarChange : function(value, old, name) {
+      if (name == "icon") {
+        if (this.self(arguments).DEFAULT_ICONS[value]) {
+          value = this.self(arguments).DEFAULT_ICONS[value];
+        }
+
+        this.getChildControl("atom").setIcon(value);
+      }
+      else {
+        this.base(arguments, value, old, name);
+      }
     }
   }
 });

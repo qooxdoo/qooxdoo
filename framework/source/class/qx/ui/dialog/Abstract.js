@@ -16,17 +16,24 @@
 
 ************************************************************************ */
 
+/**
+ * This is the base class for dialogs.
+ *
+ * For this class a dialog has been thinking as is a modal window
+ * with a title, a message, an icon and some action button(s)
+ * and without the captionbar elements.
+ */
 qx.Class.define('qx.ui.dialog.Abstract', {
   extend : qx.ui.window.Window,
   type : "abstract",
 
   /**
-   * @param title {String?null} Title of dialog.
+   * @param caption {String?null} Title of dialog.
    * @param message {String?null} Message to show.
    * @param icon {String?null} Icon to use.
    */
-  construct : function(title, message, icon) {
-    title = title || '';
+  construct : function(caption, message, icon) {
+    caption = caption || '';
     message = message || '';
 
     this.base(arguments);
@@ -36,17 +43,27 @@ qx.Class.define('qx.ui.dialog.Abstract', {
     this.setMaxWidth(320);
     this.setResizable(false);
 
-    this.add(this._getAtom());
-    this.add(this._getButtonsBar());
+    this._createChildControl("atom");
+    this._createChildControl("buttons-bar");
 
-    this._initDialog(title, message);
-
-    if (icon != undefined) {
-      this._getAtom().setIcon(icon);
-    }
+    this.setCaption(caption);
+    this.setMessage(message);
+    this.setIcon(icon);
   },
 
   properties : {
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "dialog"
+    },
+
+    autoDispose: {
+      init: true,
+      check: "Boolean"
+    },
+
     modal : {
       refine : true,
       init : true
@@ -80,100 +97,65 @@ qx.Class.define('qx.ui.dialog.Abstract', {
     allowMinimize : {
       refine : true,
       init : false
+    },
+
+    message: {
+      check: "String",
+      nullable: true,
+      apply: "_applyMessage"
     }
   },
 
   members: {
-    __title: null,
-    __message: null,
 
-    _atom: null,
-    _buttonsBar: null,
+    // overridden
+    _createChildControlImpl : function(id) {
+      var control;
 
-    _getAtom: function() {
-      if(!this._atom) {
-        this._atom = new qx.ui.basic.Atom();
-        this._atom.setIconPosition("left");
-        this._atom.setRich(true);
+      switch (id) {
+        case "atom":
+          control = new qx.ui.basic.Atom();
+          control.setIconPosition("left");
+          control.setRich(true);
+          this.add(control);
+          break;
+        case "buttons-bar":
+          control = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, 'center'));
+          this._add(control);
+          break;
       }
 
-      return this._atom;
+      return control || this.base(arguments, id);
     },
 
-    _getButtonsBar: function() {
-      if(!this._buttonsBar) {
-        this._buttonsBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, 'center'));
+    // property apply
+    _applyCaptionBarChange : function(value, old, name) {
+      if (name == "icon") {
+        this.getChildControl("atom").setIcon(value);
       }
-
-      return this._buttonsBar;
-    },
-
-    _initDialog : function(title, message) {
-      this.__title = title;
-      this.setMessage(message);
-    },
-
-    /**
-     * @param title {String} Title of dialog.
-     */
-    setTitle : function(title) {
-      this.__title = title;
-
-      var label = '<b>' + this.__title +  '</b>';
-      var message = this.getMessage();
-
-      if (message) {
-        label += '<br/>' + message;
+      else {
+        this.base(arguments, value, old);
       }
-
-      this._getAtom().setLabel(label);
     },
 
-    /**
-     * @param message {String} Message to show.
-     */
-    setMessage: function(message) {
-      this.__message = message;
-
-      var label = this.__message;
-      var title = this.getTitle();
-
-      if (title) {
-        label = '<b>' + title +  '</b><br/>' + label;
-      }
-
-      this._getAtom().setLabel(label);
+    // property apply
+    _applyMessage : function(val, old) {
+      this.getChildControl("atom").setLabel(val);
     },
 
-    /**
-     * @param icon {String} Icon to use
-     */
-    setIcon : function(icon) {
-      this._getAtom().setIcon(icon);
-    },
-
-    /**
-     * @return {String} The title of dialog.
-     */
-    getTitle: function() {
-      return this.__title;
-    },
-
-    /**
-     * @return {String} The message of dialog.
-     */
-    getMessage: function() {
-      return this.__message;
-    },
-
-    show: function() {
+    // overridden
+    show : function() {
       this.base(arguments);
       this.center();
     },
 
-    close: function() {
-      this.base(arguments)
-      this.dispose();
+    // overridden
+    close : function() {
+      this.base(arguments);
+
+      if(this.isAutoDispose()) {
+        this.dispose();
+      }
     }
   }
 });

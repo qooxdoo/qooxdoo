@@ -34,15 +34,15 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
     this._createBlocker = this.__createBlocker;
   },
 
-  properties: {
-    allowBusyPopup: {
-      check: "Boolean",
-      init: false
+  properties : {
+    allowBusyPopup : {
+      check : "Boolean",
+      init : false
     }
   },
 
-  members: {
-    __popup: null,
+  members : {
+    __popup : null,
 
     /**
      * Template method for creating the blocker item.
@@ -81,7 +81,7 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
      * and shown a loading gif or a BusyIndicator popup whethever allowBusyPopup is set.
      * Also which receives all events, exactly over the widget.
      */
-    __block: function(busyCaption) {
+    __block : function(busyCaption) {
       if(this instanceof qx.ui.window.Window) {
         this.getBlocker().getBlockerElement().setStyle('z-index', this.getZIndex() + 100);
       }
@@ -89,8 +89,6 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
       this.getBlocker().block();
 
       if(this.getAllowBusyPopup()) {
-        busyCaption = busyCaption || false;
-
         var popup = this._getPopup();
 
         if(busyCaption) {
@@ -106,21 +104,38 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
         var left  = this.getLayoutProperties().left + Math.round((myBounds.width - pHint.width) / 2);
         var top  = this.getLayoutProperties().top + Math.round((myBounds.height - pHint.height) / 2);
 
-        if(top < 0) top = 0;
+        if(top < 0) {
+          top = 0;
+        }
 
         popup.moveTo(left, top);
       }
     },
 
-    __unblock: function() {
-      if (this.__blocker) {
-        if(this.getAllowBusyPopup()) this._getPopup().hide();
-        this.__blocker.unblock();
+    /**
+     * Unblock this widget just like MBlocker, but also it take care of
+     * hide the busy indicator popup if exist.
+     */
+    __unblock : function() {
+      if (this.isBlocked()) {
+        var popup = this._getPopup();
+        if(popup) {
+          popup.hide();
+        }
+        this.getBlocker().unblock();
       }
     },
 
-    _getPopup: function() {
-      if(this.getAllowBusyPopup() && !this.__popup) this.__popup = new qx.ui.popup.BusyIndicator();
+    /**
+     * Internal factory method, return the busy indicator popup if the widget i
+     * allowed to, otherwise return null.
+     *
+     * @return {qx.ui.popup.BusyIndicator|null}
+     */
+    _getPopup : function() {
+      if (this.getAllowBusyPopup() && !this.__popup) {
+        this.__popup = new qx.ui.popup.BusyIndicator();
+      }
       return this.__popup;
     }
   }

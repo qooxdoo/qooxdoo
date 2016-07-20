@@ -31,7 +31,7 @@ qx.Class.define('qx.ui.popup.BusyIndicator',
 
   construct: function(label) {
     label = label || 'Please wait...';
-    this.base(arguments, new qx.ui.layout.Atom());
+    this.base(arguments, new qx.ui.layout.Basic());
 
     this.__atom = new qx.ui.basic.Atom(label, 'qx/loading16.gif');
 
@@ -43,6 +43,11 @@ qx.Class.define('qx.ui.popup.BusyIndicator',
   members: {
     __atom: null,
 
+    /**
+     * Set the caption to use.
+     *
+     * @param caption {String} Set the caption to use.
+     */
     setCaption: function(caption) {
       this.__atom.setLabel(caption);
     }
