@@ -43,6 +43,11 @@ qx.Class.define('qx.ui.popup.BusyIndicator',
   members: {
     __atom: null,
 
+    /**
+     * Set the caption to use.
+     *
+     * @param caption {String} Set the caption to use.
+     */
     setCaption: function(caption) {
       this.__atom.setLabel(caption);
     }
