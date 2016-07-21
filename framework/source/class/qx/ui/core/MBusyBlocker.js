@@ -34,15 +34,15 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
     this._createBlocker = this.__createBlocker;
   },
 
-  properties: {
-    allowBusyPopup: {
-      check: "Boolean",
-      init: false
+  properties : {
+    allowBusyPopup : {
+      check : "Boolean",
+      init : false
     }
   },
 
-  members: {
-    __popup: null,
+  members : {
+    __popup : null,
 
     /**
      * Template method for creating the blocker item.
@@ -81,7 +81,7 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
      * and shown a loading gif or a BusyIndicator popup whethever allowBusyPopup is set.
      * Also which receives all events, exactly over the widget.
      */
-    __block: function(busyCaption) {
+    __block : function(busyCaption) {
       if(this instanceof qx.ui.window.Window) {
         this.getBlocker().getBlockerElement().setStyle('z-index', this.getZIndex() + 100);
       }
@@ -104,7 +104,9 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
         var left  = this.getLayoutProperties().left + Math.round((myBounds.width - pHint.width) / 2);
         var top  = this.getLayoutProperties().top + Math.round((myBounds.height - pHint.height) / 2);
 
-        if(top < 0) top = 0;
+        if(top < 0) {
+          top = 0;
+        }
 
         popup.moveTo(left, top);
       }
@@ -114,7 +116,7 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
      * Unblock this widget just like MBlocker, but also it take care of
      * hide the busy indicator popup if exist.
      */
-    __unblock: function() {
+    __unblock : function() {
       if (this.isBlocked()) {
         var popup = this._getPopup();
         if(popup) {
@@ -130,8 +132,10 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
      *
      * @return {qx.ui.popup.BusyIndicator|null}
      */
-    _getPopup: function() {
-      if(this.getAllowBusyPopup() && !this.__popup) this.__popup = new qx.ui.popup.BusyIndicator();
+    _getPopup : function() {
+      if (this.getAllowBusyPopup() && !this.__popup) {
+        this.__popup = new qx.ui.popup.BusyIndicator();
+      }
       return this.__popup;
     }
   }
