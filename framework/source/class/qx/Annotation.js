@@ -88,8 +88,9 @@ qx.Bootstrap.define("qx.Annotation", {
      * return {Object[]} the annotations, never null
      */
     __getOwnAnnos: function(clazz, name, group) {
-      if (clazz.$$annotations === undefined)
+      if (clazz.$$annotations === undefined) {
         return [];
+      }
       var annos = group ? clazz.$$annotations[group] : clazz.$$annotations;
       return (annos && annos[name])||[];
     },
