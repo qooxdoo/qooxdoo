@@ -28,7 +28,8 @@
  *     "ok",
  *     { button: "yes", label: "Fine", callback : function() {}, context: this},
  *     { button: "cancel", label : "No Thanks", icon "some/icon.png"}
- *   ]);
+ *   ],
+ *   "some/icon.png");
  *
  *   confirm.show();
  * </pre>
@@ -64,12 +65,12 @@ qx.Class.define('qx.ui.dialog.Confirm', {
       throw new Error ('Unsupported param type. Buttons must be an array of strings or Maps.');
     }
 
+    this.setContext(this);
     this._composeButtons(buttons);
   },
 
   properties : {
     context : {
-      init : this,
       check : "Object",
       apply : "_applyContext"
     }
@@ -155,21 +156,23 @@ qx.Class.define('qx.ui.dialog.Confirm', {
           throw new Error('Unsupported «id» for button');
       }
 
-      if(options['label']) {
-        button.setLabel(options['label']);
-      }
+      if(options) {
+        if(options['label']) {
+          button.setLabel(options['label']);
+        }
 
-      if(options['icon']) {
-        button.setIcon(options['icon']);
-      }
+        if(options['icon']) {
+          button.setIcon(options['icon']);
+        }
 
-      if(options['callback']) {
-        var callbackContext = options['context'] || this.getContext();
+        if(options['callback']) {
+          var callbackContext = options['context'] || this.getContext();
 
-        this._callbacks[id] = {
-          callback : options['callback'],
-          context : callbackContext
-        };
+          this._callbacks[id] = {
+            callback : options['callback'],
+            context : callbackContext
+          };
+        }
       }
 
       button.setUserData('id', id);
