@@ -41,7 +41,7 @@ qx.Class.define("qx.test.ui.dialog.Message", {
       this.assertInstance(d._getButtonsBar().getChildren()[0], qx.ui.form.Button);
     },
 
-    testInitialState: function() {
+    testEmptyConstructor: function() {
       // Test empty constructor
       var d = this._dialog;
 
@@ -54,7 +54,9 @@ qx.Class.define("qx.test.ui.dialog.Message", {
 
       var expexted = "<b>QxDialog</b><br/>QxMessage";
       this.assertEquals(expexted, d._getAtom().getLabel());
+    },
 
+    testContructorWithParameters: function() {
       // Test contructor arguments
       var dd = this._cDialog;
 
