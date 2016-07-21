@@ -110,14 +110,26 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
       }
     },
 
+    /**
+     * Unblock this widget just like MBlocker, but also it take care of
+     * hide the busy indicator popup if exist.
+     */
     __unblock: function() {
       if (this.isBlocked()) {
         var popup = this._getPopup();
-        if(popup) popup.hide();
+        if(popup) {
+          popup.hide();
+        }
         this.getBlocker().unblock();
       }
     },
 
+    /**
+     * Internal factory method, return the busy indicator popup if the widget i
+     * allowed to, otherwise return null.
+     *
+     * @return {qx.ui.popup.BusyIndicator|null}
+     */
     _getPopup: function() {
       if(this.getAllowBusyPopup() && !this.__popup) this.__popup = new qx.ui.popup.BusyIndicator();
       return this.__popup;
