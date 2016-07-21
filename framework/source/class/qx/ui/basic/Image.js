@@ -100,6 +100,7 @@ qx.Class.define("qx.ui.basic.Image",
     {
       check : "Boolean",
       init : false,
+      event : "changeScale",
       themeable : true,
       apply : "_applyScale"
     },
