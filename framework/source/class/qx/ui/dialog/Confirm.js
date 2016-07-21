@@ -79,12 +79,20 @@ qx.Class.define('qx.ui.dialog.Confirm', {
     _buttons : null,
     _callbacks : null,
 
+    // property apply
     _applyContext : function(value, old) {
       for (var i in this._callbacks) {
         this._callbacks[i]['context'] = value;
       }
     },
 
+      /**
+       * Internal listener attached to every button showed on dialog.
+       * This methods check if is set some callback function for a button id,
+       * then call it for those cases.
+       *
+       * @param e {qx.event.type.Event}
+       */
     _buttonHandler : function(e) {
       var callback = this._callbacks[e.getTarget().getUserData('id')];
 
@@ -96,75 +104,79 @@ qx.Class.define('qx.ui.dialog.Confirm', {
     },
 
     /**
+     * Internal method for compose the buttons and place it at buttons bar.
+     *
      * @param buttons {Array}
      */
     _composeButtons : function(buttons) {
       var button;
-      var buttonDeff;
 
       for (var i in buttons) {
-        buttonDeff = buttons[i];
-
-        if (qx.lang.Type.isString(buttonDeff)) {
-          button = this._getButton(buttonDeff);
+        if (qx.lang.Type.isString(buttons[i])) {
+          button = this._getButton(buttons[i]);
         }
-        else if(qx.lang.Type.isObject(buttonDeff)) {
-          var buttonId = buttonDeff['button'];
-          button = this._getButton(buttonId);
-
-          if(buttonDeff['label']) {
-            button.setLabel(buttonDeff['label']);
-          }
-
-          if(buttonDeff['icon']) {
-            button.setIcon(buttonDeff['icon']);
-          }
-
-          if(buttonDeff['callback']) {
-            var callbackContext = buttonDeff['context'] || this.getContext();
-
-            this._callbacks[buttonId] = {
-              callback : buttonDeff['callback'],
-              context : callbackContext
-            };
-          }
+        else if(qx.lang.Type.isObject(buttons[i])) {
+          button = this._getButton(buttons[i]['button'], buttons[i]);
         }
         else {
           throw new Error ('Malformed button option.');
         }
 
-        button.addListener("execute", this._buttonHandler, this);
         this._getButtonsBar().add(button);
       }
     },
 
     /**
      * Internal factory method of buttons.
+     *
      * @return {qx.ui.form.Button}
      */
-    _getButton: function(id) {
+    _getButton: function(id, options) {
       if(this._buttons[id]) {
         return this._buttons[id];
       }
 
+      var button;
+
       switch (id) {
         case "ok":
-          this._buttons[id] = new qx.ui.form.Button(this.tr('OK'), 'icon/16/actions/dialog-ok.png');
+          button = new qx.ui.form.Button(this.tr('OK'), 'icon/16/actions/dialog-ok.png');
           break;
         case "yes":
-            this._buttons[id] = new qx.ui.form.Button(this.tr('Yes'), 'icon/16/actions/dialog-apply.png');
-            break;
+          button = new qx.ui.form.Button(this.tr('Yes'), 'icon/16/actions/dialog-apply.png');
+          break;
         case "no":
-          this._buttons[id] = new qx.ui.form.Button(this.tr('No'), 'icon/16/actions/process-stop.png');
+          button = new qx.ui.form.Button(this.tr('No'), 'icon/16/actions/process-stop.png');
           break;
         case "cancel":
-          this._buttons[id] = new qx.ui.form.Button(this.tr('Cancel'), 'icon/16/actions/dialog-cancel.png');
+          button = new qx.ui.form.Button(this.tr('Cancel'), 'icon/16/actions/dialog-cancel.png');
           break;
         default:
           throw new Error('Unsupported «id» for button');
       }
 
-      this._buttons[id].setUserData('id', id);
+      if(options['label']) {
+        button.setLabel(options['label']);
+      }
+
+      if(options['icon']) {
+        button.setIcon(options['icon']);
+      }
+
+      if(options['callback']) {
+        var callbackContext = options['context'] || this.getContext();
+
+        this._callbacks[id] = {
+          callback : options['callback'],
+          context : callbackContext
+        };
+      }
+
+      button.setUserData('id', id);
+      button.addListener("execute", this._buttonHandler, this);
+
+      this._buttons[id] = button;
+
       return this._buttons[id];
     }
   }
