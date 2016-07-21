@@ -89,8 +89,6 @@ qx.Mixin.define("qx.ui.core.MBusyBlocker", {
       this.getBlocker().block();
 
       if(this.getAllowBusyPopup()) {
-        busyCaption = busyCaption || false;
-
         var popup = this._getPopup();
 
         if(busyCaption) {
