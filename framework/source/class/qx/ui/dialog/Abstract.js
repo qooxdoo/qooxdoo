@@ -16,6 +16,13 @@
 
 ************************************************************************ */
 
+/**
+ * This is the base class for dialogs.
+ *
+ * For this class a dialog has been thinking as is a modal window
+ * with a title, a message, an icon and some action button(s)
+ * and without the captionbar elements.
+ */
 qx.Class.define('qx.ui.dialog.Abstract', {
   extend : qx.ui.window.Window,
   type : "abstract",
@@ -87,9 +94,22 @@ qx.Class.define('qx.ui.dialog.Abstract', {
     __title: null,
     __message: null,
 
+    /**
+     * This component is the real element for shown all dialog info (title, message and icon).
+     * @type {qx.ui.basic.Atom}
+     */
     _atom: null,
+
+    /**
+     * This component is used for store the buttons of dialog implementations.
+     * @type {qx.ui.xontainerComposite}
+     */
     _buttonsBar: null,
 
+    /**
+     * Return the internal Atom instance.
+     * @return {qx.ui.basic.Atom} The internal Atom instance.
+     */
     _getAtom: function() {
       if(!this._atom) {
         this._atom = new qx.ui.basic.Atom();
@@ -100,6 +120,9 @@ qx.Class.define('qx.ui.dialog.Abstract', {
       return this._atom;
     },
 
+    /**
+     * @return {qx.ui.container.Composite} The internal container for buttons.
+     */
     _getButtonsBar: function() {
       if(!this._buttonsBar) {
         this._buttonsBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, 'center'));
@@ -108,6 +131,9 @@ qx.Class.define('qx.ui.dialog.Abstract', {
       return this._buttonsBar;
     },
 
+    /**
+     * Internal initializer of dialog.
+     */
     _initDialog : function(title, message) {
       this.__title = title;
       this.setMessage(message);
@@ -166,11 +192,13 @@ qx.Class.define('qx.ui.dialog.Abstract', {
       return this.__message;
     },
 
+    // overridden
     show: function() {
       this.base(arguments);
       this.center();
     },
 
+    // overridden
     close: function() {
       this.base(arguments)
       this.dispose();
