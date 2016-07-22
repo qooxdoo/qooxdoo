@@ -31,7 +31,7 @@ qx.Class.define('qx.ui.popup.BusyIndicator',
 
   construct: function(label) {
     label = label || 'Please wait...';
-    this.base(arguments, new qx.ui.layout.Atom());
+    this.base(arguments, new qx.ui.layout.Basic());
 
     this.__atom = new qx.ui.basic.Atom(label, 'qx/loading16.gif');
 
