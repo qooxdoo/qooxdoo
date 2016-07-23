@@ -19,10 +19,6 @@
 /**
  * This class provide a simple alert window.
  *
- * @asset(qx/icon/Oxygen/48/status/dialog-information.png)
- * @asset(qx/icon/Oxygen/48/status/dialog-warning.png)
- * @asset(qx/icon/Oxygen/48/status/dialog-error.png)
- * @asset(qx/icon/Oxygen/48/actions/dialog-apply.png)
  * @asset(qx/icon/${qx.icontheme}/48/status/dialog-information.png)
  * @asset(qx/icon/${qx.icontheme}/48/status/dialog-warning.png)
  * @asset(qx/icon/${qx.icontheme}/48/status/dialog-error.png)

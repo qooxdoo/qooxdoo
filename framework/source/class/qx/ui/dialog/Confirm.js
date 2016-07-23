@@ -33,16 +33,13 @@
  *
  *   confirm.show();
  * </pre>
-*
-* @asset(qx/icon/Oxygen/48/status/dialog-warning.png)
-* @asset(qx/icon/Oxygen/16/actions/dialog-apply.png)
-* @asset(qx/icon/Oxygen/16/actions/process-stop.png)
-* @asset(qx/icon/${qx.icontheme}/48/status/dialog-warning.png)
-* @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
-* @asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
-* @asset(qx/icon/${qx.icontheme}/16/actions/dialog-apply.png)
-* @asset(qx/icon/${qx.icontheme}/16/actions/process-stop.png)
-*/
+ *
+ * @asset(qx/icon/${qx.icontheme}/48/status/dialog-warning.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-apply.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/process-stop.png)
+ */
 qx.Class.define('qx.ui.dialog.Confirm', {
   extend : qx.ui.dialog.Abstract,
 
