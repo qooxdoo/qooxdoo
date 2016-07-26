@@ -57,7 +57,7 @@ One possible solution using annotations would be to annotate each property with 
 		properties: {
 			allowNonUsa: {
 				init: false,
-				check: "Boolean
+				check: "Boolean"
 			}
 		},
 		
