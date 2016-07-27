@@ -38,6 +38,11 @@ qx.Class.define("qx.test.lang.Array",
       qx.lang.Array.append(a, new qx.data.Array([ 4, 5, 6 ]));
       this.assertJsonEquals(a, [ 1, 2, 3, 4, 5, 6 ]);
 
+      var a = new qx.data.Array([ 1, 2, 3 ]);
+      qx.lang.Array.append(a, [ 4, 5, 6 ]);
+      this.assertJsonEquals(a.toArray(), [ 1, 2, 3, 4, 5, 6 ]);
+      a.dispose();
+
       var error = false;
 
       try {
@@ -58,6 +63,11 @@ qx.Class.define("qx.test.lang.Array",
       var a = [ 1, 2, 3, 4, 5 ];
       qx.lang.Array.exclude(a, new qx.data.Array([ 1, 3, 5 ]));
       this.assertJsonEquals([ 2, 4 ], a);
+      
+      var a = new qx.data.Array([ 1, 2, 3, 4, 5 ]);
+      qx.lang.Array.exclude(a, [ 1, 3, 5 ]);
+      this.assertJsonEquals([ 2, 4 ], a.toArray());
+      a.dispose();
     },
 
 
