@@ -430,12 +430,13 @@ qx.Class.define("qx.data.Array",
      * change event if the array contents are the same, and will make sure that only
      * one change event is fired
      * 
-     * @param src {qx.data.Array|[]} the new value to set the array to
+     * @param src {qx.data.Array|Array} the new value to set the array to
      */
     replace: function(src) {
       src = qx.lang.Array.toNativeArray(src);
-      if (this.equals(src))
+      if (this.equals(src)) {
         return;
+      }
       var args = [ 0, this.getLength() ];
       src.forEach(function(item) {
         args.push(item);
