@@ -287,10 +287,12 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     append : function(arr1, arr2)
     {
-      if (arr1 instanceof qx.data.Array)
+      if (arr1 instanceof qx.data.Array) {
         return arr1.append(arr2);
-      if (arr2 instanceof qx.data.Array)
+      }
+      if (arr2 instanceof qx.data.Array) {
         arr2 = arr2.toArray();
+      }
       
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
@@ -316,8 +318,9 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     exclude : function(arr1, arr2)
     {
-      if (arr1 instanceof qx.data.Array)
+      if (arr1 instanceof qx.data.Array) {
         return arr1.exclude(arr1, arr2);
+      }
       
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
@@ -347,8 +350,9 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     remove : function(arr, obj)
     {
-      if (arr instanceof qx.data.Array)
+      if (arr instanceof qx.data.Array) {
         return arr.remove(obj);
+      }
       
       var i = arr.indexOf(obj);
 
@@ -382,8 +386,9 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     equals : function(arr1, arr2)
     {
-      if (arr1 instanceof qx.data.Array)
+      if (arr1 instanceof qx.data.Array) {
         return arr1.equals(arr2);
+      }
       arr2 = qx.lang.Array.toNativeArray(arr2);
       
       var length = arr1.length;
@@ -618,20 +623,22 @@ qx.Bootstrap.define("qx.lang.Array",
      * @return {Array} the edited array (or the new array, if dest is null)
      */
     replace: function(dest, src) {
-      if (dest instanceof qx.data.Array)
+      if (dest instanceof qx.data.Array) {
         return dest.replace(dest, src);
+      }
       
       if (src === null) {
-        if (dest === null)
+        if (dest === null) {
           return null;
-        else
+        } else {
           return [];
+        }
       }
       
       src = qx.lang.Array.toNativeArray(src);
-      if (dest === null)
+      if (dest === null) {
         dest = src.slice(0);
-      else {
+      } else {
         var args = [ 0, dest.length ];
         src.forEach(function(item) {
           args.push(item);
@@ -652,16 +659,19 @@ qx.Bootstrap.define("qx.lang.Array",
      * @return {Array}
      */
     toNativeArray: function(src, clone) {
-      if (src === undefined || src === null)
+      if (src === undefined || src === null) {
         return src;
+      }
       if (src instanceof qx.data.Array) {
-        if (clone)
+        if (clone) {
           return src.toArray().slice(0);
+        }
         return src.toArray();
       }
       if (qx.lang.Type.isArray(src)) {
-        if (clone)
+        if (clone) {
           return src.slice(0);
+        }
         return src;
       }
       return [ src ];
