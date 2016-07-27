@@ -287,6 +287,11 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     append : function(arr1, arr2)
     {
+      if (arr1 instanceof qx.data.Array)
+        return arr1.append(dest, src);
+      if (arr2 instanceof qx.data.Array)
+        arr2 = arr2.toArray();
+      
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
       if (qx.core.Environment.get("qx.debug"))
@@ -311,6 +316,9 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     exclude : function(arr1, arr2)
     {
+      if (arr1 instanceof qx.data.Array)
+        return arr1.exclude(dest, src);
+      
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
       if (qx.core.Environment.get("qx.debug"))
@@ -319,13 +327,12 @@ qx.Bootstrap.define("qx.lang.Array",
         qx.core.Assert && qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
       }
 
-      for (var i=0, il=arr2.length, index; i<il; i++)
-      {
-        index = arr1.indexOf(arr2[i]);
+      arr2.forEach(function(item) {
+        index = arr1.indexOf(item);
         if (index != -1) {
           arr1.splice(index, 1);
         }
-      }
+      });
 
       return arr1;
     },
@@ -340,6 +347,9 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     remove : function(arr, obj)
     {
+      if (arr instanceof qx.data.Array)
+        return arr.remove(obj);
+      
       var i = arr.indexOf(obj);
 
       if (i != -1)
@@ -372,6 +382,10 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     equals : function(arr1, arr2)
     {
+      if (arr1 instanceof qx.data.Array)
+        return arr1.equals(arr2);
+      arr2 = qx.lang.Array.toNativeArray(arr2);
+      
       var length = arr1.length;
 
       if (length !== arr2.length) {
@@ -599,11 +613,14 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Replaces the contents of the array `dest`
      * 
-     * @param dest {Array} the array to edit (if null then a new array is created)
-     * @param src {Array} the array to copy from, or null
+     * @param dest {Array||qx.data.Array} the array to edit (if null then a new array is created)
+     * @param src {Array||qx.data.Array} the array to copy from, or null
      * @return {Array} the edited array (or the new array, if dest is null)
      */
     replace: function(dest, src) {
+      if (dest instanceof qx.data.Array)
+        return dest.replace(dest, src);
+      
       if (src === null) {
         if (dest === null)
           return null;
@@ -611,6 +628,7 @@ qx.Bootstrap.define("qx.lang.Array",
           return [];
       }
       
+      src = qx.lang.Array.toNativeArray(src);
       if (dest === null)
         dest = src.slice(0);
       else {

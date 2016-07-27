@@ -827,6 +827,20 @@ qx.Class.define("qx.data.Array",
 
 
     /**
+     * Removes all elements which are listed in the array.
+     *
+     * @param array {Array} the elements of this array will be excluded from this one
+     */
+    exclude : function(array)
+    {
+      array = qx.lang.Array.toNativeArray(array);
+      array.forEach(function(item) {
+        this.remove(item);
+      }, this);
+    },
+
+
+    /**
      * Remove the given item.
      *
      * @param item {var} Item to be removed from the array.

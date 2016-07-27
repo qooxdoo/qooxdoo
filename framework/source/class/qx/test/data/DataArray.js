@@ -422,6 +422,17 @@ qx.Class.define("qx.test.data.DataArray",
       this.assertEquals("sechs", this.__a.getItem(5), "append does not work");
       dArray.dispose();
     },
+    
+    
+    testExclude: function() {
+      var tmp = new qx.data.Array([ "one", "two", "three", "four", "five" ]);
+      tmp.exclude([ "two", "four" ]);
+      this.assertArrayEquals(tmp.toArray(), [ "one", "three", "five" ]);
+      
+      var tmp = new qx.data.Array([ "one", "two", "three", "four", "five" ]);
+      tmp.exclude(new qx.data.Array([ "one", "three", "five" ]));
+      this.assertArrayEquals(tmp.toArray(), [ "two", "four" ]);
+    },
 
 
     testRemove: function() {

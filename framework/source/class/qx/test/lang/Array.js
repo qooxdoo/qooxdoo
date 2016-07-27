@@ -32,7 +32,10 @@ qx.Class.define("qx.test.lang.Array",
       this.assertNotUndefined(qx.lang.Array.append);
       var a = [ 1, 2, 3 ];
       qx.lang.Array.append(a, [ 4, 5, 6 ]);
+      this.assertJsonEquals(a, [ 1, 2, 3, 4, 5, 6 ]);
 
+      var a = [ 1, 2, 3 ];
+      qx.lang.Array.append(a, new qx.data.Array([ 4, 5, 6 ]));
       this.assertJsonEquals(a, [ 1, 2, 3, 4, 5, 6 ]);
 
       var error = false;
@@ -44,6 +47,17 @@ qx.Class.define("qx.test.lang.Array",
       }
 
       this.assert(error);
+    },
+    
+    
+    testExclude : function() {
+      var a = [ 1, 2, 3, 4, 5 ];
+      qx.lang.Array.exclude(a, [ 2, 4 ]);
+      this.assertJsonEquals([ 1, 3, 5 ], a);
+      
+      var a = [ 1, 2, 3, 4, 5 ];
+      qx.lang.Array.exclude(a, new qx.data.Array([ 1, 3, 5 ]));
+      this.assertJsonEquals([ 2, 4 ], a);
     },
 
 
@@ -102,6 +116,12 @@ qx.Class.define("qx.test.lang.Array",
 
       this.assertJsonEquals(a, [ -3, -2, -1, 0, 1, 3 ]);
       this.assertEquals(6, a.length);
+      
+      var da = new qx.data.Array([ -3, -2, -1, 0, 1, 2, 3 ]);
+      qx.lang.Array.remove(da, 2);
+
+      this.assertJsonEquals(da.toArray(), [ -3, -2, -1, 0, 1, 3 ]);
+      this.assertEquals(6, da.length);
     },
 
 
@@ -122,6 +142,30 @@ qx.Class.define("qx.test.lang.Array",
 
       this.assertJsonEquals(a, []);
       this.assertEquals(0, a.length);
+    },
+    
+    
+    testContains: function() {
+      var a = [ -3, -2, -1, 0, 1, 2, 3 ];
+      var da = new qx.data.Array(a);
+
+      this.assertTrue(qx.lang.Array.contains(a, -2));
+      this.assertFalse(qx.lang.Array.contains(a, -10));
+      this.assertTrue(qx.lang.Array.contains(da, -2));
+      this.assertFalse(qx.lang.Array.contains(da, -10));
+      
+      da.dispose();
+    },
+    
+    
+    testEquals : function() {
+      var a = [ -3, -2, -1, 0, 1, 2, 3 ];
+      var da = new qx.data.Array(a);
+      
+      this.assertFalse(da.toArray() === a);
+      this.assertTrue(qx.lang.Array.equals(a, da));
+      this.assertTrue(qx.lang.Array.equals(da, a));
+      this.assertFalse(qx.lang.Array.equals(a, [ 4, 5, 6 ]));
     },
     
     
