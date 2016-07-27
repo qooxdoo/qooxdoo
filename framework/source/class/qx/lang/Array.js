@@ -288,7 +288,7 @@ qx.Bootstrap.define("qx.lang.Array",
     append : function(arr1, arr2)
     {
       if (arr1 instanceof qx.data.Array)
-        return arr1.append(dest, src);
+        return arr1.append(arr2);
       if (arr2 instanceof qx.data.Array)
         arr2 = arr2.toArray();
       
@@ -317,7 +317,7 @@ qx.Bootstrap.define("qx.lang.Array",
     exclude : function(arr1, arr2)
     {
       if (arr1 instanceof qx.data.Array)
-        return arr1.exclude(dest, src);
+        return arr1.exclude(arr1, arr2);
       
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
@@ -328,7 +328,7 @@ qx.Bootstrap.define("qx.lang.Array",
       }
 
       arr2.forEach(function(item) {
-        index = arr1.indexOf(item);
+        var index = arr1.indexOf(item);
         if (index != -1) {
           arr1.splice(index, 1);
         }
@@ -613,8 +613,8 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Replaces the contents of the array `dest`
      * 
-     * @param dest {Array||qx.data.Array} the array to edit (if null then a new array is created)
-     * @param src {Array||qx.data.Array} the array to copy from, or null
+     * @param dest {Array|qx.data.Array} the array to edit (if null then a new array is created)
+     * @param src {Array|qx.data.Array} the array to copy from, or null
      * @return {Array} the edited array (or the new array, if dest is null)
      */
     replace: function(dest, src) {
@@ -647,9 +647,9 @@ qx.Bootstrap.define("qx.lang.Array",
      * in which case unless `clone` parameter is set to true the rules of qx.data.Array.toArray should 
      * be followed, ie that the array should not be manipulated directly.
      * 
-     * @param src {qx.data.Array|[]|Object} the object to return as an array
+     * @param src {qx.data.Array|Array} the object to return as an array
      * @param clone{Boolean?} whether to make the returned array a clone, ie editable by the calling code
-     * @return {[]}
+     * @return {Array}
      */
     toNativeArray: function(src, clone) {
       if (src === undefined || src === null)
