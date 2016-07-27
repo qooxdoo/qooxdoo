@@ -968,13 +968,15 @@ qx.Bootstrap.define("qx.Class",
           clazz.$$annotations[group] = {};
         }
         
-        if (!qx.lang.Type.isArray(anno))
+        if (!qx.lang.Type.isArray(anno)) {
           anno = [anno];
+        }
         
-        if (key)
+        if (key) {
           clazz.$$annotations[group][key] = anno;
-        else
+        } else {
           clazz.$$annotations[group] = anno;
+        }
       }
     },
 
@@ -1052,8 +1054,9 @@ qx.Bootstrap.define("qx.Class",
                 }
               }
             }
-            if (key.charAt(0) === '@')
+            if (key.charAt(0) === '@') {
               continue;
+            }
 
             if (qx.core.Environment.get("qx.aspects"))
             {
