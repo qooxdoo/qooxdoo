@@ -593,6 +593,60 @@ qx.Bootstrap.define("qx.lang.Array",
       }
 
       return range;
+    },
+    
+    
+    /**
+     * Replaces the contents of the array `dest`
+     * 
+     * @param dest {Array} the array to edit (if null then a new array is created)
+     * @param src {Array} the array to copy from, or null
+     * @return {Array} the edited array (or the new array, if dest is null)
+     */
+    replace: function(dest, src) {
+      if (src === null) {
+        if (dest === null)
+          return null;
+        else
+          return [];
+      }
+      
+      if (dest === null)
+        dest = src.slice(0);
+      else {
+        var args = [ 0, dest.length ];
+        src.forEach(function(item) {
+          args.push(item);
+        });
+        dest.splice.apply(dest, args);
+      }
+      return dest;
+    },
+    
+    
+    /**
+     * Returns a native array from src where possible; qx.data.Array is converted to its native array,
+     * in which case unless `clone` parameter is set to true the rules of qx.data.Array.toArray should 
+     * be followed, ie that the array should not be manipulated directly.
+     * 
+     * @param src {qx.data.Array|[]|Object} the object to return as an array
+     * @param clone{Boolean?} whether to make the returned array a clone, ie editable by the calling code
+     * @return {[]}
+     */
+    toNativeArray: function(src, clone) {
+      if (src === undefined || src === null)
+        return src;
+      if (src instanceof qx.data.Array) {
+        if (clone)
+          return src.toArray().slice(0);
+        return src.toArray();
+      }
+      if (qx.lang.Type.isArray(src)) {
+        if (clone)
+          return src.slice(0);
+        return src;
+      }
+      return [ src ];
     }
   }
 });

@@ -142,6 +142,10 @@ qx.Class.define("qx.test.data.DataArray",
        var b = this.__a.concat(["four", "five"]);
        this.assertEquals("one two three four five", b.join(" "), "Concat does not work");
        b.dispose();
+       
+       var b = this.__a.concat(new qx.data.Array(["four", "five"]));
+       this.assertEquals("one two three four five", b.join(" "), "Concat does not work");
+       b.dispose();
     },
 
 
@@ -158,6 +162,25 @@ qx.Class.define("qx.test.data.DataArray",
       slice = this.__a.slice(0, 2);
       this.assertEquals("two", slice.getItem(1), "Slice does not work");
       slice.dispose();
+    },
+    
+    
+    testReplace: function() {
+      var numFired = 0;
+      var id = this.__a.addListener("change", function() {
+        numFired++;
+      });
+      
+      this.__a.replace([ "one", "two", "three" ]);
+      this.assertEquals(0, numFired);
+      this.__a.replace([ "one", "three" ]);
+      this.assertEquals(1, numFired);
+      this.assertArrayEquals([ "one", "three" ], this.__a.toArray());
+      this.__a.replace(new qx.data.Array([ "two", "four" ]));
+      this.assertEquals(2, numFired);
+      this.assertArrayEquals([ "two", "four" ], this.__a.toArray());
+      
+      this.__a.removeListenerById(id);
     },
 
 
@@ -412,10 +435,10 @@ qx.Class.define("qx.test.data.DataArray",
 
     testEquals: function() {
       var a = new qx.data.Array("one", "two", "three");
-
       this.assertTrue(this.__a.equals(a), "equals does not work.");
-
       a.dispose();
+      
+      this.assertTrue(this.__a.equals([ "one", "two", "three" ]), "equals does not work.");
     },
 
 
