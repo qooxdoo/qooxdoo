@@ -122,6 +122,24 @@ qx.Class.define("qx.test.lang.Array",
 
       this.assertJsonEquals(a, []);
       this.assertEquals(0, a.length);
+    },
+    
+    
+    testReplace: function() {
+      var a = [ 1, 2, 3 ];
+      var tmp = qx.lang.Array.replace(a, [ "one", "two", "three" ]);
+      this.assertTrue(a === tmp);
+      this.assertArrayEquals([ "one", "two", "three" ], a);
+    },
+
+
+    testToNativeArray : function() {
+      var da = new qx.data.Array([ 1, 2, 3 ]);
+      var na = qx.lang.Array.toNativeArray(da);
+      this.assertTrue(da.toArray() === na);
+      na = qx.lang.Array.toNativeArray(da, true);
+      this.assertTrue(da.toArray() !== na);
+      this.assertArrayEquals([ 1, 2, 3 ], na);
     }
   }
 });
