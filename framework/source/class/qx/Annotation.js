@@ -85,14 +85,23 @@ qx.Bootstrap.define("qx.Annotation", {
      * @param clazz {Class} the class to inspect
      * @param name {String} the name (eg method name) to look for
      * @param group {String} the group to look in if applicable (eg "methods")
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    __getOwnAnnos: function(clazz, name, group) {
+    __getOwnAnnos: function(clazz, name, group, annoClass) {
       if (clazz.$$annotations === undefined) {
         return [];
       }
       var annos = group ? clazz.$$annotations[group] : clazz.$$annotations;
-      return (annos && annos[name])||[];
+      var match = annos && annos[name];
+      if (!match)
+        return [];
+      if (annoClass) {
+        match = match.filter(function(anno) {
+          return anno instanceof annoClass;
+        });
+      }
+      return match;
     },
 
     
@@ -101,15 +110,21 @@ qx.Bootstrap.define("qx.Annotation", {
      * @param clazz {Class} the starting class to inspect
      * @param name {String} the name (eg method name) to look for
      * @param group {String} the group to look in if applicable (eg "methods")
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    __getAnnos: function(clazz, name, group) {
+    __getAnnos: function(clazz, name, group, annoClass) {
       var result = [];
       for (var tmp = clazz; tmp; tmp = tmp.superclass) {
         if (tmp.$$annotations !== undefined) {
           var annos = group ? tmp.$$annotations[group] : tmp.$$annotations;
           var src = annos && annos[name];
           if (src) {
+            if (annoClass) {
+              src = src.filter(function(anno) {
+                return anno instanceof annoClass;
+              });
+            }
             qx.lang.Array.append(result, src);
           }
         }
@@ -121,60 +136,66 @@ qx.Bootstrap.define("qx.Annotation", {
     /**
      * Returns the class annotations, exclusively from the class
      * @param clazz {Class} the class to inspect
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getOwnClass: function(clazz) {
-      return this.__getOwnAnnos(clazz, "@", null);
+    getOwnClass: function(clazz, annoClass) {
+      return this.__getOwnAnnos(clazz, "@", null, annoClass);
     },
 
     
     /**
      * Returns the class annotations, from this class and superclasses
      * @param clazz {Class} the class to inspect
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getClass: function(clazz) {
-      return this.__getAnnos(clazz, "@", null);
+    getClass: function(clazz, annoClass) {
+      return this.__getAnnos(clazz, "@", null, annoClass);
     },
 
     
     /**
      * Returns the class constructor's annotations, exclusively from the class
      * @param clazz {Class} the class to inspect
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getOwnConstructor: function(clazz) {
-      return this.__getOwnAnnos(clazz, "@construct", null);
+    getOwnConstructor: function(clazz, annoClass) {
+      return this.__getOwnAnnos(clazz, "@construct", null, annoClass);
     },
 
     
     /**
      * Returns the class constructor's annotations, from the class and superclasses
      * @param clazz {Class} the class to inspect
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getConstructor: function(clazz) {
-      return this.__getAnnos(clazz, "@construct", null);
+    getConstructor: function(clazz, annoClass) {
+      return this.__getAnnos(clazz, "@construct", null, annoClass);
     },
 
     
     /**
      * Returns the class destructor's annotations, exclusively from the class
      * @param clazz {Class} the class to inspect
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getOwnDestructor: function(clazz) {
-      return this.__getOwnAnnos(clazz, "@destruct", null);
+    getOwnDestructor: function(clazz, annoClass) {
+      return this.__getOwnAnnos(clazz, "@destruct", null, annoClass);
     },
 
     
     /**
      * Returns the class destructor's annotations, from the class and superclasses
      * @param clazz {Class} the class to inspect
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getDestructor: function(clazz) {
-      return this.__getAnnos(clazz, "@destruct", null);
+    getDestructor: function(clazz, annoClass) {
+      return this.__getAnnos(clazz, "@destruct", null, annoClass);
     },
 
     
@@ -182,10 +203,11 @@ qx.Bootstrap.define("qx.Annotation", {
      * Returns the class member's annotations, exclusively from the class
      * @param clazz {Class} the class to inspect
      * @param name {String} member name
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getOwnMember: function(clazz, name) {
-      return this.__getOwnAnnos(clazz, name, "members");
+    getOwnMember: function(clazz, name, annoClass) {
+      return this.__getOwnAnnos(clazz, name, "members", annoClass);
     },
 
 
@@ -193,40 +215,44 @@ qx.Bootstrap.define("qx.Annotation", {
      * Returns the class member's annotations, from the class and superclass
      * @param clazz {Class} the class to inspect
      * @param name {String} member name
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getMember: function(clazz, name) {
-      return this.__getAnnos(clazz, name, "members");
+    getMember: function(clazz, name, annoClass) {
+      return this.__getAnnos(clazz, name, "members", annoClass);
     },
     
     /**
      * Returns the class property's annotations, exclusively from the class
      * @param clazz {Class} the class to inspect
      * @param name {String} property name
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getOwnProperty: function(clazz, name) {
-      return this.__getOwnAnnos(clazz, name, "properties");
+    getOwnProperty: function(clazz, name, annoClass) {
+      return this.__getOwnAnnos(clazz, name, "properties", annoClass);
     },
     
     /**
      * Returns the class property's annotations, from the class and superclasses
      * @param clazz {Class} the class to inspect
      * @param name {String} property name
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getProperty: function(clazz, name) {
-      return this.__getAnnos(clazz, name, "properties");
+    getProperty: function(clazz, name, annoClass) {
+      return this.__getAnnos(clazz, name, "properties", annoClass);
     },
     
     /**
      * Returns the class static's annotations, exclusively from the class
      * @param clazz {Class} the class to inspect
      * @param name {String} static name
+     * @param annoClass {Class?} optional class which the annotations being returned must implement 
      * return {Object[]} the annotations, never null
      */
-    getStatic: function(clazz, name) {
-      return this.__getOwnAnnos(clazz, name, "statics");
+    getStatic: function(clazz, name, annoClass) {
+      return this.__getOwnAnnos(clazz, name, "statics", annoClass);
     }
     
   }

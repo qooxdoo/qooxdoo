@@ -125,6 +125,65 @@ qx.Class.define("qx.test.Annotation", {
       this.assertArrayEquals([ "refined-bravo-anno", "property-bravo-anno" ], qx.Annotation.getProperty(clazzBottom, "bravo"));
       this.assertArrayEquals([ "refined-bravo-anno" ], qx.Annotation.getOwnProperty(clazzBottom, "bravo"));
       
+    },
+    
+    testByType: function() {
+      var MyAnno = qx.Class.define(null, {
+        extend: qx.core.Object,
+        
+        construct: function(value) {
+          this.base(arguments);
+          if (value)
+            this.setValue(value);
+        },
+        
+        properties: {
+          value: {
+            init: 0
+          }
+        }
+      });
+      
+      var clazz = qx.Class.define(null, {
+        extend: qx.core.Object,
+        
+        "@construct": [ "construct-a-anno" ],
+        "@destruct": [ "destruct-a-anno" ],
+        
+        properties: {
+          alpha: {
+            init: null,
+            nullable: true,
+            "@": [ "property-alpha-anno", new MyAnno(2) ]
+          }
+        },
+        
+        members: {
+          "@methodA": [ "method-a-anno", new MyAnno(3) ],
+          methodA: function() {
+            
+          }
+        },
+        
+        statics : {
+          "@staticA": [ "static-a-anno", new MyAnno(4) ],
+          staticA: function() {
+            return true;
+          }
+        }
+      });
+      
+      var match = qx.Annotation.getProperty(clazz, "alpha", MyAnno);
+      this.assertEquals(1, match.length);
+      this.assertTrue(match[0] instanceof MyAnno);
+      
+      var match = qx.Annotation.getOwnProperty(clazz, "alpha", MyAnno);
+      this.assertEquals(1, match.length);
+      this.assertTrue(match[0] instanceof MyAnno);
+      
+      var match = qx.Annotation.getMember(clazz, "methodA", MyAnno);
+      this.assertEquals(1, match.length);
+      this.assertTrue(match[0] instanceof MyAnno);
     }
   }
 });
