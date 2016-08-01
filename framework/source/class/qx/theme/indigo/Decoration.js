@@ -97,6 +97,16 @@ qx.Theme.define("qx.theme.indigo.Decoration",
 
         backgroundColor : "#323335"
       }
+    },
+
+    "dialog-box": {
+      include: "popup",
+      style: {
+        width: [4, 1, 1, 1],
+        radius: [4, 4, 4, 4],
+        backgroundColor : "background",
+        color: ['highlight', 'window-border', 'window-border', 'window-border']
+      }
     }
   }
 });

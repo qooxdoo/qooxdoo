@@ -32,6 +32,14 @@
  * @asset(qx/icon/Tango/16/actions/window-close.png)
  * @asset(qx/icon/Tango/16/actions/dialog-cancel.png)
  * @asset(qx/icon/Tango/16/actions/dialog-ok.png)
+ *
+ * @asset(qx/icon/Tango/48/status/dialog-information.png)
+ * @asset(qx/icon/Tango/48/status/dialog-warning.png)
+ * @asset(qx/icon/Tango/48/status/dialog-error.png)
+ * @asset(qx/icon/Tango/48/actions/dialog-apply.png)
+ *
+ * @asset(qx/icon/Tango/16/actions/dialog-apply.png)
+ * @asset(qx/icon/Tango/16/actions/process-stop.png)
  */
 qx.Theme.define("qx.theme.indigo.Appearance",
 {
@@ -126,6 +134,75 @@ qx.Theme.define("qx.theme.indigo.Appearance",
       }
     },
 
+    "dialog" : {
+      include: "window",
+
+      style: function(states) {
+        return {
+          contentPadding : [ 0, 0, 10, 0 ],
+          decorator : states.maximized ? undefined : states.active ? "dialog-box" : "window",
+          padding: 10
+        }
+      }
+    },
+
+    "dialog/atom" : {
+      include: "atom"
+    },
+
+    "dialog/title" : {
+      style : function(states) {
+        return {
+          font : "bold",
+          //alignY : "middle",
+          textAlign : "center"
+        }
+      }
+    },
+
+    "dialog/ok" : {
+      alias : "button",
+      include : "button",
+
+      style : function(states) {
+        return {
+          icon : "icon/16/actions/dialog-ok.png"
+        };
+      }
+    },
+
+    "dialog/yes" : {
+      alias : "button",
+      include : "button",
+
+      style : function(states) {
+        return {
+          icon : "icon/16/actions/dialog-apply.png"
+        };
+      }
+    },
+
+    "dialog/no" : {
+      alias : "button",
+      include : "button",
+
+      style : function(states) {
+        return {
+          icon : "icon/16/actions/process-stop.png"
+        };
+      }
+    },
+
+    "dialog/cancel" : {
+      alias : "button",
+      include : "button",
+
+      style : function(states) {
+        return {
+          icon : "icon/16/actions/dialog-cancel.png"
+        };
+      }
+    },
 
     "virtual-tree" :
     {
