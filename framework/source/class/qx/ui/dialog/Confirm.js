@@ -33,12 +33,6 @@
  *
  *   confirm.show();
  * </pre>
- *
- * @asset(qx/icon/${qx.icontheme}/48/status/dialog-warning.png)
- * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
- * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
- * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-apply.png)
- * @asset(qx/icon/${qx.icontheme}/16/actions/process-stop.png)
  */
 qx.Class.define('qx.ui.dialog.Confirm', {
   extend : qx.ui.dialog.Abstract,
@@ -74,7 +68,6 @@ qx.Class.define('qx.ui.dialog.Confirm', {
   },
 
   members : {
-    _buttons : null,
     _callbacks : null,
 
     // property apply
@@ -111,73 +104,63 @@ qx.Class.define('qx.ui.dialog.Confirm', {
 
       for (var i in buttons) {
         if (qx.lang.Type.isString(buttons[i])) {
-          button = this._getButton(buttons[i]);
+          button = this.getChildControl(buttons[i]);
         }
         else if(qx.lang.Type.isObject(buttons[i])) {
-          button = this._getButton(buttons[i]['button'], buttons[i]);
+          options = buttons[i];
+          button = this.getChildControl(options['button']);
+
+          if(options['label']) {
+            button.setLabel(options['label']);
+          }
+
+          if(options['icon']) {
+            button.setIcon(options['icon']);
+          }
+
+          if(options['callback']) {
+            var callbackContext = options['context'] || this.getContext();
+
+            this._callbacks[options['button']] = {
+              callback : options['callback'],
+              context : callbackContext
+            };
+          }
         }
         else {
           throw new Error ('Malformed button option.');
         }
-
-        this._getButtonsBar().add(button);
       }
     },
 
-    /**
-     * Internal factory method of buttons.
-     *
-     * @return {qx.ui.form.Button}
-     */
-    _getButton: function(id, options) {
-      if(this._buttons[id]) {
-        return this._buttons[id];
-      }
-
-      var button;
+    // overridden
+    _createChildControlImpl : function(id) {
+      var control;
 
       switch (id) {
         case "ok":
-          button = new qx.ui.form.Button(this.tr('OK'), 'icon/16/actions/dialog-ok.png');
+          control = new qx.ui.form.Button(this.tr('OK'));
           break;
         case "yes":
-          button = new qx.ui.form.Button(this.tr('Yes'), 'icon/16/actions/dialog-apply.png');
+          control = new qx.ui.form.Button(this.tr('Yes'));
           break;
         case "no":
-          button = new qx.ui.form.Button(this.tr('No'), 'icon/16/actions/process-stop.png');
+          control = new qx.ui.form.Button(this.tr('No'));
           break;
         case "cancel":
-          button = new qx.ui.form.Button(this.tr('Cancel'), 'icon/16/actions/dialog-cancel.png');
+          control = new qx.ui.form.Button(this.tr('Cancel'));
           break;
-        default:
-          throw new Error('Unsupported «id» for button');
       }
 
-      if(options) {
-        if(options['label']) {
-          button.setLabel(options['label']);
-        }
+      if(control) {
+        control.setUserData('id', id);
+        control.addListener("execute", this._buttonHandler, this);
+        this.getChildControl("buttons-bar").add(control);
 
-        if(options['icon']) {
-          button.setIcon(options['icon']);
-        }
-
-        if(options['callback']) {
-          var callbackContext = options['context'] || this.getContext();
-
-          this._callbacks[id] = {
-            callback : options['callback'],
-            context : callbackContext
-          };
-        }
+        return control;
       }
 
-      button.setUserData('id', id);
-      button.addListener("execute", this._buttonHandler, this);
-
-      this._buttons[id] = button;
-
-      return this._buttons[id];
+      return this.base(arguments, id);
     }
   }
 });
