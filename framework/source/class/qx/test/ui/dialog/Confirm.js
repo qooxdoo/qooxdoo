@@ -56,6 +56,8 @@ qx.Class.define("qx.test.ui.dialog.Confirm", {
         }
       ]);
 
+      this._settedContext.setAutoDispose(false);
+
       this._mustSetContext = new qx.ui.dialog.Confirm("QxTitle", "QxMessage", [
         {
           button: "yes",
@@ -64,6 +66,8 @@ qx.Class.define("qx.test.ui.dialog.Confirm", {
           }
         }
       ]);
+
+      this._mustSetContext.setAutoDispose(false);
     },
 
     tearDown : function() {
@@ -77,27 +81,24 @@ qx.Class.define("qx.test.ui.dialog.Confirm", {
     testEmptyConstructor: function() {
       var c = this._dialog;
 
-      this.assertEquals("", c.getTitle());
+      this.assertEquals("", c.getCaption());
       this.assertEquals("", c.getMessage());
-      this.assertEquals("icon/48/status/dialog-warning.png", c._getAtom().getIcon());
 
       // Test default ok and cancel
-      var buttonsOnBar =  c._getButtonsBar().getChildren();
-      this.assertEquals("ok", buttonsOnBar[0].getUserData("id"));
-      this.assertEquals("cancel", buttonsOnBar[1].getUserData("id"));
+      this.assertEquals("ok", c.getChildControl("ok").getUserData("id"));
+      this.assertEquals("cancel", c.getChildControl("cancel").getUserData("id"));
     },
 
     testSimpleConstruction: function() {
       var c = this._yesNoCancelDialog;
 
-      this.assertEquals("QxTitle", c.getTitle());
+      this.assertEquals("QxTitle", c.getCaption());
       this.assertEquals("QxMessage", c.getMessage());
 
       // Test default ok and cancel
-      var buttonsOnBar =  c._getButtonsBar().getChildren();
-      this.assertEquals("yes", buttonsOnBar[0].getUserData("id"));
-      this.assertEquals("no", buttonsOnBar[1].getUserData("id"));
-      this.assertEquals("cancel", buttonsOnBar[2].getUserData("id"));
+      this.assertEquals("yes", c.getChildControl("yes").getUserData("id"));
+      this.assertEquals("no", c.getChildControl("no").getUserData("id"));
+      this.assertEquals("cancel", c.getChildControl("cancel").getUserData("id"));
     },
 
     testComplexConstruction: function() {
@@ -107,12 +108,8 @@ qx.Class.define("qx.test.ui.dialog.Confirm", {
       var settedContext = this._settedContext;
       var mustSetContext = this._mustSetContext;
 
-      // Hack close methods for do not dispose.
-      settedContext.close = function(){};
-      mustSetContext.close = function(){};
-
-      var ofSettedButton = settedContext._getButtonsBar().getChildren()[0];
-      var ofMustSetButton = mustSetContext._getButtonsBar().getChildren()[0];
+      var ofSettedButton = settedContext.getChildControl("no");
+      var ofMustSetButton = mustSetContext.getChildControl("yes");
 
       // Test init context
       this.assertEquals(initContext, initContext.getContext());
