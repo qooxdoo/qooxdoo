@@ -50,8 +50,9 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
     parse : function(date) {
       // Match input against ISO8601 regular expression
       var captureGroups = /^(\d{4}|[+\-]\d{6})(?:-(\d{2})(?:-(\d{2}))?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(?:(Z)|([+\-])(\d{2})(?::(\d{2}))?)?)?$/.exec(date);
-      if(!captureGroups)
+      if(!captureGroups) {
         return Date.originalParse(date);
+      }
 
       // Avoid invalid timestamps caused by undefined values being passed to Date.UTC
       [ 1, 4, 5, 6, 7, 10, 11 ].forEach(function(i) {
@@ -64,8 +65,9 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
       var minutesOffset = 0;
       if(captureGroups[8] !== "Z" && captureGroups[9] !== undefined) {
         minutesOffset = captureGroups[10] * 60 + captureGroups[11];
-        if(captureGroups[9] === "+")
+        if(captureGroups[9] === "+") {
           minutesOffset = - minutesOffset;
+        }
       }
       // Return the number of milliseconds since Epoch
       return Date.UTC(captureGroups[1], captureGroups[2], captureGroups[3], captureGroups[4], captureGroups[5] + minutesOffset, captureGroups[6], captureGroups[7]);

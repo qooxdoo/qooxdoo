@@ -26,7 +26,7 @@ qx.Class.define("qx.test.lang.normalize.Date",
   {
     testParse: function()
     {
-      var sixHours       = 6 * 60 * 60 * 1000,
+      var sixHours = 6 * 60 * 60 * 1000;
       var sixHoursThirty = sixHours + 30 * 60 * 1000;
 
       // Date part
