@@ -13,6 +13,7 @@
 
    Authors:
      * Martin Wittemann (wittemann)
+     * Colin Snover (original Date.parse polyfill)
 
 ************************************************************************ */
 /**
@@ -37,6 +38,37 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
      */
     now : function() {
       return +new Date();
+    },
+
+    /**
+     * Parses a string representation of a date and return number of milliseconds since Epoch or NaN if string is unrecognised
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse">MDN documentation</a>
+     *
+     * Derived from <https://github.com/csnover/js-iso8601>: ©2011 Colin Snover <http://zetafleet.com>, MIT license
+     */
+    parse : function(date) {
+      // Match input against ISO8601 regular expression
+      var captureGroups = /^(\d{4}|[+\-]\d{6})(?:-(\d{2})(?:-(\d{2}))?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(?:(Z)|([+\-])(\d{2})(?::(\d{2}))?)?)?$/.exec(date);
+      if(!captureGroups)
+        return Date.originalParse(date);
+
+      // Avoid invalid timestamps caused by undefined values being passed to Date.UTC
+      [ 1, 4, 5, 6, 7, 10, 11 ].forEach(function(i) {
+        captureGroups[i] = +captureGroups[i] || 0;
+      });
+      captureGroups[2] = (+captureGroups[2] || 1) - 1; // Allow undefined months
+      captureGroups[3] = +captureGroups[3] || 1;// Allow undefined days
+
+      // Handle timezone offsets
+      var minutesOffset = 0;
+      if(captureGroups[8] !== "Z" && captureGroups[9] !== undefined) {
+        minutesOffset = captureGroups[10] * 60 + captureGroups[11];
+        if(captureGroups[9] === "+")
+          minutesOffset = - minutesOffset;
+      }
+      // Return the number of milliseconds since Epoch
+      return Date.UTC(captureGroups[1], captureGroups[2], captureGroups[3], captureGroups[4], captureGroups[5] + minutesOffset, captureGroups[6], captureGroups[7]);
     }
   },
 
@@ -46,44 +78,10 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
       Date.now = statics.now;
     }
 
-    /**
-     * Date.parse with progressive enhancement for ISO 8601 <https://github.com/csnover/js-iso8601>
-     * © 2011 Colin Snover <http://zetafleet.com>
-     * Released under MIT license.
-     */
-    var origParse = Date.parse, numericKeys = [ 1, 4, 5, 6, 7, 10, 11 ];
-    Date.parse = function(date) {
-      var timestamp, struct, minutesOffset = 0;
-
-      // ES5 §15.9.4.2 states that the string should attempt to be parsed as a Date Time String Format string
-      // before falling back to any implementation-specific date parsing, so that’s what we do, even if native
-      // implementations could be faster
-      //            1 YYYY            2 MM       3 DD         4 HH    5 mm       6 ss      7 msec      8 Z 9 ±    10 tzHH    11 tzmm
-      if ((struct = /^(\d{4}|[+\-]\d{6})(?:-(\d{2})(?:-(\d{2}))?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(?:(Z)|([+\-])(\d{2})(?::(\d{2}))?)?)?$/.exec(date))) {
-          // avoid NaN timestamps caused by “undefined” values being passed to Date.UTC
-          for (var i = 0, k; (k = numericKeys[i]); ++i) {
-            struct[k] = +struct[k] || 0;
-          }
-
-          // allow undefined days and months
-          struct[2] = (+struct[2] || 1) - 1;
-          struct[3] = +struct[3] || 1;
-
-          if (struct[8] !== 'Z' && struct[9] !== undefined) {
-            minutesOffset = struct[10] * 60 + struct[11];
-
-            if (struct[9] === '+') {
-                minutesOffset = 0 - minutesOffset;
-            }
-          }
-
-          timestamp = Date.UTC(struct[1], struct[2], struct[3], struct[4], struct[5] + minutesOffset, struct[6], struct[7]);
-      }
-      else {
-          timestamp = origParse ? origParse(date) : NaN;
-      }
-
-      return timestamp;
-    };
+    // Date.parse
+    if (!qx.core.Environment.get("ecmascript.date.parse")) {
+      Date.originalParse = Date.parse || function(date) { return NaN; };
+      Date.parse = statics.parse; 
+    }
   }
 });
