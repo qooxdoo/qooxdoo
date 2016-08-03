@@ -43,11 +43,11 @@ qx.Class.define('qx.ui.dialog.Confirm', {
    * @param buttons {Array?null} Array of buttons configuration. `["ok", "cancel"]` by default.
    * @param icon {String?null} Icon to use.
    */
-  construct : function(title, message, buttons, icon) {
+  construct : function(caption, message, buttons, icon) {
     buttons = buttons || ["ok", "cancel"];
     icon = icon || "icon/48/status/dialog-warning.png";
 
-    this.base(arguments, title, message, icon);
+    this.base(arguments, caption, message, icon);
 
     this._buttons = {};
     this._callbacks = {};
