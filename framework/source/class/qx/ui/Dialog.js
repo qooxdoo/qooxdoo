@@ -22,17 +22,17 @@ qx.Bootstrap.define("qx.ui.Dialog",
 
   statics : {
     messageBox: function(options) {
-      var title, message, icon;
+      var caption, message, icon;
 
       if (qx.lang.Type.isString(options)) {
         message = options;
-        title = title || "Alert";
+        caption = caption || "Alert";
         icon = icon || "alert";
 
-        (new qx.ui.dialog.Message(title, message, icon)).show();
+        (new qx.ui.dialog.Message(caption, message, icon)).show();
       }
       else if (qx.lang.Type.isObject(options)) {
-        (new qx.ui.dialog.Message(options['title'], options['message'], options['icon'])).show();
+        (new qx.ui.dialog.Message(options['caption'], options['message'], options['icon'])).show();
       }
     },
 
@@ -57,15 +57,15 @@ qx.Bootstrap.define("qx.ui.Dialog",
      * @return {qx.ui.dialog.Confirm}
      */
     confirm: function(options) {
-      var title, message, buttons, icon;
+      var caption, message, buttons, icon;
 
       if (qx.lang.Type.isString(options)) {
         message = options;
-        title = qx.locale.Manager.tr("Confirm");
+        caption = qx.locale.Manager.tr("Confirm");
       }
       else if (qx.lang.Type.isObject(options)) {
         message = options['message'] || '';
-        title = options['title'] || qx.locale.Manager.tr("Confirm");
+        caption = options['caption'] || qx.locale.Manager.tr("Confirm");
         buttons = options['buttons'] || null;
         icon = options['icon'] || null;
       }
@@ -73,7 +73,7 @@ qx.Bootstrap.define("qx.ui.Dialog",
         throw new Error('Malformed arguments for confirm dialog.');
       }
 
-      var dialog = new qx.ui.dialog.Confirm(title, message, buttons, icon);
+      var dialog = new qx.ui.dialog.Confirm(caption, message, buttons, icon);
       dialog.show();
       return dialog;
     }
