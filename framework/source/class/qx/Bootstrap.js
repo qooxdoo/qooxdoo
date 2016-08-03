@@ -845,7 +845,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @return {Boolean} Whether the value is a function.
      */
     isFunction : function(value) {
-      return qx.Bootstrap.getClass(value) === "Function";
+      return typeof value == "function";
     },
 
 
