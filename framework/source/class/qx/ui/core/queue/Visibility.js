@@ -26,6 +26,9 @@ qx.Class.define("qx.ui.core.queue.Visibility",
   {
     /** @type {Array} This contains all the queued widgets for the next flush. */
     __queue : [],
+    
+    /** @type {Map} map of widgets by hash code which are in the queue */
+    __lookup : {},
 
 
     /** @type {Map} Maps hash codes to visibility */
@@ -40,8 +43,11 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      */
     remove : function(widget)
     {
+    	if (this.__lookup[widget.$$hash]) {
+	      delete this.__lookup[widget.$$hash];
+	      qx.lang.Array.remove(this.__queue, widget);
+    	}
       delete this.__data[widget.$$hash];
-      qx.lang.Array.remove(this.__queue, widget);
     },
 
 
@@ -100,12 +106,12 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      */
     add : function(widget)
     {
-      var queue = this.__queue;
-      if (qx.lang.Array.contains(queue, widget)) {
+      if (this.__lookup[widget.$$hash]) {
         return;
       }
 
-      queue.unshift(widget);
+      this.__queue.unshift(widget);
+      this.__lookup[widget.$$hash] = widget;
       qx.ui.core.queue.Manager.scheduleFlush("visibility");
     },
 
@@ -167,6 +173,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
 
       // Recreate the array is cheaper compared to keep a sparse array over time
       this.__queue = [];
+      this.__lookup = {};
     }
   }
 });
