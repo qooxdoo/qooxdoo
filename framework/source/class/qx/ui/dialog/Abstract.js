@@ -120,7 +120,7 @@ qx.Class.define('qx.ui.dialog.Abstract', {
           this.add(control);
           break;
         case "buttons-bar":
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, 'center'));
+          control = new qx.ui.container.Composite(new qx.ui.layout.HBox(5, 'right'));
           this._add(control);
           break;
       }
