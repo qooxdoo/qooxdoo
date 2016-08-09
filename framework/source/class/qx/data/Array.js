@@ -955,9 +955,9 @@ qx.Class.define("qx.data.Array",
      */
     forEach : function(callback, context)
     {
-      for (var i = 0; i < this.__array.length; i++) {
-        callback.call(context, this.__array[i], i, this);
-      }
+      this.__array.forEach(function(element, index) {
+        callback.call(context, element, index, this);
+      });
     },
 
 
