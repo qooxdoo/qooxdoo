@@ -563,7 +563,6 @@ qx.Class.define("qx.ui.tabview.TabView",
       {
         value = [button.getUserData("page")];
         pane.setSelection(value);
-        button.focus();
         this.scrollChildIntoView(button, null, null, false);
       }
       else
