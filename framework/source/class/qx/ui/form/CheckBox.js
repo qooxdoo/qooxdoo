@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.form.CheckBox",
     /**
      * Listener method for "keydown" event.<br/>
      * Removes "abandoned" and adds "pressed" state
-     * for the keys "Enter" or "Space"
+     * for the key "Space"
      *
      * @param e {Event} Key event
      */
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.form.CheckBox",
     /**
      * Listener method for "keyup" event.<br/>
      * Removes "abandoned" and "pressed" state (if "pressed" state is set)
-     * for the keys "Enter" or "Space". It also toggles the {@link #value} property.
+     * for the key "Space". It also toggles the {@link #value} property.
      *
      * @param e {Event} Key event
      */
