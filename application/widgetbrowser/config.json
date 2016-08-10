@@ -147,7 +147,12 @@
           "misc" :
           {
             "include" : [ "widgetbrowser.pages.Misc" ]
-            },
+          },
+
+          "dialog" :
+          {
+            "include" : [ "widgetbrowser.pages.Dialog" ]
+          },
 
 
           // Themes (non-default)

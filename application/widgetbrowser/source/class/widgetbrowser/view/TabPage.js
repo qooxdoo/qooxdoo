@@ -36,6 +36,7 @@
  * @use(widgetbrowser.pages.EmbedFrame)
  * @use(widgetbrowser.pages.Basic)
  * @use(widgetbrowser.pages.Misc)
+ * @use(widgetbrowser.pages.Dialog)
  */
 
 qx.Class.define("widgetbrowser.view.TabPage",
