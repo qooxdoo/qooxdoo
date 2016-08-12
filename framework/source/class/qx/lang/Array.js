@@ -624,7 +624,7 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     replace: function(dest, src) {
       if (dest instanceof qx.data.Array) {
-        return dest.replace(dest, src);
+        return dest.replace(src);
       }
       
       if (src === null) {
