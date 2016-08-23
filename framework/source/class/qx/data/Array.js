@@ -141,13 +141,14 @@ qx.Class.define("qx.data.Array",
     /**
      * Concatenates the current and the given array into a new one.
      *
-     * @param array {Array} The javaScript array which should be concatenated
+     * @param array {qx.data.Array|Array} The javaScript array which should be concatenated
      *   to the current array.
      *
      * @return {qx.data.Array} A new array containing the values of both former
      *   arrays.
      */
     concat: function(array) {
+      array = qx.lang.Array.toNativeArray(array);
       if (array) {
         var newArray = this.__array.concat(array);
       } else {
@@ -421,6 +422,26 @@ qx.Class.define("qx.data.Array",
         this.fireDataEvent("changeBubble", eventData);
       }
       return (new qx.data.Array(returnArray));
+    },
+    
+    
+    /**
+     * Efficiently replaces the array with the contents of src; this will suppress the
+     * change event if the array contents are the same, and will make sure that only
+     * one change event is fired
+     * 
+     * @param src {qx.data.Array|Array} the new value to set the array to
+     */
+    replace: function(src) {
+      src = qx.lang.Array.toNativeArray(src);
+      if (this.equals(src)) {
+        return;
+      }
+      var args = [ 0, this.getLength() ];
+      src.forEach(function(item) {
+        args.push(item);
+      });
+      this.splice.apply(this, args);
     },
 
 
@@ -759,9 +780,7 @@ qx.Class.define("qx.data.Array",
     append : function(array)
     {
       // qooxdoo array support
-      if (array instanceof qx.data.Array) {
-        array = array.toArray();
-      }
+      array = qx.lang.Array.toNativeArray(array);
 
       // this check is important because opera throws an uncatchable error if
       // apply is called without an array as argument.
@@ -806,6 +825,20 @@ qx.Class.define("qx.data.Array",
 
 
     /**
+     * Removes all elements which are listed in the array.
+     *
+     * @param array {Array} the elements of this array will be excluded from this one
+     */
+    exclude : function(array)
+    {
+      array = qx.lang.Array.toNativeArray(array);
+      array.forEach(function(item) {
+        this.remove(item);
+      }, this);
+    },
+
+
+    /**
      * Remove the given item.
      *
      * @param item {var} Item to be removed from the array.
@@ -836,9 +869,10 @@ qx.Class.define("qx.data.Array",
         return false;
       }
 
+      array = qx.lang.Array.toNativeArray(array);
       for (var i = 0; i < this.length; i++)
       {
-        if (this.getItem(i) !== array.getItem(i)) {
+        if (this.getItem(i) !== array[i]) {
           return false;
         }
       }
