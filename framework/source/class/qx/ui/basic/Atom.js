@@ -121,15 +121,6 @@ qx.Class.define("qx.ui.basic.Atom",
     },
 
 
-    /** this sets the property on the label child control */
-    selectable :
-    {
-      refine : true,
-      init   : false,
-      event  : "changeSelectable"
-    },
-
-
     /** Any URI String supported by qx.ui.basic.Image to display an icon */
     icon :
     {
@@ -222,7 +213,7 @@ qx.Class.define("qx.ui.basic.Atom",
           control = new qx.ui.basic.Label(this.getLabel());
           control.setAnonymous(true);
           control.setRich(this.getRich());
-	  this.bind("selectable", control, "selectable");
+          control.setSelectable(this.getSelectable());
           this._add(control);
           if (this.getLabel() == null || this.getShow() === "icon") {
             control.exclude();
