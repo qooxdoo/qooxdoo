@@ -188,7 +188,7 @@ qx.Class.define("qx.test.ui.basic.Label",
       font1.dispose();
     },
 
-    testBudy : function() {
+    testBuddy : function() {
       var label = new qx.ui.basic.Label();
       var textfield1 = new qx.ui.form.TextField();
       var textfield2 = new qx.ui.form.TextField();
