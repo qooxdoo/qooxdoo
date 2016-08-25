@@ -16,24 +16,31 @@
 
 ************************************************************************ */
 
-/**
- * @asset(qx/test/webfonts/*)
- */
-
 qx.Class.define("qx.test.ui.basic.Atom",
 {
   extend : qx.test.ui.LayoutTestCase,
 
-  include : [qx.dev.unit.MRequirements, qx.dev.unit.MMock],
+  include : [qx.dev.unit.MMock],
 
   members :
   {
     tearDown : function()
     {
-      this.base(arguments);
       this.getSandbox().restore();
-      qx.bom.webfonts.Manager.getInstance().dispose();
-      delete qx.bom.webfonts.Manager.$$instance;
+    },
+
+    testSelectableSetOnCreation : function() {
+      var a = new qx.ui.basic.Atom().set({selectable: true});
+      var l = a.getChildControl('label');	
+      this.assert(l.getContentElement().getAttribute("qxselectable"));
+      l.dispose();
+    },
+
+    testSelectableUnSetOnCreation : function() {
+      var a = new qx.ui.basic.Atom().set({selectable: false});
+      var l = a.getChildControl('label');	
+      this.assert(! l.getContentElement().getAttribute("qxselectable"));
+      l.dispose();
     },
 
     testSelectableSet : function() {

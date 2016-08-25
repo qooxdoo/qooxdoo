@@ -213,6 +213,7 @@ qx.Class.define("qx.ui.basic.Atom",
           control = new qx.ui.basic.Label(this.getLabel());
           control.setAnonymous(true);
           control.setRich(this.getRich());
+          control.setSelectable(this.getSelectable());
           this._add(control);
           if (this.getLabel() == null || this.getShow() === "icon") {
             control.exclude();
