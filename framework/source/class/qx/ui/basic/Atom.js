@@ -121,6 +121,15 @@ qx.Class.define("qx.ui.basic.Atom",
     },
 
 
+    /** this sets the property on the label child control */
+    selectable :
+    {
+      refine : true,
+      init : false
+      apply : "_applySelectable",
+    },
+
+
     /** Any URI String supported by qx.ui.basic.Image to display an icon */
     icon :
     {
@@ -288,6 +297,16 @@ qx.Class.define("qx.ui.basic.Atom",
       var label = this.getChildControl("label", true);
       if (label) {
         label.setRich(value);
+      }
+    },
+
+
+    // property apply
+    _applySelectable : function(value, old)
+    {
+      var label = this.getChildControl("label", true);
+      if (label) {
+        label.setSelectable(value);
       }
     },
 
