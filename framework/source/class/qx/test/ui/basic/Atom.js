@@ -46,7 +46,7 @@ qx.Class.define("qx.test.ui.basic.Atom",
       l.setSelectable(false);
       this.assert(! l.getContentElement().getAttribute("qxselectable"));
       l.dispose();
-    },
+    }
 
   }
 });
