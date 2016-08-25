@@ -125,8 +125,8 @@ qx.Class.define("qx.ui.basic.Atom",
     selectable :
     {
       refine : true,
-      init : false,
-      apply : "_applySelectable"
+      init   : false,
+      event  : "changeSelectable"
     },
 
 
@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.basic.Atom",
           control = new qx.ui.basic.Label(this.getLabel());
           control.setAnonymous(true);
           control.setRich(this.getRich());
-	  control.setSelectable(this.getSelectable());
+	  this.bind("selectable", control, "selectable");
           this._add(control);
           if (this.getLabel() == null || this.getShow() === "icon") {
             control.exclude();
@@ -298,16 +298,6 @@ qx.Class.define("qx.ui.basic.Atom",
       var label = this.getChildControl("label", true);
       if (label) {
         label.setRich(value);
-      }
-    },
-
-
-    // property apply
-    _applySelectable : function(value, old)
-    {
-      var label = this.getChildControl("label", true);
-      if (label) {
-        label.setSelectable(value);
       }
     },
 
