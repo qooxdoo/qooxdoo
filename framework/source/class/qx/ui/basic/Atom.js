@@ -125,8 +125,8 @@ qx.Class.define("qx.ui.basic.Atom",
     selectable :
     {
       refine : true,
-      init : false
-      apply : "_applySelectable",
+      init : false,
+      apply : "_applySelectable"
     },
 
 
