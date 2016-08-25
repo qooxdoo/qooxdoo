@@ -16,10 +16,6 @@
 
 ************************************************************************ */
 
-/**
- * @asset(qx/test/webfonts/*)
- */
-
 qx.Class.define("qx.test.ui.basic.Atom",
 {
   extend : qx.test.ui.LayoutTestCase,
