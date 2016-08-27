@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.bom.Cookie",
         return decodeURIComponent(document.cookie.substring(len, end));
       }
       catch (URIError) {
-        console.error(URIError.message);
+        qx.log.Logger.error("Error decoding URI components", URIError.message);
         return null;
       }
     },
