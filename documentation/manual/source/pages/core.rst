@@ -18,6 +18,7 @@ Object Orientation
    core/classes
    core/interfaces
    core/mixins
+   core/annotations
 
 Properties
 ==========
