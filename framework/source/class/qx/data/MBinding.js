@@ -65,7 +65,7 @@ qx.Mixin.define("qx.data.MBinding",
 
     /**
      * Removes the binding with the given id from the current object. The
-     * id hast to be the id returned by any of the bind functions.
+     * id has to be the id returned by any of the bind functions.
      *
      * @param id {var} The id of the binding.
      * @throws {Error} If the binding could not be found.
