@@ -35,7 +35,7 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
      *
      * @return {Integer} Milliseconds since the Unix Epoch
      */
-    now : function() {
+    now : function () {
       return +new Date();
     },
 
