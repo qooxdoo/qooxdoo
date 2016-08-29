@@ -40,6 +40,8 @@
  * value for the blocker zIndex or for your DOM element to block. If you want
  * to block the content of your DOM element it has to have at least the zIndex
  * value of "10001" with default blocker values.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
  *
  * @require(qx.bom.Element)
  * @require(qx.bom.Iframe)
@@ -82,6 +84,8 @@ qx.Class.define("qx.bom.Blocker",
     {
       if (!this.__isActive)
       {
+        qx.event.Registration.addListener(window, "resize", this.__onResize, this);
+        
         this.__blockedElement = element;
 
         var styles = this.__calculateStyles();
@@ -99,6 +103,7 @@ qx.Class.define("qx.bom.Blocker",
       if (this.__isActive)
       {
         this.__removeBlocker();
+        qx.event.Registration.removeListener(window, "resize", this.__onResize, this);
         this.__isActive = false;
       }
     },
@@ -207,8 +212,6 @@ qx.Class.define("qx.bom.Blocker",
       if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         this.__setupIframeElement();
       }
-
-      qx.event.Registration.addListener(window, "resize", this.__onResize, this);
     },
 
 
@@ -364,12 +367,5 @@ qx.Class.define("qx.bom.Blocker",
               qx.dom.Node.isWindow(this.__blockedElement) ||
               qx.dom.Node.isDocument(this.__blockedElement));
     }
-  },
-
-  destruct : function()
-  {
-    qx.event.Registration.removeListener(window, "resize", this.__onResize, this);
-
-    this.__iframeElement = this.__blockerElement = this.__blockedElement = null;
   }
 });

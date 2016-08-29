@@ -22,6 +22,9 @@
  * the browser. The wrapped function will at most be called once after the control
  * has been given back to the browser, independent of the number of {@link #call}
  * calls.
+ * 
+ * This class does not need to be disposed, although doing so will cancel any
+ * pending call
  *
  * @require(qx.util.DeferredCallManager)
  */

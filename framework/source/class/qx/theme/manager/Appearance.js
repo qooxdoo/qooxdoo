@@ -335,17 +335,5 @@ qx.Class.define("qx.theme.manager.Appearance",
       // Cache new entry and return
       return cache[unique] = result || null;
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this.__styleCache = this.__aliasMap = null;
   }
 });

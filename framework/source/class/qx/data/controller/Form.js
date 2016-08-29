@@ -45,7 +45,8 @@
 qx.Class.define("qx.data.controller.Form",
 {
   extend : qx.core.Object,
-
+  implement: [ qx.core.IDisposable ],
+  
   /**
    * @param model {qx.core.Object | null} The model to bind the target to. The
    *   given object will be set as {@link #model} property.

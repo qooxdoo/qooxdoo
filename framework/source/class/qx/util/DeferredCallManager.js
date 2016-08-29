@@ -20,11 +20,15 @@
 /**
  * This class manages the timer used for deferred calls. All
  * {@link qx.util.DeferredCall} instances use the single timer from this class.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.util.DeferredCallManager",
 {
   extend : qx.core.Object,
   type : "singleton",
+  implement : [ qx.core.IDisposable ],
 
 
   /*

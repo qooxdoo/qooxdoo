@@ -51,6 +51,9 @@
  *     }
  *   ]
  * </pre>
+ * 
+ * This class does not need to be disposed, except when you want to abort the loading
+ * and validation process.
  */
 qx.Class.define("qx.bom.webfonts.Manager", {
 

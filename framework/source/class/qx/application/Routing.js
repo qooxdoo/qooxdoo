@@ -79,8 +79,11 @@
  * </pre>
  *
  * This example defines different routes to handle navigation events.
+ * 
+ * Note this class must be disposed after use
  */
 qx.Bootstrap.define("qx.application.Routing", {
+	implement: [ qx.core.IDisposable ],
 
   construct : function()
   {

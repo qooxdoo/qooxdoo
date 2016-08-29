@@ -31,6 +31,8 @@
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @use(qx.ui.core.EventHandler)
  * @use(qx.event.handler.DragDrop)
  * @asset(qx/static/blank.gif)
@@ -41,6 +43,7 @@ qx.Class.define("qx.ui.core.Widget",
 {
   extend : qx.ui.core.LayoutItem,
   include : [qx.locale.MTranslation],
+  implement: [ qx.core.IDisposable ],
 
 
   /*
@@ -861,15 +864,17 @@ qx.Class.define("qx.ui.core.Widget",
     {
       while(element)
       {
-        var widgetKey = element.$$widget;
+      	if (qx.core.Environment.get("qx.debug")) {
+      		qx.core.Assert.assertTrue((!element.$$widget && !element.$$widgetObject) ||
+      				(element.$$widgetObject && element.$$widget && element.$$widgetObject.toHashCode() === element.$$widget));
+      	}
+        var widget = element.$$widgetObject;
 
-        // dereference "weak" reference to the widget.
-        if (widgetKey != null) {
-          var widget = qx.core.ObjectRegistry.fromHashCode(widgetKey);
-          // check for anonymous widgets
-          if (!considerAnonymousState || !widget.getAnonymous()) {
-            return widget;
-          }
+        // check for anonymous widgets
+        if (widget) {
+	        if (!considerAnonymousState || !widget.getAnonymous()) {
+	          return widget;
+	        }
         }
 
         // Fix for FF, which occasionally breaks (BUG#3525)
@@ -881,8 +886,8 @@ qx.Class.define("qx.ui.core.Widget",
       }
       return null;
     },
-
-
+    
+    
     /**
      * Whether the "parent" widget contains the "child" widget.
      *
@@ -1620,8 +1625,8 @@ qx.Class.define("qx.ui.core.Widget",
     __createContentElement : function()
     {
       var el = this._createContentElement();
+      el.connectWidget(this);
 
-      el.setAttribute("$$widget", this.toHashCode());
       // make sure to allow all pointer events
       el.setStyles({"touch-action": "none", "-ms-touch-action" : "none"});
 
@@ -3879,7 +3884,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Remove widget pointer from DOM
       var contentEl = this.getContentElement();
       if (contentEl) {
-        contentEl.setAttribute("$$widget", null, true);
+      	contentEl.disconnectWidget(this);
       }
 
       // Clean up all child controls

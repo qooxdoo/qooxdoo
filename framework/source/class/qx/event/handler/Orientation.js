@@ -33,11 +33,14 @@
 
 /**
  * This class provides a handler for the orientation event.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.event.handler.Orientation",
 {
   extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
 
 

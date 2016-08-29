@@ -126,17 +126,5 @@ qx.Class.define("qx.html.Canvas",
     getContext2d : function() {
       return this.__canvas.getContext("2d");
     }
-  },
-
-
-
-  /*
-   *****************************************************************************
-      DESTRUCT
-   *****************************************************************************
-   */
-
-  destruct : function() {
-    this.__canvas = null;
   }
 });

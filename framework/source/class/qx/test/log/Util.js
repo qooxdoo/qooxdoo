@@ -26,6 +26,7 @@ qx.Class.define("qx.test.log.Util",
     {
       var time = new Date(1000);
       var obj = new qx.core.Object();
+      qx.core.ObjectRegistry.register(obj);
       var entry =
       {
         time : time,

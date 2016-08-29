@@ -24,11 +24,14 @@
  * content on history actions even just hash value changed. This
  * implementation forwards history states (hashes) to a helper iframe.
  *
+ * This class must be disposed of after use
+ *
  * @internal
  */
 qx.Class.define("qx.bom.HashHistory",
 {
   extend : qx.bom.History,
+  implement: [ qx.core.IDisposable ],
 
   construct : function()
   {

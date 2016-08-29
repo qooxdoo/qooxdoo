@@ -171,8 +171,8 @@ qx.Class.define("qx.ui.root.Inline",
       // Make relative
       rootEl.style.position = "relative";
 
-      // Store "weak" reference to the widget in the DOM element.
-      root.setAttribute("$$widget", this.toHashCode());
+      // Store reference to the widget in the DOM element.
+      root.connectWidget(this);
 
       // fire event asynchronously, otherwise the browser will fire the event
       // too early and no listener will be informed since they're not added

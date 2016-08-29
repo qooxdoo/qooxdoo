@@ -22,6 +22,9 @@
  * for it. All the native methods are included in the implementation and it
  * also fires events if the content or the length of the array changes in
  * any way. Also the <code>.length</code> property is available on the array.
+ * 
+ * This class does not need to be disposed, unless you set the autoDisposeItems
+ * property to true and want the items to be disposed.
  */
 qx.Class.define("qx.data.Array",
 {

@@ -79,6 +79,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 {
 
   extend: Object,
+  implement: [ qx.core.IDisposable ],
 
   construct: function() {
     var boundFunc = qx.Bootstrap.bind(this.__onNativeReadyStateChange, this);

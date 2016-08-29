@@ -21,13 +21,15 @@
 /**
  * This handler provides event for the window object.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * @require(qx.event.type.Native)
  * @require(qx.event.Pool)
  */
 qx.Class.define("qx.event.handler.Window",
 {
   extend : qx.core.Object,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
 
 

@@ -23,12 +23,15 @@
 /**
  * This class is used to send HTTP requests to the server.
  *
+ * NOTE: Instances of this class must be disposed of after use
+ *
  * Note: This class will be deprecated in a future release. Instead,
  * please use classes found in {@link qx.io.request}.
  */
 qx.Class.define("qx.io.remote.Request",
 {
   extend : qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
 
 

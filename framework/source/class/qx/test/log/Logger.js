@@ -90,6 +90,7 @@ qx.Class.define("qx.test.log.Logger",
       qx.log.Logger.register(appender);
 
       var obj = new qx.core.Object();
+      qx.core.ObjectRegistry.register(obj);
       qx.log.Logger.debug(qx.core.Object, "m1");
       qx.log.Logger.debug(obj, "m2");
       qx.log.Logger.debug(qxWeb(), "m3");
