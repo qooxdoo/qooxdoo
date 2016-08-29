@@ -2,11 +2,11 @@
 var fs = require("fs");
 
 function main(cb) {
-  fs.readFile("../testdata/qxt/source-output/db.json", {encoding: "utf8"}, function (err, newData) {
+  fs.readFile("../../testdata/qxt/source-output/db.json", {encoding: "utf8"}, function (err, newData) {
     if (err)
       return cb(err);
     newData = JSON.parse(newData);
-    fs.readFile("../qxcompiler-old/testdata/db.json", {encoding: "utf8"}, function (err, oldData) {
+    fs.readFile("../../qxcompiler-old/testdata/db.json", {encoding: "utf8"}, function (err, oldData) {
       if (err)
         return cb(err);
       oldData = JSON.parse(oldData);

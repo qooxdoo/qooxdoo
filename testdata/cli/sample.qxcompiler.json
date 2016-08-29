@@ -1,0 +1,41 @@
+{
+  "target": {
+    "type": "SourceTarget",
+    "outputPath": "../qxt/source-output"
+  },
+  "locales": [ "en", "es" ],
+
+  "writeAllTranslations": true,
+  "environment": {
+    "qxt.customEnvironment": "this is custom (source target)"
+  },
+  "applications": [
+    {
+      "appClass": "qxt.Application",
+      "theme": "qxt.theme.Theme",
+      "name": "appone",
+      "environment": {
+        "qxt.applicationName": "App One"
+      }
+    },
+    {
+      "appClass": "qxt.Application",
+      "theme": "qxt.theme.Simple",
+      "name": "apptwo",
+      "environment": {
+        "qxt.applicationName": "App Two"
+      }
+    }
+  ],
+  "libraries": [
+    {
+      "path": "../qxt"
+    },
+    {
+      "path": "../../qooxdoo/framework"
+    },
+    {
+      "path": "../contrib/UploadMgr"
+    }
+  ]
+}

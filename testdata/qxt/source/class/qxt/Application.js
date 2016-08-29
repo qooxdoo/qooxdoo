@@ -50,6 +50,8 @@ qx.Class.define("qxt.Application",
         qx.log.appender.Console;
       }
 
+      qx.util.format.DateFormat.getDateTimeInstance().format(new Date())
+
       /*
       -------------------------------------------------------------------------
         Below is your actual application code...

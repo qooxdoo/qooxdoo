@@ -6,14 +6,14 @@
 
 var fs = require("fs");
 var async = require("async");
-var qxcompiler = require("../lib/qxcompiler");
+var qxcompiler = require("../../lib/qxcompiler");
 
 var STARTTIME = new Date();
 
 // Makers use an Analyser to figure out what the Target should write
-var maker = new qxcompiler.makers.DemoBrowserMaker("../qooxdoo").set({
+var maker = new qxcompiler.makers.DemoBrowserMaker("../../qooxdoo").set({
   // Targets know how to output an application
-  target: new qxcompiler.targets.BuildTarget("../testdata/demobrowser/build-output")
+  target: new qxcompiler.targets.BuildTarget("../../testdata/demobrowser/build-output")
 });
 
 maker.make(function(err) {

@@ -6,16 +6,16 @@
 
 var fs = require("fs");
 var async = require("async");
-var qxcompiler = require("../lib/qxcompiler");
+var qxcompiler = require("../../lib/qxcompiler");
 
 var STARTTIME = new Date();
 
-var QOOXDOO_PATH = "../qooxdoo";
+var QOOXDOO_PATH = "../../qooxdoo";
 
 // Makers use an Analyser to figure out what the Target should write
 var maker = new qxcompiler.makers.AppMaker().set({
   // Targets know how to output an application
-  target: new qxcompiler.targets.SourceTarget("../testdata/qxt/source-output"),
+  target: new qxcompiler.targets.SourceTarget("source-output"),
   locales: [ "en", "es" ],
   writeAllTranslations: true
 });
@@ -43,7 +43,7 @@ async.series(
        * An application is just a library - this is where we find the app
        */
       function (cb) {
-        maker.addLibrary("../testdata/qxt", cb);
+        maker.addLibrary("../../testdata/qxt", cb);
       },
 
       /*
@@ -57,7 +57,7 @@ async.series(
        * Add a contrib
        */
       function (cb) {
-        maker.addLibrary("../testdata/contrib/UploadMgr", cb);
+        maker.addLibrary("../../testdata/contrib/UploadMgr", cb);
       },
 
       /*

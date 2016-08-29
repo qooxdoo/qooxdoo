@@ -5,10 +5,10 @@
  */
 var fs = require("fs");
 var async = require("async");
-var qxcompiler = require("../lib/qxcompiler");
+var qxcompiler = require("../../lib/qxcompiler");
 
 // Targets know how to output an application
-var target = new qxcompiler.targets.SourceTarget("../testdata/qxt/compileclass-output");
+var target = new qxcompiler.targets.SourceTarget("../../testdata/qxt/compileclass-output");
 
 // Makers use an Analyser to figure out what the Target should write; we don't really need this
 //  for this compile demo, but it's useful to have the analyser from the maker to get the
@@ -27,21 +27,21 @@ async.series(
      * An application is just a library - this is where we find the app
      */
     function(cb) {
-      maker.addLibrary("../testdata/qxt", cb);
+      maker.addLibrary("../../testdata/qxt", cb);
     },
 
     /*
      * An application is just a library - this is where we find the app
      */
     function(cb) {
-      maker.addLibrary("../qooxdoo/application/demobrowser", cb);
+      maker.addLibrary("../../qooxdoo/application/demobrowser", cb);
     },
 
     /*
      * Add qooxdoo library
      */
     function(cb) {
-      maker.addLibrary("../qooxdoo/framework", cb);
+      maker.addLibrary("../../qooxdoo/framework", cb);
     },
 
     /*
