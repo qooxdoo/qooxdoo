@@ -266,6 +266,18 @@ qx.Mixin.define("qx.core.MAssert",
 
 
     /**
+     * Assert that the value is NOT an item in the given array
+     *
+     * @param value {var} Value to check
+     * @param array {Array} List of values
+     * @param msg {String} Message to be shown if the assertion fails
+     */
+    assertNotInArray : function(value, array, msg) {
+      qx.core.Assert.assertNotInArray(value, array, msg);
+    },
+
+
+    /**
      * Assert that both array have identical array items.
      *
      * @param expected {Array} The expected array
