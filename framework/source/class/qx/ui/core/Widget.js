@@ -3688,8 +3688,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Return the ID of the current widget if it is a created as a 
-     * subcontrol of another widget. 
+     * Return the ID (name) if this instance was a created as a child control of another widget. 
      * 
      * See the first parameter id in {@link qx.ui.core.Widget#_createChildControlImpl} 
      *
