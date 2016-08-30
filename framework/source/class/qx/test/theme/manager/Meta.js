@@ -22,8 +22,7 @@
  * @ignore(qx.test.theme.manager.MockColor)
  */
 
-qx.Class.define("qx.test.theme.manager.Meta",
-{
+qx.Class.define("qx.test.theme.manager.Meta", {
   extend : qx.test.ui.LayoutTestCase,
 
   construct : function()

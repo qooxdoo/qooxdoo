@@ -33,8 +33,7 @@
  * will search the entire document for any nodes named "bar", not just the
  * <code>foo</code> node.
  */
-qx.Class.define("qx.xml.Element",
-{
+qx.Class.define("qx.xml.Element", {
   statics :
   {
     __xpe : null,

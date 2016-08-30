@@ -22,8 +22,7 @@
  *
  * @require(qx.event.handler.UserAction)
  */
-qx.Class.define("qx.ui.core.queue.Manager",
-{
+qx.Class.define("qx.ui.core.queue.Manager", {
   statics :
   {
     /** @type {Boolean} Whether a flush was scheduled */

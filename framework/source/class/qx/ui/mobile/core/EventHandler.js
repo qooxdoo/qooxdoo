@@ -24,8 +24,7 @@
  * @require(qx.event.dispatch.DomBubbling)
  * @require(qx.ui.mobile.core.Widget)
  */
-qx.Class.define("qx.ui.mobile.core.EventHandler",
-{
+qx.Class.define("qx.ui.mobile.core.EventHandler", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

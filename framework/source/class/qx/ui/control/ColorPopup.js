@@ -32,8 +32,7 @@
  * @childControl colorselector-okbutton {qx.ui.form.Button} button of the colorselector
  * @childControl colorselector-cancelbutton {qx.ui.form.Button} button of the colorselector
  */
-qx.Class.define("qx.ui.control.ColorPopup",
-{
+qx.Class.define("qx.ui.control.ColorPopup", {
   extend : qx.ui.popup.Popup,
   implement : [qx.ui.form.IColorForm],
 

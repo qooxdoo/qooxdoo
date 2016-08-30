@@ -24,8 +24,7 @@
  * the interface of this class is based on the DOM Level 3 keyboard event
  * interface: http://www.w3.org/TR/DOM-Level-3-Events/#events-keyboardevents
  */
-qx.Class.define("qx.event.type.KeySequence",
-{
+qx.Class.define("qx.event.type.KeySequence", {
   extend : qx.event.type.Dom,
 
 

@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.list.core.MultiSelection",
-{
+qx.Class.define("qx.test.ui.list.core.MultiSelection", {
   extend : qx.test.ui.list.AbstractListTest,
 
   members :

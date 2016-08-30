@@ -23,8 +23,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
-{
+qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

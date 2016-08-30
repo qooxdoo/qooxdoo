@@ -45,8 +45,7 @@
  *
  * @ignore(SVGElement)
  */
-qx.Bootstrap.define("qx.bom.element.Location",
-{
+qx.Bootstrap.define("qx.bom.element.Location", {
   statics :
   {
     /**

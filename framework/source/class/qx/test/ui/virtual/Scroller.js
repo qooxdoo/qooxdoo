@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.Scroller",
-{
+qx.Class.define("qx.test.ui.virtual.Scroller", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

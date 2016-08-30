@@ -24,8 +24,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Stylesheet",
-{
+qx.Bootstrap.define("qx.bom.client.Stylesheet", {
   statics:
   {
     /**

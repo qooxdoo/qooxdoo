@@ -24,8 +24,7 @@
  * @childControl textfield {qx.ui.form.TextField} Field for text entry.
  * @childControl button {qx.ui.form.Button} Opens the drop-down.
  */
-qx.Class.define("qx.ui.form.VirtualComboBox",
-{
+qx.Class.define("qx.ui.form.VirtualComboBox", {
   extend : qx.ui.form.core.AbstractVirtualBox,
 
   implement : [qx.ui.form.IStringForm],

@@ -15,8 +15,7 @@
      * Alexander Steitz (aback)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.RadioGroup",
-{
+qx.Class.define("qx.test.ui.form.RadioGroup", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

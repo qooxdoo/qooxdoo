@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.layout.Card",
-{
+qx.Class.define("qx.test.mobile.layout.Card", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

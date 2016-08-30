@@ -21,8 +21,7 @@
  * @ignore(qx.test.ui.tree.virtual.NodeDefered)
  * @ignore(qx.test.ui.tree.virtual.Leaf)
  */
-qx.Class.define("qx.test.ui.tree.virtual.TreeItem",
-{
+qx.Class.define("qx.test.ui.tree.virtual.TreeItem", {
   extend : qx.test.ui.tree.virtual.AbstractTreeTest,
 
   construct : function()

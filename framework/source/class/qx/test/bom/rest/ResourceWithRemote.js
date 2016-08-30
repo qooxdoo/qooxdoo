@@ -21,8 +21,7 @@
  * @asset(qx/test/xmlhttp/long_poll.php)
  * @asset(qx/test/xmlhttp/sample.txt)
  */
-qx.Class.define("qx.test.bom.rest.ResourceWithRemote",
-{
+qx.Class.define("qx.test.bom.rest.ResourceWithRemote", {
   extend : qx.dev.unit.TestCase,
 
   include : [qx.dev.unit.MRequirements,

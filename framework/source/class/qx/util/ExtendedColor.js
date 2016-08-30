@@ -20,8 +20,7 @@
 /**
  * Support for extended CSS color names
  */
-qx.Class.define("qx.util.ExtendedColor",
-{
+qx.Class.define("qx.util.ExtendedColor", {
   statics :
   {
     /**

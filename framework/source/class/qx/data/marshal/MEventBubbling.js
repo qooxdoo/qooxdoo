@@ -21,8 +21,7 @@
  * classes, be sure that every property will call the
  * {@link #_applyEventPropagation} function on every change.
  */
-qx.Mixin.define("qx.data.marshal.MEventBubbling",
-{
+qx.Mixin.define("qx.data.marshal.MEventBubbling", {
 
   events :
   {

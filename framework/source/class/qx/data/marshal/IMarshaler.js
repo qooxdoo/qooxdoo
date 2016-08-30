@@ -19,8 +19,7 @@
  * Defines the methods needed by every marshaler which should work with the
  * qooxdoo data stores.
  */
-qx.Interface.define("qx.data.marshal.IMarshaler",
-{
+qx.Interface.define("qx.data.marshal.IMarshaler", {
   members :
   {
     /**

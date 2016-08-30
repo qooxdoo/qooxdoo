@@ -20,8 +20,7 @@
  * @ignore(qx.test.type.TestArray)
  */
 
-qx.Class.define("qx.test.type.BaseArray",
-{
+qx.Class.define("qx.test.type.BaseArray", {
   extend : qx.dev.unit.TestCase,
 
   construct : function()

@@ -54,8 +54,7 @@
  *
  * @childControl knob {qx.ui.core.Widget} knob to set the value of the slider
  */
-qx.Class.define("qx.ui.form.Slider",
-{
+qx.Class.define("qx.ui.form.Slider", {
   extend : qx.ui.core.Widget,
   implement : [
     qx.ui.form.IForm,

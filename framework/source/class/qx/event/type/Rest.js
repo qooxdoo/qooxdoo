@@ -19,8 +19,7 @@
 /**
  * Rest event object.
  */
-qx.Class.define("qx.event.type.Rest",
-{
+qx.Class.define("qx.event.type.Rest", {
   extend: qx.event.type.Data,
 
   properties:

@@ -19,8 +19,7 @@
 /**
  * @ignore(qx.test.ui.tree.virtual.Node)
  */
-qx.Class.define("qx.test.ui.tree.virtual.Sorting",
-{
+qx.Class.define("qx.test.ui.tree.virtual.Sorting", {
   extend : qx.test.ui.tree.virtual.AbstractTreeTest,
 
   members :

@@ -16,8 +16,7 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.tree.Tree",
-{
+qx.Class.define("qx.test.ui.tree.Tree", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

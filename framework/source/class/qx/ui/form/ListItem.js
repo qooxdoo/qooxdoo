@@ -21,8 +21,7 @@
  * A item for a list. Could be added to all List like widgets but also
  * to the {@link qx.ui.form.SelectBox} and {@link qx.ui.form.ComboBox}.
  */
-qx.Class.define("qx.ui.form.ListItem",
-{
+qx.Class.define("qx.ui.form.ListItem", {
   extend : qx.ui.basic.Atom,
   implement : [qx.ui.form.IModel],
   include : [qx.ui.form.MModelProperty],

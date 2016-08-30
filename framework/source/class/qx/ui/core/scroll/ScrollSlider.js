@@ -23,8 +23,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.core.scroll.ScrollSlider",
-{
+qx.Class.define("qx.ui.core.scroll.ScrollSlider", {
   extend : qx.ui.form.Slider,
 
   // overridden

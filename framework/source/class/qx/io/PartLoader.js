@@ -21,8 +21,7 @@
  *
  * It contains functionality to load parts and to retrieve part instances.
  */
-qx.Class.define("qx.io.PartLoader",
-{
+qx.Class.define("qx.io.PartLoader", {
   type : "singleton",
   extend : qx.core.Object,
 

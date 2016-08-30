@@ -24,8 +24,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.core.SingleSelectionManager",
-{
+qx.Class.define("qx.ui.core.SingleSelectionManager", {
   extend : qx.core.Object,
 
 

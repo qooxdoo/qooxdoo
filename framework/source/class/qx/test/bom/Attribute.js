@@ -23,8 +23,7 @@
  * @asset(qx/icon/Tango/48/places/folder.png)
  */
 
-qx.Class.define("qx.test.bom.Attribute",
-{
+qx.Class.define("qx.test.bom.Attribute", {
   extend : qx.dev.unit.TestCase,
 
   members :

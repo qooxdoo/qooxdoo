@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.Group",
-{
+qx.Class.define("qx.test.mobile.form.Group", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

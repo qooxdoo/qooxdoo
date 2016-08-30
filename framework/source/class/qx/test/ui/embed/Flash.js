@@ -25,8 +25,7 @@
  * @asset(qx/test/UnitTestFlash.swf)
  */
 
-qx.Class.define("qx.test.ui.embed.Flash",
-{
+qx.Class.define("qx.test.ui.embed.Flash", {
   extend : qx.test.ui.LayoutTestCase,
   include : [qx.dev.unit.MMock, qx.dev.unit.MRequirements],
 

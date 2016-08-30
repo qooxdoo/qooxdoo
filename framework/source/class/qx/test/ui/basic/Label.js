@@ -20,8 +20,7 @@
  * @asset(qx/test/webfonts/*)
  */
 
-qx.Class.define("qx.test.ui.basic.Label",
-{
+qx.Class.define("qx.test.ui.basic.Label", {
   extend : qx.test.ui.LayoutTestCase,
 
   include : [qx.dev.unit.MRequirements, qx.dev.unit.MMock],

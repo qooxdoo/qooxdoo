@@ -20,8 +20,7 @@
 /**
  * Abstract base class for all managers of themed values.
  */
-qx.Class.define("qx.util.ValueManager",
-{
+qx.Class.define("qx.util.ValueManager", {
   type : "abstract",
   extend : qx.core.Object,
 

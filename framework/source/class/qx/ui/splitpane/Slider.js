@@ -22,8 +22,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.splitpane.Slider",
-{
+qx.Class.define("qx.ui.splitpane.Slider", {
   extend : qx.ui.core.Widget,
 
 

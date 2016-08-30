@@ -22,8 +22,7 @@
  *
  * Represents horizontal or vertical lines.
  */
-qx.Class.define("qx.ui.virtual.layer.GridLines",
-{
+qx.Class.define("qx.ui.virtual.layer.GridLines", {
   extend : qx.ui.virtual.layer.Abstract,
 
   /**

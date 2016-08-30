@@ -25,11 +25,9 @@
  * borrows some methods as described in
  * <a href="http://www.w3.org/TR/XMLHttpRequest2/">XmlHttpRequest2</a>.
  */
-qx.Interface.define("qx.bom.request.IRequest",
-{
+qx.Interface.define("qx.bom.request.IRequest", {
 
-  members :
-  {
+  members: {
     //
     // Properties
     // (Plain JavaScript)

@@ -20,8 +20,7 @@
 /**
  * Event dispatcher for all bubbling events on DOM elements.
  */
-qx.Class.define("qx.event.dispatch.DomBubbling",
-{
+qx.Class.define("qx.event.dispatch.DomBubbling", {
   extend : qx.event.dispatch.AbstractBubbling,
 
 

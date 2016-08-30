@@ -45,8 +45,7 @@
  * </pre>
  *
  */
-qx.Class.define("qx.ui.mobile.embed.Canvas",
-{
+qx.Class.define("qx.ui.mobile.embed.Canvas", {
   extend : qx.ui.mobile.core.Widget,
 
 

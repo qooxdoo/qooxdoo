@@ -25,8 +25,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Plugin",
-{
+qx.Bootstrap.define("qx.bom.client.Plugin", {
   statics :
   {
     /**
@@ -54,7 +53,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
       try {
         // in IE11 Preview, ActiveXObject is undefined but instances can
         // still be created
-        return window.ActiveXObject !== undefined && 
+        return window.ActiveXObject !== undefined &&
           (typeof (new window.ActiveXObject("Microsoft.XMLHTTP")) === "object" ||
            typeof (new window.ActiveXObject("MSXML2.DOMDocument.6.0")) === "object"
           );

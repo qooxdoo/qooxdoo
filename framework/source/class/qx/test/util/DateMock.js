@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.DateMock",
-{
+qx.Class.define("qx.test.util.DateMock", {
   extend : qx.core.Object,
 
   construct : function(dateMap)

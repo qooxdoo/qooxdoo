@@ -31,8 +31,7 @@
  * This example create a widget to display the label.
  *
  */
-qx.Class.define("qx.ui.mobile.basic.Label",
-{
+qx.Class.define("qx.ui.mobile.basic.Label", {
   extend : qx.ui.mobile.core.Widget,
 
 

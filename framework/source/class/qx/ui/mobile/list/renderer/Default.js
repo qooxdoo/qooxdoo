@@ -42,8 +42,7 @@
  * This example creates a list with a delegate that configures the list item with
  * the given data.
  */
-qx.Class.define("qx.ui.mobile.list.renderer.Default",
-{
+qx.Class.define("qx.ui.mobile.list.renderer.Default", {
   extend : qx.ui.mobile.list.renderer.Abstract,
 
 

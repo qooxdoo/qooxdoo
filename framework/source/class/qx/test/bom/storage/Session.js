@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.storage.Session",
-{
+qx.Class.define("qx.test.bom.storage.Session", {
   extend : qx.test.bom.storage.WebStorageTestCase,
   include: [qx.dev.unit.MRequirements],
 

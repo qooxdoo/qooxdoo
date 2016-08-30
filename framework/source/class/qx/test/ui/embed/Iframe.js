@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.embed.Iframe",
-{
+qx.Class.define("qx.test.ui.embed.Iframe", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

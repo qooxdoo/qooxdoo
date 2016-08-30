@@ -21,8 +21,7 @@
  * Pinch is a multi pointer gesture fired when two finger moved towards
  * or away from each other. It contains the scaling factor of the pinch.
  */
-qx.Class.define("qx.event.type.Pinch",
-{
+qx.Class.define("qx.event.type.Pinch", {
     extend : qx.event.type.Pointer,
 
 

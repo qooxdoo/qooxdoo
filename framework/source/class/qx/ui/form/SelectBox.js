@@ -42,8 +42,7 @@
  * @childControl atom {qx.ui.basic.Atom} shows the text and icon of the content
  * @childControl arrow {qx.ui.basic.Image} shows the arrow to open the popup
  */
-qx.Class.define("qx.ui.form.SelectBox",
-{
+qx.Class.define("qx.ui.form.SelectBox", {
   extend : qx.ui.form.AbstractSelectBox,
   implement : [
     qx.ui.core.ISingleSelection,

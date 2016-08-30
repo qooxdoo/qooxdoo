@@ -1,5 +1,4 @@
-qx.Class.define("qx.test.log.fixture.ClassC2",
-{
+qx.Class.define("qx.test.log.fixture.ClassC2", {
   extend : qx.test.log.fixture.ClassB2,
 
   members :

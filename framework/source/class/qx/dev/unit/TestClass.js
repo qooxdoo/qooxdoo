@@ -41,8 +41,7 @@
  * </pre>
  */
 
-qx.Class.define("qx.dev.unit.TestClass",
-{
+qx.Class.define("qx.dev.unit.TestClass", {
   extend : qx.dev.unit.AbstractTestSuite,
 
 

@@ -22,8 +22,7 @@
  * A header cell renderer which renders an icon (only). The icon cannot be combined
  * with text.
  */
-qx.Class.define("qx.ui.table.headerrenderer.Icon",
-{
+qx.Class.define("qx.ui.table.headerrenderer.Icon", {
   extend : qx.ui.table.headerrenderer.Default,
 
 

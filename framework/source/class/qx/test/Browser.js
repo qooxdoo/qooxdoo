@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.Browser",
-{
+qx.Class.define("qx.test.Browser", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

@@ -20,8 +20,7 @@
  * Keeps data about the visibility of all widgets. Updates the internal
  * tree when widgets are added, removed or modify their visibility.
  */
-qx.Class.define("qx.ui.core.queue.Visibility",
-{
+qx.Class.define("qx.ui.core.queue.Visibility", {
   statics :
   {
     /** @type {Array} This contains all the queued widgets for the next flush. */

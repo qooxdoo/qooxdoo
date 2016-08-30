@@ -20,8 +20,7 @@
 /**
  * A null header/footer.  This is not displayed.
  */
-qx.Class.define("qx.ui.progressive.headfoot.Null",
-{
+qx.Class.define("qx.ui.progressive.headfoot.Null", {
   extend     : qx.ui.progressive.headfoot.Abstract,
 
 

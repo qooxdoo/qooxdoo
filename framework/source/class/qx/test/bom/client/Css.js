@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.client.Css",
-{
+qx.Class.define("qx.test.bom.client.Css", {
   extend : qx.dev.unit.TestCase,
 
   members :

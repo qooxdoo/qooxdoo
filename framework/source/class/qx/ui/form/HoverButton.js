@@ -50,8 +50,7 @@
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/hoverbutton.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.form.HoverButton",
-{
+qx.Class.define("qx.ui.form.HoverButton", {
   extend : qx.ui.basic.Atom,
   include : [qx.ui.core.MExecutable],
   implement : [qx.ui.form.IExecutable],

@@ -42,8 +42,7 @@
  *
  * None
  */
-qx.Class.define("qx.ui.layout.Atom",
-{
+qx.Class.define("qx.ui.layout.Atom", {
   extend : qx.ui.layout.Abstract,
 
 

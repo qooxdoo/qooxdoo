@@ -69,8 +69,7 @@ search.addListener("changeValue", function(e) {
 this.getRoot().add(search, {top : 500, left : 10});
 </pre>
  */
-qx.Class.define("qx.ui.table.model.Filtered",
-{
+qx.Class.define("qx.ui.table.model.Filtered", {
   extend : qx.ui.table.model.Simple,
 
 

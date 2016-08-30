@@ -49,8 +49,7 @@
  * event handler. So there is most likely a mouse or key event involved
  * to trigger it properly.
  */
-qx.Bootstrap.define("qx.bom.FullScreen",
-{
+qx.Bootstrap.define("qx.bom.FullScreen", {
   extend : qx.event.Emitter,
 
   statics : {

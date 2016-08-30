@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.SelectBox",
-{
+qx.Class.define("qx.test.ui.selection.SelectBox", {
   extend : qx.test.ui.selection.AbstractSingleSelectonTest,
 
   members :

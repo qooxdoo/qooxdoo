@@ -24,8 +24,7 @@
  * An extended WidgetCell layer, which adds the possibility to specify row and
  * column spans for specific cells.
  */
-qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan",
-{
+qx.Class.define("qx.ui.virtual.layer.WidgetCellSpan", {
   extend : qx.ui.virtual.layer.Abstract,
 
   include : [

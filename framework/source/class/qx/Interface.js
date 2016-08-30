@@ -25,8 +25,7 @@
  *
  * @require(qx.lang.normalize.Array)
  */
-qx.Bootstrap.define("qx.Interface",
-{
+qx.Bootstrap.define("qx.Interface", {
   statics :
   {
     /*

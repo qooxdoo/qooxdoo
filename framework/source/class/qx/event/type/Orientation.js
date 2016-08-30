@@ -35,8 +35,7 @@
 /**
  * Orientation event object.
  */
-qx.Class.define("qx.event.type.Orientation",
-{
+qx.Class.define("qx.event.type.Orientation", {
     extend : qx.event.type.Event,
 
 

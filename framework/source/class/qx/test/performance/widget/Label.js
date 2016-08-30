@@ -1,5 +1,4 @@
-qx.Class.define("qx.test.performance.widget.Label",
-{
+qx.Class.define("qx.test.performance.widget.Label", {
   extend : qx.test.performance.widget.AbstractWidget,
 
   members :

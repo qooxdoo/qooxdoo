@@ -27,8 +27,7 @@
  * Based on Public Domain code by Christopher Diggins
  * http://www.cdiggins.com/tokenizer.html
  */
-qx.Class.define("qx.dev.Tokenizer",
-{
+qx.Class.define("qx.dev.Tokenizer", {
   extend : qx.core.Object,
 
   statics :

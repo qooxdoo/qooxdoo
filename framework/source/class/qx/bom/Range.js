@@ -23,8 +23,7 @@
  * This is especially useful whenever a developer want to work on text level,
  * e.g. for an editor.
  */
-qx.Bootstrap.define("qx.bom.Range",
-{
+qx.Bootstrap.define("qx.bom.Range", {
   /*
   *****************************************************************************
      STATICS

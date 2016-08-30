@@ -42,8 +42,7 @@
  * This example creates a slider and attaches an
  * event listener to the {@link #changeValue} event.
  */
-qx.Class.define("qx.ui.mobile.form.Slider",
-{
+qx.Class.define("qx.ui.mobile.form.Slider", {
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.mobile.form.MValue,

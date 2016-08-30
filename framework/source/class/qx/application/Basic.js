@@ -19,8 +19,7 @@
 /**
  * For a basic, out-of-browser application (running e.g. on Node.js, Rhino).
  */
-qx.Class.define("qx.application.Basic",
-{
+qx.Class.define("qx.application.Basic", {
   extend : qx.core.Object,
   implement : [qx.application.IApplication],
 
@@ -28,28 +27,24 @@ qx.Class.define("qx.application.Basic",
   members :
   {
     // interface method
-    main : function()
-    {
+    main : function() {
       // empty
     },
 
 
     // interface method
-    finalize : function()
-    {
+    finalize : function() {
       // empty
     },
 
 
     // interface method
-    close : function()
-    {
+    close : function() {
       // empty
     },
 
     // interface method
-    terminate : function()
-    {
+    terminate : function() {
       // empty
     }
   }

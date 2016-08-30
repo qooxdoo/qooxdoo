@@ -20,8 +20,7 @@
 /**
  * Manager for appearance themes
  */
-qx.Class.define("qx.theme.manager.Appearance",
-{
+qx.Class.define("qx.theme.manager.Appearance", {
   type : "singleton",
   extend : qx.core.Object,
 

@@ -24,8 +24,7 @@
  *
  * @cldr()
  */
-qx.Class.define("qx.locale.Date",
-{
+qx.Class.define("qx.locale.Date", {
   statics :
   {
     /**

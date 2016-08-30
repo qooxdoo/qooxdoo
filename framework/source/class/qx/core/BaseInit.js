@@ -21,8 +21,7 @@
 /**
  * This is the base class for non-browser qooxdoo applications.
  */
-qx.Class.define("qx.core.BaseInit",
-{
+qx.Class.define("qx.core.BaseInit", {
   /*
   *****************************************************************************
      STATICS

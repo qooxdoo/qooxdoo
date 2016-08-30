@@ -25,8 +25,7 @@
  *
  * @require(qx.lang.String)
  */
-qx.Bootstrap.define("qx.bom.Style",
-{
+qx.Bootstrap.define("qx.bom.Style", {
   statics : {
     /** Vendor-specific style property prefixes */
     VENDOR_PREFIXES : ["Webkit", "Moz", "O", "ms", "Khtml"],

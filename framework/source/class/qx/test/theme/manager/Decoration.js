@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.theme.manager.Decoration",
-{
+qx.Class.define("qx.test.theme.manager.Decoration", {
   extend : qx.dev.unit.TestCase,
 
   members :

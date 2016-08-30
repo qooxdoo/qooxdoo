@@ -36,8 +36,7 @@
  *
  * @require(qx.lang.Array#contains)
  */
-qx.Bootstrap.define("qx.bom.Input",
-{
+qx.Bootstrap.define("qx.bom.Input", {
   /*
   *****************************************************************************
      STATICS

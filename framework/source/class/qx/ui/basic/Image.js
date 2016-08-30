@@ -44,8 +44,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.ui.basic.Image",
-{
+qx.Class.define("qx.ui.basic.Image", {
   extend : qx.ui.core.Widget,
 
 

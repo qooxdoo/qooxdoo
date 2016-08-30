@@ -21,8 +21,7 @@
  *
  * @use(qx.ui.mobile.core.EventHandler)
  */
-qx.Class.define("qx.ui.mobile.core.Widget",
-{
+qx.Class.define("qx.ui.mobile.core.Widget", {
   extend : qx.core.Object,
   include : [qx.locale.MTranslation],
 

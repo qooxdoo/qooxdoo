@@ -24,8 +24,7 @@
  *
  * @ignore(qx.bom.Element, qx.bom.Element.blur)
  */
-qx.Bootstrap.define("qx.bom.Selection",
-{
+qx.Bootstrap.define("qx.bom.Selection", {
   /*
   *****************************************************************************
      STATICS

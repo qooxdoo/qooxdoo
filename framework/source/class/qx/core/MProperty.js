@@ -20,8 +20,7 @@
  * This mixin offers the basic property features which include generic
  * setter, getter and resetter.
  */
-qx.Mixin.define("qx.core.MProperty",
-{
+qx.Mixin.define("qx.core.MProperty", {
   members :
   {
     /**

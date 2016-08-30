@@ -23,8 +23,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.list.provider.WidgetProvider",
-{
+qx.Class.define("qx.ui.list.provider.WidgetProvider", {
   extend : qx.core.Object,
 
   implement : [

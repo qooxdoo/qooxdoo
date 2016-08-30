@@ -19,8 +19,7 @@
 /**
  * @asset(qx/test/xmlhttp/*)
  */
-qx.Class.define("qx.test.bom.rest.Resource",
-{
+qx.Class.define("qx.test.bom.rest.Resource", {
   extend: qx.dev.unit.TestCase,
 
   include : [qx.dev.unit.MRequirements,

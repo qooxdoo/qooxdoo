@@ -21,8 +21,7 @@
 /**
  * A data cell renderer for boolean values.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Boolean",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Boolean", {
   extend : qx.ui.table.cellrenderer.AbstractImage,
 
 

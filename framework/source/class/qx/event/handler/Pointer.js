@@ -22,8 +22,7 @@
  * @require(qx.event.dispatch.DomBubbling)
  * @require(qx.event.type.Pointer) // load-time dependency for early native events
  */
-qx.Class.define("qx.event.handler.Pointer",
-{
+qx.Class.define("qx.event.handler.Pointer", {
   extend : qx.event.handler.PointerCore,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 

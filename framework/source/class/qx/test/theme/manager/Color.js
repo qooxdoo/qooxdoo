@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.theme.manager.Color",
-{
+qx.Class.define("qx.test.theme.manager.Color", {
   extend : qx.dev.unit.TestCase,
 
   members :

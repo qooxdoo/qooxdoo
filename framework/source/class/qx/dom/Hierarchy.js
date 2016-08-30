@@ -60,8 +60,7 @@
  * supports to operate on one element and reorganize the content with
  * the insertion of new HTML or nodes.
  */
-qx.Bootstrap.define("qx.dom.Hierarchy",
-{
+qx.Bootstrap.define("qx.dom.Hierarchy", {
   statics :
   {
     /**

@@ -38,8 +38,7 @@
  * </pre>
  *
  */
-qx.Class.define("qx.ui.mobile.container.Collapsible",
-{
+qx.Class.define("qx.ui.mobile.container.Collapsible", {
   extend : qx.ui.mobile.core.Widget,
 
 

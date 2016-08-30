@@ -25,8 +25,7 @@
  *
  * EXPERIMENTAL!
  */
-qx.Class.define("qx.ui.virtual.cell.Number",
-{
+qx.Class.define("qx.ui.virtual.cell.Number", {
   extend : qx.ui.virtual.cell.Cell,
 
 

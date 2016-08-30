@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.RadioButton",
-{
+qx.Class.define("qx.test.mobile.form.RadioButton", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

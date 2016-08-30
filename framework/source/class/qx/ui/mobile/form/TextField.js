@@ -19,8 +19,7 @@
 /**
  * The TextField is a single-line text input field.
  */
-qx.Class.define("qx.ui.mobile.form.TextField",
-{
+qx.Class.define("qx.ui.mobile.form.TextField", {
   extend : qx.ui.mobile.form.Input,
   include : [qx.ui.mobile.form.MValue, qx.ui.mobile.form.MText],
   implement : [qx.ui.form.IStringForm],

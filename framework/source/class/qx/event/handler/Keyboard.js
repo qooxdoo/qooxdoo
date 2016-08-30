@@ -27,8 +27,7 @@
  *
  * @require(qx.event.handler.UserAction)
  */
-qx.Class.define("qx.event.handler.Keyboard",
-{
+qx.Class.define("qx.event.handler.Keyboard", {
   extend : qx.core.Object,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 

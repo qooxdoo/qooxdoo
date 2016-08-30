@@ -21,8 +21,7 @@
  * The AppearanceQueue registers all widgets which are influences through
  * state changes.
  */
-qx.Class.define("qx.ui.core.queue.Appearance",
-{
+qx.Class.define("qx.ui.core.queue.Appearance", {
   statics :
   {
     /** @type {Array} This contains all the queued widgets for the next flush. */

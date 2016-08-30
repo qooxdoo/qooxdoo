@@ -21,8 +21,7 @@
  *
  * @require(qx.event.handler.Pointer)
  */
-qx.Class.define("qx.event.handler.Gesture",
-{
+qx.Class.define("qx.event.handler.Gesture", {
   extend : qx.event.handler.GestureCore,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 

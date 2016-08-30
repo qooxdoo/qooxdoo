@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.Slider",
-{
+qx.Class.define("qx.test.mobile.form.Slider", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

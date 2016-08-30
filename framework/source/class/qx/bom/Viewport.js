@@ -81,8 +81,7 @@
  * Includes library functions to work with the client's viewport (window).
  * Orientation related functions are point to window.top as default.
  */
-qx.Bootstrap.define("qx.bom.Viewport",
-{
+qx.Bootstrap.define("qx.bom.Viewport", {
   statics :
   {
     /**

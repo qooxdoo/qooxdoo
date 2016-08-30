@@ -19,8 +19,7 @@
 /**
  * The default window manager implementation
  */
-qx.Class.define("qx.ui.window.Manager",
-{
+qx.Class.define("qx.ui.window.Manager", {
   extend : qx.core.Object,
   implement : qx.ui.window.IWindowManager,
 

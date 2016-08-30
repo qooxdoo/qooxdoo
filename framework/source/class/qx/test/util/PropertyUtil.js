@@ -20,8 +20,7 @@
  * @ignore(qx.test.propA, qx.test.propB)
  */
 
-qx.Class.define("qx.test.util.PropertyUtil",
-{
+qx.Class.define("qx.test.util.PropertyUtil", {
   extend : qx.test.ui.LayoutTestCase,
 
 

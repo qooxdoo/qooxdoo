@@ -23,8 +23,7 @@
 /**
  * Table Cell Boolean Renderer.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
-{
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean", {
   extend     : qx.ui.progressive.renderer.table.cell.Icon,
 
 

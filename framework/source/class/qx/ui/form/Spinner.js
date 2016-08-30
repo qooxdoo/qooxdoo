@@ -54,8 +54,7 @@
  * @childControl downbutton {qx.ui.form.Button} button to decrease the value
  *
  */
-qx.Class.define("qx.ui.form.Spinner",
-{
+qx.Class.define("qx.ui.form.Spinner", {
   extend : qx.ui.core.Widget,
   implement : [
     qx.ui.form.INumberForm,

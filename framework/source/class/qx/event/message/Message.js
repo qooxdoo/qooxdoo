@@ -19,8 +19,7 @@
 /**
  * A message to be dispatched on the message bus.
  */
-qx.Class.define("qx.event.message.Message",
-{
+qx.Class.define("qx.event.message.Message", {
   extend : qx.core.Object,
 
 

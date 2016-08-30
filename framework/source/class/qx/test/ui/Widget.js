@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.Widget",
-{
+qx.Class.define("qx.test.ui.Widget", {
   extend : qx.dev.unit.TestCase,
 
   members :

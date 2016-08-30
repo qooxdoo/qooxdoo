@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.Flow",
-{
+qx.Class.define("qx.test.ui.layout.Flow", {
   extend : qx.dev.unit.TestCase,
 
   members :

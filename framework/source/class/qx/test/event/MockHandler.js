@@ -19,8 +19,7 @@
 /**
  * This class provides qooxdoo object event support.
  */
-qx.Class.define("qx.test.event.MockHandler",
-{
+qx.Class.define("qx.test.event.MockHandler", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

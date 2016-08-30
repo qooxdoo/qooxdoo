@@ -22,8 +22,7 @@
 /**
  * The TextField is a multi-line text input field.
  */
-qx.Class.define("qx.ui.form.TextArea",
-{
+qx.Class.define("qx.ui.form.TextArea", {
   extend : qx.ui.form.AbstractField,
 
 

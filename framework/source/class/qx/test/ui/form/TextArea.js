@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.TextArea",
-{
+qx.Class.define("qx.test.ui.form.TextArea", {
   extend : qx.test.ui.LayoutTestCase,
 
   include : qx.dev.unit.MRequirements,

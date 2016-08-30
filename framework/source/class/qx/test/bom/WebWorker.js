@@ -27,8 +27,7 @@
  * @asset(qx/test/webworker.js)
  */
 
-qx.Class.define("qx.test.bom.WebWorker",
-{
+qx.Class.define("qx.test.bom.WebWorker", {
   extend : qx.dev.unit.TestCase,
 
   members :

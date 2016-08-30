@@ -31,8 +31,7 @@
  * So this class seems to be the best compromise to handle
  * string concatenation.
  */
-qx.Class.define("qx.util.StringBuilder",
-{
+qx.Class.define("qx.util.StringBuilder", {
   extend : qx.type.BaseArray,
 
 

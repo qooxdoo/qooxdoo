@@ -27,8 +27,7 @@
  * @asset(qx/test/xmlhttp/sample.txt)
  */
 
-qx.Class.define("qx.test.io.rest.ResourceWithRemote",
-{
+qx.Class.define("qx.test.io.rest.ResourceWithRemote", {
   extend : qx.dev.unit.TestCase,
 
   include : [qx.dev.unit.MRequirements,

@@ -21,8 +21,7 @@
  * Uses the {@link qx.ui.mobile.list.renderer.Default} list item renderer as a
  * default renderer when no other renderer is given by the {@link qx.ui.mobile.list.List#delegate}.
  */
-qx.Class.define("qx.ui.mobile.list.provider.Provider",
-{
+qx.Class.define("qx.ui.mobile.list.provider.Provider", {
   extend : qx.core.Object,
 
 

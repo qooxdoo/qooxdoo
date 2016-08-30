@@ -1,5 +1,4 @@
-qx.Class.define("qx.test.performance.widget.WidgetWithDecorator",
-{
+qx.Class.define("qx.test.performance.widget.WidgetWithDecorator", {
   extend : qx.test.performance.widget.AbstractWidget,
 
   construct : function() {

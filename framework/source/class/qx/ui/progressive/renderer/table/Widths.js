@@ -20,8 +20,7 @@
 /**
  * Column width array for a whole set of columns
  */
-qx.Class.define("qx.ui.progressive.renderer.table.Widths",
-{
+qx.Class.define("qx.ui.progressive.renderer.table.Widths", {
   extend : qx.core.Object,
 
   /**

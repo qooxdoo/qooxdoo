@@ -21,8 +21,7 @@
  * @ignore(qx.test.ui.tree.virtual.Node)
  */
 
-qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest",
-{
+qx.Class.define("qx.test.ui.tree.virtual.AbstractTreeTest", {
   type : "abstract",
   extend : qx.test.ui.LayoutTestCase,
   include : [

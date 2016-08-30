@@ -20,8 +20,7 @@
 /**
  * Shows the header of a table.
  */
-qx.Class.define("qx.ui.table.pane.Header",
-{
+qx.Class.define("qx.ui.table.pane.Header", {
   extend : qx.ui.core.Widget,
 
 

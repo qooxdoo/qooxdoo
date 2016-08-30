@@ -33,8 +33,7 @@
  * @ignore(myExistingCallback)
  */
 
-qx.Class.define("qx.test.bom.request.Jsonp",
-{
+qx.Class.define("qx.test.bom.request.Jsonp", {
   extend : qx.dev.unit.TestCase,
 
   include : [qx.test.io.MRemoteTest,

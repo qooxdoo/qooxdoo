@@ -1,5 +1,4 @@
-qx.Class.define("qx.test.performance.decorator.AbstractDecorator",
-{
+qx.Class.define("qx.test.performance.decorator.AbstractDecorator", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMeasure,
   type: "abstract",

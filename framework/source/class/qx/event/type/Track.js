@@ -22,8 +22,7 @@
  * <code>trackstart</code>, <code>track</code> and <code>trackend</code>. These
  * events will be fired when a pointer grabs an item and moves the pointer on it.
  */
-qx.Class.define("qx.event.type.Track",
-{
+qx.Class.define("qx.event.type.Track", {
     extend : qx.event.type.Pointer,
 
 

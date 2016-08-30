@@ -23,8 +23,7 @@
  * A wrapper for CSS font styles. Fond objects can be applied to instances
  * of {@link qx.html.Element}.
  */
-qx.Class.define("qx.bom.Font",
-{
+qx.Class.define("qx.bom.Font", {
   extend : qx.core.Object,
 
 

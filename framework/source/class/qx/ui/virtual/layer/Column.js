@@ -22,8 +22,7 @@
  *
  * The Row layer renders row background colors.
  */
-qx.Class.define("qx.ui.virtual.layer.Column",
-{
+qx.Class.define("qx.ui.virtual.layer.Column", {
   extend : qx.ui.virtual.layer.AbstractBackground,
 
 

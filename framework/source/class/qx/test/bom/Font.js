@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Font",
-{
+qx.Class.define("qx.test.bom.Font", {
   extend : qx.test.ui.LayoutTestCase,
 
   include : [qx.dev.unit.MRequirements],

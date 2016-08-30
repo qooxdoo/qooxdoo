@@ -21,8 +21,7 @@
  * "number" and the attribute "min" ,"max" and "step". The attributes can be used
  * for form validation {@link qx.ui.form.validation.Manager}.
  */
-qx.Class.define("qx.ui.mobile.form.NumberField",
-{
+qx.Class.define("qx.ui.mobile.form.NumberField", {
   extend : qx.ui.mobile.form.Input,
   include : [qx.ui.mobile.form.MValue, qx.ui.mobile.form.MText],
   implement : [qx.ui.form.IStringForm],

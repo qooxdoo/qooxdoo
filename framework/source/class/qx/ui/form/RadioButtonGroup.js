@@ -28,8 +28,7 @@
  * take full control of the layout and just use the selection behavior,
  * take a look at the {@link qx.ui.form.RadioGroup} object for a loose coupling.
  */
-qx.Class.define("qx.ui.form.RadioButtonGroup",
-{
+qx.Class.define("qx.ui.form.RadioButtonGroup", {
   extend : qx.ui.core.Widget,
   include : [qx.ui.core.MLayoutHandling, qx.ui.form.MModelSelection],
   implement : [

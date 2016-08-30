@@ -21,8 +21,7 @@
  * A selection manager, which handles the selection in widgets extending
  * {@link qx.ui.core.scroll.AbstractScrollArea}.
  */
-qx.Class.define("qx.ui.core.selection.ScrollArea",
-{
+qx.Class.define("qx.ui.core.selection.ScrollArea", {
   extend : qx.ui.core.selection.Widget,
 
 

@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.DateFormat",
-{
+qx.Class.define("qx.test.util.DateFormat", {
   extend : qx.dev.unit.TestCase,
 
   members :

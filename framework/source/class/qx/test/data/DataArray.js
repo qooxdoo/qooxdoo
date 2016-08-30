@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.data.DataArray",
-{
+qx.Class.define("qx.test.data.DataArray", {
   extend : qx.dev.unit.TestCase,
 
   members :

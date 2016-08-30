@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.basic.Atom",
-{
+qx.Class.define("qx.test.ui.basic.Atom", {
   extend : qx.test.ui.LayoutTestCase,
 
   include : [qx.dev.unit.MMock],

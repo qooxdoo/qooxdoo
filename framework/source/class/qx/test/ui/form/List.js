@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.List",
-{
+qx.Class.define("qx.test.ui.form.List", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

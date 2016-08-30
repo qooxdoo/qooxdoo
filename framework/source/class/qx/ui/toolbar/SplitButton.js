@@ -24,8 +24,7 @@
  * @childControl button {qx.ui.toolbar.Button} button to interact with
  * @childControl arrow {qx.ui.toolbar.MenuButton} menu button to show the menu connected to the split button
  */
-qx.Class.define("qx.ui.toolbar.SplitButton",
-{
+qx.Class.define("qx.ui.toolbar.SplitButton", {
   extend : qx.ui.form.SplitButton,
 
 

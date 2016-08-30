@@ -94,8 +94,7 @@
  *
  * @asset(qx/static/blank.html)
  */
-qx.Class.define("qx.bom.History",
-{
+qx.Class.define("qx.bom.History", {
   extend : qx.core.Object,
   type : "abstract",
 

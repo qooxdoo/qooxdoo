@@ -35,8 +35,7 @@
  *
  * This example creates a group and adds a list to it.
  */
-qx.Class.define("qx.ui.mobile.form.Group",
-{
+qx.Class.define("qx.ui.mobile.form.Group", {
   extend : qx.ui.mobile.container.Composite,
 
 

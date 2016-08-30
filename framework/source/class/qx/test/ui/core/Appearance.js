@@ -20,8 +20,7 @@
  * @ignore(qx.test.ui.core.Theme, qx.test.ui.core.Test)
  */
 
-qx.Class.define("qx.test.ui.core.Appearance",
-{
+qx.Class.define("qx.test.ui.core.Appearance", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

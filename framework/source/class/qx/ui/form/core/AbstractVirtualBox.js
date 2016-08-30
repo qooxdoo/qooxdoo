@@ -23,8 +23,7 @@
  *
  * @childControl dropdown {qx.ui.form.core.VirtualDropDownList} The drop-down list.
  */
-qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
-{
+qx.Class.define("qx.ui.form.core.AbstractVirtualBox", {
   extend  : qx.ui.core.Widget,
   include : qx.ui.form.MForm,
   implement : qx.ui.form.IForm,

@@ -20,8 +20,7 @@
 /**
  * The default data cell renderer.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Default",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Default", {
   extend : qx.ui.table.cellrenderer.Abstract,
 
 

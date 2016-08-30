@@ -39,8 +39,7 @@
  * |         |       |        |X       |updateData|
  * </pre>
  */
-qx.Class.define("qx.test.ui.virtual.PaneUpdate",
-{
+qx.Class.define("qx.test.ui.virtual.PaneUpdate", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

@@ -24,8 +24,7 @@
  * and {@link qx.util.fsm.Transition} for details on creating
  * transitions between states.
  */
-qx.Class.define("qx.util.fsm.FiniteStateMachine",
-{
+qx.Class.define("qx.util.fsm.FiniteStateMachine", {
   extend : qx.core.Object,
 
 

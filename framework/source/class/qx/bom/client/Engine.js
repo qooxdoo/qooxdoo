@@ -26,8 +26,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Engine",
-{
+qx.Bootstrap.define("qx.bom.client.Engine", {
   // General: http://en.wikipedia.org/wiki/Browser_timeline
   // Webkit: https://developer.apple.com/internet/safari/uamatrix.html
   // Firefox: http://en.wikipedia.org/wiki/History_of_Mozilla_Firefox

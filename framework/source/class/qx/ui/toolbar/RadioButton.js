@@ -23,8 +23,7 @@
  * make sense used in a group of two or more of them. They are managed (connected)
  * to a {@link qx.ui.form.RadioGroup} to handle the selection.
  */
-qx.Class.define("qx.ui.toolbar.RadioButton",
-{
+qx.Class.define("qx.ui.toolbar.RadioButton", {
   extend : qx.ui.toolbar.CheckBox,
   include : [qx.ui.form.MModelProperty],
   implement : [qx.ui.form.IModel, qx.ui.form.IRadioItem],

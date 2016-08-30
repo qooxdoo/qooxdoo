@@ -23,8 +23,7 @@
  * this class and implement the methods {@link #_getCssClasses},
  * {@link #_getSupportedChildLayoutProperties} and {@link #_setLayoutProperty}.
  */
-qx.Class.define("qx.ui.mobile.layout.Abstract",
-{
+qx.Class.define("qx.ui.mobile.layout.Abstract", {
   extend : qx.core.Object,
   type : "abstract",
 

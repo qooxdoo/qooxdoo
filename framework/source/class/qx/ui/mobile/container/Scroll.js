@@ -39,8 +39,7 @@
  *
  * This example creates a scroll container and adds a label to it.
  */
-qx.Class.define("qx.ui.mobile.container.Scroll",
-{
+qx.Class.define("qx.ui.mobile.container.Scroll", {
   extend : qx.ui.mobile.container.Composite,
 
 

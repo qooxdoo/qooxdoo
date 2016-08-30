@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.dispatch.TestingWindow",
-{
+qx.Class.define("qx.test.event.dispatch.TestingWindow", {
   extend : qx.core.Object,
 
   events :

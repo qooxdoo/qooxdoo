@@ -22,8 +22,7 @@
  * You can enable/disable it via "about:config"
  * and "pdfjs.disabled" (true/false).
  */
-qx.Class.define("qx.test.bom.client.Pdfjs",
-{
+qx.Class.define("qx.test.bom.client.Pdfjs", {
   extend : qx.dev.unit.TestCase,
 
   include : [qx.dev.unit.MRequirements],

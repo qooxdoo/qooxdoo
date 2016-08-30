@@ -52,8 +52,7 @@
  *   page1.show();
  *  </pre>
  */
-qx.Class.define("qx.ui.mobile.form.SelectBox",
-{
+qx.Class.define("qx.ui.mobile.form.SelectBox", {
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.mobile.form.MValue,

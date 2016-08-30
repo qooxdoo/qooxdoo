@@ -24,8 +24,7 @@
  *
  * @require(qx.bom.Stylesheet)
  */
-qx.Class.define("qx.ui.table.cellrenderer.Abstract",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Abstract", {
   type : "abstract",
   implement : qx.ui.table.ICellRenderer,
   extend : qx.core.Object,

@@ -40,8 +40,7 @@
  *
  *
  */
-qx.Class.define("qx.ui.mobile.form.RadioButton",
-{
+qx.Class.define("qx.ui.mobile.form.RadioButton", {
   extend : qx.ui.mobile.form.Input,
   include : [qx.ui.mobile.form.MValue],
 

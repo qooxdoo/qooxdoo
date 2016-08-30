@@ -20,8 +20,7 @@
  * @ignore(qx.test.data.controller.fixture.ArrayField, qx.test.data.controller.fixture.ModelField)
  */
 
-qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
-{
+qx.Class.define("qx.test.data.controller.FormWithArrayAndModel", {
   extend : qx.dev.unit.TestCase,
 
   members :

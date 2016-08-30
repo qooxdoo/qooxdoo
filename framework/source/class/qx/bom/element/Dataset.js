@@ -25,8 +25,7 @@
  * the multiple implementations.
  *
  */
-qx.Bootstrap.define("qx.bom.element.Dataset",
-{
+qx.Bootstrap.define("qx.bom.element.Dataset", {
   /*
   *****************************************************************************
      STATICS

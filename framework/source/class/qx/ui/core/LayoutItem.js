@@ -21,8 +21,7 @@
  * The base class of all items, which should be laid out using a layout manager
  * {@link qx.ui.layout.Abstract}.
  */
-qx.Class.define("qx.ui.core.LayoutItem",
-{
+qx.Class.define("qx.ui.core.LayoutItem", {
   type : "abstract",
   extend : qx.core.Object,
 

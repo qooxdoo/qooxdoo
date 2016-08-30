@@ -19,8 +19,7 @@
 /**
  * Interface for data binding classes offering a selection.
  */
-qx.Interface.define("qx.data.controller.ISelection",
-{
+qx.Interface.define("qx.data.controller.ISelection", {
   members :
   {
     /**

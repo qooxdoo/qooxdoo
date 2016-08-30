@@ -32,8 +32,7 @@
  * @use(qx.io.remote.transport.Script)
  * @internal
  */
-qx.Class.define("qx.io.remote.Exchange",
-{
+qx.Class.define("qx.io.remote.Exchange", {
   extend : qx.core.Object,
   implement : [ qx.core.IDisposable ],
 

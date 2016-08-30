@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
-{
+qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider", {
   extend : qx.dev.unit.TestCase,
   implement : qx.ui.tree.core.IVirtualTree,
   include : qx.dev.unit.MMock,

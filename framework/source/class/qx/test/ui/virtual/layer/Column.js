@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.Column",
-{
+qx.Class.define("qx.test.ui.virtual.layer.Column", {
   extend : qx.test.ui.virtual.layer.LayerTestCase,
 
   members :

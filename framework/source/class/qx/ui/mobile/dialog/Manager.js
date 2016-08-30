@@ -41,8 +41,7 @@
  *
  * This example displays a confirm dialog and defines a button click handler.
  */
-qx.Class.define("qx.ui.mobile.dialog.Manager",
-{
+qx.Class.define("qx.ui.mobile.dialog.Manager", {
   extend : qx.core.Object,
   type : "singleton",
 

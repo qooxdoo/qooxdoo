@@ -24,8 +24,7 @@
  * @childControl sort-icon {qx.ui.basic.Image} sort icon of the header cell
  * @childControl icon {qx.ui.basic.Image} icon of the header cell
  */
-qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
-{
+qx.Class.define("qx.ui.table.headerrenderer.HeaderCell", {
   extend : qx.ui.container.Composite,
 
   construct : function()

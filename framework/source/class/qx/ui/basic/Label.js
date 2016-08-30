@@ -58,8 +58,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.ui.basic.Label",
-{
+qx.Class.define("qx.ui.basic.Label", {
   extend : qx.ui.core.Widget,
   implement : [qx.ui.form.IStringForm],
 

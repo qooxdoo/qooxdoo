@@ -36,8 +36,7 @@
  * handles more coarse-grained issues like providing {@link #selectAll} and
  * {@link #resetSelection} methods.
  */
-qx.Class.define("qx.ui.tree.Tree",
-{
+qx.Class.define("qx.ui.tree.Tree", {
   extend : qx.ui.core.scroll.AbstractScrollArea,
   implement : [
     qx.ui.core.IMultiSelection,

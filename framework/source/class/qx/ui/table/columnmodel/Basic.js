@@ -23,8 +23,7 @@
  *
  * @see qx.ui.table.ITableModel
  */
-qx.Class.define("qx.ui.table.columnmodel.Basic",
-{
+qx.Class.define("qx.ui.table.columnmodel.Basic", {
   extend : qx.core.Object,
 
 

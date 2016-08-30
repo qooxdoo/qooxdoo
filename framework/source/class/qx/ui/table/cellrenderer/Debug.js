@@ -22,8 +22,7 @@
  * {@link qx.dev.Debug#debugObjectToString} so is useful as a starting point
  * during development of a table, before writing each of the cell renderers.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Debug",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Debug", {
   extend : qx.ui.table.cellrenderer.Abstract,
 
   members :

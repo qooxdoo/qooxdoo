@@ -21,8 +21,7 @@
  * Central instance pool for event objects. All event objects dispatched by the
  * event loader are pooled using this class.
  */
-qx.Class.define("qx.event.Pool",
-{
+qx.Class.define("qx.event.Pool", {
   extend : qx.util.ObjectPool,
   type : "singleton",
 

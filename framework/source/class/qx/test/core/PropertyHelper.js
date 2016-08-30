@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.core.PropertyHelper",
-{
+qx.Class.define("qx.test.core.PropertyHelper", {
   extend : qx.core.Object,
 
   construct : function(delegate) {

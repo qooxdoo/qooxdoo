@@ -16,8 +16,7 @@
      * Mustafa Sak (msak)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.command.GroupManager",
-{
+qx.Class.define("qx.test.ui.command.GroupManager", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMock,
 

@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Color",
-{
+qx.Class.define("qx.test.ui.form.Color", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

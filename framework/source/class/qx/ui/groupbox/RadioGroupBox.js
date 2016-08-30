@@ -23,8 +23,7 @@
  *
  * @childControl legend {qx.ui.form.RadioButton} radio button to en-/disable the groupbox content
  */
-qx.Class.define("qx.ui.groupbox.RadioGroupBox",
-{
+qx.Class.define("qx.ui.groupbox.RadioGroupBox", {
   extend : qx.ui.groupbox.GroupBox,
   implement : [
     qx.ui.form.IRadioItem,

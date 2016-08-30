@@ -33,8 +33,7 @@
  * <code>path/to/icon.png</code>.
  *
  */
-qx.Class.define("qx.ui.mobile.basic.Image",
-{
+qx.Class.define("qx.ui.mobile.basic.Image", {
   extend : qx.ui.mobile.core.Widget,
 
 

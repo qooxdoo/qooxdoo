@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.ColorUtil",
-{
+qx.Class.define("qx.test.util.ColorUtil", {
   extend : qx.dev.unit.TestCase,
 
   members :

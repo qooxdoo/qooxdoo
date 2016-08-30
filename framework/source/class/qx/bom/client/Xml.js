@@ -24,10 +24,8 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Xml",
-{
-  statics:
-  {
+qx.Bootstrap.define("qx.bom.client.Xml", {
+  statics: {
     /**
      * Checks if XML is supported
      *

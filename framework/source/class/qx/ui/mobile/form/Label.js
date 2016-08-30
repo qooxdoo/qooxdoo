@@ -42,8 +42,7 @@
  * This example create a widget to display the label.
  *
  */
-qx.Class.define("qx.ui.mobile.form.Label",
-{
+qx.Class.define("qx.ui.mobile.form.Label", {
   extend : qx.ui.mobile.core.Widget,
 
 

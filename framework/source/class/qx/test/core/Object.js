@@ -19,8 +19,7 @@
 /**
  * @ignore(qx.test.Single.getInstance, qx.test.Single)
  */
-qx.Class.define("qx.test.core.Object",
-{
+qx.Class.define("qx.test.core.Object", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMock,
 

@@ -23,8 +23,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.CssTransition",
-{
+qx.Bootstrap.define("qx.bom.client.CssTransition", {
   statics : {
     /**
      * Returns the (possibly vendor-prefixed) name of the CSS transition property

@@ -22,11 +22,10 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * Media element. Other media types can derive from this class.
- * 
+ *
  * NOTE: Instances of this class must be disposed of to free resources
  */
-qx.Class.define("qx.bom.media.Abstract",
-{
+qx.Class.define("qx.bom.media.Abstract", {
   extend: qx.core.Object,
   implement: [ qx.core.IDisposable ],
   type: "abstract",

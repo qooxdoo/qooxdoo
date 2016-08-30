@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Slider",
-{
+qx.Class.define("qx.test.ui.form.Slider", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

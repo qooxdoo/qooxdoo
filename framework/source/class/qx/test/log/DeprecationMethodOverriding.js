@@ -1,5 +1,4 @@
-qx.Class.define("qx.test.log.DeprecationMethodOverriding",
-{
+qx.Class.define("qx.test.log.DeprecationMethodOverriding", {
   extend : qx.dev.unit.TestCase,
 
   members :

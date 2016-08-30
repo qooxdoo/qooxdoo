@@ -32,8 +32,7 @@
  * If you want to place widgets inside existing DOM elements
  * use {@link qx.ui.root.Inline}.
  */
-qx.Class.define("qx.ui.root.Page",
-{
+qx.Class.define("qx.ui.root.Page", {
   extend : qx.ui.root.Abstract,
 
 

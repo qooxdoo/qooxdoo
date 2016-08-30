@@ -19,8 +19,7 @@
 /**
  * Single column renderer for {@link qx.ui.form.Form}.
  */
-qx.Class.define("qx.ui.form.renderer.Single",
-{
+qx.Class.define("qx.ui.form.renderer.Single", {
   extend : qx.ui.form.renderer.AbstractRenderer,
 
 

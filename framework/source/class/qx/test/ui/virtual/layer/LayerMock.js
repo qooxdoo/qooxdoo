@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.LayerMock",
-{
+qx.Class.define("qx.test.ui.virtual.layer.LayerMock", {
   extend : qx.ui.virtual.layer.Abstract,
 
   construct : function()

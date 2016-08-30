@@ -39,8 +39,7 @@
  *
  *
  */
-qx.Class.define("qx.ui.mobile.container.Drawer",
-{
+qx.Class.define("qx.ui.mobile.container.Drawer", {
   extend : qx.ui.mobile.container.Composite,
 
 

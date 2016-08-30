@@ -19,8 +19,7 @@
 /**
  * Test widget children handling
  */
-qx.Class.define("qx.test.ui.ChildrenHandling",
-{
+qx.Class.define("qx.test.ui.ChildrenHandling", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

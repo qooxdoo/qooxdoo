@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.ComboBox",
-{
+qx.Class.define("qx.test.ui.table.celleditor.ComboBox", {
   extend : qx.test.ui.table.celleditor.AbstractField,
 
   members :

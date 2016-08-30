@@ -19,8 +19,7 @@
 /**
  * The small folder open/close button
  */
-qx.Class.define("qx.ui.tree.core.FolderOpenButton",
-{
+qx.Class.define("qx.ui.tree.core.FolderOpenButton", {
   extend : qx.ui.basic.Image,
   include : qx.ui.core.MExecutable,
 

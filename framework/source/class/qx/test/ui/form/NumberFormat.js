@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.NumberFormat",
-{
+qx.Class.define("qx.test.ui.form.NumberFormat", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

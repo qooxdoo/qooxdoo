@@ -19,8 +19,7 @@
 /**
  * A cell editor factory creating select boxes.
  */
-qx.Class.define("qx.ui.table.celleditor.SelectBox",
-{
+qx.Class.define("qx.ui.table.celleditor.SelectBox", {
   extend : qx.core.Object,
   implement : qx.ui.table.ICellEditorFactory,
 

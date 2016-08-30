@@ -21,8 +21,7 @@
  * @ignore(qx.test.SerializerModelEnc)
  */
 
-qx.Class.define("qx.test.util.Serializer",
-{
+qx.Class.define("qx.test.util.Serializer", {
   extend : qx.dev.unit.TestCase,
 
   construct : function() {

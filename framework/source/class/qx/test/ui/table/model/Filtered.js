@@ -15,8 +15,7 @@
      * William Oprandi (woprandi)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.table.model.Filtered",
-{
+qx.Class.define("qx.test.ui.table.model.Filtered", {
   extend : qx.dev.unit.TestCase,
   members :
   {

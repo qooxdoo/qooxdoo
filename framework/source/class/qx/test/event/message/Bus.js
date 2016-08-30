@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.message.Bus",
-{
+qx.Class.define("qx.test.event.message.Bus", {
   extend : qx.dev.unit.TestCase,
 
 

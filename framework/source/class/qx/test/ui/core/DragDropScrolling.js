@@ -15,8 +15,7 @@
      * Richard Sternagel (rsternagel)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.DragDropScrolling",
-{
+qx.Class.define("qx.test.ui.core.DragDropScrolling", {
   extend : qx.test.ui.LayoutTestCase,
 
   // the mixin under test:

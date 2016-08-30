@@ -22,8 +22,7 @@
  *
  *  Renderer the specified HTML in the cell.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Html",
-{
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Html", {
   /*
    * Nothing specific to do here, as the Abstract class already does
    * everything we need.

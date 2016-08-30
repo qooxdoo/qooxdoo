@@ -21,8 +21,7 @@
  * This singleton is used to manager multiple instances of popups and their
  * state.
  */
-qx.Class.define("qx.ui.popup.Manager",
-{
+qx.Class.define("qx.ui.popup.Manager", {
   type : "singleton",
   extend : qx.core.Object,
 

@@ -71,8 +71,7 @@
  *             });
  * </pre>
  */
-qx.Class.define("qx.util.TimerManager",
-{
+qx.Class.define("qx.util.TimerManager", {
   extend : qx.core.Object,
   type   : "singleton",
 

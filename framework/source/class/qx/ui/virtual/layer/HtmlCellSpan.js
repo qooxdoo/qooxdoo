@@ -22,8 +22,7 @@
  * An extended HtmlCell layer, which adds the possibility to specify row and
  * column spans for specific cells.
  */
-qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan",
-{
+qx.Class.define("qx.ui.virtual.layer.HtmlCellSpan", {
   extend : qx.ui.virtual.layer.HtmlCell,
 
 

@@ -20,8 +20,7 @@
  * @ignore(qx.Event)
  */
 
-qx.Class.define("qx.test.core.Target",
-{
+qx.Class.define("qx.test.core.Target", {
   extend : qx.dev.unit.TestCase,
 
   members :

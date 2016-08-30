@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.toolchain.PrivateOptimization",
-{
+qx.Class.define("qx.test.toolchain.PrivateOptimization", {
   extend : qx.dev.unit.TestCase,
 
   members :

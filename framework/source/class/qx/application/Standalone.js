@@ -27,8 +27,7 @@
  *
  * @require(qx.core.Init)
  */
-qx.Class.define("qx.application.Standalone",
-{
+qx.Class.define("qx.application.Standalone", {
   extend : qx.application.AbstractGui,
 
 

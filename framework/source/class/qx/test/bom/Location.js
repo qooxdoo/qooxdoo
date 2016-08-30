@@ -16,8 +16,7 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("qx.test.bom.Location",
-{
+qx.Class.define("qx.test.bom.Location", {
   extend : qx.dev.unit.TestCase,
 
   members :

@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.tree.virtual.SingleSelection",
-{
+qx.Class.define("qx.test.ui.tree.virtual.SingleSelection", {
   extend : qx.test.ui.tree.virtual.AbstractTreeTest,
 
   members :

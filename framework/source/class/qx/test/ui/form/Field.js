@@ -23,8 +23,7 @@
  * @asset(qx/test/webfonts/*)
  */
 
-qx.Class.define("qx.test.ui.form.Field",
-{
+qx.Class.define("qx.test.ui.form.Field", {
   extend : qx.test.ui.LayoutTestCase,
 
   include : [qx.dev.unit.MRequirements, qx.dev.unit.MMock],

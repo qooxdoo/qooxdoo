@@ -21,8 +21,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.tree.selection.SelectionManager",
-{
+qx.Class.define("qx.ui.tree.selection.SelectionManager", {
   extend : qx.ui.core.selection.ScrollArea,
 
   members :

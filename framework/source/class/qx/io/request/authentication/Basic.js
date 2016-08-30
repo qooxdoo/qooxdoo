@@ -19,8 +19,7 @@
 /**
  * Basic authentication.
  */
-qx.Class.define("qx.io.request.authentication.Basic",
-{
+qx.Class.define("qx.io.request.authentication.Basic", {
 
   extend: qx.core.Object,
 

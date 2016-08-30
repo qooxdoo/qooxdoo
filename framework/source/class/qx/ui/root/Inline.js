@@ -37,8 +37,7 @@
  * @ignore(qx.ui.popup, qx.ui.popup.Manager.*)
  * @ignore(qx.ui.menu, qx.ui.menu.Manager.*)
  */
-qx.Class.define("qx.ui.root.Inline",
-{
+qx.Class.define("qx.ui.root.Inline", {
   extend : qx.ui.root.Abstract,
   include : [qx.ui.core.MLayoutHandling],
 

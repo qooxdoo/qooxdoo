@@ -27,8 +27,7 @@
  * It is the client's responsibility to ensure that pooled objects are not
  * referenced or used from anywhere else in the application.
  */
-qx.Class.define("qx.util.ObjectPool",
-{
+qx.Class.define("qx.util.ObjectPool", {
   extend : qx.core.Object,
   implement : [ qx.core.IDisposable ],
 

@@ -23,8 +23,7 @@
  * a normal {@link qx.ui.form.CheckBox} and shows a check icon when
  * checked; normally shows no icon when not checked (depends on the theme).
  */
-qx.Class.define("qx.ui.menu.CheckBox",
-{
+qx.Class.define("qx.ui.menu.CheckBox", {
   extend : qx.ui.menu.AbstractButton,
   implement : [qx.ui.form.IBooleanForm],
 

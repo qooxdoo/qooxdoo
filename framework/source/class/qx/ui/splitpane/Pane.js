@@ -24,8 +24,7 @@
  * @childControl slider {qx.ui.splitpane.Slider} shown during resizing the splitpane
  * @childControl splitter {qx.ui.splitpane.Splitter} splitter to resize the splitpane
  */
-qx.Class.define("qx.ui.splitpane.Pane",
-{
+qx.Class.define("qx.ui.splitpane.Pane", {
   extend : qx.ui.core.Widget,
 
 

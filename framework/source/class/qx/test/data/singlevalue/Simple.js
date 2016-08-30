@@ -24,8 +24,7 @@
  * @ignore(qx.Target)
  * @ignore(qx.Test)
  */
-qx.Class.define("qx.test.data.singlevalue.Simple",
-{
+qx.Class.define("qx.test.data.singlevalue.Simple", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MRequirements,
 

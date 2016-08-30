@@ -25,8 +25,7 @@
  * Popups are used to display menus, the lists of combo or select boxes,
  * tooltips, etc.
  */
-qx.Class.define("qx.ui.popup.Popup",
-{
+qx.Class.define("qx.ui.popup.Popup", {
   extend : qx.ui.container.Composite,
   include : qx.ui.core.MPlacement,
 

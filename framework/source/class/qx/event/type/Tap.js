@@ -21,7 +21,6 @@
  * Tap is a single pointer gesture fired when one pointer goes down and up on
  * the same location.
  */
-qx.Class.define("qx.event.type.Tap",
-{
+qx.Class.define("qx.event.type.Tap", {
     extend : qx.event.type.Pointer
 });

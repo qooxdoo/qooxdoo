@@ -52,8 +52,7 @@
  * @internal
  * @asset(qx/static/empty.pdf)
  */
-qx.Bootstrap.define("qx.bom.client.Pdfjs",
-{
+qx.Bootstrap.define("qx.bom.client.Pdfjs", {
   statics:
   {
     /**
@@ -1292,4 +1291,3 @@ PluginDetect.INIT();
   };
 
 }).call(this);
-

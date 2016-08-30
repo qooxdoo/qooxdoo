@@ -25,8 +25,7 @@
  * This queue calls the method {@link qx.ui.core.Widget#syncWidget} of each
  * queued widget before the layout queues are processed.
  */
-qx.Class.define("qx.ui.core.queue.Widget",
-{
+qx.Class.define("qx.ui.core.queue.Widget", {
   statics :
   {
     /** @type {Array} This contains all the queued widgets for the next flush. */

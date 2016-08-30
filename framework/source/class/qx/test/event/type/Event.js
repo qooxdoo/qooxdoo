@@ -17,8 +17,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.test.event.type.Event",
-{
+qx.Class.define("qx.test.event.type.Event", {
   extend : qx.dev.unit.TestCase,
 
 

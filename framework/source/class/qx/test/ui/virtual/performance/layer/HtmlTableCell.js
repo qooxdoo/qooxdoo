@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCell",
-{
+qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCell", {
   extend : qx.ui.virtual.layer.Abstract,
 
   construct : function(htmlCellProvider)

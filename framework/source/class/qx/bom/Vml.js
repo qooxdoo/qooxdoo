@@ -24,8 +24,7 @@
  *
  *  <em>Note: This class is only available in Internet Explorer!</em>
  */
-qx.Class.define("qx.bom.Vml",
-{
+qx.Class.define("qx.bom.Vml", {
   /*
   *****************************************************************************
      STATICS

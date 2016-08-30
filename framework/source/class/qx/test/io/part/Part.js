@@ -25,8 +25,7 @@ Authors:
  * @asset(qx/test/*)
  */
 
-qx.Class.define("qx.test.io.part.Part",
-{
+qx.Class.define("qx.test.io.part.Part", {
   extend : qx.dev.unit.TestCase,
   include : qx.test.io.MRemoteTest,
 

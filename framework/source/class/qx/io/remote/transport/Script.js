@@ -30,8 +30,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.io.remote.transport.Script",
-{
+qx.Class.define("qx.io.remote.transport.Script", {
   extend : qx.io.remote.transport.Abstract,
   implement: [ qx.core.IDisposable ],
 

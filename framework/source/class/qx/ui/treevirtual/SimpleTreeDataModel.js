@@ -84,8 +84,7 @@
  * }
  * </pre>
  */
-qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
-{
+qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel", {
   extend : qx.ui.table.model.Abstract,
 
   include : qx.ui.treevirtual.MTreePrimitive,

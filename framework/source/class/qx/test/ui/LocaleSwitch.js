@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.LocaleSwitch",
-{
+qx.Class.define("qx.test.ui.LocaleSwitch", {
   extend : qx.test.ui.LayoutTestCase,
   include : qx.locale.MTranslation,
 

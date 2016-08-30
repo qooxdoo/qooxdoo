@@ -20,8 +20,7 @@
 /**
  * The focus indicator widget
  */
-qx.Class.define("qx.ui.table.pane.FocusIndicator",
-{
+qx.Class.define("qx.ui.table.pane.FocusIndicator", {
   extend : qx.ui.container.Composite,
 
   /**

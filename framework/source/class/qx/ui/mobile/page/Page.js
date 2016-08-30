@@ -53,8 +53,7 @@
  * for the first time.
  *
  */
-qx.Class.define("qx.ui.mobile.page.Page",
-{
+qx.Class.define("qx.ui.mobile.page.Page", {
   extend : qx.ui.mobile.container.Composite,
   include : qx.ui.mobile.core.MResize,
 

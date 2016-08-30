@@ -26,8 +26,7 @@
  *
  * The zIndex order is also managed by this class.
  */
-qx.Class.define("qx.ui.menu.Manager",
-{
+qx.Class.define("qx.ui.menu.Manager", {
   type : "singleton",
   extend : qx.core.Object,
 

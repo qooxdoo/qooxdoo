@@ -22,8 +22,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.event.handler.Offline",
-{
+qx.Class.define("qx.event.handler.Offline", {
   extend : qx.core.Object,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 

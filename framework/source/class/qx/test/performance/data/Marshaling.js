@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.performance.data.Marshaling",
-{
+qx.Class.define("qx.test.performance.data.Marshaling", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMeasure,
 

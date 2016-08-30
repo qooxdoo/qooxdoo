@@ -43,8 +43,7 @@
  * This example horizontally groups a label and text field by using a
  * Composite configured with a horizontal box layout as a container.
  */
-qx.Class.define("qx.ui.mobile.container.Composite",
-{
+qx.Class.define("qx.ui.mobile.container.Composite", {
   extend : qx.ui.mobile.core.Widget,
   include : [ qx.ui.mobile.core.MChildrenHandling, qx.ui.mobile.core.MLayoutHandling],
 

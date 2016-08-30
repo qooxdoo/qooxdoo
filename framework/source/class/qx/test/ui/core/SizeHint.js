@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.core.SizeHint",
-{
+qx.Class.define("qx.test.ui.core.SizeHint", {
   extend : qx.dev.unit.TestCase,
   type : "abstract",
 

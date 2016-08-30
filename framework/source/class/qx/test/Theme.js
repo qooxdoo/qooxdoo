@@ -19,8 +19,7 @@
  * @ignore(qx.theme.Foo)
  */
 
-qx.Class.define("qx.test.Theme",
-{
+qx.Class.define("qx.test.Theme", {
   extend : qx.dev.unit.TestCase,
 
   members :

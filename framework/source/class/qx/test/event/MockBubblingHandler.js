@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.MockBubblingHandler",
-{
+qx.Class.define("qx.test.event.MockBubblingHandler", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

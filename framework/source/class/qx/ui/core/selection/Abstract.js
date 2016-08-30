@@ -23,8 +23,7 @@
  * The selection handling supports both Shift and Ctrl/Meta modifies like
  * known from native applications.
  */
-qx.Class.define("qx.ui.core.selection.Abstract",
-{
+qx.Class.define("qx.ui.core.selection.Abstract", {
   type : "abstract",
   extend : qx.core.Object,
 

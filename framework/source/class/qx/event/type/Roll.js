@@ -20,8 +20,7 @@
 /**
  * Roll event object.
  */
-qx.Class.define("qx.event.type.Roll",
-{
+qx.Class.define("qx.event.type.Roll", {
     extend : qx.event.type.Pointer,
 
 

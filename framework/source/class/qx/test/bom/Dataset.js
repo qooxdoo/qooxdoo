@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Dataset",
-{
+qx.Class.define("qx.test.bom.Dataset", {
   extend : qx.dev.unit.TestCase,
 
   members :

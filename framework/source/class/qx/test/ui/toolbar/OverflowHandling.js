@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
-{
+qx.Class.define("qx.test.ui.toolbar.OverflowHandling", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

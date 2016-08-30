@@ -19,8 +19,7 @@
 /**
  * Base class for all box layout managers.
  */
-qx.Class.define("qx.ui.mobile.layout.AbstractBox",
-{
+qx.Class.define("qx.ui.mobile.layout.AbstractBox", {
   extend : qx.ui.mobile.layout.Abstract,
   type : "abstract",
 

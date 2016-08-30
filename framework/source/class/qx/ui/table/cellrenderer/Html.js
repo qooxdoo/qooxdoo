@@ -20,8 +20,7 @@
  * This Cellrender is for transparent use, without escaping! Use this Cellrender
  * to output plain HTML content.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Html",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Html", {
   extend : qx.ui.table.cellrenderer.Conditional,
 
   /*

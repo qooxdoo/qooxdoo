@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.Row",
-{
+qx.Class.define("qx.test.ui.virtual.layer.Row", {
   extend : qx.test.ui.virtual.layer.LayerTestCase,
 
   members :

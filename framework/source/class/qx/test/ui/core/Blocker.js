@@ -15,8 +15,7 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.Blocker",
-{
+qx.Class.define("qx.test.ui.core.Blocker", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

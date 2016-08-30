@@ -22,8 +22,7 @@
  * Contains methods to compute a position for any object which should
  * be positioned relative to another object.
  */
-qx.Class.define("qx.util.placement.Placement",
-{
+qx.Class.define("qx.util.placement.Placement", {
   extend : qx.core.Object,
 
   construct : function()

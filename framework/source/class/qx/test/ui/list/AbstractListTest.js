@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.list.AbstractListTest",
-{
+qx.Class.define("qx.test.ui.list.AbstractListTest", {
   type : "abstract",
   extend : qx.test.ui.LayoutTestCase,
   include : [qx.test.ui.list.MAssert],

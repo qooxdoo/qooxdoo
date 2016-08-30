@@ -15,8 +15,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.toolbar.ToolBar",
-{
+qx.Class.define("qx.test.ui.toolbar.ToolBar", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

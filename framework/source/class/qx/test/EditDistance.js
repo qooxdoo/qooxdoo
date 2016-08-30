@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.EditDistance",
-{
+qx.Class.define("qx.test.EditDistance", {
   extend : qx.dev.unit.TestCase,
 
   members :

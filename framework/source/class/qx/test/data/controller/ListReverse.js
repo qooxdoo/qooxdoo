@@ -3,8 +3,7 @@
  * @ignore(qx.test.ListItem)
  */
 
-qx.Class.define("qx.test.data.controller.ListReverse",
-{
+qx.Class.define("qx.test.data.controller.ListReverse", {
   extend : qx.test.ui.LayoutTestCase,
 
   construct : function() {

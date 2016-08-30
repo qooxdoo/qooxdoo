@@ -21,8 +21,7 @@
  * Contains information about images (size, format, clipping, ...) and
  * other resources like CSS files, local data, ...
  */
-qx.Class.define("qx.util.ResourceManager",
-{
+qx.Class.define("qx.util.ResourceManager", {
   extend  : qx.core.Object,
   type    : "singleton",
 
@@ -71,7 +70,7 @@ qx.Class.define("qx.util.ResourceManager",
       if(!registry) {
         return null;
       }
-  
+
       var ids = [];
       for (var id in registry) {
         if (registry.hasOwnProperty(id)) {
@@ -81,7 +80,7 @@ qx.Class.define("qx.util.ResourceManager",
           ids.push(id);
         }
       }
-  
+
       return ids;
     },
 

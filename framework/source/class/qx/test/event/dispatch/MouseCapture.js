@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.dispatch.MouseCapture",
-{
+qx.Class.define("qx.test.event.dispatch.MouseCapture", {
   extend : qx.dev.unit.TestCase,
 
   members :

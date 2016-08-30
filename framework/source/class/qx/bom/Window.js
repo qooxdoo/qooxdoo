@@ -19,8 +19,7 @@
 /**
  * Includes library functions to work with browser windows
  */
-qx.Class.define("qx.bom.Window",
-{
+qx.Class.define("qx.bom.Window", {
   statics :
   {
     /** Internal blocker instance for all browsers which need an additional

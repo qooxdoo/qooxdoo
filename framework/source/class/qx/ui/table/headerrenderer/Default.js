@@ -21,8 +21,7 @@
 /**
  * The default header cell renderer.
  */
-qx.Class.define("qx.ui.table.headerrenderer.Default",
-{
+qx.Class.define("qx.ui.table.headerrenderer.Default", {
   extend : qx.core.Object,
   implement : qx.ui.table.IHeaderRenderer,
 

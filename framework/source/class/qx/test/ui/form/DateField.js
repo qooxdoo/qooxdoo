@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.DateField",
-{
+qx.Class.define("qx.test.ui.form.DateField", {
   extend: qx.test.ui.LayoutTestCase,
 
   members:

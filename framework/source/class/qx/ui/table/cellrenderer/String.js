@@ -20,8 +20,7 @@
  * The string data cell renderer. All it does is escape the incoming String
  * values.
  */
-qx.Class.define("qx.ui.table.cellrenderer.String",
-{
+qx.Class.define("qx.ui.table.cellrenderer.String", {
   extend : qx.ui.table.cellrenderer.Conditional,
 
   /*

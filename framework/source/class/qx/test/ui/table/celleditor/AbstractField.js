@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.AbstractField",
-{
+qx.Class.define("qx.test.ui.table.celleditor.AbstractField", {
   extend : qx.test.ui.LayoutTestCase,
   type : "abstract",
 

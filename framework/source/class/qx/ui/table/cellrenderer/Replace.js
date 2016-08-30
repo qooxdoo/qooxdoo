@@ -58,8 +58,7 @@
  *          See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
  * @return {String}
  */
-qx.Class.define("qx.ui.table.cellrenderer.Replace",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Replace", {
   extend : qx.ui.table.cellrenderer.Default,
 
   /*

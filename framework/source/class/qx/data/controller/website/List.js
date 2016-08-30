@@ -34,8 +34,7 @@
  * Target, you have to use a DOM element e.g. a plain DIV element. Make sure
  * you have the template you are referencing in the DOM.
  */
-qx.Class.define("qx.data.controller.website.List",
-{
+qx.Class.define("qx.data.controller.website.List", {
   extend : qx.core.Object,
 
   /**

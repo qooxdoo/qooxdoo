@@ -27,8 +27,7 @@
  * @require(qx.dom.Node)
  * @require(qx.lang.Function)
  */
-qx.Class.define("qx.event.Registration",
-{
+qx.Class.define("qx.event.Registration", {
   /*
   *****************************************************************************
      STATICS

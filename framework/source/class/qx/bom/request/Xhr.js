@@ -51,7 +51,7 @@
  *  req.responseType = "blob";
  *  req.send();
  * </pre>
- 
+
  * </div>
  *
  * @ignore(XDomainRequest)
@@ -75,8 +75,7 @@
  *
  * @group (IO)
  */
-qx.Bootstrap.define("qx.bom.request.Xhr",
-{
+qx.Bootstrap.define("qx.bom.request.Xhr", {
 
   extend: Object,
   implement: [ qx.core.IDisposable ],
@@ -170,7 +169,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * @type {Object} The response of the request as a Document object.
      */
     response: null,
-    
+
     /**
      * @type {Object} The response of the request as object.
      */

@@ -29,8 +29,7 @@
  * {@link #_updateLayerWindow} and {@link #_updateLayerData} may be implemented
  * to increase the performance.
  */
-qx.Class.define("qx.ui.virtual.layer.Abstract",
-{
+qx.Class.define("qx.ui.virtual.layer.Abstract", {
   extend : qx.ui.core.Widget,
   type : "abstract",
 

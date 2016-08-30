@@ -26,8 +26,7 @@
  * @ignore(WebKitCSSMatrix)
  * @require(qx.bom.Style)
  */
-qx.Bootstrap.define("qx.bom.client.Css",
-{
+qx.Bootstrap.define("qx.bom.client.Css", {
   statics :
   {
     __WEBKIT_LEGACY_GRADIENT : null,

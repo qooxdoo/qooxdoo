@@ -30,8 +30,7 @@
  *
  * This example create a widget to display the busy indicator.
  */
-qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
-{
+qx.Class.define("qx.ui.mobile.dialog.BusyIndicator", {
   extend : qx.ui.mobile.basic.Atom,
 
 

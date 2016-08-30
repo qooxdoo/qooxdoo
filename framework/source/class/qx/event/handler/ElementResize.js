@@ -23,8 +23,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.event.handler.ElementResize",
-{
+qx.Class.define("qx.event.handler.ElementResize", {
   extend : qx.core.Object,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 

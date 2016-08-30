@@ -78,8 +78,7 @@
  *   </dd>
  * </dl>
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract",
-{
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Abstract", {
   type       : "abstract",
   extend     : qx.core.Object,
 

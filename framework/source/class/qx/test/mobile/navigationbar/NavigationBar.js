@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.navigationbar.NavigationBar",
-{
+qx.Class.define("qx.test.mobile.navigationbar.NavigationBar", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

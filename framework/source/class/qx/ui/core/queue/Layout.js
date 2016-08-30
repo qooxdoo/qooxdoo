@@ -22,8 +22,7 @@
  * layout. The {@link #flush} method computes the layout of all queued widgets
  * and their dependent widgets.
  */
-qx.Class.define("qx.ui.core.queue.Layout",
-{
+qx.Class.define("qx.ui.core.queue.Layout", {
   statics :
   {
     /** @type {Map} This contains all the queued widgets for the next flush. */

@@ -24,8 +24,7 @@
  * For more information see:
  *     https://developer.apple.com/library/safari/#documentation/UserExperience/Reference/TouchEventClassReference/TouchEvent/TouchEvent.html
  */
-qx.Class.define("qx.event.type.Touch",
-{
+qx.Class.define("qx.event.type.Touch", {
     extend : qx.event.type.Dom,
 
 

@@ -20,8 +20,7 @@
 /**
  * A cross browser iframe instance.
  */
-qx.Class.define("qx.html.Iframe",
-{
+qx.Class.define("qx.html.Iframe", {
   extend : qx.html.Element,
 
 

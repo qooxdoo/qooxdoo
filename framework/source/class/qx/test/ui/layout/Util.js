@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.Util",
-{
+qx.Class.define("qx.test.ui.layout.Util", {
   extend : qx.dev.unit.TestCase,
 
   members :

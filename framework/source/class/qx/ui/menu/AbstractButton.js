@@ -26,8 +26,7 @@
  * @childControl shortcut {qx.ui.basic.Label} shows if specified the shortcut
  * @childControl arrow {qx.ui.basic.Image} shows the arrow to show an additional widget (e.g. popup or submenu)
  */
-qx.Class.define("qx.ui.menu.AbstractButton",
-{
+qx.Class.define("qx.ui.menu.AbstractButton", {
   extend : qx.ui.core.Widget,
   include : [qx.ui.core.MExecutable],
   implement : [qx.ui.form.IExecutable],

@@ -22,8 +22,7 @@
  * This queue makes it possible to remove widgets from the DOM using
  * the layout and element queues and dispose them afterwards.
  */
-qx.Class.define("qx.ui.core.queue.Dispose",
-{
+qx.Class.define("qx.ui.core.queue.Dispose", {
   statics :
   {
     /** @type {Array} This contains all the queued widgets for the next flush. */

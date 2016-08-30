@@ -23,8 +23,7 @@
  * dimensions of this widget. The widget also offer methods to control
  * the scrolling position. It can only have exactly one child.
  */
-qx.Class.define("qx.ui.core.scroll.ScrollPane",
-{
+qx.Class.define("qx.ui.core.scroll.ScrollPane", {
   extend : qx.ui.core.Widget,
 
 

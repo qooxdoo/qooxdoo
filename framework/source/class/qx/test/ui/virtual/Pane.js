@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.Pane",
-{
+qx.Class.define("qx.test.ui.virtual.Pane", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

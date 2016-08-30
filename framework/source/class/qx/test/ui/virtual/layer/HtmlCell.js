@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
-{
+qx.Class.define("qx.test.ui.virtual.layer.HtmlCell", {
   extend : qx.test.ui.virtual.layer.LayerTestCase,
 
   members :

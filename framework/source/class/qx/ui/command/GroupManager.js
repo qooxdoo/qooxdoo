@@ -12,8 +12,7 @@
 /**
  * Registrar for command groups to be able to active or deactive them.
  */
-qx.Class.define("qx.ui.command.GroupManager",
-{
+qx.Class.define("qx.ui.command.GroupManager", {
   extend : qx.core.Object,
 
 

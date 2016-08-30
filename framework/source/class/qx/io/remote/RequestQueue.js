@@ -30,8 +30,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.io.remote.RequestQueue",
-{
+qx.Class.define("qx.io.remote.RequestQueue", {
   type : "singleton",
   extend : qx.core.Object,
   implement : [ qx.core.IDisposable ],

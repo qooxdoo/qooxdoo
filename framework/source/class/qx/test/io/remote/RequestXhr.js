@@ -23,8 +23,7 @@ Authors:
  * @asset(qx/test/*)
  */
 
-qx.Class.define("qx.test.io.remote.RequestXhr",
-{
+qx.Class.define("qx.test.io.remote.RequestXhr", {
   extend : qx.test.io.remote.AbstractRequest,
 
   members :

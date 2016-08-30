@@ -21,8 +21,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.layout.LineSizeIterator",
-{
+qx.Class.define("qx.ui.layout.LineSizeIterator", {
   extend : Object,
 
   /**

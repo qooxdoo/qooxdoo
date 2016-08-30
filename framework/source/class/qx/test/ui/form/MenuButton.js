@@ -15,8 +15,7 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.MenuButton",
-{
+qx.Class.define("qx.test.ui.form.MenuButton", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

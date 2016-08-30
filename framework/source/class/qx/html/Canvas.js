@@ -19,8 +19,7 @@
 /**
  * Managed wrapper for the HTML canvas tag.
  */
-qx.Class.define("qx.html.Canvas",
-{
+qx.Class.define("qx.html.Canvas", {
   extend : qx.html.Element,
 
 

@@ -23,8 +23,7 @@
  *
  * @ignore(qx.dev, qx.dev.Debug.*)
  */
-qx.Bootstrap.define("qx.core.ObjectRegistry",
-{
+qx.Bootstrap.define("qx.core.ObjectRegistry", {
   /*
   *****************************************************************************
      STATICS
@@ -33,9 +32,9 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
   statics :
   {
-    /** 
+    /**
      * @type {Boolean} Whether the application is in the shutdown phase
-     * @deprecated {6.0} shutdown is not a valid mechanism to terminate apps 
+     * @deprecated {6.0} shutdown is not a valid mechanism to terminate apps
      * */
     inShutDown : false,
 
@@ -243,7 +242,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     /**
      * Disposing all registered object and cleaning up registry. This is
      * automatically executed at application shutdown.
-     * 
+     *
      * @deprecated {6.0} shutdown is not a valid means to clean up because destruction order
      * is not defined and dispose()/destructors are deprecated in favour of automatic
      * garbage collection

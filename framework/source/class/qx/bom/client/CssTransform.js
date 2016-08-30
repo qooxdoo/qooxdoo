@@ -25,8 +25,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.CssTransform",
-{
+qx.Bootstrap.define("qx.bom.client.CssTransform", {
   statics :
   {
     /**

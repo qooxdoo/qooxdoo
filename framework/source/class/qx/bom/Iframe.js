@@ -24,8 +24,7 @@
  *
  * @require(qx.event.handler.Iframe)
  */
-qx.Class.define("qx.bom.Iframe",
-{
+qx.Class.define("qx.bom.Iframe", {
   /*
   *****************************************************************************
      STATICS

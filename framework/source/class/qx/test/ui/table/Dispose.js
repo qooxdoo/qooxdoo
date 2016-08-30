@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.Dispose",
-{
+qx.Class.define("qx.test.ui.table.Dispose", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

@@ -61,8 +61,7 @@
  *
  * @childControl row-layer {qx.ui.virtual.layer.Row} layer for all rows
  */
-qx.Class.define("qx.ui.list.List",
-{
+qx.Class.define("qx.ui.list.List", {
   extend : qx.ui.virtual.core.Scroller,
   include : [qx.ui.virtual.selection.MModel],
   implement : qx.data.controller.ISelection,

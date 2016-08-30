@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.decoration.LinearGradient",
-{
+qx.Class.define("qx.test.ui.decoration.LinearGradient", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

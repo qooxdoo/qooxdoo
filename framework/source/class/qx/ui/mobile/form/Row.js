@@ -19,8 +19,7 @@
 /**
  * The Row widget represents a row in a {@link Form}.
  */
-qx.Class.define("qx.ui.mobile.form.Row",
-{
+qx.Class.define("qx.ui.mobile.form.Row", {
   extend : qx.ui.mobile.container.Composite,
 
 

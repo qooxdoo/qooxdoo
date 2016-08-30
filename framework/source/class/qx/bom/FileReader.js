@@ -27,8 +27,7 @@
  * For more information see:
  * http://www.w3.org/TR/FileAPI/
  */
-qx.Class.define("qx.bom.FileReader",
-{
+qx.Class.define("qx.bom.FileReader", {
   extend : qx.core.Object,
   implement: [ qx.core.IDisposable ],
 

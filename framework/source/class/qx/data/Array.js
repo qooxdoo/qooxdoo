@@ -22,12 +22,11 @@
  * for it. All the native methods are included in the implementation and it
  * also fires events if the content or the length of the array changes in
  * any way. Also the <code>.length</code> property is available on the array.
- * 
+ *
  * This class does not need to be disposed, unless you set the autoDisposeItems
  * property to true and want the items to be disposed.
  */
-qx.Class.define("qx.data.Array",
-{
+qx.Class.define("qx.data.Array", {
   extend : qx.core.Object,
   include : qx.data.marshal.MEventBubbling,
   implement : [qx.data.IListData],
@@ -426,13 +425,13 @@ qx.Class.define("qx.data.Array",
       }
       return (new qx.data.Array(returnArray));
     },
-    
-    
+
+
     /**
      * Efficiently replaces the array with the contents of src; this will suppress the
      * change event if the array contents are the same, and will make sure that only
      * one change event is fired
-     * 
+     *
      * @param src {qx.data.Array|Array} the new value to set the array to
      */
     replace: function(src) {

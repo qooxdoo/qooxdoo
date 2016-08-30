@@ -23,8 +23,7 @@
 /**
  * The tree folder is a tree element, which can have nested tree elements.
  */
-qx.Class.define("qx.ui.tree.TreeFolder",
-{
+qx.Class.define("qx.ui.tree.TreeFolder", {
   extend : qx.ui.tree.core.AbstractTreeItem,
 
 

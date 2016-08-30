@@ -22,8 +22,7 @@
 /**
  * Event object class for drag events
  */
-qx.Class.define("qx.event.type.Drag",
-{
+qx.Class.define("qx.event.type.Drag", {
   extend : qx.event.type.Event,
 
 

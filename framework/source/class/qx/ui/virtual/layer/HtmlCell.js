@@ -24,8 +24,7 @@
  * The HtmlCell layer renders each cell with custom HTML markup. The concrete
  * markup for each cell is provided by a cell provider.
  */
-qx.Class.define("qx.ui.virtual.layer.HtmlCell",
-{
+qx.Class.define("qx.ui.virtual.layer.HtmlCell", {
   extend : qx.ui.virtual.layer.Abstract,
 
 

@@ -20,8 +20,7 @@
  * @ignore(DOMException)
  */
 
-qx.Class.define("qx.test.bom.media.MediaTestCase",
-{
+qx.Class.define("qx.test.bom.media.MediaTestCase", {
   type : "abstract",
   extend : qx.dev.unit.TestCase,
 

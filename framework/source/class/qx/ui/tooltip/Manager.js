@@ -23,8 +23,7 @@
  * display tooltips if the user hovers a widgets with a tooltip and hides all
  * other tooltips.
  */
-qx.Class.define("qx.ui.tooltip.Manager",
-{
+qx.Class.define("qx.ui.tooltip.Manager", {
   type : "singleton",
   extend : qx.core.Object,
 

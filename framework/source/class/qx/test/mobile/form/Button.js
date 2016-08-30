@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.Button",
-{
+qx.Class.define("qx.test.mobile.form.Button", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

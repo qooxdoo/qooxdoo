@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.tree.virtual.MultiSelection",
-{
+qx.Class.define("qx.test.ui.tree.virtual.MultiSelection", {
   extend : qx.test.ui.tree.virtual.AbstractTreeTest,
 
   members :

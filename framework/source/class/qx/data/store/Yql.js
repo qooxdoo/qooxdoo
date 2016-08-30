@@ -23,8 +23,7 @@
  * If you want to test your queries, take a look at the YQL console:
  * http://developer.yahoo.com/yql/console/
  */
-qx.Class.define("qx.data.store.Yql",
-{
+qx.Class.define("qx.data.store.Yql", {
   extend : qx.data.store.Jsonp,
 
   /**

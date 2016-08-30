@@ -27,8 +27,7 @@
  * listed in the <code>implement</code> key of a class unless all methods are
  * really implemented.
  */
-qx.Interface.define("qx.data.controller.IControllerDelegate",
-{
+qx.Interface.define("qx.data.controller.IControllerDelegate", {
   members :
   {
     /**

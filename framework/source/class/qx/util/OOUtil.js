@@ -20,8 +20,7 @@
  * and Interface. It contains helper which are basically needed to create the
  * Classes which define the OO system.
  */
-qx.Bootstrap.define("qx.util.OOUtil",
-{
+qx.Bootstrap.define("qx.util.OOUtil", {
   statics :
   {
     /**

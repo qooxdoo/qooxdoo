@@ -19,8 +19,7 @@
 /**
  * The Flash widget embeds the HMTL Flash element
  */
-qx.Class.define("qx.ui.embed.Flash",
-{
+qx.Class.define("qx.ui.embed.Flash", {
   extend : qx.ui.core.Widget,
 
 

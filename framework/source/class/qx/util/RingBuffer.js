@@ -30,8 +30,7 @@
  * and processed. Whenever this happens, a mark() call can be used so that the
  * next extraction will only get new data.
  */
-qx.Bootstrap.define("qx.util.RingBuffer",
-{
+qx.Bootstrap.define("qx.util.RingBuffer", {
   extend : Object,
 
   /**
@@ -113,8 +112,8 @@ qx.Bootstrap.define("qx.util.RingBuffer",
         this.__entriesStoredSinceMark++;
       }
     },
-    
-    
+
+
     /**
      * Returns the number of entries stored
      * @return {Integer}

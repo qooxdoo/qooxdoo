@@ -32,8 +32,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.io.request.AbstractRequest",
-{
+qx.Class.define("qx.io.request.AbstractRequest", {
   type : "abstract",
 
   extend : qx.core.Object,

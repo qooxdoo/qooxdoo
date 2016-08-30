@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Resetter",
-{
+qx.Class.define("qx.test.ui.form.Resetter", {
   extend : qx.test.ui.LayoutTestCase,
 
   construct : function() {

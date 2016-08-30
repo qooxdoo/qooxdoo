@@ -35,8 +35,7 @@
  * @childControl maximize-button {qx.ui.form.Button} button to maximize the window
  * @childControl close-button {qx.ui.form.Button} button to close the window
  */
-qx.Class.define("qx.ui.window.Window",
-{
+qx.Class.define("qx.ui.window.Window", {
   extend : qx.ui.core.Widget,
 
   include :

@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.Timer",
-{
+qx.Class.define("qx.test.event.Timer", {
   extend : qx.dev.unit.TestCase,
 
   members :

@@ -24,8 +24,7 @@
  *
  *
  */
-qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer",
-{
+qx.Class.define("qx.ui.mobile.form.renderer.AbstractRenderer", {
   type : "abstract",
   extend : qx.ui.mobile.core.Widget,
   implement : qx.ui.form.renderer.IFormRenderer,

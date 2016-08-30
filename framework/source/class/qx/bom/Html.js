@@ -36,8 +36,7 @@
  *
  * @ignore(qxWeb)
  */
-qx.Bootstrap.define("qx.bom.Html",
-{
+qx.Bootstrap.define("qx.bom.Html", {
   /*
   *****************************************************************************
      STATICS

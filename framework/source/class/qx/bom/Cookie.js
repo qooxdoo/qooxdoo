@@ -20,8 +20,7 @@
 /**
  * A wrapper for Cookie handling.
  */
-qx.Bootstrap.define("qx.bom.Cookie",
-{
+qx.Bootstrap.define("qx.bom.Cookie", {
   /*
   *****************************************************************************
      STATICS

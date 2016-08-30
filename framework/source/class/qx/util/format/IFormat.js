@@ -20,8 +20,7 @@
 /**
  * Superclass for formatters and parsers.
  */
-qx.Interface.define("qx.util.format.IFormat",
-{
+qx.Interface.define("qx.util.format.IFormat", {
 
   members :
   {

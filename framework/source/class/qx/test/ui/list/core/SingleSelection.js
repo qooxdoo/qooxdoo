@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.list.core.SingleSelection",
-{
+qx.Class.define("qx.test.ui.list.core.SingleSelection", {
   extend : qx.test.ui.list.AbstractListTest,
 
   members :

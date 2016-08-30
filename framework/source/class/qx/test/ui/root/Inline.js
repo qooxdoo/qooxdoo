@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.root.Inline",
-{
+qx.Class.define("qx.test.ui.root.Inline", {
   extend : qx.dev.unit.TestCase,
 
   members :

@@ -19,8 +19,7 @@
 /**
  * This interface defines what an application class has to implement.
  */
-qx.Interface.define("qx.application.IApplication",
-{
+qx.Interface.define("qx.application.IApplication", {
   members :
   {
     /**

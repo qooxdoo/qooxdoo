@@ -21,8 +21,7 @@
 /**
  * An abstract cell editor factory creating text/password/spinner/... fields.
  */
-qx.Class.define("qx.ui.table.celleditor.AbstractField",
-{
+qx.Class.define("qx.ui.table.celleditor.AbstractField", {
   extend : qx.core.Object,
   implement : qx.ui.table.ICellEditorFactory,
   type : "abstract",

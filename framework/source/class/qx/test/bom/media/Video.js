@@ -25,8 +25,7 @@
  * @asset(qx/test/media/*)
  */
 
-qx.Class.define("qx.test.bom.media.Video",
-{
+qx.Class.define("qx.test.bom.media.Video", {
   extend : qx.test.bom.media.MediaTestCase,
   include: [qx.dev.unit.MRequirements],
 

@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.Fsm",
-{
+qx.Class.define("qx.test.util.Fsm", {
   extend : qx.dev.unit.TestCase,
 
   members :

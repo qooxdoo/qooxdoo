@@ -24,8 +24,7 @@
  * kind of data in one column.
  *
  */
-qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Dynamic", {
   extend : qx.ui.table.cellrenderer.Default,
 
 

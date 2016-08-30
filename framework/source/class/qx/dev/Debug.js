@@ -27,8 +27,7 @@
  * @ignore(qx.bom.Font)
  * @ignore(qx.theme.manager.Font)
  */
-qx.Class.define("qx.dev.Debug",
-{
+qx.Class.define("qx.dev.Debug", {
   statics :
   {
     /**
@@ -421,7 +420,7 @@ qx.Class.define("qx.dev.Debug",
             }
             // Dynamic decorators
             if (qx.Interface.getByName("qx.ui.decoration.IDecorator") &&
-                qx.Class.getByName("qx.theme.manager.Decoration") && 
+                qx.Class.getByName("qx.theme.manager.Decoration") &&
                 qx.Class.implementsInterface(obj, qx.ui.decoration.IDecorator) &&
               qx.theme.manager.Decoration.getInstance().isCached(obj)) {
               continue;
@@ -431,7 +430,7 @@ qx.Class.define("qx.dev.Debug",
               continue;
             }
             // Dynamic fonts
-            if (qx.Class.getByName("qx.bom.Font") && 
+            if (qx.Class.getByName("qx.bom.Font") &&
                 obj instanceof qx.bom.Font &&
                 qx.Class.getByName("qx.theme.manager.Font") &&
                 qx.theme.manager.Font.getInstance().isDynamic(obj)) {

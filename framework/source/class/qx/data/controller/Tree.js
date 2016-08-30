@@ -46,8 +46,7 @@
  * * If you want to bind a list like widget, use {@link qx.data.controller.List}
  * * If you want to bin a form widget, use {@link qx.data.controller.Form}
  */
-qx.Class.define("qx.data.controller.Tree",
-{
+qx.Class.define("qx.data.controller.Tree", {
   extend : qx.core.Object,
   include: qx.data.controller.MSelection,
   implement : [ qx.data.controller.ISelection ],

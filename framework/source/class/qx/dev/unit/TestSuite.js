@@ -20,8 +20,7 @@
  * A TestSuite is a collection of test functions, classes and other test suites,
  * which should be run together.
  */
-qx.Class.define("qx.dev.unit.TestSuite",
-{
+qx.Class.define("qx.dev.unit.TestSuite", {
   extend : qx.dev.unit.AbstractTestSuite,
 
 

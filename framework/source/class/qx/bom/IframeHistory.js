@@ -29,8 +29,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.bom.IframeHistory",
-{
+qx.Class.define("qx.bom.IframeHistory", {
   extend : qx.bom.History,
   implement: [ qx.core.IDisposable ],
 

@@ -15,8 +15,7 @@
      * William Opandi (woprandi)
 
 ************************************************************************ */
-qx.Class.define("qx.test.theme.simple.Appearance",
-{
+qx.Class.define("qx.test.theme.simple.Appearance", {
   extend : qx.dev.unit.TestCase,
 
   members :

@@ -20,8 +20,7 @@
  * @asset(qx/icon/Tango/16/places/folder.png)
  */
 
-qx.Class.define("qx.test.ui.list.List",
-{
+qx.Class.define("qx.test.ui.list.List", {
   extend : qx.test.ui.list.AbstractListTest,
   include : qx.dev.unit.MMock,
 

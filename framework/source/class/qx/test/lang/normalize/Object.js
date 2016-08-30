@@ -19,8 +19,7 @@
 /**
  * @require(qx.lang.normalize.Object)
  */
-qx.Class.define("qx.test.lang.normalize.Object",
-{
+qx.Class.define("qx.test.lang.normalize.Object", {
   extend : qx.dev.unit.TestCase,
   include : [qx.dev.unit.MMock],
 

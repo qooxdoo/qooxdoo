@@ -24,8 +24,7 @@
  * @require(qx.bom.Stylesheet)
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.CssAnimation",
-{
+qx.Bootstrap.define("qx.bom.client.CssAnimation", {
   statics : {
     /**
      * Main check method which returns an object if CSS animations are

@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.dispatch.TestingHandler",
-{
+qx.Class.define("qx.test.event.dispatch.TestingHandler", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

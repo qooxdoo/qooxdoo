@@ -42,8 +42,7 @@
  * For resources, only aliases that resolve to proper resource id's can be __managed__
  * resources, and will be considered __unmanaged__ resources otherwise.
  */
-qx.Class.define("qx.util.AliasManager",
-{
+qx.Class.define("qx.util.AliasManager", {
   type : "singleton",
   extend : qx.util.ValueManager,
 

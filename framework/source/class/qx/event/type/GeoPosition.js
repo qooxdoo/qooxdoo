@@ -26,8 +26,7 @@
  *
  *
  */
-qx.Class.define("qx.event.type.GeoPosition",
-{
+qx.Class.define("qx.event.type.GeoPosition", {
   extend : qx.event.type.Event,
 
   /**

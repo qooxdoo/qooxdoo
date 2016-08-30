@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Placeholder",
-{
+qx.Class.define("qx.test.ui.form.Placeholder", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

@@ -52,8 +52,7 @@
  * * Transformation of standard conformance markup to cross browser support
  * * Support for alternative content (alt text)
  */
-qx.Class.define("qx.bom.Flash",
-{
+qx.Class.define("qx.bom.Flash", {
   /*
   *****************************************************************************
      STATICS

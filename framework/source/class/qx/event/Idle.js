@@ -26,8 +26,7 @@
  *
  */
 
-qx.Class.define("qx.event.Idle",
-{
+qx.Class.define("qx.event.Idle", {
   extend : qx.core.Object,
   implement : [ qx.core.IDisposable ],
   type : "singleton",

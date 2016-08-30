@@ -28,8 +28,7 @@
  * also apply to this class.
  *
  */
-qx.Class.define("qx.data.store.Jsonp",
-{
+qx.Class.define("qx.data.store.Jsonp", {
   extend : qx.data.store.Json,
 
   /**

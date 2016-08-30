@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.Grid",
-{
+qx.Class.define("qx.test.ui.layout.Grid", {
   extend : qx.dev.unit.TestCase,
 
   members :

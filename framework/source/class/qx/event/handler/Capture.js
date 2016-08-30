@@ -20,8 +20,7 @@
 /**
  * This class provides capture event support at DOM level.
  */
-qx.Class.define("qx.event.handler.Capture",
-{
+qx.Class.define("qx.event.handler.Capture", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

@@ -21,8 +21,7 @@
  * A widget used for decoration proposes to structure a toolbar. Each
  * Separator renders a line between the buttons around.
  */
-qx.Class.define("qx.ui.toolbar.Separator",
-{
+qx.Class.define("qx.ui.toolbar.Separator", {
   extend : qx.ui.core.Widget,
 
 

@@ -21,8 +21,7 @@
  * value property and all widgets implementing the single selection linked list
  * or select box.
  */
-qx.Class.define("qx.ui.form.Resetter",
-{
+qx.Class.define("qx.ui.form.Resetter", {
   extend : qx.core.Object,
 
 

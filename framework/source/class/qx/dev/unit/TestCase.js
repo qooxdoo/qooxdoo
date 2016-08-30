@@ -20,8 +20,7 @@
 /**
  * Base class for all unit tests.
  */
-qx.Class.define("qx.dev.unit.TestCase",
-{
+qx.Class.define("qx.dev.unit.TestCase", {
   extend  : qx.core.Object,
   include : [qx.core.MAssert],
 

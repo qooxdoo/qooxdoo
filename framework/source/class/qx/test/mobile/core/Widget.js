@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.core.Widget",
-{
+qx.Class.define("qx.test.mobile.core.Widget", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

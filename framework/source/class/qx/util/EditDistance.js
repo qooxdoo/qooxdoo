@@ -25,8 +25,7 @@
  * <a href="http://en.wikipedia.org/wiki/Edit_distance">Edit distance on Wikipedia</a>
  * <a href="http://en.wikipedia.org/wiki/Levenshtein_distance">Levenshtein distance on Wikipedia</a>
  */
-qx.Class.define("qx.util.EditDistance",
-{
+qx.Class.define("qx.util.EditDistance", {
   statics :
   {
     OPERATION_DELETE : 1,

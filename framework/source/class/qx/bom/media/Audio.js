@@ -22,11 +22,10 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * Media object for playing sounds.
- * 
+ *
  * NOTE: Instances of this class must be disposed of to free resources
  */
-qx.Class.define("qx.bom.media.Audio",
-{
+qx.Class.define("qx.bom.media.Audio", {
   extend : qx.bom.media.Abstract,
 
   /**
@@ -43,4 +42,3 @@ qx.Class.define("qx.bom.media.Audio",
     _audio : null
   }
 });
-

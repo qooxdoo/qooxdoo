@@ -22,8 +22,7 @@
  * It is usually transparent or semi-transparent and blocks all events from
  * the underlying elements.
  */
-qx.Class.define("qx.html.Blocker",
-{
+qx.Class.define("qx.html.Blocker", {
   extend : qx.html.Element,
 
   /**

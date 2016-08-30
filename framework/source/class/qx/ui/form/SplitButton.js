@@ -24,8 +24,7 @@
  * @childControl button {qx.ui.form.Button} button to execute action
  * @childControl arrow {qx.ui.form.MenuButton} arrow to open the popup
  */
-qx.Class.define("qx.ui.form.SplitButton",
-{
+qx.Class.define("qx.ui.form.SplitButton", {
   extend : qx.ui.core.Widget,
   include : [qx.ui.core.MExecutable],
   implement : [qx.ui.form.IExecutable],

@@ -28,8 +28,7 @@
  * @ignore(qx.bom.element.Style.*)
  * @use(qx.bom.element.AnimationJs#play)
  */
-qx.Bootstrap.define("qx.bom.element.AnimationJs",
-{
+qx.Bootstrap.define("qx.bom.element.AnimationJs", {
   statics :
   {
     /**

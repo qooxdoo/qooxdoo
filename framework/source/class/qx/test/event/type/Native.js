@@ -17,8 +17,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.test.event.type.Native",
-{
+qx.Class.define("qx.test.event.type.Native", {
   extend : qx.dev.unit.TestCase,
 
 

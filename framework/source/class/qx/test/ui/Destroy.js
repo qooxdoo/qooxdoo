@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.Destroy",
-{
+qx.Class.define("qx.test.ui.Destroy", {
   extend : qx.test.ui.LayoutTestCase,
 
   statics :

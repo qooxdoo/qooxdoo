@@ -19,8 +19,7 @@
 /**
  * Dispatches events directly on the event target (no bubbling nor capturing).
  */
-qx.Class.define("qx.event.dispatch.Direct",
-{
+qx.Class.define("qx.event.dispatch.Direct", {
   extend : qx.core.Object,
   implement : qx.event.IEventDispatcher,
 

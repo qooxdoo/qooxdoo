@@ -29,8 +29,7 @@
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/desktop/ui_theming.html' target='_blank'>
  * documentation of the theme system in the qooxdoo manual.</a>
  */
-qx.Bootstrap.define("qx.Theme",
-{
+qx.Bootstrap.define("qx.Theme", {
   statics:
   {
     /*

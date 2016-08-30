@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.io.remote.Rpc",
-{
+qx.Class.define("qx.test.io.remote.Rpc", {
   extend : qx.dev.unit.TestCase,
 
   include : qx.dev.unit.MMock,

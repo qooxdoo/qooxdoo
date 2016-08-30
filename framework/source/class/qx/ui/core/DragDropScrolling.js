@@ -19,8 +19,7 @@
 /**
  * Provides scrolling ability during drag session to the widget.
  */
-qx.Class.define("qx.ui.core.DragDropScrolling",
-{
+qx.Class.define("qx.ui.core.DragDropScrolling", {
   extend : qx.core.Object,
 
   include : [qx.ui.core.MDragDropScrolling],

@@ -34,8 +34,7 @@
  *
  * This example creates a form and adds a row with a text field in it.
  */
-qx.Class.define("qx.ui.mobile.form.Form",
-{
+qx.Class.define("qx.ui.mobile.form.Form", {
   extend : qx.ui.form.Form,
 
   /*

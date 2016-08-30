@@ -22,8 +22,7 @@
  *
  * @require(qx.core.Init)
  */
-qx.Class.define("qx.application.Native",
-{
+qx.Class.define("qx.application.Native", {
   extend : qx.core.Object,
   implement : [qx.application.IApplication],
 
@@ -39,28 +38,24 @@ qx.Class.define("qx.application.Native",
   members :
   {
     // interface method
-    main : function()
-    {
+    main : function() {
       // empty
     },
 
 
     // interface method
-    finalize : function()
-    {
+    finalize : function() {
       // empty
     },
 
 
     // interface method
-    close : function()
-    {
+    close : function() {
       // empty
     },
 
     // interface method
-    terminate : function()
-    {
+    terminate : function() {
       // empty
     }
   }

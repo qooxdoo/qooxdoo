@@ -15,8 +15,7 @@
      * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.table.columnmodel.Basic",
-{
+qx.Class.define("qx.test.ui.table.columnmodel.Basic", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

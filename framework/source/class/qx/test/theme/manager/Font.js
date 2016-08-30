@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.theme.manager.Font",
-{
+qx.Class.define("qx.test.theme.manager.Font", {
   extend : qx.dev.unit.TestCase,
 
   members :

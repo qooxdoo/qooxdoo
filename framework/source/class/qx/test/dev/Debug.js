@@ -13,8 +13,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.dev.Debug",
-{
+qx.Class.define("qx.test.dev.Debug", {
   extend : qx.dev.unit.TestCase,
   include : [qx.dev.unit.MRequirements],
 

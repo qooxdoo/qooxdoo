@@ -19,8 +19,7 @@
 /**
  * Single-value binding is a core component of the data binding package.
  */
-qx.Class.define("qx.data.SingleValueBinding",
-{
+qx.Class.define("qx.data.SingleValueBinding", {
 
   statics :
   {
@@ -1309,7 +1308,7 @@ qx.Class.define("qx.data.SingleValueBinding",
     /**
      * Removes all binding in the whole application. After that not a single
      * binding is left.
-     * @deprecated {6.0} dispose and destructors are deprecated because of automatic memory management; this 
+     * @deprecated {6.0} dispose and destructors are deprecated because of automatic memory management; this
      * will only work for objects explicitly registered with ObjectRegistry.register
      */
     removeAllBindings : function() {

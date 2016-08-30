@@ -20,8 +20,7 @@
 /**
  * A cell editor factory creating password fields fields.
  */
-qx.Class.define("qx.ui.table.celleditor.PasswordField",
-{
+qx.Class.define("qx.ui.table.celleditor.PasswordField", {
   extend : qx.ui.table.celleditor.AbstractField,
 
 

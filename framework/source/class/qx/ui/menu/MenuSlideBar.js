@@ -24,8 +24,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.menu.MenuSlideBar",
-{
+qx.Class.define("qx.ui.menu.MenuSlideBar", {
   extend : qx.ui.container.SlideBar,
 
   construct : function()

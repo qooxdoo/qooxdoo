@@ -19,8 +19,7 @@
 /**
  * Escaping and unescaping of XML strings.
  */
-qx.Class.define("qx.xml.String",
-{
+qx.Class.define("qx.xml.String", {
   statics :
   {
     /** Mapping of XML entity names to the corresponding char code */

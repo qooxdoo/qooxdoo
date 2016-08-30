@@ -817,8 +817,7 @@
  * </table>
  *
  */
-qx.Bootstrap.define("qx.core.Environment",
-{
+qx.Bootstrap.define("qx.core.Environment", {  
   statics : {
 
     /** Map containing the synchronous check functions. */

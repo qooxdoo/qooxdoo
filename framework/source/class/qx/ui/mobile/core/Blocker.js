@@ -20,8 +20,7 @@
  * This class blocks events and can be included into all widgets.
  *
  */
-qx.Class.define("qx.ui.mobile.core.Blocker",
-{
+qx.Class.define("qx.ui.mobile.core.Blocker", {
 
   extend : qx.ui.mobile.core.Widget,
   type : "singleton",

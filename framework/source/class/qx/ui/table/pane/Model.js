@@ -22,8 +22,7 @@
  * {@link qx.ui.table.columnmodel.Basic} and manages the visual order of the columns shown in
  * a {@link Pane}.
  */
-qx.Class.define("qx.ui.table.pane.Model",
-{
+qx.Class.define("qx.ui.table.pane.Model", {
   extend : qx.core.Object,
 
 

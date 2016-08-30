@@ -22,8 +22,7 @@
 /**
  * Table Cell Renderer for Progressive.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
-{
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional", {
   extend     : qx.ui.progressive.renderer.table.cell.Abstract,
 
 

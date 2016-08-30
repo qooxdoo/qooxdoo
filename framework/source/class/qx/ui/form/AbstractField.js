@@ -26,8 +26,7 @@
  * value of the textfield. Value changes can be monitored by listening to the
  * {@link #input} or {@link #changeValue} events, respectively.
  */
-qx.Class.define("qx.ui.form.AbstractField",
-{
+qx.Class.define("qx.ui.form.AbstractField", {
   extend : qx.ui.core.Widget,
   implement : [
     qx.ui.form.IStringForm,

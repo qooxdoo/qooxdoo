@@ -15,8 +15,7 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.Spacer",
-{
+qx.Class.define("qx.test.ui.core.Spacer", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMock,
 

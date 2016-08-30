@@ -26,8 +26,7 @@
  * this element is always visible. In the easiest case, the root element
  * is identical to the document's body.
  */
-qx.Class.define("qx.html.Root",
-{
+qx.Class.define("qx.html.Root", {
   extend : qx.html.Element,
 
 

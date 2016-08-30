@@ -24,8 +24,7 @@
 
  */
 
-qx.Class.define("qx.test.Class",
-{
+qx.Class.define("qx.test.Class", {
   extend : qx.dev.unit.TestCase,
   include : [qx.dev.unit.MRequirements],
 

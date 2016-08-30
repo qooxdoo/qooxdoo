@@ -26,8 +26,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.bom.NativeHistory",
-{
+qx.Class.define("qx.bom.NativeHistory", {
   extend : qx.bom.History,
   implement: [ qx.core.IDisposable ],
 

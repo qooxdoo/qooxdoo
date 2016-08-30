@@ -20,8 +20,7 @@
  * Contains property maps for the usage with qx.bom.element.Animation {@link qx.bom.element.Animation}.
  * These animations can be used for page transitions for example.
  */
-qx.Bootstrap.define("qx.util.Animation",
-{
+qx.Bootstrap.define("qx.util.Animation", {
 
   statics :
   {

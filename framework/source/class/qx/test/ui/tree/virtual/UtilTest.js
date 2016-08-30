@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.tree.virtual.UtilTest",
-{
+qx.Class.define("qx.test.ui.tree.virtual.UtilTest", {
   extend : qx.dev.unit.TestCase,
 
   members :

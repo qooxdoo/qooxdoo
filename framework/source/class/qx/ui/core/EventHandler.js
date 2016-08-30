@@ -20,8 +20,7 @@
 /**
  * Connects the widgets to the browser DOM events.
  */
-qx.Class.define("qx.ui.core.EventHandler",
-{
+qx.Class.define("qx.ui.core.EventHandler", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

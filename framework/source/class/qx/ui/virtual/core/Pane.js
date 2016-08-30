@@ -26,8 +26,7 @@
  * The pane computes, which cells of the virtual area is visible and instructs
  * the layers to render these cells.
  */
-qx.Class.define("qx.ui.virtual.core.Pane",
-{
+qx.Class.define("qx.ui.virtual.core.Pane", {
   extend : qx.ui.core.Widget,
 
 

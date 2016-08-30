@@ -21,8 +21,7 @@
  *
  * @require(qx.util.format.NumberFormat)
  */
-qx.Class.define("qx.ui.table.cellrenderer.Conditional",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Conditional", {
   extend : qx.ui.table.cellrenderer.Default,
 
 

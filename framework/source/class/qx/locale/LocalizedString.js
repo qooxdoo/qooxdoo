@@ -20,8 +20,7 @@
  * This class contains the translation of a message and all information
  * to translate it again into a different language.
  */
-qx.Class.define("qx.locale.LocalizedString",
-{
+qx.Class.define("qx.locale.LocalizedString", {
   extend : qx.type.BaseString,
 
   /**

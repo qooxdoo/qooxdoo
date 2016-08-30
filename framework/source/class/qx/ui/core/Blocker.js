@@ -25,8 +25,7 @@
  *
  * @ignore(qx.ui.root.Abstract)
  */
-qx.Class.define("qx.ui.core.Blocker",
-{
+qx.Class.define("qx.ui.core.Blocker", {
   extend : qx.core.Object,
 
 

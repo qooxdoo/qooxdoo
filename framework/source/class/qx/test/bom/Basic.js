@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Basic",
-{
+qx.Class.define("qx.test.bom.Basic", {
   extend : qx.dev.unit.TestCase,
 
   members :

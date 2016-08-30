@@ -26,16 +26,14 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Transport",
-{
+qx.Bootstrap.define("qx.bom.client.Transport", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Returns the maximum number of parallel requests the current browser
      * supports per host addressed.
@@ -52,8 +50,7 @@ qx.Bootstrap.define("qx.bom.client.Transport",
      * @internal
      * @return {Integer} Maximum number of parallel requests
      */
-    getMaxConcurrentRequestCount: function()
-    {
+    getMaxConcurrentRequestCount: function() {
       var maxConcurrentRequestCount;
 
       // Parse version numbers.

@@ -21,8 +21,7 @@
 /**
  * A check box widget with an optional label.
  */
-qx.Class.define("qx.ui.form.CheckBox",
-{
+qx.Class.define("qx.ui.form.CheckBox", {
   extend : qx.ui.form.ToggleButton,
   include : [
     qx.ui.form.MForm,

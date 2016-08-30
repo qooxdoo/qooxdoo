@@ -22,8 +22,7 @@
  * @ignore(qx.test.TreeNode)
  */
 
-qx.Class.define("qx.test.data.controller.Tree",
-{
+qx.Class.define("qx.test.data.controller.Tree", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMock,
 

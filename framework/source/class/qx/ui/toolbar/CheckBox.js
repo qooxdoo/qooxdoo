@@ -20,8 +20,7 @@
 /**
  * A button which is toggle-able for toolbars.
  */
-qx.Class.define("qx.ui.toolbar.CheckBox",
-{
+qx.Class.define("qx.ui.toolbar.CheckBox", {
   extend : qx.ui.form.ToggleButton,
 
 

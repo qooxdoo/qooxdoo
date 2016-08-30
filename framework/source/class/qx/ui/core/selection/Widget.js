@@ -19,8 +19,7 @@
 /**
  * A selection manager, which handles the selection in widgets.
  */
-qx.Class.define("qx.ui.core.selection.Widget",
-{
+qx.Class.define("qx.ui.core.selection.Widget", {
   extend : qx.ui.core.selection.Abstract,
 
 

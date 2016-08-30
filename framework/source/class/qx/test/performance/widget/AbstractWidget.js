@@ -1,5 +1,4 @@
-qx.Class.define("qx.test.performance.widget.AbstractWidget",
-{
+qx.Class.define("qx.test.performance.widget.AbstractWidget", {
   extend : qx.test.ui.LayoutTestCase,
   include : qx.dev.unit.MMeasure,
   type : "abstract",

@@ -23,8 +23,7 @@
 /**
  * Abstract Icon cell renderer.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
-{
+qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon", {
   type       : "abstract",
   extend     : qx.ui.progressive.renderer.table.cell.Abstract,
 

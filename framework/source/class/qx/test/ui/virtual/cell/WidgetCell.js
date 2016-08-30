@@ -25,8 +25,7 @@
  * @asset(qx/icon/Tango/22/emotes/face-angel.png)
  */
 
-qx.Class.define("qx.test.ui.virtual.cell.WidgetCell",
-{
+qx.Class.define("qx.test.ui.virtual.cell.WidgetCell", {
   extend : qx.dev.unit.TestCase,
 
   members :
