@@ -56,13 +56,26 @@ qx.Class.define("qx.test.lang.Array",
     
     
     testExclude : function() {
+      var a = [ 1, 2, 3, 4, 5 ];
+      qx.lang.Array.exclude(a, [ 2, 4 ]);
+      this.assertJsonEquals([ 1, 3, 5 ], a);
+      
       var a = [0,1,2,3,4,5,6,7,8,9];
       qx.lang.Array.exclude(a, [1,2,3]);
       this.assertJsonEquals([0,4,5,6,7,8,9], a);
       
+      var a = [ 1, 2, 3, 4, 5 ];
+      qx.lang.Array.exclude(a, new qx.data.Array([ 1, 3, 5 ]));
+      this.assertJsonEquals([ 2, 4 ], a);
+      
       var a = [0,1,2,3,4,5,6,7,8,9];
       qx.lang.Array.exclude(a, new qx.data.Array([ 1,2,3 ]));
       this.assertJsonEquals([0,4,5,6,7,8,9], a);
+      
+      var a = new qx.data.Array([ 1, 2, 3, 4, 5 ]);
+      qx.lang.Array.exclude(a, [ 1, 3, 5 ]);
+      this.assertJsonEquals([ 2, 4 ], a.toArray());
+      a.dispose();
       
       var a = new qx.data.Array([0,1,2,3,4,5,6,7,8,9]);
       qx.lang.Array.exclude(a, [1,2,3]);
