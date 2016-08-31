@@ -1,11 +1,27 @@
 {
-  "name": "qooxdoo-framework",
-  "description": "qooxdoo framework dependencies",
-  "version": "5.1.0",
+  "name": "@pcdummy/qx",
+  "description": "pcdummy's dev version of qooxdoo",
+  "version": "5.0.1",
+  "license": "MIT",
+  "homepage": "http://qooxdoo.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qooxdoo/qooxdoo"
+    "url": "https://github.com/pcdummy/qooxdoo.git"
   },
+  "bugs": {
+    "url": "https://github.com/pcdummy/qooxdoo/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/pcdummy/qooxdoo/blob/master/LICENSE"
+    }
+  ],
+  "keywords": [
+    "framework",
+    "browser",
+    "client-side"
+  ],
   "scripts": {
     "test": "karma start",
     "pretest": "php -S 127.0.0.1:31323 &> /dev/null &",
