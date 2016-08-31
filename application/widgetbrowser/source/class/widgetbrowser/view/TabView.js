@@ -107,6 +107,11 @@ qx.Class.define("widgetbrowser.view.TabView",
       var misc = new widgetbrowser.view.TabPage("Misc", classname, controls);
       this.add(misc);
 
+      // Dialog
+      classname = "widgetbrowser.pages.Dialog";
+      controls = {};
+      var dialog = new widgetbrowser.view.TabPage("Dialog", classname, controls);
+      this.add(dialog);
     },
 
     __rememberCurrentTab: function(e) {

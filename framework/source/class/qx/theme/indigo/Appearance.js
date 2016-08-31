@@ -126,6 +126,17 @@ qx.Theme.define("qx.theme.indigo.Appearance",
       }
     },
 
+    "dialog" : {
+      include: "window",
+
+      style: function(states) {
+        return {
+          contentPadding : [ 0, 0, 10, 0 ],
+          decorator : states.maximized ? undefined : states.active ? "dialog-box" : "window",
+          padding: 10
+        }
+      }
+    },
 
     "virtual-tree" :
     {
