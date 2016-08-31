@@ -1752,6 +1752,10 @@ qx.Bootstrap.define("qx.Class",
           }
         }
 
+        if (clazz.$$dbClassInfo) {
+          qx.Bootstrap.executePendingDefers(clazz.$$dbClassInfo, true);
+        }
+
         // Execute default constructor
         var retval=clazz.$$original.apply(this,arguments);
 

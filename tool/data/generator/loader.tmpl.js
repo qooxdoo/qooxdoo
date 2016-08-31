@@ -29,8 +29,9 @@ qx.$$loader = {
   addNoCacheParam : %{NoCacheParam},
   delayDefer: false,
 
-  decodeUris : function(compressedUris)
+  decodeUris : function(compressedUris, propertyName)
   {
+    propertyName = propertyName||"sourceUri";
     var libs = qx.$$libraries;
     var uris = [];
     for (var i=0; i<compressedUris.length; i++)
@@ -38,7 +39,7 @@ qx.$$loader = {
       var uri = compressedUris[i].split(":");
       var euri;
       if (uri.length==2 && uri[0] in libs) {
-        var prefix = libs[uri[0]].sourceUri;
+        var prefix = libs[uri[0]][propertyName];
         euri = prefix + "/" + uri[1];
       } else {
         euri = compressedUris[i];
@@ -176,13 +177,15 @@ qx.$$loader.signalStartup = function ()
 // Load all stuff
 qx.$$loader.init = function(){
   var l=qx.$$loader;
-  if (l.cssBefore.length>0) {
-    for (var i=0, m=l.cssBefore.length; i<m; i++) {
-      loadCss(l.cssBefore[i]);
+  var cssBefore = l.decodeUris(l.cssBefore, "resourceUri");
+  if (cssBefore.length>0) {
+    for (var i=0, m=cssBefore.length; i<m; i++) {
+      loadCss(cssBefore[i]);
     }
   }
-  if (l.urisBefore.length>0){
-    loadScriptList(l.urisBefore, function(){
+  var urisBefore = l.decodeUris(l.urisBefore, "resourceUri");
+  if (urisBefore.length>0){
+    loadScriptList(urisBefore, function(){
       l.initUris();
     });
   } else {

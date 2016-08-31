@@ -440,14 +440,15 @@ qx.Bootstrap.define("qx.Bootstrap",
      *
      * @param dbClassInfo {Object} qxcompiler map
      */
-    executePendingDefers: function(dbClassInfo) {
+    executePendingDefers: function(dbClassInfo, runtime) {
       var executeForDbClassInfo = function (dbClassInfo) {
         if (dbClassInfo.environment) {
           var required = dbClassInfo.environment.required;
           if (required) {
             for (var key in required) {
               var info = required[key];
-              if (info.load && info.className) {
+              if ((runtime || info.load) && info.className) {
+                delete required[key];
                 executeForClassName(info.className);
               }
             }
@@ -455,7 +456,8 @@ qx.Bootstrap.define("qx.Bootstrap",
         }
         for (var key in dbClassInfo.dependsOn) {
           var depInfo = dbClassInfo.dependsOn[key];
-          if (depInfo.require || depInfo.load === "dynamic") {
+          if (runtime || (depInfo.load && depInfo.usage === "dynamic")) {
+            delete dbClassInfo.dependsOn[key];
             executeForClassName(key);
           }
         }
