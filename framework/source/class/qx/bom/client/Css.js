@@ -38,7 +38,7 @@ qx.Bootstrap.define("qx.bom.client.Css", {
      */
     getBoxModel : function() {
       var content = qx.bom.client.Engine.getName() !== "mshtml" ||
-        !qx.bom.client.Browser.getQuirksMode() ;
+        !qx.bom.client.Browser.getQuirksMode();
 
       return content ? "content" : "border";
     },
@@ -140,17 +140,15 @@ qx.Bootstrap.define("qx.bom.client.Css", {
 
       if (styleName === "borderImage") {
         // unprefixed implementation: check individual properties
-        el.style[styleName] = 'url("foo.png") 4 4 4 4 fill stretch';
+        el.style[styleName] = "url(\"foo.png\") 4 4 4 4 fill stretch";
         if (el.style.borderImageSource.indexOf("foo.png") >= 0 &&
             el.style.borderImageSlice.indexOf("4 fill") >= 0 &&
-            el.style.borderImageRepeat.indexOf("stretch") >= 0)
-        {
+            el.style.borderImageRepeat.indexOf("stretch") >= 0) {
           return true;
         }
-      }
-      else {
+      } else {
         // prefixed implementation, assume no support for "fill"
-        el.style[styleName] = 'url("foo.png") 4 4 4 4 stretch';
+        el.style[styleName] = "url(\"foo.png\") 4 4 4 4 stretch";
         // serialized value is unreliable, so just a simple check
         if (el.style[styleName].indexOf("foo.png") >= 0) {
           return false;
@@ -233,17 +231,16 @@ qx.Bootstrap.define("qx.bom.client.Css", {
      * if linear gradients are not supported
      * @internal
      */
-    getLinearGradient : function()
-    {
+    getLinearGradient : function() {
       qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT = false;
       var value = "linear-gradient(0deg, #fff, #000)";
       var el = document.createElement("div");
       var style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value);
 
       if (!style) {
-        //try old WebKit syntax (versions 528 - 534.16)
+        // try old WebKit syntax (versions 528 - 534.16)
         value = "-webkit-gradient(linear,0% 0%,100% 100%,from(white), to(red))";
-        var style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value, false);
+        style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value, false);
         if (style) {
           qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT = true;
         }
@@ -283,8 +280,7 @@ qx.Bootstrap.define("qx.bom.client.Css", {
      * if radial gradients are not supported
      * @internal
      */
-    getRadialGradient : function()
-    {
+    getRadialGradient : function() {
       var value = "radial-gradient(0px 0px, cover, red 50%, blue 100%)";
       var el = document.createElement("div");
       var style = qx.bom.Style.getAppliedStyle(el, "backgroundImage", value);
@@ -304,8 +300,7 @@ qx.Bootstrap.define("qx.bom.client.Css", {
      * @return {Boolean} <code>true</code> if the legacy syntax must be used
      * @internal
      */
-    getLegacyWebkitGradient : function()
-    {
+    getLegacyWebkitGradient : function() {
       if (qx.bom.client.Css.__WEBKIT_LEGACY_GRADIENT === null) {
         qx.bom.client.Css.getLinearGradient();
       }
@@ -390,8 +385,7 @@ qx.Bootstrap.define("qx.bom.client.Css", {
      * @internal
      * @return {Boolean} <code>true</code> if textShadow is supported
      */
-    getTextShadow : function()
-    {
+    getTextShadow : function() {
       return !!qx.bom.Style.getPropertyName("textShadow");
     },
 

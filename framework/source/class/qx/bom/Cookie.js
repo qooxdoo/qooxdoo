@@ -42,8 +42,7 @@ qx.Bootstrap.define("qx.bom.Cookie", {
      * @return {null | String} Returns the saved string value, if the cookie
      *    contains a value for the key, <code>null</code> otherwise.
      */
-    get : function(key)
-    {
+    get : function(key) {
       var start = document.cookie.indexOf(key + "=");
       var len = start + key.length + 1;
 
@@ -76,13 +75,11 @@ qx.Bootstrap.define("qx.bom.Cookie", {
      * @param domain {String?null} Domain value.
      * @param secure {Boolean?null} Secure flag.
      */
-    set : function(key, value, expires, path, domain, secure)
-    {
+    set : function(key, value, expires, path, domain, secure) {
       // Generate cookie
-      var cookie = [ key, "=", escape(value) ];
+      var cookie = [key, "=", escape(value)];
 
-      if (expires)
-      {
+      if (expires) {
         var today = new Date();
         today.setTime(today.getTime());
 
@@ -113,14 +110,13 @@ qx.Bootstrap.define("qx.bom.Cookie", {
      * @param path {String?null} Path value.
      * @param domain {String?null} Domain value.
      */
-    del : function(key, path, domain)
-    {
+    del : function(key, path, domain) {
       if (!qx.bom.Cookie.get(key)) {
         return;
       }
 
       // Generate cookie
-      var cookie = [ key, "=" ];
+      var cookie = [key, "="];
 
       if (path) {
         cookie.push(";path=", path);

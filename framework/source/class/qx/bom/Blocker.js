@@ -49,8 +49,7 @@
 qx.Class.define("qx.bom.Blocker", {
   extend : qx.core.Object,
 
-  construct : function()
-  {
+  construct : function() {
     this.base(arguments);
 
     this.__init();
@@ -79,10 +78,8 @@ qx.Class.define("qx.bom.Blocker", {
      *
      * @param element {element?null} If no element is given the whole document is blocked.
      */
-    block : function(element)
-    {
-      if (!this.__isActive)
-      {
+    block : function(element) {
+      if (!this.__isActive) {
         qx.event.Registration.addListener(window, "resize", this.__onResize, this);
 
         this.__blockedElement = element;
@@ -97,10 +94,8 @@ qx.Class.define("qx.bom.Blocker", {
     /**
      * Releases the blocking
      */
-    unblock : function()
-    {
-      if (this.__isActive)
-      {
+    unblock : function() {
+      if (this.__isActive) {
         this.__removeBlocker();
         qx.event.Registration.removeListener(window, "resize", this.__onResize, this);
         this.__isActive = false;
@@ -204,8 +199,7 @@ qx.Class.define("qx.bom.Blocker", {
     /**
      * Setups the elements and registers a "resize" event.
      */
-    __init : function()
-    {
+    __init : function() {
       this.__setupBlockerElement();
 
       if ((qx.core.Environment.get("engine.name") == "mshtml")) {
@@ -217,11 +211,9 @@ qx.Class.define("qx.bom.Blocker", {
     /**
      * Create blocker element and set initial styles.
      */
-    __setupBlockerElement : function()
-    {
+    __setupBlockerElement : function() {
       this.__blockerElement = qx.dom.Element.create("div");
-      qx.bom.element.Style.setStyles(this.__blockerElement,
-      {
+      qx.bom.element.Style.setStyles(this.__blockerElement, {
         display: "block",
         opacity: this.__defaultBlockerOpacity,
         backgroundColor: this.__defaultBlockerColor
@@ -236,14 +228,12 @@ qx.Class.define("qx.bom.Blocker", {
      * Needed to block native form elements
      * // see: http://www.macridesweb.com/oltest/IframeShim.html
      */
-    __setupIframeElement : function()
-    {
+    __setupIframeElement : function() {
       this.__iframeElement = qx.bom.Iframe.create();
 
       qx.bom.element.Attribute.set(this.__iframeElement, "allowTransparency", false);
       qx.bom.element.Attribute.set(this.__iframeElement, "src", "javascript:false;");
-      qx.bom.element.Style.setStyles(this.__iframeElement,
-      {
+      qx.bom.element.Style.setStyles(this.__iframeElement, {
         display: "block",
         opacity: this.__defaultBlockerOpacity
       });
@@ -256,21 +246,17 @@ qx.Class.define("qx.bom.Blocker", {
      *
      * @return {Map} Object with necessary style infos
      */
-    __calculateStyles : function()
-    {
-      var styles = { position: "absolute" };
+    __calculateStyles : function() {
+      var styles = {position: "absolute"};
 
-      if (this.__isWholeDocumentBlockTarget())
-      {
+      if (this.__isWholeDocumentBlockTarget()) {
         styles.left = "0px";
         styles.top = "0px";
         styles.right = null;
         styles.bottom = null;
         styles.width = qx.bom.Document.getWidth() + "px";
         styles.height = qx.bom.Document.getHeight() + "px";
-      }
-      else
-      {
+      } else {
         styles.width = qx.bom.element.Dimension.getWidth(this.__blockedElement) + "px";
         styles.height = qx.bom.element.Dimension.getHeight(this.__blockedElement) + "px";
         styles.left = qx.bom.element.Location.getLeft(this.__blockedElement) + "px";
@@ -286,15 +272,13 @@ qx.Class.define("qx.bom.Blocker", {
      *
      * @param styles {Object} styles to apply
      */
-    __styleAndInsertBlocker : function(styles)
-    {
+    __styleAndInsertBlocker : function(styles) {
       var target = document.body;
 
       qx.bom.element.Style.setStyles(this.__blockerElement, styles);
       qx.dom.Element.insertEnd(this.__blockerElement, target);
 
-      if ((qx.core.Environment.get("engine.name") == "mshtml"))
-      {
+      if ((qx.core.Environment.get("engine.name") == "mshtml")) {
         styles.zIndex = this.getBlockerZIndex() - 1;
 
         qx.bom.element.Style.setStyles(this.__iframeElement, styles);
@@ -306,8 +290,7 @@ qx.Class.define("qx.bom.Blocker", {
     /**
      * Remove the blocker elements.
      */
-    __removeBlocker: function()
-    {
+    __removeBlocker: function() {
       qx.dom.Element.remove(this.__blockerElement);
 
       if ((qx.core.Environment.get("engine.name") == "mshtml")) {
@@ -322,19 +305,16 @@ qx.Class.define("qx.bom.Blocker", {
      *
      * @param e {qx.event.type.Event} event instance
      */
-    __onResize : function(e)
-    {
-      if (this.__isWholeDocumentBlockTarget())
-      {
+    __onResize : function() {
+      if (this.__isWholeDocumentBlockTarget()) {
         // reset the blocker to get the right calculated document dimension
-        this.__resizeBlocker({ width: "0px", height: "0px" });
+        this.__resizeBlocker({width: "0px", height: "0px"});
 
         // If the HTML document is very large, the getWidth() and getHeight()
         // returns the old size (it seems that the rendering engine is to slow).
-        qx.event.Timer.once(function()
-        {
-          var dimension = { width: qx.bom.Document.getWidth() + "px",
-                          height: qx.bom.Document.getHeight() + "px" };
+        qx.event.Timer.once(function() {
+          var dimension = {width: qx.bom.Document.getWidth() + "px",
+                           height: qx.bom.Document.getHeight() + "px"};
           this.__resizeBlocker(dimension);
         }, this, 0);
       }
@@ -346,8 +326,7 @@ qx.Class.define("qx.bom.Blocker", {
      *
      * @param dimension {Object} Map with width and height as keys
      */
-    __resizeBlocker : function(dimension)
-    {
+    __resizeBlocker : function(dimension) {
       qx.bom.element.Style.setStyles(this.__blockerElement, dimension);
 
       if ((qx.core.Environment.get("engine.name") == "mshtml")) {
@@ -362,7 +341,7 @@ qx.Class.define("qx.bom.Blocker", {
      * @return {Boolean} block mode
      */
     __isWholeDocumentBlockTarget : function() {
-      return (this.__blockedElement == null ||
+      return (this.__blockedElement === null ||
               qx.dom.Node.isWindow(this.__blockedElement) ||
               qx.dom.Node.isDocument(this.__blockedElement));
     }
