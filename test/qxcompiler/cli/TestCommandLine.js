@@ -60,7 +60,7 @@ function assertMaker(maker) {
 }
 
 function testConfigureJson(cb) {
-  CommandLine.configure("sample1.qxcompiler.json", function(err, maker) {
+  CommandLine.configure("sample1.qxcompiler.js", function(err, maker) {
     if (err)
       return cb(err);
 
