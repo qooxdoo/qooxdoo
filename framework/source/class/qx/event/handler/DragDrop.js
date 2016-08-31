@@ -26,8 +26,7 @@
  * @require(qx.event.handler.Keyboard)
  * @require(qx.event.handler.Capture)
  */
-qx.Class.define("qx.event.handler.DragDrop",
-{
+qx.Class.define("qx.event.handler.DragDrop", {
   extend : qx.core.Object,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 

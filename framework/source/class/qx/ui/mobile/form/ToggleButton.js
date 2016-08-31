@@ -38,8 +38,7 @@
  * This example creates a toggle button and attaches an
  * event listener to the {@link #changeValue} event.
  */
-qx.Class.define("qx.ui.mobile.form.ToggleButton",
-{
+qx.Class.define("qx.ui.mobile.form.ToggleButton", {
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.mobile.form.MValue,

@@ -19,8 +19,7 @@
 /**
  * A Collection of utility functions to escape and unescape strings.
  */
-qx.Bootstrap.define("qx.bom.String",
-{
+qx.Bootstrap.define("qx.bom.String", {
   /*
   *****************************************************************************
      STATICS

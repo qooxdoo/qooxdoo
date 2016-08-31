@@ -20,8 +20,7 @@
  * @ignore(qx.ui.form.core.AbstractVirtualBoxMock)
  */
 
-qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
-{
+qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList", {
   extend : qx.test.ui.LayoutTestCase,
   include : qx.test.ui.list.MAssert,
 

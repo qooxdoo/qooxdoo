@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.TextArea",
-{
+qx.Class.define("qx.test.mobile.form.TextArea", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

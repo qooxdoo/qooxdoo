@@ -21,8 +21,7 @@
  * by masking them by *s
  *
  */
-qx.Class.define("qx.ui.table.cellrenderer.Password",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Password", {
   extend : qx.ui.table.cellrenderer.Default,
 
 

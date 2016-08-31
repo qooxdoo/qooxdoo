@@ -45,8 +45,7 @@
  *   });
  * </pre>
  */
-qx.Mixin.define("qx.core.MBindTo",
-{
+qx.Mixin.define("qx.core.MBindTo", {
   members :
   {
     /**

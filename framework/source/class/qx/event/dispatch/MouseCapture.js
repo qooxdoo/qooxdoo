@@ -27,8 +27,7 @@
  * @use(qx.event.handler.Window)
  * @use(qx.event.handler.Capture)
  */
-qx.Class.define("qx.event.dispatch.MouseCapture",
-{
+qx.Class.define("qx.event.dispatch.MouseCapture", {
   extend : qx.event.dispatch.AbstractBubbling,
 
 

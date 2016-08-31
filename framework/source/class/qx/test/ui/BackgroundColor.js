@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.BackgroundColor",
-{
+qx.Class.define("qx.test.ui.BackgroundColor", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

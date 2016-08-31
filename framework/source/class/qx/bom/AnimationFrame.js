@@ -53,8 +53,7 @@
  *
  * @require(qx.lang.normalize.Date)
  */
-qx.Bootstrap.define("qx.bom.AnimationFrame",
-{
+qx.Bootstrap.define("qx.bom.AnimationFrame", {
   extend : qx.event.Emitter,
 
   events : {

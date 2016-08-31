@@ -20,8 +20,7 @@
 /**
  * Table Row renderer for Progressive.
  */
-qx.Class.define("qx.ui.progressive.renderer.table.Row",
-{
+qx.Class.define("qx.ui.progressive.renderer.table.Row", {
   extend     : qx.ui.progressive.renderer.Abstract,
 
 

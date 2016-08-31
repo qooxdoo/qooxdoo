@@ -32,8 +32,7 @@
  * @require(qx.event.handler.Pointer)
  * @require(qx.event.handler.Gesture)
  */
-qx.Class.define("qx.bom.Element",
-{
+qx.Class.define("qx.bom.Element", {
   /*
   *****************************************************************************
      STATICS

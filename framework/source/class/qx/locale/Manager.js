@@ -28,8 +28,7 @@
  * @cldr()
  */
 
-qx.Class.define("qx.locale.Manager",
-{
+qx.Class.define("qx.locale.Manager", {
   type : "singleton",
   extend : qx.core.Object,
 

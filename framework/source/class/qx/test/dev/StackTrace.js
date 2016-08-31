@@ -13,8 +13,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.dev.StackTrace",
-{
+qx.Class.define("qx.test.dev.StackTrace", {
   extend : qx.dev.unit.TestCase,
 
   members :

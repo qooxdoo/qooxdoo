@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.RadioGroup",
-{
+qx.Class.define("qx.test.ui.selection.RadioGroup", {
   extend : qx.test.ui.selection.AbstractSingleSelectonTest,
 
   members :

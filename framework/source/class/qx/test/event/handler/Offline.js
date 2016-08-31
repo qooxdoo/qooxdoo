@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.event.handler.Offline",
-{
+qx.Class.define("qx.test.event.handler.Offline", {
   extend : qx.dev.unit.TestCase,
 
   members :

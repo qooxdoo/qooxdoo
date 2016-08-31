@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.LayerSimple",
-{
+qx.Class.define("qx.test.ui.virtual.layer.LayerSimple", {
   extend : qx.ui.virtual.layer.Abstract,
 
 

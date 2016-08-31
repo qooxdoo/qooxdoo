@@ -24,8 +24,7 @@
  * @ignore(SCRIPT_LOADED)
  */
 
-qx.Class.define("qx.test.bom.request.Script",
-{
+qx.Class.define("qx.test.bom.request.Script", {
   extend : qx.dev.unit.TestCase,
 
   include : [qx.test.io.MRemoteTest,

@@ -23,8 +23,7 @@
  * EXPERIMENTAL!
  */
 
-qx.Class.define("qx.ui.virtual.cell.Image",
-{
+qx.Class.define("qx.ui.virtual.cell.Image", {
   extend : qx.ui.virtual.cell.AbstractImage,
 
   /*

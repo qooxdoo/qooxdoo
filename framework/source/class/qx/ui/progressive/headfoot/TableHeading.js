@@ -20,8 +20,7 @@
 /**
  * A header for a standard table.
  */
-qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
-{
+qx.Class.define("qx.ui.progressive.headfoot.TableHeading", {
   extend     : qx.ui.progressive.headfoot.Abstract,
 
   /**

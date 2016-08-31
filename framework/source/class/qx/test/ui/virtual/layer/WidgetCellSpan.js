@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
-{
+qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan", {
   extend : qx.test.ui.virtual.layer.LayerTestCase,
 
   members :

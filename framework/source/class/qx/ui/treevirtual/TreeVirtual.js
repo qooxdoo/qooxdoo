@@ -27,8 +27,7 @@
  *   </ul>
  * </p>
  */
-qx.Class.define("qx.ui.treevirtual.TreeVirtual",
-{
+qx.Class.define("qx.ui.treevirtual.TreeVirtual", {
   extend : qx.ui.table.Table,
 
 

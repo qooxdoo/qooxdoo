@@ -22,8 +22,7 @@
  *
  * Column selection manager
  */
-qx.Class.define("qx.ui.virtual.selection.Column",
-{
+qx.Class.define("qx.ui.virtual.selection.Column", {
   extend : qx.ui.virtual.selection.Row,
 
 

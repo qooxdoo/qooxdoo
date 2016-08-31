@@ -26,8 +26,7 @@
  * @require(qx.event.Registration)
  * @require(qx.event.handler.Application)
  */
-qx.Class.define("qx.bom.Lifecycle",
-{
+qx.Class.define("qx.bom.Lifecycle", {
   statics :
   {
     /**

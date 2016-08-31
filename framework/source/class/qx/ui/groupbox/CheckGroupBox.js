@@ -24,8 +24,7 @@
  * @childControl legend {qx.ui.form.CheckBox} checkbox to en-/disable the
  *   groupbox content
  */
-qx.Class.define("qx.ui.groupbox.CheckGroupBox",
-{
+qx.Class.define("qx.ui.groupbox.CheckGroupBox", {
   extend : qx.ui.groupbox.GroupBox,
   implement : [qx.ui.form.IExecutable, qx.ui.form.IBooleanForm, qx.ui.form.IModel],
   include : [qx.ui.form.MModelProperty],

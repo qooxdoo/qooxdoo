@@ -21,8 +21,7 @@
  * @ignore(qx.ui.tooltip)
  * @ignore(qx.ui.tooltip.Manager.*)
  */
-qx.Class.define("qx.ui.form.validation.Manager",
-{
+qx.Class.define("qx.ui.form.validation.Manager", {
   extend : qx.core.Object,
 
   construct : function()

@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.Request",
-{
+qx.Class.define("qx.test.util.Request", {
   extend : qx.dev.unit.TestCase,
 
   members :

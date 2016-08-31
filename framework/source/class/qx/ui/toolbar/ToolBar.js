@@ -31,8 +31,7 @@
  * For more details on the documentation of the toolbar widget, take a look at the
  * documentation of the {@link qx.ui.toolbar}-Package.
  */
-qx.Class.define("qx.ui.toolbar.ToolBar",
-{
+qx.Class.define("qx.ui.toolbar.ToolBar", {
   extend : qx.ui.core.Widget,
   include : qx.ui.core.MChildrenHandling,
 

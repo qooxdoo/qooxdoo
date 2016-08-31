@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.TreeSingleSelection",
-{
+qx.Class.define("qx.test.ui.selection.TreeSingleSelection", {
   extend : qx.test.ui.selection.AbstractSingleSelectonTest,
 
   members :

@@ -79,8 +79,7 @@
  * and links to demos for this layout.
  *
  */
-qx.Class.define("qx.ui.layout.VBox",
-{
+qx.Class.define("qx.ui.layout.VBox", {
   extend : qx.ui.layout.Abstract,
 
 

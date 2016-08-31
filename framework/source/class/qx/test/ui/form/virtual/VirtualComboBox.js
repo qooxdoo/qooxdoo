@@ -13,8 +13,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
-{
+qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox", {
 
   extend : qx.test.ui.LayoutTestCase,
 

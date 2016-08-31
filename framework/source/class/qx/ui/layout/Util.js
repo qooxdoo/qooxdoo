@@ -22,8 +22,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.layout.Util",
-{
+qx.Class.define("qx.ui.layout.Util", {
   statics :
   {
     /** @type {RegExp} Regular expression to match percent values */

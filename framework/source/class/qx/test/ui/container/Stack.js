@@ -15,8 +15,7 @@
      * Adrian Olaru (adrianolaru)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.container.Stack",
-{
+qx.Class.define("qx.test.ui.container.Stack", {
   extend : qx.dev.unit.TestCase,
 
   members :

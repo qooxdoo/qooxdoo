@@ -1,8 +1,7 @@
 /**
  * Generate permutations of a map.
  */
-qx.Class.define("qx.util.Permutation",
-{
+qx.Class.define("qx.util.Permutation", {
   statics :
   {
     /**

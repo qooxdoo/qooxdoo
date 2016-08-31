@@ -49,8 +49,7 @@
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/resizer.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
-qx.Class.define("qx.ui.container.Resizer",
-{
+qx.Class.define("qx.ui.container.Resizer", {
   extend    : qx.ui.container.Composite,
   include   : qx.ui.core.MResizable,
 

@@ -49,20 +49,17 @@
  *
  * @group (IO)
  */
-qx.Bootstrap.define("qx.bom.request.Jsonp",
-{
-  extend : qx.bom.request.Script,
+qx.Bootstrap.define("qx.bom.request.Jsonp", {
+  extend: qx.bom.request.Script,
 
-  construct : function()
-  {
+  construct: function() {
     // Borrow super-class constructor
     qx.bom.request.Script.apply(this);
 
     this.__generateId();
   },
 
-  members :
-  {
+  members: {
     /**
      * @type {Object} Parsed JSON response.
      */

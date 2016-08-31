@@ -22,8 +22,7 @@
  * convenience methods to the regular array like <code>remove</code> or
  * <code>contains</code>.
  */
-qx.Class.define("qx.type.Array",
-{
+qx.Class.define("qx.type.Array", {
   extend : qx.type.BaseArray,
 
 

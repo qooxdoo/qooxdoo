@@ -28,8 +28,7 @@
  * @ignore(process)
  * @ignore(Titanium.*)
  */
-qx.Bootstrap.define("qx.bom.client.Runtime",
-{
+qx.Bootstrap.define("qx.bom.client.Runtime", {
   statics :
   {
     /**

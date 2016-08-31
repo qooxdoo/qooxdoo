@@ -55,8 +55,7 @@
  * @group (IO)
  * @ignore(qx.core.Object.*)
  */
-qx.Bootstrap.define("qx.bom.rest.Resource",
-{
+qx.Bootstrap.define("qx.bom.rest.Resource", {
   extend: qx.event.Emitter,
   implement: [ qx.core.IDisposable ],
 

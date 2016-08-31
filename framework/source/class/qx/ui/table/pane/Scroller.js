@@ -32,8 +32,7 @@
  * @childControl scrollbar-y {qx.ui.core.scroll.ScrollBar?qx.ui.core.scroll.NativeScrollBar}
  *               vertical scrollbar widget (depends on the "qx.nativeScrollBars" setting which implementation is used)
  */
-qx.Class.define("qx.ui.table.pane.Scroller",
-{
+qx.Class.define("qx.ui.table.pane.Scroller", {
   extend : qx.ui.core.Widget,
   include : [qx.ui.core.scroll.MScrollBarFactory],
 

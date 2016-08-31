@@ -23,8 +23,7 @@
  *
  * @see qx.ui.table.columnmodel.Basic
  */
-qx.Class.define("qx.ui.table.columnmodel.Resize",
-{
+qx.Class.define("qx.ui.table.columnmodel.Resize", {
   extend : qx.ui.table.columnmodel.Basic,
   include : qx.locale.MTranslation,
 

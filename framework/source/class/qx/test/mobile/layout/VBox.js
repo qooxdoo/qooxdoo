@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.layout.VBox",
-{
+qx.Class.define("qx.test.mobile.layout.VBox", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

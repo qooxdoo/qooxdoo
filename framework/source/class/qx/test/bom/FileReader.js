@@ -27,8 +27,7 @@
  * @asset(qx/test/webworker.js)
  */
 
-qx.Class.define("qx.test.bom.FileReader",
-{
+qx.Class.define("qx.test.bom.FileReader", {
   extend : qx.dev.unit.TestCase,
   include: [qx.dev.unit.MRequirements],
 

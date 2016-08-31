@@ -24,8 +24,7 @@
  *
  * @require(qx.bom.client.Engine)
  */
-qx.Class.define("qx.event.handler.Application",
-{
+qx.Class.define("qx.event.handler.Application", {
   extend : qx.core.Object,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 

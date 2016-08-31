@@ -34,8 +34,7 @@
  * * <a href="http://msdn2.microsoft.com/en-us/library/ms764622.aspx">MSXML GUIDs and ProgIDs</a>
  * * <a href="https://developer.mozilla.org/en-US/docs/Parsing_and_serializing_XML">MDN Parsing and Serializing XML</a>
  */
-qx.Bootstrap.define("qx.xml.Document",
-{
+qx.Bootstrap.define("qx.xml.Document", {
   statics :
   {
     /** @type {String} ActiveX class name of DOMDocument (IE specific) */

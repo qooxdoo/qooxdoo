@@ -24,8 +24,7 @@
  * kind of data in one column.
  *
  */
-qx.Class.define("qx.ui.table.celleditor.Dynamic",
-{
+qx.Class.define("qx.ui.table.celleditor.Dynamic", {
   extend : qx.core.Object,
   implement : qx.ui.table.ICellEditorFactory,
 

@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.GridLines",
-{
+qx.Class.define("qx.test.ui.virtual.layer.GridLines", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

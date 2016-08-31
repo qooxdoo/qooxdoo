@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.TextField",
-{
+qx.Class.define("qx.test.ui.table.celleditor.TextField", {
   extend : qx.test.ui.table.celleditor.AbstractField,
 
   members :

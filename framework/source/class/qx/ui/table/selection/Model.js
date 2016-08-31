@@ -21,8 +21,7 @@
 /**
  * A selection model.
  */
-qx.Class.define("qx.ui.table.selection.Model",
-{
+qx.Class.define("qx.ui.table.selection.Model", {
   extend : qx.core.Object,
 
 

@@ -39,8 +39,7 @@
  *
  * @ignore(qx.ui.root.Inline)
  */
-qx.Class.define("qx.ui.core.Widget",
-{
+qx.Class.define("qx.ui.core.Widget", {
   extend : qx.ui.core.LayoutItem,
   include : [qx.locale.MTranslation],
   implement: [ qx.core.IDisposable ],

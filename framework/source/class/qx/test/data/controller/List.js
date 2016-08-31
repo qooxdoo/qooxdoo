@@ -20,8 +20,7 @@
  * @ignore(qx.demo.Kid, qx.demo.Parent)
  */
 
-qx.Class.define("qx.test.data.controller.List",
-{
+qx.Class.define("qx.test.data.controller.List", {
   extend : qx.test.ui.LayoutTestCase,
   include : qx.dev.unit.MMock,
 

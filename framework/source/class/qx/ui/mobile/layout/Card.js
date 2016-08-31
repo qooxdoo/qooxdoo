@@ -42,8 +42,7 @@
  *
  * @use(qx.event.handler.Transition)
  */
-qx.Class.define("qx.ui.mobile.layout.Card",
-{
+qx.Class.define("qx.ui.mobile.layout.Card", {
   extend : qx.ui.mobile.layout.Abstract,
 
 

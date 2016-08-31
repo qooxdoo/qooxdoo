@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Event",
-{
+qx.Class.define("qx.test.bom.Event", {
   extend : qx.dev.unit.TestCase,
 
   include: [qx.dev.unit.MRequirements],

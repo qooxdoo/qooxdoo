@@ -21,8 +21,7 @@
  * @asset(qx/icon/Oxygen/22/emotes/*)
  */
 
-qx.Class.define("qx.test.ui.tree.TreeFolder",
-{
+qx.Class.define("qx.test.ui.tree.TreeFolder", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

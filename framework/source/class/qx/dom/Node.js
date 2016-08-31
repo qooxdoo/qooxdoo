@@ -19,8 +19,7 @@
 /**
  * Basic node creation and type detection
  */
-qx.Bootstrap.define("qx.dom.Node",
-{
+qx.Bootstrap.define("qx.dom.Node", {
   /*
   *****************************************************************************
      STATICS

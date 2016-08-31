@@ -20,8 +20,7 @@
 /**
  * Abstract for all transport implementations
  */
-qx.Class.define("qx.io.remote.transport.Abstract",
-{
+qx.Class.define("qx.io.remote.transport.Abstract", {
   type : "abstract",
   extend : qx.core.Object,
 

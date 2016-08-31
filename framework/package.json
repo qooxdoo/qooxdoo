@@ -2,10 +2,27 @@
   "name": "qooxdoo-framework",
   "description": "qooxdoo framework dependencies",
   "version": "5.1.0",
+  "license": "MIT",
+  "homepage": "http://qooxdoo.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qooxdoo/qooxdoo"
+    "url": "https://github.com/qooxdoo/qooxdoo.git"
   },
+  "bugs": {
+    "url": "https://github.com/qooxdoo/qooxdoo/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/qooxdoo/qooxdoo/blob/master/LICENSE"
+    }
+  ],
+  "keywords": [
+    "qooxdoo",
+    "framework",
+    "browser",
+    "client-side"
+  ],
   "scripts": {
     "test": "karma start",
     "pretest": "php -S 127.0.0.1:31323 &> /dev/null &",
@@ -14,16 +31,24 @@
     "travis-coverage": "karma start --reporters=dots,coverage,coveralls karma-coverage.conf.js",
     "coverage": "karma start karma-coverage.conf.js",
     "precoverage": "php -S 127.0.0.1:31323 &> /dev/null &",
-    "postcoverage": "pkill -f 'php -S 127.0.0.1:31323' &> /dev/null"
+    "postcoverage": "pkill -f 'php -S 127.0.0.1:31323' &> /dev/null",
+    "eslint": "eslint"
   },
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-clean": "~0.5.0",
-    "karma": "^0.13.22",
-    "karma-chrome-launcher": "^0.2.3",
-    "karma-coverage": "^0.5.5",
+    "grunt": "~1.0.1",
+    "grunt-contrib-clean": "~1.0.0",
+    "karma": "^1.2.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
     "karma-coveralls": "^1.1.2",
-    "karma-firefox-launcher": "^0.1.7",
-    "karma-qooxdoo": "^0.4.6"
+    "karma-firefox-launcher": "^1.0.0",
+    "karma-qooxdoo": "^0.4.6",
+    "eslint": "^3.4.0",
+    "eslint-config-qx": "0.0.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "qx/browser"
+    ]
   }
 }

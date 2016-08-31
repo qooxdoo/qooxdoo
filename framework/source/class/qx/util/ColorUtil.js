@@ -25,8 +25,7 @@
  * @ignore(qx.Class)
  * @ignore(qx.Class.*)
  */
-qx.Bootstrap.define("qx.util.ColorUtil",
-{
+qx.Bootstrap.define("qx.util.ColorUtil", {
   statics :
   {
     /**

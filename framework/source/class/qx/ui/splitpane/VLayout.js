@@ -23,8 +23,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.splitpane.VLayout",
-{
+qx.Class.define("qx.ui.splitpane.VLayout", {
   extend : qx.ui.layout.Abstract,
 
 

@@ -83,8 +83,7 @@
  * @require(qx.bom.element.Opacity#compile)
  * @require(qx.bom.element.BoxSizing#compile)
  */
-qx.Bootstrap.define("qx.bom.element.Style",
-{
+qx.Bootstrap.define("qx.bom.element.Style", {
   /*
   *****************************************************************************
      STATICS

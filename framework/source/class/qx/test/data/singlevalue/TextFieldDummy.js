@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.data.singlevalue.TextFieldDummy",
-{
+qx.Class.define("qx.test.data.singlevalue.TextFieldDummy", {
   extend : qx.core.Object,
 
   construct : function(value) {

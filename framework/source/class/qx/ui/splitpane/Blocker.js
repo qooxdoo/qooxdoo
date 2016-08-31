@@ -26,8 +26,7 @@
  * @internal
  * @asset(qx/static/blank.gif)
  */
-qx.Class.define("qx.ui.splitpane.Blocker",
-{
+qx.Class.define("qx.ui.splitpane.Blocker", {
   extend : qx.html.Element,
 
   /**

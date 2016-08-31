@@ -26,8 +26,7 @@
  * @require(qx.event.type.Native)
  * @require(qx.event.Pool)
  */
-qx.Class.define("qx.event.handler.Window",
-{
+qx.Class.define("qx.event.handler.Window", {
   extend : qx.core.Object,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 

@@ -52,8 +52,7 @@
  * the given data.
  */
 
-qx.Class.define("qx.ui.mobile.list.renderer.group.Default",
-{
+qx.Class.define("qx.ui.mobile.list.renderer.group.Default", {
   extend : qx.ui.mobile.list.renderer.group.Abstract,
 
 

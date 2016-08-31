@@ -20,8 +20,7 @@
 /**
  * Data Model for Progressive renderer.
  */
-qx.Class.define("qx.ui.progressive.model.Default",
-{
+qx.Class.define("qx.ui.progressive.model.Default", {
   extend     : qx.ui.progressive.model.Abstract,
 
 

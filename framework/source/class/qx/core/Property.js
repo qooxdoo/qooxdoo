@@ -165,8 +165,7 @@
  * @internal
  * @ignore(qx.Interface)
  */
-qx.Bootstrap.define("qx.core.Property",
-{
+qx.Bootstrap.define("qx.core.Property", {
   statics :
   {
     /**
@@ -729,7 +728,7 @@ qx.Bootstrap.define("qx.core.Property",
       }
     },
 
-    
+
     /**
      * Takes a string builder object, converts it into a function, and installs it as
      * a property accessor
@@ -791,8 +790,8 @@ qx.Bootstrap.define("qx.core.Property",
       var members = clazz.prototype;
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code);
     },
-    
-    
+
+
     /**
      * Installs a getter into the class prototype, without executing it
      * Supported variants: get
@@ -808,8 +807,8 @@ qx.Bootstrap.define("qx.core.Property",
       var members = clazz.prototype;
       this.__installFunctionFromCode(instance, members, name, variant, code);
     },
-    
-    
+
+
     /**
      * Compiles a getter into a string builder array
      * Supported variants: get
@@ -897,8 +896,8 @@ qx.Bootstrap.define("qx.core.Property",
       var members = clazz.prototype;
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
     },
-    
-    
+
+
     /**
      * Installs a setter into the class prototype, without executing it
      * Supported variants: set
@@ -914,8 +913,8 @@ qx.Bootstrap.define("qx.core.Property",
       var members = clazz.prototype;
       return this.__installFunctionFromCode(instance, members, name, variant, code, args);
     },
-    
-    
+
+
     /**
      * Compiles a getter into a string builder array
      * Supported variants: get

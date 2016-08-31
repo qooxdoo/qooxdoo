@@ -23,8 +23,7 @@
  * @require(qx.event.handler.Window)
  * @require(qx.event.dispatch.Direct)
  */
-qx.Class.define("qx.core.Init",
-{
+qx.Class.define("qx.core.Init", {
   /*
   *****************************************************************************
      STATICS

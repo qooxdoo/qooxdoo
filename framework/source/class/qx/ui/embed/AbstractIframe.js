@@ -23,8 +23,7 @@
 /**
  * Abstract base class for iframe widgets.
  */
-qx.Class.define("qx.ui.embed.AbstractIframe",
-{
+qx.Class.define("qx.ui.embed.AbstractIframe", {
   extend : qx.ui.core.Widget,
 
   /**

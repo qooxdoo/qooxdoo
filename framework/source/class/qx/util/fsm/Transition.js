@@ -20,8 +20,7 @@
 /**
  * Create a new possible transition from one state to another.
  */
-qx.Class.define("qx.util.fsm.Transition",
-{
+qx.Class.define("qx.util.fsm.Transition", {
   extend : qx.core.Object,
 
 

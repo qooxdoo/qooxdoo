@@ -50,8 +50,7 @@
  * To let these events work it is needed to create the elements using
  * {@link qx.bom.Input}
  */
-qx.Class.define("qx.event.handler.Input",
-{
+qx.Class.define("qx.event.handler.Input", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

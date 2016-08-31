@@ -20,8 +20,7 @@
  * The tree item is a tree element for the {@link VirtualTree}, which can have
  * nested tree elements.
  */
-qx.Class.define("qx.ui.tree.VirtualTreeItem",
-{
+qx.Class.define("qx.ui.tree.VirtualTreeItem", {
   extend : qx.ui.tree.core.AbstractItem,
 
 

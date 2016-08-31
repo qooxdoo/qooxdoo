@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.TabView",
-{
+qx.Class.define("qx.test.ui.selection.TabView", {
   extend : qx.test.ui.selection.AbstractSingleSelectonTest,
 
   members :

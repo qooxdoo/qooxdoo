@@ -20,8 +20,7 @@
 /**
  * A menubar button
  */
-qx.Class.define("qx.ui.menubar.Button",
-{
+qx.Class.define("qx.ui.menubar.Button", {
   extend : qx.ui.form.MenuButton,
 
 

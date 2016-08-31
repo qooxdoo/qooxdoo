@@ -27,8 +27,7 @@
  * characters like `äëíöü` (etc) are encoded different by `escape()` and `encodeURIComponent()`,
  * so you must take care of this change if you use unicode characters.
  */
-qx.Bootstrap.define("qx.bom.Cookie",
-{
+qx.Bootstrap.define("qx.bom.Cookie", {
   /*
   *****************************************************************************
      STATICS

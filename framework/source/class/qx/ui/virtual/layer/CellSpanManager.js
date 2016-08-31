@@ -24,8 +24,7 @@
  * It provides functionality to compute, which spanning cells are visible
  * in a given view port and how they have to be placed.
  */
-qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
-{
+qx.Class.define("qx.ui.virtual.layer.CellSpanManager", {
   extend : qx.core.Object,
 
   /**

@@ -19,8 +19,7 @@
 /**
  * The TextArea is a multi-line text input field.
  */
-qx.Class.define("qx.ui.mobile.form.TextArea",
-{
+qx.Class.define("qx.ui.mobile.form.TextArea", {
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.mobile.form.MValue,

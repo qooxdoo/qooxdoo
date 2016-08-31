@@ -26,8 +26,7 @@
  * @asset(qx/test/*)
  */
 
-qx.Class.define("qx.test.data.store.Jsonp",
-{
+qx.Class.define("qx.test.data.store.Jsonp", {
   extend : qx.dev.unit.TestCase,
 
   include : [qx.dev.unit.MRequirements,

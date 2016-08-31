@@ -20,8 +20,7 @@
 /**
  * A button which opens the connected menu when tapping on it.
  */
-qx.Class.define("qx.ui.form.MenuButton",
-{
+qx.Class.define("qx.ui.form.MenuButton", {
   extend : qx.ui.form.Button,
 
 

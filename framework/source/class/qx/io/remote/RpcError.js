@@ -20,8 +20,7 @@
 /**
  * The well-defined error codes for JSON-RPC.
  */
-qx.Class.define("qx.io.remote.RpcError",
-{
+qx.Class.define("qx.io.remote.RpcError", {
   statics :
   {
     /** Information pertaining to qooxdoo's modified JSON-RPC Version 1 */

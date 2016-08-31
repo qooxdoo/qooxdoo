@@ -23,8 +23,7 @@ Authors:
  * @asset(qx/test/xmlhttp/echo_get_request.php)
  */
 
-qx.Class.define("qx.test.io.remote.transport.Iframe",
-{
+qx.Class.define("qx.test.io.remote.transport.Iframe", {
   extend : qx.dev.unit.TestCase,
   include : qx.test.io.MRemoteTest,
 

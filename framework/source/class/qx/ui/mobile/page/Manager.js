@@ -39,8 +39,7 @@
  *
  *
  */
-qx.Class.define("qx.ui.mobile.page.Manager",
-{
+qx.Class.define("qx.ui.mobile.page.Manager", {
   extend : qx.core.Object,
 
 

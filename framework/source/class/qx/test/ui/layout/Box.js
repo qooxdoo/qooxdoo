@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.Box",
-{
+qx.Class.define("qx.test.ui.layout.Box", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

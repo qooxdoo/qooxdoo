@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument",
-{
+qx.Class.define("qx.test.event.dispatch.MouseEventOnDocument", {
   extend : qx.dev.unit.TestCase,
 
   members :

@@ -42,11 +42,10 @@
  * * If you want to bind a list like widget, use {@link qx.data.controller.List}
  * * If you want to bind a tree widget, use {@link qx.data.controller.Tree}
  */
-qx.Class.define("qx.data.controller.Form",
-{
+qx.Class.define("qx.data.controller.Form", {
   extend : qx.core.Object,
   implement: [ qx.core.IDisposable ],
-  
+
   /**
    * @param model {qx.core.Object | null} The model to bind the target to. The
    *   given object will be set as {@link #model} property.

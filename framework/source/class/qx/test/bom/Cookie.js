@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Cookie",
-{
+qx.Class.define("qx.test.bom.Cookie", {
   extend : qx.dev.unit.TestCase,
 
   members :

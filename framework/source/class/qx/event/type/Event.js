@@ -31,8 +31,7 @@
  *
  * @use(qx.event.Registration)
  */
-qx.Class.define("qx.event.type.Event",
-{
+qx.Class.define("qx.event.type.Event", {
   extend : qx.core.Object,
 
 

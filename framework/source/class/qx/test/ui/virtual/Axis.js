@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.Axis",
-{
+qx.Class.define("qx.test.ui.virtual.Axis", {
   extend : qx.dev.unit.TestCase,
 
   members :

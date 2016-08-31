@@ -24,9 +24,8 @@
  * If you use this class, the restrictions of the JavaScript animations apply.
  * This means that you can not use transforms and custom bezier timing functions.
  */
-qx.Bootstrap.define("qx.bom.element.Animation",
-{
-  statics : {
+qx.Bootstrap.define("qx.bom.element.Animation", {
+  statics: {
 
     /**
      * This function takes care of the feature check and starts the animation.

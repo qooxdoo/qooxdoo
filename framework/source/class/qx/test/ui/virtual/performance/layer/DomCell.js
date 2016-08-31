@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell",
-{
+qx.Class.define("qx.test.ui.virtual.performance.layer.DomCell", {
   extend : qx.ui.virtual.layer.Abstract,
 
   /*

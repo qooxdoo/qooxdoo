@@ -3,12 +3,27 @@
   "version": "5.1.0",
   "description": "Universal JavaScript Framework",
   "author": "The qooxdoo project",
-  "licenses": ["LGPL", "EPL"],
+  "license": "MIT",
   "homepage": "http://qooxdoo.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qooxdoo/qooxdoo"
+    "url": "https://github.com/qooxdoo/qooxdoo.git"
   },
+  "bugs": {
+    "url": "https://github.com/qooxdoo/qooxdoo/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/qooxdoo/qooxdoo/blob/master/LICENSE"
+    }
+  ],
+  "keywords": [
+    "qooxdoo",
+    "framework",
+    "browser",
+    "client-side"
+  ],
   "dependencies": {
     "grunt": "^0.4.5",
     "shelljs": "^0.3.0"

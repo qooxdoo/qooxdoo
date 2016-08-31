@@ -20,8 +20,7 @@
  * A Input wrap any valid HTML input element and make it accessible
  * through the normalized qooxdoo element interface.
  */
-qx.Class.define("qx.html.Input",
-{
+qx.Class.define("qx.html.Input", {
   extend : qx.html.Element,
 
 

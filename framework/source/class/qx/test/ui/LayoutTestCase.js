@@ -20,8 +20,7 @@
  * @use(qx.theme.Classic)
  */
 
-qx.Class.define("qx.test.ui.LayoutTestCase",
-{
+qx.Class.define("qx.test.ui.LayoutTestCase", {
   extend : qx.dev.unit.TestCase,
   type : "abstract",
 

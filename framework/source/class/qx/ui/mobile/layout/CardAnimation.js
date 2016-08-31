@@ -21,8 +21,7 @@
  * Provides a convenience method {@link qx.ui.mobile.layout.CardAnimation#getAnimation} which
  * makes it possibility to resolve the right animation for a pageTransition out of the cardAnimationMap.
  */
-qx.Class.define("qx.ui.mobile.layout.CardAnimation",
-{
+qx.Class.define("qx.ui.mobile.layout.CardAnimation", {
   extend : qx.core.Object,
 
 

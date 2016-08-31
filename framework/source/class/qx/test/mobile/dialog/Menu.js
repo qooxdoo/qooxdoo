@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.dialog.Menu",
-{
+qx.Class.define("qx.test.mobile.dialog.Menu", {
   extend : qx.test.mobile.MobileTestCase,
   include : [qx.dev.unit.MMock],
 

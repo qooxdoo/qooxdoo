@@ -53,8 +53,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.request.SimpleXhr",
-{
+qx.Bootstrap.define("qx.bom.request.SimpleXhr", {
 
   extend: qx.event.Emitter,
   implement: [ qx.core.IDisposable ],

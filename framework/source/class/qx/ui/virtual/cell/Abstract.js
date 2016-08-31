@@ -26,8 +26,7 @@
  *
  * EXPERIMENTAL!
  */
-qx.Class.define("qx.ui.virtual.cell.Abstract",
-{
+qx.Class.define("qx.ui.virtual.cell.Abstract", {
   type : "abstract",
   extend : qx.core.Object,
   implement : qx.ui.virtual.cell.ICell,

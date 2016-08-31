@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.GeoLocation",
-{
+qx.Class.define("qx.test.bom.GeoLocation", {
   extend : qx.dev.unit.TestCase,
   include: [
     qx.dev.unit.MMock,

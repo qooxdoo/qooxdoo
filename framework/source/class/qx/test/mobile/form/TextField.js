@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.TextField",
-{
+qx.Class.define("qx.test.mobile.form.TextField", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

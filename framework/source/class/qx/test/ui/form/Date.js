@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Date",
-{
+qx.Class.define("qx.test.ui.form.Date", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

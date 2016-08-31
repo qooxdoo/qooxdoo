@@ -20,8 +20,7 @@
 /**
  * Abstract class for all input fields.
  */
-qx.Class.define("qx.ui.mobile.form.Input",
-{
+qx.Class.define("qx.ui.mobile.form.Input", {
   extend : qx.ui.mobile.core.Widget,
   include : [
     qx.ui.form.MForm,

@@ -37,8 +37,7 @@
  * @childControl textfield {qx.ui.form.TextField} text field for manual date entry
  * @childControl button {qx.ui.form.Button} button that opens the list control
  */
-qx.Class.define("qx.ui.form.DateField",
-{
+qx.Class.define("qx.ui.form.DateField", {
   extend : qx.ui.core.Widget,
   include : [
     qx.ui.core.MRemoteChildrenHandling,

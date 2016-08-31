@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.dom.Node",
-{
+qx.Class.define("qx.test.dom.Node", {
   extend : qx.dev.unit.TestCase,
 
   members :

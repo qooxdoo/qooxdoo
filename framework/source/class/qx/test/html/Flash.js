@@ -25,8 +25,7 @@
  * @asset(qx/test/UnitTestFlash.swf)
  */
 
-qx.Class.define("qx.test.html.Flash",
-{
+qx.Class.define("qx.test.html.Flash", {
   extend : qx.dev.unit.TestCase,
 
   members :

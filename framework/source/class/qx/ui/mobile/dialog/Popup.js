@@ -59,8 +59,7 @@
  *
  *
  */
-qx.Class.define("qx.ui.mobile.dialog.Popup",
-{
+qx.Class.define("qx.ui.mobile.dialog.Popup", {
   extend : qx.ui.mobile.core.Widget,
 
 

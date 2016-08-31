@@ -20,8 +20,7 @@
  * The test loader is the base class of a native application, which can be used
  * to run tests from a non-GUI application or from within JSUnit.
  */
-qx.Class.define("qx.dev.unit.TestLoaderInline",
-{
+qx.Class.define("qx.dev.unit.TestLoaderInline", {
   extend : qx.application.Inline,
 
   include : [qx.dev.unit.MTestLoader],

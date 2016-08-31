@@ -1,5 +1,4 @@
-qx.Class.define("qx.test.performance.Object",
-{
+qx.Class.define("qx.test.performance.Object", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMeasure,
 

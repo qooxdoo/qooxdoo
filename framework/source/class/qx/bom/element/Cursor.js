@@ -20,18 +20,16 @@
 /**
  * Contains methods to control and query the element's cursor property
  */
-qx.Bootstrap.define("qx.bom.element.Cursor",
-{
+qx.Bootstrap.define("qx.bom.element.Cursor", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /** Internal helper structure to map cursor values to supported ones */
-    __map : {},
+    __map: {},
 
 
     /**

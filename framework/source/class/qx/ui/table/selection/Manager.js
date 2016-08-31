@@ -27,8 +27,7 @@
  *
  * @see SelectionModel
  */
-qx.Class.define("qx.ui.table.selection.Manager",
-{
+qx.Class.define("qx.ui.table.selection.Manager", {
   extend : qx.core.Object,
 
 

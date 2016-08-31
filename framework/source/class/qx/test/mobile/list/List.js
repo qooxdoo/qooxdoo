@@ -22,8 +22,7 @@
  * @asset(qx/icon/Tango/48/places/folder.png)
  */
 
-qx.Class.define("qx.test.mobile.list.List",
-{
+qx.Class.define("qx.test.mobile.list.List", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

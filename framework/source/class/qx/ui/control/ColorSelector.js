@@ -50,8 +50,7 @@
  * @childControl preview-content-old {qx.ui.core.Widget} preview of the old color
  * @childControl preview-content-new {qx.ui.core.Widget} preview of the new color
  */
-qx.Class.define("qx.ui.control.ColorSelector",
-{
+qx.Class.define("qx.ui.control.ColorSelector", {
   extend : qx.ui.core.Widget,
   implement : [qx.ui.form.IColorForm],
 

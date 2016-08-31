@@ -45,8 +45,7 @@
  * @childControl label {qx.ui.basic.Label} label part of the atom
  * @childControl icon {qx.ui.basic.Image} icon part of the atom
  */
-qx.Class.define("qx.ui.basic.Atom",
-{
+qx.Class.define("qx.ui.basic.Atom", {
   extend : qx.ui.core.Widget,
 
 

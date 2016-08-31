@@ -21,8 +21,7 @@
  * The standard footer used with Progressive's Table renderer, to show
  * progress of loading data into the table.
  */
-qx.Class.define("qx.ui.progressive.headfoot.Progress",
-{
+qx.Class.define("qx.ui.progressive.headfoot.Progress", {
   extend     : qx.ui.progressive.headfoot.Abstract,
 
   /**

@@ -21,8 +21,7 @@
  * This handler accepts the useraction event fired by the keyboard, mouse and
  * pointer handlers after an user triggered action has occurred.
  */
-qx.Class.define("qx.event.handler.UserAction",
-{
+qx.Class.define("qx.event.handler.UserAction", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.lang.String",
-{
+qx.Class.define("qx.test.lang.String", {
   extend : qx.dev.unit.TestCase,
   include : [qx.dev.unit.MMock],
 

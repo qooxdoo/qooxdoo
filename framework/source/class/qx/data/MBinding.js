@@ -21,8 +21,7 @@
  * {@link qx.data.SingleValueBinding} to the instance including the mixin.
  * The source object will be <code>this</code>.
  */
-qx.Mixin.define("qx.data.MBinding",
-{
+qx.Mixin.define("qx.data.MBinding", {
   construct : function() {
     // store the hash code for disposing object won't have a hash code after dispose.
     this.__objectHash = this.toHashCode();

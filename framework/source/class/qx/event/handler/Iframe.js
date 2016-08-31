@@ -20,8 +20,7 @@
 /**
  * This handler provides a "load" event for iframes
  */
-qx.Class.define("qx.event.handler.Iframe",
-{
+qx.Class.define("qx.event.handler.Iframe", {
   extend : qx.core.Object,
   implement : qx.event.IEventHandler,
 

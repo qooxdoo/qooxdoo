@@ -11,8 +11,7 @@
 /**
  * Registrar for commands to be able to group them.
  */
-qx.Class.define("qx.ui.command.Group",
-{
+qx.Class.define("qx.ui.command.Group", {
   extend : qx.core.Object,
 
 

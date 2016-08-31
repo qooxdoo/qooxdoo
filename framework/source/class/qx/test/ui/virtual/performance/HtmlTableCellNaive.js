@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCellNaive",
-{
+qx.Class.define("qx.test.ui.virtual.performance.HtmlTableCellNaive", {
   extend : qx.test.ui.virtual.performance.AbstractLayerTest,
   type : "abstract", // disabled
 

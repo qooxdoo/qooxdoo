@@ -23,8 +23,7 @@
  *
  * @ignore(qx.bom.element.AnimationJs)
  */
-qx.Bootstrap.define("qx.bom.element.AnimationHandle",
-{
+qx.Bootstrap.define("qx.bom.element.AnimationHandle", {
   extend : qx.event.Emitter,
 
 

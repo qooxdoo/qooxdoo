@@ -25,8 +25,7 @@
  *
  * EXPERIMENTAL!
  */
-qx.Class.define("qx.ui.virtual.cell.Date",
-{
+qx.Class.define("qx.ui.virtual.cell.Date", {
   extend : qx.ui.virtual.cell.Cell,
 
   /**

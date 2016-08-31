@@ -27,8 +27,7 @@
  * <code>qx.dev.Profile</code> a load time dependency of <code>qx.Class</code>.
  * Further more the variant <code>qx.aspects</code> must be set to <code>on</code>.
  */
-qx.Bootstrap.define("qx.dev.Profile",
-{
+qx.Bootstrap.define("qx.dev.Profile", {
   statics :
   {
     /**

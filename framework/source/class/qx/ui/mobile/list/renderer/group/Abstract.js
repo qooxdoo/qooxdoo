@@ -19,8 +19,7 @@
 /**
  * Base class for all group item renderer.
  */
-qx.Class.define("qx.ui.mobile.list.renderer.group.Abstract",
-{
+qx.Class.define("qx.ui.mobile.list.renderer.group.Abstract", {
   extend : qx.ui.mobile.container.Composite,
   type : "abstract",
 

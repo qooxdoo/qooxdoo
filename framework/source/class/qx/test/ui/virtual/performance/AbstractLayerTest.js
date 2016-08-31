@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
-{
+qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest", {
   extend : qx.test.ui.LayoutTestCase,
   type : "abstract",
 

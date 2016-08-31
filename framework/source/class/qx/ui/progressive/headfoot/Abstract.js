@@ -21,8 +21,7 @@
  * The abstract class for a header or footer for use with Progressive's Table
  * renderer.
  */
-qx.Class.define("qx.ui.progressive.headfoot.Abstract",
-{
+qx.Class.define("qx.ui.progressive.headfoot.Abstract", {
   type       : "abstract",
   extend     : qx.ui.container.Composite,
 

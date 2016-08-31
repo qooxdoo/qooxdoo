@@ -79,14 +79,15 @@
  * </pre>
  *
  * This example defines different routes to handle navigation events.
- * 
+ *
  * Note this class must be disposed after use
  */
 qx.Bootstrap.define("qx.application.Routing", {
-	implement: [ qx.core.IDisposable ],
+  implement : [
+    qx.core.IDisposable
+  ],
 
-  construct : function()
-  {
+  construct : function() {
     this.__messaging = new qx.event.Messaging();
 
     this.__navigationHandler = qx.bom.History.getInstance();
@@ -117,10 +118,9 @@ qx.Bootstrap.define("qx.application.Routing", {
      *
      * @param defaultPath {String?} Optional default path for initialization.
      */
-    init : function(defaultPath)
-    {
+    init : function(defaultPath) {
       if (qx.core.Environment.get("qx.debug")) {
-        if (defaultPath != null) {
+        if (defaultPath !== null) {
           qx.core.Assert.assertString(defaultPath, "Invalid argument 'defaultPath'");
         }
       }
@@ -141,7 +141,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @return {String} A valid path.
      */
     _getPathOrFallback : function(path, defaultPath) {
-      if (path == "" || path == null || !this.__messaging.has("get", path)) {
+      if (path == "" || path === null || !this.__messaging.has("get", path)) {
         path = defaultPath || qx.application.Routing.DEFAULT_PATH;
       }
       return path;
@@ -246,8 +246,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      *
      * @param evt {qx.event.type.Data} The changeHash event.
      */
-    __onChangeHash : function(evt)
-    {
+    __onChangeHash : function(evt) {
       var path = evt.getData();
       path = this._getPathOrFallback(path);
 
@@ -265,21 +264,18 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param fromEvent {var} Determines whether this method was called from history
      *
      */
-    _executeGet : function(path, customData, fromEvent)
-    {
+    _executeGet : function(path, customData, fromEvent) {
       this.__currentGetPath = path;
 
       var history = this.__getFromHistory(path);
-      if (history)
-      {
-        if (!customData)
-        {
+      if (history) {
+        if (customData) {
+          this.__replaceCustomData(path, customData);
+        } else {
           customData = history.data.customData || {};
           customData.fromHistory = true;
           customData.action = history.action;
           customData.fromEvent = fromEvent;
-        } else {
-          this.__replaceCustomData(path, customData);
         }
       } else {
         this.__addToHistory(path, customData);
@@ -364,8 +360,7 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param path {String} The path to store.
      * @param customData {var} The custom data to store
      */
-    __addToHistory : function(path, customData)
-    {
+    __addToHistory : function(path, customData) {
       qx.application.Routing.__back.unshift({
         path : path,
         customData : customData
@@ -396,49 +391,44 @@ qx.Bootstrap.define("qx.application.Routing", {
      * @param path {String} The path of the entry
      * @return {Map|null} The retrieved entry. <code>null</code> when no entry was found.
      */
-    __getFromHistory : function(path)
-    {
+    __getFromHistory : function(path) {
       var back = qx.application.Routing.__back;
       var forward = qx.application.Routing.__forward;
       var found = false;
 
       var entry = null;
       var length = back.length;
-      for (var i = 0; i < length; i++)
-      {
-        if (back[i].path == path)
-        {
+      for (var i = 0; i < length; i++) {
+        if (back[i].path == path) {
           entry = back[i];
-          var toForward = back.splice(0,i);
-          for (var a=0; a<toForward.length; a++){
+          var toForward = back.splice(0, i);
+          for (var a=0; a<toForward.length; a++) {
             forward.unshift(toForward[a]);
           }
           found = true;
           break;
         }
       }
-      if (found){
+      if (found) {
         return {
           data : entry,
           action : "back"
         };
       }
 
-      var length = forward.length;
-      for (var i = 0; i < length; i++)
-      {
-        if (forward[i].path == path)
-        {
+      length = forward.length;
+      for (var i = 0; i < length; i++) {
+        if (forward[i].path == path) {
           entry = forward[i];
-          var toBack = forward.splice(0,i+1);
-          for (var a=0; a<toBack.length; a++){
+          var toBack = forward.splice(0, i+1);
+          for (var a=0; a<toBack.length; a++) {
             back.unshift(toBack[a]);
           }
           break;
         }
       }
 
-      if (entry){
+      if (entry) {
         return {
           data : entry,
           action : "forward"
@@ -459,18 +449,18 @@ qx.Bootstrap.define("qx.application.Routing", {
     *   This behavior is useful for instance when reloading a page during
     *   development but expecting the page's back button always to work.
     */
-    back : function(customData)
-    {
+    back : function(customData) {
       var data = customData;
       if (data) {
         data["action"] = "back";
       } else {
         data = {
-          "action": "back"
+          action : "back"
         };
       }
 
-      var path, back = qx.application.Routing.__back;
+      var back = qx.application.Routing.__back;
+      var path = back;
 
       if (back.length > 0) {
         // Remove current state
@@ -482,15 +472,11 @@ qx.Bootstrap.define("qx.application.Routing", {
         var state = back.shift();
 
         this._executeGet(state.path, data);
-      }
-      else if (data.defaultPath)
-      {
+      } else if (data.defaultPath) {
         path = data.defaultPath;
         delete data.defaultPath;
         this._executeGet(path, data);
-      }
-      else if (qx.application.Routing.DEFAULT_PATH)
-      {
+      } else if (qx.application.Routing.DEFAULT_PATH) {
         this._executeGet(qx.application.Routing.DEFAULT_PATH, data);
       }
     },

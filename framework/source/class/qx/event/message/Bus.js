@@ -21,8 +21,7 @@
  * The message bus registers subscriptions and notifies subscribers when
  * a matching message is dispatched
  */
-qx.Class.define("qx.event.message.Bus",
-{
+qx.Class.define("qx.event.message.Bus", {
   type : "singleton",
 
   extend : qx.core.Object,

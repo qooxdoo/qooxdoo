@@ -25,8 +25,7 @@
  * @asset(qx/decoration/Simple/*)
  * @asset(qx/static/blank.png)
  */
-qx.Class.define("qx.theme.simple.Image",
-{
+qx.Class.define("qx.theme.simple.Image", {
   extend : qx.core.Object,
 
   statics :

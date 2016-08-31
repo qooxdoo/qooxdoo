@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.element.Dimension",
-{
+qx.Class.define("qx.test.bom.element.Dimension", {
   extend : qx.dev.unit.TestCase,
 
   members :

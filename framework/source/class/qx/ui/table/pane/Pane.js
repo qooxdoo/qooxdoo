@@ -23,8 +23,7 @@
  * the display of the data part of a table and is therefore the base for virtual
  * scrolling.
  */
-qx.Class.define("qx.ui.table.pane.Pane",
-{
+qx.Class.define("qx.ui.table.pane.Pane", {
   extend : qx.ui.core.Widget,
 
 

@@ -35,8 +35,7 @@
  *
  * @use(qx.event.dispatch.DomBubbling)
  */
-qx.Class.define("qx.event.handler.Focus",
-{
+qx.Class.define("qx.event.handler.Focus", {
   extend : qx.core.Object,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
   

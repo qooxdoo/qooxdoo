@@ -23,8 +23,7 @@
  * the update functionality, you have to use a model which supports the
  * {@link qx.data.marshal.MEventBubbling#changeBubble} event.
  */
-qx.Class.define("qx.data.store.Offline",
-{
+qx.Class.define("qx.data.store.Offline", {
   extend : qx.core.Object,
 
 

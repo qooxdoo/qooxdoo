@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.Focus",
-{
+qx.Class.define("qx.test.ui.Focus", {
   extend : qx.test.ui.LayoutTestCase,
 
 

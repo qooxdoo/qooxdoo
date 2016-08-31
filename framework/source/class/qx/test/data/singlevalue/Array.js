@@ -23,8 +23,7 @@
 /**
  * Test-Class for testing the single value binding
  */
-qx.Class.define("qx.test.data.singlevalue.Array",
-{
+qx.Class.define("qx.test.data.singlevalue.Array", {
   extend : qx.dev.unit.TestCase,
 
   construct : function() {

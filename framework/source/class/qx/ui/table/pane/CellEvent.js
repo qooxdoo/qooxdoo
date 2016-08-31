@@ -20,8 +20,7 @@
  * A cell event instance contains all data for pointer events related to cells in
  * a table.
  **/
-qx.Class.define("qx.ui.table.pane.CellEvent",
-{
+qx.Class.define("qx.ui.table.pane.CellEvent", {
   extend : qx.event.type.Pointer,
 
 

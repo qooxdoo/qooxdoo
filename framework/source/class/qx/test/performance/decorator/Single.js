@@ -16,8 +16,7 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-qx.Class.define("qx.test.performance.decorator.Single",
-{
+qx.Class.define("qx.test.performance.decorator.Single", {
   extend : qx.test.performance.decorator.AbstractDecorator,
 
   members :

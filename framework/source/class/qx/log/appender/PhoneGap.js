@@ -38,8 +38,7 @@
  * @require(qx.log.appender.Util)
  * @ignore(debug.*)
  */
-qx.Class.define("qx.log.appender.PhoneGap",
-{
+qx.Class.define("qx.log.appender.PhoneGap", {
   /*
   *****************************************************************************
      STATICS

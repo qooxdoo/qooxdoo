@@ -21,8 +21,7 @@
  * @require(qx.ui.core.scroll.MScrollBarFactory)
  */
 
-qx.Class.define("qx.test.core.Environment",
-{
+qx.Class.define("qx.test.core.Environment", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

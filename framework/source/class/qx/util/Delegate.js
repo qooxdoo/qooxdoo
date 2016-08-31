@@ -20,8 +20,7 @@
 /**
  * Methods to work with the delegate pattern.
  */
-qx.Class.define("qx.util.Delegate",
-{
+qx.Class.define("qx.util.Delegate", {
   statics :
   {
     /**

@@ -24,8 +24,7 @@
  *
  * http://www.w3.org/TR/css3-3d-transforms/
  */
-qx.Bootstrap.define("qx.bom.element.Transform",
-{
+qx.Bootstrap.define("qx.bom.element.Transform", {
   statics :
   {
     /** Internal storage of the CSS names */

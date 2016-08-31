@@ -23,8 +23,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Scroll",
-{
+qx.Bootstrap.define("qx.bom.client.Scroll", {
   statics :
   {
     /**

@@ -25,8 +25,7 @@
  * @asset(qx/static/blank.html)
  */
 
-qx.Class.define("qx.test.html.Iframe",
-{
+qx.Class.define("qx.test.html.Iframe", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMock,
 

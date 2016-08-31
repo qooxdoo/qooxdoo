@@ -48,8 +48,7 @@
  *
  * @childControl progress {qx.ui.container.Composite} The progress bar
  */
-qx.Class.define("qx.ui.indicator.ProgressBar",
-{
+qx.Class.define("qx.ui.indicator.ProgressBar", {
   extend: qx.ui.container.Composite,
 
 

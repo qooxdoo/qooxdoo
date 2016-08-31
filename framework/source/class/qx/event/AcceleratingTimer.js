@@ -30,8 +30,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.event.AcceleratingTimer",
-{
+qx.Class.define("qx.event.AcceleratingTimer", {
   extend : qx.core.Object,
   implement : [ qx.core.IDisposable ],
 

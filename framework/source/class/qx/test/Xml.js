@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.Xml",
-{
+qx.Class.define("qx.test.Xml", {
   extend : qx.dev.unit.TestCase,
 
   members :

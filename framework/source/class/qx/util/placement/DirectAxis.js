@@ -21,8 +21,7 @@
  * Places the object directly at the specified position. It is not moved if
  * parts of the object are outside of the axis' range.
  */
-qx.Bootstrap.define("qx.util.placement.DirectAxis",
-{
+qx.Bootstrap.define("qx.util.placement.DirectAxis", {
   statics :
   {
     /**

@@ -20,8 +20,7 @@
 /**
  * Each focus root delegates the focus handling to instances of the FocusHandler.
  */
-qx.Class.define("qx.ui.core.FocusHandler",
-{
+qx.Class.define("qx.ui.core.FocusHandler", {
   extend : qx.core.Object,
   type : "singleton",
 

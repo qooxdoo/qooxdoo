@@ -29,8 +29,7 @@
  * @require(qx.event.type.Rotate)
  * @require(qx.event.type.Pinch)
  */
-qx.Class.define("qx.event.handler.Touch",
-{
+qx.Class.define("qx.event.handler.Touch", {
   extend : qx.event.handler.TouchCore,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 

@@ -33,8 +33,7 @@
  *
  * One example for a qooxdoo aspect is profiling ({@link qx.dev.Profile}).
  */
-qx.Bootstrap.define("qx.core.Aspect",
-{
+qx.Bootstrap.define("qx.core.Aspect", {
   statics :
   {
     /** @type {Array} Registry for all known aspect wishes */

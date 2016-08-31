@@ -21,8 +21,7 @@
 /**
  * The traditional qx.ui.menu.MenuButton to access the column visibility menu.
  */
-qx.Class.define("qx.ui.table.columnmenu.Button",
-{
+qx.Class.define("qx.ui.table.columnmenu.Button", {
   extend     : qx.ui.form.MenuButton,
   implement  : qx.ui.table.IColumnMenuButton,
 

@@ -19,8 +19,7 @@
 /**
  * @require(qx.lang.normalize.Error)
  */
-qx.Class.define("qx.test.lang.normalize.Error",
-{
+qx.Class.define("qx.test.lang.normalize.Error", {
   extend : qx.dev.unit.TestCase,
 
   members :

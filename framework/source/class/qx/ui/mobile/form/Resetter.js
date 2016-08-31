@@ -20,8 +20,7 @@
 * The resetter is responsible for managing a set of items and resetting these
 * items on a {@link qx.ui.mobile.form.Resetter#reset} call.
 */
-qx.Class.define("qx.ui.mobile.form.Resetter",
-{
+qx.Class.define("qx.ui.mobile.form.Resetter", {
   extend : qx.ui.form.Resetter,
 
   members :

@@ -15,8 +15,7 @@
      * Adrian Olaru (adrianolaru)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.indicator.ProgressBar",
-{
+qx.Class.define("qx.test.ui.indicator.ProgressBar", {
   extend : qx.dev.unit.TestCase,
 
 

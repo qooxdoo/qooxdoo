@@ -37,8 +37,7 @@
  *
  * This example creates a menu with several choosable items.
  */
-qx.Class.define("qx.ui.mobile.dialog.Menu",
-{
+qx.Class.define("qx.ui.mobile.dialog.Menu", {
   extend : qx.ui.mobile.dialog.Popup,
 
 

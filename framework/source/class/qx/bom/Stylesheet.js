@@ -24,8 +24,7 @@
  * Cross-browser wrapper to work with CSS stylesheets.
  * @require(qx.bom.client.Stylesheet)
  */
-qx.Bootstrap.define("qx.bom.Stylesheet",
-{
+qx.Bootstrap.define("qx.bom.Stylesheet", {
   /*
   *****************************************************************************
      STATICS

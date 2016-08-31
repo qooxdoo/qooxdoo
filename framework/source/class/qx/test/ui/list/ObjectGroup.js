@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.list.ObjectGroup",
-{
+qx.Class.define("qx.test.ui.list.ObjectGroup", {
   extend : qx.test.ui.list.AbstractListTest,
 
   members :

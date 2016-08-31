@@ -35,8 +35,7 @@
  * @require(qx.event.handler.Keyboard)
  * @require(qx.event.handler.Gesture)
  */
-qx.Class.define("qx.log.appender.Console",
-{
+qx.Class.define("qx.log.appender.Console", {
   statics :
   {
     /*

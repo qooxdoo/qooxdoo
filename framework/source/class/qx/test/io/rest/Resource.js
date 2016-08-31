@@ -26,8 +26,7 @@
  * @asset(qx/test/xmlhttp/*)
  */
 
-qx.Class.define("qx.test.io.rest.Resource",
-{
+qx.Class.define("qx.test.io.rest.Resource", {
   extend: qx.dev.unit.TestCase,
 
   include : [qx.dev.unit.MRequirements,

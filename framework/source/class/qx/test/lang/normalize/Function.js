@@ -19,8 +19,7 @@
 /**
  * @require(qx.lang.normalize.Function)
  */
-qx.Class.define("qx.test.lang.normalize.Function",
-{
+qx.Class.define("qx.test.lang.normalize.Function", {
   extend : qx.dev.unit.TestCase,
 
   members :

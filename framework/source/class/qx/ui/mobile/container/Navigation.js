@@ -36,8 +36,7 @@
  *   page.show();
  * </pre>
  */
-qx.Class.define("qx.ui.mobile.container.Navigation",
-{
+qx.Class.define("qx.ui.mobile.container.Navigation", {
   extend : qx.ui.mobile.container.Composite,
 
 

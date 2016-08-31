@@ -25,8 +25,7 @@
  *
  * @childControl pane {qx.ui.virtual.core.Pane} Virtual pane.
  */
-qx.Class.define("qx.ui.virtual.core.Scroller",
-{
+qx.Class.define("qx.ui.virtual.core.Scroller", {
   extend : qx.ui.core.scroll.AbstractScrollArea,
 
 

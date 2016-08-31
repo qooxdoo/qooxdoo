@@ -20,8 +20,7 @@
 /**
  * Abstract structure definition for Progressive
  */
-qx.Class.define("qx.ui.progressive.structure.Abstract",
-{
+qx.Class.define("qx.ui.progressive.structure.Abstract", {
   type       : "abstract",
   extend     : qx.core.Object,
 

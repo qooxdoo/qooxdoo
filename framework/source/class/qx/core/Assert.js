@@ -27,8 +27,7 @@
  * @require(qx.lang.Type)
  * @ignore(qx.Class.*)
  */
-qx.Bootstrap.define("qx.core.Assert",
-{
+qx.Bootstrap.define("qx.core.Assert", {
   statics :
   {
     __logError : true,

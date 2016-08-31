@@ -24,8 +24,7 @@
  * @asset(qx/static/drawer@2x.png)
  */
 
-qx.Class.define("qx.test.ui.basic.Image",
-{
+qx.Class.define("qx.test.ui.basic.Image", {
   extend : qx.test.ui.LayoutTestCase,
   include : qx.dev.unit.MMock,
 

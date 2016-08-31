@@ -21,8 +21,7 @@
  * used to define a clipping region for internal windows e.g. to create
  * an MDI like application.
  */
-qx.Class.define("qx.ui.window.Desktop",
-{
+qx.Class.define("qx.ui.window.Desktop", {
   extend : qx.ui.core.Widget,
 
   include : [

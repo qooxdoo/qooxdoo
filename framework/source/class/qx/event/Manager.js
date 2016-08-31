@@ -22,8 +22,7 @@
  *
  * @require(qx.bom.Event)
  */
-qx.Class.define("qx.event.Manager",
-{
+qx.Class.define("qx.event.Manager", {
   extend : Object,
   implement: [ qx.core.IDisposable ],
 

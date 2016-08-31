@@ -24,8 +24,7 @@
  *
  * @childControl knob {qx.ui.basic.Image} knob to resize the splitpane
  */
-qx.Class.define("qx.ui.splitpane.Splitter",
-{
+qx.Class.define("qx.ui.splitpane.Splitter", {
   extend : qx.ui.core.Widget,
 
 

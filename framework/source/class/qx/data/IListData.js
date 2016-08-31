@@ -21,8 +21,7 @@
  * controllers.
  * It defines a minimum of functionality which the controller need to work.
  */
-qx.Interface.define("qx.data.IListData",
-{
+qx.Interface.define("qx.data.IListData", {
   events :
   {
     /**

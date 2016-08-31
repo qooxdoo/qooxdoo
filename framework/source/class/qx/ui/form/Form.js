@@ -24,8 +24,7 @@
  *
  * The view code can be found in the used renderer ({@link qx.ui.form.renderer}).
  */
-qx.Class.define("qx.ui.form.Form",
-{
+qx.Class.define("qx.ui.form.Form", {
   extend : qx.core.Object,
 
 

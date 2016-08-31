@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.Stack",
-{
+qx.Class.define("qx.test.ui.selection.Stack", {
   extend : qx.test.ui.selection.AbstractSingleSelectonTest,
 
   members :

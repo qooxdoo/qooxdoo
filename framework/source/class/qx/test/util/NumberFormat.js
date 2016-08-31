@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.NumberFormat",
-{
+qx.Class.define("qx.test.util.NumberFormat", {
   extend : qx.dev.unit.TestCase,
 
   members :

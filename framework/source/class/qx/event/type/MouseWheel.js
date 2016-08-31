@@ -20,8 +20,7 @@
 /**
  * Mouse wheel event object.
  */
-qx.Class.define("qx.event.type.MouseWheel",
-{
+qx.Class.define("qx.event.type.MouseWheel", {
   extend : qx.event.type.Mouse,
 
   members :

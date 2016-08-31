@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.toolchain.VariantOptimization",
-{
+qx.Class.define("qx.test.toolchain.VariantOptimization", {
   extend : qx.dev.unit.TestCase,
   include: qx.dev.unit.MRequirements,
 

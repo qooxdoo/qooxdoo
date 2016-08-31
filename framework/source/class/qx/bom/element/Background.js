@@ -23,8 +23,7 @@
  *
  * It fixes a background position issue in Firefox 2.
  */
-qx.Class.define("qx.bom.element.Background",
-{
+qx.Class.define("qx.bom.element.Background", {
   statics :
   {
     /** @type {Array} Internal helper to improve compile performance */

@@ -21,8 +21,7 @@
  * populated with the marshaled response. Note the action is invoked on the
  * resource, not the store.
  */
-qx.Class.define("qx.data.store.Rest",
-{
+qx.Class.define("qx.data.store.Rest", {
   extend: qx.core.Object,
 
   /**

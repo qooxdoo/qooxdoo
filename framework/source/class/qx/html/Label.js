@@ -25,8 +25,7 @@
  * which accepts a boolean value. The default mode is "text" which is
  * a good choice because it has a better performance.
  */
-qx.Class.define("qx.html.Label",
-{
+qx.Class.define("qx.html.Label", {
   extend : qx.html.Element,
 
 

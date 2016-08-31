@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.SelectBox",
-{
+qx.Class.define("qx.test.ui.table.celleditor.SelectBox", {
   extend : qx.test.ui.LayoutTestCase,
 
 

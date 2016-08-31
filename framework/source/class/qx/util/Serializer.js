@@ -22,8 +22,7 @@
  * @ignore(qx.data, qx.data.IListData)
  * @ignore(qx.locale, qx.locale.LocalizedString)
  */
-qx.Class.define("qx.util.Serializer",
-{
+qx.Class.define("qx.util.Serializer", {
   statics :
   {
 

@@ -27,8 +27,7 @@
  * @childControl icon {qx.ui.basic.Image} icon of the tree item
  * @childControl open {qx.ui.tree.core.FolderOpenButton} button to open/close a subtree
  */
-qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
-{
+qx.Class.define("qx.ui.tree.core.AbstractTreeItem", {
   extend : qx.ui.tree.core.AbstractItem,
   type : "abstract",
 

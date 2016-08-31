@@ -29,8 +29,7 @@
  * This class is abstract: The actual loading of row data must be done by
  * subclasses.
  */
-qx.Class.define("qx.ui.table.model.Remote",
-{
+qx.Class.define("qx.ui.table.model.Remote", {
   type : "abstract",
   extend : qx.ui.table.model.Abstract,
 

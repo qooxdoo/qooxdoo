@@ -25,8 +25,7 @@
  * @ignore(qx.bom)
  * @ignore(qx.Class.*)
  */
-qx.Bootstrap.define("qx.dev.StackTrace",
-{
+qx.Bootstrap.define("qx.dev.StackTrace", {
   statics:
   {
 

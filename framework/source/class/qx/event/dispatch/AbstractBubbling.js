@@ -20,8 +20,7 @@
 /**
  * Event dispatcher for all bubbling events.
  */
-qx.Class.define("qx.event.dispatch.AbstractBubbling",
-{
+qx.Class.define("qx.event.dispatch.AbstractBubbling", {
   extend : qx.core.Object,
   implement : qx.event.IEventDispatcher,
   type : "abstract",

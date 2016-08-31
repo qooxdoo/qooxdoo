@@ -19,8 +19,7 @@
 /**
  * This mixin offers the basic logging features offered by {@link qx.log.Logger}.
  */
-qx.Mixin.define("qx.core.MLogging",
-{
+qx.Mixin.define("qx.core.MLogging", {
   members :
   {
     /** @type {Class} Pointer to the regular logger class */

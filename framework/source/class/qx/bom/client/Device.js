@@ -25,8 +25,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Device",
-{
+qx.Bootstrap.define("qx.bom.client.Device", {
   statics :
   {
     /** Maps user agent names to device IDs */

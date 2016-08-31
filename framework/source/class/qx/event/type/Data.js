@@ -20,8 +20,7 @@
 /**
  * Event object for data holding event or data changes.
  */
-qx.Class.define("qx.event.type.Data",
-{
+qx.Class.define("qx.event.type.Data", {
   extend : qx.event.type.Event,
 
 

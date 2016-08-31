@@ -25,8 +25,7 @@
  *
  * @require(qx.core.Init)
  */
-qx.Class.define("qx.application.Inline",
-{
+qx.Class.define("qx.application.Inline", {
   extend : qx.application.AbstractGui,
 
 

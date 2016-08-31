@@ -17,8 +17,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.test.event.type.Mouse",
-{
+qx.Class.define("qx.test.event.type.Mouse", {
   extend : qx.dev.unit.TestCase,
 
 

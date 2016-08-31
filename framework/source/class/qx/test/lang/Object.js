@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.lang.Object",
-{
+qx.Class.define("qx.test.lang.Object", {
   extend : qx.dev.unit.TestCase,
 
   members :

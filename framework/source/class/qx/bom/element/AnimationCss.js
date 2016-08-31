@@ -33,8 +33,7 @@
  * (CSS or JavaScript) should be used. Most likely, this implementation should
  * be the one to use.
  */
-qx.Bootstrap.define("qx.bom.element.AnimationCss",
-{
+qx.Bootstrap.define("qx.bom.element.AnimationCss", {
   statics : {
     // initialization
     __sheet : null,

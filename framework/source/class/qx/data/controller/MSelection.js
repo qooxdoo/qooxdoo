@@ -24,8 +24,7 @@
  * It is also important that the elements stored in the target e.g. ListItems
  * do have the corresponding model stored as user data under the "model" key.
  */
-qx.Mixin.define("qx.data.controller.MSelection",
-{
+qx.Mixin.define("qx.data.controller.MSelection", {
 
   /*
   *****************************************************************************

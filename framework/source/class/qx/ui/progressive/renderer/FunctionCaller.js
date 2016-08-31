@@ -22,8 +22,7 @@
  * This is a renderer that simply calls the function provided by the data
  * element.
  */
-qx.Class.define("qx.ui.progressive.renderer.FunctionCaller",
-{
+qx.Class.define("qx.ui.progressive.renderer.FunctionCaller", {
   extend     : qx.ui.progressive.renderer.Abstract,
 
   members :

@@ -25,8 +25,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Event",
-{
+qx.Bootstrap.define("qx.bom.client.Event", {
   statics :
   {
     /**

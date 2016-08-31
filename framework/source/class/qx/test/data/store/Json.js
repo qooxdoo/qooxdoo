@@ -27,8 +27,7 @@
  * @require(qx.io.request.Xhr)
  */
 
-qx.Class.define("qx.test.data.store.Json",
-{
+qx.Class.define("qx.test.data.store.Json", {
   extend : qx.dev.unit.TestCase,
 
   include : qx.dev.unit.MMock,

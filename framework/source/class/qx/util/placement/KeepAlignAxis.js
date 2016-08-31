@@ -22,8 +22,7 @@
  * range this class places the object at the best "edge", "alignment"
  * combination so that the overlap between object and range is maximized.
  */
-qx.Bootstrap.define("qx.util.placement.KeepAlignAxis",
-{
+qx.Bootstrap.define("qx.util.placement.KeepAlignAxis", {
   statics :
   {
     /**

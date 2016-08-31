@@ -21,8 +21,7 @@
  *
  * @require(qx.core.Init)
  */
-qx.Class.define("qx.application.AbstractGui",
-{
+qx.Class.define("qx.application.AbstractGui", {
   type : "abstract",
   extend : qx.core.Object,
   implement : [qx.application.IApplication],
@@ -71,8 +70,7 @@ qx.Class.define("qx.application.AbstractGui",
 
 
     // interface method
-    main : function()
-    {
+    main : function() {
       // Initialize themes
       qx.theme.manager.Meta.getInstance().initialize();
 
@@ -108,15 +106,13 @@ qx.Class.define("qx.application.AbstractGui",
 
 
     // interface method
-    close : function(val)
-    {
+    close : function() {
       // empty
     },
 
 
     // interface method
-    terminate : function()
-    {
+    terminate : function() {
       // empty
     }
   }

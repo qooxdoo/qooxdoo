@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.table.celleditor.PasswordField",
-{
+qx.Class.define("qx.test.ui.table.celleditor.PasswordField", {
   extend : qx.test.ui.table.celleditor.AbstractField,
 
   members :

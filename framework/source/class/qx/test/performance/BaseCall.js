@@ -3,8 +3,7 @@
  * @ignore(qx.test.performance.Extend)
  */
 
-qx.Class.define("qx.test.performance.BaseCall",
-{
+qx.Class.define("qx.test.performance.BaseCall", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMeasure,
 

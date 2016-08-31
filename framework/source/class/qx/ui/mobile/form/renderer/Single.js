@@ -22,8 +22,7 @@
  * It displays a label above or next to each form element.
  *
  */
-qx.Class.define("qx.ui.mobile.form.renderer.Single",
-{
+qx.Class.define("qx.ui.mobile.form.renderer.Single", {
 
   extend : qx.ui.mobile.form.renderer.AbstractRenderer,
 

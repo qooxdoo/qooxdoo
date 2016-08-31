@@ -23,8 +23,7 @@
  *
  * Row selection manager
  */
-qx.Class.define("qx.ui.virtual.selection.Row",
-{
+qx.Class.define("qx.ui.virtual.selection.Row", {
   extend : qx.ui.virtual.selection.Abstract,
 
 

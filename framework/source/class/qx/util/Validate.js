@@ -54,8 +54,7 @@
  * For the correct usage, take an additional look at the documentation of the
  * {@link qx.core.Property} class.
  */
-qx.Class.define("qx.util.Validate",
-{
+qx.Class.define("qx.util.Validate", {
   statics :
   {
     /**

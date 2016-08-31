@@ -22,8 +22,7 @@
  * other features are inherited from the {@link qx.ui.menu.AbstractButton}
  * class.
  */
-qx.Class.define("qx.ui.menu.Button",
-{
+qx.Class.define("qx.ui.menu.Button", {
   extend : qx.ui.menu.AbstractButton,
 
 

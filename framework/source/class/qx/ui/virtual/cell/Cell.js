@@ -25,8 +25,7 @@
  *
  * This cell renderer can be styled by an appearance theme.
  */
-qx.Class.define("qx.ui.virtual.cell.Cell",
-{
+qx.Class.define("qx.ui.virtual.cell.Cell", {
   extend : qx.ui.virtual.cell.Abstract,
 
   construct : function()

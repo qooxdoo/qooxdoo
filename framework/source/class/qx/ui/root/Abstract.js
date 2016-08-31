@@ -20,8 +20,7 @@
 /**
  * Shared implementation for all root widgets.
  */
-qx.Class.define("qx.ui.root.Abstract",
-{
+qx.Class.define("qx.ui.root.Abstract", {
   type : "abstract",
   extend : qx.ui.core.Widget,
 

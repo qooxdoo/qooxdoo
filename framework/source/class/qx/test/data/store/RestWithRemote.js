@@ -25,8 +25,7 @@
  * @asset(qx/test/primitive.json)
  */
 
-qx.Class.define("qx.test.data.store.RestWithRemote",
-{
+qx.Class.define("qx.test.data.store.RestWithRemote", {
   extend: qx.dev.unit.TestCase,
 
   include : [qx.dev.unit.MRequirements,

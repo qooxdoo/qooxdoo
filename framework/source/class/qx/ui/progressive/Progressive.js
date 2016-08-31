@@ -34,8 +34,7 @@
  * a single widget added to the document or a sending a request to a server,
  * etc.)
  */
-qx.Class.define("qx.ui.progressive.Progressive",
-{
+qx.Class.define("qx.ui.progressive.Progressive", {
   extend : qx.ui.container.Composite,
 
 

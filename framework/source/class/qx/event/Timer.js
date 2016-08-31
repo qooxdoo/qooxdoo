@@ -28,8 +28,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.event.Timer",
-{
+qx.Class.define("qx.event.Timer", {
   extend : qx.core.Object,
   implement : [ qx.core.IDisposable ],
 

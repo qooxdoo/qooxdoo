@@ -21,16 +21,14 @@
  *
  * @require(qx.lang.normalize.String)
  */
-qx.Bootstrap.define("qx.bom.element.Clip",
-{
+qx.Bootstrap.define("qx.bom.element.Clip", {
   /*
   *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
-  statics :
-  {
+  statics: {
     /**
      * Compiles the given clipping into a CSS compatible string. This
      * is a simple square which describes the visible area of an DOM element.

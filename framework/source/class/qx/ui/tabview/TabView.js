@@ -33,8 +33,7 @@
  * @childControl bar {qx.ui.container.SlideBar} slidebar for all tab buttons
  * @childControl pane {qx.ui.container.Stack} stack container to show one tab page
  */
-qx.Class.define("qx.ui.tabview.TabView",
-{
+qx.Class.define("qx.ui.tabview.TabView", {
   extend : qx.ui.core.Widget,
   implement : qx.ui.core.ISingleSelection,
   include : [qx.ui.core.MContentPadding],

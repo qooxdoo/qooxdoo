@@ -45,8 +45,7 @@
  * @require(qx.bom.client.OperatingSystem)
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Flash",
-{
+qx.Bootstrap.define("qx.bom.client.Flash", {
   /*
   *****************************************************************************
      STATICS

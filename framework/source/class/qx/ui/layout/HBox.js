@@ -79,8 +79,7 @@
  * and links to demos for this layout.
  *
  */
-qx.Class.define("qx.ui.layout.HBox",
-{
+qx.Class.define("qx.ui.layout.HBox", {
   extend : qx.ui.layout.Abstract,
 
 

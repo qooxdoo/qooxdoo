@@ -19,8 +19,7 @@
 /**
  * This utility class implements some methods for the <code>VirtualTree</code>.
  */
-qx.Class.define("qx.ui.tree.core.Util",
-{
+qx.Class.define("qx.ui.tree.core.Util", {
   statics :
   {
     /**

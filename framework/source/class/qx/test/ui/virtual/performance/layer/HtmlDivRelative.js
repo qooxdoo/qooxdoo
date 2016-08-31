@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative",
-{
+qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlDivRelative", {
   extend : qx.ui.virtual.layer.Abstract,
 
 

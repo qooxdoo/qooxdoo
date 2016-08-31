@@ -21,8 +21,7 @@
 /**
  * EXPERIMENTAL!
  */
-qx.Class.define("qx.ui.virtual.cell.String",
-{
+qx.Class.define("qx.ui.virtual.cell.String", {
   extend : qx.ui.virtual.cell.Cell,
 
   construct : function()

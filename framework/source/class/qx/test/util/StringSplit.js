@@ -33,8 +33,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.test.util.StringSplit",
-{
+qx.Class.define("qx.test.util.StringSplit", {
   extend : qx.dev.unit.TestCase,
 
   members :

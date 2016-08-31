@@ -21,8 +21,7 @@
 /**
  * A cell editor factory creating text fields.
  */
-qx.Class.define("qx.ui.table.celleditor.TextField",
-{
+qx.Class.define("qx.ui.table.celleditor.TextField", {
   extend : qx.ui.table.celleditor.AbstractField,
 
   members :

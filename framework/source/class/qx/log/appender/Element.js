@@ -19,8 +19,7 @@
 /**
  * This appender is used to log to an existing DOM element
  */
-qx.Class.define("qx.log.appender.Element",
-{
+qx.Class.define("qx.log.appender.Element", {
   extend : qx.core.Object,
 
 

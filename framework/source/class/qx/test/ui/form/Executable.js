@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Executable",
-{
+qx.Class.define("qx.test.ui.form.Executable", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

@@ -60,8 +60,8 @@
  *
  * By using <code>qx.Class</code> within an app, the native JS data types are
  * conveniently polyfilled according to {@link qx.lang.normalize}.
- * 
- * Annotations can be added to classes, constructors, destructors, and methods, properties, and statics - 
+ *
+ * Annotations can be added to classes, constructors, destructors, and methods, properties, and statics -
  * see <code>qx.Annotation</code> for examples and means access annotations at runtime.
  *
  * @require(qx.Interface)
@@ -73,8 +73,7 @@
  * @require(qx.lang.normalize.String)
  * @require(qx.lang.normalize.Object)
  */
-qx.Bootstrap.define("qx.Class",
-{
+qx.Bootstrap.define("qx.Class", {
   statics :
   {
     /**
@@ -194,7 +193,7 @@ qx.Bootstrap.define("qx.Class",
 
       // Create the class
       var clazz = this.__createClass(name, config.type, config.extend, config.statics, config.construct, config.destruct, config.include);
-      
+
       // Initialise class and constructor/destructor annotations
       [ "@", "@construct", "@destruct" ].forEach(function(id) {
         this.__attachAnno(clazz, id, null, config[id]);
@@ -699,7 +698,7 @@ qx.Bootstrap.define("qx.Class",
      * Retreive all subclasses of a given class
      *
      * @param clazz {Class} the class which should be inspected
-     * 
+     *
      * @return {Object} class name hash holding the references to the subclasses or null if the class does not exist.
      */
     getSubclasses : function(clazz)
@@ -707,7 +706,7 @@ qx.Bootstrap.define("qx.Class",
       if(!clazz) {
         return null;
       }
-      
+
       var subclasses = {};
       var registry = qx.Class.$$registry;
 
@@ -953,8 +952,8 @@ qx.Bootstrap.define("qx.Class",
 
       "default" : function(clazz) {}
     }),
-    
-    
+
+
     /**
      * Attaches an annotation to a class
      */
@@ -963,15 +962,15 @@ qx.Bootstrap.define("qx.Class",
         if (clazz.$$annotations === undefined) {
           clazz.$$annotations = {};
           clazz.$$annotations[group] = {};
-          
+
         } else if (clazz.$$annotations[group] === undefined) {
           clazz.$$annotations[group] = {};
         }
-        
+
         if (!qx.lang.Type.isArray(anno)) {
           anno = [anno];
         }
-        
+
         if (key) {
           clazz.$$annotations[group][key] = anno;
         } else {
@@ -1031,7 +1030,7 @@ qx.Bootstrap.define("qx.Class",
 
           qx.Bootstrap.setDisplayName(construct, name, "constructor");
         }
-        
+
         // Copy statics
         if (statics)
         {
@@ -1071,7 +1070,7 @@ qx.Bootstrap.define("qx.Class",
             {
               clazz[key] = staticValue;
             }
-            
+
             // Attach annotations
             this.__attachAnno(clazz, "statics", key, statics["@" + key]);
           }
@@ -1258,7 +1257,7 @@ qx.Bootstrap.define("qx.Class",
         if (!config.refine) {
           this.__Property.attachMethods(clazz, name, config);
         }
-        
+
         // Add annotations
         this.__attachAnno(clazz, "properties", name, config["@"]);
       }
@@ -1391,13 +1390,13 @@ qx.Bootstrap.define("qx.Class",
             if (proto[key] !== undefined && key.charAt(0) === "_" && key.charAt(1) === "_") {
               throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
             }
-  
+
             if (patch !== true && proto.hasOwnProperty(key)) {
               throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
             }
           }
         }
-        
+
         // Annotations are not members
         if (key.charAt(0) === '@') {
           var annoKey = key.substring(1);
@@ -1440,7 +1439,7 @@ qx.Bootstrap.define("qx.Class",
 
         // Attach member
         proto[key] = member;
-        
+
         // Attach annotations
         this.__attachAnno(clazz, "members", key, members["@" + key]);
       }

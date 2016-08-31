@@ -21,8 +21,7 @@
  * An abstract resize behavior.  All resize behaviors should extend this
  * class.
  */
-qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
-{
+qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract", {
   type : "abstract",
   extend : qx.core.Object,
 

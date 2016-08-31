@@ -15,8 +15,7 @@
      * Alexander Steitz (aback)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.AbstractSelectBox",
-{
+qx.Class.define("qx.test.ui.form.AbstractSelectBox", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

@@ -44,8 +44,7 @@
  * @require(qx.bom.client.OperatingSystem#getVersion)
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.Browser",
-{
+qx.Bootstrap.define("qx.bom.client.Browser", {
   statics :
   {
     /**
@@ -64,30 +63,21 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       var name = match[1].toLowerCase();
 
       var engine = qx.bom.client.Engine.getName();
-      if (engine === "webkit")
-      {
+      if (engine === "webkit") {
         if (agent.match(/Edge\/\d+\.\d+/)) {
           name = "edge";
-        }
-        else if (name === "android")
-        {
+        } else if (name === "android") {
           // Fix Chrome name (for instance wrongly defined in user agent on Android 1.6)
           name = "mobile chrome";
-        }
-        else if (agent.indexOf("Mobile Safari") !== -1 || agent.indexOf("Mobile/") !== -1)
-        {
+        } else if (agent.indexOf("Mobile Safari") !== -1 || agent.indexOf("Mobile/") !== -1) {
           // Fix Safari name
           name = "mobile safari";
-        }
-        else if (agent.indexOf(" OPR/") != -1) {
+        } else if (agent.indexOf(" OPR/") != -1) {
           name = "opera";
         }
-      }
-      else if (engine ===  "mshtml")
-      {
+      } else if (engine === "mshtml") {
         // IE 11's ua string no longer contains "MSIE" or even "IE"
-        if (name === "msie" || name === "trident")
-        {
+        if (name === "msie" || name === "trident") {
           name = "ie";
 
           // Fix IE mobile before Microsoft added IEMobile string
@@ -95,14 +85,12 @@ qx.Bootstrap.define("qx.bom.client.Browser",
             name = "iemobile";
           }
 
-          var reg = new RegExp("IEMobile");
-          if (agent.match(reg)) {
+          var reg2 = new RegExp("IEMobile");
+          if (agent.match(reg2)) {
             name = "iemobile";
           }
         }
-      }
-      else if (engine === "opera")
-      {
+      } else if (engine === "opera") {
         if (name === "opera mobi") {
           name = "operamobile";
         } else if (name === "opera mini") {
@@ -135,8 +123,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
         version = RegExp.$2;
       }
 
-      if (qx.bom.client.Engine.getName() == "mshtml")
-      {
+      if (qx.bom.client.Engine.getName() == "mshtml") {
         // Use the Engine version, because IE8 and higher change the user agent
         // string to an older version in compatibility mode
         version = qx.bom.client.Engine.getVersion();
@@ -148,8 +135,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       }
 
       if (qx.bom.client.Engine.getName() == "webkit" ||
-          qx.bom.client.Browser.getName() == "opera")
-      {
+          qx.bom.client.Browser.getName() == "opera") {
         if (agent.match(/OPR(\/| )([0-9]+\.[0-9])/)) {
           version = RegExp.$2;
         }
@@ -183,13 +169,12 @@ qx.Bootstrap.define("qx.bom.client.Browser",
      * @return {Boolean} <code>true</code>, if the environment is in quirks mode
      */
     getQuirksMode : function() {
-      if(qx.bom.client.Engine.getName() == "mshtml" &&
-        parseFloat(qx.bom.client.Engine.getVersion()) >= 8)
-      {
+      if (qx.bom.client.Engine.getName() == "mshtml" &&
+          parseFloat(qx.bom.client.Engine.getVersion()) >= 8) {
         return qx.bom.client.Engine.DOCUMENT_MODE === 5;
-      } else {
-        return document.compatMode !== "CSS1Compat";
       }
+
+      return document.compatMode !== "CSS1Compat";
     },
 
 
@@ -204,16 +189,16 @@ qx.Bootstrap.define("qx.bom.client.Browser",
       // Palm Pre uses both Safari (contains Webkit version) and "Version" contains the "Pre" version. But
       // as "Version" is not Safari here, we better detect this as the Pre-Browser version. So place
       // "Pre" in front of both "Version" and "Safari".
-      "webkit" : "AdobeAIR|Titanium|Fluid|Chrome|Android|Epiphany|Konqueror|iCab|iPad|iPhone|OmniWeb|Maxthon|Pre|PhantomJS|Mobile Safari|Safari",
+      webkit : "AdobeAIR|Titanium|Fluid|Chrome|Android|Epiphany|Konqueror|iCab|iPad|iPhone|OmniWeb|Maxthon|Pre|PhantomJS|Mobile Safari|Safari",
 
       // Better security by keeping Firefox the last one to match
-      "gecko" : "prism|Fennec|Camino|Kmeleon|Galeon|Netscape|SeaMonkey|Namoroka|Firefox",
+      gecko : "prism|Fennec|Camino|Kmeleon|Galeon|Netscape|SeaMonkey|Namoroka|Firefox",
 
       // No idea what other browsers based on IE's engine
-      "mshtml" : "IEMobile|Maxthon|MSIE|Trident",
+      mshtml : "IEMobile|Maxthon|MSIE|Trident",
 
       // Keep "Opera" the last one to correctly prefer/match the mobile clients
-      "opera" : "Opera Mini|Opera Mobi|Opera"
+      opera : "Opera Mini|Opera Mobi|Opera"
     }[qx.bom.client.Engine.getName()]
   },
 

@@ -37,13 +37,12 @@
  *
  * you probably need to change the implementation of your delegate to configure
  * the {@link qx.io.request.Xhr} request.
- * 
+ *
  * This class only needs to be disposed if you want to abort any current I/O
  * request
  *
  */
-qx.Class.define("qx.data.store.Json",
-{
+qx.Class.define("qx.data.store.Json", {
   extend : qx.core.Object,
 
 

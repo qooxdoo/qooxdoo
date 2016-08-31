@@ -26,8 +26,7 @@ Authors:
  * @asset(qx/test/*)
  */
 
-qx.Class.define("qx.test.io.part.ClosurePart",
-{
+qx.Class.define("qx.test.io.part.ClosurePart", {
   extend : qx.dev.unit.TestCase,
   include : qx.test.io.MRemoteTest,
 

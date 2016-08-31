@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.core.SizeHintY",
-{
+qx.Class.define("qx.test.ui.core.SizeHintY", {
   extend : qx.test.ui.core.SizeHint,
 
   members :

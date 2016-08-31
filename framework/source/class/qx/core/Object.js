@@ -31,8 +31,7 @@
  *
  * @require(qx.core.ObjectRegistry)
  */
-qx.Class.define("qx.core.Object",
-{
+qx.Class.define("qx.core.Object", {
   extend : Object,
   include : qx.core.Environment.filter({
     "module.databinding" : qx.data.MBinding,
@@ -260,7 +259,7 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Returns true if the object is being disposed, ie this.dispose() has started but 
+     * Returns true if the object is being disposed, ie this.dispose() has started but
      * not finished
      *
      * @return {Boolean} Whether the object is being disposed
@@ -324,7 +323,7 @@ qx.Class.define("qx.core.Object",
       }
 
       this.$$disposing = false;
-      
+
       // Additional checks
       if (qx.core.Environment.get("qx.debug"))
       {

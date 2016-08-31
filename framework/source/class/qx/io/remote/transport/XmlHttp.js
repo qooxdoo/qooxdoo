@@ -25,8 +25,7 @@
  *
  * This class should not be used directly by client programmers.
  */
-qx.Class.define("qx.io.remote.transport.XmlHttp",
-{
+qx.Class.define("qx.io.remote.transport.XmlHttp", {
   extend : qx.io.remote.transport.Abstract,
   implement: [ qx.core.IDisposable ],
 

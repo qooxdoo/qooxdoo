@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.WidgetCell",
-{
+qx.Class.define("qx.test.ui.virtual.layer.WidgetCell", {
   extend : qx.test.ui.virtual.layer.LayerTestCase,
 
   members :

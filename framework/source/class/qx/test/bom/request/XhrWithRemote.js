@@ -25,8 +25,7 @@
  * @asset(qx/test/xmlhttp/*)
  */
 
-qx.Class.define("qx.test.bom.request.XhrWithRemote",
-{
+qx.Class.define("qx.test.bom.request.XhrWithRemote", {
   extend : qx.dev.unit.TestCase,
 
   include : [qx.test.io.MRemoteTest,

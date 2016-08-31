@@ -27,8 +27,7 @@
  *
  * @require(qx.lang.normalize.Array)
  */
-qx.Bootstrap.define("qx.Mixin",
-{
+qx.Bootstrap.define("qx.Mixin", {
   statics :
   {
     /*

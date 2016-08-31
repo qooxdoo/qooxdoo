@@ -24,8 +24,7 @@
  * @deprecated {6.0} automatic memory management means that most objects are no
  * longer stored in the object registry; this class is no longer useful
  */
-qx.Class.define("qx.dev.ObjectSummary",
-{
+qx.Class.define("qx.dev.ObjectSummary", {
   statics:
   {
     /**

@@ -20,8 +20,7 @@
 /**
  * This widget is used as feedback widget in drag and drop actions.
  */
-qx.Class.define("qx.ui.core.DragDropCursor",
-{
+qx.Class.define("qx.ui.core.DragDropCursor", {
   extend : qx.ui.basic.Image,
   include : qx.ui.core.MPlacement,
   type : "singleton",

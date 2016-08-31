@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCellNaive",
-{
+qx.Class.define("qx.test.ui.virtual.performance.layer.HtmlTableCellNaive", {
   extend : qx.ui.virtual.layer.Abstract,
 
   construct : function(htmlCellProvider)

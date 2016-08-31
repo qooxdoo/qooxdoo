@@ -28,8 +28,7 @@
  * @childControl statusbar {qx.ui.basic.Label} label to show the status of the table
  * @childControl column-button {qx.ui.table.columnmenu.Button} button to open the column menu
  */
-qx.Class.define("qx.ui.table.Table",
-{
+qx.Class.define("qx.ui.table.Table", {
   extend : qx.ui.core.Widget,
   include : qx.ui.core.MDragDropScrolling,
 

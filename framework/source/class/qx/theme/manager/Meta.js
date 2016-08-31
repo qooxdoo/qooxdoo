@@ -20,8 +20,7 @@
 /**
  * Manager for meta themes
  */
-qx.Class.define("qx.theme.manager.Meta",
-{
+qx.Class.define("qx.theme.manager.Meta", {
   type : "singleton",
   extend : qx.core.Object,
 

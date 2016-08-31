@@ -20,8 +20,7 @@
  * @ignore(qx.Model)
  */
 
-qx.Class.define("qx.test.core.Validation",
-{
+qx.Class.define("qx.test.core.Validation", {
   extend : qx.dev.unit.TestCase,
 
 

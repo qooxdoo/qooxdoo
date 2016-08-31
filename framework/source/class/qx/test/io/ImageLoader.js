@@ -23,8 +23,7 @@
  * @asset(qx/test/colorstrip.gif)
  */
 
-qx.Class.define("qx.test.io.ImageLoader",
-{
+qx.Class.define("qx.test.io.ImageLoader", {
   extend : qx.dev.unit.TestCase,
 
   members :

@@ -50,8 +50,7 @@
  *
  * @require(qx.ui.core.ColumnData)
  */
-qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
-{
+qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default", {
   extend : qx.ui.table.columnmodel.resizebehavior.Abstract,
 
 

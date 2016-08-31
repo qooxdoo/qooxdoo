@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.theme.manager.Icon",
-{
+qx.Class.define("qx.test.theme.manager.Icon", {
   extend : qx.dev.unit.TestCase,
 
   members :

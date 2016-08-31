@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.bom.Viewport",
-{
+qx.Class.define("qx.test.bom.Viewport", {
   extend : qx.dev.unit.TestCase,
 
   members :

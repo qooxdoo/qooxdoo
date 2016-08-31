@@ -22,8 +22,7 @@
  * If the user presses the button by tapping on it pressing the enter or
  * space key, the button toggles between the pressed an not pressed states.
  */
-qx.Class.define("qx.ui.form.ToggleButton",
-{
+qx.Class.define("qx.ui.form.ToggleButton", {
   extend : qx.ui.basic.Atom,
   include : [
     qx.ui.core.MExecutable

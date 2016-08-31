@@ -21,8 +21,7 @@
  * @ignore(qx.String)
  */
 
-qx.Class.define("qx.test.type.BaseString",
-{
+qx.Class.define("qx.test.type.BaseString", {
   extend : qx.dev.unit.TestCase,
 
   members :

@@ -25,8 +25,7 @@
  *
  * Also serves as a collection of examples.
  */
-qx.Class.define("qx.test.dev.unit.Sinon",
-{
+qx.Class.define("qx.test.dev.unit.Sinon", {
   extend : qx.dev.unit.TestCase,
 
   include : [qx.dev.unit.MMock,

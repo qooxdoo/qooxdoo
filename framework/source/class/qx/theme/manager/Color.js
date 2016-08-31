@@ -20,8 +20,7 @@
 /**
  * Manager for color themes
  */
-qx.Class.define("qx.theme.manager.Color",
-{
+qx.Class.define("qx.theme.manager.Color", {
   type : "singleton",
   extend : qx.util.ValueManager,
 

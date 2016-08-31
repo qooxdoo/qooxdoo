@@ -27,8 +27,7 @@
  * (see {@link #setUpFakeTransport}).
  *
  */
-qx.Class.define("qx.test.io.request.Jsonp",
-{
+qx.Class.define("qx.test.io.request.Jsonp", {
   extend : qx.dev.unit.TestCase,
 
   include : [qx.test.io.request.MRequest,

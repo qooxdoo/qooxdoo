@@ -81,8 +81,7 @@
  * @ignore(qx.core.ServerSettings.*)
 */
 
-qx.Class.define("qx.io.remote.Rpc",
-{
+qx.Class.define("qx.io.remote.Rpc", {
   extend : qx.core.Object,
 
 

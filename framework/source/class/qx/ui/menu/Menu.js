@@ -27,8 +27,7 @@
  *
  * @childControl slidebar {qx.ui.menu.MenuSlideBar} shows a slidebar to easily navigate inside the menu (if too little space is left)
  */
-qx.Class.define("qx.ui.menu.Menu",
-{
+qx.Class.define("qx.ui.menu.Menu", {
   extend : qx.ui.core.Widget,
 
   include : [

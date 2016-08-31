@@ -19,8 +19,7 @@
 /**
  * Common base class for all focus events.
  */
-qx.Class.define("qx.event.type.Focus",
-{
+qx.Class.define("qx.event.type.Focus", {
   extend : qx.event.type.Event,
 
   members :

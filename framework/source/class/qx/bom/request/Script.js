@@ -54,12 +54,10 @@
  * @group (IO)
  */
 
-qx.Bootstrap.define("qx.bom.request.Script",
-{
+qx.Bootstrap.define("qx.bom.request.Script", {
 	implement: [ qx.core.IDisposable ],
 
-  construct : function()
-  {
+  construct : function() {
     this.__initXhrProperties();
 
     this.__onNativeLoadBound = qx.Bootstrap.bind(this._onNativeLoad, this);

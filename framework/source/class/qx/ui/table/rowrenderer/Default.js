@@ -22,8 +22,7 @@
 /**
  * The default data row renderer.
  */
-qx.Class.define("qx.ui.table.rowrenderer.Default",
-{
+qx.Class.define("qx.ui.table.rowrenderer.Default", {
   extend : qx.core.Object,
   implement : qx.ui.table.IRowRenderer,
 

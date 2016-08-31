@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.LayoutItem",
-{
+qx.Class.define("qx.test.ui.layout.LayoutItem", {
   extend : qx.ui.core.LayoutItem,
 
   construct : function(width, height)

@@ -25,8 +25,7 @@
  * @childControl frame {qx.ui.container.Composite} frame for the content widgets
  * @childControl legend {qx.ui.basic.Atom} legend to show at top of the groupbox
  */
-qx.Class.define("qx.ui.groupbox.GroupBox",
-{
+qx.Class.define("qx.ui.groupbox.GroupBox", {
   extend : qx.ui.core.Widget,
   include : [
     qx.ui.core.MRemoteChildrenHandling,

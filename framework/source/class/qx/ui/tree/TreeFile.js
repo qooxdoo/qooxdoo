@@ -24,8 +24,7 @@
 /**
  * The tree file is a leaf tree item. It cannot contain any nested tree items.
  */
-qx.Class.define("qx.ui.tree.TreeFile",
-{
+qx.Class.define("qx.ui.tree.TreeFile", {
   extend : qx.ui.tree.core.AbstractTreeItem,
 
 

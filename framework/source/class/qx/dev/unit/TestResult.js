@@ -21,8 +21,7 @@
  * The test result class runs the test functions and fires events depending on
  * the result of the test run.
  */
-qx.Class.define("qx.dev.unit.TestResult",
-{
+qx.Class.define("qx.dev.unit.TestResult", {
   extend : qx.core.Object,
 
 

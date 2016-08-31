@@ -24,8 +24,7 @@
  * The WidgetCell layer renders each cell with a qooxdoo widget. The concrete
  * widget instance for each cell is provided by a cell provider.
  */
-qx.Class.define("qx.ui.virtual.layer.WidgetCell",
-{
+qx.Class.define("qx.ui.virtual.layer.WidgetCell", {
   extend : qx.ui.virtual.layer.Abstract,
 
   include : [

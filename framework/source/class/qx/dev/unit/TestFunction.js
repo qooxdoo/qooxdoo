@@ -20,8 +20,7 @@
 /**
  * Wrapper object for a method containing unit test code.
  */
-qx.Class.define("qx.dev.unit.TestFunction",
-{
+qx.Class.define("qx.dev.unit.TestFunction", {
   extend : qx.core.Object,
 
 

@@ -19,8 +19,7 @@
 /**
  * A cell editor factory creating combo boxes.
  */
-qx.Class.define("qx.ui.table.celleditor.ComboBox",
-{
+qx.Class.define("qx.ui.table.celleditor.ComboBox", {
   extend : qx.core.Object,
   implement : qx.ui.table.ICellEditorFactory,
 

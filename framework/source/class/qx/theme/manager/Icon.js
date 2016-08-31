@@ -20,8 +20,7 @@
 /**
  * Manager for icon themes
  */
-qx.Class.define("qx.theme.manager.Icon",
-{
+qx.Class.define("qx.theme.manager.Icon", {
   type : "singleton",
   extend : qx.core.Object,
 

@@ -24,8 +24,7 @@
  * Includes support for image clipping, PNG alpha channel support, additional
  * repeat options like <code>scale-x</code> or <code>scale-y</code>.
  */
-qx.Class.define("qx.bom.element.Decoration",
-{
+qx.Class.define("qx.bom.element.Decoration", {
   /*
   *****************************************************************************
      STATICS

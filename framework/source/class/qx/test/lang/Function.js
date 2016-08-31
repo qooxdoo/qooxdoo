@@ -20,8 +20,7 @@
  * @ignore(qx.test.Name.*)
  */
 
-qx.Class.define("qx.test.lang.Function",
-{
+qx.Class.define("qx.test.lang.Function", {
   extend : qx.dev.unit.TestCase,
 
   members :

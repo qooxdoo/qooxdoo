@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.Form",
-{
+qx.Class.define("qx.test.ui.form.Form", {
   extend : qx.test.ui.LayoutTestCase,
   include : qx.dev.unit.MMock,
 

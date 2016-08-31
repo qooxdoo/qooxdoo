@@ -22,8 +22,7 @@
  * the interface of this class is based on the pointer event interface:
  * http://www.w3.org/TR/pointerevents/
  */
-qx.Class.define("qx.event.type.Pointer",
-{
+qx.Class.define("qx.event.type.Pointer", {
   extend : qx.event.type.Mouse,
 
 

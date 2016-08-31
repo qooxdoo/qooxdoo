@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.locale.LocalizedString",
-{
+qx.Class.define("qx.test.locale.LocalizedString", {
   extend : qx.dev.unit.TestCase,
   include : [qx.locale.MTranslation, qx.dev.unit.MRequirements],
 

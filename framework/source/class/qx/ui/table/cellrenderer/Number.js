@@ -19,8 +19,7 @@
 /**
  * Specific data cell renderer for numbers.
  */
-qx.Class.define("qx.ui.table.cellrenderer.Number",
-{
+qx.Class.define("qx.ui.table.cellrenderer.Number", {
   extend : qx.ui.table.cellrenderer.Conditional,
 
 

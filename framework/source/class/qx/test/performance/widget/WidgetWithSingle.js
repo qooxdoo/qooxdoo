@@ -1,5 +1,4 @@
-qx.Class.define("qx.test.performance.widget.WidgetWithSingle",
-{
+qx.Class.define("qx.test.performance.widget.WidgetWithSingle", {
   extend : qx.test.performance.widget.AbstractWidget,
 
   members :

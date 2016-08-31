@@ -23,8 +23,7 @@
  */
 
 
-qx.Class.define("qx.test.Mixin",
-{
+qx.Class.define("qx.test.Mixin", {
   extend : qx.dev.unit.TestCase,
 
   members :

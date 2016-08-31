@@ -15,8 +15,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.SplitButton",
-{
+qx.Class.define("qx.test.ui.form.SplitButton", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

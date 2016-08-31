@@ -26,8 +26,7 @@
  * @childControl arrow {qx.ui.basic.Image} Shows the arrow to open the drop-down
  *   list.
  */
-qx.Class.define("qx.ui.form.VirtualSelectBox",
-{
+qx.Class.define("qx.ui.form.VirtualSelectBox", {
   extend : qx.ui.form.core.AbstractVirtualBox,
   implement : qx.data.controller.ISelection,
 

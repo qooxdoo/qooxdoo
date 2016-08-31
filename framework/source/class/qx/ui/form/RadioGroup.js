@@ -31,8 +31,7 @@
  * you like to act with a widget instead of a pure logic coupling of the
  * widgets, take a look at the {@link qx.ui.form.RadioButtonGroup} widget.
  */
-qx.Class.define("qx.ui.form.RadioGroup",
-{
+qx.Class.define("qx.ui.form.RadioGroup", {
   extend : qx.core.Object,
   implement : [
     qx.ui.core.ISingleSelection,

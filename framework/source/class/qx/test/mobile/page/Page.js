@@ -17,8 +17,7 @@
 ************************************************************************ */
 
 
-qx.Class.define("qx.test.mobile.page.Page",
-{
+qx.Class.define("qx.test.mobile.page.Page", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

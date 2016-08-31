@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.BooleanFormat",
-{
+qx.Class.define("qx.test.ui.form.BooleanFormat", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

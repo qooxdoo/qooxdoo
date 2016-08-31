@@ -24,8 +24,7 @@
  *
  * @childControl atom {qx.ui.basic.Atom} atom widget which represents the content of the tooltip
  */
-qx.Class.define("qx.ui.tooltip.ToolTip",
-{
+qx.Class.define("qx.ui.tooltip.ToolTip", {
   extend : qx.ui.popup.Popup,
 
 

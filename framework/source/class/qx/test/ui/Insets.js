@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.Insets",
-{
+qx.Class.define("qx.test.ui.Insets", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

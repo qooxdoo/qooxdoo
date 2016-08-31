@@ -15,8 +15,7 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.ComboBox",
-{
+qx.Class.define("qx.test.ui.form.ComboBox", {
   extend : qx.test.ui.LayoutTestCase,
 
   include : qx.dev.unit.MMock,

@@ -20,8 +20,7 @@
  *
  * @ignore(qx.test.MultiBinding)
  */
-qx.Class.define("qx.test.data.singlevalue.Deep",
-{
+qx.Class.define("qx.test.data.singlevalue.Deep", {
   extend : qx.dev.unit.TestCase,
   include : [qx.dev.unit.MMock],
 

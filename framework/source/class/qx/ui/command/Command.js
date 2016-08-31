@@ -25,8 +25,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  */
-qx.Class.define("qx.ui.command.Command",
-{
+qx.Class.define("qx.ui.command.Command", {
   extend : qx.core.Object,
 
 

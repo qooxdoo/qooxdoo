@@ -21,8 +21,7 @@
  *
  * @childControl arrow {qx.ui.basic.Image} arrow widget to show a submenu is available
  */
-qx.Class.define("qx.ui.toolbar.MenuButton",
-{
+qx.Class.define("qx.ui.toolbar.MenuButton", {
   extend : qx.ui.menubar.Button,
 
 

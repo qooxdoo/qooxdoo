@@ -15,8 +15,7 @@
      * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.core.Queues",
-{
+qx.Class.define("qx.test.ui.core.Queues", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMock,
 

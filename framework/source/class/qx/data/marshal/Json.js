@@ -22,8 +22,7 @@
  * To retrieve the native data of created models use the methods
  *   described in {@link qx.util.Serializer}.
  */
-qx.Class.define("qx.data.marshal.Json",
-{
+qx.Class.define("qx.data.marshal.Json", {
   extend : qx.core.Object,
   implement : [qx.data.marshal.IMarshaler],
 

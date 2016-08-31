@@ -20,8 +20,7 @@
  * This is a simple image class using the low level image features of
  * qooxdoo and wraps it for the qx.html layer.
  */
-qx.Class.define("qx.html.Image",
-{
+qx.Class.define("qx.html.Image", {
   extend : qx.html.Element,
 
 

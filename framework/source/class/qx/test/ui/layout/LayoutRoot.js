@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.layout.LayoutRoot",
-{
+qx.Class.define("qx.test.ui.layout.LayoutRoot", {
   extend : qx.test.ui.layout.LayoutItem,
 
   construct : function()

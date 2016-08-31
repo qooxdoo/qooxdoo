@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.embed.Html",
-{
+qx.Class.define("qx.test.mobile.embed.Html", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

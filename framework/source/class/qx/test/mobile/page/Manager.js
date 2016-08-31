@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.page.Manager",
-{
+qx.Class.define("qx.test.mobile.page.Manager", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

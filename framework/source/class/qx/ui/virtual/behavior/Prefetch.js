@@ -24,8 +24,7 @@
  *
  * EXPERIMENTAL!
  */
-qx.Class.define("qx.ui.virtual.behavior.Prefetch",
-{
+qx.Class.define("qx.ui.virtual.behavior.Prefetch", {
   extend : qx.core.Object,
 
 

@@ -24,8 +24,7 @@
  *
  * @internal
  */
-qx.Bootstrap.define("qx.bom.client.EcmaScript",
-{
+qx.Bootstrap.define("qx.bom.client.EcmaScript", {
   statics :
   {
     /**

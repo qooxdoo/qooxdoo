@@ -15,8 +15,7 @@
      * Alexander Steitz (aback)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.AbstractVirtualBox",
-{
+qx.Class.define("qx.test.ui.form.AbstractVirtualBox", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

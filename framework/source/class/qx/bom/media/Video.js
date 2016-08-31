@@ -21,11 +21,10 @@
  * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * Media object for playing videos.
- * 
+ *
  * NOTE: Instances of this class must be disposed of to free resources
  */
-qx.Class.define("qx.bom.media.Video",
-{
+qx.Class.define("qx.bom.media.Video", {
   extend : qx.bom.media.Abstract,
 
   /**

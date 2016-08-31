@@ -23,8 +23,7 @@
  * @use(qx.event.dispatch.Direct)
  * @use(qx.event.handler.Object)
  */
-qx.Mixin.define("qx.core.MEvent",
-{
+qx.Mixin.define("qx.core.MEvent", {
   members :
   {
     /** @type {Class} Pointer to the regular event registration class */

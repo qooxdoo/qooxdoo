@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.form.SelectBox",
-{
+qx.Class.define("qx.test.mobile.form.SelectBox", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

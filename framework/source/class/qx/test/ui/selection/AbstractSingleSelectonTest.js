@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest",
-{
+qx.Class.define("qx.test.ui.selection.AbstractSingleSelectonTest", {
   extend : qx.test.ui.LayoutTestCase,
   type : "abstract",
 

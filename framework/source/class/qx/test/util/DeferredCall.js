@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.util.DeferredCall",
-{
+qx.Class.define("qx.test.util.DeferredCall", {
   extend : qx.dev.unit.TestCase,
 
   members :

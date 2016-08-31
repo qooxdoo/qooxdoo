@@ -62,8 +62,7 @@
  * }, this);
  * </pre>
  */
-qx.Class.define("qx.ui.tree.VirtualTree",
-{
+qx.Class.define("qx.ui.tree.VirtualTree", {
   extend : qx.ui.virtual.core.Scroller,
   implement : [qx.ui.tree.core.IVirtualTree, qx.data.controller.ISelection],
   include : [

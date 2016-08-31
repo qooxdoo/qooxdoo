@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.MobileTestCase",
-{
+qx.Class.define("qx.test.mobile.MobileTestCase", {
   extend : qx.dev.unit.TestCase,
   include : [qx.dev.unit.MRequirements],
 

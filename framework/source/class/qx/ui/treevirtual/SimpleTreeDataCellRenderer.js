@@ -36,8 +36,7 @@
  * must be provided, via the 'custom' parameter, to the TreeVirtual
  * constructor.
  */
-qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
-{
+qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer", {
   extend : qx.ui.table.cellrenderer.Abstract,
 
 

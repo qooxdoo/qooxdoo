@@ -20,8 +20,7 @@
 /**
  * Create a new state which may be added to a finite state machine.
  */
-qx.Class.define("qx.util.fsm.State",
-{
+qx.Class.define("qx.util.fsm.State", {
   extend : qx.core.Object,
 
   /**

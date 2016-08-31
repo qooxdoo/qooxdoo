@@ -20,8 +20,7 @@
 /**
  * State of rendering by Progressive.
  */
-qx.Class.define("qx.ui.progressive.State",
-{
+qx.Class.define("qx.ui.progressive.State", {
   extend     : qx.core.Object,
 
 

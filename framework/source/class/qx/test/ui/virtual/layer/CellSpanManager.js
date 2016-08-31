@@ -17,8 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager",
-{
+qx.Class.define("qx.test.ui.virtual.layer.CellSpanManager", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

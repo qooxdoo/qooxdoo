@@ -21,8 +21,7 @@
  * An abstract table model that performs the column handling, so subclasses only
  * need to care for row handling.
  */
-qx.Class.define("qx.ui.table.model.Abstract",
-{
+qx.Class.define("qx.ui.table.model.Abstract", {
   type : "abstract",
   extend : qx.core.Object,
   implement : qx.ui.table.ITableModel,

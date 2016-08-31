@@ -87,8 +87,7 @@
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/layout/dock.html'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo manual.
  */
-qx.Class.define("qx.ui.layout.Dock",
-{
+qx.Class.define("qx.ui.layout.Dock", {
   extend : qx.ui.layout.Abstract,
 
 

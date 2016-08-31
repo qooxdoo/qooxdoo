@@ -24,8 +24,7 @@ Authors:
  * @asset(qx/test/*)
  */
 
-qx.Class.define("qx.test.io.remote.AbstractRequest",
-{
+qx.Class.define("qx.test.io.remote.AbstractRequest", {
   type : "abstract",
   extend : qx.dev.unit.TestCase,
   include : qx.test.io.MRemoteTest,

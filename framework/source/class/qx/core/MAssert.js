@@ -24,8 +24,7 @@
  *
  * @require(qx.core.Assert)
  */
-qx.Mixin.define("qx.core.MAssert",
-{
+qx.Mixin.define("qx.core.MAssert", {
   members :
   {
   /**

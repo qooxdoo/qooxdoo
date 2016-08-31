@@ -38,8 +38,7 @@
  * @ignore(qx.ui.menu.Manager.*)
  * @ignore(qx.ui)
  */
-qx.Class.define("qx.ui.root.Application",
-{
+qx.Class.define("qx.ui.root.Application", {
   extend : qx.ui.root.Abstract,
 
 

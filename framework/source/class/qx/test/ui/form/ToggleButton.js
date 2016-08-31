@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.ui.form.ToggleButton",
-{
+qx.Class.define("qx.test.ui.form.ToggleButton", {
   extend : qx.test.ui.LayoutTestCase,
 
   members :

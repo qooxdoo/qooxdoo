@@ -24,8 +24,7 @@
  * this class and implement the methods {@link #invalidateLayoutCache},
  * {@link #renderLayout} and {@link #getSizeHint}.
  */
-qx.Class.define("qx.ui.layout.Abstract",
-{
+qx.Class.define("qx.ui.layout.Abstract", {
   type : "abstract",
   extend : qx.core.Object,
 

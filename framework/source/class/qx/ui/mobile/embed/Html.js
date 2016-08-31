@@ -30,8 +30,7 @@
  * </pre>
  *
  */
-qx.Class.define("qx.ui.mobile.embed.Html",
-{
+qx.Class.define("qx.ui.mobile.embed.Html", {
   extend : qx.ui.mobile.core.Widget,
 
 

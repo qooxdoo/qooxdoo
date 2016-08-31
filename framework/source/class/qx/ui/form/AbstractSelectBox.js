@@ -26,8 +26,7 @@
  * @childControl popup {qx.ui.popup.Popup} popup which shows the list
  *
  */
-qx.Class.define("qx.ui.form.AbstractSelectBox",
-{
+qx.Class.define("qx.ui.form.AbstractSelectBox", {
   extend  : qx.ui.core.Widget,
   include : [
     qx.ui.core.MRemoteChildrenHandling,

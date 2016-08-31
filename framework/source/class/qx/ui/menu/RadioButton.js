@@ -22,8 +22,7 @@
  * a normal {@link qx.ui.form.RadioButton} and shows a radio icon when
  * checked; normally shows no icon when not checked (depends on the theme).
  */
-qx.Class.define("qx.ui.menu.RadioButton",
-{
+qx.Class.define("qx.ui.menu.RadioButton", {
   extend : qx.ui.menu.AbstractButton,
   include : [qx.ui.form.MModelProperty],
   implement : [qx.ui.form.IRadioItem, qx.ui.form.IBooleanForm, qx.ui.form.IModel],

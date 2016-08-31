@@ -16,8 +16,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.test.mobile.container.Scroll",
-{
+qx.Class.define("qx.test.mobile.container.Scroll", {
   extend : qx.test.mobile.MobileTestCase,
 
   members :

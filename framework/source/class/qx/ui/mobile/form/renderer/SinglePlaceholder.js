@@ -21,8 +21,7 @@
  * It presents a label into the placeholder of the form elements
  *
  */
-qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder",
-{
+qx.Class.define("qx.ui.mobile.form.renderer.SinglePlaceholder", {
 
   extend : qx.ui.mobile.form.renderer.Single,
 

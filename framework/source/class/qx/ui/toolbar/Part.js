@@ -28,8 +28,7 @@
  * @childControl handle {qx.ui.basic.Image} prat handle to visualize the separation
  * @childControl container {qx.ui.toolbar.PartContainer} holds the content of the toolbar part
  */
-qx.Class.define("qx.ui.toolbar.Part",
-{
+qx.Class.define("qx.ui.toolbar.Part", {
   extend : qx.ui.core.Widget,
   include : [qx.ui.core.MRemoteChildrenHandling],
 

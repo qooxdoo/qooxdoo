@@ -15,8 +15,7 @@
      * Martin Wittemann (wittemann)
 
 ************************************************************************ */
-qx.Class.define("qx.test.bom.element.AnimationJs",
-{
+qx.Class.define("qx.test.bom.element.AnimationJs", {
   extend : qx.dev.unit.TestCase,
   include : qx.dev.unit.MMock,
 

@@ -23,8 +23,7 @@
  * set some additional information on your renderer before adding the widgets,
  * be sure to do that before calling this.base(arguments, form).
  */
-qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
-{
+qx.Class.define("qx.ui.form.renderer.AbstractRenderer", {
   type : "abstract",
   extend : qx.ui.core.Widget,
   implement : qx.ui.form.renderer.IFormRenderer,

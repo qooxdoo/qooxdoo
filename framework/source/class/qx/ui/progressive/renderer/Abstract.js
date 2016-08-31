@@ -20,8 +20,7 @@
 /**
  * Abstract renderer for Progressive.
  */
-qx.Class.define("qx.ui.progressive.renderer.Abstract",
-{
+qx.Class.define("qx.ui.progressive.renderer.Abstract", {
   type       : "abstract",
   extend     : qx.core.Object,
 

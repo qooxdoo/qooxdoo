@@ -15,8 +15,7 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.form.virtual.VirtualSelectBox",
-{
+qx.Class.define("qx.test.ui.form.virtual.VirtualSelectBox", {
   extend : qx.test.ui.LayoutTestCase,
 
 

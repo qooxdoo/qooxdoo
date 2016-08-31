@@ -41,8 +41,7 @@
  * </pre>
  *
  */
-qx.Class.define("qx.ui.mobile.control.Picker",
-{
+qx.Class.define("qx.ui.mobile.control.Picker", {
   extend : qx.ui.mobile.container.Composite,
 
 

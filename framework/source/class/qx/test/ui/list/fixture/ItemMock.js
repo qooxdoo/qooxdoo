@@ -15,8 +15,7 @@
      * Christian Hagendorn (chris_schmidt)
 
 ************************************************************************ */
-qx.Class.define("qx.test.ui.list.fixture.ItemMock",
-{
+qx.Class.define("qx.test.ui.list.fixture.ItemMock", {
   extend : qx.core.Object,
 
   properties :

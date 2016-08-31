@@ -24,8 +24,7 @@
  * added {@link qx.ui.form.ListItem} instances. Supports various
  * selection options: single, multi, ...
  */
-qx.Class.define("qx.ui.form.List",
-{
+qx.Class.define("qx.ui.form.List", {
   extend : qx.ui.core.scroll.AbstractScrollArea,
   implement : [
     qx.ui.core.IMultiSelection,

@@ -20,8 +20,7 @@
 /**
  * A simple table model that provides an API for changing the model data.
  */
-qx.Class.define("qx.ui.table.model.Simple",
-{
+qx.Class.define("qx.ui.table.model.Simple", {
   extend : qx.ui.table.model.Abstract,
 
 

@@ -19,8 +19,7 @@
 /**
  * Container for menubar buttons to display a classic application menu.
  */
-qx.Class.define("qx.ui.menubar.MenuBar",
-{
+qx.Class.define("qx.ui.menubar.MenuBar", {
   extend : qx.ui.toolbar.ToolBar,
 
 
