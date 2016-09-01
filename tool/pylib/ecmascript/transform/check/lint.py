@@ -88,7 +88,6 @@ class LintChecker(treeutil.NodeVisitor):
             self.visit(cld)
 
     def visit_function(self, node):
-        #print "visiting", node.type
         if not self.opts.ignore_undefined_globals:
             self.unknown_globals(node.scope)
         if not self.opts.ignore_shadowing_locals:
@@ -98,6 +97,9 @@ class LintChecker(treeutil.NodeVisitor):
             self.function_used_deprecated(node)
         if not self.opts.ignore_multiple_vardecls:
             self.function_multiple_var_decls(node)
+
+        self.function_params(node)
+
         # recurse
         for cld in node.children:
             self.visit(cld)
@@ -111,6 +113,13 @@ class LintChecker(treeutil.NodeVisitor):
 
 
     # - ---------------------------------------------------------------------------
+
+    def function_params(self, funcnode):
+        params = funcnode.getChild("params")
+        for param in params.children:
+            if param.type == "constant":
+                issue = warn("Constant as parameter name in function declaration", self.file_name, funcnode)
+                self.issues.append(issue)
 
     def function_used_deprecated(self, funcnode):
         # take advantage of Scope() objects

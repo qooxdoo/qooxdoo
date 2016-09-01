@@ -309,6 +309,8 @@
 
     "lint-test" :
     {
+      "extend" : [ "lint" ],
+      "=exclude": [],
       "include": ["=qx.test.*"]
     },
 
