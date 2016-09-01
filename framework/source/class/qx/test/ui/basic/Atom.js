@@ -48,7 +48,7 @@ qx.Class.define("qx.test.ui.basic.Atom",
     },
 
     testSelectableSet : function() {
-      var a = new qx.ui.basic.Atom();
+      var a = new qx.ui.basic.Atom('test');
       a.setSelectable(true);
       this.getRoot().add(a);
       this.flush();
