@@ -41,6 +41,16 @@
     "karma-coverage": "^0.5.5",
     "karma-coveralls": "^1.1.2",
     "karma-firefox-launcher": "^0.1.7",
-    "karma-qooxdoo": "^0.4.6"
+    "karma-qooxdoo": "^0.4.6",
+    "eslint-config-qx": "^0.0.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "qx/safety"
+    ]
+  },
+  "scripts": {
+    "eslint": "eslint --cache",
+    "eslint-light": "eslint --cache --ignore-path .eslintbigfiles"
   }
 }

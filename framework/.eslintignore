@@ -1,0 +1,7 @@
+node_modules/
+source/resource/
+Gruntfile.js
+
+# karma
+karma-coverage.conf.js
+karma.conf.js

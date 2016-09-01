@@ -8,3 +8,6 @@
 /test-mobile/
 /test-travis/
 /source/script/
+
+# Cache for the eslint linter
+.eslintcache
