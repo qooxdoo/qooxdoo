@@ -160,6 +160,28 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
       }, 2000);
 
       this.wait(3000);
+    },
+
+    "test: load webfont whith custom version" : function()
+    {
+      qx.bom.webfonts.Manager.VALIDATION_TIMEOUT = 100;
+      var font = new qx.bom.webfonts.WebFont();
+      font.set({
+        family: ["monospace"],
+        version : "1.0",
+        sources: [this.__fontDefinitions.finelinerScript]
+      });
+
+      var that = this;
+      window.setTimeout(function() {
+        that.resume(function() {
+          var foundRule = this.__findRule(this.__fontDefinitions.finelinerScript.source[0] + "\\?1\\.0");
+          this.assertTrue(foundRule, "@font-face rule for custom version not found in document styles!");
+        }, that);
+
+      }, 2000);
+
+      this.wait(3000);
     }
   }
 });
