@@ -189,6 +189,23 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
+     * Checks if 'parse' is supported on the Date object and whether it
+     * supports ISO-8601 parsing. Additionally it checks if 'parse' takes
+     * ISO-8601 date strings without timezone specifier and treats them as
+     * local (as per specification)
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method supports ISO-8601
+     *   dates.
+     */
+    getDateParse : function ()
+    {
+      return typeof Date.parse === "function"     // Date.parse() is present...
+         && (Date.parse("2001-02-03T04:05:06.007") != // ...and it treats local
+             Date.parse("2001-02-03T04:05:06.007Z")); // dates as expected
+    },
+
+
+    /**
      * Checks if 'startsWith' is supported on the String object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
@@ -233,6 +250,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // date polyfill
     qx.core.Environment.add("ecmascript.date.now", statics.getDateNow);
+    qx.core.Environment.add("ecmascript.date.parse", statics.getDateParse);
 
     // error bugfix
     qx.core.Environment.add("ecmascript.error.toString", statics.getErrorToString);

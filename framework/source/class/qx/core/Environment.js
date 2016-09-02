@@ -279,6 +279,10 @@
  *       <td>{@link qx.bom.client.EcmaScript#getDateNow}</td>
  *     </tr>
  *     <tr>
+ *       <td>ecmascript.date.parse<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getDateParse}</td>
+ *     </tr>
+ *     <tr>
  *       <td>ecmascript.error.toString</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getErrorToString}</td>
  *     </tr>
