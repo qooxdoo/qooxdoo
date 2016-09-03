@@ -22,11 +22,6 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
 
   members :
   {
-    __names : ["Luise Siemer", "Trauhard Franke", "Sarina Wilde", "Florine Bähr",
-       "Sigurd Adolph", "Sigmund Kurz", "Pankratius Hill", "Gerlinda Seel",
-       "Trixi Clauß", "Cecilia Hemmer", "Rosely Fröhlich", "Annemargret Hunger",
-       "Dietgar Münster", "Bertwin Joseph", "Edwina Schwarz", "Riana Dirks"],
-
     __groups : null,
 
     createModelData : function() {
@@ -34,8 +29,15 @@ qx.Class.define("qx.test.ui.list.ObjectGroup",
       model.setAutoDisposeItems(true);
       var groups = this.__groups = {};
 
-      for (var i = 0; i < this.__names.length; i++) {
-        var name = this.__names[i];
+      var names = [
+        "Luise Siemer", "Trauhard Franke", "Sarina Wilde", "Florine Bähr",
+        "Sigurd Adolph", "Sigmund Kurz", "Pankratius Hill", "Gerlinda Seel",
+        "Trixi Clauß", "Cecilia Hemmer", "Rosely Fröhlich", "Annemargret Hunger",
+        "Dietgar Münster", "Bertwin Joseph", "Edwina Schwarz", "Riana Dirks"
+      ];
+
+      for (var i = 0; i < names.length; i++) {
+        var name = names[i];
         var groupName = name.charAt(0);
         var group = groups[groupName];
 

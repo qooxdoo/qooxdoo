@@ -25,6 +25,8 @@ qx.Class.define("qx.test.bom.Font",
 
   members :
   {
+    __font : null,
+
     hasNoIe : function()
     {
       return qx.core.Environment.get("engine.name") !== "mshtml";
@@ -32,7 +34,7 @@ qx.Class.define("qx.test.bom.Font",
 
 
     setUp : function() {
-      this.__font = new qx.bom.Font;
+      this.__font = new qx.bom.Font();
     },
 
 
@@ -177,8 +179,6 @@ qx.Class.define("qx.test.bom.Font",
 
       // we expect a map with only 'fontFamily' set, otherwise the null values
       // which are returned are overwriting styles. Only return styles which are set.
-      var keys = Object.keys(styles);
-
       this.assertMap(styles, "Method 'getStyles' should return a map!");
       this.assertEquals(8, qx.lang.Object.getLength(styles), "Map should contain 8 key!");
       this.assertNotUndefined(styles.fontFamily, "Key 'fontFamily' has to be present!");

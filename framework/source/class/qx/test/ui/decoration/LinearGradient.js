@@ -22,6 +22,9 @@ qx.Class.define("qx.test.ui.decoration.LinearGradient",
 
   members :
   {
+    __w : null,
+    __dec : null,
+
     setUp : function() {
       this.__w = new qx.ui.core.Widget();
       this.__w.setHeight(100);

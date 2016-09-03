@@ -294,7 +294,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var newWidget2Bindungs = widget2.getBindings().length;
       var newModelBindungs = this.getLookupTable().getBindings().length;
       this.assertEquals(oldWidget1Bindungs, newWidget1Bindungs, "Binding on first widget is not removed!");
-      this.assertEquals(oldWidget1Bindungs, newWidget1Bindungs, "Binding on second widget is not removed!");
+      this.assertEquals(oldWidget2Bindungs, newWidget2Bindungs, "Binding on second widget is not removed!");
       this.assertEquals(oldModelBindungs, newModelBindungs, "Binding on model is not removed!");
 
       widget1.dispose();

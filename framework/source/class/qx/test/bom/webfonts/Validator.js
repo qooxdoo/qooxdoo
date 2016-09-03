@@ -21,6 +21,9 @@ qx.Class.define("qx.test.bom.webfonts.Validator", {
 
   members :
   {
+    __val : null,
+    __nodesBefore : null,
+
     setUp : function()
     {
       this.__nodesBefore = document.body.childNodes.length;

@@ -44,7 +44,6 @@ qx.Class.define("qx.test.dev.Debug",
       this.assertArray(undisposed);
       this.assertEquals(1, undisposed.length);
       this.assertEquals(o, undisposed[0].object);
-      var stackOk = false;
       this.assertMatch(undisposed[0].stackTrace.join(" "), this.classname);
 
       n.dispose();

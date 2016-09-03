@@ -57,7 +57,6 @@ qx.Class.define("qx.test.lang.Json",
     {
       var obj = [new Date(0), "foo"];
 
-      var self = this;
       var replacer = function(key, value) {
         return this[key] instanceof Date ? 'Date(' + this[key].getTime() + ')' : value;
       };
@@ -168,14 +167,14 @@ qx.Class.define("qx.test.lang.Json",
       obj.foo = obj;
 
       this.assertException(function() {
-        var text = this.JSON.stringify(obj);
+        this.JSON.stringify(obj);
       });
 
       obj = [];
       obj[0] = obj;
 
       this.assertException(function() {
-        var text = this.JSON.stringify(obj);
+        this.JSON.stringify(obj);
       });
     },
 

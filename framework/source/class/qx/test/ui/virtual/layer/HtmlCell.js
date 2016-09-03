@@ -23,6 +23,8 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
 
   members :
   {
+    __cellRenderer : null,
+
     tearDown : function() {
       this.base(arguments);
       this.__cellRenderer.dispose();
@@ -39,7 +41,7 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
       return this.__cellRenderer.getCellProperties(row + " / " + column, {});
     },
 
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount)
     {
       var children = this.layer.getContentElement().getDomElement().childNodes;
 
@@ -52,7 +54,7 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCell",
           var row = firstRow + y;
           var column = firstColumn + x;
 
-          var cellEl = children[y*columnCount + x];
+          var cellEl = children[(y * columnCount) + x];
           this.assertEquals(row + " / " + column, cellEl.innerHTML);
         }
       }

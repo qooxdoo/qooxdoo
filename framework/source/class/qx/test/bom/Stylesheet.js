@@ -29,6 +29,8 @@ qx.Class.define("qx.test.bom.Stylesheet",
 
   members :
   {
+    __sheet : null,
+
     tearDown : function()
     {
       if (this.__sheet) {
@@ -48,7 +50,6 @@ qx.Class.define("qx.test.bom.Stylesheet",
       var uri = qx.util.ResourceManager.getInstance().toUri("qx/test/style.css");
       qx.bom.Stylesheet.addImport(sheet, uri);
       if (sheet.cssRules) {
-        var rules = sheet.cssRules || sheet.rules;
         this.assertEquals(1, sheet.cssRules.length);
         this.assertNotUndefined(sheet.cssRules[0].href);
       }
@@ -113,7 +114,6 @@ qx.Class.define("qx.test.bom.Stylesheet",
       qx.bom.Stylesheet.addImport(sheet, uri);
       qx.bom.Stylesheet.removeAllImports(sheet);
       if (sheet.cssRules) {
-        var rules = sheet.cssRules || sheet.rules;
         this.assertEquals(0, sheet.cssRules.length);
       }
       else if (typeof sheet.cssText == "string") {
@@ -142,7 +142,6 @@ qx.Class.define("qx.test.bom.Stylesheet",
 
       qx.bom.Stylesheet.removeImport(sheet, uri);
       if (sheet.cssRules) {
-        var rules = sheet.cssRules || sheet.rules;
         this.assertEquals(0, sheet.cssRules.length);
       }
       else if (typeof sheet.cssText == "string") {

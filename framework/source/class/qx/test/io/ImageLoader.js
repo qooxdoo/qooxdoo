@@ -29,6 +29,12 @@ qx.Class.define("qx.test.io.ImageLoader",
 
   members :
   {
+    __imageUri : null,
+    __wrongImageUri : null,
+    __vectorImageUri : null,
+    __wrongVectorImageUri : null,
+    __imageSource : null,
+
     setUp : function()
     {
       this.__imageUri = qx.util.ResourceManager.getInstance().toUri("qx/test/colorstrip.gif");
@@ -47,11 +53,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testLoadImageSuccess : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           this.assertTrue(qx.io.ImageLoader.isLoaded(this.__imageSource));
@@ -65,11 +71,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testLoadVectorImageSuccess : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__vectorImageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__vectorImageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           this.assertTrue(qx.io.ImageLoader.isLoaded(this.__imageSource));
@@ -83,11 +89,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testLoadImageFailure : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__wrongImageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__wrongImageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           this.assertTrue(qx.io.ImageLoader.isFailed(this.__imageSource));
@@ -100,11 +106,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testLoadVectorImageFailure : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__wrongVectorImageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__wrongVectorImageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           this.assertTrue(qx.io.ImageLoader.isFailed(this.__imageSource));
@@ -117,11 +123,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testImageWidth : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           this.assertEquals(192, qx.io.ImageLoader.getWidth(this.__imageSource));
@@ -134,11 +140,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testVectorImageWidth : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__vectorImageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__vectorImageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           this.assertEquals(192, qx.io.ImageLoader.getWidth(this.__imageSource));
@@ -151,11 +157,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testImageHeight : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           this.assertEquals(10, qx.io.ImageLoader.getHeight(this.__imageSource));
@@ -168,11 +174,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testVectorImageHeight : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__vectorImageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__vectorImageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           this.assertEquals(10, qx.io.ImageLoader.getHeight(this.__imageSource));
@@ -185,11 +191,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testImageSize : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           var size = qx.io.ImageLoader.getSize(this.__imageSource);
@@ -204,11 +210,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testVectorImageSize : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__vectorImageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__vectorImageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           var size = qx.io.ImageLoader.getSize(this.__imageSource);
@@ -223,11 +229,11 @@ qx.Class.define("qx.test.io.ImageLoader",
     testImageFormat : function()
     {
       this.__imageSource = null;
-      qx.io.ImageLoader.load(this.__imageUri, function(source, entry) {
+      qx.io.ImageLoader.load(this.__imageUri, function(source) {
         this.__imageSource = source;
       }, this);
 
-      qx.event.Timer.once(function(e) {
+      qx.event.Timer.once(function() {
         var self = this;
         this.resume(function() {
           this.assertEquals("gif", qx.io.ImageLoader.getFormat(this.__imageSource));

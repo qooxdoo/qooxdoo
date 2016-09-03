@@ -33,6 +33,7 @@ qx.Class.define("qx.test.io.part.Part",
   members :
   {
     __loader : null,
+    __dummyLoader : null,
 
     setUp : function()
     {

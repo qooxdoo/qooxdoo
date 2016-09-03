@@ -23,6 +23,11 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
 
   members :
   {
+    __pool : null,
+    __columnConfig : null,
+    __rowConfig : null,
+    __cellRenderer : null,
+
     setUp : function()
     {
       this._pool = [];
@@ -67,7 +72,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
     },
 
 
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount)
     {
       var children = this.layer._cellLayer._getChildren();
 
@@ -80,7 +85,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
           var row = firstRow + y;
           var column = firstColumn + x;
 
-          var widget = children[y*columnCount + x];
+          var widget = children[(y * columnCount) + x];
           this.assertEquals(row, widget.getUserData("cell.row"));
           this.assertEquals(column, widget.getUserData("cell.column"));
         }
@@ -105,7 +110,7 @@ qx.Class.define("qx.test.ui.virtual.layer.WidgetCellSpan",
             return row == 1 && column == 2 ? null : widget;
           },
 
-          poolCellWidget : function(widget) {
+          poolCellWidget : function() {
           }
         },
         rowConfig, columnConfig

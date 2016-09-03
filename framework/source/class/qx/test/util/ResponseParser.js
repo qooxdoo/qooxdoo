@@ -65,7 +65,6 @@ qx.Class.define("qx.test.util.ResponseParser",
     },
 
     "test: getParser() detects deprecated xml": function() {
-      var xml = qx.util.ResponseParser.PARSER.xml;
       this.__assertParser("text/xml");
     },
 

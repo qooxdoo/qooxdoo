@@ -234,15 +234,16 @@ qx.Class.define("qx.test.Mixin",
       {
         members :
         {
+          _b: null,
+
           sayJuhu : function() { return this.base(arguments) + " Kinners";},
 
-          /** @lint ignoreUndeclaredPrivates(__b) */
           foo : function(dontRecurs)
           {
             var s = "";
             if (!dontRecurs) {
-              this.__b = new qx.Patch2();
-              s += "++" + this.__b.foo(true) + "__";
+              this._b = new qx.Patch2();
+              s += "++" + this._b.foo(true) + "__";
             }
 
             s += this.base(arguments);
@@ -275,7 +276,7 @@ qx.Class.define("qx.test.Mixin",
       // the mixin member
       var o = new qx.Patch1();
       this.assertEquals("++bar__foo", o.foo());
-      o.__b.dispose();
+      o._b.dispose();
       o.dispose();
     }
   }

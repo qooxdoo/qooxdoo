@@ -4,11 +4,15 @@
  */
 qx.Bootstrap.define("qx.test.io.part.MockLoader",
 {
-  construct : function() {},
+  construct : function() {
+    this.parts = {"b":["b"]};
+    this.packages = {"b" : {uris: []}};
+    this.boot = "b";
+  },
   members :
   {
-    parts:{"b":["b"]},
-    packages : {"b" : {uris: []}},
-    boot: "b"
+    parts: null,
+    packages : null,
+    boot: null
   }
 });

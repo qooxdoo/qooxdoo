@@ -96,7 +96,7 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
     testList : function()
     {
       var list = new qx.ui.mobile.list.List({
-        configureItem : function(item, data, row) {
+        configureItem : function(item, data) {
           item.setTitle(data.title);
           item.setSubtitle(data.subTitle);
         }
@@ -121,7 +121,7 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
 
       this.manager.setLocale("de_QX");
       var title0 = q(".list * .list-item-title").eq(0).getHtml();
-      this.assertEquals("Eins". title0);
+      this.assertEquals("Eins", title0);
       var subtitle0 = q(".list * .list-item-subtitle").eq(0).getHtml();
       this.assertEquals("Zwei", subtitle0);
       var title1 = q(".list * .list-item-title").eq(1).getHtml();
@@ -136,7 +136,7 @@ qx.Class.define("qx.test.mobile.LocaleSwitch",
     __testListEn : function() {
       //debugger
       var title0 = q(".list * .list-item-title").eq(0).getHtml();
-      this.assertEquals("test one". title0);
+      this.assertEquals("test one", title0);
       var subtitle0 = q(".list * .list-item-subtitle").eq(0).getHtml();
       this.assertEquals("test two", subtitle0);
       var title1 = q(".list * .list-item-title").eq(1).getHtml();

@@ -22,6 +22,8 @@ qx.Class.define("qx.test.ui.core.Blocker",
   members :
   {
     __blocker : null,
+    __unblockedEventFired : null,
+    __blockedEventFired : null,
 
     setUp : function() {
       this.base(arguments);

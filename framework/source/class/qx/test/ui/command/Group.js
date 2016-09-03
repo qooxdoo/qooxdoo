@@ -44,7 +44,6 @@ qx.Class.define("qx.test.ui.command.Group",
 
     testHasCommand : function()
     {
-      var handler = this.spy();
       var group = new qx.ui.command.Group();
       var cmd = new qx.ui.command.Command("Meta+T");
 

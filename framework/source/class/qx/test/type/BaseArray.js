@@ -120,7 +120,7 @@ qx.Class.define("qx.test.type.BaseArray",
     testArrayUnshift : function()
     {
       var list = new qx.test.type.TestArray(2, 3, 4, 5);
-      var length = list.unshift(1);
+      list.unshift(1);
       this.assertArrayEquals([1, 2, 3, 4, 5], list);
     },
 
@@ -136,11 +136,11 @@ qx.Class.define("qx.test.type.BaseArray",
     testArraySort : function()
     {
       var list = new qx.test.type.TestArray(3, 5, 1, -1);
-      var sorted = list.sort();
+      list.sort();
       this.assertArrayEquals([-1, 1, 3, 5], list);
 
       var list = new qx.test.type.TestArray(3, 5, 1, -1);
-      var sorted = list.sort(function(a, b) {
+      list.sort(function(a, b) {
         return a > b ? -1 : 1;
       });
       this.assertArrayEquals([5, 3, 1, -1], list);

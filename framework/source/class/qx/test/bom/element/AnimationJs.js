@@ -61,7 +61,7 @@ qx.Class.define("qx.test.bom.element.AnimationJs",
         throw new qx.dev.unit.RequirementError();
       }
 
-      var handle = qx.bom.element.Animation.animate(this.__el, {
+      qx.bom.element.Animation.animate(this.__el, {
         "duration": 100,
         "keyFrames": {
           0 : { "width": "200px", "height": "200px" },

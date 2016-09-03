@@ -33,7 +33,7 @@ qx.Class.define("qx.test.ui.basic.Atom",
       var a = new qx.ui.basic.Atom('test').set({selectable: true});
       this.getRoot().add(a);
       this.flush();
-      var l = a.getChildControl('label');	
+      var l = a.getChildControl('label');
       this.assertEquals("on", l.getContentElement().getDomElement().getAttribute("qxselectable"));
       a.destroy();
     },
@@ -42,7 +42,7 @@ qx.Class.define("qx.test.ui.basic.Atom",
       var a = new qx.ui.basic.Atom('test').set({selectable: false});
       this.getRoot().add(a);
       this.flush();
-      var l = a.getChildControl('label');	
+      var l = a.getChildControl('label');
       this.assertEquals("off", l.getContentElement().getDomElement().getAttribute("qxselectable"));
       a.destroy();
     },
@@ -52,7 +52,7 @@ qx.Class.define("qx.test.ui.basic.Atom",
       a.setSelectable(true);
       this.getRoot().add(a);
       this.flush();
-      var l = a.getChildControl('label');	
+      var l = a.getChildControl('label');
       this.assertEquals("on", l.getContentElement().getDomElement().getAttribute("qxselectable"));
       a.destroy();
     },
@@ -62,7 +62,7 @@ qx.Class.define("qx.test.ui.basic.Atom",
       a.setSelectable(false);
       this.getRoot().add(a);
       this.flush();
-      var l = a.getChildControl('label');	
+      var l = a.getChildControl('label');
       this.assertEquals("off", l.getContentElement().getDomElement().getAttribute("qxselectable"));
       a.destroy();
     }

@@ -35,9 +35,9 @@ qx.Class.define("qx.test.data.store.RestWithRemote",
   members:
   {
     setUp: function() {
-      var url = this.getUrl("qx/test/primitive.json"),
-          res = this.res = new qx.io.rest.Resource({index: {method: "GET", url: url} }),
-          store = this.store = new qx.data.store.Rest(res, "index");
+      var url = this.getUrl("qx/test/primitive.json");
+      var res = this.res = new qx.io.rest.Resource({index: {method: "GET", url: url} });
+      this.store = new qx.data.store.Rest(res, "index");
 
       res.configureRequest(function(req) {
         req.setParser(qx.util.ResponseParser.PARSER.json);
@@ -52,8 +52,8 @@ qx.Class.define("qx.test.data.store.RestWithRemote",
     },
 
     "test: populate store with response of resource action": function() {
-      var res = this.res,
-          store = this.store;
+      var res = this.res;
+      var store = this.store;
 
       res.addListener("success", function() {
         this.resume(function() {
@@ -66,9 +66,9 @@ qx.Class.define("qx.test.data.store.RestWithRemote",
     },
 
     "test: bind model property": function() {
-      var res = this.res,
-          store = this.store,
-          label = new qx.ui.basic.Label();
+      var res = this.res;
+      var store = this.store;
+      var label = new qx.ui.basic.Label();
 
       res.addListener("success", function() {
         this.resume(function() {

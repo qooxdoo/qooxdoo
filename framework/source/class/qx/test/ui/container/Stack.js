@@ -28,7 +28,7 @@ qx.Class.define("qx.test.ui.container.Stack",
 
 
     setUp : function() {
-      var stack = this.__stack = new qx.ui.container.Stack();
+      this.__stack = new qx.ui.container.Stack();
 
       var c1 = this.__c1 = new qx.ui.container.Composite();
       var c2 = this.__c2 = new qx.ui.container.Composite();

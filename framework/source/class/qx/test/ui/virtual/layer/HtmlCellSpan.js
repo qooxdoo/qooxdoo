@@ -23,6 +23,10 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
 
   members :
   {
+    __rowConfig : null,
+    __columnConfig : null,
+    __cellRenderer : null,
+
     tearDown : function() {
       this.base(arguments);
       this.__cellRenderer.dispose();
@@ -50,7 +54,7 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
     },
 
 
-    _assertCells : function(firstRow, firstColumn, rowCount, columnCount, msg)
+    _assertCells : function(firstRow, firstColumn, rowCount, columnCount)
     {
       var children = this.layer.getContentElement().getDomElement().childNodes;
 
@@ -63,7 +67,7 @@ qx.Class.define("qx.test.ui.virtual.layer.HtmlCellSpan",
           var row = firstRow + y;
           var column = firstColumn + x;
 
-          var cellEl = children[y*columnCount + x];
+          var cellEl = children[(y * columnCount) + x];
           this.assertEquals(row + " / " + column, cellEl.innerHTML);
         }
       }

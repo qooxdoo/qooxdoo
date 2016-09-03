@@ -28,6 +28,8 @@ qx.Class.define("qx.test.util.DateMock",
 
   members :
   {
+    __date : null,
+
     getFullYear : function() {
       return this.__date.fullYear;
     },

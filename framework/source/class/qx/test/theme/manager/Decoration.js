@@ -22,6 +22,8 @@ qx.Class.define("qx.test.theme.manager.Decoration",
 
   members :
   {
+    __formerTheme : null,
+
     setUp : function() {
       this.manager = qx.theme.manager.Decoration.getInstance();
       this.__formerTheme = this.manager.getTheme();
@@ -143,7 +145,6 @@ qx.Class.define("qx.test.theme.manager.Decoration",
 
       this.manager.setTheme(qx.test.Theme.themes.B);
       var selector = this.manager.addCssClass("test-add-css");
-      var sheet = qx.ui.style.Stylesheet.getInstance();
       var elem = document.createElement("div");
       elem.setAttribute("class", selector);
       document.body.appendChild(elem);

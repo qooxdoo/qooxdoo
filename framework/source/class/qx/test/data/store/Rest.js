@@ -45,8 +45,7 @@ qx.Class.define("qx.test.data.store.Rest",
     },
 
     setUpDoubleRequest: function() {
-      var req = this.req = new qx.io.request.Xhr(),
-          res = this.res;
+      var req = this.req = new qx.io.request.Xhr();
 
       // Stub request methods, leave event system intact
       req = this.shallowStub(req, qx.io.request.AbstractRequest);
@@ -101,8 +100,8 @@ qx.Class.define("qx.test.data.store.Rest",
     "test: construct throws with missing action": function() {
       this.require(["debug"]);
 
-      var store,
-          res = this.res;
+      var res = this.res;
+      var store;
 
       this.assertException(function() {
         store = new qx.data.store.Rest(res, null);
@@ -111,8 +110,8 @@ qx.Class.define("qx.test.data.store.Rest",
     },
 
     "test: add listener for actionSuccess to res": function() {
-      var res = this.res,
-          store;
+      var res = this.res;
+      var store;
 
       this.stub(res, "addListener");
       store = new qx.data.store.Rest(res, "index");
@@ -121,10 +120,9 @@ qx.Class.define("qx.test.data.store.Rest",
     },
 
     "test: marshal response": function() {
-      var res = this.res,
-          store = this.store,
-          marshal = this.marshal,
-          data = {"key": "value"};
+      var res = this.res;
+      var marshal = this.marshal;
+      var data = {"key": "value"};
 
       res.index();
 
@@ -136,8 +134,8 @@ qx.Class.define("qx.test.data.store.Rest",
       // Do not stub marshal.Json
       qx.data.marshal.Json.restore();
 
-      var res = this.setUpResource(),
-          store = new qx.data.store.Rest(res, "index");
+      var res = this.setUpResource();
+      var store = new qx.data.store.Rest(res, "index");
 
       res.index();
       this.respond({"name": "Affe"});
@@ -149,9 +147,9 @@ qx.Class.define("qx.test.data.store.Rest",
       // Do not stub marshal.Json
       qx.data.marshal.Json.restore();
 
-      var res = this.setUpResource(),
-          store = new qx.data.store.Rest(res, "index"),
-          that = this;
+      var res = this.setUpResource();
+      var store = new qx.data.store.Rest(res, "index");
+      var that = this;
 
       res.index();
       this.assertEventFired(store, "changeModel", function() {
@@ -163,8 +161,8 @@ qx.Class.define("qx.test.data.store.Rest",
     },
 
     "test: configure request with delegate": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       var configureRequest = this.spy(function(req) {
         req.setUserData("affe", true);
@@ -188,8 +186,8 @@ qx.Class.define("qx.test.data.store.Rest",
     },
 
     "test: manipulate data with delegate before marshaling": function() {
-      var res = this.res,
-          data = {"name": "Tiger"};
+      var res = this.res;
+      var data = {"name": "Tiger"};
 
       var manipulateData = this.spy(function(data) {
         data.name = "Maus";

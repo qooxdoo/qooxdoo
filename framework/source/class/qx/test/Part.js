@@ -140,10 +140,8 @@ qx.Class.define("qx.test.Part",
       qx.Part.$$instance = partLoader;
 
       var self = this;
-      var preloadExecuted = false;
       partLoader.preload(["affe", "juhu"], function(states) {
         self.resume(function() {
-          preloadExecuted = true;
           self.assertEquals(self, this, "context wrong");
           self.assertEquals("complete", states[0], "states wrong");
           self.assertEquals("initialized", states[1], "states wrong");

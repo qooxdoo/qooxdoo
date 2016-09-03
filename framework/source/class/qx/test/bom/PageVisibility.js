@@ -24,6 +24,8 @@ qx.Class.define("qx.test.bom.PageVisibility",
 
   members :
   {
+    __visibility : null,
+
     setUp : function() {
       this.__visibility = new qx.bom.PageVisibility();
     },

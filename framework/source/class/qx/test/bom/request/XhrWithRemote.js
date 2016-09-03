@@ -402,7 +402,6 @@ qx.Class.define("qx.test.bom.request.XhrWithRemote",
       var primeReq = this.req,
           url = this.noCache(this.getUrl("qx/test/xmlhttp/sample.txt")),
           states = [],
-          count = 0,
           that = this;
 
       primeReq.onreadystatechange = function() {

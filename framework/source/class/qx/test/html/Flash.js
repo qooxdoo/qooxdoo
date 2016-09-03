@@ -69,7 +69,6 @@ qx.Class.define("qx.test.html.Flash",
       this.__flash.setAttribute("attrib3", true);
       this.__flash.setAttribute("attrib4", false);
 
-      var map = this.__flash.getAttribute();
       this.assertIdentical("hoho", this.__flash.getAttributes().attrib1);
       this.assertIdentical("gogo", this.__flash.getAttributes().attrib2);
       this.assertTrue(this.__flash.getAttributes().attrib3);
@@ -97,7 +96,6 @@ qx.Class.define("qx.test.html.Flash",
       this.__flash.setParam("param3", true);
       this.__flash.setParam("param4", false);
 
-      var map = this.__flash.getParams();
       this.assertIdentical("hoho", this.__flash.getParams().param1);
       this.assertIdentical("gogo", this.__flash.getParams().param2);
       this.assertTrue(this.__flash.getParams().param3);

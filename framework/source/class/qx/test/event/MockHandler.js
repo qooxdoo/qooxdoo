@@ -49,7 +49,10 @@ qx.Class.define("qx.test.event.MockHandler",
     IGNORE_CAN_HANDLE : false
   },
 
-
+  construct : function() {
+    this.base(arguments);
+    this.calls = [];
+  },
 
 
 
@@ -61,7 +64,7 @@ qx.Class.define("qx.test.event.MockHandler",
 
   members :
   {
-    calls : [],
+    calls : null,
 
     /*
     ---------------------------------------------------------------------------

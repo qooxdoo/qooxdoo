@@ -29,6 +29,9 @@ qx.Class.define("qx.test.bom.element.Background",
 
   members :
   {
+    __divElement : null,
+    __backgroundUrlBase64 : null,
+
     setUp : function()
     {
       this.__divElement = document.createElement("div");

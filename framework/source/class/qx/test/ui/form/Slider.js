@@ -21,6 +21,8 @@ qx.Class.define("qx.test.ui.form.Slider",
 
   members :
   {
+    __slider : null,
+
     setUp : function() {
       this.__slider = new qx.ui.form.Slider();
       this.__slider.setWidth(100);

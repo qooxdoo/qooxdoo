@@ -26,6 +26,8 @@ qx.Class.define("qx.test.log.Logger",
 
   members :
   {
+    __initialLogLevel : null,
+
     setUp : function()
     {
       this.__initialLogLevel = qx.log.Logger.getLevel();

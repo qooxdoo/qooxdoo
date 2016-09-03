@@ -44,7 +44,7 @@ qx.Class.define("qx.test.Class",
 
     testOverridePropertyMethod : function() {
       this.require(["qx.debug"]);
-      
+
       var C = qx.Class.define(null, {
         extend : qx.core.Object,
         properties : {
@@ -56,7 +56,7 @@ qx.Class.define("qx.test.Class",
           }
         }
       });
-      
+
       var D = qx.Class.define(null, {
       	extend: C,
       	members: {
@@ -68,7 +68,7 @@ qx.Class.define("qx.test.Class",
       		}
       	}
       });
-      
+
       var d = new D();
       d.setProp("hello");
       this.assertEquals("hello-set-get", d.getProp());
@@ -350,6 +350,7 @@ qx.Class.define("qx.test.Class",
 
     testPatchWithConstructor : function()
     {
+      /** @lint ignoreUndeclaredPrivates(__p) */
       qx.Mixin.define("qx.MyMixin", {
         construct : function() {
           this.__p = "p";
@@ -385,6 +386,7 @@ qx.Class.define("qx.test.Class",
 
 
     testInclude : function() {
+      /** @lint ignoreUndeclaredPrivates(__p) */
       qx.Mixin.define("qx.MyMixin", {
         properties : {
           "property" : {init: "p"}
@@ -417,6 +419,7 @@ qx.Class.define("qx.test.Class",
 
 
     testIncludeWithConstructor : function() {
+      /** @lint ignoreUndeclaredPrivates(__p) */
       qx.Mixin.define("qx.MyMixin", {
         construct : function() {
           this.__p = "p";
@@ -474,7 +477,7 @@ qx.Class.define("qx.test.Class",
       });
 
       var subclasses = qx.Class.getSubclasses(qx.Insect);
-      
+
       // we should find 3 subclasses of qx.Insect
       this.assertEquals(Object.keys(subclasses).length,3);
 
@@ -485,7 +488,7 @@ qx.Class.define("qx.test.Class",
 
       // there should be no subclasses for qx.Firefly
       this.assertEquals(Object.keys(subclasses).length,0);
-      
+
       subclasses = qx.Class.getSubclasses(qx.Bug);
 
       // there should be no class qx.Bug

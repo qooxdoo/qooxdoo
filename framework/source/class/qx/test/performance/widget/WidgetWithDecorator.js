@@ -13,6 +13,8 @@ qx.Class.define("qx.test.performance.widget.WidgetWithDecorator",
 
   members :
   {
+    __decorator: null,
+
     _createWidget : function() {
       return new qx.ui.core.Widget().set({decorator: this.__decorator});
     }

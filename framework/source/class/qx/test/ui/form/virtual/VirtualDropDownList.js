@@ -161,7 +161,6 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
       var invalidItem = model.getItem(2);
       this.assertFalse(filteredModel.contains(invalidItem));
 
-      var that = this;
       this.__checkEvent(selection, function() {
         selection.push(invalidItem);
       }, 2);
@@ -175,7 +174,6 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
     {
       var selection = this.__dropdown.getSelection();
 
-      var that = this;
       var newItem = model.getItem(2);
       this.__checkEvent(selection, function() {
         selection.push(newItem);
@@ -183,8 +181,6 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualDropDownList",
 
       this.__checkSelection(newItem);
 
-
-      var that = this;
       newItem = model.getItem(4);
       this.__checkEvent(selection, function() {
         selection.splice(0, 1, newItem).dispose();

@@ -22,6 +22,16 @@ qx.Class.define("qx.test.bom.Label",
 
   members :
   {
+    __boldStyle : null,
+    __italicStyle : null,
+    __boldItalicStyle : null,
+    __familyStyle : null,
+    __fontSize : null,
+    __fontSizeStyle : null,
+    __paddingStyle : null,
+    __marginStyle : null,
+    __allTogetherStyle : null,
+
     setUp : function()
     {
       this.__boldStyle = { fontWeight: "bold" };

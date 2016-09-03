@@ -22,16 +22,19 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
 
   include : [qx.dev.unit.MRequirements],
 
-  members :
+  statics :
   {
-    __support :
+    SUPPORT :
     {
       mshtml : ["border-box", "content-box"],
       opera : ["border-box", "content-box"],
       gecko : ["border-box", "content-box"],
       webkit : ["border-box", "content-box"]
-    },
+    }
+  },
 
+  members :
+  {
     __el : null,
 
     setUp : function()
@@ -48,14 +51,14 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
 
     hasBoxsizing : function()
     {
-      return !!qx.core.Environment.get("css.boxsizing");
+      return Boolean(qx.core.Environment.get("css.boxsizing"));
     },
 
     testGet : function()
     {
       this.require(["boxsizing"]);
 
-      var supported = this.__support[qx.core.Environment.get("engine.name")] || [];
+      var supported = qx.test.bom.element.BoxSizing.SUPPORT[qx.core.Environment.get("engine.name")] || [];
       this.assertInArray(qx.bom.element.BoxSizing.get(this.__el), supported);
     },
 
@@ -63,8 +66,8 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
     {
       this.require(["boxsizing"]);
 
-      var allValues = this.__support["gecko"];
-      var supported = this.__support[qx.core.Environment.get("engine.name")] || [];
+      var allValues = qx.test.bom.element.BoxSizing.SUPPORT["gecko"];
+      var supported = qx.test.bom.element.BoxSizing.SUPPORT[qx.core.Environment.get("engine.name")] || [];
       for (var i=0, l=allValues.length; i<l; i++) {
         qx.bom.element.BoxSizing.set(this.__el, allValues[i]);
         if (supported.includes(allValues[i])) {

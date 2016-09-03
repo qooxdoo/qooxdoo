@@ -26,7 +26,7 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer",
     __b : null,
     __t : null,
     __s : null,
-
+    __renderer: null,
 
     setUp : function() {
       this.base(arguments);

@@ -23,6 +23,8 @@ qx.Class.define("qx.test.ui.virtual.performance.HtmlDivCell",
 
   members :
   {
+    __cellRenderer : null,
+
     getLayer : function()
     {
       this.__cellRenderer = new qx.ui.virtual.cell.Cell();

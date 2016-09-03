@@ -23,9 +23,8 @@ qx.Class.define("qx.test.util.Request",
   members :
   {
     "test: isCrossDomain() returns true with cross-domain URL": function() {
-      var location = window.location,
-          origin = location.protocol + "//" + location.host,
-          isCrossDomain = qx.util.Request.isCrossDomain;
+      var location = window.location;
+      var isCrossDomain = qx.util.Request.isCrossDomain;
 
       this.assertTrue(isCrossDomain("http://cross.domain"), "cross");
       this.assertTrue(isCrossDomain(location.protocol + "//" + location.hostname + ":123456"), "port");
@@ -33,9 +32,9 @@ qx.Class.define("qx.test.util.Request",
     },
 
     "test: isCrossDomain() returns false with same-origin URL": function() {
-      var location = window.location,
-          origin = location.protocol + "//" + location.host,
-          isCrossDomain = qx.util.Request.isCrossDomain;
+      var location = window.location;
+      var origin = location.protocol + "//" + location.host;
+      var isCrossDomain = qx.util.Request.isCrossDomain;
 
       this.assertFalse(isCrossDomain(origin));
       this.assertFalse(isCrossDomain("data.json"), "simple url");

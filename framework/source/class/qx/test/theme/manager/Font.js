@@ -22,6 +22,8 @@ qx.Class.define("qx.test.theme.manager.Font",
 
   members :
   {
+    __formerTheme : null,
+
     setUp : function() {
       this.manager = qx.theme.manager.Font.getInstance();
       this.__formerTheme = this.manager.getTheme();

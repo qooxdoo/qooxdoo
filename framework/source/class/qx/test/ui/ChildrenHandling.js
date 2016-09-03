@@ -193,7 +193,6 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
 
       if (this.isDebugOn())
       {
-        var self = this;
         this.assertException(function() {
           parent.addBefore(w1, w2);
         }, qx.core.AssertionError, "", "add new widget before non child");
@@ -214,7 +213,6 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
 
       if (this.isDebugOn())
       {
-        var self = this;
         this.assertException(function() {
           parent.addBefore(c3, w2);
         }, qx.core.AssertionError, "", "add existing before non child");
@@ -255,7 +253,6 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
 
       if (this.isDebugOn())
       {
-        var self = this;
         this.assertException(function() {
           parent.addAfter(w1, w2);
         }, qx.core.AssertionError, "", "add new widget after non child");
@@ -276,7 +273,6 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
 
       if (this.isDebugOn())
       {
-        var self = this;
         this.assertException(function() {
           parent.addAfter(c1, w2);
         }, qx.core.AssertionError, "", "add existing after non child");

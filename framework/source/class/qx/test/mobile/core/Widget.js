@@ -136,7 +136,7 @@ qx.Class.define("qx.test.mobile.core.Widget",
       if (qx.core.Environment.get("qx.debug"))
       {
         this.assertException(function() {
-          var widget2 = new qx.ui.mobile.core.Widget().set({id:"affe"});
+          qx.ui.mobile.core.Widget().set({id:"affe"});
         });
       }
 

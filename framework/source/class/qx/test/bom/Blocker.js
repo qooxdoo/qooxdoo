@@ -22,6 +22,8 @@ qx.Class.define("qx.test.bom.Blocker",
 
   members :
   {
+    __blocker : null,
+    __blockedElement : null,
 
     setUp : function() {
       this.__blocker = new qx.bom.Blocker();

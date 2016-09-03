@@ -20,6 +20,9 @@ qx.Class.define("qx.test.ui.form.RadioButtonGroup",
     extend: qx.test.ui.LayoutTestCase,
 
     members: {
+      __radioButtons : null,
+      __radioButtonGroup : null,
+
       setUp: function () {
         this.__radioButtonGroup = new qx.ui.form.RadioButtonGroup();
 

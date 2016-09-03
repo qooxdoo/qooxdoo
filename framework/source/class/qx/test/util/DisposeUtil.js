@@ -24,8 +24,6 @@ qx.Class.define("qx.test.util.DisposeUtil",
   {
     testDestroyContainer : function()
     {
-      var self = this;
-
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       var childContainer1 = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
       var childContainer2 = new qx.ui.container.Composite(new qx.ui.layout.Canvas());

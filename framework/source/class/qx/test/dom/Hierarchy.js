@@ -22,6 +22,13 @@ qx.Class.define("qx.test.dom.Hierarchy",
 
   members :
   {
+    __renderedElement : null,
+    __siblingElement : null,
+    __notDisplayedElement : null,
+    __childElement : null,
+    __childOfNotDisplayedElement : null,
+    __unRenderedElement : null,
+    __iframe : null,
 
     setUp : function()
     {
@@ -83,7 +90,7 @@ qx.Class.define("qx.test.dom.Hierarchy",
       qx.bom.Iframe.setSource(this.__iframe, src);
       document.body.appendChild(this.__iframe);
 
-      qx.event.Registration.addListener(this.__iframe, "load", function(e) {
+      qx.event.Registration.addListener(this.__iframe, "load", function() {
         this.resume(function() {
           this.assertTrue(qx.dom.Hierarchy.isRendered(this.__iframe));
         }, this);

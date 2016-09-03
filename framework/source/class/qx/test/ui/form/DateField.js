@@ -22,6 +22,8 @@ qx.Class.define("qx.test.ui.form.DateField",
 
   members:
   {
+    __datefield : null,
+
     setUp: function() {
       this.__datefield = new qx.ui.form.DateField();
       this.getRoot().add(this.__datefield);
@@ -33,20 +35,20 @@ qx.Class.define("qx.test.ui.form.DateField",
     },
 
     "test: setting value sets date of chooser": function() {
-      var datefield = this.__datefield,
-          chooser = datefield.getChildControl("list"),
-          date = new Date();
+      var datefield = this.__datefield;
+      var chooser = datefield.getChildControl("list");
+      var date = new Date();
 
       datefield.setValue(date);
       this.assertEquals(date, chooser.getValue());
     },
 
     "test: choosing date fills in formatted date": function() {
-      var datefield = this.__datefield,
-          textfield = datefield.getChildControl("textfield"),
-          chooser =  datefield.getChildControl("list"),
-          date = new Date(),
-          dateStr = this.formatDate(date);
+      var datefield = this.__datefield;
+      var textfield = datefield.getChildControl("textfield");
+      var chooser =  datefield.getChildControl("list");
+      var date = new Date();
+      var dateStr = this.formatDate(date);
 
       chooser.setValue(date);
 

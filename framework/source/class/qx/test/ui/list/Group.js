@@ -22,13 +22,15 @@ qx.Class.define("qx.test.ui.list.Group",
 
   members :
   {
-    __names : ["Luise Siemer", "Trauhard Franke", "Sarina Wilde", "Florine Bähr",
-       "Sigurd Adolph", "Sigmund Kurz", "Pankratius Hill", "Gerlinda Seel",
-       "Trixi Clauß", "Cecilia Hemmer", "Rosely Fröhlich", "Annemargret Hunger",
-       "Dietgar Münster", "Bertwin Joseph", "Edwina Schwarz", "Riana Dirks"],
-
     createModelData : function() {
-      return qx.data.marshal.Json.createModel(this.__names);
+      var names = [
+        "Luise Siemer", "Trauhard Franke", "Sarina Wilde", "Florine Bähr",
+        "Sigurd Adolph", "Sigmund Kurz", "Pankratius Hill", "Gerlinda Seel",
+        "Trixi Clauß", "Cecilia Hemmer", "Rosely Fröhlich", "Annemargret Hunger",
+        "Dietgar Münster", "Bertwin Joseph", "Edwina Schwarz", "Riana Dirks"
+      ];
+
+      return qx.data.marshal.Json.createModel(names);
     },
 
 

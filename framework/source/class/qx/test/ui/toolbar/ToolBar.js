@@ -21,6 +21,11 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
 
   members :
   {
+    __toolbar : null,
+    __b1 : null,
+    __b2 : null,
+    __b3 : null,
+
      setUp : function()
     {
       this.base(arguments);
@@ -150,10 +155,10 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       this.assertEquals("both", this.__b2.getShow());
       this.assertEquals("both", this.__b3.getShow());
     },
-    
+
     testRemoveChildByIndex : function() {
       this.__toolbar.removeAll();
-      
+
       // setup toolbar with three buttons
       this.__toolbar.add(this.__b1);
       this.__toolbar.add(this.__b2);
@@ -166,15 +171,15 @@ qx.Class.define("qx.test.ui.toolbar.ToolBar",
       // assert removing child at index 1
       var childB2 = this.__toolbar.removeAt(1);
       this.assertEquals(childB2, this.__b2);
-      
+
       // assert length of remaining and removed children array being now 2
       var children = this.__toolbar.removeAll();
       this.assertEquals(2, children.length);
     },
-    
+
     testRemoveAllChildren : function() {
       this.__toolbar.removeAll();
-      
+
       // setup toolbar with two buttons
       this.__toolbar.add(this.__b1);
       this.__toolbar.add(this.__b2);

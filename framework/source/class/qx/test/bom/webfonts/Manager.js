@@ -28,30 +28,10 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
 
   members :
   {
-    __fontDefinitions :
-    {
-      finelinerScript :
-      {
-        family : "FinelinerScriptRegular",
-        source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.woff"),
-                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.ttf"),
-                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.eot") ]
-      },
-      fontawesome :
-      {
-        family : "FontAwesome",
-        source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fontawesome-webfont.woff"),
-                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fontawesome-webfont.ttf"),
-                  qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fontawesome-webfont.eot") ]
-      },
-      invalid :
-      {
-        family : "MonkeypooBold",
-        source: [ "404.woff",
-                  "404.ttf",
-                  "404.eot" ]
-      }
-    },
+    __fontDefinitions : null,
+    __nodesBefore : null,
+    __sheetsBefore : null,
+    __manager : null,
 
     __findRule : function(familyName)
     {
@@ -89,6 +69,30 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
       this.__nodesBefore = document.body.childNodes.length;
       this.__sheetsBefore = document.styleSheets.length;
       this.__manager = qx.bom.webfonts.Manager.getInstance();
+
+      this.__fontDefinitions = {
+        finelinerScript :
+        {
+          family : "FinelinerScriptRegular",
+          source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.woff"),
+                    qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.ttf"),
+                    qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fineliner_script-webfont.eot") ]
+        },
+        fontawesome :
+        {
+          family : "FontAwesome",
+          source: [ qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fontawesome-webfont.woff"),
+                    qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fontawesome-webfont.ttf"),
+                    qx.util.ResourceManager.getInstance().toUri("qx/test/webfonts/fontawesome-webfont.eot") ]
+        },
+        invalid :
+        {
+          family : "MonkeypooBold",
+          source: [ "404.woff",
+                    "404.ttf",
+                    "404.eot" ]
+        }
+      };
     },
 
     tearDown : function()

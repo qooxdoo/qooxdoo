@@ -28,6 +28,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
   members:
   {
+    __reqs : null,
+
     setUp: function() {
       this.setUpDoubleRequest();
       this.setUpResource();
@@ -78,8 +80,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
     //
 
     "test: configure request receives pre-configured but unsent request": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
 
       res.configureRequest(qx.lang.Function.bind(function(req) {
         this.assertCalledWith(req.setMethod, "GET");
@@ -91,11 +92,10 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: configure request receives invocation details": function() {
-      var res = this.res,
-          req = this.req,
-          params = {},
-          data = {},
-          callback;
+      var res = this.res;
+      var params = {};
+      var data = {};
+      var callback;
 
       callback = this.spy(qx.lang.Function.bind(function(req, _action, _params, _data) {
         this.assertEquals("get", _action, "Unexpected action");
@@ -113,8 +113,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     //
 
     "test: map action": function() {
-      var res = this.res,
-          params;
+      var res = this.res;
+      var params;
 
       params = res._getRequestConfig("get");
 
@@ -123,8 +123,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: map action when base URL": function() {
-      var res = this.res,
-          params;
+      var res = this.res;
+      var params;
 
       res.setBaseUrl("http://example.com");
       params = res._getRequestConfig("get");
@@ -133,8 +133,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: map existing action": function() {
-      var res = this.res,
-          params;
+      var res = this.res;
+      var params;
 
       res.map("post", "GET", "/articles");
       params = res._getRequestConfig("post");
@@ -143,8 +143,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: map action creates method": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
 
       this.assertFunction(res.get);
     },
@@ -152,8 +151,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
     "test: map action throws when existing method": function() {
       this.require(["debug"]);
 
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
 
       // For whatever reason
       res.popular = function() {};
@@ -166,8 +164,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
     "test: map action does not throw when existing method is empty": function() {
       this.require(["debug"]);
 
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
 
       // For documentation purposes
       res.get = (function() {});
@@ -176,8 +173,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: dynamically created action forwards arguments": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
 
       this.spy(res, "invoke");
       res.get({}, 1, 2, 3);
@@ -192,11 +188,10 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: map actions from description": function() {
-      var req = this.req,
-          description,
-          res,
-          check = {},
-          params;
+      var description;
+      var res;
+      var check = {};
+      var params;
 
       description =
       {
@@ -222,7 +217,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
       this.require(["debug"]);
 
       this.assertException(function() {
-        var res = new qx.bom.rest.Resource([]);
+        /* eslint-disable: no-new */
+        new qx.bom.rest.Resource([]);
+        /* eslint-enable: no-new */
       });
     },
 
@@ -244,18 +241,15 @@ qx.Class.define("qx.test.bom.rest.Resource",
     //
 
     "test: invoke action generically": function() {
-      var res = this.res,
-          req = this.req,
-          result;
+      var res = this.res;
 
-      result = res.invoke("get");
+      res.invoke("get");
 
       this.assertSend();
     },
 
     "test: invoke action": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
 
       res.get();
 
@@ -263,8 +257,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action returns id of request": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       req.toHashCode.restore();
 
@@ -272,8 +266,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action while other is in progress": function() {
-      var res = this.res,
-          req1, req2;
+      var res = this.res;
+      var req1;
+      var req2;
 
       req1 = this.req;
       res.get();
@@ -288,9 +283,10 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke same action handles multiple requests": function() {
-      var res = this.res,
-          req1, req2,
-          getSuccess = this.spy();
+      var res = this.res;
+      var req1;
+      var req2;
+      var getSuccess = this.spy();
 
       res.addListener("getSuccess", getSuccess);
 
@@ -309,8 +305,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action with positional params": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.map("get", "GET", "/photos/{id}");
       res.get({id: "1"});
@@ -319,8 +315,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action with positional params that evaluate to false": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.map("get", "GET", "/photos/{id}");
       res.get({id: 0});
@@ -329,8 +325,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action with non-string params": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.map("get", "GET", "/photos/{id}");
       res.get({id: 1});
@@ -339,8 +335,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action with params and data": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.map("put", "PUT", "/articles/{id}");
       res.put({id: "1"}, {article: '{title: "Affe"}'});
@@ -355,8 +351,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action with multiple positional params": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.map("get", "GET", "/photos/{id}/comments/{commentId}");
       res.get({id: "1", commentId: "2"});
@@ -365,8 +361,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action with positional params in query": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.map("get", "GET", "/photos/{id}/comments?id={commentId}");
       res.get({id: "1", commentId: "2"});
@@ -375,24 +371,24 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action with undefined params": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.get();
       this.assertCalled(req.send);
     },
 
     "test: invoke action with null params": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.get(null);
       this.assertCalled(req.send);
     },
 
     "test: invoke action when content type json": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       req.setRequestHeader.restore();
       req.getRequestHeader.restore();
@@ -411,8 +407,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action when content type json and get": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       req.setMethod.restore();
       req.getMethod.restore();
@@ -425,8 +421,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action for url with port": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.map("get", "GET", "http://example.com:8080/photos/{id}");
       res.get({id: "1"});
@@ -435,8 +431,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action for relative url": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.map("get", "GET", "{page}");
       res.get({page: "index"});
@@ -444,8 +440,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: invoke action for relative url with dots": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.map("get", "GET", "../{page}");
       res.get({page: "index"});
@@ -526,8 +522,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     //
 
     "test: abort action": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       res.get();
       res.abort("get");
@@ -536,8 +532,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: abort action when multiple requests": function() {
-      var res = this.res,
-          req1, req2;
+      var res = this.res;
+      var req1;
+      var req2;
 
       req1 = this.setUpDoubleRequest();
       res.get();
@@ -552,8 +549,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: abort by action id": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       req.toHashCode.restore();
 
@@ -568,8 +565,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
     //
 
     "test: refresh action": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
 
       res.get();
       this.assertSend();
@@ -579,8 +575,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: refresh action replaying previous params": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
 
       res.map("get", "GET", "/photos/{id}");
       res.get({id: "1"});
@@ -591,8 +586,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: poll action": function() {
-      var res = this.res,
-          sandbox = this.getSandbox();
+      var res = this.res;
+      var sandbox = this.getSandbox();
 
       sandbox.useFakeTimers();
       this.spy(res, "refresh");
@@ -606,8 +601,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: not poll action when no response received yet": function() {
-      var res = this.res,
-          sandbox = this.getSandbox();
+      var res = this.res;
+      var sandbox = this.getSandbox();
 
       sandbox.useFakeTimers();
       this.spy(res, "refresh");
@@ -637,8 +632,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: poll action replaying previous params": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
 
       res.map("get", "GET", "/photos/{id}");
       res.get({id: "1"});
@@ -649,9 +643,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: poll action repeatedly ends previous timer": function() {
-      var res = this.res,
-          sandbox = this.getSandbox(),
-          msg;
+      var res = this.res;
+      var sandbox = this.getSandbox();
 
       sandbox.useFakeTimers();
       this.stub(res, "refresh");
@@ -668,11 +661,11 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: poll many actions": function() {
-      var res = this.res,
-          sandbox = this.getSandbox(),
-          spy,
-          get,
-          post;
+      var res = this.res;
+      var sandbox = this.getSandbox();
+      var spy;
+      var get;
+      var post;
 
       this.stub(this.req, "dispose");
       sandbox.useFakeTimers();
@@ -694,10 +687,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: end poll action": function() {
-      var res = this.res,
-          sandbox = this.getSandbox(),
-          timer,
-          numCalled;
+      var res = this.res;
+      var sandbox = this.getSandbox();
 
       sandbox.useFakeTimers();
 
@@ -714,10 +705,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: end poll action does not end polling of other action": function() {
-      var res = this.res,
-          sandbox = this.getSandbox(),
-          timer,
-          spy;
+      var res = this.res;
+      var sandbox = this.getSandbox();
+      var spy;
 
       sandbox.useFakeTimers();
       spy = this.spy(res, "refresh").withArgs("get");
@@ -733,9 +723,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: restart poll action": function() {
-      var res = this.res,
-          sandbox = this.getSandbox(),
-          timer;
+      var res = this.res;
+      var sandbox = this.getSandbox();
 
       sandbox.useFakeTimers();
       this.respond();
@@ -751,9 +740,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: long poll action": function() {
-      var res = this.res,
-          req = this.req,
-          responses = [];
+      var res = this.res;
+      var req = this.req;
+      var responses = [];
 
       // undo this line from setUp() ...
       // this.injectStub(qx.bom.request, "SimpleXhr", req);
@@ -777,8 +766,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: throttle long poll": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       this.stub(req, "dispose");
       this.spy(res, "refresh");
@@ -801,9 +790,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: not throttle long poll when not received within limit": function() {
-      var res = this.res,
-          req = this.req,
-          sandbox = this.getSandbox();
+      var res = this.res;
+      var req = this.req;
+      var sandbox = this.getSandbox();
 
       // undo this line from setUp() ...
       // this.injectStub(qx.bom.request, "SimpleXhr", req);
@@ -830,9 +819,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: not throttle long poll when not received subsequently": function() {
-      var res = this.res,
-          req = this.req,
-          sandbox = this.getSandbox();
+      var res = this.res;
+      var req = this.req;
+      var sandbox = this.getSandbox();
 
       // undo this line from setUp() ...
       // this.injectStub(qx.bom.request, "SimpleXhr", req);
@@ -864,10 +853,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: end long poll action": function() {
-      var res = this.res,
-          req = this.req,
-          handlerId,
-          msg;
+      var res = this.res;
+      var req = this.req;
+      var handlerId;
 
       // undo this line from setUp() ...
       // this.injectStub(qx.bom.request, "SimpleXhr", req);
@@ -894,9 +882,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     //
 
     "test: fire actionSuccess": function() {
-      var res = this.res,
-          req = this.req,
-          that = this;
+      var res = this.res;
+      var req = this.req;
+      var that = this;
 
       res.get();
       this.assertEventFired(res, "getSuccess", function() {
@@ -909,9 +897,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: fire success": function() {
-      var res = this.res,
-          req = this.req,
-          that = this;
+      var res = this.res;
+      var req = this.req;
+      var that = this;
 
       res.get();
       this.assertEventFired(res, "success", function() {
@@ -924,9 +912,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: fire actionError": function() {
-      var res = this.res,
-          req = this.req,
-          that = this;
+      var res = this.res;
+      var req = this.req;
+      var that = this;
 
       res.get();
       this.assertEventFired(res, "getError", function() {
@@ -938,9 +926,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: fire error": function() {
-      var res = this.res,
-          req = this.req,
-          that = this;
+      var res = this.res;
+      var req = this.req;
+      var that = this;
 
       res.get();
       this.assertEventFired(res, "error", function() {
@@ -955,9 +943,7 @@ qx.Class.define("qx.test.bom.rest.Resource",
 
       qx.bom.request.SimpleXhr.restore();
 
-      var res = this.res,
-          req = this.req,
-          that = this;
+      var res = this.res;
 
       var listener = this.spy();
       res.on("started", listener);
@@ -977,8 +963,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     //
 
     "test: dispose requests": function() {
-      var res = this.res,
-          req1, req2;
+      var res = this.res;
+      var req1;
+      var req2;
 
       req1 = this.req;
       res.get();
@@ -998,8 +985,9 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: dispose requests of same action": function() {
-      var res = this.res,
-          req1, req2;
+      var res = this.res;
+      var req1;
+      var req2;
 
       req1 = this.req;
       res.get();
@@ -1019,8 +1007,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     },
 
     "test: dispose request on loadEnd": function() {
-      var res = this.res,
-          req = this.req;
+      var res = this.res;
+      var req = this.req;
 
       this.spy(req, "dispose");
 
@@ -1069,8 +1057,8 @@ qx.Class.define("qx.test.bom.rest.Resource",
     // Fake response but find and manipulate matching requests *within* res
     // which is important for tests with more than one request (e.g. poll and long poll)
     respondSubsequent: function(response, reqIdx, shouldStubResp) {
-      var response = response || "",
-          validReqIdx = (reqIdx !== undefined);
+      response = response || "";
+      var validReqIdx = (reqIdx !== undefined);
 
       // this.res.__requests isn't available after 'privates' optimization
       // so find it by some kind of feature detection - this isn't beautiful,

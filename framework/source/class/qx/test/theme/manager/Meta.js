@@ -96,6 +96,7 @@ qx.Class.define("qx.test.theme.manager.Meta",
 
   members :
   {
+    __button : null,
     __formerTheme : null,
 
     __linerGradientRegExp: /(orange.*yellow|rgb\(255, 165, 0\).*rgb\(255, 255, 0\)|data:image\/png;base64,iVBORw0K)/,

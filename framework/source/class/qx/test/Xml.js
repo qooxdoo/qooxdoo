@@ -41,7 +41,7 @@ qx.Class.define("qx.test.Xml",
       var div = doc.createElement("div");
       this.assertEquals("div", div.tagName);
 
-      var xmlStr = '<html>' + '<body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?</body>' + '</html>';
+      var xmlStr = '<html><body>Juhu <em id="toll">Kinners</em>. Wie geht es <em>Euch</em>?</body></html>';
 
       var doc2 = qx.xml.Document.fromString(xmlStr);
       this.assertTrue(qx.dom.Node.isDocument(doc2));
@@ -54,7 +54,7 @@ qx.Class.define("qx.test.Xml",
     {
       var data = "<Root><Row>test1</Row><Row>test2</Row><Row>test3</Row></Root>";
 
-      var xml = qx.xml.Document.fromString(data);
+      qx.xml.Document.fromString(data);
       // this.debug("Converted to XML Document ", xml);
     },
 
@@ -155,7 +155,7 @@ qx.Class.define("qx.test.Xml",
 
       this.assertEquals("xsl:template", templates[0].tagName, "getElementsByTagNameNS for XML documents failed!");
 
-      var templates = qx.xml.Element.getElementsByTagNameNS(nsDoc.documentElement, "http://www.w3.org/1999/XSL/Transform", "template");
+      templates = qx.xml.Element.getElementsByTagNameNS(nsDoc.documentElement, "http://www.w3.org/1999/XSL/Transform", "template");
 
       this.assertEquals(2, templates.length, "getElementsByTagNameNS for element nodes failed!");
 

@@ -23,6 +23,8 @@ qx.Class.define("qx.test.bom.element.AnimationHandle",
 
   members :
   {
+    __keys : null,
+
     setUp : function() {
       this.__keys = qx.core.Environment.get("css.animation");
       if (this.__keys == null) {

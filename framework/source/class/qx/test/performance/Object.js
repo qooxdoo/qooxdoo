@@ -5,6 +5,8 @@ qx.Class.define("qx.test.performance.Object",
 
   members :
   {
+    __objects: null,
+
     CREATE_ITERATIONS : 100000,
 
 

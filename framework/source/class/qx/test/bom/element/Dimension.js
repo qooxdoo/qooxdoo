@@ -22,6 +22,11 @@ qx.Class.define("qx.test.bom.element.Dimension",
 
   members :
   {
+    __inlineElement : null,
+    __inlineElementWithPadding : null,
+    __blockElement : null,
+    __blockElementWithPadding : null,
+
     setUp : function()
     {
       this.__inlineElement = document.createElement("span");

@@ -71,8 +71,6 @@ qx.Class.define("qx.test.Interface",
         properties : { color : { } }
       });
 
-      var audi = new qx.test.i.Audi("audi");
-
       this.assertTrue(qx.Interface.classImplements(qx.test.i.Audi, qx.test.i.ICar));
       qx.Class.undefine("qx.test.i.Audi");
     },
@@ -173,7 +171,7 @@ qx.Class.define("qx.test.Interface",
       if (this.isDebugOn())
       {
         this.assertException(function() {
-          var i = new qx.test.i.ICar();
+          qx.test.i.ICar();
         }, Error);
 
 
@@ -365,7 +363,9 @@ qx.Class.define("qx.test.Interface",
             members :
             {
               getValue : function() {},
-              setValue : function(value) {}
+              setValue : function(value) {
+                value = value;
+              }
             }
           });
         });
@@ -377,7 +377,9 @@ qx.Class.define("qx.test.Interface",
         members :
         {
           getValue : function() {},
-          setValue : function(value) {}
+          setValue : function(value) {
+            value = value;
+          }
         }
       });
 
@@ -400,7 +402,9 @@ qx.Class.define("qx.test.Interface",
         members :
         {
           getValue : function() {},
-          setValue : function(value) {}
+          setValue : function(value) {
+            value = value;
+          }
         }
       });
     },

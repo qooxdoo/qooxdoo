@@ -21,9 +21,12 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
 
   members :
   {
+    __radioGroup : null,
+    __radioButtons : null,
+
     setUp : function()
     {
-      this.__radioGroup = new qx.ui.form.RadioGroup;
+      this.__radioGroup = new qx.ui.form.RadioGroup();
       this.__radioGroup.setAllowEmptySelection(true);
 
       this.__radioButtons = [];
@@ -55,7 +58,7 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
 
     testHiddenRadioButtons : function()
     {
-      var composite = new qx.ui.container.Composite;
+      var composite = new qx.ui.container.Composite();
       for (var i=0, j=this.__radioButtons.length; i<j; i++) {
         composite.add(this.__radioButtons[i]);
       }

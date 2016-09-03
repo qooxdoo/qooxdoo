@@ -71,10 +71,7 @@ qx.Class.define("qx.test.ui.command.GroupManager",
       var manager = new qx.ui.command.GroupManager();
 
       var group = new qx.ui.command.Group();
-      var cmd = new qx.ui.command.Command("Meta+T");
-
       var group2 = new qx.ui.command.Group();
-      var cmd2 = new qx.ui.command.Command("Meta+T");
 
       manager.add(group);
       manager.add(group2);

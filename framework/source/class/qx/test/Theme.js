@@ -25,6 +25,8 @@ qx.Class.define("qx.test.Theme",
 
   members :
   {
+    __formerTheme: null,
+
     setUp : function ()
     {
       this.__formerTheme = qx.theme.manager.Decoration.getInstance().getTheme();

@@ -23,6 +23,7 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualSelectBox",
   members :
   {
     __selectBox : null,
+    __model : null,
 
 
     setUp : function()

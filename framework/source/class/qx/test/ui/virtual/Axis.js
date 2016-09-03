@@ -351,13 +351,11 @@ qx.Class.define("qx.test.ui.virtual.Axis",
     testPerformanceSetupBestCase : function()
     {
       //window.top.console.profile("setup (best case)");
-      var start = new Date();
       for (var i=0; i<this.SETUP_ITER; i++)
       {
         this.axis.__ranges = null;
         this.axis.getItemAtPosition(0);
       }
-      var end = new Date();
       //window.top.console.profileEnd();
 
       // this.warn("setup time (best case): " + ((end - start) / this.SETUP_ITER) + "ms");
@@ -371,13 +369,11 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       }
 
       //window.top.console.profile("setup (worst case)");
-      var start = new Date();
       for (var i=0; i<this.SETUP_ITER; i++)
       {
         this.axis.__ranges = null;
         this.axis.getItemAtPosition(0);
       }
-      var end = new Date();
       //window.top.console.profileEnd();
 
       // this.warn("setup time (worst case): " + ((end - start) / this.SETUP_ITER) + "ms");
@@ -391,11 +387,9 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       var max = this.axis.getTotalSize();
 
       //window.top.console.profile("find (best case)");
-      var start = new Date();
       for (var i=0; i<this.FIND_ITER; i++) {
         this.axis.getItemAtPosition((i*17) % max);
       }
-      var end = new Date();
       //window.top.console.profileEnd();
 
       // this.warn("find time (best case): " + ((end - start) / this.FIND_ITER) + "ms");
@@ -412,11 +406,9 @@ qx.Class.define("qx.test.ui.virtual.Axis",
       var max = this.axis.getTotalSize();
 
       //window.top.console.profile("find (worst case)");
-      var start = new Date();
       for (var i=0; i<this.FIND_ITER; i++) {
         this.axis.getItemAtPosition((i*17) % max);
       }
-      var end = new Date();
       //window.top.console.profileEnd();
 
       // this.warn("find time (worst case): " + ((end - start) / this.FIND_ITER) + "ms");

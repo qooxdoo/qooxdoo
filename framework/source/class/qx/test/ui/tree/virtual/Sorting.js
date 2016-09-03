@@ -98,7 +98,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       };
 
       var sortedModel = this.createModel(1);
-      var root = this.createModelAndSetModel(1);
+      this.createModelAndSetModel(1);
 
       // remove filtered node "Node 2"
       sortedModel.getChildren().removeAt(2);
@@ -176,7 +176,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
 
     __logModel : function(model, level)
     {
-      level = level != null ? level : 0;
+      level = level === null ? 0 : level;
 
       var prefix = "";
       for (var i = 0; i < level; i++) {
@@ -184,7 +184,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Sorting",
       }
       console.log(prefix + ">", model.getName());
 
-      if (model.getChildren == null) {
+      if (model.getChildren === null) {
         return;
       }
 

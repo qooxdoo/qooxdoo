@@ -29,6 +29,8 @@ qx.Class.define("qx.test.ui.virtual.PointerEventMock",
 
   members :
   {
+    __config : null,
+
     clone : function() {
       return this;
     },

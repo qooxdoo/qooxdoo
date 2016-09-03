@@ -24,6 +24,8 @@ qx.Class.define("qx.test.bom.AnimationFrame",
 
   members :
   {
+    __frame : null,
+
     setUp : function()
     {
       this.__frame = new qx.bom.AnimationFrame();

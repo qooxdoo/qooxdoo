@@ -21,6 +21,8 @@ qx.Class.define("qx.test.util.StringBuilder",
 
   members :
   {
+    __sb : null,
+
     setUp : function() {
       this.__sb = new qx.util.StringBuilder();
     },
@@ -52,4 +54,3 @@ qx.Class.define("qx.test.util.StringBuilder",
     }
   }
 });
-

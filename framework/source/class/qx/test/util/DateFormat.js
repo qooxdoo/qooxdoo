@@ -24,35 +24,37 @@ qx.Class.define("qx.test.util.DateFormat",
 
   members :
   {
+    __dates : null,
 
-  // result contain an object with what should be expected, the result to test the date against
-  __dates : [
-    {'date' : new Date(2000, 2, 14), 'result' : {}},
-    {'date' : new Date(2006, 2, 14), 'result' : {}},
-    {'date' : new Date(2007, 3, 14), 'result' : {}},
-    {'date' : new Date(2009, 10, 30), 'result' : {}},
-    {'date' : new Date(2009, 8 ,30), 'result' : {}},
-    {'date' : new Date(2011, 3, 15), 'result' : {}},
-    {'date' : new Date(2011, 3, 16), 'result' : {}},
-    {'date' : new Date(2011, 3, 17), 'result' : {}},
-    {'date' : new Date(2011, 0, 26), 'result' : {'weekOfYear' : 4}},
-    {'date' : new Date(2011, 0, 1), 'result' : {'weekOfYear' : 52}},
-    {'date' : new Date(2011, 0, 3), 'result' : {'weekOfYear' : 1}},
-    {'date' : new Date(2011, 0, 10), 'result' : {'weekOfYear' : 2}},
-    {'date' : new Date(2011, 9, 3), 'result' : {'dayOfYear' : 276, 'era': {'abbrev': 'AD', 'fullName': 'Anno Domini', 'narrow': 'A'}}},
-    {'date' : new Date(2011,0,4), 'result' : {'dayOfYear' : 4, 'dayOfWeek': 2}},
-    {'date' : new Date(2011,0,4), 'result' : {'dayOfYear' : 4, 'dayOfWeek': 2}},
-    {'date' : new Date(2011,0,4,9,9,9), 'result' : {'h_hour': 9, 'K_hour': 9, 'H_hour': 9, 'k_hour': 9}},
-    {'date' : new Date(2011,0,4,14,9,9), 'result' : {'h_hour': 2, 'K_hour': 2, 'H_hour': 14, 'k_hour': 14}},
-    {'date' : new Date(2011,0,4,0,9,9), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 0, 'k_hour': 24}},
-    {'date' : new Date(2011,0,4,12,9,9), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 12, 'k_hour': 12}},
-    {'date' : new Date(2010,12,4,0,0,0), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 0, 'k_hour': 24}},
-    {'date' : new Date(-20,10,14), 'result' : {'era': {'abbrev': 'BC', 'fullName': 'Before Christ', 'narrow': 'B'}}},
-    {'date' : new Date(2012, 4, 24, 11, 49, 57, 1), 'result' : {}},
-    {'date' : new Date(2012, 4, 24, 11, 49, 57, 12), 'result' : {}},
-    {'date' : new Date(2012, 4, 24, 11, 49, 57, 123), 'result' : {}}
-
-  ],
+    setUp : function() {
+      // result contain an object with what should be expected, the result to test the date against
+      this.__dates = [
+        {'date' : new Date(2000, 2, 14), 'result' : {}},
+        {'date' : new Date(2006, 2, 14), 'result' : {}},
+        {'date' : new Date(2007, 3, 14), 'result' : {}},
+        {'date' : new Date(2009, 10, 30), 'result' : {}},
+        {'date' : new Date(2009, 8 ,30), 'result' : {}},
+        {'date' : new Date(2011, 3, 15), 'result' : {}},
+        {'date' : new Date(2011, 3, 16), 'result' : {}},
+        {'date' : new Date(2011, 3, 17), 'result' : {}},
+        {'date' : new Date(2011, 0, 26), 'result' : {'weekOfYear' : 4}},
+        {'date' : new Date(2011, 0, 1), 'result' : {'weekOfYear' : 52}},
+        {'date' : new Date(2011, 0, 3), 'result' : {'weekOfYear' : 1}},
+        {'date' : new Date(2011, 0, 10), 'result' : {'weekOfYear' : 2}},
+        {'date' : new Date(2011, 9, 3), 'result' : {'dayOfYear' : 276, 'era': {'abbrev': 'AD', 'fullName': 'Anno Domini', 'narrow': 'A'}}},
+        {'date' : new Date(2011,0,4), 'result' : {'dayOfYear' : 4, 'dayOfWeek': 2}},
+        {'date' : new Date(2011,0,4), 'result' : {'dayOfYear' : 4, 'dayOfWeek': 2}},
+        {'date' : new Date(2011,0,4,9,9,9), 'result' : {'h_hour': 9, 'K_hour': 9, 'H_hour': 9, 'k_hour': 9}},
+        {'date' : new Date(2011,0,4,14,9,9), 'result' : {'h_hour': 2, 'K_hour': 2, 'H_hour': 14, 'k_hour': 14}},
+        {'date' : new Date(2011,0,4,0,9,9), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 0, 'k_hour': 24}},
+        {'date' : new Date(2011,0,4,12,9,9), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 12, 'k_hour': 12}},
+        {'date' : new Date(2010,12,4,0,0,0), 'result' : {'h_hour': 12, 'K_hour': 0, 'H_hour': 0, 'k_hour': 24}},
+        {'date' : new Date(-20,10,14), 'result' : {'era': {'abbrev': 'BC', 'fullName': 'Before Christ', 'narrow': 'B'}}},
+        {'date' : new Date(2012, 4, 24, 11, 49, 57, 1), 'result' : {}},
+        {'date' : new Date(2012, 4, 24, 11, 49, 57, 12), 'result' : {}},
+        {'date' : new Date(2012, 4, 24, 11, 49, 57, 123), 'result' : {}}
+      ];
+    },
 
     tearDown : function() {
       qx.locale.Manager.getInstance().resetLocale();
@@ -532,7 +534,6 @@ qx.Class.define("qx.test.util.DateFormat",
 
     testPattern_e_parse : function(){
       var df, parsedDate;
-      var locale = qx.locale.Manager.getInstance().getLocale();
       for(var i=0; i<this.__dates.length; i++)
       {
         var date = this.__dates[i].date;
@@ -828,8 +829,6 @@ qx.Class.define("qx.test.util.DateFormat",
     var dfDE = new qx.util.format.DateFormat("EEEE yyyy-mm-dd","de_DE");
     var dfUS = new qx.util.format.DateFormat("EEEE yyyy-mm-dd","en_US");
     var d = new Date();
-
-    var frenchFormatteddateString = dfFR.format(d);
 
     this.assertEquals(df.format(d),dfUS.format(d));
 

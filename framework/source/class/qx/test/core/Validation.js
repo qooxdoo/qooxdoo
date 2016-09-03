@@ -99,14 +99,21 @@ qx.Class.define("qx.test.core.Validation",
 
   members :
   {
+    __model: null,
 
     testNumber : function()
     {
       var model = this.__model;
       // test for some false inputs
-      this.assertException(function() {model.setNumber("test");}, qx.core.ValidationError, null, "A String is no number.");
-      this.assertException(function() {model.setNumber(new Date());}, qx.core.ValidationError, null, "A Date is no number.");
-      this.assertException(function() {model.setNumber(this);}, qx.core.ValidationError, null, "this is no number.");
+      this.assertException(
+        function() {model.setNumber("test");},
+        qx.core.ValidationError, null, "A String is no number.");
+      this.assertException(
+        function() {model.setNumber(new Date());},
+        qx.core.ValidationError, null, "A Date is no number.");
+      this.assertException(
+        function() {model.setNumber(this);},
+        qx.core.ValidationError, null, "this is no number.");
 
       // test an positive integer
       model.setNumber(12);
@@ -125,10 +132,18 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
 
       // test some wrong addresses
-      this.assertException(function() {model.setEmail("test");}, qx.core.ValidationError, null, "test is a mailadress?");
-      this.assertException(function() {model.setEmail("@affe.de");}, qx.core.ValidationError, null, "@affe.de is never a mailadress!");
-      this.assertException(function() {model.setEmail("hans@@wurst.de");}, qx.core.ValidationError, null, "Are two @ allowed?");
-      this.assertException(function() {model.setEmail("m@a.d");}, qx.core.ValidationError, null, "m@a.d?");
+      this.assertException(
+        function() {model.setEmail("test");},
+        qx.core.ValidationError, null, "test is a mailadress?");
+      this.assertException(
+        function() {model.setEmail("@affe.de");},
+        qx.core.ValidationError, null, "@affe.de is never a mailadress!");
+      this.assertException(
+        function() {model.setEmail("hans@@wurst.de");},
+        qx.core.ValidationError, null, "Are two @ allowed?");
+      this.assertException(
+        function() {model.setEmail("m@a.d");},
+        qx.core.ValidationError, null, "m@a.d?");
 
       // test some working addresses
       model.setEmail("affe@zoo.de");
@@ -145,10 +160,18 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
 
       // test some wrong inputs
-      this.assertException(function() {model.setString(1);}, qx.core.ValidationError, null, "A number is not a string!");
-      this.assertException(function() {model.setString(this);}, qx.core.ValidationError, null, "This test is not a string!");
-      this.assertException(function() {model.setString(true);}, qx.core.ValidationError, null, "A boolean is not a string!");
-      this.assertException(function() {model.setString(new Date());}, qx.core.ValidationError, null, "A Date-Object is not a string!");
+      this.assertException(
+        function() {model.setString(1);},
+        qx.core.ValidationError, null, "A number is not a string!");
+      this.assertException(
+        function() {model.setString(this);},
+        qx.core.ValidationError, null, "This test is not a string!");
+      this.assertException(
+        function() {model.setString(true);},
+        qx.core.ValidationError, null, "A boolean is not a string!");
+      this.assertException(
+        function() {model.setString(new Date());},
+        qx.core.ValidationError, null, "A Date-Object is not a string!");
 
       // Test some working inputs
       model.setString("affe@zoo.de");
@@ -161,10 +184,18 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
 
       // test some wrong inputs
-      this.assertException(function() {model.setUrl(1);}, qx.core.ValidationError, null, "A number is not an url!");
-      this.assertException(function() {model.setUrl(false);}, qx.core.ValidationError, null, "A boolean is not an url!");
-      this.assertException(function() {model.setUrl("i am an url");}, qx.core.ValidationError, null, "'i am an url' as a string is not an url!");
-      this.assertException(function() {model.setUrl("http:/iamaurl");}, qx.core.ValidationError, null, "'http://iamaurl' is not an url!");
+      this.assertException(
+        function() {model.setUrl(1);},
+        qx.core.ValidationError, null, "A number is not an url!");
+      this.assertException(
+        function() {model.setUrl(false);},
+        qx.core.ValidationError, null, "A boolean is not an url!");
+      this.assertException(
+        function() {model.setUrl("i am an url");},
+        qx.core.ValidationError, null, "'i am an url' as a string is not an url!");
+      this.assertException(
+        function() {model.setUrl("http:/iamaurl");},
+        qx.core.ValidationError, null, "'http://iamaurl' is not an url!");
 
       // Test some working inputs
       model.setUrl("http://www.1und1.de");
@@ -182,11 +213,16 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
 
       // test some wrong inputs
-      this.assertException(function() {model.setColor(1);}, qx.core.ValidationError, null, "A number is not a color!");
-      this.assertException(function() {model.setColor("");}, qx.core.ValidationError, null, "A empty string is not a color!");
-      this.assertException(function() {model.setColor("FFFFFF");}, qx.core.ValidationError, null, "FFFFFF (missing #) is not a color!");
-      this.assertException(function() {model.setColor("bluecolor");}, qx.core.ValidationError, null, "'bluecolor' is not a color!");
-      this.assertException(function() {model.setColor("#FFFFGG");}, qx.core.ValidationError, null, "#FFFFGG is not a color!");
+      this.assertException(
+        function() {model.setColor(1);}, qx.core.ValidationError, null, "A number is not a color!");
+      this.assertException(
+        function() {model.setColor("");}, qx.core.ValidationError, null, "A empty string is not a color!");
+      this.assertException(
+        function() {model.setColor("FFFFFF");}, qx.core.ValidationError, null, "FFFFFF (missing #) is not a color!");
+      this.assertException(
+        function() {model.setColor("bluecolor");}, qx.core.ValidationError, null, "'bluecolor' is not a color!");
+      this.assertException(
+        function() {model.setColor("#FFFFGG");}, qx.core.ValidationError, null, "#FFFFGG is not a color!");
 
       // Test some working inputs
       model.setColor("black");
@@ -203,8 +239,10 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
 
       // test some wrong inputs (Rage defined from 1 to 2 including both)
-      this.assertException(function() {model.setRange(0.999999999);}, qx.core.ValidationError, null, "A 0.999999999 is not between 1 and 2.");
-      this.assertException(function() {model.setRange(2.000000001);}, qx.core.ValidationError, null, "A 2.000000001 is not between 1 and 2.");
+      this.assertException(
+        function() {model.setRange(0.999999999);}, qx.core.ValidationError, null, "A 0.999999999 is not between 1 and 2.");
+      this.assertException(
+        function() {model.setRange(2.000000001);}, qx.core.ValidationError, null, "A 2.000000001 is not between 1 and 2.");
 
       // Test some working inputs
       model.setRange(1);
@@ -221,9 +259,12 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
 
       // test some wrong inputs (allowed are male and female)
-      this.assertException(function() {model.setArray(0.999999999);}, qx.core.ValidationError, null, "A 0.999999999 is not in ['male', 'female']");
-      this.assertException(function() {model.setArray("malle");}, qx.core.ValidationError, null, "'malle' is not in ['male', 'female']");
-      this.assertException(function() {model.setArray("");}, qx.core.ValidationError, null, "A empty string is not in ['male', 'female']");
+      this.assertException(
+        function() {model.setArray(0.999999999);}, qx.core.ValidationError, null, "A 0.999999999 is not in ['male', 'female']");
+      this.assertException(
+        function() {model.setArray("malle");}, qx.core.ValidationError, null, "'malle' is not in ['male', 'female']");
+      this.assertException(
+        function() {model.setArray("");}, qx.core.ValidationError, null, "A empty string is not in ['male', 'female']");
 
       // Test some working inputs
       model.setArray("male");
@@ -237,10 +278,14 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
 
       // test some wrong inputs (String must be longer than 3)
-      this.assertException(function() {model.setCustom("");}, qx.core.ValidationError, null, "'' is too short");
-      this.assertException(function() {model.setCustom("1");}, qx.core.ValidationError, null, "'1' is too short");
-      this.assertException(function() {model.setCustom("12");}, qx.core.ValidationError, null, "'12' is too short");
-      this.assertException(function() {model.setCustom("123");}, qx.core.ValidationError, null, "'123' is too short");
+      this.assertException(
+        function() {model.setCustom("");}, qx.core.ValidationError, null, "'' is too short");
+      this.assertException(
+        function() {model.setCustom("1");}, qx.core.ValidationError, null, "'1' is too short");
+      this.assertException(
+        function() {model.setCustom("12");}, qx.core.ValidationError, null, "'12' is too short");
+      this.assertException(
+        function() {model.setCustom("123");}, qx.core.ValidationError, null, "'123' is too short");
 
       // Test some working inputs
       model.setCustom("male");
@@ -254,9 +299,12 @@ qx.Class.define("qx.test.core.Validation",
       var model = this.__model;
 
       // test some wrong inputs (Only digits)
-      this.assertException(function() {model.setRegExp("AFFE!");}, qx.core.ValidationError, null, "'AFFE!' does not fit /[0-9]*/.");
-      this.assertException(function() {model.setRegExp("_dfds_");}, qx.core.ValidationError, null, "_dfds_ does not fit /[0-9]*/.");
-      this.assertException(function() {model.setRegExp("$%&!&/%");}, qx.core.ValidationError, null, "$%&!&/% does not fit /[0-9]*/.");
+      this.assertException(
+        function() {model.setRegExp("AFFE!");}, qx.core.ValidationError, null, "'AFFE!' does not fit /[0-9]*/.");
+      this.assertException(
+        function() {model.setRegExp("_dfds_");}, qx.core.ValidationError, null, "_dfds_ does not fit /[0-9]*/.");
+      this.assertException(
+        function() {model.setRegExp("$%&!&/%");}, qx.core.ValidationError, null, "$%&!&/% does not fit /[0-9]*/.");
 
       // Test some working inputs
       model.setRegExp("abc");

@@ -160,7 +160,11 @@ qx.Class.define("qx.test.bom.Attribute",
       Attribute.set(this._input, "maxLength", 10);
       Attribute.set(this._input, "maxLength", null);
 
-      var maxLengthValue = qx.core.Environment.select("engine.name", this.__maxLengthValues);
+      var maxLengthValue = qx.core.Environment.select("engine.name", {
+        "mshtml"  : this.__maxLengthValues["mshtml"],
+        "webkit"  : this.__maxLengthValues["webkit"],
+        "default" : this.__maxLengthValues["default"]
+      });
 
       if (qx.core.Environment.get("browser.name") == "edge") {
         maxLengthValue = this.__maxLengthValues.mshtml;

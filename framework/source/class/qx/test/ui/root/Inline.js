@@ -22,6 +22,8 @@ qx.Class.define("qx.test.ui.root.Inline",
 
   members :
   {
+    __inlineIsleElement : null,
+
     setUp : function()
     {
       this.__inlineIsleElement = qx.dom.Element.create("div");
@@ -40,7 +42,7 @@ qx.Class.define("qx.test.ui.root.Inline",
     testAppearEvent : function()
     {
       var inlineRoot = new qx.ui.root.Inline(this.__inlineIsleElement);
-      inlineRoot.addListener("appear", function(e)
+      inlineRoot.addListener("appear", function()
       {
         this.resume(function() {
           this.assertTrue(qx.dom.Element.isInDom(inlineRoot.getContentElement().getDomElement()));

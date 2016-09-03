@@ -96,7 +96,6 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
 
     testCurrentTime: function()
     {
-      var that = this;
       this.assertEquals(0, this._media.getCurrentTime());
     },
 

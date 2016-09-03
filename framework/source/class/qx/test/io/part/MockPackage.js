@@ -4,13 +4,16 @@ qx.Bootstrap.define("qx.test.io.part.MockPackage",
   {
     this.id = id;
     this.delay = delay || 0;
-    this.error = !!error;
+    this.error = Boolean(error);
     this.readyState = readyState || "initialized";
-    this.useClosure = !!useClosure;
+    this.useClosure = Boolean(useClosure);
   },
 
   members :
   {
+    __readyState : null,
+    __notifyPackageResult : null,
+
     getReadyState : function() {
       return this.readyState;
     },
@@ -55,17 +58,17 @@ qx.Bootstrap.define("qx.test.io.part.MockPackage",
     },
 
 
-    saveClosure : function(closure)
+    saveClosure : function()
     {
       if (this.readyState == "error") {
         return;
       }
 
-      if (!this._loadWithClosure) {
-        this.execute();
-      } else {
+      if (this._loadWithClosure) {
         this.__readyState = "cached";
         this.__notifyPackageResult(this);
+      } else {
+        this.execute();
       }
     },
 

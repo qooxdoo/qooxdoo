@@ -235,9 +235,6 @@ qx.Class.define("qx.test.dev.unit.Sinon",
       var func = function() {};
       var obj = {"a": function() {}};
 
-      var spy = this.spy(func);
-      var stub = this.stub(obj, "a");
-      var xhr = this.useFakeXMLHttpRequest();
       var nxhr = window.XMLHttpRequest || window.ActiveXObject("Microsoft.XMLHTTP");
 
       this.getSandbox().restore();

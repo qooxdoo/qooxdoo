@@ -327,8 +327,7 @@ qx.Class.define("qx.test.bom.request.Xhr",
     //
 
     "test: emit timeout": function() {
-      var req = this.req,
-          that = this;
+      var req = this.req;
 
       var timeout = this.stub(req, "_emit").withArgs("timeout");
 
