@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.table.model.Simple",
   {
     this.base(arguments);
 
-    this.__rowArr = [];
+    this._rowArr = [];
     this.__sortColumnIndex = -1;
 
     // Array of objects, each with property "ascending" and "descending"
@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.table.model.Simple",
 
   members :
   {
-    __rowArr : null,
+    _rowArr : null,
     __editableColArr : null,
     __sortableColArr : null,
     __sortMethods : null,
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.table.model.Simple",
     // overridden
     getRowData : function(rowIndex)
     {
-      var rowData = this.__rowArr[rowIndex];
+      var rowData = this._rowArr[rowIndex];
       if (rowData == null || rowData.originalData == null) {
         return rowData;
       } else {
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     getRowDataAsMap : function(rowIndex)
     {
-      var rowData = this.__rowArr[rowIndex];
+      var rowData = this._rowArr[rowIndex];
 
       if (rowData != null) {
         var map = {};
@@ -327,7 +327,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
 
       comparator.columnIndex = columnIndex;
-      this.__rowArr.sort(comparator);
+      this._rowArr.sort(comparator);
 
       this.__sortColumnIndex = columnIndex;
       this.__sortAscending = ascending;
@@ -466,25 +466,25 @@ qx.Class.define("qx.ui.table.model.Simple",
 
     // overridden
     getRowCount : function() {
-      return this.__rowArr.length;
+      return this._rowArr.length;
     },
 
     // overridden
     getValue : function(columnIndex, rowIndex)
     {
-      if (rowIndex < 0 || rowIndex >= this.__rowArr.length) {
-        throw new Error("this.__rowArr out of bounds: " + rowIndex + " (0.." + this.__rowArr.length + ")");
+      if (rowIndex < 0 || rowIndex >= this._rowArr.length) {
+        throw new Error("this._rowArr out of bounds: " + rowIndex + " (0.." + this._rowArr.length + ")");
       }
 
-      return this.__rowArr[rowIndex][columnIndex];
+      return this._rowArr[rowIndex][columnIndex];
     },
 
     // overridden
     setValue : function(columnIndex, rowIndex, value)
     {
-      if (this.__rowArr[rowIndex][columnIndex] != value)
+      if (this._rowArr[rowIndex][columnIndex] != value)
       {
-        this.__rowArr[rowIndex][columnIndex] = value;
+        this._rowArr[rowIndex][columnIndex] = value;
 
         // Inform the listeners
         if (this.hasListener("dataChanged"))
@@ -517,7 +517,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     setData : function(rowArr, clearSorting)
     {
-      this.__rowArr = rowArr;
+      this._rowArr = rowArr;
 
       // Inform the listeners
       if (this.hasListener("dataChanged"))
@@ -550,7 +550,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      *           in this model.
      */
     getData : function() {
-      return this.__rowArr;
+      return this._rowArr;
     },
 
 
@@ -583,20 +583,20 @@ qx.Class.define("qx.ui.table.model.Simple",
     addRows : function(rowArr, startIndex, clearSorting)
     {
       if (startIndex == null) {
-        startIndex = this.__rowArr.length;
+        startIndex = this._rowArr.length;
       }
 
       // Prepare the rowArr so it can be used for apply
       rowArr.splice(0, 0, startIndex, 0);
 
       // Insert the new rows
-      Array.prototype.splice.apply(this.__rowArr, rowArr);
+      Array.prototype.splice.apply(this._rowArr, rowArr);
 
       // Inform the listeners
       var data =
       {
         firstRow    : startIndex,
-        lastRow     : this.__rowArr.length - 1,
+        lastRow     : this._rowArr.length - 1,
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
@@ -649,13 +649,13 @@ qx.Class.define("qx.ui.table.model.Simple",
       rowArr.splice(0, 0, startIndex, rowArr.length);
 
       // Replace rows
-      Array.prototype.splice.apply(this.__rowArr, rowArr);
+      Array.prototype.splice.apply(this._rowArr, rowArr);
 
       // Inform the listeners
       var data =
       {
         firstRow    : startIndex,
-        lastRow     : this.__rowArr.length - 1,
+        lastRow     : this._rowArr.length - 1,
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
@@ -695,13 +695,13 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     removeRows : function(startIndex, howMany, clearSorting)
     {
-      this.__rowArr.splice(startIndex, howMany);
+      this._rowArr.splice(startIndex, howMany);
 
       // Inform the listeners
       var data =
       {
         firstRow    : startIndex,
-        lastRow     : this.__rowArr.length - 1,
+        lastRow     : this._rowArr.length - 1,
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1,
         removeStart : startIndex,
@@ -754,7 +754,7 @@ qx.Class.define("qx.ui.table.model.Simple",
 
   destruct : function()
   {
-    this.__rowArr = this.__editableColArr = this.__sortMethods =
+    this._rowArr = this.__editableColArr = this.__sortMethods =
       this.__sortableColArr = null;
   }
 });

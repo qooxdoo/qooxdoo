@@ -319,7 +319,7 @@ qx.Bootstrap.define("qx.lang.Array",
     exclude : function(arr1, arr2)
     {
       if (arr1 instanceof qx.data.Array) {
-        return arr1.exclude(arr1, arr2);
+        return arr1.exclude(arr2);
       }
       
       // this check is important because opera throws an uncatchable error if apply is called without

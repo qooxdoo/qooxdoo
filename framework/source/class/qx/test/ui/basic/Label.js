@@ -74,6 +74,40 @@ qx.Class.define("qx.test.ui.basic.Label",
     },
 
 
+    testSelectableSetOnCreate : function() {
+      var l = new qx.ui.basic.Label().set({selectable : true});
+      this.getRoot().add(l);
+      this.flush();
+      this.assertEquals("on", l.getContentElement().getDomElement().getAttribute("qxselectable"));
+      l.destroy();
+    },
+
+    testSelectableUnSetOnCreate : function() {
+      var l = new qx.ui.basic.Label().set({selectable : false});
+      this.getRoot().add(l);
+      this.flush();
+      this.assertEquals("off", l.getContentElement().getDomElement().getAttribute("qxselectable"));
+      l.destroy();
+    },
+
+    testSelectableSet : function() {
+      var l = new qx.ui.basic.Label();
+      l.setSelectable(true);
+      this.getRoot().add(l);
+      this.flush();
+      this.assertEquals("on", l.getContentElement().getDomElement().getAttribute("qxselectable"));
+      l.destroy();
+    },
+
+    testSelectableUnset : function() {
+      var l = new qx.ui.basic.Label();
+      l.setSelectable(false);
+      this.getRoot().add(l);
+      this.flush();
+      this.assertEquals("off", l.getContentElement().getDomElement().getAttribute("qxselectable"));
+      l.destroy();
+    },
+
     testWrapSet : function() {
       var l = new qx.ui.basic.Label();
       l.setRich(true);
@@ -174,7 +208,7 @@ qx.Class.define("qx.test.ui.basic.Label",
       font1.dispose();
     },
 
-    testBudy : function() {
+    testBuddy : function() {
       var label = new qx.ui.basic.Label();
       var textfield1 = new qx.ui.form.TextField();
       var textfield2 = new qx.ui.form.TextField();

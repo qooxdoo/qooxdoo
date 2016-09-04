@@ -94,8 +94,9 @@ qx.Bootstrap.define("qx.Annotation", {
       }
       var annos = group ? clazz.$$annotations[group] : clazz.$$annotations;
       var match = annos && annos[name];
-      if (!match)
+      if (!match) {
         return [];
+      }
       if (annoClass) {
         match = match.filter(function(anno) {
           return anno instanceof annoClass;

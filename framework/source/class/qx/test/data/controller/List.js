@@ -1130,7 +1130,7 @@ qx.Class.define("qx.test.data.controller.List",
     testScrollBySelection : function()
     {
       this.__setUpString();
-      // set a smal hight (list hast to scroll)
+      // set a smal hight (list has to scroll)
       this.__list.setHeight(40);
       this.getRoot().add(this.__list);
       var selectables = this.__list.getSelectables();
@@ -1149,7 +1149,7 @@ qx.Class.define("qx.test.data.controller.List",
     testScrollBySelectionMulti : function()
     {
       this.__setUpString();
-      // set a smal hight (list hast to scroll)
+      // set a smal hight (list has to scroll)
       this.__list.setHeight(40);
       this.__list.setSelectionMode("multi");
       this.getRoot().add(this.__list);

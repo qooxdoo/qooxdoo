@@ -452,6 +452,9 @@ qx.Class.define("qx.html.Element",
 
     /** @type {Element} DOM element of this object */
     __element : null,
+    
+    /** @type {Widget} the Widget this element is attached to */
+    __widget : null,
 
     /** @type {Boolean} Marker for always visible root nodes (often the body node) */
     __root : false,
@@ -699,8 +702,6 @@ qx.Class.define("qx.html.Element",
      */
     _syncChildren : function()
     {
-      var ObjectRegistry = qx.core.ObjectRegistry;
-
       var dataChildren = this.__children;
       var dataLength = dataChildren.length;
       var dataChild;

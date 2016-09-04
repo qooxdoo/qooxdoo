@@ -221,8 +221,9 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      */
     fromHashCode : function(hash, suppressWarnings) {
       var obj = this.__registry[hash] || null;
-      if (!obj && !suppressWarnings)
+      if (!obj && !suppressWarnings) {
         qx.log.Logger.warn(this, "Object with hash code "+ hash + " does not exist (since Qooxdoo 6.0 fromHashCode requires that you explicitly register objects with qx.core.ObjectRegistry.register)");
+      }
       return obj;
     },
 
