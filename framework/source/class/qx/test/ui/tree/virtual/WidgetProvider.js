@@ -238,17 +238,17 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     testRemoveBindingsFromNode : function()
     {
       var widget = new qx.ui.tree.VirtualTreeItem();
-      var oldWidgetBindungs = widget.getBindings().length;
-      var oldModelBindungs = this.getLookupTable().getBindings().length;
+      var oldWidgetBindings = widget.getBindings().length;
+      var oldModelBindings = this.getLookupTable().getBindings().length;
 
       this.provider._bindItem(widget, 0);
       this.provider._removeBindingsFrom(widget);
 
-      var newWidgetBindungs = widget.getBindings().length;
-      var newModelBindungs = this.getLookupTable().getBindings().length;
+      var newWidgetBindings = widget.getBindings().length;
+      var newModelBindings = this.getLookupTable().getBindings().length;
 
-      this.assertEquals(oldWidgetBindungs, newWidgetBindungs, "Binding on widget is not removed!");
-      this.assertEquals(oldModelBindungs, newModelBindungs, "Binding on model is not removed!");
+      this.assertEquals(oldWidgetBindings, newWidgetBindings, "Binding on widget is not removed!");
+      this.assertEquals(oldModelBindings, newModelBindings, "Binding on model is not removed!");
 
       widget.dispose();
     },
@@ -257,18 +257,18 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     testReverseBinding : function()
     {
       var widget = new qx.ui.tree.VirtualTreeItem();
-      var oldWidgetBindungs = widget.getBindings().length;
-      var oldModelBindungs = this.getLookupTable().getBindings().length;
+      var oldWidgetBindings = widget.getBindings().length;
+      var oldModelBindings = this.getLookupTable().getBindings().length;
 
       this.provider.bindPropertyReverse("name", "label", null, widget, 0);
       widget.setLabel("ort-zerreiber");
       this.assertEquals("ort-zerreiber", this.model.getName());
 
       this.provider._removeBindingsFrom(widget);
-      var newWidgetBindungs = widget.getBindings().length;
-      var newModelBindungs = this.getLookupTable().getBindings().length;
-      this.assertEquals(oldWidgetBindungs, newWidgetBindungs, "Binding on widget is not removed!");
-      this.assertEquals(oldModelBindungs, newModelBindungs, "Binding on model is not removed!");
+      var newWidgetBindings = widget.getBindings().length;
+      var newModelBindings = this.getLookupTable().getBindings().length;
+      this.assertEquals(oldWidgetBindings, newWidgetBindings, "Binding on widget is not removed!");
+      this.assertEquals(oldModelBindings, newModelBindings, "Binding on model is not removed!");
 
       widget.dispose();
     },
@@ -279,9 +279,9 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var widget1 = new qx.ui.tree.VirtualTreeItem();
       var widget2 = new qx.ui.tree.VirtualTreeItem();
 
-      var oldWidget1Bindungs = widget1.getBindings().length;
-      var oldWidget2Bindungs = widget2.getBindings().length;
-      var oldModelBindungs = this.getLookupTable().getBindings().length;
+      var oldWidget1Bindings = widget1.getBindings().length;
+      var oldWidget2Bindings = widget2.getBindings().length;
+      var oldModelBindings = this.getLookupTable().getBindings().length;
 
       this.provider.bindProperty("name", "label", null, widget1, 0);
       this.provider.bindProperty("name", "label", null, widget2, 1);
@@ -290,12 +290,12 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
       this.provider.removeBindings();
 
-      var newWidget1Bindungs = widget1.getBindings().length;
-      var newWidget2Bindungs = widget2.getBindings().length;
-      var newModelBindungs = this.getLookupTable().getBindings().length;
-      this.assertEquals(oldWidget1Bindungs, newWidget1Bindungs, "Binding on first widget is not removed!");
-      this.assertEquals(oldWidget2Bindungs, newWidget2Bindungs, "Binding on second widget is not removed!");
-      this.assertEquals(oldModelBindungs, newModelBindungs, "Binding on model is not removed!");
+      var newWidget1Bindings = widget1.getBindings().length;
+      var newWidget2Bindings = widget2.getBindings().length;
+      var newModelBindings = this.getLookupTable().getBindings().length;
+      this.assertEquals(oldWidget1Bindings, newWidget1Bindings, "Binding on first widget is not removed!");
+      this.assertEquals(oldWidget2Bindings, newWidget2Bindings, "Binding on second widget is not removed!");
+      this.assertEquals(oldModelBindings, newModelBindings, "Binding on model is not removed!");
 
       widget1.dispose();
       widget2.dispose();
