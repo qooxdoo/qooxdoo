@@ -20,6 +20,10 @@ qx.Class.define("qx.test.Annotation", {
   extend: qx.dev.unit.TestCase,
   
   members: {
+    /**
+     * @lint ignoreReferenceField(@methodA)
+     * @lint ignoreReferenceField(@methodB)
+     */
     testBasic: function() {
       var clazzTop = qx.Class.define(null, {
           "@": [ "class-a-anno" ],
@@ -127,6 +131,10 @@ qx.Class.define("qx.test.Annotation", {
       
     },
     
+    /**
+     * @lint ignoreReferenceField(@methodA)
+     * @lint ignoreReferenceField(@methodB)
+     */
     testByType: function() {
       var MyAnno = qx.Class.define(null, {
         extend: qx.core.Object,
