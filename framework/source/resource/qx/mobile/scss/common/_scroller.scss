@@ -36,8 +36,10 @@
 }
 
 // Disable horizontal scrollbar on native scroll mode.
-::-webkit-scrollbar {
-  display:none;
+// Restrict the rule to the top mobile app element and its
+// children.
+#qx_id_0::-webkit-scrollbar, #qx_id_0 *::-webkit-scrollbar {
+  display: none;
 }
 
 // Fix for iOS 7 webkit-scrolling issue on orientationchange.
