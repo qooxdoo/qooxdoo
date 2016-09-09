@@ -763,6 +763,9 @@ Description
              * **ignoreJsdocKey**
 
                JSDoc @ keys which are either unknown (i.e. not documented on this page) or do not comply with the syntax given here.
+             * **ignoreUndeclaredPrivates**
+
+               Private members in class code which are not declared in the class map.
       * - name
         - The identifier which the lint subkey should be applied to.
 
