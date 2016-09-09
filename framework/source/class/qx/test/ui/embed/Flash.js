@@ -106,7 +106,7 @@ qx.Class.define("qx.test.ui.embed.Flash",
       this.__flash.addListener("timeout", test.timeout);
 
       var that = this;
-      this.wait(2000, function()
+      this.wait(8000, function()
       {
         that.assertCalled(loading);
         that.assertCalled(loaded);
