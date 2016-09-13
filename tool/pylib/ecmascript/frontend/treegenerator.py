@@ -1209,13 +1209,8 @@ def pfix(self):
         advance()
     # params
     assert token.id == "(", "Function definition requires parameter list"
-    params = symbol("params")()
-    token.patch(params)
+    params = parameters()
     self.childappend(params)
-    group = expression()  # group parsing as helper
-    for c in group.children:
-        params.childappend(c)
-    #params.children = group.children retains group as parent!
     # body
     body = symbol("body")()
     token.patch(body)
@@ -1883,13 +1878,10 @@ def std(self):
         #advance(")")
 
         # insert "params" node, par. to function.pfix
-        assert token.id == "("
-        params = symbol("params")(token.get("line"), token.get("column"))
+        assert token.id == "(", "Catch requires parameter list"
+        params = parameters()
         catch.childappend(params)
-        group = expression()  # group parsing as helper
-        for c in group.children:
-            params.childappend(c)  # to have params as parent of group's children
-
+        # body
         catch.childappend(block())
     if token.id == "finally":
         finally_ = token
@@ -2208,6 +2200,16 @@ def toJS(self, opts):
     return r
 
 symbol("third").toListG = toListG_just_children
+
+
+def parameters():
+    # a - pot. empty - list of identifiers
+    params = symbol("params")(token.get("line"), token.get("column"))
+    group = expression()
+    for c in group.children:
+        assert c.id == "identifier", "Formal function parameters must be identifiers"
+        params.childappend(c) # this assures params is parent of c
+    return params
 
 
 #symbol("params")
