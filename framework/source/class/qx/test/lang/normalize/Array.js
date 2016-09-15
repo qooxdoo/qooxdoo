@@ -34,7 +34,6 @@ qx.Class.define("qx.test.lang.normalize.Array",
       }
     },
     
-    
     testIndexOf : function()
     {
       var obj = {};
