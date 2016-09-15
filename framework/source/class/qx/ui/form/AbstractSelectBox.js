@@ -151,8 +151,11 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
           // MS Edge only fix for [ISSUE #9174]
           if(qx.core.Environment.get("browser.name") == "edge") {
-            control.getChildControl("scrollbar-y").addListener("pointerdown", this.__onScrollbarYPointerDown, this);
-            control.getChildControl("scrollbar-y").addListener("pointerup", this.__onScrollbarYPointerUp, this);
+            var scrollbar = control.getChildControl("scrollbar-y");
+            if(scrollbar.classname == "qx.ui.core.scroll.NativeScrollBar") { 
+              scrollbar.addListener("pointerdown", this.__onScrollbarYPointerDown, this);
+              scrollbar.addListener("pointerup", this.__onScrollbarYPointerUp, this);
+            }
           }
           break;
 
