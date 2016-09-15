@@ -123,6 +123,10 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
   members :
   {
+    // inhibit blur flag for MS Edge fix for issue [ISSUE #9174]
+    __inhibitBlur : false,
+
+
     // overridden
     _createChildControlImpl : function(id, hash)
     {
@@ -144,6 +148,12 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           control.addListener("changeSelection", this._onListChangeSelection, this);
           control.addListener("pointerdown", this._onListPointerDown, this);
           control.getChildControl("pane").addListener("tap", this.close, this);
+
+          // MS Edge only fix for [ISSUE #9174]
+          if(qx.core.Environment.get("browser.name") == "edge") {
+            control.getChildControl("scrollbar-y").addListener("pointerdown", this.__onScrollbarYPointerDown, this);
+            control.getChildControl("scrollbar-y").addListener("pointerup", this.__onScrollbarYPointerUp, this);
+          }
           break;
 
         case "popup":
@@ -272,7 +282,38 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      */
     _onBlur : function(e)
     {
+      // MS Edge only fix for [ISSUE #9174] 
+      if(qx.core.Environment.get("browser.name") == "edge") {
+        if(this.__inhibitBlur === true) {
+          this.__inhibitBlur = false;
+          this.focus();
+          return;
+        }
+      }
+      
       this.close();
+    },
+
+
+    /**
+     * Handler for the pointerdown event of scrollbar-y child of the list 
+     * MS Edge only fix for [ISSUE #9174] 
+     * 
+     * @param e {qx.event.type.Pointer} The pointerdown event.
+     */
+    __onScrollbarYPointerDown : function(e) {
+      this.__inhibitBlur = true;
+    },
+
+
+    /**
+     * Handler for the pointerup event of scrollbar-y child of the list 
+     * MS Edge only fix for [ISSUE #9174] 
+     * 
+     * @param e {qx.event.type.Pointer} The pointerup event.
+     */
+    __onScrollbarYPointerUp : function(e) {
+      this.__inhibitBlur = false;
     },
 
 
