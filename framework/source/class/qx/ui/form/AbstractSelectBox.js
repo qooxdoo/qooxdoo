@@ -280,19 +280,23 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      *
      * @param e {qx.event.type.Focus} The blur event.
      */
-    _onBlur : function(e)
+    _onBlur : qx.core.Environment.select("browser.name",
     {
-      // MS Edge only fix for [ISSUE #9174] 
-      if(qx.core.Environment.get("browser.name") == "edge") {
+      "edge" : function(e) {
+        // MS Edge only fix for [ISSUE #9174] 
         if(this.__inhibitBlur === true) {
           this.__inhibitBlur = false;
           this.focus();
           return;
         }
+        
+        this.close();
+      },
+
+      "default" : function(e) {
+        this.close();
       }
-      
-      this.close();
-    },
+    }),
 
 
     /**
@@ -301,9 +305,14 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * 
      * @param e {qx.event.type.Pointer} The pointerdown event.
      */
-    __onScrollbarYPointerDown : function(e) {
-      this.__inhibitBlur = true;
-    },
+    __onScrollbarYPointerDown : qx.core.Environment.select("browser.name",
+    {
+      "edge" : function(e) {
+        this.__inhibitBlur = true;
+      },
+
+      "default" : null
+    }),
 
 
     /**
@@ -312,9 +321,14 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * 
      * @param e {qx.event.type.Pointer} The pointerup event.
      */
-    __onScrollbarYPointerUp : function(e) {
-      this.__inhibitBlur = false;
-    },
+    __onScrollbarYPointerUp : qx.core.Environment.select("browser.name",
+    {
+      "edge" : function(e) {
+        this.__inhibitBlur = false;
+      },
+
+      "default" : null
+    }),
 
 
     /**
