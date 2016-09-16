@@ -439,7 +439,7 @@ qx.Class.define("qx.event.handler.Focus",
         qx.bom.Event.addNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper);
       },
 
-     "webkit" : qx.core.Environment.select("browser.name", 
+      "webkit" : qx.core.Environment.select("browser.name", 
       {
         // fix for [ISSUE #9174]
         // distinguish bettween MS Edge, which is reported
