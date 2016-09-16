@@ -539,17 +539,32 @@ qx.Class.define("qx.event.handler.Focus",
         qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper);
       },
 
-      "webkit" : function()
+      "webkit" : qx.core.Environment.select("browser.name", 
       {
-        qx.bom.Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
-        qx.bom.Event.removeNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper, true);
-        qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper, false);
+        // fix for [ISSUE #9174]
+        // distinguish bettween MS Edge, which is reported
+        // as engine webkit and all other webkit browsers
+        "edge" : function()
+        {
+          qx.bom.Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper);
+          qx.bom.Event.removeNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper);
+          qx.bom.Event.removeNativeListener(this._document, "focusin", this.__onNativeFocusInWrapper);
+          qx.bom.Event.removeNativeListener(this._document, "focusout", this.__onNativeFocusOutWrapper);
+          qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper);
+        },
 
-        qx.bom.Event.removeNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
-
-        qx.bom.Event.removeNativeListener(this._window, "focus", this.__onNativeFocusWrapper, true);
-        qx.bom.Event.removeNativeListener(this._window, "blur", this.__onNativeBlurWrapper, true);
-      },
+        "default" : function()
+        {
+          qx.bom.Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
+          qx.bom.Event.removeNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper, true);
+          qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper, false);
+  
+          qx.bom.Event.removeNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
+  
+          qx.bom.Event.removeNativeListener(this._window, "focus", this.__onNativeFocusWrapper, true);
+          qx.bom.Event.removeNativeListener(this._window, "blur", this.__onNativeBlurWrapper, true);
+        }
+      }),
 
       "opera" : function()
       {
