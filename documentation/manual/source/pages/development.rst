@@ -106,4 +106,5 @@ Miscellaneous
    development/reporting_bugs
    development/aspects_template
    development/internet_explorer_specific_settings
+   development/using_non_qx_libs
 
