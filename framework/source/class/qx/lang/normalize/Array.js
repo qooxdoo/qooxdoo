@@ -385,48 +385,25 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
   },
 
   defer : function(statics) {
-    if (!qx.core.Environment.get("ecmascript.array.indexof")) {
-      Array.prototype.indexOf = statics.indexOf;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.lastindexof")) {
-      Array.prototype.lastIndexOf = statics.lastIndexOf;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.foreach")) {
-      Array.prototype.forEach = statics.forEach;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.filter")) {
-      Array.prototype.filter = statics.filter;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.map")) {
-      Array.prototype.map = statics.map;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.some")) {
-      Array.prototype.some = statics.some;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.find")) {
-      Array.prototype.find = statics.find;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.findIndex")) {
-      Array.prototype.findIndex = statics.findIndex;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.every")) {
-      Array.prototype.every = statics.every;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.reduce")) {
-      Array.prototype.reduce = statics.reduce;
-    }
-
-    if (!qx.core.Environment.get("ecmascript.array.reduceright")) {
-      Array.prototype.reduceRight = statics.reduceRight;
-    }
+    var install = function(key, name) {
+      if (!qx.core.Environment.get(key)) {
+        Object.defineProperty(Array.prototype, name, {
+          enumerable: false,
+          value: statics[name]
+        });
+      }
+    };
+    
+    install("ecmascript.array.indexof", "indexOf");
+    install("ecmascript.array.lastindexof", "lastIndexOf");
+    install("ecmascript.array.foreach", "forEach");
+    install("ecmascript.array.filter", "filter");
+    install("ecmascript.array.map", "map");
+    install("ecmascript.array.some", "some");
+    install("ecmascript.array.find", "find");
+    install("ecmascript.array.findIndex", "findIndex");
+    install("ecmascript.array.every", "every");
+    install("ecmascript.array.reduce", "reduce");
+    install("ecmascript.array.reduceright", "reduceRight");
   }
 });
