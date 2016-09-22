@@ -253,6 +253,17 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     {
       var isWin7 = (qx.core.Environment.get("os.name") === "win" && qx.core.Environment.get("os.version") === "7");
       return (isWin7 ? false : true);
+    },
+
+
+    /**
+     * Checks if the application is not running in a Google Chrome browser on Linux
+     *
+     * @return {Boolean} <code>true</code> if the browser is not Google Chrome on Linux
+     */
+    hasNoChromeOnLinux : function()
+    {
+      return (qx.core.Environment.get("browser.name") === "chrome" && qx.core.Environment.get("os.name") === "linux"?false:true);
     }
   }
 
