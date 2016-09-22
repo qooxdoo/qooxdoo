@@ -139,10 +139,10 @@ qx.Mixin.define("qx.core.MProperty",
     {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertString(prop);
-      }
 
-      if (!this["get" + qx.Bootstrap.firstUp(prop)]) {
-        throw new Error("No such property: " + prop);
+        if (!this["get" + qx.Bootstrap.firstUp(prop)]) {
+          throw new Error("No such property: " + prop);
+        }
       }
 
       return this["$$user_" + prop] !== undefined ||
