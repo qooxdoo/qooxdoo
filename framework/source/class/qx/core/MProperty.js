@@ -137,7 +137,9 @@ qx.Mixin.define("qx.core.MProperty",
      */
     isPropertyInitialized : function(prop)
     {
-      qx.core.Assert.assertString(prop);
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertString(prop);
+      }
 
       if (!this["get" + qx.Bootstrap.firstUp(prop)]) {
         throw new Error("No such property: " + prop);
