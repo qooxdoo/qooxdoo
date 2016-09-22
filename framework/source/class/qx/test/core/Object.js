@@ -363,6 +363,28 @@ qx.Class.define("qx.test.core.Object",
 
       qx.Class.undefine("qx.test.Single");
       o.dispose();
+    },
+
+
+    testIsPropertyInitialized : function()
+    {
+      qx.Class.define("qx.test.MyClass", {
+        extend : qx.core.Object,
+        properties :
+        {
+          a : {},
+          b : {init : false}
+        }
+      });
+      var o = new qx.test.MyClass();
+
+      this.assertFalse(o.isPropertyInitialized("a"));
+      o.setA(false);
+      this.assertTrue(o.isPropertyInitialized("a"));
+      this.assertTrue(o.isPropertyInitialized("b"));
+
+      qx.Class.undefine("qx.test.MyClass");
+      o.dispose();
     }
   }
 });
