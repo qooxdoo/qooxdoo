@@ -46,7 +46,7 @@
  * 
  *      // other useful contructor code here
  * 
- *      // do something usefull if all scripts are loaded
+ *      // do something usefull when all scripts are loaded
  *      this.addListener('scriptsReady', this.__onScriptsReady, this);
  *   
  *      // in debug mode load the uncompressed unobfuscated scripts
@@ -81,12 +81,12 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
     /**
      * fired when a specific script is loaded successfully
      */
-    scriptSuccess: 'qx.event.type.Data',
+    scriptLoadingSuccess: 'qx.event.type.Data',
 
     /**
      * fired when a specific script fails loading
      */
-    scriptFailed: 'qx.event.type.Data',
+    scriptLoadingFailed: 'qx.event.type.Data',
 
     /**
      * fired when all given scripts are loaded, the first time all scripts reported
@@ -157,7 +157,7 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
         else if (this.constructor.__LOADING[script]){
           // start over to the next script, when this script is successfully loaded by
           // the other instance
-          this.constructor.__LOADING[script].addListenerOnce('scriptSuccess', function(){
+          this.constructor.__LOADING[script].addListenerOnce('scriptLoadingSuccess', function(){
             this.__loadScriptArr(codeArr);
           }, this);
         }
@@ -174,7 +174,7 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
             this.constructor.__LOADING[script] = null;
             this.constructor.__LOADED[script] = true;
             
-            this.fireDataEvent('scriptSuccess', {script: script, uri: uri, status: request.status});
+            this.fireDataEvent('scriptLoadingSuccess', {script: script, uri: uri, status: request.status});
             
             // on success recursive call for loading the next script
             this.__loadScriptArr(codeArr);
@@ -184,14 +184,14 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
             this.constructor.__LOADING[script] = null;
             this.constructor.__LOADED[script] = false;
             
-            this.fireDataEvent('scriptFailed', {script: script, uri: uri, status: request.status});
+            this.fireDataEvent('scriptLoadingFailed', {script: script, uri: uri, status: request.status});
           }, this);
 
           loader.on("timeout", function(request) {
             this.constructor.__LOADING[script] = null;
             this.constructor.__LOADED[script] = false;
             
-            this.fireDataEvent('scriptFailed', {script: script, uri: uri, status: request.status});
+            this.fireDataEvent('scriptLoadingFailed', {script: script, uri: uri, status: request.status});
           }, this);
           
           loader.open("GET", uri);
