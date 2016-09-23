@@ -60,8 +60,8 @@ qx.Class.define("qx.test.io.DynamicScriptLoader",
             this._scriptSuccessCalled = [];
             this._scriptFailedCalled = [];
              
-            this.addListener('scriptSuccess', this._onScriptSuccess, this);
-            this.addListener('scriptFailed', this._onScriptFailed, this);
+            this.addListener('scriptLoadingSuccess', this._onScriptLoadingSuccess, this);
+            this.addListener('scriptLoadingFailed', this._onScriptLoadingFailed, this);
             this.addListener('scriptsReady', this._onScriptsReady, this);
             this.addListener('scriptsLoadingComplete', this._onScriptsLoadingComplete, this);
           },
@@ -76,15 +76,15 @@ qx.Class.define("qx.test.io.DynamicScriptLoader",
             this._scriptsLoadingCompleteCalled = true;
           },
 
-          _onScriptSuccess : function(e) {
+          _onScriptLoadingSuccess : function(e) {
             var d = e.getData();
-            this.debug("_onScriptSuccess: script: " + d.script + ", status: " + d.status);
+            this.debug("_onScriptLoadingSuccess: script: " + d.script + ", status: " + d.status);
             this._scriptSuccessCalled.push(d);
           },
           
-          _onScriptFailed : function(e) {
+          _onScriptLoadingFailed : function(e) {
             var d = e.getData();
-            this.debug("_onScriptFailed: script: " + d.script + ", status: " + d.status);
+            this.debug("_onScriptLoadingFailed: script: " + d.script + ", status: " + d.status);
             this._scriptFailedCalled.push(d);
           }
         }
