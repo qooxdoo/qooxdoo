@@ -29,7 +29,7 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
     {
       mshtml : ["border-box", "content-box"],
       opera : ["border-box", "content-box"],
-      gecko : ["border-box", "content-box", "padding-box"],
+      gecko : ["border-box", "content-box"],
       webkit : ["border-box", "content-box"]
     },
 
