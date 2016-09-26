@@ -147,7 +147,7 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
       var script = codeArr.shift();
 
       if (script) {
-        // the script was alreay loaded, recurse to the next script
+        // if the script was alreay loaded, recurse to the next script
         //
         if (this.constructor.__LOADED[script] === true) {
           this.__loadScriptArr(codeArr);
@@ -155,13 +155,13 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
         // the script is currently loading, initiated by another instance
         // 
         else if (this.constructor.__LOADING[script]){
-          // start over to the next script, when this script is successfully loaded by
+          // start again at the next script, when this script is successfully loaded by
           // the other instance
           this.constructor.__LOADING[script].addListenerOnce('scriptLoadingSuccess', function(){
             this.__loadScriptArr(codeArr);
           }, this);
         }
-        // the loader was not yet startet for this script
+        // the loader was not yet started for this script
         //
         else {
           this.constructor.__LOADING[script] = this;
