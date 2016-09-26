@@ -202,6 +202,7 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
         //
         else {
           this.constructor.__LOADING[script] = this;
+          qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script] = this;
           
           var uri = qx.util.ResourceManager.getInstance().toUri(script);
           
