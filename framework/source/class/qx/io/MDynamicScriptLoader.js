@@ -103,6 +103,25 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
 
   /*
   *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
+  statics : {
+    /**
+     * a global hash with all scripts currently being processed 
+     */
+    __GLOBAL_LOADING : {},
+    
+    /**
+     * a global hash with all scripts successfully loaded by this mixin 
+     */
+    __GLOBAL_LOADED : {}
+  },
+
+
+  /*
+  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -152,12 +171,29 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
         if (this.constructor.__LOADED[script] === true) {
           this.__loadScriptArr(codeArr);
         }
+        // the script is present in the global script array and was therefore
+        // loaded by another class using the mixin
+        //
+        else if (qx.io.MDynamicScriptLoader.__GLOBAL_LOADED[script] === true) {
+          this.constructor.__LOADED[script] = true;
+          this.fireDataEvent('scriptLoadingSuccess', {script: script, uri: uri});
+          this.__loadScriptArr(codeArr);
+        }
         // the script is currently loading, initiated by another instance
         // 
         else if (this.constructor.__LOADING[script]){
           // start again at the next script, when this script is successfully loaded by
           // the other instance
           this.constructor.__LOADING[script].addListenerOnce('scriptLoadingSuccess', function(){
+            this.__loadScriptArr(codeArr);
+          }, this);
+        }
+        // the script is currently loading, initiated by another class using this mixin
+        // 
+        else if (qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script]){
+          // start over to the next script, when this script is successfully loaded by
+          // the an instance of another class also using this mixin
+          qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script].addListenerOnce('scriptLoadingSuccess', function(){
             this.__loadScriptArr(codeArr);
           }, this);
         }
@@ -173,6 +209,8 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
           loader.on("load", function(request){
             this.constructor.__LOADING[script] = null;
             this.constructor.__LOADED[script] = true;
+            qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script] = null;
+            qx.io.MDynamicScriptLoader.__GLOBAL_LOADED[script] = true;
             
             this.fireDataEvent('scriptLoadingSuccess', {script: script, uri: uri, status: request.status});
             
@@ -183,6 +221,8 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
           loader.on("error", function(request) {
             this.constructor.__LOADING[script] = null;
             this.constructor.__LOADED[script] = false;
+            qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script] = null;
+            qx.io.MDynamicScriptLoader.__GLOBAL_LOADED[script] = false;
             
             this.fireDataEvent('scriptLoadingFailed', {script: script, uri: uri, status: request.status});
           }, this);
@@ -190,6 +230,8 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
           loader.on("timeout", function(request) {
             this.constructor.__LOADING[script] = null;
             this.constructor.__LOADED[script] = false;
+            qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script] = null;
+            qx.io.MDynamicScriptLoader.__GLOBAL_LOADED[script] = false;
             
             this.fireDataEvent('scriptLoadingFailed', {script: script, uri: uri, status: request.status});
           }, this);
