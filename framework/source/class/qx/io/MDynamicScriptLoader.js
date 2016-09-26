@@ -190,7 +190,8 @@ qx.Mixin.define("qx.io.MDynamicScriptLoader",
         }
         // the script is currently loading, initiated by another class using this mixin
         // 
-        else if (qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script]){
+        else if (qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script] &&
+                 qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script] != this){
           // start over to the next script, when this script is successfully loaded by
           // the an instance of another class also using this mixin
           qx.io.MDynamicScriptLoader.__GLOBAL_LOADING[script].addListenerOnce('scriptLoadingSuccess', function(){
