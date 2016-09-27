@@ -46,44 +46,29 @@
  *        console.log("Got it");
  *    };
  *    // initialize the script loading
- *    var dynLoader = qx.io.DynamicScriptLoader.getInstance();
+ *    var dynLoader = new qx.util.DynamicScriptLoader();
  *
  *
- *    var readyId = dynLoader.addListenerOnce('ready',function(e){
+ *    dynLoader.addListenerOnce('ready',function(e){
  *      console.log("all scripts have been loaded!");
  *    });
 
  *    dynLoader.addListener('failed',function(e){
  *      var data = e.getData();
- *      dynLoader.removeListenerById(readyId);
  *      console.log("failed to load "+data.script);
  *    });
  *
- *    var lastScript = dynLoader.load([
+ *    dynLoader.load([
  *        "myapp/jquery/jquery"+min+".js",
  *        "myapp/highcharts/highcharts"+src+".js",
  *        "myapp/highcharts/highcharts-more"+src+".js",
  *        "myapp/highcharts/highcharts-modifications.js"
- *    ],callback,this);
- *
- *    if (lastScript === null){
- *      var loadId = loader.addListener('loaded',function(e){
- *        var data = e.getData();
- *        if (data.script == lastScript){
- *          console.log('Last Script Loaded');
- *          dynLoader.removeListenerById(loadId);
- *        }
- *      }, this);
- *    }
- *    else {
- *      console.log('Scripts have already been loaded');
- *    }
+ *    ]);
+ *    
  * </code>
  */
-qx.Class.define("qx.io.DynamicScriptLoader", {
+qx.Class.define("qx.util.DynamicScriptLoader", {
   extend: qx.core.Object,
-
-  type: "singleton",
 
   /**
    * Initialize the state hashes if not yet done
@@ -91,8 +76,6 @@ qx.Class.define("qx.io.DynamicScriptLoader", {
 
   construct: function () {
     this.base(arguments);
-    this.__ADDED = {};
-    this.__LOADED = {};
     this.__QUEUE = [];
     this.__LOADING = false;
   },
@@ -120,6 +103,10 @@ qx.Class.define("qx.io.DynamicScriptLoader", {
     ready: 'qx.event.type.Event'
   },
 
+  statics: {
+    __ADDED: {},
+    __LOADED: {}
+  },
 
   /*
   *****************************************************************************
@@ -130,8 +117,6 @@ qx.Class.define("qx.io.DynamicScriptLoader", {
 
   members: {
 
-    __ADDED: null,
-    __LOADED: null,
     __QUEUE: null,
     __LOADING: null,
 
@@ -147,35 +132,11 @@ qx.Class.define("qx.io.DynamicScriptLoader", {
      *     Returns the name of the last script you can expect to be loaded if all scripts are already loaded null will be returned.
      *
      */
-    load: function(codeArr, callback, context) {
-      var lastScript = null;
+    load: function(codeArr) {
       codeArr.forEach(function(script) {
-        if (this.__ADDED[script] !== true) {
-          this.__QUEUE.push(script);
-          this.__ADDED[script] = true;
-        }
-        if (.this.__LOADED[script] !== true) {
-          lastScript = script;
-        }
-      }, this);
-      if (callback) {
-        var cb = new qx.util.DeferredCall(callback, context);
-        if (lastScript !== null) {
-          var id = this.addListener('loaded', function(e) {
-            var data = e.getData();
-            // this.debug("Loading " + data.script + " completed");
-            if (data.script == lastScript) {
-              this.removeListenerById(id);
-              cb.schedule();
-            }
-          }, this);
-        }
-        else {
-          cb.schedule();
-        }
-      }
+         this.__QUEUE.push(script);
+      },this);
       this.__loadScripts();
-      return lastScript;
     },
 
 
@@ -187,61 +148,84 @@ qx.Class.define("qx.io.DynamicScriptLoader", {
      * @param codeArr {Array} an array with the uri names of the scripts
      */
     __loadScripts: function() {
-
+      var cl = qx.util.DynamicScriptLoader;
       if (this.__LOADING === true) {
         return;
       }
 
       var script = this.__QUEUE.shift();
-
-      if (script) {
-        this.__LOADING = true;
-        var uri = qx.util.ResourceManager.getInstance().toUri(script);
-
-        var loader = new qx.bom.request.Script();
-
-        loader.on("load", function(request) {
-          this.__LOADED[script] = true;
-          this.__LOADING = false;
-          this.fireDataEvent('loaded', {
-            script: script,
-            uri: uri,
-            status: request.status
-          });
-          // start the next load event after the current thread has ended
-          var call = new qx.util.DeferredCall(this.__loadScripts, this);
-          call.schedule();
-        }, this);
-
-        loader.on("error", function(request) {
-          this.__LOADING = false;
-          this.fireDataEvent('failed', {
-            script: script,
-            uri: uri,
-            status: request.status
-          });
-        }, this);
-
-        loader.on("timeout", function(request) {
-          this.__LOADING = false;
-          this.fireDataEvent('failed', {
-            script: script,
-            uri: uri,
-            status: request.status
-          });
-        }, this);
-        // this.debug("Loading " + script + " started");
-        loader.open("GET", uri);
-        loader.send();
+      if (!script){
+        this.fireEvent("ready")
+        return;
       }
-      // no more scripts in codeArr, which means that all the
-      // scripts were loaded.
-      else {
-        // even when we 'fall through' make sure the event gets fired AFTER the current
-        // code is done.
-        var ready = new qx.util.DeferredCall(function(){this.fireEvent("ready")},this);
-        ready.schedule();
+
+      if (cl.__LOADED[script]){
+        this.__loadScripts();
+        return;
+      }           
+
+      this.__LOADING = true
+
+      var dynLoader = cl.__ADDED[script];
+      if (dynLoader){
+          var id1 = dynLoader.addListener('loaded',function(e){
+            var data = e.getData();
+            if (data.script === script){
+              dynLoader.removeListenerById(id2);
+              dynLoader.removeListenerById(id1);
+              this.fireDataEvent('loaded',data);
+              this.__LOADING = false;
+              this.__loadScripts();
+            }
+          },this);
+          var id2 = dynLoader.addListener('failed',function(e){
+            var data = e.getData();
+            if (data.script === script){
+              dynLoader.removeListenerById(id1);
+              dynLoader.removeListenerById(id2);              
+              this.fireDataEvent('failed',data);
+              this.__LOADING = false;
+            }
+          },this);
+          return;
       }
+
+      var uri = qx.util.ResourceManager.getInstance().toUri(script);
+      var loader = new qx.bom.request.Script();
+
+      loader.on("load", function(request) {
+        cl.__LOADED[script] = true;
+        delete cl.__ADDED[script];
+        this.fireDataEvent('loaded', {
+          script: script,
+          uri: uri,
+          status: request.status
+        });
+        this.__LOADING = false;
+        this.__loadScripts();
+      },this);
+
+      loader.on("error", function(request) {
+        this.fireDataEvent('failed', {
+          script: script,
+          uri: uri,
+          status: request.status
+        });        
+        this.__LOADING = false;
+      }, this);
+ 
+      loader.on("timeout", function(request) {
+        this.fireDataEvent('failed', {
+          script: script,
+          uri: uri,
+          status: request.status
+        });
+        this.__LOADING = false;
+      }, this);
+
+      // this.debug("Loading " + script + " started");
+      loader.open("GET", uri);
+      loader.send();
     }
   }
 });

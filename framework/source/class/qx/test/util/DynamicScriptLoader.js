@@ -28,7 +28,7 @@
  * @ignore(qx.dynamicScriptLoadTest.*)
  */
 
-qx.Class.define("qx.test.io.DynamicScriptLoader", {
+qx.Class.define("qx.test.util.DynamicScriptLoader", {
   extend: qx.dev.unit.TestCase,
 
   members: {
@@ -43,61 +43,57 @@ qx.Class.define("qx.test.io.DynamicScriptLoader", {
         delete qx.test.DYNAMICSCRIPTTEST;
       }
     },
-
-    "test 1: dynamic script loading sequential succeeds": function() {
-        var loader = qx.io.DynamicScriptLoader.getInstance();
-        var lastScript;
-        var lastScriptLoaded = false;
-        var loadId = loader.addListener('loaded',function(e){
-            var data = e.getData();
-            if (data.script == lastScript){
-                lastScriptLoaded = true;
-                loader.removeListenerById(loadId);
-            }
+    
+    "test 1: dynamic parallel loading": function() {
+        var l1 = new qx.util.DynamicScriptLoader();
+        var l2 = new qx.util.DynamicScriptLoader();
+        var l1Ready = false;
+        var l2Ready = false;
+        l1.addListenerOnce('ready',function(){
+            l1Ready = true;
+            this.resume(function(){
+              this.assertTrue(l1Ready && l2Ready);
+              this.assertEquals(qx.test.DYNAMICSCRIPTTEST.second.third,"dynamically loaded");
+            },this);
+        },this);
+        l2.addListenerOnce('ready',function(){
+            l2Ready = true;
+            this.assertTrue(!l1Ready && l2Ready);
         },this);
 
-        loader.addListenerOnce('ready',function(){
-            this.assertTrue(lastScriptLoaded);
-        },this);
-
-        var lastScript = loader.load([
+        l1.load([
           "qx/test/dynamicscriptloader/first.js",
           "qx/test/dynamicscriptloader/second.js",
           "qx/test/dynamicscriptloader/third.js"
-        ],function(){
-          this.resume(function(){
-            console.log(qx.test.DYNAMICSCRIPTTEST);
-            this.assertEquals(qx.test.DYNAMICSCRIPTTEST.second.third,"dynamically loaded");
-          },this);
-        },this);
+        ]);
+        l2.load([
+          "qx/test/dynamicscriptloader/first.js",
+          "qx/test/dynamicscriptloader/second.js",
+        ]);
         this.wait();
     },
 
     "test 2: do not load again": function() {
-        var loader = qx.io.DynamicScriptLoader.getInstance();
+        var loader = new qx.util.DynamicScriptLoader();
         var noEvent = true;
         var checkId = loader.addListener('loaded',function(e){
           noEvent = false;
         });
         loader.addListenerOnce('ready',function(){
-          this.resume(function(){
-            this.assertTrue(noEvent);
-          },this);
-          loader.removeListenerById(checkId);
+          this.assertTrue(noEvent);
         },this);
-        var lastScript = loader.load([
+        loader.load([
           "qx/test/dynamicscriptloader/first.js",
           "qx/test/dynamicscriptloader/second.js",
           "qx/test/dynamicscriptloader/third.js"
         ]);
-        this.assertTrue( lastScript == null );
-        this.wait();
     },
     "test 3: fail to load": function() {
-        var loader = qx.io.DynamicScriptLoader.getInstance();
+        var loader = new qx.util.DynamicScriptLoader();
         loader.addListenerOnce('failed',function(e){
+          var data = e.getData();
           this.resume(function(){
-            this.assertEquals(e.getData().script,"qx/test/dynamicscriptloader/xyc.js");
+            this.assertEquals(data.script,"qx/test/dynamicscriptloader/xyc.js");
          },this);
         },this);
         loader.load([
