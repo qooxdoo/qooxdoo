@@ -88,17 +88,17 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
   events: {
     /**
-     * fired when a specific script is loaded successfully
+     * fired when a script is loaded successfully. The data contains 'script' and 'status' keys.
      */
     loaded: 'qx.event.type.Data',
 
     /**
-     * fired when a specific script fails loading
+     * fired when a specific script fails loading.  The data contains 'script' and 'status' keys.
      */
     failed: 'qx.event.type.Data',
 
     /**
-     * fired when all given scripts are loaded, each time loadScriptsDynamic is called
+     * fired when all given scripts are loaded, each time loadScriptsDynamic is called.
      */
     ready: 'qx.event.type.Event'
   },
@@ -160,6 +160,10 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       }
 
       if (cl.__LOADED[script]){
+        this.fireDataEvent('loaded',{
+          script: script,
+          status: 'preloaded'
+        });
         this.__loadScripts();
         return;
       }           
@@ -198,7 +202,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
         delete cl.__ADDED[script];
         this.fireDataEvent('loaded', {
           script: script,
-          uri: uri,
           status: request.status
         });
         this.__LOADING = false;
@@ -208,7 +211,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       loader.on("error", function(request) {
         this.fireDataEvent('failed', {
           script: script,
-          uri: uri,
           status: request.status
         });        
         this.__LOADING = false;
@@ -217,7 +219,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       loader.on("timeout", function(request) {
         this.fireDataEvent('failed', {
           script: script,
-          uri: uri,
           status: request.status
         });
         this.__LOADING = false;

@@ -77,7 +77,9 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
         var loader = new qx.util.DynamicScriptLoader();
         var noEvent = true;
         var checkId = loader.addListener('loaded',function(e){
-          noEvent = false;
+          if (e.getData().status !== "preloaded"){
+            noEvent = false;
+          }
         });
         loader.addListenerOnce('ready',function(){
           this.assertTrue(noEvent);
