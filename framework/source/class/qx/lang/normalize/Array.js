@@ -384,6 +384,9 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
     }
   },
 
+  /**
+   * @lint environmentNonLiteralKey()
+   */
   defer : function(statics) {
     var install = function(key, name) {
       if (!qx.core.Environment.get(key)) {
