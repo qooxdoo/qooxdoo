@@ -24,6 +24,7 @@
  * MDN documentation &copy; Mozilla Contributors.
  *
  * @group (Polyfill)
+ * @use(qx.bom.client.EcmaScript)
  */
 qx.Bootstrap.define("qx.lang.normalize.Array", {
 
