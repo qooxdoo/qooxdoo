@@ -65,6 +65,8 @@
           "=collect-environment-info": { "$ref": "#/definitions/collect-environment-info" },
           "combine-images":            { "$ref": "#/definitions/combine-images" },
           "=combine-images":           { "$ref": "#/definitions/combine-images" },
+          "font-map":                  { "$ref": "#/definitions/font-map" },
+          "=font-map":                 { "$ref": "#/definitions/font-map" },
           "compile":                   { "$ref": "#/definitions/compile" },
           "=compile":                  { "$ref": "#/definitions/compile" },
           "compile-options":           { "$ref": "#/definitions/compile-options" },
@@ -253,6 +255,30 @@
               "prefix": {
                 "type": "array",
                 "items": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "font-map": {
+      "description": "Triggers creation of a font map that resolves the glyphname to its unicode id.",
+      "type": "object",
+      "properties": {
+        "fonts": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "prefix": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "size": {
+                "type": "number"
+              },
+              "alias": {
+                "type": "string"
               }
             }
           }

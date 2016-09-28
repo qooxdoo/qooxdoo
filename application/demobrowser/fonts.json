@@ -1,0 +1,29 @@
+// call only through config.json, for macro settings
+{
+  "jobs" :
+  {
+    "make-font-map" :
+    {
+      "desc" : "Build a font mapping from glyphname to unicode id",
+
+      "let" :
+      {
+        "RESPATH" : "./source/resource",
+        "QXRESPATH" : "${QOOXDOO_PATH}/framework/source/resource"
+      },
+
+      "font-map" :
+      {
+        "fonts" :
+        {
+          "${RESPATH}/demobrowser/demo/fonts/fontawesome-webfont.ttf" :
+          {
+            "prefix": [ "${RESPATH}" ],
+            "alias" : "FontAwesome",
+            "size" : 40
+          }
+        }
+      }
+    }
+  }
+}

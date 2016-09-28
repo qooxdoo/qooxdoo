@@ -17,6 +17,7 @@
 ************************************************************************ */
 
 /**
+ * @asset(qx/test/webfonts/fontawesome-webfont.*)
  * @asset(qx/icon/Tango/48/places/folder.png)
  * @asset(qx/icon/Tango/32/places/folder.png)
  * @asset(qx/static/blank.gif)
@@ -370,6 +371,50 @@ qx.Class.define("qx.test.ui.basic.Image",
       }.bind(this));
     },
 
+    testWebFontImage : function() {
+      this._initWebFont();
+
+      var image = new qx.ui.basic.Image("@FontAwesome/heart");
+      this.addAutoDispose(image);
+
+      var el = image.getContentElement();
+      this.assertEquals("", el.getValue());
+
+      var width = image.getWidth();
+      var height = image.getHeight();
+
+      // No scale
+      image.setScale(false);
+      image.setWidth(20);
+      this.assertEquals("40px", el.getStyle("fontSize"));
+
+      // Scale
+      image.setScale(true);
+      this.assertEquals("20px", el.getStyle("fontSize"));
+
+      image.setWidth(30);
+      this.assertEquals("30px", el.getStyle("fontSize"));
+
+      // Back to no scale
+      image.setScale(false);
+      this.assertEquals("40px", el.getStyle("fontSize"));
+
+      // Change content element
+      image.setSource("icon/16/apps/office-spreadsheet.png");
+      el = image.getContentElement();
+      this.assertInstance(el, qx.html.Image);
+
+      image.setSource("@FontAwesome/arrow_right");
+      el = image.getContentElement();
+      this.assertInstance(el, qx.html.Label);
+
+      // Set back by unicode number
+      image.setSource("@FontAwesome/f004");
+      this.assertEquals("", el.getValue());
+
+      image.destroy();
+    },
+
     testHighResImage: function () {
       if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
         this.skip();
@@ -457,6 +502,37 @@ qx.Class.define("qx.test.ui.basic.Image",
     isFirefox : function()
     {
       return qx.core.Environment.get("engine.name") === "gecko";
+    },
+
+    _initWebFont : function()
+    {
+      qx.$$resources["@FontAwesome/heart"] = [40, 40, 61444];
+      qx.$$resources["@FontAwesome/arrow_right"] = [40, 47, 61537];
+
+      var currentFont = qx.theme.manager.Font.getInstance().getTheme();
+
+      // Add font definitions
+      var config = {
+        fonts: {
+          "FontAwesome": {
+            size: 40,
+            lineHeight: 1,
+            comparisonString : "\uf1e3\uf1f7\uf11b\uf19d",
+            family: ["FontAwesome"],
+            sources: [
+              {
+                family: "FontAwesome",
+                source: [
+                  "qx/test/webfonts/fontawesome-webfont.ttf" , "qx/test/webfonts/fontawesome-webfont.woff"
+                ]
+              }
+            ]
+          }
+        }
+      };
+
+      qx.Theme.define("qx.theme.icon.Font", config);
+      qx.Theme.include(currentFont, qx.theme.icon.Font);
     }
 
   }

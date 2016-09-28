@@ -103,6 +103,7 @@ Miscellaneous
    :maxdepth: 2
 
    development/image_clipping_and_combining
+   development/icon_fonts
    development/reporting_bugs
    development/aspects_template
    development/internet_explorer_specific_settings

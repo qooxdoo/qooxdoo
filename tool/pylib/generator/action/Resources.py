@@ -175,3 +175,58 @@ def runImageCombining(jobconf, confObj):
     return
 
 
+##
+# Go through a list of fonts and create a glyphname to unicode map
+def runFontMap(jobconf, confObj):
+
+    if not jobconf.get("font-map", False):
+        return
+
+    console = Context.console
+    cache = Context.cache
+
+    # Test for fontforge
+    try:
+        import fontforge
+    except ImportError:
+        console.error("Font map generation is not possible: fontforge is missing")
+        return
+
+    console.info("Generating font map...")
+    console.indent()
+
+    done = []
+
+    fonts = jobconf.get("font-map/fonts", {})
+    for font, fontspec in fonts.iteritems():
+        alias = fontspec["alias"] or font.fontfamily
+
+        if alias in done:
+            continue
+        done.append(alias);
+
+        config = {
+          "alias" : alias or font.fontfamily,
+          "size" : fontspec["size"] or 48,
+          "mapping" : {}
+        }
+
+        fo = fontforge.open(font)
+
+        for glyph in fo:
+            go = fo[glyph]
+            if go.unicode > 0:
+                config["mapping"][go.glyphname] = [go.unicode, round(go.width / float(go.vwidth), 3)]
+
+        # store meta data for this font
+        bname = os.path.basename(font)
+        ri = bname.rfind('.')
+        if ri > -1:
+            bname = bname[:ri]
+        bname += '.meta'
+        meta_fname = os.path.join(os.path.dirname(font), bname)
+        console.debug("writing meta file %s" % meta_fname)
+        filetool.save(meta_fname, json.dumps(config, ensure_ascii=False, sort_keys=True))
+
+    console.outdent()
+    return
