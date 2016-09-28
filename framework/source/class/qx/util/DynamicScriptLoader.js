@@ -104,7 +104,14 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
   },
 
   statics: {
-    __ADDED: {},
+    /**
+     * Map of scripts being added at the present time. Key is script name; value is instance of this class which
+     * is loading it.
+     */
+    __IN_PROGRESS: {},
+     /**
+      * Map of scripts that have fully loaded. Key is script name; value is true
+      */
     __LOADED: {}
   },
 
@@ -176,7 +183,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
       this.__LOADING = true
 
-      dynLoader = cl.__ADDED[script];
+      dynLoader = cl.__IN_PROGRESS[script];
       if (dynLoader){
 
           id1 = dynLoader.addListener('loaded',function(e){
@@ -207,7 +214,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       loader = new qx.bom.request.Script();
       loader.on("load", function(request) {
         cl.__LOADED[script] = true;
-        delete cl.__ADDED[script];
+        delete cl.__IN_PROGRESS[script];
         this.fireDataEvent('loaded', {
           script: script,
           status: request.status
@@ -234,7 +241,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
       // this.debug("Loading " + script + " started");
       loader.open("GET", uri);
-      cl.__ADDED[script] = this;
+      cl.__IN_PROGRESS[script] = this;
       loader.send();
     }
   }
