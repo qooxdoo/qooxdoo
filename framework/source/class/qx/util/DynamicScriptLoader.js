@@ -149,11 +149,17 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      */
     __loadScripts: function() {
       var cl = qx.util.DynamicScriptLoader;
+      var script;
+      var dynLoader;
+      var id1, id2;
+      var uri;
+      var loader;
+
       if (this.__LOADING === true) {
         return;
       }
 
-      var script = this.__QUEUE.shift();
+      script = this.__QUEUE.shift();
       if (!script){
         this.fireEvent("ready")
         return;
@@ -170,9 +176,10 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
       this.__LOADING = true
 
-      var dynLoader = cl.__ADDED[script];
+      dynLoader = cl.__ADDED[script];
       if (dynLoader){
-          var id1 = dynLoader.addListener('loaded',function(e){
+
+          id1 = dynLoader.addListener('loaded',function(e){
             var data = e.getData();
             if (data.script === script){
               dynLoader.removeListenerById(id2);
@@ -182,7 +189,8 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
               this.__loadScripts();
             }
           },this);
-          var id2 = dynLoader.addListener('failed',function(e){
+
+          id2 = dynLoader.addListener('failed',function(e){
             var data = e.getData();
             if (data.script === script){
               dynLoader.removeListenerById(id1);
@@ -191,12 +199,12 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
               this.__LOADING = false;
             }
           },this);
+
           return;
       }
 
-      var uri = qx.util.ResourceManager.getInstance().toUri(script);
-      var loader = new qx.bom.request.Script();
-
+      uri = qx.util.ResourceManager.getInstance().toUri(script);
+      loader = new qx.bom.request.Script();
       loader.on("load", function(request) {
         cl.__LOADED[script] = true;
         delete cl.__ADDED[script];
@@ -226,6 +234,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
       // this.debug("Loading " + script + " started");
       loader.open("GET", uri);
+      cl.__ADDED[script] = this;
       loader.send();
     }
   }
