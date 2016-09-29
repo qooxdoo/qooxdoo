@@ -139,7 +139,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      */
     start: function() {
       this.start = function(){
-        throw new Error('you can only call start once per instance');
+        throw new Error(this.tr('you can only call start once per instance'));
       }
       this.__loadScripts();
     },
