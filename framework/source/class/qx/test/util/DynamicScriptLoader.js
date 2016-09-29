@@ -104,9 +104,7 @@ qx.Class.define("qx.test.util.DynamicScriptLoader", {
         this.wait();
     },
     "test 4: double start": function() {
-        var loader = new qx.util.DynamicScriptLoader([
-          "qx/test/dynamicscriptloader/first.js",
-        ]);
+        var loader = new qx.util.DynamicScriptLoader("qx/test/dynamicscriptloader/first.js");
         loader.start();
         try {
           loader.start();

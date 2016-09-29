@@ -72,14 +72,16 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
   extend: qx.core.Object,
 
   /**
-   * Initialize the state hashes if not yet done
+   * Create a loader for the given scripts.
    *
-   * @param scriptArr {Array} an array with the uri names of the scripts
+   * @param scriptArr {Array|String} the uri name(s) of the script(s) to load 
    */
 
   construct: function (scriptArr) {
     this.base(arguments);
-    this.__QUEUE = qx.lang.Array.clone(scriptArr);
+    this.__QUEUE = (qx.lang.Type.isString(scriptArr)
+                ? [ scriptArr ]
+                : qx.lang.Array.clone(scriptArr));
   },
 
   /*
