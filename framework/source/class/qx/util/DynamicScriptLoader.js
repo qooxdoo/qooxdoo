@@ -122,18 +122,25 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
   members: {
 
+    /**
+     * Array of the scripts to be loaded
+     */
     __QUEUE: null,
+
+    /**
+     * Is the loading already in progress? this will make repeated calls to load work
+     */
     __LOADING: null,
 
 
     /**
      * Load scripts dynamically, typically used in the instance constructor
      *
-     * @param codeArr {Array} an array with the uri names of the scripts
+     * @param scriptArr {Array} an array with the uri names of the scripts
      *
      */
-    load: function(codeArr) {
-      codeArr.forEach(function(script) {
+    load: function(scriptArr) {
+      scriptArr.forEach(function(script) {
          this.__QUEUE.push(script);
       },this);
       this.__loadScripts();
@@ -145,7 +152,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      *
      * Recursively called until the array of scripts is consumed
      *
-     * @param codeArr {Array} an array with the uri names of the scripts
      */
     __loadScripts: function() {
       var cl = qx.util.DynamicScriptLoader;
@@ -192,12 +198,13 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
           id2 = dynLoader.addListener('failed',function(e){
             var data = e.getData();
-            if (data.script === script){
-              dynLoader.removeListenerById(id1);
-              dynLoader.removeListenerById(id2);              
-              this.fireDataEvent('failed',data);
-              this.__LOADING = false;
-            }
+            dynLoader.removeListenerById(id1);
+            dynLoader.removeListenerById(id2);              
+            this.fireDataEvent('failed',{
+              script: script,
+              status: 'loading of ' + data.script + ' failed while waiting for ' + script
+            });
+            this.__LOADING = false;
           },this);
 
           return;
