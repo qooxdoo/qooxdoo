@@ -20,7 +20,10 @@
 
 
 /**
- * Dynamically load non qx scripts on first instance init
+ * Dynamically load non qx scripts. This class is aware of all scripts that have
+ * been loaded using its instances, so if two instances load jquery, it will only
+ * be loaded once, and the second instance will wait for the jquery to be loaded
+ * before continuing to load additional scripts.
  *
  * Usage example:
  *
@@ -44,7 +47,12 @@
  *    }
  *
  *    // initialize the script loading
- *    var dynLoader = new qx.util.DynamicScriptLoader();
+ *    var dynLoader = new qx.util.DynamicScriptLoader([
+ *        "myapp/jquery/jquery"+min+".js",
+ *        "myapp/highcharts/highcharts"+src+".js",
+ *        "myapp/highcharts/highcharts-more"+src+".js",
+ *        "myapp/highcharts/highcharts-modifications.js"
+ *    ]);
  *
  *
  *    dynLoader.addListenerOnce('ready',function(e){
@@ -56,12 +64,7 @@
  *      console.log("failed to load "+data.script);
  *    });
  *
- *    dynLoader.load([
- *        "myapp/jquery/jquery"+min+".js",
- *        "myapp/highcharts/highcharts"+src+".js",
- *        "myapp/highcharts/highcharts-more"+src+".js",
- *        "myapp/highcharts/highcharts-modifications.js"
- *    ]);
+ *    dynLoader.start();
  *    
  * </code>
  */
@@ -70,12 +73,13 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
   /**
    * Initialize the state hashes if not yet done
+   *
+   * @param scriptArr {Array} an array with the uri names of the scripts
    */
 
-  construct: function () {
+  construct: function (scriptArr) {
     this.base(arguments);
-    this.__QUEUE = [];
-    this.__LOADING = false;
+    this.__QUEUE = qx.lang.Array.clone(scriptArr);
   },
 
   /*
@@ -128,21 +132,13 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
     __QUEUE: null,
 
     /**
-     * Is the loading already in progress? this will make repeated calls to load work
-     */
-    __LOADING: null,
-
-
-    /**
-     * Load scripts dynamically, typically used in the instance constructor
-     *
-     * @param scriptArr {Array} an array with the uri names of the scripts
+     * Start loading scripts. This may only be called once!
      *
      */
-    load: function(scriptArr) {
-      scriptArr.forEach(function(script) {
-         this.__QUEUE.push(script);
-      },this);
+    start: function() {
+      this.load = function(){
+        throw new Error('you can only call start once per instance');
+      }
       this.__loadScripts();
     },
 
@@ -161,10 +157,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       var uri;
       var loader;
 
-      if (this.__LOADING === true) {
-        return;
-      }
-
       script = this.__QUEUE.shift();
       if (!script){
         this.fireEvent("ready")
@@ -180,8 +172,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
         return;
       }           
 
-      this.__LOADING = true
-
       dynLoader = cl.__IN_PROGRESS[script];
       if (dynLoader){
 
@@ -191,7 +181,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
               dynLoader.removeListenerById(id2);
               dynLoader.removeListenerById(id1);
               this.fireDataEvent('loaded',data);
-              this.__LOADING = false;
               this.__loadScripts();
             }
           },this);
@@ -204,7 +193,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
               script: script,
               status: 'loading of ' + data.script + ' failed while waiting for ' + script
             });
-            this.__LOADING = false;
           },this);
 
           return;
@@ -219,7 +207,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
           script: script,
           status: request.status
         });
-        this.__LOADING = false;
         this.__loadScripts();
       },this);
 
@@ -228,7 +215,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
           script: script,
           status: request.status
         });        
-        this.__LOADING = false;
       }, this);
  
       loader.on("timeout", function(request) {
@@ -236,7 +222,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
           script: script,
           status: request.status
         });
-        this.__LOADING = false;
       }, this);
 
       // this.debug("Loading " + script + " started");
