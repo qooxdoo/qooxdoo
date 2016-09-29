@@ -130,11 +130,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      * Load scripts dynamically, typically used in the instance constructor
      *
      * @param codeArr {Array} an array with the uri names of the scripts
-     * @param callback {Function?undefined} a callback function to call when all the scripts in the array have been loaded
-     * @param context {Object?undefined} a contex for calling the callback
-     *
-     * @return {String|null} name of the last script to be loaded
-     *     Returns the name of the last script you can expect to be loaded if all scripts are already loaded null will be returned.
      *
      */
     load: function(codeArr) {
