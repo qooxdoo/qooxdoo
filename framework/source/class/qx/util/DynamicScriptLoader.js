@@ -201,7 +201,9 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       }
 
       uri = qx.util.ResourceManager.getInstance().toUri(script);
+
       loader = new qx.bom.request.Script();
+
       loader.on("load", function(request) {
         cl.__LOADED[script] = true;
         delete cl.__IN_PROGRESS[script];
@@ -212,19 +214,16 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
         this.__loadScripts();
       },this);
 
-      loader.on("error", function(request) {
-        this.fireDataEvent('failed', {
-          script: script,
-          status: request.status
-        });        
-      }, this);
- 
-      loader.on("timeout", function(request) {
+      var onError = function(request) {
+        delete cl.__IN_PROGRESS[script];
         this.fireDataEvent('failed', {
           script: script,
           status: request.status
         });
-      }, this);
+      };
+
+      loader.on("error", onError,this);
+      loader.on("timeout", onError,this);
 
       // this.debug("Loading " + script + " started");
       loader.open("GET", uri);
