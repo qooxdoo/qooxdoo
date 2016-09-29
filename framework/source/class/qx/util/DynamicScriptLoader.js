@@ -42,9 +42,7 @@
  *      src = '.src';
  *      min = '';
  *    }
- *    var callback = function(){
- *        console.log("Got it");
- *    };
+ *
  *    // initialize the script loading
  *    var dynLoader = new qx.util.DynamicScriptLoader();
  *
@@ -52,7 +50,7 @@
  *    dynLoader.addListenerOnce('ready',function(e){
  *      console.log("all scripts have been loaded!");
  *    });
-
+ *
  *    dynLoader.addListener('failed',function(e){
  *      var data = e.getData();
  *      console.log("failed to load "+data.script);
