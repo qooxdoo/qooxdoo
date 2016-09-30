@@ -3697,7 +3697,7 @@ qx.Class.define("qx.ui.core.Widget",
      * 
      * See the first parameter id in {@link qx.ui.core.Widget#_createChildControlImpl} 
      *
-     * @param id {String|null} ID of the current widget or null if it was not created as a subcontrol
+     * @return {String|null} ID of the current widget or null if it was not created as a subcontrol
      */
     getSubcontrolId : function()
     {
