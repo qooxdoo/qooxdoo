@@ -138,7 +138,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      *
      */
     start: function() {
-      if (this.$$disposed) {
+      if (this.isDisposed()) {
         return;
       }
       this.start = function(){
@@ -181,7 +181,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       if (dynLoader){
 
           id1 = dynLoader.addListener('loaded',function (e) {
-            if (this.$$disposed) {
+            if (this.isDisposed()) {
               return;
             }
             var data = e.getData();
@@ -194,7 +194,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
           },this);
 
           id2 = dynLoader.addListener('failed',function (e) {
-            if (this.$$disposed) {
+            if (this.isDisposed()) {
               return;
             }
             var data = e.getData();
@@ -214,7 +214,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       loader = new qx.bom.request.Script();
 
       loader.on("load", function(request) {
-        if (this.$$disposed) {
+        if (this.isDisposed()) {
            return;
         }
         cl.__LOADED[script] = true;
@@ -227,7 +227,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       },this);
 
       var onError = function(request) {
-        if (this.$$disposed) {
+        if (this.isDisposed()) {
            return;
         }
         delete cl.__IN_PROGRESS[script];
