@@ -138,6 +138,9 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      *
      */
     start: function() {
+      if (this.$$disposed) {
+        return;
+      }
       this.start = function(){
         throw new Error('you can only call start once per instance');
       }
@@ -151,7 +154,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      * Recursively called until the array of scripts is consumed
      *
      */
-    __loadScripts: function() {
+    __loadScripts: function () {
       var cl = qx.util.DynamicScriptLoader;
       var script;
       var dynLoader;
@@ -177,7 +180,10 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       dynLoader = cl.__IN_PROGRESS[script];
       if (dynLoader){
 
-          id1 = dynLoader.addListener('loaded',function(e){
+          id1 = dynLoader.addListener('loaded',function (e) {
+            if (this.$$disposed) {
+              return;
+            }
             var data = e.getData();
             if (data.script === script){
               dynLoader.removeListenerById(id2);
@@ -187,7 +193,10 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
             }
           },this);
 
-          id2 = dynLoader.addListener('failed',function(e){
+          id2 = dynLoader.addListener('failed',function (e) {
+            if (this.$$disposed) {
+              return;
+            }
             var data = e.getData();
             dynLoader.removeListenerById(id1);
             dynLoader.removeListenerById(id2);              
@@ -205,6 +214,9 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       loader = new qx.bom.request.Script();
 
       loader.on("load", function(request) {
+        if (this.$$disposed) {
+           return;
+        }
         cl.__LOADED[script] = true;
         delete cl.__IN_PROGRESS[script];
         this.fireDataEvent('loaded', {
@@ -215,6 +227,9 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       },this);
 
       var onError = function(request) {
+        if (this.$$disposed) {
+           return;
+        }
         delete cl.__IN_PROGRESS[script];
         this.fireDataEvent('failed', {
           script: script,
@@ -230,5 +245,14 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       cl.__IN_PROGRESS[script] = this;
       loader.send();
     }
+  },
+  destruct : function() {
+    var cl = qx.util.DynamicScriptLoader;
+    for (var key in cl.__IN_PROGRESS){
+      if (cl.__IN_PROGRESS[key] === this) {
+        delete cl.__IN_PROGRESS[key];
+      }
+    }
+    this.__QUEUE = undefined;
   }
 });
