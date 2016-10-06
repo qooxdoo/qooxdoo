@@ -507,6 +507,9 @@ qx.Bootstrap.define("qx.log.Logger",
 
     /**
      * Detects the name of the logger to use for an object
+     *
+     * @param object {Object} Contextual object (either instance or static class)
+     * @return {String} Logger name
      */
     __getLoggerName: function(object) {
       if (object) {
@@ -523,6 +526,10 @@ qx.Bootstrap.define("qx.log.Logger",
 
     /**
      * Detects whether a logger level is enabled for an object
+     *
+     * @param level {String} One of "trace", "debug", "info", "warn" or "error"
+     * @param object {Object} Contextual object (either instance or static class)
+     * @return {Boolean} True if the logger is enabled
      */
     isLoggerEnabled: function(level, object) {
       var loggerName = this.__getLoggerName(object);
@@ -591,9 +598,12 @@ qx.Bootstrap.define("qx.log.Logger",
     },
 
 
-
     /**
      * Finds the appenders for a given classname
+     *
+     * @param className {String} Name of the class
+     * @param level {String} the minimum logging level to use the appender
+     * @return {Array} list of appenders
      */
     __getAppenders: function(className, level) {
       var levels = this.__levels;

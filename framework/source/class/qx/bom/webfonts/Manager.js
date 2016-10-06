@@ -275,7 +275,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * @param familyName {String} font-family name
      * @param fontWeight {String} the font-weight.
      * @param fontStyle {String} the font-style.
-     * @returns {string} the font lookup key
+     * @return {string} the font lookup key
      */
     __createFontLookupKey: function (familyName, fontWeight, fontStyle) {
       var lookupKey = familyName + "_" + (fontWeight ? fontWeight : "normal") + "_" + (fontStyle ? fontStyle : "normal");

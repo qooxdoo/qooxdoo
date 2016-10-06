@@ -57,7 +57,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
 
           /**
            * @param value {qx.data.Array|null}
-           * @returns void
+           * @return void
            */
           setValue : function(value) {
             var oldValue = this.__value;
@@ -66,12 +66,12 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
           },
 
           /**
-           * @returns {qx.data.Array|null}
+           * @return {qx.data.Array|null}
            */
           getValue : function() {return this.__value;},
 
           /**
-           * @returns void
+           * @return void
            */
           resetValue : function() {this.__value = null;}
         }
@@ -97,19 +97,19 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
 
           /**
            * @param value {qx.core.Object|null}
-           * @returns void
+           * @return void
            */
           setValue : function(value) {
             this.setModel(value);
           },
 
           /**
-           * @returns {qx.core.Object|null}
+           * @return {qx.core.Object|null}
            */
           getValue : function() {return this.getModel();},
 
           /**
-           * @returns void
+           * @return void
            */
           resetValue : function() { this.resetModel(); },
 
@@ -142,7 +142,7 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
     /**
      * Reusable address form.
      *
-     * @returns {qx.ui.form.Form} Address form.
+     * @return {qx.ui.form.Form} Address form.
      */
     __makeAddressForm : function() {
       var houseNr = new qx.ui.form.TextField();

@@ -33,6 +33,8 @@ qx.Class.define("qx.bom.webfonts.Validator", {
 
   /**
    * @param fontFamily {String} The name of the font to be verified
+   * @param comparisonString {String?} String to be used to detect whether a font was loaded or not
+   * whether the font has loaded properly
    */
   construct : function(fontFamily, comparisonString)
   {

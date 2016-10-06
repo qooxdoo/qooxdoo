@@ -132,7 +132,7 @@ qx.Mixin.define("qx.core.MProperty",
      * has got a value by a setter method.
      *
      * @param prop {String} Name of the property
-     * @returns {Boolean} If the property is initialized
+     * @return {Boolean} If the property is initialized
      * @throws {Error} If the property defined does not exist
      */
     isPropertyInitialized : function(prop)
