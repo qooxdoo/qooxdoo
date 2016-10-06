@@ -77,10 +77,36 @@ qx.Class.define("qx.data.marshal.Json",
      *
      * @param data {Object} The JavaScript object from which the hash is
      *   required.
+     * @param includeBubbleEvents {Boolean?false} Whether the model should
+     *   support the bubbling of change events or not.
      * @return {String} The hash representation of the given JavaScript object.
      */
-    __jsonToHash: function(data) {
-      return Object.keys(data).sort().join('"');
+    __jsonToHash : function (data, includeBubbleEvents) {
+      return Object.keys(data).sort().join(includeBubbleEvents===true?'~':'"');
+    },
+
+
+    /**
+     * Get the "most enhanced" hash for a given object.  That is the hash for
+     * the class that is most feature rich in respect of the bubble event
+     * feature. If there are two equal classes available (defined), one with
+     * and one without the bubble event feature, this method will return the
+     * hash of the class that includes the bubble event.
+     *
+     * @param data {Object} The JavaScript object from which the hash is
+     *   required.
+     * @return {String} The hash representation of the given JavaScript object.
+     */
+    __jsonToBestHash : function (data)
+    {
+      var hash = this.__jsonToHash(data);  // without bubble event feature
+      var clazz = "qx.data.model." + hash; //    "      "      "      "
+
+      var hash_ = hash.replace(/"/g, '~');
+      var clazz_ = "qx.data.model." + hash_;
+
+      // In case there's a class with bubbling, we *always* prefer that one!
+      return qx.Class.isDefined(clazz_) ? hash_ : hash;
     },
 
 
@@ -135,7 +161,7 @@ qx.Class.define("qx.data.marshal.Json",
         return;
       }
 
-      var hash = this.__jsonToHash(data);
+      var hash = this.__jsonToHash(data, includeBubbleEvents);
 
       // ignore rules
       if (this.__ignore(hash, parentProperty, depth)) {
@@ -334,7 +360,7 @@ qx.Class.define("qx.data.marshal.Json",
         return data;
 
       // ignore rules
-      } else if (this.__ignore(this.__jsonToHash(data), parentProperty, depth)) {
+      } else if (this.__ignore(this.__jsonToBestHash(data), parentProperty, depth)) {
         return data;
 
       } else if (isArray) {
@@ -355,7 +381,7 @@ qx.Class.define("qx.data.marshal.Json",
 
       } else if (isObject) {
         // create an instance for the object
-        var hash = this.__jsonToHash(data);
+        var hash = this.__jsonToBestHash(data);
         var model = this.__createInstance(hash, data, parentProperty, depth);
 
         // go threw all element in the data

@@ -600,6 +600,44 @@ qx.Class.define("qx.test.data.marshal.Json",
     },
 
 
+    "test model with and without bubble" : function ()
+    {
+      var data = { pi: 1, pa: "", po: true };
+
+      // 1st create explicit *without* changeBubble
+      var model1 = qx.data.marshal.Json.createModel(data, false);
+      // 2nd create implicit *without* changeBubble
+      var model2 = qx.data.marshal.Json.createModel(data);
+      // 3rd create explicit *with* changeBubble
+      var model3 = qx.data.marshal.Json.createModel(data, true);
+      // 4th model is again *without* changeBubble
+      //     (should nevertheless result in a model-class *with* changeBubble)
+      var model4 = qx.data.marshal.Json.createModel(data, false);
+
+      // Check whether the above assumptions are correct
+      this.assertFalse( qx.util.OOUtil.supportsEvent(model1, "changeBubble") );
+      this.assertFalse( qx.util.OOUtil.supportsEvent(model2, "changeBubble") );
+      this.assertTrue ( qx.util.OOUtil.supportsEvent(model3, "changeBubble") );
+      this.assertTrue ( qx.util.OOUtil.supportsEvent(model4, "changeBubble") );
+
+      // Check if bubble event really fires for models 3 & 4
+      [ model3, model4 ].forEach(function (model) {
+
+        this.assertEventFired(model, "changeBubble", function () {
+          model.setPi(0);
+        }, function (e) {
+          var data = e.getData();
+          this.assertEquals(0, data.value, "Not the right value in the event.");
+          this.assertEquals(1, data.old, "Not the right old value in the event.");
+          this.assertEquals("pi", data.name, "Not the right name in the event.");
+          this.assertEquals(model, data.item, "Not the right item in the event.");
+        }.bind(this), "Change event not fired!");
+
+      }, this);
+
+    },
+
+
     testAddValidationRule : function()
     {
       var propertiesSaved;
