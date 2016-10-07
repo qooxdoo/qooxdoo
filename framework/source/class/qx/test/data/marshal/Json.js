@@ -663,7 +663,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       //
       // "auto"
       //
-      data2 = { foo2: "foo", bar2: "bar" };
+      var data2 = { foo2: "foo", bar2: "bar" };
       marshaler.toClass(data2); // implicit *without* (auto)
 
       marshaler.toModel(data2);
