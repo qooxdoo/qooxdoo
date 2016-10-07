@@ -114,12 +114,12 @@ qx.Class.define("qx.data.marshal.Json",
 
       // automatic mode!
       //
-      var hash_ = this.__jsonToHash(data); // without bubble event feature
-      var hash = hash_.replace(/"/g, '~'); // with bubble event feature
-      var clazz = "qx.data.model." + hash; //   "     "     "      "
+      var hash = this.__jsonToHash(data); // without bubble event feature
+      var bubbleClassHash = hash.replace(/"/g, '~'); // with bubble event feature
+      var bubbleClassName = "qx.data.model." + bubbleClassHash;
 
       // In case there's a class with bubbling, we *always* prefer that one!
-      return qx.Class.isDefined(clazz) ? hash : hash_;
+      return qx.Class.isDefined(bubbleClassName) ? bubbleClassHash : hash;
     },
 
 
@@ -318,10 +318,10 @@ qx.Class.define("qx.data.marshal.Json",
         if (!clazz)
         {
           // Extra check for possible bubble-event feature inconsistency
-          var className_ = className.replace(/~/g, '"');
-          if (qx.Class.getByName(className_))
+          var bubbleClassName = className.replace(/~/g, '"');
+          if (qx.Class.getByName(bubbleClassName))
           {
-            throw new Error( "Class '" + className_ + "' found, " +
+            throw new Error( "Class '" + bubbleClassName + "' found, " +
                              "but it does not support changeBubble event." );
           }
           throw new Error("Class '" + className + "' could not be found.");
