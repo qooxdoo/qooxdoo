@@ -3527,7 +3527,12 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    _checkThemeRefreshNeeded : qx.core.Environment.select("qx.dyntheme", {
+    /**
+     * Appear handler that checks whether we need to lazily triggering
+     * a theme change is required.
+     */
+    _checkThemeRefreshNeeded : qx.core.Environment.select("qx.dyntheme",
+    {
       "true" : function() {
         if (this.__themeRefreshNeeded) {
           this.__themeRefreshNeeded = false;
