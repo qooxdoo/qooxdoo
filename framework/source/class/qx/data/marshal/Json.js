@@ -95,10 +95,25 @@ qx.Class.define("qx.data.marshal.Json",
      *
      * @param data {Object} The JavaScript object from which the hash is
      *   required.
+     * @param includeBubbleEvents {Boolean} Whether the preferred model should
+     *   support the bubbling of change events or not.
+     *   If <code>null</code>, an automatic selection will take place which
+     *   selects the "best" model currently available.
      * @return {String} The hash representation of the given JavaScript object.
      */
-    __jsonToBestHash : function (data)
+    __jsonToBestHash : function (data, includeBubbleEvents)
     {
+      // forced mode?
+      //
+      if (includeBubbleEvents === true) {
+        return this.__jsonToHash(data, true);
+      }
+      if (includeBubbleEvents === false) {
+        return this.__jsonToHash(data, false);
+      }
+
+      // automatic mode!
+      //
       var hash = this.__jsonToHash(data);  // without bubble event feature
       var clazz = "qx.data.model." + hash; //    "      "      "      "
 
@@ -290,7 +305,8 @@ qx.Class.define("qx.data.marshal.Json",
      * @param data {Map} The data for which an instance should be created.
      * @return {qx.core.Object} An instance of the corresponding class.
      */
-    __createInstance: function(hash, data, parentProperty, depth) {
+    __createInstance : function (hash, data, parentProperty, depth)
+    {
       var delegateClass;
       // get the class from the delegate
       if (this.__delegate && this.__delegate.getModelClass) {
@@ -301,7 +317,15 @@ qx.Class.define("qx.data.marshal.Json",
       } else {
         var className = "qx.data.model." + hash;
         var clazz = qx.Class.getByName(className);
-        if (!clazz) {
+        if (!clazz)
+        {
+          // Extra check for possible bubble-event feature inconsistency
+          var className_ = className.replace(/~/g, '"');
+          if (qx.Class.getByName(className_))
+          {
+            throw new Error( "Class '" + className_ + "' found, " +
+                             "but it does not support changeBubble event." );
+          }
           throw new Error("Class '" + className + "' could not be found.");
         }
         return (new clazz());
@@ -331,11 +355,14 @@ qx.Class.define("qx.data.marshal.Json",
      * given.
      *
      * @param data {Object} The object for which models should be created.
-     *
+     * @param includeBubbleEvents {Boolean?null} Whether the model should
+     *   support the bubbling of change events or not.
+     *   If omitted or <code>null</code>, an automatic selection will take place
+     *   which selects the "best" model currently available.
      * @return {qx.core.Object} The created model object.
      */
-    toModel: function(data) {
-      return this.__toModel(data, null, 0);
+    toModel : function (data, includeBubbleEvents) {
+      return this.__toModel(data, includeBubbleEvents, null, 0);
     },
 
 
@@ -343,12 +370,17 @@ qx.Class.define("qx.data.marshal.Json",
      * Implementation of {@link #toModel} used for recursion.
      *
      * @param data {Object} The object for which models should be created.
+     * @param includeBubbleEvents {Boolean|null} Whether the model should
+     *   support the bubbling of change events or not.
+     *   If <code>null</code>, an automatic selection will take place which
+     *   selects the "best" model currently available.
      * @param parentProperty {String|null} The name of the property the
      *   data will be stored in.
      * @param depth {Number} The depth of the data relative to the data's root.
      * @return {qx.core.Object} The created model object.
      */
-    __toModel: function(data, parentProperty, depth) {
+    __toModel : function (data, includeBubbleEvents, parentProperty, depth)
+    {
       var isObject = qx.lang.Type.isObject(data);
       var isArray = data instanceof Array || qx.Bootstrap.getClass(data) == "Array";
 
@@ -360,7 +392,7 @@ qx.Class.define("qx.data.marshal.Json",
         return data;
 
       // ignore rules
-      } else if (this.__ignore(this.__jsonToBestHash(data), parentProperty, depth)) {
+      } else if (this.__ignore(this.__jsonToBestHash(data, includeBubbleEvents), parentProperty, depth)) {
         return data;
 
       } else if (isArray) {
@@ -375,13 +407,13 @@ qx.Class.define("qx.data.marshal.Json",
         array.setAutoDisposeItems(true);
 
         for (var i = 0; i < data.length; i++) {
-          array.push(this.__toModel(data[i], parentProperty + "[" + i + "]", depth+1));
+          array.push(this.__toModel(data[i], includeBubbleEvents, parentProperty + "[" + i + "]", depth+1));
         }
         return array;
 
       } else if (isObject) {
         // create an instance for the object
-        var hash = this.__jsonToBestHash(data);
+        var hash = this.__jsonToBestHash(data, includeBubbleEvents);
         var model = this.__createInstance(hash, data, parentProperty, depth);
 
         // go threw all element in the data
@@ -408,7 +440,7 @@ qx.Class.define("qx.data.marshal.Json",
           // only set the properties if they are available [BUG #5909]
           var setterName = "set" + qx.lang.String.firstUp(propertyName);
           if (model[setterName]) {
-            model[setterName](this.__toModel(data[key], key, depth+1));
+            model[setterName](this.__toModel(data[key], includeBubbleEvents, key, depth+1));
           }
         }
         return model;

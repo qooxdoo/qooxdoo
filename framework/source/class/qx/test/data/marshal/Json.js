@@ -638,6 +638,45 @@ qx.Class.define("qx.test.data.marshal.Json",
     },
 
 
+    "test toClass() toModel() match/mismatch" : function ()
+    {
+      var data = { foo: "foo", bar: "bar" };
+
+      var marshaler = new qx.data.marshal.Json();
+
+      //
+      // toClass *without*, toModel *with* should FAIL!
+      //
+      marshaler.toClass(data, false);
+      this.assertException(
+        function () { marshaler.toModel(data, true); },
+        Error,
+        "Class 'qx.data.model.bar\"foo' found, but it does not support changeBubble event."
+      );
+
+      //
+      // toClass *with*, toModel *without* should work
+      //
+      marshaler.toClass(data, true);
+      marshaler.toModel(data, false);
+
+      //
+      // "auto"
+      //
+      data2 = { foo2: "foo", bar2: "bar" };
+      marshaler.toClass(data2); // implicit *without* (auto)
+
+      marshaler.toModel(data2);
+      marshaler.toModel(data2, false);
+
+      this.assertException(
+        function () { marshaler.toModel(data2, true); },
+        Error,
+        "Class 'qx.data.model.bar2\"foo2' found, but it does not support changeBubble event."
+      );
+    },
+
+
     testAddValidationRule : function()
     {
       var propertiesSaved;
