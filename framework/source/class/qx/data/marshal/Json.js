@@ -115,7 +115,7 @@ qx.Class.define("qx.data.marshal.Json",
       // automatic mode!
       //
       var hash_ = this.__jsonToHash(data); // without bubble event feature
-      var hash = hash.replace(/"/g, '~');  // with bubble event feature
+      var hash = hash_.replace(/"/g, '~'); // with bubble event feature
       var clazz = "qx.data.model." + hash; //   "     "     "      "
 
       // In case there's a class with bubbling, we *always* prefer that one!
