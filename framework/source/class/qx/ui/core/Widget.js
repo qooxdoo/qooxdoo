@@ -63,6 +63,10 @@ qx.Class.define("qx.ui.core.Widget",
     this.initFocusable();
     this.initSelectable();
     this.initNativeContextMenu();
+
+    if (qx.core.Environment.get("qx.dyntheme")) {
+      this.addListener("appear", this._checkThemeRefreshNeeded, this);
+    }
   },
 
 
@@ -929,6 +933,7 @@ qx.Class.define("qx.ui.core.Widget",
     __contentElement : null,
     __initialAppearanceApplied : null,
     __toolTipTextListenerId : null,
+    __themeRefreshNeeded : false,
 
 
     /*
@@ -1590,13 +1595,17 @@ qx.Class.define("qx.ui.core.Widget",
      * WARNING: Please use this method with caution because it flushes the
      * internal queues which might be an expensive operation.
      *
+     * @param noFlush {Boolean?} whether the queue should not be flushed (default: flush)
      * @return {Boolean} true, if the widget is currently on the screen
      */
-    isSeeable : function()
+    isSeeable : function(noFlush)
     {
       // Flush the queues because to detect if the widget ins visible, the
       // queues need to be flushed (see bug #5254)
-      qx.ui.core.queue.Manager.flush();
+      if (!noFlush) {
+        qx.ui.core.queue.Manager.flush();
+      }
+
       // if the element is already rendered, a check for the offsetWidth is enough
       var element = this.getContentElement().getDomElement();
       if (element) {
@@ -2391,32 +2400,39 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      this.base(arguments);
+      // Only act if we're visible, skip the flush
+      if (this.isSeeable(true)) {
 
-      // update the appearance
-      this.updateAppearance();
+        this.base(arguments);
 
-      // DECORATOR //
-      var value = this.getDecorator();
-      this._applyDecorator(null, value);
-      this._applyDecorator(value);
+        // update the appearance
+        this.updateAppearance();
 
-      // FONT //
-      value = this.getFont();
-      if (qx.lang.Type.isString(value)) {
-        this._applyFont(value, value);
-      }
+        // DECORATOR //
+        var value = this.getDecorator();
+        this._applyDecorator(null, value);
+        this._applyDecorator(value);
 
-      // TEXT COLOR //
-      value = this.getTextColor();
-      if (qx.lang.Type.isString(value)) {
-        this._applyTextColor(value, value);
-      }
+        // FONT //
+        value = this.getFont();
+        if (qx.lang.Type.isString(value)) {
+          this._applyFont(value, value);
+        }
 
-      // BACKGROUND COLOR //
-      value = this.getBackgroundColor();
-      if (qx.lang.Type.isString(value)) {
-        this._applyBackgroundColor(value, value);
+        // TEXT COLOR //
+        value = this.getTextColor();
+        if (qx.lang.Type.isString(value)) {
+          this._applyTextColor(value, value);
+        }
+
+        // BACKGROUND COLOR //
+        value = this.getBackgroundColor();
+        if (qx.lang.Type.isString(value)) {
+          this._applyBackgroundColor(value, value);
+        }
+
+      } else {
+        this.__themeRefreshNeeded = true;
       }
     },
 
@@ -3509,6 +3525,18 @@ qx.Class.define("qx.ui.core.Widget",
         control.exclude();
       }
     },
+
+
+    _checkThemeRefreshNeeded : qx.core.Environment.select("qx.dyntheme", {
+      "true" : function() {
+        if (this.__themeRefreshNeeded) {
+          this.__themeRefreshNeeded = false;
+          this._onChangeTheme();
+        }
+      },
+
+      "false": null
+    }),
 
 
     /**
