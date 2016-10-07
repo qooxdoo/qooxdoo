@@ -602,7 +602,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
     "test model with and without bubble" : function ()
     {
-      var data = { pi: 1, pa: "", po: true };
+      var data = { pi: 1 };
 
       // 1st create explicit *without* changeBubble
       var model1 = qx.data.marshal.Json.createModel(data, false);

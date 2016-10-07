@@ -81,8 +81,10 @@ qx.Class.define("qx.data.marshal.Json",
      *   support the bubbling of change events or not.
      * @return {String} The hash representation of the given JavaScript object.
      */
-    __jsonToHash : function (data, includeBubbleEvents) {
-      return Object.keys(data).sort().join(includeBubbleEvents===true?'~':'"');
+    __jsonToHash : function (data, includeBubbleEvents)
+    {
+      return Object.keys(data).sort().join('"')
+           + (includeBubbleEvents===true ? "♥" : "");
     },
 
 
@@ -115,7 +117,7 @@ qx.Class.define("qx.data.marshal.Json",
       // automatic mode!
       //
       var hash = this.__jsonToHash(data); // without bubble event feature
-      var bubbleClassHash = hash.replace(/"/g, '~'); // with bubble event feature
+      var bubbleClassHash = hash + "♥";   // with bubble event feature
       var bubbleClassName = "qx.data.model." + bubbleClassHash;
 
       // In case there's a class with bubbling, we *always* prefer that one!
@@ -318,10 +320,10 @@ qx.Class.define("qx.data.marshal.Json",
         if (!clazz)
         {
           // Extra check for possible bubble-event feature inconsistency
-          var bubbleClassName = className.replace(/~/g, '"');
-          if (qx.Class.getByName(bubbleClassName))
+          var noBubbleClassName = className.replace("♥", "");
+          if (qx.Class.getByName(noBubbleClassName))
           {
-            throw new Error( "Class '" + bubbleClassName + "' found, " +
+            throw new Error( "Class '" + noBubbleClassName + "' found, " +
                              "but it does not support changeBubble event." );
           }
           throw new Error("Class '" + className + "' could not be found.");
