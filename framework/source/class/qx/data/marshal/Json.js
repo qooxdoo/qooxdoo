@@ -114,14 +114,12 @@ qx.Class.define("qx.data.marshal.Json",
 
       // automatic mode!
       //
-      var hash = this.__jsonToHash(data);  // without bubble event feature
-      var clazz = "qx.data.model." + hash; //    "      "      "      "
-
-      var hash_ = hash.replace(/"/g, '~');
-      var clazz_ = "qx.data.model." + hash_;
+      var hash_ = this.__jsonToHash(data); // without bubble event feature
+      var hash = hash.replace(/"/g, '~');  // with bubble event feature
+      var clazz = "qx.data.model." + hash; //   "     "     "      "
 
       // In case there's a class with bubbling, we *always* prefer that one!
-      return qx.Class.isDefined(clazz_) ? hash_ : hash;
+      return qx.Class.isDefined(clazz) ? hash : hash_;
     },
 
 
