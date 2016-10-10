@@ -185,9 +185,9 @@ qx.Class.define("qx.test.ui.basic.Label",
           f.dispose();
           this.assertCalledTwice(statusChangeSpy);
         }, this);
-      }, this, 2500);
+      }, this, 4000);
 
-      this.wait(5000);
+      this.wait(8000);
     },
 
     testApplyFontColorAndTextColor: function()
