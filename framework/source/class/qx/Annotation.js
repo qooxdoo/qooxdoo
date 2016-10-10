@@ -244,6 +244,24 @@ qx.Bootstrap.define("qx.Annotation", {
     getProperty: function(clazz, name, annoClass) {
       return this.__getAnnos(clazz, name, "properties", annoClass);
     },
+
+    /**
+     * Returns a list of property names that implement a given annotation.
+     * @param clazz {Class} the class to inspect
+     * @param annotation {String|Object} annotation to look for
+     * @return {String[]} the property names, never null
+     */
+    getPropertiesByAnnotation : function(clazz, annotation) {
+      var properties = [];
+
+      qx.Class.getProperties(clazz).forEach(function(property) {
+        if (qx.lang.Array.contains(qx.Annotation.getProperty(clazz, property), annotation)) {
+          properties.push(property);
+        }
+      });
+
+      return properties;
+    },
     
     /**
      * Returns the class static's annotations, exclusively from the class
@@ -255,6 +273,5 @@ qx.Bootstrap.define("qx.Annotation", {
     getStatic: function(clazz, name, annoClass) {
       return this.__getOwnAnnos(clazz, name, "statics", annoClass);
     }
-    
   }
 });
