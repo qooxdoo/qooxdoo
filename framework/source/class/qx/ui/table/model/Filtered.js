@@ -68,6 +68,10 @@ search.addListener("changeValue", function(e) {
 
 this.getRoot().add(search, {top : 500, left : 10});
 </pre>
+ *
+ * @deprecated {6.0} You should use
+ * <a href='http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter' target='_blank'>Array.filter</a>
+ * method to filter the table model
  */
 qx.Class.define("qx.ui.table.model.Filtered",
 {
