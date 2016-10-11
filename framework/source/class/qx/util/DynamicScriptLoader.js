@@ -27,7 +27,7 @@
  *
  * Usage example:
  *
- * <code>
+ * <pre>
  *  ... assets ...
  * /**
  *  * @asset(myapp/jquery/*)
@@ -66,7 +66,7 @@
  *
  *    dynLoader.start();
  *    
- * </code>
+ * </pre>
  */
 qx.Class.define("qx.util.DynamicScriptLoader", {
   extend: qx.core.Object,
