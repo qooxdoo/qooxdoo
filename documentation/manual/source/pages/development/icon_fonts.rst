@@ -112,7 +112,7 @@ you can use the ``generator`` to let it be created for you.
 Drawbacks
 =========
 
-Only qx.ui.basic.Image and qx.ui.table.cellrendere.Image support icon
+Only qx.ui.basic.Image and qx.ui.table.cellrenderer.Image support icon
 fonts. It is not possible to use these icon font based images in decorators.
 
 .. _pages/icon_fonts#benefits:
