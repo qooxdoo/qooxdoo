@@ -90,11 +90,12 @@ Step-by-Step Instructions
           construct: function() {
             // initialize the script loading
             var dynLoader = new qx.util.DynamicScriptLoader([
-                "ponycharts/PonyCharts.js"
+                "ponycharts/ponycharts.js"
             ]);
 
             dynLoader.addListenerOnce('ready',function(e){
               console.log("all scripts have been loaded!");
+              ThePonyChartsTopLevelSymbol.initialize();
             });
 
             dynLoader.addListener('failed',function(e){
