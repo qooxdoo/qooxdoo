@@ -28,6 +28,9 @@
     },
     {
       "path" : "image.json"
+    },
+    {
+      "path" : "fonts.json"
     }
   ],
 
@@ -50,7 +53,8 @@
     "translation",
     "migration",
     "validate-config",
-    "validate-manifest"
+    "validate-manifest",
+    "make-font-map"
   ],
 
   "default-job" : "source",

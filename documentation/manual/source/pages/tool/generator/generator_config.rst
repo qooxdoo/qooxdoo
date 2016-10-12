@@ -159,6 +159,8 @@ First, here is an overview table, to list all possible keys in a job (if the key
     - Triggers the execution of one or more external command(s).
   * - slice-images
     - Triggers cutting images into regions.
+  * - font-map
+    - Triggers creation of a font map for use with icon fonts.
   * - translate
     - Triggers updating of .po files.
   * - validation-config
@@ -301,6 +303,7 @@ This shows the complete possible contents of the top-level configuration map. Fu
     * :ref:`require <pages/tool/generator/generator_config_ref#require>` Define prerequisite classes needed at load time. Takes a map, where the keys are class names and the values lists of prerequisite classes.
     * :ref:`run <pages/tool/generator/generator_config_ref#run>` Define a list of jobs to run in place of the current job. (See the special section on :ref:`"run" semantics <pages/tool/generator/generator_config_articles#run_key>`).
     * :ref:`shell <pages/tool/generator/generator_config_ref#shell>` Triggers the execution of one or more external command(s).
+    * :ref:`font-map <pages/tool/generator/generator_config_ref#font_map_ref>` Triggers creation of font maps used by icon fonts.
     * :ref:`slice-images <pages/tool/generator/generator_config_ref#slice-images>` Triggers cutting images into regions.
     * :ref:`translate <pages/tool/generator/generator_config_ref#translate>` (Re-)generate .po files from source classes.
     * :ref:`pages/tool/generator/generator_config_ref#use` Define prerequisite classes needed at run time. Takes a map, where the keys are class names and the values lists of prerequisite classes.

@@ -196,6 +196,9 @@ pursue specific interests.
    * - `ImageMagick <http://www.imagemagick.org/script/index.php>`_
      - `GPL-compat <http://www.imagemagick.org/script/license.php>`_
 
+   * - `FontForge <https://fontforge.github.io>`_
+     - `GPL 3.0 <https://github.com/fontforge/fontforge/blob/master/LICENSE>`_
+
    * - `Make <http://www.gnu.org/s/make/>`_
      - `GPL 3.0 <http://www.gnu.org/licenses/gpl-3.0.html>`_ or later
 
