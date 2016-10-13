@@ -200,9 +200,9 @@ qx.Class.define("qx.ui.form.MenuButton",
       if (menu) {
         // Toggle sub menu visibility
         if (!menu.isVisible()) {
-          this.open();
+          qx.event.Timer.once(this.open, this, 0);
         } else {
-          menu.exclude();
+          qx.event.Timer.once(this.exclude, menu, 0);
         }
 
         // Event is processed, stop it for others
