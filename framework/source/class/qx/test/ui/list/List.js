@@ -308,6 +308,67 @@ qx.Class.define("qx.test.ui.list.List",
       this._list.getSelection().removeAll();
       this.assertNull(this._list._manager.getLeadItem());
       model.dispose();
+    },
+
+
+    testVariableItemHeight : function()
+    {
+      this._list.setModel(null);
+      this.flush();
+      this._list.getPane().getRowConfig().resetItemSizes();
+      
+      var sizes = [ 16, 32, 48, 16, 32, 48, 16, 32, 48, 16, 32, 48 ];
+      var rawData = [];
+      for (var i = 0; i < sizes.length; i++) {
+        rawData[i] = {label: "Item "+sizes[i]+"px", icon: "icon/"+sizes[i]+"/places/folder.png"}
+      }      
+      
+      var model = qx.data.marshal.Json.createModel(rawData);
+
+      this._list.setVariableItemHeight(true);
+      
+      this._list.setDelegate({
+        bindItem : function(controller, item, id) {
+          controller.bindDefaultProperties(item, id);
+        }
+      });
+
+      this._list.setLabelPath("label");
+      this._list.setIconPath("icon");
+
+      this._list.setModel(model);
+      this.flush();
+
+      qx.event.Timer.once(function() {
+        this.resume(function() {
+        
+          var rowConfig = this._list.getPane().getRowConfig();
+
+          var testedWidgets = 0;
+          
+          for (var i = 0; i < rawData.length; i++) {
+            var widget = this._list._layer.getRenderedCellWidget(i,0);
+    
+            if (widget == null) {
+              // row is not rendered
+              continue;
+            }
+
+            this.assertEquals(widget.getSizeHint().height, rowConfig.getItemSize(i));
+            
+            testedWidgets++;
+          }
+          
+          this.assertTrue(testedWidgets >= 3);
+          
+          this._list.setVariableItemHeight(false);
+          
+          model.dispose();
+        });
+      }, this, 100);
+          
+      this.wait();
     }
+
   }
 });
