@@ -47,6 +47,19 @@ qx.Class.define("qx.test.bom.IdleCallback",
       }, this);
     },
 
+    "test: emulated cancelIdleCallback" : function() {
+      var setting = this.stub(qx.core.Environment, "get").withArgs("client.idle");
+      setting.returns(false);
+
+      var clb = this.spy();
+      var request = qx.bom.IdleCallback.request(clb);
+      qx.bom.IdleCallback.cancel(request);
+
+      this.wait(500, function() {
+        this.assertNotCalled(clb);
+      }, this);
+    },
+
 
     "test: native requestIdleCallback" : function() {
       if (!qx.core.Environment.get("client.idle")) {
@@ -60,6 +73,21 @@ qx.Class.define("qx.test.bom.IdleCallback",
         this.assertFalse(clb.args[0][0].didTimeout);
         this.assertFunction(clb.args[0][0].timeRemaining);
         this.assertNumber(clb.args[0][0].timeRemaining());
+      }, this);
+    },
+
+
+    "test: native cancelIdleCallback" : function() {
+      if (!qx.core.Environment.get("client.idle")) {
+        this.skip();
+      }
+
+      var clb = this.spy();
+      var request = qx.bom.IdleCallback.request(clb);
+      qx.bom.IdleCallback.cancel(request);
+
+      this.wait(500, function() {
+        this.assertNotCalled(clb);
       }, this);
     }
   }

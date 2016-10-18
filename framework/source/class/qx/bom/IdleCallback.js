@@ -60,16 +60,14 @@ qx.Bootstrap.define("qx.bom.IdleCallback",
      *   in case of the emulation.
      * @param context {var} The context of the callback.
      * @param timeout {Number} Timeout in milliseconds.
-     * @return {Number} The id of the request.
+     * @return {Number} Handle for that request
      */
     request : function(callback, context, timeout) {
-      var req = qx.core.Environment.get("client.idle");
-
       var clb = function(deadline) {
         return callback.call(context, deadline);
       };
 
-      if (req) {
+      if (qx.core.Environment.get("client.idle")) {
         return window.requestIdleCallback(clb, timeout);
       }
       else {
@@ -90,6 +88,21 @@ qx.Bootstrap.define("qx.bom.IdleCallback",
         return window.setTimeout(function() {
           clb(deadline);
         }, qx.bom.IdleCallback.TIMEOUT);
+      }
+    },
+
+    /**
+     * Cancel a requested IDLE callback.
+     *
+     * @param handle {Number} Handle acquired by <code>qx.bom.IdleCallback.request()</code>.
+     */
+    cancel : function(handle)
+    {
+      if (qx.core.Environment.get("client.idle")) {
+        window.cancelIdleCallback(handle);
+      }
+      else {
+        window.clearTimeout(handle);
       }
     }
   }
