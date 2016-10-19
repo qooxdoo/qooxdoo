@@ -38,6 +38,8 @@ qx.Class.define("qx.test.bom.IdleCallback",
 
       var clb = this.spy();
       qx.bom.IdleCallback.request(clb);
+      this.getSandbox().restore();
+
       this.wait(500, function() {
         this.assertCalledOnce(clb);
         this.assertFalse(clb.args[0][0].didTimeout);
@@ -54,6 +56,7 @@ qx.Class.define("qx.test.bom.IdleCallback",
       var clb = this.spy();
       var request = qx.bom.IdleCallback.request(clb);
       qx.bom.IdleCallback.cancel(request);
+      this.getSandbox().restore();
 
       this.wait(500, function() {
         this.assertNotCalled(clb);
