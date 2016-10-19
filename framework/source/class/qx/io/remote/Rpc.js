@@ -578,7 +578,8 @@ qx.Class.define("qx.io.remote.Rpc",
                 "rpc handler threw an error:" +
                   " id=" + id +
                   " result=" + JSON.stringify(result) +
-                  " ex=" + JSON.stringify(ex));
+                  " ex=" + JSON.stringify(ex),
+                e);
             }
             break;
 
