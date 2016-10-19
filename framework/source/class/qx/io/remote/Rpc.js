@@ -568,7 +568,18 @@ qx.Class.define("qx.io.remote.Rpc",
             break;
 
           case 1: // async with handler function
-            handler(result, ex, id);
+            try
+            {
+              handler(result, ex, id);
+            }
+            catch(e)
+            {
+              console.error(
+                "rpc handler threw an error:" +
+                  " id=" + id +
+                  " result=" + JSON.stringify(result) +
+                  " ex=" + JSON.stringify(ex));
+            }
             break;
 
           case 2: // async with event listeners
