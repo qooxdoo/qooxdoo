@@ -116,7 +116,7 @@ qx.Class.define("demobrowser.demo.showcase.IconFont",
               {
                 family: "FontAwesome",
                 source: [
-                  "demobrowser/demo/fonts/fontawesome-webfont.ttf" , "demobrowser/demo/fonts/fontawesome-webfont.woff"
+                  "demobrowser/demo/fonts/fontawesome-webfont.ttf" , "demobrowser/demo/fonts/fontawesome-webfont.woff", "demobrowser/demo/fonts/fontawesome-webfont.woff2", "demobrowser/demo/fonts/fontawesome-webfont.eot"
                 ]
               }
             ]
