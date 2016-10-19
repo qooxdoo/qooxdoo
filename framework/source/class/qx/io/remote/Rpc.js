@@ -528,6 +528,7 @@ qx.Class.define("qx.io.remote.Rpc",
       var argsArray = [];
       var eventTarget = this;
       var protocol = this.getProtocol();
+      var _this = this;
 
       for (var i=offset+1; i<args.length; ++i)
       {
@@ -574,7 +575,7 @@ qx.Class.define("qx.io.remote.Rpc",
             }
             catch(e)
             {
-              console.error(
+              _this.error(
                 "rpc handler threw an error:" +
                   " id=" + id +
                   " result=" + JSON.stringify(result) +
