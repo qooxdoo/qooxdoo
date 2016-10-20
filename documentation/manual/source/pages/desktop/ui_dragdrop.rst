@@ -48,13 +48,13 @@ A common need is to retrieve information from the model of the specific list
 item which was dragged from ``dragTarget`` which is an instance of
 ``qx.ui.form.List``. This can be easily accomplished in the ``drop`` event
 handler, using the event argument which provides a manager which provides the
-actual drag target (the List item).
+actual drag target (the ``qx.ui.form.ListItem``).
 
 ::
 
   dropTarget.addListener("drop", function(e) {
-    var list = e.getManager().getDragTarget();
-    var model = list.getModel();
+    var listItem = e.getManager().getDragTarget();
+    var model = listItem.getModel();
     ...
   });
 
