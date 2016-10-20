@@ -1,4 +1,4 @@
-{% extends "basic/layout.html" %}
+﻿{% extends "basic/layout.html" %}
 
 {% set asset_root = "_static" %}
 {% set css_files = [asset_root + "/copies/reset.css", asset_root + "/copies/base.css", asset_root + "/copies/layout.css"] + css_files %}
@@ -32,28 +32,30 @@
     <h1><a href="http://qooxdoo.org/">qooxdoo</a></h1>
     <nav>
       <ul>
-        <!--
         <li>
-          <a class="" href="http://qooxdoo.org/">home</a>
-        </li>
-        -->
-        <li>
-          <a href="http://news.qooxdoo.org">blog</a>
+          <a class="" href="http://news.qooxdoo.org">blog</a>
         </li>
         <li>
-          <a class="" href="http://qooxdoo.org/demos">demos</a>
+          <a class="" href="/demos.html">demos</a>
         </li>
         <li>
-          <a class="" href="http://qooxdoo.org/downloads">downloads</a>
+          <a class="" href="https://github.com/qooxdoo/qooxdoo/releases">downloads</a>
         </li>
         <li>
-          <a class="active" href="http://qooxdoo.org/docs">docs</a>
+          <a class="active" href="/current">docs</a>
         </li>
         <li>
-          <a class="" href="http://qooxdoo.org/community">community</a>
+         <a class="" href="/current/apiviewer">api</a>
+        </li>
+        <li>
+          <a class="" href="http://stackoverflow.com/questions/tagged/qooxdoo">support</a>
+        </li>
+        <li>
+          <a class="" href="https://gitter.im/qooxdoo/qooxdoo">chat room</a>
         </li>
       </ul>
     </nav>
+<!---    
     <script type="template" id="search-options-template">
       <select>
         <option value="site">Site</option>
@@ -85,6 +87,7 @@
     </script>
     <div id="search">
     </div>
+-->    
   </section>
 <div class="decoration"></div>
 </div>
@@ -152,83 +155,62 @@
 {%- block footer %}
 <div id="footer-wrapper">
   <footer id="footer">
-    <div id="supported-by">
-      <a href="http://1and1.com">
-        <img src="http://resources.qooxdoo.org/images/1and1.png">
-      </a>
-      <p class="claim">
-        Brought to you by <a href="http://1and1.com">1&amp;1</a>, one of the world's leading web hosts
-      </p>
-      <p class="legal">
-        © 1&amp;1 Internet AG<br>
-        <a href="http://qooxdoo.org/legal">Legal notice</a>
-      </a>
-    </div>
     <div id="sitemap">
       <div>
         <h3><a href="http://qooxdoo.org/">Home</a></h3>
         <ul>
           <li>
-            <a href="http://qooxdoo.org/demos">Demos</a>
+            <a class="" href="http://news.qooxdoo.org">Blog</a>
           </li>
           <li>
-            <a href="http://qooxdoo.org/download">Download</a>
+            <a class="" href="http://qooxdoo.org/demos.html">Demos</a>
           </li>
           <li>
-            <a href="http://news.qooxdoo.org">Blog</a>
+            <a class="" href="https://github.com/qooxdoo/qooxdoo/releases">Downloads</a>
           </li>
-          <li>
-            <a href="http://bugs.qooxdoo.org">Bugs</a>
-          </li>
-          <li>
-            <a href="/project">Project</a>
-          </li>
-          <li>
-            <a href="http://qooxdoo.org/license">License</a>
-          </li>
+         <li> 
+           <a href="https://github.com/qooxdoo/qooxdoo/issues">Bugs</a> 
+         </li> 
+        <li> 
+          <a href="/license.html">License</a> 
+         </li> 
         </ul>
       </div>
       <div>
-        <h3><a href="http://qooxdoo.org/docs">Docs</a></h3>
+        <h3><a href="/current">Docs</a></h3>
         <ul>
           <li>
             {# {{version}} macro is referencing conf.py:html_context["version"] #}
-            <a href="http://manual.qooxdoo.org/{{version}}/pages/introduction/about.html">About</a>
+            <a href="/current/{{version}}/pages/introduction/about.html">About</a>
           </li>
           <li>
-            <a href="http://manual.qooxdoo.org/{{version}}/pages/getting_started.html">Getting Started</a>
+            <a href="/current/{{version}}/pages/getting_started.html">Getting Started</a>
           </li>
           <li>
-            <a href="http://manual.qooxdoo.org/{{version}}/pages/website.html">Website</a>
+            <a href="/current/{{version}}/pages/website.html">Website</a>
           </li>
           <li>
-            <a href="http://manual.qooxdoo.org/{{version}}/pages/mobile.html">Mobile</a>
+            <a href="/current/{{version}}/pages/mobile.html">Mobile</a>
           </li>
           <li>
-            <a href="http://manual.qooxdoo.org/{{version}}/pages/desktop.html">Desktop</a>
+            <a href="/current/{{version}}/pages/desktop.html">Desktop</a>
           </li>
           <li>
-            <a href="http://manual.qooxdoo.org/{{version}}/pages/server.html">Server</a>
+            <a href="/current/{{version}}/pages/server.html">Server</a>
+          </li>
+          <li>
+            <a class="" href="/current/apiviewer">Api</a>
           </li>
         </ul>
       </div>
       <div>
-        <h3><a href="http://qooxdoo.org/community">Community</a></h3>
+        <h3><a href="/community">Community</a></h3>
         <ul>
           <li>
-            <a href="http://qooxdoo.org/community/contribution">Get Involved</a>
+            <a href="https://gitter.im/qooxdoo/qooxdoo">chat room</a>
           </li>
           <li>
-            <a href="http://qooxdoo.org/community/mailing_lists">Mailing List</a>
-          </li>
-          <li>
-            <a href="http://qooxdoo.org/community/real_life_examples">Real Life Examples</a>
-          </li>
-          <li>
-            <a href="http://qooxdoo.org/community/jobs_services">Jobs &amp; Services</a>
-          </li>
-          <li>
-            <a href="http://qooxdoo.org/contrib">Contributions</a>
+            <a href="http://stackoverflow.com/questions/tagged/qooxdoo">Stackoverflow</a>
           </li>
         </ul>
       </div>

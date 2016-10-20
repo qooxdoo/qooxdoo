@@ -24,6 +24,7 @@
 /**
  *
  * @asset(demobrowser/demo/icons/multimedia-player.png)
+ * @asset(demobrowser/demo/fonts/fontawesome-webfont*)
  * @asset(qx/icon/${qx.icontheme}/32/actions/format-*)
  * @asset(qx/icon/${qx.icontheme}/32/actions/go-home.png)
  */
@@ -37,6 +38,8 @@ qx.Class.define("demobrowser.demo.widget.Image",
     main: function()
     {
       this.base(arguments);
+
+      this._initFont();
 
       var layout = new qx.ui.layout.HBox();
       layout.setSpacing(20);
@@ -64,6 +67,12 @@ qx.Class.define("demobrowser.demo.widget.Image",
       big.setHeight(64);
       container.add(big);
 
+      var font = new qx.ui.basic.Image("@FontAwesome/heart");
+      font.setScale(true);
+      font.setWidth(64);
+      font.setHeight(64);
+      container.add(font);
+
       var external = new qx.ui.basic.Image("http://resources.qooxdoo.org/images/logo.gif");
       container.add(external);
 
@@ -82,6 +91,34 @@ qx.Class.define("demobrowser.demo.widget.Image",
       });
 
       this.getRoot().add(btn, {left:20, top:180});
+    },
+
+    _initFont : function()
+    {
+      var currentFont = qx.theme.manager.Font.getInstance().getTheme();
+
+      // Add font definitions
+      var config = {
+        fonts: {
+          "FontAwesome": {
+            size: 40,
+            lineHeight: 1,
+            comparisonString : "\uf1e3\uf1f7\uf11b\uf19d",
+            family: ["FontAwesome"],
+            sources: [
+              {
+                family: "FontAwesome",
+                source: [
+                  "demobrowser/demo/fonts/fontawesome-webfont.ttf" , "demobrowser/demo/fonts/fontawesome-webfont.woff", "demobrowser/demo/fonts/fontawesome-webfont.woff2", "demobrowser/demo/fonts/fontawesome-webfont.eot"
+                ]
+              }
+            ]
+          }
+        }
+      };
+
+      qx.Theme.define("demobrowser.theme.icon.Font", config);
+      qx.Theme.include(currentFont, demobrowser.theme.icon.Font);
     }
   }
 });

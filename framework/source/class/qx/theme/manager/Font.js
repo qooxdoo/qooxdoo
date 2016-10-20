@@ -19,11 +19,15 @@
 
 /**
  * Manager for font themes
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.theme.manager.Font",
 {
   type : "singleton",
   extend : qx.util.ValueManager,
+  implement : [ qx.core.IDisposable ],
 
 
   /*
@@ -93,7 +97,15 @@ qx.Class.define("qx.theme.manager.Font",
       if (theme !== null && theme.fonts[value])
       {
         var font = this.__getFontClass(theme.fonts[value]);
-        return cache[value] = (new font).set(theme.fonts[value]);
+        var fo = (new font);
+
+        // Inject information about custom charcter set tests before we apply the
+        // complete blob in one.
+        if (theme.fonts[value].testCharacters) {
+          fo.setTestCharacters(theme.fonts[value].testCharacters);
+        }
+
+        return cache[value] = fo.set(theme.fonts[value]);
       }
 
       return value;
@@ -123,7 +135,15 @@ qx.Class.define("qx.theme.manager.Font",
       if (theme !== null && value && theme.fonts[value])
       {
         var font = this.__getFontClass(theme.fonts[value]);
-        cache[value] = (new font).set(theme.fonts[value]);
+        var fo = (new font);
+
+        // Inject information about custom charcter set tests before we apply the
+        // complete blob in one.
+        if (theme.fonts[value].testCharacters) {
+          fo.setTestCharacters(theme.fonts[value].testCharacters);
+        }
+
+        cache[value] = fo.set(theme.fonts[value]);
         return true;
       }
 
@@ -180,6 +200,14 @@ qx.Class.define("qx.theme.manager.Font",
           }
 
           var font = this.__getFontClass(source[key]);
+          var fo = (new font);
+
+          // Inject information about custom charcter set tests before we apply the
+          // complete blob in one.
+          if (source[key].testCharacters) {
+            fo.setTestCharacters(source[key].testCharacters);
+          }
+
           dest[key] = (new font).set(source[key]);
           dest[key].themed = true;
         }

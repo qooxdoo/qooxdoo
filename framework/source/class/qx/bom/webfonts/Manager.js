@@ -51,6 +51,9 @@
  *     }
  *   ]
  * </pre>
+ * 
+ * This class does not need to be disposed, except when you want to abort the loading
+ * and validation process.
  */
 qx.Class.define("qx.bom.webfonts.Manager", {
 
@@ -140,6 +143,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     {
       var sourceUrls = sourcesList.source;
       var comparisonString = sourcesList.comparisonString;
+      var version = sourcesList.version;
       var fontWeight = sourcesList.fontWeight;
       var fontStyle = sourcesList.fontStyle;
       var sources = [];
@@ -165,9 +169,9 @@ qx.Class.define("qx.bom.webfonts.Manager", {
           this.__queueInterval.start();
         }
 
-        this.__queue.push([familyName, sources, fontWeight, fontStyle, comparisonString, callback, context]);
+        this.__queue.push([familyName, sources, fontWeight, fontStyle, comparisonString, version, callback, context]);
       } else {
-        this.__require(familyName, sources, fontWeight, fontStyle, comparisonString, callback, context);
+        this.__require(familyName, sources, fontWeight, fontStyle, comparisonString, version, callback, context);
       }
     },
 
@@ -271,7 +275,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * @param familyName {String} font-family name
      * @param fontWeight {String} the font-weight.
      * @param fontStyle {String} the font-style.
-     * @returns {string} the font lookup key
+     * @return {string} the font lookup key
      */
     __createFontLookupKey: function (familyName, fontWeight, fontStyle) {
       var lookupKey = familyName + "_" + (fontWeight ? fontWeight : "normal") + "_" + (fontStyle ? fontStyle : "normal");
@@ -290,17 +294,18 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * @param fontStyle {String} the web font should be registered using an
      * fontStyle font style.
      * @param comparisonString {String} String to check whether the font has loaded or not
+     * @param version {String?} Optional version that is appended to the font URL to be able to override caching
      * @param callback {Function?} Optional event listener callback that will be
      * executed once the validator has determined whether the webFont was
      * applied correctly.
      * @param context {Object?} Optional context for the callback function
      */
-    __require : function(familyName, sources, fontWeight, fontStyle, comparisonString, callback, context)
+    __require : function(familyName, sources, fontWeight, fontStyle, comparisonString, version, callback, context)
     {
       var fontLookupKey = this.__createFontLookupKey(familyName, fontWeight, fontStyle);
       if (!qx.lang.Array.contains(this.__createdStyles, fontLookupKey)) {
         var sourcesMap = this.__getSourcesMap(sources);
-        var rule = this.__getRule(familyName, fontWeight, fontStyle, sourcesMap);
+        var rule = this.__getRule(familyName, fontWeight, fontStyle, sourcesMap, version);
 
         if (!rule) {
           throw new Error("Couldn't create @font-face rule for WebFont " + familyName + "!");
@@ -406,9 +411,10 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * @param fontStyle {String} the web font should be registered using an
      * fontStyle font style.
      * @param sourcesMap {Map} Map of font formats and sources
+     * @param version {String?} Optional version to be appended to the URL
      * @return {String} The computed CSS rule
      */
-    __getRule : function(familyName, fontWeight, fontStyle, sourcesMap)
+    __getRule : function(familyName, fontWeight, fontStyle, sourcesMap, version)
     {
       var rules = [];
 
@@ -418,7 +424,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       for (var i=0,l=formatList.length; i<l; i++) {
         var format = formatList[i];
         if (sourcesMap[format]) {
-          rules.push(this.__getSourceForFormat(format, sourcesMap[format]));
+          rules.push(this.__getSourceForFormat(format, sourcesMap[format], version));
         }
       }
 
@@ -437,10 +443,15 @@ qx.Class.define("qx.bom.webfonts.Manager", {
 
      * @param format {String} The font format, one of eot, woff, ttf, svg
      * @param url {String} The font file's URL
+     * @param version {String?} Optional version to be appended to the URL
      * @return {String} The src directive
      */
-    __getSourceForFormat : function(format, url)
+    __getSourceForFormat : function(format, url, version)
     {
+      if (version) {
+        url += "?" + version;
+      }
+
       switch(format) {
         case "eot": return "url('" + url + "');" +
           "src: url('" + url + "?#iefix') format('embedded-opentype')";

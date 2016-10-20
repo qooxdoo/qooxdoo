@@ -87,7 +87,7 @@ Learn more
   http://demo.qooxdoo.org
 
 * Release Notes
-  http://qooxdoo.org/project/release_notes/5.1
+  https://github.com/qooxdoo/qooxdoo/releases
 
 * User Manual
   http://manual.qooxdoo.org/5.1

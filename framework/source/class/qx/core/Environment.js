@@ -254,6 +254,14 @@
  *       <td>{@link qx.bom.client.EcmaScript#getArraySome}</td>
  *     </tr>
  *     <tr>
+ *       <td>ecmascript.array.find<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayFind}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.array.findIndex<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getArrayFindIndex}</td>
+ *     </tr>
+ *     <tr>
  *       <td>ecmascript.array.every<td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getArrayEvery}</td>
  *     </tr>
@@ -276,6 +284,10 @@
  *     <tr>
  *       <td>ecmascript.date.now<td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getDateNow}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.date.parse<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getDateParse}</td>
  *     </tr>
  *     <tr>
  *       <td>ecmascript.error.toString</td><td><i>Boolean</i></td><td><code>true</code></td>

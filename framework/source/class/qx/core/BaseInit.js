@@ -116,9 +116,6 @@ qx.Class.define("qx.core.BaseInit",
       if (app) {
         app.terminate();
       }
-
-      // Execute registry shutdown
-      qx.core.ObjectRegistry.shutdown();
     }
   }
 });

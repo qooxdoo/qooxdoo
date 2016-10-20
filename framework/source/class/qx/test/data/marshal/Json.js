@@ -600,6 +600,83 @@ qx.Class.define("qx.test.data.marshal.Json",
     },
 
 
+    "test model with and without bubble" : function ()
+    {
+      var data = { pi: 1 };
+
+      // 1st create explicit *without* changeBubble
+      var model1 = qx.data.marshal.Json.createModel(data, false);
+      // 2nd create implicit *without* changeBubble
+      var model2 = qx.data.marshal.Json.createModel(data);
+      // 3rd create explicit *with* changeBubble
+      var model3 = qx.data.marshal.Json.createModel(data, true);
+      // 4th model is again *without* changeBubble
+      //     (should nevertheless result in a model-class *with* changeBubble)
+      var model4 = qx.data.marshal.Json.createModel(data, false);
+
+      // Check whether the above assumptions are correct
+      this.assertFalse( qx.util.OOUtil.supportsEvent(model1, "changeBubble") );
+      this.assertFalse( qx.util.OOUtil.supportsEvent(model2, "changeBubble") );
+      this.assertTrue ( qx.util.OOUtil.supportsEvent(model3, "changeBubble") );
+      this.assertTrue ( qx.util.OOUtil.supportsEvent(model4, "changeBubble") );
+
+      // Check if bubble event really fires for models 3 & 4
+      [ model3, model4 ].forEach(function (model) {
+
+        this.assertEventFired(model, "changeBubble", function () {
+          model.setPi(0);
+        }, function (e) {
+          var data = e.getData();
+          this.assertEquals(0, data.value, "Not the right value in the event.");
+          this.assertEquals(1, data.old, "Not the right old value in the event.");
+          this.assertEquals("pi", data.name, "Not the right name in the event.");
+          this.assertEquals(model, data.item, "Not the right item in the event.");
+        }.bind(this), "Change event not fired!");
+
+      }, this);
+
+    },
+
+
+    "test toClass() toModel() match/mismatch" : function ()
+    {
+      var data = { foo: "foo", bar: "bar" };
+
+      var marshaler = new qx.data.marshal.Json();
+
+      //
+      // toClass *without*, toModel *with* should FAIL!
+      //
+      marshaler.toClass(data, false);
+      this.assertException(
+        function () { marshaler.toModel(data, true); },
+        Error,
+        "Class 'qx.data.model.bar\"foo' found, but it does not support changeBubble event."
+      );
+
+      //
+      // toClass *with*, toModel *without* should work
+      //
+      marshaler.toClass(data, true);
+      marshaler.toModel(data, false);
+
+      //
+      // "auto"
+      //
+      var data2 = { foo2: "foo", bar2: "bar" };
+      marshaler.toClass(data2); // implicit *without* (auto)
+
+      marshaler.toModel(data2);
+      marshaler.toModel(data2, false);
+
+      this.assertException(
+        function () { marshaler.toModel(data2, true); },
+        Error,
+        "Class 'qx.data.model.bar2\"foo2' found, but it does not support changeBubble event."
+      );
+    },
+
+
     testAddValidationRule : function()
     {
       var propertiesSaved;
@@ -658,25 +735,6 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       // check the model
       this.assertEquals(qxObject, model.getA().getB(), "wrong qx object!");
-      model.dispose();
-    },
-
-
-    testDeepModelDispose : function() {
-      var data = {a: [{}, {}], o: {}, n: null};
-      var model = qx.data.marshal.Json.createModel(data);
-      // get all references
-      var o = model.getO();
-      var a = model.getA();
-      var c0 = model.getA().getItem(0);
-      var c1 = model.getA().getItem(1);
-      // dispose the model
-      model.dispose();
-      this.assertTrue(model.isDisposed(), "model");
-      this.assertTrue(o.isDisposed(), "object");
-      this.assertTrue(a.isDisposed(), "array");
-      this.assertTrue(c0.isDisposed(), "array item");
-      this.assertTrue(c1.isDisposed(), "array item");
       model.dispose();
     },
 

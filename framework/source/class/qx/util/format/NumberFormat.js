@@ -19,11 +19,14 @@
 
 /**
  * A formatter and parser for numbers.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.util.format.NumberFormat",
 {
   extend : qx.core.Object,
-  implement : qx.util.format.IFormat,
+  implement : [ qx.util.format.IFormat, qx.core.IDisposable ],
 
 
   /*

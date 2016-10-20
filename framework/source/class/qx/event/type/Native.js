@@ -132,18 +132,5 @@ qx.Class.define("qx.event.type.Native",
     getReturnValue : function() {
       return this._returnValue;
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._native = this._returnValue = null;
   }
 });

@@ -30,6 +30,7 @@
 qx.Class.define("qx.util.ObjectPool",
 {
   extend : qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
 
 

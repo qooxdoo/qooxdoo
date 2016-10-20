@@ -287,6 +287,13 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     append : function(arr1, arr2)
     {
+      if (arr1 instanceof qx.data.Array) {
+        return arr1.append(arr2);
+      }
+      if (arr2 instanceof qx.data.Array) {
+        arr2 = arr2.toArray();
+      }
+      
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
       if (qx.core.Environment.get("qx.debug"))
@@ -311,6 +318,10 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     exclude : function(arr1, arr2)
     {
+      if (arr1 instanceof qx.data.Array) {
+        return arr1.exclude(arr2);
+      }
+      
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
       if (qx.core.Environment.get("qx.debug"))
@@ -319,13 +330,12 @@ qx.Bootstrap.define("qx.lang.Array",
         qx.core.Assert && qx.core.Assert.assertArray(arr2, "The second parameter must be an array.");
       }
 
-      for (var i=0, il=arr2.length, index; i<il; i++)
-      {
-        index = arr1.indexOf(arr2[i]);
+      arr2.forEach(function(item) {
+        var index = arr1.indexOf(item);
         if (index != -1) {
           arr1.splice(index, 1);
         }
-      }
+      });
 
       return arr1;
     },
@@ -340,6 +350,10 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     remove : function(arr, obj)
     {
+      if (arr instanceof qx.data.Array) {
+        return arr.remove(obj);
+      }
+      
       var i = arr.indexOf(obj);
 
       if (i != -1)
@@ -372,6 +386,11 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     equals : function(arr1, arr2)
     {
+      if (arr1 instanceof qx.data.Array) {
+        return arr1.equals(arr2);
+      }
+      arr2 = qx.lang.Array.toNativeArray(arr2);
+      
       var length = arr1.length;
 
       if (length !== arr2.length) {
@@ -593,6 +612,69 @@ qx.Bootstrap.define("qx.lang.Array",
       }
 
       return range;
+    },
+    
+    
+    /**
+     * Replaces the contents of the array `dest`
+     * 
+     * @param dest {Array|qx.data.Array} the array to edit (if null then a new array is created)
+     * @param src {Array|qx.data.Array} the array to copy from, or null
+     * @return {Array} the edited array (or the new array, if dest is null)
+     */
+    replace: function(dest, src) {
+      if (dest instanceof qx.data.Array) {
+        return dest.replace(src);
+      }
+      
+      if (src === null) {
+        if (dest === null) {
+          return null;
+        } else {
+          return [];
+        }
+      }
+      
+      src = qx.lang.Array.toNativeArray(src);
+      if (dest === null) {
+        dest = src.slice(0);
+      } else {
+        var args = [ 0, dest.length ];
+        src.forEach(function(item) {
+          args.push(item);
+        });
+        dest.splice.apply(dest, args);
+      }
+      return dest;
+    },
+    
+    
+    /**
+     * Returns a native array from src where possible; qx.data.Array is converted to its native array,
+     * in which case unless `clone` parameter is set to true the rules of qx.data.Array.toArray should 
+     * be followed, ie that the array should not be manipulated directly.
+     * 
+     * @param src {qx.data.Array|Array} the object to return as an array
+     * @param clone{Boolean?} whether to make the returned array a clone, ie editable by the calling code
+     * @return {Array}
+     */
+    toNativeArray: function(src, clone) {
+      if (src === undefined || src === null) {
+        return src;
+      }
+      if (src instanceof qx.data.Array) {
+        if (clone) {
+          return src.toArray().slice(0);
+        }
+        return src.toArray();
+      }
+      if (qx.lang.Type.isArray(src)) {
+        if (clone) {
+          return src.slice(0);
+        }
+        return src;
+      }
+      return [ src ];
     }
   }
 });

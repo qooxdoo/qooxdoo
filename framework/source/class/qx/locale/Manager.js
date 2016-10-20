@@ -471,16 +471,5 @@ qx.Class.define("qx.locale.Manager",
 
       return txt;
     }
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this.__translations = this.__locales = null;
   }
 });

@@ -285,6 +285,7 @@ qx.Bootstrap.define("qx.core.Property",
      */
     $$allowedKeys :
     {
+      "@"          : "object",   // Anything
       name         : "string",   // String
       dereference  : "boolean",  // Boolean
       inheritable  : "boolean",  // Boolean
@@ -309,6 +310,7 @@ qx.Bootstrap.define("qx.core.Property",
      */
     $$allowedGroupKeys :
     {
+      "@"       : "object",   // Anything
       name      : "string",   // String
       group     : "object",   // Array
       mode      : "string",   // String
@@ -905,6 +907,8 @@ qx.Bootstrap.define("qx.core.Property",
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
      * @param variant {String} Method variant.
+     * @param args {arguments} Incoming arguments of wrapper method
+     * @return {var} Return value of the generated function
      */
     installOptimizedSetter : function(instance, clazz, name, variant, args)
     {
@@ -922,6 +926,7 @@ qx.Bootstrap.define("qx.core.Property",
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
      * @param variant {String} Method variant.
+     * @param args {arguments} Incoming arguments of wrapper method
      * @return {String[]} the string builder array
      */
     __compileSetter: function(instance, clazz, name, variant, args) {

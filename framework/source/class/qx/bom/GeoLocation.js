@@ -27,6 +27,11 @@
  *
  * For more information see:
  * http://www.w3.org/TR/geolocation-API/
+ * 
+ * This class does not need to be disposed, but you would obviously call 
+ * stopWatchPosition() to top watching and free up resources consumed
+ * by startWatchPosition().  The destructor will do this for you, if
+ * you call dispose()
  *
  */
 qx.Class.define("qx.bom.GeoLocation",

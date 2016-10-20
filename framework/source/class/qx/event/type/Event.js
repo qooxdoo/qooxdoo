@@ -393,19 +393,5 @@ qx.Class.define("qx.event.type.Event",
     setCancelable : function(cancelable) {
       this._cancelable = cancelable;
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._target = this._currentTarget = this._relatedTarget =
-      this._originalTarget = null;
   }
 });

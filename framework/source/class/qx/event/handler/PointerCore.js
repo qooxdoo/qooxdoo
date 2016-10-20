@@ -26,6 +26,7 @@
 qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
   extend : Object,
+  implement: [ qx.core.IDisposable ],
 
   statics : {
     MOUSE_TO_POINTER_MAPPING: {

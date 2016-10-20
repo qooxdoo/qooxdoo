@@ -31,9 +31,8 @@
  */
 qx.Class.define("qx.ui.table.model.Remote",
 {
+  type : "abstract",
   extend : qx.ui.table.model.Abstract,
-
-
 
 
   /*

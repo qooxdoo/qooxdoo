@@ -40,6 +40,9 @@
  *
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/image.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.ui.basic.Image",
 {
@@ -100,6 +103,7 @@ qx.Class.define("qx.ui.basic.Image",
     {
       check : "Boolean",
       init : false,
+      event : "changeScale",
       themeable : true,
       apply : "_applyScale"
     },
@@ -242,6 +246,22 @@ qx.Class.define("qx.ui.basic.Image",
       this.__setSource(el, source);
     },
 
+    // overridden
+    _applyTextColor : function(value)
+    {
+      if (this.__getMode() === "font") {
+        var el = this.getContentElement();
+        if (this.__wrapper) {
+          el = el.getChild(0);
+        }
+
+        if (value) {
+          el.setStyle("color", qx.theme.manager.Color.getInstance().resolve(value));
+        } else {
+          el.removeStyle("color");
+        }
+      }
+    },
 
     // overridden
     _applyPadding : function(value, old, name)
@@ -336,6 +356,11 @@ qx.Class.define("qx.ui.basic.Image",
       if (this.__mode == null)
       {
         var source = this.getSource();
+
+        if (source && qx.lang.String.startsWith(source, "@")) {
+          this.__mode = "font";
+        }
+
         var isPng = false;
         if (source != null) {
           isPng = source.endsWith(".png");
@@ -364,7 +389,15 @@ qx.Class.define("qx.ui.basic.Image",
     {
       var scale;
       var tagName;
-      if (mode == "alphaScaled")
+      var clazz = qx.html.Image;
+
+      if (mode == "font")
+      {
+        clazz = qx.html.Label;
+        scale = true;
+        tagName = "div";
+      }
+      else if (mode == "alphaScaled")
       {
         scale = true;
         tagName = "div";
@@ -380,21 +413,27 @@ qx.Class.define("qx.ui.basic.Image",
         tagName = "img";
       }
 
-      var element = new qx.html.Image(tagName);
-      element.setAttribute("$$widget", this.toHashCode());
-      element.setScale(scale);
+      var element = new (clazz)(tagName);
+      element.connectWidget(this);
       element.setStyles({
         "overflowX": "hidden",
         "overflowY": "hidden",
         "boxSizing": "border-box"
       });
 
-      if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
-        var wrapper = this.__wrapper = new qx.html.Element("div");
-        wrapper.setAttribute("$$widget", this.toHashCode());
-        wrapper.setStyle("position", "absolute");
-        wrapper.add(element);
-        return wrapper;
+      if (mode == "font") {
+        element.setRich(true);
+      }
+      else {
+        element.setScale(scale);
+
+        if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
+          var wrapper = this.__wrapper = new qx.html.Element("div");
+          element.connectWidget(this);
+          wrapper.setStyle("position", "absolute");
+          wrapper.add(element);
+          return wrapper;
+        }
       }
 
       return element;
@@ -447,7 +486,7 @@ qx.Class.define("qx.ui.basic.Image",
 
       if (!source)
       {
-        element.resetSource();
+        this.__resetSource(element);
         return;
       }
 
@@ -464,7 +503,10 @@ qx.Class.define("qx.ui.basic.Image",
       var contentEl = this.__getContentElement();
 
       // Detect if the image registry knows this image
-      if (qx.util.ResourceManager.getInstance().has(source)) {
+      if (ResourceManager.isFontUri(source)) {
+        this.__setManagedImage(contentEl, source);
+      }
+      else if (ResourceManager.has(source)) {
         var highResolutionSource = this._findHighResolutionSource(source);
         if (highResolutionSource) {
           var imageWidth = ResourceManager.getImageHeight(source);
@@ -537,8 +579,11 @@ qx.Class.define("qx.ui.basic.Image",
       {
         var alphaImageLoader = qx.core.Environment.get("css.alphaimageloaderneeded");
         var isPng = source.endsWith(".png");
+        var isFont = source.startsWith("@");
 
-        if (alphaImageLoader && isPng)
+        if (isFont) {
+          this.__setMode("font");
+        } else if (alphaImageLoader && isPng)
         {
           if (this.getScale() && this.__getMode() != "alphaScaled") {
             this.__setMode("alphaScaled");
@@ -560,7 +605,11 @@ qx.Class.define("qx.ui.basic.Image",
 
       "default" : function(source)
       {
-        if (this.getScale() && this.__getMode() != "scaled") {
+        var isFont = source && qx.lang.String.startsWith(source, "@");
+
+        if (isFont) {
+          this.__setMode("font");
+        } else if (this.getScale() && this.__getMode() != "scaled") {
           this.__setMode("scaled");
         } else if (!this.getScale() && this.__getMode() != "nonScaled") {
           this.__setMode("nonScaled");
@@ -634,7 +683,12 @@ qx.Class.define("qx.ui.basic.Image",
           }
           // force re-application of source so __setSource is called again
           var hint = newEl.getNodeName();
-          newEl.setSource(null);
+          if (newEl.setSource) {
+            newEl.setSource(null);
+          }
+          else {
+            newEl.setValue("");
+          }
           var currentEl = this.__getContentElement();
           newEl.tagNameHint = hint;
           newEl.setAttribute("class", currentEl.getAttribute("class"));
@@ -673,12 +727,13 @@ qx.Class.define("qx.ui.basic.Image",
     __setManagedImage : function(el, source)
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
+      var isFont = ResourceManager.isFontUri(source);
 
       // Try to find a disabled image in registry
       if (!this.getEnabled())
       {
         var disabled = source.replace(/\.([a-z]+)$/, "-disabled.$1");
-        if (ResourceManager.has(disabled))
+        if (!isFont && ResourceManager.has(disabled))
         {
           source = disabled;
           this.addState("replacement");
@@ -690,20 +745,67 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // Optimize case for enabled changes when no disabled image was found
-      if (el.getSource() === source) {
+      if (!isFont && el.getSource() === source) {
         return;
       }
 
-      // Apply source
-      this.__setSource(el, source);
+      // Special case for non resource manager handled font icons
+      if (isFont) {
+        var size;
 
-      // Compare with old sizes and relayout if necessary
-      this.__updateContentHint(
-        ResourceManager.getImageWidth(source),
-        ResourceManager.getImageHeight(source)
-      );
+        // Adjust size if scaling is applied
+        if (this.getScale()) {
+          var width = this.getWidth() || this.getHeight() || 40;
+          var height = this.getHeight() || this.getWidth() || 40;
+          size = width > height ? height : width;
+        }
+        else {
+          var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
+          size = font.getSize();
+        }
+
+        // Default to something definitively numeric if nothing set
+        if (!size) {
+          size = 0;
+        }
+
+        this.__updateContentHint(size, size);
+
+        // Apply source
+        this.__setSource(el, source);
+      }
+      else {
+        // Apply source
+        this.__setSource(el, source);
+
+        // Compare with old sizes and relayout if necessary
+        this.__updateContentHint(
+          ResourceManager.getImageWidth(source),
+          ResourceManager.getImageHeight(source)
+        );
+      }
     },
 
+    _applyDimension : function()
+    {
+      this.base(arguments);
+      
+      var isFont = this.getSource() && qx.lang.String.startsWith(this.getSource(), "@");
+      if (isFont) {
+        var el = this.getContentElement();
+        if (el) {
+          if (this.getScale()) {
+            var width = this.getWidth() || this.getHeight() || 40;
+            var height = this.getHeight() || this.getWidth() || 40;
+            el.setStyle("fontSize", (width > height ? height : width) + "px");
+          }
+          else {
+            var font = qx.theme.manager.Font.getInstance().resolve(this.getSource().match(/@([^/]+)/)[1]);
+            el.setStyle("fontSize", font.getSize() + "px");
+          }
+        }
+      }
+    },
 
     /**
      * Use the infos of the ImageLoader to set an unmanaged image
@@ -761,12 +863,21 @@ qx.Class.define("qx.ui.basic.Image",
       if(!ImageLoader.isFailed(source)) {
         ImageLoader.load(source, this.__loaderCallback, this);
       } else {
-        if (el != null) {
-          el.resetSource();
-        }
+        this.__resetSource(el);
       }
     },
 
+    __resetSource : function(el)
+    {
+      if (el != null) {
+        if (el instanceof qx.html.Image) {
+          el.resetSource();
+        }
+        else {
+          el.resetValue();
+        }
+      }
+    },
 
     /**
      * Combines the decorator's image styles with our own image to make sure
@@ -776,7 +887,39 @@ qx.Class.define("qx.ui.basic.Image",
      * @param source {String} source path
      */
     __setSource: function (el, source) {
-      if (el.getNodeName() == "div") {
+      var isFont = source && qx.lang.String.startsWith(source, "@");
+
+      if (isFont) {
+        var ResourceManager = qx.util.ResourceManager.getInstance();
+        var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
+        var fontStyles = qx.lang.Object.clone(font.getStyles());
+        delete fontStyles.color;
+        el.setStyles(fontStyles);
+        el.setStyle("font");
+        el.setStyle("display", "table-cell");
+        el.setStyle("verticalAlign", "middle");
+        el.setStyle("textAlign", "center");
+
+        if (this.getScale()) {
+          el.setStyle("fontSize", (this.__width > this.__height ? this.__height : this.__width) + "px");
+        }
+        else {
+          el.setStyle("fontSize", font.getSize() + "px");
+        }
+
+        var resource = ResourceManager.getData(source);
+        if (resource) {
+          el.setValue(String.fromCharCode(resource[2]));
+        }
+        else {
+          var charCode = parseInt(qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)\/(.*)$/)[2]), 16);
+          this.assertNumber(charCode, "Font source needs either a glyph name or the unicode number in hex");
+          el.setValue(String.fromCharCode(charCode));
+        }
+
+        return;
+      }
+      else if (el.getNodeName() == "div") {
 
         // checks if a decorator already set.
         // In this case we have to merge background styles
@@ -952,7 +1095,7 @@ qx.Class.define("qx.ui.basic.Image",
   destruct : function() {
     for (var mode in this.__contentElements) {
       if (this.__contentElements.hasOwnProperty(mode)) {
-        this.__contentElements[mode].setAttribute("$$widget", null, true);
+        this.__contentElements[mode].disconnectWidget(this);
       }
     }
 

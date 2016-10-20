@@ -16,6 +16,9 @@
 /**
  * Checks whether a given font is available on the document and fires events
  * accordingly.
+ * 
+ * This class does not need to be disposed, unless you want to abort the validation
+ * early
  */
 qx.Class.define("qx.bom.webfonts.Validator", {
 
@@ -30,6 +33,8 @@ qx.Class.define("qx.bom.webfonts.Validator", {
 
   /**
    * @param fontFamily {String} The name of the font to be verified
+   * @param comparisonString {String?} String to be used to detect whether a font was loaded or not
+   * whether the font has loaded properly
    */
   construct : function(fontFamily, comparisonString)
   {

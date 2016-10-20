@@ -260,6 +260,19 @@ qx.Class.define("qx.ui.list.List",
       event: "changeGroups",
       nullable: false,
       deferredInit: true
+    },
+
+
+    /** 
+     * Render list items with variable height, 
+     * calculated from the individual item size. 
+     */
+    variableItemHeight :
+    {
+      check : "Boolean",
+      apply : "_applyVariableItemHeight",
+      nullable : false,
+      init : true
     }
   },
 
@@ -317,6 +330,8 @@ qx.Class.define("qx.ui.list.List",
     __defaultGroupUsed : false,
 
     __defaultGroups : null,
+
+    __deferredLayerUpdate : null,
 
 
     /**
@@ -379,6 +394,7 @@ qx.Class.define("qx.ui.list.List",
     _initLayer : function()
     {
       this._layer = this._provider.createLayer();
+      this._layer.addListener("updated", this._onLayerUpdated, this);
       this.getPane().addLayer(this._layer);
     },
 
@@ -565,6 +581,18 @@ qx.Class.define("qx.ui.list.List",
     },
 
 
+    // property apply
+    _applyVariableItemHeight : function(value, old) {
+      if(value) {
+        this._setRowItemSize();
+      }
+      else {
+        this.getPane().getRowConfig().resetItemSizes();
+        this.getPane().fullUpdate();
+      }
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLERS
@@ -594,6 +622,28 @@ qx.Class.define("qx.ui.list.List",
       this._provider.removeBindings();
       this.__buildUpLookupTable();
       this._applyDefaultSelection();
+    },
+
+
+    /**
+     * Event handler for the updated event of the 
+     * qx.ui.virtual.layer.WidgetCell layer.
+     *
+     * Recalculates the item sizes in a deffered call,
+     * which only happens if we have variable item heights
+     */
+    _onLayerUpdated: function () {
+      if (this.isVariableItemHeight() === false) {
+        return;
+      }
+
+      if (this.__deferredLayerUpdate === null) {
+        this.__deferredLayerUpdate = new qx.util.DeferredCall(function () {
+          this._setRowItemSize();
+        }, this);
+      }
+
+      this.__deferredLayerUpdate.schedule();
     },
 
 
@@ -829,12 +879,39 @@ qx.Class.define("qx.ui.list.List",
         throw new Error("GroupingTypeError: You can't mix 'Objects' and 'Strings' as" +
           " group identifier!");
       }
+    },
+
+
+    /**
+     * Get the height of each visible item and set it as the
+     * row size
+     */
+    _setRowItemSize : function() {
+      var rowConfig = this.getPane().getRowConfig();
+      var layer = this._layer;
+      
+      var firstRow = layer.getFirstRow();
+      var lastRow = firstRow + layer.getRowSizes().length;
+
+      for (var row = firstRow; row < lastRow; row++) {
+        var widget = layer.getRenderedCellWidget(row, 0);
+        if (widget !== null) {
+          var height = widget.getSizeHint().height;
+          
+          rowConfig.setItemSize(
+              row,
+              height
+          );
+        }
+      }
     }
   },
 
 
   destruct : function()
   {
+    this.__deferredLayerUpdate = null;
+    
     var model = this.getModel();
     if (model != null) {
       model.removeListener("changeLength", this._onModelChange, this);

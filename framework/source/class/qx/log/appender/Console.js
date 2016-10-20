@@ -28,6 +28,8 @@
  * * Clearing the console using a button.
  * * Display of offset (time after loading) of each message
  * * Supports keyboard shortcuts F7 or Ctrl+D to toggle the visibility
+ * 
+ * Note this class must be disposed of after use
  *
  * @require(qx.event.handler.Window)
  * @require(qx.event.handler.Keyboard)

@@ -183,10 +183,11 @@ qx.Bootstrap.define("qx.lang.Function",
         {
           if (qx.core.Object && options.self && qx.Bootstrap.isObject(options.self) && options.self.isDisposed && qx.Bootstrap.isFunction(options.self.isDisposed))
           {
-            qx.core.Assert && qx.core.Assert.assertFalse(
-              options.self.isDisposed(),
-              "Trying to call a bound function with a disposed object as context: " + options.self.toString() + " :: " + qx.lang.Function.getName(func)
-            );
+            if (options.self.isDisposed()) {
+              qx.core.Assert && qx.core.Assert.fail(
+                "Trying to call a bound function with a disposed object as context: " + options.self.toString() + " :: " + qx.lang.Function.getName(func)
+              );
+            }
           }
         }
 

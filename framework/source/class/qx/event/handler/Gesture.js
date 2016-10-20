@@ -24,7 +24,7 @@
 qx.Class.define("qx.event.handler.Gesture",
 {
   extend : qx.event.handler.GestureCore,
-  implement : qx.event.IEventHandler,
+  implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
 
   statics : {
 

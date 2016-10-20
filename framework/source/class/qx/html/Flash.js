@@ -19,6 +19,9 @@
 
 /**
  * Managed wrapper for the HTML Flash tag.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.html.Flash",
 {
@@ -176,7 +179,7 @@ qx.Class.define("qx.html.Flash",
         }
       }
 
-      if (key == "$$widget" || key.indexOf("$$") === 0) {
+      if (key.indexOf("$$") === 0) {
         this.base(arguments, key, value);
       }
       else if (this.__flash) {

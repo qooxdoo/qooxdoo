@@ -26,10 +26,14 @@
  *
  * This class is e.g. used in the {@link qx.ui.form.RepeatButton} and
  * {@link qx.ui.form.HoverButton} widgets.
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.event.AcceleratingTimer",
 {
   extend : qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
   construct : function()
   {

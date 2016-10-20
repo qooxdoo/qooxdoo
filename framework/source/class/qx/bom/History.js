@@ -402,11 +402,5 @@ qx.Class.define("qx.bom.History",
       var hash = /#(.*)$/.exec(window.location.href);
       return hash && hash[1] ? hash[1] : "";
     }
-  },
-
-
-  destruct : function()
-  {
-    this._titles = null;
   }
 });

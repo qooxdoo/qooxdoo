@@ -184,6 +184,11 @@ class Generator(object):
               "type"   : "JSimpleJob"
             },
 
+            "font-map" :
+            {
+              "type"   : "JSimpleJob"
+            },
+
             "translate" :
             {
               "type"   : "JClassDepJob"
@@ -492,6 +497,8 @@ class Generator(object):
             FileSystem.runCopyFiles(self._job, self._config)
         if takeout(jobTriggers, "combine-images"):
             Resources.runImageCombining(self._job, self._config)
+        if takeout(jobTriggers, "font-map"):
+            Resources.runFontMap(self._job, self._config)
         if takeout(jobTriggers, "clean-files"):
             FileSystem.runClean(self._job, self._config, self._cache)
         if takeout(jobTriggers, "validation-config"):

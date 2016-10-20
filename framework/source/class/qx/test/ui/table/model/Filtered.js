@@ -46,44 +46,89 @@ qx.Class.define("qx.test.ui.table.model.Filtered",
       }];
       table.getTableModel().setColumns(["a"]);
       table.getTableModel().setDataAsMapArray(data);
-      table.getTableModel().addBetweenFilter("!between", 4, 6, "a");
-      table.getTableModel().applyFilters();
       return table;
     },
-    testSimple : function()
-    {
-      var table = this.createTable();
-      this.assertIdentical(3, table.getTableModel().getRowCount(), "Only 3 rows are not filtered");
-      
-      table.destroy();
-    },
-    testInArray : function()
-    {
-      var table = this.createTable();
-      var data = table.getTableModel().getDataAsMapArray();
-      var listA = [];
-      for (var i = 0; i < data.length; ++i) {
-        listA.push(data[i]['a']);
-      }
-      this.assertInArray(4, listA, "Must be in array");
-      this.assertInArray(5, listA, "Must be in array");
-      this.assertInArray(6, listA, "Must be in array");
-      
-      table.destroy();
-    },
-    testNotInArray : function()
-    {
-      var table = this.createTable();
-      var data = table.getTableModel().getDataAsMapArray();
-      var listA = [];
-      for (var i = 0; i < data.length; ++i) {
-        listA.push(data[i]['a']);
-      }
 
-      // assertNotInArray function could be useful in qx.dev.unit.TestCase class
-      this.assert(listA.indexOf(3) == -1, "Must not be in array");
-      this.assert(listA.indexOf(7) == -1, "Must not be in array");
-      
+    testBetween : function()
+    {
+      var table = this.createTable();
+      var model = table.getTableModel();
+
+      model.addBetweenFilter("!between", 4, 6, "a");
+      model.applyFilters();
+
+      this.assertIdentical(3, model.getRowCount());
+
+      var data = model.getDataAsMapArray();
+      var listA = [];
+
+      data.forEach(function(obj) {
+        listA.push(obj.a);
+      });
+
+      this.assertNotInArray(3, listA);
+      this.assertInArray(4, listA);
+      this.assertInArray(5, listA);
+      this.assertInArray(6, listA);
+      this.assertNotInArray(7, listA);
+
+      table.destroy();
+    },
+
+    testNotBetween : function()
+    {
+      var table = this.createTable();
+      var model = table.getTableModel();
+
+      model.addBetweenFilter("between", 2, 8, "a");
+      model.applyFilters();
+
+      var data = table.getTableModel().getDataAsMapArray();
+      var listA = [];
+
+      data.forEach(function(obj) {
+        listA.push(obj.a);
+      });
+
+      this.assertNotInArray(3, listA);
+      this.assertNotInArray(7, listA);
+      this.assertInArray(1, listA);
+      this.assertInArray(9, listA);
+
+      table.destroy();
+    },
+
+    testNumericFilter : function()
+    {
+      var table = this.createTable();
+      var model = table.getTableModel();
+
+      model.addNumericFilter("==", 8, "a");
+      model.applyFilters();
+
+      this.assertIdentical(9, model.getRowCount());
+
+      model.resetHiddenRows();
+
+      model.addNumericFilter("<", 4, "a");
+      model.applyFilters();
+
+      this.assertIdentical(7, model.getRowCount());
+
+      model.resetHiddenRows();
+
+      model.addNumericFilter(">=", 9, "a");
+      model.applyFilters();
+
+      this.assertIdentical(8, model.getRowCount());
+
+      model.resetHiddenRows();
+
+      model.addNumericFilter("!=", 1, "a");
+      model.applyFilters();
+
+      this.assertIdentical(1, model.getRowCount());
+
       table.destroy();
     }
   }

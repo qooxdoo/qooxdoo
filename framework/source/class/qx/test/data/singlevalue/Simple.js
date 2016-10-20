@@ -246,28 +246,6 @@ qx.Class.define("qx.test.data.singlevalue.Simple",
    },
 
 
-    testRemoveAllBindings: function(){
-      // add three bindings
-      qx.data.SingleValueBinding.bind(this.__a, "appearance", this.__b, "appearance");
-      qx.data.SingleValueBinding.bind(this.__a, "zIndex", this.__b, "zIndex");
-      qx.data.SingleValueBinding.bind(this.__b, "zIndex", this.__a, "zIndex");
-
-      // check if the bindings are there
-      var bindingsA = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
-      var bindingsB = qx.data.SingleValueBinding.getAllBindingsForObject(this.__b);
-      this.assertEquals(3, bindingsA.length, "There are more than 3 bindings!");
-      this.assertEquals(3, bindingsB.length, "There are more than 3 bindings!");
-
-      // remove all bindings
-      qx.data.SingleValueBinding.removeAllBindings();
-
-      bindingsA = qx.data.SingleValueBinding.getAllBindingsForObject(this.__a);
-      bindingsB = qx.data.SingleValueBinding.getAllBindingsForObject(this.__b);
-      this.assertEquals(0, bindingsA.length, "Still bindings there!");
-      this.assertEquals(0, bindingsB.length, "Still bindings there!");
-    },
-
-
     testGetAllBindings: function(){
       // remove all bindings
       qx.data.SingleValueBinding.removeAllBindings();

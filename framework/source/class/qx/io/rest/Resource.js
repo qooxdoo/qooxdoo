@@ -115,10 +115,14 @@
  * from the event data, or listen to action specific events defined at runtime.
  * Action specific events follow the pattern "&lt;action&gt;Success" and
  * "&lt;action&gt;Error", e.g. "indexSuccess".
+ * 
+ * NOTE: Instances of this class must be disposed of after use
+ *
  */
 qx.Class.define("qx.io.rest.Resource",
 {
   extend: qx.core.Object,
+  implement : [ qx.core.IDisposable ],
 
   /**
    * @param description {Map?} Each key of the map is interpreted as
@@ -664,7 +668,7 @@ qx.Class.define("qx.io.rest.Resource",
   },
 
   /**
-   * Desctructs the Resource.
+   * Destructs the Resource.
    *
    * All created requests, routes and pollTimers will be disposed.
    */
