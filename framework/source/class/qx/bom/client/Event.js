@@ -49,6 +49,12 @@ qx.Bootstrap.define("qx.bom.client.Event",
      */
     getMsPointer : function()
     {
+      // Fixes issue #9182: new unified pointer input model since Chrome 55
+      // see https://github.com/qooxdoo/qooxdoo/issues/9182
+      if (window.PointerEvent) {
+        return true;
+      }
+
       if ("pointerEnabled" in window.navigator) {
         return window.navigator.pointerEnabled;
       } else if ("msPointerEnabled" in window.navigator) {
