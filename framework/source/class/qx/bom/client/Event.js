@@ -51,7 +51,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
     {
       // Fixes issue #9182: new unified pointer input model since Chrome 55
       // see https://github.com/qooxdoo/qooxdoo/issues/9182
-      if (window.PointerEvent) {
+      if ("PointerEvent" in window) {
         return true;
       }
 
