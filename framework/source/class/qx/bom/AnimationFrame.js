@@ -27,16 +27,16 @@
  *
  * Here is a sample usage:
  * <pre class='javascript'>var start = +(new Date());
- * var clb = function(time) {
+ * var cb = function(time) {
  *   if (time >= start + duration) {
  *     // ... do some last tasks
  *   } else {
  *     var timePassed = time - start;
  *     // ... calculate the current step and apply it
- *     qx.bom.AnimationFrame.request(clb, this);
+ *     qx.bom.AnimationFrame.request(cb, this);
  *   }
  * };
- * qx.bom.AnimationFrame.request(clb, this);
+ * qx.bom.AnimationFrame.request(cb, this);
  * </pre>
  *
  * Another way of using it is to use it as an instance emitting events.
@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       this.__canceled = false;
 
       var start = +(new Date());
-      var clb = function(time) {
+      var cb = function(time) {
         if (this.__canceled) {
           this.id = null;
           return;
@@ -95,11 +95,11 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
         } else {
           var timePassed = Math.max(time - start, 0);
           this.emit("frame", timePassed);
-          this.id = qx.bom.AnimationFrame.request(clb, this);
+          this.id = qx.bom.AnimationFrame.request(cb, this);
         }
       }
 
-      this.id = qx.bom.AnimationFrame.request(clb, this);
+      this.id = qx.bom.AnimationFrame.request(cb, this);
     },
 
 
@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
     request : function(callback, context) {
       var req = qx.core.Environment.get("css.animation.requestframe");
 
-      var clb = function(time) {
+      var cb = function(time) {
         // check for high resolution time
         if (time < 1e10) {
           time = this.__start + time;
@@ -182,12 +182,12 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
         callback.call(context, time);
       };
       if (req) {
-        return window[req](clb);
+        return window[req](cb);
       } else {
         // make sure to use an indirection because setTimeout passes a
         // number as first argument as well
         return window.setTimeout(function() {
-          clb();
+          cb();
         }, qx.bom.AnimationFrame.TIMEOUT);
       }
     }
