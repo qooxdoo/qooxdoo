@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.window.Window",
 
   /*
   *****************************************************************************
-     PROPERTIES
+     EVENTS
   *****************************************************************************
   */
 
@@ -372,6 +372,50 @@ qx.Class.define("qx.ui.window.Window",
       check : "Boolean",
       init : false,
       apply : "_applyShowStatusbar"
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      OPEN BEHAVIOR
+    ---------------------------------------------------------------------------
+    */
+
+    /** Should the window be automatically centered when it is opened */
+    autoCenter :
+    {
+      check : "Boolean",
+      init : false
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CLOSE BEHAVIOR
+    ---------------------------------------------------------------------------
+    */
+
+    /** 
+     * Should the window be automatically destroyed when it is closed.
+     *
+     * When false, closing the window behaves like hiding the window.
+     * 
+     * When true, the window is removed from its container (the root), all
+     * listeners are removed, the window's widgets are removed, and the window
+     * is destroyed.
+     *
+     * NOTE: If any widgets that were added to this window require special
+     * clean-up, you should listen on the 'close' event and remove and clean
+     * up those widgets there.
+     */
+    autoDestroy :
+    {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -618,12 +662,15 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * Closes the current window instance.
-     * Technically calls the {@link qx.ui.core.Widget#hide} method.
+     * Close the current window instance.
+     *
+     * Simply calls the {@link qx.ui.core.Widget#hide} method if the
+     * {@link qx.ui.win.Window#autoDestroy} property is false; otherwise 
+     * removes and destroys the window.
      */
     close : function()
     {
-      if (!this.isVisible()) {
+      if (!this.getAutoDestroy() && !this.isVisible()) {
         return;
       }
 
@@ -632,17 +679,34 @@ qx.Class.define("qx.ui.window.Window",
         this.hide();
         this.fireEvent("close");
       }
+
+      // If automatically destroying the window upon close was requested, do
+      // so now. (Note that we explicitly re-obtain the autoDestroy property
+      // value, allowing the user's close handler to enable/disable it before
+      // here.)
+      if (this.getAutoDestroy()) {
+        this.removeAll();                                    // remove contents
+        qx.event.Registration.removeAllListeners(this);      // remove listeners
+        qx.core.Init.getApplication().getRoot().remove(this);// remove self
+        this.dispose();
+      }
     },
 
 
     /**
-     * Opens the window.
+     * Open the window. If the {@link qx.ui.win.Window#autoCenter} property is
+     * true, also center the window.
      */
     open : function()
     {
       this.show();
       this.setActive(true);
       this.focus();
+
+      // If autoCenter is true, then center the window
+      if (this.getAutoCenter()) {
+        this.center();
+      }
     },
 
 
