@@ -38,12 +38,17 @@ if [ $CURRENT = 1 ]; then
   ln -s "$TARGET" current
 fi
 
-#TODO: When we've some more control over the qx DNS records, we can add a CNAME here...
-#echo "qooxdoo.org" > CNAME
-
 touch .nojekyll
 touch .
 
 git add -A .
 git commit -m "Refresh site at ${rev}"
 git push -q upstream HEAD:master
+
+# Do a regular checkout and make a dummy commit
+git clone -q git@github.com:qooxdoo/qooxdoo.github.io.git tmp
+cd tmp
+echo $rev > revision
+git add revision
+git commit -m "Dummy commit to fix github site sync"
+git push -q

@@ -51,6 +51,15 @@ qx.Class.define("qx.test.util.ResourceManager",
     {
       var ResourceManager = qx.util.ResourceManager.getInstance();
       this.assertEquals(ResourceManager.getImageFormat("qx/static/blank.gif"), "gif");
+      this.assertEquals(ResourceManager.getImageFormat("@FontAwesome/heart"), "font");
+    },
+
+    testIsFontUri : function()
+    {
+      var ResourceManager = qx.util.ResourceManager.getInstance();
+      this.assertTrue(ResourceManager.isFontUri("@FontAwesome/heart"));
+      this.assertFalse(ResourceManager.isFontUri("qx/static/blank.gif"));
+      this.assertFalse(ResourceManager.isFontUri(undefined));
     },
 
     testIsClippedImage : function()

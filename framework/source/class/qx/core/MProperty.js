@@ -125,6 +125,28 @@ qx.Mixin.define("qx.core.MProperty",
 
 
       this[resetter[prop]]();
+    },
+
+    /**
+     * Checks if the property is initialized, i.e. has a defined init value or
+     * has got a value by a setter method.
+     *
+     * @param prop {String} Name of the property
+     * @return {Boolean} If the property is initialized
+     * @throws {Error} If the property defined does not exist
+     */
+    isPropertyInitialized : function(prop)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertString(prop);
+
+        if (!this["get" + qx.Bootstrap.firstUp(prop)]) {
+          throw new Error("No such property: " + prop);
+        }
+      }
+
+      return this["$$user_" + prop] !== undefined ||
+        this["$$init_" + prop] !== undefined;
     }
   }
 });

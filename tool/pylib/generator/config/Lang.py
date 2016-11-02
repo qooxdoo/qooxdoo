@@ -58,6 +58,7 @@ class Key(object):
                 "clean-files"   : types.DictType,
                 "collect-environment-info"  : types.DictType,
                 "combine-images": types.DictType,
+                "font-map"      : types.DictType,
                 "compile"       : types.DictType,
                 "compile-options"  : types.DictType,
                 CONFIG_WARNINGS : types.DictType,

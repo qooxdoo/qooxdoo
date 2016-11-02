@@ -110,6 +110,7 @@ qx.Class.define("qx.test.Annotation", {
       this.assertArrayEquals([ ], qx.Annotation.getStatic(clazzMiddle, "staticA"));
       this.assertArrayEquals([ "property-alpha-anno" ], qx.Annotation.getProperty(clazzMiddle, "alpha"));
       this.assertArrayEquals([ "property-bravo-anno" ], qx.Annotation.getProperty(clazzMiddle, "bravo"));
+      this.assertArrayEquals([ "bravo" ], qx.Annotation.getPropertiesByAnnotation(clazzBottom, "property-bravo-anno"));
       
       this.assertArrayEquals([ "class-c-anno" ], qx.Annotation.getOwnClass(clazzBottom));
       this.assertArrayEquals([ "class-c-anno", "class-a-anno" ], qx.Annotation.getClass(clazzBottom));

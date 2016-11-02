@@ -333,8 +333,13 @@ class LintChecker(treeutil.NodeVisitor):
                         function_privs = self.function_uses_local_privs(val.children[0])
                         for priv, node in function_privs:
                             if priv not in private_keys:
-                                issue = warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
-                                self.issues.append(issue)
+                                ok = False
+                                at_hints = get_at_hints(node)
+                                if at_hints:
+                                    ok = self.is_name_lint_filtered(priv, at_hints, "ignoreUndeclaredPrivates")
+                                if not ok:
+                                    issue = warn("Using an undeclared private class feature: '%s'" % priv, self.file_name, node)
+                                    self.issues.append(issue)
 
 
     ##

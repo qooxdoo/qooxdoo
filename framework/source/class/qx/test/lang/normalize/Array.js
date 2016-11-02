@@ -27,6 +27,13 @@ qx.Class.define("qx.test.lang.normalize.Array",
 
   members :
   {
+    testShims: function() {
+      var testArray = ["entry1", "entry2"];
+      for (var index in testArray) {
+        this.assertTrue(index == 0 || index == 1);
+      }
+    },
+    
     testIndexOf : function()
     {
       var obj = {};

@@ -1251,6 +1251,46 @@ Triggers cutting images into regions. Takes a map.
     * **border-width** : pixel width to cut into original image when slicing borders etc. Takes either a single integer (common border width for all sides) or an array of four integers (top, right, bottom, left).
     * **trim-width** : reduce the width of the center slice to no more than 20 pixels. (default: *true*)
 
+.. _pages/tool/generator/generator_config_ref#font_map_ref:
+
+font-map
+========
+
+Triggers the creation of a font map needed for icon fonts. This command uses the FontForge
+package to analyze a given font. The resulting data is saved in your application package, so that
+it is possible to lookup image sources like @FontAwesome/house.
+
+::
+
+  "font-map" :
+  {
+    "fonts" :
+    {
+      "${RESPATH}/foo/fonts/fontawesome-webfont.ttf" :
+      {
+        "prefix": [ "${RESPATH}" ],
+        "alias" : "FontAwesome",
+        "size" : 40
+      }
+    }
+  }
+
+.. note::
+
+  peer-keys: :ref:`pages/tool/generator/generator_config_ref#cache`
+
+.. note::
+
+  This key requires an external library (FontForge) to run successfully.
+
+* **fonts** : map with font entries.
+
+  * **<input_font>** :  path to input file for the slicing; may be relative to config file location
+
+    * **prefix** *(required)* : file name prefix used for the output files; will be interpreted relative to the input file location (so a plain name will result in output files in the same directory, but you can also navigate away with ``../../....`` etc.)
+    * **alias** : Alias used in the source identifier (i.e. FontAwesome as an alias will lead to @FontAwesome/ prefixes in your image source)
+    * **size** : pixel width that is used for the icon font by default.
+
 .. _pages/tool/generator/generator_config_ref#translate:
 
 translate

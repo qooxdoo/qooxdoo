@@ -401,6 +401,10 @@ qx.Class.define("qx.data.controller.List",
      * be done by the binding.
      */
     __inChangeModel: false,
+
+    /**
+     * Event handler for the changeModel of the model. Updates the controller.
+     */
     __changeModel: function() {
       if (this.__inChangeModel) {
         return;

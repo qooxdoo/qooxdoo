@@ -236,6 +236,7 @@ qx.Class.define("qx.test.Mixin",
         {
           sayJuhu : function() { return this.base(arguments) + " Kinners";},
 
+          /** @lint ignoreUndeclaredPrivates(__b) */
           foo : function(dontRecurs)
           {
             var s = "";

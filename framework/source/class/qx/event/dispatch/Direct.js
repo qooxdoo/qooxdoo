@@ -118,6 +118,9 @@ qx.Class.define("qx.event.dispatch.Direct",
       {
         for (var i=0, l=listeners.length; i<l; i++)
         {
+          if (this._manager.isBlacklisted(listeners[i].unique)) {
+            continue;
+          }
           var context = listeners[i].context || target;
 
           if (qx.core.Environment.get("qx.debug")) {
@@ -129,10 +132,7 @@ qx.Class.define("qx.event.dispatch.Direct",
               );
             }
           }
-
-          if (!this._manager.isBlacklisted(listeners[i].unique)) {
-            listeners[i].handler.call(context, event);
-          }
+          listeners[i].handler.call(context, event);
         }
       }
     }

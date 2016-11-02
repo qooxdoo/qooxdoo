@@ -957,6 +957,11 @@ qx.Bootstrap.define("qx.Class",
     
     /**
      * Attaches an annotation to a class
+     *
+     * @param clazz {Map} Static methods or fields
+     * @param group {String} Group name
+     * @param key {String} Name of the annotated item
+     * @param anno {Object} Annotation object
      */
     __attachAnno : function(clazz, group, key, anno) {
       if (anno !== undefined) {

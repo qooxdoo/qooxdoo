@@ -152,11 +152,13 @@ Unfortunately, JavaScript is very limited in *enforcing* those protection mechan
 * *protected*: members start with a single underscore ``_``
 * *private*: members start with a double underscore ``__``
 
-There are some possibilities to enforce or at least check the various degrees of accessibility:
-
-* automatic renaming of private members in the build version could trigger errors when testing the final app
-* checking  instance of ``this`` in protected methods
-* ...
+In the source version of an app, these conventions only notify the programmer
+of the type of access that is intended, but there is no prevention of
+accessing them "incorrectly." In the build version, however, *private* member
+names are obfuscated, so they are not easily accessible outside of their own
+class. *Be aware that programs where private members are accessed from outside
+of their own class will work in the source version, but will fail to work in
+the build version!*
 
 .. _pages/classes#special_types_of_classes:
 

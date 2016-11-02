@@ -1,0 +1,9 @@
+node_modules/
+source/resource/source/
+test/
+.eslint*
+.gitignore
+generate.py
+Gruntfile.js
+karma*
+npm-debug.log
