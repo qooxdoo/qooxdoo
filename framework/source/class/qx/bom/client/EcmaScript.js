@@ -264,6 +264,14 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getStringTrim : function() {
       return typeof String.prototype.trim === "function";
+    },
+    
+    
+    /**
+     * Checks whether Native promises are available
+     */
+    getPromiseNative: function() {
+      return typeof window.Promise !== "undefined" && window.Promise.toString().indexOf("[native code]") !== -1;
     }
   },
 
@@ -303,5 +311,8 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // ES7 async function support
     qx.core.Environment.add("ecmascript.function.async", statics.getAsyncFunction);
+
+    // Promises
+    qx.core.Environment.add("ecmascript.promise.native", statics.getPromiseNative);
   }
 });

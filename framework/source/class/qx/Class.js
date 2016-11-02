@@ -1248,6 +1248,9 @@ qx.Bootstrap.define("qx.Class",
           }
           var event = {};
           event[config.event] = "qx.event.type.Data";
+          if (config.async) {
+          	event[config.event + "Async"] = "qx.event.type.Data";
+          }
           this.__addEvents(clazz, event, patch);
         }
 
