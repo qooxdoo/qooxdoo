@@ -112,6 +112,15 @@ qx.Class.define("qx.ui.tabview.Page",
       check : "Boolean",
       init : false,
       apply : "_applyShowCloseButton"
+    },
+    
+    /** Allows the tab to be excluded from the display */
+    tabVisibility: {
+      init: "visible",
+      check: ["visible", "excluded"],
+      nullable: false,
+      apply: "_applyTabVisibility",
+      event: "changeTabVisibility"
     }
 
   },
@@ -207,6 +216,7 @@ qx.Class.define("qx.ui.tabview.Page",
 
           control.setUserData("page", this);
           control.addListener("close", this._onButtonClose, this);
+          control.setVisibility(this.getTabVisibility());
           break;
       }
 
@@ -223,7 +233,11 @@ qx.Class.define("qx.ui.tabview.Page",
     _applyShowCloseButton : function(value, old) {
       this.getChildControl("button").setShowCloseButton(value);
     },
-
+    
+    // property apply
+    _applyTabVisibility: function(newValue, oldValue) {
+      this.getButton().setVisibility(newValue);
+    },
 
     /*
     ---------------------------------------------------------------------------
