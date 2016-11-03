@@ -522,6 +522,8 @@ qx.Class.define("qx.ui.window.Window",
     // overridden
     setLayoutParent : function(parent)
     {
+      var             oldParent;
+
       if (qx.core.Environment.get("qx.debug"))
       {
         parent && this.assertInterface(
@@ -530,7 +532,24 @@ qx.Class.define("qx.ui.window.Window",
           "qx.ui.window.IDesktop. All root widgets implement this interface."
         );
       }
+
+      // Before changing the parent, if there's a prior one, remove our resize
+      // listener
+      oldParent = this.getLayoutParent();
+      if (oldParent && this.__centeringResizeId) {
+        oldParent.removeListenerById(this.__centeringResizeId);
+        this.__centeringResizeId = null;
+      }
+
+      // Call the superclass
       this.base(arguments, parent);
+
+      // Re-add a listener for resize, if required
+      if (parent && this.getCenterWhen().indexOf("resize") != -1)
+      {
+        this.__centeringResizeId =
+          parent.addListener("resize", this.center, this);
+      }
     },
 
 
@@ -1070,29 +1089,6 @@ qx.Class.define("qx.ui.window.Window",
       }
     },
 
-    // overridden
-    setLayoutParent : function(parent)
-    {
-      var             oldParent;
-
-      // Before changing the parent, if there's a prior one, remove our resize
-      // listener
-      oldParent = this.getLayoutParent();
-      if (oldParent && this.__centeringResizeId) {
-        oldParent.removeListenerById(this.__centeringResizeId);
-        this.__centeringResizeId = null;
-      }
-
-      // Call the superclass
-      this.base(arguments, parent);
-
-      // Re-add a listener for resize, if required
-      if (parent && this.getCenterWhen().indexOf("resize") != -1)
-      {
-        this.__centeringResizeId =
-          parent.addListener("resize", this.center, this);
-      }
-    },
 
     /*
     ---------------------------------------------------------------------------
