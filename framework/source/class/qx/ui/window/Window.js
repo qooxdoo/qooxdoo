@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.window.Window",
     // Register as root for the focus handler
     qx.ui.core.FocusHandler.getInstance().addRoot(this);
 
-    // change the resize frames appearance
+    // Change the resize frames appearance
     this._getResizeFrame().setAppearance("window-resize-frame");
   },
 
@@ -379,15 +379,43 @@ qx.Class.define("qx.ui.window.Window",
 
     /*
     ---------------------------------------------------------------------------
-      OPEN BEHAVIOR
+      WHEN TO AUTOMATICALY CENTER
     ---------------------------------------------------------------------------
     */
 
-    /** Should the window be automatically centered when it is opened */
-    autoCenter :
+    /** 
+     * When should the window be automatically centered
+     * 
+     * This property value is formed from the following strings.
+     *
+     *   "appear" - Center the window when it appears (or reappears)
+     *   "resize" - Center the window when its containing app is resized
+     * 
+     * An empty string or an empty array removes all automatic centering.
+     * 
+     * Otherwise, the property value should be either an array containing one
+     * or more of the above strings, or a string containing one or more of the
+     * above strings, whitespace-delimited.
+     * 
+     * Examples:
+     *   These two yield identical behavior, centering upon appear and resize:
+     *     win.setCenterWhen([ "appear", "resize" ]);
+     *     win.setCenterWhen("appear resize");
+     * 
+     *   These two yield identical behavior, centering only upon appear:
+     *     win.setCenterWhen("appear");
+     *     win.setCenterWhen([ "appear" ]);
+     * 
+     *   These two remove automatic centering:
+     *     win.setCenterWhen("");
+     *     win.setCenterWhen([]);
+     */
+    centerWhen :
     {
-      check : "Boolean",
-      init : false
+      init : [],
+      nullable : false,
+      transform : "_transformCenterWhen",
+      apply : "_applyCenterWhen"
     },
 
 
@@ -436,6 +464,11 @@ qx.Class.define("qx.ui.window.Window",
     /** @type {Integer} Original left value before maximation had occurred */
     __restoredLeft : null,
 
+    /** @type {Integer} Listener ID for centering on appear */
+    __centeringAppearId : null,
+
+    /** @type {Integer} Listener ID for centering on resize */
+    __centeringResizeId : null,
 
 
     /*
@@ -684,29 +717,21 @@ qx.Class.define("qx.ui.window.Window",
       // so now. (Note that we explicitly re-obtain the autoDestroy property
       // value, allowing the user's close handler to enable/disable it before
       // here.)
-      if (this.getAutoDestroy()) {
-        this.removeAll();                                    // remove contents
-        qx.event.Registration.removeAllListeners(this);      // remove listeners
-        qx.core.Init.getApplication().getRoot().remove(this);// remove self
+      if (this.getAutoDestroy())
+      {
         this.dispose();
       }
     },
 
 
     /**
-     * Open the window. If the {@link qx.ui.win.Window#autoCenter} property is
-     * true, also center the window.
+     * Open the window.
      */
     open : function()
     {
       this.show();
       this.setActive(true);
       this.focus();
-
-      // If autoCenter is true, then center the window
-      if (this.getAutoCenter()) {
-        this.center();
-      }
     },
 
 
@@ -993,6 +1018,112 @@ qx.Class.define("qx.ui.window.Window",
       }
     },
 
+    // overridden
+    _transformCenterWhen : function(value)
+    {
+      var             values = value;
+      
+      // Validate type of value
+      if (typeof value != "string" && ! (value instanceof Array))
+      {
+        throw new Error(
+          "centerWhen requires a string or an array of strings");
+      }
+
+      // Convert the value to an array if it was given as a string.
+      if (typeof value == "string")
+      {
+        if (value.trim() === "")
+        {
+          // We were given an empty string or array, requesting no automatic
+          // centering. Create an empty array of centering behaviors.
+          values = [];
+        }
+        else
+        {
+          // We were given a string. If they put multiple values into the
+          // string, separate them out into separate values, and place all into
+          // an array.
+          values = qx.lang.String.clean(value).split(/\s+/);
+        }
+      }
+
+      // Validate
+      values.forEach(
+        function(value)
+        {
+          switch(value)
+          {
+          case "appear" :
+          case "resize" :
+            // These are expected values
+            break;
+
+          default :
+            throw new Error("Unexpected centerWhen value: " + value);
+          }
+        });
+
+      return values;
+    },
+
+    // overridden
+    _applyCenterWhen : function(value, old)
+    {
+      var             parent;
+
+      // Remove prior listener for centering on appear
+      if (this.__centeringAppearId !== null) {
+        this.removeListenerById(this.__centeringAppearId);
+        this.__centeringAppearId = null;
+      }
+
+      // Remove prior listener for centering on resize
+      if (this.__centeringResizeId !== null) {
+        parent.removeListenerById(this.__centeringResizeId);
+        this.__centeringResizeId = null;
+      }
+
+      // If we are to center on appear, arrange to do so
+      if (value.indexOf("appear") != -1) {
+        this.__centeringAppearId =
+          this.addListener("appear", this.center, this);
+      }
+
+      // If we are to center on resize, arrange to do so
+      if (value.indexOf("resize") != -1) {
+        parent = this.getLayoutParent();
+        if (parent) {
+          this.__centeringResizeId =
+            parent.addListener("resize", this.center, this);
+          
+        }
+      }
+    },
+
+    // overridden
+    setLayoutParent : function(parent)
+    {
+      var             oldParent;
+
+      // Before changing the parent, if there's a prior one, remove our resize
+      // listener
+      oldParent = this.getLayoutParent();
+      if (oldParent && this.__centeringResizeId) {
+        oldParent.removeListenerById(this.__centeringResizeId);
+        this.__centeringResizeId = null;
+      }
+
+      // Call the superclass
+      this.base(arguments, parent);
+
+      // Re-add a listener for resize, if required
+      if (parent && this.getCenterWhen().indexOf("resize") != -1)
+      {
+        this.__centeringResizeId =
+          parent.addListener("resize", this.center, this);
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -1114,5 +1245,25 @@ qx.Class.define("qx.ui.window.Window",
       this.close();
       this.getChildControl("close-button").reset();
     }
+  },
+
+  destruct : function()
+  {
+    var id;
+    var parent = this.getLayoutParent();
+
+    // Remove the listener for appear, if there is one
+    id = this.__centeringAppearId;
+    id && this.removeListenerById(id);
+
+    // Remove the listener for resize, if there is one
+    id = this.__centeringResizeId;
+    id && parent.removeListenerById(id);
+
+    // Remove ourselves from the focus handler
+    qx.ui.core.FocusHandler.getInstance().removeRoot(this);
+
+    // Remove ourself from our parent
+    parent && parent.remove(this);
   }
 });
