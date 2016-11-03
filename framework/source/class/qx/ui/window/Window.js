@@ -389,33 +389,51 @@ qx.Class.define("qx.ui.window.Window",
      * This property value is formed from the following strings.
      *
      *   "appear" - Center the window when it appears (or reappears)
-     *   "resize" - Center the window when its containing app is resized
+     *   "resize" - Center the window when its parent container is resized
      * 
-     * An empty string or an empty array removes all automatic centering.
+     * An empty array removes all automatic centering.
      * 
-     * Otherwise, the property value should be either an array containing one
-     * or more of the above strings, or a string containing one or more of the
-     * above strings, whitespace-delimited.
+     * Otherwise, the property value should be an array containing one or more
+     * of the above strings.
      * 
      * Examples:
-     *   These two yield identical behavior, centering upon appear and resize:
+     *   Center upon appear and resize:
      *     win.setCenterWhen([ "appear", "resize" ]);
-     *     win.setCenterWhen("appear resize");
      * 
-     *   These two yield identical behavior, centering only upon appear:
-     *     win.setCenterWhen("appear");
+     *   Center only upon appear:
      *     win.setCenterWhen([ "appear" ]);
      * 
-     *   These two remove automatic centering:
-     *     win.setCenterWhen("");
+     *   Remove automatic centering:
      *     win.setCenterWhen([]);
      */
     centerWhen :
     {
       init : [],
       nullable : false,
-      transform : "_transformCenterWhen",
-      apply : "_applyCenterWhen"
+      apply : "_applyCenterWhen",
+      check : function(value)
+      {
+        var i;
+        var allowable = [ "appear", "resize" ];
+
+        // Value must be an array
+        if (! (value instanceof Array))
+        {
+          return false;
+        }
+
+        // The array must contain only allowable values
+        for (i = 0; i < value.length; i++)
+        {
+          if (allowable.indexOf(value[i]) == -1)
+          {
+            // Found a value that is not in our allowable list
+            return false;
+          }
+        }
+
+        return true;
+      }
     },
 
 
@@ -1016,55 +1034,6 @@ qx.Class.define("qx.ui.window.Window",
       if (qx.core.Environment.get("engine.name") !== "mshtml") {
         this.base(arguments, value, old);
       }
-    },
-
-    // overridden
-    _transformCenterWhen : function(value)
-    {
-      var             values = value;
-      
-      // Validate type of value
-      if (typeof value != "string" && ! (value instanceof Array))
-      {
-        throw new Error(
-          "centerWhen requires a string or an array of strings");
-      }
-
-      // Convert the value to an array if it was given as a string.
-      if (typeof value == "string")
-      {
-        if (value.trim() === "")
-        {
-          // We were given an empty string or array, requesting no automatic
-          // centering. Create an empty array of centering behaviors.
-          values = [];
-        }
-        else
-        {
-          // We were given a string. If they put multiple values into the
-          // string, separate them out into separate values, and place all into
-          // an array.
-          values = qx.lang.String.clean(value).split(/\s+/);
-        }
-      }
-
-      // Validate
-      values.forEach(
-        function(value)
-        {
-          switch(value)
-          {
-          case "appear" :
-          case "resize" :
-            // These are expected values
-            break;
-
-          default :
-            throw new Error("Unexpected centerWhen value: " + value);
-          }
-        });
-
-      return values;
     },
 
     // overridden
