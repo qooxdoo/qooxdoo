@@ -1219,20 +1219,24 @@ qx.Class.define("qx.ui.window.Window",
   destruct : function()
   {
     var id;
-    var parent = this.getLayoutParent();
+    var parent;
+
+    // Remove ourselves from the focus handler
+    qx.ui.core.FocusHandler.getInstance().removeRoot(this);
 
     // Remove the listener for appear, if there is one
     id = this.__centeringAppearId;
     id && this.removeListenerById(id);
 
-    // Remove the listener for resize, if there is one
-    id = this.__centeringResizeId;
-    id && parent.removeListenerById(id);
+    // If we haven't been removed from our parent, clean it up too.
+    parent = this.getLayoutParent();
+    if (parent) {
+      // Remove the listener for resize, if there is one
+      id = this.__centeringResizeId;
+      id && parent.removeListenerById(id);
 
-    // Remove ourselves from the focus handler
-    qx.ui.core.FocusHandler.getInstance().removeRoot(this);
-
-    // Remove ourself from our parent
-    parent && parent.remove(this);
+      // Remove ourself from our parent
+      parent && parent.remove(this);
+    }
   }
 });
