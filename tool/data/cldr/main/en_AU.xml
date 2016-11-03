@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2015 Unicode, Inc.
-CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+<!-- Copyright © 1991-2016 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
+Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the U.S. and other countries.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 12413 $"/>
+		<version number="$Revision: 13050 $"/>
 		<language type="en"/>
 		<territory type="AU"/>
 	</identity>
 	<localeDisplayNames>
 		<languages>
-			<language type="bax">Bamum</language>
 			<language type="en_US">United States English</language>
 			<language type="ro_MD">Moldovan</language>
 		</languages>
+		<territories>
+			<territory type="CZ" alt="variant" draft="provisional">CZ</territory>
+		</territories>
 		<types>
 			<type key="calendar" type="dangi">Korean Calendar</type>
 			<type key="calendar" type="ethiopic">Ethiopian Calendar</type>
@@ -63,7 +66,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</monthWidth>
 					</monthContext>
 					<monthContext type="stand-alone">
-						<monthWidth type="narrow">
+						<monthWidth type="abbreviated">
 							<month type="1">Jan.</month>
 							<month type="2">Feb.</month>
 							<month type="3">Mar.</month>
@@ -90,6 +93,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<day type="fri">Fri.</day>
 							<day type="sat">Sat.</day>
 						</dayWidth>
+						<dayWidth type="narrow">
+							<day type="sun">Su.</day>
+							<day type="mon">M.</day>
+							<day type="tue">Tu.</day>
+							<day type="wed">W.</day>
+							<day type="thu">Th.</day>
+							<day type="fri">F.</day>
+							<day type="sat">Sa.</day>
+						</dayWidth>
 						<dayWidth type="short">
 							<day type="sun">Su.</day>
 							<day type="mon">Mon.</day>
@@ -109,6 +121,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<day type="thu">Th.</day>
 							<day type="fri">F.</day>
 							<day type="sat">Sa.</day>
+						</dayWidth>
+						<dayWidth type="short">
+							<day type="sun">Su.</day>
+							<day type="mon">Mon.</day>
+							<day type="tue">Tu.</day>
+							<day type="wed">Wed.</day>
+							<day type="thu">Th.</day>
+							<day type="fri">Fri.</day>
+							<day type="sat">Sat.</day>
 						</dayWidth>
 					</dayContext>
 				</days>
@@ -139,17 +160,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 							<dayPeriod type="am">am</dayPeriod>
 							<dayPeriod type="noon">midday</dayPeriod>
 							<dayPeriod type="pm">pm</dayPeriod>
-							<dayPeriod type="morning1">morning</dayPeriod>
-							<dayPeriod type="afternoon1">afternoon</dayPeriod>
-							<dayPeriod type="evening1">evening</dayPeriod>
-							<dayPeriod type="night1">night</dayPeriod>
+							<dayPeriod type="morning1">in the morning</dayPeriod>
+							<dayPeriod type="afternoon1">in the afternoon</dayPeriod>
+							<dayPeriod type="evening1">in the evening</dayPeriod>
+							<dayPeriod type="night1">at night</dayPeriod>
 						</dayPeriodWidth>
 					</dayPeriodContext>
 					<dayPeriodContext type="stand-alone">
 						<dayPeriodWidth type="abbreviated">
-							<dayPeriod type="am">am</dayPeriod>
 							<dayPeriod type="noon">midday</dayPeriod>
-							<dayPeriod type="pm">pm</dayPeriod>
 						</dayPeriodWidth>
 						<dayPeriodWidth type="narrow">
 							<dayPeriod type="am">am</dayPeriod>
@@ -170,24 +189,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="M">LL</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
-			<calendar type="japanese">
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="yMd">d/M/y</dateFormatItem>
-						<dateFormatItem id="yMEd">E, d/M/y</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
 			</calendar>
 		</calendars>
 		<fields>
-			<field type="dayperiod">
-				<displayName>am/pm</displayName>
+			<field type="quarter-narrow">
+				<relativeTime type="past">
+					<relativeTimePattern count="one">in {0} qtr. ago</relativeTimePattern>
+					<relativeTimePattern count="other">{0} qtrs. ago</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="hour-short">
 				<displayName>h</displayName>
@@ -314,11 +323,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<currencies>
 			<currency type="AUD">
 				<symbol>$</symbol>
-			</currency>
-			<currency type="AWG">
-				<displayName>Aruba Guilder</displayName>
-				<displayName count="one">Aruba guilder</displayName>
-				<displayName count="other">Aruba guilders</displayName>
 			</currency>
 			<currency type="BAM">
 				<displayName>Bosnia-Herzegovina Convertible Marka</displayName>
@@ -528,9 +532,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="one">{0} arcsec.</unitPattern>
 				<unitPattern count="other">{0} arcsec.</unitPattern>
 			</unit>
-			<unit type="area-square-meter">
-				<displayName>metres²</displayName>
-			</unit>
 			<unit type="concentr-milligram-per-deciliter">
 				<displayName>mg/dL</displayName>
 				<unitPattern count="one">{0} mg/dL</unitPattern>
@@ -592,6 +593,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="duration-nanosecond">
 				<displayName>nanosec.</displayName>
 			</unit>
+			<unit type="energy-kilocalorie">
+				<displayName draft="provisional">Cal</displayName>
+				<unitPattern count="one" draft="provisional">{0} Cal</unitPattern>
+				<unitPattern count="other" draft="provisional">{0} Cal</unitPattern>
+			</unit>
 			<unit type="energy-kilowatt-hour">
 				<displayName>kWh</displayName>
 			</unit>
@@ -646,6 +652,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="volume-liter">
 				<unitPattern count="one">{0} L</unitPattern>
 				<unitPattern count="other">{0} L</unitPattern>
+				<perUnitPattern>{0}/L</perUnitPattern>
 			</unit>
 			<unit type="volume-deciliter">
 				<displayName>dL</displayName>
@@ -703,9 +710,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="one">{0} ms</unitPattern>
 				<unitPattern count="other">{0} ms</unitPattern>
 			</unit>
-			<unit type="length-meter">
-				<displayName>metre</displayName>
-			</unit>
 			<unit type="speed-kilometer-per-hour">
 				<displayName>km/h</displayName>
 				<unitPattern count="one">{0} km/h</unitPattern>
@@ -729,6 +733,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>hL</displayName>
 				<unitPattern count="one">{0}hL</unitPattern>
 				<unitPattern count="other">{0}hL</unitPattern>
+			</unit>
+			<unit type="volume-liter">
+				<unitPattern count="one">{0}L</unitPattern>
+				<unitPattern count="other">{0}L</unitPattern>
+				<perUnitPattern>{0}/L</perUnitPattern>
 			</unit>
 			<unit type="volume-deciliter">
 				<displayName>dL</displayName>
@@ -755,6 +764,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 		<listPattern>
 			<listPatternPart type="end">{0} and {1}</listPatternPart>
 		</listPattern>
+		<listPattern type="standard-short">
+			<listPatternPart type="end">{0} and {1}</listPatternPart>
+		</listPattern>
 	</listPatterns>
+	<characterLabels>
+		<characterLabel type="downwards_arrows" draft="provisional">Downward Arrows</characterLabel>
+		<characterLabel type="downwards_upwards_arrows" draft="provisional">Downward Upward Arrows</characterLabel>
+		<characterLabel type="leftwards_arrows" draft="provisional">Leftward Arrows</characterLabel>
+		<characterLabel type="leftwards_rightwards_arrows" draft="provisional">Leftward Rightward Arrows</characterLabel>
+		<characterLabel type="nonspacing">Non-spacing</characterLabel>
+		<characterLabel type="rightwards_arrows" draft="provisional">Rightward Arrows</characterLabel>
+	</characterLabels>
 </ldml>
-

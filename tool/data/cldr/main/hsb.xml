@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2015 Unicode, Inc.
-CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+<!-- Copyright © 1991-2016 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
+Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the U.S. and other countries.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 12307 $"/>
+		<version number="$Revision: 12876 $"/>
 		<language type="hsb"/>
 	</identity>
 	<localeDisplayNames>
@@ -3564,12 +3565,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="few">běłoruske ruble (1994–1999)</displayName>
 				<displayName count="other">běłoruskich rublow (1994–1999)</displayName>
 			</currency>
-			<currency type="BYR">
+			<currency type="BYN">
 				<displayName>běłoruski rubl</displayName>
 				<displayName count="one">běłoruski rubl</displayName>
 				<displayName count="two">běłoruskej rublej</displayName>
 				<displayName count="few">běłoruske ruble</displayName>
 				<displayName count="other">běłoruskich rublow</displayName>
+			</currency>
+			<currency type="BYR">
+				<displayName>běłoruski rubl (2000–2016)</displayName>
+				<displayName count="one">běłoruski rubl (2000–2016)</displayName>
+				<displayName count="two">běłoruskej rublej (2000–2016)</displayName>
+				<displayName count="few">běłoruske ruble (2000–2016)</displayName>
+				<displayName count="other">běłoruskich rublow (2000–2016)</displayName>
 			</currency>
 			<currency type="BZD">
 				<displayName>belizeski dolar</displayName>
@@ -6542,4 +6550,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</messages>
 	</posix>
 </ldml>
-
