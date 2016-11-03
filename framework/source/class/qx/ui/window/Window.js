@@ -1236,7 +1236,7 @@ qx.Class.define("qx.ui.window.Window",
       id && parent.removeListenerById(id);
 
       // Remove ourself from our parent
-      parent && parent.remove(this);
+      parent.remove(this);
     }
   }
 });
