@@ -91,6 +91,9 @@ qx.Class.define("qx.ui.window.Window",
     // Focusout listener
     this.addListener("focusout", this._onWindowFocusOut, this);
 
+    // Initialize the centerWhen property to its own empty array
+    this.setCenterWhen([]);
+
     // Automatically add to application root.
     qx.core.Init.getApplication().getRoot().add(this);
 
@@ -408,7 +411,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     centerWhen :
     {
-      init : [],
+      init : null,              // initialized in constructor
       nullable : false,
       apply : "_applyCenterWhen",
       check : function(value)
@@ -1058,7 +1061,7 @@ qx.Class.define("qx.ui.window.Window",
     // overridden
     _applyCenterWhen : function(value, old)
     {
-      var             parent;
+      var             parent = this.getLayoutParent();
 
       // Remove prior listener for centering on appear
       if (this.__centeringAppearId !== null) {
@@ -1080,7 +1083,6 @@ qx.Class.define("qx.ui.window.Window",
 
       // If we are to center on resize, arrange to do so
       if (value.indexOf("resize") != -1) {
-        parent = this.getLayoutParent();
         if (parent) {
           this.__centeringResizeId =
             parent.addListener("resize", this.center, this);
@@ -1219,10 +1221,6 @@ qx.Class.define("qx.ui.window.Window",
 
     // Remove ourselves from the focus handler
     qx.ui.core.FocusHandler.getInstance().removeRoot(this);
-
-    // Remove the listener for appear, if there is one
-    id = this.__centeringAppearId;
-    id && this.removeListenerById(id);
 
     // If we haven't been removed from our parent, clean it up too.
     parent = this.getLayoutParent();
