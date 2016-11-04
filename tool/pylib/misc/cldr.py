@@ -135,7 +135,7 @@ def extractNumber(tree):
     data = {}
 
     decimalSeparatorNode = tree.find("numbers/symbols[@numberSystem='latn']/decimal")
-    if not decimalSeparatorNode:
+    if decimalSeparatorNode == None:
         decimalSeparatorNode = tree.find("numbers/symbols/decimal")
 
     if decimalSeparatorNode != None:
@@ -143,13 +143,13 @@ def extractNumber(tree):
 
     groupSeparator = ","
     groupSeparatorNode = tree.find("numbers/symbols[@numberSystem='latn']/group")
-    if not groupSeparatorNode:
+    if groupSeparatorNode == None:
         groupSeparatorNode = tree.find("numbers/symbols/group")
     if groupSeparatorNode != None:
         data['cldr_number_group_separator'] = groupSeparatorNode.text
 
     percentFormatNode = tree.find("numbers/percentFormats[@numberSystem='latn']/percentFormatLength/percentFormat/pattern")
-    if not percentFormatNode:
+    if percentFormatNode == None:
         percentFormatNode = tree.find("numbers/percentFormats/percentFormatLength/percentFormat/pattern")
     if percentFormatNode != None:
         data['cldr_number_percent_format'] = percentFormatNode.text
