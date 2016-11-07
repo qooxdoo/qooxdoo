@@ -91,9 +91,6 @@ qx.Class.define("qx.ui.window.Window",
     // Focusout listener
     this.addListener("focusout", this._onWindowFocusOut, this);
 
-    // Initialize the centerWhen property to its own empty array
-    this.setCenterWhen([]);
-
     // Automatically add to application root.
     qx.core.Init.getApplication().getRoot().add(this);
 
@@ -386,59 +383,24 @@ qx.Class.define("qx.ui.window.Window",
     ---------------------------------------------------------------------------
     */
 
-    /** 
-     * When should the window be automatically centered
-     * 
-     * This property value is formed from the following strings.
-     *
-     *   "appear" - Center the window when it appears (or reappears)
-     *   "resize" - Center the window when its parent container is resized
-     * 
-     * An empty array removes all automatic centering.
-     * 
-     * Otherwise, the property value should be an array containing one or more
-     * of the above strings.
-     * 
-     * Examples:
-     *   Center upon appear and resize:
-     *     win.setCenterWhen([ "appear", "resize" ]);
-     * 
-     *   Center only upon appear:
-     *     win.setCenterWhen([ "appear" ]);
-     * 
-     *   Remove automatic centering:
-     *     win.setCenterWhen([]);
-     */
-    centerWhen :
+    /** Whether this window should be automatically centered when it appears */
+    centerOnAppear :
     {
-      init : null,              // initialized in constructor
-      nullable : false,
-      apply : "_applyCenterWhen",
-      check : function(value)
-      {
-        var i;
-        var allowable = [ "appear", "resize" ];
-
-        // Value must be an array
-        if (! (value instanceof Array))
-        {
-          return false;
-        }
-
-        // The array must contain only allowable values
-        for (i = 0; i < value.length; i++)
-        {
-          if (allowable.indexOf(value[i]) == -1)
-          {
-            // Found a value that is not in our allowable list
-            return false;
-          }
-        }
-
-        return true;
-      }
+      init  : false,
+      check : "Boolean",
+      apply : "_applyCenterOnAppear"
     },
 
+    /** 
+     * Whether this window should be automatically centered when its container
+     * is resized.
+     */
+    centerOnContainerResize :
+    {
+      init  : false,
+      check : "Boolean",
+      apply : "_applyCenterOnContainerResize"
+    },
 
 
 
@@ -548,7 +510,7 @@ qx.Class.define("qx.ui.window.Window",
       this.base(arguments, parent);
 
       // Re-add a listener for resize, if required
-      if (parent && this.getCenterWhen().indexOf("resize") != -1)
+      if (parent && this.getCenterOnContainerResize())
       {
         this.__centeringResizeId =
           parent.addListener("resize", this.center, this);
@@ -1058,8 +1020,7 @@ qx.Class.define("qx.ui.window.Window",
       }
     },
 
-    // overridden
-    _applyCenterWhen : function(value, old)
+    _applyCenterOnAppear : function(value, old)
     {
       var             parent = this.getLayoutParent();
 
@@ -1069,20 +1030,25 @@ qx.Class.define("qx.ui.window.Window",
         this.__centeringAppearId = null;
       }
 
+      // If we are to center on appear, arrange to do so
+      if (value) {
+        this.__centeringAppearId =
+          this.addListener("appear", this.center, this);
+      }
+    },
+
+    _applyCenterOnContainerResize : function(value, old)
+    {
+      var             parent = this.getLayoutParent();
+
       // Remove prior listener for centering on resize
       if (this.__centeringResizeId !== null) {
         parent.removeListenerById(this.__centeringResizeId);
         this.__centeringResizeId = null;
       }
 
-      // If we are to center on appear, arrange to do so
-      if (value.indexOf("appear") != -1) {
-        this.__centeringAppearId =
-          this.addListener("appear", this.center, this);
-      }
-
       // If we are to center on resize, arrange to do so
-      if (value.indexOf("resize") != -1) {
+      if (value) {
         if (parent) {
           this.__centeringResizeId =
             parent.addListener("resize", this.center, this);
