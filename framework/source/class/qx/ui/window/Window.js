@@ -1022,8 +1022,6 @@ qx.Class.define("qx.ui.window.Window",
 
     _applyCenterOnAppear : function(value, old)
     {
-      var             parent = this.getLayoutParent();
-
       // Remove prior listener for centering on appear
       if (this.__centeringAppearId !== null) {
         this.removeListenerById(this.__centeringAppearId);
