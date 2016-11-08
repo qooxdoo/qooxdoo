@@ -667,6 +667,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       "[object Boolean]": "Boolean",
       "[object Date]": "Date",
       "[object Function]": "Function",
+      "[object AsyncFunction]": "AsyncFunction",
       "[object Error]": "Error",
       "[object Blob]": "Blob",
       "[object ArrayBuffer]": "ArrayBuffer",
@@ -845,7 +846,8 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @return {Boolean} Whether the value is a function.
      */
     isFunction : function(value) {
-      return qx.Bootstrap.getClass(value) === "Function";
+      var name = qx.Bootstrap.getClass(value)
+      return ((name === "Function")||(name === "AsyncFunction"));
     },
 
 
