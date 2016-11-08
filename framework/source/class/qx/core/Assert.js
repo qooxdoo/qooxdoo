@@ -547,6 +547,19 @@ qx.Bootstrap.define("qx.core.Assert",
       );
     },
 
+    /**
+     * Assert that the value is a function or an async function.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertFunctionOrAsyncFunction : function(value, msg)
+    {
+      qx.lang.Type.isFunctionOrAsyncFunction(value) || this.__fail(
+        msg || "",
+        "Expected value to be typeof function or typeof async function but found ", value, "!"
+      );
+    },
 
     /**
      * Assert that the value is a string.
