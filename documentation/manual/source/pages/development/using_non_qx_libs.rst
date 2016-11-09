@@ -19,7 +19,7 @@ Let's assume you found this wonderful %{JS} library for charting, called *PonyCh
 
        source/resource/ponycharts/ponycharts.js
 
-#. Then, make sure your new resource is used by your application code. The main consequence of this is that the *.js* file will be copied over to the build tree of your application, and is being made known to ${qooxdoo}'s ResourceManager. You achieve that by adding an *@asset* hint to the main class of your application or library.
+#. Then, make sure your new resource is used by your application code. The main consequence of this is that the *.js* file will be copied over to the build tree of your application, and is being made known to %{qooxdoo}'s ResourceManager. You achieve that by adding an *@asset* hint to the main class of your application or library.
 
    ::
 
