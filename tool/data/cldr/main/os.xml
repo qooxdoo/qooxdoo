@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2015 Unicode, Inc.
-CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+<!-- Copyright © 1991-2016 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
+Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the U.S. and other countries.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 12313 $"/>
+		<version number="$Revision: 12740 $"/>
 		<language type="os"/>
 	</identity>
 	<localeDisplayNames>
@@ -48,6 +49,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="es" draft="contributed">испайнаг</language>
 			<language type="es_419" draft="contributed">латинаг америкаг англисаг</language>
 			<language type="es_ES" draft="contributed">европӕйаг англисаг</language>
+			<language type="es_MX" draft="unconfirmed">мексикӕйаг испайнаг</language>
 			<language type="et" draft="contributed">естойнаг</language>
 			<language type="eu" draft="contributed">баскаг</language>
 			<language type="fa" draft="contributed">персайнаг</language>
@@ -623,6 +625,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<field type="year">
 				<displayName draft="contributed">Аз</displayName>
 			</field>
+			<field type="quarter">
+				<displayName draft="unconfirmed">квартал</displayName>
+			</field>
+			<field type="quarter-short">
+				<displayName draft="unconfirmed">кв.</displayName>
+			</field>
+			<field type="quarter-narrow">
+				<displayName draft="unconfirmed">кв.</displayName>
+			</field>
 			<field type="month">
 				<displayName draft="contributed">Мӕй</displayName>
 			</field>
@@ -930,4 +941,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</messages>
 	</posix>
 </ldml>
-

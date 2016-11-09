@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2015 Unicode, Inc. CLDR data files are interpreted according to the LDML specification
+<!-- Copyright © 1991-2016 Unicode, Inc.
+For terms of use, see http://www.unicode.org/copyright.html
+Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the U.S. and other countries.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+
 (http://unicode.org/reports/tr35/) For terms of use, see http://www.unicode.org/copyright.html
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 12293 $"/>
+		<version number="$Revision: 13058 $"/>
 		<language type="root"/>
 	</identity>
 	<localeDisplayNames>
@@ -1256,6 +1260,7 @@
 						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
 						<dateFormatItem id="MMMEd">MMM d, E</dateFormatItem>
 						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMMMW" count="other">'week' W 'of' MMMM</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">y-MM</dateFormatItem>
@@ -1267,6 +1272,7 @@
 						<dateFormatItem id="yMMMM">y MMMM</dateFormatItem>
 						<dateFormatItem id="yQQQ">y QQQ</dateFormatItem>
 						<dateFormatItem id="yQQQQ">y QQQQ</dateFormatItem>
+						<dateFormatItem id="yw" count="other">'week' w 'of' y</dateFormatItem>
 					</availableFormats>
 					<appendItems>
 						<appendItem request="Day">{0} ({2}: {1})</appendItem>
@@ -1762,13 +1768,13 @@
 						<era type="8">Yōrō (717–724)</era>
 						<era type="9">Jinki (724–729)</era>
 						<era type="10">Tenpyō (729–749)</era>
-						<era type="11">Tenpyō-kampō (749-749)</era>
-						<era type="12">Tenpyō-shōhō (749-757)</era>
-						<era type="13">Tenpyō-hōji (757-765)</era>
-						<era type="14">Tenpyō-jingo (765-767)</era>
-						<era type="15">Jingo-keiun (767-770)</era>
+						<era type="11">Tenpyō-kampō (749–749)</era>
+						<era type="12">Tenpyō-shōhō (749–757)</era>
+						<era type="13">Tenpyō-hōji (757–765)</era>
+						<era type="14">Tenpyō-jingo (765–767)</era>
+						<era type="15">Jingo-keiun (767–770)</era>
 						<era type="16">Hōki (770–780)</era>
-						<era type="17">Ten-ō (781-782)</era>
+						<era type="17">Ten-ō (781–782)</era>
 						<era type="18">Enryaku (782–806)</era>
 						<era type="19">Daidō (806–810)</era>
 						<era type="20">Kōnin (810–824)</era>
@@ -1777,7 +1783,7 @@
 						<era type="23">Kajō (848–851)</era>
 						<era type="24">Ninju (851–854)</era>
 						<era type="25">Saikō (854–857)</era>
-						<era type="26">Ten-an (857-859)</era>
+						<era type="26">Ten-an (857–859)</era>
 						<era type="27">Jōgan (859–877)</era>
 						<era type="28">Gangyō (877–885)</era>
 						<era type="29">Ninna (885–889)</era>
@@ -1829,7 +1835,7 @@
 						<era type="75">Chōji (1104–1106)</era>
 						<era type="76">Kashō (1106–1108)</era>
 						<era type="77">Tennin (1108–1110)</era>
-						<era type="78">Ten-ei (1110-1113)</era>
+						<era type="78">Ten-ei (1110–1113)</era>
 						<era type="79">Eikyū (1113–1118)</era>
 						<era type="80">Gen’ei (1118–1120)</era>
 						<era type="81">Hōan (1120–1124)</era>
@@ -2000,13 +2006,13 @@
 						<era type="8">Yōrō (717–724)</era>
 						<era type="9">Jinki (724–729)</era>
 						<era type="10">Tenpyō (729–749)</era>
-						<era type="11">Tenpyō-kampō (749-749)</era>
-						<era type="12">Tenpyō-shōhō (749-757)</era>
-						<era type="13">Tenpyō-hōji (757-765)</era>
-						<era type="14">Tenpyō-jingo (765-767)</era>
-						<era type="15">Jingo-keiun (767-770)</era>
+						<era type="11">Tenpyō-kampō (749–749)</era>
+						<era type="12">Tenpyō-shōhō (749–757)</era>
+						<era type="13">Tenpyō-hōji (757–765)</era>
+						<era type="14">Tenpyō-jingo (765–767)</era>
+						<era type="15">Jingo-keiun (767–770)</era>
 						<era type="16">Hōki (770–780)</era>
-						<era type="17">Ten-ō (781-782)</era>
+						<era type="17">Ten-ō (781–782)</era>
 						<era type="18">Enryaku (782–806)</era>
 						<era type="19">Daidō (806–810)</era>
 						<era type="20">Kōnin (810–824)</era>
@@ -2015,7 +2021,7 @@
 						<era type="23">Kajō (848–851)</era>
 						<era type="24">Ninju (851–854)</era>
 						<era type="25">Saikō (854–857)</era>
-						<era type="26">Ten-an (857-859)</era>
+						<era type="26">Ten-an (857–859)</era>
 						<era type="27">Jōgan (859–877)</era>
 						<era type="28">Gangyō (877–885)</era>
 						<era type="29">Ninna (885–889)</era>
@@ -2067,7 +2073,7 @@
 						<era type="75">Chōji (1104–1106)</era>
 						<era type="76">Kashō (1106–1108)</era>
 						<era type="77">Tennin (1108–1110)</era>
-						<era type="78">Ten-ei (1110-1113)</era>
+						<era type="78">Ten-ei (1110–1113)</era>
 						<era type="79">Eikyū (1113–1118)</era>
 						<era type="80">Gen’ei (1118–1120)</era>
 						<era type="81">Hōan (1120–1124)</era>
@@ -2420,6 +2426,7 @@
 				<relativeTime type="past">
 					<relativeTimePattern count="other">-{0} w</relativeTimePattern>
 				</relativeTime>
+				<relativePeriod>the week of {0}</relativePeriod> <!-- for example, “the week of April 1” -->
 			</field>
 			<field type="week-short">
 				<alias source="locale" path="../field[@type='week']"/>
@@ -2452,6 +2459,12 @@
 				<relative type="-1">last Sunday</relative>
 				<relative type="0">this Sunday</relative>
 				<relative type="1">next Sunday</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Sundays</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Sundays</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sun-short">
 				<alias source="locale" path="../field[@type='sun']"/>
@@ -2463,6 +2476,12 @@
 				<relative type="-1">last Monday</relative>
 				<relative type="0">this Monday</relative>
 				<relative type="1">next Monday</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Mondays</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Mondays</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="mon-short">
 				<alias source="locale" path="../field[@type='mon']"/>
@@ -2474,6 +2493,12 @@
 				<relative type="-1">last Tuesday</relative>
 				<relative type="0">this Tuesday</relative>
 				<relative type="1">next Tuesday</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Tuesdays</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Tuesdays</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="tue-short">
 				<alias source="locale" path="../field[@type='tue']"/>
@@ -2485,6 +2510,12 @@
 				<relative type="-1">last Wednesday</relative>
 				<relative type="0">this Wednesday</relative>
 				<relative type="1">next Wednesday</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Wednesdays</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Wednesdays</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="wed-short">
 				<alias source="locale" path="../field[@type='wed']"/>
@@ -2496,6 +2527,12 @@
 				<relative type="-1">last Thursday</relative>
 				<relative type="0">this Thursday</relative>
 				<relative type="1">next Thursday</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Thursdays</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Thursdays</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="thu-short">
 				<alias source="locale" path="../field[@type='thu']"/>
@@ -2507,6 +2544,12 @@
 				<relative type="-1">last Friday</relative>
 				<relative type="0">this Friday</relative>
 				<relative type="1">next Friday</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Fridays</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Fridays</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="fri-short">
 				<alias source="locale" path="../field[@type='fri']"/>
@@ -2518,6 +2561,12 @@
 				<relative type="-1">last Saturday</relative>
 				<relative type="0">this Saturday</relative>
 				<relative type="1">next Saturday</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Saturdays</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Saturdays</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sat-short">
 				<alias source="locale" path="../field[@type='sat']"/>
@@ -2530,6 +2579,7 @@
 			</field>
 			<field type="hour">
 				<displayName>Hour</displayName>
+				<relative type="0">this hour</relative>
 				<relativeTime type="future">
 					<relativeTimePattern count="other">+{0} h</relativeTimePattern>
 				</relativeTime>
@@ -2545,6 +2595,7 @@
 			</field>
 			<field type="minute">
 				<displayName>Minute</displayName>
+				<relative type="0">this minute</relative>
 				<relativeTime type="future">
 					<relativeTimePattern count="other">+{0} min</relativeTimePattern>
 				</relativeTime>
@@ -2694,9 +2745,9 @@
 			<decimal>٫</decimal>
 			<group>٬</group>
 			<list>؛</list>
-			<percentSign>٪</percentSign>
-			<plusSign>‏+</plusSign> <!-- includes RLM before sign -->
-			<minusSign>‏-</minusSign> <!-- includes RLM before sign (002D) -->
+			<percentSign>٪؜</percentSign> <!-- includes ALM after sign -->
+			<plusSign>؜+</plusSign> <!-- includes ALM before sign -->
+			<minusSign>؜-</minusSign> <!-- includes ALM before sign (002D) -->
 			<exponential>اس</exponential>
 			<superscriptingExponent>×</superscriptingExponent>
 			<perMille>؉</perMille>
@@ -3138,7 +3189,11 @@
 			<alias source="locale" path="../percentFormats[@numberSystem='latn']"/>
 		</percentFormats>
 		<percentFormats numberSystem="arab">
-			<alias source="locale" path="../percentFormats[@numberSystem='latn']"/>
+			<percentFormatLength>
+				<percentFormat>
+					<pattern>#,##0 %</pattern>
+				</percentFormat>
+			</percentFormatLength>
 		</percentFormats>
 		<percentFormats numberSystem="arabext">
 			<alias source="locale" path="../percentFormats[@numberSystem='latn']"/>
@@ -3271,7 +3326,17 @@
 			<alias source="locale" path="../currencyFormats[@numberSystem='latn']"/>
 		</currencyFormats>
 		<currencyFormats numberSystem="arab">
-			<alias source="locale" path="../currencyFormats[@numberSystem='latn']"/>
+			<currencySpacing>
+				<alias source="locale" path="../../currencyFormats[@numberSystem='latn']/currencySpacing"/> 
+			</currencySpacing>
+			<currencyFormatLength>
+				<currencyFormat type="standard">
+					<pattern>#,##0.00 ¤</pattern>
+				</currencyFormat>
+				<currencyFormat type="accounting">
+					<alias source="locale" path="../currencyFormat[@type='standard']"/>
+				</currencyFormat>
+			</currencyFormatLength>
 		</currencyFormats>
 		<currencyFormats numberSystem="arabext">
 			<alias source="locale" path="../currencyFormats[@numberSystem='latn']"/>
@@ -3471,7 +3536,7 @@
 			<currency type="BWP">
 				<symbol alt="narrow">P</symbol>
 			</currency>
-			<currency type="BYR">
+			<currency type="BYN">
 				<symbol alt="narrow">р.</symbol>
 			</currency>
 			<currency type="BZD">
@@ -3664,6 +3729,9 @@
 			</currency>
 			<currency type="PYG">
 				<symbol alt="narrow">₲</symbol>
+			</currency>
+			<currency type="RON">
+				<symbol alt="narrow">lei</symbol>
 			</currency>
 			<currency type="RUB">
 				<symbol alt="narrow">₽</symbol>
@@ -3919,6 +3987,7 @@
 			<unit type="area-square-kilometer">
 				<displayName>km²</displayName>
 				<unitPattern count="other">{0} km²</unitPattern>
+				<perUnitPattern>{0}/km²</perUnitPattern>
 			</unit>
 			<unit type="area-hectare">
 				<displayName>hectare</displayName>
@@ -3937,6 +4006,7 @@
 			<unit type="area-square-mile">
 				<displayName>mi²</displayName>
 				<unitPattern count="other">{0} mi²</unitPattern>
+				<perUnitPattern>{0}/mi²</perUnitPattern>
 			</unit>
 			<unit type="area-acre">
 				<displayName>acre</displayName>
@@ -4487,6 +4557,9 @@
 			<listPatternPart type="end">{0}, {1}</listPatternPart>
 			<listPatternPart type="2">{0}, {1}</listPatternPart>
 		</listPattern>
+		<listPattern type="standard-short">
+			<alias source="locale" path="../listPattern"/>
+		</listPattern>
 		<listPattern type="unit">
 			<alias source="locale" path="../listPattern[@type='unit-short']"/>
 		</listPattern>
@@ -4503,5 +4576,103 @@
 			<nostr>no:n</nostr>
 		</messages>
 	</posix>
+	<characterLabels>
+		<characterLabelPattern type="all">{0} — all</characterLabelPattern>
+		<characterLabelPattern type="category-list">{0}: {1}</characterLabelPattern>
+		<characterLabelPattern type="compatibility">{0} — compatibility</characterLabelPattern>
+		<characterLabelPattern type="enclosed">{0} — enclosed</characterLabelPattern>
+		<characterLabelPattern type="extended">{0} — extended</characterLabelPattern>
+		<characterLabelPattern type="historic">{0} — historic</characterLabelPattern>
+		<characterLabelPattern type="miscellaneous">{0} — miscellaneous</characterLabelPattern>
+		<characterLabelPattern type="other">{0} — other</characterLabelPattern>
+		<characterLabelPattern type="scripts">scripts — {0}</characterLabelPattern>
+		<characterLabelPattern type="strokes" count="other">{0} strokes</characterLabelPattern>
+		<!-- regular -->
+		<characterLabel type="activities">activity</characterLabel>
+		<characterLabel type="african_scripts">African script</characterLabel>
+		<characterLabel type="american_scripts">American script</characterLabel>
+		<characterLabel type="animal">animal</characterLabel>
+		<characterLabel type="animals_nature">animal or nature</characterLabel>
+		<characterLabel type="arrows">arrow</characterLabel>
+		<characterLabel type="body">body</characterLabel>
+		<characterLabel type="box_drawing">box drawing</characterLabel>
+		<characterLabel type="braille">braille</characterLabel>
+		<characterLabel type="building">building</characterLabel>
+		<characterLabel type="bullets_stars">bullet or star</characterLabel>
+		<characterLabel type="consonantal_jamo">consonantal jamo</characterLabel>
+		<characterLabel type="currency_symbols">currency symbol</characterLabel>
+		<characterLabel type="dash_connector">dash or connector</characterLabel>
+		<characterLabel type="digits">digit</characterLabel>
+		<characterLabel type="dingbats">dingbat</characterLabel>
+		<characterLabel type="divination_symbols">divination symbol</characterLabel>
+		<characterLabel type="downwards_arrows">downwards arrow</characterLabel>
+		<characterLabel type="downwards_upwards_arrows">downwards upwards arrow</characterLabel>
+		<characterLabel type="east_asian_scripts">East Asian script</characterLabel>
+		<characterLabel type="emoji">emoji</characterLabel>
+		<characterLabel type="european_scripts">European script</characterLabel>
+		<characterLabel type="female">female</characterLabel>
+		<characterLabel type="flag">flag</characterLabel>
+		<characterLabel type="flags">flags</characterLabel>
+		<characterLabel type="food_drink">food &amp; drink</characterLabel>
+		<characterLabel type="format">format</characterLabel>
+		<characterLabel type="format_whitespace">format &amp; whitespace</characterLabel>
+		<characterLabel type="full_width_form_variant">full-width variant</characterLabel>
+		<characterLabel type="geometric_shapes">geometric shape</characterLabel>
+		<characterLabel type="half_width_form_variant">half-width variant</characterLabel>
+		<characterLabel type="han_characters">Han character</characterLabel>
+		<characterLabel type="han_radicals">Han radical</characterLabel>
+		<characterLabel type="hanja">hanja</characterLabel>
+		<characterLabel type="hanzi_simplified">Hanzi (simplified)</characterLabel>
+		<characterLabel type="hanzi_traditional">Hanzi (traditional)</characterLabel>
+		<characterLabel type="heart">heart</characterLabel>
+		<characterLabel type="historic_scripts">historic script</characterLabel>
+		<characterLabel type="ideographic_desc_characters">ideographic desc. character</characterLabel>
+		<characterLabel type="japanese_kana">Japanese kana</characterLabel>
+		<characterLabel type="kanbun">kanbun</characterLabel>
+		<characterLabel type="kanji">kanji</characterLabel>
+		<characterLabel type="keycap">keycap</characterLabel>
+		<characterLabel type="leftwards_arrows">leftwards arrow</characterLabel>
+		<characterLabel type="leftwards_rightwards_arrows">leftwards rightwards arrow</characterLabel>
+		<characterLabel type="letterlike_symbols">letterlike symbol</characterLabel>
+		<characterLabel type="limited_use">limited-use</characterLabel>
+		<characterLabel type="male">male</characterLabel>
+		<characterLabel type="math_symbols">math symbol</characterLabel>
+		<characterLabel type="middle_eastern_scripts">Middle Eastern script</characterLabel>
+		<characterLabel type="miscellaneous">miscellaneous</characterLabel>
+		<characterLabel type="modern_scripts">modern script</characterLabel>
+		<characterLabel type="modifier">modifier</characterLabel>
+		<characterLabel type="musical_symbols">musical symbol</characterLabel>
+		<characterLabel type="nature">nature</characterLabel>
+		<characterLabel type="nonspacing">nonspacing</characterLabel>
+		<characterLabel type="numbers">numbers</characterLabel>
+		<characterLabel type="objects">object</characterLabel>
+		<characterLabel type="other">other</characterLabel>
+		<characterLabel type="paired">paired</characterLabel>
+		<characterLabel type="person">person</characterLabel>
+		<characterLabel type="phonetic_alphabet">phonetic alphabet</characterLabel>
+		<characterLabel type="pictographs">pictograph</characterLabel>
+		<characterLabel type="place">place</characterLabel>
+		<characterLabel type="plant">plant</characterLabel>
+		<characterLabel type="punctuation">punctuation</characterLabel>
+		<characterLabel type="rightwards_arrows">rightwards arrow</characterLabel>
+		<characterLabel type="sign_standard_symbols">sign or symbol</characterLabel>
+		<characterLabel type="small_form_variant">small variants</characterLabel>
+		<characterLabel type="smiley">smiley</characterLabel>
+		<characterLabel type="smileys_people">smiley or person</characterLabel>
+		<characterLabel type="south_asian_scripts">South Asian script</characterLabel>
+		<characterLabel type="southeast_asian_scripts">Southeast Asian script</characterLabel>
+		<characterLabel type="spacing">spacing</characterLabel>
+		<characterLabel type="sport">sport</characterLabel>
+		<characterLabel type="symbols">symbol</characterLabel>
+		<characterLabel type="technical_symbols">technical symbol</characterLabel>
+		<characterLabel type="tone_marks">tone mark</characterLabel>
+		<characterLabel type="travel">travel</characterLabel>
+		<characterLabel type="travel_places">travel or place</characterLabel>
+		<characterLabel type="upwards_arrows">upwards arrows</characterLabel>
+		<characterLabel type="variant_forms">variant</characterLabel>
+		<characterLabel type="vocalic_jamo">vocalic jamo</characterLabel>
+		<characterLabel type="weather">weather</characterLabel>
+		<characterLabel type="western_asian_scripts">Western Asian script</characterLabel>
+		<characterLabel type="whitespace">whitespace</characterLabel>
+	</characterLabels>
 </ldml>
-

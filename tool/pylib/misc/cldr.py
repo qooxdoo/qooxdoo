@@ -134,16 +134,23 @@ def extractDelimiter(tree):
 def extractNumber(tree):
     data = {}
 
-    decimalSeparatorNode = tree.find("numbers/symbols/decimal")
+    decimalSeparatorNode = tree.find("numbers/symbols[@numberSystem='latn']/decimal")
+    if decimalSeparatorNode == None:
+        decimalSeparatorNode = tree.find("numbers/symbols/decimal")
+
     if decimalSeparatorNode != None:
         data['cldr_number_decimal_separator'] = decimalSeparatorNode.text
 
     groupSeparator = ","
-    groupSeparatorNode = tree.find("numbers/symbols/group")
+    groupSeparatorNode = tree.find("numbers/symbols[@numberSystem='latn']/group")
+    if groupSeparatorNode == None:
+        groupSeparatorNode = tree.find("numbers/symbols/group")
     if groupSeparatorNode != None:
         data['cldr_number_group_separator'] = groupSeparatorNode.text
 
-    percentFormatNode = tree.find("numbers/percentFormats/percentFormatLength/percentFormat/pattern")
+    percentFormatNode = tree.find("numbers/percentFormats[@numberSystem='latn']/percentFormatLength/percentFormat/pattern")
+    if percentFormatNode == None:
+        percentFormatNode = tree.find("numbers/percentFormats/percentFormatLength/percentFormat/pattern")
     if percentFormatNode != None:
         data['cldr_number_percent_format'] = percentFormatNode.text
 
