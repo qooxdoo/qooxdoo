@@ -26,7 +26,7 @@
  * API the spec describes.
  *
  * Here is a sample usage:
- * <pre class='javascript'>var start = +(new Date());
+ * <pre class='javascript'>var start = Date.now();
  * var cb = function(time) {
  *   if (time >= start + duration) {
  *     // ... do some last tasks
@@ -77,11 +77,13 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      * soon as the given duration is over.
      *
      * @param duration {Number} The duration the sequence should take.
+     *
+     * @ignore(performance.*)
      */
     startSequence : function(duration) {
       this.__canceled = false;
 
-      var start = +(new Date());
+      var start = (window.performance && performance.now) ? (performance.now() + qx.bom.AnimationFrame.__start) : Date.now();
       var cb = function(time) {
         if (this.__canceled) {
           this.id = null;
@@ -178,7 +180,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
           time = this.__start + time;
         }
 
-        time = time || +(new Date());
+        time = time || Date.now();
         callback.call(context, time);
       };
       if (req) {
