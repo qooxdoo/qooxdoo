@@ -164,6 +164,7 @@
  *
  * @internal
  * @ignore(qx.Interface)
+ * @use(qx.Promise)
  */
 qx.Bootstrap.define("qx.core.Property",
 {
@@ -933,7 +934,7 @@ qx.Bootstrap.define("qx.core.Property",
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var code = [];
-
+      
       var incomingValue = variant === "set" || variant === "setThemed" || variant === "setRuntime" || (variant === "init" && config.init === undefined);
       var hasCallback = config.apply || config.event || config.inheritable;
 
@@ -991,6 +992,8 @@ qx.Bootstrap.define("qx.core.Property",
 
       // Return value
       if (incomingValue) {
+        code.unshift('function set(value){');
+        code.push('} if (value instanceof qx.Promise) value.then(set.bind(this)); else set.apply(this, arguments);');
         code.push('return value;');
       }
 
