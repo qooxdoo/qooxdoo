@@ -944,8 +944,9 @@ qx.Bootstrap.define("qx.core.Property",
 
       this.__emitSetterPreConditions(code, config, name, variant, incomingValue);
       
-      if (incomingValue || hasCallback)
+      if (incomingValue || hasCallback) {
         this.__emitOldValue(code, config, name);
+      }
 
       if (incomingValue) {
         this.__emitIncomingValueTransformation(code, clazz, config, name);
