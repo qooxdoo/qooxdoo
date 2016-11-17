@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2014 Unicode, Inc.
-CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+<!-- Copyright © 1991-2016 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
+Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the U.S. and other countries.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 11977 $"/>
+		<version number="$Revision: 12876 $"/>
 		<language type="cu"/>
 	</identity>
 	<localeDisplayNames>
 		<languages>
+			<language type="ab" draft="unconfirmed">а҆бха́зскїй</language>
 			<language type="ar" draft="unconfirmed">а҆ра́вскїй</language>
+			<language type="az" draft="unconfirmed">а҆зербайджа́нскїй</language>
 			<language type="be" draft="unconfirmed">бѣлорꙋ́сскїй</language>
+			<language type="bg" draft="unconfirmed">бо́лгарскїй</language>
 			<language type="cu" draft="unconfirmed">церковнослове́нскїй</language>
 			<language type="de" draft="unconfirmed">нѣме́цкїй</language>
 			<language type="de_AT" draft="unconfirmed">а҆ѵстрі́йскїй нѣме́цкїй</language>
 			<language type="de_CH" draft="unconfirmed">є҆лветі́йскїй нѣме́цкїй</language>
+			<language type="el" draft="unconfirmed">є҆́ллинскїй</language>
 			<language type="en" draft="unconfirmed">а҆нглі́йскїй</language>
 			<language type="en_AU" draft="unconfirmed">а҆ѵстралі́йскїй а҆нглі́йскїй</language>
 			<language type="en_CA" draft="unconfirmed">кана́дскїй а҆нглі́йскїй</language>
@@ -28,18 +33,27 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="es_419" draft="unconfirmed">латїноамерїка́нскїй і҆спа́нскїй</language>
 			<language type="es_ES" draft="unconfirmed">є҆ѵрѡпе́йскїй і҆спа́нскїй</language>
 			<language type="es_MX" draft="unconfirmed">і҆спанскїй (ме́ѯїка)</language>
+			<language type="et" draft="unconfirmed">є҆сто́нскїй</language>
+			<language type="fi" draft="unconfirmed">фі́нскїй</language>
 			<language type="fr" draft="unconfirmed">францꙋ́зскїй</language>
 			<language type="fr_CA" draft="unconfirmed">кана́дскїй францꙋ́зскїй</language>
 			<language type="fr_CH" draft="unconfirmed">є҆лветі́йскїй францꙋ́зскїй</language>
+			<language type="he" draft="unconfirmed">є҆вре́йскїй</language>
+			<language type="hy" draft="unconfirmed">а҆рме́нскїй</language>
 			<language type="it" draft="unconfirmed">і҆талїа́нскїй</language>
 			<language type="ja" draft="unconfirmed">ꙗ҆пѡ́нскїй</language>
+			<language type="ka" draft="unconfirmed">і҆́верскїй</language>
 			<language type="kk" draft="unconfirmed">каза́хскїй</language>
+			<language type="la" draft="unconfirmed">латі́нскїй</language>
+			<language type="lt" draft="unconfirmed">лїто́вскїй</language>
+			<language type="lv" draft="unconfirmed">латві́йскїй</language>
 			<language type="pt" draft="unconfirmed">портога́льскїй</language>
 			<language type="pt_BR" draft="unconfirmed">бразі́льскїй портога́льскїй</language>
 			<language type="pt_PT" draft="unconfirmed">є҆ѵрѡпе́йскїй портога́льскїй</language>
 			<language type="ro" draft="unconfirmed">дакорꙋмы́нскїй</language>
 			<language type="ro_MD" draft="unconfirmed">молда́вскїй</language>
 			<language type="ru" draft="unconfirmed">рꙋ́сскїй</language>
+			<language type="sr" draft="unconfirmed">се́рбскїй</language>
 			<language type="uk" draft="unconfirmed">ᲂу҆краи́нскїй</language>
 			<language type="und" draft="unconfirmed">невѣ́домый ѧ҆зы́къ</language>
 			<language type="zh" draft="unconfirmed">хи́нскїй</language>
@@ -76,7 +90,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="MX" draft="unconfirmed">Ме́ѯїко</territory>
 			<territory type="RU" draft="unconfirmed">рѡссі́а</territory>
 			<territory type="UA" draft="unconfirmed">ᲂу҆краи́на</territory>
-			<territory type="US" draft="unconfirmed">а҆мерїка̑нскїѧ соедине̑нныѧ держа̑вы</territory>
+			<territory type="US" draft="unconfirmed">а҆мерїка̑нскїѧ соединє́нныѧ держа̑вы</territory>
 			<territory type="ZZ" draft="unconfirmed">невѣ́домаѧ страна̀</territory>
 		</territories>
 		<types>
@@ -403,7 +417,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 					</eraNames>
 					<eraAbbr>
 						<era type="0" draft="unconfirmed">пре́дъ р. х.</era>
-						<era type="1" draft="unconfirmed">по р. х.</era>
+						<era type="1" draft="unconfirmed">ѿ р. х.</era>
+						<era type="1" alt="variant" draft="unconfirmed">ѿ р. х.</era>
 					</eraAbbr>
 				</eras>
 				<dateFormats>
@@ -879,11 +894,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol draft="unconfirmed">R$</symbol>
 				<symbol alt="narrow" draft="unconfirmed">R$</symbol>
 			</currency>
-			<currency type="BYR">
+			<currency type="BYN">
 				<displayName draft="unconfirmed">бѣлорꙋ́сскїй рꙋ́бль</displayName>
 				<displayName count="other" draft="unconfirmed">бѣлорꙋ́сскагѡ рꙋблѧ̀</displayName>
-				<symbol draft="unconfirmed">BYR</symbol>
+				<symbol draft="unconfirmed">BYN</symbol>
 				<symbol alt="narrow" draft="unconfirmed">р.</symbol>
+			</currency>
+			<currency type="BYR">
+				<displayName draft="unconfirmed">бѣлорꙋ́сскїй рꙋ́бль (2000–2016)</displayName>
+				<displayName count="other" draft="unconfirmed">бѣлорꙋ́сскагѡ рꙋблѧ̀ (2000–2016)</displayName>
+				<symbol draft="unconfirmed">BYR</symbol>
 			</currency>
 			<currency type="CNY">
 				<displayName draft="unconfirmed">хи́нскїй ю҆а́нь</displayName>
@@ -994,4 +1014,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</messages>
 	</posix>
 </ldml>
-

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2015 Unicode, Inc.
-CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+<!-- Copyright © 1991-2016 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
+Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the U.S. and other countries.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 12293 $"/>
+		<version number="$Revision: 12879 $"/>
 		<language type="ja"/>
 	</identity>
 	<localeDisplayNames>
@@ -30,7 +31,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ain">アイヌ語</language>
 			<language type="ak">アカン語</language>
 			<language type="akk">アッカド語</language>
-			<language type="akz" draft="contributed">アラバマ語</language>
+			<language type="akz">アラバマ語</language>
 			<language type="ale">アレウト語</language>
 			<language type="aln">ゲグ・アルバニア語</language>
 			<language type="alt">南アルタイ語</language>
@@ -41,8 +42,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ar">アラビア語</language>
 			<language type="ar_001">現代標準アラビア語</language>
 			<language type="arc">アラム語</language>
-			<language type="arn">アラウカン語</language>
-			<language type="aro" draft="contributed">アラオナ語</language>
+			<language type="arn">マプチェ語</language>
+			<language type="aro">アラオナ語</language>
 			<language type="arp">アラパホー語</language>
 			<language type="arq">アルジェリア・アラビア語</language>
 			<language type="arw">アラワク語</language>
@@ -53,7 +54,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ase">アメリカ手話</language>
 			<language type="ast">アストゥリアス語</language>
 			<language type="av">アヴァル語</language>
-			<language type="avk" draft="contributed">コタヴァ</language>
+			<language type="avk">コタヴァ</language>
 			<language type="awa">アワディー語</language>
 			<language type="ay">アイマラ語</language>
 			<language type="az">アゼルバイジャン語</language>
@@ -61,35 +62,35 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ba">バシキール語</language>
 			<language type="bal">バルーチー語</language>
 			<language type="ban">バリ語</language>
-			<language type="bar" draft="contributed">バイエルン・オーストリア語</language>
+			<language type="bar">バイエルン・オーストリア語</language>
 			<language type="bas">バサ語</language>
 			<language type="bax">バムン語</language>
-			<language type="bbc" draft="contributed">トバ・バタク語</language>
-			<language type="bbj" draft="contributed">ゴーマラ語</language>
+			<language type="bbc">トバ・バタク語</language>
+			<language type="bbj">ゴーマラ語</language>
 			<language type="be">ベラルーシ語</language>
 			<language type="bej">ベジャ語</language>
 			<language type="bem">ベンバ語</language>
-			<language type="bew" draft="contributed">ベタウィ語</language>
+			<language type="bew">ベタウィ語</language>
 			<language type="bez">ベナ語</language>
 			<language type="bfd">バフット語</language>
-			<language type="bfq" draft="contributed">バダガ語</language>
+			<language type="bfq">バダガ語</language>
 			<language type="bg">ブルガリア語</language>
 			<language type="bgn">西バローチー語</language>
 			<language type="bho">ボージュプリー語</language>
 			<language type="bi">ビスラマ語</language>
 			<language type="bik">ビコル語</language>
 			<language type="bin">ビニ語</language>
-			<language type="bjn" draft="contributed">バンジャル語</language>
+			<language type="bjn">バンジャル語</language>
 			<language type="bkm">コム語</language>
 			<language type="bla">シクシカ語</language>
 			<language type="bm">バンバラ語</language>
 			<language type="bn">ベンガル語</language>
 			<language type="bo">チベット語</language>
 			<language type="bpy">ビシュヌプリヤ・マニプリ語</language>
-			<language type="bqi" draft="contributed">バフティヤーリー語</language>
+			<language type="bqi">バフティヤーリー語</language>
 			<language type="br">ブルトン語</language>
 			<language type="bra">ブラジ語</language>
-			<language type="brh" draft="contributed">ブラフイ語</language>
+			<language type="brh">ブラフイ語</language>
 			<language type="brx">ボド語</language>
 			<language type="bs">ボスニア語</language>
 			<language type="bss">アコース語</language>
@@ -119,9 +120,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ckb">クルド語(ソラニー)</language>
 			<language type="co">コルシカ語</language>
 			<language type="cop">コプト語</language>
-			<language type="cps" draft="contributed">カピス語</language>
+			<language type="cps">カピス語</language>
 			<language type="cr">クリー語</language>
 			<language type="crh">クリミア・タタール語</language>
+			<language type="crs">セーシェル・クレオール語</language>
 			<language type="cs">チェコ語</language>
 			<language type="csb">カシューブ語</language>
 			<language type="cu">教会スラブ語</language>
@@ -139,8 +141,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="din">ディンカ語</language>
 			<language type="dje">ザルマ語</language>
 			<language type="doi">ドーグリー語</language>
-			<language type="dsb">低ソルビア語</language>
-			<language type="dtp" draft="contributed">中央ドゥスン語</language>
+			<language type="dsb">低地ソルブ語</language>
+			<language type="dtp">中央ドゥスン語</language>
 			<language type="dua">ドゥアラ語</language>
 			<language type="dum">中世オランダ語</language>
 			<language type="dv">ディベヒ語</language>
@@ -151,7 +153,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ebu">エンブ語</language>
 			<language type="ee">エウェ語</language>
 			<language type="efi">エフィク語</language>
-			<language type="egl" draft="contributed">エミリア語</language>
+			<language type="egl">エミリア語</language>
 			<language type="egy">古代エジプト語</language>
 			<language type="eka">エカジュク語</language>
 			<language type="el">ギリシャ語</language>
@@ -167,7 +169,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="eo">エスペラント語</language>
 			<language type="es">スペイン語</language>
 			<language type="es_ES">スペイン語 (イベリア半島)</language>
-			<language type="esu" draft="contributed">中央アラスカ・ユピック語</language>
+			<language type="esu">中央アラスカ・ユピック語</language>
 			<language type="et">エストニア語</language>
 			<language type="eu">バスク語</language>
 			<language type="ewo">エウォンド語</language>
@@ -175,15 +177,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="fa">ペルシア語</language>
 			<language type="fan">ファング語</language>
 			<language type="fat">ファンティー語</language>
-			<language type="ff">フラニ語</language>
+			<language type="ff">フラ語</language>
 			<language type="fi">フィンランド語</language>
 			<language type="fil">フィリピノ語</language>
-			<language type="fit" draft="contributed">トルネダール・フィンランド語</language>
+			<language type="fit">トルネダール・フィンランド語</language>
 			<language type="fj">フィジー語</language>
 			<language type="fo">フェロー語</language>
 			<language type="fon">フォン語</language>
 			<language type="fr">フランス語</language>
-			<language type="frc" draft="contributed">ケイジャン・フランス語</language>
+			<language type="frc">ケイジャン・フランス語</language>
 			<language type="frm">中期フランス語</language>
 			<language type="fro">古フランス語</language>
 			<language type="frp">アルピタン語</language>
@@ -197,7 +199,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="gan">贛語</language>
 			<language type="gay">ガヨ語</language>
 			<language type="gba">バヤ語</language>
-			<language type="gbz" draft="contributed">ダリー語(ゾロアスター教)</language>
+			<language type="gbz">ダリー語(ゾロアスター教)</language>
 			<language type="gd">スコットランド・ゲール語</language>
 			<language type="gez">ゲエズ語</language>
 			<language type="gil">キリバス語</language>
@@ -206,7 +208,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="gmh">中高ドイツ語</language>
 			<language type="gn">グアラニー語</language>
 			<language type="goh">古高ドイツ語</language>
-			<language type="gom" draft="contributed">ゴア・コンカニ語</language>
+			<language type="gom">ゴア・コンカニ語</language>
 			<language type="gon">ゴーンディー語</language>
 			<language type="gor">ゴロンタロ語</language>
 			<language type="got">ゴート語</language>
@@ -215,7 +217,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="gsw">スイスドイツ語</language>
 			<language type="gu">グジャラート語</language>
 			<language type="guc">ワユ語</language>
-			<language type="gur" draft="contributed">フラフラ語</language>
+			<language type="gur">フラフラ語</language>
 			<language type="guz">グシイ語</language>
 			<language type="gv">マン島語</language>
 			<language type="gwi">グウィッチン語</language>
@@ -225,17 +227,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="haw">ハワイ語</language>
 			<language type="he">ヘブライ語</language>
 			<language type="hi">ヒンディー語</language>
-			<language type="hif" draft="contributed">フィジー・ヒンディー語</language>
+			<language type="hif">フィジー・ヒンディー語</language>
 			<language type="hil">ヒリガイノン語</language>
 			<language type="hit">ヒッタイト語</language>
 			<language type="hmn">フモン語</language>
 			<language type="ho">ヒリモツ語</language>
 			<language type="hr">クロアチア語</language>
-			<language type="hsb">上ソルビア語</language>
+			<language type="hsb">高地ソルブ語</language>
 			<language type="hsn">湘語</language>
 			<language type="ht">ハイチ語</language>
 			<language type="hu">ハンガリー語</language>
-			<language type="hup">アタパスカ語</language>
+			<language type="hup">フパ語</language>
 			<language type="hy">アルメニア語</language>
 			<language type="hz">ヘレロ語</language>
 			<language type="ia">インターリングア</language>
@@ -274,16 +276,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kcg">カタブ語</language>
 			<language type="kde">マコンデ語</language>
 			<language type="kea">カーボベルデ・クレオール語</language>
-			<language type="ken" draft="contributed">ニャン語</language>
+			<language type="ken">ニャン語</language>
 			<language type="kfo">コロ語</language>
 			<language type="kg">コンゴ語</language>
-			<language type="kgp" draft="contributed">カインガング語</language>
+			<language type="kgp">カインガング語</language>
 			<language type="kha">カシ語</language>
 			<language type="kho">コータン語</language>
 			<language type="khq">コイラ・チーニ語</language>
 			<language type="khw">コワール語</language>
 			<language type="ki">キクユ語</language>
-			<language type="kiu" draft="contributed">キルマンジュキ語</language>
+			<language type="kiu">キルマンジュキ語</language>
 			<language type="kj">クワニャマ語</language>
 			<language type="kk">カザフ語</language>
 			<language type="kkj">カコ語</language>
@@ -298,9 +300,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="kos">コスラエ語</language>
 			<language type="kpe">クペレ語</language>
 			<language type="kr">カヌリ語</language>
-			<language type="krc">カラチャイ語</language>
-			<language type="kri" draft="contributed">クリオ語</language>
-			<language type="krj" draft="contributed">キナライア語</language>
+			<language type="krc">カラチャイ・バルカル語</language>
+			<language type="kri">クリオ語</language>
+			<language type="krj">キナライア語</language>
 			<language type="krl">カレリア語</language>
 			<language type="kru">クルク語</language>
 			<language type="ks">カシミール語</language>
@@ -320,20 +322,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="lam">ランバ語</language>
 			<language type="lb">ルクセンブルク語</language>
 			<language type="lez">レズギ語</language>
-			<language type="lfn" draft="contributed">リングア・フランカ・ノバ</language>
+			<language type="lfn">リングア・フランカ・ノバ</language>
 			<language type="lg">ガンダ語</language>
 			<language type="li">リンブルフ語</language>
-			<language type="lij" draft="contributed">リグリア語</language>
-			<language type="liv" draft="contributed">リヴォニア語</language>
+			<language type="lij">リグリア語</language>
+			<language type="liv">リヴォニア語</language>
 			<language type="lkt">ラコタ語</language>
-			<language type="lmo" draft="contributed">ロンバルド語</language>
+			<language type="lmo">ロンバルド語</language>
 			<language type="ln">リンガラ語</language>
 			<language type="lo">ラオ語</language>
 			<language type="lol">モンゴ語</language>
 			<language type="loz">ロジ語</language>
 			<language type="lrc">北ロル語</language>
 			<language type="lt">リトアニア語</language>
-			<language type="ltg" draft="contributed">ラトガリア語</language>
+			<language type="ltg">ラトガリア語</language>
 			<language type="lu">ルバ・カタンガ語</language>
 			<language type="lua">ルバ・ルルア語</language>
 			<language type="lui">ルイセーニョ語</language>
@@ -343,7 +345,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="luy">ルヒヤ語</language>
 			<language type="lv">ラトビア語</language>
 			<language type="lzh">漢文</language>
-			<language type="lzz" draft="contributed">ラズ語</language>
+			<language type="lzz">ラズ語</language>
 			<language type="mad">マドゥラ語</language>
 			<language type="maf">マファ語</language>
 			<language type="mag">マガヒー語</language>
@@ -381,8 +383,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mus">クリーク語</language>
 			<language type="mwl">ミランダ語</language>
 			<language type="mwr">マールワーリー語</language>
-			<language type="mwv" draft="contributed">メンタワイ語</language>
-			<language type="my">ビルマ語</language>
+			<language type="mwv">メンタワイ語</language>
+			<language type="my">ミャンマー語</language>
 			<language type="mye">ミエネ語</language>
 			<language type="myv">エルジャ語</language>
 			<language type="mzn">マーザンダラーン語</language>
@@ -398,7 +400,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ng">ンドンガ語</language>
 			<language type="nia">ニアス語</language>
 			<language type="niu">ニウーエイ語</language>
-			<language type="njo" draft="contributed">アオ・ナガ語</language>
+			<language type="njo">アオ・ナガ語</language>
 			<language type="nl">オランダ語</language>
 			<language type="nl_BE">フレミッシュ語</language>
 			<language type="nmg">クワシオ語</language>
@@ -407,7 +409,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="no">ノルウェー語</language>
 			<language type="nog">ノガイ語</language>
 			<language type="non">古ノルド語</language>
-			<language type="nov" draft="contributed">ノヴィアル</language>
+			<language type="nov">ノヴィアル</language>
 			<language type="nqo">ンコ語</language>
 			<language type="nr">南ンデベレ語</language>
 			<language type="nso">北部ソト語</language>
@@ -432,18 +434,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="pam">パンパンガ語</language>
 			<language type="pap">パピアメント語</language>
 			<language type="pau">パラオ語</language>
-			<language type="pcd" draft="contributed">ピカルディ語</language>
-			<language type="pdc" draft="contributed">ペンシルベニア・ドイツ語</language>
-			<language type="pdt" draft="contributed">メノナイト低地ドイツ語</language>
+			<language type="pcd">ピカルディ語</language>
+			<language type="pcm">ナイジェリア・ピジン語</language>
+			<language type="pdc">ペンシルベニア・ドイツ語</language>
+			<language type="pdt">メノナイト低地ドイツ語</language>
 			<language type="peo">古代ペルシア語</language>
-			<language type="pfl" draft="contributed">プファルツ語</language>
+			<language type="pfl">プファルツ語</language>
 			<language type="phn">フェニキア語</language>
 			<language type="pi">パーリ語</language>
 			<language type="pl">ポーランド語</language>
-			<language type="pms" draft="contributed">ピエモンテ語</language>
-			<language type="pnt" draft="contributed">ポントス・ギリシャ語</language>
+			<language type="pms">ピエモンテ語</language>
+			<language type="pnt">ポントス・ギリシャ語</language>
 			<language type="pon">ポンペイ語</language>
-			<language type="prg" draft="contributed">プロシア語</language>
+			<language type="prg">プロシア語</language>
 			<language type="pro">古期プロバンス語</language>
 			<language type="ps">パシュトゥー語</language>
 			<language type="ps" alt="variant">パシュトゥ語</language>
@@ -451,12 +454,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="pt_PT">ポルトガル語 (イベリア半島)</language>
 			<language type="qu">ケチュア語</language>
 			<language type="quc">キチェ語</language>
-			<language type="qug" draft="contributed">チンボラソ高地ケチュア語</language>
+			<language type="qug">チンボラソ高地ケチュア語</language>
 			<language type="raj">ラージャスターン語</language>
 			<language type="rap">ラパヌイ語</language>
 			<language type="rar">ラロトンガ語</language>
-			<language type="rgn" draft="contributed">ロマーニャ語</language>
-			<language type="rif" draft="contributed">リーフ語</language>
+			<language type="rgn">ロマーニャ語</language>
+			<language type="rif">リーフ語</language>
 			<language type="rm">ロマンシュ語</language>
 			<language type="rn">ルンディ語</language>
 			<language type="ro">ルーマニア語</language>
@@ -464,38 +467,38 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="rof">ロンボ語</language>
 			<language type="rom">ロマーニー語</language>
 			<language type="root">ルート</language>
-			<language type="rtm" draft="contributed">ロツマ語</language>
+			<language type="rtm">ロツマ語</language>
 			<language type="ru">ロシア語</language>
 			<language type="rue">ルシン語</language>
-			<language type="rug" draft="contributed">ロヴィアナ語</language>
+			<language type="rug">ロヴィアナ語</language>
 			<language type="rup">アルーマニア語</language>
-			<language type="rw">ルワンダ語</language>
+			<language type="rw">キニアルワンダ語</language>
 			<language type="rwk">ルワ語</language>
 			<language type="sa">サンスクリット語</language>
 			<language type="sad">サンダウェ語</language>
-			<language type="sah">ヤクート語</language>
+			<language type="sah">サハ語</language>
 			<language type="sam">サマリア・アラム語</language>
 			<language type="saq">サンブル語</language>
 			<language type="sas">ササク語</language>
 			<language type="sat">サンターリー語</language>
-			<language type="saz" draft="contributed">サウラーシュトラ語</language>
+			<language type="saz">サウラーシュトラ語</language>
 			<language type="sba">ンガムバイ語</language>
 			<language type="sbp">サング語</language>
 			<language type="sc">サルデーニャ語</language>
 			<language type="scn">シチリア語</language>
 			<language type="sco">スコットランド語</language>
 			<language type="sd">シンド語</language>
-			<language type="sdc" draft="contributed">サッサリ・サルデーニャ語</language>
+			<language type="sdc">サッサリ・サルデーニャ語</language>
 			<language type="sdh">南部クルド語</language>
 			<language type="se">北サーミ語</language>
 			<language type="see">セネカ語</language>
 			<language type="seh">セナ語</language>
-			<language type="sei" draft="contributed">セリ語</language>
+			<language type="sei">セリ語</language>
 			<language type="sel">セリクプ語</language>
 			<language type="ses">コイラボロ・センニ語</language>
 			<language type="sg">サンゴ語</language>
-			<language type="sga">古期アイルランド語</language>
-			<language type="sgs" draft="contributed">サモギティア語)</language>
+			<language type="sga">古アイルランド語</language>
+			<language type="sgs">サモギティア語</language>
 			<language type="sh">セルボ・クロアチア語</language>
 			<language type="shi">タシルハイト語</language>
 			<language type="shn">シャン語</language>
@@ -504,8 +507,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sid">シダモ語</language>
 			<language type="sk">スロバキア語</language>
 			<language type="sl">スロベニア語</language>
-			<language type="sli" draft="contributed">低シレジア語</language>
-			<language type="sly" draft="contributed">スラヤール語</language>
+			<language type="sli">低シレジア語</language>
+			<language type="sly">スラヤール語</language>
 			<language type="sm">サモア語</language>
 			<language type="sma">南サーミ語</language>
 			<language type="smj">ルレ・サーミ語</language>
@@ -522,7 +525,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ss">スワジ語</language>
 			<language type="ssy">サホ語</language>
 			<language type="st">南部ソト語</language>
-			<language type="stq" draft="contributed">ザーターフリジア語</language>
+			<language type="stq">ザーターフリジア語</language>
 			<language type="su">スンダ語</language>
 			<language type="suk">スクマ語</language>
 			<language type="sus">スス語</language>
@@ -535,7 +538,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="syr">シリア語</language>
 			<language type="szl">シレジア語</language>
 			<language type="ta">タミル語</language>
-			<language type="tcy" draft="contributed">トゥル語</language>
+			<language type="tcy">トゥル語</language>
 			<language type="te">テルグ語</language>
 			<language type="tem">テムネ語</language>
 			<language type="teo">テソ語</language>
@@ -552,20 +555,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="tl">タガログ語</language>
 			<language type="tlh">クリンゴン語</language>
 			<language type="tli">トリンギット語</language>
-			<language type="tly" draft="contributed">タリシュ語</language>
+			<language type="tly">タリシュ語</language>
 			<language type="tmh">タマシェク語</language>
 			<language type="tn">ツワナ語</language>
 			<language type="to">トンガ語</language>
 			<language type="tog">トンガ語(ニアサ)</language>
 			<language type="tpi">トク・ピシン語</language>
 			<language type="tr">トルコ語</language>
-			<language type="tru" draft="contributed">トゥロヨ語</language>
+			<language type="tru">トゥロヨ語</language>
 			<language type="trv">タロコ語</language>
 			<language type="ts">ツォンガ語</language>
-			<language type="tsd" draft="contributed">ツァコン語</language>
+			<language type="tsd">ツァコン語</language>
 			<language type="tsi">チムシュ語</language>
 			<language type="tt">タタール語</language>
-			<language type="ttt" draft="contributed">ムスリム・タタール語</language>
+			<language type="ttt">ムスリム・タタール語</language>
 			<language type="tum">トゥンブカ語</language>
 			<language type="tvl">ツバル語</language>
 			<language type="tw">トウィ語</language>
@@ -588,7 +591,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="vep">ヴェプス語</language>
 			<language type="vi">ベトナム語</language>
 			<language type="vls">西フラマン語</language>
-			<language type="vmf" draft="contributed">マインフランク語</language>
+			<language type="vmf">マインフランク語</language>
 			<language type="vo">ヴォラピュク語</language>
 			<language type="vot">ヴォート語</language>
 			<language type="vro">ヴォロ語</language>
@@ -618,7 +621,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="zbl">ブリスシンボル</language>
 			<language type="zea">ゼーラント語</language>
 			<language type="zen">ゼナガ語</language>
-			<language type="zgh">タマージク語(モロッコ公用語)</language>
+			<language type="zgh">標準モロッコ タマジクト語</language>
 			<language type="zh">中国語</language>
 			<language type="zh_Hans">簡体中国語</language>
 			<language type="zh_Hant">繁体中国語</language>
@@ -672,6 +675,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Grek">ギリシャ文字</script>
 			<script type="Gujr">グジャラート文字</script>
 			<script type="Guru">グルムキー文字</script>
+			<script type="Hanb">漢語注音字母</script>
 			<script type="Hang">ハングル</script>
 			<script type="Hani">漢字</script>
 			<script type="Hano">ハヌノオ文字</script>
@@ -687,6 +691,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Hung">古代ハンガリー文字</script>
 			<script type="Inds">インダス文字</script>
 			<script type="Ital">古イタリア文字</script>
+			<script type="Jamo">字母</script>
 			<script type="Java">ジャワ文字</script>
 			<script type="Jpan">日本語の文字</script>
 			<script type="Jurc">女真文字</script>
@@ -791,6 +796,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Yiii">イ文字</script>
 			<script type="Zinh">基底文字の種別を継承する結合文字</script>
 			<script type="Zmth">数学記号</script>
+			<script type="Zsye">絵文字</script>
 			<script type="Zsym">記号文字</script>
 			<script type="Zxxx">非表記</script>
 			<script type="Zyyy">共通文字</script>
@@ -888,6 +894,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CX">クリスマス島</territory>
 			<territory type="CY">キプロス</territory>
 			<territory type="CZ">チェコ共和国</territory>
+			<territory type="CZ" alt="variant">チェコ</territory>
 			<territory type="DE">ドイツ</territory>
 			<territory type="DG">ディエゴガルシア島</territory>
 			<territory type="DJ">ジブチ</territory>
@@ -907,7 +914,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FI">フィンランド</territory>
 			<territory type="FJ">フィジー</territory>
 			<territory type="FK">フォークランド諸島</territory>
-			<territory type="FK" alt="variant">フォークランド諸島(マルビナス諸島)</territory>
+			<territory type="FK" alt="variant">フォークランド諸島 (マルビーナス諸島)</territory>
 			<territory type="FM">ミクロネシア連邦</territory>
 			<territory type="FO">フェロー諸島</territory>
 			<territory type="FR">フランス</territory>
@@ -958,7 +965,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="KH">カンボジア</territory>
 			<territory type="KI">キリバス</territory>
 			<territory type="KM">コモロ</territory>
-			<territory type="KN">セントクリストファー・ネイビス</territory>
+			<territory type="KN">セントクリストファー・ネーヴィス</territory>
 			<territory type="KP">朝鮮民主主義人民共和国</territory>
 			<territory type="KR">大韓民国</territory>
 			<territory type="KW">クウェート</territory>
@@ -972,7 +979,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="LR">リベリア</territory>
 			<territory type="LS">レソト</territory>
 			<territory type="LT">リトアニア</territory>
-			<territory type="LU">ルクセンブルグ</territory>
+			<territory type="LU">ルクセンブルク</territory>
 			<territory type="LV">ラトビア</territory>
 			<territory type="LY">リビア</territory>
 			<territory type="MA">モロッコ</territory>
@@ -1010,7 +1017,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="NO">ノルウェー</territory>
 			<territory type="NP">ネパール</territory>
 			<territory type="NR">ナウル</territory>
-			<territory type="NU">ニウエ島</territory>
+			<territory type="NU">ニウエ</territory>
 			<territory type="NZ">ニュージーランド</territory>
 			<territory type="OM">オマーン</territory>
 			<territory type="PA">パナマ</territory>
@@ -1023,7 +1030,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="PM">サンピエール島・ミクロン島</territory>
 			<territory type="PN">ピトケアン諸島</territory>
 			<territory type="PR">プエルトリコ</territory>
-			<territory type="PS">パレスチナ</territory>
+			<territory type="PS">パレスチナ自治区</territory>
 			<territory type="PS" alt="short">パレスチナ</territory>
 			<territory type="PT">ポルトガル</territory>
 			<territory type="PW">パラオ</territory>
@@ -1076,13 +1083,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="TZ">タンザニア</territory>
 			<territory type="UA">ウクライナ</territory>
 			<territory type="UG">ウガンダ</territory>
-			<territory type="UM">米領太平洋諸島</territory>
+			<territory type="UM">合衆国領有小離島</territory>
+			<territory type="UN">こくさいれんごう</territory>
+			<territory type="UN" alt="short">こくれん</territory>
 			<territory type="US">アメリカ合衆国</territory>
 			<territory type="US" alt="short">アメリカ</territory>
 			<territory type="UY">ウルグアイ</territory>
 			<territory type="UZ">ウズベキスタン</territory>
 			<territory type="VA">バチカン市国</territory>
-			<territory type="VC">セントビンセント・グレナディーン諸島</territory>
+			<territory type="VC">セントビンセント及びグレナディーン諸島</territory>
 			<territory type="VE">ベネズエラ</territory>
 			<territory type="VG">英領ヴァージン諸島</territory>
 			<territory type="VI">米領ヴァージン諸島</territory>
@@ -1165,11 +1174,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</variants>
 		<keys>
 			<key type="calendar">暦法</key>
+			<key type="cf">通貨フォーマット</key>
 			<key type="colAlternate" draft="contributed">記号を無視した並べ替え</key>
 			<key type="colBackwards" draft="contributed">アクセント（逆方向）による並べ替え</key>
 			<key type="colCaseFirst" draft="contributed">大文字順/小文字順による並べ替え</key>
 			<key type="colCaseLevel" draft="contributed">大文字小文字を区別した並べ替え</key>
-			<key type="colHiraganaQuaternary" draft="contributed">仮名による並べ替え</key>
 			<key type="collation">並べ替え順序</key>
 			<key type="colNormalization">正規化による並べ替え</key>
 			<key type="colNumeric" draft="contributed">数値による並べ替え</key>
@@ -1181,11 +1190,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<key type="numbers">数値書式</key>
 			<key type="timezone" draft="contributed">タイムゾーン</key>
 			<key type="va" draft="contributed">ロケールのバリアント</key>
-			<key type="variableTop" draft="contributed">記号として並べ替え</key>
 			<key type="x">私用</key>
 		</keys>
 		<types>
-			<type key="calendar" type="buddhist">タイ仏教暦</type>
+			<type key="calendar" type="buddhist">仏暦</type>
 			<type key="calendar" type="chinese">中国暦</type>
 			<type key="calendar" type="coptic">コプト暦</type>
 			<type key="calendar" type="dangi">ダンギ暦</type>
@@ -1203,6 +1211,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="calendar" type="japanese">和暦</type>
 			<type key="calendar" type="persian">ペルシア暦</type>
 			<type key="calendar" type="roc">中華民国暦</type>
+			<type key="cf" type="account">会計通貨フォーマット</type>
+			<type key="cf" type="standard">標準通貨フォーマット</type>
 			<type key="colAlternate" type="non-ignorable" draft="contributed">記号で並べ替え</type>
 			<type key="colAlternate" type="shifted" draft="contributed">記号を無視して並べ替え</type>
 			<type key="colBackwards" type="no" draft="contributed">アクセント（順方向）で並べ替え</type>
@@ -1212,8 +1222,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="colCaseFirst" type="upper" draft="contributed">大文字優先で並べ替え</type>
 			<type key="colCaseLevel" type="no" draft="contributed">大文字小文字を区別しないで並べ替え</type>
 			<type key="colCaseLevel" type="yes" draft="contributed">大文字小文字を区別して並べ替え</type>
-			<type key="colHiraganaQuaternary" type="no" draft="contributed">仮名を区別しないで並べ替え</type>
-			<type key="colHiraganaQuaternary" type="yes" draft="contributed">仮名を区別して並べ替え</type>
 			<type key="collation" type="big5han">繁体字中国語順(Big5)</type>
 			<type key="collation" type="dictionary">辞書順</type>
 			<type key="collation" type="ducet">ユニコード照合順</type>
@@ -1239,6 +1247,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="colStrength" type="quaternary" draft="contributed">アクセント/大文字小文字/全角半角/仮名で並べ替え</type>
 			<type key="colStrength" type="secondary" draft="contributed">アクセントで並べ替え</type>
 			<type key="colStrength" type="tertiary" draft="contributed">アクセント/大文字小文字/全角半角で並べ替え</type>
+			<type key="d0" type="fwidth" draft="contributed">全角</type>
+			<type key="d0" type="hwidth" draft="contributed">半角</type>
+			<type key="d0" type="npinyin" draft="contributed">数字</type>
 			<type key="hc" type="h11">12時間制(0〜11)</type>
 			<type key="hc" type="h12">12時間制(1〜12)</type>
 			<type key="hc" type="h23">24時間制(0〜23)</type>
@@ -1246,6 +1257,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="lb" type="loose">禁則処理(弱)</type>
 			<type key="lb" type="normal">禁則処理(標準)</type>
 			<type key="lb" type="strict">禁則処理(強)</type>
+			<type key="m0" type="bgn" draft="contributed">BGN</type>
+			<type key="m0" type="ungegn" draft="contributed">UNGEGN</type>
 			<type key="ms" type="metric">メートル法</type>
 			<type key="ms" type="uksystem">ヤード・ポンド法</type>
 			<type key="ms" type="ussystem">米慣習単位</type>
@@ -1311,18 +1324,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="numbers" type="traditional" draft="contributed">従来の記数法</type>
 			<type key="numbers" type="vaii">ヴァイ文字の記数法</type>
 		</types>
-		<transformNames>
-			<transformName type="BGN" draft="contributed">BGN</transformName>
-			<transformName type="Numeric" draft="contributed">数字</transformName>
-			<transformName type="Tone" draft="contributed">声調</transformName>
-			<transformName type="UNGEGN" draft="contributed">UNGEGN</transformName>
-			<transformName type="x-Accents" draft="contributed">アクセント</transformName>
-			<transformName type="x-Fullwidth" draft="contributed">全角</transformName>
-			<transformName type="x-Halfwidth" draft="contributed">半角</transformName>
-			<transformName type="x-Jamo" draft="contributed">字母</transformName>
-			<transformName type="x-Pinyin" draft="contributed">ピンイン</transformName>
-			<transformName type="x-Publishing" draft="contributed">出版</transformName>
-		</transformNames>
 		<measurementSystemNames>
 			<measurementSystemName type="metric">メートル法</measurementSystemName>
 			<measurementSystemName type="UK">英ヤード・ポンド法</measurementSystemName>
@@ -2249,7 +2250,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<dateFormats>
 					<dateFormatLength type="full">
 						<dateFormat>
-							<pattern>Gy年M月d日EEEE</pattern>
+							<pattern>Gy年M月d日(EEEE)</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="long">
@@ -2293,12 +2294,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="d">d日</dateFormatItem>
 						<dateFormatItem id="E">ccc</dateFormatItem>
 						<dateFormatItem id="Ed">d日(E)</dateFormatItem>
-						<dateFormatItem id="EEEEd">d日EEEE</dateFormatItem>
+						<dateFormatItem id="EEEEd">d日(EEEE)</dateFormatItem>
 						<dateFormatItem id="Gy">Gy年</dateFormatItem>
 						<dateFormatItem id="GyMMM">Gy年M月</dateFormatItem>
 						<dateFormatItem id="GyMMMd">Gy年M月d日</dateFormatItem>
 						<dateFormatItem id="GyMMMEd">Gy年M月d日(E)</dateFormatItem>
-						<dateFormatItem id="GyMMMEEEEd">Gy年M月d日EEEE</dateFormatItem>
+						<dateFormatItem id="GyMMMEEEEd">Gy年M月d日(EEEE)</dateFormatItem>
 						<dateFormatItem id="h">aK時</dateFormatItem>
 						<dateFormatItem id="H">H時</dateFormatItem>
 						<dateFormatItem id="hm">aK:mm</dateFormatItem>
@@ -2308,11 +2309,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="M">M月</dateFormatItem>
 						<dateFormatItem id="Md">M/d</dateFormatItem>
 						<dateFormatItem id="MEd">M/d(E)</dateFormatItem>
-						<dateFormatItem id="MEEEEd">M/dEEEE</dateFormatItem>
+						<dateFormatItem id="MEEEEd">M/d(EEEE)</dateFormatItem>
 						<dateFormatItem id="MMM">M月</dateFormatItem>
 						<dateFormatItem id="MMMd">M月d日</dateFormatItem>
 						<dateFormatItem id="MMMEd">M月d日(E)</dateFormatItem>
-						<dateFormatItem id="MMMEEEEd">M月d日EEEE</dateFormatItem>
+						<dateFormatItem id="MMMEEEEd">M月d日(EEEE)</dateFormatItem>
 						<dateFormatItem id="MMMMd">M月d日</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">Gy年</dateFormatItem>
@@ -2320,14 +2321,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="yyyyM">Gy/M</dateFormatItem>
 						<dateFormatItem id="yyyyMd">Gy/M/d</dateFormatItem>
 						<dateFormatItem id="yyyyMEd">Gy/M/d(E)</dateFormatItem>
-						<dateFormatItem id="yyyyMEEEEd">Gy/M/dEEEE</dateFormatItem>
+						<dateFormatItem id="yyyyMEEEEd">Gy/M/d(EEEE)</dateFormatItem>
 						<dateFormatItem id="yyyyMMM">Gy年M月</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">Gy年M月d日</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEd">Gy年M月d日(E)</dateFormatItem>
-						<dateFormatItem id="yyyyMMMEEEEd">Gy年M月d日EEEE</dateFormatItem>
+						<dateFormatItem id="yyyyMMMEEEEd">Gy年M月d日(EEEE)</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">Gy年M月</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">Gy/QQQ</dateFormatItem>
-						<dateFormatItem id="yyyyQQQQ">GyQQQQ</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">Gy年QQQQ</dateFormatItem>
 					</availableFormats>
 					<intervalFormats>
 						<intervalFormatFallback>{0}～{1}</intervalFormatFallback>
@@ -2830,6 +2831,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMMEd">M月d日(E)</dateFormatItem>
 						<dateFormatItem id="MMMEEEEd">M月d日EEEE</dateFormatItem>
 						<dateFormatItem id="MMMMd">M月d日</dateFormatItem>
+						<dateFormatItem id="MMMMW" count="other">M月第W週</dateFormatItem>
 						<dateFormatItem id="ms">mm:ss</dateFormatItem>
 						<dateFormatItem id="y">y年</dateFormatItem>
 						<dateFormatItem id="yM">y/M</dateFormatItem>
@@ -2843,7 +2845,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="yMMMEEEEd">y年M月d日EEEE</dateFormatItem>
 						<dateFormatItem id="yMMMM">y年M月</dateFormatItem>
 						<dateFormatItem id="yQQQ">y/QQQ</dateFormatItem>
-						<dateFormatItem id="yQQQQ">yQQQQ</dateFormatItem>
+						<dateFormatItem id="yQQQQ">y年QQQQ</dateFormatItem>
+						<dateFormatItem id="yw" count="other">y年第w週</dateFormatItem>
 					</availableFormats>
 					<appendItems>
 						<appendItem request="Timezone">{0} {1}</appendItem>
@@ -3869,7 +3872,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="yyyyMMMEEEEd">Gy年M月d日EEEE</dateFormatItem>
 						<dateFormatItem id="yyyyMMMM">Gy年M月</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">Gy/QQQ</dateFormatItem>
-						<dateFormatItem id="yyyyQQQQ">GyQQQQ</dateFormatItem>
+						<dateFormatItem id="yyyyQQQQ">Gy年QQQQ</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -4048,14 +4051,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="0">今年</relative>
 				<relative type="1">翌年</relative>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">{0} 年後</relativeTimePattern>
+					<relativeTimePattern count="other">{0}年後</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} 年前</relativeTimePattern>
+					<relativeTimePattern count="other">{0}年前</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="quarter">
 				<displayName>四半期</displayName>
+				<relative type="-1">前四半期</relative>
+				<relative type="0">今四半期</relative>
+				<relative type="1">翌四半期</relative>
 				<relativeTime type="future">
 					<relativeTimePattern count="other">{0} 四半期後</relativeTimePattern>
 				</relativeTime>
@@ -4075,10 +4081,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<field type="quarter-narrow">
 				<displayName>四半期</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">{0} 四半期後</relativeTimePattern>
+					<relativeTimePattern count="other">{0}四半期後</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} 四半期前</relativeTimePattern>
+					<relativeTimePattern count="other">{0}四半期前</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="month">
@@ -4111,10 +4117,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="0">今月</relative>
 				<relative type="1">翌月</relative>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">{0} か月後</relativeTimePattern>
+					<relativeTimePattern count="other">{0}か月後</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} か月前</relativeTimePattern>
+					<relativeTimePattern count="other">{0}か月前</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="week">
@@ -4128,6 +4134,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relativeTime type="past">
 					<relativeTimePattern count="other">{0} 週間前</relativeTimePattern>
 				</relativeTime>
+				<relativePeriod>{0} 日の週</relativePeriod>
 			</field>
 			<field type="week-short">
 				<displayName>週</displayName>
@@ -4140,6 +4147,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relativeTime type="past">
 					<relativeTimePattern count="other">{0} 週間前</relativeTimePattern>
 				</relativeTime>
+				<relativePeriod>{0} 日の週</relativePeriod>
 			</field>
 			<field type="week-narrow">
 				<displayName>週</displayName>
@@ -4147,11 +4155,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="0">今週</relative>
 				<relative type="1">翌週</relative>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">{0} 週間後</relativeTimePattern>
+					<relativeTimePattern count="other">{0}週間後</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} 週間前</relativeTimePattern>
+					<relativeTimePattern count="other">{0}週間前</relativeTimePattern>
 				</relativeTime>
+				<relativePeriod>{0}日の週</relativePeriod>
 			</field>
 			<field type="day">
 				<displayName>日</displayName>
@@ -4189,10 +4198,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="1">明日</relative>
 				<relative type="2">明後日</relative>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">{0} 日後</relativeTimePattern>
+					<relativeTimePattern count="other">{0}日後</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} 日前</relativeTimePattern>
+					<relativeTimePattern count="other">{0}日前</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="weekday">
@@ -4202,112 +4211,239 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="-1">先週の日曜日</relative>
 				<relative type="0">今週の日曜日</relative>
 				<relative type="1">来週の日曜日</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の日曜日</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の日曜日</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sun-short">
 				<relative type="-1">先週の日曜</relative>
 				<relative type="0">今週の日曜</relative>
 				<relative type="1">来週の日曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の日曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の日曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sun-narrow">
 				<relative type="-1">先週の日曜</relative>
 				<relative type="0">今週の日曜</relative>
 				<relative type="1">来週の日曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0}個後の日曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0}個前の日曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="mon">
 				<relative type="-1">先週の月曜日</relative>
 				<relative type="0">今週の月曜日</relative>
 				<relative type="1">来週の月曜日</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の月曜日</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の月曜日</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="mon-short">
 				<relative type="-1">先週の月曜</relative>
 				<relative type="0">今週の月曜</relative>
 				<relative type="1">来週の月曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の月曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の月曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="mon-narrow">
 				<relative type="-1">先週の月曜</relative>
 				<relative type="0">今週の月曜</relative>
 				<relative type="1">来週の月曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0}個後の月曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0}個前の月曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="tue">
 				<relative type="-1">先週の火曜日</relative>
 				<relative type="0">今週の火曜日</relative>
 				<relative type="1">来週の火曜日</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の火曜日</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の火曜日</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="tue-short">
 				<relative type="-1">先週の火曜</relative>
 				<relative type="0">今週の火曜</relative>
 				<relative type="1">来週の火曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の火曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の火曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="tue-narrow">
 				<relative type="-1">先週の火曜</relative>
 				<relative type="0">今週の火曜</relative>
 				<relative type="1">来週の火曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0}個後の火曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0}個前の火曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="wed">
 				<relative type="-1">先週の水曜日</relative>
 				<relative type="0">今週の水曜日</relative>
 				<relative type="1">来週の水曜日</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の水曜日</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の水曜日</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="wed-short">
 				<relative type="-1">先週の水曜</relative>
 				<relative type="0">今週の水曜</relative>
 				<relative type="1">来週の水曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の水曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の水曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="wed-narrow">
 				<relative type="-1">先週の水曜</relative>
 				<relative type="0">今週の水曜</relative>
 				<relative type="1">来週の水曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0}個後の水曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0}個前の水曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="thu">
 				<relative type="-1">先週の木曜日</relative>
 				<relative type="0">今週の木曜日</relative>
 				<relative type="1">来週の木曜日</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の木曜日</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の木曜日</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="thu-short">
 				<relative type="-1">先週の木曜</relative>
 				<relative type="0">今週の木曜</relative>
 				<relative type="1">来週の木曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の木曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の木曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="thu-narrow">
 				<relative type="-1">先週の木曜</relative>
 				<relative type="0">今週の木曜</relative>
 				<relative type="1">来週の木曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0}個後の木曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0}個前の木曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="fri">
 				<relative type="-1">先週の金曜日</relative>
 				<relative type="0">今週の金曜日</relative>
 				<relative type="1">来週の金曜日</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の金曜日</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の金曜日</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="fri-short">
 				<relative type="-1">先週の金曜</relative>
 				<relative type="0">今週の金曜</relative>
 				<relative type="1">来週の金曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の金曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の金曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="fri-narrow">
 				<relative type="-1">先週の金曜</relative>
 				<relative type="0">今週の金曜</relative>
 				<relative type="1">来週の金曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0}個後の金曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0}個前の金曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sat">
 				<relative type="-1">先週の土曜日</relative>
 				<relative type="0">今週の土曜日</relative>
 				<relative type="1">来週の土曜日</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の土曜日</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の土曜日</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sat-short">
 				<relative type="-1">先週の土曜</relative>
 				<relative type="0">今週の土曜</relative>
 				<relative type="1">来週の土曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0} 個後の土曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} 個前の土曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sat-narrow">
 				<relative type="-1">先週の土曜</relative>
 				<relative type="0">今週の土曜</relative>
 				<relative type="1">来週の土曜</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">{0}個後の土曜</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0}個前の土曜</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="dayperiod">
 				<displayName>午前/午後</displayName>
 			</field>
 			<field type="hour">
 				<displayName>時</displayName>
+				<relative type="0">1 時間以内</relative>
 				<relativeTime type="future">
 					<relativeTimePattern count="other">{0} 時間後</relativeTimePattern>
 				</relativeTime>
@@ -4327,14 +4463,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<field type="hour-narrow">
 				<displayName>時</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">{0} 時間後</relativeTimePattern>
+					<relativeTimePattern count="other">{0}時間後</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} 時間前</relativeTimePattern>
+					<relativeTimePattern count="other">{0}時間前</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="minute">
 				<displayName>分</displayName>
+				<relative type="0">1 分以内</relative>
 				<relativeTime type="future">
 					<relativeTimePattern count="other">{0} 分後</relativeTimePattern>
 				</relativeTime>
@@ -4354,15 +4491,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<field type="minute-narrow">
 				<displayName>分</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">{0} 分後</relativeTimePattern>
+					<relativeTimePattern count="other">{0}分後</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} 分前</relativeTimePattern>
+					<relativeTimePattern count="other">{0}分前</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="second">
 				<displayName>秒</displayName>
-				<relative type="0">今すぐ</relative>
+				<relative type="0">今</relative>
 				<relativeTime type="future">
 					<relativeTimePattern count="other">{0} 秒後</relativeTimePattern>
 				</relativeTime>
@@ -4382,10 +4519,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<field type="second-narrow">
 				<displayName>秒</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">{0} 秒後</relativeTimePattern>
+					<relativeTimePattern count="other">{0}秒後</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} 秒前</relativeTimePattern>
+					<relativeTimePattern count="other">{0}秒前</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="zone">
@@ -4400,6 +4537,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<regionFormat type="daylight">{0}夏時間</regionFormat>
 			<regionFormat type="standard">{0}標準時</regionFormat>
 			<fallbackFormat>{1}（{0}）</fallbackFormat>
+			<zone type="America/Santa_Isabel">
+				<exemplarCity>サンタイサベル</exemplarCity>
+			</zone>
 			<zone type="Etc/Unknown">
 				<exemplarCity>地域不明</exemplarCity>
 			</zone>
@@ -4664,6 +4804,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="America/Vancouver">
 				<exemplarCity>バンクーバー</exemplarCity>
 			</zone>
+			<zone type="America/Fort_Nelson">
+				<exemplarCity>フォートネルソン</exemplarCity>
+			</zone>
 			<zone type="America/Dawson_Creek">
 				<exemplarCity>ドーソンクリーク</exemplarCity>
 			</zone>
@@ -4917,7 +5060,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>コナクリ</exemplarCity>
 			</zone>
 			<zone type="America/Guadeloupe">
-				<exemplarCity>グアダループ</exemplarCity>
+				<exemplarCity>グアドループ</exemplarCity>
 			</zone>
 			<zone type="Africa/Malabo">
 				<exemplarCity>マラボ</exemplarCity>
@@ -5165,9 +5308,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="America/Tijuana">
 				<exemplarCity>ティフアナ</exemplarCity>
 			</zone>
-			<zone type="America/Santa_Isabel">
-				<exemplarCity>サンタイサベル</exemplarCity>
-			</zone>
 			<zone type="America/Hermosillo">
 				<exemplarCity>エルモシヨ</exemplarCity>
 			</zone>
@@ -5333,6 +5473,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Europe/Volgograd">
 				<exemplarCity>ボルゴグラード</exemplarCity>
 			</zone>
+			<zone type="Europe/Astrakhan">
+				<exemplarCity>アストラハン</exemplarCity>
+			</zone>
+			<zone type="Europe/Ulyanovsk">
+				<exemplarCity>ウリヤノフスク</exemplarCity>
+			</zone>
+			<zone type="Europe/Kirov">
+				<exemplarCity>キーロフ</exemplarCity>
+			</zone>
 			<zone type="Europe/Samara">
 				<exemplarCity>サマラ</exemplarCity>
 			</zone>
@@ -5344,6 +5493,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="Asia/Novosibirsk">
 				<exemplarCity>ノヴォシビルスク</exemplarCity>
+			</zone>
+			<zone type="Asia/Barnaul">
+				<exemplarCity>バルナウル</exemplarCity>
+			</zone>
+			<zone type="Asia/Tomsk">
+				<exemplarCity>トムスク</exemplarCity>
 			</zone>
 			<zone type="Asia/Novokuznetsk">
 				<exemplarCity>ノヴォクズネツク</exemplarCity>
@@ -6436,6 +6591,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<standard>ポナペ時間</standard>
 				</long>
 			</metazone>
+			<metazone type="Pyongyang">
+				<long>
+					<standard>平壌時間</standard>
+				</long>
+			</metazone>
 			<metazone type="Qyzylorda">
 				<long>
 					<generic>クズロルダ時間</generic>
@@ -6740,8 +6900,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol draft="contributed">AFA</symbol>
 			</currency>
 			<currency type="AFN">
-				<displayName>アフガニー</displayName>
-				<displayName count="other">アフガニー</displayName>
+				<displayName>アフガニスタン アフガニー</displayName>
+				<displayName count="other">アフガニスタン アフガニー</displayName>
 				<symbol draft="contributed">AFN</symbol>
 			</currency>
 			<currency type="ALK">
@@ -6765,8 +6925,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol>ANG</symbol>
 			</currency>
 			<currency type="AOA">
-				<displayName>クワンザ</displayName>
-				<displayName count="other">クワンザ</displayName>
+				<displayName>アンゴラ クワンザ</displayName>
+				<displayName count="other">アンゴラ クワンザ</displayName>
 				<symbol>AOA</symbol>
 				<symbol alt="narrow" draft="contributed">Kz</symbol>
 			</currency>
@@ -6819,7 +6979,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currency type="AUD">
 				<displayName>オーストラリア ドル</displayName>
 				<displayName count="other">オーストラリア ドル</displayName>
-				<symbol>AU$</symbol>
+				<symbol>A$</symbol>
 				<symbol alt="narrow" draft="contributed">$</symbol>
 			</currency>
 			<currency type="AWG">
@@ -7006,11 +7166,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">ベラルーシ 新ルーブル (1994–1999)</displayName>
 				<symbol draft="contributed">BYB</symbol>
 			</currency>
-			<currency type="BYR">
+			<currency type="BYN">
 				<displayName>ベラルーシ ルーブル</displayName>
 				<displayName count="other">ベラルーシ ルーブル</displayName>
-				<symbol>BYR</symbol>
+				<symbol>BYN</symbol>
 				<symbol alt="narrow" draft="contributed">р.</symbol>
+			</currency>
+			<currency type="BYR">
+				<displayName>ベラルーシ ルーブル (2000–2016)</displayName>
+				<displayName count="other">ベラルーシ ルーブル (2000–2016)</displayName>
+				<symbol>BYR</symbol>
 			</currency>
 			<currency type="BZD">
 				<displayName>ベリーズ ドル</displayName>
@@ -7248,6 +7413,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>ジョージア ラリ</displayName>
 				<displayName count="other">ジョージア ラリ</displayName>
 				<symbol draft="contributed">GEL</symbol>
+				<symbol alt="narrow" draft="contributed">₾</symbol>
 				<symbol alt="variant" draft="contributed">₾</symbol>
 			</currency>
 			<currency type="GHC">
@@ -7447,8 +7613,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol alt="narrow" draft="contributed">CF</symbol>
 			</currency>
 			<currency type="KPW">
-				<displayName>北朝鮮 ウォン</displayName>
-				<displayName count="other">北朝鮮 ウォン</displayName>
+				<displayName>北朝鮮ウォン</displayName>
+				<displayName count="other">北朝鮮ウォン</displayName>
 				<symbol draft="contributed">KPW</symbol>
 				<symbol alt="narrow" draft="contributed">₩</symbol>
 			</currency>
@@ -7463,8 +7629,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol draft="contributed">KRO</symbol>
 			</currency>
 			<currency type="KRW">
-				<displayName>韓国 ウォン</displayName>
-				<displayName count="other">韓国 ウォン</displayName>
+				<displayName>韓国ウォン</displayName>
+				<displayName count="other">韓国ウォン</displayName>
 				<symbol>₩</symbol>
 				<symbol alt="narrow">₩</symbol>
 			</currency>
@@ -7928,8 +8094,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol draft="contributed">SRG</symbol>
 			</currency>
 			<currency type="SSP">
-				<displayName>南スーダン・ポンド</displayName>
-				<displayName count="other">南スーダン・ポンド</displayName>
+				<displayName>南スーダン ポンド</displayName>
+				<displayName count="other">南スーダン ポンド</displayName>
 				<symbol>SSP</symbol>
 				<symbol alt="narrow" draft="contributed">£</symbol>
 			</currency>
@@ -7963,7 +8129,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<currency type="THB">
 				<displayName>タイ バーツ</displayName>
 				<displayName count="other">タイ バーツ</displayName>
-				<symbol>฿</symbol>
+				<symbol>THB</symbol>
 				<symbol alt="narrow" draft="contributed">฿</symbol>
 			</currency>
 			<currency type="TJR">
@@ -8024,7 +8190,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>新台湾ドル</displayName>
 				<displayName count="other">新台湾ドル</displayName>
 				<symbol>NT$</symbol>
-				<symbol alt="narrow" draft="contributed">NT$</symbol>
+				<symbol alt="narrow">$</symbol>
 			</currency>
 			<currency type="TZS">
 				<displayName>タンザニア シリング</displayName>
@@ -8316,8 +8482,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<compoundUnitPattern>{0}毎{1}</compoundUnitPattern>
 			</compoundUnit>
 			<unit type="acceleration-g-force">
-				<displayName>G フォース</displayName>
-				<unitPattern count="other">{0} G フォース</unitPattern>
+				<displayName>重力加速度</displayName>
+				<unitPattern count="other">{0} G</unitPattern>
 			</unit>
 			<unit type="acceleration-meter-per-second-squared">
 				<displayName>メートル毎秒毎秒</displayName>
@@ -8346,6 +8512,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="area-square-kilometer">
 				<displayName>平方キロメートル</displayName>
 				<unitPattern count="other">{0} 平方キロメートル</unitPattern>
+				<perUnitPattern>{0}/平方キロメートル</perUnitPattern>
 			</unit>
 			<unit type="area-hectare">
 				<displayName>ヘクタール</displayName>
@@ -8364,6 +8531,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="area-square-mile">
 				<displayName>平方マイル</displayName>
 				<unitPattern count="other">{0} 平方マイル</unitPattern>
+				<perUnitPattern>{0}/平方マイル</perUnitPattern>
 			</unit>
 			<unit type="area-acre">
 				<displayName>エーカー</displayName>
@@ -8386,6 +8554,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>金</displayName>
 				<unitPattern count="other">{0} 金</unitPattern>
 			</unit>
+			<unit type="concentr-milligram-per-deciliter">
+				<displayName>ミリグラム毎デシリットル</displayName>
+				<unitPattern count="other">{0} ミリグラム毎デシリットル</unitPattern>
+			</unit>
+			<unit type="concentr-millimole-per-liter">
+				<displayName>ミリモル毎リットル</displayName>
+				<unitPattern count="other">{0} ミリモル毎リットル</unitPattern>
+			</unit>
+			<unit type="concentr-part-per-million">
+				<displayName>ppm</displayName>
+				<unitPattern count="other">{0} ppm</unitPattern>
+			</unit>
 			<unit type="consumption-liter-per-kilometer">
 				<displayName>リットル毎キロメートル</displayName>
 				<unitPattern count="other">{0} リットル毎キロメートル</unitPattern>
@@ -8397,6 +8577,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="consumption-mile-per-gallon">
 				<displayName>マイル毎ガロン</displayName>
 				<unitPattern count="other">{0} マイル毎ガロン</unitPattern>
+			</unit>
+			<unit type="consumption-mile-per-gallon-imperial">
+				<displayName>マイル毎英ガロン</displayName>
+				<unitPattern count="other">{0} マイル毎英ガロン</unitPattern>
 			</unit>
 			<unit type="digital-terabyte">
 				<displayName>テラバイト</displayName>
@@ -8631,8 +8815,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} ルクス</unitPattern>
 			</unit>
 			<unit type="mass-metric-ton">
-				<displayName>メトリックトン</displayName>
-				<unitPattern count="other">{0} メトリックトン</unitPattern>
+				<displayName>トン</displayName>
+				<unitPattern count="other">{0} トン</unitPattern>
 			</unit>
 			<unit type="mass-kilogram">
 				<displayName>キログラム</displayName>
@@ -8653,8 +8837,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} マイクログラム</unitPattern>
 			</unit>
 			<unit type="mass-ton">
-				<displayName>トン</displayName>
-				<unitPattern count="other">{0} トン</unitPattern>
+				<displayName>米トン</displayName>
+				<unitPattern count="other">{0} 米トン</unitPattern>
 			</unit>
 			<unit type="mass-stone">
 				<displayName draft="contributed">ストーン</displayName>
@@ -8830,6 +9014,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} ガロン</unitPattern>
 				<perUnitPattern>{0}/ガロン</perUnitPattern>
 			</unit>
+			<unit type="volume-gallon-imperial">
+				<displayName>英ガロン</displayName>
+				<unitPattern count="other">{0} 英ガロン</unitPattern>
+				<perUnitPattern>{0}/英ガロン</perUnitPattern>
+			</unit>
 			<unit type="volume-quart">
 				<displayName>クォート</displayName>
 				<unitPattern count="other">{0} クォート</unitPattern>
@@ -8866,15 +9055,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<compoundUnitPattern>{0}/{1}</compoundUnitPattern>
 			</compoundUnit>
 			<unit type="acceleration-g-force">
-				<displayName>G フォース</displayName>
+				<displayName>重力加速度</displayName>
 				<unitPattern count="other">{0} G</unitPattern>
 			</unit>
 			<unit type="acceleration-meter-per-second-squared">
-				<displayName>メートル毎秒毎秒</displayName>
+				<displayName>m/s²</displayName>
 				<unitPattern count="other">{0} m/s²</unitPattern>
 			</unit>
 			<unit type="angle-revolution">
-				<displayName draft="provisional">rev</displayName>
+				<displayName>回転</displayName>
 				<unitPattern count="other">{0} rev</unitPattern>
 			</unit>
 			<unit type="angle-radian">
@@ -8896,6 +9085,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="area-square-kilometer">
 				<displayName>km²</displayName>
 				<unitPattern count="other">{0} km²</unitPattern>
+				<perUnitPattern>{0}/km²</perUnitPattern>
 			</unit>
 			<unit type="area-hectare">
 				<displayName>ヘクタール</displayName>
@@ -8914,6 +9104,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="area-square-mile">
 				<displayName>平方マイル</displayName>
 				<unitPattern count="other">{0} mi²</unitPattern>
+				<perUnitPattern>{0}/mi²</perUnitPattern>
 			</unit>
 			<unit type="area-acre">
 				<displayName>エーカー</displayName>
@@ -8936,6 +9127,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>金</displayName>
 				<unitPattern count="other">{0} 金</unitPattern>
 			</unit>
+			<unit type="concentr-milligram-per-deciliter">
+				<displayName>ミリグラム毎デシリットル</displayName>
+				<unitPattern count="other">{0} mg/dL</unitPattern>
+			</unit>
+			<unit type="concentr-millimole-per-liter">
+				<displayName>ミリモル毎リットル</displayName>
+				<unitPattern count="other">{0} mmol/L</unitPattern>
+			</unit>
+			<unit type="concentr-part-per-million">
+				<displayName>ppm</displayName>
+				<unitPattern count="other">{0} ppm</unitPattern>
+			</unit>
 			<unit type="consumption-liter-per-kilometer">
 				<displayName>L/km</displayName>
 				<unitPattern count="other">{0} L/km</unitPattern>
@@ -8947,6 +9150,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="consumption-mile-per-gallon">
 				<displayName>マイル/ガロン</displayName>
 				<unitPattern count="other">{0} mpg</unitPattern>
+			</unit>
+			<unit type="consumption-mile-per-gallon-imperial">
+				<displayName>マイル毎英ガロン</displayName>
+				<unitPattern count="other">{0} mpg Imp.</unitPattern>
 			</unit>
 			<unit type="digital-terabyte">
 				<displayName>テラバイト</displayName>
@@ -8989,8 +9196,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} bit</unitPattern>
 			</unit>
 			<unit type="duration-century">
-				<displayName draft="provisional">c</displayName>
-				<unitPattern count="other" draft="provisional">{0} c</unitPattern>
+				<displayName>世紀</displayName>
+				<unitPattern count="other">{0} 世紀</unitPattern>
 			</unit>
 			<unit type="duration-year">
 				<displayName>年</displayName>
@@ -9080,11 +9287,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} kWh</unitPattern>
 			</unit>
 			<unit type="frequency-gigahertz">
-				<displayName>ギガヘルツ</displayName>
+				<displayName>GHz</displayName>
 				<unitPattern count="other">{0} GHz</unitPattern>
 			</unit>
 			<unit type="frequency-megahertz">
-				<displayName>メガヘルツ</displayName>
+				<displayName>MHz</displayName>
 				<unitPattern count="other">{0} MHz</unitPattern>
 			</unit>
 			<unit type="frequency-kilohertz">
@@ -9181,8 +9388,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} lx</unitPattern>
 			</unit>
 			<unit type="mass-metric-ton">
-				<displayName>メトリックトン</displayName>
-				<unitPattern count="other">{0} MT</unitPattern>
+				<displayName>トン</displayName>
+				<unitPattern count="other">{0} t</unitPattern>
 			</unit>
 			<unit type="mass-kilogram">
 				<displayName>kg</displayName>
@@ -9203,8 +9410,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} µg</unitPattern>
 			</unit>
 			<unit type="mass-ton">
-				<displayName>トン</displayName>
-				<unitPattern count="other">{0} t</unitPattern>
+				<displayName>米トン</displayName>
+				<unitPattern count="other">{0} s/t</unitPattern>
 			</unit>
 			<unit type="mass-stone">
 				<displayName draft="contributed">ストーン</displayName>
@@ -9282,10 +9489,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</unit>
 			<unit type="speed-mile-per-hour">
 				<displayName>マイル毎時</displayName>
-				<unitPattern count="other">{0} mi/h</unitPattern>
+				<unitPattern count="other">{0} mph</unitPattern>
 			</unit>
 			<unit type="speed-knot">
-				<displayName draft="provisional">kn</displayName>
+				<displayName>ノット</displayName>
 				<unitPattern count="other">{0} kn</unitPattern>
 			</unit>
 			<unit type="temperature-generic">
@@ -9297,7 +9504,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0}°C</unitPattern>
 			</unit>
 			<unit type="temperature-fahrenheit">
-				<displayName>華氏</displayName>
+				<displayName>°F</displayName>
 				<unitPattern count="other">{0}°F</unitPattern>
 			</unit>
 			<unit type="temperature-kelvin">
@@ -9344,7 +9551,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</unit>
 			<unit type="volume-liter">
 				<displayName>リットル</displayName>
-				<unitPattern count="other">{0} l</unitPattern>
+				<unitPattern count="other">{0} L</unitPattern>
 				<perUnitPattern>{0}/l</perUnitPattern>
 			</unit>
 			<unit type="volume-deciliter">
@@ -9356,15 +9563,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} cL</unitPattern>
 			</unit>
 			<unit type="volume-milliliter">
-				<displayName>ml</displayName>
+				<displayName>ミリリットル</displayName>
 				<unitPattern count="other">{0} ml</unitPattern>
 			</unit>
 			<unit type="volume-pint-metric">
-				<displayName draft="provisional">mpt</displayName>
+				<displayName>メトリックパイント</displayName>
 				<unitPattern count="other">{0} mpt</unitPattern>
 			</unit>
 			<unit type="volume-cup-metric">
-				<displayName draft="provisional">mcup</displayName>
+				<displayName>メトリックカップ</displayName>
 				<unitPattern count="other">{0} mc</unitPattern>
 			</unit>
 			<unit type="volume-acre-foot">
@@ -9379,6 +9586,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>ガロン</displayName>
 				<unitPattern count="other">{0} gal</unitPattern>
 				<perUnitPattern>{0}/gal</perUnitPattern>
+			</unit>
+			<unit type="volume-gallon-imperial">
+				<displayName>英ガロン</displayName>
+				<unitPattern count="other">{0} gal Imp.</unitPattern>
+				<perUnitPattern>{0}/gal Imp.</perUnitPattern>
 			</unit>
 			<unit type="volume-quart">
 				<displayName>クォート</displayName>
@@ -9505,31 +9717,31 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</unit>
 			<unit type="duration-year">
 				<displayName>年</displayName>
-				<unitPattern count="other">{0}年</unitPattern>
+				<unitPattern count="other">{0}y</unitPattern>
 			</unit>
 			<unit type="duration-month">
 				<displayName>か月</displayName>
-				<unitPattern count="other">{0}か月</unitPattern>
+				<unitPattern count="other">{0}m</unitPattern>
 			</unit>
 			<unit type="duration-week">
 				<displayName>週間</displayName>
-				<unitPattern count="other">{0}週間</unitPattern>
+				<unitPattern count="other">{0}w</unitPattern>
 			</unit>
 			<unit type="duration-day">
 				<displayName>日</displayName>
-				<unitPattern count="other">{0}日</unitPattern>
+				<unitPattern count="other">{0}d</unitPattern>
 			</unit>
 			<unit type="duration-hour">
 				<displayName>時間</displayName>
-				<unitPattern count="other">{0}時間</unitPattern>
+				<unitPattern count="other">{0}h</unitPattern>
 			</unit>
 			<unit type="duration-minute">
 				<displayName>分</displayName>
-				<unitPattern count="other">{0}分</unitPattern>
+				<unitPattern count="other">{0}m</unitPattern>
 			</unit>
 			<unit type="duration-second">
 				<displayName>秒</displayName>
-				<unitPattern count="other">{0}秒</unitPattern>
+				<unitPattern count="other">{0}s</unitPattern>
 			</unit>
 			<unit type="duration-millisecond">
 				<displayName>ms</displayName>
@@ -9767,8 +9979,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other" draft="contributed">{0}hL</unitPattern>
 			</unit>
 			<unit type="volume-liter">
-				<displayName>l</displayName>
-				<unitPattern count="other">{0}l</unitPattern>
+				<displayName>L</displayName>
+				<unitPattern count="other">{0}L</unitPattern>
 			</unit>
 			<unit type="volume-deciliter">
 				<unitPattern count="other" draft="contributed">{0}dL</unitPattern>
@@ -9831,6 +10043,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<listPatternPart type="end">{0}、{1}</listPatternPart>
 			<listPatternPart type="2">{0}、{1}</listPatternPart>
 		</listPattern>
+		<listPattern type="standard-short">
+			<listPatternPart type="start">{0}、{1}</listPatternPart>
+			<listPatternPart type="middle">{0}、{1}</listPatternPart>
+			<listPatternPart type="end">{0}、{1}</listPatternPart>
+			<listPatternPart type="2">{0}、{1}</listPatternPart>
+		</listPattern>
 		<listPattern type="unit">
 			<listPatternPart type="start">{0} {1}</listPatternPart>
 			<listPatternPart type="middle">{0} {1}</listPatternPart>
@@ -9852,9 +10070,106 @@ For terms of use, see http://www.unicode.org/copyright.html
 	</listPatterns>
 	<posix>
 		<messages>
-			<yesstr>はい:ハイ</yesstr>
-			<nostr>いいえ:イイエ</nostr>
+			<yesstr>はい:y</yesstr>
+			<nostr>いいえ:n</nostr>
 		</messages>
 	</posix>
+	<characterLabels>
+		<characterLabelPattern type="all">{0} — すべて</characterLabelPattern>
+		<characterLabelPattern type="category-list">{0}: {1}</characterLabelPattern>
+		<characterLabelPattern type="compatibility">{0} — 互換文字</characterLabelPattern>
+		<characterLabelPattern type="enclosed">{0} — 囲み</characterLabelPattern>
+		<characterLabelPattern type="extended">{0} — 拡張</characterLabelPattern>
+		<characterLabelPattern type="historic">{0} — 古代文字</characterLabelPattern>
+		<characterLabelPattern type="miscellaneous">{0} — 雑多</characterLabelPattern>
+		<characterLabelPattern type="other">{0} — その他</characterLabelPattern>
+		<characterLabelPattern type="scripts">文字 — {0}</characterLabelPattern>
+		<characterLabelPattern type="strokes" count="other">{0} 画</characterLabelPattern>
+		<characterLabel type="activities">アクティビティ</characterLabel>
+		<characterLabel type="african_scripts">アフリカの文字</characterLabel>
+		<characterLabel type="american_scripts">アメリカの文字</characterLabel>
+		<characterLabel type="animal">どうぶつ</characterLabel>
+		<characterLabel type="animals_nature">動物と自然</characterLabel>
+		<characterLabel type="arrows">矢印</characterLabel>
+		<characterLabel type="body">からだ</characterLabel>
+		<characterLabel type="box_drawing">罫線素片</characterLabel>
+		<characterLabel type="braille">点字</characterLabel>
+		<characterLabel type="building">たてもの</characterLabel>
+		<characterLabel type="bullets_stars">行頭文字/星</characterLabel>
+		<characterLabel type="consonantal_jamo">子音字母</characterLabel>
+		<characterLabel type="currency_symbols">通貨記号</characterLabel>
+		<characterLabel type="dash_connector">ダッシュ/連結用句読記号</characterLabel>
+		<characterLabel type="digits">数字記号</characterLabel>
+		<characterLabel type="dingbats">装飾記号</characterLabel>
+		<characterLabel type="divination_symbols">占術記号</characterLabel>
+		<characterLabel type="downwards_arrows">下向矢印</characterLabel>
+		<characterLabel type="downwards_upwards_arrows">下向/上向矢印</characterLabel>
+		<characterLabel type="east_asian_scripts">東アジアの文字</characterLabel>
+		<characterLabel type="emoji">絵文字</characterLabel>
+		<characterLabel type="european_scripts">ヨーロッパの文字</characterLabel>
+		<characterLabel type="female">じょせい</characterLabel>
+		<characterLabel type="flag">はた</characterLabel>
+		<characterLabel type="flags">国旗</characterLabel>
+		<characterLabel type="food_drink">食事と飲み物</characterLabel>
+		<characterLabel type="format">書式</characterLabel>
+		<characterLabel type="format_whitespace">書式とホワイトスペース</characterLabel>
+		<characterLabel type="full_width_form_variant">全角文字変種</characterLabel>
+		<characterLabel type="geometric_shapes">幾何学的な図形</characterLabel>
+		<characterLabel type="half_width_form_variant">半角文字変種</characterLabel>
+		<characterLabel type="han_characters">漢字</characterLabel>
+		<characterLabel type="han_radicals">部首</characterLabel>
+		<characterLabel type="hanja">漢字</characterLabel>
+		<characterLabel type="hanzi_simplified">漢字 (簡体字)</characterLabel>
+		<characterLabel type="hanzi_traditional">漢字 (繁体字)</characterLabel>
+		<characterLabel type="heart">はーと</characterLabel>
+		<characterLabel type="historic_scripts">古代文字</characterLabel>
+		<characterLabel type="ideographic_desc_characters">漢字構成記述文字</characterLabel>
+		<characterLabel type="japanese_kana">仮名</characterLabel>
+		<characterLabel type="kanbun">漢文</characterLabel>
+		<characterLabel type="kanji">漢字</characterLabel>
+		<characterLabel type="keycap">かこみすうじ</characterLabel>
+		<characterLabel type="leftwards_arrows">左向矢印</characterLabel>
+		<characterLabel type="leftwards_rightwards_arrows">左向/右向矢印</characterLabel>
+		<characterLabel type="letterlike_symbols">文字種記号</characterLabel>
+		<characterLabel type="limited_use">限定利用</characterLabel>
+		<characterLabel type="male">だんせい</characterLabel>
+		<characterLabel type="math_symbols">数学記号</characterLabel>
+		<characterLabel type="middle_eastern_scripts">中東の文字</characterLabel>
+		<characterLabel type="miscellaneous">雑多</characterLabel>
+		<characterLabel type="modern_scripts">現代文字</characterLabel>
+		<characterLabel type="modifier">修飾文字</characterLabel>
+		<characterLabel type="musical_symbols">音楽記号</characterLabel>
+		<characterLabel type="nature">しぜん</characterLabel>
+		<characterLabel type="nonspacing">前進を伴わない修飾文字</characterLabel>
+		<characterLabel type="numbers">数字</characterLabel>
+		<characterLabel type="objects">物</characterLabel>
+		<characterLabel type="other">その他</characterLabel>
+		<characterLabel type="paired">対の記号</characterLabel>
+		<characterLabel type="person">ひと</characterLabel>
+		<characterLabel type="phonetic_alphabet">音声記号</characterLabel>
+		<characterLabel type="pictographs">ピクトグラム</characterLabel>
+		<characterLabel type="place">ばしょ</characterLabel>
+		<characterLabel type="plant">しょくぶつ</characterLabel>
+		<characterLabel type="punctuation">句読点</characterLabel>
+		<characterLabel type="rightwards_arrows">右向矢印</characterLabel>
+		<characterLabel type="sign_standard_symbols">標識/標準記号</characterLabel>
+		<characterLabel type="small_form_variant">小字形変種</characterLabel>
+		<characterLabel type="smiley">すまいりー</characterLabel>
+		<characterLabel type="smileys_people">スマイリーと人々</characterLabel>
+		<characterLabel type="south_asian_scripts">南アジアの文字</characterLabel>
+		<characterLabel type="southeast_asian_scripts">東南アジアの文字</characterLabel>
+		<characterLabel type="spacing">前進を伴う修飾文字</characterLabel>
+		<characterLabel type="sport">すぽーつ</characterLabel>
+		<characterLabel type="symbols">記号</characterLabel>
+		<characterLabel type="technical_symbols">技術用記号</characterLabel>
+		<characterLabel type="tone_marks">声調記号</characterLabel>
+		<characterLabel type="travel">りょこう</characterLabel>
+		<characterLabel type="travel_places">旅行と場所</characterLabel>
+		<characterLabel type="upwards_arrows">上向矢印</characterLabel>
+		<characterLabel type="variant_forms">変種</characterLabel>
+		<characterLabel type="vocalic_jamo">母音字母</characterLabel>
+		<characterLabel type="weather">てんき</characterLabel>
+		<characterLabel type="western_asian_scripts">西アジアの文字</characterLabel>
+		<characterLabel type="whitespace">ホワイトスペース</characterLabel>
+	</characterLabels>
 </ldml>
-

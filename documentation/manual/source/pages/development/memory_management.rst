@@ -8,6 +8,8 @@ Memory Management
 Introduction
 ============
 
+NOTE: This is a new feature in Qooxdoo which is enabled by default since Qooxdoo v6 because it is a "breaking change"; for most applications however, you simply get free memory management, but you should read this page first to understand what the changes are and how they might affect your application.  You can disable this feature by specifying the "qx.automaticMemoryManagement" as "false" in your applications config.json  
+
 Generally, qooxdoo's runtime will take care of most of the issues around object disposal, so you don't have to be too anxious if you get those 'missing destruct declaration' messages from a verbose disposer run.
 
 Normally, JavaScript automatically cleans up. There is a built-in garbage collector in all engines, and while there were bugs in browsers like IE6, this is no longer the case.  In Qooxdoo v6.0 and later, almost all objects can be disposed automatically. 

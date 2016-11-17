@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2015 Unicode, Inc.
-CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+<!-- Copyright © 1991-2016 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
+Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the U.S. and other countries.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 12293 $"/>
+		<version number="$Revision: 12879 $"/>
 		<language type="id"/>
 	</identity>
 	<localeDisplayNames>
@@ -40,20 +41,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ar">Arab</language>
 			<language type="ar_001">Arab Standar Modern</language>
 			<language type="arc">Aram</language>
-			<language type="arn">Araukan</language>
+			<language type="arn">Mapuche</language>
 			<language type="arp">Arapaho</language>
-			<language type="arq">Arab Algeria</language>
+			<language type="arq">Arab Aljazair</language>
 			<language type="arw">Arawak</language>
 			<language type="ary">Arab Maroko</language>
 			<language type="arz">Arab Mesir</language>
 			<language type="as">Assam</language>
 			<language type="asa">Asu</language>
 			<language type="ase">Bahasa Isyarat Amerika</language>
-			<language type="ast">Astur</language>
+			<language type="ast">Asturia</language>
 			<language type="av">Avar</language>
 			<language type="awa">Awadhi</language>
 			<language type="ay">Aymara</language>
-			<language type="az">Azerbaijan</language>
+			<language type="az">Azerbaijani</language>
 			<language type="az" alt="short">Azeri</language>
 			<language type="ba">Bashkir</language>
 			<language type="bal">Baluchi</language>
@@ -97,7 +98,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="cay">Cayuga</language>
 			<language type="cch">Atsam</language>
 			<language type="ce">Chechen</language>
-			<language type="ceb">Sebuano</language>
+			<language type="ceb">Cebuano</language>
 			<language type="cgg">Kiga</language>
 			<language type="ch">Chamorro</language>
 			<language type="chb">Chibcha</language>
@@ -114,6 +115,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="cop">Koptik</language>
 			<language type="cr">Kree</language>
 			<language type="crh">Tatar Krimea</language>
+			<language type="crs">Seselwa Kreol Prancis</language>
 			<language type="cs">Cheska</language>
 			<language type="csb">Kashubia</language>
 			<language type="cu">Bahasa Gereja Slavonia</language>
@@ -133,7 +135,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="doi">Dogri</language>
 			<language type="dsb">Sorbia Rendah</language>
 			<language type="dua">Duala</language>
-			<language type="dum">Belanda Tengah</language>
+			<language type="dum">Belanda Abad Pertengahan</language>
 			<language type="dv">Divehi</language>
 			<language type="dyo">Jola-Fonyi</language>
 			<language type="dyu">Dyula</language>
@@ -147,16 +149,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="el">Yunani</language>
 			<language type="elx">Elam</language>
 			<language type="en">Inggris</language>
+			<language type="en_GB">Inggris (Inggris)</language>
 			<language type="en_GB" alt="short">Inggris (U.K.)</language>
 			<language type="en_US" alt="short">Inggris (A.S.)</language>
 			<language type="enm">Inggris Abad Pertengahan</language>
 			<language type="eo">Esperanto</language>
 			<language type="es">Spanyol</language>
-			<language type="es_419">Spanyol Amerika Latin</language>
 			<language type="es_ES">Spanyol (Eropa)</language>
-			<language type="es_MX">Spanyol Meksiko</language>
 			<language type="et">Esti</language>
-			<language type="eu">Bask</language>
+			<language type="eu">Basque</language>
 			<language type="ewo">Ewondo</language>
 			<language type="fa">Persia</language>
 			<language type="fan">Fang</language>
@@ -165,7 +166,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="fi">Suomi</language>
 			<language type="fil">Filipino</language>
 			<language type="fj">Fiji</language>
-			<language type="fo">Faro</language>
+			<language type="fo">Faroe</language>
 			<language type="fon">Fon</language>
 			<language type="fr">Prancis</language>
 			<language type="frm">Prancis Abad Pertengahan</language>
@@ -190,11 +191,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="goh">Jerman Kuno</language>
 			<language type="gon">Gondi</language>
 			<language type="gor">Gorontalo</language>
-			<language type="got">Gothik</language>
+			<language type="got">Gotik</language>
 			<language type="grb">Grebo</language>
 			<language type="grc">Yunani Kuno</language>
 			<language type="gsw">Jerman (Swiss)</language>
-			<language type="gu">Gujarati</language>
+			<language type="gu">Gujarat</language>
 			<language type="guz">Gusii</language>
 			<language type="gv">Manx</language>
 			<language type="gwi">Gwich’in</language>
@@ -210,7 +211,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="ho">Hiri Motu</language>
 			<language type="hr">Kroasia</language>
 			<language type="hsb">Sorbia Atas</language>
-			<language type="ht">Haiti</language>
+			<language type="ht">Kreol Haiti</language>
 			<language type="hu">Hungaria</language>
 			<language type="hup">Hupa</language>
 			<language type="hy">Armenia</language>
@@ -325,7 +326,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mg">Malagasi</language>
 			<language type="mga">Irlandia Abad Pertengahan</language>
 			<language type="mgh">Makhuwa-Meetto</language>
-			<language type="mgo">meta’</language>
+			<language type="mgo">Meta’</language>
 			<language type="mh">Marshall</language>
 			<language type="mi">Maori</language>
 			<language type="mic">Mikmak</language>
@@ -346,7 +347,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="mwl">Miranda</language>
 			<language type="mwr">Marwari</language>
 			<language type="mwv">Mentawai</language>
-			<language type="my">Myanmar</language>
+			<language type="my">Burma</language>
 			<language type="mye">Myene</language>
 			<language type="myv">Eryza</language>
 			<language type="mzn">Mazanderani</language>
@@ -392,12 +393,14 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="pam">Pampanga</language>
 			<language type="pap">Papiamento</language>
 			<language type="pau">Palau</language>
+			<language type="pcm">Pidgin Nigeria</language>
 			<language type="pdc">Jerman Pennsylvania</language>
 			<language type="peo">Persia Kuno</language>
 			<language type="phn">Funisia</language>
 			<language type="pi">Pali</language>
 			<language type="pl">Polski</language>
 			<language type="pon">Pohnpeia</language>
+			<language type="prg">Prusia</language>
 			<language type="pro">Provencal Lama</language>
 			<language type="ps">Pashto</language>
 			<language type="ps" alt="variant">Pushto</language>
@@ -417,7 +420,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="root">Root</language>
 			<language type="rtm">Rotuma</language>
 			<language type="ru">Rusia</language>
-			<language type="rup">Makedo-Rumania</language>
+			<language type="rup">Aromania</language>
 			<language type="rw">Kinyarwanda</language>
 			<language type="rwk">Rwa</language>
 			<language type="sa">Sanskerta</language>
@@ -450,7 +453,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<language type="sid">Sidamo</language>
 			<language type="sk">Slovak</language>
 			<language type="sl">Sloven</language>
-			<language type="sli">Silesia Bawah</language>
+			<language type="sli">Silesia Rendah</language>
 			<language type="sly">Selayar</language>
 			<language type="sm">Samoa</language>
 			<language type="sma">Sami Selatan</language>
@@ -603,8 +606,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Goth">Gothic</script>
 			<script type="Gran">Grantha</script>
 			<script type="Grek">Yunani</script>
-			<script type="Gujr">Gujarati</script>
+			<script type="Gujr">Gujarat</script>
 			<script type="Guru">Gurmukhi</script>
+			<script type="Hanb" draft="contributed">Hanb</script>
 			<script type="Hang">Hangul</script>
 			<script type="Hani">Han</script>
 			<script type="Hano">Hanunoo</script>
@@ -620,6 +624,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Hung">Hungaria Kuno</script>
 			<script type="Inds">Indus</script>
 			<script type="Ital">Italia Lama</script>
+			<script type="Jamo">Jamo</script>
 			<script type="Java">Jawa</script>
 			<script type="Jpan">Jepang</script>
 			<script type="Jurc">Jurchen</script>
@@ -722,6 +727,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Yiii">Yi</script>
 			<script type="Zinh">Warisan</script>
 			<script type="Zmth">Notasi Matematika</script>
+			<script type="Zsye">Emoji</script>
 			<script type="Zsym">Simbol</script>
 			<script type="Zxxx">Tidak Tertulis</script>
 			<script type="Zyyy">Umum</script>
@@ -767,7 +773,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="AL">Albania</territory>
 			<territory type="AM">Armenia</territory>
 			<territory type="AO">Angola</territory>
-			<territory type="AQ">Antarktika</territory>
+			<territory type="AQ">Antartika</territory>
 			<territory type="AR">Argentina</territory>
 			<territory type="AS">Samoa Amerika</territory>
 			<territory type="AT">Austria</territory>
@@ -784,7 +790,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="BH">Bahrain</territory>
 			<territory type="BI">Burundi</territory>
 			<territory type="BJ">Benin</territory>
-			<territory type="BL">Saint Barthelemy</territory>
+			<territory type="BL">Saint Barthélemy</territory>
 			<territory type="BM">Bermuda</territory>
 			<territory type="BN">Brunei</territory>
 			<territory type="BO">Bolivia</territory>
@@ -797,7 +803,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="BY">Belarus</territory>
 			<territory type="BZ">Belize</territory>
 			<territory type="CA">Kanada</territory>
-			<territory type="CC">Kepulauan Cocos</territory>
+			<territory type="CC">Kepulauan Cocos (Keeling)</territory>
 			<territory type="CD">Kongo - Kinshasa</territory>
 			<territory type="CD" alt="variant">Kongo (RDK)</territory>
 			<territory type="CF">Republik Afrika Tengah</territory>
@@ -819,6 +825,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="CX">Pulau Christmas</territory>
 			<territory type="CY">Siprus</territory>
 			<territory type="CZ">Republik Cheska</territory>
+			<territory type="CZ" alt="variant">Cheska</territory>
 			<territory type="DE">Jerman</territory>
 			<territory type="DG">Diego Garcia</territory>
 			<territory type="DJ">Jibuti</territory>
@@ -843,8 +850,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="FO">Kepulauan Faroe</territory>
 			<territory type="FR">Prancis</territory>
 			<territory type="GA">Gabon</territory>
-			<territory type="GB">Inggris</territory>
-			<territory type="GB" alt="short">GB</territory>
+			<territory type="GB">Inggris Raya</territory>
+			<territory type="GB" alt="short">UK</territory>
 			<territory type="GD">Grenada</territory>
 			<territory type="GE">Georgia</territory>
 			<territory type="GF">Guyana Prancis</territory>
@@ -1008,6 +1015,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<territory type="UA">Ukraina</territory>
 			<territory type="UG">Uganda</territory>
 			<territory type="UM">Kepulauan Terluar A.S.</territory>
+			<territory type="UN">Perserikatan Bangsa-Bangsa</territory>
+			<territory type="UN" alt="short">PBB</territory>
 			<territory type="US">Amerika Serikat</territory>
 			<territory type="US" alt="short">A.S.</territory>
 			<territory type="UY">Uruguay</territory>
@@ -1089,11 +1098,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</variants>
 		<keys>
 			<key type="calendar">Kalender</key>
+			<key type="cf">Format Mata Uang</key>
 			<key type="colAlternate">Penyortiran Abaikan Simbol</key>
 			<key type="colBackwards">Penyortiran Aksen Terbalik</key>
 			<key type="colCaseFirst">Pengurutan Huruf Besar/Huruf Kecil</key>
 			<key type="colCaseLevel">Penyortiran Peka Huruf Besar</key>
-			<key type="colHiraganaQuaternary">Penyortiran Kana</key>
 			<key type="collation">Aturan Pengurutan</key>
 			<key type="colNormalization">Penyortiran Dinormalisasi</key>
 			<key type="colNumeric">Penyortiran Numerik</key>
@@ -1105,7 +1114,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<key type="numbers">Angka</key>
 			<key type="timezone">Zona Waktu</key>
 			<key type="va">Varian Lokal</key>
-			<key type="variableTop">Sortir Sebagai Simbol</key>
 			<key type="x">Penggunaan Pribadi</key>
 		</keys>
 		<types>
@@ -1125,6 +1133,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="calendar" type="japanese">Kalender Jepang</type>
 			<type key="calendar" type="persian">Kalender Persia</type>
 			<type key="calendar" type="roc">Kalendar Minguo</type>
+			<type key="cf" type="account">Format Mata Uang Akuntansi</type>
+			<type key="cf" type="standard">Format Mata Uang Standar</type>
 			<type key="colAlternate" type="non-ignorable">Sortir Simbol</type>
 			<type key="colAlternate" type="shifted">Sortir Abaikan Simbol</type>
 			<type key="colBackwards" type="no">Sortir Aksen Secara Normal</type>
@@ -1134,8 +1144,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="colCaseFirst" type="upper">Sortir Huruf Besar Dahulu</type>
 			<type key="colCaseLevel" type="no">Sortir Tidak Peka Huruf Besar</type>
 			<type key="colCaseLevel" type="yes">Sortir Peka Huruf Besar</type>
-			<type key="colHiraganaQuaternary" type="no">Sortir Kana Secara Terpisah</type>
-			<type key="colHiraganaQuaternary" type="yes">Sortir Kana Secara Berbeda</type>
 			<type key="collation" type="big5han">Urutan Sortir Tionghoa Tradisional - Big5</type>
 			<type key="collation" type="dictionary">Urutan Sortir Kamus</type>
 			<type key="collation" type="ducet">Aturan Pengurutan Unicode Default</type>
@@ -1160,6 +1168,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="colStrength" type="quaternary">Sortir Aksen/Ukuran Huruf/Lebar/Kana</type>
 			<type key="colStrength" type="secondary">Sortir Aksen</type>
 			<type key="colStrength" type="tertiary">Sortir Aksen/Ukuran Huruf/Lebar</type>
+			<type key="d0" type="fwidth">Lebar penuh</type>
+			<type key="d0" type="hwidth">Lebar separuh</type>
+			<type key="d0" type="npinyin">Angka</type>
 			<type key="hc" type="h11">Sistem 12 Jam (0–11)</type>
 			<type key="hc" type="h12">Sistem 12 Jam (1–12)</type>
 			<type key="hc" type="h23">Sistem 24 Jam (0–23)</type>
@@ -1167,6 +1178,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="lb" type="loose">Gaya Pemisah Baris Renggang</type>
 			<type key="lb" type="normal">Gaya Pemisah Baris Normal</type>
 			<type key="lb" type="strict">Gaya Pemisah Baris Rapat</type>
+			<type key="m0" type="bgn">BGN</type>
+			<type key="m0" type="ungegn">UNGEGN</type>
 			<type key="ms" type="metric">Sistem Metrik</type>
 			<type key="ms" type="uksystem">Sistem Pengukuran Imperial</type>
 			<type key="ms" type="ussystem">Sistem Pengukuran A.S.</type>
@@ -1184,7 +1197,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="numbers" type="geor">Angka Georgia</type>
 			<type key="numbers" type="grek">Angka Yunani</type>
 			<type key="numbers" type="greklow">Angka Yunani Huruf Kecil</type>
-			<type key="numbers" type="gujr">Angka Gujarati</type>
+			<type key="numbers" type="gujr">Angka Gujarat</type>
 			<type key="numbers" type="guru">Angka Gurmukhi</type>
 			<type key="numbers" type="hanidec">Angka Desimal Tionghoa</type>
 			<type key="numbers" type="hans">Angka Tionghoa Sederhana</type>
@@ -1226,18 +1239,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="numbers" type="traditional">Angka Tradisional</type>
 			<type key="numbers" type="vaii">Angka Vai</type>
 		</types>
-		<transformNames>
-			<transformName type="BGN">BGN</transformName>
-			<transformName type="Numeric">Angka</transformName>
-			<transformName type="Tone">Nada</transformName>
-			<transformName type="UNGEGN">UNGEGN</transformName>
-			<transformName type="x-Accents">Aksen</transformName>
-			<transformName type="x-Fullwidth">Lebar penuh</transformName>
-			<transformName type="x-Halfwidth">Lebar separuh</transformName>
-			<transformName type="x-Jamo">Jamo</transformName>
-			<transformName type="x-Pinyin">Pinyin</transformName>
-			<transformName type="x-Publishing">Penerbitan</transformName>
-		</transformNames>
 		<measurementSystemNames>
 			<measurementSystemName type="metric">Metrik</measurementSystemName>
 			<measurementSystemName type="UK">BR</measurementSystemName>
@@ -1866,7 +1867,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="yyyyMMM">MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMd">d MMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyMMMEd">E, d MMM y G</dateFormatItem>
-						<dateFormatItem id="yyyyMMMM" draft="contributed">MMMM y G</dateFormatItem>
+						<dateFormatItem id="yyyyMMMM">MMMM y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQ">QQQ y G</dateFormatItem>
 						<dateFormatItem id="yyyyQQQQ">QQQQ y G</dateFormatItem>
 					</availableFormats>
@@ -2248,7 +2249,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<eraNames>
 						<era type="0">Sebelum Masehi</era>
 						<era type="0" alt="variant">Sebelum Era Umum</era>
-						<era type="1">M</era>
+						<era type="1">Masehi</era>
 						<era type="1" alt="variant">Era Umum</era>
 					</eraNames>
 					<eraAbbr>
@@ -2357,6 +2358,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="MMMEd">E, d MMM</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
 						<dateFormatItem id="MMMMEd">E, d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMMW" count="other">'minggu' 'ke'-W MMM</dateFormatItem>
 						<dateFormatItem id="ms">mm.ss</dateFormatItem>
 						<dateFormatItem id="y">y</dateFormatItem>
 						<dateFormatItem id="yM">M/y</dateFormatItem>
@@ -2368,6 +2370,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 						<dateFormatItem id="yMMMM">MMMM y</dateFormatItem>
 						<dateFormatItem id="yQQQ">QQQ y</dateFormatItem>
 						<dateFormatItem id="yQQQQ">QQQQ y</dateFormatItem>
+						<dateFormatItem id="yw" count="other">'minggu' 'ke'-w y</dateFormatItem>
 					</availableFormats>
 					<appendItems>
 						<appendItem request="Timezone">{0} {1}</appendItem>
@@ -3264,46 +3267,49 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<field type="year-short">
 				<displayName>thn.</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">Dalam {0} tahun</relativeTimePattern>
+					<relativeTimePattern count="other">dlm {0} thn</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} tahun yang lalu</relativeTimePattern>
+					<relativeTimePattern count="other">{0} thn lalu</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="year-narrow">
 				<displayName>thn.</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">Dalam {0} tahun</relativeTimePattern>
+					<relativeTimePattern count="other">+{0} thn</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} tahun yang lalu</relativeTimePattern>
+					<relativeTimePattern count="other">-{0} thn</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="quarter">
-				<displayName>Triwulan</displayName>
+				<displayName>Kuartal</displayName>
+				<relative type="-1">Kuartal lalu</relative>
+				<relative type="0">Kuartal ini</relative>
+				<relative type="1">Kuartal berikutnya</relative>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">dalam {0} triwulan</relativeTimePattern>
+					<relativeTimePattern count="other">dalam {0} kuartal</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} triwulan yang lalu</relativeTimePattern>
+					<relativeTimePattern count="other">{0} kuartal yang lalu</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="quarter-short">
-				<displayName>triwln.</displayName>
+				<displayName>krtl.</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">dalam {0} triwulan</relativeTimePattern>
+					<relativeTimePattern count="other">dlm {0} krtl.</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} triwulan yang lalu</relativeTimePattern>
+					<relativeTimePattern count="other">{0} krtl. lalu</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="quarter-narrow">
-				<displayName>triwln.</displayName>
+				<displayName>krtl.</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">+{0} triwln.</relativeTimePattern>
+					<relativeTimePattern count="other">+{0} krtl.</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">-{0} triwln.</relativeTimePattern>
+					<relativeTimePattern count="other">-{0} krtl.</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="month">
@@ -3321,10 +3327,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<field type="month-short">
 				<displayName>bln.</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">Dalam {0} bulan</relativeTimePattern>
+					<relativeTimePattern count="other">dlm {0} bln</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} bulan yang lalu</relativeTimePattern>
+					<relativeTimePattern count="other">{0} bln lalu</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="month-narrow">
@@ -3347,15 +3353,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relativeTime type="past">
 					<relativeTimePattern count="other">{0} minggu yang lalu</relativeTimePattern>
 				</relativeTime>
+				<relativePeriod>minggu ke-{0}</relativePeriod>
 			</field>
 			<field type="week-short">
 				<displayName>mgg.</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">Dalam {0} minggu</relativeTimePattern>
+					<relativeTimePattern count="other">dlm {0} mgg</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} minggu yang lalu</relativeTimePattern>
+					<relativeTimePattern count="other">{0} mgg lalu</relativeTimePattern>
 				</relativeTime>
+				<relativePeriod>mgg ke-{0}</relativePeriod>
 			</field>
 			<field type="week-narrow">
 				<displayName>mgg.</displayName>
@@ -3365,10 +3373,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relativeTime type="past">
 					<relativeTimePattern count="other">-{0} mgg.</relativeTimePattern>
 				</relativeTime>
+				<relativePeriod>mgg {0}</relativePeriod>
 			</field>
 			<field type="day">
 				<displayName>Hari</displayName>
-				<relative type="-2">kemarin lusa</relative>
+				<relative type="-2">kemarin dulu</relative>
 				<relative type="-1">kemarin</relative>
 				<relative type="0">hari ini</relative>
 				<relative type="1">besok</relative>
@@ -3383,19 +3392,19 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<field type="day-short">
 				<displayName>h</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">Dalam {0} hari</relativeTimePattern>
+					<relativeTimePattern count="other">dalam {0} h</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} hari yang lalu</relativeTimePattern>
+					<relativeTimePattern count="other">{0} h lalu</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="day-narrow">
 				<displayName>h</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">Dalam {0} hari</relativeTimePattern>
+					<relativeTimePattern count="other">+{0} h</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} hari yang lalu</relativeTimePattern>
+					<relativeTimePattern count="other">-{0} h</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="weekday">
@@ -3405,112 +3414,239 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<relative type="-1">hari Minggu lalu</relative>
 				<relative type="0">hari Minggu ini</relative>
 				<relative type="1">hari Minggu berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dalam {0} hari Minggu</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} hari Minggu yang lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sun-short">
 				<relative type="-1">Min. lalu</relative>
 				<relative type="0">Min. ini</relative>
 				<relative type="1">Min. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dlm {0} Min.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Min. lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sun-narrow">
-				<relative type="-1">M lalu</relative>
-				<relative type="0">M ini</relative>
-				<relative type="1">M berikutnya</relative>
+				<relative type="-1">Min. lalu</relative>
+				<relative type="0">Min. ini</relative>
+				<relative type="1">Min. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Min.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Min.</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="mon">
 				<relative type="-1">Senin lalu</relative>
 				<relative type="0">Senin ini</relative>
 				<relative type="1">Senin berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dalam {0} Senin</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Senin lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="mon-short">
 				<relative type="-1">Sen. lalu</relative>
 				<relative type="0">Sen. ini</relative>
 				<relative type="1">Sen. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dlm {0} Sen.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Sen. lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="mon-narrow">
 				<relative type="-1">Sen. lalu</relative>
 				<relative type="0">Sen. ini</relative>
 				<relative type="1">Sen. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Sen.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Sen.</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="tue">
 				<relative type="-1">Selasa lalu</relative>
 				<relative type="0">Selasa ini</relative>
 				<relative type="1">Selasa berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dalam {0} Selasa</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Selasa lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="tue-short">
 				<relative type="-1">Sel. lalu</relative>
 				<relative type="0">Sel. ini</relative>
 				<relative type="1">Sel. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dlm {0} Sel.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Sel. lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="tue-narrow">
 				<relative type="-1">Sel. lalu</relative>
 				<relative type="0">Sel. ini</relative>
 				<relative type="1">Sel. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Sel.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Sel.</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="wed">
 				<relative type="-1">Rabu lalu</relative>
 				<relative type="0">Rabu ini</relative>
 				<relative type="1">Rabu berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dalam {0} Rabu</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Rabu lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="wed-short">
 				<relative type="-1">Rab. lalu</relative>
 				<relative type="0">Rab. ini</relative>
 				<relative type="1">Rab. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dlm {0} Rab.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Rab. lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="wed-narrow">
-				<relative type="-1">R lalu</relative>
-				<relative type="0">R ini</relative>
-				<relative type="1">R berikutnya</relative>
+				<relative type="-1">Rab. lalu</relative>
+				<relative type="0">Rab. ini</relative>
+				<relative type="1">Rab. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Rab.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Rab.</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="thu">
 				<relative type="-1">Kamis lalu</relative>
 				<relative type="0">Kamis ini</relative>
 				<relative type="1">Kamis berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dalam {0} Kamis</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Kamis lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="thu-short">
 				<relative type="-1">Kam. lalu</relative>
 				<relative type="0">Kam. ini</relative>
 				<relative type="1">Kam. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dlm {0} Kam.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Kam. lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="thu-narrow">
-				<relative type="-1">K lalu</relative>
-				<relative type="0">K ini</relative>
-				<relative type="1">K berikutnya</relative>
+				<relative type="-1">Kam. lalu</relative>
+				<relative type="0">Kam. ini</relative>
+				<relative type="1">Kam. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Kam.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Kam.</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="fri">
 				<relative type="-1">Jumat lalu</relative>
 				<relative type="0">Jumat ini</relative>
 				<relative type="1">Jumat berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dalam {0} Jumat</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Jumat lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="fri-short">
 				<relative type="-1">Jum. lalu</relative>
 				<relative type="0">Jum. ini</relative>
 				<relative type="1">Jum. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dlm {0} Jum.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Jum. lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="fri-narrow">
-				<relative type="-1">J lalu</relative>
-				<relative type="0">J ini</relative>
-				<relative type="1">J berikutnya</relative>
+				<relative type="-1">Jum. lalu</relative>
+				<relative type="0">Jum. ini</relative>
+				<relative type="1">Jum. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Jum.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Jum.</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sat">
 				<relative type="-1">Sabtu lalu</relative>
 				<relative type="0">Sabtu ini</relative>
 				<relative type="1">Sabtu berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dalam {0} Sabtu</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Sabtu lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sat-short">
 				<relative type="-1">Sab. lalu</relative>
 				<relative type="0">Sab. ini</relative>
 				<relative type="1">Sab. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">dlm {0} Sab.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">{0} Sab. lalu</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="sat-narrow">
 				<relative type="-1">Sab. lalu</relative>
 				<relative type="0">Sab. ini</relative>
 				<relative type="1">Sab. berikutnya</relative>
+				<relativeTime type="future">
+					<relativeTimePattern count="other">+{0} Sab.</relativeTimePattern>
+				</relativeTime>
+				<relativeTime type="past">
+					<relativeTimePattern count="other">-{0} Sab.</relativeTimePattern>
+				</relativeTime>
 			</field>
 			<field type="dayperiod">
 				<displayName>AM/PM</displayName>
 			</field>
 			<field type="hour">
 				<displayName>Jam</displayName>
+				<relative type="0">jam ini</relative>
 				<relativeTime type="future">
 					<relativeTimePattern count="other">Dalam {0} jam</relativeTimePattern>
 				</relativeTime>
@@ -3521,10 +3657,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<field type="hour-short">
 				<displayName>jam</displayName>
 				<relativeTime type="future">
-					<relativeTimePattern count="other">dlm {0} jam</relativeTimePattern>
+					<relativeTimePattern count="other">Dalam {0} jam</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} jam yg lalu</relativeTimePattern>
+					<relativeTimePattern count="other">{0} jam lalu</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="hour-narrow">
@@ -3538,6 +3674,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</field>
 			<field type="minute">
 				<displayName>Menit</displayName>
+				<relative type="0">menit ini</relative>
 				<relativeTime type="future">
 					<relativeTimePattern count="other">Dalam {0} menit</relativeTimePattern>
 				</relativeTime>
@@ -3551,7 +3688,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<relativeTimePattern count="other">dlm {0} mnt</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} mnt yg lalu</relativeTimePattern>
+					<relativeTimePattern count="other">{0} mnt lalu</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="minute-narrow">
@@ -3579,7 +3716,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<relativeTimePattern count="other">dlm {0} dtk</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">{0} dtk yg lalu</relativeTimePattern>
+					<relativeTimePattern count="other">{0} dtk lalu</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="second-narrow">
@@ -3588,7 +3725,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<relativeTimePattern count="other">+{0} dtk</relativeTimePattern>
 				</relativeTime>
 				<relativeTime type="past">
-					<relativeTimePattern count="other">-{0} d yg lalu</relativeTimePattern>
+					<relativeTimePattern count="other">-{0} dtk</relativeTimePattern>
 				</relativeTime>
 			</field>
 			<field type="zone">
@@ -3600,9 +3737,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<gmtFormat>GMT{0}</gmtFormat>
 			<gmtZeroFormat>GMT</gmtZeroFormat>
 			<regionFormat>Waktu {0}</regionFormat>
-			<regionFormat type="daylight">Waktu Terang {0}</regionFormat>
+			<regionFormat type="daylight">Waktu Musim Panas {0}</regionFormat>
 			<regionFormat type="standard">Waktu Standar {0}</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
+			<zone type="America/Santa_Isabel">
+				<exemplarCity>Santa Isabel</exemplarCity>
+			</zone>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Tidak Dikenal</exemplarCity>
 			</zone>
@@ -3691,7 +3831,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Tucuman</exemplarCity>
 			</zone>
 			<zone type="America/Cordoba">
-				<exemplarCity>Kordoba</exemplarCity>
+				<exemplarCity>Cordoba</exemplarCity>
 			</zone>
 			<zone type="America/Buenos_Aires">
 				<exemplarCity>Buenos Aires</exemplarCity>
@@ -3760,7 +3900,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Dhaka</exemplarCity>
 			</zone>
 			<zone type="Europe/Brussels">
-				<exemplarCity>Brussel</exemplarCity>
+				<exemplarCity>Brussels</exemplarCity>
 			</zone>
 			<zone type="Africa/Ouagadougou">
 				<exemplarCity>Ouagadougou</exemplarCity>
@@ -3866,6 +4006,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="America/Vancouver">
 				<exemplarCity>Vancouver</exemplarCity>
+			</zone>
+			<zone type="America/Fort_Nelson">
+				<exemplarCity>Fort Nelson</exemplarCity>
 			</zone>
 			<zone type="America/Dawson_Creek">
 				<exemplarCity>Dawson Creek</exemplarCity>
@@ -4006,7 +4149,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Berlin</exemplarCity>
 			</zone>
 			<zone type="Africa/Djibouti">
-				<exemplarCity>Jibouti</exemplarCity>
+				<exemplarCity>Djibouti</exemplarCity>
 			</zone>
 			<zone type="Europe/Copenhagen">
 				<exemplarCity>Kopenhagen</exemplarCity>
@@ -4096,7 +4239,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Guernsey</exemplarCity>
 			</zone>
 			<zone type="Africa/Accra">
-				<exemplarCity>Akra</exemplarCity>
+				<exemplarCity>Accra</exemplarCity>
 			</zone>
 			<zone type="Europe/Gibraltar">
 				<exemplarCity>Gibraltar</exemplarCity>
@@ -4117,7 +4260,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Banjul</exemplarCity>
 			</zone>
 			<zone type="Africa/Conakry">
-				<exemplarCity>Konakri</exemplarCity>
+				<exemplarCity>Conakry</exemplarCity>
 			</zone>
 			<zone type="America/Guadeloupe">
 				<exemplarCity>Guadeloupe</exemplarCity>
@@ -4189,7 +4332,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Chagos</exemplarCity>
 			</zone>
 			<zone type="Asia/Baghdad">
-				<exemplarCity>Bagdad</exemplarCity>
+				<exemplarCity>Baghdad</exemplarCity>
 			</zone>
 			<zone type="Asia/Tehran">
 				<exemplarCity>Teheran</exemplarCity>
@@ -4204,7 +4347,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Jersey</exemplarCity>
 			</zone>
 			<zone type="America/Jamaica">
-				<exemplarCity>Jamaika</exemplarCity>
+				<exemplarCity>Jamaica</exemplarCity>
 			</zone>
 			<zone type="Asia/Amman">
 				<exemplarCity>Amman</exemplarCity>
@@ -4368,9 +4511,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="America/Tijuana">
 				<exemplarCity>Tijuana</exemplarCity>
 			</zone>
-			<zone type="America/Santa_Isabel">
-				<exemplarCity>Santa Isabel</exemplarCity>
-			</zone>
 			<zone type="America/Hermosillo">
 				<exemplarCity>Hermosillo</exemplarCity>
 			</zone>
@@ -4489,7 +4629,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Pitcairn</exemplarCity>
 			</zone>
 			<zone type="America/Puerto_Rico">
-				<exemplarCity>Puerto Riko</exemplarCity>
+				<exemplarCity>Puerto Rico</exemplarCity>
 			</zone>
 			<zone type="Asia/Gaza">
 				<exemplarCity>Gaza</exemplarCity>
@@ -4504,7 +4644,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Madeira</exemplarCity>
 			</zone>
 			<zone type="Europe/Lisbon">
-				<exemplarCity>Lisboa</exemplarCity>
+				<exemplarCity>Lisbon</exemplarCity>
 			</zone>
 			<zone type="Pacific/Palau">
 				<exemplarCity>Palau</exemplarCity>
@@ -4519,7 +4659,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Reunion</exemplarCity>
 			</zone>
 			<zone type="Europe/Bucharest">
-				<exemplarCity>Bukares</exemplarCity>
+				<exemplarCity>Bucharest</exemplarCity>
 			</zone>
 			<zone type="Europe/Belgrade">
 				<exemplarCity>Beograd</exemplarCity>
@@ -4536,6 +4676,15 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<zone type="Europe/Volgograd">
 				<exemplarCity>Volgograd</exemplarCity>
 			</zone>
+			<zone type="Europe/Astrakhan">
+				<exemplarCity>Astrakhan</exemplarCity>
+			</zone>
+			<zone type="Europe/Ulyanovsk">
+				<exemplarCity>Ulyanovsk</exemplarCity>
+			</zone>
+			<zone type="Europe/Kirov">
+				<exemplarCity>Kirov</exemplarCity>
+			</zone>
 			<zone type="Europe/Samara">
 				<exemplarCity>Samara</exemplarCity>
 			</zone>
@@ -4547,6 +4696,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="Asia/Novosibirsk">
 				<exemplarCity>Novosibirsk</exemplarCity>
+			</zone>
+			<zone type="Asia/Barnaul">
+				<exemplarCity>Barnaul</exemplarCity>
+			</zone>
+			<zone type="Asia/Tomsk">
+				<exemplarCity>Tomsk</exemplarCity>
 			</zone>
 			<zone type="Asia/Novokuznetsk">
 				<exemplarCity>Novokuznetsk</exemplarCity>
@@ -4591,7 +4746,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Kigali</exemplarCity>
 			</zone>
 			<zone type="Asia/Riyadh">
-				<exemplarCity>Riyad</exemplarCity>
+				<exemplarCity>Riyadh</exemplarCity>
 			</zone>
 			<zone type="Pacific/Guadalcanal">
 				<exemplarCity>Guadalkanal</exemplarCity>
@@ -4600,7 +4755,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>Mahe</exemplarCity>
 			</zone>
 			<zone type="Africa/Khartoum">
-				<exemplarCity>Khartum</exemplarCity>
+				<exemplarCity>Khartoum</exemplarCity>
 			</zone>
 			<zone type="Europe/Stockholm">
 				<exemplarCity>Stockholm</exemplarCity>
@@ -4825,7 +4980,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>St. Vincent</exemplarCity>
 			</zone>
 			<zone type="America/Caracas">
-				<exemplarCity>Karakas</exemplarCity>
+				<exemplarCity>Caracas</exemplarCity>
 			</zone>
 			<zone type="America/Tortola">
 				<exemplarCity>Tortola</exemplarCity>
@@ -4834,7 +4989,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<exemplarCity>St. Thomas</exemplarCity>
 			</zone>
 			<zone type="Asia/Saigon">
-				<exemplarCity>Kota Ho Chi Minh</exemplarCity>
+				<exemplarCity>Ho Chi Minh</exemplarCity>
 			</zone>
 			<zone type="Pacific/Efate">
 				<exemplarCity>Efate</exemplarCity>
@@ -5091,7 +5246,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
-					<standard>Waktu Chamorro</standard>
+					<standard>Waktu Standar Chamorro</standard>
 				</long>
 			</metazone>
 			<metazone type="Chatham">
@@ -5112,7 +5267,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<long>
 					<generic>Waktu Tiongkok</generic>
 					<standard>Waktu Standar Tiongkok</standard>
-					<daylight>Waktu Terang Tiongkok</daylight>
+					<daylight>Waktu Musim Panas Tiongkok</daylight>
 				</long>
 			</metazone>
 			<metazone type="Choibalsan">
@@ -5254,7 +5409,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</metazone>
 			<metazone type="GMT">
 				<long>
-					<standard>Waktu Rata-rata Greenwich</standard>
+					<standard>Greenwich Mean Time</standard>
 				</long>
 			</metazone>
 			<metazone type="Greenland_Eastern">
@@ -5278,7 +5433,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</metazone>
 			<metazone type="Gulf">
 				<long>
-					<standard>Waktu Gulf</standard>
+					<standard>Waktu Standar Teluk</standard>
 				</long>
 			</metazone>
 			<metazone type="Guyana">
@@ -5643,6 +5798,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 					<standard>Waktu Ponape</standard>
 				</long>
 			</metazone>
+			<metazone type="Pyongyang">
+				<long>
+					<standard>Waktu Pyongyang</standard>
+				</long>
+			</metazone>
 			<metazone type="Qyzylorda">
 				<long>
 					<generic>Waktu Qyzylorda</generic>
@@ -5872,7 +6032,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</decimalFormatLength>
 			<decimalFormatLength type="short">
 				<decimalFormat>
-					<pattern type="1000" count="other">0</pattern>
+					<pattern type="1000" count="other">0 rb</pattern>
 					<pattern type="10000" count="other">00 rb</pattern>
 					<pattern type="100000" count="other">000 rb</pattern>
 					<pattern type="1000000" count="other">0 jt</pattern>
@@ -5912,7 +6072,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currencyFormatLength>
 			<currencyFormatLength type="short">
 				<currencyFormat type="standard">
-					<pattern type="1000" count="other">¤0</pattern>
+					<pattern type="1000" count="other">¤0 rb</pattern>
 					<pattern type="10000" count="other">¤00 rb</pattern>
 					<pattern type="100000" count="other">¤000 rb</pattern>
 					<pattern type="1000000" count="other">¤0 jt</pattern>
@@ -6195,11 +6355,16 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="other">Rubel Baru Belarus (1994–1999)</displayName>
 				<symbol>BYB</symbol>
 			</currency>
-			<currency type="BYR">
+			<currency type="BYN">
 				<displayName>Rubel Belarusia</displayName>
 				<displayName count="other">Rubel Belarusia</displayName>
-				<symbol>BYR</symbol>
+				<symbol>BYN</symbol>
 				<symbol alt="narrow" draft="contributed">р.</symbol>
+			</currency>
+			<currency type="BYR">
+				<displayName>Rubel Belarusia (2000–2016)</displayName>
+				<displayName count="other">Rubel Belarusia (2000–2016)</displayName>
+				<symbol>BYR</symbol>
 			</currency>
 			<currency type="BZD">
 				<displayName>Dolar Belize</displayName>
@@ -6413,6 +6578,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>Lari Georgia</displayName>
 				<displayName count="other">Lari Georgia</displayName>
 				<symbol>GEL</symbol>
+				<symbol alt="narrow" draft="contributed">₾</symbol>
 			</currency>
 			<currency type="GHC">
 				<displayName>Cedi Ghana (1979–2007)</displayName>
@@ -7321,7 +7487,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="XXX">
 				<displayName>Mata Uang Tidak Dikenal</displayName>
-				<displayName count="other">Mata Uang Tidak Dikenal</displayName>
+				<displayName count="other">(mata uang tidak dikenal)</displayName>
 				<symbol>XXX</symbol>
 			</currency>
 			<currency type="YDD">
@@ -7439,6 +7605,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="area-square-kilometer">
 				<displayName>kilometer persegi</displayName>
 				<unitPattern count="other">{0} kilometer persegi</unitPattern>
+				<perUnitPattern>{0} per kilometer persegi</perUnitPattern>
 			</unit>
 			<unit type="area-hectare">
 				<displayName>hektar</displayName>
@@ -7457,6 +7624,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="area-square-mile">
 				<displayName>mil persegi</displayName>
 				<unitPattern count="other">{0} mil persegi</unitPattern>
+				<perUnitPattern>{0} per mil persegi</perUnitPattern>
 			</unit>
 			<unit type="area-acre">
 				<displayName>acre</displayName>
@@ -7479,6 +7647,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>karat</displayName>
 				<unitPattern count="other">{0} karat</unitPattern>
 			</unit>
+			<unit type="concentr-milligram-per-deciliter">
+				<displayName>milligram per desiliter</displayName>
+				<unitPattern count="other">{0} milligram per desiliter</unitPattern>
+			</unit>
+			<unit type="concentr-millimole-per-liter">
+				<displayName>millimole per liter</displayName>
+				<unitPattern count="other">{0} millimole per liter</unitPattern>
+			</unit>
+			<unit type="concentr-part-per-million">
+				<displayName>bagian per juta</displayName>
+				<unitPattern count="other">{0} bagian per juta</unitPattern>
+			</unit>
 			<unit type="consumption-liter-per-kilometer">
 				<displayName>liter per kilometer</displayName>
 				<unitPattern count="other">{0} liter per kilometer</unitPattern>
@@ -7490,6 +7670,10 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="consumption-mile-per-gallon">
 				<displayName>mil per galon</displayName>
 				<unitPattern count="other">{0} mil per galon</unitPattern>
+			</unit>
+			<unit type="consumption-mile-per-gallon-imperial">
+				<displayName>mil per galon Imp.</displayName>
+				<unitPattern count="other">{0} mil per galon Imp.</unitPattern>
 			</unit>
 			<unit type="digital-terabyte">
 				<displayName>terabyte</displayName>
@@ -7907,6 +8091,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} galon</unitPattern>
 				<perUnitPattern>{0} per galon</perUnitPattern>
 			</unit>
+			<unit type="volume-gallon-imperial">
+				<displayName draft="contributed">galon Imp.</displayName>
+				<unitPattern count="other" draft="contributed">{0} galon Imp.</unitPattern>
+				<perUnitPattern draft="contributed">{0} per galon Imp.</perUnitPattern>
+			</unit>
 			<unit type="volume-quart">
 				<displayName>quart</displayName>
 				<unitPattern count="other">{0} quart</unitPattern>
@@ -7947,8 +8136,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} G</unitPattern>
 			</unit>
 			<unit type="acceleration-meter-per-second-squared">
-				<displayName>m/s²</displayName>
-				<unitPattern count="other">{0} m/s²</unitPattern>
+				<displayName>meter/dtk²</displayName>
+				<unitPattern count="other">{0} m/dtk²</unitPattern>
 			</unit>
 			<unit type="angle-revolution">
 				<displayName>rev</displayName>
@@ -7973,6 +8162,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="area-square-kilometer">
 				<displayName>km²</displayName>
 				<unitPattern count="other">{0} km²</unitPattern>
+				<perUnitPattern>{0}/km²</perUnitPattern>
 			</unit>
 			<unit type="area-hectare">
 				<displayName>hektar</displayName>
@@ -7981,7 +8171,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="area-square-meter">
 				<displayName>meter²</displayName>
 				<unitPattern count="other">{0} m²</unitPattern>
-				<perUnitPattern>{0} per m²</perUnitPattern>
+				<perUnitPattern>{0}/m²</perUnitPattern>
 			</unit>
 			<unit type="area-square-centimeter">
 				<displayName>cm²</displayName>
@@ -7991,6 +8181,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<unit type="area-square-mile">
 				<displayName>mil persegi</displayName>
 				<unitPattern count="other">{0} mi²</unitPattern>
+				<perUnitPattern>{0}/mi²</perUnitPattern>
 			</unit>
 			<unit type="area-acre">
 				<displayName>acre</displayName>
@@ -8013,8 +8204,20 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName>karat</displayName>
 				<unitPattern count="other">{0} kt</unitPattern>
 			</unit>
+			<unit type="concentr-milligram-per-deciliter">
+				<displayName>mg/dL</displayName>
+				<unitPattern count="other">{0} mg/dL</unitPattern>
+			</unit>
+			<unit type="concentr-millimole-per-liter">
+				<displayName>millimol/liter</displayName>
+				<unitPattern count="other">{0} mmol/L</unitPattern>
+			</unit>
+			<unit type="concentr-part-per-million">
+				<displayName>bagian/juta</displayName>
+				<unitPattern count="other">{0} ppm</unitPattern>
+			</unit>
 			<unit type="consumption-liter-per-kilometer">
-				<displayName>L/km</displayName>
+				<displayName>liter/km</displayName>
 				<unitPattern count="other">{0} L/km</unitPattern>
 			</unit>
 			<unit type="consumption-liter-per-100kilometers">
@@ -8022,8 +8225,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} L/100km</unitPattern>
 			</unit>
 			<unit type="consumption-mile-per-gallon">
-				<displayName>mpg</displayName>
+				<displayName>mil/gal</displayName>
 				<unitPattern count="other">{0} mpg</unitPattern>
+			</unit>
+			<unit type="consumption-mile-per-gallon-imperial">
+				<displayName>mil/gal Imp.</displayName>
+				<unitPattern count="other">{0} mpg Imp.</unitPattern>
 			</unit>
 			<unit type="digital-terabyte">
 				<displayName>TByte</displayName>
@@ -8034,7 +8241,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} Tb</unitPattern>
 			</unit>
 			<unit type="digital-gigabyte">
-				<displayName>Gbyte</displayName>
+				<displayName>GByte</displayName>
 				<unitPattern count="other">{0} GB</unitPattern>
 			</unit>
 			<unit type="digital-gigabit">
@@ -8286,7 +8493,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<perUnitPattern>{0}/oz</perUnitPattern>
 			</unit>
 			<unit type="mass-ounce-troy">
-				<displayName>oz t</displayName>
+				<displayName>oz troy</displayName>
 				<unitPattern count="other">{0} oz t</unitPattern>
 			</unit>
 			<unit type="mass-carat">
@@ -8330,7 +8537,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} psi</unitPattern>
 			</unit>
 			<unit type="pressure-inch-hg">
-				<displayName>inci merkuri</displayName>
+				<displayName>in Hg</displayName>
 				<unitPattern count="other">{0} inHg</unitPattern>
 			</unit>
 			<unit type="pressure-millibar">
@@ -8342,8 +8549,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} kph</unitPattern>
 			</unit>
 			<unit type="speed-meter-per-second">
-				<displayName>m/s</displayName>
-				<unitPattern count="other">{0} m/s</unitPattern>
+				<displayName>meter/dtk</displayName>
+				<unitPattern count="other">{0} m/dtk</unitPattern>
 			</unit>
 			<unit type="speed-mile-per-hour">
 				<displayName>mi/h</displayName>
@@ -8441,6 +8648,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<unitPattern count="other">{0} gal</unitPattern>
 				<perUnitPattern>{0}/gal</perUnitPattern>
 			</unit>
+			<unit type="volume-gallon-imperial">
+				<displayName draft="contributed">gal Imp.</displayName>
+				<unitPattern count="other" draft="contributed">{0} gal Imp.</unitPattern>
+				<perUnitPattern draft="contributed">{0}/gal Imp.</perUnitPattern>
+			</unit>
 			<unit type="volume-quart">
 				<displayName>qt</displayName>
 				<unitPattern count="other">{0} qt</unitPattern>
@@ -8512,51 +8724,51 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</unit>
 			<unit type="duration-year">
 				<displayName>thn</displayName>
-				<unitPattern count="other">{0} thn</unitPattern>
+				<unitPattern count="other">{0}thn</unitPattern>
 			</unit>
 			<unit type="duration-month">
 				<displayName>bulan</displayName>
-				<unitPattern count="other">{0} bln</unitPattern>
+				<unitPattern count="other">{0}bln</unitPattern>
 			</unit>
 			<unit type="duration-week">
 				<displayName>mgg</displayName>
-				<unitPattern count="other">{0} mgg</unitPattern>
+				<unitPattern count="other">{0}mgg</unitPattern>
 			</unit>
 			<unit type="duration-day">
 				<displayName>hari</displayName>
-				<unitPattern count="other">{0} hr</unitPattern>
+				<unitPattern count="other">{0}hr</unitPattern>
 			</unit>
 			<unit type="duration-hour">
 				<displayName>jam</displayName>
-				<unitPattern count="other">{0} j</unitPattern>
+				<unitPattern count="other">{0}j</unitPattern>
 			</unit>
 			<unit type="duration-minute">
 				<displayName>mnt</displayName>
-				<unitPattern count="other">{0} mnt</unitPattern>
+				<unitPattern count="other">{0}mnt</unitPattern>
 			</unit>
 			<unit type="duration-second">
 				<displayName>dtk</displayName>
-				<unitPattern count="other">{0} dtk</unitPattern>
+				<unitPattern count="other">{0}dtk</unitPattern>
 			</unit>
 			<unit type="duration-millisecond">
-				<displayName>milidetik</displayName>
-				<unitPattern count="other">{0} md</unitPattern>
+				<displayName>milidtk</displayName>
+				<unitPattern count="other">{0}md</unitPattern>
 			</unit>
 			<unit type="length-kilometer">
 				<displayName>km</displayName>
-				<unitPattern count="other">{0} km</unitPattern>
+				<unitPattern count="other">{0}km</unitPattern>
 			</unit>
 			<unit type="length-meter">
 				<displayName>meter</displayName>
-				<unitPattern count="other">{0} m</unitPattern>
+				<unitPattern count="other">{0}m</unitPattern>
 			</unit>
 			<unit type="length-centimeter">
 				<displayName>cm</displayName>
-				<unitPattern count="other">{0} cm</unitPattern>
+				<unitPattern count="other">{0}cm</unitPattern>
 			</unit>
 			<unit type="length-millimeter">
 				<displayName>mm</displayName>
-				<unitPattern count="other">{0} mm</unitPattern>
+				<unitPattern count="other">{0}mm</unitPattern>
 			</unit>
 			<unit type="length-picometer">
 				<unitPattern count="other">{0} pm</unitPattern>
@@ -8578,11 +8790,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</unit>
 			<unit type="mass-kilogram">
 				<displayName>kg</displayName>
-				<unitPattern count="other">{0} kg</unitPattern>
+				<unitPattern count="other">{0}kg</unitPattern>
 			</unit>
 			<unit type="mass-gram">
 				<displayName>gram</displayName>
-				<unitPattern count="other">{0} g</unitPattern>
+				<unitPattern count="other">{0}g</unitPattern>
 			</unit>
 			<unit type="mass-pound">
 				<unitPattern count="other">{0} lb</unitPattern>
@@ -8610,7 +8822,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</unit>
 			<unit type="speed-kilometer-per-hour">
 				<displayName>km/jam</displayName>
-				<unitPattern count="other">{0} kph</unitPattern>
+				<unitPattern count="other">{0}kph</unitPattern>
 			</unit>
 			<unit type="speed-meter-per-second">
 				<unitPattern count="other">{0} m/s</unitPattern>
@@ -8633,7 +8845,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</unit>
 			<unit type="volume-liter">
 				<displayName>liter</displayName>
-				<unitPattern count="other">{0} l</unitPattern>
+				<unitPattern count="other">{0}L</unitPattern>
 			</unit>
 			<coordinateUnit>
 				<coordinateUnitPattern type="east">{0}T</coordinateUnitPattern>
@@ -8654,6 +8866,12 @@ For terms of use, see http://www.unicode.org/copyright.html
 	</units>
 	<listPatterns>
 		<listPattern>
+			<listPatternPart type="start">{0}, {1}</listPatternPart>
+			<listPatternPart type="middle">{0}, {1}</listPatternPart>
+			<listPatternPart type="end">{0}, dan {1}</listPatternPart>
+			<listPatternPart type="2">{0} dan {1}</listPatternPart>
+		</listPattern>
+		<listPattern type="standard-short">
 			<listPatternPart type="start">{0}, {1}</listPatternPart>
 			<listPatternPart type="middle">{0}, {1}</listPatternPart>
 			<listPatternPart type="end">{0}, dan {1}</listPatternPart>
@@ -8684,5 +8902,102 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<nostr>tidak:t</nostr>
 		</messages>
 	</posix>
+	<characterLabels>
+		<characterLabelPattern type="all">{0} — Semua</characterLabelPattern>
+		<characterLabelPattern type="category-list">{0}: {1}</characterLabelPattern>
+		<characterLabelPattern type="compatibility">{0} — Kompatibilitas</characterLabelPattern>
+		<characterLabelPattern type="enclosed">{0} — Terlampir</characterLabelPattern>
+		<characterLabelPattern type="extended">{0} — Diperluas</characterLabelPattern>
+		<characterLabelPattern type="historic">{0} — Historis</characterLabelPattern>
+		<characterLabelPattern type="miscellaneous">{0} — Lain-lain</characterLabelPattern>
+		<characterLabelPattern type="other">{0} — Lainnya</characterLabelPattern>
+		<characterLabelPattern type="scripts">Skrip — {0}</characterLabelPattern>
+		<characterLabelPattern type="strokes" count="other">{0} Goresan</characterLabelPattern>
+		<characterLabel type="activities">Aktivitas</characterLabel>
+		<characterLabel type="african_scripts">Skrip Afrika</characterLabel>
+		<characterLabel type="american_scripts">Skrip Amerika</characterLabel>
+		<characterLabel type="animal">hewan</characterLabel>
+		<characterLabel type="animals_nature">Satwa &amp; Alam</characterLabel>
+		<characterLabel type="arrows">Panah</characterLabel>
+		<characterLabel type="body">badan</characterLabel>
+		<characterLabel type="box_drawing">Gambar Kotak</characterLabel>
+		<characterLabel type="braille">Braille</characterLabel>
+		<characterLabel type="building">bangunan</characterLabel>
+		<characterLabel type="bullets_stars">Butir/Bintang</characterLabel>
+		<characterLabel type="consonantal_jamo">Jamo Konsonan</characterLabel>
+		<characterLabel type="currency_symbols">Simbol Mata Uang</characterLabel>
+		<characterLabel type="dash_connector">Setrip/Tanda Hubung</characterLabel>
+		<characterLabel type="digits">Digit</characterLabel>
+		<characterLabel type="dingbats">Dingbat</characterLabel>
+		<characterLabel type="divination_symbols">Simbol Ramalan</characterLabel>
+		<characterLabel type="downwards_arrows">Panah Bawah</characterLabel>
+		<characterLabel type="downwards_upwards_arrows">Panah Atas Bawah</characterLabel>
+		<characterLabel type="east_asian_scripts">Skrip Asia Timur</characterLabel>
+		<characterLabel type="emoji">Emoji</characterLabel>
+		<characterLabel type="european_scripts">Skrip Eropa</characterLabel>
+		<characterLabel type="female">wanita</characterLabel>
+		<characterLabel type="flag">bendera</characterLabel>
+		<characterLabel type="flags">Bendera</characterLabel>
+		<characterLabel type="food_drink">Makanan &amp; Minuman</characterLabel>
+		<characterLabel type="format">Format</characterLabel>
+		<characterLabel type="format_whitespace">Format &amp; Spasi Kosong</characterLabel>
+		<characterLabel type="full_width_form_variant">Varian Format Lebar Penuh</characterLabel>
+		<characterLabel type="geometric_shapes">Bentuk Geometris</characterLabel>
+		<characterLabel type="half_width_form_variant">Varian Format Setengah Lebar</characterLabel>
+		<characterLabel type="han_characters">Aksara Han</characterLabel>
+		<characterLabel type="han_radicals">Han Radikal</characterLabel>
+		<characterLabel type="hanja">Hanja</characterLabel>
+		<characterLabel type="hanzi_simplified">Hanzi (Aksara Sederhana)</characterLabel>
+		<characterLabel type="hanzi_traditional">Hanzi (Aksara Tradisional)</characterLabel>
+		<characterLabel type="heart">hati</characterLabel>
+		<characterLabel type="historic_scripts">Skrip Historis</characterLabel>
+		<characterLabel type="ideographic_desc_characters">Karakter Desk. Ideografis</characterLabel>
+		<characterLabel type="japanese_kana">Huruf Kana Jepang</characterLabel>
+		<characterLabel type="kanbun">Kanbun</characterLabel>
+		<characterLabel type="kanji">Kanji</characterLabel>
+		<characterLabel type="keycap">keycap</characterLabel>
+		<characterLabel type="leftwards_arrows">Panah Kiri</characterLabel>
+		<characterLabel type="leftwards_rightwards_arrows">Panah Kiri Kanan</characterLabel>
+		<characterLabel type="letterlike_symbols">Simbol Seperti Huruf</characterLabel>
+		<characterLabel type="limited_use">Penggunaan Terbatas</characterLabel>
+		<characterLabel type="male">pria</characterLabel>
+		<characterLabel type="math_symbols">Simbol Matematika</characterLabel>
+		<characterLabel type="middle_eastern_scripts">Skrip Timur Tengah</characterLabel>
+		<characterLabel type="miscellaneous">Lain-lain</characterLabel>
+		<characterLabel type="modern_scripts">Skrip Modern</characterLabel>
+		<characterLabel type="modifier">Pengubah</characterLabel>
+		<characterLabel type="musical_symbols">Simbol Musik</characterLabel>
+		<characterLabel type="nature">alam</characterLabel>
+		<characterLabel type="nonspacing">Tanpa Spasi</characterLabel>
+		<characterLabel type="numbers">Angka</characterLabel>
+		<characterLabel type="objects">Objek</characterLabel>
+		<characterLabel type="other">Lainnya</characterLabel>
+		<characterLabel type="paired">Dipasangkan</characterLabel>
+		<characterLabel type="person">orang</characterLabel>
+		<characterLabel type="phonetic_alphabet">Abjad Fonetik</characterLabel>
+		<characterLabel type="pictographs">Piktograf</characterLabel>
+		<characterLabel type="place">tempat</characterLabel>
+		<characterLabel type="plant">tumbuhan</characterLabel>
+		<characterLabel type="punctuation">Tanda Baca</characterLabel>
+		<characterLabel type="rightwards_arrows">Panah Kanan</characterLabel>
+		<characterLabel type="sign_standard_symbols">Simbol Tanda/Standar</characterLabel>
+		<characterLabel type="small_form_variant">Varian Format Kecil</characterLabel>
+		<characterLabel type="smiley">wajah tersenyum</characterLabel>
+		<characterLabel type="smileys_people">Smiley &amp; Orang</characterLabel>
+		<characterLabel type="south_asian_scripts">Skrip Asia Selatan</characterLabel>
+		<characterLabel type="southeast_asian_scripts">Skrip Asia Tenggara</characterLabel>
+		<characterLabel type="spacing">Spasi</characterLabel>
+		<characterLabel type="sport">olahraga</characterLabel>
+		<characterLabel type="symbols">Simbol</characterLabel>
+		<characterLabel type="technical_symbols">Simbol Teknis</characterLabel>
+		<characterLabel type="tone_marks">Tanda Intonasi</characterLabel>
+		<characterLabel type="travel">wisata</characterLabel>
+		<characterLabel type="travel_places">Perjalanan &amp; Lokasi</characterLabel>
+		<characterLabel type="upwards_arrows">Panah Atas</characterLabel>
+		<characterLabel type="variant_forms">Varian Format</characterLabel>
+		<characterLabel type="vocalic_jamo">Jamo Vokal</characterLabel>
+		<characterLabel type="weather">cuaca</characterLabel>
+		<characterLabel type="western_asian_scripts">Skrip Asia Bagian Barat</characterLabel>
+		<characterLabel type="whitespace">Spasi Kosong</characterLabel>
+	</characterLabels>
 </ldml>
-
