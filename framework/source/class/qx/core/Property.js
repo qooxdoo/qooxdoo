@@ -84,8 +84,10 @@
  *   </td></tr>
  *   <tr><th>transform</th><td>String</td><td>
  *     On setting of the property value the method of the specified name will
- *     be called. The signature of the method is <code>function(value)</code>.
- *     The parameter <code>value</code> is the value passed to the setter.
+ *     be called. The signature of the method is <code>function(value, oldValue)</code>.
+ *     The parameter <code>value</code> is the value passed to the setter, the
+ *     parameter <code>oldValue</code> is the current value, or undefined if no value
+ *     has been set previously.
  *     The function must return the modified or unmodified value.
  *     Transformation occurs before the check function, so both may be
  *     specified if desired.  Alternatively, the transform function may throw
