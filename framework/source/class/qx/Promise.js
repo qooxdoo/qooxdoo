@@ -70,6 +70,7 @@ qx.Class.define("qx.Promise", {
    */
   construct: function(fn, context) {
     this.base(arguments);
+    qx.Promise.__initialize();
     if (fn instanceof Promise)
       this.__p = fn;
     else {
@@ -124,6 +125,20 @@ qx.Class.define("qx.Promise", {
   },
   
   statics: {
+    
+    __initialized: false,
+    __initialize: function() {
+      if (this.__initialized)
+        return;
+      this.__initialized = true;
+      window.addEventListener("unhandledrejection", this.__onUnhandledRejection.bind(this));
+    },
+    
+    __onUnhandledRejection: function(e) {
+      e.preventDefault();
+      qx.log.Logger.error(this, "Unhandled promise rejection: " + e.detail.reason.stack);
+      qx.event.GlobalError.handleError(e.detail.reason);
+    },
     
     /**
      * Recursively unwraps the object to translate qx.Promise objects into

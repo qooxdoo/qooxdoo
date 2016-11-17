@@ -61,6 +61,7 @@ qx.Class.define("qx.test.TestPromise", {
       this.wait(1000);
     },
     
+    /*
     testEach: function() {
       var t = this;
       var arr = new qx.data.Array();
@@ -75,6 +76,25 @@ qx.Class.define("qx.test.TestPromise", {
         t.resume();
       });
       t.wait(1000);
+    },
+    */
+    
+    testGlobalError: function() {
+      var t = this;
+      qx.event.GlobalError.setErrorHandler(function(ex) {
+        t.assertEquals(ex.message, "oops");
+        t.resume();
+      });
+      var self = this;
+      var p = new qx.Promise(function(resolve, reject) {
+        setTimeout(function() {
+          resolve("ok");
+        });
+      }, this);
+      p.then(function(value) {
+        throw new Error("oops");
+      });
+      this.wait(1000);
     }
   }
 });
