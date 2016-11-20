@@ -53,7 +53,7 @@ qx.Class.define("qx.core.Object",
    * Create a new instance
    */
   construct : function() {
-  	if (qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
+  	if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
   		qx.core.ObjectRegistry.register(this);
   	} else {
   		qx.core.ObjectRegistry.toHashCode(this);
