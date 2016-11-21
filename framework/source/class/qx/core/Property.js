@@ -574,25 +574,25 @@ qx.Bootstrap.define("qx.core.Property",
         return qx.core.Property.executeOptimizedGetter(this, clazz, name, "get");
       };
       members[method.get[name]].$$install = function(value) {
-        qx.core.Property.installOptimizedGetter(this, clazz, name, "get", arguments);
+        qx.core.Property.installOptimizedGetter(clazz, name, "get", arguments);
       };
 
       var setName = method.set[name] = "set" + upname;
       members[setName] = new Function(
-          "this." + setName + ".$$install && this." + setName + ".$$install();" +
+          "this." + setName + ".$$install && this." + setName + ".$$install.call(this);" +
           "return this." + setName + ".apply(this, arguments);");
       method.setAsync[name] = "set" + upname + "Async";
       if (config.async) {
       members[setName + "Async"] = new Function(
-            "this." + setName + ".$$install && this." + setName + ".$$install();" +
+            "this." + setName + ".$$install && this." + setName + ".$$install.call(this);" +
           "return this." + setName + "Async.apply(this, arguments);");
       }
       method.setImpl[name] = "$$set" + upname + "Impl";
       members[setName].$$install = function() {
-        qx.core.Property.installOptimizedSetter(this, clazz, name, "set");
-        qx.core.Property.installOptimizedSetter(this, clazz, name, "setImpl");
+        qx.core.Property.installOptimizedSetter(clazz, name, "set");
+        qx.core.Property.installOptimizedSetter(clazz, name, "setImpl");
         if (config.async) {
-          qx.core.Property.installOptimizedSetter(this, clazz, name, "setAsync");
+          qx.core.Property.installOptimizedSetter(clazz, name, "setAsync");
         }
       };
 
@@ -601,7 +601,7 @@ qx.Bootstrap.define("qx.core.Property",
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
       };
       members[method.reset[name]].$$install = function() {
-        qx.core.Property.installOptimizedSetter(this, clazz, name, "reset");
+        qx.core.Property.installOptimizedSetter(clazz, name, "reset");
       };
 
       if (config.inheritable || config.apply || config.event || config.deferredInit)
@@ -732,7 +732,7 @@ qx.Bootstrap.define("qx.core.Property",
      */
     __unwrapFunctionFromCode : function(instance, members, name, variant, code, args)
     {
-    	var fn = this.__installFunctionFromCode(instance, members, name, variant, code, args);
+    	var fn = this.__installFunctionFromCode(instance.constructor, name, variant, code, args);
 
       // Executing new function
       if (args === undefined) {
@@ -749,15 +749,14 @@ qx.Bootstrap.define("qx.core.Property",
      * Takes a string builder object, converts it into a function, and installs it as
      * a property accessor
      *
-     * @param instance {Object} Instance which have called the original method
-     * @param members {Object} Prototype members map where the new function should be stored
+     * @param clazz {Class} Class to install the method into
      * @param name {String} Name of the property
      * @param variant {String} Function variant e.g. get, set, reset, ...
      * @param code {Array} Array which contains the code
      * @param args {arguments} Incoming arguments of wrapper method
      * @return {var} Return value of the generated function
      */
-    __installFunctionFromCode : function(instance, members, name, variant, code, args)
+    __installFunctionFromCode : function(clazz, name, variant, code, args)
     {
       var store = this.$$method[variant][name];
 
@@ -770,23 +769,23 @@ qx.Bootstrap.define("qx.core.Property",
 
         // Overriding temporary wrapper
         try{
-          members[store] =  new Function("value", code.join(""));
+          clazz.prototype[store] =  new Function("value", code.join(""));
         } catch(ex) {
           throw new Error("Malformed generated code to unwrap method: " + this.$$method[variant][name] + "\n" + code.join(""));
         }
       }
       else
       {
-        members[store] =  new Function("value", code.join(""));
+        clazz.prototype[store] =  new Function("value", code.join(""));
       }
 
       // Enable profiling code
       if (qx.core.Environment.get("qx.aspects")) {
-        members[store] = qx.core.Aspect.wrap(instance.classname + "." + store, members[store], "property");
+        clazz.prototype[store] = qx.core.Aspect.wrap(clazz.classname + "." + store, clazz.prototype[store], "property");
       }
 
-      qx.Bootstrap.setDisplayName(members[store], instance.classname + ".prototype", store);
-      return instance[store];
+      qx.Bootstrap.setDisplayName(clazz.prototype[store], clazz.classname + ".prototype", store);
+      return clazz.prototype[store];
     },
 
 
@@ -802,7 +801,7 @@ qx.Bootstrap.define("qx.core.Property",
      */
     executeOptimizedGetter : function(instance, clazz, name, variant)
     {
-      var code = this.__compileGetter(instance, clazz, name, variant);
+      var code = this.__compileGetter(clazz, name, variant);
       var members = clazz.prototype;
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code);
     },
@@ -812,16 +811,14 @@ qx.Bootstrap.define("qx.core.Property",
      * Installs a getter into the class prototype, without executing it
      * Supported variants: get
      *
-     * @param instance {Object} the instance which calls the method
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
      * @param variant {String} Method variant.
      */
-    installOptimizedGetter : function(instance, clazz, name, variant)
+    installOptimizedGetter : function(clazz, name, variant)
     {
-      var code = this.__compileGetter(instance, clazz, name, variant);
-      var members = clazz.prototype;
-      this.__installFunctionFromCode(instance, members, name, variant, code);
+      var code = this.__compileGetter(clazz, name, variant);
+      this.__installFunctionFromCode(clazz, name, variant, code);
     },
     
     
@@ -829,13 +826,12 @@ qx.Bootstrap.define("qx.core.Property",
      * Compiles a getter into a string builder array
      * Supported variants: get
      *
-     * @param instance {Object} the instance which calls the method
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
      * @param variant {String} Method variant.
      * @return {String[]} the string builder array
      */
-    __compileGetter: function(instance, clazz, name, variant)
+    __compileGetter: function(clazz, name, variant)
     {
       var config = clazz.$$properties[name];
       var code = [];
@@ -908,7 +904,7 @@ qx.Bootstrap.define("qx.core.Property",
      */
     executeOptimizedSetter : function(instance, clazz, name, variant, args)
     {
-    	var code = this.__compileSetter(instance, clazz, name, variant, args);
+    	var code = this.__compileSetter(clazz, name, variant);
       var members = clazz.prototype;
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
     },
@@ -918,17 +914,15 @@ qx.Bootstrap.define("qx.core.Property",
      * Installs a setter into the class prototype, without executing it
      * Supported variants: set
      *
-     * @param instance {Object} the instance which calls the method
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
      * @param variant {String} Method variant.
      * @return {var} Return value of the generated function
      */
-    installOptimizedSetter : function(instance, clazz, name, variant)
+    installOptimizedSetter : function(clazz, name, variant)
     {
-    	var code = this.__compileSetter(instance, clazz, name, variant);
-      var members = clazz.prototype;
-      return this.__installFunctionFromCode(instance, members, name, variant, code);
+    	var code = this.__compileSetter(clazz, name, variant);
+      return this.__installFunctionFromCode(clazz, name, variant, code);
     },
     
     
@@ -942,7 +936,7 @@ qx.Bootstrap.define("qx.core.Property",
      * @param variant {String} Method variant.
      * @return {String[]} the string builder array
      */
-    __compileSetter: function(instance, clazz, name, variant) {
+    __compileSetter: function(clazz, name, variant) {
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var code = [];
