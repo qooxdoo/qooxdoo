@@ -588,7 +588,7 @@ qx.Bootstrap.define("qx.core.Property",
           "return this." + setName + "Async.apply(this, arguments);");
       }
       method.setImpl[name] = "$$set" + upname + "Impl";
-      var $$install = members[setName].$$install = function() {
+      members[setName].$$install = function() {
         qx.core.Property.installOptimizedSetter(this, clazz, name, "set");
         qx.core.Property.installOptimizedSetter(this, clazz, name, "setImpl");
         if (config.async) {
@@ -1026,10 +1026,11 @@ qx.Bootstrap.define("qx.core.Property",
                 'promise = value.then(set.bind(this));',
               'else ',
                 'promise = set.apply(this, arguments);');
-          if (variant == "setImpl")
+          if (variant == "setImpl") {
             code.push("return promise;");
-          else
+          } else {
             code.push('return value;');
+          }
         } else {
           code.push(
               'set.apply(this, arguments);',
