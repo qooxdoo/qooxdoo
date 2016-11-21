@@ -579,12 +579,12 @@ qx.Bootstrap.define("qx.core.Property",
 
       var setName = method.set[name] = "set" + upname;
       members[setName] = new Function(
-          "this." + setName + ".$$install && this." + setName + ".$$install();" +
+          "this." + setName + ".$$install && this." + setName + ".$$install.call(this);" +
           "return this." + setName + ".apply(this, arguments);");
       method.setAsync[name] = "set" + upname + "Async";
       if (config.async) {
       members[setName + "Async"] = new Function(
-            "this." + setName + ".$$install && this." + setName + ".$$install();" +
+            "this." + setName + ".$$install && this." + setName + ".$$install.call(this);" +
           "return this." + setName + "Async.apply(this, arguments);");
       }
       method.setImpl[name] = "$$set" + upname + "Impl";

@@ -1414,7 +1414,7 @@ qx.Bootstrap.define("qx.Class",
 
         // If it's a property accessor, we need to install it now so that this.base can refer to it
         if (proto[key] != undefined && proto[key].$$install) {
-        	proto[key].$$install();
+        	proto[key].$$install.call(this);
         }
 
         // Added helper stuff to functions
