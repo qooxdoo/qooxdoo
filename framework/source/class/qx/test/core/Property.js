@@ -892,6 +892,66 @@ qx.Class.define("qx.test.core.Property",
       this.assertIdentical(object, context);
 
       object.dispose();
+    },
+    
+    
+    testTransform : function ()
+    {
+      qx.Class.define("qx.TestProperty", {
+        extend : qx.core.Object,
+        construct: function() {
+          this.base(arguments);
+          this.initPropTwo(new qx.data.Array());
+        },
+        properties : {
+          prop : {
+            check : "qx.data.Array",
+            nullable : true,
+            event : "changeProp",
+            transform : "__transform"
+          },
+          propTwo : {
+            check : "qx.data.Array",
+            nullable : true,
+            event : "changePropTwo",
+            transform : "__transform",
+            deferredInit: true
+          }
+        },
+        members : {
+          __transform : function (value, oldValue) {
+            if (oldValue === undefined)
+              return value;
+            if (!value)
+              oldValue.removeAll();
+            else
+              oldValue.replace(value)
+            return oldValue;
+          }
+        }
+      });
+
+      var object = new qx.TestProperty();
+      var arr = new qx.data.Array();
+      object.setProp(arr);
+      this.assertIdentical(arr, object.getProp());
+      arr.push("1");
+
+      var arr2 = new qx.data.Array();
+      arr2.push("2");
+      arr2.push("3");
+
+      object.setProp(arr2);
+      this.assertIdentical(arr, object.getProp());
+      this.assertArrayEquals([ "2", "3" ], arr.toArray());
+
+
+      var savePropTwo = object.getPropTwo();
+      object.setPropTwo(arr2);
+      this.assertIdentical(savePropTwo, object.getPropTwo());
+      this.assertArrayEquals([ "2", "3" ], savePropTwo.toArray());
     }
+
+
   }
 });
