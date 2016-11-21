@@ -269,6 +269,8 @@ qx.Bootstrap.define("qx.core.Property",
     {
       get          : {},
       set          : {},
+      setImpl      : {},
+      setAsync     : {},
       reset        : {},
       init         : {},
       refresh      : {},
@@ -298,6 +300,7 @@ qx.Bootstrap.define("qx.core.Property",
       event        : "string",   // String
       check        : null,       // Array, String, Function
       transform    : "string",   // String
+      async        : "boolean",  // Boolean
       deferredInit : "boolean",  // Boolean
       validate     : null,       // String, Function
       isEqual      : null        // String, Function
@@ -574,12 +577,23 @@ qx.Bootstrap.define("qx.core.Property",
         qx.core.Property.installOptimizedGetter(this, clazz, name, "get", arguments);
       };
 
-      method.set[name] = "set" + upname;
-      members[method.set[name]] = function(value) {
-        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "set", arguments);
-      };
-      members[method.set[name]].$$install = function(value) {
-        qx.core.Property.installOptimizedSetter(this, clazz, name, "set", arguments);
+      var setName = method.set[name] = "set" + upname;
+      members[setName] = new Function(
+          "this." + setName + ".$$install && this." + setName + ".$$install();" +
+          "return this." + setName + ".apply(this, arguments);");
+      method.setAsync[name] = "set" + upname + "Async";
+      if (config.async) {
+      members[setName + "Async"] = new Function(
+            "this." + setName + ".$$install && this." + setName + ".$$install();" +
+          "return this." + setName + "Async.apply(this, arguments);");
+      }
+      method.setImpl[name] = "$$set" + upname + "Impl";
+      members[setName].$$install = function() {
+        qx.core.Property.installOptimizedSetter(this, clazz, name, "set");
+        qx.core.Property.installOptimizedSetter(this, clazz, name, "setImpl");
+        if (config.async) {
+          qx.core.Property.installOptimizedSetter(this, clazz, name, "setAsync");
+        }
       };
 
       method.reset[name] = "reset" + upname;
@@ -908,34 +922,49 @@ qx.Bootstrap.define("qx.core.Property",
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
      * @param variant {String} Method variant.
-     * @param args {arguments} Incoming arguments of wrapper method
      * @return {var} Return value of the generated function
      */
-    installOptimizedSetter : function(instance, clazz, name, variant, args)
+    installOptimizedSetter : function(instance, clazz, name, variant)
     {
-    	var code = this.__compileSetter(instance, clazz, name, variant, args);
+    	var code = this.__compileSetter(instance, clazz, name, variant);
       var members = clazz.prototype;
-      return this.__installFunctionFromCode(instance, members, name, variant, code, args);
+      return this.__installFunctionFromCode(instance, members, name, variant, code);
     },
     
     
     /**
-     * Compiles a getter into a string builder array
-     * Supported variants: get
+     * Compiles a setter into a string builder array
+     * Supported variants: set, setThemed, setRuntime, init
      *
      * @param instance {Object} the instance which calls the method
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
      * @param variant {String} Method variant.
-     * @param args {arguments} Incoming arguments of wrapper method
      * @return {String[]} the string builder array
      */
-    __compileSetter: function(instance, clazz, name, variant, args) {
+    __compileSetter: function(instance, clazz, name, variant) {
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var code = [];
       
-      var incomingValue = variant === "set" || variant === "setThemed" || variant === "setRuntime" || (variant === "init" && config.init === undefined);
+      var upname = qx.lang.String.firstUp(name);
+      if (variant == "setAsync") {
+        code.push('return qx.Promise.resolve(this.$$set' + upname + "Impl.apply(this, arguments));");
+        return code;
+        
+      } else if (variant == "set") {
+        code.push(
+            'this.$$set' + upname + "Impl.apply(this, arguments);",
+            'return value;');
+        return code;
+        
+      }
+      
+      var incomingValue = 
+        variant === "setImpl" ||
+        variant === "setThemed" || 
+        variant === "setRuntime" || 
+        (variant === "init" && config.init === undefined);
       var hasCallback = config.apply || config.event || config.inheritable;
 
 
@@ -945,8 +974,9 @@ qx.Bootstrap.define("qx.core.Property",
 
       this.__emitSetterPreConditions(code, config, name, variant, incomingValue);
       
-      if (incomingValue || hasCallback)
+      if (incomingValue || hasCallback) {
         this.__emitOldValue(code, config, name);
+      }
 
       if (incomingValue) {
         this.__emitIncomingValueTransformation(code, clazz, config, name);
@@ -981,22 +1011,33 @@ qx.Bootstrap.define("qx.core.Property",
 
       if (hasCallback)
       {
-        this.__emitCallCallback(code, config, name, variant);
-
-        // Refresh children
-        // Requires the parent/children interface
-        if (config.inheritable && members._getChildren) {
-          this.__emitRefreshChildrenValue(code, name);
-        }
+        // Emit callback and event firing; Refreshing children (5th parameter) requires the parent/children interface
+        this.__emitCallCallback(code, config, name, variant, !!(config.inheritable && members._getChildren));
       }
 
       // Return value
       if (incomingValue) {
         code.unshift('function set(value){');
-        code.push('} if (value instanceof qx.Promise) value.then(set.bind(this)); else set.apply(this, arguments);');
-        code.push('return value;');
+        code.push('}');
+        if (!config.check || config.check != "qx.Promise") {
+          code.push(
+              'var promise;',
+              'if (value instanceof qx.Promise) ',
+                'promise = value.then(set.bind(this));',
+              'else ',
+                'promise = set.apply(this, arguments);');
+          if (variant == "setImpl") {
+            code.push("return promise;");
+          } else {
+            code.push('return value;');
+          }
+        } else {
+          code.push(
+              'set.apply(this, arguments);',
+              'return value;');
+        }
       }
-
+      
       return code;
     },
 
@@ -1113,7 +1154,7 @@ qx.Bootstrap.define("qx.core.Property",
         }
 
         // Undefined check
-        if (variant === "set") {
+        if (variant === "setImpl") {
           code.push('if(value===undefined)prop.error(this,2,"', name, '","', variant, '",value);');
         }
       }
@@ -1269,7 +1310,7 @@ qx.Bootstrap.define("qx.core.Property",
         code.push('if(this.', this.$$store.runtime[name], '!==undefined)');
         code.push('delete this.', this.$$store.runtime[name], ';');
       }
-      else if (variant === "set")
+      else if (variant === "setImpl")
       {
         code.push('this.', this.$$store.user[name], '=value;');
       }
@@ -1338,7 +1379,7 @@ qx.Bootstrap.define("qx.core.Property",
         code.push('computed=this.', this.$$store.runtime[name], ';');
 
         // Store incoming value
-        if (variant === "set")
+        if (variant === "setImpl")
         {
           code.push('this.', this.$$store.user[name], '=value;');
         }
@@ -1366,7 +1407,7 @@ qx.Bootstrap.define("qx.core.Property",
       // OLD = USER VALUE
       code.push('else if(this.', this.$$store.user[name], '!==undefined){');
 
-      if (variant === "set")
+      if (variant === "setImpl")
       {
         // Replace it with new value
         code.push('computed=this.', this.$$store.user[name], '=value;');
@@ -1432,7 +1473,7 @@ qx.Bootstrap.define("qx.core.Property",
           code.push('computed=this.', this.$$store.runtime[name], '=value;');
         }
 
-        else if (variant === "set")
+        else if (variant === "setImpl")
         {
           code.push('computed=this.', this.$$store.user[name], '=value;');
         }
@@ -1491,13 +1532,13 @@ qx.Bootstrap.define("qx.core.Property",
       // higher priority than the init value, so the init value has no chance to ever get used,
       // when there is an user or themed value, too.
 
-      else if (variant === "set" || variant === "setRuntime" || variant === "setThemed" || variant === "refresh")
+      else if (variant === "setImpl" || variant === "setRuntime" || variant === "setThemed" || variant === "refresh")
       {
         code.push('delete this.', this.$$store.useinit[name], ';');
 
         if (variant === "setRuntime") {
           code.push('computed=this.', this.$$store.runtime[name], '=value;');
-        } else if (variant === "set") {
+        } else if (variant === "setImpl") {
           code.push('computed=this.', this.$$store.user[name], '=value;');
         } else if (variant === "setThemed") {
           code.push('computed=this.', this.$$store.theme[name], '=value;');
@@ -1513,7 +1554,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       // reset(), resetRuntime() and resetStyle() are impossible because otherwise there
       // is already an old value
-      if (variant === "set" || variant === "setRuntime" || variant === "setThemed" || variant === "init")
+      if (variant === "setImpl" || variant === "setRuntime" || variant === "setThemed" || variant === "init")
       {
         code.push('else{');
 
@@ -1522,7 +1563,7 @@ qx.Bootstrap.define("qx.core.Property",
           code.push('computed=this.', this.$$store.runtime[name], '=value;');
         }
 
-        else if (variant === "set")
+        else if (variant === "setImpl")
         {
           code.push('computed=this.', this.$$store.user[name], '=value;');
         }
@@ -1662,7 +1703,7 @@ qx.Bootstrap.define("qx.core.Property",
     {
       // Properties which are not inheritable have no possibility to get
       // undefined at this position. (Hint: set(), setRuntime() and setThemed() only allow non undefined values)
-      if (variant !== "set" && variant !== "setRuntime" && variant !== "setThemed") {
+      if (variant !== "setImpl" && variant !== "setRuntime" && variant !== "setThemed") {
         code.push('if(computed===undefined)computed=null;');
       }
 
@@ -1685,36 +1726,45 @@ qx.Bootstrap.define("qx.core.Property",
      * @param config {Object} The property configuration map
      * @param name {String} name of the property
      * @param variant {String} variant of the method e.g. setThemed
+     * @param refresh {Boolean} if true, emit code to update the inherited values of child objects
      */
-    __emitCallCallback : function(code, config, name, variant)
+    __emitCallCallback : function(code, config, name, variant, refresh)
     {
       // Execute user configured setter
+      code.push('var promise;');
       if (config.apply) {
-        code.push('this.', config.apply, '(computed, old, "', name, '", "', variant, '");');
+        code.push('promise = this.', config.apply, '(computed, old, "', name, '", "', variant, '");');
       }
 
+      code.push("function fire() {");
+      
       // Fire event
       if (config.event) {
         code.push(
-          "var reg=qx.event.Registration;",
-          "if(reg.hasListener(this, '", config.event, "')){",
-          "reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", ")}"
-        );
+            "var reg=qx.event.Registration;",
+            "if(reg.hasListener(this, '", config.event, "'))",
+              "reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", ");");
       }
-    },
-
-
-    /**
-     * Emit code to update the inherited values of child objects
-     *
-     * @param code {String[]} String array to append the code to
-     * @param name {String} name of the property
-     */
-    __emitRefreshChildrenValue : function(code, name)
-    {
-      code.push('var a=this._getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
-      code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(backup);');
-      code.push('}');
+      
+      // Emit code to update the inherited values of child objects
+      if (refresh) {
+        code.push(
+          'var a=this._getChildren();',
+          'if(a)',
+            'for(var i=0,l=a.length;i<l;i++){',
+              'if(a[i].', this.$$method.refresh[name], ')',
+                'a[i].', this.$$method.refresh[name], '(backup);',
+            '}');
+      }
+      
+      code.push(
+          "return value;",
+        "}",
+        "if(promise instanceof qx.Promise) " +
+          "return promise.then(fire, this); ",
+        "fire.call(this);"
+      );
+      code.push('return promise;');
     }
   }
 });
