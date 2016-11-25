@@ -9,12 +9,12 @@ TARGET="$PWD/build"
 MASTER="master"
 
 if [ "$GH_USER_EMAIL" = "" ]; then
-  echo "Skipping site generation for regular build."
+  echo "Non QX build: skipping site generation"
   exit 1
 fi
 
 if [ "$TRAVIS_BRANCH" != "$MASTER" -a "$TRAVIS_TAG" = "" ]; then
-  echo "Skipping site generation for $TRAVIS_BRANCH."
+  echo "No master branch: skipping site generation for $TRAVIS_BRANCH"
   exit 2
 fi
 
