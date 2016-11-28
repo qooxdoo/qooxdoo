@@ -174,7 +174,6 @@ qx.Bootstrap.define("qx.log.appender.Util",
 
       output.push(this.formatOffset(entry.offset, 6));
 
-      var hash = entry.object;
       if (entry.object)
       {
         if (entry.clazz) {
