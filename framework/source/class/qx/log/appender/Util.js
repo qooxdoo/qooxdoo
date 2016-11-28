@@ -38,9 +38,13 @@ qx.Bootstrap.define("qx.log.appender.Util",
 
       if (entry.object)
       {
-        var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
-        if (obj) {
-          output.push("<span class='object' title='Object instance with hash code: " + obj.$$hash + "'>", obj.classname, "[" , obj.$$hash, "]</span>: ");
+        if (entry.clazz) {
+          output.push("<span class='object' title='Object instance with hash code: " + entry.object + "'>", entry.clazz.classname, "[", entry.object, "]</span>: ");
+        } else {
+          var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
+          if (obj) {
+            output.push("<span class='object' title='Object instance with hash code: " + obj.$$hash + "'>", obj.classname, "[", obj.$$hash, "]</span>: ");
+          }
         }
       }
       else if (entry.clazz)
@@ -170,11 +174,16 @@ qx.Bootstrap.define("qx.log.appender.Util",
 
       output.push(this.formatOffset(entry.offset, 6));
 
+      var hash = entry.object;
       if (entry.object)
       {
-        var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
-        if (obj) {
-          output.push(obj.classname + "[" + obj.$$hash + "]:");
+        if (entry.clazz) {
+          output.push(entry.clazz.classname + "[" + entry.object + "]:");
+        } else {
+          var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
+          if (obj) {
+            output.push(obj.classname + "[" + obj.$$hash + "]:");
+          }
         }
       }
       else if (entry.clazz) {
