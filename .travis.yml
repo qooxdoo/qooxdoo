@@ -19,11 +19,12 @@ cache:
 before_install:
 - gem install sass -v 3.4.20
 - pip install docutils
-- curl -L https://github.com/raphink/travis-texlive/releases/download/2015-07-14_05/texlive.tar.xz  | tar xJC ~
+- curl -L https://github.com/raphink/travis-texlive/releases/download/2015-07-14_05/texlive.tar.xz  | tar xJC `pwd`
 install:
 - "./.travis/browser-setup.sh"
 - export CHROME_BIN=`pwd`/chrome/google-chrome
 - export PATH=`pwd`/firefox:`pwd`/texlive/bin/x86_64-linux:$PATH
+- ls -la `pwd`/texlive/bin/x86_64-linux
 - npm install
 - grunt setup
 - cd framework
