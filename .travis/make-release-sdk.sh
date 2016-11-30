@@ -1,15 +1,15 @@
 #!/bin/bash
 
 # Skip builds if no tag is set
-if [ "$GH_USER_EMAIL" = "" ]; then
-  echo "Skipping SDK generation for regular build."
-  exit 0
-fi
-
-if [ "$TRAVIS_TAG" = "" ]; then
-    echo "No TAG: skipping creation of release archive."
-    exit 0
-fi
+#if [ "$GH_USER_EMAIL" = "" ]; then
+#  echo "Skipping SDK generation for regular build."
+#  exit 0
+#fi
+#
+#if [ "$TRAVIS_TAG" = "" ]; then
+#    echo "No TAG: skipping creation of release archive."
+#    exit 0
+#fi
 
 BASE_DIR="$(git rev-parse --show-toplevel)"
 BRANCH=$(git describe --contains --all HEAD)
@@ -91,7 +91,7 @@ function make-release-sdk()
     rm -rf $RELEASE_SDK/documentation/tech_manual/
     mkdir -p $RELEASE_SDK/documentation/manual/
     $SYNC $BASE_DIR/documentation/manual/build/html/* $RELEASE_SDK/documentation/manual/
-#    $SYNC $BASE_DIR/documentation/manual/build/latex/qooxdoo.pdf $RELEASE_SDK/documentation/manual/
+    $SYNC $BASE_DIR/documentation/manual/build/latex/qooxdoo.pdf $RELEASE_SDK/documentation/manual/
 
     rm -rf $RELEASE_SDK/.travis*
     rm -rf $RELEASE_SDK/.editorconfig
@@ -138,9 +138,9 @@ function build-docs()
     (cd $MANUAL && QOOXDOO_RELEASE=1 make html)
     (cd $BASE_DIR/documentation/tech_manual && make html > /dev/null)
 
-#    echo "  * building PDF..."
-#    (cd $MANUAL && QOOXDOO_RELEASE=1 make latex > /dev/null)
-#    (cd $MANUAL/build/latex && make all-pdf > /dev/null)
+    echo "  * building PDF..."
+    (cd $MANUAL && QOOXDOO_RELEASE=1 make latex > /dev/null)
+    (cd $MANUAL/build/latex && make all-pdf > /dev/null)
 }
 
 
