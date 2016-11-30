@@ -16,7 +16,7 @@ env:
 cache:
   directories:
   - "/tmp/qx5.1"
-  - "$HOME/texlive"
+  - "`pwd`/texlive"
 before_install:
 - gem install sass -v 3.4.20
 - curl -L https://github.com/raphink/travis-texlive/releases/download/2015-07-14_05/texlive.tar.xz  | tar xJC `pwd`
