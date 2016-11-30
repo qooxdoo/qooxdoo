@@ -23,7 +23,7 @@ before_install:
 install:
 - "./.travis/browser-setup.sh"
 - export CHROME_BIN=`pwd`/chrome/google-chrome
-- export PATH=`pwd`/firefox:`pwd`/texlive/bin:$PATH
+- export PATH=`pwd`/firefox:`pwd`/texlive/bin/x86_64-linux:$PATH
 - npm install
 - grunt setup
 - cd framework
