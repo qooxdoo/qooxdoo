@@ -422,7 +422,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         this.stopMomentum(this.__momentum[domEvent.pointerId]);
       }
       // do nothing if we don't need to scroll
-      if ((Math.abs(deltaY) < 1 && Math.abs(deltaX) < 1) || this.__stopMomentum[oldTimeoutId] || !this.__window) {
+      if ((Math.abs(deltaY) < 1 && Math.abs(deltaX) < 1) || this.__stopMomentum[oldTimeoutId] || !this.getWindow()) {
         delete this.__stopMomentum[oldTimeoutId];
         delete this.__momentum[domEvent.pointerId];
         return;
