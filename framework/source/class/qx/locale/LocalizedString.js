@@ -41,7 +41,7 @@ qx.Class.define("qx.locale.LocalizedString",
 
   members :
   {
-
+    __localized : null,
     __messageId : null,
     __args : null,
 
