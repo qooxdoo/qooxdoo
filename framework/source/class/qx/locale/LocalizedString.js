@@ -28,12 +28,14 @@ qx.Class.define("qx.locale.LocalizedString",
    * @param translation {String} The translated message
    * @param messageId {String} The messageId to translate
    * @param args {Array} list of arguments passed used as values for format strings
+   * @param localized {Boolean} True if the string uses localize instead of translate
    */
-  construct : function(translation, messageId, args)
+  construct : function(translation, messageId, args, localized)
   {
     this.base(arguments, translation);
 
     this.__messageId = messageId;
+    this.__localized = !!localized;
     this.__args = args;
   },
 
@@ -50,6 +52,10 @@ qx.Class.define("qx.locale.LocalizedString",
      *    locale.
      */
     translate : function() {
+      if (this.__localized) {
+        return qx.locale.Manager.getInstance().localize(this.__messageId, this.__args);
+      }
+
       return qx.locale.Manager.getInstance().translate(this.__messageId, this.__args);
     },
 
