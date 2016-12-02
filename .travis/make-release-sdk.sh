@@ -19,6 +19,11 @@ REV=$(git rev-parse --short HEAD)
 FRAMEWORK_VERSION=$(cat $BASE_DIR/version.txt)
 FRAMEWORK_GITINFO=$BRANCH:$REV
 
+# Adjust the framework version for non TAG builds
+if [ "$TRAVIS_TAG" = "" ]; then
+    FRAMEWORK_VERSION="$FRAMEWORK_VERSION-$REV"
+fi
+
 TARGET_DIR="$BASE_DIR/dist"
 SKEL_DIR=$BASE_DIR/component/skeleton/mobile/source/resource
 RES_DIR=$BASE_DIR/framework/source/resource/qx/mobile
