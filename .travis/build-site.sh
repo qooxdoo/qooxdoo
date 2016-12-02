@@ -13,8 +13,10 @@ if [ "$GH_USER_EMAIL" = "" ]; then
   exit 1
 fi
 
-if [ "$TRAVIS_BRANCH" != "$MASTER" -a "$TRAVIS_TAG" = "" ]; then
-  echo "No master branch: skipping site generation for $TRAVIS_BRANCH"
+if [ "$TRAVIS_BRANCH" = "$MASTER" -o "$TRAVIS_TAG" != "" ]; then
+  echo "Building site - please stand by"
+else
+  echo "No master branch or tag: skipping site generation for $TRAVIS_BRANCH"
   exit 2
 fi
 
@@ -105,9 +107,16 @@ function build_manual {
   (
     cd documentation/manual
     make html && cp -r build/html/* "$TARGET"
-    #make latexpdf && cp build/latex/qooxdoo.pdf "$TARGET"
+    make latexpdf && cp build/latex/qooxdoo.pdf "$TARGET"
     #make epub && cp build/epub/qooxdoo.epub "$TARGET"
   )
+}
+
+function build_sdk_zip {
+  if [ "$TRAVIS_BRANCH" = "$MASTER" -a "$TRAVIS_TAG" = "" ]; then
+    echo "Copying master sdk archive..."
+    cp $(git rev-parse --show-toplevel)/dist/temp/sdk/*zip "$TARGET/master.zip"
+  fi
 }
 
 npm install

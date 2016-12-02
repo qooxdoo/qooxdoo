@@ -6,9 +6,11 @@ if [ "$GH_USER_EMAIL" = "" ]; then
   exit 0
 fi
 
-if [ "$TRAVIS_TAG" = "" ]; then
-    echo "No TAG: skipping creation of release archive."
-    exit 0
+if [ "$TRAVIS_BRANCH" = "$MASTER" -o "$TRAVIS_TAG" != "" ]; then
+  echo "Building release archive - please stand by"
+else
+  echo "No TAG / master: skipping creation of release archive."
+  exit 0
 fi
 
 BASE_DIR="$(git rev-parse --show-toplevel)"
