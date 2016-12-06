@@ -123,7 +123,6 @@ qx.Class.define("qx.ui.form.Spinner",
     // is not focusable so the events need to be forwarded manually.
     this.addListener("focusin", function(e) {
       textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
-      textField.setTextSelection(0,0);
     }, this);
 
     this.addListener("focusout", function(e) {
@@ -831,6 +830,13 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     gotoValue : function(value) {
       return this.setValue(Math.min(this.getMaximum(), Math.max(this.getMinimum(), value)));
+    },
+
+    // overridden
+    focus : function()
+    {
+      this.base(arguments);
+      this.getChildControl("textfield").getFocusElement().focus();
     }
   },
 
