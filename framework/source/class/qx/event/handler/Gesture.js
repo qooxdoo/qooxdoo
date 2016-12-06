@@ -91,6 +91,13 @@ qx.Class.define("qx.event.handler.Gesture",
     __onDblClickWrapped : null,
     __fireRollWrapped : null,
 
+    /**
+     * Getter for the internal __window object
+     * @return {Window} DOM window instance
+     */
+    getWindow: function() {
+      return this.__window;
+    },
 
     // interface implementation
     canHandleEvent : function(target, type) {},
