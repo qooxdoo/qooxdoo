@@ -599,12 +599,18 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // property apply
     _applyShowTopLevelOpenCloseIcons : function(value, old) {
+      // force rebuild of the lookup table
+      // fixes https://github.com/qooxdoo/qooxdoo/issues/9128
+      this.getLookupTable().removeAll();
       this.buildLookupTable();
     },
 
 
     // property apply
     _applyShowLeafs : function(value, old) {
+      // force rebuild of the lookup table
+      // fixes https://github.com/qooxdoo/qooxdoo/issues/9128
+      this.getLookupTable().removeAll();
       this.buildLookupTable();
     },
 
