@@ -232,7 +232,7 @@ qx.Class.define("qx.util.ResourceManager",
     toDataUri : function (resid)
     {
       var resentry = this.constructor.__registry[resid];
-      var combined = this.constructor.__registry[resentry[4]];
+      var combined = resentry?this.constructor.__registry[resentry[4]]:null;
       var uri;
       if (combined) {
         var resstruct = combined[4][resid];
