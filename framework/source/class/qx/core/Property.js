@@ -1168,7 +1168,7 @@ qx.Bootstrap.define("qx.core.Property",
       );
 
       if (incomingValue) {
-        code.push('if(equ.call(this,old,value))return value;');
+        code.push('if(equ.call(this,this.',store,',value))return value;');
       } else if (resetValue) {
         code.push('if(this.', store, '===undefined)return;');
       }
