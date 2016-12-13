@@ -2259,18 +2259,27 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator = "button-box-pressed";
         }
 
-        // set the right left and right decoratos
+        // default margin, when the button is alone
+        var margin = [7, 0, 7, 10];
+        if (states.left || states.middle || states.right) {
+          margin = [7, 0, 7, 0];
+        }
+
+        // set the right left and right decorator
         if (states.left) {
           decorator += "-left";
         } else if (states.right) {
           decorator += "-middle";
         } else if (states.middle) {
           decorator += "-middle";
+        } else {
+          decorator += "-left";
         }
 
         return {
           icon : qx.theme.simple.Image.URLS["arrow-down"],
-          decorator : decorator
+          decorator : decorator,
+          margin : margin
         };
       }
     },
@@ -2295,18 +2304,27 @@ qx.Theme.define("qx.theme.simple.Appearance",
           decorator = "button-box-pressed";
         }
 
-        // set the right left and right decoratos
+        // default margin, when the button is alone
+        var margin = [7, 10, 7, 0];
+        if (states.left || states.middle || states.right) {
+          margin = [7, 0, 7, 0];
+        }
+
+        // set the right left and right decorator
         if (states.left) {
           decorator += "-middle";
         } else if (states.right) {
           decorator += "-right";
         } else if (states.middle) {
           decorator += "-middle";
+        } else {
+          decorator += "-right";
         }
 
         return {
           icon : qx.theme.simple.Image.URLS["arrow-down"],
-          decorator : decorator
+          decorator : decorator,
+          margin : margin
         };
       }
     },
