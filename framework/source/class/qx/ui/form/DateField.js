@@ -78,7 +78,6 @@ qx.Class.define("qx.ui.form.DateField",
     // is not focusable so the events need to be forwarded manually.
     this.addListener("focusin", function(e) {
       textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
-      textField.setTextSelection(0,0);
     }, this);
 
     this.addListener("focusout", function(e) {
@@ -583,6 +582,13 @@ qx.Class.define("qx.ui.form.DateField",
     {
       var value = this.getChildControl("textfield").getValue();
       return value == null || value == "";
+    },
+
+    // overridden
+    focus : function()
+    {
+      this.base(arguments);
+      this.getChildControl("textfield").getFocusElement().focus();
     }
   },
 
