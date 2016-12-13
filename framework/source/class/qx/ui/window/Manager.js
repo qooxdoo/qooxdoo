@@ -86,6 +86,12 @@ qx.Class.define("qx.ui.window.Manager",
      */
     syncWidget : function()
     {
+      // it may occur that the manager was added to the widget queue
+      // and the desktop was removed meanwhile
+      if(!this.__desktop) {
+        return;
+      }
+      
       this.__desktop.forceUnblock();
 
       var windows = this.__desktop.getWindows();
