@@ -41,7 +41,16 @@ qx.Class.define("qx.ui.window.Manager",
     setDesktop : function(desktop)
     {
       this.__desktop = desktop;
-      this.updateStack();
+      
+      if(desktop) {
+        this.updateStack();
+      }
+      else {
+         // the window manager should be removed
+         // from the widget queue if the desktop
+         // was set to null
+         qx.ui.core.queue.Widget.remove(this);
+      }
     },
 
 
@@ -86,12 +95,6 @@ qx.Class.define("qx.ui.window.Manager",
      */
     syncWidget : function()
     {
-      // it may occur that the manager was added to the widget queue
-      // and the desktop was removed meanwhile
-      if(!this.__desktop) {
-        return;
-      }
-      
       this.__desktop.forceUnblock();
 
       var windows = this.__desktop.getWindows();
