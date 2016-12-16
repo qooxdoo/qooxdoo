@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -x
+
+MASTER="master"
 
 # Skip builds if no tag is set
 if [ "$GH_USER_EMAIL" = "" ]; then
