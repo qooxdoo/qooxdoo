@@ -333,7 +333,7 @@ class SvgFile(Image):
         except (struct.error, IOError, KeyError):
             pass
         return (width, height)
-22
+
 
 # http://www.obrador.com/essentialjpeg/HeaderInfo.htm
 class JpegFile(Image):
