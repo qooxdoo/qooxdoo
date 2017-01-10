@@ -492,7 +492,7 @@
 
       return {
         category: fileNameParts[0],
-        name: path.basename(fileNameParts[1], '.html')
+        name: fileNameParts[1] ? path.basename(fileNameParts[1], '.html') : 'undefined'
       };
     },
 
