@@ -188,6 +188,9 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     /**
      * Checks if creating async functions are supported
+     *
+     * @lint ignoreDeprecated(alert, eval)
+     *
      * @internal
      * @return {Boolean} <code>true</code>, if async functions are supported
      */
