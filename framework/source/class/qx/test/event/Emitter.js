@@ -74,16 +74,16 @@ qx.Class.define("qx.test.event.Emitter",
       this.assertCalledOnce(spy);
     },
 
+    /**
+     * @lint ignoreDeprecated(alert, eval)
+     */
     testAddAsyncFunction : function() {
       this.require(["asyncFunctions"]);
-      var spy = this.spy();
-      this.__ee.addListener("test", spy, this);
+      var f = eval("f = async function(){};");
+      this.__ee.addListener("test", f, this);
       this.__ee.emit("test");
-      this.assertCalledOnce(spy);
-
-      this.__ee.removeListener("test", spy, this);
+      this.__ee.removeListener("test", f, this);
       this.__ee.emit("test");
-      this.assertCalledOnce(spy);
     },
 
     testAddRemoveById : function() {
