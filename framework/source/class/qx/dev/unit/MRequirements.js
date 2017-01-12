@@ -264,6 +264,17 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
     hasNoChromeOnLinux : function()
     {
       return (qx.core.Environment.get("browser.name") === "chrome" && qx.core.Environment.get("os.name") === "linux"?false:true);
+    },
+
+
+    /**
+    * Checks if the application is running on a client supporting async functions
+    *
+    * @return {Boolean} <code>true</code> if the client supports async functions
+    */
+    hasAsyncFunctions : function()
+    {
+      return qx.core.Environment.get("ecmascript.function.async");
     }
   }
 
