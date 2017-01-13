@@ -726,8 +726,16 @@ qx.Class.define("qx.Promise", {
      */
     __onUnhandledRejection: function(e) {
       e.preventDefault();
-      qx.log.Logger.error(this, "Unhandled promise rejection: " + (e.detail.reason ? e.detail.reason.stack : "(not from exception)"));
-      qx.event.GlobalError.handleError(e.detail.reason);
+      var reason = null;
+      if (e instanceof Error) {
+        reason = e;
+      } else if (e.reason instanceof Error) {
+        reason = e.reason;
+      } else if (e.detail && e.detail.reason instanceof Error) {
+        reason = e.detail.reason;
+      }
+      qx.log.Logger.error(this, "Unhandled promise rejection: " + (reason ? reason.stack : "(not from exception)"));
+      qx.event.GlobalError.handleError(reason);
     },
     
     /**
