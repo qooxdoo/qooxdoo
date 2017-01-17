@@ -77,6 +77,16 @@ qx.Bootstrap.define("qx.lang.Type",
 
 
     /**
+     * Whether the value is a function or an async function.
+     *
+     * @signature function(value)
+     * @param value {var} Value to check.
+     * @return {Boolean} Whether the value is a function or an async function.
+     */
+    isFunctionOrAsyncFunction : qx.Bootstrap.isFunctionOrAsyncFunction,
+
+
+    /**
     * Whether the value is a regular expression.
     *
     * @param value {var} Value to check.

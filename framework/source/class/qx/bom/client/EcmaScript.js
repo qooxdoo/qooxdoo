@@ -186,6 +186,19 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
       return typeof Function.prototype.bind === "function";
     },
 
+    /**
+     * Checks if creating async functions are supported
+     *
+     * @lint ignoreDeprecated(alert, eval)
+     *
+     * @internal
+     * @return {Boolean} <code>true</code>, if async functions are supported
+     */
+    getAsyncFunction : function() {
+      var f;
+      try { eval("f = async function(){};") } catch(e) { return false; };
+      return qx.Bootstrap.getClass(f) === "AsyncFunction";
+    },
 
     /**
      * Checks if 'keys' is supported on the Object object.
@@ -287,5 +300,8 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.string.startsWith", statics.getStringStartsWith);
     qx.core.Environment.add("ecmascript.string.endsWith", statics.getStringEndsWith);
     qx.core.Environment.add("ecmascript.string.trim", statics.getStringTrim);
+
+    // ES7 async function support
+    qx.core.Environment.add("ecmascript.function.async", statics.getAsyncFunction);
   }
 });
