@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.core.Widget",
         {@link qx.event.type.Mouse#getButton} for more details.*/
     click : "qx.event.type.Mouse",
 
-    /** Widget is clicked using the non primary button button.
+    /** Widget is clicked using the non primary button.
         {@link qx.event.type.Mouse#getButton} for more details.*/
     auxclick : "qx.event.type.Mouse",
 
