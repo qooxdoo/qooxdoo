@@ -85,6 +85,7 @@ qx.Class.define("qx.event.handler.Mouse",
       mousedown : 1,
       mouseup : 1,
       click : 1,
+      auxclick : 1,
       dblclick : 1,
       contextmenu : 1,
       mousewheel : 1
@@ -219,6 +220,7 @@ qx.Class.define("qx.event.handler.Mouse",
       Event.addNativeListener(this.__root, "mousedown", this.__onButtonEventWrapper);
       Event.addNativeListener(this.__root, "mouseup", this.__onButtonEventWrapper);
       Event.addNativeListener(this.__root, "click", this.__onButtonEventWrapper);
+      Event.addNativeListener(this.__root, "auxclick", this.__onButtonEventWrapper);
       Event.addNativeListener(this.__root, "dblclick", this.__onButtonEventWrapper);
       Event.addNativeListener(this.__root, "contextmenu", this.__onButtonEventWrapper);
     },
@@ -374,6 +376,17 @@ qx.Class.define("qx.event.handler.Mouse",
       }
 
       this.__fireEvent(domEvent, type, target);
+
+      /*
+       * In order to normalize middle button click events we
+       * need to fire an artificial click event if the client
+       * fires auxclick events for non primary buttons instead.
+       * 
+       * See https://github.com/qooxdoo/qooxdoo/issues/9268
+       */
+      if (type == "auxclick" && domEvent.button == 1) {
+        this.__fireEvent(domEvent, "click", target);
+      }
 
       if (this.__rightClickFixPost) {
         this.__rightClickFixPost(domEvent, type, target);
