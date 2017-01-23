@@ -280,7 +280,9 @@ echo "Target           : $TARGET_DIR"
 echo "-------------------------------------------------------------------------"
 
 cd $BASE_DIR
-tool/admin/bin/bumpqxversion.py $FRAMEWORK_VERSION
+if [ "$TRAVIS_BRANCH" != "$MASTER" ]; then
+    tool/admin/bin/bumpqxversion.py $FRAMEWORK_VERSION
+fi
 distclean
 
 build-framework-api && \
