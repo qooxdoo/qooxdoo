@@ -3,6 +3,7 @@
 set -o errexit -o nounset
 
 TARGET="devel"
+MASTER="master"
 CURRENT=0
 
 rev=$(git rev-parse --short HEAD)
@@ -31,6 +32,12 @@ fi
 
 rm -rf "$TARGET" &> /dev/null
 cp -a ../build "$TARGET"
+
+# Install potentially built master sdk zip
+if [ "$TRAVIS_BRANCH" = "$MASTER" -a "$TRAVIS_TAG" = "" ]; then
+  RELEASE_PKG_FILE=$(ls ../dist/*.zip)
+  cp $RELEASE_PKG_FILE qooxdoo-sdk-master.zip
+fi
 
 # Maintain the current link
 if [ $CURRENT = 1 ]; then

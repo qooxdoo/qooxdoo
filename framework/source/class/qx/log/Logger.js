@@ -582,7 +582,8 @@ qx.Bootstrap.define("qx.log.Logger",
         // to introduce an unwanted load-time dependency
         if (object.$$hash !== undefined) {
           entry.object = object.$$hash;
-        } else if (object.$$type) {
+        }
+        if (object.$$type) {
           entry.clazz = object;
         } else if (object.constructor) {
           entry.clazz = object.constructor;

@@ -29,6 +29,13 @@ qx.Class.define("qx.test.locale.LocalizedString",
         var ls  = new qx.locale.LocalizedString("foo", "id", "xyz");
         ls.translate();
       });
+    },
+
+    testLocalizeVsTranslate : function() {
+      this.assertEquals(
+        qx.locale.Date.getMonthName("wide", new Date().getMonth()).toString(),
+        qx.locale.Date.getMonthName("wide", new Date().getMonth()).translate().toString()
+      );
     }
   }
 });

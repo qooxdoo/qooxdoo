@@ -867,6 +867,11 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
+    /**
+     * Reset source displayed by the DOM element.
+     *
+     * @param el {Element} image DOM element
+     */
     __resetSource : function(el)
     {
       if (el != null) {

@@ -849,6 +849,19 @@ qx.Bootstrap.define("qx.Bootstrap",
     },
 
 
+    /**
+     * Whether the value is a function or an async function.
+     *
+     * @param value {var} Value to check.
+     * @return {Boolean} Whether the value is a function.
+     */
+    isFunctionOrAsyncFunction : function(value) {
+      var name = qx.Bootstrap.getClass(value)
+      return ((name === "Function")||(name === "AsyncFunction"));
+    },
+
+
+
     /*
     ---------------------------------------------------------------------------
       LOGGING UTILITY FUNCTIONS

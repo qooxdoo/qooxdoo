@@ -396,7 +396,7 @@ Here we define both a check and transform method for the width property. Though 
 
     members :
     {
-       _transformWidth : function(value)
+       _transformWidth : function(value, oldValue)
        {
           if ( qx.lang.Type.isString(value) )
           {
@@ -407,6 +407,7 @@ Here we define both a check and transform method for the width property. Though 
        }
     }
 
+The transform function is passed a second parameter which is the value previously set - note that the first time that transform is called, the oldValue parameter will be undefined
 
 .. _pages/defining_properties#async_properties:
 

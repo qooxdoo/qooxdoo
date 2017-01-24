@@ -131,6 +131,15 @@ qx.Class.define("qx.html.Label",
      */
     getValue : function() {
       return this._getProperty("value");
+    },
+
+    /**
+     * Reset the current content
+     *
+     * @return {qx.html.Label} This instance for for chaining support.
+     */
+    resetValue: function() {
+      return this._removeProperty("value");
     }
   }
 });
