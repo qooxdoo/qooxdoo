@@ -195,6 +195,21 @@ qx.Bootstrap.define("qx.bom.client.Event",
       };
 
       return {type: type, target: target};
+    },
+    
+    /**
+     * Detects if the engine/browser supports auxclick events
+     * 
+     * See https://github.com/qooxdoo/qooxdoo/issues/9268 
+     */
+    getAuxclickEvent : function() {
+      var hasAuxclick = false;
+      try {
+        hasAuxclick = ("onauxclick" in document.documentElement);
+      }
+      catch(ex) {};
+      
+      return (hasAuxclick ? true : false);
     }
   },
 
@@ -208,5 +223,6 @@ qx.Bootstrap.define("qx.bom.client.Event",
     qx.core.Environment.add("event.help", statics.getHelp);
     qx.core.Environment.add("event.hashchange", statics.getHashChange);
     qx.core.Environment.add("event.mousewheel", statics.getMouseWheel);
+    qx.core.Environment.add("event.auxclick", statics.getAuxclickEvent);
   }
 });
