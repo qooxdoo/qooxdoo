@@ -459,22 +459,32 @@ qx.Class.define("qx.Promise", {
      * the return value as a promise.
      * 
      * @param value {Object}
+     * @param context {Object?} optional context for callbacks to be bound to
      * @return {qx.Promise}
      */
-    resolve: function(value) {
+    resolve: function(value, context) {
+      var promise;
       if (value instanceof qx.Promise) {
-        return value;
+        promise = value;
+      } else {
+        promise = this.__wrap(qx.Promise.Bluebird.resolve(value));
       }
-      return this.__wrap(qx.Promise.Bluebird.resolve(value));
+      if (context !== undefined)
+        promise = promise.bind(context);
+      return promise;
     },
     
     /**
      * Returns a Promise object that is rejected with the given reason.
      * @param reason {Object} Reason why this Promise rejected.
+     * @param context {Object?} optional context for callbacks to be bound to
      * @return {qx.Promise}
      */
-    reject: function(reason) {
-      return this.__callStaticMethod('reject', arguments, 0);
+    reject: function(reason, context) {
+      var promise = this.__callStaticMethod('reject', arguments, 0);
+      if (context !== undefined)
+        promise = promise.bind(context);
+      return promise;
     },
     
     /**

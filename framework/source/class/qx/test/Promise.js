@@ -666,11 +666,34 @@ qx.Class.define("qx.test.Promise", {
      */
     testBindingToStatic: function() {
       var t = this;
-      debugger;
       qx.Promise.resolve(true).then(function() {
         qx.core.Assert.assertIdentical(qx.Promise, this);
         t.resume();
       }, qx.Promise);
+      this.wait(1000);
+    },
+
+    /**
+     * Tests the context parameter for qx.Promise.resolve
+     */
+    testBindingResolve: function() {
+      var t = this;
+      qx.Promise.resolve(true, this).then(function() {
+        qx.core.Assert.assertIdentical(t, this);
+        t.resume();
+      });
+      this.wait(1000);
+    },
+    
+    /**
+     * Tests the context parameter for qx.Promise.reject
+     */
+    testBindingReject: function() {
+      var t = this;
+      qx.Promise.reject(new Error("Dummy Error"), this).catch(function() {
+        qx.core.Assert.assertIdentical(t, this);
+        t.resume();
+      });
       this.wait(1000);
     }
   },

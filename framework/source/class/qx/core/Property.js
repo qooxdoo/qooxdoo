@@ -586,7 +586,7 @@ qx.Bootstrap.define("qx.core.Property",
 		      	allNames.push("is" + upname);
 		      	allNames.push("toggle" + upname);
 		      }
-	      	for (var tmp = clazz; tmp && tmp != qx.core.Object; tmp = tmp.superclass) {
+	      	for (var tmp = clazz.superclass; tmp && tmp != qx.core.Object; tmp = tmp.superclass) {
 	      		allNames.forEach(function(name) {
 	        		if (clazz.prototype[name] !== undefined) {
 	        			qx.log.Logger.warn("Conflicting property method " + clazz.classname + "." + name + " with " + tmp.classname);
@@ -1796,7 +1796,7 @@ qx.Bootstrap.define("qx.core.Property",
       }
       
       
-      if (variant === "setAsync") {
+      if (config.async) {
         code.push(
         		"function fire() {",
               "var promiseData = qx.Promise.resolve(computed);",
