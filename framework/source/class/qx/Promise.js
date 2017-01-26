@@ -469,8 +469,9 @@ qx.Class.define("qx.Promise", {
       } else {
         promise = this.__wrap(qx.Promise.Bluebird.resolve(value));
       }
-      if (context !== undefined)
+      if (context !== undefined) {
         promise = promise.bind(context);
+      }
       return promise;
     },
     
@@ -482,8 +483,9 @@ qx.Class.define("qx.Promise", {
      */
     reject: function(reason, context) {
       var promise = this.__callStaticMethod('reject', arguments, 0);
-      if (context !== undefined)
+      if (context !== undefined) {
         promise = promise.bind(context);
+      }
       return promise;
     },
     
