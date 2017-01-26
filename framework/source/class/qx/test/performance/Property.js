@@ -5,12 +5,12 @@ qx.Class.define("qx.test.performance.Property",
 
   members :
   {
-    SET_ITERATIONS : 100000,
+    SET_ITERATIONS : 10000,
 
 
     testPropertySet : function()
     {
-      var Clazz = qx.Class.define(null, {
+      var Clazz = qx.Class.define("demo.MyClass", {
         extend: qx.core.Object,
         properties: {
           alpha: {
@@ -22,9 +22,10 @@ qx.Class.define("qx.test.performance.Property",
         }
       });
       var obj = new Clazz();
+      obj.addListener("changeAlpha", function() {}, this);
       var self = this;
       this.measure(
-        "create qx.core.Object",
+        "property set",
         function() {
           for (var i=0; i<self.SET_ITERATIONS; i++) {
             obj.setAlpha("value #" + i);
@@ -32,6 +33,7 @@ qx.Class.define("qx.test.performance.Property",
         },
         function() {
           obj.dispose();
+          qx.Class.undefine("demo.MyClass");
         },
         this.SET_ITERATIONS
       );
@@ -40,7 +42,10 @@ qx.Class.define("qx.test.performance.Property",
 
     testAsyncPropertySet : function()
     {
-      var Clazz = qx.Class.define(null, {
+      if (qx.core.Environment.get("qx.promise.lastStackTraces")) {
+        this.warn("Long Stack Traces are enabled - this will significantly slow down the test");
+      }
+      var Clazz = qx.Class.define("demo.MyClass", {
         extend: qx.core.Object,
         properties: {
           alpha: {
@@ -53,9 +58,10 @@ qx.Class.define("qx.test.performance.Property",
         }
       });
       var obj = new Clazz();
+      obj.addListener("changeAlpha", function() {}, this);
       var self = this;
       this.measure(
-        "create qx.core.Object",
+        "property set",
         function() {
           for (var i=0; i<self.SET_ITERATIONS; i++) {
             obj.setAlpha("value #" + i);
@@ -63,6 +69,7 @@ qx.Class.define("qx.test.performance.Property",
         },
         function() {
           obj.dispose();
+          qx.Class.undefine("demo.MyClass");
         },
         this.SET_ITERATIONS
       );
