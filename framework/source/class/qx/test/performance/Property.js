@@ -42,8 +42,8 @@ qx.Class.define("qx.test.performance.Property",
 
     testAsyncPropertySet : function()
     {
-      if (qx.core.Environment.get("qx.promise.lastStackTraces")) {
-        this.warn("Long Stack Traces are enabled - this will significantly slow down the test");
+      if (qx.core.Environment.get("qx.promise.longStackTraces")) {
+        (console.log||this.warn)("Long Stack Traces are enabled - this will significantly slow down the test");
       }
       var Clazz = qx.Class.define("demo.MyClass", {
         extend: qx.core.Object,
