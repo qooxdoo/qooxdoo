@@ -745,10 +745,9 @@ qx.Class.define("qx.Promise", {
      */
     __attachBluebird: function(Promise) {
       this.Bluebird = Promise;
-      var debug = qx.core.Environment.get("qx.debug");
       Promise.config({
-        warnings: debug,
-        longStackTraces: debug,
+        warnings: qx.core.Environment.get("qx.promise.warnings"),
+        longStackTraces: qx.core.Environment.get("qx.promise.longStackTraces"),
         cancellation: true
       });
     },
@@ -855,7 +854,7 @@ qx.Class.define("qx.Promise", {
       }
       if (args.length > minArgs) {
         var context = args[args.length - 1];
-        if (context instanceof qx.core.Object) {
+        if (context instanceof qx.core.Object || qx.Class.isClass(context)) {
           args.pop();
           for (var i = 0; i < args.length; i++) {
             if (typeof args[i] == "function") {
@@ -882,6 +881,9 @@ qx.Class.define("qx.Promise", {
   
   defer: function(statics, members) {
     statics.Promise = statics.Native = window.Promise;
+    var debug = qx.core.Environment.get("qx.debug");
+    qx.core.Environment.add("qx.promise.warnings", debug);
+    qx.core.Environment.add("qx.promise.longStackTraces", debug);
   }
 });
 
