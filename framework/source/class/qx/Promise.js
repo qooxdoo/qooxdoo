@@ -895,7 +895,7 @@ qx.Class.define("qx.Promise", {
     statics.Promise = statics.Native = window.Promise;
     var debug = qx.core.Environment.get("qx.debug");
     qx.core.Environment.add("qx.promise.warnings", debug);
-    qx.core.Environment.add("qx.promise.longStackTraces", debug);
+    qx.core.Environment.add("qx.promise.longStackTraces", false);
   }
 });
 
