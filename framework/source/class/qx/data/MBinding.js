@@ -64,6 +64,46 @@ qx.Mixin.define("qx.data.MBinding",
 
 
     /**
+     * The bind method delegates the call to the
+     * {@link qx.data.SingleValueBinding#bind} function. As source, the current
+     * object (this) will be used.
+     *
+     * @param sourcePropertyChain {String} The property chain which represents
+     *   the source property.
+     * @param targetObject {qx.core.Object} The object which the source should
+     *   be bind to.
+     * @param targetProperty {String} The property name of the target object.
+     * @param options {Map} A map containing the options. See
+     *   {@link qx.data.SingleValueBinding#bind} for more
+     *   information.
+     *
+     * @return {qx.Promise} A promise which is resolved when the initial value
+     * 	 has been set on the target.  Note that this does NOT resolve when subsequent
+     *   values are returned.  The promise value is the internal id for that binding. 
+     *   The id can be used for referencing the binding e.g. for removing. This is not 
+     *   an atomic id so you can't you use it as a hash-map index.
+     *
+     * @throws {qx.core.AssertionError} If the event is no data event or
+     *   there is no property definition for object and property (source and
+     *   target).
+     */
+    bindAsync : function(sourcePropertyChain, targetObject, targetProperty, options)
+    {
+      var id = qx.data.SingleValueBinding.bind(
+        this, sourcePropertyChain, targetObject, targetProperty, options
+      );
+      if (id.initialPromise) {
+      	return id.initialPromise.then(function() {
+      		id.initialPromise = null;
+      		return id;
+      	});
+      } else {
+      	return qx.Promise.resolve(id);
+      }
+    },
+
+
+    /**
      * Removes the binding with the given id from the current object. The
      * id has to be the id returned by any of the bind functions.
      *

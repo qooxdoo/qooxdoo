@@ -60,9 +60,14 @@ qx.Class.define("qx.Promise", {
   extend: qx.core.Object,
   
   /**
-   * Constructor
+   * Constructor.
    * 
-   * @param fn {Function} the promise function
+   * The promise function is called with two parameters, functions which are to be called
+   * when the promise is fulfilled or rejected respectively.  If you do not provide any
+   * parameters, the promise can be externally resolved or rejected by calling the
+   * <code>resolve()</code> or <code>reject()</code> methods.
+   * 
+   * @param fn {Function} the promise function called with <code>(resolve, reject)</code>
    * @param context {Object?} optional context for all callbacks
    */
   construct: function(fn, context) {
@@ -70,11 +75,13 @@ qx.Class.define("qx.Promise", {
     qx.Promise.__initialize();
     if (fn instanceof qx.Promise.Bluebird) {
       this.__p = fn;
-    } else {
+    } else if (fn) {
       if (context !== undefined && context !== null) {
         fn = fn.bind(context);
       }
       this.__p = new qx.Promise.Bluebird(fn);
+    } else {
+    	this.__p = new qx.Promise.Bluebird(this.__externalPromise.bind(this));
     }
     qx.core.Assert.assertTrue(!this.__p.$$qxPromise);
     this.__p.$$qxPromise = this;
@@ -95,6 +102,10 @@ qx.Class.define("qx.Promise", {
     /** The Promise */
     __p: null,
     
+    /** Stores data for completing the promise externally */
+    __external: null,
+    
+
     
     /* *********************************************************************************
      * 
@@ -343,6 +354,41 @@ qx.Class.define("qx.Promise", {
       return this._callIterableMethod('reduce', arguments);
     },
 
+    /**
+     * External promise handler
+     */
+    __externalPromise: function(resolve, reject) {
+    	this.__external = { resolve: resolve, reject: reject, complete: false };
+    },
+    
+    /**
+     * Returns the data stored by __externalPromise, throws an exception once processed
+     */
+    __getPendingExternal: function() {
+    	if (!this.__external) {
+    		throw new Error("Promise cannot be resolved externally");
+    	}
+    	if (this.__external.complete) {
+    		throw new Error("Promise has already been resolved or rejected");
+    	}
+    	this.__external.complete = true;
+    	return this.__external;
+    },
+    
+    /**
+     * Resolves an external promise
+     */
+    resolve: function(value) {
+    	this.__getPendingExternal().resolve(value);
+    },
+
+    /**
+     * Rejects an external promise
+     */
+    reject: function(reason) {
+    	this.__getPendingExternal().reject(reason);
+    },
+
     
     
     
@@ -388,7 +434,7 @@ qx.Class.define("qx.Promise", {
   },
   
   statics: {
-    
+  	
     /** Bluebird Promise library; always available */
     Bluebird: null,
     
@@ -411,23 +457,36 @@ qx.Class.define("qx.Promise", {
      * state; otherwise the returned promise will be fulfilled with the value. Generally, if you 
      * don't know if a value is a promise or not, Promise.resolve(value) it instead and work with 
      * the return value as a promise.
+     * 
      * @param value {Object}
+     * @param context {Object?} optional context for callbacks to be bound to
      * @return {qx.Promise}
      */
-    resolve: function(value) {
+    resolve: function(value, context) {
+      var promise;
       if (value instanceof qx.Promise) {
-        return value;
+        promise = value;
+      } else {
+        promise = this.__wrap(qx.Promise.Bluebird.resolve(value));
       }
-      return this.__wrap(qx.Promise.Bluebird.resolve(value));
+      if (context !== undefined) {
+        promise = promise.bind(context);
+      }
+      return promise;
     },
     
     /**
      * Returns a Promise object that is rejected with the given reason.
      * @param reason {Object} Reason why this Promise rejected.
+     * @param context {Object?} optional context for callbacks to be bound to
      * @return {qx.Promise}
      */
-    reject: function(reason) {
-      return this.__callStaticMethod('reject', arguments);
+    reject: function(reason, context) {
+      var promise = this.__callStaticMethod('reject', arguments, 0);
+      if (context !== undefined) {
+        promise = promise.bind(context);
+      }
+      return promise;
     },
     
     /**
@@ -698,10 +757,9 @@ qx.Class.define("qx.Promise", {
      */
     __attachBluebird: function(Promise) {
       this.Bluebird = Promise;
-      var debug = qx.core.Environment.get("qx.debug");
       Promise.config({
-        warnings: debug,
-        longStackTraces: debug,
+        warnings: qx.core.Environment.get("qx.promise.warnings"),
+        longStackTraces: qx.core.Environment.get("qx.promise.longStackTraces"),
         cancellation: true
       });
     },
@@ -797,13 +855,18 @@ qx.Class.define("qx.Promise", {
      * the last value must be a qx.core.Object to distinguish itself from configuration
      * objects passed to some methods.
      * @param args {arguments}
+     * @param minArgs {Integer?} minimum number of arguments expected for the method call;
+     * 	this is used to determine whether the last value is for binding (default is 1)
      * @return {Array} array of new arguments with functions bound as necessary
      */
-    __bindArgs: function(args) {
+    __bindArgs: function(args, minArgs) {
       args = qx.lang.Array.fromArguments(args);
-      if (args.length) {
+      if (minArgs === undefined) {
+      	minArgs = 1;
+      }
+      if (args.length > minArgs) {
         var context = args[args.length - 1];
-        if (context instanceof qx.core.Object) {
+        if (context instanceof qx.core.Object || qx.Class.isClass(context)) {
           args.pop();
           for (var i = 0; i < args.length; i++) {
             if (typeof args[i] == "function") {
@@ -816,17 +879,23 @@ qx.Class.define("qx.Promise", {
     },
     
     /**
-     * Helper method used to call a Promise method
+     * Helper method used to call a Bluebird Promise method
+     * @param methodName {String} method name to call
+     * @param args {Array} arguments to pass
+     * @param minArgs {Integer?} {@see __bindArgs}
+     * @return {Object?}
      */
-    __callStaticMethod: function(methodName, args) {
-      args = qx.Promise.__bindArgs(args);
+    __callStaticMethod: function(methodName, args, minArgs) {
+      args = qx.Promise.__bindArgs(args, minArgs);
       return this.__wrap(qx.Promise.Bluebird[methodName].apply(qx.Promise.Bluebird, this.__unwrap(args)));
-    }    
-    
+    }
   },
   
   defer: function(statics, members) {
     statics.Promise = statics.Native = window.Promise;
+    var debug = qx.core.Environment.get("qx.debug");
+    qx.core.Environment.add("qx.promise.warnings", debug);
+    qx.core.Environment.add("qx.promise.longStackTraces", false);
   }
 });
 

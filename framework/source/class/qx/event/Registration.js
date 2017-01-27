@@ -281,11 +281,10 @@ qx.Class.define("qx.event.Registration",
      * @param clazz {Class?qx.event.type.Event} The event class
      * @param args {Array?null} Arguments, which will be passed to
      *       the event's init method.
-     * @return {Boolean} whether the event default was prevented or not.
-     *     Returns true, when the event was NOT prevented.
+     * @return {Event} the event
      * @see #createEvent
      */
-    fireEvent : function(target, type, clazz, args)
+    __fireEvent : function(target, type, clazz, args)
     {
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -300,7 +299,79 @@ qx.Class.define("qx.event.Registration",
       }
 
       var evt = this.createEvent(type, clazz||null, args);
-      return this.getManager(target).dispatchEvent(target, evt);
+      this.getManager(target).dispatchEvent(target, evt);
+      return evt;
+    },
+
+
+    /**
+     * Create an event object and dispatch it on the given target.
+     *
+     * @param target {Object} Any valid event target
+     * @param type {String} Event type to fire
+     * @param clazz {Class?qx.event.type.Event} The event class
+     * @param args {Array?null} Arguments, which will be passed to
+     *       the event's init method.
+     * @return {Boolean} whether the event default was prevented or not.
+     *     Returns true, when the event was NOT prevented.
+     * @see #createEvent
+     */
+    fireEvent : function(target, type, clazz, args)
+    {
+      var evt = this.__fireEvent.apply(this, arguments);
+      return !evt.getDefaultPrevented();
+    },
+
+
+    /**
+     * Create an event object and dispatch it on the given target.
+     *
+     * @param target {Object} Any valid event target
+     * @param type {String} Event type to fire
+     * @param clazz {Class?qx.event.type.Event} The event class
+     * @param args {Array?null} Arguments, which will be passed to
+     *       the event's init method.
+     * @return {qx.Promise} a promise aggregated from the event handlers;
+     * 	if the default was prevented, the promise is rejected
+     * @see #createEvent
+     */
+    fireEventAsync : function(target, type, clazz, args)
+    {
+      var evt = this.__fireEvent.apply(this, arguments);
+      return evt.promise();
+    },
+
+
+    /**
+     * Create an event object and dispatch it on the given target.
+     * The event dispatched with this method does never bubble! Use only if you
+     * are sure that bubbling is not required.
+     *
+     * @param target {Object} Any valid event target
+     * @param type {String} Event type to fire
+     * @param clazz {Class?qx.event.type.Event} The event class
+     * @param args {Array?null} Arguments, which will be passed to
+     *       the event's init method.
+     * @return {Event} the event
+     * @see #createEvent
+     */
+    __fireNonBubblingEvent : function(target, type, clazz, args)
+    {
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (arguments.length > 2 && clazz === undefined && args !== undefined) {
+          throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
+        }
+      }
+
+      var mgr = this.getManager(target);
+      if (!mgr.hasListener(target, type, false)) {
+        return null;
+      }
+
+      var evt = this.createEvent(type, clazz||null, args);
+      mgr.dispatchEvent(target, evt);
+      return evt;
     },
 
 
@@ -320,20 +391,35 @@ qx.Class.define("qx.event.Registration",
      */
     fireNonBubblingEvent : function(target, type, clazz, args)
     {
-      if (qx.core.Environment.get("qx.debug"))
-      {
-        if (arguments.length > 2 && clazz === undefined && args !== undefined) {
-          throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
-        }
+      var evt = this.__fireNonBubblingEvent.apply(this, arguments);
+      if (evt === null) {
+      	return true;
       }
+      return !evt.getDefaultPrevented();
+    },
 
-      var mgr = this.getManager(target);
-      if (!mgr.hasListener(target, type, false)) {
-        return true;
+
+    /**
+     * Create an event object and dispatch it on the given target.
+     * The event dispatched with this method does never bubble! Use only if you
+     * are sure that bubbling is not required.
+     *
+     * @param target {Object} Any valid event target
+     * @param type {String} Event type to fire
+     * @param clazz {Class?qx.event.type.Event} The event class
+     * @param args {Array?null} Arguments, which will be passed to
+     *       the event's init method.
+     * @return {qx.Promise} a promise aggregated from the event handlers;
+     * 	if the default was prevented, the promise is rejected
+     * @see #createEvent
+     */
+    fireNonBubblingEventAsync : function(target, type, clazz, args)
+    {
+      var evt = this.__fireNonBubblingEvent.apply(this, arguments);
+      if (evt === null) {
+      	return qx.Promise.resolve(true);
       }
-
-      var evt = this.createEvent(type, clazz||null, args);
-      return mgr.dispatchEvent(target, evt);
+      return evt.promise();
     },
 
 

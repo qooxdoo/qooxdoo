@@ -314,5 +314,8 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // ES7 async function support
     qx.core.Environment.add("ecmascript.function.async", statics.getAsyncFunction);
+
+    // Promises
+    qx.core.Environment.add("ecmascript.promise.native", statics.getPromiseNative);
   }
 });

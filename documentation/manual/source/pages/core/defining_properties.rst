@@ -453,6 +453,7 @@ As setXxx method returns the value which has been set, it is not possible to ret
 
 Note that the `setXxxAsync` method is *only* available if you have specified `async: true` in the property definition
 
+As well as `setXxxAsync` there is also a matching `getXxxAsync` method and a `changeXxxAsync` event which can be fired; event handlers can return promises, and asynchronous properties can be bound using `qx.core.Object.bind()`
 
 .. _pages/defining_properties#validation_incoming_values:
 
