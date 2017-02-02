@@ -161,7 +161,7 @@
         },
         "uris" :
         {
-          "add-nocache-param" : false
+          "add-nocache-param" : true
         },
         "code" :
         {
