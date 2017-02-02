@@ -105,6 +105,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     
     /**
      * Sets the timeout for requests
+     * @deprecated {6.0} This method is deprecated from the start because synchronous I/O itself is deprecated
+     *  in the W3C spec {@link https://xhr.spec.whatwg.org/} and timeouts are indicative of synchronous I/O and/or
+     *  other server issues.  However, this API is still supported by many browsers and this API is useful
+     *  for code which has not made the transition to asynchronous I/O   
      */
     setTimeout: function(timeout) {
       this.__timeout = timeout;
