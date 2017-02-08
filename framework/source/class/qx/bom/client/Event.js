@@ -32,10 +32,9 @@ qx.Bootstrap.define("qx.bom.client.Event",
     /**
      * Checks if touch events are supported.
      *
-     * @internal
      * @return {Boolean} <code>true</code> if touch events are supported.
      */
-    getTouch : function() {
+    getTouch : function () {
       return ("ontouchstart" in window);
     },
 
@@ -43,10 +42,9 @@ qx.Bootstrap.define("qx.bom.client.Event",
     /**
      * Checks if MSPointer events are available.
      *
-     * @internal
      * @return {Boolean} <code>true</code> if pointer events are supported.
      */
-    getMsPointer : function()
+    getMsPointer : function ()
     {
       // Fixes issue #9182: new unified pointer input model since Chrome 55
       // see https://github.com/qooxdoo/qooxdoo/issues/9182
@@ -67,11 +65,9 @@ qx.Bootstrap.define("qx.bom.client.Event",
     /**
      * Checks if the proprietary <code>help</code> event is available.
      *
-     * @internal
      * @return {Boolean} <code>true</code> if the "help" event is supported.
      */
-    getHelp : function()
-    {
+    getHelp : function () {
       return ("onhelp" in document);
     },
 
@@ -79,10 +75,9 @@ qx.Bootstrap.define("qx.bom.client.Event",
     /**
      * Checks if the <code>hashchange</code> event is available
      *
-     * @internal
      * @return {Boolean} <code>true</code> if the "hashchange" event is supported.
      */
-    getHashChange : function()
+    getHashChange : function ()
     {
       // avoid false positive in IE7
       var engine = qx.bom.client.Engine.getName();
@@ -95,9 +90,10 @@ qx.Bootstrap.define("qx.bom.client.Event",
 
     /**
      * Checks if the DOM2 dispatchEvent method is available
+     *
      * @return {Boolean} <code>true</code> if dispatchEvent is supported.
      */
-    getDispatchEvent : function() {
+    getDispatchEvent : function () {
       return typeof document.dispatchEvent == "function";
     },
 
@@ -108,17 +104,19 @@ qx.Bootstrap.define("qx.bom.client.Event",
      *
      * @return {Boolean} <code>true</code> if Custom Events are available
      */
-    getCustomEvent : function() {
+    getCustomEvent : function ()
+    {
       if (!window.CustomEvent) {
         return false;
       }
       try {
         new window.CustomEvent("foo");
         return true;
-      } catch(ex) {
+      } catch (ex) {
         return false;
       }
     },
+
 
     /**
      * Checks if the MouseEvent constructor is available and supports
@@ -126,27 +124,30 @@ qx.Bootstrap.define("qx.bom.client.Event",
      *
      * @return {Boolean} <code>true</code> if Mouse Events are available
      */
-    getMouseEvent : function() {
+    getMouseEvent : function ()
+    {
       if (!window.MouseEvent) {
         return false;
       }
       try {
         new window.MouseEvent("foo");
         return true;
-      } catch(ex) {
+      } catch (ex) {
         return false;
       }
     },
+
 
     /**
      * Returns the event type used in pointer layer to create mouse events.
      *
      * @return {String} Either <code>MouseEvents</code> or <code>UIEvents</code>
      */
-    getMouseCreateEvent : function() {
-      /* For instance, in IE9, the pageX property of synthetic MouseEvents is
-      always 0 and cannot be overridden, so plain UIEvents have to be used with
-      mouse event properties added accordingly. */
+    getMouseCreateEvent : function ()
+    {
+      // For instance, in IE9, the pageX property of synthetic MouseEvents is
+      // always 0 and cannot be overridden, so plain UIEvents have to be used
+      // with mouse event properties added accordingly.
       try {
         var e = document.createEvent("MouseEvents");
         var orig = e.pageX;
@@ -158,10 +159,11 @@ qx.Bootstrap.define("qx.bom.client.Event",
           return "MouseEvents";
         }
         return "UIEvents";
-      } catch(ex) {
+      } catch (ex) {
         return "UIEvents";
       }
     },
+
 
     /**
      * Checks if the MouseWheel event is available and on which target.
@@ -169,7 +171,8 @@ qx.Bootstrap.define("qx.bom.client.Event",
      * @param win {Window ? null} An optional window instance to check.
      * @return {Map} A map containing two values: type and target.
      */
-    getMouseWheel : function(win) {
+    getMouseWheel : function (win)
+    {
       if (!win) {
         win = window;
       }
@@ -196,24 +199,32 @@ qx.Bootstrap.define("qx.bom.client.Event",
 
       return {type: type, target: target};
     },
-    
+
+
     /**
      * Detects if the engine/browser supports auxclick events
-     * 
-     * See https://github.com/qooxdoo/qooxdoo/issues/9268 
+     *
+     * See https://github.com/qooxdoo/qooxdoo/issues/9268
+     *
+     * @return {Boolean} <code>true</code> if auxclick events are supported.
      */
-    getAuxclickEvent : function() {
+    getAuxclickEvent : function ()
+    {
       var hasAuxclick = false;
       try {
         hasAuxclick = ("onauxclick" in document.documentElement);
       }
-      catch(ex) {};
-      
+      catch (ex) {};
+
       return (hasAuxclick ? true : false);
     }
   },
 
-  defer : function(statics) {
+
+
+
+  defer : function (statics)
+  {
     qx.core.Environment.add("event.touch", statics.getTouch);
     qx.core.Environment.add("event.mouseevent", statics.getMouseEvent);
     qx.core.Environment.add("event.mousecreateevent", statics.getMouseCreateEvent);
