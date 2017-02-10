@@ -356,6 +356,10 @@
  *       <td>event.mousewheel</td><td><i>Map</i></td><td><code>{type: "wheel", target: window}</code></td>
  *       <td>{@link qx.bom.client.Event#getMouseWheel}</td>
  *     </tr>
+ *     <tr>
+ *       <td>event.auxclick</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getAuxclickEvent}</td>
+ *     </tr>
  *
  *     <tr>
  *       <td colspan="4"><b>html</b></td>
