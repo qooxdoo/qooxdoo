@@ -344,6 +344,12 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         vRequest.timeout = timeout;
       }
 
+      // Apply timeout
+      var timeout = qx.io.remote.transport.XmlHttp.getTimeout();
+      if (timeout && vAsynchronous) {
+        vRequest.timeout = timeout;
+      }
+
       // --------------------------------------
       //   Applying request header
       // --------------------------------------

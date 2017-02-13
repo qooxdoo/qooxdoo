@@ -201,6 +201,8 @@ qx.Bootstrap.define("qx.bom.client.Event",
      * Detects if the engine/browser supports auxclick events
      * 
      * See https://github.com/qooxdoo/qooxdoo/issues/9268 
+     *
+     * @return {Boolean} <code>true</code> if auxclick events are supported.
      */
     getAuxclickEvent : function() {
       var hasAuxclick = false;
