@@ -29,6 +29,7 @@ qx.Class.define("qx.test.ui.form.TextField",
 
     tearDown: function() {
       this.__field.destroy();
+	  this.__field = null;
       this.base(arguments);
     },
 
