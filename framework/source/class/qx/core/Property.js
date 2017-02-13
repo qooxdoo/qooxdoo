@@ -586,13 +586,20 @@ qx.Bootstrap.define("qx.core.Property",
 		      	allNames.push("is" + upname);
 		      	allNames.push("toggle" + upname);
 		      }
-	      	for (var tmp = clazz.superclass; tmp && tmp != qx.core.Object; tmp = tmp.superclass) {
-	      		allNames.forEach(function(name) {
-	        		if (clazz.prototype[name] !== undefined) {
-	        			qx.log.Logger.warn("Conflicting property method " + clazz.classname + "." + name + " with " + tmp.classname);
-	        		}
-	      		});
-	      	}
+          allNames.forEach(function(name) {
+            if (clazz.superclass.prototype[name] !== undefined) {
+              var conflictingClass = null;
+              for (var tmp = clazz.superclass; tmp && tmp != qx.core.Object; tmp = tmp.superclass) {
+                if (tmp.superclass.prototype[name] === undefined) {
+                  conflictingClass = tmp;
+                  break;
+                }
+              }
+              if (conflictingClass) {
+                qx.log.Logger.warn("Conflicting property method " + clazz.classname + "." + name + " with " + conflictingClass.classname);
+              }
+            }
+          });
       	}
       }
 
@@ -608,7 +615,7 @@ qx.Bootstrap.define("qx.core.Property",
 
       var getName = method.get[name] = "get" + upname;
       members[method.get[name]] = new Function(
-          "this." + getName + ".$$install && this." + getName + ".$$install.call(this);" +
+          "this." + getName + ".$$install && this." + getName + ".$$install();" +
           "return this." + getName + ".apply(this, arguments);"); 
       if (config.async) {
       	if (qx.core.Environment.get("qx.debug")) {
@@ -623,7 +630,7 @@ qx.Bootstrap.define("qx.core.Property",
 	          "this." + getName + ".$$install && this." + getName + ".$$install.call(this);" +
 	          "return this." + getName + "Async.apply(this, arguments);");
       }
-      members[method.get[name]].$$install = function(value) {
+      members[method.get[name]].$$install = function() {
         qx.core.Property.__installOptimizedGetter(clazz, name, "get", arguments);
         if (config.async) {
         	qx.core.Property.__installOptimizedGetter(clazz, name, "getAsync", arguments);
