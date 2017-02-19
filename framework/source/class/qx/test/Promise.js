@@ -695,6 +695,26 @@ qx.Class.define("qx.test.Promise", {
         t.resume();
       });
       this.wait(1000);
+    },
+    
+    /**
+     * Tests wrapping of parameters preserves the original values
+     */
+    testWrapping: function() {
+      var t = this;
+      new qx.Promise(function(resolve) {
+        resolve();
+	    })
+	    .then(function() {
+	        return qx.Promise.all(["foo", new qx.data.Array(["a", "b", "c"])]);
+	    })
+	    .spread(function(str, arr) {
+	        t.assertEquals(str, "foo");
+	        t.assertInstance(arr, qx.data.Array);
+	        t.assertEquals(arr.join(""), "abc");
+	        t.resume();
+	    });
+      this.wait(1000);
     }
   },
   
