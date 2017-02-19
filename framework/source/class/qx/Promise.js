@@ -775,7 +775,7 @@ qx.Class.define("qx.Promise", {
         return;
       }
       this.__initialized = true;
-      window.addEventListener("unhandledrejection", this.__onUnhandledRejection.bind(this));
+      qx.bom.Event.addNativeListener(window, "unhandledrejection", this.__onUnhandledRejection.bind(this));
     },
     
     /**
