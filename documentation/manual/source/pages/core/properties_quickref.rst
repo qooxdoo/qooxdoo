@@ -27,7 +27,8 @@ Properties are declared in the constructor map of the class as a dedicated key-v
                         group_spec         |
                         mode_spec          |
                         validate_spec      |
-                        dereference_spec
+                        dereference_spec   |
+                        async_spec
 
     nullable_spec    := 'nullable'     ':' bool_val
     apply_spec       := 'apply'        ':' '"' <FunctionName> '"'
@@ -46,6 +47,8 @@ Properties are declared in the constructor map of the class as a dedicated key-v
                                            '<Function>'
 
     dereference_spec := 'dereference'     ':' bool_val
+    
+    async_spec       := 'async'           ':' bool_val
 
     themeable_spec   := 'themeable'    ':' bool_val
     inheritable_spec := 'inheritable'  ':' bool_val
