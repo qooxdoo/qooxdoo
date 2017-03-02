@@ -129,7 +129,7 @@ qx.Class.define("qx.event.handler.Gesture",
       // list to wheel events
       var data = qx.bom.client.Event.getMouseWheel(this.__window);
       this.__fireRollWrapped = qx.lang.Function.listener(this._fireRoll, this);
-      qx.bom.Event.addNativeListener(data.target, data.type, this.__fireRollWrapped, this);
+      qx.bom.Event.addNativeListener(data.target, data.type, this.__fireRollWrapped);
     },
 
     /**
