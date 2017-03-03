@@ -775,7 +775,7 @@ qx.Class.define("qx.Promise", {
         return;
       }
       this.__initialized = true;
-      window.addEventListener("unhandledrejection", this.__onUnhandledRejection.bind(this));
+      qx.bom.Event.addNativeListener(window, "unhandledrejection", this.__onUnhandledRejection.bind(this));
     },
     
     /**
@@ -794,44 +794,6 @@ qx.Class.define("qx.Promise", {
       }
       qx.log.Logger.error(this, "Unhandled promise rejection: " + (reason ? reason.stack : "(not from exception)"));
       qx.event.GlobalError.handleError(reason);
-    },
-    
-    /**
-     * Recursively unwraps the object to translate qx.Promise objects into
-     * native Bluebird Promise objects.  Handles arrays and maps.  The src is not 
-     * modified and may or may not be returned.
-     * 
-     * @param src {Object}
-     * @return {Object}
-     */
-    __unwrap: function(src) {
-      var dest;
-      
-      if (src instanceof qx.data.Array) {
-        dest = [];
-        for (var i = 0; i < src.length; i++) {
-          dest[i] = this.__unwrap(src.getItem(i));
-        }
-      } else if (qx.lang.Type.isArray(src)) {
-        dest = [];
-        for (var i = 0; i < src.length; i++) {
-          dest[i] = this.__unwrap(src[i]);
-        }
-        
-      } else if (src instanceof qx.Promise) {
-          dest = src.toPromise();
-          
-      } else if (!(src instanceof qx.core.Object) && qx.lang.Type.isObject(src)) {
-        dest = {};
-        Object.keys(src).forEach(function(name) {
-          dest[name] = this.__unwrap(src[name]);
-        }, this);
-        
-      } else {
-        dest = src;
-      }
-      
-      return dest;
     },
     
     /**
@@ -887,8 +849,28 @@ qx.Class.define("qx.Promise", {
      */
     __callStaticMethod: function(methodName, args, minArgs) {
       args = qx.Promise.__bindArgs(args, minArgs);
-      return this.__wrap(qx.Promise.Bluebird[methodName].apply(qx.Promise.Bluebird, this.__unwrap(args)));
-    }
+      return this.__wrap(qx.Promise.Bluebird[methodName].apply(qx.Promise.Bluebird, this.__mapArgs(args)));
+    },
+    
+    /**
+     * Maps all arguments ready for passing to a Bluebird function; qx.data.Array are
+     * translated to native arrays and qx.Promise to Promise.  This is not recursive.
+     */
+    __mapArgs: function(args) {
+    	var dest = [];
+    	args.forEach(function(arg) {
+    		if (arg instanceof qx.data.Array) {
+    			dest.push(arg.toArray());
+    			
+    		} else if (arg instanceof qx.Promise) {
+          dest.push(arg.toPromise());
+          
+        } else {
+        	dest.push(arg);
+        }
+    	});
+    	return dest;
+    }    
   },
   
   defer: function(statics, members) {
