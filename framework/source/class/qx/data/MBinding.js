@@ -87,20 +87,24 @@ qx.Mixin.define("qx.data.MBinding",
      *   there is no property definition for object and property (source and
      *   target).
      */
-    bindAsync : function(sourcePropertyChain, targetObject, targetProperty, options)
-    {
-      var id = qx.data.SingleValueBinding.bind(
-        this, sourcePropertyChain, targetObject, targetProperty, options
-      );
-      if (id.initialPromise) {
-      	return id.initialPromise.then(function() {
-      		id.initialPromise = null;
-      		return id;
-      	});
-      } else {
-      	return qx.Promise.resolve(id);
+    bindAsync : qx.core.Environment.select("qx.promise", {
+      "true": function(sourcePropertyChain, targetObject, targetProperty, options) {
+        var id = qx.data.SingleValueBinding.bind(
+          this, sourcePropertyChain, targetObject, targetProperty, options
+        );
+        if (id.initialPromise) {
+          return id.initialPromise.then(function() {
+            id.initialPromise = null;
+            return id;
+          });
+        } else {
+          return qx.Promise.resolve(id);
+        }
+      },
+      "false": function(sourcePropertyChain, targetObject, targetProperty, options) {
+        return this.bind(sourcePropertyChain, targetObject, targetProperty, options);
       }
-    },
+    }),
 
 
     /**
