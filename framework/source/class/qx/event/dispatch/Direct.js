@@ -133,8 +133,10 @@ qx.Class.define("qx.event.dispatch.Direct",
             }
           }
           var promise = listeners[i].handler.call(context, event);
-          if (promise instanceof qx.Promise) {
-          	event.addPromise(promise);
+          if (qx.core.Environment.get("qx.promise")) {
+            if (promise instanceof qx.Promise) {
+            	event.addPromise(promise);
+            }
           }
         }
       }

@@ -212,22 +212,32 @@ qx.Class.define("qx.event.type.Event",
      * Adds a promise to the list of promises returned by event handlers
      * @param promise {qx.Promise} the promise to add
      */
-    addPromise: function(promise) {
-    	if (this._promises === null) {
-    		this._promises = [promise];
-    	} else {
-    		this._promises.push(promise);
-    	}
-    },
+    addPromise: qx.core.Environment.select("qx.promise", {
+      "true": function(promise) {
+          if (this._promises === null) {
+            this._promises = [promise];
+          } else {
+            this._promises.push(promise);
+          }
+        },
+      "false": function() {
+        throw new Error(this.classname + ".addPromise not supported because qx.promise==false");
+      }
+    }),
     
     
     /**
      * Returns the array of promises, or null if there are no promises
      * @return {qx.Promise[]?}
      */
-    getPromises: function() {
-    	return this._promises;
-    },
+    getPromises: qx.core.Environment.select("qx.promise", {
+      "true": function() {
+        return this._promises;
+      },
+      "false": function() {
+        throw new Error(this.classname + ".getPromises not supported because qx.promise==false");
+      }
+    }),
     
     
     /**
@@ -235,15 +245,20 @@ qx.Class.define("qx.event.type.Event",
      * is a rejected promise, otherwise it is fulfilled.  The promise returned will only
      * be fulfilled when the promises added via {@link addPromise} are also fulfilled
      */
-    promise: function() {
-    	if (this.getDefaultPrevented()) {
-    		return qx.Promise.reject();
-    	}
-    	if (this._promises === null) {
-    		return qx.Promise.resolve(true);
-    	}
-    	return qx.Promise.all(this._promises);
-    },
+    promise: qx.core.Environment.select("qx.promise", {
+      "true": function() {
+        if (this.getDefaultPrevented()) {
+          return qx.Promise.reject();
+        }
+        if (this._promises === null) {
+          return qx.Promise.resolve(true);
+        }
+        return qx.Promise.all(this._promises);
+      },
+      "false": function() {
+        throw new Error(this.classname + ".promise not supported because qx.promise==false");
+      }
+    }),
 
 
     /**

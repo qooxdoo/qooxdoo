@@ -166,7 +166,6 @@
  *
  * @internal
  * @ignore(qx.Interface)
- * @use(qx.Promise)
  */
 qx.Bootstrap.define("qx.core.Property",
 {
@@ -180,6 +179,9 @@ qx.Bootstrap.define("qx.core.Property",
       if (qx.core.Environment.get("module.events")) {
         qx.event.type.Data;
         qx.event.dispatch.Direct;
+      }
+      if (qx.core.Environment.get("qx.promise")) {
+        qx.Promise;
       }
     },
 
@@ -562,6 +564,17 @@ qx.Bootstrap.define("qx.core.Property",
         config.dereference = this.__shouldBeDereferenced(config.check);
       }
 
+      if (!qx.core.Environment.get("qx.promise")) {
+        if (config.async) {
+          this.warn("Asynchronous property " + clazz.classname +"." + name + " is switched to synchronous because qx.promise==false");
+          config.async = false;
+        }
+        if (config.check == "qx.Promise") {
+          this.error("Cannot implement check for property " + clazz.classname +"." + name + " because qx.promise==false");
+          delete config.check;
+        }
+      }
+      
       // Check for method name conflicts
       if (qx.core.Environment.get("qx.debug")) {
       	// Exclude qx.data.model.* because that's from marshalling and will cause conflicts to be reported
@@ -618,6 +631,7 @@ qx.Bootstrap.define("qx.core.Property",
           "this." + getName + ".$$install && this." + getName + ".$$install();" +
           "return this." + getName + ".apply(this, arguments);"); 
       if (config.async) {
+        
       	if (qx.core.Environment.get("qx.debug")) {
       		if (members.hasOwnProperty(getName + "Async")) {
       			this.error("Asynchronous property " + clazz.classname +"." + name + " is replacing " + getName + "Async() method in same class");
@@ -1085,7 +1099,7 @@ qx.Bootstrap.define("qx.core.Property",
       if (incomingValue) {
         code.unshift('function set(value){');
         code.push('}');
-        if (!config.check || config.check != "qx.Promise") {
+        if (qx.core.Environment.get("qx.promise") && (!config.check || config.check != "qx.Promise")) {
           code.push(
               'var promise;',
               'if (value instanceof qx.Promise) ',
@@ -1802,7 +1816,6 @@ qx.Bootstrap.define("qx.core.Property",
         code.push('promise = this.', config.apply, '(computed, old, "', name, '", "', variant, '");');
       }
       
-      
       if (config.async) {
         code.push(
         		"function fire() {",
@@ -1849,10 +1862,13 @@ qx.Bootstrap.define("qx.core.Property",
               "var reg=qx.event.Registration;",
               
               "if(reg.hasListener(this, '", config.event, "'))",
-                "reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", ");",
-              "if(reg.hasListener(this, '", config.event, "Async'))",
-                "reg.fireEventAsync(this, '", config.event, "Async', qx.event.type.Data, [qx.Promise.resolve(computed), old]", ");"
-              );
+                "reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", ");");
+          if (qx.core.Environment.get("qx.promise")) {
+            code.push(
+                "if(reg.hasListener(this, '", config.event, "Async'))",
+                  "reg.fireEventAsync(this, '", config.event, "Async', qx.event.type.Data, [qx.Promise.resolve(computed), old]", ");"
+                );
+          }
         }
         // Emit code to update the inherited values of child objects
         if (refresh) {
@@ -1870,9 +1886,13 @@ qx.Bootstrap.define("qx.core.Property",
           "}");
       }
       
+      if (qx.core.Environment.get("qx.promise")) {
+        code.push(
+            "if(promise instanceof qx.Promise) " +
+              "return promise.then(fire, this); "
+          );
+      }
       code.push(
-        "if(promise instanceof qx.Promise) " +
-          "return promise.then(fire, this); ",
         "return fire.call(this);"
       );
     }

@@ -889,7 +889,8 @@ qx.Bootstrap.define("qx.core.Environment",
       "module.property": true,
       "module.events": true,
       "qx.nativeScrollBars": false,
-      "qx.automaticMemoryManagement": true
+      "qx.automaticMemoryManagement": true,
+      "qx.promise": true
     },
 
     /**
