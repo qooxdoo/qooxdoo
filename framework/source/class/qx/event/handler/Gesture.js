@@ -129,6 +129,8 @@ qx.Class.define("qx.event.handler.Gesture",
       // list to wheel events
       var data = qx.bom.client.Event.getMouseWheel(this.__window);
       this.__fireRollWrapped = qx.lang.Function.listener(this._fireRoll, this);
+      // replaced the useCapture (4th parameter) from this to true
+      // see https://github.com/qooxdoo/qooxdoo/pull/9292
       qx.bom.Event.addNativeListener(data.target, data.type, this.__fireRollWrapped, true);
     },
 
