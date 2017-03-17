@@ -413,14 +413,18 @@ qx.Class.define("qx.event.Registration",
      * 	if the default was prevented, the promise is rejected
      * @see #createEvent
      */
-    fireNonBubblingEventAsync : function(target, type, clazz, args)
-    {
-      var evt = this.__fireNonBubblingEvent.apply(this, arguments);
-      if (evt === null) {
-      	return qx.Promise.resolve(true);
+    fireNonBubblingEventAsync : qx.core.Environment.select("qx.promise", {
+      "true": function(target, type, clazz, args) {
+        var evt = this.__fireNonBubblingEvent.apply(this, arguments);
+        if (evt === null) {
+          return qx.Promise.resolve(true);
+        }
+        return evt.promise();
+      },
+      "false": function() {
+        throw new Error(this.classname + ".fireNonBubblingEventAsync not supported because qx.promise==false");
       }
-      return evt.promise();
-    },
+    }),
 
 
 

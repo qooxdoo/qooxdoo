@@ -776,6 +776,9 @@ qx.Class.define("qx.Promise", {
       }
       this.__initialized = true;
       qx.bom.Event.addNativeListener(window, "unhandledrejection", this.__onUnhandledRejection.bind(this));
+      if (!qx.core.Environment.get("qx.promise")) {
+        qx.log.Logger.error(this, "Promises are installed and initialised but disabled from properties because qx.promise==false; this may cause unexpected behaviour");
+      }
     },
     
     /**
