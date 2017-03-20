@@ -168,6 +168,11 @@ qx.Class.define("qx.event.handler.Mouse",
      */
     __fireEvent : function(domEvent, type, target)
     {
+      var start;
+      if (qx.core.Environment.get("qx.debug")) {
+        start = (window.performance && performance.now) ? (performance.now() + qx.bom.AnimationFrame.__start) : Date.now();
+      }
+      
       if (!target) {
         target = qx.bom.Event.getTarget(domEvent);
       }
@@ -177,16 +182,33 @@ qx.Class.define("qx.event.handler.Mouse",
       // an empty object as "srcElement"
       if (target && target.nodeType)
       {
-        qx.event.Registration.fireEvent(
+        var notPrevented = qx.event.Registration.fireEvent(
           target,
           type||domEvent.type,
           type == "mousewheel" ? qx.event.type.MouseWheel : qx.event.type.Mouse,
           [domEvent, target, null, true, true]
         );
+        
+        if (qx.core.Environment.get("qx.debug")) {
+          if (type == "mousewheel" && !notPrevented) {
+            this.warn("'mousewheel' event was prevented, consider refactoring to allow for passive event handling");
+          }
+        }
       }
 
       // Fire user action event
       qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type||domEvent.type]);
+      
+      if (qx.core.Environment.get("qx.debug")) {
+        if (type == "mousewheel") {
+          var end = (window.performance && performance.now) ? (performance.now() + qx.bom.AnimationFrame.__start) : Date.now();
+          var diff = Math.round(end - start);
+          if (diff > 500)
+            this.error("'mousewheel' event took " + diff + "ms - this may have a significant effect on UI experience");
+          else if (diff > 100)
+            this.warn("'mousewheel' event took " + diff + "ms - consider refactoring for smoother UI experience");
+        }
+      }
     },
 
 
