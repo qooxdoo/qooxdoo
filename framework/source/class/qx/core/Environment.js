@@ -570,7 +570,11 @@
  *       <td>io.xhr</td><td><i>String</i></td><td><code>xhr</code></td>
  *       <td>{@link qx.bom.client.Transport#getXmlHttpRequest}</td>
  *     </tr>
-
+ *     <tr>
+ *       <td>io.websocket</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.WebSocket#getSupport}</td>
+ *     </tr>
+ *
  *     <tr>
  *       <td colspan="4"><b>locale</b></td>
  *     </tr>

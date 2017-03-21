@@ -429,6 +429,10 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("phonegap.notification"));
     },
 
+    testWebSocket : function() {
+      this.assertBoolean(qx.core.Environment.get("io.websocket"));
+    },
+
     testEvent : function() {
       this.assertBoolean(qx.core.Environment.get("event.touch"));
       this.assertBoolean(qx.core.Environment.get("event.help"));
