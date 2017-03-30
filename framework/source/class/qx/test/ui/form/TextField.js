@@ -53,6 +53,28 @@ qx.Class.define("qx.test.ui.form.TextField",
       this.assertEquals(Infinity, l);
     },
 	
+    "test: validate input with filter": function() {
+      this.__field.setFilter(/[0-9]/);
+      var s = this.__field._validateInput("a");
+      this.assertEquals("", s);
+      var s = this.__field._validateInput("111");
+      this.assertEquals("111", s);
+    },
+    "test: validate input with complex filter": function() {
+      this.__field.setFilter(/^(\+|-)?\d*$/);
+      var s = this.__field._validateInput("a");
+      this.assertEquals("", s);
+      var s = this.__field._validateInput("1");
+      this.assertEquals("1", s);
+      var s = this.__field._validateInput("-");
+      this.assertEquals("-", s);
+      var s = this.__field._validateInput("111");
+      this.assertEquals("111", s);
+      var s = this.__field._validateInput("-111");
+      this.assertEquals("-111", s);
+      var s = this.__field._validateInput("-11-1");
+      this.assertEquals("", s);
+    },
 
     __field: null
   }
