@@ -15,7 +15,6 @@
      * Henner Kollmann
 
 ************************************************************************ */
-
 qx.Class.define("qx.test.ui.form.TextField",
 {
   extend: qx.test.ui.LayoutTestCase,
