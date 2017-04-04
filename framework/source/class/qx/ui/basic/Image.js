@@ -867,6 +867,11 @@ qx.Class.define("qx.ui.basic.Image",
       }
     },
 
+    /**
+     * Reset source displayed by the DOM element.
+     *
+     * @param el {Element} image DOM element
+     */
     __resetSource : function(el)
     {
       if (el != null) {
@@ -913,7 +918,9 @@ qx.Class.define("qx.ui.basic.Image",
         }
         else {
           var charCode = parseInt(qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)\/(.*)$/)[2]), 16);
-          this.assertNumber(charCode, "Font source needs either a glyph name or the unicode number in hex");
+          if (qx.core.Environment.get("qx.debug")) {
+            this.assertNumber(charCode, "Font source needs either a glyph name or the unicode number in hex");
+          }
           el.setValue(String.fromCharCode(charCode));
         }
 

@@ -25,17 +25,17 @@
  * API the spec describes.
  *
  * Here is a sample usage:
- * <pre class='javascript'>var start = +(new Date());
- * var clb = function(time) {
+ * <pre class='javascript'>var start = Date.now();
+ * var cb = function(time) {
  *   if (time >= start + duration) {
  *     // ... do some last tasks
  *   } else {
  *     var timePassed = time - start;
  *     // ... calculate the current step and apply it
- *     qx.bom.AnimationFrame.request(clb, this);
+ *     qx.bom.AnimationFrame.request(cb, this);
  *   }
  * };
- * qx.bom.AnimationFrame.request(clb, this);
+ * qx.bom.AnimationFrame.request(cb, this);
  * </pre>
  *
  * Another way of using it is to use it as an instance emitting events.
@@ -76,12 +76,14 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
      * soon as the given duration is over.
      *
      * @param duration {Number} The duration the sequence should take.
+     *
+     * @ignore(performance.*)
      */
     startSequence : function(duration) {
       this.__canceled = false;
 
-      var start = +(new Date());
-      var clb = function(time) {
+      var start = (window.performance && performance.now) ? (performance.now() + qx.bom.AnimationFrame.__start) : Date.now();
+      var cb = function(time) {
         if (this.__canceled) {
           this.id = null;
           return;
@@ -94,11 +96,11 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
         } else {
           var timePassed = Math.max(time - start, 0);
           this.emit("frame", timePassed);
-          this.id = qx.bom.AnimationFrame.request(clb, this);
+          this.id = qx.bom.AnimationFrame.request(cb, this);
         }
       };
 
-      this.id = qx.bom.AnimationFrame.request(clb, this);
+      this.id = qx.bom.AnimationFrame.request(cb, this);
     },
 
 
@@ -171,22 +173,22 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
     request : function(callback, context) {
       var req = qx.core.Environment.get("css.animation.requestframe");
 
-      var clb = function(time) {
+      var cb = function(time) {
         // check for high resolution time
         if (time < 1e10) {
           time = qx.bom.AnimationFrame.__start + time;
         }
 
-        time = time || +(new Date());
+        time = time || Date.now();
         callback.call(context, time);
       };
       if (req) {
-        return window[req](clb);
+        return window[req](cb);
       } else {
         // make sure to use an indirection because setTimeout passes a
         // number as first argument as well
         return window.setTimeout(function() {
-          clb();
+          cb();
         }, qx.bom.AnimationFrame.TIMEOUT);
       }
     }

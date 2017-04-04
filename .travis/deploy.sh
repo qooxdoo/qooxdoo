@@ -3,6 +3,7 @@
 set -o errexit -o nounset
 
 TARGET="devel"
+MASTER="master"
 CURRENT=0
 
 rev=$(git rev-parse --short HEAD)
@@ -32,14 +33,17 @@ fi
 rm -rf "$TARGET" &> /dev/null
 cp -a ../build "$TARGET"
 
+# Install potentially built master sdk zip
+if [ "$TRAVIS_BRANCH" = "$MASTER" -a "$TRAVIS_TAG" = "" ]; then
+  RELEASE_PKG_FILE=$(ls ../dist/*.zip)
+  cp $RELEASE_PKG_FILE qooxdoo-sdk-master.zip
+fi
+
 # Maintain the current link
 if [ $CURRENT = 1 ]; then
   rm -rf current &> /dev/null
   ln -s "$TARGET" current
 fi
-
-#TODO: When we've some more control over the qx DNS records, we can add a CNAME here...
-#echo "qooxdoo.org" > CNAME
 
 touch .nojekyll
 touch .
@@ -47,3 +51,11 @@ touch .
 git add -A .
 git commit -m "Refresh site at ${rev}"
 git push -q upstream HEAD:master
+
+# Do a regular checkout and make a dummy commit
+git clone -q git@github.com:qooxdoo/qooxdoo.github.io.git tmp
+cd tmp
+echo $rev > revision
+git add revision
+git commit -m "Dummy commit to fix github site sync"
+git push -q

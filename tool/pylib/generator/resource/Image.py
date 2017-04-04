@@ -56,8 +56,10 @@ class Image(Resource):
 
         # imgInfo = (width, height, format/type)
         imgInfo = self.getInfo()
-        if not imgInfo or not imgInfo[0] or not imgInfo[1] or not imgInfo[2]:
-            raise RuntimeError, "Unable to get image info from file: %s" % self.path
+        if not imgInfo:
+            raise RuntimeError, "Unable to get file info from file: %s" % self.path
+        if not imgInfo[0] or not imgInfo[1] or not imgInfo[2]:
+            raise RuntimeError, "Unable to get image size from file: %s" % self.path
 
         self.width  = imgInfo[0]
         self.height = imgInfo[1]

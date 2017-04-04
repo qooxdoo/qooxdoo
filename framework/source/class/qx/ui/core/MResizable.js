@@ -618,6 +618,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
   destruct : function()
   {
+    if(this.getCursor()) {
+      this.getApplicationRoot().resetGlobalCursor();
+    }
+    
     if (this.__resizeFrame != null && !qx.core.ObjectRegistry.inShutDown)
     {
       this.__resizeFrame.destroy();

@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.form.Spinner",
     }
 
     // CREATE CONTROLS
-    this._createChildControl("textfield");
+    var textField = this._createChildControl("textfield");
     this._createChildControl("upbutton");
     this._createChildControl("downbutton");
 
@@ -118,6 +118,16 @@ qx.Class.define("qx.ui.form.Spinner",
     } else {
       this.initValue();
     }
+
+    // forward the focusin and focusout events to the textfield. The textfield
+    // is not focusable so the events need to be forwarded manually.
+    this.addListener("focusin", function(e) {
+      textField.fireNonBubblingEvent("focusin", qx.event.type.Focus);
+    }, this);
+
+    this.addListener("focusout", function(e) {
+      textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
+    }, this);
   },
 
 
@@ -820,6 +830,13 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     gotoValue : function(value) {
       return this.setValue(Math.min(this.getMaximum(), Math.max(this.getMinimum(), value)));
+    },
+
+    // overridden
+    focus : function()
+    {
+      this.base(arguments);
+      this.getChildControl("textfield").getFocusElement().focus();
     }
   },
 

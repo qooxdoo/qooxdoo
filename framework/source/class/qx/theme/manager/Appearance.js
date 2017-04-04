@@ -53,7 +53,7 @@ qx.Class.define("qx.theme.manager.Appearance",
 
   properties :
   {
-    /** currently used appearance theme */
+    /** Currently used appearance theme */
     theme :
     {
       check : "Theme",

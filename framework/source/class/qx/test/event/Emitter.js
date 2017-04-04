@@ -19,7 +19,7 @@
 qx.Class.define("qx.test.event.Emitter",
 {
   extend : qx.dev.unit.TestCase,
-  include : qx.dev.unit.MMock,
+  include : [ qx.dev.unit.MMock, qx.dev.unit.MRequirements ],
 
   members : {
     __ee : null,
@@ -74,6 +74,17 @@ qx.Class.define("qx.test.event.Emitter",
       this.assertCalledOnce(spy);
     },
 
+    /**
+     * @lint ignoreDeprecated(alert, eval)
+     */
+    testAddAsyncFunction : function() {
+      this.require(["asyncFunctions"]);
+      var f = eval("f = async function(){};");
+      this.__ee.addListener("test", f, this);
+      this.__ee.emit("test");
+      this.__ee.removeListener("test", f, this);
+      this.__ee.emit("test");
+    },
 
     testAddRemoveById : function() {
       var spy = this.spy();

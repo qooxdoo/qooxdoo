@@ -8,8 +8,7 @@
      2006, 2007, 2011 Derrell Lipman
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -374,7 +373,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     addObject : function(friendlyName, obj, groupNames)
     {
-      var hash = obj.toHashCode();
+      var hash = qx.core.ObjectRegistry.toHashCode(obj);
       this.__friendlyToHash[friendlyName] = hash;
       this.__hashToFriendly[hash] = friendlyName;
       this.__friendlyToObject[friendlyName] = obj;
@@ -506,7 +505,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     getFriendlyName : function(obj)
     {
-      var hash = obj ? obj.toHashCode() : null;
+      var hash = obj ? qx.core.ObjectRegistry.toHashCode(obj) : null;
       return hash ? this.__hashToFriendly[hash] : null;
     },
 

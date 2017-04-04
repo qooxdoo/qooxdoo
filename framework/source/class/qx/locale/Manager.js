@@ -466,7 +466,7 @@ qx.Class.define("qx.locale.Manager",
       }
 
       if (qx.core.Environment.get("qx.dynlocale")) {
-        txt = new qx.locale.LocalizedString(txt, messageId, args);
+        txt = new qx.locale.LocalizedString(txt, messageId, args, catalog === this.__locales);
       }
 
       return txt;

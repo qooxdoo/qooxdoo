@@ -44,6 +44,20 @@ The drop target can then add a listener to react for the ``drop`` event.
 
 The listener now shows an alert box which should present the identification ID (classname + hash code) of the drag target. Theoretically this could already be used to transfer data from A to B.
 
+A common need is to retrieve information from the model of the specific list
+item which was dragged from ``dragTarget`` which is an instance of
+``qx.ui.form.List``. This can be easily accomplished in the ``drop`` event
+handler, using the event argument which provides a manager which provides the
+actual drag target (the ``qx.ui.form.ListItem``).
+
+::
+
+  dropTarget.addListener("drop", function(e) {
+    var listItem = e.getManager().getDragTarget();
+    var model = listItem.getModel();
+    ...
+  });
+
 .. _pages/desktop/ui_dragdrop#data_handling:
 
 Data Handling

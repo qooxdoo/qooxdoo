@@ -128,7 +128,10 @@ class Script(object):
                 for glyphname, code in res.mapping.iteritems():
                   fdsc = "@%s/%s" % (res.alias, glyphname)
                   if not fdsc in result:
-                      result[fdsc] = [result[resid][1], round(result[resid][2] / code[1]), code[0]]
+                      try:
+                          result[fdsc] = [result[resid][1], round(result[resid][2] / code[1]), code[0]]
+                      except:
+                          pass
                 del result[resid][4]
 
         # ExtMap returns nested maps

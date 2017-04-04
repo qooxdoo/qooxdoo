@@ -356,6 +356,10 @@
  *       <td>event.mousewheel</td><td><i>Map</i></td><td><code>{type: "wheel", target: window}</code></td>
  *       <td>{@link qx.bom.client.Event#getMouseWheel}</td>
  *     </tr>
+ *     <tr>
+ *       <td>event.auxclick</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getAuxclickEvent}</td>
+ *     </tr>
  *
  *     <tr>
  *       <td colspan="4"><b>html</b></td>
@@ -757,6 +761,14 @@
  *       <td>{@link qx.bom.client.Scroll#getNativeScroll}</td>
  *     </tr>
  *     <tr>
+ *       <td>qx.promise.warnings</td><td><i>Boolean</i></td><td>same as <code>qx.debug</code></td>
+ *       <td>true to enable runtime warnings in promises</td>
+ *     </tr>
+ *     <tr>
+ *       <td>qx.promise.longStackTraces</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td>true to enable long stack traces in promises; this has a performance penalty but makes debugging asynchronous functions easier</td>
+ *     </tr>
+ *     <tr>
  *       <td>qx.optimization.basecalls</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>true if the corresponding <i>optimize</i> key is set in the config</td>
  *     </tr>
@@ -876,7 +888,9 @@ qx.Bootstrap.define("qx.core.Environment",
       "module.logger": true,
       "module.property": true,
       "module.events": true,
-      "qx.nativeScrollBars": false
+      "qx.nativeScrollBars": false,
+      "qx.automaticMemoryManagement": true,
+      "qx.promise": true
     },
 
     /**

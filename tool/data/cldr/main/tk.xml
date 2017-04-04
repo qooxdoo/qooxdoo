@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2014 Unicode, Inc.
-CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+<!-- Copyright © 1991-2016 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
+Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the U.S. and other countries.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 12293 $"/>
+		<version number="$Revision: 12876 $"/>
 		<language type="tk"/>
 	</identity>
 	<localeDisplayNames>
@@ -855,6 +856,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<regionFormat type="daylight">{0}, tomusky wagt</regionFormat>
 			<regionFormat type="standard">{0}, standart wagt</regionFormat>
 			<fallbackFormat>{1} ({0})</fallbackFormat>
+			<zone type="America/Santa_Isabel">
+				<exemplarCity>Santa-Izabel</exemplarCity>
+			</zone>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Näbelli</exemplarCity>
 			</zone>
@@ -1619,9 +1623,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</zone>
 			<zone type="America/Tijuana">
 				<exemplarCity>Tihuana</exemplarCity>
-			</zone>
-			<zone type="America/Santa_Isabel">
-				<exemplarCity>Santa-Izabel</exemplarCity>
 			</zone>
 			<zone type="America/Hermosillo">
 				<exemplarCity>Ermosilo</exemplarCity>
@@ -3281,12 +3282,18 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<symbol draft="contributed">BWP</symbol>
 				<symbol alt="narrow" draft="contributed">P</symbol>
 			</currency>
-			<currency type="BYR">
+			<currency type="BYN">
 				<displayName>Belorus rubly</displayName>
 				<displayName count="one">belorus rubly</displayName>
 				<displayName count="other">belorus rubly</displayName>
-				<symbol draft="contributed">BYR</symbol>
+				<symbol draft="contributed">BYN</symbol>
 				<symbol alt="narrow" draft="contributed">р.</symbol>
+			</currency>
+			<currency type="BYR">
+				<displayName>Belorus rubly (2000–2016)</displayName>
+				<displayName count="one">belorus rubly (2000–2016)</displayName>
+				<displayName count="other">belorus rubly (2000–2016)</displayName>
+				<symbol draft="contributed">BYR</symbol>
 			</currency>
 			<currency type="BZD">
 				<displayName>Beliz dollary</displayName>
@@ -3532,8 +3539,8 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currency>
 			<currency type="ILS">
 				<displayName>Täze Ysraýyl şekeli</displayName>
-				<displayName count="one">täze ysraýyl şekeli</displayName>
-				<displayName count="other">täze ysraýl şekeli</displayName>
+				<displayName count="one">Täze Ysraýyl şekeli</displayName>
+				<displayName count="other">Täze Ysraýyl şekeli</displayName>
 				<symbol draft="contributed">₪</symbol>
 				<symbol alt="narrow" draft="contributed">₪</symbol>
 			</currency>
@@ -5623,4 +5630,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</messages>
 	</posix>
 </ldml>
-

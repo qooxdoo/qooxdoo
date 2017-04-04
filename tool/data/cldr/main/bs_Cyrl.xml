@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
-<!-- Copyright © 1991-2015 Unicode, Inc.
-CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
+<!-- Copyright © 1991-2016 Unicode, Inc.
 For terms of use, see http://www.unicode.org/copyright.html
+Unicode and the Unicode Logo are registered trademarks of Unicode, Inc. in the U.S. and other countries.
+CLDR data files are interpreted according to the LDML specification (http://unicode.org/reports/tr35/)
 -->
 <ldml>
 	<identity>
-		<version number="$Revision: 12307 $"/>
+		<version number="$Revision: 12876 $"/>
 		<language type="bs"/>
 		<script type="Cyrl"/>
 	</identity>
@@ -512,6 +513,7 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<script type="Hung">старомађарско писмо</script>
 			<script type="Inds">индушко писмо</script>
 			<script type="Ital">стари италик</script>
+			<script type="Jamo" draft="contributed">Џамо</script>
 			<script type="Java">јаванско писмо</script>
 			<script type="Jpan">јапанско писмо</script>
 			<script type="Kali">кајах-ли писмо</script>
@@ -951,6 +953,11 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="collation" type="stroke">Сортирање по броју црта</type>
 			<type key="collation" type="traditional">Традиционално сортирање</type>
 			<type key="collation" type="unihan" draft="contributed">Редослед сортирања радикалним цртицама</type>
+			<type key="d0" type="fwidth" draft="contributed">пуна ширина</type>
+			<type key="d0" type="hwidth" draft="contributed">пола ширине</type>
+			<type key="d0" type="npinyin" draft="contributed">Нумеричка</type>
+			<type key="m0" type="bgn" draft="contributed">БГН (BGN)</type>
+			<type key="m0" type="ungegn" draft="contributed">УНГЕГН (BGN)</type>
 			<type key="numbers" type="arab" draft="contributed">арапско-индијске цифре</type>
 			<type key="numbers" type="arabext" draft="contributed">продужене арапско-индијске цифре</type>
 			<type key="numbers" type="armn" draft="contributed">јерменски бројеви</type>
@@ -987,18 +994,6 @@ For terms of use, see http://www.unicode.org/copyright.html
 			<type key="numbers" type="thai" draft="contributed">тајске цифре</type>
 			<type key="numbers" type="tibt" draft="contributed">тибетанске цифре</type>
 		</types>
-		<transformNames>
-			<transformName type="BGN" draft="contributed">БГН (BGN)</transformName>
-			<transformName type="Numeric" draft="contributed">Нумеричка</transformName>
-			<transformName type="Tone" draft="contributed">Тон</transformName>
-			<transformName type="UNGEGN" draft="contributed">УНГЕГН (BGN)</transformName>
-			<transformName type="x-Accents" draft="contributed">Акценти</transformName>
-			<transformName type="x-Fullwidth" draft="contributed">пуна ширина</transformName>
-			<transformName type="x-Halfwidth" draft="contributed">пола ширине</transformName>
-			<transformName type="x-Jamo" draft="contributed">Џамо</transformName>
-			<transformName type="x-Pinyin" draft="contributed">Пинјин</transformName>
-			<transformName type="x-Publishing" draft="contributed">Издавачки</transformName>
-		</transformNames>
 		<measurementSystemNames>
 			<measurementSystemName type="metric">Метрички</measurementSystemName>
 			<measurementSystemName type="UK" draft="contributed">империјални</measurementSystemName>
@@ -4347,9 +4342,9 @@ For terms of use, see http://www.unicode.org/copyright.html
 			</currencyFormatLength>
 			<currencyFormatLength type="short">
 				<currencyFormat type="standard">
-					<pattern type="1000" count="one" draft="provisional">0 ¤</pattern>
-					<pattern type="1000" count="few" draft="provisional">0 ¤</pattern>
-					<pattern type="1000" count="other" draft="provisional">0 ¤</pattern>
+					<pattern type="1000" count="one" draft="provisional">0</pattern>
+					<pattern type="1000" count="few" draft="provisional">0</pattern>
+					<pattern type="1000" count="other" draft="provisional">0</pattern>
 					<pattern type="10000" count="one" draft="provisional">00 хиљ ¤</pattern>
 					<pattern type="10000" count="few" draft="provisional">00 хиљ ¤</pattern>
 					<pattern type="10000" count="other" draft="provisional">00 хиљ ¤</pattern>
@@ -4707,11 +4702,17 @@ For terms of use, see http://www.unicode.org/copyright.html
 				<displayName count="few">белоруске нове рубља</displayName>
 				<displayName count="other">белоруских нових рубљи</displayName>
 			</currency>
-			<currency type="BYR">
+			<currency type="BYN">
 				<displayName>Белоруска рубља</displayName>
 				<displayName count="one">белоруска рубља</displayName>
 				<displayName count="few">белоруске рубље</displayName>
 				<displayName count="other">белоруске рубље</displayName>
+			</currency>
+			<currency type="BYR">
+				<displayName>Белоруска рубља (2000–2016)</displayName>
+				<displayName count="one">белоруска рубља (2000–2016)</displayName>
+				<displayName count="few">белоруске рубље (2000–2016)</displayName>
+				<displayName count="other">белоруске рубље (2000–2016)</displayName>
 			</currency>
 			<currency type="BZD">
 				<displayName>Белизе долар</displayName>
@@ -6239,4 +6240,3 @@ For terms of use, see http://www.unicode.org/copyright.html
 		</messages>
 	</posix>
 </ldml>
-
