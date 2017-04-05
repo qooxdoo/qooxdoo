@@ -74,6 +74,11 @@ qx.Class.define("qx.test.ui.form.TextField",
       var s = this.__field._validateInput("-11-1");
       this.assertEquals("", s);
     },
+  "test: validate input with complex filter 2": function() {
+      this.__field.setFilter(/^xy$/);
+      var s = this.__field._validateInput("x? y?");
+      this.assertEquals("", s);
+    },
 
     __field: null
   }
