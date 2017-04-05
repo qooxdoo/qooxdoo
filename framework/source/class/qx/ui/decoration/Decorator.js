@@ -41,7 +41,8 @@ qx.Class.define("qx.ui.decoration.Decorator", {
     qx.ui.decoration.MBoxShadow,
     qx.ui.decoration.MDoubleBorder,
     qx.ui.decoration.MLinearBackgroundGradient,
-    qx.ui.decoration.MBorderImage
+    qx.ui.decoration.MBorderImage,
+    qx.ui.decoration.MTransition
   ],
 
   members :
