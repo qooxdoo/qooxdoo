@@ -560,7 +560,9 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (this.__oldInputValue && this.__oldInputValue === value) {
         fireEvents = false;
       }
-      if (fireEvents)
+
+      // check for the filter
+      if (this.getFilter() != null)
       {
         var filteredValue = this._validateInput(value);
         if (filteredValue != value)
