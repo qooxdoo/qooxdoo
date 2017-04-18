@@ -58,6 +58,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     /**
      * Checks if 'MutationObserver' is supported.
      * @internal
+     * @ignore(MutationObserver)
      * @return {Boolean} <code>true</code>, if MutationObserver is available.
      */
     getMutationObserver : function() {
