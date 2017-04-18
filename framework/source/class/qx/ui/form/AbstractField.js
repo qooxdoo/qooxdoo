@@ -231,8 +231,8 @@ qx.Class.define("qx.ui.form.AbstractField",
      * RegExp responsible for filtering the value of the textfield. the RegExp
      * gives the range of valid values.
      * Note: The regexp specified is applied to each character in turn, 
-	   * NOT to the entire string. So only regular expressions matching a 
-	   * single character make sense in the context.	 
+     * NOT to the entire string. So only regular expressions matching a 
+     * single character make sense in the context.
      * The following example only allows digits in the textfield.
      * <pre class='javascript'>field.setFilter(/[0-9]/);</pre>
      */
