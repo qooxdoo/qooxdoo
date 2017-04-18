@@ -24,6 +24,8 @@ community.
 
 For more information please see http://qooxdoo.org .
 
+.. image:: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master
+    :target: https://travis-ci.org/qooxdoo/qooxdoo
 
 License
 =======
