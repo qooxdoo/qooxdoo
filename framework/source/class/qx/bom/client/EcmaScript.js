@@ -56,6 +56,16 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
+     * Checks if 'MutationObserver' is supported.
+     * @internal
+     * @return {Boolean} <code>true</code>, if MutationObserver is available.
+     */
+    getMutationObserver : function() {
+      return typeof MutationObserver != "undefined";
+    },
+
+
+    /**
      * Checks if 'indexOf' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
