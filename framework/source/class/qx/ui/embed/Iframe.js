@@ -378,7 +378,13 @@ qx.Class.define("qx.ui.embed.Iframe",
         iframeSource = iframeSource.substring(0, iframeSource.length-1);
       }
 
-      if (iframeSource != this.getSource()) {
+      if (iframeSource != this.getSource())
+      {
+        if ( qx.core.Environment.get("browser.name") != "edge" &&
+             qx.core.Environment.get("browser.name") != "ie" )
+        {
+          qx.bom.Iframe.getWindow(iframeDomElement).stop();
+        }
         iframeDomElement.src = this.getSource();
       }
     },
