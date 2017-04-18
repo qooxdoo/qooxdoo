@@ -68,61 +68,58 @@ qx.Class.define("qx.ui.embed.Iframe",
 
     this.__blockerElement = this._createBlockerElement();
 
-    if ((qx.core.Environment.get("engine.name") == "gecko"))
+    if ( qx.core.Environment.get("ecmascript.mutationobserver") )
     {
-      if ( qx.core.Environment.get("ecmascript.mutationobserver") )
+      this.addListenerOnce("appear", function ()
       {
-        this.addListenerOnce("appear", function ()
-        {
-          var element = this.getContentElement().getDomElement();
+        var element = this.getContentElement().getDomElement();
 
-          // Mutation record check callback
-          var isDOMNodeInserted = function (mutationRecord)
+        // Mutation record check callback
+        var isDOMNodeInserted = function (mutationRecord)
+        {
+          var i;
+          // 'our' iframe was either added...
+          if (mutationRecord.addedNodes)
           {
-            var i;
-            // 'our' iframe was either added...
-            if (mutationRecord.addedNodes)
-            {
-              for (i = mutationRecord.addedNodes.length; i>=0; --i) {
-                if (mutationRecord.addedNodes[i] == element) {
-                  return true;
-                }
+            for (i = mutationRecord.addedNodes.length; i>=0; --i) {
+              if (mutationRecord.addedNodes[i] == element) {
+                return true;
               }
             }
-            // ...or removed
-            if (mutationRecord.removedNodes)
-            {
-              for (i = mutationRecord.removedNodes.length; i>=0; --i) {
-                if (mutationRecord.removedNodes[i] == element) {
-                  return true;
-                }
+          }
+          // ...or removed
+          if (mutationRecord.removedNodes)
+          {
+            for (i = mutationRecord.removedNodes.length; i>=0; --i) {
+              if (mutationRecord.removedNodes[i] == element) {
+                return true;
               }
             }
-            return false;
-          };
+          }
+          return false;
+        };
 
-          var observer = new MutationObserver(function (mutationRecords)
-          {
-            if (mutationRecords.some(isDOMNodeInserted)) {
-              this._syncSourceAfterDOMMove();
-            }
-          }.bind(this));
-
-          // Observe parent element
-          var parent = this.getLayoutParent().getContentElement().getDomElement();
-          observer.observe(parent, { childList: true });
-
-        }, this);
-      }
-      else // !qx.core.Environment.get("ecmascript.mutationobserver")
-      {
-        this.addListenerOnce("appear", function ()
+        var observer = new MutationObserver(function (mutationRecords)
         {
-          var element = this.getContentElement().getDomElement();
-          qx.bom.Event.addNativeListener(element, "DOMNodeInserted", this._onDOMNodeInserted);
-        }, this);
-        this._onDOMNodeInserted = qx.lang.Function.listener(this._syncSourceAfterDOMMove, this);
-      }
+          if (mutationRecords.some(isDOMNodeInserted)) {
+            this._syncSourceAfterDOMMove();
+          }
+        }.bind(this));
+
+        // Observe parent element
+        var parent = this.getLayoutParent().getContentElement().getDomElement();
+        observer.observe(parent, { childList: true });
+
+      }, this);
+    }
+    else // !qx.core.Environment.get("ecmascript.mutationobserver")
+    {
+      this.addListenerOnce("appear", function ()
+      {
+        var element = this.getContentElement().getDomElement();
+        qx.bom.Event.addNativeListener(element, "DOMNodeInserted", this._onDOMNodeInserted);
+      }, this);
+      this._onDOMNodeInserted = qx.lang.Function.listener(this._syncSourceAfterDOMMove, this);
     }
   },
 
@@ -381,9 +378,7 @@ qx.Class.define("qx.ui.embed.Iframe",
         iframeSource = iframeSource.substring(0, iframeSource.length-1);
       }
 
-      if (iframeSource != this.getSource())
-      {
-        qx.bom.Iframe.getWindow(iframeDomElement).stop();
+      if (iframeSource != this.getSource()) {
         iframeDomElement.src = this.getSource();
       }
     },
