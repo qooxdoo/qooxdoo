@@ -51,6 +51,7 @@ qx.Class.define("qx.ui.embed.Iframe",
   */
 
   /**
+   * @ignore(MutationObserver)
    * @param source {String} URL which should initially set.
    */
   construct : function(source)
