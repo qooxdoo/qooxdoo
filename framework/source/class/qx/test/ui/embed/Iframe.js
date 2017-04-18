@@ -86,6 +86,45 @@ qx.Class.define("qx.test.ui.embed.Iframe",
 
       this.__iframe.setSource(src);
       this.wait(10000);
+    },
+
+    testSyncSourceAfterDOMMove : function ()
+    {
+      var rm = qx.util.ResourceManager.getInstance()
+      var src1 = rm.toUri("qx/static/blank.html");  // <body></body>
+      var src2 = rm.toUri("qx/test/hello.html");    // <body>Hello World!</body>
+
+      var iframe = this.__iframe;
+      var container0 = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      var container1 = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      var container2 = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+
+      container0.add(container1, {flex: 1});
+      container0.add(container2, {flex: 1});
+      this.getRoot().add(container0);
+
+      iframe.setSource(src1); // "qx/static/blank.html"
+      container1.add(iframe, {flex: 1});
+
+      // Move iframe to another DOM location after half a second
+      window.setTimeout(function ()
+      {
+        iframe.setSource(src2); // "qx/test/hello.html"
+        container2.add(iframe, {flex: 1});
+      }, 500);
+
+      // Check iframe body content after one second
+      window.setTimeout(function ()
+      {
+        this.resume(function() {
+          this.assertEquals(
+            "Hello World!",
+            iframe.getWindow().document.body.innerText
+          );
+        });
+      }.bind(this), 1000);
+
+      this.wait(10000);
     }
   }
 });
