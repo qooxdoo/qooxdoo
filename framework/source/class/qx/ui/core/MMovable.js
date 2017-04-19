@@ -68,6 +68,9 @@ qx.Mixin.define("qx.ui.core.MMovable",
     __parentLeft : null,
     __parentTop : null,
 
+    __parentScrollLeft : 0,
+    __parentScrollTop : 0,
+
     __blockerAdded : false,
     __oldBlockerColor : null,
     __oldBlockerOpacity : 0,
@@ -159,8 +162,8 @@ qx.Mixin.define("qx.ui.core.MMovable",
         viewportLeft : parseInt(viewportLeft, 10),
         viewportTop : parseInt(viewportTop, 10),
 
-        parentLeft : parseInt(viewportLeft - this.__parentLeft, 10),
-        parentTop : parseInt(viewportTop - this.__parentTop, 10)
+        parentLeft : parseInt(viewportLeft - this.__parentLeft, 10) + this.__parentScrollLeft,
+        parentTop : parseInt(viewportTop - this.__parentTop, 10) + this.__parentScrollTop
       };
     },
 
@@ -228,6 +231,10 @@ qx.Mixin.define("qx.ui.core.MMovable",
       var widgetLocation = this.getContentLocation();
       this.__parentLeft = parentLocation.left;
       this.__parentTop = parentLocation.top;
+
+      var parentDomElement = parent.getContentElement().getDomElement();
+      this.__parentScrollLeft = parentDomElement.scrollLeft;
+      this.__parentScrollTop = parentDomElement.scrollTop;
 
       this.__dragLeft = widgetLocation.left - e.getDocumentLeft();
       this.__dragTop = widgetLocation.top - e.getDocumentTop();
