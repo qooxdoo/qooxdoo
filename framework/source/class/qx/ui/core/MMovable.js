@@ -26,6 +26,19 @@
  */
 qx.Mixin.define("qx.ui.core.MMovable",
 {
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events : {
+    /* Fired when the widget moved */
+    "moved": "qx.event.type.Event"
+  },
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -270,6 +283,9 @@ qx.Mixin.define("qx.ui.core.MMovable",
         this.setDomPosition(coords.parentLeft - (insets.left || 0),
           coords.parentTop - (insets.top || 0));
       }
+
+      // Let others know that we moved
+      this.fireEvent("moved");
 
       e.stopPropagation();
     },
