@@ -29,12 +29,12 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
     /**
      * Whether the table column associated with this menu item is visible.
      */
-    visible :
+    shown :
     {
       check : "Boolean",
       init  : true,
-      apply : "_applyVisible",
-      event : "changeVisible"
+      apply : "_applyShown",
+      event : "changeShown"
     }
   },
 
@@ -50,12 +50,12 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
   {
     this.base(arguments, text);
 
-    // Mirror native "value" property in our "visible" property
+    // Mirror native "value" property in our "shown" property
     this.addListener("changeValue",
                      function(e)
                      {
                        this.bInListener = true;
-                       this.setVisible(e.getData());
+                       this.setShown(e.getData());
                        this.bInListener = false;
                      });
   },
@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
      * @param old {Boolean}
      *   Previous visibility value
      */
-    _applyVisible : function(value, old)
+    _applyShown : function(value, old)
     {
       // avoid recursion if called from listener on "changeValue" property
       if (! this.bInListener)
