@@ -508,6 +508,9 @@ qx.Class.define("qx.test.ui.basic.Image",
       return qx.core.Environment.get("engine.name") === "gecko";
     },
 
+    /**
+     * @ignore(qx.theme.icon.Font)
+     */
     _initWebFont : function()
     {
       qx.$$resources["@FontAwesome/heart"] = [40, 40, 61444];

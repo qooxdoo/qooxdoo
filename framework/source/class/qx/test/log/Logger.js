@@ -82,6 +82,9 @@ qx.Class.define("qx.test.log.Logger",
     },
 
 
+    /**
+     * @ignore(test.DisposableObject)
+     */
     testContextObject : function() {
       var appender = new qx.log.appender.RingBuffer();
 
