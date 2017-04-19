@@ -2123,7 +2123,7 @@ qx.Class.define("qx.ui.table.Table",
                                        qx.ui.table.IColumnMenuItem);
 
         menuButton.addListener(
-          "changeShown",
+          "changeColumnVisible",
           this._createColumnVisibilityCheckBoxHandler(col), this);
         this.__columnMenuButtons[col] = menuButton;
       }
