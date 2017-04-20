@@ -24,19 +24,13 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
   extend     : qx.ui.menu.CheckBox,
   implement  : qx.ui.table.IColumnMenuItem,
 
-  properties :
-  {
-    /**
-     * Whether the table column associated with this menu item is visible.
-     */
-    columnVisible :
-    {
-      check : "Boolean",
-      init  : true,
-      apply : "_applyColumnVisible",
-      event : "changeColumnVisible"
-    }
-  },
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
   /**
    * Create a new instance of an item for insertion into the table column
@@ -50,34 +44,69 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
   {
     this.base(arguments, text);
 
-    // Mirror native "value" property in our "columnVisible" property
+    this.setValue(this.__columnVisible);
+
+    // Mirror native "value" property in our "visible" property
     this.addListener("changeValue",
                      function(e)
                      {
                        this.bInListener = true;
-                       this.setColumnVisible(e.getData());
+                       this.setVisible(e.getData());
                        this.bInListener = false;
                      });
   },
 
-  members :
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  events :
   {
     /**
-     * Keep menu in sync with programmatic changes of visibility
-     *
-     * @param value {Boolean}
-     *   New visibility value
-     *
-     * @param old {Boolean}
-     *   Previous visibility value
+     * Dispatched when a column changes visibility state. The event data is a
+     * boolean indicating whether the table column associated with this menu
+     * item is now visible.
      */
-    _applyColumnVisible : function(value, old)
+    changeVisible : "qx.event.type.Data"
+  },
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    __columnVisible : true, // {Boolean}
+
+
+    // Interface implementation
+    setVisible : function(value)
     {
-      // avoid recursion if called from listener on "changeValue" property
-      if (! this.bInListener)
+      if (value !== this.__columnVisible)
       {
-        this.setValue(value);
+        this.__columnVisible = value;
+
+        // avoid recursion if called from listener on "changeValue" property
+        if (! this.bInListener) {
+          this.setValue(value);
+        }
+
+        this.fireDataEvent("changeVisible", value, this.__columnVisible);
       }
+    },
+
+
+    // Interface implementation
+    getVisible : function() {
+      return this.__columnVisible;
     }
   }
 });
