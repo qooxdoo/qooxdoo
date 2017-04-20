@@ -1558,7 +1558,7 @@ qx.Class.define("qx.ui.table.Table",
       var data = evt.getData();
       if (this.__columnMenuButtons != null && data.col != null &&
           data.visible != null) {
-        this.__columnMenuButtons[data.col].setVisible(data.visible);
+        this.__columnMenuButtons[data.col].setColumnVisible(data.visible);
       }
 
       this._updateScrollerWidths();
