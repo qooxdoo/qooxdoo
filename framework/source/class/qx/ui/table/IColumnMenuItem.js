@@ -21,14 +21,6 @@
  */
 qx.Interface.define("qx.ui.table.IColumnMenuItem",
 {
-  properties :
-  {
-    /**
-     * Whether the table column associated with this menu item is visible
-     */
-    columnVisible : { }
-  },
-
   events :
   {
     /**
@@ -36,6 +28,28 @@ qx.Interface.define("qx.ui.table.IColumnMenuItem",
      * boolean indicating whether the table column associated with this menu
      * item is now visible.
      */
-    changeColumnVisible : "qx.event.type.Data"
+    changeVisible : "qx.event.type.Data"
+  },
+
+  members :
+  {
+    /**
+     * Set whether the table column associated with this menu item is visible
+     *
+     * @param value {Boolean} whether the table column associated with this
+     *   menu item is visible
+     */
+    setVisible : function (value) {
+      this.assertBoolean(value);
+    },
+
+
+    /**
+     * Get whether the table column associated with this menu item is visible
+     *
+     * @return {Boolean} whether the table column associated with this menu
+     *   item is visible
+     */
+    getVisible : function () {}
   }
 });
