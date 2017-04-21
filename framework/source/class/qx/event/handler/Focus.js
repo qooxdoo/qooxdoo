@@ -451,12 +451,8 @@ qx.Class.define("qx.event.handler.Focus",
           this.__onNativeMouseUpWrapper = qx.lang.Function.listener(this.__onNativeMouseUp, this);
 
           this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
-
-          this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
-          this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
-
+          this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
           this.__onNativeSelectStartWrapper = qx.lang.Function.listener(this.__onNativeSelectStart, this);
-
 
           // Register events
           qx.bom.Event.addNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
