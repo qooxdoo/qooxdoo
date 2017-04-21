@@ -90,16 +90,17 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
     // Interface implementation
     setVisible : function(value)
     {
-      if (value !== this.__columnVisible)
+      var old = this.__columnVisible;
+      if (value !== old)
       {
         this.__columnVisible = value;
+
+        this.fireDataEvent("changeVisible", value, old);
 
         // avoid recursion if called from listener on "changeValue" property
         if (! this.bInListener) {
           this.setValue(value);
         }
-
-        this.fireDataEvent("changeVisible", value, this.__columnVisible);
       }
     },
 
