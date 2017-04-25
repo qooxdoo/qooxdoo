@@ -388,6 +388,17 @@ qx.Bootstrap.define("qx.Class",
 
       qx.Class.__addMixin(clazz, mixin, true);
     },
+    
+    
+    /**
+     * Detects whether the object is a Class (and not an instance of a class)
+     * 
+     *  @param obj {Object?} the object to inspect
+     *  @return {Boolean} true if it is a class, false if it is anything else
+     */
+    isClass: function(obj) {
+      return obj && obj.$$type === "Class" && obj.constructor === obj;
+    },
 
 
     /**
@@ -1248,6 +1259,9 @@ qx.Bootstrap.define("qx.Class",
           }
           var event = {};
           event[config.event] = "qx.event.type.Data";
+          if (config.async) {
+          	event[config.event + "Async"] = "qx.event.type.Data";
+          }
           this.__addEvents(clazz, event, patch);
         }
 

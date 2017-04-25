@@ -11,7 +11,7 @@ env:
 - QXBROWSER=Firefox QXVERSION=beta-latest
 - QXBROWSER=Chrome_travis_ci QXVERSION=stable
 - QXBROWSER=Chrome_travis_ci QXVERSION=beta
-- QXBROWSER=Chrome_travis_ci QXVERSION=unstable
+#- QXBROWSER=Chrome_travis_ci QXVERSION=unstable
 - secure: vW8wdbY/DmRITaFkQix8PUuE3jiwy2Yj0nn+k+yNqcwPde19ObQBq0rHJEiO5AJOBuNiWaie2n8sQQ6ceK72pU1IbIntPsztY/EFKP6x009wjmiLoifsVEGNP1kxLgFOnvCmlGjTIyGsqse5UsVt8HZs2jHK8xkkedTehuDNxtI=
 cache:
   directories:

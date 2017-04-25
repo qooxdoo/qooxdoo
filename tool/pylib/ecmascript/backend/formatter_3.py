@@ -124,7 +124,7 @@ def prefix_keyword(id_):
             cld.format(optns, state)
     symbol(id_).format = format
 
-for sym in "var new throw while if for do with try catch switch case default".split():  # some of them might get overwritten later, or this list should be adjusted
+for sym in "var new throw while if for do with try catch finally switch case default".split():  # some of them might get overwritten later, or this list should be adjusted
     prefix_keyword(sym)
 
 def prefix_kw_optarg(id_):  # break, continue, return

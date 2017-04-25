@@ -918,7 +918,9 @@ qx.Class.define("qx.ui.basic.Image",
         }
         else {
           var charCode = parseInt(qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)\/(.*)$/)[2]), 16);
-          this.assertNumber(charCode, "Font source needs either a glyph name or the unicode number in hex");
+          if (qx.core.Environment.get("qx.debug")) {
+            this.assertNumber(charCode, "Font source needs either a glyph name or the unicode number in hex");
+          }
           el.setValue(String.fromCharCode(charCode));
         }
 

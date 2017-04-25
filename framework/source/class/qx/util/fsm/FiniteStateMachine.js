@@ -373,7 +373,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     addObject : function(friendlyName, obj, groupNames)
     {
-      var hash = obj.toHashCode();
+      var hash = qx.core.ObjectRegistry.toHashCode(obj);
       this.__friendlyToHash[friendlyName] = hash;
       this.__hashToFriendly[hash] = friendlyName;
       this.__friendlyToObject[friendlyName] = obj;
@@ -505,7 +505,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     getFriendlyName : function(obj)
     {
-      var hash = obj ? obj.toHashCode() : null;
+      var hash = obj ? qx.core.ObjectRegistry.toHashCode(obj) : null;
       return hash ? this.__hashToFriendly[hash] : null;
     },
 
