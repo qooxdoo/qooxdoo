@@ -56,6 +56,17 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
+     * Checks if 'MutationObserver' is supported.
+     * @internal
+     * @ignore(MutationObserver)
+     * @return {Boolean} <code>true</code>, if MutationObserver is available.
+     */
+    getMutationObserver : function() {
+      return typeof MutationObserver != "undefined";
+    },
+
+
+    /**
      * Checks if 'indexOf' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
@@ -311,6 +322,9 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // ES7 async function support
     qx.core.Environment.add("ecmascript.function.async", statics.getAsyncFunction);
+
+    // MutationObserver
+    qx.core.Environment.add("ecmascript.mutationobserver", statics.getMutationObserver);
 
     // Promises
     qx.core.Environment.add("ecmascript.promise.native", statics.getPromiseNative);
