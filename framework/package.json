@@ -2,10 +2,27 @@
   "name": "qooxdoo-framework",
   "description": "qooxdoo framework dependencies",
   "version": "5.1.0",
+  "license": "MIT",
+  "homepage": "http://qooxdoo.org",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qooxdoo/qooxdoo"
+    "url": "https://github.com/qooxdoo/qooxdoo.git"
   },
+  "bugs": {
+    "url": "https://github.com/qooxdoo/qooxdoo/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/qooxdoo/qooxdoo/blob/master/LICENSE"
+    }
+  ],
+  "keywords": [
+    "qooxdoo",
+    "framework",
+    "browser",
+    "client-side"
+  ],
   "scripts": {
     "test": "karma start",
     "pretest": "php -S 127.0.0.1:31323 &> /dev/null &",
@@ -24,6 +41,16 @@
     "karma-coverage": "^0.5.5",
     "karma-coveralls": "^1.1.2",
     "karma-firefox-launcher": "^0.1.7",
-    "karma-qooxdoo": "^0.4.6"
+    "karma-qooxdoo": "^0.4.6",
+    "eslint-config-qx": "^0.0.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "qx/safety"
+    ]
+  },
+  "scripts": {
+    "eslint": "eslint --cache",
+    "eslint-light": "eslint --cache --ignore-path .eslintbigfiles"
   }
 }
