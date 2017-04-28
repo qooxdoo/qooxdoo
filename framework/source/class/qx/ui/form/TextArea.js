@@ -163,9 +163,11 @@ qx.Class.define("qx.ui.form.TextArea",
     */
     __autoSize: function() {
       if (this.isAutoSize()) {
-        var clone = this.__getAreaClone();
-
-        if (clone && this.getBounds()) {
+        
+        // make sure to only create the clone when the bounds of this element are calculated. Otherwise in special cases
+        // clone will have no width set and the autoSize calculation is wrong due to much smaller clone (creates a lot 
+        // of whitespace at the end of the textbox)
+        if (this.getBounds() && this.__getAreaClone()) {
 
           // Remember original area height
           this.__originalAreaHeight = this.__originalAreaHeight || this._getAreaHeight();
