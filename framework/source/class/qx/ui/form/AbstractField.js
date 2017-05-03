@@ -935,31 +935,33 @@ qx.Class.define("qx.ui.form.AbstractField",
         qx.ui.form.AbstractField.__addPlaceholderRules();
       }
     },
+
     /**
-     * validates the the input value
+     * Validates the the input value.
      * 
-     * @param {type} value: the value to check
-     * @returns the checked value
+     * @param value {Object} The value to check
+     * @returns The checked value
      */
     _validateInput : function(value) {
-      // if no filter is set return just the value
       var filteredValue = value;
-      // check for the filter
       var filter = this.getFilter();
-      if (filter != null)
-      {
+
+      // If no filter is set return just the value
+      if (filter !== null) {
         filteredValue = "";
         var index = value.search(filter);
         var processedValue = value;
-        while((index >= 0) && (processedValue.length > 0))
-        {
+
+        while((index >= 0) && (processedValue.length > 0)) {
           filteredValue = filteredValue + (processedValue.charAt(index));
           processedValue = processedValue.substring(index + 1, processedValue.length);
           index = processedValue.search(filter);
         }
       }
+
       return filteredValue;
     },
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
