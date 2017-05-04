@@ -8,8 +8,7 @@
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -152,7 +151,8 @@ qx.Class.define("qx.ui.form.TextArea",
         e.stop();
       }
     },
-
+	
+	
     /**
      * When the element resizes we throw away the clone and trigger autosize again, otherwise the clone would have
      * another width and the autosize calculation would be faulty.
@@ -179,10 +179,8 @@ qx.Class.define("qx.ui.form.TextArea",
     */
     __autoSize: function() {
       if (this.isAutoSize()) {
-        // make sure to only create the clone when the bounds of this element are calculated. Otherwise clone will have
-        // no width and the autoSize calculation is wrong due to much smaller clone (creates a lot of whitespace at the
-        // end of the textbox)
         var clone = this.__getAreaClone();
+
         if (clone && this.getBounds()) {
 
           // Remember original area height
