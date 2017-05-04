@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.table.columnmenu.Button",
         case "menu-button":
           var menuButton =
             new qx.ui.table.columnmenu.MenuItem(options.text);
-          menuButton.setVisible(options.bVisible);
+          menuButton.setColumnVisible(options.bVisible);
           this.getMenu().add(menuButton);
           return menuButton;
 

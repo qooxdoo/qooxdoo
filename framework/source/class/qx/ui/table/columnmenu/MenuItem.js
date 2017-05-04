@@ -44,70 +44,26 @@ qx.Class.define("qx.ui.table.columnmenu.MenuItem",
   {
     this.base(arguments, text);
 
-    this.setValue(this.__columnVisible);
-
-    // Mirror native "value" property in our "visible" property
-    this.addListener("changeValue",
-                     function(e)
-                     {
-                       this.bInListener = true;
-                       this.setVisible(e.getData());
-                       this.bInListener = false;
-                     });
+    // Two way binding this.columnVisible <--> this.value
+    this.bind("value", this, "columnVisible");
+    this.bind("columnVisible", this, "value");
   },
 
 
 
   /*
   *****************************************************************************
-     EVENTS
+     PROPERTIES
   *****************************************************************************
   */
 
-  events :
+  properties :
   {
-    /**
-     * Dispatched when a column changes visibility state. The event data is a
-     * boolean indicating whether the table column associated with this menu
-     * item is now visible.
-     */
-    changeVisible : "qx.event.type.Data"
-  },
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    __columnVisible : true, // {Boolean}
-
-
-    // Interface implementation
-    setVisible : function(value)
+    columnVisible :
     {
-      var old = this.__columnVisible;
-      if (value !== old)
-      {
-        this.__columnVisible = value;
-
-        this.fireDataEvent("changeVisible", value, old);
-
-        // avoid recursion if called from listener on "changeValue" property
-        if (! this.bInListener) {
-          this.setValue(value);
-        }
-      }
-    },
-
-
-    // Interface implementation
-    getVisible : function() {
-      return this.__columnVisible;
+      check : "Boolean",
+      init  : true,
+      event : "changeColumnVisible"
     }
   }
 });
