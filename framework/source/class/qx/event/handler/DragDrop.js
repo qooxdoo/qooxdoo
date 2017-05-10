@@ -615,13 +615,16 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       // find current hovered droppable
       var el = e.getTarget();
+      if (this.__startConfig.target === el) {
+        el = document.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
+      }
       var cursor = this.getCursor();
       if (!cursor) {
         cursor = qx.ui.core.DragDropCursor.getInstance();
       }
       var cursorEl = cursor.getContentElement().getDomElement();
 
-      if (el !== cursorEl) {
+      if (el !== cursorEl && !cursorEl.contains(el)) {
         var droppable = this.__findDroppable(el);
 
         // new drop target detected
