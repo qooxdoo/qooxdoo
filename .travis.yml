@@ -5,6 +5,7 @@ addons:
   apt:
     packages:
     - python-sphinx
+    - libstdc++6
 env:
 - QXBROWSER=Firefox QXVERSION=latest
 - QXBROWSER=Firefox QXVERSION=esr-latest

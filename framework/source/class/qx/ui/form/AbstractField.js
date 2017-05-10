@@ -230,6 +230,9 @@ qx.Class.define("qx.ui.form.AbstractField",
     /**
      * RegExp responsible for filtering the value of the textfield. the RegExp
      * gives the range of valid values.
+     * Note: The regexp specified is applied to each character in turn, 
+     * NOT to the entire string. So only regular expressions matching a 
+     * single character make sense in the context.
      * The following example only allows digits in the textfield.
      * <pre class='javascript'>field.setFilter(/[0-9]/);</pre>
      */
@@ -564,16 +567,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       // check for the filter
       if (this.getFilter() != null)
       {
-        var filteredValue = "";
-        var index = value.search(this.getFilter());
-        var processedValue = value;
-        while(index >= 0)
-        {
-          filteredValue = filteredValue + (processedValue.charAt(index));
-          processedValue = processedValue.substring(index + 1, processedValue.length);
-          index = processedValue.search(this.getFilter());
-        }
-
+        var filteredValue = this._validateInput(value);
         if (filteredValue != value)
         {
           fireEvents = false;
@@ -581,7 +575,6 @@ qx.Class.define("qx.ui.form.AbstractField",
           this.getContentElement().setValue(value);
         }
       }
-
       // fire the events, if necessary
       if (fireEvents)
       {
@@ -943,6 +936,31 @@ qx.Class.define("qx.ui.form.AbstractField",
       }
     },
 
+    /**
+     * Validates the the input value.
+     * 
+     * @param value {Object} The value to check
+     * @returns The checked value
+     */
+    _validateInput : function(value) {
+      var filteredValue = value;
+      var filter = this.getFilter();
+
+      // If no filter is set return just the value
+      if (filter !== null) {
+        filteredValue = "";
+        var index = value.search(filter);
+        var processedValue = value;
+
+        while((index >= 0) && (processedValue.length > 0)) {
+          filteredValue = filteredValue + (processedValue.charAt(index));
+          processedValue = processedValue.substring(index + 1, processedValue.length);
+          index = processedValue.search(filter);
+        }
+      }
+
+      return filteredValue;
+    },
 
     /*
     ---------------------------------------------------------------------------

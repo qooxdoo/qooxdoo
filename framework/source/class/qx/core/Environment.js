@@ -230,6 +230,10 @@
  *       <td>{@link qx.bom.client.EcmaScript#getStackTrace}</td>
  *     </tr>
  *     <tr>
+ *       <td>ecmascript.mutationobserver</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getMutationObserver}</td>
+ *     </tr>
+ *     <tr>
  *       <td>ecmascript.array.indexof<td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getArrayIndexOf}</td>
  *     </tr>
@@ -870,6 +874,7 @@ qx.Bootstrap.define("qx.core.Environment",
       // make sure to reflect all changes to qx.debug here in the bootstrap class!
       "qx.debug": true,
       "qx.debug.ui.queue": true,
+      "qx.debug.touchpad.detection": false,
       "qx.aspects": false,
       "qx.dynlocale": true,
       "qx.dyntheme": true,
