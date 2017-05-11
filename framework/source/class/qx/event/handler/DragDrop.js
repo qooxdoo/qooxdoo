@@ -624,7 +624,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
       var cursorEl = cursor.getContentElement().getDomElement();
 
-      if (el !== cursorEl && !cursorEl.contains(el)) {
+      if (el !== cursorEl && (!cursorEl || !cursorEl.contains(el))) {
         var droppable = this.__findDroppable(el);
 
         // new drop target detected
