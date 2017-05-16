@@ -289,8 +289,9 @@ class Library(object):
 
     def _scanResourcePath(self):
         resources = set()
-        if self.resourcePath is None or not os.path.isdir(
-                os.path.join(self.path,self.resourcePath)):
+        if self.resourcePath is None:
+            return resources
+        if not os.path.isdir(os.path.join(self.path,self.resourcePath)):
             self._console.info("Lib<%s>: Skipping non-existing resource path" % self.namespace)
             return resources
 
@@ -358,8 +359,9 @@ class Library(object):
 
         classList = []
         docs = {}
-        if self.classPath is None or not os.path.isdir(
-                os.path.join(self.path,self.classPath)):
+        if self.classPath is None:
+            return classList, docs
+        if not os.path.isdir(os.path.join(self.path,self.classPath)):
             self._console.info("Lib<%s>: Skipping non-existend class path" % self.namespace)
             return classList, docs
 
@@ -439,7 +441,9 @@ class Library(object):
 
     def _scanTranslationPath(self):
         translations = {}  # reset
-        if self.assets['translations']['path'] is None or not os.path.isdir(
+        if self.assets['translations']['path'] is None:
+            return translations
+        if not os.path.isdir(
                 os.path.join(self.path,self.assets['translations']['path'])):
             self._console.info("Lib<%s>: Skipping non-existing translation path" % self.namespace)
             return translations
