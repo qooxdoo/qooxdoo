@@ -1185,7 +1185,9 @@ class CodeGenerator(object):
             resourceUri = Path.posifyPath(resourceUri)
         else:
             # source version needs place where the app HTML ("index.html") lives
-            self.approot = self._config.absPath(compConf.get("paths/app-root", ""))
+            self.approot = compConf.get("paths/app-root", "")
+            if self.approot is not None:
+                self.approot = self._config.absPath(self.approot)
             resourceUri = None
             scriptUri   = None
 
