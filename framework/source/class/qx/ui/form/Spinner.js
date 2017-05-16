@@ -6,6 +6,7 @@
 
    Copyright:
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2011 Aspect IT & Design GmbH, Germany, http://www.aspect-it.de
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -16,6 +17,7 @@
      * Andreas Ecker (ecker)
      * Martin Wittemann (martinwittemann)
      * Jonathan Weiß (jonathan_rass)
+     * Hubert Denkmair (hd@aspect-it.de)
 
 ************************************************************************ */
 
@@ -226,7 +228,27 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       refine : true,
       init : false
+    },
+    
+    /** Show buttons? */
+    buttonVisibility :
+    {
+      check : ["visible", "hidden", "excluded"],
+      init : "visible",
+      event: "changeButtonVisibility"
+    },
+    
+    /**
+     * Alignment of the text
+     */
+    textAlign :
+    {
+      check : [ "left", "center", "right" ],
+      nullable : true,
+      themeable : true,
+      event: "changeTextAlign"
     }
+    
   },
 
 
@@ -269,6 +291,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control.setWidth(40);
           control.setFocusable(false);
           control.addListener("changeValue", this._onTextChange, this);
+          this.bind("textAlign", control, "textAlign");
 
           this._add(control, {column: 0, row: 0, rowSpan: 2});
           break;
@@ -279,6 +302,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control.setFocusable(false);
           control.addListener("execute", this._countUp, this);
           this._add(control, {column: 1, row: 0});
+          this.bind("buttonVisibility", control, "visibility");
           break;
 
         case "downbutton":
@@ -287,6 +311,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control.setFocusable(false);
           control.addListener("execute", this._countDown, this);
           this._add(control, {column:1, row: 1});
+          this.bind("buttonVisibility", control, "visibility");
           break;
       }
 
@@ -687,6 +712,12 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       var textField = this.getChildControl("textfield");
       var value;
+
+      // set to value to null if textField is emptied by user
+      if (textField.getValue()=="") {
+        this.setValue(null);
+        return;
+      }
 
       // if a number format is set
       if (this.getNumberFormat())
