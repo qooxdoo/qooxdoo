@@ -106,6 +106,50 @@ qx.Class.define("qx.ui.form.CheckBox",
       "toolTipText",
       "value",
       "menu"
-    ]
+    ],
+
+    /**
+     * Listener method for "keydown" event.<br/>
+     * Removes "abandoned" and adds "pressed" state
+     * for the key "Space"
+     *
+     * @param e {Event} Key event
+     */
+    _onKeyDown : function(e)
+    {
+      switch(e.getKeyIdentifier())
+      {
+        case "Space":
+          this.removeState("abandoned");
+          this.addState("pressed");
+
+          e.stopPropagation();
+      }
+    },
+
+
+    /**
+     * Listener method for "keyup" event.<br/>
+     * Removes "abandoned" and "pressed" state (if "pressed" state is set)
+     * for the key "Space". It also toggles the {@link #value} property.
+     *
+     * @param e {Event} Key event
+     */
+    _onKeyUp : function(e)
+    {
+      if (!this.hasState("pressed")) {
+        return;
+      }
+
+      switch(e.getKeyIdentifier())
+      {
+        case "Space":
+          this.removeState("abandoned");
+          this.execute();
+
+          this.removeState("pressed");
+          e.stopPropagation();
+      }
+    }
   }
 });
