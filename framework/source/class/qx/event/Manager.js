@@ -172,6 +172,21 @@ qx.Class.define("qx.event.Manager",
 
       return this.__handlers[clazz.classname] = new clazz(this);
     },
+    
+    
+    /**
+     * Registers an instance of a handler for this manager (window); if there is already
+     * an instance of a handler for a given class an error is thrown.  This method allows
+     * applications to override the default handling for window, but must be called early
+     * in the application lifecycle
+     * @param handler {IEventHandler} the new handler
+     * @param clazz {Class} the Qooxdoo class which would normally handle events
+     */
+    registerHandler : function(handler, clazz) {
+    	if (this.__handlers[clazz.classname])
+    		throw new Error("Cannot register handler for " + clazz.classname + " because it is alredy registered");
+    	this.__handlers[clazz.classname] = handler;
+    },
 
 
     /**
