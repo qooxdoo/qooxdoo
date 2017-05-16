@@ -475,8 +475,15 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.__manager.add(this.__username);
       this.__manager.add(this.__password1);
 
+      // check getInvalidFormItems before validation
+      this.assertArrayEquals([], this.__manager.getInvalidFormItems());
+
       // validate = fail (no text entered)
       this.assertFalse(this.__manager.validate());
+
+      // check getInvalidFormItems
+      this.assertArrayEquals([this.__username, this.__password1], 
+        this.__manager.getInvalidFormItems());
 
       // check the messages
       this.assertEquals("affe", this.__username.getInvalidMessage());
