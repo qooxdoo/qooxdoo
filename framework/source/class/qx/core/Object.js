@@ -120,26 +120,33 @@ qx.Class.define("qx.core.Object",
     /**
      * Call the same method of the super class.
      *
-     * @param args {arguments} the arguments variable of the calling method
+     * @param args {arguments} the arguments variable of the calling method. Optional. Deprecated.
      * @param varargs {var} variable number of arguments passed to the overwritten function
      * @return {var} the return value of the method of the base class.
      */
-    base : function(args, varargs)
+    base : function base(varags)
     {
+      var caller = base.caller;
+      var args = [].slice.call(arguments);
+      if (args[0] && qx.Bootstrap.isFunction(args[0].callee) && qx.Bootstrap.isFunction(args[0].callee.base))
+      {
+        caller = args.shift().callee;
+      }
+      var baseMethod = caller.base;
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (!qx.Bootstrap.isFunction(args.callee.base)) {
+        if (!qx.Bootstrap.isFunction(baseMethod)) {
           throw new Error(
             "Cannot call super class. Method is not derived: " +
-            args.callee.displayName
+            caller.displayName
           );
         }
       }
 
-      if (arguments.length === 1) {
-        return args.callee.base.call(this);
+      if (args.length === 0) {
+        return baseMethod.call(this);
       } else {
-        return args.callee.base.apply(this, Array.prototype.slice.call(arguments, 1));
+        return baseMethod.apply(this, args);
       }
     },
 
@@ -147,11 +154,10 @@ qx.Class.define("qx.core.Object",
     /**
      * Returns the static class (to access static members of this class)
      *
-     * @param args {arguments} the arguments variable of the calling method
      * @return {var} the return value of the method of the base class.
      */
-    self : function(args) {
-      return args.callee.self;
+    self : function self() {
+      return self.caller.self;
     },
 
 

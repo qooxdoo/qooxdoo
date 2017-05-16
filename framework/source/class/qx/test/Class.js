@@ -110,6 +110,110 @@ qx.Class.define("qx.test.Class",
             return "stop";
           },
 
+          makeWhroom : function(whroomer) {
+            return whroomer() + " whroom";
+          },
+          
+          makeSomething : function(something) {
+            return something[0].toUpperCase()+something.slice(1);
+          },
+
+          getName : function() {
+            return this._name;
+          }
+        }
+      });
+
+      var car = new qx.Car("Audi");
+      this.assertEquals("start", car.startEngine());
+      this.assertEquals("stop", car.stopEngine());
+      this.assertEquals("Audi", car.getName());
+
+      qx.Class.define("qx.Bmw",
+      {
+        extend : qx.Car,
+
+        construct : function(name, prize) {
+          this.base(arguments, name);
+        },
+
+        members :
+        {
+          startEngine : function()
+          {
+            var ret = this.base();
+            return "brrr " + ret;
+          },
+
+          stopEngine : function stopEngine()
+          {
+            var ret = stopEngine.base.call();
+            return "brrr " + ret;
+          },
+
+          makeWhroom : function(whroomer) {
+            return this.base(whroomer || function() { return 'brrr'; });
+          },
+          
+          makeSomething : function(something) {
+            return "brrr " + this.base(something);
+          },
+
+          getWheels : function() {
+            return this.self().WHEELS;
+          },
+
+          getMaxSpeed : function()
+          {
+            // call base in non overridden method
+            this.base(arguments);
+          }
+        },
+
+        statics : { WHEELS : 4 }
+      });
+
+      var bmw = new qx.Bmw("bmw", 44000);
+      this.assertEquals("bmw", bmw.getName());
+      this.assertEquals("brrr start", bmw.startEngine());
+      this.assertEquals("brrr stop", bmw.stopEngine());
+      this.assertEquals("brrr whroom", bmw.makeWhroom());
+      this.assertEquals("brrrrr whroom", bmw.makeWhroom(function() { return 'brrrrr'; }));
+      this.assertEquals("brrr Something", bmw.makeSomething('something'));
+      this.assertEquals(4, bmw.getWheels());
+
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          bmw.getMaxSpeed();
+        }, Error);
+      }
+    },
+    
+    testSuperClassCallWithArguments : function()
+    {
+      qx.Class.define("qx.Car",
+      {
+        extend : qx.core.Object,
+
+        construct : function(name) {
+          this._name = name;
+        },
+
+        members :
+        {
+          startEngine : function() {
+            return "start";
+          },
+
+          stopEngine : function() {
+            return "stop";
+          },
+          
+          makeWhroom : function(whroomer) {
+            return whroomer() + " whroom";
+          },
+
           getName : function() {
             return this._name;
           }
@@ -142,6 +246,15 @@ qx.Class.define("qx.test.Class",
             var ret = arguments.callee.base.call();
             return "brrr " + ret;
           },
+          
+          fakeStopEngine : function() {
+            var ret = this.base({callee: this.startEngine});
+            return "brrr " + ret;
+          },
+
+          makeWhroom : function(whroomer) {
+            return this.base(arguments, whroomer || function() { return 'brrr'; });
+          },
 
           getWheels : function() {
             return this.self(arguments).WHEELS;
@@ -161,6 +274,9 @@ qx.Class.define("qx.test.Class",
       this.assertEquals("bmw", bmw.getName());
       this.assertEquals("brrr start", bmw.startEngine());
       this.assertEquals("brrr stop", bmw.stopEngine());
+      this.assertEquals("brrr start", bmw.fakeStopEngine());
+      this.assertEquals("brrr whroom", bmw.makeWhroom());
+      this.assertEquals("brrrrr whroom", bmw.makeWhroom(function() { return 'brrrrr'; }));
       this.assertEquals(4, bmw.getWheels());
 
       if (this.isDebugOn())
@@ -170,8 +286,7 @@ qx.Class.define("qx.test.Class",
         }, Error);
       }
     },
-
-
+    
     testAbstract : function()
     {
       qx.Class.define("qx.AbstractCar",
