@@ -75,6 +75,21 @@ qx.Class.define("qx.ui.tabview.TabView",
     } else {
       this.initBarPosition();
     }
+    
+    // Bar mousewheel listener
+    this.getChildControl("bar").addListener("mousewheel", function (e) {
+      if (e.getWheelDelta() < 0) {
+          this.previous();
+      } else {
+          this.next();
+      };
+
+      // stop the propagation
+      // prevent any other widget from receiving this event
+      // e.g. place a tabview widget inside a scroll container widget
+      e.stopPropagation();
+      e.preventDefault();
+    }, this);
   },
 
 
@@ -161,6 +176,23 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
 
       return control || this.base(arguments, id);
+    },
+    
+    // Select next tab
+    next: function () {
+     var size = this.getSelectables().length;
+     var idx = this.getSelectables().indexOf(this.getSelection()[0]);
+     if (idx < size - 1) {
+       this.setSelection([this.getSelectables()[idx + 1]]);
+     };
+    },
+
+    // Select previous tab
+    previous: function () {
+      var idx = this.getSelectables().indexOf(this.getSelection()[0]);
+      if (idx > 0) {
+        this.setSelection([this.getSelectables()[idx - 1]]);
+      };
     },
 
     /**

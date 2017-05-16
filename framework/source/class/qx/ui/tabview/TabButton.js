@@ -235,6 +235,16 @@ qx.Class.define("qx.ui.tabview.TabButton",
       } else {
         this._excludeChildControl("close-button");
       }
+      
+      // Close tab by middle mouse button click
+      this.addListener("click",
+      function(e)
+      {
+        if (e.isMiddlePressed() & this.getShowCloseButton()){
+         this.fireDataEvent("close", this);
+        }
+      },
+      this);
     },
 
     // property apply
