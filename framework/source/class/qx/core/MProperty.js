@@ -52,7 +52,8 @@ qx.Mixin.define("qx.core.MProperty",
           throw new Error("No such property: " + data);
         }
 
-        return this[setter[data]](value);
+        this[setter[data]](value);
+        return this;
       }
       else
       {
