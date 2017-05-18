@@ -370,7 +370,10 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     _syncSourceAfterDOMMove : function()
     {
-      var iframeDomElement = this.getContentElement().getDomElement();
+      var iframeDomElement = this.getContentElement() && this.getContentElement().getDomElement();
+      if (!iframeDomElement) {
+        return;
+      }
       var iframeSource = iframeDomElement.src;
 
       // remove trailing "/"
