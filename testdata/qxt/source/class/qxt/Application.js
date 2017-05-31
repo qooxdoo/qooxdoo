@@ -38,6 +38,7 @@ qx.Class.define("qxt.Application",
      */
     main : function()
     {
+
       // Call super class
       this.base(arguments);
 
@@ -92,6 +93,16 @@ qx.Class.define("qxt.Application",
       var btn = new com.zenesis.qx.upload.UploadButton(this.tr("Add File(s)"), "qxt/test.png");
       var uploader = new com.zenesis.qx.upload.UploadMgr(btn, "http://www.zenesis.com/demoupload"); // "http://my.grasshopperwebsites.com:8080/demoupload"
       doc.add(btn, { left: 100, top: 250 });
+
+      var abbrevEraNames = ['AD', 'BC'];
+      var rules = [];
+
+      rules.push(
+          {
+            pattern     : "G",
+            regex       : "(" + abbrevEraNames.join("|") + ")"
+          });
+
     }
   },
 
@@ -101,3 +112,27 @@ qx.Class.define("qxt.Application",
     }
   }
 });
+
+
+/**
+ * @ignore(process)
+ * @ignore(process.domain)
+ * @ignore(process.emit.apply)
+ * @ignore(process.env)
+ * @ignore(process.exit)
+ * @ignore(process.nextTick)
+ * @ignore(process.stderr.isTTY)
+ * @ignore(process.stderr.write)
+ * @ignore(process.versions.node.split)
+ */
+function xxx(e, isNode) {
+  if (isNode) {
+    process.stderr.write("Fatal " + (e instanceof Error ? e.stack : e) +
+        "\n");
+    process.exit(2);
+  }
+};
+
+
+
+
