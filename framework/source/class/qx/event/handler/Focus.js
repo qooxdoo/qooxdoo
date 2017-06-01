@@ -1075,15 +1075,9 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __fixFocus : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
       {
-        "mshtml" : function(target)
-        {
-          return this.__getCorrectFocusTarget(target);
-        },
+        "mshtml" : this.__getCorrectFocusTarget,
 
-        "webkit" : function(target)
-        {
-          return this.__getCorrectFocusTarget(target);
-        },
+        "webkit" : this.__getCorrectFocusTarget,
 
         "default" : function(target) {
           return target;
