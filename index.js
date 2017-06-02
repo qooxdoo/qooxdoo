@@ -21,7 +21,18 @@
  *
  * ************************************************************************/
 
-var qxcompiler = require("./lib/qxcompiler");
-
-qxcompiler.cli.CommandLine.run();
-
+module.exports = {
+    Analyser: require("./lib/qxcompiler/Analyser"),
+    Application: require("./lib/qxcompiler/Application"),
+    ClassFile: require("./lib/qxcompiler/ClassFile"),
+    Cldr: require("./lib/qxcompiler/Cldr"),
+    Generator: require("./lib/qxcompiler/generator/Generator"),
+    Library: require("./lib/qxcompiler/Library"),
+    Preprocess: require("./lib/qxcompiler/Preprocess"),
+    ResourceManager: require("./lib/qxcompiler/ResourceManager"),
+    Translation: require("./lib/qxcompiler/Translation"),
+    generator: require("./lib/qxcompiler/generator"),
+    files: require("./lib/qxcompiler/files"),
+    makers: require("./lib/qxcompiler/makers"),
+    targets: require("./lib/qxcompiler/targets")
+  };
