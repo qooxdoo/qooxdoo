@@ -2,12 +2,12 @@
   "name": "qxcompiler",
   "description": "node.js based replacement for the Qooxdoo python toolchain",
   "author": "John Spackman <john.spackman@zenesis.com>",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": "qooxdoo compiler",
-  "homepage": "https://github.com/johnspackman/qxcompiler",
+  "homepage": "https://github.com/qooxdoo/qxcompiler",
   "repository": {
     "type": "git",
-    "url": "https://github.com/johnspackman/qxcompiler.git"
+    "url": "https://github.com/qooxdoo/qxcompiler.git"
   },
   "license": "MIT",
   "dependencies": {
