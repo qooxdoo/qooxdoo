@@ -30,6 +30,7 @@
  * * user friendly OO interfaces like {@link #self} or {@link #base}
  *
  * @require(qx.core.ObjectRegistry)
+ * @use(qx.Promise)
  */
 qx.Class.define("qx.core.Object",
 {
@@ -474,5 +475,9 @@ qx.Class.define("qx.core.Object",
         clazz = clazz.superclass;
       }
     }
+  },
+  
+  defer: function() {
+    qx.Promise;
   }
 });
