@@ -98,7 +98,8 @@ qx.Bootstrap.define("qx.lang.Type",
 
 
     /**
-    * Whether the value is a number.
+    * Whether the value is a number. NaN is not considered a number
+    * in this context.
     *
     * This function checks if the _type_ of the value is Number.
     * Global properties *NaN*, *-Infinity*, *+Infinity*,
@@ -115,7 +116,9 @@ qx.Bootstrap.define("qx.lang.Type",
       // JavaScript null and a null returned from calling DOM.
       // e.q. by document.getElementById("ReturnedNull").
       return (
-        value !== null && (
+        value !== null &&
+        // Check if value is NaN
+        value === value && (
         this.getClass(value) === "Number" ||
         value instanceof Number)
       );
