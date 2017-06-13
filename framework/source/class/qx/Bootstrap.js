@@ -455,7 +455,7 @@ qx.Bootstrap.define("qx.Bootstrap",
         }
         for (var key in dbClassInfo.dependsOn) {
           var depInfo = dbClassInfo.dependsOn[key];
-          if (depInfo.require || depInfo.load === "dynamic") {
+          if (depInfo.require || depInfo.usage === "dynamic") {
             executeForClassName(key);
           }
         }
