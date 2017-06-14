@@ -1,11 +1,13 @@
 sudo: false
 language: php
 php: 5.6
+dist: trusty
 addons:
   apt:
     packages:
     - python-sphinx
     - libstdc++6
+    - libnss3
 env:
 - QXBROWSER=Firefox QXVERSION=latest
 - QXBROWSER=Firefox QXVERSION=esr-latest
