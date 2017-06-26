@@ -37,9 +37,11 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
       if (validationFunc ) {
         value = validationFunc( value, cellEditor.originalValue );
       }
-
+     
       if (typeof cellEditor.originalValue == "number") {
-        if (value != null) {
+        // Correct problem of NaN displaying when value is null string.
+        //if (value != null) {
+        if (value != null && value != '') {
           value = parseFloat(value);
         }
       }
