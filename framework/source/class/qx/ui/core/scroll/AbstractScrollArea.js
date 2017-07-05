@@ -75,6 +75,12 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       this._setLayout(grid);
     }
 
+    // since the scroll container disregards the min size of the scrollbars
+    // we have to set the min size of the scroll area to ensure that the
+    // scrollbars always have an usable size.
+    var size = qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH;
+    this.set({minHeight: size, minWidth: size});
+
     // Roll listener for scrolling
     this._addRollHandling();
   },
