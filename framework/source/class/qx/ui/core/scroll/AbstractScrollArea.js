@@ -112,22 +112,6 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     },
 
 
-    // overridden
-    width :
-    {
-      refine : true,
-      init : 100
-    },
-
-
-    // overridden
-    height :
-    {
-      refine : true,
-      init : 200
-    },
-
-
     /**
      * The policy, when the horizontal scrollbar should be shown.
      * <ul>
@@ -273,9 +257,10 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     */
 
     /**
-     * Returns the boundaries of the pane.
+     * Returns the dimensions of the pane.
      *
-     * @return {Map} The pane boundaries.
+     * @return {{width: number, height: number}|null} The pane dimension in pixel. Contains
+     *    the keys <code>width</code> and <code>height</code>.
      */
     getPaneSize : function() {
       return this.getChildControl("pane").getInnerSize();
