@@ -285,7 +285,7 @@ qx.Class.define("qx.util.ResourceManager",
 
           var href;
           //first check if there is base url set
-          var baseElements = qxWeb("base");
+          var baseElements = qx.bom.Selector.query("base", document);
           if(baseElements.length > 0)
           {
             href = baseElements[0].href;
