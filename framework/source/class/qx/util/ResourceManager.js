@@ -273,7 +273,8 @@ qx.Class.define("qx.util.ResourceManager",
         for (var lib in qx.$$libraries)
         {
           var resourceUri;
-          if (qx.util.LibraryManager.getInstance().get(lib, "resourceUri")) {
+          if (qx.util.LibraryManager.getInstance().get(lib, "resourceUri"))
+          {
             resourceUri = qx.util.LibraryManager.getInstance().get(lib, "resourceUri");
           }
           else
@@ -286,7 +287,7 @@ qx.Class.define("qx.util.ResourceManager",
           var href;
           //first check if there is base url set
           var baseElements = qx.bom.Selector.query("base", document);
-          if(baseElements.length > 0)
+          if (baseElements.length > 0)
           {
             href = baseElements[0].href;
           }
@@ -302,10 +303,12 @@ qx.Class.define("qx.util.ResourceManager",
           // hostname
           else if (resourceUri.match(/^\//) != null)
           {
-            if(href)
+            if (href)
             {
               statics.__urlPrefix[lib] = href;
-            } else {
+            }
+            else
+            {
               statics.__urlPrefix[lib] = window.location.protocol + "//" + window.location.host;
             }
           }
@@ -316,13 +319,15 @@ qx.Class.define("qx.util.ResourceManager",
           {
             var url = document.URL;
             statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/") + 1);
-          } else if (resourceUri.match(/^http/) != null) {
+          }
+          else if (resourceUri.match(/^http/) != null)
+          {
             // Let absolute URLs pass through
             statics.__urlPrefix[lib] = "";
           }
           else
           {
-            if(!href)
+            if (!href)
             {
               // check for parameters with URLs as value
               var index = window.location.href.indexOf("?");
@@ -330,11 +335,13 @@ qx.Class.define("qx.util.ResourceManager",
               if (index == -1)
               {
                 href = window.location.href;
-              } else {
+              }
+              else
+              {
                 href = window.location.href.substring(0, index);
               }
             }
-          statics.__urlPrefix[lib] = href.substring(0, href.lastIndexOf("/") + 1);
+            statics.__urlPrefix[lib] = href.substring(0, href.lastIndexOf("/") + 1);
           }
         }
       }
