@@ -118,6 +118,14 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
      */
     init : function(numColumns, table)
     {
+      // Set the initial resize behavior
+      if (this.getBehavior() == null) {
+        this.setBehavior(new qx.ui.table.columnmodel.resizebehavior.Default());
+      }
+
+      // Tell the behavior how many columns there are
+      this.getBehavior()._setNumColumns(numColumns);
+      
       // Call our superclass
       this.base(arguments, numColumns, table);
 
@@ -151,13 +159,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         this.addListener("visibilityChanged", this._onvisibilitychanged, this);
       }
 
-      // Set the initial resize behavior
-      if (this.getBehavior() == null) {
-        this.setBehavior(new qx.ui.table.columnmodel.resizebehavior.Default());
-      }
-
-      // Tell the behavior how many columns there are
-      this.getBehavior()._setNumColumns(numColumns);
     },
 
 
