@@ -588,7 +588,7 @@
  *     </tr>
  *     <tr>
  *       <td>locale.default</td><td><i>String</i></td><td><code>C</code></td>
- *       <td>default locale C as in good tradition of unix</td>
+ *       <td>default locale C as in good tradition of unix {@link qx.bom.client.Locale}</td>
  *     </tr>
 
  *     <tr>
@@ -766,11 +766,11 @@
  *     </tr>
  *     <tr>
  *       <td>qx.promise.warnings</td><td><i>Boolean</i></td><td>same as <code>qx.debug</code></td>
- *       <td>true to enable runtime warnings in promises</td>
+ *       <td>true to enable runtime warnings in promises {@link qx.Promise}</td>
  *     </tr>
  *     <tr>
  *       <td>qx.promise.longStackTraces</td><td><i>Boolean</i></td><td><code>false</code></td>
- *       <td>true to enable long stack traces in promises; this has a performance penalty but makes debugging asynchronous functions easier</td>
+ *       <td>true to enable long stack traces in promises; this has a performance penalty but makes debugging asynchronous functions easier {@link qx.Promise}</td>
  *     </tr>
  *     <tr>
  *       <td>qx.optimization.basecalls</td><td><i>Boolean</i></td><td><code>true</code></td>
@@ -895,7 +895,9 @@ qx.Bootstrap.define("qx.core.Environment",
       "module.events": true,
       "qx.nativeScrollBars": false,
       "qx.automaticMemoryManagement": true,
-      "qx.promise": true
+      "qx.promise": true,
+      "qx.promise.warnings": true,
+      "qx.promise.longStackTraces": true
     },
 
     /**

@@ -28,7 +28,7 @@ qx.Class.define("qx.ui.form.renderer.Single",
   {
     var layout = new qx.ui.layout.Grid();
     layout.setSpacing(6);
-    layout.setColumnFlex(0, 1);
+    layout.setColumnFlex(1, 1);
     layout.setColumnAlign(0, "right", "top");
     this._setLayout(layout);
 
