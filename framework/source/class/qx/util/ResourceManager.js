@@ -71,7 +71,7 @@ qx.Class.define("qx.util.ResourceManager",
       if(!registry) {
         return null;
       }
-
+ 
       var ids = [];
       for (var id in registry) {
         if (registry.hasOwnProperty(id)) {
@@ -81,7 +81,7 @@ qx.Class.define("qx.util.ResourceManager",
           ids.push(id);
         }
       }
-
+ 
       return ids;
     },
 
@@ -273,8 +273,7 @@ qx.Class.define("qx.util.ResourceManager",
         for (var lib in qx.$$libraries)
         {
           var resourceUri;
-          if (qx.util.LibraryManager.getInstance().get(lib, "resourceUri"))
-          {
+          if (qx.util.LibraryManager.getInstance().get(lib, "resourceUri")) {
             resourceUri = qx.util.LibraryManager.getInstance().get(lib, "resourceUri");
           }
           else
@@ -287,16 +286,14 @@ qx.Class.define("qx.util.ResourceManager",
           var href;
           //first check if there is base url set
           var baseElements = qx.bom.Selector.query("base", document);
-          if (baseElements.length > 0)
-          {
+          if (baseElements.length > 0) {
             href = baseElements[0].href;
           }
 
           // It is valid to to begin a URL with "//" so this case has to
           // be considered. If the to resolved URL begins with "//" the
           // manager prefixes it with "https:" to avoid any problems for IE
-          if (resourceUri.match(/^\/\//) != null)
-          {
+          if (resourceUri.match(/^\/\//) != null) {
             statics.__urlPrefix[lib] = window.location.protocol;
           }
           // If the resourceUri begins with a single slash, include the current
@@ -319,9 +316,7 @@ qx.Class.define("qx.util.ResourceManager",
           {
             var url = document.URL;
             statics.__urlPrefix[lib] = url.substring(0, url.lastIndexOf("/") + 1);
-          }
-          else if (resourceUri.match(/^http/) != null)
-          {
+          } else if (resourceUri.match(/^http/) != null) {
             // Let absolute URLs pass through
             statics.__urlPrefix[lib] = "";
           }
@@ -341,6 +336,7 @@ qx.Class.define("qx.util.ResourceManager",
                 href = window.location.href.substring(0, index);
               }
             }
+
             statics.__urlPrefix[lib] = href.substring(0, href.lastIndexOf("/") + 1);
           }
         }
