@@ -245,6 +245,13 @@ qx.Class.define("qx.util.ResourceManager",
             continue;
           }
 
+          var href;
+          //first check if there is base url set
+          var baseElements = qx.bom.Selector.query("base", document);
+          if (baseElements.length > 0) {
+            href = baseElements[0].href;
+          }
+
           // It is valid to to begin a URL with "//" so this case has to
           // be considered. If the to resolved URL begins with "//" the
           // manager prefixes it with "https:" to avoid any problems for IE
@@ -253,8 +260,16 @@ qx.Class.define("qx.util.ResourceManager",
           }
           // If the resourceUri begins with a single slash, include the current
           // hostname
-          else if (resourceUri.match(/^\//) != null) {
-            statics.__urlPrefix[lib] = window.location.protocol + "//" + window.location.host;
+          else if (resourceUri.match(/^\//) != null)
+          {
+            if (href)
+            {
+              statics.__urlPrefix[lib] = href;
+            }
+            else
+            {
+              statics.__urlPrefix[lib] = window.location.protocol + "//" + window.location.host;
+            }
           }
           // If the resolved URL begins with "./" the final URL has to be
           // put together using the document.URL property.
@@ -269,13 +284,19 @@ qx.Class.define("qx.util.ResourceManager",
           }
           else
           {
-            // check for parameters with URLs as value
-            var index = window.location.href.indexOf("?");
-            var href;
-            if (index == -1) {
-              href = window.location.href;
-            } else {
-              href = window.location.href.substring(0, index);
+            if (!href)
+            {
+              // check for parameters with URLs as value
+              var index = window.location.href.indexOf("?");
+
+              if (index == -1)
+              {
+                href = window.location.href;
+              }
+              else
+              {
+                href = window.location.href.substring(0, index);
+              }
             }
 
             statics.__urlPrefix[lib] = href.substring(0, href.lastIndexOf("/") + 1);
