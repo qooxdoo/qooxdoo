@@ -14,8 +14,7 @@ improvements over the standard python generator:
 
 ##Current state of play
 QxCompiler is an alpha release - it runs all of the tests in the demo browser and looks solid, but there are likely to
-be bugs.  It is included in the web framework I use internally and is likely to be in use on production servers by the
-end of July 2016.
+be bugs.
 
 There are some basic functions which need to be built to make this project more accessible, EG a command line application,
 an easy npm-based installation, and a continuous compilation app.
@@ -28,30 +27,13 @@ applications on the fly on a production server, with an application recompile co
 Checkout the QxCompiler repository:
 
 ```
-git clone https://github.com/johnspackman/qxcompiler.git
+git clone https://github.com/qooxdoo/qxcompiler.git
 cd qxcompiler
 ```
 
-QxCompiler includes my fork of Qooxdoo in the "qooxdoo" subdirectory, but you have to initialise it:
 
-```
-git submodule update --init --recursive
-```
-
-and then initialise the npm modules:
-
-```
-npm install
-```
-
-There is no command line application (yet) but it's easy to write a small app to compile with the API; there is a sample
-in test/compile-app-demo.js that builds the skeleton app in testdata/qxt.  Once you make this work, you can write
-code in your Qooxdoo app like this:
-
-```javascript
-      // Add an event listener
-      button1.addListener("execute", () => alert("Hello World!"));
-```
+There is a command line application which is work in progress at https://github.com/qooxdoo/qx-cli - please see that
+project for more details
 
 
 ###Demo Browser
@@ -75,7 +57,8 @@ The documentation is a bit thin right now, but I'm working on it - please get in
 
 
 ##Minimum Requirements
-QxCompiler requires Node 4.x or 5.x - Node v0.12 and earlier will not work; you also need to have ImageMagick installed
+QxCompiler requires Node 8.x; support for LTS versions (currently node 6.x) will be included thanks to Babel.  You also need 
+to have ImageMagick installed
 
 ```
 sudo yum install ImageMagick
@@ -83,21 +66,21 @@ sudo yum install ImageMagick
 
 
 ##Is QxCompiler a complete replacement for generate.py?
-Not quite - QxCompiler is focused on compiling applications (including collecting resources) whereas generate.py includes features 
-for building and running test suites, creating API documentatino, building distributions, creating skeleton applications, etc.
-It would not be hard to replicate those extra facilities provided by generate.py using QxCompiler as a base, but it's not the 
-focus of this project.
+Not yet - QxCompiler is focused on compiling applications (including collecting resources) whereas generate.py includes features 
+for building and running test suites, creating API documentation, building distributions, creating skeleton applications, etc.
+The goal is to move to a 100% Javascript toolchain, and QxCompiler will be used as the base API for implementing all those
+other features of generate.py - work is in progress, please see also [qx-cli](https://github.com/qooxdoo/qx-cli)
 
 
 ##What about config.json?  QOOXDOO_PATH?
-config.json is not used by QxCompiler
+config.json is not used by QxCompiler; the [qx-cli](https://github.com/qooxdoo/qx-cli) project is using a new, and much simpler
+configuration file called compile.json 
 
 
 ##Contributing and Getting In Touch
 Please get stuck in to any aspects you'd like to work on - I'm open to pull requests, and you can contact me to chat 
 about features you'd like to see or help on using or extending QxCompiler.  Send me an email at john.spackman@zenesis.com
-or Skype me on johnspackman1 but the *best* place to talk about it is on the Qooxdoo mailing list at 
-https://lists.sourceforge.net/lists/listinfo/qooxdoo-devel
+or Skype me on johnspackman1 but the *best* place to talk about it is on Gitter at https://gitter.im/qooxdoo/qooxdoo
 
 
 ##Feature TODO list
