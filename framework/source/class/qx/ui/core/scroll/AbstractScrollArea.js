@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     // since the scroll container disregards the min size of the scrollbars
     // we have to set the min size of the scroll area to ensure that the
     // scrollbars always have an usable size.
-    var size = qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH;
+    var size = qx.ui.core.scroll.AbstractScrollArea.DEFAULT_SCROLLBAR_WIDTH * 2 + 14;
     this.set({minHeight: size, minWidth: size});
 
     // Roll listener for scrolling
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
     /**
      * Returns the dimensions of the pane.
      *
-     * @return {{width: number, height: number}|null} The pane dimension in pixel. Contains
+     * @return {Map|null} The pane dimension in pixel. Contains
      *    the keys <code>width</code> and <code>height</code>.
      */
     getPaneSize : function() {
