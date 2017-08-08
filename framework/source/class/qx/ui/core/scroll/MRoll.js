@@ -27,7 +27,7 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
 {
   members :
   {
-    __cancelRoll : null,
+    _cancelRoll : null,
 
 
     /**
@@ -54,7 +54,7 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
      * @param e {qx.event.type.Pointer} pointerdown event
      */
     _onPointerDownForRoll : function(e) {
-      this.__cancelRoll = e.getPointerId();
+      this._cancelRoll = e.getPointerId();
     },
 
 
@@ -70,12 +70,12 @@ qx.Mixin.define("qx.ui.core.scroll.MRoll",
         return;
       }
 
-      if (this.__cancelRoll && e.getMomentum()) {
+      if (this._cancelRoll && e.getMomentum()) {
         e.stopMomentum();
-        this.__cancelRoll = null;
+        this._cancelRoll = null;
         return;
       }
-      this.__cancelRoll = null;
+      this._cancelRoll = null;
 
       var showX = this._isChildControlVisible("scrollbar-x");
       var showY = this._isChildControlVisible("scrollbar-y");
