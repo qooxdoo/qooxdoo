@@ -131,14 +131,14 @@ qx.Class.define("qx.ui.form.List",
     width :
     {
       refine : true,
-      init : 50
+      init : 100
     },
 
     // overridden
     height :
     {
       refine : true,
-      init : 50
+      init : 200
     },
 
     /**
