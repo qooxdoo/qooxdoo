@@ -127,6 +127,20 @@ qx.Class.define("qx.ui.form.List",
       init : true
     },
 
+    // overridden
+    width :
+    {
+      refine : true,
+      init : 50
+    },
+
+    // overridden
+    height :
+    {
+      refine : true,
+      init : 50
+    },
+
     /**
      * Whether the list should be rendered horizontal or vertical.
      */
