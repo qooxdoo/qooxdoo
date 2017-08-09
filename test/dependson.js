@@ -99,7 +99,7 @@ $(function() {
   }
   
   var topLevel = [];
-  selectClass("qx.locale.Manager");
+  selectClass("qooxdoosdk.Application");
   /*
   for (var name in db.classInfo) {
     selectClass(name);
