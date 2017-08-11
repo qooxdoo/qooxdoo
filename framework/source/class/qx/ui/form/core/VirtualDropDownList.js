@@ -409,6 +409,11 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      */
     __adjustSize : function()
     {
+      if (!this._target.getBounds()) {
+        this.addListenerOnce("appear", this.__adjustSize, this);
+        return;
+      }
+
       this.__adjustWidth();
       this.__adjustHeight();
     },
