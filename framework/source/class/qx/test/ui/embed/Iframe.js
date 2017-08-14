@@ -122,7 +122,7 @@ qx.Class.define("qx.test.ui.embed.Iframe",
             iframe.getWindow().document.body.innerText
           );
         });
-      }.bind(this), 1000);
+      }.bind(this), 4000);
 
       this.wait(10000);
     }
