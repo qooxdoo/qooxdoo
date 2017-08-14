@@ -368,6 +368,30 @@ qx.Class.define("qx.test.ui.list.List",
       }, this, 100);
           
       this.wait();
+    },
+
+
+    testChangeModelLengthListener : function() {
+      var model = new qx.data.Array(["a"]);
+      this._list.setModel(model);
+
+      this.assertEquals(1, model.getLength());
+
+      this.assertEventFired(this._list, "changeModelLength", function()
+      {
+        model.push("b");
+      },
+      function(ev)
+      {
+        this.assertInstance(ev, qx.event.type.Data);
+        this.assertPositiveInteger(ev.getData());
+        this.assertEquals(2, ev.getData());
+        this.assertPositiveInteger(ev.getOldData());
+        this.assertEquals(1, ev.getOldData());
+      }.bind(this));
+
+      this._list.setModel(null);
+      model.dispose();
     }
 
   }
