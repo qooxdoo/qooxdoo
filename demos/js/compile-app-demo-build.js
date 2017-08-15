@@ -22,14 +22,14 @@ maker.setEnvironment({
   "qxt.customEnvironment": "this is custom (build target)",
   "qx.debug": false
 });
-maker.addApplication(new qxcompiler.Application("qxt.Application").set({
+maker.addApplication(new qxcompiler.app.Application("qxt.Application").set({
   theme: "qxt.theme.Theme",
   name: "appone",
   environment: {
     "qxt.applicationName": "App One"
   }
 }));
-maker.addApplication(new qxcompiler.Application("qxt.Application").set({
+maker.addApplication(new qxcompiler.app.Application("qxt.Application").set({
   theme: "qx.theme.Simple",
   name: "apptwo",
   environment: {
