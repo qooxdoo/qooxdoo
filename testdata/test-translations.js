@@ -12,14 +12,14 @@ var STARTTIME = new Date();
 
 (function(cb) {
   var lib = new qxcompiler.Library();
-  lib.loadManifest("../testdata/qxt", function(err) {
+  lib.loadManifest("qxt", function(err) {
     if (err)
       return cb && cb(err);
     var trans = new qxcompiler.Translation(lib, "en");
     trans.read(function (err) {
       if (err)
         return cb(err);
-      trans.writeTo("../testdata/qxt/source/translation/en.po.out", cb);
+      trans.writeTo("qxt/source/translation/en.po.out", cb);
     });
   });
 

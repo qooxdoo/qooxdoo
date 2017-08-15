@@ -2,7 +2,7 @@
 var fs = require("fs");
 var async = require("async");
 var util = require("../lib/util");
-var Preprocess = require("../lib/qxcompiler/preprocess").Preprocess;
+require("../lib/qxcompiler/Preprocess");
 var files = require("../lib/qxcompiler/files");
 
 var pathsToScan = [];
@@ -23,13 +23,13 @@ async.forEach(pathsToScan, function(path, cb) {
     var outputTo = file.replace(/\.jsx$/, ".js");
     if (force) {
       console.log(file + ": processing");
-      var pp = new Preprocess(file);
+      var pp = new qxcompiler.Preprocess(file);
       pp.run(outputTo, cb);
     } else {
       files.Utils.newer(file, outputTo, function(newer) {
         if (newer) {
           console.log(file + ": processing");
-          var pp = new Preprocess(file);
+          var pp = new qxcompiler.Preprocess(file);
           pp.run(outputTo, cb);
         } else {
           console.log(file + ": not modified");
