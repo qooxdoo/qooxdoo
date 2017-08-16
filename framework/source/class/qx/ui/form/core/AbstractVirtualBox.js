@@ -291,7 +291,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       var isModifierPressed = this._isModifierPressed(event);
 
       if (
-        !isOpen && !isModifierPressed &&
+        !isOpen && !isModifierPressed && this.__hasVisibleItems() &&
         (keyIdentifier === "Down" || keyIdentifier === "Up")
       ) {
         return "open";
@@ -302,6 +302,19 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       } else {
         return null;
       }
+    },
+
+
+    /**
+     * Return if this virtual box has any visible items.
+     *
+     * @returns {boolean} True when it has at least one visible item.
+     * @private
+     */
+    __hasVisibleItems : function() {
+      var list = this.getChildControl("dropdown").getChildControl("list");
+      var totalSize = list.getPane().getRowConfig().getTotalSize();
+      return totalSize > 0;
     },
 
 
