@@ -1,0 +1,86 @@
+{
+  "extend": "qx.application.Standalone",
+  "implement": [],
+  "include": [],
+  "clazz": {
+    "jsdoc": {
+      "@description": [
+        {
+          "name": "@description",
+          "body": "Application used for unit testing.  Note that this app may not always run, intentionally,\nbecause the unit tests will enable and disable features to test the compiler output."
+        }
+      ],
+      "@asset": [
+        {
+          "name": "@asset",
+          "body": "abc/def/myicon.gif"
+        }
+      ],
+      "@asset": [
+        {
+          "name": "@asset",
+          "body": "testapp/*"
+        }
+      ]
+    }
+  },
+  "members": {
+    "main": {
+      "jsdoc": {
+        "@description": [
+          {
+            "name": "@description",
+            "body": "This method contains the initial application code and gets called during\nstartup of the application"
+          }
+        ],
+        "@lint": [
+          {
+            "name": "@lint",
+            "body": "ignoreDeprecated(alert)"
+          }
+        ]
+      }
+    },
+    "undocumentedMethod": {
+    },
+    "fullyDocumentedMethod": {
+      "jsdoc": {
+        "@description": [
+          {
+            "name": "@description",
+            "body": "Does important stuff"
+          }
+        ],
+        "@param": [
+          {
+            "name": "@param",
+            "body": "abc {String} a string goes here",
+            "paramName": "abc",
+            "type": "String",
+            "description": "a string goes here"
+          },
+          {
+            "name": "@param",
+            "body": "def {Integer | Date ? 42} it's complicated",
+            "paramName": "def",
+            "defaultValue": "42",
+            "type": [
+              "Integer",
+              "Date"
+            ],
+            "description": "it's complicated"
+          }
+        ],
+        "@return": [
+          {
+            "name": "@return",
+            "body": "{MyClass} an important object",
+            "type": "testapp.MyClass",
+            "desc": "an important object"
+          }
+        ]
+      }
+    }
+  },
+  "descendants": []
+}

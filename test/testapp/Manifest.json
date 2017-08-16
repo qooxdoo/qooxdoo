@@ -1,0 +1,34 @@
+{
+  "info" : 
+  {
+    "name" : "testapp",
+
+    "summary" : "Custom Application",
+    "description" : "This is a skeleton for a custom application with qooxdoo.",
+    
+    "homepage" : "http://some.homepage.url/",
+
+    "license" : "SomeLicense",
+    "authors" : 
+    [
+      {
+        "name" : "First Author (uid)",
+        "email" : "first.author@some.domain"
+      }
+    ],
+
+    "version" : "master",
+    "qooxdoo-versions": ["5.0.2"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "testapp",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+

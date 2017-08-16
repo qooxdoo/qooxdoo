@@ -2,7 +2,7 @@
   "name": "qxcompiler",
   "description": "node.js based replacement for the Qooxdoo python toolchain",
   "author": "John Spackman <john.spackman@zenesis.com>",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "keywords": "qooxdoo compiler",
   "homepage": "https://github.com/qooxdoo/qxcompiler",
   "repository": {
@@ -28,6 +28,11 @@
     "uglify-js": "^2.7.3",
     "xml2js": "^0.4.17"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "tape": "^4.8.0"
+  },
+  "scripts": {
+    "test": "cd test && node *.js"
+  },
   "engine": "node >= 6.11.1"
 }
