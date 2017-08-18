@@ -836,6 +836,7 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Helper method to convert the year to the calendar year
      * using the current language. i.e. in Thai, 2017 is 2560.
+     */
     __getCalendarYear: function (date) {
 
         try {
