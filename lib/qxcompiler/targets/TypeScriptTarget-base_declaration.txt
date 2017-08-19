@@ -1,0 +1,13 @@
+
+interface IMap { 
+    [key:string] : any; 
+} 
+
+declare class ErrorImpl implements Error {
+    name: string; 
+    message:string 
+}
+
+declare module qx.registry { 
+    function registerMainMethod(fn:(app: qx.application.Standalone)=>void):void;
+}

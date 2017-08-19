@@ -86,9 +86,11 @@ qx.Class.define("testapp.Application", {
      * 
      * @param abc {String} a string goes here
      * @param def {Integer | Date ? 42} it's complicated
+     * @param ghi {String[]} lots
+     * @param jkl {String?} maybe baby
      * @return {MyClass} an important object
      */
-    fullyDocumentedMethod: function(abc, def) {
+    fullyDocumentedMethod: function(abc, def, ghi, jkl) {
       return new testapp.MyClass();
     }
   }
