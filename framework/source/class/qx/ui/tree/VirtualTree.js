@@ -484,6 +484,12 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     getLookupTable : function() {
       return this.__lookupTable;
     },
+    
+    
+    // Interface implementation
+    isShowTopLevelOpenCloseIcons : function() {
+      return true;
+    },
 
 
     /**
