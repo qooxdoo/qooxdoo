@@ -241,6 +241,11 @@ qx.Class.define("qx.ui.tooltip.Manager",
     __onHideInterval : function(e)
     {
       var current = this.getCurrent();
+
+      if(!current.getAutoHide()) {
+        return;
+      }
+
       if (current && !current.isDisposed()) {
         current.exclude();
       }
@@ -386,6 +391,10 @@ qx.Class.define("qx.ui.tooltip.Manager",
         return;
       }
 
+      if(!tooltip.getAutoHide()) {
+        return;
+      }
+
       // If there was a tooltip and there is no new one
       if (tooltip && !related) {
         this.setCurrent(null);
@@ -418,6 +427,10 @@ qx.Class.define("qx.ui.tooltip.Manager",
       }
 
       var tooltip = this.getCurrent();
+
+      if(!tooltip.getAutoHide()) {
+        return;
+      }
 
       // Only set to null if blurred widget is the
       // one which has created the current tooltip

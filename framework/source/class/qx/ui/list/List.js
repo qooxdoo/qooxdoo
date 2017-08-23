@@ -89,6 +89,15 @@ qx.Class.define("qx.ui.list.List",
   },
 
 
+  events :
+  {
+    /**
+     * Fired when the length of {@link #model} changes.
+     */
+    "changeModelLength" : "qx.event.type.Data"
+  },
+
+
   properties :
   {
     // overridden
@@ -622,6 +631,10 @@ qx.Class.define("qx.ui.list.List",
       this._provider.removeBindings();
       this.__buildUpLookupTable();
       this._applyDefaultSelection();
+
+      if (e instanceof qx.event.type.Data) {
+        this.fireDataEvent("changeModelLength", e.getData(), e.getOldData());
+      }
     },
 
 

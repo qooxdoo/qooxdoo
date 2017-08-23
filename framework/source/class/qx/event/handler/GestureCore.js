@@ -163,7 +163,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     /**
      * Checks if a gesture was made and fires the gesture event.
      *
-     * @param domEvent {Event} DOM event
+     * @param domEvent {qx.event.type.Pointer} DOM event
      * @param type {String ? null} type of the event
      * @param target {Element ? null} event target
      */

@@ -50,26 +50,6 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     } else {
       this._add(this.__pane, {row: 0, column: 0});
     }
-
-  },
-
-
-  properties :
-  {
-    // overridden
-    width :
-    {
-      refine : true,
-      init : null
-    },
-
-
-    // overridden
-    height :
-    {
-      refine : true,
-      init : null
-    }
   },
 
 
