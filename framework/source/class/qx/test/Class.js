@@ -139,7 +139,7 @@ qx.Class.define("qx.test.Class",
 
           stopEngine : function()
           {
-            var ret = arguments.callee.base.call();
+            var ret = this.base(arguments);
             return "brrr " + ret;
           },
 
@@ -176,7 +176,7 @@ qx.Class.define("qx.test.Class",
     {
       qx.Class.define("qx.AbstractCar",
       {
-        extend : Object,
+        extend : qx.core.Object,
         type : "abstract",
 
         construct : function(color) {
@@ -202,7 +202,7 @@ qx.Class.define("qx.test.Class",
         extend : qx.AbstractCar,
 
         construct : function(color) {
-          arguments.callee.base.apply(this, arguments);
+          this.base(arguments, color);
         }
       });
 
@@ -295,49 +295,6 @@ qx.Class.define("qx.test.Class",
       defer.setColor("red");
       this.assertEquals("red", defer.getColor());
       defer.dispose();
-    },
-
-
-    testGetFunctionName : function()
-    {
-      var self = this;
-
-      qx.Class.define("qx.FuncName",
-      {
-        extend : qx.core.Object,
-
-        construct : function()
-        {
-          this.base(arguments);
-          self.assertEquals("construct", qx.dev.Debug.getFunctionName(arguments.callee));
-        },
-
-        members :
-        {
-          __foo : function()
-          {
-            if (self.isDebugOn()) {
-              self.assertEquals("__foo", qx.dev.Debug.getFunctionName(arguments.callee));
-            };
-          },
-
-          _bar : function() {
-            self.assertEquals("_bar", qx.dev.Debug.getFunctionName(arguments.callee));
-          },
-
-          sayFooBar : function()
-          {
-            self.assertEquals("sayFooBar", qx.dev.Debug.getFunctionName(arguments.callee));
-            this.__foo();
-            this._bar();
-          }
-        }
-      });
-
-      var funcName = new qx.FuncName();
-      funcName.sayFooBar();
-      this.assertNull(qx.dev.Debug.getFunctionName(function() {}));
-      funcName.dispose();
     },
 
 
