@@ -163,7 +163,6 @@ qx.Class.define("qx.test.lang.Type",
       var Type = qx.lang.Type;
 
       this.assertTrue(Type.isFunction(function() {}));
-      this.assertTrue(Type.isFunction(arguments.callee));
       this.assertTrue(Type.isFunction(Object));
 
       this.assertFalse(Type.isFunction());
