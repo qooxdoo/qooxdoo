@@ -291,7 +291,7 @@ qx.Class.define("qx.test.Bootstrap",
 
           stopEngine : function()
           {
-            var ret = qx.test.Bmw.prototype.stopEngine.base.call();
+            var ret = this.base(arguments);
             return "brrr " + ret;
           },
 

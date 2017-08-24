@@ -53,8 +53,7 @@ qx.Bootstrap.define("qx.util.Function", {
       var fired = false;
       var intervalId = null;
       var wrapperFunction = function () {
-        // store the current arguments at the function object
-        // to have access inside the interval method
+        // store the current arguments to have access inside the interval method
         var args = qx.lang.Array.fromArguments(arguments);
 
         // it's necessary to store the context to be able to call
