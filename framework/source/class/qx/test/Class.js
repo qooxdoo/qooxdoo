@@ -139,7 +139,7 @@ qx.Class.define("qx.test.Class",
 
           stopEngine : function()
           {
-            var ret = this.base.call();
+            var ret = this.base(arguments);
             return "brrr " + ret;
           },
 
@@ -176,7 +176,7 @@ qx.Class.define("qx.test.Class",
     {
       qx.Class.define("qx.AbstractCar",
       {
-        extend : Object,
+        extend : qx.core.Object,
         type : "abstract",
 
         construct : function(color) {
@@ -202,7 +202,7 @@ qx.Class.define("qx.test.Class",
         extend : qx.AbstractCar,
 
         construct : function(color) {
-          this.base.apply(this, arguments);
+          this.base(arguments, color);
         }
       });
 
