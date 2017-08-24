@@ -26,10 +26,10 @@ qx.Class.define("qx.test.ui.core.AbstractScrollArea",
 
   members :
   {
-    /** @type qx.test.ui.core.AbstractScrollArea.fixture.CustomWidget */
+    /** @type {qx.test.ui.core.AbstractScrollArea.fixture.CustomWidget} */
     __widget : null,
 
-    /** @type qx.ui.container.Composite */
+    /** @type {qx.ui.container.Composite} */
     __outer : null,
 
 
@@ -39,14 +39,14 @@ qx.Class.define("qx.test.ui.core.AbstractScrollArea",
         members : {
 
           /**
-           * @param {qx.ui.core.LayoutItem} widget
+           * @param widget {qx.ui.core.LayoutItem} 
            */
           setSingleChild : function(widget) {
             this.getChildControl('pane').add(widget);
           },
 
           /**
-           * @param {string} side Either 'x' or 'y'.
+           * @param side {String} Either 'x' or 'y'.
            * @returns {boolean}
            */
           hasScrollBar : function(side) {
@@ -75,8 +75,8 @@ qx.Class.define("qx.test.ui.core.AbstractScrollArea",
 
 
     /**
-     * @param {qx.ui.core.Widget|Bounds} expected
-     * @param {qx.ui.core.Widget} actual
+     * @param expected {qx.ui.core.Widget|Bounds} 
+     * @param actual {qx.ui.core.Widget} 
      */
     assertBounds : function(expected, actual) {
       var expectedBounds, actualBounds;
