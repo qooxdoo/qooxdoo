@@ -1,0 +1,90 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<style>
+body {
+    background-color: #fbfbfb;
+}
+#splash-loading-image {
+    width: 600px;
+    height: 400px;
+    background: url(splash.png) no-repeat;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    position: absolute;
+}
+#splash-loading-gauge {
+    position: relative;
+    width: 267px;
+    height: 20px;
+    border: 1px solid white;
+    top: 158px;
+    left: 301px;
+    border-radius: 5px;
+    background-color: #dc727d;
+}
+#splash-loading-gauge p {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 1px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-family: Helvetica, Arial, sans-serif;
+}
+#splash-loading-gauge-complete {
+    height: 20px;
+    border-radius: 5px;
+    background-color: #008d4a;
+}
+</style>
+    </head>
+    <body>
+        <div id="splash-loading-image">
+            <div id="splash-loading-gauge">
+                <p id="splash-loading-gauge-text">0%<p>
+                <div id="splash-loading-gauge-complete"></div>
+            </div>
+        </div>
+        
+<script type="text/javascript">
+(function() {
+  var elemImage = document.getElementById("splash-loading-image");
+  var elemComplete = document.getElementById("splash-loading-gauge-complete");
+  var elemText = document.getElementById("splash-loading-gauge-text");
+  var lastPercentComplete = -1;
+  window.QOOXDOO_LOADING_FEEDBACK = function(options, cb) {
+    switch(options.command) {
+    case "script-loaded":
+      var percentComplete = Math.floor((options.numScriptsLoaded / options.numScripts) * 100)||0;
+      if (lastPercentComplete === percentComplete)
+        return cb && cb();
+      lastPercentComplete = percentComplete;
+      elemComplete.style.cssText = "width:" + percentComplete + "%";
+      elemImage.style.cssText = "";
+      elemText.textContent = percentComplete + "%";
+      if (cb)
+        setTimeout(cb, 1);
+      return;
+      
+    case "load-complete":
+      elemImage.style.cssText = "display:none";
+      return cb && cb();
+      
+    case "get-settings":
+      return null;
+    }
+  }
+  
+  window.QOOXDOO_LOADING_FEEDBACK({ 
+    command: "script-loaded",
+    percentComplete: 0
+    });
+})();
+</script>
+    </body>
+</html>
+
