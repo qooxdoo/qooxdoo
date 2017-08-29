@@ -51,7 +51,7 @@ qx.Class.define("showcase.page.databinding.Page",
     __descriptionText : "The identica demo illustrates the use of data binding. " +
     "Identica offers a REST / JSONP API, making it a perfect match for data " +
     "binding. The demo fetches the data and binds the result to the list. " +
-    "g on a tweet will invoke a second binding which displays the " +
+    "Clicking on a tweet will invoke a second binding which displays the " +
     "selected tweet in the detail view right beside the list.",
 
     __tryThis : {
