@@ -75,6 +75,17 @@ qx.Class.define("testapp.Application", {
       button1.addListener("execute", function(e) {
         alert("Hello World!");
       });
+      
+      qx.io.PartLoader.require(["pluginOne"], function() {
+        this.debug("pluginOne loaded");
+        var plugin = new testapp.plugins.PluginOne();
+        console.log(plugin.sayHello());
+      }, this);
+      qx.io.PartLoader.require(["pluginTwo"], function() {
+        this.debug("pluginTwo loaded");
+        var plugin = new testapp.plugins.PluginTwo();
+        console.log(plugin.sayHello());
+      }, this);
     },
     
     undocumentedMethod: function() {

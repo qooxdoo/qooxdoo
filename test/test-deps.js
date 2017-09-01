@@ -69,7 +69,7 @@ test('Checks dependencies and environment settings', (assert) => {
     .then(() => readCompileInfo().then((tmp) => compileInfo = tmp))
     .then(() => readJson("test-deps-01-expected.json").then((tmp) => expected = tmp))
     .then(() => {
-      assert.deepEqual(compileInfo.Uris, expected.Uris, "checking list of generated uris");
+      assert.deepEqual(compileInfo.Parts, expected.Parts, "checking list of generated uris");
       assert.deepEqual(compileInfo.EnvSettings, expected.EnvSettings, "checking generated environment settings")
     })
     
@@ -80,11 +80,16 @@ test('Checks dependencies and environment settings', (assert) => {
     })
     .then(() => readCompileInfo().then((tmp) => compileInfo = tmp))
     .then(() => {
-      compileInfo.Uris.forEach((uri) => {
-        if (uri.indexOf("qx/ui/layout") > -1)
-          assert.ok(false, "qx.ui.layout is not excluded, found " + uri);
+      var foundDateFormat = false;
+      compileInfo.Parts.forEach((part) => {
+        part.classes.forEach((classname) => {
+          if (classname.indexOf("qx.ui.layout") > -1)
+            assert.ok(false, "qx.ui.layout is not excluded, found " + classname);
+        });
+        if (part.classes.indexOf("qx.util.format.DateFormat") > -1)
+          foundDateFormat = true;
       });
-      assert.ok(compileInfo.Uris.indexOf("qx:qx/util/format/DateFormat.js") > -1, "qx.util.format.DateFormat is not included");
+      assert.ok(foundDateFormat, "qx.util.format.DateFormat is not included");
     })
     
     .then(() => {
@@ -99,6 +104,7 @@ test('Checks dependencies and environment settings', (assert) => {
           }
           deleteLocation(meta);
           return readJson("test-deps-03-expected.json").then((expected) => {
+            deleteLocation(expected);
             assert.deepEqual(meta, expected, "comparing meta data");
           })
         });
