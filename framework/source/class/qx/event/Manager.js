@@ -52,7 +52,7 @@ qx.Class.define("qx.event.Manager",
     {
       var self = this;
       var method = function () {
-        qx.bom.Event.removeNativeListener(win, "unload", arguments.callee);
+        qx.bom.Event.removeNativeListener(win, "unload", method);
         self.dispose();
       };
       if (qx.core.Environment.get("qx.globalErrorHandling")) {
