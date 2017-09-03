@@ -292,7 +292,7 @@ qx.Class.define("qx.test.Bootstrap",
 
           stopEngine : function()
           {
-            var ret = arguments.callee.base.call();
+            var ret = this.base(arguments);
             return "brrr " + ret;
           },
 

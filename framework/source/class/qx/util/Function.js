@@ -50,54 +50,43 @@ qx.Bootstrap.define("qx.util.Function", {
      * @return {Function} a wrapper function which <em>shields</em> the given callback function
      */
     debounce: function (callback, delay, immediate) {
+      var fired = false;
+      var intervalId = null;
       var wrapperFunction = function () {
-        arguments.callee.immediate = !!(immediate);
-
-        // store the current arguments at the function object
-        // to have access inside the interval method
-        arguments.callee.args = qx.lang.Array.fromArguments(arguments);
+        // store the current arguments to have access inside the interval method
+        var args = qx.lang.Array.fromArguments(arguments);
 
         // it's necessary to store the context to be able to call
         // the callback within the right scope
         var context = this;
 
-        // arguments.callee is the wrapper function itself
-        // use this function object to store the 'intervalId' and the 'fired' state
-        var id = arguments.callee.intervalId;
-        if (typeof id === "undefined") {
+        if (intervalId === null) {
           // setup the interval for the first run
-          var intervalId = window.setInterval((function () {
+          intervalId = window.setInterval(function () {
 
             // if the 'wrapperFunction' was *not* called during the last
             // interval then can call the provided callback and clear the interval
-            // except for 'immediate' mode
-            if (!this.fired) {
-              window.clearInterval(this.intervalId);
-              delete this.intervalId;
+            if (!fired) {
+              window.clearInterval(intervalId);
+              intervalId = null;
 
-              if (this.immediate === false) {
-                if (context && context.isDisposed && context.isDisposed()) {
-                  qx.log.Logger.warn(
-                    "The context object '" + context + "' of the debounced call '" +
-                    this + "'is already disposed.");
-                }
-                else {
-                  callback.apply(context, this.args);
-                }
+              if (context && context.isDisposed && context.isDisposed()) {
+                qx.log.Logger.warn("The context object '" + context + "' of the debounced call is already disposed.");
+              }
+              else {
+                callback.apply(context, args);
               }
             }
-            this.fired = false;
-          }).bind(arguments.callee), delay);
+            fired = false;
+          }, delay);
 
-          arguments.callee.intervalId = intervalId;
-
-          if (arguments.callee.immediate) {
-            callback.apply(context, arguments.callee.args);
+          if (immediate) {
+            callback.apply(context, args);
           }
         }
 
         // This prevents the logic to clear the interval
-        arguments.callee.fired = true;
+        fired = true;
       };
 
       return wrapperFunction;
