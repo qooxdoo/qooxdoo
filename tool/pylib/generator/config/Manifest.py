@@ -104,7 +104,8 @@ class Manifest(object):
     @classmethod
     def schema_v1_0(self):
         patterns = {
-            "semver": r"^trunk$|master$|^\d+\.\d+(\.\d+)?(-[0-9]+-?)?([-a-zA-Z+][-a-zA-Z0-9.:-]*)?$",
+            # semver validation, see https://github.com/sindresorhus/semver-regex/blob/master/index.js
+            "semver": r"^v?(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-[\da-z\-]+(?:\.[\da-z\-]+)*)?(?:\+[\da-z\-]+(?:\.[\da-z\-]+)*)?$",
             "url": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w\.-]*\/?$",
             "url_and_placeholder": r"^https?://([a-z0-9\.-]+)\.([a-z\.]{2,6})[/\w.%{}-]*(#[/\w.%{}-]*)?\/?$",
             "url_archive_or_sf": r"^(https?://svn.code.sf.net/p/qooxdoo-contrib/code/trunk/qooxdoo-contrib/.*|(https?|ftp)://.*(tar(\.gz|\.bz2)?|tgz|zip))$",
