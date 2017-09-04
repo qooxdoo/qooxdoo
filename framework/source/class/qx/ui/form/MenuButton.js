@@ -265,5 +265,15 @@ qx.Class.define("qx.ui.form.MenuButton",
     _onKeyUp : function(e) {
       // no action required here
     }
+  },
+
+  destruct: function () {
+
+    // Release the menu, if any, or it will stay in the registry.
+    if (this.getMenu()) {
+        if (!qx.core.ObjectRegistry.inShutDown) {
+            this.getMenu().destroy();
+        }
+    }
   }
 });
