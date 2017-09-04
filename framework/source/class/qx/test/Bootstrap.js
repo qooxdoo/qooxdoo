@@ -77,7 +77,6 @@ qx.Class.define("qx.test.Bootstrap",
 
       qx.Bootstrap.setRoot(undefined);
 
-      delete foobar;
       qx.Class.undefine("vanillebaer.test.ROOT");
     },
 
