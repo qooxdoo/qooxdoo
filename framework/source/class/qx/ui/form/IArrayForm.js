@@ -21,6 +21,9 @@
  */
 qx.Interface.define("qx.ui.form.IArrayForm",
 {
+  extend : qx.ui.form.IField,
+
+
   /*
   *****************************************************************************
      EVENTS

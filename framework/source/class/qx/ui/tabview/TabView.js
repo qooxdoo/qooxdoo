@@ -88,7 +88,10 @@ qx.Class.define("qx.ui.tabview.TabView",
   events :
   {
     /** Fires after the selection was modified */
-    "changeSelection" : "qx.event.type.Data"
+    "changeSelection" : "qx.event.type.Data",
+
+    /** Fires after the value was modified */
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -131,6 +134,51 @@ qx.Class.define("qx.ui.tabview.TabView",
   {
     /** @type {qx.ui.form.RadioGroup} instance containing the radio group */
     __radioGroup : null,
+
+
+    /**
+     * setValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @param item {null|qx.ui.tabview.Page} Page to set as selected value.
+     * @returns {null|TypeError} The status of this operation.
+     */
+    setValue : function(item) {
+      if (null === item) {
+        this.resetSelection();
+        return null;
+      }
+
+      if (item instanceof qx.ui.tabview.Page) {
+        this.setSelection([item]);
+        return null;
+
+      } else {
+        return new TypeError("Given argument is not null or a {qx.ui.tabview.Page}.");
+      }
+    },
+
+
+    /**
+     * getValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @returns {null|qx.ui.tabview.Page} The currently selected page or null if there is none.
+     */
+    getValue : function() {
+      var pages = this.getSelection();
+      if (pages.length) {
+        return pages[0];
+      } else {
+        return null;
+      }
+    },
+
+
+    /**
+     * resetValue implements part of the {@link qx.ui.form.IField} interface.
+     */
+    resetValue : function() {
+      this.resetSelection();
+    },
 
 
     /*
