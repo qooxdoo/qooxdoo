@@ -166,7 +166,10 @@
  *
  * @internal
  * @ignore(qx.Interface)
+ * @require(qx.lang.String)
+ * @use(qx.Promise)
  */
+
 qx.Bootstrap.define("qx.core.Property",
 {
   statics :

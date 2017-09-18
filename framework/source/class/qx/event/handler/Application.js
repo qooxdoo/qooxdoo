@@ -235,7 +235,7 @@ qx.Class.define("qx.event.handler.Application",
           // Using native method supported by Mozilla, Webkit, Opera and IE >= 9
           qx.bom.Event.addNativeListener(this._window, "DOMContentLoaded", this._onNativeLoadWrapped);
         }
-        else {
+        else if (document) {
           var self = this;
 
           // Continually check to see if the document is ready
