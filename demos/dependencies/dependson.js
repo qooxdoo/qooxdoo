@@ -73,7 +73,7 @@ $(function() {
         return;
       for (var depName in def.dependsOn) {
         var dd = def.dependsOn[depName];
-        if (dd.load || dd.require) {
+        if (true || dd.load || dd.require) {
           if (depName == targetClassName) {
             addResult(createLi(depName, dd));
             continue;
@@ -99,7 +99,11 @@ $(function() {
   }
   
   var topLevel = [];
-  selectClass("qooxdoosdk.Application");
+  var startClasses = [ "uk.co.spar.srv.Skin", "grasshopper.srv.SmartSite" ]; 
+  for (var name in db.classInfo)
+    if (name.startsWith("grasshopper.srv.") || name.startsWith("grasshopper.utils."))
+      startClasses.push(name);
+  startClasses.forEach((name) => selectClass(name, "qx.bom.Style"));
   /*
   for (var name in db.classInfo) {
     selectClass(name);
