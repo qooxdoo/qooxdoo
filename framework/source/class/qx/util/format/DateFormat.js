@@ -461,6 +461,9 @@ qx.Class.define("qx.util.format.DateFormat",
       var seconds = date.getSeconds();
       var ms = date.getMilliseconds();
 
+      // Convert to calendar year
+      fullYear = this.__getCalendarYear(date);
+      
       var timezoneOffset = date.getTimezoneOffset();
       var timezoneSign = timezoneOffset > 0 ? 1 : -1;
       var timezoneHours = Math.floor(Math.abs(timezoneOffset) / 60);
@@ -830,6 +833,22 @@ qx.Class.define("qx.util.format.DateFormat",
       return date;
     },
 
+    /**
+     * Helper method to convert the year to the calendar year
+     * using the current language. i.e. in Thai, 2017 is 2560.
+     */
+    __getCalendarYear: function (date) {
+
+        try {
+            var language = this.__locale.split("_")[0];
+            var parts = date.toLocaleDateString(language).split(/\D/);
+            return parseInt(parts[parts.length - 1]);
+        }
+        catch (er) {
+            qx.log.Logger.error(er);
+        }
+        return date.getFullYear();
+    },    
 
     /**
      * Helper method for {@link #format()} and {@link #parse()}.
