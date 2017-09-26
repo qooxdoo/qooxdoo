@@ -63,6 +63,7 @@ qx.Class.define("qx.ui.mobile.form.SelectBox",
   ],
   implement : [
     qx.ui.form.IForm,
+    qx.ui.form.IField,
     qx.ui.form.IModel
   ],
 
