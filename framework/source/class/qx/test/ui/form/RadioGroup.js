@@ -79,6 +79,9 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
       composite.destroy();
     },
 
+    /**
+     * @ignore(qx.test.ui.form.RadioGroupTest)
+     */
     testAlteredGroupProperty : function()
     {
       qx.Class.define("qx.test.ui.form.RadioGroupTest",
