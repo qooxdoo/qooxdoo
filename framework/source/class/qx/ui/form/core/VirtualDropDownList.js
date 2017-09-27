@@ -439,7 +439,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      */
     __adjustHeight : function()
     {
-      var availableHeigth = this.__getAvailableHeigth();
+      var availableHeight = this.__getAvailableHeight();
       var maxHeight = this._target.getMaxListHeight();
       var list = this.getChildControl("list");
       var itemsHeight = list.getPane().getRowConfig().getTotalSize();
@@ -448,8 +448,8 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
         maxHeight = itemsHeight;
       }
 
-      if (maxHeight > availableHeigth) {
-        maxHeight = availableHeigth;
+      if (maxHeight > availableHeight) {
+        maxHeight = availableHeight;
       }
 
       var minHeight = list.getMinHeight();
@@ -466,7 +466,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      *
      * @return {Integer} Available height in the viewport.
      */
-    __getAvailableHeigth : function()
+    __getAvailableHeight : function()
     {
       var distance = this.getLayoutLocation(this._target);
       var viewPortHeight = qx.bom.Viewport.getHeight();
