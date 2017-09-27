@@ -30,6 +30,7 @@ qx.Class.define("qx.ui.form.List",
   implement : [
     qx.ui.core.IMultiSelection,
     qx.ui.form.IForm,
+    qx.ui.form.IField,
     qx.ui.form.IModelSelection
   ],
   include : [

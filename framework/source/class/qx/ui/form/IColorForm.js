@@ -22,6 +22,9 @@
  */
 qx.Interface.define("qx.ui.form.IColorForm",
 {
+  extend : qx.ui.form.IField,
+
+
   /*
   *****************************************************************************
      EVENTS

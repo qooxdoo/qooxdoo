@@ -47,7 +47,8 @@ qx.Class.define("qx.ui.form.SelectBox",
   extend : qx.ui.form.AbstractSelectBox,
   implement : [
     qx.ui.core.ISingleSelection,
-    qx.ui.form.IModelSelection
+    qx.ui.form.IModelSelection,
+    qx.ui.form.IField
   ],
   include : [qx.ui.core.MSingleSelectionHandling, qx.ui.form.MModelSelection],
 

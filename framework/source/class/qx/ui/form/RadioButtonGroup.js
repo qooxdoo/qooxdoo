@@ -34,6 +34,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
   include : [qx.ui.core.MLayoutHandling, qx.ui.form.MModelSelection],
   implement : [
     qx.ui.form.IForm,
+    qx.ui.form.IField,
     qx.ui.core.ISingleSelection,
     qx.ui.form.IModelSelection
   ],
@@ -58,9 +59,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
     this.__radioGroup = new qx.ui.form.RadioGroup();
 
     // attach the listener
-    this.__radioGroup.addListener("changeSelection", function(e) {
-      this.fireDataEvent("changeSelection", e.getData(), e.getOldData());
-    }, this);
+    this.__radioGroup.addListener("changeSelection", this._onChangeSelection, this);
   },
 
 
@@ -111,6 +110,9 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
 
   events :
   {
+    /** Fires after the value was modified */
+    "changeValue" : "qx.event.type.Data",
+
     /**
      * Fires after the selection was modified
      */
@@ -287,12 +289,55 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      */
     getSelectables: function(all) {
       return this.__radioGroup.getSelectables(all);
+    },
+
+
+    /**
+     * Select given value.
+     *
+     * @param item {null|var} Item to set as selected value.
+     * @return {null|Error} The status of this operation.
+     */
+    setValue : function(item) {
+      if (item && 'object' === typeof item && item instanceof qx.ui.form.IRadioItem) {
+        return this.__radioGroup.setValue(item);
+      } else {
+        return new Error("can not select radio item from value");
+      }
+    },
+
+
+    /**
+     * @return {null|var} Returns the selected value.
+     */
+    getValue : function() {
+      return this.__radioGroup.getValue();
+    },
+
+
+    /**
+     * Reset radio item selection.
+     */
+    resetValue : function() {
+      this.__radioGroup.resetValue();
+    },
+
+
+    /**
+     * Called on {@link qx.ui.form.RadioGroup} selection change event.
+     *
+     * @param event {qx.event.type.Data} Event containing the {@link qx.ui.form.RadioGroup} selection data.
+     */
+    _onChangeSelection : function(event) {
+      this.fireDataEvent("changeValue", event.getData(), event.getOldData());
+      this.fireDataEvent("changeSelection", event.getData(), event.getOldData());
     }
   },
 
 
   destruct : function()
   {
+    this.__radioGroup.removeListener("changeSelection", this._onChangeSelection, this);
     this._disposeObjects("__radioGroup");
   }
 });

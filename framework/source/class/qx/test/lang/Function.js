@@ -39,24 +39,6 @@ qx.Class.define("qx.test.lang.Function",
     },
 
 
-    testGetCaller : function()
-    {
-      var self = this;
-      var fcn = arguments.callee;
-
-      function f1(caller) {
-        self.assertIdentical(caller, qx.lang.Function.getCaller(arguments), "Wrong caller.");
-      }
-
-      function f2() {
-        f1(f2);
-      }
-
-      f2();
-      f1(fcn);
-    },
-
-
     testFunctionWrap : function()
     {
       var context = null;

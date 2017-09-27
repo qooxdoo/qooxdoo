@@ -25,7 +25,7 @@ Using the virtual infrastructure has considerable advantages when there is a hug
 With the `qx.ui.tree.core.IVirtualTreeDelegate <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.tree.core.IVirtualTreeDelegate>`_ interface it is possible to configure the tree's behavior (item renderer configuration, etc.).
 
 .. note::
-  At the moment we only support widget based rendering for tree items, but we are planning to also support HTML based rendering in a future release.
+  Only widget based rendering for tree items is supported.
 
 .. _pages/widget/virtualtree#codeexample:
 

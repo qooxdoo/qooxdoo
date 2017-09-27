@@ -179,6 +179,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
           control = new qx.ui.list.List().set({
             focusable: false,
             keepFocus: true,
+            keepActive: true,
             height: null,
             width: null,
             maxHeight: this._target.getMaxListHeight(),

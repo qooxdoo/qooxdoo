@@ -29,7 +29,7 @@
 qx.Class.define("qx.ui.form.VirtualSelectBox",
 {
   extend : qx.ui.form.core.AbstractVirtualBox,
-  implement : qx.data.controller.ISelection,
+  implement : [ qx.data.controller.ISelection, qx.ui.form.IField ],
 
   construct : function(model)
   {
@@ -48,6 +48,8 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     this.__searchTimer = new qx.event.Timer(500);
     this.__searchTimer.addListener("interval", this.__preselect, this);
+
+    this.getSelection().addListener("change", this._updateSelectionValue, this);
   },
 
 
@@ -90,7 +92,10 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
      * to get an event as soon as the user changes the selected item.
      * <pre class="javascript">obj.getSelection().addListener("change", listener, this);</pre>
      */
-    "changeSelection" : "qx.event.type.Data"
+    "changeSelection" : "qx.event.type.Data",
+
+    /** Fires after the value was modified */
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -108,6 +113,35 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /** @type {Array} Contains the id from all bindings. */
     __bindings : null,
+
+
+    /**
+     * @param selected {var|null} Item to select as value.
+     * @returns {null|TypeError} The status of this operation.
+     */
+    setValue : function(selected) {
+      if (null === selected) {
+        this.resetSelection();
+        return null;
+      }
+
+      this.getSelection().setItem(0, selected);
+      return null;
+    },
+
+
+    /**
+     * @returns {null|var} The currently selected item or null if there is none.
+     */
+    getValue : function() {
+      var s = this.getSelection();
+      return (s.length === 0 ? null : s.getItem(0));
+    },
+
+
+    resetValue : function() {
+      this.getSelection().removeAll();
+    },
 
 
     // overridden
@@ -399,6 +433,18 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       } else {
         return keyIdentifier;
       }
+    },
+
+
+    /**
+     * Called when selection changes.
+     *
+     * @param event {qx.event.type.Data} {@link qx.data.Array} change event.
+     */
+    _updateSelectionValue : function(event) {
+      var d = event.getData();
+      var old = (d.removed.length ? d.removed[0] : null);
+      this.fireDataEvent("changeValue", d.added[0], old);
     }
   },
 
@@ -406,6 +452,8 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
   destruct : function()
   {
     this._removeBindings();
+
+    this.getSelection().removeListener("change", this._updateSelectionValue, this);
 
     this.__searchTimer.removeListener("interval", this.__preselect, this);
     this.__searchTimer.dispose();
