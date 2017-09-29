@@ -16,7 +16,7 @@
 
 ************************************************************************ */
 
-/**
+/*
  * Virtual tree implementation.
  *
  * The virtual tree can be used to render node and leafs. Nodes and leafs are
@@ -26,13 +26,15 @@
  * With the {@link qx.ui.tree.core.IVirtualTreeDelegate} interface it is possible
  * to configure the tree's behavior (item renderer configuration, etc.).
  *
- * Here's an example of how to use the widget:
+ * Here's an example of how to use the widget, including binding a model
+ * property to open/close branches:
+ *
  * <pre class="javascript">
  * //create the model data
  * var nodes = [];
  * for (var i = 0; i < 2500; i++)
  * {
- *   nodes[i] = {name : "Item " + i};
+ *   nodes[i] = {name : "Item " + i, item : i};
  *
  *   // if its not the root node
  *   if (i !== 0)
@@ -42,24 +44,55 @@
  *
  *     if(node.children == null) {
  *       node.children = [];
+ *       node.opened = node.item <= 10;
  *     }
  *     node.children.push(nodes[i]);
  *   }
  * }
  *
+ * // initialize the root node to closed
+ * nodes[0].opened = false;
+ *
  * // converts the raw nodes to qooxdoo objects
  * nodes = qx.data.marshal.Json.createModel(nodes, true);
  *
- * // creates the tree
- * var tree = new qx.ui.tree.VirtualTree(nodes.getItem(0), "name", "children").set({
- *   width : 200,
- *   height : 400
- * });
+ * // create the tree
+ * var tree =
+ *   new qx.ui.tree.VirtualTree(nodes.getItem(0), "name", "children").set({
+ *       width : 200,
+ *       height : 400
+ *     });
+ *
+ * // synchronize the model property 'opened' to nodes being open
+ * new qx.ui.tree.core.OpenCloseController(tree, nodes, "opened");
  *
  * //log selection changes
  * tree.getSelection().addListener("change", function(e) {
  *   this.debug("Selection: " + tree.getSelection().getItem(0).getName());
  * }, this);
+ *
+ * tree.set(
+ *   {
+ *     width : 200,
+ *     height : 400,
+ *     showTopLevelOpenCloseIcons : true
+ *   });
+ *
+ * var doc = this.getRoot();
+ * doc.add(tree,
+ * {
+ *   left : 100,
+ *   top  : 50
+ * });
+ *
+ * // in two seconds, open the root node
+ * qx.event.Timer.once(
+ *   function()
+ *   {
+ *     nodes.getItem(0).setOpened(true);
+ *   },
+ *   this,
+ *   2000);      
  * </pre>
  */
 qx.Class.define("qx.ui.tree.VirtualTree",
