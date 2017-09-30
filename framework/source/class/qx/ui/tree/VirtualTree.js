@@ -329,6 +329,17 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       apply: "_applyDelegate",
       init: null,
       nullable: true
+    },
+
+    /**
+     * For internal use for and by {@link qx.ui.tree.core.OpenCloseController}
+     * and {@link qx.ui.tree.provider.WidgetProvider} only.
+     */
+    openPropertyName :
+    {
+      check : "String",
+      nullable : true,
+      init : null
     }
   },
 
