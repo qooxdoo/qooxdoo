@@ -26,9 +26,14 @@
  * 
  * To use this controller, simply instantiate it with the requisite
  * constructor arguments.
- * 
- * NOTE: This uses {@link qx.event.message.Bus} to send messages between tree
- * items and this controller. The 'name' of the messages is created to be
+ *
+ * NOTE 1: Although the instance of OpenCloseController associates itself with
+ * a specific tree, disposal of that tree does not dispose the
+ * OpenCloseController. It is the responsibility of the instantiator to
+ * arrange for disposal of this controller.
+ *
+ * NOTE 2: This uses {@link qx.event.message.Bus} to send messages between
+ * tree items and this controller. The 'name' of the messages is created to be
  * unique among trees. It uses the hash code of the tree, with ".open"
  * appended to it. A message 'name' might therefore be something like
  * "37422-0.open".
@@ -137,27 +142,6 @@ qx.Class.define("qx.ui.tree.core.OpenCloseController",
       model.set(openPropertyName, false);
     },
     
-    // event listener for model changes
-    _onChangeBubble: function(ev)
-    {
-      var bubble = ev.getData();
-      var modelPropRe;
-
-      // generate a regular expression that identifies model changes that
-      // pertain to the open state of a branch in the tree.
-      modelPropRe = new RegExp("\\." + this.getOpenPropertyName() + "$");
-      
-      // open related? sync it back to the node item.
-      if (modelPropRe.test(bubble.name)) {
-        if (bubble.value && !this._tree.isNodeOpen(bubble.item)) {
-          this._tree.openNode(bubble.item);
-        }
-        else if (!bubble.value && this._tree.isNodeOpen(bubble.item)) {
-          this._tree.closeNode(bubble.item);
-        }
-      }
-    },
-
     // event listener for messages from VirtualTreeItems indicating that a
     // model change is intended to cause a branch to open or close
     _onBusMessage : function(busMessage)
@@ -175,6 +159,9 @@ qx.Class.define("qx.ui.tree.core.OpenCloseController",
   
   destruct: function()
   {
+    var messageBus = qx.event.message.Bus.getInstance();
+
+    messageBus.unsubscribe(this._tree.toHashCode() + ".open");
     this._tree = null;
     this._lids.forEach(function(data) {
       data[0].removeListenerById(data[1]);
