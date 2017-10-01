@@ -438,7 +438,6 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       for (var i = 0; i < this.__pages.length; i++) {
         var pageContentElement = this.__pages[i].getContentElement();
         qx.bom.element.Style.set(pageContentElement, "width", carouselSize.width + "px");
-        qx.bom.element.Style.set(pageContentElement, "height", carouselSize.height + "px");
       }
 
       if (this.__pages.length == 1) {
