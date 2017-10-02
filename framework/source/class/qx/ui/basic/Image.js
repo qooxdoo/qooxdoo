@@ -761,6 +761,9 @@ qx.Class.define("qx.ui.basic.Image",
         }
         else {
           var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
+          if (qx.core.Environment.get("qx.debug")) {
+            this.assertObject(font, "Virtual image source contains unkown font descriptor");
+          }
           size = font.getSize();
         }
 
