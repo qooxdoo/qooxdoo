@@ -251,9 +251,15 @@ qx.Class.define("qx.event.handler.Focus",
       }
       else
       {
-        try {
-          element.focus();
-        } catch(ex) {}
+        // Fix re-focusing on mousup event
+        // See https://github.com/qooxdoo/qooxdoo/issues/9393 and
+        // discussion in https://github.com/qooxdoo/qooxdoo/pull/9394
+        window.setTimeout(function()
+        {
+          try {
+            element.focus();
+          } catch(ex) {}
+        }, 0);
       }
 
       this.setFocus(element);
