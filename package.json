@@ -1,9 +1,9 @@
 {
   "name": "qooxdoo",
   "version": "5.1.0",
-  "description": "Universal JavaScript Framework",
+  "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
-  "licenses": ["LGPL", "EPL"],
+  "licenses": ["MIT"],
   "homepage": "http://qooxdoo.org",
   "repository": {
     "type": "git",
