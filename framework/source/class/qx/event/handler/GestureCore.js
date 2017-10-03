@@ -20,6 +20,11 @@
 /**
  * Listens for (native or synthetic) pointer events and fires events
  * for gestures like "tap" or "swipe"
+ * 
+ * qx.event.Timer and qx.util.Wheel are needed for very early DOM event handling; 
+ * EG scrolling the mouse during startup on MacOS 10.12
+ * @require(qx.event.Timer)
+ * @require(qx.util.Wheel)
  */
 qx.Bootstrap.define("qx.event.handler.GestureCore", {
   extend : Object,

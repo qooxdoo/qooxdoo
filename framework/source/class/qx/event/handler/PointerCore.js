@@ -435,10 +435,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
           domEvent);
         qx.event.type.dom.Pointer.normalize(gestureEvent);
-        try {
-          gestureEvent.srcElement = target;
-        }catch(ex) {
-          // Nothing - strict mode prevents writing to read only properties
+        if (qx.core.Environment.get("engine.name") == "mshtml") { 
+          if (gestureEvent.srcElement !== target) {
+            try {
+              gestureEvent.srcElement = target;
+            }catch(ex) {
+              // Nothing - strict mode prevents writing to read only properties
+            }
+          }
         }
       }
 
@@ -451,10 +455,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         }
       } else {
         // ensure compatibility with native events for IE8
-        try {
-          domEvent.srcElement = target;
-        }catch(ex) {
-          // Nothing - strict mode prevents writing to read only properties
+        if (qx.core.Environment.get("engine.name") == "mshtml") { 
+          if (domEvent.srcElement !== target) {
+            try {
+              domEvent.srcElement = target;
+            }catch(ex) {
+              // Nothing - strict mode prevents writing to read only properties
+            }
+          }
         }
 
         while (target) {

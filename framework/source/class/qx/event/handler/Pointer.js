@@ -21,6 +21,7 @@
  * Unified pointer event handler.
  * @require(qx.event.dispatch.DomBubbling)
  * @require(qx.event.type.Pointer) // load-time dependency for early native events
+ * @require(qx.event.type.dom.Pointer)
  */
 qx.Class.define("qx.event.handler.Pointer",
 {
@@ -131,10 +132,14 @@ qx.Class.define("qx.event.handler.Pointer",
       {
         qx.event.type.dom.Pointer.normalize(domEvent);
         // ensure compatibility with native events for IE8
-        try {
-          domEvent.srcElement = target;
-        }catch(ex) {
-          // Nothing - cannot change properties in strict mode
+        if (qx.core.Environment.get("engine.name") == "mshtml") { 
+          if (domEvent.srcElement !== target) {
+            try {
+              domEvent.srcElement = target;
+            }catch(ex) {
+              // Nothing - cannot change properties in strict mode
+            }
+          }
         }
 
         qx.event.Registration.fireEvent(
