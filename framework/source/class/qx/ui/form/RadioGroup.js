@@ -36,6 +36,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
   extend : qx.core.Object,
   implement : [
     qx.ui.core.ISingleSelection,
+    qx.ui.form.IField,
     qx.ui.form.IForm,
     qx.ui.form.IModelSelection
   ],
@@ -81,6 +82,28 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
   properties :
   {
+    /**
+     * The property name in each of the added widgets that is grouped
+     */
+    groupedProperty :
+    {
+      check : "String",
+      apply : "_applyGroupedProperty",
+      event : "changeGroupedProperty",
+      init  : "value"
+    },
+
+    /**
+     * The property name in each of the added widgets that is informed of the
+     * RadioGroup object it is a member of
+     */
+    groupProperty :
+    {
+      check : "String",
+      event : "changeGroupProperty",
+      init  : "group"
+    },
+
     /**
      * Whether the radio group is enabled
      */
@@ -202,6 +225,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
     {
       var items = this.__items;
       var item;
+      var groupedProperty = this.getGroupedProperty();
+      var groupedPropertyUp = qx.lang.String.firstUp(groupedProperty);
 
       for (var i=0, l=arguments.length; i<l; i++)
       {
@@ -212,16 +237,17 @@ qx.Class.define("qx.ui.form.RadioGroup",
         }
 
         // Register listeners
-        item.addListener("changeValue", this._onItemChangeChecked, this);
+        item.addListener(
+          "change" + groupedPropertyUp, this._onItemChangeChecked, this);
 
         // Push RadioButton to array
         items.push(item);
 
         // Inform radio button about new group
-        item.setGroup(this);
+        item.set(this.getGroupProperty(), this);
 
         // Need to update internal value?
-        if (item.getValue()) {
+        if (item.get(groupedProperty)) {
           this.setSelection([item]);
         }
       }
@@ -240,21 +266,25 @@ qx.Class.define("qx.ui.form.RadioGroup",
     remove : function(item)
     {
       var items = this.__items;
+      var groupedProperty = this.getGroupedProperty();
+      var groupedPropertyUp = qx.lang.String.firstUp(groupedProperty);
+
       if (qx.lang.Array.contains(items, item))
       {
         // Remove RadioButton from array
         qx.lang.Array.remove(items, item);
 
         // Inform radio button about new group
-        if (item.getGroup() === this) {
-          item.resetGroup();
+        if (item.get(this.getGroupProperty()) === this) {
+          item.reset(this.getGroupProperty());
         }
 
         // Deregister listeners
-        item.removeListener("changeValue", this._onItemChangeChecked, this);
+        item.removeListener(
+          "change" + groupedPropertyUp, this._onItemChangeChecked, this);
 
         // if the radio was checked, set internal selection to null
-        if (item.getValue()) {
+        if (item.get(groupedProperty)) {
           this.resetSelection();
         }
       }
@@ -287,7 +317,9 @@ qx.Class.define("qx.ui.form.RadioGroup",
     _onItemChangeChecked : function(e)
     {
       var item = e.getTarget();
-      if (item.getValue()) {
+      var groupedProperty = this.getGroupedProperty();
+
+      if (item.get(groupedProperty)) {
         this.setSelection([item]);
       } else if (this.getSelection()[0] == item) {
         this.resetSelection();
@@ -300,6 +332,26 @@ qx.Class.define("qx.ui.form.RadioGroup",
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
+
+    // property apply
+    _applyGroupedProperty : function(value, old) {
+      var item;
+      var oldFirstUp = qx.lang.String.firstUp(old);
+      var newFirstUp = qx.lang.String.firstUp(value);
+
+      for (var i = 0; i < this.__items.length; i++) {
+        item = this.__items[i];
+
+        // remove the listener for the old change event
+        item.removeListener(
+          "change" + oldFirstUp, this._onItemChangeChecked, this);
+
+        // add the listener for the new change event
+        item.removeListener(
+          "change" + newFirstUp, this._onItemChangeChecked, this);
+      }
+    },
+
     // property apply
     _applyInvalidMessage : function(value, old) {
       for (var i = 0; i < this.__items.length; i++) {
@@ -462,13 +514,14 @@ qx.Class.define("qx.ui.form.RadioGroup",
     {
       var value = e.getData()[0];
       var old = e.getOldData()[0];
+      var groupedProperty = this.getGroupedProperty();
 
       if (old) {
-        old.setValue(false);
+        old.set(groupedProperty, false);
       }
 
       if (value) {
-        value.setValue(true);
+        value.set(groupedProperty, true);
       }
     }
   },

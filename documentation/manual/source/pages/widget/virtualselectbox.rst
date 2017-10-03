@@ -78,7 +78,7 @@ Using the virtual infrastructure has considerable advantages when there is a hug
 The virtual SelectBox uses the same `qx.ui.list.core.IListDelegate <http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.list.core.IListDelegate>`_ interface as the :doc:`virtuallist` to configure the SelectBox's behavior (item and group renderer configuration, filtering, sorting, grouping, etc.).
 
 .. note::
-  At the moment we only support widget based rendering for list and group items, but we are planning to also support HTML based rendering in a future release.
+  Only widget based rendering for list and group items is supported.
 
 .. _pages/widget/virtualselectbox#codeexample:
 

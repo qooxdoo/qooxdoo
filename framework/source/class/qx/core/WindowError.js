@@ -37,12 +37,12 @@ qx.Bootstrap.define("qx.core.WindowError",
    * @param failMessage {String} The error message
    * @param uri {String} URI where error was raised
    * @param lineNumber {Integer} The line number where the error was raised
-   * @param columnNumber {Integer} The column where the error was raised
-   * @param stack {String} Stack trace, where available
+   * @param columnNumber {Integer} The column number where the error was raised
+   * @param sourceException {Error} orginal error
    */
-  construct : function(failMessage, uri, lineNumber, columnNumber, stack)
+  construct : function(failMessage, uri, lineNumber, columnNumber, sourceException)
   {
-    var inst = Error.call(this, failMessage);
+    var inst = sourceException || Error.call(this, failMessage);
     // map stack trace properties since they're not added by Error's constructor
     if (inst.stack) {
       this.stack = inst.stack;
@@ -55,7 +55,7 @@ qx.Bootstrap.define("qx.core.WindowError",
     this.__uri = uri || "";
     this.__lineNumber = lineNumber === undefined ? -1 : lineNumber;
     this.__columnNumber = columnNumber === undefined ? -1 : columnNumber;
-    this.__stack = stack||null;
+    this.__sourceException = sourceException;
   },
 
 
@@ -72,7 +72,7 @@ qx.Bootstrap.define("qx.core.WindowError",
     __uri : null,
     __lineNumber : null,
     __columnNumber : null,
-    __stack : null,
+    __sourceException: null,
 
 
     /**
@@ -103,21 +103,23 @@ qx.Bootstrap.define("qx.core.WindowError",
     getLineNumber : function() {
       return this.__lineNumber;
     },
-    
-    
+
     /**
      * Get the column number where the error was raised
+     *
+     * @return {Integer} The line number where the error was raised
      */
-    getColumnNumber: function() {
+    getColumnNumber : function() {
       return this.__columnNumber;
     },
-    
-    
+
     /**
-     * Get the stack trace of where the error was raised, not available on all platforms
+     * Get the source exception
+     *
+     * @return {Error} The source error
      */
-    getStack: function() {
-      return this.__stack;
+    getSourceException : function() {
+      return this.__sourceException;
     }
   }
 });

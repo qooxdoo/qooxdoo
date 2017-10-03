@@ -64,12 +64,6 @@ qx.Class.define("qx.ui.mobile.form.Form",
     __invalidItems : null,
 
 
-    // overridden
-    _createResetter : function() {
-      return new qx.ui.mobile.form.Resetter();
-    },
-
-
     /**
      * Setter for the renderer private variable
      * @param renderer {qx.ui.mobile.form.renderer.AbstractRenderer} the renderer

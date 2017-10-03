@@ -115,7 +115,10 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
      * to get an event as soon as the user changes the selected item.
      * <pre class="javascript">obj.getSelection().addListener("change", listener, this);</pre>
      */
-    "changeSelection" : "qx.event.type.Data"
+    "changeSelection" : "qx.event.type.Data",
+
+    /** Fires after the value was modified */
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -133,6 +136,41 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     __ignoreManagerChangeSelection : false,
 
     __defaultSelection : null,
+
+
+    /**
+     * setValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @param selection {qx.data.IListData|null} List data to select as value.
+     * @return {null} The status of this operation.
+     */
+    setValue : function(selection) {
+      if (null === selection) {
+        this.resetSelection();
+      } else {
+        this.setSelection(selection);
+      }
+
+      return null;
+    },
+
+
+    /**
+     * getValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @return {qx.data.IListData} The current selection.
+     */
+    getValue : function() {
+      return this.getSelection();
+    },
+
+
+    /**
+     * resetValue implements part of the {@link qx.ui.form.IField} interface.
+     */
+    resetValue : function() {
+      this.resetSelection();
+    },
 
 
     /**
@@ -325,6 +363,8 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       this.__synchronizeSelection();
 
       this.__ignoreManagerChangeSelection = false;
+
+      this.fireDataEvent("changeValue", e.getData(), e.getOldData());
     },
 
 
