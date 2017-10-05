@@ -9,7 +9,7 @@
     "keywords" : ["todo"],
     "homepage" : "http://demo.qooxdoo.org/current/todo",
 
-    "license" : "LGPL/EPL",
+    "license" : "MIT",
     "authors" :
     [
       {

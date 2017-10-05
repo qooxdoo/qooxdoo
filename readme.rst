@@ -28,14 +28,7 @@ For more information please see http://qooxdoo.org .
 License
 =======
 
-qooxdoo may be used under the terms of either the GNU Lesser General
-Public License (LGPL) or the Eclipse Public License (EPL). As a
-recipient of qooxdoo, you may choose which license to receive the code
-under.
-
-Please make sure you understand the dual license of qooxdoo and the
-rights and obligations that come with it. See the top-level license.txt
-file for more details.
+qooxdoo may be used under the terms of the MIT License.
 
 For more information please see http://qooxdoo.org/license .
 
