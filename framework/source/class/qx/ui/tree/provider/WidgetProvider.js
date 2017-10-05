@@ -81,6 +81,8 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       widget.addListener("changeOpen", this.__onOpenChanged, this);
       widget.setUserData("cell.childProperty", this.getChildProperty());
       widget.setUserData("cell.showLeafs", this._tree.isShowLeafs());
+      widget.setUserData("cell.openProperty", this._tree.getOpenPropertyName());
+      widget.setUserData("cell.treeId", this._tree.toHashCode());
 
       if(this._tree.getSelection().contains(item)) {
         this._styleSelectabled(widget);

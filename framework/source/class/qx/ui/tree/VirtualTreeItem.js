@@ -91,6 +91,7 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
     {
       var childProperty = this.getUserData("cell.childProperty");
       var showLeafs = this.getUserData("cell.showLeafs");
+      var openProperty = this.getUserData("cell.openProperty");
 
       if (value != null && qx.ui.tree.core.Util.isNode(value, childProperty))
       {
@@ -110,6 +111,18 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
         }
       }
 
+      // If the OpenCloseController is in use, an openProperty will have been
+      // set. If so, and this item has that poperty, add a listener for it.
+      if (value != null &&
+          openProperty &&
+          qx.ui.tree.core.Util.isNode(value, openProperty))
+      {
+        var eventType = "change" + qx.lang.String.firstUp(openProperty);
+        // listen to children property changes
+        if (qx.Class.hasProperty(value.constructor, openProperty)) {
+          value.addListener(eventType, this._onChangeOpenProperty, this);
+        }
+      }
 
       if (old != null && qx.ui.tree.core.Util.isNode(old, childProperty))
       {
@@ -150,6 +163,26 @@ qx.Class.define("qx.ui.tree.VirtualTreeItem",
       if (old) {
         old.removeListener("changeLength", this._onChangeLength, this);
       }
+    },
+
+    /**
+     * Handler to issue model change to OpenCloseController
+     */
+    _onChangeOpenProperty : function(e)
+    {
+      var value = e.getData();
+      var model = e.getTarget();
+      var eventType = this.getUserData("cell.treeId") + ".open";
+      var messageBus = qx.event.message.Bus.getInstance();
+
+      // Dispatch this model change to all listeners for this tree's open
+      // property's model changes
+      messageBus.dispatchByName(
+        eventType,
+        {
+          item  : model,
+          value : value
+        });
     }
   }
 });

@@ -463,6 +463,8 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
 
     closeNode : function(node) {},
-    closeNodeWithoutScrolling : function(node) {}
+    closeNodeWithoutScrolling : function(node) {},
+
+    getOpenPropertyName : function() { return null; }
   }
 });
