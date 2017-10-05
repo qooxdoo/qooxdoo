@@ -143,7 +143,27 @@ qx.Class.define("qx.test.util.Uri",
           this.assertEquals("80", result.port);
           this.assertEquals("/foo/bar?affe=true#here", result.relative);
           this.assertEquals("here", result.anchor);
-        }
+    },
+
+    "test: parseUri() with at-sign in query": function() {
+        var url = "http://www.example.com/foo/bar?separator=@",
+            result = this.Uri.parseUri(url);
+
+        this.assertEquals("http", result.protocol);
+        this.assertEquals("www.example.com", result.host);
+        this.assertEquals("/foo/bar?separator=@", result.relative);
+        this.assertEquals("separator=@", result.query);
+    },
+
+    "test: parseUri() with user name in domain": function() {
+        var url = "http://userid@www.example.com/foo/bar",
+            result = this.Uri.parseUri(url);
+
+        this.assertEquals("http", result.protocol);
+        this.assertEquals("www.example.com", result.host);
+        this.assertEquals("/foo/bar", result.relative);
+        this.assertEquals("userid", result.user);
+    }
 
   }
 });
