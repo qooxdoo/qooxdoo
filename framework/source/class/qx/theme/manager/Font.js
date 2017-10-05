@@ -22,12 +22,30 @@
  * 
  * NOTE: Instances of this class must be disposed of after use
  *
+ * @ignore(qx.$$fontBootstrap)
  */
 qx.Class.define("qx.theme.manager.Font",
 {
   type : "singleton",
   extend : qx.util.ValueManager,
   implement : [ qx.core.IDisposable ],
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    this.base(arguments);
+
+    // Grab bootstrap info
+    if (qx.$$fontBootstrap) {
+      this._manifestFonts = qx.$$fontBootstrap;
+      delete qx.$$fontBootstrap;
+    }
+  },
 
 
   /*
@@ -60,6 +78,8 @@ qx.Class.define("qx.theme.manager.Font",
 
   members :
   {
+    _manifestFonts : null,
+
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
@@ -191,7 +211,7 @@ qx.Class.define("qx.theme.manager.Font",
 
       if (value)
       {
-        var source = value.fonts;
+        var source = this._manifestFonts ? Object.assign(value.fonts, this._manifestFonts) : value.fonts;
 
         for (var key in source)
         {
