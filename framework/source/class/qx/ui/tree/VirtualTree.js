@@ -429,7 +429,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     /** 
      * @type {String|null} the name of the model property which represents the
-     * open state of a branch.
+     *   open state of a branch.
      */
     __openProperty : null,
 
@@ -805,19 +805,11 @@ qx.Class.define("qx.ui.tree.VirtualTree",
         }
         value.addListener("changeBubble", this._onChangeBubble, this);
         this.__openNode(value);
-
-        // if an open property name was provided before we had a model, we
-        // postponed creating the linkage between that model property and the
-        // tree, so do so now.
-        openProperty = this.getOpenProperty();
-        if (openProperty && ! this._openCloseController) {
-          this._openCloseController =
-            new qx.ui.tree.core.OpenCloseController(this, value, openProperty);
-        }
       }
-      else if (this._openCloseController) {
-        // model being set to null, so we need to shut down the linkage of
-        // model open property to tree
+
+      // If the model changes, an existing OpenCloseController is no longer
+      // valid, so dispose it. The user should call openViaModelChanges again.
+      if (this._openCloseController) {
         this._openCloseController.dispose();
         this._openCloseController = null;
       }
