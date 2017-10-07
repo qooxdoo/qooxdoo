@@ -183,7 +183,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // If an open property and full model are provided, start up the
     // open-close controller.
-    this.openViaModelChanges(openProperty, fullModel);
+    if (openProperty && fullModel) {
+      this.openViaModelChanges(openProperty, fullModel);
+    }
   },
 
   events :
