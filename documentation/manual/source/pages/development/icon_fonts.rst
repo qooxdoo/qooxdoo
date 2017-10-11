@@ -29,7 +29,7 @@ cases (i.e. `Font Awesome <http://fontawesome.io/icons/>`_), the glyph informati
 incomplete or missing. You need to use a custom font map in this case to be able to
 address all the glyphs by their name/alias.
 
-The itegration is generic, so that it does not collide with the frameworks :doc:`appearance themes
+The integration is generic, so that it does not collide with the framework's :doc:`appearance themes
 </pages/desktop/ui_theming>`. Font icons can be addressed using ``@FontName/GlyphName`` or
 ``@FontName/HexUnicode`` in the source property of your ``qx.ui.basic.Image``. To override the
 default size, you can also use ``@FontName/GlyphName/size`` or ``@FontName/HexUnicode/size`` to scale it
