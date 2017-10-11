@@ -15,16 +15,25 @@ assign the font icon to virtual image names. If you for example include the
 
 	var image = new qx.ui.basic.Image('@Ligature/print');
 
-to show the 'print' symbol.
+to show the 'print' symbol. Additionally, you have a shortcut for a different size than
+the font's default size:
+
+::
+
+	var image = new qx.ui.basic.Image('@Ligature/print/16');
+
+The latter makes the icon 16px in size.
 
 This mechanism heavily depends on how good the font glyph names are maintained. In some
 cases (i.e. `Font Awesome <http://fontawesome.io/icons/>`_), the glyph information is either
 incomplete or missing. You need to use a custom font map in this case to be able to
 address all the glyphs by their name/alias.
 
-The itegration is generic, so that it does not collide with the frameworks :doc:`appearance themes
+The integration is generic, so that it does not collide with the framework's :doc:`appearance themes
 </pages/desktop/ui_theming>`. Font icons can be addressed using ``@FontName/GlyphName`` or
-``@FontName/HexUnicode`` in the source property of your ``qx.ui.basic.Image``.
+``@FontName/HexUnicode`` in the source property of your ``qx.ui.basic.Image``. To override the
+default size, you can also use ``@FontName/GlyphName/size`` or ``@FontName/HexUnicode/size`` to scale it
+to the given number of pixels.
 
 
 Defining an icon font
