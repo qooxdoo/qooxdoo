@@ -1745,7 +1745,7 @@ qx.Bootstrap.define("qx.Class",
      */
     __wrapConstructor : function(construct, name, type)
     {
-      var wrapper = function()
+      var wrapper = function wrapFunc()
       {
         var clazz = wrapper;
 
