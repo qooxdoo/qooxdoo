@@ -787,8 +787,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     // property apply
     _applyModel : function(value, old)
     {
-      var openProperty;
-
       this.__openNodes = [];
 
       if (value != null)
