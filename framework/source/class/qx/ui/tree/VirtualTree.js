@@ -148,14 +148,14 @@ qx.Class.define("qx.ui.tree.VirtualTree",
    * @param childProperty {String?null} The name of the child property, for
    *   more details have a look at the 'childProperty' property.
    * @param openProperty {String|null} the name of the model property which
-   *   represents the open state of a branch.
-   * @param fullModel {qx.data.Array}?
+   *   represents the open state of a branch. If this value is provided, so, 
+   *   too, must be fullModel.
+   * @param fullModel {qx.data.Array?}
    *   The model which represents the tree. This is not the same value as
    *   rootModel. rootModel is the model of the root item of the tree. What's
    *   required here is the full data array which is the model of the whole
    *   tree. Often, rootItem provided as model.getItem(0), where as fullModel
    *   would be provided as model.
-
    */
   construct : function(
     rootModel, labelPath, childProperty, openProperty, fullModel)
