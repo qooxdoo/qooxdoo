@@ -82,9 +82,6 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
       widget.setUserData("cell.childProperty", this.getChildProperty());
       widget.setUserData("cell.showLeafs", this._tree.isShowLeafs());
 
-      var openProperty = this._tree.getOpenProperty();
-      widget.setUserData("cell.openProperty", openProperty);
-
       if(this._tree.getSelection().contains(item)) {
         this._styleSelectabled(widget);
       } else {
@@ -103,7 +100,7 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         widget.setOpenSymbolMode("auto");
       }
 
-      if (openProperty) {
+      if (this._tree.getOpenProperty()) {
         widget.setModel(item);
       }
 
