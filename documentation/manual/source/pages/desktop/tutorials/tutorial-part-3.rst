@@ -60,7 +60,7 @@ Now it's time to get this method working. But how do we load the data in qooxdoo
 ::
 
   if (this.__store == null) {
-    var url = "  https://raw.githubusercontent.com/qooxdoo/qooxdoo/%{release_tag}/component/tutorials/tweets/step4.5/source/resource/tweets/service.js";
+    var url = "https://raw.githubusercontent.com/qooxdoo/qooxdoo/%{release_tag}/component/tutorials/tweets/step4.5/source/resource/tweets/service.js";
     this.__store = new qx.data.store.Jsonp();
     this.__store.setCallbackName("callback");
     this.__store.setUrl(url);
