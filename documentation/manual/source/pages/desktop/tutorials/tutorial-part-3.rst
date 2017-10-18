@@ -28,7 +28,7 @@ Now, that we know how we want to communicate, we can tackle the first task, fetc
 
 ::
 
-  http://demo.qooxdoo.org/%{version}/tweets_step4.5/resource/tweets/service.js
+  https://raw.githubusercontent.com/qooxdoo/qooxdoo/%{release_tag}/component/tutorials/tweets/step4.5/source/resource/tweets/service.js
 
 Now we know how to get the data from identica. Its time for us to go back to the qooxdoo code. It is, like in the case of the UI, a good idea to create a separate class for the communication layer. Therefore, we create a class named ``IdenticaService``. We don't want to inherit from any advanced qooxdoo class so we extend straight from ``qx.core.Object``. The code for that class should looks like this:
 
@@ -60,7 +60,7 @@ Now it's time to get this method working. But how do we load the data in qooxdoo
 ::
 
   if (this.__store == null) {
-    var url = "  http://demo.qooxdoo.org/%{version}/tweets_step4.5/resource/tweets/service.js";
+    var url = "https://raw.githubusercontent.com/qooxdoo/qooxdoo/%{release_tag}/component/tutorials/tweets/step4.5/source/resource/tweets/service.js";
     this.__store = new qx.data.store.Jsonp();
     this.__store.setCallbackName("callback");
     this.__store.setUrl(url);
