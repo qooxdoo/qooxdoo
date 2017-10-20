@@ -21,17 +21,16 @@
 	"applications": [
 		{
 			"class": "testapp.Application",
-			"theme": "testapp.theme.Theme",
+			"theme": "qx.theme.Indigo",
 			"name": "testapp"
 		}
 	],
 	
-	/*
 	"parts": {
 		"boot": {
 			"include": [ "testapp.*" ]
 		},
-        "plugin-framework": {
+        "pluginFramework": {
             "include": [ "testapp.pdk.*" ]
         },
         "utils": {
@@ -43,7 +42,7 @@
         "pluginTwo": {
             "include": [ "testapp.plugins.PluginTwo" ]
         }
-	},*/
+	},
 	
 	"libraries": [
 		"/Users/john/dev/Qooxdoo/qooxdoo/framework",

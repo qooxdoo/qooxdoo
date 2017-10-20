@@ -1,0 +1,11 @@
+{
+  "libraries": [
+    {
+      "library_name": "Dialog",
+      "library_version": "1.3",
+      "repo_name": "cboulanger/qx-contrib-Dialog",
+      "repo_tag": "v1.3.0-beta.3",
+      "path": "/Users/john/dev/Qooxdoo/qxcompiler/test/testapp/contrib/cboulanger_qx-contrib-Dialog_v1.3.0-beta.3/."
+    }
+  ]
+}
