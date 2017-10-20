@@ -220,6 +220,14 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
       return !!Object.keys;
     },
 
+    /**
+     * Checks if 'values' is supported on the Object object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getObjectValues : function() {
+      return !!Object.values;
+    },
 
     /**
      * Checks if 'now' is supported on the Date object.
@@ -314,6 +322,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // object polyfill
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
+    qx.core.Environment.add("ecmascript.object.values", statics.getObjectValues);
 
     // string polyfill
     qx.core.Environment.add("ecmascript.string.startsWith", statics.getStringStartsWith);

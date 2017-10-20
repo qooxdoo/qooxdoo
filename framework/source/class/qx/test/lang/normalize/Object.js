@@ -68,6 +68,37 @@ qx.Class.define("qx.test.lang.normalize.Object",
       this.assertTrue(qx.lang.Array.contains(keys, "valueOf"), "Test valueOf");
       this.assertTrue(qx.lang.Array.contains(keys, "constructor"), "Test constructor");
       this.assertTrue(qx.lang.Array.contains(keys, "prototype"), "Test prototype");
+    },
+
+    testGetValues : function()
+    {
+      var object = {
+        a: undefined,
+        b: null,
+        c: 1
+      };
+      this.assertArrayEquals(
+        [undefined, null, 1].sort(),
+        Object.values(object).sort()
+      );
+
+      var object = {};
+      this.assertArrayEquals(
+        [],
+        Object.values(object)
+      );
+
+      var object = {
+        "isPrototypeOf": 1,
+        "hasOwnProperty": 2,
+        "toLocaleString": 3,
+        "toString": 4,
+        "valueOf": 5
+      };
+      this.assertArrayEquals(
+        [1, 2, 3, 4, 5].sort(),
+        Object.values(object).sort()
+      );
     }
   }
 });

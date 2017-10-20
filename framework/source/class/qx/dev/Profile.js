@@ -137,7 +137,7 @@ qx.Bootstrap.define("qx.dev.Profile",
       this.stop();
       this.normalizeProfileData();
 
-      var data = qx.lang.Object.getValues(this.__profileData);
+      var data = Object.values(this.__profileData);
       data = data.sort(function(a,b) {
         return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1;
       });
