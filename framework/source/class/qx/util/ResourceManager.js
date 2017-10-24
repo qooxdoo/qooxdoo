@@ -285,9 +285,10 @@ qx.Class.define("qx.util.ResourceManager",
 
           var href;
           //first check if there is base url set
-          var baseElements = qx.bom.Selector.query("base", document);
-          if (baseElements.length > 0) {
-            href = baseElements[0].href;
+          if (typeof window == "object" &&
+              window.document &&
+              window.document.getElementsByTagName("base").length > 0) {
+            href = window.document.getElementsByTagName("base"[0]).href;
           }
 
           // It is valid to to begin a URL with "//" so this case has to
