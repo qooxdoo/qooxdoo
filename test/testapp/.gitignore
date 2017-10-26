@@ -9,3 +9,7 @@
 npm-debug.log
 
 contrib/
+db.json
+resource-db.json
+testapp/db.json
+testapp/resource-db.json
