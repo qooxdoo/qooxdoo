@@ -14,7 +14,7 @@ async function createMaker() {
   // Makers use an Analyser to figure out what the Target should write
   var maker = new qxcompiler.makers.AppMaker().set({
     // Targets know how to output an application
-    target: new qxcompiler.targets.SelfTestTarget("source-output"),
+    target: new qxcompiler.targets.SourceTarget("source-output").set({ writeCompileInfo: true }),
     locales: [ "en"  ],
     writeAllTranslations: true,
     environment: {
@@ -23,7 +23,7 @@ async function createMaker() {
     }
   });
   maker.addApplication(new qxcompiler.app.Application("testapp.Application").set({
-    theme: "testapp.theme.Theme",
+    theme: "qx.theme.Indigo",
     name: "appone",
     environment: {
       envVar2: "222",
@@ -54,10 +54,27 @@ test('Checks dependencies and environment settings', (assert) => {
   function readCompileInfo() {
     return readJson("source-output/appone/compile-info.json");
   }
+  function readDbJson() {
+    return readJson("db.json");
+  }
+  function hasClassDependency(compileInfo, classname) {
+    return compileInfo.Parts.some((part) => {
+      return part.classes.indexOf(classname) > -1;
+    });
+  }
+  function hasPackageDependency(compileInfo, packageName) {
+    return compileInfo.Parts.some((part) => {
+      return part.classes.some((classname) => {
+        return classname.indexOf(packageName) == 0;
+      });
+    });
+  }
 
   var maker;
   var app;
   var compileInfo;
+  var db;
+  var meta;
   var expected;
   deleteRecursive("source-output")
     .then(() => createMaker())
@@ -67,12 +84,14 @@ test('Checks dependencies and environment settings', (assert) => {
       return promisifyThis(maker.make, maker);
     })
     .then(() => readCompileInfo().then((tmp) => compileInfo = tmp))
-    .then(() => readJson("test-deps-01-expected.json").then((tmp) => expected = tmp))
     .then(() => {
-      assert.deepEqual(compileInfo.Parts, expected.Parts, "checking list of generated uris");
-      assert.deepEqual(compileInfo.EnvSettings, expected.EnvSettings, "checking generated environment settings")
+      // qx.util.format.DateFormat is included manually later on, so this needs to be not included automatically now
+      assert.ok(!hasClassDependency(compileInfo, "qx.util.format.DateFormat"), "qx.util.format.DateFormat is automatically included");
     })
     
+    /*
+     * Test manual include and exclude
+     */
     .then(() => {
       app.setExclude([ "qx.ui.layout.*" ]);
       app.setInclude([ "qx.util.format.DateFormat" ]);
@@ -80,34 +99,36 @@ test('Checks dependencies and environment settings', (assert) => {
     })
     .then(() => readCompileInfo().then((tmp) => compileInfo = tmp))
     .then(() => {
-      var foundDateFormat = false;
-      compileInfo.Parts.forEach((part) => {
-        part.classes.forEach((classname) => {
-          if (classname.indexOf("qx.ui.layout") > -1)
-            assert.ok(false, "qx.ui.layout is not excluded, found " + classname);
-        });
-        if (part.classes.indexOf("qx.util.format.DateFormat") > -1)
-          foundDateFormat = true;
-      });
-      assert.ok(foundDateFormat, "qx.util.format.DateFormat is not included");
+      assert.ok(!hasPackageDependency(compileInfo, "qx.ui.layout"), "qx.ui.layout.* was not excluded");
+      assert.ok(hasClassDependency(compileInfo, "qx.util.format.DateFormat"), "qx.util.format.DateFormat is not included");
+    })
+    // Undo the exclude/include
+    .then(() => {
+      app.setExclude([ ]);
+      app.setInclude([ ]);
+      return promisifyThis(maker.make, maker);
+    })
+    .then(() => readCompileInfo().then((tmp) => compileInfo = tmp))
+    .then(() => readDbJson().then((tmp) => db = tmp))
+    .then(() => readJson("source-output/transpiled/testapp/Application.json").then((tmp) => meta = tmp))
+    
+    /*
+     * Test class references in the property definition, eg annotation
+     */
+    .then(() => {
+      var ci = db.classInfo["testapp.Application"];
+      assert.ok(!!ci.dependsOn["testapp.anno.MyAnno"], "missing dependency on testapp.anno.MyAnno");
+      assert.ok(!!ci.dependsOn["testapp.anno.MyAnno"].load, "dependency on testapp.anno.MyAnno is not a load dependency");
     })
     
+    /*
+     * Test meta generation
+     */
     .then(() => {
-      return readJson("source-output/transpiled/testapp/Application.json")
-        .then((meta) => {
-          function deleteLocation(obj) {
-            if (typeof obj == "object") {
-              delete obj.location;
-              for (var name in obj)
-                deleteLocation(obj[name]);
-            }
-          }
-          deleteLocation(meta);
-          return readJson("test-deps-03-expected.json").then((expected) => {
-            deleteLocation(expected);
-            assert.deepEqual(meta, expected, "comparing meta data");
-          })
-        });
+      assert.equal(meta.className, "testapp.Application");
+      assert.equal(meta.packageName, "testapp");
+      assert.equal(meta.name, "Application");
+      assert.equal(meta.superClass, "qx.application.Standalone");
     })
     
     .then(() => assert.end())

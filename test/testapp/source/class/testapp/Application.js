@@ -33,6 +33,14 @@
 qx.Class.define("testapp.Application", {
   extend: qx.application.Standalone,
 
+  properties: {
+    annoProperty: {
+       "@": [new testapp.anno.MyAnno().set({ name: "hello" })],
+       "nullable": true,
+       "check": "String"
+    }
+  },
+  
   members: {
     /**
      * This method contains the initial application code and gets called during
