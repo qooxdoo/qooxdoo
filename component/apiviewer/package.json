@@ -8,7 +8,7 @@
     "url": "https://github.com/qooxdoo/qooxdoo"
   },
   "author": "The qooxdoo project",
-  "license": "LGPL/EPL",
+  "license": "MIT",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "devDependencies": {
     "grunt": "~0.4.2"

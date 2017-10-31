@@ -7,7 +7,7 @@
     "url": "git://github.com/qooxdoo/qooxdoo.git"
   },
   "licenses": [{
-    "type": "LGPL / EPL ",
+    "type": "MIT",
     "url": "http://qooxdoo.org/license"
   }],
   "engines": {

@@ -49,8 +49,6 @@ qx.Class.define("qx.event.Timer",
   {
     this.base(arguments);
 
-    this.setEnabled(false);
-
     if (interval != null) {
       this.setInterval(interval);
     }
@@ -153,7 +151,7 @@ qx.Class.define("qx.event.Timer",
      */
     enabled :
     {
-      init : true,
+      init : false,
       check : "Boolean",
       apply : "_applyEnabled"
     },

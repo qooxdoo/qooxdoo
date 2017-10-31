@@ -753,6 +753,11 @@ qx.Class.define("qx.ui.basic.Image",
       if (isFont) {
         var size;
 
+        // Don't use scale if size is set via postfix
+        if (this.getScale() && parseInt(source.split("/")[2], 10)) {
+          this.setScale(false);
+        }
+
         // Adjust size if scaling is applied
         if (this.getScale()) {
           var width = this.getWidth() || this.getHeight() || 40;
@@ -761,7 +766,10 @@ qx.Class.define("qx.ui.basic.Image",
         }
         else {
           var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
-          size = font.getSize();
+          if (qx.core.Environment.get("qx.debug")) {
+            this.assertObject(font, "Virtual image source contains unkown font descriptor");
+          }
+          size = parseInt(source.split("/")[2] || font.getSize(), 10);
         }
 
         // Default to something definitively numeric if nothing set
@@ -895,6 +903,13 @@ qx.Class.define("qx.ui.basic.Image",
       var isFont = source && qx.lang.String.startsWith(source, "@");
 
       if (isFont) {
+        var sparts = source.split("/");
+        var fontSource = source;
+        if (sparts.length > 2) {
+          fontSource = sparts[0] + "/" + sparts[1];
+        }
+
+
         var ResourceManager = qx.util.ResourceManager.getInstance();
         var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
         var fontStyles = qx.lang.Object.clone(font.getStyles());
@@ -909,10 +924,11 @@ qx.Class.define("qx.ui.basic.Image",
           el.setStyle("fontSize", (this.__width > this.__height ? this.__height : this.__width) + "px");
         }
         else {
-          el.setStyle("fontSize", font.getSize() + "px");
+          var size = parseInt(sparts[2] || qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]).getSize());
+          el.setStyle("fontSize", size + "px");
         }
 
-        var resource = ResourceManager.getData(source);
+        var resource = ResourceManager.getData(fontSource);
         if (resource) {
           el.setValue(String.fromCharCode(resource[2]));
         }

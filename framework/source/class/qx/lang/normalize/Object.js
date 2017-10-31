@@ -37,13 +37,39 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    keys : qx.Bootstrap.keys
+    keys : qx.Bootstrap.keys,
+
+    /**
+     * Get the values of a map as array
+     *
+     * @param map {Object} the map
+     * @return {Array} array of the values of the map
+     */
+    values : function(map) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+
+      var arr = [];
+      var keys = Object.keys(map);
+
+      for (var i=0, l=keys.length; i<l; i++) {
+        arr.push(map[keys[i]]);
+      }
+
+      return arr;
+    }
   },
 
   defer : function(statics) {
     // keys
     if (!qx.core.Environment.get("ecmascript.object.keys")) {
       Object.keys = statics.keys;
+    }
+
+    // values
+    if (!qx.core.Environment.get("ecmascript.object.values")) {
+      Object.values = statics.values;
     }
   }
 });
