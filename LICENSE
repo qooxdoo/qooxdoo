@@ -1,23 +1,9 @@
 qooxdoo Licensing Information
 =============================
 
-qooxdoo may be used under the terms of the
-
-  * The GNU Lesser General Public License (LGPL)
-    Version 2.1 or any later version
-
-    https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html
-
-  * Eclipse Public License (EPL)
-    Version 1.0 or any later version
-
-    https://www.eclipse.org/legal/epl-v10.html
+qooxdoo may be used under the terms of the terms of the MIT License.
 
 Individual components of qooxdoo may carry other (more liberal) licenses.
 See the individual source files for more information.
-
-We are working towards re-licensing all of the qooxdoo code under
-the MIT license. This re-licensing is almost complete. Only code
-copyrighted by STZ-IDA is still bound by the LGPL/EPL license.
 
 *EOF*
