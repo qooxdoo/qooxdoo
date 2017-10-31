@@ -2,7 +2,7 @@
   "name": "qxcompiler",
   "description": "node.js based replacement for the Qooxdoo python toolchain",
   "author": "John Spackman <john.spackman@zenesis.com>",
-  "version": "0.1.24",
+  "version": "0.1.25",
   "keywords": "qooxdoo compiler",
   "homepage": "https://github.com/qooxdoo/qxcompiler",
   "repository": {
@@ -12,25 +12,23 @@
   "license": "MIT",
   "dependencies": {
     "async": "^2.0.1",
-    "babel-core": "^6.24.1",
+    "babel-core": "^6.26.0",
     "babel-eslint": "^6.1.2",
-    "babel-generator": "^6.24.1",
+    "babel-generator": "^6.26.0",
     "babel-plugin-uglify": "^1.0.2",
     "babel-preset-es2015": "^6.24.1",
-    "babel-traverse": "^6.24.1",
-    "babel-types": "^6.24.1",
-    "babylon": "^6.17.2",
-    "chokidar": "^1.6.0",
-    "eslint": "^3.3.1",
+    "babel-traverse": "^6.26.0",
+    "babel-types": "^6.26.0",
+    "babylon": "^6.18.0",
+    "es6-promisify-all": "^0.1.0",
     "fontkit": "^1.7.7",
     "image-size": "^0.6.1",
     "jsonlint": "^1.6.2",
-    "mkdirp": "^0.5.1",
     "qooxdoo": "^5.0.1",
     "rimraf": "^2.6.2",
     "tmp": "0.0.33",
     "uglify-js": "^2.7.3",
-    "xml2js": "^0.4.17"
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "tape": "^4.8.0"
