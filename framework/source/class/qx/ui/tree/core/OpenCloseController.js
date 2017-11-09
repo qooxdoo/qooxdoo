@@ -99,22 +99,33 @@ qx.Class.define("qx.ui.tree.core.OpenCloseController",
     // event listener for model changes
     _onChangeBubble: function(ev)
     {
+      var index;
+      var item;
+      var isOpen;
       var bubble = ev.getData();
-      var modelPropRe;
 
-      // generate a regular expression that identifies model changes that
-      // pertain to the open state of a branch in the tree.
-      modelPropRe = new RegExp("\\." + this._tree.getOpenProperty() + "$");
-      
-      // open related? sync it back to the node item.
-      if (modelPropRe.test(bubble.name)) {
-        if (bubble.value && !this._tree.isNodeOpen(bubble.item)) {
-          this._tree.openNode(bubble.item);
+      // Extract the index of the current item
+      index = bubble.name.replace(/.*\[([0-9]+)\]$/, "$1");
+
+      // Retrieve that indexed array item if it's an array; otherwise the item itself
+      item = bubble.item.getItem ? bubble.item.getItem(index) : bubble.item;
+
+      // If this item isn't being deleted and has an open property...
+      if (item && qx.Class.hasProperty(item.constructor, this._tree.getOpenProperty())) {
+        // ... then find out if this branch is open
+        isOpen = item.get(this._tree.getOpenProperty());
+
+        // Open or close the tree branch as necessary
+        if (isOpen && !this._tree.isNodeOpen(item)) {
+          this._tree.openNode(item);
         }
-        else if (!bubble.value && this._tree.isNodeOpen(bubble.item)) {
-          this._tree.closeNode(bubble.item);
+        else if (! isOpen && this._tree.isNodeOpen(item)) {
+          this._tree.closeNode(item);
         }
       }
+
+      // Rebuild the internal lookup table
+      this._tree.refresh();
     }
   },
   

@@ -92,11 +92,36 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
       ];
 
       this.model = qx.data.marshal.Json.createModel(rawData, true);
-      this.setOpenProperty("open");
-      this.controller =
-        new qx.ui.tree.core.OpenCloseController(this, this.model, "open");
+
+      // Ensure that pushing onto the model works as well
+      var parentItem = qx.data.marshal.Json.createModel(
+        {
+          Name  : "New parent",
+          kids  : [],
+          open  : true
+        },
+        true);
+      this.model.getItem(0).getKids().push(parentItem);
+
+      var childItem = qx.data.marshal.Json.createModel(
+        {
+          Name  : "Child of new parent"
+        },
+        true);
+      parentItem.getKids().push(childItem);
+
+      childItem = qx.data.marshal.Json.createModel(
+        {
+          Name  : "Child of Root"
+        },
+        true);
+      this.model.getItem(0).getKids().push(childItem);
 
       this.nodesOpen = {};
+
+      this.setOpenProperty("open");
+      this.controller =
+        new qx.ui.tree.core.OpenCloseController(this, this.model.getItem(0));
     },
 
 
@@ -252,6 +277,11 @@ qx.Class.define("qx.test.ui.tree.virtual.OpenCloseController",
     },
 
     openNodeWithoutScrolling : function(node) {},
-    closeNodeWithoutScrolling : function(node) {}
+    closeNodeWithoutScrolling : function(node) {},
+
+    refresh : function()
+    {
+      // nothing to do
+    }
   }
 });
