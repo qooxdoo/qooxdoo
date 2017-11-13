@@ -22,13 +22,12 @@
 
 
 /**
- * @asset(abc/def/myicon.gif)
- */
-/**
  * Application used for unit testing.  Note that this app may not always run, intentionally,
  * because the unit tests will enable and disable features to test the compiler output. 
  * 
  * @asset(testapp/*)
+ * @asset(abc/def/myicon.gif)
+ * @require(qx.io.remote.Rpc)
  */
 qx.Class.define("testapp.Application", {
   extend: qx.application.Standalone,
