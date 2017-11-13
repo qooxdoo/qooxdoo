@@ -1,4 +1,47 @@
+# Customising Application Startup
+
+By default, the compiler will output a standard `index.html` into the application's output directory; this creates a vanilla output which is suitable for many applications, but does not provide any loading feedback and has a standard title.
+
+If you just want to change the title of the application web page, the easier way to do it is set the title on the Application object - if you're using the compiler API, see the `title` property of `qxcompiler.app.Application`, but if you're using `qx` command line tool modify your `compile.json` to look like this:
+
+```
+`
+{
+    /** Applications */
+    "applications": [
+        {
+            "class": "demoapp.Application",
+            "theme": "demoapp.theme.Theme",
+            "name": "demoapp",
+            "title": "My Demo Application"
+        }
+    ],
+```
+
+If you want to customise this further, you can replace the `index.html` with your own version by adding a template directory to your `Manifest.json` - in the `provides` object, add a new entry `boot` which contains the path to the directory (which is normally `"source/boot"`), for example:
+
+```
+    {
+        "provides": {
+            "namespace": "demoapp",
+            "encoding": "utf-8",
+            "class": "source/class",
+            "resource": "source/resource",
+            "translation": "source/translation",
+            "boot": "source/boot",
+            "type": "application"
+        },
+```
+
+
+# Custom index.html for your applications
+
+To customise the index.html which is generated, create a file called `boot/index.html` that will be used as a template.  The `boot/index.html` is copied verbatim, with the exception that the application's `boot.js` script is inserted before the close `</body>` - you can add whatever scripts you like, but do not try to link to the `boot.js`.
+
+
 # Splash Screens
+** NOTE ** It's fair to say that this is still a work in progress - although this treatment for SplashScreens works just fine, it is only able to update the UI as each individual script loads, which means that for a `build` target, nothing will appear because there is only one script file.
+
 Splash screens are an optional feature of the application loader in `qooxdoo-compiler` that will provide an attractive feedback with a progress bar all the way through your application's startup.
 
 By default, the loader does not provide any splash screen or progress bar; to add one, you need to replace the application's `.html` file with your own, and provide a global object called `QOOXDOO_SPLASH_SCREEN` that the boot loader can call during the boot process.
@@ -21,6 +64,7 @@ By default the chunks are 20% of the total number of scripts, but you can overri
 ## API
 
 `QOOXDOO_SPLASH_SCREEN` is a plain Javascript object that looks like this:
+
 ```
   window.QOOXDOO_SPLASH_SCREEN = {
     loadBegin: function(callback) {
