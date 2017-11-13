@@ -1,4 +1,8 @@
 source-output/
+db.json
+resource-db.json
+x.json
+y.json
 test-rotate-unique.txt
 test-rotate-unique.txt.1
 test-rotate-unique.txt.2

@@ -3,11 +3,11 @@
 /build/
 /test/
 /source/script/
+db.json
+resource-db.json
 
 # node-related files
 /node_modules
 npm-debug.log
 
 contrib/
-db.json
-resource-db.json
