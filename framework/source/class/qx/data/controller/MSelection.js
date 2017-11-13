@@ -300,9 +300,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
         // go through the controller selection
         for (var i = this.getSelection().length - 1; i >= 0; i--) {
           // if the item in the controller selection is not selected in the list
-          if (!qx.lang.Array.contains(
-            targetSelectionItems, this.getSelection().getItem(i)
-          )) {
+          if (!targetSelectionItems.includes(this.getSelection().getItem(i))) {
             // remove the current element and get rid of the return array
             this.getSelection().splice(i, 1).dispose();
           }

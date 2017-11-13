@@ -683,7 +683,7 @@ qx.Class.define("qx.data.controller.List",
       targetWidget.setUserData(targetProperty + "BindingId", id);
 
       // save the bound property
-      if (!qx.lang.Array.contains(this.__boundProperties, targetProperty)) {
+      if (!this.__boundProperties.includes(targetProperty)) {
         this.__boundProperties.push(targetProperty);
       }
     },
@@ -716,7 +716,7 @@ qx.Class.define("qx.data.controller.List",
       sourceWidget.setUserData(targetPath + "ReverseBindingId", id);
 
       // save the bound property
-      if (!qx.lang.Array.contains(this.__boundPropertiesReverse, targetPath)) {
+      if (!this.__boundPropertiesReverse.includes(targetPath)) {
         this.__boundPropertiesReverse.push(targetPath);
       }
     },

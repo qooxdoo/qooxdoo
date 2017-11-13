@@ -177,6 +177,16 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
+     * Checks if 'includes' is supported on the Array object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getArrayIncludes : function() {
+      return !!Array.prototype.includes;
+    },
+
+
+    /**
      * Checks if 'toString' is supported on the Error object and
      * its working as expected.
      * @internal
@@ -308,6 +318,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.array.every", statics.getArrayEvery);
     qx.core.Environment.add("ecmascript.array.reduce", statics.getArrayReduce);
     qx.core.Environment.add("ecmascript.array.reduceright", statics.getArrayReduceRight);
+    qx.core.Environment.add("ecmascript.array.includes", statics.getArrayIncludes);
 
     // date polyfill
     qx.core.Environment.add("ecmascript.date.now", statics.getDateNow);

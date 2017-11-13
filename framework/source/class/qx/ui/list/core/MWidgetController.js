@@ -307,7 +307,7 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
         }
       }
 
-      if (qx.lang.Array.contains(this.__boundItems, item)) {
+      if (this.__boundItems.includes(item)) {
         qx.lang.Array.remove(this.__boundItems, item);
       }
     },
@@ -346,11 +346,11 @@ qx.Mixin.define("qx.ui.list.core.MWidgetController",
     {
       var bindings = this.__getBindings(widget);
 
-      if (!qx.lang.Array.contains(bindings, id)) {
+      if (!bindings.includes(id)) {
         bindings.push(id);
       }
 
-      if (!qx.lang.Array.contains(this.__boundItems, widget)) {
+      if (!this.__boundItems.includes(widget)) {
         this.__boundItems.push(widget);
       }
     },
