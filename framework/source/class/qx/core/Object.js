@@ -39,6 +39,7 @@ qx.Class.define("qx.core.Object",
     "module.logger" : qx.core.MLogging,
     "module.events" : qx.core.MEvent,
     "module.property" : qx.core.MProperty,
+    "module.objectid" : qx.core.MObjectId,
     "qx.debug" : qx.core.MAssert
   }),
 
@@ -53,11 +54,11 @@ qx.Class.define("qx.core.Object",
    * Create a new instance
    */
   construct : function() {
-  	if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
-  		qx.core.ObjectRegistry.register(this);
-  	} else {
-  		qx.core.ObjectRegistry.toHashCode(this);
-  	}
+    	if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
+    		qx.core.ObjectRegistry.register(this);
+    	} else {
+    		qx.core.ObjectRegistry.toHashCode(this);
+    	}
   },
 
 
