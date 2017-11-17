@@ -54,8 +54,9 @@ qx.Class.define("qx.core.Id", {
      * @param obj {qx.core.Object} the object to register
      */
     register: function(id, obj) {
-      if (!this.__registeredObjects)
+      if (!this.__registeredObjects) {
         this.__registeredObjects = {};
+      }
       this.__registeredObjects[id] = obj;
     },
     
@@ -65,8 +66,9 @@ qx.Class.define("qx.core.Id", {
      * @param id {String} the ID to unregister the object
      */
     unregister: function(id) {
-      if (this.__registeredObjects)
+      if (this.__registeredObjects) {
         delete this.__registeredObjects[id];
+      }
       this.discardOwnedObject(id);
     }
   },

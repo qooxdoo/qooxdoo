@@ -18,6 +18,14 @@
 
 /**
  * A mixin providing objects by ID and owners.
+ * 
+ * The typical use of IDs is to override the `_createObjectImpl` method and create
+ * new instances on demand; all code should access these instances by calling
+ * `getObject`.
+ * 
+ *  It is possible to move objects between owners, provided that you remove the
+ *  object from it's original owner by calling `discardOwnedObject` and then adding
+ *  it to the new owner with `addOwnedObject`.
  */
 qx.Mixin.define("qx.core.MObjectId", {
   
@@ -56,6 +64,7 @@ qx.Mixin.define("qx.core.MObjectId", {
   members: {
     
     __ownedObjects: null,
+    __changingOwner: false,
 
     /**
      * apply owner id
