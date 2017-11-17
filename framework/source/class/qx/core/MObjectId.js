@@ -22,10 +22,6 @@
  * The typical use of IDs is to override the `_createObjectImpl` method and create
  * new instances on demand; all code should access these instances by calling
  * `getObject`.
- * 
- *  It is possible to move objects between owners, provided that you remove the
- *  object from it's original owner by calling `discardOwnedObject` and then adding
- *  it to the new owner with `addOwnedObject`.
  */
 qx.Mixin.define("qx.core.MObjectId", {
   
@@ -163,6 +159,11 @@ qx.Mixin.define("qx.core.MObjectId", {
       if (!this.__ownedObjects) {
         this.__ownedObjects = {};
       }
+      var thatOwner = obj.getOwner();
+      if (thatOwner === this)
+        return;
+      if (thatOwner)
+        thatOwner.removeOwnedObject(obj);
       var id = obj.getObjectId();
       if (!id) {
         throw new Error("Cannot register an object that has no ID, obj=" + obj);
@@ -188,7 +189,7 @@ qx.Mixin.define("qx.core.MObjectId", {
      * 
      * @param id {String|Object} the ID of the object to discard, or the object itself
      */
-    discardOwnedObject: function(id) {
+    removeOwnedObject: function(id) {
       if (!this.__ownedObjects) {
         throw new Error("Cannot discard object because it is not owned by this, this=" + this + ", object=" + obj);
       }
@@ -198,8 +199,8 @@ qx.Mixin.define("qx.core.MObjectId", {
           throw new Error("Cannot discard owned objects based on a path");
         }
         var obj = this.__ownedObjects[id];
-        if (!obj) {
-          throw new Error("Cannot discard object with ID=" + id + " because it is not owned by this object");
+        if (obj === undefined) {
+          return;
         }
       } else {
         var obj = id;
@@ -209,11 +210,13 @@ qx.Mixin.define("qx.core.MObjectId", {
         }
       }
 
-      obj.__changingOwner = true;
-      try {
-        obj.setOwner(null);
-      } finally {
-        obj.__changingOwner = false;
+      if (obj !== null) {
+        obj.__changingOwner = true;
+        try {
+          obj.setOwner(null);
+        } finally {
+          obj.__changingOwner = false;
+        }
       }
       delete this.__ownedObjects[id];
     },

@@ -47,7 +47,7 @@ qx.Class.define("qx.test.core.ObjectId", {
       this.assertTrue(Id.getObject("test") === obj);
       this.assertTrue(Id.getObject("test/txt") === txt);
       
-      obj.discardOwnedObject(txt);
+      obj.removeOwnedObject(txt);
       var txt2 = obj.getObject("txt");
       this.assertTrue(txt !== txt2);
       this.assertTrue(txt2 === obj.getObject("txt"));
@@ -55,6 +55,11 @@ qx.Class.define("qx.test.core.ObjectId", {
       txt.setObjectId("txt-orig");
       obj.addOwnedObject(txt);
       this.assertTrue(txt === obj.getObject("txt-orig"));
+
+      var obj2 = new demo.MyClass();
+      obj2.addOwnedObject(txt);
+      this.assertTrue(obj.getObject("txt-orig") === undefined);
+      this.assertTrue(obj2.getObject("txt-orig") === txt);
       
       Id.unregister("test");
       this.assertTrue(!Id.getObject("test"));
