@@ -148,103 +148,92 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
 
         parent = this._getParent(parent);
       }
-
-
+      
+      var self = this;
+      var tracker = {};
+      
       // capturing phase
       // loop through the hierarchy in reverted order (from root)
       event.setEventPhase(qx.event.type.Event.CAPTURING_PHASE);
-      for (var i=captureList.length-1; i>=0; i--)
-      {
+      
+      captureList.forEach(function(localList, i) {
         currentTarget = captureTargets[i];
         event.setCurrentTarget(currentTarget);
-
-        localList = captureList[i];
-        for (var j=0, jl=localList.length; j<jl; j++)
-        {
-          listener = localList[j];
+        localList.forEach(function(listener) {
           context = listener.context || currentTarget;
 
           if (qx.core.Environment.get("qx.debug")) {
             // warn if the context is disposed
             if (context && context.isDisposed && context.isDisposed()) {
-              this.warn(
+              self.warn(
                 "The context object '" + context + "' for the event '" +
                 type + "' of '" + currentTarget + "'is already disposed."
               );
             }
           }
-          if (!this._manager.isBlacklisted(listener.unique)) {
-            listener.handler.call(context, event);
+          if (!self._manager.isBlacklisted(listener.unique)) {
+            if (qx.event.Utils.callListener(tracker, listener, context, event) === qx.event.Utils.ABORT) {
+              return;
+            }
           }
-        }
-
-        if (event.getPropagationStopped()) {
-          return;
-        }
-      }
-
+        });
+      });
+      
 
       // at target
-      event.setEventPhase(qx.event.type.Event.AT_TARGET);
-      event.setCurrentTarget(target);
-      for (var i=0, il=targetList.length; i<il; i++)
-      {
-        localList = targetList[i];
-        for (var j=0, jl=localList.length; j<jl; j++)
-        {
-          listener = localList[j];
+      qx.event.Utils.fastThen(tracker, function() {
+        event.setEventPhase(qx.event.type.Event.AT_TARGET);
+        event.setCurrentTarget(target);
+      });
+      targetList.forEach(function(localList) {
+        localList.forEach(function(listener) {
           context = listener.context || target;
 
           if (qx.core.Environment.get("qx.debug")) {
             // warn if the context is disposed
             if (context && context.isDisposed && context.isDisposed()) {
-              this.warn(
+              self.warn(
                 "The context object '" + context + "' for the event '" +
                 type + "' of '" + target + "'is already disposed."
               );
             }
           }
 
-          listener.handler.call(context, event);
-        }
-
-        if (event.getPropagationStopped()) {
-          return;
-        }
-      }
-
+          if (qx.event.Utils.callListener(tracker, listener, context, event) === qx.event.Utils.ABORT) {
+            return;
+          }
+        });
+      });
 
       // bubbling phase
       // loop through the hierarchy in normal order (to root)
-      event.setEventPhase(qx.event.type.Event.BUBBLING_PHASE);
-      for (var i=0, il=bubbleList.length; i<il; i++)
-      {
+      qx.event.Utils.fastThen(tracker, function() {
+        event.setEventPhase(qx.event.type.Event.BUBBLING_PHASE);
+      });
+      bubbleList.forEach(function(localList, i) {
         currentTarget = bubbleTargets[i];
         event.setCurrentTarget(currentTarget);
-
-        localList = bubbleList[i];
-        for (var j=0, jl=localList.length; j<jl; j++)
-        {
-          listener = localList[j];
+        
+        localList.forEach(function(listener) {
           context = listener.context || currentTarget;
 
           if (qx.core.Environment.get("qx.debug")) {
             // warn if the context is disposed
             if (context && context.isDisposed && context.isDisposed()) {
-              this.warn(
+              self.warn(
                 "The context object '" + context + "' for the event '" +
                 type + "' of '" + currentTarget + "'is already disposed."
               );
             }
           }
 
-          listener.handler.call(context, event);
-        }
-
-        if (event.getPropagationStopped()) {
-          return;
-        }
-      }
+          if (qx.event.Utils.callListener(tracker, listener, context, event) === qx.event.Utils.ABORT) {
+            return;
+          }
+        });
+      });
+      
+      return tracker.promise;
     }
   }
 });
