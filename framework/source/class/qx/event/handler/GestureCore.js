@@ -612,6 +612,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      * @param domEvent {Event} DOM event
      * @param type {String} type of the event
      * @param target {Element ? null} event target
+     * @return {qx.Promise?} a promise, if one or more of the event handlers returned a promise
      */
     _fireEvent : function(domEvent, type, target) {
       // The target may have been removed, e.g. menu hide on tap
@@ -629,7 +630,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
           pointerType: domEvent.pointerType,
           momentum : domEvent.momentum
         });
-        target.dispatchEvent(evt);
+        return target.dispatchEvent(evt);
       } else if (this.__emitter) {
         evt = new qx.event.type.dom.Custom(type, domEvent, {
           target : this.__defaultTarget,
