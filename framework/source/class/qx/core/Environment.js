@@ -830,6 +830,10 @@
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
+ *       <td>module.objectid</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><h3>Asynchronous checks</h3>
  *       </td>
  *     </tr>
@@ -893,6 +897,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "module.logger": true,
       "module.property": true,
       "module.events": true,
+      "module.objectid": true,
       "qx.nativeScrollBars": false,
       "qx.automaticMemoryManagement": true,
       "qx.promise": true,
