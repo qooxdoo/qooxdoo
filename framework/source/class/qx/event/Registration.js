@@ -265,7 +265,7 @@ qx.Class.define("qx.event.Registration",
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *       object must be obtained using {@link #createEvent} and initialized
      *       using {@link qx.event.type.Event#init}.
-     * @return {Boolean} whether the event default was prevented or not.
+     * @return {Boolean|qx.Promise} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      */
     dispatchEvent : function(target, event) {
@@ -306,25 +306,54 @@ qx.Class.define("qx.event.Registration",
 
     /**
      * Create an event object and dispatch it on the given target.
+     * 
+     * Note about Promises in v6.0: this method has changed to return either a boolean (true if the
+     * event was prevented) or a promise which will evaluate to the same thing; this is
+     * because events are now asynchronous and preventDefault is inherently synchronous.
+     * However, although this changing in the return type is conspicuous it does not necessarily
+     * introduce a backwards compatibility issue because the "truthy" nature of the return
+     * is preserved.  Code which needs to take care of asynchronous issues will need to change,
+     * but that was necessary anyway, and it is rare to use the return value of this method (only
+     * one class in Qooxdoo used it).  
      *
      * @param target {Object} Any valid event target
      * @param type {String} Event type to fire
      * @param clazz {Class?qx.event.type.Event} The event class
      * @param args {Array?null} Arguments, which will be passed to
      *       the event's init method.
-     * @return {Boolean} whether the event default was prevented or not.
+     * @return {Boolean|qx.Promise} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      * @see #createEvent
      */
     fireEvent : function(target, type, clazz, args)
     {
-      var evt = this.__fireEvent.apply(this, arguments);
+      if (qx.core.Environment.get("qx.debug"))
+      {
+        if (arguments.length > 2 && clazz === undefined && args !== undefined) {
+          throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
+        }
+
+        var msg = "Could not fire event '" + type + "' on target '" + (target ? target.classname : "undefined") +"': ";
+
+        qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.");
+        qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
+      }
+
+      var evt = this.createEvent(type, clazz||null, args);
+      var promise = this.getManager(target).dispatchEvent(target, evt);
+      if (promise instanceof qx.Promise) {
+        return promise.then(function() {
+          return !evt.getDefaultPrevented();
+        });
+      }
+      
       return !evt.getDefaultPrevented();
     },
 
 
     /**
-     * Create an event object and dispatch it on the given target.
+     * Create an event object and dispatch it on the given target; equivalent to fireEvent, except that it
+     * always returns a promise 
      *
      * @param target {Object} Any valid event target
      * @param type {String} Event type to fire
@@ -337,8 +366,7 @@ qx.Class.define("qx.event.Registration",
      */
     fireEventAsync : function(target, type, clazz, args)
     {
-      var evt = this.__fireEvent.apply(this, arguments);
-      return evt.promise();
+      return qx.Promise.resolve(this.fireEvent(target, type, clazz, args));
     },
 
 

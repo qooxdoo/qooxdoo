@@ -46,6 +46,7 @@ qx.Interface.define("qx.event.IEventDispatcher",
      * @param target {Element|Event} The event dispatch target
      * @param event {qx.event.type.Event} event object to dispatch
      * @param type {String} the event type
+     * @return {qx.Promise?} a promise, if one or more of the event handlers returned a promise
      */
     dispatchEvent : function(target, event, type)
     {
