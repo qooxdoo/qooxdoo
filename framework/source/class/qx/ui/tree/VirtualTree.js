@@ -80,7 +80,7 @@
  *   // to nodes being open
  *   var tree =
  *     new qx.ui.tree.VirtualTree(
- *       nodes.getItem(0), "name", "children", "open", nodes).set({
+ *       nodes.getItem(0), "name", "children", "open").set({
  *         width : 200,
  *         height : 400
  *       });
@@ -149,16 +149,10 @@ qx.Class.define("qx.ui.tree.VirtualTree",
    *   more details have a look at the 'childProperty' property.
    * @param openProperty {String|null} the name of the model property which
    *   represents the open state of a branch. If this value is provided, so, 
-   *   too, must be fullModel.
-   * @param fullModel {qx.data.Array?}
-   *   The model which represents the tree. This is not the same value as
-   *   rootModel. rootModel is the model of the root item of the tree. What's
-   *   required here is the full data array which is the model of the whole
-   *   tree. Often, rootItem provided as model.getItem(0), where as fullModel
-   *   would be provided as model.
+   *   too, must be rootModel.
    */
   construct : function(
-    rootModel, labelPath, childProperty, openProperty, fullModel)
+    rootModel, labelPath, childProperty, openProperty)
   {
     this.base(arguments, 0, 1, 20, 100);
 
@@ -181,10 +175,9 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     this.addListener("keypress", this._onKeyPress, this);
 
-    // If an open property and full model are provided, start up the
-    // open-close controller.
-    if (openProperty && fullModel) {
-      this.openViaModelChanges(openProperty, fullModel);
+    // If an open property and root model are provided, start up the open-close controller.
+    if (openProperty && rootModel) {
+      this.openViaModelChanges(openProperty);
     }
   },
 
@@ -541,15 +534,8 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      *   The name of the open property, which determines the open state of a
      *   branch in the tree. If null, turn off opening and closing branches
      *   via changes to the model.
-     * 
-     * @param fullModel {qx.data.Array?}
-     *   The model which represents the tree. (Note that this is not the same
-     *   value which was passed to the constructor or to setModel(). That is
-     *   the model of the root item of the tree. What's required here is the
-     *   full data array which is the model of the whole tree.) If
-     *   openProperty is non-null, this model must be provided.
      */
-    openViaModelChanges : function(openProperty, fullModel) {
+    openViaModelChanges : function(openProperty) {
       // Save the open property
       this.__openProperty = openProperty;
 
@@ -565,7 +551,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
       // we have a property name, so create controller
       this._openCloseController =
-        new qx.ui.tree.core.OpenCloseController(this, fullModel, openProperty);
+        new qx.ui.tree.core.OpenCloseController(this, this.getModel(), openProperty);
     },
 
 
