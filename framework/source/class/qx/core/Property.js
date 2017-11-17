@@ -1857,7 +1857,8 @@ qx.Bootstrap.define("qx.core.Property",
           "}");
       } else {
         code.push(
-          "function fire() {");
+          "function fire() {",
+          "  var tracker={};");
             
         // Fire event
         if (config.event) {
@@ -1865,11 +1866,13 @@ qx.Bootstrap.define("qx.core.Property",
               "var reg=qx.event.Registration;",
               
               "if(reg.hasListener(this, '", config.event, "'))",
-                "reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", ");");
+                "qx.event.Utils.track(tracker, reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", "));");
           if (qx.core.Environment.get("qx.promise")) {
             code.push(
                 "if(reg.hasListener(this, '", config.event, "Async'))",
-                  "reg.fireEventAsync(this, '", config.event, "Async', qx.event.type.Data, [qx.Promise.resolve(computed), old]", ");"
+                  "qx.event.Utils.fastThen(tracker, function() {\n" +
+                  "  return reg.fireEventAsync(this, '", config.event, "Async', qx.event.type.Data, [qx.Promise.resolve(computed), old]", ");\n" +
+                  "});"
                 );
           }
         }
@@ -1885,6 +1888,8 @@ qx.Bootstrap.define("qx.core.Property",
         }
         
         code.push(
+            "if (tracker.promise)\n",
+            "  return tracker.promise.then(function() { return computed; });",
             "return computed;",
           "}");
       }

@@ -207,12 +207,27 @@ qx.Class.define("qx.event.type.Drag",
 
     /**
      * Returns the data of the given type. Used in the <code>drop</code> listener.
+     * 
+     * Note that this is a synchronous method and if any of the drag and drop 
+     * events handlers are implemented using Promises, this may fail; @see
+     * `getDataAsync`.
      *
      * @param type {String} Any of the supported types.
      * @return {var} The data for the given type
      */
     getData : function(type) {
       return this.getManager().getData(type);
+    },
+
+
+    /**
+     * Returns the data of the given type. Used in the <code>drop</code> listener.
+     * 
+     * @param type {String} Any of the supported types.
+     * @return {qx.Promise(var)} The data for the given type
+     */
+    getDataAsync : function(type) {
+      return this.getManager().getDataAsync(type);
     },
 
 

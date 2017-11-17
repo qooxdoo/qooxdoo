@@ -334,13 +334,14 @@ qx.Class.define("qx.event.handler.Focus",
      * @param related {Element} DOM element which is the related target
      * @param type {String} Name of the event to fire
      * @param bubbles {Boolean} Whether the event should bubble
+     * @return {qx.Promise?} a promise, if one or more of the event handlers returned a promise
      */
     __fireEvent : function(target, related, type, bubbles)
     {
       var Registration = qx.event.Registration;
 
       var evt = Registration.createEvent(type, qx.event.type.Focus, [target, related, bubbles]);
-      Registration.dispatchEvent(target, evt);
+      return Registration.dispatchEvent(target, evt);
     },
 
     /*
