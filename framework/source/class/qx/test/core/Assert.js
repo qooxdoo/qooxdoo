@@ -153,6 +153,34 @@ qx.Class.define("qx.test.core.Assert",
           this.fireEvent("xyz1");
         });
       }, qx.core.AssertionError);
+    },
+
+    testAssertEqualsFloat : function()
+    {
+      this.assertEqualsFloat(1.0, 1.0);
+      this.assertEqualsFloat(1.0, 1.009);
+      this.assertEqualsFloat(1.0, 0.991);
+
+      this.assertException(function() {
+        qx.core.Assert.assertEqualsFloat(1.0, 1.01);
+      }, qx.core.AssertionError);
+
+      this.assertException(function() {
+        qx.core.Assert.assertEqualsFloat(1.0, 0.09);
+      }, qx.core.AssertionError);
+
+      // custom precision
+      this.assertEqualsFloat(-5.5, -5.5, 0.2);
+      this.assertEqualsFloat(-5.5, -5.69, 0.2);
+      this.assertEqualsFloat(-5.5, -5.31, 0.2);
+
+      this.assertException(function() {
+        qx.core.Assert.assertEqualsFloat(-5.5, -5.7);
+      }, qx.core.AssertionError);
+
+      this.assertException(function() {
+        qx.core.Assert.assertEqualsFloat(-5.5, -5.3);
+      }, qx.core.AssertionError);
     }
   }
 });

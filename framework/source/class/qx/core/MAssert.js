@@ -99,6 +99,21 @@ qx.Mixin.define("qx.core.MAssert",
       qx.core.Assert.assertNotEquals(expected, found, msg);
     },
 
+
+    /**
+     * Assert that both float values are equal within the given tolerance. This might be needed because of the natural
+     * floating point inaccuracy of computers.
+     *
+     * @param expected {Float} Reference value
+     * @param found {Float} Found value
+     * @param precision {Float ? 0.01} Value by which expected and found may differ
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertEqualsFloat : function(expected, found, precision, msg) {
+      qx.core.Assert.assertEqualsFloat(expected, found, precision, msg);
+    },
+
+
     /**
      * Assert that both values are identical. (Uses the identity operator
      * <code>===</code>.)
