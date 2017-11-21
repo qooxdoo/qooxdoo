@@ -5,16 +5,16 @@
    http://qooxdoo.org
 
    Copyright:
-     2007-2008 1&1 Internet AG, Germany, http://www.1und1.de
+     2017 Zenesis Limited, http://www.zenesis.com
 
    License:
      MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
- * Fabian Jakobs (fjakobs)
+     * John Spackman (john.spackman@zenesis.com, @johnspackman)
 
- ************************************************************************ */
+************************************************************************ */
 
 /**
  * @ignore(demo.MyClass)
