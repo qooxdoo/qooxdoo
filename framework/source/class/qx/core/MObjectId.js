@@ -79,15 +79,17 @@ qx.Mixin.define("qx.core.MObjectId", {
         throw new Error("Please use API methods to change owner ID, not the property");
       }
       
-      if (typeof this.getContentElement == "function") {
-        var contentElement = this.getContentElement();
-        
-        if (oldValue) {
-          contentElement.removeAttribute("data-object-id");
-        }
-        
-        if (value) {
-          contentElement.setAttribute("data-object-id", value);
+      if (qx.core.Environment.get("qx.debug")) {
+        if (typeof this.getContentElement == "function") {
+          var contentElement = this.getContentElement();
+          
+          if (oldValue) {
+            contentElement.removeAttribute("data-object-id");
+          }
+          
+          if (value) {
+            contentElement.setAttribute("data-object-id", value);
+          }
         }
       }
     },
