@@ -69,7 +69,7 @@ qx.Class.define("qx.core.Id", {
       if (this.__registeredObjects) {
         delete this.__registeredObjects[id];
       }
-      this.discardOwnedObject(id);
+      this.removeOwnedObject(id);
     }
   },
   
