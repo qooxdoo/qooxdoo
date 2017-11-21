@@ -67,7 +67,7 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
       var supported = this.__support[qx.core.Environment.get("engine.name")] || [];
       for (var i=0, l=allValues.length; i<l; i++) {
         qx.bom.element.BoxSizing.set(this.__el, allValues[i]);
-        if (qx.lang.Array.contains(supported, allValues[i])) {
+        if (supported.includes(allValues[i])) {
           this.assertEquals(supported[i], qx.bom.element.BoxSizing.get(this.__el),
             "supported boxSizing value was not applied!");
         }

@@ -172,10 +172,10 @@ qx.Class.define("qx.test.lang.Array",
       var a = [ -3, -2, -1, 0, 1, 2, 3 ];
       var da = new qx.data.Array(a);
 
-      this.assertTrue(qx.lang.Array.contains(a, -2));
-      this.assertFalse(qx.lang.Array.contains(a, -10));
-      this.assertTrue(qx.lang.Array.contains(da, -2));
-      this.assertFalse(qx.lang.Array.contains(da, -10));
+      this.assertTrue(a.includes(-2));
+      this.assertFalse(a.includes(-10));
+      this.assertTrue(da.includes(-2));
+      this.assertFalse(da.includes(-10));
       
       da.dispose();
     },

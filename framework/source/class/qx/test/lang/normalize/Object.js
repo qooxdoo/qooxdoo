@@ -45,8 +45,8 @@ qx.Class.define("qx.test.lang.normalize.Object",
 
       var keys = Object.keys(objB);
       this.assertEquals(1, keys.length, "Expected length wrong!");
-      this.assertFalse(qx.lang.Array.contains(keys, "A"), "Test property A!");
-      this.assertTrue(qx.lang.Array.contains(keys, "B"), "Test property B!");
+      this.assertFalse(keys.includes("A"), "Test property A!");
+      this.assertTrue(keys.includes("B"), "Test property B!");
     },
 
 
@@ -61,13 +61,13 @@ qx.Class.define("qx.test.lang.normalize.Object",
       obj.prototype = function() {};
 
       var keys = Object.keys(obj);
-      this.assertTrue(qx.lang.Array.contains(keys, "isPrototypeOf"), "Test isPrototypeOf");
-      this.assertTrue(qx.lang.Array.contains(keys, "hasOwnProperty"), "Test hasOwnProperty");
-      this.assertTrue(qx.lang.Array.contains(keys, "toLocaleString"), "Test toLocaleString");
-      this.assertTrue(qx.lang.Array.contains(keys, "toString"), "Test toString");
-      this.assertTrue(qx.lang.Array.contains(keys, "valueOf"), "Test valueOf");
-      this.assertTrue(qx.lang.Array.contains(keys, "constructor"), "Test constructor");
-      this.assertTrue(qx.lang.Array.contains(keys, "prototype"), "Test prototype");
+      this.assertTrue(keys.includes("isPrototypeOf"), "Test isPrototypeOf");
+      this.assertTrue(keys.includes("hasOwnProperty"), "Test hasOwnProperty");
+      this.assertTrue(keys.includes("toLocaleString"), "Test toLocaleString");
+      this.assertTrue(keys.includes("toString"), "Test toString");
+      this.assertTrue(keys.includes("valueOf"), "Test valueOf");
+      this.assertTrue(keys.includes("constructor"), "Test constructor");
+      this.assertTrue(keys.includes("prototype"), "Test prototype");
     },
 
     testGetValues : function()

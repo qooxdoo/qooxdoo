@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
             "repeat-y",
             "no-repeat"
           ];
-        return qx.lang.Array.contains(valid, value);
+        return valid.includes(value);
       },
       init  : "no-repeat"
     }

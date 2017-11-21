@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
     {
       var temp = null;
 
-      if (qx.lang.Array.contains(this.numericAllowed, condition))
+      if (this.numericAllowed.includes(condition))
       {
         if (value1 != null) {
           temp = [condition, align, color, style, weight, value1, target];
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      */
     addBetweenCondition : function(condition, value1, value2, align, color, style, weight, target)
     {
-      if (qx.lang.Array.contains(this.betweenAllowed, condition))
+      if (this.betweenAllowed.includes(condition))
       {
         if (value1 != null && value2 != null) {
           var temp = [condition, align, color, style, weight, value1, value2, target];
@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
       {
         cond_test = false;
 
-        if (qx.lang.Array.contains(this.numericAllowed, this.conditions[i][0]))
+        if (this.numericAllowed.includes(this.conditions[i][0]))
         {
           if (this.conditions[i][6] == null) {
             compareValue = cellInfo.value;
@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
               break;
           }
         }
-        else if (qx.lang.Array.contains(this.betweenAllowed, this.conditions[i][0]))
+        else if (this.betweenAllowed.includes(this.conditions[i][0]))
         {
           if (this.conditions[i][7] == null) {
             compareValue = cellInfo.value;

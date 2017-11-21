@@ -232,7 +232,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
       {
         item = arguments[i];
 
-        if (qx.lang.Array.contains(items, item)) {
+        if (items.includes(item)) {
           continue;
         }
 
@@ -269,7 +269,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
       var groupedProperty = this.getGroupedProperty();
       var groupedPropertyUp = qx.lang.String.firstUp(groupedProperty);
 
-      if (qx.lang.Array.contains(items, item))
+      if (items.includes(item))
       {
         // Remove RadioButton from array
         qx.lang.Array.remove(items, item);

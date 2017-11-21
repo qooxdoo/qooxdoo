@@ -693,7 +693,7 @@ qx.Class.define("qx.data.controller.Tree",
       }
 
       // save the bound property
-      if (!qx.lang.Array.contains(this.__boundProperties, targetPath)) {
+      if (!this.__boundProperties.includes(targetPath)) {
         this.__boundProperties.push(targetPath);
       }
     },
@@ -744,7 +744,7 @@ qx.Class.define("qx.data.controller.Tree",
       }
 
       // save the bound property
-      if (!qx.lang.Array.contains(this.__boundProperties, sourcePath)) {
+      if (!this.__boundProperties.includes(sourcePath)) {
         this.__boundProperties.push(sourcePath);
       }
     },

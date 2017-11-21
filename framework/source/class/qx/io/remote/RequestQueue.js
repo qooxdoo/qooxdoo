@@ -496,7 +496,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
       if (vTransport) {
         vTransport.abort();
-      } else if (qx.lang.Array.contains(this.__queue, vRequest)) {
+      } else if (this.__queue.includes(vRequest)) {
         qx.lang.Array.remove(this.__queue, vRequest);
       }
     }
