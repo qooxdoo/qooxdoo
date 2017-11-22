@@ -4930,4 +4930,4 @@ return sinon;}.call(typeof window != 'undefined' && window || {}));
   };
 
 
-}).call(this);
+}).call(window);
