@@ -172,7 +172,7 @@ qx.Class.define("qx.test.core.Assert",
       this.assertException(function() {
           qx.core.Assert.assertEqualsFloat(1.5, 1.6);
         }, qx.core.AssertionError,
-        "Expected '1.5' to be equal with '1.6' regarding the precision inefficiencies of floats!"
+        "Expected '1.5' to be equal with '1.6'!"
       );
     }
   }

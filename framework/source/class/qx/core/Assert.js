@@ -212,13 +212,9 @@ qx.Bootstrap.define("qx.core.Assert",
       this.assertNumber(expected);
       this.assertNumber(found);
 
-      var diff = Math.abs(expected - found);
-
-      // The maximum of both numbers multiplied by 1e-14 is the relative difference
-      diff < Number.EPSILON ||
-        diff <= Math.max(Math.abs(expected), Math.abs(found)) * 1e-14 ||
+      qx.lang.Number.equals(expected, found) ||
         this.__fail(msg || "", "Expected '", expected, "' to be equal with '",
-        found, "' regarding the precision inefficiencies of floats!"
+        found, "'!"
       );
     },
 
