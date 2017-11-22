@@ -91,9 +91,12 @@ qx.Class.define("qx.lang.Number",
         qx.core.Assert.assertNumber(y);
       }
 
-      // 1e-14 is the relative difference
+      // 2e-52 is the difference between 1 and the smallest floating point
+      // number greater than 1, like Number.EPSILON, but that is not supported
+      // by all browsers.
+      // 1e-14 is the relative difference.
       return x === y ||
-             Math.abs(x - y) < Number.EPSILON ||
+             Math.abs(x - y) < 2e-52 ||
              Math.abs(x - y) <= Math.max(Math.abs(x), Math.abs(y)) * 1e-14;
     }
   }
