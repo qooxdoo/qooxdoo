@@ -91,12 +91,14 @@ qx.Class.define("qx.lang.Number",
         qx.core.Assert.assertNumber(y);
       }
 
-      // 2e-52 is the difference between 1 and the smallest floating point
-      // number greater than 1, like Number.EPSILON, but that is not supported
-      // by all browsers.
+      // Number.EPSILON (which is 2e-52) is the difference between 1 and the
+      // smallest floating point number greater than 1. Unfortunately, it is
+      // not supported by all browsers.
+      var epsilon = Number.EPSILON !== undefined ? Number.EPSILON : 2e-52;
+
       // 1e-14 is the relative difference.
       return x === y ||
-             Math.abs(x - y) < 2e-52 ||
+             Math.abs(x - y) < epsilon ||
              Math.abs(x - y) <= Math.max(Math.abs(x), Math.abs(y)) * 1e-14;
     }
   }
