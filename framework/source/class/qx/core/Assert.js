@@ -205,23 +205,20 @@ qx.Bootstrap.define("qx.core.Assert",
      *
      * @param expected {Float} Reference value
      * @param found {Float} Found value
-     * @param precision {Float ? 0.01} Value by which expected and found may
-     *   differ
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertEqualsFloat : function(expected, found, precision, msg)
+    assertEqualsFloat : function(expected, found, msg)
     {
       this.assertNumber(expected);
       this.assertNumber(found);
-      if (!qx.lang.Type.isNumber(precision)) {
-        precision = 0.01;
-      }
 
-      Math.abs(expected - found) < precision || this.__fail(
-        msg || "",
-        "Expected '", expected,
-        "' to be equal with '", found, "' within the precision of '",
-        precision, "'!"
+      var diff = Math.abs(expected - found);
+
+      // The maximum of both numbers multiplied by 1e-14 is the relative difference
+      diff < Number.EPSILON ||
+        diff <= Math.max(Math.abs(expected), Math.abs(found)) * 1e-14 ||
+        this.__fail(msg || "", "Expected '", expected, "' to be equal with '",
+        found, "' regarding the precision inefficiencies of floats!"
       );
     },
 

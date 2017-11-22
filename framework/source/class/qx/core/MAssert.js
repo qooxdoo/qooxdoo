@@ -106,11 +106,10 @@ qx.Mixin.define("qx.core.MAssert",
      *
      * @param expected {Float} Reference value
      * @param found {Float} Found value
-     * @param precision {Float ? 0.01} Value by which expected and found may differ
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertEqualsFloat : function(expected, found, precision, msg) {
-      qx.core.Assert.assertEqualsFloat(expected, found, precision, msg);
+    assertEqualsFloat : function(expected, found, msg) {
+      qx.core.Assert.assertEqualsFloat(expected, found, msg);
     },
 
 

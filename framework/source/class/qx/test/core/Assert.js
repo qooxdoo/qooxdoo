@@ -158,29 +158,22 @@ qx.Class.define("qx.test.core.Assert",
     testAssertEqualsFloat : function()
     {
       this.assertEqualsFloat(1.0, 1.0);
-      this.assertEqualsFloat(1.0, 1.009);
-      this.assertEqualsFloat(1.0, 0.991);
+      this.assertEqualsFloat(0.3, 0.1 + 0.2);
 
       this.assertException(function() {
-        qx.core.Assert.assertEqualsFloat(1.0, 1.01);
+        qx.core.Assert.assertEqualsFloat(1.0, 1.0000001);
       }, qx.core.AssertionError);
 
       this.assertException(function() {
-        qx.core.Assert.assertEqualsFloat(1.0, 0.09);
+        qx.core.Assert.assertEqualsFloat(1.0, 0.0000009);
       }, qx.core.AssertionError);
 
-      // custom precision
-      this.assertEqualsFloat(-5.5, -5.5, 0.2);
-      this.assertEqualsFloat(-5.5, -5.69, 0.2);
-      this.assertEqualsFloat(-5.5, -5.31, 0.2);
-
+      // test error message
       this.assertException(function() {
-        qx.core.Assert.assertEqualsFloat(-5.5, -5.7);
-      }, qx.core.AssertionError);
-
-      this.assertException(function() {
-        qx.core.Assert.assertEqualsFloat(-5.5, -5.3);
-      }, qx.core.AssertionError);
+          qx.core.Assert.assertEqualsFloat(1.5, 1.6);
+        }, qx.core.AssertionError,
+        "Expected '1.5' to be equal with '1.6' regarding the precision inefficiencies of floats!"
+      );
     }
   }
 });
