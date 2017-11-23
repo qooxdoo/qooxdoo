@@ -72,6 +72,7 @@
  * @require(qx.lang.normalize.Function)
  * @require(qx.lang.normalize.String)
  * @require(qx.lang.normalize.Object)
+ * @require(qx.lang.normalize.Number)
  */
 qx.Bootstrap.define("qx.Class",
 {
