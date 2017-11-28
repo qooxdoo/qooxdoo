@@ -301,6 +301,13 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getPromiseNative: function() {
       return typeof window.Promise !== "undefined" && window.Promise.toString().indexOf("[native code]") !== -1;
+    },
+
+    /**
+     * Checks whether Native promises are available
+     */
+    getEpsilon: function() {
+      return typeof Number.prototype.EPSILON !== "undefined";
     }
   },
 
@@ -334,6 +341,9 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     // object polyfill
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
     qx.core.Environment.add("ecmascript.object.values", statics.getObjectValues);
+
+    // number polyfill
+    qx.core.Environment.add("ecmascript.number.EPSILON", statics.getEpsilon);
 
     // string polyfill
     qx.core.Environment.add("ecmascript.string.startsWith", statics.getStringStartsWith);
