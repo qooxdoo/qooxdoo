@@ -181,6 +181,9 @@ qx.Class.define("qx.event.handler.Appear",
       var self = this;
       Object.keys(targets).forEach(function(hash) {
         var elem = targets[hash];
+        if (elem === undefined) {
+          return;
+        }
 
         qx.event.Utils.fastThen(tracker, function() {
           var displayed = elem.offsetWidth > 0;
