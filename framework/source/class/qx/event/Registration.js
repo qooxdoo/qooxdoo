@@ -366,10 +366,7 @@ qx.Class.define("qx.event.Registration",
      */
     fireEventAsync : function(target, type, clazz, args)
     {
-      return qx.Promise.resolve(this.fireEvent(target, type, clazz, args))
-        .then(function() {
-          return !evt.getDefaultPrevented();
-        });
+      return qx.Promise.resolve(this.fireEvent(target, type, clazz, args));
     },
 
 
