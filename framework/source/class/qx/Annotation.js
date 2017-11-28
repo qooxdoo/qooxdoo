@@ -255,7 +255,7 @@ qx.Bootstrap.define("qx.Annotation", {
       var properties = [];
 
       qx.Class.getProperties(clazz).forEach(function(property) {
-        if (qx.lang.Array.contains(qx.Annotation.getProperty(clazz, property), annotation)) {
+        if (qx.Annotation.getProperty(clazz, property).includes(annotation)) {
           properties.push(property);
         }
       });

@@ -498,7 +498,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     // Interface implementation
     closeNode : function(node)
     {
-      if (qx.lang.Array.contains(this.__openNodes, node))
+      if (this.__openNodes.includes(node))
       {
         qx.lang.Array.remove(this.__openNodes, node);
         this.fireDataEvent("close", node);
@@ -523,7 +523,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
 
     // Interface implementation
     isNodeOpen : function(node) {
-      return qx.lang.Array.contains(this.__openNodes, node);
+      return this.__openNodes.includes(node);
     },
 
 
@@ -1149,7 +1149,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
      */
     __openNode : function(node)
     {
-      if (!qx.lang.Array.contains(this.__openNodes, node)) {
+      if (!this.__openNodes.includes(node)) {
         this.__openNodes.push(node);
         this.fireDataEvent("open", node);
       }

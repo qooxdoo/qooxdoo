@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
     addNumericCondition : function(condition, value1, align,
                                    color, style, weight, target)
     {
-      if (! qx.lang.Array.contains(this.__numericAllowed, condition) ||
+      if (!this.__numericAllowed.includes(condition) ||
           value1 == null)
       {
         throw new Error("Condition not recognized or value is null!");
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
     addBetweenCondition : function(condition, value1, value2, align,
                                    color, style, weight, target)
     {
-      if (! qx.lang.Array.contains(this.__betweenAllowed, condition) ||
+      if (!this.__betweenAllowed.includes(condition) ||
           value1 == null ||
           value2 == null)
       {
@@ -325,7 +325,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
 
         bTestPassed = false;
 
-        if (qx.lang.Array.contains(this.__numericAllowed, test.condition))
+        if (this.__numericAllowed.includes(test.condition))
         {
           if (test.target == null)
           {
@@ -387,8 +387,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
             break;
           }
         }
-        else if (qx.lang.Array.contains(this.__betweenAllowed,
-                                        test.condition))
+        else if (this.__betweenAllowed.includes(test.condition))
         {
           if (test.target == null)
           {

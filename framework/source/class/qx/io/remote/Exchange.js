@@ -189,7 +189,7 @@ qx.Class.define("qx.io.remote.Exchange",
      */
     canHandle : function(vImpl, vNeeds, vResponseType)
     {
-      if (!qx.lang.Array.contains(vImpl.handles.responseTypes, vResponseType)) {
+      if (!vImpl.handles.responseTypes.includes(vResponseType)) {
         return false;
       }
 
