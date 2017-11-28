@@ -940,9 +940,7 @@ qx.Class.define("qx.ui.form.Slider",
      */
     slideTo : function(value, duration)
     {
-      this.stopSlideAnimation();
-
-      if (duration) {
+      if (duration && !this.__scrollAnimationframe) {
         this.__animateTo(value, duration);
       } else {
         this.updatePosition(value);
@@ -1002,7 +1000,8 @@ qx.Class.define("qx.ui.form.Slider",
       this.__scrollAnimationframe = new qx.bom.AnimationFrame();
 
       this.__scrollAnimationframe.on("frame", function(timePassed) {
-        this.setValue(parseInt(timePassed/duration * (to - from) + from));
+        var pos = parseInt(timePassed/duration * (to - from) + from);
+        this.setValue(pos);
       }, this);
 
       this.__scrollAnimationframe.on("end", function() {
