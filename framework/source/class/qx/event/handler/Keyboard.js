@@ -587,9 +587,10 @@ qx.Class.define("qx.event.handler.Keyboard",
         keyIdentifier = qx.event.util.Keyboard.charCodeToIdentifier(charCode);
 
         var tracker = {};
+        var self = this;
         qx.event.Utils.track(tracker, this._fireSequenceEvent(domEvent, "keypress", keyIdentifier));
         return qx.event.Utils.fastThen(tracker, function() {
-          return this._fireInputEvent(domEvent, charCode);
+          return self._fireInputEvent(domEvent, charCode);
         });
       }
     },

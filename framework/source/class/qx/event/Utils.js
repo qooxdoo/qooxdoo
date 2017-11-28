@@ -49,10 +49,17 @@ qx.Class.define("qx.event.Utils", {
     }),
 
     callListener: function(tracker, listener, context, event) {
-      return this.fastThen(tracker, function() {
-        var tmp = listener.handler.call(context, event);
-        return event.getPropagationStopped() ? qx.event.Utils.ABORT : tmp;
-      });
+      return this.fastThen(tracker, 
+          function() {
+            var tmp = listener.handler.call(context, event);
+            return event.getPropagationStopped() ? qx.event.Utils.ABORT : tmp;
+          }, 
+          function() {
+            // Nothing - if this is a promise, then the return from callListener is a promise
+            //  and rejection is handled separately.  But if it's NOT a promise, then we are
+            //  already returning ABORT.  This function is only necessary to suppress warnings
+            //  about unhandled rejections
+          });
     }    
     
   }
