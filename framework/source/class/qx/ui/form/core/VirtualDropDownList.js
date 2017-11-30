@@ -469,6 +469,10 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     __getAvailableHeight : function()
     {
       var distance = this.getLayoutLocation(this._target);
+      if (!distance) {
+        return 0;
+      }
+
       var viewPortHeight = qx.bom.Viewport.getHeight();
 
       // distance to the bottom and top borders of the viewport
