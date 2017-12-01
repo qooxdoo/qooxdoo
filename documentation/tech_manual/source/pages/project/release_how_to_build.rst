@@ -1,3 +1,23 @@
+.. _pages/project/release_how_to_build.rst#what_you_need:
+
+What you need
+**********************
+   Phyton:
+      sudo add-apt-repository ppa:deadsnakes/ppa
+      sudo apt-get update
+      sudo apt-get install python3.6
+   Ruby:
+      sudo apt-add-repository ppa:brightbox/ruby-ng	
+      sudo apt update
+      sudo apt install ruby2.4 ruby2.4-dev
+   Sass:
+      sudo gem install sass   
+   Sphinx:
+      sudo apt-get install python-sphinx   
+   PDFLatex:
+      sudo apt-get install texlive-latex-base   
+	  
+	  
 .. _pages/project/release_how_to_build.rst#how_to_build_a_release:
 
 How to build a release
