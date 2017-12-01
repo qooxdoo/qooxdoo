@@ -1,5 +1,7 @@
 .. image:: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master                                                                            
      :target: https://travis-ci.org/qooxdoo/qooxdoo
+.. image:: https://saucelabs.com/buildstatus/qx-core
+     :target: https://saucelabs.com/open_sauce/user/qx-core
 .. image:: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 
      :target: https://coveralls.io/github/qooxdoo/qooxdoo?branch=master
 .. image:: https://badges.gitter.im/qooxdoo/qooxdoo.svg

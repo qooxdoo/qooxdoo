@@ -1,0 +1,3 @@
+#!/bin/sh
+./generate.py lint 2>&1 | grep 'Error:\|Warning:' && false || true
+exit $?
