@@ -15,8 +15,11 @@ What you need
    Sphinx:
       sudo apt-get install python-sphinx   
    PDFLatex:
-      sudo apt-get install texlive-latex-base   
-	  
+      sudo apt-get install texlive
+   nice:
+      sudo apt-get install coreutils
+   zip:
+      sudo apt-get install zip
 	  
 .. _pages/project/release_how_to_build.rst#how_to_build_a_release:
 
