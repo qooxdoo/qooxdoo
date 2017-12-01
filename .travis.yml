@@ -8,8 +8,11 @@ addons:
   apt:
     packages:
     - python-sphinx
+  jwt:
+    secure: "QFvZbXLlQSdvPTGg8U4qPb/HREYXdpZZaqrZl0ab4f/w2WFPf9hS1aS/S5IG7HxdR4ie3eQZOQm/9Tj37dT9C4LAMiFGdt3awRKmgqoQmse2oKZsbv1HwamPbYkQQG3/UP/xVygk2Dt4IyikrRAYk1gTyFtWv23M9yMAn0+8Qxk="
 
 env:
+- SAUCE_USERNAME=qx-core
 - secure: vW8wdbY/DmRITaFkQix8PUuE3jiwy2Yj0nn+k+yNqcwPde19ObQBq0rHJEiO5AJOBuNiWaie2n8sQQ6ceK72pU1IbIntPsztY/EFKP6x009wjmiLoifsVEGNP1kxLgFOnvCmlGjTIyGsqse5UsVt8HZs2jHK8xkkedTehuDNxtI=
 
 cache:
