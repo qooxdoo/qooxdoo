@@ -31,7 +31,7 @@ stages:
   - name: Lint
   - name: Unit-Tests
   - name: Deploy
-    if: repo = qooxdoo/qooxdoo AND ( branch = master OR tag =~ ^v[0-9] )
+    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND ( branch = master OR tag =~ ^v[0-9] )
 
 jobs:
   include:
