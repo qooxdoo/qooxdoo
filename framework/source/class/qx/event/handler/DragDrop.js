@@ -532,7 +532,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     clearSession : function()
     {
-      this.debug("clearSession");
+      //this.debug("clearSession");
       
       // Deregister from root events
       this.__manager.removeListener(this.__root, "pointermove", this._onPointermove, this);
@@ -631,14 +631,14 @@ qx.Class.define("qx.event.handler.DragDrop",
         var self = this;
         return this.__fireEvent("dragstart", this.__dragTarget, this.__dropTarget, true, e)
           .then(function () {
-            self.debug("dragstart ok, setting __sessionActive=true")
+            //self.debug("dragstart ok, setting __sessionActive=true")
             self.__manager.addListener(self.__root, "keydown", self._onKeyDown, self, true);
             self.__manager.addListener(self.__root, "keyup", self._onKeyUp, self, true);
             self.__manager.addListener(self.__root, "keypress", self._onKeyPress, self, true);
             self.__sessionActive = true;
           })
           .catch(function() {
-            self.debug("dragstart FAILED, setting __sessionActive=false");
+            //self.debug("dragstart FAILED, setting __sessionActive=false");
             self.__sessionActive = false;
           });
       }
@@ -697,14 +697,14 @@ qx.Class.define("qx.event.handler.DragDrop",
         .then(function() {
           // check if the session has been activated
           if (!self.__sessionActive) {
-            self.debug("not active");
+            //self.debug("not active");
             return;
           }
   
-          self.debug("active, firing drag");
+          //self.debug("active, firing drag");
           return self.__fireEvent("drag", self.__dragTarget, self.__dropTarget, true, e)
             .then(function() {
-              self.debug("drag");
+              //self.debug("drag");
               // find current hovered droppable
               var el = e.getTarget();
               if (self.__startConfig.target === el) {
