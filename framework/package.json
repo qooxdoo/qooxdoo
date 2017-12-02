@@ -1,7 +1,7 @@
 {
   "name": "qooxdoo-framework",
   "description": "qooxdoo framework dependencies",
-  "version": "5.1.0",
+  "version": "6.0.0-alpha",
   "repository": {
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
