@@ -2,6 +2,7 @@
   "name": "testrunner",
   "version": "6.0.0-alpha",
   "description": "Integrated unit testing infrastructure, ready to be used in all custom apps",
+  "license": "MIT",
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",

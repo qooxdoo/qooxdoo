@@ -6,10 +6,7 @@
     "type": "git",
     "url": "git://github.com/qooxdoo/qooxdoo.git"
   },
-  "licenses": [{
-    "type": "MIT",
-    "url": "http://qooxdoo.org/license"
-  }],
+  "license": "MIT",
   "engines": {
     "node": ">=0.4"
   },
