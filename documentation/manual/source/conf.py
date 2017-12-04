@@ -60,7 +60,7 @@ version = '6.0.0-alpha'
 # The full version, including alpha/beta/rc tags.
 release = '6.0.0-alpha'
 # The current git branch (used for github links)
-git_branch = "bump_version"
+git_branch = "master"
 
 # qooxdoo Source Text Macros
 # use e.g. as "%{version}" anywhere in .rst files
