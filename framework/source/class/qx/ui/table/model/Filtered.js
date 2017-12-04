@@ -108,8 +108,8 @@ qx.Class.define("qx.ui.table.model.Filtered",
     /**
      * Function to get the full array of the filtered model
      * @return {Array} the full array of model (with no changes)
-    */
-      getFullArray: function ()
+     */
+    getFullArray : function ()
     {
 	return this.__fullArr;
     },

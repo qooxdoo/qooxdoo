@@ -33,3 +33,4 @@
 # Node/NPM
 node_modules/
 npm-debug.log
+/nbproject/private/
