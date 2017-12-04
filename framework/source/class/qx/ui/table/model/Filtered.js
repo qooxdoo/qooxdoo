@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
      */
     getFullArray : function ()
     {
-	return this.__fullArr;
+        return this.__fullArr;
     },
 
     /**
