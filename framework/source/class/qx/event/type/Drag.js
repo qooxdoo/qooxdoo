@@ -260,6 +260,23 @@ qx.Class.define("qx.event.type.Drag",
     },
 
     /**
+     * Returns the currently selected action. Depends on the
+     * supported actions of the source target and the modification
+     * keys pressed by the user.
+     *
+     * Used in the <code>droprequest</code> listener.
+     *
+     * @return {qx.Promise(String)} The action. May be one of <code>move</code>,
+     *    <code>copy</code> or <code>alias</code>.
+     */
+    getCurrentActionAsync : function() {
+      if (this.getDefaultPrevented()) {
+        return null;
+      }
+      return this.getManager().getCurrentActionAsync();
+    },
+
+    /**
      * Whether the current drop target allows the current drag target.
      *
      * This can be called from within the "drag" event to enable/disable
