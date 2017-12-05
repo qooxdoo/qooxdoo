@@ -75,7 +75,7 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
     {
       check: "Integer",
       nullable : false,
-      init : 5000
+      init : 10000
     }
   }
 
