@@ -1,15 +1,12 @@
 {
   "author": "Martin Wittemann <martin.wittemann@1und1.de>",
   "name": "qooxdoo",
-  "version": "5.1.0",
+  "version": "6.0.0-alpha",
   "repository": {
     "type": "git",
     "url": "git://github.com/qooxdoo/qooxdoo.git"
   },
-  "licenses": [{
-    "type": "MIT",
-    "url": "http://qooxdoo.org/license"
-  }],
+  "license": "MIT",
   "engines": {
     "node": ">=0.4"
   },
@@ -17,6 +14,6 @@
   "devDependencies": {},
   "description": "OO programming with classes, mixins, interfaces and dynamic getters/setters",
   "keywords" : ["oop", "class", "inheritance", "object-oriented"],
-  "homepage": "http://manual.qooxdoo.org/5.1/pages/core.html",
+  "homepage": "http://manual.qooxdoo.org/6.0.0-alpha/pages/core.html",
   "main": "qx-oo"
 }
