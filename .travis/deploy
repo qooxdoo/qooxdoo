@@ -46,9 +46,11 @@ if [ "$TRAVIS_TAG" != "" ]; then
   fi
 fi
 
+cd $TRAVIS_BUILD_DIR
 .travis/make-release-sdk
 .travis/build-site
 
+cd deploy
 rm -rf "$TARGET" &> /dev/null
 cp -a ../build "$TARGET"
 

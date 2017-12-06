@@ -45,7 +45,7 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
       if (qx.lang.Type.isFunction(arguments[i])) {
         this.setDeferredFunction(arguments[i]);
       } else if (qx.lang.Type.isNumber(arguments[i])) {
-        this.setDelay(arguments[i]);
+        this.setDelay(arguments[i] * 10);
       }
     }
 
