@@ -58,6 +58,27 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
       }
 
       return arr;
+    },
+
+
+    /**
+     * Determines whether two values are the same value.
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is">MDN web docs: Object.is()</a>
+     *
+     * @signature function(value1,value2)
+     * @param value1 {Object} the first value to compare
+     * @param value2 {Object} the second value to compare
+     * @return {Boolean} indicating whether or not the two arguments are the same value.
+     */
+    is : function(v1, v2) {
+      if (v1 === 0 && v2 === 0) {
+        return 1 / v1 === 1 / v2;
+      }
+      if (v1 !== v1) {
+        return v2 !== v2;
+      }
+      return v1 === v2;
     }
   },
 
@@ -70,6 +91,11 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
     // values
     if (!qx.core.Environment.get("ecmascript.object.values")) {
       Object.values = statics.values;
+    }
+
+    // is
+    if (!qx.core.Environment.get("ecmascript.object.is")) {
+      Object.is = statics.is;
     }
   }
 });
