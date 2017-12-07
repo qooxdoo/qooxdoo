@@ -179,11 +179,12 @@ qx.Class.define("qx.test.ui.core.SizeHint",
     testMinLargerThanMax : function()
     {
       this.setStretching(true, true);
+      this.setSize(200, 100, 150);
       if (this.isDebugOn())
       {
         var that = this;
         this.assertException(function() {
-          that.setSize(200, 100, 150);
+          that.getHint();
         }, qx.core.AssertionError);
       }
     },
