@@ -66,19 +66,20 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
      *
      * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is">MDN web docs: Object.is()</a>
      *
-     * @signature function(value1,value2)
-     * @param value1 {Object} the first value to compare
-     * @param value2 {Object} the second value to compare
+     * @signature function(x,y)
+     * @param x {Object} the first value to compare
+     * @param y {Object} the second value to compare
      * @return {Boolean} indicating whether or not the two arguments are the same value.
      */
-    is : function(v1, v2) {
-      if (v1 === 0 && v2 === 0) {
-        return 1 / v1 === 1 / v2;
+    is : function(x, y) {
+      // SameValue algorithm
+      if (x === y) { // Steps 1-5, 7-10
+        // Steps 6.b-6.e: +0 != -0
+        return x !== 0 || 1 / x === 1 / y;
+      } else {
+       // Step 6.a: NaN == NaN
+       return x !== x && y !== y;
       }
-      if (v1 !== v1) {
-        return v2 !== v2;
-      }
-      return v1 === v2;
     }
   },
 
