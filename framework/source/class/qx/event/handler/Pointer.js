@@ -21,6 +21,7 @@
  * Unified pointer event handler.
  * @require(qx.event.dispatch.DomBubbling)
  * @require(qx.event.type.Pointer) // load-time dependency for early native events
+ * @require(qx.event.type.dom.Pointer)
  */
 qx.Class.define("qx.event.handler.Pointer",
 {
