@@ -9,7 +9,7 @@
     "keywords" : [],
     "homepage" : "http://demo.qooxdoo.org/current/tutorials",
 
-    "license" : "LGPL/EPL",
+    "license" : "MIT",
     "authors" :
     [
       {

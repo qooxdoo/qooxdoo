@@ -401,7 +401,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       var openNodes = this.tree.getOpenNodes();
       this.assertEquals(expectedOpen.length, openNodes.length);
       for (var i = 0; i < expectedOpen.length; i++) {
-        this.assertTrue(qx.lang.Array.contains(openNodes, expectedOpen[i]));
+        this.assertTrue(openNodes.includes(expectedOpen[i]));
       }
     },
 

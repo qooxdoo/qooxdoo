@@ -198,20 +198,21 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       // IE and Safari suppress a "keypress" event if the "keydown" event's
       // default action was prevented. In this case we emulate the "keypress"
-      if (
-        qx.core.Environment.get("engine.name") == "mshtml" ||
-        qx.core.Environment.get("engine.name") == "webkit"
-      )
-      {
-        if (type == "keydown" && event.getDefaultPrevented())
-        {
+      //
+      // FireFox suppresses "keypress" when "keydown" default action is prevented.
+      // from version 29: https://bugzilla.mozilla.org/show_bug.cgi?id=935876.
+      if (event.getDefaultPrevented() && type == "keydown") {
+        if (qx.core.Environment.get("engine.name") == "mshtml" ||
+            qx.core.Environment.get("engine.name") == "webkit" ||
+            (qx.core.Environment.get("engine.name") == "gecko" && qx.core.Environment.get("browser.version") >= 29)) {
+
           // some key press events are already emulated. Ignore these events.
           if (!qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) && !this._emulateKeyPress[keyCode]) {
             this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
           }
         }
       }
-
+      
       // Fire user action event
       // Needs to check if still alive first
       if (this.__window) {

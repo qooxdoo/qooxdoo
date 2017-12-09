@@ -1,5 +1,7 @@
 .. image:: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master                                                                            
      :target: https://travis-ci.org/qooxdoo/qooxdoo
+.. image:: https://saucelabs.com/buildstatus/qx-core
+     :target: https://saucelabs.com/open_sauce/user/qx-core
 .. image:: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 
      :target: https://coveralls.io/github/qooxdoo/qooxdoo?branch=master
 .. image:: https://badges.gitter.im/qooxdoo/qooxdoo.svg
@@ -28,14 +30,7 @@ For more information please see http://qooxdoo.org .
 License
 =======
 
-qooxdoo may be used under the terms of either the GNU Lesser General
-Public License (LGPL) or the Eclipse Public License (EPL). As a
-recipient of qooxdoo, you may choose which license to receive the code
-under.
-
-Please make sure you understand the dual license of qooxdoo and the
-rights and obligations that come with it. See the top-level license.txt
-file for more details.
+qooxdoo may be used under the terms of the MIT License.
 
 For more information please see http://qooxdoo.org/license .
 
@@ -44,7 +39,7 @@ Quick start
 ===========
 
 It is easy to get started with qooxdoo. For detailed information please
-see http://manual.qooxdoo.org/5.1/pages/getting_started.html .
+see http://manual.qooxdoo.org/6.0.0-alpha/pages/getting_started.html .
 
 For the impatient, here is a short version:
 
@@ -90,7 +85,7 @@ Learn more
   https://github.com/qooxdoo/qooxdoo/releases
 
 * User Manual
-  http://manual.qooxdoo.org/5.1
+  http://manual.qooxdoo.org/6.0.0-alpha
 
 * API Documentation
-  http://api.qooxdoo.org/5.1
+  http://api.qooxdoo.org/6.0.0-alpha

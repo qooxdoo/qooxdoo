@@ -396,7 +396,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       }
 
       rowArr = rowArr.filter(function(row, index) {
-        return !qx.lang.Array.contains(rowsToHide, index);
+        return !rowsToHide.includes(index);
       });
 
       this._rowArr = rowArr;

@@ -1,14 +1,15 @@
 {
   "name": "testrunner",
-  "version": "5.1.0",
+  "version": "6.0.0-alpha",
   "description": "Integrated unit testing infrastructure, ready to be used in all custom apps",
+  "license": "MIT",
   "main": "Gruntfile.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
   },
   "author": "The qooxdoo project",
-  "license": "LGPL/EPL",
+  "license": "MIT",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
   "devDependencies": {
     "grunt": "~0.4.2"

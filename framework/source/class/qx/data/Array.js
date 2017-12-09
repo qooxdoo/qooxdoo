@@ -647,10 +647,22 @@ qx.Class.define("qx.data.Array",
     /**
      * Check if the given item is in the current array.
      *
+     * @deprecated {6.0} Please use the include method instead
+     *
      * @param item {var} The item which is possibly in the array.
      * @return {Boolean} true, if the array contains the given item.
      */
     contains: function(item) {
+      return this.includes(item);
+    },
+
+    /**
+     * Check if the given item is in the current array.
+     *
+     * @param item {var} The item which is possibly in the array.
+     * @return {Boolean} true, if the array contains the given item.
+     */
+    includes: function(item) {
       return this.__array.indexOf(item) !== -1;
     },
 

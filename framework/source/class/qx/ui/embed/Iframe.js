@@ -38,6 +38,12 @@
  *
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/iframe.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
+ * 
+ * 
+ * *Notes*
+ * When modifying this file, note that the test qx.test.ui.embed.Iframe.testSyncSourceAfterDOMMove
+ * has been disabled under Chrome because of problems with Travis and Github.  Changes to this file
+ * should be tested manually against that test.
  */
 qx.Class.define("qx.ui.embed.Iframe",
 {

@@ -30,6 +30,7 @@ qx.Class.define("qx.ui.form.List",
   implement : [
     qx.ui.core.IMultiSelection,
     qx.ui.form.IForm,
+    qx.ui.form.IField,
     qx.ui.form.IModelSelection
   ],
   include : [
@@ -125,6 +126,20 @@ qx.Class.define("qx.ui.form.List",
     {
       refine : true,
       init : true
+    },
+
+    // overridden
+    width :
+    {
+      refine : true,
+      init : 100
+    },
+
+    // overridden
+    height :
+    {
+      refine : true,
+      init : 200
     },
 
     /**

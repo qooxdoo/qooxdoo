@@ -336,7 +336,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      * @param value {qx.ui.progressive.model.Abstract}
      *   The new data model.
      *
-     * @param value {qx.ui.progressive.model.Abstract}
+     * @param old {qx.ui.progressive.model.Abstract}
      *   The old data model.
      *
      */

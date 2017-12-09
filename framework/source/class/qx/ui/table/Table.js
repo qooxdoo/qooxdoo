@@ -8,8 +8,7 @@
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -1558,7 +1557,7 @@ qx.Class.define("qx.ui.table.Table",
       var data = evt.getData();
       if (this.__columnMenuButtons != null && data.col != null &&
           data.visible != null) {
-        this.__columnMenuButtons[data.col].setVisible(data.visible);
+        this.__columnMenuButtons[data.col].setColumnVisible(data.visible);
       }
 
       this._updateScrollerWidths();
@@ -2123,7 +2122,7 @@ qx.Class.define("qx.ui.table.Table",
                                        qx.ui.table.IColumnMenuItem);
 
         menuButton.addListener(
-          "changeVisible",
+          "changeColumnVisible",
           this._createColumnVisibilityCheckBoxHandler(col), this);
         this.__columnMenuButtons[col] = menuButton;
       }

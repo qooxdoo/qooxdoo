@@ -3,111 +3,149 @@
 Using icon fonts
 ****************
 
-Qooxdoo integrates the support for icon fonts like `FontAwesome <http://fontawesome.io/>`_. The
-itegration is generic, so that it does not collide with the frameworks :doc:`appearance themes
-</pages/desktop/ui_theming>`.
+Icon fonts in qooxdoo need some preprocessing, because the layout managers need to know the
+dimensions of 'images'. In this case, we're extracting this information from the glyph's
+aspect ratio information encoded in the font.
 
-Font icons can be addressed using ``@FontName/GlyphName`` or ``@FontName/HexUnicode`` in the source
-property of your ``qx.ui.basic.Image``.
-
-.. _pages/icon_fonts#setup:
-
-Configuration
-=============
-
-.. note::
-
-    To be able to use font map generation, you need a locally installed
-    :doc:`FontForge </pages/introduction/third_party_components>` and its python
-    package.
-
-
-To use this feature you have to configure a dedicated generator job to extract
-the available glyph-names and a character aspect ratio from the defined fonts.
-You can add this job to your standard ``config.json`` file, or, as the
-configuration for these tasks is fairly self-contained, put them in an own file
- like ``fonts.json``, as we do in the framework.
-
-Here is the general layout for the image manipulating jobs configuration::
-
-    {
-      "jobs" :
-      {
-        "common" :
-        {
-          "let" :
-          {
-             "RESPATH" : "./source/resource"
-          },
-
-          "cache" :
-          {
-             "compile" : "../../cache"
-          }
-        },
-
-        "make-font-map" : { ... }
-      }
-    }
-
-The ``common`` job is used to set up the basic settings which are shared between
-the specific jobs, described in the following sections.
-
-.. _pages/icon_fonts#make_font_map:
-
-Creating a font map
--------------------
-
-Creating a font map is needed whenever you add or change a font that is intended
-to be used as an icon font.
+Additionally we use the information placed in the font (glyph names) to automatically
+assign the font icon to virtual image names. If you for example include the
+`Ligature Symbols <http://kudakurage.com/ligature_symbols/>`_, you can directly use this code
 
 ::
 
-    "make-font-map" :
-    {
-      "extend" : ["common"],
-      "desc" : "Build a font mapping from glyphname to unicode id",
+	var image = new qx.ui.basic.Image('@Ligature/print');
 
-      "font-map" :
-      {
-        "fonts" :
-        {
-          "${RESPATH}/project/fonts/fontawesome-webfont.ttf" :
-          {
-            "prefix": [ "${RESPATH}" ],
-            "alias" : "FontAwesome",
-            "size" : 40
-          }
-        }
-      }
-    }
-
-* The key has to be the path to the *source* font. It is recommended to use
-  a TTF font here.
-* The ``prefix`` entry will set the base file path for all the result map.
-* The entry ``size`` sets the default size of the font icons, since qooxdoo
-  expects icons to have a specific size. It is possible to set a specific
-  size for icon font based images, of course.
-
-See the :ref:`make-font-map reference
-<pages/tool/generator/generator_config_ref#font_map_ref>` for all configuration
-details.
-
-
-.. _pages/icon_fonts#run_image_jobs:
-
-Running font jobs
-=================
-
-If you are finished with the definition of your fonts to generate a font map for,
-you can use the ``generator`` to let it be created for you.
+to show the 'print' symbol. Additionally, you have a shortcut for a different size than
+the font's default size:
 
 ::
 
-    ./generate.py make-font-map
+	var image = new qx.ui.basic.Image('@Ligature/print/16');
+
+The latter makes the icon 16px in size.
+
+This mechanism heavily depends on how good the font glyph names are maintained. In some
+cases (i.e. `Font Awesome <http://fontawesome.io/icons/>`_), the glyph information is either
+incomplete or missing. You need to use a custom font map in this case to be able to
+address all the glyphs by their name/alias.
+
+The integration is generic, so that it does not collide with the framework's :doc:`appearance themes
+</pages/desktop/ui_theming>`. Font icons can be addressed using ``@FontName/GlyphName`` or
+``@FontName/HexUnicode`` in the source property of your ``qx.ui.basic.Image``. To override the
+default size, you can also use ``@FontName/GlyphName/size`` or ``@FontName/HexUnicode/size`` to scale it
+to the given number of pixels.
 
 
-.. _pages/icon_fonts#drawbacks:
+Defining an icon font
+=====================
+
+Use the *Manifest.json* to define the icon font like shown in the example:
+
+::
+
+	{
+	  ...
+	
+	  "provides" : 
+	  {
+	    ...
+	    "webfonts": [
+	      {
+	        "name": "FontAwesome",              // mandatory
+	        "defaultSize": 40,                  // optional
+	        "mapping": "fontawesome.map",       // optional - if you've a map file
+	        "resources": [
+	          "foobar/fontawesome-webfont.ttf", // mandatory - we need one TTF file for parsing
+	          "foobar/fontawesome-webfont.eot",
+	          "foobar/fontawesome-webfont.woff2",
+	          "foobar/fontawesome-webfont.woff"
+	        ]
+	      }
+	    ]
+	  }
+	}
+
+Please note that JSON does not support comments - you'll have to remove them first.
+
+Every map entry in the *webfonts* array needs to have at leasta _name_ and one
+TTF _resources_ entry. Resources can be local files or HTTP URLs. The _name_ is
+used to reference the font in the virtual URLs. So if you name it "Foobar" instead
+of "FontAwesome", you have to use ``@Foobar/<glyphname>`` instead.
+
+
+Creating a map file
+===================
+
+As mentioned before, some fonts do not contain proper glyphnames. As a result,
+we can't generate the mapping for you and you've to provide an own mapping.
+
+The format of the mapping file is just JSON as shown here:
+
+::
+
+	{
+	  'glyphname': codepoint,
+	  ...
+	}
+
+
+``glpyhname`` is the name or alias of the character, ``codepoint`` is the decimal unicode
+number for that character in the font.
+
+In case of FontAwesome, you might want to use `a simple script <https://gist.github.com/cajus/b00bbeb629013fb73a1bd8431e88c18a>`_
+instead of creating such a file manually.
+
+
+Using the icons
+===============
+
+For now, the font is not yet automatically added to the project. You have to do something
+like this in your theme's ``Font.js``:
+
+::
+
+	qx.Theme.define("foobar.theme.Font",
+	{
+	  extend : qx.theme.indigo.Font,
+	
+	  fonts :
+	  {
+	    "FontAwesome": {
+	      size: 40,
+	      lineHeight: 1,
+	      comparisonString : "\uf1e3\uf1f7\uf11b\uf19d",
+	      family: ["FontAwesome"],
+	      sources: [
+	        {
+	          family: "FontAwesome",
+	          source: [
+	            "foobar/fontawesome-webfont.ttf"
+	          ]
+	        }
+	      ]
+	    }
+	  }
+	});
+
+
+The need for it will go away until 6.0 will be ready for public use.
+
+To include a font icon somewhere, just use the ordinary image way (i.e. in an Image, Atom) and
+provide a virtual image name. It starts with an "@", followed by the defined font name, a slash
+and the glyph name:
+
+::
+
+	var atom = new qx.ui.basic.Atom("Look, I'm a font icon", "@FontAwesome/heart");
+
+If you don't have a glyph name (no map file and no definition in the font), you can also use the
+unicode codepoint (in hex) directly:
+
+::
+
+	var atom = new qx.ui.basic.Atom("Look, I'm a font icon", "@FontAwesome/f004");
+
+
 
 Drawbacks
 =========

@@ -199,6 +199,44 @@ qx.Bootstrap.define("qx.core.Assert",
     },
 
     /**
+     * Assert that both float values are equal. This might be needed because
+     * of the natural floating point inaccuracy of computers.
+     *
+     * @param expected {Float} Reference value
+     * @param found {Float} Found value
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertEqualsFloat : function(expected, found, msg)
+    {
+      this.assertNumber(expected);
+      this.assertNumber(found);
+
+      qx.lang.Number.equals(expected, found) ||
+        this.__fail(msg || "", "Expected '", expected, "' to be equal with '",
+        found, "'!"
+      );
+    },
+
+    /**
+     * Assert that both float values are not equal. This might be needed
+     * because of the natural floating point inaccuracy of computers.
+     *
+     * @param expected {Float} Reference value
+     * @param found {Float} Found value
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertNotEqualsFloat : function(expected, found, msg)
+    {
+      this.assertNumber(expected);
+      this.assertNumber(found);
+
+      !qx.lang.Number.equals(expected, found) ||
+        this.__fail(msg || "", "Expected '", expected,
+        "' to be not equal with '", found, "'!"
+      );
+    },
+
+    /**
      * Assert that both values are identical. (Uses the identity operator
      * <code>===</code>.)
      *

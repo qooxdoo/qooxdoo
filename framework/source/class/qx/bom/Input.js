@@ -33,8 +33,6 @@
 
 /**
  * Cross browser abstractions to work with input elements.
- *
- * @require(qx.lang.Array#contains)
  */
 qx.Bootstrap.define("qx.bom.Input",
 {
@@ -125,7 +123,6 @@ qx.Bootstrap.define("qx.bom.Input",
     {
       var tag = element.nodeName.toLowerCase();
       var type = element.type;
-      var Array = qx.lang.Array;
       var Type = qx.lang.Type;
 
       if (typeof value === "number") {
@@ -135,7 +132,7 @@ qx.Bootstrap.define("qx.bom.Input",
       if ((type === "checkbox" || type === "radio"))
       {
         if (Type.isArray(value)) {
-          element.checked = Array.contains(value, element.value);
+          element.checked = value.includes(element.value);
         } else {
           element.checked = element.value == value;
         }
@@ -155,7 +152,7 @@ qx.Bootstrap.define("qx.bom.Input",
           }
 
           subel.selected = isArray ?
-             Array.contains(value, subval) : value == subval;
+            value.includes(subval) : value == subval;
         }
 
         if (isArray && value.length == 0) {

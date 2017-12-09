@@ -303,7 +303,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     __require : function(familyName, sources, fontWeight, fontStyle, comparisonString, version, callback, context)
     {
       var fontLookupKey = this.__createFontLookupKey(familyName, fontWeight, fontStyle);
-      if (!qx.lang.Array.contains(this.__createdStyles, fontLookupKey)) {
+      if (!this.__createdStyles.includes(fontLookupKey)) {
         var sourcesMap = this.__getSourcesMap(sources);
         var rule = this.__getRule(familyName, fontWeight, fontStyle, sourcesMap, version);
 

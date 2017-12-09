@@ -9,8 +9,7 @@
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -726,19 +725,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "scrollarea" :
-    {
-      style : function(states)
-      {
-        return {
-          // since the scroll container disregards the min size of the scrollbars
-          // we have to set the min size of the scroll area to ensure that the
-          // scrollbars always have an usable size.
-          minWidth : 50,
-          minHeight : 50
-        };
-      }
-    },
+    "scrollarea" : "widget",
 
     "scrollarea/corner" :
     {

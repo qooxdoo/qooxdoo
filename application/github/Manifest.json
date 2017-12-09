@@ -9,7 +9,7 @@
     "keywords" : ["rest"],
     "homepage" : "http://demo.qooxdoo.org/current/github",
 
-    "license" : "LGPL/EPL",
+    "license" : "MIT",
     "authors" :
     [
       {
