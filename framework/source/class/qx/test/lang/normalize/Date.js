@@ -54,7 +54,17 @@ qx.Class.define("qx.test.lang.normalize.Date",
 
       this.assertTrue(isNaN(Date.parse("asdf")), "invalid YYYY (non-digits)");
       this.assertTrue(isNaN(Date.parse("1970-as-df")), "invalid YYYY-MM-DD (non-digits)");
-      this.assertTrue(isNaN(Date.parse("19700101")), "invalid YYYY-MM-DD (missing hyphens)");
+      
+      // safari does not return NaN on parsing date strings
+      // with missing hyphens. Instead it returns a time value
+      // which, when used to set a date object with that value
+      // via setTime, returns NaN
+      if(qx.core.Environment.get("browser.name") == "safari") {
+        this.assertTrue(isNaN((new Date()).setTime(Date.parse('19700101'))), "invalid YYYY-MM-DD (missing hyphens)");
+      }
+      else {
+        this.assertTrue(isNaN(Date.parse("19700101")), "invalid YYYY-MM-DD (missing hyphens)");
+      }
 
       // Time part
 
