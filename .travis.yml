@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- '8'
+cache:
+  directories:
+  - node_modules
+before_install:
+- git clone https://github.com/qooxdoo/qooxdoo.git ../qooxdoo
+deploy:
+  provider: npm
+  email: johnspackman@zenesis.com
+  api_key:
+    secure: m3eSU4lDnE4ahRc4YhZOHDRnhm6O+a6eGJqDlqjJDPJKfJGNEhLwzMuqC7o1DIY8dLpgJfZn3GpjQaFc58ebOW0RlfMQZ+ctSy5UFb6sodefxc48iBg4FzChjD2enM1+lDREIcR6wxgVZsGinHfLRb1leS/Ez9Ts8WzhSqBXsEJNYWlgN5NlE+kNOUjKxtBBEPgX7JSEH2YIwNVRmQI6RQcluz7kaRVraM57nWBcQ6RNCaHz8StyrlPMfZBDsm8t9jkFEVVhsYpraDoBDkwUc0CywE6AYyF/wz2SqXdIJ7IYPwnruCZA9cO18c9XUfKecW1xEnpIp87ZJuwxVhWk6lrtiWhOETbQecCCQALe077GFDh8o2nJ+TGUbRcEdQagmd33cfpBIInlT3HNxcRn8fkntnWd9on48a7MNIVkAbLRhxsniOnEFILy2D8W/dhUJyYAYcrokKYRUROuFW2sHnt/xaffvUcU6zOLOgCKiugqQosxgIL0Zm3odsJMvhX7Jdiu323P48wrN2e8hJxYmcCJcvNaJGXgnB4uYZI9H2McSD5cavDWL8QFzz6DH+VXacQh2MmWgcoYls01pnz0vROVEJOrvs8d2GvXws2k8fUtMSaH6cyOz9w2DAV0EH8Mv6eL3wxeOIxUaSn88G3pttC4DPoqj95T+5hfOF3pMZw=
+  on:
+    tags: true
+    repo: qooxdoo/qooxdoo-compiler
