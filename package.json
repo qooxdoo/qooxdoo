@@ -9,6 +9,9 @@
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
   },
+  "files": [
+    "framework"
+  ],
   "devDependencies": {
     "grunt": "^1.0.1",
     "shelljs": "^0.7.8"
