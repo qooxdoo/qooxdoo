@@ -19,3 +19,4 @@ export TRAVIS_BRANCH=master
 .travis/prepare_npm
 .travis/make-release-sdk
 .travis/build-site
+npm pack
