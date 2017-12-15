@@ -119,9 +119,6 @@ function build_sdk_zip {
   fi
 }
 
-npm install
-grunt setup
-
 [ -d "$TARGET" ] && rm -rf "$TARGET"
 mkdir -p "$TARGET"
 

@@ -27,8 +27,7 @@ before_install:
 
 install:
 - export PATH=`pwd`/texlive/bin/x86_64-linux:$PATH
-- npm install
-- grunt setup
+- .travis/prepare_npm
 - cd framework
 
 stages:
