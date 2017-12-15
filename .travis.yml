@@ -5,12 +5,13 @@ cache:
   directories:
   - node_modules
 before_install:
-- mkdir ../qooxdoo && wget -qO- https://github.com/qooxdoo/qooxdoo/archive/master.tar.gz | tar xz -C ../qooxdoo --strip 1
+- mkdir ../qooxdoo && wget -qO- https://github.com/qooxdoo/qooxdoo/archive/master.tar.gz
+  | tar xz -C ../qooxdoo --strip 1
 deploy:
   provider: npm
   email: johnspackman@zenesis.com
   api_key:
-    secure: m3eSU4lDnE4ahRc4YhZOHDRnhm6O+a6eGJqDlqjJDPJKfJGNEhLwzMuqC7o1DIY8dLpgJfZn3GpjQaFc58ebOW0RlfMQZ+ctSy5UFb6sodefxc48iBg4FzChjD2enM1+lDREIcR6wxgVZsGinHfLRb1leS/Ez9Ts8WzhSqBXsEJNYWlgN5NlE+kNOUjKxtBBEPgX7JSEH2YIwNVRmQI6RQcluz7kaRVraM57nWBcQ6RNCaHz8StyrlPMfZBDsm8t9jkFEVVhsYpraDoBDkwUc0CywE6AYyF/wz2SqXdIJ7IYPwnruCZA9cO18c9XUfKecW1xEnpIp87ZJuwxVhWk6lrtiWhOETbQecCCQALe077GFDh8o2nJ+TGUbRcEdQagmd33cfpBIInlT3HNxcRn8fkntnWd9on48a7MNIVkAbLRhxsniOnEFILy2D8W/dhUJyYAYcrokKYRUROuFW2sHnt/xaffvUcU6zOLOgCKiugqQosxgIL0Zm3odsJMvhX7Jdiu323P48wrN2e8hJxYmcCJcvNaJGXgnB4uYZI9H2McSD5cavDWL8QFzz6DH+VXacQh2MmWgcoYls01pnz0vROVEJOrvs8d2GvXws2k8fUtMSaH6cyOz9w2DAV0EH8Mv6eL3wxeOIxUaSn88G3pttC4DPoqj95T+5hfOF3pMZw=
+    secure: rjAW/zB1Pbdjuwzbsr/ZYVHV9AwYlMn0rBv6AOIEQIhqFi8a669DVhyVo6FVRcMvGGOK3E5WE40DwYr6FdkjimsFad6yWOhN5cdH9fJGOUChMub0hcqQ4Il4YtEZLBgLnfWefjj4ePVW0ceVuylpYxO3tMcgla7Q8EMM3nwraCaqmVY6h3dxLqsb3n6mWZpuaPmBublRVhnzCU53fPpBGUxSPbdsCDNoOdmvYR+/yoBecew6JA/qFJSf4Q2nNl4zIIKGJULbAK57jw5H4GBqctbIDf1ZPJblLleJmatfKoKrWChzviE705RaMd+JTaFdCmisM2AY8vA0YB/sfLOit6XFBbjiOo61JKyQ+y1I+3KIMHhuizzWnqiTVywALI9fB20b/bdcQK1GWTFntHp8D4OluZGMgKziWgTZFu/m7MHEVLWBbH9t4aUkjRV2pSUDKhZLTx1R6j+4E0KiiorzH2ly+bZK7iIjZ62THMkbNwzveVmhIZ5IjXTeDhrbgSNwE0iOv85ouu78dax83hzvHgxi/knb7ESxpFVb6rNHDRfDZZbHGJvW/I4FrGwx+0YqCZZIaPHihgajUhxiNsQKV6DcHSrsblxwg2D0/xjZzw8dbcw96TUntbaSu6Kcd1x7l0wv3htJfuYIPKbz+m3TgYLZ6SsNlC80rqFz0TeD2eo=
   on:
     tags: true
     repo: qooxdoo/qooxdoo-compiler
