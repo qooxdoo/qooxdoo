@@ -1,12 +1,8 @@
-.. image:: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master                                                                            
-     :target: https://travis-ci.org/qooxdoo/qooxdoo
-.. image:: https://saucelabs.com/buildstatus/qx-core
-     :target: https://saucelabs.com/open_sauce/user/qx-core
-.. image:: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 
-     :target: https://coveralls.io/github/qooxdoo/qooxdoo?branch=master
-.. image:: https://badges.gitter.im/qooxdoo/qooxdoo.svg
-     :alt: Join the chat at https://gitter.im/qooxdoo/qooxdoo
-     :target: https://gitter.im/qooxdoo/qooxdoo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+[![NPM Version][npm-image]][npm-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
+[![Travis Build][travis-image]][travis-url]
+[![SauceLab Build][saucelab-image]][saucelab-url]
+[![Gitter][gitter-image]][gitter-url]
 
 About
 =====
@@ -89,3 +85,16 @@ Learn more
 
 * API Documentation
   http://api.qooxdoo.org/6.0.0-alpha
+
+
+
+[npm-image]: https://img.shields.io/npm/v/qooxdoo-sdk.svg
+[npm-url]: https://npmjs.org/package/qooxdoo-sdk
+[travis-image]: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master
+[travis-url]: https://travis-ci.org/qooxdoo/qooxdoo
+[coveralls-image]: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 
+[coveralls-url]: https://coveralls.io/github/qooxdoo/qooxdoo?branch=master
+[saucelab-image]: https://saucelabs.com/buildstatus/qx-core
+[saucelab-url]: https://saucelabs.com/open_sauce/user/qx-core
+[gitter-image]: https://badges.gitter.im/qooxdoo/qooxdoo.svg
+[gitter-url]: https://gitter.im/qooxdoo/qooxdoo?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge

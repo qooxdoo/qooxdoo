@@ -11,6 +11,7 @@ addons:
   apt:
     packages:
     - python-sphinx
+    - python-markdown
 
 env:
 - secure: vW8wdbY/DmRITaFkQix8PUuE3jiwy2Yj0nn+k+yNqcwPde19ObQBq0rHJEiO5AJOBuNiWaie2n8sQQ6ceK72pU1IbIntPsztY/EFKP6x009wjmiLoifsVEGNP1kxLgFOnvCmlGjTIyGsqse5UsVt8HZs2jHK8xkkedTehuDNxtI=
@@ -26,8 +27,7 @@ before_install:
 
 install:
 - export PATH=`pwd`/texlive/bin/x86_64-linux:$PATH
-- npm install
-- grunt setup
+- .travis/prepare_npm
 - cd framework
 
 stages:

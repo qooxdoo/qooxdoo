@@ -54,8 +54,8 @@ function make-release-sdk()
     sed 's/class="local"/class="local hide"/g;s/ class="publish"//g' $BASE_DIR/index.html > $RELEASE_SDK/index.html
     
     echo "  * create readme.html..."
-    rm $RELEASE_SDK/readme.rst
-    rst2html $BASE_DIR/readme.rst > $RELEASE_SDK/readme.html
+    rm $RELEASE_SDK/README.md
+    markdown_py $BASE_DIR/README.md > $RELEASE_SDK/readme.html
 
     echo "  * mark applications to need generated..."
     for APPLICATION in $APPLICATIONS; do
