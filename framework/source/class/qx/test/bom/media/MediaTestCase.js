@@ -189,7 +189,19 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
       this.wait();
     },
 
-    testPlayEvent: function()
+    // On safari this test fails, if we are running the
+    // complete testsuite and the test is not the first
+    // test in qx.test.bom.media.MediaTestCase. By naming
+    // it with a blank behind test it is enqueued as the first
+    // test and the test run succeeds.
+    //
+    // Note that the tests in qx.test.bom.media.MediaTestCase
+    // are started seperately or this test is restarted after 
+    // it failed, then it succeeds.
+    // This is some weird timing or caching issue which could
+    // not be solved otherwise.
+    //
+    "test Play Event": function()
     {
       // BUG #8778
       if (qx.core.Environment.get("browser.name") == "mobile chrome") {
