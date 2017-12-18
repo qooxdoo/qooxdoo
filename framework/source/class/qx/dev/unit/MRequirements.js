@@ -257,6 +257,18 @@ qx.Mixin.define("qx.dev.unit.MRequirements", {
 
 
     /**
+     * Checks if the application is running on Windows 10
+     *
+     * @return {Boolean} <code>false</code> if operating system is Windows 10
+     */
+    hasNoWin10 : function()
+    {
+      var isWin10 = (qx.core.Environment.get("os.name") === "win" && qx.core.Environment.get("os.version") === "10");
+      return (isWin10 ? false : true);
+    },
+
+
+    /**
      * Checks if the application is not running in a Google Chrome browser on Linux
      *
      * @return {Boolean} <code>true</code> if the browser is not Google Chrome on Linux

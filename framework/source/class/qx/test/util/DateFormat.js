@@ -20,6 +20,8 @@ qx.Class.define("qx.test.util.DateFormat",
 {
   extend : qx.dev.unit.TestCase,
 
+  include: qx.dev.unit.MRequirements,
+
   members :
   {
 
@@ -122,6 +124,13 @@ qx.Class.define("qx.test.util.DateFormat",
 
     testInvalidDate : function()
     {
+      // Note:
+      //   * Edge parses even invalid dates and calculates
+      //     from the "overflowing" days and months the
+      //     next "logical" date. In the example below
+      //     the date parsed is "2011-12-02".
+      this.require(["noEdge"]);
+
       var invalidDate = new Date("2011-11-32");
       var dateFmt = new qx.util.format.DateFormat();
       this.assertNull(dateFmt.format(invalidDate));
@@ -849,6 +858,10 @@ qx.Class.define("qx.test.util.DateFormat",
     dfDE.dispose();
     dfUS.dispose();
 
+  },
+  
+  hasNoEdge: function() {
+    return !(qx.core.Environment.get("browser.name") == "edge");
   }
 
   }
