@@ -74,7 +74,7 @@ git commit -m "Refresh site at ${rev}"
 git push -q upstream HEAD:master
 
 # Do a regular checkout and make a dummy commit
-git clone -q git@github.com:qooxdoo/qooxdoo.github.io.git tmp
+git clone --depth 10 -q git@github.com:qooxdoo/qooxdoo.github.io.git tmp
 cd tmp
 echo $rev > revision
 git add revision
