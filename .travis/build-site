@@ -107,8 +107,6 @@ function build_manual {
   (
     cd documentation/manual
     make html && cp -r build/html/* "$TARGET"
-    make latexpdf && cp build/latex/qooxdoo.pdf "$TARGET"
-    #make epub && cp build/epub/qooxdoo.epub "$TARGET"
   )
 }
 
