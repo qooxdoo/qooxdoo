@@ -56,7 +56,8 @@ module.exports = function(config) {
       'SafariSL': {
         base: 'SauceLabs',
         browserName: 'safari',
-        platform: 'macOS 10.12'
+        platform: 'macOS 10.13',
+        timezone: 'London'
       },
       'EdgeSL': {
         base: 'SauceLabs',
