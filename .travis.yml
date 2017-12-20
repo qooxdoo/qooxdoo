@@ -19,14 +19,11 @@ env:
 cache:
   directories:
   - "/tmp/qx*"
-  - "`pwd`/texlive"
 
 before_install:
 - gem install sass -v 3.4.20
-- curl -L https://github.com/raphink/travis-texlive/releases/download/2015-07-14_05/texlive.tar.xz  | tar xJC `pwd`
 
 install:
-- export PATH=`pwd`/texlive/bin/x86_64-linux:$PATH
 - .travis/prepare_npm
 - cd framework
 
