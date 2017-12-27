@@ -493,19 +493,19 @@ qx.Class.define("qx.ui.core.Blocker",
      * Sets the blocker element to active.
      */
     __activateBlockerElement : function() {
+      // 
+      // If this._widget is attached to the focus handler as a focus root,
+      // activating the blocker after this widget was deactivated,
+      // leads to the focus handler re-activate the widget behind
+      // the blocker, loosing tab handling for this._widget which is
+      // visually in front. Hence we prevent activating the 
+      // blocker in this situation.
+      //
+      // fixes:
+      //  https://github.com/qooxdoo/qooxdoo/issues/9449
+      //  https://github.com/qooxdoo/qooxdoo/issues/8104
+      //
       if (this.getKeepBlockerActive() && 
-          // 
-          // If this._widget is attached to the focus handler as a focus root,
-          // activating the blocker after this widget was deactivated,
-          // leads to the focus handler re-activate the widget behind
-          // the blocker, loosing tab handling for this._widget which is
-          // visually in front. Hence we prevent activating the 
-          // blocker in this situation.
-          //
-          // fixes:
-          //  https://github.com/qooxdoo/qooxdoo/issues/9449
-          //  https://github.com/qooxdoo/qooxdoo/issues/8104
-          //
           !qx.ui.core.FocusHandler.getInstance().isFocusRoot(this._widget)) {
         this.getBlockerElement().activate();
       }
