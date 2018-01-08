@@ -143,7 +143,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
     /**
      * Start loading scripts. This may only be called once!
-     *
+     * @return {Promise} a promise which will be resolved after load of all scripts.
      */
     start: function() {
       return new qx.Promise(function(resolve, reject) {
