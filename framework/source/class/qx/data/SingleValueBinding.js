@@ -661,7 +661,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           try{
             target["set" + qx.lang.String.firstUp(lastProperty)](null);
           } catch (e) {
-            throw new Error("Databinding failed as target " + target + " does not have a setter for " + lastProperty );
+            throw new Error("Binding '" + lastProperty + "' on target " + target + " failed: " + e);
           }
           
         }
@@ -700,7 +700,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           try {
             return target["set" + qx.lang.String.firstUp(lastProperty)](value);
           } catch (e) { 
-            throw new Error("Databinding failed as target " + target + " does not have a setter for " + lastProperty );
+            throw new Error("Binding '" + lastProperty + "' on target " + target + " failed: " + e);
           }
         }
       }
