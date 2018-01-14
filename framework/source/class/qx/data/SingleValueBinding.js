@@ -658,7 +658,12 @@ qx.Class.define("qx.data.SingleValueBinding",
           target["reset" + qx.lang.String.firstUp(lastProperty)]();
         } else {
           // fallback if no resetter is given (see bug #2456)
-          target["set" + qx.lang.String.firstUp(lastProperty)](null);
+          try{
+            target["set" + qx.lang.String.firstUp(lastProperty)](null);
+          } catch (e) {
+            throw new Error("Databinding failed as target " + target + " does not have a setter for " + lastProperty );
+          }
+          
         }
       }
     },
@@ -692,7 +697,11 @@ qx.Class.define("qx.data.SingleValueBinding",
           }
           target.setItem(index, value);
         } else {
-          return target["set" + qx.lang.String.firstUp(lastProperty)](value);
+          try {
+            return target["set" + qx.lang.String.firstUp(lastProperty)](value);
+          } catch (e) { 
+            throw new Error("Databinding failed as target " + target + " does not have a setter for " + lastProperty );
+          }
         }
       }
     },
