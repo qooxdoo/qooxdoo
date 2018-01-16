@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{= it.lang }}">
+
+  {{= it.partials.head(it) }}
+
+  <body>
+
+    {{= it.partials.header(it) }}
+
+    <!-- Content -->
+    <div class="container py-5">
+        {{= it.contents }}
+    </div> 
+
+    {{= it.partials.footer(it) }}
+
+  </body>
+
+</html>
