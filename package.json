@@ -1,17 +1,36 @@
 {
   "name": "qxcompiler",
   "description": "node.js based replacement for the Qooxdoo python toolchain",
-  "author": "John Spackman <john.spackman@zenesis.com>",
-  "version": "0.1.34",
-  "keywords": "qooxdoo compiler",
-  "homepage": "https://github.com/qooxdoo/qxcompiler",
+  "main": "index.js",
+  "scripts": {
+    "test": "cd test && node *.js"
+  },
+  "cross-os": {
+    "test.os": {
+      "win32": "test\\test.win32.cmd",
+      "linux": "test/test.linux.sh"
+    }
+  },
+  "author": "John Spackman (johnspackman), Christian Boulanger (cboulanger), Henner Kollmann (hkollmann), and others",
+  "version": "0.2.0",
+  "keywords": [
+    "qooxdoo",
+    "compiler",
+    "qooxdoo-contrib",
+    "cli"
+  ],
+  "homepage": "https://github.com/qooxdoo/qooxdoo-compiler",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qooxdoo/qxcompiler.git"
+    "url": "https://github.com/qooxdoo/qooxdoo-compiler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/qooxdoo/qx-compiler/issues"
   },
   "license": "MIT",
   "dependencies": {
-    "async": "^2.0.1",
+    "app-module-path": "^2.2.0",
+    "async": "^2.4.1",
     "babel-core": "^6.26.0",
     "babel-eslint": "^6.1.2",
     "babel-generator": "^6.26.0",
@@ -21,23 +40,39 @@
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
     "babylon": "^6.18.0",
+    "chokidar": "^1.7.0",
+    "download": "^6.0.0",
     "es6-promisify-all": "^0.1.0",
+    "eslint": "^4.13.0",
+    "eslint-config-qx": "^0.0.7",
+    "flat-cache": "^1.2.2",
     "fontkit": "^1.7.7",
+    "gauge": "^2.7.4",
+    "github-api": "^3.0.0",
+    "glob": "^7.1.2",
     "image-size": "^0.6.1",
+    "inquirer": "^4.0.0",
+    "json-to-ast": "https://github.com/johnspackman/json-to-ast.git#editable-json",
     "jsonlint": "^1.6.2",
+    "node-fetch": "^1.7.3",
     "node-sass": "^4.6.1",
+    "qooxdoo-sdk": "^6.0.0-alpha",
     "qooxdoo": "^5.0.1",
     "rimraf": "^2.6.2",
+    "semver": "^5.3.0",
     "tmp": "0.0.33",
     "uglify-js": "^3.1.9",
     "upath": "^1.0.2",
-    "xml2js": "^0.4.19"
+    "xml2js": "^0.4.19",
+    "yargs": "^8.0.1"
   },
   "devDependencies": {
+    "cross-os": "^1.2.2",
     "tape": "^4.8.0"
   },
-  "scripts": {
-    "test": "cd test && node *.js"
+  "engine": "node >= 6.11.1",
+  "bin": {
+    "qx": "qx"
   },
-  "engine": "node >= 6.11.1"
+  "preferGlobal": "true"
 }

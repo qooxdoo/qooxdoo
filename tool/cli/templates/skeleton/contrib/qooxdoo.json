@@ -1,0 +1,8 @@
+{
+	"libraries": [
+		{ "path": "." }
+	],
+	"applications": [
+		{ "path": "demo/default"}
+	]
+}

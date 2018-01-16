@@ -1,0 +1,32 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "source-output"
+    },
+    {
+      "type": "hybrid",
+      "outputPath": "hybrid-output"
+    },
+    {
+      "type": "build",
+      "outputPath": "build-output"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ${locales},
+
+  "applications": [
+    {
+      "class": "${namespace}.demo.Application",
+      "theme": "${namespace}.demo.theme.Theme",
+      "name": "${namespace}"
+    }
+  ],
+
+  "libraries": [
+    "${qxpath}",
+    ".",
+    "../.."
+  ]
+}

@@ -21,4 +21,4 @@
  *
  * ************************************************************************/
 
-module.exports = require("./lib/qxcompiler");
+module.exports = require("./lib/index");

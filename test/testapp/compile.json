@@ -45,7 +45,7 @@
 	},
 	
 	"libraries": [
-		"/Users/john/dev/Qooxdoo/qooxdoo/framework",
+		"../../qooxdoo/framework",
 		"."
 	]
 }

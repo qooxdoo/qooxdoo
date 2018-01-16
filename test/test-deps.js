@@ -1,20 +1,20 @@
 var test = require('tape');
 var fs = require("fs");
 var async = require("async");
-const {promisify, promisifyThis} = require("../lib/util");
+const {promisify, promisifyThis} = require("../lib/qx/tool/compiler/util");
 const readFile = promisify(fs.readFile);
-require("../lib/qxcompiler");
+require("../lib");
 
 async function createMaker() {
 
   var STARTTIME = new Date();
 
-  var QOOXDOO_PATH = "../../qooxdoo";
+  var QOOXDOO_PATH = "../qooxdoo";
 
   // Makers use an Analyser to figure out what the Target should write
-  var maker = new qxcompiler.makers.AppMaker().set({
+  var maker = new qx.tool.compiler.makers.AppMaker().set({
     // Targets know how to output an application
-    target: new qxcompiler.targets.SourceTarget("source-output").set({ writeCompileInfo: true }),
+    target: new qx.tool.compiler.targets.SourceTarget("source-output").set({ writeCompileInfo: true }),
     locales: [ "en"  ],
     writeAllTranslations: true,
     environment: {
@@ -22,7 +22,7 @@ async function createMaker() {
       envVar2: "two"
     }
   });
-  maker.addApplication(new qxcompiler.app.Application("testapp.Application").set({
+  maker.addApplication(new qx.tool.compiler.app.Application("testapp.Application").set({
     theme: "qx.theme.Indigo",
     name: "appone",
     environment: {

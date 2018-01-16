@@ -1,0 +1,45 @@
+#!/usr/bin/env node
+
+const path = require("path");
+require("./lib");
+
+// sanatise process list parameter
+let args = [path.relative(process.cwd(), process.argv[1])]
+
+for (let i=2; i<process.argv.length; i++) {
+  let arg = process.argv[i]
+  if (arg === '--token' || arg === '-t') {
+    args.push.apply(args, [arg, '*****'])
+    i++
+  }
+  else if (arg.startsWith('--token=')) {
+    args.push('--token=*****')
+  }
+  else if (arg.startsWith('-t')) {
+    args.push('-t*****')
+  }
+  else {
+    args.push(arg)
+  }
+}
+
+process.title = args.join(" ")
+
+// main config
+var title = "qooxdoo command line interface";
+title = "\n" + title + "\n" + "=".repeat(title.length) + "\n";
+title += `Versions: qooxdoo-compiler v${qx.tool.compiler.Version.VERSION}\n\n`;
+title +=
+`Typical usage:
+  qx <commands> [options]
+  
+Type qx <command> --help for options and subcommands.`
+
+require('yargs')
+  .locale("en")
+  .commandDir('tool/cli/commands')
+  .usage(title)
+  .demandCommand()
+  .strict()
+  .showHelpOnFail()
+  .argv;
