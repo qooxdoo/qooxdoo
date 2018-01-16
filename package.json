@@ -3,8 +3,8 @@
   "description": "node.js based replacement for the Qooxdoo python toolchain",
   "main": "index.js",
   "scripts": {
-    "test": "cd test && node *.js"
-  },
+    "test": "cross-os test.os"
+  },  
   "cross-os": {
     "test.os": {
       "win32": "test\\test.win32.cmd",
