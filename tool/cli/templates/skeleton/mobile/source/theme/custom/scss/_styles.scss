@@ -1,0 +1,265 @@
+//
+// Application-specific theming template for qx.Mobile Applications
+//
+// Modify the values for customizing your theme
+// and run the qooxdoo generator job 'watch-scss'
+
+// Theme
+
+$foreground-color: #222;
+$background-color: white;
+$highlight-color: #3D72C9;
+
+$color-1: mix($foreground-color, $background-color, 90%);
+$color-2: mix($foreground-color, $background-color, 70%);
+$color-3: mix($foreground-color, $background-color, 50%);
+$color-4: mix($foreground-color, $background-color, 30%);
+$color-5: mix($foreground-color, $background-color, 10%);
+ 
+// Application
+
+$application-font:  "Segoe UI","Slate Pro",sans-serif,Helvetica;
+$application-text-color:  $foreground-color;
+
+// Button
+
+$button-text-color:  $color-1;
+$button-font-size:  rem(15);
+$button-font-weight: bold;
+$button-active-text-color:  $background-color;
+$button-border-radius:  rem(4);
+$button-border-color:  $color-2;
+$button-active-border-color:  $color-2;
+$button-background:  $background-color,$color-4;
+$button-active-background:  lighten($highlight-color,20%),$highlight-color;
+
+// Carousel
+
+$carousel-pagination-size:  rem(10);
+$carousel-pagination-background: rgba($background-color,0.6);
+$carousel-pagination-border-color: rgba($background-color,0.6);
+$carousel-pagination-active-background: $highlight-color;
+$carousel-pagination-active-border-color: $background-color;
+$carousel-pagination-border-radius: $carousel-pagination-size;
+$carousel-pagination-font-size:  rem(1);
+$carousel-pagination-font-color: rgba(0,0,0,0);
+
+// Checkbox
+
+$checkbox-size:  rem(30);
+$checkbox-tick-color: $highlight-color;
+$checkbox-tick-size:  rem(14);
+$checkbox-tick-width:  rem(4);
+$checkbox-tick-shadow: rgba(0,0,0,0.3);
+$checkbox-border-radius:  rem(4);
+$checkbox-border-color:  $color-2;
+$checkbox-background: $color-4,$background-color;
+
+// Collapsible
+
+$collapsible-border-radius:  rem(4);
+$collapsible-header-border-color:  $color-2;
+$collapsible-header-text-color:  $color-1;
+$collapsible-header-active-text-color: $background-color;
+$collapsible-header-background:  $background-color, $color-4;
+$collapsible-header-active-background:  lighten($highlight-color,20%),$highlight-color;
+$collapsible-header-padding:  rem(10);
+$collapsible-header-content-distance:  rem(10);
+$collapsible-content-border-color:  $color-4;
+$collapsible-content-padding:  rem(10);
+$collapsible-content-background-color:  $background-color;
+$collapsible-arrow-size:  rem(8);
+$collapsible-arrow-color:  $color-1;
+$collapsible-active-arrow-color:  $background-color;
+
+// Drawer
+
+$drawer-border-color:  $color-1;
+$drawer-above-background:  $color-5;
+$drawer-below-background:  $color-3;
+
+// Dialog
+
+$dialog-border-color: $highlight-color;
+$dialog-background:  $color-2,$color-1 50%,$color-1;
+$dialog-arrow-up-color:  $color-2;
+$dialog-arrow-down-color:  $color-1;
+$dialog-arrow-size:  rem(12);
+$dialog-arrow-position-offset:  rem(16);
+$dialog-border-radius:  rem(4);
+$dialog-title-text-color: $background-color;
+$dialog-font-weight: bold;
+
+// Form
+
+$form-background:  $background-color;
+$form-title-text-color:  $highlight-color;
+$form-label-text-color:  $color-1;
+$form-border-color:  $color-4;
+$form-border-radius:  rem(4);
+$form-font-weight: bold;
+
+// Group
+
+$group-background:  $background-color;
+$group-border-color:  $color-4;
+$group-title-text-color:  $highlight-color;
+$group-border-radius:  rem(4);
+
+// Input
+
+$input-text-color:  $color-1;
+$input-background:  $background-color;
+$input-border-radius:  rem(4);
+$input-border-color: $color-4;
+$input-invalid-border-color: red;
+$input-active-border-color: $highlight-color;
+
+// List
+
+$list-background: $background-color;
+$list-title-text-color: $color-1;
+$list-title-font-size:  rem(17);
+$list-title-font-weight: bold;
+$list-subtitle-text-color:  $highlight-color;
+$list-subtitle-font-size:  rem(14);
+$list-border-color: $color-4;
+$list-active-background:  lighten($highlight-color,20%),$highlight-color;
+$list-active-text-color:  $background-color;
+$list-border-radius:  rem(4);
+$list-arrow-size:  rem(3);
+$list-arrow-thickness:  rem(2);
+$list-arrow-color: $color-1;
+$list-active-arrow-color: $background-color;
+$list-group-header-height: rem(30);
+$list-group-header-color: $color-3;
+$list-group-header-background: $background-color;
+$list-group-header-font: normal rem(16) sans-serif;
+
+// Menu
+
+$menu-item-selected-text-color:  $background-color;
+$menu-item-selected-background:  lighten($highlight-color, 20%), $highlight-color;
+
+// NavigationBar
+
+$navigationbar-height:  rem(40);
+$navigationbar-background:  $color-2,$color-1;
+$navigationbar-text-size:  $navigationbar-height/2;
+$navigationbar-text-color:  $background-color;
+$navigationbar-padding:  rem(4);
+$navigationbar-font-weight: bold;
+
+// NavigationBar Button
+
+$navigationbarbutton-border-radius:  rem(4);
+$navigationbarbutton-background:  $background-color,$color-4;
+$navigationbarbutton-border-color:  $color-2;
+$navigationbarbutton-text-color:  $color-1;
+$navigationbarbutton-active-background:  lighten($highlight-color,20%),$highlight-color;
+$navigationbarbutton-active-text-color:  $background-color;
+$navigationbarbutton-active-border-color:  $background-color;
+$navigationbarbutton-font-weight: bold;
+
+// Page
+
+$navigationpage-background: $color-5;
+$navigationpage-border-color: $color-2;
+
+// Picker
+
+$picker-spinning-wheel-overlay:  rgba($background-color,1),rgba($background-color,0) 40%,rgba($background-color,0) 60%,rgba($background-color,1);
+$picker-spinning-wheel-text-color:  $color-1;
+$picker-spinning-wheel-background:  $background-color;
+$picker-highlight-color:  rgba($highlight-color,0.5);
+$picker-highlight-border-width:  rem(2);
+$picker-spinning-wheel-divider-color:  $color-2;
+$picker-spinning-wheel-divider-width:  rem(2);
+
+// Deprecated in 4.1
+$picker-spinning-wheel-border-radius: rem(2);
+$picker-label-height: rem(25);
+$picker-label-font-size: rem(16);
+$picker-height: rem(160);
+// -----------------
+
+// RadioButton
+
+$radiobutton-size:  rem(32);
+$radiobutton-dot-color: $highlight-color;
+$radiobutton-dot-shadow: rgba(0,0,0,0.3);
+$radiobutton-background: $color-4,$background-color;
+$radiobutton-border-color: $color-2;
+
+// SelectBox
+
+$selectbox-border-radius:  rem(4);
+$selectbox-border-color:  $color-2;
+$selectbox-text-color:  $color-1;
+$selectbox-background:  $background-color,$color-4;
+$selectbox-active-background:  lighten($highlight-color,20%),$highlight-color;
+$selectbox-active-text-color:  $background-color;
+$selectbox-item-selected-text-color:  $background-color;
+$selectbox-item-selected-background:  lighten($highlight-color,20%), $highlight-color;
+
+// Slider
+
+$slider-height:  rem(7);
+$slider-background:  $color-4,$background-color;
+$slider-active-area:  lighten($highlight-color,20%),$highlight-color;
+$slider-border-radius:  rem(20);
+$slider-border-color:  $color-2;
+$slider-knob-border-radius:  rem(4);
+$slider-knob-width:  rem(30);
+$slider-knob-height:  rem(30);
+$slider-knob-background:  $background-color,$color-4;
+$slider-knob-border-color:  $color-2;
+$slider-shadow: rgba(0,0,0,0.4);
+$slider-font-color:  $color-2;
+
+// Spinner
+
+$spinner-border-thickness: rem(3);
+$spinner-border-color: white;
+$spinner-size: rem(14);
+
+// Tabbar
+
+$tabbar-height:  rem(45);
+$tabbar-divider-color:  $highlight-color;
+$tabbar-active-background:  lighten($highlight-color,20%),$highlight-color;
+$tabbar-active-border-color:  $highlight-color;
+$tabbar-inactive-background:  $color-3,$color-2;
+$tabbar-inactive-border-color:  $color-3;
+$tabbar-active-text-color:  $background-color;
+$tabbar-inactive-text-color:  $background-color;
+$tabbar-border-radius:  rem(4);
+$tabbar-button-distance:  rem(4);
+
+// ToggleButton
+
+$togglebutton-width:  rem(100);
+$togglebutton-height:  rem(30);
+$togglebutton-border-radius:  rem(4);
+$togglebutton-border-color:  $color-2;
+$togglebutton-text-color:  $color-1;
+$togglebutton-background:  $color-5,$background-color;
+$togglebutton-active-background:  $highlight-color,lighten($highlight-color,20%);
+$togglebutton-knob-background:  $background-color,$color-4;
+$togglebutton-knob-width:  rem(30);
+$togglebutton-active-text-color:  $background-color;
+$togglebutton-inset-shadow:  rgba(0,0,0,0.1);
+$togglebutton-knob-shadow:  rgba(0,0,0,0.4);
+$togglebutton-font-size:  rem(13);
+$togglebutton-font-weight: bold;
+
+// Toolbar
+
+$toolbar-text-color:  $color-1;
+$toolbar-background:  $background-color,$color-4;
+$toolbar-active-background:  lighten($highlight-color,20%),$highlight-color;
+$toolbar-active-text-color:  $background-color;
+$toolbar-border-color:  $color-2;
+$toolbar-border-radius:  rem(4);
+$toolbar-font-weight: bold;
+$toolbar-padding:  rem(5);

@@ -1,0 +1,27 @@
+{
+  "info" : 
+  {
+    "name" : "${name}",
+
+    "summary" : "${summary}",
+    "description" : "${description}",
+    
+    "homepage" : "${homepage}",
+
+    "license" : "${license}",
+    "authors" : ${author_map},
+
+    "version" : "${version}",
+    "qooxdoo-range": "${qooxdoo_range}"
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "${namespace}",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}

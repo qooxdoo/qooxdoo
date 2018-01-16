@@ -1,12 +1,16 @@
 language: node_js
 node_js:
 - '8'
+# - lts/* # once we support on-the-fly transpilation
 cache:
   directories:
   - node_modules
-before_install:
-- mkdir ../qooxdoo && wget -qO- https://github.com/qooxdoo/qooxdoo/archive/master.tar.gz
-  | tar xz -C ../qooxdoo --strip 1
+install:
+  - git clone https://github.com/qooxdoo/qooxdoo.git
+  - npm install
+script:
+  - echo "Simple testing of CLI ..."
+  - npm test
 deploy:
   provider: npm
   email: johnspackman@zenesis.com
