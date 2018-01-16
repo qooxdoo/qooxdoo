@@ -2,12 +2,8 @@ language: node_js
 node_js:
 - '8'
 # - lts/* # once we support on-the-fly transpilation
-cache:
-  directories:
-  - node_modules
 install:
   - git clone --depth=10 https://github.com/qooxdoo/qooxdoo.git
-  - npm install
   - npm link
   - npm link qooxdoo
 script:
