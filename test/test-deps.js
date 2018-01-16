@@ -9,7 +9,7 @@ async function createMaker() {
 
   var STARTTIME = new Date();
 
-  var QOOXDOO_PATH = "../../qooxdoo";
+  var QOOXDOO_PATH = "../qooxdoo";
 
   // Makers use an Analyser to figure out what the Target should write
   var maker = new qx.tool.compiler.makers.AppMaker().set({
