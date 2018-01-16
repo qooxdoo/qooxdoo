@@ -7,7 +7,12 @@ cache:
   - node_modules
 install:
   - git clone --depth=10 https://github.com/qooxdoo/qooxdoo.git
-  - npm install
+  - echo "travis_fold:start:npm_install"
+  - npm i -g npm
+  - npm i -g npm
+  - npm install || true
+  - npm install || true
+  - echo "travis_fold:end:npm_install"
   - npm link
   - npm link qooxdoo
 script:
