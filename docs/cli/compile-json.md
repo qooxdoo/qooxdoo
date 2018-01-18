@@ -41,6 +41,11 @@ These key concepts appear in every compile.json, for example:
     /** Path Mappings */
     "path-mappings": {
         "../qooxdoo": "/some/folder/qooxdoo"
+    },
+    
+    /** optional web server */
+    serve: {
+        listenPort: 8082
     }
 }
 ```
@@ -243,6 +248,15 @@ If you omit the eslintConfig section a default will be used:
   }
 ```
 ** The namespaces of all libraries will be added to the globals section automatically! **
+
+## Web Server
+If you choose to use the optional web server by running `qx serve`, you can change the default port by specifying the `listenPort` property: 
+
+```
+    serve: {
+        listenPort: 8082
+    }
+```
 
 ## compile.js
 Configuration files do not support processes, job executions, or even macros - if you want to add basic processing (eg for macros), use a .js file to manipulate the data. 

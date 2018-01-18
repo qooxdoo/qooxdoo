@@ -25,7 +25,7 @@
     "url": "https://github.com/qooxdoo/qooxdoo-compiler.git"
   },
   "bugs": {
-    "url": "https://github.com/qooxdoo/qx-compiler/issues"
+    "url": "https://github.com/qooxdoo/qooxdoo-compiler/issues"
   },
   "license": "MIT",
   "dependencies": {
@@ -45,6 +45,7 @@
     "es6-promisify-all": "^0.1.0",
     "eslint": "^4.13.0",
     "eslint-config-qx": "^0.0.7",
+    "express": "^4.16.2",
     "flat-cache": "^1.2.2",
     "fontkit": "^1.7.7",
     "gauge": "^2.7.4",
@@ -55,7 +56,7 @@
     "json-to-ast": "https://github.com/johnspackman/json-to-ast.git#editable-json",
     "jsonlint": "^1.6.2",
     "node-fetch": "^1.7.3",
-    "node-sass": "^4.6.1",
+    "node-sass": "^4.7.2",
     "qooxdoo-sdk": "^6.0.0-alpha",
     "qooxdoo": "^5.0.1",
     "rimraf": "^2.6.2",
@@ -68,6 +69,13 @@
   },
   "devDependencies": {
     "cross-os": "^1.2.2",
+    "dot": "^1.1.2",
+    "jstransformer-dot": "^0.1.2",
+    "metalsmith": "^2.3.0",
+    "metalsmith-filenames": "^1.0.0",
+    "metalsmith-layouts": "^2.0.0",
+    "metalsmith-markdown": "^0.2.2",
+    "metalsmith-permalinks": "^0.5.0",
     "tape": "^4.8.0"
   },
   "engine": "node >= 6.11.1",

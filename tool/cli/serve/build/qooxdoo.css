@@ -1,0 +1,11 @@
+#navbarNav.collapsing, #navbarNav.collapse.show {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding-left: 32px;
+  padding-top: 16px;
+  padding-bottom: 16px; }
+
+.carousel-indicators li {
+  background-color: #EEE; }
+
+.carousel-indicators li.active {
+  background-color: #AAA; }

@@ -25,4 +25,4 @@ Options:
   --verbose                 enables additional progress output to console
                                                                        [boolean]
 ```
-The compiler relies on the information contained in `compile.json`. Documentation for the `compile.json` format is [here](docs/compile-json.md).
+The compiler relies on the information contained in `compile.json`. Documentation for the `compile.json` format is [here](compile-json.md).
