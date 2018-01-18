@@ -2,7 +2,7 @@
 
 **NOTE** If you have previous installed `qooxdoo-cli`, please uninstall it before continuing
 
-[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/qooxdoo/qxcompiler)
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/qooxdoo/qooxdoo)
 [![Build Status](https://travis-ci.org/qooxdoo/qooxdoo-compiler.svg?branch=master)](https://travis-ci.org/qooxdoo/qooxdoo-compiler)
 
 Qooxdoo-Compiler is the new compiler and command line interface for Qooxdoo (http://qooxdoo.org) applications, written in 100% Node.JS Javascript it adds these key improvements over the standard python generator:
