@@ -2,6 +2,7 @@
 
 **NOTE** If you have previous installed `qooxdoo-cli`, please uninstall it before continuing
 
+[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/qooxdoo/qooxdoo)
 [![Build Status](https://travis-ci.org/qooxdoo/qooxdoo-compiler.svg?branch=master)](https://travis-ci.org/qooxdoo/qooxdoo-compiler)
 
 Qooxdoo-Compiler is the new compiler and command line interface for Qooxdoo (http://qooxdoo.org) applications, written in 100% Node.JS Javascript it adds these key improvements over the standard python generator:
@@ -51,12 +52,10 @@ The included command line utility allows you create, build and manage [qooxdoo](
 Beta. The API is still likely to change, but not fundamentally.
 
 ## Prerequisites
-- **Node** Currently requires NodeJS v8. The released version will be 
-  transpiled to support earlier node versions, but whichever version you 
-  choose to use we recommend you consider `nvm` to ease installing and 
-  switching between node versions - you can find the Linux version at 
-  http://nvm.sh and there is a version for Windows at 
-  https://github.com/coreybutler/nvm-windows 
+- **Node** Currently requires NodeJS v8. The released version will be transpiled to support earlier node versions, but whichever version you choose to use we recommend you consider `nvm` to ease installing and switching between node versions - you can find the Linux version at http://nvm.sh and there is a version for Windows at https://github.com/coreybutler/nvm-windows
+
+- **Qooxdoo** Currently requires the latest [master of the Qooxdoo repo](https://github.com/qooxdoo/qooxdoo) - although `master` is cutting edge, we take care to keep it stable and suitable for production use (although use at your own risk, obviously).  Several of the core development team use `master` on live, production sites with real users ... so you know that we're committed to delivering a stable product. 
+ 
 
 Install `nvm` and then:
 
