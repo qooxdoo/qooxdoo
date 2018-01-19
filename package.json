@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-os test.os"
-  },  
+  },
   "cross-os": {
     "test.os": {
       "win32": "test\\test.win32.cmd",
@@ -41,6 +41,7 @@
     "babel-types": "^6.26.0",
     "babylon": "^6.18.0",
     "chokidar": "^1.7.0",
+    "columnify": "^1.5.4",
     "download": "^6.0.0",
     "es6-promisify-all": "^0.1.0",
     "eslint": "^4.13.0",
@@ -57,8 +58,8 @@
     "jsonlint": "^1.6.2",
     "node-fetch": "^1.7.3",
     "node-sass": "^4.7.2",
-    "qooxdoo-sdk": "^6.0.0-alpha",
     "qooxdoo": "^5.0.1",
+    "qooxdoo-sdk": "^6.0.0-alpha",
     "rimraf": "^2.6.2",
     "semver": "^5.3.0",
     "tmp": "0.0.33",
