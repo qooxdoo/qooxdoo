@@ -11,6 +11,7 @@ addons:
   apt:
     packages:
     - python-sphinx
+    - python-markdown
 
 env:
 - secure: vW8wdbY/DmRITaFkQix8PUuE3jiwy2Yj0nn+k+yNqcwPde19ObQBq0rHJEiO5AJOBuNiWaie2n8sQQ6ceK72pU1IbIntPsztY/EFKP6x009wjmiLoifsVEGNP1kxLgFOnvCmlGjTIyGsqse5UsVt8HZs2jHK8xkkedTehuDNxtI=
@@ -18,16 +19,12 @@ env:
 cache:
   directories:
   - "/tmp/qx*"
-  - "`pwd`/texlive"
 
 before_install:
 - gem install sass -v 3.4.20
-- curl -L https://github.com/raphink/travis-texlive/releases/download/2015-07-14_05/texlive.tar.xz  | tar xJC `pwd`
 
 install:
-- export PATH=`pwd`/texlive/bin/x86_64-linux:$PATH
-- npm install
-- grunt setup
+- .travis/prepare_npm
 - cd framework
 
 stages:
@@ -43,7 +40,7 @@ jobs:
 
     - stage: Unit-Tests
       #script: ../.travis/test ChromeSL,ChromeBetaSL,FirefoxSL,FirefoxBetaSL,SafariSL,EdgeSL,IESL
-      script: ../.travis/test ChromeSL,ChromeBetaSL,FirefoxSL,FirefoxBetaSL
+      script: ../.travis/test ChromeSL,ChromeBetaSL,FirefoxSL,FirefoxBetaSL,EdgeSL
     - script: ../.travis/coverage
 
     - stage: Deploy

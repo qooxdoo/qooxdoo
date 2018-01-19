@@ -139,19 +139,27 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      */
     __started: null,
 
+
+
     /**
      * Start loading scripts. This may only be called once!
-     *
+     * @return {Promise} a promise which will be resolved after load of all scripts.
      */
     start: function() {
-      if (this.isDisposed()) {
-        return;
-      }
-      if (this.__started){
-        throw new Error('you can only call start once per instance');
-      }
-      this.__started = true;
-      this.__loadScripts();
+      return new qx.Promise(function(resolve, reject) {
+        this.addListenerOnce("ready", resolve, this);
+        this.addListenerOnce("failed", function(e) {
+          reject(new Error(e.getData()));
+        }, this);
+        if (this.isDisposed()) {
+          reject(new Error('disposed'));
+        }
+        if (this.__started){
+          reject(new Error('you can only call start once per instance'));
+        }
+        this.__started = true;
+        this.__loadScripts();
+      }, this);
     },
 
 

@@ -124,9 +124,19 @@ qx.Class.define("qx.test.ui.embed.Iframe",
       window.setTimeout(function ()
       {
         this.resume(function() {
+          var innerText = iframe.getWindow().document.body.innerText;
+
+          // IE and edge deliver an extra blank at the end of 
+          // body.innerText
+          if(typeof innerText == "string" &&
+             (qx.core.Environment.get("browser.name") == "edge" ||
+              qx.core.Environment.get("browser.name") == "ie" )) 
+          {
+            innerText = innerText.replace(/\s$/gm,'');
+          }
           this.assertEquals(
             "Hello World!",
-            iframe.getWindow().document.body.innerText
+            innerText
           );
         });
       }.bind(this), 4000);
