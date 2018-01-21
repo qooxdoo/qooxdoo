@@ -79,6 +79,7 @@ qx compile
 git clone https://github.com/qooxdoo/qooxdoo-compiler
 cd qooxdoo-compiler
 npm install
+npm link
 ```
 
 
