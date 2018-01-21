@@ -79,6 +79,7 @@ qx compile
 git clone https://github.com/qooxdoo/qooxdoo-compiler
 cd qooxdoo-compiler
 npm install
+npm link
 ```
 
 
@@ -118,7 +119,6 @@ Qooxdoo Compiler is a BETA RELEASE - at this stage, the compiler is expected to 
 
 It is currently (October 2017) in use on one major project which is in pre-production testing with real users, and another is about to be released; Qooxdoo Compiler is used for source and build releases, and while there may be some issues that will crop up it is stable enough for most users.
 
-The command line tools are housed in the [Qooxdoo-Cli](https://github.com/qooxdoo/qooxdoo-cli) project, which includes facilities to manage contribs nd continuous, automatic compilation.
 
 
 
