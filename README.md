@@ -67,7 +67,7 @@ nvm use 8
 ## Installation
 - Install qooxdoo-compiler, create a sample application and compile it
 ```bash
-npm install -g qooxdoo-compiler
+npm install -g qxcompiler
 qx create myapp
 cd myapp
 qx compile
@@ -79,7 +79,6 @@ qx compile
 git clone https://github.com/qooxdoo/qooxdoo-compiler
 cd qooxdoo-compiler
 npm install
-npm link
 ```
 
 
