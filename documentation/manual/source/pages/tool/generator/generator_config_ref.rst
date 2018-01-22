@@ -1302,10 +1302,12 @@ translate
 
   "translate" :
   {
-    "namespaces"               : [ "qx.util" ],
-    "locales"                  : [ "en", "de" ],
-    "pofile-with-metadata"     : (true|false)
-    "poentry-with-occurrences" : (true|false)
+    "namespaces"                  : [ "qx.util" ],
+    "locales"                     : [ "en", "de" ],
+    "pofile-with-metadata"        : (true|false)
+    "poentry-with-occurrences"    : (true|false)
+    "occurrences-with-linenumber" : (true|false),
+    "eol-style"                   : "(LF|CR|CRLF)"
   }
 
 .. note::
@@ -1316,6 +1318,8 @@ translate
 * **locales** :  List of locale identifiers to update.
 * **pofile-with-metadata** : Whether meta data is automatically added to a *new* .po file; on existing .po files the meta data is retained (default: *true*)
 * **poentry-with-occurrences** : Whether each PO entry is preceded by ``#:`` comments in the *.po* files, which indicate in which source file(s) and line number(s) this key is used (default: *true*)
+* **occurrences-with-linenumber** : Enables (or suppress) appending of line-numbers to every PO entry comment (default: *true*). Only effective when *poentry-with-occurrences* is enabled.
+* **eol-style** : Determines which line end character sequence to use (default: *LF*)
 
 .. _pages/tool/generator/generator_config_ref#use:
 
