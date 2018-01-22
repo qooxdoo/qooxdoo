@@ -11,4 +11,3 @@ rmdir /Q /S contrib
 call qx contrib install  -v || EXIT /B 1
 call qx contrib remove cboulanger/qx-contrib-Dialog -v || EXIT /B 1
 call qx add script ../testdata/babel/demo-babel.js --rename=testfile.js || EXIT /B 1
-call qx add script ../testdata/babel/demo-babel.js --rename=testfile.js --undo || EXIT /B 1
