@@ -486,10 +486,12 @@ Here are the configuration keys with their individual value syntax.
 
   "translate" :
   {
-    "namespaces"               : [ "qx.util" ],
-    "locales"                  : [ "en", "de" ],
-    "pofile-with-metadata"     : (true|false)
-    "poentry-with-occurrences" : (true|false)
+    "namespaces"                  : [ "qx.util" ],
+    "locales"                     : [ "en", "de" ],
+    "pofile-with-metadata"        : (true|false),
+    "poentry-with-occurrences"    : (true|false),
+    "occurrences-with-linenumber" : (true|false),
+    "eol-style"                   : "(LF|CR|CRLF)"
   }
 
   "use" :

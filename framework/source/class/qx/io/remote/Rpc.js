@@ -894,9 +894,10 @@ qx.Class.define("qx.io.remote.Rpc",
      *
      *
      * @param methodName {String} the name of the method to call.
+     * @param args {Array} an array of values passed through to the backend.
      * @return {var} the result returned by the server.
      */
-    callSync : function(methodName)
+    callSync : function(methodName,args)
     {
       return this._callInternal(arguments, 0);
     },
@@ -932,9 +933,10 @@ qx.Class.define("qx.io.remote.Rpc",
      *
      * @param handler {Function} the callback function.
      * @param methodName {String} the name of the method to call.
+     * @param args {Array} an array of values passed through to the backend.
      * @return {var} the method call reference.
      */
-    callAsync : function(handler, methodName)
+    callAsync : function(handler, methodName, args)
     {
       return this._callInternal(arguments, 1);
     },
@@ -986,9 +988,10 @@ qx.Class.define("qx.io.remote.Rpc",
      *                           the provided exception contains adequate
      *                           disambiguating information.
      * @param methodName {String} the name of the method to call.
+     * @param args {Array} an array of values passed through to the backend.
      * @return {var} the method call reference.
      */
-    callAsyncListeners : function(coalesce, methodName)
+    callAsyncListeners : function(coalesce, methodName, args)
     {
       return this._callInternal(arguments, 2);
     },

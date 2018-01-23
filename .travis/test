@@ -1,0 +1,11 @@
+#!/bin/sh
+export PATH=$PWD/node_modules/karma/bin:$PATH
+
+php -S 0.0.0.0:31323 -t .. &> /dev/null &
+./generate.py -sI -m qx.test.delay.scale:20 test-source
+
+karma start --reporters=dots,saucelabs --browsers=$1 --hostname="$(hostname)"
+RET=$?
+
+pkill -f 'php -S 0.0.0.0:31323' &> /dev/null
+exit $RET

@@ -25,7 +25,7 @@ import cPickle as pickle
 
 from polib import polib
 from ecmascript.frontend import treeutil, tree
-from misc import cldr, util, filetool, util
+from misc import cldr, util, filetool, util, textutil
 from generator.resource.Library import Library
 from generator.code import Class
 from generator import Context
@@ -125,8 +125,12 @@ class Locale(object):
             # convert to polib style
             if self._context["jobconf"].get("translate/poentry-with-occurrences", True):
                 obj.occurrences = []
-                for location in strings[msgid]["occurrences"]:
-                    obj.occurrences.append((re.sub(r'\\', "/", location["file"]), location["line"]))
+                for location in self.conditionOccurrences(strings[msgid]["occurrences"]):
+                    if self._context["jobconf"].get("translate/occurrences-with-linenumber", True):
+                        line = location["line"]
+                    else:
+                        line = ""
+                    obj.occurrences.append((re.sub(r'\\', "/", location["file"]), line))
 
             # adding a hint/comment if available
             if "hint" in strings[msgid]:
@@ -142,6 +146,25 @@ class Locale(object):
 
         return pot
 
+
+    def conditionOccurrences(self, lst):
+        # remove multiple occurances from "lst" where ["file"] is equal
+        #   (and ["line"] & ["column"] likely be different)
+        poentryWithOccurrences = self._context["jobconf"].get("translate/poentry-with-occurrences", True)
+        occurrencesWithLinenumber = self._context["jobconf"].get("translate/occurrences-with-linenumber", True)
+        if poentryWithOccurrences and not occurrencesWithLinenumber:
+            seen = {}
+            result = []
+            for item in lst:
+                marker = item["file"]
+                # in old Python versions:
+                # if seen.has_key(marker)
+                # but in new ones:
+                if marker in seen: continue
+                seen[marker] = 1
+                result.append(item)
+            return result
+        return lst
 
 
     def updateTranslations(self, namespace, translationDir, localesList=None):
@@ -185,7 +208,7 @@ class Locale(object):
                     path = os.path.join(translationDir, locale + ".po")
                     f    = open(path, 'w')  # create stanza file
                     pof  = self.createPoFile()
-                    f.write(str(pof))
+                    f.write(self.applyEolStyle(str(pof)))
                     f.close()
                     allLocales[locale] = Library.translationEntry(locale, path, namespace)
 
@@ -206,6 +229,7 @@ class Locale(object):
                 #po.save(entry["path"])
                 poString = str(po)
                 #poString = self.recoverBackslashEscapes(poString)
+                poString = self.applyEolStyle(poString)
                 filetool.save(entry["path"], poString)
             except UnicodeDecodeError:
                 self._console.nl()
@@ -218,6 +242,19 @@ class Locale(object):
         self._console.outdent()
         self._console.outdent()
 
+
+    ##
+    # Converts end-of-lines (default to UNIX EOL) according to "eol-style" job config
+    #
+    def applyEolStyle(self, content):
+        eolStyle = self._context["jobconf"].get("translate/eol-style", "LF")
+        if eolStyle == "CR":
+            content = textutil.any2Mac(content)
+        elif eolStyle == "CRLF":
+            content = textutil.any2Dos(content)
+        else:
+            content = textutil.any2Unix(content)
+        return textutil.removeTrailingSpaces(content)
 
 
     def recoverBackslashEscapes(self, s):

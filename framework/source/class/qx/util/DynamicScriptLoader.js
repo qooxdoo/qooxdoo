@@ -145,8 +145,11 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
     __promise: null,
     __promiseRejected: false,
 
+
+
     /**
      * Start loading scripts. This may only be called once!
+<<<<<<< HEAD
      *
      * @return {qx.Promise} resolved when all scripts are loaded (or rejected if any fail to load) 
      */
@@ -171,6 +174,25 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
         this.__promise.reject(err);
         this.__promiseRejected = true;
       }
+=======
+     * @return {Promise} a promise which will be resolved after load of all scripts.
+     */
+    start: function() {
+      return new qx.Promise(function(resolve, reject) {
+        this.addListenerOnce("ready", resolve, this);
+        this.addListenerOnce("failed", function(e) {
+          reject(new Error(e.getData()));
+        }, this);
+        if (this.isDisposed()) {
+          reject(new Error('disposed'));
+        }
+        if (this.__started){
+          reject(new Error('you can only call start once per instance'));
+        }
+        this.__started = true;
+        this.__loadScripts();
+      }, this);
+>>>>>>> 7fa76d1550a4186a6d8f3c54d50e961c34914bcb
     },
 
 

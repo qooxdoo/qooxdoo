@@ -1,0 +1,8 @@
+#!/bin/bash
+files=$(find . -name package.json -print | grep -v node_modules | sort)
+
+for f in ${files}; do
+    dir=$(dirname $f)
+    echo "Installing ${dir} "
+    (cd ${dir} && npm install )
+done

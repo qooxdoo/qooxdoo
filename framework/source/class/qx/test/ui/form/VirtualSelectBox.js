@@ -58,6 +58,30 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
       }.bind(this));
 
       this.__simulateUiInteraction();
+    },
+
+    testChangeModelWhileNotVisible : function()
+    {
+      "use strict";
+      var selectBox = new qx.ui.form.VirtualSelectBox(); // We don't want to use a selectbox that has been added to a layout item.
+      selectBox.setLabelPath('b');
+      var items = qx.data.marshal.Json.createModel([{
+        a: 123,
+        b: 'item 1'
+      }, {
+        a: 456,
+        b: 'item 2'
+      }]);
+      items.setAutoDisposeItems(true);
+
+      selectBox.setModel(items);
+      try {
+        items.pop();
+      } catch (e) {
+        this.assertTrue(false, "Changing the model should not cause an exception in VirtualDropDownList#__getAvailableHeight");
+      }
+
+      items.dispose();
     }
   }
 });

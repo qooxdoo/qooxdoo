@@ -923,7 +923,7 @@ qx.Class.define("qx.ui.list.List",
 
   destruct : function()
   {
-    this.__deferredLayerUpdate = null;
+    this._disposeObjects("__deferredLayerUpdate");
     
     var model = this.getModel();
     if (model != null) {

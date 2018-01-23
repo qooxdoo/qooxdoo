@@ -2,6 +2,23 @@
 
 set -o errexit -o nounset
 
+cd $TRAVIS_BUILD_DIR
+
+declare -r SSH_FILE="$(mktemp -u $HOME/.ssh/XXXXX)"
+openssl aes-256-cbc \
+  -K $encrypted_774cfba6afab_key \
+  -iv $encrypted_774cfba6afab_iv \
+  -in ".travis/github_deploy_key.enc" \
+  -out "$SSH_FILE" -d
+
+
+# Enable SSH authentication
+chmod 600 "$SSH_FILE" \
+  && printf "%s\n" \
+       "Host github.com" \
+       "  IdentityFile $SSH_FILE" \
+       "  LogLevel ERROR" >> ~/.ssh/config
+
 TARGET="devel"
 MASTER="master"
 CURRENT=0
@@ -15,7 +32,7 @@ git config --global user.email "no-reply@qooxdoo.org"
 git config --global push.default simple
 
 git remote add upstream "git@github.com:qooxdoo/qooxdoo.github.io.git"
-git fetch upstream
+git fetch --depth 10 upstream
 git merge upstream/master
 
 # Adjust settings for TAG build
@@ -29,7 +46,11 @@ if [ "$TRAVIS_TAG" != "" ]; then
   fi
 fi
 
+cd $TRAVIS_BUILD_DIR
+.travis/make-release-sdk
+.travis/build-site
 
+cd deploy
 rm -rf "$TARGET" &> /dev/null
 cp -a ../build "$TARGET"
 
@@ -53,7 +74,7 @@ git commit -m "Refresh site at ${rev}"
 git push -q upstream HEAD:master
 
 # Do a regular checkout and make a dummy commit
-git clone -q git@github.com:qooxdoo/qooxdoo.github.io.git tmp
+git clone --depth 10 -q git@github.com:qooxdoo/qooxdoo.github.io.git tmp
 cd tmp
 echo $rev > revision
 git add revision

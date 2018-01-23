@@ -29,15 +29,57 @@ module.exports = function(config) {
       // 'source/class/qx/{*.js,!(test)/**/*.js}': 'coverage'
     },
 
+    sauceLabs: {
+      tunnelIdentifier: process.env.TRAVIS_JOB_NUMBER,
+      startConnect: false,
+      testName: 'Qooxdoo Unit-Tests',
+      recordScreenshots: false,
+      public: 'public',
+      connectOptions: {
+        noSslBumpDomains: "all"
+      }
+    },
+
     customLaunchers: {  
-      Chrome_travis_ci: {
-        base: 'Chrome',
-        flags: [
-          '--no-sandbox',
-          '--headless',
-          '--disable-gpu',
-          '--remote-debugging-port=9222'
-        ]
+      'ChromeSL': {
+        base: 'SauceLabs',
+        browserName: 'chrome',
+        platform: 'Windows 10',
+        version: 'latest'
+      },
+      'ChromeBetaSL': {
+        base: 'SauceLabs',
+        browserName: 'chrome',
+        platform: 'Windows 10',
+        version: 'beta'
+      },
+      'SafariSL': {
+        base: 'SauceLabs',
+        browserName: 'safari',
+        platform: 'macOS 10.13',
+        timezone: 'London'
+      },
+      'EdgeSL': {
+        base: 'SauceLabs',
+        platform: 'Windows 10',
+        browserName: 'microsoftedge',
+        version: '15'
+      },
+      'IESL': {
+        base: 'SauceLabs',
+        platform: 'Windows 8.1',
+        browserName: 'internet explorer'
+      },
+      'FirefoxSL': {
+        base: 'SauceLabs',
+        platform: 'Windows 10',
+        browserName: 'firefox'
+      },
+      'FirefoxBetaSL': {
+        base: 'SauceLabs',
+        platform: 'Windows 10',
+        browserName: 'firefox',
+        version: 'beta'
       }
     },
 
@@ -66,7 +108,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['ChromeSL'],
 
     client: {
       captureConsole: false
@@ -90,25 +132,16 @@ module.exports = function(config) {
 
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity,
-
-    // proxy settings for coverage
-    // proxies: {
-    //   '/resource/': 'http://127.0.0.1:31323/source/resource/',
-    //   '/qx/': 'http://127.0.0.1:31323/test/resource/qx/',
-    //   '/source/resource/': 'http://127.0.0.1:31323/source/resource/',
-    //   '/test/': 'http://127.0.0.1:31323/test/',
-    //   '/script/': '/base/test/script/',
-    //   '/component/': '/absolute' + path.resolve(__dirname, '../component') + "/",
-    //   '/source/class/': '/base/source/class/',
-    // },
+    concurrency: 2,
 
     // proxy settings without coverage (proxying resources, including PHP scripts to a PHP enabled webserver)
-    // Note: you have to start a local php server with 'php -S 127.0.0.1:31323' in this folder
+    // Note: you have to start a local php server with 'php -S 127.0.0.1:31323 -t ..' in this folder
     proxies: {
-      '/resource/': 'http://127.0.0.1:31323/source/resource/',
-      '/qx/': 'http://127.0.0.1:31323/test/resource/qx/',
-      '/source/resource/': 'http://127.0.0.1:31323/source/resource/'
+      '/script/': 'http://127.0.0.1:31323/framework/test/script/',
+      '/resource/': 'http://127.0.0.1:31323/framework/source/resource/',
+      '/qx/': 'http://127.0.0.1:31323/framework/test/resource/qx/',
+      '/source/': 'http://127.0.0.1:31323/framework/source/',
+      '/component/': 'http://127.0.0.1:31323/component/'
     },
 
     qooxdooFramework: {

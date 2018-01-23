@@ -149,6 +149,21 @@ qx.Class.define("qx.test.data.store.Json",
     },
 
 
+    testParseErrorForResource : function() {
+      this.__store.addListener("parseError", function(ev) {
+        this.resume(function() {
+          this.assertString(ev.getData().response, "Parse error object does not contain response!");
+          this.assertObject(ev.getData().error, "Parse error object does not contain parser exception!");
+        }, this);
+      }, this);
+
+      var resource = "qx/test/failing.json";
+      this.__store.setUrl(resource);
+
+      this.wait();
+    },
+
+
     testLoadAlias : function() {
       this.__store.addListener("loaded", function() {
         this.resume(function() {

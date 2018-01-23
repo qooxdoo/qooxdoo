@@ -34,6 +34,7 @@ qx.Class.define("qx.test.Browser",
       // google chrome, opera 10.5, Safari 7 and ie 9
       if (
         qx.core.Environment.get("browser.name").indexOf("chrome") != -1 ||
+        qx.core.Environment.get("browser.name") == "edge" ||
         (qx.core.Environment.get("browser.name") == "opera" &&
          qx.core.Environment.get("browser.version") >= 10.5) ||
         (qx.core.Environment.get("browser.name") == "ie" &&

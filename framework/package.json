@@ -1,7 +1,8 @@
 {
   "name": "qooxdoo-framework",
   "description": "qooxdoo framework dependencies",
-  "version": "5.1.0",
+  "version": "6.0.0-alpha",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
@@ -17,12 +18,10 @@
     "postcoverage": "pkill -f 'php -S 127.0.0.1:31323' &> /dev/null"
   },
   "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-clean": "~0.5.0",
     "karma": "^1.6.0",
-    "karma-chrome-launcher": "^2.0",
     "karma-coverage": "^0.5.5",
     "karma-coveralls": "^1.1.2",
+    "karma-sauce-launcher": "^1.2.0",
     "karma-firefox-launcher": "^1.0.1",
     "karma-qooxdoo": "^0.5.0"
   }

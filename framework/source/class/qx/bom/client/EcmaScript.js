@@ -240,6 +240,15 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     },
 
     /**
+     * Checks if 'is' is supported on the Object object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getObjectIs : function() {
+      return !!Object.is;
+    },
+
+    /**
      * Checks if 'now' is supported on the Date object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
@@ -341,6 +350,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     // object polyfill
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
     qx.core.Environment.add("ecmascript.object.values", statics.getObjectValues);
+    qx.core.Environment.add("ecmascript.object.is", statics.getObjectIs);
 
     // number polyfill
     qx.core.Environment.add("ecmascript.number.EPSILON", statics.getEpsilon);

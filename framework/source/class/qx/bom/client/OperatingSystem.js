@@ -126,6 +126,8 @@ qx.Bootstrap.define("qx.bom.client.OperatingSystem",
       "Win95" : "95",
 
       // OS X
+      "Mac OS X 10_13" : "10.13",
+      "Mac OS X 10.13" : "10.13",
       "Mac OS X 10_12" : "10.12",
       "Mac OS X 10.12" : "10.12",
       "Mac OS X 10_11" : "10.11",

@@ -107,8 +107,6 @@ function build_manual {
   (
     cd documentation/manual
     make html && cp -r build/html/* "$TARGET"
-    make latexpdf && cp build/latex/qooxdoo.pdf "$TARGET"
-    #make epub && cp build/epub/qooxdoo.epub "$TARGET"
   )
 }
 
@@ -118,9 +116,6 @@ function build_sdk_zip {
     cp $(git rev-parse --show-toplevel)/dist/temp/sdk/*zip "$TARGET/master.zip"
   fi
 }
-
-npm install
-grunt setup
 
 [ -d "$TARGET" ] && rm -rf "$TARGET"
 mkdir -p "$TARGET"
