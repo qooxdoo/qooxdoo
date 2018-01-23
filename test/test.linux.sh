@@ -11,3 +11,5 @@ qx compile -v || exit $?
 rm -rf contrib  || exit $?
 qx contrib install -v || exit $?
 qx contrib remove cboulanger/qx-contrib-Dialog -v || exit $?
+qx add script ../testdata/babel/demo-babel.js --rename=testfile.js $?
+#qx add script ../testdata/babel/demo-babel.js --rename=testfile.js --undo $?
