@@ -326,6 +326,20 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     /**
+     * Returns the currently selected action (by user keyboard modifiers)
+     *
+     * @return {qx.Promise(String)} One of <code>move</code>, <code>copy</code> or
+     *    <code>alias</code>
+     */
+    getCurrentActionAsync : function() {
+      var self = this;
+      return this.__detectAction().then(function() {
+        return self.__currentAction;
+      });
+    },
+
+
+    /**
      * Returns the widget which has been the target of the drag start.
      * @return {qx.ui.core.Widget} The widget on which the drag started.
      */
