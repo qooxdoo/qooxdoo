@@ -19,14 +19,13 @@
   "applications": [
     {
       "class": "${namespace}.demo.Application",
-      "theme": "${namespace}.demo.theme.Theme",
+      "theme": "${namespace}.theme.Theme",
       "name": "${namespace}"
     }
   ],
 
   "libraries": [
     "${qxpath}",
-    ".",
-    "../.."
+    "."
   ]
 }
