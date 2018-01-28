@@ -4,8 +4,10 @@ node_js:
 # - lts/* # once we support on-the-fly transpilation
 install:
   - git clone --depth=10 https://github.com/qooxdoo/qooxdoo.git
+  - git clone --depth=10 https://github.com/qooxdoo/eslint-config-qx.git
   - npm link
   - npm link qooxdoo
+  - npm link eslint-config-qx
 script:
   - echo "Simple testing of CLI ..." && npm test
 deploy:
