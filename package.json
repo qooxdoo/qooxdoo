@@ -45,7 +45,7 @@
     "download": "^6.0.0",
     "es6-promisify-all": "^0.1.0",
     "eslint": "^4.13.0",
-    "eslint-plugin-qx-rules": "^0.1.0"
+    "eslint-plugin-qx-rules": "^0.1.0",
     "eslint-config-qx": "^0.1.0",
     "express": "^4.16.2",
     "flat-cache": "^1.2.2",
