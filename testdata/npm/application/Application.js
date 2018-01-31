@@ -7,6 +7,9 @@
    Authors:
 
 ************************************************************************ */
+/* eslint-disable no-unused-vars */
+/* global JSZip require */
+const process = require("process");
 
 /**
  * This is the main application class of your custom application "myapp".
@@ -15,11 +18,8 @@
  * following line to make use of them.
  * @@asset(myapp/*)
  *
- * @ignore(environment)
  * @ignore(process)
  */
-/* eslint-disable no-unused-vars */
-/* global JSZip */
 qx.Class.define("myapp.Application",
   {
     extend : qx.application.Basic,
@@ -57,12 +57,13 @@ qx.Class.define("myapp.Application",
       // Test zip
       var zip = new JSZip();
       zip.file("Hello.txt", "Hello World\n");
-/*
-      // Create a button
-      var button1 = new qx.ui.form.Button("Click me", "myapp/test.png");
-      var button2 = new com.zenesis.qx.upload.UploadButton("First Button", "test/test.png");
-      var button3 = new myapp.Window();
-*/
+
+      if (!com.zenesis.qx.upload.UploadButton) {
+        process.exit(1);
+      }
+      if (!myapp.Window) {
+        process.exit(1);
+      }
       this.info("Hello World!");
     },
 
