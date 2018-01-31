@@ -24,6 +24,13 @@
       "type" : "node",
       "include" : [
          "qx.core.BaseInit"
+      ],
+      "exclude" : [
+         "qx.bom.Selector",
+         "qx.bom.client.Html",
+         "qx.event.handler.Pointer",
+         "qx.event.handler.Gesture",
+         "qx.event.handler.PointerCore"
       ]
     }
   ],
