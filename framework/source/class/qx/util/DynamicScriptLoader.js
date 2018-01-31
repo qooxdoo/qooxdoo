@@ -138,43 +138,11 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
      * True if start has been called.
      */
     __started: null,
-    
-    /**
-     * Promise of all scripts loaded (or any one failed)
-     */
-    __promise: null,
-    __promiseRejected: false,
 
 
 
     /**
      * Start loading scripts. This may only be called once!
-<<<<<<< HEAD
-     *
-     * @return {qx.Promise} resolved when all scripts are loaded (or rejected if any fail to load) 
-     */
-    start: function() {
-      if (this.isDisposed()) {
-        return;
-      }
-      if (this.__started){
-        throw new Error('you can only call start once per instance');
-      }
-      this.__promise = new qx.Promise();
-      this.__started = true;
-      this.__loadScripts();
-      return this.__promise;
-    },
-    
-    /**
-     * Called when a script fails to load
-     */
-    __reject: function(err) {
-      if (!this.__promiseRejected) {
-        this.__promise.reject(err);
-        this.__promiseRejected = true;
-      }
-=======
      * @return {Promise} a promise which will be resolved after load of all scripts.
      */
     start: function() {
@@ -192,7 +160,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
         this.__started = true;
         this.__loadScripts();
       }, this);
->>>>>>> 7fa76d1550a4186a6d8f3c54d50e961c34914bcb
     },
 
 
@@ -212,8 +179,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
 
       script = this.__QUEUE.shift();
       if (!script){
-        this.fireEvent("ready");
-        this.__promise.resolve();
+        this.fireEvent("ready")
         return;
       }
 
@@ -233,6 +199,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
             if (this.isDisposed()) {
               return;
             }
+            
             var data = e.getData();
             if (data.script === script){
               dynLoader.removeListenerById(id2);
@@ -253,7 +220,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
               script: script,
               status: 'loading of ' + data.script + ' failed while waiting for ' + script
             });
-            this.__reject('loading of ' + data.script + ' failed while waiting for ' + script);
           },this);
 
           return;
@@ -285,7 +251,6 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
           script: script,
           status: request.status
         });
-        this.__reject('loading of ' + script + ' failed to load with status ' + request.status);
       };
 
       loader.on("error", onError,this);
