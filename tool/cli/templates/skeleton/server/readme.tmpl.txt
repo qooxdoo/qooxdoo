@@ -1,10 +1,10 @@
 SERVER Skeleton - A qooxdoo Application Template
 ================================================
 
-This skeleton application was created by running the 'create-application.py'
+This skeleton application was created by running the 'qx create'
 script. You usually will want to run
 
-  ./generate.py
+  qx compile
 
 in this directory first thing. For more information about how to use this 
 skeleton, please refer to the 'skeleton' section in the manual.
