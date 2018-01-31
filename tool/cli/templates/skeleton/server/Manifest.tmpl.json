@@ -1,29 +1,23 @@
 {
   "info" : 
   {
-    "name" : "${Name}",
+    "name" : "${name}",
 
-    "summary" : "Custom Application",
-    "description" : "This is a skeleton for a custom application with qooxdoo.",
+    "summary" : "${summary}",
+    "description" : "${description}",
     
-    "homepage" : "http://some.homepage.url/",
+    "homepage" : "${homepage}",
 
-    "license" : "SomeLicense",
-    "authors" : 
-    [
-      {
-        "name" : "First Author (uid)",
-        "email" : "first.author@some.domain"
-      }
-    ],
+    "license" : "${license}",
+    "authors" : ${author_map},
 
-    "version" : "trunk",
-    "qooxdoo-versions": ["${QOOXDOO_VERSION}"]
+    "version" : "${version}",
+    "qooxdoo-range": "${qooxdoo_range}"
   },
   
   "provides" : 
   {
-    "namespace"   : "${Namespace}",
+    "namespace"   : "${namespace}",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",
@@ -31,4 +25,3 @@
     "type"        : "application"
   }
 }
-

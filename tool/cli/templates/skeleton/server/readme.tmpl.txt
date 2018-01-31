@@ -16,21 +16,17 @@ documentation.
 Skeleton Usage
 ==============
 
-After running generate.py you can invoke the generated script like this:
+After running qx compile you can invoke the generated script like this:
 
 # Node.js
-$ node source/script/<custom>.js
+$ node source/script/${name}.js
 
   or
 
 # Rhino
-$ cd source/script && java -cp <path_to_rhino>/js.jar org.mozilla.javascript.tools.shell.Main <custom>.js
+$ cd source/script && java -cp <path_to_rhino>/js.jar org.mozilla.javascript.tools.shell.Main ${name}.js
 
 This of course requires the presence of a Node or Rhino installation on your
 system. The build version of the application is analogously written to build/script.
 
 
-# The following is only required during execution of 'create-application.py'
-short:: for non-browser run times like Rhino, node.js
-copy_file:: component/standalone/server/script/qx-oo.min.js     script/qx-oo-6.0.0-alpha.min.js
-copy_file:: tool/data/generator/needs_generation_server.js  source/script/custom.js
