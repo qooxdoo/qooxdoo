@@ -21,10 +21,12 @@
       "class": "${namespace}.Application",
       "theme": "",
       "name": "${namespace}",
-	  "type" : "node"
+      "type" : "node",
+      "include" : [
+         "qx.core.BaseInit"
+      ]
     }
   ],
-
   "libraries": [
     "${qxpath}",
     "."

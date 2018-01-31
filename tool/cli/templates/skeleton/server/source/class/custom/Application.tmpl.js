@@ -9,7 +9,7 @@
 ************************************************************************ */
 
 /**
- * This is the main application class of your custom application "${Name}".
+ * This is the main application class of your custom application "${name}".
  *
  * If you have added resources to your app, remove the first '@' in the
  * following line to make use of them.
