@@ -1,23 +1,28 @@
 /* ************************************************************************
 
-   Copyright: 2018 undefined
+   Copyright:
 
-   License: MIT license
+   License:
 
-   Authors: undefined
+   Authors:
 
 ************************************************************************ */
 
 /**
- * This is the main application class of "myapp"
+ * This is the main application class of your custom application "myapp".
  *
- * @asset(myapp/*)
+ * If you have added resources to your app, remove the first '@' in the
+ * following line to make use of them.
+ * @@asset(myapp/*)
+ *
+ * @ignore(environment)
+ * @ignore(process)
  */
 /* eslint-disable no-unused-vars */
 /* global JSZip */
-
-qx.Class.define("myapp.Application", {
-    extend : qx.application.Standalone,
+qx.Class.define("myapp.Application",
+  {
+    extend : qx.application.Basic,
 
 
 
@@ -32,48 +37,66 @@ qx.Class.define("myapp.Application", {
     /**
      * This method contains the initial application code and gets called
      * during startup of the application
-     *
-     * @lint ignoreDeprecated(alert)
      */
     main : function() {
-      // Call super class
-      this.base(arguments);
-
-      // Enable logging in debug variant
-      if (qx.core.Environment.get("qx.debug")) {
-        // support native logging capabilities, e.g. Firebug for Firefox
-        qx.log.appender.Native;
-        // support additional cross-browser console. Press F7 to toggle visibility
-        qx.log.appender.Console;
+      if (qx.core.Environment.get("runtime.name") == "rhino") {
+        qx.log.Logger.register(qx.log.appender.RhinoConsole);
+      } else if (qx.core.Environment.get("runtime.name") == "node.js") {
+        qx.log.Logger.register(qx.log.appender.NodeConsole);
       }
 
-      /*
-      -------------------------------------------------------------------------
-        Below is your actual application code...
-      -------------------------------------------------------------------------
-      */
+      if (window.arguments) {
+        try {
+          this._argumentsToSettings(window.arguments);
+        } catch (ex) {
+          this.error(ex.toString());
+          return;
+        }
+      }
+
       // Test zip
       var zip = new JSZip();
       zip.file("Hello.txt", "Hello World\n");
-
+/*
       // Create a button
       var button1 = new qx.ui.form.Button("Click me", "myapp/test.png");
       var button2 = new com.zenesis.qx.upload.UploadButton("First Button", "test/test.png");
       var button3 = new myapp.Window();
+*/
+      this.info("Hello World!");
+    },
 
-      // Document is the application root
-      var doc = this.getRoot();
-
-      // Add button to document at fixed coordinates
-      doc.add(button1, {left: 100,
-        top: 50});
-
-
-      // Add an event listener
-      button1.addListener("execute", function() {
-        /* eslint no-alert: "off" */
-        alert("Hello World!");
-      });
+    /**
+     * Converts the value of the "settings" command line option to qx settings.
+     *
+     * @param args {String[]} Rhino arguments object
+     */
+    _argumentsToSettings : function(args) {
+      var opts;
+      for (var i=0, l=args.length; i<l; i++) {
+        if (args[i].indexOf("settings=") == 0) {
+          opts = args[i].substr(9);
+          break;
+        } else if (args[i].indexOf("'settings=") == 0) {
+          opts = /'settings\=(.*?)'/.exec(args[i])[1];
+          break;
+        }
+      }
+      if (opts) {
+        opts = opts.replace(/\\\{/g, "{").replace(/\\\}/g, "}");
+        opts = qx.lang.Json.parse(opts);
+        for (var prop in opts) {
+          var value = opts[prop];
+          if (typeof value == "string") {
+            value = value.replace(/\$$/g, " ");
+          }
+          try {
+            qx.core.Environment.add(prop, value);
+          } catch (ex) {
+            this.error("Unable to define command-line setting " + prop + ": " + ex);
+          }
+        }
+      }
     }
   }
   });
