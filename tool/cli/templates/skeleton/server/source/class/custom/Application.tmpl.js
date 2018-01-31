@@ -15,8 +15,6 @@
  * following line to make use of them.
  * @@asset(${namespace}/*)
  *
- * @ignore(environment)
- * @ignore(process)
  */
 qx.Class.define("${namespace}.Application",
 {
