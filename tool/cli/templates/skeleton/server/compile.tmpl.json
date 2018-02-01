@@ -1,0 +1,41 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "source-output"
+    },
+    {
+      "type": "hybrid",
+      "outputPath": "hybrid-output"
+    },
+    {
+      "type": "build",
+      "outputPath": "build-output"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ${locales},
+
+  "applications": [
+    {
+      "class": "${namespace}.Application",
+      "theme": "",
+      "name": "${namespace}",
+      "type" : "node",
+      "include" : [
+         "qx.core.BaseInit"
+      ],
+      "exclude" : [
+         "qx.bom.Selector",
+         "qx.bom.client.Html",
+         "qx.event.handler.Pointer",
+         "qx.event.handler.Gesture",
+         "qx.event.handler.PointerCore"
+      ]
+    }
+  ],
+  "libraries": [
+    "${qxpath}",
+    "."
+  ]
+}
