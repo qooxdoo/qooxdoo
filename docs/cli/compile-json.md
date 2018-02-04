@@ -67,6 +67,7 @@ The `applications` key is an array of objects, and each object can contain:
 application.
 `loaderTemplate` - (**optional**, **advanced**) this is the boot loader template file, usually determined automatically from the application `type` 
 `minify` - (**optional**) determines the minification to be used for this application, if the target supports it; overrides other settings.  Can be `off`, `minify`, `mangle` or `beautify`; takes precedence over the target's `minify` setting.
+- `writeIndexHtmlToRoot` - (**optional** ) if true the index.html file will be written to the target output directory. Allowed only once if you have more then one application. The index.html get's an <base href="appname" /> if set to true.
 
 A complete example is:
 ```
