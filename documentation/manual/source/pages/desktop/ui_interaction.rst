@@ -77,6 +77,17 @@ If a widget is a capturing widget, all pointer events will be dispatched on this
 
 Internally, qooxdoo uses capturing in menus, split panes or sliders for example.
 
+
+.. _pages/desktop/ui_interaction#promises:
+
+Promise Support
+===============
+
+Event handlers are called in sequence, but if an event handler returns a ``qx.Promise`` then the event handling chain will be suspended until the promise is resolved; if the promise is rejected, then the event's ``stopPropagation()`` method will be called and the usual behaviour for handling aborted events will apply.  
+
+Note that this is not able to stop different physical events - for example, "mousedown" and "mouseup" are two completely separate events sent by the browser in response to physical user events, and if you return a promise from a "mousedown" handler this will not prevent "mouseup" being sent a few milliseconds later; of course, because these events are technically unrelated there is no guarantee that just because a widget sees a "mousedown" event it would see a "mouseup" in the first place, or vice versa.
+
+
 .. _pages/desktop/ui_interaction#keyboard_support:
 
 Keyboard Support

@@ -314,21 +314,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     /**
      * Returns the currently selected action (by user keyboard modifiers)
      *
-     * @return {qx.Promise(String)} One of <code>move</code>, <code>copy</code> or
-     *    <code>alias</code>
-     */
-    getCurrentActionAsync : function() {
-      var self = this;
-      return this.__detectAction().then(function() {
-        return self.__currentAction;
-      });
-    },
-
-
-    /**
-     * Returns the currently selected action (by user keyboard modifiers)
-     *
-     * @return {qx.Promise(String)} One of <code>move</code>, <code>copy</code> or
+     * @return {qx.Promise|String} One of <code>move</code>, <code>copy</code> or
      *    <code>alias</code>
      */
     getCurrentActionAsync : function() {
@@ -493,8 +479,9 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (async === undefined || async) {
         return qx.Promise.resolve(result)
           .then(function() {
-            if (dragEvent.getDefaultPrevented())
+            if (dragEvent.getDefaultPrevented()) {
               return qx.Promise.reject();
+            }
           });
       } else {
         if (qx.core.Environment.get("qx.debug")) {
@@ -576,12 +563,12 @@ qx.Class.define("qx.event.handler.DragDrop",
       
       // Fire dragend event
       if (this.__dragTarget) {
-        qx.event.Utils.fastThen(tracker, function() {
+        qx.event.Utils.then(tracker, function() {
           return self.__fireEvent("dragend", self.__dragTarget, self.__dropTarget, false);
         });
       }
 
-      return qx.event.Utils.fastThen(tracker, function() {
+      return qx.event.Utils.then(tracker, function() {
         // Cleanup
         self.__validDrop = false;
         self.__dropTarget = null;
@@ -714,7 +701,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         // if the mouse moved a bit in any direction
         var distance = qx.event.handler.DragDrop.MIN_DRAG_DISTANCE;
         if (delta && (Math.abs(delta.x) > distance || Math.abs(delta.y) > distance)) {
-          self.debug("_onPointermove: outside min drag distance");
+          //self.debug("_onPointermove: outside min drag distance");
           promise = promise.then(function() {
             return self._start(e);
           });
@@ -844,7 +831,7 @@ qx.Class.define("qx.event.handler.DragDrop",
           return self.__fireEvent("drop", self.__dropTarget, self.__dragTarget, false, e);
         });
       }
-      
+
       return promise.then(function() {
         // Stop event
         if (e.getTarget() == self.__dragTarget) {
@@ -854,7 +841,6 @@ qx.Class.define("qx.event.handler.DragDrop",
         // Clean up
         return self.clearSession();
       });
-
     },
 
 

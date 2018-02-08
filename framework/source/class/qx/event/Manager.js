@@ -899,7 +899,7 @@ qx.Class.define("qx.event.Manager",
         return true;
       }
 
-      return qx.event.Utils.fastThen(tracker, function() {
+      return qx.event.Utils.then(tracker, function() {
         // check whether "preventDefault" has been called
         var preventDefault = event.getDefaultPrevented();
   

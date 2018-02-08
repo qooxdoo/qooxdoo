@@ -132,7 +132,7 @@ qx.Class.define("qx.event.dispatch.Direct",
               );
             }
           }
-          qx.event.Utils.fastThen(tracker, function() {
+          qx.event.Utils.then(tracker, function() {
             return listener.handler.call(context, event);
           });
         });

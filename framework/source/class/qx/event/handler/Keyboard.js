@@ -166,19 +166,20 @@ qx.Class.define("qx.event.handler.Keyboard",
     {
       var target = this.__getEventTarget();
       var tracker = {};
+      var self = this;
 
       // Only fire when target is defined and visible
       if (target && target.offsetWidth != 0)
       {
         var event = qx.event.Registration.createEvent("keyinput", qx.event.type.KeyInput, [domEvent, target, charCode]);
-        qx.event.Utils.track(this.__manager.dispatchEvent(target, event));
+        qx.event.Utils.then(tracker, function() { self.__manager.dispatchEvent(target, event); });
       }
 
       // Fire user action event
       // Needs to check if still alive first
       if (this.__window) {
         var self = this;
-        qx.event.Utils.fastThen(tracker, function() {
+        qx.event.Utils.then(tracker, function() {
           return qx.event.Registration.fireEvent(self.__window, "useraction", qx.event.type.Data, ["keyinput"]);
         });
       }
@@ -204,7 +205,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       // Fire key event
       var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
-      qx.event.Utils.fastThen(tracker, function() {
+      qx.event.Utils.then(tracker, function() {
         return self.__manager.dispatchEvent(target, event);
       });
 
@@ -220,7 +221,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
           // some key press events are already emulated. Ignore these events.
           if (!qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) && !this._emulateKeyPress[keyCode]) {
-            qx.event.Utils.fastThen(tracker, function() {
+            qx.event.Utils.then(tracker, function() {
               return self._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
             });
           }
@@ -230,7 +231,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       // Fire user action event
       // Needs to check if still alive first
       if (this.__window) {
-        qx.event.Utils.fastThen(tracker, function() {
+        qx.event.Utils.then(tracker, function() {
           return qx.event.Registration.fireEvent(self.__window, "useraction", qx.event.type.Data, [type]);
         });
       }
@@ -341,7 +342,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
         // Ignore the down in such sequences dp dp dp
         if (!(this.__lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
-          qx.event.Utils.fastThen(tracker, function() {
+          qx.event.Utils.then(tracker, function() {
             return self._idealKeyHandler(keyCode, charCode, type, domEvent);
           });
         }
@@ -351,7 +352,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         {
           // non-printable, backspace or tab
           if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
-            qx.event.Utils.fastThen(tracker, function() {
+            qx.event.Utils.then(tracker, function() {
               return self._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
             });
           }
@@ -379,7 +380,7 @@ qx.Class.define("qx.event.handler.Keyboard",
           var keyIdentifier = keyCode ? kbUtil.keyCodeToIdentifier(keyCode) : kbUtil.charCodeToIdentifier(charCode);
 
           if (!(this.__lastUpDownType[keyIdentifier] == "keydown" && type == "keydown")) {
-            qx.event.Utils.fastThen(tracker, function() {
+            qx.event.Utils.then(tracker, function() {
               return self._idealKeyHandler(keyCode, charCode, type, domEvent);
             });
           }
@@ -391,7 +392,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         // all other OSes
         else
         {
-          qx.event.Utils.fastThen(tracker, function() {
+          qx.event.Utils.then(tracker, function() {
             return self._idealKeyHandler(keyCode, charCode, type, domEvent);
           });
         }
@@ -418,7 +419,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         {
           // non-printable, backspace or tab
           if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
-            qx.event.Utils.fastThen(tracker, function() {
+            qx.event.Utils.then(tracker, function() {
               return self._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
             });
           }
@@ -589,7 +590,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var tracker = {};
         var self = this;
         qx.event.Utils.track(tracker, this._fireSequenceEvent(domEvent, "keypress", keyIdentifier));
-        return qx.event.Utils.fastThen(tracker, function() {
+        return qx.event.Utils.then(tracker, function() {
           return self._fireInputEvent(domEvent, charCode);
         });
       }

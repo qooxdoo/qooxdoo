@@ -95,9 +95,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
       var parent = target;
       var manager = this._manager;
       var captureListeners, bubbleListeners;
-      var localList;
-      var listener, context;
-      var currentTarget;
+      var context;
 
       // Cache list for AT_TARGET
       var targetList = [];
@@ -152,87 +150,146 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
       var self = this;
       var tracker = {};
       
-      // capturing phase
-      // loop through the hierarchy in reverted order (from root)
-      event.setEventPhase(qx.event.type.Event.CAPTURING_PHASE);
+      var __TRACE_LOGGING = false;//(event._type == "pointerup" && event._target.className === "qx-toolbar-button-checked");
+      var __TRACE = function(){};
+      if (__TRACE_LOGGING) {
+        var serial = (this.SERIAL||0)+1;
+        this.SERIAL=serial + 1;
+        __TRACE = function() {
+          var args = [].slice.apply(arguments);
+          args.unshift("serial #" + serial + ": ");
+          console.log.apply(this, args);
+        }
+      }
       
-      captureList.forEach(function(localList, i) {
-        currentTarget = captureTargets[i];
-        event.setCurrentTarget(currentTarget);
-        localList.forEach(function(listener) {
-          context = listener.context || currentTarget;
+      qx.event.Utils.catch(tracker, function() {
+        // This function must exist to suppress "unhandled rejection" messages from promises
+        __TRACE("Aborted serial=" + serial + ", type=" + event.getType());
+      });
+      
+      // capturing phase
+      qx.event.Utils.then(tracker, function() {
+        // loop through the hierarchy in reverted order (from root)
+        event.setEventPhase(qx.event.type.Event.CAPTURING_PHASE);
+        
+        __TRACE("captureList=" + captureList.length);
+        return qx.event.Utils.series(captureList, function(localList, i) {
+          
+          __TRACE("captureList[" + i + "]: localList.length=" + localList.length);
 
-          if (qx.core.Environment.get("qx.debug")) {
-            // warn if the context is disposed
-            if (context && context.isDisposed && context.isDisposed()) {
-              self.warn(
-                "The context object '" + context + "' for the event '" +
-                type + "' of '" + currentTarget + "'is already disposed."
-              );
+          var currentTarget = captureTargets[i];
+          event.setCurrentTarget(currentTarget);
+          
+          var result = qx.event.Utils.series(localList, function(listener, listenerIndex) {
+            context = listener.context || currentTarget;
+
+            if (qx.core.Environment.get("qx.debug")) {
+              // warn if the context is disposed
+              if (context && context.isDisposed && context.isDisposed()) {
+                self.warn(
+                  "The context object '" + context + "' for the event '" +
+                  type + "' of '" + currentTarget + "'is already disposed."
+                );
+              }
             }
-          }
-          if (!self._manager.isBlacklisted(listener.unique)) {
-            if (qx.event.Utils.callListener(tracker, listener, context, event) === qx.event.Utils.ABORT) {
-              return;
+            
+            if (!self._manager.isBlacklisted(listener.unique)) {
+              __TRACE("captureList[" + i + "] => localList[" + listenerIndex + "] callListener");
+              return listener.handler.call(context, event);
+            } else {
+              __TRACE("captureList[" + i + "] => localList[" + listenerIndex + "] is blacklisted");
             }
-          }
+          }, true);
+          if (result === qx.event.Utils.ABORT)
+            return qx.event.Utils.reject(tracker);
+          if (event.getPropagationStopped())
+            return qx.event.Utils.reject(tracker);
+          return result;
         });
       });
       
 
       // at target
-      qx.event.Utils.fastThen(tracker, function() {
+      qx.event.Utils.then(tracker, function() {
         event.setEventPhase(qx.event.type.Event.AT_TARGET);
         event.setCurrentTarget(target);
-      });
-      targetList.forEach(function(localList) {
-        localList.forEach(function(listener) {
-          context = listener.context || target;
+        
+        __TRACE("targetList=" + targetList.length);
+        return qx.event.Utils.series(targetList, function(localList, i) {
+          __TRACE("targetList[" + i + "] localList.length=" + localList.length);
+          
+          var result = qx.event.Utils.series(localList, function(listener, listenerIndex) {
+            __TRACE("targetList[" + i + "] -> localList[" + listenerIndex + "] callListener");
+            context = listener.context || target;
 
-          if (qx.core.Environment.get("qx.debug")) {
-            // warn if the context is disposed
-            if (context && context.isDisposed && context.isDisposed()) {
-              self.warn(
-                "The context object '" + context + "' for the event '" +
-                type + "' of '" + target + "'is already disposed."
-              );
+            if (qx.core.Environment.get("qx.debug")) {
+              // warn if the context is disposed
+              if (context && context.isDisposed && context.isDisposed()) {
+                self.warn(
+                  "The context object '" + context + "' for the event '" +
+                  type + "' of '" + target + "'is already disposed."
+                );
+              }
             }
-          }
 
-          if (qx.event.Utils.callListener(tracker, listener, context, event) === qx.event.Utils.ABORT) {
-            return;
-          }
+            __TRACE("Calling target serial=" + serial + ", type=" + event.getType());
+            return listener.handler.call(context, event);
+          }, true);
+          if (result === qx.event.Utils.ABORT)
+            return qx.event.Utils.reject(tracker);
+          if (event.getPropagationStopped())
+            return qx.event.Utils.reject(tracker);
+          return result;
         });
       });
 
+      
       // bubbling phase
       // loop through the hierarchy in normal order (to root)
-      qx.event.Utils.fastThen(tracker, function() {
+      qx.event.Utils.then(tracker, function() {
         event.setEventPhase(qx.event.type.Event.BUBBLING_PHASE);
-      });
-      bubbleList.forEach(function(localList, i) {
-        currentTarget = bubbleTargets[i];
-        event.setCurrentTarget(currentTarget);
-        
-        localList.forEach(function(listener) {
-          context = listener.context || currentTarget;
 
-          if (qx.core.Environment.get("qx.debug")) {
-            // warn if the context is disposed
-            if (context && context.isDisposed && context.isDisposed()) {
-              self.warn(
-                "The context object '" + context + "' for the event '" +
-                type + "' of '" + currentTarget + "'is already disposed."
-              );
+        __TRACE("bubbleList=" + bubbleList.length);
+        return qx.event.Utils.series(bubbleList, function(localList, i) {
+          __TRACE("bubbleList[" + i + "] localList.length=" + localList.length);
+          var currentTarget = bubbleTargets[i];
+          event.setCurrentTarget(currentTarget);
+          
+          var result = qx.event.Utils.series(localList, function(listener, listenerIndex) {
+            __TRACE("bubbleList[" + i + "] -> localList[" + listenerIndex + "] callListener");
+            context = listener.context || currentTarget;
+
+            if (qx.core.Environment.get("qx.debug")) {
+              // warn if the context is disposed
+              if (context && context.isDisposed && context.isDisposed()) {
+                self.warn(
+                  "The context object '" + context + "' for the event '" +
+                  type + "' of '" + currentTarget + "'is already disposed."
+                );
+              }
             }
-          }
 
-          if (qx.event.Utils.callListener(tracker, listener, context, event) === qx.event.Utils.ABORT) {
-            return;
-          }
+            return listener.handler.call(context, event);
+          }, true);
+          
+          if (result === qx.event.Utils.ABORT)
+            return qx.event.Utils.reject(tracker);
+          if (event.getPropagationStopped())
+            return qx.event.Utils.reject(tracker);
+          return result;
         });
       });
       
+      if (__TRACE_LOGGING) {
+        if (tracker.promise) {
+          __TRACE("events promised");
+          qx.event.Utils.then(tracker, function() {
+            __TRACE("events promised done");
+          });
+        } else {
+          __TRACE("events done");
+        }
+      }
       return tracker.promise;
     }
   }

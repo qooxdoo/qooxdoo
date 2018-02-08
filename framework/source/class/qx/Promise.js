@@ -90,7 +90,6 @@ qx.Class.define("qx.Promise", {
               args.unshift(qx.Promise.__DEFAULT_ERROR);
             } else if (reason && !(reason instanceof Error)) {
               self.error("Calling reject with non-error object, createdAt=" + JSON.stringify(self.$$createdAt || null));
-              debugger;
             }
             reject.apply(this, args)
           });
@@ -510,7 +509,6 @@ qx.Class.define("qx.Promise", {
         args.unshift(qx.Promise.__DEFAULT_ERROR);
       } else if (!(reason instanceof Error)) {
         this.error("Rejecting a promise with a non-Error value");
-        debugger;
       }
       var promise = this.__callStaticMethod('reject', args, 0);
       if (context !== undefined) {

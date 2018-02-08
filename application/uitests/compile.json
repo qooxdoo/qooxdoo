@@ -1,0 +1,32 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "source-output"
+    },
+    {
+      "type": "hybrid",
+      "outputPath": "hybrid-output"
+    },
+    {
+      "type": "build",
+      "outputPath": "build-output",
+      "addCreatedAt": true
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [ "en" ],
+
+  "applications": [
+    {
+      "class": "uitests.DragAndDropApplication",
+      "theme": "qx.theme.Simple",
+      "name": "dragndrop"
+    }
+  ],
+
+  "libraries": [
+    "../../framework",
+    "."
+  ]
+}

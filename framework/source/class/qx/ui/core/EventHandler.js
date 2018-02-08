@@ -310,15 +310,15 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       // Dispatch it on all listeners
       var tracker = {};
-      listeners.forEach(function(listener) {
-        qx.event.Utils.fastThen(tracker, function() {
+      qx.event.Utils.then(tracker, function() {
+        return qx.event.Utils.series(listeners, function(listener) {
           var context = listener.context || currentWidget;
           return listener.handler.call(context, widgetEvent);
         });
       });
 
       // Synchronize propagation stopped/prevent default property
-      qx.event.Utils.fastThen(tracker, function() {
+      qx.event.Utils.then(tracker, function() {
         if (widgetEvent.getPropagationStopped()) {
           domEvent.stopPropagation();
         }
@@ -328,7 +328,7 @@ qx.Class.define("qx.ui.core.EventHandler",
         }
       });
 
-      return qx.event.Utils.fastThen(tracker, function() {
+      return qx.event.Utils.then(tracker, function() {
         qx.event.Pool.getInstance().poolObject(widgetEvent);
       });
     },

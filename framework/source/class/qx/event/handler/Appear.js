@@ -185,7 +185,7 @@ qx.Class.define("qx.event.handler.Appear",
           return;
         }
 
-        qx.event.Utils.fastThen(tracker, function() {
+        qx.event.Utils.then(tracker, function() {
           var displayed = elem.offsetWidth > 0;
           if (!displayed && legacyIe) {
             // force recalculation in IE 8. See bug #7872

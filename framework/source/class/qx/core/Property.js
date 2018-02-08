@@ -166,10 +166,7 @@
  *
  * @internal
  * @ignore(qx.Interface)
- * @require(qx.lang.String)
- * @use(qx.Promise)
  */
-
 qx.Bootstrap.define("qx.core.Property",
 {
   statics :
@@ -1870,7 +1867,7 @@ qx.Bootstrap.define("qx.core.Property",
           if (qx.core.Environment.get("qx.promise")) {
             code.push(
                 "if(reg.hasListener(this, '", config.event, "Async'))",
-                  "qx.event.Utils.fastThen(tracker, function() {\n" +
+                  "qx.event.Utils.then(tracker, function() {\n" +
                   "  return reg.fireEventAsync(this, '", config.event, "Async', qx.event.type.Data, [qx.Promise.resolve(computed), old]", ");\n" +
                   "});"
                 );

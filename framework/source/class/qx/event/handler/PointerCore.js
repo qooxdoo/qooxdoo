@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
      * Handler for native pointer events
      * @param domEvent {Event}  Native DOM event
      */
-    _onPointerEvent : qx.event.GlobalError.observeMethod(function(domEvent) {
+    _onPointerEvent : function(domEvent) {
       if (!qx.core.Environment.get("event.mspointer") ||
           // workaround for bug #8533
           (qx.core.Environment.get("browser.documentmode") === 10 && domEvent.type.toLowerCase().indexOf("ms") == -1)
@@ -187,14 +187,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       var target = qx.bom.Event.getTarget(domEvent);
       var evt = new qx.event.type.dom.Pointer(type, domEvent);
       this._fireEvent(evt, type, target);
-    }),
+    },
 
 
     /**
      * Handler for touch events
      * @param domEvent {Event} Native DOM event
      */
-    _onTouchEvent: qx.event.GlobalError.observeMethod(function(domEvent) {
+    _onTouchEvent: function(domEvent) {
       if (domEvent[this._processedFlag]) {
         return;
       }
@@ -283,14 +283,14 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           }
         }
       }
-    }),
+    },
 
 
     /**
     * Handler for touch events
     * @param domEvent {Event} Native DOM event
     */
-    _onMouseEvent : qx.event.GlobalError.observeMethod(function(domEvent) {
+    _onMouseEvent : function(domEvent) {
       if (domEvent[this._processedFlag]) {
         return;
       }
@@ -347,7 +347,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
 
       var evt = new qx.event.type.dom.Pointer(type, domEvent, mouseProps);
       this._fireEvent(evt, type, target);
-    }),
+    },
 
 
     /**
@@ -436,40 +436,32 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
           qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
           domEvent);
         qx.event.type.dom.Pointer.normalize(gestureEvent);
-        if (qx.core.Environment.get("engine.name") == "mshtml") { 
-          if (gestureEvent.srcElement !== target) {
-            try {
-              gestureEvent.srcElement = target;
-            }catch(ex) {
-              // Nothing - strict mode prevents writing to read only properties
-            }
-          }
+        try {
+          gestureEvent.srcElement = target;
+        }catch(ex) {
+          // Nothing - strict mode prevents writing to read only properties
         }
       }
 
       if (qx.core.Environment.get("event.dispatchevent")) {
         var tracker = {};
         if (!this.__nativePointerEvents) {
-          qx.event.Utils.fastThen(tracker, function() {
+          qx.event.Utils.then(tracker, function() {
             return target.dispatchEvent(domEvent);
           });
         }
         if (gestureEvent) {
-          qx.event.Utils.fastThen(tracker, function() {
+          qx.event.Utils.then(tracker, function() {
             return target.dispatchEvent(gestureEvent);
           });
         }
         return tracker.promise;
       } else {
         // ensure compatibility with native events for IE8
-        if (qx.core.Environment.get("engine.name") == "mshtml") { 
-          if (domEvent.srcElement !== target) {
-            try {
-              domEvent.srcElement = target;
-            }catch(ex) {
-              // Nothing - strict mode prevents writing to read only properties
-            }
-          }
+        try {
+          domEvent.srcElement = target;
+        }catch(ex) {
+          // Nothing - strict mode prevents writing to read only properties
         }
 
         while (target) {

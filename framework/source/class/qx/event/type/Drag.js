@@ -224,7 +224,7 @@ qx.Class.define("qx.event.type.Drag",
      * Returns the data of the given type. Used in the <code>drop</code> listener.
      * 
      * @param type {String} Any of the supported types.
-     * @return {qx.Promise(var)} The data for the given type
+     * @return {qx.Promise|var} The data for the given type
      */
     getDataAsync : function(type) {
       return this.getManager().getDataAsync(type);
@@ -266,24 +266,7 @@ qx.Class.define("qx.event.type.Drag",
      *
      * Used in the <code>droprequest</code> listener.
      *
-     * @return {qx.Promise(String)} The action. May be one of <code>move</code>,
-     *    <code>copy</code> or <code>alias</code>.
-     */
-    getCurrentActionAsync : function() {
-      if (this.getDefaultPrevented()) {
-        return null;
-      }
-      return this.getManager().getCurrentActionAsync();
-    },
-
-    /**
-     * Returns the currently selected action. Depends on the
-     * supported actions of the source target and the modification
-     * keys pressed by the user.
-     *
-     * Used in the <code>droprequest</code> listener.
-     *
-     * @return {qx.Promise(String)} The action. May be one of <code>move</code>,
+     * @return {qx.Promise|String} The action. May be one of <code>move</code>,
      *    <code>copy</code> or <code>alias</code>.
      */
     getCurrentActionAsync : function() {
