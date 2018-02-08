@@ -54,8 +54,10 @@ qx.Class.define("uitests.DragAndDropApplication", {
         return new qx.Promise((resolve, reject) => {
           if (cbxCancelDragstart.getValue())
             e.preventDefault();
-          if (cbxRejectDragstart.getValue())
-            return reject();
+          if (cbxRejectDragstart.getValue()) {
+            reject();
+            return;
+          }
           
           if (!e.getDefaultPrevented()) {
             // Register supported types
