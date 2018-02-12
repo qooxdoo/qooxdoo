@@ -12,7 +12,7 @@
     }
   },
   "author": "John Spackman (johnspackman), Christian Boulanger (cboulanger), Henner Kollmann (hkollmann), and others",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [
     "qooxdoo",
     "compiler",
@@ -39,6 +39,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
+    "babel-plugin-transform-es2015-block-scoping": "6.15.0",
     "babylon": "^6.18.0",
     "chokidar": "^1.7.0",
     "columnify": "^1.5.4",
