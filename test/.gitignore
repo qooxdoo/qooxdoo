@@ -1,4 +1,4 @@
-source-output/
+unit-tests-output/
 db.json
 resource-db.json
 x.json

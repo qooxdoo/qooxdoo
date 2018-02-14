@@ -25,6 +25,12 @@
 			"name": "testapp"
 		}
 	],
+
+	"environment": {
+		"test.isFalse": false,
+		"test.isTrue": true,
+		"test.someValue": "some"
+	},
 	
 	"parts": {
 		"boot": {

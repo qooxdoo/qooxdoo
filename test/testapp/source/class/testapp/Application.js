@@ -23,8 +23,8 @@
 
 /**
  * Application used for unit testing.  Note that this app may not always run, intentionally,
- * because the unit tests will enable and disable features to test the compiler output. 
- * 
+ * because the unit tests will enable and disable features to test the compiler output.
+ *
  * @asset(testapp/*)
  * @asset(abc/def/myicon.gif)
  * @require(qx.io.remote.Rpc)
@@ -34,20 +34,20 @@ qx.Class.define("testapp.Application", {
 
   properties: {
     annoProperty: {
-       "@": [new testapp.anno.MyAnno().set({ name: "hello" })],
-       "nullable": true,
-       "check": "String"
+      "@": [new testapp.anno.MyAnno().set({name: "hello"})],
+      "nullable": true,
+      "check": "String"
     }
   },
-  
+
   members: {
     /**
      * This method contains the initial application code and gets called during
      * startup of the application
-     * 
+     *
      * @lint ignoreDeprecated(alert)
      */
-    main: function() {
+    main: function () {
       // Call super class
       this.base(arguments);
 
@@ -79,36 +79,63 @@ qx.Class.define("testapp.Application", {
       });
 
       // Add an event listener
-      button1.addListener("execute", function(e) {
+      button1.addListener("execute", function (e) {
         dialog.Dialog.alert("Hello World!");
       });
-      
-      qx.io.PartLoader.require(["pluginFramework", "pluginOne"], function() {
+
+      if (qx.core.Environment.get("test.isFalse")) {
+        /* ELIMINATION_FAILED */
+      }
+      if (!qx.core.Environment.get("test.isTrue")) {
+        /* ELIMINATION_FAILED */
+      }
+      var appValue = qx.core.Environment.get("test.appValue");
+      var envVar1 = qx.core.Environment.get("envVar1");
+      var envVar2 = qx.core.Environment.get("envVar2");
+      var envVarSelect1 = qx.core.Environment.select("test.someValue", {
+        "none": 0,
+        "some": 1,
+        "all": 2
+      });
+      var envVarSelect2 = qx.core.Environment.select("test.isTrue", {
+        "true": 1,
+        "false": 0
+      });
+      var envVarSelect3 = qx.core.Environment.select("test.isFalse", {
+        "true": 1,
+        "false": 0
+      });
+
+      console.log(JSON.stringify({
+        appValue, envVar1, envVar2, envVarSelect1, envVarSelect2, envVarSelect3
+      }, null, 2));
+
+      qx.io.PartLoader.require(["pluginFramework", "pluginOne"], function () {
         this.debug("pluginOne loaded");
         var plugin = new testapp.plugins.PluginOne();
         console.log(plugin.sayHello());
       }, this);
-      qx.io.PartLoader.require(["pluginFramework", "pluginTwo"], function() {
+      qx.io.PartLoader.require(["pluginFramework", "pluginTwo"], function () {
         this.debug("pluginTwo loaded");
         var plugin = new testapp.plugins.PluginTwo();
         console.log(plugin.sayHello());
       }, this);
     },
-    
-    undocumentedMethod: function() {
+
+    undocumentedMethod: function () {
       return 1;
     },
-    
+
     /**
      * Does important stuff
-     * 
+     *
      * @param abc {String} a string goes here
      * @param def {Integer | Date ? 42} it's complicated
      * @param ghi {String[]} lots
      * @param jkl {String?} maybe baby
      * @return {MyClass} an important object
      */
-    fullyDocumentedMethod: function(abc, def, ghi, jkl) {
+    fullyDocumentedMethod: function (abc, def, ghi, jkl) {
       return new testapp.MyClass();
     }
   }
