@@ -174,6 +174,13 @@ test('Checks dependencies and environment settings', (assert) => {
               assert.ok(src.match(/var multiplyNumbers = 2952;/), "merging binary expressions: multiplyNumbers");
             });
       })
+      .then(() => {
+        return readFile("unit-tests-output/transpiled/testapp/MMyMixin.js", "utf8")
+            .then(src => {
+              assert.ok(src.match(/mixedInIsTrue/), "Conditional Mixin part 1");
+              assert.ok(!src.match(/mixedInIsFalse/), "Conditional Mixin part 2");
+            });
+      })
 
       .then(() => assert.end())
       .catch((err) => assert.end(err));
