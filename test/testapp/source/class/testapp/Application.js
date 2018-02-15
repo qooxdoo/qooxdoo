@@ -89,6 +89,9 @@ qx.Class.define("testapp.Application", {
       if (!qx.core.Environment.get("test.isTrue")) {
         /* ELIMINATION_FAILED */
       }
+      if (qx.core.Environment.get("test.isFalse") || !qx.core.Environment.get("test.isTrue")) {
+        /* ELIMINATION_FAILED */
+      }
       var appValue = qx.core.Environment.get("test.appValue");
       var envVar1 = qx.core.Environment.get("envVar1");
       var envVar2 = qx.core.Environment.get("envVar2");
@@ -106,8 +109,14 @@ qx.Class.define("testapp.Application", {
         "false": 0
       });
 
+      var mergeStrings = "abc" + "def" + "ghi";
+      var mergeStringsAndNumbers = "abc" + 23 + "def" + 45 + "ghi";
+      var addNumbers = 123 + 4 + 5 + 6;
+      var multiplyNumbers = 123 * 2 * 3 * 4;
+
       console.log(JSON.stringify({
-        appValue, envVar1, envVar2, envVarSelect1, envVarSelect2, envVarSelect3
+        appValue, envVar1, envVar2, envVarSelect1, envVarSelect2, envVarSelect3,
+        mergeStrings, mergeStringsAndNumbers, addNumbers, multiplyNumbers
       }, null, 2));
 
       qx.io.PartLoader.require(["pluginFramework", "pluginOne"], function () {

@@ -90,7 +90,22 @@ test('Checks dependencies and environment settings', (assert) => {
       .then((_maker) => {
         maker = _maker;
         app = maker.getApplications()[0];
-        return promisifyThis(maker.make, maker);
+        return new Promise((resolve, reject) => {
+          maker.make(function(err) {
+            if (err) {
+              reject(err);
+              return;
+            }
+            if (app.getFatalCompileErrors()) {
+              app.getFatalCompileErrors().forEach(classname => {
+                console.log("Fatal errors in class " + classname);
+              });
+              reject(new Error("Fatal errors in application"));
+              return;
+            }
+            resolve();
+          });
+        });
       })
       .then(() => readCompileInfo().then((tmp) => compileInfo = tmp))
       .then(() => {
@@ -153,6 +168,10 @@ test('Checks dependencies and environment settings', (assert) => {
               assert.ok(src.match(/var envVarSelect1 = 1/), "environment setting for envVarSelect1");
               assert.ok(src.match(/var envVarSelect2 = 1/), "environment setting for envVarSelect2");
               assert.ok(src.match(/var envVarSelect3 = 0/), "environment setting for envVarSelect3");
+              assert.ok(src.match(/var mergeStrings = "abcdefghi";/), "merging binary expressions: mergeStrings");
+              assert.ok(src.match(/var mergeStringsAndNumbers = "abc23def45ghi";/), "merging binary expressions: mergeStringsAndNumbers");
+              assert.ok(src.match(/var addNumbers = 138;/), "merging binary expressions: addNumbers");
+              assert.ok(src.match(/var multiplyNumbers = 2952;/), "merging binary expressions: multiplyNumbers");
             });
       })
 
