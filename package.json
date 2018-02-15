@@ -12,7 +12,7 @@
     }
   },
   "author": "John Spackman (johnspackman), Christian Boulanger (cboulanger), Henner Kollmann (hkollmann), and others",
-  "version": "0.2.1",
+  "version": "0.2.4",
   "keywords": [
     "qooxdoo",
     "compiler",
@@ -36,7 +36,6 @@
     "babel-generator": "^6.26.0",
     "babel-plugin-uglify": "^1.0.2",
     "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
     "babel-traverse": "^6.26.0",
     "babel-types": "^6.26.0",
     "babel-plugin-transform-es2015-block-scoping": "6.15.0",
@@ -61,6 +60,7 @@
     "node-fetch": "^1.7.3",
     "node-sass": "^4.7.2",
     "qooxdoo": "^5.0.1",
+    "@qooxdoo/preset-env": "^1.0.0",
     "qooxdoo-sdk": "^6.0.0-alpha",
     "rimraf": "^2.6.2",
     "semver": "^5.3.0",
