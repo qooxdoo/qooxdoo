@@ -15,7 +15,9 @@
   ],
   "defaultTarget": "source",
   "locales": ${locales},
-
+  "environment": { 
+      "qx.icontheme": "${icon_theme}"
+  },     
   "applications": [
     {
       "class": "${namespace}.Application",
