@@ -14,12 +14,20 @@ async function createMaker() {
   // Makers use an Analyser to figure out what the Target should write
   var maker = new qx.tool.compiler.makers.AppMaker().set({
     // Targets know how to output an application
-    target: new qx.tool.compiler.targets.SourceTarget("unit-tests-output").set({writeCompileInfo: true}),
+    target: new qx.tool.compiler.targets.SourceTarget("unit-tests-output").set({
+      writeCompileInfo: true,
+      environment: {
+        envVar1: "ONE",
+        envVar2: "TWO"
+      }
+    }),
     locales: ["en"],
     writeAllTranslations: true,
     environment: {
       envVar1: "one",
       envVar2: "two",
+      envVar3: "three",
+      envVar4: "four",
       "test.isFalse": false,
       "test.isTrue": true,
       "test.someValue": "some",
@@ -32,7 +40,8 @@ async function createMaker() {
     environment: {
       envVar2: "222",
       envVar3: "333",
-      "test.appValue": true
+      "test.appValue": true,
+      "qx.promise": true
     }
   }));
 
@@ -162,9 +171,10 @@ test('Checks dependencies and environment settings', (assert) => {
         return readFile("unit-tests-output/transpiled/testapp/Application.js", "utf8")
             .then(src => {
               assert.ok(!src.match(/ELIMINATION_FAILED/), "Code elimination");
-              assert.ok(src.match(/var appValue = false/), "environment setting for appValue");
-              assert.ok(src.match(/var envVar1 = "one"/), "environment setting for envVar1");
-              assert.ok(src.match(/var envVar2 = "two"/), "environment setting for envVar2");
+              assert.ok(src.match(/var envVar1 = "ONE"/), "environment setting for envVar1");
+              assert.ok(src.match(/var envVar2 = qx.core.Environment.get\("envVar2"\)/), "environment setting for envVar2");
+              assert.ok(src.match(/var envVar3 = qx.core.Environment.get\("envVar3"\)/), "environment setting for envVar3");
+              assert.ok(src.match(/var envVar4 = "four"/), "environment setting for envVar4");
               assert.ok(src.match(/var envVarSelect1 = 1/), "environment setting for envVarSelect1");
               assert.ok(src.match(/var envVarSelect2 = 1/), "environment setting for envVarSelect2");
               assert.ok(src.match(/var envVarSelect3 = 0/), "environment setting for envVarSelect3");
@@ -172,6 +182,7 @@ test('Checks dependencies and environment settings', (assert) => {
               assert.ok(src.match(/var mergeStringsAndNumbers = "abc23def45ghi";/), "merging binary expressions: mergeStringsAndNumbers");
               assert.ok(src.match(/var addNumbers = 138;/), "merging binary expressions: addNumbers");
               assert.ok(src.match(/var multiplyNumbers = 2952;/), "merging binary expressions: multiplyNumbers");
+              assert.ok(src.match(/qx.core.Environment.get\("qx.promise"\)/), "override default env setting");
             });
       })
       .then(() => {

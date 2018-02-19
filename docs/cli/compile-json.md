@@ -172,6 +172,14 @@ If you add the `environment` block at the top level of the compile.json (as in t
 ```
 In this example, `demoapp.myCustomSetting` is always 3 for the `appone` Application, and either 1 or 2 for `apptwo` depending on whether you're compile a `source` Target or a `build` Target.
 
+###Code Elimination
+When the compiler can absolutely determine, in advance, the values for an environment variable,
+it will evaluate the expression in advance and eliminate code which can never be called; for example,
+the most common example of this is `qx.debug` which is true for the Source Target and false for Build Targets.
+
+However, the environment variable is compiled into every file, which means that if you set an environmenmt variable
+in the application block, it will not be compiled in and code elimination cannot take place.  Code elimination
+is only activated if the setting is set in the global or target `environment` blocks.
 
 ## Locales
 Qooxdoo applications are by default compiled only using the "en" locale for transation strings, but you can change this by adding the `locales` key as an array, for example:

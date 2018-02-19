@@ -95,6 +95,8 @@ qx.Class.define("testapp.Application", {
       var appValue = qx.core.Environment.get("test.appValue");
       var envVar1 = qx.core.Environment.get("envVar1");
       var envVar2 = qx.core.Environment.get("envVar2");
+      var envVar3 = qx.core.Environment.get("envVar3");
+      var envVar4 = qx.core.Environment.get("envVar4");
       var envVarSelect1 = qx.core.Environment.select("test.someValue", {
         "none": 0,
         "some": 1,
@@ -114,8 +116,13 @@ qx.Class.define("testapp.Application", {
       var addNumbers = 123 + 4 + 5 + 6;
       var multiplyNumbers = 123 * 2 * 3 * 4;
 
+      if (qx.core.Environment.get("qx.promise")) {
+        console.log("Promises are enabled");
+      }
+
       console.log(JSON.stringify({
-        appValue, envVar1, envVar2, envVarSelect1, envVarSelect2, envVarSelect3,
+        appValue, envVar1, envVar2, envVar3, envVar4,
+        envVarSelect1, envVarSelect2, envVarSelect3,
         mergeStrings, mergeStringsAndNumbers, addNumbers, multiplyNumbers
       }, null, 2));
 
