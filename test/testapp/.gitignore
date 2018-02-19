@@ -3,6 +3,7 @@
 /build/
 /test/
 /source/script/
+source-output/
 db.json
 resource-db.json
 
