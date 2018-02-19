@@ -267,23 +267,27 @@ qx.Class.define("qx.ui.form.List",
     // property apply
     _applyOrientation : function(value, old)
     {
+      var content = this.__content;
+
+      // save old layout for disposal
+      var oldLayout = content.getLayout();
+      
       // Create new layout
       var horizontal = value === "horizontal";
       var layout = horizontal ? new qx.ui.layout.HBox() : new qx.ui.layout.VBox();
 
       // Configure content
-      var content = this.__content;
       content.setLayout(layout);
       content.setAllowGrowX(!horizontal);
       content.setAllowGrowY(horizontal);
 
       // Configure spacing
       this._applySpacing(this.getSpacing());
-    },
-
-    // property apply
-    _applySpacing : function(value, old) {
-      this.__content.getLayout().setSpacing(value);
+      
+      // dispose old layout
+      if(oldLayout) {
+        oldLayout.dispose();
+      }
     },
 
 
