@@ -20,7 +20,7 @@
 ************************************************************************ */
 /**
  *
- * @asset(qx/icon/Tango/48/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/48/places/folder.png)
  */
 
 qx.Class.define("qx.test.bom.Attribute",
