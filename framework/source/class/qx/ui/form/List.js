@@ -290,6 +290,11 @@ qx.Class.define("qx.ui.form.List",
       }
     },
 
+    // property apply
+    _applySpacing : function(value, old) {
+      this.__content.getLayout().setSpacing(value);
+    },
+
 
     /*
     ---------------------------------------------------------------------------
