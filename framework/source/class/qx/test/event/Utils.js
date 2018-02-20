@@ -27,8 +27,8 @@ qx.Class.define("qx.test.event.Utils", {
       var self = this;
       var finished = false;
       Utils.catch(tracker, function() { self.assertTrue(false); })
-      Utils.then(tracker, function() { str += "A"; });
-      Utils.then(tracker, function() { str += "B"; });
+      Utils.then(tracker, function() { return str += "A"; });
+      Utils.then(tracker, function(value) { self.assertEquals("A", value); return str += "B"; });
       Utils.then(tracker, function() { str += "C"; });
       Utils.then(tracker, function() {
         self.assertEquals("ABC", str);
@@ -36,72 +36,73 @@ qx.Class.define("qx.test.event.Utils", {
       });
       this.assertTrue(finished);
     },
-    
+
     testSomeDelayedPromises: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
       Utils.then(tracker, function() { str += "A"; });
-      Utils.then(tracker, function() { 
+      Utils.then(tracker, function() {
         return new qx.Promise(function(resolve) {
           setTimeout(function() {
             str += "B";
-            resolve();
+            resolve(str);
           }, 200);
         })
       });
-      Utils.then(tracker, function() { str += "C"; });
+      Utils.then(tracker, function(value) { self.assertEquals("AB", value); str += "C"; });
       Utils.then(tracker, function() {
           self.assertEquals("ABC", str);
           self.resume();
         });
       self.wait();
     },
-    
+
     testSomeInstantPromises: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
       Utils.then(tracker, function() { str += "A"; });
-      Utils.then(tracker, function() { 
+      Utils.then(tracker, function() {
         str += "B";
-        return qx.Promise.resolve();
+        return qx.Promise.resolve(str);
       });
-      Utils.then(tracker, function() { str += "C"; });
+      Utils.then(tracker, function(value) { self.assertEquals("AB", value); str += "C"; });
       Utils.then(tracker, function() {
           self.assertEquals("ABC", str);
           self.resume();
         });
       self.wait();
     },
-    
+
     testSomeInstantPromises2: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
       Utils.then(tracker, function() { str += "A"; });
-      Utils.then(tracker, function() { 
+      Utils.then(tracker, function() {
         str += "B";
         return qx.Promise.resolve();
       });
-      Utils.then(tracker, function() { 
+      Utils.then(tracker, function() {
         return new qx.Promise(function(resolve) {
           setTimeout(function() {
-            str += "C"; 
-            resolve();
+            str += "C";
+            resolve(str);
           }, 200);
         })
       });
-      Utils.then(tracker, function() {
+      Utils.then(tracker, function(value) {
+          self.assertEquals("ABC", value);
           self.assertEquals("ABC", str);
           self.resume();
         });
       self.wait();
     },
-    
+
     testSomeAbort: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
@@ -109,7 +110,7 @@ qx.Class.define("qx.test.event.Utils", {
       var self = this;
       var finished = false;
       Utils.then(tracker, function() { str += "A"; });
-      Utils.then(tracker, function() { 
+      Utils.then(tracker, function() {
         return Utils.ABORT;
       });
       Utils.then(tracker, function() { str += "C"; });
@@ -122,14 +123,14 @@ qx.Class.define("qx.test.event.Utils", {
       });
       this.assertTrue(finished);
     },
-    
+
     testSomeReject: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
       Utils.then(tracker, function() { str += "A"; });
-      Utils.then(tracker, function() { 
+      Utils.then(tracker, function() {
         return new qx.Promise(function(resolve, reject) {
           setTimeout(function() {
             reject();
@@ -146,14 +147,14 @@ qx.Class.define("qx.test.event.Utils", {
       });
       self.wait();
     },
-    
+
     testResolveAndReject: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
       Utils.then(tracker, function() { str += "A"; });
-      Utils.then(tracker, function() { 
+      Utils.then(tracker, function() {
         return new qx.Promise(function(resolve) {
           setTimeout(function() {
             str += "B";
@@ -161,7 +162,7 @@ qx.Class.define("qx.test.event.Utils", {
           }, 200);
         });
       });
-      Utils.then(tracker, function() { 
+      Utils.then(tracker, function() {
         return new qx.Promise(function(resolve, reject) {
           setTimeout(function() {
             reject();
@@ -177,7 +178,7 @@ qx.Class.define("qx.test.event.Utils", {
       });
       self.wait();
     },
-    
+
     testSeries1: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
@@ -206,13 +207,13 @@ qx.Class.define("qx.test.event.Utils", {
       });
       self.wait();
     },
-    
+
     testSeriesAbort: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
-      Utils.catch(tracker, function() { 
+      Utils.catch(tracker, function() {
         self.assertEquals("AB", str);
         self.resume();
       });
@@ -234,7 +235,7 @@ qx.Class.define("qx.test.event.Utils", {
         });
       });
       Utils.then(tracker, function() {
-        self.assertTrue(false); 
+        self.assertTrue(false);
       });
       self.wait();
     },
@@ -252,24 +253,24 @@ qx.Class.define("qx.test.event.Utils", {
       p = p.then(function() { self.resume(); });
       this.wait();
     },
-    
+
     testPromiseReturns: function() {
       var self = this;
-      var p = new qx.Promise(function(resolve) { 
+      var p = new qx.Promise(function(resolve) {
           setTimeout(function() {
             console.log("testPromiseReturns:: resolving p");
             resolve();
-          }, 100); 
+          }, 100);
         });
       p = p.then(function() {
-        var p2 = new qx.Promise(function(resolve) { 
+        var p2 = new qx.Promise(function(resolve) {
             setTimeout(function() {
               console.log("testPromiseReturns:: resolving p2");
               resolve();
             }, 100);
           });
-        return p2.then(function() { 
-          console.log("testPromiseReturns:: resolving post p2"); 
+        return p2.then(function() {
+          console.log("testPromiseReturns:: resolving post p2");
         });
       });
       p = p.then(function() {
@@ -278,13 +279,13 @@ qx.Class.define("qx.test.event.Utils", {
       });
       this.wait();
     },
-    
+
     testSeriesReject: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
-      Utils.catch(tracker, function() { 
+      Utils.catch(tracker, function() {
         self.assertEquals("AB", str);
         self.resume();
       });
@@ -303,17 +304,17 @@ qx.Class.define("qx.test.event.Utils", {
         });
       });
       Utils.then(tracker, function() {
-        self.assertTrue(false); 
+        self.assertTrue(false);
       });
       self.wait();
     },
-    
+
     testSeriesRejectNested: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
-      Utils.catch(tracker, function() { 
+      Utils.catch(tracker, function() {
         self.assertEquals("ABC1", str);
         self.resume();
       });
@@ -340,18 +341,18 @@ qx.Class.define("qx.test.event.Utils", {
         });
       });
       Utils.then(tracker, function() {
-        self.assertTrue(false); 
+        self.assertTrue(false);
       });
       self.wait();
     },
-    
+
     testSeriesNested: function() {
       var Utils = qx.event.Utils;
       var tracker = {};
       var str = "";
       var self = this;
-      Utils.catch(tracker, function() { 
-        self.assertTrue(false); 
+      Utils.catch(tracker, function() {
+        self.assertTrue(false);
       });
       Utils.then(tracker, function() {
         return Utils.series(["A", "B", "C", "D"], function(letter) {
@@ -382,13 +383,13 @@ qx.Class.define("qx.test.event.Utils", {
       });
       self.wait();
     },
-    
+
     testTrack: function() {
       var Utils = qx.event.Utils;
       var str = "";
       var self = this;
       var finished = true;
-      
+
       function outer() {
         var tracker = {};
 
@@ -399,18 +400,18 @@ qx.Class.define("qx.test.event.Utils", {
         });
         self.assertTrue(finished);
       }
-      
+
       function add(ch, delay) {
         return function() {
           return new qx.Promise(function(resolve) {
-            setTimeout(function() { 
+            setTimeout(function() {
                 str += ch;
                 resolve();
               }, 300);
           });
         };
       }
-      
+
       function inner() {
         var tracker = {};
         Utils.then(tracker, add("A", 300));
