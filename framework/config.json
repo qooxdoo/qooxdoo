@@ -43,8 +43,6 @@
     "validate-manifest",
     "watch-scss"
   ],
-
-
   "let" :
   {
     "APPLICATION"  : "qx",
@@ -134,7 +132,6 @@
       },
 
       "compile" : { "type" : "build" },
-
       "copy-resources" :
       {
         "target" : "build"
@@ -211,6 +208,10 @@
         "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"],
         "TEST_EXCLUDE" : "${TEST_PERFORMANCE_INCLUDE}",
         "TEST_INCLUDE" : "qx.*"
+      },
+      "asset-let" :
+      {
+        "qx.icontheme" : ["Tango"]
       }
     },
 
@@ -324,8 +325,12 @@
       "config-warnings" :
       {
         "environment" : [ "non-literal-keys" ]
+      },
+      "asset-let" :
+      {
+        "qx.icontheme" : ["Tango"]
       }
-    },
+   },
 
     "api-verify" :
     {
