@@ -43,8 +43,6 @@
     "validate-manifest",
     "watch-scss"
   ],
-
-
   "let" :
   {
     "APPLICATION"  : "qx",
@@ -132,7 +130,6 @@
       },
 
       "compile" : { "type" : "build" },
-
       "copy-resources" :
       {
         "target" : "build"
@@ -331,8 +328,12 @@
       "config-warnings" :
       {
         "environment" : [ "non-literal-keys" ]
+      },
+      "asset-let" :
+      {
+        "qx.icontheme" : ["Tango"]
       }
-    },
+   },
 
     "api-verify" :
     {
