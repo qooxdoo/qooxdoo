@@ -411,17 +411,17 @@ qx.Class.define("qx.html.Element",
       var element = this.fromDomElement(domElement);
       return element && !element.__willBeSeeable();
     },
-    
-    
+
+
     /**
      * Finds the Widget for a given DOM element
-     * 
+     *
      * @param domElement {DOM} the DOM element
      * @return {Widget} the Widget that created the DOM element
      */
     fromDomElement: function(domElement) {
     	if (qx.core.Environment.get("qx.debug")) {
-    		qx.core.Assert.assertTrue((!domElement.$$element && !domElement.$$elementObject) || 
+    		qx.core.Assert.assertTrue((!domElement.$$element && !domElement.$$elementObject) ||
     				domElement.$$element === domElement.$$elementObject.toHashCode());
     	}
       return domElement.$$elementObject;
@@ -452,7 +452,7 @@ qx.Class.define("qx.html.Element",
 
     /** @type {Element} DOM element of this object */
     __element : null,
-    
+
     /** @type {Widget} the Widget this element is attached to */
     __widget : null,
 
@@ -510,60 +510,60 @@ qx.Class.define("qx.html.Element",
     _createDomElement : function() {
       return qx.dom.Element.create(this.__nodeName);
     },
-    
-    
+
+
     /**
      * Connects a widget to this element, and to the DOM element in this Element.  They
      * remain associated until disposed or disconnectWidget is called
-     * 
+     *
      * @param widget {qx.ui.core.Widget} the widget
      */
     connectWidget: function(widget) {
     	if (qx.core.Environment.get("qx.debug")) {
       	qx.core.Assert.assertTrue(!this.__widget || this.__widget === widget);
     	}
-    	
+
     	this.__widget = widget;
     	if (this.__element) {
       	if (qx.core.Environment.get("qx.debug")) {
       		qx.core.Assert.assertTrue((!this.__element.$$widget && !this.__element.$$widgetObject) ||
       				(this.__element.$$widgetObject === widget && this.__element.$$widget === widget.toHashCode()));
       	}
-      	
+
       	this.__element.$$widget = widget.toHashCode();
       	this.__element.$$widgetObject = widget;
     	}
     },
-    
-    
+
+
     /**
      * Disconnects a widget from this element and the DOM element.  The DOM element remains
      * untouched, except that it can no longer be used to find the Widget.
-     * 
+     *
      * @param widget {qx.ui.core.Widget} the Widget
      */
     disconnectWidget: function(widget) {
     	if (qx.core.Environment.get("qx.debug")) {
       	qx.core.Assert.assertTrue(this.__widget === widget);
     	}
-    	
+
     	delete this.__widget;
     	if (this.__element) {
       	if (qx.core.Environment.get("qx.debug")) {
       		qx.core.Assert.assertTrue((!this.__element.$$widget && !this.__element.$$widgetObject) ||
       				(this.__element.$$widgetObject === widget && this.__element.$$widget === widget.toHashCode()));
       	}
-      	
+
       	this.__element.$$widget = "";
       	delete this.__element.$$widgetObject;
     	}
     },
-    
-    
+
+
     /**
      * Connects a DOM element to this Element; if this Element is already connected to a Widget
      * then the Widget is also connected.
-     * 
+     *
      * @param domElement {DOM} the DOM element to associate
      */
     __connectDomElement: function(domElement) {
@@ -572,7 +572,7 @@ qx.Class.define("qx.html.Element",
     		qx.core.Assert.assertTrue((domElement.$$elementObject === this && domElement.$$element === this.toHashCode()) ||
     				(!domElement.$$elementObject && !domElement.$$element));
     	};
-    	
+
     	this.__element = domElement;
     	domElement.$$elementObject = this;
     	domElement.$$element = this.toHashCode();
@@ -1420,7 +1420,7 @@ qx.Class.define("qx.html.Element",
       DOM ELEMENT ACCESS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Returns the DOM element (if created). Please use this with caution.
      * It is better to make all changes to the object itself using the public

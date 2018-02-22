@@ -146,10 +146,10 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
 
         parent = this._getParent(parent);
       }
-      
+
       var self = this;
       var tracker = {};
-      
+
       var __TRACE_LOGGING = false;//(event._type == "pointerup" && event._target.className === "qx-toolbar-button-checked");
       var __TRACE = function(){};
       if (__TRACE_LOGGING) {
@@ -161,25 +161,25 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           console.log.apply(this, args);
         }
       }
-      
+
       qx.event.Utils.catch(tracker, function() {
         // This function must exist to suppress "unhandled rejection" messages from promises
         __TRACE("Aborted serial=" + serial + ", type=" + event.getType());
       });
-      
+
       // capturing phase
       qx.event.Utils.then(tracker, function() {
         // loop through the hierarchy in reverted order (from root)
         event.setEventPhase(qx.event.type.Event.CAPTURING_PHASE);
-        
+
         __TRACE("captureList=" + captureList.length);
         return qx.event.Utils.series(captureList, function(localList, i) {
-          
+
           __TRACE("captureList[" + i + "]: localList.length=" + localList.length);
 
           var currentTarget = captureTargets[i];
           event.setCurrentTarget(currentTarget);
-          
+
           var result = qx.event.Utils.series(localList, function(listener, listenerIndex) {
             context = listener.context || currentTarget;
 
@@ -192,7 +192,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
                 );
               }
             }
-            
+
             if (!self._manager.isBlacklisted(listener.unique)) {
               __TRACE("captureList[" + i + "] => localList[" + listenerIndex + "] callListener");
               return listener.handler.call(context, event);
@@ -202,24 +202,24 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           }, true);
           if (result === qx.event.Utils.ABORT) {
             return qx.event.Utils.reject(tracker);
-          }  
+          }
           if (event.getPropagationStopped()) {
             return qx.event.Utils.reject(tracker);
-          }  
+          }
           return result;
         });
       });
-      
+
 
       // at target
       qx.event.Utils.then(tracker, function() {
         event.setEventPhase(qx.event.type.Event.AT_TARGET);
         event.setCurrentTarget(target);
-        
+
         __TRACE("targetList=" + targetList.length);
         return qx.event.Utils.series(targetList, function(localList, i) {
           __TRACE("targetList[" + i + "] localList.length=" + localList.length);
-          
+
           var result = qx.event.Utils.series(localList, function(listener, listenerIndex) {
             __TRACE("targetList[" + i + "] -> localList[" + listenerIndex + "] callListener");
             context = listener.context || target;
@@ -242,12 +242,12 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           }
           if (event.getPropagationStopped()) {
             return qx.event.Utils.reject(tracker);
-          }  
+          }
           return result;
         });
       });
 
-      
+
       // bubbling phase
       // loop through the hierarchy in normal order (to root)
       qx.event.Utils.then(tracker, function() {
@@ -258,7 +258,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
           __TRACE("bubbleList[" + i + "] localList.length=" + localList.length);
           var currentTarget = bubbleTargets[i];
           event.setCurrentTarget(currentTarget);
-          
+
           var result = qx.event.Utils.series(localList, function(listener, listenerIndex) {
             __TRACE("bubbleList[" + i + "] -> localList[" + listenerIndex + "] callListener");
             context = listener.context || currentTarget;
@@ -275,17 +275,17 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
 
             return listener.handler.call(context, event);
           }, true);
-          
+
           if (result === qx.event.Utils.ABORT) {
             return qx.event.Utils.reject(tracker);
-          }  
+          }
           if (event.getPropagationStopped()) {
             return qx.event.Utils.reject(tracker);
           }
           return result;
         });
       });
-      
+
       if (__TRACE_LOGGING) {
         if (tracker.promise) {
           __TRACE("events promised");
