@@ -394,6 +394,7 @@ qx.Class.define("qx.test.event.Utils", {
         });
         Utils.then(tracker, function() {
           self.assertTrue(false);
+          return null;
         });
         self.wait();
       } else {
@@ -436,6 +437,7 @@ qx.Class.define("qx.test.event.Utils", {
         Utils.then(tracker, function() {
           self.assertEquals("ABC1234D", str);
           self.resume();
+          return null;
         });
         self.wait();
       } else {
