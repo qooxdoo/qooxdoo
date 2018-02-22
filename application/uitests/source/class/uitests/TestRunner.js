@@ -62,13 +62,13 @@ qx.Class.define("uitests.TestRunner", {
         var fn = obj[methodName];
         obj.setTestResult({
           run: function() {
-            next();
+            setTimeout(next, 1);
           }
         });
         try {
           console.log("Starting " + methodName);
           fn.call(obj);
-          next();
+          setTimeout(next, 1);
         } catch(ex) {
           if (!(ex instanceof qx.dev.unit.AsyncWrapper)) {
             console.log("Error in " + methodName + ": " + ex);
