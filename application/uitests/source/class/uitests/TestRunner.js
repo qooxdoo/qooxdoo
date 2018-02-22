@@ -29,12 +29,16 @@ qx.Class.define("uitests.TestRunner", {
      * @param clazz {qx.Class} the unit test class
      * @param methodNames {String[]?} method names, if not provided then all methods are run
      * @param cb {Function} called when all tests are complete
+     * @param context {?} context for `cb`
      */
-    runAll: function(clazz, methodNames, cb) {
+    runAll: function(clazz, methodNames, cb, context) {
       if (typeof methodNames === "function") {
+        context = cb;
         cb = methodNames;
         methodNames = null;
       }
+      if (cb && context)
+        cb = cb.bind(context);
       if (typeof methodNames === "string")
         methodNames = [methodNames];
       if (!methodNames) {
@@ -49,7 +53,7 @@ qx.Class.define("uitests.TestRunner", {
       var obj = new clazz();
       var index = -1;
       function next() {
-        if (++index >= methodName.length) {
+        if (++index >= methodNames.length) {
           console.log("Finished all tests");
           cb && cb(null);
           return;
@@ -69,10 +73,10 @@ qx.Class.define("uitests.TestRunner", {
           if (!(ex instanceof qx.dev.unit.AsyncWrapper)) {
             console.log("Error in " + methodName + ": " + ex);
             cb && cb(ex);
-            return;
           }
         }
       }
+      next();
     }
 
   }

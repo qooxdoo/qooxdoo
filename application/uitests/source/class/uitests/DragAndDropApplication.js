@@ -25,11 +25,17 @@ qx.Class.define("uitests.DragAndDropApplication", {
         qx.log.appender.Console;
       }
 
-      uitests.TestRunner.runAll(qx.test.event.Utils);
+      uitests.TestRunner.runAll(qx.test.event.Utils, this.__init, this);
+    },
 
+    __init: function() {
       var doc = this.getRoot();
       var tb = new qx.ui.toolbar.ToolBar();
       var btn = new qx.ui.toolbar.Button("Click Me", "qx/icon/Tango/16/actions/document-print.png");
+      btn.addListener("execute", function() {
+        var win = new qx.ui.window.Window("Test Window");
+        win.open();
+      }, this);
       tb.add(btn);
       doc.add(tb, { left: 10, top: 10, right: 10 });
 

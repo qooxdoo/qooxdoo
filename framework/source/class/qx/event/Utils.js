@@ -114,7 +114,7 @@ qx.Class.define("qx.event.Utils", {
     then: qx.core.Environment.select("qx.promise", {
       "true": function(tracker, fn) {
         if (tracker.rejected) {
-          return;
+          return null;
         }
         if (tracker.promise) {
           var self = this;
@@ -145,6 +145,9 @@ qx.Class.define("qx.event.Utils", {
       },
 
       "false": function(tracker, fn) {
+        if (tracker.rejected) {
+          return null;
+        }
         var result = tracker.result = fn(tracker.result);
         if (result === qx.event.Utils.ABORT) {
           return this.reject(tracker);
