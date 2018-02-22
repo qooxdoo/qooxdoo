@@ -11,9 +11,9 @@
 /**
  * This is the main application class of your custom application "dragndrop"
  *
- * @asset(qx/icon/Tango/16/actions/document-print.png)
+ * @asset(dragndrop/*)
  */
-qx.Class.define("uitests.DragAndDropApplication", {
+qx.Class.define("uitests.DragAndDropNoPromiseApplication", {
   extend: qx.application.Standalone,
 
   members: {
@@ -54,79 +54,66 @@ qx.Class.define("uitests.DragAndDropApplication", {
       var cbxCancelDragstart = new qx.ui.form.CheckBox("Cancel dragstart").set({ value: false });
       compSource.add(cbxCancelDragstart);
 
-      var cbxRejectDragstart = new qx.ui.form.CheckBox("Reject dragstart").set({ value: false });
-      compSource.add(cbxRejectDragstart);
-
       lstSource.addListener("dragstart", function(e) {
         this.debug("lstSource: dragstart");
-        return new qx.Promise((resolve, reject) => {
-          if (cbxCancelDragstart.getValue()) {
-            e.preventDefault();
-          }
-          if (cbxRejectDragstart.getValue()) {
-            reject();
-            return;
-          }
+        if (cbxCancelDragstart.getValue()) {
+          e.preventDefault();
+          return;
+        }
 
-          if (!e.getDefaultPrevented()) {
-            // Register supported types
-            e.addType("value");
-            e.addType("items");
+        if (!e.getDefaultPrevented()) {
+          // Register supported types
+          e.addType("value");
+          e.addType("items");
 
-            // Register supported actions
-            e.addAction("copy");
-            e.addAction("move");
-          }
-
-          resolve();
-        });
+          // Register supported actions
+          e.addAction("copy");
+          e.addAction("move");
+        }
       });
 
       lstSource.addListener("droprequest", function(e) {
         this.debug("lstSource: droprequest");
-        return new qx.Promise((resolve, reject) => {
-          this.debug("Related of droprequest: " + e.getRelatedTarget());
+        this.debug("Related of droprequest: " + e.getRelatedTarget());
 
-          var action = e.getCurrentAction();
-          var type = e.getCurrentType();
-          var result;
-          var selection = this.getSelection();
-          var dragTarget = e.getDragTarget();
-          if (selection.length === 0) {
-            selection.push(dragTarget);
-          } else if (selection.indexOf(dragTarget) == -1) {
-            selection = [ dragTarget ];
-          }
+        var action = e.getCurrentAction();
+        var type = e.getCurrentType();
+        var result;
+        var selection = this.getSelection();
+        var dragTarget = e.getDragTarget();
+        if (selection.length === 0) {
+          selection.push(dragTarget);
+        } else if (selection.indexOf(dragTarget) == -1) {
+          selection = [ dragTarget ];
+        }
 
-          switch (type) {
-          case "items":
-            result = selection;
+        switch (type) {
+        case "items":
+          result = selection;
 
-            if (action == "copy") {
-              var copy = [];
-              for (var i = 0, l = result.length; i < l; i++) {
-                copy[i] = result[i].clone();
-              }
-              result = copy;
+          if (action == "copy") {
+            var copy = [];
+            for (var i = 0, l = result.length; i < l; i++) {
+              copy[i] = result[i].clone();
             }
-            break;
-
-          case "value":
-            result = selection[0].getLabel();
-            break;
+            result = copy;
           }
+          break;
 
-          // Remove selected items on move
-          if (action == "move") {
-            for (var i = 0, l = selection.length; i < l; i++) {
-              this.remove(selection[i]);
-            }
+        case "value":
+          result = selection[0].getLabel();
+          break;
+        }
+
+        // Remove selected items on move
+        if (action == "move") {
+          for (var i = 0, l = selection.length; i < l; i++) {
+            this.remove(selection[i]);
           }
+        }
 
-          // Add data to manager
-          e.addData(type, result);
-          resolve();
-        });
+        // Add data to manager
+        e.addData(type, result);
       });
 
       var compTarget = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
@@ -138,26 +125,21 @@ qx.Class.define("uitests.DragAndDropApplication", {
 
       lstTargetSimple.addListener("drop", function(e) {
         this.debug("lstTargetSimple: drop");
-        return new qx.Promise((resolve, reject) => {
-          this.debug("Related of drop: " + e.getRelatedTarget());
+        this.debug("Related of drop: " + e.getRelatedTarget());
 
-          // Move items from lstSource to target
-          var items = e.getData("items");
-          for (var i=0, l=items.length; i<l; i++) {
-            this.add(items[i]);
-          }
-          resolve();
-        });
+        // Move items from lstSource to target
+        var items = e.getData("items");
+        for (var i=0, l=items.length; i<l; i++) {
+          this.add(items[i]);
+        }
       });
 
       lstTargetSimple.addListener("dragover", function(e) {
         this.debug("lstTargetSimple: dragover");
-        return new qx.Promise((resolve, reject) => {
-          if (!e.supportsType("items") || cbxCancelDragover.getValue()) {
-            e.preventDefault();
-          }
-          resolve();
-        });
+        if (cbxCancelDragover.getValue() || !e.supportsType("items")) {
+          e.preventDefault();
+          return;
+        }
       });
 
       var cbxCancelDragover = new qx.ui.form.CheckBox("Cancel dragover").set({ value: false });

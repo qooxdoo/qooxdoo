@@ -5,6 +5,8 @@
 /source/script/
 source-output/
 build-output/
+source-nopromise-output/
+build-nopromise-output/
 db.json
 resource-db.json
 
