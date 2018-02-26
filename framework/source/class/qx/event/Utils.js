@@ -119,14 +119,14 @@ qx.Class.define("qx.event.Utils", {
         if (tracker.promise) {
           var self = this;
           this.__push(tracker, tracker.promise.then(function(result) {
-            if (tracker.rejected) {
-              return null;
-            }
-            var result = fn(result);
-            if (result === qx.event.Utils.ABORT) {
-              return self.reject(tracker);
-            }
-            return result;
+              if (tracker.rejected) {
+                return null;
+              }
+              result = fn(result);
+              if (result === qx.event.Utils.ABORT) {
+                return self.reject(tracker);
+              }
+              return result;
             })
           );
           this.__addCatcher(tracker);
