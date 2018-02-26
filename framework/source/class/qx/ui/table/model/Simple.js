@@ -58,12 +58,13 @@ qx.Class.define("qx.ui.table.model.Simple",
      *
      * @param row1 {var} first row
      * @param row2 {var} second row
+     * @param columnIndex {Integer} the column to be sorted
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorAscending : function(row1, row2)
+    _defaultSortComparatorAscending : function(row1, row2, columnIndex)
     {
-      var obj1 = row1[arguments.callee.columnIndex];
-      var obj2 = row2[arguments.callee.columnIndex];
+      var obj1 = row1[columnIndex];
+      var obj2 = row2[columnIndex];
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
         var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
         if (result != null) {
@@ -79,14 +80,15 @@ qx.Class.define("qx.ui.table.model.Simple",
      *
      * @param row1 {var} first row
      * @param row2 {var} second row
+     * @param columnIndex {Integer} the column to be sorted
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorInsensitiveAscending : function(row1, row2)
+    _defaultSortComparatorInsensitiveAscending : function(row1, row2, columnIndex)
     {
-      var obj1 = (row1[arguments.callee.columnIndex].toLowerCase ?
-            row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-      var obj2 = (row2[arguments.callee.columnIndex].toLowerCase ?
-            row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+      var obj1 = (row1[columnIndex].toLowerCase ?
+            row1[columnIndex].toLowerCase() : row1[columnIndex]);
+      var obj2 = (row2[columnIndex].toLowerCase ?
+            row2[columnIndex].toLowerCase() : row2[columnIndex]);
 
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
         var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
@@ -104,12 +106,13 @@ qx.Class.define("qx.ui.table.model.Simple",
      *
      * @param row1 {var} first row
      * @param row2 {var} second row
+     * @param columnIndex {Integer} the column to be sorted
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorDescending : function(row1, row2)
+    _defaultSortComparatorDescending : function(row1, row2, columnIndex)
     {
-      var obj1 = row1[arguments.callee.columnIndex];
-      var obj2 = row2[arguments.callee.columnIndex];
+      var obj1 = row1[columnIndex];
+      var obj2 = row2[columnIndex];
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
         var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
         if (result != null) {
@@ -125,14 +128,15 @@ qx.Class.define("qx.ui.table.model.Simple",
      *
      * @param row1 {var} first row
      * @param row2 {var} second row
+     * @param columnIndex {Integer} the column to be sorted
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorInsensitiveDescending : function(row1, row2)
+    _defaultSortComparatorInsensitiveDescending : function(row1, row2, columnIndex)
     {
-      var obj1 = (row1[arguments.callee.columnIndex].toLowerCase ?
-          row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-      var obj2 = (row2[arguments.callee.columnIndex].toLowerCase ?
-          row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+      var obj1 = (row1[columnIndex].toLowerCase ?
+          row1[columnIndex].toLowerCase() : row1[columnIndex]);
+      var obj2 = (row2[columnIndex].toLowerCase ?
+          row2[columnIndex].toLowerCase() : row2[columnIndex]);
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
         var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
         if (result != null) {
@@ -326,7 +330,9 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
 
       comparator.columnIndex = columnIndex;
-      this._rowArr.sort(comparator);
+      this._rowArr.sort(function(row1, row2) {
+        return comparator(row1, row2, columnIndex);
+      });
 
       this.__sortColumnIndex = columnIndex;
       this.__sortAscending = ascending;
@@ -352,10 +358,12 @@ qx.Class.define("qx.ui.table.model.Simple",
      *
      * @param compare {Function|Map}
      *   If provided as a Function, this is the comparator function to sort in
-     *   ascending order. It takes two parameters: the two arrays of row data,
-     *   row1 and row2, being compared. It may determine which column of the
-     *   row data to sort on by accessing arguments.callee.columnIndex.  The
-     *   comparator function must return 1, 0 or -1, when the column in row1
+     *   ascending order. It takes three parameters: the two arrays of row data,
+     *   row1 and row2, being compared and the column index sorting was requested 
+     *   for. Determining the which column of the row data should be sorted by 
+     *   accessing arguments.callee.columnIndex is also possible for compatibility 
+     *   reasons, but is deprecated and will be removed in future releases.  
+     *   The comparator function must return 1, 0 or -1, when the column in row1
      *   is greater than, equal to, or less than, respectively, the column in
      *   row2.
      *
