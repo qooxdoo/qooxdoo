@@ -24,14 +24,14 @@
 /**
  * The simple qooxdoo appearance theme.
  *
- * @asset(qx/icon/Tango/16/apps/office-calendar.png)
- * @asset(qx/icon/Tango/16/places/folder-open.png)
- * @asset(qx/icon/Tango/16/places/folder.png)
- * @asset(qx/icon/Tango/16/mimetypes/text-plain.png)
- * @asset(qx/icon/Tango/16/actions/view-refresh.png)
- * @asset(qx/icon/Tango/16/actions/window-close.png)
- * @asset(qx/icon/Tango/16/actions/dialog-cancel.png)
- * @asset(qx/icon/Tango/16/actions/dialog-ok.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder-open.png)
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/16/mimetypes/text-plain.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/view-refresh.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/window-close.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
  */
 qx.Theme.define("qx.theme.simple.Appearance",
 {

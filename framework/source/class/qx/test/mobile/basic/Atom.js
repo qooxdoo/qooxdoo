@@ -20,8 +20,8 @@
 ************************************************************************ */
 /**
  *
- * @asset(qx/icon/Tango/48/places/user-home.png)
- * @asset(qx/icon/Tango/32/places/folder-open.png)
+ * @asset(qx/icon/${qx.icontheme}/48/places/user-home.png)
+ * @asset(qx/icon/${qx.icontheme}/32/places/folder-open.png)
  */
 
 qx.Class.define("qx.test.mobile.basic.Atom",
