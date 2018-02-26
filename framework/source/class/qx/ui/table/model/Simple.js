@@ -360,7 +360,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      *   If provided as a Function, this is the comparator function to sort in
      *   ascending order. It takes three parameters: the two arrays of row data,
      *   row1 and row2, being compared and the column index sorting was requested 
-     *   for. Determining the which column of the row data should be sorted by 
+     *   for. Determining which column of the row data should be sorted by 
      *   accessing arguments.callee.columnIndex is also possible for compatibility 
      *   reasons, but is deprecated and will be removed in future releases.  
      *   The comparator function must return 1, 0 or -1, when the column in row1
