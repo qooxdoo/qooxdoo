@@ -200,10 +200,12 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
               __TRACE("captureList[" + i + "] => localList[" + listenerIndex + "] is blacklisted");
             }
           }, true);
-          if (result === qx.event.Utils.ABORT)
+          if (result === qx.event.Utils.ABORT) {
             return qx.event.Utils.reject(tracker);
-          if (event.getPropagationStopped())
+          }  
+          if (event.getPropagationStopped()) {
             return qx.event.Utils.reject(tracker);
+          }  
           return result;
         });
       });
@@ -235,10 +237,12 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
             __TRACE("Calling target serial=" + serial + ", type=" + event.getType());
             return listener.handler.call(context, event);
           }, true);
-          if (result === qx.event.Utils.ABORT)
+          if (result === qx.event.Utils.ABORT) {
             return qx.event.Utils.reject(tracker);
-          if (event.getPropagationStopped())
+          }
+          if (event.getPropagationStopped()) {
             return qx.event.Utils.reject(tracker);
+          }  
           return result;
         });
       });
@@ -272,10 +276,12 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
             return listener.handler.call(context, event);
           }, true);
           
-          if (result === qx.event.Utils.ABORT)
+          if (result === qx.event.Utils.ABORT) {
             return qx.event.Utils.reject(tracker);
-          if (event.getPropagationStopped())
+          }  
+          if (event.getPropagationStopped()) {
             return qx.event.Utils.reject(tracker);
+          }
           return result;
         });
       });
