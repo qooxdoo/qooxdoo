@@ -62,8 +62,8 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     _defaultSortComparatorAscending : function(row1, row2)
     {
-      var obj1 = row1[arguments.callee.columnIndex];
-      var obj2 = row2[arguments.callee.columnIndex];
+      var obj1 = row1[qx.ui.table.model.Simple._defaultSortComparatorAscending.columnIndex];
+      var obj2 = row2[qx.ui.table.model.Simple._defaultSortComparatorAscending.columnIndex];
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
         var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
         if (result != null) {
@@ -83,10 +83,11 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     _defaultSortComparatorInsensitiveAscending : function(row1, row2)
     {
-      var obj1 = (row1[arguments.callee.columnIndex].toLowerCase ?
-            row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-      var obj2 = (row2[arguments.callee.columnIndex].toLowerCase ?
-            row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+      var columnIndex = qx.ui.table.model.Simple._defaultSortComparatorInsensitiveAscending.columnIndex;
+      var obj1 = (row1[columnIndex].toLowerCase ?
+            row1[columnIndex].toLowerCase() : row1[columnIndex]);
+      var obj2 = (row2[columnIndex].toLowerCase ?
+            row2[columnIndex].toLowerCase() : row2[columnIndex]);
 
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
         var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
@@ -108,8 +109,9 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     _defaultSortComparatorDescending : function(row1, row2)
     {
-      var obj1 = row1[arguments.callee.columnIndex];
-      var obj2 = row2[arguments.callee.columnIndex];
+      var columnIndex = qx.ui.table.model.Simple._defaultSortComparatorDescending.columnIndex;
+      var obj1 = row1[columnIndex];
+      var obj2 = row2[columnIndex];
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
         var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
         if (result != null) {
@@ -129,10 +131,11 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     _defaultSortComparatorInsensitiveDescending : function(row1, row2)
     {
-      var obj1 = (row1[arguments.callee.columnIndex].toLowerCase ?
-          row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-      var obj2 = (row2[arguments.callee.columnIndex].toLowerCase ?
-          row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+      var columnIndex = qx.ui.table.model.Simple._defaultSortComparatorInsensitiveDescending.columnIndex;
+      var obj1 = (row1[columnIndex].toLowerCase ?
+          row1[columnIndex].toLowerCase() : row1[columnIndex]);
+      var obj2 = (row2[columnIndex].toLowerCase ?
+          row2[columnIndex].toLowerCase() : row2[columnIndex]);
       if (qx.lang.Type.isNumber(obj1) && qx.lang.Type.isNumber(obj2)) {
         var result = isNaN(obj1) ? isNaN(obj2) ?  0 : 1 : isNaN(obj2) ? -1 : null;
         if (result != null) {
