@@ -365,7 +365,8 @@ qx.Class.define("qx.ui.table.model.Simple",
      *   For backwards compatability, user-supplied compare functions may still 
      *   take only two parameters, the two arrays of row data, row1 and row2, 
      *   being compared and obtain the column index as arguments.callee.columnIndex. 
-     *   This is deprecated, however, as arguments.callee is disallowed in ES6.
+     *   This is deprecated, however, as arguments.callee is disallowed in ES5 strict
+     *   mode and ES6.
      *
      *   The comparator function must return 1, 0 or -1, when the column in row1
      *   is greater than, equal to, or less than, respectively, the column in
@@ -395,6 +396,17 @@ qx.Class.define("qx.ui.table.model.Simple",
             ascending  : compare,
             descending : function(row1, row2, columnIndex)
             {
+              /* assure backwards compatibility for sort functions using
+               * arguments.callee.columnIndex and fix a bug where retreiveing
+               * column index via this way did not work for the case where a 
+               * single comparator function was used. 
+               * Note that arguments.callee is not available in ES5 strict mode and ES6. 
+               * See discussion in 
+               * https://github.com/qooxdoo/qooxdoo/pull/9499#pullrequestreview-99655182
+               */ 
+              if(arguments.callee !== undefined) {
+                compare.columnIndex = arguments.callee.columnIndex;
+              }              
               return compare(row2, row1, columnIndex);
             }
           };
