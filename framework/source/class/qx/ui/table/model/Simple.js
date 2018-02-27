@@ -389,9 +389,9 @@ qx.Class.define("qx.ui.table.model.Simple",
         methods =
           {
             ascending  : compare,
-            descending : function(row1, row2)
+            descending : function(row1, row2, columnIndex)
             {
-              return compare(row2, row1);
+              return compare(row2, row1, columnIndex);
             }
           };
       }
