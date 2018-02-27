@@ -244,10 +244,10 @@ qx.Class.define("demobrowser.demo.table.Table_Context_Menu",
       {
         if (evt.getData())
         {
-          var ascending = function(row1, row2)
+          var ascending = function(row1, row2, columnIndex)
           {
-            var obj1 = row1[arguments.callee.columnIndex];
-            var obj2 = row2[arguments.callee.columnIndex];
+            var obj1 = row1[columnIndex];
+            var obj2 = row2[columnIndex];
             if (obj1 % 2 == 1 && obj2 % 2 == 0)
             {
               return 1;
@@ -259,10 +259,10 @@ qx.Class.define("demobrowser.demo.table.Table_Context_Menu",
             return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
           };
 
-          var descending = function(row1, row2)
+          var descending = function(row1, row2, columnIndex)
           {
-            var obj1 = row1[arguments.callee.columnIndex];
-            var obj2 = row2[arguments.callee.columnIndex];
+            var obj1 = row1[columnIndex];
+            var obj2 = row2[columnIndex];
             if (obj1 % 2 == 1 && obj2 % 2 == 0)
             {
               return -1;
