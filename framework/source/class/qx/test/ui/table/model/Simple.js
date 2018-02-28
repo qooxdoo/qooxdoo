@@ -48,6 +48,150 @@ qx.Class.define("qx.test.ui.table.model.Simple",
       this.assertEquals("test2", data.col2);
 
       tableModel.dispose();
+    },
+    
+    getStringValues : function() {
+      return ["aaaa", "bbbb", "cccc", "dddd", "eeee", "ffff"];
+    },
+    
+    createRandomRows : function(rowCount)
+    {
+      var rowData = [];
+      var strings = this.getStringValues();
+      for (var row = 0; row < rowCount; row++) {
+        rowData.push([ row+1, strings[row % strings.length] ]);
+      }
+      return rowData;
+    },
+    
+    testCustomSortFunction : function()
+    {
+      var stringValues = this.getStringValues();
+      var rowCount = 20;
+      
+      // table
+      var model = new qx.ui.table.model.Simple();
+      model.setColumns([ "ID", "String" ]);
+      model.setData(this.createRandomRows(rowCount));
+
+      // custom individual ascending descending integer sort function for column 0
+      model.setSortMethods(0, {
+        ascending : function(row1, row2, columnIndex) {
+          var int1 = row1[columnIndex];
+          var int2 = row2[columnIndex];
+          return (int1 > int2) ? 1 : ((int1 == int2) ? 0 : -1);
+        },
+        descending : function(row2, row1, columnIndex) {
+          var int1 = row1[columnIndex];
+          var int2 = row2[columnIndex];
+          return (int1 > int2) ? 1 : ((int1 == int2) ? 0 : -1);
+        } 
+      });
+      
+      // custom single string sort function for column 1
+      model.setSortMethods(1, function(row1, row2, columnIndex) {
+        var string1 = row1[columnIndex];
+        var string2 = row2[columnIndex];
+        return string1.localeCompare(string2);
+      });
+      
+      var table = new qx.ui.table.Table(model);
+
+      // test sorting column 1
+      
+      // sort descending
+      model.sortByColumn(1);
+      var data = model.getData();
+      this.assertTrue(data[0][1] == stringValues[stringValues.length-1]);
+      this.assertTrue(data[data.length-1][1] == stringValues[0]);
+
+      // sort ascending
+      model.sortByColumn(1, true);
+      this.assertTrue(data[0][1] == stringValues[0]);
+      this.assertTrue(data[data.length-1][1] == stringValues[stringValues.length-1]);
+
+      
+      // test sorting column 0
+      
+      // sort descending
+      model.sortByColumn(0);
+      this.assertTrue(data[0][0] == rowCount);
+      this.assertTrue(data[data.length-1][0] == 1);
+
+      // sort ascending
+      model.sortByColumn(0, true);
+      this.assertTrue(data[0][0] == 1);
+      this.assertTrue(data[data.length-1][0] == rowCount);
+      
+      table.destroy();
+      model.dispose();
+    },
+    
+    testCustomSortFunctionArgumentsCalleeColumnIndexDeprecated : function()
+    {
+      var stringValues = this.getStringValues();
+      var rowCount = 20;
+      
+      // table
+      var model = new qx.ui.table.model.Simple();
+      model.setColumns([ "ID", "String" ]);
+      model.setData(this.createRandomRows(rowCount));
+
+      // custom individual ascending descending integer sort function for column 0
+      model.setSortMethods(0, {
+        ascending : function(row1, row2) {
+          var columnIndex = arguments.callee.columnIndex;
+          var int1 = row1[columnIndex];
+          var int2 = row2[columnIndex];
+          return (int1 > int2) ? 1 : ((int1 == int2) ? 0 : -1);
+        },
+        descending : function(row2, row1) {
+          var columnIndex = arguments.callee.columnIndex;
+          var int1 = row1[columnIndex];
+          var int2 = row2[columnIndex];
+          return (int1 > int2) ? 1 : ((int1 == int2) ? 0 : -1);
+        } 
+      });
+      
+      // custom single string sort function for column 1
+      model.setSortMethods(1, function(row1, row2) {
+        var columnIndex = arguments.callee.columnIndex;
+        var string1 = row1[columnIndex];
+        var string2 = row2[columnIndex];
+        return string1.localeCompare(string2);
+      });
+      
+      var table = new qx.ui.table.Table(model);
+
+      // test sorting column 1
+      
+      // sort descending
+      model.sortByColumn(1);
+      var data = model.getData();
+      this.assertTrue(data[0][1] == stringValues[stringValues.length-1]);
+      this.assertTrue(data[data.length-1][1] == stringValues[0]);
+
+      // sort ascending
+      model.sortByColumn(1, true);
+      this.assertTrue(data[0][1] == stringValues[0]);
+      this.assertTrue(data[data.length-1][1] == stringValues[stringValues.length-1]);
+
+      
+      // test sorting column 0
+      
+      // sort descending
+      model.sortByColumn(0);
+      this.assertTrue(data[0][0] == rowCount);
+      this.assertTrue(data[data.length-1][0] == 1);
+
+      // sort ascending
+      model.sortByColumn(0, true);
+      this.assertTrue(data[0][0] == 1);
+      this.assertTrue(data[data.length-1][0] == rowCount);
+      
+      table.destroy();
+      model.dispose();
     }
+
   }
 });
