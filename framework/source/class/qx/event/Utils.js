@@ -67,7 +67,7 @@ qx.Class.define("qx.event.Utils", {
      */
     track: qx.core.Environment.select("qx.promise", {
       "true": function(tracker, fn) {
-        if (typeof fn !== "function") {
+        if (typeof fn !== "function" && !(fn instanceof qx.Promise)) {
           fn = (function(value) { return function() { return value; } })(fn);
         }
         return this.then(tracker, fn);
@@ -117,20 +117,27 @@ qx.Class.define("qx.event.Utils", {
           return null;
         }
         if (tracker.promise) {
-          var self = this;
-          this.__push(tracker, tracker.promise.then(function(result) {
-              if (tracker.rejected) {
-                return null;
-              }
-              result = fn(result);
-              if (result === qx.event.Utils.ABORT) {
-                return self.reject(tracker);
-              }
-              return result;
-            })
-          );
+          if (fn instanceof qx.Promise) {
+            this.__push(tracker, tracker.promise.then(fn));
+          } else {
+            var self = this;
+            this.__push(tracker, tracker.promise.then(function (result) {
+                if (tracker.rejected) {
+                  return null;
+                }
+                result = fn(result);
+                if (result === qx.event.Utils.ABORT) {
+                  return self.reject(tracker);
+                }
+                return result;
+              })
+            );
+          }
           this.__addCatcher(tracker);
           return tracker.promise;
+        }
+        if (fn instanceof qx.Promise) {
+          return this.__thenPromise(tracker, fn);
         }
         var result = fn(tracker.result);
         if (result instanceof qx.Promise) {

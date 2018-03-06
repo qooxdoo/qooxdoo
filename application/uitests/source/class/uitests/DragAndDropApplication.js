@@ -25,7 +25,9 @@ qx.Class.define("uitests.DragAndDropApplication", {
         qx.log.appender.Console;
       }
 
-      uitests.TestRunner.runAll(qx.test.event.Utils, this.__init, this);
+      uitests.TestRunner.runAll(qx.test.Promise, [ "testAsyncEventHandlers" ], function() {
+        uitests.TestRunner.runAll(qx.test.event.Utils, this.__init, this);
+      }, this);
     },
 
     __init: function() {
