@@ -18,7 +18,6 @@ One of the top goals of this project is to be very fast and lightweight - fast e
 
 The included command line utility allows you create, build and manage [qooxdoo](http://www.qooxdoo.org) applications (note that Qooxdoo-Compiler now incorporates the Qooxdoo-CLI project, which used to be a separate repo).
 
-<!-- TOC -->
 
 - [qooxdoo command line interface](#qooxdoo-compiler-and-command-line-interface)
     - [Develoment status](#development-status)
@@ -31,22 +30,19 @@ The included command line utility allows you create, build and manage [qooxdoo](
     - [Mini Web Server](#mini-web-server)
     - [Frequently Asked Questions](#frequently-asked-questions)
     - CLI Documentation
-        - [Commands](docs/cli/commands)
-        - [Compiler](docs/cli/compiler)
-        - [Web Server](docs/cli/serve)
-        - [Create a new project](docs/cli/create-a-new-project)
-        - [qooxdoo-contrib system](docs/cli/qooxdoo-contrib-system)
+        - [Commands](docs/cli/commands.md)
+        - [Compiler](docs/cli/compiler.md)
+        - [Web Server](docs/cli/serve.md)
+        - [Create a new project](docs/cli/create-a-new-project.md)
+        - [qooxdoo-contrib system](docs/cli/qooxdoo-contrib-system.md)
     - Compiler Documentation
         - [API - Overview](docs/compiler/API.md)
         - [Dependencies - How they are handled in Qooxdoo-Compiler](docs/compiler/Dependencies.md)
-        - [Custom Application Startup](docs/compiler/CustomAppStartup)
-        - [Using Icon Fonts](docs/compiler/IconFonts)
-        - [Special Loader URLs](docs/compiler/LoaderUrls)
-        - [Manifest.json Changes](docs/compiler/Manifest)
-        - [Meta Data Output By The Compiler](docs/compiler/MetaData)
-
-
-<!-- /TOC -->
+        - [Custom Application Startup](docs/compiler/CustomAppStartup.md)
+        - [Using Icon Fonts](docs/compiler/IconFonts.md)
+        - [Special Loader URLs](docs/compiler/LoaderUrls.md)
+        - [Manifest.json Changes](docs/compiler/Manifest.md)
+        - [Meta Data Output By The Compiler](docs/compiler/MetaData.md)
 
 ## Development status
 Beta. The API is still likely to change, but not fundamentally.
