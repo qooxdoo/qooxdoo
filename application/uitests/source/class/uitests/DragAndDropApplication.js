@@ -10,7 +10,7 @@
 
 /**
  * This is the main application class of your custom application "dragndrop"
- * 
+ *
  * @asset(qx/icon/Tango/16/actions/document-print.png)
  */
 qx.Class.define("uitests.DragAndDropApplication", {
@@ -25,12 +25,22 @@ qx.Class.define("uitests.DragAndDropApplication", {
         qx.log.appender.Console;
       }
 
+      uitests.TestRunner.runAll(qx.test.Promise, [ "testAsyncEventHandlers" ], function() {
+        uitests.TestRunner.runAll(qx.test.event.Utils, this.__init, this);
+      }, this);
+    },
+
+    __init: function() {
       var doc = this.getRoot();
       var tb = new qx.ui.toolbar.ToolBar();
       var btn = new qx.ui.toolbar.Button("Click Me", "qx/icon/Tango/16/actions/document-print.png");
+      btn.addListener("execute", function() {
+        var win = new qx.ui.window.Window("Test Window");
+        win.open();
+      }, this);
       tb.add(btn);
       doc.add(tb, { left: 10, top: 10, right: 10 });
-      
+
       var root = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
       doc.add(root, { left: 10, top: 100, right: 10, bottom: 10 });
 
@@ -45,30 +55,31 @@ qx.Class.define("uitests.DragAndDropApplication", {
 
       var cbxCancelDragstart = new qx.ui.form.CheckBox("Cancel dragstart").set({ value: false });
       compSource.add(cbxCancelDragstart);
-      
+
       var cbxRejectDragstart = new qx.ui.form.CheckBox("Reject dragstart").set({ value: false });
       compSource.add(cbxRejectDragstart);
-      
+
       lstSource.addListener("dragstart", function(e) {
         this.debug("lstSource: dragstart");
         return new qx.Promise((resolve, reject) => {
-          if (cbxCancelDragstart.getValue())
+          if (cbxCancelDragstart.getValue()) {
             e.preventDefault();
+          }
           if (cbxRejectDragstart.getValue()) {
             reject();
             return;
           }
-          
+
           if (!e.getDefaultPrevented()) {
             // Register supported types
             e.addType("value");
             e.addType("items");
-  
+
             // Register supported actions
             e.addAction("copy");
             e.addAction("move");
           }
-          
+
           resolve();
         });
       });

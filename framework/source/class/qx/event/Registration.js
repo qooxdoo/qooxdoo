@@ -306,7 +306,7 @@ qx.Class.define("qx.event.Registration",
 
     /**
      * Create an event object and dispatch it on the given target.
-     * 
+     *
      * Note about Promises in v6.0: this method has changed to return either a boolean (true if the
      * event was prevented) or a promise which will evaluate to the same thing; this is
      * because events are now asynchronous and preventDefault is inherently synchronous.
@@ -314,7 +314,7 @@ qx.Class.define("qx.event.Registration",
      * introduce a backwards compatibility issue because the "truthy" nature of the return
      * is preserved.  Code which needs to take care of asynchronous issues will need to change,
      * but that was necessary anyway, and it is rare to use the return value of this method (only
-     * one class in Qooxdoo used it).  
+     * one class in Qooxdoo used it).
      *
      * @param target {Object} Any valid event target
      * @param type {String} Event type to fire
@@ -340,20 +340,20 @@ qx.Class.define("qx.event.Registration",
       }
 
       var evt = this.createEvent(type, clazz||null, args);
-      var promise = this.getManager(target).dispatchEvent(target, evt);
-      if (promise instanceof qx.Promise) {
-        return promise.then(function() {
-          return !evt.getDefaultPrevented();
+      var tracker = {};
+      var self = this;
+      qx.event.Utils.then(tracker, function() {
+          return self.getManager(target).dispatchEvent(target, evt);
         });
-      }
-      
-      return !evt.getDefaultPrevented();
+      return qx.event.Utils.then(tracker, function() {
+        return !evt.getDefaultPrevented();
+      });
     },
 
 
     /**
      * Create an event object and dispatch it on the given target; equivalent to fireEvent, except that it
-     * always returns a promise 
+     * always returns a promise
      *
      * @param target {Object} Any valid event target
      * @param type {String} Event type to fire
@@ -366,7 +366,11 @@ qx.Class.define("qx.event.Registration",
      */
     fireEventAsync : function(target, type, clazz, args)
     {
-      return qx.Promise.resolve(this.fireEvent(target, type, clazz, args));
+      if (qx.core.Environment.get("qx.promise")) {
+        return qx.Promise.resolve(this.fireEvent(target, type, clazz, args));
+      } else {
+        throw new Error(this.classname + ".fireNonBubblingEventAsync not supported because qx.promise==false");
+      }
     },
 
 
