@@ -457,11 +457,13 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         }
         return tracker.promise;
       } else {
-        // ensure compatibility with native events for IE8
-        try {
-          domEvent.srcElement = target;
-        }catch(ex) {
-          // Nothing - strict mode prevents writing to read only properties
+        if (qx.core.Environment.get("browser.name") === "msie" && qx.core.Environment.get("browser.version") < 9) {
+          // ensure compatibility with native events for IE8
+          try {
+            domEvent.srcElement = target;
+          }catch(ex) {
+            // Nothing - strict mode prevents writing to read only properties
+          }
         }
 
         while (target) {
