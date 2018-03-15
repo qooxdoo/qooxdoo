@@ -495,6 +495,9 @@ qx.Class.define("qx.data.SingleValueBinding",
               target = target["get" + firstUpPropName]();
             }
             targets[j] = target;
+            if (!target) {
+              break;
+            }
 
             // check if a listener already created
             if (listeners[j] == null) {
