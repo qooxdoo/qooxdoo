@@ -199,10 +199,7 @@ qx.Class.define("qx.theme.manager.Appearance",
 
       // Resolve ID
       var aliasMap = this.__aliasMap;
-      var resolved = aliasMap[id];
-      if (!resolved) {
-        resolved = aliasMap[id] = this.__resolveId(id, theme, defaultId);
-      }
+      var resolved = aliasMap[id] = this.__resolveId(id, theme, defaultId);
 
       // Query theme for ID
       var entry = theme.appearances[resolved];
