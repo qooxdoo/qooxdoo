@@ -199,7 +199,13 @@ qx.Class.define("qx.theme.manager.Appearance",
 
       // Resolve ID
       var aliasMap = this.__aliasMap;
-      var resolved = aliasMap[id] = this.__resolveId(id, theme, defaultId);
+      if(!aliasMap[theme.name]) {
+        aliasMap[theme.name] = {};
+      }
+      var resolved = aliasMap[theme.name][id];
+      if (!resolved) {
+        resolved = aliasMap[theme.name][id] = this.__resolveId(id, theme, defaultId);
+      }
 
       // Query theme for ID
       var entry = theme.appearances[resolved];
@@ -251,8 +257,8 @@ qx.Class.define("qx.theme.manager.Appearance",
 
       // Using cache if available
       var cache = this.__styleCache;
-      if (cache[unique] !== undefined) {
-        return cache[unique];
+      if (cache[theme.name] && (cache[theme.name][unique] !== undefined)) {
+        return cache[theme.name][unique];
       }
 
       // Fallback to default (empty) states map
@@ -330,7 +336,10 @@ qx.Class.define("qx.theme.manager.Appearance",
       }
 
       // Cache new entry and return
-      return cache[unique] = result || null;
+      if(!cache[theme.name]) {
+        cache[theme.name] = {};
+      }
+       return cache[theme.name][unique] = result || null;
     }
   }
 });
