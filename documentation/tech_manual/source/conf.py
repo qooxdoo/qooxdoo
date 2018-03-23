@@ -45,9 +45,9 @@ copyright = u'2013-2015, qooxdoo developers'
 # built documents.
 #
 # The short X.Y version.
-version = '5.0.2'
+version = '5.0.3'
 # The full version, including alpha/beta/rc tags.
-release = '5.0.2'
+release = '5.0.3'
 
 # qooxdoo Source Text Macros
 # use e.g. as "%{version}" anywhere in .rst files
