@@ -1912,6 +1912,58 @@ qx.Bootstrap.define("qx.core.Property",
       code.push(
         "return fire.call(this);"
       );
+    },
+
+
+    /**
+     * Merge the group property with existing properties
+     *
+     * @param result {Object} map containing initial and merged properties with their values
+     * @param propName {String} name of the merged property
+     * @param propStyle {var} style value of the property
+     * @param forceCopy {Boolean} always copy propStyle (even propName exists)
+     */
+    __mergeGroupProperty : function(result, groupName, groupStyle, forceCopy)
+    {
+      var handledGroupStyle = qx.lang.Object.clone(groupStyle, true);
+      var groupConfig = this.$$groups[groupName];
+      var group = groupConfig.group;
+      // we need to get a four element list
+      if (handledGroupStyle !== undefined) {
+        handledGroupStyle = qx.lang.Array.fromShortHand(qx.lang.Type.isArray(handledGroupStyle) ? handledGroupStyle : [handledGroupStyle]);
+      } else {
+        handledGroupStyle = [];
+        for (var i = 0; i < group.length; i++) {
+          handledGroupStyle[i] = undefined;
+        }
+      }
+      // expand the group property (recursively) and merge it with result
+      for (var i = 0; i < group.length; i++) {
+        if (this.$$groups[group[i]]) {
+          this.__mergeGroupProperty(result, group[i], handledGroupStyle[i], forceCopy);
+        } else if (forceCopy || !result[group[i]]) {
+          result[group[i]] = qx.lang.Object.clone(handledGroupStyle[i], true);
+        }
+      }
+    },
+
+
+    /**
+     * Merge the single or the group property with existing properties
+     *
+     * @param result {Object} map containing initial and merged properties with their values
+     * @param propName {String} name of the merged property
+     * @param propStyle {var} style value of the property
+     * @param forceCopy {Boolean} always copy propStyle (even propName exists)
+     * @param forceSingle {Boolean} merge the property as a single property (not expand)
+     */
+    mergeProperty : function(result, propName, propStyle, forceCopy, forceSingle)
+    {
+      if (this.$$groups[propName] && !forceSingle) {
+        this.__mergeGroupProperty(result, propName, propStyle, forceCopy);
+      } else {
+        result[propName] = qx.lang.Object.clone(propStyle, true);
+      }
     }
   }
 });
