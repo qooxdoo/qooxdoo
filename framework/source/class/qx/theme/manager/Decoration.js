@@ -225,9 +225,37 @@ qx.Class.define("qx.theme.manager.Decoration",
 
         // styles key
         if (currentEntry.style) {
+          // handler for group properties
+          var groupHandler = function(result, groupName, groupStyle) {
+            var handledGroupStyle = qx.lang.Object.clone(groupStyle, true);
+            var groupConfig = qx.core.Property.$$groups[groupName];
+            var group = groupConfig.group;
+            // we need to get a four element list
+            if (handledGroupStyle !== undefined) {
+              handledGroupStyle = qx.lang.Array.fromShortHand(qx.lang.Type.isArray(handledGroupStyle) ? handledGroupStyle : [handledGroupStyle]);
+            } else {
+              handledGroupStyle = [];
+              for (var i = 0; i < group.length; i++) {
+                handledGroupStyle[i] = undefined;
+              }
+            }
+            // expand the group property (recursively) and merge it with result
+            for (var i = 0; i < group.length; i++) {
+              if (qx.core.Property.$$groups[group[i]]) {
+                groupHandler(result, group[i], handledGroupStyle[i]);
+              } else if (!result[group[i]]) {
+                result[group[i]] = qx.lang.Object.clone(handledGroupStyle[i], true);
+              }
+            }
+          };
+
           for (var key in currentEntry.style) {
             if (entry.style[key] === undefined) {
-              entry.style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
+              if (qx.core.Property.$$groups[key]) {
+                groupHandler(entry.style, key, currentEntry.style[key]);
+              } else {
+                entry.style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
+              }
             }
           }
         }

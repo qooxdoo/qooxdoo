@@ -286,6 +286,38 @@ qx.Class.define("qx.theme.manager.Appearance",
         // Create new map
         result = {};
 
+        // handler for group properties
+        var groupHandler = function(result, groupName, groupStyle) {
+          // there is a a group property "width" from qx.ui.decoration.Decorator
+          // and a single property "width" from qx.ui.core.LayoutItem
+          // so we can call this function for the single property because there are the same group property
+          if (groupName === "width") {
+            // just copy this like a single property
+            result[groupName] = qx.lang.Object.clone(groupStyle, true);
+            return;
+          }
+          var handledGroupStyle = qx.lang.Object.clone(groupStyle, true);
+          var groupConfig = qx.core.Property.$$groups[groupName];
+          var group = groupConfig.group;
+          // we need to get a four element list
+          if (handledGroupStyle !== undefined) {
+            handledGroupStyle = qx.lang.Array.fromShortHand(qx.lang.Type.isArray(handledGroupStyle) ? handledGroupStyle : [handledGroupStyle]);
+          } else {
+            handledGroupStyle = [];
+            for (var i = 0; i < group.length; i++) {
+              handledGroupStyle[i] = undefined;
+            }
+          }
+          // expand the group property (recursively) and copy it to result
+          for (var i = 0; i < group.length; i++) {
+            if (qx.core.Property.$$groups[group[i]]) {
+              groupHandler(result, group[i], handledGroupStyle[i]);
+            } else {
+              result[group[i]] = qx.lang.Object.clone(handledGroupStyle[i], true);
+            }
+          }
+        };
+
         // Copy base data, but exclude overwritten local and included stuff
         if (entry.base)
         {
@@ -296,7 +328,11 @@ qx.Class.define("qx.theme.manager.Appearance",
             for (var baseIncludeKey in base)
             {
               if (!incl.hasOwnProperty(baseIncludeKey) && !local.hasOwnProperty(baseIncludeKey)) {
-                result[baseIncludeKey] = base[baseIncludeKey];
+                if (qx.core.Property.$$groups[baseIncludeKey]) {
+                  groupHandler(result, baseIncludeKey, base[baseIncludeKey])
+                } else {
+                  result[baseIncludeKey] = base[baseIncludeKey];
+                }
               }
             }
           }
@@ -305,7 +341,11 @@ qx.Class.define("qx.theme.manager.Appearance",
             for (var baseKey in base)
             {
               if (!local.hasOwnProperty(baseKey)) {
-                result[baseKey] = base[baseKey];
+                if (qx.core.Property.$$groups[baseKey]) {
+                  groupHandler(result, baseKey, base[baseKey])
+                } else {
+                  result[baseKey] = base[baseKey];
+                }
               }
             }
           }
@@ -317,14 +357,22 @@ qx.Class.define("qx.theme.manager.Appearance",
           for (var includeKey in incl)
           {
             if (!local.hasOwnProperty(includeKey)) {
-              result[includeKey] = incl[includeKey];
+              if (qx.core.Property.$$groups[includeKey]) {
+                groupHandler(result, includeKey, incl[includeKey])
+              } else {
+                result[includeKey] = incl[includeKey];
+              }
             }
           }
         }
 
         // Append local data
         for (var localKey in local) {
-          result[localKey] = local[localKey];
+          if (qx.core.Property.$$groups[localKey]) {
+            groupHandler(result, localKey, local[localKey])
+          } else {
+            result[localKey] = local[localKey];
+          }
         }
       }
       else

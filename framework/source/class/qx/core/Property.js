@@ -327,6 +327,14 @@ qx.Bootstrap.define("qx.core.Property",
     },
 
 
+    /**
+     * Property groups configuration
+     *
+     * @internal
+     */
+    $$groups : {},
+
+
     /** Contains names of inheritable properties, filled by {@link qx.Class.define} */
     $$inheritable : {},
 
@@ -537,6 +545,10 @@ qx.Bootstrap.define("qx.core.Property",
         this.$$method.resetThemed[name] = "resetThemed" + upname;
         members[this.$$method.resetThemed[name]] = new Function(unstyler.join(""));
       }
+
+      // Store groups configuration to extend group properties
+      // then we need to merge them with their group members from another source
+      this.$$groups[name] = qx.lang.Object.clone(config, true);
     },
 
 
