@@ -129,7 +129,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     __ignoreListSelection : false,
 
 
-    /** @type {qx.data.Array} The initial selection array. */
     __defaultSelection : null,
 
 
@@ -343,7 +342,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      * @protected
      */
     _onChangeModel : function(event) {
-      "use strict";
       if (this.getAllowGrowDropDown()) {
         this._recalculateMaxListItemWidth();
       }
@@ -361,7 +359,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      * @protected
      */
     _onChangeModelLength : function (event) {
-      "use strict";
       if (this.getAllowGrowDropDown()) {
         this._recalculateMaxListItemWidth();
       }
@@ -376,7 +373,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      * @param event {qx.event.type.Data} The change event.
      */
     _onChangeDelegate : function(event) {
-      "use strict";
       this.getSelection().removeAll();
     },
 
@@ -478,7 +474,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      */
     _adjustWidth : function()
     {
-      "use strict";
       var width = this._target.getBounds().width;
       var uiList = this.getChildControl('list');
       if (this.getAllowGrowDropDown()) {
@@ -559,27 +554,66 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      * @protected
      */
     _recalculateMaxListItemWidth : function () {
-      "use strict";
       var maxWidth = 0;
       var list = this.getChildControl("list");
       var model = list.getModel();
       if (model && model.length) {
+        var createWidget = qx.util.Delegate.getMethod(list.getDelegate(), "createItem");
+        if (!createWidget) {
+          createWidget = function () {
+            return new qx.ui.form.ListItem();
+          };
+        }
+
+        var tempListItem = createWidget();
+
+        // Make sure the widget has the correct padding properties.
+        tempListItem.syncAppearance();
+
+        var styles;
+        var font = tempListItem.getFont();
+        if (font) {
+          styles = qx.theme.manager.Font.getInstance().resolve(font).getStyles();
+        }
+        if (!styles) {
+          styles = qx.bom.Font.getDefaultStyles();
+        }
+
+        var paddingX =
+          list.getPaddingLeft() + list.getPaddingRight() +
+          tempListItem.getPaddingLeft() + tempListItem.getPaddingRight() +
+          tempListItem.getMarginLeft() + tempListItem.getMarginRight();
+
+        var label = tempListItem.getChildControl('label');
+        if (label) {
+          // Make sure the widget has the correct padding properties.
+          label.syncAppearance();
+
+          paddingX +=
+            label.getPaddingLeft() + label.getPaddingRight() +
+            label.getMarginLeft() + label.getMarginRight();
+        }
+
         model.forEach(function (item) {
-          var length;
+          var width = 0;
+          var content;
+
           if (typeof item === "string") {
-            // Approximately 7 pixels per character
-            length = item.length * 7;
-            if (length > maxWidth) {
-              maxWidth = length;
-            }
+            content = item;
           } else if (typeof item === "object" && item !== null) {
-            // Approximately 7 pixels per character
-            length = item.get(list.getLabelPath()).length * 7;
-            if (length > maxWidth) {
-              maxWidth = length;
+            content = item.get(list.getLabelPath());
+          }
+
+          if (content) {
+            width = qx.bom.Label.getHtmlSize(content, styles, undefined).width + paddingX;
+
+            if (width > maxWidth) {
+              maxWidth = width;
             }
           }
         });
+
+        tempListItem.dispose();
       }
 
       this.__cachedMaxListItemWidth = maxWidth;
@@ -593,7 +627,6 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      * @protected
      */
     _getMaxListItemWidth : function () {
-      "use strict";
       return this.__cachedMaxListItemWidth;
     }
   },
