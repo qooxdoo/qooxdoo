@@ -116,6 +116,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     __ignoreListSelection : false,
 
 
+    /** @type {qx.data.Array} The initial selection array. */
     __defaultSelection : null,
 
 

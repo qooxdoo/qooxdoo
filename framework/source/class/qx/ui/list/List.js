@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.list.List",
   /**
    * Creates the <code>qx.ui.list.List</code> with the passed model.
    *
-   * @param model {qx.data.IListData|null} model for the list.
+   * @param model {qx.data.IListData|null?} model for the list.
    */
   construct : function(model)
   {

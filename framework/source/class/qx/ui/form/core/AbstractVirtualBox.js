@@ -180,6 +180,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
   members :
   {
+    /** @type {qx.data.Array} */
     __defaultModel : null,
 
     /**
