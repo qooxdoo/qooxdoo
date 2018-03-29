@@ -71,6 +71,8 @@ qx.Class.define("qx.test.Interface",
         properties : { color : { } }
       });
 
+      new qx.test.i.Audi("audi");
+
       this.assertTrue(qx.Interface.classImplements(qx.test.i.Audi, qx.test.i.ICar));
       qx.Class.undefine("qx.test.i.Audi");
     },
@@ -98,6 +100,7 @@ qx.Class.define("qx.test.Interface",
 
           properties : { color : { } }
         });
+
       this.assertTrue(qx.Interface.classImplements(qx.test.i.Bmw1, qx.test.i.ICar));
       qx.Class.undefine("qx.test.i.Bmw1");
     },
@@ -171,7 +174,7 @@ qx.Class.define("qx.test.Interface",
       if (this.isDebugOn())
       {
         this.assertException(function() {
-          qx.test.i.ICar();
+          new qx.test.i.ICar();
         }, Error);
 
 

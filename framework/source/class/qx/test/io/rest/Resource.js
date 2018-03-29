@@ -223,7 +223,7 @@ qx.Class.define("qx.test.io.rest.Resource",
       this.require(["debug"]);
 
       this.assertException(function() {
-        qx.io.rest.Resource([]);
+        new qx.io.rest.Resource([]);
       });
     },
 
