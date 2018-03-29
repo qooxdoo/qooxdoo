@@ -203,6 +203,10 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     //
     "test Play Event": function()
     {
+      // Disabled on travis because of events not being fired reliable
+      if (qx.core.Environment.get("qx.test.travis") == "true") {
+        this.skip("HTML5 audio/video play event test disabled on travis");
+      }
       // BUG #8778
       if (qx.core.Environment.get("browser.name") == "mobile chrome") {
         this.skip("HTML5 audio/video playback must be triggered by user interaction in Chrome on Android.");
