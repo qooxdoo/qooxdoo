@@ -32,6 +32,7 @@ stages:
   - name: Chrome-Unit-Tests
   - name: Firefox-Unit-Tests
   - name: Edge-Unit-Tests
+  - name: Coverage
   - name: Deploy
     if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND ( branch = master OR tag =~ ^v[0-9] )
 
@@ -46,6 +47,7 @@ jobs:
       script: ../.travis/test FirefoxSL,FirefoxBetaSL
     - stage: Edge-Unit-Tests
       script: ../.travis/test EdgeSL
+    - stage: Coverage
     - script: ../.travis/coverage
 
     - stage: Deploy
