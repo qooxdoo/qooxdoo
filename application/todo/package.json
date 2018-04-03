@@ -1,6 +1,6 @@
 {
   "name": "todo",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "A simple todo application based on qx.Website",
   "main": "Gruntfile.js",
   "repository": {

@@ -367,8 +367,14 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
         if (target && target.nodeType == 3) {
           target = target.parentNode;
         }
-      } else if(qx.core.Environment.get("event.mspointer")) {
+      } else if(qx.core.Environment.get("engine.name") == "mshtml" &&
+                qx.core.Environment.get("browser.documentmode") < 11) {
         // Fix for IE10 and pointer-events:none
+        //
+        // Changed the condition above to match exactly those browsers
+        // for which the fix was intended
+        // See: https://github.com/qooxdoo/qooxdoo/issues/9481
+        //
         var targetForIE = this.__evaluateTarget(domEvent);
         if(targetForIE) {
           target = targetForIE;

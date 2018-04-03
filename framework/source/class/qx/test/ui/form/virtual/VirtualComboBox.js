@@ -218,6 +218,13 @@ qx.Class.define("qx.test.ui.form.virtual.VirtualComboBox",
       var selection = this.__comboBox.getChildControl("dropdown").getSelection();
       selection.push(this.__comboBox.getModel().getItem(0));
       selection.removeAll();
+    },
+
+    testOpenWithUnrenderedWidget : function()
+    {
+      var cb = new qx.ui.form.VirtualComboBox();
+      cb.open();
+      this.getRoot().add(cb);
     }
   }
 

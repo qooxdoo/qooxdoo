@@ -1,6 +1,6 @@
 {
   "name": "showcase",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Showcases some features of qx.Desktop",
   "main": "Gruntfile.js",
   "repository": {

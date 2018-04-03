@@ -279,12 +279,24 @@
  *       <td>{@link qx.bom.client.EcmaScript#getDateNow}</td>
  *     </tr>
  *     <tr>
+ *       <td>ecmascript.date.parse<td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getDateParse}</td>
+ *     </tr>
+ *     <tr>
  *       <td>ecmascript.error.toString</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getErrorToString}</td>
  *     </tr>
  *     <tr>
  *       <td>ecmascript.string.trim</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getStringTrim}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.string.startsWith</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getStringStartsWith}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.string.endsWith</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getStringEndsWith}</td>
  *     </tr>
  *     <tr>
  *       <td colspan="4"><b>engine</b></td>

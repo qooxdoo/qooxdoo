@@ -1,7 +1,7 @@
 {
   "name": "websitewidgetbrowser",
   "description": "A browser app for qx.Website widgets",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"

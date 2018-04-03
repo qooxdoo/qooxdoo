@@ -665,7 +665,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var elem = this.getContentElement().getDomElement();
       if (!elem) {
         // pane has not yet been rendered
-        this.addListenerOnce("appear", arguments.callee, this);
+        this.addListenerOnce("appear", this._updateAllRows, this);
         return;
       }
 

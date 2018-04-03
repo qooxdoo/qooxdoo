@@ -73,6 +73,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     this.__gesture = {};
     this.__lastTap = {};
     this.__stopMomentum = {};
+    this.__momentum = {};
     this._initObserver();
   },
 
@@ -88,6 +89,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     __rollImpulseId : null,
     __stopMomentum : null,
     __initialDistance : null,
+    __momentum : null,
 
     /**
      * Register pointer event listeners
@@ -385,6 +387,10 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         this.__stopLongTapTimer(this.__gesture[id]);
         delete this.__gesture[id];
       }
+      if (this.__momentum[id]) {
+        this.stopMomentum(this.__momentum[id]);
+        delete this.__momentum[id];
+      }
     },
 
 
@@ -411,9 +417,14 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
      */
     __handleRollImpulse : function(deltaX, deltaY, domEvent, target, time) {
       var oldTimeoutId = domEvent.timeoutId;
+      if (!time && this.__momentum[domEvent.pointerId]) {
+        // new roll impulse started, stop the old one
+        this.stopMomentum(this.__momentum[domEvent.pointerId]);
+      }
       // do nothing if we don't need to scroll
-      if ((Math.abs(deltaY) < 1 && Math.abs(deltaX) < 1) || this.__stopMomentum[oldTimeoutId]) {
+      if ((Math.abs(deltaY) < 1 && Math.abs(deltaX) < 1) || this.__stopMomentum[oldTimeoutId] || !this.getWindow()) {
         delete this.__stopMomentum[oldTimeoutId];
+        delete this.__momentum[domEvent.pointerId];
         return;
       }
 
@@ -447,6 +458,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
       };
       domEvent.momentum = true;
       domEvent.timeoutId = timeoutId;
+      this.__momentum[domEvent.pointerId] = timeoutId;
       this._fireEvent(domEvent, "roll", domEvent.target || target);
     },
 
@@ -751,22 +763,6 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
         gesture.longTapTimer = null;
       }
     },
-
-    /**
-     * Checks if the distance between the x/y coordinates of touchstart/mousedown and touchmove/mousemove event
-     * exceeds TAP_MAX_DISTANCE and returns the result.
-     *
-     * @param event {Event} The event from the browser.
-     * @return {Boolean} true if distance is below TAP_MAX_DISTANCE.
-     */
-    isBelowTapMaxDistance: function(event) {
-      var deltaCoordinates = this._calcDelta(event);
-      var clazz = qx.event.handler.GestureCore;
-
-      return (Math.abs(deltaCoordinates.x) <= clazz.TAP_MAX_DISTANCE &&
-              Math.abs(deltaCoordinates.y) <= clazz.TAP_MAX_DISTANCE);
-    },
-
 
     /**
      * Dispose the current instance

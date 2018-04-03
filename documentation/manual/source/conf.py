@@ -56,9 +56,9 @@ copyright = u'2011-2015, 1&1 Internet AG'
 # built documents.
 #
 # The short X.Y version.
-version = '5.0.2'
+version = '5.0.3'
 # The full version, including alpha/beta/rc tags.
-release = '5.0.2'
+release = '5.0.3'
 # The current git branch (used for github links)
 git_branch = "branch_5_0_x"
 

@@ -177,6 +177,23 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
       return !!Object.keys;
     },
 
+    /**
+     * Checks if 'values' is supported on the Object object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getObjectValues : function() {
+      return !!Object.values;
+    },
+
+    /**
+     * Checks if 'is' is supported on the Object object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getObjectIs : function() {
+      return !!Object.is;
+    },
 
     /**
      * Checks if 'now' is supported on the Date object.
@@ -186,6 +203,44 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     getDateNow : function() {
       return !!Date.now;
     },
+
+
+    /**
+     * Checks if 'parse' is supported on the Date object and whether it
+     * supports ISO-8601 parsing. Additionally it checks if 'parse' takes
+     * ISO-8601 date strings without timezone specifier and treats them as
+     * local (as per specification)
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method supports ISO-8601
+     *   dates.
+     */
+    getDateParse : function ()
+    {
+      return typeof Date.parse === "function"     // Date.parse() is present...
+         && (Date.parse("2001-02-03T04:05:06.007") != // ...and it treats local
+             Date.parse("2001-02-03T04:05:06.007Z")); // dates as expected
+    },
+
+
+    /**
+     * Checks if 'startsWith' is supported on the String object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getStringStartsWith : function() {
+      return typeof String.prototype.startsWith === "function";
+    },
+
+
+    /**
+     * Checks if 'endsWith' is supported on the String object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getStringEndsWith : function() {
+      return typeof String.prototype.endsWith === "function";
+    },
+
 
     /**
      * Checks if 'trim' is supported on the String object.
@@ -212,6 +267,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // date polyfill
     qx.core.Environment.add("ecmascript.date.now", statics.getDateNow);
+    qx.core.Environment.add("ecmascript.date.parse", statics.getDateParse);
 
     // error bugfix
     qx.core.Environment.add("ecmascript.error.toString", statics.getErrorToString);
@@ -222,8 +278,12 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // object polyfill
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
+    qx.core.Environment.add("ecmascript.object.values", statics.getObjectValues);
+    qx.core.Environment.add("ecmascript.object.is", statics.getObjectIs);
 
     // string polyfill
+    qx.core.Environment.add("ecmascript.string.startsWith", statics.getStringStartsWith);
+    qx.core.Environment.add("ecmascript.string.endsWith", statics.getStringEndsWith);
     qx.core.Environment.add("ecmascript.string.trim", statics.getStringTrim);
   }
 });

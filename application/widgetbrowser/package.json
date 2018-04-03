@@ -1,6 +1,6 @@
 {
   "name": "widgetbrowser",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Demos widgets and theme of qx.Website",
   "main": "Gruntfile.js",
   "repository": {
