@@ -29,7 +29,9 @@ install:
 
 stages:
   - name: Lint
-  - name: Unit-Tests
+  - name: Chrome-Unit-Tests
+  - name: Firefox-Unit-Tests
+  - name: Edge-Unit-Tests
   - name: Deploy
     if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND ( branch = master OR tag =~ ^v[0-9] )
 
@@ -38,10 +40,11 @@ jobs:
     - stage: Lint
       script: ../.travis/lint
 
-    - stage: Unit-Tests
-      #script: ../.travis/test ChromeSL,ChromeBetaSL,FirefoxSL,FirefoxBetaSL,SafariSL,EdgeSL,IESL
+    - stage: Chrome-Unit-Tests
       script: ../.travis/test ChromeSL,ChromeBetaSL
+    - stage: Firefox-Unit-Tests
       script: ../.travis/test FirefoxSL,FirefoxBetaSL
+    - stage: Edge-Unit-Tests
       script: ../.travis/test EdgeSL
     - script: ../.travis/coverage
 
