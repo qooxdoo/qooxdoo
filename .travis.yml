@@ -48,7 +48,7 @@ jobs:
     - stage: Edge-Unit-Tests
       script: ../.travis/test EdgeSL
     - stage: Coverage
-    - script: ../.travis/coverage
+      script: ../.travis/coverage
 
     - stage: Deploy
       script: ../.travis/deploy
