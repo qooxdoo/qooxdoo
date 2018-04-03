@@ -40,7 +40,9 @@ jobs:
 
     - stage: Unit-Tests
       #script: ../.travis/test ChromeSL,ChromeBetaSL,FirefoxSL,FirefoxBetaSL,SafariSL,EdgeSL,IESL
-      script: ../.travis/test ChromeSL,ChromeBetaSL,FirefoxSL,FirefoxBetaSL,EdgeSL
+      script: ../.travis/test ChromeSL,ChromeBetaSL
+      script: ../.travis/test FirefoxSL,FirefoxBetaSL
+      script: ../.travis/test EdgeSL
     - script: ../.travis/coverage
 
     - stage: Deploy
