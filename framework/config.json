@@ -68,7 +68,9 @@
        "sl",  // Slovene
        "sv"   // Swedish
     ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "TEST_TRAVIS" : false,
+    "TEST_DELAY_SCALE" : 1
   },
 
   "config-warnings" :
@@ -205,7 +207,17 @@
       "let" :
       {
         "LOCALES" : ["de", "de_DE", "en", "en_GB", "en_US"],
-        "TEST_EXCLUDE" : "${TEST_PERFORMANCE_INCLUDE}"
+        "TEST_EXCLUDE" : "${TEST_PERFORMANCE_INCLUDE}",
+        "TEST_INCLUDE" : "qx.*"
+      },
+      "asset-let" :
+      {
+        "qx.icontheme" : ["Tango"]
+      },
+      "environment" :
+      {
+        "qx.test.travis" : "${TEST_TRAVIS}",
+        "qx.test.delay.scale" : "${TEST_DELAY_SCALE}"
       }
     },
 
