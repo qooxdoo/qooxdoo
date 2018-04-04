@@ -278,6 +278,13 @@ qx.Class.define("qx.bom.Font",
       nullable : true,
       check : "String",
       apply : "_applyTextShadow"
+    },
+    /** The weight property of the font as opposed to just setting it to 'bold' by setting the bold property to true */
+    weight :
+    {
+      nullable : true,
+      check : "String",
+      apply : "_applyWeight"
     }
   },
 
@@ -356,6 +363,11 @@ qx.Class.define("qx.bom.Font",
       if (value) {
         this.__lookupMap.color = qx.theme.manager.Color.getInstance().resolve(value);
       }
+    },
+
+    // property apply
+    _applyWeight : function(value, old) {
+      this.__lookupMap.fontWeight = value;
     },
 
     // property apply
