@@ -23,7 +23,7 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
   {
     setUp : function()
     {
-      this.__selectBox = new qx.ui.form.VirtualSelectBox;
+      this.__selectBox = new qx.ui.form.VirtualSelectBox();
       this.getRoot().add(this.__selectBox);
 
       this.flush();
@@ -32,7 +32,7 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
     tearDown : function()
     {
       this.base(arguments);
-      this.__selectBox.dispose();
+      this.__selectBox.destroy();
       this.__selectBox = null;
     },
 
@@ -78,10 +78,56 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
       try {
         items.pop();
       } catch (e) {
-        this.assertTrue(false, "Changing the model should not cause an exception in VirtualDropDownList#__getAvailableHeight");
+        this.assertTrue(false, "Changing the model should not cause an exception in VirtualDropDownList#_getAvailableHeight");
       }
 
       items.dispose();
+    },
+
+    "test dropdown list same width as selectbox" : function () {
+      "use strict";
+      var test = this;
+      var m = qx.data.marshal.Json.createModel([
+        "asdddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "dsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]);
+
+      this.__selectBox.setAllowGrowDropDown(false);
+      this.__selectBox.setModel(m);
+      this.__selectBox.setWidth(150);
+
+      this.__selectBox.open();
+
+      setTimeout(function () {
+        test.assertIdentical(test.__selectBox.getWidth(), test.__selectBox.getBounds().width);
+        test.assertIdentical(test.__selectBox.getWidth(), test.__selectBox.getChildControl('dropdown').getBounds().width);
+        test.resume();
+      }, 0);
+
+      this.wait();
+    },
+
+    "test dropdown list wider than selectbox" : function () {
+      "use strict";
+      var test = this;
+      var m = qx.data.marshal.Json.createModel([
+        "asddddddddddddddddddddddddddddddddddddddddddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "dsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]);
+
+      this.__selectBox.setAllowGrowDropDown(true);
+      this.__selectBox.setModel(m);
+      this.__selectBox.setWidth(150);
+
+      this.__selectBox.open();
+
+      setTimeout(function () {
+        test.assertIdentical(test.__selectBox.getWidth(), test.__selectBox.getBounds().width);
+        test.assertTrue(test.__selectBox.getChildControl('dropdown').getBounds().width > 666, "dropdown could not fit the whole item");
+        test.resume();
+      }, 10);
+
+      this.wait();
     }
   }
 });
