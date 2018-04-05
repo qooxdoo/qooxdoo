@@ -19,7 +19,7 @@ env:
 cache:
   directories:
   - "/tmp/qx*"
-  - $HOME/qooxdoo
+  - $HOME/build/qooxdoo
 
 before_install:
 - gem install sass -v 3.4.20
