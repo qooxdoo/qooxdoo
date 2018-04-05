@@ -120,8 +120,8 @@ qx.Class.define("qx.core.Object",
     /**
      * Call the same method of the super class.
      *
-     * @param args {arguments} the arguments variable of the calling method
-     * @param varargs {var} variable number of arguments passed to the overwritten function
+     * @param args {IArguments} the arguments variable of the calling method
+     * @param varargs {var?} variable number of arguments passed to the overwritten function
      * @return {var} the return value of the method of the base class.
      */
     base : function(args, varargs)
