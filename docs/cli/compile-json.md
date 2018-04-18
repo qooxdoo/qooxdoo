@@ -8,7 +8,8 @@ The key concepts of a compilation are that:
 - when an Application is compiled, it is compiled to **Target** a particular usage, EG the "source" Target is for debugging the source code, and the "build" Target is for production use and is optimised and minified
 
 These key concepts appear in every compile.json, for example:
-```
+
+```json5
 {
     /** Applications */
     "applications": [
@@ -63,14 +64,13 @@ The `applications` key is an array of objects, and each object can contain:
 - `uri` - (**optional**) this sets the URI used to access the application directory, i.e. the directory containing boot.js and resource.js; the default is to assume that it is "."
 - `include` - (**optional**) this is an array of class names which are to be included in the compilation, regardless of whether the compiler can detect if they are needed (for example, your application dynamically choose class names on the fly).  Wildcards are supported by adding a `*`, for example `"include": [ "qx.util.format.*" ]`
 - `exclude` - (**optional**) this is an array of class names which are to be excluded from the application, regardless of whether the compiler thinks that they are needed.  Wildcards are supported by adding a `*`, for example `"exclude": [ "qx.util.format.NumberFormat" ]`.  Note that `exclude` takes priority over `include`
-- `type` - (**optional**, **advanced**) this is "browser" (the default) for the typical, web browser based, application or "node" for a node.js server
-application.
-`loaderTemplate` - (**optional**, **advanced**) this is the boot loader template file, usually determined automatically from the application `type` 
-`minify` - (**optional**) determines the minification to be used for this application, if the target supports it; overrides other settings.  Can be `off`, `minify`, `mangle` or `beautify`; takes precedence over the target's `minify` setting.
+- `type` - (**optional**, **advanced**) this is "browser" (the default) for the typical, web browser based, application or "node" for a node.js server application.
+- `loaderTemplate` - (**optional**, **advanced**) this is the boot loader template file, usually determined automatically from the application `type` 
+- `minify` - (**optional**) determines the minification to be used for this application, if the target supports it; overrides other settings.  Can be `off`, `minify`, `mangle` or `beautify`; takes precedence over the target's `minify` setting.
 - `writeIndexHtmlToRoot` - (**optional** ) if true the index.html file will be written to the target output directory. Allowed only once if you have more then one application. The index.html get's an <base href="appname" /> if set to true.
 
 A complete example is:
-```
+```json5
 {
     /** Applications */
     "applications": [
@@ -101,7 +101,8 @@ The `targets` key is an array of objects, one for each possible target that can 
 
 ## Parts
 Parts are supported by adding a `parts` object, either at the top level, inside a target object, or inside an application object.  It looks like this:
-```
+
+```json5
     "parts": {
         "boot": {
             "include": [ "demoapp.Application", "demoapp.theme.Theme" ],
@@ -112,6 +113,7 @@ Parts are supported by adding a `parts` object, either at the top level, inside 
         }
     },
 ```
+
 Each part has an `include` array which is a list of classes (including wildcards) that are to be included; this does not add to the list of classes which are loaded by the application (see `applications[].include` for that), it is used to select the classes which are included into a part.  The `exclude` array is an optional list of class specification to exclude from the part.
 
 The `boot` part is a special name and must be provided (unless you're not specifying any parts at all).  It needs to list the classes which are required for the main application to be loaded - typically this will be your main application class and the theme.  
@@ -121,7 +123,7 @@ Unlike the generator, it is permissible to overlap class definitions when using 
 ## Environment Settings
 Settings can be passed into an application via `qx.core.Environment` by adding an `environment` key, for example:
 
-```
+```json5
 {
     /* ... snip ... */
     "defaultTarget": "source",
@@ -134,7 +136,7 @@ Settings can be passed into an application via `qx.core.Environment` by adding a
 
 If you add the `environment` block at the top level of the compile.json (as in the example above), they will effect every application regardless of the target.  You can also add `environment` to the Target and/or to the Application, they will be merged so that the Application's environment takes prescedence over Target's environment, which in turn takes prescedence over the top level.  For example:
 
-```
+```json5
 {
     "applications": [
         {
@@ -184,7 +186,7 @@ is only activated if the setting is set in the global or target `environment` bl
 ## Locales
 Qooxdoo applications are by default compiled only using the "en" locale for transation strings, but you can change this by adding the `locales` key as an array, for example:
 
-```
+```json5
 {
     /* ... snip ... */
     "defaultTarget": "source",
@@ -203,7 +205,7 @@ In many circumstances, you do not need to worry about path mappings because the 
 
 The `"path-mappings"` configuration is a generic means to locate files on disk inside the URI addsress space of the application; for example, if a library like Qooxdoo is stored outside of your web root you might choose to add a mapping like this:
 
-```
+```json5
     "path-mappings": {
         "../qooxdoo": "/some/virtual/uri/path/qooxdoo"
     }
@@ -216,7 +218,8 @@ It is up to you to implement the mapping inside your web server so that the "/so
 ## TypeScript
 ** Note that this has changed: you no longer add a new target **
 TypeScript can be output by either using the `--typescript` option to `qx compile`, or by modifying your target(s) to add `typescript: true`; if you use a string instead of `true`, the string is the name of the file which is generated inside the target output directory, for example:
-```
+
+```json5
     /** Targets */
     "targets": [
         {
@@ -227,12 +230,13 @@ TypeScript can be output by either using the `--typescript` option to `qx compil
         /* ... snip ... */
     ]
 ```
+
 The TypeScript definition is output into `./source-output/qooxdoo.d.ts`
 
 ## Eslint
 The qx lint command is configured by an eslintConfig section in compile.js:
 
-```
+```json5
   "eslintConfig": {
     "parserOptions": {
       "ecmaVersion": 2017,
@@ -246,16 +250,19 @@ The qx lint command is configured by an eslintConfig section in compile.js:
     ] 
   }
 ```
+
 The syntax is the same as in in package.json. Explanation can be found here: https://eslint.org/docs/user-guide/configuring.
 
 If you omit the eslintConfig section a default will be used:
-```
+
+```json5
   "eslintConfig": {
     "extends": [
       "qx/browser"          
     ] 
   }
 ```
+
 ** The namespaces of all libraries will be added to the globals section automatically! **
 
 ## Web Server
@@ -275,7 +282,7 @@ If you provide a .js file and there is also a .json, then it is loaded and parse
 
 Example:
 
-```
+```javascript
 function compile(data, callback) {
     console.log("I'm here");
     let err = null;
@@ -287,7 +294,7 @@ If err is not null loading of the config file is rejected.
 
 ### How to add sass call for mobile projects:
 
-```
+```javascript
 async function compile(data, callback) {
   /**
  * Adds sass support for current project.
@@ -334,7 +341,9 @@ async function compile(data, callback) {
     runScript(cmd);
   }       
   callback(null, data);
-}```
+}
+
+```
 
 
 
