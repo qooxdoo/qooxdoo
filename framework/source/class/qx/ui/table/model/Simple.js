@@ -404,9 +404,8 @@ qx.Class.define("qx.ui.table.model.Simple",
                * See discussion in 
                * https://github.com/qooxdoo/qooxdoo/pull/9499#pullrequestreview-99655182
                */ 
-              if(arguments.callee !== undefined) {
-                compare.columnIndex = arguments.callee.columnIndex;
-              }              
+              compare.columnIndex = columnIndex;
+
               return compare(row2, row1, columnIndex);
             }
           };

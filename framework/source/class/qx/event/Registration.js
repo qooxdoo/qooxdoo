@@ -342,8 +342,10 @@ qx.Class.define("qx.event.Registration",
       var evt = this.createEvent(type, clazz||null, args);
       var tracker = {};
       var self = this;
+      qx.event.Utils.then(tracker, function() {
+          return self.getManager(target).dispatchEvent(target, evt);
+        });
       return qx.event.Utils.then(tracker, function() {
-        self.getManager(target).dispatchEvent(target, evt);
         return !evt.getDefaultPrevented();
       });
     },

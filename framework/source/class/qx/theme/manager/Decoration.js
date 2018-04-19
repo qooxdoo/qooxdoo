@@ -215,22 +215,52 @@ qx.Class.define("qx.theme.manager.Decoration",
       }
 
       // check for inheritance
-      var currentEntry = entry;
-      while (currentEntry.include) {
-        currentEntry = theme.decorations[currentEntry.include];
-        // decoration key
-        if (!entry.decorator && currentEntry.decorator) {
-          entry.decorator = qx.lang.Object.clone(currentEntry.decorator);
+      if (entry.include) {
+        var included = {
+          style: {}
+        };
+
+        var handleIncludedEntry = function(entry) {
+          if (entry.include) {
+            handleIncludedEntry(entry.include);
+          } else {
+            var decorationEntry = theme.decorations[entry];
+            // decoration key
+            if (decorationEntry.decorator) {
+              included.decorator = qx.lang.Object.clone(decorationEntry.decorator);
+            }
+
+            // styles key
+            if (decorationEntry.style) {
+              for (var key in decorationEntry.style) {
+                included.style[key] = qx.lang.Object.clone(decorationEntry.style[key], true);
+              }
+            }
+          }
+        };
+
+        handleIncludedEntry(entry);
+
+        var result = {
+          style: {}
+        };
+
+        if (entry.decorator || included.decorator) {
+          result.decorator = qx.lang.Object.clone(entry.decorator || included.decorator);
         }
 
         // styles key
-        if (currentEntry.style) {
-          for (var key in currentEntry.style) {
-            if (entry.style[key] === undefined) {
-              entry.style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
-            }
+        if (included.style) {
+          result.style = qx.lang.Object.clone(included.style, true);
+
+          for (var key in entry.style) {
+            result.style[key] = qx.lang.Object.clone(entry.style[key], true);
           }
+        } else {
+          result.style = qx.lang.Object.clone(entry.style, true);
         }
+
+        entry = qx.lang.Object.clone(result, true);
       }
 
       return cache[value] = (new qx.ui.decoration.Decorator()).set(entry.style);

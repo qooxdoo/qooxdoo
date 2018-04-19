@@ -66,7 +66,9 @@
        "sl",  // Slovene
        "sv"   // Swedish
     ],
-    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache"
+    "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
+    "TEST_TRAVIS" : false,
+    "TEST_DELAY_SCALE" : 1
   },
 
   "config-warnings" :
@@ -212,6 +214,11 @@
       "asset-let" :
       {
         "qx.icontheme" : ["Tango"]
+      },
+      "environment" :
+      {
+        "qx.test.travis" : "${TEST_TRAVIS}",
+        "qx.test.delay.scale" : "${TEST_DELAY_SCALE}"
       }
     },
 
