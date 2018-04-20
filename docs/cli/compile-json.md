@@ -91,6 +91,7 @@ A complete example is:
 The `targets` key is an array of objects, one for each possible target that can be compiled.  Each object can contain:
 - `type` - this is either "source", "build", "hybrid" or a class name in `qooxdoo-compiler`; using a class name is advanced usage, but ultimately the standard names just shortcuts to class names anyway ("source" is `qxcompiler.targets.SourceTarget`, etc)
 - `outputPath` the folder where the compilation outputs to, and will be created if it does not already exist
+- `targetClass` - (**optional**) see below 
 - `uri` - (**optional**) this sets the URI used to access the target output directory, i.e. the directory which will contain `resources/` and `transpiled/`.  
 - `environment` (**optional**) additional environment settings that override any in the top level `environment` object (if there is one); these can be overridden by the Application's own `environment` block
 - `writeCompileInfo` (**optional**) if true, the target will write a `compile-info.json` and `resources.json` into the application's output directory, containing the data structures required to generate an application
@@ -98,6 +99,55 @@ The `targets` key is an array of objects, one for each possible target that can 
 - `typescript` - see below
 - `minify` - (**optional**) determines the minification to be used for applications, if the target supports it; can be overridden on a per application basis.  Can be `off`, `minify`, `mangle`, or `beautify`.
 - `addCreatedAt` - (**optional**) if true, this will cause every object to have a hidden property called `$$createdAt` which points to an object containing `filename`, `lineNumber`, and `column` properties
+
+If you want to use more than the three default target types and/or use custom target classes, you can use the `targetClass` key to supply the name of the class as a string. 
+
+```
+targets: [
+   { 
+      type: "source-abc", 
+      targetClass: "qx.tool.compiler.targets.SourceTarget",
+      environment: { someValue: "abc" }
+   },
+   { 
+      type: "source-def", 
+      targetClass: "qx.tool.compiler.targets.SourceTarget",
+      environment: { someValue: "def" }
+   },
+   { 
+      type: "source-ghi", 
+      targetClass: "my.custom.SpecialSourceTarget",
+      environment: { someValue: "ghi" }
+   }
+]
+```
+
+This is also useful if you want to have two or more targets of the same basic type. Incidentally, as a convenience, the current code automatically prepends "qx.tool.compiler.targets." to the class name if there is no package specified:
+
+```
+targets: [
+   { 
+      type: "source-abc", 
+      targetClass: "SourceTarget",
+      environment: { someValue: "abc" }
+   },
+   { 
+      type: "source-def", 
+      targetClass: "SourceTarget",
+      environment: { someValue: "def" }
+   },
+   { 
+      type: "build-ghi", 
+      targetClass: "BuildTarget",
+      environment: { someValue: "ghi" }
+   },
+   { 
+      type: "build-jkl", 
+      targetClass: "BuildTarget",
+      environment: { someValue: "jkl" }
+   }
+]
+```
 
 ## Parts
 Parts are supported by adding a `parts` object, either at the top level, inside a target object, or inside an application object.  It looks like this:
