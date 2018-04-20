@@ -40,7 +40,7 @@
  *
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/image.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
@@ -271,6 +271,11 @@ qx.Class.define("qx.ui.basic.Image",
       var element = this.getContentElement();
       if (this.__wrapper) {
         element.getChild(0).setStyles({
+          top: this.getPaddingTop() || 0,
+          left: this.getPaddingLeft() || 0
+        });
+      } else if (this.__getMode() === 'font') {
+        element.setStyles({
           top: this.getPaddingTop() || 0,
           left: this.getPaddingLeft() || 0
         });
@@ -797,7 +802,7 @@ qx.Class.define("qx.ui.basic.Image",
     _applyDimension : function()
     {
       this.base(arguments);
-      
+
       var isFont = this.getSource() && qx.lang.String.startsWith(this.getSource(), "@");
       if (isFont) {
         var el = this.getContentElement();
