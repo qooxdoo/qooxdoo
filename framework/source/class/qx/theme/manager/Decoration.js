@@ -214,54 +214,28 @@ qx.Class.define("qx.theme.manager.Decoration",
         entry.style = {};
       }
 
-      // check for inheritance
-      if (entry.include) {
-        var included = {
-          style: {}
-        };
-
-        var handleIncludedEntry = function(entry) {
-          if (entry.include) {
-            handleIncludedEntry(entry.include);
-          } else {
-            var decorationEntry = theme.decorations[entry];
-            // decoration key
-            if (decorationEntry.decorator) {
-              included.decorator = qx.lang.Object.clone(decorationEntry.decorator);
-            }
-
-            // styles key
-            if (decorationEntry.style) {
-              for (var key in decorationEntry.style) {
-                included.style[key] = qx.lang.Object.clone(decorationEntry.style[key], true);
-              }
-            }
-          }
-        };
-
-        handleIncludedEntry(entry);
-
-        var result = {
-          style: {}
-        };
-
-        if (entry.decorator || included.decorator) {
-          result.decorator = qx.lang.Object.clone(entry.decorator || included.decorator);
+      // handle recursive decorator includes
+      var recurseEntryInclude = function(currentEntry) {
+        // follow the include chain to the topmost decorator entry
+        if(currentEntry.include && theme.decorations[currentEntry.include]) {
+          recurseEntryInclude(theme.decorations[currentEntry.include]);
+        }
+        
+        // if the docorator is not set yet, clone the topmost 
+        if (!entry.decorator && currentEntry.decorator) {
+          entry.decorator = qx.lang.Object.clone(currentEntry.decorator);
         }
 
-        // styles key
-        if (included.style) {
-          result.style = qx.lang.Object.clone(included.style, true);
-
-          for (var key in entry.style) {
-            result.style[key] = qx.lang.Object.clone(entry.style[key], true);
+        // copy styles from the included entry, by overwriting the attributes 
+        // with the included style attributes
+        if (currentEntry.style) {
+          for (var key in currentEntry.style) {
+            entry.style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
           }
-        } else {
-          result.style = qx.lang.Object.clone(entry.style, true);
         }
+      };
 
-        entry = qx.lang.Object.clone(result, true);
-      }
+      recurseEntryInclude(entry);
 
       return cache[value] = (new qx.ui.decoration.Decorator()).set(entry.style);
     },
