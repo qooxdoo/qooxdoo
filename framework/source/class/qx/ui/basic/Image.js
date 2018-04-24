@@ -649,6 +649,11 @@ qx.Class.define("qx.ui.basic.Image",
             }
           }
 
+          // Don't transfer background image when switching from image to icon font
+          if (this.__getMode() === "font") {
+            delete styles.backgroundImage;
+          }
+
           // Copy dimension and location of the current content element
           var bounds = this.getBounds();
           if (bounds != null)
