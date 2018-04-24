@@ -221,7 +221,7 @@ qx.Class.define("qx.theme.manager.Decoration",
           recurseEntryInclude(theme.decorations[currentEntry.include]);
         }
         
-        // if the docorator is not set yet, clone the topmost 
+        // if the decorator is not set yet, clone the topmost 
         if (!entry.decorator && currentEntry.decorator) {
           entry.decorator = qx.lang.Object.clone(currentEntry.decorator);
         }
