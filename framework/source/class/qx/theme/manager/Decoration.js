@@ -227,7 +227,9 @@ qx.Class.define("qx.theme.manager.Decoration",
       // start with the current decorator entry
       recurseDecoratorInclude(theme.decorations[value], value);
 
-      return cache[value] = decorator;
+      cache[value] = decorator;
+      
+      return cache[value];
     },
 
 
