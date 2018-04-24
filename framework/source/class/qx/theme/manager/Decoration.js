@@ -188,11 +188,6 @@ qx.Class.define("qx.theme.manager.Decoration",
         return value;
       }
 
-      var theme = this.getTheme();
-      if (!theme) {
-        return null;
-      }
-
       var cache = this.__dynamic;
       if (!cache) {
         cache = this.__dynamic = {};
@@ -203,40 +198,39 @@ qx.Class.define("qx.theme.manager.Decoration",
         return resolved;
       }
 
-      var entry = qx.lang.Object.clone(theme.decorations[value], true);
-      if (!entry) {
+      var theme = this.getTheme();
+      if (!theme) {
         return null;
       }
 
-      // create empty style map if necessary
-      if (!entry.style) {
-        entry.style = {};
+      if(!theme.decorations[value]) {
+        return null;
       }
+      
+      // initialize an empty style hash
+      var style = {};
 
       // handle recursive decorator includes
-      var recurseEntryInclude = function(currentEntry) {
+      var recurseEntryIncludes = function(currentEntry, name) {
         // follow the include chain to the topmost decorator entry
         if(currentEntry.include && theme.decorations[currentEntry.include]) {
-          recurseEntryInclude(theme.decorations[currentEntry.include]);
-        }
-        
-        // if the decorator is not set yet, clone the topmost 
-        if (!entry.decorator && currentEntry.decorator) {
-          entry.decorator = qx.lang.Object.clone(currentEntry.decorator);
+          recurseEntryInclude(theme.decorations[currentEntry.include], currentEntry.include);
         }
 
-        // copy styles from the included entry, by overwriting the attributes 
-        // with the included style attributes
+        qx.log.Logger.debug(qx.theme.manager.Decoration.getInstance(), "copying style from decorator " + name);
+
+        // copy styles from the included entry, overwrite if already set 
         if (currentEntry.style) {
           for (var key in currentEntry.style) {
-            entry.style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
+            style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
           }
         }
       };
 
-      recurseEntryInclude(entry);
+      // start with the current decorator entry
+      recurseEntryInclude(theme.decorations[value], value);
 
-      return cache[value] = (new qx.ui.decoration.Decorator()).set(entry.style);
+      return cache[value] = (new qx.ui.decoration.Decorator()).set(style);
     },
 
 
