@@ -217,16 +217,10 @@ qx.Class.define("qx.theme.manager.Decoration",
           recurseDecoratorInclude(theme.decorations[currentEntry.include], currentEntry.include);
         }
 
-        qx.log.Logger.debug(qx.theme.manager.Decoration.getInstance(), "copying style from decorator " + name);
-
-        // apply styles from the included decorator, sorted alphabetically, 
+        // apply styles from the included decorator, 
         // overwriting existing values.
         if (currentEntry.style) {
-          Object.keys(currentEntry.style).sort().forEach(function(key) {
-            var attr = {};
-            attr[key] = currentEntry.style[key];
-            decorator.set(attr);
-          });
+          decorator.set(currentEntry.style);
         }
       };
 
