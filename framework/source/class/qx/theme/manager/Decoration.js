@@ -207,30 +207,33 @@ qx.Class.define("qx.theme.manager.Decoration",
         return null;
       }
       
-      // initialize an empty style hash
-      var style = {};
+      // create an empty decorator
+      var decorator = new qx.ui.decoration.Decorator();
 
       // handle recursive decorator includes
-      var recurseEntryIncludes = function(currentEntry, name) {
+      var recurseDecoratorInclude = function(currentEntry, name) {
         // follow the include chain to the topmost decorator entry
         if(currentEntry.include && theme.decorations[currentEntry.include]) {
-          recurseEntryInclude(theme.decorations[currentEntry.include], currentEntry.include);
+          recurseDecoratorInclude(theme.decorations[currentEntry.include], currentEntry.include);
         }
 
         qx.log.Logger.debug(qx.theme.manager.Decoration.getInstance(), "copying style from decorator " + name);
 
-        // copy styles from the included entry, overwrite if already set 
+        // apply styles from the included decorator, sorted alphabetically, 
+        // overwriting existing values.
         if (currentEntry.style) {
-          for (var key in currentEntry.style) {
-            style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
-          }
+          Object.keys(currentEntry.style).sort().forEach(function(key) {
+            var attr = {};
+            attr[key] = currentEntry.style[key];
+            decorator.set(attr);
+          });
         }
       };
 
       // start with the current decorator entry
-      recurseEntryInclude(theme.decorations[value], value);
+      recurseDecoratorInclude(theme.decorations[value], value);
 
-      return cache[value] = (new qx.ui.decoration.Decorator()).set(style);
+      return cache[value] = decorator;
     },
 
 
