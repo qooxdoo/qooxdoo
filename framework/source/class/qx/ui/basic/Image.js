@@ -769,25 +769,22 @@ qx.Class.define("qx.ui.basic.Image",
         }
 
         // Adjust size if scaling is applied
+        var width;
+        var height;
         if (this.getScale()) {
-          var width = this.getWidth() || this.getHeight() || 40;
-          var height = this.getHeight() || this.getWidth() || 40;
-          size = width > height ? height : width;
+          width = this.getWidth();
+          height = this.getHeight();
         }
         else {
           var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
           if (qx.core.Environment.get("qx.debug")) {
             this.assertObject(font, "Virtual image source contains unkown font descriptor");
           }
-          size = parseInt(source.split("/")[2] || font.getSize(), 10);
+          var size = parseInt(source.split("/")[2] || font.getSize(), 10);
+          width = ResourceManager.getImageWidth(source) || size;
+          height = ResourceManager.getImageHeight(source) || size;
         }
-
-        // Default to something definitively numeric if nothing set
-        if (!size) {
-          size = 0;
-        }
-
-        this.__updateContentHint(size, size);
+        this.__updateContentHint(width, height);
 
         // Apply source
         this.__setSource(el, source);
