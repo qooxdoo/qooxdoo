@@ -1,4 +1,4 @@
-# Using Icon Fonts
+# Icon Fonts
 
 Icon fonts in qooxdoo need some preprocessing, because the layout managers need to know the
 dimensions of 'images'. In this case, we're extracting this information from the glyph's
@@ -8,7 +8,7 @@ Additionally we use the information placed in the font (glyph names) to automati
 assign the font icon to virtual image names. If you for example include the [Ligature Symbols](http://kudakurage.com/ligature_symbols/),
 you can directly use this code
 
-```
+```javascript
 var image = new qx.ui.basic.Image('@Ligature/print');
 ```
 
@@ -23,7 +23,7 @@ address all the glyphs by their name/alias.
 
 Use the *Manifest.json* to define the icon font like shown in the example:
 
-```
+```json5
 {
   ...
 
@@ -34,12 +34,13 @@ Use the *Manifest.json* to define the icon font like shown in the example:
       {
         "name": "FontAwesome",              // mandatory
         "defaultSize": 40,                  // optional
-        "mapping": "fontawesome.map",       // optional - if you've a map file
+        "mapping": "project/fontawesome-map.json",   // optional - if you've a map file
+        "comparisonString": "\uf26e\uf368", // string to test if font is loaded
         "resources": [
-          "foobar/fontawesome-webfont.ttf", // mandatory - we need one TTF file for parsing
-          "foobar/fontawesome-webfont.eot",
-          "foobar/fontawesome-webfont.woff2",
-          "foobar/fontawesome-webfont.woff"
+          "project/fontawesome-webfont.ttf",  // mandatory - we need one TTF file for parsing
+          "project/fontawesome-webfont.eot",
+          "project/fontawesome-webfont.woff2",
+          "project/fontawesome-webfont.woff"
         ]
       }
     ]
@@ -49,11 +50,16 @@ Use the *Manifest.json* to define the icon font like shown in the example:
 
 Please note that JSON does not support comments - you'll have to remove them first.
 
-Every map entry in the *webfonts* array needs to have at leasta _name_ and one
+Every map entry in the *webfonts* array needs to have at least a _name_ and one
 TTF _resources_ entry. Resources can be local files or HTTP URLs. The _name_ is
 used to reference the font in the virtual URLs. So if you name it "Jipieh" instead
 of "FontAwesome", you have to use `@Jipieh/<glyphname>` instead.
 
+The qooxdoo-compiler uses fontkit to read the content of the ttf file and will therefore
+automatically determine all the relevant css properties of the font, like fontFamily,
+fontWeight, fontStyle and even character names. For some icon fonts the character names are not properly
+stored or do not match the names users expect to see based on popular css integrations of the font.
+For these cases you you can provide a json fontmap file.
 
 ## Creating a map file
 
@@ -62,63 +68,54 @@ we can't generate the mapping for you and you've to provide an own mapping.
 
 The format of the mapping file is just JSON as shown here:
 
-```
+```json5
 {
-  'glyphname': codepoint,
+  "glyphname": "hex-codepoint",
   ...
 }
 ```
 
-`glpyhname` is the name or alias of the character, `codepoint` is the decimal unicode
+`glpyhname` is the name or alias of the character, `codepoint` is the hexadecimal unicode
 number for that character in the font.
 
-In case of FontAwesome, you might want to use [a simple script](https://gist.github.com/cajus/b00bbeb629013fb73a1bd8431e88c18a)
-instead of creating such a file manually.
+In case of FontAwesome, for example you could use the following script to generate the maps
+for the 3 variants of the font from the `fa.yml` file provided on the fontawesome github repo:
 
+```javascript
+const yaml = require('js-yaml');
+const fs = require('fs');
+
+let res = {};
+let doc = yaml.safeLoad(fs.readFileSync('fa.yml', 'utf8'));
+for (let key in doc) {
+   doc[key].styles.forEach((style) => {
+      if (res[style] == undefined){
+         res[style]= {};
+      }
+      res[style][key] = doc[key].unicode;
+   });
+}
+for (let key in res) {
+    fs.writeFileSync('fa-' + key + '-map.json', JSON.stringify(res[key]));
+}
+```
 
 ## Using the icons
 
-For now, the font is not yet automatically added to the project. You have to do something
-like this in your theme's `Font.js`:
+After adding the fonts to the Manifest, they will automatically get loaded and integrated
+into your qooxdoo appliaction. It is not necessary to add a separate entry via en entry via 
+`qx.Theme.define` to load the icon font. 
 
-```
-qx.Theme.define("foobar.theme.Font",
-{
-  extend : qx.theme.indigo.Font,
-
-  fonts :
-  {
-    "FontAwesome": {
-      size: 40,
-      lineHeight: 1,
-      comparisonString : "\uf1e3\uf1f7\uf11b\uf19d",
-      family: ["FontAwesome"],
-      sources: [
-        {
-          family: "FontAwesome",
-          source: [
-            "foobar/fontawesome-webfont.ttf"
-          ]
-        }
-      ]
-    }
-  }
-});
-```
-
-The need for it will go away until 6.0 will be ready for public use.
-
-To include a font icon somewhere, just use the ordinary image way (i.e. in an Image, Atom) and
-provide a virtual image name. It starts with an "@", followed by the defined font name, a slash
+The font icons can now be used in qooxdoo image widgets like Image or Atom. Just start the image name with a `@`, followed by the defined font name, a slash
 and the glyph name:
 
-```
+```javascript
 var atom = new qx.ui.basic.Atom("Look, I'm a font icon", "@FontAwesome/heart");
 ```
 
 If you don't have a glyph name (no map file and no definition in the font), you can also use the
 unicode codepoint (in hex) directly:
 
-```
+```javascript
 var atom = new qx.ui.basic.Atom("Look, I'm a font icon", "@FontAwesome/f004");
 ```
