@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.basic.Image",
     __requestId : 0,
 
 
-    //overridden
+    // overridden
     _onChangeTheme : function() {
       this.base(arguments);
       // restyle source (theme change might have changed the resolved url)
@@ -761,7 +761,6 @@ qx.Class.define("qx.ui.basic.Image",
 
       // Special case for non resource manager handled font icons
       if (isFont) {
-        var size;
 
         // Don't use scale if size is set via postfix
         if (this.getScale() && parseInt(source.split("/")[2], 10)) {
@@ -774,6 +773,7 @@ qx.Class.define("qx.ui.basic.Image",
         if (this.getScale()) {
           width = this.getWidth();
           height = this.getHeight();
+          this._applyDimension();
         }
         else {
           var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
