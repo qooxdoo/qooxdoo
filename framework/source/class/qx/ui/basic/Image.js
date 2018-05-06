@@ -771,9 +771,9 @@ qx.Class.define("qx.ui.basic.Image",
         var width;
         var height;
         if (this.getScale()) {
-          width = this.getWidth();
-          height = this.getHeight();
-          this._applyDimension();
+          var hint = this.getSizeHint();
+          width = this.getWidth() || hint.width;
+          height = this.getHeight() || hint.height;
         }
         else {
           var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
@@ -784,10 +784,12 @@ qx.Class.define("qx.ui.basic.Image",
           width = ResourceManager.getImageWidth(source) || size;
           height = ResourceManager.getImageHeight(source) || size;
         }
+
         this.__updateContentHint(width, height);
+        this.__setSource(el, source);
+
 
         // Apply source
-        this.__setSource(el, source);
       }
       else {
         // Apply source
@@ -810,8 +812,9 @@ qx.Class.define("qx.ui.basic.Image",
         var el = this.getContentElement();
         if (el) {
           if (this.getScale()) {
-            var width = this.getWidth() || this.getHeight() || 40;
-            var height = this.getHeight() || this.getWidth() || 40;
+            var hint = this.getSizeHint();
+            var width = this.getWidth() || hint.width || 40;
+            var height = this.getHeight() || hint.height || 40;
             el.setStyle("fontSize", (width > height ? height : width) + "px");
           }
           else {
