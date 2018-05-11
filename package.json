@@ -58,7 +58,7 @@
     "json-to-ast": "https://github.com/johnspackman/json-to-ast.git#editable-json",
     "jsonlint": "^1.6.2",
     "node-fetch": "^1.7.3",
-    "node-sass": "^4.7.2",
+    "node-sass": "^4.9.0",
     "qooxdoo": "^5.0.1",
     "@qooxdoo/preset-env": "^1.0.0",
     "qooxdoo-sdk": "^6.0.0-alpha",
