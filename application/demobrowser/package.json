@@ -3,7 +3,6 @@
   "version": "6.0.0-alpha",
   "private": true,
   "description": "Contains small samples and tests for most widgets and GUI features",
-  "main": "Gruntfile.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
