@@ -16,6 +16,7 @@ Options:
   --write-all-translations  enables output of all translations, not just those
                             that are explicitly referenced             [boolean]
   --set                     sets an environment value                    [array]
+			    key="value" (with value getting evaluated as js)
   --app-class               sets the application class                  [string]
   --app-theme               sets the theme class for the current application
                                                                         [string]

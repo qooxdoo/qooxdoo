@@ -22,6 +22,7 @@ Options:
   --write-all-translations  enables output of all translations, not just those
                             that are explicitly referenced             [boolean]
   --set                     sets an environment value                    [array]
+                            key="value" (with value getting evaluated as js)
   --machine-readable        output compiler messages in machine-readable format
                                                                        [boolean]
   --verbose, -v             enables additional progress output to console
