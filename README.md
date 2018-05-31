@@ -32,7 +32,7 @@ The included command line utility allows you create, build and manage [qooxdoo](
     - CLI Documentation
         - [Commands](docs/cli/commands.md)
         - [Compiler](docs/cli/compiler.md)
-          - [compiler.json](compile-json.md)
+          - [compiler.json](docs/cli/compile-json.md)
         - [Web Server](docs/cli/serve.md)
         - [Create a new project](docs/cli/create-a-new-project.md)
         - [qooxdoo-contrib system](docs/cli/qooxdoo-contrib-system.md)
