@@ -396,6 +396,9 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       }
 
       var oldFactory = this.__columnDataArr[col].editorFactory;
+      if (oldFactory === factory) {
+        return;
+      }
       if (oldFactory !== this.__editorFactory) {
         oldFactory.dispose();
       }
