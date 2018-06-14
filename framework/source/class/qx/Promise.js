@@ -772,6 +772,24 @@ qx.Class.define("qx.Promise", {
     },
 
 
+    /**
+     * Returns a new function that wraps a function that is in node.js
+     * style. The resulting function returns a promise instead of taking a
+     * callback function as an argument. The promise is resoloved or rejected
+     * by the action of the callback function. The provided function must
+     * accept a callback as its last argument, and that callback function must
+     * expect its first argument to be an error if non-null. If the first
+     * argument is null, the second argument (optional) will be the success
+     * value.
+     * 
+     * @param f {Function} The node.js-style function to be promisified
+     * @return {qx.Promise}
+     */
+    promisify : function(f) {
+      return this.__callStaticMethod('promisify', arguments);
+    },
+    
+    
 
     /* *********************************************************************************
      * 
