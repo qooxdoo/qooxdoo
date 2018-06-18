@@ -1870,7 +1870,7 @@ qx.Class.define("qx.ui.core.Widget",
      * used to position the widget. The options are documented in the class
      * documentation of each layout manager {@link qx.ui.layout}.
      *
-     * @param child {LayoutItem} the widget to add.
+     * @param child {qx.ui.core.LayoutItem} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
      */
     _add : function(child, options)
