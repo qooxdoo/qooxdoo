@@ -801,16 +801,16 @@ qx.Class.define("qx.Promise", {
      * The <code>issueRpc</code>method could be converted to be called using
      * promises instead of callbacks, as shown here:
      * <pre><code>
-     *   let app = qx.core.Init.getApplication();
-     *   let rpc = qx.Promise.promisify(app.issueRpc, { context : app });
+     *   var app = qx.core.Init.getApplication();
+     *   var rpc = qx.Promise.promisify(app.issueRpc, { context : app });
      *   rpc("ping", [ "hello world" ])
      *     .then(
-     *       (pongValue) =>
+     *       function(pongValue)
      *         {
      *           // handle result
      *         })
      *     .catch(
-     *       (e) =>
+     *       function(e)
      *         {
      *           throw e;
      *         });
