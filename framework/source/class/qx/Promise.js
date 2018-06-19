@@ -781,11 +781,51 @@ qx.Class.define("qx.Promise", {
      * expect its first argument to be an error if non-null. If the first
      * argument is null, the second argument (optional) will be the success
      * value.
-     * 
+     *
+     * Example:
+     *
+     * Assume there is a member method in myApp.Application such as the
+     * following:
+     * <pre><code>
+     *   issueRpc : function(method, params, callback)
+     *   {
+     *     ...
+     *   }
+     * </code></pre>
+     *
+     * where the signature of <code>callback</code> is:
+     * <pre><code>
+     *   function callback(result, e)
+     * </code></pre>
+     *
+     * The <code>issueRpc</code>method could be converted to be called using
+     * promises instead of callbacks, as shown here:
+     * <pre><code>
+     *   let app = qx.core.Init.getApplication();
+     *   let rpc = qx.Promise.promisify(app.issueRpc, { context : app });
+     *   rpc("ping", [ "hello world" ])
+     *     .then(
+     *       (pongValue) =>
+     *         {
+     *           // handle result
+     *         })
+     *     .catch(
+     *       (e) =>
+     *         {
+     *           throw e;
+     *         });
+     * </code></pre>
+     *
      * @param f {Function} The node.js-style function to be promisified
+     *
+     * @param options {Map?}
+     *   The sole user option in this map is <code>context</code>, which may
+     *   be specified to arrange for the provided callback function to be
+     *   called in the specified context.
+     *   
      * @return {qx.Promise}
      */
-    promisify : function(f) {
+    promisify : function(f, options) {
       return qx.Promise.__callStaticMethod('promisify', arguments);
     },
     
