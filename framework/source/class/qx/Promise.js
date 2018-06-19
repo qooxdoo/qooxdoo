@@ -795,7 +795,7 @@ qx.Class.define("qx.Promise", {
      *
      * where the signature of <code>callback</code> is:
      * <pre><code>
-     *   function callback(result, e)
+     *   function callback(e, result)
      * </code></pre>
      *
      * The <code>issueRpc</code>method could be converted to be called using
