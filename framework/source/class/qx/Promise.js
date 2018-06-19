@@ -806,14 +806,14 @@ qx.Class.define("qx.Promise", {
      *   rpc("ping", [ "hello world" ])
      *     .then(
      *       function(pongValue)
-     *         {
-     *           // handle result
-     *         })
+     *       {
+     *         // handle result
+     *       })
      *     .catch(
      *       function(e)
-     *         {
-     *           throw e;
-     *         });
+     *       {
+     *         throw e;
+     *       });
      * </code></pre>
      *
      * @param f {Function} The node.js-style function to be promisified
