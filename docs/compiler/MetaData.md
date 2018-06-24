@@ -10,7 +10,7 @@ Another useful feature is that when documentation is missing for a method or pro
 
 Many of the objects in the meta data have a set of standard, useful fields; for example:
 
-```
+```json
   "methods": {
     "_createOkButton": {
       "location": {
@@ -61,7 +61,8 @@ The `location` and `jsdoc` objects appear in just about every meta data object; 
 ## Class Definition
 
 A typical meta data example looks like this:
-```
+
+```json
 {
   "className": "myapp.some.package.MyClass",
   "packageName": "myapp.some.package",
