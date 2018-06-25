@@ -359,7 +359,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       var dropdown = this.getChildControl("dropdown");
       var selection = dropdown.getSelection();
 
-      if (this.__convertValue(selection.getItem(0)) !== value)
+      if (selection.length && this.__convertValue(selection.getItem(0)) !== value)
       {
         // reset the old selection
         this.__ignoreChangeSelection = true;
