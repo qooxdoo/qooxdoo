@@ -360,7 +360,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       var selection = dropdown.getSelection();
       var selected = selection.getItem(0);
 
-      // try topreselect the matching item even if there is no current selection
+      // try to preselect the matching item even if there is no current selection
       if (selected === undefined || this.__convertValue(selected) !== value)
       {
         // only reset the old selection if there is one
