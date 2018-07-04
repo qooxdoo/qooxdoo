@@ -127,9 +127,8 @@ qx.Class.define("qx.theme.manager.Decoration",
       var styles = instance.getStyles(true);
       
       // Sort the styles so that more specific styles come after the group styles, 
-      //  eg background-color comes after background.  The reordering is only applied
-      //  to rules which begin with the names in REORDER; the sort order is alphabetical
-      //  so that short cut rules come before actual
+      // eg background-color comes after background. The sort order is alphabetical
+      // so that short cut rules come before actual
       Object.keys(styles).sort().forEach(function(key) {
         // if we find a map value, use it as pseudo class
         if (qx.Bootstrap.isObject(styles[key])) {
@@ -189,11 +188,6 @@ qx.Class.define("qx.theme.manager.Decoration",
         return value;
       }
 
-      var theme = this.getTheme();
-      if (!theme) {
-        return null;
-      }
-
       var cache = this.__dynamic;
       if (!cache) {
         cache = this.__dynamic = {};
@@ -204,36 +198,38 @@ qx.Class.define("qx.theme.manager.Decoration",
         return resolved;
       }
 
-      var entry = qx.lang.Object.clone(theme.decorations[value], true);
-      if (!entry) {
+      var theme = this.getTheme();
+      if (!theme) {
         return null;
       }
 
-      // create empty style map if necessary
-      if (!entry.style) {
-        entry.style = {};
+      if(!theme.decorations[value]) {
+        return null;
       }
+      
+      // create an empty decorator
+      var decorator = new qx.ui.decoration.Decorator();
 
-      // check for inheritance
-      var currentEntry = entry;
-      while (currentEntry.include) {
-        currentEntry = theme.decorations[currentEntry.include];
-        // decoration key
-        if (!entry.decorator && currentEntry.decorator) {
-          entry.decorator = qx.lang.Object.clone(currentEntry.decorator);
+      // handle recursive decorator includes
+      var recurseDecoratorInclude = function(currentEntry, name) {
+        // follow the include chain to the topmost decorator entry
+        if(currentEntry.include && theme.decorations[currentEntry.include]) {
+          recurseDecoratorInclude(theme.decorations[currentEntry.include], currentEntry.include);
         }
 
-        // styles key
+        // apply styles from the included decorator, 
+        // overwriting existing values.
         if (currentEntry.style) {
-          for (var key in currentEntry.style) {
-            if (entry.style[key] === undefined) {
-              entry.style[key] = qx.lang.Object.clone(currentEntry.style[key], true);
-            }
-          }
+          decorator.set(currentEntry.style);
         }
-      }
+      };
 
-      return cache[value] = (new qx.ui.decoration.Decorator()).set(entry.style);
+      // start with the current decorator entry
+      recurseDecoratorInclude(theme.decorations[value], value);
+
+      cache[value] = decorator;
+      
+      return cache[value];
     },
 
 

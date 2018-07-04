@@ -78,6 +78,19 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       apply : "_applySelection",
       nullable : false,
       deferredInit : true
+    },
+
+
+    /**
+     * Allow the drop-down to grow wider than its parent.
+     */
+    allowGrowDropDown :
+    {
+      init : false,
+      nullable : false,
+      check : "Boolean",
+      apply : "_adjustSize",
+      event : "changeAllowGrowDropDown"
     }
   },
 
@@ -116,7 +129,18 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
     __ignoreListSelection : false,
 
 
+    /** @type {qx.data.Array} The initial selection array. */
     __defaultSelection : null,
+
+
+    /**
+     * When the drop-down is allowed to grow wider than its parent,
+     * this member variable will contain the cached maximum list item width in pixels.
+     * This variable gets updated whenever the model or model length changes.
+     *
+     * @type {Number}
+     */
+    __cachedMaxListItemWidth : 0,
 
 
     /*
@@ -190,7 +214,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
           control.getSelection().addListener("change", this._onListChangeSelection, this);
           control.addListener("tap", this._handlePointer, this);
           control.addListener("changeModel", this._onChangeModel, this);
-          control.addListener("changeModelLength", this.__adjustHeight, this);
+          control.addListener("changeModelLength", this._onChangeModelLength, this);
           control.addListener("changeDelegate", this._onChangeDelegate, this);
 
           this.add(control, {flex: 1});
@@ -304,7 +328,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
           var listSelection = this.getChildControl("list").getSelection();
           this.__synchronizeSelection(selection, listSelection);
         }
-        this.__adjustSize();
+        this._adjustSize();
       } else {
         this.setPreselected(null);
       }
@@ -313,10 +337,34 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
     /**
      * Handler for the model change event.
+     * Called when the whole model changes, not when its length changes.
      *
      * @param event {qx.event.type.Data} The change event.
+     * @protected
      */
     _onChangeModel : function(event) {
+      if (this.getAllowGrowDropDown()) {
+        this._recalculateMaxListItemWidth();
+      }
+
+      this._adjustSize();
+    },
+
+
+    /**
+     * Handler for the model length change event.
+     * Called whenever items get added or removed from the model,
+     * not when the model itself changes.
+     *
+     * @param event {qx.event.type.Data}
+     * @protected
+     */
+    _onChangeModelLength : function (event) {
+      if (this.getAllowGrowDropDown()) {
+        this._recalculateMaxListItemWidth();
+      }
+
+      this._adjustSize();
     },
 
 
@@ -407,28 +455,42 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
 
     /**
      * Adjust the drop-down to the available width and height, by calling
-     * {@link #__adjustWidth} and {@link #__adjustHeight}.
+     * {@link #_adjustWidth} and {@link #_adjustHeight}.
      */
-    __adjustSize : function()
+    _adjustSize : function()
     {
       if (!this._target.getBounds()) {
-        this.addListenerOnce("appear", this.__adjustSize, this);
+        this.addListenerOnce("appear", this._adjustSize, this);
         return;
       }
 
-      this.__adjustWidth();
-      this.__adjustHeight();
+      this._adjustWidth();
+      this._adjustHeight();
     },
 
 
     /**
      * Adjust the drop-down to the available width. The width is limited by
-     * the current with from the _target.
+     * the current width from the _target, unless allowGrowDropDown is true.
      */
-    __adjustWidth : function()
+    _adjustWidth : function()
     {
       var width = this._target.getBounds().width;
-      this.setWidth(width);
+      var uiList = this.getChildControl('list');
+      if (this.getAllowGrowDropDown()) {
+        // Let the drop-down handle its own width.
+        this.setWidth(null);
+
+        if (this.__cachedMaxListItemWidth > 0) {
+          uiList.setWidth(this.__cachedMaxListItemWidth);
+        } else {
+          uiList.setWidth(width);
+        }
+      } else {
+        // Make the drop-down as wide as the virtual-box that it is owned by.
+        this.setWidth(width);
+        uiList.resetWidth();
+      }
     },
 
 
@@ -437,9 +499,9 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      * is never bigger that the max list height and the available space
      * in the viewport.
      */
-    __adjustHeight : function()
+    _adjustHeight : function()
     {
-      var availableHeight = this.__getAvailableHeight();
+      var availableHeight = this._getAvailableHeight();
       if (availableHeight === null) {
         return;
       }
@@ -470,7 +532,7 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
      *
      * @return {Integer|null} Available height in the viewport.
      */
-    __getAvailableHeight : function()
+    _getAvailableHeight : function()
     {
       var distance = this.getLayoutLocation(this._target);
       if (!distance) {
@@ -484,6 +546,89 @@ qx.Class.define("qx.ui.form.core.VirtualDropDownList",
       var toBottom = viewPortHeight - distance.bottom;
 
       return toTop > toBottom ? toTop : toBottom;
+    },
+
+
+    /**
+     * Loop over all model items to recalculate the maximum list item width.
+     *
+     * @protected
+     */
+    _recalculateMaxListItemWidth : function () {
+      var maxWidth = 0;
+      var list = this.getChildControl("list");
+      var model = list.getModel();
+      if (model && model.length) {
+        var createWidget = qx.util.Delegate.getMethod(list.getDelegate(), "createItem");
+        if (!createWidget) {
+          createWidget = function () {
+            return new qx.ui.form.ListItem();
+          };
+        }
+
+        var tempListItem = createWidget();
+
+        // Make sure the widget has the correct padding properties.
+        tempListItem.syncAppearance();
+
+        var styles;
+        var font = tempListItem.getFont();
+        if (font) {
+          styles = qx.theme.manager.Font.getInstance().resolve(font).getStyles();
+        }
+        if (!styles) {
+          styles = qx.bom.Font.getDefaultStyles();
+        }
+
+        var paddingX =
+          list.getPaddingLeft() + list.getPaddingRight() +
+          tempListItem.getPaddingLeft() + tempListItem.getPaddingRight() +
+          tempListItem.getMarginLeft() + tempListItem.getMarginRight();
+
+        var label = tempListItem.getChildControl('label');
+        if (label) {
+          // Make sure the widget has the correct padding properties.
+          label.syncAppearance();
+
+          paddingX +=
+            label.getPaddingLeft() + label.getPaddingRight() +
+            label.getMarginLeft() + label.getMarginRight();
+        }
+
+        model.forEach(function (item) {
+          var width = 0;
+          var content;
+
+          if (typeof item === "string") {
+            content = item;
+          } else if (typeof item === "object" && item !== null) {
+            content = item.get(list.getLabelPath());
+          }
+
+          if (content) {
+            width = qx.bom.Label.getHtmlSize(content, styles, undefined).width + paddingX;
+
+            if (width > maxWidth) {
+              maxWidth = width;
+            }
+          }
+        });
+
+        tempListItem.dispose();
+      }
+
+      this.__cachedMaxListItemWidth = maxWidth;
+    },
+
+
+    /**
+     * Get the cached maximum list item width.
+     *
+     * @return {Number}
+     * @protected
+     */
+    _getMaxListItemWidth : function () {
+      return this.__cachedMaxListItemWidth;
     }
   },
 

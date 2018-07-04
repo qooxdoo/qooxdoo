@@ -160,23 +160,31 @@ qx.Class.define("qx.event.handler.Keyboard",
      *
      * @param domEvent {Event} DOM event
      * @param charCode {Integer} character code
+     * @return {qx.Promise?} a promise if the event handlers created one
      */
     _fireInputEvent : function(domEvent, charCode)
     {
       var target = this.__getEventTarget();
+      var tracker = {};
+      var self = this;
 
       // Only fire when target is defined and visible
       if (target && target.offsetWidth != 0)
       {
         var event = qx.event.Registration.createEvent("keyinput", qx.event.type.KeyInput, [domEvent, target, charCode]);
-        this.__manager.dispatchEvent(target, event);
+        qx.event.Utils.then(tracker, function() { self.__manager.dispatchEvent(target, event); });
       }
 
       // Fire user action event
       // Needs to check if still alive first
       if (this.__window) {
-        qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, ["keyinput"]);
+        var self = this;
+        qx.event.Utils.then(tracker, function() {
+          return qx.event.Registration.fireEvent(self.__window, "useraction", qx.event.type.Data, ["keyinput"]);
+        });
       }
+      
+      return tracker.promise;
     },
 
 
@@ -186,15 +194,20 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @param domEvent {Event} DOM event
      * @param type {String} type og the event
      * @param keyIdentifier {String} key identifier
+     * @return {qx.Promise?} a promise, if any of the event handlers returned a promise
      */
     _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
       var target = this.__getEventTarget();
       var keyCode = domEvent.keyCode;
+      var tracker = {};
+      var self = this;
 
       // Fire key event
       var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
-      this.__manager.dispatchEvent(target, event);
+      qx.event.Utils.then(tracker, function() {
+        return self.__manager.dispatchEvent(target, event);
+      });
 
       // IE and Safari suppress a "keypress" event if the "keydown" event's
       // default action was prevented. In this case we emulate the "keypress"
@@ -208,7 +221,9 @@ qx.Class.define("qx.event.handler.Keyboard",
 
           // some key press events are already emulated. Ignore these events.
           if (!qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) && !this._emulateKeyPress[keyCode]) {
-            this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
+            qx.event.Utils.then(tracker, function() {
+              return self._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
+            });
           }
         }
       }
@@ -216,8 +231,12 @@ qx.Class.define("qx.event.handler.Keyboard",
       // Fire user action event
       // Needs to check if still alive first
       if (this.__window) {
-        qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
+        qx.event.Utils.then(tracker, function() {
+          return qx.event.Registration.fireEvent(self.__window, "useraction", qx.event.type.Data, [type]);
+        });
       }
+      
+      return tracker.promise;
     },
 
 
@@ -318,10 +337,14 @@ qx.Class.define("qx.event.handler.Keyboard",
         var keyCode = domEvent.keyCode;
         var charCode = 0;
         var type = domEvent.type;
+        var tracker = {};
+        var self = this;
 
         // Ignore the down in such sequences dp dp dp
         if (!(this.__lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
-          this._idealKeyHandler(keyCode, charCode, type, domEvent);
+          qx.event.Utils.then(tracker, function() {
+            return self._idealKeyHandler(keyCode, charCode, type, domEvent);
+          });
         }
 
         // On non print-able character be sure to add a keypress event
@@ -329,12 +352,16 @@ qx.Class.define("qx.event.handler.Keyboard",
         {
           // non-printable, backspace or tab
           if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
-            this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
+            qx.event.Utils.then(tracker, function() {
+              return self._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
+            });
           }
         }
 
         // Store last type
         this.__lastUpDownType[keyCode] = type;
+        
+        return tracker.promise;
       },
 
       "gecko" : function(domEvent)
@@ -343,6 +370,9 @@ qx.Class.define("qx.event.handler.Keyboard",
         var keyCode = domEvent.keyCode;
         var type = domEvent.type;
         var kbUtil = qx.event.util.Keyboard;
+        
+        var tracker = {};
+        var self = this;
 
         // FF repeats under windows keydown events like IE
         if (qx.core.Environment.get("os.name") == "win")
@@ -350,7 +380,9 @@ qx.Class.define("qx.event.handler.Keyboard",
           var keyIdentifier = keyCode ? kbUtil.keyCodeToIdentifier(keyCode) : kbUtil.charCodeToIdentifier(charCode);
 
           if (!(this.__lastUpDownType[keyIdentifier] == "keydown" && type == "keydown")) {
-            this._idealKeyHandler(keyCode, charCode, type, domEvent);
+            qx.event.Utils.then(tracker, function() {
+              return self._idealKeyHandler(keyCode, charCode, type, domEvent);
+            });
           }
 
           // Store last type
@@ -360,10 +392,13 @@ qx.Class.define("qx.event.handler.Keyboard",
         // all other OSes
         else
         {
-          this._idealKeyHandler(keyCode, charCode, type, domEvent);
+          qx.event.Utils.then(tracker, function() {
+            return self._idealKeyHandler(keyCode, charCode, type, domEvent);
+          });
         }
 
         this.__firefoxInputFix(domEvent.target, type, keyCode);
+        return tracker.promise;
       },
 
       "webkit" : function(domEvent)
@@ -373,26 +408,33 @@ qx.Class.define("qx.event.handler.Keyboard",
         var type = domEvent.type;
 
         keyCode = domEvent.keyCode;
+        
+        var tracker = {};
+        var self = this;
 
-        this._idealKeyHandler(keyCode, charCode, type, domEvent);
+        qx.event.Utils.track(tracker, this._idealKeyHandler(keyCode, charCode, type, domEvent));
 
         // On non print-able character be sure to add a keypress event
         if (type == "keydown")
         {
           // non-printable, backspace or tab
           if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
-            this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
+            qx.event.Utils.then(tracker, function() {
+              return self._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
+            });
           }
         }
 
         // Store last type
         this.__lastUpDownType[keyCode] = type;
+        
+        return tracker.promise;
       },
 
       "opera" : function(domEvent)
       {
         this.__lastKeyCode = domEvent.keyCode;
-        this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
+        return this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
       }
     })),
 
@@ -459,9 +501,9 @@ qx.Class.define("qx.event.handler.Keyboard",
         domEvent = window.event || domEvent;
 
         if (this._charCode2KeyCode[domEvent.keyCode]) {
-          this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
+          return this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
         } else {
-          this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
+          return this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
         }
       },
 
@@ -470,15 +512,15 @@ qx.Class.define("qx.event.handler.Keyboard",
         var charCode = domEvent.charCode;
         var type = domEvent.type;
 
-        this._idealKeyHandler(domEvent.keyCode, charCode, type, domEvent);
+        return this._idealKeyHandler(domEvent.keyCode, charCode, type, domEvent);
       },
 
       "webkit" : function(domEvent)
       {
         if (this._charCode2KeyCode[domEvent.keyCode]) {
-          this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
+          return this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
         } else {
-          this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
+          return this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
         }
       },
 
@@ -494,14 +536,14 @@ qx.Class.define("qx.event.handler.Keyboard",
         // See http://bugzilla.qooxdoo.org/show_bug.cgi?id=603
         if(keyCode != this.__lastKeyCode)
         {
-          this._idealKeyHandler(0, this.__lastKeyCode, type, domEvent);
+          return this._idealKeyHandler(0, this.__lastKeyCode, type, domEvent);
         }
         else
         {
           if (qx.event.util.Keyboard.keyCodeToIdentifierMap[domEvent.keyCode]) {
-            this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
+            return this._idealKeyHandler(domEvent.keyCode, 0, domEvent.type, domEvent);
           } else {
-            this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
+            return this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
           }
         }
 
@@ -526,6 +568,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      * @param charCode {String} character code
      * @param eventType {String} type of the event (keydown, keypress, keyup)
      * @param domEvent {Element} DomEvent
+     * @return {qx.Promise?} a promise, if an event handler created one
      */
     _idealKeyHandler : function(keyCode, charCode, eventType, domEvent)
     {
@@ -536,7 +579,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       {
         keyIdentifier = qx.event.util.Keyboard.keyCodeToIdentifier(keyCode);
 
-        this._fireSequenceEvent(domEvent, eventType, keyIdentifier);
+        return this._fireSequenceEvent(domEvent, eventType, keyIdentifier);
       }
 
       // Use: charCode
@@ -544,8 +587,12 @@ qx.Class.define("qx.event.handler.Keyboard",
       {
         keyIdentifier = qx.event.util.Keyboard.charCodeToIdentifier(charCode);
 
-        this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
-        this._fireInputEvent(domEvent, charCode);
+        var tracker = {};
+        var self = this;
+        qx.event.Utils.track(tracker, this._fireSequenceEvent(domEvent, "keypress", keyIdentifier));
+        return qx.event.Utils.then(tracker, function() {
+          return self._fireInputEvent(domEvent, charCode);
+        });
       }
     },
 

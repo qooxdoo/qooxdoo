@@ -138,27 +138,35 @@ qx.Class.define("qx.event.handler.Pointer",
           // Nothing - cannot change properties in strict mode
         }
 
-        qx.event.Registration.fireEvent(
-          target,
-          type,
-          qx.event.type.Pointer,
-          [domEvent, target, null, true, true]
-        );
+        var tracker = {};
+        var self = this;
+        qx.event.Utils.track(tracker, function() {
+          return qx.event.Registration.fireEvent(
+              target,
+              type,
+              qx.event.type.Pointer,
+              [domEvent, target, null, true, true]
+            );
+        });
 
-        if ((domEvent.getPointerType() !== "mouse" ||
-             domEvent.button <= qx.event.handler.PointerCore.LEFT_BUTTON) &&
-          (type == "pointerdown" || type == "pointerup" || type == "pointermove" || type == "pointercancel"))
-        {
-          qx.event.Registration.fireEvent(
-            this.__root,
-            qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
-            qx.event.type.Pointer,
-            [domEvent, target, null, false, false]
-          );
-        }
-
-        // Fire user action event
-        qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
+        qx.event.Utils.then(tracker, function() {
+          if ((domEvent.getPointerType() !== "mouse" ||
+              domEvent.button <= qx.event.handler.PointerCore.LEFT_BUTTON) &&
+              (type == "pointerdown" || type == "pointerup" || type == "pointermove" || type == "pointercancel"))
+          {
+             return qx.event.Registration.fireEvent(
+               self.__root,
+               qx.event.handler.PointerCore.POINTER_TO_GESTURE_MAPPING[type],
+               qx.event.type.Pointer,
+               [domEvent, target, null, false, false]
+             );
+           }
+        });
+        qx.event.Utils.then(tracker, function() {
+          // Fire user action event
+          return qx.event.Registration.fireEvent(self.__window, "useraction", qx.event.type.Data, [type]);
+        });
+        return tracker.promise;
       }
     },
 
@@ -169,7 +177,7 @@ qx.Class.define("qx.event.handler.Pointer",
       }
 
       var type = qx.event.handler.PointerCore.MSPOINTER_TO_POINTER_MAPPING[domEvent.type] || domEvent.type;
-      this._fireEvent(domEvent, type, qx.bom.Event.getTarget(domEvent));
+      return this._fireEvent(domEvent, type, qx.bom.Event.getTarget(domEvent));
     },
 
 

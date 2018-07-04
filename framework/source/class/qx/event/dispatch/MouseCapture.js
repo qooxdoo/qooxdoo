@@ -102,7 +102,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
         target = this.__captureElement;
       }
 
-      this.base(arguments, target, event, type);
+      return this.base(arguments, target, event, type);
     },
 
 

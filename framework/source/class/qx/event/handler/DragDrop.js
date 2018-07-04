@@ -230,8 +230,12 @@ qx.Class.define("qx.event.handler.DragDrop",
      * on the drop target. This method fires a <code>droprequest</code> at
      * the drag target which should be answered by calls to {@link #addData}.
      *
+     * Note that this is a synchronous method and if any of the drag and drop
+     * events handlers are implemented using Promises, this may fail; @see
+     * `getDataAsync`.
+     *
      * @param type {String} Any supported type
-     * @return {var} The result data
+     * @return {var} The result data in a promise
      */
     getData : function(type)
     {
@@ -246,7 +250,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (!this.__cache[type])
       {
         this.__currentType = type;
-        this.__fireEvent("droprequest", this.__dragTarget, this.__dropTarget, false);
+        this.__fireEvent("droprequest", this.__dragTarget, this.__dropTarget, false, false);
       }
 
       if (!this.__cache[type]) {
@@ -254,6 +258,43 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
 
       return this.__cache[type] || null;
+    },
+
+
+    /**
+     * Returns the data of the given type during the <code>drop</code> event
+     * on the drop target. This method fires a <code>droprequest</code> at
+     * the drag target which should be answered by calls to {@link #addData}.
+     *
+     * @param type {String} Any supported type
+     * @return {qx.Promise} The result data in a promise
+     */
+    getDataAsync : function(type)
+    {
+      if (!this.__validDrop || !this.__dropTarget) {
+        throw new Error("This method must not be used outside the drop event listener!");
+      }
+
+      if (!this.__types[type]) {
+        throw new Error("Unsupported data type: " + type + "!");
+      }
+
+      var tracker = {};
+      var self = this;
+      if (!this.__cache[type]) {
+        qx.event.Utils.then(tracker, function () {
+          self.__currentType = type;
+          return self.__fireEvent("droprequest", self.__dragTarget, self.__dropTarget, false);
+        });
+      }
+
+      return qx.event.Utils.then(tracker, function () {
+        if (!this.__cache[type]) {
+          throw new Error("Please use a droprequest listener to the drag source to fill the manager with data!");
+        }
+
+        return this.__cache[type] || null;
+      });
     },
 
 
@@ -266,6 +307,20 @@ qx.Class.define("qx.event.handler.DragDrop",
     getCurrentAction : function() {
       this.__detectAction();
       return this.__currentAction;
+    },
+
+
+    /**
+     * Returns the currently selected action (by user keyboard modifiers)
+     *
+     * @return {qx.Promise|String} One of <code>move</code>, <code>copy</code> or
+     *    <code>alias</code>
+     */
+    getCurrentActionAsync : function() {
+      var self = this;
+      return this.__detectAction().then(function() {
+        return self.__currentAction;
+      });
     },
 
 
@@ -332,11 +387,17 @@ qx.Class.define("qx.event.handler.DragDrop",
      * Detects the current action and stores it under the private
      * field <code>__currentAction</code>. Also fires the event
      * <code>dragchange</code> on every modification.
+     *
+     * @return {qx.Promise|null}
      */
     __detectAction : function()
     {
       if (this.__dragTarget == null) {
-        return;
+        if (qx.core.Environment.get("qx.promise")) {
+          return qx.Promise.reject();
+        } else {
+          return null;
+        }
       }
 
       var actions = this.__actions;
@@ -364,22 +425,34 @@ qx.Class.define("qx.event.handler.DragDrop",
         }
       }
 
+      var self = this;
+      var tracker = {};
       var old = this.__currentAction;
       if (current != old) {
-
         if (this.__dropTarget) {
-          this.__currentAction = current;
-          this.__validAction = this.__fireEvent("dragchange", this.__dropTarget, this.__dragTarget, true);
-          if (!this.__validAction) {
+          qx.event.Utils.catch(function () {
+            self.__validAction = false;
             current = null;
-          }
-        }
-
-        if (current != old) {
-          this.__currentAction = current;
-          this.__fireEvent("dragchange", this.__dragTarget, this.__dropTarget, false);
+          });
+          qx.event.Utils.then(tracker, function () {
+            self.__currentAction = current;
+            return self.__fireEvent("dragchange", self.__dropTarget, self.__dragTarget, true);
+          });
+          qx.event.Utils.then(tracker, function (validAction) {
+            self.__validAction = validAction;
+            if (!validAction) {
+              current = null;
+            }
+          });
         }
       }
+
+      return qx.event.Utils.then(tracker, function() {
+        if (current != old) {
+          self.__currentAction = current;
+          return self.__fireEvent("dragchange", self.__dragTarget, self.__dropTarget, false);
+        }
+      });
     },
 
 
@@ -393,10 +466,10 @@ qx.Class.define("qx.event.handler.DragDrop",
      *    depending on the drag event
      * @param cancelable {Boolean} Whether the event is cancelable
      * @param original {qx.event.type.Pointer} Original pointer event
-     * @return {Boolean} <code>true</code> if the event's default behavior was
+     * @return {qx.Promise|Boolean} <code>true</code> if the event's default behavior was
      * not prevented
      */
-    __fireEvent : function(type, target, relatedTarget, cancelable, original)
+    __fireEvent : function(type, target, relatedTarget, cancelable, original, async)
     {
       var Registration = qx.event.Registration;
       var dragEvent = Registration.createEvent(type, qx.event.type.Drag, [ cancelable, original ]);
@@ -405,7 +478,24 @@ qx.Class.define("qx.event.handler.DragDrop",
         dragEvent.setRelatedTarget(relatedTarget);
       }
 
-      return Registration.dispatchEvent(target, dragEvent);
+      var result = Registration.dispatchEvent(target, dragEvent);
+      if (qx.core.Environment.get("qx.promise")) {
+        if (async === undefined || async) {
+          return qx.Promise.resolve(result)
+            .then(function() {
+              return !dragEvent.getDefaultPrevented();
+            });
+        } else {
+          if (qx.core.Environment.get("qx.debug")) {
+            if (result instanceof qx.Promise) {
+              this.error("DragDrop event \"" + type + "\" returned a promise but a synchronous event was required, drag and drop may not work as expected (consider using getDataAsync)");
+            }
+          }
+          return result;
+        }
+      } else {
+        return result;
+      }
     },
 
 
@@ -457,9 +547,13 @@ qx.Class.define("qx.event.handler.DragDrop",
 
     /**
      * Cleans up a drag&drop session when <code>dragstart</code> was fired before.
+     *
+     * @return {qx.Promise?} promise, if one was created by event handlers
      */
     clearSession : function()
     {
+      //this.debug("clearSession");
+
       // Deregister from root events
       this.__manager.removeListener(this.__root, "pointermove", this._onPointermove, this);
       this.__manager.removeListener(this.__root, "pointerup", this._onPointerup, this, true);
@@ -469,24 +563,32 @@ qx.Class.define("qx.event.handler.DragDrop",
       this.__manager.removeListener(this.__root, "keypress", this._onKeyPress, this, true);
       this.__manager.removeListener(this.__root, "roll", this._onRoll, this, true);
 
+      var tracker = {};
+      var self = this;
+
       // Fire dragend event
       if (this.__dragTarget) {
-        this.__fireEvent("dragend", this.__dragTarget, this.__dropTarget, false);
+        qx.event.Utils.then(tracker, function() {
+          return self.__fireEvent("dragend", self.__dragTarget, self.__dropTarget, false);
+        });
       }
 
-      // Cleanup
-      this.__validDrop = false;
-      this.__dropTarget = null;
-      if (this.__dragTargetWidget) {
-        this.__dragTargetWidget.removeState("drag");
-        this.__dragTargetWidget = null;
-      }
+      return qx.event.Utils.then(tracker, function() {
+        // Cleanup
+        self.__validDrop = false;
+        self.__dropTarget = null;
+        if (self.__dragTargetWidget) {
+          self.__dragTargetWidget.removeState("drag");
+          self.__dragTargetWidget = null;
+        }
 
-      // Clear init
-      this.__dragTarget = null;
-      this.__sessionActive = false;
-      this.__startConfig = null;
-      this.__rebuildStructures();
+        // Clear init
+        //self.debug("Clearing drag target");
+        self.__dragTarget = null;
+        self.__sessionActive = false;
+        self.__startConfig = null;
+        self.__rebuildStructures();
+      });
     },
 
 
@@ -510,7 +612,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
       // prevent scrolling
       this.__manager.addListener(this.__root, "roll", this._onRoll, this, true);
-      this._start(e);
+      return this._start(e);
     },
 
 
@@ -535,6 +637,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       var draggable = this.__findDraggable(target);
       if (draggable) {
         // This is the source target
+        //this.debug("Setting dragtarget = " + draggable);
         this.__dragTarget = draggable;
 
         var widgetOriginalTarget = qx.ui.core.Widget.getWidgetByElement(this.__startConfig.original);
@@ -547,16 +650,25 @@ qx.Class.define("qx.event.handler.DragDrop",
         }
 
         // fire cancelable dragstart
-        if (!this.__fireEvent("dragstart", this.__dragTarget, this.__dropTarget, true, e)) {
-          return false;
-        }
-
-        this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
-        this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
-        this.__manager.addListener(this.__root, "keypress", this._onKeyPress, this, true);
-        this.__sessionActive = true;
-
-        return true;
+        var self = this;
+        var tracker = {};
+        qx.event.Utils.catch(function() {
+          //self.debug("dragstart FAILED, setting __sessionActive=false");
+          self.__sessionActive = false;
+        });
+        qx.event.Utils.then(tracker, function() {
+          return self.__fireEvent("dragstart", self.__dragTarget, self.__dropTarget, true, e);
+        });
+        return qx.event.Utils.then(tracker, function(validAction) {
+          if (!validAction) {
+            return;
+          }
+          //self.debug("dragstart ok, setting __sessionActive=true")
+          self.__manager.addListener(self.__root, "keydown", self._onKeyDown, self, true);
+          self.__manager.addListener(self.__root, "keyup", self._onKeyUp, self, true);
+          self.__manager.addListener(self.__root, "keypress", self._onKeyPress, self, true);
+          self.__sessionActive = true;
+        });
       }
     },
 
@@ -591,79 +703,115 @@ qx.Class.define("qx.event.handler.DragDrop",
         return;
       }
 
+      //this.debug("_onPointermove: start");
+
+      var self = this;
+      var tracker = {};
+
+      qx.event.Utils.catch(function() {
+        return self.clearSession();
+      });
+
       // start the drag session for mouse
-      if (!this.__sessionActive && e.getPointerType() == "mouse") {
-        var delta = this._getDelta(e);
+      if (!self.__sessionActive && e.getPointerType() == "mouse") {
+        var delta = self._getDelta(e);
         // if the mouse moved a bit in any direction
         var distance = qx.event.handler.DragDrop.MIN_DRAG_DISTANCE;
         if (delta && (Math.abs(delta.x) > distance || Math.abs(delta.y) > distance)) {
-          if (!this._start(e)) {
+          //self.debug("_onPointermove: outside min drag distance");
+          qx.event.Utils.then(tracker, function() {
+            return self._start(e);
+          });
+        }
+      }
+
+      return qx.event.Utils.then(tracker, function() {
+        // check if the session has been activated
+        if (!self.__sessionActive) {
+          //self.debug("not active");
+          return;
+        }
+
+        var tracker = {};
+        qx.event.Utils.then(tracker, function() {
+          //self.debug("active, firing drag");
+          return self.__fireEvent("drag", self.__dragTarget, self.__dropTarget, true, e);
+        });
+        qx.event.Utils.then(tracker, function(validAction) {
+          if (!validAction) {
             this.clearSession();
-            return;
-          }
-        }
-      }
-
-      // check if the session has been activated
-      if (!this.__sessionActive) {
-        return;
-      }
-
-      if (!this.__fireEvent("drag", this.__dragTarget, this.__dropTarget, true, e)) {
-        this.clearSession();
-      }
-
-      // find current hovered droppable
-      var el = e.getTarget();
-      if (this.__startConfig.target === el) {
-        // on touch devices the native events return wrong elements as target (its always the element where the dragging started)
-        el = e.getNativeEvent().view.document.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
-      }
-      var cursor = this.getCursor();
-      if (!cursor) {
-        cursor = qx.ui.core.DragDropCursor.getInstance();
-      }
-      var cursorEl = cursor.getContentElement().getDomElement();
-      if (cursorEl && (el === cursorEl || cursorEl.contains(el))) {
-        var display = qx.bom.element.Style.get(cursorEl, "display");
-        // get the cursor out of the way
-        qx.bom.element.Style.set(cursorEl, "display", "none");
-        el = e.getNativeEvent().view.document.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
-        qx.bom.element.Style.set(cursorEl, "display", display);
-      }
-
-      if (el !== cursorEl) {
-        var droppable = this.__findDroppable(el);
-
-        // new drop target detected
-        if (droppable && droppable != this.__dropTarget) {
-          // fire dragleave for previous drop target
-          if (this.__dropTarget) {
-            this.__fireEvent("dragleave", this.__dropTarget, this.__dragTarget, false, e);
           }
 
-          this.__validDrop = true; // initial value should be true
-          this.__dropTarget = droppable;
+          //self.debug("drag");
+          // find current hovered droppable
+          var el = e.getTarget();
+          if (self.__startConfig.target === el) {
+            // on touch devices the native events return wrong elements as target (its always the element where the dragging started)
+            el = e.getNativeEvent().view.document.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
+          }
+          var cursor = self.getCursor();
+          if (!cursor) {
+            cursor = qx.ui.core.DragDropCursor.getInstance();
+          }
+          var cursorEl = cursor.getContentElement().getDomElement();
+          if (cursorEl && (el === cursorEl || cursorEl.contains(el))) {
+            var display = qx.bom.element.Style.get(cursorEl, "display");
+            // get the cursor out of the way
+            qx.bom.element.Style.set(cursorEl, "display", "none");
+            el = e.getNativeEvent().view.document.elementFromPoint(e.getDocumentLeft(), e.getDocumentTop());
+            qx.bom.element.Style.set(cursorEl, "display", display);
+          }
 
-          this.__validDrop = this.__fireEvent("dragover", droppable, this.__dragTarget, true, e);
-        }
+          if (el !== cursorEl) {
+            var droppable = self.__findDroppable(el);
 
-        // only previous drop target
-        else if (!droppable && this.__dropTarget) {
-          this.__fireEvent("dragleave", this.__dropTarget, this.__dragTarget, false, e);
-          this.__dropTarget = null;
-          this.__validDrop = false;
+            // new drop target detected
+            if (droppable && droppable != self.__dropTarget) {
+              // fire dragleave for previous drop target
+              if (self.__dropTarget) {
+                return self.__fireEvent("dragleave", self.__dropTarget, self.__dragTarget, false, e);
+              }
 
-          qx.event.Timer.once(this.__detectAction, this, 0);
-        }
-      }
+              self.__validDrop = true; // initial value should be true
+              self.__dropTarget = droppable;
 
-      // Reevaluate current action
-      var keys = this.__keys;
-      keys.Control = e.isCtrlPressed();
-      keys.Shift = e.isShiftPressed();
-      keys.Alt = e.isAltPressed();
-      this.__detectAction();
+              var innerTracker = {};
+              qx.event.Utils.catch(innerTracker, function () {
+                self.__validDrop = false;
+              });
+              qx.event.Utils.then(innerTracker, function () {
+                return self.__fireEvent("dragover", droppable, self.__dragTarget, true, e);
+              });
+              return qx.event.Utils.then(innerTracker, function (validDrop) {
+                self.__validDrop = validDrop;
+              });
+            }
+
+            // only previous drop target
+            else if (!droppable && self.__dropTarget) {
+              var innerTracker = {};
+              qx.event.Utils.then(innerTracker, function () {
+                return self.__fireEvent("dragleave", self.__dropTarget, self.__dragTarget, false, e);
+              });
+              return qx.event.Utils.then(innerTracker, function () {
+                self.__dropTarget = null;
+                self.__validDrop = false;
+
+                return self.__detectAction();
+              });
+            }
+          }
+        });
+        return qx.event.Utils.then(tracker, function() {
+          // Reevaluate current action
+          var keys = self.__keys;
+          keys.Control = e.isCtrlPressed();
+          keys.Shift = e.isShiftPressed();
+          keys.Alt = e.isAltPressed();
+          return self.__detectAction();
+        });
+      });
+
     },
 
 
@@ -700,18 +848,25 @@ qx.Class.define("qx.event.handler.DragDrop",
         return;
       }
 
+      var tracker = {};
+      var self = this;
+
       // Fire drop event in success case
       if (this.__validDrop && this.__validAction) {
-        this.__fireEvent("drop", this.__dropTarget, this.__dragTarget, false, e);
+        qx.event.Utils.then(tracker, function() {
+          return self.__fireEvent("drop", self.__dropTarget, self.__dragTarget, false, e);
+        });
       }
 
-      // Stop event
-      if (e.getTarget() == this.__dragTarget) {
-        e.stopPropagation();
-      }
+      return qx.event.Utils.then(tracker, function() {
+        // Stop event
+        if (e.getTarget() == self.__dragTarget) {
+          e.stopPropagation();
+        }
 
-      // Clean up
-      this.clearSession();
+        // Clean up
+        return self.clearSession();
+      });
     },
 
 
@@ -730,7 +885,7 @@ qx.Class.define("qx.event.handler.DragDrop",
      * @param e {qx.event.type.Event} Event object
      */
     _onWindowBlur : function(e) {
-      this.clearSession();
+      return this.clearSession();
     },
 
 
@@ -749,7 +904,7 @@ qx.Class.define("qx.event.handler.DragDrop",
           if (!this.__keys[iden])
           {
             this.__keys[iden] = true;
-            this.__detectAction();
+            return this.__detectAction();
           }
       }
     },
@@ -770,7 +925,7 @@ qx.Class.define("qx.event.handler.DragDrop",
           if (this.__keys[iden])
           {
             this.__keys[iden] = false;
-            this.__detectAction();
+            return this.__detectAction();
           }
       }
     },
@@ -786,7 +941,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       switch(iden)
       {
         case "Escape":
-          this.clearSession();
+          return this.clearSession();
       }
     }
   },

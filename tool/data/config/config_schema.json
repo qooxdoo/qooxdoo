@@ -698,7 +698,9 @@
           "items": { "type": "string" }
         },
         "profiles-with-metadata": { "type": "boolean" },
-        "poentry-with-occurrences": { "type": "boolean" }
+        "poentry-with-occurrences": { "type": "boolean" },
+        "occurrences-with-linenumber": { "type": "boolean" },
+        "eol-style": { "enum": ["LF", "CR", "CRLF"] }
       }
     },
     "use": {

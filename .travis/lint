@@ -1,3 +1,5 @@
 #!/bin/sh
-./generate.py lint 2>&1 | grep 'Error:\|Warning:' && false || true
-exit $?
+./generate.py lint 2>&1 | grep 'Error:\|Warning:'
+RES=$(($?==0))
+echo "exit with: $RES"
+exit $RES

@@ -495,6 +495,9 @@ qx.Class.define("qx.data.SingleValueBinding",
               target = target["get" + firstUpPropName]();
             }
             targets[j] = target;
+            if (!target) {
+              break;
+            }
 
             // check if a listener already created
             if (listeners[j] == null) {
@@ -658,6 +661,9 @@ qx.Class.define("qx.data.SingleValueBinding",
           target["reset" + qx.lang.String.firstUp(lastProperty)]();
         } else {
           // fallback if no resetter is given (see bug #2456)
+          if( typeof target["set" + qx.lang.String.firstUp(lastProperty)] != "function") {
+            throw new qx.core.AssertionError("No setter for '" + lastProperty + "' on target " + target + ".");
+          }
           target["set" + qx.lang.String.firstUp(lastProperty)](null);
         }
       }
@@ -692,6 +698,9 @@ qx.Class.define("qx.data.SingleValueBinding",
           }
           target.setItem(index, value);
         } else {
+          if( typeof target["set" + qx.lang.String.firstUp(lastProperty)] != "function" ){
+            throw new qx.core.AssertionError("No setter for '" + lastProperty + "' on target " + target + ".");
+          }
           return target["set" + qx.lang.String.firstUp(lastProperty)](value);
         }
       }

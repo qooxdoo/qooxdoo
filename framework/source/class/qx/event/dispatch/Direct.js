@@ -113,33 +113,32 @@ qx.Class.define("qx.event.dispatch.Direct",
 
       event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
+      var tracker = {};
+      var self = this;
       var listeners = this._manager.getListeners(target, type, false);
-      if (listeners)
-      {
-        for (var i=0, l=listeners.length; i<l; i++)
-        {
-          if (this._manager.isBlacklisted(listeners[i].unique)) {
-            continue;
+      if (listeners) {
+        listeners.forEach(function(listener) {
+          if (self._manager.isBlacklisted(listener.unique)) {
+            return;
           }
-          var context = listeners[i].context || target;
+          var context = listener.context || target;
 
           if (qx.core.Environment.get("qx.debug")) {
             // warn if the context is disposed
             if (context && context.isDisposed && context.isDisposed() && !context.isDisposing()) {
-              this.warn(
+              self.warn(
                 "The context object '" + context + "' for the event '" +
                 type + "' of '" + target + "'is already disposed."
               );
             }
           }
-          var promise = listeners[i].handler.call(context, event);
-          if (qx.core.Environment.get("qx.promise")) {
-            if (promise instanceof qx.Promise) {
-            	event.addPromise(promise);
-            }
-          }
-        }
+          qx.event.Utils.then(tracker, function() {
+            return listener.handler.call(context, event);
+          });
+        });
       }
+      
+      return tracker.promise;
     }
   },
 

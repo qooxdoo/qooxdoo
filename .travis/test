@@ -2,7 +2,7 @@
 export PATH=$PWD/node_modules/karma/bin:$PATH
 
 php -S 0.0.0.0:31323 -t .. &> /dev/null &
-./generate.py -sI -m qx.test.delay.scale:20 test-source
+./generate.py -sI -m TEST_DELAY_SCALE:4 -m TEST_TRAVIS:true test-source
 
 karma start --reporters=dots,saucelabs --browsers=$1 --hostname="$(hostname)"
 RET=$?

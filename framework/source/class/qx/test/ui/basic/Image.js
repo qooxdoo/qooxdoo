@@ -18,8 +18,8 @@
 
 /**
  * @asset(qx/test/webfonts/fontawesome-webfont.*)
- * @asset(qx/icon/Tango/48/places/folder.png)
- * @asset(qx/icon/Tango/32/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/48/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/32/places/folder.png)
  * @asset(qx/static/blank.gif)
  * @asset(qx/static/drawer.png)
  * @asset(qx/static/drawer@2x.png)

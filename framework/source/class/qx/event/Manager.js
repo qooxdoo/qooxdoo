@@ -842,7 +842,7 @@ qx.Class.define("qx.event.Manager",
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *     object must be obtained using {@link qx.event.Registration#createEvent}
      *     and initialized using {@link qx.event.type.Event#init}.
-     * @return {Boolean} whether the event default was prevented or not.
+     * @return {Boolean|qx.Promise} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      * @throws {Error} if there is no dispatcher for the event
      */
@@ -876,6 +876,7 @@ qx.Class.define("qx.event.Manager",
 
       // Loop through the dispatchers
       var dispatched = false;
+      var tracker = {};
 
       for (var i=0, l=classes.length; i<l; i++)
       {
@@ -884,7 +885,7 @@ qx.Class.define("qx.event.Manager",
         // Ask if the dispatcher can handle this event
         if (instance.canDispatchEvent(target, event, type))
         {
-          instance.dispatchEvent(target, event, type);
+          qx.event.Utils.track(tracker, instance.dispatchEvent(target, event, type));
           dispatched = true;
           break;
         }
@@ -898,13 +899,15 @@ qx.Class.define("qx.event.Manager",
         return true;
       }
 
-      // check whether "preventDefault" has been called
-      var preventDefault = event.getDefaultPrevented();
-
-      // Release the event instance to the event pool
-      qx.event.Pool.getInstance().poolObject(event);
-
-      return !preventDefault;
+      return qx.event.Utils.then(tracker, function() {
+        // check whether "preventDefault" has been called
+        var preventDefault = event.getDefaultPrevented();
+  
+        // Release the event instance to the event pool
+        qx.event.Pool.getInstance().poolObject(event);
+  
+        return !preventDefault;
+      });
     },
 
 
