@@ -1185,14 +1185,14 @@ qx.Class.define("qx.data.SingleValueBinding",
         // go threw all added listeners (source)
         for (var i = 0; i < id.sources.length; i++) {
           // check if a source is available
-          if (id.sources[i]) {
+          if (id.sources[i] && id.listenerIds[i]) {
             id.sources[i].removeListenerById(id.listenerIds[i]);
           }
         }
         // go threw all added listeners (target)
         for (var i = 0; i < id.targets.length; i++) {
           // check if a target is available
-          if (id.targets[i]) {
+          if (id.targets[i] && id.targetListenerIds[i]) {
             id.targets[i].removeListenerById(id.targetListenerIds[i]);
           }
         }
