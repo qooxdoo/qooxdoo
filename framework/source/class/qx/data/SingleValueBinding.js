@@ -250,7 +250,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
       } catch (ex) {
         // remove the already added listener
-        // go remove all added listeners (source)
+        // go through all added listeners (source)
 
         for (var i = 0; i < sources.length; i++) {
           // check if a source is available
@@ -260,7 +260,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         }
         var targets = targetListenerMap.targets;
         var targetIds = targetListenerMap.listenerIds;
-        // go remove all added listeners (target)
+        // go through all added listeners (target)
         for (var i = 0; i < targets.length; i++) {
           // check if a target is available
           if (targets[i] && targetIds[i]) {
