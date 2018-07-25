@@ -402,11 +402,6 @@ qx.Class.define("qx.event.Manager",
           this.__registerAtHandler(target, item.type, item.capture);
         }
 
-        if (item.self === window) {
-          console.warn("Listener callback is window");
-          debugger;
-        }
-        
         // Append listener to list
         entryList.push(
         {
@@ -454,11 +449,6 @@ qx.Class.define("qx.event.Manager",
         }
       }
       
-      if (self === window) {
-        console.warn("Listener callback is window");
-        debugger;
-      }
-
       var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
