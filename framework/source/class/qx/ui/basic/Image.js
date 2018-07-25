@@ -40,7 +40,7 @@
  *
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/image.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.basic.Image",
     __requestId : 0,
 
 
-    //overridden
+    // overridden
     _onChangeTheme : function() {
       this.base(arguments);
       // restyle source (theme change might have changed the resolved url)
@@ -271,6 +271,11 @@ qx.Class.define("qx.ui.basic.Image",
       var element = this.getContentElement();
       if (this.__wrapper) {
         element.getChild(0).setStyles({
+          top: this.getPaddingTop() || 0,
+          left: this.getPaddingLeft() || 0
+        });
+      } else if (this.__getMode() === 'font') {
+        element.setStyles({
           top: this.getPaddingTop() || 0,
           left: this.getPaddingLeft() || 0
         });
@@ -644,6 +649,11 @@ qx.Class.define("qx.ui.basic.Image",
             }
           }
 
+          // Don't transfer background image when switching from image to icon font
+          if (this.__getMode() === "font") {
+            delete styles.backgroundImage;
+          }
+
           // Copy dimension and location of the current content element
           var bounds = this.getBounds();
           if (bounds != null)
@@ -751,7 +761,6 @@ qx.Class.define("qx.ui.basic.Image",
 
       // Special case for non resource manager handled font icons
       if (isFont) {
-        var size;
 
         // Don't use scale if size is set via postfix
         if (this.getScale() && parseInt(source.split("/")[2], 10)) {
@@ -759,28 +768,28 @@ qx.Class.define("qx.ui.basic.Image",
         }
 
         // Adjust size if scaling is applied
+        var width;
+        var height;
         if (this.getScale()) {
-          var width = this.getWidth() || this.getHeight() || 40;
-          var height = this.getHeight() || this.getWidth() || 40;
-          size = width > height ? height : width;
+          var hint = this.getSizeHint();
+          width = this.getWidth() || hint.width;
+          height = this.getHeight() || hint.height;
         }
         else {
           var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
           if (qx.core.Environment.get("qx.debug")) {
             this.assertObject(font, "Virtual image source contains unkown font descriptor");
           }
-          size = parseInt(source.split("/")[2] || font.getSize(), 10);
+          var size = parseInt(source.split("/")[2] || font.getSize(), 10);
+          width = ResourceManager.getImageWidth(source) || size;
+          height = ResourceManager.getImageHeight(source) || size;
         }
 
-        // Default to something definitively numeric if nothing set
-        if (!size) {
-          size = 0;
-        }
+        this.__updateContentHint(width, height);
+        this.__setSource(el, source);
 
-        this.__updateContentHint(size, size);
 
         // Apply source
-        this.__setSource(el, source);
       }
       else {
         // Apply source
@@ -797,14 +806,15 @@ qx.Class.define("qx.ui.basic.Image",
     _applyDimension : function()
     {
       this.base(arguments);
-      
+
       var isFont = this.getSource() && qx.lang.String.startsWith(this.getSource(), "@");
       if (isFont) {
         var el = this.getContentElement();
         if (el) {
           if (this.getScale()) {
-            var width = this.getWidth() || this.getHeight() || 40;
-            var height = this.getHeight() || this.getWidth() || 40;
+            var hint = this.getSizeHint();
+            var width = this.getWidth() || hint.width || 40;
+            var height = this.getHeight() || hint.height || 40;
             el.setStyle("fontSize", (width > height ? height : width) + "px");
           }
           else {

@@ -121,8 +121,8 @@ qx.Class.define("qx.theme.manager.Font",
 
         // Inject information about custom charcter set tests before we apply the
         // complete blob in one.
-        if (theme.fonts[value].testCharacters) {
-          fo.setTestCharacters(theme.fonts[value].testCharacters);
+        if (theme.fonts[value].comparisonString) {
+          fo.setComparisonString(theme.fonts[value].comparisonString);
         }
 
         return cache[value] = fo.set(theme.fonts[value]);
@@ -159,8 +159,8 @@ qx.Class.define("qx.theme.manager.Font",
 
         // Inject information about custom charcter set tests before we apply the
         // complete blob in one.
-        if (theme.fonts[value].testCharacters) {
-          fo.setTestCharacters(theme.fonts[value].testCharacters);
+        if (theme.fonts[value].comparisonString) {
+          fo.setComparisonString(theme.fonts[value].comparisonString);
         }
 
         cache[value] = fo.set(theme.fonts[value]);
@@ -224,11 +224,11 @@ qx.Class.define("qx.theme.manager.Font",
 
           // Inject information about custom charcter set tests before we apply the
           // complete blob in one.
-          if (source[key].testCharacters) {
-            fo.setTestCharacters(source[key].testCharacters);
+          if (source[key].comparisonString) {
+            fo.setComparisonString(source[key].comparisonString);
           }
 
-          dest[key] = (new font).set(source[key]);
+          dest[key] = fo.set(source[key]);
           dest[key].themed = true;
         }
       }

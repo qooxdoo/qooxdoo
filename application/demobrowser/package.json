@@ -1,9 +1,8 @@
 {
   "name": "demobrowser",
-  "version": "5.0.2",
+  "version": "6.0.0-alpha",
   "private": true,
   "description": "Contains small samples and tests for most widgets and GUI features",
-  "main": "Gruntfile.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
@@ -11,10 +10,6 @@
   "author": "The qooxdoo project",
   "license": "MIT",
   "homepage": "https://github.com/qooxdoo/qooxdoo",
-  "devDependencies": {
-    "grunt": "~0.4.2",
-    "grunt-contrib-clean": "~0.5.0"
-  },
   "dependencies": {
     "async": "^0.7.0",
     "walker": "^1.0.6",

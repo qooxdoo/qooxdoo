@@ -20,6 +20,7 @@
  * Helper functions to handle an Object as a Hash map.
  *
  * @group (Utilities)
+ * @require (qx.module.util.Array)
  */
 qx.Bootstrap.define("qx.module.util.Object", {
   statics : {

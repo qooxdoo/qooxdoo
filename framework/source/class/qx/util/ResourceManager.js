@@ -71,7 +71,7 @@ qx.Class.define("qx.util.ResourceManager",
       if(!registry) {
         return null;
       }
- 
+
       var ids = [];
       for (var id in registry) {
         if (registry.hasOwnProperty(id)) {
@@ -81,7 +81,7 @@ qx.Class.define("qx.util.ResourceManager",
           ids.push(id);
         }
       }
- 
+
       return ids;
     },
 
@@ -117,7 +117,19 @@ qx.Class.define("qx.util.ResourceManager",
      */
     getImageWidth : function(id)
     {
-      var entry = this.self(arguments).__registry[id];
+      var size;
+      if (id && id.startsWith("@")) {
+        var part = id.split("/");
+        size = parseInt(part[2],10);
+        if (size) {
+          id = part[0]+"/"+part[1];
+        }
+      }
+      var entry = this.self(arguments).__registry[id]; // [ width, height, codepoint ]
+      if (size && entry) {
+        var width = Math.ceil(size / entry[1] * entry[0]);
+        return width;
+      }
       return entry ? entry[0] : null;
     },
 
@@ -132,6 +144,13 @@ qx.Class.define("qx.util.ResourceManager",
      */
     getImageHeight : function(id)
     {
+      if (id && id.startsWith("@")) {
+        var part = id.split("/");
+        var size = parseInt(part[2],10);
+        if (size) {
+          return size;
+        }
+      }
       var entry = this.self(arguments).__registry[id];
       return entry ? entry[1] : null;
     },

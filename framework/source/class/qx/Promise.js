@@ -488,7 +488,7 @@ qx.Class.define("qx.Promise", {
       if (value instanceof qx.Promise) {
         promise = value;
       } else {
-        promise = this.__wrap(qx.Promise.Bluebird.resolve(value));
+        promise = qx.Promise.__wrap(qx.Promise.Bluebird.resolve(value));
       }
       if (context !== undefined) {
         promise = promise.bind(context);
@@ -498,7 +498,7 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Returns a Promise object that is rejected with the given reason.
-     * @param reason {Object} Reason why this Promise rejected.
+     * @param reason {Object?} Reason why this Promise rejected. A warning is generated if not instanceof Error. If undefined, a default Error is used.
      * @param context {Object?} optional context for callbacks to be bound to
      * @return {qx.Promise}
      */
@@ -508,9 +508,9 @@ qx.Class.define("qx.Promise", {
         args.shift();
         args.unshift(qx.Promise.__DEFAULT_ERROR);
       } else if (!(reason instanceof Error)) {
-        this.error("Rejecting a promise with a non-Error value");
+        qx.log.Logger.warn("Rejecting a promise with a non-Error value");
       }
-      var promise = this.__callStaticMethod('reject', args, 0);
+      var promise = qx.Promise.__callStaticMethod('reject', args, 0);
       if (context !== undefined) {
         promise = promise.bind(context);
       }
@@ -524,7 +524,7 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     all: function(iterable) {
-      return this.__callStaticMethod('all', arguments);
+      return qx.Promise.__callStaticMethod('all', arguments);
     },
 
     /**
@@ -534,7 +534,7 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     race: function(iterable) {
-      return this.__callStaticMethod('race', arguments);
+      return qx.Promise.__callStaticMethod('race', arguments);
     },
 
 
@@ -553,7 +553,7 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     any: function(iterable) {
-      return this.__callStaticMethod('any', arguments);
+      return qx.Promise.__callStaticMethod('any', arguments);
     },
 
     /**
@@ -567,7 +567,7 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     some: function(iterable, count) {
-      return this.__callStaticMethod('some', arguments);
+      return qx.Promise.__callStaticMethod('some', arguments);
     },
 
     /**
@@ -585,7 +585,7 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     forEach: function(iterable, iterator) {
-      return this.__callStaticMethod('each', arguments);
+      return qx.Promise.__callStaticMethod('each', arguments);
     },
 
     /**
@@ -613,7 +613,7 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     filter: function(iterable, iterator, options) {
-      return this.__callStaticMethod('filter', arguments);
+      return qx.Promise.__callStaticMethod('filter', arguments);
     },
 
     /**
@@ -658,7 +658,7 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     map: function(iterable, iterator, options) {
-      return this.__callStaticMethod('map', arguments);
+      return qx.Promise.__callStaticMethod('map', arguments);
     },
 
     /**
@@ -697,7 +697,7 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     mapSeries: function(iterable, iterator) {
-      return this.__callStaticMethod('mapSeries', arguments);
+      return qx.Promise.__callStaticMethod('mapSeries', arguments);
     },
 
     /**
@@ -737,7 +737,7 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     reduce: function(iterable, reducer, initialValue) {
-      return this.__callStaticMethod('reduce', arguments);
+      return qx.Promise.__callStaticMethod('reduce', arguments);
     },
 
     /**
@@ -768,10 +768,68 @@ qx.Class.define("qx.Promise", {
      * @return {qx.Promise}
      */
     props: function(input) {
-      return this.__callStaticMethod('props', arguments);
+      return qx.Promise.__callStaticMethod('props', arguments);
     },
 
 
+    /**
+     * Returns a new function that wraps a function that is in node.js
+     * style. The resulting function returns a promise instead of taking a
+     * callback function as an argument. The promise is resolved or rejected
+     * by the action of the callback function. The provided function must
+     * accept a callback as its last argument, and that callback function must
+     * expect its first argument to be an error if non-null. If the first
+     * argument is null, the second argument (optional) will be the success
+     * value.
+     *
+     * Example:
+     *
+     * Assume there is a member method in myApp.Application such as the
+     * following:
+     * <pre><code>
+     *   issueRpc : function(method, params, callback)
+     *   {
+     *     ...
+     *   }
+     * </code></pre>
+     *
+     * where the signature of <code>callback</code> is:
+     * <pre><code>
+     *   function callback(e, result)
+     * </code></pre>
+     *
+     * The <code>issueRpc</code>method could be converted to be called using
+     * promises instead of callbacks, as shown here:
+     * <pre><code>
+     *   var app = qx.core.Init.getApplication();
+     *   var rpc = qx.Promise.promisify(app.issueRpc, { context : app });
+     *   rpc("ping", [ "hello world" ])
+     *     .then(
+     *       function(pongValue)
+     *       {
+     *         // handle result
+     *       })
+     *     .catch(
+     *       function(e)
+     *       {
+     *         throw e;
+     *       });
+     * </code></pre>
+     *
+     * @param f {Function} The node.js-style function to be promisified
+     *
+     * @param options {Map?}
+     *   The sole user option in this map is <code>context</code>, which may
+     *   be specified to arrange for the provided callback function to be
+     *   called in the specified context.
+     *   
+     * @return {qx.Promise}
+     */
+    promisify : function(f, options) {
+      return qx.Promise.__callStaticMethod('promisify', arguments);
+    },
+    
+    
 
     /* *********************************************************************************
      * 
@@ -784,7 +842,7 @@ qx.Class.define("qx.Promise", {
      * @param Promise {Class} the Promise class
      */
     __attachBluebird: function(Promise) {
-      this.Bluebird = Promise;
+      qx.Promise.Bluebird = Promise;
       Promise.config({
         warnings: qx.core.Environment.get("qx.promise.warnings"),
         longStackTraces: qx.core.Environment.get("qx.promise.longStackTraces"),
@@ -799,11 +857,11 @@ qx.Class.define("qx.Promise", {
      * One-time initializer
      */
     __initialize: function() {
-      if (this.__initialized) {
+      if (qx.Promise.__initialized) {
         return;
       }
-      this.__initialized = true;
-      qx.bom.Event.addNativeListener(window, "unhandledrejection", this.__onUnhandledRejection.bind(this));
+      qx.Promise.__initialized = true;
+      qx.bom.Event.addNativeListener(window, "unhandledrejection", qx.Promise.__onUnhandledRejection.bind(this));
       if (!qx.core.Environment.get("qx.promise")) {
         qx.log.Logger.error(this, "Promises are installed and initialised but disabled from properties because qx.promise==false; this may cause unexpected behaviour");
       }
@@ -880,7 +938,7 @@ qx.Class.define("qx.Promise", {
      */
     __callStaticMethod: function(methodName, args, minArgs) {
       args = qx.Promise.__bindArgs(args, minArgs);
-      return this.__wrap(qx.Promise.Bluebird[methodName].apply(qx.Promise.Bluebird, this.__mapArgs(args)));
+      return qx.Promise.__wrap(qx.Promise.Bluebird[methodName].apply(qx.Promise.Bluebird, qx.Promise.__mapArgs(args)));
     },
 
     /**
