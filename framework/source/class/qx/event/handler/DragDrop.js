@@ -318,9 +318,10 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     getCurrentActionAsync : function() {
       var self = this;
-      return this.__detectAction().then(function() {
-        return self.__currentAction;
-      });
+      return qx.Promise.resolve(self.__detectAction())
+        .then(function() {
+          return self.__currentAction;
+        });
     },
 
 

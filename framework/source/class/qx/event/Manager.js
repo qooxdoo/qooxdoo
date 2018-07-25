@@ -402,6 +402,11 @@ qx.Class.define("qx.event.Manager",
           this.__registerAtHandler(target, item.type, item.capture);
         }
 
+        if (item.self === window) {
+          console.warn("Listener callback is window");
+          debugger;
+        }
+        
         // Append listener to list
         entryList.push(
         {
@@ -447,6 +452,11 @@ qx.Class.define("qx.event.Manager",
         if (capture !== undefined) {
           qx.core.Assert.assertBoolean(capture, "Invalid capture flag.");
         }
+      }
+      
+      if (self === window) {
+        console.warn("Listener callback is window");
+        debugger;
       }
 
       var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
