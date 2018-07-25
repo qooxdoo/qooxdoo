@@ -666,6 +666,7 @@ qx.Class.define("qx.data.controller.List",
      * @param index {Number} The index of the ListItem.
      */
     _bindListItem: function(item, index) {
+      // -1 is the special, "null" value item.  Nothing to bind, just fix the display and model
       if (index < 0) {
         item.setLabel(this.getNullValueTitle()||"");
         item.setIcon(this.getNullValueIcon());
@@ -1060,6 +1061,8 @@ qx.Class.define("qx.data.controller.List",
       }
 
       this.__lookupTable = [];
+      
+      // -1 is a special lookup value, to represent the "null" option 
       if (this.isAllowNull())
         this.__lookupTable.push(-1);
       for (var i = 0; i < model.getLength(); i++) {
