@@ -102,31 +102,7 @@ Files = {
     "./application/demobrowser/source/demo/welcome.html" : [
         r'var qxversion = "(%s)"'    % qxversion_regexp,
         ],
-    "./application/feedreader/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/mobileshowcase/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/playground/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/showcase/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/todo/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/tutorial/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
     "./application/websitewidgetbrowser/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/widgetbrowser/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./component/apiviewer/package.json": [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
     "./component/skeleton/server/readme.txt" : [
@@ -145,9 +121,6 @@ Files = {
         r'"homepage"\s*:\s*"http://manual.qooxdoo.org/(%s)/pages/core.html"' % qxversion_regexp,
         ],
     "./component/standalone/website/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./component/testrunner/package.json": [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
     "./documentation/manual/source/conf.py" : [
@@ -176,7 +149,7 @@ Files = {
     "./index.html"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
-    "./readme.rst"  : [
+    "./readme.md"  : [
         r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp,
         r'api.qooxdoo.org/(%s)\b' % qxversion_regexp,
         r'qooxdoo.org/project/release_notes/(%s)\b' % qxversion_regexp

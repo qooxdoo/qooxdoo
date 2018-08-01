@@ -46,8 +46,10 @@ qx.Class.define("qx.ui.form.renderer.Double",
 
     // overridden
     _onFormChange : function() {
-      this._buttonRow.destroy();
-      this._buttonRow = null;
+      if (this._buttonRow) {
+        this._buttonRow.destroy();
+        this._buttonRow = null;
+      }
       this._row = 0;
       this.base(arguments);
     },
