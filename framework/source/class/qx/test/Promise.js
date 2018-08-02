@@ -60,6 +60,33 @@ qx.Class.define("qx.test.Promise", {
     },
 
     /**
+     * Tests the qx.Promise.allOf method
+     */
+    testAllOf: function() {
+      var t = this;
+      var obj = {
+          a: new qx.Promise(),
+          b: new qx.Promise(),
+          c: new qx.Promise()
+      }
+      qx.Promise.allOf(obj)
+        .then(function() {
+          t.assertEquals("one", obj.a);
+          t.assertEquals("two", obj.b);
+          t.assertEquals("three", obj.c);
+          t.resume();
+        });
+      obj.a.then(function() {
+        obj.b.resolve("two");
+      });
+      obj.b.then(function() {
+        obj.c.resolve("three");
+      });
+      obj.a.resolve("one");
+      t.wait(1000);
+    },
+
+    /**
      * Tests that setting a property value with a promise will delay setting the
      * value until the promise is resolved.  In this case, the property is *not*
      * marked as async and the setXxx method is used

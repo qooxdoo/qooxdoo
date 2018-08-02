@@ -64,6 +64,18 @@ qx.Bootstrap.define("qx.lang.Type",
      * @return {Boolean} Whether the value is an object.
      */
      isObject : qx.Bootstrap.isObject,
+     
+     
+     /**
+      * Whether the value is iterable, ie supports the iterable protocol
+      * 
+      * @signature function(value)
+      * @param value {var} Value to check
+      * @return {Boolean} Whether the value is iterable
+      */
+     isIterable : function(value) {
+       return value !== null && (qx.Bootstrap.isArray(value) || Symbol.iterator in Object(value));
+     },
 
 
     /**
