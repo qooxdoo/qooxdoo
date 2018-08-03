@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.Theme",
      *   widgets : {},
      *   appearances : {},
      *   meta : {},
-     *   boot : {}
+     *   boot : {function(){}}
      * });
      * </pre>
      *
@@ -328,7 +328,7 @@ qx.Bootstrap.define("qx.Theme",
         "meta"        : "object", // Map
         "include"     : "object", // Array
         "patch"       : "object", // Array
-        "boot"		  : "function" // Function
+        "boot"        : "function" // Function
       },
 
       "default" : null
