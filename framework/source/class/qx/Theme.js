@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.Theme",
      *   widgets : {},
      *   appearances : {},
      *   meta : {},
-     *   boot : {function(){}}
+     *   boot : function(){}
      * });
      * </pre>
      *
