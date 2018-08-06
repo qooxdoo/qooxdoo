@@ -263,9 +263,9 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     _backupActiveWidget : function()
     {
-      var focusHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus),
-        activeWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getActive()),
-        focusedWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
+      var focusHandler = qx.event.Registration.getManager(window).getHandler(qx.event.handler.Focus);
+      var activeWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getActive());
+      var focusedWidget = qx.ui.core.Widget.getWidgetByElement(focusHandler.getFocus());
 
       this.__activeElements.push(activeWidget);
       this.__focusElements.push(focusedWidget);
