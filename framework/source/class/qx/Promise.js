@@ -536,8 +536,10 @@ qx.Class.define("qx.Promise", {
           }
         }
         return qx.Promise.all(arr)
-          .then(arr => {
-            arr.forEach((item, index) => value[names[index]] = item);
+          .then(function(arr) {
+            arr.forEach(function(item, index) { 
+              value[names[index]] = item; 
+            });
             return value;
           });
       }
