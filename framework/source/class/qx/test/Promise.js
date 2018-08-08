@@ -64,16 +64,22 @@ qx.Class.define("qx.test.Promise", {
      */
     testAllOf: function() {
       var t = this;
+      var dt = new Date();
       var obj = {
           a: new qx.Promise(),
           b: new qx.Promise(),
-          c: new qx.Promise()
+          c: new qx.Promise(),
+          d: "four",
+          e: dt
       }
       qx.Promise.allOf(obj)
-        .then(function() {
+        .then(function(obj2) {
+          t.assertTrue(obj === obj2);
           t.assertEquals("one", obj.a);
           t.assertEquals("two", obj.b);
           t.assertEquals("three", obj.c);
+          t.assertEquals("four", obj.d);
+          t.assertTrue(obj.e === dt);
           t.resume();
         });
       obj.a.then(function() {
