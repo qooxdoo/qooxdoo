@@ -18,7 +18,6 @@
 /**
  * The simple qooxdoo decoration theme.
  * 
- * @require(qx.theme.clean.MFreestyleCss)
  */
 qx.Theme.define("qx.theme.clean.Decoration",
 {

@@ -8,6 +8,13 @@
 
 ************************************************************************ */
 
+/**
+ * @require(qx.theme.clean.MImage) 
+ * @require(qx.theme.clean.MAtom)
+ * @require(qx.theme.clean.MHeaderCell)
+ * @require(qx.theme.clean.MFreestyleCss)
+ */
+
 qx.Theme.define("qx.theme.Clean",
 {
   meta :

@@ -36,7 +36,7 @@
     "APPLICATION"  : "widgetbrowser",
     "QOOXDOO_PATH" : "../..",
     "QXTHEME"      : "qx.theme.Indigo",
-    "QXICONTHEME"  : ["Oxygen", "Tango"],
+    "QXICONTHEME"  : ["Oxygen", "Tango", "Material"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
     "ROOT"         : ".",
@@ -71,11 +71,12 @@
       "environment"  :
       {
         "qx.nativeScrollBars" : true,
-        "widgetbrowser.themes": "qx.theme.Indigo qx.theme.Modern qx.theme.Simple qx.theme.Classic"
+        "widgetbrowser.themes": "qx.theme.Indigo qx.theme.Clean qx.theme.Modern qx.theme.Simple qx.theme.Classic"
       },
       "include" :[
         "${APPLICATION}.Application",
         "qx.theme.Indigo",
+        "qx.theme.Clean",
         "qx.theme.Modern",
         "qx.theme.Simple",
         "qx.theme.Classic"
@@ -151,6 +152,10 @@
 
 
           // Themes (non-default)
+          "clean" :
+          {
+            "include" : [ "qx.theme.Clean" ]
+          },
           "modern" :
           {
             "include" : [ "qx.theme.Modern" ]

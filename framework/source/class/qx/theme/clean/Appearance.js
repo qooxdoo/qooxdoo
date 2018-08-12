@@ -371,7 +371,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
 
         return {
-          source : sqv.theme.clean.Image.URLS["cursor-" + icon],
+          source : qx.theme.clean.Image.URLS["cursor-" + icon],
           position : "right-top",
           offset : [ 2, 16, 2, 6 ]
         };
@@ -393,7 +393,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           padding : 2,	
           //html : sqv.ui.embed.Svg.mapfasvg("bath")
-          html : qx.bom.Template.render(sqv.theme.clean.Image.SVGTEMPLATES["fontawesome"], sqv.theme.clean.Image.SVGCONTENT["fa-bath"])
+          html : qx.bom.Template.render(qx.theme.clean.Image.SVGTEMPLATES["fontawesome"], qx.theme.clean.Image.SVGCONTENT["fa-bath"])
         };
       }
     },
@@ -443,7 +443,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["arrow-" + (states.vertical ? "down" : "right")]
+          icon : qx.theme.clean.Image.URLS["arrow-" + (states.vertical ? "down" : "right")]
         };
       }
     },
@@ -456,7 +456,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["arrow-" + (states.vertical ? "up" : "left")]
+          icon : qx.theme.clean.Image.URLS["arrow-" + (states.vertical ? "up" : "left")]
         };
       }
     },
@@ -586,10 +586,10 @@ qx.Theme.define("qx.theme.clean.Appearance",
           alignY : "middle",
           padding : [14, 10],
           cursor : states.disabled ? undefined : "pointer",
-          sortIcon : sqv.theme.clean.Image.URLS["blank"], // Blank image must be present in order for the HeaderCell class to include the image object
+          sortIcon : qx.theme.clean.Image.URLS["blank"], // Blank image must be present in order for the HeaderCell class to include the image object
           sortIconProps : states.sorted ? (states.sortedAscending ? {decorator : "sqv-css-icon-arrow-up-med-gray"} : {decorator : "sqv-css-icon-arrow-down-med-gray"}) : {decorator : null}
           /*sortIcon : states.sorted ?
-              (sqv.theme.clean.Image.URLS["table-" +
+              (qx.theme.clean.Image.URLS["table-" +
                  (states.sortedAscending ? "ascending" : "descending")
               ]) : undefined*/
         };
@@ -725,7 +725,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-line"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-line"]
         };
       }
     },
@@ -735,7 +735,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["tree-minus"]
+          icon : qx.theme.clean.Image.URLS["tree-minus"]
         };
       }
     },
@@ -745,7 +745,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["tree-plus"]
+          icon : qx.theme.clean.Image.URLS["tree-plus"]
         };
       }
     },
@@ -755,7 +755,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-minus-only"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-minus-only"]
         };
       }
     },
@@ -765,7 +765,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-plus-only"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-plus-only"]
         };
       }
     },
@@ -775,7 +775,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-minus-start"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-minus-start"]
         };
       }
     },
@@ -785,7 +785,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-plus-start"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-plus-start"]
         };
       }
     },
@@ -795,7 +795,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-minus-end"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-minus-end"]
         };
       }
     },
@@ -805,7 +805,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-plus-end"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-plus-end"]
         };
       }
     },
@@ -815,7 +815,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-minus-cross"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-minus-cross"]
         };
       }
     },
@@ -825,7 +825,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-plus-cross"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-plus-cross"]
         };
       }
     },
@@ -836,7 +836,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-end"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-end"]
         };
       }
     },
@@ -846,7 +846,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : sqv.theme.clean.Image.URLS["treevirtual-cross"]
+          icon : qx.theme.clean.Image.URLS["treevirtual-cross"]
         };
       }
     },
@@ -892,7 +892,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          source : sqv.theme.clean.Image.URLS[
+          source : qx.theme.clean.Image.URLS[
             "knob-" + (states.horizontal ? "horizontal" : "vertical")
           ],
           padding : 2
@@ -975,7 +975,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : sqv.theme.clean.Image.URLS[
+          //icon : qx.theme.clean.Image.URLS[
           //  "arrow-up" + (states.hovered ? "-invert" : "")]
           icon : "",
           decorator : states.hovered ? "sqv-css-icon-arrow-up-invert" : "sqv-css-icon-arrow-up"
@@ -990,10 +990,12 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : sqv.theme.clean.Image.URLS[
+          //icon : qx.theme.clean.Image.URLS[
           //  "arrow-down" + (states.hovered ? "-invert" : "")]
           icon : "",
-          decorator : states.hovered ? "sqv-css-icon-arrow-down-invert" : "sqv-css-icon-arrow-down"
+          decorator : states.hovered ? "sqv-css-icon-arrow-down-invert" : "sqv-css-icon-arrow-down",
+          width : 0,
+          height : 0
         };
       }
     },
@@ -1117,11 +1119,13 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //source : sqv.theme.clean.Image.URLS["arrow-right" + (states.selected ? "-invert" : "")],
+          //source : qx.theme.clean.Image.URLS["arrow-right" + (states.selected ? "-invert" : "")],
           source : "",
           decorator : states.selected ? "sqv-css-icon-arrow-right-invert" : "sqv-css-icon-arrow-right",
           alignY : "middle",
-          marginLeft : 6
+          marginLeft : 6,
+          width : 0,
+          height : 0
         };
       }
     },
@@ -1134,8 +1138,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : !states.checked ? undefined : sqv.theme.clean.Image.URLS["menu-checkbox"]
-          icon : sqv.theme.clean.Image.URLS["blank"]        
+          //icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["menu-checkbox"]
+          icon : qx.theme.clean.Image.URLS["blank"]        
         };
       }
     },
@@ -1152,7 +1156,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : !states.checked ? undefined : sqv.theme.clean.Image.URLS["menu-radiobutton"]   
+          icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["menu-radiobutton"]   
         };
       }
     },
@@ -1360,7 +1364,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
           styles.marginTop = 2;
         }
 
-        styles.icon = sqv.theme.clean.Image.URLS["arrow-" + icon];
+        styles.icon = qx.theme.clean.Image.URLS["arrow-" + icon];
 
         styles.cursor = "pointer";
         styles.decorator = "button-box";
@@ -1431,7 +1435,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           decorator : decorator,
           padding   : padding,
-          font : "input",
+          //font : "input",
           textColor : textColor,
           backgroundColor : backgroundcolor
         };
@@ -1495,7 +1499,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
         // set an empty icon to be sure that the icon image is rendered
         return {
-          //icon : sqv.theme.clean.Image.URLS["blank"]
+          //icon : qx.theme.clean.Image.URLS["blank"]
           icon : "",
           gap : 10
         };
@@ -1538,18 +1542,18 @@ qx.Theme.define("qx.theme.clean.Appearance",
 
         // Checked
         if (states.checked && !states.disabled) {
-          //icon = sqv.theme.clean.Image.URLS["checkbox-checked"];
+          //icon = qx.theme.clean.Image.URLS["checkbox-checked"];
           icon = "";
         // Undetermined
         } else if (states.checked && states.disabled) {
-        	icon = sqv.theme.clean.Image.URLS["checkbox-checked-disabled"];
+        	icon = qx.theme.clean.Image.URLS["checkbox-checked-disabled"];
         } else if (states.undetermined) {
-          //icon = sqv.theme.clean.Image.URLS["checkbox-undetermined"];
+          //icon = qx.theme.clean.Image.URLS["checkbox-undetermined"];
           icon = "";
         // Unchecked
         } else {
           // empty icon
-          //icon = sqv.theme.clean.Image.URLS["blank"];
+          //icon = qx.theme.clean.Image.URLS["blank"];
           icon = "";
         }
 
@@ -1634,7 +1638,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
 
         return {
-          //icon : sqv.theme.clean.Image.URLS["arrow-up-small"],  SQV Elim URL Call
+          //icon : qx.theme.clean.Image.URLS["arrow-up-small"],  SQV Elim URL Call
           backgroundColor : "white",
           decorator : states.hovered ? "button-box-hovered-top-right" : "button-box-top-right",
           padding : [0,3,0,4],
@@ -1651,7 +1655,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
     	style : function()
     	{
     		return {
-    			decorator : "sqv-css-icon-arrow-up-small"
+    			decorator : "sqv-css-icon-arrow-up-small",
+    			width : 0,
+          		height : 0
     		};
     	}
     },
@@ -1663,7 +1669,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
 
         return {
-          //icon : sqv.theme.clean.Image.URLS["arrow-down-small"], SQV Elim URL Call
+          //icon : qx.theme.clean.Image.URLS["arrow-down-small"], SQV Elim URL Call
           icon : "",
           backgroundColor : "white",
           decorator : states.hovered ? "button-box-hovered-bottom-right" : "button-box-bottom-right",
@@ -1680,7 +1686,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
     	style : function()
     	{
     		return {
-    			decorator : "sqv-css-icon-arrow-down-small"
+    			decorator : "sqv-css-icon-arrow-down-small",
+    			width : 0,
+    			height : 0
     		};
     	}
     },
@@ -1716,7 +1724,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //source : sqv.theme.clean.Image.URLS["arrow-down"],
+          //source : qx.theme.clean.Image.URLS["arrow-down"],
           source : "",
           decorator : "sqv-css-icon-arrow-down",
           //paddingRight : 4,
@@ -1755,7 +1763,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
 
         return {
-          //icon : sqv.theme.clean.Image.URLS["arrow-down"],  SQV-ELIM-URL-CALL
+          //icon : qx.theme.clean.Image.URLS["arrow-down"],  SQV-ELIM-URL-CALL
           icon : "",
           backgroundColor : "white",
           decorator : decorator,
@@ -1772,7 +1780,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
     	style : function()
     	{
     		return {
-    			decorator : "sqv-css-icon-arrow-down"
+    			decorator : "sqv-css-icon-arrow-down",
+    			width : 0,
+                height : 0
     		};
     	}
     },
@@ -1858,8 +1868,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
           width: 22,
           height: 24,
           padding : 2,	
-          //html : sqv.ui.embed.Svg.mapsvg({id:"calendar-alt", viewbox_width:"448", viewbox_height:"512"}, false),
-          html : sqv.ui.embed.Svg.mapfasvg("calendar-alt-1")
+          html : qx.bom.Template.render(qx.theme.clean.Image.SVGTEMPLATES["fontawesome"], qx.theme.clean.Image.SVGCONTENT["calendar-alt-1"])
         };
       }
     },
@@ -1933,7 +1942,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           decorator : decorator,
           padding   : padding,
-          font : "input",
+          //font : "input",
           textColor : textColor,
           backgroundColor : backgroundcolor
         };
@@ -2143,7 +2152,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
 
       style : function(states) {
         return {
-          //icon : sqv.theme.clean.Image.URLS["arrow-down"],
+          //icon : qx.theme.clean.Image.URLS["arrow-down"],
           icon : "",
           iconPosition : "right"
         };
@@ -2316,7 +2325,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : states.hovered ? sqv.ui.embed.Svg.mapsvg( 
+          /*icon : states.hovered ? sqv.ui.embed.Svg.mapsvg( 
           	{
           		id:"sqlogo",
 		  		width:"130",
@@ -2334,7 +2343,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
 		  		viewbox_height:"130",
 		  		path1fill:"blue",
 		  		ellipsestroke:"green"
-          	})
+          	})*/
         };
       }
     },
@@ -2348,8 +2357,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           icon : "",
           width : 160,
-          height : 150,
-          iconProps : {width: 130, height: 130, html : sqv.ui.embed.Svg.mapsvg( 
+          height : 150
+          /*iconProps : {width: 130, height: 130, html : sqv.ui.embed.Svg.mapsvg( 
           	{
           		id:"sqlogo",
 		  		width:"130",
@@ -2358,7 +2367,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
 		  		viewbox_height:"130",
 		  		path1fill:"red",
 		  		ellipsestroke:"yellow"
-          	}, false)}
+          	}, false)}*/
         };
       }
     },
@@ -2447,7 +2456,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : sqv.theme.clean.Image.URLS["arrow-down"],
+          //icon : qx.theme.clean.Image.URLS["arrow-down"],
           alignY : "middle",
           margin : [0, 0, 3, 5],
           width : 18,
@@ -2566,7 +2575,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         decorator += "-right";
 
         return {
-          //icon : sqv.theme.clean.Image.URLS["arrow-down"],
+          //icon : qx.theme.clean.Image.URLS["arrow-down"],
           icon : "",
           decorator : decorator,
           cursor : states.disabled ? undefined : "pointer",
@@ -2943,7 +2952,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : sqv.theme.clean.Image.URLS["window-minimize"],
+          //icon : qx.theme.clean.Image.URLS["window-minimize"],
           icon : "",
           //padding : [ 1, 2 ],
           padding : [7,3,0,0],
@@ -2973,7 +2982,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : sqv.theme.clean.Image.URLS["window-restore"],
+          //icon : qx.theme.clean.Image.URLS["window-restore"],
           icon : "",
           padding : [ 1, 2 ],
           marginRight : 4,
@@ -3004,7 +3013,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : sqv.theme.clean.Image.URLS["window-maximize"],
+          //icon : qx.theme.clean.Image.URLS["window-maximize"],
           icon : "",
           padding : [ 1, 2 ],
           marginRight : 6,
@@ -3035,7 +3044,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : sqv.theme.clean.Image.URLS["window-close"],
+          //icon : qx.theme.clean.Image.URLS["window-close"],
           icon : "",
           padding : [ 1, 2 ],
           marginLeft: 6,
@@ -3121,7 +3130,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
     	style : function()
     	{
     		return {
-    			decorator : "sqv-css-icon-arrow-left-small"
+    			decorator : "sqv-css-icon-arrow-left-small",
+    			width : 0,
+                height : 0
     		};
     	}
     },
@@ -3133,7 +3144,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
     	style : function()
     	{
     		return {
-    			decorator : "sqv-css-icon-arrow-right-small"
+    			decorator : "sqv-css-icon-arrow-right-small",
+    			width : 0,
+                height : 0
     		};
     	}
     },
@@ -3162,13 +3175,13 @@ qx.Theme.define("qx.theme.clean.Appearance",
         };
 
         if (states.lastYear) {
-          result.icon = sqv.theme.clean.Image.URLS["arrow-rewind"];
+          result.icon = qx.theme.clean.Image.URLS["arrow-rewind"];
         } else if (states.lastMonth) {
           result.paddingLeft = 4;
           result.marginLeft = 6;
           result.icon = "";
         } else if (states.nextYear) {
-          result.icon = sqv.theme.clean.Image.URLS["arrow-forward"];
+          result.icon = qx.theme.clean.Image.URLS["arrow-forward"];
           //result.icon = "";
         } else if (states.nextMonth) {	
           result.icon = "";
@@ -3392,12 +3405,14 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //source : sqv.theme.clean.Image.URLS["arrow-down"],
+          //source : qx.theme.clean.Image.URLS["arrow-down"],
           source : "",
           decorator : "sqv-css-icon-arrow-down",
           cursor : states.disabled ? undefined : "pointer",
           padding : [0, 5],
-          marginLeft: 2
+          marginLeft: 2,
+          width : 0,
+          height : 0
         };
       }
     },
@@ -3432,7 +3447,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
 
         return {
-          icon : sqv.theme.clean.Image.URLS["arrow-down"],
+          icon : qx.theme.clean.Image.URLS["arrow-down"],
           decorator : decorator
         };
       }
@@ -3468,7 +3483,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
 
         return {
-          icon : sqv.theme.clean.Image.URLS["arrow-down"],
+          icon : qx.theme.clean.Image.URLS["arrow-down"],
           decorator : decorator
         };
       }
@@ -3670,7 +3685,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
         return {
           cursor : states.disabled ? undefined : "pointer",
-          icon : sqv.theme.clean.Image.URLS["tabview-close"]
+          icon : qx.theme.clean.Image.URLS["tabview-close"]
         };
       }
     },

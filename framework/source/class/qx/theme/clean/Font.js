@@ -91,9 +91,9 @@ qx.Theme.define("qx.theme.clean.Font",
     
     "input" :
     {
-    	size : 14,
-    	family : ["Lato", "Helvetica Neue", "arial", "Helvetica", "sans-serif"],
-    	color : "text",
+      size : 14,
+      family : ["Lato", "Helvetica Neue", "arial", "Helvetica", "sans-serif"],
+      color : "text",
       lineHeight: 1.33
     },
    
