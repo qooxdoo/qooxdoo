@@ -83,6 +83,9 @@ qx.Class.define("qx.data.marshal.Json",
      */
     __jsonToHash : function (data, includeBubbleEvents)
     {
+      if (this.__delegate && this.__delegate.getJsonHash) {
+        return this.__delegate.getJsonHash(data, includeBubbleEvents);
+      }
       return Object.keys(data).sort().join('|')
            + (includeBubbleEvents===true ? "♥" : "");
     },
