@@ -83,7 +83,14 @@ qx.Class.define("qx.event.message.Message",
      */
     sender :
     {
-      check       : "Object"
+      check       : "Object",
+      nullable    : true
     }
+  },
+
+  destruct : function()
+  {
+    this.setData(null);
+    this.setSender(null);
   }
 });
