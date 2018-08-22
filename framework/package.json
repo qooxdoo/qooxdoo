@@ -21,6 +21,7 @@
     "karma": "^1.6.0",
     "karma-coverage": "^0.5.5",
     "karma-coveralls": "^1.1.2",
+    "karma-chrome-launcher": "^2.0",
     "karma-sauce-launcher": "^1.2.0",
     "karma-firefox-launcher": "^1.0.1",
     "karma-qooxdoo": "^0.5.0"
