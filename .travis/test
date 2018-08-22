@@ -9,7 +9,11 @@ case $1 in
 	karma start --reporters=dots,saucelabs --browsers=$1 --hostname="$(hostname)"
 	;;
    *)
+	export DISPLAY=:99.0	
+	/etc/init.d/xvfb start
+	sleep 3
 	karma start --reporters=dots --browsers=$1 --hostname="$(hostname)"
+	/etc/init.d/xvfb stop
    	;;
 esac
 
