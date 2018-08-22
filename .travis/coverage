@@ -6,7 +6,7 @@ sh -e /etc/init.d/xvfb start
 php -S 0.0.0.0:31323 &> /dev/null &
 ./generate.py -sI test-source
 
-karma start --reporters=dots,saucelabs,coverage,coveralls karma-coverage.conf.js --hostname="$(hostname)"
+karma start --reporters=dots,coverage,coveralls karma-coverage.conf.js --hostname="$(hostname)"
 RET=$?
 
 pkill -f 'php -S 0.0.0.0:31323' &> /dev/null
