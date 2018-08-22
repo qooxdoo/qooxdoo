@@ -41,6 +41,15 @@ module.exports = function(config) {
     },
 
     customLaunchers: {  
+      'Chrome_travis_ci': {
+        base: 'Chrome',
+        flags: [
+          '--no-sandbox',
+          '--headless',
+          '--disable-gpu',
+          '--remote-debugging-port=9222'
+        ]
+      },
       'ChromeSL': {
         base: 'SauceLabs',
         browserName: 'chrome',
@@ -108,7 +117,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['ChromeSL'],
+    browsers: ['Chrome'],
 
     client: {
       captureConsole: false
