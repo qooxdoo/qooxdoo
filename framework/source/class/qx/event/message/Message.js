@@ -94,3 +94,5 @@ qx.Class.define("qx.event.message.Message",
     this.setSender(null);
   }
 });
+
+
