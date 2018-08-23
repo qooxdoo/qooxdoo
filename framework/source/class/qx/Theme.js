@@ -57,7 +57,8 @@ qx.Bootstrap.define("qx.Theme",
      *   fonts : {},
      *   widgets : {},
      *   appearances : {},
-     *   meta : {}
+     *   meta : {},
+     *   boot : function(){}
      * });
      * </pre>
      *
@@ -116,6 +117,11 @@ qx.Bootstrap.define("qx.Theme",
 
       for (var i=0, a=config.patch, l=a.length; i<l; i++) {
         this.patch(theme, a[i]);
+      }
+      
+      // Run boot code
+      if (config.boot) {
+      	config.boot();
       }
     },
 
@@ -321,7 +327,8 @@ qx.Bootstrap.define("qx.Theme",
         "appearances" : "object", // Map
         "meta"        : "object", // Map
         "include"     : "object", // Array
-        "patch"       : "object"  // Array
+        "patch"       : "object", // Array
+        "boot"        : "function" // Function
       },
 
       "default" : null

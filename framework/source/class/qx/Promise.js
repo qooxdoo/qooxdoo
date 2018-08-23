@@ -518,8 +518,39 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
+     * Returns a promise that resolves when all of the promises in the object properties have resolved, 
+     * or rejects with the reason of the first passed promise that rejects.  The result of each property
+     * is placed back in the object, replacing the promise.  Note that non-promise values are untouched.
+     * 
+     * @param value {var} An object
+     * @return {qx.Promise}
+     */
+    allOf: function(value) {
+      function action(value) {
+        var arr = [];
+        var names = [];
+        for (var name in value) {
+          if (value.hasOwnProperty(name) && value[name] instanceof qx.Promise) {
+            arr.push(value[name]);
+            names.push(name);
+          }
+        }
+        return qx.Promise.all(arr)
+          .then(function(arr) {
+            arr.forEach(function(item, index) { 
+              value[names[index]] = item; 
+            });
+            return value;
+          });
+      }
+      return value instanceof qx.Promise ? value.then(action) : action(value);
+    },
+    
+    /**
      * Returns a promise that resolves when all of the promises in the iterable argument have resolved, 
-     * or rejects with the reason of the first passed promise that rejects.
+     * or rejects with the reason of the first passed promise that rejects.  Note that non-promise values 
+     * are untouched.
+     * 
      * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
      */
