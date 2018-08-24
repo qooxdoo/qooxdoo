@@ -92,6 +92,12 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       refine : true,
       init : "selectbox"
+    },
+    
+    rich: {
+      init: false,
+      check: "Boolean",
+      apply: "_applyRich"
     }
   },
 
@@ -114,6 +120,21 @@ qx.Class.define("qx.ui.form.SelectBox",
       WIDGET API
     ---------------------------------------------------------------------------
     */
+
+    _applyRich: function(value, oldValue) {
+      this.getChildControl("atom").setRich(value);
+    },
+    
+    // overridden
+    _defaultFormat: function(item) {
+      if (item) {
+        if (typeof item.isRich == "function" && item.isRich()) {
+          this.setRich(true);
+        }
+        return item.getLabel();
+      }
+      return null;
+    },
 
     // overridden
     _createChildControlImpl : function(id, hash)
@@ -224,7 +245,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       var atom = this.getChildControl("atom");
       var label = listItem ? listItem.getLabel() : "";
       var format = this.getFormat();
-      if (format != null) {
+      if (format != null && listItem) {
         label = format.call(this, listItem);
       }
 
