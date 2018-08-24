@@ -128,8 +128,9 @@ qx.Class.define("qx.ui.form.SelectBox",
     // overridden
     _defaultFormat: function(item) {
       if (item) {
-        if (typeof item.isRich == "function" && item.isRich())
+        if (typeof item.isRich == "function" && item.isRich()) {
           this.setRich(true);
+        }
         return item.getLabel();
       }
       return null;
