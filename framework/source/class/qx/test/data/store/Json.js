@@ -264,7 +264,7 @@ qx.Class.define("qx.test.data.store.Json",
 
       var delegate = {
         getModelClass : function(properties) {
-          if (properties == 'a"b' || properties == 'a"b♥') {
+          if (properties == 'a|b' || properties == 'a|b♥') {
             return qx.Class.getByName("qx.test.AB");
           }
           return null;
