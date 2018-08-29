@@ -360,8 +360,9 @@ qx.Class.define("qx.data.controller.List",
      * and bindings may need to be updated
      */
     __refreshModel: function() {
-      if (this.getModel() && this.getTarget())
+      if (this.getModel() && this.getTarget()) {
         this.update();
+      }
     },
 
 
@@ -1063,8 +1064,9 @@ qx.Class.define("qx.data.controller.List",
       this.__lookupTable = [];
       
       // -1 is a special lookup value, to represent the "null" option 
-      if (this.isAllowNull())
+      if (this.isAllowNull()) {
         this.__lookupTable.push(-1);
+      }
       for (var i = 0; i < model.getLength(); i++) {
         if (filter == null || filter(model.getItem(i))) {
           this.__lookupTable.push(i);

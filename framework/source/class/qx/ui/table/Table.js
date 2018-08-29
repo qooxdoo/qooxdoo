@@ -1378,7 +1378,7 @@ qx.Class.define("qx.ui.table.Table",
      */
     _onKeyPress : function(evt)
     {
-       qx.log.Logger.deprecatedMethodWarning(qx.ui.table.Table._onKeyPress, "The method '_onKeyPress()' is deprecated. Please use '_onKeyDown()' instead.");
+       qx.log.Logger.deprecatedMethodWarning(this._onKeyPress, "The method '_onKeyPress()' is deprecated. Please use '_onKeyDown()' instead.");
        qx.log.Logger.deprecateMethodOverriding(this, qx.ui.table.Table, "_onKeyPress", "The method '_onKeyPress()' is deprecated. Please use '_onKeyDown()' instead.");
        this._onKeyDown(evt);
     },
