@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
   /**
    * @param pane {qx.ui.virtual.core.Pane} The virtual pane on which the
    *    selectable item are rendered
-   * @param selectionDelegate {ISelectionDelegate?null} An optional delegate,
+   * @param selectionDelegate {qx.ui.virtual.selection.ISelectionDelegate?null} An optional delegate,
    *    which can be used to customize the behavior of the selection manager
    *    without sub classing it.
    */

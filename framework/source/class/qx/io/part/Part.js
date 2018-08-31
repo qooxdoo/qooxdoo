@@ -28,7 +28,7 @@ qx.Bootstrap.define("qx.io.part.Part",
   /**
    * @param name {String} Name of the part as defined in the config file at
    *    compile time.
-   * @param packages {Package[]} List of dependent packages
+   * @param packages {qx.io.part.Package[]} List of dependent packages
    * @param loader {qx.Part} The loader of this part.
    */
   construct : function(name, packages, loader)
