@@ -358,14 +358,19 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
       var value = this.getValue();
       var dropdown = this.getChildControl("dropdown");
       var selection = dropdown.getSelection();
+      var selected = selection.getItem(0);
 
-      if (this.__convertValue(selection.getItem(0)) !== value)
+      // try to preselect the matching item even if there is no current selection
+      if (selected === undefined || this.__convertValue(selected) !== value)
       {
-        // reset the old selection
-        this.__ignoreChangeSelection = true;
-        selection.removeAll();
-        this.__ignoreChangeSelection = false;
-
+        // only reset the old selection if there is one
+        if(selected !== undefined) {
+          // reset the old selection
+          this.__ignoreChangeSelection = true;
+          selection.removeAll();
+          this.__ignoreChangeSelection = false;
+        }
+        
         // No calculation is needed when the value is empty
         if (value == null || value == "") {
           return;
