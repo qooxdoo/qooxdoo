@@ -140,6 +140,18 @@ qx.Interface.define("qx.data.marshal.IMarshalerDelegate",
      * @return {Class|null} Returns the class which should be used as array class.
      *   If <code>null</code> will be returned, {@link qx.data.Array} will be used as array class.
      */
-    getArrayClass : function(parentProperty, depth) {}
+    getArrayClass : function(parentProperty, depth) {},
+
+    /**
+     * Converts a given object into a hash which will be used to identify the
+     * classes under the namespace <code>qx.data.model</code>.
+     *
+     * @param data {Object} The JavaScript object from which the hash is
+     *   required.
+     * @param includeBubbleEvents {Boolean?false} Whether the model should
+     *   support the bubbling of change events or not.
+     * @return {String} The hash representation of the given JavaScript object.
+     */
+    getJsonHash : function(data, includeBubbleEvents) {}
   }
 });
