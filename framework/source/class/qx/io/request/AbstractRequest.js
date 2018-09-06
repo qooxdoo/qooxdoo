@@ -114,6 +114,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
     "statusError": "qx.event.type.Event",
 
     /**
+     * Fired when the configured parser runs into an unrecoverable error.
+     */
+    "parseError": "qx.event.type.Data",
+
+    /**
      * Fired on timeout, error or remote error.
      *
      * This event is fired for convenience. Usually, it is recommended
@@ -262,6 +267,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
      * Holds transport.
      */
     _transport: null,
+
+    /**
+     * Holds information about the parser status for the last request.
+     */
+    _parserFailed: false,
 
     /*
     ---------------------------------------------------------------------------
@@ -745,7 +755,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
         this._setResponse(this._getParsedResponse());
 
-        this._fireStatefulEvent("success");
+        if (this._parserFailed) {
+          this.fireEvent("fail");
+        } else {
+          this._fireStatefulEvent("success");
+        }
 
       // Erroneous HTTP status
       } else {

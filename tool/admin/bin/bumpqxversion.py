@@ -102,31 +102,7 @@ Files = {
     "./application/demobrowser/source/demo/welcome.html" : [
         r'var qxversion = "(%s)"'    % qxversion_regexp,
         ],
-    "./application/feedreader/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/mobileshowcase/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/playground/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/showcase/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/todo/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/tutorial/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
     "./application/websitewidgetbrowser/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./application/widgetbrowser/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
-    "./component/apiviewer/package.json": [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
     "./component/skeleton/server/readme.txt" : [
@@ -147,16 +123,13 @@ Files = {
     "./component/standalone/website/package.json": [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
-    "./component/testrunner/package.json": [
-        (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
-        ],
     "./documentation/manual/source/conf.py" : [
         r'^\s*version\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
         r'^\s*release\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
         (r'^\s*vMajor\s*=\s*[\'"](%s)[\'"]' % vMajor_regexp, 0),  # number will be used as an index into vers_parts
         (r'^\s*vMinor\s*=\s*[\'"](%s)[\'"]' % vMinor_regexp, 1),
         (r'^\s*vPatch\s*=\s*[\'"](%s)[\'"]' % vPatch_regexp, 2),
-        (r'^\s*git_branch\s*=\s*[\'"](%s)[\'"]' % git_branch_regexp, git_branch),
+#        (r'^\s*git_branch\s*=\s*[\'"](%s)[\'"]' % git_branch_regexp, git_branch),
         ],
     "./documentation/tech_manual/source/conf.py" : [
         r'^\s*version\s*=\s*[\'"](%s)[\'"]' % qxversion_regexp,
@@ -164,7 +137,7 @@ Files = {
         (r'^\s*vMajor\s*=\s*[\'"](%s)[\'"]' % vMajor_regexp, 0),  # number will be used as an index into vers_parts
         (r'^\s*vMinor\s*=\s*[\'"](%s)[\'"]' % vMinor_regexp, 1),
         (r'^\s*vPatch\s*=\s*[\'"](%s)[\'"]' % vPatch_regexp, 2),
-        (r'^\s*git_branch\s*=\s*[\'"](%s)[\'"]' % git_branch_regexp, git_branch),
+#        (r'^\s*git_branch\s*=\s*[\'"](%s)[\'"]' % git_branch_regexp, git_branch),
         ],
     "./framework/Manifest.json" : [
         r'"version"\s*:\s*"(%s)"'              % qxversion_regexp,
@@ -176,7 +149,7 @@ Files = {
     "./index.html"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
-    "./readme.rst"  : [
+    "./readme.md"  : [
         r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp,
         r'api.qooxdoo.org/(%s)\b' % qxversion_regexp,
         r'qooxdoo.org/project/release_notes/(%s)\b' % qxversion_regexp

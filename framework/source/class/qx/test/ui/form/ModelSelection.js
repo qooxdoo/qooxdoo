@@ -76,8 +76,8 @@ qx.Class.define("qx.test.ui.form.ModelSelection",
       // check the set selection again
       widget.setModelSelection([2, 3]);
       this.assertEquals(2, widget.getSelection().length);
-      this.assertTrue(qx.lang.Array.contains(widget.getSelection(), children[1]));
-      this.assertTrue(qx.lang.Array.contains(widget.getSelection(), children[2]));
+      this.assertTrue(widget.getSelection().includes(children[1]));
+      this.assertTrue(widget.getSelection().includes(children[2]));
     },
 
 

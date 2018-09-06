@@ -42,6 +42,7 @@ qx.Class.define("qx.ui.tree.Tree",
   implement : [
     qx.ui.core.IMultiSelection,
     qx.ui.form.IModelSelection,
+    qx.ui.form.IField,
     qx.ui.form.IForm
   ],
   include : [

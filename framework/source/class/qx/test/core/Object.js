@@ -366,6 +366,9 @@ qx.Class.define("qx.test.core.Object",
     },
 
 
+    /**
+     * @ignore(qx.test.MyClass)
+     */
     testIsPropertyInitialized : function()
     {
       qx.Class.define("qx.test.MyClass", {

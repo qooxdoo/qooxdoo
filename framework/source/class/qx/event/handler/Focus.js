@@ -39,7 +39,7 @@ qx.Class.define("qx.event.handler.Focus",
 {
   extend : qx.core.Object,
   implement : [ qx.event.IEventHandler, qx.core.IDisposable ],
-  
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -251,9 +251,15 @@ qx.Class.define("qx.event.handler.Focus",
       }
       else
       {
-        try {
-          element.focus();
-        } catch(ex) {}
+        // Fix re-focusing on mousup event
+        // See https://github.com/qooxdoo/qooxdoo/issues/9393 and
+        // discussion in https://github.com/qooxdoo/qooxdoo/pull/9394
+        window.setTimeout(function()
+        {
+          try {
+            element.focus();
+          } catch(ex) {}
+        }, 0);
       }
 
       this.setFocus(element);
@@ -328,13 +334,14 @@ qx.Class.define("qx.event.handler.Focus",
      * @param related {Element} DOM element which is the related target
      * @param type {String} Name of the event to fire
      * @param bubbles {Boolean} Whether the event should bubble
+     * @return {qx.Promise?} a promise, if one or more of the event handlers returned a promise
      */
     __fireEvent : function(target, related, type, bubbles)
     {
       var Registration = qx.event.Registration;
 
       var evt = Registration.createEvent(type, qx.event.type.Focus, [target, related, bubbles]);
-      Registration.dispatchEvent(target, evt);
+      return Registration.dispatchEvent(target, evt);
     },
 
     /*
@@ -439,7 +446,7 @@ qx.Class.define("qx.event.handler.Focus",
         qx.bom.Event.addNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper);
       },
 
-      "webkit" : qx.core.Environment.select("browser.name", 
+      "webkit" : qx.core.Environment.select("browser.name",
       {
         // fix for [ISSUE #9174]
         // distinguish bettween MS Edge, which is reported
@@ -451,12 +458,8 @@ qx.Class.define("qx.event.handler.Focus",
           this.__onNativeMouseUpWrapper = qx.lang.Function.listener(this.__onNativeMouseUp, this);
 
           this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
-
-          this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
-          this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
-
+          this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
           this.__onNativeSelectStartWrapper = qx.lang.Function.listener(this.__onNativeSelectStart, this);
-
 
           // Register events
           qx.bom.Event.addNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
@@ -539,7 +542,7 @@ qx.Class.define("qx.event.handler.Focus",
         qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper);
       },
 
-      "webkit" : qx.core.Environment.select("browser.name", 
+      "webkit" : qx.core.Environment.select("browser.name",
       {
         // fix for [ISSUE #9174]
         // distinguish bettween MS Edge, which is reported
@@ -558,9 +561,9 @@ qx.Class.define("qx.event.handler.Focus",
           qx.bom.Event.removeNativeListener(this._document, "mousedown", this.__onNativeMouseDownWrapper, true);
           qx.bom.Event.removeNativeListener(this._document, "mouseup", this.__onNativeMouseUpWrapper, true);
           qx.bom.Event.removeNativeListener(this._document, "selectstart", this.__onNativeSelectStartWrapper, false);
-  
+
           qx.bom.Event.removeNativeListener(this._window, "DOMFocusOut", this.__onNativeFocusOutWrapper, true);
-  
+
           qx.bom.Event.removeNativeListener(this._window, "focus", this.__onNativeFocusWrapper, true);
           qx.bom.Event.removeNativeListener(this._window, "blur", this.__onNativeBlurWrapper, true);
         }
@@ -632,7 +635,7 @@ qx.Class.define("qx.event.handler.Focus",
         this.tryActivate(target);
       },
 
-      "webkit" : qx.core.Environment.select("browser.name", 
+      "webkit" : qx.core.Environment.select("browser.name",
       {
         // fix for [ISSUE #9174]
         // distinguish bettween MS Edge, which is reported
@@ -720,7 +723,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit" : qx.core.Environment.select("browser.name", 
+      "webkit" : qx.core.Environment.select("browser.name",
       {
         // fix for [ISSUE #9174]
         // distinguish bettween MS Edge, which is reported
@@ -1045,6 +1048,32 @@ qx.Class.define("qx.event.handler.Focus",
     })),
 
     /**
+     * Fix for bug #9331.
+     *
+     * @signature function(target)
+     * @param target {Element} element to check
+     * @return {Element} return correct target (in case of compound input controls should always return textfield);
+     */
+    __getCorrectFocusTarget: function(target)
+    {
+      var focusedElement = this.getFocus();
+      if (focusedElement && target != focusedElement) {
+        if (focusedElement.nodeName.toLowerCase() === "input" ||
+          focusedElement.nodeName.toLowerCase() === "textarea") {
+          return focusedElement;
+        }
+        // Check compound widgets
+        var widget = qx.ui.core.Widget.getWidgetByElement(focusedElement),
+          textField = widget && widget.getChildControl && widget.getChildControl("textfield", true);
+
+        if (textField) {
+          return textField.getContentElement().getDomElement();
+        }
+      }
+      return target;
+    },
+
+    /**
      * Fix for bug #2602.
      *
      * @signature function(target)
@@ -1052,35 +1081,19 @@ qx.Class.define("qx.event.handler.Focus",
      * @return {Element} Element to activate;
      */
     __fixFocus : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
-    {
-      "mshtml" : function(target)
       {
-        var focusedElement = this.getFocus();
-        if (focusedElement && target != focusedElement &&
-            (focusedElement.nodeName.toLowerCase() === "input" ||
-            focusedElement.nodeName.toLowerCase() === "textarea")) {
-          target = focusedElement;
+        "mshtml" : function(target) {
+          return this.__getCorrectFocusTarget(target);
+        },
+
+        "webkit" : function(target) {
+          return this.__getCorrectFocusTarget(target);
+        },
+
+        "default" : function(target) {
+          return target;
         }
-
-        return target;
-      },
-
-      "webkit" : function(target)
-      {
-        var focusedElement = this.getFocus();
-        if (focusedElement && target != focusedElement &&
-            (focusedElement.nodeName.toLowerCase() === "input" ||
-            focusedElement.nodeName.toLowerCase() === "textarea")) {
-          target = focusedElement;
-        }
-
-        return target;
-      },
-
-      "default" : function(target) {
-        return target;
-      }
-    })),
+      })),
 
     /**
      * Native event listener for <code>selectstart</code>.

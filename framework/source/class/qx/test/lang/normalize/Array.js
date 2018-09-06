@@ -234,6 +234,20 @@ qx.Class.define("qx.test.lang.normalize.Array",
       this.assertArrayEquals([0, 3,4,1,2], [[1,2], [3,4]].reduceRight(
         function(a, b) {return a.concat(b);}, [0]
       ));
+    },
+
+    testIncludes : function() {
+      var arr = ['one', 'two', 'three'];
+      this.assertTrue(arr.includes("one"), "includes does not work!");
+      this.assertTrue(arr.includes("two"), "includes does not work!");
+      this.assertTrue(arr.includes("three"), "includes does not work!");
+      this.assertFalse(arr.includes("four"), "includes does not work!");
+
+      arr = [NaN];
+      this.assertTrue(arr.includes(NaN), "includes does not work!");
+
+      arr = [];
+      this.assertFalse(arr.includes("one"), "includes does not work!");
     }
   }
 });

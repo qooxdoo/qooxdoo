@@ -1,6 +1,6 @@
 qx.Class.define("qx.test.Promise", {
   extend: qx.dev.unit.TestCase,
-  
+
   members: {
 
     /**
@@ -23,7 +23,7 @@ qx.Class.define("qx.test.Promise", {
       });
       this.wait(1000);
     },
-    
+
     /**
      * Tests a new promise that is rejected
      */
@@ -44,7 +44,7 @@ qx.Class.define("qx.test.Promise", {
       });
       this.wait(1000);
     },
-    
+
     testCatchFinally: function() {
     	var caughtException = null;
     	qx.Promise.resolve()
@@ -58,7 +58,40 @@ qx.Class.define("qx.test.Promise", {
 	    	}, this);
     	this.wait(1000);
     },
-    
+
+    /**
+     * Tests the qx.Promise.allOf method
+     */
+    testAllOf: function() {
+      var t = this;
+      var dt = new Date();
+      var obj = {
+          a: new qx.Promise(),
+          b: new qx.Promise(),
+          c: new qx.Promise(),
+          d: "four",
+          e: dt
+      }
+      qx.Promise.allOf(obj)
+        .then(function(obj2) {
+          t.assertTrue(obj === obj2);
+          t.assertEquals("one", obj.a);
+          t.assertEquals("two", obj.b);
+          t.assertEquals("three", obj.c);
+          t.assertEquals("four", obj.d);
+          t.assertTrue(obj.e === dt);
+          t.resume();
+        });
+      obj.a.then(function() {
+        obj.b.resolve("two");
+      });
+      obj.b.then(function() {
+        obj.c.resolve("three");
+      });
+      obj.a.resolve("one");
+      t.wait(1000);
+    },
+
     /**
      * Tests that setting a property value with a promise will delay setting the
      * value until the promise is resolved.  In this case, the property is *not*
@@ -74,7 +107,7 @@ qx.Class.define("qx.test.Promise", {
             nullable: true
           }
         }
-      }); 
+      });
       this.assertTrue(!!Clazz.prototype.setAlpha);
       this.assertFalse(!!Clazz.prototype.setAlphaAsync);
       var obj = new Clazz();
@@ -89,7 +122,7 @@ qx.Class.define("qx.test.Promise", {
       });
       this.wait(1000);
     },
-    
+
     /**
      * Tests that setting a property value with a promise will delay setting the
      * value until the promise is resolved.  In this case, the property *is*
@@ -106,7 +139,7 @@ qx.Class.define("qx.test.Promise", {
             async: true
           }
         }
-      }); 
+      });
       this.assertTrue(!!Clazz.prototype.setAlpha);
       this.assertTrue(!!Clazz.prototype.setAlphaAsync);
       var obj = new Clazz();
@@ -120,7 +153,7 @@ qx.Class.define("qx.test.Promise", {
       });
       this.wait(1000);
     },
-    
+
     /**
      * Tests that a property apply method can return a promise; in this case, the
      * property is not marked as async so the apply method is only able to delay
@@ -139,7 +172,7 @@ qx.Class.define("qx.test.Promise", {
             event: "changeAlpha"
           }
         },
-        
+
         members: {
           _applyAlpha: function(value, oldValue) {
             return p = new qx.Promise(function(resolve) {
@@ -149,7 +182,7 @@ qx.Class.define("qx.test.Promise", {
             });
           }
         }
-      }); 
+      });
       var obj = new Clazz();
       var eventFired = 0;
       obj.addListener("changeAlpha", function(evt) {
@@ -168,7 +201,7 @@ qx.Class.define("qx.test.Promise", {
       }, this);
       this.wait(1000);
     },
-    
+
     /**
      * Tests that a property apply method can return a promise; in this case, the
      * property *is* marked as async, and we use the setAlphaAsync to test chaining
@@ -186,7 +219,7 @@ qx.Class.define("qx.test.Promise", {
             event: "changeAlpha"
           }
         },
-        
+
         members: {
           _applyAlpha: function(value, oldValue) {
             return new qx.Promise(function(resolve) {
@@ -196,7 +229,7 @@ qx.Class.define("qx.test.Promise", {
             });
           }
         }
-      }); 
+      });
       var obj = new Clazz();
       var eventFired = 0;
       obj.addListener("changeAlpha", function(evt) {
@@ -208,7 +241,7 @@ qx.Class.define("qx.test.Promise", {
         this.assertEquals("abc", value);
         this.assertEquals("abc", obj.getAlpha());
         this.assertEquals(1, eventFired);
-        
+
         // Set the same value, should return a new promise but not fire an event
         p = obj.setAlphaAsync("abc");
         p.then(function(value) {
@@ -221,7 +254,7 @@ qx.Class.define("qx.test.Promise", {
       }, this);
       this.wait(1000);
     },
-    
+
     /**
      * Tests that a property apply method can take a promise
      */
@@ -236,14 +269,14 @@ qx.Class.define("qx.test.Promise", {
             check: "qx.Promise"
           }
         }
-      }); 
+      });
       var obj = new Clazz();
       var p = qx.Promise.resolve("hello");
       obj.setAlpha(p);
       this.assertEquals(p, obj.getAlpha());
       qx.Class.undefine("testPropertySetValueAsyncApply3.Clazz");
     },
-    
+
     testBinding: function() {
       var t = this;
       var AsyncClazz = qx.Class.define("testBinding.AsyncClazz", {
@@ -256,7 +289,7 @@ qx.Class.define("qx.test.Promise", {
             event: "changeAlpha"
           }
         },
-        
+
         members: {
           _applyAlpha: function(value, oldValue) {
             return new qx.Promise(function(resolve) {
@@ -264,7 +297,7 @@ qx.Class.define("qx.test.Promise", {
             });
           }
         }
-      }); 
+      });
       var SyncClazz = qx.Class.define("testBinding.SyncClazz", {
         extend: qx.core.Object,
         properties: {
@@ -274,33 +307,33 @@ qx.Class.define("qx.test.Promise", {
             event: "changeBravo"
           }
         }
-      }); 
-      
+      });
+
       /*
-       * Test binding an async property to a "normal" sync property 
+       * Test binding an async property to a "normal" sync property
        */
       var asyncToSync = new qx.Promise(function(resolve) {
 	      var asyncObj = new AsyncClazz();
 	      var syncObj = new SyncClazz();
-	      
+
 	      var p1 = new qx.Promise();
         asyncObj.addListenerOnce("changeAlphaAsync", function(evt) {
         	var data = evt.getData();
         	this.assertTrue(data instanceof qx.Promise);
         	p1.resolve();
         }, this);
-	      
+
 	      var p2 = new qx.Promise();
 	      var bravoEvents = 0;
         var id = syncObj.addListener("changeBravo", function(evt) {
         	bravoEvents++;
         	this.assertTrue(bravoEvents <= 2);
         	var data = evt.getData();
-        	
+
         	// First event is .bind() setting the initial value
         	if (bravoEvents == 1) {
         		this.assertNull(data);
-        		
+
         	// Second event was caused by asyncObj.setAlphaAsync()
         	} else if (bravoEvents == 2) {
 	        	this.assertEquals("zyx", data);
@@ -308,7 +341,7 @@ qx.Class.define("qx.test.Promise", {
 	        	p2.resolve();
         	}
         }, this);
-	      
+
         asyncObj.getAlphaAsync();
 	      asyncObj.bind("alphaAsync", syncObj, "bravo");
 	      asyncObj.setAlphaAsync("zyx");
@@ -319,32 +352,32 @@ qx.Class.define("qx.test.Promise", {
 	        	this.assertEquals("wvu", data);
 	        	p3.resolve();
 	        }, this);
-		      
+
 		      asyncObj.setAlphaAsync("wvu");
 		      p3.then(function() {
 		      	this.resume();
 		      }, this);
-		      
+
 	      }, this);
       }, this);
-      
+
       /*
-       * Test binding a "normal" sync property to an async property 
+       * Test binding a "normal" sync property to an async property
        */
       asyncToSync.then(function() {
 	      var asyncObj = new AsyncClazz();
 	      var syncObj = new SyncClazz();
-	      
+
 	      var p1 = new qx.Promise();
 	      asyncObj.addListenerOnce("changeAlphaAsync", function(evt) {
 	      	var data = evt.getData();
 	      	this.assertEquals("def", data);
 	      	p1.resolve();
 	      }, this);
-      	
+
 	      syncObj.bind("bravo", asyncObj, "alphaAsync");
 	      syncObj.setBravo("def");
-	      
+
 	      p1.then(function() {
 		      var p2 = new qx.Promise();
 		      asyncObj.addListenerOnce("changeAlphaAsync", function(evt) {
@@ -352,20 +385,20 @@ qx.Class.define("qx.test.Promise", {
 		      	this.assertEquals("ghi", data);
 		      	p2.resolve();
 		      }, this);
-		      
+
 		      syncObj.setBravo("ghi");
 		      return p2.then(function() {
-		      	
+
 		      	qx.Class.undefine("testBinding.AsyncClazz");
 		      	qx.Class.undefine("testBinding.SyncClazz");
 		      	this.resume();
 		      }, this);
 	      }, this);
       }, this);
-      
+
       this.wait(1000);
     },
-    
+
     /**
      * Tests event handlers bound to the "changeXxxAsync" events, and which return
      * a promise.  Event handlers must be triggered in sequence and by returning
@@ -376,7 +409,7 @@ qx.Class.define("qx.test.Promise", {
         extend: qx.core.Object,
         properties: {
         	value: {
-        		
+
         	},
           alpha: {
             init: null,
@@ -393,14 +426,18 @@ qx.Class.define("qx.test.Promise", {
             event: "changeBravo"
           }
         },
-        
+
         members: {
         	_applyAlpha: function(value, oldValue) {
-            return new qx.Promise(function(resolve) {
+            var p = new qx.Promise(function(resolve) {
+              console.log("in _applyAlpha qx.Promise, value=" + value);
               setTimeout(function() {
+                console.log("in _applyAlpha resolving qx.Promise, value=" + value);
                 resolve("xyz");
               }, 50);
             });
+            console.log("in _applyAlpha, value=" + value + ", p=" + p);
+            return p;
           },
           _applyBravo: function(value, oldValue) {
             return new qx.Promise(function(resolve) {
@@ -411,44 +448,52 @@ qx.Class.define("qx.test.Promise", {
           }
         }
       });
-      
+
       function createObj(name) {
 	      var obj = new Clazz().set({ value: name });
-	      obj.addListener("changeAlphaAsync", function() {
-	      	console.log(name + ": changeAlphaAsync 1");
-	      	return new qx.Promise(function(resolve) {
+	      obj.addListener("changeAlphaAsync", function(evt) {
+	        var value = evt.getData();
+	      	var p = new qx.Promise(function(resolve) {
+            console.log(name + ": changeAlphaAsync 1 in qx.Promise, value=" + value);
 	      		setTimeout(function() {
 	      			if (str.length)
 	      				str += ",";
 	      			str += name;
-	      			console.log("end of onAlphaAsync for " + name);
+              console.log(name + ": changeAlphaAsync 1 resolving qx.Promise, value=" + value);
 	      			resolve();
 	      		}, 200);
-	      	}).then(function() { console.log(name + ": changeAlphaAsync 1 resolved"); });
+	      	}).then(function() {
+            console.log(name + ": changeAlphaAsync 1 resolved qx.Promise, value=" + value);
+	      	});
+          console.log(name + ": changeAlphaAsync 1, value=" + value + ", p=" + p);
+	      	return p;
 	      });
 	      return obj;
       }
-      
+
       var objOne = createObj("one");
       var objTwo = createObj("two");
-      var str = "";
 
-      objOne.addListener("changeAlphaAsync", function() {
-      	console.log("objTwo.alphaAsync setting");
+      var str = "";
+      objOne.addListener("changeAlphaAsync", function(evt) {
+        var value = evt.getData();
+      	console.log("objOne.alphaAsync setting, value=" + value);
       	return objTwo.setAlphaAsync("def").then(function() {
       		str += "xxx";
-      		console.log("objTwo.alphaAsync done"); 
-      	}); 
+      		console.log("objOne.alphaAsync done, value=" + value);
+      	});
       });
 
+      console.log("objOne.alphaAsync going to set value=abc");
       objOne.setAlphaAsync("abc").then(function() {
+        console.log("objOne.alphaAsync completed set value=abc");
       	this.assertEquals("one,twoxxx", str);
       	qx.Class.undefine("testAsyncEventHandlers.Clazz");
       	this.resume();
       }, this);
       this.wait(2500);
     },
-    
+
     /**
      * Tests using bind() on async properties (using the "changeXxxAsync" events) between
      * a series of objects.  The test must show that the property values are fired in
@@ -461,7 +506,7 @@ qx.Class.define("qx.test.Promise", {
         extend: qx.core.Object,
         properties: {
         	value: {
-        		
+
         	},
           alpha: {
             init: null,
@@ -471,7 +516,7 @@ qx.Class.define("qx.test.Promise", {
             event: "changeAlpha"
           }
         },
-        
+
         members: {
           _applyAlpha: function(value, oldValue) {
           	var t = this;
@@ -487,7 +532,7 @@ qx.Class.define("qx.test.Promise", {
       });
       var objs = [];
       var str = "";
-      
+
       function trap(i) {
       	var obj = new Clazz().set({value: i});
       	var bindPromise;
@@ -502,7 +547,7 @@ qx.Class.define("qx.test.Promise", {
         		var data = evt.getData();
         		var delay = (5-i+1) * 100;
         		console.log("pre changeAlpha " + obj.getValue() + " = " + data + " after " + delay);
-        		
+
         		return new qx.Promise(function(resolve) {
         			setTimeout(function() {
         				if (str.length)
@@ -516,22 +561,22 @@ qx.Class.define("qx.test.Promise", {
         	objs[i] = obj;
       	});
       }
-      
+
       qx.Promise.mapSeries([0, 1, 2, 3, 4], trap)
       	.then(function() {
           var p = objs[0].setAlphaAsync("abc");
-          
+
           p.then(function() {
             t.assertEquals("0:abc,1:abc,2:abc,3:abc,4:abc", str);
             qx.Class.undefine("testWaterfallBinding.Clazz");
           	t.resume();
           }, t);
-      		
+
       	});
-      
+
       this.wait(10000);
     },
-    
+
     /**
      * Tests the each method of promise, using qx.data.Array which the Bluebird implementation
      * does not understand.  The values are scalar values
@@ -552,7 +597,7 @@ qx.Class.define("qx.test.Promise", {
       });
       t.wait(1000);
     },
-    
+
     /**
      * Tests the each method of promise, using qx.data.Array which the Bluebird implementation
      * does not understand.  The values are a mixture of promises and scalar values
@@ -585,7 +630,7 @@ qx.Class.define("qx.test.Promise", {
       this.assertInstance(pThen, qx.Promise);
       t.wait(1000);
     },
-    
+
     /**
      * Tests unhandled rejections being passed to the global error handler
      */
@@ -606,9 +651,9 @@ qx.Class.define("qx.test.Promise", {
       });
       this.wait(1000);
     },
-    
+
     /**
-     * Tests promisification of methods 
+     * Tests promisification of methods
      */
     testMethod: function() {
       var t = this;
@@ -623,9 +668,9 @@ qx.Class.define("qx.test.Promise", {
       });
       this.wait(1000);
     },
-    
+
     /**
-     * Tests binding of all callbacks via .bind() 
+     * Tests binding of all callbacks via .bind()
      */
     testBinding1: function() {
       var t = this;
@@ -636,17 +681,17 @@ qx.Class.define("qx.test.Promise", {
       });
       this.wait(1000);
     },
-    
+
     /**
      * Tests binding on a per-method basis
      */
     testBinding2: function() {
       var t = this;
       var p = qx.Promise.forEach(
-          ["a", "b", "c"], 
+          ["a", "b", "c"],
           function(item) {
             qx.core.Assert.assertIdentical(t, this);
-          }, 
+          },
           this)
         .then(function(value) {
           qx.core.Assert.assertIdentical(t, this);
@@ -654,13 +699,13 @@ qx.Class.define("qx.test.Promise", {
         }, this);
       this.wait(1000);
     },
-    
+
     testMarshal: function() {
       var marshal = new qx.data.marshal.Json();
       marshal.toClass(qx.test.Promise.TEST_MODEL.children[0], true);
       var model = marshal.toModel(qx.test.Promise.TEST_MODEL.children[0]);
     },
-    
+
     /**
      * Tests binding where the context is static class
      */
@@ -684,7 +729,7 @@ qx.Class.define("qx.test.Promise", {
       });
       this.wait(1000);
     },
-    
+
     /**
      * Tests the context parameter for qx.Promise.reject
      */
@@ -696,7 +741,7 @@ qx.Class.define("qx.test.Promise", {
       });
       this.wait(1000);
     },
-    
+
     /**
      * Tests wrapping of parameters preserves the original values
      */
@@ -717,7 +762,7 @@ qx.Class.define("qx.test.Promise", {
       this.wait(1000);
     }
   },
-  
+
   statics: {
     TEST_MODEL: {
         "name": "qx",

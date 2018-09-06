@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.layout.VBox",
    * @param spacing {Integer?0} The spacing between child widgets {@link #spacing}.
    * @param alignY {String?"top"} Vertical alignment of the whole children
    *     block {@link #alignY}.
-   * @param separator {String|qx.ui.decoration.IDecorator} A separator to render between the items
+   * @param separator {String|qx.ui.decoration.IDecorator?} A separator to be rendered between the items
    */
   construct : function(spacing, alignY, separator)
   {

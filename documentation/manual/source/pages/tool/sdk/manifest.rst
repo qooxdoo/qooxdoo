@@ -3,7 +3,11 @@
 Manifest.json
 *************
 
-%{qooxdoo}'s `Manifest files <http://en.wikipedia.org/wiki/Manifest_file>`_ serve to provide meta information for a library in a structured way. Their syntax is in JSON. They have a more informational part (keyed ``info``), which is more interesting for human readers, and a technical part (named ``provides``) that is used in the processing of generator configurations. Here is a brief sample with all the possible keys:
+%{qooxdoo}'s `Manifest files <http://en.wikipedia.org/wiki/Manifest_file>`_ serve to provide meta information for a library in a structured way. Their syntax is in JSON. They have a more informational part (keyed ``info``), which is more interesting for human readers and a technical part (named ``provides``) that is used in the processing of generator configurations. 
+
+Beginning with the new Node.js compiler tool chain, there is also a part named ``externalResources`` to include CSS and Javascript files. This is not available when using the python generator!
+
+Here is a brief sample with all the possible keys:
 
 Manifest files are referenced in application's `config.json` files (in the :ref:`pages/tool/generator/generator_config_ref#library` key), to identify the library they stand for.
 
@@ -47,6 +51,16 @@ This is a sample file:
         "resource"    : "source/resource",
         "translation" : "source/translation",
         "type"        : "application"
+      },
+
+      "externalResources" :
+      {
+        "script": [
+          "js/customscript.js",
+        ],
+        "css": [
+          "styles/style.css"
+        ]
       }
     }
 
@@ -78,4 +92,9 @@ Description of Keys:
   * **resource**: Path to the library's resources relative to the Manifest.json file, up to but not including the root namespace folder (e.g. ``source/resource``).
   * **translation**: Path to the library's translation files relative to the Manifest.json file (e.g. ``source/translation``).
   * **type**: One of [``library``, ``application``].
+
+* **externalResources**: Static Javascript and CSS files that shall be always included without further processing by qooxdoo. All paths are relative to the resource folder stated in the "provides" section. Only available in the Node.js-based qooxdoo compiler.
+
+  * **script**: Array of javascript files.
+  * **css**: Array of css files.
 

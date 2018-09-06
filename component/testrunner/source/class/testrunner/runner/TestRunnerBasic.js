@@ -502,7 +502,7 @@ qx.Class.define("testrunner.runner.TestRunnerBasic", {
           }
         }
 
-        if (!qx.lang.Array.contains(this.__testsInView, this.currentTestData.fullName)) {
+        if (!this.__testsInView.includes(this.currentTestData.fullName)) {
           this.view.addTestResult(this.currentTestData);
           this.__testsInView.push(this.currentTestData.fullName);
         }

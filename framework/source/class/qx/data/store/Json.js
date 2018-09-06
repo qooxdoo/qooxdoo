@@ -79,6 +79,13 @@ qx.Class.define("qx.data.store.Json",
     "loaded" : "qx.event.type.Data",
 
     /**
+     * Fired when a parse error (i.e. broken JSON) occurred
+     * during the load. The data contains a hash of the original
+     * response and the parser error (exception object).
+     */
+    "parseError" : "qx.event.type.Data",
+
+    /**
      * Fired when an error (aborted, timeout or failed) occurred
      * during the load. The data contains the response of the request.
      * If you want more details, use the {@link #changeState} event.
@@ -190,6 +197,7 @@ qx.Class.define("qx.data.store.Json",
       // register the internal event before the user has the change to
       // register its own event in the delegate
       req.addListener("success", this._onSuccess, this);
+      req.addListener("parseError", this._onParseError, this);
 
       // check for the request configuration hook
       var del = this._delegate;
@@ -244,6 +252,18 @@ qx.Class.define("qx.data.store.Json",
     _onFail : function(ev) {
       var req = ev.getTarget();
       this.fireDataEvent("error", req);
+    },
+
+
+    /**
+     * Handler called when not completing the request successfully because
+     * of parse errors.
+     *
+     * @param ev {qx.event.type.Data} Hash map containing the original 'request'
+     *                                and the original parser 'error' exception object.
+     */
+    _onParseError : function(ev) {
+      this.fireDataEvent("parseError", ev.getData());
     },
 
 

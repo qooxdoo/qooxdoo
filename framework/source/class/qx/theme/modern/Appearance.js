@@ -9,8 +9,7 @@
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -30,26 +29,26 @@
 /**
  * The modern appearance theme.
  *
- * @asset(qx/icon/Tango/16/places/folder-open.png)
- * @asset(qx/icon/Tango/16/places/folder.png)
- * @asset(qx/icon/Tango/16/mimetypes/office-document.png)
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder-open.png)
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/16/mimetypes/office-document.png)
 
- * @asset(qx/icon/Tango/16/actions/window-close.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/window-close.png)
 
- * @asset(qx/icon/Tango/22/places/folder-open.png)
- * @asset(qx/icon/Tango/22/places/folder.png)
- * @asset(qx/icon/Tango/22/mimetypes/office-document.png)
+ * @asset(qx/icon/${qx.icontheme}/22/places/folder-open.png)
+ * @asset(qx/icon/${qx.icontheme}/22/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/22/mimetypes/office-document.png)
 
- * @asset(qx/icon/Tango/32/places/folder-open.png)
- * @asset(qx/icon/Tango/32/places/folder.png)
- * @asset(qx/icon/Tango/32/mimetypes/office-document.png)
+ * @asset(qx/icon/${qx.icontheme}/32/places/folder-open.png)
+ * @asset(qx/icon/${qx.icontheme}/32/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/32/mimetypes/office-document.png)
 
- * @asset(qx/icon/Tango/16/apps/office-calendar.png)
- * @asset(qx/icon/Tango/16/apps/utilities-color-chooser.png)
- * @asset(qx/icon/Tango/16/actions/view-refresh.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
+ * @asset(qx/icon/${qx.icontheme}/16/apps/utilities-color-chooser.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/view-refresh.png)
 
- * @asset(qx/icon/Tango/16/actions/dialog-cancel.png)
- * @asset(qx/icon/Tango/16/actions/dialog-ok.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
+ * @asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
 
  * @asset(qx/decoration/Modern/cursors/*)
  *
@@ -726,19 +725,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "scrollarea" :
-    {
-      style : function(states)
-      {
-        return {
-          // since the scroll container disregards the min size of the scrollbars
-          // we have to set the min size of the scroll area to ensure that the
-          // scrollbars always have an usable size.
-          minWidth : 50,
-          minHeight : 50
-        };
-      }
-    },
+    "scrollarea" : "widget",
 
     "scrollarea/corner" :
     {

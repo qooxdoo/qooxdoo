@@ -37,10 +37,12 @@ qx.Bootstrap.define("qx.core.WindowError",
    * @param failMessage {String} The error message
    * @param uri {String} URI where error was raised
    * @param lineNumber {Integer} The line number where the error was raised
+   * @param columnNumber {Integer} The column number where the error was raised
+   * @param sourceException {Error} orginal error
    */
-  construct : function(failMessage, uri, lineNumber)
+  construct : function(failMessage, uri, lineNumber, columnNumber, sourceException)
   {
-    var inst = Error.call(this, failMessage);
+    var inst = sourceException || Error.call(this, failMessage);
     // map stack trace properties since they're not added by Error's constructor
     if (inst.stack) {
       this.stack = inst.stack;
@@ -52,6 +54,8 @@ qx.Bootstrap.define("qx.core.WindowError",
     this.__failMessage = failMessage;
     this.__uri = uri || "";
     this.__lineNumber = lineNumber === undefined ? -1 : lineNumber;
+    this.__columnNumber = columnNumber === undefined ? -1 : columnNumber;
+    this.__sourceException = sourceException;
   },
 
 
@@ -67,6 +71,8 @@ qx.Bootstrap.define("qx.core.WindowError",
     __failMessage : null,
     __uri : null,
     __lineNumber : null,
+    __columnNumber : null,
+    __sourceException: null,
 
 
     /**
@@ -96,6 +102,24 @@ qx.Bootstrap.define("qx.core.WindowError",
      */
     getLineNumber : function() {
       return this.__lineNumber;
+    },
+
+    /**
+     * Get the column number where the error was raised
+     *
+     * @return {Integer} The line number where the error was raised
+     */
+    getColumnNumber : function() {
+      return this.__columnNumber;
+    },
+
+    /**
+     * Get the source exception
+     *
+     * @return {Error} The source error
+     */
+    getSourceException : function() {
+      return this.__sourceException;
     }
   }
 });

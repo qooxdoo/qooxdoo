@@ -881,7 +881,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
       this.__disposed = this.__send = this.__abort = false;
 
       // Initialize data white list
-      this.__dataTypeWhiteList = [ "ArrayBuffer", "Blob", "HTMLDocument", "String", "FormData" ];
+      this.__dataTypeWhiteList = [ "ArrayBuffer", "Blob", "File", "HTMLDocument", "String", "FormData" ];
     },
 
     /**

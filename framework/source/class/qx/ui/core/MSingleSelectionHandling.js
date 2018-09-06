@@ -40,6 +40,9 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
 
   events :
   {
+    /** Fires after the value was modified */
+    "changeValue" : "qx.event.type.Data",
+
     /** Fires after the selection was modified */
     "changeSelection" : "qx.event.type.Data"
   },
@@ -63,6 +66,43 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
       PUBLIC API
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * setValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @param item {null|qx.ui.core.Widget} Item to set as selected value.
+     * @returns {null|TypeError} The status of this operation.
+     */
+    setValue : function(item) {
+      if (null === item) {
+        this.resetSelection();
+        return null;
+      }
+
+      if (item instanceof qx.ui.core.Widget) {
+        this.__getManager().setSelected(item);
+        return null;
+
+      } else {
+        return new TypeError("Given argument is not null or a {qx.ui.core.Widget}.");
+      }
+    },
+
+    /**
+     * getValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @returns {null|qx.ui.core.Widget} The currently selected widget or null if there is none.
+     */
+    getValue : function() {
+      return this.__getManager().getSelected() || null;
+    },
+
+    /**
+     * resetValue implements part of the {@link qx.ui.form.IField} interface.
+     */
+    resetValue : function() {
+      this.__getManager().resetSelected();
+    },
 
     /**
      * Returns an array of currently selected items.
@@ -159,12 +199,12 @@ qx.Mixin.define("qx.ui.core.MSingleSelectionHandling",
      */
     _onChangeSelected : function(e) {
       var newValue = e.getData();
-      var oldVlaue = e.getOldData();
+      var oldValue = e.getOldData();
+      this.fireDataEvent("changeValue", newValue, oldValue);
 
       newValue == null ? newValue = [] : newValue = [newValue];
-      oldVlaue == null ? oldVlaue = [] : oldVlaue = [oldVlaue];
-
-      this.fireDataEvent("changeSelection", newValue, oldVlaue);
+      oldValue == null ? oldValue = [] : oldValue = [oldValue];
+      this.fireDataEvent("changeSelection", newValue, oldValue);
     },
 
     /**

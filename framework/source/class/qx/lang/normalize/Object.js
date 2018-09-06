@@ -37,13 +37,66 @@ qx.Bootstrap.define("qx.lang.normalize.Object", {
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
-    keys : qx.Bootstrap.keys
+    keys : qx.Bootstrap.keys,
+
+    /**
+     * Get the values of a map as array
+     *
+     * @param map {Object} the map
+     * @return {Array} array of the values of the map
+     */
+    values : function(map) {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert && qx.core.Assert.assertMap(map, "Invalid argument 'map'");
+      }
+
+      var arr = [];
+      var keys = Object.keys(map);
+
+      for (var i=0, l=keys.length; i<l; i++) {
+        arr.push(map[keys[i]]);
+      }
+
+      return arr;
+    },
+
+
+    /**
+     * Determines whether two values are the same value.
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is">MDN web docs: Object.is()</a>
+     *
+     * @signature function(x,y)
+     * @param x {Object} the first value to compare
+     * @param y {Object} the second value to compare
+     * @return {Boolean} indicating whether or not the two arguments are the same value.
+     */
+    is : function(x, y) {
+      // SameValue algorithm
+      if (x === y) { // Steps 1-5, 7-10
+        // Steps 6.b-6.e: +0 != -0
+        return x !== 0 || 1 / x === 1 / y;
+      } else {
+       // Step 6.a: NaN == NaN
+       return x !== x && y !== y;
+      }
+    }
   },
 
   defer : function(statics) {
     // keys
     if (!qx.core.Environment.get("ecmascript.object.keys")) {
       Object.keys = statics.keys;
+    }
+
+    // values
+    if (!qx.core.Environment.get("ecmascript.object.values")) {
+      Object.values = statics.values;
+    }
+
+    // is
+    if (!qx.core.Environment.get("ecmascript.object.is")) {
+      Object.is = statics.is;
     }
   }
 });

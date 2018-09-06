@@ -22,12 +22,30 @@
  * 
  * NOTE: Instances of this class must be disposed of after use
  *
+ * @ignore(qx.$$fontBootstrap)
  */
 qx.Class.define("qx.theme.manager.Font",
 {
   type : "singleton",
   extend : qx.util.ValueManager,
   implement : [ qx.core.IDisposable ],
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    this.base(arguments);
+
+    // Grab bootstrap info
+    if (qx.$$fontBootstrap) {
+      this._manifestFonts = qx.$$fontBootstrap;
+      delete qx.$$fontBootstrap;
+    }
+  },
 
 
   /*
@@ -60,6 +78,8 @@ qx.Class.define("qx.theme.manager.Font",
 
   members :
   {
+    _manifestFonts : null,
+
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
@@ -101,8 +121,8 @@ qx.Class.define("qx.theme.manager.Font",
 
         // Inject information about custom charcter set tests before we apply the
         // complete blob in one.
-        if (theme.fonts[value].testCharacters) {
-          fo.setTestCharacters(theme.fonts[value].testCharacters);
+        if (theme.fonts[value].comparisonString) {
+          fo.setComparisonString(theme.fonts[value].comparisonString);
         }
 
         return cache[value] = fo.set(theme.fonts[value]);
@@ -139,8 +159,8 @@ qx.Class.define("qx.theme.manager.Font",
 
         // Inject information about custom charcter set tests before we apply the
         // complete blob in one.
-        if (theme.fonts[value].testCharacters) {
-          fo.setTestCharacters(theme.fonts[value].testCharacters);
+        if (theme.fonts[value].comparisonString) {
+          fo.setComparisonString(theme.fonts[value].comparisonString);
         }
 
         cache[value] = fo.set(theme.fonts[value]);
@@ -191,7 +211,7 @@ qx.Class.define("qx.theme.manager.Font",
 
       if (value)
       {
-        var source = value.fonts;
+        var source = this._manifestFonts ? Object.assign(value.fonts, this._manifestFonts) : value.fonts;
 
         for (var key in source)
         {
@@ -204,11 +224,11 @@ qx.Class.define("qx.theme.manager.Font",
 
           // Inject information about custom charcter set tests before we apply the
           // complete blob in one.
-          if (source[key].testCharacters) {
-            fo.setTestCharacters(source[key].testCharacters);
+          if (source[key].comparisonString) {
+            fo.setComparisonString(source[key].comparisonString);
           }
 
-          dest[key] = (new font).set(source[key]);
+          dest[key] = fo.set(source[key]);
           dest[key].themed = true;
         }
       }

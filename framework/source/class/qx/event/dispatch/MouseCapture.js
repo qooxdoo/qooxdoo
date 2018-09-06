@@ -102,7 +102,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
         target = this.__captureElement;
       }
 
-      this.base(arguments, target, event, type);
+      return this.base(arguments, target, event, type);
     },
 
 
@@ -169,11 +169,12 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       if (this.hasNativeCapture) {
         this.nativeSetCapture(element, containerCapture);
         var self = this;
-        qx.bom.Event.addNativeListener(element, "losecapture", function()
+        var onNativeListener = function()
         {
-          qx.bom.Event.removeNativeListener(element, "losecapture", arguments.callee);
+          qx.bom.Event.removeNativeListener(element, "losecapture", onNativeListener);
           self.releaseCapture();
-        });
+        };
+        qx.bom.Event.addNativeListener(element, "losecapture", onNativeListener);
       }
 
       this.__containerCapture = containerCapture;

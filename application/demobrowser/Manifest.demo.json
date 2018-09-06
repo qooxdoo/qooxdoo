@@ -9,7 +9,7 @@
     "keywords" : ["demo"],
     "homepage" : "http://demo.qooxdoo.org/current/demobrowser",
 
-    "license" : "LGPL/EPL",
+    "license" : "MIT",
     "authors" : 
     [
       {

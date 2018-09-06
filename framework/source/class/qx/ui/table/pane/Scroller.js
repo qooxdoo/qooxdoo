@@ -8,8 +8,7 @@
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -390,6 +389,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __top : null,
 
     __timer : null,
+		
+		__focusIndicatorPointerDownListener: null,
 
 
     /**
@@ -1887,7 +1888,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._cellEditor.setUserBounds(0, 0, size.width, size.height);
 
           // prevent tap event from bubbling up to the table
-          this.__focusIndicator.addListener("pointerdown", function(e)
+          this.__focusIndicatorPointerDownListener = this.__focusIndicator.addListener("pointerdown", function(e)
           {
             this.__lastPointerDownCell = {
               row : this.__focusedRow,
@@ -1967,6 +1968,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         {
           this.__focusIndicator.removeState("editing");
           this.__focusIndicator.setKeepActive(true);
+
+					if (this.__focusIndicatorPointerDownListener !== null) {
+						this.__focusIndicator.removeListenerById(this.__focusIndicatorPointerDownListener);
+						this.__focusIndicatorPointerDownListener = null;
+					}
         }
         this._cellEditor.destroy();
         this._cellEditor = null;

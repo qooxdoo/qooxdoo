@@ -22,6 +22,14 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
   implement : qx.ui.tree.core.IVirtualTree,
   include : qx.dev.unit.MMock,
 
+  properties :
+  {
+    openProperty : {
+      check : "String",
+      init : null
+    }
+  },
+
   members :
   {
     model : null,

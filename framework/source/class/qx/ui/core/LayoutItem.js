@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * Get the computed location and dimension as computed by
      * the layout manager.
      *
-     * @return {Map} The location and dimensions in pixel
+     * @return {Map|null} The location and dimensions in pixel
      *    (if the layout is valid). Contains the keys
      *    <code>width</code>, <code>height</code>, <code>left</code> and
      *    <code>top</code>.

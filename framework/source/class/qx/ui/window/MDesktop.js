@@ -177,7 +177,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      */
     _addWindow : function(win)
     {
-      if (!qx.lang.Array.contains(this.getWindows(), win))
+      if (!this.getWindows().includes(win))
       {
         this.getWindows().push(win);
 
@@ -216,7 +216,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      */
     _removeWindow : function(win)
     {
-      if (qx.lang.Array.contains(this.getWindows(), win))
+      if (this.getWindows().includes(win))
       {
         qx.lang.Array.remove(this.getWindows(), win);
 

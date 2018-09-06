@@ -30,6 +30,7 @@ qx.Class.define("qx.ui.form.List",
   implement : [
     qx.ui.core.IMultiSelection,
     qx.ui.form.IForm,
+    qx.ui.form.IField,
     qx.ui.form.IModelSelection
   ],
   include : [
@@ -125,6 +126,20 @@ qx.Class.define("qx.ui.form.List",
     {
       refine : true,
       init : true
+    },
+
+    // overridden
+    width :
+    {
+      refine : true,
+      init : 100
+    },
+
+    // overridden
+    height :
+    {
+      refine : true,
+      init : 200
     },
 
     /**
@@ -252,18 +267,27 @@ qx.Class.define("qx.ui.form.List",
     // property apply
     _applyOrientation : function(value, old)
     {
+      var content = this.__content;
+
+      // save old layout for disposal
+      var oldLayout = content.getLayout();
+      
       // Create new layout
       var horizontal = value === "horizontal";
       var layout = horizontal ? new qx.ui.layout.HBox() : new qx.ui.layout.VBox();
 
       // Configure content
-      var content = this.__content;
       content.setLayout(layout);
       content.setAllowGrowX(!horizontal);
       content.setAllowGrowY(horizontal);
 
       // Configure spacing
       this._applySpacing(this.getSpacing());
+      
+      // dispose old layout
+      if(oldLayout) {
+        oldLayout.dispose();
+      }
     },
 
     // property apply

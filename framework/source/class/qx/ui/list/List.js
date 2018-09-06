@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.list.List",
   /**
    * Creates the <code>qx.ui.list.List</code> with the passed model.
    *
-   * @param model {qx.data.IListData|null} model for the list.
+   * @param model {qx.data.IListData|null?} model for the list.
    */
   construct : function(model)
   {
@@ -86,6 +86,15 @@ qx.Class.define("qx.ui.list.List",
     }
 
     this.initItemHeight();
+  },
+
+
+  events :
+  {
+    /**
+     * Fired when the length of {@link #model} changes.
+     */
+    "changeModelLength" : "qx.event.type.Data"
   },
 
 
@@ -622,6 +631,10 @@ qx.Class.define("qx.ui.list.List",
       this._provider.removeBindings();
       this.__buildUpLookupTable();
       this._applyDefaultSelection();
+
+      if (e instanceof qx.event.type.Data) {
+        this.fireDataEvent("changeModelLength", e.getData(), e.getOldData());
+      }
     },
 
 
@@ -910,7 +923,7 @@ qx.Class.define("qx.ui.list.List",
 
   destruct : function()
   {
-    this.__deferredLayerUpdate = null;
+    this._disposeObjects("__deferredLayerUpdate");
     
     var model = this.getModel();
     if (model != null) {

@@ -39,6 +39,11 @@ qx.Bootstrap.define("qx.util.Wheel", {
      */
     FACTOR: 1,
 
+    /**
+     * Is the Wheel actually a touchpad ?
+     * @internal
+     */
+    IS_TOUCHPAD: false,
 
     /**
      * Get the amount the wheel has been scrolled
@@ -116,6 +121,13 @@ qx.Bootstrap.define("qx.util.Wheel", {
      * @return {Number} The normalized delta value
      */
     __normalize: function (delta) {
+      if (qx.util.Wheel.IS_TOUCHPAD) {
+        // Reset normalization values that may be re-computed once a real mouse is plugged.
+        qx.util.Wheel.MINSCROLL = null;
+        qx.util.Wheel.MAXSCROLL = null;
+        qx.util.Wheel.FACTOR = 1;
+        return delta;
+      }
       var absDelta = Math.abs(delta);
 
       if (absDelta === 0) {
@@ -172,6 +184,9 @@ qx.Bootstrap.define("qx.util.Wheel", {
         maxRet = 1;
       }
       qx.util.Wheel.FACTOR = 6 / maxRet;
+      if (qx.core.Environment.get("qx.debug.touchpad.detection")) {
+        qx.log.Logger.debug(this, "FACTOR : " + qx.util.Wheel.FACTOR);
+      }
     }
   }
 });

@@ -353,12 +353,15 @@ qx.Class.define("qx.dev.Debug",
      * Starts a dispose profiling session. Use {@link #stopDisposeProfiling} to
      * get the results
      *
-     * @signature function()
+     * @return {Number|undefined}
+     *   Returns a handle which may be passed to {@link #stopDisposeProfiling}
+     *   indicating the start point for searching for undisposed objects.
      */
     startDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
       "true" : function() {
         this.disposeProfilingActive = true;
         this.__nextHashFirst = qx.core.ObjectRegistry.getNextHash();
+        return this.__nextHashFirst;
       },
 
       "default" : (function() {})
@@ -366,9 +369,11 @@ qx.Class.define("qx.dev.Debug",
 
 
     /**
-     * Returns a list of any (qx) objects that were created but not disposed since
-     * {@link #startDisposeProfiling} was called. Also returns a stack trace
-     * recorded at the time the object was created.
+     * Returns a list of any (qx) objects that were created but not disposed
+     * since {@link #startDisposeProfiling} was called. Also returns a stack
+     * trace recorded at the time the object was created. The starting point
+     * of dispose tracking is reset, so to do further dispose profiling, a new
+     * call to {@link #startDisposeProfile} must be issued.
      *
      * @signature function(checkFunction)
      * @param checkFunction {Function} Custom check function. It is called once
@@ -379,7 +384,7 @@ qx.Class.define("qx.dev.Debug",
      * <code>object</code> and <code>stackTrace</code>
      */
     stopDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
-      "true" : function(checkFunction) {
+      "true" : function(checkFunction, startHandle) {
         if (!this.__nextHashFirst) {
           qx.log.Logger.error("Call " + this.classname + ".startDisposeProfiling first.");
           return [];
@@ -388,6 +393,33 @@ qx.Class.define("qx.dev.Debug",
         //qx.core.ObjectRegistry.saveStackTraces = false;
         this.disposeProfilingActive = false;
 
+        var undisposedObjects = this.showDisposeProfiling(checkFunction, startHandle || this.__nextHashFirst);
+
+        delete this.__nextHashFirst;
+        return undisposedObjects;
+      },
+
+      "default" : (function() {})
+    }),
+
+    /**
+     * Returns a list of any (qx) objects that were created but not disposed
+     * since {@link #startDisposeProfiling} was called. Also returns a stack
+     * trace recorded at the time the object was created. Does not restart the
+     * tracking point, so subsequent calls to this method will continue to
+     * show undisposed objects since {@link #startDisposeProfiling} was
+     * called.
+     *
+     * @signature function(checkFunction)
+     * @param checkFunction {Function} Custom check function. It is called once
+     * for each object that was created after dispose profiling was started,
+     * with the object as the only parameter. If it returns false, the object
+     * will not be included in the returned list
+     * @return {Map[]} List of maps. Each map contains two keys:
+     * <code>object</code> and <code>stackTrace</code>
+     */
+    showDisposeProfiling : qx.core.Environment.select("qx.debug.dispose", {
+      "true" : function(checkFunction) {
         var undisposedObjects = [];
         // If destroy calls another destroy, flushing the queue once is not enough
         if (qx.Class.getByName("qx.ui.core.queue.Dispose")) {
@@ -442,7 +474,7 @@ qx.Class.define("qx.dev.Debug",
             });
           }
         }
-        delete this.__nextHashFirst;
+
         return undisposedObjects;
       },
 

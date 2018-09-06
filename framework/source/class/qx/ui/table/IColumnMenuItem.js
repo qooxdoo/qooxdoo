@@ -25,8 +25,9 @@ qx.Interface.define("qx.ui.table.IColumnMenuItem",
   {
     /**
      * Whether the table column associated with this menu item is visible
+     * Should be of type {Boolean}!
      */
-    visible : { }
+    columnVisible : { }
   },
 
   events :
@@ -36,6 +37,6 @@ qx.Interface.define("qx.ui.table.IColumnMenuItem",
      * boolean indicating whether the table column associated with this menu
      * item is now visible.
      */
-    changeVisible : "qx.event.type.Data"
+    changeColumnVisible : "qx.event.type.Data"
   }
 });

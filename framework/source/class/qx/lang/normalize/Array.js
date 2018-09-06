@@ -382,6 +382,63 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
       }
 
       return ret;
+    },
+
+    /**
+     * The includes() method determines whether an array includes a certain element, returning
+     * true or false as appropriate.
+     *
+     * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes">MDN documentation</a> |
+     *
+     * @param searchElement {var} Element which is checked for.
+     * @param fromIndex {Number} Index to start search from
+     * @return {bool} true if element is included
+     */
+    includes : function(searchElement, fromIndex)
+    {
+      if (this == null) {
+        throw new TypeError('"this" is null or not defined');
+      }
+
+      // 1. Let O be ? ToObject(this value).
+      var o = Object(this);
+
+      // 2. Let len be ? ToLength(? Get(O, "length")).
+      var len = o.length >>> 0;
+
+      // 3. If len is 0, return false.
+      if (len === 0) {
+        return false;
+      }
+
+      // 4. Let n be ? ToInteger(fromIndex).
+      //    (If fromIndex is undefined, this step produces the value 0.)
+      var n = fromIndex | 0;
+
+      // 5. If n ≥ 0, then
+      //  a. Let k be n.
+      // 6. Else n < 0,
+      //  a. Let k be len + n.
+      //  b. If k < 0, let k be 0.
+      var k = Math.max(n >= 0 ? n : len - Math.abs(n), 0);
+
+      function sameValueZero(x, y) {
+        return x === y || (typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y));
+      }
+
+      // 7. Repeat, while k < len
+      while (k < len) {
+        // a. Let elementK be the result of ? Get(O, ! ToString(k)).
+        // b. If SameValueZero(searchElement, elementK) is true, return true.
+        if (sameValueZero(o[k], searchElement)) {
+          return true;
+        }
+        // c. Increase k by 1. 
+        k++;
+      }
+
+      // 8. Return false
+      return false;
     }
   },
 
@@ -409,5 +466,6 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
     install("ecmascript.array.every", "every");
     install("ecmascript.array.reduce", "reduce");
     install("ecmascript.array.reduceright", "reduceRight");
+    install("ecmascript.array.includes", "includes");
   }
 });

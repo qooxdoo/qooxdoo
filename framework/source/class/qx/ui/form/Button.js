@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.form.Button",
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
      * </ul>
      *
-     * @param e {Event} Mouse event
+     * @param e {qx.event.type.Pointer} Mouse event
      */
     _onPointerOver : function(e)
     {
@@ -220,7 +220,7 @@ qx.Class.define("qx.ui.form.Button",
      * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
      * </ul>
      *
-     * @param e {Event} Mouse event
+     * @param e {qx.event.type.Pointer} Mouse event
      */
     _onPointerOut : function(e)
     {
@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.form.Button",
      * <li>Adds "pressed" state</li>
      * </ul>
      *
-     * @param e {Event} Mouse event
+     * @param e {qx.event.type.Pointer} Mouse event
      */
     _onPointerDown : function(e)
     {
@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.form.Button",
      * <li>Adds "hovered" state (if "abandoned" state is not set)</li>
      *</ul>
      *
-     * @param e {Event} Mouse event
+     * @param e {qx.event.type.Pointer} Mouse event
      */
     _onPointerUp : function(e)
     {
