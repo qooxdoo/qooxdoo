@@ -45,6 +45,7 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
 {
   extend : qx.ui.mobile.form.Input,
   include : [qx.ui.mobile.form.MValue],
+  implement : [qx.ui.form.IField],
 
   /*
   *****************************************************************************
