@@ -277,6 +277,9 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      *    the items contains more than one item.
      */
     setSelection : function(items) {
+      if (this.__inOnSelectionChange) {
+        return;
+      }
       for (var i = 0; i < items.length; i++) {
         if (!qx.ui.core.Widget.contains(this, items[i])) {
           throw new Error("Could not select " + items[i] +
@@ -417,9 +420,18 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      *
      * @param e {qx.event.type.Data} Data event
      */
+    __inOnSelectionChange: false,
     _onSelectionChange : function(e) {
-      this.fireDataEvent("changeSelection", e.getData(), e.getOldData());
-      this.fireDataEvent("changeValue", e.getData(), e.getOldData());
+      if (this.__inOnSelectionChange) {
+        return;
+      }
+      this.__inOnSelectionChange = true;
+      try {
+        this.fireDataEvent("changeSelection", e.getData(), e.getOldData());
+        this.fireDataEvent("changeValue", e.getData(), e.getOldData());
+      } finally {
+        this.__inOnSelectionChange = false;
+      }
     }
   },
 
