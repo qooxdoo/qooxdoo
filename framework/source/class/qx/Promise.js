@@ -520,7 +520,7 @@ qx.Class.define("qx.Promise", {
     /**
      * Returns a promise that resolves when all of the promises in the object properties have resolved, 
      * or rejects with the reason of the first passed promise that rejects.  The result of each property
-     * is placed back in the object, replacing the promise. 
+     * is placed back in the object, replacing the promise.  Note that non-promise values are untouched.
      * 
      * @param value {var} An object
      * @return {qx.Promise}
@@ -548,7 +548,9 @@ qx.Class.define("qx.Promise", {
     
     /**
      * Returns a promise that resolves when all of the promises in the iterable argument have resolved, 
-     * or rejects with the reason of the first passed promise that rejects.
+     * or rejects with the reason of the first passed promise that rejects.  Note that non-promise values 
+     * are untouched.
+     * 
      * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
      */
