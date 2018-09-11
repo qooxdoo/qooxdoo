@@ -219,8 +219,9 @@ qx.Mixin.define("qx.data.controller.MSelection",
       var spliceArgs = [0, selection.getLength()];
       for (var i = 0; i < targetSelection.length; i++) {
         var model = targetSelection[i].getModel();
-        if (model !== null)
+        if (model !== null) {
           spliceArgs.push(model);
+        }
       }
       // use splice to ensure a correct change event [BUG #4728]
       selection.splice.apply(selection, spliceArgs).dispose();

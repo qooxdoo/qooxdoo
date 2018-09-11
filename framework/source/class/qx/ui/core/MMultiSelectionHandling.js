@@ -128,7 +128,10 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     /** @type {qx.ui.core.selection.Abstract} The selection manager */
     __manager : null,
 
+    /** @type {Boolean} used to control recursion in onSelectionChange */
+    __inOnSelectionChange: false,
 
+    
     /*
     ---------------------------------------------------------------------------
       USER API
@@ -277,6 +280,10 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      *    the items contains more than one item.
      */
     setSelection : function(items) {
+      // Block recursion so that when selection changes modelSelection, the modelSelection
+      //  cannot change selection again; this is important because modelSelection does not
+      //  necessarily match selection, for example when the item's model properties are
+      //  null.
       if (this.__inOnSelectionChange) {
         return;
       }
@@ -420,7 +427,6 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      *
      * @param e {qx.event.type.Data} Data event
      */
-    __inOnSelectionChange: false,
     _onSelectionChange : function(e) {
       if (this.__inOnSelectionChange) {
         return;
