@@ -22,6 +22,11 @@
       "class": "selectbox.Application",
       "theme": "qx.theme.Simple",
       "name": "selectbox"
+    },
+    {
+      "class": "selectbox.Issue9569Application",
+      "theme": "qx.theme.Simple",
+      "name": "issue-9569"
     }
   ],
 
