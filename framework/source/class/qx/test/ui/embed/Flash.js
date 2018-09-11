@@ -122,6 +122,10 @@ qx.Class.define("qx.test.ui.embed.Flash",
 
     testLoadTimeout : function()
     {
+      if (qx.core.Environment.get("qx.test.travis") == "true") {
+        this.skip("Test disabled on travis");
+      }
+      
       var test = {
         loading : function() {},
         loaded : function() {},
