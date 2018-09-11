@@ -396,24 +396,21 @@ qx.Class.define("qx.ui.basic.Image",
       var tagName;
       var clazz = qx.html.Image;
 
-      if (mode == "font")
-      {
+      switch (mode) {
+        case "font":
         clazz = qx.html.Label;
         scale = true;
         tagName = "div";
-      }
-      else if (mode == "alphaScaled")
-      {
+          break;
+        case "alphaScaled":
         scale = true;
         tagName = "div";
-      }
-      else if (mode == "nonScaled")
-      {
+          break;
+        case "nonScaled":
         scale = false;
         tagName = "div";
-      }
-      else
-      {
+          break;
+        default:
         scale = true;
         tagName = "img";
       }
