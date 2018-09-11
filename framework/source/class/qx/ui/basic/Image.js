@@ -398,21 +398,22 @@ qx.Class.define("qx.ui.basic.Image",
 
       switch (mode) {
         case "font":
-        clazz = qx.html.Label;
-        scale = true;
-        tagName = "div";
+          clazz = qx.html.Label;
+          scale = true;
+          tagName = "div";
           break;
         case "alphaScaled":
-        scale = true;
-        tagName = "div";
+          scale = true;
+          tagName = "div";
           break;
         case "nonScaled":
-        scale = false;
-        tagName = "div";
+          scale = false;
+          tagName = "div";
           break;
         default:
-        scale = true;
-        tagName = "img";
+          scale = true;
+          tagName = "img";
+          break;
       }
 
       var element = new (clazz)(tagName);
