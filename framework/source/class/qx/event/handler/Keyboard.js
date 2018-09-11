@@ -330,78 +330,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     __onKeyUpDown : qx.event.GlobalError.observeMethod(qx.core.Environment.select("engine.name",
     {
-      "mshtml" : function(domEvent)
-      {
-        domEvent = window.event || domEvent;
-
-        var keyCode = domEvent.keyCode;
-        var charCode = 0;
-        var type = domEvent.type;
-        var tracker = {};
-        var self = this;
-
-        // Ignore the down in such sequences dp dp dp
-        if (!(this.__lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
-          qx.event.Utils.then(tracker, function() {
-            return self._idealKeyHandler(keyCode, charCode, type, domEvent);
-          });
-        }
-
-        // On non print-able character be sure to add a keypress event
-        if (type == "keydown")
-        {
-          // non-printable, backspace or tab
-          if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
-            qx.event.Utils.then(tracker, function() {
-              return self._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
-            });
-          }
-        }
-
-        // Store last type
-        this.__lastUpDownType[keyCode] = type;
-        
-        return tracker.promise;
-      },
-
-      "gecko" : function(domEvent)
-      {
-        var charCode = 0;
-        var keyCode = domEvent.keyCode;
-        var type = domEvent.type;
-        var kbUtil = qx.event.util.Keyboard;
-        
-        var tracker = {};
-        var self = this;
-
-        // FF repeats under windows keydown events like IE
-        if (qx.core.Environment.get("os.name") == "win")
-        {
-          var keyIdentifier = keyCode ? kbUtil.keyCodeToIdentifier(keyCode) : kbUtil.charCodeToIdentifier(charCode);
-
-          if (!(this.__lastUpDownType[keyIdentifier] == "keydown" && type == "keydown")) {
-            qx.event.Utils.then(tracker, function() {
-              return self._idealKeyHandler(keyCode, charCode, type, domEvent);
-            });
-          }
-
-          // Store last type
-          this.__lastUpDownType[keyIdentifier] = type;
-        }
-
-        // all other OSes
-        else
-        {
-          qx.event.Utils.then(tracker, function() {
-            return self._idealKeyHandler(keyCode, charCode, type, domEvent);
-          });
-        }
-
-        this.__firefoxInputFix(domEvent.target, type, keyCode);
-        return tracker.promise;
-      },
-
-      "webkit" : function(domEvent)
+      "gecko|webkit|mshtml" : function(domEvent)
       {
         var keyCode = 0;
         var charCode = 0;

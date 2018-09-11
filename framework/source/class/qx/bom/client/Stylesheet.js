@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.bom.client.Stylesheet",
     /**
      * Returns a stylesheet to be used for feature checks
      *
-     * @return {Stylesheet} Stylesheet element
+     * @return {StyleSheet} Stylesheet element
      */
     __getStylesheet : function()
     {
