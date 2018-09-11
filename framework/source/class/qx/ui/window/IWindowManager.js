@@ -20,7 +20,7 @@
  * Required interface for all window manager.
  *
  * Window manager handle the z-order and modality blocking of windows managed
- * by the connected desktop {@link IDesktop}.
+ * by the connected desktop {@link qx.ui.window.IDesktop}.
  */
 qx.Interface.define("qx.ui.window.IWindowManager",
 {
@@ -29,7 +29,7 @@ qx.Interface.define("qx.ui.window.IWindowManager",
     /**
      * Connect the window manager to the window desktop
      *
-     * @param desktop {IDesktop|null} The connected desktop or null
+     * @param desktop {qx.ui.window.IDesktop|null} The connected desktop or null
      */
     setDesktop : function(desktop) {
       if (desktop !== null) {
@@ -40,8 +40,8 @@ qx.Interface.define("qx.ui.window.IWindowManager",
     /**
      * Inform the window manager about a new active window
      *
-     * @param active {Window} new active window
-     * @param oldActive {Window} old active window
+     * @param active {qx.ui.window.Window} new active window
+     * @param oldActive {qx.ui.window.Window} old active window
      */
     changeActiveWindow : function(active, oldActive) {},
 
@@ -53,7 +53,7 @@ qx.Interface.define("qx.ui.window.IWindowManager",
     /**
      * Ask the manager to bring a window to the front.
      *
-     * @param win {Window} window to bring to front
+     * @param win {qx.ui.window.Window} window to bring to front
      */
     bringToFront : function(win) {
       this.assertInstance(win, qx.ui.window.Window);
@@ -62,7 +62,7 @@ qx.Interface.define("qx.ui.window.IWindowManager",
     /**
      * Ask the manager to send a window to the back.
      *
-     * @param win {Window} window to sent to back
+     * @param win {qx.ui.window.Window} window to sent to back
      */
     sendToBack : function(win) {
       this.assertInstance(win, qx.ui.window.Window);

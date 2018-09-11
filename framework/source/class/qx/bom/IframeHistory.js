@@ -264,7 +264,7 @@ qx.Class.define("qx.bom.IframeHistory",
      * Setting the source before adding the iframe to the document.
      * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
      *
-     * @return {Iframe}
+     * @return {qx.bom.Iframe}
      */
     __createIframe : function ()
     {

@@ -80,7 +80,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * controller.bindProperty("path.in.the.model", "label", options, item, id);
      * </code>
      *
-     * @param controller {MWidgetController} The currently used controller.
+     * @param controller {qx.ui.list.core.MWidgetController} The currently used controller.
      * @param item {qx.ui.core.Widget} The created and used item.
      * @param id {Integer} The id for the binding.
      */
@@ -96,7 +96,7 @@ qx.Interface.define("qx.ui.list.core.IListDelegate",
      * controller.bindProperty(null, "value", options, item, id);
      * </code>
      *
-     * @param controller {MWidgetController} The currently used controller.
+     * @param controller {qx.ui.list.core.MWidgetController} The currently used controller.
      * @param item {qx.ui.core.Widget} The created and used group item.
      * @param id {Integer} The id for the binding.
      */
