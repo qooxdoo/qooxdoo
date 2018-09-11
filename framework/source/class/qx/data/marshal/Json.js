@@ -62,6 +62,21 @@ qx.Class.define("qx.data.marshal.Json",
       this.$$instance.toClass(data, includeBubbleEvents);
       // return the model
       return this.$$instance.toModel(data);
+    },
+    
+    /**
+     * Legacy json hash method used as default in Qooxdoo < v6.0.
+     * You can go back to the old behaviour like this:
+     * 
+     * <code>
+     *  var marshaller = new qx.data.marshal.Json({
+     *   getJsonHash: qx.data.marshal.Json.legacyJsonHash
+     *  });
+     * </code>
+     */
+    legacyJsonHash: function (data, includeBubbleEvents) {
+      return Object.keys(data).sort().join('"')
+        + (includeBubbleEvents===true ? "♥" : "");
     }
   },
 
@@ -83,7 +98,10 @@ qx.Class.define("qx.data.marshal.Json",
      */
     __jsonToHash : function (data, includeBubbleEvents)
     {
-      return Object.keys(data).sort().join('"')
+      if (this.__delegate && this.__delegate.getJsonHash) {
+        return this.__delegate.getJsonHash(data, includeBubbleEvents);
+      }
+      return Object.keys(data).sort().join('|')
            + (includeBubbleEvents===true ? "♥" : "");
     },
 

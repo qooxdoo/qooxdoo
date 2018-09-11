@@ -190,6 +190,42 @@ qx.Class.define("qx.data.controller.List",
       event: "changeDelegate",
       init: null,
       nullable: true
+    },
+    
+    /**
+     * Whether a special "null" value is included in the list
+     */
+    allowNull :
+    {
+      apply: "_applyAllowNull",
+      event: "changeAllowNull",
+      init: false,
+      nullable: false,
+      check: "Boolean"
+    },
+    
+    /**
+     * Title for the special null value entry
+     */
+    nullValueTitle:
+    {
+      apply: "_applyNullValueTitle",
+      event: "changeNullValueTitle",
+      init: null,
+      nullable: true,
+      check: "String"
+    },
+    
+    /**
+     * Icon for the special null value entry
+     */
+    nullValueIcon:
+    {
+      apply: "_applyNullValueIcon",
+      event: "changeNullValueIcon",
+      init: null,
+      nullable: true,
+      check: "String"
     }
   },
 
@@ -295,6 +331,38 @@ qx.Class.define("qx.data.controller.List",
      */
     _applyLabelPath: function(value, old) {
       this.__renewBindings();
+    },
+
+    
+    /**
+     * Apply method for the `allowNull` property 
+     */
+    _applyAllowNull: function(value, oldValue) {
+      this.__refreshModel();
+    },
+    
+    /**
+     * Apply method for the `allowNull` property 
+     */
+    _applyNullValueTitle: function(value, oldValue) {
+      this.__refreshModel();
+    },
+    
+    /**
+     * Apply method for the `allowNull` property 
+     */
+    _applyNullValueIcon: function(value, oldValue) {
+      this.__refreshModel();
+    },
+
+    /**
+     * Refreshes the model, uses when the model and target are not changing but the appearance
+     * and bindings may need to be updated
+     */
+    __refreshModel: function() {
+      if (this.getModel() && this.getTarget()) {
+        this.update();
+      }
     },
 
 
@@ -599,6 +667,13 @@ qx.Class.define("qx.data.controller.List",
      * @param index {Number} The index of the ListItem.
      */
     _bindListItem: function(item, index) {
+      // -1 is the special, "null" value item.  Nothing to bind, just fix the display and model
+      if (index < 0) {
+        item.setLabel(this.getNullValueTitle()||"");
+        item.setIcon(this.getNullValueIcon());
+        item.setModel(null);
+        return;
+      }
       var delegate = this.getDelegate();
       // if a delegate for creating the binding is given, use it
       if (delegate != null && delegate.bindItem != null) {
@@ -759,16 +834,16 @@ qx.Class.define("qx.data.controller.List",
         var id = item.getUserData(this.__boundProperties[i] + "BindingId");
         if (id != null) {
           this.removeBinding(id);
+          item.setUserData(this.__boundProperties[i] + "BindingId", null);
         }
       }
       // go through all reverse bound properties
       for (var i = 0; i < this.__boundPropertiesReverse.length; i++) {
         // get the binding id and remove it, if possible
-        var id = item.getUserData(
-          this.__boundPropertiesReverse[i] + "ReverseBindingId"
-        );
+        var id = item.getUserData(this.__boundPropertiesReverse[i] + "ReverseBindingId");
         if (id != null) {
           item.removeBinding(id);
+          item.getUserData(this.__boundPropertiesReverse[i] + "ReverseBindingId", null);
         }
       };
     },
@@ -987,6 +1062,11 @@ qx.Class.define("qx.data.controller.List",
       }
 
       this.__lookupTable = [];
+      
+      // -1 is a special lookup value, to represent the "null" option 
+      if (this.isAllowNull()) {
+        this.__lookupTable.push(-1);
+      }
       for (var i = 0; i < model.getLength(); i++) {
         if (filter == null || filter(model.getItem(i))) {
           this.__lookupTable.push(i);
