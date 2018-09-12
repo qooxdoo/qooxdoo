@@ -48,7 +48,7 @@ qx.Class.define("qx.locale.LocalizedString",
     /**
      * Get a translation of the string using the current locale.
      *
-     * @return {LocalizedString} This string translated using the current
+     * @return {qx.locale.LocalizedString|String} This string translated using the current
      *    locale.
      */
     translate : function() {

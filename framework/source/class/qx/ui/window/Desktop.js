@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.window.Desktop",
   implement : qx.ui.window.IDesktop,
 
   /**
-   * @param windowManager {IWindowManager} The window manager to use for the desktop.
+   * @param windowManager {qx.ui.window.IWindowManager} The window manager to use for the desktop.
    *    If not provided, an instance of {@link qx.ui.window.Window#DEFAULT_MANAGER_CLASS} is used.
    */
   construct : function(windowManager)

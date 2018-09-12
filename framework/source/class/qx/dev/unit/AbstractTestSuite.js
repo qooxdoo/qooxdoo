@@ -77,7 +77,7 @@ qx.Class.define("qx.dev.unit.AbstractTestSuite",
     /**
      * Run all tests using the given test result
      *
-     * @param testResult {TestResult} Test result class, which runs the tests.
+     * @param testResult {qx.dev.unit.TestResult} Test result class, which runs the tests.
      */
     run : function(testResult)
     {
