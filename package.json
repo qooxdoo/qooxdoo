@@ -12,7 +12,7 @@
     }
   },
   "author": "John Spackman (johnspackman), Christian Boulanger (cboulanger), Henner Kollmann (hkollmann), and others",
-  "version": "0.2.12",
+  "version": "0.2.15",
   "keywords": [
     "qooxdoo",
     "compiler",
@@ -67,7 +67,7 @@
     "rimraf": "^2.6.2",
     "semver": "^5.3.0",
     "tmp": "0.0.33",
-    "uglify-js": "^3.1.9",
+    "uglify-js": "3.3.24",
     "upath": "^1.0.2",
     "xml2js": "^0.4.19",
     "yargs": "^8.0.1"
