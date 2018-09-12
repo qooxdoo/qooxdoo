@@ -102,16 +102,16 @@ qx.Class.define("qx.dev.unit.TestFunction",
     /**
      * Runs the test and logs the test result to a {@link TestResult} instance,
      *
-     * @param testResult {TestResult} The class used to log the test result.
+     * @param testResult {qx.dev.unit.TestResult} The class used to log the test result.
      */
     run : function(testResult)
     {
       var inst = this.getTestClass();
       var method = this.getName();
-      
+
       inst.setTestFunc(this);
       inst.setTestResult(testResult);
-      
+
       testResult.run(this, function()
       {
         try {

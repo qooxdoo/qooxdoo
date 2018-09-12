@@ -890,8 +890,8 @@ qx.Class.define("qx.ui.core.Widget",
       }
       return null;
     },
-    
-    
+
+
     /**
      * Whether the "parent" widget contains the "child" widget.
      *
@@ -1801,7 +1801,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Returns the children list
      *
-     * @return {LayoutItem[]} The children array (Arrays are
+     * @return {qx.ui.core.LayoutItem[]} The children array (Arrays are
      *   reference types, so please do not modify it in-place).
      */
     _getChildren : function() {
@@ -1813,7 +1813,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the index position of the given widget if it is
      * a child widget. Otherwise it returns <code>-1</code>.
      *
-     * @param child {Widget} the widget to query for
+     * @param child {qx.ui.core.Widget} the widget to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
      */
@@ -1870,7 +1870,7 @@ qx.Class.define("qx.ui.core.Widget",
      * used to position the widget. The options are documented in the class
      * documentation of each layout manager {@link qx.ui.layout}.
      *
-     * @param child {LayoutItem} the widget to add.
+     * @param child {qx.ui.core.LayoutItem} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
      */
     _add : function(child, options)
@@ -1897,7 +1897,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Add a child widget at the specified index
      *
-     * @param child {LayoutItem} widget to add
+     * @param child {qx.ui.core.LayoutItem} widget to add
      * @param index {Integer} Index, at which the widget will be inserted. If no
      *   widget exists at the given index, the new widget gets appended to the
      *   current list of children.
@@ -1933,8 +1933,8 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Add a widget before another already inserted widget
      *
-     * @param child {LayoutItem} widget to add
-     * @param before {LayoutItem} widget before the new widget will be inserted.
+     * @param child {qx.ui.core.LayoutItem} widget to add
+     * @param before {qx.ui.core.LayoutItem} widget before the new widget will be inserted.
      * @param options {Map?null} Optional layout data for widget.
      */
     _addBefore : function(child, before, options)
@@ -1966,8 +1966,8 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Add a widget after another already inserted widget
      *
-     * @param child {LayoutItem} widget to add
-     * @param after {LayoutItem} widget, after which the new widget will
+     * @param child {qx.ui.core.LayoutItem} widget to add
+     * @param after {qx.ui.core.LayoutItem} widget, after which the new widget will
      *   be inserted
      * @param options {Map?null} Optional layout data for widget.
      */
@@ -2000,7 +2000,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Remove the given child widget.
      *
-     * @param child {LayoutItem} the widget to remove
+     * @param child {qx.ui.core.LayoutItem} the widget to remove
      */
     _remove : function(child)
     {
@@ -2100,7 +2100,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Convenience function to add a child widget. It will insert the child to
      * the parent widget and schedule a layout update.
      *
-     * @param child {LayoutItem} The child to add.
+     * @param child {qx.ui.core.LayoutItem} The child to add.
      * @param options {Map|null} Optional layout data for the widget.
      */
     __addHelper : function(child, options)
@@ -2144,7 +2144,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Convenience function to remove a child widget. It will remove it
      * from the parent widget and schedule a layout update.
      *
-     * @param child {LayoutItem} The child to remove.
+     * @param child {qx.ui.core.LayoutItem} The child to remove.
      */
     __removeHelper : function(child)
     {
@@ -3697,9 +3697,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * Return the ID (name) if this instance was a created as a child control of another widget. 
-     * 
-     * See the first parameter id in {@link qx.ui.core.Widget#_createChildControlImpl} 
+     * Return the ID (name) if this instance was a created as a child control of another widget.
+     *
+     * See the first parameter id in {@link qx.ui.core.Widget#_createChildControlImpl}
      *
      * @return {String|null} ID of the current widget or null if it was not created as a subcontrol
      */

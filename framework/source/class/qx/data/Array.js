@@ -963,7 +963,7 @@ qx.Class.define("qx.data.Array",
      * @param callback {Function} The function which will be call for every
      *   item in the array. It will be invoked with three parameters:
      *   the item, the index and the array itself.
-     * @param context {var} The context in which the callback will be invoked.
+     * @param context {var?} The context in which the callback will be invoked.
      */
     forEach : function(callback, context)
     {
