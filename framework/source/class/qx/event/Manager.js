@@ -448,7 +448,7 @@ qx.Class.define("qx.event.Manager",
           qx.core.Assert.assertBoolean(capture, "Invalid capture flag.");
         }
       }
-
+      
       var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 

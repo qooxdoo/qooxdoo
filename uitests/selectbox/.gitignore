@@ -1,0 +1,13 @@
+# .gitignore template for skeleton-based apps
+/api/
+/build/
+/test/
+/source/script/
+source-output/
+build-output/
+db.json
+resource-db.json
+
+# node-related files
+/node_modules
+npm-debug.log

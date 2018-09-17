@@ -39,9 +39,9 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * Forward the call with the given function name to the children container
      *
      * @param functionName {String} name of the method to forward
-     * @param a1 {var} first argument of the method to call
-     * @param a2 {var} second argument of the method to call
-     * @param a3 {var} third argument of the method to call
+     * @param a1 {var?} first argument of the method to call
+     * @param a2 {var?} second argument of the method to call
+     * @param a3 {var?} third argument of the method to call
      * @return {var} The return value of the forward method
      */
     __forward : function(functionName, a1, a2, a3)
@@ -57,7 +57,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
     /**
      * Returns the children list
      *
-     * @return {LayoutItem[]} The children array (Arrays are
+     * @return {qx.ui.core.LayoutItem[]} The children array (Arrays are
      *   reference types, please do not modify them in-place)
      */
     getChildren : function() {
@@ -82,9 +82,9 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * used to position the widget. The options are documented in the class
      * documentation of each layout manager {@link qx.ui.layout}.
      *
-     * @param child {LayoutItem} the item to add.
+     * @param child {qx.ui.core.LayoutItem} the item to add.
      * @param options {Map?null} Optional layout data for item.
-     * @return {Widget} This object (for chaining support)
+     * @return {qx.ui.core.Widget} This object (for chaining support)
      */
     add : function(child, options) {
       return this.__forward("add", child, options);
@@ -94,8 +94,8 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
     /**
      * Remove the given child item.
      *
-     * @param child {LayoutItem} the item to remove
-     * @return {Widget} This object (for chaining support)
+     * @param child {qx.ui.core.LayoutItem} the item to remove
+     * @return {qx.ui.core.Widget} This object (for chaining support)
      */
     remove : function(child) {
       return this.__forward("remove", child);
@@ -120,7 +120,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @param child {LayoutItem} the item to query for
+     * @param child {qx.ui.core.LayoutItem} the item to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given item is no child of this layout.
      */
@@ -137,7 +137,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @param child {LayoutItem} item to add
+     * @param child {qx.ui.core.LayoutItem} item to add
      * @param index {Integer} Index, at which the item will be inserted
      * @param options {Map?null} Optional layout data for item.
      */
@@ -154,8 +154,8 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @param child {LayoutItem} item to add
-     * @param before {LayoutItem} item before the new item will be inserted.
+     * @param child {qx.ui.core.LayoutItem} item to add
+     * @param before {qx.ui.core.LayoutItem} item before the new item will be inserted.
      * @param options {Map?null} Optional layout data for item.
      */
     addBefore : function(child, before, options) {
@@ -171,8 +171,8 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @param child {LayoutItem} item to add
-     * @param after {LayoutItem} item, after which the new item will be inserted
+     * @param child {qx.ui.core.LayoutItem} item to add
+     * @param after {qx.ui.core.LayoutItem} item, after which the new item will be inserted
      * @param options {Map?null} Optional layout data for item.
      */
     addAfter : function(child, after, options) {
