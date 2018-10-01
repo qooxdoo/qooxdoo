@@ -696,9 +696,16 @@ qx.Bootstrap.define("qx.Class",
      */
     getInstance : function()
     {
+      if (this.$$instance === null)
+      {
+        throw new Error("Singleton instance of " + this + 
+          " is requested, but not ready yet. This is most liekely due to a recursive call in the constructor path.");
+      }
+
       if (!this.$$instance)
       {
         this.$$allowconstruct = true;
+        this.$$instance = null;
         this.$$instance = new this();
         delete this.$$allowconstruct;
       }
