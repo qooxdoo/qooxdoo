@@ -699,7 +699,7 @@ qx.Bootstrap.define("qx.Class",
       if (this.$$instance === null)
       {
         throw new Error("Singleton instance of " + this + 
-          " is requested, but not ready yet. This is most liekely due to a recursive call in the constructor path.");
+          " is requested, but not ready yet. This is most likely due to a recursive call in the constructor path.");
       }
 
       if (!this.$$instance)
