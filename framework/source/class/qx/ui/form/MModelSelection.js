@@ -71,17 +71,14 @@ qx.Mixin.define("qx.ui.form.MModelSelection",
         if (model !== null) {
           modelSelection.push(model);
         }
-      };
+      }
 
-      // only change the selection if you are sure that its correct [BUG #3748]
-      if (modelSelection.length === data.length) {
-        try {
-          this.setModelSelection(modelSelection);
-        } catch (e) {
-          throw new Error(
-            "Could not set the model selection. Maybe your models are not unique? " + e
-          );
-        }
+      try {
+        this.setModelSelection(modelSelection);
+      } catch (e) {
+        throw new Error(
+          "Could not set the model selection. Maybe your models are not unique? " + e
+        );
       }
     },
 
