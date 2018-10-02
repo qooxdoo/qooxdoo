@@ -705,7 +705,7 @@ qx.Bootstrap.define("qx.Class",
       if (!this.$$instance)
       {
         this.$$allowconstruct = true;
-        this.$$instance = null;
+        this.$$instance = null;  // null means "object is being created"; needed for another call of getInstance() during instantiation
         this.$$instance = new this();
         delete this.$$allowconstruct;
       }
