@@ -46,7 +46,7 @@ qx.Class.define("qx.test.io.part.Part",
     tearDown : function()
     {
       this.__loader = null;
-      qx.Part.$$instance = null;
+      qx.Part.$$instance = undefined;
     },
 
 

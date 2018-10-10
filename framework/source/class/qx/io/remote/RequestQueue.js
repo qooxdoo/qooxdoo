@@ -137,7 +137,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * Get a list of queued requests
      *
-     * @return {Request[]} The list of queued requests
+     * @return {qx.io.remote.Request[]} The list of queued requests
      */
     getRequestQueue : function() {
       return this.__queue;
@@ -148,7 +148,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      * Get a list of active queued requests, each one wrapped in an instance of
      * {@link qx.io.remote.Exchange}
      *
-     * @return {Exchange[]} The list of active queued requests, each one
+     * @return {qx.io.remote.Exchange[]} The list of active queued requests, each one
      *   wrapped in an instance of {@link qx.io.remote.Exchange}
      */
     getActiveQueue : function() {

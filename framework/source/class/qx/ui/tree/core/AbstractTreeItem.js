@@ -271,7 +271,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      * Note: Don not modify the returned array, since this function does not
      * return a copy!
      *
-     * @return {AbstractTreeItem[]} An array of all child items.
+     * @return {qx.ui.tree.core.AbstractTreeItem[]} An array of all child items.
      */
     getChildren : function() {
       return this.__children;
@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
      *     included
      * @param ignoreFirst {Boolean ? true} Whether the current treeItem should
      *     be excluded from the list.
-     * @return {AbstractTreeItem[]} list of children
+     * @return {qx.ui.tree.core.AbstractTreeItem[]} list of children
      */
     getItems : function(recursive, invisible, ignoreFirst)
     {
@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     /**
      * Adds the passed tree items to the end of this item's children list.
      *
-     * @param varargs {AbstractTreeItem} variable number of tree items to add
+     * @param varargs {qx.ui.tree.core.AbstractTreeItem} variable number of tree items to add
      */
     add : function(varargs)
     {
@@ -400,7 +400,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     /**
      * Adds the tree item to the current item, at the given index.
      *
-     * @param treeItem {AbstractTreeItem} new tree item to insert
+     * @param treeItem {qx.ui.tree.core.AbstractTreeItem} new tree item to insert
      * @param index {Integer} position to insert into
      */
     addAt : function(treeItem, index)
@@ -451,8 +451,8 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     /**
      * Add a tree item to this item before the existing child <code>before</code>.
      *
-     * @param treeItem {AbstractTreeItem} tree item to add
-     * @param before {AbstractTreeItem} existing child to add the item before
+     * @param treeItem {qx.ui.tree.core.AbstractTreeItem} tree item to add
+     * @param before {qx.ui.tree.core.AbstractTreeItem} existing child to add the item before
      */
     addBefore : function(treeItem, before)
     {
@@ -474,8 +474,8 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     /**
      * Add a tree item to this item after the existing child <code>before</code>.
      *
-     * @param treeItem {AbstractTreeItem} tree item to add
-     * @param after {AbstractTreeItem} existing child to add the item after
+     * @param treeItem {qx.ui.tree.core.AbstractTreeItem} tree item to add
+     * @param after {qx.ui.tree.core.AbstractTreeItem} existing child to add the item after
      */
     addAfter : function(treeItem, after)
     {
@@ -497,7 +497,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     /**
      * Add a tree item as the first child of this item.
      *
-     * @param treeItem {AbstractTreeItem} tree item to add
+     * @param treeItem {qx.ui.tree.core.AbstractTreeItem} tree item to add
      */
     addAtBegin : function(treeItem) {
       this.addAt(treeItem, 0);
@@ -507,7 +507,7 @@ qx.Class.define("qx.ui.tree.core.AbstractTreeItem",
     /**
      * Removes the passed tree items from this item.
      *
-     * @param varargs {AbstractTreeItem} variable number of tree items to remove
+     * @param varargs {qx.ui.tree.core.AbstractTreeItem} variable number of tree items to remove
      */
     remove : function(varargs)
     {
