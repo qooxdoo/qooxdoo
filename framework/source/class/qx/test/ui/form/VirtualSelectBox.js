@@ -97,12 +97,13 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
       this.__selectBox.setWidth(150);
 
       this.__selectBox.open();
+      this.flush();
 
       setTimeout(function () {
         test.assertIdentical(test.__selectBox.getWidth(), test.__selectBox.getBounds().width);
         test.assertIdentical(test.__selectBox.getWidth(), test.__selectBox.getChildControl('dropdown').getBounds().width);
         test.resume();
-      }, 0);
+      }, 10);
 
       this.wait();
     },
@@ -111,7 +112,7 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
       "use strict";
       var test = this;
       var m = qx.data.marshal.Json.createModel([
-        "asddddddddddddddddddddddddddddddddddddddddddddddddddddasdddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "asddddddddddddddddddddddddddddddddddddddddddddddddddddasddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
         "dsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
       ]);
 
@@ -120,6 +121,7 @@ qx.Class.define("qx.test.ui.form.VirtualSelectBox",
       this.__selectBox.setWidth(150);
 
       this.__selectBox.open();
+      this.flush();
 
       setTimeout(function () {
         test.assertIdentical(test.__selectBox.getWidth(), test.__selectBox.getBounds().width);

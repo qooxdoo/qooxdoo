@@ -30,6 +30,7 @@ qx.Class.define("qx.ui.mobile.form.TextArea",
     qx.ui.mobile.form.MState
   ],
   implement : [
+    qx.ui.form.IField,
     qx.ui.form.IForm,
     qx.ui.form.IModel
   ],

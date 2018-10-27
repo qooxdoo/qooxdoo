@@ -1,0 +1,37 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "source-output"
+    },
+    {
+      "type": "hybrid",
+      "outputPath": "hybrid-output"
+    },
+    {
+      "type": "build",
+      "outputPath": "build-output",
+      "addCreatedAt": true
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [ "en" ],
+
+  "applications": [
+    {
+      "class": "selectbox.Application",
+      "theme": "qx.theme.Simple",
+      "name": "selectbox"
+    },
+    {
+      "class": "selectbox.Issue9569Application",
+      "theme": "qx.theme.Simple",
+      "name": "issue-9569"
+    }
+  ],
+
+  "libraries": [
+    "../../framework",
+    "."
+  ]
+}

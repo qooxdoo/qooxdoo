@@ -2,9 +2,21 @@
 export PATH=$PWD/node_modules/karma/bin:$PATH
 
 php -S 0.0.0.0:31323 -t .. &> /dev/null &
-./generate.py -sI -m TEST_DELAY_SCALE:4 -m TEST_TRAVIS:true test-source
+./generate.py -sI -m TEST_DELAY_SCALE:8 -m TEST_TRAVIS:true test-source
 
-karma start --reporters=dots,saucelabs --browsers=$1 --hostname="$(hostname)"
+case $1 in
+   *SL)
+	karma start --reporters=dots,saucelabs --browsers=$1 --hostname="$(hostname)"
+	;;
+   *)
+	export DISPLAY=:99.0	
+	sh -e /etc/init.d/xvfb start
+	sleep 3
+	karma start --reporters=dots --browsers=$1 --hostname="$(hostname)"
+	sh -e /etc/init.d/xvfb stop
+   	;;
+esac
+
 RET=$?
 
 pkill -f 'php -S 0.0.0.0:31323' &> /dev/null
