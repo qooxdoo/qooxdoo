@@ -1,0 +1,54 @@
+#!/bin/bash
+
+set -o errexit -o nounset
+
+exe() { echo "\$ ${@/eval/}" ; "$@" ; }
+
+if ! [ -z ${TRAVIS_BUILD_DIR+x} ]; then
+    cd $TRAVIS_BUILD_DIR
+fi
+
+if ! [ -z ${TRAVIS_BUILD_DIR+x} ]; then
+    echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+fi
+
+BASE_DIR="$(git rev-parse --show-toplevel)"
+FRAMEWORK_VERSION=$(cat $BASE_DIR/version.txt)
+FRAMEWORK_DATE=$(date +%Y%m%d)
+TAG_VERSION="$FRAMEWORK_VERSION"
+TARGET_DIR="$BASE_DIR/dist"
+GENERATE="python $BASE_DIR/tool/bin/generator.py"
+
+ 
+# Adjust the framework version for non TAG builds
+if [ -z ${TRAVIS_TAG+x}] || ["$TRAVIS_TAG" = "" ]; then
+    TAG_VERSION="$TAG_VERSION-$FRAMEWORK_DATE"
+fi
+
+echo "-------------------------------------------------------------------------"
+echo "Framework version: $FRAMEWORK_VERSION"
+echo "Tag version      : $FRAMEWORK_VERSION"
+echo "Build source     : $BASE_DIR"
+echo "Target           : $TARGET_DIR"
+echo "Generate         : $GENERATE"
+if ! [ -z ${TRAVIS_BUILD_DIR+x} ]; then
+   echo "Travis Build dir : $TRAVIS_BUILD_DIR"
+fi
+echo "-------------------------------------------------------------------------"
+
+cd $BASE_DIR
+if [ "$TAG_VERSION" != "$FRAMEWORK_VERSION" ]; then
+    echo "Bump version ..."
+    exe tool/admin/bin/bumpqxversion.py $TAG_VERSION
+fi
+
+exe npm publish 
+
+cd $BASE_DIR/component/standalone/server 
+exe $GENERATE distclean
+echo "Building server SDK..."
+exe $GENERATE build
+exe $GENERATE npm-package-copy
+exe $GENERATE npm-package-test
+exe $GENERATE npm-package-publish
+
