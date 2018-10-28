@@ -62,6 +62,7 @@ jobs:
     - stage: Deploy
       name: Deploy
       script: ../.travis/deploy
+    - #
       name: Deploy to npm
       script: ../.travis/deploy_npm
       before_deploy:
