@@ -461,7 +461,7 @@ qx.Class.define("qx.ui.menu.Menu",
      * Get the parent menu. Returns <code>null</code> if the menu doesn't have a
      * parent menu.
      *
-     * @return {Menu|null} The parent menu.
+     * @return {qx.ui.core.Widget|null} The parent menu.
      */
     getParentMenu : function()
     {
@@ -568,7 +568,7 @@ qx.Class.define("qx.ui.menu.Menu",
     /**
      * Get the menu layout manager
      *
-     * @return {Layout} The menu layout manager
+     * @return {qx.ui.layout.Abstract} The menu layout manager
      */
     _getMenuLayout : function()
     {

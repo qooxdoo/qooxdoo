@@ -51,7 +51,7 @@ qx.Class.define("qx.test.bom.GeoLocation",
     },
 
     tearDown: function() {
-      qx.bom.GeoLocation.$$instance = null;
+      qx.bom.GeoLocation.$$instance = undefined;
       this._geo.dispose();
       this._geo = null;
       this._position = null;

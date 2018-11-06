@@ -64,7 +64,7 @@ qx.Bootstrap.define("qx.bom.Stylesheet",
      * Create a new Stylesheet node and append it to the document
      *
      * @param text {String?} optional string of css rules
-     * @return {Stylesheet} the generates stylesheet element
+     * @return {StyleSheet} the generates stylesheet element
      */
     createElement : function(text)
     {
