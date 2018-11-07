@@ -285,6 +285,28 @@ qx.Class.define("qx.bom.media.Abstract",
 
 
     /**
+     * Sets the source object of the media file.
+     *
+     * @param sourceObject {MediaStream} the source media stream.
+     */
+    setSourceObject: function (sourceObject)
+    {
+      this._media.srcObject = sourceObject;
+    },
+
+    
+    /**
+     * Gets the source object of the media file.
+     *
+     * @return {MediaStream|null} the source stream object to the media file, if it exists.
+     */
+    getSourceObject: function ()
+    {
+      return this._media.srcObject;
+    },
+
+
+    /**
      * Checks if the media element shows its controls.
      *
      * @return {Boolean}
