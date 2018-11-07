@@ -149,7 +149,7 @@ Files = {
     "./index.html"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
-    "./readme.md"  : [
+    "./README.md"  : [
         r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp,
         r'api.qooxdoo.org/(%s)\b' % qxversion_regexp,
         r'qooxdoo.org/project/release_notes/(%s)\b' % qxversion_regexp
