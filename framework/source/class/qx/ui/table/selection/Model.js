@@ -457,43 +457,53 @@ qx.Class.define("qx.ui.table.selection.Model",
      *
      * @param fromIndex {Integer} the first index of the interval (including).
      * @param toIndex {Integer} the last index of the interval (including).
+     * @param rowsRemoved {Boolean?} rows were removed that caused this selection to change.
+     *   If rows were removed, move the selections over so the same rows are selected as before.
      */
-    removeSelectionInterval : function(fromIndex, toIndex)
+    removeSelectionInterval : function(fromIndex, toIndex, rowsRemoved)
     {
       this.__anchorSelectionIndex = fromIndex;
       this.__leadSelectionIndex = toIndex;
 
       var minIndex = Math.min(fromIndex, toIndex);
       var maxIndex = Math.max(fromIndex, toIndex);
+      var removeCount = maxIndex + 1 - minIndex;
 
       // Crop the affected ranges
+      var newRanges = [];
+      var extraRange = null;
       for (var i=0; i<this.__selectedRangeArr.length; i++)
       {
         var range = this.__selectedRangeArr[i];
 
         if (range.minIndex > maxIndex)
         {
-          // We are done
-          break;
+          if (rowsRemoved) {
+            // Move whole selection up.
+            range.minIndex -= removeCount;
+            range.maxIndex -= removeCount;
+          }
         }
         else if (range.maxIndex >= minIndex)
         {
           // This range is affected
-          var minIsIn = (range.minIndex >= minIndex) && (range.minIndex <= maxIndex);
+          var minIsIn = (range.minIndex >= minIndex);
           var maxIsIn = (range.maxIndex >= minIndex) && (range.maxIndex <= maxIndex);
 
           if (minIsIn && maxIsIn)
           {
             // This range is removed completely
-            this.__selectedRangeArr.splice(i, 1);
-
-            // Check this index another time
-            i--;
+            range = null;
           }
           else if (minIsIn)
           {
-            // The range is cropped from the left
-            range.minIndex = maxIndex + 1;
+            if (rowsRemoved) {
+              range.minIndex = minIndex;
+              range.maxIndex -= removeCount;
+            } else {
+              // The range is cropped from the left
+              range.minIndex = maxIndex + 1;
+            }
           }
           else if (maxIsIn)
           {
@@ -502,24 +512,32 @@ qx.Class.define("qx.ui.table.selection.Model",
           }
           else
           {
-            // The range is split
-            var newRange =
-            {
-              minIndex : maxIndex + 1,
-              maxIndex : range.maxIndex
-            };
+            if (rowsRemoved) {
+              range.maxIndex -= removeCount;
+            } else {
+              // The range is split
+              extraRange = {
+                minIndex: maxIndex + 1,
+                maxIndex: range.maxIndex
+              };
 
-            this.__selectedRangeArr.splice(i + 1, 0, newRange);
-
-            range.maxIndex = minIndex - 1;
-
-            // We are done
-            break;
+              range.maxIndex = minIndex - 1;
+            }
           }
+        }
+
+        if (range) {
+          newRanges.push(range);
+          range = null;
+        }
+        if (extraRange) {
+          newRanges.push(extraRange);
+          extraRange = null;
         }
       }
 
-      // this._dumpRanges();
+      this.__selectedRangeArr = newRanges;
+
       this._fireChangeSelection();
     },
 
