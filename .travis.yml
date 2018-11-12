@@ -60,7 +60,11 @@ jobs:
       name: SL Edge
       script: ../.travis/test EdgeSL
     - stage: Deploy
+      name: Deploy
       script: ../.travis/deploy
+    - #
+      name: Deploy to npm
+      script: ../.travis/deploy_npm
       before_deploy:
         - export RELEASE_PKG_FILE=$(ls dist/*.zip)
         - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
