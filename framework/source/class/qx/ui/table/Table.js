@@ -2081,10 +2081,16 @@ qx.Class.define("qx.ui.table.Table",
         {
           horNeeded =
             scrollerArr[i].getNeededScrollBars(false, !isLast) & horBar;
-        }
 
-        // Only show the last vertical scrollbar
-        scrollerArr[i].setHorizontalScrollBarVisible(horNeeded);
+          // Show the horizontal scrollbar if needed. Specify null to indicate
+          // that the scrollbar should be hidden rather than excluded.
+          scrollerArr[i].setHorizontalScrollBarVisible(horNeeded || null);
+        }
+        else
+        {
+          // Show the horizontal scrollbar if needed.
+          scrollerArr[i].setHorizontalScrollBarVisible(horNeeded);
+        }
 
         // If this is the last meta-column...
         if (isLast)
