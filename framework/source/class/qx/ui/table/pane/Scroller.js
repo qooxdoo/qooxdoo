@@ -499,13 +499,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     // property modifier
     _applyHorizontalScrollBarVisible : function(value, old) {
-      if (typeof value == "boolean")
-      {
-        this.__horScrollBar.setVisibility(value ? "visible" : "excluded");
-      }
-      else                      // it's null
+      if (value === null)
       {
         this.__horScrollBar.setVisibility("hidden");
+      }
+      else
+      {
+        this.__horScrollBar.setVisibility(value ? "visible" : "excluded");
       }
     },
 
