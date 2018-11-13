@@ -589,6 +589,19 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
+     * By default, all Scrollers' (meta-columns') horizontal scrollbars are
+     * shown if any one is required. Allow not showing any that are not
+     * required.
+     */
+    excludeScrollerScrollbarsIfNotNeeded :
+    {
+      check : "Boolean",
+      init : false,
+      nullable : false
+    },
+
+
+    /**
      * A function to instantiate a new column menu button.
      */
     newColumnMenu :
@@ -2030,27 +2043,45 @@ qx.Class.define("qx.ui.table.Table",
       // Check which scroll bars are needed
       var horNeeded = false;
       var verNeeded = false;
+      var excludeScrollerScrollbarsIfNotNeeded;
 
-      for (var i=0; i<scrollerArr.length; i++)
+      
+      // Determine whether we need to render horizontal scrollbars for meta
+      // columns that don't themselves actually require it
+      excludeScrollerScrollbarsIfNotNeeded =
+        this.getExcludeScrollerScrollbarsIfNotNeeded();
+
+      if (! excludeScrollerScrollbarsIfNotNeeded)
       {
-        var isLast = (i == (scrollerArr.length - 1));
+        for (var i=0; i<scrollerArr.length; i++)
+        {
+          var isLast = (i == (scrollerArr.length - 1));
 
-        // Only show the last vertical scrollbar
-        var bars = scrollerArr[i].getNeededScrollBars(horNeeded, !isLast);
+          // Only show the last vertical scrollbar
+          var bars = scrollerArr[i].getNeededScrollBars(horNeeded, !isLast);
 
-        if (bars & horBar) {
-          horNeeded = true;
-        }
+          if (bars & horBar) {
+            horNeeded = true;
+          }
 
-        if (isLast && (bars & verBar)) {
-          verNeeded = true;
+          if (isLast && (bars & verBar)) {
+            verNeeded = true;
+          }
         }
       }
 
       // Set the needed scrollbars
       for (var i=0; i<scrollerArr.length; i++)
       {
-        var isLast = (i == (scrollerArr.length - 1));
+        isLast = (i == (scrollerArr.length - 1));
+
+        // If we don't want to include scrollbars for meta columns that don't
+        // require it, find out whether this meta column requires it.
+        if (excludeScrollerScrollbarsIfNotNeeded)
+        {
+          horNeeded =
+            scrollerArr[i].getNeededScrollBars(false, !isLast) & horBar;
+        }
 
         // Only show the last vertical scrollbar
         scrollerArr[i].setHorizontalScrollBarVisible(horNeeded);
@@ -2059,6 +2090,8 @@ qx.Class.define("qx.ui.table.Table",
         if (isLast)
         {
           // ... then get the current (old) use of vertical scroll bar
+          verNeeded =
+            scrollerArr[i].getNeededScrollBars(false, false) & verBar;
           if (this.__hadVerticalScrollBar == null) {
             this.__hadVerticalScrollBar = scrollerArr[i].getVerticalScrollBarVisible();
             this.__timer = qx.event.Timer.once(function()
