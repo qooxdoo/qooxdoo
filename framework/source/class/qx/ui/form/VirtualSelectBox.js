@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
      */
     setValue : function(selected) {
       if (null === selected) {
-        this.resetSelection();
+        this.getSelection().removeAll();
         return null;
       }
 
@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
 
     resetValue : function() {
-      this.getSelection().removeAll();
+      this.setValue(null);
     },
 
 
