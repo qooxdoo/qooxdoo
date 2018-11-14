@@ -2080,7 +2080,7 @@ qx.Class.define("qx.ui.table.Table",
         if (excludeScrollerScrollbarsIfNotNeeded)
         {
           horNeeded =
-            scrollerArr[i].getNeededScrollBars(false, !isLast) & horBar;
+            !! (scrollerArr[i].getNeededScrollBars(false, !isLast) & horBar);
 
           // Show the horizontal scrollbar if needed. Specify null to indicate
           // that the scrollbar should be hidden rather than excluded.
@@ -2097,7 +2097,7 @@ qx.Class.define("qx.ui.table.Table",
         {
           // ... then get the current (old) use of vertical scroll bar
           verNeeded =
-            scrollerArr[i].getNeededScrollBars(false, false) & verBar;
+            !! (scrollerArr[i].getNeededScrollBars(false, false) & verBar);
           if (this.__hadVerticalScrollBar == null) {
             this.__hadVerticalScrollBar = scrollerArr[i].getVerticalScrollBarVisible();
             this.__timer = qx.event.Timer.once(function()
