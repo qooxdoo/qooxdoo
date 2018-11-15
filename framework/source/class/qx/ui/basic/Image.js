@@ -396,26 +396,24 @@ qx.Class.define("qx.ui.basic.Image",
       var tagName;
       var clazz = qx.html.Image;
 
-      if (mode == "font")
-      {
-        clazz = qx.html.Label;
-        scale = true;
-        tagName = "div";
-      }
-      else if (mode == "alphaScaled")
-      {
-        scale = true;
-        tagName = "div";
-      }
-      else if (mode == "nonScaled")
-      {
-        scale = false;
-        tagName = "div";
-      }
-      else
-      {
-        scale = true;
-        tagName = "img";
+      switch (mode) {
+        case "font":
+          clazz = qx.html.Label;
+          scale = true;
+          tagName = "div";
+          break;
+        case "alphaScaled":
+          scale = true;
+          tagName = "div";
+          break;
+        case "nonScaled":
+          scale = false;
+          tagName = "div";
+          break;
+        default:
+          scale = true;
+          tagName = "img";
+          break;
       }
 
       var element = new (clazz)(tagName);
@@ -510,6 +508,10 @@ qx.Class.define("qx.ui.basic.Image",
       // Detect if the image registry knows this image
       if (ResourceManager.isFontUri(source)) {
         this.__setManagedImage(contentEl, source);
+        var color = this.getTextColor();
+        if (qx.lang.Type.isString(color)) {
+          this._applyTextColor(color, null);
+        }
       }
       else if (ResourceManager.has(source)) {
         var highResolutionSource = this._findHighResolutionSource(source);

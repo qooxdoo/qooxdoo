@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.layout.HBox",
    * @param spacing {Integer?0} The spacing between child widgets {@link #spacing}.
    * @param alignX {String?"left"} Horizontal alignment of the whole children
    *     block {@link #alignX}.
-   * @param separator {String|qx.ui.decoration.IDecorator} A separator to render between the items
+   * @param separator {String|qx.ui.decoration.IDecorator?} A separator to render between the items
    */
   construct : function(spacing, alignX, separator)
   {
