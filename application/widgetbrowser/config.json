@@ -35,7 +35,7 @@
   {
     "APPLICATION"  : "widgetbrowser",
     "QOOXDOO_PATH" : "../..",
-    "QXTHEME"      : "qx.theme.Indigo",
+    "QXTHEME"      : "qx.theme.Clean",
     "QXICONTHEME"  : ["Oxygen", "Tango", "Material"],
     "LOCALES"      : [ "en" ],
     "CACHE"        : "${TMPDIR}/qx${QOOXDOO_VERSION}/cache",
@@ -152,9 +152,9 @@
 
 
           // Themes (non-default)
-          "clean" :
+          "indigo" :
           {
-            "include" : [ "qx.theme.Clean" ]
+            "include" : [ "qx.theme.Indigo" ]
           },
           "modern" :
           {

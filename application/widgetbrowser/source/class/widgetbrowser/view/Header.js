@@ -74,6 +74,7 @@ qx.Class.define("widgetbrowser.view.Header",
     }
 
     select.setTextColor("black");
+    select.setWidth(150);
 
     select.addListener("changeSelection", function(evt) {
       var selected = evt.getData()[0].getUserData("value");

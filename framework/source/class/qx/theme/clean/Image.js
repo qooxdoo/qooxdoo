@@ -219,7 +219,7 @@ qx.Class.define("qx.theme.clean.Image",
     		{
     			"background-color" : "red"
     		}
-    	},
+		},
     	
     	"icss-bars" : 
     	{
@@ -250,6 +250,8 @@ qx.Class.define("qx.theme.clean.Image",
     			"content":"''"
 			}
 		},
+
+		
     	
     	"icss-file-image" :
     	{
