@@ -25,10 +25,5 @@
       "name": "${namespace}",
       "writeIndexHtmlToRoot": true
     }
-  ],
-
-  "libraries": [
-    "${qxpath}",
-    "."
   ]
 }

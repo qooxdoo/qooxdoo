@@ -22,10 +22,5 @@
       "theme": "${namespace}.theme.Theme",
       "name": "${namespace}"
     }
-  ],
-
-  "libraries": [
-    "${qxpath}",
-    "."
   ]
 }

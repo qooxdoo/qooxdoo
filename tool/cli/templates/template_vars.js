@@ -56,23 +56,6 @@ module.exports = function(argv, data){
       "value" : argv.type,
       "default" : "desktop"
     },  
-    "qxpath" : {
-      "description" : "the absolute path to the qooxdoo folder",
-      "value" : argv.qxpath ? path.normalize(argv.qxpath) : undefined,
-      "default" : data.qooxdoo_path,
-      "validate" : function(answer) {
-        // check if the qooxdoo path is correct
-        if ( ! fs.existsSync( path.join( answer, "Manifest.json" ) ) ) {
-          throw new Error(`${answer} is not a valid qooxdoo framework folder path. Cannot find Manifest.json.`);
-        }
-        try {
-          data.qooxdoo_version = data.getLibraryVersion(answer);
-        } catch(e){
-          throw new Error(e.message);
-        }
-        return true;
-      }
-    },  
     "namespace" : {
       "description" : "the namespace of the application",
       "value" : argv.applicationnamespace
