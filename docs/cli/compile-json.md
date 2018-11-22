@@ -20,12 +20,6 @@ These key concepts appear in every compile.json, for example:
         }
     ],
     
-    /** Libraries */
-    "libraries": [
-        "../qooxdoo/framework",
-        "."
-    ],
-    
     /** Targets */
     "targets": [
         {
@@ -67,7 +61,7 @@ The `applications` key is an array of objects, and each object can contain:
 - `type` - (**optional**, **advanced**) this is "browser" (the default) for the typical, web browser based, application or "node" for a node.js server application.
 - `loaderTemplate` - (**optional**, **advanced**) this is the boot loader template file, usually determined automatically from the application `type` 
 - `minify` - (**optional**) determines the minification to be used for this application, if the target supports it; overrides other settings.  Can be `off`, `minify`, `mangle` or `beautify`; takes precedence over the target's `minify` setting.
-- `writeIndexHtmlToRoot` - (**optional** ) if true the index.html file will be written to the target output directory. Allowed only once if you have more then one application. The index.html get's an <base href="appname" /> if set to true.
+- `default` - (**optional** ) if true, this application is considered the default when serving the application; if not provided then the first browser app is the default application.  When applications are generated, each application has it's own directory inside the target directory and also has it's own `index.html`.  However, there is an `index.html` which is generated in the target output directory that runs the "default" application.  
 
 A complete example is:
 ```json5
@@ -148,6 +142,22 @@ targets: [
    }
 ]
 ```
+
+## Libraries
+
+If you don't specify a `libraries` key, then by default it uses the current directory (provided that there is a `Manifest.json` file) as a library; this makes sense for most applications.  The compiler also needs to have access to a copy of the Qooxdoo framework library to compile your application, and by default it will auto detect Qooxdoo and use it.
+
+You can override this by specifying a list of directories in the `libraries` key, for example:
+
+```
+    /** Libraries */
+    "libraries": [
+        "../qooxdoo/framework",
+        "."
+    ],
+```
+
+Unless you list it in the `libraries` key, the compiler will first check the `qx.libraryPath` setting (see `qx config set qx.libraryPath`), and if not will look first in your `node_modules` directory and then it's own `node_modules` directory for the `qooxdoo-sdk` npm module. 
 
 ## Parts
 Parts are supported by adding a `parts` object, either at the top level, inside a target object, or inside an application object.  It looks like this:
