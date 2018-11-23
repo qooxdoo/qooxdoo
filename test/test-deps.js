@@ -71,7 +71,7 @@ test('Checks dependencies and environment settings', (assert) => {
   }
 
   function readDbJson() {
-    return readJson("db.json");
+    return readJson("unit-tests-output/db.json");
   }
 
   function hasClassDependency(compileInfo, classname) {
