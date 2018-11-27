@@ -41,6 +41,9 @@ qx.Theme.define("qx.theme.Clean",
 	  qx.Class.include(qx.ui.table.headerrenderer.HeaderCell, qx.theme.clean.MHeaderCell);
 	  
 	  // Add the beforeContent property to the Decorator class
-	  qx.Class.include(qx.ui.decoration.Decorator, qx.theme.clean.MFreestyleCss);
+    qx.Class.include(qx.ui.decoration.Decorator, qx.theme.clean.MFreestyleCss);
+    
+    // patch the _place method of the MPlacement Mixin for Popups class
+	  qx.Class.include(qx.ui.popup.Popup, qx.theme.clean.MPlacement);
   }
 });

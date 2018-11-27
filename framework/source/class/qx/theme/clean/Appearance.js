@@ -1782,7 +1782,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
     		return {
     			decorator : "sqv-css-icon-arrow-down",
     			width : 0,
-                height : 0
+          height : 0
     		};
     	}
     },
@@ -1793,11 +1793,15 @@ qx.Theme.define("qx.theme.clean.Appearance",
     	
     	style : function(states)
     	{
+        var decorator;
+        var offset;
+        var position;
     		return {
-    			decorator : "combobox-popup-bottom",
-    			offset : [-2,0,0,0],
-    			placementModeY: "direct",
-    			position : "bottom-left"
+          decorator : states.placementBottom ? "combobox-popup-bottom" : "popup",
+          //decorator : "combobox-popup-bottom"
+    			offset : states.placementBottom ? [-2,0,0,0] : [0,0,-2,0]
+    			//placementModeY: "direct",
+    			//position : states.placementBottom ? "bottom-left" : "top-left"
     		};
     	}
     },
