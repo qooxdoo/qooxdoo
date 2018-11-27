@@ -13,6 +13,7 @@
  * @require(qx.theme.clean.MAtom)
  * @require(qx.theme.clean.MHeaderCell)
  * @require(qx.theme.clean.MFreestyleCss)
+ * @require(qx.theme.clean.MPlacement)
  */
 
 qx.Theme.define("qx.theme.Clean",
@@ -44,6 +45,6 @@ qx.Theme.define("qx.theme.Clean",
     qx.Class.include(qx.ui.decoration.Decorator, qx.theme.clean.MFreestyleCss);
     
     // patch the _place method of the MPlacement Mixin for Popups class
-	  qx.Class.include(qx.ui.popup.Popup, qx.theme.clean.MPlacement);
+	  qx.Class.patch(qx.ui.popup.Popup, qx.theme.clean.MPlacement);
   }
 });
