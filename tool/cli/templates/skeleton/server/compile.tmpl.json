@@ -33,9 +33,5 @@
          "qx.event.handler.PointerCore"
       ]
     }
-  ],
-  "libraries": [
-    "${qxpath}",
-    "."
   ]
 }

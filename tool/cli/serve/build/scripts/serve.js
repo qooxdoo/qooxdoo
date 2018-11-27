@@ -30,7 +30,7 @@ $(function() {
             var $li = $("<li>");
             var $a = $("<a>");
             $a.text(appData.title||appData.name);
-            $a.attr("href", data.target.outputDir + appData.outputPath + "/index.html");
+            $a.attr("href", data.target.outputDir + appData.outputPath + "index.html");
             $li.append($a);
             $ul.append($li);
           });
