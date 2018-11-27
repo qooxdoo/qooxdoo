@@ -1,4 +1,4 @@
-#!/usr/bin/env node --max_old_space_size=5000
+#!/usr/bin/env node
 
 require("./lib");
 
