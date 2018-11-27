@@ -61,7 +61,6 @@
 
       "exclude" :
       [
-        "qx.event.GlobalError"
       ],
 
       "environment" :

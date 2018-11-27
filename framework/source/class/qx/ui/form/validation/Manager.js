@@ -675,6 +675,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
   */
   destruct : function()
   {
+    this._showToolTip(true);
     this.__formItems = null;
   }
 });

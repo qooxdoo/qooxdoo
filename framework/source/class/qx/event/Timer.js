@@ -121,6 +121,7 @@ qx.Class.define("qx.event.Timer",
       {
         timer.stop();
         func.call(obj, e);
+        delete timer.__onceFunc;
         timer.dispose();
 
         obj = null;
