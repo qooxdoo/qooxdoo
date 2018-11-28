@@ -1418,7 +1418,6 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
 
         var decorator;
-        var padding = [9, 14];
         var backgroundcolor = "white";
         if (states.disabled) {
           decorator = "inset";
@@ -1434,8 +1433,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
 
         return {
           decorator : decorator,
-          padding   : padding,
-          //font : "input",
+          padding   : [9, 14],
           textColor : textColor,
           backgroundColor : backgroundcolor
         };
@@ -1704,7 +1702,22 @@ qx.Theme.define("qx.theme.clean.Appearance",
     "selectbox" : "textfield",
 
     "selectbox/atom" : "atom",
-    "selectbox/popup" : "combobox/popup",
+
+    "selectbox/popup" : {
+      
+      include : "popup",
+    	
+    	style : function(states)
+    	{
+        var decorator;
+        var offset;
+    		return {
+          decorator : states.placementBottom ? "selectbox-popup-bottom" : "selectbox-popup-top",
+    			offset : states.placementBottom ? [-2,0,0,0] : [0,0,-2,0]
+    		};
+    	}
+    },
+
     "selectbox/list" : {
       alias : "list",
       include : "list",
@@ -1787,24 +1800,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
     	}
     },
 
-    "combobox/popup" : 
-    {
-    	include : "popup",
-    	
-    	style : function(states)
-    	{
-        var decorator;
-        var offset;
-        var position;
-    		return {
-          decorator : states.placementBottom ? "combobox-popup-bottom" : "popup",
-          //decorator : "combobox-popup-bottom"
-    			offset : states.placementBottom ? [-2,0,0,0] : [0,0,-2,0]
-    			//placementModeY: "direct",
-    			//position : states.placementBottom ? "bottom-left" : "top-left"
-    		};
-    	}
-    },
+    "combobox/popup" : "popup",
     
     "combobox/list" :     
     {
@@ -1959,7 +1955,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
 
       style : function(states)
       {
-        var padding = [3, 5, 3, 14];
+        //var padding = [3, 5, 3, 14];
+        var padding = [10, 10, 10, 14];
         if (states.lead) {
           padding = [ 2, 4, 2, 13];
         }

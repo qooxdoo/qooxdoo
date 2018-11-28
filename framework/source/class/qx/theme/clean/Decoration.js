@@ -1597,27 +1597,31 @@ qx.Theme.define("qx.theme.clean.Decoration",
       }
     },
     
-    "combobox-popup-bottom" :
+    "selectbox-popup-bottom" :
     {
     	include : "popup",
     	
     	style :
     	{
-    	  width : [1,1,1,1],
-          color : ["white","textfield-selected","textfield-selected","textfield-selected"],
-          radius : [0,0,3,3]
-          //shadowColor : "shadow-light"
+    	  width : [0,1,1,1],
+        color : ["transparent","textfield-selected","textfield-selected","textfield-selected"],
+        radius : [0,0,3,3],
+        shadowLength : [0,2],
+        shadowBlurRadius : 3
     	}
     },
     
-    "combobox-popup-top" :
+    "selectbox-popup-top" :
     {
-    	include : "combobox-popup-bottom",
+    	include : "popup",
     	
     	style :
     	{
-          color : ["textfield-selected","textfield-selected","white","textfield-selected"],
-          radius : [3,3,0,0]
+        width : [1,1,0,1],  
+        color : ["textfield-selected","textfield-selected","transparent","textfield-selected"],
+        radius : [3,3,0,0],
+        shadowLength : [0,-2],
+        shadowBlurRadius : 3
     	}
     },
     
@@ -1626,8 +1630,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
     	
     	style :
     	{
-    	  width : [0,0,1,0],
-          color : "border-super-light"
+    	  width : [0,0,0,0],
+        color : "border-super-light"
     	}
     },
 
