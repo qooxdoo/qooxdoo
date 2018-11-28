@@ -21,8 +21,7 @@
   "applications": [
     {
       "class": "${namespace}.Application",
-      "name": "${namespace}",
-      "writeIndexHtmlToRoot": true
+      "name": "${namespace}"
     }
   ]
 }
