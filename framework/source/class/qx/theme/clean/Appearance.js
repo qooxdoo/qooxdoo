@@ -1544,7 +1544,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
           icon = "";
         // Undetermined
         } else if (states.checked && states.disabled) {
-        	icon = qx.theme.clean.Image.URLS["checkbox-checked-disabled"];
+          //icon = qx.theme.clean.Image.URLS["checkbox-checked-disabled"];
+          icon = "";
         } else if (states.undetermined) {
           //icon = qx.theme.clean.Image.URLS["checkbox-undetermined"];
           icon = "";
@@ -1578,15 +1579,26 @@ qx.Theme.define("qx.theme.clean.Appearance",
         decorator += states.invalid && !states.disabled ? "-invalid" : "";
 
         var padding;
+        var bckgrdcolr = "text";
         // Checked
         if (states.checked) {
           padding = 0;
           decorator = "checkbox-checked";
-        // Undetermined
+          if (states.focused)
+            decorator = "checkbox-checked-focused";   
+          if (states.disabled)
+            decorator = "checkbox-checked-disabled";      
+          // Undetermined
         } else if (states.undetermined) {
           //padding = [4, 2];
           padding = 0;
           decorator = "checkbox-undetermined";
+          if (states.focused)
+            decorator = "checkbox-undetermined-focused";
+          if (states.disabled) {
+            decorator = "checkbox-undetermined-disabled";
+            bckgrdcolr = "text-disabled";
+          }
         }
 
         return {
@@ -1594,7 +1606,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
           width: 17,
           height: 17,
           padding: padding,
-          backgroundColor : states.undetermined ? "text" : "white",
+          backgroundColor : states.undetermined ? bckgrdcolr : "white",
           scale: true
         };
       }
@@ -1712,8 +1724,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
         var decorator;
         var offset;
     		return {
-          decorator : states.placementBottom ? "selectbox-popup-bottom" : "selectbox-popup-top",
-    			offset : states.placementBottom ? [-2,0,0,0] : [0,0,-2,0]
+          decorator : states.placementBottom ? "selectbox-popup-bottom" : "selectbox-popup-top"
+    			//offset : states.placementBottom ? [-2,0,0,0] : [0,0,-2,0]
     		};
     	}
     },

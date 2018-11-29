@@ -145,6 +145,15 @@ qx.Class.define("qx.theme.clean.Image",
     			"color" : "black",
     			"content" : "''"
     		}
+		},
+		
+		// ACTIVE
+    	"checkbox-checked-disabled" :
+    	{
+    		"include" : "checkbox-checked",
+    		"before" : {
+    			"color" : "#A7A6AA"
+    		}
     	},
     	
     	// ACTIVE

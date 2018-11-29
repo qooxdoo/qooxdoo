@@ -2173,6 +2173,17 @@ qx.Theme.define("qx.theme.clean.Decoration",
     		innerWidth : [0,0,4,0]
     	}
     },
+
+    "checkbox-checked-disabled" :
+    {
+    	include : "checkbox-checked",
+    	
+    	style :
+    	{
+    		freestyleCss : "checkbox-checked-disabled",
+    		innerWidth : [0,0,4,0]
+    	}
+    },
    
 
     "checkbox-focused" :
@@ -2184,6 +2195,16 @@ qx.Theme.define("qx.theme.clean.Decoration",
       }
     },
 
+    "checkbox-checked-focused" :
+    {
+    	include : "checkbox-checked",
+    	
+    	style :
+    	{
+    		color : "textfield-selected"
+    	}
+    },
+
     "checkbox-invalid" :
     {
       include : "checkbox",
@@ -2192,6 +2213,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
         color : "invalid"
       }
     },
+
     "checkbox-undetermined" :
     {
       include : "checkbox",
@@ -2199,6 +2221,25 @@ qx.Theme.define("qx.theme.clean.Decoration",
       {
         innerWidth : [6,3],
         innerColor: "white"
+      }
+    },
+
+    "checkbox-undetermined-focused" :
+    {
+    	include : "checkbox-undetermined",
+    	
+    	style :
+    	{
+    		color : "textfield-selected"
+    	}
+    },
+
+    "checkbox-undetermined-disabled" :
+    {
+      include : "checkbox-undetermined",
+      style :
+      {
+        color : "text-disabled"
       }
     }
   }
