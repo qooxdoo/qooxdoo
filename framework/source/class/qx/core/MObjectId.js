@@ -79,17 +79,10 @@ qx.Mixin.define("qx.core.MObjectId", {
         throw new Error("Please use API methods to change owner ID, not the property");
       }
       
-      if (qx.core.Environment.get("qx.debug")) {
-        if (typeof this.getContentElement == "function") {
-          var contentElement = this.getContentElement();
-          
-          if (oldValue) {
-            contentElement.removeAttribute("data-object-id");
-          }
-          
-          if (value) {
-            contentElement.setAttribute("data-object-id", value);
-          }
+      if (typeof this.getContentElement == "function") {
+        var contentElement = this.getContentElement();
+        if (contentElement) {
+          contentElement.updateObjectId();
         }
       }
     },
@@ -132,8 +125,7 @@ qx.Mixin.define("qx.core.MObjectId", {
       // No object, creating the object
       var obj = this._createObjectImpl(id);
       if (obj !== undefined) {
-        obj.setObjectId(id);
-        this.addOwnedObject(obj);
+        this.addOwnedObject(obj, id);
       }
       
       return obj;
@@ -156,8 +148,9 @@ qx.Mixin.define("qx.core.MObjectId", {
      * Adds an object as owned by this object
      * 
      * @param obj {qx.core.Object} the object to register
+     * @param id {String?} the id to set when registering the object
      */
-    addOwnedObject: function(obj) {
+    addOwnedObject: function(obj, id) {
       if (!this.__ownedObjects) {
         this.__ownedObjects = {};
       }
@@ -166,7 +159,9 @@ qx.Mixin.define("qx.core.MObjectId", {
         return;
       if (thatOwner)
         thatOwner.removeOwnedObject(obj);
-      var id = obj.getObjectId();
+      if (id === undefined) {
+        id = obj.getObjectId();
+      }
       if (!id) {
         throw new Error("Cannot register an object that has no ID, obj=" + obj);
       }
@@ -179,6 +174,7 @@ qx.Mixin.define("qx.core.MObjectId", {
       obj.__changingOwner = true;
       try {
         obj.setOwner(this);
+        obj.setObjectId(id);
       } finally {
         obj.__changingOwner = false;
       }

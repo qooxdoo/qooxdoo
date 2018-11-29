@@ -533,6 +533,10 @@ qx.Class.define("qx.html.Element",
       	this.__element.$$widget = widget.toHashCode();
       	this.__element.$$widgetObject = widget;
     	}
+
+      if (qx.core.Environment.get("module.objectid")) {
+        this.updateObjectId();
+      }
     },
 
 
@@ -557,6 +561,10 @@ qx.Class.define("qx.html.Element",
       	this.__element.$$widget = "";
       	delete this.__element.$$widgetObject;
     	}
+    	
+      if (qx.core.Environment.get("module.objectid")) {
+        this.updateObjectId();
+      }
     },
 
 
@@ -787,6 +795,17 @@ qx.Class.define("qx.html.Element",
       SUPPORT FOR ATTRIBUTE/STYLE/EVENT FLUSH
     ---------------------------------------------------------------------------
     */
+    
+    updateObjectId: function() {
+      // Copy Object Id
+      if (qx.core.Environment.get("module.objectid")) {
+        var id = null;
+        if (this.__widget && this.__widget.getObjectId()) {
+          id = qx.core.Id.getAbsoluteIdOf(this.__widget, false) || null;
+        }
+        this.setAttribute("data-object-id", id, true);
+      }
+    },
 
     /**
      * Copies data between the internal representation and the DOM. This
@@ -799,13 +818,12 @@ qx.Class.define("qx.html.Element",
     _copyData : function(fromMarkup)
     {
       var elem = this.__element;
-
+      
       // Copy attributes
       var data = this.__attribValues;
       if (data)
       {
         var Attribute = qx.bom.element.Attribute;
-
         for (var key in data) {
           Attribute.set(elem, key, data[key]);
         }
