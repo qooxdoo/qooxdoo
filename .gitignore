@@ -33,3 +33,9 @@
 # Node/NPM
 node_modules/
 npm-debug.log
+
+# osalm app idea
+/application/osalmquestionnaire/
+
+# builds
+/application/widgetbrowser/build/

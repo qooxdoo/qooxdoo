@@ -23,6 +23,40 @@ qx.Mixin.define("qx.theme.clean.MPlacement",
     /**
      * Override
      * 
+     * Get the size of the object to place. The callback will be called with
+     * the size as first argument. This methods works asynchronously.
+     *
+     * The size of the object to place is the size of the widget. If a widget
+     * including this mixin needs a different size it can implement the method
+     * <code>_computePlacementSize</code>, which returns the size.
+     *
+     *  @param callback {Function} This function will be called with the size as
+     *    first argument
+     */
+    _getPlacementSize : function(callback)
+    {
+      var size = null;
+
+      if (this._computePlacementSize) {
+        var size = this._computePlacementSize();
+      } else if (this.isVisible()) {
+        var size = this.getBounds();
+      }
+
+      if (size == null)
+      {
+        this.addListenerOnce("appear", function() {
+          this._getPlacementSize(callback);
+        }, this);
+      } else {
+        callback.call(this, size);
+      }
+    },
+
+    
+    /**
+     * Override
+     * 
      * Internal method to read specific this properties and
      * apply the results to the this afterwards.
      *
@@ -32,7 +66,7 @@ qx.Mixin.define("qx.theme.clean.MPlacement",
      */
     _place : function(coords)
     {
-      this.__getPlacementSize(function(size)
+      this._getPlacementSize(function(size)
       {
         var result = qx.util.placement.Placement.compute(
           size,

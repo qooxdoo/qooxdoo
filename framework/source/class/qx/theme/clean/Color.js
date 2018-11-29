@@ -16,7 +16,7 @@
 ************************************************************************ */
 
 /**
- * Simple color theme
+ * Clean color theme, based off of Simple color theme (qooxdoo) and Semantic default
  */
 qx.Theme.define("qx.theme.clean.Color",
 {
@@ -80,8 +80,9 @@ qx.Theme.define("qx.theme.clean.Color",
     "button-focus-shadow" : qx.core.Environment.get("css.rgba") ? "rgba(81, 167, 232, 0.8)" : "#51A7E8",
     
     //SQ New
-	"textfield-selected" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.3)" : "#BDBEBE",
-	"textfield-selected-darker" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.5)" : "#BDBEBE",
+    //"textfield-selected" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.3)" : "#BDBEBE",
+    "textfield-selected" : qx.core.Environment.get("css.rgba") ? "rgba(133, 183, 217, 1)" : "#85b7d9",
+	  "textfield-selected-darker" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.5)" : "#BDBEBE",
 	
 	//SQ New
 	"progressbar-base" : qx.core.Environment.get("css.rgba") ? "rgba(229, 229, 229, 1)" : "#E5E5E5",

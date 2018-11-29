@@ -114,6 +114,24 @@ qx.Class.define("qxc.application.formdemo.FormItems", {
       this.__createItems(selectBox);
       this.__widgets.push(selectBox);
 
+      //SQville enhancements for Clean theme
+      // if theme = "Clean"
+      if (qx.core.Environment.get("qx.theme")=="qx.theme.Clean")
+      {
+        var fadegrowdown = {duration: 300, timing: "ease", keyFrames : {
+          0: {opacity: 0, "height": "2%"},
+          100: {opacity: 1}
+        }};
+        var fadegrowup = {duration: 300, timing: "ease-out", keyFrames : {
+          0: {opacity: 0},
+          100: {opacity: 1}
+        }};
+        selectBox.getChildControl("popup").addListener("appear", function(e) {
+          var domtable = selectBox.getChildControl("popup").getContentElement().getDomElement();
+          qx.bom.element.Animation.animate(domtable, selectBox.getChildControl("popup").hasState("placementBottom") ? fadegrowdown : fadegrowup);
+        }, this);
+      }
+
       // virtual select box
       var virtualSelectBox = new qx.ui.form.VirtualSelectBox();
       virtualSelectBox.setTabIndex(tabIndex++);
