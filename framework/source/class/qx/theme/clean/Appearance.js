@@ -1585,7 +1585,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
           padding = 0;
           decorator = "checkbox-checked";
           if (states.focused)
-            decorator = "checkbox-checked-focused";   
+            decorator = "checkbox-checked-focused"; 
+          if (states.invalid)
+            decorator = "checkbox-checked-invalid";  
           if (states.disabled)
             decorator = "checkbox-checked-disabled";      
           // Undetermined
@@ -1595,6 +1597,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
           decorator = "checkbox-undetermined";
           if (states.focused)
             decorator = "checkbox-undetermined-focused";
+          if (states.invalid)
+            decorator = "checkbox-undetermined-invalid"; 
           if (states.disabled) {
             decorator = "checkbox-undetermined-disabled";
             bckgrdcolr = "text-disabled";
@@ -2125,8 +2129,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //SQ
-          //textColor : states.disabled ? "text-disabled" :  "button-text"
+          textColor : states.disabled ? "text-disabled" :  "button-text"
         };
       }
     },

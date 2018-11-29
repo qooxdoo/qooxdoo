@@ -62,9 +62,9 @@ qx.Theme.define("qx.theme.Clean",
     {
       construct : function() {
         this.getChildControl("popup").addListener("appear", function(e) {
-          //this.getChildControl("popup").fadeIn(200);
-          var domtable = this.getChildControl("popup").getContentElement().getDomElement();
-          qx.bom.element.Animation.animate(domtable, this.getChildControl("popup").hasState("placementBottom") ? qx.theme.clean.Animation.ANIMATIONS["growdown"] : qx.theme.clean.Animation.ANIMATIONS["fadegrowup"]);
+          this.getChildControl("popup").fadeIn(200);
+          //var domtable = this.getChildControl("popup").getContentElement().getDomElement();
+          //qx.bom.element.Animation.animate(domtable, this.getChildControl("popup").hasState("placementBottom") ? qx.theme.clean.Animation.ANIMATIONS["fadegrowdown"] : qx.theme.clean.Animation.ANIMATIONS["fadegrowup"]);
         }, this);
 
         //Adjust offset

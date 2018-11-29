@@ -2214,6 +2214,15 @@ qx.Theme.define("qx.theme.clean.Decoration",
       }
     },
 
+    "checkbox-checked-invalid" :
+    {
+      include : "checkbox-checked",
+      style :
+      {
+        color : "invalid"
+      }
+    },
+
     "checkbox-undetermined" :
     {
       include : "checkbox",
@@ -2240,6 +2249,15 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style :
       {
         color : "text-disabled"
+      }
+    },
+
+    "checkbox-undetermined-invalid" :
+    {
+      include : "checkbox-undetermined",
+      style :
+      {
+        color : "invalid"
       }
     }
   }
