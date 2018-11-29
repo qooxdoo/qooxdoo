@@ -23,7 +23,7 @@ qx.Theme.define("qx.theme.Clean",
     color : qx.theme.clean.Color,
     decoration : qx.theme.clean.Decoration,
     font : qx.theme.clean.Font,
-    icon : qx.theme.icon.Tango,
+    icon : qx.theme.icon.Material,
     appearance : qx.theme.clean.Appearance
   },
   
