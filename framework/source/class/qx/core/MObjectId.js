@@ -155,10 +155,12 @@ qx.Mixin.define("qx.core.MObjectId", {
         this.__ownedObjects = {};
       }
       var thatOwner = obj.getOwner();
-      if (thatOwner === this)
+      if (thatOwner === this) {
         return;
-      if (thatOwner)
+      }
+      if (thatOwner) {
         thatOwner.removeOwnedObject(obj);
+      }
       if (id === undefined) {
         id = obj.getObjectId();
       }

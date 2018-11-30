@@ -91,8 +91,9 @@ qx.Class.define("qx.core.Id", {
             break;
           }
         } else {
-          if (mustBeRegistered === false)
+          if (mustBeRegistered === false) {
             break;
+          }
           this.error("Cannot determine a global absolute Object ID because the topmost object is not registered");
           return null;
         }
