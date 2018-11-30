@@ -699,8 +699,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : (states.opened ?
-                  "icon/16/places/folder-open.png" : "icon/16/places/folder.png"),
+          //icon : (states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"),
+          icon : states.opened ? "icon/folder-open.svg" : "icon/folder.svg",
           opacity : states.drag ? 0.5 : undefined
         };
       }
@@ -714,7 +714,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : "icon/16/mimetypes/text-plain.png",
+          //icon : "icon/16/mimetypes/text-plain.png",
+          icon : "icon/insert-drive-file.svg",
           opacity : states.drag ? 0.5 : undefined
         };
       }
@@ -735,7 +736,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.clean.Image.URLS["tree-minus"]
+          icon : "icon/add-box.svg"
         };
       }
     },
@@ -745,7 +746,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.clean.Image.URLS["tree-plus"]
+          icon : "icon/add-box.svg"
         };
       }
     },
@@ -825,7 +826,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.clean.Image.URLS["treevirtual-plus-cross"]
+          icon : "icon/add-box.svg"
         };
       }
     },
@@ -1247,7 +1248,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
     },
     
 
-    "virtual-tree" :
+    "virtual-tree" : "tree",
+    /*"virtual-tree" :
     {
       include : "tree",
       alias : "tree",
@@ -1258,7 +1260,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
           itemHeight : 21
         };
       }
-    },
+    },*/
 
     "virtual-tree-folder" : "tree-folder",
     "virtual-tree-file" : "tree-file",
