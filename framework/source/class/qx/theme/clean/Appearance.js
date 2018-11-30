@@ -698,9 +698,20 @@ qx.Theme.define("qx.theme.clean.Appearance",
     {
       style : function(states)
       {
+        var icon;
+        if (states.opened && states.selected)
+          icon = "icon/16/places/folder-open-white.png";
+        else if (states.opened && !states.selected)
+          icon = "icon/16/places/folder-open-black.png";
+        else if (!states.opened && states.selected)
+          icon = "icon/16/places/folder-white.png";
+        else
+          icon = "icon/16/places/folder-black.png";
+        
         return {
-          //icon : (states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"),
-          icon : states.opened ? "icon/folder-open.svg" : "icon/folder.svg",
+          //icon : (states.opened ? "icon/16/places/folder-open-black.png" : "icon/16/places/folder-black.png"),
+          //icon : states.opened ? "icon/folder-open.svg" : "icon/folder.svg",
+          icon : icon,
           opacity : states.drag ? 0.5 : undefined
         };
       }
@@ -714,8 +725,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : "icon/16/mimetypes/text-plain.png",
-          icon : "icon/insert-drive-file.svg",
+          icon : "icon/16/places/file-outline-black.png",
+          //icon : "icon/insert-drive-file.svg",
           opacity : states.drag ? 0.5 : undefined
         };
       }
@@ -736,7 +747,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : "icon/add-box.svg"
+          icon : qx.theme.clean.Image.URLS["tree-minus"]
         };
       }
     },
@@ -746,7 +757,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : "icon/add-box.svg"
+          icon : qx.theme.clean.Image.URLS["tree-plus"]
         };
       }
     },
@@ -826,7 +837,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : "icon/add-box.svg"
+          icon : qx.theme.clean.Image.URLS["treevirtual-plus-cross"]
         };
       }
     },

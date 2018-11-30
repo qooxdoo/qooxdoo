@@ -25,7 +25,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
   aliases : {
     decoration : "qx/decoration/Clean"
   },
- 
+   
 
   decorations :
   {

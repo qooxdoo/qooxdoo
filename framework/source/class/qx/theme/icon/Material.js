@@ -35,6 +35,15 @@
  * @asset(qx/icon/Material/18/apps/open-window-white.png)
  * @asset(qx/icon/Material/18/apps/open-window-white-tru.png)
  * 
+ * @asset(qx/icon/Material/16/places/folder-open-black.png)
+ * @asset(qx/icon/Material/16/places/folder-open-white.png)
+ * @asset(qx/icon/Material/16/places/folder-black.png)
+ * @asset(qx/icon/Material/16/places/folder-white.png)
+ * @asset(qx/icon/Material/16/places/file-black.png)
+ * @asset(qx/icon/Material/16/places/file-white.png)
+ * @asset(qx/icon/Material/16/places/file-outline-black.png)
+ * 
+ * 
  * @asset(qx/icon/Material/18/image/filter-b-and-w.png)
  * @asset(qx/icon/Material/18/image/filter-drama.png)
  * @asset(qx/icon/Material/18/image/filter-frames.png)

@@ -23,6 +23,7 @@
  *
  * @asset(qx/decoration/Clean/*)
  * @asset(qx/static/blank.png)
+ * 
  */
 qx.Class.define("qx.theme.clean.Image",
 {
