@@ -19,9 +19,11 @@
 ************************************************************************ */
 /**
  * Materail Design icons by Google (https://github.com/google/material-design-icons)
+ * https://material.io/tools/icons/
  * 
  * @asset(qx/icon/Material/18/file/folder-open.png)
  * @asset(qx/icon/Material/folder-open.svg)
+ * @asset(qx/icon/Material/add-box.svg)
  * @asset(qx/icon/Material/18/file/folder.png)
  * @asset(qx/icon/Material/folder.svg)
  * @asset(qx/icon/Material/18/editor/insert-invitation-black.png)
