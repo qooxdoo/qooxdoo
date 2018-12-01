@@ -77,8 +77,9 @@ This is a sample file:
   * **class**: Path to the library's class code relative to the Manifest.json file, up to but not including the root namespace folder (e.g. `source/class`).
   * **resource**: Path to the library's resources relative to the Manifest.json file, up to but not including the root namespace folder (e.g. `source/resource`).
   * **translation**: Path to the library's translation files relative to the Manifest.json file (e.g. `source/translation`).
-  * **type**: One of [`library`, `application`].
-* **externalResources**: Static Javascript and CSS files that shall be always included without further processing by qooxdoo. All paths are relative to the resource folder stated in the "provides" section.
+  * [**webfonts**]: [see here](IconFonts.md) 
+  * **type**: One of [`library`, `application`, `add-in`,`contribution`]. 
+  * **externalResources**: Static Javascript and CSS files that shall be always included without further processing by qooxdoo. All paths are relative to the resource folder stated in the "provides" section.
   * **script**: Array of javascript files.
   * **css**: Array of css files.
 
