@@ -1715,6 +1715,31 @@ qx.Theme.define("qx.theme.clean.Decoration",
       }
     },
 
+    "menu-radiobutton" :
+    {
+      style :
+      {
+        radius : 10,
+        width : 0,
+        color : "transparent",
+        innerColor: "text",
+        innerWidth: 0
+      }
+    },
+
+    "menu-checkbox-checked" :
+    {
+      include: "checkbox-checked",
+      style :
+      {
+        radius : 0,
+        width : 0,
+        color : "transparent",
+        innerColor: "transparent",
+        innerWidth: 0
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------

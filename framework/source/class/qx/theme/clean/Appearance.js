@@ -944,9 +944,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
           iconColumnWidth : 16,
           arrowColumnWidth : 8,
           padding : 0,
-          //placementModeY : states.submenu || states.contextmenu ? "best-fit" : "keep-align",
-          placementModeY : "direct",
-    	  position : "bottom-left",
+          placementModeY : states.submenu || states.contextmenu ? "best-fit" : "keep-align",
           offset : [8,0,0,0]
         };
 
@@ -1063,10 +1061,10 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
         return {
           alignY : "middle",
-          marginLeft : 14,
-          scale : true,
-          width : 18,
-          height : 18
+          marginLeft : 14
+          //scale : true,
+         // width : 18,
+          //height : 18
         };
       }
     },
@@ -1133,7 +1131,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           //source : qx.theme.clean.Image.URLS["arrow-right" + (states.selected ? "-invert" : "")],
           source : "",
-          decorator : states.selected ? "sqv-css-icon-arrow-right-invert" : "sqv-css-icon-arrow-right",
+          //decorator : states.selected ? "sqv-css-icon-arrow-right-invert" : "sqv-css-icon-arrow-right",
+          decorator : "sqv-css-icon-arrow-right",
           alignY : "middle",
           marginLeft : 6,
           width : 0,
@@ -1151,13 +1150,23 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
         return {
           //icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["menu-checkbox"]
-          icon : qx.theme.clean.Image.URLS["blank"]        
+          //icon : qx.theme.clean.Image.URLS["blank"]
+          icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["blank"]     
         };
       }
     },
     
     "menu-checkbox/icon" : {
-      include : "checkbox/icon"
+      style : function(states)
+      {
+        return {
+          decorator : "menu-checkbox-checked",
+          width: 17,
+          height: 17,
+          padding: 0
+          //backgroundColor : "text"
+        };
+      }
     },
     
 
@@ -1168,7 +1177,27 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["menu-radiobutton"]   
+          //icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["menu-radiobutton"] 
+          icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["blank"]
+          //icon : qx.theme.clean.Image.URLS["blank"]
+          //icon : undefined  
+        };
+      }
+    },
+
+
+    "menu-radiobutton/icon" : {
+      style : function(states)
+      {
+        var decorator = "menu-radiobutton";
+
+        decorator += states.invalid && !states.disabled ? "-invalid" : "";
+
+        return {
+          decorator : decorator,
+          width: 10,
+          height: 10,
+          backgroundColor : "text"
         };
       }
     },
