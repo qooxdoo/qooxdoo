@@ -35,6 +35,8 @@
  * @asset(qx/icon/Material/18/apps/open-window-white.png)
  * @asset(qx/icon/Material/18/apps/open-window-white-tru.png)
  * 
+ * WIDGETDEMO ONLY
+ * Treevirtual
  * @asset(qx/icon/Material/16/places/folder-open-black.png)
  * @asset(qx/icon/Material/16/places/folder-open-white.png)
  * @asset(qx/icon/Material/16/places/folder-black.png)
@@ -42,6 +44,13 @@
  * @asset(qx/icon/Material/16/places/file-black.png)
  * @asset(qx/icon/Material/16/places/file-white.png)
  * @asset(qx/icon/Material/16/places/file-outline-black.png)
+ * 
+ * Toolbar
+ * @asset(qx/icon/Material/16/actions/go-previous.png)
+ * @asset(qx/icon/Material/16/actions/document-new.png)
+ * @asset(qx/icon/Material/16/actions/format-text-underline.png)
+ * @asset(qx/icon/Material/16/actions/format-justify-left.png)
+ * @asset(qx/icon/Material/16/actions/format-justify-center.png)
  * 
  * 
  * @asset(qx/icon/Material/18/image/filter-b-and-w.png)
