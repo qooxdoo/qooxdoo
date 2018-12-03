@@ -45,7 +45,7 @@ qx.Class.define("qx.core.Id", {
           return qx.core.Init.getApplication() || undefined;
       }
       
-      return; // undefined
+      return undefined;
     },
     
     /**
@@ -62,7 +62,8 @@ qx.Class.define("qx.core.Id", {
      * to query and `qx.core.Id.getObject` will not work on that path)  
      * 
      * @param obj {qx.core.Object} the object
-     * @param mustBeRegistered {Boolean} whether the
+     * @param mustBeRegistered {Boolean} default: true; whether the function is allowed to return
+     *  a path that cannot be accessed via `qx.core.Id.getObject()`
      * @return {String} full path to the object
      */
     getAbsoluteIdOf: function(obj, mustBeRegistered) {
@@ -71,7 +72,7 @@ qx.Class.define("qx.core.Id", {
       while (obj) {
         var id = obj.getObjectId();
         if (!id) {
-          this.error("Cannot determine an absolute Object ID because one of the ancestor ObjectID's is null");
+          this.error("Cannot determine an absolute Object ID because one of the ancestor ObjectID's is null (got as far as " + segs.join('/') + ")");
           return null;
         }
         segs.unshift(id);
@@ -99,7 +100,7 @@ qx.Class.define("qx.core.Id", {
         }
         obj = owner;
       }
-      var path = segs = segs.join("/");
+      var path = segs.join("/");
       return path;
     },
     

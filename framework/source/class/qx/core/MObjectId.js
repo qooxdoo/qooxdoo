@@ -187,23 +187,26 @@ qx.Mixin.define("qx.core.MObjectId", {
      * Discards an object from the list of owned objects; note that this does
      * not dispose of the object, simply forgets it if it exists.
      * 
-     * @param id {String|Object} the ID of the object to discard, or the object itself
+     * @param args {String|Object} the ID of the object to discard, or the object itself
      */
-    removeOwnedObject: function(id) {
+    removeOwnedObject: function(args) {
       if (!this.__ownedObjects) {
         throw new Error("Cannot discard object because it is not owned by this, this=" + this + ", object=" + obj);
       }
       
-      if (typeof id === "string") {
-        if (id.indexOf('/') > -1) {
+      var id;
+      var obj;
+      if (typeof args === "string") {
+        if (args.indexOf('/') > -1) {
           throw new Error("Cannot discard owned objects based on a path");
         }
-        var obj = this.__ownedObjects[id];
+        id = args;
+        obj = this.__ownedObjects[id];
         if (obj === undefined) {
           return;
         }
       } else {
-        var obj = id;
+        obj = args;
         id = obj.getObjectId();
         if (this.__ownedObjects[id] !== obj) {
           throw new Error("Cannot discard object because it is not owned by this, this=" + this + ", object=" + obj);

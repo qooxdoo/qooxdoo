@@ -803,7 +803,7 @@ qx.Class.define("qx.html.Element",
         if (this.__widget && this.__widget.getObjectId()) {
           id = qx.core.Id.getAbsoluteIdOf(this.__widget, false) || null;
         }
-        this.setAttribute("data-object-id", id, true);
+        this.setAttribute("data-qx-object-id", id, true);
       }
     },
 
