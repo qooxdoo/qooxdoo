@@ -29,6 +29,7 @@
  * @asset(abc/def/myicon.gif)
  * @require(qx.io.remote.Rpc)
  * @require(testapp.WrongClassName)
+ * @require(testapp.Issue153)
  */
 qx.Class.define("testapp.Application", {
   extend: qx.application.Standalone,
