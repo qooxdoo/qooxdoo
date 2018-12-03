@@ -1,0 +1,71 @@
+#: dialog/Dialog.js:417 dialog/Form.js:457
+msgid "OK"
+msgstr ""
+
+#: dialog/Dialog.js:443
+msgid "Cancel"
+msgstr ""
+
+#: dialog/Confirm.js:117
+msgid "yes"
+msgstr ""
+
+#: dialog/Confirm.js:129
+msgid "no"
+msgstr ""
+
+#: dialog/Form.js:396
+msgid "Value is invalid"
+msgstr ""
+
+#: qx/util/Validate.js:90
+msgid "%1 is not a number."
+msgstr ""
+
+#: qx/util/Validate.js:129
+msgid "'%1' is not an email address."
+msgstr ""
+
+#: qx/util/Validate.js:166
+msgid "%1 is not a string."
+msgstr ""
+
+#: qx/util/Validate.js:202
+msgid "%1 is not an url."
+msgstr ""
+
+#: qx/util/Validate.js:243
+msgid "%1 is not a color! %2"
+msgstr ""
+
+#: qx/util/Validate.js:267
+msgid "%1 is not in the range from [%2, %3]."
+msgstr ""
+
+#: qx/util/Validate.js:290
+msgid "%1 is not in %2"
+msgstr ""
+
+#: qx/util/Validate.js:314
+msgid "%1 does not fit %2."
+msgstr ""
+
+#: qx/ui/form/validation/Manager.js:37
+msgid "This field is required"
+msgstr ""
+
+#: qx/ui/control/DateChooser.js:258
+msgid "Last year"
+msgstr ""
+
+#: qx/ui/control/DateChooser.js:270
+msgid "Last month"
+msgstr ""
+
+#: qx/ui/control/DateChooser.js:282
+msgid "Next month"
+msgstr ""
+
+#: qx/ui/control/DateChooser.js:294
+msgid "Next year"
+msgstr ""
