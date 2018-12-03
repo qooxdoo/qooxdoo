@@ -1,0 +1,19 @@
+#: dialog/Dialog.js:417 dialog/Form.js:457
+msgid "OK"
+msgstr ""
+
+#: dialog/Dialog.js:443
+msgid "Cancel"
+msgstr ""
+
+#: dialog/Confirm.js:117
+msgid "yes"
+msgstr ""
+
+#: dialog/Confirm.js:129
+msgid "no"
+msgstr ""
+
+#: dialog/Form.js:396
+msgid "Value is invalid"
+msgstr ""

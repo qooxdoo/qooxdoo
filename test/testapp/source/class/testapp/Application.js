@@ -136,6 +136,8 @@ qx.Class.define("testapp.Application", {
         var plugin = new testapp.plugins.PluginTwo();
         console.log(plugin.sayHello());
       }, this);
+      
+      new testapp.test.TestInnerClasses().testInnerClasses();
     },
 
     undocumentedMethod: function () {
