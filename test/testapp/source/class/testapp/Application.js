@@ -28,6 +28,7 @@
  * @asset(testapp/*)
  * @asset(abc/def/myicon.gif)
  * @require(qx.io.remote.Rpc)
+ * @require(testapp.WrongClassName)
  */
 qx.Class.define("testapp.Application", {
   extend: qx.application.Standalone,
@@ -50,6 +51,8 @@ qx.Class.define("testapp.Application", {
     main: function () {
       // Call super class
       this.base(arguments);
+      
+      console.log(undefinedValue);
 
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug")) {
