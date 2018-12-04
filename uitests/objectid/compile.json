@@ -15,14 +15,9 @@
 
   "applications": [
     {
-      "class": "selectbox.Application",
+      "class": "objectid.Application",
       "theme": "qx.theme.Simple",
-      "name": "selectbox"
-    },
-    {
-      "class": "selectbox.Issue9569Application",
-      "theme": "qx.theme.Simple",
-      "name": "issue-9569"
+      "name": "objectid"
     }
   ]
 }
