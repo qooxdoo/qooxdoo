@@ -3,7 +3,8 @@
   "description": "node.js based replacement for the Qooxdoo python toolchain",
   "main": "index.js",
   "scripts": {
-    "test": "cross-os test.os"
+    "test": "cross-os test.os",
+    "compileWebSite": "cd tool/cli/serve && node compile.js"
   },
   "cross-os": {
     "test.os": {
@@ -58,7 +59,7 @@
     "github-api": "^3.0.0",
     "glob": "^7.1.3",
     "image-size": "^0.6.3",
-    "inquirer": "^4.0.0",
+    "inquirer": "^6.2.0",
     "json-to-ast": "git+https://github.com/johnspackman/json-to-ast.git#editable-json",
     "jsonlint": "^1.6.2",
     "node-fetch": "^1.7.3",

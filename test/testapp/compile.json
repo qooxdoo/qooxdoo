@@ -48,10 +48,5 @@
         "pluginTwo": {
             "include": [ "testapp.plugins.PluginTwo" ]
         }
-	},
-	
-	"libraries": [
-		"../../qooxdoo/framework",
-		"."
-	]
+	}
 }
