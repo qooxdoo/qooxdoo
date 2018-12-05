@@ -689,7 +689,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
       alias : "table",
       style : function(states, superStyles) {
         return {
-          padding : [superStyles.padding[0] + 2, superStyles.padding[1] + 1]
+          padding : [superStyles.padding[0] + 2, superStyles.padding[1] + 1],
+          rowHeight: 24
         };
       }
     },
@@ -3467,9 +3468,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
           source : "",
           decorator : "sqv-css-icon-arrow-down",
           cursor : states.disabled ? undefined : "pointer",
-          padding : [0, 5],
           marginLeft: 2,
-          width : 0,
+          width : 6,
           height : 0
         };
       }
@@ -3505,7 +3505,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
 
         return {
-          icon : qx.theme.clean.Image.URLS["arrow-down"],
+          //icon : qx.theme.clean.Image.URLS["arrow-down"],
+          icon : "",
           decorator : decorator
         };
       }
@@ -3541,11 +3542,15 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
 
         return {
-          icon : qx.theme.clean.Image.URLS["arrow-down"],
-          decorator : decorator
+          //icon : qx.theme.clean.Image.URLS["arrow-down"],
+          icon : "",
+          decorator : decorator,
+          padding: [3, 6]
         };
       }
     },
+
+    "toolbar-splitbutton/arrow/icon" : "combobox/button/icon",
 
 
     /*

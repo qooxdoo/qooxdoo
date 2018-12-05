@@ -134,6 +134,13 @@ qx.Theme.define("qx.theme.clean.Font",
     {
     	include : "default",
     	size : 20
+    },
+
+    // TreeVirtual Legacy
+    "treevirtual" :
+    {
+      include : "default",
+    	size : 8
     }
   }
 });

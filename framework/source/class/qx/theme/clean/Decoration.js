@@ -614,8 +614,6 @@ qx.Theme.define("qx.theme.clean.Decoration",
         radius : 3,
         width : 0,
         color : "button-border",
-        //gradientStart : ["button-box-bright", 40],
-        //gradientEnd : ["button-box-dark", 70],
         backgroundColor : "button-box-bright"
       }
     },
@@ -626,8 +624,6 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        //gradientStart : ["button-box-bright-pressed", 40],
-        //gradientEnd : ["button-box-dark-pressed", 70],
         backgroundColor : "button-box-bright-pressed"
       }
     },
@@ -878,7 +874,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
     /*
     ---------------------------------------------------------------------------
-      BUTTON BOTOM RIGHT
+      BUTTON BOTTOM RIGHT
     ---------------------------------------------------------------------------
     */
     "button-box-bottom-right" :
@@ -906,7 +902,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
     /*
     ---------------------------------------------------------------------------
-      BUTTON BOTOM LEFT
+      BUTTON BOTTOM LEFT
     ---------------------------------------------------------------------------
     */
     "button-box-bottom-left" :
@@ -1015,8 +1011,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : 0,
-        width : [1, 0, 1, 1]
+        radius : 0
+        //width : [1, 0, 1, 1]
       }
     },
 
@@ -1026,8 +1022,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : 0,
-        width : [1, 0, 1, 1]
+        radius : 0
+        //width : [1, 0, 1, 1]
       }
     },
 
@@ -1037,8 +1033,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : 0,
-        width : [1, 0, 1, 1]
+        radius : 0
+        //width : [1, 0, 1, 1]
       }
     },
 
@@ -1048,8 +1044,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : 0,
-        width : [1, 0, 1, 1]
+        radius : 0
+        //width : [1, 0, 1, 1]
       }
     },
 
@@ -1065,8 +1061,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : [3, 0, 0, 3],
-        width : [1, 0, 1, 1]
+        radius : [3, 0, 0, 3]
       }
     },
 
@@ -1076,8 +1071,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : [3, 0, 0, 3],
-        width : [1, 0, 1, 1]
+        radius : [3, 0, 0, 3]
       }
     },
 
@@ -1087,8 +1081,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : [3, 0, 0, 3],
-        width : [1, 0, 1, 1]
+        radius : [3, 0, 0, 3]
       }
     },
 
@@ -1098,8 +1091,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : [3, 0, 0, 3],
-        width : [1, 0, 1, 1]
+        radius : [3, 0, 0, 3]
       }
     },
 
@@ -1109,8 +1101,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : [3, 0, 0, 3],
-        width : [1, 0, 1, 1]
+        radius : [3, 0, 0, 3]
       }
     },
 
@@ -1120,8 +1111,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : [3, 0, 0, 3],
-        width : [1, 0, 1, 1]
+        radius : [3, 0, 0, 3]
       }
     },
 
@@ -1131,8 +1121,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : [3, 0, 0, 3],
-        width : [1, 0, 1, 1]
+        radius : [3, 0, 0, 3]
       }
     },
 
@@ -1142,10 +1131,94 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        radius : [3, 0, 0, 3],
-        width : [1, 0, 1, 1]
+        radius : [3, 0, 0, 3]
       }
     },
+
+        /*
+    ---------------------------------------------------------------------------
+      BUTTON LEFT BORDER
+    ---------------------------------------------------------------------------
+    */
+   "button-box-left-border" :
+   {
+     include : "button-box-left",
+
+     style :
+     {
+       width : [1,0,1,1]
+     }
+   },
+
+   "button-box-pressed-left-border" :
+   {
+     include : "button-box-pressed-left",
+
+     style :
+     {
+      width : 1
+     }
+   },
+
+   "button-box-pressed-hovered-left" :
+   {
+     include : "button-box-pressed-hovered",
+
+     style :
+     {
+       radius : [3, 0, 0, 3]
+     }
+   },
+
+   "button-box-hovered-left" :
+   {
+     include : "button-box-hovered",
+
+     style :
+     {
+       radius : [3, 0, 0, 3]
+     }
+   },
+
+   "button-box-focused-left" :
+   {
+     include : "button-box-focused",
+
+     style :
+     {
+       radius : [3, 0, 0, 3]
+     }
+   },
+
+   "button-box-hovered-focused-left" :
+   {
+     include : "button-box-hovered-focused",
+
+     style :
+     {
+       radius : [3, 0, 0, 3]
+     }
+   },
+
+   "button-box-pressed-hovered-focused-left" :
+   {
+     include : "button-box-pressed-hovered-focused",
+
+     style :
+     {
+       radius : [3, 0, 0, 3]
+     }
+   },
+
+   "button-box-pressed-focused-left" :
+   {
+     include : "button-box-pressed-focused",
+
+     style :
+     {
+       radius : [3, 0, 0, 3]
+     }
+   },
     
     
     /*
@@ -1695,7 +1768,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
     {
       style :
       {
-        widthLeft : 1,
+        //widthLeft : 1,
         colorLeft : "button-border"
       }
     },
