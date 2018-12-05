@@ -2049,19 +2049,29 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style :
       {
         radius : 3,
-        width : 1,
-        color : "table-border",
+        width : 10,
+        color : "green",
         style : "solid"
       }
+    },
+
+    "table-pane" :
+    {
+      width : [0,1,0,1],
+      color : "table-border"
     },
 
     "statusbar" :
     {
       style :
       {
-        widthTop : 1,
-        colorTop : "table-border",
-        styleTop : "solid"
+        //widthTop : 1,
+        //colorTop : "table-border",
+        //styleTop : "solid"
+        width : 1,
+        color : "table-border",
+        style : "solid",
+        radius : [0,0,3,3]
       }
     },
 
@@ -2081,8 +2091,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        //radius : [3,0,0,3],
-        width : [0,0,1,0],
+        radius : [3,0,0,0],
+        width : [1,1,1,1],
         color : "table-border"
         
       }
@@ -2092,7 +2102,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
     {
       include : "table-header",
       style : {
-        width : [0,0,1,0],
+        radius : [0,3,0,0],
+        width : [1,1,1,0],
         color : "table-border"
       }
     },

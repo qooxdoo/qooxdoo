@@ -550,7 +550,15 @@ qx.Theme.define("qx.theme.clean.Appearance",
       }
     },
 
-    "table-scroller/pane" : {},
+    "table-scroller/pane" : 
+    {   
+        style : function(states)
+        {
+          return {
+            decorator : "table-pane"
+          };
+        }
+      },
 
     "table-scroller/focus-indicator" :
     {
