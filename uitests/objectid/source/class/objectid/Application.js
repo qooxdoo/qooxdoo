@@ -53,6 +53,14 @@ qx.Class.define("objectid.Application", {
       this.getObject("exampleEditor/ctlrTitle").setModel(model);
 
       root.add(this.getObject("exampleEditor/container"), { left: 100, top: 250 });
+      
+      var button_panel = new qx.ui.toolbar.ToolBar();
+      button_panel.add(new qx.ui.toolbar.Button("Push Me"));
+      root.add(button_panel, { left: 100, top: 300 });
+      qx.core.Id.getInstance().register(button_panel, "buttons");
+      button_panel.setObjectId("buttons");
+      
+      qx.core.Assert.assertTrue(button_panel === qx.core.Id.getObject("buttons"));
     },
     
     _createObjectImpl: function(id) {

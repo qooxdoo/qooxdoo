@@ -33,7 +33,7 @@ qx.Mixin.define("qx.core.MObjectId", {
 
   properties: {
 
-    /** The ID of the owning object */
+    /** The owning object */
     owner : {
       init : null,
       check : "qx.core.Object",
@@ -47,7 +47,8 @@ qx.Mixin.define("qx.core.MObjectId", {
       init: null,
       check : "String",
       nullable : true,
-      apply : "_applyObjectId"
+      apply : "_applyObjectId",
+      transform : "_transformObjectId"
     }
   },
 
@@ -63,16 +64,25 @@ qx.Mixin.define("qx.core.MObjectId", {
     __changingOwner: false,
 
     /**
-     * apply owner id
+     * Apply owner
      */
     _applyOwner : function(value, oldValue) {
       if (!this.__changingOwner) {
         throw new Error("Please use API methods to change owner, not the property");
       }
     },
+    
+    /**
+     * Transform/validate objectId
+     */
+    _transformObjectId: function(value) {
+      if (value && value.indexOf('/') > -1)
+        throw new Error("Object IDs cannot have '/' characters");
+      return value;
+    },
 
     /**
-     * apply object id
+     * Apply objectId
      */
     _applyObjectId : function(value, oldValue) {
       if (this.getOwner() && !this.__changingOwner) {
