@@ -76,8 +76,9 @@ qx.Mixin.define("qx.core.MObjectId", {
      * Transform/validate objectId
      */
     _transformObjectId: function(value) {
-      if (value && value.indexOf('/') > -1)
+      if (value && value.indexOf('/') > -1) {
         throw new Error("Object IDs cannot have '/' characters");
+      }
       return value;
     },
 

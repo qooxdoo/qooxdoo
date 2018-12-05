@@ -67,8 +67,9 @@ qx.Class.define("qx.core.Id", {
      * @return {String} full path to the object
      */
     getAbsoluteIdOf: function(obj, mustBeRegistered) {
-      if (this.__registeredIdHashes && this.__registeredIdHashes[obj.toHashCode()])
+      if (this.__registeredIdHashes && this.__registeredIdHashes[obj.toHashCode()]) {
         return obj.getObjectId();
+      }
       var segs = [];
       var application = qx.core.Init.getApplication();
       while (obj) {
