@@ -40,7 +40,7 @@ qx.Class.define("qx.test.core.ObjectId", {
       
       var obj = new demo.MyClass();
       var Id = qx.core.Id.getInstance();
-      Id.register("test", obj);
+      Id.register(obj, "test");
       var txt = obj.getObject("txt");
       this.assertTrue(txt === obj.getObject("txt"));
       this.assertTrue(txt.getObjectId() === "txt");
