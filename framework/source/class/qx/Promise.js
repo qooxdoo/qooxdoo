@@ -529,10 +529,15 @@ qx.Class.define("qx.Promise", {
       function action(value) {
         var arr = [];
         var names = [];
+        var fns = [];
         for (var name in value) {
-          if (value.hasOwnProperty(name) && value[name] instanceof qx.Promise) {
-            arr.push(value[name]);
-            names.push(name);
+          if (value.hasOwnProperty(name)) {
+            if (value[name] instanceof qx.Promise) {
+              arr.push(value[name]);
+              names.push(name);
+            } else if (typeof value[name] == "function") {
+              fns.push(name);
+            }
           }
         }
         return qx.Promise.all(arr)
@@ -541,6 +546,28 @@ qx.Class.define("qx.Promise", {
               value[names[index]] = item; 
             });
             return value;
+          })
+          .then(function() {
+            if (!fns.length)
+              return;
+            
+            // Execute each function and get the result into a temporary object
+            var obj = {};
+            fns.forEach(function(name) {
+              obj[name] = value[name](value);
+            });
+            
+            // Reolve all Promises in that temporary object
+            return qx.Promise.allOf(obj)
+              .then(function() {
+                // And copy resolved values back to the original object
+                fns.forEach(function(name) {
+                  value[name] = obj[name];
+                });
+              });
+          })
+          .then(function() { 
+            return value; 
           });
       }
       return value instanceof qx.Promise ? value.then(action) : action(value);
