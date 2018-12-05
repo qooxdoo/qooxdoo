@@ -443,7 +443,10 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.clean.Image.URLS["arrow-" + (states.vertical ? "down" : "right")]
+          //icon : qx.theme.clean.Image.URLS["arrow-" + (states.vertical ? "down" : "right")]
+          icon : "",
+          iconProps : states.vertical ? { decorator : "sqv-css-icon-arrow-down" } : { decorator : "sqv-css-icon-arrow-right" },
+          padding : [10, 12] 
         };
       }
     },
@@ -456,7 +459,10 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : qx.theme.clean.Image.URLS["arrow-" + (states.vertical ? "up" : "left")]
+          //icon : qx.theme.clean.Image.URLS["arrow-" + (states.vertical ? "up" : "left")]
+          icon : "",
+          iconProps : states.vertical ? { decorator : "sqv-css-icon-arrow-up" } : { decorator : "sqv-css-icon-arrow-left" },
+          padding : [10, 12] 
         };
       }
     },
@@ -980,7 +986,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : states.hovered  ? "background-selected" : undefined,
+          backgroundColor : states.hovered  ? "button-box-bright-hovered" : undefined,
           padding : 6,
           center : true
         };
@@ -994,10 +1000,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : qx.theme.clean.Image.URLS[
-          //  "arrow-up" + (states.hovered ? "-invert" : "")]
           icon : "",
-          decorator : states.hovered ? "sqv-css-icon-arrow-up-invert" : "sqv-css-icon-arrow-up"
+          iconProps : { source : "", decorator : "sqv-css-icon-arrow-up" }
         };
       }
     },
@@ -1009,12 +1013,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          //icon : qx.theme.clean.Image.URLS[
-          //  "arrow-down" + (states.hovered ? "-invert" : "")]
           icon : "",
-          decorator : states.hovered ? "sqv-css-icon-arrow-down-invert" : "sqv-css-icon-arrow-down",
-          width : 0,
-          height : 0
+          iconProps : { source : "", decorator : "sqv-css-icon-arrow-down" }
         };
       }
     },
@@ -1223,32 +1223,39 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "light-background",
+          backgroundColor : "white",
           padding: [4, 2]
         };
       }
     },
 
+    //"menubar-button" : "menubutton",
+
     "menubar-button" :
     {
+      include : "menubutton",
+
       style : function(states)
       {
-        var decorator;
-        var padding = [2, 6];
+        var decorator = "button-box-blank";
+
         if (!states.disabled) {
-          if (states.pressed) {
-            decorator = "menubar-button-pressed";
-            padding = [1, 5, 2, 5];
-          } else if (states.hovered) {
-            decorator = "menubar-button-hovered";
-            padding = [1, 5];
+          if (states.hovered && !states.pressed && !states.checked) {
+            decorator = "button-box-hovered";
+          } else if (states.hovered && (states.pressed || states.checked)) {
+            decorator = "button-box-pressed-hovered";
+          } else if (states.pressed || states.checked) {
+            decorator = "button-box-pressed";
           }
         }
 
+        if (states.invalid && !states.disabled) {
+          decorator += "-invalid";
+        } else if (states.focused) {
+          decorator += "-focused";
+        }
+
         return {
-          padding : padding,
-          cursor : states.disabled ? undefined : "pointer",
-          textColor : "link",
           decorator : decorator
         };
       }
@@ -3379,7 +3386,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "light-background",
+          backgroundColor : "white",
           padding : 0
         };
       }
@@ -3446,7 +3453,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
           cursor  : states.disabled ? undefined : "pointer",
           decorator : decorator,
           margin : margin,
-          padding: [3, 5]
+          center : true,
+          padding : [10, 18],
+          gap : 8
         };
       }
     },
@@ -3466,7 +3475,6 @@ qx.Theme.define("qx.theme.clean.Appearance",
 
     "toolbar-menubutton/arrow" :
     {
-      alias : "image",
       include : "image",
 
       style : function(states)
@@ -3608,25 +3616,29 @@ qx.Theme.define("qx.theme.clean.Appearance",
           return {
             marginTop : 4,
             marginBottom: 2,
-            decorator : null
+            iconProps : { decorator : "sqv-css-icon-arrow-right" }
+            //decorator : null
           };
         } else if (states.barBottom) {
           return {
             marginTop : 2,
             marginBottom: 4,
-            decorator : null
+            iconProps : { decorator : "sqv-css-icon-arrow-right" }
+            //decorator : null
           };
         } else if (states.barLeft) {
           return {
             marginLeft : 4,
             marginRight : 2,
-            decorator : null
+            iconProps : { decorator : "sqv-css-icon-arrow-down" }
+           // decorator : null
           };
         } else {
           return {
             marginLeft : 2,
             marginRight : 4,
-            decorator : null
+            iconProps : { decorator : "sqv-css-icon-arrow-down" }
+            //decorator : null
           };
         }
       }
@@ -3643,25 +3655,29 @@ qx.Theme.define("qx.theme.clean.Appearance",
           return {
             marginTop : 4,
             marginBottom: 2,
-            decorator : null
+            iconProps : { decorator : "sqv-css-icon-arrow-left" }
+            //decorator : null
           };
         } else if (states.barBottom) {
           return {
             marginTop : 2,
             marginBottom: 4,
-            decorator : null
+            iconProps : { decorator : "sqv-css-icon-arrow-left" }
+            //decorator : null
           };
         } else if (states.barLeft) {
           return {
             marginLeft : 4,
             marginRight : 2,
-            decorator : null
+            iconProps : { decorator : "sqv-css-icon-arrow-up" }
+            //decorator : null
           };
         } else {
           return {
             marginLeft : 2,
             marginRight : 4,
-            decorator : null
+            iconProps : { decorator : "sqv-css-icon-arrow-up" }
+            //decorator : null
           };
         }
       }

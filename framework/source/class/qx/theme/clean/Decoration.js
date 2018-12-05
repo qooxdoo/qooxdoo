@@ -618,6 +618,16 @@ qx.Theme.define("qx.theme.clean.Decoration",
       }
     },
 
+    "button-box-blank" :
+    {
+      include : "button-box",
+
+      style :
+      {
+        backgroundColor : "white"
+      }
+    },
+
     "button-box-pressed" :
     {
       include : "button-box",
