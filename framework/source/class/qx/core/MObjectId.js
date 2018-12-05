@@ -42,13 +42,12 @@ qx.Mixin.define("qx.core.MObjectId", {
     },
 
 
-    /** The ID of the object.  */
+    /** {String} The ID of the object.  */
     objectId : {
       init: null,
-      check : "String",
+      check : function(value) { return value === null || (typeof value == "string" && value.indexOf('/') < 0); },
       nullable : true,
-      apply : "_applyObjectId",
-      transform : "_transformObjectId"
+      apply : "_applyObjectId"
     }
   },
 
@@ -72,16 +71,6 @@ qx.Mixin.define("qx.core.MObjectId", {
       }
     },
     
-    /**
-     * Transform/validate objectId
-     */
-    _transformObjectId: function(value) {
-      if (value && value.indexOf('/') > -1) {
-        throw new Error("Object IDs cannot have '/' characters");
-      }
-      return value;
-    },
-
     /**
      * Apply objectId
      */
