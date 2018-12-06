@@ -1426,12 +1426,11 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style :
       {
         width : 1,
-        //color : "window-border",
-        color : "textfield-selected",
+        color : "border-light",
         innerWidth : 4,
         innerColor: "window-border-inner",
-        shadowLength : 1,
-        shadowBlurRadius : 3,
+        shadowLength : 0,
+        shadowBlurRadius : 0,
         shadowColor : "shadow",
         backgroundColor : "background",
         radius : 3
@@ -1444,8 +1443,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
       style :
       {
-        shadowLength : 2,
-        shadowBlurRadius : 5
+        shadowLength : [1,2],
+        shadowBlurRadius : 2
       }
     },
 
