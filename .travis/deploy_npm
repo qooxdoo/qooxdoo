@@ -1,0 +1,53 @@
+#!/bin/bash
+
+set -o errexit -o nounset
+
+exe() { echo "\$ ${@/eval/}" ; "$@" ; }
+
+cd $TRAVIS_BUILD_DIR
+
+BASE_DIR="$(git rev-parse --show-toplevel)"
+FRAMEWORK_VERSION=$(cat $BASE_DIR/version.txt)
+TAG_VERSION="$FRAMEWORK_VERSION"
+REV=$(git rev-parse --short HEAD)
+FRAMEWORK_DATE=$(date +%Y%m%d)
+GENERATE="python $BASE_DIR/tool/bin/generator.py"
+ 
+# Adjust the framework version for non TAG builds
+if [ "$TRAVIS_TAG" = "" ]; then
+    TAG_VERSION="$TAG_VERSION-$FRAMEWORK_DATE-$REV"
+fi
+
+echo "-------------------------------------------------------------------------"
+echo "Framework version: $FRAMEWORK_VERSION"
+echo "Revision         : $REV"
+echo "Tag version      : $TAG_VERSION"
+echo "TRAVIS_BUILD_DIR : $TRAVIS_BUILD_DIR"
+echo "Build source     : $BASE_DIR"
+echo "Generate         : $GENERATE"
+echo "-------------------------------------------------------------------------"
+
+cd $BASE_DIR
+if [ "$TAG_VERSION" != "$FRAMEWORK_VERSION" ]; then
+    echo "Bump version ..."
+    exe tool/admin/bin/bumpqxversion.py $TAG_VERSION
+fi
+
+exe node -v
+exe npm -v
+# for token authentication we need newest npm!
+exe npm i npm@latest -g
+exe npm -v
+# fill .npmrc with access token
+echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+# publish to npm
+exe npm publish 
+
+# build qooxdoo server package
+cd $BASE_DIR/component/standalone/server 
+exe $GENERATE distclean
+exe $GENERATE build
+exe $GENERATE npm-package-copy
+exe $GENERATE npm-package-test
+exe $GENERATE npm-package-publish
+
