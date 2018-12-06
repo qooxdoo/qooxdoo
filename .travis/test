@@ -1,0 +1,5 @@
+#!/bin/bash
+exe() { echo "\$ ${@/eval/}" ; "$@" ; }
+
+exe npm link
+exe npm test
