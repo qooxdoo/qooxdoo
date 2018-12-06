@@ -1071,7 +1071,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           alignY : "middle",
           marginLeft : 14
-          //scale : true,
+          //scale : true
          // width : 18,
           //height : 18
         };
@@ -1160,18 +1160,23 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           //icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["menu-checkbox"]
           //icon : qx.theme.clean.Image.URLS["blank"]
-          icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["blank"]     
+          icon : !states.checked ? undefined : qx.theme.clean.Image.URLS["blank"]
         };
       }
     },
     
     "menu-checkbox/icon" : {
+      
+      include : "image",
+      
       style : function(states)
       {
+        
         return {
           decorator : "menu-checkbox-checked",
           width: 17,
           height: 17,
+          marginLeft : 14,
           padding: 0
           //backgroundColor : "text"
         };
@@ -1196,6 +1201,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
 
 
     "menu-radiobutton/icon" : {
+      
+      include : "image",
+      
       style : function(states)
       {
         var decorator = "menu-radiobutton";
@@ -1206,7 +1214,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
           decorator : decorator,
           width: 10,
           height: 10,
-          backgroundColor : "text"
+          backgroundColor : "text",
+          marginLeft : 17
         };
       }
     },
