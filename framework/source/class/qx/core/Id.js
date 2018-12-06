@@ -57,16 +57,14 @@ qx.Class.define("qx.core.Id", {
      * 
      * This will also return null if the top-most ancestor is not one of the globals registered
      * with `registerObject` or a known global (such as the application); however, by passing
-     * `false` as the `mustBeRegistered` parameter, this restriction is removed and a path will
-     * still be returned (it's just that in this case, you will have to know the the root object
-     * to query and `qx.core.Id.getObject` will not work on that path)  
+     * `true` as the `suppressWarnings` parameter, this will prevent errors from appearing in 
+     * the console when this happens  
      * 
      * @param obj {qx.core.Object} the object
-     * @param mustBeRegistered {Boolean} default: true; whether the function is allowed to return
-     *  a path that cannot be accessed via `qx.core.Id.getObject()`
+     * @param suppressWarnings {Boolean?} default: false; silently returns null if an ID cannot be created 
      * @return {String} full path to the object
      */
-    getAbsoluteIdOf: function(obj, mustBeRegistered) {
+    getAbsoluteIdOf: function(obj, suppressWarnings) {
       if (this.__registeredIdHashes && this.__registeredIdHashes[obj.toHashCode()]) {
         return obj.getObjectId();
       }
@@ -75,7 +73,9 @@ qx.Class.define("qx.core.Id", {
       while (obj) {
         var id = obj.getObjectId();
         if (!id) {
-          this.error("Cannot determine an absolute Object ID because one of the ancestor ObjectID's is null (got as far as " + segs.join('/') + ")");
+          if (!suppressWarnings) {
+            this.error("Cannot determine an absolute Object ID because one of the ancestor ObjectID's is null (got as far as " + segs.join('/') + ")");
+          }
           return null;
         }
         segs.unshift(id);
@@ -95,10 +95,9 @@ qx.Class.define("qx.core.Id", {
             break;
           }
         } else {
-          if (mustBeRegistered === false) {
-            break;
+          if (!suppressWarnings) {
+            this.error("Cannot determine a global absolute Object ID because the topmost object is not registered");
           }
-          this.error("Cannot determine a global absolute Object ID because the topmost object is not registered");
           return null;
         }
         obj = owner;
@@ -126,22 +125,39 @@ qx.Class.define("qx.core.Id", {
       }
       this.__registeredObjects[id] = obj;
       this.__registeredIdHashes[obj.toHashCode()] = id;
+      obj._cascadeObjectIdChanges();
     },
     
     /**
      * Unregisters a previously registered object with an ID
      * 
-     * @param id {String} the ID to unregister the object
+     * @param data {Object|String} the object to unregister, or the ID of the object
+     * @return {Boolean} whether there was an object to unregister
      */
-    unregister: function(id) {
-      if (this.__registeredObjects) {
-        var obj = this.__registeredObjects[id];
-        if (obj) {
-          delete this.__registeredObjects[id];
-          delete this.__registeredIdHashes[obj.toHashCode()];
-        }
+    unregister: function(data) {
+      if (!this.__registeredObjects) {
+        return false;
       }
-      this.removeOwnedObject(id);
+      
+      var id;
+      if (typeof data == "string") {
+        id = data;
+      } else {
+        var hash = data.toHashCode();
+        id = this.__registeredIdHashes[hash];
+        if (!id)
+          return false;
+      }
+      
+      var obj = this.__registeredObjects[id];
+      if (obj) {
+        delete this.__registeredObjects[id];
+        delete this.__registeredIdHashes[obj.toHashCode()];
+        obj._cascadeObjectIdChanges();
+        return true;
+      }
+      
+      return false;
     }
   },
   
@@ -161,10 +177,11 @@ qx.Class.define("qx.core.Id", {
      * Helper for `qx.core.Id.getAbsoluteIdOf`
      * 
      * @param obj {qx.core.Object} the object
+     * @param suppressWarnings {Boolean?} default: false; silently returns null if an ID cannot be created 
      * @return {String} full path to the object
      */
-    getAbsoluteIdOf: function(obj) {
-      return this.getInstance().getAbsoluteIdOf(obj);
+    getAbsoluteIdOf: function(obj, suppressWarnings) {
+      return this.getInstance().getAbsoluteIdOf(obj, suppressWarnings);
     }
   }
 });

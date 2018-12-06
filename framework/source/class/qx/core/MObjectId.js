@@ -75,15 +75,36 @@ qx.Mixin.define("qx.core.MObjectId", {
      * Apply objectId
      */
     _applyObjectId : function(value, oldValue) {
-      if (this.getOwner() && !this.__changingOwner) {
-        throw new Error("Please use API methods to change owner ID, not the property");
+      if (!this.__changingOwner) {
+        var owner = this.getOwner();
+        if (owner) {
+          owner.__onOwnedObjectIdChange(this, value, oldValue);
+        }
+        this._cascadeObjectIdChanges();
       }
-      
+    },
+    
+    /**
+     * Called when a child's objectId changes
+     */
+    __onOwnedObjectIdChange: function(obj, newId, oldId) {
+      delete this.__ownedObjects[oldId];
+      this.__ownedObjects[newId] = obj;
+    },
+    
+    /**
+     * Reflect changes to IDs or owners
+     */
+    _cascadeObjectIdChanges: function() {
       if (typeof this.getContentElement == "function") {
         var contentElement = this.getContentElement();
         if (contentElement) {
           contentElement.updateObjectId();
         }
+      }
+      if (this.__ownedObjects) {
+        for (var name in this.__ownedObjects)
+          this.__ownedObjects[name]._cascadeObjectIdChanges();
       }
     },
     
@@ -158,25 +179,26 @@ qx.Mixin.define("qx.core.MObjectId", {
       if (thatOwner === this) {
         return;
       }
-      if (thatOwner) {
-        thatOwner.removeOwnedObject(obj);
-      }
-      if (id === undefined) {
-        id = obj.getObjectId();
-      }
-      if (!id) {
-        throw new Error("Cannot register an object that has no ID, obj=" + obj);
-      }
-      if (this.__ownedObjects[id]) {
-        throw new Error("Cannot register an object with ID '" + id + "' because that ID is already in use, this=" + this + ", obj=" + obj);
-      }
-      if (obj.getOwner() != null) {
-        throw new Error("Cannot register an object with ID '" + id + "' because it is already owned by another object this=" + this + ", obj=" + obj);
-      }
       obj.__changingOwner = true;
       try {
+        if (thatOwner) {
+          thatOwner.__removeOwnedObjectImpl(obj);
+        }
+        if (id === undefined) {
+          id = obj.getObjectId();
+        }
+        if (!id) {
+          throw new Error("Cannot register an object that has no ID, obj=" + obj);
+        }
+        if (this.__ownedObjects[id]) {
+          throw new Error("Cannot register an object with ID '" + id + "' because that ID is already in use, this=" + this + ", obj=" + obj);
+        }
+        if (obj.getOwner() != null) {
+          throw new Error("Cannot register an object with ID '" + id + "' because it is already owned by another object this=" + this + ", obj=" + obj);
+        }
         obj.setOwner(this);
         obj.setObjectId(id);
+        obj._cascadeObjectIdChanges();
       } finally {
         obj.__changingOwner = false;
       }
@@ -216,12 +238,20 @@ qx.Mixin.define("qx.core.MObjectId", {
       if (obj !== null) {
         obj.__changingOwner = true;
         try {
-          obj.setOwner(null);
+          this.__removeOwnedObjectImpl(obj);
+          obj._cascadeObjectIdChanges();
         } finally {
           obj.__changingOwner = false;
         }
       }
-      delete this.__ownedObjects[id];
+    },
+    
+    __removeOwnedObjectImpl: function(obj) {
+      if (obj !== null) {
+        var id = obj.getObjectId();
+        obj.setOwner(null);
+        delete this.__ownedObjects[id];
+      }
     },
 
     /**
