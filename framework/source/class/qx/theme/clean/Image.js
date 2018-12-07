@@ -126,7 +126,31 @@ qx.Class.define("qx.theme.clean.Image",
     
     CSSICONS :
     {
-    	// ACTIVE
+		// ACTIVE
+    	"fast-forward" :
+    	{
+    		"html" : {},
+    		"before" : 
+    		{
+    			"width" : "6px",
+    			"height" : "11px",
+    			"top" : "1px",
+    			"left" : "5px",
+    			"position" : "absolute",
+    			"border-top" : "0px solid",
+				"border-right" : "2px solid",
+				"border-bottom" : "2px solid",
+				"border-left" : "0px solid",
+    			"color" : "black",
+    			"content" : "''"
+			},
+			"after" :
+			{
+
+			}
+		},
+		
+		// ACTIVE
     	"checkbox-checked" :
     	{
     		"html" : {},
@@ -520,8 +544,8 @@ qx.Class.define("qx.theme.clean.Image",
       "arrow-left" : "decoration/arrows/left.gif", //Replaced by Decoration entry:: sqv-css-icon-arrow-left
       "arrow-up" : "decoration/arrows/up.gif", //Replaced by Decoration entry:: sqv-css-icon-arrow-up
       "arrow-down" : "decoration/arrows/down.gif",  //Replaced by Decoration entry:: sqv-css-icon-arrow-down
-      "arrow-forward" : "decoration/arrows/forward.gif",
-      "arrow-rewind" : "decoration/arrows/rewind.gif",
+      //"arrow-forward" : "decoration/arrows/forward.gif",
+      //"arrow-rewind" : "decoration/arrows/rewind.gif",
       "arrow-down-small" : "decoration/arrows/down-small.gif", //Replaced by Decoration entry:: sqv-css-icon-arrow-down-small
       "arrow-up-small" : "decoration/arrows/up-small.gif",  //Replaced by Decoration entry:: sqv-css-icon-arrow-up-small
       "arrow-up-invert" : "decoration/arrows/up-invert.gif", //Replaced by Decoration entry:: sqv-css-icon-arrow-up-invert

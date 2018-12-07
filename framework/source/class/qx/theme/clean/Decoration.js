@@ -473,11 +473,28 @@ qx.Theme.define("qx.theme.clean.Decoration",
    	  style :
       {
         color : ["transparent",null,"transparent","sqv-black"],
-        innerColor : ["transparent",null,"transparent","green"],
         style : ["solid",null,"solid","solid"],
-        innerWidth : [3.5,0,3.5,4],
-        width : [3.5,0,3.5,4]
+        width : [3.5,0,3.5,4],
+        //innerWidth : [0,4,0,0],
+        //innerColor : "red"
+        shadowColor : "sqv-black",
+        shadowLength : [0, 2],
+        shadowBlurRadius : 0,
+        shadowSpreadRadius : 0
       }
+   },
+
+   "sqv-css-icon-arrow-rewind" :
+   {
+    include : "sqv-css-icon-arrow-left-small",   
+    
+    style :
+   	  {
+        shadowColor : "sqv-black",
+        shadowLength : [0, 2],
+        shadowBlurRadius : 0,
+        shadowSpreadRadius : 0
+   	  }
    },
    
    "sqv-css-icon-arrow-left" :
@@ -1360,6 +1377,21 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
     /*
     ---------------------------------------------------------------------------
+      SPLITPANE KNOB
+    ---------------------------------------------------------------------------
+    */
+    "splitpane-knob" :
+    {
+      style : 
+      {
+        width : [0,2,0,0],
+        color : "gray",
+        style : "dotted"
+      }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
       HOVER BUTTON
     ---------------------------------------------------------------------------
     */
@@ -1934,11 +1966,11 @@ qx.Theme.define("qx.theme.clean.Decoration",
     {
       style :
       {
-        width : [1, 1, 1, 1],
+        width : [1, 1, 0, 1],
         //width : 1,
         backgroundColor: "background",
-        //color : "white-box-border",
-        color : ["white-box-border", "white-box-border", "white", "white-box-border"],
+        color : "white-box-border",
+        //color : ["white-box-border", "white-box-border", "white", "white-box-border"],
         radius : [3, 3, 0, 0]
       }
     },
@@ -1949,8 +1981,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style :
       {
         radius : [0, 0, 3, 3],
-        //width : [1, 1, 1, 1],
-        color : ["white", "white-box-border", "white-box-border", "white-box-border"]
+        width : [0, 1, 1, 1]
+        //color : ["white", "white-box-border", "white-box-border", "white-box-border"]
       }
     },
 
@@ -1960,7 +1992,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style :
       {
         radius : [3, 0, 0, 3],
-        color : ["white-box-border", "white", "white-box-border", "white-box-border"]
+        width : [1, 0, 1, 1]
+        //color : ["white-box-border", "white", "white-box-border", "white-box-border"]
       }
     },
 

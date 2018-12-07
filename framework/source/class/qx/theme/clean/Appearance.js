@@ -919,10 +919,15 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          source : qx.theme.clean.Image.URLS[
-            "knob-" + (states.horizontal ? "horizontal" : "vertical")
-          ],
-          padding : 2
+          //source : qx.theme.clean.Image.URLS["knob-" + (states.horizontal ? "horizontal" : "vertical")],
+          source : "",
+          //iconProps: states.horizontal ? { decorator : "knob-horizontal" } : { decorator : "knob-vertical" },
+          decorator : "splitpane-knob", 
+          padding : 0,
+          marginLeft : 3,
+          marginRight : 3,
+          width : states.horizontal ? 2 : 10,
+          height : states.horizontal ? 10 : 2
         };
       }
     },
@@ -3213,9 +3218,19 @@ qx.Theme.define("qx.theme.clean.Appearance",
     	style : function()
     	{
     		return {
-    			decorator : "sqv-css-icon-arrow-left-small",
-    			width : 0,
-                height : 0
+    			decorator : "sqv-css-icon-arrow-left-small"
+    		};
+    	}
+    },
+
+    "datechooser/last-year-button/icon" : 
+    {
+    	include : "image",
+    	
+    	style : function()
+    	{
+    		return {
+    			decorator : "sqv-css-icon-arrow-rewind"
     		};
     	}
     },
@@ -3229,12 +3244,12 @@ qx.Theme.define("qx.theme.clean.Appearance",
     		return {
     			decorator : "sqv-css-icon-arrow-right-small",
     			width : 0,
-                height : 0
+          height : 0
     		};
     	}
     },
     
-    /*"datechooser/next-year-button/icon" : 
+    "datechooser/next-year-button/icon" : 
     {
     	include : "image",
     	
@@ -3244,7 +3259,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
     			decorator : "sqv-css-icon-arrow-forward"
     		};
     	}
-    },*/
+    },
 
     "datechooser/button" :
     {
@@ -3258,14 +3273,16 @@ qx.Theme.define("qx.theme.clean.Appearance",
         };
 
         if (states.lastYear) {
-          result.icon = qx.theme.clean.Image.URLS["arrow-rewind"];
+          //result.icon = qx.theme.clean.Image.URLS["arrow-rewind"];
+          result.icon = "";
         } else if (states.lastMonth) {
           result.paddingLeft = 4;
           result.marginLeft = 6;
           result.icon = "";
         } else if (states.nextYear) {
-          result.icon = qx.theme.clean.Image.URLS["arrow-forward"];
-          //result.icon = "";
+          //result.icon = qx.theme.clean.Image.URLS["arrow-forward"];
+          result.icon = "";
+          result.paddingLeft = 6;
         } else if (states.nextMonth) {	
           result.icon = "";
           result.paddingLeft = 4;
@@ -3595,13 +3612,13 @@ qx.Theme.define("qx.theme.clean.Appearance",
         var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
         if (states.barTop) {
-          marginBottom -= 1;
+          marginBottom -= 2;
         } else if (states.barBottom) {
-          marginTop -= 1;
+          marginTop -= 2;
         } else if (states.barRight) {
           marginLeft -= 1;
         } else {
-          marginRight -= 1;
+          marginRight -= 2;
         }
 
         return {
@@ -3706,21 +3723,21 @@ qx.Theme.define("qx.theme.clean.Appearance",
 
     "tabview-page" : "widget",
     
-    
-
     "tabview-page/button" :
     {
       style : function(states)
       {
         var decorator;
+        var padding;
+        //var margin = [0,0,0,0];
 
         // default padding
         if (states.barTop || states.barBottom) {
           //var padding = [8, 16, 8, 13];
-          var padding = [12, 18, 12, 15];
+          padding = [12, 18, 12, 15];
         } else {
           //var padding = [8, 4, 8, 4];
-          var padding = [12, 8, 12, 8];
+          padding = [12, 8, 12, 8];
         }
 
         // decorator
@@ -3741,12 +3758,16 @@ qx.Theme.define("qx.theme.clean.Appearance",
           // reduce the size by 1 because we have different decorator border width
           if (states.barTop) {
             padding[2] -= 1;
+            //margin[0] += 2;
           } else if (states.barBottom) {
             padding[0] -= 1;
+            //margin[2] += 1;
           } else if (states.barRight) {
             padding[3] -= 1;
+            //margin[1] += 1;
           } else if (states.barLeft) {
             padding[1] -= 1;
+            //margin[3] += 1;
           }
         }
 
