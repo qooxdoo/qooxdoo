@@ -1445,6 +1445,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
       {
         shadowLength : [1,2],
         shadowBlurRadius : 2
+        //shadowColor : "#FFF8DD"
       }
     },
 
@@ -1455,6 +1456,16 @@ qx.Theme.define("qx.theme.clean.Decoration",
         width : [0, 0, 2, 0],
         //color : "window-border-inner"
         color : "background"
+      }
+    },
+
+    "window-statusbar" :
+    {
+      include : "statusbar",
+
+      style :
+      {
+        width : 0
       }
     },
     
@@ -1518,8 +1529,12 @@ qx.Theme.define("qx.theme.clean.Decoration",
     {
       style :
       {
-        width : [0,10,4,0],
-        color : "gray"
+        width : [4,2,2,2],
+        color : "gray",
+        shadowColor : "gray",
+        shadowLength : [2, 2],
+        shadowBlurRadius : 0,
+        shadowSpreadRadius : 0
       }
     },
     
@@ -1919,9 +1934,11 @@ qx.Theme.define("qx.theme.clean.Decoration",
     {
       style :
       {
-        width : [1, 1, 0, 1],
+        width : [1, 1, 1, 1],
+        //width : 1,
         backgroundColor: "background",
-        color : "white-box-border",
+        //color : "white-box-border",
+        color : ["white-box-border", "white-box-border", "white", "white-box-border"],
         radius : [3, 3, 0, 0]
       }
     },
@@ -1932,7 +1949,8 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style :
       {
         radius : [0, 0, 3, 3],
-        width : [0, 1, 1, 1]
+        //width : [1, 1, 1, 1],
+        color : ["white", "white-box-border", "white-box-border", "white-box-border"]
       }
     },
 
@@ -1942,7 +1960,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style :
       {
         radius : [3, 0, 0, 3],
-        width : [1, 0, 1, 1]
+        color : ["white-box-border", "white", "white-box-border", "white-box-border"]
       }
     },
 
@@ -2074,9 +2092,6 @@ qx.Theme.define("qx.theme.clean.Decoration",
     {
       style :
       {
-        //widthTop : 1,
-        //colorTop : "table-border",
-        //styleTop : "solid"
         width : 1,
         color : "table-border",
         style : "solid",

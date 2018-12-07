@@ -3068,8 +3068,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
           //icon : qx.theme.clean.Image.URLS["window-restore"],
           icon : "",
           padding : [ 1, 2 ],
-          marginRight : 4,
-          marginLeft : 4,
+          marginRight : 5,
+          marginLeft : 5,
           cursor : states.disabled ? undefined : "pointer"
         };
       }
@@ -3082,8 +3082,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          width : 12,
-          height : 12,
+          width : 10,
+          height : 10,
           decorator : states.hovered ? "window-button-restore-icon-hover" : "window-button-restore-icon"
         };
       }
@@ -3156,8 +3156,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          decorator : "statusbar",
-          padding : [ 2, 6 ]
+          decorator : "window-statusbar",
+          padding : [ 4, 12 ]
         };
       }
     },
