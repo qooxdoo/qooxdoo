@@ -19,4 +19,4 @@ exe git push $GIT_URL $NEW_VERSION
 
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-exe npm publish --dry-run
+exe npm publish
