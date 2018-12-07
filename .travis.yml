@@ -1,20 +1,19 @@
 language: node_js
 node_js:
-- '8'
+- "stable"
 # - lts/* # once we support on-the-fly transpilation
-install:
-  - git clone --depth=10 https://github.com/qooxdoo/qooxdoo.git
-  - git clone --depth=10 https://github.com/qooxdoo/eslint-config-qx.git
-  - npm link
-  - npm link qooxdoo
-  - npm link eslint-config-qx
-script:
-  - echo "Simple testing of CLI ..." && npm test
-deploy:
-  provider: npm
-  email: johnspackman@zenesis.com
-  api_key:
-    secure: rjAW/zB1Pbdjuwzbsr/ZYVHV9AwYlMn0rBv6AOIEQIhqFi8a669DVhyVo6FVRcMvGGOK3E5WE40DwYr6FdkjimsFad6yWOhN5cdH9fJGOUChMub0hcqQ4Il4YtEZLBgLnfWefjj4ePVW0ceVuylpYxO3tMcgla7Q8EMM3nwraCaqmVY6h3dxLqsb3n6mWZpuaPmBublRVhnzCU53fPpBGUxSPbdsCDNoOdmvYR+/yoBecew6JA/qFJSf4Q2nNl4zIIKGJULbAK57jw5H4GBqctbIDf1ZPJblLleJmatfKoKrWChzviE705RaMd+JTaFdCmisM2AY8vA0YB/sfLOit6XFBbjiOo61JKyQ+y1I+3KIMHhuizzWnqiTVywALI9fB20b/bdcQK1GWTFntHp8D4OluZGMgKziWgTZFu/m7MHEVLWBbH9t4aUkjRV2pSUDKhZLTx1R6j+4E0KiiorzH2ly+bZK7iIjZ62THMkbNwzveVmhIZ5IjXTeDhrbgSNwE0iOv85ouu78dax83hzvHgxi/knb7ESxpFVb6rNHDRfDZZbHGJvW/I4FrGwx+0YqCZZIaPHihgajUhxiNsQKV6DcHSrsblxwg2D0/xjZzw8dbcw96TUntbaSu6Kcd1x7l0wv3htJfuYIPKbz+m3TgYLZ6SsNlC80rqFz0TeD2eo=
-  on:
-    tags: true
-    repo: qooxdoo/qooxdoo-compiler
+  
+stages:
+  - name: test
+  - name: deploy
+    if: (NOT type IN (pull_request)) AND ( branch = master OR tag =~ ^v[0-9] )
+
+jobs:
+  include:
+    - stage: test
+      name: test
+      script: .travis/test
+    - stage: deploy
+      name: deploy
+      script: .travis/deploy
+  

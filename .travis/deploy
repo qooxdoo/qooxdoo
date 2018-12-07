@@ -1,0 +1,22 @@
+#!/bin/bash
+exe() { echo "\$ ${@/eval/}" ; "$@" ; }
+
+exe node -v
+exe npm -v
+# for token authentication we need newest npm!
+#exe npm i npm@latest -g
+#exe npm -v
+
+NEW_VERSION=$(npm version patch -m "[ci skip] new npm version: %s")
+echo "new version: $NEW_VERSION"
+git config --global user.email "travis@travis-ci.org"
+git config --global user.name "Travis CI"
+
+GIT_URL="$(git config remote.origin.url)"
+GIT_URL=${GIT_URL/https:\/\//https:\/\/$GH_TOKEN@}
+exe git push $GIT_URL HEAD:master
+exe git push $GIT_URL $NEW_VERSION
+
+# fill .npmrc with access token
+echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+exe npm publish --dry-run

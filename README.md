@@ -119,7 +119,7 @@ It is currently (October 2017) in use on one major project which is in pre-produ
 
 
 ## Demo Browser
-The Demo Browser is compiled by running test/compile-demo-browser.js - it will create the Demo Browser in testdata/demobrowser/
+The Demo Browser is compiled by running demos/js/compile-demo-browser.js - it will create the Demo Browser in testdata/demobrowser/
 
 
 ## Frequently Asked Questions
