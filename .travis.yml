@@ -5,8 +5,6 @@ dist: trusty
 addons:
   sauce_connect:
     username: "qx-core"
-  jwt:
-    secure: "QFvZbXLlQSdvPTGg8U4qPb/HREYXdpZZaqrZl0ab4f/w2WFPf9hS1aS/S5IG7HxdR4ie3eQZOQm/9Tj37dT9C4LAMiFGdt3awRKmgqoQmse2oKZsbv1HwamPbYkQQG3/UP/xVygk2Dt4IyikrRAYk1gTyFtWv23M9yMAn0+8Qxk="
   firefox: latest
   apt:
     packages:
@@ -14,7 +12,10 @@ addons:
     - python-markdown
 
 env:
-- secure: vW8wdbY/DmRITaFkQix8PUuE3jiwy2Yj0nn+k+yNqcwPde19ObQBq0rHJEiO5AJOBuNiWaie2n8sQQ6ceK72pU1IbIntPsztY/EFKP6x009wjmiLoifsVEGNP1kxLgFOnvCmlGjTIyGsqse5UsVt8HZs2jHK8xkkedTehuDNxtI=
+  global:
+  - secure: vW8wdbY/DmRITaFkQix8PUuE3jiwy2Yj0nn+k+yNqcwPde19ObQBq0rHJEiO5AJOBuNiWaie2n8sQQ6ceK72pU1IbIntPsztY/EFKP6x009wjmiLoifsVEGNP1kxLgFOnvCmlGjTIyGsqse5UsVt8HZs2jHK8xkkedTehuDNxtI=
+  # SAUCE_ACCESS_KEY
+  - secure: "QFvZbXLlQSdvPTGg8U4qPb/HREYXdpZZaqrZl0ab4f/w2WFPf9hS1aS/S5IG7HxdR4ie3eQZOQm/9Tj37dT9C4LAMiFGdt3awRKmgqoQmse2oKZsbv1HwamPbYkQQG3/UP/xVygk2Dt4IyikrRAYk1gTyFtWv23M9yMAn0+8Qxk="
 
 cache:
   directories:
@@ -29,27 +30,41 @@ install:
 
 stages:
   - name: Lint-and-Coverage
-  - name: Chrome-Unit-Tests
-  - name: Firefox-Unit-Tests
-  - name: Edge-Unit-Tests
+  - name: Local-Browser-Tests
+  - name: SL-Brower-Tests
+    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request))
   - name: Deploy
     if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND ( branch = master OR tag =~ ^v[0-9] )
 
 jobs:
   include:
     - stage: Lint-and-Coverage
+      name: Lint
       script: ../.travis/lint
-      script: ../.travis/coverage
-
-    - stage: Chrome-Unit-Tests
+    - # parallel
+      name: Coverage
+      script: ../.travis/coverage      
+    - stage: Local-Browser-Tests
+      name: Firefox
+      script: ../.travis/test Firefox
+    - # parallel
+      name: Chrome
+      script: ../.travis/test Chrome_travis_ci      
+    - stage: SL-Brower-Tests
+      name: SL Chrome
       script: ../.travis/test ChromeSL,ChromeBetaSL
-    - stage: Firefox-Unit-Tests
-      script: ../.travis/test FirefoxSL,FirefoxBetaSL
-    - stage: Edge-Unit-Tests
+    - #
+      name: SL Firefox
+      script: ../.travis/test FirefoxSL
+    - #
+      name: SL Edge
       script: ../.travis/test EdgeSL
-
     - stage: Deploy
+      name: Deploy
       script: ../.travis/deploy
+    - #
+      name: Deploy to npm
+      script: ../.travis/deploy_npm
       before_deploy:
         - export RELEASE_PKG_FILE=$(ls dist/*.zip)
         - echo "deploying $RELEASE_PKG_FILE to GitHub releases"

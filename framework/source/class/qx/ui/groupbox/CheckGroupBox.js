@@ -80,6 +80,15 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
     },
 
 
+    // overridden
+    _applyEnabled : function(value, old) {
+      this.base(arguments, value, old);
+
+      this.getChildrenContainer().setEnabled(value && this.getValue());
+    },
+
+
+
 
 
     /*

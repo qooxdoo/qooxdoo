@@ -51,7 +51,7 @@ qx.Class.define("qx.test.io.part.ClosurePart",
 
 
     tearDown : function() {
-      qx.Part.$$instance = null;
+      qx.Part.$$instance = undefined;
       qx.Part.TIMEOUT = this.__timeout;
     },
 

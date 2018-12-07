@@ -417,7 +417,7 @@ qx.Class.define("qx.html.Element",
      * Finds the Widget for a given DOM element
      *
      * @param domElement {DOM} the DOM element
-     * @return {Widget} the Widget that created the DOM element
+     * @return {qx.ui.core.Widget} the Widget that created the DOM element
      */
     fromDomElement: function(domElement) {
     	if (qx.core.Environment.get("qx.debug")) {
@@ -453,7 +453,7 @@ qx.Class.define("qx.html.Element",
     /** @type {Element} DOM element of this object */
     __element : null,
 
-    /** @type {Widget} the Widget this element is attached to */
+    /** @type {qx.ui.core.Widget} the Widget this element is attached to */
     __widget : null,
 
     /** @type {Boolean} Marker for always visible root nodes (often the body node) */
@@ -533,6 +533,10 @@ qx.Class.define("qx.html.Element",
       	this.__element.$$widget = widget.toHashCode();
       	this.__element.$$widgetObject = widget;
     	}
+
+      if (qx.core.Environment.get("module.objectid")) {
+        this.updateObjectId();
+      }
     },
 
 
@@ -557,6 +561,10 @@ qx.Class.define("qx.html.Element",
       	this.__element.$$widget = "";
       	delete this.__element.$$widgetObject;
     	}
+    	
+      if (qx.core.Environment.get("module.objectid")) {
+        this.updateObjectId();
+      }
     },
 
 
@@ -787,6 +795,17 @@ qx.Class.define("qx.html.Element",
       SUPPORT FOR ATTRIBUTE/STYLE/EVENT FLUSH
     ---------------------------------------------------------------------------
     */
+    
+    updateObjectId: function() {
+      // Copy Object Id
+      if (qx.core.Environment.get("module.objectid")) {
+        var id = null;
+        if (this.__widget && this.__widget.getObjectId()) {
+          id = qx.core.Id.getAbsoluteIdOf(this.__widget, false) || null;
+        }
+        this.setAttribute("data-qx-object-id", id, true);
+      }
+    },
 
     /**
      * Copies data between the internal representation and the DOM. This
@@ -799,13 +818,12 @@ qx.Class.define("qx.html.Element",
     _copyData : function(fromMarkup)
     {
       var elem = this.__element;
-
+      
       // Copy attributes
       var data = this.__attribValues;
       if (data)
       {
         var Attribute = qx.bom.element.Attribute;
-
         for (var key in data) {
           Attribute.set(elem, key, data[key]);
         }

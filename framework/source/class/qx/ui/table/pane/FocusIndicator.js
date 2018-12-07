@@ -24,7 +24,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
   extend : qx.ui.container.Composite,
 
   /**
-   * @param scroller {Scroller} The scroller, which contains this focus indicator
+   * @param scroller {qx.ui.table.pane.Scroller} The scroller, which contains this focus indicator
    */
   construct : function(scroller)
   {

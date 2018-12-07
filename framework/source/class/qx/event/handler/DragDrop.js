@@ -318,9 +318,10 @@ qx.Class.define("qx.event.handler.DragDrop",
      */
     getCurrentActionAsync : function() {
       var self = this;
-      return this.__detectAction().then(function() {
-        return self.__currentAction;
-      });
+      return qx.Promise.resolve(self.__detectAction())
+        .then(function() {
+          return self.__currentAction;
+        });
     },
 
 
@@ -767,21 +768,28 @@ qx.Class.define("qx.event.handler.DragDrop",
 
             // new drop target detected
             if (droppable && droppable != self.__dropTarget) {
-              // fire dragleave for previous drop target
-              if (self.__dropTarget) {
-                return self.__fireEvent("dragleave", self.__dropTarget, self.__dragTarget, false, e);
-              }
-
+              var dropLeaveTarget = self.__dropTarget;
+              
               self.__validDrop = true; // initial value should be true
               self.__dropTarget = droppable;
 
               var innerTracker = {};
               qx.event.Utils.catch(innerTracker, function () {
+                self.__dropTarget = null;
                 self.__validDrop = false;
               });
+              
+              // fire dragleave for previous drop target
+              if (dropLeaveTarget) {
+                qx.event.Utils.then(innerTracker, function () {
+                  return self.__fireEvent("dragleave", dropLeaveTarget, self.__dragTarget, false, e);
+                });
+              }
+              
               qx.event.Utils.then(innerTracker, function () {
                 return self.__fireEvent("dragover", droppable, self.__dragTarget, true, e);
               });
+              
               return qx.event.Utils.then(innerTracker, function (validDrop) {
                 self.__validDrop = validDrop;
               });
