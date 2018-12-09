@@ -94,6 +94,43 @@ qx.Theme.define("qx.theme.clean.Decoration",
         bottom: [2, "solid", "dark-blue"]
       }
     },
+
+    "cursor-move" :
+    {
+      style : {
+        width: [2,2,2,2],
+        color : "gray",
+        style : "dotted"
+      }
+    },
+
+    "cursor-nodrop" :
+    {
+      style : {
+        freestyleCss : "cursor-nodrop-slash",
+        color : "red",
+        radius : 10,
+        width : 2
+      }
+    },
+
+    "cursor-copy" :
+    {
+      style : {
+        width: [2,3,3,2],
+        color : "gray",
+        style : ["dotted","inset","inset","dotted"]
+      }
+    },
+
+    "cursor-alias" :
+    {
+      style : {
+        width: [2,3,3,2],
+        color : "gray",
+        style : ["dotted","double","double","dotted"]
+      }
+    },
     
     /*
     ---------------------------------------------------------------------------
@@ -2242,15 +2279,15 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style:
       {
         backgroundColor: "#FFF",
-        radius : 3,
-        width: 1,
+        radius : 0,
+        width: 0,
         color: "border-separator"
       }
     },
     
     "progressbar-trans" :
     {
-        radius : 3,
+        radius : 0,
         width: 0
     },
 

@@ -52,6 +52,17 @@
  * @asset(qx/icon/Material/16/actions/format-justify-left.png)
  * @asset(qx/icon/Material/16/actions/format-justify-center.png)
  * 
+ * Table
+ * @asset(qx/icon/Material/16/apps/office-calendar.png)
+ * 
+ * Other
+ * @asset(qx/icon/Material/32/apps/office-address-book.png)
+ * @asset(qx/icon/Material/32/status/dialog-error.png)
+ * @asset(qx/icon/Material/22/apps/utilities-calculator.png)
+ * @asset(qx/icon/Material/16/apps/internet-telephony.png)
+ * @asset(qx/icon/Material/16/apps/internet-feed-reader.png)
+ * @asset(qx/icon/Material/16/actions/dialog-ok.png)
+ * @asset(qx/icon/Material/16/actions/dialog-cancel.png)
  * 
  * @asset(qx/icon/Material/18/image/filter-b-and-w.png)
  * @asset(qx/icon/Material/18/image/filter-drama.png)

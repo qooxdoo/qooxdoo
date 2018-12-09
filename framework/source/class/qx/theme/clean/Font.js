@@ -47,7 +47,16 @@ qx.Theme.define("qx.theme.clean.Font",
       size : 20,
       family : ["Lato", "Helvetica Neue", "arial", "Helvetica", "sans-serif"],
       bold : false,
-      lineHeight: 1.33
+      lineHeight: 1.5
+    },
+
+    "groupbox-legend" :
+    {
+      size : 14,
+      family : ["Lato", "Helvetica Neue", "arial", "Helvetica", "sans-serif"],
+      color : "text",
+      bold : true,
+      lineHeight: 1.5
     },
     
     "unicode-icons-sm" :

@@ -371,9 +371,14 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
 
         return {
-          source : qx.theme.clean.Image.URLS["cursor-" + icon],
+          //source : qx.theme.clean.Image.URLS["cursor-" + icon],
+          source : "",
+          decorator : "cursor-" + icon,
           position : "right-top",
-          offset : [ 2, 16, 2, 6 ]
+          offset : [ 2, 16, 2, 6 ],
+          width : 15,
+          height : 15,
+          backgroundColor: "white"
         };
       }
     },
@@ -596,7 +601,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           decorator : states.first ? "table-header-cell-first" : "table-header-cell",
           minWidth: 13,
-          font : "bold",
+          font : "groupbox-legend",
           alignY : "middle",
           padding : [14, 10],
           cursor : states.disabled ? undefined : "pointer",
@@ -926,8 +931,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
           padding : 0,
           marginLeft : 3,
           marginRight : 3,
-          width : states.horizontal ? 2 : 10,
-          height : states.horizontal ? 10 : 2
+          width : states.horizontal ? 2 : 12,
+          height : states.horizontal ? 12 : 2
         };
       }
     },
@@ -1415,7 +1420,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
 
 
     "scrollbar/button" :
-    {
+    {      
       style : function(states)
       {
         var styles = {};
@@ -1429,14 +1434,16 @@ qx.Theme.define("qx.theme.clean.Appearance",
           icon += "right";
           styles.marginLeft = 2;
         } else if (states.up) {
-          icon += "up";
+          icon += "up-small";
           styles.marginBottom = 2;
         } else {
-          icon += "down";
+          icon += "down-small";
           styles.marginTop = 2;
         }
 
-        styles.icon = qx.theme.clean.Image.URLS["arrow-" + icon];
+        //styles.icon = qx.theme.clean.Image.URLS["arrow-" + icon];
+        styles.icon = "";
+        styles.iconProps = { decorator : "sqv-css-icon-arrow-" + icon };
 
         styles.cursor = "pointer";
         styles.decorator = "button-box";
@@ -2726,7 +2733,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
           textColor : states.invalid ? "invalid" : undefined,
           padding : 5,
           margin : 4,
-          font: "bold"
+          font: "groupbox-legend"
         };
       }
     },
@@ -3372,7 +3379,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           decorator: "progressbar",
           padding: 0,
-          //backgroundColor: "white",
+          backgroundColor: "progressbar-base",
           width : 200,
           height : 20
         };
@@ -3394,7 +3401,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
     {
       style: function(states) {
         return {
-          backgroundColor: "primary"
+          backgroundColor: "progressbar-gray"
         };
       }
     },
@@ -3612,13 +3619,13 @@ qx.Theme.define("qx.theme.clean.Appearance",
         var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
         if (states.barTop) {
-          marginBottom -= 2;
+          marginBottom -= 1;
         } else if (states.barBottom) {
-          marginTop -= 2;
+          marginTop -= 1;
         } else if (states.barRight) {
           marginLeft -= 1;
         } else {
-          marginRight -= 2;
+          marginRight -= 1;
         }
 
         return {
@@ -3758,7 +3765,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
           // reduce the size by 1 because we have different decorator border width
           if (states.barTop) {
             padding[2] -= 1;
-            //margin[0] += 2;
+            //margin[0] -= 1;
           } else if (states.barBottom) {
             padding[0] -= 1;
             //margin[2] += 1;
@@ -3778,6 +3785,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
           font : states.checked ? "bold" : "bold",
           padding : padding,
           cursor: "pointer"
+          //margin : margin
         };
       }
     },
@@ -3802,7 +3810,22 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
         return {
           cursor : states.disabled ? undefined : "pointer",
-          icon : qx.theme.clean.Image.URLS["tabview-close"]
+          icon : "",
+          marginLeft: 12
+          //icon : qx.theme.clean.Image.URLS["tabview-close"]
+        };
+      }
+    },
+
+    "tabview-page/button/close-button/icon" :
+    {
+      include : "image",
+      style : function(states)
+      {
+        return {
+          width : 14,
+          height : 14,
+          decorator : states.hovered ? "window-button-close-icon-hover" : "window-button-close-icon"
         };
       }
     },
