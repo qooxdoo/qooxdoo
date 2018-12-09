@@ -15,6 +15,7 @@
  * @require(qx.theme.clean.MFreestyleCss)
  * @require(qx.theme.clean.MPlacement)
  * @require(qx.theme.clean.Animation)
+ * 
  */
 
 qx.Theme.define("qx.theme.Clean",
@@ -72,6 +73,7 @@ qx.Theme.define("qx.theme.Clean",
         this.getChildControl("popup").setOffsetBottom(-2);
       }
     });
+
     qx.Class.include(qx.ui.form.SelectBox, qx.theme.clean.MSelectBox);
 
   }

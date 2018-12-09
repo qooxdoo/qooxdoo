@@ -271,6 +271,38 @@ qx.Class.define("qx.theme.clean.Image",
     		}
 		},
 
+		"slider-line" :
+		{
+			"after" :
+			{
+				"border-top": "1px solid #D8D8D8",
+    			"width": "100%",
+    			"height": "50%",
+    			"position": "absolute",
+    			"bottom": "0",
+    			"left": "0",
+				"content": "''"			
+			}
+		},
+
+		"slider-line-focused" :
+		{
+			"include" : "slider-line",
+			"after" :
+			{
+				"border-top": "1px solid #85b7d9",
+			} 
+		},
+
+		"slider-line-invalid" :
+		{
+			"include" : "slider-line",
+			"after" :
+			{
+				"border-top": "1px solid red",
+			} 
+		},
+
 		"cursor-box" : 
 		{
 			"before" : 

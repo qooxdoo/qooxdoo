@@ -2137,23 +2137,53 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
         var decorator;
         if (states.disabled) {
-          decorator = "inset";
+          decorator = "inset-line";
         } else if (states.invalid) {
-          decorator = "border-invalid";
+          decorator = "invalid-line";
+          //backgroundcolor = "#dbb1b1";
         } else if (states.focused) {
-          decorator = "focused-inset";
+          decorator = "focused-inset-line";
+          //backgroundcolor = "textfield-selected";
         } else {
-          decorator = "inset";
+          decorator = "inset-line";
+          //backgroundcolor = "border-light";
         }
 
         return {
           decorator : decorator,
-          padding   : [2,3]
+          backgroundColor : "transparent",
+          padding   : [0,0]
         };
       }
     },
 
-    "slider/knob" : "scrollbar/slider/knob",
+    //"slider/knob" : "scrollbar/slider/knob",
+    "slider/knob" :
+    {
+      style : function(states)
+      {
+        var decorator = "slider-knob";
+
+        if (!states.disabled) {
+          if (states.hovered && !states.pressed && !states.checked) {
+            decorator = "slider-knob-hovered";
+          } else if (states.hovered && (states.pressed || states.checked)) {
+            decorator = "slider-knob-pressed-hovered";
+          } else if (states.pressed || states.checked) {
+            decorator = "slider-knob-pressed";
+          }
+        }
+
+        return {
+          height : 14,
+          width : 14,
+          cursor : states.disabled ? undefined : "pointer",
+          decorator : decorator,
+          minHeight : states.horizontal ? undefined : 20,
+          minWidth : states.horizontal ? 20 : undefined
+        };
+      }
+    },
 
 
     /*

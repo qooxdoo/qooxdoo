@@ -1414,6 +1414,51 @@ qx.Theme.define("qx.theme.clean.Decoration",
 
     /*
     ---------------------------------------------------------------------------
+      SLIDER KNOB
+    ---------------------------------------------------------------------------
+    */
+   "slider-knob" :
+   {
+    include : "scroll-knob", 
+    
+    style :
+     {
+       radius : 10
+     }
+   },
+
+   "slider-knob-pressed" :
+   {
+     include : "slider-knob",
+
+     style :
+     {
+       backgroundColor : "scrollbar-dark"
+     }
+   },
+
+   "slider-knob-hovered" :
+   {
+     include: "slider-knob",
+
+     style :
+     {
+       color : "button-border-hovered"
+     }
+   },
+
+   "slider-knob-pressed-hovered" :
+   {
+     include: "slider-knob-pressed",
+
+     style :
+     {
+       color : "button-border-hovered"
+     }
+   },
+
+    /*
+    ---------------------------------------------------------------------------
       SPLITPANE KNOB
     ---------------------------------------------------------------------------
     */
@@ -1708,6 +1753,15 @@ qx.Theme.define("qx.theme.clean.Decoration",
       }
     },
 
+    "inset-line" :
+    {
+      style :
+      {
+        width : 0,
+        freestyleCss : "slider-line"
+      }
+    },
+
     "focused-inset" :
     {
       style :
@@ -1715,6 +1769,15 @@ qx.Theme.define("qx.theme.clean.Decoration",
         width : 1,
         color : "textfield-selected",
         radius : 3
+      }
+    },
+
+    "focused-inset-line" :
+    {
+      include : "inset-line",
+      style :
+      {
+        freestyleCss : "slider-line-focused"
       }
     },
     
@@ -1738,6 +1801,15 @@ qx.Theme.define("qx.theme.clean.Decoration",
       {
         width : 1,
         color : "#dbb1b1"
+      }
+    },
+
+    "invalid-line" :
+    {
+      include : "inset-line",
+      style :
+      {
+        freestyleCss : "slider-line-invalid"
       }
     },
     
