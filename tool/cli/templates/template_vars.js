@@ -39,26 +39,19 @@ const fs = require("fs");
  *  
  * @param argv {Object} The calling command class' yargs argv object
  * @param data {Object} Additional data
- * @param that {Object} The calling command class' "this" object, in order to be able access its methods.
- * This doesn't seem right and should be solved differently. 
  */
 module.exports = function(argv, data){
   return {
     "type" : {
       "type": "list", // doesn't support validation
-      "choices": function() {
-         // check if skeleton exists
-         let skeleton_dir = path.join( data.template_dir, "skeleton");
-         const dirs = p => fs.readdirSync(skeleton_dir).filter(f => fs.statSync(path.join(skeleton_dir, f)).isDirectory());
-         return dirs();        
-      },
+      "choices": qx.tool.cli.commands.Create.getSkeletonNames(),
       "description" : "type of the application:",
       "value" : argv.type,
       "default" : "desktop"
     },  
     "namespace" : {
       "description" : "the namespace of the application",
-      "value" : argv.applicationnamespace
+      "default" : argv.applicationnamespace.replace(/[-.]/g,"_")
     },
     "out" : {
       "description" : "the output directory for the application content (use '.' if no subdirectory should be created)",
@@ -111,7 +104,7 @@ module.exports = function(argv, data){
     "qooxdoo_range" : {
       "description" : "the semver range of qooxdoo versions that are compatible with this application",
       "default" : function() {
-        return data.qooxdoo_version;
+        return "^" + data.qooxdoo_version;
       }  
     },
     "theme": {
