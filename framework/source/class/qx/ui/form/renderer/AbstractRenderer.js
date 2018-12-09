@@ -52,29 +52,31 @@ qx.Class.define("qx.ui.form.renderer.AbstractRenderer",
   },
 
   properties :
+  {
+    /**
+     * A string that is appended to the label if it is not empty.
+     * Defaults to " :"
+     */
+    labelSuffix :
     {
-      /**
-       * A string that is appended to the label if it is not empty
-       */
-      labelSuffix :
-        {
-          check : "String",
-          init : " :",
-          event : "changeLabelSuffix",
-          nullable : true
-        },
-
-      /**
-       * A string that is appended to the label if it is not empty
-       */
-      requiredSuffix :
-        {
-          check : "String",
-          init : " <span style='color:red'>*</span> ",
-          event : "changeRequiredSuffix",
-          nullable : false
-        }
+      check : "String",
+      init : " :",
+      event : "changeLabelSuffix",
+      nullable : true
     },
+
+    /**
+     * A string that is appended to the label and the label suffix if the corresponding
+     * form field is mandatory. Defaults to space plus a red asterisk.
+     */
+    requiredSuffix :
+    {
+      check : "String",
+      init : " <span style='color:red'>*</span> ",
+      event : "changeRequiredSuffix",
+      nullable : false
+    }
+  },
 
 
   members :
