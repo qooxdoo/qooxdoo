@@ -1,13 +1,17 @@
 /* ************************************************************************
 
+   SQville Software
+
+   http://sqville.com
+
    Copyright:
+     None
 
    License:
-     MIT: https://opensource.org/licenses/MIT
-     See the LICENSE file in the project's top-level directory for details.
+     MIT
 
    Authors:
-     * 
+     * Chris Eskew (chris.eskew@sqville.com)
 
 ************************************************************************ */
 

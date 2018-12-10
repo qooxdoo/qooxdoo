@@ -21,21 +21,8 @@
  * Materail Design icons by Google (https://github.com/google/material-design-icons)
  * https://material.io/tools/icons/
  * 
- * @asset(qx/icon/Material/18/file/folder-open.png)
- * @asset(qx/icon/Material/folder-open.svg)
- * @asset(qx/icon/Material/add-box.svg)
- * @asset(qx/icon/Material/18/file/folder.png)
- * @asset(qx/icon/Material/folder.svg)
- * @asset(qx/icon/Material/18/editor/insert-invitation-black.png)
- * @asset(qx/icon/Material/18/editor/insert-invitation-gray.png)
- * @asset(qx/icon/Material/18/editor/insert-drive-file.png)
- * @asset(qx/icon/Material/insert-drive-file.svg)
- * @asset(qx/icon/Material/18/hardware/desktop-windows.png)
- * @asset(qx/icon/Material/18/hardware/desktop-windows-black.png)
- * @asset(qx/icon/Material/18/apps/open-window-white.png)
- * @asset(qx/icon/Material/18/apps/open-window-white-tru.png)
  * 
- * WIDGETDEMO ONLY
+ * WIDGETBROWSER DEMO ONLY
  * Treevirtual
  * @asset(qx/icon/Material/16/places/folder-open-black.png)
  * @asset(qx/icon/Material/16/places/folder-open-white.png)
@@ -64,24 +51,6 @@
  * @asset(qx/icon/Material/16/actions/dialog-ok.png)
  * @asset(qx/icon/Material/16/actions/dialog-cancel.png)
  * 
- * @asset(qx/icon/Material/18/image/filter-b-and-w.png)
- * @asset(qx/icon/Material/18/image/filter-drama.png)
- * @asset(qx/icon/Material/18/image/filter-frames.png)
- * @asset(qx/icon/Material/18/image/filter-hdr.png)
- * @asset(qx/icon/Material/18/image/grid-white.png)
- * 
- * @asset(qx/icon/Material/18/hardware/iphone.png)
- * @asset(qx/icon/Material/18/hardware/iphone-black.png)
- * @asset(qx/icon/Material/18/hardware/ipad.png)
- * @asset(qx/icon/Material/18/hardware/ipad-black.png)
- * @asset(qx/icon/Material/18/hardware/iwatch.png)
- * @asset(qx/icon/Material/18/hardware/iwatch-black.png)
- * 
- * @asset(qx/icon/Material/18/devices/devices-black.png)
- * @asset(qx/icon/Material/18/devices/devices.png)
- * 
- * @asset(qx/icon/Material/18/action/settings-black.png)
- * @asset(qx/icon/Material/18/action/settings-black2x.png)
  */
 
 

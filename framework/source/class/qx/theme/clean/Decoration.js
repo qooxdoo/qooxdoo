@@ -1675,11 +1675,11 @@ qx.Theme.define("qx.theme.clean.Decoration",
       {
         width: 1,
         color: "white-box-border",
-        shadowBlurRadius : 0,
-        shadowColor : "#999999",
         radius: 3,
         backgroundColor : "white",
-        shadowLength: 0
+        shadowLength: 0,
+        shadowBlurRadius : 0,
+        shadowColor : "#999999"
       }
     },
     
@@ -1712,7 +1712,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style :
       {
         width: [2,1,1,1],
-        color: [ "box-border-blue", "white-box-border", "white-box-border", "white-box-border" ],
+        colorTop: "box-border-blue",
         radius: [ 4, 4, 3, 3 ]
       }
     },
@@ -1723,7 +1723,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
       
       style :
       {
-        color: [ "box-border-orange", "white-box-border", "white-box-border", "white-box-border" ]
+        colorTop: "box-border-orange"
       }
     },
     
@@ -1733,7 +1733,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
       
       style :
       {
-        color: [ "box-border-green", "white-box-border", "white-box-border", "white-box-border" ]
+        colorTop: "box-border-green"
       }
     },
 
@@ -1743,12 +1743,13 @@ qx.Theme.define("qx.theme.clean.Decoration",
       TEXT FIELD
     ---------------------------------------------------------------------------
     */
+
     "inset" :
     {
       style :
       {
         width : 1,
-        color : [ "border-light-shadow", "border-light", "border-light", "border-light" ],
+        color : "border-light",
         radius : 3
       }
     },
@@ -1786,10 +1787,6 @@ qx.Theme.define("qx.theme.clean.Decoration",
       style :
       {
         width : [1,1,1,2],
-        //color : [ "textfield-selected", "textfield-selected", "textfield-selected", "textfield-selected-darker" ],
-        //color : "textfield-selected",
-        //radius : 1
-        //width: [2,1,1,1],
         color: [ "textfield-selected", "textfield-selected", "textfield-selected", "box-border-blue" ],
         radius: [ 3, 2, 2, 3 ]
       }

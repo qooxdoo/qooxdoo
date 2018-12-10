@@ -49,7 +49,7 @@ qx.Theme.define("qx.theme.clean.Color",
     
     // combobox
     "combobox-hovered" : "#F3F3F3",
-    "combobox-item-selected" : "#F8F8F8",
+    "combobox-item-selected" : "#F7F7F7",
 
     // text colors
     "link" : "#24B",
@@ -143,12 +143,9 @@ qx.Theme.define("qx.theme.clean.Color",
     // borders
     // 'border-main' is an alias of 'background-selected' (compatibility reasons)
     "border-main" : "#6694E3",
-    //SQv "border-light" : "#B7B7B7",
-    //SQv "border-light-shadow" : "#686868",
     "border-light" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.15)" : "#D8D8D8",
     "border-light-darker" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.2)" : "#D8D8D8",
     "border-light-shadow" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.15)" : "#D8D8D8",
-    
     "border-super-light" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.06)" : "#EEEEEE",
 
     // separator

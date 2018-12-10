@@ -129,31 +129,7 @@ qx.Class.define("qx.theme.clean.Image",
     },
     
     CSSICONS :
-    {
-		// ACTIVE
-    	"fast-forward" :
-    	{
-    		"html" : {},
-    		"before" : 
-    		{
-    			"width" : "6px",
-    			"height" : "11px",
-    			"top" : "1px",
-    			"left" : "5px",
-    			"position" : "absolute",
-    			"border-top" : "0px solid",
-				"border-right" : "2px solid",
-				"border-bottom" : "2px solid",
-				"border-left" : "0px solid",
-    			"color" : "black",
-    			"content" : "''"
-			},
-			"after" :
-			{
-
-			}
-		},
-		
+    {	
 		// ACTIVE
     	"checkbox-checked" :
     	{
@@ -309,22 +285,6 @@ qx.Class.define("qx.theme.clean.Image",
 				"border-top": "1px solid red"
 			} 
 		},
-
-		"cursor-box" : 
-		{
-			"before" : 
-    		{
-    			"width" : "6px",
-    			"height" : "6px",
-				"right" : "0px",
-				"bottom" : "0px",
-				"overflow" : "visible",
-    			"position" : "absolute",
-				"background-color" : "gray",
-    			"content" : "''"
-    		}
-		},
-
     	
     	"icss-bars" : 
     	{
@@ -357,7 +317,6 @@ qx.Class.define("qx.theme.clean.Image",
 		},
 
 		
-    	
     	"icss-file-image" :
     	{
     		"html" : {
@@ -536,7 +495,6 @@ qx.Class.define("qx.theme.clean.Image",
 			}
 		},
 		
-		//"padding": "0 0 .1667em .2083em"
 		"fileicon-dy" :
     	{
     		"include" : "fileicon",

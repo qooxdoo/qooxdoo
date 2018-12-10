@@ -1322,20 +1322,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       alias : "virtual-list"
     },
     
-
     "virtual-tree" : "tree",
-    /*"virtual-tree" :
-    {
-      include : "tree",
-      alias : "tree",
-
-      style : function(states)
-      {
-        return {
-          itemHeight : 21
-        };
-      }
-    },*/
 
     "virtual-tree-folder" : "tree-folder",
     "virtual-tree-file" : "tree-file",
@@ -1750,7 +1737,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
     		return {
     			decorator : "sqv-css-icon-arrow-up-small",
     			width : 0,
-          		height : 0
+          height : 0
     		};
     	}
     },
@@ -2053,7 +2040,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
         //var padding = [3, 5, 3, 14];
         var padding = [10, 10, 10, 14];
         if (states.lead) {
-          padding = [ 2, 4, 2, 13];
+          //padding = [ 2, 4, 2, 13];
+          padding = [9, 9, 9, 13];
         }
         if (states.dragover) {
           padding[2] -= 2;
@@ -2088,7 +2076,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
         var padding = [10, 10, 10, 14];
         var decorator;
         if (states.lead) {
-          padding = [ 2, 4 , 2, 4];
+          //padding = [ 2, 4 , 2, 4];
+          padding = [9, 9, 9, 13];
           //decorator = "lead-item";
         }
         if (states.dragover) {
@@ -2914,7 +2903,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
           padding : [3, 8, 3, 5],
           //icon : states.opened ? "icon/folder-open.svg" : "icon/folder.svg",
           icon : "",
-          iconProps : states.opened ? { html : qx.bom.Template.render(qx.theme.clean.Image.SVGTEMPLATES["material-2paths"], qx.theme.clean.Image.SVGCONTENT["ma2p-folder-open"]) } : {  html : qx.bom.Template.render(qx.theme.clean.Image.SVGTEMPLATES["material-2paths"], qx.theme.clean.Image.SVGCONTENT["ma2p-folder"]) },
+          iconProps : states.opened ? 
+            { html : qx.bom.Template.render(qx.theme.clean.Image.SVGTEMPLATES["material-2paths"], qx.theme.clean.Image.SVGCONTENT["ma2p-folder-open"]) } : 
+            { html : qx.bom.Template.render(qx.theme.clean.Image.SVGTEMPLATES["material-2paths"], qx.theme.clean.Image.SVGCONTENT["ma2p-folder"]) },
           backgroundColor : backgroundColor,
           //iconOpened : "icon/folder-open.svg",
           opacity : states.drag ? 0.5 : undefined
