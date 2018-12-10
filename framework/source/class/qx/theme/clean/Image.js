@@ -292,7 +292,7 @@ qx.Class.define("qx.theme.clean.Image",
 			"include" : "slider-line",
 			"after" :
 			{
-				"border-top": "1px solid" + qx.theme.manager.Color.getInstance().resolve("textfield-selected"),
+				"border-top": "1px solid #85b7d9",
 			} 
 		},
 
