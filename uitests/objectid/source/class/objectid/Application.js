@@ -25,6 +25,11 @@ qx.Class.define("objectid.Application", {
         qx.log.appender.Native;
         qx.log.appender.Console;
       }
+      
+      var numGlobalEvents = 0;
+      qx.event.Manager.setGlobalEventMonitor(function(target, event) {
+        numGlobalEvents++;
+      });
 
       var root = this.getRoot();
       
@@ -104,6 +109,8 @@ qx.Class.define("objectid.Application", {
         qx.core.Id.getInstance().unregister(button_panel);
         id = btnSomeButton.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(!id);
+        
+        A.assertTrue(numGlobalEvents > 0);
         
       }, this);
     },
