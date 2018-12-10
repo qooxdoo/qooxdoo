@@ -78,17 +78,20 @@ qx.Class.define("objectid.Application", {
       root.add(button_panel, { left: 100, top: 300 });
       
       var A = qx.core.Assert;
+      var Id = qx.core.Id;
       btnPushMe.addListener("execute", function() {
         btnPushMe.setEnabled(false); // run once, this test is destructive
         
-        A.assertTrue(button_panel === qx.core.Id.getObject("buttons"));
-        A.assertTrue(btnPushMe === qx.core.Id.getObject("buttons/pushMe"));
+        A.assertTrue(button_panel === Id.getObject("buttons"));
+        A.assertTrue(btnPushMe === Id.getObject("buttons/pushMe"));
+        
+        A.assertTrue(Id.getObject("buttons/pushMe#label") === btnPushMe.getChildControl("label"));
         
         var id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/pushMe");
         
         button_panel.setObjectId("buttons_renamed");
-        A.assertTrue(button_panel === qx.core.Id.getObject("buttons"));
+        A.assertTrue(button_panel === Id.getObject("buttons"));
         id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/pushMe");
         
@@ -106,7 +109,7 @@ qx.Class.define("objectid.Application", {
         
         id = btnSomeButton.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/someButton");
-        qx.core.Id.getInstance().unregister(button_panel);
+        Id.getInstance().unregister(button_panel);
         id = btnSomeButton.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(!id);
         

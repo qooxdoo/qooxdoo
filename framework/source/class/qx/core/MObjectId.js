@@ -123,6 +123,16 @@ qx.Mixin.define("qx.core.MObjectId", {
         }
       }
       
+      // Separate out the child control ID
+      var controlId = null;
+      var pos = id.indexOf('#');
+      if (pos > -1) {
+        controlId = id.substring(pos + 1);
+        id = id.substring(0, pos);
+      }
+      
+      var result = undefined;
+      
       // Handle paths
       if (id.indexOf('/') > -1) {
         var segs = id.split('/');
@@ -140,16 +150,23 @@ qx.Mixin.define("qx.core.MObjectId", {
             return true;
           }
         });
-        return found ? target : undefined;
+        if (found)
+          result = target;
+        
+      } else {
+        // No object, creating the object
+        result = this._createObjectImpl(id);
+        if (result !== undefined) {
+          this.addOwnedObject(result, id);
+        }
       }
       
-      // No object, creating the object
-      var obj = this._createObjectImpl(id);
-      if (obj !== undefined) {
-        this.addOwnedObject(obj, id);
+      if (result && controlId) {
+        var childControl = result.getChildControl(controlId);
+        return childControl;
       }
       
-      return obj;
+      return result;
     },
     
     /**
