@@ -271,6 +271,7 @@ qx.Class.define("qx.theme.clean.Image",
     		}
 		},
 
+		// ACTIVE
 		"slider-line" :
 		{
 			"after" :
@@ -285,15 +286,17 @@ qx.Class.define("qx.theme.clean.Image",
 			}
 		},
 
+		// ACTIVE
 		"slider-line-focused" :
 		{
 			"include" : "slider-line",
 			"after" :
 			{
-				"border-top": "1px solid #85b7d9",
+				"border-top": "1px solid" + qx.theme.manager.Color.getInstance().resolve("textfield-selected"),
 			} 
 		},
 
+		// ACTIVE
 		"slider-line-invalid" :
 		{
 			"include" : "slider-line",
