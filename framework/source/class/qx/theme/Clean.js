@@ -15,6 +15,7 @@
  * @require(qx.theme.clean.MFreestyleCss)
  * @require(qx.theme.clean.MPlacement)
  * @require(qx.theme.clean.Animation)
+ * @require(qx.ui.tree.core.AbstractItem)
  * 
  */
 
@@ -75,6 +76,8 @@ qx.Theme.define("qx.theme.Clean",
     });
 
     qx.Class.include(qx.ui.form.SelectBox, qx.theme.clean.MSelectBox);
+
+    qx.Class.include(qx.ui.tree.core.AbstractItem, qx.theme.clean.MAtom);
 
   }
 });

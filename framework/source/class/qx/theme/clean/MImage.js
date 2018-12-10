@@ -81,7 +81,8 @@ qx.Mixin.define("qx.theme.clean.MImage",
       check : "Color",
       nullable : true,
       themeable : true,
-      apply : "_applyFill"
+      apply : "_applyFill",
+      event : "changeFill"
     },
     
     /** Any text string to populate the image tag's data-type attribute */

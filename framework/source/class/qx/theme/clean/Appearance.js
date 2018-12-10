@@ -2912,10 +2912,11 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
         return {
           padding : [3, 8, 3, 5],
-          icon : states.opened ? "icon/folder-open.svg" : "icon/folder.svg",
-          //icon : states.opened ? "icon/folder-open.svg" : sqv.ui.embed.Svg.,
+          //icon : states.opened ? "icon/folder-open.svg" : "icon/folder.svg",
+          icon : "",
+          iconProps : states.opened ? { html : qx.bom.Template.render(qx.theme.clean.Image.SVGTEMPLATES["material-2paths"], qx.theme.clean.Image.SVGCONTENT["ma2p-folder-open"]) } : {  html : qx.bom.Template.render(qx.theme.clean.Image.SVGTEMPLATES["material-2paths"], qx.theme.clean.Image.SVGCONTENT["ma2p-folder"]) },
           backgroundColor : backgroundColor,
-          iconOpened : "icon/folder-open.svg",
+          //iconOpened : "icon/folder-open.svg",
           opacity : states.drag ? 0.5 : undefined
         };
       }
@@ -2954,7 +2955,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : "icon/insert-drive-file.svg",
+          //icon : "icon/insert-drive-file.svg",
+          icon : "",
+          iconProps : { html : qx.bom.Template.render(qx.theme.clean.Image.SVGTEMPLATES["material-2paths"], qx.theme.clean.Image.SVGCONTENT["ma2p-file"]) },
           opacity : states.drag ? 0.5 : undefined
         };
       }
@@ -2966,7 +2969,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          padding : [0, 4, 0, 0],
+          //padding : [0, 4, 0, 0],
           width : 18,
           height : 18,
           scale : true
