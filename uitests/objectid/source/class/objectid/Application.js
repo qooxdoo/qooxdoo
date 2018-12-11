@@ -30,6 +30,8 @@ qx.Class.define("objectid.Application", {
       qx.event.Manager.setGlobalEventMonitor(function(target, event) {
         numGlobalEvents++;
       });
+      
+      new qx.test.core.ObjectId().testGetObject();
 
       var root = this.getRoot();
       

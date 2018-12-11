@@ -157,10 +157,7 @@ qx.Mixin.define("qx.core.MObjectId", {
         
       } else {
         // No object, creating the object
-        result = this._createObjectImpl(id);
-        if (result !== undefined) {
-          this.addOwnedObject(result, id);
-        }
+        result = this._createObject(id);
       }
       
       if (result && controlId) {
@@ -168,6 +165,21 @@ qx.Mixin.define("qx.core.MObjectId", {
         return childControl;
       }
       
+      return result;
+    },
+    
+    /**
+     * Creates the object and adds it to a list; most classes are expected to
+     * override `_createObjectImpl` NOT this method.
+     * 
+     * @param id {String} ID of the object
+     * @return {qx.core.Object?} the created object
+     */
+    _createObject: function(id) {
+      var result = this._createObjectImpl(id);
+      if (result !== undefined) {
+        this.addOwnedObject(result, id);
+      }
       return result;
     },
     
@@ -181,7 +193,7 @@ qx.Mixin.define("qx.core.MObjectId", {
      * @return {qx.core.Object?} the created object
      */
     _createObjectImpl: function(id) {
-      return;  // Return undefined
+      return undefined;
     },
     
     /**

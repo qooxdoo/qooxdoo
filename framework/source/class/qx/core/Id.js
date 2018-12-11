@@ -32,6 +32,15 @@ qx.Class.define("qx.core.Id", {
     /*
      * @Override
      */
+    _createObject: function(id) {
+      // Create the object, but don't add it to the list of owned objects
+      var result = this._createObjectImpl(id);
+      return result;
+    },
+    
+    /*
+     * @Override
+     */
     _createObjectImpl: function(id) {
       if (this.__registeredObjects) {
         var obj = this.__registeredObjects[id];
