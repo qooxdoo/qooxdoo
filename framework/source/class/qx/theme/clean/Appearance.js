@@ -3800,8 +3800,9 @@ qx.Theme.define("qx.theme.clean.Appearance",
           textColor : states.disabled ? "text-disabled" : states.checked ? null : "button-text",
           font : states.checked ? "bold" : "bold",
           padding : padding,
-          cursor: "pointer"
-          //margin : margin
+          cursor: "pointer",
+          marginBottom : states.barBottom ? 1 : undefined,
+          marginLeft : states.barLeft ? 1 : undefined
         };
       }
     },
