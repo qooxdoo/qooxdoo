@@ -22,12 +22,6 @@
 
 /**
  * The Clean appearance theme.
- *
- * @asset(qx/icon/Tango/16/mimetypes/text-plain.png)
- * @asset(qx/icon/Tango/16/actions/view-refresh.png)
- * @asset(qx/icon/Tango/16/actions/window-close.png)
- * @asset(qx/icon/Tango/16/actions/dialog-cancel.png)
- * @asset(qx/icon/Tango/16/actions/dialog-ok.png)
  * 
  */
 qx.Theme.define("qx.theme.clean.Appearance",
@@ -1822,8 +1816,6 @@ qx.Theme.define("qx.theme.clean.Appearance",
           //source : qx.theme.clean.Image.URLS["arrow-down"],
           source : "",
           decorator : "sqv-css-icon-arrow-down",
-          //paddingRight : 4,
-          //paddingLeft : 5,
           width : 0,
           height : 0
         };

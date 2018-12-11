@@ -126,7 +126,6 @@ qx.Theme.define("qx.theme.clean.Color",
 
     // window
     "window-border" : "#2E3A46",
-    //"window-border-inner" : "#9DCBFE",
     "window-border-inner" : "white",
 
     // group box
@@ -138,7 +137,6 @@ qx.Theme.define("qx.theme.clean.Color",
     // shadows
     "shadow" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.4)" : "#999999",
     "shadow-light" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.2)" : "#CCCCCC",
-    //"shadow-light" : qx.core.Environment.get("css.rgba") ? "rgba(0, 0, 0, 0.1)" : "#E5E5E5",
 
     // borders
     // 'border-main' is an alias of 'background-selected' (compatibility reasons)

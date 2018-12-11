@@ -1841,8 +1841,9 @@ qx.Theme.define("qx.theme.clean.Decoration",
     	  width : [0,1,1,1],
         color : ["transparent","textfield-selected","textfield-selected","textfield-selected"],
         radius : [0,0,3,3],
-        shadowLength : [0,2],
-        shadowBlurRadius : 3
+        shadowLength : [0,1],
+        shadowColor : "shadow",
+        shadowBlurRadius : 0
     	}
     },
     
@@ -1855,8 +1856,9 @@ qx.Theme.define("qx.theme.clean.Decoration",
         width : [1,1,0,1],  
         color : ["textfield-selected","textfield-selected","transparent","textfield-selected"],
         radius : [3,3,0,0],
-        shadowLength : [0,-2],
-        shadowBlurRadius : 3
+        shadowLength : [0,-1],
+        shadowColor : "shadow",
+        shadowBlurRadius : 0
     	}
     },
     

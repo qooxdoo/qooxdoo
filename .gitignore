@@ -39,3 +39,4 @@ npm-debug.log
 
 # builds
 /application/widgetbrowser/build/
+/application/demobrowser/
