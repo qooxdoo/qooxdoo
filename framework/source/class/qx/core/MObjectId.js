@@ -103,8 +103,9 @@ qx.Mixin.define("qx.core.MObjectId", {
         }
       }
       if (this.__ownedObjects) {
-        for (var name in this.__ownedObjects)
+        for (var name in this.__ownedObjects) {
           this.__ownedObjects[name]._cascadeObjectIdChanges();
+        }
       }
     },
     
@@ -150,8 +151,9 @@ qx.Mixin.define("qx.core.MObjectId", {
             return true;
           }
         });
-        if (found)
+        if (found) {
           result = target;
+        }
         
       } else {
         // No object, creating the object

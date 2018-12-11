@@ -145,8 +145,9 @@ qx.Class.define("qx.core.Id", {
       } else {
         var hash = data.toHashCode();
         id = this.__registeredIdHashes[hash];
-        if (!id)
+        if (!id) {
           return false;
+        }
       }
       
       var obj = this.__registeredObjects[id];
