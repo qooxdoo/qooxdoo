@@ -127,18 +127,21 @@ this repository.
 If you are starting a new qooxdoo project and you plan on publishing it as a
 contrib library, the CLI is there to help you. Please proceed as follows:
 
-1. Create a new empty repository on GitHub (it shouldn't contain a readme).
- 
-2. Clone that repository to your local machine, open a terminal and `cd` into
-the repository's folder
+1. Create a new empty repository on GitHub (it shouldn't contain a readme). 
 
-3. Execute `qx create <library namespace> --type contrib`. You will be asked for
-more information on the contrib library.
+2. Clone that repository to your local machine, open a terminal and `cd` into 
+the repository's folder 
 
-4. Work on the library and, if possible, provide a running demo application in
-the `demo/default` folder.
+3. Execute `qx create <library namespace> --type contrib`. You will be asked 
+for more information on the contrib library. When asked to provide the output 
+directory for the application content, enter "." (dot) so that no subdirectory
+is created. `Manifest.json` and the `source` folder should be at the top 
+level of the repository.
 
-5. When ready, publish your new contrib (see below).
+4. Work on the library and, if possible, provide a running demo application in 
+the `demo` folder. 
+
+5. When ready, publish your new contrib (see below). 
 
 ## Publish new versions of contrib libraries
 
