@@ -203,9 +203,8 @@ repository in one of the following ways:
 
 ### qooxdoo.json
 
-It is recommended, but not mandatory, to include a `qooxdoo.json` file in the
-root of the repository. This metadata file allows the discovery of libraries and
-applications/demos in a repository. It has the  following syntax:
+This file in the root of the repository allows the inclusion and discovery of 
+multiple libraries in this repo. It has the  following syntax:
      
 ```
 {
@@ -213,26 +212,10 @@ applications/demos in a repository. It has the  following syntax:
    { "path":"relative-path/to/dir-containing-manifest1" },
    { "path":"relative-path/to/dir-containing-manifest2" },
    ...
- ],
-  "applications": [
-	  { "path": "relative-path/to/demo1"},
-    ...
-	]
+ ]
 }
 ``` 
 
-If you do not include the file, the following paths are assumed (for a contrib):
-
-```
-{
-	"libraries": [
-		{ "path": "." }
-	],
-	"applications": [
-		{ "path": "demo/default"}
-	]
-}
-```
 
 ### Contribution compatibility and dependency management
 
