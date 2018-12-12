@@ -323,6 +323,9 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
             element.removeAttribute(name);
           }
         }
+        else if (value === null) {
+          element.removeAttribute(name);
+        }
         else {
           element.setAttribute(name, value);
         }
