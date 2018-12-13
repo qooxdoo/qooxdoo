@@ -237,9 +237,12 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       var backgroundSize = this.__imageData.width + "px, " + this.__imageData.height + "px";
 
       var srcUrl = this.__imageData.url;
-      var highResolutionSource = this._findHighResolutionSource (this.__imageData.url);
-      if (highResolutionSource) {
-        srcUrl = highResolutionSource;
+      if (this.__imageData.url !== null)
+      {
+        var highResolutionSource = this._findHighResolutionSource (this.__imageData.url);
+        if (highResolutionSource) {
+          srcUrl = highResolutionSource;
+        }
       }
 
       // set image
@@ -272,6 +275,11 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      * @return {String|Boolean} If a high-resolution image source.
      */
     _findHighResolutionSource: function(lowResImgSrc) {
+        if (lowResImgSrc === null)
+        {
+          return null;
+        }
+
         var pixelRatioCandidates = ["3", "2", "1.5"];
 
         // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
@@ -313,6 +321,10 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      * @return {String} the high-resolution source name or null if no source could be found.
      */
     _getHighResolutionSource : function(source, pixelRatio) {
+        if (source === null)
+        {
+            return null;
+        }
         var fileExtIndex = source.lastIndexOf('.');
         if (fileExtIndex > -1) {
             var pixelRatioIdentifier = "@" + pixelRatio + "x";
