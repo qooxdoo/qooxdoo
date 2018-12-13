@@ -24,12 +24,10 @@
  * 
  * WIDGETBROWSER DEMO ONLY
  * Treevirtual
- * @asset(qx/icon/Material/16/places/folder-open-black.png)
  * @asset(qx/icon/Material/16/places/folder-open.png)
  * @asset(qx/icon/Material/16/places/folder-open-white.png)
  * @asset(qx/icon/Material/16/places/folder-black.png)
  * @asset(qx/icon/Material/16/places/folder-white.png)
- * @asset(qx/icon/Material/16/places/file-black.png)
  * @asset(qx/icon/Material/16/places/file-white.png)
  * @asset(qx/icon/Material/16/places/file-outline-black.png)
  * @asset(qx/icon/Material/16/mimetypes/text-plain.png)

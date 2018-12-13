@@ -719,8 +719,6 @@ qx.Theme.define("qx.theme.clean.Appearance",
         }
         
         return {
-          //icon : (states.opened ? "icon/16/places/folder-open-black.png" : "icon/16/places/folder-black.png"),
-          //icon : states.opened ? "icon/folder-open.svg" : "icon/folder.svg",
           icon : icon,
           opacity : states.drag ? 0.5 : undefined
         };
@@ -736,7 +734,6 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
         return {
           icon : "icon/16/mimetypes/text-plain.png",
-          //icon : "icon/insert-drive-file.svg",
           opacity : states.drag ? 0.5 : undefined
         };
       }
