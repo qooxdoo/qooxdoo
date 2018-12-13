@@ -118,7 +118,6 @@ qx.Mixin.define("qx.theme.clean.MImage",
     {
       if (value) {
         var svgelem = this.getContentElement();
-        var attval = svgelem.getAttribute("html");
         if (svgelem != null){
         	svgelem.setStyle("fill", qx.theme.manager.Color.getInstance().resolve(value));
         }
@@ -127,16 +126,18 @@ qx.Mixin.define("qx.theme.clean.MImage",
     
     _applyTextSize : function(value, old)
     {
-      if (value)
+      if (value) {
         this.getContentElement().setStyle("font-size", value + "px");
+      }
     },
     
     _applyDynamicSize : function(value, old)
     {
-      if (value)
+      if (value) {
         this.setTextSize(value[0]);
         this.setWidth(value[0]);     
         this.setHeight(Math.round(value[0]*value[1]));
+      }
     },
   	
   	// property apply

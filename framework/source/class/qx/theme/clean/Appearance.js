@@ -247,15 +247,10 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         
-        var appss = qx.ui.style.Stylesheet.getInstance();
+        /*var appss = qx.ui.style.Stylesheet.getInstance();
         var cssstr = "fill: gray;";
-        
         var classname = ".qx-svg-icon svg";
-        
-        //appss.addRule(classname,cssstr);
-        
-        // Prep the Image widget to have font handling abilities
-	    //qx.Class.include(qx.ui.basic.Image, sqv.ui.basic.MImage);
+        appss.addRule(classname,cssstr);*/
         
         return {
           decorator : "svg-icon"
@@ -713,14 +708,15 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         var icon;
-        if (states.opened && states.selected)
+        if (states.opened && states.selected) {
           icon = "icon/16/places/folder-open-white.png";
-        else if (states.opened && !states.selected)
+        } else if (states.opened && !states.selected) {
           icon = "icon/16/places/folder-open-black.png";
-        else if (!states.opened && states.selected)
+        } else if (!states.opened && states.selected) {
           icon = "icon/16/places/folder-white.png";
-        else
+        } else {
           icon = "icon/16/places/folder-black.png";
+        }
         
         return {
           //icon : (states.opened ? "icon/16/places/folder-open-black.png" : "icon/16/places/folder-black.png"),
@@ -1075,9 +1071,6 @@ qx.Theme.define("qx.theme.clean.Appearance",
         return {
           alignY : "middle",
           marginLeft : 14
-          //scale : true
-         // width : 18,
-          //height : 18
         };
       }
     },
@@ -1182,7 +1175,6 @@ qx.Theme.define("qx.theme.clean.Appearance",
           height: 17,
           marginLeft : 14,
           padding: 0
-          //backgroundColor : "text"
         };
       }
     },
@@ -1527,10 +1519,6 @@ qx.Theme.define("qx.theme.clean.Appearance",
       {
         var decorator = "radiobutton";
 
-        /*if (states.focused && !states.invalid) {
-          decorator = "radiobutton-focused";
-        }*/
-
         decorator += states.invalid && !states.disabled ? "-invalid" : "";
 
         var backgroundColor;
@@ -1644,21 +1632,26 @@ qx.Theme.define("qx.theme.clean.Appearance",
         if (states.checked) {
           padding = 0;
           decorator = "checkbox-checked";
-          if (states.focused)
+          if (states.focused) {
             decorator = "checkbox-checked-focused"; 
-          if (states.invalid)
-            decorator = "checkbox-checked-invalid";  
-          if (states.disabled)
-            decorator = "checkbox-checked-disabled";      
+          }
+          if (states.invalid) {
+            decorator = "checkbox-checked-invalid"; 
+          } 
+          if (states.disabled) {
+            decorator = "checkbox-checked-disabled";   
+          }   
           // Undetermined
         } else if (states.undetermined) {
           //padding = [4, 2];
           padding = 0;
           decorator = "checkbox-undetermined";
-          if (states.focused)
+          if (states.focused) {
             decorator = "checkbox-undetermined-focused";
-          if (states.invalid)
+          }
+          if (states.invalid) {
             decorator = "checkbox-undetermined-invalid"; 
+          }
           if (states.disabled) {
             decorator = "checkbox-undetermined-disabled";
             bckgrdcolr = "text-disabled";
@@ -1785,11 +1778,8 @@ qx.Theme.define("qx.theme.clean.Appearance",
     	
     	style : function(states)
     	{
-        var decorator;
-        var offset;
     		return {
           decorator : states.placementBottom ? "selectbox-popup-bottom" : "selectbox-popup-top"
-    			//offset : states.placementBottom ? [-2,0,0,0] : [0,0,-2,0]
     		};
     	}
     },

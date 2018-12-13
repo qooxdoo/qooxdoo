@@ -40,3 +40,7 @@ npm-debug.log
 # builds
 /application/widgetbrowser/build/
 /application/demobrowser/
+
+# New apps
+# Wax
+/application/wax/

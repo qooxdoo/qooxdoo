@@ -59,10 +59,10 @@ qx.Theme.define("qx.theme.Clean",
     //*** FLAGS to turn on/off theme features ****
 
     // Make popups not so snappy by switching this FLAG to true
-    // NOT READY - still in development 
-    var smoothpopups = false;
-    var smoothpopustheme = "";
-
+    // PURPOSE = Make popups fade in and out by default, and to control the speed in which they show and hide
+    // STATUS = NOT STARTED - future feature 
+    //var smoothpopups = false;
+    //var smoothpopustheme = "";
 
     
     // MANDATORY Mixins

@@ -83,9 +83,9 @@ qx.Mixin.define("qx.theme.clean.MFreestyleCss",
 
 	  	//general loop to add content based on map
 	  	for (var sudo in sudostylemap) {
-		  	if (sudo == "before" || sudo == "after"){
-			  	if (!styles.hasOwnProperty(":" + sudo))
-			  		styles[":" + sudo] = {};			  		
+		  	if (sudo == "before" || sudo == "after") {
+			  	if (!styles.hasOwnProperty(":" + sudo)) {
+			  		styles[":" + sudo] = {}; }		  		
 			  	for (var entry in sudostylemap[sudo]) {
 		  			entryval = sudostylemap[sudo][entry];
 		  			entry = qx.bom.Style.getPropertyName(entry);
@@ -152,13 +152,12 @@ qx.Mixin.define("qx.theme.clean.MFreestyleCss",
 				// Property in destination object set; update its value.
 				if ( obj2.hasOwnProperty(p) && typeof obj1[p] !== "undefined" && qx.lang.Type.isObject(obj2[p]) ) {
 					this._mergeRecursive(obj1[p], obj2[p]);
-
 				} 
 				else 
 				{
 					//if obj1 does not have that level or prop in the heirarchy add it
-					if (!obj1.hasOwnProperty(p))
-								obj1[p] = obj2[p];
+					if (!obj1.hasOwnProperty(p)) {
+						obj1[p] = obj2[p]; }
 				}
 			}
     },

@@ -1223,67 +1223,7 @@ qx.Theme.define("qx.theme.clean.Decoration",
       width : 1
      }
    },
-
-   "button-box-pressed-hovered-left" :
-   {
-     include : "button-box-pressed-hovered",
-
-     style :
-     {
-       radius : [3, 0, 0, 3]
-     }
-   },
-
-   "button-box-hovered-left" :
-   {
-     include : "button-box-hovered",
-
-     style :
-     {
-       radius : [3, 0, 0, 3]
-     }
-   },
-
-   "button-box-focused-left" :
-   {
-     include : "button-box-focused",
-
-     style :
-     {
-       radius : [3, 0, 0, 3]
-     }
-   },
-
-   "button-box-hovered-focused-left" :
-   {
-     include : "button-box-hovered-focused",
-
-     style :
-     {
-       radius : [3, 0, 0, 3]
-     }
-   },
-
-   "button-box-pressed-hovered-focused-left" :
-   {
-     include : "button-box-pressed-hovered-focused",
-
-     style :
-     {
-       radius : [3, 0, 0, 3]
-     }
-   },
-
-   "button-box-pressed-focused-left" :
-   {
-     include : "button-box-pressed-focused",
-
-     style :
-     {
-       radius : [3, 0, 0, 3]
-     }
-   },
-    
+       
     
     /*
     ---------------------------------------------------------------------------
