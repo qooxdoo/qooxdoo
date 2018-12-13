@@ -711,7 +711,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
         if (states.opened && states.selected) {
           icon = "icon/16/places/folder-open-white.png";
         } else if (states.opened && !states.selected) {
-          icon = "icon/16/places/folder-open-black.png";
+          icon = "icon/16/places/folder-open.png";
         } else if (!states.opened && states.selected) {
           icon = "icon/16/places/folder-white.png";
         } else {
@@ -735,7 +735,7 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         return {
-          icon : "icon/16/places/file-outline-black.png",
+          icon : "icon/16/mimetypes/text-plain.png",
           //icon : "icon/insert-drive-file.svg",
           opacity : states.drag ? 0.5 : undefined
         };
