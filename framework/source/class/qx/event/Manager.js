@@ -100,6 +100,30 @@ qx.Class.define("qx.event.Manager",
      */
     getNextUniqueId : function() {
       return (this.__lastUnique++) + "";
+    },
+    
+    
+    /** @type {Function} global event monitor, called with parameters of target and event */
+    __globalEventMonitor: null,
+    
+    
+    /**
+     * Returns the global event monitor
+     * 
+     * @return {Function?} the global monitor function
+     */
+    getGlobalEventMonitor: function() {
+      return this.__globalEventMonitor;
+    },
+    
+    
+    /**
+     * Sets the global event monitor
+     * 
+     * @param cb {Function?} the global monitor function
+     */
+    setGlobalEventMonitor: function(cb) {
+      this.__globalEventMonitor = cb;
     }
   },
 
@@ -855,6 +879,18 @@ qx.Class.define("qx.event.Manager",
         qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.");
         qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
         qx.core.Assert.assertInstance(event, qx.event.type.Event, msg + "Invalid event object.");
+      }
+      
+      if (qx.event.Manager.__globalEventMonitor) {
+        try {
+          var preventDefault = event.getDefaultPrevented();
+          qx.event.Manager.__globalEventMonitor(target, event);
+          if (preventDefault != event.getDefaultPrevented()) {
+            qx.log.Logger.error("Unexpected change by GlobalEventMonitor, modifications to events: ");
+          }
+        }catch (ex) {
+          qx.log.Logger.error("Error in GlobalEventMonitor: " + ex);
+        }
       }
 
       // Preparations
