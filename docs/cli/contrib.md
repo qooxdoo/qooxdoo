@@ -12,8 +12,9 @@
     - [Publish new versions of contrib libraries](#publish-new-versions-of-contrib-libraries)
     - [How to list get your contrib repository listed with `qx contrib list`](#how-to-list-get-your-contrib-repository-listed-with-qx-contrib-list)
         - [qooxdoo.json](#qooxdoojson)
-        - [Contribution compatibility management](#contribution-compatibility-management)
-
+    - [Install contribs automatically](#install-contribs-automatically)
+    - [Contribution compatibility management](#contribution-compatibility-management)
+    - [qx contrib and NPM](#qx-contrib-and-NPM)
 <!-- /TOC -->
 
 ## Introduction
@@ -25,16 +26,6 @@ might want to include usually comes from a qooxdoo library. The qooxdoo contrib
 system allows to create and share these libraries, providing a convenient way to
 reuse and collectively maintain "contributions" (thus the short name "contrib").
 It is qooxdoo's "plugin architecture".
-
-Since the compiler is an NPM module, one might ask why we aren't using NPM for
-qooxdoo contribs. Why create an additional module system? qooxdoo-contrib is
-similar to NPM, but works a bit different. It is based directly on GitHub
-because that is where most qooxdoo code is developed and published, and doesn't
-require NPM as an additional layer with a very different use case: NPM is for
-managing _dependencies_, whereas the qooxdoo contrib tools mainly check
-_compatibility_. Finally, since each qooxdoo library already has a manifest file
-with metadata, having to maintain another metadata container such as
-`package.json` seemed redundant.
 
 qooxdoo-contrib basically works like this:
 
@@ -105,7 +96,7 @@ _repository level_, i.e. you can only install all the libraries from that
 repository at once, although you may manually disable individual ones in the
 `contrib.json file` by deleting their entry.
 
-Sometimes, especially when using qooxdoo master, you might get very few hits, if
+When a new major version of qooxdoo is released, you might get very few hits, if
 any at all. This might be because the contrib library authors have not yet
 created a release of their library that indicates its compatibility with that
 qooxdoo version, even though technically, they are compatible. In order to
@@ -127,21 +118,31 @@ this repository.
 If you are starting a new qooxdoo project and you plan on publishing it as a
 contrib library, the CLI is there to help you. Please proceed as follows:
 
-1. Create a new empty repository on GitHub (it shouldn't contain a readme). 
+1. Choose a name for your contribution. We suggest to use a name with unique
+global variable name, under which you put all your contributions. Our
+recommendation is to use the following pattern: `gh.<github user name>.<repo
+name>`, i.e. for example, `gh.janedoe.helloworld` ("gh" being the abbreviation
+for "github", indicating that the repository are hosted there under the given
+username). But you can also use a global name that identifies your organization,
+or any other top-level namespace.
 
-2. Clone that repository to your local machine, open a terminal and `cd` into 
+2. Create a new empty repository on GitHub (it shouldn't contain a readme).
+Using the example from 1), user "janedoe" would create the repo "helloworld" for
+the contrib `gh.janedoe.helloworld`.
+
+3. Clone that repository to your local machine, open a terminal and `cd` into 
 the repository's folder 
 
-3. Execute `qx create <library namespace> --type contrib`. You will be asked 
+4. Execute `qx create <library namespace> --type contrib`. You will be asked 
 for more information on the contrib library. When asked to provide the output 
 directory for the application content, enter "." (dot) so that no subdirectory
 is created. `Manifest.json` and the `source` folder should be at the top 
 level of the repository.
 
-4. Work on the library and, if possible, provide a running demo application in 
+5. Work on the library and, if possible, provide a running demo application in 
 the `demo` folder. 
 
-5. When ready, publish your new contrib (see below). 
+6. When ready, publish your new contrib (see below). 
 
 ## Publish new versions of contrib libraries
 
@@ -216,8 +217,17 @@ multiple libraries in this repo. It has the  following syntax:
 }
 ``` 
 
+## Install contribs automatically
 
-### Contribution compatibility and dependency management
+When you install contribs for your projects, they will be saved in the
+`contrib.json` file. If you commit this file, anyone who checks out the source
+code can then automatically install all the contribs in the specific version
+using `qx contrib install` (without arguments). This is also useful in
+installation or build scripts. Note that at this point, this will not install the
+dependencies of these contribs automatically. You will have to take care of that
+yourself.
+
+## Contribution compatibility and dependency management
 
 The contrib system uses [semver](http://semver.org) and [semver
 ranges](https://github.com/npm/node-semver#ranges) to manage dependencies and
@@ -252,13 +262,6 @@ application's `contrib.json` by first installing them with `qx contrib install
 a project is first compiled, you need to run `qx contrib install` (with no
 further arguments) to download the contribs from GitHub.
 
-*A note on NPM*: Under normal circumstances, a contrib does not need to use NPM
-or maintain a `package.json` file. In particular, neither the `qxcompiler` nor
-the `qooxdoo-sdk` npm packages should be NPM dependencies of the contrib.
-Instead, they are installed either at the level of the application or globally
-(see the [docs on installation](../../README.md#installation)). You might want
-to use NPM for development-time task such as transpiling your code, but all
-NPM-related information in the contrib will be ignored by the compiler.
 
 ## Contribs as Applications
 
@@ -295,3 +298,26 @@ the `Manifest.json` - for example:
 
 That `application` is copied into the `compile.json`'s `applications` key as a
 new entry (or overwriting the old one)
+
+## qx contrib and NPM 
+
+There are two ways in which the contrib system and the NPM package manager relate
+to each other: a) the general question why contribs aren't distributed as NPM
+packages, as the compiler is, and b) how NPM-specific information is handled by
+the compiler.
+
+a) Since the compiler is an NPM module, one might ask why we aren't using NPM
+for qooxdoo contribs. Why create an additional module system? qooxdoo-contrib is
+similar to NPM, but works different. It is based directly on GitHub releases
+because that is where most qooxdoo code is developed and published. NPM has a
+different use case in mind: NPM is for _managing dependencies_, whereas the
+qooxdoo contrib tools mainly _check compatibility_. Dependeny management might
+be added to `qx contrib` later.
+
+b) Under normal circumstances, a contrib does not need to use NPM
+or maintain a `package.json` file. In particular, neither the `qxcompiler` nor
+the `qooxdoo-sdk` npm packages should be NPM dependencies of the contrib.
+Instead, they are installed either at the level of the application or globally
+(see the [docs on installation](../../README.md#installation)). You might want
+to use NPM for development-time task such as transpiling your code, but all
+NPM-related information in the contrib will be ignored by the compiler.
