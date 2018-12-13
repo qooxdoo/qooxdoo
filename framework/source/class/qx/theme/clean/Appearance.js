@@ -2056,7 +2056,6 @@ qx.Theme.define("qx.theme.clean.Appearance",
       style : function(states)
       {
         var padding = [10, 10, 10, 14];
-        var decorator;
         if (states.lead) {
           //padding = [ 2, 4 , 2, 4];
           padding = [9, 9, 9, 13];
