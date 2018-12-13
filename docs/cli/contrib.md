@@ -122,13 +122,13 @@ contrib library, the CLI is there to help you. Please proceed as follows:
 global variable name, under which you put all your contributions. Our
 recommendation is to use the following pattern: `gh.<github user name>.<repo
 name>`, i.e. for example, `gh.janedoe.helloworld` ("gh" being the abbreviation
-for "github", indicating that the username and repository are hosted there). But
-you can also use a global name that identifies your organization, or any other
-top-level namespace.
+for "github", indicating that the repository are hosted there under the given
+username). But you can also use a global name that identifies your organization,
+or any other top-level namespace.
 
 2. Create a new empty repository on GitHub (it shouldn't contain a readme).
 Using the example from 1), user "janedoe" would create the repo "helloworld" for
-the contrib `gh.janedoes.helloworld`.
+the contrib `gh.janedoe.helloworld`.
 
 3. Clone that repository to your local machine, open a terminal and `cd` into 
 the repository's folder 
