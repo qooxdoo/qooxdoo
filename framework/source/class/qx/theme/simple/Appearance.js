@@ -417,7 +417,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : (states.opened ?
-                  "icon/16/places/folder-open.png" : "icon/16/places/folder-black.png"),
+                  "icon/16/places/folder-open.png" : "icon/16/places/folder.png"),
           opacity : states.drag ? 0.5 : undefined
         };
       }
