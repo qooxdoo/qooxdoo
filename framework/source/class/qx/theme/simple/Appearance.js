@@ -417,7 +417,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         return {
           icon : (states.opened ?
-                  "icon/16/places/folder-open-black.png" : "icon/16/places/folder-black.png"),
+                  "icon/16/places/folder-open.png" : "icon/16/places/folder-black.png"),
           opacity : states.drag ? 0.5 : undefined
         };
       }
@@ -431,7 +431,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          icon : "icon/16/mimetypes/file-black.png",
+          icon : "icon/16/mimetypes/text-plain.png",
           opacity : states.drag ? 0.5 : undefined
         };
       }
