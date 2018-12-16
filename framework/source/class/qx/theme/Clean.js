@@ -28,6 +28,11 @@
  * @require(qx.theme.clean.MSelectBox)
  * 
  * ========================================
+ * ==== Require new Clean theme Class =====
+ * ========================================
+ * @require(qx.theme.clean.Animation)
+ * 
+ * ========================================
  * ==== Require existing Qx classes =======
  * ========================================
  * @require(qx.ui.basic.Image)
@@ -35,7 +40,6 @@
  * @require(qx.ui.table.headerrenderer.HeaderCell)
  * @require(qx.ui.popup.Popup)
  * @require(qx.ui.form.SelectBox)
- * @require(qx.theme.clean.Animation)
  * @require(qx.ui.tree.core.AbstractItem)
  * 
  */
