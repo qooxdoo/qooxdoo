@@ -23,5 +23,12 @@
     "resource"    : "source/resource",
     "translation" : "source/translation",
     "type"        : "application"
-  }
+  },
+  "externalResources": {
+        "script": [
+         ],
+        "css": [
+          "${namespace}/css/custom.css"
+        ]
+   }
 }

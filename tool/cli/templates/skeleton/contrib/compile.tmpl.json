@@ -5,10 +5,6 @@
       "outputPath": "source-output"
     },
     {
-      "type": "hybrid",
-      "outputPath": "hybrid-output"
-    },
-    {
       "type": "build",
       "outputPath": "build-output"
     }
