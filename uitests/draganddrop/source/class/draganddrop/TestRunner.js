@@ -19,7 +19,7 @@
 /**
  * Helper class for running unit tests outside of teh "real" testrunner
  */
-qx.Class.define("uitests.TestRunner", {
+qx.Class.define("draganddrop.TestRunner", {
   extend: qx.core.Object,
 
   statics: {
