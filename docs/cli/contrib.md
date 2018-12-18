@@ -200,7 +200,7 @@ repository in one of the following ways:
   the `Manifest.json` file outside of the root directory, you must provide a
   `qooxdoo.json` file in the root dir (see below)
 
-- Make sure to keep the "qooxdoo-version" key up to date.
+- Make sure to keep the "qooxdoo-range" key up to date (see below).
 
 ### qooxdoo.json
 
