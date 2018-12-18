@@ -24,5 +24,9 @@
       "theme": "qx.theme.Simple",
       "name": "issue-9569"
     }
+  ],
+  "libraries": [
+    "../../framework",
+    "."
   ]
 }
