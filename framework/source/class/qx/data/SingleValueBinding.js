@@ -250,7 +250,7 @@ qx.Class.define("qx.data.SingleValueBinding",
 
       } catch (ex) {
         // remove the already added listener
-        // go threw all added listeners (source)
+        // go through all added listeners (source)
 
         for (var i = 0; i < sources.length; i++) {
           // check if a source is available
@@ -260,7 +260,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         }
         var targets = targetListenerMap.targets;
         var targetIds = targetListenerMap.listenerIds;
-        // go threw all added listeners (target)
+        // go through all added listeners (target)
         for (var i = 0; i < targets.length; i++) {
           // check if a target is available
           if (targets[i] && targetIds[i]) {
@@ -384,8 +384,9 @@ qx.Class.define("qx.data.SingleValueBinding",
             }
             var eventName = this.__getEventNameForProperty(source, context.propertyNames[j]);
             if (!eventName) {
+              context.sources[j] = null;
               this.__resetTargetValue(context.targetObject, context.targetPropertyChain);
-              break;
+              return;
             }
             // bind the last property to the new target
             context.listenerIds[j] = this.__bindEventToProperty(
@@ -407,6 +408,7 @@ qx.Class.define("qx.data.SingleValueBinding",
           }
 
           if (!eventName) {
+            context.sources[j] = null;
             this.__resetTargetValue(context.targetObject, context.targetPropertyChain);
             return;
           }
@@ -1182,14 +1184,14 @@ qx.Class.define("qx.data.SingleValueBinding",
     removeBindingFromObject : function(sourceObject, id) {
       // check for a deep binding
       if (id.type == "deepBinding") {
-        // go threw all added listeners (source)
+        // go through all added listeners (source)
         for (var i = 0; i < id.sources.length; i++) {
           // check if a source is available
           if (id.sources[i]) {
             id.sources[i].removeListenerById(id.listenerIds[i]);
           }
         }
-        // go threw all added listeners (target)
+        // go through all added listeners (target)
         for (var i = 0; i < id.targets.length; i++) {
           // check if a target is available
           if (id.targets[i]) {
@@ -1323,11 +1325,11 @@ qx.Class.define("qx.data.SingleValueBinding",
     /**
      * Removes all binding in the whole application. After that not a single
      * binding is left.
-     * @deprecated {6.0} dispose and destructors are deprecated because of automatic memory management; this 
+     * @deprecated {6.0} dispose and destructors are deprecated because of automatic memory management; this
      * will only work for objects explicitly registered with ObjectRegistry.register
      */
     removeAllBindings : function() {
-      // go threw all registered objects
+      // go through all registered objects
       for (var hash in this.__bindings) {
         var object = qx.core.ObjectRegistry.fromHashCode(hash);
         // check for the object, perhaps its already deleted
@@ -1364,7 +1366,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      */
     showBindingInLog : function(object, id) {
       var binding;
-      // go threw all bindings of the given object
+      // go through all bindings of the given object
       for (var i = 0; i < this.__bindings[object.toHashCode()].length; i++) {
         // the first array item is the id
         if (this.__bindings[object.toHashCode()][i][0] == id) {
@@ -1390,7 +1392,7 @@ qx.Class.define("qx.data.SingleValueBinding",
      * @deprecated {6.0} qx.core.ObjectRegistry no longer stores most objects
      */
     showAllBindingsInLog : function() {
-      // go threw all objects in the registry
+      // go through all objects in the registry
       for (var hash in this.__bindings) {
         var object = qx.core.ObjectRegistry.fromHashCode(hash);
         if (object) {
