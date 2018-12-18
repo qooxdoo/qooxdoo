@@ -21,7 +21,6 @@
  */
 qx.Class.define("qx.core.Id", {
   extend: qx.core.Object,
-  include: [ qx.core.MObjectId ],
   type: "singleton",
   
   members: {
