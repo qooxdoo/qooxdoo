@@ -19,5 +19,9 @@
       "theme": "qx.theme.Simple",
       "name": "objectid"
     }
-  ]
+  ],
+  "libraries": [
+    "../../framework",
+    "."
+  ] 
 }
