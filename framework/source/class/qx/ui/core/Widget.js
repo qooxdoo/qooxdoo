@@ -857,6 +857,9 @@ qx.Class.define("qx.ui.core.Widget",
     /** Whether the widget should print out hints and debug messages */
     DEBUG : false,
 
+    /** Whether to throw an error on focus/blur if the widget is unfocusable */
+    UNFOCUSABLE_WIDGET_FOCUS_BLUR_ERROR : true,
+
     /**
      * Returns the widget, which contains the given DOM element.
      *
@@ -3357,7 +3360,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (this.isFocusable()) {
         this.getFocusElement().focus();
-      } else {
+      } else if (qx.ui.core.Widget.UNFOCUSABLE_WIDGET_FOCUS_BLUR_ERROR) {
         throw new Error("Widget is not focusable!");
       }
     },
@@ -3371,7 +3374,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       if (this.isFocusable()) {
         this.getFocusElement().blur();
-      } else {
+      } else if (qx.ui.core.Widget.UNFOCUSABLE_WIDGET_FOCUS_BLUR_ERROR) {
         throw new Error("Widget is not focusable!");
       }
     },

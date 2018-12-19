@@ -13,7 +13,7 @@
  *
  * @asset(dragndrop/*)
  */
-qx.Class.define("uitests.DragAndDropNoPromiseApplication", {
+qx.Class.define("draganddrop.DragAndDropNoPromiseApplication", {
   extend: qx.application.Standalone,
 
   members: {
@@ -25,7 +25,7 @@ qx.Class.define("uitests.DragAndDropNoPromiseApplication", {
         qx.log.appender.Console;
       }
 
-      uitests.TestRunner.runAll(qx.test.event.Utils, this.__init, this);
+      draganddrop.TestRunner.runAll(qx.test.event.Utils, this.__init, this);
     },
 
     __init: function() {

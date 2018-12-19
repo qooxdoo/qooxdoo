@@ -801,9 +801,9 @@ qx.Class.define("qx.html.Element",
       if (qx.core.Environment.get("module.objectid")) {
         var id = null;
         if (this.__widget && this.__widget.getObjectId()) {
-          id = qx.core.Id.getAbsoluteIdOf(this.__widget, false) || null;
+          id = qx.core.Id.getAbsoluteIdOf(this.__widget, true) || null;
         }
-        this.setAttribute("data-object-id", id, true);
+        this.setAttribute("data-qx-object-id", id, true);
       }
     },
 

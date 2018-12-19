@@ -33,7 +33,7 @@ qx.Mixin.define("qx.core.MObjectId", {
 
   properties: {
 
-    /** The ID of the owning object */
+    /** The owning object */
     owner : {
       init : null,
       check : "qx.core.Object",
@@ -42,10 +42,10 @@ qx.Mixin.define("qx.core.MObjectId", {
     },
 
 
-    /** The ID of the object.  */
+    /** {String} The ID of the object.  */
     objectId : {
       init: null,
-      check : "String",
+      check : function(value) { return value === null || (typeof value == "string" && value.indexOf('/') < 0); },
       nullable : true,
       apply : "_applyObjectId"
     }
@@ -63,26 +63,48 @@ qx.Mixin.define("qx.core.MObjectId", {
     __changingOwner: false,
 
     /**
-     * apply owner id
+     * Apply owner
      */
     _applyOwner : function(value, oldValue) {
       if (!this.__changingOwner) {
         throw new Error("Please use API methods to change owner, not the property");
       }
     },
-
+    
     /**
-     * apply object id
+     * Apply objectId
      */
     _applyObjectId : function(value, oldValue) {
-      if (this.getOwner() && !this.__changingOwner) {
-        throw new Error("Please use API methods to change owner ID, not the property");
+      if (!this.__changingOwner) {
+        var owner = this.getOwner();
+        if (owner) {
+          owner.__onOwnedObjectIdChange(this, value, oldValue);
+        }
+        this._cascadeObjectIdChanges();
       }
-      
+    },
+    
+    /**
+     * Called when a child's objectId changes
+     */
+    __onOwnedObjectIdChange: function(obj, newId, oldId) {
+      delete this.__ownedObjects[oldId];
+      this.__ownedObjects[newId] = obj;
+    },
+    
+    /**
+     * Reflect changes to IDs or owners
+     */
+    _cascadeObjectIdChanges: function() {
       if (typeof this.getContentElement == "function") {
         var contentElement = this.getContentElement();
         if (contentElement) {
           contentElement.updateObjectId();
+        }
+      }
+      if (this.__ownedObjects) {
+        for (var name in this.__ownedObjects) {
+          this.__ownedObjects[name]._cascadeObjectIdChanges();
         }
       }
     },
@@ -102,6 +124,16 @@ qx.Mixin.define("qx.core.MObjectId", {
         }
       }
       
+      // Separate out the child control ID
+      var controlId = null;
+      var pos = id.indexOf('#');
+      if (pos > -1) {
+        controlId = id.substring(pos + 1);
+        id = id.substring(0, pos);
+      }
+      
+      var result = undefined;
+      
       // Handle paths
       if (id.indexOf('/') > -1) {
         var segs = id.split('/');
@@ -119,16 +151,36 @@ qx.Mixin.define("qx.core.MObjectId", {
             return true;
           }
         });
-        return found ? target : undefined;
+        if (found) {
+          result = target;
+        }
+        
+      } else {
+        // No object, creating the object
+        result = this._createObject(id);
       }
       
-      // No object, creating the object
-      var obj = this._createObjectImpl(id);
-      if (obj !== undefined) {
-        this.addOwnedObject(obj, id);
+      if (result && controlId) {
+        var childControl = result.getChildControl(controlId);
+        return childControl;
       }
       
-      return obj;
+      return result;
+    },
+    
+    /**
+     * Creates the object and adds it to a list; most classes are expected to
+     * override `_createObjectImpl` NOT this method.
+     * 
+     * @param id {String} ID of the object
+     * @return {qx.core.Object?} the created object
+     */
+    _createObject: function(id) {
+      var result = this._createObjectImpl(id);
+      if (result !== undefined) {
+        this.addOwnedObject(result, id);
+      }
+      return result;
     },
     
     /**
@@ -141,7 +193,7 @@ qx.Mixin.define("qx.core.MObjectId", {
      * @return {qx.core.Object?} the created object
      */
     _createObjectImpl: function(id) {
-      return;  // Return undefined
+      return undefined;
     },
     
     /**
@@ -155,26 +207,29 @@ qx.Mixin.define("qx.core.MObjectId", {
         this.__ownedObjects = {};
       }
       var thatOwner = obj.getOwner();
-      if (thatOwner === this)
+      if (thatOwner === this) {
         return;
-      if (thatOwner)
-        thatOwner.removeOwnedObject(obj);
-      if (id === undefined) {
-        id = obj.getObjectId();
-      }
-      if (!id) {
-        throw new Error("Cannot register an object that has no ID, obj=" + obj);
-      }
-      if (this.__ownedObjects[id]) {
-        throw new Error("Cannot register an object with ID '" + id + "' because that ID is already in use, this=" + this + ", obj=" + obj);
-      }
-      if (obj.getOwner() != null) {
-        throw new Error("Cannot register an object with ID '" + id + "' because it is already owned by another object this=" + this + ", obj=" + obj);
       }
       obj.__changingOwner = true;
       try {
+        if (thatOwner) {
+          thatOwner.__removeOwnedObjectImpl(obj);
+        }
+        if (id === undefined) {
+          id = obj.getObjectId();
+        }
+        if (!id) {
+          throw new Error("Cannot register an object that has no ID, obj=" + obj);
+        }
+        if (this.__ownedObjects[id]) {
+          throw new Error("Cannot register an object with ID '" + id + "' because that ID is already in use, this=" + this + ", obj=" + obj);
+        }
+        if (obj.getOwner() != null) {
+          throw new Error("Cannot register an object with ID '" + id + "' because it is already owned by another object this=" + this + ", obj=" + obj);
+        }
         obj.setOwner(this);
         obj.setObjectId(id);
+        obj._cascadeObjectIdChanges();
       } finally {
         obj.__changingOwner = false;
       }
@@ -185,23 +240,26 @@ qx.Mixin.define("qx.core.MObjectId", {
      * Discards an object from the list of owned objects; note that this does
      * not dispose of the object, simply forgets it if it exists.
      * 
-     * @param id {String|Object} the ID of the object to discard, or the object itself
+     * @param args {String|Object} the ID of the object to discard, or the object itself
      */
-    removeOwnedObject: function(id) {
+    removeOwnedObject: function(args) {
       if (!this.__ownedObjects) {
         throw new Error("Cannot discard object because it is not owned by this, this=" + this + ", object=" + obj);
       }
       
-      if (typeof id === "string") {
-        if (id.indexOf('/') > -1) {
+      var id;
+      var obj;
+      if (typeof args === "string") {
+        if (args.indexOf('/') > -1) {
           throw new Error("Cannot discard owned objects based on a path");
         }
-        var obj = this.__ownedObjects[id];
+        id = args;
+        obj = this.__ownedObjects[id];
         if (obj === undefined) {
           return;
         }
       } else {
-        var obj = id;
+        obj = args;
         id = obj.getObjectId();
         if (this.__ownedObjects[id] !== obj) {
           throw new Error("Cannot discard object because it is not owned by this, this=" + this + ", object=" + obj);
@@ -211,12 +269,20 @@ qx.Mixin.define("qx.core.MObjectId", {
       if (obj !== null) {
         obj.__changingOwner = true;
         try {
-          obj.setOwner(null);
+          this.__removeOwnedObjectImpl(obj);
+          obj._cascadeObjectIdChanges();
         } finally {
           obj.__changingOwner = false;
         }
       }
-      delete this.__ownedObjects[id];
+    },
+    
+    __removeOwnedObjectImpl: function(obj) {
+      if (obj !== null) {
+        var id = obj.getObjectId();
+        obj.setOwner(null);
+        delete this.__ownedObjects[id];
+      }
     },
 
     /**

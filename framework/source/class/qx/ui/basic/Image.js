@@ -516,8 +516,8 @@ qx.Class.define("qx.ui.basic.Image",
       else if (ResourceManager.has(source)) {
         var highResolutionSource = this._findHighResolutionSource(source);
         if (highResolutionSource) {
-          var imageWidth = ResourceManager.getImageHeight(source);
-          var imageHeight = ResourceManager.getImageWidth(source);
+          var imageWidth = ResourceManager.getImageWidth(source);
+          var imageHeight = ResourceManager.getImageHeight(source);
           this.setWidth(imageWidth);
           this.setHeight(imageHeight);
 
@@ -995,11 +995,14 @@ qx.Class.define("qx.ui.basic.Image",
           }
         } else {
           // force re-apply to remove old decorator styles
-          el.setSource(null);
+          if (el.setSource){
+            el.setSource(null);
+          }
         }
       }
-
-      el.setSource(source);
+      if (el.setSource){
+        el.setSource(source);
+      }
     },
 
     /**
