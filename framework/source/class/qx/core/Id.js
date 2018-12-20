@@ -21,7 +21,6 @@
  */
 qx.Class.define("qx.core.Id", {
   extend: qx.core.Object,
-  include: [ qx.core.MObjectId ],
   type: "singleton",
   
   members: {
@@ -62,7 +61,7 @@ qx.Class.define("qx.core.Id", {
      * with a call to `qx.core.Id.getObject()`.
      * 
      * This will return null if it is not possible to calculate a path because one of the
-     * ancestors has a null `objectId`.
+     * ancestors has a null `qxObjectId`.
      * 
      * This will also return null if the top-most ancestor is not one of the globals registered
      * with `registerObject` or a known global (such as the application); however, by passing
@@ -75,12 +74,12 @@ qx.Class.define("qx.core.Id", {
      */
     getAbsoluteIdOf: function(obj, suppressWarnings) {
       if (this.__registeredIdHashes && this.__registeredIdHashes[obj.toHashCode()]) {
-        return obj.getObjectId();
+        return obj.getQxObjectId();
       }
       var segs = [];
       var application = qx.core.Init.getApplication();
       while (obj) {
-        var id = obj.getObjectId();
+        var id = obj.getQxObjectId();
         if (!id) {
           if (!suppressWarnings) {
             this.error("Cannot determine an absolute Object ID because one of the ancestor ObjectID's is null (got as far as " + segs.join('/') + ")");
@@ -88,7 +87,7 @@ qx.Class.define("qx.core.Id", {
           return null;
         }
         segs.unshift(id);
-        var owner = obj.getOwner();
+        var owner = obj.getQxOwner();
         if (owner) {
           // Find the ID of the owner, *if* it is registered as a top level object
           var ownerId = null;
@@ -130,7 +129,7 @@ qx.Class.define("qx.core.Id", {
         this.__registeredIdHashes = {};
       }
       if (!id) {
-        id = obj.getObjectId();
+        id = obj.getQxObjectId();
       }
       this.__registeredObjects[id] = obj;
       this.__registeredIdHashes[obj.toHashCode()] = id;

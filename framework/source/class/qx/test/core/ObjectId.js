@@ -43,7 +43,7 @@ qx.Class.define("qx.test.core.ObjectId", {
       Id.register(obj, "test");
       var txt = obj.getObject("txt");
       this.assertTrue(txt === obj.getObject("txt"));
-      this.assertTrue(txt.getObjectId() === "txt");
+      this.assertTrue(txt.getQxObjectId() === "txt");
       this.assertTrue(Id.getObject("test") === obj);
       this.assertTrue(Id.getObject("test/txt") === txt);
       
@@ -52,7 +52,7 @@ qx.Class.define("qx.test.core.ObjectId", {
       this.assertTrue(txt !== txt2);
       this.assertTrue(txt2 === obj.getObject("txt"));
       
-      txt.setObjectId("txt-orig");
+      txt.setQxObjectId("txt-orig");
       obj.addOwnedObject(txt);
       this.assertTrue(txt === obj.getObject("txt-orig"));
 

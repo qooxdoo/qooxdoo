@@ -63,15 +63,15 @@ qx.Class.define("objectid.Application", {
       
       var button_panel = new qx.ui.toolbar.ToolBar();
       
-      var btnPushMe = new qx.ui.toolbar.Button("Push Me (Tests #2)").set({ objectId: "pushMe" });
+      var btnPushMe = new qx.ui.toolbar.Button("Push Me (Tests #2)").set({ qxObjectId: "pushMe" });
       btnPushMe.addListener("appear", function() {
         button_panel.addOwnedObject(btnPushMe);
-        button_panel.setObjectId("buttons");
+        button_panel.setQxObjectId("buttons");
         qx.core.Id.getInstance().register(button_panel);
       });
       button_panel.add(btnPushMe);
       
-      var btnSomeButton = new qx.ui.toolbar.Button("Some Button").set({ objectId: "someButton" });
+      var btnSomeButton = new qx.ui.toolbar.Button("Some Button").set({ qxObjectId: "someButton" });
       btnSomeButton.addListener("appear", function() {
         button_panel.addOwnedObject(btnSomeButton);
       });
@@ -92,12 +92,12 @@ qx.Class.define("objectid.Application", {
         var id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/pushMe");
         
-        button_panel.setObjectId("buttons_renamed");
+        button_panel.setQxObjectId("buttons_renamed");
         A.assertTrue(button_panel === Id.getObject("buttons"));
         id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/pushMe");
         
-        btnPushMe.setObjectId("pushMeToo");
+        btnPushMe.setQxObjectId("pushMeToo");
         id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/pushMeToo");
         
@@ -105,7 +105,7 @@ qx.Class.define("objectid.Application", {
         id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(!id);
         
-        btnPushMe.setObjectId(null);
+        btnPushMe.setQxObjectId(null);
         id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(!id);
         
