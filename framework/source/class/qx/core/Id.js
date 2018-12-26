@@ -31,16 +31,16 @@ qx.Class.define("qx.core.Id", {
     /*
      * @Override
      */
-    _createObject: function(id) {
+    _createQxObject: function(id) {
       // Create the object, but don't add it to the list of owned objects
-      var result = this._createObjectImpl(id);
+      var result = this._createQxObjectImpl(id);
       return result;
     },
     
     /*
      * @Override
      */
-    _createObjectImpl: function(id) {
+    _createQxObjectImpl: function(id) {
       if (this.__registeredObjects) {
         var obj = this.__registeredObjects[id];
         if (obj !== undefined) {
@@ -58,7 +58,7 @@ qx.Class.define("qx.core.Id", {
     
     /**
      * Returns an object path which can be used to locate an object anywhere in the application
-     * with a call to `qx.core.Id.getObject()`.
+     * with a call to `qx.core.Id.getQxObject()`.
      * 
      * This will return null if it is not possible to calculate a path because one of the
      * ancestors has a null `qxObjectId`.
@@ -133,7 +133,7 @@ qx.Class.define("qx.core.Id", {
       }
       this.__registeredObjects[id] = obj;
       this.__registeredIdHashes[obj.toHashCode()] = id;
-      obj._cascadeObjectIdChanges();
+      obj._cascadeQxObjectIdChanges();
     },
     
     /**
@@ -162,7 +162,7 @@ qx.Class.define("qx.core.Id", {
       if (obj) {
         delete this.__registeredObjects[id];
         delete this.__registeredIdHashes[obj.toHashCode()];
-        obj._cascadeObjectIdChanges();
+        obj._cascadeQxObjectIdChanges();
         return true;
       }
       
@@ -178,8 +178,8 @@ qx.Class.define("qx.core.Id", {
      * @param id {String} the ID to look for
      * @return {qx.core.Object?} the object
      */
-    getObject: function(id) {
-      return this.getInstance().getObject(id);
+    getQxObject: function(id) {
+      return this.getInstance().getQxObject(id);
     },
     
     /**
