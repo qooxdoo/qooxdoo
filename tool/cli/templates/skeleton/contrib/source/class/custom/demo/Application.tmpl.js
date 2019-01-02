@@ -50,7 +50,7 @@ qx.Class.define("${namespace}.demo.Application",
       */
 
       // Create a button
-      var button1 = new ${namespace}.Button("Very special button", "${namespace}/test.png");
+      var button1 = new ${namespace}.Button("Very special button", "${namespace_as_path}/test.png");
 
       // Document is the application root
       var doc = this.getRoot();

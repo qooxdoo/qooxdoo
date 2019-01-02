@@ -11,7 +11,7 @@
 /**
  * This is the main application class of "${name}"
  *
- * @asset(${namespace}/*)
+ * @asset(${namespace_as_path}/*)
  */
 qx.Class.define("${namespace}.Application",
 {
@@ -54,7 +54,7 @@ qx.Class.define("${namespace}.Application",
       */
 
       // Create a button
-      var button1 = new qx.ui.form.Button("Click me", "${namespace}/test.png");
+      var button1 = new qx.ui.form.Button("Click me", "${namespace_as_path}/test.png");
 
       // Document is the application root
       var doc = this.getRoot();

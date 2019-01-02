@@ -40,80 +40,87 @@ const fs = require("fs");
  * @param argv {Object} The calling command class' yargs argv object
  * @param data {Object} Additional data
  */
-module.exports = function(argv, data){
+module.exports = function (argv, data) {
   return {
-    "type" : {
+    "type": {
       "type": "list", // doesn't support validation
       "choices": qx.tool.cli.commands.Create.getSkeletonNames(),
-      "description" : "type of the application:",
-      "value" : argv.type,
-      "default" : "desktop"
-    },  
-    "namespace" : {
-      "description" : "the namespace of the application",
-      "default" : argv.applicationnamespace.replace(/[-.]/g,"_")
+      "description": "type of the application:",
+      "value": argv.type,
+      "default": "desktop"
     },
-    "out" : {
-      "description" : "the output directory for the application content (use '.' if no subdirectory should be created)",
-      "value" : argv.out,
-      "default" : path.join( process.cwd() , argv.applicationnamespace )
-    },      
-    "name" : {
-      "description" : "the name of the application",
-      "optional" : true,
-      "value" : argv.name,
-      "default" : argv.applicationnamespace,
+    "namespace": {
+      "description": "the namespace of the application",
+      "default": argv.applicationnamespace
     },
-    "summary" : {
-      "description" : "a short summary of what the application does",
-      "optional" : true
+    "out": {
+      "description": "the output directory for the application content (use '.' if no subdirectory should be created)",
+      "value": argv.out,
+      "default": path.join(process.cwd(), argv.applicationnamespace)
     },
-    "description" : {
-      "description" : "a longer description of the features of the application",
-      "optional" : true
+    "name": {
+      "description": "the name of the application",
+      "optional": true,
+      "value": argv.name,
+      "default": argv.applicationnamespace,
     },
-    "authors" : {
-      "description" : "the name of the authors, in the following format: full name (github-id) email-address, divided by comma",
-      "optional" : true
+    "summary": {
+      "description": "a short summary of what the application does",
+      "optional": true
     },
-    "locales" : {
-      "description" : "the locales the application uses, as language codes (en, de, fr, etc.), divided by comma",
-      "default" : "en"
+    "description": {
+      "description": "a longer description of the features of the application",
+      "optional": true
     },
-    "homepage" : {
-      "description" : "a webpage with more information on the application",
-      "optional" : true
-    },      
-    "license" : {
-      "description" : "the license of the application",
-      "default" : "MIT license"
+    "authors": {
+      "description": "the name of the authors, in the following format: full name (github-id) email-address, divided by comma",
+      "optional": true
     },
-    "year" : {
-      "description" : "the year(s) of the copyright",
-      "optional" : true,
-      "default" :  (new Date).getFullYear(),
+    "locales": {
+      "description": "the locales the application uses, as language codes (en, de, fr, etc.), divided by comma",
+      "default": "en"
     },
-    "copyright_holder" : {
-      "description" : "the holder of the copyright for the code",
-      "optional" : true
-    },   
-    "version" : {
-      "description" : "the version of the application, in semver format",
-      "default" : "1.0.0"
+    "homepage": {
+      "description": "a webpage with more information on the application",
+      "optional": true
     },
-    "qooxdoo_range" : {
-      "description" : "the semver range of qooxdoo versions that are compatible with this application",
-      "default" : function() {
+    "license": {
+      "description": "the license of the application",
+      "default": "MIT license"
+    },
+    "year": {
+      "description": "the year(s) of the copyright",
+      "optional": true,
+      "default": (new Date).getFullYear(),
+    },
+    "copyright_holder": {
+      "description": "the holder of the copyright for the code",
+      "optional": true
+    },
+    "version": {
+      "description": "the version of the application, in semver format",
+      "default": "1.0.0"
+    },
+    "qooxdoo_range": {
+      "description": "the semver range of qooxdoo versions that are compatible with this application",
+      "default": function () {
         return "^" + data.qooxdoo_version;
-      }  
+      }
     },
     "theme": {
-      "description" : "the theme of the application",
-      "default" : argv.theme
+      "description": "the theme of the application",
+      "default": argv.theme
     },
     "icon_theme": {
-      "description" : "the icon theme of the application",
-      "default" : argv.icontheme
-    },    
+      "description": "the icon theme of the application",
+      "default": argv.icontheme
+    },
+    "namespace_as_path": {
+      "value": function () {
+        return function () {
+          return this.namespace.replace(/\./g, "/");
+        }.bind(this)
+      }
+    }
   }
 }
