@@ -47,7 +47,7 @@ This is a sample file:
   "externalResources" :
   {
     "script": [
-      "js/customscript.js",
+      "js/customscript.js"
     ],
     "css": [
       "styles/style.css"
