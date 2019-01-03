@@ -13,7 +13,7 @@
  *
  * If you have added resources to your app, remove the first '@' in the
  * following line to make use of them.
- * @@asset(${namespace}/*)
+ * @@asset(${namespace_as_path}/*)
  *
  */
 qx.Class.define("${namespace}.Application",

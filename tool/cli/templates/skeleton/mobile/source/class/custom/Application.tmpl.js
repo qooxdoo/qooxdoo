@@ -11,7 +11,7 @@
 /**
  * This is the main application class of your custom application "${Name}"
  *
- * @asset(${namespace}/*)
+ * @asset(${namespace_as_path}/*)
  */
 qx.Class.define("${namespace}.Application",
 {
