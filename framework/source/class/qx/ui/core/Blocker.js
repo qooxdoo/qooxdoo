@@ -274,7 +274,7 @@ qx.Class.define("qx.ui.core.Blocker",
         activeWidget.deactivate();
       }
 
-      if (focusedWidget) {
+      if (focusedWidget && focusedWidget.isFocusable()) {
         focusedWidget.blur();
       }
     },
