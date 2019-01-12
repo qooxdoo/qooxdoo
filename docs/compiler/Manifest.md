@@ -28,9 +28,7 @@ This is a sample file:
         "email" : "first.author@some.domain"
       }
     ],
-
     "version" : "trunk",
-    "qooxdoo-versions": ["trunk"],
     "sourceViewUri" : "https://github.com/someuser/custom/blob/master/source/class/%{classFilePath}#L%{lineNumber}"
   },
 
@@ -41,9 +39,15 @@ This is a sample file:
     "class"       : "source/class",
     "resource"    : "source/resource",
     "translation" : "source/translation",
-    "type"        : "application"
+    "type"        : "application",
+    "application": 
+    {
+      "class": "qxl.apiviewer.Application",
+      "theme": "qxl.apiviewer.Theme",
+      "name": "apiviewer",
+      "title": "Qooxdoo API Viewer"
+    }  
   },
-
   "externalResources" :
   {
     "script": [
@@ -52,6 +56,12 @@ This is a sample file:
     "css": [
       "styles/style.css"
     ]
+  },
+  "requires": 
+  {
+     "qooxdoo-sdk": "^6.0.0-alpha",
+     "qooxdoo-compiler": "^0.2.40",
+     "qooxdoo/contrib": "^0.1.1"
   }
 }
 ```
@@ -79,7 +89,15 @@ This is a sample file:
   * **translation**: Path to the library's translation files relative to the Manifest.json file (e.g. `source/translation`).
   * [**webfonts**]: [see here](IconFonts.md) 
   * **type**: One of [`library`, `application`, `add-in`,`contribution`]. 
+  * **application**: An application description block as described in 
+        [compiler.json](../cli/compile-json.md). This block will copied to `applications` section in `compile.json` during installation of the contrib.
+
   * **externalResources**: Static Javascript and CSS files that shall be always included without further processing by qooxdoo. All paths are relative to the resource folder stated in the "provides" section.
   * **script**: Array of javascript files.
   * **css**: Array of css files.
-
+-   **requires**: a list of of needed libraries and contribs. Format is 
+     `contrib_uri`: `needed_version` where `needed_version` is a semver compatible version description.
+     
+     Special handling for:
+     * qooxdoo-sdk: This checks the version of the used qooxdoo sdk.
+     * qooxdoo-compiler: This checks the version of the used qooxdoo compiler.

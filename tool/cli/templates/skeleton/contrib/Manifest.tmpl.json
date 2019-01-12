@@ -11,8 +11,7 @@
     "license" : "${license}",
     "authors" : ${author_map},
 
-    "version" : "${version}",
-    "qooxdoo-range": "${qooxdoo_range}"
+    "version" : "${version}"
   },
   
   "provides" : 
@@ -23,5 +22,10 @@
     "resource"    : "source/resource",
     "translation" : "source/translation",
     "type"        : "contribution"
+  },
+
+  "requires": {
+    "qooxdoo-sdk"     : "${qooxdoo_range}",
+    "qooxdoo-compiler": "${compiler_range}"
   }
 }

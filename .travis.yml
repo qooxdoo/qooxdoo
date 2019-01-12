@@ -2,7 +2,8 @@ language: node_js
 node_js:
 - "stable"
 # - lts/* # once we support on-the-fly transpilation
-  
+
+
 stages:
   - name: test
   - name: deploy
