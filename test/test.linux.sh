@@ -25,11 +25,11 @@ qx contrib remove oetiker/UploadWidget -v || exit $?
 qx contrib remove ergobyte/qookery/qookeryace -v || exit $?
 qx contrib remove ergobyte/qookery/qookerymaps -v || exit $?
 qx compile -v --clean || exit $?
-node source-output\myapp\myapp.js || exit $?
+node source-output/myapp/myapp.js || exit $?
 # test install without manifest
 qx contrib install ergobyte/qookery -v || exit $?
 qx compile -v --clean || exit $?
-node source-output\myapp\myapp.js || exit $?
+node source-output/myapp/myapp.js || exit $?
 # test add class and add script
 qx add class myapp.Window --extend=qx.ui.window.Window || exit $?
 qx add script ../testdata/npm/script/jszip.js --rename=zip.js || exit $?
