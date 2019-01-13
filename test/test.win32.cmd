@@ -21,6 +21,12 @@ call qx compile -v --clean || EXIT /B 1
 call node source-output\myapp\myapp.js || EXIT /B 1
 :: test remove contrib
 call qx contrib remove oetiker/UploadWidget -v || EXIT /B 1
+call qx contrib remove ergobyte/qookery/qookeryace -v || EXIT /B 1
+call qx contrib remove ergobyte/qookery/qookerymaps -v || EXIT /B 1
+call qx compile -v --clean || EXIT /B 1
+call node source-output\myapp\myapp.js || EXIT /B 1
+:: test install without manifest
+call qx contrib install ergobyte/qookery -v || EXIT /B 1
 call qx compile -v --clean || EXIT /B 1
 call node source-output\myapp\myapp.js || EXIT /B 1
 :: test add class and add script
