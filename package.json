@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cross-os test.os",
+    "install": "npm update qooxdoo-sdk",
     "compileWebSite": "cd tool/cli/serve && node compile.js"
   },
   "cross-os": {

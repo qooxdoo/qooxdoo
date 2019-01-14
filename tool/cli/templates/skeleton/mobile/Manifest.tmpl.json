@@ -11,8 +11,7 @@
     "license" : "${license}",
     "authors" : ${author_map},
 
-    "version" : "${version}",
-    "qooxdoo-range": "${qooxdoo_range}"
+    "version" : "${version}"
   },
   
   "provides" : 
@@ -30,5 +29,10 @@
         "css": [
           "${namespace}/css/custom.css"
         ]
-   }
+  },
+  
+  "requires": {
+    "qooxdoo-sdk"     : "${qooxdoo_range}",
+    "qooxdoo-compiler": "${compiler_range}"     
+  }
 }
