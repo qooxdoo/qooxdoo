@@ -8,7 +8,7 @@ node source-output/myapp/myapp.js || exit $?
 # test add contrib
 qx contrib update  -v|| exit $?
 qx contrib list    -v|| exit $?
-qx contrib install oetiker/UploadWidget -v || exit $?
+qx contrib install oetiker/UploadWidget -v --release v1.0.1 || exit $?
 qx contrib install cboulanger/qx-contrib-Dialog -v || exit $?
 qx contrib install johnspackman/UploadMgr -v || exit $?
 qx contrib install ergobyte/qookery/qookeryace -v || exit $?
