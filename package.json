@@ -78,7 +78,7 @@
   "devDependencies": {
     "cross-os": "^1.2.2",
     "dot": "^1.1.2",
-    "eslint-config-qx": "^0.1.0",
+    "eslint-config-qx": "^0.2.1",
     "jstransformer-dot": "^0.1.2",
     "metalsmith": "^2.3.0",
     "metalsmith-filenames": "^1.0.0",
