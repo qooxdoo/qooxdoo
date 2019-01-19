@@ -6,7 +6,7 @@
     "test": "cross-os test.os",
     "install": "npm update qooxdoo-sdk",
     "compileWebSite": "cd tool/cli/serve && node compile.js",
-    "eslint": "eslint --cache"
+    "lint": "eslint lib"
   },
   "cross-os": {
     "test.os": {
@@ -66,6 +66,8 @@
     "node-sass": "^4.10.0",
     "qooxdoo": "^6.0.0-alpha",
     "qooxdoo-sdk": "^6.0.0-alpha-20181226-a3c2b0b",
+    "eslint-config-qx": "^0.2.3",
+    "eslint-plugin-qx-rules": "^0.1.0",
     "rimraf": "^2.6.2",
     "semver": "^5.6.0",
     "tmp": "0.0.33",
@@ -77,8 +79,6 @@
   "devDependencies": {
     "cross-os": "^1.2.2",
     "dot": "^1.1.2",
-    "eslint-config-qx": "^0.2.2",
-    "eslint-plugin-qx-rules": "^0.1.0",
     "jstransformer-dot": "^0.1.2",
     "metalsmith": "^2.3.0",
     "metalsmith-filenames": "^1.0.0",
