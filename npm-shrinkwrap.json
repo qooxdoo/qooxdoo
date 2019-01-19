@@ -1830,9 +1830,9 @@
       }
     },
     "es5-ext": {
-      "version": "0.10.46",
-      "resolved": "https://registry.npmjs.org/es5-ext/-/es5-ext-0.10.46.tgz",
-      "integrity": "sha512-24XxRvJXNFwEMpJb3nOkiRJKRoupmjYmOPVlI65Qy2SrtxwOTB+g6ODjBKOtwEHbYrhWRty9xxOWLNdClT2djw==",
+      "version": "0.10.47",
+      "resolved": "https://registry.npmjs.org/es5-ext/-/es5-ext-0.10.47.tgz",
+      "integrity": "sha512-/1TItLfj+TTfWoeRcDn/0FbGV6SNo4R+On2GGVucPU/j3BWnXE2Co8h8CTo4Tu34gFJtnmwS9xiScKs4EjZhdw==",
       "dev": true,
       "requires": {
         "es6-iterator": "~2.0.3",
@@ -2088,9 +2088,9 @@
       }
     },
     "eslint-config-qx": {
-      "version": "0.2.1",
-      "resolved": "https://registry.npmjs.org/eslint-config-qx/-/eslint-config-qx-0.2.1.tgz",
-      "integrity": "sha512-hjAdop5LG6wqabwSJ2LSbIKIGZd+qABr39UyO5mLQax731P1RDVTe+CPmr1G8Bq2MDwykXpV9mTk4SetSrDPIQ==",
+      "version": "0.2.2",
+      "resolved": "https://registry.npmjs.org/eslint-config-qx/-/eslint-config-qx-0.2.2.tgz",
+      "integrity": "sha512-6ABK3DGUpUHqi04+htCZ7k3zJNUeUNCjHHMSrCfwxQifBrr4eP+nZyxqN+w1JFn5Yko9Kqa4GzvSAvYf3N9j4Q==",
       "dev": true,
       "requires": {
         "eslint": "^3.19.0",
@@ -2323,7 +2323,8 @@
     "eslint-plugin-qx-rules": {
       "version": "0.1.0",
       "resolved": "https://registry.npmjs.org/eslint-plugin-qx-rules/-/eslint-plugin-qx-rules-0.1.0.tgz",
-      "integrity": "sha512-TmldxfvDvatPOtJxr1lFJsC0dTg3idZ3svQwRoR01zoZW7mJvBWxBGHeITUuH7qw9BcNPdyF4cV1fzUXejBvPg=="
+      "integrity": "sha512-TmldxfvDvatPOtJxr1lFJsC0dTg3idZ3svQwRoR01zoZW7mJvBWxBGHeITUuH7qw9BcNPdyF4cV1fzUXejBvPg==",
+      "dev": true
     },
     "eslint-scope": {
       "version": "3.7.1",
