@@ -4,6 +4,7 @@
 /test/
 /source/script/
 source-output/
+output/
 db.json
 resource-db.json
 

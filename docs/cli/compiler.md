@@ -9,7 +9,7 @@ qx compile [options] [configFile]
 
 Options:
   --all-targets             Compile all targets in config file         [boolean]
-  --target                  Set the target type: source, build, hybrid or class
+  --target                  Set the target type: source or build or class
                             name                    [string] [default: "source"]
   --output-path             Base path for output                        [string]
   --locale                  Compile for a given locale                   [array]
