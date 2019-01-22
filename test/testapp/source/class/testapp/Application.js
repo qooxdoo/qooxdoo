@@ -53,7 +53,11 @@ qx.Class.define("testapp.Application", {
       // Call super class
       this.base(arguments);
       
-      console.log(undefinedValue);
+      try {
+        console.log(undefinedValue);
+      }catch(ex) {
+        console.log("Found intentionally uindefined value");
+      }
 
       // Enable logging in debug variant
       if (qx.core.Environment.get("qx.debug")) {

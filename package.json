@@ -58,7 +58,6 @@
     "fontkit": "^1.7.7",
     "gauge": "^2.7.4",
     "github-api": "^3.0.0",
-    "glob": "^7.1.3",
     "image-size": "^0.6.3",
     "inquirer": "^6.2.0",
     "json-to-ast": "git+https://github.com/johnspackman/json-to-ast.git#editable-json",

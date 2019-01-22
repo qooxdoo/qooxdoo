@@ -21,7 +21,6 @@ qx.Class.define("testapp.test.TestInnerClasses", {
       var obj = new clazz();
       obj.toHashCode();
       qx.core.Assert.assertTrue(true);
-      this.base(arguments);
     }
   }
 });
