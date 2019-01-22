@@ -83,7 +83,7 @@ A complete example is:
 
 ## Targets
 The `targets` key is an array of objects, one for each possible target that can be compiled.  Each object can contain:
-- `type` - this is either "source", "build", "hybrid" or a class name in `qooxdoo-compiler`; using a class name is advanced usage, but ultimately the standard names just shortcuts to class names anyway ("source" is `qxcompiler.targets.SourceTarget`, etc)
+- `type` - this is either "source", "build", or a class name in `qooxdoo-compiler`; using a class name is advanced usage, but ultimately the standard names just shortcuts to class names anyway ("source" is `qxcompiler.targets.SourceTarget`, etc)
 - `outputPath` the folder where the compilation outputs to, and will be created if it does not already exist
 - `targetClass` - (**optional**) see below 
 - `uri` - (**optional**) this sets the URI used to access the target output directory, i.e. the directory which will contain `resources/` and `transpiled/`.  
@@ -142,6 +142,23 @@ targets: [
    }
 ]
 ```
+
+### Bundling source files together (previous called Hybrid Targets)
+In addition to source or build targets, the generator (ie not QxCompiler) supports hybrid targets which is effectively a source target but with the ability combine multiple source files into a larger javascript file - this can have a significant reduction on the time it takes to load an application during development, especially if the application is running via a webserver.
+
+The equivalent in QxCompiler is to specify the `bundle`, which you can do globally or on a per-application basis.  The `bundle` allows
+you to use wildcards to select classes which are to be bundled together into as few files as possible - a common choice would be to
+include `qx.*` in the bundle, and leave your own application code to be loaded as individual files.
+
+Here's an example which includes most of the Qooxdoo framework, plus some other classes but excludes `qx.util.*` classes from bundling together.  
+
+```
+    "bundle": {
+       "include": [ "qx.*", "myapp.some.package.*" ],
+       "exclude": [ "qx.util.*" ]
+    },
+```
+
 
 ## Libraries
 

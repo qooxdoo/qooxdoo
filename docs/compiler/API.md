@@ -25,8 +25,10 @@ their dependency information until it has a complete set of classes to output.
 
 ## Target (``qxcompiler.targets.*``)
 
-When creating an Application, QxCompiler assembles the code according to a Target - currently these are SourceTarget,
-BuildTarget, and HybridTarget and they correspond to the "build", "source" and "source-hybrid" targets in generate.py.
+When creating an Application, QxCompiler assembles the code according to a Target - currently these are SourceTarget and
+BuildTarget and they correspond to the "build" and "source" targets in generate.py.
+
+**NOTE** that Hybrid targets do not exist any more - please see the `bundles` setting in `compile.json`
 
 ## Maker (``qxcompiler.makers.*``)
 

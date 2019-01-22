@@ -91,56 +91,56 @@ The list displays the names of the repositories and the names of the contained
 contrib libraries that will be installed.
 
 You can then install any contrib library from this list by executing `qx contrib
-install <repository name>`. Note that you that the installation happens at the
-_repository level_, i.e. you can only install all the libraries from that
-repository at once, although you may manually disable individual ones in the
-`contrib.json file` by deleting their entry.
+install <URI>`. The URI takes the form `github_user/repository[/path]`: the first
+part is the name of a repository on GitHub, which is enough if the `Manifest.json`
+of the library is in the root of the repository. Otherwise, the path to the 
+manifest within the repository is appended. In the case that a repository contains
+several libraries (see below) all of them will be installed if the URI points to 
+the root of a repository. 
 
-When a new major version of qooxdoo is released, you might get very few hits, if
-any at all. This might be because the contrib library authors have not yet
-created a release of their library that indicates its compatibility with that
-qooxdoo version, even though technically, they are compatible. In order to
-install these contributions, you need to do the following:
+As noted, `qx contrib list` shows only the contribs that are compatible with the
+qooxdoo framework version used as per the semver range in the `require.qooxdoo-sdk`
+key in their `Manifest.json`. To install libraries that are not listed for this 
+reason anyways, do the following:
 
 ```
 qx contrib list --all # this will list all available contribs, regardless of compatibility
-qx contrib install <repo name> --release <name of the most recent/selected release tag>
+qx contrib install <URI@release_tag> 
 ```
 
 ### Remove a contrib library
 
-If you no longer need a contrib library, simply execute `qx contrib remove <repo
-name>`. Please note again that this affects _all_ the libraries contained in
-this repository.
+If you no longer need a contrib library, simply execute `qx contrib remove <URI>`. 
+Please note that this affects _all_ the libraries contained in  a repository, 
+unless you specify the directory path to a particular `Manifest.json`.
 
 ## Create a new contrib library project
 
 If you are starting a new qooxdoo project and you plan on publishing it as a
 contrib library, the CLI is there to help you. Please proceed as follows:
 
-1. Choose a name for your contribution. We suggest to use a name with unique
-global variable name, under which you put all your contributions. Our
-recommendation is to use the following pattern: `gh.<github user name>.<repo
-name>`, i.e. for example, `gh.janedoe.helloworld` ("gh" being the abbreviation
-for "github", indicating that the repository are hosted there under the given
-username). But you can also use a global name that identifies your organization,
-or any other top-level namespace.
+1. Choose a name for your contribution, which should be identical to the 
+namespace under which you put your library classes. We suggest to use a namespace
+with unique global variable name, under which you put all your contributions. Our
+recommendation is to use the following pattern: `<github user name>.<repo
+name>`, i.e. for example, `janedoe.helloworld`. But you can also use a 
+name that identifies your organization, or any other top-level namespace.
 
 2. Create a new empty repository on GitHub (it shouldn't contain a readme).
 Using the example from 1), user "janedoe" would create the repo "helloworld" for
-the contrib `gh.janedoe.helloworld`.
+the contrib with the name/namespace `janedoe.helloworld`.
 
 3. Clone that repository to your local machine, open a terminal and `cd` into 
 the repository's folder 
 
-4. Execute `qx create <library namespace> --type contrib`. You will be asked 
+4. Execute `qx create <namespace> --type contrib`. You will be asked 
 for more information on the contrib library. When asked to provide the output 
 directory for the application content, enter "." (dot) so that no subdirectory
 is created. `Manifest.json` and the `source` folder should be at the top 
 level of the repository.
 
-5. Work on the library and, if possible, provide a running demo application in 
-the `demo` folder. 
+5. Work on the library and, if possible, provide a running demo application. In 
+our example, the demo app is in `source/class/janedoe/helloworld/demo` folder. 
 
 6. When ready, publish your new contrib (see below). 
 
@@ -168,7 +168,7 @@ You need to supply a valid GitHub token which has permissions to publish your
 repo - if you're provided one before it will have been stored, and you can find
 out what the token is and set a new one with these commands:
 
-```
+```bash
    $ qx config set github.token 0123456789abcdef0123456789abcdef0123456789abcdef
    $ qx config get github.token
    github.token=0123456789abcdef0123456789abcdef0123456789abcdef
@@ -185,8 +185,8 @@ push it to the master branch before releasing the new version.
 - The repository **must** have a [GitHub topic](https://help.github.com/articles/about-topics/) 
 `qooxdoo-contrib` in order to be found and listed.
   
-- The tool will only show **[releases](https://help.github.com/articles/about-releases/)** 
-not branches. The releases (tags) **should** be named in  [semver-compatible format](http://semver.org/) 
+- The tool will only show **[releases](https://help.github.com/articles/about-releases/)**. 
+The releases (tags) **should** be named in  [semver-compatible format](http://semver.org/) 
 (X.Y.Z). They **can** start with a "v" (for "version").
 
 - In order to be installable, the library manifests must be placed in the
@@ -200,22 +200,20 @@ repository in one of the following ways:
   the `Manifest.json` file outside of the root directory, you must provide a
   `qooxdoo.json` file in the root dir (see below)
 
-- Make sure to keep the "requires.qooxdoo-sdk" key up to date (see below).
-
 ### qooxdoo.json
 
 This file in the root of the repository allows the inclusion and discovery of 
 multiple libraries in this repo. It has the  following syntax:
      
-```
+````json5
 {
   "libraries": [
    { "path":"relative-path/to/dir-containing-manifest1" },
    { "path":"relative-path/to/dir-containing-manifest2" },
-   ...
+   //...
  ]
 }
-``` 
+````
 
 ## Install contribs automatically
 
@@ -223,9 +221,7 @@ When you install contribs for your projects, they will be saved in the
 `contrib.json` file. If you commit this file, anyone who checks out the source
 code can then automatically install all the contribs in the specific version
 using `qx contrib install` (without arguments). This is also useful in
-installation or build scripts. Note that at this point, this will not install the
-dependencies of these contribs automatically. You will have to take care of that
-yourself.
+installation or build scripts.
 
 ## Contribution compatibility and dependency management
 
@@ -243,7 +239,7 @@ example](https://github.com/qooxdoo/qxl.widgetbrowser/blob/master/Manifest.json#
 `qooxdoo-versions` takes an array of version numbers. You need to specify each
 and every version that you want to support, and any new qooxdoo version will
 break compatibility. This is part of the original, now defunct contrib system.
-It will be supported for some time, but might be deprecated in the future.
+It will be supported for version 6, but will be removed in version 7.
 
 We strongly suggest to use the `requires.qooxdoo-sdk` key instead, which takes a
 [semver range string](https://github.com/npm/node-semver#ranges). This allows
@@ -255,13 +251,12 @@ change (which is guaranteed by the semver specs), using `5.0.2 - 6.x` as the
 generated by semver strictly, and the compiler will enforce these compatibility
 restraints.
 
-In future versions, contribs can also declare their *dependencies* on other
-contribs. Currently, all necessary contribs will have to be declared in the
-application's `contrib.json` by first installing them with `qx contrib install
-<repo/name>`and then committing `contrib.json` to the project's repository. When
-a project is first compiled, you need to run `qx contrib install` (with no
-further arguments) to download the contribs from GitHub.
-
+The easiest way to keep the "requires.qooxdoo-sdk" key in `Manifest.json` up to 
+date is to prepend the qooxdoo version that the library depends on
+with an "^" which indicates that the contrib will work with that version upwards
+until the version with a breaking change (which increments the major version). 
+For example, a contrib that depends on `"qooxdoo-sdk":"^6.0.0-alpha"` will be 
+considered compatible with all 6.x versions, but not with v7.x.
 
 ## Contribs as Applications
 
@@ -276,7 +271,8 @@ command can be used to run both applications.
 To declare that a contrib provides an application, add an `application` key to
 the `Manifest.json` - for example:
 
-```
+```json5
+{
     "provides": {
         "namespace": "apiviewer",
         "encoding": "utf-8",
@@ -294,6 +290,7 @@ the `Manifest.json` - for example:
             "exclude": [ "qx.test.*", "qx.module.Blocker", "qx.module.Placement" ]
         }
     }
+}
 ```
 
 That `application` is copied into the `compile.json`'s `applications` key as a
@@ -309,10 +306,8 @@ the compiler.
 a) Since the compiler is an NPM module, one might ask why we aren't using NPM
 for qooxdoo contribs. Why create an additional module system? qooxdoo-contrib is
 similar to NPM, but works different. It is based directly on GitHub releases
-because that is where most qooxdoo code is developed and published. NPM has a
-different use case in mind: NPM is for _managing dependencies_, whereas the
-qooxdoo contrib tools mainly _check compatibility_. Dependeny management might
-be added to `qx contrib` later.
+because that is where most qooxdoo code is developed and published. It is planned
+to support other repository providers in the future.
 
 b) Under normal circumstances, a contrib does not need to use NPM
 or maintain a `package.json` file. In particular, neither the `qxcompiler` nor

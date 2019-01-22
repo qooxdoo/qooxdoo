@@ -1,10 +1,8 @@
 js/source-output
-js/hybrid-output
 js/build-output
 js/db.json
 js/resource-db.json
 json/source-output
-json/hybrid-output
 json/build-output
 json/db.json
 json/resource-db.json
