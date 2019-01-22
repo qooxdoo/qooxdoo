@@ -365,6 +365,7 @@ function compile(data, callback) {
     let err = null;
 	callback(err, data);
 }
+
 ```
 
 If err is not null loading of the config file is rejected.
@@ -421,6 +422,84 @@ async function compile(data, callback) {
 }
 
 ```
+
+You can run special code on various steps of the build process if you add an event handler.
+Example:
+
+```
+function compile(data, callback) {
+  debugger;
+  this.addListener("made",  e => new qx.Promise((fullfiled) => {
+      debugger;
+      your_special_code;
+      fullfiled();
+    }));
+    callback(null, data);
+}
+```
+Here is a list of possible events, taken from `lib/qx/tool/cli/commands/Compile.js`:
+
+```
+    /*** fired when application writing starts */
+    "writingApplications": "qx.event.type.Event",
+    /** fired when writing of single application starts
+     *  data: app {Application}
+     */
+    "writingApplication": "qx.event.type.Data",
+    /** fired when writing of single application is written
+     *  data: app {Application}
+     */
+    "writtenApplication": "qx.event.type.Data",
+    /*** fired after writing of all applications */
+    "writtenApplications" :"qx.event.type.Event",
+
+    /** 
+     * Fired when a class is about to be compiled; data is a map:
+     * 
+     * dbClassInfo: {Object} the newly populated class info 
+     * oldDbClassInfo: {Object} the previous populated class info 
+     * classFile - {ClassFile} the qx.tool.compiler.ClassFile instance
+     */
+    "compilingClass": "qx.event.type.Data",
+    
+    /** 
+     * Fired when a class is compiled; data is a map:
+     * dbClassInfo: {Object} the newly populated class info 
+     * oldDbClassInfo: {Object} the previous populated class info 
+     * classFile - {ClassFile} the qx.tool.compiler.ClassFile instance
+     */
+    "compiledClass": "qx.event.type.Data",
+
+    /** 
+     * Fired when the database is been saved
+     * database: {Object} the database to save
+     */
+    "saveDatabase": "qx.event.type.Data",
+
+    /**
+     * Fired after all enviroment data is collected
+     *  application {qx.tool.compiler.app.Application} the app 
+     *  enviroment: {Object} enviroment data
+     */
+    "checkEnvironment": "qx.event.type.Data",
+
+    /**
+     * Fired when making of apps begins
+    */ 
+    "making": "qx.event.type.Event",
+
+    /**
+     * Fired when making of apps restarts because of 
+     * changes
+    */ 
+   "remaking": "qx.event.type.Event",
+
+    /**
+     * Fired when making of apps is done.
+    */ 
+   "made": "qx.event.type.Event"
+```
+
 
 
 
