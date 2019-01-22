@@ -65,7 +65,7 @@
     "node-sass": "^4.10.0",
     "qooxdoo": "^6.0.0-alpha",
     "qooxdoo-sdk": "^6.0.0-alpha-20181226-a3c2b0b",
-    "eslint-config-qx": "^0.2.3",
+    "eslint-config-qx": "^0.2.4",
     "eslint-plugin-qx-rules": "^0.1.0",
     "rimraf": "^2.6.2",
     "semver": "^5.6.0",
