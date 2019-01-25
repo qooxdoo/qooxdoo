@@ -7,6 +7,8 @@ exe npm -v
 #exe npm i npm@latest -g
 #exe npm -v
 
+# revert changes of npm update of qooxdoo-sdk
+exe git checkout -- .
 NEW_VERSION=$(npm version patch -m "[ci skip] new npm version: %s")
 echo "new version: $NEW_VERSION"
 git config --global user.email "travis@travis-ci.org"
