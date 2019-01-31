@@ -642,6 +642,36 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
       this.__a.setName(null);
       this.assertEquals(this.__a.getName(), this.__b2.getName());
+    },
+
+
+    /**
+     * Remove a deep binding that has a class in its binding that does not have a property in the chain.
+     */
+    testRemoveIncompleteBinding : function () {
+      var source = qx.data.marshal.Json.createModel({a: null});
+      var a = qx.data.marshal.Json.createModel({}); // a class that does not contain a property with name "b"
+      var target = qx.data.marshal.Json.createModel({result: null});
+
+      try {
+        source.bind('a.b', target, 'result');
+        source.setA(a);
+        source.removeAllBindings();
+      } catch (e) {
+        this.error(e);
+        this.assertTrue(false, e.message);
+      }
+
+      source = qx.data.marshal.Json.createModel({a: null});
+      source.setA(a);
+
+      try {
+        source.bind('a.b', target, 'result');
+        source.removeAllBindings();
+      } catch (e) {
+        this.error(e);
+        this.assertTrue(false, e.message);
+      }
     }
 
   }
