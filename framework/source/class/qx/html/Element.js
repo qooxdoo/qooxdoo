@@ -800,8 +800,8 @@ qx.Class.define("qx.html.Element",
       // Copy Object Id
       if (qx.core.Environment.get("module.objectid")) {
         var id = null;
-        if (this.__widget && this.__widget.getObjectId()) {
-          id = qx.core.Id.getAbsoluteIdOf(this.__widget, false) || null;
+        if (this.__widget && this.__widget.getQxObjectId()) {
+          id = qx.core.Id.getAbsoluteIdOf(this.__widget, true) || null;
         }
         this.setAttribute("data-qx-object-id", id, true);
       }

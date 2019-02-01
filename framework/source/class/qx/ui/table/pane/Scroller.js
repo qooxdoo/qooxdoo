@@ -1298,12 +1298,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       this.getApplicationRoot().setGlobalCursor(null);
       this.setCursor(null);
-
-      // handle edit cell if available
-      if (this.isEditing()) {
-        var height = this._cellEditor.getBounds().height;
-        this._cellEditor.setUserBounds(0, 0, this.__lastResizeWidth, height);
-      }
     },
 
 
@@ -1895,10 +1889,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         }
         else
         {
-          // The cell editor is a traditional in-place editor.
-          var size = this.__focusIndicator.getInnerSize();
-          this._cellEditor.setUserBounds(0, 0, size.width, size.height);
-
           // prevent tap event from bubbling up to the table
           this.__focusIndicatorPointerDownListener = this.__focusIndicator.addListener("pointerdown", function(e)
           {
