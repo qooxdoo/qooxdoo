@@ -25,6 +25,13 @@ qx.Class.define("objectid.Application", {
         qx.log.appender.Native;
         qx.log.appender.Console;
       }
+      
+      var numGlobalEvents = 0;
+      qx.event.Manager.setGlobalEventMonitor(function(target, event) {
+        numGlobalEvents++;
+      });
+      
+      new qx.test.core.ObjectId().testGetObject();
 
       var root = this.getRoot();
       
@@ -41,8 +48,8 @@ qx.Class.define("objectid.Application", {
           "console.log(edtName.$$widgetObject.getValue());\n",
         readOnly: true, width: 600, height: 85 }), 
         { left: 100, top: 80 });
-      root.add(this.getObject("btnRunTest"), { left: 100, top: 200 });
-      root.add(this.getObject("lblTestResult"), { left: 250, top: 200 });
+      root.add(this.getQxObject("btnRunTest"), { left: 100, top: 200 });
+      root.add(this.getQxObject("lblTestResult"), { left: 250, top: 200 });
 
       var model = qx.data.marshal.Json.createModel([
         { name: "Mr" },
@@ -50,65 +57,70 @@ qx.Class.define("objectid.Application", {
         { name: "Mrs" },
         { name: "Rev" }
       ]);
-      this.getObject("exampleEditor/ctlrTitle").setModel(model);
+      this.getQxObject("exampleEditor/ctlrTitle").setModel(model);
 
-      root.add(this.getObject("exampleEditor/container"), { left: 100, top: 250 });
+      root.add(this.getQxObject("exampleEditor/container"), { left: 100, top: 250 });
       
       var button_panel = new qx.ui.toolbar.ToolBar();
       
-      var btnPushMe = new qx.ui.toolbar.Button("Push Me (Tests #2)").set({ objectId: "pushMe" });
+      var btnPushMe = new qx.ui.toolbar.Button("Push Me (Tests #2)").set({ qxObjectId: "pushMe" });
       btnPushMe.addListener("appear", function() {
-        button_panel.addOwnedObject(btnPushMe);
-        button_panel.setObjectId("buttons");
+        button_panel.addOwnedQxObject(btnPushMe);
+        button_panel.setQxObjectId("buttons");
         qx.core.Id.getInstance().register(button_panel);
       });
       button_panel.add(btnPushMe);
       
-      var btnSomeButton = new qx.ui.toolbar.Button("Some Button").set({ objectId: "someButton" });
+      var btnSomeButton = new qx.ui.toolbar.Button("Some Button").set({ qxObjectId: "someButton" });
       btnSomeButton.addListener("appear", function() {
-        button_panel.addOwnedObject(btnSomeButton);
+        button_panel.addOwnedQxObject(btnSomeButton);
       });
       button_panel.add(btnSomeButton);
       
       root.add(button_panel, { left: 100, top: 300 });
       
       var A = qx.core.Assert;
+      var Id = qx.core.Id;
       btnPushMe.addListener("execute", function() {
         btnPushMe.setEnabled(false); // run once, this test is destructive
         
-        A.assertTrue(button_panel === qx.core.Id.getObject("buttons"));
-        A.assertTrue(btnPushMe === qx.core.Id.getObject("buttons/pushMe"));
+        A.assertTrue(button_panel === Id.getQxObject("buttons"));
+        A.assertTrue(btnPushMe === Id.getQxObject("buttons/pushMe"));
+        
+        A.assertTrue(Id.getQxObject("buttons/pushMe#label") === btnPushMe.getChildControl("label"));
         
         var id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/pushMe");
         
-        button_panel.setObjectId("buttons_renamed");
-        A.assertTrue(button_panel === qx.core.Id.getObject("buttons"));
+        button_panel.setQxObjectId("buttons_renamed");
+        A.assertTrue(button_panel === Id.getQxObject("buttons"));
         id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/pushMe");
         
-        btnPushMe.setObjectId("pushMeToo");
+        btnPushMe.setQxObjectId("pushMeToo");
         id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/pushMeToo");
         
-        button_panel.removeOwnedObject(btnPushMe);
+        button_panel.removeOwnedQxObject(btnPushMe);
         id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(!id);
         
-        btnPushMe.setObjectId(null);
+        btnPushMe.setQxObjectId(null);
         id = btnPushMe.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(!id);
         
         id = btnSomeButton.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(id === "buttons/someButton");
-        qx.core.Id.getInstance().unregister(button_panel);
+        Id.getInstance().unregister(button_panel);
         id = btnSomeButton.getContentElement().getAttribute("data-qx-object-id");
         A.assertTrue(!id);
+        
+        A.assertTrue(numGlobalEvents > 0);
         
       }, this);
     },
     
-    _createObjectImpl: function(id) {
+    _createQxObjectImpl: function(id) {
       switch(id) {
       case "exampleEditor":
         return new objectid.ExampleEditor();
@@ -116,7 +128,7 @@ qx.Class.define("objectid.Application", {
       case "btnRunTest":
         var btn = new qx.ui.form.Button("Run Test");
         btn.addListener("execute", () => {
-          var edt = qx.core.Id.getObject("application/exampleEditor/edtName");
+          var edt = qx.core.Id.getQxObject("application/exampleEditor/edtName");
           edt.setValue("John Smith");
           
           var A = qx.core.Assert;
@@ -128,7 +140,7 @@ qx.Class.define("objectid.Application", {
           A.assertTrue(!!dom);
           var widget = qx.ui.core.Widget.getWidgetByElement(dom);
           A.assertTrue(widget === edt);
-          this.getObject("lblTestResult").setValue("Tests completed OK");
+          this.getQxObject("lblTestResult").setValue("Tests completed OK");
         });
         return btn;
         

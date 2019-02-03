@@ -13,7 +13,7 @@
  *
  * @asset(qx/icon/Tango/16/actions/document-print.png)
  */
-qx.Class.define("uitests.DragAndDropApplication", {
+qx.Class.define("draganddrop.DragAndDropApplication", {
   extend: qx.application.Standalone,
 
   members: {
@@ -25,8 +25,8 @@ qx.Class.define("uitests.DragAndDropApplication", {
         qx.log.appender.Console;
       }
 
-      uitests.TestRunner.runAll(qx.test.Promise, [ "testAsyncEventHandlers" ], function() {
-        uitests.TestRunner.runAll(qx.test.event.Utils, this.__init, this);
+      draganddrop.TestRunner.runAll(qx.test.Promise, [ "testAsyncEventHandlers" ], function() {
+        draganddrop.TestRunner.runAll(qx.test.event.Utils, this.__init, this);
       }, this);
     },
 

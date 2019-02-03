@@ -2,11 +2,11 @@
   "targets": [
     {
       "type": "source",
-      "outputPath": "source-output"
+      "outputPath": "output/source"
     },
     {
       "type": "build",
-      "outputPath": "build-output",
+      "outputPath": "output/build",
       "addCreatedAt": true
     }
   ],
@@ -15,7 +15,7 @@
 
   "applications": [
     {
-      "class": "uitests.DragAndDropApplication",
+      "class": "draganddrop.DragAndDropApplication",
       "theme": "qx.theme.Simple",
       "name": "dragndrop"
     }

@@ -768,18 +768,21 @@ qx.Class.define("qx.event.handler.DragDrop",
 
             // new drop target detected
             if (droppable && droppable != self.__dropTarget) {
+              var dropLeaveTarget = self.__dropTarget;
+              
               self.__validDrop = true; // initial value should be true
               self.__dropTarget = droppable;
 
               var innerTracker = {};
               qx.event.Utils.catch(innerTracker, function () {
+                self.__dropTarget = null;
                 self.__validDrop = false;
               });
               
               // fire dragleave for previous drop target
-              if (self.__dropTarget) {
+              if (dropLeaveTarget) {
                 qx.event.Utils.then(innerTracker, function () {
-                  return self.__fireEvent("dragleave", self.__dropTarget, self.__dragTarget, false, e);
+                  return self.__fireEvent("dragleave", dropLeaveTarget, self.__dragTarget, false, e);
                 });
               }
               

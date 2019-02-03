@@ -21,7 +21,6 @@
  */
 qx.Class.define("qx.core.Id", {
   extend: qx.core.Object,
-  include: [ qx.core.MObjectId ],
   type: "singleton",
   
   members: {
@@ -32,7 +31,16 @@ qx.Class.define("qx.core.Id", {
     /*
      * @Override
      */
-    _createObjectImpl: function(id) {
+    _createQxObject: function(id) {
+      // Create the object, but don't add it to the list of owned objects
+      var result = this._createQxObjectImpl(id);
+      return result;
+    },
+    
+    /*
+     * @Override
+     */
+    _createQxObjectImpl: function(id) {
       if (this.__registeredObjects) {
         var obj = this.__registeredObjects[id];
         if (obj !== undefined) {
@@ -50,10 +58,10 @@ qx.Class.define("qx.core.Id", {
     
     /**
      * Returns an object path which can be used to locate an object anywhere in the application
-     * with a call to `qx.core.Id.getObject()`.
+     * with a call to `qx.core.Id.getQxObject()`.
      * 
      * This will return null if it is not possible to calculate a path because one of the
-     * ancestors has a null `objectId`.
+     * ancestors has a null `qxObjectId`.
      * 
      * This will also return null if the top-most ancestor is not one of the globals registered
      * with `registerObject` or a known global (such as the application); however, by passing
@@ -66,12 +74,12 @@ qx.Class.define("qx.core.Id", {
      */
     getAbsoluteIdOf: function(obj, suppressWarnings) {
       if (this.__registeredIdHashes && this.__registeredIdHashes[obj.toHashCode()]) {
-        return obj.getObjectId();
+        return obj.getQxObjectId();
       }
       var segs = [];
       var application = qx.core.Init.getApplication();
       while (obj) {
-        var id = obj.getObjectId();
+        var id = obj.getQxObjectId();
         if (!id) {
           if (!suppressWarnings) {
             this.error("Cannot determine an absolute Object ID because one of the ancestor ObjectID's is null (got as far as " + segs.join('/') + ")");
@@ -79,7 +87,7 @@ qx.Class.define("qx.core.Id", {
           return null;
         }
         segs.unshift(id);
-        var owner = obj.getOwner();
+        var owner = obj.getQxOwner();
         if (owner) {
           // Find the ID of the owner, *if* it is registered as a top level object
           var ownerId = null;
@@ -121,11 +129,11 @@ qx.Class.define("qx.core.Id", {
         this.__registeredIdHashes = {};
       }
       if (!id) {
-        id = obj.getObjectId();
+        id = obj.getQxObjectId();
       }
       this.__registeredObjects[id] = obj;
       this.__registeredIdHashes[obj.toHashCode()] = id;
-      obj._cascadeObjectIdChanges();
+      obj._cascadeQxObjectIdChanges();
     },
     
     /**
@@ -145,15 +153,16 @@ qx.Class.define("qx.core.Id", {
       } else {
         var hash = data.toHashCode();
         id = this.__registeredIdHashes[hash];
-        if (!id)
+        if (!id) {
           return false;
+        }
       }
       
       var obj = this.__registeredObjects[id];
       if (obj) {
         delete this.__registeredObjects[id];
         delete this.__registeredIdHashes[obj.toHashCode()];
-        obj._cascadeObjectIdChanges();
+        obj._cascadeQxObjectIdChanges();
         return true;
       }
       
@@ -169,8 +178,8 @@ qx.Class.define("qx.core.Id", {
      * @param id {String} the ID to look for
      * @return {qx.core.Object?} the object
      */
-    getObject: function(id) {
-      return this.getInstance().getObject(id);
+    getQxObject: function(id) {
+      return this.getInstance().getQxObject(id);
     },
     
     /**

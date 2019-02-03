@@ -59,6 +59,7 @@ qx.Class.define("qx.core.Object",
     	} else {
     		qx.core.ObjectRegistry.toHashCode(this);
     	}
+    	window.x=this;
   },
 
 

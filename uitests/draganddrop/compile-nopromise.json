@@ -2,11 +2,11 @@
   "targets": [
     {
       "type": "source",
-      "outputPath": "source-nopromise-output"
+      "outputPath": "output-nopromise/source"
     },
     {
       "type": "build",
-      "outputPath": "build-nopromise-output",
+      "outputPath": "output-nopromise/build",
       "addCreatedAt": true
     }
   ],
@@ -18,7 +18,7 @@
 
   "applications": [
     {
-      "class": "uitests.DragAndDropNoPromiseApplication",
+      "class": "draganddrop.DragAndDropNoPromiseApplication",
       "theme": "qx.theme.Simple",
       "name": "dragndrop"
     }
