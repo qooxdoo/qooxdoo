@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
         var uri = resourceManager.toUri(source);
 
         if (resourceManager.has(source)) {
-          var highResSource = qx.util.ResourceManager.getInstance().findHighResolutionSource(source, qx.ui.mobile.basic.Image.ROOT.getAppScale());
+          var highResSource = resourceManager.findHighResolutionSource(source, qx.ui.mobile.basic.Image.ROOT.getAppScale());
           if (highResSource) {
             this._createHighResolutionOverlay(highResSource,source);
             source = qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE;

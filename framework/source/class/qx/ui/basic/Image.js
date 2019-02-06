@@ -514,7 +514,7 @@ qx.Class.define("qx.ui.basic.Image",
         }
       }
       else if (ResourceManager.has(source)) {
-        var highResolutionSource = qx.util.ResourceManager.getInstance().findHighResolutionSource(source);
+        var highResolutionSource = ResourceManager.findHighResolutionSource(source);
         if (highResolutionSource) {
           var imageWidth = ResourceManager.getImageWidth(source);
           var imageHeight = ResourceManager.getImageHeight(source);

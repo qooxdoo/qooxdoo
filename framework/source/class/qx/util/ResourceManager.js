@@ -68,7 +68,7 @@ qx.Class.define("qx.util.ResourceManager",
      * Medium Resolution: "example.png", high-resolution: "example@2x.png"
      *
      * @param lowResImgSrc {String} source of the low resolution image.
-     * @param factor (float) Factor to find the right image. If not set calculated by getDevicePixelRatio()
+     * @param factor (Number) Factor to find the right image. If not set calculated by getDevicePixelRatio()
      * @return {String|Boolean} If a high-resolution image source.
      */
      findHighResolutionSource: function(lowResImgSrc, factor) {
