@@ -233,21 +233,33 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     {
       var content = "<div></div>";
 
+      // background size is critical for high-resolution images
+      var backgroundSize = this.__imageData.width + "px, " + this.__imageData.height + "px";
+
+      var srcUrl = this.__imageData.url;
+      if (this.__imageData.url !== null)
+      {
+        var highResolutionSource = qx.util.ResourceManager.getInstance().findHighResolutionSource (this.__imageData.url);
+        if (highResolutionSource) {
+          srcUrl = highResolutionSource;
+        }
+      }
+
       // set image
       if (this.__imageData.url) {
         content = qx.bom.element.Decoration.create(
-          this.__imageData.url,
+          srcUrl,
           this.getRepeat(),
           {
           width: this.__imageData.width + "px",
           height: this.__imageData.height + "px",
+          "background-size": backgroundSize,
           display: qx.core.Environment.get("css.inlineblock"),
           verticalAlign: "top",
           position: "static"
         });
       };
-
-      return content;
+      return content;    
     },
 
 
