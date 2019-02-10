@@ -24,11 +24,11 @@ These key concepts appear in every compile.json, for example:
     "targets": [
         {
             "type": "source",
-            "outputPath": "source-output"
+            "outputPath": "compiled/source"
         },
         {
             "type": "build",
-            "outputPath": "build-output"
+            "outputPath": "compiled/build"
         }
     ],
     "defaultTarget": "source",
@@ -233,7 +233,7 @@ If you add the `environment` block at the top level of the compile.json (as in t
     "targets": [
         {
             "type": "source",
-            "outputPath": "source-output",
+            "outputPath": "compiled/source",
             "environment": {
                 "demoapp.myCustomSetting": 2
             }
@@ -301,14 +301,14 @@ TypeScript can be output by either using the `--typescript` option to `qx compil
     "targets": [
         {
             "type": "source",
-            "outputPath": "source-output",
+            "outputPath": "compiled/source",
             typescript: true
         }
         /* ... snip ... */
     ]
 ```
 
-The TypeScript definition is output into `./source-output/qooxdoo.d.ts`
+The TypeScript definition is output into `./compiled/source/qooxdoo.d.ts`
 
 ## Eslint
 The qx lint command is configured by an eslintConfig section in compile.js:

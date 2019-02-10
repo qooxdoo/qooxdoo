@@ -1,9 +1,7 @@
-js/source-output
-js/build-output
+js/compiled
 js/db.json
 js/resource-db.json
-json/source-output
-json/build-output
+json/compiled
 json/db.json
 json/resource-db.json
 

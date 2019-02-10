@@ -2,7 +2,7 @@
 var fs = require("fs");
 
 function main(cb) {
-  fs.readFile("../../testdata/qxt/source-output/db.json", {encoding: "utf8"}, function (err, newData) {
+  fs.readFile("../../testdata/qxt/compiled/source/db.json", {encoding: "utf8"}, function (err, newData) {
     if (err)
       return cb(err);
     newData = JSON.parse(newData);
