@@ -2,18 +2,21 @@
   "targets": [
     {
       "type": "source",
-      "outputPath": "source-output"
+      "outputPath": "compiled/source",
+      "bundle": {
+        "include": "qx.*"
+      }
     },
     {
       "type": "build",
-      "outputPath": "build-output"
+      "outputPath": "compiled/build"
     }
   ],
   "defaultTarget": "source",
   "locales": ${locales},
-  "environment": { 
+  "environment": {
       "qx.icontheme": "${icon_theme}"
-  },     
+  },
   "applications": [
     {
       "class": "${namespace}.Application",

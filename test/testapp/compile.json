@@ -2,18 +2,18 @@
 	"targets": [
 		{
 			"type": "source",
-			"outputPath": "output/source"
+			"outputPath": "compiled/source"
 		},
 		{
 			"type": "build",
-			"outputPath": "output/build"
+			"outputPath": "compiled/build"
 		}
 	],
-	
+
 	"defaultTarget": "source",
-	
+
 	"locales": [ "en" ],
-	
+
 	"applications": [
 		{
 			"class": "testapp.Application",
@@ -27,12 +27,12 @@
 		"test.isTrue": true,
 		"test.someValue": "some"
 	},
-	
+
     "bundle": {
        "include": [ "qx.*" ],
        "exclude": [ "qx.util.*" ]
     },
-    
+
 	"parts": {
 		"boot": {
 			"include": [ "testapp.*" ]

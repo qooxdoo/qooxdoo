@@ -15,7 +15,7 @@ var QOOXDOO_PATH = "../../qooxdoo";
 // Makers use an Analyser to figure out what the Target should write
 var maker = new qxcompiler.makers.AppMaker().set({
   // Targets know how to output an application
-  target: new qxcompiler.targets.SourceTarget("source-output"),
+  target: new qxcompiler.targets.SourceTarget("compiled/source"),
   locales: [ "en", "es" ],
   writeAllTranslations: true
 });

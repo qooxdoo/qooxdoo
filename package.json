@@ -96,5 +96,5 @@
   "bin": {
     "qx": "qx"
   },
-  "preferGlobal": "true"
+  "preferGlobal": true
 }
