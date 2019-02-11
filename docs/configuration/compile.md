@@ -55,6 +55,7 @@ The `applications` key is an array of objects, and each object can contain:
 - `title` - (**optional**) this is the human readable, customer facing description used to set the `<title>` tag of the application web page, i.e. in the application's index.html 
 - `environment` - (**optional**) this is a set of application-specific environment settings that override all other settings when compiling this application (see below)
 - `outputPath` - (**optional**) the directory to place the application files (e.g. boot.js and resource.js), relative to the target output directory
+- `bootPath` - (**optional**) the directory to find the template `index.html` and other files required for booting the application
 - `uri` - (**optional**) this sets the URI used to access the application directory, i.e. the directory containing boot.js and resource.js; the default is to assume that it is "."
 - `include` - (**optional**) this is an array of class names which are to be included in the compilation, regardless of whether the compiler can detect if they are needed (for example, your application dynamically choose class names on the fly).  Wildcards are supported by adding a `*`, for example `"include": [ "qx.util.format.*" ]`
 - `exclude` - (**optional**) this is an array of class names which are to be excluded from the application, regardless of whether the compiler thinks that they are needed.  Wildcards are supported by adding a `*`, for example `"exclude": [ "qx.util.format.NumberFormat" ]`.  Note that `exclude` takes priority over `include`

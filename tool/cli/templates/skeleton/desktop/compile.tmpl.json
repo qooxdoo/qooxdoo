@@ -21,7 +21,8 @@
     {
       "class": "${namespace}.Application",
       "theme": "${namespace}.theme.Theme",
-      "name": "${namespace}"
+      "name": "${namespace}",
+      "bootPath": "source/boot"
     }
   ]
 }

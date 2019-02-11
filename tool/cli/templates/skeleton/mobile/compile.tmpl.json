@@ -20,7 +20,8 @@
   "applications": [
     {
       "class": "${namespace}.Application",
-      "name": "${namespace}"
+      "name": "${namespace}",
+      "bootPath": "source/boot"
     }
   ]
 }

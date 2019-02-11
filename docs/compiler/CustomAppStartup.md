@@ -17,25 +17,28 @@ If you just want to change the title of the application web page, the easier way
     ],
 ```
 
-If you want to customise this further, you can replace the `index.html` with your own version by adding a template directory to your `Manifest.json` - in the `provides` object, add a new entry `boot` which contains the path to the directory (which is normally `"source/boot"`), for example:
+If you want to customise this further, you can replace the `index.html` with your own version by adding a "bootPath" setting to your application in `compile.json` which contains the path to the directory (normally `"source/boot"`), for example:
 
 ```json
-    {
-        "provides": {
-            "namespace": "demoapp",
-            "encoding": "utf-8",
-            "class": "source/class",
-            "resource": "source/resource",
-            "translation": "source/translation",
-            "boot": "source/boot",
-            "type": "application"
-        },
+{
+    /** Applications */
+    "applications": [
+        {
+            "class": "demoapp.Application",
+            "theme": "demoapp.theme.Theme",
+            "name": "demoapp",
+            "title": "My Demo Application",
+            "bootPath": "source/boot"
+        }
+    ],
 ```
 
 
 # Custom index.html for your applications
 
-To customise the index.html which is generated, create a file called `boot/index.html` that will be used as a template.  The `boot/index.html` is copied verbatim, with the exception that the application's `boot.js` script is inserted before the close `</body>` - you can add whatever scripts you like, but do not try to link to the `boot.js`.
+To customise the index.html which is generated, create a file called `boot/index.html` that will be used as a template.  The `boot/index.html` is copied with template variables in form `${variableName}` replaced and with the application's `boot.js` script inserted before the close `</body>` - you can add whatever scripts you like, but do not try to link to the `boot.js`.
+
+The template variables supported are `resourcePath` (which is a relative path to the `resource` output folder) and `targetPath` (which is a relative path to the target output folder). 
 
 
 # Splash Screens
