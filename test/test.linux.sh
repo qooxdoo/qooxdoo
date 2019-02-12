@@ -37,3 +37,7 @@ cp ../testdata/npm/application/*.js source/class/myapp
 qx lint --fix --warnAsError ||  exit $?
 qx compile -v --clean || exit $?
 node compiled/source/myapp/myapp.js || exit $?
+
+cd ../test
+node test-deps.js
+cd ..

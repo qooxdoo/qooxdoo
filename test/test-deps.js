@@ -99,22 +99,15 @@ test('Checks dependencies and environment settings', (assert) => {
       .then((_maker) => {
         maker = _maker;
         app = maker.getApplications()[0];
-        return new Promise((resolve, reject) => {
-          maker.make(function(err) {
-            if (err) {
-              reject(err);
-              return;
-            }
+        return maker.make()
+          .then(() => {
             if (app.getFatalCompileErrors()) {
               app.getFatalCompileErrors().forEach(classname => {
                 console.log("Fatal errors in class " + classname);
               });
-              reject(new Error("Fatal errors in application"));
-              return;
+              throw new Error("Fatal errors in application");
             }
-            resolve();
           });
-        });
       })
       .then(() => readCompileInfo().then((tmp) => compileInfo = tmp))
       .then(() => {
@@ -128,7 +121,7 @@ test('Checks dependencies and environment settings', (assert) => {
       .then(() => {
         app.setExclude(["qx.ui.layout.*"]);
         app.setInclude(["qx.util.format.DateFormat"]);
-        return promisifyThis(maker.make, maker);
+        return maker.make();
       })
       .then(() => readCompileInfo().then((tmp) => compileInfo = tmp))
       .then(() => {
@@ -139,7 +132,7 @@ test('Checks dependencies and environment settings', (assert) => {
       .then(() => {
         app.setExclude([]);
         app.setInclude([]);
-        return promisifyThis(maker.make, maker);
+        return maker.make();
       })
       .then(() => readCompileInfo().then((tmp) => compileInfo = tmp))
       .then(() => readDbJson().then((tmp) => db = tmp))
@@ -171,6 +164,8 @@ test('Checks dependencies and environment settings', (assert) => {
         return readFile("unit-tests-output/transpiled/testapp/Application.js", "utf8")
             .then(src => {
               assert.ok(!src.match(/ELIMINATION_FAILED/), "Code elimination");
+              assert.ok(src.match(/TEST_OVERRIDDEN_1/), "Overridden environment vars #1");
+              assert.ok(src.match(/TEST_OVERRIDDEN_2/), "Overridden environment vars #2");
               assert.ok(src.match(/var envVar1 = "ONE"/), "environment setting for envVar1");
               assert.ok(src.match(/var envVar2 = qx.core.Environment.get\("envVar2"\)/), "environment setting for envVar2");
               assert.ok(src.match(/var envVar3 = qx.core.Environment.get\("envVar3"\)/), "environment setting for envVar3");
@@ -178,6 +173,8 @@ test('Checks dependencies and environment settings', (assert) => {
               assert.ok(src.match(/var envVarSelect1 = 1/), "environment setting for envVarSelect1");
               assert.ok(src.match(/var envVarSelect2 = 1/), "environment setting for envVarSelect2");
               assert.ok(src.match(/var envVarSelect3 = 0/), "environment setting for envVarSelect3");
+              assert.ok(src.match(/var envVarDefault1 = "some"/), "environment setting for envVarDefault1");
+              assert.ok(src.match(/var envVarDefault2 = qx.core.Environment.get("test.noValue") || "default2"/), "environment setting for envVarDefault2");
               assert.ok(src.match(/var mergeStrings = "abcdefghi";/), "merging binary expressions: mergeStrings");
               assert.ok(src.match(/var mergeStringsAndNumbers = "abc23def45ghi";/), "merging binary expressions: mergeStringsAndNumbers");
               assert.ok(src.match(/var addNumbers = 138;/), "merging binary expressions: addNumbers");
