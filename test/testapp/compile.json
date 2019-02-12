@@ -18,14 +18,20 @@
 		{
 			"class": "testapp.Application",
 			"theme": "qx.theme.Indigo",
-			"name": "testapp"
+			"name": "testapp",
+			"environment": {
+                "test.overridden1": true,
+                "test.overridden2": false
+			}
 		}
 	],
 
 	"environment": {
 		"test.isFalse": false,
 		"test.isTrue": true,
-		"test.someValue": "some"
+		"test.someValue": "some",
+        "test.overridden1": false,
+        "test.overridden2": true
 	},
 
     "bundle": {

@@ -52,7 +52,7 @@ qx.Class.define("testapp.Application", {
     main: function () {
       // Call super class
       this.base(arguments);
-      
+      var envVarDefault1 = qx.core.Environment.get("test.someValue") || "default1";
       try {
         console.log(undefinedValue);
       }catch(ex) {
@@ -100,6 +100,12 @@ qx.Class.define("testapp.Application", {
       if (qx.core.Environment.get("test.isFalse") || !qx.core.Environment.get("test.isTrue")) {
         /* ELIMINATION_FAILED */
       }
+      if (qx.core.Environment.get("test.overridden1")) {
+        /* TEST_OVERRIDDEN_1 */
+      }
+      if (qx.core.Environment.get("test.overridden2")) {
+        /* TEST_OVERRIDDEN_2 */
+      }
       var appValue = qx.core.Environment.get("test.appValue");
       var envVar1 = qx.core.Environment.get("envVar1");
       var envVar2 = qx.core.Environment.get("envVar2");
@@ -118,6 +124,8 @@ qx.Class.define("testapp.Application", {
         "true": 1,
         "false": 0
       });
+      var envVarDefault1 = qx.core.Environment.get("test.someValue") || "default1";
+      var envVarDefault2 = qx.core.Environment.get("test.noValue") || "default2";
 
       var mergeStrings = "abc" + "def" + "ghi";
       var mergeStringsAndNumbers = "abc" + 23 + "def" + 45 + "ghi";
