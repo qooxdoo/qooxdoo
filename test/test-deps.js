@@ -18,7 +18,9 @@ async function createMaker() {
       writeCompileInfo: true,
       environment: {
         envVar1: "ONE",
-        envVar2: "TWO"
+        envVar2: "TWO",
+        "test.overridden4": "target",
+        "test.overridden5": "target"
       }
     }),
     locales: ["en"],
@@ -31,7 +33,12 @@ async function createMaker() {
       "test.isFalse": false,
       "test.isTrue": true,
       "test.someValue": "some",
-      "test.appValue": false
+      "test.appValue": false,
+      "test.overridden1": false,
+      "test.overridden2": true,
+      "test.overridden3": "global",
+      "test.overridden4": "global",
+      "test.overridden5": "global"
     }
   });
   maker.addApplication(new qx.tool.compiler.app.Application("testapp.Application").set({
@@ -41,7 +48,10 @@ async function createMaker() {
       envVar2: "222",
       envVar3: "333",
       "test.appValue": true,
-      "qx.promise": true
+      "qx.promise": true,
+      "test.overridden1": true,
+      "test.overridden2": false,
+      "test.overridden5": "application"
     }
   }));
 
@@ -170,8 +180,9 @@ test('Checks dependencies and environment settings', (assert) => {
               assert.ok(src.match(/var envVar2 = qx.core.Environment.get\("envVar2"\)/), "environment setting for envVar2");
               assert.ok(src.match(/var envVar3 = qx.core.Environment.get\("envVar3"\)/), "environment setting for envVar3");
               assert.ok(src.match(/var envVar4 = "four"/), "environment setting for envVar4");
-              assert.ok(src.match(/var envVarSelect1 = 1/), "environment setting for envVarSelect1");
-              assert.ok(src.match(/var envVarSelect2 = 1/), "environment setting for envVarSelect2");
+              assert.ok(src.match(/var envTestOverriden3 = "global"/), "environment setting for envTestOverriden3");
+              assert.ok(src.match(/var envTestOverriden4 = "target"/), "environment setting for envTestOverriden4");
+              assert.ok(src.match(/var envTestOverriden5 = qx.core.Environment.get\("test.overridden5"\)/), "environment setting for envTestOverriden5");
               assert.ok(src.match(/var envVarSelect3 = 0/), "environment setting for envVarSelect3");
               assert.ok(src.match(/var envVarDefault1 = "some"/), "environment setting for envVarDefault1");
               assert.ok(src.match(/var envVarDefault2 = qx.core.Environment.get("test.noValue") || "default2"/), "environment setting for envVarDefault2");
