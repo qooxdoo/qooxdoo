@@ -2,7 +2,11 @@
 	"targets": [
 		{
 			"type": "source",
-			"outputPath": "compiled/source"
+			"outputPath": "compiled/source",
+			"environment": {
+                "test.overridden4": "target",
+                "test.overridden5": "target"
+			}
 		},
 		{
 			"type": "build",
@@ -21,7 +25,8 @@
 			"name": "testapp",
 			"environment": {
                 "test.overridden1": true,
-                "test.overridden2": false
+                "test.overridden2": false,
+                "test.overridden5": "application"
 			}
 		}
 	],
@@ -31,7 +36,10 @@
 		"test.isTrue": true,
 		"test.someValue": "some",
         "test.overridden1": false,
-        "test.overridden2": true
+        "test.overridden2": true,
+        "test.overridden3": "global",
+        "test.overridden4": "global",
+        "test.overridden5": "global"
 	},
 
     "bundle": {
@@ -55,5 +63,9 @@
         "pluginTwo": {
             "include": [ "testapp.plugins.PluginTwo", "testapp.plugins.Two*" ]
         }
+	},
+	
+	"serve": {
+	   "listenPort": 9082
 	}
 }

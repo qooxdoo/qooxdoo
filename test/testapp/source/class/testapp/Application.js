@@ -111,6 +111,9 @@ qx.Class.define("testapp.Application", {
       var envVar2 = qx.core.Environment.get("envVar2");
       var envVar3 = qx.core.Environment.get("envVar3");
       var envVar4 = qx.core.Environment.get("envVar4");
+      var envTestOverriden3 = qx.core.Environment.get("test.overridden3");
+      var envTestOverriden4 = qx.core.Environment.get("test.overridden4");
+      var envTestOverriden5 = qx.core.Environment.get("test.overridden5");
       var envVarSelect1 = qx.core.Environment.select("test.someValue", {
         "none": 0,
         "some": 1,
