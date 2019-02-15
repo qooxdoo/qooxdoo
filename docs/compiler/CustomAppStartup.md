@@ -36,9 +36,36 @@ If you want to customise this further, you can replace the `index.html` with you
 
 # Custom index.html for your applications
 
-To customise the index.html which is generated, create a file called `boot/index.html` that will be used as a template.  The `boot/index.html` is copied with template variables in form `${variableName}` replaced and with the application's `boot.js` script inserted before the close `</body>` - you can add whatever scripts you like, but do not try to link to the `boot.js`.
+To customise the index.html which is generated, create a file called `boot/index.html` that will be used as a template.  The `boot/index.html` is copied with template variables in form `${variableName}` replaced.  
 
-The template variables supported are `resourcePath` (which is a relative path to the `resource` output folder) and `targetPath` (which is a relative path to the target output folder). 
+The template variables supported are:
+* `resourcePath` - a relative path to the `resource` output folder 
+* `targetPath` -  a relative path to the target output folder
+* `appTitle` - the application title, as configured in `compile.json`
+* `appPath` - a relative path to the application's output folder
+* `preBootJs` - a code snippet to be placed in index.html immediately before the boot.js script is loaded
+
+Note that previous version of the compiler would also add a `<script>` tag which links to `boot.js` but this is now also done by template replacements - you MUST include this code (or it's equivalent) in your index.html:
+
+```
+${preBootJs}
+<script type="text/javascript" src="${appPath}boot.js"></script>
+```
+
+Here's a complete, although minimal, example of an index.html:
+```
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>${appTitle}</title>
+</head>
+<body>
+  ${preBootJs}
+  <script type="text/javascript" src="${appPath}boot.js"></script>
+</body>
+</html>
+``` 
 
 
 # Splash Screens
