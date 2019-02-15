@@ -554,6 +554,10 @@ qx.Class.define("qx.event.handler.Keyboard",
         9: true,
         27: true
       },
+	  
+	  "gecko" : {
+		9: true
+	  },
 
       "default" : {}
     }),
