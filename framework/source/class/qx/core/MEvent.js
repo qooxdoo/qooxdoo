@@ -73,43 +73,70 @@ qx.Mixin.define("qx.core.MEvent",
      */
     addListenerOnce : function(type, listener, self, capture)
     {
+      // id of listener added with callback
+      var id;
       var callback = function(e)
       {
-        this.removeListener(type, listener, this, capture);
+        this.__removeOnceListenerOnceById(type, id, listener);
         listener.call(self||this, e);
       };
-      // check for wrapped callback storage
-      if (!listener.$$wrapped_callback) {
-        listener.$$wrapped_callback = {};
-      }
-      // store the call for each type in case the listener is
-      // used for more than one type [BUG #8038]
-      listener.$$wrapped_callback[type + this.$$hash] = callback;
+      // to get actual id
+      callback = callback.bind(this);
 
-      return this.addListener(type, callback, this, capture);
+      // check for wrapped callbacks storage
+      if (!listener.$$wrapped_callbacks_ids) {
+        listener.$$wrapped_callbacks_ids = {};
+        // store the call for each type in case the listener is
+        // used for more than one type [BUG #8038]
+        listener.$$wrapped_callbacks_ids[type + this.$$hash] = [];
+
+      } else if (listener.$$wrapped_callbacks_ids.hasOwnProperty(type + this.$$hash)) {
+        if (qx.core.Environment.get("qx.debug") && listener.$$wrapped_callbacks_ids[type + this.$$hash].length)
+        {
+          qx.log.Logger.warn("This listener '" + listener.name + "' of current object '" + this.$$hash +
+            (this.name ? " (" + this.name + ")" : "") + "' on event with '" +
+            type + "'' type already added. Please don't do this duplication."
+          );
+        }
+      } else {
+        listener.$$wrapped_callbacks_ids[type + this.$$hash] = [];
+      }
+      id = this.addListener(type, callback, this, capture);
+      listener.$$wrapped_callbacks_ids[type + this.$$hash].push(id);
+      return id;
     },
 
 
     /**
-     * Remove event listener from this object
+     * Remove event listener from this object that added in addListenerOnce only
+     * to avoid loosing of duplicated listeners added for same type & for same obj [BUG #9627]
      *
      * @param type {String} name of the event type
+     * @param id {String} id of added listener to remove
      * @param listener {Function} event callback function
-     * @param self {Object ? null} reference to the 'this' variable inside the callback
-     * @param capture {Boolean} Whether to remove the event listener of
-     *   the bubbling or of the capturing phase.
      * @return {Boolean} Whether the event was removed successfully (has existed)
      */
-    removeListener : function(type, listener, self, capture)
+    __removeOnceListenerOnceById : function(type, id, listener)
     {
       if (!this.$$disposed) {
         // special handling for wrapped once listener
-        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.$$hash]) {
-          var callback = listener.$$wrapped_callback[type + this.$$hash];
-          delete listener.$$wrapped_callback[type + this.$$hash];
-          listener = callback;
+        if (listener.$$wrapped_callbacks_ids && listener.$$wrapped_callbacks_ids.hasOwnProperty(type + this.$$hash) &&
+          listener.$$wrapped_callbacks_ids[type + this.$$hash].length) {
+
+          var i = listener.$$wrapped_callbacks_ids[type + this.$$hash].indexOf(id);
+          if (i < 0) {
+            return false;
+          }
+          qx.lang.Array.removeAt(listener.$$wrapped_callbacks_ids[type + this.$$hash], i);
+          if (listener.$$wrapped_callbacks_ids[type + this.$$hash].length === 0) {
+            delete listener.$$wrapped_callbacks_ids[type + this.$$hash];
+            if (Object.keys(listener.$$wrapped_callbacks_ids).lenght === 0) {
+              delete listener.$$wrapped_callbacks_ids;
+            }
+          }
+
+          return this.__Registration.removeListenerById(this, id);
         }
-        return this.__Registration.removeListener(this, type, listener, self, capture);
       }
 
       return false;
