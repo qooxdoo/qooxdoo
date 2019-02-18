@@ -16,7 +16,7 @@
     }
   },
   "author": "John Spackman (johnspackman), Christian Boulanger (cboulanger), Henner Kollmann (hkollmann), and others",
-  "version": "0.2.69",
+  "version": "0.2.70",
   "keywords": [
     "qooxdoo",
     "compiler",
