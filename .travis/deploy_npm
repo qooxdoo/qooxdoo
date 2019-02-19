@@ -15,7 +15,7 @@ GENERATE="python $BASE_DIR/tool/bin/generator.py"
  
 # Adjust the framework version for non TAG builds
 if [ "$TRAVIS_TAG" = "" ]; then
-    TAG_VERSION="$TAG_VERSION-$FRAMEWORK_DATE-$REV"
+#    TAG_VERSION="$TAG_VERSION-$FRAMEWORK_DATE-$REV"
 fi
 
 echo "-------------------------------------------------------------------------"
