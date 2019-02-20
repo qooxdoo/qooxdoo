@@ -346,8 +346,16 @@ qx.Class.define("qx.event.handler.Keyboard",
         // On non print-able character be sure to add a keypress event
         if (type == "keydown")
         {
-          // non-printable, backspace or tab
-          if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode]) {
+          /*
+           * We need an artificial keypress event for every keydown event.
+           * Newer browsers do not fire keypress for a regular charachter key (e.g when typing 'a')
+           * if it was typed with the CTRL, ALT or META Key pressed during typing, like
+           * doing it when typing the combination CTRL+A
+           */
+          var isModifierDown = domEvent.ctrlKey || domEvent.altKey || domEvent.metaKey;
+
+          // non-printable, backspace, tab or the modfier keys are down
+          if (qx.event.util.Keyboard.isNonPrintableKeyCode(keyCode) || this._emulateKeyPress[keyCode] || isModifierDown) {
             qx.event.Utils.then(tracker, function() {
               return self._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
             });
@@ -553,6 +561,16 @@ qx.Class.define("qx.event.handler.Keyboard",
         8: true,
         9: true,
         27: true
+      },
+
+      "gecko" : (qx.core.Environment.get("browser.version") >= 65) ?
+      {
+        8: true,
+        9: true,
+        27: true
+      }
+      :
+      {
       },
 
       "default" : {}
