@@ -27,7 +27,7 @@ install:
 - npm install
 - grunt setup
 - cd framework
-- if [ "$QXBROWSER" != "" ]; then ./generate.py -sI test-source; fi
+- if [ "$QXBROWSER" != "" ]; then ./generate.py -sI -m TEST_DELAY_SCALE:8 -m TEST_TRAVIS:true test-source; fi
 before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
