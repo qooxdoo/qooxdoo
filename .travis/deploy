@@ -7,20 +7,21 @@ TARGET="devel"
 MASTER="master"
 CURRENT=0
 
-node -v
-npm -v
-git config user.email "travis@travis-ci.org"
-git config user.name "Travis CI"
-# revert changes of npm install
-git clean -fd
-git checkout -- .
-NEW_VERSION=$(npm version prerelease -m "[ci skip] new npm version: %s")
-echo "new version: $NEW_VERSION"
-echo $NEW_VERSION > version.txt
-GIT_URL="$(git config remote.origin.url)"
-GIT_URL=${GIT_URL/https:\/\//https:\/\/$GH_TOKEN@}
-git push $GIT_URL HEAD:master
-git push $GIT_URL $NEW_VERSION
+### auto versioning is not working because of branch protection rule
+#node -v
+#npm -v
+#git config user.email "travis@travis-ci.org"
+#git config user.name "Travis CI"
+#### revert changes of npm install
+#git clean -fd
+#git checkout -- .
+#NEW_VERSION=$(npm version prerelease -m "[ci skip] new npm version: %s")
+#echo "new version: $NEW_VERSION"
+#echo $NEW_VERSION > version.txt
+#GIT_URL="$(git config remote.origin.url)"
+#GIT_URL=${GIT_URL/https:\/\//https:\/\/$GH_TOKEN@}
+#git push $GIT_URL HEAD:master
+#git push $GIT_URL $NEW_VERSION
 
 
 rev=$(git rev-parse --short HEAD)
