@@ -70,8 +70,7 @@ jobs:
         - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
       deploy:
         provider: releases
-        api_key:
-          secure: ekeMQx+Mq7ydMyR2YPmhhUP7Ai8qlfi5BJ1q5E0kSKb4F73OUzA0cyFlTpdcI+zbcYWHpxAHbZXHz7VtpUN7lRcCMW3WGdpW5FjZAUKxR253Nysz39rdGS0CC4G3RKRyLmaOwqVldRKruY1rea3a92zPud2i7NrjgSN8riDZGm9SHbnv8xxyWfa+aC1FyUfi11kJquwjhlKHFvQ4Mt0w1KUP7kk+e1Nt2ZPDI5XMFq94bIx412dBkKrI5UAEQcVSmhZ/uCzJVZ6kCd266z0uhbJ4MVagiB+M6Xkrs1//yeEL87qj0T9viFRUxZVlh1ORs+ltRsnXIVCzpP6ul/rrhD2y8mz4vm5EQBgFVNuBWLufShONR0iOSLv2/Up4D2BVgqy5e4oxG6pEO9tzOgXnSm/SdByL+a4YxQiqZ3MuWxbGCuHk/5Lmb5GH7qJInyoJRw4nQXbeIM/s62ReByjc6BHmst3gvtjhvwh/x/q3eaGxAkuSc+AHA7x3S0FPguTQxlfYA3iYjCVKzHLFQiROpshH0IxxXkF7G3qrdkdRLCbMTxdURFOZCpVetCUELaewzD8t2oJaGywyJF3Fm/izQEgKg03wjtqTfC/+DvE/Eno0lyw0pdtccSWDhRnIynbVI/1NBMFbPxCiTktAD5hCLIM4UaDnLth+ikxNWD4su/Y=
+        api_key: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
         file_glob: true
         file: "${RELEASE_PKG_FILE}"
         skip_cleanup: true
