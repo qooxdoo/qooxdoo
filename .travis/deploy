@@ -1,23 +1,31 @@
 #!/bin/bash
 exe() { echo "\$ ${@/eval/}" ; "$@" ; }
 
-exe node -v
-exe npm -v
-# for token authentication we need newest npm!
-#exe npm i npm@latest -g
-#exe npm -v
-
 # revert changes of npm update of qooxdoo-sdk
+exe git clean -fd
 exe git checkout -- .
-NEW_VERSION=$(npm version patch -m "[ci skip] new npm version: %s")
+
+git config user.email "travis@travis-ci.org"
+git config user.name "Travis CI"
+
+PACKAGE_VERSION=$(node -p "require('./package.json').version")
+PACKAGE_DATE=$(date +%Y%m%d.%H%M)
+
+if [ "$TRAVIS_TAG" == "" ]; then
+   SET_VERSION=$PACKAGE_VERSION.$PACKAGE_DATE
+else
+   SET_VERSION=patch
+fi
+echo "set version: $SET_VERSION"
+NEW_VERSION=$(npm version $SET_VERSION -m "[ci skip] new npm version: %s")
 echo "new version: $NEW_VERSION"
-git config --global user.email "travis@travis-ci.org"
-git config --global user.name "Travis CI"
 
 GIT_URL="$(git config remote.origin.url)"
 GIT_URL=${GIT_URL/https:\/\//https:\/\/$GH_TOKEN@}
-exe git push $GIT_URL HEAD:master
-exe git push $GIT_URL $NEW_VERSION
+if [ "$TRAVIS_TAG" != "" ]; then
+   exe git push $GIT_URL $TRAVIS_TAG
+fi
+
 
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
