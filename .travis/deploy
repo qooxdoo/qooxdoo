@@ -9,7 +9,7 @@ git config user.email "travis@travis-ci.org"
 git config user.name "Travis CI"
 
 PACKAGE_VERSION=$(node -p "require('./package.json').version")
-PACKAGE_DATE=$(date +%Y%m%d.%H%M)
+PACKAGE_DATE=$(date +%Y%m%d%H%M)
 
 if [ "$TRAVIS_TAG" == "" ]; then
    SET_VERSION=$PACKAGE_VERSION.$PACKAGE_DATE
