@@ -170,8 +170,9 @@ qx.Class.define("qx.core.Id", {
     },
 
     /**
-     * Returns an array of the objects that have been registered as id roots.
-     * @return {qx.core.Object[]}
+     * Returns a map of the objects that have been registered as id roots, with
+     * the topmost part of the ID as key.
+     * @return {Object}
      */
     getRegisteredObjects: function() {
       return this.__registeredObjects;
