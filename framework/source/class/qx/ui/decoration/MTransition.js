@@ -93,9 +93,10 @@ qx.Mixin.define("qx.ui.decoration.MTransition",
       if (qx.bom.client.Browser.getName() === "chrome" && qx.bom.client.Browser.getVersion() >= 71) {
         // chrome has a repaint problem ... as suggested in
         // https://stackoverflow.com/a/21947628/235990 we are setting
-        // a transform ... if we were to use transforms for ui animation
-        // then this will have to be revisited, but for now it should work fine
-        styles.transform = "translateZ(0)";
+        // a transform ...
+        if (!styles.transform) {
+          styles.transform = "translateZ(0)";
+        }
       }
 
       propName = qx.bom.Style.getCssName(propName.name);
