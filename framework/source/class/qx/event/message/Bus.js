@@ -343,7 +343,7 @@ qx.Class.define("qx.event.message.Bus",
      * effect after all currently-subscribed subscriber functions have been
      * processed.
      *
-     * @param subscribers {Map} subscribers to call
+     * @param subscribers {Array} subscribers to call
      * @param msg {qx.event.message.Message} message for subscribers
      */
     __callSubscribers : function(subscribers, msg)
