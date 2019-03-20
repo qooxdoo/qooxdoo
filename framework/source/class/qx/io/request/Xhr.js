@@ -254,7 +254,7 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       // By default, set content-type urlencoded for requests with body
-      if (this.getRequestData() !== "null" && isAllowsBody) {
+      if (this.getRequestData() && isAllowsBody) {
         headers["Content-Type"] = "application/x-www-form-urlencoded";
       }
 
