@@ -1,25 +1,16 @@
 Using the remote table model
 ============================
 
-The remote table should be used whenever you want to display a large
-amount of data in a performant way.
+The remote table should be used whenever you want to display a large amount of data in a performant way.
 
-As this table model loads its data on-demand from a backend, only those
-rows are loaded that are near the area the user is currently viewing. If
-the user scrolls, the rows that will be displayed soon are loaded
-asynchronously in the background. All loaded data is managed in a cache
-that automatically removes the last recently used rows when it gets
-full.
+As this table model loads its data on-demand from a backend, only those rows are loaded that are near the area the user is currently viewing. If the user scrolls, the rows that will be displayed soon are loaded asynchronously in the background. All loaded data is managed in a cache that automatically removes the last recently used rows when it gets full.
 
-To get this model up and running you have to implement the actual
-loading of the row data by yourself in a subclass.
+To get this model up and running you have to implement the actual loading of the row data by yourself in a subclass.
 
 Implement your subclass
 -----------------------
 
-To correctly implement the remote table model you have to
-define/overwrite two methods `_loadRowCount` and `_loadRowData`. Both
-are automatically called by the table widget.
+To correctly implement the remote table model you have to define/overwrite two methods `_loadRowCount` and `_loadRowData`. Both are automatically called by the table widget.
 
     qx.Class.define("myApplication.table.RemoteDataModel",
     {
@@ -83,8 +74,7 @@ are automatically called by the table widget.
 
 ### Using your remote model
 
-Now that you've set up the remote table model the table component can
-use it.
+Now that you've set up the remote table model the table component can use it.
 
     var remoteTableModelInstance = new myApplication.table.RemoteDataModel();
     yourTableInstance.setTableModel(remoteTableModelInstance);
@@ -93,12 +83,7 @@ That's all you need to ensure your table is using your remote model.
 
 ### Sorting your data
 
-The table component offers sortable columns to let users sort the data
-the way they like. You can enable this sorting ability for each column.
-Since you have to pull the data into the table yourself you have to
-update the table data once the user changes the sorting criteria. You
-have to enhance the `_loadRowData` method with this information to
-inform your backend how to sort the data.
+The table component offers sortable columns to let users sort the data the way they like. You can enable this sorting ability for each column. Since you have to pull the data into the table yourself you have to update the table data once the user changes the sorting criteria. You have to enhance the `_loadRowData` method with this information to inform your backend how to sort the data.
 
     // "_loadRowData" with sorting support
     _loadRowData : function(firstRow, lastRow)
@@ -127,9 +112,7 @@ inform your backend how to sort the data.
 Backend
 -------
 
-The backend has to deliver the requested data in a JSON data structure
-in order to display the data correctly. The data structure has to use
-the same IDs as the remote table model instance at the client-side.
+The backend has to deliver the requested data in a JSON data structure in order to display the data correctly. The data structure has to use the same IDs as the remote table model instance at the client-side.
 
 For example
 
@@ -138,8 +121,7 @@ For example
     // first param: displayed names, second param: IDs
     remoteModel.setColumns( [ "First name", "Last name" ], [ "first", "last" ] );
 
-Then the data delivered by the backend should have the following
-structure:
+Then the data delivered by the backend should have the following structure:
 
     result = {[  
       { "first" : "John", "last" : "Doe"  },
@@ -148,23 +130,11 @@ structure:
       ...
     ]};
 
-Moreover, the backend has to deliver the row count, i. e. the number of
-rows the table contains. This is what the `_loadRowCount` function of
-your subclass expects to get. Please make sure that the URLs
-`http://localhost/services/getTableCount.php` and
-`http://localhost/services/getTableRowData.php` of your subclass point
-to the right location.
+Moreover, the backend has to deliver the row count, i. e. the number of rows the table contains. This is what the `_loadRowCount` function of your subclass expects to get. Please make sure that the URLs `http://localhost/services/getTableCount.php` and `http://localhost/services/getTableRowData.php` of your subclass point to the right location.
 
 Summary
 -------
 
-This short and very basic example is far from complete and in your
-application you will have to implement some more features like
-error-handling, but it should give you a short overview of how to
-implement the remote table model in qooxdoo.
+This short and very basic example is far from complete and in your application you will have to implement some more features like error-handling, but it should give you a short overview of how to implement the remote table model in qooxdoo.
 
-Another basic implementation which uses the PHP RPC backend is available
-in qooxdoo-contrib. Take a look at the
-[RPCExample](http://qooxdoo.org/contrib/project#rpcexample) and setup
-the necessary [RPC PHP
-backend](http://qooxdoo.org/contrib/project#rpcphp).
+Another basic implementation which uses the PHP RPC backend is available in qooxdoo-contrib. Take a look at the [RPCExample](http://qooxdoo.org/contrib/project#rpcexample) and setup the necessary [RPC PHP backend](http://qooxdoo.org/contrib/project#rpcphp).

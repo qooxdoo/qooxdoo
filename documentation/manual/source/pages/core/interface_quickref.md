@@ -1,12 +1,9 @@
 Interfaces Quick Ref
 ====================
 
-This is a quick reference for the various features of a qooxdoo
-interface declaration. It uses an
-EBNF-like syntax \</pages/tool/ebnf\_like\>.
+This is a quick reference for the various features of a qooxdoo interface declaration. It uses an EBNF-like syntax \</pages/tool/ebnf\_like\>.
 
-It is much like a class declaration, with a more limited set of
-features. Properties are just names with empty map values.
+It is much like a class declaration, with a more limited set of features. Properties are just names with empty map values.
 
     interface_decl  := 'qx.Interface.define' '(' '"' <name.space.InterfaceName> '"' ','
                          { feature_spec ',' }

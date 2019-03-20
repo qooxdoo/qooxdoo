@@ -1,153 +1,23 @@
-How to Develop a %{Desktop} Application
+How to Develop a %{qooxdoo} Application
 =======================================
 
-General Cycle of Activities
----------------------------
+How you develop a %{qooxdoo} application largely depends on for which target platform you develop (browser, server, mobile, ...), which in turn is reflected by the %{qooxdoo} component \</pages/getting\_started\> (%{Desktop}, %{Website}, ...) and, to a lesser extend, which skeleton type you are using. Please refer to the particular component documentation for its specifics.
 
-The general cycle of development activities while creating a desktop
-application is roughly:
+Here are some common traits, though, that you will come across when developing an application with %{qooxdoo}:
 
-> 1.  Create a *source* version of your app.
-> 2.  Load it in a browser.
-> 3.  Test, experiment, debug.
-> 4.  Make changes to the source code.
-> 5.  Cycle to 2.
+Application Layout
+------------------
 
-This will be the main cycle of your activities.
+Application code is organized in a particular directory layout which is necessary for the tool chain to work properly. The skeletons help you to adhere to that organisation.
 
-Mind that you start with a Generator run creating your application. This
-is necessary to produce a runnable application that will work in a
-browser. You might have to re-run this step, depending on the variant of
-source version you created. (In such a case, you will cycle to 1.
-instead of 2.). The currently available source jobs include
-pages/tool/generator/generator\_default\_jobs\#source,
-pages/tool/generator/generator\_default\_jobs\#source-all and
-pages/tool/generator/generator\_default\_jobs\#source-hybrid. You can
-also use our pages/tool/generator/default\_jobs\_actions\#watch job
-which will mirror all your changes and start the generation job
-automatically. See their individual job descriptions for details.
+Generate before Run
+-------------------
 
-Build Version
--------------
+In general you need to invoke %{qooxdoo}'s tool chain, particularly the "Generator", before you can run your application. %{qooxdoo} has a Java-like approach to source code, in that it just "sits around" like a bunch of resources. With the help of its configuration the Generator casts all these resources in a runnable application, e.g. by creating a specific loader that loads all necessary class code.
 
-The basic programming model of qooxdoo suggests that you develop your
-application in its source version, and once you're satisfied create the
-*build* version of it, which is then deployed on a web server. qooxdoo's
-build versions of an application are self-contained, they encompass all
-script files, resources like images and style sheets, and any helper
-files that are necessary for the application. You can safely copy the
-build directory to the document forest of a web server, or zip it up in
-an archive and send it by mail; the recipient should be able to unpack
-it and run the application without flaws.
+Source versus Build
+-------------------
 
-For a bit of background, here are more details of the build version.
+You will usually develop your application in a so-called *source* mode. In this mode individual files are loaded from their original location on disk. This allows changes to source files become apparent immediately, and allows for better inspection and debugging during runtime. Everything is geared towards supporting development activities. There are various jobs of the Generator that generate a source version of your app (*source*, *source-all*, *source-hybrid*), depending on your preferences between convenience and speed.
 
-### Class Code
-
--   Class code is compressed and optimized, and put in only a few script
-    files, which are later loaded by the loader script.
--   The number of script files is highly configurable, depending mainly
-    on the us of parts
-    \<pages/parts\_overview\#parts\_and\_packages\_overview\>. In
-    general, the Generator tries to minimize the number of script files.
-
-### Resources
-
--   Images like icons or decorators that are required by the classes
-    which go into the application are copied from the various libraries
-    they belong to. A resource directory tree is created in the build
-    folder that reflects the various name spaces of the included images.
--   The same applies to other static resources like style sheets, HTML
-    files, or media files.
--   The index.html file is copied from the source directory.
-
-### Translations and Localisation Data
-
--   Translated strings and localisation data like calendar items are
-    compiled into the JS script files, together with the class code.
-
-Running the Source Version through a Web Server
------------------------------------------------
-
-Basically, the source version of an application can be run off of the
-file system (i.e. opening it with the *<file://>* protocol in your
-browser). But there are reasons why you would want to run it over a web
-server. You might need to integrate with backend services during
-development time, so frontend and backend service points need to be on
-the same web server. Same-origin-policy for other resources you want to
-use in your app might force you into the same direction. And, browsers
-have increasingly become constraint, e.g. when XHR requests go to the
-local disk from the *<file://>* protocol. This impedes applications that
-just want to load some JSON data.
-
-The issue with the the source version is that the generated loader
-script just references source code and resources with relative paths,
-wherever they happen to be on your file system. This poses some
-challenges when run from a web server. Even if you include your
-application in a server-accessible path (somewhere down from its
-document root or one of the defined aliases), chances are that the
-source script references files which are **outside** the document scope
-of the web server.
-
-### Web Server Jobs
-
-We have therefore provided two Generator jobs that address this
-situation, and which you can run in your application main directory.
-Both build on the fact that you can usually find a *common root* of all
-involved paths on the file system, and to use that common root as an
-entry point for a web server.
-
-The pages/tool/generator/generator\_default\_jobs\#source-server job
-starts a simple built-in web server that exports the common root as its
-document root. The
-pages/tool/generator/generator\_default\_jobs\#source-httpd-config job,
-on the other hand, generates a web server configuration file, suitable
-for the most popular web servers, so you can include it with your
-existing web server setup. Both jobs will print on the console the URL
-with which you can load your source application.
-
-### Rolling your own
-
-We recommend using one of the above jobs. But if you find yourself in
-the situation where you cannot utilize those, but need to work your own
-way through the issue, here are some hints to guide you:
-
--   Make the *source* directory of your application accessible to the
-    web server, so that it is reachable through a valid URL like
-    *<http://your.web.server/path/to/yourapp/source/index.html>*.
--   Make sure all components that are used by your application, as there
-    are the %{qooxdoo} SDK itself and any additional %{qooxdoo} library
-    or contribution that you use, are equally accessible by the web
-    server.
--   Make sure the relative paths on the web server match those on your
-    file system, e.g. if your app lives on the file system at
-
-        /a/b/A/myapp
-
-    and your qooxdoo installation is at
-
-        /a/b/Z/qooxdoo-sdk
-
-    and the server path to your app is
-
-        /web/apps/myapp
-
-    then make sure the server path to qooxdoo is
-
-        /web/Z/qooxdoo-sdk
-
-    so that relative references like
-
-        ../Z/qooxdoo-sdk
-
-    will work under the web server.
-
-### Summary
-
-All of the above really boils down to the following: Running the source
-version from a web server requires having the web server root be higher
-in the file system hierarchy than ALL the application source root and
-the qooxdoo SDK root and any qooxdoo contribs you might be using, so
-that all libraries are accessible from the application via relative
-paths at the server. (It corresponds to *<file://>* usage if the web
-server root is in fact the file system root.)
+Once you are satisfied with your application, you will create a *build* version of it. This version will be compressed and optimized, and will be all geared towards deployment and runtime efficiency. But it will be much less amenable to development.

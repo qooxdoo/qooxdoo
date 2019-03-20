@@ -1,8 +1,7 @@
 Basic
 =====
 
-The Basic is used to position the children at absolute top/left
-coordinates.
+The Basic is used to position the children at absolute top/left coordinates.
 
 Preview Image
 -------------
@@ -21,16 +20,11 @@ Features
 Description
 -----------
 
-The basic layout positions each child at the coordinate given by the
-`left` and `top` layout properties.
+The basic layout positions each child at the coordinate given by the `left` and `top` layout properties.
 
-The size hint of a widget configured with a Basic layout is determined
-such that each child can be positioned at the specified location and can
-have its preferred size and margin.
+The size hint of a widget configured with a Basic layout is determined such that each child can be positioned at the specified location and can have its preferred size and margin.
 
-Margins for left and top will shift the widget position by this amount
-(negative values are possible). Margins for right and bottom are only
-respected while computing the size hint.
+Margins for left and top will shift the widget position by this amount (negative values are possible). Margins for right and bottom are only respected while computing the size hint.
 
 Layout properties
 -----------------
@@ -41,19 +35,17 @@ Layout properties
 Alternative Names
 -----------------
 
--   [AbsoluteLayout](http://extjs.com/deploy/dev/docs/?class=Ext.layout.AbsoluteLayout)
-    (ExtJS)
+-   [AbsoluteLayout](http://extjs.com/deploy/dev/docs/?class=Ext.layout.AbsoluteLayout) (ExtJS)
 
 Demos
 -----
 
 Here are some links that demonstrate the usage of the layout:
 
--   [A demo of the Basic
-    layout](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Basic.html)
+-   [A demo of the Basic layout](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Basic.html)
 
 API
 ---
 
-Here is a link to the API of the layout manager:\
+Here is a link to the API of the layout manager:
 [qx.ui.layout.Basic](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.layout.Basic)

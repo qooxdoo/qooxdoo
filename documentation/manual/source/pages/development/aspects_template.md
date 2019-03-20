@@ -1,9 +1,7 @@
 An Aspect Template Class
 ========================
 
-Here is a code template which you may copy to your application namespace
-and adapt it to implement aspects in your qooxdoo application. For a far
-more advanced sample look at qx.dev.Profile.
+Here is a code template which you may copy to your application namespace and adapt it to implement aspects in your qooxdoo application. For a far more advanced sample look at qx.dev.Profile.
 
     /**
      * AspectTemplate.js -- template class to use qooxdoo aspects
@@ -101,5 +99,4 @@ A job in your configuration could look something like this:
             }
           }
 
-If you need some more information on configuring the generator, take a
-look at the /pages/tool/generator/generator\_config\_ref.
+If you need some more information on configuring the generator, take a look at the /pages/tool/generator/generator\_config\_ref.

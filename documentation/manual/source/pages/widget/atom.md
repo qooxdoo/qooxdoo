@@ -1,9 +1,7 @@
 Atom
 ====
 
-The Atom groups an image with a label with support for different
-alignments. It is a building block for many other widgets like Buttons
-or Tooltips.
+The Atom groups an image with a label with support for different alignments. It is a building block for many other widgets like Buttons or Tooltips.
 
 Preview Image
 -------------
@@ -22,11 +20,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [A simple Atom
-    demo](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Atom.html)
+-   [A simple Atom demo](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Atom.html)
 
 API
 ---
 
-Here is a link to the API of the Widget:\
+Here is a link to the API of the Widget:
 [qx.ui.basic.Atom](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Atom)

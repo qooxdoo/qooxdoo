@@ -21,22 +21,17 @@ Description
 Diagram
 -------
 
-**TODO:** (if necessary) *a UML class diagram of the widget and its used
-classes using graphviz*
+**TODO:** (if necessary) *a UML class diagram of the widget and its used classes using graphviz*
 
 Demos
 -----
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Meaningful name of the
-    demo](http://demo.qooxdoo.org/%{version}/demobrowser/index.html#)
-    **TODO:** set the link
+-   [Meaningful name of the demo](http://demo.qooxdoo.org/%{version}/demobrowser/index.html#) **TODO:** set the link
 -   **TODO:** *More than one demo possible ...*
 
 API
 ---
 
-Here is a link to the API of the Widget: [complete package and
-classname](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#)
-**TODO:** set the link
+Here is a link to the API of the Widget: [complete package and classname](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#) **TODO:** set the link

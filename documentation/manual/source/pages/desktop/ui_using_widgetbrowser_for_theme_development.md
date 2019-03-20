@@ -1,27 +1,16 @@
 Three steps for efficient theme development
 ===========================================
 
-The widgetbrowser application is used by the framework to showcase the
-widgets and the available themes. With the feature to switch the themes
-at run-time you can quickly get an overview of the theming capabilities
-of the desktop widget set.
+The widgetbrowser application is used by the framework to showcase the widgets and the available themes. With the feature to switch the themes at run-time you can quickly get an overview of the theming capabilities of the desktop widget set.
 
-So this should be a perfect match if you like to develop an own custom
-theme, right? Every widget is displayed within the widgetbrowser and
-this would help a lot to develop an own custom them from scratch.
+So this should be a perfect match if you like to develop an own custom theme, right? Every widget is displayed within the widgetbrowser and this would help a lot to develop an own custom them from scratch.
 
-To turn this into reality the widgetbrowser application got some
-enhancements and now it is very easy to use it for theme development.
-This little tutorial will show you the three steps you need.
+To turn this into reality the widgetbrowser application got some enhancements and now it is very easy to use it for theme development. This little tutorial will show you the three steps you need.
 
 Kickoff: Create a new application
 ---------------------------------
 
-We will demonstrate a desktop theme so we will create a desktop app here
-and integrate the widgetbrowser. If you are writing a theme for a
-different kind of app, then you have to use the corresponding type (i.e.
-mobile or website) during app creation and corresponding showcase app
-(i.e. Mobile Showcase or Website Widget Browser).
+We will demonstrate a desktop theme so we will create a desktop app here and integrate the widgetbrowser. If you are writing a theme for a different kind of app, then you have to use the corresponding type (i.e. mobile or website) during app creation and corresponding showcase app (i.e. Mobile Showcase or Website Widget Browser).
 
 Creating a desktop skeleton is one command away:
 
@@ -31,12 +20,9 @@ Creating a desktop skeleton is one command away:
 Integration: How the widgetbrowser joins the game
 -------------------------------------------------
 
-Pulling in the widgetbrowser into your application is done by editing
-two files: the `config.json` and the `Application.js` of your demo
-application.
+Pulling in the widgetbrowser into your application is done by editing two files: the `config.json` and the `Application.js` of your demo application.
 
-The configuration has to be edited like this (original values are
-commented out):
+The configuration has to be edited like this (original values are commented out):
 
     // Point the top-level include to the widgetbrowser configuration
     "include" :
@@ -91,13 +77,9 @@ commented out):
       }
     }
 
-With these modification you pulled the configuration of the
-widgetbrowser into your own application. Basically your application is
-now a kind of copy of the widgetbrowser. But wait: how about the
-JavaScript part?
+With these modification you pulled the configuration of the widgetbrowser into your own application. Basically your application is now a kind of copy of the widgetbrowser. But wait: how about the JavaScript part?
 
-Well this is done by editing the `Application.js` of your application.
-To keep it simple just replace your existing class by this:
+Well this is done by editing the `Application.js` of your application. To keep it simple just replace your existing class by this:
 
     qx.Class.define("NAMESPACE.demo.Application",
     {
@@ -125,15 +107,12 @@ To keep it simple just replace your existing class by this:
       }
     });
 
-That's it! Run `generate.py` within the `demo` folder and open it in
-your favorite browser.
+That's it! Run `generate.py` within the `demo` folder and open it in your favorite browser.
 
 Final touch: Add your theme name and version
 --------------------------------------------
 
-At the right upper corner of the widgetbrowser application you can
-easily replace the default name and version with your own to inform the
-user about the name of the theme and its version.
+At the right upper corner of the widgetbrowser application you can easily replace the default name and version with your own to inform the user about the name of the theme and its version.
 
 This is an additional minor adjustment in the `config.json` file:
 
@@ -148,5 +127,4 @@ This is an additional minor adjustment in the `config.json` file:
 
     // ...
 
-Re-run the `generate.py` script to get this update into your application
-and enjoy!
+Re-run the `generate.py` script to get this update into your application and enjoy!

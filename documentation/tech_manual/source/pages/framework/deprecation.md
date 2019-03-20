@@ -1,22 +1,17 @@
 How To Deprecate API
 ====================
 
-qooxdoo supports deprecating different structures in the code. This page
-describes how to handle the scenarios of deprecation and what can be
-deprecated and what not.
+qooxdoo supports deprecating different structures in the code. This page describes how to handle the scenarios of deprecation and what can be deprecated and what not.
 
 Methods
 -------
 
-One common scenario is the deprecation of methods. The three typical
-use-cases are listed in the following subsections.
+One common scenario is the deprecation of methods. The three typical use-cases are listed in the following subsections.
 
 ### Removing / Replacing
 
-Deprecating methods because they will be removed or replaced is one of the easiest tasks. You have to do two things:
-:   -   Mark the method as deprecated in the API documentation (more
-        details about the syntax in the
-        [Manual](http://manual.qooxdoo.org/%{version}/pages/development/api_jsdoc_ref.html#deprecated)).
+Deprecating methods because they will be removed or replaced is one of the easiest tasks. You have to do two things:  
+-   Mark the method as deprecated in the API documentation (more details about the syntax in the [Manual](http://manual.qooxdoo.org/%{version}/pages/development/api_jsdoc_ref.html#deprecated)).
 
 <!-- -->
 
@@ -38,9 +33,7 @@ Deprecating methods because they will be removed or replaced is one of the easie
 
 ### Changing arguments
 
-If you change the amount of arguments, you have to check the number of
-arguments supplied and throw a deprecation warning if the right number
-of arguments was not given.
+If you change the amount of arguments, you have to check the number of arguments supplied and throw a deprecation warning if the right number of arguments was not given.
 
     if (arguments.length !==1) {  // test for one argument here
       qx.log.Logger.deprecatedMethodWarning(
@@ -48,15 +41,13 @@ of arguments was not given.
       );
     }
 
-The same should be done if the type of an argument changes. If the old
-type is supplied, a warning should be thrown as in the example above.
+The same should be done if the type of an argument changes. If the old type is supplied, a warning should be thrown as in the example above.
 
 ### Changing the return type
 
 Problematic.
 
--   Copy and rename the original method to "originalName\_deprecated",
-    and mark it as deprecated.
+-   Copy and rename the original method to "originalName\_deprecated", and mark it as deprecated.
 -   Rewrite the original method to return the new type.
 -   ...
 
@@ -65,21 +56,14 @@ Events
 
 ### Removing / Replacing
 
-Events should be declared as deprecated in the comment section of the
-event. This works exactly like the deprecation of methods (more details
-about the syntax in the
-[Manual](http://manual.qooxdoo.org/%{version}/pages/development/api_jsdoc_ref.html#deprecated)):
+Events should be declared as deprecated in the comment section of the event. This works exactly like the deprecation of methods (more details about the syntax in the [Manual](http://manual.qooxdoo.org/%{version}/pages/development/api_jsdoc_ref.html#deprecated)):
 
     /**
      * ...
      * @deprecated {<upcomming version>} ... (describing text)
      */
 
-This will force the generated API to include a deprecation note.
-Additionally you should throw a warning at runtime similar to deprecated
-methods. But you need to throw a warning if someone //registers// for
-that event. To do that, you can override the ''addListener()'' function
-in your current class.
+This will force the generated API to include a deprecation note. Additionally you should throw a warning at runtime similar to deprecated methods. But you need to throw a warning if someone //registers// for that event. To do that, you can override the ''addListener()'' function in your current class.
 
     // overridden
     addListener: function(type, listener, self, capture) {
@@ -94,10 +78,7 @@ in your current class.
       return this.base(arguments, type, listener, self, capture);
     }
 
-But be careful if you reintroduce the event in a subclass of your
-current class. The warning will also be fired for all subclasses. If you
-have such a use case, include an additional check for the classname to
-limit the warning to the current class.
+But be careful if you reintroduce the event in a subclass of your current class. The warning will also be fired for all subclasses. If you have such a use case, include an additional check for the classname to limit the warning to the current class.
 
 ### Changing the data in a data event
 
@@ -106,53 +87,29 @@ Not possible to deprecate reliably?
 Properties
 ----------
 
-Properties are used throughout the framework. Because their accessor and
-mutator methods will be auto-generated at runtime, deprecating
-properties is problematic.
+Properties are used throughout the framework. Because their accessor and mutator methods will be auto-generated at runtime, deprecating properties is problematic.
 
 ### Removing
 
-Removing a property is a complex task. You have to replace all the
-generated methods with handwritten methods and throw deprecation
-warnings on every call (see the [[\#methods|deprecation of methods
-section]] for details). Remember to implement the checks and the storage
-of the properly too. The amount of methods depends on the configuration
-of the property. The default methods are: \* ''set//PropertyName//()''
-\* ''get//PropertyName//()'' \* ''reset//PropertyName//()'' \*
-''init//PropertyName//()''
+Removing a property is a complex task. You have to replace all the generated methods with handwritten methods and throw deprecation warnings on every call (see the [[\#methods|deprecation of methods section]] for details). Remember to implement the checks and the storage of the properly too. The amount of methods depends on the configuration of the property. The default methods are: \* ''set//PropertyName//()'' \* ''get//PropertyName//()'' \* ''reset//PropertyName//()'' \* ''init//PropertyName//()''
 
-If the value is of Boolean value, two additional methods are generated
-by the property system and should be implemented as well:
+If the value is of Boolean value, two additional methods are generated by the property system and should be implemented as well:
 
 -   ''is//PropertyName//()''
 -   ''toggle//PropertyName//()''
 
-If the property has a change event defined, add the event to the events
-section in the class map and deprecate it as described in the
-[[\#Events|events]] section. But keep in mind that you have to fire the
-event manually in the handwritten setter. If you have to remove the same
-property at various places, you can add all deprecation methods to a
-mixin and include that mixin in all classes which have the old property.
+If the property has a change event defined, add the event to the events section in the class map and deprecate it as described in the [[\#Events|events]] section. But keep in mind that you have to fire the event manually in the handwritten setter. If you have to remove the same property at various places, you can add all deprecation methods to a mixin and include that mixin in all classes which have the old property.
 
 ### Renaming
 
-Renaming a property is the same as removing a property and introducing a
-new property. But you can delegate the handwritten accessors of the old
-property to the new accessors.
+Renaming a property is the same as removing a property and introducing a new property. But you can delegate the handwritten accessors of the old property to the new accessors.
 
 ### Changing the check
 
-Changing the check of a property causes the most problems. You have to
-write a manual check function to allow the old and the new type to be
-set. This could look like the following code.
+Changing the check of a property causes the most problems. You have to write a manual check function to allow the old and the new type to be set. This could look like the following code.
 
     propertyName : {
       check : "return qx.lang.Type.isString(value) || qx.lang.Type.isBoolean(value)"
     }
 
-This check allows string as well as Boolean values to be set. But be
-careful with that. Remember you have to implement the additional boolean
-accessors ''is//PropertyName//()'' and ''toggle//PropertyName//()''.
-What applies to methods and events also applies to properties. You can
-not return both a string and a Boolean value, nor can you set both types
-in the data event.
+This check allows string as well as Boolean values to be set. But be careful with that. Remember you have to implement the additional boolean accessors ''is//PropertyName//()'' and ''toggle//PropertyName//()''. What applies to methods and events also applies to properties. You can not return both a string and a Boolean value, nor can you set both types in the data event.

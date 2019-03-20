@@ -24,33 +24,26 @@ Features
 Description
 -----------
 
-A List widget can be used to show a list of items. These items could
-selected in different modes:
+A List widget can be used to show a list of items. These items could selected in different modes:
 
 -   `single`: Only one or none could be selected.
 -   `multi`: One, more or none could be selected.
--   `additive`: The same selection like `multi`, but each item, which
-    the user taped on it is added or removed to the selection.
+-   `additive`: The same selection like `multi`, but each item, which the user taped on it is added or removed to the selection.
 -   `one`: The same selection like `single`, but one must selected.
 
-The item which are added to the list are `ListItem`. For more details
-see:
-[ListItem](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ListItem).
+The item which are added to the list are `ListItem`. For more details see: [ListItem](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ListItem).
 
 Demos
 -----
 
 Here are some links that demonstrate the usage of the widget:
 
--   [List
-    Demo](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~List.html)
--   [Lists with Drag and
-    Drop](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~DragDrop.html)
--   [List with re-size
-    support](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Resizer.html)
+-   [List Demo](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~List.html)
+-   [Lists with Drag and Drop](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~DragDrop.html)
+-   [List with re-size support](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Resizer.html)
 
 API
 ---
 
-Here is a link to the API of the Widget:\
+Here is a link to the API of the Widget:
 [qx.ui.form.List](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.List)
