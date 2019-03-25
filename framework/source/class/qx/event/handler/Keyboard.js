@@ -473,10 +473,18 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       "gecko" : function(domEvent)
       {
-        var charCode = domEvent.charCode;
-        var type = domEvent.type;
+        if(qx.core.Environment.get("engine.version") < 66) {
+          var charCode = domEvent.charCode;
+          var type = domEvent.type;
 
-        this._idealKeyHandler(domEvent.keyCode, charCode, type, domEvent);
+          this._idealKeyHandler(domEvent.keyCode, charCode, type, domEvent);
+        } else {
+          if (this._charCode2KeyCode[domEvent.keyCode]) {
+            this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
+          } else {
+            this._idealKeyHandler(0, domEvent.keyCode, domEvent.type, domEvent);
+          }
+        }
       },
 
       "webkit" : function(domEvent)
@@ -651,8 +659,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     // register at the event handler
     qx.event.Registration.addHandler(statics);
 
-    if ((qx.core.Environment.get("engine.name") == "mshtml") ||
-      qx.core.Environment.get("engine.name") == "webkit")
+    if ((qx.core.Environment.get("engine.name") !== "opera"))
     {
       members._charCode2KeyCode =
       {
