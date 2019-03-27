@@ -421,17 +421,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Synchronize slider to splitter size and show it
       var slider = this.getChildControl("slider");
       var splitterBounds = splitter.getBounds();
-      if (this.getOrientation() === "vertical") {
-        slider.setUserBounds(
-          splitterBounds.left, splitterBounds.top,
-          splitterBounds.width, splitterBounds.height || 6
-        );
-      } else if (this.getOrientation() === "horizontal") {
-        slider.setUserBounds(
-          splitterBounds.left, splitterBounds.top,
-          splitterBounds.width || 6, splitterBounds.height
-        );
-      }
+      slider.setUserBounds(
+        splitterBounds.left, splitterBounds.top,
+        splitterBounds.width || 6, splitterBounds.height || 6
+      );
 
       slider.setZIndex(splitter.getZIndex() + 1);
       slider.show();
