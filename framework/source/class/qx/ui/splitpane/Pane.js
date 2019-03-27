@@ -104,11 +104,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
       apply : "_applyOrientation"
     },
 
-    displaySplitter :
+    splitterVisible :
     {
       init: true,
       check: "Boolean",
-      apply: "_applyDisplaySplitter"
+      apply: "_applySplitterVisible"
     }
   },
 
@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // is removed.
       splitter.addListener("resize", function(e) {
         var bounds = e.getData();
-        if (this.getDisplaySplitter() && (bounds.height == 0 || bounds.width == 0)) {
+        if (this.getSplitterVisible() && (bounds.height == 0 || bounds.width == 0)) {
           this.__blocker.hide();
         } else {
           this.__blocker.show();
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__setBlockerPosition();
     },
 
-    _applyDisplaySplitter : function(value, old) {
+    _applySplitterVisible : function(value, old) {
       this.getChildControl("splitter").getChildControl("knob").setVisibility(value ? "visible" : "excluded");
     },
 
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
         var left = bounds && bounds.left;
 
-        if (width || !this.getDisplaySplitter()) {
+        if (width || !this.getSplitterVisible()) {
           if (isNaN(left)) {
             left = qx.bom.element.Location.getPosition(splitterElem).left;
           }
@@ -328,7 +328,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
         var top =  bounds && bounds.top;
 
-        if (height || !this.getDisplaySplitter()) {
+        if (height || !this.getSplitterVisible()) {
           if (isNaN(top)) {
             top = qx.bom.element.Location.getPosition(splitterElem).top;
           }
