@@ -104,6 +104,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
       apply : "_applyOrientation"
     },
 
+    /**
+     * The visibility of the splitter.
+     * Allows to remove the splitter in favor of other visual separation means like background color differences.
+     */
     splitterVisible :
     {
       init: true,
