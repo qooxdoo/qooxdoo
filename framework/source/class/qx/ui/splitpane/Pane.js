@@ -102,6 +102,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
       init  : "horizontal",
       check : [ "horizontal", "vertical" ],
       apply : "_applyOrientation"
+    },
+
+    displaySplitter :
+    {
+      init: true,
+      check: "Boolean",
+      apply: "_applyDisplaySplitter"
     }
   },
 
@@ -187,7 +194,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // is removed.
       splitter.addListener("resize", function(e) {
         var bounds = e.getData();
-        if (bounds.height == 0 || bounds.width == 0) {
+        if (this.getDisplaySplitter() && (bounds.height == 0 || bounds.width == 0)) {
           this.__blocker.hide();
         } else {
           this.__blocker.show();
@@ -269,6 +276,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__setBlockerPosition();
     },
 
+    _applyDisplaySplitter : function(value, old) {
+      this.getChildControl("splitter").getChildControl("knob").setVisibility(value ? "visible" : "excluded");
+    },
 
     /**
      * Helper for setting the blocker to the right position, which depends on
@@ -299,11 +309,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
         var left = bounds && bounds.left;
 
-        if (width) {
+        if (width || !this.getDisplaySplitter()) {
           if (isNaN(left)) {
             left = qx.bom.element.Location.getPosition(splitterElem).left;
           }
-          this.__blocker.setWidth(offset, width);
+          this.__blocker.setWidth(offset, width || 6);
           this.__blocker.setLeft(offset, left);
         }
 
@@ -318,11 +328,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
         var top =  bounds && bounds.top;
 
-        if (height) {
+        if (height || !this.getDisplaySplitter()) {
           if (isNaN(top)) {
             top = qx.bom.element.Location.getPosition(splitterElem).top;
           }
-          this.__blocker.setHeight(offset, height);
+          this.__blocker.setHeight(offset, height || 6);
           this.__blocker.setTop(offset, top);
         }
       }
@@ -411,10 +421,17 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Synchronize slider to splitter size and show it
       var slider = this.getChildControl("slider");
       var splitterBounds = splitter.getBounds();
-      slider.setUserBounds(
-        splitterBounds.left, splitterBounds.top,
-        splitterBounds.width, splitterBounds.height
-      );
+      if (this.getOrientation() === "vertical") {
+        slider.setUserBounds(
+          splitterBounds.left, splitterBounds.top,
+          splitterBounds.width, splitterBounds.height || 6
+        );
+      } else if (this.getOrientation() === "horizontal") {
+        slider.setUserBounds(
+          splitterBounds.left, splitterBounds.top,
+          splitterBounds.width || 6, splitterBounds.height
+        );
+      }
 
       slider.setZIndex(splitter.getZIndex() + 1);
       slider.show();
