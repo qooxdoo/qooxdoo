@@ -364,6 +364,10 @@
  *       <td>event.auxclick</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Event#getAuxclickEvent}</td>
  *     </tr>
+ *     <tr>
+ *       <td>event.passive</td><td><i>Map</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getPassive}</td>
+ *     </tr>
  *
  *     <tr>
  *       <td colspan="4"><b>html</b></td>

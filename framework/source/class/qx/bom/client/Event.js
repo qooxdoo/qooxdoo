@@ -212,7 +212,31 @@ qx.Bootstrap.define("qx.bom.client.Event",
       catch(ex) {};
       
       return (hasAuxclick ? true : false);
-    }
+    },
+
+    /**
+     * Checks whether the browser supports passive event handlers.
+     */
+    getPassive: function () {
+      var passiveSupported = false;
+      try {
+        var options = {
+            get passive() {
+              // this function will be called when the browser
+              // attempts to access the passive property.
+              passiveSupported = true;
+            }
+          };
+
+          window.addEventListener("test", options, options);
+          window.removeEventListener("test", options, options);
+        } catch (err) {
+          passiveSupported = false;
+        }
+        return passiveSupported;
+      }
+    },
+
   },
 
   defer : function(statics) {
@@ -226,5 +250,6 @@ qx.Bootstrap.define("qx.bom.client.Event",
     qx.core.Environment.add("event.hashchange", statics.getHashChange);
     qx.core.Environment.add("event.mousewheel", statics.getMouseWheel);
     qx.core.Environment.add("event.auxclick", statics.getAuxclickEvent);
+    qx.core.Environment.add("event.passive", statics.getPassive);
   }
 });
