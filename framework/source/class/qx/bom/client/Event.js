@@ -1,4 +1,4 @@
-/* ************************************************************************
+﻿/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -217,24 +217,22 @@ qx.Bootstrap.define("qx.bom.client.Event",
     /**
      * Checks whether the browser supports passive event handlers.
      */
-    getPassive: function () {
-      var passiveSupported = false;
-      try {
-        var options = {
-            get passive() {
-              // this function will be called when the browser
-              // attempts to access the passive property.
-              passiveSupported = true;
-            }
-          };
-
-          window.addEventListener("test", options, options);
-          window.removeEventListener("test", options, options);
-        } catch (err) {
-          passiveSupported = false;
-        }
-        return passiveSupported;
-      }
+	getPassive: function () {
+      return eval("(function(){" +
+        "var passiveSupported = false;" +
+        "try {" +
+        "  var options = {" +
+        "      get passive() {" +
+        "        passiveSupported = true;" +
+        "      }" +
+        "    };" +
+        "    window.addEventListener('test', options, options);" +
+        "    window.removeEventListener('test', options, options);" +
+        "  } catch (err) {" +
+        "    passiveSupported = false;" +
+        "  }" +
+        "  return passiveSupported;" +
+      "})()");
     },
 
   },
