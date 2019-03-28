@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       var content = "<div></div>";
 
       // background size is critical for high-resolution images
-      var backgroundSize = this.__imageData.width + "px, " + this.__imageData.height + "px";
+      var backgroundSize = this.__imageData.width + "px " + this.__imageData.height + "px";
 
       var srcUrl = this.__imageData.url;
       if (this.__imageData.url !== null)
