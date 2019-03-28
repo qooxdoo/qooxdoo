@@ -122,7 +122,7 @@ qx.Class.define("qx.util.Serializer",
      * @param dateFormat {qx.util.format.DateFormat?} If a date formater is given,
      *   the format method of this given formater is used to convert date
      *   objects into strings.
-     * @return {String}
+     * @return {Object}
      *   The serialized object.
      */
     toNativeObject : function(object, qxSerializer, dateFormat)
