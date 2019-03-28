@@ -253,7 +253,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
           {
           width: this.__imageData.width + "px",
           height: this.__imageData.height + "px",
-          "background-size": backgroundSize,
+          //"background-size": backgroundSize,
           display: qx.core.Environment.get("css.inlineblock"),
           verticalAlign: "top",
           position: "static"
