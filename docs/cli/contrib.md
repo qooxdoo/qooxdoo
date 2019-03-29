@@ -162,7 +162,10 @@ options:
   --message, -m         Set commit/release message
   --dryrun              Show result only, do not publish to GitHub
   --verbose, -v         Verbose logging
-  --force, -f           Ignore warnings
+  --force, -f           Ignore warnings (such as demo check)
+  --create-index, -i    Create an index file (qooxdoo.json) with paths to
+                        Manifest.json files
+
 ```
 
 You need to supply a valid GitHub token which has permissions to publish your
@@ -223,7 +226,7 @@ main library by adding a truthy `main` property (see above.
 
 You can (re)generate the `qooxdoo.json` file by using 
 `qx contrib publish --create-index`. The command will automatically search for all
-``Manifest.json` files in the repository and ask you to select the 
+`Manifest.json` files in the repository and ask you to select the 
 main library if you have more than one.
 
 Note that all libraries in the repository must have the same version number,
