@@ -102,17 +102,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       init  : "horizontal",
       check : [ "horizontal", "vertical" ],
       apply : "_applyOrientation"
-    },
-
-    /**
-     * The visibility of the splitter.
-     * Allows to remove the splitter in favor of other visual separation means like background color differences.
-     */
-    splitterVisible :
-    {
-      init: true,
-      check: "Boolean",
-      apply: "_applySplitterVisible"
     }
   },
 
@@ -198,7 +187,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // is removed.
       splitter.addListener("resize", function(e) {
         var bounds = e.getData();
-        if (this.getSplitterVisible() && (bounds.height == 0 || bounds.width == 0)) {
+        if (this.getChildControl("splitter").getVisible() && (bounds.height == 0 || bounds.width == 0)) {
           this.__blocker.hide();
         } else {
           this.__blocker.show();
@@ -280,10 +269,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__setBlockerPosition();
     },
 
-    _applySplitterVisible : function(value, old) {
-      this.getChildControl("splitter").getChildControl("knob").setVisibility(value ? "visible" : "excluded");
-    },
-
     /**
      * Helper for setting the blocker to the right position, which depends on
      * the offset, orientation and the current position of the splitter.
@@ -313,7 +298,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
         var left = bounds && bounds.left;
 
-        if (width || !this.getSplitterVisible()) {
+        if (width || !this.getChildControl("splitter").getVisible()) {
           if (isNaN(left)) {
             left = qx.bom.element.Location.getPosition(splitterElem).left;
           }
@@ -332,7 +317,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
         var top =  bounds && bounds.top;
 
-        if (height || !this.getSplitterVisible()) {
+        if (height || !this.getChildControl("splitter").getVisible()) {
           if (isNaN(top)) {
             top = qx.bom.element.Location.getPosition(splitterElem).top;
           }
