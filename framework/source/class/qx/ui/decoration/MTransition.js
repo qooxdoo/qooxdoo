@@ -28,7 +28,7 @@
  * * Opera 12.10+
  * * Chrome 26+
  *
- * It is possible to define transitions by setting an 
+ * It is possible to define transitions by setting an
  * array containing the needed values as the property value.
  * In case multiple values are specified, the values of the properties
  * are repeated until all match in length.
@@ -89,6 +89,14 @@ qx.Mixin.define("qx.ui.decoration.MTransition",
       if (!propName ||
           this.getTransitionDuration() == null ){
         return;
+      }
+      if (qx.bom.client.Browser.getName() === "chrome" && qx.bom.client.Browser.getVersion() >= 71) {
+        // chrome has a repaint problem ... as suggested in
+        // https://stackoverflow.com/a/21947628/235990 we are setting
+        // a transform ...
+        if (!styles.transform) {
+          styles.transform = "translateZ(0)";
+        }
       }
 
       propName = qx.bom.Style.getCssName(propName.name);
