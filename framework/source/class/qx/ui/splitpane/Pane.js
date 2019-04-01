@@ -187,7 +187,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // is removed.
       splitter.addListener("resize", function(e) {
         var bounds = e.getData();
-        if (bounds.height == 0 || bounds.width == 0) {
+        if (this.getChildControl("splitter").getVisible() && (bounds.height == 0 || bounds.width == 0)) {
           this.__blocker.hide();
         } else {
           this.__blocker.show();
@@ -269,7 +269,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__setBlockerPosition();
     },
 
-
     /**
      * Helper for setting the blocker to the right position, which depends on
      * the offset, orientation and the current position of the splitter.
@@ -299,11 +298,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
         var left = bounds && bounds.left;
 
-        if (width) {
+        if (width || !this.getChildControl("splitter").getVisible()) {
           if (isNaN(left)) {
             left = qx.bom.element.Location.getPosition(splitterElem).left;
           }
-          this.__blocker.setWidth(offset, width);
+          this.__blocker.setWidth(offset, width || 6);
           this.__blocker.setLeft(offset, left);
         }
 
@@ -318,11 +317,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
         var top =  bounds && bounds.top;
 
-        if (height) {
+        if (height || !this.getChildControl("splitter").getVisible()) {
           if (isNaN(top)) {
             top = qx.bom.element.Location.getPosition(splitterElem).top;
           }
-          this.__blocker.setHeight(offset, height);
+          this.__blocker.setHeight(offset, height || 6);
           this.__blocker.setTop(offset, top);
         }
       }
@@ -413,7 +412,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var splitterBounds = splitter.getBounds();
       slider.setUserBounds(
         splitterBounds.left, splitterBounds.top,
-        splitterBounds.width, splitterBounds.height
+        splitterBounds.width || 6, splitterBounds.height || 6
       );
 
       slider.setZIndex(splitter.getZIndex() + 1);
