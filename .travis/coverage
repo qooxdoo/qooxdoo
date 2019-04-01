@@ -4,7 +4,7 @@ export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
 
 php -S 0.0.0.0:31323 &> /dev/null &
-./generate.py -sI test-source
+./generate.py -sI test-source -m TEST_TRAVIS:true
 
 karma start --reporters=dots,coverage,coveralls karma-coverage.conf.js --hostname="$(hostname)"
 RET=$?
