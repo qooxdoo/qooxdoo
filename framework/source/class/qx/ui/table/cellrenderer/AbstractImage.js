@@ -232,15 +232,15 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     _getContentHtml : function(cellInfo)
     {
       var content = "<div></div>";
-
-      // background size is critical for high-resolution images
-      var backgroundSize = this.__imageData.width + "px " + this.__imageData.height + "px";
+      var backgroundSize = "auto auto";
 
       var srcUrl = this.__imageData.url;
       if (this.__imageData.url !== null)
       {
         var highResolutionSource = qx.util.ResourceManager.getInstance().findHighResolutionSource (this.__imageData.url);
         if (highResolutionSource) {
+          // background size is critical for high-resolution images
+          backgroundSize = this.__imageData.width + "px " + this.__imageData.height + "px";
           srcUrl = highResolutionSource;
         }
       }
