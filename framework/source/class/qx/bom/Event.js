@@ -80,11 +80,15 @@ qx.Bootstrap.define("qx.bom.Event",
      * @param listener {Function} The pointer to the function to assign
      * @param useCapture {Boolean ? false} A Boolean value that specifies the event phase to add
      *    the event handler for the capturing phase or the bubbling phase.
+     * @param passive {Boolean ? false} Specifies whether to set the passive option to true or false if supported.
      */
-    addNativeListener : function(target, type, listener, useCapture)
+    addNativeListener : function(target, type, listener, useCapture, passive)
     {
       if (target.addEventListener) {
-        target.addEventListener(type, listener, !!useCapture);
+        if (passive === undefined || !qx.core.Environment.get("event.passive"))
+          target.addEventListener(type, listener, !!useCapture);
+        else
+          target.addEventListener(type, listener, { capture: !!useCapture, passive: !!passive });
       } else if (target.attachEvent) {
         target.attachEvent("on" + type, listener);
       } else if (typeof target["on" + type] != "undefined") {
