@@ -85,10 +85,11 @@ qx.Bootstrap.define("qx.bom.Event",
     addNativeListener : function(target, type, listener, useCapture, passive)
     {
       if (target.addEventListener) {
-        if (passive === undefined || !qx.core.Environment.get("event.passive"))
+        if (passive === undefined || !qx.core.Environment.get("event.passive")) {
           target.addEventListener(type, listener, !!useCapture);
-        else
+        } else {
           target.addEventListener(type, listener, { capture: !!useCapture, passive: !!passive });
+		}  
       } else if (target.attachEvent) {
         target.attachEvent("on" + type, listener);
       } else if (typeof target["on" + type] != "undefined") {
