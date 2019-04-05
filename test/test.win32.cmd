@@ -26,6 +26,7 @@ call qx contrib remove ergobyte/qookery/qookerymaps -v || EXIT /B 1
 call qx compile -v --clean || EXIT /B 1
 call node compiled\source\myapp\myapp.js || EXIT /B 1
 :: test install without manifest
+call qx clean
 call qx contrib install ergobyte/qookery -v || EXIT /B 1
 call qx compile -v --clean || EXIT /B 1
 call node compiled\source\myapp\myapp.js || EXIT /B 1
