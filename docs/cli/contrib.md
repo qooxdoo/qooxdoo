@@ -110,7 +110,9 @@ qx install qooxdoo/qxl.apiviewer@v1.1.0
 qx install qooxdoo/qxl.apiviewer@eef00cba2dd72ff73dc88f9786aa3d9a0ed4ff6d
 ```
 
-The prefix "v" is mandatory for releases. 
+The prefix "v" is mandatory for releases. You can even use branch names like "master"
+but referencing a moving target is obviously a bad idea except in special cases
+since your code can break any time. 
 
 As noted, `qx contrib list` shows only the contribs that are compatible with the
 qooxdoo framework version used as per the semver range in the `require.qooxdoo-sdk`
@@ -119,7 +121,15 @@ reason anyways, do the following:
 
 ```
 qx contrib list --all # this will list all available contribs, regardless of compatibility
-qx contrib install <URI@release_tag> 
+qx contrib install <URI>@<release_tag> 
+```
+### Upgrading your depenencies
+
+You can upgrade the contribs listed in `contrib.json` to the latest avalable release
+compatible with your qooxdoo version with
+
+```bash
+qx contrib upgrade
 ```
 
 ### Remove a contrib library
