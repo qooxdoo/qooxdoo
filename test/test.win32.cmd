@@ -1,7 +1,7 @@
-cd ..\test
+
+cd test
 node test-deps.js
 cd ..
-
 
 rmdir  /Q /S myapp
 :: test create app

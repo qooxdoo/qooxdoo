@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -x
 
-cd ../test
+cd test
 node test-deps.js
 cd ..
 
