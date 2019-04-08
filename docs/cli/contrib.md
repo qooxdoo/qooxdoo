@@ -95,8 +95,24 @@ install <URI>`. The URI takes the form `github_user/repository[/path]`: the firs
 part is the name of a repository on GitHub, which is enough if the `Manifest.json`
 of the library is in the root of the repository. Otherwise, the path to the 
 manifest within the repository is appended. In the case that a repository contains
-several libraries (see below) all of them will be installed if the URI points to 
-the root of a repository. 
+several libraries (see below) *all* of them will be installed if the URI points to 
+the root of a repository. This might not be what you want.
+
+If you do not specify any release, `qx contrib install` will install the latest
+version compatible with your qooxdoo version. If you want to install a specific 
+version (or in fact, any ["tree-ish" expression](https://stackoverflow.com/questions/4044368/what-does-tree-ish-mean-in-git) 
+that GitHub supports, you can use the `--release` parameter or add the version
+with an '@' sign like so
+
+```bash
+qx install qooxdoo/qxl.apiviewer --release v1.1.0
+qx install qooxdoo/qxl.apiviewer@v1.1.0
+qx install qooxdoo/qxl.apiviewer@eef00cba2dd72ff73dc88f9786aa3d9a0ed4ff6d
+```
+
+The prefix "v" is mandatory for releases. You can even use branch names like "master"
+but referencing a moving target is obviously a bad idea except in special cases
+since your code can break any time. 
 
 As noted, `qx contrib list` shows only the contribs that are compatible with the
 qooxdoo framework version used as per the semver range in the `require.qooxdoo-sdk`
@@ -105,7 +121,15 @@ reason anyways, do the following:
 
 ```
 qx contrib list --all # this will list all available contribs, regardless of compatibility
-qx contrib install <URI@release_tag> 
+qx contrib install <URI>@<release_tag> 
+```
+### Upgrading your depenencies
+
+You can upgrade the contribs listed in `contrib.json` to the latest avalable release
+compatible with your qooxdoo version with
+
+```bash
+qx contrib upgrade
 ```
 
 ### Remove a contrib library
@@ -162,6 +186,10 @@ options:
   --message, -m         Set commit/release message
   --dryrun              Show result only, do not publish to GitHub
   --verbose, -v         Verbose logging
+  --force, -f           Ignore warnings (such as demo check)
+  --create-index, -i    Create an index file (qooxdoo.json) with paths to
+                        Manifest.json files
+
 ```
 
 You need to supply a valid GitHub token which has permissions to publish your
@@ -200,20 +228,35 @@ repository in one of the following ways:
   the `Manifest.json` file outside of the root directory, you must provide a
   `qooxdoo.json` file in the root dir (see below)
 
-### qooxdoo.json
+### Multi-library repositories / qooxdoo.json
 
-This file in the root of the repository allows the inclusion and discovery of 
-multiple libraries in this repo. It has the  following syntax:
+It is possible to put more than one library into a repository, by putting an
+index file into the root of the repository with the name "qooxdoo.json". 
+It allows the contrib system to auto-discover the contained libraries. 
+It has the  following syntax:
      
-````json5
+```json5
 {
   "libraries": [
    { "path":"relative-path/to/dir-containing-manifest1" },
-   { "path":"relative-path/to/dir-containing-manifest2" },
+   { "path":"relative-path/to/dir-containing-manifest2", main: true },
    //...
  ]
 }
-````
+```
+
+The first library will be treated as the main library, unless you specify the 
+main library by adding a truthy `main` property (see above.
+
+You can (re)generate the `qooxdoo.json` file by using 
+`qx contrib publish --create-index`. The command will automatically search for all
+`Manifest.json` files in the repository and ask you to select the 
+main library if you have more than one.
+
+Note that all libraries in the repository must have the same version number,
+because dependencies are managed and checked on the level of the repository, not
+of the library. When you `qx contrib publish` the repository, the versions of
+all libraries will be set to the one of the main library.
 
 ## Install contribs automatically
 
@@ -231,22 +274,16 @@ compatibilites. The main dependeny is between the qooxdoo framework used by the
 application under development and the contribution (which has been also been
 developed with a particular qooxdoo version).
 
-The qooxdoo framework version can be found in the [top level `version.txt`
-file](https://github.com/qooxdoo/qooxdoo/blob/master/version.txt). The contrib
-declares its compatibility with qooxdoo versions using the `qooxdoo-versions` OR
-`requires.qooxdoo-sdk` entries in `Manifest.json` (See [this
+The qooxdoo framework version can be found in the `package.json` file and
+additionally in the top level `version.txt` file. The contrib declares its
+compatibility with qooxdoo versions using the `requires.qooxdoo-sdk` entries in
+`Manifest.json` (See [this
 example](https://github.com/qooxdoo/qxl.widgetbrowser/blob/master/Manifest.json#L47)).
-`qooxdoo-versions` takes an array of version numbers. You need to specify each
-and every version that you want to support, and any new qooxdoo version will
-break compatibility. This is part of the original, now defunct contrib system.
-It will be supported for version 6, but will be removed in version 7.
-
-We strongly suggest to use the `requires.qooxdoo-sdk` key instead, which takes a
-[semver range string](https://github.com/npm/node-semver#ranges). This allows
-for a much more flexible and automated dependency management. You can, for
-example, declare that the contrib will be compatible with qooxdoo versions
-starting with 5.02 up until version 6, i.e. as long as there is no breaking
-change (which is guaranteed by the semver specs), using `5.0.2 - 6.x` as the
+, which takes a [semver range
+string](https://github.com/npm/node-semver#ranges). You can, for example,
+declare that the contrib will be compatible with qooxdoo versions starting with
+5.02 up until version 6, i.e. as long as there is no breaking change (which is
+guaranteed by the semver specs), using `5.0.2 - 6.x` as the
 `requires.qooxdoo-sdk`. The `qx contrib` commands handle the compatibility data
 generated by semver strictly, and the compiler will enforce these compatibility
 restraints.
@@ -257,6 +294,11 @@ with an "^" which indicates that the contrib will work with that version upwards
 until the version with a breaking change (which increments the major version). 
 For example, a contrib that depends on `"qooxdoo-sdk":"^6.0.0-alpha"` will be 
 considered compatible with all 6.x versions, but not with v7.x.
+
+In addition, the previous, now deprecated `info.qooxdoo-versions` entry is
+supported, which takes an array of version numbers. You need to specify each and
+every version that you want to support, and any new qooxdoo version will break
+compatibility. Support for this will be removed in version 7.
 
 ## Contribs as Applications
 

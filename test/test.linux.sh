@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 set -x
 
 cd ../test
@@ -32,6 +33,7 @@ qx contrib remove ergobyte/qookery/qookerymaps -v || exit $?
 qx compile -v --clean || exit $?
 node compiled/source/myapp/myapp.js || exit $?
 # test install without manifest
+qx clean || exit $?
 qx contrib install ergobyte/qookery -v || exit $?
 qx compile -v --clean || exit $?
 node compiled/source/myapp/myapp.js || exit $?
