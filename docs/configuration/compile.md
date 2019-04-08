@@ -97,6 +97,8 @@ The `targets` key is an array of objects, one for each possible target that can 
 - `babelOptions` - (**optional**) options given to @babel/preset-env. With this options the output type of babel can be defined. For details see here: https://babeljs.io/docs/en/babel-preset-env#options
 If you add the `babelOptions` block at the top level of the compile.json, it will effect every application regardless of the target. They ´both will be merged so that the target `babelOptions` takes prescedence over Target's `babelOptions`.
 
+If you want to use more than the three default target types and/or use custom target classes, you can use the `targetClass` key to supply the name of the class as a string. 
+
 ```
 targets: [
    { 
