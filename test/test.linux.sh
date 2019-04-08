@@ -1,4 +1,9 @@
 set -x
+
+cd ../test
+node test-deps.js
+cd ..
+
 rm -rf myapp
 # test create app
 qx create myapp -I --type server -v || exit $?
@@ -38,6 +43,3 @@ qx lint --fix --warnAsError ||  exit $?
 qx compile -v --clean || exit $?
 node compiled/source/myapp/myapp.js || exit $?
 
-cd ../test
-node test-deps.js
-cd ..
