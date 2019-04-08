@@ -88,7 +88,18 @@ command needs to be executed inside your project folder, since it expects
 contrib list` retrieves the version of the qooxdoo framework that the current
 project depends on and filters the list of available contributions accordingly.
 The list displays the names of the repositories and the names of the contained
-contrib libraries that will be installed.
+contrib libraries that will be installed. It has the following options:
+
+```
+Options:
+  --all, -a        Show all versions, including incompatible ones
+  --json, -j       Output list as JSON literal
+  --installed, -i  Show only installed libraries
+  --match, -m      Filter by regular expression (case-insensitive)
+  --libraries, -l  List libraries only (no repositories)
+  --short, -s      Omit title and description to make list more compact
+  --noheaders, -H  Omit header and footer
+```
 
 You can then install any contrib library from this list by executing `qx contrib
 install <URI>`. The URI takes the form `github_user/repository[/path]`: the first
@@ -257,6 +268,21 @@ Note that all libraries in the repository must have the same version number,
 because dependencies are managed and checked on the level of the repository, not
 of the library. When you `qx contrib publish` the repository, the versions of
 all libraries will be set to the one of the main library.
+
+## How to hide your contrib from being listed
+
+If you delete the contrib repository on GitHub, it will be removed from the
+contrib registry when the registry is regenerated nightly. However, there might
+be situations in which you want the library to be accessible without showing up 
+in `qx list`, for example, when you rename or deprecate a library, or if you
+create a fork that your application depends on, but which you don't want others
+to use. 
+
+To achieve this, simply add `(unlisted)` or `(deprecated)` (with the 
+brackets) to the description of the repository on GitHub (the one below the 
+name of the repository). This way, the library will not be listed unless `--all`
+is passed to `qx list`.
+
 
 ## Install contribs automatically
 
