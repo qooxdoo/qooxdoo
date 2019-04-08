@@ -1,3 +1,8 @@
+
+cd test
+node test-deps.js
+cd ..
+
 rmdir  /Q /S myapp
 :: test create app
 call qx create myapp --type server -I  -v || EXIT /B 1
