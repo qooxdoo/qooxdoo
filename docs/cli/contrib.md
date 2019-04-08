@@ -95,8 +95,24 @@ install <URI>`. The URI takes the form `github_user/repository[/path]`: the firs
 part is the name of a repository on GitHub, which is enough if the `Manifest.json`
 of the library is in the root of the repository. Otherwise, the path to the 
 manifest within the repository is appended. In the case that a repository contains
-several libraries (see below) all of them will be installed if the URI points to 
-the root of a repository. 
+several libraries (see below) *all* of them will be installed if the URI points to 
+the root of a repository. This might not be what you want.
+
+If you do not specify any release, `qx contrib install` will install the latest
+version compatible with your qooxdoo version. If you want to install a specific 
+version (or in fact, any ["tree-ish" expression](https://stackoverflow.com/questions/4044368/what-does-tree-ish-mean-in-git) 
+that GitHub supports, you can use the `--release` parameter or add the version
+with an '@' sign like so
+
+```bash
+qx install qooxdoo/qxl.apiviewer --release v1.1.0
+qx install qooxdoo/qxl.apiviewer@v1.1.0
+qx install qooxdoo/qxl.apiviewer@eef00cba2dd72ff73dc88f9786aa3d9a0ed4ff6d
+```
+
+The prefix "v" is mandatory for releases. You can even use branch names like "master"
+but referencing a moving target is obviously a bad idea except in special cases
+since your code can break any time. 
 
 As noted, `qx contrib list` shows only the contribs that are compatible with the
 qooxdoo framework version used as per the semver range in the `require.qooxdoo-sdk`
@@ -105,7 +121,15 @@ reason anyways, do the following:
 
 ```
 qx contrib list --all # this will list all available contribs, regardless of compatibility
-qx contrib install <URI@release_tag> 
+qx contrib install <URI>@<release_tag> 
+```
+### Upgrading your depenencies
+
+You can upgrade the contribs listed in `contrib.json` to the latest avalable release
+compatible with your qooxdoo version with
+
+```bash
+qx contrib upgrade
 ```
 
 ### Remove a contrib library
