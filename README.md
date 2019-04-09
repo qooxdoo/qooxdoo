@@ -18,7 +18,6 @@ One of the top goals of this project is to be very fast and lightweight - fast e
 
 The included command line utility allows you create, build and manage [qooxdoo](http://www.qooxdoo.org) applications (note that Qooxdoo-Compiler now incorporates the Qooxdoo-CLI project, which used to be a separate repo).
 
-
 - [qooxdoo command line interface](#qooxdoo-compiler-and-command-line-interface)
     - [Develoment status](#development-status)
     - [Prerequisites](#prerequisites)
