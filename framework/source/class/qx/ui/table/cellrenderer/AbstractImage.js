@@ -229,37 +229,29 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
 
     // overridden
-    _getContentHtml : function(cellInfo)
-    {
+    _getContentHtml : function(cellInfo) {
       var content = "<div></div>";
-
-      // background size is critical for high-resolution images
-      var backgroundSize = this.__imageData.width + "px " + this.__imageData.height + "px";
-
-      var srcUrl = this.__imageData.url;
-      if (this.__imageData.url !== null)
-      {
-        var highResolutionSource = qx.util.ResourceManager.getInstance().findHighResolutionSource (this.__imageData.url);
+      // set image
+      if (this.__imageData.url) {
+        var srcUrl = this.__imageData.url;
+        var highResolutionSource = qx.util.ResourceManager.getInstance().findHighResolutionSource(this.__imageData.url);
         if (highResolutionSource) {
           srcUrl = highResolutionSource;
         }
-      }
-
-      // set image
-      if (this.__imageData.url) {
-        content = qx.bom.element.Decoration.create(
-          srcUrl,
-          this.getRepeat(),
-          {
+        var style = {
           width: this.__imageData.width + "px",
           height: this.__imageData.height + "px",
-          "background-size": backgroundSize,
           display: qx.core.Environment.get("css.inlineblock"),
           verticalAlign: "top",
           position: "static"
-        });
-      };
-      return content;    
+        }
+        if (qx.util.ResourceManager.getInstance().getCombinedFormat(this.__imageData.url) === "") {
+          // background size is critical for high-resolution images but breaks combined images
+          style["background-size"] = this.__imageData.width + "px " + this.__imageData.height + "px";
+        }
+        content = qx.bom.element.Decoration.create(srcUrl, this.getRepeat(), style);
+      }
+      return content;
     },
 
 
