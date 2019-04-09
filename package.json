@@ -67,7 +67,7 @@
     "qooxdoo": "^6.0.0-alpha",
     "qooxdoo-sdk": "^6.0.0-alpha-20181226-a3c2b0b",
     "rimraf": "^2.6.2",
-    "semver": "^5.6.0",
+    "semver": "^5.7.0",
     "tmp": "0.0.33",
     "uglify-es": "^3.3.9",
     "upath": "^1.1.0",
