@@ -88,15 +88,42 @@ command needs to be executed inside your project folder, since it expects
 contrib list` retrieves the version of the qooxdoo framework that the current
 project depends on and filters the list of available contributions accordingly.
 The list displays the names of the repositories and the names of the contained
-contrib libraries that will be installed.
+contrib libraries that will be installed. It has the following options:
+
+```
+Options:
+  --all, -a        Show all versions, including incompatible ones
+  --json, -j       Output list as JSON literal
+  --installed, -i  Show only installed libraries
+  --match, -m      Filter by regular expression (case-insensitive)
+  --libraries, -l  List libraries only (no repositories)
+  --short, -s      Omit title and description to make list more compact
+  --noheaders, -H  Omit header and footer
+```
 
 You can then install any contrib library from this list by executing `qx contrib
 install <URI>`. The URI takes the form `github_user/repository[/path]`: the first
 part is the name of a repository on GitHub, which is enough if the `Manifest.json`
 of the library is in the root of the repository. Otherwise, the path to the 
 manifest within the repository is appended. In the case that a repository contains
-several libraries (see below) all of them will be installed if the URI points to 
-the root of a repository. 
+several libraries (see below) *all* of them will be installed if the URI points to 
+the root of a repository. This might not be what you want.
+
+If you do not specify any release, `qx contrib install` will install the latest
+version compatible with your qooxdoo version. If you want to install a specific 
+version (or in fact, any ["tree-ish" expression](https://stackoverflow.com/questions/4044368/what-does-tree-ish-mean-in-git) 
+that GitHub supports, you can use the `--release` parameter or add the version
+with an '@' sign like so
+
+```bash
+qx install qooxdoo/qxl.apiviewer --release v1.1.0
+qx install qooxdoo/qxl.apiviewer@v1.1.0
+qx install qooxdoo/qxl.apiviewer@eef00cba2dd72ff73dc88f9786aa3d9a0ed4ff6d
+```
+
+The prefix "v" is mandatory for releases. You can even use branch names like "master"
+but referencing a moving target is obviously a bad idea except in special cases
+since your code can break any time. 
 
 As noted, `qx contrib list` shows only the contribs that are compatible with the
 qooxdoo framework version used as per the semver range in the `require.qooxdoo-sdk`
@@ -105,7 +132,15 @@ reason anyways, do the following:
 
 ```
 qx contrib list --all # this will list all available contribs, regardless of compatibility
-qx contrib install <URI@release_tag> 
+qx contrib install <URI>@<release_tag> 
+```
+### Upgrading your depenencies
+
+You can upgrade the contribs listed in `contrib.json` to the latest avalable release
+compatible with your qooxdoo version with
+
+```bash
+qx contrib upgrade
 ```
 
 ### Remove a contrib library
@@ -233,6 +268,21 @@ Note that all libraries in the repository must have the same version number,
 because dependencies are managed and checked on the level of the repository, not
 of the library. When you `qx contrib publish` the repository, the versions of
 all libraries will be set to the one of the main library.
+
+## How to hide your contrib from being listed
+
+If you delete the contrib repository on GitHub, it will be removed from the
+contrib registry when the registry is regenerated nightly. However, there might
+be situations in which you want the library to be accessible without showing up 
+in `qx list`, for example, when you rename or deprecate a library, or if you
+create a fork that your application depends on, but which you don't want others
+to use. 
+
+To achieve this, simply add `(unlisted)` or `(deprecated)` (with the 
+brackets) to the description of the repository on GitHub (the one below the 
+name of the repository). This way, the library will not be listed unless `--all`
+is passed to `qx list`.
+
 
 ## Install contribs automatically
 
