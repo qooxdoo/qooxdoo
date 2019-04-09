@@ -12,6 +12,8 @@ Options:
   --warnAsError, -w  handle warnings as error
   --config, -c       prints the eslint configuration
   --format, -f       format of the output (default: `codeframe`, options: `codeframe`, `checkstyle`)
+  --outputFile, -o   output the results to the specified file
+  --verbose, -v      enables additional progress output to console
 
 ```
 
