@@ -7,6 +7,8 @@ cd test
 node test-deps.js
 cd ..
 
+bash test/bash/test-dependency-management.sh || exit $?
+
 rm -rf myapp
 # test create app
 qx create myapp -I --type server -v || exit $?
