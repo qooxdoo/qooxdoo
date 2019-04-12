@@ -7,6 +7,7 @@ cd test
 node test-deps.js
 cd ..
 
+qx contrib update || exit $?
 bash test/bash/test-dependency-management.sh || exit $?
 
 rm -rf myapp
