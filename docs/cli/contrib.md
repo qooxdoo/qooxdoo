@@ -6,7 +6,8 @@
     - [Introduction](#introduction)
     - [Discover and install libraries](#discover-and-install-libraries)
         - [Update the cache](#update-the-cache)
-        - [List and install available libraries](#list-and-install-available-libraries)
+        - [List available libraries](#list-available-libraries)
+        - [Install libraries](#install-libraries)
         - [Remove a contrib library](#remove-a-contrib-library)
     - [Create a new contrib library project](#create-a-new-contrib-library-project)
     - [Publish new versions of contrib libraries](#publish-new-versions-of-contrib-libraries)
@@ -80,7 +81,7 @@ prompt you for a token and save it, so that future calls use the same token.
 You can obtain a token from https://github.com/settings/tokens - you don't need
 to add any permissions because this will only be used read only.
 
-### List and install available libraries
+### List available libraries
 
 The next step is to execute `qx contrib list` in the root of your project. This
 command needs to be executed inside your project folder, since it expects
@@ -96,10 +97,13 @@ Options:
   --json, -j       Output list as JSON literal
   --installed, -i  Show only installed libraries
   --match, -m      Filter by regular expression (case-insensitive)
+  --namespace, -n  Display library namespace
   --libraries, -l  List libraries only (no repositories)
   --short, -s      Omit title and description to make list more compact
   --noheaders, -H  Omit header and footer
 ```
+
+### Install libraries
 
 You can then install any contrib library from this list by executing `qx contrib
 install <URI>`. The URI takes the form `github_user/repository[/path]`: the first
@@ -134,7 +138,22 @@ reason anyways, do the following:
 qx contrib list --all # this will list all available contribs, regardless of compatibility
 qx contrib install <URI>@<release_tag> 
 ```
-### Upgrading your depenencies
+
+It is also possible to install a library from a local path, for example, during 
+development, if you work with a local git repository. If the library is  
+published using the qooxdoo contrib registry, but you wish to use a locally 
+stored version of it, you can use  
+```
+qx contrib install owner/library --from-path ../path/to/the/library
+```
+
+Otherwise, you can install it "anonymously" with
+```
+qx contrib install --from-path ../path/to/the/library
+```
+
+
+### Upgrading your dependencies
 
 You can upgrade the contribs listed in `contrib.json` to the latest avalable release
 compatible with your qooxdoo version with
