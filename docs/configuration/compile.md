@@ -103,11 +103,7 @@ Here is an example how to disable translation for modern browsers in source mode
             "type": "source",
             "outputPath": "compiled/source",
 			"babelOptions": {
-				"targets": {
-					"edge"   : "18",
-					"chrome" : "73",
-					"firefox": "66"
-				}
+				"targets": "Chrome >= 73, Firefox >= 66, edge >= 18"
 			}
         },
         {
