@@ -8,14 +8,17 @@
         - [Update the cache](#update-the-cache)
         - [List available libraries](#list-available-libraries)
         - [Install libraries](#install-libraries)
+        - [Upgrade your dependencies](#upgrade-your-dependencies)
         - [Remove a contrib library](#remove-a-contrib-library)
     - [Create a new contrib library project](#create-a-new-contrib-library-project)
-    - [Publish new versions of contrib libraries](#publish-new-versions-of-contrib-libraries)
-    - [How to list get your contrib repository listed with `qx contrib list`](#how-to-list-get-your-contrib-repository-listed-with-qx-contrib-list)
-        - [qooxdoo.json](#qooxdoojson)
-    - [Install contribs automatically](#install-contribs-automatically)
-    - [Contribution compatibility management](#contribution-compatibility-management)
-    - [qx contrib and NPM](#qx-contrib-and-NPM)
+        - [Libraries as Applications](#libraries-as-applications)
+        - [Publish new versions of contrib libraries](#publish-new-versions-of-contrib-libraries)
+        - [How to list get your contrib repository listed](#how-to-list-get-your-contrib-repository-listed)
+        - [Multi-library repositories](#multi-library-repositories)
+        - [How to hide your library from being listed](#how-to-hide-your-library-from being listed)
+        - [Install contribs automatically](#install-contribs-automatically)
+    - [Library compatibility and dependency management](#library-compatibility-and-dependency management)
+        - [qx contrib and NPM](#qx-contrib-and-NPM)
 <!-- /TOC -->
 
 ## Introduction
@@ -152,14 +155,18 @@ Otherwise, you can install it "anonymously" with
 qx contrib install --from-path ../path/to/the/library
 ```
 
-
-### Upgrading your dependencies
+### Upgrade your dependencies
 
 You can upgrade the contribs listed in `contrib.json` to the latest avalable release
 compatible with your qooxdoo version with
 
 ```bash
 qx contrib upgrade
+```
+
+If you only want to upgrade one of the libraries, use 
+```
+qx contrib upgrade <library uri>
 ```
 
 ### Remove a contrib library
@@ -198,7 +205,44 @@ our example, the demo app is in `source/class/janedoe/helloworld/demo` folder.
 
 6. When ready, publish your new contrib (see below). 
 
-## Publish new versions of contrib libraries
+### Libraries as Applications
+
+You can identify a library as providing an Application which can be added to a
+user's project. Two examples of this are the [Qooxdoo API
+Viewer](https://github.com/qooxdoo/qooxdoo-api-viewer) and the Qooxdoo Test
+Runner (TBD).  When these libraries are added to a project, the `qx` command will
+automatically add a new application to the `compile.json` and the `qx serve`
+command can be used to run both applications.
+
+To declare that a library provides an application, add an `application` key to
+the `Manifest.json` - for example:
+
+```json5
+{
+    "provides": {
+        "namespace": "apiviewer",
+        "encoding": "utf-8",
+        "class": "source/class",
+        "resource": "source/resource",
+        "translation": "source/translation",
+        "type": "add-in",
+        "application": {
+            "class": "apiviewer.Application",
+            "theme": "apiviewer.Theme",
+            "name": "apiviewer",
+            "title": "Qooxdoo API Viewer",
+            "outputPath": "apiviewer",
+            "include": [ "qx.*" ],
+            "exclude": [ "qx.test.*", "qx.module.Blocker", "qx.module.Placement" ]
+        }
+    }
+}
+```
+
+That `application` is copied into the `compile.json`'s `applications` key as a
+new entry (or overwriting the old one)
+
+### Publish new versions of contrib libraries
 
 The CLI makes it really easy to publish releases of your contrib library. Say
 you have a local clone of the GitHub repository of your contrib library. After
@@ -238,7 +282,7 @@ default, the patch version number is increased, but you can choose among the
 release types stated above. The command will then commit the version bump and
 push it to the master branch before releasing the new version.
 
-## How to get your contrib repository listed with `qx contrib list`
+### How to get your contrib repository listed
 
 - The repository **must** have a [GitHub topic](https://help.github.com/articles/about-topics/) 
 `qooxdoo-contrib` in order to be found and listed.
@@ -258,7 +302,7 @@ repository in one of the following ways:
   the `Manifest.json` file outside of the root directory, you must provide a
   `qooxdoo.json` file in the root dir (see below)
 
-### Multi-library repositories / qooxdoo.json
+### Multi-library repositories
 
 It is possible to put more than one library into a repository, by putting an
 index file into the root of the repository with the name "qooxdoo.json". 
@@ -288,7 +332,7 @@ because dependencies are managed and checked on the level of the repository, not
 of the library. When you `qx contrib publish` the repository, the versions of
 all libraries will be set to the one of the main library.
 
-## How to hide your contrib from being listed
+### How to hide your library from being listed
 
 If you delete the contrib repository on GitHub, it will be removed from the
 contrib registry when the registry is regenerated nightly. However, there might
@@ -303,7 +347,7 @@ name of the repository). This way, the library will not be listed unless `--all`
 is passed to `qx list`.
 
 
-## Install contribs automatically
+### Install contribs automatically
 
 When you install contribs for your projects, they will be saved in the
 `contrib.json` file. If you commit this file, anyone who checks out the source
@@ -311,7 +355,7 @@ code can then automatically install all the contribs in the specific version
 using `qx contrib install` (without arguments). This is also useful in
 installation or build scripts.
 
-## Contribution compatibility and dependency management
+## Library compatibility and dependency management
 
 The contrib system uses [semver](http://semver.org) and [semver
 ranges](https://github.com/npm/node-semver#ranges) to manage dependencies and
@@ -345,45 +389,9 @@ supported, which takes an array of version numbers. You need to specify each and
 every version that you want to support, and any new qooxdoo version will break
 compatibility. Support for this will be removed in version 7.
 
-## Contribs as Applications
 
-While Contribs are historically just libraries of code and resources, you can
-also identify a contrib as providing an Application which can be added to a
-user's project. Two examples of this are the [Qooxdoo API
-Viewer](https://github.com/qooxdoo/qooxdoo-api-viewer) and the Qooxdoo Test
-Runner (TBD).  When these contribs are added to a project, the `qx` command will
-automatically add a new application to the `compile.json` and the `qx serve`
-command can be used to run both applications.
 
-To declare that a contrib provides an application, add an `application` key to
-the `Manifest.json` - for example:
-
-```json5
-{
-    "provides": {
-        "namespace": "apiviewer",
-        "encoding": "utf-8",
-        "class": "source/class",
-        "resource": "source/resource",
-        "translation": "source/translation",
-        "type": "add-in",
-        "application": {
-            "class": "apiviewer.Application",
-            "theme": "apiviewer.Theme",
-            "name": "apiviewer",
-            "title": "Qooxdoo API Viewer",
-            "outputPath": "apiviewer",
-            "include": [ "qx.*" ],
-            "exclude": [ "qx.test.*", "qx.module.Blocker", "qx.module.Placement" ]
-        }
-    }
-}
-```
-
-That `application` is copied into the `compile.json`'s `applications` key as a
-new entry (or overwriting the old one)
-
-## qx contrib and NPM 
+### qx contrib and NPM 
 
 There are two ways in which the contrib system and the NPM package manager relate
 to each other: a) the general question why contribs aren't distributed as NPM
