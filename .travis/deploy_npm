@@ -11,7 +11,6 @@ FRAMEWORK_VERSION=$(cat $BASE_DIR/version.txt)
 TAG_VERSION="$FRAMEWORK_VERSION"
 REV=$(git rev-parse --short HEAD)
 FRAMEWORK_DATE=$(date +%Y%m%d)
-GENERATE="python $BASE_DIR/tool/bin/generator.py"
  
 # Adjust the framework version for non TAG builds
 if [ "$TRAVIS_TAG" = "" ]; then
@@ -41,13 +40,5 @@ exe npm -v
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 # publish to npm
-exe npm publish 
-
-# build qooxdoo server package
-cd $BASE_DIR/component/standalone/server 
-exe $GENERATE distclean
-exe $GENERATE build
-exe $GENERATE npm-package-copy
-exe $GENERATE npm-package-test
-exe $GENERATE npm-package-publish
+exe npm publish --access public
 

@@ -1,5 +1,5 @@
 {
-  "name": "qooxdoo-sdk",
+  "name": "@qooxdoo/framework",
   "version": "6.0.0-alpha",
   "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
