@@ -43,4 +43,4 @@ Since a class may implement/include one or many interfaces/mixins, which themsel
 qooxdoo OO standalone
 ---------------------
 
-If you want to use qooxdoo OO layer standalone take a look at %{Server} \</pages/server\>.
+If you want to use qooxdoo OO layer standalone take a look at [Server](../server/).
