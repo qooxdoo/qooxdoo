@@ -119,6 +119,7 @@ with an '@' sign like so
 qx install qooxdoo/qxl.apiviewer --release v1.1.0
 qx install qooxdoo/qxl.apiviewer@v1.1.0
 qx install qooxdoo/qxl.apiviewer@eef00cba2dd72ff73dc88f9786aa3d9a0ed4ff6d
+qx install qooxdoo/qxl.apiviewer@master
 ```
 
 The prefix "v" is mandatory for releases. You can even use branch names like "master"

@@ -1225,6 +1225,9 @@
         }
       }
     },
+    "@qooxdoo/framework": {
+      "version": "file:../qooxdoo"
+    },
     "JSV": {
       "version": "4.0.2",
       "resolved": "https://registry.npmjs.org/JSV/-/JSV-4.0.2.tgz",
@@ -6510,11 +6513,6 @@
       "version": "2.1.1",
       "resolved": "https://registry.npmjs.org/punycode/-/punycode-2.1.1.tgz",
       "integrity": "sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A=="
-    },
-    "qooxdoo": {
-      "version": "6.0.0-alpha-20181226-a3c2b0b",
-      "resolved": "https://registry.npmjs.org/qooxdoo/-/qooxdoo-6.0.0-alpha-20181226-a3c2b0b.tgz",
-      "integrity": "sha512-WpMJHYrRhIMwNw+br2J1eaJS3ifNq+VUGxdjPcstwHl3oVpVWyXk8zNpiN6oHba+ZYp573ai2LruRlJtqxuCWQ=="
     },
     "qooxdoo-sdk": {
       "version": "6.0.0-alpha-20181226-a3c2b0b",
