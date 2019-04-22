@@ -37,6 +37,13 @@ exe npm -v
 # for token authentication we need newest npm!
 exe npm i npm@latest -g
 exe npm -v
+
+# get qooxdoo compiler, must be changed to @qooxdoo/compiler later
+npm install qxcompiler 
+# compile framework
+npx qx compile -v
+
+
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
 # publish to npm
