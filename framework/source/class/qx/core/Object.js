@@ -129,7 +129,7 @@ qx.Class.define("qx.core.Object",
     {
       if (qx.core.Environment.get("qx.debug"))
       {
-        if (!qx.Bootstrap.isFunction(args.callee.base)) {
+        if (!qx.Bootstrap.isFunctionOrAsyncFunction(args.callee.base)) {
           throw new Error(
             "Cannot call super class. Method is not derived: " +
             args.callee.displayName

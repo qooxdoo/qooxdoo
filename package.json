@@ -9,11 +9,14 @@
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
   },
+  "main": "./lib/qx_node/qx_node.js",
   "files": [
     "version.txt",
     "LICENSE",
     "CHANGELOG.md",
     "README.md",
+	"lib/qx_node",
+	"lib/resource", 
     "framework/Manifest.json",
     "framework/source",
     "tool/data/cldr"
