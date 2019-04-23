@@ -59,7 +59,7 @@ This is a sample file:
   },
   "requires": 
   {
-     "qooxdoo-sdk": "^6.0.0-alpha",
+     "@qooxdoo/framework": "^6.0.0-alpha",
      "qooxdoo-compiler": "^0.2.40",
      "qooxdoo/contrib": "^0.1.1"
   }
@@ -99,5 +99,5 @@ This is a sample file:
      `contrib_uri`: `needed_version` where `needed_version` is a semver compatible version description.
      
      Special handling for:
-     * qooxdoo-sdk: This checks the version of the used qooxdoo sdk.
+     * @qooxdoo/framework: This checks the version of the used qooxdoo sdk.
      * qooxdoo-compiler: This checks the version of the used qooxdoo compiler.

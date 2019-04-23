@@ -177,7 +177,7 @@ You can override this by specifying a list of directories in the `libraries` key
     ],
 ```
 
-Unless you list it in the `libraries` key, the compiler will first check the `qx.libraryPath` setting (see `qx config set qx.libraryPath`), and if not will look first in your `node_modules` directory and then it's own `node_modules` directory for the `qooxdoo-sdk` npm module. 
+Unless you list it in the `libraries` key, the compiler will first check the `qx.libraryPath` setting (see `qx config set qx.libraryPath`), and if not will look first in your `node_modules` directory and then it's own `node_modules` directory for the `@qooxdoo/framework` npm module. 
 
 ## Parts
 Parts are supported by adding a `parts` object, either at the top level, inside a target object, or inside an application object.  It looks like this:
