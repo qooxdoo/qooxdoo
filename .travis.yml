@@ -52,7 +52,7 @@ jobs:
       script: ../.travis/test Chrome_travis_ci      
     - stage: SL-Brower-Tests
       name: SL Chrome
-      script: ../.travis/test ChromeSL,ChromeBetaSL
+      script: ../.travis/test ChromeSL
     - #
       name: SL Firefox
       script: ../.travis/test FirefoxSL
