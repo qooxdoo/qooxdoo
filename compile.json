@@ -19,7 +19,7 @@
   "applications": [
     {
       "class": "qx.application.Native",
-      "name": "qx_node",
+      "name": "qx_server",
       "type": "library",
       "environment": {
         "qx.debug": false
