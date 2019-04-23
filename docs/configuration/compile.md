@@ -84,7 +84,7 @@ A complete example is:
 
 ## Targets
 The `targets` key is an array of objects, one for each possible target that can be compiled.  Each object can contain:
-- `type` - this is either "source", "build", or a class name in `qooxdoo-compiler`; using a class name is advanced usage, but ultimately the standard names just shortcuts to class names anyway ("source" is `qxcompiler.targets.SourceTarget`, etc)
+- `type` - this is either "source", "build", or a class name in `@qooxdoo/compiler`; using a class name is advanced usage, but ultimately the standard names just shortcuts to class names anyway ("source" is `qxcompiler.targets.SourceTarget`, etc)
 - `outputPath` the folder where the compilation outputs to, and will be created if it does not already exist
 - `targetClass` - (**optional**) see below 
 - `uri` - (**optional**) this sets the URI used to access the target output directory, i.e. the directory which will contain `resources/` and `transpiled/`.  

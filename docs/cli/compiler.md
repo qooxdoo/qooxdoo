@@ -1,7 +1,7 @@
 ### Compiler
 
 To compile a qooxdoo project into a state that can be opened in a browser, use 
-`qx compile`. This is the CLI frontend for the [qooxdoo-compiler library](https://github.com/qooxdoo/qooxdoo-compiler/blob/master/README.md). 
+`qx compile`. This is the CLI frontend for the [@qooxdoo/compiler library](https://github.com/qooxdoo/@qooxdoo/compiler/blob/master/README.md). 
 The command has the following options: 
 
 ```
