@@ -25,7 +25,7 @@
   },
   
   "requires": {
-    "@qooxdoo/framework"     : "${qooxdoo_range}",
-    "@qooxdoo/compiler": "${compiler_range}"
+    "@qooxdoo/framework": "${qooxdoo_range}",
+    "@qooxdoo/compiler" : "${compiler_range}"
   }
 }
