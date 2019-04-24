@@ -9,7 +9,7 @@ node_modules/
 .c9
 .vscode
 qooxdoo
-foo
+foo*/
 .contrib-cache.json
 myapp
 *~
