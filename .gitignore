@@ -10,7 +10,7 @@ node_modules/
 .vscode
 qooxdoo
 foo*/
-.contrib-cache.json
+.package-cache.json
 myapp
 *~
 qooxdoo/
