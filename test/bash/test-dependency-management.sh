@@ -27,7 +27,7 @@ qx compile --feedback=false --warnAsError || exit 1
 cd ..
 
 echo
-echo "Test 3: qxl.test1@v1.0.2 version"
+echo "Test 3: qxl.test1@v1.0.2 version, then upgrade"
 rm -rf myapp
 qx create myapp -I
 cd myapp
@@ -43,6 +43,16 @@ echo "$LIST"
 COUNTLINES=$(echo "$LIST" | wc -l | tr -d ' ')
 if [ "$COUNTLINES" != "3" ]; then echo "Installing dependencies failed"; exit 1; fi
 qx compile --feedback=false --warnAsError || exit 1
+
+qx contrib upgrade
+LIST=$(qx contrib list --short --noheaders --installed --all)
+echo "$LIST"
+# Will be reimplemented later when output stabilizes
+#EXPECTED="\
+#qooxdoo/qxl.test1                 v1.0.3   v1.0.3   v1.0.3
+#qooxdoo/qxl.test2/qxl.test2C      v1.0.2   v1.0.2   v1.0.2
+#qooxdoo/qxl.test2/qxl.test2D      v1.0.2   v1.0.2   v1.0.2"
+#if [ "$EXPECTED" != "$LIST" ]; then echo "Installing dependencies failed"; exit 1; fi
 cd ..
 
 echo
@@ -63,3 +73,4 @@ COUNTLINES=$(echo "$LIST" | wc -l | tr -d ' ')
 if [ "$COUNTLINES" != "3" ]; then echo "Installing dependencies failed"; exit 1; fi
 qx compile --feedback=false --warnAsError || exit 1
 cd ..
+
