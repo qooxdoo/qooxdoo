@@ -1,0 +1,11 @@
+{
+  "libraries": [
+    {
+      "library_name": "Dialog",
+      "library_version": "1.4.0",
+      "repo_name": "cboulanger/qx-contrib-Dialog",
+      "repo_tag": "v1.4.0",
+      "path": "packages/cboulanger_qx-contrib-Dialog_v1.4.0"
+    }
+  ]
+}
