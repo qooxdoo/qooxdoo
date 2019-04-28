@@ -9,30 +9,30 @@ call qx create myapp --type server -I  -v || EXIT /B 1
 cd myapp
 call qx compile -v --clean || EXIT /B 1
 call node compiled\source\myapp\myapp.js || EXIT /B 1
-:: test add contrib
-call qx contrib update -v || EXIT /B 1
-call qx contrib list -v || EXIT /B 1
-call qx contrib install oetiker/UploadWidget -v || EXIT /B 1
-call qx contrib install cboulanger/qx-contrib-Dialog -v || EXIT /B 1
-call qx contrib install johnspackman/UploadMgr -v || EXIT /B 1
-call qx contrib install ergobyte/qookery/qookeryace -v || EXIT /B 1
-call qx contrib install ergobyte/qookery/qookerymaps -v || EXIT /B 1
+:: test add package
+call qx package update -v || EXIT /B 1
+call qx package list -v || EXIT /B 1
+call qx package install oetiker/UploadWidget -v || EXIT /B 1
+call qx package install cboulanger/qx-contrib-Dialog -v || EXIT /B 1
+call qx package install johnspackman/UploadMgr -v || EXIT /B 1
+call qx package install ergobyte/qookery/qookeryace -v || EXIT /B 1
+call qx package install ergobyte/qookery/qookerymaps -v || EXIT /B 1
 call qx compile -v --clean || EXIT /B 1
 call node compiled\source\myapp\myapp.js || EXIT /B 1
-:: test reinstall contrib
+:: test reinstall package
 call qx clean
-call qx contrib install  -v || EXIT /B 1
+call qx package install  -v || EXIT /B 1
 call qx compile -v --clean || EXIT /B 1
 call node compiled\source\myapp\myapp.js || EXIT /B 1
-:: test remove contrib
-call qx contrib remove oetiker/UploadWidget -v || EXIT /B 1
-call qx contrib remove ergobyte/qookery/qookeryace -v || EXIT /B 1
-call qx contrib remove ergobyte/qookery/qookerymaps -v || EXIT /B 1
+:: test remove package
+call qx package remove oetiker/UploadWidget -v || EXIT /B 1
+call qx package remove ergobyte/qookery/qookeryace -v || EXIT /B 1
+call qx package remove ergobyte/qookery/qookerymaps -v || EXIT /B 1
 call qx compile -v --clean || EXIT /B 1
 call node compiled\source\myapp\myapp.js || EXIT /B 1
 :: test install without manifest
 call qx clean
-call qx contrib install ergobyte/qookery -v || EXIT /B 1
+call qx package install ergobyte/qookery -v || EXIT /B 1
 call qx compile -v --clean || EXIT /B 1
 call node compiled\source\myapp\myapp.js || EXIT /B 1
 :: test add class and add script
