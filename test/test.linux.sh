@@ -31,7 +31,7 @@ qx compile -v --clean || exit $?
 node compiled/source/myapp/myapp.js || exit $?
 qx contrib list --installed --short --noheaders
 # test reinstall contrib
-qx clean || exit $?
+qx clean -v || exit $?
 qx contrib install -v || exit $?
 qx compile -v --clean || exit $?
 node compiled/source/myapp/myapp.js
@@ -44,7 +44,7 @@ qx compile -v --clean || exit $?
 node compiled/source/myapp/myapp.js || exit $?
 qx contrib list --installed --short --noheaders
 # test install without manifest
-qx clean || exit $?
+qx clean -v || exit $?
 qx contrib install ergobyte/qookery -v || exit $?
 qx compile -v --clean || exit $?
 node compiled/source/myapp/myapp.js || exit $?

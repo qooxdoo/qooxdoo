@@ -20,7 +20,6 @@
   "keywords": [
     "qooxdoo",
     "compiler",
-    "qooxdoo-contrib",
     "cli"
   ],
   "homepage": "https://github.com/qooxdoo/qooxdoo-compiler",
