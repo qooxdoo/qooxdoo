@@ -1,11 +1,20 @@
 # compile.json
 
-Compile.json controls the `qx compile` command, and while you can use command line parameters to compile an application, most applications will require one.
+Compile.json controls the `qx compile` command, and while you can use command
+line parameters to compile an application, most applications will require one.
 
 The key concepts of a compilation are that:
-- source code exists in **Libraries** (the Qooxdoo framework is a Library, as is any contribs you use, and also *your own application source code is a Library*)
-- source code is compiled into one or more **Applications** (ie something that the end-user interacts with using their web browser)
-- when an Application is compiled, it is compiled to **Target** a particular usage, EG the "source" Target is for debugging the source code, and the "build" Target is for production use and is optimised and minified
+
+- source code exists in **Libraries** (the Qooxdoo framework is a Library,
+qooxdoo packages contain one or more libraries, and also *your own application
+source code is a Library*)
+
+- source code is compiled into one or more **Applications** (ie something that
+the end-user interacts with using their web browser)
+
+- when an Application is compiled, it is compiled to **Target** a particular
+usage, EG the "source" Target is for debugging the source code, and the "build"
+Target is for production use and is optimised and minified
 
 These key concepts appear in every compile.json, for example:
 

@@ -1,11 +1,11 @@
 {
-  "info" : 
+  "info" :
   {
     "name" : "${name}",
 
     "summary" : "${summary}",
     "description" : "${description}",
-    
+
     "homepage" : "${homepage}",
 
     "license" : "${license}",
@@ -13,15 +13,14 @@
 
     "version" : "${version}"
   },
-  
-  "provides" : 
+
+  "provides" :
   {
     "namespace"   : "${namespace}",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",
-    "translation" : "source/translation",
-    "type"        : "application"
+    "translation" : "source/translation"
   },
   "externalResources": {
         "script": [
@@ -30,9 +29,9 @@
           "${namespace}/css/custom.css"
         ]
   },
-  
+
   "requires": {
     "@qooxdoo/framework": "${qooxdoo_range}",
-    "@qooxdoo/compiler" : "${compiler_range}"     
+    "@qooxdoo/compiler" : "${compiler_range}"
   }
 }
