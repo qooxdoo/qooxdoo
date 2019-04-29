@@ -157,6 +157,8 @@ qx.Class.define("testapp.Application", {
       }, this);
       
       new testapp.test.TestInnerClasses().testInnerClasses();
+      
+      console.log("TestThat.toHashCode() = " + (new testapp.TestThat()).toHashCode());
     },
 
     undocumentedMethod: function () {
