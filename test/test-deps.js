@@ -200,6 +200,18 @@ test('Checks dependencies and environment settings', (assert) => {
               assert.ok(!src.match(/mixedInIsFalse/), "Conditional Mixin part 2");
             });
       })
+      .then(() => {
+        return readFile("unit-tests-output/transpiled/testapp/TestThat1.js", "utf8")
+            .then(src => {
+              assert.ok(src.match(/testapp\.TestThat1\.prototype\.toHashCode\.base\.call\(other\)/), "Aliased this");
+            });
+      })
+      .then(() => {
+        return readFile("unit-tests-output/transpiled/testapp/TestThat2.js", "utf8")
+            .then(src => {
+              assert.ok(src.match(/testapp\.TestThat2\.prototype\.toHashCode\.base\.call\(other\)/), "Aliased this");
+            });
+      })
 
       .then(() => assert.end())
       .catch((err) => assert.end(err));
