@@ -138,6 +138,8 @@ qx.Class.define("testapp.Application", {
       if (qx.core.Environment.get("qx.promise")) {
         console.log("Promises are enabled");
       }
+      
+      console.log(this.tr("translatedString"));
 
       console.log(JSON.stringify({
         appValue, envVar1, envVar2, envVar3, envVar4,
