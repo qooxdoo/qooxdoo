@@ -1,5 +1,5 @@
 {
-  "name": "qooxdoo-sdk",
+  "name": "@qooxdoo/framework",
   "version": "6.0.0-alpha",
   "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
@@ -9,11 +9,14 @@
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
   },
+  "main": "./lib/qx_server/qx_server.js",
   "files": [
     "version.txt",
     "LICENSE",
     "CHANGELOG.md",
     "README.md",
+	"lib/qx_node",
+	"lib/resource", 
     "framework/Manifest.json",
     "framework/source",
     "tool/data/cldr"
