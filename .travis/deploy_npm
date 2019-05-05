@@ -10,11 +10,11 @@ BASE_DIR="$(git rev-parse --show-toplevel)"
 FRAMEWORK_VERSION=$(cat $BASE_DIR/version.txt)
 TAG_VERSION="$FRAMEWORK_VERSION"
 REV=$(git rev-parse --short HEAD)
-FRAMEWORK_DATE=$(date +%Y%m%d)
+FRAMEWORK_DATE=$(date +%Y%m%d-%H%M)
  
 # Adjust the framework version for non TAG builds
 if [ "$TRAVIS_TAG" = "" ]; then
-    TAG_VERSION="$TAG_VERSION-$FRAMEWORK_DATE-$REV"
+   TAG_VERSION="$TAG_VERSION-$FRAMEWORK_DATE"
 fi
 
 echo "-------------------------------------------------------------------------"
@@ -23,7 +23,6 @@ echo "Revision         : $REV"
 echo "Tag version      : $TAG_VERSION"
 echo "TRAVIS_BUILD_DIR : $TRAVIS_BUILD_DIR"
 echo "Build source     : $BASE_DIR"
-echo "Generate         : $GENERATE"
 echo "-------------------------------------------------------------------------"
 
 cd $BASE_DIR
@@ -39,9 +38,9 @@ exe npm i npm@latest -g
 exe npm -v
 
 # get qooxdoo compiler, must be changed to @qooxdoo/compiler later
-npm install qxcompiler 
+exe npm install qxcompiler 
 # compile framework
-npx qx compile -v
+exe npx qx compile -v
 
 
 # fill .npmrc with access token
