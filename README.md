@@ -31,7 +31,7 @@ The included command line utility allows you create, build and manage [qooxdoo](
     - CLI Documentation
         - [Commands](docs/cli/commands.md)
         - [Compiler](docs/cli/compiler.md)
-          - [compiler.json](docs/cli/compile-json.md)
+          - [compile.json](docs/configuration/compile.md)
         - [Web Server](docs/cli/serve.md)
         - [Create a new project](docs/cli/create-a-new-project.md)
         - [qooxdoo-contrib system](docs/cli/qooxdoo-contrib-system.md)
@@ -41,7 +41,7 @@ The included command line utility allows you create, build and manage [qooxdoo](
         - [Custom Application Startup](docs/compiler/CustomAppStartup.md)
         - [Using Icon Fonts](docs/compiler/IconFonts.md)
         - [Special Loader URLs](docs/compiler/LoaderUrls.md)
-        - [Manifest.json Changes](docs/compiler/Manifest.md)
+        - [Manifest.json](docs/configuration/Manifest.md)
         - [Meta Data Output By The Compiler](docs/compiler/MetaData.md)
 
 ## Development status
