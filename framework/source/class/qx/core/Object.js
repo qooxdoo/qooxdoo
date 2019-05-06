@@ -231,7 +231,7 @@ qx.Class.define("qx.core.Object",
      * Load user defined data from the object
      *
      * @param key {String?} the key
-     *   If undefined, pass the user a copy of the entire map
+     *   If key is not a string, pass the user a copy of the entire map
      * @return {Object} the user data
      */
     getUserData : function(key)
@@ -240,7 +240,7 @@ qx.Class.define("qx.core.Object",
       if (!this.__userData) {
         return null;
       }
-      if (typeof key !== 'undefined')
+      if (typeof key === 'string')
       {
         data = this.__userData[key];
       }
