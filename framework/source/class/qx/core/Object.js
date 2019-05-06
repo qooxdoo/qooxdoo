@@ -230,15 +230,25 @@ qx.Class.define("qx.core.Object",
     /**
      * Load user defined data from the object
      *
-     * @param key {String} the key
+     * @param key {String?} the key
+     *   If undefined, pass the user a copy of the entire map
      * @return {Object} the user data
      */
     getUserData : function(key)
     {
+      var data;
       if (!this.__userData) {
         return null;
       }
-      var data = this.__userData[key];
+      if (typeof key !== 'undefined')
+      {
+        data = this.__userData[key];
+      }
+      else
+      {
+        // give the caller a copy to protect our internal copy
+        data = JSON.parse(JSON.stringify(this.__userData));
+      }
       return data === undefined ? null : data;
     },
 
