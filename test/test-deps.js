@@ -8,7 +8,6 @@ require("../lib");
 async function createMaker() {
 
   var STARTTIME = new Date();
-TODO TEST
   var QOOXDOO_PATH = "../node_modules/@qooxdoo/framework";
 
   // Makers use an Analyser to figure out what the Target should write

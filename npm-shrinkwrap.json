@@ -728,11 +728,11 @@
       }
     },
     "@qooxdoo/framework": {
-      "version": "6.0.0-alpha-20190508-1329",
-      "resolved": "https://registry.npmjs.org/@qooxdoo/framework/-/framework-6.0.0-alpha-20190508-1329.tgz",
-      "integrity": "sha512-FYuGR7uHgOuwuJ9I7LsQ9Int/pxsF6aF9YTzvo3LzjnfSr5IeU6gf4QggMWJ+RtJ4G0Eaz8MVjWVZ5kS9uJhOw==",
+      "version": "6.0.0-alpha-20190508-1835",
+      "resolved": "https://registry.npmjs.org/@qooxdoo/framework/-/framework-6.0.0-alpha-20190508-1835.tgz",
+      "integrity": "sha512-ttUo8uzibS7LzI4eClW+Dd+YIkYwoq6bZiMJQ/+o0WOFfiYFOf61NZJiMeiSV2/xjGe8XgkzcXRJ8pXLYPpEuQ==",
       "requires": {
-        "qxcompiler": "^0.3.0-alpha.20190430-1926"
+        "qxcompiler": "^0.3.0-alpha.20190508-1653"
       }
     },
     "JSV": {
@@ -5994,9 +5994,9 @@
       }
     },
     "qxcompiler": {
-      "version": "0.3.0-alpha.20190508-1412",
-      "resolved": "https://registry.npmjs.org/qxcompiler/-/qxcompiler-0.3.0-alpha.20190508-1412.tgz",
-      "integrity": "sha512-oeA8sEoWv+jE8M+cKhdwFbVkN0A44fqw1XI52e3hVJmygJgqm8CUxt8AGuR+LYGNE/HxVWFDCUZgIqAD0DLpoQ==",
+      "version": "0.3.0-alpha.20190508-1653",
+      "resolved": "https://registry.npmjs.org/qxcompiler/-/qxcompiler-0.3.0-alpha.20190508-1653.tgz",
+      "integrity": "sha512-tm9ho3ARUQifKBMU183FxS9Imept3aGoGJNKg8ZflhsaqJ2x2TYqXys6MyVoGbKgZr0xOUjDOr/YspXZq2uSTw==",
       "requires": {
         "@babel/core": "^7.4.0",
         "@babel/generator": "^7.4.0",
@@ -6025,7 +6025,7 @@
         "glob": "^7.1.3",
         "image-size": "^0.6.3",
         "inquirer": "^6.2.0",
-        "json-to-ast": "git+https://github.com/johnspackman/json-to-ast.git#a42fbe89a4f2033062213c49bfec7cf429d94db6",
+        "json-to-ast": "git+https://github.com/johnspackman/json-to-ast.git#editable-json",
         "jsonlint": "^1.6.2",
         "node-fetch": "^1.7.3",
         "node-sass": "^4.12.0",
@@ -8336,7 +8336,7 @@
           "resolved": "https://registry.npmjs.org/es6-promisify-all/-/es6-promisify-all-0.1.0.tgz",
           "integrity": "sha1-RCuaHqjgCw/VsodyVVBY/eXp8gc=",
           "requires": {
-            "es6-promisify": "github:pgaubatz/es6-promisify#3d8966c58bace65f762b7335e99e3f43b987bce4"
+            "es6-promisify": "github:pgaubatz/es6-promisify"
           },
           "dependencies": {
             "es6-promise": {
