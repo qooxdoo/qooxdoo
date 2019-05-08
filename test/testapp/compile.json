@@ -16,7 +16,7 @@
 
 	"defaultTarget": "source",
 
-	"locales": [ "en" ],
+	"locales": [ "en", "nl" ],
 
 	"applications": [
 		{
