@@ -15,7 +15,7 @@
     "LICENSE",
     "CHANGELOG.md",
     "README.md",
-	"lib/qx_node",
+	"lib/qx_server",
 	"lib/resource", 
     "framework/Manifest.json",
     "framework/source",
