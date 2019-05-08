@@ -138,6 +138,8 @@ qx.Class.define("testapp.Application", {
       if (qx.core.Environment.get("qx.promise")) {
         console.log("Promises are enabled");
       }
+      
+      console.log(this.tr("translatedString"));
 
       console.log(JSON.stringify({
         appValue, envVar1, envVar2, envVar3, envVar4,
@@ -157,6 +159,11 @@ qx.Class.define("testapp.Application", {
       }, this);
       
       new testapp.test.TestInnerClasses().testInnerClasses();
+      
+      console.log("TestThat1.toHashCode() = " + (new testapp.TestThat1()).toHashCode());
+      console.log("TestThat2.toHashCode() = " + (new testapp.TestThat2()).toHashCode());
+      
+      qx.core.Assert.assertTrue(qx.locale.Number.getDecimalSeparator("nl").toString() === ",");
     },
 
     undocumentedMethod: function () {

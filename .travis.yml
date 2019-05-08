@@ -1,7 +1,8 @@
 language: node_js
 cache: false
 node_js:
-- "stable"
+- "11.14.0"
+# - "stable" node 12 has problems with sass
 # - lts/* # once we support on-the-fly transpilation
 
 

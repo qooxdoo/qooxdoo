@@ -64,7 +64,7 @@
     "json-to-ast": "git+https://github.com/johnspackman/json-to-ast.git#editable-json",
     "jsonlint": "^1.6.2",
     "node-fetch": "^1.7.3",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.12.0",
     "rimraf": "^2.6.2",
     "semver": "^5.7.0",
     "tmp": "0.0.33",
