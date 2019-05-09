@@ -1,5 +1,5 @@
 {
-  "name": "qxcompiler",
+  "name": "@qooxdoo/compiler",
   "description": "node.js based replacement for the Qooxdoo python toolchain",
   "main": "index.js",
   "scripts": {

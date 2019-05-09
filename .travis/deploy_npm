@@ -29,4 +29,4 @@ fi
 
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-exe npm publish
+exe npm publish --access public
