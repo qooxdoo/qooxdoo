@@ -18,5 +18,5 @@ jobs:
       script: .travis/test
     - stage: deploy
       name: deploy
-      script: .travis/deploy
+      script: .travis/deploy_npm
   
