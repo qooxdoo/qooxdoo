@@ -1,7 +1,7 @@
 #!/bin/bash
 exe() { echo "\$ ${@/eval/}" ; "$@" ; }
 
-# revert changes of npm update of qooxdoo-sdk
+# revert changes of npm update of @qooxdoo/framework
 exe git clean -fd
 exe git checkout -- .
 
@@ -29,4 +29,4 @@ fi
 
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-exe npm publish
+exe npm publish --access public
