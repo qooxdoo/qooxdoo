@@ -23,6 +23,5 @@
   ],
   "devDependencies": {
     "@qooxdoo/compiler" : "^0.3.0-alpha.20190510-1053"   
-  },
-  
+  }
 }
