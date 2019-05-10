@@ -33,9 +33,6 @@ fi
 
 exe node -v
 exe npm -v
-# for token authentication we need newest npm!
-exe npm i npm@latest -g
-exe npm -v
 
 exe npm install
 # compile framework
