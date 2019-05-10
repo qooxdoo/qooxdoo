@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 set -x
-echo "Testing qooxdoo-compiler version $(qx --version)"
+echo "Testing qooxdoo-compiler version $(./qx --version)"
 echo
 
 cd test
 node test-deps.js
 cd ..
 
-qx package update || exit $?
-bash test/bash/test-dependency-management.sh || exit $?
+./qx package update || exit $?
+bash test/test-dependency-management.sh || exit $?
 
 rm -rf myapp
 # test create app
-qx create myapp -I --type server -v || exit $?
+./qx create myapp -I --type server -v || exit $?
 cd myapp
 ../qx compile -v --clean || exit $?
 node compiled/source/myapp/myapp.js || exit $?

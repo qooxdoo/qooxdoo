@@ -3,36 +3,36 @@
 echo
 echo "Test 1: qxl.test1, latest version"
 [[ -d myapp ]] && rm -rf myapp
-qx create myapp -I
+npx qx create myapp -I
 cd myapp
-qx package install qooxdoo/qxl.test1 --verbose
-LIST=$(qx package list --short --noheaders --installed --all)
+../qx package install qooxdoo/qxl.test1 --verbose
+LIST=$(../qx package list --short --noheaders --installed --all)
 echo "$LIST"
 COUNTLINES=$(echo "$LIST" | wc -l | tr -d ' ')
 if [ "$COUNTLINES" != "3" ]; then echo "Installing dependencies failed"; exit 1; fi
-qx compile --feedback=false --warnAsError || exit 1
+../qx compile --feedback=false --warnAsError || exit 1
 cd ..
 
 echo
 echo "Test 2: qxl.test2/qxl.test2A, latest version"
 rm -rf myapp
-qx create myapp -I
+./qx create myapp -I
 cd myapp
-qx package install qooxdoo/qxl.test2/qxl.test2A --verbose
-LIST=$(qx package list --short --noheaders --installed --all)
+../qx package install qooxdoo/qxl.test2/qxl.test2A --verbose
+LIST=$(../qx package list --short --noheaders --installed --all)
 echo "$LIST"
 COUNTLINES=$(echo "$LIST" | wc -l | tr -d ' ')
 if [ "$COUNTLINES" != "4" ]; then echo "Installing dependencies failed"; exit 1; fi
-qx compile --feedback=false --warnAsError || exit 1
+../qx compile --feedback=false --warnAsError || exit 1
 cd ..
 
 echo
 echo "Test 3: qxl.test1@v1.0.2 version, then upgrade"
 rm -rf myapp
-qx create myapp -I
+./qx create myapp -I
 cd myapp
-qx package install qooxdoo/qxl.test1@v1.0.2 --verbose
-LIST=$(qx package list --short --noheaders --installed --all)
+../qx package install qooxdoo/qxl.test1@v1.0.2 --verbose
+LIST=$(../qx package list --short --noheaders --installed --all)
 echo "$LIST"
 # Will be reimplemented later when output stabilizes
 #EXPECTED="\
@@ -42,10 +42,10 @@ echo "$LIST"
 #if [ "$EXPECTED" != "$LIST" ]; then echo "Installing dependencies failed"; exit 1; fi
 COUNTLINES=$(echo "$LIST" | wc -l | tr -d ' ')
 if [ "$COUNTLINES" != "3" ]; then echo "Installing dependencies failed"; exit 1; fi
-qx compile --feedback=false --warnAsError || exit 1
+../qx compile --feedback=false --warnAsError || exit 1
 
-qx package upgrade
-LIST=$(qx package list --short --noheaders --installed --all)
+../qx package upgrade
+LIST=$(../qx package list --short --noheaders --installed --all)
 echo "$LIST"
 # Will be reimplemented later when output stabilizes
 #EXPECTED="\
@@ -58,10 +58,10 @@ cd ..
 echo
 echo "Test 4: qxl.test1@e27ecf811667c1b3bc5dc023d806e74a9328a26c"
 rm -rf myapp
-qx create myapp -I
+./qx create myapp -I
 cd myapp
-qx package install qooxdoo/qxl.test1@e27ecf811667c1b3bc5dc023d806e74a9328a26c --verbose
-LIST=$(qx package list --short --noheaders --installed --all)
+../qx package install qooxdoo/qxl.test1@e27ecf811667c1b3bc5dc023d806e74a9328a26c --verbose
+LIST=$(../qx package list --short --noheaders --installed --all)
 echo "$LIST"
 # Will be reimplemented later when output stabilizes
 #EXPECTED="\
@@ -71,6 +71,5 @@ echo "$LIST"
 #if [ "$EXPECTED" != "$LIST" ]; then echo "Installing dependencies failed"; exit 1; fi
 COUNTLINES=$(echo "$LIST" | wc -l | tr -d ' ')
 if [ "$COUNTLINES" != "3" ]; then echo "Installing dependencies failed"; exit 1; fi
-qx compile --feedback=false --warnAsError || exit 1
+../qx compile --feedback=false --warnAsError || exit 1
 cd ..
-
