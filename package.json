@@ -21,7 +21,8 @@
     "framework/source",
     "tool/data/cldr"
   ],
-  "devDpendencies": {
-    "qxcompiler": "^0.3.0-alpha.20190508-1924"
-  }
+  "devDependencies": {
+    "@qooxdoo/compiler" : "^0.3.0-alpha.20190510-1053"   
+  },
+  
 }
