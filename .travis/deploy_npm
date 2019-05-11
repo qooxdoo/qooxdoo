@@ -33,12 +33,8 @@ fi
 
 exe node -v
 exe npm -v
-# for token authentication we need newest npm!
-exe npm i npm@latest -g
-exe npm -v
 
-# get qooxdoo compiler, must be changed to @qooxdoo/compiler later
-exe npm install qxcompiler 
+exe npm install
 # compile framework
 exe npx qx compile -v
 

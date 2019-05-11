@@ -20,5 +20,8 @@
     "framework/Manifest.json",
     "framework/source",
     "tool/data/cldr"
-  ]
+  ],
+  "devDependencies": {
+    "@qooxdoo/compiler" : "^0.3.0-alpha.20190510-1053"   
+  }
 }
