@@ -329,6 +329,31 @@ qx.Class.define("qx.io.request.Xhr",
      */
     setParser: function(parser) {
       return this._parser.setParser(parser);
+    },
+
+    
+    /**
+     * Send the request and return a qx.Promise.
+     *
+     * @param context {Object?} optional context to bind the qx.Promise.
+     * @return {qx.Promise} The qx.Promise object
+     */
+    sendWithPromise: function(context = this) {
+      const xhr = this;
+      var successListener = null;
+      var const failListener = null;
+
+      return new qx.Promise(function(resolve, reject) {
+
+       successListener = xhr.addListener("success", (e) => resolve(xhr));
+       failListener = xhr.addListener("fail", (e) => reject(xhr));
+
+      }, context)
+        .finally(() => {
+        xhr.removeListenerById(successListener);
+        xhr.removeListenerById(failListener);
+      });
+
     }
   }
 });
