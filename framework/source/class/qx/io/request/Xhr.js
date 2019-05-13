@@ -338,20 +338,49 @@ qx.Class.define("qx.io.request.Xhr",
      * @param context {Object?} optional context to bind the qx.Promise.
      * @return {qx.Promise} The qx.Promise object
      */
-    sendWithPromise: function(context = this) {
-      const xhr = this;
-      var successListener = null;
-      var const failListener = null;
+    sendWithPromise: function(context) {
+      // set the context
+      context = context === undefined ? this : context; 
+
+      // save this objects contect
+      var xhr = this;
+
+      // save the listener id's to remove them later
+      var listeners = [];
 
       return new qx.Promise(function(resolve, reject) {
+        var success = xhr.addListener("success", function(e) {
+          resolve(xhr);
+        }, this);
+        listeners.push(success);
 
-       successListener = xhr.addListener("success", (e) => resolve(xhr));
-       failListener = xhr.addListener("fail", (e) => reject(xhr));
+        var error = xhr.addListener("statusError", function(e){
+          var err = new qx.type.BaseError("Error", 
+            "Request failed with error " + xhr.getStatus() + ": " + xhr.getStatusText() + ".");
+          reject(err);
+        }, this);
+        listeners.push(error);
 
+        var parseError = xhr.addListener("parseError", function(e){
+          var err = new qx.type.BaseError("Error", "Parse error.");
+          reject(err);
+        }, this);
+        listeners.push(parseError);
+
+        var timeout = xhr.addListener("timeout", function(e){  
+          var err = new qx.type.BaseError("Error", "Request failed with timeout.")
+          reject(err);
+        }, this);
+        listeners.push(timeout);
+
+
+        xhr.send();
       }, context)
-        .finally(() => {
-        xhr.removeListenerById(successListener);
-        xhr.removeListenerById(failListener);
+        .finally(function() {
+        // remove the listeners from this request
+          listeners.forEach(function(id){
+            xhr.removeListenerById(id);
+          });
       });
 
     }

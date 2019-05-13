@@ -466,6 +466,52 @@ qx.Class.define("qx.test.io.request.Xhr",
       credentials = /Basic\s(.*)/.exec(call.args[1])[1];
       this.assertEquals(key, call.args[0]);
       this.assertEquals("affe:geheim", qx.util.Base64.decode(credentials));
-    }
+    },
+
+    //
+    // Promise
+    //
+
+    "test: send with promise succeeds": function() {
+      this.setUpFakeTransport();
+
+      var req = this.req;
+
+      req.sendWithPromise(this).then(this.resumeHandler(function(result){
+        this.assertEquals(req, result);
+        this.assertEquals("Affe", req.getResponseText());
+        this.assertEquals(200, req.getStatus());
+      }, this));
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.responseText = "Affe";
+      transport.onreadystatechange();
+      this.wait(10000)
+    },
+
+    "test: send with promise fails": function() {
+      this.setUpFakeTransport();
+
+      var req = this.req;
+
+      req.sendWithPromise(this)
+        .then(this.resumeHandler(function(_){
+        throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has resolved but should have rejected.")
+      }))
+        .catch(this.resumeHandler(function(result){
+          this.assertInstance(result, qx.type.BaseError);
+          console.log(result.toString());
+      }, this));
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 400;
+      transport.responseText = "Affe";
+      transport.onreadystatechange();
+      this.wait(10000)
+    },
+
   }
 });
