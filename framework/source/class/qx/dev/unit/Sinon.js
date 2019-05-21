@@ -39,6 +39,10 @@
        BSD: http://www.opensource.org/licenses/bsd-license.php
 
 ************************************************************************ */
+/* 
+@ignore process.*
+@ignore setTimeout
+*/
 
 /**
  * Exposes Sinon.JS to qooxdoo.
