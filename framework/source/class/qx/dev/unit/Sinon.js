@@ -48,7 +48,7 @@
  *
  * @internal
  * @ignore(module, require, global, ProgressEvent, clearImmediate)
- * @ignore process.* 
+ * @ignore(process.*) 
  * @lint ignoreDeprecated(eval)
  * @ignore(module.exports.*)
  *
@@ -72,8 +72,8 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
 /**
  * @ignore(module, require, global, process.*, setImmediate.*)
  * @ignore(msSetImmediate.*)
- * @ignore process.* 
- * @ignore setTimeout.*
+ * @ignore (process.*) 
+ * @ignore (setTimeout.*)
  * @lint ignoreUnused(alen, requestMethod, index)
  * @lint ignoreNoLoopBlock()
  *
