@@ -72,7 +72,7 @@ qx.Class.define("qx.test.bom.element.Background",
     {
       var cssString = qx.bom.element.Background.compile("foo/bar/baz", "no-repeat", null, null);
 
-      var expected = "background-image:url(foo/bar/baz);background-position:0 0;" +
+      var expected = "background-image:url('foo/bar/baz');background-position:0 0;" +
                      "background-repeat:no-repeat;";
       this.assertEquals(expected, cssString, "Compiled CSS string is not valid!");
     },
