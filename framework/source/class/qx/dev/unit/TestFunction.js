@@ -115,7 +115,6 @@ qx.Class.define("qx.dev.unit.TestFunction",
       });
 
       testResult.run(this, function() {
-        var ret;
         switch (inst[method].constructor.name) {
           case "Function":
             try {
