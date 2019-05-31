@@ -124,11 +124,11 @@ qx.Class.define("qx.dev.unit.TestFunction",
         if (ret && ret.constructor && ret.constructor.name === "Promise") {
           ret
           .then(
-            ()=>inst.resume()
+            function(){inst.resume()}
           )
           .catch(
-            ex => {
-              inst.resume(() => { throw ex });
+            function(ex){
+              inst.resume(function(){ throw ex });
             }
           );
           inst.wait();
