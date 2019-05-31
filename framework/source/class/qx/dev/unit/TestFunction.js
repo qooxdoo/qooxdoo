@@ -127,7 +127,9 @@ qx.Class.define("qx.dev.unit.TestFunction",
           case "AsyncFunction":
             inst[method]()
             .then(
-              function(){inst.resume()}
+              function(){
+                inst.resume()
+              }
             )
             .catch(
               function(ex){
