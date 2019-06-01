@@ -56,6 +56,26 @@
      {
        "name" : "Martin Wittemann (wittemann)",
        "email" : "martin DOT wittemann AT 1und1 DOT de"
+     },
+     {
+       "name": "John Spackman (johnspackman)",
+       "email": "john.spackman@zenesis.com"
+     },
+     {
+       "name": "Christian Boulanger (cboulanger)",
+       "email": "info@bibliograph.org"
+     },
+     {
+       "name": "Henner Kollmann (hkollmann)",
+       "email": "Henner.Kollmann.gmx.de"
+     },
+     {
+       "name": "Tobias Oetiker (oetiker)",
+       "email": "tobi@oetiker.ch"
+     },
+     {
+       "name": "Dietrich Streifert (level420)",
+       "email": "dietrich.streifert@visionet.de"
      }
     ],
     "version"         : "6.0.0-alpha"
