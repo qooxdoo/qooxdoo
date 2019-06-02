@@ -1,3 +1,4 @@
+
 /* ************************************************************************
 
    qooxdoo - the new era of web development
@@ -329,6 +330,51 @@ qx.Class.define("qx.io.request.Xhr",
      */
     setParser: function(parser) {
       return this._parser.setParser(parser);
+    },
+
+    /**
+    * Send the request and return a qx.Promise.
+    *
+    * @param context {Object?} optional context to bind the qx.Promise.
+    * @return {qx.Promise} The qx.Promise object
+    */
+    sendWithPromise: function(context) {
+      // set the context
+      context = context === undefined ? this : context; 
+
+      // save this object's context
+      var xhr = this;
+
+      // save the listeners ids to remove them later
+      var listeners = [];
+
+      return new qx.Promise(function(resolve, reject) {
+        var successListener = xhr.addListener("success", function(e) {
+          resolve(xhr);
+        }, this);
+        listeners.push(successListener);
+
+        var failListener = xhr.addListener("fail", function(e){
+          var phase = xhr.getPhase();
+          var failMessage = "";
+
+          if(phase == "statusError") {
+            failMessage = xhr.getStatus() + ": " + xhr.getStatusText();
+          }
+
+          var err = new qx.type.BaseError(phase, failMessage);
+          reject(err);
+        }, this);
+        listeners.push(failListener);
+
+        xhr.send();
+      }, context)
+        .finally(function() {
+          // remove the listeners from this request
+          listeners.forEach(function(id) {
+            xhr.removeListenerById(id);
+          });
+        });
     }
   }
 });
