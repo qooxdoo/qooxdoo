@@ -30,6 +30,7 @@ install:
 
 stages:
   - name: Lint-and-Coverage
+    if: commit_message !~ /(documentation|docs)/ AND branch !~ /(documentation|docs)/
   - name: Local-Browser-Tests
     if: commit_message !~ /(documentation|docs)/ AND branch !~ /(documentation|docs)/
   - name: SL-Browser-Tests
