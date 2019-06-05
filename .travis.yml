@@ -31,8 +31,9 @@ install:
 stages:
   - name: Lint-and-Coverage
   - name: Local-Browser-Tests
-  - name: SL-Brower-Tests
-    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request))
+    if: commit_message !~ /(documentation|docs)/ AND branch !~ /(documentation|docs)/
+  - name: SL-Browser-Tests
+    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND commit_message !~ /(documentation|docs)/ AND branch !~ /(documentation|docs)/
   - name: Deploy
     if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND ( branch = master OR tag =~ ^v[0-9] )
 
@@ -43,14 +44,14 @@ jobs:
       script: ../.travis/lint
     - # parallel
       name: Coverage
-      script: ../.travis/coverage      
+      script: ../.travis/coverage
     - stage: Local-Browser-Tests
       name: Firefox
       script: ../.travis/test Firefox
     - # parallel
       name: Chrome
-      script: ../.travis/test Chrome_travis_ci      
-    - stage: SL-Brower-Tests
+      script: ../.travis/test Chrome_travis_ci
+    - stage: SL-Browser-Tests
       name: SL Chrome
       script: ../.travis/test ChromeSL
     - #
