@@ -70,12 +70,12 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
 
 
 /**
- * @ignore(module, require, global, process.*, setImmediate.*)
- * @ignore(msSetImmediate.*)
- * @ignore (process.*) 
- * @ignore (setTimeout.*)
+ * @ignore(module, require, global, process.*, setImmediate)
+ * @ignore(msSetImmediate)
  * @lint ignoreUnused(alen, requestMethod, index)
  * @lint ignoreNoLoopBlock()
+ * @ignore (process.*)  
+ * @ignore (setTimeout.*) 
  *
  * @lint ignoreJsdocKey(author, license, depend)
  */
