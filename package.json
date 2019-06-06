@@ -15,13 +15,13 @@
     "LICENSE",
     "CHANGELOG.md",
     "README.md",
-	"lib/qx_server",
-	"lib/resource", 
+    "lib/qx_server",
+    "lib/resource",
     "framework/Manifest.json",
     "framework/source",
     "tool/data/cldr"
   ],
   "devDependencies": {
-    "@qooxdoo/compiler" : "^1.0.0-beta.20190521-1557"   
+    "@qooxdoo/compiler": "^1.0.0-beta.20190521-1557"
   }
 }
