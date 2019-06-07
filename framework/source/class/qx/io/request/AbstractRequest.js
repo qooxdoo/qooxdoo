@@ -414,8 +414,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
       this._setPhase("sent");
     },
 
-
-
     /**
     * The same as send() but also return a qx.Promise object.
     *
