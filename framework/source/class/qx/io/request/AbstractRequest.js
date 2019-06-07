@@ -423,54 +423,59 @@ qx.Class.define("qx.io.request.AbstractRequest",
     * @return {qx.Promise} The qx.Promise object
     */
     sendWithPromise: function(context) {
-      // set the context
-      context = context === undefined ? this : context;
+      if (qx.core.Environment.get("qx.promise")) {        
+        // set the context
+        context = context === undefined ? this : context;
 
-      // save this object's context
-      var req = this;
+        // save this object's context
+        var req = this;
 
-      // save the listeners ids to remove them later
-      var listeners = [];
+        // save the listeners ids to remove them later
+        var listeners = [];
 
-      return new qx.Promise(function(resolve, reject) {
-        var successListener = req.addListener("success", function(e) {
-          resolve(req);
-        }, this);
-        listeners.push(successListener);
+        return new qx.Promise(function(resolve, reject) {
+          var successListener = req.addListener("success", function(e) {
+            resolve(req);
+          }, this);
+          listeners.push(successListener);
 
-        var failListener = req.addListener("fail", function(e) {
-          var phase = req.getPhase();
-          var failMessage = "";
+          var failListener = req.addListener("fail", function(e) {
+            var phase = req.getPhase();
+            var failMessage = "";
 
-          if(phase == "statusError") {
-            failMessage = req.getStatus() + ": " + req.getStatusText();
-          }
+            if(phase == "statusError") {
+              failMessage = req.getStatus() + ": " + req.getStatusText();
+            }
 
-          var err = new qx.type.BaseError(phase, failMessage);
-          reject(err);
-        }, this);
-        listeners.push(failListener);
+            var err = new qx.type.BaseError(phase, failMessage);
+            reject(err);
+          }, this);
+          listeners.push(failListener);
 
-        var abortListener = req.addListener("abort", function(e) {
-          var err = new qx.type.BaseError("aborted");
-          reject(err);
-        });
-        listeners.push(abortListener);
-
-        var parseErrorListener = req.addListener("parseError", function(e) {
-          var err = new qx.type.BaseError("parseError", req.getResponseText());
-          reject(err);
-        });
-        listeners.push(parseErrorListener);
-
-        req.send();
-      }, context)
-        .finally(function() {
-          // remove the listeners from this request
-          listeners.forEach(function(id) {
-            req.removeListenerById(id);
+          var abortListener = req.addListener("abort", function(e) {
+            var err = new qx.type.BaseError("aborted");
+            reject(err);
           });
-        });
+          listeners.push(abortListener);
+
+          var parseErrorListener = req.addListener("parseError", function(e) {
+            var err = new qx.type.BaseError("parseError", req.getResponseText());
+            reject(err);
+          });
+          listeners.push(parseErrorListener);
+
+          req.send();
+        }, context)
+          .finally(function() {
+            // remove the listeners from this request
+            listeners.forEach(function(id) {
+              req.removeListenerById(id);
+            });
+          });
+      } else {
+        // fail loudly
+        throw new qx.type.BaseError("Error", "Environment setting qx.promise is set to false.");
+      }
     },
 
     /**
