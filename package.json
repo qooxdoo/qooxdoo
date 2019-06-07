@@ -22,6 +22,10 @@
     "tool/data/cldr"
   ],
   "devDependencies": {
-    "@qooxdoo/compiler": "^1.0.0-beta.20190521-1557"
+    "@qooxdoo/compiler": "^1.0.0-beta.20190521-1557",
+    "remark-cli": "^6.0.1",
+    "remark-lint-no-dead-urls": "^0.4.1",
+    "remark-preset-lint-recommended": "^3.0.2",
+    "remark-validate-links": "^8.0.2"
   }
 }
