@@ -20,7 +20,7 @@
     {
       "class": "qx.application.Native",
       "name": "qx_server",
-      "type": "library",
+	  "theme": "",
       "environment": {
         "qx.debug": false
       },
