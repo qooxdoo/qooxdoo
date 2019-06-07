@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# This only checks for bad links, add `-u remark-preset-lint-recommended` for
+# markdown syntax and style linting
+
+for filename in docs/**/*.md ; do
+  npx remark \
+    -u remark-lint-no-dead-urls \
+    -u remark-validate-links \
+    --frail \
+    --no-stdout \
+    $filename
+done
