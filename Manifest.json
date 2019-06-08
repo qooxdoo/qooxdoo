@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/resource/schema/v1/Manifest.json",
   "info" : 
   {
     "name" : "qooxdoo framework",
@@ -55,49 +56,42 @@
      {
        "name" : "Martin Wittemann (wittemann)",
        "email" : "martin DOT wittemann AT 1und1 DOT de"
+     },
+     {
+       "name": "John Spackman (johnspackman)",
+       "email": "john.spackman@zenesis.com"
+     },
+     {
+       "name": "Christian Boulanger (cboulanger)",
+       "email": "info@bibliograph.org"
+     },
+     {
+       "name": "Henner Kollmann (hkollmann)",
+       "email": "Henner.Kollmann.gmx.de"
+     },
+     {
+       "name": "Tobias Oetiker (oetiker)",
+       "email": "tobi@oetiker.ch"
+     },
+     {
+       "name": "Dietrich Streifert (level420)",
+       "email": "dietrich.streifert@visionet.de"
      }
     ],
-
-    "version"         : "6.0.0-beta",
-    "qooxdoo-versions": ["6.0.0-beta"],
-
-    "sourceViewUri" : "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
+    "version"         : "6.0.0-beta"
   },
-  
+ 
   "provides" : 
   {
     "namespace"   : "qx",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",
-    "translation" : "source/translation",
-    "type"        : "library"
+    "translation" : "source/translation"
   },
-  
-  "setup" :
-  {
-    "qx.debug" : 
-    {
-      "values" : [ "on", "off" ],
-      "default" : "on"  
-    },
-    
-    "qx.aspects" : 
-    {
-      "values" : [ "on", "off" ],
-      "default" : "off"  
-    },
-    
-    "qx.dynlocale" : 
-    {
-      "values" : [ "on", "off" ],
-      "default" : "off"  
-    },
-    
-    "qx.theme" :
-    {
-      "default" : "qx.theme.Modern"
-    }
+  "requires": {
+    "@qooxdoo/compiler": "^1.0.0-beta",
+    "@qooxdoo/framework": "^6.0.0-alpha"
   }
 }
 

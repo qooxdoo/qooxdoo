@@ -1,4 +1,4 @@
-/** qooxdoo v6.0.0-alpha | (c) 2013 1&1 Internet AG, http://1und1.de | http://qooxdoo.org/license */
+/** qooxdoo v6.0.0-beta | (c) 2013 1&1 Internet AG, http://1und1.de | http://qooxdoo.org/license */
 // Active reload support
 if (typeof(qx_AR) === "undefined" ) {
   qx_AR = {
