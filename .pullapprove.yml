@@ -20,9 +20,8 @@ groups:
     conditions:
       - "'hotfix' in labels"
     reviews:
-      required: 2  # 2 approvals from this group are required
-      request: 2  # 2 review request will be sent at a time
-      request_order: shuffle  # reviewers will be chosen in a random order
+      required: 2
+      request: 5
     reviewers:
       teams:
         - "PR Mergers"
