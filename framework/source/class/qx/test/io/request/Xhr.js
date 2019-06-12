@@ -577,7 +577,7 @@ qx.Class.define("qx.test.io.request.Xhr",
           }))
           .catch(this.resumeHandler(function(result) {
             this.assertInstance(result, qx.type.BaseError);
-            this.assertEquals(result.getComment(), "aborted");
+            this.assertEquals( "abort", result.getComment());
           }, this));
 
         this.transport.onabort();
@@ -610,7 +610,7 @@ qx.Class.define("qx.test.io.request.Xhr",
         var transport = this.transport;
         transport.readyState = 4;
         transport.status = 200;
-        transport.responseText = "Affe";
+        // transport.responseText = "Affe";
         transport.onreadystatechange();
         this.wait(5000);
       } else {
