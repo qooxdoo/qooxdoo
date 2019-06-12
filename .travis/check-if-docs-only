@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
-# from https://github.com/dev-id/Magic-Spoiler/blob/8111a06ab6682e020169991d5e2aa4fa503d787f/preflight.sh
-
 set -e
 
-CHANGED_FILES=`git diff --name-only master...${TRAVIS_BRANCH}`
+git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git fetch
+CHANGED_FILES=`git diff --name-only HEAD origin/${TRAVIS_BRANCH}`
+echo $CHANGED_FILES
 NO_DOCS=True
 NO_CODE=True
 MD=".md"
