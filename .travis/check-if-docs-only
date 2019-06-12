@@ -4,7 +4,7 @@ set -e
 
 git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 git fetch
-CHANGED_FILES=`git diff --name-only HEAD master`
+CHANGED_FILES=`git diff --name-only HEAD origin/master`
 echo $CHANGED_FILES
 NO_DOCS=True
 NO_CODE=True
@@ -21,6 +21,7 @@ done
 if [[ $NO_CODE == True ]] && [[ $NO_DOCS == False  ]]; then
   echo "Only .md files found. Linting them..."
   # Once the documentation is cleaned up, this should make travis error in case of warnings
+  npm install
   .travis/markdown-lint
   travis_terminate 0
   exit 1
