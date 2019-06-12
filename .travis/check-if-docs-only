@@ -4,7 +4,7 @@ set -e
 
 git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 git fetch
-CHANGED_FILES=`git diff --name-only HEAD origin/${TRAVIS_BRANCH}`
+CHANGED_FILES=`git diff --name-only HEAD master`
 echo $CHANGED_FILES
 NO_DOCS=True
 NO_CODE=True
