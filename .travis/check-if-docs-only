@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+# from https://github.com/dev-id/Magic-Spoiler/blob/8111a06ab6682e020169991d5e2aa4fa503d787f/preflight.sh
+
+set -e
+
+CHANGED_FILES=`git diff --name-only master...${TRAVIS_COMMIT}`
+NO_DOCS=True
+NO_CODE=True
+MD=".md"
+
+for CHANGED_FILE in $CHANGED_FILES; do
+  if [[ $CHANGED_FILE =~ $MD ]]; then
+    NO_DOCS=False
+  else
+    NO_CODE=False
+  fi
+done
+
+if [[ $NO_CODE == True ]] && [[ $NO_DOCS == False  ]]; then
+  echo "Only .md files found. Linting them..."
+  # Once the documentation is cleaned up, this should make travis error in case of warnings
+  .travis/markdown-lint
+  travis_terminate 0
+  exit 1
+else
+  echo "Non-.md files found. Continuing build"
+  exit 0
+fi

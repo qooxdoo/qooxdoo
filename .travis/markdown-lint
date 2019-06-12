@@ -2,12 +2,19 @@
 
 # This only checks for bad links, add `-u remark-preset-lint-recommended` for
 # markdown syntax and style linting
-
+errors=0
 for filename in docs/**/*.md ; do
   npx remark \
     -u remark-lint-no-dead-urls \
     -u remark-validate-links \
     --frail \
     --no-stdout \
-    $filename
+    $filename \
+    2>&1 >/dev/null | grep -v "no issues found" \
+    || errors=1
 done
+
+if [[ $errors == 1 ]]; then
+  (>&2 echo "There are problems in the markdown which need to be fixed first.")
+  exit 1;
+fi
