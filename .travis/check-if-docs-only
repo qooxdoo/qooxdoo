@@ -24,7 +24,7 @@ if [[ $CONTAINS_MD == True ]]; then
   npm install
   .travis/markdown-lint $MARKDOWN_FILES
   if [[ $CONTAINS_CODE == False ]]; then
-  echo "Only documentation, terminating build."
+    echo "Only documentation, terminating build."
     travis_terminate 0
     exit 1
   fi
