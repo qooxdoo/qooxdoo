@@ -13,7 +13,7 @@ groups:
       request_order: shuffle  # reviewers will be chosen in a random order
     reviewers:
       teams:
-        - "PR Mergers"
+        - pr-mergers
 
   # emergency hotfix: only 2 approvals necessary
   hotfix:
@@ -24,7 +24,7 @@ groups:
       request: 5
     reviewers:
       teams:
-        - "PR Mergers"
+        - pr-mergers
 
   # default procedure: 5 approvals required
   default:
@@ -36,7 +36,7 @@ groups:
       request: 5
     reviewers:
       teams:
-        - "PR Mergers"
+        - pr-mergers
 
 # see https://docs.pullapprove.com/config/pullapprove-conditions/
 pullapprove_conditions:
