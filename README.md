@@ -37,16 +37,6 @@ Quick start
 It is easy to get started with qooxdoo. For detailed information please
 see http://manual.qooxdoo.org/6.0.0-beta/pages/getting_started.html .
 
-For the impatient, here is a short version:
-
-Use the './create-application.py' script to setup a new application.
-This will create a minimal directory structure of an application, which is ready to
-be built and run. Within the newly created application folder run the command
-'generate.py source-all' to generate a development version of your app.
-Open 'source/index.html' in your browser and see your first application in action. You can
-then go on and extend it into an application of your liking by changing the
-'Application.js' class file below the 'source/class/' folder.
-
 
 API Reference
 ==============

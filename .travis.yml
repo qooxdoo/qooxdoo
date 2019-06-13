@@ -22,6 +22,7 @@ cache:
   - "/tmp/qx*"
 
 before_install:
+- .travis/check-if-docs-only
 - gem install sass -v 3.4.20
 
 install:
@@ -30,11 +31,9 @@ install:
 
 stages:
   - name: Lint-and-Coverage
-    if: commit_message !~ \[travis-docs-only] AND branch !~ documentation|docs
   - name: Local-Browser-Tests
-    if: commit_message !~ \[travis-docs-only] AND branch !~ documentation|docs
   - name: SL-Browser-Tests
-    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND commit_message !~ \[travis-docs-only] AND branch !~ documentation|docs
+    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request))
   - name: Deploy
     if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND ( branch = master OR tag =~ ^v[0-9] )
 

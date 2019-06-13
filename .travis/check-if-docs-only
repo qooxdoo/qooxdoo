@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
+git fetch -q
+CHANGED_FILES=`git diff --name-only HEAD origin/master`
+echo "Changed files: $CHANGED_FILES"
+CONTAINS_MD=False
+CONTAINS_CODE=False
+MARKDOWN_FILES=""
+MD=".md"
+
+for CHANGED_FILE in $CHANGED_FILES; do
+  if [[ $CHANGED_FILE =~ $MD ]]; then
+    CONTAINS_MD=True
+    MARKDOWN_FILES="$MARKDOWN_FILES $CHANGED_FILE"
+  else
+    CONTAINS_CODE=True
+  fi
+done
+
+if [[ $CONTAINS_MD == True ]]; then
+  echo "Markdown files found. Linting them..."
+  # Once the documentation is cleaned up, this should make travis error in case of warnings
+  npm install
+  .travis/markdown-lint $MARKDOWN_FILES
+  if [[ $CONTAINS_CODE == False ]]; then
+    echo "Only documentation, terminating build."
+    travis_terminate 0
+    exit 1
+  fi
+fi
+echo "Continuing build..."
+exit 0
