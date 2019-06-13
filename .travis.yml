@@ -22,13 +22,14 @@ cache:
   - "/tmp/qx*"
 
 before_install:
+- .travis/check-if-docs-only > md_files || export CONTAINS_MD_ONLY=1;
+- export MD_FILES=$(cat md_files)
 - gem install sass -v 3.4.20
 
 install:
 - .travis/prepare_npm
-
-before_script:
-- .travis/check-if-docs-only
+- if [[ "$MD_FILES" != "" ]] ; then .travis/markdown-lint $MD_FILES ; fi
+- if [[ $CONTAINS_MD_ONLY == 1 ]] ; then echo "Markdown commit only, terminating build."; travis_terminate 0 ; fi
 - cd framework
 
 stages:

@@ -49,6 +49,9 @@ pullapprove_conditions:
   - condition: "'WIP' not in title"
     unmet_status: pending
     explanation: "Work in progress - review not yet required"
+  - condition: "'do not merge' not in label"
+    unmet_status: pending
+    explanation: "PR should not be merged yet - review not yet required"
 
 notifications:
   - when: pull_request.opened
