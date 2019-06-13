@@ -620,4 +620,3 @@ qx.Class.define("qx.test.io.request.Xhr",
     }
   }
 });
-
