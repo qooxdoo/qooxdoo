@@ -93,7 +93,7 @@ $ npx qx serve
 ```
 
 The `serve` command will compile the application and then also make it available
-on localhost. Use your web browser to open <http://localhost:8080>.
+on localhost. Use your web browser to open `http://localhost:8080`.
 
 ## The Qooxdoo Way
 
