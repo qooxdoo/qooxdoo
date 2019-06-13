@@ -39,11 +39,6 @@
        BSD: http://www.opensource.org/licenses/bsd-license.php
 
 ************************************************************************ */
-/* 
-@ignore process.*
-@ignore setTimeout
-*/
-
 /**
  * Exposes Sinon.JS to qooxdoo.
  *
@@ -53,6 +48,7 @@
  *
  * @internal
  * @ignore(module, require, global, ProgressEvent, clearImmediate)
+ * @ignore(process.*) 
  * @lint ignoreDeprecated(eval)
  * @ignore(module.exports.*)
  *
@@ -75,9 +71,11 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
 
 /**
  * @ignore(module, require, global, process.*, setImmediate)
- * @ignore(msSetImmediate.*)
+ * @ignore(msSetImmediate)
  * @lint ignoreUnused(alen, requestMethod, index)
  * @lint ignoreNoLoopBlock()
+ * @ignore (process.*)  
+ * @ignore (setTimeout.*) 
  *
  * @lint ignoreJsdocKey(author, license, depend)
  */
@@ -3368,7 +3366,7 @@ if (typeof sinon == "undefined") {
 
         // Prevent multiple executions which will completely remove these props
         this.methods = [];
-      
+
         qx.util.DeferredCallManager.getInstance().refreshTimeout();
     }
 
