@@ -2,12 +2,20 @@
 
 # This only checks for bad links, add `-u remark-preset-lint-recommended` for
 # markdown syntax and style linting
-
-for filename in docs/**/*.md ; do
+ERRORS=False
+FILES=${1:-docs/**/*.md}
+for FILENAME in $FILES ; do
   npx remark \
     -u remark-lint-no-dead-urls \
     -u remark-validate-links \
     --frail \
     --no-stdout \
-    $filename
+    $FILENAME \
+    2>&1 >/dev/null \
+    || ERRORS=True
 done
+
+if [[ $ERRORS == True ]]; then
+  (>&2 echo "There are problems in the markdown which need to be fixed first.")
+  exit 1;
+fi
