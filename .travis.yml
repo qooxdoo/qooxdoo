@@ -22,6 +22,7 @@ cache:
   - "/tmp/qx*"
 
 before_install:
+- .travis/check-if-docs-only
 - local MD_FILES; MDFILES=$(.travis/check-if-docs-only); local CONTAINS_MD_ONLY=$?
 - echo $MD_FILES
 - echo $CONTAINS_MD_ONLY
