@@ -479,7 +479,8 @@ qx.Class.define("qx.test.io.request.Xhr",
 
         var req = this.req;
 
-        req.sendWithPromise(this).then(this.resumeHandler(function(result) {
+        req.sendWithPromise(this)
+          .then(this.resumeHandler(function(result) {
           this.assertEquals(req, result);
           this.assertEquals("Affe", req.getResponseText());
           this.assertEquals(200, req.getStatus());
@@ -577,7 +578,7 @@ qx.Class.define("qx.test.io.request.Xhr",
           }))
           .catch(this.resumeHandler(function(result) {
             this.assertInstance(result, qx.type.BaseError);
-            this.assertEquals( "abort", result.getComment());
+            this.assertEquals(result.getComment(), "abort");
           }, this));
 
         this.transport.onabort();
