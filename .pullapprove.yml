@@ -13,7 +13,18 @@ groups:
       request_order: shuffle  # reviewers will be chosen in a random order
     reviewers:
       teams:
-        - "PR Mergers"
+        - pr-mergers
+
+  # emergency hotfix: only 2 approvals necessary
+  hotfix:
+    conditions:
+      - "'hotfix' in labels"
+    reviews:
+      required: 2
+      request: 5
+    reviewers:
+      teams:
+        - pr-mergers
 
   # default procedure: 5 approvals required
   default:
@@ -25,18 +36,19 @@ groups:
       request: 5
     reviewers:
       teams:
-        - "PR Mergers"
+        - pr-mergers
 
 # see https://docs.pullapprove.com/config/pullapprove-conditions/
 pullapprove_conditions:
-  # only start review process when the tests have passed
+  - condition: "base.ref == 'master'"
+    unmet_status: success
+    explanation: "Review not required unless merging to master"
   - condition: "'*travis*' in statuses.successful"
     unmet_status: "failure"
     explanation: "Tests must pass before review starts"
-    # do not review work in progress
-  - condition: "'WIP' in title"
+  - condition: "'WIP' not in title"
     unmet_status: pending
-    explanation: "Work in progress"
+    explanation: "Work in progress - review not yet required"
 
 notifications:
   - when: pull_request.opened
