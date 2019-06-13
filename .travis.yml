@@ -22,7 +22,7 @@ cache:
   - "/tmp/qx*"
 
 before_install:
-- if [[ .travis/check-if-docs-only > md_files ]] ; then export $CONTAINS_MD_ONLY=True; fi
+- if [[ .travis/check-if-docs-only > md_files ]] ; then export $CONTAINS_MD_ONLY=1; fi
 - export MDFILES=$(cat md_files)
 - echo $MD_FILES
 - echo $CONTAINS_MD_ONLY
