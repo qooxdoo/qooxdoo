@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-
+# returns 0 if the commits contain only documentation (=markdown files)
+# ans 1 if not
 git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 git fetch -q
 CHANGED_FILES=`git diff --name-only HEAD origin/master`
@@ -24,11 +25,9 @@ if [[ $CONTAINS_MD == True ]]; then
   # Once the documentation is cleaned up, this should make travis error in case of warnings
   .travis/markdown-lint $MARKDOWN_FILES
   if [[ $CONTAINS_CODE == False ]]; then
-    echo "Found only documentation, terminating build."
-    travis_terminate 0
-    exit 1
-  else
-    echo "Found code, continuing build..."
+    echo "Commits contain only documentation."
+    exit 0
   fi
 fi
-exit 0
+echo "Commits contain code."
+exit 1

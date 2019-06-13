@@ -28,7 +28,7 @@ install:
 - .travis/prepare_npm
 
 before_script:
-- .travis/check-if-docs-only
+- if [[ .travis/check-if-docs-only ]] ; then echo "Terminating build."; travis_terminate 0 ; fi
 - cd framework
 
 stages:
