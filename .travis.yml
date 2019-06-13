@@ -22,8 +22,8 @@ cache:
   - "/tmp/qx*"
 
 before_install:
-- .travis/check-if-docs-only
-- local MD_FILES; MDFILES=`${.travis/check-if-docs-only}`; local CONTAINS_MD_ONLY=$?
+- if [[ .travis/check-if-docs-only > md_files ]] ; then export $CONTAINS_MD_ONLY=True; fi
+- export MDFILES=$(cat md_files)
 - echo $MD_FILES
 - echo $CONTAINS_MD_ONLY
 - gem install sass -v 3.4.20
