@@ -27,9 +27,9 @@ before_install:
 - gem install sass -v 3.4.20
 
 install:
-- .travis/prepare_npm
 - if [[ "$MD_FILES" != "" ]] ; then .travis/markdown-lint $MD_FILES ; fi
 - if [[ $CONTAINS_MD_ONLY == 1 ]] ; then echo "Markdown commit only, terminating build."; travis_terminate 0 ; fi
+- .travis/prepare_npm
 - cd framework
 
 stages:
