@@ -22,19 +22,21 @@ cache:
   - "/tmp/qx*"
 
 before_install:
+- .travis/check-if-docs-only > md_files || export CONTAINS_MD_ONLY=1;
+- export MD_FILES=$(cat md_files)
 - gem install sass -v 3.4.20
 
 install:
 - .travis/prepare_npm
+- if [[ "$MD_FILES" != "" ]] ; then .travis/markdown-lint $MD_FILES ; fi
+- if [[ $CONTAINS_MD_ONLY == 1 ]] ; then echo "Markdown commit only, terminating build."; travis_terminate 0 ; fi
 - cd framework
 
 stages:
   - name: Lint-and-Coverage
-    if: commit_message !~ \[travis-docs-only] AND branch !~ documentation|docs
   - name: Local-Browser-Tests
-    if: commit_message !~ \[travis-docs-only] AND branch !~ documentation|docs
   - name: SL-Browser-Tests
-    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND commit_message !~ \[travis-docs-only] AND branch !~ documentation|docs
+    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request))
   - name: Deploy
     if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND ( branch = master OR tag =~ ^v[0-9] )
 
