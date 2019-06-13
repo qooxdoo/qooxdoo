@@ -49,7 +49,7 @@ pullapprove_conditions:
   - condition: "'WIP' not in title"
     unmet_status: pending
     explanation: "Work in progress - review not yet required"
-  - condition: "'do not merge' not in label"
+  - condition: "'do not merge' not in labels"
     unmet_status: pending
     explanation: "PR should not be merged yet - review not yet required"
 
