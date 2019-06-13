@@ -7,7 +7,6 @@ objectorientation  qooxdoo allows to keep even the code of the most complex
 applications well organized and manageable. The integrated compiler produces
 single file applications ready for deployment.
 
-
 Framework
 ---------
 
