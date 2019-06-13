@@ -22,10 +22,10 @@ cache:
   - "/tmp/qx*"
 
 before_install:
-- .travis/check-if-docs-only
 - gem install sass -v 3.4.20
 
 install:
+- .travis/check-if-docs-only
 - .travis/prepare_npm
 - cd framework
 
