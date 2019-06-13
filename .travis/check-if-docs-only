@@ -14,6 +14,7 @@ for CHANGED_FILE in $CHANGED_FILES; do
     CONTAINS_MD=True
     MARKDOWN_FILES="$MARKDOWN_FILES $CHANGED_FILE"
   else
+    echo "found code: $CHANGED_FILE" # debug
     CONTAINS_CODE=True
   fi
 done
@@ -21,13 +22,13 @@ done
 if [[ $CONTAINS_MD == True ]]; then
   echo "Markdown files found. Linting them..."
   # Once the documentation is cleaned up, this should make travis error in case of warnings
-  npm install
   .travis/markdown-lint $MARKDOWN_FILES
   if [[ $CONTAINS_CODE == False ]]; then
-    echo "Only documentation, terminating build."
+    echo "Found only documentation, terminating build."
     travis_terminate 0
     exit 1
+  else
+    echo "Found code, continuing build..."
   fi
 fi
-echo "Continuing build..."
 exit 0

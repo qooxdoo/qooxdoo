@@ -36,6 +36,9 @@ exe npm -v
 
 exe npm install
 # compile framework
+exe npx qx --version
+exe npm update --no-save @qooxdoo/compiler 
+exe npx qx --version
 exe npx qx compile -v
 
 
