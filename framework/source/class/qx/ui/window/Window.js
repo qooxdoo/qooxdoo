@@ -59,8 +59,8 @@ qx.Class.define("qx.ui.window.Window",
   */
 
   /**
-   * @param caption {String} The caption text
-   * @param icon {String} The URL of the caption bar icon
+   * @param caption {String?} The caption text
+   * @param icon {String?} The URL of the caption bar icon
    */
   construct : function(caption, icon)
   {

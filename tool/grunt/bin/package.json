@@ -1,6 +1,7 @@
 {
   "name": "helper_scripts",
   "description" : "Some executable scripts, to experiment with Node and NPM modules in our context",
+  "license": "MIT",
   "version": "0.1.0",
   "repository" : {},
   "devDependencies": {

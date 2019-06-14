@@ -72,6 +72,7 @@
  * @require(qx.lang.normalize.Function)
  * @require(qx.lang.normalize.String)
  * @require(qx.lang.normalize.Object)
+ * @require(qx.lang.normalize.Number)
  */
 qx.Bootstrap.define("qx.Class",
 {
@@ -695,9 +696,16 @@ qx.Bootstrap.define("qx.Class",
      */
     getInstance : function()
     {
+      if (this.$$instance === null)
+      {
+        throw new Error("Singleton instance of " + this + 
+          " is requested, but not ready yet. This is most likely due to a recursive call in the constructor path.");
+      }
+
       if (!this.$$instance)
       {
         this.$$allowconstruct = true;
+        this.$$instance = null;  // null means "object is being created"; needed for another call of getInstance() during instantiation
         this.$$instance = new this();
         delete this.$$allowconstruct;
       }

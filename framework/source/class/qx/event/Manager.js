@@ -100,6 +100,30 @@ qx.Class.define("qx.event.Manager",
      */
     getNextUniqueId : function() {
       return (this.__lastUnique++) + "";
+    },
+    
+    
+    /** @type {Function} global event monitor, called with parameters of target and event */
+    __globalEventMonitor: null,
+    
+    
+    /**
+     * Returns the global event monitor
+     * 
+     * @return {Function?} the global monitor function
+     */
+    getGlobalEventMonitor: function() {
+      return this.__globalEventMonitor;
+    },
+    
+    
+    /**
+     * Sets the global event monitor
+     * 
+     * @param cb {Function?} the global monitor function
+     */
+    setGlobalEventMonitor: function(cb) {
+      this.__globalEventMonitor = cb;
     }
   },
 
@@ -448,7 +472,7 @@ qx.Class.define("qx.event.Manager",
           qx.core.Assert.assertBoolean(capture, "Invalid capture flag.");
         }
       }
-
+      
       var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
@@ -842,7 +866,7 @@ qx.Class.define("qx.event.Manager",
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *     object must be obtained using {@link qx.event.Registration#createEvent}
      *     and initialized using {@link qx.event.type.Event#init}.
-     * @return {Boolean} whether the event default was prevented or not.
+     * @return {Boolean|qx.Promise} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      * @throws {Error} if there is no dispatcher for the event
      */
@@ -855,6 +879,18 @@ qx.Class.define("qx.event.Manager",
         qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.");
         qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
         qx.core.Assert.assertInstance(event, qx.event.type.Event, msg + "Invalid event object.");
+      }
+      
+      if (qx.event.Manager.__globalEventMonitor) {
+        try {
+          var preventDefault = event.getDefaultPrevented();
+          qx.event.Manager.__globalEventMonitor(target, event);
+          if (preventDefault != event.getDefaultPrevented()) {
+            qx.log.Logger.error("Unexpected change by GlobalEventMonitor, modifications to events: ");
+          }
+        }catch (ex) {
+          qx.log.Logger.error("Error in GlobalEventMonitor: " + ex);
+        }
       }
 
       // Preparations
@@ -876,6 +912,7 @@ qx.Class.define("qx.event.Manager",
 
       // Loop through the dispatchers
       var dispatched = false;
+      var tracker = {};
 
       for (var i=0, l=classes.length; i<l; i++)
       {
@@ -884,7 +921,7 @@ qx.Class.define("qx.event.Manager",
         // Ask if the dispatcher can handle this event
         if (instance.canDispatchEvent(target, event, type))
         {
-          instance.dispatchEvent(target, event, type);
+          qx.event.Utils.track(tracker, instance.dispatchEvent(target, event, type));
           dispatched = true;
           break;
         }
@@ -898,13 +935,15 @@ qx.Class.define("qx.event.Manager",
         return true;
       }
 
-      // check whether "preventDefault" has been called
-      var preventDefault = event.getDefaultPrevented();
-
-      // Release the event instance to the event pool
-      qx.event.Pool.getInstance().poolObject(event);
-
-      return !preventDefault;
+      return qx.event.Utils.then(tracker, function() {
+        // check whether "preventDefault" has been called
+        var preventDefault = event.getDefaultPrevented();
+  
+        // Release the event instance to the event pool
+        qx.event.Pool.getInstance().poolObject(event);
+  
+        return !preventDefault;
+      });
     },
 
 

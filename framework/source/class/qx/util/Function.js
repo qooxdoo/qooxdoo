@@ -52,9 +52,10 @@ qx.Bootstrap.define("qx.util.Function", {
     debounce: function (callback, delay, immediate) {
       var fired = false;
       var intervalId = null;
+      var args = null;
       var wrapperFunction = function () {
         // store the current arguments to have access inside the interval method
-        var args = qx.lang.Array.fromArguments(arguments);
+        args = qx.lang.Array.fromArguments(arguments);
 
         // it's necessary to store the context to be able to call
         // the callback within the right scope

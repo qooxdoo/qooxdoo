@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
       if (this._sorted[key]) {
         return this._sorted[key];
       }
-      var sorted = this._sorted[key] = qx.lang.Object.getValues(this._cells);
+      var sorted = this._sorted[key] = Object.values(this._cells);
       sorted.sort(function(a, b) {
         return a[key] < b[key] ? -1 : 1;
       });

@@ -100,6 +100,10 @@ qx.Class.define("qx.ui.tree.provider.WidgetProvider",
         widget.setOpenSymbolMode("auto");
       }
 
+      if (this._tree.getOpenProperty()) {
+        widget.setModel(item);
+      }
+
       this._bindItem(widget, row);
       qx.ui.core.queue.Widget.add(widget);
 

@@ -155,7 +155,7 @@ qx.Mixin.define("qx.dev.unit.MTestLoader", {
     /**
      * Runs exactly one test from the test suite
      *
-     * @param testResult {TestResult} the result logger
+     * @param testResult {qx.dev.unit.TestResult} the result logger
      * @param className {String} Name of the test class
      * @param methodName {String} Name of the test method
      */
@@ -187,7 +187,7 @@ qx.Mixin.define("qx.dev.unit.MTestLoader", {
     /**
      * Runs all tests inside of the given namespace
      *
-     * @param testResult {TestResult} the result logger
+     * @param testResult {qx.dev.unit.TestResult} the result logger
      * @param namespaceName {String} Namespace of the tests to run
      */
     runTestsFromNamespace : function(testResult, namespaceName)

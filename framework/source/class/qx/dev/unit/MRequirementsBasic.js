@@ -40,7 +40,7 @@ qx.Mixin.define("qx.dev.unit.MRequirementsBasic", {
      * See the manual for further details:
      * <a href="http://manual.qooxdoo.org/current/pages/development/frame_apps_testrunner.html#defining-test-requirements">Defining Test Requirements</a>
      *
-     * @throws {RequirementError} if any requirement check returned
+     * @throws {qx.dev.unit.RequirementError} if any requirement check returned
      *   <code>false</code>
      * @throws {Error} if no valid check was found for a feature.
      *

@@ -647,10 +647,22 @@ qx.Class.define("qx.data.Array",
     /**
      * Check if the given item is in the current array.
      *
+     * @deprecated {6.0} Please use the include method instead
+     *
      * @param item {var} The item which is possibly in the array.
      * @return {Boolean} true, if the array contains the given item.
      */
     contains: function(item) {
+      return this.includes(item);
+    },
+
+    /**
+     * Check if the given item is in the current array.
+     *
+     * @param item {var} The item which is possibly in the array.
+     * @return {Boolean} true, if the array contains the given item.
+     */
+    includes: function(item) {
       return this.__array.indexOf(item) !== -1;
     },
 
@@ -951,7 +963,7 @@ qx.Class.define("qx.data.Array",
      * @param callback {Function} The function which will be call for every
      *   item in the array. It will be invoked with three parameters:
      *   the item, the index and the array itself.
-     * @param context {var} The context in which the callback will be invoked.
+     * @param context {var?} The context in which the callback will be invoked.
      */
     forEach : function(callback, context)
     {

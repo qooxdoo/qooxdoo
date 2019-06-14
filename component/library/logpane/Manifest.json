@@ -8,7 +8,7 @@
 
     "homepage" : "http://qooxdoo.org/",
 
-    "license" : "LGPL/EPL",
+    "license" : "MIT",
     "authors" :
     [
       {

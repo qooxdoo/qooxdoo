@@ -61,6 +61,73 @@ qx.Class.define("qx.util.ResourceManager",
   members :
   {
     /**
+     * Detects whether there is a high-resolution image available.
+     * A high-resolution image is assumed to have the same file name as
+     * the parameter source, but with a pixelRatio identifier before the file
+     * extension, like "@2x".
+     * Medium Resolution: "example.png", high-resolution: "example@2x.png"
+     *
+     * @param lowResImgSrc {String} source of the low resolution image.
+     * @param factor {Number} Factor to find the right image. If not set calculated by getDevicePixelRatio()
+     * @return {String|Boolean} If a high-resolution image source.
+     */
+     findHighResolutionSource: function(lowResImgSrc, factor) {
+      var pixelRatioCandidates = ["3", "2", "1.5"];
+
+      // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
+      if (!factor) {
+        factor = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
+      }  
+      if (factor <= 1) {
+        return false;
+      }
+
+      var i = pixelRatioCandidates.length;
+      while (i > 0 && factor > pixelRatioCandidates[--i]) {}
+
+      var hiResImgSrc;
+      var k;
+
+      // Search for best img with a higher resolution.
+      for (k = i; k >= 0; k--) {
+        hiResImgSrc = this.getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
+        if (hiResImgSrc) {
+          return hiResImgSrc;
+        }
+      }
+
+      // Search for best img with a lower resolution.
+      for (k = i + 1; k < pixelRatioCandidates.length; k++) {
+        hiResImgSrc = this.getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
+        if (hiResImgSrc) {
+          return hiResImgSrc;
+        }
+      }
+
+      return null;
+    },
+
+    /**
+     * Returns the source name for the high-resolution image based on the passed
+     * parameters.
+     * @param source {String} the source of the medium resolution image.
+     * @param pixelRatio {Number} the pixel ratio of the high-resolution image.
+     * @return {String} the high-resolution source name or null if no source could be found.
+     */
+    getHighResolutionSource : function(source, pixelRatio) {
+      var fileExtIndex = source.lastIndexOf('.');
+      if (fileExtIndex > -1) {
+        var pixelRatioIdentifier = "@" + pixelRatio + "x";
+        var candidate = source.slice(0, fileExtIndex) + pixelRatioIdentifier + source.slice(fileExtIndex);
+
+        if(this.has(candidate)) {
+          return candidate;
+        }
+      }
+      return null;
+    },
+
+    /**
      * Get all known resource IDs.
      *
      * @param pathfragment{String|null|undefined} an optional path fragment to check against with id.indexOf(pathfragment)
@@ -71,7 +138,7 @@ qx.Class.define("qx.util.ResourceManager",
       if(!registry) {
         return null;
       }
- 
+
       var ids = [];
       for (var id in registry) {
         if (registry.hasOwnProperty(id)) {
@@ -81,7 +148,7 @@ qx.Class.define("qx.util.ResourceManager",
           ids.push(id);
         }
       }
- 
+
       return ids;
     },
 
@@ -117,7 +184,19 @@ qx.Class.define("qx.util.ResourceManager",
      */
     getImageWidth : function(id)
     {
-      var entry = this.self(arguments).__registry[id];
+      var size;
+      if (id && id.startsWith("@")) {
+        var part = id.split("/");
+        size = parseInt(part[2],10);
+        if (size) {
+          id = part[0]+"/"+part[1];
+        }
+      }
+      var entry = this.self(arguments).__registry[id]; // [ width, height, codepoint ]
+      if (size && entry) {
+        var width = Math.ceil(size / entry[1] * entry[0]);
+        return width;
+      }
       return entry ? entry[0] : null;
     },
 
@@ -132,6 +211,13 @@ qx.Class.define("qx.util.ResourceManager",
      */
     getImageHeight : function(id)
     {
+      if (id && id.startsWith("@")) {
+        var part = id.split("/");
+        var size = parseInt(part[2],10);
+        if (size) {
+          return size;
+        }
+      }
       var entry = this.self(arguments).__registry[id];
       return entry ? entry[1] : null;
     },
@@ -285,7 +371,7 @@ qx.Class.define("qx.util.ResourceManager",
 
           var href;
           //first check if there is base url set
-          var baseElements = qx.bom.Selector.query("base", document);
+          var baseElements = document.getElementsByTagName("base");
           if (baseElements.length > 0) {
             href = baseElements[0].href;
           }

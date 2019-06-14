@@ -92,9 +92,9 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.__marshaler.toClass(this.__data);
 
       // check if the class is defined
-      this.assertTrue(qx.Class.isDefined('qx.data.model.b"n"s'), "Class not created.");
+      this.assertTrue(qx.Class.isDefined('qx.data.model.b|n|s'), "Class not created.");
 
-      var clazz = qx.Class.getByName('qx.data.model.b"n"s');
+      var clazz = qx.Class.getByName('qx.data.model.b|n|s');
       // check for the properties
       var i = 0;
       for (var name in clazz.$$properties) {
@@ -651,7 +651,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertException(
         function () { marshaler.toModel(data, true); },
         Error,
-        "Class 'qx.data.model.bar\"foo' found, but it does not support changeBubble event."
+        "Class 'qx.data.model.bar|foo' found, but it does not support changeBubble event."
       );
 
       //
@@ -672,7 +672,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       this.assertException(
         function () { marshaler.toModel(data2, true); },
         Error,
-        "Class 'qx.data.model.bar2\"foo2' found, but it does not support changeBubble event."
+        "Class 'qx.data.model.bar2|foo2' found, but it does not support changeBubble event."
       );
     },
 
@@ -704,7 +704,7 @@ qx.Class.define("qx.test.data.marshal.Json",
       var model = this.__marshaler.toModel(this.__data);
 
       // check for the right class hash
-      this.assertEquals('b"n"s', propertiesSaved);
+      this.assertEquals('b|n|s', propertiesSaved);
 
       // set working values
       model.setS("123456789");
@@ -720,6 +720,24 @@ qx.Class.define("qx.test.data.marshal.Json",
       }, qx.core.ValidationError);
 
       model.dispose();
+    },
+
+    testCustomValidator : function()
+    {
+      var delegate = {
+      getJsonHash: function (data, includeBubbleEvents) {
+        return Object.keys(data).sort().map(function (name) { return qx.lang.String.firstUp(name); }).join('') +
+          (includeBubbleEvents === true ? '#' : '');
+      }};
+
+      this.__marshaler.dispose();
+      this.__marshaler = new qx.data.marshal.Json(delegate);
+      this.__marshaler.toClass({
+        custom: 1,
+        props: true
+      });
+
+      this.assertTrue(qx.Class.isDefined('qx.data.model.CustomProps'), "Class not created.");
     },
 
 
@@ -796,7 +814,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       var self = this;
       var delegate = {getModelClass : function(properties) {
-        self.assertEquals('b"n"s', properties);
+        self.assertEquals('b|n|s', properties);
         return qx.test.model.C;
       }};
 
@@ -858,7 +876,7 @@ qx.Class.define("qx.test.data.marshal.Json",
 
       var self = this;
       var delegate = {getModelClass : function(properties) {
-        self.assertEquals('b"n"s', properties);
+        self.assertEquals('b|n|s', properties);
         return qx.test.model.C;
       }};
 

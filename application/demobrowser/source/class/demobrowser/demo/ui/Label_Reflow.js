@@ -109,7 +109,7 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
 
       var label2 = new qx.ui.basic.Label().set({
         rich: true,
-        value: "It includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under an LGPL/EPL dual license."
+        value: "It includes a platform-independent development tool chain, a state-of-the-art GUI toolkit and an advanced client-server communication layer. It is Open Source under the MIT license."
       });
       pane.add(label2);
 

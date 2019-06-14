@@ -1,0 +1,31 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "output-nopromise/source"
+    },
+    {
+      "type": "build",
+      "outputPath": "output-nopromise/build",
+      "addCreatedAt": true
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [ "en" ],
+  "environment": {
+    "qx.promise": false
+  },
+
+  "applications": [
+    {
+      "class": "draganddrop.DragAndDropNoPromiseApplication",
+      "theme": "qx.theme.Simple",
+      "name": "dragndrop"
+    }
+  ],
+
+  "libraries": [
+    "../../framework",
+    "."
+  ]
+}

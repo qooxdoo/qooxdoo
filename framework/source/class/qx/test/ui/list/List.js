@@ -17,7 +17,7 @@
 ************************************************************************ */
 
 /**
- * @asset(qx/icon/Tango/16/places/folder.png)
+ * @asset(qx/icon/${qx.icontheme}/16/places/folder.png)
  */
 
 qx.Class.define("qx.test.ui.list.List",

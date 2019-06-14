@@ -1,0 +1,84 @@
+#!/bin/bash
+set -o errexit -o nounset
+
+cd $TRAVIS_BUILD_DIR
+
+TARGET="devel"
+MASTER="master"
+CURRENT=0
+
+### auto versioning is not working because of branch protection rule
+#node -v
+#npm -v
+#git config user.email "travis@travis-ci.org"
+#git config user.name "Travis CI"
+#### revert changes of npm install
+#git clean -fd
+#git checkout -- .
+#NEW_VERSION=$(npm version prerelease -m "[ci skip] new npm version: %s")
+#echo "new version: $NEW_VERSION"
+#echo $NEW_VERSION > version.txt
+#GIT_URL="$(git config remote.origin.url)"
+#GIT_URL=${GIT_URL/https:\/\//https:\/\/$GH_TOKEN@}
+#git push $GIT_URL HEAD:master
+#git push $GIT_URL $NEW_VERSION
+
+
+rev=$(git rev-parse --short HEAD)
+mkdir deploy && cd deploy
+
+git init
+git config user.name "Travis CI deploy"
+git config user.email "no-reply@qooxdoo.org"
+git config push.default simple
+
+GIT_IO_URL="https://$GH_TOKEN@github.com/qooxdoo/qooxdoo.github.io.git"
+git remote add upstream $GIT_IO_URL
+git fetch --depth 10 upstream
+git merge upstream/master
+
+# Adjust settings for TAG build
+if [ "$TRAVIS_TAG" != "" ]; then
+  RELEASE=${TRAVIS_TAG#release_}
+  TARGET=${RELEASE//_/.}
+  LAST_VERSION=$(ls -1d [0-9]* | sort -V | tail -n1)
+
+  if dpkg --compare-versions "$TARGET" "gt" "$LAST_VERSION"; then
+    CURRENT=1
+  fi
+fi
+
+cd $TRAVIS_BUILD_DIR
+.travis/make-release-sdk
+.travis/build-site
+
+cd deploy
+rm -rf "$TARGET" &> /dev/null
+cp -a ../build "$TARGET"
+
+# Install potentially built master sdk zip
+if [ "$TRAVIS_BRANCH" = "$MASTER" -a "$TRAVIS_TAG" = "" ]; then
+  RELEASE_PKG_FILE=$(ls ../dist/*.zip)
+  cp $RELEASE_PKG_FILE qooxdoo-sdk-master.zip
+fi
+
+# Maintain the current link
+if [ $CURRENT = 1 ]; then
+  rm -rf current &> /dev/null
+  ln -s "$TARGET" current
+fi
+
+touch .nojekyll
+touch .
+
+git add -A .
+git commit -m "Refresh site at ${rev}"
+git push -q upstream HEAD:master
+
+# Do a regular checkout and make a dummy commit
+git clone --depth 10 -q $GIT_IO_URL tmp
+cd tmp
+echo $rev > revision
+git add revision
+git commit -m "Dummy commit to fix github site sync"
+git push -q

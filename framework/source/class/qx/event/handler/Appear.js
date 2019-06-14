@@ -168,32 +168,39 @@ qx.Class.define("qx.event.handler.Appear",
      * This method should be called by all DOM tree modifying routines
      * to check the registered nodes for changes.
      *
+     * @return {qx.Promise?} a promise, if one or more of the event handlers returned one 
      */
     refresh : function()
     {
       var targets = this.__targets;
-      var elem;
 
       var legacyIe = qx.core.Environment.get("engine.name") == "mshtml" &&
         qx.core.Environment.get("browser.documentmode") < 9;
 
-      for (var hash in targets)
-      {
-        elem = targets[hash];
-
-        var displayed = elem.offsetWidth > 0;
-        if (!displayed && legacyIe) {
-          // force recalculation in IE 8. See bug #7872
-          displayed = elem.offsetWidth > 0;
+      var tracker = {};
+      var self = this;
+      Object.keys(targets).forEach(function(hash) {
+        var elem = targets[hash];
+        if (elem === undefined) {
+          return;
         }
-        if ((!!elem.$$displayed) !== displayed)
-        {
-          elem.$$displayed = displayed;
 
-          var evt = qx.event.Registration.createEvent(displayed ? "appear" : "disappear");
-          this.__manager.dispatchEvent(elem, evt);
-        }
-      }
+        qx.event.Utils.then(tracker, function() {
+          var displayed = elem.offsetWidth > 0;
+          if (!displayed && legacyIe) {
+            // force recalculation in IE 8. See bug #7872
+            displayed = elem.offsetWidth > 0;
+          }
+          if ((!!elem.$$displayed) !== displayed)
+          {
+            elem.$$displayed = displayed;
+
+            var evt = qx.event.Registration.createEvent(displayed ? "appear" : "disappear");
+            return self.__manager.dispatchEvent(elem, evt);
+          }
+        });
+      });
+      return tracker.promise;
     }
   },
 

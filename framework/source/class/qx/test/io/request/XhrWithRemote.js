@@ -121,7 +121,8 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
       // Note:
       //   * Breaks on Windows 7 and OS X in every browser because the loading phase
       //     is never entered
-      this.require(["noIe", "noWin7", "noOsx"]);
+      //   * Also breaks on Windows 10 in every browser
+      this.require(["noIe", "noWin7", "noOsx", "noWin10"]);
 
       var req = this.req,
           phases = [],

@@ -1,4 +1,4 @@
-/* ************************************************************************
+/* ***********************************************************************
 
    qooxdoo - the new era of web development
 
@@ -122,8 +122,9 @@ qx.Class.define("qx.util.Serializer",
      * @param dateFormat {qx.util.format.DateFormat?} If a date formater is given,
      *   the format method of this given formater is used to convert date
      *   objects into strings.
-     * @return {String}
-     *   The serialized object.
+     * @return {null|Array|String|Object}
+     *   The serialized object. Depending on the input qooxdoo object, the returning
+     *   type will vary.
      */
     toNativeObject : function(object, qxSerializer, dateFormat)
     {

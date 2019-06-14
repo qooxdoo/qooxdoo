@@ -10,8 +10,7 @@
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -190,7 +189,7 @@ qx.Class.define("qx.io.remote.Exchange",
      */
     canHandle : function(vImpl, vNeeds, vResponseType)
     {
-      if (!qx.lang.Array.contains(vImpl.handles.responseTypes, vResponseType)) {
+      if (!vImpl.handles.responseTypes.includes(vResponseType)) {
         return false;
       }
 

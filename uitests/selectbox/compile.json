@@ -1,0 +1,32 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "output/source"
+    },
+    {
+      "type": "build",
+      "outputPath": "output/build",
+      "addCreatedAt": true
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [ "en" ],
+
+  "applications": [
+    {
+      "class": "selectbox.Application",
+      "theme": "qx.theme.Simple",
+      "name": "selectbox"
+    },
+    {
+      "class": "selectbox.Issue9569Application",
+      "theme": "qx.theme.Simple",
+      "name": "issue-9569"
+    }
+  ],
+  "libraries": [
+    "../../framework",
+    "."
+  ]
+}

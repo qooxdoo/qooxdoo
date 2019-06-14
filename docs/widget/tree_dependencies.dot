@@ -1,0 +1,58 @@
+digraph G {
+        fontname = "Bitstream Vera Sans"
+        fontsize = 8
+
+        node [
+            fontname = "Bitstream Vera Sans"
+            fontsize = 8
+            shape = "record"
+        ]
+
+        edge [
+            fontname = "Bitstream Vera Sans"
+            fontsize = 8
+        ]
+
+        Tree [
+            label = "{Tree}"
+        ]
+
+        Root [
+            label = "{TreeFolder (set as root)}"
+        ]
+
+        Folder1 [
+            label = "{TreeFolder 1}"
+        ]
+
+        Folder2 [
+            label = "{TreeFolder 2}"
+        ]
+
+        FolderN [
+            label = "{TreeFolder N}"
+        ]
+
+        Node1 [
+            label = "{TreeFile 1}"
+        ]
+
+        Node2 [
+            label = "{TreeFile 2}"
+        ]
+
+        NodeN [
+            label = "{TreeFile N}"
+        ]
+
+        Tree -> Root
+
+        Root -> Folder1
+        Root -> Folder2
+        Root -> FolderN
+
+        Folder1 -> Node1
+        Folder1 -> Node2
+        Folder1 -> NodeN
+
+}
