@@ -234,7 +234,10 @@ qx.Class.define("qx.core.Object",
      *   If key is not a string, pass the user the entire map
      * @param bCopy {Boolean?}
      *   If bCopy is truthy pass the user a deep clone
-     * @return {Object} the user data
+     * @return {Object}
+     *   Returns null if no user data exists or if the given key has
+     *   not been set, the user data map as an object if requested, or
+     *   the value of the user data with the given key
      */
     getUserData : function(key, bCopy)
     {
