@@ -74,6 +74,27 @@ qx.Class.define("qx.lang.Number",
       } else {
         return nr;
       }
+    },
+
+
+    /**
+     * Checks the equality of two numbers regarding the imprecision of floats.
+     *
+     * @param x {Number}
+     * @param y {Number}
+     * @return {Boolean}
+     */
+    equals : function(x, y)
+    {
+      if (qx.core.Environment.get("qx.debug")) {
+        qx.core.Assert.assertNumber(x);
+        qx.core.Assert.assertNumber(y);
+      }
+
+      // 1e-14 is the relative difference.
+      return x === y ||
+             Math.abs(x - y) < Number.EPSILON ||
+             Math.abs(x - y) <= Math.max(Math.abs(x), Math.abs(y)) * 1e-14;
     }
   }
 });

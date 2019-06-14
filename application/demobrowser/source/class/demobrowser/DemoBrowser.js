@@ -347,7 +347,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var currentTags = this._tree.getSelection()[0].getUserData("tags");
       if (currentTags) {
-        playable = playable && !qx.lang.Array.contains(currentTags, "noPlayground");
+        playable = playable && !currentTags.includes("noPlayground");
       }
 
       this.__playgroundButton.setEnabled(playable);
@@ -1089,7 +1089,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
         var currentTags = treeNode.getUserData("tags");
         if (currentTags) {
-          this.__playgroundButton.setEnabled(!qx.lang.Array.contains(currentTags, "noPlayground"));
+          this.__playgroundButton.setEnabled(!currentTags.includes("noPlayground"));
         }
       }
       else

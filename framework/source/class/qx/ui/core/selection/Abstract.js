@@ -381,7 +381,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @return {Object[]} List of items.
      */
     getSelection : function() {
-      return qx.lang.Object.getValues(this.__selection);
+      return Object.values(this.__selection);
     },
 
 
@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     getSortedSelection : function()
     {
       var children = this.getSelectables();
-      var sel = qx.lang.Object.getValues(this.__selection);
+      var sel = Object.values(this.__selection);
 
       sel.sort(function(a, b) {
         return children.indexOf(a) - children.indexOf(b);

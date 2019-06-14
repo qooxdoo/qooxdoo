@@ -53,7 +53,7 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
 
     /**
      * Run the test
-     * @param test {TestFunction} The test.
+     * @param test {qx.dev.unit.TestFunction} The test.
      * @param testFunction {Function} A reference to a test function.
      */
     run : function(test, testFunction)

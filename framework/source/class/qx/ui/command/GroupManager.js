@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.command.GroupManager",
         this.assertInstance(group, qx.ui.command.Group, "Given group is not an instance of qx.ui.command.Group");
       }
 
-      if (qx.lang.Array.contains(this.__groups, group)){
+      if (this.__groups.includes(group)){
         if (qx.core.Environment.get("qx.debug")) {
           this.debug("Group is already added!");
         }

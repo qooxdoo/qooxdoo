@@ -72,6 +72,7 @@
  * @require(qx.lang.normalize.Function)
  * @require(qx.lang.normalize.String)
  * @require(qx.lang.normalize.Object)
+ * @require(qx.lang.normalize.Number)
  */
 qx.Bootstrap.define("qx.Class",
 {
@@ -388,6 +389,17 @@ qx.Bootstrap.define("qx.Class",
 
       qx.Class.__addMixin(clazz, mixin, true);
     },
+    
+    
+    /**
+     * Detects whether the object is a Class (and not an instance of a class)
+     * 
+     *  @param obj {Object?} the object to inspect
+     *  @return {Boolean} true if it is a class, false if it is anything else
+     */
+    isClass: function(obj) {
+      return obj && obj.$$type === "Class" && obj.constructor === obj;
+    },
 
 
     /**
@@ -684,9 +696,16 @@ qx.Bootstrap.define("qx.Class",
      */
     getInstance : function()
     {
+      if (this.$$instance === null)
+      {
+        throw new Error("Singleton instance of " + this + 
+          " is requested, but not ready yet. This is most likely due to a recursive call in the constructor path.");
+      }
+
       if (!this.$$instance)
       {
         this.$$allowconstruct = true;
+        this.$$instance = null;  // null means "object is being created"; needed for another call of getInstance() during instantiation
         this.$$instance = new this();
         delete this.$$allowconstruct;
       }
@@ -1248,6 +1267,9 @@ qx.Bootstrap.define("qx.Class",
           }
           var event = {};
           event[config.event] = "qx.event.type.Data";
+          if (config.async) {
+          	event[config.event + "Async"] = "qx.event.type.Data";
+          }
           this.__addEvents(clazz, event, patch);
         }
 

@@ -22,6 +22,8 @@
  */
 qx.Interface.define("qx.ui.form.INumberForm",
 {
+  extend : qx.ui.form.IField,
+
   /*
   *****************************************************************************
      EVENTS

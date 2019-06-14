@@ -1,0 +1,27 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "output/source"
+    },
+    {
+      "type": "build",
+      "outputPath": "output/build",
+      "addCreatedAt": true
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [ "en" ],
+
+  "applications": [
+    {
+      "class": "objectid.Application",
+      "theme": "qx.theme.Simple",
+      "name": "objectid"
+    }
+  ],
+  "libraries": [
+    "../../framework",
+    "."
+  ] 
+}

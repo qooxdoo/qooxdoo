@@ -62,7 +62,10 @@
 qx.Class.define("qx.ui.container.Stack",
 {
   extend : qx.ui.core.Widget,
-  implement : qx.ui.core.ISingleSelection,
+  implement : [
+    qx.ui.form.IField,
+    qx.ui.core.ISingleSelection
+  ],
   include : [
     qx.ui.core.MSingleSelectionHandling,
     qx.ui.core.MChildrenHandling

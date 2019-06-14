@@ -50,32 +50,12 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     } else {
       this._add(this.__pane, {row: 0, column: 0});
     }
-
-  },
-
-
-  properties :
-  {
-    // overridden
-    width :
-    {
-      refine : true,
-      init : null
-    },
-
-
-    // overridden
-    height :
-    {
-      refine : true,
-      init : null
-    }
   },
 
 
   members :
   {
-    /** @type {Pane} Virtual pane. */
+    /** @type {qx.ui.virtual.core.Pane} Virtual pane. */
     __pane : null,
 
 
@@ -89,7 +69,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     /**
      * Get the scroller's virtual pane.
      *
-     * @return {Pane} The scroller's pane.
+     * @return {qx.ui.virtual.core.Pane} The scroller's pane.
      */
     getPane : function() {
       return this.__pane;
@@ -106,7 +86,7 @@ qx.Class.define("qx.ui.virtual.core.Scroller",
     // overridden
     _createChildControlImpl : function(id, hash)
     {
-      if (id == "pane") {
+      if (id === "pane") {
         return this.__pane;
       } else {
         return this.base(arguments, id);

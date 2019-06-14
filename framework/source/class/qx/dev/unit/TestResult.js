@@ -98,8 +98,8 @@ qx.Class.define("qx.dev.unit.TestResult",
     /**
      * Run a test function using a given test result
      *
-     * @param testResult {TestResult} The test result to use to run the test
-     * @param test {TestSuite|TestFunction} The test
+     * @param testResult {qx.dev.unit.TestResult} The test result to use to run the test
+     * @param test {qx.dev.unit.TestSuite|qx.dev.unit.TestFunction} The test
      * @param testFunction {var} The test function
      */
     run : function(testResult, test, testFunction) {
@@ -123,7 +123,7 @@ qx.Class.define("qx.dev.unit.TestResult",
     /**
      * Run the test
      *
-     * @param test {TestSuite|TestFunction} The test
+     * @param test {qx.dev.unit.TestSuite|qx.dev.unit.TestFunction} The test
      * @param testFunction {Function} The test function
      * @param self {Object?} The context in which to run the test function
      * @param resume {Boolean?} Resume a currently waiting test
@@ -318,7 +318,7 @@ qx.Class.define("qx.dev.unit.TestResult",
      *
      * @param eventName {String} Name of the event
      * @param exceptions {Error[]} The exception(s), which caused the test to fail
-     * @param test {TestSuite|TestFunction} The test
+     * @param test {qx.dev.unit.TestSuite|qx.dev.unit.TestFunction} The test
      */
     _createError : function(eventName, exceptions, test)
     {

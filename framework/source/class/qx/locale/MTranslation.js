@@ -33,7 +33,7 @@ qx.Mixin.define("qx.locale.MTranslation",
      * Mark the message for translation.
      *
      * @param messageId {String} message id (may contain format strings)
-     * @param varargs {Object} variable number of arguments applied to the format string
+     * @param varargs {Object?} variable number of arguments applied to the format string
      * @return {String | LocalizedString} The translated message or localized string
      */
     tr : function(messageId, varargs)
@@ -56,7 +56,7 @@ qx.Mixin.define("qx.locale.MTranslation",
      * @param singularMessageId {String} message id of the singular form (may contain format strings)
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} if greater than 1 the plural form otherwise the singular form is returned.
-     * @param varargs {Object} variable number of arguments applied to the format string
+     * @param varargs {Object?} variable number of arguments applied to the format string
      * @return {String | LocalizedString} The translated message or localized string
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
@@ -76,7 +76,7 @@ qx.Mixin.define("qx.locale.MTranslation",
      *
      * @param hint {String} hint for the translator of the message. Will be included in the .po file.
      * @param messageId {String} message id (may contain format strings)
-     * @param varargs {Object} variable number of arguments applied to the format string
+     * @param varargs {Object?} variable number of arguments applied to the format string
      * @return {String | LocalizedString} The translated message or localized string
      */
     trc : function(hint, messageId, varargs)
@@ -100,7 +100,7 @@ qx.Mixin.define("qx.locale.MTranslation",
      * @param singularMessageId {String} message id of the singular form (may contain format strings)
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} if greater than 1 the plural form otherwise the singular form is returned.
-     * @param varargs {Object} variable number of arguments applied to the format string
+     * @param varargs {Object?} variable number of arguments applied to the format string
      * @return {String | LocalizedString} The translated message or localized string
      */
     trnc : function(hint, singularMessageId, pluralMessageId, count, varargs)

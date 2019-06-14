@@ -57,7 +57,6 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
 
           /**
            * @param value {qx.data.Array|null}
-           * @return void
            */
           setValue : function(value) {
             var oldValue = this.__value;
@@ -70,9 +69,6 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
            */
           getValue : function() {return this.__value;},
 
-          /**
-           * @return void
-           */
           resetValue : function() {this.__value = null;}
         }
       });
@@ -97,7 +93,6 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
 
           /**
            * @param value {qx.core.Object|null}
-           * @return void
            */
           setValue : function(value) {
             this.setModel(value);
@@ -108,9 +103,6 @@ qx.Class.define("qx.test.data.controller.FormWithArrayAndModel",
            */
           getValue : function() {return this.getModel();},
 
-          /**
-           * @return void
-           */
           resetValue : function() { this.resetModel(); },
 
           // overwritten

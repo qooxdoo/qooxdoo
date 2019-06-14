@@ -18,7 +18,7 @@
 
 /**
  * @tag showcase
- * @ignore(google.*, YMap, YAHOO_MAP_REG)
+ * @ignore(google.*, L)
  */
 qx.Class.define("demobrowser.demo.showcase.Maps",
 {
@@ -29,10 +29,10 @@ qx.Class.define("demobrowser.demo.showcase.Maps",
     main: function()
     {
       this.base(arguments);
-      var yahooMap = this._createYahooMap();
+      var LeafletMap = this._createLeafletMap();
       var googleMap = this._createGoogleMap();
 
-      this.getRoot().add(this._createMapContainer("Yahoo Maps", yahooMap), {
+      this.getRoot().add(this._createMapContainer("LeafletMap Maps", LeafletMap), {
         left : 20,
         top  : 20
       });
@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.showcase.Maps",
       return comp;
     },
 
-    _createYahooMap : function()
+    _createLeafletMap : function()
     {
       var isle = new qx.ui.core.Widget().set({
         width: 450,
@@ -68,18 +68,13 @@ qx.Class.define("demobrowser.demo.showcase.Maps",
 
       isle.addListenerOnce("appear", function() {
         try {
-          var map = new YMap(isle.getContentElement().getDomElement());
-          map.addTypeControl();
-          map.setMapType(YAHOO_MAP_REG);
-          map.drawZoomAndCenter("Karlsruhe", 5);
+          var map = new L.Map(isle.getContentElement().getDomElement(), {
+            center: new L.LatLng(43.6400,3.9658),
+              zoom: 14,
+              layers: new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+          });
         } catch(ex) {
-          var msg;
-          if (qx.core.Environment.get("engine.name") == "mshtml" &&
-            qx.core.Environment.get("browser.documentmode") > 9) {
-            msg = "IE 10 is not yet supported by Yahoo maps.";
-          } else {
-            msg = "Could not create Yahoo map!<br/>" + ex.toString();
-          }
+          var msg = "Could not create Leaflet map!<br/>" + ex.toString();
           this.getContentElement().getDomElement().innerHTML += msg;
         }
       });

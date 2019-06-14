@@ -409,6 +409,52 @@ Here we define both a check and transform method for the width property. Though 
 
 The transform function is passed a second parameter which is the value previously set - note that the first time that transform is called, the oldValue parameter will be undefined
 
+.. _pages/defining_properties#async_properties:
+
+Asynchronous Properties using Promises
+======================================
+Sometimes it may be necessary for an `applyXxx` method to take some time to complete, in which case it is necessary to consider coding asynchronously to allow for a better user experience.  Perhaps more importantly, if your apply method includes triggering a server roundtrip then changes to the specification (https://xhr.spec.whatwg.org/) have deprecated synchronous XMLHttpRequest, and some browsers (eg Safari) already have very short timeouts for synchronous XMLHttpRequests which cannot be overridden.
+
+Properties can be made asynchronous by using `qx.Promise`.
+
+The return value for apply methods is normally ignored, but if it returns an instance of `qx.Promise` the `setXxx` method will wait for the promise to be fulfilled before firing the `changeXxx` event.
+
+As setXxx method returns the value which has been set, it is not possible to return the promise to the caller - to retrieve the promise, you must tell Qooxdoo that the property is asynchronous by setting the `async: true` in the property definition and then calling the `setXxxAsync` method:
+
+::
+
+    properties :
+    {
+       name :
+       {
+          init : 0,
+          check: "String",
+          apply : "_applyName",
+          event: "changeName",
+          async: true
+       }
+    },
+
+    members :
+    {
+       _applyName : function(name)
+       {
+           return new qx.Promise(function(fulfilled) {
+               // ... do something asynchronous here
+               fulfilled(); // Finally done the asynchrons task
+           });
+       }
+    }
+
+    // ... snip ...
+    myObject.setNameAsync("abc").then(function() {
+        // only now has the name been changed and the "changeName" event been fired
+    });
+
+Note that the `setXxxAsync` method is *only* available if you have specified `async: true` in the property definition
+
+As well as `setXxxAsync` there is also a matching `getXxxAsync` method and a `changeXxxAsync` event which can be fired; event handlers can return promises, and asynchronous properties can be bound using `qx.core.Object.bind()`
+
 .. _pages/defining_properties#validation_incoming_values:
 
 Validation of incoming values

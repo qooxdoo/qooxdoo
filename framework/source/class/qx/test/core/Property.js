@@ -137,7 +137,7 @@ qx.Class.define("qx.test.core.Property",
       this.assertFalse(chh3.getEnabled(), "b5");
 
       // Reset local value
-      this.assertUndefined(ch2.resetEnabled(), "c1");
+      ch2.resetEnabled();
       this.assertTrue(ch2.getEnabled(), "c2");
       this.assertTrue(chh1.getEnabled(), "c3");
       this.assertTrue(chh2.getEnabled(), "c4");

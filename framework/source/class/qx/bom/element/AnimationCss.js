@@ -136,7 +136,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
 
         if (qx.core.Environment.get("qx.debug")) {
           if (qx.bom.element.Style.get(el, "display") == "none") {
-            qx.log.Logger.warn("Some browsers will not animate elements with display==none", el);
+            qx.log.Logger.warn(el, "Some browsers will not animate elements with display==none");
           }
         }
 

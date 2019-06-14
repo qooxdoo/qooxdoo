@@ -174,7 +174,12 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
 
       qx.event.Timer.once(function() {
         this.resume(function() {
-          var foundRule = this.__findRule(this.__fontDefinitions.finelinerScript.source[0] + "\\?1\\.0");
+          var foundRule = false;
+          // it is browser dependent which type of font is loaded (woff, eot or ttf) so we have to
+          // check all given types, stopping the loop if the font rule was found
+          for(var n=0; n<this.__fontDefinitions.finelinerScript.source.length && foundRule === false; n++) {
+            foundRule = this.__findRule(this.__fontDefinitions.finelinerScript.source[n] + "\\?1\\.0");
+          }
           this.assertTrue(foundRule, "@font-face rule for custom version not found in document styles!");
         }, this);
 

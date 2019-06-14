@@ -56,6 +56,17 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
+     * Checks if 'MutationObserver' is supported.
+     * @internal
+     * @ignore(MutationObserver)
+     * @return {Boolean} <code>true</code>, if MutationObserver is available.
+     */
+    getMutationObserver : function() {
+      return typeof MutationObserver != "undefined";
+    },
+
+
+    /**
      * Checks if 'indexOf' is supported on the Array object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
@@ -166,6 +177,16 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
+     * Checks if 'includes' is supported on the Array object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getArrayIncludes : function() {
+      return !!Array.prototype.includes;
+    },
+
+
+    /**
      * Checks if 'toString' is supported on the Error object and
      * its working as expected.
      * @internal
@@ -209,6 +230,23 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
       return !!Object.keys;
     },
 
+    /**
+     * Checks if 'values' is supported on the Object object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getObjectValues : function() {
+      return !!Object.values;
+    },
+
+    /**
+     * Checks if 'is' is supported on the Object object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getObjectIs : function() {
+      return !!Object.is;
+    },
 
     /**
      * Checks if 'now' is supported on the Date object.
@@ -264,6 +302,21 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getStringTrim : function() {
       return typeof String.prototype.trim === "function";
+    },
+    
+    
+    /**
+     * Checks whether Native promises are available
+     */
+    getPromiseNative: function() {
+      return typeof window.Promise !== "undefined" && window.Promise.toString().indexOf("[native code]") !== -1;
+    },
+
+    /**
+     * Checks whether Native promises are available
+     */
+    getEpsilon: function() {
+      return typeof Number.prototype.EPSILON !== "undefined";
     }
   },
 
@@ -281,6 +334,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.array.every", statics.getArrayEvery);
     qx.core.Environment.add("ecmascript.array.reduce", statics.getArrayReduce);
     qx.core.Environment.add("ecmascript.array.reduceright", statics.getArrayReduceRight);
+    qx.core.Environment.add("ecmascript.array.includes", statics.getArrayIncludes);
 
     // date polyfill
     qx.core.Environment.add("ecmascript.date.now", statics.getDateNow);
@@ -295,6 +349,11 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // object polyfill
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
+    qx.core.Environment.add("ecmascript.object.values", statics.getObjectValues);
+    qx.core.Environment.add("ecmascript.object.is", statics.getObjectIs);
+
+    // number polyfill
+    qx.core.Environment.add("ecmascript.number.EPSILON", statics.getEpsilon);
 
     // string polyfill
     qx.core.Environment.add("ecmascript.string.startsWith", statics.getStringStartsWith);
@@ -303,5 +362,11 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // ES7 async function support
     qx.core.Environment.add("ecmascript.function.async", statics.getAsyncFunction);
+
+    // MutationObserver
+    qx.core.Environment.add("ecmascript.mutationobserver", statics.getMutationObserver);
+
+    // Promises
+    qx.core.Environment.add("ecmascript.promise.native", statics.getPromiseNative);
   }
 });

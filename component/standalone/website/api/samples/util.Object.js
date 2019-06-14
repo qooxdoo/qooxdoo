@@ -16,7 +16,7 @@ addSample("q.object.merge", {
     };
 
     var source2 = {
-      licence: 'LGPL',
+      licence: 'MIT',
       list: [ 0, 1, 2 ]
     };
 
@@ -28,7 +28,7 @@ addSample("q.object.merge", {
     //  nested: {
     //    id: 1234
     //  }
-    //  licence: 'LGPL',
+    //  licence: 'MIT',
     //  list: [ 0, 1, 2 ]
     //}
     console.log(result);

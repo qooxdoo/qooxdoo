@@ -8,8 +8,7 @@
      2006 STZ-IDA, Germany, http://www.stz-ida.de
 
    License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     MIT: https://opensource.org/licenses/MIT
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
@@ -86,7 +85,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
             "repeat-y",
             "no-repeat"
           ];
-        return qx.lang.Array.contains(valid, value);
+        return valid.includes(value);
       },
       init  : "no-repeat"
     }
@@ -230,24 +229,28 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
 
     // overridden
-    _getContentHtml : function(cellInfo)
-    {
+    _getContentHtml : function(cellInfo) {
       var content = "<div></div>";
-
       // set image
       if (this.__imageData.url) {
-        content = qx.bom.element.Decoration.create(
-          this.__imageData.url,
-          this.getRepeat(),
-          {
+        var srcUrl = this.__imageData.url;
+        var highResolutionSource = qx.util.ResourceManager.getInstance().findHighResolutionSource(this.__imageData.url);
+        if (highResolutionSource) {
+          srcUrl = highResolutionSource;
+        }
+        var style = {
           width: this.__imageData.width + "px",
           height: this.__imageData.height + "px",
           display: qx.core.Environment.get("css.inlineblock"),
           verticalAlign: "top",
           position: "static"
-        });
-      };
-
+        }
+        if (qx.util.ResourceManager.getInstance().getCombinedFormat(this.__imageData.url) === "") {
+          // background size is critical for high-resolution images but breaks combined images
+          style["background-size"] = this.__imageData.width + "px " + this.__imageData.height + "px";
+        }
+        content = qx.bom.element.Decoration.create(srcUrl, this.getRepeat(), style);
+      }
       return content;
     },
 

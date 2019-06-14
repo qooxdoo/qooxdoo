@@ -51,6 +51,8 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
 
     this._createChildControl("dropdown");
 
+    this.bind('allowGrowDropDown', this.getChildControl('dropdown'), 'allowGrowDropDown');
+
     if (model != null) {
       this.initModel(model);
     } else {
@@ -174,12 +176,25 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       apply : "_applyMaxListHeight",
       nullable: true,
       init : 200
+    },
+
+
+    /**
+     * Allow the drop-down to grow wider than its parent.
+     */
+    allowGrowDropDown :
+    {
+      init : false,
+      nullable : false,
+      check : "Boolean",
+      event : "changeAllowGrowDropDown"
     }
   },
 
 
   members :
   {
+    /** @type {qx.data.Array} The initial model array of this virtual box. */
     __defaultModel : null,
 
     /**

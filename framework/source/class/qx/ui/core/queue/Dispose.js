@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.core.queue.Dispose",
     add : function(widget)
     {
       var queue = this.__queue;
-      if (qx.lang.Array.contains(queue, widget)) {
+      if (queue.includes(widget)) {
         return;
       }
 

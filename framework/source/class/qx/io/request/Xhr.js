@@ -254,7 +254,7 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       // By default, set content-type urlencoded for requests with body
-      if (this.getRequestData() !== "null" && isAllowsBody) {
+      if (this.getRequestData() && isAllowsBody) {
         headers["Content-Type"] = "application/x-www-form-urlencoded";
       }
 
@@ -300,10 +300,22 @@ qx.Class.define("qx.io.request.Xhr",
      * @return {String|Object} The parsed response of the request.
      */
     _getParsedResponse: function() {
-      var response = this._transport.responseText,
-          contentType = this.getResponseContentType() || "";
+      var response = this._transport.responseType === 'blob' ? this._transport.response : this._transport.responseText,
+          contentType = this.getResponseContentType() || "",
+          parsedResponse = "";
 
-      return this._parser.parse(response, contentType);
+      try {
+        parsedResponse = this._parser.parse(response, contentType);
+        this._parserFailed = false
+      } catch(e) {
+        this._parserFailed = true
+        this.fireDataEvent("parseError", {
+          error: e,
+          response: response
+        });
+      }
+
+      return parsedResponse;
     },
 
     /**
