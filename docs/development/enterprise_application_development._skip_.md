@@ -26,7 +26,7 @@ As a consequence widget references should be kept if it makes sense to reuse the
 
 -   Normally big applications consist of multiple parts which are not visibile initially. This is true for many things like hidden tab pages or not yet opened dialogs.
 -   As the entire load process and evaluation of JavaScript costs precious time, it is a good idea to load functionality only when needed ("on demand").
--   The Generator \</pages/tool/generator/generator\> makes it possible to easily split application logic into so-named "parts". This experimental feature will be available with 0.7.3 in a preliminary version and is expected to be integrated into future 0.8 releases. Besides the alpha status this new generator is already used by some large applications.
+-   The Generator \<tool/generator/generator\> makes it possible to easily split application logic into so-named "parts". This experimental feature will be available with 0.7.3 in a preliminary version and is expected to be integrated into future 0.8 releases. Besides the alpha status this new generator is already used by some large applications.
 -   To allow such a functionality, it is a good idea to separate application parts from each other as good as possible. It is still possible to connect them using callbacks: The usage of another part of the application is checked in all places and in the place where the initialisation should happen a callback is inserted which waits for the initialization of the new classes.
 
 ### Avoid Hacks

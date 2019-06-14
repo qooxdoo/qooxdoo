@@ -17,7 +17,7 @@ Here is a list of widgets which support single and/or multi selection:
 Selection Interfaces
 --------------------
 
-![Selection API Interfaces](/pages/desktop/new_selection_api.png)
+![Selection API Interfaces](new_selection_api.png)
 
 ### Event
 

@@ -6,7 +6,7 @@ The Basic is used to position the children at absolute top/left coordinates.
 Preview Image
 -------------
 
-![layout/basic.png](/pages/layout/basic.png)
+![basic.png](basic.png)
 
 Features
 --------

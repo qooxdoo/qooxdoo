@@ -6,7 +6,7 @@ The virtual SelectBox acts like the selectbox, but is based on the framework's v
 Preview Image
 -------------
 
-![widget/virtualselectbox.png](/pages/widget/virtualselectbox.png)
+![virtualselectbox.png](virtualselectbox.png)
 
 Features
 --------

@@ -10,7 +10,7 @@ A basic layout, which supports positioning of child widgets in a 'flowing' manne
 Preview Image
 -------------
 
-![layout/flow.png](/pages/layout/flow.png)
+![flow.png](flow.png)
 
 This image shows a gallery implemented using a Flow layout.
 

@@ -6,7 +6,7 @@ The HoverButton is an atom, which fires repeatedly execute events while the poin
 Preview Image
 -------------
 
-![HoverButton](/pages/widget/button.png)
+![HoverButton](button.png)
 
 Features
 --------

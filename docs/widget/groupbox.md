@@ -6,7 +6,7 @@ A Groupbox is a widget to group a set of form elements in a visual way.
 Preview Image
 -------------
 
-![widget/groupbox\_complete.png](/pages/widget/groupbox_complete.png)
+![groupbox\_complete.png](groupbox_complete.png)
 
 Features
 --------
