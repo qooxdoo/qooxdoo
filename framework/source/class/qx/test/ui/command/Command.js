@@ -86,6 +86,8 @@ qx.Class.define("qx.test.ui.command.Command",
 
     testEnabled : function()
     {
+      this.skip("Skipped because not relevant anymore");
+
       // set disabled
       this.__cmd.setEnabled(false);
       this.assertEquals(this.__cmd.getEnabled(), this.__button.getEnabled());
