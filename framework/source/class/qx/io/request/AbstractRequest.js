@@ -415,6 +415,69 @@ qx.Class.define("qx.io.request.AbstractRequest",
     },
 
     /**
+    * The same as send() but also return a `qx.Promise` object. The promise
+    * is fulfilled if the request reaches phase `success`. The promise is
+    * rejected if the request reaches one of the phases `statusError`, `error`,
+    * `timeout` and `abort` or when a `parseError` happens.
+    *
+    * Calling `abort()` on the request object, rejects the promise. Calling 
+    * `cancel()` on the promise does not abort the request. The request keeps 
+    * going until it completes. If rejecting the request is needed after canceling
+    * the promise, then it can be done in a `finally()` callback. In that case the 
+    * promise will be rejected for all the other listeners
+    *
+    *
+    * @param context {Object?} optional context to bind the qx.Promise.
+    * @return {qx.Promise} The qx.Promise object
+    */
+    sendWithPromise: function(context) {
+      var context =  (context !== undefined && context !== null) ? context : this; 
+
+      // save this object's context
+      var req = this;
+      
+      if (qx.core.Environment.get("qx.promise")) {        
+       return new qx.Promise(function(resolve, reject, onCancel){
+         var listeners = [];
+
+         var phaseListener = req.addListener("changePhase", function(e) {
+           var phase = req.getPhase();
+
+           var failMessage = phase === "statusError" ? 
+             req.getStatus() + ": " + req.getStatusText() : null;
+
+           switch (phase) {
+             case "success": 
+               listeners.forEach(req.removeListenerById.bind(req));
+               resolve(req);
+               break;
+             case "statusError":
+             case "timeout":
+             case "error":
+             case "abort":
+               listeners.forEach(req.removeListenerById.bind(req));
+               var err = new qx.type.BaseError(phase, failMessage);
+               reject(err);
+               break;
+           }
+         }, req);
+         listeners.push(phaseListener);
+
+         // must be handled separately because it is not a phase
+         var parseErrorListener = req.addListener("parseError", function(e){
+           listeners.forEach(req.removeListenerById.bind(req));
+           var err = new qx.type.BaseError("parseError");
+           reject(err);
+         }, req);
+         listeners.push(parseErrorListener);
+        }, context)
+      } else {
+        // fail loudly
+        throw new qx.type.BaseError("Error", "Environment setting qx.promise is set to false.");
+      }
+    },
+
+    /**
      * Abort request.
      */
     abort: function() {
