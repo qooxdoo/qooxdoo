@@ -109,15 +109,33 @@ qx.Class.define("qx.dev.unit.TestFunction",
       var inst = this.getTestClass();
       var method = this.getName();
 
-      inst.setTestFunc(this);
-      inst.setTestResult(testResult);
+      inst.set({
+        testFunc: this,
+        testResult: testResult
+      });
 
-      testResult.run(this, function()
-      {
-        try {
-          inst[method]();
-        } catch (ex) {
-          throw ex;
+      testResult.run(this, function() {
+        switch (inst[method].constructor.name) {
+          case "Function":
+            try {
+              inst[method]();
+            } catch (ex) {
+              throw ex;
+            }
+            break;
+          case "AsyncFunction":
+            inst[method]()
+            .then(
+              function(){
+                inst.resume()
+              }
+            )
+            .catch(
+              function(ex){
+                inst.resume(function(){ throw ex });
+              }
+            );
+            inst.wait();
         }
       });
 

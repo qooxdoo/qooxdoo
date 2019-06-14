@@ -77,7 +77,7 @@ qx.Class.define("qx.dev.unit.TestClass",
 
     for (var test in proto)
     {
-      if (qx.lang.Type.isFunction(proto[test]) && test.indexOf("test") == 0) {
+      if (qx.lang.Type.isFunctionOrAsyncFunction(proto[test]) && test.indexOf("test") == 0) {
         this.addTestMethod(testCase, test);
       }
     }

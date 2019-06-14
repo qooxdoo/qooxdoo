@@ -26,6 +26,7 @@
 
 # Build & test infrastructur
 /build.log
+/lib
 
 # CSS compiler
 /framework/source/resource/qx/mobile/scss/.sass-cache/
