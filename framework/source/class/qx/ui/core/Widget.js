@@ -3626,6 +3626,14 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
+      // If the appearance is already synced after the child control
+      // we need to update the appearance now, because the selector
+      // might be not correct in certain cases.
+      if (control.$$resyncNeeded) {
+        delete control.$$resyncNeeded;
+        control.updateAppearance();
+      }
+
       this.fireDataEvent("createChildControl", control);
 
       // Register control and return
