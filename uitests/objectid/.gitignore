@@ -6,6 +6,7 @@
 source-output/
 build-output/
 output/
+compiled/
 db.json
 resource-db.json
 
