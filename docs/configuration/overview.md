@@ -43,10 +43,10 @@ your own applications by extending `qx.tool.config.Abstract` to write your [own
 config file models](../../source/class/qx/tool/config/).
 
 
-## Configuration API
+## CLI Configuration API
 While the configuration is typically read from `compile.json`, an API is exposed
-during the compilation process which allows the configuration to be manipulated before
-it is processed and to interact with the compiler as it works.
+by the CLI which allows the configuration to be manipulated before it is processed 
+and to interact with the compiler as it works.
 
 See [api.md](api.md) for more details.
 
