@@ -22,9 +22,9 @@
 qx.Class.define("qx.core.Id", {
   extend: qx.core.Object,
   type: "singleton",
-  
+
   members: {
-    
+
     __registeredObjects: null,
     __registeredIdHashes: null,
 
@@ -36,7 +36,7 @@ qx.Class.define("qx.core.Id", {
       var result = this._createQxObjectImpl(id);
       return result;
     },
-    
+
     /*
      * @Override
      */
@@ -47,29 +47,29 @@ qx.Class.define("qx.core.Id", {
           return obj;
         }
       }
-      
+
       switch(id) {
         case "application":
           return qx.core.Init.getApplication() || undefined;
       }
-      
+
       return undefined;
     },
-    
+
     /**
      * Returns an object path which can be used to locate an object anywhere in the application
      * with a call to `qx.core.Id.getQxObject()`.
-     * 
+     *
      * This will return null if it is not possible to calculate a path because one of the
      * ancestors has a null `qxObjectId`.
-     * 
+     *
      * This will also return null if the top-most ancestor is not one of the globals registered
      * with `registerObject` or a known global (such as the application); however, by passing
-     * `true` as the `suppressWarnings` parameter, this will prevent errors from appearing in 
-     * the console when this happens  
-     * 
+     * `true` as the `suppressWarnings` parameter, this will prevent errors from appearing in
+     * the console when this happens
+     *
      * @param obj {qx.core.Object} the object
-     * @param suppressWarnings {Boolean?} default: false; silently returns null if an ID cannot be created 
+     * @param suppressWarnings {Boolean?} default: false; silently returns null if an ID cannot be created
      * @return {String} full path to the object
      */
     getAbsoluteIdOf: function(obj, suppressWarnings) {
@@ -97,7 +97,7 @@ qx.Class.define("qx.core.Id", {
             ownerId = this.__registeredIdHashes && this.__registeredIdHashes[owner.toHashCode()] || null;
           }
 
-          // When we have found the ID of a top level object, add it to the path and stop 
+          // When we have found the ID of a top level object, add it to the path and stop
           if (ownerId) {
             segs.unshift(ownerId);
             break;
@@ -113,13 +113,13 @@ qx.Class.define("qx.core.Id", {
       var path = segs.join("/");
       return path;
     },
-    
+
     /**
-     * Registers an object with an ID; as this is registering a global object which is the root of a tree 
+     * Registers an object with an ID; as this is registering a global object which is the root of a tree
      * of objects with IDs, the `id` parameter can be provided to set the ID used for the root object - this
      * allows an object to be registered under a well known, common name without affecting the API of the
-     * object.  
-     * 
+     * object.
+     *
      * @param obj {qx.core.Object} the object to register
      * @param id {String?} the ID to register the object under, otherwise the object's own Object Id is used
      */
@@ -135,10 +135,10 @@ qx.Class.define("qx.core.Id", {
       this.__registeredIdHashes[obj.toHashCode()] = id;
       obj._cascadeQxObjectIdChanges();
     },
-    
+
     /**
      * Unregisters a previously registered object with an ID
-     * 
+     *
      * @param data {Object|String} the object to unregister, or the ID of the object
      * @return {Boolean} whether there was an object to unregister
      */
@@ -146,7 +146,7 @@ qx.Class.define("qx.core.Id", {
       if (!this.__registeredObjects) {
         return false;
       }
-      
+
       var id;
       if (typeof data == "string") {
         id = data;
@@ -157,7 +157,7 @@ qx.Class.define("qx.core.Id", {
           return false;
         }
       }
-      
+
       var obj = this.__registeredObjects[id];
       if (obj) {
         delete this.__registeredObjects[id];
@@ -165,13 +165,22 @@ qx.Class.define("qx.core.Id", {
         obj._cascadeQxObjectIdChanges();
         return true;
       }
-      
+
       return false;
+    },
+
+    /**
+     * Returns a map of the objects that have been registered as id roots, with
+     * the topmost part of the ID as key.
+     * @return {Object}
+     */
+    getRegisteredObjects: function() {
+      return this.__registeredObjects;
     }
   },
-  
+
   statics: {
-    
+
     /**
      * Returns a top level instance
      *
@@ -181,12 +190,12 @@ qx.Class.define("qx.core.Id", {
     getQxObject: function(id) {
       return this.getInstance().getQxObject(id);
     },
-    
+
     /**
      * Helper for `qx.core.Id.getAbsoluteIdOf`
-     * 
+     *
      * @param obj {qx.core.Object} the object
-     * @param suppressWarnings {Boolean?} default: false; silently returns null if an ID cannot be created 
+     * @param suppressWarnings {Boolean?} default: false; silently returns null if an ID cannot be created
      * @return {String} full path to the object
      */
     getAbsoluteIdOf: function(obj, suppressWarnings) {

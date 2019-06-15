@@ -56,6 +56,15 @@
  *  </pre>
  * 
  */
+
+/* 
+ @ignore(process.*)
+ @ignore(global.*)
+ @ignore(Symbol.*)
+ @ignore(chrome.*)
+ 
+*/ 
+
 qx.Class.define("qx.Promise", {
   extend: qx.core.Object,
 

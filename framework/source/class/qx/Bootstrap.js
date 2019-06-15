@@ -463,6 +463,9 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       var executeForClassName = function (className) {
         var clazz = getByName(className);
+        if (!clazz) {
+          return;
+        }
         if (clazz.$$deferComplete) {
           return;
         }

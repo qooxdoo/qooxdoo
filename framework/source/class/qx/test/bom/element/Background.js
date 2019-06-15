@@ -52,11 +52,9 @@ qx.Class.define("qx.test.bom.element.Background",
       this.assertKeyInMap("backgroundImage", styles, "Key 'backgroundImage' is not present!");
       this.assertKeyInMap("backgroundPosition", styles, "Key 'backgroundPosition' is not present!");
 
-      // only check for "url(IMAGE-URL)" to be sure that no "'" chars are used
-      // for normal images. The "'" chars are only necessary for base64-encoded
-      // images.
-      this.assertEquals("url(foo/bar/baz.gif)", styles.backgroundImage, "Do not use \"'\" for image urls!");
-    },
+      // check for "url(IMAGE-URL)" to be sure that "'" chars are used
+      // for normal images. Image names with spaces will then also work
+      this.assertEquals("url('foo/bar/baz.gif')", styles.backgroundImage, "Do always use \"'\" for image urls!");    },
 
 
     testGetStylesBase64 : function()
@@ -74,7 +72,7 @@ qx.Class.define("qx.test.bom.element.Background",
     {
       var cssString = qx.bom.element.Background.compile("foo/bar/baz", "no-repeat", null, null);
 
-      var expected = "background-image:url(foo/bar/baz);background-position:0 0;" +
+      var expected = "background-image:url('foo/bar/baz');background-position:0 0;" +
                      "background-repeat:no-repeat;";
       this.assertEquals(expected, cssString, "Compiled CSS string is not valid!");
     },
