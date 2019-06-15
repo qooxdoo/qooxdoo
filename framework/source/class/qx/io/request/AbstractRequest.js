@@ -437,7 +437,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
       var req = this;
       
       if (qx.core.Environment.get("qx.promise")) {        
-       return new qx.Promise(function(resolve, reject, onCancel){
+       return new qx.Promise(function(resolve, reject){
          var listeners = [];
 
          var phaseListener = req.addListener("changePhase", function(e) {
