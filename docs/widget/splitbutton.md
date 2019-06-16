@@ -6,7 +6,7 @@ The SplitButton acts like a normal button, but it opens a menu when tapping on t
 Preview Image
 -------------
 
-![SplitButton](/pages/widget/splitbutton.png)
+![SplitButton](splitbutton.png)
 
 Features
 --------

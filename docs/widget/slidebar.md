@@ -6,7 +6,7 @@ The SlideBar is a container widget, which provides scrolling in one dimension (v
 Preview Image
 -------------
 
-![widget/slidebar.jpg](/pages/widget/slidebar.jpg)
+![widget/slidebar.jpg](widget/slidebar.jpg)
 
 Features
 --------

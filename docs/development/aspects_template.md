@@ -99,4 +99,4 @@ A job in your configuration could look something like this:
             }
           }
 
-If you need some more information on configuring the generator, take a look at the /pages/tool/generator/generator\_config\_ref.
+If you need some more information on configuring the generator, take a look at the tool/generator/generator\_config\_ref.

@@ -6,7 +6,7 @@ Scroll
 Preview Image
 -------------
 
-![widget/scroll.jpg](/pages/widget/scroll.jpg)
+![widget/scroll.jpg](widget/scroll.jpg)
 
 Features
 --------

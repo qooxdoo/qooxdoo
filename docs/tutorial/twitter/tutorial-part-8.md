@@ -96,7 +96,7 @@ Now that we've got the basics covered, let's create some more meaningful tests f
 
 ```javascript
 /**
-  * @asset(tweets/logo.png)
+  * @asset(logo.png)
   */
 qx.Class.define("tweets.test.TweetView", {
   extend : qx.dev.unit.TestCase,
@@ -137,7 +137,7 @@ For cases where the generic class-wide `tearDown` isn't enough, methods using th
 The test function
 -----------------
 
-We need the URI of a valid image for this test, so we add an `@asset` hint to the class header that will cause the Generator to add the file `source/class/tweets/resource/logo.png` to the AUT's resources. In the test function, we first ask qooxdoo's resource manager to resolve the resource ID into a valid URI. This is the expected value for the icon child control's `source` property. Next, we apply this value to the TweetView's `icon` property, then get the child control's `source` property and compare the two values using [assertEquals](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Assert~assertEquals).
+We need the URI of a valid image for this test, so we add an `@asset` hint to the class header that will cause the Generator to add the file `source/class/tweets/logo.png` to the AUT's resources. In the test function, we first ask qooxdoo's resource manager to resolve the resource ID into a valid URI. This is the expected value for the icon child control's `source` property. Next, we apply this value to the TweetView's `icon` property, then get the child control's `source` property and compare the two values using [assertEquals](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Assert~assertEquals).
 
 OK, time to build the AUT again. This time, run `generate.py test-source` instead of `test`. As you might expect, this will generate a source version of the AUT, which, like the source version of the actual application, is far better suited for development. Open the file `test/index-source.html` to load the Testrunner with the source tests.
 

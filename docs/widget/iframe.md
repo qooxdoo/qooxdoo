@@ -6,7 +6,7 @@ Container widget for internal frames (iframes). An iframe can display any HTML p
 Preview Image
 -------------
 
-![widget/iframe.png](/pages/widget/iframe.png%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../_images/iframe.png)
+![iframe.png](iframe.png%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../iframe.png)
 
 Features
 --------

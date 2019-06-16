@@ -6,7 +6,7 @@ The grid layout manager arranges the items in a two dimensional grid. Widgets ca
 Preview Image
 -------------
 
-![layout/grid.png](/pages/layout/grid.png)
+![grid.png](grid.png)
 
 This image show two nested grids with column and row spans.
 
