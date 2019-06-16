@@ -111,8 +111,9 @@ unusual for a SASS compilation step to be used for mobile projects, and while yo
 the API, you could also separate it out into a reusable library that has no code, just your API calls to enable SASS 
 compilation.
 
-The next section contains a working example of a SASS compilation step incorporated via the API - there might be some work
-to make it truely reusable and production ready, but it illustrates one way to enable SASS compilation for all libraries.
+The next section contains a working example of a SASS compilation step incorporated via the API - there would be some work
+to make it truly reusable and production ready, but it illustrates one way to add functionality to compilation for all 
+libraries.
 
 
 ## Working Example: How to add sass call for mobile projects
@@ -121,7 +122,9 @@ is implemented as a `LibraryApi`, which means that it will work irrespective of 
 or not.  It's meant as an example only - you might want it to only be part of your project compile in which case 
 you could use `CompilerApi` instead of `LibraryApi`; or you might filter it to only work on specific libraries; ... or
 you could us it as a generic, cross-library utility. 
- 
+
+(Note that SASS compilation is already integrated into the compiler, this serves as an example of how to perform a
+complex task) 
 
 ```javascript
 const fs = require("fs");
@@ -208,135 +211,7 @@ module.exports = {
 
 ```
 
-```javascript
-module.exports = async function compile(compiler) {
-  /**
- * Adds sass support for current project.
- * Needed for qx.mobile projects.
- * 
- * PreReqs:
- *    - add dependency to project package.json: "runscript": "^1.3.0"
- *    - run npm install in project dir.
- *  
- * @param {*} data       : compiler interface
- * @param {*} callback   : callback for qxcli.  
- */
-  debugger;
-  const runscript = require('runscript');
-  const util = require('util');
-  let data = compiler.inputData;
-  runScript = async function (cmd) {
-    return new Promise((resolve) => runscript(cmd, {
-        stdio: 'pipe'
-      })
-      .then(stdio => {
-        console.log('Run "%s"', cmd);
-        if (stdio.stdout)
-          console.log(stdio.stdout.toString());
-        if (stdio.stderr)
-          console.log(stdio.stderr.toString());
-        resolve();
-      })
-      .catch(err => {
-        console.error(err.toString());
-        if (err.stdio.stdout)
-          console.error(err.stdio.stdout.toString());
-        if (err.stdio.stderr)
-          console.error(err.stdio.stderr.toString());
-        resolve();
-      }));
-  }
-  let cmd = 'sass -C -t compressed -I %1/source/resource/qx/mobile/scss -I %1/source/resource/qx/scss --%3 source/theme/%2/scss:source/resource/%2/css';
-  cmd = qx.lang.String.format(cmd, [data.libraries[0], data.applications[0].name]);
-  if (!this.argv.watch) {
-    cmd = qx.lang.String.format(cmd, ["", "", "update"]);
-  } else {
-    cmd = qx.lang.String.format(cmd, ["", "", "watch"]);
-  }       
-  return await runScript(cmd);
-}
+The code above listens for an event to know when to start compilation - there are a number of events which are
+available on the command [see Compile.js for full details](https://github.com/qooxdoo/qooxdoo-compiler/blob/master/source/class/qx/tool/cli/commands/Compile.js)
+or you can attach event handlers directly to the [Compiler API](../compiler/API.md)
 
-```
-
-You can run special code on various steps of the build process if you add an event handler.
-Example:
-
-```
-function compile(compiler, callback) {
-  debugger;
-  this.addListener("made",  e => new qx.Promise((fullfiled) => {
-      debugger;
-      your_special_code;
-      fullfiled();
-    }));
-  callback(null, compiler.inputData);
-}
-```
-Here is a list of possible events, taken from `lib/qx/tool/cli/commands/Compile.js`:
-
-```
-    /*** fired when application writing starts */
-    "writingApplications": "qx.event.type.Event",
-    /** fired when writing of single application starts
-     *  data: app {Application}
-     */
-    "writingApplication": "qx.event.type.Data",
-    /** fired when writing of single application is written
-     *  data: app {Application}
-     */
-    "writtenApplication": "qx.event.type.Data",
-    /*** fired after writing of all applications */
-    "writtenApplications" :"qx.event.type.Event",
-
-    /** 
-     * Fired when a class is about to be compiled; data is a map:
-     * 
-     * dbClassInfo: {Object} the newly populated class info 
-     * oldDbClassInfo: {Object} the previous populated class info 
-     * classFile - {ClassFile} the qx.tool.compiler.ClassFile instance
-     */
-    "compilingClass": "qx.event.type.Data",
-    
-    /** 
-     * Fired when a class is compiled; data is a map:
-     * dbClassInfo: {Object} the newly populated class info 
-     * oldDbClassInfo: {Object} the previous populated class info 
-     * classFile - {ClassFile} the qx.tool.compiler.ClassFile instance
-     */
-    "compiledClass": "qx.event.type.Data",
-
-    /** 
-     * Fired when the database is been saved
-     * database: {Object} the database to save
-     */
-    "saveDatabase": "qx.event.type.Data",
-
-    /**
-     * Fired after all enviroment data is collected
-     *  application {qx.tool.compiler.app.Application} the app 
-     *  enviroment: {Object} enviroment data
-     */
-    "checkEnvironment": "qx.event.type.Data",
-
-    /**
-     * Fired when making of apps begins
-    */ 
-    "making": "qx.event.type.Event",
-
-    /**
-     * Fired when making of apps restarts because of 
-     * changes
-    */ 
-   "remaking": "qx.event.type.Event",
-
-    /**
-     * Fired when making of apps is done.
-    */ 
-   "made": "qx.event.type.Event"
-```
-
-
-
-
-
-     
