@@ -6,7 +6,7 @@ The RepeatButton is a special button, which fires an event, while the pointer is
 Preview Image
 -------------
 
-![RepeatButton](/pages/widget/button.png)
+![RepeatButton](button.png)
 
 Features
 --------

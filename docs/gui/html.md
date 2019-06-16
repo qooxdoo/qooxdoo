@@ -1,7 +1,7 @@
 HTML Element Handling
 =====================
 
-This document describes the ideas and concepts behind the classes in the `qx.html` namespace ([API](http://api.qooxdoo.org/#qx.html)). qooxdoo also comes with a basic low-level abstraction API for DOM manipulation. For details about this API please have a look at the corresponding documentation \</pages/website/tech\_website\_apis\>.
+This document describes the ideas and concepts behind the classes in the `qx.html` namespace ([API](http://api.qooxdoo.org/#qx.html)). qooxdoo also comes with a basic low-level abstraction API for DOM manipulation. For details about this API please have a look at the corresponding documentation \<website/tech\_website\_apis\>.
 
 Idea
 ----
@@ -13,7 +13,7 @@ The classes in `qx.html` are wrapper for native DOM elements, which basically we
 In details this means:
 
 > -   **Automatic performance**: Programmatically constructing DOM hierarchies is hard to get fast because the order in which elements are nested can heavily influence the runtime performance. What `qx.html.Element` does is trying to keep the number of element instances to the minimum actually needed (DOM nodes are expensive, both performance and memory aside) and to insert the DOM nodes in an efficient manner. Further all changes to the DOM are cached and applied in batch mode, which improves the performance even more.
-> -   **Normalized API**: Working with HTML DOM elements usually involves many browser switches. Especially when it comes to reading and setting of attributes or styles. For each style one has to remember whether a normalization method should be called or if the value can be set directly. `qx.html.Element` does this kind of normalization transparently. The browser normalization is based on the existing low-level APIs \</pages/website/tech\_website\_apis\>.
+> -   **Normalized API**: Working with HTML DOM elements usually involves many browser switches. Especially when it comes to reading and setting of attributes or styles. For each style one has to remember whether a normalization method should be called or if the value can be set directly. `qx.html.Element` does this kind of normalization transparently. The browser normalization is based on the existing low-level APIs \<website/tech\_website\_apis\>.
 > -   **Convenience methods**: These elements have additional convenience API, which is not available on pure DOM elements. They have e.g. the functionality to manage children with methods like `addBefore()` or `moveAfter()`.
 
 Typical Use Cases

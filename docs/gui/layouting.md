@@ -10,7 +10,7 @@ Whenever the size of one widget changes, the layout engine will ask the layout m
 
 It is possible to place and size all children directly to static positions using [setUserBounds](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.LayoutItem~setUserBounds) as well, but this is quite uncommon and only used in very special cases. It is almost always better to position children using a layout manager.
 
-The layout manager can be configured on any widget, but most classes only have the protected methods to control the layout. In fact it doesn't make sense to control the layout manager of a `Spinner`, `ComboBox`, etc. from outside. So this scenario is quite common. Some widgets however publish the layout API. One of them is the above mentioned /pages/widget/composite widget. It exposes the layout system and the whole children API.
+The layout manager can be configured on any widget, but most classes only have the protected methods to control the layout. In fact it doesn't make sense to control the layout manager of a `Spinner`, `ComboBox`, etc. from outside. So this scenario is quite common. Some widgets however publish the layout API. One of them is the above mentioned widget/composite widget. It exposes the layout system and the whole children API.
 
 The nature of layout managers is that each one has specialized options for its children. For example, one layout allows specifying a left position of a child in the canvas while another one works with rows and cells instead. Given this fact, the best place to handle these options is the layout itself. Every `LayoutItem` has the methods [setLayoutProperties](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.LayoutItem~setLayoutProperties) and [getLayoutProperties](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.LayoutItem~getLayoutProperties). Through this API the layout properties can be configured independently from the layout.
 
@@ -164,10 +164,10 @@ Pre-configured Widgets
 
 There are a few containers in qooxdoo which use a predefined immutable layout for rendering their children. Currently these containers are included:
 
--   /pages/widget/scroll: Provides automatic scrollbars for larger content. Does not influence the size of the content which is rendered at the preferred size. Allows scrolling of the content. Supports advanced features like offset calculation and scroll into view.
--   /pages/widget/stack: Scales every widget to the available space and put one over another. Allows selection of which child should be visible. Used internally by TabView etc.
--   /pages/widget/slidebar: Comparable to the Scroll Container but only provides automatic forward and backward arrows. Supports only one axis per instance: horizontal or vertical. Buttons are automatically displayed as needed. Supports automatic shrinking of the children (other than the Scroll Container).
--   /pages/widget/splitpane: Divides the available space into two areas and provides a possibility to resize the panes for the user. Automatically respects the limitations of each child.
+-   widget/scroll: Provides automatic scrollbars for larger content. Does not influence the size of the content which is rendered at the preferred size. Allows scrolling of the content. Supports advanced features like offset calculation and scroll into view.
+-   widget/stack: Scales every widget to the available space and put one over another. Allows selection of which child should be visible. Used internally by TabView etc.
+-   widget/slidebar: Comparable to the Scroll Container but only provides automatic forward and backward arrows. Supports only one axis per instance: horizontal or vertical. Buttons are automatically displayed as needed. Supports automatic shrinking of the children (other than the Scroll Container).
+-   widget/splitpane: Divides the available space into two areas and provides a possibility to resize the panes for the user. Automatically respects the limitations of each child.
 
 Visibility Handling
 -------------------

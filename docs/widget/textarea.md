@@ -6,7 +6,7 @@ A TextArea some long text. The TextArea is classic GUI element.
 Preview Image
 -------------
 
-![TextArea](/pages/widget/textfield.png)
+![TextArea](textfield.png)
 
 Features
 --------

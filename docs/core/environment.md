@@ -134,7 +134,7 @@ The list is sorted in ascending precedence, i.e. if a key is defined multiple ti
 
 #### In the Class Map
 
-You can define a key and its value through the environment \</pages/core/class\_quickref\> key of the map defining a qooxdoo class:
+You can define a key and its value through the environment \<core/class\_quickref\> key of the map defining a qooxdoo class:
 
     qx.Class.define("myapp.ClassA", 
     {
