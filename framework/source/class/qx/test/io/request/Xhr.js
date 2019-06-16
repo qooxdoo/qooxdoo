@@ -628,7 +628,7 @@ qx.Class.define("qx.test.io.request.Xhr",
         // this path is canceled. We don't expect anything from it
         var promise1 = promise
           .then(this.resumeHandler(function(_) {
-          throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be fulfilled.");
+            throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be fulfilled.");
         }))
           .catch(this.resumeHandler(function(result) {
             throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be rejected.");
