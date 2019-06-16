@@ -77,7 +77,7 @@ The following table lists the data types supported by the Java backend and the c
 |java.util.Map|Object|
 |JavaBean|Object|
 
-The first few cases are quite simple, but the last two need some more explanation. If a Java method expects a `java.util.Map`, you can send any JavaScript object to it. All properties of the object are converted to Java and become members of the Java Map. When a Map is used as a return value, it's converted to a JavaScript object in a similar way: A new object is created, and then all key/value pairs in the map are converted themselves and then added as properties to this object. (Please note that "properties" is used here in the native JavaScript sense, not in the sense of qooxdoo properties \</pages/core/understanding\_properties\>.)
+The first few cases are quite simple, but the last two need some more explanation. If a Java method expects a `java.util.Map`, you can send any JavaScript object to it. All properties of the object are converted to Java and become members of the Java Map. When a Map is used as a return value, it's converted to a JavaScript object in a similar way: A new object is created, and then all key/value pairs in the map are converted themselves and then added as properties to this object. (Please note that "properties" is used here in the native JavaScript sense, not in the sense of qooxdoo properties \<core/understanding\_properties\>.)
 
 JavaBeans are converted in a similar way. The properties of the JavaBean become JavaScript properties and vice versa. If a JavaScript object contains properties for which no corresponding setters exist in the JavaBean, they are ignored.
 

@@ -6,7 +6,7 @@ A CheckBox widget for Boolean values.
 Preview Image
 -------------
 
-![CheckBox](/pages/widget/checkbox.png)
+![CheckBox](checkbox.png)
 
 Features
 --------

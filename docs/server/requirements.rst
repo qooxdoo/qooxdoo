@@ -43,7 +43,7 @@ In both cases, to verify the installation use your runtime's loading primitive t
 
 SDK
 ----
-You can also use the :doc:`SDK </pages/tool/sdk/sdk_introduction>` to work with %{Server}. It provides a dedicated :ref:`skeleton <pages/development/skeletons#basic>` which you can utilize. This offers you additional features like dependency detection, optimization, API doc generation, unit testing and generated loaders that work under both Node.js and Rhino. As with all types of qooxdoo skeletons, ``create-application.py`` is used to create a new custom application:
+You can also use the :doc:`SDK <tool/sdk/sdk_introduction>` to work with %{Server}. It provides a dedicated :ref:`skeleton <pages/development/skeletons#basic>` which you can utilize. This offers you additional features like dependency detection, optimization, API doc generation, unit testing and generated loaders that work under both Node.js and Rhino. As with all types of qooxdoo skeletons, ``create-application.py`` is used to create a new custom application:
 
 .. code-block:: bash
 

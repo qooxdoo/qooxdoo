@@ -5,8 +5,8 @@ groups:
   # documentation and tests: only 2 approvals necessary
   documentation:
     conditions:
-      - "files.include('docs/*.md') or files.include('documentation/*')"
-      - "not (files.exclude('docs/*.md') and files.exclude('documentation/*'))"
+      - "files.include('docs/*') or files.include('documentation/*')"
+      - "not (files.exclude('docs/*') and files.exclude('documentation/*'))"
     reviews:
       required: 2  # 2 approvals from this group are required
       request: 2  # 2 review request will be sent at a time

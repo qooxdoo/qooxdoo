@@ -6,7 +6,7 @@ The Atom groups an image with a label with support for different alignments. It 
 Preview Image
 -------------
 
-![widget/atom.jpg](/pages/widget/atom.jpg)
+![widget/atom.jpg](widget/atom.jpg)
 
 Features
 --------

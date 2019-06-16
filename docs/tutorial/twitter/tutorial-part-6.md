@@ -54,7 +54,7 @@ qx.Theme.define("tweets.theme.Appearance", {
 
 The last missing piece of our first task is to style the label. But how do we access it in the appearance theme if we haven't assigned a separate appearance key for it?
 
-Luckily, we defined the label as child control \</pages/desktop/ui\_develop\> named `time` (take a look at the custom widget tutorial \<tutorial-part-4-2\> for more details). That way, we can assign a separate appearance key using that hierarchy:
+Luckily, we defined the label as child control \<desktop/ui\_develop\> named `time` (take a look at the custom widget tutorial \<tutorial-part-4-2\> for more details). That way, we can assign a separate appearance key using that hierarchy:
 
 ```javascript
 "tweet-view/time" : {
@@ -84,7 +84,7 @@ Now, we have defined a color alias for our color which can be used in the whole 
 Change the default theme
 ------------------------
 
-As a next step, we want to change the default theme, which is the Modern theme \</pages/desktop/ui\_theming\>, to the Simple theme \</pages/desktop/ui\_theming\>. For that, we have to take another look at the files in the `theme` folder. You might have already realized that all these files do have an "extend" key which extends from the Modern theme's files. That's what we are going to change now. Just open all the files in the theme folder and change the extend key from `qx.theme.modern.xyz` to `qx.theme.simple.xyz` with *xyz* as a placeholder for the name of the file you are editing. There is only one file you don't have to change which is the meta theme named `Theme.js`. It does not refer to the framework theme so there is nothing to change. With that change, we included new dependencies to classes and resources which means, we have to rebuild our application. Run `./generate.py` in the root folder of your application to rebuild the development version of the tweets application. After the process is done, we can reload the application and see a dramatically changed application using the Simple theme.
+As a next step, we want to change the default theme, which is the Modern theme \<desktop/ui\_theming\>, to the Simple theme \<desktop/ui\_theming\>. For that, we have to take another look at the files in the `theme` folder. You might have already realized that all these files do have an "extend" key which extends from the Modern theme's files. That's what we are going to change now. Just open all the files in the theme folder and change the extend key from `qx.theme.modern.xyz` to `qx.theme.simple.xyz` with *xyz* as a placeholder for the name of the file you are editing. There is only one file you don't have to change which is the meta theme named `Theme.js`. It does not refer to the framework theme so there is nothing to change. With that change, we included new dependencies to classes and resources which means, we have to rebuild our application. Run `./generate.py` in the root folder of your application to rebuild the development version of the tweets application. After the process is done, we can reload the application and see a dramatically changed application using the Simple theme.
 
 ![image](tutorial_4_2_1-3.png)
 

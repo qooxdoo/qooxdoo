@@ -6,7 +6,7 @@ The progress bar is an indicator widget.
 Preview Image
 -------------
 
-![widget/progressbar.png](/pages/widget/progressbar.png)
+![progressbar.png](progressbar.png)
 
 Description
 -----------

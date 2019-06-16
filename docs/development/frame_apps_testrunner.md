@@ -7,7 +7,7 @@ Test Runner
 
 Test Runner provides a convenient interface to test classes that have been written to that end. You can run single tests, or run a whole suite of them at once.
 
-![image](/pages/development/testrunner_widget.png)
+![image](testrunner_widget.png)
 
 > **note**
 >
@@ -30,7 +30,7 @@ This section assumes that your qooxdoo application bears on the structure of the
     -   In order to communicate the test results back to the Test Runner framework exceptions are used. No exception means the test went fine, throwing an exception from the test method signals a failure. Return values from the test methods are not evaluated.
     -   To model your test method behaviour, you can use the methods inherited from `qx.dev.unit.TestCase` which encapsulate exceptions in the form of assertions:
         -   `assert`, `assertFalse`, `assertEquals`, `assertNumber`, ... - These functions take values which are compared (either among each other or to some predefined value) and a message string, and raise an exception if the comparison fails.
-        -   A similar list of methods of the form `assert*DebugOn` is available, which are only evaluated if the debug environment setting `qx.debug` is on (see Environment \</pages/core/environment\>).
+        -   A similar list of methods of the form `assert*DebugOn` is available, which are only evaluated if the debug environment setting `qx.debug` is on (see Environment \<core/environment\>).
         -   See the documentation for the [qx.dev.unit.TestCase](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase) class for more information on the available assertions.
 
 #### Generic setUp and tearDown
@@ -224,19 +224,19 @@ This is the default view used for the GUI, Native and Inline skeletons' test and
 
 ### HTML
 
-![image](/pages/development/testrunner_html.png)
+![image](testrunner_html.png)
 
 As the name indicates, this view uses plain (D)HTML instead of qooxdoo's UI layer. It is intended for usage scenarios where speed is more important than good looks.
 
 ### Mobile
 
-![image](/pages/development/testrunner_mobile.png)
+![image](testrunner_mobile.png)
 
 A view based on qx.Mobile's widget set. In an an application based on the Mobile Skeleton \<pages/development/skeletons\#mobile\>, run generate.py test-mobile or generate.py test-mobile-source to build a Test Runner with the Mobile view. For other application types, you'll need to add test-mobile and/or test-mobile-source to the top-level exports list in config.json first.
 
 ### Console
 
-![image](/pages/development/testrunner_console.png)
+![image](testrunner_console.png)
 
 Even more bare-bones than the HTML view, the Console view features no visual elements other than the Iframe containing the test application. Tests are started using the browser's JavaScript console. This is mostly intended as a base for specialized views.
 
