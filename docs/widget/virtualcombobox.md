@@ -6,7 +6,7 @@ The virtual ComboBox acts like the regular combobox, but is based on the framewo
 Preview Image
 -------------
 
-![widget/virtualcombobox.png](/pages/widget/virtualcombobox.png)
+![virtualcombobox.png](virtualcombobox.png)
 
 Features
 --------

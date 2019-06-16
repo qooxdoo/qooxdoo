@@ -4,7 +4,7 @@ Widget Reference
 Core Widgets
 ------------
 
-Widget \</pages/widget\>, spacer, scrollbar
+Widget \<widget\>, spacer, scrollbar
 
 Content Widgets
 ---------------

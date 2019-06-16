@@ -6,7 +6,7 @@ The window widget is similar to Windows' MDI child windows.
 Preview Image
 -------------
 
-![widget/window.png](/pages/widget/window.png%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../_images/window.png)
+![window.png](window.png%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../window.png)
 
 Features
 --------

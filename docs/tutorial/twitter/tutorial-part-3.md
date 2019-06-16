@@ -74,9 +74,9 @@ We named our property tweets and added two configuration keys for it:
 -   `nullable` describes that the property can be null
 -   `event` takes the name of the event fired on a change of the property
 
-The real advantage here is the `event` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole data binding \</pages/data\_binding/single\_value\_binding\> we want to use later. But that's it for setting up a property. You can find all possible property keys in the documentation \</pages/core/properties\_quickref\>.
+The real advantage here is the `event` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole data binding \<data\_binding/single\_value\_binding\> we want to use later. But that's it for setting up a property. You can find all possible property keys in the documentation \<core/properties\_quickref\>.
 
-Now we need to connect the property of the store with the property of the *identica service*. That's an easy task with the single value binding \</pages/data\_binding/single\_value\_binding\> included in the qooxdoo data binding. Just add the following line after the creation of the data store:
+Now we need to connect the property of the store with the property of the *identica service*. That's an easy task with the single value binding \<data\_binding/single\_value\_binding\> included in the qooxdoo data binding. Just add the following line after the creation of the data store:
 
 ```javascript
 this.__store.bind("model", this, "tweets");

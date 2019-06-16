@@ -3,7 +3,7 @@ Application Skeletons
 
 qooxdoo comes with several different application templates or *skeletons*. Each is meant for a specific usage scenario and includes a different subset of the qooxdoo framework (see the architecture diagram\<pages/architecture\#architecture\> for reference).
 
-When creating a new application using create-application.py \</pages/tool/create\_application\>, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
+When creating a new application using create-application.py \<tool/create\_application\>, the *-t* or *--type* parameter specifies the type of skeleton to be used, e.g.
 
     qooxdoo-%{version}-sdk/create-application.py --name=custom --type=mobile
 
@@ -72,7 +72,7 @@ Inherits from [qx.application.Native](http://demo.qooxdoo.org/%{version}/apiview
 Website
 -------
 
-This is an alternative to working with the Website \</pages/website\> library directly, which is a single-file download containing all the %{Website} API. If you deploy the download you use its API in your own code in a way that suits you, e.g. by adding custom code in an HTML page that also loads the library.
+This is an alternative to working with the Website \<website\> library directly, which is a single-file download containing all the %{Website} API. If you deploy the download you use its API in your own code in a way that suits you, e.g. by adding custom code in an HTML page that also loads the library.
 
 ### Getting started
 
@@ -87,7 +87,7 @@ Both approaches (download or skeleton) pretty much match up, with the skeleton g
 
 ### Included layers
 
--   See the /pages/website documentation.
+-   See the website documentation.
 
 Server
 ------
@@ -119,5 +119,5 @@ $ java -cp path/to/js.jar org.mozilla.javascript.tools.shell.Main foo.js
 
 ### Included layers
 
--   See the %{Server} \</pages/server\> documentation.
+-   See the %{Server} \<server\> documentation.
 

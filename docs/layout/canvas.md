@@ -6,7 +6,7 @@ The Canvas is an extended basic layout. It is possible to position a widget rela
 Preview Image
 -------------
 
-![layout/canvas.png](/pages/layout/canvas.png)
+![canvas.png](canvas.png)
 
 Features
 --------

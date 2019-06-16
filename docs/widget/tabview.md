@@ -8,7 +8,7 @@ The buttons are positioned on one of the tab view's edges.
 Preview Image
 -------------
 
-![widget/tabview.png](/pages/widget/tabview.png)
+![tabview.png](tabview.png)
 
 Features
 --------

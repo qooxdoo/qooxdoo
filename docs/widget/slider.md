@@ -6,7 +6,7 @@ The Slider widget is the classic widget for controlling a bounded value.
 Preview Image
 -------------
 
-![Slider](/pages/widget/slider.png)
+![Slider](slider.png)
 
 Features
 --------

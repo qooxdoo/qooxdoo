@@ -6,7 +6,7 @@ The TextField widget is a classic GUI widget to edit text in a TextField.
 Preview Image
 -------------
 
-![TextField](/pages/widget/textfield.png)
+![TextField](textfield.png)
 
 Features
 --------
