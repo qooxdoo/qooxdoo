@@ -510,7 +510,7 @@ qx.Class.define("qx.test.io.request.Xhr",
           this.assertInstance(result, qx.type.BaseError);
           this.assert(qx.lang.String.contains(result.message, "404"));
           this.assertTrue(/Affe/.test(result.toString()));
-        }, this)); 
+        }, this));
 
         var transport = this.transport;
         transport.readyState = 4;
@@ -578,7 +578,7 @@ qx.Class.define("qx.test.io.request.Xhr",
           }))
           .catch(this.resumeHandler(function(result) {
             this.assertInstance(result, qx.type.BaseError);
-            this.assertEquals(result.getComment(), "abort");
+            this.assertEquals("abort", result.getComment());
           }, this));
 
         this.transport.onabort();
@@ -631,10 +631,10 @@ qx.Class.define("qx.test.io.request.Xhr",
           throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be fulfilled.");
         }))
           .catch(this.resumeHandler(function(result) {
-            throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be fulfilled.");
-          }, this)).
+            throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be rejected.");
+          }, this))
           // except that we want to abort when is finished
-          finally(function(){
+          .finally(function() {
             req.abort();
           });
 

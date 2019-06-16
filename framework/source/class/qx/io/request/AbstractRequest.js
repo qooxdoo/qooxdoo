@@ -429,9 +429,10 @@ qx.Class.define("qx.io.request.AbstractRequest",
     *
     * @param context {Object?} optional context to bind the qx.Promise.
     * @return {qx.Promise} The qx.Promise object
+    * @throws {qx.type.BaseError} If the environment setting `qx.promise` is set to false
     */
     sendWithPromise: function(context) {
-      if (qx.core.Environment.get("qx.promise")) {        
+      if (qx.core.Environment.get("qx.promise")) {
         var context =  (context !== undefined && context !== null) ?
           context : this;
 
@@ -444,11 +445,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
           var phaseListener = req.addListener("changePhase", function(e) {
             var phase = req.getPhase();
 
-            var failMessage = phase === "statusError" ? 
+            var failMessage = phase === "statusError" ?
               req.getStatus() + ": " + req.getStatusText() : null;
 
             switch (phase) {
-              case "success": 
+              case "success":
                 listeners.forEach(req.removeListenerById.bind(req));
                 resolve(req);
                 break;
@@ -474,7 +475,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
         }, context)
 
         .finally(function(){
-          // if the phase is not one of final phases, the promise 
+          // if the phase is not one of final phases, the promise
           // has been cancelled. Abort the request
           var phase = req.getPhase();
           var finalPhases = ["statusError", "timeout", "error", "abort", "success"];
@@ -482,7 +483,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
             req.abort();
           }
         });
-        
+
         return promise;
       } else {
         // fail loudly
