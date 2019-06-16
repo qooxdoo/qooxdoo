@@ -6,7 +6,7 @@ The Menu is a widget that contains different widgets to create a classic menu st
 Preview Image
 -------------
 
-![:Menu](/pages/widget/menu.png%0A%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20:target:%20../../_images/menu.png)
+![:Menu](menu.png%0A%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20:target:%20../../menu.png)
 
 Features
 --------
@@ -48,7 +48,7 @@ To create a submenu structure, each item (but not separator) can contain a menu 
 Diagram
 -------
 
-![Menu\_UML](/pages/widget/menu_uml.png)
+![Menu\_UML](menu_uml.png)
 
 Demos
 -----

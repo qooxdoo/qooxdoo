@@ -6,7 +6,7 @@ A SplitPane is used to divide two Widgets. These widgets can be resized by tappi
 Preview Image
 -------------
 
-![widget/splitpane.png](/pages/widget/splitpane.png)
+![splitpane.png](splitpane.png)
 
 Features
 --------

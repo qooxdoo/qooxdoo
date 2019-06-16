@@ -75,7 +75,7 @@ The following code demonstrates how to fetch some twitter messages.
 
 ### Offline Store
 
-The Offline store uses HTML local or session storage to store the data on the client. That can be used for offline storage as well as for other storage purposes on the client. You should use the /pages/core/environment checks to make sure that the used storage technology is supported by the environment you want to run your code in.
+The Offline store uses HTML local or session storage to store the data on the client. That can be used for offline storage as well as for other storage purposes on the client. You should use the core/environment checks to make sure that the used storage technology is supported by the environment you want to run your code in.
 
 The following code demonstrates how to initialize the data store.
 

@@ -4,12 +4,12 @@ Custom Libraries
 Once your application has grown beyond a certain size, or when you start a second application that could re-use some of the code of the first, you start thinking about factoring code out into separately manageable units. This is when you create dedicated libraries.
 
 In %{qooxdoo} *all code* is organized in libraries
-\</pages/development/code\_organisation\>. Also the code tree that holds your application's main class is, conceptually, a library. So even in the simplest skeleton you are already working *in* a library (the skeleton), *with* a library (the framework classes). Creating and using further libraries is only a repetition of that.
+\<development/code\_organisation\>. Also the code tree that holds your application's main class is, conceptually, a library. So even in the simplest skeleton you are already working *in* a library (the skeleton), *with* a library (the framework classes). Creating and using further libraries is only a repetition of that.
 
 Creating a Custom Library
 -------------------------
 
-Just run create-application.py \</pages/tool/create\_application\>. The default application type ("desktop") is good enough for this purpose. If you have existing code that you want to put into the library, just move the files over to their new location under the *source/class/\<namespace\>* path. Don't forget to adapt the class name as given in the call to e.g. *qx.Class.define*. The name passed in this call has to match the path suffix of the class file, like *"\<namespace\>.Foo"*.
+Just run create-application.py \<tool/create\_application\>. The default application type ("desktop") is good enough for this purpose. If you have existing code that you want to put into the library, just move the files over to their new location under the *source/class/\<namespace\>* path. Don't forget to adapt the class name as given in the call to e.g. *qx.Class.define*. The name passed in this call has to match the path suffix of the class file, like *"\<namespace\>.Foo"*.
 
 If you don't plan to develop a small demo application along with the library classes, you could put away with the *Application.js* file that is part of every skeleton by default. But you could just as well keep this file, as it allows you to build an application in your library directly (also see further).
 

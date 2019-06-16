@@ -6,7 +6,7 @@ The Label widget is used to display either plain text or rich text with HTML mar
 Preview Image
 -------------
 
-![widget/label.jpg](/pages/widget/label.jpg)
+![widget/label.jpg](widget/label.jpg)
 
 Features
 --------

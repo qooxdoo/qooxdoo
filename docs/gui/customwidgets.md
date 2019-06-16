@@ -96,7 +96,7 @@ HTML Elements
 
 A normal qooxdoo widget consists of one HTML Element ([API](http://api.qooxdoo.org/#qx.html.Element)), the content element.
 
-This elements is an instances of `qx.html.Element` so it come with a cross-browser fixed API to apply styles and attributes to the DOM node. All of these things can be done without the DOM element needing to be created or inserted. For details on `qx.html.Element` please have a look at the technical documentation \</pages/desktop/html\_element\_handling\>.
+This elements is an instances of `qx.html.Element` so it come with a cross-browser fixed API to apply styles and attributes to the DOM node. All of these things can be done without the DOM element needing to be created or inserted. For details on `qx.html.Element` please have a look at the technical documentation \<desktop/html\_element\_handling\>.
 
 The element is accessible through the functions `getContentElement()` and is stored privately in each widget instance.
 

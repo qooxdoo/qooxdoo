@@ -6,7 +6,7 @@ The SelectBox has the same act like the ComboBox, but the SelectBox doesn't allo
 Preview Image
 -------------
 
-![SelectBox](/pages/widget/selectbox.png%0A%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../_images/selectbox.png)
+![SelectBox](selectbox.png%0A%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../selectbox.png)
 
 Features
 --------

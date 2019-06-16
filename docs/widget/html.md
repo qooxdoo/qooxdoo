@@ -6,7 +6,7 @@ The Html widget embeds plain HTML code into the application.
 Preview Image
 -------------
 
-![widget/htmlembed.png](/pages/widget/htmlembed.png)
+![htmlembed.png](htmlembed.png)
 
 Features
 --------

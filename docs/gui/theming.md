@@ -10,13 +10,13 @@ qooxdoo includes four themes:
 
 Here some screenshots:
 
-![Modern theme](ui_theming/window_modern_theme.png)
+![Modern theme](theming/window_modern_theme.png)
 
-![Classic theme](ui_theming/window_classic_theme.png)
+![Classic theme](theming/window_classic_theme.png)
 
-![Simple theme](ui_theming/window_simple_theme.png)
+![Simple theme](theming/window_simple_theme.png)
 
-![Indigo theme](ui_theming/window_indigo_theme.png)
+![Indigo theme](theming/window_indigo_theme.png)
 
 While those four themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by extending existing ones \<pages/desktop/ui\_custom\_themes\#extending\_themes\> or they can be created from scratch \<pages/desktop/ui\_custom\_themes\#custom\_themes\>.
 
