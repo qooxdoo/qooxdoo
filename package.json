@@ -19,7 +19,8 @@
     "lib/qx_server",
     "lib/resource",
     "framework/source",
-    "tool/data/cldr"
+    "tool/data/cldr",
+    "docs"
   ],
   "devDependencies": {
     "@qooxdoo/compiler": "^1.0.0-beta.20190521-1557",
