@@ -64,7 +64,7 @@
   - [Dock](layout/dock.md)
   - [Flow](layout/flow.md)
   - [Grid](layout/grid.md)
-  - [HBox](layout/hbox.md)
+  - [HBox/VBox](layout/box.md)
   - [Grow](layout/grow.md)
 
 - Qooxdoo Widgets
@@ -137,6 +137,7 @@
 - Qooxdoo Tools
   - ["qx" CLI commands](cli/commands.md)
   - [Package system](cli/packages.md)
+  - [Compiler Configuration](configuration/overview.md)
   - [Compiler API](compiler/API.md)
   - API Reference (tbd)
   - Demo Browser (tbd)

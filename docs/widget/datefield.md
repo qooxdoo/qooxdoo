@@ -6,7 +6,7 @@ A DateField widget can be used for date input. The input can be done in to kinds
 Preview Image
 -------------
 
-![DateField](/pages/widget/datefield.png)
+![DateField](datefield.png)
 
 Features
 --------

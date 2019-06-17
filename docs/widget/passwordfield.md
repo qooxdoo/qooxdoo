@@ -6,7 +6,7 @@ The PasswordField widget is a special TextField witch show the input hidden.
 Preview Image
 -------------
 
-![PasswordField](/pages/widget/passwordfield.png)
+![PasswordField](passwordfield.png)
 
 Features
 --------

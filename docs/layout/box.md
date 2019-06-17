@@ -6,7 +6,7 @@ The box layouts lay out their children one after the other. The horizontal box l
 Preview Image
 -------------
 
-![layout/hbox.png](/pages/layout/hbox.png)
+![hbox.png](hbox.png)
 
 Features
 --------

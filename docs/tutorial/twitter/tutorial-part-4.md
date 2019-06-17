@@ -19,7 +19,7 @@ We start by creating a new class called tweets.LoginWindow that inherits from [q
 qx.Class.define("tweets.LoginWindow", {
   extend : qx.ui.window.Window,
   construct : function() {
-    this.base(arguments, "Login", "tweets/logo.png");
+    this.base(arguments, "Login", "logo.png");
   }
 });
 ```

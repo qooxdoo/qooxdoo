@@ -67,7 +67,7 @@ Example:
 
 If the string given to *tr* does not have a translation under the current locale, the string itself will be returned.
 
-There is one exception to the simple rule that all strings can just be replaced by wrapping them in an appropriate `this.tr()` function call: If init values of dynamic properties \</pages/core/understanding\_properties\> are meant to be localizable, the init value has either to be set in the class constructor using `this.tr()`, or `qx.locale.Manager.tr()` has to be used inside the property declaration. See documentation on Defining an init value
+There is one exception to the simple rule that all strings can just be replaced by wrapping them in an appropriate `this.tr()` function call: If init values of dynamic properties \<core/understanding\_properties\> are meant to be localizable, the init value has either to be set in the class constructor using `this.tr()`, or `qx.locale.Manager.tr()` has to be used inside the property declaration. See documentation on Defining an init value
 \<pages/defining\_properties\#defining\_an\_init\_value\> for details.
 
 #### trn

@@ -6,7 +6,7 @@ The VirtualTree is a widget based on the framework's virtual infrastructure.
 Preview Image
 -------------
 
-![widget/virtualtree.png](/pages/widget/virtualtree.png)
+![virtualtree.png](virtualtree.png)
 
 Description
 -----------
