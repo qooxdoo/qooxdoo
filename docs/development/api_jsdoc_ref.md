@@ -626,9 +626,9 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
 **Example**
 
-> `@asset(custom/test.png)`
+> `@asset(test.png)`
 >
-> This will add the image `custom/test.png` to the build.
+> This will add the image `test.png` to the build.
 >
 > `@asset(custom/*)`
 >
@@ -834,7 +834,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
 **See**
 
-> Special section on /pages/development/api\_jsdoc\_at\_ignore.
+> Special section on development/api\_jsdoc\_at\_ignore.
 
 ### @tag
 
@@ -844,7 +844,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
 **Description**
 
-> The `@tag` entry allows to do arbitrary tagging on the entity that is being documented (class, method, ...). This allows for pre-processing of the source code with custom programs, e.g. to extract those tags and make them available to the application at runtime (see the /pages/application/demobrowser application for an example of this).
+> The `@tag` entry allows to do arbitrary tagging on the entity that is being documented (class, method, ...). This allows for pre-processing of the source code with custom programs, e.g. to extract those tags and make them available to the application at runtime (see the application/demobrowser application for an example of this).
 
 **Syntax**
 

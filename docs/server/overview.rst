@@ -13,15 +13,15 @@ Included Features
 
 This listing shows the core features of the *%{qooxdoo} %{Server}* package. If you build your own package with the skeleton way of using %{qooxdoo}, the feature set might be extended depending on your application code.
 
-* :doc:`Object Orientation </pages/core/oo_introduction>`
+* :doc:`Object Orientation <core/oo_introduction>`
 
-  * :doc:`Classes </pages/core/classes>`
-  * :doc:`Mixins </pages/core/mixins>`
-  * :doc:`Interfaces </pages/core/interfaces>`
-  * :doc:`Properties </pages/core/understanding_properties>`
-  * :doc:`Annotations </pages/core/annotations>`
-* :doc:`Events </pages/desktop/event_layer_impl>`
-* :doc:`Single Value Binding </pages/data_binding/single_value_binding>`
+  * :doc:`Classes <core/classes>`
+  * :doc:`Mixins <core/mixins>`
+  * :doc:`Interfaces <core/interfaces>`
+  * :doc:`Properties <core/understanding_properties>`
+  * :doc:`Annotations <core/annotations>`
+* :doc:`Events <desktop/event_layer_impl>`
+* :doc:`Single Value Binding <data_binding/single_value_binding>`
 
 Most of the features can be found in %{qooxdoo}'s core layer and should be familiar to %{qooxdoo} developers.
 
@@ -74,12 +74,12 @@ The following example shows how to use the *%{qooxdoo} %{Server}* package in a n
 Only two lines in this example are specific to the server environment: The first one, where you include the %{qooxdoo} package and the implementation of the ``bark`` function, which uses node's ``console`` object. To run the example in Rhino, simply change the first line to something like this:
 
  ::
- 
+
    load(["path/to/qx-oo-%{version}.js"]);
 
 and replace ``console.log`` with ``print``.
 
-The rest of the code is plain %{qooxdoo}-style %{JS} which can be run in a browser, too. For more information on that topic, take a look at the documentation about :doc:`Object Orientation </pages/core/oo_introduction>`.
+The rest of the code is plain %{qooxdoo}-style %{JS} which can be run in a browser, too. For more information on that topic, take a look at the documentation about :doc:`Object Orientation <core/oo_introduction>`.
 
 
 .. _pages/server/overview#additional_scenarios:

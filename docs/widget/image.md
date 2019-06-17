@@ -6,7 +6,7 @@ As the name suggest, the Image widget is used to display image files.
 Preview Image
 -------------
 
-![widget/image.jpg](/pages/widget/image.jpg)
+![widget/image.jpg](widget/image.jpg)
 
 Features
 --------

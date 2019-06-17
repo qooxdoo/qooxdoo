@@ -16,7 +16,7 @@ The latter makes the icon 16px in size.
 This mechanism heavily depends on how good the font glyph names are maintained. In some cases (i.e. [Font Awesome](http://fontawesome.io/icons/)), the glyph information is either incomplete or missing. You need to use a custom font map in this case to be able to address all the glyphs by their name/alias.
 
 The integration is generic, so that it does not collide with the framework's appearance themes
-\</pages/desktop/ui\_theming\>. Font icons can be addressed using `@FontName/GlyphName` or `@FontName/HexUnicode` in the source property of your `qx.ui.basic.Image`. To override the default size, you can also use `@FontName/GlyphName/size` or `@FontName/HexUnicode/size` to scale it to the given number of pixels.
+\<desktop/ui\_theming\>. Font icons can be addressed using `@FontName/GlyphName` or `@FontName/HexUnicode` in the source property of your `qx.ui.basic.Image`. To override the default size, you can also use `@FontName/GlyphName/size` or `@FontName/HexUnicode/size` to scale it to the given number of pixels.
 
 Defining an icon font
 ---------------------

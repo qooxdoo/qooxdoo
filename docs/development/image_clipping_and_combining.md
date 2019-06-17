@@ -2,14 +2,14 @@ Image clipping and combining
 ============================
 
 qooxdoo integrates the support for clipped and combined images in the framework where both features are heavily used, mainly in the different themes like appearance or decoration themes
-\</pages/desktop/ui\_theming\>.
+\<desktop/ui\_theming\>.
 
 Configuration
 -------------
 
 > **note**
 >
-> To be able to use image clipping and combining you need a locally installed ImageMagick \</pages/introduction/third\_party\_components\> package. The latest version known to work is 6.6.1.
+> To be able to use image clipping and combining you need a locally installed ImageMagick \<introduction/third\_party\_components\> package. The latest version known to work is 6.6.1.
 
 To use the two features you have to configure dedicated generator jobs. the generator to clip or combine images. You can add those jobs to your standard `config.json` file, or, as the configuration for these tasks is fairly self-contained, put them in an own file like `image.json`, as we do in the framework.
 
@@ -53,7 +53,7 @@ Clipping images is needed whenever you have a base image, e.g. a complete image 
               %(xoff)sx%(yoff)s+%(xorig)s+%(yorig)s +repage %(outfile)s",
           "images" :
           {
-             "${RESPATH}/custom/image/source/groupBox.png" :
+             "${RESPATH}/custom/image/groupBox.png" :
              {
                 "prefix" : "../../clipped/groupBox",
                 "border-width" : 4
@@ -93,7 +93,7 @@ Complementary to image clipping image combining takes multiple images as sources
             NorthWest -tile %(orientation)s -background None %(combinedfile)s",
           "images" :
           {
-             "${RESPATH}/custom/image-combined/combined.png":
+             "${RESPATH}/custom/image-combined.png":
              {
                 "prefix" : [ "${RESPATH}" ],
                 "layout" : "vertical",

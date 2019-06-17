@@ -1,7 +1,7 @@
 Writing API Documentation
 =========================
 
-For documenting the qooxdoo API special comments in the source code (so-called "doc comments") are used. The doc comments in qooxdoo are similar to [JSDoc comments](http://code.google.com/p/jsdoc-toolkit/) or [Javadoc](http://docs.oracle.com/javase/7/docs/technotes/tools/solaris/javadoc.html) comments. To account for some qooxdoo specific needs there are certain differences to the two systems mentioned above. For a complete treatment of the syntax see the JSDoc reference \</pages/development/api\_jsdoc\_ref\>.
+For documenting the qooxdoo API special comments in the source code (so-called "doc comments") are used. The doc comments in qooxdoo are similar to [JSDoc comments](http://code.google.com/p/jsdoc-toolkit/) or [Javadoc](http://docs.oracle.com/javase/7/docs/technotes/tools/solaris/javadoc.html) comments. To account for some qooxdoo specific needs there are certain differences to the two systems mentioned above. For a complete treatment of the syntax see the JSDoc reference \<development/api\_jsdoc\_ref\>.
 
 An introductory example
 -----------------------
@@ -95,9 +95,9 @@ Here is a more advanced example of a method documentation block that uses more `
 
 This will render in the Apiviewer similarly to this:
 
-![image](/_static/apiviewer_method.png)
+![image](/apiviewer_method.png)
 
-As mentioned above the JSDoc reference \</pages/development/api\_jsdoc\_ref\> has the complete list of possible section keys and markup possibilities.
+As mentioned above the JSDoc reference \<development/api\_jsdoc\_ref\> has the complete list of possible section keys and markup possibilities.
 
 Package documentation
 ---------------------
