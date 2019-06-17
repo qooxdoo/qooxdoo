@@ -39,7 +39,10 @@ qx.Class.define("qx.event.type.Dom",
     ALT_MASK   : 4,
 
     /** @type {Integer} The modifier mask for the meta key (e.g. apple key on Macs). */
-    META_MASK  : 8
+    META_MASK  : 8,
+
+    /** @type {Integer} The modifier mask for the CapsLock modifier. */
+    CAPSLOCK_MASK  : 16
   },
 
 
@@ -54,6 +57,7 @@ qx.Class.define("qx.event.type.Dom",
       clone.ctrlKey = nativeEvent.ctrlKey;
       clone.altKey = nativeEvent.altKey;
       clone.metaKey = nativeEvent.metaKey;
+      clone.capsLock = typeof nativeEvent.getModifierState === 'function' ? nativeEvent.getModifierState('CapsLock') : false;
 
       return clone;
     },
@@ -61,8 +65,9 @@ qx.Class.define("qx.event.type.Dom",
 
     /**
      * Return in a bit map, which modifier keys are pressed. The constants
-     * {@link #SHIFT_MASK}, {@link #CTRL_MASK}, {@link #ALT_MASK} and
-     * {@link #META_MASK} define the bit positions of the corresponding keys.
+     * {@link #SHIFT_MASK}, {@link #CTRL_MASK}, {@link #ALT_MASK},
+     * {@link #META_MASK} and {@link #CAPSLOCK_MASK} define the bit positions
+     * of the corresponding keys.
      *
      * @return {Integer} A bit map with the pressed modifier keys.
      */
@@ -81,6 +86,9 @@ qx.Class.define("qx.event.type.Dom",
       }
       if (evt.metaKey) {
         mask |= qx.event.type.Dom.META_MASK;
+      }
+      if (evt.capsLock) {
+        mask |= qx.event.type.Dom.CAPSLOCK_MASK;
       }
       return mask;
     },
@@ -123,6 +131,15 @@ qx.Class.define("qx.event.type.Dom",
      */
     isMetaPressed : function() {
       return this._native.metaKey;
+    },
+
+    /**
+     * Returns whether the caps-lock modifier is active
+     *
+     * @return {Boolean} whether the meta key is pressed.
+     */
+    isCapsLocked : function() {
+      return this._native.capsLock;
     },
 
 
