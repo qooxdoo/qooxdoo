@@ -6,7 +6,7 @@ Docks children to one of the edges.
 Preview Image
 -------------
 
-![layout/dock.png](/pages/layout/dock.png)
+![dock.png](dock.png)
 
 Features
 --------

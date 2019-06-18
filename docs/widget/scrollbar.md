@@ -10,7 +10,7 @@ Scroll bars are used e.g. by the scroll container. Usually a scroll bar is not u
 Preview Image
 -------------
 
-![widget/scrollbars.png](/pages/widget/scrollbars.png)
+![scrollbars.png](scrollbars.png)
 
 Features
 --------

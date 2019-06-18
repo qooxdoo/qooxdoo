@@ -8,7 +8,7 @@ Technical overview
 
 Resources live in the `source/resource/<namespace>` subtree of each library. You explicitly reference a resource in your application code by just naming the path of the corresponding file **under** this root (This is also referred to as the **resource id**).
 
-So if there is a resource in your "myapp" application under the path `myapp/source/resource/myapp/icons/tray.png` you would refer to it in your application code with `myapp/icons/tray.png`.
+So if there is a resource in your "myapp" application under the path `myapp/source/resource/myapp/tray.png` you would refer to it in your application code with `myapp/tray.png`.
 
 To find the corresponding file during a build, qooxdoo searches all those paths of all the libraries your application is using. The first hit will be regarded as the resource you want to use. (During the generation of a `build` version of your app, these resource files will be copied to the `build` folder, so your build version will be self-contained).
 

@@ -6,7 +6,7 @@ The table package contains classes that allow you to build up virtual tables for
 Preview Image
 -------------
 
-![widget/table.png](/pages/widget/table.png)
+![table.png](table.png)
 
 Description
 -----------
@@ -94,7 +94,7 @@ For that purpose, qooxdoo has a built-in conditional renderer. In the first line
 UML Diagram
 -----------
 
-![widget/table\_uml.png](/pages/widget/table_uml.png)
+![table\_uml.png](table_uml.png)
 
 This diagram shows how the table uses the different kinds of classes you can find in the table namespace. The diagram is divided in two sides. The left side is interesting for the user if he wants to extend the table or wants to use its custom cell renderer for example. The right side is usually a set of internal classes the tables uses to get its general tasks done.
 

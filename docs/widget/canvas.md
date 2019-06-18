@@ -10,7 +10,7 @@ This widget embed the [HTML canvas element](http://www.whatwg.org/specs/web-apps
 Preview Image
 -------------
 
-![widget/canvas.png](/pages/widget/canvas.png)
+![canvas.png](canvas.png)
 
 Features
 --------
