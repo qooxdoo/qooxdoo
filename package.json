@@ -18,12 +18,14 @@
     "Manifest.json",
     "lib/qx_server",
     "lib/resource",
-    "framework/source",
+    "source/class",
+    "source/resource",
+    "source/translation",
     "tool/data/cldr",
     "docs"
   ],
   "devDependencies": {
-    "@qooxdoo/compiler": "^1.0.0-beta.20190521-1557",
+    "@qooxdoo/compiler": "^1.0.0-beta",
     "remark-cli": "^6.0.1",
     "remark-lint-no-dead-urls": "^0.4.1",
     "remark-preset-lint-recommended": "^3.0.2",

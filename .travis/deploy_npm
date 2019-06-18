@@ -40,6 +40,8 @@ exe npx qx --version
 exe npm update --no-save @qooxdoo/compiler 
 exe npx qx --version
 exe npx qx compile -v
+exe mkdir source
+exe cp -rf ./framework/source/* ./source
 
 
 # fill .npmrc with access token
