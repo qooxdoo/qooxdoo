@@ -231,7 +231,7 @@ qx.Class.define("qx.core.Object",
      * Load user defined data from the object
      *
      * @param key {String?} the key
-     *   If key is not a string, pass the user the entire map
+     *   If key is null or undefined, pass the user the entire map
      * @param bCopy {Boolean?}
      *   If bCopy is truthy pass the user a deep clone
      * @return {Object}
@@ -242,16 +242,12 @@ qx.Class.define("qx.core.Object",
     getUserData : function(key, bCopy)
     {
       var data;
-      if (!this.__userData) {
-        return null;
-      }
-      if (typeof key === 'string')
-      {
-        data = this.__userData[key];
+      if (this.__userData == null) {
+        data = this.__userData;
       }
       else
       {
-        data = this.__userData;
+        data = this.__userData[key];
       }
 
       // give the caller a copy if they ask for a copy
