@@ -242,7 +242,7 @@ qx.Class.define("qx.core.Object",
     getUserData : function(key, bCopy)
     {
       var data;
-      if (this.__userData == null) {
+      if (key == null) {
         data = this.__userData;
       }
       else
