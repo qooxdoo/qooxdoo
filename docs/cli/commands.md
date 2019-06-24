@@ -28,7 +28,7 @@ Commands:
   upgrade [options]                         upgrades a qooxdoo application
 ````
 
-To see the subcommands parameters and options, just type in `qx <command>`.
+To see the subcommands parameters and options, just type in `qx <command> --help`.
 
 # Persistent Configuration
 

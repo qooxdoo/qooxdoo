@@ -15,14 +15,19 @@ hosts components that have previously shipped with the framework, such as the
 API viewer or the playground. You can distribute whole qooxdoo applications this
 way.
 
-The CLI supports the use, creation and mainenance of packages with the `qx
-package` subcommands.
+The CLI supports the use, creation and mainenance of packages with the `qx package` 
+subcommands.
 
 ```
 Commands:
-  install [uri[@release_tag]]  installs the latest compatible release of package
-                               (as per Manifest.json). Use "-r <release tag>" or
+  install [uri[@release_tag]]  installs the latest compatible release of package 
+                               (as per Manifest.json). Use "-r <release tag>" or 
                                @<release tag> to install a particular release.
+                               examples:
+                               * qx contrib install name: Install latest published version
+                               * qx contrib install name@v0.0.2: Install version 0.0.2,
+                               * qx contrib install name@master: Install current master branch from github
+                               
   list [repository]            if no repository name is given, lists all
                                available packages that are compatible with the
                                project's qooxdoo version ("--all" lists
@@ -40,6 +45,7 @@ Commands:
                                available libraries to the latest compatible
                                version, otherwise upgrade only the package
                                identified by the URI.
+  migrate                      migrates the package system to a newer version.
 
 ```
 

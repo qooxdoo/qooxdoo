@@ -1,5 +1,4 @@
-About
-=====
+# About Qooxdoo
 
 qooxdoo (pronounced ['kuksdu:]) is a universal JavaScript framework for creating
 enterprise grade single page web applications. With its class based
@@ -7,8 +6,7 @@ objectorientation  qooxdoo allows to keep even the code of the most complex
 applications well organized and manageable. The integrated compiler produces
 single file applications ready for deployment.
 
-Framework
----------
+## Framework
 
 The qooxdoo framework enhances the javascript language with a full fledged class
 based oo system, including a powerful properties system and mixins. Qooxdoo is
@@ -27,8 +25,7 @@ The qooxdoo compilers is a node based application written in qooxdoo itself. It
 loads qooxdoo source code and adds all the required framework components
 necessary to create an application that is executable in the browser.
 
-GUI Toolkit
------------
+## GUI Toolkit
 
 Despite being a pure JavaScript framework, qooxdoo is on par with GUI toolkits
 for desktop application like Qt when it comes to advanced yet easy to implement
@@ -45,8 +42,7 @@ developer does not even have to know CSS to style the interface. Clean and
 easy-to-configure themes for appearance, colors, borders, fonts and icons allow
 for complete themability.
 
-Communication
--------------
+## Communication
 
 While being a client-side and server-agnostic solution, the qooxdoo project
 includes different communication facilities, and supports low-level
@@ -64,8 +60,7 @@ dedicated developers congregating on [gitter](https://gitter.im/qooxdoo/qooxdoo)
 and [github](https://github.com/qooxdoo/qooxdoo). Contributions are always
 welcome.
 
-Contact
--------
+## Contact
 
 qooxdoo.org<br/>
 Aargweg 17<br/>
