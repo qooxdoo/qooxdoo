@@ -9,6 +9,7 @@ FILES=(
  "docsify.js https://unpkg.com/docsify/lib/docsify.js"
  "search.min.js https://unpkg.com/docsify/lib/plugins/search.min.js"
  "emoji.min.js https://unpkg.com/docsify/lib/plugins/emoji.min.js"
+ "docsify-variables.min.js https://unpkg.com/docsify-variables@1.2.0/dist/docsify-variables.min.js"
  "prism-bash.min.js https://unpkg.com/prismjs/components/prism-bash.min.js"
  "prism-json.min.js https://unpkg.com/prismjs/components/prism-json.min.js"
  "sidecar.v1.js https://sidecar.gitter.im/dist/sidecar.v1.js"
