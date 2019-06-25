@@ -1,3 +1,5 @@
+# Qooxdoo Manual (v${qooxdoo.version})
+
 - [Qooxdoo Core](core/): a dedicated class system with custom class properties,
 data binding and a runtime environment
 - [Qooxdoo UI](gui/)

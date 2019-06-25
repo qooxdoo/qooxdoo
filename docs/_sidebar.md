@@ -1,7 +1,6 @@
-- [Contents](contents.md)
-
-- Introduction
-  - [Getting Started]()
+- Overview
+  - [Contents](contents.md)
+  - [Getting Started](?id=getting-started)
   - [About](about.md)
 
 - Qooxdoo Core

@@ -1,7 +1,5 @@
 # About Qooxdoo
 
-**Qooxdoo v.${qooxdoo.version}**
-
 qooxdoo (pronounced ['kuksdu:]) is a universal JavaScript framework for creating
 enterprise grade single page web applications. With its class based
 objectorientation  qooxdoo allows to keep even the code of the most complex
@@ -14,7 +12,7 @@ The qooxdoo framework enhances the javascript language with a full fledged class
 based oo system, including a powerful properties system and mixins. Qooxdoo is
 largely based on namespaces to allow for easy integration with other libraries
 and existing user code. It comes with a [comprehensive API
-reference](http://api.qooxdoo.org) that is auto-generated from Javadoc-like
+reference](../apps/apiviewer) that is auto-generated from Javadoc-like
 comments in the framework sourcecode.
 
 Qooxdoo are written in plain javascript, no new syntax is introduced, all the
@@ -53,6 +51,22 @@ supports queues, timeouts and implementations via XHR, Iframes and Scripts. Like
 the rest of qooxdoo it fully supports event-based programming which greatly
 simplifies asynchronous communication.
 
+## Development tools
+
+Qooxdoo is not only a library, but also comes with a set of sophistated tools. Some
+help with the development workflow, such as the [command line interface](cli/commands.md), 
+others let you quickly get to know the widgets (such as the [widget browser](../apps/widgetbrowser)),
+become fluent in the qooxdoo API (such as the [API Viewer](../apps/apiviewer)), or
+to debug code (such as the ["Playground"](../apps/playground)).
+
+## Package system
+
+A versatile web framework wouldn't be complete without a package system which allows
+to modularize and reuse code. Qooxdoo's [package system](cli/packages.md) is based
+on GitHub repos. Packages can be installed and published very easily with the 
+qooxdoo CLI. 
+
+## History
 
 qooxdoo was originally developed by one of the world's leading web hosters 1&1
 Internet (now part United Internet AG). In late 2015 the qooxdoo framework with
