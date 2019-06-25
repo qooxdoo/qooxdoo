@@ -31,10 +31,8 @@
             } else {
               url = 'https://github.com/qooxdoo/qooxdoo/edit/master/docs/' + vm.route.file
             }
-            var editHtml = '[:memo: Edit Document](' + url + ')\n'
-            return editHtml
-              + html.replace("%{version}","devel")
-              .replace("%{release_tag}","master")
+            var editHtml = "\n\n-----\n" + '[:memo: Edit Document on GitHub](' + url + ')';
+            return html + editHtml;
           })
         }
       ]
