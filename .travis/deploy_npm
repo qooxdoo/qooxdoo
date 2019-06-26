@@ -43,6 +43,8 @@ exe npm update --no-save @qooxdoo/compiler
 exe npx qx --version
 
 exe npx qx compile compile.json       --target build -v 
+# needs to run twice for demobrowser
+exe npx qx compile compile.json       --target build -v 
 exe npx qx compile compileServer.json --target build -v
 
 #copy source

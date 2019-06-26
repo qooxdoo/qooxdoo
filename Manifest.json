@@ -90,10 +90,6 @@
   },
   "requires": {
     "@qooxdoo/compiler": "^1.0.0-beta",
-    "@qooxdoo/framework": "^6.0.0-alpha",
-    "qooxdoo/qxl.playground": "^1.0.0-beta.0",
-    "qooxdoo/qxl.demobrowser": "^1.0.0-beta.1",
-    "qooxdoo/qxl.apiviewer": "^1.0.0-beta.2",
-    "qooxdoo/qxl.widgetbrowser": "^1.0.0-beta.0"
+    "@qooxdoo/framework": "^6.0.0-alpha"
   }
 }
