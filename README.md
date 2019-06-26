@@ -79,7 +79,7 @@ Learn more
 
 
 [npm-image]: https://img.shields.io/npm/v/qooxdoo-sdk.svg
-[npm-url]: https://npmjs.org/package/qooxdoo-sdk
+[npm-url]: https://npmjs.org/package/@qooxdoo/framework
 [travis-image]: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master
 [travis-url]: https://travis-ci.org/qooxdoo/qooxdoo
 [coveralls-image]: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 
