@@ -1,0 +1,61 @@
+{
+  "libraries": [
+    {
+      "library_name": "Playground",
+      "library_version": "1.0.0-beta.5",
+      "path": "qx_packages/qooxdoo_qxl_playground_v1_0_0-beta_5",
+      "uri": "qooxdoo/qxl.playground",
+      "repo_name": "qooxdoo/qxl.playground",
+      "repo_tag": "v1.0.0-beta.5"
+    },
+    {
+      "library_name": "logpane",
+      "library_version": "1.0.0-beta.0",
+      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_0-beta_0",
+      "uri": "qooxdoo/qxl.logpane",
+      "repo_name": "qooxdoo/qxl.logpane",
+      "repo_tag": "v1.0.0-beta.0"
+    },
+    {
+      "library_name": "versionlabel",
+      "library_version": "1.0.0-beta.0",
+      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_0-beta_0",
+      "uri": "qooxdoo/qxl.versionlabel",
+      "repo_name": "qooxdoo/qxl.versionlabel",
+      "repo_tag": "v1.0.0-beta.0"
+    },
+    {
+      "library_name": "DemoBrowser",
+      "library_version": "1.0.0-beta.6",
+      "path": "qx_packages/qooxdoo_qxl_demobrowser_v1_0_0-beta_6",
+      "uri": "qooxdoo/qxl.demobrowser",
+      "repo_name": "qooxdoo/qxl.demobrowser",
+      "repo_tag": "v1.0.0-beta.6"
+    },
+    {
+      "library_name": "Qooxdoo API Viewer",
+      "library_version": "1.0.0-beta.3",
+      "path": "qx_packages/qooxdoo_qxl_apiviewer_v1_0_0-beta_3",
+      "uri": "qooxdoo/qxl.apiviewer",
+      "repo_name": "qooxdoo/qxl.apiviewer",
+      "repo_tag": "v1.0.0-beta.3"
+    },
+    {
+      "library_name": "widgetbrowser",
+      "library_version": "1.0.0-beta.0",
+      "path": "qx_packages/qooxdoo_qxl_widgetbrowser_v1_0_0-beta_0",
+      "uri": "qooxdoo/qxl.widgetbrowser",
+      "repo_name": "qooxdoo/qxl.widgetbrowser",
+      "repo_tag": "v1.0.0-beta.0"
+    },
+    {
+      "library_name": "formdemo",
+      "library_version": "1.0.0-beta.0",
+      "path": "qx_packages/qooxdoo_qxl_formdemo_v1_0_0-beta_0",
+      "uri": "qooxdoo/qxl.formdemo",
+      "repo_name": "qooxdoo/qxl.formdemo",
+      "repo_tag": "v1.0.0-beta.0"
+    }
+  ],
+  "version": "2.1.0"
+}

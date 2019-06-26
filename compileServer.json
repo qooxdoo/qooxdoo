@@ -1,0 +1,52 @@
+{
+  "targets": [
+    {
+      "type": "build",
+      "outputPath": "lib",
+      "minify": "off",
+      "babelOptions": {
+        "targets": "node >= 10"
+      }
+    }
+  ],
+  "defaultTarget": "build",
+  "locales": [
+    "en"
+  ],
+  "libraries": [
+    "./framework"
+  ],
+  "applications": [
+    {
+      "class": "qx.application.Native",
+      "name": "qx_server",
+	  "type": "node",
+      "environment": {
+        "qx.debug": false
+      },
+      "include": [
+        "qx.*"
+      ],
+      "exclude": [
+        "q",
+        "qx.test.*",
+        "qxWeb",
+        "qx.module.*",
+        "qx.dev.unit.*",
+        "qx.ui.*",
+        "qx.log.appender.Native",
+        "qx.log.appender.Element",
+        "qx.bom.Stylesheet",
+        "qx.bom.Selector",
+        "qx.bom.MediaQuery",
+        "qx.bom.Flash",
+        "qx.bom.Vml",
+        "qx.bom.client.Html",
+        "qx.bom.client.Pdfjs",
+        "qx.event.handler.Pointer",
+        "qx.event.handler.Gesture",
+        "qx.event.handler.PointerCore"
+      ]
+    }
+  ]
+}
