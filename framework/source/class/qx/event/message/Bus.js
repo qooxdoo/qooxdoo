@@ -337,11 +337,21 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * Call subscribers with passed message.
      *
-     * @param subscribers {Map} subscribers to call
+     * Each currently-subscribed subscriber function will be called in
+     * turn. Any requests to unsubscribe a subscriber from the list, while
+     * processing the currently-subscribed subscriber functions, will take
+     * effect after all currently-subscribed subscriber functions have been
+     * processed.
+     *
+     * @param subscribers {Array} subscribers to call
      * @param msg {qx.event.message.Message} message for subscribers
      */
     __callSubscribers : function(subscribers, msg)
     {
+      // (Shallow) clone the subscribers array in case one of them alters the
+      // list, e.g., by unsubscribing
+      subscribers = subscribers.slice();
+
       for (var i=0; i<subscribers.length; i++)
       {
         var subscriber = subscribers[i].subscriber;

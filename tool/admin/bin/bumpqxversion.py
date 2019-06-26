@@ -96,6 +96,10 @@ Files = {
     "./package.json": [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],
+    "./Manifest.json" : [
+        r'"version"\s*:\s*"(%s)"'              % qxversion_regexp,
+        r'"@qooxdoo/framework"\s*:\s*"(%s)"'   % qxversion_regexp,
+        ],
     "./application/demobrowser/package.json": [
         (r'"version"\s*:\s*"(%s)"' % qxversion_regexp, npm_version_string),
         ],

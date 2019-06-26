@@ -131,12 +131,39 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
     // overridden
     _identifyImage : function(cellInfo)
     {
-      var imageHints =
+      var w;
+      var h;
+      var rm;
+      var id;
+      var ids;
+      var imageHints;
+
+      // Retrieve the ID
+      rm = qx.util.ResourceManager.getInstance();
+      ids = rm.getIds(this.__iconUrlTrue);
+
+      // If ID was found, we'll use its first (likely only) element here.
+      if (ids)
       {
-        imageWidth  : 11,
-        imageHeight : 11
+        id = ids[0];
+
+        // Get the natural size of the image
+        w = rm.getImageWidth(id);
+        h = rm.getImageHeight(id);
+      }
+
+      // Create the size portion of the hint.
+      //
+      // The traditional (fixed) size of the image was 11x11px. Use that if we
+      // weren't able to retrieve the actual size of the image, and never
+      // exceed that size.
+      imageHints =
+      {
+        imageWidth  : w ? Math.min(w, 11) : 11,
+        imageHeight : h ? Math.min(h, 11) : 11
       };
 
+      // Add the URL portion of the hint
       switch(cellInfo.value)
       {
         case true:
