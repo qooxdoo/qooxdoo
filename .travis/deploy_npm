@@ -46,7 +46,8 @@ exe npx qx pkg install -v
 # compile server first, compile.js of demobrowser runs npm install which will update all packages
 exe npx qx compile compileServer.json --target build -v
 exe npx qx compile compile.json       --target build -v 
-# needs to run twice to run ocmpile.js???
+# needs to run twice to run compile.js???
+exe npm update --no-save @qooxdoo/compiler
 exe npx qx compile compile.json       --target build -v 
 
 #copy source
