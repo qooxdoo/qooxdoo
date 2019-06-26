@@ -1,97 +1,99 @@
 {
   "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/resource/schema/v1/Manifest.json",
-  "info" : 
-  {
-    "name" : "qooxdoo framework",
-
-    "summary" : "The qooxdoo framework library",
-    "description" : "This library contains the qooxdoo Javascript framework classes for website, mobile, desktop and server.",
-    
-    "keywords" : ["qooxdoo", "framework", "widget", "cross-browser", "ajax"],
-    "homepage" : "http://qooxdoo.org",
-
-    "license" : "MIT",
-    "authors" : 
-    [
-     {
-       "name" : "Alexander Steitz (asteitz)",
-       "email" : "alexander DOT steitz AT 1und1 DOT de"
-     },
-     {
-       "name" : "Christopher Zündorf (czuendorf)",
-       "email" : "christopher DOT zuendorf AT 1und1 DOT de"
-     },
-     {
-       "name" : "Daniel Wagner (danielwagner)",
-       "email" : "daniel DOT wagner AT 1und1 DOT de"
-     },
-     {
-       "name" : "Derrell Lipman (derrell)",
-       "email" : "derrell DOT lipman AT unwireduniverse DOT com"
-     },
-     {
-       "name" : "Andreas Ecker (ecker)",
-       "email" : "andreas DOT ecker AT 1und1 DOT de"
-     },
-     {
-       "name" : "Christian Hagendorn (Hagendorn)",
-       "email" : "christian DOT hagendorn AT 1und1 DOT de"
-     },
-     {
-       "name" : "Mustafa Sak (msak)",
-       "email" : "Mustafa DOT Sak AT 1und1 DOT de"
-     },
-     {
-       "name" : "Thomas Herchenröder (thron7)",
-       "email" : "thron7 AT users DOT sourceforge DOT net"
-     },
-     {
-       "name" : "Tino Butz (tjbutz)",
-       "email" : "tino DOT butz AT 1und1 DOT de"
-     },
-     {
-       "name" : "Tristan Koch (trkoch)",
-       "email" : "tristan DOT koch AT 1und1 DOT de"
-     },
-     {
-       "name" : "Martin Wittemann (wittemann)",
-       "email" : "martin DOT wittemann AT 1und1 DOT de"
-     },
-     {
-       "name": "John Spackman (johnspackman)",
-       "email": "john.spackman@zenesis.com"
-     },
-     {
-       "name": "Christian Boulanger (cboulanger)",
-       "email": "info@bibliograph.org"
-     },
-     {
-       "name": "Henner Kollmann (hkollmann)",
-       "email": "Henner.Kollmann.gmx.de"
-     },
-     {
-       "name": "Tobias Oetiker (oetiker)",
-       "email": "tobi@oetiker.ch"
-     },
-     {
-       "name": "Dietrich Streifert (level420)",
-       "email": "dietrich.streifert@visionet.de"
-     }
+  "info": {
+    "name": "qooxdoo framework",
+    "summary": "The qooxdoo framework library",
+    "description": "This library contains the qooxdoo Javascript framework classes for website, mobile, desktop and server.",
+    "keywords": [
+      "qooxdoo",
+      "framework",
+      "widget",
+      "cross-browser",
+      "ajax"
     ],
-    "version"         : "6.0.0-beta"
+    "homepage": "http://qooxdoo.org",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Alexander Steitz (asteitz)",
+        "email": "alexander DOT steitz AT 1und1 DOT de"
+      },
+      {
+        "name": "Christopher Zündorf (czuendorf)",
+        "email": "christopher DOT zuendorf AT 1und1 DOT de"
+      },
+      {
+        "name": "Daniel Wagner (danielwagner)",
+        "email": "daniel DOT wagner AT 1und1 DOT de"
+      },
+      {
+        "name": "Derrell Lipman (derrell)",
+        "email": "derrell DOT lipman AT unwireduniverse DOT com"
+      },
+      {
+        "name": "Andreas Ecker (ecker)",
+        "email": "andreas DOT ecker AT 1und1 DOT de"
+      },
+      {
+        "name": "Christian Hagendorn (Hagendorn)",
+        "email": "christian DOT hagendorn AT 1und1 DOT de"
+      },
+      {
+        "name": "Mustafa Sak (msak)",
+        "email": "Mustafa DOT Sak AT 1und1 DOT de"
+      },
+      {
+        "name": "Thomas Herchenröder (thron7)",
+        "email": "thron7 AT users DOT sourceforge DOT net"
+      },
+      {
+        "name": "Tino Butz (tjbutz)",
+        "email": "tino DOT butz AT 1und1 DOT de"
+      },
+      {
+        "name": "Tristan Koch (trkoch)",
+        "email": "tristan DOT koch AT 1und1 DOT de"
+      },
+      {
+        "name": "Martin Wittemann (wittemann)",
+        "email": "martin DOT wittemann AT 1und1 DOT de"
+      },
+      {
+        "name": "John Spackman (johnspackman)",
+        "email": "john.spackman@zenesis.com"
+      },
+      {
+        "name": "Christian Boulanger (cboulanger)",
+        "email": "info@bibliograph.org"
+      },
+      {
+        "name": "Henner Kollmann (hkollmann)",
+        "email": "Henner.Kollmann.gmx.de"
+      },
+      {
+        "name": "Tobias Oetiker (oetiker)",
+        "email": "tobi@oetiker.ch"
+      },
+      {
+        "name": "Dietrich Streifert (level420)",
+        "email": "dietrich.streifert@visionet.de"
+      }
+    ],
+    "version": "6.0.0-beta"
   },
- 
-  "provides" : 
-  {
-    "namespace"   : "qx",
-    "encoding"    : "utf-8",
-    "class"       : "source/class",
-    "resource"    : "source/resource",
-    "translation" : "source/translation"
+  "provides": {
+    "namespace": "qx",
+    "encoding": "utf-8",
+    "class": "source/class",
+    "resource": "source/resource",
+    "translation": "source/translation"
   },
   "requires": {
     "@qooxdoo/compiler": "^1.0.0-beta",
-    "@qooxdoo/framework": "^6.0.0-alpha"
+    "@qooxdoo/framework": "^6.0.0-alpha",
+    "qooxdoo/qxl.playground": "^1.0.0-beta.0",
+    "qooxdoo/qxl.demobrowser": "^1.0.0-beta.1",
+    "qooxdoo/qxl.apiviewer": "^1.0.0-beta.2",
+    "qooxdoo/qxl.widgetbrowser": "^1.0.0-beta.0"
   }
 }
-
