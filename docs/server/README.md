@@ -8,16 +8,16 @@ Included Features
 
 This listing shows the core features of the *%{qooxdoo} %{Server}* package. If you build your own package with the skeleton way of using %{qooxdoo}, the feature set might be extended depending on your application code.
 
--   Object Orientation \</pages/core/oo\_introduction\>
+-   Object Orientation \<core/oo\_introduction\>
 
-    -   Classes \</pages/core/classes\>
-    -   Mixins \</pages/core/mixins\>
-    -   Interfaces \</pages/core/interfaces\>
-    -   Properties \</pages/core/understanding\_properties\>
+    -   Classes \<core/classes\>
+    -   Mixins \<core/mixins\>
+    -   Interfaces \<core/interfaces\>
+    -   Properties \<core/understanding\_properties\>
 
-    \* Annotations \</pages/core/annotations\>
--   Events \</pages/desktop/event\_layer\_impl\>
--   Single Value Binding \</pages/data\_binding/single\_value\_binding\>
+    \* Annotations \<core/annotations\>
+-   Events \<desktop/event\_layer\_impl\>
+-   Single Value Binding \<data\_binding/single\_value\_binding\>
 
 Most of the features can be found in %{qooxdoo}'s core layer and should be familiar to %{qooxdoo} developers.
 
@@ -68,7 +68,7 @@ Only two lines in this example are specific to the server environment: The first
 
 and replace `console.log` with `print`.
 
-The rest of the code is plain %{qooxdoo}-style %{JS} which can be run in a browser, too. For more information on that topic, take a look at the documentation about Object Orientation \</pages/core/oo\_introduction\>.
+The rest of the code is plain %{qooxdoo}-style %{JS} which can be run in a browser, too. For more information on that topic, take a look at the documentation about Object Orientation \<core/oo\_introduction\>.
 
 Additional Scenarios
 --------------------

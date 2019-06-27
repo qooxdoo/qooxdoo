@@ -6,7 +6,7 @@ The MenuButton looks like a normal button, but it opens a menu when tapping on i
 Preview Image
 -------------
 
-![MenuButton](/pages/widget/menubutton.png)
+![MenuButton](menubutton.png)
 
 Features
 --------

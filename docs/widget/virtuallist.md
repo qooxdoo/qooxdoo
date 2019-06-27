@@ -6,7 +6,7 @@ The virtual List is a widget based on the framework's virtual infrastructure.
 Preview Image
 -------------
 
-![widget/virtuallist.png](/pages/widget/virtuallist.png)
+![virtuallist.png](virtuallist.png)
 
 Description
 -----------

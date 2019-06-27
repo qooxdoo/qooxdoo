@@ -6,7 +6,7 @@ A List widget has items with plain text and/or icon.
 Preview Image
 -------------
 
-![List](/pages/widget/list.png%0A%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20:target:%20../../_images/list.png)
+![List](list.png%0A%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20:target:%20../../list.png)
 
 Features
 --------

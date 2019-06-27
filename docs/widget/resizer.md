@@ -6,7 +6,7 @@ The Resizer is a resizable container widget.
 Preview Image
 -------------
 
-![widget/resizer.jpg](/pages/widget/resizer.jpg)
+![widget/resizer.jpg](widget/resizer.jpg)
 
 Features
 --------

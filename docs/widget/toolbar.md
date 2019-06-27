@@ -6,7 +6,7 @@ The ToolBar widget is responsible for displaying a toolbar in the application. T
 Preview Image
 -------------
 
-![widget/toolbar.jpg](/pages/widget/toolbar.jpg%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../_images/toolbar.jpg)
+![widget/toolbar.jpg](widget/toolbar.jpg%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../_images/toolbar.jpg)
 
 Features
 --------
@@ -36,7 +36,7 @@ These buttons can also be added directly to the toolbar if no parts are needed. 
 Diagram
 -------
 
-![widget/toolbar\_uml.png](/pages/widget/toolbar_uml.png)
+![toolbar\_uml.png](toolbar_uml.png)
 
 Demos
 -----
