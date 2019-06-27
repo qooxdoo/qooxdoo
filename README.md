@@ -17,11 +17,10 @@ You leverage its integrated tool chain to develop and deploy
 applications of any scale, while taking advantage of modern web 
 technologies like HTML5 and CSS3, its comprehensive feature set and a 
 state-of-the-art GUI toolkit. qooxdoo is open source under liberal 
-licenses, led by the world's largest web host 1&1, with a vibrant 
+licenses, led by a dedicated developer team, with a vibrant 
 community.
 
 For more information please see http://qooxdoo.org .
-
 
 License
 =======
@@ -67,7 +66,6 @@ Online chat is available via Gitter at https://gitter.im/qooxdoo/qooxdoo (or usi
 one of the Gitter desktop or mobile clients) - the core team hang out there, as do
 other developers who use Qooxdoo.
 
-
 Learn more
 ===========
 
@@ -89,7 +87,7 @@ Learn more
 
 
 [npm-image]: https://img.shields.io/npm/v/qooxdoo-sdk.svg
-[npm-url]: https://npmjs.org/package/qooxdoo-sdk
+[npm-url]: https://npmjs.org/package/@qooxdoo/framework
 [travis-image]: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master
 [travis-url]: https://travis-ci.org/qooxdoo/qooxdoo
 [coveralls-image]: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 
