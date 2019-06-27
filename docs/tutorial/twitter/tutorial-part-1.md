@@ -7,7 +7,7 @@ The first step is to get a working qooxdoo application where we can start our de
 $ mkdir tweets
 $ cd tweets
 $ npm init
-$ npm install --save-dev @qooxdoo/compiler @qooxdoo/framework
+$ npm install --save-dev @qooxdoo/compiler
 $ npx qx create tweets --type desktop --noninteractive --out=.
 ```
 
