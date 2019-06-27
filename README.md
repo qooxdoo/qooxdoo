@@ -62,19 +62,19 @@ Learn more
 ===========
 
 * About qooxdoo
-  http://qooxdoo.org
+  http://www.qooxdoo.org/
 
 * Online Demos
-  http://demo.qooxdoo.org
+  http://www.qooxdoo.org/demos.html
 
 * Release Notes
   https://github.com/qooxdoo/qooxdoo/releases
 
 * User Manual
-  http://manual.qooxdoo.org/6.0.0-beta
+  [github.com/qooxdoo/qooxdoo/docs](https://github.com/qooxdoo/qooxdoo/tree/master/docs)
 
 * API Documentation
-  http://api.qooxdoo.org/6.0.0-beta
+  http://www.qooxdoo.org/devel/api/
 
 
 
