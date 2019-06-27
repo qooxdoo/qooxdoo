@@ -55,5 +55,5 @@ exe cp -rf ./framework/source/* ./source
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN:-}" > ~/.npmrc
 # publish to npm
-exe npm publish --access public --verbose --dry-run
+exe npm publish --access public --verbose 
 
