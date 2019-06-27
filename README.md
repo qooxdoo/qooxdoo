@@ -35,7 +35,7 @@ Quick start
 ===========
 
 It is easy to get started with qooxdoo. For detailed information please
-see http://manual.qooxdoo.org/6.0.0-beta/pages/getting_started.html .
+see [github.com/qooxdoo/qooxdoo/docs](https://github.com/qooxdoo/qooxdoo/tree/master/docs).
 
 
 API Reference
@@ -55,26 +55,36 @@ to the code. Please check our web site for details. Mind that for every patch to
 the repository we require an open bug in our issue tracker, and that commits to
 the repository will fall under qooxdoo's license terms.
 
-For more information see http://qooxdoo.org/community/contribution .
+Qooxdoo source code is hosted on [github/qooxdoo](https://github.com/qooxdoo) and
+we use the standard [Issue Tracker](https://github.com/qooxdoo/qooxdoo/issues) and
+[Pull Requests feature](https://github.com/qooxdoo/qooxdoo/pulls).
+
+
+Community
+=========
+
+Online chat is available via Gitter at https://gitter.im/qooxdoo/qooxdoo (or using
+one of the Gitter desktop or mobile clients) - the core team hang out there, as do
+other developers who use Qooxdoo.
 
 
 Learn more
 ===========
 
 * About qooxdoo
-  http://qooxdoo.org
+  http://www.qooxdoo.org/
 
 * Online Demos
-  http://demo.qooxdoo.org
+  http://www.qooxdoo.org/demos.html
 
 * Release Notes
   https://github.com/qooxdoo/qooxdoo/releases
 
 * User Manual
-  http://manual.qooxdoo.org/6.0.0-beta
+  [github.com/qooxdoo/qooxdoo/docs](https://github.com/qooxdoo/qooxdoo/tree/master/docs)
 
 * API Documentation
-  http://api.qooxdoo.org/6.0.0-beta
+  http://www.qooxdoo.org/devel/api/
 
 
 
