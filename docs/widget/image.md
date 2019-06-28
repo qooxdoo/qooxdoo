@@ -6,7 +6,7 @@ As the name suggest, the Image widget is used to display image files.
 Preview Image
 -------------
 
-![widget/image.jpg](widget/image.jpg)
+![widget/image.jpg](image.jpg)
 
 Features
 --------
@@ -23,10 +23,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Image demo](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Image.html)
+-   [Image demo](http://www.qooxdoo.org/devel/demobrowser/#widget~Image.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.basic.Image](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Image)
+[qx.ui.basic.Image](http://www.qooxdoo.org/devel/api/#qx.ui.basic.Image)

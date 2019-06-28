@@ -36,10 +36,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Horizontal and vertical TabViews with a different amount of pages](http://demo.qooxdoo.org/%{version}/demobrowser/index.html#widget~TabView.html)
+-   [Horizontal and vertical TabViews with a different amount of pages](http://www.qooxdoo.org/devel/demobrowser/index.html#widget~TabView.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.tabview](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.tabview)
+[qx.ui.tabview](http://www.qooxdoo.org/devel/api/index.html#qx.ui.tabview)

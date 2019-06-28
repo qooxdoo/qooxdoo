@@ -28,10 +28,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Demo showing all groupBox types](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~GroupBox.html)
+-   [Demo showing all groupBox types](http://www.qooxdoo.org/devel/demobrowser/#widget~GroupBox.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.groupbox.GroupBox](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.groupbox)
+[qx.ui.groupbox.GroupBox](http://www.qooxdoo.org/devel/api/#qx.ui.groupbox)
