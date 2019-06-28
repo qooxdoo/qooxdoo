@@ -33,29 +33,25 @@ if [ "{TRAVIS_TAG:-}" != "$FRAMEWORK_VERSION" ]; then
     exe tool/admin/bin/bumpqxversion.py $TAG_VERSION
 fi
 
-exe nvm -v
-exe nvm install 11
 exe node -v
-exe npm -v
+exe npm  -v
 
 exe npm install
-# compile framework
-exe npx qx --version
-exe npm update --no-save @qooxdoo/compiler
-exe npx qx --version
+exe npm install --no-save @qooxdoo/compiler
 
+exe npx qx --version
 exe npx qx pkg install -v 
-# compile server first, compile.js of demobrowser runs npm install which will update all packages
-exe npx qx compile compileServer.json --target build -v
-exe npx qx compile compile.json       --target build -v 
-
+#compile everything
+exe npx qx compile compileServer.json --target build 
+exe npx qx compile compile.json       --target build 
+#remove unnecessary stuff
+exe rm -rf ./apps/transpiled
+exe find ./apps -type f -name '*.map' -delete 
 #copy source
 exe mkdir -p source
 exe cp -rf ./framework/source/* ./source
-
-
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN:-}" > ~/.npmrc
 # publish to npm
-exe npm publish --access public --verbose 
+exe npm publish --access public 
 
