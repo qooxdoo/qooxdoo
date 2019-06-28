@@ -18,7 +18,7 @@ Such a stand-alone application typically creates and updates all content dynamic
 
 This is the default choice if the *--type* parameter is not specified.
 
-Inherits from [qx.application.Standalone](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Standalone)
+Inherits from [qx.application.Standalone](http://www.qooxdoo.org/devel/api/#qx.application.Standalone)
 
 ### Included layers
 
@@ -34,7 +34,7 @@ For a GUI application on a traditional, HTML-dominated web page.
 
 The ideal environment for typical portal sites which use just a few qooxdoo widgets, embedded into the page's existing HTML content.
 
-Inherits from [qx.application.Inline](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Inline)
+Inherits from [qx.application.Inline](http://www.qooxdoo.org/devel/api/#qx.application.Inline)
 
 ### Included layers
 
@@ -46,9 +46,9 @@ Inherits from [qx.application.Inline](http://demo.qooxdoo.org/%{version}/apiview
 Mobile
 ------
 
-For a mobile application \<pages/mobile/mobile\_overview\#overview\> running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the [mobile widget set](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile).
+For a mobile application \<pages/mobile/mobile\_overview\#overview\> running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the [mobile widget set](http://www.qooxdoo.org/devel/api/#qx.ui.mobile).
 
-Inherits from [qx.application.Mobile](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Mobile)
+Inherits from [qx.application.Mobile](http://www.qooxdoo.org/devel/api/#qx.application.Mobile)
 
 ### Included layers
 
@@ -61,7 +61,7 @@ Native
 
 For applications using custom HTML/CSS-based GUIs instead of qooxdoo's widget layer.
 
-Inherits from [qx.application.Native](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Native)
+Inherits from [qx.application.Native](http://www.qooxdoo.org/devel/api/#qx.application.Native)
 
 ### Included layers
 
@@ -94,7 +94,7 @@ Server
 
 For applications running in "browserless" or server-side environments such as node.js and Rhino. The skeleton follows the normal qooxdoo development model, so you have a *source/* folder with classes and resources, and can create *source* and *build* versions of your app. It also supports other development jobs like *"test"*, *"api"* or *"lint"*. The special job *"library"* allows you to re-create the %{Server} library locally.
 
-Inherits from [qx.application.Basic](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Basic).
+Inherits from [qx.application.Basic](http://www.qooxdoo.org/devel/api/#qx.application.Basic).
 
 ### Getting started
 

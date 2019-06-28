@@ -7,4 +7,4 @@ You may already have worked your way through the [getting
 started](?id=getting-started) one.
 
 For a much more in depth encounter with qooxdoo, have a look at the
-comprehensive [tweets app tutorial](tutorial/twitter/).
+comprehensive [tweets app tutorial](twitter/).

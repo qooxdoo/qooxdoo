@@ -1,48 +1,58 @@
 Form Handling
 =============
 
-The `qx.ui.form` package contains several classes for the construction of forms. Some widgets -- like `Button`, `List` or `TextField` -- may look familiar if you have worked with HTML before, but this package also contains more complex widgets that you may know from your operating system and/or native desktop applications (e.g. `Spinner`, `Slider` or `DateField`).
+The `qx.ui.form` package contains several classes for the construction of forms.
+Some widgets -- like `Button`, `List` or `TextField` -- may look familiar if you
+have worked with HTML before, but this package also contains more complex
+widgets that you may know from your operating system and/or native desktop
+applications (e.g. `Spinner`, `Slider` or `DateField`).
 
 Idea
 ----
 
-The idea of the form API is to make handling of form widgets as simple as possible, but also as generic as possible within the entire framework.
+The idea of the form API is to make handling of form widgets as simple as
+possible, but also as generic as possible within the entire framework.
 
 Demos
 -----
 
-If you like to see some of qooxdoo's form management in action, take a look at the following samples in the demo browser:
+If you like to see some of qooxdoo's form management in action, take a look at
+the following samples in the demo browser:
 
 ### Widgets
 
--   [All form widgets](http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Form.html)
--   [All form widgets with invalid states](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~FormInvalids.html)
+-   [All form widgets](http://www.qooxdoo.org/devel/demobrowser/#showcase~Form.html)
+-   [All form widgets with invalid states](http://www.qooxdoo.org/devel/demobrowser/#ui~FormInvalids.html)
 
 ### Validation and Resetting
 
--   [Synchronous and asynchronous form validation](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~FormValidator.html)
--   [Validation on different pages](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~MultiPageForm.html)
+-   [Synchronous and asynchronous form validation](http://www.qooxdoo.org/devel/demobrowser/#ui~FormValidator.html)
+-   [Validation on different pages](http://www.qooxdoo.org/devel/demobrowser/#ui~MultiPageForm.html)
 
 ### Rendering
 
--   [Single column form](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~FormRenderer.html)
--   [Double column form](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~FormRendererDouble.html)
--   [Single column form using placeholders](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~FormRendererPlaceholder.html)
--   [Custom form layout](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~FormRendererCustom.html)
+-   [Single column form](http://www.qooxdoo.org/devel/demobrowser/#ui~FormRenderer.html)
+-   [Double column form](http://www.qooxdoo.org/devel/demobrowser/#ui~FormRendererDouble.html)
+-   [Single column form using placeholders](http://www.qooxdoo.org/devel/demobrowser/#ui~FormRendererPlaceholder.html)
+-   [Custom form layout](http://www.qooxdoo.org/devel/demobrowser/#ui~FormRendererCustom.html)
 
 ### Data Binding
 
--   [Manual form binding](http://demo.qooxdoo.org/%{version}/demobrowser/#data~Form.html)
--   [Form Controller](http://demo.qooxdoo.org/%{version}/demobrowser/#data~FormController.html)
+-   [Manual form binding](http://www.qooxdoo.org/devel/demobrowser/#data~Form.html)
+-   [Form Controller](http://www.qooxdoo.org/devel/demobrowser/#data~FormController.html)
 
 Interfaces
 ----------
 
-The entire form API is defined by a couple of interfaces. These interfaces contain the most important methods and events for the form widgets. The following listing shows the interfaces, their purpose and how you can benefit from them.
+The entire form API is defined by a couple of interfaces. These interfaces
+contain the most important methods and events for the form widgets. The
+following listing shows the interfaces, their purpose and how you can benefit
+from them.
 
 ### Form
 
-The interface `qx.ui.form.IForm` defines a set of methods and events for every visible form widget. It contains the listed events and methods.
+The interface `qx.ui.form.IForm` defines a set of methods and events for every
+visible form widget. It contains the listed events and methods.
 
 ![iform.png](forms/iform.png)
 
@@ -88,7 +98,7 @@ Each of the listed interfaces define the same methods and events. The only diffe
 -   Date : `qx.ui.form.IDateForm`
 -   Boolean : `qx.ui.form.IBooleanForm`
 
-The color interface takes a string which has to be formatted like the [common colors](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.util.ColorUtil) in qooxdoo.
+The color interface takes a string which has to be formatted like the [common colors](http://www.qooxdoo.org/devel/api/#qx.util.ColorUtil) in qooxdoo.
 
 ![iformvalue.png](forms/iformvalue.png)
 
@@ -1008,7 +1018,7 @@ If you want to get a different look and feel, you can create a different rendere
       {left: 10, top: 10}
     );
 
-Just give it a try in the [playground](http://demo.qooxdoo.org/%{version}/playground/#%7B%22code%22%3A%20%22%252F%252F%2520create%2520the%2520form%250Avar%2520form%2520%253D%2520new%2520qx.ui.form.Form()%253B%250A%250A%252F%252F%2520create%2520the%2520first%2520two%2520input%2520fields%250Avar%2520firstname%2520%253D%2520new%2520qx.ui.form.TextField()%253B%250Afirstname.setRequired(true)%253B%250Avar%2520lastname%2520%253D%2520new%2520qx.ui.form.TextField()%253B%250Alastname.setRequired(true)%253B%250A%250A%252F%252F%2520add%2520the%2520first%2520group%250Aform.addGroupHeader(%2522Name%2522)%253B%250Aform.add(firstname%252C%2520%2522Firstname%2522)%253B%250Aform.add(lastname%252C%2520%2522Lastname%2522)%253B%250A%250A%252F%252F%2520add%2520the%2520second%2520group%250Aform.addGroupHeader(%2522Contact%2522)%253B%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Email%2522%252C%2520qx.util.Validate.email())%253B%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Phone%2522)%253B%250A%250A%252F%252F%2520add%2520a%2520save%2520button%250Avar%2520savebutton%2520%253D%2520new%2520qx.ui.form.Button(%2522Save%2522)%253B%250Asavebutton.addListener(%2522execute%2522%252C%2520function()%2520%257B%250A%2520%2520if%2520(form.validate())%2520%257B%250A%2520%2520%2520%2520alert(%2522You%2520can%2520save%2520now...%2522)%253B%250A%2520%2520%257D%250A%257D)%253B%250Aform.addButton(savebutton)%253B%250A%250A%252F%252F%2520add%2520a%2520reset%2520button%250Avar%2520resetbutton%2520%253D%2520new%2520qx.ui.form.Button(%2522Reset%2522)%253B%250Aresetbutton.addListener(%2522execute%2522%252C%2520function()%2520%257B%250A%2520%2520form.reset()%253B%250A%257D)%253B%250Aform.addButton(resetbutton)%253B%250A%250A%252F%252F%2520create%2520the%2520view%2520and%2520add%2520it%250Athis.getRoot().add(new%2520qx.ui.form.renderer.Single(form)%252C%2520%257Bleft%253A%252010%252C%2520top%253A%252010%257D)%253B%22%7D).
+Just give it a try in the [playground](http://www.qooxdoo.org/current/playground/#%7B%22code%22%3A%20%22%252F%252F%2520create%2520the%2520form%250Avar%2520form%2520%253D%2520new%2520qx.ui.form.Form()%253B%250A%250A%252F%252F%2520create%2520the%2520first%2520two%2520input%2520fields%250Avar%2520firstname%2520%253D%2520new%2520qx.ui.form.TextField()%253B%250Afirstname.setRequired(true)%253B%250Avar%2520lastname%2520%253D%2520new%2520qx.ui.form.TextField()%253B%250Alastname.setRequired(true)%253B%250A%250A%252F%252F%2520add%2520the%2520first%2520group%250Aform.addGroupHeader(%2522Name%2522)%253B%250Aform.add(firstname%252C%2520%2522Firstname%2522)%253B%250Aform.add(lastname%252C%2520%2522Lastname%2522)%253B%250A%250A%252F%252F%2520add%2520the%2520second%2520group%250Aform.addGroupHeader(%2522Contact%2522)%253B%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Email%2522%252C%2520qx.util.Validate.email())%253B%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Phone%2522)%253B%250A%250A%252F%252F%2520add%2520a%2520save%2520button%250Avar%2520savebutton%2520%253D%2520new%2520qx.ui.form.Button(%2522Save%2522)%253B%250Asavebutton.addListener(%2522execute%2522%252C%2520function()%2520%257B%250A%2520%2520if%2520(form.validate())%2520%257B%250A%2520%2520%2520%2520alert(%2522You%2520can%2520save%2520now...%2522)%253B%250A%2520%2520%257D%250A%257D)%253B%250Aform.addButton(savebutton)%253B%250A%250A%252F%252F%2520add%2520a%2520reset%2520button%250Avar%2520resetbutton%2520%253D%2520new%2520qx.ui.form.Button(%2522Reset%2522)%253B%250Aresetbutton.addListener(%2522execute%2522%252C%2520function()%2520%257B%250A%2520%2520form.reset()%253B%250A%257D)%253B%250Aform.addButton(resetbutton)%253B%250A%250A%252F%252F%2520create%2520the%2520view%2520and%2520add%2520it%250Athis.getRoot().add(new%2520qx.ui.form.renderer.Single(form)%252C%2520%257Bleft%253A%252010%252C%2520top%253A%252010%257D)%253B%22%7D).
 
 Form Controller
 ---------------
@@ -1061,7 +1071,7 @@ Now we have managed to set up a form and a model connected by bidirectional bind
 
 As you can see here, the properties (and therefore setters) are defined according to the names we gave the text fields when adding them.
 
-[See the code in action](http://demo.qooxdoo.org/%{version}/playground/#%7B%22code%22%3A%20%22%252F%252F%2520create%2520the%2520form%250Avar%2520form%2520%253D%2520new%2520qx.ui.form.Form()%253B%250A%250A%252F%252F%2520add%2520the%2520first%2520TextField%2520(Salutation%2520will%2520be%2520the%2520property%2520name)%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Salutation%2522)%253B%250A%252F%252F%2520add%2520the%2520second%2520TextField%2520(FirstName%2520will%2520be%2520the%2520property%2520name)%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522First%2520Name%2522)%253B%250A%252F%252F%2520add%2520the%2520third%2520TextField%2520(last%2520will%2520be%2520the%2520property%2520name)%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Last%2520Name%2522%252C%2520null%252C%2520%2522last%2522)%253B%250A%250A%252F%252F%2520add%2520the%2520form%2520to%2520the%2520root%250Athis.getRoot().add(new%2520qx.ui.form.renderer.Single(form))%253B%250A%250A%252F%252F%2520create%2520the%2520controller%2520with%2520the%2520form%250Avar%2520controller%2520%253D%2520new%2520qx.data.controller.Form(null%252C%2520form)%253B%250A%252F%252F%2520create%2520the%2520model%250Avar%2520model%2520%253D%2520controller.createModel()%253B%250A%250A%252F%252F%2520set%2520some%2520values%2520in%2520the%2520form%250Amodel.setSalutation(%2522Mr.%2522)%253B%250Amodel.setFirstName(%2522Martin%2522)%253B%250Amodel.setLast(%2522Wittemann%2522)%253B%250A%22%7D) in the playground.
+[See the code in action](http://www.qooxdoo.org/current/playground/#%7B%22code%22%3A%20%22%252F%252F%2520create%2520the%2520form%250Avar%2520form%2520%253D%2520new%2520qx.ui.form.Form()%253B%250A%250A%252F%252F%2520add%2520the%2520first%2520TextField%2520(Salutation%2520will%2520be%2520the%2520property%2520name)%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Salutation%2522)%253B%250A%252F%252F%2520add%2520the%2520second%2520TextField%2520(FirstName%2520will%2520be%2520the%2520property%2520name)%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522First%2520Name%2522)%253B%250A%252F%252F%2520add%2520the%2520third%2520TextField%2520(last%2520will%2520be%2520the%2520property%2520name)%250Aform.add(new%2520qx.ui.form.TextField()%252C%2520%2522Last%2520Name%2522%252C%2520null%252C%2520%2522last%2522)%253B%250A%250A%252F%252F%2520add%2520the%2520form%2520to%2520the%2520root%250Athis.getRoot().add(new%2520qx.ui.form.renderer.Single(form))%253B%250A%250A%252F%252F%2520create%2520the%2520controller%2520with%2520the%2520form%250Avar%2520controller%2520%253D%2520new%2520qx.data.controller.Form(null%252C%2520form)%253B%250A%252F%252F%2520create%2520the%2520model%250Avar%2520model%2520%253D%2520controller.createModel()%253B%250A%250A%252F%252F%2520set%2520some%2520values%2520in%2520the%2520form%250Amodel.setSalutation(%2522Mr.%2522)%253B%250Amodel.setFirstName(%2522Martin%2522)%253B%250Amodel.setLast(%2522Wittemann%2522)%253B%250A%22%7D) in the playground.
 
 Still to come...
 ----------------

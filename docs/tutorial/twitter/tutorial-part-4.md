@@ -13,7 +13,7 @@ We want to create a new window with user name and password fields that pops up w
 Creating the login window
 -------------------------
 
-We start by creating a new class called tweets.LoginWindow that inherits from [qx.ui.window.Window](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.window.Window), similar to the MainWindow class from the first part of this tutorial:
+We start by creating a new class called tweets.LoginWindow that inherits from [qx.ui.window.Window](http://www.qooxdoo.org/devel/api/index.html#qx.ui.window.Window), similar to the MainWindow class from the first part of this tutorial:
 
 ```javascript
 qx.Class.define("tweets.LoginWindow", {
@@ -58,7 +58,7 @@ var controller = new qx.data.controller.Form(null, form);
 var model = controller.createModel();
 ```
 
-Just like in the previous tutorial, we create a [controller](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.data.controller.Form) without a model. Then, we ask the controller to create a model from the form's elements. This model will be used to serialize the form data.
+Just like in the previous tutorial, we create a [controller](http://www.qooxdoo.org/devel/api/index.html#qx.data.controller.Form) without a model. Then, we ask the controller to create a model from the form's elements. This model will be used to serialize the form data.
 
 The form still needs a "submit" button, so we'll add one, plus a "cancel" button to close the window:
 
@@ -73,14 +73,14 @@ cancelbutton.addListener("execute", function() {
 }, this);
 ```
 
-That's all the elements we need, let's get them displayed. We'll let one of qooxdoo's built-in [form renderer](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.form.renderer) classes worry about the form's layout:
+That's all the elements we need, let's get them displayed. We'll let one of qooxdoo's built-in [form renderer](http://www.qooxdoo.org/devel/api/index.html#qx.ui.form.renderer) classes worry about the form's layout:
 
 ```javascript
 var renderer = new qx.ui.form.renderer.Single(form);
 this.add(renderer);
 ```
 
-The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a custom renderer by subclassing [qx.ui.form.renderer.AbstractRenderer](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.form.renderer.AbstractRenderer), though that's outside the scope of this tutorial.
+The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a custom renderer by subclassing [qx.ui.form.renderer.AbstractRenderer](http://www.qooxdoo.org/devel/api/index.html#qx.ui.form.renderer.AbstractRenderer), though that's outside the scope of this tutorial.
 
 Accessing the form values
 -------------------------

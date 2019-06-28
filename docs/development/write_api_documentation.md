@@ -95,7 +95,7 @@ Here is a more advanced example of a method documentation block that uses more `
 
 This will render in the Apiviewer similarly to this:
 
-![image](/apiviewer_method.png)
+![image](apiviewer_method.png)
 
 As mentioned above the JSDoc reference \<development/api\_jsdoc\_ref\> has the complete list of possible section keys and markup possibilities.
 
@@ -104,4 +104,4 @@ Package documentation
 
 While documenting a class files where JSDoc comments are interleaved with the class code seems straight forward, this is not so obvious if you want to provide documentation for a *package*, i.e. a collection of classes under a common namespace (like *qx.ui.core*, *qx.util*, etc.).
 
-In order to fill this gap you can add a `__init__.js` file to the package. This file should contain only a single JSDoc comment that describes the package as a whole. These files are then scanned during a `generate.py api` run and the documentation is inserted at the package nodes, together with a list of classes of the corresponding package, in the documentation tree. See the API documentation for the [framework packages](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.fx) as examples.
+In order to fill this gap you can add a `__init__.js` file to the package. This file should contain only a single JSDoc comment that describes the package as a whole. These files are then scanned during a `generate.py api` run and the documentation is inserted at the package nodes, together with a list of classes of the corresponding package, in the documentation tree. See the API documentation for the [framework packages](http://www.qooxdoo.org/devel/api/#qx.fx) as examples.

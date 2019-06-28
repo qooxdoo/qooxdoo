@@ -5,7 +5,7 @@ This tutorial covers many practical aspects of developing desktop-like qooxdoo a
 
 As the headline of this tutorial says, we are building a simple tweets application. [identica](http://identi.ca) is a twitter-like service for reading and posting public short messages - called "tweets". It has a [twitter-compatible API](http://status.net/wiki/Twitter-compatible_API) for accessing data.
 
-[Twitter](http://twitter.com) itself made its authorization scheme more complex, as it starts requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the [Github demo](http://demo.qooxdoo.org/%{version}/demobrowser/#data~Github.html).
+[Twitter](http://twitter.com) itself made its authorization scheme more complex, as it starts requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the [Github demo](http://www.qooxdoo.org/devel/demobrowser/#data~Github.html).
 
 The following mockup shows you how the application should look like at the end.
 
