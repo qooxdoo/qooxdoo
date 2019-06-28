@@ -6,7 +6,7 @@ The Atom groups an image with a label with support for different alignments. It 
 Preview Image
 -------------
 
-![widget/atom.jpg](widget/atom.jpg)
+![widget/atom.jpg](atom.jpg)
 
 Features
 --------
@@ -20,10 +20,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [A simple Atom demo](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Atom.html)
+-   [A simple Atom demo](http://www.qooxdoo.org/devel/demobrowser/#widget~Atom.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.basic.Atom](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Atom)
+[qx.ui.basic.Atom](http://www.qooxdoo.org/devel/api/#qx.ui.basic.Atom)

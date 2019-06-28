@@ -21,10 +21,10 @@ Any of the layout demos use Composites:
 
 Here are some links that demonstrate the usage of the widget:
 
--   [The first layout demo. Any other layout demo uses Composites as well.](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Basic.html)
+-   [The first layout demo. Any other layout demo uses Composites as well.](http://www.qooxdoo.org/devel/demobrowser/#layout~Basic.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.container.Composite](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.container.Composite)
+[qx.ui.container.Composite](http://www.qooxdoo.org/devel/api/index.html#qx.ui.container.Composite)

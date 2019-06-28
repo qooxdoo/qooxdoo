@@ -23,10 +23,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Simple example for the PopUp widget](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Popup.html)
+-   [Simple example for the PopUp widget](http://www.qooxdoo.org/devel/demobrowser/#widget~Popup.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.popup](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.popup)
+[qx.ui.popup](http://www.qooxdoo.org/devel/api/#qx.ui.popup)
