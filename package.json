@@ -22,7 +22,8 @@
     "source/resource",
     "source/translation",
     "tool/data/cldr",
-    "docs"
+    "docs",
+    "apps"
   ],
   "devDependencies": {
     "@qooxdoo/compiler": "^1.0.0-beta",

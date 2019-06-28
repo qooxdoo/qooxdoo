@@ -17,11 +17,10 @@ You leverage its integrated tool chain to develop and deploy
 applications of any scale, while taking advantage of modern web 
 technologies like HTML5 and CSS3, its comprehensive feature set and a 
 state-of-the-art GUI toolkit. qooxdoo is open source under liberal 
-licenses, led by the world's largest web host 1&1, with a vibrant 
+licenses, led by a dedicated developer team, with a vibrant 
 community.
 
 For more information please see http://qooxdoo.org .
-
 
 License
 =======
@@ -35,7 +34,7 @@ Quick start
 ===========
 
 It is easy to get started with qooxdoo. For detailed information please
-see http://manual.qooxdoo.org/6.0.0-beta/pages/getting_started.html .
+see [github.com/qooxdoo/qooxdoo/docs](https://github.com/qooxdoo/qooxdoo/tree/master/docs).
 
 
 API Reference
@@ -55,31 +54,40 @@ to the code. Please check our web site for details. Mind that for every patch to
 the repository we require an open bug in our issue tracker, and that commits to
 the repository will fall under qooxdoo's license terms.
 
-For more information see http://qooxdoo.org/community/contribution .
+Qooxdoo source code is hosted on [github/qooxdoo](https://github.com/qooxdoo) and
+we use the standard [Issue Tracker](https://github.com/qooxdoo/qooxdoo/issues) and
+[Pull Requests feature](https://github.com/qooxdoo/qooxdoo/pulls).
 
+
+Community
+=========
+
+Online chat is available via Gitter at https://gitter.im/qooxdoo/qooxdoo (or using
+one of the Gitter desktop or mobile clients) - the core team hang out there, as do
+other developers who use Qooxdoo.
 
 Learn more
 ===========
 
 * About qooxdoo
-  http://qooxdoo.org
+  http://www.qooxdoo.org/
 
 * Online Demos
-  http://demo.qooxdoo.org
+  http://www.qooxdoo.org/demos.html
 
 * Release Notes
   https://github.com/qooxdoo/qooxdoo/releases
 
 * User Manual
-  http://manual.qooxdoo.org/6.0.0-beta
+  [github.com/qooxdoo/qooxdoo/docs](https://github.com/qooxdoo/qooxdoo/tree/master/docs)
 
 * API Documentation
-  http://api.qooxdoo.org/6.0.0-beta
+  http://www.qooxdoo.org/devel/api/
 
 
 
 [npm-image]: https://img.shields.io/npm/v/qooxdoo-sdk.svg
-[npm-url]: https://npmjs.org/package/qooxdoo-sdk
+[npm-url]: https://npmjs.org/package/@qooxdoo/framework
 [travis-image]: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master
 [travis-url]: https://travis-ci.org/qooxdoo/qooxdoo
 [coveralls-image]: https://coveralls.io/repos/github/qooxdoo/qooxdoo/badge.svg?branch=master 

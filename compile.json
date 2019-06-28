@@ -1,15 +1,28 @@
 {
+  "environment": {
+    "qx.serve.localpath": "/apps/"
+  },
   "targets": [
     {
-      "type": "build",
-      "outputPath": "lib",
-      "minify": "off",
+      "type": "source",
+      "outputPath": "compiled/source",
+      "bundle": {
+        "include": [
+          "qx.*",
+          "qxWeb",
+          "qxl.*"
+        ]
+      },
       "babelOptions": {
-        "targets": "node >= 10"
+        "targets": "edge >=18, chrome >= 73, firefox >= 66"
       }
+    },
+    {
+      "type": "build",
+      "outputPath": "apps"
     }
   ],
-  "defaultTarget": "build",
+  "defaultTarget": "source",
   "locales": [
     "en"
   ],
@@ -18,35 +31,84 @@
   ],
   "applications": [
     {
-      "class": "qx.application.Native",
-      "name": "qx_server",
-	  "type": "node",
+      "class": "qxl.apiviewer.Application",
+      "theme": "qxl.apiviewer.Theme",
+      "name": "apiviewer",
+      "title": "Qooxdoo API Viewer",
       "environment": {
-        "qx.debug": false
+        "qx.icontheme": "Tango",
+        "excludeFromAPIViewer": [
+          "qxl.*"
+        ]
       },
       "include": [
         "qx.*"
       ],
       "exclude": [
-        "q",
         "qx.test.*",
-        "qxWeb",
-        "qx.module.*",
-        "qx.dev.unit.*",
-        "qx.ui.*",
-        "qx.log.appender.Native",
-        "qx.log.appender.Element",
-        "qx.bom.Stylesheet",
-        "qx.bom.Selector",
-        "qx.bom.MediaQuery",
-        "qx.bom.Flash",
-        "qx.bom.Vml",
-        "qx.bom.client.Html",
-        "qx.bom.client.Pdfjs",
-        "qx.event.handler.Pointer",
-        "qx.event.handler.Gesture",
-        "qx.event.handler.PointerCore"
+        "qx.module.Blocker",
+        "qx.module.Placement"
+      ]
+    },
+    {
+      "class": "qxl.playground.Application",
+      "theme": "qxl.playground.theme.Theme",
+      "name": "playground",
+      "title": "Playground",
+      "bootPath": "source/boot",
+      "include": [
+        "qx.*"
+      ],
+      "exclude": [
+        "qx.test.*",
+        "qx.module.Blocker",
+        "qx.module.Placement"
+      ]
+    },
+    {
+      "class": "qxl.demobrowser.Application",
+      "theme": "qxl.demobrowser.Theme",
+      "name": "demobrowser",
+      "title": "DemoBrowser",
+      "include": [
+        "qxl.demobrowser.*",
+        "qx.theme.Modern",
+        "qx.theme.Simple",
+        "qx.theme.Classic"
+      ],
+      "environment": {
+        "qx.allowUrlVariants": true,
+        "qx.allowUrlSettings": true,
+        "qx.contrib": false,
+        "qx.icontheme": [
+          "Tango",
+          "Oxygen"
+        ]
+      }
+    },
+    {
+      "class": "qxl.widgetbrowser.Application",
+      "theme": "qx.theme.Indigo",
+      "name": "widgetbrowser",
+      "title": "WidgetBrowser",
+      "include": [
+        "qx.theme.Modern",
+        "qx.theme.Simple",
+        "qx.theme.Classic",
+        "qxl.widgetbrowser.pages.Tree",
+        "qxl.widgetbrowser.pages.List",
+        "qxl.widgetbrowser.pages.Table",
+        "qxl.widgetbrowser.pages.Form",
+        "qxl.widgetbrowser.pages.ToolBar",
+        "qxl.widgetbrowser.pages.Window",
+        "qxl.widgetbrowser.pages.Tab",
+        "qxl.widgetbrowser.pages.Control",
+        "qxl.widgetbrowser.pages.Embed",
+        "qxl.widgetbrowser.pages.EmbedFrame",
+        "qxl.widgetbrowser.pages.Basic",
+        "qxl.widgetbrowser.pages.Misc"
       ]
     }
-  ]
+  ],
+  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json"
 }
