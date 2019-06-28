@@ -25,7 +25,7 @@ The following methods may be used to manage children:
 
 It is possible to use any layout available. To set up the layout just use `_setLayout`. To access it afterwards use `_getLayout`.
 
-For details refer to the API documentation of [qx.ui.core.Widget](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.Widget).
+For details refer to the API documentation of [qx.ui.core.Widget](http://www.qooxdoo.org/devel/api/#qx.ui.core.Widget).
 
 ### For a Container
 

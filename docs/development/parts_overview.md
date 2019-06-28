@@ -20,6 +20,6 @@ There are two different but related terms here: You as the developer define **pa
 Loading Parts
 -------------
 
-In your application code, you then load the defined parts at suitable situations, e.g. when the user opens a dialogue defined as a part, using qooxdoo's [PartLoader](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.PartLoader) API. The PartLoader keeps track of which parts have already been loaded, and provides some further housekeeping. But it is your responsibility to "draw in" a given part at the right moment.
+In your application code, you then load the defined parts at suitable situations, e.g. when the user opens a dialogue defined as a part, using qooxdoo's [PartLoader](http://www.qooxdoo.org/devel/api/#qx.io.PartLoader) API. The PartLoader keeps track of which parts have already been loaded, and provides some further housekeeping. But it is your responsibility to "draw in" a given part at the right moment.
 
 Consequently, the configuration of your application allows you to specify those logical parts of your application, by giving a suitable name to each and listing the top-level classes or class patterns for each. You are using these part names with the PartLoader in your application code. Further config keys allow you tailor more specifics, as mentioned above. See the packages key \<pages/tool/generator/generator\_config\_ref\#packages\> reference section for the config key nitty-gritty.

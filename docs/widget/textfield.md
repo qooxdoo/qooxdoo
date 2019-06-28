@@ -26,13 +26,13 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Shows different TextField demos](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~TextField.html)
--   [Shows a dialog demo with some TextFields](http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Dialog.html)
--   [Show a form demo](http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Form.html)
--   [Shows a browser demo](http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Browser.html)
+-   [Shows different TextField demos](http://www.qooxdoo.org/devel/demobrowser/#widget~TextField.html)
+-   [Shows a dialog demo with some TextFields](http://www.qooxdoo.org/devel/demobrowser/#showcase~Dialog.html)
+-   [Show a form demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Form.html)
+-   [Shows a browser demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Browser.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.TextField](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.TextField)
+[qx.ui.form.TextField](http://www.qooxdoo.org/devel/api/#qx.ui.form.TextField)

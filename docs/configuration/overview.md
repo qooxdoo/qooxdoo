@@ -14,9 +14,10 @@ files:
 - [`qx-lock.json`](../cli/packages.md#lockfile-qx-lockjson): This is a library's
   lockfile which contains information on the version of the dependencies
   
-`Manifest.json`, `compile.json` and `qooxdoo.json`are validated against [JSON-schemas](../../source/resource/qx/tool/schema).
-In contrast, `qx-lock.json` is not, and you should not code against the 
-lockfile's structure, since it can change any time.
+`Manifest.json`, `compile.json` and `qooxdoo.json`are validated against
+[JSON-schemas](https://github.com/qooxdoo/qooxdoo-compiler/tree/master/source/resource/qx/tool/schema). In contrast,
+`qx-lock.json` is not, and you should not code against the lockfile's structure,
+since it can change any time.
 
 You should not read or write the configuration files directly, but use the API
 instead. This ensures that all the toolchain can automatically validate, and,
@@ -40,7 +41,7 @@ and `qx.tool.config.Lockfile`.
    
 This API is not only useful for qooxdoo purposes. In fact, you can use it for 
 your own applications by extending `qx.tool.config.Abstract` to write your [own
-config file models](../../source/class/qx/tool/config/).
+config file models](https://github.com/qooxdoo/qooxdoo-compiler/tree/master/source/class/qx/tool/config).
 
 
 ## CLI Configuration API
