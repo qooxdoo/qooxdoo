@@ -5,20 +5,25 @@ Test Runner
 
     ./generate.py test
 
-Test Runner provides a convenient interface to test classes that have been written to that end. You can run single tests, or run a whole suite of them at once.
+Test Runner provides a convenient interface to test classes that have been
+written to that end. You can run single tests, or run a whole suite of them at
+once.
 
 ![image](testrunner_widget.png)
 
 > **note**
 >
-> See the Test Runner in action in the [online demo](http://demo.qooxdoo.org/%{version}/testrunner/).
+> See the Test Runner in action in the [online demo](http://www.qooxdoo.org/5.0.1/testrunner/).
 
 The Test Runner framework can also be deployed for *your own* application. It provides a GUI, a layer of infrastructure and a certain interface for arbitrary test classes. So now you can write your own test classes and take advantage of the Test Runner environment.
 
 How to deploy Test Runner for your own development
 --------------------------------------------------
 
-This section assumes that your qooxdoo application bears on the structure of the qooxdoo skeleton \<pages/getting\_started/helloworld\#create\_your\_application\> application. Then this is what you have to do:
+This section assumes that your qooxdoo application bears on the structure of the
+qooxdoo skeleton
+\<pages/getting\_started/helloworld\#create\_your\_application\> application.
+Then this is what you have to do:
 
 ### Writing Test Classes
 
@@ -31,7 +36,7 @@ This section assumes that your qooxdoo application bears on the structure of the
     -   To model your test method behaviour, you can use the methods inherited from `qx.dev.unit.TestCase` which encapsulate exceptions in the form of assertions:
         -   `assert`, `assertFalse`, `assertEquals`, `assertNumber`, ... - These functions take values which are compared (either among each other or to some predefined value) and a message string, and raise an exception if the comparison fails.
         -   A similar list of methods of the form `assert*DebugOn` is available, which are only evaluated if the debug environment setting `qx.debug` is on (see Environment \<core/environment\>).
-        -   See the documentation for the [qx.dev.unit.TestCase](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase) class for more information on the available assertions.
+        -   See the documentation for the [qx.dev.unit.TestCase](http://www.qooxdoo.org/devel/api/#qx.dev.unit.TestCase) class for more information on the available assertions.
 
 #### Generic setUp and tearDown
 
@@ -69,7 +74,7 @@ Requirements are conditions that must be met before a test can be run. For examp
 
 #### Using Requirements
 
-To make use of the requirements feature, test classes must include either the [MRequirementsBasic](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirementsBasic) mixin (for tests running in non-browser environments such as node.js or Rhino) or the [MRequirements](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements) mixin which provides additional requirement checks for browser environments. The mixins provide a `require` method that takes an array of strings: The requirement IDs. This method is either called from the `setUp` method or from a test function **before** the actual logic of the test, e.g.:
+To make use of the requirements feature, test classes must include either the [MRequirementsBasic](http://www.qooxdoo.org/devel/api/#qx.dev.unit.MRequirementsBasic) mixin (for tests running in non-browser environments such as node.js or Rhino) or the [MRequirements](http://www.qooxdoo.org/devel/api/#qx.dev.unit.MRequirements) mixin which provides additional requirement checks for browser environments. The mixins provide a `require` method that takes an array of strings: The requirement IDs. This method is either called from the `setUp` method or from a test function **before** the actual logic of the test, e.g.:
 
     testBackendRequest : function()
     {
@@ -77,9 +82,9 @@ To make use of the requirements feature, test classes must include either the [M
       // test code goes here
     }
 
-`require` then searches the current test instance for a method that verifies the listed requirements: The naming convention is "has" + the requirement ID with the first letter capitalized, e.g. `hasBackend`. This method is the called with the requirement ID as the only parameter. If it returns `true`, the test code will be executed. Otherwise a [RequirementError](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.RequirementError) is thrown. The Test Runner will catch these and mark the test as "skipped" in the results list. Any test code after the `require` call will not be executed.
+`require` then searches the current test instance for a method that verifies the listed requirements: The naming convention is "has" + the requirement ID with the first letter capitalized, e.g. `hasBackend`. This method is the called with the requirement ID as the only parameter. If it returns `true`, the test code will be executed. Otherwise a [RequirementError](http://www.qooxdoo.org/devel/api/#qx.dev.unit.RequirementError) is thrown. The Test Runner will catch these and mark the test as "skipped" in the results list. Any test code after the `require` call will not be executed.
 
-If no "has" method for a given feature is found, [qx.core.Environment](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Environment) will be checked for a key that matches the feature name. This way, any Environment key that has a boolean value can be used as a test requirement, e.g.:
+If no "has" method for a given feature is found, [qx.core.Environment](http://www.qooxdoo.org/devel/api/#qx.core.Environment) will be checked for a key that matches the feature name. This way, any Environment key that has a boolean value can be used as a test requirement, e.g.:
 
     this.require(["event.touch", "css.textoverflow"]);
 
@@ -89,7 +94,7 @@ Note that only Environment keys with **synchronous** checks are supported.
 
 Spies are test functions that records details for all its calls. Stubs are spies with pre-programmed behavior. Mocks are fake methods are like spies and stubs, but also come with pre-programmed expectations. Generally speaking, spies, stubs and mocks are fakes that allow fine-grained unit testing. They constitute important tools for test driven development.
 
-In order to use fakes in your tests, test classes must include the [MMock](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock) mixin. Here are some example tests that demonstrate the usage of spies and stubs.
+In order to use fakes in your tests, test classes must include the [MMock](http://www.qooxdoo.org/devel/api/#qx.dev.unit.MMock) mixin. Here are some example tests that demonstrate the usage of spies and stubs.
 
     "test: spy": function() {
       var spy = this.spy();
@@ -103,7 +108,7 @@ In order to use fakes in your tests, test classes must include the [MMock](http:
       this.assertEquals("Affe", whoami());
     }
 
-[MMock](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock) also provides custom assertions tailored to work with fakes. Whenever possible, custom assertions should be used instead of lower level assertions because they provide more detailed error messages.
+[MMock](http://www.qooxdoo.org/devel/api/#qx.dev.unit.MMock) also provides custom assertions tailored to work with fakes. Whenever possible, custom assertions should be used instead of lower level assertions because they provide more detailed error messages.
 
     "test: assert called": function() {
       var spy = this.sinon.spy();
@@ -135,13 +140,13 @@ Mocks are different from spies and stubs. They have pre-programmed *expectations
       mock.verify();
     },
 
-For more details, please refer to the API documentation of [MMock](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock). Additional examples can be found in `qx.test.dev.unit.Sinon`.
+For more details, please refer to the API documentation of [MMock](http://www.qooxdoo.org/devel/api/#qx.dev.unit.MMock). Additional examples can be found in `qx.test.dev.unit.Sinon`.
 
 MMock is based on [Sinon.JS](http://sinonjs.org/). The original `sinon` object can be retrieved by calling `qx.dev.unit.Sinon.getSinon()`.
 
 ##### Sandboxing
 
-Stubs can override original behavior. To prevent tests from leaking, it is recommended to restore fakes on tear down. Every fake (including stubs) created by [MMock](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock) is contained within a sandbox. Here is how to restore all fakes recorded in the sandbox.
+Stubs can override original behavior. To prevent tests from leaking, it is recommended to restore fakes on tear down. Every fake (including stubs) created by [MMock](http://www.qooxdoo.org/devel/api/#qx.dev.unit.MMock) is contained within a sandbox. Here is how to restore all fakes recorded in the sandbox.
 
     tearDown: function() {
       this.getSandbox().restore();
@@ -259,7 +264,7 @@ Portable Test Runner
 
 A stand-alone version of the qooxdoo's unit testing sub-system, requiring **no compile step** and with **no external dependencies**. It comes in the form of a single .js file that can simply be added to an HTML page along with the code to be tested and unit test definitions (as inline JavaScript).
 
-Its main purpose is to provide a comprehensive unit testing framework including [Assertions](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Assert), [Sinon](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock), Requirements \<pages/frame\_apps\_testrunner\#requirements\> and a Test Runner GUI to developers working on non-qooxdoo JavaScript applications.
+Its main purpose is to provide a comprehensive unit testing framework including [Assertions](http://www.qooxdoo.org/devel/api/#qx.core.Assert), [Sinon](http://www.qooxdoo.org/devel/api/#qx.dev.unit.MMock), Requirements \<pages/frame\_apps\_testrunner\#requirements\> and a Test Runner GUI to developers working on non-qooxdoo JavaScript applications.
 
 ### Example
 
@@ -293,7 +298,7 @@ The fictional non-qooxdoo JavaScript library `foo.js` provides a `Bar` class, wi
 </html>
 ```
 
-The important thing to note here is the map argument for `testrunner.define`: It's equivalent to the `members` section of a class extending [qx.dev.unit.TestCase](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase) and including [qx.dev.unit.MMock](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock) and [qx.dev.unit.MRequirements](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements), allowing full access to these APIs. Multiple test classes can be defined by additional calls to `testrunner.define`.
+The important thing to note here is the map argument for `testrunner.define`: It's equivalent to the `members` section of a class extending [qx.dev.unit.TestCase](http://www.qooxdoo.org/devel/api/#qx.dev.unit.TestCase) and including [qx.dev.unit.MMock](http://www.qooxdoo.org/devel/api/#qx.dev.unit.MMock) and [qx.dev.unit.MRequirements](http://www.qooxdoo.org/devel/api/#qx.dev.unit.MRequirements), allowing full access to these APIs. Multiple test classes can be defined by additional calls to `testrunner.define`.
 
 The `classname` key is optional. If present, its value will be used as the name of the test class, making it easier to create logical groups of tests. Otherwise, the generated classes will be named `TestN` where N is the running count of `testrunner.define` calls. All test classes will be grouped under the top-level name space `test`.
 

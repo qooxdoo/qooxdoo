@@ -26,12 +26,12 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Shows different TextArea demos](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~TextField.html)
--   [Shows a dialog demo with an TextArea](http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Dialog.html)
--   [Show a form demo](http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Form.html)
+-   [Shows different TextArea demos](http://www.qooxdoo.org/devel/demobrowser/#widget~TextField.html)
+-   [Shows a dialog demo with an TextArea](http://www.qooxdoo.org/devel/demobrowser/#showcase~Dialog.html)
+-   [Show a form demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.TextArea](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.TextArea)
+[qx.ui.form.TextArea](http://www.qooxdoo.org/devel/api/#qx.ui.form.TextArea)

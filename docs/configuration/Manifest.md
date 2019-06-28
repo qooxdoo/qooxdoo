@@ -87,10 +87,10 @@ This is a sample file:
   * **class**: Path to the library's class code relative to the Manifest.json file, up to but not including the root namespace folder (e.g. `source/class`).
   * **resource**: Path to the library's resources relative to the Manifest.json file, up to but not including the root namespace folder (e.g. `source/resource`).
   * **translation**: Path to the library's translation files relative to the Manifest.json file (e.g. `source/translation`).
-  * [**webfonts**]: [see here](IconFonts.md) 
+  * [**webfonts**]: [see here](../compiler/IconFonts.md) 
   * **type**: One of [`library`, `application`, `add-in`,`contribution`]. 
   * **application**: An application description block as described in 
-        [compiler.json](../cli/compile-json.md). This block will copied to `applications` section in `compile.json` during installation of the contrib.
+        [compiler.json](./compile.md). This block will copied to `applications` section in `compile.json` during installation of the contrib.
 
 * **externalResources**: Static Javascript and CSS files that shall be always included without further processing by qooxdoo. All paths are relative to the resource folder stated in the "provides" section.
   * **script**: Array of javascript files.

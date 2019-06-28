@@ -6,18 +6,16 @@ The framework contains several widgets which support selection handling. These a
 Here is a list of widgets which support single and/or multi selection:
 
 -   Multi Selection:
-    -   [Tree](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Tree.html) [(API)](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.tree.Tree)
-    -   [List](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~List.html) [(API)](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.List)
+    -   [Tree](http://www.qooxdoo.org/devel/demobrowser/#widget~Tree.html) [(API)](http://www.qooxdoo.org/devel/api/#qx.ui.tree.Tree)
+    -   [List](http://www.qooxdoo.org/devel/demobrowser/#widget~List.html) [(API)](http://www.qooxdoo.org/devel/api/#qx.ui.form.List)
 -   Single Selection:
-    -   [SelectBox](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~SelectBox.html) [(API)](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.SelectBox)
-    -   [RadioGroup](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~RadioButton.html) [(API)](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.RadioGroup)
-    -   [TabView](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~TabView.html) [(API)](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.tabview.TabView)
-    -   [Stack](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~StackContainer.html) [(API)](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.container.Stack)
+    -   [SelectBox](http://www.qooxdoo.org/devel/demobrowser/#widget~SelectBox.html) [(API)](http://www.qooxdoo.org/devel/api/#qx.ui.form.SelectBox)
+    -   [RadioGroup](http://www.qooxdoo.org/devel/demobrowser/#widget~RadioButton.html) [(API)](http://www.qooxdoo.org/devel/api/#qx.ui.form.RadioGroup)
+    -   [TabView](http://www.qooxdoo.org/devel/demobrowser/#widget~TabView.html) [(API)](http://www.qooxdoo.org/devel/api/#qx.ui.tabview.TabView)
+    -   [Stack](http://www.qooxdoo.org/devel/demobrowser/#widget~StackContainer.html) [(API)](http://www.qooxdoo.org/devel/api/#qx.ui.container.Stack)
 
 Selection Interfaces
 --------------------
-
-![Selection API Interfaces](new_selection_api.png)
 
 ### Event
 
@@ -40,7 +38,7 @@ Re-using the methods requires a uniform handling for setting and getting the cur
 Single Selection
 ----------------
 
-The listed single selection widgets above implement the `ISingleSelection`. To implement the behavior they use the [MSingleSelectionHandling](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.MSingleSelectionHandling) mixin. This mixin offers the methods for selection handling and also initializes the manager for selection management.
+The listed single selection widgets above implement the `ISingleSelection`. To implement the behavior they use the [MSingleSelectionHandling](http://www.qooxdoo.org/devel/api/#qx.ui.core.MSingleSelectionHandling) mixin. This mixin offers the methods for selection handling and also initializes the manager for selection management.
 
 The widget itself configures the mixin to allowing an empty selection or not. Dependent on the configuration, `resetSelection` clears the current selection (empty array) or selects the first selectable element.
 
@@ -49,7 +47,7 @@ User interactions (pointer and keyboard) are managed from the widget, which only
 Multi Selection
 ---------------
 
-The multi selection implementation has hardly changed at all. The widgets supporting multi selection, also listed above, have already used a mixin called [MSelectionHandling](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.core.MSelectionHandling) for selection handling. Like the mixin for the single selection, it offers the selection methods and initializes the selection manager. The mixin has only been changed to conform to the new `IMultiSelection` interface.
+The multi selection implementation has hardly changed at all. The widgets supporting multi selection, also listed above, have already used a mixin called [MSelectionHandling](http://www.qooxdoo.org/devel/api/#qx.ui.core.MSelectionHandling) for selection handling. Like the mixin for the single selection, it offers the selection methods and initializes the selection manager. The mixin has only been changed to conform to the new `IMultiSelection` interface.
 
 ### Selection Modes
 
@@ -82,7 +80,7 @@ How to use the selection API
 
 ### Single Selection
 
-The example below shows how to use the single selection API. This example uses the [SelectBox](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.SelectBox) widget:
+The example below shows how to use the single selection API. This example uses the [SelectBox](http://www.qooxdoo.org/devel/api/#qx.ui.form.SelectBox) widget:
 
     // creates the SelectBox
     var selectBox = new qx.ui.form.SelectBox();
@@ -116,7 +114,7 @@ The SelectBox's implementation doesn't allow empty selections, so if the first i
 
 ### Multi Selection
 
-The next example uses the [List](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.List) widget:
+The next example uses the [List](http://www.qooxdoo.org/devel/api/#qx.ui.form.List) widget:
 
     // creates the List and sets the selection mode
     var list = new qx.ui.form.List();

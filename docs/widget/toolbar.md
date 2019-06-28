@@ -6,7 +6,7 @@ The ToolBar widget is responsible for displaying a toolbar in the application. T
 Preview Image
 -------------
 
-![widget/toolbar.jpg](widget/toolbar.jpg%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:width:%20500%20px%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20:target:%20../../_images/toolbar.jpg)
+![widget/toolbar.jpg](toolbar.jpg)
 
 Features
 --------
@@ -43,12 +43,12 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Toolbar with all features](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~ToolBar.html)
--   [Toolbar in a browser demo](http://demo.qooxdoo.org/%{version}/demobrowser/#showcase~Browser.html)
--   [Toolbar with other menus](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Menu.html)
+-   [Toolbar with all features](http://www.qooxdoo.org/devel/demobrowser/#widget~ToolBar.html)
+-   [Toolbar in a browser demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Browser.html)
+-   [Toolbar with other menus](http://www.qooxdoo.org/devel/demobrowser/#widget~Menu.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.toolbar](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.toolbar)
+[qx.ui.toolbar](http://www.qooxdoo.org/devel/api/index.html#qx.ui.toolbar)

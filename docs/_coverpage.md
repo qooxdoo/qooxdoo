@@ -7,6 +7,8 @@
 - multi language support
 - powerful theming
 
+[About qooxdoo](about.md#about-qooxdoo)
 [Get Started](#getting-started)
+[Table of Contents](contents.md)
 
 ![color](#ffffff)

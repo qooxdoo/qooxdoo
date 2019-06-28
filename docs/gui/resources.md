@@ -94,7 +94,7 @@ When you use the asset macro variant the used theme and the used icon theme need
 Obtaining the URL for a resource
 --------------------------------
 
-To obtain a URL for a resource, use the [ResourceManager](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.util.ResourceManager):
+To obtain a URL for a resource, use the [ResourceManager](http://www.qooxdoo.org/devel/api/#qx.util.ResourceManager):
 
     var iframe = new
     qx.ui.embed.Iframe(qx.util.ResourceManager.getInstance().toUri("myapp/html/FAQ.htm"));
@@ -102,7 +102,7 @@ To obtain a URL for a resource, use the [ResourceManager](http://demo.qooxdoo.or
 Modifying the resource or script URIs at runtime
 ------------------------------------------------
 
-In some usage scenarios, it can be necessary to modify the URIs used to reference code and resources after the application was started. This can be achieved using the [Library Manager](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.util.LibraryManager):
+In some usage scenarios, it can be necessary to modify the URIs used to reference code and resources after the application was started. This can be achieved using the [Library Manager](http://www.qooxdoo.org/devel/api/#qx.util.LibraryManager):
 
     qx.util.LibraryManager.getInstance().set("myapp", "resourceUri", "http://example.com/resources");
     qx.util.ResourceManager.getInstance().toUri("myapp/html/FAQ.htm"); //returns "http://example.com/resources/myapp/html/FAQ.htm"
