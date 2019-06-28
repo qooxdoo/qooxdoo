@@ -7,11 +7,11 @@ The first step is to get a working qooxdoo application where we can start our de
 $ mkdir tweets
 $ cd tweets
 $ npm init
-$ npm install --save-dev @qooxdoo/compiler @qooxdoo/framework
+$ npm install --save-dev @qooxdoo/compiler
 $ npx qx create tweets --type desktop --noninteractive --out=.
 ```
 
-First check that everything works as expected. run `npx qx serve` to build the application and make it available on [port 8080](http://localhost:8080).
+First check that everything works as expected. run `npx qx serve` to build the application and make it available on `http://localhost:8080`.
 
 Now, open the `Application.js` file located in `source/class/tweets/Application.js` with your favorite editor (Microsoft Visual Code is very popular for example) and you are set up for development!
 
@@ -28,7 +28,9 @@ qx.Class.define("tweets.MainWindow", {
 });
 ```
 
-We have created our own class extending the qooxdoo Window. In the constructor, we already set the caption of the window, which is the [first constructor parameter of the qooxdoo window](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.window.Window). So you already have guessed it, `this.base(arguments)` calls the overridden method of the superclass, in this case the constructor. To test the window, we need to create an instance of it in the main application. Add these two lines of code in the `Application.js` file to create and open the window. Make sure to add it at the end of the main function in the application class.
+We have created our own class extending the qooxdoo Window. In the constructor, we already set the caption of the window, which is 
+the [first constructor parameter of the qooxdoo window](https://www.qooxdoo.org/devel/api/#qx.ui.window.Window). So you 
+already have guessed it, `this.base(arguments)` calls the overridden method of the superclass, in this case the constructor. To test the window, we need to create an instance of it in the main application. Add these two lines of code in the `Application.js` file to create and open the window. Make sure to add it at the end of the main function in the application class.
 
 ```javascript
 var main = new tweets.MainWindow();
@@ -78,4 +80,5 @@ At this point, your application should look like this.
 
 ![step 1](step11.png)
 
-That's it for the first part. If you want to have the [code from the tutorial](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}%/component/tutorials/tweets/step1), take a look at the project at Github and just fork the project. The next part of the tutorial will contain the building of the other parts of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
+That's it for the first part. If you want to have the 
+[code from the tutorial](https://github.com/qooxdoo/qooxdoo/blob/master/docs/tutorial/twitter/tutorial-part-1.md), take a look at the project at Github and just fork the project. The next part of the tutorial will contain the building of the other parts of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
