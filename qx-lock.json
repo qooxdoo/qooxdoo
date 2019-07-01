@@ -55,6 +55,14 @@
       "uri": "qooxdoo/qxl.formdemo",
       "repo_name": "qooxdoo/qxl.formdemo",
       "repo_tag": "v1.0.0-beta.0"
+    },
+    {
+      "library_name": "mobileshowcase",
+      "library_version": "1.0.0-beta.0",
+      "path": "qx_packages/qooxdoo_qxl_mobileshowcase_v1_0_0-beta_0",
+      "uri": "qooxdoo/qxl.mobileshowcase",
+      "repo_name": "qooxdoo/qxl.mobileshowcase",
+      "repo_tag": "v1.0.0-beta.0"
     }
   ],
   "version": "2.1.0"

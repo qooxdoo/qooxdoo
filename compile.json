@@ -108,6 +108,13 @@
         "qxl.widgetbrowser.pages.Basic",
         "qxl.widgetbrowser.pages.Misc"
       ]
+    },
+    {
+      "class": "qxl.mobileshowcase.Application",
+     "title": "MobileShowcase",
+     "name": "mobileshowcase",
+      "bootPath": "source/boot",
+      "theme": ""
     }
   ],
   "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json"
