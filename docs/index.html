@@ -27,7 +27,7 @@
           hook.beforeEach(function (html) {
             // resolve links with pseudo-protocol "apps:" to relative path to apps
             let app_dir = window.location.pathname.split('/').slice(0,-2).concat(['apps','']).join('/');
-            html = html.replace(/apps:\/\//, app_dir);
+            html = html.replace(/apps:\/\//g, app_dir);
             // insert edit links
             if (/githubusercontent\.com/.test(vm.route.file)) {
               url = vm.route.file
