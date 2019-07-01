@@ -85,8 +85,7 @@ Learn more
   http://www.qooxdoo.org/devel/api/
 
 
-
-[npm-image]: https://img.shields.io/npm/v/qooxdoo-sdk.svg
+[npm-image]: https://badge.fury.io/js/%40qooxdoo%2Fframework.svg
 [npm-url]: https://npmjs.org/package/@qooxdoo/framework
 [travis-image]: https://travis-ci.org/qooxdoo/qooxdoo.svg?branch=master
 [travis-url]: https://travis-ci.org/qooxdoo/qooxdoo
