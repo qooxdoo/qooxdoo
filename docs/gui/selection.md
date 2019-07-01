@@ -6,13 +6,13 @@ The framework contains several widgets which support selection handling. These a
 Here is a list of widgets which support single and/or multi selection:
 
 -   Multi Selection:
-    -   [Tree](../../apps/demobrowser/#widget~Tree.html) [(API)](../../apps/apiviewer/#qx.ui.tree.Tree)
-    -   [List](../../apps/demobrowser/#widget~List.html) [(API)](../../apps/apiviewer/#qx.ui.form.List)
+    -   [Tree](apps://demobrowser/#widget~Tree.html) [(API)](apps://apiviewer/#qx.ui.tree.Tree)
+    -   [List](apps://demobrowser/#widget~List.html) [(API)](apps://apiviewer/#qx.ui.form.List)
 -   Single Selection:
-    -   [SelectBox](../../apps/demobrowser/#widget~SelectBox.html) [(API)](../../apps/apiviewer/#qx.ui.form.SelectBox)
-    -   [RadioGroup](../../apps/demobrowser/#widget~RadioButton.html) [(API)](../../apps/apiviewer/#qx.ui.form.RadioGroup)
-    -   [TabView](../../apps/demobrowser/#widget~TabView.html) [(API)](../../apps/apiviewer/#qx.ui.tabview.TabView)
-    -   [Stack](../../apps/demobrowser/#widget~StackContainer.html) [(API)](../../apps/apiviewer/#qx.ui.container.Stack)
+    -   [SelectBox](apps://demobrowser/#widget~SelectBox.html) [(API)](apps://apiviewer/#qx.ui.form.SelectBox)
+    -   [RadioGroup](apps://demobrowser/#widget~RadioButton.html) [(API)](apps://apiviewer/#qx.ui.form.RadioGroup)
+    -   [TabView](apps://demobrowser/#widget~TabView.html) [(API)](apps://apiviewer/#qx.ui.tabview.TabView)
+    -   [Stack](apps://demobrowser/#widget~StackContainer.html) [(API)](apps://apiviewer/#qx.ui.container.Stack)
 
 Selection Interfaces
 --------------------
@@ -38,7 +38,7 @@ Re-using the methods requires a uniform handling for setting and getting the cur
 Single Selection
 ----------------
 
-The listed single selection widgets above implement the `ISingleSelection`. To implement the behavior they use the [MSingleSelectionHandling](../../apps/apiviewer/#qx.ui.core.MSingleSelectionHandling) mixin. This mixin offers the methods for selection handling and also initializes the manager for selection management.
+The listed single selection widgets above implement the `ISingleSelection`. To implement the behavior they use the [MSingleSelectionHandling](apps://apiviewer/#qx.ui.core.MSingleSelectionHandling) mixin. This mixin offers the methods for selection handling and also initializes the manager for selection management.
 
 The widget itself configures the mixin to allowing an empty selection or not. Dependent on the configuration, `resetSelection` clears the current selection (empty array) or selects the first selectable element.
 
@@ -47,7 +47,7 @@ User interactions (pointer and keyboard) are managed from the widget, which only
 Multi Selection
 ---------------
 
-The multi selection implementation has hardly changed at all. The widgets supporting multi selection, also listed above, have already used a mixin called [MSelectionHandling](../../apps/apiviewer/#qx.ui.core.MSelectionHandling) for selection handling. Like the mixin for the single selection, it offers the selection methods and initializes the selection manager. The mixin has only been changed to conform to the new `IMultiSelection` interface.
+The multi selection implementation has hardly changed at all. The widgets supporting multi selection, also listed above, have already used a mixin called [MSelectionHandling](apps://apiviewer/#qx.ui.core.MSelectionHandling) for selection handling. Like the mixin for the single selection, it offers the selection methods and initializes the selection manager. The mixin has only been changed to conform to the new `IMultiSelection` interface.
 
 ### Selection Modes
 
@@ -80,7 +80,7 @@ How to use the selection API
 
 ### Single Selection
 
-The example below shows how to use the single selection API. This example uses the [SelectBox](../../apps/apiviewer/#qx.ui.form.SelectBox) widget:
+The example below shows how to use the single selection API. This example uses the [SelectBox](apps://apiviewer/#qx.ui.form.SelectBox) widget:
 
     // creates the SelectBox
     var selectBox = new qx.ui.form.SelectBox();
@@ -114,7 +114,7 @@ The SelectBox's implementation doesn't allow empty selections, so if the first i
 
 ### Multi Selection
 
-The next example uses the [List](../../apps/apiviewer/#qx.ui.form.List) widget:
+The next example uses the [List](apps://apiviewer/#qx.ui.form.List) widget:
 
     // creates the List and sets the selection mode
     var list = new qx.ui.form.List();

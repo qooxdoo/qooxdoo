@@ -25,10 +25,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Resizer demo](../../apps/demobrowser/#widget~Resizer.html)
+-   [Resizer demo](apps://demobrowser/#widget~Resizer.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.container.Resizer](../../apps/apiviewer/index.html#qx.ui.container.Resizer)
+[qx.ui.container.Resizer](apps://apiviewer/index.html#qx.ui.container.Resizer)

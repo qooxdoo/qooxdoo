@@ -20,10 +20,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Two stack containers. The first not dynamic, the second dynamic.](../../apps/demobrowser/#widget~StackContainer.html)
+-   [Two stack containers. The first not dynamic, the second dynamic.](apps://demobrowser/#widget~StackContainer.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.container.Stack](../../apps/apiviewer/index.html#qx.ui.container.Stack)
+[qx.ui.container.Stack](apps://apiviewer/index.html#qx.ui.container.Stack)

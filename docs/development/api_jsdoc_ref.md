@@ -540,7 +540,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > >     - The following subkeys are supported:  
 > >     -   **environmentNonLiteralKey**
 > >
-> >         Don't warn about calls to [qx.core.Environment](../../apps/apiviewer/#qx.core.Environment) methods without a literal key argument (as such calls cannot be optimized). With no argument, applies to all calls to *qx.core.Environment.(get|select)* in the scope. If given arguments, only the calls using the corresponding variables as keys are exempted.
+> >         Don't warn about calls to [qx.core.Environment](apps://apiviewer/#qx.core.Environment) methods without a literal key argument (as such calls cannot be optimized). With no argument, applies to all calls to *qx.core.Environment.(get|select)* in the scope. If given arguments, only the calls using the corresponding variables as keys are exempted.
 > >     -   **ignoreDeprecated**
 > >
 > >         Use of deprecated globals (like `alert`).

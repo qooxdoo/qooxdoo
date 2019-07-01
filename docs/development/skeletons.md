@@ -18,7 +18,7 @@ Such a stand-alone application typically creates and updates all content dynamic
 
 This is the default choice if the *--type* parameter is not specified.
 
-Inherits from [qx.application.Standalone](../../apps/apiviewer/#qx.application.Standalone)
+Inherits from [qx.application.Standalone](apps://apiviewer/#qx.application.Standalone)
 
 ### Included layers
 
@@ -34,7 +34,7 @@ For a GUI application on a traditional, HTML-dominated web page.
 
 The ideal environment for typical portal sites which use just a few qooxdoo widgets, embedded into the page's existing HTML content.
 
-Inherits from [qx.application.Inline](../../apps/apiviewer/#qx.application.Inline)
+Inherits from [qx.application.Inline](apps://apiviewer/#qx.application.Inline)
 
 ### Included layers
 
@@ -46,9 +46,9 @@ Inherits from [qx.application.Inline](../../apps/apiviewer/#qx.application.Inlin
 Mobile
 ------
 
-For a mobile application \<pages/mobile/mobile\_overview\#overview\> running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the [mobile widget set](../../apps/apiviewer/#qx.ui.mobile).
+For a mobile application \<pages/mobile/mobile\_overview\#overview\> running in a WebKit-based browser on iOS or Android (and also on desktop machines). Supports the [mobile widget set](apps://apiviewer/#qx.ui.mobile).
 
-Inherits from [qx.application.Mobile](../../apps/apiviewer/#qx.application.Mobile)
+Inherits from [qx.application.Mobile](apps://apiviewer/#qx.application.Mobile)
 
 ### Included layers
 
@@ -61,7 +61,7 @@ Native
 
 For applications using custom HTML/CSS-based GUIs instead of qooxdoo's widget layer.
 
-Inherits from [qx.application.Native](../../apps/apiviewer/#qx.application.Native)
+Inherits from [qx.application.Native](apps://apiviewer/#qx.application.Native)
 
 ### Included layers
 
@@ -94,7 +94,7 @@ Server
 
 For applications running in "browserless" or server-side environments such as node.js and Rhino. The skeleton follows the normal qooxdoo development model, so you have a *source/* folder with classes and resources, and can create *source* and *build* versions of your app. It also supports other development jobs like *"test"*, *"api"* or *"lint"*. The special job *"library"* allows you to re-create the %{Server} library locally.
 
-Inherits from [qx.application.Basic](../../apps/apiviewer/#qx.application.Basic).
+Inherits from [qx.application.Basic](apps://apiviewer/#qx.application.Basic).
 
 ### Getting started
 

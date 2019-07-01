@@ -67,7 +67,7 @@ Luckily, we defined the label as child control \<desktop/ui\_develop\> named `ti
 ```
 
 
-You can see a complete definition for the time label in the code above. The important part is the map, which is returned by the style function. It contains a set of themeable properties for the widget which will be assigned. In our case, we are styling a simple label, which has the property `textColor`. You can find all themeable properties in the [API viewer](../../apps/apiviewer/#qx.ui.core.Widget~textColor) (Hint: themeable properties are marked with a little icon). Now we are done and can give the application a try, which should result into something like this:
+You can see a complete definition for the time label in the code above. The important part is the map, which is returned by the style function. It contains a set of themeable properties for the widget which will be assigned. In our case, we are styling a simple label, which has the property `textColor`. You can find all themeable properties in the [API viewer](apps://apiviewer/#qx.ui.core.Widget~textColor) (Hint: themeable properties are marked with a little icon). Now we are done and can give the application a try, which should result into something like this:
 
 Now we have everything the way we want it to be but one little thing is still missing. We defined the color's value inline which is considered bad style because in case you want to use the same color somewhere else, you have to write the value again which results in hard-to-maintain code. That's where the color theme could help. We have already seen a file called `Color.js` which is responsible for holding color definitions. As in the appearance file, we have one main section but this time its called `colors`. Here we add a color definition for the color we want to use:
 
@@ -91,7 +91,7 @@ As a next step, we want to change the default theme, which is the Modern theme \
 Change the look of a built in widget
 ------------------------------------
 
-As a last and final step, I like to show you how to change the styling of a built in qooxdoo widget. As you can see on the screenshot of the last step, the toolbar has the same background color as the windows caption bar. It might be nice if the toolbar had the same color as the window's inner border. So what we need to do is to override the appearance of the toolbar. For that, we need to find out how the appearance key for the toolbar is named. You can find that in the [API viewer](../../apps/apiviewer/#qx.ui.toolbar.ToolBar~appearance) in the `appearance` property of toolbar. The init value is used for the styling, in this case, its `toolbar`. If we now use that key in our custom appearance file, we can set our own keys for styling the toolbar.
+As a last and final step, I like to show you how to change the styling of a built in qooxdoo widget. As you can see on the screenshot of the last step, the toolbar has the same background color as the windows caption bar. It might be nice if the toolbar had the same color as the window's inner border. So what we need to do is to override the appearance of the toolbar. For that, we need to find out how the appearance key for the toolbar is named. You can find that in the [API viewer](apps://apiviewer/#qx.ui.toolbar.ToolBar~appearance) in the `appearance` property of toolbar. The init value is used for the styling, in this case, its `toolbar`. If we now use that key in our custom appearance file, we can set our own keys for styling the toolbar.
 
 ```javascript
 "toolbar" : {

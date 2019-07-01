@@ -17,6 +17,6 @@ The Grid layout arranges items in a two dimensional grid. Widgets can be placed 
 
 The Grow layout stretches all children to the full available size but still respects limits configured by min/max values.
 
-There are a few more layouts bundled with the default qooxdoo distribution but those are mostly intended for use by a specific component. For example the widget/atom uses the [Atom Layout](../../apps/apiviewer/#qx.ui.layout.Atom), the widget/splitpane uses the two split layouts [HLayout](../../apps/apiviewer/#qx.ui.splitpane.HLayout) and [VLayout](../../apps/apiviewer/#qx.ui.splitpane.VLayout).
+There are a few more layouts bundled with the default qooxdoo distribution but those are mostly intended for use by a specific component. For example the widget/atom uses the [Atom Layout](apps://apiviewer/#qx.ui.layout.Atom), the widget/splitpane uses the two split layouts [HLayout](apps://apiviewer/#qx.ui.splitpane.HLayout) and [VLayout](apps://apiviewer/#qx.ui.splitpane.VLayout).
 
-Through the simple API it should be quite easy to write custom layouts if the included ones do not meet demands. Simply derive from the [Abstract](../../apps/apiviewer/#qx.ui.layout.Abstract) layout and start with a refined version of the method [renderLayout()](../../apps/apiviewer/#qx.ui.layout.Abstract~renderLayout).
+Through the simple API it should be quite easy to write custom layouts if the included ones do not meet demands. Simply derive from the [Abstract](apps://apiviewer/#qx.ui.layout.Abstract) layout and start with a refined version of the method [renderLayout()](apps://apiviewer/#qx.ui.layout.Abstract~renderLayout).

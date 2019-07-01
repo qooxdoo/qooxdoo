@@ -37,7 +37,7 @@ Every mouse event propagates the screen (e.g. `getScreenLeft()`), document (e.g.
 
 During every mouse event it is possible to check the status of modifier keys through the methods `isCtrlPressed()`, `isAltPressed()` or `isShiftPressed()`. The pressed button can be detected by calling one of the methods `isLeftPressed()`, `isMiddlePressed()` or `isRightPressed()` on the mouse event.
 
-See the [API documentation of the MouseEvent](../../apps/apiviewer/#qx.event.type.Mouse) for a full list of all available methods.
+See the [API documentation of the MouseEvent](apps://apiviewer/#qx.event.type.Mouse) for a full list of all available methods.
 
 Touch Events
 ------------
@@ -46,7 +46,7 @@ qooxdoo supports all the touch events: `touchstart`, `touchmove`, `touchend` and
 
 Every touch event propagates the screen (e.g. `getScreenLeft()`), document (e.g. `getDocumentLeft()`) or viewport (e.g. `getViewportLeft()`) coordinates through the available getters.
 
-See the [API documentation of the TouchEvent](../../apps/apiviewer/#qx.event.type.Touch) for a full list of all available methods.
+See the [API documentation of the TouchEvent](apps://apiviewer/#qx.event.type.Touch) for a full list of all available methods.
 
 Event Capturing
 ---------------
@@ -67,16 +67,16 @@ Note that this is not able to stop different physical events - for example, "mou
 Keyboard Support
 ----------------
 
-DOM3-like event handling was the prototype for qooxdoo's key event support. This means that key identifiers can be used (instead of non-unified key codes) which is much more comfortable than what is known from most web application frameworks. Basically each key on the keyboard has a name like `Ctrl`, `Shift`, `F3` or `Enter`. A complete list of all supported keys is available in [the API documentation](../../apps/apiviewer/#qx.event.type.KeySequence~getKeyIdentifier).
+DOM3-like event handling was the prototype for qooxdoo's key event support. This means that key identifiers can be used (instead of non-unified key codes) which is much more comfortable than what is known from most web application frameworks. Basically each key on the keyboard has a name like `Ctrl`, `Shift`, `F3` or `Enter`. A complete list of all supported keys is available in [the API documentation](apps://apiviewer/#qx.event.type.KeySequence~getKeyIdentifier).
 
 All the typical key sequence events `keyup`, `keydown` and `keypress` support the key identifier. The `keypress` event is repeated during the time the key is pressed. That's why `keypress` is the best candidate for most action related keyboard events. Only use `keyup` and `keydown` when you *really* depend on the status of the key.
 
-To handle character inputs e.g. on text boxes, there is a special `keyinput` event which has nice unified accessors, `getChar()` and `getCharCode()`, to detect the pressed character. This even automatically respects the effects modifier keys have, supporting e.g. German umlauts. The API lists all available methods of the [KeyInput](../../apps/apiviewer/#qx.event.type.KeyInput) event.
+To handle character inputs e.g. on text boxes, there is a special `keyinput` event which has nice unified accessors, `getChar()` and `getCharCode()`, to detect the pressed character. This even automatically respects the effects modifier keys have, supporting e.g. German umlauts. The API lists all available methods of the [KeyInput](apps://apiviewer/#qx.event.type.KeyInput) event.
 
 Working with Commands
 ---------------------
 
-Commands ([API](../../apps/apiviewer/#qx.ui.command.Command)) are used to bundle a command to be used by multiple buttons. They can also be used to define a global shortcut to be used for this action.
+Commands ([API](apps://apiviewer/#qx.ui.command.Command)) are used to bundle a command to be used by multiple buttons. They can also be used to define a global shortcut to be used for this action.
 
 Creating new commands is as easy as it can be. A shortcut can simply be defined through the constructor, e.g.:
 
@@ -88,7 +88,7 @@ The command can easily be attached to many types of Buttons etc. Some of them, l
     var button = new qx.ui.form.Button("Search");
     button.setCommand(findCommand);
 
-Sometimes it's useful to create groups of commands, especially if you want to define the same shortcut in different commands. With the ([API](../../apps/apiviewer/#qx.ui.command.Group)) class, you can logically organize your commands as well as activate or deactivate all added commands at once.
+Sometimes it's useful to create groups of commands, especially if you want to define the same shortcut in different commands. With the ([API](apps://apiviewer/#qx.ui.command.Group)) class, you can logically organize your commands as well as activate or deactivate all added commands at once.
 
     var group1 = new qx.ui.command.Group();
     group1.add("find", new qx.ui.command.Command("Ctrl+F"));
@@ -112,7 +112,7 @@ Furthermore you are able to block even the active command group by the manager. 
     btn.addListener("focusin", manager.block, this);
     btn.addListener("focusout", manager.unblock, this);
 
-Here you can find an example: ([Demobrowser](../../apps/demobrowser/#ui~CommandGroupManager.html))
+Here you can find an example: ([Demobrowser](apps://demobrowser/#ui~CommandGroupManager.html))
 
 Focus Handling
 --------------
@@ -121,7 +121,7 @@ Good keyboard support also means good focus support. One major feature is the se
 
 Focus handling in qooxdoo also means sophisticated support for the `Tab` key. While qooxdoo can also use the functionality provided by the browser, it adds its own layer for tab focus handling by default. This layer supports focus roots: A focus root is basically a widget which manages its own tab sequence. This is frequently used for many types of windows inside complex applications: Instead of leaving the window when reaching the last of its child widgets, the focus is moved back to the first child widget. The tab handling in qooxdoo is based on coordinates of each widget on the screen. It follows the visible structure and not the internal application (or even markup) structure. This is often seen as a huge benefit as it improves the usability of such applications out-of-the-box. It is also possible to define a `tabIndex` on widgets which should be reachable in a static hard-coded way. It is not advisable to use this feature too much. The automatic handling works quite well out of the box without hard-wiring every widget to a specific tab position.
 
-To make a widget focusable just enable the property `focusable` ([API](../../apps/apiviewer/#qx.ui.core.Widget~focusable)) on it. For most widgets, this will also means that the widget is reachable using the `Tab` key, but this depends on the widget's implementation of the method `isTabable()`.
+To make a widget focusable just enable the property `focusable` ([API](apps://apiviewer/#qx.ui.core.Widget~focusable)) on it. For most widgets, this will also means that the widget is reachable using the `Tab` key, but this depends on the widget's implementation of the method `isTabable()`.
 
 Every widget can function as a focus root. To register a widget as a focus root just call the method `addRoot()` of the `FocusHandler` like this:
 

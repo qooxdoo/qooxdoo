@@ -14,7 +14,7 @@ So to write a log message just call:
 
     this.debug("Hello world");
 
-All of [qx.core.Object](../../apps/apiviewer/#qx.core.Object) log methods delegates to [qx.log.Logger](../../apps/apiviewer/#qx.log.Logger). If you want to get into more details, you can check their API.
+All of [qx.core.Object](apps://apiviewer/#qx.core.Object) log methods delegates to [qx.log.Logger](apps://apiviewer/#qx.log.Logger). If you want to get into more details, you can check their API.
 
 Now that we know how to log a message, let's see where it's written.
 
@@ -35,11 +35,11 @@ The Native appender logs messages to the browser's console. For Firefox, that na
 
 Here's the complete list of appenders that qooxdoo provides by default:
 
--   [qx.log.appender.Native](../../apps/apiviewer/#qx.log.appender.Native)
--   [qx.log.appender.Console](../../apps/apiviewer/#qx.log.appender.Console)
--   [qx.log.appender.Element](../../apps/apiviewer/#qx.log.appender.Element)
--   [qx.log.appender.PhoneGap](../../apps/apiviewer/#qx.log.appender.PhoneGap)
--   [qx.log.appender.RhinoConsole](../../apps/apiviewer/#qx.log.appender.RhinoConsole)
+-   [qx.log.appender.Native](apps://apiviewer/#qx.log.appender.Native)
+-   [qx.log.appender.Console](apps://apiviewer/#qx.log.appender.Console)
+-   [qx.log.appender.Element](apps://apiviewer/#qx.log.appender.Element)
+-   [qx.log.appender.PhoneGap](apps://apiviewer/#qx.log.appender.PhoneGap)
+-   [qx.log.appender.RhinoConsole](apps://apiviewer/#qx.log.appender.RhinoConsole)
 
 if none of the default appenders are right for you, you can also create a custom log appender.
 

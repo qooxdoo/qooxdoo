@@ -11,9 +11,9 @@ Here are a few examples:
 
 ![context_menu.png](menus/context_menu.png)
 
-The [Demobrowser](../../apps/demobrowser/#widget~Menu.html) provides further examples.
+The [Demobrowser](apps://demobrowser/#widget~Menu.html) provides further examples.
 
-Menus can be constructed in a qooxdoo application using widgets from the [qx.ui.menu](../../apps/apiviewer/#qx.ui.menu) name space. The main class from this package is `Menu`. Other classes allow you to tailor the appearance and the behaviour of the menu you create. You can even use checkboxes and radiobuttons inside your menus.
+Menus can be constructed in a qooxdoo application using widgets from the [qx.ui.menu](apps://apiviewer/#qx.ui.menu) name space. The main class from this package is `Menu`. Other classes allow you to tailor the appearance and the behaviour of the menu you create. You can even use checkboxes and radiobuttons inside your menus.
 
 Simple Example
 --------------
@@ -142,4 +142,4 @@ Additional Menu Topics
 
 Qooxdoo will go a long way to position a menu sensibly and with regard to the enclosing container, so that menu buttons are always fully visible if the menu is opened.
 
-The [Placement](../../apps/demobrowser/#ui~Placement.html) demo shows how the menus are positioned.
+The [Placement](apps://demobrowser/#ui~Placement.html) demo shows how the menus are positioned.

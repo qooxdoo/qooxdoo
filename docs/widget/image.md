@@ -23,10 +23,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Image demo](../../apps/demobrowser/#widget~Image.html)
+-   [Image demo](apps://demobrowser/#widget~Image.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.basic.Image](../../apps/apiviewer/#qx.ui.basic.Image)
+[qx.ui.basic.Image](apps://apiviewer/#qx.ui.basic.Image)

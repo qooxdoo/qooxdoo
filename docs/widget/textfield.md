@@ -26,13 +26,13 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Shows different TextField demos](../../apps/demobrowser/#widget~TextField.html)
--   [Shows a dialog demo with some TextFields](../../apps/demobrowser/#showcase~Dialog.html)
--   [Show a form demo](../../apps/demobrowser/#showcase~Form.html)
--   [Shows a browser demo](../../apps/demobrowser/#showcase~Browser.html)
+-   [Shows different TextField demos](apps://demobrowser/#widget~TextField.html)
+-   [Shows a dialog demo with some TextFields](apps://demobrowser/#showcase~Dialog.html)
+-   [Show a form demo](apps://demobrowser/#showcase~Form.html)
+-   [Shows a browser demo](apps://demobrowser/#showcase~Browser.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.TextField](../../apps/apiviewer/#qx.ui.form.TextField)
+[qx.ui.form.TextField](apps://apiviewer/#qx.ui.form.TextField)

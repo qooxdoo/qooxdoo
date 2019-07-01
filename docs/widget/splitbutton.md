@@ -28,11 +28,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Menu demo that contains a SplitButton](../../apps/demobrowser/#widget~Menu.html)
--   [Form demo](../../apps/demobrowser/#showcase~Form.html)
+-   [Menu demo that contains a SplitButton](apps://demobrowser/#widget~Menu.html)
+-   [Form demo](apps://demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.SplitButton](../../apps/apiviewer/#qx.ui.form.SplitButton)
+[qx.ui.form.SplitButton](apps://apiviewer/#qx.ui.form.SplitButton)

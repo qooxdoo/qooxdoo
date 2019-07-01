@@ -25,6 +25,9 @@
       plugins: [
         function (hook, vm) {
           hook.beforeEach(function (html) {
+            // resolve links with pseudo-protocol "apps:" to relative path to apps
+            html = html.replace(/apps:\/\//, "../../apps/");
+            // insert edit links
             if (/githubusercontent\.com/.test(vm.route.file)) {
               url = vm.route.file
                 .replace('raw.githubusercontent.com', 'github.com')

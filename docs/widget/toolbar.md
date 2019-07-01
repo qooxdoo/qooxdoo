@@ -43,12 +43,12 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Toolbar with all features](../../apps/demobrowser/#widget~ToolBar.html)
--   [Toolbar in a browser demo](../../apps/demobrowser/#showcase~Browser.html)
--   [Toolbar with other menus](../../apps/demobrowser/#widget~Menu.html)
+-   [Toolbar with all features](apps://demobrowser/#widget~ToolBar.html)
+-   [Toolbar in a browser demo](apps://demobrowser/#showcase~Browser.html)
+-   [Toolbar with other menus](apps://demobrowser/#widget~Menu.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.toolbar](../../apps/apiviewer/index.html#qx.ui.toolbar)
+[qx.ui.toolbar](apps://apiviewer/index.html#qx.ui.toolbar)

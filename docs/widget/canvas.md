@@ -36,10 +36,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Canvas demo](../../apps/demobrowser/index.html#widget-Canvas.html)
+-   [Canvas demo](apps://demobrowser/index.html#widget-Canvas.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[Canvas API](../../apps/apiviewer/index.html#qx.ui.embed.Canvas)
+[Canvas API](apps://apiviewer/index.html#qx.ui.embed.Canvas)

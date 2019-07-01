@@ -34,11 +34,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Complex demo which shows many features of the tree](../../apps/demobrowser/#widget~Tree.html)
--   [A multi column tree](../../apps/demobrowser/#widget~Tree_Columns.html)
+-   [Complex demo which shows many features of the tree](apps://demobrowser/#widget~Tree.html)
+-   [A multi column tree](apps://demobrowser/#widget~Tree_Columns.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.tree](../../apps/apiviewer/#qx.ui.tree)
+[qx.ui.tree](apps://apiviewer/#qx.ui.tree)

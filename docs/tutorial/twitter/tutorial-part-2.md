@@ -28,7 +28,7 @@ var toolbar = new qx.ui.toolbar.ToolBar();
 this.add(toolbar, {row: 0, column: 0});
 ```
 
-This will add the toolbar to the grid layout of our main window. The only thing you should take care of is the second parameter of `.add()`. It contains a map with layout properties. You can see the available layout properties in the [API of the layout](../../apps/apiviewer/#qx.ui.layout.Grid), in this case of the grid layout. Here, we use only the row and column property to tell the layout that this is the element in the first row and column (rows and columns start at index 0, you guessed it).
+This will add the toolbar to the grid layout of our main window. The only thing you should take care of is the second parameter of `.add()`. It contains a map with layout properties. You can see the available layout properties in the [API of the layout](apps://apiviewer/#qx.ui.layout.Grid), in this case of the grid layout. Here, we use only the row and column property to tell the layout that this is the element in the first row and column (rows and columns start at index 0, you guessed it).
 
 List and Layout, again
 ----------------------

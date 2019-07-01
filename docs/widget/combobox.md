@@ -27,11 +27,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [ComboBox demo](../../apps/demobrowser/#widget~ComboBox.html)
--   [Form demo](../../apps/demobrowser/#showcase~Form.html)
+-   [ComboBox demo](apps://demobrowser/#widget~ComboBox.html)
+-   [Form demo](apps://demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.ComboBox](../../apps/apiviewer/#qx.ui.form.ComboBox)
+[qx.ui.form.ComboBox](apps://apiviewer/#qx.ui.form.ComboBox)

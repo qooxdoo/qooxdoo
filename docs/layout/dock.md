@@ -45,16 +45,16 @@ Demos
 
 Here are some links that demonstrate the usage of the layout:
 
--   [Simple docks](../../apps/demobrowser/#layout~Dock.html)
--   [Docks with auto sizing and spacings](../../apps/demobrowser/#layout~Dock_AutoSize.html)
--   [Docks with flex sizes (growing)](../../apps/demobrowser/#layout~Dock_FlexGrowing.html)
--   [Docks with flex sizes (shrinking)](../../apps/demobrowser/#layout~Dock_FlexShrinking.html)
--   [Docks with child margins](../../apps/demobrowser/#layout~Dock_Margin.html)
--   [Docks with percent sizes](../../apps/demobrowser/#layout~Dock_PercentSize.html)
--   [Docks with separators](../../apps/demobrowser/#layout~Dock_Separator.html)
+-   [Simple docks](apps://demobrowser/#layout~Dock.html)
+-   [Docks with auto sizing and spacings](apps://demobrowser/#layout~Dock_AutoSize.html)
+-   [Docks with flex sizes (growing)](apps://demobrowser/#layout~Dock_FlexGrowing.html)
+-   [Docks with flex sizes (shrinking)](apps://demobrowser/#layout~Dock_FlexShrinking.html)
+-   [Docks with child margins](apps://demobrowser/#layout~Dock_Margin.html)
+-   [Docks with percent sizes](apps://demobrowser/#layout~Dock_PercentSize.html)
+-   [Docks with separators](apps://demobrowser/#layout~Dock_Separator.html)
 
 API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Dock](../../apps/apiviewer/index.html#qx.ui.layout.Dock)
+[qx.ui.layout.Dock](apps://apiviewer/index.html#qx.ui.layout.Dock)

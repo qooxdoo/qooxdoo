@@ -24,11 +24,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [DateField Demo](../../apps/demobrowser/#widget~DateField.html)
--   [Form demo](../../apps/demobrowser/#showcase~Form.html)
+-   [DateField Demo](apps://demobrowser/#widget~DateField.html)
+-   [Form demo](apps://demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.DateField](../../apps/apiviewer/#qx.ui.form.DateField)
+[qx.ui.form.DateField](apps://apiviewer/#qx.ui.form.DateField)

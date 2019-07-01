@@ -175,7 +175,7 @@ controller.setDelegate({
 });
 ```
 
-You see that the method has one parameter which is the current UI element which needs to be configured. This item is a [list item](../../apps/apiviewer/#qx.ui.form.ListItem) which stores its icon as a child control you can access with the `getChildControl` method. After that, you can set the width, height and the scaling of the icon. The last line in the configurator set the item to rich, which allows the text to be wrapped. Save your file and give it a try!
+You see that the method has one parameter which is the current UI element which needs to be configured. This item is a [list item](apps://apiviewer/#qx.ui.form.ListItem) which stores its icon as a child control you can access with the `getChildControl` method. After that, you can set the width, height and the scaling of the icon. The last line in the configurator set the item to rich, which allows the text to be wrapped. Save your file and give it a try!
 
 ![step 3](step3.png)
 

@@ -25,11 +25,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Button demo with all supported buttons](../../apps/demobrowser/#widget~Button.html)
--   [Form showcase demo](../../apps/demobrowser/#showcase~Form.html)
+-   [Button demo with all supported buttons](apps://demobrowser/#widget~Button.html)
+-   [Form showcase demo](apps://demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.HoverButton](../../apps/apiviewer/#qx.ui.form.RepeatButton)
+[qx.ui.form.HoverButton](apps://apiviewer/#qx.ui.form.RepeatButton)
