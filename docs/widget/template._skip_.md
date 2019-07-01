@@ -28,10 +28,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Meaningful name of the demo](http://www.qooxdoo.org/devel/demobrowser/index.html#) **TODO:** set the link
+-   [Meaningful name of the demo](../../apps/demobrowser/index.html#) **TODO:** set the link
 -   **TODO:** *More than one demo possible ...*
 
 API
 ---
 
-Here is a link to the API of the Widget: [complete package and classname](http://www.qooxdoo.org/devel/api/index.html#) **TODO:** set the link
+Here is a link to the API of the Widget: [complete package and classname](../../apps/apiviewer/index.html#) **TODO:** set the link

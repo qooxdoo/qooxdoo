@@ -42,10 +42,10 @@ Demos
 
 Here are some links that demonstrate the usage of the layout:
 
--   [A demo of the Basic layout](http://www.qooxdoo.org/devel/demobrowser/#layout~Basic.html)
+-   [A demo of the Basic layout](../../apps/demobrowser/#layout~Basic.html)
 
 API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Basic](http://www.qooxdoo.org/devel/api/index.html#qx.ui.layout.Basic)
+[qx.ui.layout.Basic](../../apps/apiviewer/index.html#qx.ui.layout.Basic)

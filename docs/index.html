@@ -21,6 +21,7 @@
       namespace: 'qx-manual',
       relativePath: false,
       variablesFile : '_variables.xml',
+      noCompileLinks: ['.*/apps/.*'],
       plugins: [
         function (hook, vm) {
           hook.beforeEach(function (html) {
@@ -45,7 +46,7 @@
       }
     };
   </script>
-  <script src="_media/docsify.js"></script>
+  <script src="_media/docsify.min.js" data-version="4.9.4"></script>
   <script src="_media/search.min.js"></script>
   <script src="_media/emoji.min.js"></script>
   <script src="_media/docsify-variables.min.js"></script>

@@ -37,10 +37,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Simple example for the ProgressBar widget](http://www.qooxdoo.org/devel/demobrowser/#widget~ProgressBar.html)
+-   [Simple example for the ProgressBar widget](../../apps/demobrowser/#widget~ProgressBar.html)
 
 API
 ---
 
 Here is a link to the API of the widget:
-[qx.ui.indicator.ProgressBar](http://www.qooxdoo.org/devel/api/#qx.ui.indicator.ProgressBar)
+[qx.ui.indicator.ProgressBar](../../apps/apiviewer/#qx.ui.indicator.ProgressBar)

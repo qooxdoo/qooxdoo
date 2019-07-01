@@ -20,18 +20,18 @@ Description
 
 A spinner widget has a field to display the current value and controls such as up and down buttons to change that value. The current value can also be changed by editing the display field directly, or using mouse wheel and cursor keys.
 
-An optional [NumberFormat](http://www.qooxdoo.org/devel/api/#qx.util.format.NumberFormat) allows you to control the format of how a value can be entered and will be displayed.
+An optional [NumberFormat](../../apps/apiviewer/#qx.util.format.NumberFormat) allows you to control the format of how a value can be entered and will be displayed.
 
 Demos
 -----
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Spinner demo](http://www.qooxdoo.org/devel/demobrowser/#widget~Spinner.html)
--   [Form demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Form.html)
+-   [Spinner demo](../../apps/demobrowser/#widget~Spinner.html)
+-   [Form demo](../../apps/demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.Spinner](http://www.qooxdoo.org/devel/api/#qx.ui.form.Spinner)
+[qx.ui.form.Spinner](../../apps/apiviewer/#qx.ui.form.Spinner)

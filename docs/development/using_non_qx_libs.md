@@ -64,7 +64,7 @@ There is a more elaborate way to use an external %{JS} package, by wrapping it i
 3.  Likewise, add an @asset hint in the library's main class to include the external package as a resource (full example further below).
 4.  Add code to this class that loads the external package, does necessary initialization and potentially adds a %{qooxdoo}-ish API to it.
 
-    There is a framework class to help you with the loading part, [qx.util.DynamicScriptLoader](http://www.qooxdoo.org/devel/api/#qx.util.DynamicScriptLoader), which does most of the work to make the package available in the current browser context. Using this, here is how your wrapper class may look like:
+    There is a framework class to help you with the loading part, [qx.util.DynamicScriptLoader](../../apps/apiviewer/#qx.util.DynamicScriptLoader), which does most of the work to make the package available in the current browser context. Using this, here is how your wrapper class may look like:
 
         /**
          * This is the main class of the PonyCharts wrapper.

@@ -148,7 +148,7 @@ The `qx.ui.form.VirtualComboBox` is based on the virtual infrastructure. The vir
 
 Using the virtual infrastructure has considerable advantages when there is a huge amount of model items to render: Widgets are created only for visible items and reused. This saves both creation time and memory.
 
-The virtual ComboBox uses the same [qx.ui.list.core.IListDelegate](http://www.qooxdoo.org/devel/api/#qx.ui.list.core.IListDelegate) interface as the virtuallist to configure the ComboBox's behavior (item and group renderer configuration, filtering, sorting, grouping, etc.).
+The virtual ComboBox uses the same [qx.ui.list.core.IListDelegate](../../apps/apiviewer/#qx.ui.list.core.IListDelegate) interface as the virtuallist to configure the ComboBox's behavior (item and group renderer configuration, filtering, sorting, grouping, etc.).
 
 > **note**
 
@@ -187,10 +187,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [ComboBox demo](http://www.qooxdoo.org/devel/demobrowser/#virtual~ComboBox.html)
+-   [ComboBox demo](../../apps/demobrowser/#virtual~ComboBox.html)
 
 API
 ---
 
 Here is a link to the API of the widget:
-[qx.ui.form.VirtualComboBox](http://www.qooxdoo.org/devel/api/#qx.ui.form.VirtualComboBox)
+[qx.ui.form.VirtualComboBox](../../apps/apiviewer/#qx.ui.form.VirtualComboBox)

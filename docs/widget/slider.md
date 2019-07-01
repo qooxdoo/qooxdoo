@@ -25,11 +25,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Slider demo](http://www.qooxdoo.org/devel/demobrowser/#widget~Slider.html)
--   [Form demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Form.html)
+-   [Slider demo](../../apps/demobrowser/#widget~Slider.html)
+-   [Form demo](../../apps/demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.Slider](http://www.qooxdoo.org/devel/api/#qx.ui.form.Slider)
+[qx.ui.form.Slider](../../apps/apiviewer/#qx.ui.form.Slider)

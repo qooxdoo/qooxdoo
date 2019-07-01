@@ -129,7 +129,7 @@ If we take a second look at the example we used above, we also added an array as
     array.getItem(0); // equals 'array[0]' and returns "content"
     array.length; // like the native API and returns '1'
 
-You see, the read and write access needs to be done with the designated methods to ensure the firing of the events. But all the other API, like `push`, `pop` or `splice` is all the same and also capable of the events. Just take a look at the [API-Documentation of the array](http://www.qooxdoo.org/devel/api/#qx.data.Array) for more information.
+You see, the read and write access needs to be done with the designated methods to ensure the firing of the events. But all the other API, like `push`, `pop` or `splice` is all the same and also capable of the events. Just take a look at the [API-Documentation of the array](../../apps/apiviewer/#qx.data.Array) for more information.
 
 ### Importance of events
 
@@ -165,7 +165,7 @@ What if you want to to bring your own code to the generated model classes or if 
 -   Add your code as a mixin to the created model classes.
 -   Use your own class instead of the created model classes.
 
-Take a look at the API-Documentation of the [qx.data.store.IStoreDelegate](http://www.qooxdoo.org/devel/api/index.html#qx.data.store.IStoreDelegate) to see the available methods and how to implement them.
+Take a look at the API-Documentation of the [qx.data.store.IStoreDelegate](../../apps/apiviewer/index.html#qx.data.store.IStoreDelegate) to see the available methods and how to implement them.
 
 ## Controller Component
 
@@ -326,11 +326,11 @@ There is also an event for data arrays, which will fire events on every change a
 
 ### Bubbling Events
 
-Regular change events might not be enough in every use case. If we consider a huge tree like data model, it's quite a lot of work to add a listener to every model object to get updates for the view. Therefore, the data binding also supports bubbling events named `changeBubbles`. These events are provided by a mixin named [MEventBubbling](http://www.qooxdoo.org/devel/api/#qx.data.marshal.MEventBubbling).
+Regular change events might not be enough in every use case. If we consider a huge tree like data model, it's quite a lot of work to add a listener to every model object to get updates for the view. Therefore, the data binding also supports bubbling events named `changeBubbles`. These events are provided by a mixin named [MEventBubbling](../../apps/apiviewer/#qx.data.marshal.MEventBubbling).
 
 #### Enabling
 
-These bubbling events are disabled by default because firing an additional event for every change is not always necessary. There are two ways for enabling the events. The most easy and preferred way is to use the marhsaler to create the models. You will find more details about how to do that in the marhsaler section. A second way is to include the mixin to your own classes. More details on that in the [API documentation of that mixin](http://www.qooxdoo.org/devel/api/#qx.data.marshal.MEventBubbling).
+These bubbling events are disabled by default because firing an additional event for every change is not always necessary. There are two ways for enabling the events. The most easy and preferred way is to use the marhsaler to create the models. You will find more details about how to do that in the marhsaler section. A second way is to include the mixin to your own classes. More details on that in the [API documentation of that mixin](../../apps/apiviewer/#qx.data.marshal.MEventBubbling).
 
 #### Details
 

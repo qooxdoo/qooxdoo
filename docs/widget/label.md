@@ -26,12 +26,12 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [A label demo with differently configured labels](http://www.qooxdoo.org/devel/demobrowser/#widget~Label.html)
--   [Height for width demo](http://www.qooxdoo.org/devel/demobrowser/#ui~HeightForWidth.html)
--   [Label reflow](http://www.qooxdoo.org/devel/demobrowser/#ui~Label_Reflow.html)
+-   [A label demo with differently configured labels](../../apps/demobrowser/#widget~Label.html)
+-   [Height for width demo](../../apps/demobrowser/#ui~HeightForWidth.html)
+-   [Label reflow](../../apps/demobrowser/#ui~Label_Reflow.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.basic.Label](http://www.qooxdoo.org/devel/api/index.html#qx.ui.basic.Label)
+[qx.ui.basic.Label](../../apps/apiviewer/index.html#qx.ui.basic.Label)
