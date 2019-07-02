@@ -9,8 +9,7 @@ groups:
       - "not (files.exclude('docs/*') and files.exclude('documentation/*') and files.exclude('*.md'))"
     reviews:
       required: 2  # 2 approvals from this group are required
-      request: 2  # 2 review request will be sent at a time
-      request_order: shuffle  # reviewers will be chosen in a random order
+      request: 5  # 5 review request will be sent at a time
     reviewers:
       teams:
         - pr-mergers
