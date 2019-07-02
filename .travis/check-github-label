@@ -14,7 +14,7 @@ if (!pullRequestId) {
   process.exit(1)
 }
 
-const pullRequestUrl = `/repos/dfeagiledevops/mtc/pulls/${pullRequestId}`;
+const pullRequestUrl = `/repos/qooxdoo/qooxdoo/pulls/${pullRequestId}`;
 
 const options = {
   hostname: 'api.github.com',
