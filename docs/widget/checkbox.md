@@ -28,13 +28,13 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [CheckBoxes used in a GroupBox](http://www.qooxdoo.org/devel/demobrowser/#widget~GroupBox.html)
--   [CheckBoxes used in a GroupBox to control a window](http://www.qooxdoo.org/devel/demobrowser/#widget~Window.html)
--   [A small dialog Demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Dialog.html)
--   [ComboBox combined with a TreeItem](http://www.qooxdoo.org/devel/demobrowser/#widget~Tree_Columns.html)
+-   [CheckBoxes used in a GroupBox](apps://demobrowser/#widget~GroupBox.html)
+-   [CheckBoxes used in a GroupBox to control a window](apps://demobrowser/#widget~Window.html)
+-   [A small dialog Demo](apps://demobrowser/#showcase~Dialog.html)
+-   [ComboBox combined with a TreeItem](apps://demobrowser/#widget~Tree_Columns.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.CheckBox](http://www.qooxdoo.org/devel/api/#qx.ui.form.CheckBox)
+[qx.ui.form.CheckBox](apps://apiviewer/#qx.ui.form.CheckBox)

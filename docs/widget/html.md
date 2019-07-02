@@ -32,10 +32,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [HTML embed demo](http://www.qooxdoo.org/devel/demobrowser/index.html#widget-HtmlEmbed.html)
+-   [HTML embed demo](apps://demobrowser/index.html#widget-HtmlEmbed.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[HTML Embed API](http://www.qooxdoo.org/devel/api/index.html#qx.ui.embed.Html)
+[HTML Embed API](apps://apiviewer/index.html#qx.ui.embed.Html)

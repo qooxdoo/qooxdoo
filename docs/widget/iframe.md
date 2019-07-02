@@ -25,10 +25,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Iframe demo](http://www.qooxdoo.org/devel/demobrowser/index.html#widget-Iframe.html)
+-   [Iframe demo](apps://demobrowser/index.html#widget-Iframe.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[API for Iframe](http://www.qooxdoo.org/devel/api/index.html#qx.ui.embed.Iframe)
+[API for Iframe](apps://apiviewer/index.html#qx.ui.embed.Iframe)

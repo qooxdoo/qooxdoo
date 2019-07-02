@@ -213,7 +213,7 @@ The applying method is only called when the value has changed.
 >
 > When using reference data types like `Object` or `Array` the apply method is **always** called, since these are different objects and indeed different values. This is JavaScript functionality and not qooxdoo specific.
 
-For a more technical description, take a look at the [API documentation of qx.core.Property](http://www.qooxdoo.org/devel/api/#qx.core.Property)
+For a more technical description, take a look at the [API documentation of qx.core.Property](apps://apiviewer/#qx.core.Property)
 
 ### Providing an event interface
 
