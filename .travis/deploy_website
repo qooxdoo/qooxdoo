@@ -32,19 +32,12 @@ if [ "$TRAVIS_TAG" != "" ]; then
 fi
 
 cd $TRAVIS_BUILD_DIR
-.travis/make-release-sdk
 .travis/build-site
 .travis/build-site-v6
 
 cd deploy
 rm -rf "$TARGET" &> /dev/null
 cp -a ../build "$TARGET"
-
-# Install potentially built master sdk zip
-if [ "$TRAVIS_BRANCH" = "$MASTER" -a "$TRAVIS_TAG" = "" ]; then
-  RELEASE_PKG_FILE=$(ls ../dist/*.zip)
-  cp $RELEASE_PKG_FILE qooxdoo-sdk-master.zip
-fi
 
 # Maintain the current link
 if [ $CURRENT = 1 ]; then
