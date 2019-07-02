@@ -51,6 +51,7 @@ fi
 cd $TRAVIS_BUILD_DIR
 .travis/make-release-sdk
 .travis/build-site
+.travis/build-site-v6
 
 cd deploy
 rm -rf "$TARGET" &> /dev/null
