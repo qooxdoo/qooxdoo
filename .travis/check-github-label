@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 
-// taken from https://guyharwood.co.uk/2018/03/12/conditional-travis-builds-with-pull-request-labels/
-// label id can be retrieved from https://api.github.com/repos/qooxdoo/qooxdoo/labels/<name>
+/*
+* taken from https://guyharwood.co.uk/2018/03/12/conditional-travis-builds-with-pull-request-labels/
+* label id can be retrieved from https://api.github.com/repos/qooxdoo/qooxdoo/labels/<name>
+*
+* Script will return 0 if and only if the given label id is found. Otherwise,
+* and in case of errors, 1 is returned.
+*/
 
 'use strict';
 
@@ -10,7 +15,12 @@ const pullRequestId = process.argv[2];
 const skipCiLabelId = process.argv[3];
 
 if (!pullRequestId) {
-  console.log('Missing argument: pull request id');
+  console.log('Missing argument: pull request id.');
+  process.exit(1)
+}
+
+if (pullRequestId === "false") {
+  console.log('Not a pull request.');
   process.exit(1)
 }
 
@@ -30,21 +40,21 @@ const parseResponse = (res) => {
   try {
     labels = JSON.parse(res).labels;
     if (!labels || labels.length === 0) {
-      console.log(`no labels found attached to PR ${pullRequestId}`);
+      console.log(`No labels found attached to PR ${pullRequestId}`);
       process.exit(1)
     }
   } catch (err) {
-    console.error(`error parsing labels for PR ${pullRequestId}`);
+    console.error(`Error parsing labels for PR ${pullRequestId}`);
     console.error(err);
     process.exit(1)
   }
   const skipCiLabel = labels.find(item => item.id === skipCiLabelId);
   if (skipCiLabel) {
     console.log(`Skip CI label not found on PR ${pullRequestId}.`);
-    process.exit(0)
+    process.exit(1)
   }
   console.log(`Skip CI label found on PR ${pullRequestId}.`);
-  process.exit(1)
+  process.exit(0)
 };
 
 https.get(options, (response) => {
