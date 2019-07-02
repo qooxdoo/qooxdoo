@@ -41,10 +41,10 @@ stages:
     if: NOT (branch = master OR tag =~ ^v[0-9])
   - name: SL-Browser-Tests
     # do not run on master commits and releases
-    if: NOT (branch = master OR tag =~ ^v[0-9])
+    if: repo = qooxdoo/qooxdoo AND NOT (branch = master OR tag =~ ^v[0-9])
   - name: Deploy
     # run only on master commits and releases
-    if: NOT type IN (pull_request) AND (branch = master OR tag =~ ^v[0-9])
+    if: repo = qooxdoo/qooxdoo AND NOT type IN (pull_request) AND (branch = master OR tag =~ ^v[0-9])
 
 jobs:
   include:
