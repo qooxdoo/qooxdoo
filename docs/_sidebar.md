@@ -1,5 +1,5 @@
 - Overview
-  - [Contents](contents.md)
+  - [Contents](/contents.md)
   - [Getting Started](?id=getting-started)
   - [About](about.md)
 

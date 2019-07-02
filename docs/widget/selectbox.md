@@ -27,12 +27,12 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [SelectBox demo](http://www.qooxdoo.org/devel/demobrowser/#widget~SelectBox.html)
--   [Other SelectBox demo](http://www.qooxdoo.org/devel/demobrowser/#ui~SelectBox_EdgeCases.html)
--   [Form demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Form.html)
+-   [SelectBox demo](apps://demobrowser/#widget~SelectBox.html)
+-   [Other SelectBox demo](apps://demobrowser/#ui~SelectBox_EdgeCases.html)
+-   [Form demo](apps://demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.SelectBox](http://www.qooxdoo.org/devel/api/#qx.ui.form.SelectBox)
+[qx.ui.form.SelectBox](apps://apiviewer/#qx.ui.form.SelectBox)

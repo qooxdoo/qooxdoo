@@ -28,11 +28,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Login dialog](http://www.qooxdoo.org/devel/demobrowser/#animation~Login.html)
--   [Show a form demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Form.html)
+-   [Login dialog](apps://demobrowser/#animation~Login.html)
+-   [Show a form demo](apps://demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.PasswordField](http://www.qooxdoo.org/devel/api/#qx.ui.form.PasswordField)
+[qx.ui.form.PasswordField](apps://apiviewer/#qx.ui.form.PasswordField)
