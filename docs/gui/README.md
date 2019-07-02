@@ -6,16 +6,16 @@ Widgets are the basic building blocks of graphical user interfaces (GUIs) in
 qooxdoo. Each GUI component, such as a button, label or window, is a widget and
 can be placed within an existing user interface. Each particular type of widget
 is provided by a corresponding subclass of
-[Widget](http://www.qooxdoo.org/devel/api/#qx.ui.core.Widget), which
+[Widget](apps://apiviewer/#qx.ui.core.Widget), which
 is itself a subclass of
-[LayoutItem](http://www.qooxdoo.org/devel/api/#qx.ui.core.LayoutItem).
+[LayoutItem](apps://apiviewer/#qx.ui.core.LayoutItem).
 
 `Widget` can be subclassed with minimal effort to create custom widgets. The
 entire layout handling and children handling in this class is only available as
 "protected". It is possible to add some public API as needed.
 
 Another framework class which extends `LayoutItem` is
-[Spacer](http://www.qooxdoo.org/devel/api/#qx.ui.core.Spacer). A
+[Spacer](apps://apiviewer/#qx.ui.core.Spacer). A
 spacer is an empty area, which may be used as a temporary placeholder that is to
 be replaced later, or explicitly as a flexible part in certain dynamic UI
 designs.
@@ -34,7 +34,7 @@ methods to manage the children. This is to allow the normal Widget to be used
 for inheritance. To allow the creation of structures in applications, the
 `Composite` was created.
 
-[Composite](http://www.qooxdoo.org/devel/api/#qx.ui.container.Composite)
+[Composite](apps://apiviewer/#qx.ui.container.Composite)
 extends `Widget` and publishes the whole children and layout management of the
 `Widget` to the public. Typically it is used as a container for other widgets.
 Children can be managed through the methods `add()`, `remove()`, etc. In
@@ -61,8 +61,8 @@ with an empty body element. In fact even simple elements like headers, footers
 etc. are created using widgets (allowing them to benefit from typical qooxdoo
 features like internationalisation, theming etc.).
 
--   [Application](http://www.qooxdoo.org/devel/api/#qx.ui.root.Application): Build a full-blown stand-alone application from scratch. Application logic and UI are fully implemented using qooxdoo.
--   [Page](http://www.qooxdoo.org/devel/api/#qx.ui.root.Page): Build applications as isles into existing content. Ideal for the classic web developer. Requires HTML & CSS skills for non-qooxdoo content.
+-   [Application](apps://apiviewer/#qx.ui.root.Application): Build a full-blown stand-alone application from scratch. Application logic and UI are fully implemented using qooxdoo.
+-   [Page](apps://apiviewer/#qx.ui.root.Page): Build applications as isles into existing content. Ideal for the classic web developer. Requires HTML & CSS skills for non-qooxdoo content.
 
 Either root element is attached directly to the document. The `Application` is
 automatically stretched to the full size of the viewport, allowing elements to
@@ -79,7 +79,7 @@ to place children into a specific existing column or box within the existing
 layout. However, web page developers may use any number of optional isles to
 insert content into an existing layout (built with classic HTML markup). The
 isles are named
-[Inline](http://www.qooxdoo.org/devel/api/#qx.ui.root.Inline). They
+[Inline](apps://apiviewer/#qx.ui.root.Inline). They
 require an existing DOM element to attach themselves to (usually retrieved using
 `getElementById`). While most content is added to these isles, the `Page` root
 is required so that dynamically floating elements like tooltips, menus, windows
@@ -93,7 +93,7 @@ application is automatically initialized at the boot phase of qooxdoo (to be
 exact: when all required JavaScript packages are loaded).
 
 The first method each developer needs to get familiar with is the
-[main](http://www.qooxdoo.org/devel/api/#qx.application.IApplication~main)
+[main](apps://apiviewer/#qx.application.IApplication~main)
 method. It is automatically executed after the initialization of the class. This
 method is typically used to initialize the GUI and to load any data the
 application needs.
@@ -101,12 +101,12 @@ application needs.
 There are different applications which can be used as a starting point for a
 custom application:
 
-- [Standalone](http://www.qooxdoo.org/devel/api/#qx.application.Standalone):
+- [Standalone](apps://apiviewer/#qx.application.Standalone):
 Uses the `Application` root to build full blown standalone qooxdoo applications
-- [Inline](http://www.qooxdoo.org/devel/api/#qx.application.Inline):
+- [Inline](apps://apiviewer/#qx.application.Inline):
 Uses the `Page` root to build traditional web page based application which are
 embedded into isles in the classic HTML page. 
-- [Native](http://www.qooxdoo.org/devel/api/#qx.application.Native):
+- [Native](apps://apiviewer/#qx.application.Native):
 This class is used for applications that do not involve qooxdoo's GUI toolkit.
 Typically they make only use of the IO ("Ajax") and BOM functionality (e.g. to
 manipulate the existing DOM).
