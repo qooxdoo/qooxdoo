@@ -171,7 +171,7 @@ framework.
 
 For a complete list of predefined environment keys, take a look at the [API
 documentation of the qx.core.Environment
-class](http://www.qooxdoo.org/devel/api#qx.core.Environment).
+class](apps://apiviewer#qx.core.Environment).
 
 Defining New Environment Settings
 ---------------------------------

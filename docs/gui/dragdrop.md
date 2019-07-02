@@ -7,12 +7,12 @@ qooxdoo comes with a powerful event-based layer which supports drag&drop with fu
 
 You may like to see an example first:
 
--   [Drag&Drop for Lists](http://www.qooxdoo.org/devel/demobrowser/#ui~DragDrop.html)
+-   [Drag&Drop for Lists](apps://demobrowser/#ui~DragDrop.html)
 
 Basics
 ------
 
-To enable Drag & Drop the properties [draggable](http://www.qooxdoo.org/devel/api/#qx.ui.core.Widget~draggable) and [droppable](http://www.qooxdoo.org/devel/api/#qx.ui.core.Widget~droppable) must be enabled on the specific widgets. For list type sources or targets it's often enough to make the top-level widget drag- or droppable e.g. the list instead of the list items.
+To enable Drag & Drop the properties [draggable](apps://apiviewer/#qx.ui.core.Widget~draggable) and [droppable](apps://apiviewer/#qx.ui.core.Widget~droppable) must be enabled on the specific widgets. For list type sources or targets it's often enough to make the top-level widget drag- or droppable e.g. the list instead of the list items.
 
     var dragTarget = new qx.ui.form.List();
     dragTarget.setDraggable(true);

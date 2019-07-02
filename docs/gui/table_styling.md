@@ -320,7 +320,7 @@ The same with an inactive selection:
 
 This section is rather for the sake of completeness. If you want to have full control over the cell styling you can create your own cellrenderer classes and apply them for each column of your table. This topic is more a programmatic one and it does not fit in this scope of this article. However, a short introduction and a beginners guide will fit in here :)
 
-A list of existing cell renderer is available at the [API Viewer](http://www.qooxdoo.org/devel/api/#qx.ui.table.cellrenderer). If one of these is suitable for you all you have to do to use it is
+A list of existing cell renderer is available at the [API Viewer](apps://apiviewer/#qx.ui.table.cellrenderer). If one of these is suitable for you all you have to do to use it is
 
     var tcm = table.getTableColumnModel();
 
