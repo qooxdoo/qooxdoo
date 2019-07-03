@@ -68,10 +68,10 @@ const parseResponse = (res) => {
   }
   if (labels.find(label => label.name === labelName) ) {
     console.log(`Label ${labelName} found on this PR.`);
-    process.exit(1)
+    process.exit(0)
   }
   console.log(`Label ${labelName} not found on this PR.`);
-  process.exit(0)
+  process.exit(1)
 };
 
 https.get(options, (response) => {
