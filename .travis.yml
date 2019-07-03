@@ -57,7 +57,6 @@ jobs:
         - cd framework && ../.travis/lint
     - # parallel
       name: Coverage
-      install: skip
       script: ../.travis/coverage
 
     - stage: Local-Browser-Tests
