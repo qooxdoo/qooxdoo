@@ -50,7 +50,13 @@ const options = {
 const parseResponse = (res) => {
   let pull;
   try {
-    pull = JSON.parse(res).find(pull => pull.head.ref === branchName);
+    const json = JSON.parse(res);
+    if (!Array.isArray(json)) {
+      console.log(`Invalid API response:`);
+      console.log(json);
+      process.exit(1)
+    }
+    pull = json.find(pull => pull.head.ref === branchName);
     if (!pull) {
       console.log(`No PR found based on branch ${branchName}.`);
       process.exit(1)
@@ -82,7 +88,6 @@ https.get(options, (response) => {
   });
 
   response.on('end', () => {
-    console.debug(data);
     parseResponse(data)
   })
 }).on('error', (err) => {
