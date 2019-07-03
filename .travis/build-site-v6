@@ -16,7 +16,6 @@ mkdir -p $TARGET
 [ -d ./apps/resource ] || exe npx qx compile compile.json --target build  --feedback=0
 exe cp -a ./apps $TARGET
 exe find $TARGET -type f -name '*.map' -delete
-exe find $TARGET -type f -name '*.json' -delete
 exe find $TARGET -type f -name '.*' -delete
 exe rm -rf $TARGET/transpiled
 
