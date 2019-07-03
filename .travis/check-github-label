@@ -82,6 +82,7 @@ https.get(options, (response) => {
   });
 
   response.on('end', () => {
+    console.debug(data);
     parseResponse(data)
   })
 }).on('error', (err) => {
