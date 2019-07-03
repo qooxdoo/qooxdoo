@@ -77,7 +77,7 @@ jobs:
       script: ../.travis/deploy_npm
     - #
       name: Deploy to GitHub
-      script: .travis/make-release-sdk || true
+      script: ../.travis/make-release-sdk || true
       before_deploy:
         - export RELEASE_PKG_FILE=$(ls dist/*.zip)
         - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
