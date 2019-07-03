@@ -34,11 +34,17 @@ install:
 
 stages:
   - name: Lint-and-Coverage
+    # do not run on master commits and releases
+    if: NOT (branch = master OR tag =~ ^v[0-9])
   - name: Local-Browser-Tests
+    # do not run on master commits and releases
+    if: NOT (branch = master OR tag =~ ^v[0-9])
   - name: SL-Browser-Tests
-    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request))
+    # do not run on master commits and releases
+    if: repo = qooxdoo/qooxdoo AND NOT (branch = master OR tag =~ ^v[0-9])
   - name: Deploy
-    if: repo = qooxdoo/qooxdoo AND (NOT type IN (pull_request)) AND ( branch = master OR tag =~ ^v[0-9] )
+    # run only on master commits and releases
+    if: repo = qooxdoo/qooxdoo AND NOT type IN (pull_request) AND (branch = master OR tag =~ ^v[0-9])
 
 jobs:
   include:
@@ -64,11 +70,14 @@ jobs:
       name: SL Edge
       script: ../.travis/test EdgeSL
     - stage: Deploy
-      name: Deploy
-      script: ../.travis/deploy
+      name: Deploy to website
+      script: ../.travis/deploy_website
     - #
       name: Deploy to npm
       script: ../.travis/deploy_npm
+    - #
+      name: Deploy to GitHub
+      script: .travis/make-release-sdk || true
       before_deploy:
         - export RELEASE_PKG_FILE=$(ls dist/*.zip)
         - echo "deploying $RELEASE_PKG_FILE to GitHub releases"
