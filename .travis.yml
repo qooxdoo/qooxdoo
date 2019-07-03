@@ -48,12 +48,13 @@ jobs:
       name: Lint
       addons:
       install: npm install
+      before_script: skip
       script:
-        - ../.travis/check-if-docs-only > md_files || export CONTAINS_MD_ONLY=1;
+        - ./.travis/check-if-docs-only > md_files || export CONTAINS_MD_ONLY=1;
         - export MD_FILES=$(cat md_files)
-        - if [[ "$MD_FILES" != "" ]] ; then ../.travis/markdown-lint $MD_FILES ; fi
+        - if [[ "$MD_FILES" != "" ]] ; then ./.travis/markdown-lint $MD_FILES ; fi
         - if [[ $CONTAINS_MD_ONLY == 1 ]] ; then echo "Markdown commit only, terminating build."; travis_terminate 0 ; fi
-        - ../.travis/lint
+        - cd framework && ../.travis/lint
     - # parallel
       name: Coverage
       install: skip
