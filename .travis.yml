@@ -21,10 +21,8 @@ cache:
   directories:
   - "/tmp/qx*"
 
-before_install:
-- .travis/prepare_npm
-
 install:
+- .travis/prepare_npm
 - gem install sass -v 3.4.20
 
 before_script:
