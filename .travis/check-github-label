@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
-* taken from https://guyharwood.co.uk/2018/03/12/conditional-travis-builds-with-pull-request-labels/
+* originally taken from https://guyharwood.co.uk/2018/03/12/conditional-travis-builds-with-pull-request-labels/
 * label id can be retrieved from https://api.github.com/repos/qooxdoo/qooxdoo/labels/<name>
 *
 * Script will return 0 if and only if the given label id is found. Otherwise,
@@ -11,24 +11,36 @@
 'use strict';
 
 const https = require('https');
-const pullRequestId = process.argv[2];
-const skipCiLabelId = process.argv[3];
+const labelName  = process.argv[2];
 
-if (!pullRequestId) {
-  console.log('Missing argument: pull request id.');
+/*
+Travis environment variable cheatsheet:
+
+TRAVIS_BRANCH: for push builds, or builds not triggered by a pull request, this
+is the name of the branch. for builds triggered by a pull request this is the
+name of the branch targeted by the pull request. for builds triggered by a tag,
+this is the same as the name of the tag (TRAVIS_TAG).
+
+TRAVIS_PULL_REQUEST_BRANCH: if the current job is a pull request, the name of
+the branch from which the PR originated. if the current job is a push build,
+this variable is empty ("").
+
+TRAVIS_PULL_REQUEST: The pull request number if the current job is a pull
+request, “false” if it’s not a pull request.
+ */
+
+const branchName = process.argv[3] || process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.TRAVIS_BRANCH;
+
+if (!labelName) {
+  console.log('Missing label name.');
   process.exit(1)
 }
 
-if (pullRequestId === "false") {
-  console.log('Not a pull request.');
-  process.exit(1)
-}
-
-const pullRequestUrl = `/repos/qooxdoo/qooxdoo/pulls/${pullRequestId}`;
+console.log(`Looking for label ${labelName} on PR based on branch ${branchName}`);
 
 const options = {
   hostname: 'api.github.com',
-  path: pullRequestUrl,
+  path: `/repos/qooxdoo/qooxdoo/pulls`,
   method: 'GET',
   headers: {
     'User-Agent': 'node/https'
@@ -36,24 +48,29 @@ const options = {
 };
 
 const parseResponse = (res) => {
-  let labels;
+  let pull;
   try {
-    labels = JSON.parse(res).labels;
-    if (!labels || labels.length === 0) {
-      console.log(`No labels found attached to PR ${pullRequestId}`);
+    pull = JSON.parse(res).find(pull => pull.head.ref === branchName);
+    if (!pull) {
+      console.log(`No PR found based on branch ${branchName}.`);
       process.exit(1)
     }
+    console.log(`Found PR "${pull.title}" which is based on branch ${branchName}.`);
   } catch (err) {
-    console.error(`Error parsing labels for PR ${pullRequestId}`);
+    console.error(`Error parsing labels for PR ${branchName}`);
     console.error(err);
     process.exit(1)
   }
-  const skipCiLabel = labels.find(item => item.id === skipCiLabelId);
-  if (skipCiLabel) {
-    console.log(`Skip CI label not found on PR ${pullRequestId}.`);
+  let labels = pull.labels;
+  if (!labels || labels.length === 0) {
+    console.log(`No labels found attached to PR ${branchName}`);
     process.exit(1)
   }
-  console.log(`Skip CI label found on PR ${pullRequestId}.`);
+  if (labels.find(label => label.name === labelName) ) {
+    console.log(`Label ${labelName} found on this PR.`);
+    process.exit(1)
+  }
+  console.log(`Label ${labelName} not found on this PR.`);
   process.exit(0)
 };
 

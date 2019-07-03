@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # skip on github label "ci-skip-browser-tests"
-../.travis/check-github-label $TRAVIS_PULL_REQUEST 1432833180 && exit 0
+../.travis/check-github-label ci-skip-browser-tests && exit 0
 
 export PATH=$PWD/node_modules/karma/bin:$PATH
 export DISPLAY=:99.0
