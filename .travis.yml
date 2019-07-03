@@ -78,12 +78,15 @@ jobs:
 
     - stage: Deploy
       name: Deploy to website
+      addons:
       script: ../.travis/deploy_website
     - # parallel
       name: Deploy to npm
+      addons:
       script: ../.travis/deploy_npm
     - # parallel
       name: Deploy to GitHub
+      addons:
       script: ../.travis/make-release-sdk || true
       before_deploy:
         - export RELEASE_PKG_FILE=$(ls dist/*.zip)
