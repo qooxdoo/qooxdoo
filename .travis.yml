@@ -46,7 +46,8 @@ jobs:
   include:
     - stage: Lint-and-Coverage
       name: Lint
-      install: skip
+      addons:
+      install: npm install
       script:
         - ../.travis/check-if-docs-only > md_files || export CONTAINS_MD_ONLY=1;
         - export MD_FILES=$(cat md_files)
