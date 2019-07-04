@@ -15,7 +15,7 @@ The `qx.ui.tree.VirtualTree` is based on the virtual infrastructure and supports
 
 Using the virtual infrastructure has considerable advantages when there is a huge amount of model items to render: Widgets are created only for visible items and reused. This saves both creation time and memory.
 
-With the [qx.ui.tree.core.IVirtualTreeDelegate](http://www.qooxdoo.org/devel/api/#qx.ui.tree.core.IVirtualTreeDelegate) interface it is possible to configure the tree's behavior (item renderer configuration, etc.).
+With the [qx.ui.tree.core.IVirtualTreeDelegate](apps://apiviewer/#qx.ui.tree.core.IVirtualTreeDelegate) interface it is possible to configure the tree's behavior (item renderer configuration, etc.).
 
 > **note**
 
@@ -63,12 +63,12 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Example for the VirtualTree widget](http://www.qooxdoo.org/devel/demobrowser/#virtual~Tree.html)
--   [Example with custom items as columns](http://www.qooxdoo.org/devel/demobrowser/#virtual~Tree_Columns.html)
--   [Example which loads items dynamically when a nodes is opened](http://www.qooxdoo.org/devel/demobrowser/#virtual~Tree_Dynamic.html)
+-   [Example for the VirtualTree widget](apps://demobrowser/#virtual~Tree.html)
+-   [Example with custom items as columns](apps://demobrowser/#virtual~Tree_Columns.html)
+-   [Example which loads items dynamically when a nodes is opened](apps://demobrowser/#virtual~Tree_Dynamic.html)
 
 API
 ---
 
 Here is a link to the API of the widget:
-[qx.ui.tree.VirtualTree](http://www.qooxdoo.org/devel/api/#qx.ui.tree.VirtualTree)
+[qx.ui.tree.VirtualTree](apps://apiviewer/#qx.ui.tree.VirtualTree)

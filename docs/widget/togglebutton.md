@@ -25,11 +25,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Button demo with all supported buttons](http://www.qooxdoo.org/devel/demobrowser/#widget~Button.html)
--   [Form showcase demo](http://www.qooxdoo.org/devel/demobrowser/#showcase~Form.html)
+-   [Button demo with all supported buttons](apps://demobrowser/#widget~Button.html)
+-   [Form showcase demo](apps://demobrowser/#showcase~Form.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.ToggleButton](http://www.qooxdoo.org/devel/api/#qx.ui.form.ToggleButton)
+[qx.ui.form.ToggleButton](apps://apiviewer/#qx.ui.form.ToggleButton)

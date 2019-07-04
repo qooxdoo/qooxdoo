@@ -46,10 +46,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Embeded Flash in qooxdoo](http://www.qooxdoo.org/devel/demobrowser/#widget~Flash.html)
+-   [Embeded Flash in qooxdoo](apps://demobrowser/#widget~Flash.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.embed.Flash](http://www.qooxdoo.org/devel/api/#qx.ui.embed.Flash)
+[qx.ui.embed.Flash](apps://apiviewer/#qx.ui.embed.Flash)

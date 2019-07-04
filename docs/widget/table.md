@@ -101,6 +101,6 @@ This diagram shows how the table uses the different kinds of classes you can fin
 Further resources
 -----------------
 
--   [Table demos](http://www.qooxdoo.org/devel/demobrowser/#table) in the online Demobrowser.
--   [API documentation for qx.ui.table](http://www.qooxdoo.org/devel/api/#qx.ui.table) in the online APIViewer.
+-   [Table demos](apps://demobrowser/#table) in the online Demobrowser.
+-   [API documentation for qx.ui.table](apps://apiviewer/#qx.ui.table) in the online APIViewer.
 
