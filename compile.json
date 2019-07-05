@@ -1,6 +1,7 @@
 {
   "environment": {
-    "qx.serve.localpath": "/apps/"
+    "qx.serve.appspath": "/apps/",
+    "qx.serve.docspath": "/"
   },
   "targets": [
     {
@@ -115,7 +116,7 @@
      "name": "mobileshowcase",
       "bootPath": "source/boot",
       "theme": ""
-    }
+   }
   ],
   "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json"
 }

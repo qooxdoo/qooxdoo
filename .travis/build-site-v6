@@ -10,11 +10,14 @@ exe() { echo "\$ ${@/eval/}" ; "$@" ; }
 TARGET=deploy/$(cat ./version.txt)
 mkdir -p $TARGET
 
-[ -d ./node_modules/@qooxdoo/compiler ] || npm i --no-save @qooxdoo/compiler
+npm i --no-save @qooxdoo/compiler
 
 # build apps (unless already built) & copy to website target
-[ -d ./apps/resource ] || exe npx qx compile compile.json --target build  --feedback=0
+exe npx qx compile compile.json --target build  --feedback=0 --verbose
+# run twice for scss compile
+exe npx qx compile compile.json --target build  --feedback=0 --verbose
 exe cp -a ./apps $TARGET
+
 exe find $TARGET -type f -name '*.map' -delete
 exe find $TARGET -type f -name '.*' -delete
 exe rm -rf $TARGET/transpiled
