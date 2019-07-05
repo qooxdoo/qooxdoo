@@ -25,11 +25,11 @@ are solved using qooxdoo.
 
 - **Widgetbrowser** 
 ([App](apps://widgetbrowser), [Code](https://github.com/qooxdoo/qxl.widgetbrowser)):
-The widget browser show the full portfolio of GUI widgets provided by the
+The widget browser shows the full portfolio of GUI widgets provided by the
 qooxdoo framework.
 
 - **Mobileshowcase** 
 ([App](apps://mobileshowcase), [Code](https://github.com/qooxdoo/qxl.mobileshowcase)):
-The mobileshowcase show the full portfolio of GUI widgets provided by the
+The mobileshowcase shows the full portfolio of GUI widgets provided by the
 qooxdoo framework for mobile apps.
 Included is a demo how to use OpenStreetMap data together with the openlayers api.
