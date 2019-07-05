@@ -81,7 +81,7 @@ welcome.
 ## Contact
 
 qooxdoo.org<br/>
-Aargweg 17<br/>
+Aarweg 17<br/>
 4600 Olten<br/>
 Switzerland
 
