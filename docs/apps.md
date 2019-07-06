@@ -25,7 +25,7 @@ are solved using qooxdoo.
 
 - **Widgetbrowser** 
 ([App](apps://widgetbrowser), [Code](https://github.com/qooxdoo/qxl.widgetbrowser)):
-The widget browser shows the full portfolio of GUI widgets provided by the
+The widget browser showcases the full portfolio of GUI widgets provided by the
 qooxdoo framework.
 
 - **Mobileshowcase** 
