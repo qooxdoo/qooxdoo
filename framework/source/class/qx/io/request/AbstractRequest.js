@@ -472,6 +472,8 @@ qx.Class.define("qx.io.request.AbstractRequest",
             reject(err);
           }, req);
           listeners.push(parseErrorListener);
+
+          req.send();
         }, context)
 
         .finally(function(){
