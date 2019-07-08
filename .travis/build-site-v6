@@ -14,10 +14,7 @@ mkdir -p $TARGET
 
 # build apps (unless already built) & copy to website target
 [ -d ./apps/resource ] || exe npx qx compile compile.json --target build  --feedback=0
-exe cp -a ./apps $TARGET
-exe find $TARGET -type f -name '*.map' -delete
-exe find $TARGET -type f -name '.*' -delete
-exe rm -rf $TARGET/transpiled
+exe rsync -avR ./apps $TARGET --exclude-from=./apps/.npmignore
 
 # copy documentation
 exe cp -a ./docs $TARGET/
