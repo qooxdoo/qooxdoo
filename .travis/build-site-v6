@@ -16,6 +16,8 @@ npm i --no-save @qooxdoo/compiler
 exe npx qx compile compile.json --target build  --feedback=0 --verbose
 # run twice for scss compile
 exe npx qx compile compile.json --target build  --feedback=0 --verbose
+#restore .npmignore
+exe git checkout .
 # copy to website target
 exe rsync -avR ./apps $TARGET --exclude-from=./apps/.npmignore
 
