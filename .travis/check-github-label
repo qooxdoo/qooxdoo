@@ -43,7 +43,8 @@ const options = {
   path: `/repos/qooxdoo/qooxdoo/pulls`,
   method: 'GET',
   headers: {
-    'User-Agent': 'node/https'
+    'User-Agent': 'node/https',
+    "Authorization": "token " + process.env.GH_TOKEN
   }
 };
 
