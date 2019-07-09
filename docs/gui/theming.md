@@ -88,7 +88,7 @@ Part of a sample color theme:
 
 Following names are recognized as named colors: `black`, `white`, `silver`, `gray`, `maroon`, `red`, `purple`, `fuchsia`, `green`, `lime`, `olive`, `yellow`, `navy`, `blue`, `teal`, `aqua`, `orange`, `brown`.
 
-The color values are set in the class [qx.util.ColorUtil](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.util.ColorUtil)
+The color values are set in the class [qx.util.ColorUtil](apps://apiviewer/#qx.util.ColorUtil)
 
 Decoration Theme
 ----------------
@@ -197,7 +197,7 @@ To demonstrate how compact and powerful a font theme can look like, take a look 
       }
     });
 
-It is important to note that you can only specify values available as property on [qx.bom.Font](http://demo.qooxdoo.org/current/apiviewer/#qx.bom.Font) or [qx.bom.webfonts.WebFont](http://demo.qooxdoo.org/current/apiviewer/#qx.bom.webfonts.WebFont).
+It is important to note that you can only specify values available as property on [qx.bom.Font](apps://apiviewer/#qx.bom.Font) or [qx.bom.webfonts.WebFont](apps://apiviewer/#qx.bom.webfonts.WebFont).
 
 Icon Theme
 ----------
@@ -263,7 +263,7 @@ Building up on the previous section, here is how to create an application that p
         }
 
     If you use third-party themes (like the Aristo or RetroTheme contributions) make sure you also add their libraries to the pages/tool/generator/generator\_default\_jobs\#libraries job, so their classes are actually available.
--   **Implement theme switch**: Switch the theme in your application code. E.g. you can use [qx.Theme.getAll()](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.Theme~getAll) to retrieve all known theme classes, filter out the "meta" classes, decide which to use, and set it as the current theme, exemplified here through two methods:
+-   **Implement theme switch**: Switch the theme in your application code. E.g. you can use [qx.Theme.getAll()](apps://apiviewer/#qx.Theme~getAll) to retrieve all known theme classes, filter out the "meta" classes, decide which to use, and set it as the current theme, exemplified here through two methods:
 
         _getThemeNames : function() {
           var theme, theme_names = [];

@@ -7,7 +7,7 @@ Do you remember the mockup from tutorial part 1?
 
 ![Mockup](identicamockup1.png)
 
-You can see that one tweet consists of a photo, a text and a creation date, but at the moment the tweets application doesn't show the creation date of a tweet. This is because we use the default [ListItem](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ListItem) to show a tweet and a ListItem can only show an image and/or label. To achieve our goal, we have to create a custom widget which we can use instead of the ListItem.
+You can see that one tweet consists of a photo, a text and a creation date, but at the moment the tweets application doesn't show the creation date of a tweet. This is because we use the default [ListItem](apps://apiviewer/#qx.ui.form.ListItem) to show a tweet and a ListItem can only show an image and/or label. To achieve our goal, we have to create a custom widget which we can use instead of the ListItem.
 
 > **note**
 >
@@ -34,7 +34,7 @@ qx.Class.define("tweets.TweetView", {
 });
 ```
 
-The attentive reader noticed that we use the `include` key for the first time. `include` is used to include a mixin in a class. This is necessary in our case to support Data Binding. Our tweets application uses it and therefore it is expected that the new widget implements the [qx.ui.form.IModel](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.IModel) interface. Otherwise the widget can't be used with Data Binding. But fortunately the mixin `qx.ui.form.MModelProperty` already implements it, so we can reuse the implementation.
+The attentive reader noticed that we use the `include` key for the first time. `include` is used to include a mixin in a class. This is necessary in our case to support Data Binding. Our tweets application uses it and therefore it is expected that the new widget implements the [qx.ui.form.IModel](apps://apiviewer/#qx.ui.form.IModel) interface. Otherwise the widget can't be used with Data Binding. But fortunately the mixin `qx.ui.form.MModelProperty` already implements it, so we can reuse the implementation.
 
 Define the needed properties
 ----------------------------
@@ -82,7 +82,7 @@ Using Child Control
 
 qooxdoo has a special system to realize combined widgets like in our case. This system is called child controls and you can find a detailed documentation in our manual \<desktop/ui\_develop\>.
 
-Okay, back to our problem. To achieve the requirements we need an [Image](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Image) for the photo, a Label for the post and another [Label](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.basic.Label) for the creation time. So three widgets, also called sub widgets, are needed for our custom widget. And last but not least the familiar [Grid](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.Grid) layout for layouting, but that's not created in the child control implementation. We just need to keep it in mind when adding the child control with `_add`.
+Okay, back to our problem. To achieve the requirements we need an [Image](apps://apiviewer/#qx.ui.basic.Image) for the photo, a Label for the post and another [Label](apps://apiviewer/#qx.ui.basic.Label) for the creation time. So three widgets, also called sub widgets, are needed for our custom widget. And last but not least the familiar [Grid](apps://apiviewer/#qx.ui.layout.Grid) layout for layouting, but that's not created in the child control implementation. We just need to keep it in mind when adding the child control with `_add`.
 
 ```javascript
 members : {
@@ -138,7 +138,7 @@ this._dateFormat = new qx.util.format.DateFormat(
 );
 ```
 
-The property for the date saves only a date object and our requirement from the mockup describes a spacial format and a simple `toString` usage is not enough. Therefore we need a special transformation which we can achieve by using [DateFormat](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.util.format.DateFormat).
+The property for the date saves only a date object and our requirement from the mockup describes a spacial format and a simple `toString` usage is not enough. Therefore we need a special transformation which we can achieve by using [DateFormat](apps://apiviewer/#qx.util.format.DateFormat).
 
 ```javascript
 // initialize the layout and allow wrap for "post"
@@ -269,7 +269,7 @@ You can see that we added a `createItem` method: With this method we can configu
 controller.bindProperty("text", "post", null, item, id);
 ```
 
-Let us have a look at the above example. The [bindProperty](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.data.controller.List~bindProperty) method is responsible for the binding between model and widget. The first parameter is the path from the model, the second is the name of the property in the widget, the third parameter is an [options map](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.data.SingleValueBinding~bind) to do e. g. a conversion, the fourth parameter is the widget and the last is the index.
+Let us have a look at the above example. The [bindProperty](apps://apiviewer/#qx.data.controller.List~bindProperty) method is responsible for the binding between model and widget. The first parameter is the path from the model, the second is the name of the property in the widget, the third parameter is an [options map](apps://apiviewer/#qx.data.SingleValueBinding~bind) to do e. g. a conversion, the fourth parameter is the widget and the last is the index.
 
 In our case the photo and the post need no conversion because the source data and target data are of the same type. But the creation time needs a conversion because the model contains a String with the UTC time while the widget expects a date object. So we have to convert the data:
 

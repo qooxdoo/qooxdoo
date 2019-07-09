@@ -8,7 +8,7 @@ Background
 
 qooxdoo's unit testing framework is similar to [JSUnit](http://www.jsunit.net/) but self-contained, so no external libraries are necessary. It consists of two main components:
 
-The classes in the [qx.dev.unit](http://demo.qooxdoo.org/current/apiviewer/#qx.dev.unit) namespace provide the interface against which tests are written and the infrastructure needed to run them. The `qxl.testtapper` package
+The classes in the [qx.dev.unit](apps://apiviewer/#qx.dev.unit) namespace provide the interface against which tests are written and the infrastructure needed to run them. The `qxl.testtapper` package
 
 Test class structure
 --------------------
@@ -46,7 +46,7 @@ qx.Class.define("tweets.test.DemoTest", {
 
 All test classes share the same basic structure:
 
--   They must inherit from [qx.dev.unit.TestCase](http://demo.qooxdoo.org/current/apiviewer/#qx.dev.unit.TestCase)
+-   They must inherit from [qx.dev.unit.TestCase](apps://apiviewer/#qx.dev.unit.TestCase)
 -   Individual tests must be defined as member functions with names beginning with `test`. Apart from that, they can contain other member functions, properties and so on. Usually, test functions instantiate classes of the tested application, invoke their methods and compare the results with expected values.
 -   Exceptions are used to communicate the test results back to the Testrunner. No exception means the test went fine, throwing any exception from the test method signals a failure. Return values from the test methods are not evaluated.
 
@@ -137,7 +137,7 @@ For cases where the generic class-wide `tearDown` isn't enough, methods using th
 The test function
 -----------------
 
-We need the URI of a valid image for this test, so we add an `@asset` hint to the class header that will cause the Generator to add the file `source/class/tweets/logo.png` to the AUT's resources. In the test function, we first ask qooxdoo's resource manager to resolve the resource ID into a valid URI. This is the expected value for the icon child control's `source` property. Next, we apply this value to the TweetView's `icon` property, then get the child control's `source` property and compare the two values using [assertEquals](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.core.Assert~assertEquals).
+We need the URI of a valid image for this test, so we add an `@asset` hint to the class header that will cause the Generator to add the file `source/class/tweets/logo.png` to the AUT's resources. In the test function, we first ask qooxdoo's resource manager to resolve the resource ID into a valid URI. This is the expected value for the icon child control's `source` property. Next, we apply this value to the TweetView's `icon` property, then get the child control's `source` property and compare the two values using [assertEquals](apps://apiviewer/#qx.core.Assert~assertEquals).
 
 OK, time to build the AUT again. This time, run `generate.py test-source` instead of `test`. As you might expect, this will generate a source version of the AUT, which, like the source version of the actual application, is far better suited for development. Open the file `test/index-source.html` to load the Testrunner with the source tests.
 
@@ -159,11 +159,11 @@ testFetchTweets : function() {
 }
 ```
 
-First, we register a listener for the `changeTweets` event. The callback function invokes the [resume](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase~resume) method, which informs the Testrunner that the asynchronous test has finished. We could pass a function parameter to resume if, for example, we wanted to check the data associated with the `changeTweets` event, but for now we just want to verify that it fires at all.
+First, we register a listener for the `changeTweets` event. The callback function invokes the [resume](apps://apiviewer/#qx.dev.unit.TestCase~resume) method, which informs the Testrunner that the asynchronous test has finished. We could pass a function parameter to resume if, for example, we wanted to check the data associated with the `changeTweets` event, but for now we just want to verify that it fires at all.
 
 Next, we invoke the `fetchTweets` method which should cause the event to fire.
 
-Finally, the [wait](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.TestCase~wait) method informs the Testrunner that it should wait for a `resume` call. The first argument is the amount of time to wait (in milliseconds) before the test is marked as failed. Note that wait **must** always be the last call in an asynchronous test function. Any code that follows it will never be executed.
+Finally, the [wait](apps://apiviewer/#qx.dev.unit.TestCase~wait) method informs the Testrunner that it should wait for a `resume` call. The first argument is the amount of time to wait (in milliseconds) before the test is marked as failed. Note that wait **must** always be the last call in an asynchronous test function. Any code that follows it will never be executed.
 
 Now, if you run this test a couple times in quick succession, there's a good chance it will at some point fail with the error message "Error in asynchronous test: resume() called before wait()". This is because due to the browser caching the result of the identica API request sent by TweetService, the `changeTweets` listener callback is executed immediately after calling fetchTweets. This is a common problem in asynchronous tests, encountered whenever the tested code's behavior can be synchronous or asynchronous depending on external factors. Luckily, there's a simple fix for it: We just wrap the problematic method call in a timeout to make sure it's executed after `wait()`:
 
@@ -173,7 +173,7 @@ qx.event.Timer.once(function() {
 }, this, 100);
 ```
 
-While we could use a simple `window.setTimeout` for this, it's preferable to use [Timer.once](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.event.Timer~once) since it uses qooxdoo's global error handling to catch and log any exceptions that might be thrown in the callback code. Otherwise, these would just land on the browser console.
+While we could use a simple `window.setTimeout` for this, it's preferable to use [Timer.once](apps://apiviewer/#qx.event.Timer~once) since it uses qooxdoo's global error handling to catch and log any exceptions that might be thrown in the callback code. Otherwise, these would just land on the browser console.
 
 Requirements
 ------------
@@ -183,8 +183,8 @@ Finally, let's take a quick look at test requirements \<pages/frame\_apps\_testr
 -   The test checks browser-specific behavior, so it should only be run in selected browsers
 -   The tested class performs secure backend communication, so the test should only execute if the AUT was loaded over HTTPS
 
-In order to use requirements, you need to include the Mixin [qx.dev.unit.MRequirements](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements) in your test class. Requirements are defined by calling the [require method](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MRequirements~require) with an array of requirement ID strings as the only parameter. Usually, this will be the first call in either a test function or the `setUp` method. Requirement IDs are evaluated by looking for a method name beginning with "has" followed by the requirement ID (starting with a capital letter) on the current test class and its ancestors. The method is called and its return value is checked: `true` means the requirement is met and the test can proceed, `false` means the test won't be executed and the Testrunner GUI will list it as "skipped".
+In order to use requirements, you need to include the Mixin [qx.dev.unit.MRequirements](apps://apiviewer/#qx.dev.unit.MRequirements) in your test class. Requirements are defined by calling the [require method](apps://apiviewer/#qx.dev.unit.MRequirements~require) with an array of requirement ID strings as the only parameter. Usually, this will be the first call in either a test function or the `setUp` method. Requirement IDs are evaluated by looking for a method name beginning with "has" followed by the requirement ID (starting with a capital letter) on the current test class and its ancestors. The method is called and its return value is checked: `true` means the requirement is met and the test can proceed, `false` means the test won't be executed and the Testrunner GUI will list it as "skipped".
 
 While `qx.dev.unit.MRequirements` contains a number of `has` methods for common scenarios, requirements are often application-specific and so test developers will implement their own checks in the test class itself, a common base class or a mixin.
 
-And that's it for a first look at unit testing for qooxdoo applications. Note that qooxdoo comes with a [wrapper](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.dev.unit.MMock) for the powerful [Sinon.js](http://sinonjs.org/) testing framework, which offers spies, stubs and mock objects that allow testing the very internals of a class, such as if and how many times a specific method was invoked. But that's a topic for a separate tutorial.
+And that's it for a first look at unit testing for qooxdoo applications. Note that qooxdoo comes with a [wrapper](apps://apiviewer/#qx.dev.unit.MMock) for the powerful [Sinon.js](http://sinonjs.org/) testing framework, which offers spies, stubs and mock objects that allow testing the very internals of a class, such as if and how many times a specific method was invoked. But that's a topic for a separate tutorial.

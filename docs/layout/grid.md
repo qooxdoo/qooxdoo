@@ -26,7 +26,7 @@ Description
 
 The grid arranges the child widgets in a two dimensional grid. Each child is associated with a grid `column` and `row`. Widgets can span multiple cells by setting the `colSpan` and `rowSpan` layout properties. However each grid cell can only contain one widget. Thus child widgets can never overlap.
 
-The grid computes the preferred with/height of each column/row based on the preferred size of the child widgets. The computed column widths and row heights can be overridden by explicitly setting them using [setColumnWidth](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.Grid~setColumnWidth) and [setRowHeight](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.layout.Grid~setRowHeight). Minimum and maximum sizes for columns/rows can be set as well.
+The grid computes the preferred with/height of each column/row based on the preferred size of the child widgets. The computed column widths and row heights can be overridden by explicitly setting them using [setColumnWidth](apps://apiviewer/#qx.ui.layout.Grid~setColumnWidth) and [setRowHeight](apps://apiviewer/#qx.ui.layout.Grid~setRowHeight). Minimum and maximum sizes for columns/rows can be set as well.
 
 By default no column or row is stretched if the available space is larger/smaller than the needed space. To allow certain rows/columns to be stretched each row/column can have a flex \<pages/ui\_layouting\#flex\> value.
 
@@ -50,13 +50,13 @@ Demos
 
 Here are some links that demonstrate the usage of the layout:
 
--   [Simple grids](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Grid_Simple.html)
--   [Complex grids](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Grid_Complex.html)
--   [A grid with different cell alignments](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Grid_Alignment.html)
--   [An animated grid](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Grid_Animated.html)
+-   [Simple grids](apps://demobrowser/#layout~Grid_Simple.html)
+-   [Complex grids](apps://demobrowser/#layout~Grid_Complex.html)
+-   [A grid with different cell alignments](apps://demobrowser/#layout~Grid_Alignment.html)
+-   [An animated grid](apps://demobrowser/#layout~Grid_Animated.html)
 
 API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Grid](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.layout.Grid)
+[qx.ui.layout.Grid](apps://apiviewer/index.html#qx.ui.layout.Grid)

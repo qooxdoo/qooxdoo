@@ -44,13 +44,13 @@ Demos
 
 Here are some links that demonstrate the usage of the layout:
 
--   [Canvas with pixel positions](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Canvas_Fixed.html)
--   [Canvas with percent positions and dimensions](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Canvas_Percent.html)
--   [Canvas showing left and right attachment of children](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Canvas_LeftRight.html)
--   [Canvas with children having minimum and maximum dimensions](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Canvas_MinMaxSizes.html)
+-   [Canvas with pixel positions](apps://demobrowser/#layout~Canvas_Fixed.html)
+-   [Canvas with percent positions and dimensions](apps://demobrowser/#layout~Canvas_Percent.html)
+-   [Canvas showing left and right attachment of children](apps://demobrowser/#layout~Canvas_LeftRight.html)
+-   [Canvas with children having minimum and maximum dimensions](apps://demobrowser/#layout~Canvas_MinMaxSizes.html)
 
 API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Canvas](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.layout.Canvas)
+[qx.ui.layout.Canvas](apps://apiviewer/index.html#qx.ui.layout.Canvas)

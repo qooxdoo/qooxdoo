@@ -6,7 +6,7 @@ The Label widget is used to display either plain text or rich text with HTML mar
 Preview Image
 -------------
 
-![widget/label.jpg](widget/label.jpg)
+![widget/label.jpg](label.jpg)
 
 Features
 --------
@@ -26,12 +26,12 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [A label demo with differently configured labels](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Label.html)
--   [Height for width demo](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~HeightForWidth.html)
--   [Label reflow](http://demo.qooxdoo.org/%{version}/demobrowser/#ui~Label_Reflow.html)
+-   [A label demo with differently configured labels](apps://demobrowser/#widget~Label.html)
+-   [Height for width demo](apps://demobrowser/#ui~HeightForWidth.html)
+-   [Label reflow](apps://demobrowser/#ui~Label_Reflow.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.basic.Label](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.basic.Label)
+[qx.ui.basic.Label](apps://apiviewer/index.html#qx.ui.basic.Label)

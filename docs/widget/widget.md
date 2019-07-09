@@ -30,4 +30,4 @@ API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.core.Widget](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.core.Widget)
+[qx.ui.core.Widget](apps://apiviewer/index.html#qx.ui.core.Widget)

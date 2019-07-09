@@ -20,21 +20,25 @@
       subMaxLevel: 3,
       namespace: 'qx-manual',
       relativePath: false,
-      variablesFile : '_variables.xml',
+      variablesFile : '_variables.json',
+      variablesFileType : 'json',
+      noCompileLinks: ['.*/apps/.*'],
       plugins: [
         function (hook, vm) {
           hook.beforeEach(function (html) {
+            // resolve links with pseudo-protocol "apps:" to relative path to apps
+            let app_dir = window.location.pathname.split('/').slice(0,-2).concat(['apps','']).join('/');
+            html = html.replace(/apps:\/\//g, app_dir);
+            // insert edit links
             if (/githubusercontent\.com/.test(vm.route.file)) {
               url = vm.route.file
                 .replace('raw.githubusercontent.com', 'github.com')
                 .replace(/\/master/, '/blob/master')
             } else {
-              url = 'https://github.com/qooxdoo/qooxdoo/edit/master/' + vm.route.file
+              url = 'https://github.com/qooxdoo/qooxdoo/edit/master/docs/' + vm.route.file
             }
-            var editHtml = '[:memo: Edit Document](' + url + ')\n'
-            return editHtml
-              + html.replace("%{version}","devel")
-              .replace("%{release_tag}","master")
+            var editHtml = "\n\n-----\n" + '[:memo: Edit Document on GitHub](' + url + ')';
+            return html + editHtml;
           })
         }
       ]
@@ -47,7 +51,7 @@
       }
     };
   </script>
-  <script src="_media/docsify.js"></script>
+  <script src="_media/docsify.min.js" data-version="4.9.4"></script>
   <script src="_media/search.min.js"></script>
   <script src="_media/emoji.min.js"></script>
   <script src="_media/docsify-variables.min.js"></script>

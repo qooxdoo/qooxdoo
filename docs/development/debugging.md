@@ -38,7 +38,8 @@ AJAX
 Debugging Tools
 ---------------
 
-[Some browser-specific tools](http://qooxdoo.org/docs/general/debugging_tools) allow for a powerful and often convenient way of debugging applications.
+Some browser-specific tools allow for a powerful and often convenient way of
+debugging applications. 
 
 Code Instrumentation Idioms
 ---------------------------
