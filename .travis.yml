@@ -57,28 +57,28 @@ jobs:
         - cd framework && ../.travis/lint
     - # parallel
       name: Coverage
-      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0
+      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/coverage
 
     - stage: Local-Browser-Tests
       name: Firefox
-      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0
+      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/test Firefox
     - # parallel
       name: Chrome
-      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0
+      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/test Chrome_travis_ci
     - stage: SL-Browser-Tests
       name: SL Chrome
-      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0
+      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/test ChromeSL
     - # parallel
       name: SL Firefox
-      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0
+      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/test FirefoxSL
     - # parallel
       name: SL Edge
-      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0
+      before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/test EdgeSL
 
     - stage: Deploy
