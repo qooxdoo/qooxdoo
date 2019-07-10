@@ -30,6 +30,6 @@ qooxdoo framework.
 
 - **Mobileshowcase** 
 ([App](apps://mobileshowcase), [Code](https://github.com/qooxdoo/qxl.mobileshowcase)):
-The mobileshowcase shows the full portfolio of GUI widgets provided by the
+The mobileshowcase showcases the full portfolio of GUI widgets provided by the
 qooxdoo framework for mobile apps.
 Included is a demo how to use OpenStreetMap data together with the openlayers api.
