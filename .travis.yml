@@ -31,16 +31,16 @@ before_script:
 stages:
   - name: Lint-and-Coverage
     # do not run on master commits and releases
-    if: NOT (branch = master OR tag =~ ^v[0-9])
+    if: (repo = qooxdoo/qooxdoo) AND (type IN (pull_request))
   - name: Local-Browser-Tests
     # do not run on master commits and releases
-    if: NOT (branch = master OR tag =~ ^v[0-9])
+    if: (repo = qooxdoo/qooxdoo) AND (type IN (pull_request))
   - name: SL-Browser-Tests
     # do not run on master commits and releases
-    if: repo = qooxdoo/qooxdoo AND NOT (branch = master OR tag =~ ^v[0-9])
+    if: (repo = qooxdoo/qooxdoo) AND (NOT type IN (pull_request))
   - name: Deploy
     # run only on master commits and releases
-    if: repo = qooxdoo/qooxdoo AND NOT type IN (pull_request) AND (branch = master OR tag =~ ^v[0-9])
+    if: (repo = qooxdoo/qooxdoo) AND (NOT type IN (pull_request)) AND (branch = master OR tag =~ ^v[0-9])
 
 jobs:
   include:
