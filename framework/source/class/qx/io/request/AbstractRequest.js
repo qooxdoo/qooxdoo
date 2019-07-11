@@ -416,9 +416,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
     /**
     * The same as send() but also return a `qx.Promise` object. The promise
-    * is fulfilled if the request reaches phase `success`. The promise is
-    * rejected if the request reaches one of the phases `statusError`, `error`,
-    * `timeout` and `abort` or when a `parseError` happens.
+    * is resolved to this object if the request is successful.
     *
     * Calling `abort()` on the request object, rejects the promise. Calling
     * `cancel()` on the promise aborts the request if the request is not in a
@@ -442,46 +440,56 @@ qx.Class.define("qx.io.request.AbstractRequest",
         var promise = new qx.Promise(function(resolve, reject) {
           var listeners = [];
 
-          var phaseListener = req.addListener("changePhase", function(e) {
-            var phase = req.getPhase();
+          var changeResponseListener = req.addListener("success", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            resolve(req);
+          }, this);
+          listeners.push(changeResponseListener);
 
-            var failMessage = phase === "statusError" ?
-              req.getStatus() + ": " + req.getStatusText() : null;
+          var statusErrorListener = req.addListener("statusError", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = qx.lang.String.format("%1: %2.", [req.getStatus(), req.getStatusText()]);
+            var err = new qx.type.BaseError("statusError", failMessage);
+            reject(err);
+          }, this);
+          listeners.push(statusErrorListener);
 
-            switch (phase) {
-              case "success":
-                listeners.forEach(req.removeListenerById.bind(req));
-                resolve(req);
-                break;
-              case "statusError":
-              case "timeout":
-              case "error":
-              case "abort":
-                listeners.forEach(req.removeListenerById.bind(req));
-                var err = new qx.type.BaseError(phase, failMessage);
-                reject(err);
-                break;
-            }
-          }, req);
-          listeners.push(phaseListener);
+          var timeoutListener = req.addListener("timeout", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = qx.lang.String.format("Request failed with timeout after %1 ms.", [req.getTimeout()]);
+            var err = new qx.type.BaseError("timeout", failMessage);
+            reject(err);
+          }, this);
+          listeners.push(timeoutListener);
 
-          // must be handled separately because it is not a phase
           var parseErrorListener = req.addListener("parseError", function(e) {
             listeners.forEach(req.removeListenerById.bind(req));
-            var err = new qx.type.BaseError("parseError");
+            var failMessage = "Error parsing the response.";
+            var err = new qx.type.BaseError("parseError", failMessage);
             reject(err);
-          }, req);
+          }, this);
           listeners.push(parseErrorListener);
+
+          var abortListener = req.addListener("abort", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = "Request aborted.";
+            var err = new qx.type.BaseError("abort", failMessage);
+            reject(err);
+          }, this);
+          listeners.push(abortListener);
+
+          var errorListener = req.addListener("error", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = "Request failed.";
+            var err = new qx.type.BaseError("error");
+            reject(err);
+          }, this);
 
           req.send();
         }, context)
 
         .finally(function(){
-          // if the phase is not one of final phases, the promise
-          // has been cancelled. Abort the request
-          var phase = req.getPhase();
-          var finalPhases = ["statusError", "timeout", "error", "abort", "success"];
-          if (!finalPhases.includes(phase)) {
+          if (req.getReadyState() !== 4) {
             req.abort();
           }
         });

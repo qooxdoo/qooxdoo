@@ -494,14 +494,12 @@ qx.Class.define("qx.test.io.request.Xhr",
       req.sendWithPromise(this)
         .then(this.resumeHandler(function(result) {
           this.assertEquals(req, result);
-          this.assertEquals("Affe", req.getResponseText());
           this.assertEquals(200, req.getStatus());
         }, this));
 
       var transport = this.transport;
       transport.readyState = 4;
       transport.status = 200;
-      transport.responseText = "Affe";
       transport.onreadystatechange();
       this.wait(10000);
     },
@@ -520,8 +518,7 @@ qx.Class.define("qx.test.io.request.Xhr",
         }))
         .catch(this.resumeHandler(function(result) {
           this.assertInstance(result, qx.type.BaseError);
-          this.assert(qx.lang.String.contains(result.message, "404"));
-          this.assertTrue(/Affe/.test(result.toString()));
+          this.assertEquals("statusError: 404: Affe.", result.toString());
         }, this));
 
       var transport = this.transport;
@@ -547,9 +544,10 @@ qx.Class.define("qx.test.io.request.Xhr",
         }))
         .catch(this.resumeHandler(function(result) {
           this.assertInstance(result, qx.type.BaseError);
-          this.assertEquals(result.getComment(), "timeout");
+          this.assertEquals("timeout: Request failed with timeout after 1 ms.", result.toString());
         }, this));
 
+      req.setTimeout(1);
       this.transport.ontimeout();
       this.wait(5000);
     },
@@ -590,7 +588,7 @@ qx.Class.define("qx.test.io.request.Xhr",
         }))
         .catch(this.resumeHandler(function(result) {
           this.assertInstance(result, qx.type.BaseError);
-          this.assertEquals("abort", result.getComment());
+          this.assertEquals("abort: Request aborted.", result.toString());
         }, this));
 
       this.transport.onabort();
@@ -617,7 +615,7 @@ qx.Class.define("qx.test.io.request.Xhr",
         }))
         .catch(this.resumeHandler(function(result) {
           this.assertInstance(result, qx.type.BaseError);
-          this.assertEquals(result.getComment(), "parseError");
+          this.assertEquals("parseError: Error parsing the response.", result.toString());
         }, this));
 
       var transport = this.transport;
@@ -641,7 +639,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       var promise1 = promise
         .then(this.resumeHandler(function(_) {
           throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be fulfilled.");
-        }))
+        }, this))
         .catch(this.resumeHandler(function(result) {
           throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be rejected.");
         }, this))
@@ -654,11 +652,11 @@ qx.Class.define("qx.test.io.request.Xhr",
       // this path should keep going
       var promise2 = promise
         .then(this.resumeHandler(function(result) {
-          this.assertEquals(200, result.getStatus());
-        }))
-        .catch(this.resumeHandler(function(result){
+          this.assertEquals(req, result);
+        }, this))
+        .catch(this.resumeHandler(function(_){
           throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been rejected but should have been fulfilled.");
-        }));
+        }, this));
 
       promise1.cancel();
 
@@ -684,7 +682,7 @@ qx.Class.define("qx.test.io.request.Xhr",
         .then(this.resumeHandler(function(_) {
           throw new qx.type.BaseError("Error in sendWithPromise()", "promise1 should not be fulfilled.");
         }))
-        .catch(this.resumeHandler(function(result) {
+        .catch(this.resumeHandler(function(_) {
           throw new qx.type.BaseError("Error in sendWithPromise()", "promise1 should not be rejected.");
         }, this));
 
@@ -693,8 +691,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       var promise2 = promise
         .then(this.resumeHandler(function(result) {
           this.assertEquals(req, result);
-          this.assertEquals(200, result.getStatus());
-        }));
+        }, this));
 
       promise1.cancel();
 
