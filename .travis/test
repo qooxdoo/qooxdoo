@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# skip on github label "ci-skip-browser-tests"
-../.travis/check-github-label ci-skip-browser-tests && exit 0
-
 export PATH=$PWD/node_modules/karma/bin:$PATH
 
 php -S 0.0.0.0:31323 -t .. &> /dev/null &

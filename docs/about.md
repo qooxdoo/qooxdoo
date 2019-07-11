@@ -14,7 +14,7 @@ The qooxdoo framework enhances the javascript language with a full fledged class
 based oo system, including a powerful properties system and mixins. Qooxdoo is
 largely based on namespaces to allow for easy integration with other libraries
 and existing user code. It comes with a [comprehensive API
-reference](../apps/apiviewer) that is auto-generated from Javadoc-like
+reference](apps://apiviewer) that is auto-generated from Javadoc-like
 comments in the framework sourcecode.
 
 Qooxdoo are written in plain javascript, no new syntax is introduced, all the
@@ -57,9 +57,9 @@ simplifies asynchronous communication.
 
 Qooxdoo is not only a library, but also comes with a set of sophistated tools. Some
 help with the development workflow, such as the [command line interface](cli/commands.md), 
-others let you quickly get to know the widgets (such as the [widget browser](../apps/widgetbrowser)),
-become fluent in the qooxdoo API (such as the [API Viewer](../apps/apiviewer)), or
-to debug code (such as the ["Playground"](../apps/playground)).
+others let you quickly get to know the widgets (such as the [widget browser](apps://widgetbrowser)),
+become fluent in the qooxdoo API (such as the [API Viewer](apps://apiviewer)), or
+to debug code (such as the ["Playground"](apps://playground)).
 
 ## Package system
 
@@ -81,7 +81,7 @@ welcome.
 ## Contact
 
 qooxdoo.org<br/>
-Aargweg 17<br/>
+Aarweg 17<br/>
 4600 Olten<br/>
 Switzerland
 
