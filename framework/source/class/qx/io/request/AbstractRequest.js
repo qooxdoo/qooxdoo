@@ -431,7 +431,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     */
     sendWithPromise: function(context) {
       if (qx.core.Environment.get("qx.promise")) {
-        var context =  (context !== undefined && context !== null) ?
+        context = (context !== undefined && context !== null) ?
           context : this;
 
         // save this object's context
@@ -481,20 +481,22 @@ qx.Class.define("qx.io.request.AbstractRequest",
           var errorListener = req.addListener("error", function(e) {
             listeners.forEach(req.removeListenerById.bind(req));
             var failMessage = "Request failed.";
-            var err = new qx.type.BaseError("error");
+            var err = new qx.type.BaseError("error", failMessage);
             reject(err);
           }, this);
+          listeners.push(errorListener);
 
           req.send();
         }, context)
 
-        .finally(function(){
+        .finally(function() {
           if (req.getReadyState() !== 4) {
             req.abort();
           }
         });
 
         return promise;
+        // eslint-disable-next-line no-else-return
       } else {
         // fail loudly
         throw new qx.type.BaseError("Error", "Environment setting qx.promise is set to false.");

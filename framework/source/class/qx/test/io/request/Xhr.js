@@ -530,6 +530,31 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.wait(1000);
     },
 
+    "test: send with promise fails with error": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      req.sendWithPromise(this)
+        .then(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
+        }))
+        .catch(this.resumeHandler(function(result) {
+          this.assertInstance(result, qx.type.BaseError);
+          this.assertEquals("error: Request failed.", result.toString());
+        }, this));
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 0;
+      transport.onerror();
+
+      this.wait(1000);
+    },
+
     "test: send with promise fails with timeout": function() {
       if (!qx.core.Environment.get("qx.promise")) {
         this.skip("Skipping because qx.promise==false");
@@ -650,11 +675,11 @@ qx.Class.define("qx.test.io.request.Xhr",
 
 
       // this path should keep going
-      var promise2 = promise
+      promise
         .then(this.resumeHandler(function(result) {
           this.assertEquals(req, result);
         }, this))
-        .catch(this.resumeHandler(function(_){
+        .catch(this.resumeHandler(function(_) {
           throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been rejected but should have been fulfilled.");
         }, this));
 
@@ -688,7 +713,7 @@ qx.Class.define("qx.test.io.request.Xhr",
 
 
       // this path should keep going
-      var promise2 = promise
+      promise
         .then(this.resumeHandler(function(result) {
           this.assertEquals(req, result);
         }, this));
@@ -738,7 +763,7 @@ qx.Class.define("qx.test.io.request.Xhr",
       this.setUpFakeTransport();
       var req = this.req;
 
-      var promise = req.sendWithPromise(this)
+      req.sendWithPromise(this)
         .then(this.resumeHandler(function(_) {
           this.assertEquals("success", req.getPhase());
         }))
