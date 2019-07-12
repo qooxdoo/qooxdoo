@@ -780,6 +780,42 @@ qx.Class.define("qx.test.io.request.Xhr",
       transport.onreadystatechange();
 
       this.wait(5000);
+    },
+
+    "test: returned promise is bound to request": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      req.sendWithPromise()
+      .catch(this.resumeHandler(function(_) {
+        this.assertIdentical(req, this);
+      }));
+
+      this.transport.onerror();
+
+      this.wait(5000);
+    },
+
+    "test: returned promise is bound to caller": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport(this);
+      var self = this;
+
+      this.req.sendWithPromise(this)
+      .catch(this.resumeHandler(function(_) {
+        this.assertIdentical(self, this);
+      }));
+
+      this.transport.onerror();
+
+      this.wait(5000);
     }
   }
 });

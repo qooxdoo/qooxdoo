@@ -431,8 +431,7 @@ qx.Class.define("qx.io.request.AbstractRequest",
     */
     sendWithPromise: function(context) {
       if (qx.core.Environment.get("qx.promise")) {
-        context = (context !== undefined && context !== null) ?
-          context : this;
+        context = context || this;
 
         // save this object's context
         var req = this;
