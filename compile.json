@@ -116,7 +116,13 @@
       "name": "mobileshowcase",
       "bootPath": "source/boot",
       "theme": ""
-   }
+   },
+    {
+      "class": "qxl.packagebrowser.Application",
+      "title": "Package Browser",
+      "name": "packagebrowser",
+      "theme": "qxl.packagebrowser.Theme"
+    }
   ],
   "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json"
 }
