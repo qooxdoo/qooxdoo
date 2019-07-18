@@ -66,11 +66,11 @@
     },
     {
       "library_name": "Qooxdoo Package Browser",
-      "library_version": "0.2.2",
-      "path": "qx_packages/qooxdoo_qxl_packagebrowser_v0_2_2",
+      "library_version": "0.3.0",
+      "path": "qx_packages/qooxdoo_qxl_packagebrowser_v0_3_0",
       "uri": "qooxdoo/qxl.packagebrowser",
       "repo_name": "qooxdoo/qxl.packagebrowser",
-      "repo_tag": "v0.2.2"
+      "repo_tag": "v0.3.0"
     }
   ],
   "version": "2.1.0"

@@ -16,7 +16,7 @@ API viewer or the playground. You can distribute whole qooxdoo applications this
 way.
 
 You can browse the available packages with a GUI application, using the 
-[qooxdoo package viewer](apps://packagebrowser). 
+[qooxdoo package viewer](http://www.qooxdoo.org/qxl.packagebrowser). 
 
 The CLI supports the use, creation and mainenance of packages with the `qx package` 
 subcommands.
