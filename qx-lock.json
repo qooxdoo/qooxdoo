@@ -63,14 +63,6 @@
       "uri": "qooxdoo/qxl.mobileshowcase",
       "repo_name": "qooxdoo/qxl.mobileshowcase",
       "repo_tag": "v1.0.0-beta.0"
-    },
-    {
-      "library_name": "Qooxdoo Package Browser",
-      "library_version": "0.3.0",
-      "path": "qx_packages/qooxdoo_qxl_packagebrowser_v0_3_0",
-      "uri": "qooxdoo/qxl.packagebrowser",
-      "repo_name": "qooxdoo/qxl.packagebrowser",
-      "repo_tag": "v0.3.0"
     }
   ],
   "version": "2.1.0"
