@@ -10,19 +10,19 @@
     },
     {
       "library_name": "logpane",
-      "library_version": "1.0.0-beta.0",
-      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_0-beta_0",
+      "library_version": "1.0.0-beta.1",
+      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_0-beta_1",
       "uri": "qooxdoo/qxl.logpane",
       "repo_name": "qooxdoo/qxl.logpane",
-      "repo_tag": "v1.0.0-beta.0"
+      "repo_tag": "v1.0.0-beta.1"
     },
     {
       "library_name": "versionlabel",
-      "library_version": "1.0.0-beta.0",
-      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_0-beta_0",
+      "library_version": "1.0.0-beta.1",
+      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_0-beta_1",
       "uri": "qooxdoo/qxl.versionlabel",
       "repo_name": "qooxdoo/qxl.versionlabel",
-      "repo_tag": "v1.0.0-beta.0"
+      "repo_tag": "v1.0.0-beta.1"
     },
     {
       "library_name": "DemoBrowser",
