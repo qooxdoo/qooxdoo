@@ -137,6 +137,13 @@ is used.
 
 If `compile.json` does not exist, `qx lint` tries to use `.eslintrc`.
 
+If you need to turn of a rule (generally discouraged but sometimes necessary),
+use the following comments in your code:
+
+`// eslint-disable-line <name of rule>` in the same line or 
+
+`// eslint-disable-next-line <name of rule>` to turn off linting for the next line.
+
 ### Mini Web Server
 
 Although many applications will run perfectly well when loaded via a `file://`
