@@ -148,14 +148,10 @@ install <URI>`. It has the following options:
 
 ```
   --release, -r    Use a specific release tag instead of the tag of the latest 
-                   compatible release
-  [string]
+                   compatible release [string]
   --ignore, -i     Ignore unmatch of qooxdoo
-
   --verbose, -v    Verbose logging
-
   --quiet, -q      No output
-
   --save, -s       Save the libraries as permanent dependencies
                     [default: true]
   --from-path, -p  Install a library/the given library from a local path

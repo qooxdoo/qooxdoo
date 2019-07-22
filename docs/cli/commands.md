@@ -137,7 +137,7 @@ is used.
 
 If `compile.json` does not exist, `qx lint` tries to use `.eslintrc`.
 
-If you need to turn of a rule (generally discouraged but sometimes necessary),
+If you need to turn off a rule (generally discouraged but sometimes necessary),
 use the following comments in your code:
 
 `// eslint-disable-line <name of rule>` in the same line or 
