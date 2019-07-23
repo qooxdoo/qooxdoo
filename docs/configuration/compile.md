@@ -50,7 +50,12 @@ These key concepts appear in every compile.json, for example:
     /** optional web server */
     serve: {
         listenPort: 8082
-    }
+    },
+    
+    /** optional server application */
+    run: {
+          "application": "my-server-app"
+    }    
 }
 ```
 
@@ -120,55 +125,53 @@ Here is an example how to disable translation for modern browsers in source mode
             "outputPath": "compiled/build"
         }
     ],
+- `application-types` and `application-names` - (**optional**) these settings filter which applications that this target can 
+compile and is used in situations where you want to have multiple targets simultaneously (see below) 
 
-If you want to use more than the three default target types and/or use custom target classes, you can use the `targetClass` key to supply the name of the class as a string. 
+### Multiple Applications and Targets
+In most applications all you will need to define is two targets, one for "source" compilation during development, and one for
+"build" compilation for deployment onto your production server.  
+
+If you have more than one application, it's important to note that all of the applications which are compiled by a given target 
+will share the environment settings and babel options; if all of your applications are for web browsers, this works out fine - but
+if you target different platforms (eg a NodeJS based application and a web browser application, or you want to compile a version 
+targeted at old browsers and another version for bleeding edge browsers) you may want to use different target settings for each 
+application.
+
+If you specify multiple targets, each with the same type (eg "source" and "build") you're instructing the compiler to generate
+applications several times over.  This allows you to specify different environment settings or Babel options for each target.  Note 
+that each target has to have a separate output directory.
+
+The compiler looks at each target for the `application-names` and `application-types` fields and uses these values (if present) to
+select which applications to compiler using that target.  For example, if your target has `"application-types": [ "node" ]` it will 
+only be used to compile node applications.
+
+The exception here is if the target does not specify either `application-names` or `application-types` - these kinds of targets are
+the default target, and only applications which do not match any other target will be given these default targets.  This is so that
+you can just add a simple target for specialisations (such as NodeJS) and have everything else operate as it was before.  For example,
+add these targets:
 
 ```
-targets: [
-   { 
-      type: "source-abc", 
-      targetClass: "qx.tool.compiler.targets.SourceTarget",
-      environment: { someValue: "abc" }
-   },
-   { 
-      type: "source-def", 
-      targetClass: "qx.tool.compiler.targets.SourceTarget",
-      environment: { someValue: "def" }
-   },
-   { 
-      type: "source-ghi", 
-      targetClass: "my.custom.SpecialSourceTarget",
-      environment: { someValue: "ghi" }
-   }
-]
+    {
+      "type": "source",
+      "outputPath": "compiled/source-node",
+      "application-types": [ "node" ],
+      "babelOptions": {
+        "targets": "node >= 11"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "compiled/build-node",
+      "application-types": [ "node" ],
+      "babelOptions": {
+        "targets": "node >= 11"
+      }
+    },
 ```
 
-This is also useful if you want to have two or more targets of the same basic type. Incidentally, as a convenience, the current code automatically prepends "qx.tool.compiler.targets." to the class name if there is no package specified:
-
-```
-targets: [
-   { 
-      type: "source-abc", 
-      targetClass: "SourceTarget",
-      environment: { someValue: "abc" }
-   },
-   { 
-      type: "source-def", 
-      targetClass: "SourceTarget",
-      environment: { someValue: "def" }
-   },
-   { 
-      type: "build-ghi", 
-      targetClass: "BuildTarget",
-      environment: { someValue: "ghi" }
-   },
-   { 
-      type: "build-jkl", 
-      targetClass: "BuildTarget",
-      environment: { someValue: "jkl" }
-   }
-]
-```
+and you will now have a NodeJS-specific target directory that is used only for your node applications - and because that target
+is focused on Node v11 and later it will use native support for language features like `async` and `await` etc.
 
 ### Bundling source files together (previous called Hybrid Targets)
 In addition to source or build targets, the generator (ie not QxCompiler) supports hybrid targets which is effectively a source target but with the ability combine multiple source files into a larger javascript file - this can have a significant reduction on the time it takes to load an application during development, especially if the application is running via a webserver.
@@ -379,7 +382,21 @@ If you choose to use the optional web server by running `qx serve`, you can chan
 ```
 
 
+## Running applications
+The compiler can automatically stop and start your server applications, while simultaneously watching for changes and compiling.
+First, configure the `"run"` section of `compile.json` so that it lists the name of the application (and optionally any arguments),
+and then use `qx run` to run it.  Every time the compilation completes, the application will be terminated (if it's running) and
+restarted.
 
+For example:
 
+```json5
+    run: {
+          "application": "my-server-app",
+          "arguments": "my command line arguments"
+    }    
+```
 
+In this example, the application with the "my-server-app" is run, with a command line similar to: 
+`node compiled/source/my-server-app/my-server-app.js my command line arguments`
 
