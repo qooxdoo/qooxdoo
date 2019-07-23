@@ -43,6 +43,8 @@ cp -a ../build "$TARGET"
 if [ $CURRENT = 1 ]; then
   rm -rf current &> /dev/null
   ln -s "$TARGET" current
+  rm docs &> /dev/null
+  ln -s "$TARGET"/docs docs
 fi
 
 touch .nojekyll
