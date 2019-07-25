@@ -20,6 +20,7 @@
  * This is the base class for all mobile widgets.
  *
  * @use(qx.ui.mobile.core.EventHandler)
+ * @require(qx.bom.Lifecycle)
  */
 qx.Class.define("qx.ui.mobile.core.Widget",
 {

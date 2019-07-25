@@ -110,13 +110,6 @@ function build_manual {
   )
 }
 
-function build_sdk_zip {
-  if [ "$TRAVIS_BRANCH" = "$MASTER" -a "$TRAVIS_TAG" = "" ]; then
-    echo "Copying master sdk archive..."
-    cp $(git rev-parse --show-toplevel)/dist/temp/sdk/*zip "$TARGET/master.zip"
-  fi
-}
-
 [ -d "$TARGET" ] && rm -rf "$TARGET"
 mkdir -p "$TARGET"
 

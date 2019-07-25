@@ -28,4 +28,4 @@ API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Grow](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.layout.Grow)
+[qx.ui.layout.Grow](apps://apiviewer/index.html#qx.ui.layout.Grow)

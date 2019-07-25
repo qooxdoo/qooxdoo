@@ -25,11 +25,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [A button demo with differently configured buttons](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Button.html)
--   [A window demo which using button](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Window.html)
+-   [A button demo with differently configured buttons](apps://demobrowser/#widget~Button.html)
+-   [A window demo which using button](apps://demobrowser/#widget~Window.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.Button](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.form.Button)
+[qx.ui.form.Button](apps://apiviewer/index.html#qx.ui.form.Button)

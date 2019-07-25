@@ -28,7 +28,7 @@ Commands:
   upgrade [options]                         upgrades a qooxdoo application
 ````
 
-To see the subcommands parameters and options, just type in `qx <command>`.
+To see the subcommands parameters and options, just type in `qx <command> --help`.
 
 # Persistent Configuration
 
@@ -81,7 +81,7 @@ The fastest way to create a new project is to execute `qx create foo -I`. This w
 ### Compiler
 
 To compile a qooxdoo project into a state that can be opened in a browser, use 
-`qx compile`. This is the CLI frontend for the [@qooxdoo/compiler library](https://github.com/qooxdoo/@qooxdoo/compiler/blob/master/README.md). 
+`qx compile`. This is the CLI frontend for the [@qooxdoo/compiler library](https://github.com/qooxdoo/qooxdoo-compiler/blob/master/README.md). 
 The command has the following options: 
 
 ```
@@ -105,7 +105,9 @@ Options:
   --verbose                 enables additional progress output to console
                                                                        [boolean]
 ```
-The compiler relies on the information contained in `compile.json`. Documentation for the `compile.json` format is [here](compile-json.md).
+
+The compiler relies on the information contained in `compile.json`.
+Documentation for the `compile.json` format is [here](../configuration/compile.md).
 
 ### Lint
 
@@ -126,7 +128,7 @@ Options:
 
 ```
 
-Configuration is done in the `compile.json` file, see here [here](compile-json.md).
+Configuration is done in the `compile.json` file, see here [here](../configuration/compile.md).
 
 If no special lint configuration is given in `compile.json` the configuration
 `@qooxdoo/qx/browser` from
@@ -134,6 +136,13 @@ If no special lint configuration is given in `compile.json` the configuration
 is used.
 
 If `compile.json` does not exist, `qx lint` tries to use `.eslintrc`.
+
+If you need to turn off a rule (generally discouraged but sometimes necessary),
+use the following comments in your code:
+
+`// eslint-disable-line <name of rule>` in the same line or 
+
+`// eslint-disable-next-line <name of rule>` to turn off linting for the next line.
 
 ### Mini Web Server
 
@@ -193,5 +202,5 @@ Options:
 Note that the `qx serve` command supports exactly the same options as `qx
 compile`, with the exception of `--watch` because that is always enabled; for
 more details of the options and the compilation process, please see
-[compiler.md](compiler.md)
+[here](../configuration/compile.md)
 

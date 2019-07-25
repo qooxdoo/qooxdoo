@@ -6,7 +6,7 @@ The Resizer is a resizable container widget.
 Preview Image
 -------------
 
-![widget/resizer.jpg](widget/resizer.jpg)
+![widget/resizer.jpg](resizer.jpg)
 
 Features
 --------
@@ -25,10 +25,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Resizer demo](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Resizer.html)
+-   [Resizer demo](apps://demobrowser/#widget~Resizer.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.container.Resizer](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.container.Resizer)
+[qx.ui.container.Resizer](apps://apiviewer/index.html#qx.ui.container.Resizer)

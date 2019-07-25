@@ -23,10 +23,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [MenuBar with all features](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~MenuBar.html)
+-   [MenuBar with all features](apps://demobrowser/#widget~MenuBar.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.menubar.MenuBar](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.menubar.MenuBar)
+[qx.ui.menubar.MenuBar](apps://apiviewer/#qx.ui.menubar.MenuBar)

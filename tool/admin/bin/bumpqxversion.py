@@ -181,6 +181,9 @@ Files = {
     "./version.txt" : [
         r'^(.+)$'
         ],
+    "./docs/_variables.json" : [
+         r'"version"\s*:\s*"(%s)"' % qxversion_regexp,
+        ],
 }
 
 # - End config -----------------------------------------------------------------

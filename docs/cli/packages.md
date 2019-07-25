@@ -15,14 +15,22 @@ hosts components that have previously shipped with the framework, such as the
 API viewer or the playground. You can distribute whole qooxdoo applications this
 way.
 
-The CLI supports the use, creation and mainenance of packages with the `qx
-package` subcommands.
+You can browse the available packages with a GUI application, using the 
+[qooxdoo package viewer](http://www.qooxdoo.org/qxl.packagebrowser). 
+
+The CLI supports the use, creation and mainenance of packages with the `qx package` 
+subcommands.
 
 ```
 Commands:
-  install [uri[@release_tag]]  installs the latest compatible release of package
-                               (as per Manifest.json). Use "-r <release tag>" or
+  install [uri[@release_tag]]  installs the latest compatible release of package 
+                               (as per Manifest.json). Use "-r <release tag>" or 
                                @<release tag> to install a particular release.
+                               examples:
+                               * qx contrib install name: Install latest published version
+                               * qx contrib install name@v0.0.2: Install version 0.0.2,
+                               * qx contrib install name@master: Install current master branch from github
+                               
   list [repository]            if no repository name is given, lists all
                                available packages that are compatible with the
                                project's qooxdoo version ("--all" lists
@@ -40,6 +48,7 @@ Commands:
                                available libraries to the latest compatible
                                version, otherwise upgrade only the package
                                identified by the URI.
+  migrate                      migrates the package system to a newer version.
 
 ```
 
@@ -135,7 +144,22 @@ Options:
 ### Install a library
 
 You can then install any package from this list by executing `qx package
-install <URI>`. The URI takes the form `github_user/repository[/path]`: the first
+install <URI>`. It has the following options:
+
+```
+  --release, -r    Use a specific release tag instead of the tag of the latest 
+                   compatible release [string]
+  --ignore, -i     Ignore unmatch of qooxdoo
+  --verbose, -v    Verbose logging
+  --quiet, -q      No output
+  --save, -s       Save the libraries as permanent dependencies
+                    [default: true]
+  --from-path, -p  Install a library/the given library from a local path
+
+```
+
+
+The URI takes the form `github_user/repository[/path]`: the first
 part is the name of a repository on GitHub, which is enough if the `Manifest.json`
 of the library is in the root of the repository. Otherwise, the path to the 
 manifest within the repository is appended. In the case that a repository contains
@@ -181,6 +205,13 @@ Otherwise, you can install it "anonymously" with
 ```
 qx package install --from-path ../path/to/the/library
 ```
+
+If you want to install the package as an optional dependency, use the  
+`--save=0` option. This will save the dependency in `qx-lock.json` (see below),
+but not in the Manifest file. This is useful, for example, if you want to use
+one of the [qooxdoo apps](../apps.md) such as the API viewer in your local
+build without requring it as a dependency in other applications that use
+your package.
 
 ### Lockfile "qx-lock.json"
 
@@ -313,6 +344,10 @@ out what the token is and set a new one with these commands:
    $
 ```
 
+Please **make sure to [run `qx lint`](./commands.md#lint) before publishing your 
+package**. This insures code quality and lets you spot small bugs that might 
+otherwise go unnoticed. 
+
 The command takes care of incrementing the version of your application. By
 default, the patch version number is increased, but you can choose among the
 release types stated above. The command will then commit the version bump and
@@ -325,7 +360,8 @@ push it to the master branch before releasing the new version.
   
 - The tool will only show **[releases](https://help.github.com/articles/about-releases/)**. 
 The releases (tags) **should** be named in  [semver-compatible format](http://semver.org/) 
-(X.Y.Z). They **can** start with a "v" (for "version").
+(X.Y.Z). They **must** start with a "v" so that it can be automatically be recognized
+as a published version.
 
 - In order to be installable, the library manifests must be placed in the
 repository in one of the following ways:

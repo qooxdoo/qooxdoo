@@ -45,10 +45,10 @@ Demos
 
 Here are some links that demonstrate the usage of the layout:
 
--   [Flow layout demo](http://demo.qooxdoo.org/%{version}/demobrowser/#layout~Flow.html)
+-   [Flow layout demo](apps://demobrowser/#layout~Flow.html)
 
 API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Flow](http://demo.qooxdoo.org/%{version}/apiviewer/index.html#qx.ui.layout.Flow)
+[qx.ui.layout.Flow](apps://apiviewer/index.html#qx.ui.layout.Flow)

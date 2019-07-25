@@ -2,35 +2,35 @@
   "libraries": [
     {
       "library_name": "Playground",
-      "library_version": "1.0.0-beta.5",
-      "path": "qx_packages/qooxdoo_qxl_playground_v1_0_0-beta_5",
+      "library_version": "1.0.0-beta.7",
+      "path": "qx_packages/qooxdoo_qxl_playground_v1_0_0-beta_7",
       "uri": "qooxdoo/qxl.playground",
       "repo_name": "qooxdoo/qxl.playground",
-      "repo_tag": "v1.0.0-beta.5"
+      "repo_tag": "v1.0.0-beta.7"
     },
     {
       "library_name": "logpane",
-      "library_version": "1.0.0-beta.0",
-      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_0-beta_0",
+      "library_version": "1.0.0-beta.1",
+      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_0-beta_1",
       "uri": "qooxdoo/qxl.logpane",
       "repo_name": "qooxdoo/qxl.logpane",
-      "repo_tag": "v1.0.0-beta.0"
+      "repo_tag": "v1.0.0-beta.1"
     },
     {
       "library_name": "versionlabel",
-      "library_version": "1.0.0-beta.0",
-      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_0-beta_0",
+      "library_version": "1.0.0-beta.1",
+      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_0-beta_1",
       "uri": "qooxdoo/qxl.versionlabel",
       "repo_name": "qooxdoo/qxl.versionlabel",
-      "repo_tag": "v1.0.0-beta.0"
+      "repo_tag": "v1.0.0-beta.1"
     },
     {
       "library_name": "DemoBrowser",
-      "library_version": "1.0.0-beta.6",
-      "path": "qx_packages/qooxdoo_qxl_demobrowser_v1_0_0-beta_6",
+      "library_version": "1.0.0-beta.12",
+      "path": "qx_packages/qooxdoo_qxl_demobrowser_v1_0_0-beta_12",
       "uri": "qooxdoo/qxl.demobrowser",
       "repo_name": "qooxdoo/qxl.demobrowser",
-      "repo_tag": "v1.0.0-beta.6"
+      "repo_tag": "v1.0.0-beta.12"
     },
     {
       "library_name": "Qooxdoo API Viewer",
@@ -54,6 +54,14 @@
       "path": "qx_packages/qooxdoo_qxl_formdemo_v1_0_0-beta_0",
       "uri": "qooxdoo/qxl.formdemo",
       "repo_name": "qooxdoo/qxl.formdemo",
+      "repo_tag": "v1.0.0-beta.0"
+    },
+    {
+      "library_name": "mobileshowcase",
+      "library_version": "1.0.0-beta.0",
+      "path": "qx_packages/qooxdoo_qxl_mobileshowcase_v1_0_0-beta_0",
+      "uri": "qooxdoo/qxl.mobileshowcase",
+      "repo_name": "qooxdoo/qxl.mobileshowcase",
       "repo_tag": "v1.0.0-beta.0"
     }
   ],

@@ -38,10 +38,10 @@ Here a some widgets that use a menu for user interaction:
 
 The package `qx.ui.menu` has a collection of needed classes for creating a menu structure. The `qx.ui.menu.Menu` class is the container class for the menu structure and has items as child. Here are some item that can be used to create the structure:
 
--   [Button](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.menu.Button)
--   [CheckBox](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.menu.CheckBox)
--   [RadioButton](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.menu.RadioButton)
--   [Separator](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.menu.Separator)
+-   [Button](apps://apiviewer/#qx.ui.menu.Button)
+-   [CheckBox](apps://apiviewer/#qx.ui.menu.CheckBox)
+-   [RadioButton](apps://apiviewer/#qx.ui.menu.RadioButton)
+-   [Separator](apps://apiviewer/#qx.ui.menu.Separator)
 
 To create a submenu structure, each item (but not separator) can contain a menu to realize the submenu structure.
 
@@ -55,11 +55,11 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Some different widgets that use the menu functionality](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~Menu.html)
--   [Menus used in a MenuBar](http://demo.qooxdoo.org/%{version}/demobrowser/#widget~MenuBar.html)
+-   [Some different widgets that use the menu functionality](apps://demobrowser/#widget~Menu.html)
+-   [Menus used in a MenuBar](apps://demobrowser/#widget~MenuBar.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.menu.Menu](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.menu.Menu)
+[qx.ui.menu.Menu](apps://apiviewer/#qx.ui.menu.Menu)
