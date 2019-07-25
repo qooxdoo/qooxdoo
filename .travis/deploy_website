@@ -41,8 +41,10 @@ cp -a ../build "$TARGET"
 
 # Maintain the current link
 if [ $CURRENT = 1 ]; then
-  rm -rf current &> /dev/null
+  rm -f current
   ln -s "$TARGET" current
+  rm -f docs 
+  ln -s "$TARGET"/docs docs
 fi
 
 touch .nojekyll
