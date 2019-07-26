@@ -44,9 +44,9 @@ if [ $CURRENT = 1 ]; then
   rm -f current
   ln -s "$TARGET" current
 fi
-# global /docs reflects master
+# global /docs shows documentation of current master
 rm -f docs 
-ln -s "$TARGET"/docs docs
+ln -s deploy/$(cat ./version.txt)/docs docs
 
 
 touch .nojekyll
