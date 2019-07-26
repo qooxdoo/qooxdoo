@@ -12,9 +12,21 @@
   "defaultTarget": "build",
   "locales": [
     "en"
-  ],
+  ],  
   "libraries": [
     "./framework"
+  ],
+  "ignores" : [
+    "XPathResult",
+    "XMLHttpRequest",
+    "XMLSerializer",
+    "XPathEvaluator",
+    "history.*",
+    "ActiveXObject",
+    "DOMParser",
+    "ImageHtml",
+    "alert",
+    "Image"
   ],
   "applications": [
     {
