@@ -46,7 +46,7 @@ if [ $CURRENT = 1 ]; then
 fi
 # global /docs shows documentation of current master
 rm -f docs
-ln -s deploy/$(cat ../version.txt)/docs docs
+ln -s $(cat ../version.txt)/docs docs
 
 
 touch .nojekyll
