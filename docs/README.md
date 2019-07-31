@@ -38,7 +38,7 @@ The following command line installs the qooxdoo compiler so that it becomes
 available via your path settings.
 
 ```bash
-$ npm install -g @qooxdoo/compiler @qooxdoo/framework
+$ npm install -g @qooxdoo/compiler
 ```
 
 To start the qooxdoo compiler type
