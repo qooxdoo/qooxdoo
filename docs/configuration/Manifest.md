@@ -94,7 +94,7 @@ This is a sample file:
 * **externalResources**: Static Javascript and CSS files that shall be always included without further processing by qooxdoo. All paths are relative to the resource folder stated in the "provides" section.
   * **script**: Array of javascript files.
   * **css**: Array of css files.
--   **requires**: a list of of needed libraries and [packages](../cli/packages). Format is 
+-   **requires**: a list of of needed libraries and [packages](../cli/packages.md). Format is 
      `package_uri`: `needed_version` where `needed_version` is a semver compatible version description.
      
      Special handling for:
