@@ -5,6 +5,7 @@
 ERRORS=False
 FILES=${1:-docs/**/*.md}
 for FILENAME in $FILES ; do
+  echo check $FILENAME
   npx remark \
     -u remark-lint-no-dead-urls \
     -u remark-validate-links \
