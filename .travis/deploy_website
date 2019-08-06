@@ -45,9 +45,11 @@ if [ $CURRENT = 1 ]; then
   ln -s "$TARGET" current
 fi
 # global /docs shows documentation of current master
-rm -f docs
-ln -s $(cat ../version.txt)/docs docs
-
+rm -f docs                              
+ln -s deploy/$(cat ../version.txt)/docs docs
+# global /apps shows apps of current master, needed for /docs
+rm -f apps                             
+ln -s deploy/$(cat ../version.txt)/apps apps
 
 touch .nojekyll
 touch .
