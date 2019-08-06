@@ -46,10 +46,10 @@ if [ $CURRENT = 1 ]; then
 fi
 # global /docs shows documentation of current master
 rm -f docs                              
-ln -s deploy/$(cat ../version.txt)/docs docs
+ln -s $(cat ../version.txt)/docs docs
 # global /apps shows apps of current master, needed for /docs
 rm -f apps                             
-ln -s deploy/$(cat ../version.txt)/apps apps
+ln -s $(cat ../version.txt)/apps apps
 
 touch .nojekyll
 touch .
