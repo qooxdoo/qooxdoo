@@ -130,6 +130,20 @@
   - [Getting Started](/server/getting_started.md)
   - [Requirements](/server/requirements.md)  
 
+- Qooxdoo Mobile
+
+  - [Introduction](/mobile/)
+  - [Overview](/mobile/overview.md)
+  - [Requirements](/mobile/requirements.md)
+  - [Getting Started](/mobile/getting_started.md)
+  - [Debugging](/mobile/debugging.md)
+  - [Deployment](/mobile/deployment.md)
+  - [Mobile and table switch](/mobile/mobile_tablet_switch.md)
+  - [Resolution and Pixel Density](/mobile/resolution.md)
+  - [Theming](/mobile/theming.md)
+  - [Theme Migration](/mobile/theme_migration.md)
+  - [Tutorial](/mobile/tutorial.md)
+
 - Tutorials
 
   - Desktop Twitter App
