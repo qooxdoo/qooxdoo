@@ -1,10 +1,10 @@
 Deployment
 ==========
 
-Deploy your %{Mobile} application
+Deploy your Mobile application
 ---------------------------------
 
-You developed a great %{Mobile} application, and want to use or test it on your mobile device.
+You developed a great Mobile application, and want to use or test it on your mobile device.
 
 For this purpose, we propose using [Apache Cordova](http://incubator.apache.org/cordova/).
 
@@ -14,24 +14,24 @@ On the Cordova website you find detailed tutorials which describe the deployment
 
 [Cordova Getting Started Tutorial](http://docs.phonegap.com/en/1.6.1/guide_getting-started_index.md.html#Getting%20Started%20Guides)
 
-Configure Cordova for deploying your %{Mobile} application
+Configure Cordova for deploying your Mobile application
 ----------------------------------------------------------
 
-After you installed cordova, and followed the introductions of [Cordova Getting Started Tutorial](http://docs.phonegap.com/en/1.6.1/guide_getting-started_index.md.html#Getting%20Started%20Guides), you are able to deploy your %{Mobile} application on your mobile device.
+After you installed cordova, and followed the introductions of [Cordova Getting Started Tutorial](http://docs.phonegap.com/en/1.6.1/guide_getting-started_index.md.html#Getting%20Started%20Guides), you are able to deploy your Mobile application on your mobile device.
 
 Follow these steps:
 
 1.  Build your application with `generate.py build`.
-2.  Duplicate content of your %{Mobile} build folder, into Cordova deploy folder `assets/www` including the `index.html`.
+2.  Duplicate content of your Mobile build folder, into Cordova deploy folder `assets/www` including the `index.html`.
 3.  Paste the following line in head part of `assets/www/index.html`:
 
 > `<script type="text/javascript" charset="utf-8" src="cordova-1.6.0.js"></script>`
 
 1.  Cross-check the version of the "cordova.js" in script tag, against the version you use.
 
-That should do the trick. Now Cordova can deploy your %{Mobile} application on the connected Mobile Device. For executing the deployment, have a look on [Cordova Getting Started Tutorial](http://docs.phonegap.com/en/1.6.1/guide_getting-started_index.md.html#Getting%20Started%20Guides).
+That should do the trick. Now Cordova can deploy your Mobile application on the connected Mobile Device. For executing the deployment, have a look on [Cordova Getting Started Tutorial](http://docs.phonegap.com/en/1.6.1/guide_getting-started_index.md.html#Getting%20Started%20Guides).
 
 Update application on your mobile device
 ----------------------------------------
 
-If you want to update your %{Mobile} application, you just have to copy the folders `resource` and `script` into Cordova's deploy folder `assets/www/`. An update of the `assets/www/index.html` is not necessary.
+If you want to update your Mobile application, you just have to copy the folders `resource` and `script` into Cordova's deploy folder `assets/www/`. An update of the `assets/www/index.html` is not necessary.

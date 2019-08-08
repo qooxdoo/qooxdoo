@@ -1,7 +1,7 @@
 Resolution and Pixel Density
 ============================
 
-Typical mobile devices like smartphones and tablets come in all kinds of resolutions and pixel densities. %{Mobile} applications are able to adapt to all those different environments as described in the following sections.
+Typical mobile devices like smartphones and tablets come in all kinds of resolutions and pixel densities. Mobile applications are able to adapt to all those different environments as described in the following sections.
 
 Fortunately, you don't have to care much, as the framework handles most of it automatically. But it also enables you to further optimize for a great user experience on such devices as explained below.
 
@@ -24,21 +24,21 @@ The following device pixel ratios are common on mobile devices:
     -   2 (xhdpi)
     -   3 (xxhdpi)
 
-The device pixel ratio is chosen by the manufacturer to properly match the pixel-density to the device's physical resolution and dimensions. But surprisingly and despite its name, it is not just a device-specific, fixed value. For instance, modern desktop browsers also change the value of device pixel ratio at runtime when you change the browser's font size. %{Mobile} handles that for you transparently.
+The device pixel ratio is chosen by the manufacturer to properly match the pixel-density to the device's physical resolution and dimensions. But surprisingly and despite its name, it is not just a device-specific, fixed value. For instance, modern desktop browsers also change the value of device pixel ratio at runtime when you change the browser's font size. Mobile handles that for you transparently.
 
-In summary, a %{Mobile} app takes high-density displays into account for layout sizes, font sizes, and high-resolution images.
+In summary, a Mobile app takes high-density displays into account for layout sizes, font sizes, and high-resolution images.
 
 Resolution-independent Theming
 ------------------------------
 
-Since %{Mobile} 3.5 all themes that ship with the SDK are resolution-independent. They no longer use pixel values internally, but derive all their individual sizes (such as paddings or border widths) from the global application font size. Technically this is achieved by using the relative unit `rem` throughout the theme.
+Since Mobile 3.5 all themes that ship with the SDK are resolution-independent. They no longer use pixel values internally, but derive all their individual sizes (such as paddings or border widths) from the global application font size. Technically this is achieved by using the relative unit `rem` throughout the theme.
 
 Thus, at startup (or at reload) your app will layout with respect to the font size setting of your browser. Also at runtime, whenever you decrease or increase the application's font size, the theme (and therefore the entire visual part of your app) will adjust itself accordingly.
 
 Font Scale
 ----------
 
-You can easily change the font size of your %{Mobile} app programmatically. For instance, this allowed you to offer the users a settings dialog to adjust the total scale of the app to their liking.
+You can easily change the font size of your Mobile app programmatically. For instance, this allowed you to offer the users a settings dialog to adjust the total scale of the app to their liking.
 
 The change is relative to the global font size (e.g. predefined by your browser's settings). You set the new relative value, e.g. a factor of 2 for 200% scaling) through the method `setFontScale` on `qx.ui.mobile.core.Root`:
 
@@ -64,7 +64,7 @@ High-Resolution Images
 
 The total app scale is important when displaying images. Regular bitmap-based images would get blurry for high app scales. This can largely be overcome by supplying additional versions of the same image.
 
-You only have to follow a simple naming convention for those additional resources. The framework picks the best match for each image from the supplied high-resolution versions. The code of your app doesn't have to be modified. This is possible because your app's images are handled as "managed resources" by the %{Mobile} toolchain. In whatever scale or on whatever high-pixel device your app runs, it will internally look-up the best possible fit based on the determined app scale.
+You only have to follow a simple naming convention for those additional resources. The framework picks the best match for each image from the supplied high-resolution versions. The code of your app doesn't have to be modified. This is possible because your app's images are handled as "managed resources" by the Mobile toolchain. In whatever scale or on whatever high-pixel device your app runs, it will internally look-up the best possible fit based on the determined app scale.
 
 Location and naming conventions
 -------------------------------
@@ -82,7 +82,7 @@ Remember that not just the device pixel ratio determines the effective app scale
 Fallback
 --------
 
-%{Mobile} by default checks for the most common image resolutions:
+Mobile by default checks for the most common image resolutions:
 
 -   `@3x`
 -   `@2x`
@@ -92,7 +92,7 @@ In your app you can adjust the set of scale factors to check by modifying this s
 
 `qx.ui.mobile.basic.Image.PIXEL_RATIOS`
 
-For the best visual result %{Mobile} uses the following fallback logic:
+For the best visual result Mobile uses the following fallback logic:
 
 1.  It searches for an image with an exact or higher resolution, which is nearest to the actual app scale.
 2.  It searches for an image with a lower resolution, which is nearest to the actual app scale.

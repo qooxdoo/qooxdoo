@@ -15,7 +15,7 @@
   - [Annotations](/core/annotations.md)
   - [Environent](/core/environment.md)
   - [Data binding](/core/data_binding.md)
-  - Promises (tbd)
+  - [Promises](/core/promises.md)
 
 - Qooxdoo UI
 
@@ -121,9 +121,6 @@
   - [Package system](/cli/packages.md)
   - [Compiler Configuration](/configuration/overview.md)
   - [Compiler API](/compiler/API.md)
-  - API Reference (tbd)
-  - Demo Browser (tbd)
-  - Widget Browser (tbd)
 
 - Qooxdoo for Node
   - [Introduction](/server/)
@@ -133,16 +130,15 @@
 - Qooxdoo Mobile
 
   - [Introduction](/mobile/)
-  - [Overview](/mobile/overview.md)
+  - [Overview](/mobile/mobile_overview.md)
   - [Requirements](/mobile/requirements.md)
   - [Getting Started](/mobile/getting_started.md)
   - [Debugging](/mobile/debugging.md)
   - [Deployment](/mobile/deployment.md)
-  - [Mobile and table switch](/mobile/mobile_tablet_switch.md)
+  - [Mobile and tablet switch](/mobile/mobile_tablet_switch.md)
   - [Resolution and Pixel Density](/mobile/resolution.md)
   - [Theming](/mobile/theming.md)
   - [Theme Migration](/mobile/theme_migration.md)
-  - [Tutorial](/mobile/tutorial.md)
 
 - Tutorials
 
@@ -157,3 +153,5 @@
     - [7. Translations](/tutorial/twitter/tutorial-part-7.md)
     - [8. Unit Testing](/tutorial/twitter/tutorial-part-8.md)
     - [9. Virtual Lists](/tutorial/twitter/tutorial-part-9.md)
+  - [Qooxdoo Mobile App](/mobile/tutorial.md)
+

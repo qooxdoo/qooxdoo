@@ -1,7 +1,7 @@
 Overview
 ========
 
-This is an introduction into qooxdoo's mobile framework. qooxdoo mobile provides a optimized widget set to build applications for mobile devices.
+This is an introduction into Qooxdoo's mobile framework. qooxdoo mobile provides a optimized widget set to build applications for mobile devices.
 
 Supported Mobile Operating Systems
 ----------------------------------
@@ -26,8 +26,8 @@ qooxdoo mobile was tested with the following desktop browsers:
 Features
 --------
 
--   [Mobile widget set](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile)
--   Theming via CSS and SCSS \<theming\>
+-   [Mobile widget set](apps://apiviewer/#qx.ui.mobile)
+-   [Theming via CSS and SCSS](theming.md)
 -   Pointer events: pointerdown, pointerup, pointermove, pointerover, pointerout
 -   Touch events: touchstart, touchmove, touchend, touchcancel
 -   Gesture events: swipe, tap, longtap, dbltap, roll
@@ -40,19 +40,20 @@ Features
 API Documentation
 -----------------
 
--   [qx.application.Mobile](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.application.Mobile): The mobile application.
--   [qx.ui.mobile](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile): This package contains all mobile widgets. See the API documentation for more information.
+-   [qx.application.Mobile](apps://apiviewer/#qx.application.Mobile): The mobile application.
+-   [qx.ui.mobile](apps://apiviewer/#qx.ui.mobile): This package contains all mobile widgets. See the API documentation for more information.
 
 Create a Mobile Application
 ---------------------------
 
-To create a mobile application `mobileapp` in your home directory with your shell, change to your home directory (just `cd`). With a qooxdoo SDK available at `/opt/qooxdoo-%{version}-sdk`, call the script as follows:
+To create a mobile application `mobileapp` in your home directory with your shell, change to your home directory (just `cd`). 
 
-    /opt/qooxdoo-%{version}-sdk/create-application.py --type=mobile --name=mobileapp --out=.
+    qx create --type mobile
 
-Have a look into the API documentation of [qx.ui.mobile.page.Page](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.Page) to understand the basic concepts of qooxdoo mobile.
+and follow the steps.
+Have a look into the API documentation of [qx.ui.mobile.page.Page](apps://apiviewer/#qx.ui.mobile.page.Page) to understand the basic concepts of qooxdoo mobile.
 
-To learn how to develop a basic mobile application, you should try the mobile tweets client tutorial \<tutorial\>.
+To learn how to develop a basic mobile application, you should try the mobile tweets client [tutorial](tutorial.md)
 
 If you are new to qooxdoo, make sure you have read the getting started \<pages/getting\_started/helloworld\#setup\_the\_framework\> tutorial to understand the basics of qooxdoo.
 
@@ -74,17 +75,16 @@ The qooxdoo mobile widget set is optimized for the use on mobile devices. In fac
 -   No layout item: Only a few, essential, styles are provided by a widget. You should set all other styles of a widget via CSS, using the `addCssClass` method of a widget.
 -   No queues: Elements are created directly. There is no element, layout, display queue. Keep this in mind when you create and add widgets.
 -   Layouts: Layouts are done via CSS(3). HBox / VBox layouts are implemented using the [flexible box layout](http://www.w3.org/TR/css3-flexbox/)
--   [qx.ui.mobile.page.Page](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile.page.Page): A page is a widget that provides a screen which users can interact with in order to do something. Most times a page provides a single task or a group of related tasks. A qooxdoo mobile application is usually composed of one or more loosely bound pages. Typically there is one page that presents the "main" view.
+-   [qx.ui.mobile.page.Page](apps://apiviewer/#qx.ui.mobile.page.Page): A page is a widget that provides a screen which users can interact with in order to do something. Most times a page provides a single task or a group of related tasks. A qooxdoo mobile application is usually composed of one or more loosely bound pages. Typically there is one page that presents the "main" view.
 
 Demo Applications
 -----------------
 
 To see qooxdoo mobile applications in action or to see how to implement an application, you can have a look on the following demo applications:
 
--   [Mobile Showcase](http://demo.qooxdoo.org/%{version}/mobileshowcase) - see all mobile widgets in action
--   [Mobile Feedreader](http://demo.qooxdoo.org/%{version}/feedreader-mobile) - the feedreader as a mobile app. Using the same logic and models as the feedreader for desktop browsers does.
+-   [Mobile Showcase](apps://mobileshowcase) - see all mobile widgets in action
+-   [Mobile Feedreader](apps://feedreader-mobile) - the feedreader as a mobile app. Using the same logic and models as the feedreader for desktop browsers does.
 
-All applications can be found in the `application` folder of your qooxdoo checkout.
 
 How to contribute?
 ------------------
