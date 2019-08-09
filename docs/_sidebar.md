@@ -113,7 +113,7 @@
 
 - Deployment (tbd)
 
-- Qooxdoo Tools
+- Development
   - ["qx" CLI commands](/cli/commands.md)
   - [Package system](/cli/packages.md)
   - [Compiler Configuration](/configuration/overview.md)
@@ -135,7 +135,6 @@
   - [Mobile and tablet switch](/mobile/mobile_tablet_switch.md)
   - [Resolution and Pixel Density](/mobile/resolution.md)
   - [Theming](/mobile/theming.md)
-  - [Theme Migration](/mobile/theme_migration.md)
 
 - Tutorials
 

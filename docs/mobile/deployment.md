@@ -6,18 +6,18 @@ Deploy your Mobile application
 
 You developed a great Mobile application, and want to use or test it on your mobile device.
 
-For this purpose, we propose using [Apache Cordova](http://incubator.apache.org/cordova/).
+For this purpose, we propose using [Apache Cordova](https://cordova.apache.org/).
 
 It gives you the possibility to deploy native applications, that run the qooxdoo mobile JavaScript code in an wrapped native browser directly on your mobile device. Mobile applications, created with "Apache Cordova", can be published to the various App Stores and Marketplaces. A free distribution of Cordova is also available, it is called "PhoneGap".
 
 On the Cordova website you find detailed tutorials which describe the deployment on different mobile platforms:
 
-[Cordova Getting Started Tutorial](http://docs.phonegap.com/en/1.6.1/guide_getting-started_index.md.html#Getting%20Started%20Guides)
+[Cordova Getting Started Tutorial](https://cordova.apache.org/#getstarted)
 
 Configure Cordova for deploying your Mobile application
 ----------------------------------------------------------
 
-After you installed cordova, and followed the introductions of [Cordova Getting Started Tutorial](http://docs.phonegap.com/en/1.6.1/guide_getting-started_index.md.html#Getting%20Started%20Guides), you are able to deploy your Mobile application on your mobile device.
+After you installed cordova, and followed the introductions of [Cordova Getting Started Tutorial](https://cordova.apache.org/#getstarted), you are able to deploy your Mobile application on your mobile device.
 
 Follow these steps:
 
@@ -29,7 +29,7 @@ Follow these steps:
 
 1.  Cross-check the version of the "cordova.js" in script tag, against the version you use.
 
-That should do the trick. Now Cordova can deploy your Mobile application on the connected Mobile Device. For executing the deployment, have a look on [Cordova Getting Started Tutorial](http://docs.phonegap.com/en/1.6.1/guide_getting-started_index.md.html#Getting%20Started%20Guides).
+That should do the trick. Now Cordova can deploy your Mobile application on the connected Mobile Device. For executing the deployment, have a look on [Cordova Getting Started Tutorial](https://cordova.apache.org/#getstarted).
 
 Update application on your mobile device
 ----------------------------------------
