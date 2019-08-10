@@ -8,13 +8,13 @@
 
   - [Introduction](/core/)
   - [Class based OO](/core/classes.md)
-  - [Properties](/core/properties.md)
+  - [Properties](/core/understanding_properties.md)
   - [Mixins](/core/mixins.md)
   - [Interfaces](/core/interfaces.md)
   - [Array](/core/array.md)
   - [Annotations](/core/annotations.md)
   - [Environent](/core/environment.md)
-  - [Data binding](/core/data_binding.md)
+  - [Data binding](/data_binding/data_binding.md)
   - [Promises](/core/promises.md)
 
 - Qooxdoo UI
