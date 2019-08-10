@@ -1,14 +1,5 @@
 # Qooxdoo Manual (v${qooxdoo.version})
 
-Welcome to the manual of qooxdoo.
-
-The table below provides some entry points to the documentation of
-components such as *Core*, *Website*, *Desktop*, *Mobile*, *Server* or
-*Tooling*.
-
-
-
-
 - [Qooxdoo Core](core/): a dedicated class system with custom class properties,
 data binding and a runtime environment
 - [Qooxdoo UI](gui/)
