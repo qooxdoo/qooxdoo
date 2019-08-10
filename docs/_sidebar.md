@@ -47,7 +47,6 @@
   - [Description of all widgets](/widget/widget_list.md)
 
 
-
 - Testing (tbd)
 
 - Communication
@@ -62,10 +61,10 @@
 - Deployment (tbd)
 
 - Development
-  - ["qx" CLI commands](/cli/commands.md)
-  - [Package system](/cli/packages.md)
-  - [Compiler Configuration](/configuration/overview.md)
-  - [Compiler API](/compiler/API.md)
+  - ["qx" CLI commands](/compiler/cli/commands.md)
+  - [Package system](/compiler/cli/packages.md)
+  - [Compiler Configuration](/compiler/configuration/overview.md)
+  - [Advanced compiler topics](/compiler/internals/)
 
 - Qooxdoo for Node
   - [Introduction](/server/)
