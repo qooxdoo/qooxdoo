@@ -4,18 +4,36 @@
   - [Qooxdoo Apps](/apps.md)
   - [About](/about.md)
 
-- Qooxdoo Core
+- [Qooxdoo Core](/core/)
 
-  - [Introduction](/core/)
-  - [Class based OO](/core/classes.md)
-  - [Properties](/core/understanding_properties.md)
-  - [Mixins](/core/mixins.md)
-  - [Interfaces](/core/interfaces.md)
-  - [Array](/core/array.md)
-  - [Annotations](/core/annotations.md)
+  - [Introduction](/core/oo_introduction.md)
+  - [Feature summery](/core/oo_feature_summary.md)
+  
+  - Object Orientation
+    - [Classes](/core/classes.md)
+      - [Quickref](/core/class_quickref.md)
+    - [Interfaces](/core/interfaces.md)
+      - [Quickref](/core/interfaces_quickref.md)
+    - [Mixins](/core/mixins.md)
+      - [Quickref](/core/mixin_quickref.md)
+    - [Annotations](/core/annotations.md)
+    - [Arrays](/core/array.md)
+    - [Data binding](/core/data_binding/)
+    - [Promises](/core/promises.md)
+
+  - Properties
+    - [Properties](/core/understanding_properties.md)
+      - [Quickref](/core/properties_quickref.md)
+    - [Defining properties](/core/defining_properties.md)
+    - [Behavior](/core/property_behavior.md)
+    - [Features](/core/property_features.md)
+  
   - [Environent](/core/environment.md)
-  - [Data binding](/core/data_binding/)
-  - [Promises](/core/promises.md)
+  
+  - Interaction Events
+    - [Pointer](/core/pointer.md)
+    - [Gestures](/core/gestures.md)
+  
 
 - Qooxdoo for Desktop
 
