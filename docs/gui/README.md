@@ -124,3 +124,41 @@ instance to retrieve and store certain application data, to do credit card
 validation and so on. To this end, qooxdoo includes a sophisticated IO layer
 featuring high-level abstractions for XMLHTTP requests and REST resources as
 well as support for cross-domain requests.
+
+## Widgets Introduction
+
+   widget
+   desktop/ui_widgets
+   desktop/ui_interaction
+   desktop/ui_resources
+   desktop/ui_selection
+   desktop/ui_dragdrop
+   desktop/ui_inline
+   desktop/ui_develop
+   desktop/ui_form_handling
+   desktop/ui_menu_handling
+   desktop/window_management
+   desktop/ui_table_styling
+
+## Widget Reference
+* :doc:`Widget reference </pages/widget/widget_ref>`
+
+## Layouts
+
+   desktop/ui_layouting
+
+## Themes
+
+   desktop/ui_theming
+   desktop/ui_appearance
+   desktop/ui_custom_themes
+   desktop/ui_decorators
+   desktop/ui_webfonts
+   desktop/ui_using_themes_of_contribs
+   desktop/ui_using_widgetbrowser_for_theme_development
+
+## Technical Concepts
+
+   desktop/event_layer_impl
+   desktop/html_element_handling
+   desktop/focus_layer_impl

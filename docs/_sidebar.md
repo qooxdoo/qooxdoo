@@ -14,40 +14,53 @@
   - [Array](/core/array.md)
   - [Annotations](/core/annotations.md)
   - [Environent](/core/environment.md)
-  - [Data binding](/data_binding/data_binding.md)
+  - [Data binding](/core/data_binding/)
   - [Promises](/core/promises.md)
 
-- Qooxdoo UI
+- Desktop
 
-  - [Introduction](/gui/)
-  - [Layout](/gui/layouting.md)
-  - [Menus](/gui/menus.md)
-  - [Forms](/gui/forms.md)
-  - [Resources](/gui/resources.md)
-  - [Custom Widgets](/gui/customwidgets.md)
-  - [HTML Elements](/gui/html.md)
-  - [Themes](/gui/theming.md)
-  - [Custom Themes](/gui/themes.md)
-  - [Pointer](/gui/pointer.md)
-  - [Drag'n'Drop](/gui/dragdrop.md)
-  - [Focus Layer](/gui/focus.md)
-  - [Inline](/gui/inline.md)
-  - [Interaction](/gui/interaction.md)
-  - [Selection](/gui/selection.md)
-  - [Table Styling](/gui/table_styling.md)
+  - Qooxdoo UI
+    - [Introduction](/gui/)
+    - [Layout](/gui/layouting.md)
+    - [Menus](/gui/menus.md)
+    - [Forms](/gui/forms.md)
+    - [Resources](/gui/resources.md)
+    - [Custom Widgets](/gui/customwidgets.md)
+    - [HTML Elements](/gui/html.md)
+    - [Themes](/gui/theming.md)
+    - [Custom Themes](/gui/themes.md)
+    - [Pointer](/gui/pointer.md)
+    - [Drag'n'Drop](/gui/dragdrop.md)
+    - [Focus Layer](/gui/focus.md)
+    - [Inline](/gui/inline.md)
+    - [Interaction](/gui/interaction.md)
+    - [Selection](/gui/selection.md)
+    - [Table Styling](/gui/table_styling.md)
 
+  - Layouts
+    - [Introduction](/layout/)
+    - [Description of all layouts](/layout/layout_list.md)
+  
+  - Qooxdoo Widgets
+    - [Introduction](/widget/widget.md)
+    - [Description of all widgets](/widget/widget_list.md)
 
-- Layouts
+- Qooxdoo for Node
+  - [Introduction](/server/)
+  - [Getting Started](/server/getting_started.md)
+  - [Requirements](/server/requirements.md)  
 
-  - [Introduction](/layout/)
-  - [Description of all layouts](/layout/layout_list.md)
+- Qooxdoo Mobile
+  - [Introduction](/mobile/)
+  - [Overview](/mobile/mobile_overview.md)
+  - [Requirements](/mobile/requirements.md)
+  - [Getting Started](/mobile/getting_started.md)
+  - [Debugging](/mobile/debugging.md)
+  - [Deployment](/mobile/deployment.md)
+  - [Mobile and tablet switch](/mobile/mobile_tablet_switch.md)
+  - [Resolution and Pixel Density](/mobile/resolution.md)
+  - [Theming](/mobile/theming.md)
 
-- Qooxdoo Widgets
-  - [Introduction](/widget/widget.md)
-  - [Description of all widgets](/widget/widget_list.md)
-
-
-- Testing (tbd)
 
 - Communication
 
@@ -58,6 +71,8 @@
   - [Request IO](/communication/request_io.md)
   - [JSON RPC](/communication/rpc.md)
 
+- Testing (tbd)
+
 - Deployment (tbd)
 
 - Development
@@ -66,22 +81,6 @@
   - [Compiler Configuration](/compiler/configuration/overview.md)
   - [Advanced compiler topics](/compiler/internals/)
 
-- Qooxdoo for Node
-  - [Introduction](/server/)
-  - [Getting Started](/server/getting_started.md)
-  - [Requirements](/server/requirements.md)  
-
-- Qooxdoo Mobile
-
-  - [Introduction](/mobile/)
-  - [Overview](/mobile/mobile_overview.md)
-  - [Requirements](/mobile/requirements.md)
-  - [Getting Started](/mobile/getting_started.md)
-  - [Debugging](/mobile/debugging.md)
-  - [Deployment](/mobile/deployment.md)
-  - [Mobile and tablet switch](/mobile/mobile_tablet_switch.md)
-  - [Resolution and Pixel Density](/mobile/resolution.md)
-  - [Theming](/mobile/theming.md)
 
 - Tutorials
 
