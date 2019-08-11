@@ -17,33 +17,33 @@
   - [Data binding](/core/data_binding/)
   - [Promises](/core/promises.md)
 
-- Desktop
+- Qooxdoo for Desktop
 
   - Qooxdoo UI
-    - [Introduction](/gui/)
-    - [Layout](/gui/layouting.md)
-    - [Menus](/gui/menus.md)
-    - [Forms](/gui/forms.md)
-    - [Resources](/gui/resources.md)
-    - [Custom Widgets](/gui/customwidgets.md)
-    - [HTML Elements](/gui/html.md)
-    - [Themes](/gui/theming.md)
-    - [Custom Themes](/gui/themes.md)
-    - [Pointer](/gui/pointer.md)
-    - [Drag'n'Drop](/gui/dragdrop.md)
-    - [Focus Layer](/gui/focus.md)
-    - [Inline](/gui/inline.md)
-    - [Interaction](/gui/interaction.md)
-    - [Selection](/gui/selection.md)
-    - [Table Styling](/gui/table_styling.md)
+    - [Introduction](/desktop/gui/)
+    - [Layout](/desktop/gui/layouting.md)
+    - [Menus](/desktop/gui/menus.md)
+    - [Forms](/desktop/gui/forms.md)
+    - [Resources](/desktop/gui/resources.md)
+    - [Custom Widgets](/desktop/gui/customwidgets.md)
+    - [HTML Elements](/desktop/gui/html.md)
+    - [Themes](/desktop/gui/theming.md)
+    - [Custom Themes](/desktop/gui/themes.md)
+    - [Pointer](/desktop/gui/pointer.md)
+    - [Drag'n'Drop](/desktop/gui/dragdrop.md)
+    - [Focus Layer](/desktop/gui/focus.md)
+    - [Inline](/desktop/gui/inline.md)
+    - [Interaction](/desktop/gui/interaction.md)
+    - [Selection](/desktop/gui/selection.md)
+    - [Table Styling](/desktop/gui/table_styling.md)
 
   - Layouts
-    - [Introduction](/layout/)
-    - [Description of all layouts](/layout/layout_list.md)
+    - [Introduction](/desktop/layout/)
+    - [Description of all layouts](/desktop/layout/layout_list.md)
   
   - Qooxdoo Widgets
-    - [Introduction](/widget/widget.md)
-    - [Description of all widgets](/widget/widget_list.md)
+    - [Introduction](/desktop/widget/widget.md)
+    - [Description of all widgets](/desktop/widget/widget_list.md)
 
 - Qooxdoo for Node
   - [Introduction](/server/)

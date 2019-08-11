@@ -141,7 +141,7 @@ well as support for cross-domain requests.
    desktop/ui_table_styling
 
 ## Widget Reference
-* :doc:`Widget reference </pages/widget/widget_ref>`
+* :doc:`Widget reference </pages/desktop/widget/widget_ref>`
 
 ## Layouts
 
