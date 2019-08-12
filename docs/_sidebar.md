@@ -38,30 +38,37 @@
 - Qooxdoo for Desktop
 
   - Qooxdoo UI
-    - [Introduction](/desktop/gui/)
-    - [Layout](/desktop/gui/layouting.md)
-    - [Menus](/desktop/gui/menus.md)
-    - [Forms](/desktop/gui/forms.md)
-    - [Resources](/desktop/gui/resources.md)
-    - [Custom Widgets](/desktop/gui/customwidgets.md)
-    - [HTML Elements](/desktop/gui/html.md)
-    - [Themes](/desktop/gui/theming.md)
-    - [Custom Themes](/desktop/gui/themes.md)
-    - [Pointer](/desktop/gui/pointer.md)
-    - [Drag'n'Drop](/desktop/gui/dragdrop.md)
-    - [Focus Layer](/desktop/gui/focus.md)
-    - [Inline](/desktop/gui/inline.md)
     - [Interaction](/desktop/gui/interaction.md)
+    - [Resources](/desktop/gui/resources.md)
     - [Selection](/desktop/gui/selection.md)
+    - [Drag'n'Drop](/desktop/gui/dragdrop.md)
+    - [Forms](/desktop/gui/forms.md)
+    - [Menus](/desktop/gui/menu.md)
+    - [Window Managment](/desktop/gui/window_management.md)
     - [Table Styling](/desktop/gui/table_styling.md)
+
+ - Themes
+    - [Theming](/desktop/gui/theming.md)
+    - [Appearance](/desktop/gui/appearance.md)
+    - [Custom themes](/desktop/gui/themes.md)
+    - [Decorators](/desktop/gui/themes.md#qooxdoo-theme-decorators)
 
   - Layouts
     - [Introduction](/desktop/layout/)
+    - [Reference](/desktop/layout/reference.md)
     - [Description of all layouts](/desktop/layout/layout_list.md)
   
   - Qooxdoo Widgets
-    - [Introduction](/desktop/widget/widget.md)
+    - [Introduction](/desktop/widget/)
+    - [Custom widgets](/desktop/gui/customwidgets.md)
+    - [Reference](/desktop/widget/reference.md)
     - [Description of all widgets](/desktop/widget/widget_list.md)
+
+  - Technical Concepts
+    - [Event layer](/desktop/gui/event_layer_impl.md)
+    - [HTML element handling](/desktop/gui/html.md)
+    - [Focus handling](/desktop/gui/focus.md)  
+
 
 - Qooxdoo for Node
   - [Introduction](/server/)

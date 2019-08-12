@@ -1,4 +1,4 @@
-# Description of all Widgets
+# Alphabetic list of all Widgets
 
   - [atom](/desktop/widget/atom.md)
   - [button](/desktop/widget/button.md)
@@ -47,4 +47,5 @@
   - [virtuallist](/desktop/widget/virtuallist.md)
   - [virtualselectbox](/desktop/widget/virtualselectbox.md)
   - [virtualtree](/desktop/widget/virtualtree.md)
+  - [widget](/desktop/widget/widget.md)
   - [window](/desktop/widget/window.md)

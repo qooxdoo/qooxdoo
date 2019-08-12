@@ -127,38 +127,26 @@ well as support for cross-domain requests.
 
 ## Widgets Introduction
 
-   widget
-   desktop/ui_widgets
-   desktop/ui_interaction
-   desktop/ui_resources
-   desktop/ui_selection
-   desktop/ui_dragdrop
-   desktop/ui_inline
-   desktop/ui_develop
-   desktop/ui_form_handling
-   desktop/ui_menu_handling
-   desktop/window_management
-   desktop/ui_table_styling
-
-## Widget Reference
-* :doc:`Widget reference </pages/desktop/widget/widget_ref>`
-
-## Layouts
-
-   desktop/ui_layouting
+- [Introduction](/desktop/widget/)
+- [Custom widgets](customwidgets.md)
+- [Interaction](interaction.md)
+- [Resources](resources.md)
+- [Selection](selection.md)
+- [Drag'n'Drop](dragdrop.md)
+- [Forms](forms.md)
+- [Menus](menu.md)
+- [Window Managment](window_management.md)
+- [Table Styling](table_styling.md)
 
 ## Themes
 
-   desktop/ui_theming
-   desktop/ui_appearance
-   desktop/ui_custom_themes
-   desktop/ui_decorators
-   desktop/ui_webfonts
-   desktop/ui_using_themes_of_contribs
-   desktop/ui_using_widgetbrowser_for_theme_development
+- [Theming](theming.md)
+- [Appearance](appearance.md)
+- [Custom themes](themes.md)
+- [Decorators](themes.md#qooxdoo-theme-decorators)
 
 ## Technical Concepts
 
-   desktop/event_layer_impl
-   desktop/html_element_handling
-   desktop/focus_layer_impl
+- [Event layer](event_layer_impl.md)
+- [HTML element handling](html.md)
+- [Focus handling](focus.md)
