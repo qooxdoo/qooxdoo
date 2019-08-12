@@ -57,11 +57,12 @@
 
   - Layouts
     - [Introduction](/desktop/layout/)
-    - [Description of all layouts](/desktop/layout/layout_list.md)
+    - [Alphabetic list](/desktop/layout/layout_list.md)
   
   - Qooxdoo Widgets
     - [Introduction](/desktop/widget/widget.md)
-    - [Description of all widgets](/desktop/widget/widget_list.md)
+    - [Reference](/desktop/widget/widget_ref.md)
+    - [Alphabetic list](/desktop/widget/widget_list.md)
 
 - Qooxdoo for Node
   - [Introduction](/server/)
