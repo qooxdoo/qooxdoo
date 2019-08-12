@@ -56,13 +56,13 @@
   - Layouts
     - [Introduction](/desktop/layout/)
     - [Reference](/desktop/layout/reference.md)
-    - [Description of all layouts](/desktop/layout/layout_list.md)
+    - [Alphabetic list](/desktop/layout/layout_list.md)
   
   - Qooxdoo Widgets
     - [Introduction](/desktop/widget/)
     - [Custom widgets](/desktop/gui/customwidgets.md)
     - [Reference](/desktop/widget/reference.md)
-    - [Description of all widgets](/desktop/widget/widget_list.md)
+    - [Alphabetic list](/desktop/widget/widget_list.md)
 
   - Technical Concepts
     - [Event layer](/desktop/gui/event_layer_impl.md)
