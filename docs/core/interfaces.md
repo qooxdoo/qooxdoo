@@ -109,6 +109,6 @@ Summary
 
 ### References
 
--   interface\_quickref - a syntax quick reference for interfaces
+-   [a syntax quick reference for interfaces](interface_quickref)
 -   [API Documentation for Interface](apps://apiviewer/#qx.Interface)
 

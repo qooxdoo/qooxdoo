@@ -13,14 +13,9 @@ text field and a spinner).
 
 Here you find more information:
 
-## [Concept](data_binding.md)
-
-## [Single value binding](single_value_binding.md)
-
-## [Controller](controller.md)
-
-## [Stores](stores.md)
-
-## [Models](models.md)
-
-## [Events](events.md)
+- [Concept](data_binding.md)
+- [Single value binding](single_value_binding.md)
+- [Controller](controller.md)
+- [Stores](stores.md)
+- [Models](models.md)
+- [Events](events.md)

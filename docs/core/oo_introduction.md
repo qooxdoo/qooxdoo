@@ -70,5 +70,4 @@ multiple-inheritance can still be realized.
 
 ## qooxdoo OO standalone
 
-If you want to use qooxdoo OO layer standalone take a look at `%{Server}
-</pages/server>`.
+If you want to use qooxdoo OO layer standalone take a look at [Server](/server).

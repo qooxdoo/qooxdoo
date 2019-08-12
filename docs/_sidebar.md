@@ -4,7 +4,7 @@
   - [Qooxdoo Apps](/apps.md)
   - [About](/about.md)
 
-- [Qooxdoo Core](/core/)
+- [**Qooxdoo Core**](/core/)
 
   - [Introduction](/core/oo_introduction.md)
   - [Feature summery](/core/oo_feature_summary.md)
@@ -13,7 +13,7 @@
     - [Classes](/core/classes.md)
       - [Quickref](/core/class_quickref.md)
     - [Interfaces](/core/interfaces.md)
-      - [Quickref](/core/interfaces_quickref.md)
+      - [Quickref](/core/interface_quickref.md)
     - [Mixins](/core/mixins.md)
       - [Quickref](/core/mixin_quickref.md)
     - [Annotations](/core/annotations.md)
@@ -113,5 +113,5 @@
     - [7. Translations](/tutorial/twitter/tutorial-part-7.md)
     - [8. Unit Testing](/tutorial/twitter/tutorial-part-8.md)
     - [9. Virtual Lists](/tutorial/twitter/tutorial-part-9.md)
-  - [Qooxdoo Mobile App](/mobile/tutorial.md)
+  - [**Qooxdoo Mobile App**](/mobile/tutorial.md)
 

@@ -1,11 +1,10 @@
 # Class Declaration Quick Ref
 
 This is a quick reference for the various features of a qooxdoo class
-declaration. It uses an `EBNF-like syntax </pages/tool/ebnf_like>`.
+declaration. It uses an [EBNF-like syntax](</ebnf_like.md>).
 
 Properties, a particular part of the class declaration, have quite an
-extensive sub-spec, and are therefore factored out to their `own page
-<properties_quickref>`.
+extensive sub-spec, and are therefore factored out to their [own page](properties_quickref.md).
 
     class_decl      := 'qx.Class.define' '(' '"' <name.space.ClassName> '"' ','
                          '{' { feature_spec ',' } '}'
