@@ -9,7 +9,7 @@ Note
 </div>
 
 This chapter introduces some of the widgets found in qooxdoo. For a full
-list of widgets, please refer to the `../widget/widget_ref`.
+list of widgets, please refer to the [widget ref](widget_ref.md).
 
 </div>
 
@@ -28,7 +28,7 @@ based on the available width. This mode however cannot handle automatic
 ellipsis (which makes less sense in multiline labels, but is also not
 technologically possible).
 
-More details: `../widget/label`
+[More details](label.md)
 
 ## Images
 
@@ -60,7 +60,7 @@ The alternate mode renders the image using a normal image element. This
 is a good alternative whenever a part of the application depends on this
 scaling feature but should not be used unless necessary.
 
-More details: `../widget/image`
+[More details](image.md)
 
 ## Atoms
 
@@ -71,7 +71,7 @@ supports shrinking like the Label while keeping the image intact. Atoms
 are used by many higher level widgets like Buttons (in Tab Views,
 Toolbars, ...) or List Items etc.
 
-More details: `../widget/atom`
+[More details](atom.md)
 
 ## Buttons
 
@@ -86,7 +86,7 @@ interval while being pressed. The Toggle Button (which toggles between
 checked and unchecked) is an exception to this and fires a `change`
 event on each transition of the `checked` property.
 
-More details: `../widget/button`
+[More details](button.md)
 
 ## Text Fields
 
@@ -104,7 +104,7 @@ unresponsive for all types of interaction while `readOnly` only prevents
 the modification of the value and normally has no special visual
 indication when enabled.
 
-More details: `../widget/textfield`
+[More details](textfield.md)
 
 ## Popups
 
@@ -127,7 +127,7 @@ every case and improves the usability of popups in general.
 With `bringToFront` and `sendToBack` the popups' zIndex can be
 controlled in relation to other visible popups.
 
-More details: `../widget/popup`
+[More details](popup.md)
 
 ## Tooltips
 
@@ -141,4 +141,4 @@ Although it's generally not necessary, every popup can be configured
 with an individual timeout. This is useful when building different type
 of tooltips e.g. to display system notifications etc.
 
-More details: `../widget/tooltip`
+[More details](tooltip.md)

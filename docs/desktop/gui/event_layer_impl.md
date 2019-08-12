@@ -1,11 +1,10 @@
 # The Event Layer
 
 The class
-[qx.event.Manager](http://demo.qooxdoo.org/%%7Bversion%7D/apiviewer/#qx.event.Manager)
+[qx.event.Manager](apps://apiviewer/#qx.event.Manager)
 provides a per-document wrapper for cross-browser DOM event handling.
 The implementation of the event layer is inside the
-[qx.event](http://demo.qooxdoo.org/%%7Bversion%7D/apiviewer/#qx.event)
-namespace.
+[qx.event](apps://apiviewer/#qx.event) namespace.
 
 The following features work in all `supported browsers
 <pages/website/requirements#client>`:
@@ -20,6 +19,6 @@ The following features work in all `supported browsers
     capturing](http://msdn2.microsoft.com/en-us/library/ms537630.aspx)
   - Unified key events. For a full list of available key identifiers see
     the
-    [getKeyIdentifier()](http://demo.qooxdoo.org/%%7Bversion%7D/apiviewer/#qx.event.type.KeySequence~getKeyIdentifier)
+    [getKeyIdentifier()](apps://apiviewer/#qx.event.type.KeySequence~getKeyIdentifier)
     method documentation of the `qx.event.type.KeySequence` class.
   - Unified `pointer events <pages/pointer#pointer_events>`

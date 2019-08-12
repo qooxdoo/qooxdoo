@@ -43,7 +43,7 @@
     - [Selection](/desktop/gui/selection.md)
     - [Drag'n'Drop](/desktop/gui/dragdrop.md)
     - [Forms](/desktop/gui/forms.md)
-    - [Menus](/desktop/gui/menu.md)
+    - [Menus](/desktop/gui/menus.md)
     - [Window Managment](/desktop/gui/window_management.md)
     - [Table Styling](/desktop/gui/table_styling.md)
 
