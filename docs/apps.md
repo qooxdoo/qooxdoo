@@ -28,3 +28,12 @@ are solved using qooxdoo.
 The widget browser showcases the full portfolio of GUI widgets provided by the
 qooxdoo framework.
 
+- **Mobileshowcase** 
+([App](apps://mobileshowcase), [Code](https://github.com/qooxdoo/qxl.mobileshowcase)):
+The mobileshowcase showcases the full portfolio of GUI widgets provided by the
+qooxdoo framework for mobile apps.
+Included is a demo how to use OpenStreetMap data together with the openlayers api.
+
+- **Packagebrowser** 
+([App](http://www.qooxdoo.org/qxl.packagebrowser), [Code](https://github.com/qooxdoo/qxl.packagebrowser)):
+This application lets you browse the extension packages that can be installed.

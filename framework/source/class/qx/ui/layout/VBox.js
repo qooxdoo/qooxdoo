@@ -326,17 +326,25 @@ qx.Class.define("qx.ui.layout.VBox",
 
       // First run to cache children data and compute allocated height
       var i, child, height, percent;
-      var heights = [];
+      var heights = [], hint;
       var allocatedHeight = gaps;
 
       for (i=0; i<length; i+=1)
       {
         percent = this.__heights[i];
-
+        hint = children[i].getSizeHint();
+        
         height = percent != null ?
           Math.floor((availHeight - gaps) * percent) :
-          children[i].getSizeHint().height;
+          hint.height;
 
+        // Limit computed value
+        if (height < hint.minHeight) {
+          height = hint.minHeight;
+        } else if (height > hint.maxHeight) {
+          height = hint.maxHeight;
+        }
+        
         heights.push(height);
         allocatedHeight += height;
       }
