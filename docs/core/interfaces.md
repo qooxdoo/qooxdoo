@@ -1,5 +1,5 @@
-Interfaces
-==========
+# Interfaces
+
 
 qooxdoo supports Java like interfaces.
 
@@ -35,8 +35,8 @@ Example:
        }
     });
 
-Definition
-----------
+## Definition
+
 
 Interfaces are declared using `qx.Interface.define`. Interface names start by convention with an `I` (uppercase "i"). They can inherit from other interfaces using the `extend` key. Multiple inheritance of interfaces is supported.
 
@@ -52,19 +52,22 @@ The member section of the interface lists all member functions which must be imp
 
 Statics behave exactly like statics defined in mixins and qooxdoo classes, with the different that only constants are allowed. They are accessible through their fully-qualified name. For example, the static variable `PI` could be used like this:
 
+```
     var a = 2 * qx.test.ISample.PI * (r*r);
+```
 
 ### Events
 
 Each event defined in the interface must be declared in the implementing classes. The syntax matches the `events` key of the class declaration.
 
-Implementation
---------------
+## Implementation
+
 
 With `implement` key of the class declaration, a list of interfaces can be listed, which the class implements. The class must implement all properties, members and events declared in the interfaces. Otherwise a runtime error will be thrown.
 
 Example:
 
+```
     qx.Class.define("qx.test.Sample",
      {
        implement: [qx.test.ISample],
@@ -87,9 +90,10 @@ Example:
        }
 
     });
+```
 
-Validation
-----------
+## Validation
+
 
 `qx.Class` contains several static methods to check, whether a class or an object implements an interface:
 
@@ -105,6 +109,6 @@ Summary
 
 ### References
 
--   interface\_quickref - a syntax quick reference for interfaces
+-   [a syntax quick reference for interfaces](interface_quickref)
 -   [API Documentation for Interface](apps://apiviewer/#qx.Interface)
 

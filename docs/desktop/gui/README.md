@@ -124,3 +124,29 @@ instance to retrieve and store certain application data, to do credit card
 validation and so on. To this end, qooxdoo includes a sophisticated IO layer
 featuring high-level abstractions for XMLHTTP requests and REST resources as
 well as support for cross-domain requests.
+
+## Widgets Introduction
+
+- [Introduction](/desktop/widget/)
+- [Custom widgets](customwidgets.md)
+- [Interaction](interaction.md)
+- [Resources](resources.md)
+- [Selection](selection.md)
+- [Drag'n'Drop](dragdrop.md)
+- [Forms](forms.md)
+- [Menus](menu.md)
+- [Window Managment](window_management.md)
+- [Table Styling](table_styling.md)
+
+## Themes
+
+- [Theming](theming.md)
+- [Appearance](appearance.md)
+- [Custom themes](themes.md)
+- [Decorators](themes.md#qooxdoo-theme-decorators)
+
+## Technical Concepts
+
+- [Event layer](event_layer_impl.md)
+- [HTML element handling](html.md)
+- [Focus handling](focus.md)

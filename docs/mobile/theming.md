@@ -4,7 +4,7 @@ Theming
 CSS and SCSS
 ------------
 
-Theming in %{Mobile} is done with [SCSS](http://www.sass-lang.com/). SCSS is an extension for CSS to enable style sheets to be more modular and maintainable. In SCSS you can you use variables, create mixins, import other style files and reuse CSS statements.
+Theming in Mobile is done with [SCSS](http://www.sass-lang.com/). SCSS is an extension for CSS to enable style sheets to be more modular and maintainable. In SCSS you can you use variables, create mixins, import other style files and reuse CSS statements.
 
 Despite our use of SCSS you do not have to be an SCSS expert. The main SCSS parts are maintained by us in the framework. You will usually just need some knowledge of CSS.
 
@@ -13,11 +13,8 @@ If you want to extend or change the qooxdoo mobile themes you should always modi
 SCSS Compilation
 ----------------
 
-%{Mobile} uses the official [Sass compiler](http://sass-lang.com/install) to leverage the changes you make to your application's \*.scss files.
+The qooxdoo compiler compiles the scss files on the fly to css!
 
-It requires both a [Ruby](http://www.ruby-lang.org/) and [RubyGems](http://rubygems.org/) installation on your machine.
-
-You can either invoke it manually through the `compile-scss` Generator job (which utilizes the `sass` command line tool) or by running the `watch-scss` Generator job (see further below). Moreover it is invoked automatically during `build` and `source` runs.
 
 Coming from CSS (... and never heard of Sass and SCSS)?
 -------------------------------------------------------
@@ -210,13 +207,3 @@ Example:
     // text size should be about 32px, this gets converted to 2rem.
     $navigationbar-text-size:  rem(32);
 
-Improving your theming workflow
--------------------------------
-
-With the following suggestion you can further improve the theming workflow of your qx.Mobile application:
-
--   [CSS Auto Reload for Chrome](https://chrome.google.com/webstore/detail/css-auto-reload/fiikhcfekfejbleebdkkjjgalkcgjoip)
-
-This plug-in recognizes when a website's CSS has changed and updates the CSS automatically, without reloading the entire document. This plug-in works perfectly in combination with the SCSS watch job.
-
-The result: You just have to change a qx.Mobile's SCSS, save it and the qx.Mobile application in Chrome updates after a few seconds, while keeping the current state of the application.

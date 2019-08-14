@@ -1,7 +1,7 @@
 Tutorial: Creating a Tweets Client with qooxdoo mobile
 ======================================================
 
-In this tutorial you will learn how to create a simple tweets app with the [qooxdoo mobile](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.mobile) widgets.
+In this tutorial you will learn how to create a simple tweets app with the [qooxdoo mobile](apps:://apiviewer/#qx.ui.mobile) widgets.
 
 [identica](http://identi.ca) is a twitter-like service for reading and posting public short messages - called "tweets". It has a [twitter-compatible API](http://status.net/wiki/Twitter-compatible_API) for accessing data.
 
@@ -9,12 +9,12 @@ In this tutorial you will learn how to create a simple tweets app with the [qoox
 
 We use a mock for the identica service to be sure this tutorial always works.
 
-The app that is to be created in this tutorial should display all tweets of a certain user. When a tweet is selected, the details of the tweet should be shown. You can find the code of the tutorial [here](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/mobiletweets).
+The app that is to be created in this tutorial should display all tweets of a certain user. When a tweet is selected, the details of the tweet should be shown. You can find the code of the tutorial [here](mobiletweetshttps://github.com/qooxdoo/qooxdoo/tree/master/component/tutorials/mobiletweets/step1).
 
 Requirements and Getting Started
 --------------------------------
 
-Please visit the getting started section \<getting\_started\> and follow the introduction which describes how to create a %{Mobile} Application.
+Please visit the getting started section [Getting Started](getting_started.md) and follow the introduction which describes how to create a Mobile Application.
 
 Creating your first Page
 ------------------------
