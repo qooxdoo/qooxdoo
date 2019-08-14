@@ -104,7 +104,10 @@ qx.Mixin.define("qx.core.MObjectId", {
       }
       if (this.__ownedQxObjects) {
         for (var name in this.__ownedQxObjects) {
-          this.__ownedQxObjects[name]._cascadeQxObjectIdChanges();
+          var obj = this.__ownedQxObjects[name];
+          if (obj instanceof qx.core.Object) {
+            obj._cascadeQxObjectIdChanges();
+          }
         }
       }
     },
@@ -206,6 +209,18 @@ qx.Mixin.define("qx.core.MObjectId", {
       if (!this.__ownedQxObjects) {
         this.__ownedQxObjects = {};
       }
+      
+      if (!(obj instanceof qx.core.Object)) {
+        if (!id) {
+          throw new Error("Cannot register an object that has no ID, obj=" + obj);
+        }
+        if (this.__ownedQxObjects[id]) {
+          throw new Error("Cannot register an object with ID '" + id + "' because that ID is already in use, this=" + this + ", obj=" + obj);
+        }
+        this.__ownedQxObjects[id] = obj;
+        return;
+      }
+      
       var thatOwner = obj.getQxOwner();
       if (thatOwner === this) {
         return;
@@ -260,6 +275,9 @@ qx.Mixin.define("qx.core.MObjectId", {
         }
       } else {
         obj = args;
+        if (!(obj instanceof qx.core.Object)) {
+          throw new Error("Cannot discard object by reference because it is not a Qooxdoo object, please remove it using the original ID; object=" + obj);
+        }
         id = obj.getQxObjectId();
         if (this.__ownedQxObjects[id] !== obj) {
           throw new Error("Cannot discard object because it is not owned by this, this=" + this + ", object=" + obj);
@@ -267,12 +285,17 @@ qx.Mixin.define("qx.core.MObjectId", {
       }
 
       if (obj !== null) {
-        obj.__changingQxOwner = true;
-        try {
+        if (!(obj instanceof qx.core.Object)) {
           this.__removeOwnedQxObjectImpl(obj);
-          obj._cascadeQxObjectIdChanges();
-        } finally {
-          obj.__changingQxOwner = false;
+          delete this.__ownedQxObjects[id];
+        } else {
+          obj.__changingQxOwner = true;
+          try {
+            this.__removeOwnedQxObjectImpl(obj);
+            obj._cascadeQxObjectIdChanges();
+          } finally {
+            obj.__changingQxOwner = false;
+          }
         }
       }
     },

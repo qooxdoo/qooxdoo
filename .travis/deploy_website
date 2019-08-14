@@ -41,9 +41,15 @@ cp -a ../build "$TARGET"
 
 # Maintain the current link
 if [ $CURRENT = 1 ]; then
-  rm -rf current &> /dev/null
+  rm -f current
   ln -s "$TARGET" current
 fi
+# global /docs shows documentation of current master
+rm -f docs                              
+ln -s $(cat ../version.txt)/docs docs
+# global /apps shows apps of current master, needed for /docs
+rm -f apps                             
+ln -s $(cat ../version.txt)/apps apps
 
 touch .nojekyll
 touch .

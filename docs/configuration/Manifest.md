@@ -1,6 +1,6 @@
 # Manifest.json
 
-qooxdoo's [Manifest files](http://en.wikipedia.org/wiki/Manifest_file) serve to provide meta information for a library in a structured way. Their syntax is in JSON. They have a more informational part (keyed `info`), which is more interesting for human readers, a technical part (named `provides`) that is used in the processing of generator configurations, and a part named `externalResources` to include CSS and Javascript files. Here is a brief sample with all the possible keys:
+qooxdoo's [Manifest files](http://en.wikipedia.org/wiki/Manifest_file) serve to provide meta information for a library in a structured way. Their syntax is in JSON and they can be validated against a [JSON schema](https://github.com/qooxdoo/qooxdoo-compiler/tree/master/source/resource/qx/tool/schema). They have a more informational part (keyed `info`), which is more interesting for human readers, a technical part (named `provides`) that is used in the processing of generator configurations, and a part named `externalResources` to include CSS and Javascript files. Here is a brief sample with all the possible keys:
 
 Manifest files are referenced in application's *config.json* files (in the library), to identify the library they stand for.
 
@@ -89,15 +89,14 @@ This is a sample file:
   * **translation**: Path to the library's translation files relative to the Manifest.json file (e.g. `source/translation`).
   * [**webfonts**]: [see here](../compiler/IconFonts.md) 
   * **type**: One of [`library`, `application`, `add-in`,`contribution`]. 
-  * **application**: An application description block as described in 
-        [compiler.json](./compile.md). This block will copied to `applications` section in `compile.json` during installation of the contrib.
+  * **application**: An application description block as described in [compiler.json](./compile.md). This block will copied to `applications` section in `compile.json` during installation of the contrib.
 
 * **externalResources**: Static Javascript and CSS files that shall be always included without further processing by qooxdoo. All paths are relative to the resource folder stated in the "provides" section.
   * **script**: Array of javascript files.
   * **css**: Array of css files.
--   **requires**: a list of of needed libraries and contribs. Format is 
-     `contrib_uri`: `needed_version` where `needed_version` is a semver compatible version description.
+-   **requires**: a list of of needed libraries and [packages](../cli/packages.md). Format is 
+     `package_uri`: `needed_version` where `needed_version` is a semver compatible version description.
      
      Special handling for:
-     * @qooxdoo/framework: This checks the version of the used qooxdoo sdk.
-     * @qooxdoo/compiler: This checks the version of the used qooxdoo compiler.
+     * @qooxdoo/framework: This checks the version of the used qooxdoo framework NPM package.
+     * @qooxdoo/compiler: This checks the version of the used qooxdoo compiler NPM package.
