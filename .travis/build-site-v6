@@ -10,11 +10,13 @@ exe() { echo "\$ ${@/eval/}" ; "$@" ; }
 TARGET=deploy/$(cat ./version.txt)
 mkdir -p $TARGET
 
-[ -d ./node_modules/@qooxdoo/compiler ] || npm i --no-save @qooxdoo/compiler
+npm i --no-save @qooxdoo/compiler
 
-# build apps (unless already built) & copy to website target
-[ -d ./apps/resource ] || exe npx qx compile compile.json --target build  --feedback=0
+# build apps  
+exe npx qx compile compile.json --target build  --feedback=0 --verbose
+#restore .npmignore 
+exe git checkout .
+# copy to website target
 exe rsync -avR ./apps $TARGET --exclude-from=./apps/.npmignore
-
 # copy documentation
 exe cp -a ./docs $TARGET/

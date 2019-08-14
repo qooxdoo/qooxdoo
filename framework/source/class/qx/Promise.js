@@ -1026,14 +1026,17 @@ qx.Class.define("qx.Promise", {
  * @ignore(_dereq_)
  * @ignore(chrome)
  * @ignore(chrome.loadTimes)
+ * @ignore(CustomEvent)
  * @ignore(define)
  * @ignore(define.amd)
  * @ignore(enumeration)
+ * @ignore(Event)
  * @ignore(exports)
  * @ignore(global)
  * @ignore(global.setImmediate)
  * @ignore(module)
  * @ignore(module.exports)
+ * @ignore(MutationObserver)
  * @ignore(obj)
  * @ignore(obj.toPromise)
  * @ignore(predicateLoop)
@@ -1048,7 +1051,8 @@ qx.Class.define("qx.Promise", {
  * @ignore(process.versions.node.split)
  * @ignore(promise)
  * @ignore(Promise)
- * @ignore(setImmediate) 
+ * @ignore(self) 
+ * @ignore(setImmediate)
  */
 (function() {
   /* @preserve

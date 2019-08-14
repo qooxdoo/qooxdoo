@@ -7,8 +7,10 @@ qooxdoo components, be it Desktop, Mobile, Website or Server. Among these
 features are a dedicated class system with custom class properties, data binding
 and a runtime environment.
 
-We recommend that you at least make your way through the chapters *Introduction
-to Object Orientation*, *Features of Object Orientation* and *Classes* from the
-*Object Orientation* section, which provide the foundation for working with
+We recommend that you at least make your way through the chapters 
+[Introduction to Object Orientation](oo_introduction.md), 
+[Features of Object Orientation](oo_feature_summary.md) and 
+[Classes](oo_introduction.md#classes) from the [Object Orientation](oo_introduction.md#classes) 
+section, which provide the foundation for working with
 qooxdoo's class system. The other chapters can be read when the need arises, and
 as reference material for the other components' documentation.
