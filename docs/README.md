@@ -58,7 +58,7 @@ code.
 $ mkdir myapp
 $ cd myapp
 $ npm init
-$ npm install --save-dev @qooxdoo/compiler @qooxdoo/framework
+$ npm install --save-dev @qooxdoo/compiler
 $ ls
 node_modules      package-lock.json package.json
 ```
