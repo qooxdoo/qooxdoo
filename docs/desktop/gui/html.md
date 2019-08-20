@@ -1,7 +1,7 @@
 HTML Element Handling
 =====================
 
-This document describes the ideas and concepts behind the classes in the `qx.html` namespace ([API](http://api.qooxdoo.org/#qx.html)). qooxdoo also comes with a basic low-level abstraction API for DOM manipulation. For details about this API please have a look at the corresponding documentation \<website/tech\_website\_apis\>.
+This document describes the ideas and concepts behind the classes in the `qx.html` namespace ([API](apps://apiviewer/#qx.html)). qooxdoo also comes with a basic low-level abstraction API for DOM manipulation. For details about this API please have a look at the [corresponding documentation](/core/tech_website_apis.md).
 
 Idea
 ----
@@ -13,7 +13,7 @@ The classes in `qx.html` are wrapper for native DOM elements, which basically we
 In details this means:
 
 > -   **Automatic performance**: Programmatically constructing DOM hierarchies is hard to get fast because the order in which elements are nested can heavily influence the runtime performance. What `qx.html.Element` does is trying to keep the number of element instances to the minimum actually needed (DOM nodes are expensive, both performance and memory aside) and to insert the DOM nodes in an efficient manner. Further all changes to the DOM are cached and applied in batch mode, which improves the performance even more.
-> -   **Normalized API**: Working with HTML DOM elements usually involves many browser switches. Especially when it comes to reading and setting of attributes or styles. For each style one has to remember whether a normalization method should be called or if the value can be set directly. `qx.html.Element` does this kind of normalization transparently. The browser normalization is based on the existing low-level APIs \<website/tech\_website\_apis\>.
+> -   **Normalized API**: Working with HTML DOM elements usually involves many browser switches. Especially when it comes to reading and setting of attributes or styles. For each style one has to remember whether a normalization method should be called or if the value can be set directly. `qx.html.Element` does this kind of normalization transparently. The browser normalization is based on the [existing low-level APIs](/core/tech_website_apis.md).
 > -   **Convenience methods**: These elements have additional convenience API, which is not available on pure DOM elements. They have e.g. the functionality to manage children with methods like `addBefore()` or `moveAfter()`.
 
 Typical Use Cases
@@ -47,19 +47,19 @@ A root is one essential element type when dealing with the API. Every user of `q
 
 ### Labels
 
-Used for all types of text content. Supports text or HTML content togglable using the `setRich()` method. When using the text mode ellipsis is supports in all browsers to show an indication when the text is larger than the available space. Highly depends on the API of [qx.bom.Label](http://api.qooxdoo.org#qx.bom.Label).
+Used for all types of text content. Supports text or HTML content togglable using the `setRich()` method. When using the text mode ellipsis is supports in all browsers to show an indication when the text is larger than the available space. Highly depends on the API of [qx.bom.Label](apps://apiviewer/#qx.bom.Label).
 
 ### Images
 
-An element pre-configured as a `IMG` tag. Supports scaled and unscaled images. Supports image clipping (without scaling) to more efficiently deal with a lot of images. Depends on the API brought in by [qx.bom.element.Decoration](http://api.qooxdoo.org#qx.bom.element.Decoration).
+An element pre-configured as a `IMG` tag. Supports scaled and unscaled images. Supports image clipping (without scaling) to more efficiently deal with a lot of images. Depends on the API brought in by [qx.bom.element.Decoration](apps://apiviewer/#qx.bom.element.Decoration).
 
 ### Input
 
-This element is used for all types of input fields. The type can be given using a constructor parameter. It allows configuration of the `value` and the text wrapping (requires type `textarea`). Depends on the API brought in by [qx.bom.Input](http://api.qooxdoo.org#qx.bom.Input).
+This element is used for all types of input fields. The type can be given using a constructor parameter. It allows configuration of the `value` and the text wrapping (requires type `textarea`). Depends on the API brought in by [qx.bom.Input](apps://apiviewer/#qx.bom.Input).
 
 ### Iframe
 
-This element is used to create iframes to embed content from other sources to the DOM. It wraps the features of [qx.bom.Iframe](http://api.qooxdoo.org#qx.bom.Iframe). Supports to configure the source of the iframe as well as its name. Comes with accessors to the document or window object of the iframe.
+This element is used to create iframes to embed content from other sources to the DOM. It wraps the features of [qx.bom.Iframe](apps://apiviewer/#qx.bom.Iframe). Supports to configure the source of the iframe as well as its name. Comes with accessors to the document or window object of the iframe.
 
 ### Canvas
 

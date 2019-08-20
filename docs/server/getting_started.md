@@ -1,9 +1,9 @@
-Getting Started with %{qooxdoo} %{Server}
+Getting Started with Qooxdoo Server
 =========================================
 
-On the basic level, you can just load the %{Server} module into your own program, using your runtime's loading primitives. Here is a simple example for Node.js:
+On the basic level, you can just load the Server module into your own program, using your runtime's loading primitives. Here is a simple example for Node.js:
 
-    var qx = require('%{qooxdoo}');
+    var qx = require('@qooxdoo/framework')
 
     qx.Class.define("Dog", {
       extend : qx.core.Object,
