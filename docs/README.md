@@ -35,7 +35,7 @@ or you can install it globally.
 ### Global installation
 
 The following command line installs the qooxdoo compiler so that it becomes
-available via your path settings.
+available anywhere via your path settings.
 
 ```bash
 $ npm install -g @qooxdoo/compiler
@@ -58,9 +58,9 @@ code.
 $ mkdir myapp
 $ cd myapp
 $ npm init
-$ npm install --save-dev @qooxdoo/compiler @qooxdoo/framework
+$ npm install --save-dev @qooxdoo/compiler
 $ ls
-node_modules      package-lock.json package.json
+node_modules package-lock.json package.json
 ```
 
 To start the qooxdoo compiler type
