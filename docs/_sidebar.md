@@ -4,106 +4,88 @@
   - [Qooxdoo Apps](/apps.md)
   - [About](/about.md)
 
-- Qooxdoo Core
+- [**Qooxdoo Core**](/core/)
 
-  - [Introduction](/core/)
-  - [Class based OO](/core/classes.md)
-  - [Properties](/core/properties.md)
-  - [Mixins](/core/mixins.md)
-  - [Interfaces](/core/interfaces.md)
-  - [Array](/core/array.md)
-  - [Annotations](/core/annotations.md)
+  - [Introduction](/core/oo_introduction.md)
+  - [Feature summery](/core/oo_feature_summary.md)
+  
+  - Object Orientation
+    - [Classes](/core/classes.md)
+      - [Quickref](/core/class_quickref.md)
+    - [Interfaces](/core/interfaces.md)
+      - [Quickref](/core/interface_quickref.md)
+    - [Mixins](/core/mixins.md)
+      - [Quickref](/core/mixin_quickref.md)
+    - [Annotations](/core/annotations.md)
+    - [Arrays](/core/array.md)
+    - [Data binding](/core/data_binding/)
+    - [Promises](/core/promises.md)
+
+  - Properties
+    - [Properties](/core/understanding_properties.md)
+      - [Quickref](/core/properties_quickref.md)
+    - [Defining properties](/core/defining_properties.md)
+    - [Behavior](/core/property_behavior.md)
+    - [Features](/core/property_features.md)
+  
   - [Environent](/core/environment.md)
-  - [Data binding](/core/data_binding.md)
-  - Promises (tbd)
+  
+  - Interaction Events
+    - [Pointer](/core/pointer.md)
+    - [Gestures](/core/gestures.md)
+  
 
-- Qooxdoo UI
+- Qooxdoo for Desktop
 
-  - [Introduction](/gui/)
-  - [Layout](/gui/layouting.md)
-  - [Menus](/gui/menus.md)
-  - [Forms](/gui/forms.md)
-  - [Resources](/gui/resources.md)
-  - [Custom Widgets](/gui/customwidgets.md)
-  - [HTML Elements](/gui/html.md)
-  - [Themes](/gui/theming.md)
-  - [Custom Themes](/gui/themes.md)
-  - [Pointer](/gui/pointer.md)
-  - [Drag'n'Drop](/gui/dragdrop.md)
-  - [Focus Layer](/gui/focus.md)
-  - [Inline](/gui/inline.md)
-  - [Interaction](/gui/interaction.md)
-  - [Selection](/gui/selection.md)
-  - [Table Styling](/gui/table_styling.md)
+  - Qooxdoo UI
+    - [Interaction](/desktop/gui/interaction.md)
+    - [Resources](/desktop/gui/resources.md)
+    - [Selection](/desktop/gui/selection.md)
+    - [Drag'n'Drop](/desktop/gui/dragdrop.md)
+    - [Forms](/desktop/gui/forms.md)
+    - [Menus](/desktop/gui/menus.md)
+    - [Window Managment](/desktop/gui/window_management.md)
+    - [Table Styling](/desktop/gui/table_styling.md)
+
+ - Themes
+    - [Theming](/desktop/gui/theming.md)
+    - [Appearance](/desktop/gui/appearance.md)
+    - [Custom themes](/desktop/gui/themes.md)
+    - [Decorators](/desktop/gui/themes.md#qooxdoo-theme-decorators)
+
+  - Layouts
+    - [Introduction](/desktop/layout/)
+    - [Reference](/desktop/layout/reference.md)
+    - [Alphabetic list](/desktop/layout/layout_list.md)
+  
+  - Qooxdoo Widgets
+    - [Introduction](/desktop/widget/)
+    - [Custom widgets](/desktop/gui/customwidgets.md)
+    - [Reference](/desktop/widget/reference.md)
+    - [Alphabetic list](/desktop/widget/widget_list.md)
+
+  - Technical Concepts
+    - [Event layer](/desktop/gui/event_layer_impl.md)
+    - [HTML element handling](/desktop/gui/html.md)
+    - [Focus handling](/desktop/gui/focus.md)  
 
 
-- Layouts
+- Qooxdoo for Node
+  - [Introduction](/server/)
+  - [Getting Started](/server/getting_started.md)
+  - [Requirements](/server/requirements.md)  
 
-  - [Introduction](/layout/)
-  - [Basic](/layout/basic.md)
-  - [Box](/layout/box.md)
-  - [Canvas](/layout/canvas.md)
-  - [Dock](/layout/dock.md)
-  - [Flow](/layout/flow.md)
-  - [Grid](/layout/grid.md)
-  - [HBox/VBox](/layout/box.md)
-  - [Grow](/layout/grow.md)
+- Qooxdoo Mobile
+  - [Introduction](/mobile/)
+  - [Overview](/mobile/mobile_overview.md)
+  - [Requirements](/mobile/requirements.md)
+  - [Getting Started](/mobile/getting_started.md)
+  - [Debugging](/mobile/debugging.md)
+  - [Deployment](/mobile/deployment.md)
+  - [Mobile and tablet switch](/mobile/mobile_tablet_switch.md)
+  - [Resolution and Pixel Density](/mobile/resolution.md)
+  - [Theming](/mobile/theming.md)
 
-- Qooxdoo Widgets
-  - [atom](/widget/atom.md)
-  - [button](/widget/button.md)
-  - [canvas](/widget/canvas.md)
-  - [checkbox](/widget/checkbox.md)
-  - [combobox](/widget/combobox.md)
-  - [composite](/widget/composite.md)
-  - [datefield](/widget/datefield.md)
-  - [flash](/widget/flash.md)
-  - [groupbox](/widget/groupbox.md)
-  - [hoverbutton](/widget/hoverbutton.md)
-  - [html](/widget/html.md)
-  - [iframe](/widget/iframe.md)
-  - [image](/widget/image.md)
-  - [label](/widget/label.md)
-  - [list](/widget/list.md)
-  - [menu](/widget/menu.md)
-  - [menubar](/widget/menubar.md)
-  - [menubutton](/widget/menubutton.md)
-  - [passwordfield](/widget/passwordfield.md)
-  - [popup](/widget/popup.md)
-  - [progressbar](/widget/progressbar.md)
-  - [repeatbutton](/widget/repeatbutton.md)
-  - [resizer](/widget/resizer.md)
-  - [scroll](/widget/scroll.md)
-  - [scrollbar](/widget/scrollbar.md)
-  - [selectbox](/widget/selectbox.md)
-  - [slidebar](/widget/slidebar.md)
-  - [slider](/widget/slider.md)
-  - [spacer](/widget/spacer.md)
-  - [spinner](/widget/spinner.md)
-  - [splitbutton](/widget/splitbutton.md)
-  - [splitpane](/widget/splitpane.md)
-  - [stack](/widget/stack.md)
-  - [table_remote_model](/widget/table_remote_model.md)
-  - [table](/widget/table.md)
-  - [tabview](/widget/tabview.md)
-  - [template._skip_](/widget/template._skip_.md)
-  - [textarea](/widget/textarea.md)
-  - [textfield](/widget/textfield.md)
-  - [themediframe](/widget/themediframe.md)
-  - [toctree](/widget/toctree.md)
-  - [togglebutton](/widget/togglebutton.md)
-  - [toolbar](/widget/toolbar.md)
-  - [tooltip](/widget/tooltip.md)
-  - [tree](/widget/tree.md)
-  - [virtualcombobox](/widget/virtualcombobox.md)
-  - [virtuallist](/widget/virtuallist.md)
-  - [virtualselectbox](/widget/virtualselectbox.md)
-  - [virtualtree](/widget/virtualtree.md)
-  - [widget_ref](/widget/widget_ref.md)
-  - [widget](/widget/widget.md)
-  - [window](/widget/window.md)
-
-- Testing (tbd)
 
 - Communication
 
@@ -114,35 +96,16 @@
   - [Request IO](/communication/request_io.md)
   - [JSON RPC](/communication/rpc.md)
 
+- Testing (tbd)
+
 - Deployment (tbd)
 
-- Qooxdoo Tools
-  - ["qx" CLI commands](/cli/commands.md)
-  - [Package system](/cli/packages.md)
-  - [Compiler Configuration](/configuration/overview.md)
-  - [Compiler API](/compiler/API.md)
-  - API Reference (tbd)
-  - Demo Browser (tbd)
-  - Widget Browser (tbd)
+- Development
+  - ["qx" CLI commands](/compiler/cli/commands.md)
+  - [Package system](/compiler/cli/packages.md)
+  - [Compiler Configuration](/compiler/configuration/overview.md)
+  - [Advanced compiler topics](/compiler/internals/)
 
-- Qooxdoo for Node
-  - [Introduction](/server/)
-  - [Getting Started](/server/getting_started.md)
-  - [Requirements](/server/requirements.md)  
-
-- Qooxdoo Mobile
-
-  - [Introduction](/mobile/)
-  - [Overview](/mobile/overview.md)
-  - [Requirements](/mobile/requirements.md)
-  - [Getting Started](/mobile/getting_started.md)
-  - [Debugging](/mobile/debugging.md)
-  - [Deployment](/mobile/deployment.md)
-  - [Mobile and table switch](/mobile/mobile_tablet_switch.md)
-  - [Resolution and Pixel Density](/mobile/resolution.md)
-  - [Theming](/mobile/theming.md)
-  - [Theme Migration](/mobile/theme_migration.md)
-  - [Tutorial](/mobile/tutorial.md)
 
 - Tutorials
 
@@ -157,3 +120,5 @@
     - [7. Translations](/tutorial/twitter/tutorial-part-7.md)
     - [8. Unit Testing](/tutorial/twitter/tutorial-part-8.md)
     - [9. Virtual Lists](/tutorial/twitter/tutorial-part-9.md)
+  - [**Qooxdoo Mobile App**](/mobile/tutorial.md)
+
