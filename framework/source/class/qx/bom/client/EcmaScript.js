@@ -312,7 +312,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      * @return {Boolean} <code>true</code>, if BigInt is available.
      */
     getBigInt : function() {
-      return typeof BigInt != "undefined";
+      return typeof BigInt !== "undefined";
     },
 
 
@@ -327,7 +327,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getBigIntToLocaleString : function()
     {
-      return typeof BigInt != "undefined"                          // BigInt type supported...
+      return typeof BigInt !== "undefined"                         // BigInt type supported...
           && typeof BigInt.prototype.toLocaleString === "function"// ...method is present...
           && (BigInt(1234).toLocaleString("de-DE") === "1,234"); // ...and works as expected
     },
