@@ -59,6 +59,9 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
 
   events :
   {
+    /** Fires after the value was modified */
+    "changeValue" : "qx.event.type.Data",
+
     /** Fires after the selection was modified */
     "changeSelection" : "qx.event.type.Data"
   },
@@ -125,12 +128,63 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
     /** @type {qx.ui.core.selection.Abstract} The selection manager */
     __manager : null,
 
+    /** @type {Boolean} used to control recursion in onSelectionChange */
+    __inOnSelectionChange: false,
 
+    
     /*
     ---------------------------------------------------------------------------
       USER API
     ---------------------------------------------------------------------------
     */
+
+
+    /**
+     * setValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @param items {null|qx.ui.core.Widget[]} Items to select.
+     * @returns {null|TypeError} The status of this operation.
+     */
+    setValue : function(items) {
+      if (null === items) {
+        this.__manager.clearSelection();
+        return null;
+      }
+
+      if (qx.core.Environment.get("qx.debug")) {
+        for (var i=0, l=items.length; i<l; i++) {
+          if (!(items[i] instanceof qx.ui.core.Widget)) {
+            return new TypeError("Some items in provided argument are not widgets");
+          }
+        }
+      }
+
+      try {
+        this.setSelection(items);
+        return null;
+
+      } catch (e) {
+        return e;
+      }
+    },
+
+
+    /**
+     * getValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @returns {qx.ui.core.Widget[]} The selected widgets or null if there are none.
+     */
+    getValue : function() {
+      return this.__manager.getSelection();
+    },
+
+
+    /**
+     * resetValue implements part of the {@link qx.ui.form.IField} interface.
+     */
+    resetValue : function() {
+      this.__manager.clearSelection();
+    },
 
 
     /**
@@ -226,6 +280,13 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      *    the items contains more than one item.
      */
     setSelection : function(items) {
+      // Block recursion so that when selection changes modelSelection, the modelSelection
+      //  cannot change selection again; this is important because modelSelection does not
+      //  necessarily match selection, for example when the item's model properties are
+      //  null.
+      if (this.__inOnSelectionChange) {
+        return;
+      }
       for (var i = 0; i < items.length; i++) {
         if (!qx.ui.core.Widget.contains(this, items[i])) {
           throw new Error("Could not select " + items[i] +
@@ -367,14 +428,23 @@ qx.Mixin.define("qx.ui.core.MMultiSelectionHandling",
      * @param e {qx.event.type.Data} Data event
      */
     _onSelectionChange : function(e) {
-      this.fireDataEvent("changeSelection", e.getData());
+      if (this.__inOnSelectionChange) {
+        return;
+      }
+      this.__inOnSelectionChange = true;
+      try {
+        this.fireDataEvent("changeSelection", e.getData(), e.getOldData());
+        this.fireDataEvent("changeValue", e.getData(), e.getOldData());
+      } finally {
+        this.__inOnSelectionChange = false;
+      }
     }
   },
 
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
+     DESTRUCTOR
   *****************************************************************************
   */
 

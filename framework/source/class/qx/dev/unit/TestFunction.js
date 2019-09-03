@@ -102,22 +102,40 @@ qx.Class.define("qx.dev.unit.TestFunction",
     /**
      * Runs the test and logs the test result to a {@link TestResult} instance,
      *
-     * @param testResult {TestResult} The class used to log the test result.
+     * @param testResult {qx.dev.unit.TestResult} The class used to log the test result.
      */
     run : function(testResult)
     {
       var inst = this.getTestClass();
       var method = this.getName();
-      
-      inst.setTestFunc(this);
-      inst.setTestResult(testResult);
-      
-      testResult.run(this, function()
-      {
-        try {
-          inst[method]();
-        } catch (ex) {
-          throw ex;
+
+      inst.set({
+        testFunc: this,
+        testResult: testResult
+      });
+
+      testResult.run(this, function() {
+        switch (inst[method].constructor.name) {
+          case "Function":
+            try {
+              inst[method]();
+            } catch (ex) {
+              throw ex;
+            }
+            break;
+          case "AsyncFunction":
+            inst[method]()
+            .then(
+              function(){
+                inst.resume()
+              }
+            )
+            .catch(
+              function(ex){
+                inst.resume(function(){ throw ex });
+              }
+            );
+            inst.wait();
         }
       });
 

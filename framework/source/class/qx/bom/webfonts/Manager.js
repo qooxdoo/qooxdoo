@@ -303,7 +303,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     __require : function(familyName, sources, fontWeight, fontStyle, comparisonString, version, callback, context)
     {
       var fontLookupKey = this.__createFontLookupKey(familyName, fontWeight, fontStyle);
-      if (!qx.lang.Array.contains(this.__createdStyles, fontLookupKey)) {
+      if (!this.__createdStyles.includes(fontLookupKey)) {
         var sourcesMap = this.__getSourcesMap(sources);
         var rule = this.__getRule(familyName, fontWeight, fontStyle, sourcesMap, version);
 
@@ -498,9 +498,19 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      */
     __removeRule : function(familyName, fontWeight, fontStyle)
     {
-      var reg = new RegExp("@font-face.*?" + familyName + ".*font-style: *"
-      + (fontStyle ? fontStyle : "normal") + ".*font-weight: *"
-      + (fontWeight ? fontWeight : "normal"), "m");
+      // In IE and edge even if the rule was added with font-style first
+      // and font-weight second, it is not guaranteed that the attributes
+      // remain in that order. Therefore we check for both version,
+      // style first, weight second and weight first, style second.
+      // Without this fix the rule isn't found and removed reliable. 
+      var regtext = 
+        "@font-face.*?" + familyName + 
+        "(.*font-style: *" + (fontStyle ? fontStyle : "normal") + 
+        ".*font-weight: *" + (fontWeight ? fontWeight : "normal")+")|" +
+        "(.*font-weight: *" + (fontWeight ? fontWeight : "normal") + 
+        ".*font-style: *" + (fontStyle ? fontStyle : "normal")+")"
+        ;
+      var reg = new RegExp(regtext, "m");
       for (var i=0,l=document.styleSheets.length; i<l; i++) {
         var sheet = document.styleSheets[i];
         if (sheet.cssText) {

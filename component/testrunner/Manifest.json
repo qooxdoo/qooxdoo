@@ -9,7 +9,7 @@
     "keywords" : ["unit", "test", "test runner"],
     "homepage" : "http://demo.qooxdoo.org/",
 
-    "license" : "LGPL/EPL",
+    "license" : "MIT",
     "authors" : 
     [
       {

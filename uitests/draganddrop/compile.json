@@ -1,0 +1,28 @@
+{
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "output/source"
+    },
+    {
+      "type": "build",
+      "outputPath": "output/build",
+      "addCreatedAt": true
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [ "en" ],
+
+  "applications": [
+    {
+      "class": "draganddrop.DragAndDropApplication",
+      "theme": "qx.theme.Simple",
+      "name": "dragndrop"
+    }
+  ],
+
+  "libraries": [
+    "../../framework",
+    "."
+  ]
+}

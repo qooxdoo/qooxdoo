@@ -114,6 +114,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
     "statusError": "qx.event.type.Event",
 
     /**
+     * Fired when the configured parser runs into an unrecoverable error.
+     */
+    "parseError": "qx.event.type.Data",
+
+    /**
      * Fired on timeout, error or remote error.
      *
      * This event is fired for convenience. Usually, it is recommended
@@ -263,6 +268,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
      */
     _transport: null,
 
+    /**
+     * Holds information about the parser status for the last request.
+     */
+    _parserFailed: false,
+
     /*
     ---------------------------------------------------------------------------
       CONFIGURE TRANSPORT
@@ -402,6 +412,94 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
       method == "GET" ? transport.send() : transport.send(requestData);
       this._setPhase("sent");
+    },
+
+    /**
+    * The same as send() but also return a `qx.Promise` object. The promise
+    * is resolved to this object if the request is successful.
+    *
+    * Calling `abort()` on the request object, rejects the promise. Calling
+    * `cancel()` on the promise aborts the request if the request is not in a
+    * final state.
+    * If the promise has other listener paths, then cancelation of one path will
+    * not have any effect on the request and consequently that call will not
+    * affect the other paths.
+    *
+    * @param context {Object?} optional context to bind the qx.Promise.
+    * @return {qx.Promise} The qx.Promise object
+    * @throws {qx.type.BaseError} If the environment setting `qx.promise` is set to false
+    */
+    sendWithPromise: function(context) {
+      if (qx.core.Environment.get("qx.promise")) {
+        context = context || this;
+
+        // save this object's context
+        var req = this;
+
+        var promise = new qx.Promise(function(resolve, reject) {
+          var listeners = [];
+
+          var changeResponseListener = req.addListener("success", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            resolve(req);
+          }, this);
+          listeners.push(changeResponseListener);
+
+          var statusErrorListener = req.addListener("statusError", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = qx.lang.String.format("%1: %2.", [req.getStatus(), req.getStatusText()]);
+            var err = new qx.type.BaseError("statusError", failMessage);
+            reject(err);
+          }, this);
+          listeners.push(statusErrorListener);
+
+          var timeoutListener = req.addListener("timeout", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = qx.lang.String.format("Request failed with timeout after %1 ms.", [req.getTimeout()]);
+            var err = new qx.type.BaseError("timeout", failMessage);
+            reject(err);
+          }, this);
+          listeners.push(timeoutListener);
+
+          var parseErrorListener = req.addListener("parseError", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = "Error parsing the response.";
+            var err = new qx.type.BaseError("parseError", failMessage);
+            reject(err);
+          }, this);
+          listeners.push(parseErrorListener);
+
+          var abortListener = req.addListener("abort", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = "Request aborted.";
+            var err = new qx.type.BaseError("abort", failMessage);
+            reject(err);
+          }, this);
+          listeners.push(abortListener);
+
+          var errorListener = req.addListener("error", function(e) {
+            listeners.forEach(req.removeListenerById.bind(req));
+            var failMessage = "Request failed.";
+            var err = new qx.type.BaseError("error", failMessage);
+            reject(err);
+          }, this);
+          listeners.push(errorListener);
+
+          req.send();
+        }, context)
+
+        .finally(function() {
+          if (req.getReadyState() !== 4) {
+            req.abort();
+          }
+        });
+
+        return promise;
+        // eslint-disable-next-line no-else-return
+      } else {
+        // fail loudly
+        throw new qx.type.BaseError("Error", "Environment setting qx.promise is set to false.");
+      }
     },
 
     /**
@@ -745,7 +843,11 @@ qx.Class.define("qx.io.request.AbstractRequest",
 
         this._setResponse(this._getParsedResponse());
 
-        this._fireStatefulEvent("success");
+        if (this._parserFailed) {
+          this.fireEvent("fail");
+        } else {
+          this._fireStatefulEvent("success");
+        }
 
       // Erroneous HTTP status
       } else {

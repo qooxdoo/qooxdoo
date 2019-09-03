@@ -19,7 +19,7 @@
 
 /**
  * This mixin exposes all methods to manage the layout manager of a widget.
- * It can only be included into instances of {@link Widget}.
+ * It can only be included into instances of {@link qx.ui.core.Widget}.
  *
  * To optimize the method calls the including widget should call the method
  * {@link #remap} in its defer function. This will map the protected

@@ -463,6 +463,9 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       var executeForClassName = function (className) {
         var clazz = getByName(className);
+        if (!clazz) {
+          return;
+        }
         if (clazz.$$deferComplete) {
           return;
         }
@@ -667,6 +670,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       "[object Boolean]": "Boolean",
       "[object Date]": "Date",
       "[object Function]": "Function",
+      "[object AsyncFunction]": "Function",
       "[object Error]": "Error",
       "[object Blob]": "Blob",
       "[object ArrayBuffer]": "ArrayBuffer",

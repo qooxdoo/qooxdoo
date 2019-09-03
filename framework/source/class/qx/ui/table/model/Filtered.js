@@ -105,6 +105,14 @@ qx.Class.define("qx.ui.table.model.Filtered",
     __applyingFilters : null,
     __filterTypes : null,
 
+    /**
+     * Function to get the full array of the filtered model
+     * @return {Array} the full array of model (with no changes)
+     */
+    getFullArray: function ()
+    {
+        return this.__fullArr;
+    },
 
     /**
      * Whether the given string (needle) is in the array (haystack)
@@ -396,7 +404,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       }
 
       rowArr = rowArr.filter(function(row, index) {
-        return !qx.lang.Array.contains(rowsToHide, index);
+        return !rowsToHide.includes(index);
       });
 
       this._rowArr = rowArr;

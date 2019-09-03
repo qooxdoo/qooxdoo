@@ -20,6 +20,7 @@
  * This is the base class for all mobile widgets.
  *
  * @use(qx.ui.mobile.core.EventHandler)
+ * @require(qx.bom.Lifecycle)
  */
 qx.Class.define("qx.ui.mobile.core.Widget",
 {
@@ -452,7 +453,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Registers a widget with its id for internal widget handling.
      *
-     * @param widget {Widget} The widget to register
+     * @param widget {qx.ui.core.Widget} The widget to register
      *
      * @internal
      */
@@ -484,7 +485,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * Returns the widget with the given id.
      *
      * @param id {String} The id of the widget
-     * @return {Widget} The widget with the given id
+     * @return {qx.ui.core.Widget} The widget with the given id
      */
     getWidgetById : function(id) {
       return qx.ui.mobile.core.Widget.__registry[id];
@@ -780,7 +781,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Adds a new child widget.
      *
-     * @param child {Widget} the widget to add.
+     * @param child {qx.ui.core.Widget} the widget to add.
      * @param layoutProperties {Map?null} Optional layout data for widget.
      */
     _add : function(child, layoutProperties)
@@ -804,7 +805,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Add a child widget at the specified index
      *
-     * @param child {Widget} widget to add
+     * @param child {qx.ui.core.Widget} widget to add
      * @param index {Integer} Index, at which the widget will be inserted. If no
      *   widget exists at the given index, the new widget gets appended to the
      *   current list of children.
@@ -830,8 +831,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Add a widget before another already inserted widget
      *
-     * @param child {Widget} widget to add
-     * @param beforeWidget {Widget} widget before the new widget will be inserted.
+     * @param child {qx.ui.core.Widget} widget to add
+     * @param beforeWidget {qx.ui.core.Widget} widget before the new widget will be inserted.
      * @param layoutProperties {Map?null} Optional layout data for widget.
      */
     _addBefore : function(child, beforeWidget, layoutProperties)
@@ -861,8 +862,8 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Add a widget after another already inserted widget.
      *
-     * @param child {Widget} The widget to add.
-     * @param afterWidget {Widget} Widget, after which the new widget will be inserted.
+     * @param child {qx.ui.core.Widget} The widget to add.
+     * @param afterWidget {qx.ui.core.Widget} Widget, after which the new widget will be inserted.
      * @param layoutProperties {Map?null} Optional layout data for widget.
      */
     _addAfter : function(child, afterWidget, layoutProperties)
@@ -904,7 +905,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Removes a given child from the widget.
      *
-     * @param child {Widget} The widget to remove.
+     * @param child {qx.ui.core.Widget} The widget to remove.
      */
     _remove : function(child)
     {
@@ -948,7 +949,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * Returns the index position of the given widget if it is
      * a child widget. Otherwise it returns <code>-1</code>.
      *
-     * @param child {Widget} the widget to query for
+     * @param child {qx.ui.core.Widget} the widget to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
      */
@@ -988,7 +989,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Internal method. Removes a given child widget and the corresponding DOM element.
      *
-     * @param child {Widget} The widget to remove
+     * @param child {qx.ui.core.Widget} The widget to remove
      *
      * @internal
      */
@@ -1006,7 +1007,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Returns the parent widget of this widget.
      *
-     * @return {Widget} The parent of the widget
+     * @return {qx.ui.core.Widget} The parent of the widget
      */
     getLayoutParent : function()
     {
@@ -1017,7 +1018,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Returns the children of the widget.
      *
-     * @return {Widget[]} The children of the widget
+     * @return {qx.ui.core.Widget[]} The children of the widget
      */
     _getChildren : function() {
       return this.__children;
@@ -1076,7 +1077,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     /**
      * Initializes the layout of the given child widget.
      *
-     * @param child {Widget} The child widget
+     * @param child {qx.ui.core.Widget} The child widget
      * @param layoutProperties {Map?null} Optional layout data for widget
      */
     _initializeChildLayout : function(child, layoutProperties)

@@ -9,7 +9,7 @@
     "keywords" : ["feed reader", "atom", "rss"],
     "homepage" : "http://demo.qooxdoo.org/current/feedreader",
 
-    "license" : "LGPL/EPL",
+    "license" : "MIT",
     "authors" : 
     [
       {

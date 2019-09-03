@@ -54,7 +54,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
     {
       var queue = this.__queue;
 
-      if (!qx.lang.Array.contains(queue, widget)) {
+      if (!queue.includes(widget)) {
         return;
       }
 
@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
     {
       var queue = this.__queue;
       //add widget if not containing
-      if (!qx.lang.Array.contains(queue, widget)){
+      if (!queue.includes(widget)){
         queue.unshift(widget);
       }
 

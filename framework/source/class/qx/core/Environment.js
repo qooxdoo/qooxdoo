@@ -234,6 +234,14 @@
  *       <td>{@link qx.bom.client.EcmaScript#getMutationObserver}</td>
  *     </tr>
  *     <tr>
+ *       <td>ecmascript.bigint</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getBigInt}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.bigint.tolocalestring</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getBigIntToLocaleString}</td>
+ *     </tr>
+ *     <tr>
  *       <td>ecmascript.array.indexof<td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getArrayIndexOf}</td>
  *     </tr>
@@ -363,6 +371,10 @@
  *     <tr>
  *       <td>event.auxclick</td><td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.Event#getAuxclickEvent}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>event.passive</td><td><i>Map</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.Event#getPassive}</td>
  *     </tr>
  *
  *     <tr>
@@ -830,6 +842,10 @@
  *       <td><i>default:</i> <code>true</code></td>
  *     </tr>
  *     <tr>
+ *       <td>module.objectid</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td><i>default:</i> <code>true</code></td>
+ *     </tr>
+ *     <tr>
  *       <td colspan="4"><h3>Asynchronous checks</h3>
  *       </td>
  *     </tr>
@@ -893,6 +909,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "module.logger": true,
       "module.property": true,
       "module.events": true,
+      "module.objectid": true,
       "qx.nativeScrollBars": false,
       "qx.automaticMemoryManagement": true,
       "qx.promise": true,

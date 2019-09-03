@@ -6,6 +6,7 @@
 
    Copyright:
      2004-2009 1&1 Internet AG, Germany, http://www.1und1.de
+     2017 Martijn Evers, The Netherlands
 
    License:
      MIT: https://opensource.org/licenses/MIT
@@ -13,13 +14,12 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Martijn Evers (mever)
 
 ************************************************************************ */
 /**
- * The resetter is responsible for managing a set of items and resetting these
- * items on a {@link #reset} call. It can handle all form items supplying a
- * value property and all widgets implementing the single selection linked list
- * or select box.
+ * The resetter is responsible for managing a set of fields and resetting these
+ * fields on a {@link #reset} call. It can handle all form field implementing IField.
  */
 qx.Class.define("qx.ui.form.Resetter",
 {
@@ -38,39 +38,30 @@ qx.Class.define("qx.ui.form.Resetter",
     __items : null,
 
     /**
-     * Adding a widget to the reseter will get its current value and store
-     * it for resetting. To access the value, the given item needs to specify
-     * a value property or implement the {@link qx.ui.core.ISingleSelection}
-     * interface.
+     * Adding a field to the resetter will get its current value and store
+     * it for resetting.
      *
-     * @param item {qx.ui.core.Widget} The widget which should be added.
+     * @param field {qx.ui.form.IField} The field which should be added.
+     * @throws {TypeError} When given argument is not a field.
      */
-    add : function(item) {
-      // check the init values
-      if (this._supportsValue(item)) {
-        var init = item.getValue();
-      } else if (this.__supportsSingleSelection(item)) {
-        var init = item.getSelection();
-      } else if (this.__supportsDataBindingSelection(item)) {
-        var init = item.getSelection().concat();
-      } else {
-        throw new Error("Item " + item + " not supported for reseting.");
-      }
-      // store the item and its init value
-      this.__items.push({item: item, init: init});
+    add : function(field) {
+      this.__typeCheck(field);
+      this.__items.push({item: field, init: field.getValue()});
     },
 
 
     /**
-     * Removes a widget to the reseter
+     * Removes a field from the resetter.
      *
-     * @param item {qx.ui.core.Widget} The widget which should be removed.
-     * @return {Boolean} <code>true</code>, if the widget has been removed.
+     * @param field {qx.ui.form.IField} The field which should be removed.
+     * @throws {TypeError} When given argument is not a field.
+     * @return {Boolean} <code>true</code>, if the field has been removed.
      */
-    remove : function(item) {
+    remove : function(field) {
+      this.__typeCheck(field);
       for (var i = 0; i < this.__items.length; i++) {
         var storedItem = this.__items[i];
-        if (storedItem.item === item) {
+        if (storedItem.item === field) {
           this.__items.splice(i, 1);
           return true;
         }
@@ -80,69 +71,52 @@ qx.Class.define("qx.ui.form.Resetter",
 
 
     /**
-     * Resets all added form items to their initial value. The initial value
+     * Resets all added fields to their initial value. The initial value
      * is the value in the widget during the {@link #add}.
+     *
+     * @return {null|Error} Returns an error when some fields could not be reset.
      */
     reset: function() {
-      // reset all form items
+      var dataEntry, e, errors = [];
       for (var i = 0; i < this.__items.length; i++) {
-        var dataEntry = this.__items[i];
-        // set the init value
-        this.__setItem(dataEntry.item, dataEntry.init);
+        dataEntry = this.__items[i];
+        e = dataEntry.item.setValue(dataEntry.init);
+        if (e && e instanceof Error) {
+          errors.push(e);
+        }
+      }
+
+      if (errors.length) {
+        return new Error(errors.join(', '));
+      } else {
+        return null;
       }
     },
 
 
     /**
-     * Resets a single given item. The item has to be added to the resetter
+     * Resets a single given field. The field has to be added to the resetter
      * instance before. Otherwise, an error is thrown.
      *
-     * @param item {qx.ui.core.Widget} The widget, which should be reset.
+     * @param field {qx.ui.form.IField} The field, which should be reset.
+     * @throws {TypeError} When given argument is not a field.
+     * @return {null|Error} Returns an error when the field value could not be set.
      */
-    resetItem : function(item)
-    {
-      // get the init value
-      var init;
+    resetItem : function(field) {
+      this.__typeCheck(field);
       for (var i = 0; i < this.__items.length; i++) {
         var dataEntry = this.__items[i];
-        if (dataEntry.item === item) {
-          init = dataEntry.init;
-          break;
+        if (dataEntry.item === field) {
+          return field.setValue(dataEntry.init);
         }
-      };
-
-      // check for the available init value
-      if (init === undefined) {
-        throw new Error("The given item has not been added.");
       }
 
-      this.__setItem(item, init);
+      throw new Error("The given field has not been added.");
     },
 
 
     /**
-     * Internal helper for setting an item to a given init value. It checks
-     * for the supported APIs and uses the fitting API.
-     *
-     * @param item {qx.ui.core.Widget} The item to reset.
-     * @param init {var} The value to set.
-     */
-    __setItem : function(item, init)
-    {
-      // set the init value
-      if (this._supportsValue(item)) {
-        item.setValue(init);
-      } else if (
-        this.__supportsSingleSelection(item) ||
-        this.__supportsDataBindingSelection(item)
-      ) {
-        item.setSelection(init);
-      }
-    },
-
-
-    /**
-     * Takes the current values of all added items and uses these values as
+     * Takes the current values of all added fields and uses these values as
      * init values for resetting.
      */
     redefine: function() {
@@ -150,103 +124,46 @@ qx.Class.define("qx.ui.form.Resetter",
       for (var i = 0; i < this.__items.length; i++) {
         var item = this.__items[i].item;
         // set the new init value for the item
-        this.__items[i].init = this.__getCurrentValue(item);
+        this.__items[i].init = item.getValue();
       }
     },
 
 
     /**
-     * Takes the current value of the given item and stores this value as init
+     * Takes the current value of the given field and stores this value as init
      * value for resetting.
      *
-     * @param item {qx.ui.core.Widget} The item to redefine.
+     * @param field {qx.ui.form.IField} The field to redefine.
+     * @throws {TypeError} When given argument is not a field.
      */
-    redefineItem : function(item)
-    {
+    redefineItem : function(field) {
+      this.__typeCheck(field);
+
       // get the data entry
       var dataEntry;
       for (var i = 0; i < this.__items.length; i++) {
-        if (this.__items[i].item === item) {
+        if (this.__items[i].item === field) {
           dataEntry = this.__items[i];
-          break;
+          dataEntry.init = dataEntry.item.getValue();
+          return;
         }
-      };
-
-      // check for the available init value
-      if (dataEntry === undefined) {
-        throw new Error("The given item has not been added.");
       }
 
-      // set the new init value for the item
-      dataEntry.init = this.__getCurrentValue(dataEntry.item);
+      throw new Error("The given field has not been added.");
     },
 
 
     /**
-     * Internal helper top access the value of a given item.
+     * Assert when given argument is not a field.
      *
-     * @param item {qx.ui.core.Widget} The item to access.
-     * @return {var} The item's value
+     * @param field {qx.ui.form.IField|var} Any argument that should be a field.
+     * @throws {TypeError} When given argument is not a field.
+     * @private
      */
-    __getCurrentValue : function(item)
-    {
-      if (this._supportsValue(item)) {
-        return item.getValue();
-      } else if (
-        this.__supportsSingleSelection(item) ||
-        this.__supportsDataBindingSelection(item)
-      ) {
-        return item.getSelection();
+    __typeCheck : function(field) {
+      if (!qx.Class.hasInterface(field.constructor, qx.ui.form.IField)) {
+        throw new TypeError("Field " + field + " not supported for resetting.");
       }
-    },
-
-
-    /**
-     * Returns true, if the given item implements the
-     * {@link qx.ui.core.ISingleSelection} interface.
-     *
-     * @param formItem {qx.core.Object} The item to check.
-     * @return {Boolean} true, if the given item implements the
-     *   necessary interface.
-     */
-    __supportsSingleSelection : function(formItem) {
-      var clazz = formItem.constructor;
-      return qx.Class.hasInterface(clazz, qx.ui.core.ISingleSelection);
-    },
-
-
-    /**
-     * Returns true, if the given item implements the
-     * {@link qx.data.controller.ISelection} interface.
-     *
-     * @param formItem {qx.core.Object} The item to check.
-     * @return {Boolean} true, if the given item implements the
-     *   necessary interface.
-     */
-    __supportsDataBindingSelection : function(formItem) {
-      var clazz = formItem.constructor;
-      return qx.Class.hasInterface(clazz, qx.data.controller.ISelection);
-    },
-
-
-    /**
-     * Returns true, if the value property is supplied by the form item.
-     *
-     * @param formItem {qx.core.Object} The item to check.
-     * @return {Boolean} true, if the given item implements the
-     *   necessary interface.
-     */
-    _supportsValue : function(formItem) {
-      var clazz = formItem.constructor;
-      return (
-        qx.Class.hasInterface(clazz, qx.ui.form.IBooleanForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.IColorForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.IDateForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.INumberForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.IArrayForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.IModelForm) ||
-        qx.Class.hasInterface(clazz, qx.ui.form.IStringForm)
-      );
     }
   },
 

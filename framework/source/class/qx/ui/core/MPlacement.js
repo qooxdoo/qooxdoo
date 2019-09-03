@@ -220,7 +220,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      * box.
      *
      * @param widget {qx.ui.core.Widget} Any widget
-     * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
+     * @return {Map|null} Returns a map with <code>left</code>, <code>top</code>,
      *   <code>right</code> and <code>bottom</code> which contains the distance
      *   of the widget relative coords the document.
      */
@@ -262,7 +262,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       }
 
       // Add the rendered location of the root widget
-      if (widget.isRootWidget())
+      if (widget && widget.isRootWidget())
       {
         var rootCoords = widget.getContentLocation();
         if (rootCoords)

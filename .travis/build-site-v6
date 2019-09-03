@@ -1,0 +1,22 @@
+#!/bin/bash
+#
+# This builds the new v6 website documentation and apps
+#
+
+set -o errexit -o nounset
+
+exe() { echo "\$ ${@/eval/}" ; "$@" ; }
+
+TARGET=deploy/$(cat ./version.txt)
+mkdir -p $TARGET
+
+npm i --no-save @qooxdoo/compiler
+
+# build apps  
+exe npx qx compile compile.json --target build  --feedback=0 --verbose
+#restore .npmignore 
+exe git checkout .
+# copy to website target
+exe rsync -avR ./apps $TARGET --exclude-from=./apps/.npmignore
+# copy documentation
+exe cp -a ./docs $TARGET/

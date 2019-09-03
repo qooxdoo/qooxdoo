@@ -189,12 +189,11 @@ qx.Class.define("qx.bom.Window",
       if(newWindow && listener && (listener instanceof Function)){
         var context = self || newWindow;
         var onLoadFunction = qx.lang.Function.bind(listener, context);
-        qx.bom.Event.addNativeListener(
-          newWindow, 'load', function(){
-            onLoadFunction();
-            qx.bom.Event.removeNativeListener(newWindow, 'load', arguments.callee);
-          }
-        );
+        var onNativeLoad = function(){
+          onLoadFunction();
+          qx.bom.Event.removeNativeListener(newWindow, 'load', onNativeLoad);
+        }
+        qx.bom.Event.addNativeListener(newWindow, 'load', onNativeLoad);
       }
       return newWindow;
     },

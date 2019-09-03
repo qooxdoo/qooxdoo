@@ -26,6 +26,7 @@
  * @require(qx.lang.normalize.Array)
  * @require(qx.lang.normalize.Error)
  * @require(qx.lang.normalize.Object)
+ * @require(qx.lang.normalize.Number)
  *
  * @group (Polyfill)
  */

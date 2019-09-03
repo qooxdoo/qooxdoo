@@ -22,6 +22,9 @@
  */
 qx.Interface.define("qx.ui.form.IBooleanForm",
 {
+  extend : qx.ui.form.IField,
+
+
   /*
   *****************************************************************************
      EVENTS

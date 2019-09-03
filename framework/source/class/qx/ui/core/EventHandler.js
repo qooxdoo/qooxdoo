@@ -309,23 +309,28 @@ qx.Class.define("qx.ui.core.EventHandler",
       }
 
       // Dispatch it on all listeners
-      for (var i=0, l=listeners.length; i<l; i++)
-      {
-        var context = listeners[i].context || currentWidget;
-        listeners[i].handler.call(context, widgetEvent);
-      }
+      var tracker = {};
+      qx.event.Utils.then(tracker, function() {
+        return qx.event.Utils.series(listeners, function(listener) {
+          var context = listener.context || currentWidget;
+          return listener.handler.call(context, widgetEvent);
+        });
+      });
 
       // Synchronize propagation stopped/prevent default property
-      if (widgetEvent.getPropagationStopped()) {
-        domEvent.stopPropagation();
-      }
+      qx.event.Utils.then(tracker, function() {
+        if (widgetEvent.getPropagationStopped()) {
+          domEvent.stopPropagation();
+        }
 
-      if (widgetEvent.getDefaultPrevented()) {
-        domEvent.preventDefault();
-      }
+        if (widgetEvent.getDefaultPrevented()) {
+          domEvent.preventDefault();
+        }
+      });
 
-      // Release the event instance to the event pool
-      qx.event.Pool.getInstance().poolObject(widgetEvent);
+      return qx.event.Utils.then(tracker, function() {
+        qx.event.Pool.getInstance().poolObject(widgetEvent);
+      });
     },
 
 

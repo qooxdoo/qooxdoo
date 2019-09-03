@@ -1250,5 +1250,5 @@ As you can see here, the properties (and therefore setters) are defined accordin
 Still to come...
 ================
 
-* `A way to create a form out from a JSON definition <http://bugzilla.qooxdoo.org/show_bug.cgi?id=2685>`_
+* `A way to create a form out from a JSON definition <https://github.com/qooxdoo/qooxdoo/issues/2823>`_
 

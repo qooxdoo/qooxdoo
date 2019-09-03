@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
     {
       var current = this.getCurrent();
 
-      if(!current.getAutoHide()) {
+      if(current && !current.getAutoHide()) {
         return;
       }
 
@@ -391,7 +391,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
         return;
       }
 
-      if(!tooltip.getAutoHide()) {
+      if(tooltip && !tooltip.getAutoHide()) {
         return;
       }
 
@@ -428,7 +428,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
       var tooltip = this.getCurrent();
 
-      if(!tooltip.getAutoHide()) {
+      if(tooltip && !tooltip.getAutoHide()) {
         return;
       }
 

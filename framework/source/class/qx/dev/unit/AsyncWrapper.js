@@ -45,7 +45,11 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
       if (qx.lang.Type.isFunction(arguments[i])) {
         this.setDeferredFunction(arguments[i]);
       } else if (qx.lang.Type.isNumber(arguments[i])) {
-        this.setDelay(arguments[i]);
+        if (qx.core.Environment.get("qx.test.delay.scale")) {
+          this.setDelay(arguments[i] * parseInt(qx.core.Environment.get("qx.test.delay.scale"), 10));
+        } else {
+          this.setDelay(arguments[i]);
+        }
       }
     }
 
@@ -75,7 +79,7 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
     {
       check: "Integer",
       nullable : false,
-      init : 5000
+      init : 10000
     }
   }
 

@@ -77,7 +77,6 @@ qx.Class.define("qx.test.Bootstrap",
 
       qx.Bootstrap.setRoot(undefined);
 
-      delete foobar;
       qx.Class.undefine("vanillebaer.test.ROOT");
     },
 
@@ -292,7 +291,7 @@ qx.Class.define("qx.test.Bootstrap",
 
           stopEngine : function()
           {
-            var ret = arguments.callee.base.call();
+            var ret = this.base(arguments);
             return "brrr " + ret;
           },
 

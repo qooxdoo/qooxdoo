@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.list.List",
   /**
    * Creates the <code>qx.ui.list.List</code> with the passed model.
    *
-   * @param model {qx.data.IListData|null} model for the list.
+   * @param model {qx.data.IListData|null?} model for the list.
    */
   construct : function(model)
   {
@@ -923,7 +923,7 @@ qx.Class.define("qx.ui.list.List",
 
   destruct : function()
   {
-    this.__deferredLayerUpdate = null;
+    this._disposeObjects("__deferredLayerUpdate");
     
     var model = this.getModel();
     if (model != null) {

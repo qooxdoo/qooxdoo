@@ -61,7 +61,24 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
       // Match input against ISO8601 regular expression
       var captureGroups = /^(\d{4}|[+\-]\d{6})(?:-(\d{2})(?:-(\d{2}))?)?(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.(\d{3}))?)?(?:(Z)|([+\-])(\d{2})(?::(\d{2}))?)?)?$/.exec(dateString);
       if (!captureGroups) {
-        return Date.originalParse(dateString);
+        //
+        // if the regular expression does not match parse the string
+        // using the original function. 
+        // Additionally check if it returns a real time value, which we 
+        // ensure by using setTime with an intermediate Date object and the 
+        // parsed time value. 
+        // Safari 11 e.g. parses the date string '19700101' successfully 
+        // into a time value, but returns NaN if that value is used in setTime.
+        // 
+        // See:
+        //   https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse
+        //   https://github.com/qooxdoo/qooxdoo/issues/9451
+        //
+        var time = Date.originalParse(dateString);
+        if(isNaN(time) || isNaN((new Date()).setTime(time))) {
+          return NaN;
+        }
+        return time;
       }
 
       // Just a date without time?

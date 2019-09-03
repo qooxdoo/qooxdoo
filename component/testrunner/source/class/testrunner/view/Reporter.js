@@ -131,13 +131,13 @@ qx.Class.define("testrunner.view.Reporter", {
         for (var i=0,l=packages.length; i<l; i++) {
           var pkg = packages.getItem(i);
           var packageName = pkg.fullName;
-          if (qx.lang.Array.contains(this.__ignoredPackages, packageName)) {
+          if (this.__ignoredPackages.includes(packageName)) {
             continue;
           }
           if (packageName == "qx.test.ui") {
             for (var j=0,m=pkg.getChildren().length; j<m; j++) {
               packageName = pkg.getChildren().getItem(j).getFullName();
-              if (!qx.lang.Array.contains(this.__ignoredPackages, packageName)) {
+              if (!this.__ignoredPackages.includes(packageName)) {
                 this.__testPackages.push(packageName);
               }
             }

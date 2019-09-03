@@ -80,7 +80,10 @@ qx.Mixin.define("qx.data.controller.MSelection",
      * to get an event as soon as the user changes the selected item.
      * <pre class="javascript">obj.getSelection().addListener("change", listener, this);</pre>
      */
-    "changeSelection" : "qx.event.type.Data"
+    "changeSelection" : "qx.event.type.Data",
+
+    /** Fires after the value was modified */
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -98,6 +101,43 @@ qx.Mixin.define("qx.data.controller.MSelection",
     __selectionListenerId : null,
     __selectionArrayListenerId : null,
     __ownSelection : null,
+
+
+    /**
+     * setValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @param selection {qx.data.IListData|null} List data to select as value.
+     * @return {null} The status of this operation.
+     */
+    setValue : function(selection) {
+      if (null === selection) {
+        this.resetSelection();
+      } else {
+        this.setSelection(selection);
+      }
+
+      return null;
+    },
+
+
+    /**
+     * getValue implements part of the {@link qx.ui.form.IField} interface.
+     *
+     * @return {qx.data.IListData} The current selection.
+     */
+    getValue : function() {
+      return this.getSelection();
+    },
+
+
+    /**
+     * resetValue implements part of the {@link qx.ui.form.IField} interface.
+     */
+    resetValue : function() {
+      this.resetSelection();
+    },
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -178,7 +218,10 @@ qx.Mixin.define("qx.data.controller.MSelection",
       // go through the target selection
       var spliceArgs = [0, selection.getLength()];
       for (var i = 0; i < targetSelection.length; i++) {
-        spliceArgs.push(targetSelection[i].getModel());
+        var model = targetSelection[i].getModel();
+        if (model !== null) {
+          spliceArgs.push(model);
+        }
       }
       // use splice to ensure a correct change event [BUG #4728]
       selection.splice.apply(selection, spliceArgs).dispose();
@@ -260,9 +303,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
         // go through the controller selection
         for (var i = this.getSelection().length - 1; i >= 0; i--) {
           // if the item in the controller selection is not selected in the list
-          if (!qx.lang.Array.contains(
-            targetSelectionItems, this.getSelection().getItem(i)
-          )) {
+          if (!targetSelectionItems.includes(this.getSelection().getItem(i))) {
             // remove the current element and get rid of the return array
             this.getSelection().splice(i, 1).dispose();
           }
@@ -290,6 +331,7 @@ qx.Mixin.define("qx.data.controller.MSelection",
 
       // reset the changing flag
       this._endSelectionModification();
+      this.fireDataEvent("changeValue", this.getSelection());
     },
 
 

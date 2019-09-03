@@ -40,7 +40,7 @@
  *
  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/image.html' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.basic.Image",
     __requestId : 0,
 
 
-    //overridden
+    // overridden
     _onChangeTheme : function() {
       this.base(arguments);
       // restyle source (theme change might have changed the resolved url)
@@ -271,6 +271,11 @@ qx.Class.define("qx.ui.basic.Image",
       var element = this.getContentElement();
       if (this.__wrapper) {
         element.getChild(0).setStyles({
+          top: this.getPaddingTop() || 0,
+          left: this.getPaddingLeft() || 0
+        });
+      } else if (this.__getMode() === 'font') {
+        element.setStyles({
           top: this.getPaddingTop() || 0,
           left: this.getPaddingLeft() || 0
         });
@@ -391,26 +396,24 @@ qx.Class.define("qx.ui.basic.Image",
       var tagName;
       var clazz = qx.html.Image;
 
-      if (mode == "font")
-      {
-        clazz = qx.html.Label;
-        scale = true;
-        tagName = "div";
-      }
-      else if (mode == "alphaScaled")
-      {
-        scale = true;
-        tagName = "div";
-      }
-      else if (mode == "nonScaled")
-      {
-        scale = false;
-        tagName = "div";
-      }
-      else
-      {
-        scale = true;
-        tagName = "img";
+      switch (mode) {
+        case "font":
+          clazz = qx.html.Label;
+          scale = true;
+          tagName = "div";
+          break;
+        case "alphaScaled":
+          scale = true;
+          tagName = "div";
+          break;
+        case "nonScaled":
+          scale = false;
+          tagName = "div";
+          break;
+        default:
+          scale = true;
+          tagName = "img";
+          break;
       }
 
       var element = new (clazz)(tagName);
@@ -505,12 +508,16 @@ qx.Class.define("qx.ui.basic.Image",
       // Detect if the image registry knows this image
       if (ResourceManager.isFontUri(source)) {
         this.__setManagedImage(contentEl, source);
+        var color = this.getTextColor();
+        if (qx.lang.Type.isString(color)) {
+          this._applyTextColor(color, null);
+        }
       }
       else if (ResourceManager.has(source)) {
-        var highResolutionSource = this._findHighResolutionSource(source);
+        var highResolutionSource = ResourceManager.findHighResolutionSource(source);
         if (highResolutionSource) {
-          var imageWidth = ResourceManager.getImageHeight(source);
-          var imageHeight = ResourceManager.getImageWidth(source);
+          var imageWidth = ResourceManager.getImageWidth(source);
+          var imageHeight = ResourceManager.getImageHeight(source);
           this.setWidth(imageWidth);
           this.setHeight(imageHeight);
 
@@ -644,6 +651,11 @@ qx.Class.define("qx.ui.basic.Image",
             }
           }
 
+          // Don't transfer background image when switching from image to icon font
+          if (this.__getMode() === "font") {
+            delete styles.backgroundImage;
+          }
+
           // Copy dimension and location of the current content element
           var bounds = this.getBounds();
           if (bounds != null)
@@ -751,28 +763,35 @@ qx.Class.define("qx.ui.basic.Image",
 
       // Special case for non resource manager handled font icons
       if (isFont) {
-        var size;
+
+        // Don't use scale if size is set via postfix
+        if (this.getScale() && parseInt(source.split("/")[2], 10)) {
+          this.setScale(false);
+        }
 
         // Adjust size if scaling is applied
+        var width;
+        var height;
         if (this.getScale()) {
-          var width = this.getWidth() || this.getHeight() || 40;
-          var height = this.getHeight() || this.getWidth() || 40;
-          size = width > height ? height : width;
+          var hint = this.getSizeHint();
+          width = this.getWidth() || hint.width;
+          height = this.getHeight() || hint.height;
         }
         else {
           var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
-          size = font.getSize();
+          if (qx.core.Environment.get("qx.debug")) {
+            this.assertObject(font, "Virtual image source contains unkown font descriptor");
+          }
+          var size = parseInt(source.split("/")[2] || font.getSize(), 10);
+          width = ResourceManager.getImageWidth(source) || size;
+          height = ResourceManager.getImageHeight(source) || size;
         }
 
-        // Default to something definitively numeric if nothing set
-        if (!size) {
-          size = 0;
-        }
+        this.__updateContentHint(width, height);
+        this.__setSource(el, source);
 
-        this.__updateContentHint(size, size);
 
         // Apply source
-        this.__setSource(el, source);
       }
       else {
         // Apply source
@@ -789,14 +808,15 @@ qx.Class.define("qx.ui.basic.Image",
     _applyDimension : function()
     {
       this.base(arguments);
-      
+
       var isFont = this.getSource() && qx.lang.String.startsWith(this.getSource(), "@");
       if (isFont) {
         var el = this.getContentElement();
         if (el) {
           if (this.getScale()) {
-            var width = this.getWidth() || this.getHeight() || 40;
-            var height = this.getHeight() || this.getWidth() || 40;
+            var hint = this.getSizeHint();
+            var width = this.getWidth() || hint.width || 40;
+            var height = this.getHeight() || hint.height || 40;
             el.setStyle("fontSize", (width > height ? height : width) + "px");
           }
           else {
@@ -895,6 +915,13 @@ qx.Class.define("qx.ui.basic.Image",
       var isFont = source && qx.lang.String.startsWith(source, "@");
 
       if (isFont) {
+        var sparts = source.split("/");
+        var fontSource = source;
+        if (sparts.length > 2) {
+          fontSource = sparts[0] + "/" + sparts[1];
+        }
+
+
         var ResourceManager = qx.util.ResourceManager.getInstance();
         var font = qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]);
         var fontStyles = qx.lang.Object.clone(font.getStyles());
@@ -909,10 +936,11 @@ qx.Class.define("qx.ui.basic.Image",
           el.setStyle("fontSize", (this.__width > this.__height ? this.__height : this.__width) + "px");
         }
         else {
-          el.setStyle("fontSize", font.getSize() + "px");
+          var size = parseInt(sparts[2] || qx.theme.manager.Font.getInstance().resolve(source.match(/@([^/]+)/)[1]).getSize());
+          el.setStyle("fontSize", size + "px");
         }
 
-        var resource = ResourceManager.getData(source);
+        var resource = ResourceManager.getData(fontSource);
         if (resource) {
           el.setValue(String.fromCharCode(resource[2]));
         }
@@ -967,75 +995,14 @@ qx.Class.define("qx.ui.basic.Image",
           }
         } else {
           // force re-apply to remove old decorator styles
-          el.setSource(null);
+          if (el.setSource){
+            el.setSource(null);
+          }
         }
       }
-
-      el.setSource(source);
-    },
-
-    /**
-     * Detects whether there is a high-resolution image available.
-     * A high-resolution image is assumed to have the same file name as
-     * the parameter source, but with a pixelRatio identifier before the file
-     * extension, like "@2x".
-     * Medium Resolution: "example.png", high-resolution: "example@2x.png"
-     *
-     * @param lowResImgSrc {String} source of the low resolution image.
-     * @return {String|Boolean} If a high-resolution image source.
-     */
-    _findHighResolutionSource: function(lowResImgSrc) {
-      var pixelRatioCandidates = ["3", "2", "1.5"];
-
-      // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
-      var factor = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
-      if (factor <= 1) {
-        return false;
+      if (el.setSource){
+        el.setSource(source);
       }
-
-      var i = pixelRatioCandidates.length;
-      while (i > 0 && factor > pixelRatioCandidates[--i]) {}
-
-      var hiResImgSrc;
-      var k;
-
-      // Search for best img with a higher resolution.
-      for (k = i; k >= 0; k--) {
-        hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
-        if (hiResImgSrc) {
-          return hiResImgSrc;
-        }
-      }
-
-      // Search for best img with a lower resolution.
-      for (k = i + 1; k < pixelRatioCandidates.length; k++) {
-        hiResImgSrc = this._getHighResolutionSource(lowResImgSrc, pixelRatioCandidates[k]);
-        if (hiResImgSrc) {
-          return hiResImgSrc;
-        }
-      }
-
-      return null;
-    },
-
-    /**
-     * Returns the source name for the high-resolution image based on the passed
-     * parameters.
-     * @param source {String} the source of the medium resolution image.
-     * @param pixelRatio {Number} the pixel ratio of the high-resolution image.
-     * @return {String} the high-resolution source name or null if no source could be found.
-     */
-    _getHighResolutionSource : function(source, pixelRatio) {
-      var fileExtIndex = source.lastIndexOf('.');
-      if (fileExtIndex > -1) {
-        var pixelRatioIdentifier = "@" + pixelRatio + "x";
-        var candidate = source.slice(0, fileExtIndex) + pixelRatioIdentifier + source.slice(fileExtIndex);
-
-        if(qx.util.ResourceManager.getInstance().has(candidate)) {
-          return candidate;
-        }
-      }
-      return null;
     },
 
     /**

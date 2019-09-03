@@ -24,8 +24,14 @@
 # WebStorm
 /.idea
 
-# Build & test infrastructur
+# Build & test infrastructure
 /build.log
+/lib
+/compiled
+/apps
+/deploy
+/build
+/qx_packages
 
 # CSS compiler
 /framework/source/resource/qx/mobile/scss/.sass-cache/
@@ -33,3 +39,5 @@
 # Node/NPM
 node_modules/
 npm-debug.log
+
+
