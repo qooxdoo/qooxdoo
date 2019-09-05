@@ -9,10 +9,10 @@ files:
 - [`compile.json` / `compile.js`](compile.md): These files configure the compiler
   and are responsible how the build of a project will be structured and what
   it will contain. 
-- [`qooxdoo.json`](../cli/packages.md#multi-library-repositories): serves as a 
-  registry of libraries in a package
 - [`qx-lock.json`](../cli/packages.md#lockfile-qx-lockjson): This is a library's
   lockfile which contains information on the version of the dependencies
+- [`qooxdoo.json`](../cli/packages.md#multi-library-repositories): serves as a 
+  registry of libraries in a package (normally not needed)  
   
 `Manifest.json`, `compile.json` and `qooxdoo.json`are validated against
 [JSON-schemas](https://github.com/qooxdoo/qooxdoo-compiler/tree/master/source/resource/qx/tool/schema). In contrast,
