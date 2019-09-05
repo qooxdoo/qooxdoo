@@ -53,6 +53,7 @@ qx.Class.define("qx.event.handler.Application",
     this.__domReady = false;
     this.__loaded = false;
     this.__isReady = false;
+    this.__isInitialized = false;
     this.__isUnloaded = false;
 
     // Initialize observers
@@ -107,6 +108,20 @@ qx.Class.define("qx.event.handler.Application",
       if (inst) {
         inst.__fireReady();
       }
+    },
+
+
+    /**
+     * Notifies that the application has finished initialization
+     *
+     * @internal
+     */
+    onAppInstanceInitialized : function()
+    {
+      var inst = qx.event.handler.Application.$$instance;
+      if (inst) {
+        inst.__fireAppInstanceInitialized();
+      }
     }
   },
 
@@ -144,6 +159,7 @@ qx.Class.define("qx.event.handler.Application",
     },
 
     __isReady : null,
+    __isInitialized : null,
     __domReady : null,
     __loaded : null,
     __isUnloaded : null,
@@ -190,7 +206,17 @@ qx.Class.define("qx.event.handler.Application",
         }
       }
     },
-
+    
+    /**
+     * Fires a global "appinitialized" event.
+     *
+     */
+    __fireAppInstanceInitialized : function() {
+      this.__isInitialized = true;
+      
+      // Fire user event
+      qx.event.Registration.fireEvent(this._window, "appinitialized");
+    },
 
     /**
      * Whether the application is ready.
@@ -199,6 +225,15 @@ qx.Class.define("qx.event.handler.Application",
      */
     isApplicationReady : function() {
       return this.__isReady;
+    },
+
+    /**
+     * Whether the application is initialized
+     *
+     * @return {Boolean} initialization status
+     */
+    isApplicationInitialized : function() {
+      return this.__isInitialized;
     },
 
 

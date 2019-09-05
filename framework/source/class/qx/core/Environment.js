@@ -234,6 +234,14 @@
  *       <td>{@link qx.bom.client.EcmaScript#getMutationObserver}</td>
  *     </tr>
  *     <tr>
+ *       <td>ecmascript.bigint</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getBigInt}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.bigint.tolocalestring</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getBigIntToLocaleString}</td>
+ *     </tr>
+ *     <tr>
  *       <td>ecmascript.array.indexof<td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getArrayIndexOf}</td>
  *     </tr>
