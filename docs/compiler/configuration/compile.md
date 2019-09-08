@@ -1,5 +1,24 @@
 # compile.json
 
+**Content**
+
+ - [Applications](#applications)
+ - [Targets](#targets)
+ - [Multiple Applications and Targets](#multiple-applications-and-targets)
+ - [Bundling ("hybrid targets")](#bundling-source-files-together-previous-called-hybrid-targets)
+ - [Libraries](#libraries)
+ - [Parts](#parts)
+ - [Environment settings](#environment-settings)
+ - [Code elimination](#code-elimination)
+ - [Locales](#locales)
+ - [Path Mappings](#path-mappings)
+ - [Type Script](#typescript)
+ - [Linting](#eslint)
+ - [Built-in web server](#web-server)
+ - [Running server applications](#running-applications)
+ 
+## Basics
+
 Compile.json controls the `qx compile` command, and while you can use command
 line parameters to compile an application, most applications will require one.
 
@@ -63,20 +82,69 @@ That's a basic (but completely functional) compile.json; optional settings are b
 
 ## Applications
 The `applications` key is an array of objects, and each object can contain:
-- `class` - this is the class name of your main application (it typically inherits from `qx.application.Standalone` for web applications)
+- `class` - this is the class name of your main application (it typically
+inherits from `qx.application.Standalone` for web applications)
+
 - `theme` - this is the theme class for your application
-- `name` - this is an arbitrary, but unique, short name for your application and should be filename and URL friendly - IE no spaces or special characters
-- `title` - (**optional**) this is the human readable, customer facing description used to set the `<title>` tag of the application web page, i.e. in the application's index.html 
-- `environment` - (**optional**) this is a set of application-specific environment settings that override all other settings when compiling this application (see below)
-- `outputPath` - (**optional**) the directory to place the application files (e.g. boot.js and resource.js), relative to the target output directory
-- `bootPath` - (**optional**) the directory to find the template `index.html` and other files required for booting the application
-- `uri` - (**optional**) this sets the URI used to access the application directory, i.e. the directory containing boot.js and resource.js; the default is to assume that it is "."
-- `include` - (**optional**) this is an array of class names which are to be included in the compilation, regardless of whether the compiler can detect if they are needed (for example, your application dynamically choose class names on the fly).  Wildcards are supported by adding a `*`, for example `"include": [ "qx.util.format.*" ]`
-- `exclude` - (**optional**) this is an array of class names which are to be excluded from the application, regardless of whether the compiler thinks that they are needed.  Wildcards are supported by adding a `*`, for example `"exclude": [ "qx.util.format.NumberFormat" ]`.  Note that `exclude` takes priority over `include`
-- `type` - (**optional**, **advanced**) this is "browser" (the default) for the typical, web browser based, application or "node" for a node.js server application.
-- `loaderTemplate` - (**optional**, **advanced**) this is the boot loader template file, usually determined automatically from the application `type` 
-- `minify` - (**optional**) determines the minification to be used for this application, if the target supports it; overrides other settings.  Can be `off`, `minify`, `mangle` or `beautify`; takes precedence over the target's `minify` setting.
-- `default` - (**optional** ) if true, this application is considered the default when serving the application; if not provided then the first browser app is the default application.  When applications are generated, each application has it's own directory inside the target directory and also has it's own `index.html`.  However, there is an `index.html` which is generated in the target output directory that runs the "default" application.  
+
+- `name` - this is an arbitrary, but unique, short name for your application and
+should be filename and URL friendly - IE no spaces or special characters
+
+- `title` - (**optional**) this is the human readable, customer facing
+description used to set the `<title>` tag of the application web page, i.e. in
+the application's index.html
+
+- `environment` - (**optional**) this is a set of application-specific
+environment settings that override all other settings when compiling this
+application (see below)
+
+- `outputPath` - (**optional**) the directory to place the application files
+(e.g. boot.js and resource.js), relative to the target output directory
+
+- `bootPath` - (**optional**) the directory to find the template `index.html`
+and other files required for booting the application
+
+- `uri` - (**optional**) this sets the URI used to access the application
+directory, i.e. the directory containing boot.js and resource.js; the default is
+to assume that it is "."
+
+- `include` - (**optional**) this is an array of class names which are to be
+included in the compilation, regardless of whether the compiler can detect if
+they are needed (for example, your application dynamically choose class names on
+the fly).  Wildcards are supported by adding a `*`, for example `"include": [
+"qx.util.format.*" ]`
+
+- `exclude` - (**optional**) this is an array of class names which are to be
+excluded from the application, regardless of whether the compiler thinks that
+they are needed.  Wildcards are supported by adding a `*`, for example
+`"exclude": [ "qx.util.format.NumberFormat" ]`.  Note that `exclude` takes
+priority over `include`
+
+- `type` - (**optional**, **advanced**) this is "browser" (the default) for the
+typical, web browser based, application or "node" for a node.js server
+application.
+
+- `loaderTemplate` - (**optional**, **advanced**) this is the boot loader
+template file, usually determined automatically from the application `type`
+
+- `minify` - (**optional**) determines the minification to be used for this
+application, if the target supports it; overrides other settings.  Can be `off`,
+`minify`, `mangle` or `beautify`; takes precedence over the target's `minify`
+setting.
+
+- `default` - (**optional**) if true, this application is considered the default
+when serving the application; if not provided then the first browser app is the
+default application.  When applications are generated, each application has it's
+own directory inside the target directory and also has it's own `index.html`. 
+However, there is an `index.html` which is generated in the target output
+directory that runs the "default" application.
+
+- `publish` - (**optional**) if true (default), publish the application in
+package catalogs such as the PackageBrowser application
+
+- `standalone` - (**optional**) Whether this application can be opened
+in a browser on its own (true, default) or is part of a different application
+(false)
 
 A complete example is:
 ```json5
@@ -98,35 +166,65 @@ A complete example is:
 
 ## Targets
 The `targets` key is an array of objects, one for each possible target that can be compiled.  Each object can contain:
-- `type` - this is either "source", "build", or a class name in `@qooxdoo/compiler`; using a class name is advanced usage, but ultimately the standard names just shortcuts to class names anyway ("source" is `qxcompiler.targets.SourceTarget`, etc)
-- `outputPath` the folder where the compilation outputs to, and will be created if it does not already exist
+
+- `type` - this is either "source", "build", or a class name in
+`@qooxdoo/compiler`; using a class name is advanced usage, but ultimately the
+standard names just shortcuts to class names anyway ("source" is
+`qxcompiler.targets.SourceTarget`, etc)
+
+- `outputPath` the folder where the compilation outputs to, and will be created
+if it does not already exist
+
 - `targetClass` - (**optional**) see below 
-- `uri` - (**optional**) this sets the URI used to access the target output directory, i.e. the directory which will contain `resources/` and `transpiled/`.  
-- `environment` (**optional**) additional environment settings that override any in the top level `environment` object (if there is one); these can be overridden by the Application's own `environment` block
-- `writeCompileInfo` (**optional**) if true, the target will write a `compile-info.json` and `resources.json` into the application's output directory, containing the data structures required to generate an application
-- `uri` (**optional**) the URI used to load resources for this target; by default, this is assumed to be relative to the application's index.html
+
+- `uri` - (**optional**) this sets the URI used to access the target output
+directory, i.e. the directory which will contain `resources/` and `transpiled/`.
+
+- `environment` (**optional**) additional environment settings that override any
+in the top level `environment` object (if there is one); these can be overridden
+by the Application's own `environment` block
+
+- `writeCompileInfo` (**optional**) if true, the target will write a
+`compile-info.json` and `resources.json` into the application's output
+directory, containing the data structures required to generate an application
+
+- `uri` (**optional**) the URI used to load resources for this target; by
+default, this is assumed to be relative to the application's index.html
+
 - `typescript` - see below
-- `minify` - (**optional**) determines the minification to be used for applications, if the target supports it; can be overridden on a per application basis.  Can be `off`, `minify`, `mangle`, or `beautify`.
-- `addCreatedAt` - (**optional**) if true, this will cause every object to have a hidden property called `$$createdAt` which points to an object containing `filename`, `lineNumber`, and `column` properties
-- `babelOptions` - (**optional**) options given to @babel/preset-env. With this options the output type of babel can be defined. For details see here: https://babeljs.io/docs/en/babel-preset-env#options
+
+- `minify` - (**optional**) determines the minification to be used for
+applications, if the target supports it; can be overridden on a per application
+basis.  Can be `off`, `minify`, `mangle`, or `beautify`.
+
+- `addCreatedAt` - (**optional**) if true, this will cause every object to have
+a hidden property called `$$createdAt` which points to an object containing
+`filename`, `lineNumber`, and `column` properties
+
+- `babelOptions` - (**optional**) options given to @babel/preset-env. With this
+options the output type of babel can be defined. For details see here:
+https://babeljs.io/docs/en/babel-preset-env#options
 If you add the `babelOptions` block at the top level of the compile.json, it will effect every application regardless of the target. They ´both will be merged so that the target `babelOptions` takes prescedence over Target's `babelOptions`.
 Here is an example how to disable translation for modern browsers in source mode:
-
+```json5
     "targets": [
         {
             "type": "source",
             "outputPath": "compiled/source",
-			"babelOptions": {
-				"targets": "Chrome >= 73, Firefox >= 66, edge >= 18"
-			}
+            "babelOptions": {
+                "targets": "Chrome >= 73, Firefox >= 66, edge >= 18"
+            }
         },
         {
             "type": "build",
             "outputPath": "compiled/build"
         }
     ],
-- `application-types` and `application-names` - (**optional**) these settings filter which applications that this target can 
-compile and is used in situations where you want to have multiple targets simultaneously (see below) 
+```
+
+- `application-types` and `application-names` - (**optional**) these settings
+filter which applications that this target can compile and is used in situations
+where you want to have multiple targets simultaneously (see below)
 
 ### Multiple Applications and Targets
 In most applications all you will need to define is two targets, one for "source" compilation during development, and one for
