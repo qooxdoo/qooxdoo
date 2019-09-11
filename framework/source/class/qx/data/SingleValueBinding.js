@@ -1197,8 +1197,16 @@ qx.Class.define("qx.data.SingleValueBinding",
         // go through all added listeners (source)
         for (var i = 0; i < id.sources.length; i++) {
           // check if a source is available
-          if (id.sources[i] && id.listenerIds[i]) {
-            id.sources[i].removeListenerById(id.listenerIds[i]);
+          if (id.sources[i]) {
+            if(id.listenerIds[i]) {
+              id.sources[i].removeListenerById(id.listenerIds[i]);
+            }
+            // If the listener id is not available, it is most likely
+            // caused by some hidden error situation.
+            // At least an error message should be displayed
+            else {
+              sourceObject.error("Could not remove deep bindings. Binding id for " + id.sources[i].classname + " could not be found!");
+            }
           }
         }
         // go through all added listeners (target)
