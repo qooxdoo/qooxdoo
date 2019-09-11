@@ -104,6 +104,9 @@
   - ["qx" CLI commands](/compiler/cli/commands.md)
   - [Package system](/compiler/cli/packages.md)
   - [Compiler Configuration](/compiler/configuration/overview.md)
+    - [Manifest.json](/compiler/configuration/Manifest.md)
+    - [compile.json](/compiler/configuration/compile.md)
+    - [API](/compiler/configuration/api.md)
   - [Advanced compiler topics](/compiler/internals/)
 
 
