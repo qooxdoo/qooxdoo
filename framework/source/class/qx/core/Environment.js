@@ -914,7 +914,8 @@ qx.Bootstrap.define("qx.core.Environment",
       "qx.automaticMemoryManagement": true,
       "qx.promise": true,
       "qx.promise.warnings": true,
-      "qx.promise.longStackTraces": true
+      "qx.promise.longStackTraces": true,
+      "qx.command.bindEnabled": false
     },
 
     /**
