@@ -150,19 +150,29 @@ qx.Class.define("qx.data.SingleValueBinding",
       try {
         // go through all property names
         for (var i = 0; i < propertyNames.length; i++) {
+          var propertyName = propertyNames[i];
+
           // check for the array
           if (arrayIndexValues[i] !== "") {
             // push the array change event
             eventNames.push("change");
           } else {
-            var eventName = this.__getEventNameForProperty(source, propertyNames[i]);
+            var eventName = this.__getEventNameForProperty(source, propertyName);
             if (!eventName) {
               if (i == 0) { // the root property can not change --> error
                 throw new qx.core.AssertionError(
-                  "Binding property " + propertyNames[i] + " of object " + source +
-                  " not possible: No event available. "
+                  "Binding property " + propertyName + " of object " + source +
+                  " not possible: No event available. Full property chain: " + sourcePropertyChain
                 );
               }
+
+              if (source instanceof qx.core.Object && qx.Class.hasProperty(source.constructor, propertyName)) {
+                qx.log.Logger.warn(
+                  "Binding property " + propertyName + " of object " + source +
+                  " not possible: No event available. Full property chain: " + sourcePropertyChain
+                );
+              }
+
               // call the converter if no event could be found on binding creation
               initialPromise = this.__setInitialValue(undefined, targetObject, targetPropertyChain, options, sourceObject);
               break;
@@ -363,7 +373,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         // if its the last property
         if (j == context.propertyNames.length - 1) {
           // if its an array
-          if (qx.Class.implementsInterface(source, qx.data.IListData)) {
+          if (qx.Class.implementsInterface(source, qx.data.IListData) && context.arrayIndexValues[j] !== "") {
             // set the initial value
             var itemIndex = context.arrayIndexValues[j] === "last" ?
               source.length - 1 : context.arrayIndexValues[j];

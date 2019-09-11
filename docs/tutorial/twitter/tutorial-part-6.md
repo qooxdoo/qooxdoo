@@ -54,7 +54,7 @@ qx.Theme.define("tweets.theme.Appearance", {
 
 The last missing piece of our first task is to style the label. But how do we access it in the appearance theme if we haven't assigned a separate appearance key for it?
 
-Luckily, we defined the label as child control \</pages/desktop/ui\_develop\> named `time` (take a look at the custom widget tutorial \<tutorial-part-4-2\> for more details). That way, we can assign a separate appearance key using that hierarchy:
+Luckily, we defined the label as child control \<desktop/ui\_develop\> named `time` (take a look at the custom widget tutorial \<tutorial-part-4-2\> for more details). That way, we can assign a separate appearance key using that hierarchy:
 
 ```javascript
 "tweet-view/time" : {
@@ -67,7 +67,7 @@ Luckily, we defined the label as child control \</pages/desktop/ui\_develop\> na
 ```
 
 
-You can see a complete definition for the time label in the code above. The important part is the map, which is returned by the style function. It contains a set of themeable properties for the widget which will be assigned. In our case, we are styling a simple label, which has the property `textColor`. You can find all themeable properties in the [API viewer](http://demo.qooxdoo.org/current/apiviewer/#qx.ui.core.Widget~textColor) (Hint: themeable properties are marked with a little icon). Now we are done and can give the application a try, which should result into something like this:
+You can see a complete definition for the time label in the code above. The important part is the map, which is returned by the style function. It contains a set of themeable properties for the widget which will be assigned. In our case, we are styling a simple label, which has the property `textColor`. You can find all themeable properties in the [API viewer](apps://apiviewer/#qx.ui.core.Widget~textColor) (Hint: themeable properties are marked with a little icon). Now we are done and can give the application a try, which should result into something like this:
 
 Now we have everything the way we want it to be but one little thing is still missing. We defined the color's value inline which is considered bad style because in case you want to use the same color somewhere else, you have to write the value again which results in hard-to-maintain code. That's where the color theme could help. We have already seen a file called `Color.js` which is responsible for holding color definitions. As in the appearance file, we have one main section but this time its called `colors`. Here we add a color definition for the color we want to use:
 
@@ -84,14 +84,14 @@ Now, we have defined a color alias for our color which can be used in the whole 
 Change the default theme
 ------------------------
 
-As a next step, we want to change the default theme, which is the Modern theme \</pages/desktop/ui\_theming\>, to the Simple theme \</pages/desktop/ui\_theming\>. For that, we have to take another look at the files in the `theme` folder. You might have already realized that all these files do have an "extend" key which extends from the Modern theme's files. That's what we are going to change now. Just open all the files in the theme folder and change the extend key from `qx.theme.modern.xyz` to `qx.theme.simple.xyz` with *xyz* as a placeholder for the name of the file you are editing. There is only one file you don't have to change which is the meta theme named `Theme.js`. It does not refer to the framework theme so there is nothing to change. With that change, we included new dependencies to classes and resources which means, we have to rebuild our application. Run `./generate.py` in the root folder of your application to rebuild the development version of the tweets application. After the process is done, we can reload the application and see a dramatically changed application using the Simple theme.
+As a next step, we want to change the default theme, which is the Modern theme \<desktop/ui\_theming\>, to the Simple theme \<desktop/ui\_theming\>. For that, we have to take another look at the files in the `theme` folder. You might have already realized that all these files do have an "extend" key which extends from the Modern theme's files. That's what we are going to change now. Just open all the files in the theme folder and change the extend key from `qx.theme.modern.xyz` to `qx.theme.simple.xyz` with *xyz* as a placeholder for the name of the file you are editing. There is only one file you don't have to change which is the meta theme named `Theme.js`. It does not refer to the framework theme so there is nothing to change. With that change, we included new dependencies to classes and resources which means, we have to rebuild our application. Run `./generate.py` in the root folder of your application to rebuild the development version of the tweets application. After the process is done, we can reload the application and see a dramatically changed application using the Simple theme.
 
 ![image](tutorial_4_2_1-3.png)
 
 Change the look of a built in widget
 ------------------------------------
 
-As a last and final step, I like to show you how to change the styling of a built in qooxdoo widget. As you can see on the screenshot of the last step, the toolbar has the same background color as the windows caption bar. It might be nice if the toolbar had the same color as the window's inner border. So what we need to do is to override the appearance of the toolbar. For that, we need to find out how the appearance key for the toolbar is named. You can find that in the [API viewer](http://demo.qooxdoo.org/current/apiviewer/#qx.ui.toolbar.ToolBar~appearance) in the `appearance` property of toolbar. The init value is used for the styling, in this case, its `toolbar`. If we now use that key in our custom appearance file, we can set our own keys for styling the toolbar.
+As a last and final step, I like to show you how to change the styling of a built in qooxdoo widget. As you can see on the screenshot of the last step, the toolbar has the same background color as the windows caption bar. It might be nice if the toolbar had the same color as the window's inner border. So what we need to do is to override the appearance of the toolbar. For that, we need to find out how the appearance key for the toolbar is named. You can find that in the [API viewer](apps://apiviewer/#qx.ui.toolbar.ToolBar~appearance) in the `appearance` property of toolbar. The init value is used for the styling, in this case, its `toolbar`. If we now use that key in our custom appearance file, we can set our own keys for styling the toolbar.
 
 ```javascript
 "toolbar" : {

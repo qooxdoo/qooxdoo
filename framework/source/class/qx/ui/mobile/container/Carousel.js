@@ -664,7 +664,7 @@ qx.Class.define("qx.ui.mobile.container.Carousel",
       }
 
       if (this.__paginationLabels.length) {
-        var paginationStyle = getComputedStyle(this.__pagination.getContentElement());
+        var paginationStyle = window.getComputedStyle(this.__pagination.getContentElement());
         var paginationWidth = parseFloat(paginationStyle.width,10);
 
         if(isNaN(paginationWidth)) {

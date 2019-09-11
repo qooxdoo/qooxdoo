@@ -5,14 +5,17 @@
 ERRORS=False
 FILES=${1:-docs/**/*.md}
 for FILENAME in $FILES ; do
-  npx remark \
-    -u remark-lint-no-dead-urls \
-    -u remark-validate-links \
-    --frail \
-    --no-stdout \
-    $FILENAME \
-    2>&1 >/dev/null \
-    || ERRORS=True
+  echo check $FILENAME
+  if [ "$FILENAME" != *"/_coverpage.md" ]; then
+    npx remark \
+      -u remark-lint-no-dead-urls \
+      -u remark-validate-links \
+      --frail \
+      --no-stdout \
+      $FILENAME \
+      2>&1 >/dev/null \
+      || ERRORS=True
+  fi
 done
 
 if [[ $ERRORS == True ]]; then

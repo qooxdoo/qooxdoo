@@ -1,2 +1,0 @@
-Widget Reference List
-=====================

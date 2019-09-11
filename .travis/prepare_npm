@@ -1,4 +1,15 @@
 #!/bin/bash
+
+exe() { echo "\$ ${@/eval/}" ; "$@" ; }
+
+#exe curl -o ~/.nvm/nvm.sh https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh
+#exe ~/.nvm/nvm --version
+#exe ~/.nvm/nvm install 11
+
+exe npm i -g npm
+exe node -v
+exe npm  -v
+
 files=$(find . -name package.json -print | grep -v node_modules | sort)
 
 for f in ${files}; do

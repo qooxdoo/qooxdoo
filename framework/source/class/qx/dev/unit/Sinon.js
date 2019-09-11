@@ -47,7 +47,7 @@
  * and use the wrappers provided.
  *
  * @internal
- * @ignore(module, require, global, ProgressEvent, clearImmediate)
+ * @ignore(module, require, global, ProgressEvent, CustomEvent, clearImmediate)
  * @ignore(process.*) 
  * @lint ignoreDeprecated(eval)
  * @ignore(module.exports.*)
@@ -3241,6 +3241,7 @@ if (typeof sinon == "undefined") {
         },
 
         callTimer: function (timer) {
+            var exception;
             if (typeof timer.interval == "number") {
                 this.timeouts[timer.id].callAt += timer.interval;
             } else {
@@ -3254,7 +3255,7 @@ if (typeof sinon == "undefined") {
                     eval(timer.func);
                 }
             } catch (e) {
-              var exception = e;
+              exception = e;
             }
 
             if (!this.timeouts[timer.id]) {
@@ -4897,7 +4898,7 @@ if (typeof module !== 'undefined' && module.exports) {
     } else {
         sinon.assert = assert;
     }
-}(typeof sinon == "object" && sinon || null, typeof window != "undefined" ? window : (typeof self != "undefined") ? self : global));
+}(typeof sinon == "object" && sinon || null, typeof window != "undefined" ? window : global));
 
 return sinon;}.call(typeof window != 'undefined' && window || {}));
 /**

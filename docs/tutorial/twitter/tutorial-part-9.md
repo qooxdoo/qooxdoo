@@ -1,7 +1,7 @@
 Tutorial Part 9: Virtual List
 ===============================
 
-This time we will have a look at the virtual widget stuff. The plan is to remove the [normal List](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.List) and use the [virtual List](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.list.List). Using the virtual list has a big advantage when we have to render a huge count of items. The virtual list only creates widgets for visible items. This saves memory and execution time. As a base we use the already known tweets client we built in the former tutorials.
+This time we will have a look at the virtual widget stuff. The plan is to remove the [normal List](apps://apiviewer/#qx.ui.form.List) and use the [virtual List](apps://apiviewer/#qx.ui.list.List). Using the virtual list has a big advantage when we have to render a huge count of items. The virtual list only creates widgets for visible items. This saves memory and execution time. As a base we use the already known tweets client we built in the former tutorials.
 
 ![image](step42.png)
 
@@ -29,7 +29,7 @@ Now we use the virtual List instead of the non virtual List. But before we can u
 Configure the virtual List
 --------------------------
 
-The current implementation uses the list controller to bind the tweets with the list. This makes it easy to reuse the delegation implementation, because the delegation [interface](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.list.core.IListDelegate) from the virtual List has the same methods for `bindItem`, `createItem`, `configureItem` and `filter`. We only need to remove the controller stuff and use the virtual list instead. The controller is not needed anymore, because the virtual list has its own controller implementation. Open the `tweets.Application` and search for the controller instantiation: :
+The current implementation uses the list controller to bind the tweets with the list. This makes it easy to reuse the delegation implementation, because the delegation [interface](apps://apiviewer/#qx.ui.list.core.IListDelegate) from the virtual List has the same methods for `bindItem`, `createItem`, `configureItem` and `filter`. We only need to remove the controller stuff and use the virtual list instead. The controller is not needed anymore, because the virtual list has its own controller implementation. Open the `tweets.Application` and search for the controller instantiation: :
 
 ```javascript
 // create the controller
@@ -96,4 +96,4 @@ Now we only need to run the generator to resolve the new dependencies:
 
 ![image](tutorial_4_5-2.png)
 
-The virtual List supports some more features like grouping, for additional details have a look at the [virtual demos](http://demo.qooxdoo.org/%{version}/demobrowser/#virtual~List.html). As always, the [code of the tutorial](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.5/) is on github.
+The virtual List supports some more features like grouping, for additional details have a look at the [virtual demos](apps://demobrowser/#virtual~List.html). As always, the [code of the tutorial](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.5/) is on github.

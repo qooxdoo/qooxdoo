@@ -74,9 +74,9 @@ We named our property tweets and added two configuration keys for it:
 -   `nullable` describes that the property can be null
 -   `event` takes the name of the event fired on a change of the property
 
-The real advantage here is the `event` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole data binding \</pages/data\_binding/single\_value\_binding\> we want to use later. But that's it for setting up a property. You can find all possible property keys in the documentation \</pages/core/properties\_quickref\>.
+The real advantage here is the `event` key which tells the qooxdoo property system to fire an event every time the property value changes. This event is mandatory for the whole data binding \<data\_binding/single\_value\_binding\> we want to use later. But that's it for setting up a property. You can find all possible property keys in the documentation \<core/properties\_quickref\>.
 
-Now we need to connect the property of the store with the property of the *identica service*. That's an easy task with the single value binding \</pages/data\_binding/single\_value\_binding\> included in the qooxdoo data binding. Just add the following line after the creation of the data store:
+Now we need to connect the property of the store with the property of the *identica service*. That's an easy task with the single value binding \<data\_binding/single\_value\_binding\> included in the qooxdoo data binding. Just add the following line after the creation of the data store:
 
 ```javascript
 this.__store.bind("model", this, "tweets");
@@ -175,7 +175,7 @@ controller.setDelegate({
 });
 ```
 
-You see that the method has one parameter which is the current UI element which needs to be configured. This item is a [list item](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.ui.form.ListItem) which stores its icon as a child control you can access with the `getChildControl` method. After that, you can set the width, height and the scaling of the icon. The last line in the configurator set the item to rich, which allows the text to be wrapped. Save your file and give it a try!
+You see that the method has one parameter which is the current UI element which needs to be configured. This item is a [list item](apps://apiviewer/#qx.ui.form.ListItem) which stores its icon as a child control you can access with the `getChildControl` method. After that, you can set the width, height and the scaling of the icon. The last line in the configurator set the item to rich, which allows the text to be wrapped. Save your file and give it a try!
 
 ![step 3](step3.png)
 
