@@ -766,9 +766,6 @@ qx.Bootstrap.define("qx.log.Logger",
           break;
 
         case "instance":
-          text = value.basename + "[" + value.$$hash + "]";
-          break;
-
         case "class":
         case "stringify":
           text = value.toString();
