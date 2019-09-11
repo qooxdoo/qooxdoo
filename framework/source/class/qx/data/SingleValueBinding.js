@@ -1212,8 +1212,16 @@ qx.Class.define("qx.data.SingleValueBinding",
         // go through all added listeners (target)
         for (var i = 0; i < id.targets.length; i++) {
           // check if a target is available
-          if (id.targets[i] && id.targetListenerIds[i]) {
-            id.targets[i].removeListenerById(id.targetListenerIds[i]);
+          if (id.targets[i]) {
+            if(id.targetListenerIds[i]) {
+              id.targets[i].removeListenerById(id.targetListenerIds[i]);
+            }
+            // If the target listener id is not available, it is most likely
+            // caused by some hidden error situation.
+            // At least an error message should be displayed
+            else {
+              sourceObject.error("Could not remove target listener. Listener id for target " + id.targets[i].classname + " could not be found!");
+            }
           }
         }
       } else {
