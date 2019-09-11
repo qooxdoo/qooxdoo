@@ -35,10 +35,10 @@ or you can install it globally.
 ### Global installation
 
 The following command line installs the qooxdoo compiler so that it becomes
-available via your path settings.
+available anywhere via your path settings.
 
 ```bash
-$ npm install -g @qooxdoo/compiler @qooxdoo/framework
+$ npm install -g @qooxdoo/compiler
 ```
 
 To start the qooxdoo compiler type
@@ -58,9 +58,9 @@ code.
 $ mkdir myapp
 $ cd myapp
 $ npm init
-$ npm install --save-dev @qooxdoo/compiler @qooxdoo/framework
+$ npm install --save-dev @qooxdoo/compiler
 $ ls
-node_modules      package-lock.json package.json
+node_modules package-lock.json package.json
 ```
 
 To start the qooxdoo compiler type
@@ -136,9 +136,10 @@ modifications and recompiles the application automatically.
 ## Reading on
 
 With the first mini application up and running you are now ready for bigger
-things. You can either start reading the theory parts of the documentation where
-we explore in detail how the qooxdoo class system works or you can try some more
-hands-on by working through the tutorial.
+things. You can either start reading the theory parts of the
+[documentation](contents.md) where we explore in detail how the qooxdoo class
+system works or you can try some more hands-on by working through the
+[tutorial](tutorial/).
 
 If you ever get stuck, feel free to open the chat window by pressing the button
 in the bottom right hand corner of the documentation.

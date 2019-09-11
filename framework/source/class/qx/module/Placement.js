@@ -24,7 +24,7 @@
  * @require(qx.util.placement.BestFitAxis#computeStart)
  * @require(qx.util.placement.DirectAxis#computeStart)
  */
-qxWeb.define("qx.module.Placement", {
+qx.Bootstrap.define("qx.module.Placement", {
 
   statics: {
     /**

@@ -39,7 +39,16 @@ qx.Class.define("qx.event.type.Dom",
     ALT_MASK   : 4,
 
     /** @type {Integer} The modifier mask for the meta key (e.g. apple key on Macs). */
-    META_MASK  : 8
+    META_MASK  : 8,
+
+    /** @type {Integer} The modifier mask for the CapsLock modifier. */
+    CAPSLOCK_MASK : 16,
+
+    /** @type {Integer} The modifier mask for the NumLock modifier. */
+    NUMLOCK_MASK : 32,
+
+    /** @type {Integer} The modifier mask for the ScrollLock modifier. */
+    SCROLLLOCK_MASK : 64
   },
 
 
@@ -55,14 +64,26 @@ qx.Class.define("qx.event.type.Dom",
       clone.altKey = nativeEvent.altKey;
       clone.metaKey = nativeEvent.metaKey;
 
+      if (typeof nativeEvent.getModifierState === "function") {
+        clone.numLock = nativeEvent.getModifierState("NumLock");
+        clone.capsLock = nativeEvent.getModifierState("CapsLock");
+        clone.scrollLock = nativeEvent.getModifierState("ScrollLock");
+      }
+      else {
+        clone.numLock = false;
+        clone.capsLock = false;
+        clone.scrollLock = false;
+      }
+
       return clone;
     },
 
 
     /**
      * Return in a bit map, which modifier keys are pressed. The constants
-     * {@link #SHIFT_MASK}, {@link #CTRL_MASK}, {@link #ALT_MASK} and
-     * {@link #META_MASK} define the bit positions of the corresponding keys.
+     * {@link #SHIFT_MASK}, {@link #CTRL_MASK}, {@link #ALT_MASK},
+     * {@link #META_MASK} and {@link #CAPSLOCK_MASK} define the bit positions
+     * of the corresponding keys.
      *
      * @return {Integer} A bit map with the pressed modifier keys.
      */
@@ -81,6 +102,29 @@ qx.Class.define("qx.event.type.Dom",
       }
       if (evt.metaKey) {
         mask |= qx.event.type.Dom.META_MASK;
+      }
+      return mask;
+    },
+
+    /**
+     * Return in a bit map, which lock keys are pressed. The constants
+     * {@link #CAPSLOCK_MASK}, {@link #NUMLOCK_MASK}, and {@link #SCROLLLOCK_MASK} 
+     * define the bit positions of the corresponding keys.
+     *
+     * @return {Integer} A bit map with the locked keys.
+     */
+    getKeyLockState: function () {
+      var mask = 0;
+      var evt = this._native;
+
+      if (evt.capsLock) {
+        mask |= qx.event.type.Dom.CAPSLOCK_MASK;
+      }
+      if (evt.numLock) {
+        mask |= qx.event.type.Dom.NUMLOCK_MASK;
+      }
+      if (evt.scrollLock) {
+        mask |= qx.event.type.Dom.SCROLLLOCK_MASK;
       }
       return mask;
     },
@@ -125,6 +169,32 @@ qx.Class.define("qx.event.type.Dom",
       return this._native.metaKey;
     },
 
+    /**
+      * Returns whether the caps-lock modifier is active
+      *
+      * @return {Boolean} whether the CapsLock key is pressed.
+      */
+    isCapsLocked: function () {
+      return this._native.capsLock;
+    },
+
+    /**
+      * Returns whether the num-lock modifier is active
+      *
+      * @return {Boolean} whether the NumLock key is pressed.
+      */
+    isNumLocked: function () {
+      return this._native.numLock;
+    },
+
+    /**
+      * Returns whether the scroll-lock modifier is active
+      *
+      * @return {Boolean} whether the ScrollLock key is pressed.
+      */
+    isScrollLocked: function () {
+      return this._native.scrollLock;
+    },
 
     /**
      * Returns whether the ctrl key or (on the Mac) the command key is pressed.

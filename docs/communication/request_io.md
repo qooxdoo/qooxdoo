@@ -21,7 +21,7 @@ Before a request can be send, it must be configured. Configuration is accomplish
 -   **requestData**: Data to be send as part of the request.
 -   **requestHeaders**: Headers to send with the request
 
-For a complete list of properties, please refer to the API Documentation of [qx.io.request](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.request):
+For a complete list of properties, please refer to the API Documentation of [qx.io.request](apps://apiviewer/#qx.io.request):
 
     // Instantiate request
     var req = new qx.io.request.Xhr();
@@ -59,7 +59,7 @@ Events are fired when the request is progressing from one state to the other. Th
 -   **statusError**: Request completed successfully (like `load`) *but* the additional requirements for `success` are not met. For `Xhr` this event is typically fired when the server reports that an erroneous or unknown resource was requested (e.g. `500` or `404`). For `Jsonp`, this event is associated with an invalid response for whatever reasons.
 -   **fail**: Any kind of error occurred. Catches distinct events `error`, `statusError` and `timeout`.
 
-For a complete list of events, please refer to the API Documentation of [qx.io.request](http://demo.qooxdoo.org/%{version}/apiviewer/#qx.io.request):
+For a complete list of events, please refer to the API Documentation of [qx.io.request](apps://apiviewer/#qx.io.request):
 
     req.addListener("success", function(e) {
       var req = e.getTarget();
