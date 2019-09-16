@@ -50,7 +50,7 @@ qx.Class.define("qx.event.handler.Appear",
     this.__targets = {};
 
     // Register
-    qx.event.handler.Appear.__instances[this.$$hash] = this;
+    qx.event.handler.Appear.__instances[this.toHashCode()] = this;
   },
 
 
@@ -219,7 +219,7 @@ qx.Class.define("qx.event.handler.Appear",
     this.__manager = this.__targets = null;
 
     // Deregister
-    delete qx.event.handler.Appear.__instances[this.$$hash];
+    delete qx.event.handler.Appear.__instances[this.toHashCode()];
   },
 
 

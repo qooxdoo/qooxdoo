@@ -39,9 +39,9 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
     remove : function(widget) {
-    	if (this.__lookup[widget.$$hash]) {
+    	if (this.__lookup[widget.toHashCode()]) {
     		qx.lang.Array.remove(this.__queue, widget);
-    		delete this.__lookup[widget.$$hash];
+    		delete this.__lookup[widget.toHashCode()];
     	}
     },
 
@@ -55,12 +55,12 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      */
     add : function(widget)
     {
-      if (this.__lookup[widget.$$hash]) {
+      if (this.__lookup[widget.toHashCode()]) {
         return;
       }
 
       this.__queue.unshift(widget);
-      this.__lookup[widget.$$hash] = widget;
+      this.__lookup[widget.toHashCode()] = widget;
       qx.ui.core.queue.Manager.scheduleFlush("appearance");
     },
 
@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      * @return {Boolean} <code>true</code> if the widget is queued
      */
     has : function(widget) {
-      return !!this.__lookup[widget.$$hash];
+      return !!this.__lookup[widget.toHashCode()];
     },
 
 
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
         // Order is important to allow the same widget to be re-queued directly
         obj = queue[i];
         queue.splice(i, 1);
-        delete this.__lookup[obj.$$hash]
+        delete this.__lookup[obj.toHashCode()]
 
         // Only apply to currently visible widgets
         if (Visibility.isVisible(obj)) {

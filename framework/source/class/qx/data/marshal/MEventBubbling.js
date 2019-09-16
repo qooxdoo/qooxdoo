@@ -83,12 +83,12 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
     _registerEventChaining : function(value, old, name)
     {
       // if an old value is given, remove the old listener if possible
-      if (old != null && old.getUserData && old.getUserData("idBubble-" + this.$$hash) != null) {
-        var listeners = old.getUserData("idBubble-" + this.$$hash);
+      if (old != null && old.getUserData && old.getUserData("idBubble-" + this.toHashCode()) != null) {
+        var listeners = old.getUserData("idBubble-" + this.toHashCode());
         for (var i = 0; i < listeners.length; i++) {
           old.removeListenerById(listeners[i]);
         }
-        old.setUserData("idBubble-" + this.$$hash, null);
+        old.setUserData("idBubble-" + this.toHashCode(), null);
       }
 
       // if the child supports chaining
@@ -101,11 +101,11 @@ qx.Mixin.define("qx.data.marshal.MEventBubbling",
         );
         // add the listener
         var id = value.addListener("changeBubble", listener, this);
-        var listeners = value.getUserData("idBubble-" + this.$$hash);
+        var listeners = value.getUserData("idBubble-" + this.toHashCode());
         if (listeners == null)
         {
           listeners = [];
-          value.setUserData("idBubble-" + this.$$hash, listeners);
+          value.setUserData("idBubble-" + this.toHashCode(), listeners);
         }
         listeners.push(id);
       }

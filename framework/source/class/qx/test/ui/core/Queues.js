@@ -33,13 +33,13 @@ qx.Class.define("qx.test.ui.core.Queues",
       qx.ui.core.queue.Manager.flush();
 
       this.__widget1 = new qx.ui.core.Widget();
-      this.__widget1.$$hash = 10e5;
+      this.__widget1.setHashCode(10e5);
       this.__widget2 = new qx.ui.core.Widget();
-      this.__widget2.$$hash = 10e5 + 1;
+      this.__widget2.setHashCode(10e5 + 1);
       this.__widget3 = new qx.ui.core.Widget();
-      this.__widget3.$$hash = 10e5 + 2;
+      this.__widget3.setHashCode(10e5 + 2);
       this.__widget4 = new qx.ui.core.Widget();
-      this.__widget4.$$hash = 10e5 + 3;
+      this.__widget4.setHashCode(10e5 + 3);
     },
 
 
