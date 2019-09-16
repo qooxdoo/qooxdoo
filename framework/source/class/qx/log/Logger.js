@@ -580,8 +580,8 @@ qx.Bootstrap.define("qx.log.Logger",
       {
         // Do not explicitly check for instanceof qx.core.Object, in order not
         // to introduce an unwanted load-time dependency
-        if (object.$$hash !== undefined) {
-          entry.object = object.$$hash;
+        if (typeof object.toHashCode == "function") {
+          entry.object = object.toHashCode();
         }
         if (object.$$type) {
           entry.clazz = object;
@@ -766,9 +766,6 @@ qx.Bootstrap.define("qx.log.Logger",
           break;
 
         case "instance":
-          text = value.basename + "[" + value.$$hash + "]";
-          break;
-
         case "class":
         case "stringify":
           text = value.toString();

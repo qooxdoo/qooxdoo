@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
      * @param widget {qx.ui.core.Widget} The widget to clear
      */
     remove : function(widget) {
-      delete this.__queue[widget.$$hash];
+      delete this.__queue[widget.toHashCode()];
     },
 
 
@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
      */
     add : function(widget)
     {
-      this.__queue[widget.$$hash] = widget;
+      this.__queue[widget.toHashCode()] = widget;
       qx.ui.core.queue.Manager.scheduleFlush("layout");
     },
 
@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
     * @return {Boolean} Whether the widget given has layout changes queued.
     */
     isScheduled : function(widget) {
-      return !!this.__queue[widget.$$hash];
+      return !!this.__queue[widget.toHashCode()];
     },
 
     /**
@@ -128,9 +128,9 @@ qx.Class.define("qx.ui.core.queue.Layout",
       // Detecting level
       while (true)
       {
-        if (cache[parent.$$hash] != null)
+        if (cache[parent.toHashCode()] != null)
         {
-          level += cache[parent.$$hash];
+          level += cache[parent.toHashCode()];
           break;
         }
 
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
       var leveldown = level;
       while (widget && widget !== parent)
       {
-        cache[widget.$$hash] = leveldown--;
+        cache[widget.toHashCode()] = leveldown--;
         widget = widget.$$parent;
       }
 
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
               levels[level-1] = {};
             }
 
-            levels[level-1][parent.$$hash] = parent;
+            levels[level-1][parent.toHashCode()] = parent;
           }
           else
           {

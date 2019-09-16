@@ -81,6 +81,8 @@ qx.Class.define("qx.core.BaseInit",
         var start = new Date;
         this.__application.finalize();
         qx.log.Logger.debug(this, "Finalize runtime: " + (new Date - start) + "ms");
+        
+        qx.event.handler.Application.onAppInstanceInitialized();
       }
       else
       {

@@ -45,9 +45,6 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     /** @type {Integer} Next new hash code. */
     __nextHash : 0,
 
-    /** @type {Array} List of all free hash codes */
-    __freeHashes : [],
-
     /** @type {String} Post id for hash code creation. */
     __postId : "",
 
@@ -73,29 +70,9 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         return;
       }
 
-      var hash = obj.$$hash;
-      if (hash == null)
-      {
-        // Create new hash code
-        var cache = this.__freeHashes;
-        if (cache.length > 0 && !qx.core.Environment.get("qx.debug.dispose")) {
-          hash = cache.pop();
-        } else {
-          hash = (this.__nextHash++) + this.__postId;
-        }
+      var hash = qx.core.ObjectRegistry.toHashCode(obj);
 
-        // Store hash code
-        obj.$$hash = hash;
-
-        if (qx.core.Environment.get("qx.debug.dispose")) {
-          if (qx.dev && qx.dev.Debug && qx.dev.Debug.disposeProfilingActive) {
-            this.__stackTraces[hash] = qx.dev.StackTrace.getStackTrace();
-          }
-        }
-      }
-
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (!obj.dispose) {
           throw new Error("Invalid object: " + obj);
         }
@@ -121,22 +98,9 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       if (registry && registry[hash])
       {
         delete registry[hash];
-        this.__freeHashes.push(hash);
       }
 
-      // Delete the hash code
-      try
-      {
-        delete obj.$$hash;
-      }
-      catch(ex)
-      {
-        // IE has trouble directly removing the hash
-        // but it's ok with using removeAttribute
-        if (obj.removeAttribute) {
-          obj.removeAttribute("$$hash");
-        }
-      }
+      this.clearHashCode(obj);
     },
 
 
@@ -149,8 +113,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      */
     toHashCode : function(obj)
     {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (obj == null) {
           throw new Error("Invalid object: " + obj);
         }
@@ -162,15 +125,57 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       }
 
       // Create new hash code
-      var cache = this.__freeHashes;
-      if (cache.length > 0) {
-        hash = cache.pop();
-      } else {
-        hash = (this.__nextHash++) + this.__postId;
-      }
+      hash = this.createHashCode();
 
       // Store
-      return obj.$$hash = hash;
+      obj.$$hash = hash;
+
+      if (qx.core.Environment.get("qx.debug.dispose")) {
+        if (qx.dev && qx.dev.Debug && qx.dev.Debug.disposeProfilingActive) {
+          this.__stackTraces[hash] = qx.dev.StackTrace.getStackTrace();
+        }
+      }
+      
+      return obj.$$hash;
+    },
+    
+    
+    /**
+     * Creates a hash code; this will be a UUID v4, unless the environment variable 
+     * qx.hashCode.classic is set to true
+     * 
+     * @return {String}
+     */
+    createHashCode: function() {
+      if (qx.core.Environment.get("qx.hashCode.classic")) {
+        return String((this.__nextHash++) + this.__postId);
+      } else {
+        /*
+         * Creates a UUID v4; this is taken from https://gist.github.com/jed/982883
+         */
+        function createUuidV4(a) {
+          return a           // if the placeholder was passed, return
+            ? (              // a random number from 0 to 15
+              a ^            // unless b is 8,
+              Math.random()  // in which case
+              * 16           // a random number from
+              >> a/4         // 8 to 11
+              ).toString(16) // in hexadecimal
+            : (              // or otherwise a concatenated string:
+              [1e7] +        // 10000000 +
+              -1e3 +         // -1000 +
+              -4e3 +         // -4000 +
+              -8e3 +         // -80000000 +
+              -1e11          // -100000000000,
+              ).replace(     // replacing
+                /[018]/g,    // zeroes, ones, and eights with
+                createUuidV4 // random hex digits
+              )
+        }
+        
+        var hash = createUuidV4();
+        return hash;
+      }
     },
 
 
@@ -191,11 +196,10 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       var hash = obj.$$hash;
       if (hash != null)
       {
-        this.__freeHashes.push(hash);
-
         // Delete the hash code
         try
         {
+          obj.$$discardedHashCode = hash;
           delete obj.$$hash;
         }
         catch(ex)
@@ -311,12 +315,22 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
 
     /**
-     * Returns the next hash code that will be used
+     * Returns the next hash code that will be used.
+     * 
+     * Note that this will always return "0-0" if qx.hashCode.classic is not set to true; this
+     * method is marked as internal use only.
      *
      * @return {Integer} The next hash code
      * @internal
      */
     getNextHash : function() {
+      if (qx.core.Environment.get("qx.debug") && 
+          !qx.core.Environment.get("qx.hashCode.classic") && 
+          !qx.core.ObjectRegistry.getNextHash.$$givenWarning) 
+      {
+        qx.log.Logger.warn("Calling qx.core.ObjectRegistry.getNextHash() when qx.hashCode.classic==false will produce unexpected results");
+        qx.core.ObjectRegistry.getNextHash.$$givenWarning = true;
+      }
       return this.__nextHash;
     },
 

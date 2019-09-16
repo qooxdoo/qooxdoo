@@ -54,12 +54,6 @@ qx.Class.define("qx.core.Object",
    * Create a new instance
    */
   construct : function() {
-    	if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
-    		qx.core.ObjectRegistry.register(this);
-    	} else {
-    		qx.core.ObjectRegistry.toHashCode(this);
-    	}
-    	window.x=this;
   },
 
 
@@ -105,7 +99,33 @@ qx.Class.define("qx.core.Object",
      * @return {Integer} unique hash code of the object
      */
     toHashCode : function() {
+      if (!this.$$hash) {
+        if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
+          qx.core.ObjectRegistry.register(this);
+        } else {
+          qx.core.ObjectRegistry.toHashCode(this);
+        }
+      }
       return this.$$hash;
+    },
+    
+    
+    /**
+     * Sets a unique hash code; normally set automatically, you would only set this manually
+     * if you have a very special reason to do so - for example, you are using hash codes as
+     * a unique ID, and the ID is synchronized from a special source, eg remote server.
+     * 
+     * This can only be called once, and only if it has not been automatically allocated.  If
+     * you really do need to call this, call it as soon after construction as possible to avoid
+     * an exception.  
+     * 
+     * @param hash {String} an ID which is unique across the whole application
+     */
+    setHashCode : function(hash) {
+      if (Boolean(this.$$hash)) {
+        throw new Error("Cannot change the hash code of an object once set");
+      }
+      this.$$hash = hash;
     },
 
 

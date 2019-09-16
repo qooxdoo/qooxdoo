@@ -234,6 +234,14 @@
  *       <td>{@link qx.bom.client.EcmaScript#getMutationObserver}</td>
  *     </tr>
  *     <tr>
+ *       <td>ecmascript.bigint</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getBigInt}</td>
+ *     </tr>
+ *     <tr>
+ *       <td>ecmascript.bigint.tolocalestring</td><td><i>Boolean</i></td><td><code>true</code></td>
+ *       <td>{@link qx.bom.client.EcmaScript#getBigIntToLocaleString}</td>
+ *     </tr>
+ *     <tr>
  *       <td>ecmascript.array.indexof<td><i>Boolean</i></td><td><code>true</code></td>
  *       <td>{@link qx.bom.client.EcmaScript#getArrayIndexOf}</td>
  *     </tr>
@@ -906,7 +914,9 @@ qx.Bootstrap.define("qx.core.Environment",
       "qx.automaticMemoryManagement": true,
       "qx.promise": true,
       "qx.promise.warnings": true,
-      "qx.promise.longStackTraces": true
+      "qx.promise.longStackTraces": true,
+      "qx.command.bindEnabled": false,
+      "qx.hashCode.classic": false
     },
 
     /**

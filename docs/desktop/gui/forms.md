@@ -121,7 +121,7 @@ As you can see in the diagram, you can get the currently selected model and also
 Widgets
 -------
 
-The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the widgets \</pages/widget/widget\_ref\> documentation.
+The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the widgets \</pages/desktop/widget/widget\_ref\> documentation.
 
 <html>
 <style type="text/css">
