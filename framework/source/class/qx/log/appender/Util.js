@@ -173,20 +173,22 @@ qx.Bootstrap.define("qx.log.appender.Util",
       var output = [];
 
       output.push(this.formatOffset(entry.offset, 6));
-
-      if (entry.object)
-      {
-        if (entry.clazz) {
-          output.push(entry.clazz.classname + "[" + entry.object + "]:");
-        } else {
-          var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
-          if (obj) {
-            output.push(obj.classname + "[" + obj.toHashCode() + "]:");
-          }
-        }
+      var obj = entry.objectInstance||null;
+      var hash = null;
+      if (!obj && entry.object) {
+        obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
       }
-      else if (entry.clazz) {
-        output.push(entry.clazz.classname + ":");
+      if (obj) {
+        hash = obj.toShortHashCode();
+      }
+      if (!hash)
+        hash = entry.object || null;
+      var classname = entry.clazz ? entry.clazz.classname : obj ? obj.classname : null;
+
+      if (hash) {
+        output.push(classname + "[" + hash + "]:");
+      } else if (entry.clazz) {
+        output.push(classname + ":");
       }
 
       var items = entry.items;

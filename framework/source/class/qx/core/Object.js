@@ -96,7 +96,7 @@ qx.Class.define("qx.core.Object",
     /**
      * Return unique hash code of object
      *
-     * @return {Integer} unique hash code of the object
+     * @return {String} unique hash code of the object
      */
     toHashCode : function() {
       if (!this.$$hash) {
@@ -107,6 +107,21 @@ qx.Class.define("qx.core.Object",
         }
       }
       return this.$$hash;
+    },
+    
+    
+    /**
+     * Return a unique, short hash code for the object based on creation order
+     * 
+     * @return {String} unique, short hash code of the object
+     */
+    toShortHashCode : function() {
+      var hash = this.toHashCode();
+      if (!qx.core.Environment.get("qx.hashCode.classic")) {
+        var pos = hash.lastIndexOf('+');
+        hash = hash.substring(pos + 1);
+      }
+      return hash;
     },
     
     
