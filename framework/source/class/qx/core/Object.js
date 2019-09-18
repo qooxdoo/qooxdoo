@@ -111,21 +111,6 @@ qx.Class.define("qx.core.Object",
     
     
     /**
-     * Return a unique, short hash code for the object based on creation order
-     * 
-     * @return {String} unique, short hash code of the object
-     */
-    toShortHashCode : function() {
-      var hash = this.toHashCode();
-      if (!qx.core.Environment.get("qx.hashCode.classic")) {
-        var pos = hash.lastIndexOf('+');
-        hash = hash.substring(pos + 1);
-      }
-      return hash;
-    },
-    
-    
-    /**
      * Sets a unique hash code; normally set automatically, you would only set this manually
      * if you have a very special reason to do so - for example, you are using hash codes as
      * a unique ID, and the ID is synchronized from a special source, eg remote server.

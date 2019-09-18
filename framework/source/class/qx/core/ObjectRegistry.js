@@ -147,12 +147,13 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * @return {String}
      */
     createHashCode: function() {
-      var hash = String((this.__nextHash++) + this.__postId);
-      if (!qx.core.Environment.get("qx.hashCode.classic")) {
+      if (qx.core.Environment.get("qx.hashCode.classic")) {
+        var hash = String((this.__nextHash++) + this.__postId);
+        return hash;
+      } else {
         var uuid = qx.util.Uuid.createUuidV4();
-        hash = uuid + "+" + hash;
+        return uuid;
       }
-      return hash;
     },
 
 
