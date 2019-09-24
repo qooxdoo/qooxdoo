@@ -185,6 +185,10 @@ qx.Class.define("qx.util.ObjectPool",
         return;
       }
 
+      // Reset all user data when the object is returned to the pool.
+      // The next consumer should expect a clean object.
+      obj.resetUserData();
+      
       obj.$$pooled = true;
       pool.push(obj);
     }
