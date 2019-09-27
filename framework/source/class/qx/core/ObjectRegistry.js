@@ -141,19 +141,13 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     
     
     /**
-     * Creates a hash code; this will be a UUID v4, unless the environment variable 
-     * qx.hashCode.classic is set to true
+     * Creates a hash code
      * 
      * @return {String}
      */
     createHashCode: function() {
-      if (qx.core.Environment.get("qx.hashCode.classic")) {
-        var hash = String((this.__nextHash++) + this.__postId);
-        return hash;
-      } else {
-        var uuid = qx.util.Uuid.createUuidV4();
-        return uuid;
-      }
+      var hash = String((this.__nextHash++) + this.__postId);
+      return hash;
     },
 
 
@@ -295,20 +289,10 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     /**
      * Returns the next hash code that will be used.
      * 
-     * Note that this will always return "0-0" if qx.hashCode.classic is not set to true; this
-     * method is marked as internal use only.
-     *
      * @return {Integer} The next hash code
      * @internal
      */
     getNextHash : function() {
-      if (qx.core.Environment.get("qx.debug") && 
-          !qx.core.Environment.get("qx.hashCode.classic") && 
-          !qx.core.ObjectRegistry.getNextHash.$$givenWarning) 
-      {
-        qx.log.Logger.warn("Calling qx.core.ObjectRegistry.getNextHash() when qx.hashCode.classic==false will produce unexpected results");
-        qx.core.ObjectRegistry.getNextHash.$$givenWarning = true;
-      }
       return this.__nextHash;
     },
 

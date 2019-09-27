@@ -915,8 +915,7 @@ qx.Bootstrap.define("qx.core.Environment",
       "qx.promise": true,
       "qx.promise.warnings": true,
       "qx.promise.longStackTraces": true,
-      "qx.command.bindEnabled": false,
-      "qx.hashCode.classic": false
+      "qx.command.bindEnabled": false
     },
 
     /**

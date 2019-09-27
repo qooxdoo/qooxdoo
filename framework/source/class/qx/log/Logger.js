@@ -582,7 +582,6 @@ qx.Bootstrap.define("qx.log.Logger",
         // to introduce an unwanted load-time dependency
         if (typeof object.toHashCode == "function") {
           entry.object = object.toHashCode();
-          entry.objectInstance = object;
         }
         if (object.$$type) {
           entry.clazz = object;

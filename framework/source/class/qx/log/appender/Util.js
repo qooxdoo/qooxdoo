@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.log.appender.Util",
         } else {
           var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
           if (obj) {
-            output.push("<span class='object' title='Object instance with hash code: " + obj.toHashCode() + "'>", obj.classname, "[", obj.$$hash, "]</span>: ");
+            output.push("<span class='object' title='Object instance with hash code: " + obj.toHashCode() + "'>", obj.classname, "[", obj.toHashCode(), "]</span>: ");
           }
         }
       }
@@ -173,14 +173,22 @@ qx.Bootstrap.define("qx.log.appender.Util",
       var output = [];
 
       output.push(this.formatOffset(entry.offset, 6));
-      var obj = entry.objectInstance||null;
-      if (!obj && entry.object) {
-        obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
-      }
-      var classname = entry.clazz ? entry.clazz.classname : obj ? obj.classname : null;
 
-      if (entry.clazz) {
-        output.push(classname + ":");
+      if (entry.object)
+      {
+        if (entry.clazz) {
+          output.push(entry.clazz.classname + "[" + entry.object + "]:");
+        } else {
+          var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
+          if (obj) {
+            output.push(obj.classname + "[" + obj.toHashCode() + "]:");
+          } else {
+            output.push("[" + entry.object + "]:");
+          }
+        }
+      }
+      else if (entry.clazz) {
+        output.push(entry.clazz.classname + ":");
       }
 
       var items = entry.items;
