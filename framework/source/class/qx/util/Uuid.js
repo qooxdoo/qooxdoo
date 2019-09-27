@@ -39,6 +39,8 @@ qx.Class.define("qx.util.Uuid", {
 /**
  * @ignore(crypto)
  * @ignore(module)
+ * @ignore(module.exports)
+ * @ignore(Uint8Array)
  * @ignore(require)
  */
 
