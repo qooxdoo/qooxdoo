@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.log.appender.Util",
         } else {
           var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
           if (obj) {
-            output.push("<span class='object' title='Object instance with hash code: " + obj.toHashCode() + "'>", obj.classname, "[", obj.$$hash, "]</span>: ");
+            output.push("<span class='object' title='Object instance with hash code: " + obj.toHashCode() + "'>", obj.classname, "[", obj.toHashCode(), "]</span>: ");
           }
         }
       }
@@ -182,6 +182,8 @@ qx.Bootstrap.define("qx.log.appender.Util",
           var obj = entry.win.qx.core.ObjectRegistry.fromHashCode(entry.object, true);
           if (obj) {
             output.push(obj.classname + "[" + obj.toHashCode() + "]:");
+          } else {
+            output.push("[" + entry.object + "]:");
           }
         }
       }
