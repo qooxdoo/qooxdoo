@@ -277,7 +277,12 @@ qx.Class.define("qx.core.Object",
       return data === undefined ? null : data;
     },
 
-
+    /**
+     * Clears all user defined data from the object.
+     */
+    resetUserData : function() {
+      this.__userData = null;
+    },
 
     /*
     ---------------------------------------------------------------------------
