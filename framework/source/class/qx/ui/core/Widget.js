@@ -872,10 +872,10 @@ qx.Class.define("qx.ui.core.Widget",
       while(element)
       {
       	if (qx.core.Environment.get("qx.debug")) {
-      		qx.core.Assert.assertTrue((!element.$$widget && !element.$$widgetObject) ||
-      				(element.$$widgetObject && element.$$widget && element.$$widgetObject.toHashCode() === element.$$widget));
+      		qx.core.Assert.assertTrue((!element.$$qxObjectHash && !element.$$qxObject) ||
+      				(element.$$qxObject && element.$$qxObjectHash && element.$$qxObject.toHashCode() === element.$$qxObjectHash));
       	}
-        var widget = element.$$widgetObject;
+        var widget = element.$$qxObject;
 
         // check for anonymous widgets
         if (widget) {
@@ -1632,7 +1632,7 @@ qx.Class.define("qx.ui.core.Widget",
     __createContentElement : function()
     {
       var el = this._createContentElement();
-      el.connectWidget(this);
+      el.connectObject(this);
 
       // make sure to allow all pointer events
       el.setStyles({"touch-action": "none", "-ms-touch-action" : "none"});
@@ -3911,7 +3911,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Remove widget pointer from DOM
       var contentEl = this.getContentElement();
       if (contentEl) {
-      	contentEl.disconnectWidget(this);
+      	contentEl.disconnectObject(this);
       }
 
       // Clean up all child controls

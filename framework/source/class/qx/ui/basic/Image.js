@@ -417,7 +417,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       var element = new (clazz)(tagName);
-      element.connectWidget(this);
+      element.connectObject(this);
       element.setStyles({
         "overflowX": "hidden",
         "overflowY": "hidden",
@@ -432,7 +432,7 @@ qx.Class.define("qx.ui.basic.Image",
 
         if (qx.core.Environment.get("css.alphaimageloaderneeded")) {
           var wrapper = this.__wrapper = new qx.html.Element("div");
-          element.connectWidget(this);
+          element.connectObject(this);
           wrapper.setStyle("position", "absolute");
           wrapper.add(element);
           return wrapper;
@@ -1069,7 +1069,7 @@ qx.Class.define("qx.ui.basic.Image",
   destruct : function() {
     for (var mode in this.__contentElements) {
       if (this.__contentElements.hasOwnProperty(mode)) {
-        this.__contentElements[mode].disconnectWidget(this);
+        this.__contentElements[mode].disconnectObject(this);
       }
     }
 

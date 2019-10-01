@@ -136,8 +136,8 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         $$elementObject : 1,
 
         // Used by qx.ui.core.Widget
-        $$widget        : 1,
-        $$widgetObject  : 1,
+        $$qxObjectHash        : 1,
+        $$qxObject  : 1,
 
         // Native properties
         checked     : 1,
@@ -156,8 +156,8 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
 
       qxProperties :
       {
-        $$widget : 1,
-        $$widgetObject : 1,
+        $$qxObjectHash : 1,
+        $$qxObject : 1,
         $$element : 1,
         $$elementObject : 1
       },
