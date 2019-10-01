@@ -497,7 +497,7 @@ qx.Class.define("qx.html.Element",
 
       this.__modifiedChildren = true;
 
-      qx.html.Element._modified[this.$$hash] = this;
+      qx.html.Element._modified[this.toHashCode()] = this;
       qx.html.Element._scheduleFlush("element");
     },
 
@@ -1725,7 +1725,7 @@ qx.Class.define("qx.html.Element",
 
       if (this.__element)
       {
-        qx.html.Element._visibility[this.$$hash] = this;
+        qx.html.Element._visibility[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1753,7 +1753,7 @@ qx.Class.define("qx.html.Element",
 
       if (this.__element)
       {
-        qx.html.Element._visibility[this.$$hash] = this;
+        qx.html.Element._visibility[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1818,7 +1818,7 @@ qx.Class.define("qx.html.Element",
           align : align
         };
 
-        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scroll[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1858,7 +1858,7 @@ qx.Class.define("qx.html.Element",
           align : align
         };
 
-        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scroll[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1884,7 +1884,7 @@ qx.Class.define("qx.html.Element",
       else
       {
         this.__lazyScrollX = x;
-        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scroll[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1926,7 +1926,7 @@ qx.Class.define("qx.html.Element",
       else
       {
         this.__lazyScrollY = y;
-        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scroll[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -2256,7 +2256,7 @@ qx.Class.define("qx.html.Element",
         this.__styleJobs[key] = true;
 
         // Register modification
-        qx.html.Element._modified[this.$$hash] = this;
+        qx.html.Element._modified[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -2316,7 +2316,7 @@ qx.Class.define("qx.html.Element",
         }
 
         // Register modification
-        qx.html.Element._modified[this.$$hash] = this;
+        qx.html.Element._modified[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
       else
@@ -2430,7 +2430,7 @@ qx.Class.define("qx.html.Element",
         this.__attribJobs[key] = true;
 
         // Register modification
-        qx.html.Element._modified[this.$$hash] = this;
+        qx.html.Element._modified[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -2579,7 +2579,7 @@ qx.Class.define("qx.html.Element",
         this.__propertyJobs[key] = true;
 
         // Register modification
-        qx.html.Element._modified[this.$$hash] = this;
+        qx.html.Element._modified[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -2726,9 +2726,9 @@ qx.Class.define("qx.html.Element",
 
       if (this.__element)
       {
-        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.$$hash]) {
-          var callback = listener.$$wrapped_callback[type + this.$$hash];
-          delete listener.$$wrapped_callback[type + this.$$hash];
+        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.toHashCode()]) {
+          var callback = listener.$$wrapped_callback[type + this.toHashCode()];
+          delete listener.$$wrapped_callback[type + this.toHashCode()];
           listener = callback;
         }
         qx.event.Registration.removeListener(this.__element, type, listener, self, capture);
@@ -2883,9 +2883,9 @@ qx.Class.define("qx.html.Element",
 
   destruct : function()
   {
-    if (this.$$hash) {
-      delete qx.html.Element._modified[this.$$hash];
-      delete qx.html.Element._scroll[this.$$hash];
+    if (this.toHashCode()) {
+      delete qx.html.Element._modified[this.toHashCode()];
+      delete qx.html.Element._scroll[this.toHashCode()];
     }
 
     var el = this.__element;

@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _selectableToHashCode : function(item) {
-      return item.$$hash;
+      return item.toHashCode();
     },
 
 
