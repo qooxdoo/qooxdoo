@@ -578,7 +578,12 @@ qx.Bootstrap.define("qx.log.Logger",
       // Add relation fields
       if (object)
       {
-        function isQxCoreObject(clz) {
+        // Do not explicitly check for instanceof qx.core.Object, in order not
+        // to introduce an unwanted load-time dependency
+        function isQxCoreObject(object) {
+          if (object === object.constructor)
+            return false;
+          var clz = object.constructor;
           while (clz) {
             if (clz.classname === "qx.core.Object") {
               return true;
@@ -587,9 +592,7 @@ qx.Bootstrap.define("qx.log.Logger",
           }
           return false;
         }
-        // Do not explicitly check for instanceof qx.core.Object, in order not
-        // to introduce an unwanted load-time dependency
-        if (isQxCoreObject(object.constructor)) {
+        if (isQxCoreObject(object)) {
           entry.object = object.toHashCode();
         }
         if (object.$$type) {
