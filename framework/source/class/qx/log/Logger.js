@@ -578,9 +578,17 @@ qx.Bootstrap.define("qx.log.Logger",
       // Add relation fields
       if (object)
       {
+        function isQxCoreObject(clz) {
+          while (clz) {
+            if (clz.classname === "qx.core.Object")
+              return true;
+            clz = clz.superclass;
+          }
+          return false;
+        }
         // Do not explicitly check for instanceof qx.core.Object, in order not
         // to introduce an unwanted load-time dependency
-        if (typeof object.toHashCode == "function") {
+        if (isQxCoreObject(object.constructor)) {
           entry.object = object.toHashCode();
         }
         if (object.$$type) {
