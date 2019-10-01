@@ -99,7 +99,7 @@ qx.Class.define("qx.core.Object",
      * @return {String} unique hash code of the object
      */
     toHashCode : function() {
-      if (!this.$$hash) {
+      if (!this.$$hash && !this.$$disposed) {
         if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
           qx.core.ObjectRegistry.register(this);
         } else {
@@ -277,7 +277,12 @@ qx.Class.define("qx.core.Object",
       return data === undefined ? null : data;
     },
 
-
+    /**
+     * Clears all user defined data from the object.
+     */
+    resetUserData : function() {
+      this.__userData = null;
+    },
 
     /*
     ---------------------------------------------------------------------------

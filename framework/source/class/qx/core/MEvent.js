@@ -87,7 +87,7 @@ qx.Mixin.define("qx.core.MEvent",
       }
       // store the call for each type in case the listener is
       // used for more than one type [BUG #8038]
-      listener.$$wrapped_callback[type + this.$$hash] = callback;
+      listener.$$wrapped_callback[type + this.toHashCode()] = callback;
       return this.addListener(type, callback, context, capture);
     },
 

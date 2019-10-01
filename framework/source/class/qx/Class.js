@@ -1222,6 +1222,12 @@ qx.Bootstrap.define("qx.Class",
       if (!qx.core.Environment.get("module.property")) {
         throw new Error("Property module disabled.");
       }
+      
+      if (qx.core.Environment.get("qx.debug")) {
+        if (properties instanceof qx.core.Object) {
+          throw new Error("Invalid 'properties' for " + clazz.classname);
+        }
+      }
 
       var config;
 
