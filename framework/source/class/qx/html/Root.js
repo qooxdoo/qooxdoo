@@ -80,7 +80,7 @@ qx.Class.define("qx.html.Root",
       this.setRoot(true);
 
       // Register for synchronization
-      qx.html.Element._modified[this.$$hash] = this;
+      qx.html.Element._modified[this.toHashCode()] = this;
     }
   }
 });

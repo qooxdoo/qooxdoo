@@ -161,11 +161,11 @@ qx.Class.define("qx.test.event.Registration",
       var f2 = new Foo();
 
       var called = {};
-      called[f1.$$hash] = 0;
-      called[f2.$$hash] = 0;
+      called[f1.toHashCode()] = 0;
+      called[f2.toHashCode()] = 0;
 
       var callback = function(e) {
-        called[this.$$hash]++;
+        called[this.toHashCode()]++;
       };
 
       f1.addListenerOnce("bar", callback, f1);
@@ -176,8 +176,8 @@ qx.Class.define("qx.test.event.Registration",
       f1.fireBar();
       f2.fireBar();
 
-      this.assertEquals(1, called[f1.$$hash]);
-      this.assertEquals(1, called[f2.$$hash]);
+      this.assertEquals(1, called[f1.toHashCode()]);
+      this.assertEquals(1, called[f2.toHashCode()]);
     }
   }
 });

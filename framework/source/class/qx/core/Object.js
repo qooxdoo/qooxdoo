@@ -54,11 +54,6 @@ qx.Class.define("qx.core.Object",
    * Create a new instance
    */
   construct : function() {
-    	if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
-    		qx.core.ObjectRegistry.register(this);
-    	} else {
-    		qx.core.ObjectRegistry.toHashCode(this);
-    	}
   },
 
 
@@ -101,10 +96,50 @@ qx.Class.define("qx.core.Object",
     /**
      * Return unique hash code of object
      *
-     * @return {Integer} unique hash code of the object
+     * @return {String} unique hash code of the object
      */
     toHashCode : function() {
+      if (!this.$$hash && !this.$$disposed) {
+        if (!qx.core.Environment.get("qx.automaticMemoryManagement") || qx.Class.hasInterface(this.constructor, qx.core.IDisposable)) {
+          qx.core.ObjectRegistry.register(this);
+        } else {
+          qx.core.ObjectRegistry.toHashCode(this);
+        }
+      }
       return this.$$hash;
+    },
+    
+    
+    /**
+     * Returns a UUID for this object
+     * 
+     * @return {String} a UUID
+     */
+    toUuid : function() {
+      if (!this.$$uuid) {
+        this.$$uuid = qx.util.Uuid.createUuidV4();
+      }
+      
+      return this.$$uuid;
+    },
+    
+    
+    /**
+     * Sets a UUID; normally set automatically, you would only set this manually
+     * if you have a very special reason to do so - for example, you are using UUIDs which are
+     * synchronized from a special source, eg remote server.
+     * 
+     * This can only be called once, and only if it has not been automatically allocated.  If
+     * you really do need to call this, call it as soon after construction as possible to avoid
+     * an exception.  
+     * 
+     * @param uuid {String} an ID which is unique across the whole application
+     */
+    setExplicitUuid : function(uuid) {
+      if (Boolean(this.$$uuid)) {
+        throw new Error("Cannot change the UUID of an object once set");
+      }
+      this.$$uuid = uuid;
     },
 
 
@@ -114,7 +149,7 @@ qx.Class.define("qx.core.Object",
      * @return {String} string representation of the object
      */
     toString : function() {
-      return this.classname + "[" + this.$$hash + "]";
+      return this.classname + "[" + this.toHashCode() + "]";
     },
 
 
