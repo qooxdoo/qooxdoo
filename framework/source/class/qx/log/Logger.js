@@ -580,8 +580,9 @@ qx.Bootstrap.define("qx.log.Logger",
       {
         function isQxCoreObject(clz) {
           while (clz) {
-            if (clz.classname === "qx.core.Object")
+            if (clz.classname === "qx.core.Object") {
               return true;
+            }
             clz = clz.superclass;
           }
           return false;
