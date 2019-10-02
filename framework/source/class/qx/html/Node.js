@@ -120,8 +120,8 @@ qx.Class.define("qx.html.Node",
     _children : null,
     _modifiedChildren : null,
 
-    __propertyJobs : null,
-    __propertyValues : null,
+    _propertyJobs : null,
+    _propertyValues : null,
 
 
     /**
@@ -196,6 +196,23 @@ qx.Class.define("qx.html.Node",
      */
     serialize(writer) {
       throw new Error("No implementation for " + this.classname + ".serialize");
+    },
+
+    /**
+     * Serializes a special property with the given value.
+     *
+     * This property serialization routine can be easily overwritten and
+     * extended by sub classes to add new low level features which
+     * are not easily possible using styles and attributes.
+     *
+     * @param writer {Function} the writer
+     * @param name {String} Unique property identifier
+     * @param value {var} Any valid value (depends on the property)
+     * @return {qx.html.Element} this object (for chaining support)
+     * @abstract
+     */
+    _serializeProperty: function(writer, name, value) {
+      // Nothing
     },
 
     /**
@@ -499,7 +516,7 @@ qx.Class.define("qx.html.Node",
       var elem = this._domNode;
       
       // Copy properties
-      var data = this.__propertyValues;
+      var data = this._propertyValues;
       if (data)
       {
         for (var key in data) {
@@ -535,10 +552,10 @@ qx.Class.define("qx.html.Node",
       var elem = this._domNode;
 
       // Sync misc
-      var jobs = this.__propertyJobs;
+      var jobs = this._propertyJobs;
       if (jobs)
       {
-        var data = this.__propertyValues;
+        var data = this._propertyValues;
         if (data)
         {
           var value;
@@ -547,7 +564,7 @@ qx.Class.define("qx.html.Node",
           }
         }
 
-        this.__propertyJobs = null;
+        this._propertyJobs = null;
       }
 
       // Note: Events are directly kept in sync
@@ -1166,18 +1183,18 @@ qx.Class.define("qx.html.Node",
      */
     _setProperty : function(key, value, direct)
     {
-      if (!this.__propertyValues) {
-        this.__propertyValues = {};
+      if (!this._propertyValues) {
+        this._propertyValues = {};
       }
 
-      if (this.__propertyValues[key] == value) {
+      if (this._propertyValues[key] == value) {
         return this;
       }
 
       if (value == null) {
-        delete this.__propertyValues[key];
+        delete this._propertyValues[key];
       } else {
-        this.__propertyValues[key] = value;
+        this._propertyValues[key] = value;
       }
 
       // Uncreated elements simply copy all data
@@ -1193,12 +1210,12 @@ qx.Class.define("qx.html.Node",
         }
 
         // Dynamically create if needed
-        if (!this.__propertyJobs) {
-          this.__propertyJobs = {};
+        if (!this._propertyJobs) {
+          this._propertyJobs = {};
         }
 
         // Store job info
-        this.__propertyJobs[key] = true;
+        this._propertyJobs[key] = true;
 
         // Register modification
         qx.html.Element._modified[this.toHashCode()] = this;
@@ -1230,7 +1247,7 @@ qx.Class.define("qx.html.Node",
      */
     _getProperty : function(key)
     {
-      var db = this.__propertyValues;
+      var db = this._propertyValues;
       if (!db) {
         return null;
       }
@@ -1511,6 +1528,6 @@ qx.Class.define("qx.html.Node",
 
     this._disposeArray("_children");
 
-    this.__propertyValues = this.__propertyJobs = this._domNode = this._parent = null;
+    this._propertyValues = this._propertyJobs = this._domNode = this._parent = null;
   }
 });

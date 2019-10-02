@@ -209,6 +209,11 @@ qx.Class.define("qx.test.html.Element",
       buffer = "";
       el1.serialize(writer);
       this.assertEquals("<div id=\"el1\" abc=\"123\" def=\"true\" checked=checked>Hello Again<div id=\"el2\"/> World</div>", buffer);
+      
+      el2.setProperty("innerHtml", "<b>Test</b>");
+      buffer = "";
+      el1.serialize(writer);
+      this.assertEquals("<div id=\"el1\" abc=\"123\" def=\"true\" checked=checked>Hello Again<div id=\"el2\"><b>Test</b></div> World</div>", buffer);
     },
 
     

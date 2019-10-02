@@ -485,7 +485,16 @@ qx.Class.define("qx.html.Element",
           writer(" style=\"", css, "\"");
         }
       }
+
+      // Copy properties
+      var data = this._propertyValues;
+      if (data) {
+        for (var key in data) {
+          this._serializeProperty(writer, key, data[key]);
+        }
+      }
       
+      // Children
       if (!this._children || !this._children.length) {
         writer("/>");
       } else {
@@ -497,6 +506,28 @@ qx.Class.define("qx.html.Element",
       }
     },
     
+    /*
+     * @Override
+     */
+    _applyProperty: function(name, value) {
+      if (name === "innerHtml") {
+        if (this._domNode) {
+          this._domNode.innerHtml = value;
+        }
+      }
+    },
+    
+    /*
+     * @Override
+     */
+    _serializeProperty: function(writer, name, value) {
+      if (name === "innerHtml") {
+        if (value) {
+          writer(value);
+        }
+      }
+    },
+
     /**
      * Connects a widget to this element, and to the DOM element in this Element.  They
      * remain associated until disposed or disconnectWidget is called
@@ -622,7 +653,7 @@ qx.Class.define("qx.html.Element",
         this.__styleJobs = null;
       }
     },
-
+    
 
     
 
