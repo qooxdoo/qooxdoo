@@ -1224,7 +1224,7 @@ qx.Bootstrap.define("qx.Class",
       }
       
       if (qx.core.Environment.get("qx.debug")) {
-        if (properties instanceof qx.core.Object) {
+        if (qx.Bootstrap.isQxCoreObject(properties)) {
           throw new Error("Invalid 'properties' for " + clazz.classname);
         }
       }
