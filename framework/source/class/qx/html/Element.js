@@ -862,7 +862,7 @@ qx.Class.define("qx.html.Element",
 
       if (this._domNode)
       {
-        qx.html.Element._visibility[this.$$hash] = this;
+        qx.html.Element._visibility[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -890,7 +890,7 @@ qx.Class.define("qx.html.Element",
 
       if (this._domNode)
       {
-        qx.html.Element._visibility[this.$$hash] = this;
+        qx.html.Element._visibility[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -955,7 +955,7 @@ qx.Class.define("qx.html.Element",
           align : align
         };
 
-        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scroll[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -995,7 +995,7 @@ qx.Class.define("qx.html.Element",
           align : align
         };
 
-        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scroll[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1021,7 +1021,7 @@ qx.Class.define("qx.html.Element",
       else
       {
         this.__lazyScrollX = x;
-        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scroll[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1063,7 +1063,7 @@ qx.Class.define("qx.html.Element",
       else
       {
         this.__lazyScrollY = y;
-        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scroll[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1393,7 +1393,7 @@ qx.Class.define("qx.html.Element",
         this.__styleJobs[key] = true;
 
         // Register modification
-        qx.html.Element._modified[this.$$hash] = this;
+        qx.html.Element._modified[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
@@ -1453,7 +1453,7 @@ qx.Class.define("qx.html.Element",
         }
 
         // Register modification
-        qx.html.Element._modified[this.$$hash] = this;
+        qx.html.Element._modified[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
       else
@@ -1567,7 +1567,7 @@ qx.Class.define("qx.html.Element",
         this.__attribJobs[key] = true;
 
         // Register modification
-        qx.html.Element._modified[this.$$hash] = this;
+        qx.html.Element._modified[this.toHashCode()] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
