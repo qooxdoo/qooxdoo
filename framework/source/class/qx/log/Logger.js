@@ -580,8 +580,21 @@ qx.Bootstrap.define("qx.log.Logger",
       {
         // Do not explicitly check for instanceof qx.core.Object, in order not
         // to introduce an unwanted load-time dependency
-        if (object.$$hash !== undefined) {
-          entry.object = object.$$hash;
+        function isQxCoreObject(object) {
+          if (object === object.constructor) {
+            return false;
+          }
+          var clz = object.constructor;
+          while (clz) {
+            if (clz.classname === "qx.core.Object") {
+              return true;
+            }
+            clz = clz.superclass;
+          }
+          return false;
+        }
+        if (isQxCoreObject(object)) {
+          entry.object = object.toHashCode();
         }
         if (object.$$type) {
           entry.clazz = object;

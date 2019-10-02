@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
     this.__targets = {};
 
     // Register
-    qx.ui.mobile.core.DomUpdatedHandler.__instances[this.$$hash] = this;
+    qx.ui.mobile.core.DomUpdatedHandler.__instances[this.toHashCode()] = this;
   },
 
 
@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
     // interface implementation
     registerEvent : function(target, type, capture)
     {
-      var hash = target.$$hash;
+      var hash = target.toHashCode();
       var targets = this.__targets;
 
       if (targets && !targets[hash])
@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
     // interface implementation
     unregisterEvent : function(target, type, capture)
     {
-      var hash = target.$$hash;
+      var hash = target.toHashCode();
       var targets = this.__targets;
       if (!targets) {
         return;
@@ -192,7 +192,7 @@ qx.Class.define("qx.ui.mobile.core.DomUpdatedHandler",
     this.__manager = this.__targets = null;
 
     // Deregister
-    delete qx.ui.mobile.core.DomUpdatedHandler.__instances[this.$$hash];
+    delete qx.ui.mobile.core.DomUpdatedHandler.__instances[this.toHashCode()];
   },
 
 
