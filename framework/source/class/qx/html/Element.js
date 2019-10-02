@@ -458,6 +458,44 @@ qx.Class.define("qx.html.Element",
     _createDomElement : function() {
       return qx.dom.Element.create(this._nodeName);
     },
+
+    /*
+     * @Override
+     */
+    serialize: function(writer) {
+      writer("<", this._nodeName);
+      var elem = this._domNode;
+      
+      // Copy attributes
+      var data = this.__attribValues;
+      if (data) {
+        var Attribute = qx.bom.element.Attribute;
+        for (var key in data) {
+          writer(" ");
+          Attribute.serialize(writer, key, data[key]);
+        }
+      }
+
+      // Copy styles
+      var data = this.__styleValues;
+      if (data) {
+        var Style = qx.bom.element.Style;
+        var css = Style.compile(data);
+        if (css) {
+          writer(" style=\"", css, "\"");
+        }
+      }
+      
+      if (!this._children || !this._children.length) {
+        writer("/>");
+      } else {
+        writer(">");
+        for (var i = 0; i < this._children.length; i++) {
+          this._children[i].serialize(writer);
+        }
+        writer("</", this._nodeName, ">");
+      }
+    },
     
     /**
      * Connects a widget to this element, and to the DOM element in this Element.  They

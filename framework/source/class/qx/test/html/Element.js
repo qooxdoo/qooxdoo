@@ -188,9 +188,30 @@ qx.Class.define("qx.test.html.Element",
       this.assertEquals(pa.textContent, "Goodbye World");
       txt1.setValue("Hello Again", true);
       this.assertEquals(pa.textContent, "Hello Again World");
+      
+      var buffer = "";
+      function writer() {
+        var args = qx.lang.Array.fromArguments(arguments);
+        buffer += args.join("");
+      }
+      el1.serialize(writer);
+      this.assertEquals("<div id=\"el1\">Hello Again World</div>", buffer);
+      el1.setAttribute("abc", 123);
+      el1.setAttribute("def", true);
+      el1.setAttribute("checked", true);
+      buffer = "";
+      el1.serialize(writer);
+      this.assertEquals("<div id=\"el1\" abc=\"123\" def=\"true\" checked=checked>Hello Again World</div>", buffer);
+      
+      var el2 = new qx.html.Element();
+      el2.setAttribute("id", "el2");
+      el1.addAt(el2, 1);
+      buffer = "";
+      el1.serialize(writer);
+      this.assertEquals("<div id=\"el1\" abc=\"123\" def=\"true\" checked=checked>Hello Again<div id=\"el2\"/> World</div>", buffer);
     },
 
-
+    
     testBasics : function()
     {
       //

@@ -122,15 +122,6 @@ qx.Class.define("qx.html.Node",
 
     __propertyJobs : null,
     __propertyValues : null,
-    
-    /**
-     * Internal helper to generate the DOM element
-     *
-     * @return {Element} DOM element
-     */
-    _createDomElement : function() {
-      throw new Error("No implementation for " + this.classname + "._createDomElement");
-    },
 
 
     /**
@@ -188,6 +179,24 @@ qx.Class.define("qx.html.Node",
       }
     },
 
+    /**
+     * Internal helper to generate the DOM element
+     *
+     * @return {Element} DOM element
+     */
+    _createDomElement : function() {
+      throw new Error("No implementation for " + this.classname + "._createDomElement");
+    },
+    
+    /**
+     * Serializes the virtual DOM element to a writer; the `writer` function accepts
+     *  an varargs, which can be joined with an empty string or streamed.
+     * 
+     * @param writer {Function} the writer
+     */
+    serialize(writer) {
+      throw new Error("No implementation for " + this.classname + ".serialize");
+    },
 
     /**
      * Connects a DOM element to this Node; if this Node is already connected to a Widget
@@ -210,7 +219,6 @@ qx.Class.define("qx.html.Node",
       	domNode.$$qxObject = this._qxObject;
     	}
     },
-
     
     /**
      * Updates the Object ID on the element to match the QxObjectId

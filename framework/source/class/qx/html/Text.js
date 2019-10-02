@@ -82,6 +82,15 @@ qx.Class.define("qx.html.Text", {
       elem.nodeValue = this.__value || "";
     },
     
+    /*
+     * @Override
+     */
+    serialize: function(writer) {
+      if (this.__nodeValue !== null) {
+        writer(this.__value);
+      }
+    },
+    
     /**
      * @Override
      */
