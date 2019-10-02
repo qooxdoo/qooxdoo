@@ -114,6 +114,9 @@ qx.Class.define("qx.html.Node",
     /** @type {Boolean} Whether the element should be included in the render result */
     _included : true,
 
+    /** @type {Boolean} Whether the element should be visible in the render result */
+    _visible : true,
+
     _children : null,
     _modifiedChildren : null,
 
@@ -296,6 +299,47 @@ qx.Class.define("qx.html.Node",
       }
 
       delete this._modifiedChildren;
+    },
+
+    /**
+     * Returns this element's root flag
+     * 
+     * @return {Boolean}
+     */
+    isRoot : function() {
+      throw new Error("No implementation for " + this.classname + ".isRoot");
+    },
+
+    /**
+     * Walk up the internal children hierarchy and
+     * look if one of the children is marked as root.
+     *
+     * This method is quite performance hungry as it
+     * really walks up recursively.
+     * @return {Boolean} <code>true</code> if the element will be seeable
+     */
+    _willBeSeeable : function()
+    {
+      if (!qx.html.Element._hasRoots) {
+        return false;
+      }
+      var pa = this;
+
+      // Any chance to cache this information in the parents?
+      while(pa)
+      {
+        if (pa.isRoot()) {
+          return true;
+        }
+
+        if (!pa._included || !pa._visible) {
+          return false;
+        }
+
+        pa = pa._parent;
+      }
+
+      return false;
     },
 
 

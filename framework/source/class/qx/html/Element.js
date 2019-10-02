@@ -89,6 +89,9 @@ qx.Class.define("qx.html.Element",
 
     /** @type {Boolean} If debugging should be enabled */
     DEBUG : false,
+    
+    /** @type {Integer} number of roots */
+    _hasRoots: 0,
 
     /** @type {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
     _modified : {},
@@ -174,7 +177,7 @@ qx.Class.define("qx.html.Element",
         obj = modified[hc];
         // Ignore all hidden elements except iframes
         // but keep them until they get visible (again)
-        if (obj.__willBeSeeable() || obj.classname == "qx.html.Iframe")
+        if (obj._willBeSeeable() || obj.classname == "qx.html.Iframe")
         {
           // Separately queue rendered elements
           if (obj._domNode && qx.dom.Hierarchy.isRendered(obj._domNode)) {
@@ -331,7 +334,7 @@ qx.Class.define("qx.html.Element",
       {
         var action = this._actions[i];
         var element = action.element._domNode;
-        if (!element || !activityEndActions[action.type] && !action.element.__willBeSeeable()) {
+        if (!element || !activityEndActions[action.type] && !action.element._willBeSeeable()) {
           continue;
         }
         var args = action.args;
@@ -398,7 +401,7 @@ qx.Class.define("qx.html.Element",
     __willBecomeInvisible : function(domElement)
     {
       var element = this.fromDomElement(domElement);
-      return element && !element.__willBeSeeable();
+      return element && !element._willBeSeeable();
     },
 
 
@@ -436,9 +439,6 @@ qx.Class.define("qx.html.Element",
 
     /** @type {Boolean} Marker for always visible root nodes (often the body node) */
     __root : false,
-
-    /** @type {Boolean} Whether the element should be visible in the render result */
-    _visible : true,
 
     __lazyScrollIntoViewX : null,
     __lazyScrollIntoViewY : null,
@@ -586,47 +586,6 @@ qx.Class.define("qx.html.Element",
     },
 
 
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PRIVATE HELPERS/DATA
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Walk up the internal children hierarchy and
-     * look if one of the children is marked as root.
-     *
-     * This method is quite performance hungry as it
-     * really walks up recursively.
-     * @return {Boolean} <code>true</code> if the element will be seeable
-     */
-    __willBeSeeable : function()
-    {
-      var pa = this;
-
-      // Any chance to cache this information in the parents?
-      while(pa)
-      {
-        if (pa.__root) {
-          return true;
-        }
-
-        if (!pa._included || !pa._visible) {
-          return false;
-        }
-
-        pa = pa._parent;
-      }
-
-      return false;
-    },
-
     
 
     /*
@@ -641,7 +600,19 @@ qx.Class.define("qx.html.Element",
      * @param root {Boolean} The root flag.
      */
     setRoot : function(root) {
+      if (root && !this.__root) {
+        qx.html.Element._hasRoots++;
+      } else if (!root && this.__root) {
+        qx.html.Element._hasRoots--;
+      }
       this.__root = root;
+    },
+    
+    /*
+     * @Override
+     */
+    isRoot : function() {
+      return this.__root;
     },
 
     /**
@@ -1632,10 +1603,12 @@ qx.Class.define("qx.html.Element",
 
   destruct : function()
   {
-    if (this.toHashCode()) {
-      delete qx.html.Element._modified[this.toHashCode()];
-      delete qx.html.Element._scroll[this.toHashCode()];
+    var hash = this.toHashCode();
+    if (hash) {
+      delete qx.html.Element._modified[hash];
+      delete qx.html.Element._scroll[hash];
     }
+    this.setRoot(false);
 
     this.__attribValues = this.__styleValues = this.__eventValues =
       this.__attribJobs = this.__styleJobs =

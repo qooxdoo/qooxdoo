@@ -164,6 +164,31 @@ qx.Class.define("qx.test.html.Element",
          el.dispose();
       }, this);
     },
+    
+    
+    testText : function()
+    {
+      var el1 = new qx.html.Element();
+      el1.setAttribute("id", "el1");
+      var txt1 = new qx.html.Text();
+      txt1.setValue("Hello");
+      var txt2 = new qx.html.Text();
+      txt2.setValue(" World");
+      el1.add(txt1);
+      el1.add(txt2);
+
+      this._doc.add(el1);
+      qx.html.Element.flush();
+      var pa = document.getElementById("el1");
+      this.assertEquals(2, pa.childNodes.length);
+      this.assertEquals(pa.textContent, "Hello World");
+      txt1.setValue("Goodbye");
+      this.assertEquals(pa.textContent, "Hello World");
+      qx.html.Element.flush();
+      this.assertEquals(pa.textContent, "Goodbye World");
+      txt1.setValue("Hello Again", true);
+      this.assertEquals(pa.textContent, "Hello Again World");
+    },
 
 
     testBasics : function()
