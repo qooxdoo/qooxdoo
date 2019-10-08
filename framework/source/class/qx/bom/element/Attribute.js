@@ -348,9 +348,6 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
 
       var hints = this.__hints;
 
-      // normalize name
-      name = hints.names[name] || name;
-      
       // Skip unserialization Qooxdoo state properties
       if (hints.qxProperties[name]) {
         return;

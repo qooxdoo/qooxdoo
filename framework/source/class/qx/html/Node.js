@@ -191,10 +191,51 @@ qx.Class.define("qx.html.Node",
     /**
      * Serializes the virtual DOM element to a writer; the `writer` function accepts
      *  an varargs, which can be joined with an empty string or streamed.
+     *  
+     * If writer is null, the element will be serialised to a string which is returned;
+     * note that if writer is not null, the return value will be null
+     * 
+     * @param writer {Function?} the writer
+     * @return {String?} the serialised version if writer is null
+     */
+    serialize(writer) {
+      var temporaryQxObjectId = !this.getQxObjectId();
+      if (temporaryQxObjectId) {
+        this.setQxObjectId("root");
+      }
+      var id = qx.core.Id.getAbsoluteIdOf(this, true);
+      var isIdRoot = !id;
+      if (isIdRoot) {
+        qx.core.Id.getInstance().register(this);
+      }
+      
+      var result = null;
+      if (writer) {
+        this._serializeImpl(writer);
+      } else {
+        var buffer = [];
+        this._serializeImpl(function() {
+          var args = qx.lang.Array.fromArguments(arguments);
+          qx.lang.Array.append(buffer, args);
+        });
+        result = buffer.join(""); 
+      }
+      
+      if (isIdRoot) {
+        qx.core.Id.getInstance().unregister(this);
+      }
+      if (temporaryQxObjectId) {
+        this.setQxObjectId(null);
+      }
+    },
+
+    /**
+     * Serializes the virtual DOM element to a writer; the `writer` function accepts
+     *  an varargs, which can be joined with an empty string or streamed.
      * 
      * @param writer {Function} the writer
      */
-    serialize(writer) {
+    _serializeImpl(writer) {
       throw new Error("No implementation for " + this.classname + ".serialize");
     },
 
@@ -213,6 +254,82 @@ qx.Class.define("qx.html.Node",
      */
     _serializeProperty: function(writer, name, value) {
       // Nothing
+    },
+
+    /**
+     * Uses an existing element instead of creating one. This may be interesting
+     * when the DOM element is directly needed to add content etc.
+     *
+     * @param domNode {Node} DOM Node to reuse
+     */
+    useNode: function(domNode) {
+      var temporaryQxObjectId = !this.getQxObjectId();
+      if (temporaryQxObjectId) {
+        this.setQxObjectId("root");
+      }
+      var id = qx.core.Id.getAbsoluteIdOf(this, true);
+      var isIdRoot = !id;
+      if (isIdRoot) {
+        qx.core.Id.getInstance().register(this);
+      }
+
+      this._useNodeImpl(domNode);
+      
+      if (isIdRoot) {
+        qx.core.Id.getInstance().unregister(this);
+      }
+      if (temporaryQxObjectId) {
+        this.setQxObjectId(null);
+      }
+    },
+    
+    _useNodeImpl: function(domNode) {
+      if (this._domNode) {
+        throw new Error("Could not overwrite existing element!");
+      }
+
+      // Use incoming element
+      this.__connectDomNode(domNode);
+      
+      // Copy currently existing data over to element
+      this._copyData(true);
+      
+      // Copy children
+      var thisId = qx.core.Id.getAbsoluteIdOf(this, true);
+      var self = this;
+      qx.lang.Array.fromCollection(domNode.children).forEach(function(domChild) {
+        var id = domChild.getAttribute("data-qx-object-id");
+        var owningQxObjectId = null;
+        var qxObjectId = null;
+        var owningQxObject = null;
+        if (id) {
+          var pos = id.lastIndexOf('/');
+          var child = null;
+          if (pos > -1) {
+            owningQxObjectId = id.substring(0, pos);
+            qxObjectId = id.substring(pos + 1);
+            owningQxObject = qx.core.Id.getQxObject(owningQxObjectId);
+            child = owningQxObject.getQxObject(qxObjectId);
+          } else {
+            qxObjectId = id;
+            owningQxObject = self;
+            child = self.getQxObject(id);
+          }
+          if (child) {
+            child._useNodeImpl(domChild);
+            return;
+          }
+        }
+        
+        var child = qx.html.Factory.getInstance().createElement(domChild.tagName, domChild.attributes);
+        self.add(child);
+        if (qxObjectId) {
+          child.setQxObjectId(qxObjectId);
+          owningQxObject.addOwnedQxObjectId(child);
+        }
+        
+        child._useNodeImpl(domChild);
+      });
     },
 
     /**
@@ -244,11 +361,22 @@ qx.Class.define("qx.html.Node",
       // Copy Object Id
       if (qx.core.Environment.get("module.objectid")) {
         var id = null;
-        if (this._qxObject && this._qxObject.getQxObjectId()) {
+        
+        if (!this._qxObject && this.getQxObjectId()) {
+          id = qx.core.Id.getAbsoluteIdOf(this, true) || null;
+        } else if (this._qxObject && this._qxObject.getQxObjectId()) {
           id = qx.core.Id.getAbsoluteIdOf(this._qxObject, true) || null;
         }
+        
         this.setAttribute("data-qx-object-id", id, true);
       }
+    },
+    
+    _cascadeQxObjectIdChanges: function() {
+      if (qx.core.Environment.get("module.objectid")) {
+        this.updateObjectId();
+      }
+      this.base(arguments);
     },
 
 
@@ -1063,25 +1191,6 @@ qx.Class.define("qx.html.Node",
      */
     setNodeName : function(name) {
       this._nodeName = name;
-    },
-
-    /**
-     * Uses an existing element instead of creating one. This may be interesting
-     * when the DOM element is directly needed to add content etc.
-     *
-     * @param domNode {Node} DOM Node to reuse
-     */
-    useNode : function(domNode)
-    {
-      if (this._domNode) {
-        throw new Error("Could not overwrite existing element!");
-      }
-
-      // Use incoming element
-      this.__connectDomNode(domNode);
-
-      // Copy currently existing data over to element
-      this._copyData(true);
     },
 
 

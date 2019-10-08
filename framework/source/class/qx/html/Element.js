@@ -112,6 +112,7 @@ qx.Class.define("qx.html.Element",
 
     __mouseCapture : null,
 
+    __SELF_CLOSING_TAGS: null,
 
 
 
@@ -462,7 +463,7 @@ qx.Class.define("qx.html.Element",
     /*
      * @Override
      */
-    serialize: function(writer) {
+    _serializeImpl: function(writer) {
       writer("<", this._nodeName);
       var elem = this._domNode;
       
@@ -496,11 +497,15 @@ qx.Class.define("qx.html.Element",
       
       // Children
       if (!this._children || !this._children.length) {
-        writer("/>");
+        if (qx.html.Element.__SELF_CLOSING_TAGS[this._nodeName]) {
+          writer(">");
+        } else {
+          writer("></", this._nodeName, ">");
+        }
       } else {
         writer(">");
         for (var i = 0; i < this._children.length; i++) {
-          this._children[i].serialize(writer);
+          this._children[i]._serializeImpl(writer);
         }
         writer("</", this._nodeName, ">");
       }
@@ -512,7 +517,7 @@ qx.Class.define("qx.html.Element",
     _applyProperty: function(name, value) {
       if (name === "innerHtml") {
         if (this._domNode) {
-          this._domNode.innerHtml = value;
+          this._domNode.innerHTML = value;
         }
       }
     },
@@ -1658,6 +1663,11 @@ qx.Class.define("qx.html.Element",
 
    defer : function(statics) {
      statics.__deferredCall = new qx.util.DeferredCall(statics.flush, statics);
+     statics.__SELF_CLOSING_TAGS = {};
+     ["area", "base", "br", "col", "embed", "hr", "img", "input", "link", 
+     "meta", "param", "source", "track", "wbr"].forEach(function(tagName) {
+       statics.__SELF_CLOSING_TAGS[tagName] = true;
+     }); 
    },
 
 

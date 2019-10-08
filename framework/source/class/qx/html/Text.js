@@ -85,7 +85,7 @@ qx.Class.define("qx.html.Text", {
     /*
      * @Override
      */
-    serialize: function(writer) {
+    _serializeImpl: function(writer) {
       if (this.__nodeValue !== null) {
         writer(this.__value);
       }
