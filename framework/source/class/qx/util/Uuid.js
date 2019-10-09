@@ -90,10 +90,8 @@ qx.Class.define("qx.util.Uuid", {
 
   if ((typeof module !== 'undefined') && (typeof require === 'function')) {
     crypt0 = crypt0 || require('crypto');
-    module.exports = uuid;
-  } else if (typeof window !== 'undefined') {
-    qx.util.Uuid.createUuidV4 = uuid;
   }
+  qx.util.Uuid.createUuidV4 = uuid;
 
   // Use best available PRNG
   // Also expose this so you can override it.
