@@ -136,8 +136,8 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         $$elementObject : 1,
 
         // Used by qx.ui.core.Widget
-        $$widget        : 1,
-        $$widgetObject  : 1,
+        $$qxObjectHash  : 1,
+        $$qxObject      : 1,
 
         // Native properties
         checked     : 1,
@@ -156,8 +156,8 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
 
       qxProperties :
       {
-        $$widget : 1,
-        $$widgetObject : 1,
+        $$qxObjectHash : 1,
+        $$qxObject : 1,
         $$element : 1,
         $$elementObject : 1
       },
@@ -318,7 +318,7 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
           name.indexOf("data-") !== 0)
         {
           if (value === true) {
-          element.setAttribute(name, name);
+            element.setAttribute(name, name);
           } else if (value === false || value === null) {
             element.removeAttribute(name);
           }
@@ -329,6 +329,42 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
         else {
           element.setAttribute(name, value);
         }
+      }
+    },
+
+
+    /**
+     * Serializes an HTML attribute into a writert
+     *
+     * @param writer {Function} The writer to serialize to
+     * @param name {String} Name of the attribute
+     * @param value {var} New value of the attribute
+     */
+    serialize : function(writer, name, value)
+    {
+      if (typeof value === "undefined") {
+        return;
+      }
+
+      var hints = this.__hints;
+
+      // Skip unserialization Qooxdoo state properties
+      if (hints.qxProperties[name]) {
+        return;
+      }
+
+      // respect booleans
+      if (hints.bools[name] && !qx.lang.Type.isBoolean(value)) {
+        value = qx.lang.Type.isString(value);
+      }
+
+      // apply attribute
+      if ((hints.bools[name] || value === null) && name.indexOf("data-") !== 0) {
+        if (value === true) {
+          writer(name, "=", name);
+        }
+      } else if (value !== null) {
+        writer(name, "=\"", value, "\"");
       }
     },
 

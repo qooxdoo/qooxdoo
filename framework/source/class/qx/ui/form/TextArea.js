@@ -346,7 +346,7 @@ qx.Class.define("qx.ui.form.TextArea",
 
       // Convert to qx.html Element
       cloneHtml = new qx.html.Input("textarea");
-      cloneHtml.useElement(cloneDom);
+      cloneHtml.useNode(cloneDom);
       clone = cloneHtml;
 
       // Push out of view

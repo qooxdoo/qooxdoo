@@ -48,7 +48,7 @@ qx.Class.define("qx.html.Root",
     this.base(arguments);
 
     if (elem != null) {
-      this.useElement(elem);
+      this.useNode(elem);
     }
   },
 

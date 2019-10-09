@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.root.Application",
       });
 
       // Store reference to the widget in the DOM element.
-      root.connectWidget(this);
+      root.connectObject(this);
 
       return root;
     },
