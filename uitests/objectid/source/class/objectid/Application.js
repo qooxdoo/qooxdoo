@@ -26,6 +26,8 @@ qx.Class.define("objectid.Application", {
         qx.log.appender.Console;
       }
       
+      this.warn(new qx.core.Object(), "hello");
+      
       var numGlobalEvents = 0;
       qx.event.Manager.setGlobalEventMonitor(function(target, event) {
         numGlobalEvents++;

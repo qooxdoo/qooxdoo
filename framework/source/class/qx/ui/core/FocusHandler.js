@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     addRoot : function(widget)
     {
       // this.debug("Add focusRoot: " + widget);
-      this.__roots[widget.$$hash] = widget;
+      this.__roots[widget.toHashCode()] = widget;
     },
 
 
@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     removeRoot : function(widget)
     {
       // this.debug("Remove focusRoot: " + widget);
-      delete this.__roots[widget.$$hash];
+      delete this.__roots[widget.toHashCode()];
     },
 
 
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @return {Boolean} <code>true</code> if the given widget is a focus root
      */
     isFocusRoot : function(widget) {
-      return !!this.__roots[widget.$$hash];
+      return !!this.__roots[widget.toHashCode()];
     },
 
 
@@ -284,7 +284,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
       var roots = this.__roots;
       while (widget)
       {
-        if (roots[widget.$$hash]) {
+        if (roots[widget.toHashCode()]) {
           return widget;
         }
 
