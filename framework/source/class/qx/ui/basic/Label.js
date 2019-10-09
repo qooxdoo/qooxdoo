@@ -123,6 +123,21 @@ qx.Class.define("qx.ui.basic.Label",
       init : true,
       apply : "_applyWrap"
     },
+    
+    
+    /**
+     * Controls whether line wrapping can occur in the middle of a word; this is
+     * typically only useful when there is a restricted amount of horizontal space
+     * and words would otherwise overflow beyond the width of the element.  Words
+     * are typically considered as separated by spaces, so "abc/def/ghi" is a 11 
+     * character word that would not be split without `breakWithWords` set to true. 
+     */
+    breakWithinWords :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyBreakWithinWords"
+    },
 
 
     /**
@@ -391,6 +406,9 @@ qx.Class.define("qx.ui.basic.Label",
       if (this.__webfontListenerId) {
         this.__fixEllipsis();
       }
+      if (rich && this.getBreakWithinWords()) {
+        styles.wordBreak = "break-all";
+      }
 
       return rich ?
         Label.getHtmlSize(content, styles, width) :
@@ -485,6 +503,13 @@ qx.Class.define("qx.ui.basic.Label",
         // to wrap if wrap is set to false [BUG #3732]
         var whiteSpace = value ? "normal" : "nowrap";
         this.getContentElement().setStyle("whiteSpace", whiteSpace);
+      }
+    },
+    
+    // property apply
+    _applyBreakWithinWords : function(value, old) {
+      if (this.isRich()) {
+        this.getContentElement().setStyle("wordBreak", value ? "break-all" : "normal");
       }
     },
 
