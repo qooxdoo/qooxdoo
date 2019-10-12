@@ -277,6 +277,39 @@ qx.Class.define("qx.test.Mixin",
       this.assertEquals("++bar__foo", o.foo());
       o.__b.dispose();
       o.dispose();
+    },
+    
+    testPatchConstructors: function() {
+      this.assertTrue(qx.test.testclasses.BaseClassIncluded.constructor === qx.test.testclasses.BaseClassIncluded);
+      this.assertTrue(qx.test.testclasses.BaseClassPatched.constructor === qx.test.testclasses.BaseClassPatched);
+      this.assertTrue(qx.test.testclasses.BaseClassBoth.constructor === qx.test.testclasses.BaseClassBoth);
+      this.assertTrue(qx.test.testclasses.DerivedClassIncluded.constructor === qx.test.testclasses.DerivedClassIncluded);
+      this.assertTrue(qx.test.testclasses.DerivedClassPatched.constructor === qx.test.testclasses.DerivedClassPatched);
+      this.assertTrue(qx.test.testclasses.DerivedClassBoth.constructor === qx.test.testclasses.DerivedClassBoth);
+
+      var objBaseIncluded = new qx.test.testclasses.BaseClassIncluded();
+      this.assertArrayEquals([ "root", "base", "mixin-one", "mixin-two" ], objBaseIncluded.state);
+      this.assertEquals("mixin-one", objBaseIncluded.getSomething());
+
+      var objIncluded = new qx.test.testclasses.DerivedClassIncluded();
+      this.assertArrayEquals([ "root", "base", "mixin-one", "mixin-two", "derived" ], objIncluded.state);
+      this.assertEquals("mixin-one:derived", objIncluded.getSomething());
+
+      var objBasePatched = new qx.test.testclasses.BaseClassPatched();
+      this.assertArrayEquals([ "root", "base", "mixin-one", "mixin-two" ], objBasePatched.state);
+      this.assertEquals("mixin-one", objBasePatched.getSomething());
+      
+      var objPatched = new qx.test.testclasses.DerivedClassPatched();
+      this.assertArrayEquals([ "root", "base", "mixin-one", "mixin-two", "derived" ], objPatched.state);
+      this.assertEquals("mixin-one:derived", objPatched.getSomething());
+      
+      var objBoth = new qx.test.testclasses.DerivedClassBoth();
+      this.assertArrayEquals([ "root", "base", "mixin-one", "mixin-two", "derived" ], objBoth.state);
+      this.assertEquals("mixin-one:derived", objBoth.getSomething());
+      
+      this.assertTrue(objIncluded.constructor === qx.test.testclasses.DerivedClassIncluded);
+      this.assertTrue(objPatched.constructor === qx.test.testclasses.DerivedClassPatched);
+      this.assertTrue(objBoth.constructor === qx.test.testclasses.DerivedClassBoth);
     }
   }
 });

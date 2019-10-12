@@ -261,6 +261,7 @@ qx.Bootstrap.define("qx.Class",
       {
         config.defer.self = clazz;
         qx.Bootstrap.addPendingDefer(clazz, function() {
+          clazz = qx.Class.getByName(clazz.classname);
           config.defer(clazz, clazz.prototype,
             {
               add : function(name, config)
@@ -370,11 +371,33 @@ qx.Bootstrap.define("qx.Class",
      * Please keep in mind that this functionality is not intended for regular
      * use, but as a formalized way (and a last resort) in order to patch
      * existing classes.
+     * 
+     * <b>NOTE</b>: This changes the definition of the class, and can mean that the
+     * global clazz is not the same instance.  EG:
+     * 
+     * <pre>
+     *   var tmp = abc.MyClass;
+     *   qx.Class.patch(tmp, xyz.SomeMixin);
+     *   
+     *   // *** Do not use this assert, it will (legitimately) not always be true ***
+     *   qx.core.Assert.assertTrue(tmp === abc.MyClass);
+     * </pre>
      *
+     * To be safe, if you have a temporary variable you must always reconnect it, and 
+     * the easiest way to achieve this is to get the return value from `patch`, eg 
+     * <pre>
+     *   var tmp = abc.MyClass;
+     *   tmp = qx.Class.patch(tmp, xyz.SomeMixin);
+     *   
+     *   // This assert is safe and will always be true
+     *   qx.core.Assert.assertTrue(tmp === abc.MyClass);
+     * </pre>
+     * 
      * <b>WARNING</b>: You may break working classes and features.
      *
      * @param clazz {Class} An existing class which should be modified by including a mixin.
      * @param mixin {Mixin} The mixin to be included.
+     * @return {Class} the new class definition
      */
     patch : function(clazz, mixin)
     {
@@ -388,6 +411,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       qx.Class.__addMixin(clazz, mixin, true);
+      return qx.Class.getByName(clazz.classname);
     },
     
     
@@ -1567,8 +1591,11 @@ qx.Bootstrap.define("qx.Class",
       for (var i=0, a=Object.keys(clazz), l=a.length; i<l; i++)
       {
         key = a[i];
-        wrapper[key] = clazz[key];
+        if (key != "constructor") {
+          wrapper[key] = clazz[key];
+        }
       }
+      wrapper.constructor = wrapper;
 
       // fix prototype
       wrapper.prototype = clazz.prototype;
@@ -1716,10 +1743,6 @@ qx.Bootstrap.define("qx.Class",
      */
     __needsConstructorWrapper : function(base, mixins)
     {
-      if (qx.core.Environment.get("qx.debug")) {
-        return true;
-      }
-
       // Check for base class mixin constructors
       if (base && base.$$includes)
       {
