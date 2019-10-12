@@ -1633,50 +1633,6 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Checks if the constructor needs to be wrapped.
-     *
-     * @param base {Class} The base class.
-     * @param mixins {Mixin[]} All mixins which should be included.
-     * @param type {String} the type of the class
-     * @return {Boolean} true, if the constructor needs to be wrapped.
-     */
-    __needsConstructorWrapper : function(base, mixins, type)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        if (type === "abstract" || type === "singleton") {
-          return true;
-        }
-      }
-      
-      // Check for base class mixin constructors
-      if (base && base.$$includes)
-      {
-        var baseMixins=base.$$flatIncludes;
-        for (var i=0, l=baseMixins.length; i<l; i++)
-        {
-          if (baseMixins[i].$$constructor) {
-            return true;
-          }
-        }
-      }
-
-      // check for direct mixin constructors
-      if (mixins)
-      {
-        var flatMixins = qx.Mixin.flatten(mixins);
-        for (var i=0, l=flatMixins.length; i<l; i++)
-        {
-          if (flatMixins[i].$$constructor) {
-            return true;
-          }
-        }
-      }
-
-      return false;
-    },
-
-
-    /**
      * Generate a wrapper of the original class constructor in order to enable
      * some of the advanced OO features (e.g. abstract class, singleton, mixins)
      *
