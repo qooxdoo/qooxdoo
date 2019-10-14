@@ -259,7 +259,7 @@ qx.Class.define("qx.log.appender.Formatter", {
      * 
      * @return {qx.log.appender.Formatter}
      */
-    getDefaultFormatter: function() {
+    getFormatter: function() {
       if (!qx.log.appender.Formatter.__defaultFormatter) {
         qx.log.appender.Formatter.__defaultFormatter = new qx.log.appender.Formatter();
       }
@@ -271,7 +271,7 @@ qx.Class.define("qx.log.appender.Formatter", {
      * 
      * @param instance {qx.log.appender.Formatter}
      */
-    setDefaultFormatter: function(instance) {
+    setFormatter: function(instance) {
       qx.log.appender.Formatter.__defaultFormatter = instance;
     },
 

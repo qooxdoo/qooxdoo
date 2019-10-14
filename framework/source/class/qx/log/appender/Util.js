@@ -31,7 +31,7 @@ qx.Bootstrap.define("qx.log.appender.Util",
   },
   
   defer: function(statics) {
-    var formatter = qx.log.appender.Formatter.getDefaultFormatter();
+    var formatter = qx.log.appender.Formatter.getFormatter();
     [ "toHtml", "toText", "toTextArray", "escapeHTML" ].forEach(function(name) {
       statics[name] = function() {
         return formatter[name].apply(formatter, qx.lang.Array.fromArguments(arguments));
