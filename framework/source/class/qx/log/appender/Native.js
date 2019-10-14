@@ -30,7 +30,7 @@
  * Currently unsupported browsers:
  * * Opera <10.60
  *
- * @require(qx.log.appender.Util)
+ * @require(qx.log.appender.Formatter)
  * @require(qx.bom.client.Html)
  */
 qx.Bootstrap.define("qx.log.appender.Native",
@@ -54,7 +54,8 @@ qx.Bootstrap.define("qx.log.appender.Native",
         // Firefox 4's Web Console doesn't support "debug"
         var level = console[entry.level] ? entry.level : "log";
         if (console[level]) {
-          var args = qx.log.appender.Util.toText(entry);
+          var formatter = qx.log.appender.Formatter.getFormatter();
+          var args = formatter.toText(entry);
           console[level](args);
         }
       }

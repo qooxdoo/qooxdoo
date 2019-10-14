@@ -126,7 +126,8 @@ qx.Class.define("qx.log.appender.Element",
       }
 
       // Append new content
-      elem.appendChild(qx.log.appender.Util.toHtml(entry));
+      var formatter = qx.log.appender.Formatter.getFormatter();
+      elem.appendChild(formatter.toHtml(entry));
 
       // Scroll down
       elem.scrollTop = elem.scrollHeight;
