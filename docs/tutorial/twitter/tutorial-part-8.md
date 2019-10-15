@@ -58,8 +58,8 @@ Building and running the tests
 The [qxl.testtaper](https://github.com/qooxdoo/qxl.testtapper) package provides a simple test rig for executing all the test methods you added to your application.
 
 ```console
-$ nqx qx package update
-$ nqx qx package install qooxdoo/qxl.testtapper
+$ npx qx package update
+$ npx qx package install qooxdoo/qxl.testtapper
 ```
 
 Installing the `qxl.testtapper` package adds a new application to your `compile.json` file. The only thing you have to alter is to modify the `"myapp.test.*"` to point to load the `"tweet.test.*"` classes.
@@ -79,7 +79,7 @@ Installing the `qxl.testtapper` package adds a new application to your `compile.
 }
 ```
 
-Now start the server `nqx qx serve` and open <http://localhost:8080> in your bowser. You will now have the option to open the testtapper application.
+Now start the server `npx qx serve` and open <http://localhost:8080> in your bowser. You will now have the option to open the testtapper application.
 The testtapper does not report any test details in the browser window (PRs welcome). It will instead output its results to the browser console.
 
 The testtapper also includes a little node application that can execute the tests in 'puppeteer' which is a headless chrome browser, ideal for CI/CD applications.
