@@ -2,11 +2,11 @@
   "targets": [
     {
       "type": "source",
-      "outputPath": "output/source"
+      "outputPath": "compiled/source"
     },
     {
       "type": "build",
-      "outputPath": "output/build",
+      "outputPath": "compiled/build",
       "addCreatedAt": true
     }
   ],
@@ -19,9 +19,5 @@
       "theme": "qx.theme.Simple",
       "name": "objectid"
     }
-  ],
-  "libraries": [
-    "../../framework",
-    "."
   ] 
 }

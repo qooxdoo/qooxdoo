@@ -172,7 +172,8 @@ qx.Class.define("qx.log.appender.Console",
     process : function(entry)
     {
       // Append new content
-      this.__log.appendChild(qx.log.appender.Util.toHtml(entry));
+      var formatter = qx.log.appender.Formatter.getFormatter();
+      this.__log.appendChild(formatter.toHtml(entry));
 
       // Scroll down
       this.__scrollDown();
@@ -263,7 +264,8 @@ qx.Class.define("qx.log.appender.Console",
       }
 
       var command = document.createElement("div");
-      command.innerHTML = qx.log.appender.Util.escapeHTML(">>> " + value);
+      var formatter = qx.log.appender.Formatter.getFormatter();
+      command.innerHTML = formatter.escapeHTML(">>> " + value);
       command.className = "user-command";
 
       this.__history.push(value);
