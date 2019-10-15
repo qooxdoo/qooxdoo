@@ -33,7 +33,7 @@ qx.Class.define("qx.test.log.Formatter", {
         object: obj.$$hash
       };
 
-      var formatter = qx.log.appender.Formatter.getDefaultFormatter();
+      var formatter = qx.log.appender.Formatter.getFormatter();
       var text = formatter.toText(entry);
       this.assertEquals("000900 qx.core.Object[" + obj.$$hash + "]:", text);
       obj.dispose();
@@ -69,7 +69,7 @@ qx.Class.define("qx.test.log.Formatter", {
         clazz: qx.core.Object
       };
 
-      var formatter = qx.log.appender.Formatter.getDefaultFormatter();
+      var formatter = qx.log.appender.Formatter.getFormatter();
       var text = formatter.toText(entry);
       this.assertEquals("000900 qx.core.Object:", text);
     }

@@ -54,7 +54,7 @@ qx.Bootstrap.define("qx.log.appender.Native",
         // Firefox 4's Web Console doesn't support "debug"
         var level = console[entry.level] ? entry.level : "log";
         if (console[level]) {
-          var formatter = qx.log.appender.Formatter.getDefaultFormatter();
+          var formatter = qx.log.appender.Formatter.getFormatter();
           var args = formatter.toText(entry);
           console[level](args);
         }

@@ -54,7 +54,7 @@ qx.Class.define("qx.log.appender.PhoneGap",
      */
     process : function(entry)
     {
-      var formatter = qx.log.appender.Formatter.getDefaultFormatter();
+      var formatter = qx.log.appender.Formatter.getFormatter();
       var args = formatter.toText(entry);
       var level = entry.level;
       if (level == "warn") {
