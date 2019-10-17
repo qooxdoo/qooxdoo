@@ -71,7 +71,7 @@ qx.Class.define("qx.html.Root",
      * @param elem {Element} the dom element to set
      * @throws {Error} if the element is assigned again
      */
-    useElement : function(elem)
+    useNode : function(elem)
     {
       // Base call
       this.base(arguments, elem);

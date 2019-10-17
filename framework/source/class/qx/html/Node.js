@@ -398,7 +398,7 @@ qx.Class.define("qx.html.Node",
 
       this._modifiedChildren = true;
 
-      qx.html.Element._modified[this.$$hash] = this;
+      qx.html.Element._modified[this.toHashCode()] = this;
       qx.html.Element._scheduleFlush("element");
     },
 
