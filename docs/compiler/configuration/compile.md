@@ -16,6 +16,7 @@
  - [Linting](#eslint)
  - [Built-in web server](#web-server)
  - [Running server applications](#running-applications)
+ - [Schema definition](compile-1-0-0.md)
  
 ## Basics
 
