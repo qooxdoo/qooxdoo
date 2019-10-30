@@ -34,11 +34,11 @@
     },
     {
       "library_name": "Qooxdoo API Viewer",
-      "library_version": "1.0.0-beta.6",
-      "path": "qx_packages/qooxdoo_qxl_apiviewer_v1_0_0-beta_6",
+      "library_version": "1.0.0-beta.7",
+      "path": "qx_packages/qooxdoo_qxl_apiviewer_v1_0_0-beta_7",
       "uri": "qooxdoo/qxl.apiviewer",
       "repo_name": "qooxdoo/qxl.apiviewer",
-      "repo_tag": "v1.0.0-beta.6"
+      "repo_tag": "v1.0.0-beta.7"
     },
     {
       "library_name": "widgetbrowser",
