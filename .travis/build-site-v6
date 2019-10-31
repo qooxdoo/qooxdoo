@@ -13,6 +13,7 @@ mkdir -p $TARGET
 exe npm i --no-save @adobe/jsonschema2md @qooxdoo/compiler
 
 # build apps  
+exe npx qx pkg upgrade --prereleases
 exe npx qx compile compile.json --target build  --feedback=0 --verbose
 #restore .npmignore 
 exe git checkout .
