@@ -10,7 +10,7 @@ qx.Class.define("qx.html.Factory", {
       return new qx.html.Iframe(attributes.src, attributes, styles);
     });
     this.registerFactory("input", function(tagName, attributes, styles) {
-      return new qx.html.Iframe(attributes.type||"text", attributes, styles);
+      return new qx.html.Input(attributes.type||"text", attributes, styles);
     });
   },
   
@@ -27,7 +27,7 @@ qx.Class.define("qx.html.Factory", {
     createElement: function(tagName, attributes) {
       tagName = tagName.toLowerCase();
       
-      if (attributes instanceof NamedNodeMap) {
+      if (attributes instanceof window.NamedNodeMap) {
         var newAttrs = {};
         for(var i = attributes.length - 1; i >= 0; i--) {
           newAttrs[attributes[i].name] = attributes[i].value;
