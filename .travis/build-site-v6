@@ -10,9 +10,10 @@ exe() { echo "\$ ${@/eval/}" ; "$@" ; }
 TARGET=deploy/$(cat ./version.txt)
 mkdir -p $TARGET
 
-npm i --no-save @qooxdoo/compiler
+exe npm i --no-save @adobe/jsonschema2md @qooxdoo/compiler
 
 # build apps  
+exe npx qx pkg upgrade --prereleases
 exe npx qx compile compile.json --target build  --feedback=0 --verbose
 #restore .npmignore 
 exe git checkout .
@@ -20,3 +21,6 @@ exe git checkout .
 exe rsync -avR ./apps $TARGET --exclude-from=./apps/.npmignore
 # copy documentation
 exe cp -a ./docs $TARGET/
+#build schema docs
+exe wget -O $TARGET/docs/compiler/configuration/compile-1-0-0.json https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json 
+exe npx  jsonschema2md -d $TARGET/docs/compiler/configuration/compile-1-0-0.json -o $TARGET/docs/compiler/configuration
