@@ -68,6 +68,7 @@ qx.Class.define("qx.html.Element",
 
     this.__styleValues = styles || null;
     this.__attribValues = attributes || null;
+    this.initCssClass();
   },
 
 
@@ -236,19 +237,19 @@ qx.Class.define("qx.html.Element",
         if (qx.core.Environment.get("qx.debug"))
         {
           if (this.DEBUG) {
-            qx.log.Logger.debug(this, "Switching visibility to: " + obj._visible);
+            qx.log.Logger.debug(this, "Switching visibility to: " + obj.isVisible());
           }
         }
 
         // hiding or showing an object and deleting it right after that may
         // cause an disposed object in the visibility queue [BUG #3607]
         if (!obj.$$disposed) {
-          element.style.display = obj._visible ? "" : "none";
+          element.style.display = obj.isVisible() ? "" : "none";
           // also hide the element (fixed some rendering problem in IE<8 & IE8 quirks)
           if ((qx.core.Environment.get("engine.name") == "mshtml"))
           {
             if (!(document.documentMode >= 8)) {
-              element.style.visibility = obj._visible ? "visible" : "hidden";
+              element.style.visibility = obj.isVisible() ? "visible" : "hidden";
             }
           }
         }
@@ -421,6 +422,33 @@ qx.Class.define("qx.html.Element",
 
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties : {
+    /** 
+     * @type{String} The primary CSS class for this element
+     * 
+     * The implementation will add and remove this class from the list of classes, 
+     * this property is provided as a means to easily set the primary class.  Because 
+     * SCSS supports inheritance, it's more useful to be able to allow the SCSS 
+     * definition to control the inheritance hierarchy of classes.  
+     * 
+     * For example, a dialog could have the class "qx-dialog" which the theme author 
+     * may decide should inherit from a "qx-window" class; however, the theme author
+     * may prefer not to do this, even if the Javascript author would derive a Dialog 
+     * class from a Window class.   
+     */
+    cssClass: {
+      init: null,
+      nullable: true,
+      check: "String",
+      apply: "_applyCssClass"
+    }
+  },
 
 
 
@@ -577,9 +605,19 @@ qx.Class.define("qx.html.Element",
       
       // Copy attributes
       var data = this.__attribValues;
-      if (data)
-      {
+      if (data) {
         var Attribute = qx.bom.element.Attribute;
+        if (fromMarkup) {
+          var str = Attribute.get(elem, "class");
+          var segs = str ? str.split(" ") : [];
+          if (segs.length) {
+            this.setCssClass(segs[0]);
+            this.setAttribute("class", str);
+          } else {
+            this.setCssClass(null);
+            this.setAttribute("class", null);
+          }
+        }
         for (var key in data) {
           Attribute.set(elem, key, data[key]);
         }
@@ -587,14 +625,13 @@ qx.Class.define("qx.html.Element",
 
       // Copy styles
       var data = this.__styleValues;
-      if (data)
-      {
+      if (data) {
         var Style = qx.bom.element.Style;
+        
         if (fromMarkup) {
           Style.setStyles(elem, data);
-        }
-        else
-        {
+          
+        } else {
           // Set styles at once which is a lot faster in most browsers
           // compared to separate modifications of many single style properties.
           Style.setCss(elem, Style.compile(data));
@@ -852,6 +889,29 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */
 
+    /*
+     * @Override
+     */
+    _applyVisible: function(value) {
+      if (value) {
+        if (this._domNode) {
+          qx.html.Element._visibility[this.toHashCode()] = this;
+          qx.html.Element._scheduleFlush("element");
+        }
+
+        // Must be sure that the element gets included into the DOM.
+        if (this._parent) {
+          this._parent._scheduleChildrenUpdate();
+        }
+        
+      } else {
+        if (this._domNode) {
+          qx.html.Element._visibility[this.toHashCode()] = this;
+          qx.html.Element._scheduleFlush("element");
+        }
+      }
+    },
+
     /**
      * Marks the element as visible which means that a previously applied
      * CSS style of display=none gets removed and the element will inserted
@@ -859,24 +919,8 @@ qx.Class.define("qx.html.Element",
      *
      * @return {qx.html.Element} this object (for chaining support)
      */
-    show : function()
-    {
-      if (this._visible) {
-        return this;
-      }
-
-      if (this._domNode)
-      {
-        qx.html.Element._visibility[this.toHashCode()] = this;
-        qx.html.Element._scheduleFlush("element");
-      }
-
-      // Must be sure that the element gets included into the DOM.
-      if (this._parent) {
-        this._parent._scheduleChildrenUpdate();
-      }
-
-      delete this._visible;
+    show : function() {
+      this.setVisible(true);
       return this;
     },
 
@@ -887,33 +931,9 @@ qx.Class.define("qx.html.Element",
      *
      * @return {qx.html.Element} this object (for chaining support)
      */
-    hide : function()
-    {
-      if (!this._visible) {
-        return this;
-      }
-
-      if (this._domNode)
-      {
-        qx.html.Element._visibility[this.toHashCode()] = this;
-        qx.html.Element._scheduleFlush("element");
-      }
-
-      this._visible = false;
+    hide : function() {
+      this.setVisible(false);
       return this;
-    },
-
-
-    /**
-     * Whether the element is visible.
-     *
-     * Please note: This does not control the visibility or parent inclusion recursively.
-     *
-     * @return {Boolean} Returns <code>true</code> when the element is configured
-     *   to be visible.
-     */
-    isVisible : function() {
-      return this._visible === true;
     },
 
 
@@ -1371,6 +1391,7 @@ qx.Class.define("qx.html.Element",
         return this;
       }
 
+      this._applyStyle(key, value, this.__styleValues[key]);
       if (value == null) {
         delete this.__styleValues[key];
       } else {
@@ -1403,6 +1424,20 @@ qx.Class.define("qx.html.Element",
       }
 
       return this;
+    },
+    
+    
+    /**
+     * Called by setStyle when a value of a style changes; this is intended to be
+     * overridden to allow the element to update properties etc according to the
+     * style
+     * 
+     * @param key {String} the style value
+     * @param value {String?} the value to set
+     * @param oldValue {String?} The previous value (not from DOM)
+     */
+    _applyStyle: function(key, value, oldValue) {
+      // Nothing
     },
 
 
@@ -1440,6 +1475,7 @@ qx.Class.define("qx.html.Element",
             continue;
           }
 
+          this._applyStyle(key, value, this.__styleValues[key]);
           if (value == null) {
             delete this.__styleValues[key];
           } else {
@@ -1470,6 +1506,7 @@ qx.Class.define("qx.html.Element",
             continue;
           }
 
+          this._applyStyle(key, value, this.__styleValues[key]);
           if (value == null) {
             delete this.__styleValues[key];
           } else {
@@ -1514,6 +1551,54 @@ qx.Class.define("qx.html.Element",
      */
     getAllStyles : function() {
       return this.__styleValues || null;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TEXT SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    
+    /*
+     * Sets the text value of this element; it will delete children first, except
+     * for the first node which (if it is a Text node) will have it's value updated
+     * 
+     * @param value {String} the text to set
+     */
+    setText: function(value) {
+      var self = this;
+      var children = this._children ? qx.lang.Array.clone(this._children) : [];
+      if (children[0] instanceof qx.html.Text) {
+        children[0].setValue(value);
+        children.shift();
+        children.forEach(function(child) {
+          self.remove(child);
+        });
+      } else {
+        children.forEach(function(child) {
+          self.remove(child);
+        });
+        this.add(new qx.html.Text(value));
+      }
+    },
+
+    /**
+     * Returns the text value, accumulated from all child nodes
+     * 
+     * @return {String} the text value
+     */
+    getText: function() {
+      var result = [];
+      if (this._children) {
+        this._children.forEach(function(child) {
+          result.push(child.getText());
+        });
+      }
+      return result.join("");
     },
 
 
@@ -1634,8 +1719,24 @@ qx.Class.define("qx.html.Element",
      * @param name {String} Name of the CSS class.
      */
     addClass : function(name) {
-      var value = ((this.getAttribute("class") || "") + " " + name).trim();
-      this.setAttribute("class", value);
+      var value = this.getAttribute("class") || "";
+      var nameLower = name.toLowerCase();
+      var primaryClass = (this.getCssClass()||"").toLowerCase();
+      
+      // Suppress duplicates
+      if (value.toLowerCase().split(" ").indexOf(nameLower) > -1) {
+        return;
+      }
+      
+      // Primary class always listed first
+      if (nameLower == primaryClass) {
+        value = name + " " + value;
+      } else {
+        value = value + " " + name;
+      }
+      
+      // Set
+      this.setAttribute("class", value.trim());
     },
 
 
@@ -1644,9 +1745,34 @@ qx.Class.define("qx.html.Element",
      * @param name {String} Name of the CSS class.
      */
     removeClass : function(name) {
+      var nameLower = name.toLowerCase();
+      var primaryClass = (this.getCssClass()||"").toLowerCase();
+      
+      if (nameLower == primaryClass) {
+        this.warn("Removing CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
+        this.setCssClass(null);
+        return;
+      }
+      
       var currentClass = this.getAttribute("class");
       if (currentClass) {
-        this.setAttribute("class", (currentClass.replace(name, "")).trim());
+        var segs = currentClass.split(" ").filter(function(tmp) {
+          return tmp.toLowerCase() != nameLower;
+        });
+        this.setAttribute("class", segs.join(" "));
+      }
+    },
+    
+    
+    /**
+     * Apply method for cssClass
+     */
+    _applyCssClass: function(value, oldValue) {
+      if (oldValue) {
+        this.removeClass(oldValue);
+      }
+      if (value) {
+        this.addClass(value);
       }
     }
   },

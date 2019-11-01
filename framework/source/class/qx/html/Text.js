@@ -34,10 +34,10 @@ qx.Class.define("qx.html.Text", {
    * @param value
    *          {String?} the value of the text
    */
-  construct: function(value) {
+  construct: function(text) {
     this.base(arguments, "#text");
-    if (value) {
-      this.__value = value;
+    if (text) {
+      this.__text = text;
     }
   },
 
@@ -48,13 +48,13 @@ qx.Class.define("qx.html.Text", {
    */
 
   members: {
-    __value: null,
+    __text: null,
 
     /*
      * @Override
      */
     _createDomElement: function() {
-      return window.document.createTextNode(this.__value || "");
+      return window.document.createTextNode(this.__text || "");
     },
 
     /*
@@ -70,7 +70,7 @@ qx.Class.define("qx.html.Text", {
     _copyData: function(fromMarkup) {
       this.base(arguments, fromMarkup);
       var elem = this._domNode;
-      elem.nodeValue = this.__value || "";
+      elem.nodeValue = this.__text || "";
     },
 
     /**
@@ -79,7 +79,7 @@ qx.Class.define("qx.html.Text", {
     _syncData : function() {
       this.base(arguments);
       var elem = this._domNode;
-      elem.nodeValue = this.__value || "";
+      elem.nodeValue = this.__text || "";
     },
     
     /*
@@ -87,7 +87,7 @@ qx.Class.define("qx.html.Text", {
      */
     _serializeImpl: function(writer) {
       if (this.__nodeValue !== null) {
-        writer(this.__value);
+        writer(this.__text);
       }
     },
     
@@ -104,8 +104,8 @@ qx.Class.define("qx.html.Text", {
      * @param value {String?} the text value of for the text node
      * @param direct {Boolean?} whether to set the DOM node immediately if there is one 
      */
-    setValue: function(value, direct) {
-      this.__value = value;
+    setText: function(value, direct) {
+      this.__text = value;
       if (direct && this._domNode) {
         this._domNode.nodeValue = value;
       } else {
@@ -119,8 +119,8 @@ qx.Class.define("qx.html.Text", {
      * 
      * @return {String} the text node
      */
-    getValue: function() {
-      return this.__value;
+    getText: function() {
+      return this.__text;
     }
   },
 

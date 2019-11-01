@@ -82,6 +82,33 @@ qx.Class.define("qx.html.Node",
 
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties : {
+    /**
+     * Controls whether the element is visible which means that a previously applied
+     * CSS style of display=none gets removed and the element will inserted into the DOM, 
+     * when this had not already happened before.
+     * 
+     * If the element already exists in the DOM then it will kept in DOM, but configured 
+     * hidden using a CSS style of display=none.
+     * 
+     * Please note: This does not control the visibility or parent inclusion recursively.
+     * 
+     * @type {Boolean} Whether the element should be visible in the render result
+     */
+    visible: {
+      init: true,
+      nullable: true,
+      check: "Boolean",
+      apply: "_applyVisible"
+    }
+  },
+
 
 
 
@@ -113,9 +140,6 @@ qx.Class.define("qx.html.Node",
 
     /** @type {Boolean} Whether the element should be included in the render result */
     _included : true,
-
-    /** @type {Boolean} Whether the element should be visible in the render result */
-    _visible : true,
 
     _children : null,
     _modifiedChildren : null,
@@ -201,7 +225,7 @@ qx.Class.define("qx.html.Node",
     serialize(writer) {
       var temporaryQxObjectId = !this.getQxObjectId();
       if (temporaryQxObjectId) {
-        this.setQxObjectId("root");
+        this.setQxObjectId(this.classname);
       }
       var id = qx.core.Id.getAbsoluteIdOf(this, true);
       var isIdRoot = !id;
@@ -209,7 +233,7 @@ qx.Class.define("qx.html.Node",
         qx.core.Id.getInstance().register(this);
       }
       
-      var result = null;
+      var result = undefined;
       if (writer) {
         this._serializeImpl(writer);
       } else {
@@ -227,6 +251,8 @@ qx.Class.define("qx.html.Node",
       if (temporaryQxObjectId) {
         this.setQxObjectId(null);
       }
+      
+      return result;
     },
 
     /**
@@ -265,15 +291,33 @@ qx.Class.define("qx.html.Node",
     useNode: function(domNode) {
       var temporaryQxObjectId = !this.getQxObjectId();
       if (temporaryQxObjectId) {
-        this.setQxObjectId("root");
+        this.setQxObjectId(this.classname);
       }
       var id = qx.core.Id.getAbsoluteIdOf(this, true);
       var isIdRoot = !id;
       if (isIdRoot) {
         qx.core.Id.getInstance().register(this);
       }
+      
+      function scanForChildren(domNode) {
+        for (var arr = domNode.childNodes, i = 0; i < arr.length; i++) {
+          var node = arr[i];
+          if (node.nodeType == window.Node.TEXT_NODE) {
+            if (node.textContent.trim().length > 0)
+              return true;
+          } else if (node.nodeType == window.Node.ELEMENT_NODE) {
+            return true;
+          }
+        }
+        return false;
+      }
 
+      var domHasChildren = scanForChildren(domNode);
       this._useNodeImpl(domNode);
+      if (!domHasChildren) {
+        this._flush();
+        this._insertChildren();
+      }
       
       if (isIdRoot) {
         qx.core.Id.getInstance().unregister(this);
@@ -325,7 +369,7 @@ qx.Class.define("qx.html.Node",
         self.add(child);
         if (qxObjectId) {
           child.setQxObjectId(qxObjectId);
-          owningQxObject.addOwnedQxObjectId(child);
+          owningQxObject.addOwnedQxObject(child);
         }
         
         child._useNodeImpl(domChild);
@@ -426,7 +470,7 @@ qx.Class.define("qx.html.Node",
         {
           child = children[i];
 
-          if (child._visible && child._included && !child._domNode) {
+          if (child.isVisible() && child._included && !child._domNode) {
             child._flush();
           }
         }
@@ -485,7 +529,7 @@ qx.Class.define("qx.html.Node",
           return true;
         }
 
-        if (!pa._included || !pa._visible) {
+        if (!pa._included || !pa.isVisible()) {
           return false;
         }
 
@@ -515,6 +559,9 @@ qx.Class.define("qx.html.Node",
     _insertChildren : function()
     {
       var children = this._children;
+      if (!children) {
+        return;
+      }
       var length = children.length;
       var child;
 
@@ -1254,6 +1301,13 @@ qx.Class.define("qx.html.Node",
      */
     isIncluded : function() {
       return this._included === true;
+    },
+    
+    /**
+     * Apply method for visible property
+     */
+    _applyVisible: function(value) {
+      // Nothing - to be overridden
     },
 
 
