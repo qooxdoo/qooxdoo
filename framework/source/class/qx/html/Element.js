@@ -1153,9 +1153,48 @@ qx.Class.define("qx.html.Element",
 
     /*
     ---------------------------------------------------------------------------
-      TEXT SELECTION SUPPORT
+      TEXT SUPPORT
     ---------------------------------------------------------------------------
     */
+    
+    /*
+     * Sets the text value of this element; it will delete children first, except
+     * for the first node which (if it is a Text node) will have it's value updated
+     * 
+     * @param value {String} the text to set
+     */
+    setText: function(value) {
+      var self = this;
+      var children = this._children ? qx.lang.Array.clone(this._children) : [];
+      if (children[0] instanceof qx.html.Text) {
+        children[0].setValue(value);
+        children.shift();
+        children.forEach(function(child) {
+          self.remove(child);
+        });
+      } else {
+        children.forEach(function(child) {
+          self.remove(child);
+        });
+        this.add(new qx.html.Text(value));
+      }
+    },
+
+    /**
+     * Returns the text value, accumulated from all child nodes
+     * 
+     * @return {String} the text value
+     */
+    getText: function() {
+      var result = [];
+      if (this._children) {
+        this._children.forEach(function(child) {
+          result.push(child.getText());
+        });
+      }
+      return result.join("");
+    },
+
 
     /**
      * Get the selection of the element.
@@ -1556,55 +1595,76 @@ qx.Class.define("qx.html.Element",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
-      TEXT SUPPORT
+      CSS CLASS SUPPORT
     ---------------------------------------------------------------------------
     */
-    
-    /*
-     * Sets the text value of this element; it will delete children first, except
-     * for the first node which (if it is a Text node) will have it's value updated
-     * 
-     * @param value {String} the text to set
+    /**
+     * Adds a css class to the element.
+     * @param name {String} Name of the CSS class.
      */
-    setText: function(value) {
-      var self = this;
-      var children = this._children ? qx.lang.Array.clone(this._children) : [];
-      if (children[0] instanceof qx.html.Text) {
-        children[0].setValue(value);
-        children.shift();
-        children.forEach(function(child) {
-          self.remove(child);
-        });
-      } else {
-        children.forEach(function(child) {
-          self.remove(child);
-        });
-        this.add(new qx.html.Text(value));
+    addClass : function(name) {
+      var value = this.getAttribute("class") || "";
+      var nameLower = name.toLowerCase();
+      var primaryClass = (this.getCssClass()||"").toLowerCase();
+      
+      // Suppress duplicates
+      if (value.toLowerCase().split(" ").indexOf(nameLower) > -1) {
+        return;
       }
+      
+      // Primary class always listed first
+      if (nameLower == primaryClass) {
+        value = name + " " + value;
+      } else {
+        value = value + " " + name;
+      }
+      
+      // Set
+      this.setAttribute("class", value.trim());
     },
+
 
     /**
-     * Returns the text value, accumulated from all child nodes
-     * 
-     * @return {String} the text value
+     * Removes a CSS class from the current element.
+     * @param name {String} Name of the CSS class.
      */
-    getText: function() {
-      var result = [];
-      if (this._children) {
-        this._children.forEach(function(child) {
-          result.push(child.getText());
-        });
+    removeClass : function(name) {
+      var nameLower = name.toLowerCase();
+      var primaryClass = (this.getCssClass()||"").toLowerCase();
+      
+      if (nameLower == primaryClass) {
+        this.warn("Removing CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
+        this.setCssClass(null);
+        return;
       }
-      return result.join("");
+      
+      var currentClass = this.getAttribute("class");
+      if (currentClass) {
+        var segs = currentClass.split(" ").filter(function(tmp) {
+          return tmp.toLowerCase() != nameLower;
+        });
+        this.setAttribute("class", segs.join(" "));
+      }
+    },
+    
+    
+    /**
+     * Apply method for cssClass
+     */
+    _applyCssClass: function(value, oldValue) {
+      if (oldValue) {
+        this.removeClass(oldValue);
+      }
+      if (value) {
+        this.addClass(value);
+      }
     },
 
-
-
-
-
+    
+    
+    
     /*
     ---------------------------------------------------------------------------
       ATTRIBUTE SUPPORT
@@ -1705,75 +1765,6 @@ qx.Class.define("qx.html.Element",
      */
     getAttribute : function(key) {
       return this.__attribValues ? this.__attribValues[key] : null;
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CSS CLASS SUPPORT
-    ---------------------------------------------------------------------------
-    */
-    /**
-     * Adds a css class to the element.
-     * @param name {String} Name of the CSS class.
-     */
-    addClass : function(name) {
-      var value = this.getAttribute("class") || "";
-      var nameLower = name.toLowerCase();
-      var primaryClass = (this.getCssClass()||"").toLowerCase();
-      
-      // Suppress duplicates
-      if (value.toLowerCase().split(" ").indexOf(nameLower) > -1) {
-        return;
-      }
-      
-      // Primary class always listed first
-      if (nameLower == primaryClass) {
-        value = name + " " + value;
-      } else {
-        value = value + " " + name;
-      }
-      
-      // Set
-      this.setAttribute("class", value.trim());
-    },
-
-
-    /**
-     * Removes a CSS class from the current element.
-     * @param name {String} Name of the CSS class.
-     */
-    removeClass : function(name) {
-      var nameLower = name.toLowerCase();
-      var primaryClass = (this.getCssClass()||"").toLowerCase();
-      
-      if (nameLower == primaryClass) {
-        this.warn("Removing CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
-        this.setCssClass(null);
-        return;
-      }
-      
-      var currentClass = this.getAttribute("class");
-      if (currentClass) {
-        var segs = currentClass.split(" ").filter(function(tmp) {
-          return tmp.toLowerCase() != nameLower;
-        });
-        this.setAttribute("class", segs.join(" "));
-      }
-    },
-    
-    
-    /**
-     * Apply method for cssClass
-     */
-    _applyCssClass: function(value, oldValue) {
-      if (oldValue) {
-        this.removeClass(oldValue);
-      }
-      if (value) {
-        this.addClass(value);
-      }
     }
   },
 
