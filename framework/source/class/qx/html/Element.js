@@ -1593,7 +1593,7 @@ qx.Class.define("qx.html.Element",
     },
 
 
-
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -1662,6 +1662,68 @@ qx.Class.define("qx.html.Element",
       }
     },
 
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      SIZE AND POSITION SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the size and position of this element; this is just a helper method that wraps
+     * the calls to qx.bom.*
+     * 
+     * Supported modes:
+     *
+     * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
+     * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
+     * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
+     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
+     * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+     *
+     * @param mode {String} the type of size required, see above
+     * @return {Object} a map, containing:
+     *  left, right, top, bottom - document co-ords
+     *  content - Object, containing:
+     *    width, height: maximum permissible content size
+     */
+    getDimensions: function(mode) {
+      if (!this._domNode) {
+        return {
+          left: 0,
+          top: 0,
+          right: 0,
+          bottom: 0,
+          width: 0,
+          height: 0,
+          content: {
+            width: 0,
+            height: 0
+          }
+        }
+      }
+      var loc = qx.bom.element.Location.get(this._domNode, mode);
+      loc.content = qx.bom.element.Dimension.getContentSize(this._domNode);
+      loc.width = loc.right - loc.left;
+      loc.height = loc.bottom - loc.top;
+      return loc;
+    },
+    
+    
+    /**
+     * Detects whether the DOM Node is visible
+     */
+    canBeSeen() {
+      if (this._domNode) {
+        var rect = this._domNode.getBoundingClientRect();
+        if (rect.top > 0 || rect.left > 0 || rect.width > 0 || rect.height > 0) {
+          return true;
+        }
+      }
+      return false;
+    },
     
     
     
