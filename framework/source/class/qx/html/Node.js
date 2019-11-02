@@ -333,7 +333,7 @@ qx.Class.define("qx.html.Node",
       }
 
       // Use incoming element
-      this.__connectDomNode(domNode);
+      this._connectDomNode(domNode);
       
       // Copy currently existing data over to element
       this._copyData(true);
@@ -382,7 +382,7 @@ qx.Class.define("qx.html.Node",
      *
      * @param domNode {DOM} the DOM Node to associate
      */
-    __connectDomNode: function(domNode) {
+    _connectDomNode: function(domNode) {
     	if (qx.core.Environment.get("qx.debug")) {
     		qx.core.Assert.assertTrue(!this._domNode || this._domNode === domNode);
         qx.core.Assert.assertTrue((domNode.$$elementObject === this && domNode.$$element === this.toHashCode()) ||
@@ -397,6 +397,24 @@ qx.Class.define("qx.html.Node",
       	domNode.$$qxObject = this._qxObject;
     	}
     },
+    
+    
+    /**
+     * Detects whether the DOM node has been created and is in the document
+     * 
+     * @return {Boolean}
+     */
+    isInDocument() {
+      if (document.body) {
+        for (var domNode = this._domNode; domNode != null; domNode = domNode.parentElement) {
+          if (domNode === document.body) {
+            return true;
+          }
+        }
+      }
+      return false;
+    },
+
     
     /**
      * Updates the Object ID on the element to match the QxObjectId
@@ -478,7 +496,7 @@ qx.Class.define("qx.html.Node",
 
       if (!this._domNode)
       {
-        this.__connectDomNode(this._createDomElement());
+        this._connectDomNode(this._createDomElement());
 
         this._copyData(false);
 
