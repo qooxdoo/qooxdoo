@@ -72,6 +72,20 @@ qx.Class.define("qx.html.Text", {
       var elem = this._domNode;
       elem.nodeValue = this.__text || "";
     },
+    
+    /*
+     * @Override
+     */
+    _useNode: function(domNode) {
+      this.setText(domNode.nodeValue);
+    },
+
+    /*
+     * @Override
+     */
+    _useNodeImpl: function(domNode) {
+      this.setText(domNode.nodeValue);
+    },
 
     /**
      * @Override
