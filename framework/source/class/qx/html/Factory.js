@@ -5,6 +5,9 @@ qx.Class.define("qx.html.Factory", {
   construct: function() {
     this.base(arguments);
     this.__factoriesByTagName = {};
+    this.registerFactory("#text", function(tagName, attributes, styles) {
+      return new qx.html.Text("");
+    });
     this.registerFactory("img", qx.html.Image);
     this.registerFactory("iframe", function(tagName, attributes, styles) {
       return new qx.html.Iframe(attributes.src, attributes, styles);
@@ -27,23 +30,25 @@ qx.Class.define("qx.html.Factory", {
     createElement: function(tagName, attributes) {
       tagName = tagName.toLowerCase();
       
-      if (attributes instanceof window.NamedNodeMap) {
-        var newAttrs = {};
-        for(var i = attributes.length - 1; i >= 0; i--) {
-          newAttrs[attributes[i].name] = attributes[i].value;
+      if (attributes) {
+        if (attributes instanceof window.NamedNodeMap) {
+          var newAttrs = {};
+          for(var i = attributes.length - 1; i >= 0; i--) {
+            newAttrs[attributes[i].name] = attributes[i].value;
+          }
+          attributes = newAttrs;
         }
-        attributes = newAttrs;
-      }
-      
-      var styles = {};
-      if (attributes.style) {
-        attributes.style.split(/;/).forEach(function(seg) {
-          let pos = seg.indexOf(":");
-          let key = seg.substring(0, pos);
-          let value = seg.substring(pos + 1).trim();
-          styles[key] = value.trim();
-        });
-        delete attributes.style;
+        
+        var styles = {};
+        if (attributes.style) {
+          attributes.style.split(/;/).forEach(function(seg) {
+            let pos = seg.indexOf(":");
+            let key = seg.substring(0, pos);
+            let value = seg.substring(pos + 1).trim();
+            styles[key] = value.trim();
+          });
+          delete attributes.style;
+        }
       }
       
       var factories = this.__factoriesByTagName[tagName];

@@ -437,10 +437,9 @@ qx.Class.define("qx.html.Element",
      * SCSS supports inheritance, it's more useful to be able to allow the SCSS 
      * definition to control the inheritance hierarchy of classes.  
      * 
-     * For example, a dialog could have the class "qx-dialog" which the theme author 
-     * may decide should inherit from a "qx-window" class; however, the theme author
-     * may prefer not to do this, even if the Javascript author would derive a Dialog 
-     * class from a Window class.   
+     * For example, a dialog could be implemented in code as a Dialog class derived from
+     * a Window class, but the presentation may be so different that the theme author
+     * would choose to not use inheritance at all.
      */
     cssClass: {
       init: null,
@@ -1167,7 +1166,7 @@ qx.Class.define("qx.html.Element",
       var self = this;
       var children = this._children ? qx.lang.Array.clone(this._children) : [];
       if (children[0] instanceof qx.html.Text) {
-        children[0].setValue(value);
+        children[0].setText(value);
         children.shift();
         children.forEach(function(child) {
           self.remove(child);
@@ -1600,53 +1599,86 @@ qx.Class.define("qx.html.Element",
       CSS CLASS SUPPORT
     ---------------------------------------------------------------------------
     */
+    __breakClasses() {
+      var map = {};
+      (this.getAttribute("class")||"")
+        .split(" ")
+        .forEach(function(name) {
+          if (name) {
+            map[name.toLowerCase()] = name;
+          }
+        });
+      return map;
+    },
+    
+    __combineClasses(map) {
+      var primaryClass = this.getCssClass();
+      var arr = [];
+      if (primaryClass) {
+        arr.push(primaryClass);
+        delete map[primaryClass.toLowerCase()];
+      }
+      qx.lang.Array.append(arr, Object.values(map));
+      return arr.length ? arr.join(" ") : null;
+    },
+    
     /**
      * Adds a css class to the element.
+     * 
      * @param name {String} Name of the CSS class.
+     * @return {Element} this, for chaining
      */
     addClass : function(name) {
-      var value = this.getAttribute("class") || "";
-      var nameLower = name.toLowerCase();
+      var classes = this.__breakClasses();
       var primaryClass = (this.getCssClass()||"").toLowerCase();
-      
-      // Suppress duplicates
-      if (value.toLowerCase().split(" ").indexOf(nameLower) > -1) {
-        return;
-      }
-      
-      // Primary class always listed first
-      if (nameLower == primaryClass) {
-        value = name + " " + value;
-      } else {
-        value = value + " " + name;
-      }
-      
-      // Set
-      this.setAttribute("class", value.trim());
+      name.split(" ").forEach(function(name) {
+        var nameLower = name.toLowerCase();
+        if (nameLower == primaryClass) {
+          this.warn(`Adding CSS Class ${name} when it is the primary CSS class (consider using .setCssClass instead)`);
+          this.setCssClass(null);
+        }
+        
+        classes[nameLower] = name;
+      });
+      this.setAttribute("class", this.__combineClasses(classes));
+      return this;
     },
 
 
     /**
      * Removes a CSS class from the current element.
+     * 
      * @param name {String} Name of the CSS class.
+     * @return {Element} this, for chaining
      */
     removeClass : function(name) {
-      var nameLower = name.toLowerCase();
+      var classes = this.__breakClasses();
       var primaryClass = (this.getCssClass()||"").toLowerCase();
+      name.split(" ").forEach(function(name) {
+        var nameLower = name.toLowerCase();
+        if (nameLower == primaryClass) {
+          this.warn(`Removing CSS Class ${name} when it is the primary CSS class (consider using .setCssClass instead)`);
+          this.setCssClass(null);
+        }
+        
+        delete classes[nameLower];
+      });
       
-      if (nameLower == primaryClass) {
-        this.warn("Removing CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
-        this.setCssClass(null);
-        return;
+      this.setAttribute("class", this.__combineClasses(classes));
+      return this;
+    },
+
+
+    /**
+     * Removes all CSS classed from the current element.
+     */
+    removeAllClasses : function() {
+      if (this.getCssClass()) {
+        this.warn(`Removing all CSS Classes including the primary CSS class "${this.getCssClass()}" (consider using .setCssClass instead)`);
       }
       
-      var currentClass = this.getAttribute("class");
-      if (currentClass) {
-        var segs = currentClass.split(" ").filter(function(tmp) {
-          return tmp.toLowerCase() != nameLower;
-        });
-        this.setAttribute("class", segs.join(" "));
-      }
+      this.setCssClass(null);
+      this.setAttribute("class", "");
     },
     
     
@@ -1654,12 +1686,18 @@ qx.Class.define("qx.html.Element",
      * Apply method for cssClass
      */
     _applyCssClass: function(value, oldValue) {
+      var classes = this.__breakClasses();
       if (oldValue) {
-        this.removeClass(oldValue);
+        value.split(" ").forEach(function(name) {
+          delete classes[name.toLowerCase()];
+        });
       }
       if (value) {
-        this.addClass(value);
+        value.split(" ").forEach(function(name) {
+          classes[name.toLowerCase()] = name;
+        });
       }
+      this.setAttribute("class", this.__combineClasses(classes));
     },
 
     
@@ -1868,7 +1906,7 @@ qx.Class.define("qx.html.Element",
     }
     this.setRoot(false);
 
-    this.__attribValues = this.__styleValues = this.__eventValues =
+    this.__attribValues = this.__styleValues =
       this.__attribJobs = this.__styleJobs =
       this.__lazyScrollIntoViewX = this.__lazyScrollIntoViewY = null;
   }

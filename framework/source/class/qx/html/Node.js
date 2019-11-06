@@ -299,25 +299,85 @@ qx.Class.define("qx.html.Node",
         qx.core.Id.getInstance().register(this);
       }
       
-      function scanForChildren(domNode) {
-        for (var arr = domNode.childNodes, i = 0; i < arr.length; i++) {
-          var node = arr[i];
-          if (node.nodeType == window.Node.TEXT_NODE) {
-            if (node.textContent.trim().length > 0)
-              return true;
-          } else if (node.nodeType == window.Node.ELEMENT_NODE) {
-            return true;
-          }
-        }
-        return false;
+      /*
+       * When merging children, we want to keep the original DOM nodes in
+       * domNode no matter what - however, where the DOM nodes have a qxObjectId
+       * we must reuse the original instances.
+       * 
+       * The crucial thing is that the qxObjectId hierarchy and the DOM hierarchy
+       * are not the same (although they are often similar, the DOM will often have
+       * extra Nodes).
+       * 
+       * However, because the objects in the qxObjectId space will typically already 
+       * exist (eg accessed via the constructor) we do not want to discard the original
+       * instance of qx.html.Element because there are probably references to them in 
+       * code.
+       * 
+       * In the code below, we map the DOM heirarchy into a temporary Javascript
+       * hierarchy, where we can either use existing qx.html.Element instances (found
+       * by looking up the qxObjectId) or fabricate new ones.
+       * 
+       * Once the temporary hierarchy is ready, we go back and synchronise each
+       * qx.html.Element with the DOM node and our new array of children.
+       * 
+       * The only rule to this is that if you are going to call this `useNode`, then
+       * you must not keep references to objects *unless* you also access them via
+       * the qxObjectId mechanism.
+       */
+      
+      var self = this;
+      function convert(domNode) {
+        var children = qx.lang.Array.fromCollection(domNode.childNodes)
+          .map(function(domChild) {
+            var child = null;
+            if (domChild.nodeType == window.Node.ELEMENT_NODE) {
+              var id = domChild.getAttribute("data-qx-object-id");
+              if (id) {
+                var owningQxObjectId = null;
+                var qxObjectId = null;
+                var owningQxObject = null;
+                var pos = id.lastIndexOf('/');
+                if (pos > -1) {
+                  owningQxObjectId = id.substring(0, pos);
+                  qxObjectId = id.substring(pos + 1);
+                  owningQxObject = qx.core.Id.getQxObject(owningQxObjectId);
+                  child = owningQxObject.getQxObject(qxObjectId);
+                } else {
+                  qxObjectId = id;
+                  owningQxObject = self;
+                  child = self.getQxObject(id);
+                }
+              }
+            }
+            if (!child)
+              child = qx.html.Factory.getInstance().createElement(domChild.nodeName, domChild.attributes);
+            return {
+              htmlNode: child,
+              domNode: domChild,
+              children: convert(domChild)
+            };
+          });
+        return children;
       }
-
-      var domHasChildren = scanForChildren(domNode);
-      this._useNodeImpl(domNode);
-      if (!domHasChildren) {
-        this._flush();
-        this._insertChildren();
+      
+      function install(map) {
+        var htmlChildren = map.children.map(function(mapEntry) {
+          install(mapEntry);
+          return mapEntry.htmlNode;
+        });
+        map.htmlNode._useNodeImpl(map.domNode, htmlChildren);
       }
+      
+      var rootMap = {
+          htmlNode: this,
+          domNode: domNode,
+          children: convert(domNode)
+      };
+      
+      install(rootMap);
+      
+      this._flush();
+      this._insertChildren();
       
       if (isIdRoot) {
         qx.core.Id.getInstance().unregister(this);
@@ -327,7 +387,13 @@ qx.Class.define("qx.html.Node",
       }
     },
     
-    _useNodeImpl: function(domNode) {
+    /**
+     * Called internally to complete the connection to an existing DOM node
+     * 
+     * @param domNode {DOM Node} the node we're syncing to 
+     * @param newChildren {qx.html.Node[]} the new children
+     */
+    _useNodeImpl: function(domNode, newChildren) {
       if (this._domNode) {
         throw new Error("Could not overwrite existing element!");
       }
@@ -338,42 +404,39 @@ qx.Class.define("qx.html.Node",
       // Copy currently existing data over to element
       this._copyData(true);
       
-      // Copy children
-      var thisId = qx.core.Id.getAbsoluteIdOf(this, true);
-      var self = this;
-      qx.lang.Array.fromCollection(domNode.children).forEach(function(domChild) {
-        var id = domChild.getAttribute("data-qx-object-id");
-        var owningQxObjectId = null;
-        var qxObjectId = null;
-        var owningQxObject = null;
-        if (id) {
-          var pos = id.lastIndexOf('/');
-          var child = null;
-          if (pos > -1) {
-            owningQxObjectId = id.substring(0, pos);
-            qxObjectId = id.substring(pos + 1);
-            owningQxObject = qx.core.Id.getQxObject(owningQxObjectId);
-            child = owningQxObject.getQxObject(qxObjectId);
-          } else {
-            qxObjectId = id;
-            owningQxObject = self;
-            child = self.getQxObject(id);
-          }
-          if (child) {
-            child._useNodeImpl(domChild);
-            return;
-          }
-        }
-        
-        var child = qx.html.Factory.getInstance().createElement(domChild.tagName, domChild.attributes);
-        self.add(child);
-        if (qxObjectId) {
-          child.setQxObjectId(qxObjectId);
-          owningQxObject.addOwnedQxObject(child);
-        }
-        
-        child._useNodeImpl(domChild);
+      // Add children
+      var lookup = {};
+      var oldChildren = this._children ? qx.lang.Array.clone(this._children) : null;
+      newChildren.forEach(function(child) {
+        lookup[child.toHashCode()] = child;
       });
+      this._children = newChildren;
+      
+      // Make sure that unused children are disconnected
+      if (oldChildren) {
+        oldChildren.forEach(function(child) {
+          if (!lookup[child.toHashCode()]) {
+            if (child._domNode && child._domNode.parentElement)
+              child._domNode.parentElement.removeChild(child._domNode);
+            child._parent = null;
+          }
+        });
+      }
+      
+      var self = this;
+      this._children.forEach(function(child) {
+        child._parent = self;
+        if (child._domNode && child._domNode.parentElement !== self._domNode) {
+          child._domNode.parentElement.removeChild(child._domNode);
+          if (this._domNode) {
+            this._domNode.appendChild(child._domNode);
+          }
+        }
+      });
+      
+      if (this._domNode) {
+        this._scheduleChildrenUpdate();
+      }
     },
 
     /**
@@ -618,7 +681,7 @@ qx.Class.define("qx.html.Node",
      */
     _syncChildren : function()
     {
-      var dataChildren = this._children;
+      var dataChildren = this._children||[];
       var dataLength = dataChildren.length;
       var dataChild;
       var dataEl;
@@ -1709,6 +1772,6 @@ qx.Class.define("qx.html.Node",
 
     this._disposeArray("_children");
 
-    this._propertyValues = this._propertyJobs = this._domNode = this._parent = null;
+    this._propertyValues = this._propertyJobs = this._domNode = this._parent = this.__eventValues = null;
   }
 });
