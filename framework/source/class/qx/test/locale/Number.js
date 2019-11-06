@@ -26,22 +26,22 @@ qx.Class.define("qx.test.locale.Number", {
         return;
       }
 
-      var Number = qx.locale.Number;
+      var number = qx.locale.Number;
       var useLocale = "C";
 
       var commonGroupSeparator = ",";
       var commonDecimalSeparator = ".";
 
-      this.assertEquals(commonGroupSeparator, Number.getGroupSeparator(useLocale));
-      this.assertEquals(commonDecimalSeparator, Number.getDecimalSeparator(useLocale));
+      this.assertEquals(commonGroupSeparator, number.getGroupSeparator(useLocale));
+      this.assertEquals(commonDecimalSeparator, number.getDecimalSeparator(useLocale));
 
       useLocale = "fr";
 
       var frenchLatinGroupSeparator = "\u202F"; // narrow no-break space
       var frenchLatinDecimalSeparator = ",";
 
-      this.assertEquals(frenchLatinGroupSeparator, Number.getGroupSeparator(useLocale));
-      this.assertEquals(frenchLatinDecimalSeparator, Number.getDecimalSeparator(useLocale));
+      this.assertEquals(frenchLatinGroupSeparator, number.getGroupSeparator(useLocale));
+      this.assertEquals(frenchLatinDecimalSeparator, number.getDecimalSeparator(useLocale));
     },
 
     testPercentFormat : function() {
@@ -50,18 +50,18 @@ qx.Class.define("qx.test.locale.Number", {
         return;
       }
 
-      var Number = qx.locale.Number;
+      var number = qx.locale.Number;
       var useLocale = "C";
 
       var commonPercentFormat = "#,##0%";
 
-      this.assertEquals(commonPercentFormat, Number.getPercentFormat(useLocale));
+      this.assertEquals(commonPercentFormat, number.getPercentFormat(useLocale));
 
       useLocale = "fr";
 
       var frenchPercentFormat = "#,##0 %";
 
-      this.assertEquals(frenchPercentFormat, Number.getPercentFormat(useLocale));
+      this.assertEquals(frenchPercentFormat, number.getPercentFormat(useLocale));
     }
   }
 });
