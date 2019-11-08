@@ -196,7 +196,7 @@ qx.Class.define("qx.html.Element",
               }
             }
 
-            obj._flush();
+            obj.flush();
           }
 
           // Cleanup modification list
@@ -215,7 +215,7 @@ qx.Class.define("qx.html.Element",
           }
         }
 
-        obj._flush();
+        obj.flush();
       }
 
 
@@ -608,6 +608,8 @@ qx.Class.define("qx.html.Element",
         var Attribute = qx.bom.element.Attribute;
         if (fromMarkup) {
           var str = Attribute.get(elem, "class");
+          if (str instanceof window.SVGAnimatedString)
+            str = str.baseVal;
           var segs = str ? str.split(" ") : [];
           if (segs.length) {
             this.setCssClass(segs[0]);
@@ -845,7 +847,7 @@ qx.Class.define("qx.html.Element",
       }
       // create the element right away
       if (!this._domNode) {
-        this._flush();
+        this.flush();
         col.push(this._domNode);
       }
       if (this._domNode) {

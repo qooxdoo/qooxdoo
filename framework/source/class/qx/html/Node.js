@@ -327,7 +327,8 @@ qx.Class.define("qx.html.Node",
       
       var self = this;
       function convert(domNode) {
-        var children = qx.lang.Array.fromCollection(domNode.childNodes)
+        var children = qx.lang.Array.fromCollection(domNode.childNodes);
+        children = children
           .map(function(domChild) {
             var child = null;
             if (domChild.nodeType == window.Node.ELEMENT_NODE) {
@@ -376,7 +377,7 @@ qx.Class.define("qx.html.Node",
       
       install(rootMap);
       
-      this._flush();
+      this.flush();
       this._insertChildren();
       
       if (isIdRoot) {
@@ -530,9 +531,21 @@ qx.Class.define("qx.html.Node",
 
     /**
      * Syncs data of an HtmlElement object to the DOM.
+     * 
+     * This is just a public wrapper around `flush`, because the scope has changed
+     * 
+     * @deprecated {6.0} Please use `.flush()` instead
+     */
+    _flush : function() {
+      this._flush();
+    },
+
+
+    /**
+     * Syncs data of an HtmlElement object to the DOM.
      *
      */
-    _flush : function()
+    flush : function()
     {
       if (qx.core.Environment.get("qx.debug"))
       {
@@ -552,7 +565,7 @@ qx.Class.define("qx.html.Node",
           child = children[i];
 
           if (child.isVisible() && child._included && !child._domNode) {
-            child._flush();
+            child.flush();
           }
         }
       }
@@ -1295,10 +1308,15 @@ qx.Class.define("qx.html.Node",
      * Returns the DOM element (if created). Please use this with caution.
      * It is better to make all changes to the object itself using the public
      * API rather than to the underlying DOM element.
-     *
+     * 
+     * @param create {Boolean?} if true, the DOM node will be created if it does
+     * not exist
      * @return {Element|null} The DOM element node, if available.
      */
-    getDomElement : function() {
+    getDomElement : function(create) {
+      if (create && !this._domNode) {
+        this.flush();
+      }
       return this._domNode || null;
     },
 
@@ -1530,8 +1548,7 @@ qx.Class.define("qx.html.Node",
         return null;
       }
 
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         var msg = "Failed to add event listener for type '" + type + "'" +
           " to the target '" + this + "': ";
 
@@ -1545,6 +1562,10 @@ qx.Class.define("qx.html.Node",
         if (capture !== undefined) {
           this.assertBoolean(capture, "Invalid capture flag.");
         }
+      }
+      
+      if (qx.Class.supportsEvent(this, type)) {
+        return this.base(arguments, type, listener, self, capture);
       }
 
       if (this._domNode) {
@@ -1607,6 +1628,10 @@ qx.Class.define("qx.html.Node",
         }
       }
 
+      if (qx.Class.supportsEvent(this, type)) {
+        return this.base(arguments, type, listener, self, capture);
+      }
+
       if (this._domNode)
       {
         if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.toHashCode()]) {
@@ -1655,6 +1680,10 @@ qx.Class.define("qx.html.Node",
         return null;
       }
 
+      if (qx.Class.supportsEvent(this, type)) {
+        return this.base(arguments, id);
+      }
+
       if (this._domNode) {
         qx.event.Registration.removeListenerById(this._domNode, id);
       } else {
@@ -1679,24 +1708,29 @@ qx.Class.define("qx.html.Node",
         return false;
       }
 
+      if (qx.Class.supportsEvent(this, type)) {
+        return this.base(arguments, type, capture);
+      }
+
       if (this._domNode) {
-        return qx.event.Registration.hasListener(this._domNode, type, capture);
-      }
-
-      var values = this.__eventValues;
-      var entry;
-
-      if (capture == null) {
-        capture = false;
-      }
-
-      for (var key in values)
-      {
-        entry = values[key];
-
-        // Optimized for performance: Testing fast types first
-        if (entry.capture === capture && entry.type === type) {
+        if (qx.event.Registration.hasListener(this._domNode, type, capture))
           return true;
+        
+      } else {
+        var values = this.__eventValues;
+        var entry;
+  
+        if (capture == null) {
+          capture = false;
+        }
+  
+        for (var key in values) {
+          entry = values[key];
+  
+          // Optimized for performance: Testing fast types first
+          if (entry.capture === capture && entry.type === type) {
+            return true;
+          }
         }
       }
 
