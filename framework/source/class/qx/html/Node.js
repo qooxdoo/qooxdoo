@@ -1014,21 +1014,19 @@ qx.Class.define("qx.html.Node",
      * @param varargs {qx.html.Element} elements to insert
      * @return {qx.html.Element} this object (for chaining support)
      */
-    add : function(varargs)
-    {
-      if (arguments[1])
-      {
-        for (var i=0, l=arguments.length; i<l; i++) {
-          this.__addChildHelper(arguments[i]);
-        }
-
-        this._children.push.apply(this._children, arguments);
+    add : function(varargs) {
+      var self = this;
+      function addImpl(arr) {
+        arr.forEach(function(child) {
+          if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
+            addImpl(child);
+          } else {
+            self.__addChildHelper(child);
+            self._children.push(child);
+          }
+        });
       }
-      else
-      {
-        this.__addChildHelper(varargs);
-        this._children.push(varargs);
-      }
+      addImpl(qx.lang.Array.fromArguments(arguments));
 
       // Chaining support
       return this;
@@ -1060,30 +1058,25 @@ qx.Class.define("qx.html.Node",
      * @param childs {qx.html.Element} children to remove
      * @return {qx.html.Element} this object (for chaining support)
      */
-    remove : function(childs)
-    {
+    remove : function(childs) {
       var children = this._children;
       if (!children) {
         return this;
       }
 
-      if (arguments[1])
-      {
-        var child;
-        for (var i=0, l=arguments.length; i<l; i++)
-        {
-          child = arguments[i];
-
-          this.__removeChildHelper(child);
-          qx.lang.Array.remove(children, child);
-        }
+      var self = this;
+      function removeImpl(arr) {
+        arr.forEach(function(child) {
+          if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
+            removeImpl(child);
+          } else {
+            self.__removeChildHelper(child);
+            qx.lang.Array.remove(children, child);
+          }
+        });
       }
-      else
-      {
-        this.__removeChildHelper(childs);
-        qx.lang.Array.remove(children, childs);
-      }
-
+      removeImpl(qx.lang.Array.fromArguments(arguments));
+      
       // Chaining support
       return this;
     },
@@ -1680,9 +1673,7 @@ qx.Class.define("qx.html.Node",
         return null;
       }
 
-      if (qx.Class.supportsEvent(this, type)) {
-        return this.base(arguments, id);
-      }
+      this.base(arguments, id);
 
       if (this._domNode) {
         qx.event.Registration.removeListenerById(this._domNode, id);
