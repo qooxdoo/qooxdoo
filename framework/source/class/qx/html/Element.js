@@ -505,8 +505,12 @@ qx.Class.define("qx.html.Element",
       }
 
       // Copy styles
-      var data = this.__styleValues;
-      if (data) {
+      var data = this.__styleValues||{};
+      if (!this.isVisible()) {
+        data = qx.lang.Object.clone(data);
+        data.display = "none";
+      }
+      if (Object.keys(data).length) {
         var Style = qx.bom.element.Style;
         var css = Style.compile(data);
         if (css) {
@@ -638,6 +642,20 @@ qx.Class.define("qx.html.Element",
           Style.setCss(elem, Style.compile(data));
         }
       }
+      
+      // Copy visibility
+      if (!fromMarkup) {
+        var display = elem.style.display || "";
+        if (display == "" && !this.isVisible()) {
+          elem.style.display = "none";
+        } else if (display == "none" && this.isVisible()) {
+          elem.style.display = "";
+        }
+      } else {
+        var display = elem.style.display || "";
+        this.setVisible(display != "none");
+      }
+        
     },
 
 
