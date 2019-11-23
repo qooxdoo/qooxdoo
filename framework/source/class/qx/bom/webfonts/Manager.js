@@ -91,7 +91,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
      * List of known font definition formats (i.e. file extensions). Used to
      * identify the type of each font file configured for a web font.
      */
-    FONT_FORMATS : ["eot", "woff", "ttf", "svg"],
+    FONT_FORMATS : ["eot", "woff2", "woff", "ttf", "svg"],
 
     /**
      * Timeout (in ms) to wait before deciding that a web font was not loaded.
@@ -221,13 +221,21 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       var os = qx.core.Environment.get("os.name");
       var osVersion = qx.core.Environment.get("os.version");
 
+      if ((browser == "edge" && browserVersion >= 14) ||
+          (browser == "firefox" && browserVersion >= 69) ||
+          (browser == "chrome" && browserVersion >= 36)) {
+        preferredFormats.push("woff2");
+      }
+
       if ((browser == "ie" && qx.core.Environment.get("browser.documentmode") >= 9) ||
+          (browser == "edge" && browserVersion >= 12) ||
           (browser == "firefox" && browserVersion >= 3.6) ||
           (browser == "chrome" && browserVersion >= 6)) {
         preferredFormats.push("woff");
       }
 
-      if ((browser == "opera" && browserVersion >= 10) ||
+      if ((browser == "edge" && browserVersion >= 12) ||
+          (browser == "opera" && browserVersion >= 10) ||
           (browser == "safari" && browserVersion >= 3.1) ||
           (browser == "firefox" && browserVersion >= 3.5) ||
           (browser == "chrome" && browserVersion >= 4) ||
@@ -384,17 +392,11 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     {
       var formats = qx.bom.webfonts.Manager.FONT_FORMATS;
       var sourcesMap = {};
+      var reg = new RegExp("\.(" + formats.join("|") + ")");
       for (var i=0, l=sources.length; i<l; i++) {
-        var type = null;
-        for (var x=0; x < formats.length; x++) {
-          var reg = new RegExp("\.(" + formats[x] + ")");
-          var match = reg.exec(sources[i]);
-          if (match) {
-            type = match[1];
-          }
-        }
-
-        if (type) {
+        var match = reg.exec(sources[i]);
+        if (match) {
+          var type = match[1];
           sourcesMap[type] = sources[i];
         }
       }
@@ -441,7 +443,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
     /**
      * Returns the full src value for a given font URL depending on the type
 
-     * @param format {String} The font format, one of eot, woff, ttf, svg
+     * @param format {String} The font format, one of eot, woff2, woff, ttf, svg
      * @param url {String} The font file's URL
      * @param version {String?} Optional version to be appended to the URL
      * @return {String} The src directive
@@ -455,6 +457,8 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       switch(format) {
         case "eot": return "url('" + url + "');" +
           "src: url('" + url + "?#iefix') format('embedded-opentype')";
+        case "woff2":
+          return "url('" + url + "') format('woff2')";
         case "woff":
           return "url('" + url + "') format('woff')";
         case "ttf":
