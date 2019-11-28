@@ -151,23 +151,25 @@ qx.Class.define("qx.html.Element",
       }
 
 
-      // blur elements, which will be removed
-      var focusHandler = this.__getFocusHandler();
-      var focusedDomElement = focusHandler.getFocus();
-      if (focusedDomElement && this.__willBecomeInvisible(focusedDomElement)) {
-        focusHandler.blur(focusedDomElement);
-      }
-
-      // decativate elements, which will be removed
-      var activeDomElement = focusHandler.getActive();
-      if (activeDomElement && this.__willBecomeInvisible(activeDomElement)) {
-        qx.bom.Element.deactivate(activeDomElement);
-      }
-
-      // release capture for elements, which will be removed
-      var captureDomElement = this.__getCaptureElement();
-      if (captureDomElement && this.__willBecomeInvisible(captureDomElement)) {
-        qx.bom.Element.releaseCapture(captureDomElement);
+      if (!qx.core.Environment.get("qx.headless")) {
+        // blur elements, which will be removed
+        var focusHandler = this.__getFocusHandler();
+        var focusedDomElement = focusHandler.getFocus();
+        if (focusedDomElement && this.__willBecomeInvisible(focusedDomElement)) {
+          focusHandler.blur(focusedDomElement);
+        }
+  
+        // decativate elements, which will be removed
+        var activeDomElement = focusHandler.getActive();
+        if (activeDomElement && this.__willBecomeInvisible(activeDomElement)) {
+          qx.bom.Element.deactivate(activeDomElement);
+        }
+  
+        // release capture for elements, which will be removed
+        var captureDomElement = this.__getCaptureElement();
+        if (captureDomElement && this.__willBecomeInvisible(captureDomElement)) {
+          qx.bom.Element.releaseCapture(captureDomElement);
+        }
       }
 
 
@@ -257,93 +259,95 @@ qx.Class.define("qx.html.Element",
         delete visibility[hc];
       }
 
-      // Process scroll list
-      var scroll = this._scroll;
-      for (var hc in scroll)
-      {
-        obj = scroll[hc];
-        var elem = obj._domNode;
-
-        if (elem && elem.offsetWidth)
+      if (!qx.core.Environment.get("qx.headless")) {
+        // Process scroll list
+        var scroll = this._scroll;
+        for (var hc in scroll)
         {
-          var done = true;
-
-          // ScrollToX
-          if (obj.__lazyScrollX != null)
+          obj = scroll[hc];
+          var elem = obj._domNode;
+  
+          if (elem && elem.offsetWidth)
           {
-            obj._domNode.scrollLeft = obj.__lazyScrollX;
-            delete obj.__lazyScrollX;
-          }
-
-          // ScrollToY
-          if (obj.__lazyScrollY != null)
-          {
-            obj._domNode.scrollTop = obj.__lazyScrollY;
-            delete obj.__lazyScrollY;
-          }
-
-          // ScrollIntoViewX
-          var intoViewX = obj.__lazyScrollIntoViewX;
-          if (intoViewX != null)
-          {
-            var child = intoViewX.element.getDomElement();
-
-            if (child && child.offsetWidth)
+            var done = true;
+  
+            // ScrollToX
+            if (obj.__lazyScrollX != null)
             {
-              qx.bom.element.Scroll.intoViewX(child, elem, intoViewX.align);
-              delete obj.__lazyScrollIntoViewX;
+              obj._domNode.scrollLeft = obj.__lazyScrollX;
+              delete obj.__lazyScrollX;
             }
-            else
+  
+            // ScrollToY
+            if (obj.__lazyScrollY != null)
             {
-              done = false;
+              obj._domNode.scrollTop = obj.__lazyScrollY;
+              delete obj.__lazyScrollY;
             }
-          }
-
-          // ScrollIntoViewY
-          var intoViewY = obj.__lazyScrollIntoViewY;
-          if (intoViewY != null)
-          {
-            var child = intoViewY.element.getDomElement();
-
-            if (child && child.offsetWidth)
+  
+            // ScrollIntoViewX
+            var intoViewX = obj.__lazyScrollIntoViewX;
+            if (intoViewX != null)
             {
-              qx.bom.element.Scroll.intoViewY(child, elem, intoViewY.align);
-              delete obj.__lazyScrollIntoViewY;
+              var child = intoViewX.element.getDomElement();
+  
+              if (child && child.offsetWidth)
+              {
+                qx.bom.element.Scroll.intoViewX(child, elem, intoViewX.align);
+                delete obj.__lazyScrollIntoViewX;
+              }
+              else
+              {
+                done = false;
+              }
             }
-            else
+  
+            // ScrollIntoViewY
+            var intoViewY = obj.__lazyScrollIntoViewY;
+            if (intoViewY != null)
             {
-              done = false;
+              var child = intoViewY.element.getDomElement();
+  
+              if (child && child.offsetWidth)
+              {
+                qx.bom.element.Scroll.intoViewY(child, elem, intoViewY.align);
+                delete obj.__lazyScrollIntoViewY;
+              }
+              else
+              {
+                done = false;
+              }
             }
-          }
-
-          // Clear flag if all things are done
-          // Otherwise wait for the next flush
-          if (done) {
-            delete scroll[hc];
+  
+            // Clear flag if all things are done
+            // Otherwise wait for the next flush
+            if (done) {
+              delete scroll[hc];
+            }
           }
         }
-      }
-
-
-      var activityEndActions = {
-        "releaseCapture": 1,
-        "blur": 1,
-        "deactivate": 1
-      };
-
-      // Process action list
-      for (var i=0; i<this._actions.length; i++)
-      {
-        var action = this._actions[i];
-        var element = action.element._domNode;
-        if (!element || !activityEndActions[action.type] && !action.element._willBeSeeable()) {
-          continue;
+  
+  
+        var activityEndActions = {
+          "releaseCapture": 1,
+          "blur": 1,
+          "deactivate": 1
+        };
+  
+        // Process action list
+        for (var i=0; i<this._actions.length; i++)
+        {
+          var action = this._actions[i];
+          var element = action.element._domNode;
+          if (!element || !activityEndActions[action.type] && !action.element._willBeSeeable()) {
+            continue;
+          }
+          var args = action.args;
+          args.unshift(element);
+          qx.bom.Element[action.type].apply(qx.bom.Element, args);
         }
-        var args = action.args;
-        args.unshift(element);
-        qx.bom.Element[action.type].apply(qx.bom.Element, args);
+        this._actions = [];
       }
-      this._actions = [];
 
       // Process selection
       for (var hc in this.__selection)
@@ -369,12 +373,16 @@ qx.Class.define("qx.html.Element",
      */
     __getFocusHandler : function()
     {
-      if (!this.__focusHandler)
-      {
-        var eventManager = qx.event.Registration.getManager(window);
-        this.__focusHandler = eventManager.getHandler(qx.event.handler.Focus);
+      if (!qx.core.Environment.get("qx.headless")) {
+        if (!this.__focusHandler)
+        {
+          var eventManager = qx.event.Registration.getManager(window);
+          this.__focusHandler = eventManager.getHandler(qx.event.handler.Focus);
+        }
+        return this.__focusHandler;
+      } else {
+        throw new Error("Unexpected use of qx.html.Element.__getFocusHandler in headless environment");
       }
-      return this.__focusHandler;
     },
 
 
@@ -385,12 +393,16 @@ qx.Class.define("qx.html.Element",
      */
     __getCaptureElement : function()
     {
-      if (!this.__mouseCapture)
-      {
-        var eventManager = qx.event.Registration.getManager(window);
-        this.__mouseCapture = eventManager.getDispatcher(qx.event.dispatch.MouseCapture);
+      if (!qx.core.Environment.get("qx.headless")) {
+        if (!this.__mouseCapture)
+        {
+          var eventManager = qx.event.Registration.getManager(window);
+          this.__mouseCapture = eventManager.getDispatcher(qx.event.dispatch.MouseCapture);
+        }
+        return this.__mouseCapture.getCaptureElement();
+      } else {
+        throw new Error("Unexpected use of qx.html.Element.__getCaptureElement in headless environment");
       }
-      return this.__mouseCapture.getCaptureElement();
     },
 
 
@@ -1345,20 +1357,28 @@ qx.Class.define("qx.html.Element",
     /**
      * Takes the action to process as argument and queues this action if the
      * underlying DOM element is not yet created.
+     * 
+     * Note that "actions" are functions in `qx.bom.Element` and only apply to
+     * environments with a user interface.  This will throw an error if the user 
+     * interface is headless
      *
      * @param action {String} action to queue
      * @param args {Array} optional list of arguments for the action
      */
     __performAction : function(action, args)
     {
-      var actions = qx.html.Element._actions;
-
-      actions.push({
-        type: action,
-        element: this,
-        args: args || []
-      });
-      qx.html.Element._scheduleFlush("element");
+      if (!qx.core.Environment.get("qx.headless")) {
+        var actions = qx.html.Element._actions;
+  
+        actions.push({
+          type: action,
+          element: this,
+          args: args || []
+        });
+        qx.html.Element._scheduleFlush("element");
+      } else {
+        throw new Error("Unexpected use of qx.html.Element.__performAction in headles environment");
+      }
     },
 
 
@@ -1368,56 +1388,79 @@ qx.Class.define("qx.html.Element",
      * If the underlaying DOM element is not yet created, the
      * focus is queued for processing after the element creation.
      *
+     * Silently does nothing when in a headless environment 
      */
     focus : function() {
-      this.__performAction("focus");
+      if (!qx.core.Environment.get("qx.headless")) {
+        this.__performAction("focus");
+      }
     },
 
 
     /**
      * Mark this element to get blurred on the next flush of the queue
      *
+     * Silently does nothing when in a headless environment 
+     *
      */
     blur : function() {
-      this.__performAction("blur");
+      if (!qx.core.Environment.get("qx.headless")) {
+        this.__performAction("blur");
+      }
     },
 
 
     /**
      * Mark this element to get activated on the next flush of the queue
      *
+     * Silently does nothing when in a headless environment 
+     *
      */
     activate : function() {
-      this.__performAction("activate");
+      if (!qx.core.Environment.get("qx.headless")) {
+        this.__performAction("activate");
+      }
     },
 
 
     /**
      * Mark this element to get deactivated on the next flush of the queue
      *
+     * Silently does nothing when in a headless environment 
+     *
      */
     deactivate : function() {
-      this.__performAction("deactivate");
+      if (!qx.core.Environment.get("qx.headless")) {
+        this.__performAction("deactivate");
+      }
     },
 
 
     /**
      * Captures all mouse events to this element
      *
+     * Silently does nothing when in a headless environment 
+     *
      * @param containerCapture {Boolean?true} If true all events originating in
      *   the container are captured. If false events originating in the container
      *   are not captured.
      */
     capture : function(containerCapture) {
-      this.__performAction("capture", [containerCapture !== false]);
+      if (!qx.core.Environment.get("qx.headless")) {
+        this.__performAction("capture", [containerCapture !== false]);
+      }
     },
 
 
     /**
      * Releases this element from a previous {@link #capture} call
+     *
+     * Silently does nothing when in a headless environment 
      */
     releaseCapture : function() {
-      this.__performAction("releaseCapture");
+      if (!qx.core.Environment.get("qx.headless")) {
+        this.__performAction("releaseCapture");
+      }
     },
 
 
