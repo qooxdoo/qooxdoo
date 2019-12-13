@@ -232,7 +232,19 @@ You can also add plugins to babel (at the top level only), for example:
   "targets": [
 ```
 The `babel.plugins` is a map, the key of which is the NPM name of the plugin, and the value of which is either `true` (to enable),
-or `false` (to not add the plugin), or an object configuring the plugin 
+or `false` (to not add the plugin), or an object configuring the plugin.
+
+There is risk in adding support for additional, non-standard babel plugins - EG the @babel/plugin-proposal-* plug ins which add 
+early proposed additions to javascript.
+
+Not surprisingly this comes with caveats, first of which is that changes to the language may well require an upgrade to QxCompiler 
+itself so that it can recognise the new language construct and act accordingly.
+
+In many cases, turning on a new plugin that QxCompiler does not support will just cause extra warnings, usually about unresolved 
+symbols because (EG) QxCompiler did not understand a new syntax of declaring the variable in the first place. But there may be other 
+side effects where the plugin simply cannot work without an upgrade.
+
+So, adding in babel plugins that extend the language is at your own risk, but should be useful. 
 
 
 - `application-types` and `application-names` - (**optional**) these settings
