@@ -205,7 +205,7 @@ a hidden property called `$$createdAt` which points to an object containing
 - `babelOptions` - (**optional**) options given to @babel/preset-env. With this
 options the output type of babel can be defined. For details see here:
 https://babeljs.io/docs/en/babel-preset-env#options
-If you add the `babelOptions` block at the top level of the compile.json, it will effect every application regardless of the target. They ´both will be merged so that the target `babelOptions` takes prescedence over Target's `babelOptions`.
+When setting `babelOptions` on a target, they will be merged into the top-level `babel.options`
 Here is an example how to disable translation for modern browsers in source mode:
 ```json5
     "targets": [
@@ -222,6 +222,18 @@ Here is an example how to disable translation for modern browsers in source mode
         }
     ],
 ```
+You can also add plugins to babel (at the top level only), for example:
+```json5
+  "babel": {
+    "plugins": {
+      "@babel/plugin-proposal-optional-chaining": true
+    }
+  },
+  "targets": [
+```
+The `babel.plugins` is a map, the key of which is the NPM name of the plugin, and the value of which is either `true` (to enable),
+or `false` (to not add the plugin), or an object configuring the plugin 
+
 
 - `application-types` and `application-names` - (**optional**) these settings
 filter which applications that this target can compile and is used in situations
