@@ -961,8 +961,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var columnModel = table.getTableColumnModel();
         columnModel.setColumnWidth(this.__resizeColumn, newWidth, true);
       } else {
-        this.__header.setColumnWidth(this.__resizeColumn, newWidth, true);
-
         var paneModel = this.getTablePaneModel();
         this._showResizeLine(paneModel.getColumnLeft(this.__resizeColumn) + newWidth);
       }
