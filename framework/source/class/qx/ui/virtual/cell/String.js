@@ -16,10 +16,6 @@
      * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
-
-/**
- * EXPERIMENTAL!
- */
 qx.Class.define("qx.ui.virtual.cell.String",
 {
   extend : qx.ui.virtual.cell.Cell,
