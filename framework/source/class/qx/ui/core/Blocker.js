@@ -364,7 +364,9 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     _block : function(zIndex, blockContent) {
       if (!this._isRoot && !this._widget.getLayoutParent()) {
-        this.__appearListener = this._widget.addListenerOnce("appear", this._block.bind(this, zIndex));
+        if (!this.__appearListener) {
+          this.__appearListener = this._widget.addListenerOnce("appear", this._block.bind(this, zIndex));
+        }
         return;
       }
 
@@ -425,6 +427,7 @@ qx.Class.define("qx.ui.core.Blocker",
     {
       if (this.__appearListener) {
         this._widget.removeListenerById(this.__appearListener);
+        this.__appearListener = null;
       }
 
       if (!this.isBlocked()){
@@ -445,6 +448,11 @@ qx.Class.define("qx.ui.core.Blocker",
      */
     forceUnblock : function()
     {
+      if (this.__appearListener) {
+        this._widget.removeListenerById(this.__appearListener);
+        this.__appearListener = null;
+      }
+
       if (!this.isBlocked()){
         return;
       }

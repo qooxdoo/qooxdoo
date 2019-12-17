@@ -6,7 +6,7 @@ files:
 
 - [`Manifest.json`](Manifest.md): This mandatory file contains basic information
   on the library, such as name, namespace, version, dependencies, etc. 
-- [`compile.json` / `compile.js`](compile.md): These files configure the compiler
+- [`compile.json`](compile.md) and [`compile.js`](api.md): These files configure the compiler
   and are responsible how the build of a project will be structured and what
   it will contain. 
 - [`qx-lock.json`](../cli/packages.md#lockfile-qx-lockjson): This is a library's
