@@ -55,6 +55,7 @@ qx.Class.define("qx.ui.form.VirtualComboBox",
 
     this.addListener("focusout", function(e) {
       textField.fireNonBubblingEvent("focusout", qx.event.type.Focus);
+      this.fireNonBubblingEvent("blur", qx.event.type.Focus);
     }, this);
   },
 
