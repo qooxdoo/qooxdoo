@@ -1023,6 +1023,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Cleanup operation
+      this._userInteraction = false;      
       this._cleanup();
     },
 

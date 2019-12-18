@@ -205,7 +205,7 @@ a hidden property called `$$createdAt` which points to an object containing
 - `babelOptions` - (**optional**) options given to @babel/preset-env. With this
 options the output type of babel can be defined. For details see here:
 https://babeljs.io/docs/en/babel-preset-env#options
-If you add the `babelOptions` block at the top level of the compile.json, it will effect every application regardless of the target. They ´both will be merged so that the target `babelOptions` takes prescedence over Target's `babelOptions`.
+When setting `babelOptions` on a target, they will be merged into the top-level `babel.options`
 Here is an example how to disable translation for modern browsers in source mode:
 ```json5
     "targets": [
@@ -222,6 +222,30 @@ Here is an example how to disable translation for modern browsers in source mode
         }
     ],
 ```
+You can also add plugins to babel (at the top level only), for example:
+```json5
+  "babel": {
+    "plugins": {
+      "@babel/plugin-proposal-optional-chaining": true
+    }
+  },
+  "targets": [
+```
+The `babel.plugins` is a map, the key of which is the NPM name of the plugin, and the value of which is either `true` (to enable),
+or `false` (to not add the plugin), or an object configuring the plugin.
+
+There is risk in adding support for additional, non-standard babel plugins - EG the @babel/plugin-proposal-* plug ins which add 
+early proposed additions to javascript.
+
+Not surprisingly this comes with caveats, first of which is that changes to the language may well require an upgrade to QxCompiler 
+itself so that it can recognise the new language construct and act accordingly.
+
+In many cases, turning on a new plugin that QxCompiler does not support will just cause extra warnings, usually about unresolved 
+symbols because (EG) QxCompiler did not understand a new syntax of declaring the variable in the first place. But there may be other 
+side effects where the plugin simply cannot work without an upgrade.
+
+So, adding in babel plugins that extend the language is at your own risk, but should be useful. 
+
 
 - `application-types` and `application-names` - (**optional**) these settings
 filter which applications that this target can compile and is used in situations
