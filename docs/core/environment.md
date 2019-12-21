@@ -226,7 +226,7 @@ loading the initial qooxdoo file, add another `<script>` tag with code that
 assigns a map to `window.qx.$$environment`, containing your environment
 settings.
 
-``` {.sourceCode .html}
+```html
 <script>
   window.qx =
   {
@@ -257,7 +257,7 @@ The pattern in the URL parameter is easy. It has three parts separated by colons
 >
 > Setting `qx.allowUrlSettings` to true in the configuration somewhat contradicts using the pages/tool/generator/generator\_optimizations\#variants optimization in builds. The variants optimization takes advantage of the values of environment settings given in the configuration, to remove code like calls to `qx.core.Environment.get()` for such a setting and replace it with the corresponding value. That means that changing the value of such a key via URL parameter later has no effect, as the call to retrieve its value is no longer in the code. You can then only set environment values via URL parameter for those keys which have **not** been given a value in the configuration.
 >
-> Alternatively, you could disable `variants` optimization in the build, or remove the setting you want to change via URL parameter from the config. In the latter case, you have other possibilities to set a default for this setting, by either providing an `environment` key in the %{JS} class map, or a `qx.core.Environment.add()` call in the class' `defer` function.
+> Alternatively, you could disable `variants` optimization in the build, or remove the setting you want to change via URL parameter from the config. In the latter case, you have other possibilities to set a default for this setting, by either providing an `environment` key in the class map, or a `qx.core.Environment.add()` call in the class' `defer` function.
 >
 > If you set `qx.allowUrlSettings` to true and have the `variants` optimization enabled for a particular build, the generator will issue a warning.
 
