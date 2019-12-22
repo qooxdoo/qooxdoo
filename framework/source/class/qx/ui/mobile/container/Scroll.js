@@ -235,18 +235,19 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
               "axis": axis
             });
           } else {
-            // Dynamically created waypoints, based upon a selector.
+            // Dynamically created waypoints, based upon a selector. Changed to middle of element
             var element = this.getContentElement();
             var waypointElements = qx.bom.Selector.query(waypoint, element);
             for (var j = 0; j < waypointElements.length; j++) {
               var position = qx.bom.element.Location.getRelative(waypointElements[j], element);
+              var last_height = qx.bom.element.Dimension.getHeight(waypointElements[j>0?j-1:0]);
               if (axis === "y") {
                 offset = position.top + this.getContentElement().scrollTop;
               } else if (axis === "x") {
                 offset = position.left + this.getContentElement().scrollLeft;
               }
               results.push({
-                "offset": position.top + this._currentY,
+                "offset": position.top + this._currentY - last_height/2,
                 "input": waypoint,
                 "index": i,
                 "element": j,

@@ -113,13 +113,16 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     _onTrackEnd: function(evt) {
       this._onTrack = false;
 
-      if(this._snapTimeoutId) {
-        clearTimeout(this._snapTimeoutId);
+      if(qx.core.Environment.get("browser.name").indexOf("chrome") == -1 &&
+         qx.core.Environment.get("browser.name").indexOf("safari") == -1) {
+        if(this._snapTimeoutId) {
+          clearTimeout(this._snapTimeoutId);
+        }
+        this._snapTimeoutId = setTimeout(function() {
+          this._snap();
+        }.bind(this), 100);
       }
-      this._snapTimeoutId = setTimeout(function() {
-        this._snap();
-      }.bind(this), 100);
-
+      
       evt.stopPropagation();
     },
 
@@ -133,15 +136,19 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
 
       this._setCurrentX(scrollLeft);
       this._setCurrentY(scrollTop);
+      
+      if(qx.core.Environment.get("browser.name").indexOf("chrome") == -1 &&
+         qx.core.Environment.get("browser.name").indexOf("safari") == -1) {
 
-      if(this._snapTimeoutId) {
-        clearTimeout(this._snapTimeoutId);
-      }
-      this._snapTimeoutId = setTimeout(function() {
-        if(!this._onTrack) {
-          this._snap();
+        if(this._snapTimeoutId) {
+          clearTimeout(this._snapTimeoutId);
         }
-      }.bind(this), 100);
+        this._snapTimeoutId = setTimeout(function() {
+          if(!this._onTrack) {
+            this._snap();
+          }
+        }.bind(this), 100);
+      }
     },
 
 
@@ -152,11 +159,20 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
       if (this._scrollProperties) {
         var snap = this._scrollProperties.snap;
         if (snap) {
-          this._snapPoints = [];
           var snapTargets = this.getContentElement().querySelectorAll(snap);
-          for (var i = 0; i < snapTargets.length; i++) {
-            var snapPoint = qx.bom.element.Location.getRelative(this._getContentElement(), snapTargets[i], "scroll", "scroll");
-            this._snapPoints.push(snapPoint);
+          this._snapPoints = [];
+          if(qx.core.Environment.get("browser.name").indexOf("chrome") == -1 &&
+             qx.core.Environment.get("browser.name").indexOf("safari") == -1) {
+
+            for (var i = 0; i < snapTargets.length; i++) {
+              var snapPoint = qx.bom.element.Location.getRelative(this._getContentElement(), snapTargets[i], "scroll", "scroll");
+              this._snapPoints.push(snapPoint);
+            }
+          } else {
+            this.addCssClass("nativesnap");
+            for (var i = 0; i < snapTargets.length; i++) {
+              snapTargets[i].classList.add("nativesnap_child");
+            }
           }
         }
       }
