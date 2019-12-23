@@ -10,7 +10,7 @@ exe() { echo "\$ ${@/eval/}" ; "$@" ; }
 TARGET=deploy/$(cat ./version.txt)
 mkdir -p $TARGET
 
-exe npm i --no-save @adobe/jsonschema2md @qooxdoo/compiler
+exe npm i --no-save @adobe/jsonschema2md@3.3.1 @qooxdoo/compiler
 
 # build apps  
 exe npx qx pkg upgrade --prereleases

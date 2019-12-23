@@ -381,7 +381,6 @@ qx.Class.define("qx.io.remote.Rpc",
     },
 
     /**
-     * EXPERIMENTAL
      *
      * Whether to use the original qooxdoo RPC protocol or the
      * now-standardized Version 2 protocol.  Defaults to the original qooxdoo
