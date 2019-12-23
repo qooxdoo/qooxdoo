@@ -18,8 +18,6 @@
 
 
 /**
- * EXPERIMENTAL!
- *
  * Objects, which are used as delegates for a virtual selection manager may
  * implement any of the methods described in this interface. The delegate does
  * not need implement all of the methods of this interface. If a method is not

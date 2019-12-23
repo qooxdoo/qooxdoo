@@ -20,7 +20,7 @@ qooxdoo mobile was tested with the following desktop browsers:
 
 -   Safari 5
 -   Chrome 10+
--   Firefox 10+ (Experimental)
+-   Firefox 10+ 
 -   Internet Explorer 10+
 
 Features

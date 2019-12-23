@@ -17,8 +17,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * The axis maps virtual screen coordinates to item indexes. By default all
  * items have the same size but it is also possible to give specific items
  * a different size.
