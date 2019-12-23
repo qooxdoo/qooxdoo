@@ -370,7 +370,6 @@ qx.Mixin.define("qx.dev.unit.MMock",
     },
 
     /**
-     * EXPERIMENTAL - NOT READY FOR PRODUCTION
      *
      * Returns a deep copied, API-identical stubbed out clone of the given
      * object.
@@ -390,7 +389,6 @@ qx.Mixin.define("qx.dev.unit.MMock",
     },
 
     /**
-     * EXPERIMENTAL - NOT READY FOR PRODUCTION
      *
      * Shallowly stub all methods (except excluded) that belong to classes found in inheritance
      * chain up to (but including) the given class.
@@ -413,7 +411,6 @@ qx.Mixin.define("qx.dev.unit.MMock",
     },
 
     /**
-     * EXPERIMENTAL - NOT READY FOR PRODUCTION
      *
      * Changes the given factory (e.g. a constructor) to return a stub. The
      * method itself returns this stub.

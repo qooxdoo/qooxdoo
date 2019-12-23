@@ -17,8 +17,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * A HTML cell provider provides the {@link qx.ui.virtual.layer.HtmlCell}
  * with HTML fragments to render the cells.
  */

@@ -24,7 +24,7 @@ Here is a simple menu example:
     var menu = new qx.ui.menu.Menu();
 
     // Creates the command
-    var command = new qx.event.Command("Control+O");
+    var command = new qx.ui.command.Command("Control+O");
     command.addListener("execute", function() {
       this.debug("Open action");
     },this);
@@ -49,7 +49,7 @@ There are a couple of things to note here:
 -   The main widget is the `menu` of type `qx.ui.menu.Menu`.
 -   Menu buttons are of type `qx.ui.menu.Button` and are created individually.
 -   They are then added to the menu. The buttons will appear in the menu in the order they are added.
--   The `closeButton` is created with the minimal set of parameters, namely just the string for the button label. For a more advanced solution, see the `openButton`: you can optionally specify a button icon, and a command `qx.event.Command` that is invoked if the button or the shortcut is pressed/selected.
+-   The `closeButton` is created with the minimal set of parameters, namely just the string for the button label. For a more advanced solution, see the `openButton`: you can optionally specify a button icon, and a command `qx.ui.command.Command` that is invoked if the button or the shortcut is pressed/selected.
 -   You can supply missing or updated features after the widget's creation; e.g. the callback function for the `closeButton` is provided in a separate method call to `addListener()`.
 -   The canonical event for the selection of a menu button is the `execute` event. (This is in line with other button flavors throughout the qooxdoo framework, e.g. the regular `qx.ui.form.Button`).
 
