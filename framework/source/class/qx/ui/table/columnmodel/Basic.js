@@ -290,7 +290,9 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
 
     /**
-     * Sets the header renderer of a column.
+     * Sets the header renderer of a column. Use setHeaderCellRenderers
+     * instead of this method if you want to set the header renderer of many
+     * columns.
      *
      * @param col {Integer} the model index of the column.
      * @param renderer {qx.ui.table.IHeaderRenderer} the new header renderer the column
@@ -311,9 +313,47 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       }
 
       this.__columnDataArr[col].headerRenderer = renderer;
-      this.fireDataEvent("headerCellRendererChanged", {col:col});
+      if (! this.__internalChange) {
+        this.fireDataEvent("headerCellRendererChanged", {col:col});
+      }
     },
 
+
+    /**
+     * Sets the header renderer of one or more columns. Use this method, in
+     * favor of setHeaderCellRenderer, if you want to set the header renderer
+     * of many columns. This method fires the "headerCellRendererChanged"
+     * event only once, after setting all renderers, whereas
+     * setHeaderCellRenderer fires it for each changed renderer which can be
+     * slow with many columns.
+     *
+     * @param renderers {Map}
+     *   Map, where the keys are column numbers and values are the renderers,
+     *   implementing qx.ui.table.IHeaderRenderer, of the the new header
+     *   renderers for that column
+     */
+    setHeaderCellRenderers : function(renderers)
+    {
+      var col;
+
+      // Prevent firing "headerCellRendererChanged" for each column. Instead,
+      // we'll fire it once at the end.
+      this.__internalChange = true;
+
+      // For each listed column...
+      for (col in renderers)
+      {
+        // ... set that column's renderer
+        this.setHeaderCellRenderer(+col, renderers[col]);
+      }
+
+      // Turn off the internal-change flag so operation returns to normal
+      this.__internalChange = false;
+
+      // Now we can fire the event once. The data indicates which columns
+      // changed. Internally to qooxdoo, nothing cares about the event data.
+      this.fireDataEvent("headerCellRendererChanged", { cols: Object.keys(renderers) });
+    },
 
     /**
      * Returns the header renderer of a column.
