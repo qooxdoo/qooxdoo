@@ -129,7 +129,7 @@ qx.Mixin.define("qx.core.MEvent",
           qx.lang.Array.removeAt(listener.$$wrapped_callbacks_ids[type + this.$$hash], i);
           if (listener.$$wrapped_callbacks_ids[type + this.$$hash].length === 0) {
             delete listener.$$wrapped_callbacks_ids[type + this.$$hash];
-            if (Object.keys(listener.$$wrapped_callbacks_ids).lenght === 0) {
+            if (Object.keys(listener.$$wrapped_callbacks_ids).length === 0) {
               delete listener.$$wrapped_callbacks_ids;
             }
           }
@@ -137,10 +137,7 @@ qx.Mixin.define("qx.core.MEvent",
           return this.__Registration.removeListenerById(this, id);
         }
       }
-      // store the call for each type in case the listener is
-      // used for more than one type [BUG #8038]
-      listener.$$wrapped_callback[type + this.toHashCode()] = callback;
-      return this.addListener(type, callback, context, capture);
+      return false;
     },
 
 
