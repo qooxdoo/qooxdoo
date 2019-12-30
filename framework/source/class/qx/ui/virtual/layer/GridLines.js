@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * Represents horizontal or vertical lines.
  */
 qx.Class.define("qx.ui.virtual.layer.GridLines",

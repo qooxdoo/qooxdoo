@@ -201,7 +201,6 @@ qx.Class.define("qx.core.Object",
     */
 
     /**
-     * EXPERIMENTAL - NOT READY FOR PRODUCTION
      *
      * Returns a clone of this object. Copies over all user configured
      * property values. Do not configure a parent nor apply the appearance

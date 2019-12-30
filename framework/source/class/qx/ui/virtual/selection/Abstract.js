@@ -19,8 +19,6 @@
 
 
 /**
- * EXPERIMENTAL!
- *
  * Abstract base class for selection manager, which manage selectable items
  * rendered in a virtual {@link qx.ui.virtual.core.Pane}.
  */
