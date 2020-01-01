@@ -1110,6 +1110,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this.__lastPointerPageX = pageX;
       this.__lastPointerPageY = pageY;
 
+
+      var useResizeCursor = false;
+      var resizeCol = this._getResizeColumnForPageX(pageX);
+      if (resizeCol != -1)
+      {
+        // The pointer is over a resize region -> Show the right cursor
+        useResizeCursor = true;
+      }
+      var cursor = useResizeCursor ? "col-resize" : null;
+      this.getApplicationRoot().setGlobalCursor(cursor);
+      this.setCursor(cursor);
+
+
       var row = this._getRowForPagePos(pageX, pageY);
       if (row != null && this._getColumnForPageX(pageX) != null) {
         // The pointer is over the data -> update the focus
@@ -1208,6 +1221,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       var pageX = e.getDocumentLeft();
+
+      // pointer is in header
+      var resizeCol = this._getResizeColumnForPageX(pageX);
+      if (resizeCol != -1)
+      {
+        // The pointer is over a resize region -> Start resizing
+        this._startResizeHeader(resizeCol, pageX);
+        e.stop();
+        return;
+      }
+
       var pageY = e.getDocumentTop();
       var row = this._getRowForPagePos(pageX, pageY);
       var col = this._getColumnForPageX(pageX);
