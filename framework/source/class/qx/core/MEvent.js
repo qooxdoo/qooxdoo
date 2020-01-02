@@ -88,7 +88,9 @@ qx.Mixin.define("qx.core.MEvent",
         listener.$$wrapped_callbacks_ids[type + this.$$hash] = [];
 
       } else if (listener.$$wrapped_callbacks_ids.hasOwnProperty(type + this.$$hash)) {
-        if (qx.core.Environment.get("qx.debug") && listener.$$wrapped_callbacks_ids[type + this.$$hash].length)
+        if (    qx.core.Environment.get("qx.debug")
+             && listener.$$wrapped_callbacks_ids[type + this.$$hash]
+             && listener.$$wrapped_callbacks_ids[type + this.$$hash].length)
         {
           qx.log.Logger.warn("This listener '" + listener.name + "' of current object '" + this.$$hash +
             (this.name ? " (" + this.name + ")" : "") + "' on event with '" +
