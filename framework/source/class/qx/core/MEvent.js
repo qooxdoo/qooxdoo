@@ -77,10 +77,8 @@ qx.Mixin.define("qx.core.MEvent",
       var callback = function(e)
       {
         this.__removeOnceListenerOnceById(type, id, listener);
-        listener.call(self||this, e);
+        listener.call(context, e);
       };
-      // to get actual id
-      callback = callback.bind(this);
 
       // check for wrapped callbacks storage
       if (!listener.$$wrapped_callbacks_ids) {
