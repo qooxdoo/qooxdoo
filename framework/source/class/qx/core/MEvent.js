@@ -80,6 +80,9 @@ qx.Mixin.define("qx.core.MEvent",
         listener.call(context, e);
       };
 
+      // register hash code
+      qx.core.ObjectRegistry.toHashCode(this);
+
       // check for wrapped callbacks storage
       if (!listener.$$wrapped_callbacks_ids) {
         listener.$$wrapped_callbacks_ids = {};
