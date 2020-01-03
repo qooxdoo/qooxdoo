@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * Themeable Cell renderer.
  *
  * This cell renderer can be styled by an appearance theme.

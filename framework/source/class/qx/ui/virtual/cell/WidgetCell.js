@@ -17,8 +17,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * Cell renderer can be used for Widget rendering. The Widget creation can be configured with the
  * {@link #delegate} property:
  *

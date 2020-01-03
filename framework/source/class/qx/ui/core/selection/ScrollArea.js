@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
             if (top < min)
             {
               // Use previous one
-              found = i+1;
+              found = i;
               break;
             }
           }
@@ -185,8 +185,8 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
             // This item is out of the visible block
             if (bottom > max)
             {
-              // Use previous one
-              found = i-1;
+              // Use next one
+              found = i;
               break;
             }
           }

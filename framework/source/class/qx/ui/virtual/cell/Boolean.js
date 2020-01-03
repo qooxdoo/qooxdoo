@@ -15,10 +15,6 @@
      * Jonathan Weiß (jonathan_rass)
 
 ************************************************************************ */
-
-/**
- * EXPERIMENTAL!
- */
 qx.Class.define("qx.ui.virtual.cell.Boolean",
 {
   extend : qx.ui.virtual.cell.AbstractImage,

@@ -19,7 +19,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * Web Workers allows us to run JavaScript in parallel on a web page,
  * without blocking the user interface. A 'worker' is just another script

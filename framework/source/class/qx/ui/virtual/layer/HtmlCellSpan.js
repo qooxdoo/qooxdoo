@@ -17,8 +17,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * An extended HtmlCell layer, which adds the possibility to specify row and
  * column spans for specific cells.
  */
