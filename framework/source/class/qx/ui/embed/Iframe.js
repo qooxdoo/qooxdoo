@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
         // Observe parent element
         var parent = this.getLayoutParent().getContentElement().getDomElement();
-        observer.observe(parent, { childList: true });
+        observer.observe(parent, { childList: true, subtree: true });
 
       }, this);
     }
