@@ -167,7 +167,6 @@ qx.Class.define("qx.ui.virtual.selection.Row",
       var paneSize;
       var scrollY;
       var newItem;
-      var oldItem;
       var rowConfig = this._pane.getRowConfig();
 
       // Determine the height of the pane
