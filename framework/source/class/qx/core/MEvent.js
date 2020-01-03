@@ -76,19 +76,14 @@ qx.Mixin.define("qx.core.MEvent",
       if (!context) {
         context = this;
       }
+      var id;         // store id in closure context
       var callback = function(e)
       {
-        self.removeListener(type, listener, context, capture);
+        self.removeListenerById(id);
         listener.call(context, e);
       };
-      // check for wrapped callback storage
-      if (!listener.$$wrapped_callback) {
-        listener.$$wrapped_callback = {};
-      }
-      // store the call for each type in case the listener is
-      // used for more than one type [BUG #8038]
-      listener.$$wrapped_callback[type + this.toHashCode()] = callback;
-      return this.addListener(type, callback, context, capture);
+      id = this.addListener(type, callback, context, capture);
+      return id;
     },
 
 
@@ -105,15 +100,8 @@ qx.Mixin.define("qx.core.MEvent",
     removeListener : function(type, listener, self, capture)
     {
       if (!this.$$disposed) {
-        // special handling for wrapped once listener
-        if (listener.$$wrapped_callback && listener.$$wrapped_callback[type + this.$$hash]) {
-          var callback = listener.$$wrapped_callback[type + this.$$hash];
-          delete listener.$$wrapped_callback[type + this.$$hash];
-          listener = callback;
-        }
         return this.__Registration.removeListener(this, type, listener, self, capture);
       }
-
       return false;
     },
 
