@@ -18,6 +18,8 @@
 
 /**
  * Utility class with type check for all native JavaScript data types.
+ *
+ * @ignore Promise
  */
 qx.Bootstrap.define("qx.lang.Type",
 {
