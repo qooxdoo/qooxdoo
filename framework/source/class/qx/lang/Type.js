@@ -182,8 +182,8 @@ qx.Bootstrap.define("qx.lang.Type",
         this.getClass(value) === "Error" ||
         value instanceof Error)
       );
-    }
-  },
+    },
+
 
     /**
      * Whether the value is a Promise.
@@ -193,9 +193,11 @@ qx.Bootstrap.define("qx.lang.Type",
      */
     isPromise : function(value)
     {
-      // see the spec at https://promisesaplus.com/
-      // https://medium.com/@Carmichaelize/javascript-testing-for-promises-6c834afc33a8
-      return Promise.resolve(value) === value);
+      var native =  value instanceof (Promise || window.Promise);
+      return qx.core.Environment.select("qx.promise", {
+        "true": ((value instanceof qx.Promise) || native),
+        "false": native
+        });
     }
-
+  }
 });
