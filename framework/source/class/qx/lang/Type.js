@@ -183,5 +183,19 @@ qx.Bootstrap.define("qx.lang.Type",
         value instanceof Error)
       );
     }
-  }
+  },
+
+    /**
+     * Whether the value is a Promise.
+     *
+     * @param value {var} Value to check.
+     * @return {Boolean} Whether the value is a Promise.
+     */
+    isPromise : function(value)
+    {
+      // see the spec at https://promisesaplus.com/
+      // https://medium.com/@Carmichaelize/javascript-testing-for-promises-6c834afc33a8
+      return Promise.resolve(value) === value);
+    }
+
 });
