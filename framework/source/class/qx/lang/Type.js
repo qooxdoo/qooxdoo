@@ -193,10 +193,10 @@ qx.Bootstrap.define("qx.lang.Type",
      */
     isPromise : function(value)
     {
-      var native =  value instanceof (Promise || window.Promise);
+      var nat = (value instanceof (Promise || window.Promise));
       return qx.core.Environment.select("qx.promise", {
-        "true": ((value instanceof qx.Promise) || native),
-        "false": native
+        "true": ((value instanceof qx.Promise) || nat),
+        "false": nat
         });
     }
   }
