@@ -191,6 +191,8 @@ qx.Bootstrap.define("qx.lang.Type",
      *
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a Promise.
+     *
+     * @ignore(Promise)
      */
      isPromise : function(value)
      {
