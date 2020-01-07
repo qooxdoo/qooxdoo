@@ -19,7 +19,6 @@
 /**
  * Utility class with type check for all native JavaScript data types.
  *
- * @ignore Promise
  */
 qx.Bootstrap.define("qx.lang.Type",
 {
@@ -192,8 +191,10 @@ qx.Bootstrap.define("qx.lang.Type",
      *
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a Promise.
+     *
+     * @ignore(Promise)
      */
-    isPromise : function(value)
+isPromise : function(value)
     {
       var nat = (value instanceof (Promise || window.Promise));
       return qx.core.Environment.select("qx.promise", {
