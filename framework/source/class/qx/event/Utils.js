@@ -137,11 +137,11 @@ qx.Class.define("qx.event.Utils", {
           this.__addCatcher(tracker);
           return tracker.promise;
         }
-        if ((fn instanceof qx.Promise) || (fn instanceof Promise)) {
+        if (qx.lang.Type.isPromise(result)) {
           return this.__thenPromise(tracker, fn);
         }
         var result = fn(tracker.result);
-        if ((result instanceof qx.Promise) || (result instanceof Promise)) {
+        if (qx.lang.Type.isPromise(result)) {
           return this.__thenPromise(tracker, result);
         }
         tracker.result = result;
@@ -303,7 +303,7 @@ qx.Class.define("qx.event.Utils", {
         var tracker = {};
         for (var index = 0; index < arr.length; index++) {
           var result = fn(arr[index], index);
-          if (result instanceof qx.Promise) {
+          if (qx.lang.Type.isPromise(result)) {
             for (++index; index < arr.length; index++) {
               (function(item, index) {
                 result = result.then(function() {

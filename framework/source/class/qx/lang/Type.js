@@ -189,6 +189,8 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
      * Whether the value is a Promise.
      *
+     * checks if value exists and has a function 'then'
+     *
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a Promise.
      */
