@@ -189,14 +189,19 @@ qx.Bootstrap.define("qx.lang.Type",
     /**
      * Whether the value is a Promise.
      *
-     * checks if value exists and has a function 'then'
-     *
      * @param value {var} Value to check.
      * @return {Boolean} Whether the value is a Promise.
      */
      isPromise : function(value)
      {
-      return value && this.isFunction(value.then);
+       var nat = false;
+       if (typeof Promise !== "undefined") {
+        nat = value instanceof Promise;
+       }
+       return qx.core.Environment.select("qx.promise", {
+         "true": ((value instanceof qx.Promise) || nat),
+         "false": nat
+       });
      }
   }
 });
