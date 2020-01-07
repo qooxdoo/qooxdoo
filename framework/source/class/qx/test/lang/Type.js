@@ -228,6 +228,7 @@ qx.Class.define("qx.test.lang.Type",
     }
   },
 
+  // @ignore(Promise)
   testIsPromise: function() {
     var Type = qx.lang.Type;
 
