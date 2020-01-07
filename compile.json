@@ -1,0 +1,125 @@
+{
+  "environment": {
+    "qx.serve.appspath": "/apps/",
+    "qx.serve.docspath": "/"
+  },
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "apps",
+      "bundle": {
+        "include": [
+          "qx.*",
+          "qxWeb",
+          "qxl.*"
+        ]
+      },
+      "babelOptions": {
+        "targets": "edge >=18, chrome >= 73, firefox >= 66"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "apps"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [
+    "en"
+  ],
+  "libraries": [
+    "./framework"
+  ],
+  "applications": [
+    {
+      "class": "qxl.apiviewer.Application",
+      "theme": "qxl.apiviewer.Theme",
+      "name": "apiviewer",
+      "title": "API Viewer",
+      "environment": {
+        "qx.icontheme": "Tango",
+        "excludeFromAPIViewer": [
+          "qxl.*"
+        ]
+      },
+      "include": [
+        "qx.*"
+      ],
+      "exclude": [
+        "qx.test.*",
+        "qx.module.Blocker",
+        "qx.module.Placement"
+      ]
+    },
+    {
+      "class": "qxl.playground.Application",
+      "theme": "qxl.playground.theme.Theme",
+      "name": "playground",
+      "title": "Playground",
+      "bootPath": "source/boot",
+      "include": [
+        "qx.*"
+      ],
+      "exclude": [
+        "qx.test.*",
+        "qx.module.Blocker",
+        "qx.module.Placement"
+      ]
+    },
+    {
+      "class": "qxl.demobrowser.Application",
+      "theme": "qxl.demobrowser.Theme",
+      "name": "demobrowser",
+      "title": "Demobrowser",
+      "include": [
+        "qxl.demobrowser.*",
+        "qx.theme.Modern",
+        "qx.theme.Simple",
+        "qx.theme.Classic"
+      ],
+      "environment": {
+        "qx.allowUrlVariants": true,
+        "qx.allowUrlSettings": true,
+        "qx.contrib": false,
+        "qx.icontheme": [
+          "Tango",
+          "Oxygen"
+        ]
+      }
+    },
+    {
+      "class": "qxl.widgetbrowser.Application",
+      "theme": "qx.theme.Indigo",
+      "name": "widgetbrowser",
+      "title": "Widgetbrowser",
+      "include": [
+        "qx.theme.Modern",
+        "qx.theme.Simple",
+        "qx.theme.Classic",
+        "qxl.widgetbrowser.pages.Tree",
+        "qxl.widgetbrowser.pages.List",
+        "qxl.widgetbrowser.pages.Table",
+        "qxl.widgetbrowser.pages.Form",
+        "qxl.widgetbrowser.pages.ToolBar",
+        "qxl.widgetbrowser.pages.Window",
+        "qxl.widgetbrowser.pages.Tab",
+        "qxl.widgetbrowser.pages.Control",
+        "qxl.widgetbrowser.pages.Embed",
+        "qxl.widgetbrowser.pages.EmbedFrame",
+        "qxl.widgetbrowser.pages.Basic",
+        "qxl.widgetbrowser.pages.Misc"
+      ]
+    },
+    {
+      "class": "qxl.mobileshowcase.Application",
+      "title": "MobileShowcase",
+      "name": "mobileshowcase",
+      "bootPath": "source/boot",
+      "theme": ""
+   }
+  ],
+  "sass": {
+    "compiler": "legacy"
+  },
+  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json"
+}
