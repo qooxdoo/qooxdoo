@@ -197,7 +197,7 @@ qx.Bootstrap.define("qx.lang.Type",
      */
      isPromise : function(value)
      {
-      return value && this.isFunction(value.then);
+      return (value != null) && this.isFunction(value.then);
      }
   }
 });
