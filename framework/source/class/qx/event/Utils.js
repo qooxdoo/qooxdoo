@@ -137,7 +137,7 @@ qx.Class.define("qx.event.Utils", {
           this.__addCatcher(tracker);
           return tracker.promise;
         }
-        if (qx.lang.Type.isPromise(result)) {
+        if (qx.lang.Type.isPromise(fn)) {
           return this.__thenPromise(tracker, fn);
         }
         var result = fn(tracker.result);
