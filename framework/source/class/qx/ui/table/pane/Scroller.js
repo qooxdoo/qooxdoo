@@ -2069,26 +2069,27 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _getResizeColumnForPageX : function(pageX)
     {
-      var columnModel = this.getTable().getTableColumnModel();
-      var paneModel = this.getTablePaneModel();
-      var colCount = paneModel.getColumnCount();
-      var currX = this.__header.getContentLocation().left;
-      var regionRadius = qx.ui.table.pane.Scroller.RESIZE_REGION_RADIUS;
+      var contentLocation = this.__header.getContentLocation() || this.__tablePane.getContentLocation();
+      if (contentLocation) {
+        var currX = contentLocation.left;
+        var columnModel = this.getTable().getTableColumnModel();
+        var paneModel = this.getTablePaneModel();
+        var colCount = paneModel.getColumnCount();
+        var regionRadius = qx.ui.table.pane.Scroller.RESIZE_REGION_RADIUS;
 
-      for (var x=0; x<colCount; x++)
-      {
-        var col = paneModel.getColumnAtX(x);
-        var colWidth = columnModel.getColumnWidth(col);
-        currX += colWidth;
+        for (var x = 0; x < colCount; x++) {
+          var col = paneModel.getColumnAtX(x);
+          var colWidth = columnModel.getColumnWidth(col);
+          currX += colWidth;
 
-        if (pageX >= (currX - regionRadius) && pageX <= (currX + regionRadius)) {
-          return col;
+          if (pageX >= (currX - regionRadius) && pageX <= (currX + regionRadius)) {
+            return col;
+          }
         }
       }
 
       return -1;
     },
-
 
     /**
      * Returns the model index of the row the pointer is currently over. Returns -1 if
