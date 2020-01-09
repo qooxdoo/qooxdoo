@@ -26,11 +26,11 @@
     },
     {
       "library_name": "DemoBrowser",
-      "library_version": "1.0.0-beta.13",
-      "path": "qx_packages/qooxdoo_qxl_demobrowser_v1_0_0-beta_13",
+      "library_version": "1.0.0-beta.14",
+      "path": "qx_packages/qooxdoo_qxl_demobrowser_v1_0_0-beta_14",
       "uri": "qooxdoo/qxl.demobrowser",
       "repo_name": "qooxdoo/qxl.demobrowser",
-      "repo_tag": "v1.0.0-beta.13"
+      "repo_tag": "v1.0.0-beta.14"
     },
     {
       "library_name": "Qooxdoo API Viewer",
@@ -71,6 +71,14 @@
       "uri": "qooxdoo/qxl.datademo",
       "repo_name": "qooxdoo/qxl.datademo",
       "repo_tag": "v1.0.0-beta.2"
+    },
+    {
+      "library_name": "Commandline Testrunner for Qooxdoo Apps",
+      "library_version": "0.4.7",
+      "path": "qx_packages/qooxdoo_qxl_testtapper_v0_4_7",
+      "uri": "qooxdoo/qxl.testtapper",
+      "repo_name": "qooxdoo/qxl.testtapper",
+      "repo_tag": "v0.4.7"
     }
   ],
   "version": "2.1.0"

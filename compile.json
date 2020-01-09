@@ -116,7 +116,22 @@
       "name": "mobileshowcase",
       "bootPath": "source/boot",
       "theme": ""
-   }
+    },
+    {
+      "class": "qxl.testtapper.Application",
+      "name": "testtapper",
+      "theme": "qx.theme.Simple",
+      "title": "Qooxdoo TestTAPper",
+      "environment": {
+        "qx.icontheme": "Tango",
+        "testtapper.testNameSpace": "qx.test"
+      },
+      "include": [
+        "qx.test.*"
+      ],
+      "exclude": [
+      ]
+    }
   ],
   "sass": {
     "compiler": "legacy"
