@@ -1,0 +1,47 @@
+# Testing of your application
+
+Testing of your qooxdoo app can be done by the qooxdoo cli command `qx test`.
+For this purpose you need to install one of the provide test plugins:
+  - qooxdoo/qxl.testtapper: Runs units tests based on `qx.dev.unit.TestCase`
+
+## Preparing your application
+
+  - install testapper with `qx package install qooxdoo/qxl.testtapper`
+  - because testtapper is only needed for development remove the testtapper from `Manifest.json` in the
+    requires section
+  - prepare testapper application in your `compile.json` by adding your test namespace:
+  
+```
+      "environment": {
+        "testtapper.testNameSpace": "myapp.test"
+      },
+```	  
+
+   - include your test classes
+
+```	  
+      "include": [
+        "myapp.test.*"
+      ],
+```	  
+
+   - write some tests:
+```
+qx.Class.define("myapp.test.MyTest",
+{
+  extend : qx.dev.unit.TestCase,
+  members :
+  {
+    testOne : function() {
+      this.assertTrue(1 === 1);
+  }
+});
+```
+   
+   - run `qx test` and visit result.
+
+## Hints   
+
+   - to run a single test you can use `qx test --class myapp.test.MyTest --method testOne`
+   
+   
