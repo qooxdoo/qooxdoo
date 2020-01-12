@@ -36,7 +36,7 @@ qx.Class.define("myapp.test.MyTest",
 });
 ```
    
-   - run `qx test` and visit result.
+   - run `qx test` and check result.
 
 ## Hints   
 
