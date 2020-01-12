@@ -6,9 +6,7 @@ For this purpose you need to install one of the provide test plugins:
 
 ## Preparing your application
 
-  - install testapper with `qx package install qooxdoo/qxl.testtapper`
-  - because testtapper is only needed for development remove the testtapper from `Manifest.json` in the
-    requires section
+  - install testapper with `qx package install qooxdoo/qxl.testtapper --save=0`
   - prepare testapper application in your `compile.json` by adding your test namespace:
   
 ```
