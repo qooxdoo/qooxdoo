@@ -1,7 +1,7 @@
 # Testing of your application
 
 Testing of your qooxdoo app can be done by the qooxdoo cli command `qx test`.
-For this purpose you need to install one of the provide test plugins:
+For this purpose you need to install one of the provided test plugins:
   - qooxdoo/qxl.testtapper: Runs units tests based on `qx.dev.unit.TestCase`
 
 ## Preparing your application

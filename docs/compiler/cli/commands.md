@@ -1,7 +1,7 @@
 # CLI Commands
 
-The qooxdoo CLI commands allow to conveniently create, modify, compile, testand publish
-and publish your qooxdoo project. To see the main available commands, type
+The qooxdoo CLI commands allow to conveniently create, modify, compile, test and publish
+your qooxdoo project. To see the main available commands, type
 `qx` without any further parameters.
 
 ```

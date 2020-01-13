@@ -1,6 +1,6 @@
 # Migrate your application from qooxdoo 5.0 to qooxdoo 6.0 toolchain
 
-   - create new application with `qx create oldName` using the information provided in old/Manifest.json
+  - create new desktop or mobile application with `qx create oldName` using the information provided in old/Manifest.json
   - replace some folders in the new application with the conterparts of the old application
       - old/source/class -> new/source/class
       - old/source/resource -> new/source/resource
@@ -11,7 +11,7 @@
   ${preBootJs}
   <script type="text/javascript" src="${appPath}boot.js"></script>
 ```
- - find out which libraries are used in the old application. For this have a look into `compile.json` libraries section. Add all libraries found here with 
+ - find out which libraries are used in the old application. For this have a look into `config.json` libraries section. Add all libraries found here with 
 ```
 qx pkg update
 qx pkg list  
