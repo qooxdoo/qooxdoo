@@ -96,9 +96,6 @@
   - [Request IO](/communication/request_io.md)
   - [JSON RPC](/communication/rpc.md)
 
-- Testing (tbd)
-
-- Deployment (tbd)
 
 - Development
   - ["qx" CLI commands](/compiler/cli/commands.md)
@@ -108,6 +105,11 @@
     - [compile.json](/compiler/configuration/compile.md)
     - [API](/compiler/configuration/api.md)
   - [Advanced compiler topics](/compiler/internals/)
+  - [Migrating from Python to qx toolchain](/compiler/migration.md)
+
+- [**Testing**](/compiler/cli/testing.md)
+
+- Deployment (tbd)
 
 
 - Tutorials
