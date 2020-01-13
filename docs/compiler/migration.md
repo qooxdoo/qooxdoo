@@ -19,7 +19,7 @@ qx pkg install library
 ```
 Hopefully all needed libraries are converted.
  
- - find used theme in old/compile.json and set this in new/compile.js
+ - find used theme in old/config.json and set this in new/compile.json
  - run `qx compile` and fix errors
  - run `qx serve` to run build in webserver and test it in your browser `http://localhost:8080/`
   
