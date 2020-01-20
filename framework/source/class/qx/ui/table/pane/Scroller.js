@@ -1967,15 +1967,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__focusIndicator.setDecorator(null);
       }
 
-      this.flushEditor();
-      this.cancelEditing();
+      this.flushEditor(true);
     },
 
 
     /**
-     * Writes the editor's value to the model.
+     * Writes the editor's value to the model
+     * 
+     * @param cancel {Boolean ? false} Whether to also cancel 
+     *      editing before firing the 'dateEdited' event.
      */
-    flushEditor : function()
+    flushEditor : function(cancel)
     {
       if (this.isEditing())
       {
@@ -1984,6 +1986,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.getTable().getTableModel().setValue(this.__focusedCol, this.__focusedRow, value);
 
         this.__table.focus();
+
+        if(cancel) this.cancelEditing();
 
         // Fire an event containing the value change.
         this.__table.fireDataEvent("dataEdited",
