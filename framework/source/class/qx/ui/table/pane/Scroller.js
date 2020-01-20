@@ -1987,7 +1987,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
         this.__table.focus();
 
-        if(cancel) this.cancelEditing();
+        if(cancel) {
+          this.cancelEditing();
+        }
 
         // Fire an event containing the value change.
         this.__table.fireDataEvent("dataEdited",
