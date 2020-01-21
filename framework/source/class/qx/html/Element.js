@@ -1662,7 +1662,7 @@ qx.Class.define("qx.html.Element",
       CSS CLASS SUPPORT
     ---------------------------------------------------------------------------
     */
-    __breakClasses() {
+    __breakClasses: function() {
       var map = {};
       (this.getAttribute("class")||"")
         .split(" ")
@@ -1674,7 +1674,7 @@ qx.Class.define("qx.html.Element",
       return map;
     },
     
-    __combineClasses(map) {
+    __combineClasses: function(map) {
       var primaryClass = this.getCssClass();
       var arr = [];
       if (primaryClass) {
@@ -1697,7 +1697,7 @@ qx.Class.define("qx.html.Element",
       name.split(" ").forEach(function(name) {
         var nameLower = name.toLowerCase();
         if (nameLower == primaryClass) {
-          this.warn(`Adding CSS Class ${name} when it is the primary CSS class (consider using .setCssClass instead)`);
+          this.warn("Adding CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
           this.setCssClass(null);
         }
         
@@ -1720,7 +1720,7 @@ qx.Class.define("qx.html.Element",
       name.split(" ").forEach(function(name) {
         var nameLower = name.toLowerCase();
         if (nameLower == primaryClass) {
-          this.warn(`Removing CSS Class ${name} when it is the primary CSS class (consider using .setCssClass instead)`);
+          this.warn("Removing CSS Class " + name + " when it is the primary CSS class (consider using .setCssClass instead)");
           this.setCssClass(null);
         }
         
@@ -1737,7 +1737,7 @@ qx.Class.define("qx.html.Element",
      */
     removeAllClasses : function() {
       if (this.getCssClass()) {
-        this.warn(`Removing all CSS Classes including the primary CSS class "${this.getCssClass()}" (consider using .setCssClass instead)`);
+        this.warn("Removing all CSS Classes including the primary CSS class \"" + this.getCssClass() + "\" (consider using .setCssClass instead)");
       }
       
       this.setCssClass(null);
@@ -1816,7 +1816,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Detects whether the DOM Node is visible
      */
-    canBeSeen() {
+    canBeSeen: function() {
       if (this._domNode) {
         var rect = this._domNode.getBoundingClientRect();
         if (rect.top > 0 || rect.left > 0 || rect.width > 0 || rect.height > 0) {
