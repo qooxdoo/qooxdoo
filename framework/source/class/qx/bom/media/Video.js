@@ -18,7 +18,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * Media object for playing videos.
  * 

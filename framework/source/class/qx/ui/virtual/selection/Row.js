@@ -19,8 +19,6 @@
 
 
 /**
- * EXPERIMENTAL!
- *
  * Row selection manager
  */
 qx.Class.define("qx.ui.virtual.selection.Row",
@@ -164,11 +162,31 @@ qx.Class.define("qx.ui.virtual.selection.Row",
     // overridden
     _getPage : function(lead, up)
     {
+      var paneSize;
+      var scrollY;
+      var newItem;
+      var rowConfig = this._pane.getRowConfig();
+
+      // Determine the height of the pane
+      paneSize = this._pane.getInnerSize();
+
+      // Determine our current y position
+      scrollY = this._pane.getScrollY();
+
+      // Scroll to the new page
       if (up) {
-        return this._getFirstSelectable();
+        // Add item size so we include the immediately previous item, i.e., so
+        // that pageDown followed by pageUp returns to the same location
+        this._pane.setScrollY(scrollY - paneSize.height + rowConfig.getDefaultItemSize());
       } else {
-        return this._getLastSelectable();
+        this._pane.setScrollY(scrollY + paneSize.height);
       }
+
+      // Determine new y position, and from that, what row we moved to
+      scrollY = this._pane.getScrollY();
+      newItem = rowConfig.getItemAtPosition(scrollY);
+
+      return newItem.index;
     },
 
 

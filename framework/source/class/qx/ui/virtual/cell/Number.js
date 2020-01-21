@@ -21,8 +21,6 @@
  * Number cell renderer.
  *
  * Renders the call using the configured number formatter.
- *
- * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.Number",
 {

@@ -17,8 +17,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * The CellSpanManager manages cells, which span several rows or columns.
  *
  * It provides functionality to compute, which spanning cells are visible

@@ -20,7 +20,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * GeoLocation provides access to geographical location information
  * associated with the hosting device.

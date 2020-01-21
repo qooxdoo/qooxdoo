@@ -1,7 +1,7 @@
-### CLI Commands
+# CLI Commands
 
-The qooxdoo CLI commands allow to conveniently create, modify, compile, testand publish
-and publish your qooxdoo project. To see the main available commands, type
+The qooxdoo CLI commands allow to conveniently create, modify, compile, test and publish
+your qooxdoo project. To see the main available commands, type
 `qx` without any further parameters.
 
 ```
@@ -30,7 +30,7 @@ Commands:
 
 To see the subcommands parameters and options, just type in `qx <command> --help`.
 
-# Persistent Configuration
+## Persistent Configuration
 
 Some commands require (or benefit from) having persistent configuration; this is
 accessed via the `qx config` command and the data is stored in a directory

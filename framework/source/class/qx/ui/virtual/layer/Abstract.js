@@ -18,8 +18,6 @@
 
 
 /**
- * EXPERIMENTAL!
- *
  * Abstract base class for layers of a virtual pane.
  *
  * This class queues calls to {@link #fullUpdate}, {@link #updateLayerWindow}
