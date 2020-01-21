@@ -222,7 +222,7 @@ qx.Class.define("qx.html.Node",
      * @param writer {Function?} the writer
      * @return {String?} the serialised version if writer is null
      */
-    serialize(writer) {
+    serialize: function(writer) {
       var temporaryQxObjectId = !this.getQxObjectId();
       if (temporaryQxObjectId) {
         this.setQxObjectId(this.classname);
@@ -261,7 +261,7 @@ qx.Class.define("qx.html.Node",
      * 
      * @param writer {Function} the writer
      */
-    _serializeImpl(writer) {
+    _serializeImpl: function(writer) {
       throw new Error("No implementation for " + this.classname + ".serialize");
     },
 
@@ -391,7 +391,7 @@ qx.Class.define("qx.html.Node",
     /**
      * Called internally to complete the connection to an existing DOM node
      * 
-     * @param domNode {DOM Node} the node we're syncing to 
+     * @param domNode {DOMNode} the node we're syncing to 
      * @param newChildren {qx.html.Node[]} the new children
      */
     _useNodeImpl: function(domNode, newChildren) {
@@ -468,7 +468,7 @@ qx.Class.define("qx.html.Node",
      * 
      * @return {Boolean}
      */
-    isInDocument() {
+    isInDocument: function() {
       if (document.body) {
         for (var domNode = this._domNode; domNode != null; domNode = domNode.parentElement) {
           if (domNode === document.body) {

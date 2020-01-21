@@ -42,9 +42,9 @@ qx.Class.define("qx.html.Factory", {
         var styles = {};
         if (attributes.style) {
           attributes.style.split(/;/).forEach(function(seg) {
-            let pos = seg.indexOf(":");
-            let key = seg.substring(0, pos);
-            let value = seg.substring(pos + 1).trim();
+            var pos = seg.indexOf(":");
+            var key = seg.substring(0, pos);
+            var value = seg.substring(pos + 1).trim();
             styles[key] = value.trim();
           });
           delete attributes.style;
