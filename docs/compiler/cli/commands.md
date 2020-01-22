@@ -91,11 +91,14 @@ Options:
   --target                  Set the target type: source or build or class
                             name                    [string] [default: "source"]
   --output-path             Base path for output                        [string]
-  --locale                  Compile for a given locale                   [array]
+  --locale                  Compile for a given locale                  [array]
   --write-all-translations  enables output of all translations, not just those
-                            that are explicitly referenced             [boolean]
-  --set                     sets an environment value                    [array]
-			    key="value" (with value getting evaluated as js)
+                              that are explicitly referenced            [boolean]
+  --set                     sets an environment value for the compilation
+                                                                        [array]
+  --set-env                 sets an environment value for the application
+                                                                        [array]
+                            key="value" (with value getting evaluated as js)
   --app-class               sets the application class                  [string]
   --app-theme               sets the theme class for the current application
                                                                         [string]
@@ -178,7 +181,10 @@ Options:
   --locale                  Compile for a given locale                   [array]
   --write-all-translations  enables output of all translations, not just those
                             that are explicitly referenced             [boolean]
-  --set                     sets an environment value                    [array]
+  --set                     sets an environment value for the compilation
+                                                                        [array]
+  --set-env                 sets an environment value for the application
+                                                                        [array]
                             key="value" (with value getting evaluated as js)
   --machine-readable        output compiler messages in machine-readable format
                                                                        [boolean]
