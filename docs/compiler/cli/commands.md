@@ -95,18 +95,18 @@ Options:
   --write-all-translations  enables output of all translations, not just those
                               that are explicitly referenced            [boolean]
   --set                     sets an environment value for the compilation
+                            key="value" (with value getting evaluated as js)
                                                                         [array]
   --set-env                 sets an environment value for the application
                                                                         [array]
-                            key="value" (with value getting evaluated as js)
   --app-class               sets the application class                  [string]
   --app-theme               sets the theme class for the current application
                                                                         [string]
   --app-name                sets the name of the current application    [string]
   --library                 adds a library                               [array]
-  --watch                   enables continuous compilation             [boolean]
+  --watch                   enables continuous compilation              [boolean]
   --verbose                 enables additional progress output to console
-                                                                       [boolean]
+                                                                        [boolean]
 ```
 
 The compiler relies on the information contained in `compile.json`.
@@ -177,14 +177,15 @@ qx serve [configFile]
 Options:
   --target                  Set the target type: source or build or class
                             name                    [string] [default: "source"]
-  --output-path             Base path for output                        [string]
+  --output-path             Base path for output                       [string]
   --locale                  Compile for a given locale                   [array]
   --write-all-translations  enables output of all translations, not just those
                             that are explicitly referenced             [boolean]
   --set                     sets an environment value for the compilation
-                                                                        [array]
+                            key="value" (with value getting evaluated as js)
+                                                                       [array]
   --set-env                 sets an environment value for the application
-                                                                        [array]
+                                                                       [array]
                             key="value" (with value getting evaluated as js)
   --machine-readable        output compiler messages in machine-readable format
                                                                        [boolean]
