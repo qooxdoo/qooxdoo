@@ -285,8 +285,12 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Print a list of arguments using a format string
      * In the format string occurrences of %n are replaced by the n'th element of the args list.
+     * You can give an object as argument.
+     * In this case you should specify namedArgument in your string with %{namedArgument}.
+     * The named argument will be replace by the value of the property of the object named "namedArgument"
      * Example:
      * <pre class='javascript'>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"</pre>
+     * <pre class='javascript'>qx.lang.String.format("Hello %{yourName}, my name is %{myName}", {yourName: "Egon", myName: "Franz"}) == "Hello Egon, my name is Franz"</pre>
      *
      * @param pattern {String} format string
      * @param args {Array} array of arguments to insert into the format string
@@ -295,7 +299,7 @@ qx.Bootstrap.define("qx.lang.String",
     format : function(pattern, args)
     {
       var str = pattern;
-      var regexp = /%(\d+)|%\${(\S*)}/g;
+      var regexp = /%(\d+)|%{(\S*)}/g;
       if (!Array.isArray(args)) {
         args = [args];
       }

@@ -77,7 +77,7 @@ qx.Class.define("qx.test.locale.Locale",
       this.assertEquals("test Hello Fabian!", hello);
 
       // tr(): format string with namedArg
-      var hello = this.tr("test Hello %${firstName} %${lastName}!", { firstName: "Fabian", lastName: "Jonny"});
+      var hello = this.tr("test Hello %{firstName} %{lastName}!", { firstName: "Fabian", lastName: "Jonny"});
       this.assertEquals("test Hello Fabian Jonny!", hello);
 
       // tr(): format string with translated arguments
