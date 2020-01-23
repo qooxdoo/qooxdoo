@@ -295,13 +295,25 @@ qx.Bootstrap.define("qx.lang.String",
     format : function(pattern, args)
     {
       var str = pattern;
-      var i = args.length;
+      var regexp = /%(\d+)|%\${(\S*)}/g;
+      var argsIsObject = (args.length === 1 && typeof args[0] === "object");
 
-      while (i--) {
-        // be sure to always use a string for replacement.
-        str = str.replace(new RegExp("%" + (i + 1), "g"), function(){return args[i] + "";});
-      }
+      str = str.replace(regexp, function(matchedSubString, numberArgument, namedArgument) {
+        if (namedArgument) {
+          if (argsIsObject) {
+            return args[0][namedArgument];
+          }
 
+          return namedArgument;
+        }
+
+        if (numberArgument && numberArgument > 0 && args.length >= numberArgument) {
+          var index = numberArgument - 1;
+          return args[index];
+        }
+
+        return matchedSubString;
+      });
       return str;
     },
 
