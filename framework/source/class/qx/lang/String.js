@@ -296,6 +296,10 @@ qx.Bootstrap.define("qx.lang.String",
     {
       var str = pattern;
       var regexp = /%(\d+)|%\${(\S*)}/g;
+      if (!Array.isArray(args)) {
+        args = [args];
+      }
+
       var argsIsObject = (args.length === 1 && typeof args[0] === "object");
 
       str = str.replace(regexp, function(matchedSubString, numberArgument, namedArgument) {
