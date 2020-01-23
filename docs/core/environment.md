@@ -192,6 +192,7 @@ like `"foo"`, `3` or `true`, to an environment key. You can define the setting
 -   in method code
 -   through inline `<script>` code in the index.html
 -   in the generator configuration
+-   during compilation using the `--set-env` option
 -   via URL parameter
 
 The list is sorted in ascending precedence, i.e. if a key is defined multiple
@@ -240,6 +241,20 @@ settings.
 #### In the Compiler Config
 
 see [here](../configuration/compile.md#environment-settings).
+
+#### During compilation
+
+You can define your environment settings during compilation using the compiler `--set-env` option. Setting the option multiple times sets additional environment settings.
+
+```console
+ npx qx compile --set-env myapp.key1=value1 --set-env myapp.key2=value2
+```
+
+If the environment settings are set with this method, the values are set as strings. Your code should take care to convert the values from string.
+
+> **note**
+>
+> Because the values are set as strings, if there is a need to override any predefined keys, this method is probably not the best option. The framework uses those keys in various places and many of the keys accept boolean or numeric values. For example the `qx.allowUrlSettings` option, described in the next section, accepts a boolean value. The `--set-env qx.allowUrlSettings=true` option will set it to the string `"true"` which is not what the framework expects.
 
 #### Via URL parameter
 
