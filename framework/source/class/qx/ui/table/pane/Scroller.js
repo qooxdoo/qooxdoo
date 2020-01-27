@@ -683,7 +683,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       {
         this.updateVerScrollBarMaximum();
 
-        if (this.getFocusedRow() >= rowCount)
+        if (this.getFocusedRow() === null)
+        {
+          this.setFocusedCell(this.getFocusedColumn()||0, 0);
+        } 
+        else if (this.getFocusedRow() >= rowCount)
         {
           if (rowCount == 0) {
             this.setFocusedCell(null, null);
