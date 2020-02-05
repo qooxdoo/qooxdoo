@@ -765,6 +765,15 @@
  *       <td><i>default:</i> <code>true</code> {@link qx.event.GlobalError}</td>
  *     </tr>
  *     <tr>
+ *       <td>qx.headless</td><td><i>Boolean</i></td><td><code>false</code></td>
+ *       <td><i>default:</i> <code>false</code> Whether the environment is headless (ie rhino/nodejs); note that 
+ *        headless will still have some kind of DOM emulation - normally that would be quite basic, unless
+ *        <a href="https://www.npmjs.com/package/jsdom">https://www.npmjs.com/package/jsdom</a> has been installed.
+ *        The <code>qx.headless</code> allows code to detect whether there is an user interface, most typically 
+ *        whether to cater for input events.  This is set automatically by the compiler but would have to be
+ *        manually configured if you use the generator.</td>
+ *     </tr>
+ *     <tr>
  *       <td>qx.mobile.nativescroll</td><td><i>Boolean</i></td><td><code>false</code></td>
  *       <td>{@link qx.bom.client.Scroll#getNativeScroll}</td>
  *     </tr>
@@ -907,7 +916,8 @@ qx.Bootstrap.define("qx.core.Environment",
       "qx.promise": true,
       "qx.promise.warnings": true,
       "qx.promise.longStackTraces": true,
-      "qx.command.bindEnabled": false
+      "qx.command.bindEnabled": false,
+      "qx.headless": false
     },
 
     /**

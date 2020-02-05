@@ -44,6 +44,8 @@ qx.Class.define("qx.html.Iframe",
   {
     this.base(arguments, "iframe", styles, attributes);
 
+    this.registerProperty("source", null, this._setSourceProperty);
+    
     this.setSource(url);
     this.addListener("navigate", this.__onNavigate, this);
 
@@ -96,27 +98,26 @@ qx.Class.define("qx.html.Iframe",
       ELEMENT API
     ---------------------------------------------------------------------------
     */
+    
+    /**
+     * Implementation of setter for the "source" property
+     * 
+     * @param value {String?} value to set
+     */
+    _setSourceProperty: function(value) {
+      var element = this.getDomElement();
+      var currentUrl = qx.bom.Iframe.queryCurrentUrl(element);
 
-    // overridden
-    _applyProperty : function(name, value)
-    {
-      this.base(arguments, name, value);
-
-      if (name == "source") {
-        var element = this.getDomElement();
-        var currentUrl = qx.bom.Iframe.queryCurrentUrl(element);
-
-        // Skip if frame is already on URL.
-        //
-        // When URL of Iframe and source property get out of sync, the source
-        // property needs to be updated [BUG #4481]. This is to make sure the
-        // same source is not set twice on the BOM level.
-        if (value === currentUrl) {
-          return;
-        }
-
-        qx.bom.Iframe.setSource(element, value);
+      // Skip if frame is already on URL.
+      //
+      // When URL of Iframe and source property get out of sync, the source
+      // property needs to be updated [BUG #4481]. This is to make sure the
+      // same source is not set twice on the BOM level.
+      if (value === currentUrl) {
+        return;
       }
+
+      qx.bom.Iframe.setSource(element, value);
     },
 
     // overridden

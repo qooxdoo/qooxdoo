@@ -1063,8 +1063,9 @@ qx.Class.define("qx.event.handler.Focus",
           return focusedElement;
         }
         // Check compound widgets
-        var widget = qx.ui.core.Widget.getWidgetByElement(focusedElement),
-          textField = widget && widget.getChildControl && widget.getChildControl("textfield", true);
+        var Widget = qx.Class.getByName("qx.ui.core.Widget");
+        var widget = Widget && Widget.getWidgetByElement(focusedElement);
+        var textField = widget && widget.getChildControl && widget.getChildControl("textfield", true);
 
         if (textField) {
           return textField.getContentElement().getDomElement();

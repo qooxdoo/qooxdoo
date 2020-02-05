@@ -80,7 +80,7 @@ qx.Bootstrap.define("qx.xml.Document",
       // ActiveX - This is the preferred way for IE9 as well since it has no XPath
       // support when using the native implementation.createDocument
       if (qx.core.Environment.get("plugin.activex")) {
-        var obj = new ActiveXObject(this.DOMDOC);
+        var obj = new window.ActiveXObject(this.DOMDOC);
         //The SelectionLanguage property is no longer needed in MSXML 6; trying
         // to set it causes an exception in IE9.
         if (this.DOMDOC == "MSXML2.DOMDocument.3.0") {
@@ -131,7 +131,7 @@ qx.Bootstrap.define("qx.xml.Document",
       }
 
       if (qx.core.Environment.get("xml.domparser")) {
-        var parser = new DOMParser();
+        var parser = new window.DOMParser();
         return parser.parseFromString(str, "text/xml");
       }
 
@@ -165,8 +165,8 @@ qx.Bootstrap.define("qx.xml.Document",
         {
           // Keep both objects in sync with the same version.
           // This is important as there were compatibility issues detected.
-          new ActiveXObject(domDoc[i]);
-          new ActiveXObject(httpReq[i]);
+          new window.ActiveXObject(domDoc[i]);
+          new window.ActiveXObject(httpReq[i]);
         }
         catch(ex) {
           continue;

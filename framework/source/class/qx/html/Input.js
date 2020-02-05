@@ -44,8 +44,7 @@ qx.Class.define("qx.html.Input",
    * @param attributes {Map?null} optional map of element attributes, where the
    *    key is the name of the attribute and the value is the value to use.
    */
-  construct : function(type, styles, attributes)
-  {
+  construct : function(type, styles, attributes) {
     // Update node name correctly
     if (type === "select" || type === "textarea") {
       var nodeName = type;
@@ -56,6 +55,9 @@ qx.Class.define("qx.html.Input",
     this.base(arguments, nodeName, styles, attributes);
 
     this.__type = type;
+    
+    this.registerProperty("value", this._getValueProperty, this._setValueProperty);
+    this.registerProperty("wrap", null, this._setWrapProperty);
   },
 
 
@@ -80,34 +82,55 @@ qx.Class.define("qx.html.Input",
       ELEMENT API
     ---------------------------------------------------------------------------
     */
+    
+    _useNodeImpl: function(domNode, newChildren) {
+      this.base(arguments, domNode, newChildren);
+      domNode.addEventListener('input', () => console.log("Changing INPUT Value"));
+    },
 
     //overridden
     _createDomElement : function() {
       return qx.bom.Input.create(this.__type);
     },
-
-
-    // overridden
-    _applyProperty : function(name, value)
-    {
-      this.base(arguments, name, value);
+    
+    /**
+     * Implementation of setter for the "value" property
+     * 
+     * @param value {String?} value to set
+     */
+    _setValueProperty(value) {
       var element = this.getDomElement();
-
-      if (name === "value") {
-        qx.bom.Input.setValue(element, value);
-      } else if (name === "wrap") {
-        qx.bom.Input.setWrap(element, value);
-
-        // qx.bom.Input#setWrap has the side-effect that the CSS property
-        // overflow is set via DOM methods, causing queue and DOM to get
-        // out of sync. Mirror all overflow properties to handle the case
-        // when group and x/y property differ.
-        this.setStyle("overflow", element.style.overflow, true);
-        this.setStyle("overflowX", element.style.overflowX, true);
-        this.setStyle("overflowY", element.style.overflowY, true);
-      }
+      qx.bom.Input.setValue(element, value);
     },
+    
+    /**
+     * Implementation of getter for the "value" property
+     * 
+     * @return {String?} value on the dom
+     */
+    _getValueProperty() {
+      var element = this.getDomElement();
+      var value = qx.bom.Input.getValue(element);
+      return value;
+    },
+    
+    /**
+     * Implementation of setter for the "wrap" property
+     * 
+     * @param value {String?} value to set
+     */
+    _setWrapProperty(value) {
+      var element = this.getDomElement();
+      qx.bom.Input.setWrap(element, value);
 
+      // qx.bom.Input#setWrap has the side-effect that the CSS property
+      // overflow is set via DOM methods, causing queue and DOM to get
+      // out of sync. Mirror all overflow properties to handle the case
+      // when group and x/y property differ.
+      this.setStyle("overflow", element.style.overflow, true);
+      this.setStyle("overflowX", element.style.overflowX, true);
+      this.setStyle("overflowY", element.style.overflowY, true);
+    },
 
     /**
      * Set the input element enabled / disabled.
@@ -173,19 +196,17 @@ qx.Class.define("qx.html.Input",
       INPUT API
     ---------------------------------------------------------------------------
     */
-
+    
     /**
      * Sets the value of the input element.
      *
      * @param value {var} the new value
      * @return {qx.html.Input} This instance for for chaining support.
      */
-    setValue : function(value)
-    {
+    setValue : function(value) {
       var element = this.getDomElement();
 
-      if (element)
-      {
+      if (element) {
         // Do not overwrite when already correct (on input events)
         // This is needed to keep caret position while typing.
         if (element.value != value) {
@@ -204,8 +225,7 @@ qx.Class.define("qx.html.Input",
      *
      * @return {String} The element's current value.
      */
-    getValue : function()
-    {
+    getValue : function() {
       var element = this.getDomElement();
 
       if (element) {
@@ -226,8 +246,7 @@ qx.Class.define("qx.html.Input",
      *  directly when possible
      * @return {qx.html.Input} This instance for for chaining support.
      */
-    setWrap : function(wrap, direct)
-    {
+    setWrap : function(wrap, direct) {
       if (this.__type === "textarea") {
         this._setProperty("wrap", wrap, direct);
       } else {
@@ -245,8 +264,7 @@ qx.Class.define("qx.html.Input",
      *
      * @return {Boolean} Whether wrapping is enabled or disabled.
      */
-    getWrap : function()
-    {
+    getWrap : function() {
       if (this.__type === "textarea") {
         return this._getProperty("wrap");
       } else {
