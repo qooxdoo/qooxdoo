@@ -181,7 +181,7 @@ qx.Class.define("qx.event.handler.Element",
       }
 
       var eventData = events[eventId];
-      var isCancelable = this.constructor.CANCELABLE[eventData.type];
+      var isCancelable = nativeEvent.cancelable || this.constructor.CANCELABLE[eventData.type];
 
       qx.event.Registration.fireNonBubblingEvent(
         eventData.element, eventData.type,

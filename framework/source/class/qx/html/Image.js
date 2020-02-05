@@ -23,6 +23,17 @@
 qx.Class.define("qx.html.Image",
 {
   extend : qx.html.Element,
+  
+  /**
+   * Creates a new Image
+   *
+   * @see constructor for {Element}
+   */
+  construct: function(tagName, styles, attributes) {
+    this.base(arguments, tagName, styles, attributes);
+    this.registerProperty("source", null, this._setSourceProperty);
+    this.registerProperty("scale", null, this._setScaleProperty);
+  },
 
 
 
@@ -69,43 +80,44 @@ qx.Class.define("qx.html.Image",
       ELEMENT API
     ---------------------------------------------------------------------------
     */
+    
+    /**
+     * Implementation of setter for the "source" property
+     * 
+     * @param value {String?} value to set
+     */
+    _setSourceProperty: function(value) {
+      var elem = this.getDomElement();
 
-    // overridden
-    _applyProperty : function(name, value)
-    {
-      this.base(arguments, name, value);
+      // To prevent any wrong background-position or -repeat it is necessary
+      // to reset those styles whenever a background-image is updated.
+      // This is only necessary if any backgroundImage was set already.
+      // See bug #3376 for details
+      var styles = this.getAllStyles();
 
-      if (name === "source")
-      {
-        var elem = this.getDomElement();
-
-        // To prevent any wrong background-position or -repeat it is necessary
-        // to reset those styles whenever a background-image is updated.
-        // This is only necessary if any backgroundImage was set already.
-        // See bug #3376 for details
-        var styles = this.getAllStyles();
-
-        if (this.getNodeName() == "div" && this.getStyle("backgroundImage"))
-        {
-          styles.backgroundRepeat = null;
-        }
-
-        var source = this._getProperty("source");
-        var scale = this._getProperty("scale");
-        var repeat = scale ? "scale" : "no-repeat";
-
-        // Source can be null in certain circumstances.
-        // See bug #3701 for details.
-        if (source != null) {
-          // Normalize "" to null
-          source = source || null;
-
-          styles.paddingTop = this.__paddingTop;
-          styles.paddingLeft = this.__paddingLeft;
-
-          qx.bom.element.Decoration.update(elem, source, repeat, styles);
-        }
+      if (this.getNodeName() == "div" && this.getStyle("backgroundImage")) {
+        styles.backgroundRepeat = null;
       }
+
+      var source = this._getProperty("source");
+      var scale = this._getProperty("scale");
+      var repeat = scale ? "scale" : "no-repeat";
+
+      // Source can be null in certain circumstances.
+      // See bug #3701 for details.
+      if (source != null) {
+        // Normalize "" to null
+        source = source || null;
+
+        styles.paddingTop = this.__paddingTop;
+        styles.paddingLeft = this.__paddingLeft;
+
+        qx.bom.element.Decoration.update(elem, source, repeat, styles);
+      }
+    },
+    
+    _setScaleProperty: function(value) {
+      // Nothing
     },
 
     // overridden
@@ -147,8 +159,8 @@ qx.Class.define("qx.html.Image",
 
     // overridden
     // be sure that style attributes are merged and not overwritten
-    _copyData : function(fromMarkup) {
-      return this.base(arguments, true);
+    _copyData : function(fromMarkup, propertiesFromDom) {
+      return this.base(arguments, true, propertiesFromDom);
     },
 
 

@@ -227,7 +227,9 @@ qx.Class.define("qx.test.lang.Type",
       this.assertFalse(Type.isError(document.getElementById("ReturenedNull")));
     },
 
-    // @ignore(Promise)
+    /**
+     * @ignore(Promise)
+     */
     testIsPromise: function() {
       var Type = qx.lang.Type;
 

@@ -40,7 +40,7 @@ qx.Class.define("qx.core.BaseInit",
      * @return {qx.core.Object} The application instance.
      */
     getApplication : function() {
-      return this.__application || null;
+      return qx.core.BaseInit.__application || null;
     },
 
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.core.BaseInit",
      */
     ready : function()
     {
-      if (this.__application) {
+      if (qx.core.BaseInit.__application) {
         return;
       }
 
@@ -72,14 +72,14 @@ qx.Class.define("qx.core.BaseInit",
 
       if (clazz)
       {
-        this.__application = new clazz;
+        qx.core.BaseInit.__application = new clazz;
 
         var start = new Date;
-        this.__application.main();
+        qx.core.BaseInit.__application.main();
         qx.log.Logger.debug(this, "Main runtime: " + (new Date - start) + "ms");
 
         var start = new Date;
-        this.__application.finalize();
+        qx.core.BaseInit.__application.finalize();
         qx.log.Logger.debug(this, "Finalize runtime: " + (new Date - start) + "ms");
         
         qx.event.handler.Application.onAppInstanceInitialized();
@@ -99,7 +99,7 @@ qx.Class.define("qx.core.BaseInit",
      */
     __close : function(e)
     {
-      var app = this.__application;
+      var app = qx.core.BaseInit.__application;
       if (app) {
         app.close();
       }
@@ -113,7 +113,7 @@ qx.Class.define("qx.core.BaseInit",
      */
     __shutdown : function()
     {
-      var app = this.__application;
+      var app = qx.core.BaseInit.__application;
 
       if (app) {
         app.terminate();
