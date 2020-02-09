@@ -678,12 +678,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this.__tablePane.onTableModelDataChanged(firstRow, lastRow, firstColumn, lastColumn);
       var rowCount = this.getTable().getTableModel().getRowCount();
+      var colCount = this.__table.getTableColumnModel().getOverallColumnCount();
 
       if (rowCount != this.__lastRowCount)
       {
         this.updateVerScrollBarMaximum();
 
-        if (this.getFocusedRow() >= rowCount)
+        if (this.getFocusedRow() === null && rowCount > 0 && colCount > 0)
+        {
+          this.setFocusedCell(this.getFocusedColumn()||0, 0);
+        } 
+        else if (this.getFocusedRow() >= rowCount)
         {
           if (rowCount == 0) {
             this.setFocusedCell(null, null);
