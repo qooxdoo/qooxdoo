@@ -730,6 +730,8 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
      * Create XMLHttpRequest (or equivalent).
      *
      * @return {Object} XMLHttpRequest or equivalent.
+     *
+     * @ignore(XMLHttpRequest)
      */
     _createNativeXhr: function() {
       var xhr = qx.core.Environment.get("io.xhr");
