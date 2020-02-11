@@ -100,7 +100,8 @@ qx.Class.define("qx.test.ui.layout.Grid",
       this._gridWidget.add(w2, {row: 1, column: 1});
       
       this.flush();
-      this.assertEquals(200, this._gridWidget.bounds.width);
+      this.assertEquals(206, this._gridWidget.bounds.width);
+      
       var w3 = new qx.test.ui.layout.LayoutItem(300, 100);
       this._gridWidget.add(w3, {row: 0, column: 0, colSpan: 2});
 
