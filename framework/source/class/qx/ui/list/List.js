@@ -683,7 +683,7 @@ qx.Class.define("qx.ui.list.List",
     __updateGroupRowHeight : function()
     {
       /*
-       * In case of having variableItemHeigth set to true,
+       * In case of having variableItemHeight set to true,
        * the group item height has a variable height as well
        * and will be set again in method _setRowItemSize 
        * which is a deferred call, being run after all changes.
