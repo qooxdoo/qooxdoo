@@ -212,7 +212,30 @@ qx.Bootstrap = {
     }
 
     return clazz;
+  },
+  
+  /**
+   * Tests whether an object is an instance of qx.core.Object without using instanceof - this
+   * is only for certain low level instances which would otherwise cause a circular, load time 
+   * dependency
+   * 
+   * @param object {Object?} the object to test
+   * @return {Boolean} true if object is an instance of qx.core.Object
+   */
+  isQxCoreObject: function(object) {
+    if (object === object.constructor) {
+      return false;
+    }
+    var clz = object.constructor;
+    while (clz) {
+      if (clz.classname === "qx.core.Object") {
+        return true;
+      }
+      clz = clz.superclass;
+    }
+    return false;
   }
+
 };
 
 
@@ -335,6 +358,17 @@ qx.Bootstrap.define("qx.Bootstrap",
     define : qx.Bootstrap.define,
 
 
+    /**
+     * Tests whether an object is an instance of qx.core.Object without using instanceof - this
+     * is only for certain low level instances which would otherwise cause a circular, load time 
+     * dependency
+     * 
+     * @param object {Object?} the object to test
+     * @return {Boolean} true if object is an instance of qx.core.Object
+     */
+    isQxCoreObject: qx.Bootstrap.isQxCoreObject,
+    
+    
     /**
      * Sets the display name of the given function
      *
@@ -463,6 +497,9 @@ qx.Bootstrap.define("qx.Bootstrap",
 
       var executeForClassName = function (className) {
         var clazz = getByName(className);
+        if (!clazz) {
+          return;
+        }
         if (clazz.$$deferComplete) {
           return;
         }
@@ -667,6 +704,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       "[object Boolean]": "Boolean",
       "[object Date]": "Date",
       "[object Function]": "Function",
+      "[object AsyncFunction]": "Function",
       "[object Error]": "Error",
       "[object Blob]": "Blob",
       "[object ArrayBuffer]": "ArrayBuffer",

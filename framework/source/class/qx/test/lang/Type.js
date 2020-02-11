@@ -225,6 +225,27 @@ qx.Class.define("qx.test.lang.Type",
 
       // test IE issue with a null returned from DOM
       this.assertFalse(Type.isError(document.getElementById("ReturenedNull")));
+    },
+
+    // @ignore(Promise)
+    testIsPromise: function() {
+      var Type = qx.lang.Type;
+
+      this.assertTrue(Type.isPromise(new Promise(function() {})));
+      this.assertTrue(Type.isPromise(new qx.Promise(function() {})));
+
+      this.assertFalse(Type.isPromise());
+      this.assertFalse(Type.isPromise(true));
+      this.assertFalse(Type.isPromise(""));
+      this.assertFalse(Type.isPromise({}));
+      this.assertFalse(Type.isPromise(null));
+      this.assertFalse(Type.isPromise(undefined));
+      this.assertFalse(Type.isPromise(/g/));
+      this.assertFalse(Type.isPromise([]));
+      this.assertFalse(Type.isPromise(2));
+      this.assertFalse(Type.isPromise({}));
+      this.assertFalse(Type.isPromise(new Error()));
     }
-  }
+}
+
 });

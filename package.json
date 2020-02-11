@@ -1,6 +1,6 @@
 {
-  "name": "qooxdoo-sdk",
-  "version": "6.0.0-alpha",
+  "name": "@qooxdoo/framework",
+  "version": "6.0.0-beta",
   "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
   "license": "MIT",
@@ -9,13 +9,26 @@
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
   },
+  "main": "./lib/qx_server/qx_server.js",
   "files": [
     "version.txt",
     "LICENSE",
     "CHANGELOG.md",
     "README.md",
-    "framework/Manifest.json",
-    "framework/source",
-    "tool/data/cldr"
-  ]
+    "Manifest.json",
+    "lib/qx_server",
+    "lib/resource",
+    "source/class",
+    "source/resource",
+    "source/translation",
+    "tool/data/cldr",
+    "docs",
+    "apps"
+  ],
+  "devDependencies": {
+    "remark-cli": "^6.0.1",
+    "remark-lint-no-dead-urls": "^0.4.1",
+    "remark-preset-lint-recommended": "^3.0.2",
+    "remark-validate-links": "^8.0.2"
+  }
 }

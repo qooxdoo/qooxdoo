@@ -466,6 +466,356 @@ qx.Class.define("qx.test.io.request.Xhr",
       credentials = /Basic\s(.*)/.exec(call.args[1])[1];
       this.assertEquals(key, call.args[0]);
       this.assertEquals("affe:geheim", qx.util.Base64.decode(credentials));
+    },
+
+
+     //
+     // Promise
+     //
+
+    "test: send with promise sends the request": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.req.sendWithPromise();
+      this.assertCalledOnce(this.transport.send);
+    },
+
+    "test: send with promise succeeds": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+
+      var req = this.req;
+
+      req.sendWithPromise(this)
+        .then(this.resumeHandler(function(result) {
+          this.assertEquals(req, result);
+          this.assertEquals(200, req.getStatus());
+        }, this));
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.onreadystatechange();
+      this.wait(10000);
+    },
+
+    "test: send with promise fails with statusError": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      req.sendWithPromise(this)
+        .then(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
+        }))
+        .catch(this.resumeHandler(function(result) {
+          this.assertInstance(result, qx.type.BaseError);
+          this.assertEquals("statusError: 404: Affe.", result.toString());
+        }, this));
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 404;
+      transport.statusText = "Affe";
+      transport.onreadystatechange();
+
+      this.wait(1000);
+    },
+
+    "test: send with promise fails with error": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      req.sendWithPromise(this)
+        .then(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
+        }))
+        .catch(this.resumeHandler(function(result) {
+          this.assertInstance(result, qx.type.BaseError);
+          this.assertEquals("error: Request failed.", result.toString());
+        }, this));
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 0;
+      transport.onerror();
+
+      this.wait(1000);
+    },
+
+    "test: send with promise fails with timeout": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      req.sendWithPromise(this)
+        .then(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
+        }))
+        .catch(this.resumeHandler(function(result) {
+          this.assertInstance(result, qx.type.BaseError);
+          this.assertEquals("timeout: Request failed with timeout after 1 ms.", result.toString());
+        }, this));
+
+      req.setTimeout(1);
+      this.transport.ontimeout();
+      this.wait(5000);
+    },
+
+    "test: setled promise has no extra listeners": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      var promise = req.sendWithPromise(this);
+
+      // cache the number of listeners before setling the promise
+      var listeners = qx.event.Registration.serializeListeners(req);
+
+      promise.catch(this.resumeHandler(function() {
+        var length = qx.event.Registration.serializeListeners(req).length;
+        this.assertNotEquals(length, listeners.length, "The number of listeners remains the same before and after setling the promise.");
+      }));
+
+      this.transport.ontimeout();
+      this.wait(5000);
+    },
+
+    "test: aborted request rejects the promise": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      req.sendWithPromise(this)
+        .then(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
+        }))
+        .catch(this.resumeHandler(function(result) {
+          this.assertInstance(result, qx.type.BaseError);
+          this.assertEquals("abort: Request aborted.", result.toString());
+        }, this));
+
+      this.transport.onabort();
+      this.wait(5000);
+    },
+
+    "test: parseError rejects the promise": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+      var stubbedParser = req._createResponseParser();
+
+      // replace real parser with stub
+      var stub = this.stub(stubbedParser, "parse");
+      stub.throws();
+      req._parser = stubbedParser;
+
+      req.sendWithPromise(this)
+        .then(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been fulfilled but should have been rejected.");
+        }))
+        .catch(this.resumeHandler(function(result) {
+          this.assertInstance(result, qx.type.BaseError);
+          this.assertEquals("parseError: Error parsing the response.", result.toString());
+        }, this));
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.onreadystatechange();
+      this.wait(5000);
+    },
+
+    "test: canceled promise with abort() in finally does not reject other promises": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      var promise = req.sendWithPromise(this);
+
+      // this path is canceled. We don't expect anything from it
+      var promise1 = promise
+        .then(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be fulfilled.");
+        }, this))
+        .catch(this.resumeHandler(function(result) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "This path should not be rejected.");
+        }, this))
+      // except that we want to abort when is finished
+        .finally(function() {
+          req.abort();
+        });
+
+
+      // this path should keep going
+      promise
+        .then(this.resumeHandler(function(result) {
+          this.assertEquals(req, result);
+        }, this))
+        .catch(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "Promise has been rejected but should have been fulfilled.");
+        }, this));
+
+      promise1.cancel();
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.onreadystatechange();
+      this.wait(5000);
+    },
+
+    "test: canceled promise path does not affect other listeners": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      var promise = req.sendWithPromise(this);
+
+      // this path is canceled. We don't expect anything from it
+      var promise1 = promise
+        .then(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "promise1 should not be fulfilled.");
+        }))
+        .catch(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "promise1 should not be rejected.");
+        }, this));
+
+
+      // this path should keep going
+      promise
+        .then(this.resumeHandler(function(result) {
+          this.assertEquals(req, result);
+        }, this));
+
+      promise1.cancel();
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.onreadystatechange();
+      this.wait(5000);
+    },
+
+    "test: canceled promise aborts pending request": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      var promise = req.sendWithPromise(this)
+        .then(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "promise should not be fulfilled.");
+        }))
+        .catch(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "promise should not be rejected.");
+        }))
+        .finally(this.resumeHandler(function() {
+          this.assertEquals("abort", req.getPhase());
+        }));
+
+      var transport = this.transport;
+      transport.readyState = 2;
+      transport.onreadystatechange();
+
+      promise.cancel();
+
+      this.wait(5000);
+    },
+
+    "test: settled promise does not set phase to abort": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      req.sendWithPromise(this)
+        .then(this.resumeHandler(function(_) {
+          this.assertEquals("success", req.getPhase());
+        }))
+        .catch(this.resumeHandler(function(_) {
+          throw new qx.type.BaseError("Error in sendWithPromise()", "promise should not be rejected.");
+        }))
+        .finally(function() {
+          this.assertEquals("success", req.getPhase());
+        });
+
+      var transport = this.transport;
+      transport.readyState = 4;
+      transport.status = 200;
+      transport.onreadystatechange();
+
+      this.wait(5000);
+    },
+
+    "test: returned promise is bound to request": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport();
+      var req = this.req;
+
+      req.sendWithPromise()
+      .catch(this.resumeHandler(function(_) {
+        this.assertIdentical(req, this);
+      }));
+
+      this.transport.onerror();
+
+      this.wait(5000);
+    },
+
+    "test: returned promise is bound to caller": function() {
+      if (!qx.core.Environment.get("qx.promise")) {
+        this.skip("Skipping because qx.promise==false");
+      }
+
+      this.setUpFakeTransport(this);
+      var self = this;
+
+      this.req.sendWithPromise(this)
+      .catch(this.resumeHandler(function(_) {
+        this.assertIdentical(self, this);
+      }));
+
+      this.transport.onerror();
+
+      this.wait(5000);
     }
   }
 });

@@ -35,7 +35,7 @@
  * Processes the incoming log entry and displays it using the PhoneGap
  * logging capabilities.
  *
- * @require(qx.log.appender.Util)
+ * @require(qx.log.appender.Formatter)
  * @ignore(debug.*)
  */
 qx.Class.define("qx.log.appender.PhoneGap",
@@ -54,7 +54,8 @@ qx.Class.define("qx.log.appender.PhoneGap",
      */
     process : function(entry)
     {
-      var args = qx.log.appender.Util.toText(entry);
+      var formatter = qx.log.appender.Formatter.getFormatter();
+      var args = formatter.toText(entry);
       var level = entry.level;
       if (level == "warn") {
         debug.warn(args);

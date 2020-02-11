@@ -20,7 +20,6 @@
 /**
  * Singleton wrapper for the stylesheet containing the CSS rules for HTML cells.
  *
- * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.CellStylesheet",
 {

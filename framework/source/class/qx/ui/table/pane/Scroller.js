@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __top : null,
 
     __timer : null,
-		
+
 		__focusIndicatorPointerDownListener: null,
 
 
@@ -678,12 +678,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this.__tablePane.onTableModelDataChanged(firstRow, lastRow, firstColumn, lastColumn);
       var rowCount = this.getTable().getTableModel().getRowCount();
+      var colCount = this.__table.getTableColumnModel().getOverallColumnCount();
 
       if (rowCount != this.__lastRowCount)
       {
         this.updateVerScrollBarMaximum();
 
-        if (this.getFocusedRow() >= rowCount)
+        if (this.getFocusedRow() === null && rowCount > 0 && colCount > 0)
+        {
+          this.setFocusedCell(this.getFocusedColumn()||0, 0);
+        } 
+        else if (this.getFocusedRow() >= rowCount)
         {
           if (rowCount == 0) {
             this.setFocusedCell(null, null);
@@ -874,9 +879,25 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      *
      * @param e {Map} the event.
      */
+    __inOnScrollY : false,
     _onScrollY : function(e)
     {
-      this.fireDataEvent("changeScrollY", e.getData(), e.getOldData());
+      if (this.__inOnScrollY) {
+        return;
+      }
+      var scrollbar = this.__verScrollBar;
+      this.__inOnScrollY = true;
+      // calculate delta so that one row is scrolled at an minimum
+      var rowHeight = this.getTable().getRowHeight();
+      var delta = e.getData() - e.getOldData();
+      if ((Math.abs(delta) > 1) && (Math.abs(delta) < rowHeight)) {
+        delta = e.getOldData() + Math.sign(delta) * rowHeight;
+        if (delta>=0&&delta<=scrollbar.getMaximum()) {
+          scrollbar.setPosition(delta);
+        }
+      }
+      this.__inOnScrollY = false;
+      this.fireDataEvent("changeScrollY", scrollbar.getPosition(), e.getOldData());
       this._postponedUpdateContent();
     },
 
@@ -961,8 +982,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var columnModel = table.getTableColumnModel();
         columnModel.setColumnWidth(this.__resizeColumn, newWidth, true);
       } else {
-        this.__header.setColumnWidth(this.__resizeColumn, newWidth, true);
-
         var paneModel = this.getTablePaneModel();
         this._showResizeLine(paneModel.getColumnLeft(this.__resizeColumn) + newWidth);
       }
@@ -1096,6 +1115,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this.__lastPointerPageX = pageX;
       this.__lastPointerPageY = pageY;
 
+
+      var useResizeCursor = false;
+      var resizeCol = this._getResizeColumnForPageX(pageX);
+      if (resizeCol != -1)
+      {
+        // The pointer is over a resize region -> Show the right cursor
+        useResizeCursor = true;
+      }
+      var cursor = useResizeCursor ? "col-resize" : null;
+      this.getApplicationRoot().setGlobalCursor(cursor);
+      this.setCursor(cursor);
+
+
       var row = this._getRowForPagePos(pageX, pageY);
       if (row != null && this._getColumnForPageX(pageX) != null) {
         // The pointer is over the data -> update the focus
@@ -1194,6 +1226,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       var pageX = e.getDocumentLeft();
+
+      // pointer is in header
+      var resizeCol = this._getResizeColumnForPageX(pageX);
+      if (resizeCol != -1)
+      {
+        // The pointer is over a resize region -> Start resizing
+        this._startResizeHeader(resizeCol, pageX);
+        e.stop();
+        return;
+      }
+
       var pageY = e.getDocumentTop();
       var row = this._getRowForPagePos(pageX, pageY);
       var col = this._getColumnForPageX(pageX);
@@ -1929,15 +1972,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__focusIndicator.setDecorator(null);
       }
 
-      this.flushEditor();
-      this.cancelEditing();
+      this.flushEditor(true);
     },
 
 
     /**
-     * Writes the editor's value to the model.
+     * Writes the editor's value to the model
+     * 
+     * @param cancel {Boolean ? false} Whether to also cancel 
+     *      editing before firing the 'dateEdited' event.
      */
-    flushEditor : function()
+    flushEditor : function(cancel)
     {
       if (this.isEditing())
       {
@@ -1946,6 +1991,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.getTable().getTableModel().setValue(this.__focusedCol, this.__focusedRow, value);
 
         this.__table.focus();
+
+        if(cancel) {
+          this.cancelEditing();
+        }
 
         // Fire an event containing the value change.
         this.__table.fireDataEvent("dataEdited",
@@ -2031,26 +2080,27 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _getResizeColumnForPageX : function(pageX)
     {
-      var columnModel = this.getTable().getTableColumnModel();
-      var paneModel = this.getTablePaneModel();
-      var colCount = paneModel.getColumnCount();
-      var currX = this.__header.getContentLocation().left;
-      var regionRadius = qx.ui.table.pane.Scroller.RESIZE_REGION_RADIUS;
+      var contentLocation = this.__header.getContentLocation() || this.__tablePane.getContentLocation();
+      if (contentLocation) {
+        var currX = contentLocation.left;
+        var columnModel = this.getTable().getTableColumnModel();
+        var paneModel = this.getTablePaneModel();
+        var colCount = paneModel.getColumnCount();
+        var regionRadius = qx.ui.table.pane.Scroller.RESIZE_REGION_RADIUS;
 
-      for (var x=0; x<colCount; x++)
-      {
-        var col = paneModel.getColumnAtX(x);
-        var colWidth = columnModel.getColumnWidth(col);
-        currX += colWidth;
+        for (var x = 0; x < colCount; x++) {
+          var col = paneModel.getColumnAtX(x);
+          var colWidth = columnModel.getColumnWidth(col);
+          currX += colWidth;
 
-        if (pageX >= (currX - regionRadius) && pageX <= (currX + regionRadius)) {
-          return col;
+          if (pageX >= (currX - regionRadius) && pageX <= (currX + regionRadius)) {
+            return col;
+          }
         }
       }
 
       return -1;
     },
-
 
     /**
      * Returns the model index of the row the pointer is currently over. Returns -1 if

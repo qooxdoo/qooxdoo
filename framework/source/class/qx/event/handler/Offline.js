@@ -187,7 +187,7 @@ qx.Class.define("qx.event.handler.Offline",
     this._stopObserver();
 
     // Deregister
-    delete qx.event.handler.Appear.__instances[this.$$hash];
+    delete qx.event.handler.Appear.__instances[this.toHashCode()];
   },
 
 

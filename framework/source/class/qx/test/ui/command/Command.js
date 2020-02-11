@@ -86,17 +86,21 @@ qx.Class.define("qx.test.ui.command.Command",
 
     testEnabled : function()
     {
-      // set disabled
-      this.__cmd.setEnabled(false);
-      this.assertEquals(this.__cmd.getEnabled(), this.__button.getEnabled());
-      this.assertEquals(this.__cmd.getEnabled(), this.__toolbarButton.getEnabled());
-      this.assertEquals(this.__cmd.getEnabled(), this.__menuButton.getEnabled());
+      if (qx.core.Environment.get("qx.command.bindEnabled")) {
+        // set disabled
+        this.__cmd.setEnabled(false);
+        this.assertEquals(this.__cmd.getEnabled(), this.__button.getEnabled());
+        this.assertEquals(this.__cmd.getEnabled(), this.__toolbarButton.getEnabled());
+        this.assertEquals(this.__cmd.getEnabled(), this.__menuButton.getEnabled());
 
-      // set enabled
-      this.__cmd.setEnabled(true);
-      this.assertEquals(this.__cmd.getEnabled(), this.__button.getEnabled());
-      this.assertEquals(this.__cmd.getEnabled(), this.__toolbarButton.getEnabled());
-      this.assertEquals(this.__cmd.getEnabled(), this.__menuButton.getEnabled());
+        // set enabled
+        this.__cmd.setEnabled(true);
+        this.assertEquals(this.__cmd.getEnabled(), this.__button.getEnabled());
+        this.assertEquals(this.__cmd.getEnabled(), this.__toolbarButton.getEnabled());
+        this.assertEquals(this.__cmd.getEnabled(), this.__menuButton.getEnabled());
+      } else {
+        this.skip("Skipped because binding the Enabled property has been deprecated");
+      }
     },
 
 

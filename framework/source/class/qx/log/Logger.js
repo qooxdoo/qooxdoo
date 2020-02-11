@@ -139,6 +139,9 @@ qx.Bootstrap.define("qx.log.Logger",
 
     /**
      * Registers the given appender and inserts the last cached messages.
+     * 
+     * Note that an appender is named by it's class name, unless it has a property
+     * called `appenderName`
      *
      * @param appender {Class} A static appender class supporting at
      *   least a <code>process()</code> method to handle incoming messages.
@@ -151,8 +154,9 @@ qx.Bootstrap.define("qx.log.Logger",
 
       // Register appender
       var id = this.__id++;
+      var appenderName = appender.appenderName || appender.classname;
       this.__appenders[id] = appender;
-      this.__appendersByName[appender.classname] = appender;
+      this.__appendersByName[appenderName] = appender;
       appender.$$id = id;
 
       // Insert previous messages
@@ -161,7 +165,7 @@ qx.Bootstrap.define("qx.log.Logger",
         var entry = entries[i];
 
         var appenders = this.__getAppenders(entry.loggerName, entry.level);
-        if (appenders[appender.classname]) {
+        if (appenders[appenderName]) {
           appender.process(entry);
         }
       }
@@ -180,7 +184,8 @@ qx.Bootstrap.define("qx.log.Logger",
         return;
       }
 
-      delete this.__appendersByName[appender.classname];
+      var appenderName = appender.appenderName || appender.classname;
+      delete this.__appendersByName[appenderName];
       delete this.__appenders[id];
       delete appender.$$id;
     },
@@ -222,6 +227,9 @@ qx.Bootstrap.define("qx.log.Logger",
      * is issued; qx.io.* will go to Native for debug, error, warn, and info and to
      * Console for error, warn, and info
      *
+     * Note that an appender is named by it's class name, unless it has a property
+     * called `appenderName`.
+     * 
      * @param logger {String|RegExp} the pattern to match in the logger name
      * @param appenderName {String?} the name of the appender class, if undefined then all appenders
      * @param level {String?} the minimum logging level to use the appender, if undefined the default level is used
@@ -578,10 +586,8 @@ qx.Bootstrap.define("qx.log.Logger",
       // Add relation fields
       if (object)
       {
-        // Do not explicitly check for instanceof qx.core.Object, in order not
-        // to introduce an unwanted load-time dependency
-        if (object.$$hash !== undefined) {
-          entry.object = object.$$hash;
+        if (qx.Bootstrap.isQxCoreObject(object)) {
+          entry.object = object.toHashCode();
         }
         if (object.$$type) {
           entry.clazz = object;
@@ -766,9 +772,6 @@ qx.Bootstrap.define("qx.log.Logger",
           break;
 
         case "instance":
-          text = value.basename + "[" + value.$$hash + "]";
-          break;
-
         case "class":
         case "stringify":
           text = value.toString();

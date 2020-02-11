@@ -7,23 +7,6 @@ TARGET="devel"
 MASTER="master"
 CURRENT=0
 
-### auto versioning is not working because of branch protection rule
-#node -v
-#npm -v
-#git config user.email "travis@travis-ci.org"
-#git config user.name "Travis CI"
-#### revert changes of npm install
-#git clean -fd
-#git checkout -- .
-#NEW_VERSION=$(npm version prerelease -m "[ci skip] new npm version: %s")
-#echo "new version: $NEW_VERSION"
-#echo $NEW_VERSION > version.txt
-#GIT_URL="$(git config remote.origin.url)"
-#GIT_URL=${GIT_URL/https:\/\//https:\/\/$GH_TOKEN@}
-#git push $GIT_URL HEAD:master
-#git push $GIT_URL $NEW_VERSION
-
-
 rev=$(git rev-parse --short HEAD)
 mkdir deploy && cd deploy
 
@@ -49,24 +32,24 @@ if [ "$TRAVIS_TAG" != "" ]; then
 fi
 
 cd $TRAVIS_BUILD_DIR
-.travis/make-release-sdk
 .travis/build-site
+.travis/build-site-v6
 
 cd deploy
 rm -rf "$TARGET" &> /dev/null
 cp -a ../build "$TARGET"
 
-# Install potentially built master sdk zip
-if [ "$TRAVIS_BRANCH" = "$MASTER" -a "$TRAVIS_TAG" = "" ]; then
-  RELEASE_PKG_FILE=$(ls ../dist/*.zip)
-  cp $RELEASE_PKG_FILE qooxdoo-sdk-master.zip
-fi
-
 # Maintain the current link
 if [ $CURRENT = 1 ]; then
-  rm -rf current &> /dev/null
+  rm -f current
   ln -s "$TARGET" current
 fi
+# global /docs shows documentation of current master
+rm -f docs                              
+ln -s $(cat ../version.txt)/docs docs
+# global /apps shows apps of current master, needed for /docs
+rm -f apps                             
+ln -s $(cat ../version.txt)/apps apps
 
 touch .nojekyll
 touch .

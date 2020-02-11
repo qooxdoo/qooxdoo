@@ -17,8 +17,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * A layer is responsible to render one aspect of a virtual pane. The pane tells
  * each layer to render/update a specific window of the virtual grid.
  */

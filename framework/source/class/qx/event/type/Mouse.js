@@ -44,8 +44,22 @@ qx.Class.define("qx.event.type.Mouse",
     _cloneNativeEvent : function(nativeEvent, clone)
     {
       var clone = this.base(arguments, nativeEvent, clone);
-
-      clone.button = nativeEvent.button;
+      // Fix for #9619 pointermove/mousemove events return wrong result in isLeftPressed()
+      // button only valid in button events. Undefined otherwise.
+      // see https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
+      switch(nativeEvent.type) {
+        case "mousemove":
+        case "mouseenter":
+        case "mouseleave":
+        case "mouseover":
+        case "mouseout":
+          clone.button = -1;
+          break;
+        default:
+          clone.button = nativeEvent.button;
+          break;
+      }
+      clone.buttons = nativeEvent.buttons;
       clone.clientX = Math.round(nativeEvent.clientX);
       clone.clientY = Math.round(nativeEvent.clientY);
       clone.pageX = nativeEvent.pageX ? Math.round(nativeEvent.pageX) : undefined;

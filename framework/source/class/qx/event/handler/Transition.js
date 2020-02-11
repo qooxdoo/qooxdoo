@@ -32,7 +32,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * This class provides support for HTML5 transition and animation events.
  * Currently only WebKit and Firefox are supported.
