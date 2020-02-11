@@ -21,8 +21,6 @@
  * This is a widget that enhances an HTML table with some basic features like
  * Sorting and Filtering.
  *
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
- *
  * <h2>CSS Classes</h2>
  * <table>
  *   <thead>

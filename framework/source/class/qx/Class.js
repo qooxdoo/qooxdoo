@@ -261,6 +261,7 @@ qx.Bootstrap.define("qx.Class",
       {
         config.defer.self = clazz;
         qx.Bootstrap.addPendingDefer(clazz, function() {
+          clazz = qx.Class.getByName(clazz.classname);
           config.defer(clazz, clazz.prototype,
             {
               add : function(name, config)
@@ -370,11 +371,12 @@ qx.Bootstrap.define("qx.Class",
      * Please keep in mind that this functionality is not intended for regular
      * use, but as a formalized way (and a last resort) in order to patch
      * existing classes.
-     *
+     * 
      * <b>WARNING</b>: You may break working classes and features.
      *
      * @param clazz {Class} An existing class which should be modified by including a mixin.
      * @param mixin {Mixin} The mixin to be included.
+     * @return {Class} the new class definition
      */
     patch : function(clazz, mixin)
     {
@@ -388,6 +390,7 @@ qx.Bootstrap.define("qx.Class",
       }
 
       qx.Class.__addMixin(clazz, mixin, true);
+      return qx.Class.getByName(clazz.classname);
     },
     
     
@@ -1042,11 +1045,7 @@ qx.Bootstrap.define("qx.Class",
             construct = this.__createDefaultConstructor();
           }
 
-          if (this.__needsConstructorWrapper(extend, mixins)) {
-            clazz = this.__wrapConstructor(construct, name, type);
-          } else {
-            clazz = construct;
-          }
+          clazz = this.__wrapConstructor(construct, name, type);
 
           // Add singleton getInstance()
           if (type === "singleton") {
@@ -1221,6 +1220,12 @@ qx.Bootstrap.define("qx.Class",
       // check for the property module
       if (!qx.core.Environment.get("module.property")) {
         throw new Error("Property module disabled.");
+      }
+      
+      if (qx.core.Environment.get("qx.debug")) {
+        if (qx.Bootstrap.isQxCoreObject(properties)) {
+          throw new Error("Invalid 'properties' for " + clazz.classname);
+        }
       }
 
       var config;
@@ -1545,75 +1550,6 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
-     * Wrap the constructor of an already existing clazz. This function will
-     * replace all references to the existing constructor with the new wrapped
-     * constructor.
-     *
-     * @param clazz {Class} The class to wrap
-     * @return {Class} The wrapped class
-     */
-    __retrospectWrapConstruct : function(clazz)
-    {
-      var name = clazz.classname;
-      var wrapper = this.__wrapConstructor(clazz, name, clazz.$$classtype);
-
-      // copy all keys from the wrapped constructor to the wrapper
-      for (var i=0, a=Object.keys(clazz), l=a.length; i<l; i++)
-      {
-        key = a[i];
-        wrapper[key] = clazz[key];
-      }
-
-      // fix prototype
-      wrapper.prototype = clazz.prototype;
-
-      // fix self references in members
-      var members = clazz.prototype;
-      for (var i=0, a=Object.keys(members), l=a.length; i<l; i++)
-      {
-        key = a[i];
-        var method = members[key];
-
-        // check if method is available because null values can be stored as
-        // init values on classes e.g. [BUG #3709]
-        if (method && method.self == clazz) {
-          method.self = wrapper;
-        }
-      }
-
-      // fix base and superclass references in all defined classes
-      for(var key in this.$$registry)
-      {
-        var construct = this.$$registry[key];
-        if (!construct) {
-          continue;
-        }
-
-        if (construct.base == clazz) {
-          construct.base = wrapper;
-        }
-        if (construct.superclass == clazz) {
-          construct.superclass = wrapper;
-        }
-
-        if (construct.$$original)
-        {
-          if (construct.$$original.base == clazz) {
-            construct.$$original.base = wrapper;
-          }
-          if (construct.$$original.superclass == clazz) {
-            construct.$$original.superclass = wrapper;
-          }
-        }
-      }
-      qx.Bootstrap.createNamespace(name, wrapper);
-      this.$$registry[name] = wrapper;
-
-      return wrapper;
-    },
-
-
-    /**
      * Include all features of the mixin into the given class, recursively.
      *
      * @param clazz {Class} The class onto which the mixin should be attached.
@@ -1631,11 +1567,6 @@ qx.Bootstrap.define("qx.Class",
 
       if (this.hasMixin(clazz, mixin)) {
         return;
-      }
-
-      var isConstructorWrapped = clazz.$$original;
-      if (mixin.$$constructor && !isConstructorWrapped) {
-        clazz = this.__retrospectWrapConstruct(clazz);
       }
 
       // Attach content
@@ -1698,47 +1629,6 @@ qx.Bootstrap.define("qx.Class",
       }
 
       return defaultConstructor;
-    },
-
-
-    /**
-     * Checks if the constructor needs to be wrapped.
-     *
-     * @param base {Class} The base class.
-     * @param mixins {Mixin[]} All mixins which should be included.
-     * @return {Boolean} true, if the constructor needs to be wrapped.
-     */
-    __needsConstructorWrapper : function(base, mixins)
-    {
-      if (qx.core.Environment.get("qx.debug")) {
-        return true;
-      }
-
-      // Check for base class mixin constructors
-      if (base && base.$$includes)
-      {
-        var baseMixins=base.$$flatIncludes;
-        for (var i=0, l=baseMixins.length; i<l; i++)
-        {
-          if (baseMixins[i].$$constructor) {
-            return true;
-          }
-        }
-      }
-
-      // check for direct mixin constructors
-      if (mixins)
-      {
-        var flatMixins = qx.Mixin.flatten(mixins);
-        for (var i=0, l=flatMixins.length; i<l; i++)
-        {
-          if (flatMixins[i].$$constructor) {
-            return true;
-          }
-        }
-      }
-
-      return false;
     },
 
 

@@ -17,8 +17,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * A widget cell provider provides the {@link qx.ui.virtual.layer.WidgetCell}
  * with configured widgets to render the cells and pools/releases unused
  * cell widgets.

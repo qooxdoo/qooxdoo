@@ -45,9 +45,6 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     /** @type {Integer} Next new hash code. */
     __nextHash : 0,
 
-    /** @type {Array} List of all free hash codes */
-    __freeHashes : [],
-
     /** @type {String} Post id for hash code creation. */
     __postId : "",
 
@@ -73,29 +70,9 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         return;
       }
 
-      var hash = obj.$$hash;
-      if (hash == null)
-      {
-        // Create new hash code
-        var cache = this.__freeHashes;
-        if (cache.length > 0 && !qx.core.Environment.get("qx.debug.dispose")) {
-          hash = cache.pop();
-        } else {
-          hash = (this.__nextHash++) + this.__postId;
-        }
+      var hash = qx.core.ObjectRegistry.toHashCode(obj);
 
-        // Store hash code
-        obj.$$hash = hash;
-
-        if (qx.core.Environment.get("qx.debug.dispose")) {
-          if (qx.dev && qx.dev.Debug && qx.dev.Debug.disposeProfilingActive) {
-            this.__stackTraces[hash] = qx.dev.StackTrace.getStackTrace();
-          }
-        }
-      }
-
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (!obj.dispose) {
           throw new Error("Invalid object: " + obj);
         }
@@ -121,22 +98,9 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       if (registry && registry[hash])
       {
         delete registry[hash];
-        this.__freeHashes.push(hash);
       }
 
-      // Delete the hash code
-      try
-      {
-        delete obj.$$hash;
-      }
-      catch(ex)
-      {
-        // IE has trouble directly removing the hash
-        // but it's ok with using removeAttribute
-        if (obj.removeAttribute) {
-          obj.removeAttribute("$$hash");
-        }
-      }
+      this.clearHashCode(obj);
     },
 
 
@@ -149,8 +113,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      */
     toHashCode : function(obj)
     {
-      if (qx.core.Environment.get("qx.debug"))
-      {
+      if (qx.core.Environment.get("qx.debug")) {
         if (obj == null) {
           throw new Error("Invalid object: " + obj);
         }
@@ -162,15 +125,29 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       }
 
       // Create new hash code
-      var cache = this.__freeHashes;
-      if (cache.length > 0) {
-        hash = cache.pop();
-      } else {
-        hash = (this.__nextHash++) + this.__postId;
-      }
+      hash = this.createHashCode();
 
       // Store
-      return obj.$$hash = hash;
+      obj.$$hash = hash;
+
+      if (qx.core.Environment.get("qx.debug.dispose")) {
+        if (qx.dev && qx.dev.Debug && qx.dev.Debug.disposeProfilingActive) {
+          this.__stackTraces[hash] = qx.dev.StackTrace.getStackTrace();
+        }
+      }
+      
+      return obj.$$hash;
+    },
+    
+    
+    /**
+     * Creates a hash code
+     * 
+     * @return {String}
+     */
+    createHashCode: function() {
+      var hash = String((this.__nextHash++) + this.__postId);
+      return hash;
     },
 
 
@@ -191,11 +168,10 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       var hash = obj.$$hash;
       if (hash != null)
       {
-        this.__freeHashes.push(hash);
-
         // Delete the hash code
         try
         {
+          obj.$$discardedHashCode = hash;
           delete obj.$$hash;
         }
         catch(ex)
@@ -311,8 +287,8 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
 
     /**
-     * Returns the next hash code that will be used
-     *
+     * Returns the next hash code that will be used.
+     * 
      * @return {Integer} The next hash code
      * @internal
      */

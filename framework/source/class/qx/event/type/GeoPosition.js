@@ -20,7 +20,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * GeoPosition event used by GeoLocation class.
  *

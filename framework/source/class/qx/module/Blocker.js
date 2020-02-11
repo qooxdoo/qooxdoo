@@ -26,7 +26,7 @@
  * @require(qx.module.Css)
  * @require(qx.module.Attribute)
  */
-qxWeb.define("qx.module.Blocker", {
+qx.Bootstrap.define("qx.module.Blocker", {
   statics :
   {
     /**

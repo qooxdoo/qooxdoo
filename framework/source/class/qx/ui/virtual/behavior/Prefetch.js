@@ -22,7 +22,6 @@
  * of the scroller after a certain period of time. Subsequent scrolling will not
  * have to render this pre-computed area again.
  *
- * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.behavior.Prefetch",
 {

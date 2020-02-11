@@ -48,7 +48,7 @@ qx.Class.define("qx.html.Iframe",
     this.addListener("navigate", this.__onNavigate, this);
 
     // add yourself to the element queue to enforce the creation of DOM element
-    qx.html.Element._modified[this.$$hash] = this;
+    qx.html.Element._modified[this.toHashCode()] = this;
     qx.html.Element._scheduleFlush("element");
   },
 

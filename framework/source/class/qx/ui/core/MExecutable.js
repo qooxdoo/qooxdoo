@@ -80,16 +80,23 @@ qx.Mixin.define("qx.ui.core.MExecutable",
      *
      * @lint ignoreReferenceField(_bindableProperties)
      */
-    _bindableProperties :
-    [
-      "enabled",
-      "label",
-      "icon",
-      "toolTipText",
-      "value",
-      "menu"
-    ],
-
+    _bindableProperties : qx.core.Environment.select("qx.command.bindEnabled", {
+      "true": [
+          "enabled",
+          "label",
+          "icon",
+          "toolTipText",
+          "value",
+          "menu"
+        ],
+      "false": [
+          "label",
+          "icon",
+          "toolTipText",
+          "value",
+          "menu"
+        ]
+    }),
 
     /**
      * Initiate the execute action.
@@ -117,13 +124,15 @@ qx.Mixin.define("qx.ui.core.MExecutable",
      * @param e {qx.event.type.Event} The execute event of the command.
      */
     __onCommandExecute : function(e) {
-      if (this.__semaphore) {
-        this.__semaphore = false;
-        return;
-      }
       if (this.isEnabled()) {
-        this.__semaphore = true;
-        this.execute();
+        if (this.__semaphore) {
+          this.__semaphore = false;
+          return;
+        }
+        if (this.isEnabled()) {
+          this.__semaphore = true;
+          this.execute();
+        }
       }
     },
 
@@ -167,6 +176,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
             // check also for themed values [BUG #5906]
             if (selfPropertyValue == null) {
               // update the appearance to make sure every themed property is up to date
+              this.$$resyncNeeded = true;
               this.syncAppearance();
               selfPropertyValue = qx.util.PropertyUtil.getThemeValue(
                 this, property

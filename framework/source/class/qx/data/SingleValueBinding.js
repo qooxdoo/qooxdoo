@@ -150,19 +150,29 @@ qx.Class.define("qx.data.SingleValueBinding",
       try {
         // go through all property names
         for (var i = 0; i < propertyNames.length; i++) {
+          var propertyName = propertyNames[i];
+
           // check for the array
           if (arrayIndexValues[i] !== "") {
             // push the array change event
             eventNames.push("change");
           } else {
-            var eventName = this.__getEventNameForProperty(source, propertyNames[i]);
+            var eventName = this.__getEventNameForProperty(source, propertyName);
             if (!eventName) {
               if (i == 0) { // the root property can not change --> error
                 throw new qx.core.AssertionError(
-                  "Binding property " + propertyNames[i] + " of object " + source +
-                  " not possible: No event available. "
+                  "Binding property " + propertyName + " of object " + source +
+                  " not possible: No event available. Full property chain: " + sourcePropertyChain
                 );
               }
+
+              if (source instanceof qx.core.Object && qx.Class.hasProperty(source.constructor, propertyName)) {
+                qx.log.Logger.warn(
+                  "Binding property " + propertyName + " of object " + source +
+                  " not possible: No event available. Full property chain: " + sourcePropertyChain
+                );
+              }
+
               // call the converter if no event could be found on binding creation
               initialPromise = this.__setInitialValue(undefined, targetObject, targetPropertyChain, options, sourceObject);
               break;
@@ -363,7 +373,7 @@ qx.Class.define("qx.data.SingleValueBinding",
         // if its the last property
         if (j == context.propertyNames.length - 1) {
           // if its an array
-          if (qx.Class.implementsInterface(source, qx.data.IListData)) {
+          if (qx.Class.implementsInterface(source, qx.data.IListData) && context.arrayIndexValues[j] !== "") {
             // set the initial value
             var itemIndex = context.arrayIndexValues[j] === "last" ?
               source.length - 1 : context.arrayIndexValues[j];
@@ -1188,14 +1198,30 @@ qx.Class.define("qx.data.SingleValueBinding",
         for (var i = 0; i < id.sources.length; i++) {
           // check if a source is available
           if (id.sources[i]) {
-            id.sources[i].removeListenerById(id.listenerIds[i]);
+            if(id.listenerIds[i]) {
+              id.sources[i].removeListenerById(id.listenerIds[i]);
+            }
+            // If the listener id is not available, it is most likely
+            // caused by some hidden error situation.
+            // At least an error message should be displayed
+            else {
+              sourceObject.error("Could not remove deep bindings. Binding id for " + id.sources[i].classname + " could not be found!");
+            }
           }
         }
         // go through all added listeners (target)
         for (var i = 0; i < id.targets.length; i++) {
           // check if a target is available
           if (id.targets[i]) {
-            id.targets[i].removeListenerById(id.targetListenerIds[i]);
+            if(id.targetListenerIds[i]) {
+              id.targets[i].removeListenerById(id.targetListenerIds[i]);
+            }
+            // If the target listener id is not available, it is most likely
+            // caused by some hidden error situation.
+            // At least an error message should be displayed
+            else {
+              sourceObject.error("Could not remove target listener. Listener id for target " + id.targets[i].classname + " could not be found!");
+            }
           }
         }
       } else {

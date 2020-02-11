@@ -179,7 +179,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             if (name in el.style) {
               // get the computed style if possible
               if (window.getComputedStyle) {
-                frame[name] = getComputedStyle(el, null)[name];
+                frame[name] = window.getComputedStyle(el, null)[name];
               } else {
                 frame[name] = el.style[name];
               }
@@ -457,7 +457,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
         if (handle.reverse || (desc.alternate && desc.repeat && desc.repeat % 2 == 0)) {
           keep = 100 - keep;
         }
-        this.__applyStyles(el, desc.keyFrames[keep]);
+        this.__applyStyles(el, this.__normalizeKeyFrameTransforms(desc.keyFrames[keep]));
       } else {
         this.__applyStyles(el, initValues);
       }

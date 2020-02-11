@@ -19,7 +19,6 @@
 
 
 /**
- * EXPERIMENTAL - NOT READY FOR PRODUCTION
  *
  * Media element. Other media types can derive from this class.
  * 

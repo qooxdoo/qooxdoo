@@ -17,7 +17,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
  *
  * This class offers a constant API over the Fullscreen Spec:
  * http://www.w3.org/TR/fullscreen/

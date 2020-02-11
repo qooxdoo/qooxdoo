@@ -316,13 +316,19 @@ qx.Class.define("qx.event.handler.DragDrop",
      * @return {qx.Promise|String} One of <code>move</code>, <code>copy</code> or
      *    <code>alias</code>
      */
-    getCurrentActionAsync : function() {
+    getCurrentActionAsync : qx.core.Environment.select("qx.promise", {
+      "true": function() {
       var self = this;
+
       return qx.Promise.resolve(self.__detectAction())
         .then(function() {
           return self.__currentAction;
         });
-    },
+      },
+      "false": function () {
+        throw new Error(this.classname + ".getCurrentActionAsync not supported because qx.promise==false");
+      }
+    }),
 
 
     /**

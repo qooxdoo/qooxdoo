@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# This only checks for bad links, add `-u remark-preset-lint-recommended` for
+# markdown syntax and style linting
+ERRORS=False
+FILES=${1:-docs/**/*.md}
+for FILENAME in $FILES ; do
+  echo check $FILENAME
+  if [ "$FILENAME" != *"/_coverpage.md" ]; then
+    npx remark \
+      -u remark-lint-no-dead-urls \
+      -u remark-validate-links \
+      --frail \
+      --no-stdout \
+      $FILENAME \
+      2>&1 >/dev/null \
+      || ERRORS=True
+  fi
+done
+
+if [[ $ERRORS == True ]]; then
+  (>&2 echo "There are problems in the markdown which need to be fixed first.")
+  exit 1;
+fi

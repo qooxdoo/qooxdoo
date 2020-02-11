@@ -43,11 +43,11 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      */
     remove : function(widget)
     {
-    	if (this.__lookup[widget.$$hash]) {
-	      delete this.__lookup[widget.$$hash];
+    	if (this.__lookup[widget.toHashCode()]) {
+	      delete this.__lookup[widget.toHashCode()];
 	      qx.lang.Array.remove(this.__queue, widget);
     	}
-      delete this.__data[widget.$$hash];
+      delete this.__data[widget.toHashCode()];
     },
 
 
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      * @return {Boolean} Whether the widget is visible
      */
     isVisible : function(widget) {
-      return this.__data[widget.$$hash] || false;
+      return this.__data[widget.toHashCode()] || false;
     },
 
 
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
     __computeVisible : function(widget)
     {
       var data = this.__data;
-      var hash = widget.$$hash;
+      var hash = widget.toHashCode();
       var visible;
 
       // Respect local value
@@ -106,12 +106,12 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      */
     add : function(widget)
     {
-      if (this.__lookup[widget.$$hash]) {
+      if (this.__lookup[widget.toHashCode()]) {
         return;
       }
 
       this.__queue.unshift(widget);
-      this.__lookup[widget.$$hash] = widget;
+      this.__lookup[widget.toHashCode()] = widget;
       qx.ui.core.queue.Manager.scheduleFlush("visibility");
     },
 
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // are also already in the queue (added on their own)
       for (var i = queue.length - 1; i >= 0; i--)
       {
-        var hash = queue[i].$$hash;
+        var hash = queue[i].toHashCode();
         if (data[hash] != null) {
           // recursive method call which adds widgets to the queue so be
           // careful with that one (performance critical)
@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       var oldData = {};
       for (var i = queue.length - 1; i >= 0; i--)
       {
-        var hash = queue[i].$$hash;
+        var hash = queue[i].toHashCode();
         oldData[hash] = data[hash];
         data[hash] = null;
       }
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       for (var i = queue.length - 1; i >= 0; i--)
       {
         var widget = queue[i];
-        var hash = widget.$$hash;
+        var hash = widget.toHashCode();
         queue.splice(i, 1);
 
         // Only update when not already updated by another widget
