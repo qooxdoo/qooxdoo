@@ -692,7 +692,7 @@ qx.Class.define("qx.ui.list.List",
        * unnecessary flicker of the list items by shrinking and
        * growing them again.
        */ 
-      if(this.isVariableItemHeight()) {
+      if (this.isVariableItemHeight()) {
         return;
       }
       var rc = this.getPane().getRowConfig();
