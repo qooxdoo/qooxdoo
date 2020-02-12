@@ -1009,7 +1009,7 @@ qx.Class.define("qx.ui.layout.Grid",
             var totalSpacing = hSpacing * (widgetProps.colSpan - 1);
             var availableWidth = hint.width - totalSpacing;
             
-            // get the col height which every child would need to share the
+            // get the col width which every child would need to share the
             // available width equally
             var avgColWidth = Math.floor(availableWidth / widgetProps.colSpan);
             
