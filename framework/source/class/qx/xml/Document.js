@@ -72,6 +72,8 @@ qx.Bootstrap.define("qx.xml.Document",
      * @param namespaceUri {String ? null} The namespace URI of the document element to create or null.
      * @param qualifiedName {String ? null} The qualified name of the document element to be created or null.
      * @return {Document} empty XML object
+     *
+     * @ignore(ActiveXObject)
      */
     create : function(namespaceUri, qualifiedName)
     {
@@ -116,6 +118,8 @@ qx.Bootstrap.define("qx.xml.Document",
      * @param str {String} the string to be parsed
      * @return {Document} XML document with given content
      * @signature function(str)
+     *
+     * @ignore(DOMParser)
      */
     fromString : function(str)
     {

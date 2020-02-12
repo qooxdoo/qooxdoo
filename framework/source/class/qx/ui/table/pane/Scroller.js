@@ -678,12 +678,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this.__tablePane.onTableModelDataChanged(firstRow, lastRow, firstColumn, lastColumn);
       var rowCount = this.getTable().getTableModel().getRowCount();
+      var colCount = this.__table.getTableColumnModel().getOverallColumnCount();
 
       if (rowCount != this.__lastRowCount)
       {
         this.updateVerScrollBarMaximum();
 
-        if (this.getFocusedRow() >= rowCount)
+        if (this.getFocusedRow() === null && rowCount > 0 && colCount > 0)
+        {
+          this.setFocusedCell(this.getFocusedColumn()||0, 0);
+        } 
+        else if (this.getFocusedRow() >= rowCount)
         {
           if (rowCount == 0) {
             this.setFocusedCell(null, null);
@@ -1967,15 +1972,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__focusIndicator.setDecorator(null);
       }
 
-      this.flushEditor();
-      this.cancelEditing();
+      this.flushEditor(true);
     },
 
 
     /**
-     * Writes the editor's value to the model.
+     * Writes the editor's value to the model
+     * 
+     * @param cancel {Boolean ? false} Whether to also cancel 
+     *      editing before firing the 'dateEdited' event.
      */
-    flushEditor : function()
+    flushEditor : function(cancel)
     {
       if (this.isEditing())
       {
@@ -1984,6 +1991,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.getTable().getTableModel().setValue(this.__focusedCol, this.__focusedRow, value);
 
         this.__table.focus();
+
+        if(cancel) {
+          this.cancelEditing();
+        }
 
         // Fire an event containing the value change.
         this.__table.fireDataEvent("dataEdited",
