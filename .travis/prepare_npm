@@ -7,6 +7,8 @@ exe ~/.nvm/nvm --version
 exe ~/.nvm/nvm install lts
 exe ~/.nvm/nvm use lts
 
+exe nvm install -lts
+exe nvm use --lts
 exe npm i -g npm
 exe node -v
 exe npm  -v

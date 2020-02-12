@@ -111,6 +111,11 @@ Marks the string `Hello` for translation and returns the string unmodified.
 
 Since sentences in different languages can have different structures, it is always better to prefer a format string over string concatenation to compose messages. This is why the methods above all support format strings like `Copied %1 files` as messages and a variable number of additional arguments. The additional arguments are converted to strings and inserted into the original message. `%` is used as an escape character and the number following `%` references the corresponding additional argument.
 
+You can use, if you prefer, named arguments in your string. We use the `%` symbol to begin an argument and we use curly braces to indicate the name like this : `Copied %{numberOfCopy} files. %{myName}`. With this type of formating you should give to your translation function an object, with your named argument as key. Example:
+
+    this.tr("Copied %{numberOfCopy} files. %{myName}", { numberOfCopy: 2, myName: "Kevin" });
+
+
 ### Extract the Messages
 
 After the source code has been prepared, the desired languages of the application may be specified in `config.json`, in the `LOCALES` macro within the global `let` section, for example
