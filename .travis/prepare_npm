@@ -3,12 +3,10 @@
 exe() { echo "\$ ${@/eval/}" ; "$@" ; }
 
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
-exe ~/.nvm/nvm --version
-exe ~/.nvm/nvm install lts
-exe ~/.nvm/nvm use lts
+exe ~/.nvm/nvm.sh --version
+exe ~/.nvm/nvm.sh install lts
+exe ~/.nvm/nvm.sh use lts
 
-exe nvm install -lts
-exe nvm use --lts
 exe npm i -g npm
 exe node -v
 exe npm  -v
