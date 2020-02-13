@@ -2,9 +2,10 @@
 
 exe() { echo "\$ ${@/eval/}" ; "$@" ; }
 
-#exe curl -o ~/.nvm/nvm.sh https://raw.githubusercontent.com/creationix/nvm/v0.31.0/nvm.sh
-#exe ~/.nvm/nvm --version
-#exe ~/.nvm/nvm install 11
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.2/install.sh | bash
+exe ~/.nvm/nvm.sh --version
+exe ~/.nvm/nvm.sh install lts
+exe ~/.nvm/nvm.sh use lts
 
 exe npm i -g npm
 exe node -v
