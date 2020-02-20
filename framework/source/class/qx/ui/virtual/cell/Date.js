@@ -22,7 +22,6 @@
  *
  * Renders a date according to the configured date formatter.
  *
- * EXPERIMENTAL!
  */
 qx.Class.define("qx.ui.virtual.cell.Date",
 {

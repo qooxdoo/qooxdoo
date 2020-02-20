@@ -1,0 +1,64 @@
+version: 3
+
+# see https://docs.pullapprove.com/config/groups/
+groups:
+  # documentation and tests: only 2 approvals necessary
+  documentation:
+    conditions:
+      - "files.include('docs/*') or files.include('documentation/*') or files.include('*.md')"
+      - "not (files.exclude('docs/*') and files.exclude('documentation/*') and files.exclude('*.md'))"
+    reviews:
+      required: 2  # 2 approvals from this group are required
+      request: 5  # 5 review request will be sent at a time
+    reviewers:
+      teams:
+        - pr-mergers
+
+  # emergency hotfix: only 2 approvals necessary
+  hotfix:
+    conditions:
+      - "'hotfix' in labels"
+    reviews:
+      required: 2
+      request: 5
+    reviewers:
+      teams:
+        - pr-mergers
+
+  # default procedure: 5 approvals required
+  default:
+    conditions:
+      # this group is asked to review if no previous groups match this PR
+      - "not groups.active"
+    reviews:
+      required: 5
+      request: 5
+    reviewers:
+      teams:
+        - pr-mergers
+
+# see https://docs.pullapprove.com/config/pullapprove-conditions/
+pullapprove_conditions:
+  - condition: "base.ref == 'master'"
+    unmet_status: success
+    explanation: "Review not required unless merging to master"
+  - condition: "'*travis*' in statuses.successful"
+    unmet_status: "failure"
+    explanation: "Tests must pass before review starts"
+  - condition: "'WIP' not in title"
+    unmet_status: pending
+    explanation: "Work in progress - review not yet required"
+  - condition: "'do not merge' not in labels"
+    unmet_status: pending
+    explanation: "PR should not be merged yet - review not yet required"
+
+notifications:
+  - when: pull_request.opened
+    if: "author_association == 'FIRST_TIME_CONTRIBUTOR'"
+    comment: |
+      Hey @{{ author }}, thanks for the PR! The review will start once
+      the tests and CI checks have passed. If they don't, please review
+      the logs and try to fix the issues (ask for help if you can't
+      figure it out). A reviewer will be assigned once the tests are
+      passing and they'll walk you through getting the PR finished
+      and merged.

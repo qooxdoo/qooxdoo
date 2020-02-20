@@ -18,8 +18,6 @@
 ************************************************************************ */
 
 /**
- * EXPERIMENTAL!
- *
  * The Scroller wraps a {@link Pane} and provides scroll bars to interactively
  * scroll the pane's content.
  *

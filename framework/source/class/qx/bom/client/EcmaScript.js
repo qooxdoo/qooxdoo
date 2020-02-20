@@ -303,8 +303,36 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     getStringTrim : function() {
       return typeof String.prototype.trim === "function";
     },
-    
-    
+
+
+    /**
+     * Checks if 'BigInt' type is supported.
+     * @internal
+     * @ignore(BigInt)
+     * @return {Boolean} <code>true</code>, if BigInt is available.
+     */
+    getBigInt : function() {
+      return typeof BigInt !== "undefined";
+    },
+
+
+    /**
+     * Checks if 'toLocaleString' is supported on the BigInt object and whether
+     * it actually works
+     * @internal
+     * @ignore(BigInt)
+     * @ignore(BigInt.prototype.toLocaleString)
+     * @return {Boolean} <code>true</code>, if the method is supported and
+     *   works at least rudimentary.
+     */
+    getBigIntToLocaleString : function()
+    {
+      return typeof BigInt !== "undefined"                         // BigInt type supported...
+          && typeof BigInt.prototype.toLocaleString === "function"// ...method is present...
+          && (BigInt(1234).toLocaleString("de-DE") === "1,234"); // ...and works as expected
+    },
+
+
     /**
      * Checks whether Native promises are available
      */
@@ -365,6 +393,10 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
     // MutationObserver
     qx.core.Environment.add("ecmascript.mutationobserver", statics.getMutationObserver);
+
+    // BigInt
+    qx.core.Environment.add("ecmascript.bigint", statics.getBigInt);
+    qx.core.Environment.add("ecmascript.bigint.tolocalestring", statics.getBigIntToLocaleString);
 
     // Promises
     qx.core.Environment.add("ecmascript.promise.native", statics.getPromiseNative);

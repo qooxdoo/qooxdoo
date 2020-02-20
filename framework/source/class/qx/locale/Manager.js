@@ -72,8 +72,7 @@ qx.Class.define("qx.locale.Manager",
      */
     tr : function(messageId, varargs)
     {
-      var args = qx.lang.Array.fromArguments(arguments);
-      args.splice(0, 1);
+      var args = qx.lang.Array.fromArguments(arguments, 1);
 
       return qx.locale.Manager.getInstance().translate(messageId, args);
     },

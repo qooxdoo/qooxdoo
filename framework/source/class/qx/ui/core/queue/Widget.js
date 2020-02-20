@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
         return;
       }
 
-      var hash = widget.$$hash;
+      var hash = widget.toHashCode();
 
       // remove widget and all corresponding jobs, if job param is not given.
       if(job == null) {
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
       if (job == null) {
         job = "$$default";
       }
-      var hash = widget.$$hash;
+      var hash = widget.toHashCode();
       if (!this.__jobs[hash]) {
         this.__jobs[hash] = {};
       }
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
       {
         // Order is important to allow the same widget to be requeued directly
         obj = queue[i];
-        jobs = this.__jobs[obj.$$hash];
+        jobs = this.__jobs[obj.toHashCode()];
 
         queue.splice(i, 1);
         obj.syncWidget(jobs);

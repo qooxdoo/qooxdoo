@@ -102,7 +102,7 @@ var m = Math,
       useTransform: true,
       useTransition: false,
       topOffset: 0,
-      checkDOMChanges: false,   // Experimental
+      checkDOMChanges: false, 
       handleClick: true,
 
       // Scrollbar

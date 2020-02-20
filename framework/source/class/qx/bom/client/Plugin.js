@@ -45,6 +45,8 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
      *
      * @internal
      * @return {Boolean} <code>true</code> if ActiveX is available
+     *
+     * @ignore(window.ActiveXObject)
      */
     getActiveX : function()
     {

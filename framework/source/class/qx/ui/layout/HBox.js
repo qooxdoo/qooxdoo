@@ -325,17 +325,25 @@ qx.Class.define("qx.ui.layout.HBox",
 
       // First run to cache children data and compute allocated width
       var i, child, width, percent;
-      var widths = [];
+      var widths = [], hint;
       var allocatedWidth = gaps;
 
       for (i=0; i<length; i+=1)
       {
         percent = this.__widths[i];
+        hint = children[i].getSizeHint();
 
         width = percent != null ?
           Math.floor((availWidth - gaps) * percent) :
-          children[i].getSizeHint().width;
+          hint.width;
 
+        // Limit computed value
+        if (width < hint.minWidth) {
+          width = hint.minWidth;
+        } else if (width > hint.maxWidth) {
+          width = hint.maxWidth;
+        }
+        
         widths.push(width);
         allocatedWidth += width;
       }

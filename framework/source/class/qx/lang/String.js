@@ -285,8 +285,12 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Print a list of arguments using a format string
      * In the format string occurrences of %n are replaced by the n'th element of the args list.
+     * You can give an object as argument.
+     * In this case you should specify namedArgument in your string with %{namedArgument}.
+     * The named argument will be replace by the value of the property of the object named "namedArgument"
      * Example:
      * <pre class='javascript'>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"</pre>
+     * <pre class='javascript'>qx.lang.String.format("Hello %{yourName}, my name is %{myName}", {yourName: "Egon", myName: "Franz"}) == "Hello Egon, my name is Franz"</pre>
      *
      * @param pattern {String} format string
      * @param args {Array} array of arguments to insert into the format string
@@ -295,13 +299,29 @@ qx.Bootstrap.define("qx.lang.String",
     format : function(pattern, args)
     {
       var str = pattern;
-      var i = args.length;
-
-      while (i--) {
-        // be sure to always use a string for replacement.
-        str = str.replace(new RegExp("%" + (i + 1), "g"), function(){return args[i] + "";});
+      var regexp = /%(\d+)|%{(\S*)}/g;
+      if (!Array.isArray(args)) {
+        args = [args];
       }
 
+      var argsIsObject = (args.length === 1 && typeof args[0] === "object");
+
+      str = str.replace(regexp, function(matchedSubString, numberArgument, namedArgument) {
+        if (namedArgument) {
+          if (argsIsObject) {
+            return args[0][namedArgument];
+          }
+
+          return namedArgument;
+        }
+
+        if (numberArgument && numberArgument > 0 && args.length >= numberArgument) {
+          var index = numberArgument - 1;
+          return args[index];
+        }
+
+        return matchedSubString;
+      });
       return str;
     },
 
