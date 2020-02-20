@@ -367,11 +367,18 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
+     * Initialize the virtual list provider.
+     */
+    _initWidgetProvider : function() {
+      this._provider = new qx.ui.list.provider.WidgetProvider(this);
+    },
+    
+    /**
      * Initializes the virtual list.
      */
     _init : function()
     {
-      this._provider = new qx.ui.list.provider.WidgetProvider(this);
+      this._initWidgetProvider();
 
       this.__lookupTable = [];
       this.__lookupTableForGroup = [];
@@ -678,10 +685,23 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
-     * Helper method to update row heights.
+     * Helper method to update group row heights.
      */
     __updateGroupRowHeight : function()
     {
+      /*
+       * In case of having variableItemHeight set to true,
+       * the group item height has a variable height as well
+       * and will be set again in method _setRowItemSize 
+       * which is a deferred call, being run after all changes.
+       * Resetting the complete item sizes here and setting
+       * the height of the group items, only leads to an
+       * unnecessary flicker of the list items by shrinking and
+       * growing them again.
+       */ 
+      if (this.isVariableItemHeight()) {
+        return;
+      }
       var rc = this.getPane().getRowConfig();
       var gh = this.getGroupItemHeight();
       rc.resetItemSizes();

@@ -1112,7 +1112,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _onCaptionPointerDblTap : function(e)
     {
-      if (this.getAllowMaximize()) {
+      if (this.getAllowMaximize() && (e.getTarget() === this.getChildControl("captionbar") || e.getTarget() === this.getChildControl("title"))) {
         this.isMaximized() ? this.restore() : this.maximize();
       }
     },

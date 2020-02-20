@@ -678,12 +678,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this.__tablePane.onTableModelDataChanged(firstRow, lastRow, firstColumn, lastColumn);
       var rowCount = this.getTable().getTableModel().getRowCount();
+      var colCount = this.__table.getTableColumnModel().getOverallColumnCount();
 
       if (rowCount != this.__lastRowCount)
       {
         this.updateVerScrollBarMaximum();
 
-        if (this.getFocusedRow() >= rowCount)
+        if (this.getFocusedRow() === null && rowCount > 0 && colCount > 0)
+        {
+          this.setFocusedCell(this.getFocusedColumn()||0, 0);
+        } 
+        else if (this.getFocusedRow() >= rowCount)
         {
           if (rowCount == 0) {
             this.setFocusedCell(null, null);
@@ -1967,15 +1972,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__focusIndicator.setDecorator(null);
       }
 
-      this.flushEditor();
-      this.cancelEditing();
+      this.flushEditor(true);
     },
 
 
     /**
-     * Writes the editor's value to the model.
+     * Writes the editor's value to the model
+     * 
+     * @param cancel {Boolean ? false} Whether to also cancel 
+     *      editing before firing the 'dateEdited' event.
      */
-    flushEditor : function()
+    flushEditor : function(cancel)
     {
       if (this.isEditing())
       {
@@ -1984,6 +1991,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.getTable().getTableModel().setValue(this.__focusedCol, this.__focusedRow, value);
 
         this.__table.focus();
+
+        if(cancel) {
+          this.cancelEditing();
+        }
 
         // Fire an event containing the value change.
         this.__table.fireDataEvent("dataEdited",
@@ -2069,26 +2080,27 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _getResizeColumnForPageX : function(pageX)
     {
-      var columnModel = this.getTable().getTableColumnModel();
-      var paneModel = this.getTablePaneModel();
-      var colCount = paneModel.getColumnCount();
-      var currX = this.__header.getContentLocation().left;
-      var regionRadius = qx.ui.table.pane.Scroller.RESIZE_REGION_RADIUS;
+      var contentLocation = this.__header.getContentLocation() || this.__tablePane.getContentLocation();
+      if (contentLocation) {
+        var currX = contentLocation.left;
+        var columnModel = this.getTable().getTableColumnModel();
+        var paneModel = this.getTablePaneModel();
+        var colCount = paneModel.getColumnCount();
+        var regionRadius = qx.ui.table.pane.Scroller.RESIZE_REGION_RADIUS;
 
-      for (var x=0; x<colCount; x++)
-      {
-        var col = paneModel.getColumnAtX(x);
-        var colWidth = columnModel.getColumnWidth(col);
-        currX += colWidth;
+        for (var x = 0; x < colCount; x++) {
+          var col = paneModel.getColumnAtX(x);
+          var colWidth = columnModel.getColumnWidth(col);
+          currX += colWidth;
 
-        if (pageX >= (currX - regionRadius) && pageX <= (currX + regionRadius)) {
-          return col;
+          if (pageX >= (currX - regionRadius) && pageX <= (currX + regionRadius)) {
+            return col;
+          }
         }
       }
 
       return -1;
     },
-
 
     /**
      * Returns the model index of the row the pointer is currently over. Returns -1 if

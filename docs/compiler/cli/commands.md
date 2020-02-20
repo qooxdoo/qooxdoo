@@ -1,7 +1,7 @@
-### CLI Commands
+# CLI Commands
 
-The qooxdoo CLI commands allow to conveniently create, modify, compile, testand publish
-and publish your qooxdoo project. To see the main available commands, type
+The qooxdoo CLI commands allow to conveniently create, modify, compile, test and publish
+your qooxdoo project. To see the main available commands, type
 `qx` without any further parameters.
 
 ```
@@ -30,7 +30,7 @@ Commands:
 
 To see the subcommands parameters and options, just type in `qx <command> --help`.
 
-# Persistent Configuration
+## Persistent Configuration
 
 Some commands require (or benefit from) having persistent configuration; this is
 accessed via the `qx config` command and the data is stored in a directory
@@ -91,19 +91,22 @@ Options:
   --target                  Set the target type: source or build or class
                             name                    [string] [default: "source"]
   --output-path             Base path for output                        [string]
-  --locale                  Compile for a given locale                   [array]
+  --locale                  Compile for a given locale                  [array]
   --write-all-translations  enables output of all translations, not just those
-                            that are explicitly referenced             [boolean]
-  --set                     sets an environment value                    [array]
-			    key="value" (with value getting evaluated as js)
+                              that are explicitly referenced            [boolean]
+  --set                     sets an environment value for the compilation
+                            key="value" (with value getting evaluated as js)
+                                                                        [array]
+  --set-env                 sets an environment value for the application
+                                                                        [array]
   --app-class               sets the application class                  [string]
   --app-theme               sets the theme class for the current application
                                                                         [string]
   --app-name                sets the name of the current application    [string]
   --library                 adds a library                               [array]
-  --watch                   enables continuous compilation             [boolean]
+  --watch                   enables continuous compilation              [boolean]
   --verbose                 enables additional progress output to console
-                                                                       [boolean]
+                                                                        [boolean]
 ```
 
 The compiler relies on the information contained in `compile.json`.
@@ -174,11 +177,15 @@ qx serve [configFile]
 Options:
   --target                  Set the target type: source or build or class
                             name                    [string] [default: "source"]
-  --output-path             Base path for output                        [string]
+  --output-path             Base path for output                       [string]
   --locale                  Compile for a given locale                   [array]
   --write-all-translations  enables output of all translations, not just those
                             that are explicitly referenced             [boolean]
-  --set                     sets an environment value                    [array]
+  --set                     sets an environment value for the compilation
+                            key="value" (with value getting evaluated as js)
+                                                                       [array]
+  --set-env                 sets an environment value for the application
+                                                                       [array]
                             key="value" (with value getting evaluated as js)
   --machine-readable        output compiler messages in machine-readable format
                                                                        [boolean]

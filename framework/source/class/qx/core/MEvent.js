@@ -76,9 +76,10 @@ qx.Mixin.define("qx.core.MEvent",
       if (!context) {
         context = this;
       }
+      var id;         // store id in closure context
       var callback = function(e)
       {
-        self.removeListener(type, listener, context, capture);
+        self.removeListenerById(id);
         listener.call(context, e);
       };
       // check for wrapped callback storage
@@ -88,7 +89,8 @@ qx.Mixin.define("qx.core.MEvent",
       // store the call for each type in case the listener is
       // used for more than one type [BUG #8038]
       listener.$$wrapped_callback[type + this.toHashCode()] = callback;
-      return this.addListener(type, callback, context, capture);
+      id = this.addListener(type, callback, context, capture);
+      return id;
     },
 
 
@@ -113,7 +115,6 @@ qx.Mixin.define("qx.core.MEvent",
         }
         return this.__Registration.removeListener(this, type, listener, self, capture);
       }
-
       return false;
     },
 
@@ -172,7 +173,7 @@ qx.Mixin.define("qx.core.MEvent",
      * @param clazz {Class?qx.event.type.Event} The event class
      * @param args {Array?null} Arguments, which will be passed to
      *       the event's init method.
-     * @return {Boolean} Whether the event default was prevented or not.
+     * @return {Boolean|qx.Promise} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      */
     fireEvent : function(type, clazz, args)
@@ -219,7 +220,7 @@ qx.Mixin.define("qx.core.MEvent",
      *     right click) or the default action of a qooxdoo class (e.g. close
      *     the window widget). The default action can be prevented by calling
      *     {@link qx.event.type.Event#preventDefault}
-     * @return {Boolean} Whether the event default was prevented or not.
+     * @return {Boolean|qx.Promise} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      */
     fireDataEvent : function(type, data, oldData, cancelable)
@@ -229,7 +230,7 @@ qx.Mixin.define("qx.core.MEvent",
         if (oldData === undefined) {
           oldData = null;
         }
-        return this.__Registration.fireNonBubblingEvent(
+        return this.__Registration.fireEvent(
           this, type, qx.event.type.Data, [data, oldData, !!cancelable]
         );
       }
