@@ -367,11 +367,18 @@ qx.Class.define("qx.ui.list.List",
 
 
     /**
+     * Initialize the virtual list provider.
+     */
+    _initWidgetProvider : function() {
+      this._provider = new qx.ui.list.provider.WidgetProvider(this);
+    },
+    
+    /**
      * Initializes the virtual list.
      */
     _init : function()
     {
-      this._provider = new qx.ui.list.provider.WidgetProvider(this);
+      this._initWidgetProvider();
 
       this.__lookupTable = [];
       this.__lookupTableForGroup = [];
