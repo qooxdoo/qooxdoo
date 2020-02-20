@@ -994,14 +994,47 @@ qx.Class.define("qx.ui.layout.Grid",
         // increment the preferred column sizes.
         if (prefSpanWidth < hint.width)
         {
-          var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            colFlexes, hint.width, prefSpanWidth
-          );
+          if (!qx.lang.Object.isEmpty(colFlexes)) {
+            var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
+              colFlexes, hint.width, prefSpanWidth
+            );
 
-          for (var j=0; j<widgetProps.colSpan; j++)
-          {
-            offset = colIncrements[widgetColumn+j] ? colIncrements[widgetColumn+j].offset : 0;
-            colWidths[widgetColumn+j].width += offset;
+            for (var j=0; j<widgetProps.colSpan; j++)
+            {
+              offset = colIncrements[widgetColumn+j] ? colIncrements[widgetColumn+j].offset : 0;
+              colWidths[widgetColumn+j].width += offset;
+            }
+          // col is too small and we have no flex value set
+          } else {
+            var totalSpacing = hSpacing * (widgetProps.colSpan - 1);
+            var availableWidth = hint.width - totalSpacing;
+            
+            // get the col width which every child would need to share the
+            // available width equally
+            var avgColWidth = Math.floor(availableWidth / widgetProps.colSpan);
+            
+            // get the width already used and the number of children which do
+            // not have at least that avg col width
+            var usedWidth = 0;
+            var colsNeedAddition = 0;
+            for (var k = 0; k < widgetProps.colSpan; k++) {
+              var currentWidth = colWidths[widgetColumn + k].width;
+              usedWidth += currentWidth;
+              if (currentWidth < avgColWidth) {
+                colsNeedAddition++;
+              }
+            }
+
+            // the difference of available and used needs to be shared among
+            // those not having the min size
+            var additionalColWidth = Math.floor((availableWidth - usedWidth) / colsNeedAddition);
+            
+            // add the extra width to the too small children
+            for (var k = 0; k < widgetProps.colSpan; k++) {
+              if (colWidths[widgetColumn + k].width < avgColWidth) {
+                colWidths[widgetColumn + k].width += additionalColWidth;
+              }
+            }
           }
         }
 
