@@ -891,7 +891,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var rowHeight = this.getTable().getRowHeight();
       var delta = e.getData() - e.getOldData();
       if ((Math.abs(delta) > 1) && (Math.abs(delta) < rowHeight)) {
-        delta = e.getOldData() + Math.sign(delta) * rowHeight;
+        delta = (delta < 0) ? e.getOldData() - rowHeight
+                            : e.getOldData() + rowHeight;
         if (delta>=0&&delta<=scrollbar.getMaximum()) {
           scrollbar.setPosition(delta);
         }
