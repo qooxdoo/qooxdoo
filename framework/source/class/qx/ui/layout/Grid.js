@@ -795,7 +795,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * @param widget {qx.ui.core.LayoutItem} The widget to get the size for
      * @return {Map} a size hint map
      */
-    __getOuterSize : function(widget)
+    _getOuterSize : function(widget)
     {
       var hint = widget.getSizeHint();
       var hMargins = widget.getMarginLeft() + widget.getMarginRight();
@@ -835,7 +835,7 @@ qx.Class.define("qx.ui.layout.Grid",
       {
         var widget = this.__rowSpans[i];
 
-        var hint = this.__getOuterSize(widget);
+        var hint = this._getOuterSize(widget);
 
         var widgetProps = widget.getLayoutProperties();
         var widgetRow = widgetProps.row;
@@ -951,12 +951,13 @@ qx.Class.define("qx.ui.layout.Grid",
     _fixWidthsColSpan : function(colWidths)
     {
       var hSpacing = this.getSpacingX();
-
-      for (var i=0, l=this.__colSpans.length; i<l; i++)
+      var colSpans = this._getColSpans();
+      
+      for (var i=0, l=colSpans.length; i<l; i++)
       {
-        var widget = this.__colSpans[i];
+        var widget = colSpans[i];
 
-        var hint = this.__getOuterSize(widget);
+        var hint = this._getOuterSize(widget);
 
         var widgetProps = widget.getLayoutProperties();
         var widgetColumn = widgetProps.column;
@@ -1094,7 +1095,7 @@ qx.Class.define("qx.ui.layout.Grid",
             continue;
           }
 
-          var cellSize = this.__getOuterSize(widget);
+          var cellSize = this._getOuterSize(widget);
 
           if (this.getRowFlex(row) > 0) {
             minHeight = Math.max(minHeight, cellSize.minHeight);
@@ -1168,7 +1169,7 @@ qx.Class.define("qx.ui.layout.Grid",
             continue;
           }
 
-          var cellSize = this.__getOuterSize(widget);
+          var cellSize = this._getOuterSize(widget);
 
           minWidth = Math.max(minWidth, cellSize.minWidth);
 
@@ -1191,7 +1192,7 @@ qx.Class.define("qx.ui.layout.Grid",
         };
       }
 
-      if (this.__colSpans.length > 0) {
+      if (this._getColSpans().length > 0) {
         this._fixWidthsColSpan(colWidths);
       }
 
@@ -1291,6 +1292,18 @@ qx.Class.define("qx.ui.layout.Grid",
       return qx.ui.layout.Util.computeFlexOffsets(flexibles, height, hint.height);
     },
 
+
+    /**
+     * Returns the internal private __colSpans array in order
+     * have a protected getter which can be used other methods
+     * to make them overridable
+     *
+     * @return {Array} the __colSpans array
+     */
+    _getColSpans : function() {
+      return this.__colSpans;  
+    },
+    
 
     // overridden
     renderLayout : function(availWidth, availHeight, padding)
