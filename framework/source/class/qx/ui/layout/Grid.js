@@ -1192,7 +1192,7 @@ qx.Class.define("qx.ui.layout.Grid",
         };
       }
 
-      if (this.getColSpans().length > 0) {
+      if (this._getColSpans().length > 0) {
         this._fixWidthsColSpan(colWidths);
       }
 
