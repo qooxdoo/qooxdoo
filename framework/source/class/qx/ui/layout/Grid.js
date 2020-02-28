@@ -1298,7 +1298,7 @@ qx.Class.define("qx.ui.layout.Grid",
      * have a protected getter which can be used other methods
      * to make them overridable
      *
-     * @return {Array} the  array
+     * @return {Array} the __colSpans array
      */
     _getColSpans : function() {
       return this.__colSpans;  
