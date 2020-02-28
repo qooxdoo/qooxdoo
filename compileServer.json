@@ -37,14 +37,19 @@
         "qx.debug": false
       },
       "include": [
-        "qx.*"
+        "qx.*",
+        "qx.dev.unit.TestLoaderBasic",
+        "qx.dev.unit.Sinon"
       ],
       "exclude": [
         "q",
         "qx.test.*",
         "qxWeb",
         "qx.module.*",
-        "qx.dev.unit.*",
+        "qx.dev.unit.TestLoader",
+        "qx.dev.unit.TestLoaderInline",
+        "qx.dev.unit.TestLoaderMobile",
+        "qx.dev.unit.TestLoaderNative",
         "qx.ui.*",
         "qx.log.appender.Native",
         "qx.log.appender.Element",
@@ -54,6 +59,7 @@
         "qx.bom.Flash",
         "qx.bom.Vml",
         "qx.bom.client.Html",
+        "qx.bom.client.Plugin",
         "qx.bom.client.Pdfjs",
         "qx.event.handler.Pointer",
         "qx.event.handler.Gesture",
