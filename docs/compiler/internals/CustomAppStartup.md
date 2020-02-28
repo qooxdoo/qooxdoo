@@ -72,8 +72,8 @@ Here's a complete, although minimal, example of an index.html:
   <title>${appTitle}</title>
 </head>
 <body>
-  ${preBootJs}
-  <script type="text/javascript" src="${appPath}boot.js"></script>
+  \${preBootJs}
+  <script type="text/javascript" src="\${appPath}boot.js"></script>
 </body>
 </html>
 ``` 
