@@ -1030,7 +1030,7 @@ var sinon = (function (formatio) {
         }
     };
 
-    var isNode = typeof module !== "undefined" && module.exports;
+    var isNode = typeof module !== "undefined" && module.exports && !qx;
     var isAMD = typeof define === 'function' && typeof define.amd === 'object' && define.amd;
 
     if (isAMD) {
@@ -1089,7 +1089,7 @@ var sinon = (function (formatio) {
  */
 
 (function (sinon) {
-    var commonJSModule = typeof module !== 'undefined' && module.exports;
+    var commonJSModule = typeof module !== 'undefined' && module.exports && !qx;
 
     if (!sinon && commonJSModule) {
         sinon = require("../sinon");
@@ -1337,7 +1337,7 @@ var sinon = (function (formatio) {
   */
 
 (function (sinon) {
-    var commonJSModule = typeof module !== 'undefined' && module.exports;
+    var commonJSModule = typeof module !== 'undefined' && module.exports && !qx;
     if (!sinon && commonJSModule) {
         sinon = require("../sinon");
     }
@@ -1538,7 +1538,7 @@ var sinon = (function (formatio) {
   */
 
 (function (sinon) {
-    var commonJSModule = typeof module !== 'undefined' && module.exports;
+    var commonJSModule = typeof module !== 'undefined' && module.exports && !qx;
     var push = Array.prototype.push;
     var slice = Array.prototype.slice;
     var callId = 0;
@@ -1945,7 +1945,7 @@ var sinon = (function (formatio) {
  */
 
 (function (sinon) {
-    var commonJSModule = typeof module !== 'undefined' && module.exports;
+    var commonJSModule = typeof module !== 'undefined' && module.exports && !qx;
 
     if (!sinon && commonJSModule) {
         sinon = require("../sinon");
@@ -2277,7 +2277,7 @@ var sinon = (function (formatio) {
  */
 
 (function (sinon) {
-    var commonJSModule = typeof module !== 'undefined' && module.exports;
+    var commonJSModule = typeof module !== 'undefined' && module.exports && !qx;
 
     if (!sinon && commonJSModule) {
         sinon = require("../sinon");
@@ -2435,7 +2435,7 @@ var sinon = (function (formatio) {
  */
 
 (function (sinon) {
-    var commonJSModule = typeof module !== 'undefined' && module.exports;
+    var commonJSModule = typeof module !== 'undefined' && module.exports && !qx;
     var push = [].push;
     var match;
 
@@ -2589,7 +2589,12 @@ var sinon = (function (formatio) {
 
     sinon.expectation = (function () {
         var slice = Array.prototype.slice;
-        var _invoke = sinon.spy.invoke;
+          var _invoke;
+          if (commonJSModule) {
+            _invoke = module.exports.spy.invoke;
+          } else {
+            _invoke = sinon.spy.invoke;
+          }
 
         function callCountInWords(callCount) {
             if (callCount == 0) {
@@ -2885,7 +2890,7 @@ var sinon = (function (formatio) {
  */
 
 (function (sinon) {
-    var commonJSModule = typeof module !== 'undefined' && module.exports;
+    var commonJSModule = typeof module !== 'undefined' && module.exports && !qx;
     var push = [].push;
     var hasOwnProperty = Object.prototype.hasOwnProperty;
 
@@ -3421,7 +3426,7 @@ sinon.timers = {
     Date: Date
 };
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== 'undefined' && module.exports && !qx) {
     module.exports = sinon;
 }
 
@@ -3550,7 +3555,7 @@ if (typeof sinon == "undefined") {
     xhr.supportsXHR = typeof xhr.GlobalXMLHttpRequest != "undefined";
     xhr.workingXHR = xhr.supportsXHR ? xhr.GlobalXMLHttpRequest : xhr.supportsActiveX
                                      ? function() { return new xhr.GlobalActiveXObject("MSXML2.XMLHTTP.3.0") } : false;
-    xhr.supportsCORS = 'withCredentials' in (new sinon.xhr.GlobalXMLHttpRequest());
+    xhr.supportsCORS = sinon.xhr.GlobalXMLHttpRequest && ('withCredentials' in (new sinon.xhr.GlobalXMLHttpRequest()));
 
     /*jsl:ignore*/
     var unsafeHeaders = {
@@ -4090,7 +4095,7 @@ if (typeof sinon == "undefined") {
 
 })(typeof global === "object" ? global : this);
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== 'undefined' && module.exports && !qx) {
     module.exports = sinon;
 }
 
@@ -4139,7 +4144,7 @@ sinon.fakeServer = (function () {
         return response;
     }
 
-    var wloc = typeof window !== "undefined" ? window.location : {};
+    var wloc = (typeof window !== "undefined") && (typeof window.location !== "undefined") ? window.location : {};
     var rCurrLoc = new RegExp("^" + wloc.protocol + "//" + wloc.host);
 
     function matchOne(response, reqMethod, reqUrl) {
@@ -4302,7 +4307,7 @@ sinon.fakeServer = (function () {
     };
 }());
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== 'undefined' && module.exports && !qx) {
     module.exports = sinon;
 }
 
@@ -4407,7 +4412,7 @@ if (typeof module !== 'undefined' && module.exports) {
  * Copyright (c) 2010-2013 Christian Johansen
  */
 
-if (typeof module !== 'undefined' && module.exports) {
+if (typeof module !== 'undefined' && module.exports && !qx) {
     var sinon = require("../sinon");
     sinon.extend(sinon, require("./util/fake_timers"));
 }
@@ -4526,7 +4531,7 @@ if (typeof module !== 'undefined' && module.exports) {
 
     sinon.sandbox.useFakeXMLHttpRequest = sinon.sandbox.useFakeServer;
 
-    if (typeof module !== 'undefined' && module.exports) {
+    if (typeof module !== 'undefined' && module.exports && !qx) {
         module.exports = sinon.sandbox;
     }
 }());
@@ -4549,7 +4554,7 @@ if (typeof module !== 'undefined' && module.exports) {
  */
 
 (function (sinon) {
-    var commonJSModule = typeof module !== 'undefined' && module.exports;
+    var commonJSModule = typeof module !== 'undefined' && module.exports && !qx;
 
     if (!sinon && commonJSModule) {
         sinon = require("../sinon");
@@ -4622,7 +4627,7 @@ if (typeof module !== 'undefined' && module.exports) {
  */
 
 (function (sinon) {
-    var commonJSModule = typeof module !== 'undefined' && module.exports;
+    var commonJSModule = typeof module !== 'undefined' && module.exports && !qx;
 
     if (!sinon && commonJSModule) {
         sinon = require("../sinon");
@@ -4719,7 +4724,7 @@ if (typeof module !== 'undefined' && module.exports) {
  */
 
 (function (sinon, global) {
-    var commonJSModule = typeof module !== "undefined" && module.exports;
+    var commonJSModule = typeof module !== "undefined" && module.exports && !qx;
     var slice = Array.prototype.slice;
     var assert;
 
