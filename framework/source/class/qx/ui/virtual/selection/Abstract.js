@@ -110,8 +110,18 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
 
     /**
      * Detach pointer events from the managed pane.
+     *
+     * @deprecated {6.0} misspelled, please use detachPointerEvents instead!
      */
     detatchPointerEvents : function()
+    {
+      this.detachPointerEvents();
+    },
+
+    /**
+     * Detach pointer events from the managed pane.
+     */
+    detachPointerEvents : function()
     {
       var paneElement = this._pane.getContentElement();
       paneElement.removeListener("pointerdown", this.handlePointerDown, this);
@@ -120,7 +130,6 @@ qx.Class.define("qx.ui.virtual.selection.Abstract",
       paneElement.removeListener("pointermove", this.handlePointerMove, this);
       paneElement.removeListener("losecapture", this.handleLoseCapture, this);
     },
-
 
     /**
      * Attach key events to manipulate the selection using the keyboard. The
