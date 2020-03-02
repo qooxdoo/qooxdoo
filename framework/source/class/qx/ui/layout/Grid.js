@@ -140,6 +140,21 @@ qx.Class.define("qx.ui.layout.Grid",
       check : "Integer",
       init : 0,
       apply : "_applyLayoutChange"
+    },
+    
+    
+    /**
+     * Allow growing of spanning cells' widths beyond the accumulated widths of the columns.
+     * The default behavior (init value false) is that the width of the spanning cell is 
+     * determined by the accumulated width of the columns (plus spacing). 
+     * Setting this property to true lets the cell width grow as needed to show 
+     * the widget in the spanning cell, which also enlarges the width of the spanned columns.
+     */
+    allowGrowSpannedCellWidth :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyLayoutChange"
     }
   },
 
@@ -995,7 +1010,11 @@ qx.Class.define("qx.ui.layout.Grid",
         // increment the preferred column sizes.
         if (prefSpanWidth < hint.width)
         {
-          if (!qx.lang.Object.isEmpty(colFlexes)) {
+          // Do not adapt column widths to the width
+          // of the spanning cell if allowGrowSpannedCellWidth property
+          // is set to false
+          // See https://github.com/qooxdoo/qooxdoo/issues/9871
+          if (!this.getAllowGrowSpannedCellWidth() || !qx.lang.Object.isEmpty(colFlexes)) {
             var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
               colFlexes, hint.width, prefSpanWidth
             );
