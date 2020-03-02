@@ -37,7 +37,6 @@ Layout properties
 -   **column** *(Integer)*: The column of the cell the widget should occupy. Each cell can only contain one widget. This layout property is mandatory.
 -   **rowSpan** *(Integer)*: The number of rows, the widget should span, starting from the row specified in the `row` property. The cells in the spanned rows must be empty as well. (defaults to `1`)
 -   **colSpan** *(Integer)*: The number of columns, the widget should span, starting from the column specified in the `column` property. The cells in the spanned columns must be empty as well. (defaults to `1`)
--   **allowGrowSpannedCellWidth** *(Boolean)*: Allow growing of spanning cells' widths beyond the cumulated widths of the columns. The default behavior is that the width of the spanning cell is determined by the accumulated width of the columns (plus spacing). Setting this property to true lets the cell width grow as needed to show the widget in the spanning cell, which also enlarges the width of the spanned columns. (defaults to `true`)
 
 Alternative Names
 -----------------
