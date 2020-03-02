@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.layout.Grid",
     
     
     /**
-     * Allow growing of spanning cells widths beyond the accumulated widths of the columns.
+     * Allow growing of spanning cells' widths beyond the accumulated widths of the columns.
      * The default behavior (init value false) is that the width of the spanning cell is 
      * determined by the accumulated width of the columns (plus spacing). 
      * Setting this property to true lets the cell width grow as needed to show 
