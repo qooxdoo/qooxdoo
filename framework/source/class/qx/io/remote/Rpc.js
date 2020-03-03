@@ -1184,6 +1184,9 @@ qx.Class.define("qx.io.remote.Rpc",
           promises.push(request.promise);
           return request.data;
         });
+        if (data.length === 1){
+          data = data[0];
+        }
         req.setData(qx.lang.Json.stringify(data));
 
         // set authentication headers
@@ -1194,7 +1197,6 @@ qx.Class.define("qx.io.remote.Rpc",
           });
         }
         req.setTimeout(this.getTimeout());
-        req.setAsynchronous(false);
         req.setRequestHeader("Content-Type", "application/json");
         // Do not parse as JSON. Later done conditionally.
         req.setParseJson(false);
