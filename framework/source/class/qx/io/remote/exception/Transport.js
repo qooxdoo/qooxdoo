@@ -17,9 +17,10 @@
 ************************************************************************ */
 
 /**
- * A class for representing errors that occurred on the jsonrpc server
+ *  A class for representing errors that occurred during the request transport.
+ *  In the context of HTTP requests, the error code is the HTTP error code.
  */
-qx.Class.define("qx.io.remote.RpcException",
+qx.Class.define("qx.io.remote.exception.Transport",
 {
   extend : qx.io.Exception
 });

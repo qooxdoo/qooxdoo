@@ -28,7 +28,8 @@ qx.Class.define("qx.io.remote.RpcError",
       TIMEOUT      : 1,
       ABORTED      : 2,
       NO_DATA      : 3,
-      INVALID_DATA : 4
+      INVALID_DATA : 4,
+      CANCELLED    : 5
 
     },
 
