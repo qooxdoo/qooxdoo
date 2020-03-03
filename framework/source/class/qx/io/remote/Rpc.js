@@ -177,7 +177,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
     /**
      * Origins of errors
-     * @deprecated
+     * @deprecated since 6.0.0, will be removed in 7.0.0
      */
     origin :
     {
@@ -190,7 +190,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
     /**
      *  Locally-detected errors
-     *  @deprecated
+     *  @deprecated since 6.0.0, will be removed in 7.0.0
      */
     localError :
     {
@@ -221,7 +221,9 @@ qx.Class.define("qx.io.remote.Rpc",
      * The work-around compensates for the fact that while the
      * Date object is a primitive type in Javascript, the
      * specification neglects to provide a literal form for it.
-     * @deprecated
+     *
+     * This only works if the protocol property is set to "qx1".
+     * @deprecated since 6.0.0, will be removed in 7.0.0
      */
     CONVERT_DATES : null,
 
@@ -242,7 +244,9 @@ qx.Class.define("qx.io.remote.Rpc",
      * Using valid JSON is recommended, because it allows to use
      * {@link qx.lang.Json#parse} for parsing. {@link qx.lang.Json#parse}
      * is preferred over the potentially insecure <code>eval</code>.
-     * @deprecated
+     *
+     * This only works if the protocol property is set to "qx1"
+     * @deprecated since 6.0.0, will be removed in 7.0.0
      */
     RESPONSE_JSON : null,
 
@@ -258,7 +262,7 @@ qx.Class.define("qx.io.remote.Rpc",
      *  on the server. The instance id can also be used to provide additional
      *  data for the service instantiation on the server.
      * @return {String} the url.
-     * @deprecated
+     * @deprecated since 6.0.0, will be removed in 7.0.0
      */
     makeServerURL : function(instanceId)
     {
@@ -315,6 +319,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * used for sending the request from qx.io.remote.transport.XmlHttp to
      * qx.io.remote.transport.Script because only the latter can handle cross
      * domain requests.
+     * @deprecated since 6.0.0
      */
     crossDomain :
     {
@@ -348,7 +353,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * not sent to the server if it has been set to 'null'.
      * Part of the non-standard qooxdoo v1 implementation to support legacy
      * applications. Can be ignored in normal circumstances.
-     * @deprecated
+     * @deprecated since 6.0.0, will be removed in 7.0.0
      */
     serverData :
     {
@@ -757,7 +762,7 @@ qx.Class.define("qx.io.remote.Rpc",
         if (!qx.lang.Type.isObject(response)) {
 
           // Handle converted dates. Deprecated.
-          if (self._isConvertDates()) {
+          if (this.getProtocol() === "qx1" && self._isConvertDates()) {
 
             // Parse as JSON and revive date literals
             if (self._isResponseJson()) {
@@ -828,7 +833,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
       // Provide a replacer when convert dates is enabled
       var replacer = null;
-      if (this._isConvertDates()) {
+      if (this.getProtocol() === "qx1" && this._isConvertDates()) {
         replacer = function(key, value) {
           // The value passed in is of type string, because the Date's
           // toJson gets applied before. Get value from containing object.
@@ -938,7 +943,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param methodName {String} the name of the method to call.
      * @param args {Array} an array of values passed through to the backend.
      * @return {var} the result returned by the server.
-     * @deprecated Synchronous requests are deprecated since v6.0.0
+     * @deprecated deprecated since v6.0.0, will be removed in 7.0.0
      */
     callSync : function(methodName,args)
     {
