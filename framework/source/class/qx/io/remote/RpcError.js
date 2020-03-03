@@ -23,6 +23,15 @@ qx.Class.define("qx.io.remote.RpcError",
 {
   statics :
   {
+    type:
+    {
+      TIMEOUT      : 1,
+      ABORTED      : 2,
+      NO_DATA      : 3,
+      INVALID_DATA : 4
+
+    },
+
     /** Information pertaining to qooxdoo's modified JSON-RPC Version 1 */
     qx1:
     {
