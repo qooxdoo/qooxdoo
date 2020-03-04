@@ -30,5 +30,8 @@
     "remark-lint-no-dead-urls": "^0.4.1",
     "remark-preset-lint-recommended": "^3.0.2",
     "remark-validate-links": "^8.0.2"
+  },
+  "dependencies": {
+    "@qooxdoo/compiler": "^1.0.0-beta.20200228-1557"
   }
 }

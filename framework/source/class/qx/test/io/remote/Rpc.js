@@ -33,31 +33,9 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.getSandbox().restore();
     },
 
-    serverJsonResponseWillBe : function(value) {
-      this.getServer().respondWith("POST", "/jsonrpc",[
-        200, { "Content-Type": "application/json" },
-        qx.lang.Json.stringify(value)
-      ]);
+    serverRespondsWith : function(value) {
+      this.getServer().respondWith("POST", /.*/,[200, { "Content-Type": "application/json" },value]);
     },
-
-    "test: call simple jsonrpc method" : function() {
-      this.serverJsonResponseWillBe({
-        jsonrpc: "2.0",
-        id: 1,
-        result: "foo"
-      });
-      var client = new qx.io.remote.Rpc("/jsonrpc","foo");
-      var that = this;
-      var callback = this.spy();
-      client.sendRequest("someMethod",[1,2,3]).then(callback);
-      this.getServer().respond();
-      this.assert.calledWith(callback, "foo");
-    },
-
-
-    //
-    // legacy tests, will be removed in v7.0.0
-    //
 
     skip: function(msg) {
       throw new qx.dev.unit.RequirementError(null, msg);
@@ -89,6 +67,32 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.assertCalledOnce(this.request.send);
     },
 
+    "test: call simple jsonrpc method" : async function() {
+      var response = qx.lang.Json.stringify({
+        jsonrpc: "2.0",
+        id: 1,
+        result: "foo"
+      });
+      this.serverRespondsWith(response);
+      var client = new qx.io.remote.Rpc("/jsonrpc");
+      var that = this;
+      var requestCallback = this.spy();
+      var sendCallback = this.spy();
+      client.addRequest("getFoo",[]).then(requestCallback);
+      client.send().then(sendCallback);
+      this.getServer().respond();
+      this.wait(100, function(){
+        this.assertCalledWith(requestCallback,"foo");
+        this.assertCalledWith(sendCallback, qx.lang.Json.parse(response));
+      },this);
+
+    },
+
+
+    //
+    // legacy tests, will be removed in v7.0.0
+    //
+
     "test: request data for params with date contains date literal when convert dates": function() {
       this.setUpFakeRequest();
       var obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) },
@@ -96,6 +100,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
           data;
 
       var rpc = new qx.io.remote.Rpc();
+      rpc.setProtocol("qx1");
       this.stub(rpc, "_isConvertDates").returns(true);
       this.stub(rpc, "createRpcData").returns({"params": obj});
       rpc.callAsync();
@@ -112,6 +117,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
           data;
 
       var rpc = new qx.io.remote.Rpc();
+      rpc.setProtocol("qx1");
       this.stub(rpc, "_isConvertDates").returns(true);
       this.stub(rpc, "createRpcData").returns({"params": obj});
       rpc.callAsync();
@@ -129,6 +135,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
           str = '{"result": {"date": new Date(Date.UTC(2020,0,1,0,0,0,123))} }',
           that = this;
 
+
       this.stub(rpc, "_isConvertDates").returns(true);
 
       var callback = this.spy(function(result) {
@@ -136,6 +143,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
         that.assertTrue(qx.lang.Type.isDate(result.date), msg);
       });
 
+      rpc.setProtocol("qx1");
       rpc.callAsync(callback);
 
       // Fake JSON-like (JavaScript) response
@@ -166,6 +174,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
         that.assertTrue(qx.lang.Type.isDate(result.date), msg);
       });
 
+      rpc.setProtocol("qx1");
       rpc.callAsync(callback);
 
       // Fake JSON (String) response
@@ -183,6 +192,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
           str = '{"result": { "json" : true} }',
           that = this;
 
+
       this.stub(rpc, "_isConvertDates").returns(false);
       this.spy(qx.lang.Json, "parse");
 
@@ -190,6 +200,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
         that.assertCalledWith(qx.lang.Json.parse, str);
       });
 
+      rpc.setProtocol("qx1");
       rpc.callAsync(callback);
 
       // Fake JSON (String) response
@@ -214,6 +225,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
         that.assertNotCalled(qx.lang.Json.parse);
       });
 
+      rpc.setProtocol("qx1");
       rpc.callAsync(callback);
 
       // Object response
@@ -229,6 +241,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
 
     "test: isConvertDates() returns true when Rpc true": function() {
       var rpc = new qx.io.remote.Rpc();
+      rpc.setProtocol("qx1");
       this.stub(qx.io.remote.Rpc, "CONVERT_DATES", true);
       this.assertEquals(true, rpc._isConvertDates());
     }

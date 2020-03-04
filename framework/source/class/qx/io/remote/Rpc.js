@@ -90,24 +90,20 @@ qx.Class.define("qx.io.remote.Rpc",
    * @param serviceName {String}
    *  identifies the service (dependent on the server implementation).
    */
-  construct : function(url, serviceName)
-  {
+  construct : function(url, serviceName) {
     this.base(arguments);
 
-    if (url !== undefined)
-    {
+    if (url !== undefined) {
       this.setUrl(url);
     }
 
-    if (serviceName != null)
-    {
+    if (serviceName != null) {
       this.setServiceName(serviceName);
     }
 
     this.__requestQueue = [];
 
-    if (qx.core.ServerSettings)
-    {
+    if (qx.core.ServerSettings) {
       this.__currentServerSuffix = qx.core.ServerSettings.serverPathSuffix;
     }
   },
@@ -270,20 +266,17 @@ qx.Class.define("qx.io.remote.Rpc",
      * @return {String} the url.
      * @deprecated since 6.0.0, will be removed in 7.0.0
      */
-    makeServerURL : function(instanceId)
-    {
+    makeServerURL : function(instanceId) {
       var retVal = null;
 
       // legacy support for non-standard implementation
-      if (qx.core.ServerSettings)
-      {
+      if (qx.core.ServerSettings) {
         retVal =
           qx.core.ServerSettings.serverPathPrefix +
           "/.qxrpc" +
           qx.core.ServerSettings.serverPathSuffix;
 
-        if (instanceId != null)
-        {
+        if (instanceId != null) {
           retVal += "?instanceId=" + instanceId;
         }
       }
@@ -414,7 +407,9 @@ qx.Class.define("qx.io.remote.Rpc",
     protocol :
     {
       init : "2.0",
-      check : function(val) { return val == "qx1" || val == "2.0"; }
+      check : function(val) {
+       return val == "qx1" || val == "2.0";
+      }
     },
 
     /**
@@ -460,8 +455,7 @@ qx.Class.define("qx.io.remote.Rpc",
      *
      * @return {qx.io.remote.Request}
      */
-    createRequest: function()
-    {
+    createRequest: function() {
       return new qx.io.remote.Request(this.getUrl(),
                                 "POST",
                                 "application/json");
@@ -492,14 +486,12 @@ qx.Class.define("qx.io.remote.Rpc",
      *   The object to be converted to JSON and passed to the JSON-RPC
      *   server.
      */
-    createRpcData: function(id, method, parameters, serverData)
-    {
+    createRpcData: function(id, method, parameters, serverData) {
       var requestObject;
       var service;
 
       // Create a protocol-dependent request object
-      if (this.getProtocol() == "qx1")
-      {
+      if (this.getProtocol() == "qx1") {
         // Create a qooxdoo-modified version 1.0 rpc data object
         requestObject =
           {
@@ -511,22 +503,16 @@ qx.Class.define("qx.io.remote.Rpc",
           };
 
         // Only add the server_data member if there is actually server data
-        if (serverData)
-        {
+        if (serverData) {
           requestObject.server_data = serverData;
         }
-      }
-      else
-      {
+      } else {
         // JSONRPC v2
         // If there's a service name, we'll prepend it to the method name
         service = this.getServiceName();
-        if (service && service != "")
-        {
+        if (service && service != "") {
           service += ".";
-        }
-        else
-        {
+        } else {
           service = "";
         }
 
@@ -565,8 +551,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @return {var} the method call reference.
      * @throws {Error} An error.
      */
-    _callInternal : function(args, callType, refreshSession)
-    {
+    _callInternal : function(args, callType, refreshSession) {
       var self = this;
       var offset = (callType == 0 ? 0 : 1);
       var whichMethod = (refreshSession ? "refreshSession" : args[offset]);
@@ -575,8 +560,7 @@ qx.Class.define("qx.io.remote.Rpc",
       var eventTarget = this;
       var protocol = this.getProtocol();
 
-      for (var i=offset+1; i<args.length; ++i)
-      {
+      for (var i=offset+1; i<args.length; ++i) {
         argsArray.push(args[i]);
       }
 
@@ -594,17 +578,15 @@ qx.Class.define("qx.io.remote.Rpc",
       req.setCrossDomain(this.getCrossDomain());
 
       // deprecated
-      if (this.getUsername())
-      {
+      if (this.getUsername()) {
         req.setUseBasicHttpAuth(this.getUseBasicHttpAuth());
         req.setUsername(this.getUsername());
         req.setPassword(this.getPassword());
       }
 
       // set authentication headers
-      if (this.getAuthentication())
-      {
-        this.getAuthentication().getAuthHeaders().forEach(function(header){
+      if (this.getAuthentication()) {
+        this.getAuthentication().getAuthHeaders().forEach(function(header) {
           req.setRequestHeader(header.key, header.value);
         });
       }
@@ -615,20 +597,15 @@ qx.Class.define("qx.io.remote.Rpc",
       var result = null;
       var response = null;
 
-      var handleRequestFinished = function(eventType, eventTarget)
-      {
-        switch(callType)
-        {
+      var handleRequestFinished = function(eventType, eventTarget) {
+        switch (callType) {
           case 0: // sync
             break;
 
           case 1: // async with handler function
-            try
-            {
+            try {
               handler(result, ex, id);
-            }
-            catch(e)
-            {
+            } catch (e) {
               eventTarget.error(
                 "rpc handler threw an error:" +
                   " id=" + id +
@@ -640,40 +617,30 @@ qx.Class.define("qx.io.remote.Rpc",
 
           case 2: // async with event listeners
             // Dispatch the event to our listeners.
-            if (!ex)
-            {
+            if (!ex) {
               eventTarget.fireDataEvent(eventType, response);
-            }
-            else
-            {
+            } else {
               // Add the id to the exception
               ex.id = id;
 
-              if (args[0])      // coalesce
+              if (args[0]) // coalesce
               {
                 // They requested that we coalesce all failure types to
                 // "failed"
                 eventTarget.fireDataEvent("failed", ex);
-              }
-              else
-              {
+              } else {
                 // No coalesce so use original event type
                 eventTarget.fireDataEvent(eventType, ex);
               }
             }
           case 3:
-
         }
       };
 
-      var addToStringToObject = function(obj)
-      {
-        if (protocol == "qx1")
-        {
-          obj.toString = function()
-          {
-            switch(obj.origin)
-            {
+      var addToStringToObject = function(obj) {
+        if (protocol == "qx1") {
+          obj.toString = function() {
+            switch (obj.origin) {
               case qx.io.remote.Rpc.origin.server:
                 return "Server error " + obj.code + ": " + obj.message;
 
@@ -691,16 +658,13 @@ qx.Class.define("qx.io.remote.Rpc",
                         " error " + obj.code + ": " + obj.message);
             }
           };
-        }
-        else // protocol == "2.0"
+        } else // protocol == "2.0"
         {
-          obj.toString = function()
-          {
+          obj.toString = function() {
             var ret;
 
-            ret =  "Error " + obj.code + ": " + obj.message;
-            if (obj.data)
-            {
+            ret = "Error " + obj.code + ": " + obj.message;
+            if (obj.data) {
               ret += " (" + obj.data + ")";
             }
 
@@ -709,12 +673,10 @@ qx.Class.define("qx.io.remote.Rpc",
         }
       };
 
-      var makeException = function(origin, code, message)
-      {
+      var makeException = function(origin, code, message) {
         var ex = new Object();
 
-        if (protocol == "qx1")
-        {
+        if (protocol == "qx1") {
           ex.origin = origin;
         }
         ex.code = code;
@@ -724,8 +686,7 @@ qx.Class.define("qx.io.remote.Rpc",
         return ex;
       };
 
-      req.addListener("failed", function(evt)
-      {
+      req.addListener("failed", function(evt) {
         var code = evt.getStatusCode();
         ex = makeException(qx.io.remote.Rpc.origin.transport,
                            code,
@@ -734,8 +695,7 @@ qx.Class.define("qx.io.remote.Rpc",
         handleRequestFinished("failed", eventTarget);
       });
 
-      req.addListener("timeout", function(evt)
-      {
+      req.addListener("timeout", function(evt) {
         this.debug("TIMEOUT OCCURRED");
         ex = makeException(qx.io.remote.Rpc.origin.local,
                            qx.io.remote.Rpc.localError.timeout,
@@ -744,8 +704,7 @@ qx.Class.define("qx.io.remote.Rpc",
         handleRequestFinished("timeout", eventTarget);
       });
 
-      req.addListener("aborted", function(evt)
-      {
+      req.addListener("aborted", function(evt) {
         ex = makeException(qx.io.remote.Rpc.origin.local,
                            qx.io.remote.Rpc.localError.abort,
                            "Aborted " + whichMethod);
@@ -753,13 +712,11 @@ qx.Class.define("qx.io.remote.Rpc",
         handleRequestFinished("aborted", eventTarget);
       });
 
-      req.addListener("completed", function(evt)
-      {
+      req.addListener("completed", function(evt) {
         response = evt.getContent();
 
         // server may have reset, giving us no data on our requests
-        if (response === null)
-        {
+        if (response === null) {
           ex = makeException(qx.io.remote.Rpc.origin.local,
                              qx.io.remote.Rpc.localError.nodata,
                              "No data in response to " + whichMethod);
@@ -771,17 +728,15 @@ qx.Class.define("qx.io.remote.Rpc",
         // Parse. Skip when response is already an object
         // because the script transport was used.
         if (!qx.lang.Type.isObject(response)) {
-
           // Handle converted dates. Deprecated.
-          if (this.getProtocol() === "qx1" && self._isConvertDates()) {
-
+          if (protocol === "qx1" && self._isConvertDates()) {
             // Parse as JSON and revive date literals
             if (self._isResponseJson()) {
               response = qx.lang.Json.parse(response, function(key, value) {
                 if (value && typeof value === "string") {
                   if (value.indexOf("new Date(Date.UTC(") >= 0) {
                     var m = value.match(/new Date\(Date.UTC\((\d+),(\d+),(\d+),(\d+),(\d+),(\d+),(\d+)\)\)/);
-                    return new Date(Date.UTC(m[1],m[2],m[3],m[4],m[5],m[6],m[7]));
+                    return new Date(Date.UTC(m[1], m[2], m[3], m[4], m[5], m[6], m[7]));
                   }
                 }
                 return value;
@@ -789,7 +744,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
             // Eval
             } else {
-              response = response && response.length > 0 ? eval('(' + response + ')') : null;
+              response = response && response.length > 0 ? eval("(" + response + ")") : null;
             }
 
           // No special date handling required, JSON assumed
@@ -800,8 +755,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
         id = response["id"];
 
-        if (id != this.getSequenceNumber())
-        {
+        if (id != this.getSequenceNumber()) {
           this.warn("Received id (" + id + ") does not match requested id " +
                     "(" + this.getSequenceNumber() + ")!");
         }
@@ -810,8 +764,7 @@ qx.Class.define("qx.io.remote.Rpc",
         var eventType = "completed";
         var exTest = response["error"];
 
-        if (exTest != null)
-        {
+        if (exTest != null) {
           // There was an error
           result = null;
           addToStringToObject(exTest);
@@ -819,18 +772,14 @@ qx.Class.define("qx.io.remote.Rpc",
 
           // Change the event type
           eventType = "failed";
-        }
-        else
-        {
+        } else {
           result = response["result"];
 
-          if (refreshSession)
-          {
+          if (refreshSession) {
             result = eval("(" + result + ")");
             var newSuffix = qx.core.ServerSettings.serverPathSuffix;
 
-            if (self.__currentServerSuffix != newSuffix)
-            {
+            if (self.__currentServerSuffix != newSuffix) {
               self.__previousServerSuffix = self.__currentServerSuffix;
               self.__currentServerSuffix = newSuffix;
             }
@@ -844,7 +793,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
       // Provide a replacer when convert dates is enabled
       var replacer = null;
-      if (this.getProtocol() === "qx1" && this._isConvertDates()) {
+      if (protocol === "qx1" && this._isConvertDates()) {
         replacer = function(key, value) {
           // The value passed in is of type string, because the Date's
           // toJson gets applied before. Get value from containing object.
@@ -868,14 +817,11 @@ qx.Class.define("qx.io.remote.Rpc",
       req.setData(qx.lang.Json.stringify(rpcData, replacer));
       req.setAsynchronous(callType > 0);
 
-      if (req.getCrossDomain())
-      {
+      if (req.getCrossDomain()) {
         // Our choice here has no effect anyway.  This is purely informational.
         req.setRequestHeader("Content-Type",
                              "application/x-www-form-urlencoded");
-      }
-      else
-      {
+      } else {
         // When not cross-domain, set type to text/json
         req.setRequestHeader("Content-Type", "application/json");
       }
@@ -885,10 +831,8 @@ qx.Class.define("qx.io.remote.Rpc",
 
       req.send();
 
-      if (callType == 0)
-      {
-        if (ex != null)
-        {
+      if (callType == 0) {
+        if (ex != null) {
           var error = new Error(ex.toString());
           error.rpcdetails = ex;
           throw error;
@@ -896,10 +840,8 @@ qx.Class.define("qx.io.remote.Rpc",
 
         return result;
       }
-      else
-      {
+
         return req;
-      }
     },
 
 
@@ -911,20 +853,17 @@ qx.Class.define("qx.io.remote.Rpc",
      * @return {String} the (possibly re-written) URL.
      * @deprecated deprecated since v6.0.0, will be removed in 7.0.0
      */
-    fixUrl : function(url)
-    {
+    fixUrl : function(url) {
       if (this.__previousServerSuffix == null ||
           this.__currentServerSuffix == null ||
           this.__previousServerSuffix == "" ||
-          this.__previousServerSuffix == this.__currentServerSuffix)
-      {
+          this.__previousServerSuffix == this.__currentServerSuffix) {
         return url;
       }
 
       var index = url.indexOf(this.__previousServerSuffix);
 
-      if (index == -1)
-      {
+      if (index == -1) {
         return url;
       }
 
@@ -957,8 +896,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @return {var} the result returned by the server.
      * @deprecated deprecated since v6.0.0, will be removed in 7.0.0
      */
-    callSync : function(methodName,args)
-    {
+    callSync : function(methodName, args) {
       return this._callInternal(arguments, 0);
     },
 
@@ -998,8 +936,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param args {Array} an array of values passed through to the backend.
      * @return {var} the method call reference.
      */
-    callAsync : function(handler, methodName, args)
-    {
+    callAsync : function(handler, methodName, args) {
       return this._callInternal(arguments, 1);
     },
 
@@ -1055,8 +992,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param args {Array} an array of values passed through to the backend.
      * @return {var} the method call reference.
      */
-    callAsyncListeners : function(coalesce, methodName, args)
-    {
+    callAsyncListeners : function(coalesce, methodName, args) {
       return this._callInternal(arguments, 2);
     },
 
@@ -1079,27 +1015,20 @@ qx.Class.define("qx.io.remote.Rpc",
      *
      * @deprecated since v6.0.0
      */
-    refreshSession : function(handler)
-    {
+    refreshSession : function(handler) {
       if (qx.core.ServerSettings &&
-          qx.core.ServerSettings.serverPathSuffix)
-      {
+          qx.core.ServerSettings.serverPathSuffix) {
         var timeDiff =
           (new Date()).getTime() - qx.core.ServerSettings.lastSessionRefresh;
 
         if (timeDiff / 1000 >
-            (qx.core.ServerSettings.sessionTimeoutInSeconds - 30))
-        {
+            (qx.core.ServerSettings.sessionTimeoutInSeconds - 30)) {
           // this.info("refreshing session");
           this._callInternal([ handler ], 1, true);
-        }
-        else
-        {
+        } else {
           handler(true); // session refresh was OK (in this case: not needed)
         }
-      }
-      else
-      {
+      } else {
         handler(false); // no refresh possible, but would be necessary
       }
     },
@@ -1114,7 +1043,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @return {Boolean} Whether to convert.
      */
     _isConvertDates: function() {
-      return !!(qx.io.remote.Rpc.CONVERT_DATES);
+      return Boolean(qx.io.remote.Rpc.CONVERT_DATES);
     },
 
 
@@ -1126,7 +1055,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @return {Boolean} Whether to expect JSON.
      */
     _isResponseJson: function() {
-      return !!(qx.io.remote.Rpc.RESPONSE_JSON);
+      return Boolean(qx.io.remote.Rpc.RESPONSE_JSON);
     },
 
 
@@ -1139,18 +1068,16 @@ qx.Class.define("qx.io.remote.Rpc",
      *                            <code>callAsync</code> or
      *                            <code>callAsyncListeners</code>
      */
-    abort : function(opaqueCallRef)
-    {
+    abort : function(opaqueCallRef) {
       opaqueCallRef.abort();
     },
 
     /**
-     * Add a JSONRPC v2.0 compliant request to the request queue.
-     * Returns a promise that resolves if the request is successful and rejects
-     * with an object that is an instance of {@link qx.io.remote.RpcException}
-     * or
-     * {@link qx.io.remote.exception.Transport}, unless the request is a
-     * notification, in which case it returns null.
+     * Add a JSONRPC v2.0 compliant request to the request queue. Returns a
+     * promise that resolves if the request is successful and rejects with an
+     * error that has an "exception" property which is an instance of {@link
+     * qx.io.remote.RpcException} or {@link qx.io.remote.exception.Transport}.
+     * If the request is a notification, it returns null.
      *
      * The request is sent to the server (together with all other queued
      * requests) using
@@ -1162,8 +1089,7 @@ qx.Class.define("qx.io.remote.Rpc",
      *   notification
      * @return {qx.Promise|null}
      */
-    addRequest : function(method, params, isNotification)
-    {
+    addRequest : function(method, params, isNotification) {
       if (isNotification) {
         this.__requestQueue.push({
           data: this.createRpcData(null, method, params)
@@ -1188,14 +1114,13 @@ qx.Class.define("qx.io.remote.Rpc",
      * @param {String} method
      * @param {Array} params
      */
-    addNotification : function(method, params)
-    {
+    addNotification : function(method, params) {
       this.addRequest(method, params, true);
     },
 
     /**
-     * Cancels a request by rejecting it with a
-     * {@link qx.io.remote.exception.Cancel} exception.
+     * Cancels a request by rejecting it with a error with an "exception"
+     * property that contains an instance of {@link qx.io.remote.exception.Cancel} .
      * @param {qx.Promise} promise
      * @param {*} reason Optional reason, usually a human-readable error
      *   message or an error object.
@@ -1204,10 +1129,10 @@ qx.Class.define("qx.io.remote.Rpc",
       var found = this.__requestQueue.find(function (item) {
         return item.promise === promise;
       });
-      if (! found) {
+      if (!found) {
         throw new Error("Invalid promise");
       }
-      promise.reject(reason || new qx.io.remote.exception.Cancel());
+      promise.reject(reason || (new qx.io.remote.exception.Cancel()).createError());
     },
 
     /**
@@ -1218,22 +1143,21 @@ qx.Class.define("qx.io.remote.Rpc",
       if (this.__requestQueue.length === 0) {
         throw new Error("No requests to send.");
       }
-      var promise = new qx.Promise(function(resolve,reject){
+      var promise = new qx.Promise(function(resolve, reject) {
         // Create the request object with the (batched) data
         var req = this.createRequest();
 
-        var data = this.__requestQueue.map(function(request){
+        var data = this.__requestQueue.map(function(request) {
           return request.data;
         });
-        if (data.length === 1){
+        if (data.length === 1) {
           data = data[0];
         }
         req.setData(qx.lang.Json.stringify(data));
 
         // set authentication headers
-        if (this.getAuthentication())
-        {
-          this.getAuthentication().getAuthHeaders().forEach(function(header){
+        if (this.getAuthentication()) {
+          this.getAuthentication().getAuthHeaders().forEach(function(header) {
             req.setRequestHeader(header.key, header.value);
           });
         }
@@ -1243,64 +1167,61 @@ qx.Class.define("qx.io.remote.Rpc",
         req.setParseJson(false);
 
         // http error
-        req.addListener("failed", function(evt)
-        {
+        req.addListener("failed", function(evt) {
           var statusCode = evt.getStatusCode();
-          var ex = new qx.io.remote.exception.Transport(
+          var ex = (new qx.io.remote.exception.Transport(
             statusCode,
-            qx.io.remote.Exchange.statusCodeToString(statusCode),
+            "HTTP Error " + statusCode + ": " + qx.io.remote.Exchange.statusCodeToString(statusCode),
             {
               request : data
             }
-          );
+          )).createError();
           return reject(ex);
         });
 
         // timeout
-        req.addListener("timeout", function(evt)
-        {
+        req.addListener("timeout", function(evt) {
           this.debug("TIMEOUT OCCURRED");
           var statusCode = evt.getStatusCode();
-          var ex = new qx.io.remote.exception.Transport(
+          var ex = (new qx.io.remote.exception.Transport(
             qx.io.remote.RpcError.type.TIMEOUT,
-            "Local time-out expired for "+ method,
+            "Local time-out expired. ",
             {
-              request : data
+              request : data,
+              statusCode : statusCode
             }
-          );
+          )).createError();
           return reject(ex);
         });
 
         // user abort
-        req.addListener("aborted", function(evt)
-        {
+        req.addListener("aborted", function(evt) {
           var statusCode = evt.getStatusCode();
-          var ex = new qx.io.remote.exception.Transport(
+          var ex = (new qx.io.remote.exception.Transport(
             qx.io.remote.RpcError.type.ABORTED,
-            "Aborted "+ method,
+            "Aborted.",
             {
-              request : data
+              request : data,
+              statusCode : statusCode
             }
-          );
+          )).createError();
           return reject(ex);
         });
 
         // success or jsonrpc error
-        req.addListener("completed", function(evt)
-        {
-
+        req.addListener("completed", function(evt) {
           var response = evt.getContent();
+          var ex;
 
           // server may have reset, giving us no data on our requests
-          if (response === null)
-          {
-            var ex = new qx.io.remote.exception.Transport(
+          if (response === null) {
+            ex = (new qx.io.remote.exception.Transport(
               qx.io.remote.RpcError.type.NO_DATA,
-              "No response data for "+ method,
+              "No response data.",
               {
                 request : data
               }
-            );
+            )).createError();
             return reject(ex);
           }
 
@@ -1309,14 +1230,14 @@ qx.Class.define("qx.io.remote.Rpc",
 
           // check for valid jsonrpc v2 response
           if (!qx.lang.Type.isArray(response) && !qx.lang.Type.isObject(response)) {
-            var ex = new qx.io.remote.exception.Transport(
+            ex = (new qx.io.remote.exception.Transport(
               qx.io.remote.RpcError.type.INVALID_DATA,
-              "Invalid jsonrpc data for "+ method,
+              "Invalid jsonrpc data. ",
               {
                 request : data,
                 response: evt.getContent()
               }
-            );
+            )).createError();
             return reject(ex);
           }
 
@@ -1325,18 +1246,17 @@ qx.Class.define("qx.io.remote.Rpc",
           var repsonseId;
 
           // handle each response
-          batch.forEach(function(response){
-
+          batch.forEach(function(response) {
             // check for valid jsonrpc v2 response
             if (!qx.lang.Type.isObject(response)) {
-              var ex = new qx.io.remote.exception.Transport(
+              ex = (new qx.io.remote.exception.Transport(
                 qx.io.remote.RpcError.type.INVALID_DATA,
                 "Invalid jsonrpc result data for "+ response.method,
                 {
                   request : data,
                   response: evt.getContent()
                 }
-              );
+              )).createError();
               return reject(ex);
             }
 
@@ -1350,79 +1270,76 @@ qx.Class.define("qx.io.remote.Rpc",
             if (typeof id != "undefined" && typeof method == "undefined") {
               // we already have a response with the request id
               if (repsonseId) {
-                var ex = new qx.io.remote.exception.Transport(
+                ex = (new qx.io.remote.exception.Transport(
                   qx.io.remote.RpcError.type.INVALID_DATA,
                   "Invalid jsonrpc data for "+ method + ": multiple responses with same id.",
                   {
                     request : data,
                     response: response
                   }
-                );
+                )).createError();
                 return reject(ex);
               }
               // find original request
               var originalRequest = this.__requestQueue.find(function (item) {
                 return item.id === id;
               });
-              // the result id doesn't match our requested id - can't happen because we cannout
-              // route the result data to the requesting code
-              if (!originalRequest)
-              {
-                var ex = new qx.io.remote.exception.Transport(
+              // the result id doesn't match any request id
+              if (!originalRequest) {
+                ex = (new qx.io.remote.exception.Transport(
                   qx.io.remote.RpcError.type.INVALID_DATA,
-                  "Invalid jsonrpc data for "+ method + ": id mismatch.",
+                  "Invalid jsonrpc data: Unknown request id",
                   {
                     request : data,
                     response: response
                   }
-                );
-                // do not reject the send() promise
-                return;
+                )).createError();
+                return reject(ex);
               }
               repsonseId = id;
+              // remove the entry from the queue
+              this.__requestQueue.splice(this.__requestQueue.indexOf(originalRequest), 1);
               // we have an error
               if (typeof error != "undefined") {
-                var ex = new qx.io.remote.exception.JsonRpc(
+                ex = (new qx.io.remote.exception.JsonRpc(
                   error.code,
                   error.message,
                   {
                     request : originalRequest.data,
                     response: response
                   }
-                );
+                )).createError();
                 // inform listeners
-                this.dispatchDataEvent("error", ex);
+                this.fireDataEvent("error", ex);
                 // reject the individual promise
                 return originalRequest.promise.reject(ex);
               }
               // we have our result!
               else if (typeof result != "undefined") {
                 // inform listeners
-                this.dispatchDataEvent("success", result);
+                this.fireDataEvent("success", result);
                 // resolve the individual promise
                 return originalRequest.promise.resolve(result);
               }
               // invalid response
-              else {
-                var ex = new qx.io.remote.exception.Transport(
-                  qx.io.remote.RpcError.type.INVALID_DATA,
-                  "Invalid jsonrpc data for "+ method + ": result is missing.",
-                  {
-                    request : originalRequest.data,
-                    response: response
-                  }
-                );
-                return originalRequest.promise.reject(ex);
-              }
+              ex = (new qx.io.remote.exception.Transport(
+                qx.io.remote.RpcError.type.INVALID_DATA,
+                "Invalid jsonrpc data for "+ method + ": result is missing.",
+                {
+                  request : originalRequest.data,
+                  response: response
+                }
+              )).createError();
+              return originalRequest.promise.reject(ex);
             }
             // response is a server call or notification
             if (typeof method != "undefined") {
-              this.dispatchDataEvent("request", response)
+              this.fireDataEvent("request", response);
             }
-          });
+          }, this);
           // resolve the send() promise
-          promise.resolve(batch);
-        });
+          return resolve(batch.length > 1 ? batch : batch[0]);
+        }, this);
         // send the request!
         req.send();
       }, this);

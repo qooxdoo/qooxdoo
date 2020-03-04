@@ -17,9 +17,10 @@
 ************************************************************************ */
 
 /**
- * A generic class for representing errors and exceptions that occur during io. The
- * difference to javascript error objects is that a stack trace is
- * unnecessary since the error originates outside of the execution context.
+ * A generic class for representing exceptions that occur during io operations.
+ * If you need a real error object, use the createError() method to create one,
+ * which has the instance in the "exception" property, and the class name in the
+ * "name" property.
  */
 qx.Class.define("qx.io.Exception",
 {
@@ -59,5 +60,15 @@ qx.Class.define("qx.io.Exception",
       message : message,
       data : data || null
     });
+  },
+
+  members: {
+    createError : function() {
+      var err = new Error(this.getMessage());
+      err.code = this.getCode();
+      err.name = this.classname;
+      err.exception = this;
+      return err;
+    }
   }
 });
