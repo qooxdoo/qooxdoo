@@ -32,29 +32,33 @@
  *
  * Server-initiated calls
  *
- * Because of the client-server architecture of HTTP, which we use here,
- * the bidirectional (peer-to-peer), real-time character of JSONRPC v2 cannot be
- * fully implemented. Instead, any server-initiated remote procedure calls
- * "piggy-back" on the responses to  client-initialed calls.
- * If you want to continually listen to server calls, you must use polling or
- * a different implementation. Server calls are only supported by the following API methods:
- * {@link qx.io.remote.Rpc#addRequest}, {@link qx.io.remote.Rpc#addNotification}, and
- * {@link qx.io.remote.Rpc#send}. When they are received, they dispatch the "request" event.
+ * Because of the client-server architecture of HTTP, which we use here, the
+ * bidirectional (peer-to-peer), real-time character of JSONRPC v2 cannot
+ * be fully implemented. Instead, any server-initiated remote procedure
+ * calls "piggy-back" on the responses to  client-initialed calls. If
+ * you want to continually listen to server calls, you must use polling
+ * or a different implementation. Server calls are only supported by the
+ * following API methods: {@link qx.io.remote.Rpc#addRequest}, {@link
+ * qx.io.remote.Rpc#addNotification}, and {@link qx.io.remote.Rpc#send}.
+ * When they are received, they dispatch the "request" event.
  *
  * JSONRPC v2 batch mode
  *
- * Batched requests and responses are also only supported by {@link qx.io.remote.Rpc#addRequest},
+ * Batched requests and responses are also only supported by
+ * {@link qx.io.remote.Rpc#addRequest},
  * {@link qx.io.remote.Rpc#addNotification}, and {@link qx.io.remote.Rpc#send}.
  *
  * Legacy support
  *
- * {@link qx.io.remote.Rpc#callAsync} and {@link qx.io.remote.Rpc#callAsyncListeners}
- * support the JSONRPC v1 standard without batch mode, but with support for cross-domain calls
- * via script transport. Note that you cannot mix the two APIs because
- * the JSONRPC ids are computed differently.
+ * {@link qx.io.remote.Rpc#callAsync} and {@link
+ * qx.io.remote.Rpc#callAsyncListeners} support the JSONRPC v1
+ * standard without batch mode, but with support for cross-domain
+ * calls via script transport. Note that you cannot mix the
+ * two APIs because the JSONRPC ids are computed differently.
  *
- * The implementation also provides legacy support for a non-standard implementation of JSONRPC v1,
- * which is declared deprecated in v6.0.0 and will be removed in v7.0.0.
+ * The implementation also provides legacy support for a
+ * non-standard implementation of JSONRPC v1, which is declared
+ * deprecated in v6.0.0 and will be removed in v7.0.0.
  *
  * @ignore(qx.core.ServerSettings.*)
 */
@@ -74,13 +78,14 @@ qx.Class.define("qx.io.remote.Rpc",
 
   /**
    * @param url {String}
-   *  identifies the url where the service is found.  Note that if the url is to
+   *  identifies the url where the service is found.  Note that if the url is
+   *   to
    *  a domain (server) other than where the qooxdoo script came from, i.e. it
-   *  is cross-domain, then you must also call the setCrossDomain(true) method to
-   *  enable the ScriptTransport instead of the XmlHttpTransport, since the latter
-   *  can not handle cross-domain requests.
-   *  Alternatively, configure your server to support cross-origin requests (see
-   *  https://developer.mozilla.org/de/docs/Web/HTTP/CORS)
+   *  is cross-domain, then you must also call the setCrossDomain(true) method
+   *   to enable the ScriptTransport instead of the XmlHttpTransport, since the
+   *   latter can not handle cross-domain requests. Alternatively, configure
+   *   your server to support cross-origin requests (see
+   *   https://developer.mozilla.org/de/docs/Web/HTTP/CORS)
    *
    * @param serviceName {String}
    *  identifies the service (dependent on the server implementation).
@@ -151,8 +156,8 @@ qx.Class.define("qx.io.remote.Rpc",
     "error" : "qx.event.type.DataEvent",
 
     /**
-     * Fired for each jsonrpc request or notification received from the peer (JSONRPC v2.0)
-     * (addRequest(), addNotification() and send() only)
+     * Fired for each jsonrpc request or notification received from the peer
+     * (JSONRPC v2.0) (addRequest(), addNotification() and send() only)
      */
     "request" : "qx.event.type.DataEvent"
   },
@@ -252,9 +257,10 @@ qx.Class.define("qx.io.remote.Rpc",
 
 
     /**
-     * Creates an URL for talking to a local service. A local service is one that
-     * lives in the same application as the page calling the service. For backends
-     * that don't support this auto-generation, this method returns null.
+     * Creates an URL for talking to a local service. A local service is one
+     * that lives in the same application as the page calling the service. For
+     * backends that don't support this auto-generation, this method returns
+     * null.
      *
      * @param instanceId {String ? null} an optional identifier for the
      *  server side instance that should be used. All calls to the same service
@@ -365,7 +371,8 @@ qx.Class.define("qx.io.remote.Rpc",
     /**
      * Username to use for HTTP authentication. Null if HTTP authentication
      * is not used.
-     * @deprecated since 6.0.0 Use {@link qx.io.remote.Rpc#authentication} instead
+     * @deprecated since 6.0.0 Use {@link qx.io.remote.Rpc#authentication}
+     *   instead
      */
     username :
     {
@@ -377,7 +384,8 @@ qx.Class.define("qx.io.remote.Rpc",
     /**
      * Password to use for HTTP authentication. Null if HTTP authentication
      * is not used.
-     * @deprecated since 6.0.0 Use {@link qx.io.remote.Rpc#authentication} instead
+     * @deprecated since 6.0.0 Use {@link qx.io.remote.Rpc#authentication}
+     *   instead
      */
     password :
     {
@@ -388,7 +396,8 @@ qx.Class.define("qx.io.remote.Rpc",
 
     /**
      * Use Basic HTTP Authentication
-     * @deprecated since 6.0.0 Use {@link qx.io.remote.Rpc#authentication} instead
+     * @deprecated since 6.0.0 Use {@link qx.io.remote.Rpc#authentication}
+     *   instead
     */
     useBasicHttpAuth :
     {
@@ -409,8 +418,10 @@ qx.Class.define("qx.io.remote.Rpc",
     },
 
     /**
-     * The authentication method.  Can be any class implementing {@link qx.io.request.authentication.IAuthentication}
-     * such as {@qx.io.request.authentication.Basic} or {@link qx.io.request.authentication.Bearer}
+     * The authentication method.  Can be any class implementing
+     * {@link qx.io.request.authentication.IAuthentication} such as
+     * {@qx.io.request.authentication.Basic} or
+     * {@link qx.io.request.authentication.Bearer}
      */
     authentication:
     {
@@ -474,8 +485,8 @@ qx.Class.define("qx.io.remote.Rpc",
      *   An array containing the arguments to the called method.
      *
      * @param serverData {var}
-     *   "Out-of-band" data to be provided to the server. Part of the non-standard
-     *   jsonrpc v1 implementation. Deprecated.
+     *   "Out-of-band" data to be provided to the server. Part of the
+     *   non-standard jsonrpc v1 implementation. Deprecated.
      *
      * @return {Object}
      *   The object to be converted to JSON and passed to the JSON-RPC
@@ -893,11 +904,12 @@ qx.Class.define("qx.io.remote.Rpc",
 
 
     /**
-     * Helper method to rewrite a URL with a stale session id (so that it includes
-     * the correct session id afterwards).
+     * Helper method to rewrite a URL with a stale session id (so that it
+     * includes the correct session id afterwards).
      *
      * @param url {String} the URL to examine.
      * @return {String} the (possibly re-written) URL.
+     * @deprecated deprecated since v6.0.0, will be removed in 7.0.0
      */
     fixUrl : function(url)
     {
@@ -993,7 +1005,8 @@ qx.Class.define("qx.io.remote.Rpc",
 
 
     /**
-     * Makes an asynchronous server call and dispatches an event upon completion
+     * Makes an asynchronous server call and dispatches an event upon
+     * completion
      * or failure. The method arguments (if any) follow after the method name
      * (as normal JavaScript arguments, separated by commas, not as an array).
      *
@@ -1035,8 +1048,9 @@ qx.Class.define("qx.io.remote.Rpc",
      *  {@link qx.io.remote.Rpc#addNotification} instead.
      *
      * @param coalesce {Boolean} coalesce all failure types ("failed",
-     *   "timeout", and "aborted") to "failed". This is reasonable in many cases, as
-     *   the provided exception contains adequate disambiguating information.
+     *   "timeout", and "aborted") to "failed". This is reasonable in many
+     *   cases, as the provided exception contains adequate disambiguating
+     *   information.
      * @param methodName {String} the name of the method to call.
      * @param args {Array} an array of values passed through to the backend.
      * @return {var} the method call reference.
@@ -1131,21 +1145,28 @@ qx.Class.define("qx.io.remote.Rpc",
     },
 
     /**
-     * Make a JSONRPC v2.0 compliant request. Returns a promise that resolves if the
-     * request is successful and rejects with an object that is an instance of
-     * {@link qx.io.remote.RpcException} or {@link qx.io.remote.exception.Transport},
-     * unless the request is a notification, in which case it returns null.
+     * Add a JSONRPC v2.0 compliant request to the request queue.
+     * Returns a promise that resolves if the request is successful and rejects
+     * with an object that is an instance of {@link qx.io.remote.RpcException}
+     * or
+     * {@link qx.io.remote.exception.Transport}, unless the request is a
+     * notification, in which case it returns null.
+     *
+     * The request is sent to the server (together with all other queued
+     * requests) using
+     * {@link qx.io.remote.Rpc#send}.
      *
      * @param {String} method
      * @param {Array} params
-     * @param {Boolean} isNotification True if the jsonrpc call is a notification
+     * @param {Boolean} isNotification True if the jsonrpc call is a
+     *   notification
      * @return {qx.Promise|null}
      */
     addRequest : function(method, params, isNotification)
     {
       if (isNotification) {
         this.__requestQueue.push({
-          data: this.createRpcData(null, method, params),
+          data: this.createRpcData(null, method, params)
         });
         return null;
       }
@@ -1161,8 +1182,8 @@ qx.Class.define("qx.io.remote.Rpc",
     },
 
     /**
-     * Make a JSONRPC v2.0 compliant notification. Does not return anything since
-     * notifications are "fire & forget"
+     * Make a JSONRPC v2.0 compliant notification. Does not return anything
+     * since notifications are "fire & forget"
      *
      * @param {String} method
      * @param {Array} params
@@ -1173,10 +1194,11 @@ qx.Class.define("qx.io.remote.Rpc",
     },
 
     /**
-     * Cancels a request by rejecting it with a {@link qx.io.remote.exception.Cancel} exception.
+     * Cancels a request by rejecting it with a
+     * {@link qx.io.remote.exception.Cancel} exception.
      * @param {qx.Promise} promise
-     * @param {*} reason Optional reason, usually a human-readable error message or an
-     * error object.
+     * @param {*} reason Optional reason, usually a human-readable error
+     *   message or an error object.
      */
     cancel : function(promise, reason) {
       var found = this.__requestQueue.find(function (item) {
@@ -1405,6 +1427,37 @@ qx.Class.define("qx.io.remote.Rpc",
         req.send();
       }, this);
       return promise;
+    },
+
+    /**
+     * Sends the request immediately without queueing it.
+     * See {@link qx.io.remote.Rpc#addRequest} and {@link
+     * qx.io.remote.Rpc#send}.
+     *
+     * @param {String} method
+     * @param {Array} params
+     * @return {qx.Promise}
+     */
+    sendRequest : function(method, params) {
+      var promise = this.addRequest(method, params);
+      this.send().catch(function (err) {
+        promise.reject(err);
+      });
+      return promise;
+    },
+
+    /**
+     * Sends a notification immediately without queueing it.
+     * See {@link qx.io.remote.Rpc#addNotification} and
+     * {@link qx.io.remote.Rpc#send}.
+     *
+     * @param {String} method
+     * @param {Array} params
+     */
+    sendNotification : function(method, params) {
+      this.addNotification(method, params);
+      this.send();
     }
+
   }
 });

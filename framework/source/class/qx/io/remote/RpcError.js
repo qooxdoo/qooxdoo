@@ -23,6 +23,8 @@ qx.Class.define("qx.io.remote.RpcError",
 {
   statics :
   {
+    /* Error codes for exceptions that happen in the client execution
+     context: TIMEOUT, ABORTED, NO_DATA, INVALID_DATA, CANCELLED */
     type:
     {
       TIMEOUT      : 1,
@@ -30,10 +32,9 @@ qx.Class.define("qx.io.remote.RpcError",
       NO_DATA      : 3,
       INVALID_DATA : 4,
       CANCELLED    : 5
-
     },
 
-    /** Information pertaining to qooxdoo's modified JSON-RPC Version 1 */
+    /** Information pertaining to qooxdoo's modified JSON-RPC Version 1 (deprecated) */
     qx1:
     {
       /** Origin of the error */

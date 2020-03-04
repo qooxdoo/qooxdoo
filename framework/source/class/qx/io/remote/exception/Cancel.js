@@ -25,8 +25,8 @@ qx.Class.define("qx.io.remote.exception.Cancel",
 
   /**
    * Constructor
-   * @param {String} message
-   * @param {*|null} data
+   * @param message {String}
+   * @param data {*|null}
    */
   construct: function( message, data) {
     this.set({

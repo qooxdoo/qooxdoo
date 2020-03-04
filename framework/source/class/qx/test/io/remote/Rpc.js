@@ -24,6 +24,45 @@ qx.Class.define("qx.test.io.remote.Rpc",
 
   members :
   {
+
+    setUp : function() {
+      this.useFakeServer();
+    },
+
+    tearDown: function() {
+      this.getSandbox().restore();
+    },
+
+    serverJsonResponseWillBe : function(value) {
+      this.getServer().respondWith("POST", "/jsonrpc",[
+        200, { "Content-Type": "application/json" },
+        qx.lang.Json.stringify(value)
+      ]);
+    },
+
+    "test: call simple jsonrpc method" : function() {
+      this.serverJsonResponseWillBe({
+        jsonrpc: "2.0",
+        id: 1,
+        result: "foo"
+      });
+      var client = new qx.io.remote.Rpc("/jsonrpc","foo");
+      var that = this;
+      var callback = this.spy();
+      client.sendRequest("someMethod",[1,2,3]).then(callback);
+      this.getServer().respond();
+      this.assert.calledWith(callback, "foo");
+    },
+
+
+    //
+    // legacy tests, will be removed in v7.0.0
+    //
+
+    skip: function(msg) {
+      throw new qx.dev.unit.RequirementError(null, msg);
+    },
+
     setUpFakeRequest : function() {
       var req = this.request = new qx.io.remote.Request();
 
@@ -41,9 +80,6 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.injectStub(qx.io.remote, "Request", req);
     },
 
-    tearDown: function() {
-      this.getSandbox().restore();
-    },
 
     "test: send request": function() {
       this.setUpFakeRequest();
@@ -195,11 +231,6 @@ qx.Class.define("qx.test.io.remote.Rpc",
       var rpc = new qx.io.remote.Rpc();
       this.stub(qx.io.remote.Rpc, "CONVERT_DATES", true);
       this.assertEquals(true, rpc._isConvertDates());
-    },
-
-
-    skip: function(msg) {
-      throw new qx.dev.unit.RequirementError(null, msg);
     }
   }
 });

@@ -49,9 +49,9 @@ qx.Class.define("qx.io.Exception",
 
   /**
    * Constructor
-   * @param {Number} code
-   * @param {String} message
-   * @param {*|null} data
+   * @param code {Number}
+   * @param message {String}
+   * @param data {*|null}
    */
   construct: function(code, message, data) {
     this.set({
