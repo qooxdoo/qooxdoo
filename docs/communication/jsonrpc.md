@@ -35,7 +35,7 @@ code was loaded from, otherwise you must configure is using
 The first parameter is the URL of the backend (in this example a backend on
 localhost). The second is the name of the service you'd like to call. 
 
-To work with the service, the Rpc class provides two different API, a newer
+To work with the service, the Rpc class provides two different APIs, a newer
 one based on Promises, and a legacy one based on callbacks or events. Note that
 you cannot mix the two APIs because the JSONRPC ids are computed differently.
 
@@ -52,7 +52,7 @@ that will be passed to the method. It returns a promise that
 resolves with the result of this method or rejects with an error
 object. This error object will be an instance of one of the
 [`qx.io.remote.exception.*`](http://www.qooxdoo.org/apps/apiviewer/#qx.io.remote.exception)
-classes. 
+classes.
 
 - If it is a transport error, the error code will either be a HTTP error code
   or one of the error codes defined in
@@ -63,10 +63,11 @@ classes.
   
 ### Batched calls
 
-If an application initiated a large number of calls to the server within a short
-period of time, it is advisable to use the [batched mode of JSON-RPC v2](https://www.jsonrpc.org/specification#batch)
-in order to save HTTP traffic (This might become obsolete with the widespread adoption of HTTP/2).
-The way to do this is to use the `addRequest()` and `send()` methods like so:
+If an application initiates a large number of calls to the server within a
+short period of time, it is advisable to use the [batched mode of JSON-RPC
+v2](https://www.jsonrpc.org/specification#batch) in order to save HTTP traffic
+(This might become obsolete with the widespread adoption of HTTP/2). The
+way to do this is to use the `addRequest()` and `send()` methods like so:
 
 ```javascript
     var promise1 = client.addRequest("method1", ["foo"]);
