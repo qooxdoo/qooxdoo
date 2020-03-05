@@ -118,16 +118,17 @@ qx.Class.define("qx.test.io.remote.Rpc",
       var client = new qx.io.remote.Rpc("jsonrpc");
       var that = this;
       var requestErrorCallback = this.spy(function(err){
-        console.warn("Caught: " + err.name + ": " + err.message);
         that.assertInstance(err, Error);
         that.assertTrue("exception" in err, "Error has no 'exception' property" );
         if (requestExceptionClazz) {
           that.assertInstance(err.exception, requestExceptionClazz);
         }
       });
-      client.addRequest(method, params, isNotification).catch(requestErrorCallback);
+      var promise = client.addRequest(method, params, isNotification);
+      if (promise) {
+        promise.catch(requestErrorCallback);
+      }
       var sendErrorCallback = this.spy(function(err){
-        console.warn("Caught: " + err.name + ": " + err.message);
         that.assertInstance(err, Error);
         that.assertTrue("exception" in err, "Error has no 'exception' property" );
         if (sendExceptionClazz) {
@@ -239,11 +240,32 @@ qx.Class.define("qx.test.io.remote.Rpc",
       },this);
     },
 
+    "test: receive jsonrpc requests from server" : function() {
+      qx.io.remote.Rpc.reset();
+      var response = [
+        {"jsonrpc": "2.0", "method": "clientMethod", "params": ["foo", "bar"], "id": 1},
+        {"jsonrpc": "2.0", "method": "clientNotification", "params": []}
+      ]; ;
+      this.setServerResponse(qx.lang.Json.stringify(response));
+      var client = new qx.io.remote.Rpc("jsonrpc");
+      var spy = this.spy();
+      client.addListener("request", function(evt){
+        console.warn(evt.getData());
+        spy(evt.getData());
+      });
+      client.sendNotification("ping");
+      this.getServer().respond();
+      this.wait(100, function(){
+        this.assertCalledTwice(spy);
+        //this.assertCalledWith(spy.firstCall, response[1]); // recursion error
+        //this.assertCalledWith(spy.secondCall, response[2]); // recursion error
+      },this);
+    },
 
     //
     // legacy tests, will be removed in v7.0.0
     //
-/*
+
     "test: request data for params with date contains date literal when convert dates": function() {
       this.setUpFakeRequest();
       var obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) },
@@ -396,7 +418,5 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.stub(qx.io.remote.Rpc, "CONVERT_DATES", true);
       this.assertEquals(true, rpc._isConvertDates());
     }
-
- */
   }
 });

@@ -140,21 +140,20 @@ qx.Class.define("qx.io.remote.Rpc",
      * Fired with the response when the request completed successfully
      * (addRequest(), addNotification() and send() only)
      */
-    "success" : "qx.event.type.DataEvent",
+    "success" : "qx.event.type.Data",
 
     /**
      * Fired with the error object when the server returns an error object
      * (addRequest(), addNotification() and send() only)
      */
-    "error" : "qx.event.type.DataEvent",
+    "error" : "qx.event.type.Data",
 
     /**
      * Fired for each jsonrpc request or notification received from the peer
      * (JSONRPC v2.0) (addRequest(), addNotification() and send() only)
      */
-    "request" : "qx.event.type.DataEvent"
+    "request" : "qx.event.type.Data"
   },
-
 
 
   /*
@@ -482,17 +481,17 @@ qx.Class.define("qx.io.remote.Rpc",
      * "params". If a different style of RPC request is desired, a class
      * extending this one may override this method.
      *
-     * @param id {Integer|null}
-     *   The unique sequence number of this request or null if the request is a
-     *   notification
+     * @param id {Integer|null|undefined}
+     *   The unique sequence number of this request or undefined if the request
+     *   is a notification
      *
      * @param method {String}
      *   The name of the method to be called
      *
-     * @param parameters {Array}
+     * @param parameters {Array|undefined}
      *   An array containing the arguments to the called method.
      *
-     * @param serverData {var}
+     * @param serverData {var|undefined}
      *   "Out-of-band" data to be provided to the server. Part of the
      *   non-standard jsonrpc v1 implementation. Deprecated.
      *
@@ -531,17 +530,28 @@ qx.Class.define("qx.io.remote.Rpc",
         }
 
         // Create a standard version 2.0 rpc data object
-        requestObject =
-          {
-            "jsonrpc" : "2.0",
-            "method"  : service + method,
-            "params" : parameters
-          };
-        if (id !== null) {
-          requestObject["id"] = id;
+        // method and jsonrpc are mandatory
+        requestObject = {
+          "jsonrpc" : "2.0",
+          "method"  : service + method
+        };
+        // parameters are optional according to the spec
+        if (parameters) {
+          if (qx.lang.Type.isObject(parameters) || qx.lang.Type.isArray(parameters)) {
+            requestObject["params"] = parameters
+          } else {
+            throw new Error("Parameters must be type Array (positional) or Object (named)");
+          }
+        }
+        // id: null is allowed but discouraged
+        if (id || id === null) {
+          if (typeof id == "string" || typeof id == "number" || id === null) {
+            requestObject["id"] = id;
+          } else {
+            throw new Error("ID must be string or number");
+          }
         }
       }
-
       return requestObject;
     },
 
@@ -1098,15 +1108,15 @@ qx.Class.define("qx.io.remote.Rpc",
      * {@link qx.io.remote.Rpc#send}.
      *
      * @param {String} method
-     * @param {Array} params
-     * @param {Boolean} isNotification True if the jsonrpc call is a
+     * @param {Array|undefined|null} params
+     * @param {Boolean|undefined} isNotification True if the jsonrpc call is a
      *   notification
      * @return {qx.Promise|null}
      */
     addRequest : function(method, params, isNotification) {
       if (isNotification) {
         this.__requestQueue.push({
-          data: this.createRpcData(null, method, params)
+          data: this.createRpcData(undefined, method, params)
         });
         return null;
       }
@@ -1126,7 +1136,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * since notifications are "fire & forget"
      *
      * @param {String} method
-     * @param {Array} params
+     * @param {Array|undefined} params
      */
     addNotification : function(method, params) {
       this.addRequest(method, params, true);
@@ -1383,7 +1393,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * {@link qx.io.remote.Rpc#send}.
      *
      * @param {String} method
-     * @param {Array} params
+     * @param {Array|undefined} params
      */
     sendNotification : function(method, params) {
       this.addNotification(method, params);
