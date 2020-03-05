@@ -28,11 +28,7 @@ qx.Class.define("qx.io.remote.exception.Cancel",
    * @param message {String}
    * @param data {*|null}
    */
-  construct: function( message, data) {
-    this.set({
-      code: qx.io.remote.RpcError.type.CANCELLED,
-      message : message || "Cancelled.",
-      data : data || null
-    });
+  construct: function(message, data) {
+    this.base(arguments, message, qx.io.remote.RpcError.type.CANCELLED, data);
   }
 });

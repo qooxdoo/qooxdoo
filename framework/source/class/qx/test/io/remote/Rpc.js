@@ -118,10 +118,11 @@ qx.Class.define("qx.test.io.remote.Rpc",
       var client = new qx.io.remote.Rpc("jsonrpc");
       var that = this;
       var requestErrorCallback = this.spy(function(err){
-        that.assertInstance(err, Error);
-        that.assertTrue("exception" in err, "Error has no 'exception' property" );
         if (requestExceptionClazz) {
-          that.assertInstance(err.exception, requestExceptionClazz);
+          that.assertInstance(err, requestExceptionClazz);
+        } else {
+          console.error("Re-throwing non-expected " + err);
+          throw err;
         }
       });
       var promise = client.addRequest(method, params, isNotification);
@@ -129,10 +130,11 @@ qx.Class.define("qx.test.io.remote.Rpc",
         promise.catch(requestErrorCallback);
       }
       var sendErrorCallback = this.spy(function(err){
-        that.assertInstance(err, Error);
-        that.assertTrue("exception" in err, "Error has no 'exception' property" );
         if (sendExceptionClazz) {
-          that.assertInstance(err.exception, sendExceptionClazz);
+          that.assertInstance(err, sendExceptionClazz);
+        } else {
+          console.error("Re-throwing non-expected " + err);
+          throw err;
         }
       });
       client.send().catch(sendErrorCallback);
@@ -245,12 +247,11 @@ qx.Class.define("qx.test.io.remote.Rpc",
       var response = [
         {"jsonrpc": "2.0", "method": "clientMethod", "params": ["foo", "bar"], "id": 1},
         {"jsonrpc": "2.0", "method": "clientNotification", "params": []}
-      ]; ;
+      ];
       this.setServerResponse(qx.lang.Json.stringify(response));
       var client = new qx.io.remote.Rpc("jsonrpc");
       var spy = this.spy();
       client.addListener("request", function(evt){
-        console.warn(evt.getData());
         spy(evt.getData());
       });
       client.sendNotification("ping");

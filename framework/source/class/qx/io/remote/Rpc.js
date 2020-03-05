@@ -1156,7 +1156,7 @@ qx.Class.define("qx.io.remote.Rpc",
       if (!found) {
         throw new Error("Invalid promise");
       }
-      promise.reject(reason || (new qx.io.remote.exception.Cancel()).createError());
+      promise.reject(reason || new qx.io.remote.exception.Cancel());
     },
 
     /**
@@ -1193,13 +1193,13 @@ qx.Class.define("qx.io.remote.Rpc",
         // http error
         req.addListener("failed", function(evt) {
           var statusCode = evt.getStatusCode();
-          var ex = (new qx.io.remote.exception.Transport(
+          var ex = new qx.io.remote.exception.Transport(
             statusCode,
             "HTTP Error " + statusCode + ": " + qx.io.remote.Exchange.statusCodeToString(statusCode),
             {
               request : data
             }
-          )).createError();
+          );
           return reject(ex);
         });
 
@@ -1207,28 +1207,28 @@ qx.Class.define("qx.io.remote.Rpc",
         req.addListener("timeout", function(evt) {
           this.debug("TIMEOUT OCCURRED");
           var statusCode = evt.getStatusCode();
-          var ex = (new qx.io.remote.exception.Transport(
+          var ex = new qx.io.remote.exception.Transport(
             qx.io.remote.RpcError.type.TIMEOUT,
             "Local time-out expired. ",
             {
               request : data,
               statusCode : statusCode
             }
-          )).createError();
+          );
           return reject(ex);
         });
 
         // user abort
         req.addListener("aborted", function(evt) {
           var statusCode = evt.getStatusCode();
-          var ex = (new qx.io.remote.exception.Transport(
+          var ex = new qx.io.remote.exception.Transport(
             qx.io.remote.RpcError.type.ABORTED,
             "Aborted.",
             {
               request : data,
               statusCode : statusCode
             }
-          )).createError();
+          );
           return reject(ex);
         });
 
@@ -1239,13 +1239,13 @@ qx.Class.define("qx.io.remote.Rpc",
 
           // server may have reset, giving us no data on our requests
           if (response === null) {
-            ex = (new qx.io.remote.exception.Transport(
+            ex = new qx.io.remote.exception.Transport(
               qx.io.remote.RpcError.type.NO_DATA,
               "No response data.",
               {
                 request : data
               }
-            )).createError();
+            );
             return reject(ex);
           }
 
@@ -1254,14 +1254,14 @@ qx.Class.define("qx.io.remote.Rpc",
 
           // check for valid jsonrpc v2 response
           if (!qx.lang.Type.isArray(response) && !qx.lang.Type.isObject(response)) {
-            ex = (new qx.io.remote.exception.Transport(
+            ex = new qx.io.remote.exception.Transport(
               qx.io.remote.RpcError.type.INVALID_DATA,
               "Invalid jsonrpc data. ",
               {
                 request : data,
                 response: evt.getContent()
               }
-            )).createError();
+            );
             return reject(ex);
           }
 
@@ -1272,14 +1272,14 @@ qx.Class.define("qx.io.remote.Rpc",
           batch.forEach(function(response) {
             // check for valid jsonrpc v2 response
             if (!qx.lang.Type.isObject(response)) {
-              ex = (new qx.io.remote.exception.Transport(
+              ex = new qx.io.remote.exception.Transport(
                 qx.io.remote.RpcError.type.INVALID_DATA,
                 "Invalid jsonrpc result data for "+ response.method,
                 {
                   request : data,
                   response: evt.getContent()
                 }
-              )).createError();
+              );
               return reject(ex);
             }
 
@@ -1294,14 +1294,14 @@ qx.Class.define("qx.io.remote.Rpc",
             if (typeof id != "undefined" && typeof method == "undefined") {
               // we already have a response with the request id
               if (ids.indexOf(id) !== -1) {
-                ex = (new qx.io.remote.exception.Transport(
+                ex = new qx.io.remote.exception.Transport(
                   qx.io.remote.RpcError.type.INVALID_DATA,
                   "Invalid jsonrpc data: multiple responses with same id.",
                   {
                     request : data,
                     response: response
                   }
-                )).createError();
+                );
                 return reject(ex);
               }
               ids.push(id);
@@ -1311,28 +1311,28 @@ qx.Class.define("qx.io.remote.Rpc",
               });
               // the result id doesn't match any request id
               if (!originalRequest) {
-                ex = (new qx.io.remote.exception.Transport(
+                ex = new qx.io.remote.exception.Transport(
                   qx.io.remote.RpcError.type.INVALID_DATA,
                   "Invalid jsonrpc data: Unknown request id",
                   {
                     request : data,
                     response: response
                   }
-                )).createError();
+                );
                 return reject(ex);
               }
               // remove the entry from the queue
               this.__requestQueue.splice(this.__requestQueue.indexOf(originalRequest), 1);
               // we have an error
               if (typeof error != "undefined") {
-                ex = (new qx.io.remote.exception.JsonRpc(
+                ex = new qx.io.remote.exception.JsonRpc(
                   error.code,
                   error.message,
                   {
                     request : originalRequest.data,
                     response: response
                   }
-                )).createError();
+                );
                 // inform listeners
                 this.fireDataEvent("error", ex);
                 // reject the individual promise
@@ -1346,14 +1346,14 @@ qx.Class.define("qx.io.remote.Rpc",
                 return originalRequest.promise.resolve(result);
               }
               // invalid response
-              ex = (new qx.io.remote.exception.Transport(
+              ex = new qx.io.remote.exception.Transport(
                 qx.io.remote.RpcError.type.INVALID_DATA,
                 "Invalid jsonrpc data for "+ method + ": result is missing.",
                 {
                   request : originalRequest.data,
                   response: response
                 }
-              )).createError();
+              );
               return originalRequest.promise.reject(ex);
             }
             // response is a server call or notification
