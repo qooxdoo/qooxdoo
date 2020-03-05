@@ -30,14 +30,17 @@ qx.Class.define("qx.io.Exception",
      * The error code
      */
     code : {
-      check : "Number"
+      check : "Number",
+      nullable : true
     },
 
     /**
      * The human-readable error message
      */
     message : {
-      check : "String"
+      check : "String",
+      nullable: true
+
     },
 
     /**
@@ -56,8 +59,8 @@ qx.Class.define("qx.io.Exception",
    */
   construct: function(code, message, data) {
     this.set({
-      code: code,
-      message : message,
+      code: code || null,
+      message : message || null,
       data : data || null
     });
   },

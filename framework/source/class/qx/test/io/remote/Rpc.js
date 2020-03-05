@@ -33,10 +33,6 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.getSandbox().restore();
     },
 
-    serverRespondsWith : function(value) {
-      this.getServer().respondWith("POST", /.*/,[200, { "Content-Type": "application/json" },value]);
-    },
-
     skip: function(msg) {
       throw new qx.dev.unit.RequirementError(null, msg);
     },
@@ -58,41 +54,196 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.injectStub(qx.io.remote, "Request", req);
     },
 
+    setServerResponse : function(value) {
+      this.getServer().respondWith("POST", /.*/,[200, { "Content-Type": "application/json" },value]);
+    },
+
+    /**
+     * Deep equal comparison, using Sinon's `deepEqual` comparison.
+     * Two values are "deep equal" if:
+     *
+     *   - They are equal, according to samsam.identical
+     *   (https://sinonjs.github.io/samsam/)
+     *   - They are both date objects representing the same time
+     *   - They are both arrays containing elements that are all deepEqual
+     *   - They are objects with the same set of properties, and each property
+     *     in obj1 is deepEqual to the corresponding property in obj2
+     *
+     * Supports cyclic objects.
+     * @param expected {*}
+     * @param actual {*}
+     * @param msg
+     */
+    assertDeepEqual : function(expected, actual, msg) {
+      msg = msg || "Failed to assert that " + qx.lang.Json.stringify(actual) +
+        " is deeply equal to " + qx.lang.Json.stringify(expected) + "."
+      this.assertTrue(qx.dev.unit.Sinon.getSinon().deepEqual(expected, actual), msg);
+    },
+
+    assertValidRequest : function(method, params, isNotification) {
+      this.setUpFakeRequest();
+      var client = new qx.io.remote.Rpc("jsonrpc");
+      client.addRequest(method, params, isNotification||false);
+      client.send();
+      var requestData = this.request.setData.getCall(0).args[0];
+      var expected = {
+        jsonrpc: "2.0",
+        method: method,
+        params: params
+      };
+      if (!isNotification) {
+        expected['id'] = qx.io.remote.Rpc.getRequestId()
+      }
+      this.assertDeepEqual(expected, qx.lang.Json.parse(requestData));
+    },
+
+    assertResponseIs : function(method, params, response) {
+      this.setServerResponse(response);
+      var client = new qx.io.remote.Rpc("jsonrpc");
+      var requestCallback = this.spy();
+      var sendCallback = this.spy();
+      client.addRequest(method, params).then(requestCallback);
+      client.send().then(sendCallback);
+      this.getServer().respond();
+      this.wait(100, function(){
+        var parsedResponse = qx.lang.Json.parse(response);
+        this.assertCalledWith(requestCallback, parsedResponse.result);
+        this.assertCalledWith(sendCallback, parsedResponse);
+      },this);
+    },
+
+    assertResponseThrowsException : function(method, params, isNotification, response, exceptions) {
+      var sendExceptionClazz = exceptions.send, requestExceptionClazz = exceptions.request;
+      this.setServerResponse(response);
+      var client = new qx.io.remote.Rpc("jsonrpc");
+      var that = this;
+      var requestErrorCallback = this.spy(function(err){
+        console.warn("Caught: " + err.name + ": " + err.message);
+        that.assertInstance(err, Error);
+        that.assertTrue("exception" in err, "Error has no 'exception' property" );
+        if (requestExceptionClazz) {
+          that.assertInstance(err.exception, requestExceptionClazz);
+        }
+      });
+      client.addRequest(method, params, isNotification).catch(requestErrorCallback);
+      var sendErrorCallback = this.spy(function(err){
+        console.warn("Caught: " + err.name + ": " + err.message);
+        that.assertInstance(err, Error);
+        that.assertTrue("exception" in err, "Error has no 'exception' property" );
+        if (sendExceptionClazz) {
+          that.assertInstance(err.exception, sendExceptionClazz);
+        }
+      });
+      client.send().catch(sendErrorCallback);
+      this.getServer().respond();
+      this.wait(100, function(){
+        if (sendExceptionClazz) {
+          this.assertCalled(sendErrorCallback);
+        }
+        if (requestExceptionClazz) {
+          this.assertCalled(requestErrorCallback);
+        }
+      },this);
+    },
 
     "test: send request": function() {
       this.setUpFakeRequest();
       var rpc = new qx.io.remote.Rpc("/foo");
-
       rpc.callAsync();
       this.assertCalledOnce(this.request.send);
     },
 
-    "test: call simple jsonrpc method" : async function() {
-      var response = qx.lang.Json.stringify({
-        jsonrpc: "2.0",
-        id: 1,
-        result: "foo"
+    "test: call jsonrpc method with positional parameters" : function() {
+      this.assertValidRequest("subtract", [42, 23]);
+    },
+
+    "test: call jsonrpc method with named parameters" : function() {
+      this.assertValidRequest("subtract", {"minuend": 42, "subtrahend": 23});
+    },
+
+    "test: send notification" : function() {
+      this.assertValidRequest("logout", [], true);
+    },
+
+    "test: send notification and throw on response" : function() {
+      qx.io.remote.Rpc.reset();
+      var response = qx.lang.Json.stringify({"jsonrpc": "2.0", "result": 19, "id": 1});
+      this.assertResponseThrowsException("logout", [], true, response, {
+        send: qx.io.remote.exception.Transport
       });
-      this.serverRespondsWith(response);
-      var client = new qx.io.remote.Rpc("/jsonrpc");
-      var that = this;
-      var requestCallback = this.spy();
-      var sendCallback = this.spy();
-      client.addRequest("getFoo",[]).then(requestCallback);
-      client.send().then(sendCallback);
+    },
+
+    "test: call jsonrpc method and validate reponse" : function() {
+      qx.io.remote.Rpc.reset();
+      var response = qx.lang.Json.stringify({"jsonrpc": "2.0", "result": 19, "id": 1});
+      this.assertResponseIs("subtract", [42, 23], response);
+    },
+
+    "test: call jsonrpc method and expect error on invalid reponse - not array or object" : function() {
+      qx.io.remote.Rpc.reset();
+      var response = qx.lang.Json.stringify("foo");
+      this.assertResponseThrowsException("doStuff", [], false, response, {
+        send: qx.io.remote.exception.Transport
+      });
+    },
+
+    "test: call jsonrpc method and expect error on invalid reponse - missing result" : function() {
+      qx.io.remote.Rpc.reset();
+      var response = qx.lang.Json.stringify({"jsonrpc": "2.0", "id": 1});
+      this.assertResponseThrowsException("doStuff", [], false, response, {
+        request: qx.io.remote.exception.Transport
+      });
+    },
+
+    "test: call jsonrpc method and expect error on invalid reponse - unknown id" : function() {
+      qx.io.remote.Rpc.reset();
+      var response = qx.lang.Json.stringify({"jsonrpc": "2.0", result: "foo", "id": 5});
+      this.assertResponseThrowsException("doStuff", [], false, response, {
+        send: qx.io.remote.exception.Transport
+      });
+    },
+
+    "test: call jsonrpc method and expect error response" : function() {
+      qx.io.remote.Rpc.reset();
+      var response = qx.lang.Json.stringify({"jsonrpc": "2.0", "error" : {"code": -32600, "message": "Division by zero!"}, "id": 1});
+      this.assertResponseThrowsException("divide", [42, 0], false, response, {
+        request: qx.io.remote.exception.JsonRpc
+      });
+    },
+
+    "test: send batched requests" : function() {
+      qx.io.remote.Rpc.reset();
+      var response = qx.lang.Json.stringify([
+        {"jsonrpc": "2.0", "result": 7, "id": 1},
+        {"jsonrpc": "2.0", "result": "foo", "id": 2},
+        {"jsonrpc": "2.0", "error": {"code": -32600, "message": "Invalid Request"}, "id": 3},
+        {"jsonrpc": "2.0", "error": {"code": -32601, "message": "Method not found"}, "id": 4},
+        {"jsonrpc": "2.0", "result": ["hello", 5], "id": 5}]);
+      this.setServerResponse(response);
+      var client = new qx.io.remote.Rpc("jsonrpc");
+      var spies = [];
+      for( var i=1; i < 6; i++) {
+        spies[i] = { result: this.spy(), error: this.spy() };
+        client.addRequest("someMethod", [])
+          .then(spies[i].result)
+          .catch(spies[i].error);
+      }
+      client.send();
       this.getServer().respond();
       this.wait(100, function(){
-        this.assertCalledWith(requestCallback,"foo");
-        this.assertCalledWith(sendCallback, qx.lang.Json.parse(response));
+        this.assertCalledWith(spies[1].result, 7);
+        this.assertCalledWith(spies[2].result, "foo");
+        this.assertCalled(spies[3].error);
+        this.assertCalled(spies[4].error);
+        this.assertCalledWith(spies[5].result, ["hello", 5]);
       },this);
-
     },
 
 
     //
     // legacy tests, will be removed in v7.0.0
     //
-
+/*
     "test: request data for params with date contains date literal when convert dates": function() {
       this.setUpFakeRequest();
       var obj = { date: new Date(Date.UTC(2020,0,1,0,0,0,123)) },
@@ -245,5 +396,7 @@ qx.Class.define("qx.test.io.remote.Rpc",
       this.stub(qx.io.remote.Rpc, "CONVERT_DATES", true);
       this.assertEquals(true, rpc._isConvertDates());
     }
+
+ */
   }
 });

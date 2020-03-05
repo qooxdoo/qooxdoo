@@ -67,9 +67,6 @@ qx.Class.define("qx.io.remote.Rpc",
 {
   extend : qx.core.Object,
 
-
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -175,6 +172,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * @var Number
      */
     __requestId : 0,
+
 
     /**
      * Origins of errors
@@ -282,6 +280,22 @@ qx.Class.define("qx.io.remote.Rpc",
       }
 
       return retVal;
+    },
+
+    /**
+     * Returns the current jsonrpc request id, which is unique among all
+     * instances
+     * @return {number}
+     */
+    getRequestId : function() {
+      return qx.io.remote.Rpc.__requestId;
+    },
+
+    /**
+     * Resets the request id
+     */
+    reset : function() {
+      qx.io.remote.Rpc.__requestId = 0;
     }
   },
 
@@ -1243,7 +1257,6 @@ qx.Class.define("qx.io.remote.Rpc",
 
           // normalize batch and non-batch responses
           var batch = qx.lang.Type.isArray(response) ? response : [response];
-          var repsonseId;
 
           // handle each response
           batch.forEach(function(response) {
@@ -1260,6 +1273,7 @@ qx.Class.define("qx.io.remote.Rpc",
               return reject(ex);
             }
 
+            var ids = [];
             // analyse individual response
             var result = response.result;
             var id = response.id;
@@ -1269,10 +1283,10 @@ qx.Class.define("qx.io.remote.Rpc",
             // we have the response to our request
             if (typeof id != "undefined" && typeof method == "undefined") {
               // we already have a response with the request id
-              if (repsonseId) {
+              if (ids.indexOf(id) !== -1) {
                 ex = (new qx.io.remote.exception.Transport(
                   qx.io.remote.RpcError.type.INVALID_DATA,
-                  "Invalid jsonrpc data for "+ method + ": multiple responses with same id.",
+                  "Invalid jsonrpc data: multiple responses with same id.",
                   {
                     request : data,
                     response: response
@@ -1280,6 +1294,7 @@ qx.Class.define("qx.io.remote.Rpc",
                 )).createError();
                 return reject(ex);
               }
+              ids.push(id);
               // find original request
               var originalRequest = this.__requestQueue.find(function (item) {
                 return item.id === id;
@@ -1296,7 +1311,6 @@ qx.Class.define("qx.io.remote.Rpc",
                 )).createError();
                 return reject(ex);
               }
-              repsonseId = id;
               // remove the entry from the queue
               this.__requestQueue.splice(this.__requestQueue.indexOf(originalRequest), 1);
               // we have an error
@@ -1374,6 +1388,13 @@ qx.Class.define("qx.io.remote.Rpc",
     sendNotification : function(method, params) {
       this.addNotification(method, params);
       this.send();
+    },
+
+    /**
+     * resets the request queue
+     */
+    reset : function() {
+      this.__requestQueue = [];
     }
 
   }
