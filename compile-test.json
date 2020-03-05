@@ -12,6 +12,9 @@
           "qx.*",
           "qxWeb",
           "qxl.*"
+        ],
+        "exclude": [
+          "qx.test.*"
         ]
       },
       "babelOptions": {
