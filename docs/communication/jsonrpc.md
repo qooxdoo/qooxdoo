@@ -3,7 +3,7 @@
 qooxdoo includes support for [JSON-RPC v2](https://www.jsonrpc.org
 /specification). It allows you to write true client/server applications
 without  having to worry about the communication details. The
-client is server-agnostic: it should work with any JSONRPC server
+client is server-agnostic: it should work with any HTTP-based JSONRPC server
 that complies with the standard JSON-RPC v2 specification. 
 
 > Note: Previous versions of qooxdoo used a protocol based on JSON-RPC v1 with 
@@ -79,7 +79,7 @@ way to do this is to use the `addRequest()` and `send()` methods like so:
 Promises 1-3 will resolve with the individual results (or errors) and reject
 with jsonrpc errors for this specific call. Promise 4 will resolve with the
 jsonrpc data for all requests or reject with any transport-related error. This
-means you need to handle errors for both the individual request and for `send()`.
+means you need to handle errors for both the individual requests and for `send()`.
 
 ### Notifications
 
@@ -108,81 +108,76 @@ The `callAsync()` and `callAsyncListeners()` support the JSONRPC v1 standard
 (no batch mode and bi-directional calls). In contrast to the Promise-based API,
 it can do cross-domain calls via script transport. 
 
-When you have the Rpc instance, you can make synchronous and asynchronous calls:
+When you have the Rpc instance, you can make asynchronous calls (Synchronous calls
+are also possible, but are marked as deprecated). 
 
-    // asynchronous call
-    var handler = function(result, exc) {
-        if (exc == null) {
-            alert("Result of async call: " + result);
-        } else {
-            alert("Exception during async call: " + exc);
-        }
-    };
-    rpc.callAsync(handler, "echo", "Test");
-
-For synchronous calls, the first parameter is the method name. After that, one
-or more parameters for this method may follow (in this case, a single string).
-Please note that synchronous calls typically block the browser UI until the
-result arrives, so they should only be used sparingly (if at all)!
-
-Asynchronous calls work similarly. The only difference is an additional first
-parameter that specifies a handler function. This function is called when the
-result of the method call is available or when an exception occurred.
+```javascript
+var handler = function(result, exc) {
+    if (exc == null) {
+        alert("Result of async call: " + result);
+    } else {
+        alert("Exception during async call: " + exc);
+    }
+};
+rpc.callAsync(handler, "echo", "Test");
+```
 
 You can also use qooxdoo event listeners for asynchronous calls - just use
 `callAsyncListeners` instead of `callAsync`. More details can be found in the
-[API documentation](http://api.qooxdoo.org/#qx.io.remote.Rpc).
-
+[API documentation](apps://apiviewer/#qx.io.remote.Rpc).
 
 ### Aborting a call
 
 You can abort an asynchronous call while it's still being performed:
 
-    // Rpc instantiation and handler function left out for brevity
+```javascript
+// Rpc instantiation and handler function left out for brevity
 
-    var callref = rpc.callAsync(handler, "echo", "Test");
+var callref = rpc.callAsync(handler, "echo", "Test");
 
-    // ...
+// ...
 
-    rpc.abort(callref);
-      // the handler will be called with an abort exception
+rpc.abort(callref);
+  // the handler will be called with an abort exception
+```
 
 ### Error handling
 
-When you make a synchronous call, you can catch an exception to handle errors.
-In its `rpcdetails` property, the exception contains an object that describes
-the error in more detail. The same details are also available in the second
-parameter in an asynchronous handler function, as well as in the events fired by
-`callAsyncListeners`.
+When an error is thrown, it will be passes as the second parameter
+in an asynchronous handler function, as well as in the events
+fired by `callAsyncListeners`. In its `rpcdetails` property, the
+exception contains an object that describes the error in more detail.
 
 The following example shows how errors can be handled:
 
-    // creation of the Rpc instance left out for brevity
+```javascript
+// creation of the Rpc instance left out for brevity
 
-    var showDetails = function(details) {
-        alert(
-            "origin: " + details.origin +
-            "; code: " + details.code +
-            "; message: " + details.message
-        );
-    };
+var showDetails = function(details) {
+    alert(
+        "origin: " + details.origin +
+        "; code: " + details.code +
+        "; message: " + details.message
+    );
+};
 
-    // error handling for sync calls
-    try {
-        var result = rpc.callSync("echo", "Test");
-    } catch (exc) {
-        showDetails(exc.rpcdetails);
+// error handling for sync calls
+try {
+    var result = rpc.callSync("echo", "Test");
+} catch (exc) {
+    showDetails(exc.rpcdetails);
+}
+
+// error handling for async calls
+var handler = function(result, exc) {
+    if (exc != null) {
+        showDetails(exc);
     }
+};
+rpc.callAsync(handler, "echo", "Test");
+```
 
-    // error handling for async calls
-    var handler = function(result, exc) {
-        if (exc != null) {
-            showDetails(exc);
-        }
-    };
-    rpc.callAsync(handler, "echo", "Test");
-
-The following `origin`'s are defined:
+The following `origin`s are defined:
 
 The `code` depends on the origin. For the server and application origins, the
 possible codes are defined by the backend implementation. For transport errors,
@@ -195,11 +190,15 @@ it's the HTTP status code. For local errors, the following codes are defined:
 
 ### Cross-domain calls
 
-Using the qooxdoo RPC implementation, you can also make calls across domain boundaries. On the client side, all you have to do is specify the correct destination URL in the Rpc constructor and set the crossDomain property to `true`:
+Using the qooxdoo RPC implementation, you can also make
+calls across domain boundaries. On the client side, all you
+have to do is specify the correct destination URL in the
+Rpc constructor and set the crossDomain property to `true`:
 
-    var rpc = new qx.io.remote.Rpc("http://targetdomain.com/appname/.qxrpc");
-    rpc.setCrossDomain(true);
+```javascript
+var rpc = new qx.io.remote.Rpc("http://targetdomain.com/appname/.qxrpc");
+rpc.setCrossDomain(true);
+```
 
 On the server side, you need to configure the backend to accept cross-domain
 calls (see the documentation comments in the various backend implementations).
-
