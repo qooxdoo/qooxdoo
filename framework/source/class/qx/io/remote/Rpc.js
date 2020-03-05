@@ -538,7 +538,7 @@ qx.Class.define("qx.io.remote.Rpc",
         // parameters are optional according to the spec
         if (parameters) {
           if (qx.lang.Type.isObject(parameters) || qx.lang.Type.isArray(parameters)) {
-            requestObject["params"] = parameters
+            requestObject["params"] = parameters;
           } else {
             throw new Error("Parameters must be type Array (positional) or Object (named)");
           }
