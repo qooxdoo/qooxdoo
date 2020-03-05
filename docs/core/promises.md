@@ -41,8 +41,8 @@ Connecting to server responded: Success
 Promises are the code that makes `async` and `await` work in ES6 (which you can also use cross platform with Qooxdoo, provided you use the qooxdoo-compiler):
 
 ```javascript
-async function connectToServer() {
-    await new qx.Promise((resolve, reject) => {
+function connectToServer() {
+    new qx.Promise((resolve, reject) => {
         // Connect to the server asynchronously here; if the server call is successful,
         //  we call resolve() and handle errors by calling reject().   
         resolve("Success");
@@ -63,7 +63,7 @@ When you write a Qooxdoo object, you typically create properties with `apply` me
 could take some time to complete - for example, setting a property could require an asynchronous server roundtrip.  When this happens, it is necessary 
 to delay the firing the change event until the apply is complete, otherwise the event could be fired before the property value is fully applied.
 
-The return value for apply method can be a qx.Promise, in which case promise will wait for the promise to resolve successfully before firing the event; if 
+The return value for apply method can be a qx.Promise, in which case Qooxdoo will wait for the promise to resolve successfully before firing the event; if 
 promise is rejected, then the value will not be set at all - ie the effect will be the same as if your apply method had just thrown an exception. 
 
 However, as the `set` method for your property normally returns the value which has been set, it is not possible to return the promise to the caller - 
