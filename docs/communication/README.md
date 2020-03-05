@@ -1,6 +1,6 @@
 # Communication
 
-qooxdoo's provides tree different communication APIs with a rich feature set:
+qooxdoo provides tree different communication APIs with a rich feature set:
 
 - [`qx.io.remote.*`](/communication/remote_io.md)
 ([ApiViewer](apps://apiviewer/#qx.io.remote)) is the older, but
