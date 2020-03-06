@@ -258,10 +258,12 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
      * transform for selection property
      */
     setSelection: function(value) {
-      if (value)
+      if (value) {
         this.__selection.replace(value);
-      else
+      }
+      else {
         this.__selection.removeAll();
+      }
     },
     
     getSelection: function() {
