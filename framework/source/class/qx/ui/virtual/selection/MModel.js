@@ -46,14 +46,16 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
   construct : function()
   {
     this._initSelectionManager();
-    this.__defaultSelection = new qx.data.Array();
-    this.initSelection(this.__defaultSelection);
+    this.__selection = new qx.data.Array();
+    this.__selection.addListener("change", this._onChangeSelection, this); 
+    this._applySelection(this.__selection, null);
   },
 
 
   properties :
   {
     /** Current selected items */
+    /* psuedo property - implemented manually in code below
     selection :
     {
       check : "qx.data.Array",
@@ -62,6 +64,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       nullable : false,
       deferredInit : true
     },
+    */
 
 
     /**
@@ -251,16 +254,26 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * transform for selection property
+     */
+    setSelection: function(value) {
+      if (value)
+        this.__selection.replace(value);
+      else
+        this.__selection.removeAll();
+    },
+    
+    getSelection: function() {
+      return this.__selection;
+    },
+    
+    resetSelection : function() {
+      this.__selection.removeAll();
+    },
 
     // apply method
-    _applySelection : function(value, old)
-    {
-      value.addListener("change", this._onChangeSelection, this);
-
-      if (old != null) {
-        old.removeListener("change", this._onChangeSelection, this);
-      }
-
+    _applySelection : function(value, old) {
       this._onChangeSelection();
     },
 
