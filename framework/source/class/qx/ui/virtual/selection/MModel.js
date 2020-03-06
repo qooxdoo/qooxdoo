@@ -138,7 +138,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     /** @type {Boolean} flag to ignore the selection change from <code>_manager</code> */
     __ignoreManagerChangeSelection : false,
 
-    __defaultSelection : null,
+    __selection : null,
 
 
     /**
@@ -476,8 +476,8 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
   {
     this._manager.dispose();
     this._manager = null;
-    if (this.__defaultSelection) {
-      this.__defaultSelection.dispose();
+    if (this.__selection) {
+      this.__selection.dispose();
     }
   }
 });
