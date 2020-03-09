@@ -255,7 +255,10 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     */
 
     /**
-     * transform for selection property
+     * Setter for selection property; takes the selection on, and does not change the
+     * array instance in `this.selection`
+     * 
+     * @param value {qx.data.Array} the new selection
      */
     setSelection: function(value) {
       if (value) {
@@ -266,15 +269,39 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       }
     },
     
+    /**
+     * Getter for selection property
+     * 
+     * @return {qx.data.Array}
+     */
     getSelection: function() {
       return this.__selection;
     },
     
+    /**
+     * Reset for selection property
+     */
     resetSelection : function() {
       this.__selection.removeAll();
     },
+    
+    /**
+     * Init for selection property; takes the selection on, and does not change the
+     * array instance in `this.selection`
+     * 
+     * @param value {qx.data.Array} the new selection
+     */
+    initSelection : function(value) {
+      this.warn("Using initSelection on " + this.classname + " is probably not what you intended - the selection instance does not change");
+      this.setSelection(value);
+    },
 
-    // apply method
+    /**
+     * Apply method for selection property
+     * 
+     * @param value {qx.data.Array} new value
+     * @param old {qx.data.Array} old value
+     */
     _applySelection : function(value, old) {
       this._onChangeSelection();
     },
