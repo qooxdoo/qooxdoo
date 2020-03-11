@@ -47,7 +47,7 @@ qx.Bootstrap.define("qx.event.handler.GestureCore", {
     /**
      * @type {Integer} The time delta in milliseconds to fire a long tap event.
      */
-    LONGTAP_TIME : 500,
+    LONGTAP_TIME : qx.core.Environment.get("device.touch")? 500: 99999,
 
     /**
      * @type {Integer} Maximum time between two tap events that will still trigger a
