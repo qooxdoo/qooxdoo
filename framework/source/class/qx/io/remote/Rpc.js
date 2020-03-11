@@ -390,7 +390,7 @@ qx.Class.define("qx.io.remote.Rpc",
      */
     protocol :
     {
-      init : "qx1",
+      init : "2.0",
       check : function(val) { return val == "qx1" || val == "2.0"; }
     }
   },

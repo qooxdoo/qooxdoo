@@ -1,0 +1,57 @@
+{
+  "environment": {
+    "qx.serve.appspath": "/apps/",
+    "qx.serve.docspath": "/"
+  },
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "apps",
+      "bundle": {
+        "include": [
+          "qx.*",
+          "qxWeb",
+          "qxl.*"
+        ],
+        "exclude": [
+          "qx.test.*"
+        ]
+      },
+      "babelOptions": {
+        "targets": "edge >=18, chrome >= 73, firefox >= 66"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "apps"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": [
+    "en"
+  ],
+  "libraries": [
+    "./framework"
+  ],
+  "applications": [
+    {
+      "class": "qxl.testtapper.Application",
+      "name": "testtapper",
+      "theme": "qx.theme.Simple",
+      "title": "Qooxdoo TestTAPper",
+      "environment": {
+        "qx.icontheme": "Tango",
+        "testtapper.testNameSpace": "qx.test"
+      },
+      "include": [
+        "qx.test.*"
+      ],
+      "exclude": [
+      ]
+    }
+  ],
+  "sass": {
+    "compiler": "legacy"
+  },
+  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json"
+}

@@ -8,3 +8,4 @@ please refer to the following resources:
 
  - [Testrunner](../compiler/cli/testing.md)
  - [Framework Tests](framework_tests.md)
+ - [Fake Server](fake_server.md)
