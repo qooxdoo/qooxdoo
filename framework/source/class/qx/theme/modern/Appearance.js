@@ -1255,7 +1255,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "qx/icon/Tango/16/actions/window-close.png"
+          icon : "16/actions/window-close.png"
         };
       }
     },
