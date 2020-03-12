@@ -69,7 +69,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
       } 
       var i = document.createElement("input");
       return "placeholder" in i;
-      },
+    },
 
 
     /**
