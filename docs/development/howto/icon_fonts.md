@@ -25,7 +25,7 @@ information is either incomplete or missing. You need to use a custom font map
 in this case to be able to address all the glyphs by their name/alias.
 
 The integration is generic, so that it does not collide with the framework's
-appearance themes \<desktop/ui\_theming\>. Font icons can be addressed using
+appearance themes (desktop/ui_theming). Font icons can be addressed using
 `@FontName/GlyphName` or `@FontName/HexUnicode` in the source property of your
 `qx.ui.basic.Image`. To override the default size, you can also use
 `@FontName/GlyphName/size` or `@FontName/HexUnicode/size` to scale it to the
@@ -60,8 +60,8 @@ Use the *Manifest.json* to define the icon font like shown in the example:
 
 Please note that JSON does not support comments - you'll have to remove them first.
 
-Every map entry in the *webfonts* array needs to have at leasta \_name\_ and one
-TTF \_resources\_ entry. Resources can be local files or HTTP URLs. The \_name\_
+Every map entry in the *webfonts* array needs to have at leasta _name_ and one
+TTF _resources_ entry. Resources can be local files or HTTP URLs. The _name_
 is used to reference the font in the virtual URLs. So if you name it "Foobar"
 instead of "FontAwesome", you have to use `@Foobar/<glyphname>` instead.
 

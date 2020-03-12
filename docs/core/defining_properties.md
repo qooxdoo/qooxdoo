@@ -103,7 +103,7 @@ qooxdoo specific.
 
 For a more technical description, take a look at the [API documentation
 of
-qx.core.Property](http://demo.qooxdoo.org/%%7Bversion%7D/apiviewer/#qx.core.Property)
+qx.core.Property](apps://apiviewer/#qx.core.Property)
 
 ### Providing an event interface
 
@@ -345,7 +345,7 @@ only apply in the development (source) version of the application. Due
 to performance optimization, we strip these checks for the build
 version. If you want a property validation, take a look at the
 `validation section
-<pages/defining_properties#validation_incoming_values>`.
+defining_properties.md#validation_incoming_values`.
 
 ### Predefined types
 

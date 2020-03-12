@@ -35,7 +35,7 @@ Let's assume you found this wonderful %{JS} library for charting, called *PonyCh
          * @asset(ponycharts/*)
          */
 
-3.  Make sure the PonyCharts *.js* file is loaded before your application code. A simple way to achieve this is to use the add-script \<pages/tool/generator/generator\_config\_ref\#add-script\> config key. In your config.json, under *jobs*, add a *common* job like this.
+3.  Make sure the PonyCharts *.js* file is loaded before your application code. A simple way to achieve this is to use the add-script tool/generator/generator_config_ref.md#add-script config key. In your config.json, under *jobs*, add a *common* job like this.
 
         "common" : {
             "add-script" : [
@@ -101,7 +101,7 @@ There is a more elaborate way to use an external %{JS} package, by wrapping it i
           }
         }
 
-    See qx.util.DynamicScriptLoader\_ for full details.
+    See qx.util.DynamicScriptLoader_ for full details.
 
 5.  Add the new qooxdoo library to your main application's configuration. In its *config.json*, add under the *jobs* key
 

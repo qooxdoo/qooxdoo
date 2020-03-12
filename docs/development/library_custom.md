@@ -6,7 +6,7 @@ first, you start thinking about factoring code out into separately
 manageable units. This is when you create dedicated libraries.
 
 In qooxdoo *all code* is organized in libraries
-\<development/code\_organisation\>. Also the code tree that
+(development/code_organisation). Also the code tree that
 holds your application's main class is, conceptually, a library.
 So even in the simplest skeleton you are already working *in* a
 library (the skeleton), *with* a library (the framework classes).
@@ -14,13 +14,13 @@ Creating and using further libraries is only a repetition of that.
 
 ## Creating a Custom Library
 
-Just run create-application.py \<tool/create\_application\>. The default
+Just run create-application.py (tool/create_application). The default
 application type ("desktop") is good enough for this purpose. If you
 have existing code that you want to put into the library, just move the
-files over to their new location under the *source/class/\<namespace\>*
+files over to their new location under the *source/class/(namespace)*
 path. Don't forget to adapt the class name as given in the call to
 e.g. *qx.Class.define*. The name passed in this call has to match
-the path suffix of the class file, like *"\<namespace\>.Foo"*.
+the path suffix of the class file, like *"(namespace).Foo"*.
 
 If you don't plan to develop a small demo application along with the library
 classes, you could put away with the *Application.js* file that is part of
@@ -37,7 +37,7 @@ You need to make the new library known to the existing application
 so it knows where to look for resources. In principle this
 means that every job that evaluates libraries (like *source*,
 *build*, etc.) needs to be informed about it through the library
-\<pages/tool/generator/generator\_config\_ref\#library\> configuration key.
+tool/generator/generator_config_ref.md#library configuration key.
 
 To make it easier for you, so you don't have to add the new library to each and
 every job individually, there is the *libraries* job. If you override this one,
@@ -124,7 +124,7 @@ Speed up Cold-Cache Compile Time
 
 Once you have settled in using an own library and the library's code
 is stable you can speed up usage of the library classes by running
-the pages/tool/generator/generator\_default\_jobs\#dependencies job.
+the pages/tool/generator/generator_default_jobs#dependencies job.
 This will create a file with dependency information for the library
 which can be used to compile your main application. (The SDK comes
 with such a file pre-compiled for the framework classes.) You can

@@ -48,7 +48,7 @@ To create a submenu structure, each item (but not separator) can contain a menu 
 Diagram
 -------
 
-![Menu\_UML](menu_uml.png)
+![Menu_UML](menu_uml.png)
 
 Demos
 -----

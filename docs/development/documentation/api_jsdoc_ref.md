@@ -38,10 +38,10 @@ Inline Markup
 Running text can be formatted using inline markup which uses special characters around the target text:
 
 -   \*strong\* (will render as **strong**)
--   \_\_emphasis\_\_ (will render as *emphasis*)
+-   __emphasis__ (will render as *emphasis*)
 
 There is no escape character, so in order to e.g. enter a literal "@" into the
-text, use the HTML entity equivalent ("*&\#64;*" in this case).
+text, use the HTML entity equivalent ("*&#64;*" in this case).
 
 ### HTML
 
@@ -56,7 +56,7 @@ After the general description text there may follow any number of attributes or 
 
 That is they all start with an at-sign, `@`, as the first thing on a line within the JSDoc comment block. Then follows a special key from a pre-defined set of keys, like param, return, throws and the like. The key data is then key-specific and varies a bit. There might be keys that have no data at all. Some use a parenthesized syntax to indicate arguments (like "@ignore(foo)"), other use a more verb-like syntax (like "@deprecated {%{version}} use bar
 instead"). Many of them allow free comment text at the end. See the Section
-Reference\_ for a full list of supported attributes and their individual syntaxes.
+Reference_ for a full list of supported attributes and their individual syntaxes.
 
 A new attribute entry or the end of the JSDoc comment terminate an attribute specification. Attributes may stretch across multiple lines. Lines following an attribute key are logically appended to the first line (i.e. the effect is as if you had written one long line).
 
@@ -105,7 +105,7 @@ Here is the full syntax for a type specification as used in concrete doc attribu
 
 That is, between curly braces an optional list of type indicators (as described above), separated by `|`, following an optional `?` to indicate the entire parameter is optional, followed by an optional default value (the last two for `@param` attributes).
 
-For a parameter description the meaning is: The expected parameter can be of Type1 or Type2 or ..., is optional, i.e. can be left out, and will default to *\<default\_value\>*.
+For a parameter description the meaning is: The expected parameter can be of Type1 or Type2 or ..., is optional, i.e. can be left out, and will default to *(default_value)*.
 
 **Example**
 
@@ -183,7 +183,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
 **Description**
 
-> In a class description of a widget that is composed of various sub-widgets the `@childControl` entry informs about those sub-widgets. This is relevant for users that want to apply a custom theme \<pages/desktop/ui\_appearance\#appearance\> to the widget (the name is the default appearance ID), or implement own widgets \<pages/desktop/ui\_develop\#child\_controls\> that derive from this.
+> In a class description of a widget that is composed of various sub-widgets the `@childControl` entry informs about those sub-widgets. This is relevant for users that want to apply a custom theme desktop/ui_appearance.md#appearance to the widget (the name is the default appearance ID), or implement own widgets desktop/ui_develop.md#child_controls that derive from this.
 
 **Syntax**
 
@@ -202,7 +202,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > >     - An identifying name for the child control
 > > -   -   type
 > >
-> >     - The type specification \<pages/development/api\_jsdoc\_ref\#types\_syntax\> of the child control widget
+> >     - The type specification development/api_jsdoc_ref.md#types_syntax of the child control widget
 > > -   -   description
 > >     -   *(opt.)* What the child control is used for in the context of this widget
 
@@ -237,7 +237,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > >     - Name of formal parameter to function
 > > -   -   type
 > >
-> >     - A type specification \<pages/development/api\_jsdoc\_ref\#types\_syntax\> like `{Boolean | Integer ? 0}`
+> >     - A type specification development/api_jsdoc_ref.md#types_syntax like `{Boolean | Integer ? 0}`
 > > -   -   description
 > >     -   *(opt.)* Descriptive text of the parameter
 
@@ -253,7 +253,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
 **Description**
 
-> Marks the method as protected. This is helpful if for some reason a protected method name cannot start with "\_" (single underscore). With this attribute the Apiviewer can still classify the method as protected.
+> Marks the method as protected. This is helpful if for some reason a protected method name cannot start with "_" (single underscore). With this attribute the Apiviewer can still classify the method as protected.
 
 **Syntax**
 
@@ -298,7 +298,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > >
 > > -   -   type
 > >
-> >     - A type indicator \<pages/development/api\_jsdoc\_ref\#types\_syntax\> like `Map`
+> >     - A type indicator development/api_jsdoc_ref.md#types_syntax like `Map`
 > > -   -   description
 > >     -   *(opt.)* Descriptive text of the type
 
@@ -330,7 +330,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > >
 > > -   -   type
 > >
-> >     - The type \<pages/development/api\_jsdoc\_ref\#types\_syntax\> of the return value.
+> >     - The type development/api_jsdoc_ref.md#types_syntax of the return value.
 > > -   -   description
 > >     -   *(opt.)* Descriptive text
 
@@ -362,7 +362,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > >
 > > -   -   type
 > >
-> >     - The type \<pages/development/api\_jsdoc\_ref\#types\_syntax\> of the exception
+> >     - The type development/api_jsdoc_ref.md#types_syntax of the exception
 > > -   -   description
 > >     -   *(opt.)* Descriptive text under which circumstances this exception is thrown.
 
@@ -390,11 +390,11 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
 **Scope**
 
-> Embedded in descriptive text, Description\_.
+> Embedded in descriptive text, Description_.
 
 **Description**
 
-> The `@link` attribute is similar to the @see\_ attribute, but it is used for linking within description texts. Unlike the other attributes, the `@link` attribute is not standalone, but in curly brackets and within the main description text or a description text of another attribute.
+> The `@link` attribute is similar to the @see_ attribute, but it is used for linking within description texts. Unlike the other attributes, the `@link` attribute is not standalone, but in curly brackets and within the main description text or a description text of another attribute.
 
 **Syntax**
 
@@ -402,7 +402,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
 **Parameters**
 
-> See @see\_.
+> See @see_.
 
 **Example**
 
@@ -505,7 +505,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > > widths  
 > > 30 70
 > >
-> > -   -   since\_version
+> > -   -   since_version
 > >
 > >     - qooxdoo version with which the corresponding item was deprecated
 > > -   -   description
@@ -552,7 +552,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > >         A class map member that is initialized with a reference value (object, array, map, ...), as those will be shared among class instances.
 > >     -   **ignoreUndefined**
 > >
-> >         *(Deprecated)* This key is deprecated for the more general @ignore \<pages/development/api\_jsdoc\_ref\#ignore\> hint.
+> >         *(Deprecated)* This key is deprecated for the more general @ignore development/api_jsdoc_ref.md#ignore hint.
 > >     -   **ignoreUnused**
 > >
 > >         Scoped variables (function parameters, function expression's identifier, or variables declared with `var`) which are never used.
@@ -622,7 +622,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > > widths  
 > > 30 70
 > >
-> > -   -   resource\_id
+> > -   -   resource_id
 > >     -   The resource ID or resource pattern to be added.
 
 **Example**
@@ -660,7 +660,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > > -   -   class
 > >
 > >     - Class ID where the function should be attached.
-> > -   -   feature\_name
+> > -   -   feature_name
 > >     -   *(opt.)* Feature name under which the function should be attached; if missing, the original function name is used.
 
 **Example**
@@ -677,7 +677,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
 **Description**
 
-> As with @attach\_ above, but attach the function to the *statics* section of the given class, using the opt. second parameter as the statics' name.
+> As with @attach_ above, but attach the function to the *statics* section of the given class, using the opt. second parameter as the statics' name.
 
 **Syntax**
 
@@ -694,7 +694,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 > > -   -   class
 > >
 > >     - Class ID where the function should be attached.
-> > -   -   feature\_name
+> > -   -   feature_name
 > >     -   *(opt.)* Feature name under which the function should be attached; if missing, the original function name is used.
 
 **Example**
@@ -835,7 +835,7 @@ A JSDoc comment consists of different sections, where a section is either a lead
 
 **See**
 
-> Special section on development/api\_jsdoc\_at\_ignore.
+> Special section on development/api_jsdoc_at_ignore.
 
 ### @tag
 

@@ -23,7 +23,7 @@ test classes and take advantage of the Test Runner environment.
 
 This section assumes that your qooxdoo application bears on the structure of the
 qooxdoo skeleton
-\<pages/getting\_started/helloworld\#create\_your\_application\> application.
+getting_started/helloworld.md#create_your_application application.
 Then this is what you have to do:
 
 ### Writing Test Classes
@@ -59,7 +59,7 @@ These test classes have to comply to the following constraints:
     
         -   A similar list of methods of the form `assert*DebugOn` is
         available, which are only evaluated if the debug environment
-        setting `qx.debug` is on (see Environment \<core/environment\>).
+        setting `qx.debug` is on (see Environment (core/environment)).
     
         -   See the documentation for the
         [qx.dev.unit.TestCase](apps://apiviewer/#qx.dev.unit.TestCase)
@@ -330,7 +330,7 @@ scenarios where speed is more important than good looks.
 ![image](testrunner_mobile.png)
 
 A view based on qx.Mobile's widget set. In an an application based on the
-Mobile Skeleton \<pages/development/skeletons\#mobile\>, run generate.py
+Mobile Skeleton development/skeletons.md#mobile, run generate.py
 test-mobile or generate.py test-mobile-source to build a Test Runner with
 the Mobile view. For other application types, you'll need to add test-mobile
 and/or test-mobile-source to the top-level exports list in config.json first.
@@ -374,7 +374,7 @@ with the code to be tested and unit test definitions (as inline JavaScript).
 Its main purpose is to provide a comprehensive unit testing
 framework including [Assertions](apps://apiviewer/#qx.core.Assert),
 [Sinon](apps://apiviewer/#qx.dev.unit.MMock), Requirements
-\<pages/frame\_apps\_testrunner\#requirements\> and a Test Runner
+frame_apps_testrunner.md#requirements and a Test Runner
 GUI to developers working on non-qooxdoo JavaScript applications.
 
 ### Example

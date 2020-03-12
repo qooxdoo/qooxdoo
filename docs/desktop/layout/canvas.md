@@ -22,7 +22,7 @@ Features
 Description
 -----------
 
-In addition to the Basic layout the Canvas layout adds support for `right` and `bottom` layout properties. These allows to position a child in distance from the right or bottom edge of the available space. The canvas also adds support for percent \<pages/ui\_layouting\#percent\> locations and dimensions (layout properties `width` and `height`). Percents are defined as a string value (otherwise using the same layout property) with a "%" postfix.
+In addition to the Basic layout the Canvas layout adds support for `right` and `bottom` layout properties. These allows to position a child in distance from the right or bottom edge of the available space. The canvas also adds support for percent ui_layouting.md#percent locations and dimensions (layout properties `width` and `height`). Percents are defined as a string value (otherwise using the same layout property) with a "%" postfix.
 
 It is possible to stretch a between the left and right edge by specifying layout properties for both `left` and `right`. The same is of cause true for `top` and `bottom`. To define a distance which is identically to each edge e.g. stretch a child to between all sides there is the `edge` property. This property accepts the same values are supported by the other location properties (including percents). Please keep in mind that often a Grow Layout might be the better choice when `edge` was planned to use in conjunction with a Canvas Layout.
 

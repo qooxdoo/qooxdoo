@@ -2,7 +2,7 @@
 
 How you develop a qooxdoo application largely depends on for which target
 platform you develop (browser, server, mobile, ...), which in turn is
-reflected by the qooxdoo component \<getting\_started\> (%{Desktop},
+reflected by the qooxdoo component (getting_started) (%{Desktop},
 %{Website}, ...) and, to a lesser extend, which skeleton type you are using.
 Please refer to the particular component documentation for its specifics.
 

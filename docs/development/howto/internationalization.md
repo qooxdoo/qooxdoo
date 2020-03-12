@@ -16,7 +16,7 @@ Localization
 
 Localization is the effort of displaying data in a way that conforms to regional and/or cultural habits. This mostly affects data of everyday life: monetary currencies, names and display formats used in dates and time, number formats and naming conventions in general (e.g. names of countries and languages in the world), to list the most common use cases. Writing a date as 01/31/1970 rather than 1970/01/31, or starting the week with Sunday rather than Monday fall in this category.
 
-A coherent set of these conventions taken together is usually referred to as a [locale](http://en.wikipedia.org/wiki/Locale), and they are signified by a country code or some derivative thereof. *en*, *en\_US* and *en\_UK* for example signify three distinct locales that are used in English speaking countries. The understanding is that there is a sort of inheritance relation between more general and more specific locales, so that e.g. *en\_US* only needs to specify the items in which it deviates from the more general *en* locale, and relies on the *en* settings for all other on which they agree. For historical reasons there is a common "ancestor" to all locales which is called *C*. If not specified all locale settings fall back to those given in *C* (which is mostly a copy of *en*). qooxdoo supports this fall-back chain of locale settings by looking up a specific item e.g first in *en\_US* (if that were the current locale), then *en* and then in *C*.
+A coherent set of these conventions taken together is usually referred to as a [locale](http://en.wikipedia.org/wiki/Locale), and they are signified by a country code or some derivative thereof. *en*, *en_US* and *en_UK* for example signify three distinct locales that are used in English speaking countries. The understanding is that there is a sort of inheritance relation between more general and more specific locales, so that e.g. *en_US* only needs to specify the items in which it deviates from the more general *en* locale, and relies on the *en* settings for all other on which they agree. For historical reasons there is a common "ancestor" to all locales which is called *C*. If not specified all locale settings fall back to those given in *C* (which is mostly a copy of *en*). qooxdoo supports this fall-back chain of locale settings by looking up a specific item e.g first in *en_US* (if that were the current locale), then *en* and then in *C*.
 
 To support such regional settings, qooxdoo uses data from the CLDR project, the *"Common Locale Data Repository"*, which collects data for known locales in a set of XML files. See the project's [home page](http://cldr.unicode.org) and [terms of use](http://www.unicode.org/copyright.html).
 
@@ -63,12 +63,12 @@ Example:
     var button = new qx.ui.form.Button(this.tr("Hello World"));
 
 *tr* marks the string `"Hello World"` for translation (This string is often referred to as the *message id*, as it serves as the lookup key for any provided translation). This means that the string itself will be extracted when the appropriate generator job is run (see further
-\<pages/internationalization\#extract\_the\_messages\>). During application run time, *tr* returns the translation of the given string *under the current locale*. That means, the actual string you get at this point in time depends on the locale in effect. If, on the other hand, the environment setting qx.dynlocale \<pages/core/environment\#environment\> is set to "true", *tr* returns an instance of `qx.locale.LocalizedString`. The `toString()` method of the returned object performs the actual translation based on the current locale. This has the advantage that later changes to the locale (see further \<pages/internationalization\#run\_the\_translated\_application\>) are immediately reflected in the widgets using this object, as most know how to handle and re-evaluate LocalizedString's. But you only need that setting if you plan to support locale switching during run time.
+internationalization.md#extract_the_messages). During application run time, *tr* returns the translation of the given string *under the current locale*. That means, the actual string you get at this point in time depends on the locale in effect. If, on the other hand, the environment setting qx.dynlocale core/environment.md#environment is set to "true", *tr* returns an instance of `qx.locale.LocalizedString`. The `toString()` method of the returned object performs the actual translation based on the current locale. This has the advantage that later changes to the locale (see further internationalization.md#run_the_translated_application) are immediately reflected in the widgets using this object, as most know how to handle and re-evaluate LocalizedString's. But you only need that setting if you plan to support locale switching during run time.
 
 If the string given to *tr* does not have a translation under the current locale, the string itself will be returned.
 
-There is one exception to the simple rule that all strings can just be replaced by wrapping them in an appropriate `this.tr()` function call: If init values of dynamic properties \<core/understanding\_properties\> are meant to be localizable, the init value has either to be set in the class constructor using `this.tr()`, or `qx.locale.Manager.tr()` has to be used inside the property declaration. See documentation on Defining an init value
-\<pages/defining\_properties\#defining\_an\_init\_value\> for details.
+There is one exception to the simple rule that all strings can just be replaced by wrapping them in an appropriate `this.tr()` function call: If init values of dynamic properties (core/understanding_properties) are meant to be localizable, the init value has either to be set in the class constructor using `this.tr()`, or `qx.locale.Manager.tr()` has to be used inside the property declaration. See documentation on Defining an init value
+defining_properties.md#defining_an_init_value for details.
 
 #### trn
 
@@ -137,7 +137,7 @@ will generate a `.po` file for each configured locale, with all translatable str
 If a specified translation does not yet exist, a new translation file will be created. In this example two files, `source/translation/de.po` and `source/translation/fr.po`, would be created.
 
 If such a file already exists, the newly extracted strings will be merged with this file, retaining all existing translations. Therefore, you can re-run `generate.py translation` as often as you want. You should re-run it at least whenever you introduced new translatable strings into the source code, so they will be added to the .po files (see further
-\<pages/internationalization\#update\_the\_application\>).
+internationalization.md#update_the_application).
 
 ### Translate the Messages
 
@@ -150,7 +150,7 @@ Some of the programs that support manipulation of `.po` files are:
 -   [Lokalize](http://l10n.kde.org/tools/) (Linux)
 -   [Gtranslator](http://projects.gnome.org/gtranslator/) (Linux)
 
-If you want to know more about the details of `.po` files, see pages/tool/translation/po\_format.
+If you want to know more about the details of `.po` files, see pages/tool/translation/po_format.
 
 ### Update the Application
 

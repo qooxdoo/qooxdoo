@@ -121,7 +121,7 @@ As you can see in the diagram, you can get the currently selected model and also
 Widgets
 -------
 
-The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the widgets \</pages/desktop/widget/widget\_ref\> documentation.
+The following listing shows the form widgets and their corresponding interfaces. To see more details about a widget, take a look at the widgets (/pages/desktop/widget/widget_ref) documentation.
 
 <html>
 <style type="text/css">
@@ -728,7 +728,7 @@ The first part with which the application developer gets in contact is the add m
 
 ### Requirements
 
-Form items need two things. First of all, a given form item must be able to handle an invalid state and must have an invalid message. This is guaranteed by the IForm \<pages/desktop/ui\_form\_handling\#form\> interface already introduced. But that's not all: The manager needs to access the value of the form item. Therefore, the form item needs to specify a value property. This value property is defined in the data specific form interfaces \<pages/desktop/ui\_form\_handling\#number\_string\_color\_date\_boolean\> also introduced above. So all widgets implementing the `IForm` interface and one of the value defining interfaces can be used by the validation. For a list of widgets and the interfaces they implement, take a look at the widgets section \<pages/desktop/ui\_form\_handling\#widgets1\> in this document.
+Form items need two things. First of all, a given form item must be able to handle an invalid state and must have an invalid message. This is guaranteed by the IForm desktop/ui_form_handling.md#form interface already introduced. But that's not all: The manager needs to access the value of the form item. Therefore, the form item needs to specify a value property. This value property is defined in the data specific form interfaces desktop/ui_form_handling.md#number_string_color_date_boolean also introduced above. So all widgets implementing the `IForm` interface and one of the value defining interfaces can be used by the validation. For a list of widgets and the interfaces they implement, take a look at the widgets section desktop/ui_form_handling.md#widgets1 in this document.
 
 Now that we know what the manager can validate, it's time to learn how to validate. In general, there are two different approaches in validation. The first approach is client side validation, which is commonly synchronous. On the other hand, server side validation is asynchronous in most cases. We will cover both possibilities in the following sections.
 
@@ -808,7 +808,7 @@ Entering data into a form is one part of the process. But usually, that entered 
 
 ### Idea
 
-The main idea behind this was to ensure that it cooperates nicely with features like the form widgets and the corresponding data binding components. So we decided to split the problem into two different parts. The first part is storing the data held in the view components as a model. The second part takes that model and serializes its data. Sounds like data binding \</pages/data\_binding/data\_binding\>? It is data binding!
+The main idea behind this was to ensure that it cooperates nicely with features like the form widgets and the corresponding data binding components. So we decided to split the problem into two different parts. The first part is storing the data held in the view components as a model. The second part takes that model and serializes its data. Sounds like data binding (/pages/data_binding/data_binding)? It is data binding!
 
 ![Serialization in qooxdoo](forms/serialization.png)
 
@@ -843,7 +843,7 @@ This way, the serialization is separated from the form itself. So hidden form fi
 
 Keep in mind that you're creating a model with that and you can access every property you created using the default getters and setters.
 
-You might be asking yourself "What if i want to convert the values for serialization? My server needs some different values...". That brings us to the topic of conversion. But as we have seen before, the mapping from the view to the model is handled by the data binding layer which already includes conversion. Take a look at the data binding documentation \<pages/data\_binding/single\_value\_binding\#options\_conversion\_and\_validation\> for more information on conversion.
+You might be asking yourself "What if i want to convert the values for serialization? My server needs some different values...". That brings us to the topic of conversion. But as we have seen before, the mapping from the view to the model is handled by the data binding layer which already includes conversion. Take a look at the data binding documentation data_binding/single_value_binding.md#options_conversion_and_validation for more information on conversion.
 
 #### Need something special?
 
@@ -865,7 +865,7 @@ Like the task of resetting itself, the API is not too complicated. We have one m
 
 ### How It Works
 
-Technically, it's not really a challenge thanks to the new form API. You can add any items either having a value property defined by one of the data specific form interfaces \<pages/desktop/ui\_form\_handling\#number\_string\_color\_date\_boolean\> or implementing the selection API \<ui\_selection\> of qooxdoo. On every addition, the resetter grabs the current value and stores it. On a reset all stored values are set.
+Technically, it's not really a challenge thanks to the new form API. You can add any items either having a value property defined by one of the data specific form interfaces desktop/ui_form_handling.md#number_string_color_date_boolean or implementing the selection API (ui_selection) of qooxdoo. On every addition, the resetter grabs the current value and stores it. On a reset all stored values are set.
 
 ### Sample Usage
 
@@ -909,8 +909,8 @@ We've already covered most parts of form handling. But one thing we've left out 
 
 The qooxdoo form is an object which includes three main parts.
 
--   Validation \<pages/desktop/ui\_form\_handling\#validation\> using the `qx.ui.form.validation.Manager` class
--   Resetting \<pages/desktop/ui\_form\_handling\#resetting\> using the `qx.ui.form.Resetter` class
+-   Validation desktop/ui_form_handling.md#validation using the `qx.ui.form.validation.Manager` class
+-   Resetting desktop/ui_form_handling.md#resetting using the `qx.ui.form.Resetter` class
 -   Handling the layout of the form
 
 As we have already talked about the first two items, I'll cover the last item in a more detailed way.
@@ -1025,7 +1025,7 @@ Form Controller
 
 Data binding for a form certainly is a handy feature. Using a model to access data in the form brings form handling to another level of abstraction. That's exactly what the form controller offers.
 
-The form controller is fully covered in the data binding documentation \<pages/data\_binding/controller\#form\_controller\>.
+The form controller is fully covered in the data binding documentation data_binding/controller.md#form_controller.
 
 ### Sample Usage
 

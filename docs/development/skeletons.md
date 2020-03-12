@@ -4,10 +4,10 @@ Application Skeletons
 qooxdoo comes with several different application templates or
 *skeletons*. Each is meant for a specific usage scenario and includes
 a different subset of the qooxdoo framework (see the architecture
-diagram\<pages/architecture\#architecture\> for reference).
+diagramarchitecture.md#architecture for reference).
 
 When creating a new application using create-application.py
-\<tool/create\_application\>, the *-t* or *--type*
+(tool/create_application), the *-t* or *--type*
 parameter specifies the type of skeleton to be used, e.g.
 
     qooxdoo-%{version}-sdk/create-application.py --name=custom --type=mobile
@@ -55,7 +55,7 @@ Inherits from [qx.application.Inline](apps://apiviewer/#qx.application.Inline)
 
 ## Mobile
 
-For a mobile application \<pages/mobile/mobile\_overview\#overview\>
+For a mobile application mobile/mobile_overview.md#overview
 running in a WebKit-based browser on iOS or Android (and also on desktop
 machines). Supports the [mobile widget set](apps://apiviewer/#qx.ui.mobile).
 
@@ -82,7 +82,7 @@ Inherits from [qx.application.Native](apps://apiviewer/#qx.application.Native)
 
 ## Website
 
-This is an alternative to working with the Website \<website\> library directly,
+This is an alternative to working with the Website (website) library directly,
 which is a single-file download containing all the %{Website} API. If you
 deploy the download you use its API in your own code in a way that suits
 you, e.g. by adding custom code in an HTML page that also loads the library.
@@ -114,7 +114,7 @@ HTML code (rather than *q-%{version}.min.js* which is the minified version).
 
 -   *test, test-source*: You can write unit tests for your custom
 code, and generate a local version of the Portable Testrunner
-\<pages/frame\_apps\_testrunner\#portable\_test\_runner\> using
+frame_apps_testrunner.md#portable_test_runner using
 `generate.py test` or `generate.py test-source` (The linked description
 of the Portable Testrunner refers partly to the ready-built download
 version, hence it says *"no compile step"*). In order to sensibly test
@@ -147,14 +147,14 @@ This skeleton depends on a generated Server library, located in
 *script/*. If this was not delivered with your SDK you can create
 it locally, by running `generate.py library`. (If you intend to
 create multiple 'server' skeletons, you might want to change to
-*\${QOOXDOO\_PATH}/component/standalone/server* and invoke `generate.py
+*\${QOOXDOO_PATH}/component/standalone/server* and invoke `generate.py
 build`. This will generate the library for further 'server' skeletons).
 
 The library will be used together with the application code to make up
 the final application. You need to generate the application first, e.g.
 by running `generate.py source`. The generated source file is saved under
-*source/script/\<custom\>.js*, the build file (with `generate.py build`)
-under *build/script/\<custom\>.js*. Those files can then be executed.
+*source/script/(custom).js*, the build file (with `generate.py build`)
+under *build/script/(custom).js*. Those files can then be executed.
 
 ### Invoking the application
 
@@ -178,5 +178,5 @@ $ java -cp path/to/js.jar org.mozilla.javascript.tools.shell.Main foo.js
 
 ### Included layers
 
--   See the %{Server} \<server\> documentation.
+-   See the %{Server} (server) documentation.
 
