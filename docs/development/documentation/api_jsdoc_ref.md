@@ -4,7 +4,7 @@ tocdepth
 JSDoc Reference
 ===============
 
-The declarative language used in JSDoc-like comments in %{qooxdoo} has grown including specific extensions, maybe in some cases deviating from the [official implementation](http://code.google.com/p/jsdoc-toolkit/), so it makes sense to summarize the supported constructs.
+The declarative language used in JSDoc-like comments in qooxdoo has grown including specific extensions, maybe in some cases deviating from the [official implementation](http://code.google.com/p/jsdoc-toolkit/), so it makes sense to summarize the supported constructs.
 
 Overall JSDoc Structure
 -----------------------
