@@ -7,7 +7,7 @@
 - [**Qooxdoo Core**](/core/)
 
   - [Introduction](/core/oo_introduction.md)
-  - [Feature summery](/core/oo_feature_summary.md)
+  - [Feature summary](/core/oo_feature_summary.md)
   
   - Object Orientation
     - [Classes](/core/classes.md)
@@ -28,7 +28,7 @@
     - [Behavior](/core/property_behavior.md)
     - [Features](/core/property_features.md)
   
-  - [Environent](/core/environment.md)
+  - [Environment](/core/environment.md)
   
   - Interaction Events
     - [Pointer](/core/pointer.md)
@@ -44,7 +44,7 @@
     - [Drag'n'Drop](/desktop/gui/dragdrop.md)
     - [Forms](/desktop/gui/forms.md)
     - [Menus](/desktop/gui/menus.md)
-    - [Window Managment](/desktop/gui/window_management.md)
+    - [Window Management](/desktop/gui/window_management.md)
     - [Table Styling](/desktop/gui/table_styling.md)
 
  - Themes
@@ -90,7 +90,7 @@
 - Communication
 
   - [REST](/communication/rest.md)
-  - [Server Wirter Guide](/communication/rpc_server_writer_guide.md)
+  - [Server Writer Guide](/communication/rpc_server_writer_guide.md)
   - [Fake Server](/communication/fake_server.md)
   - [Remote IO](/communication/remote_io.md)
   - [Request IO](/communication/request_io.md)
