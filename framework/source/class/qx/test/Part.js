@@ -177,7 +177,7 @@ qx.Class.define("qx.test.Part",
       partLoader.preload("juhu");
 
       var part = partLoader.getParts()["juhu"];
-
+      var self = this;
       part.getPackages()[0].loadClosure = function() {
         self.resume(function() {
           self.fail("load called twice!");
