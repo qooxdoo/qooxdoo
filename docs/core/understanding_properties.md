@@ -259,7 +259,7 @@ Alternatively, you could set the init value of the property in the constructor o
 
 Using an initializing function `this.initMyProperty(value)` in the constructor would allow you to assign complex non-primitive types (so-called "reference types" like `Array`, `Object`) that should not be shared among instances, but be unique on instance level.
 
-Another scenario would be to use a localizable init value when internationalizing your application \<development/internationalization\>: Because `this.tr()` cannot be used in the property definition, you may either use the static `qx.locale.Manager.tr()` there instead, or use `this.tr()` in the call of the initializing function in the constructor.
+Another scenario would be to use a localizable init value when internationalizing your application (development/internationalization): Because `this.tr()` cannot be used in the property definition, you may either use the static `qx.locale.Manager.tr()` there instead, or use `this.tr()` in the call of the initializing function in the constructor.
 
 > **note**
 >
@@ -366,7 +366,7 @@ This will change the default value at definition time. `refine` is a better solu
 Checking incoming values
 ------------------------
 
-You can check incoming values by adding a `check` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we strip these checks for the build version. If you want a property validation, take a look at the validation section \<pages/defining\_properties\#validation\_incoming\_values\>.
+You can check incoming values by adding a `check` key to the corresponding property definition. But keep in mind that these checks only apply in the development (source) version of the application. Due to performance optimization, we strip these checks for the build version. If you want a property validation, take a look at the validation section defining_properties.md#validation_incoming_values.
 
 ### Predefined types
 
@@ -645,7 +645,7 @@ As you can see, property groups are defined in the same map as "regular" propert
 
 ### Shorthand support
 
-Additionally, you may also provide a mode which modifies the incoming data before calling the setter of each group members. Currently, the only available modifier is `shorthand`, which emulates the well-known CSS shorthand support for qooxdoo properties. For more information regarding this feature, please have a look at the user manual \<understanding\_properties\>. The definition of such a property group reads:
+Additionally, you may also provide a mode which modifies the incoming data before calling the setter of each group members. Currently, the only available modifier is `shorthand`, which emulates the well-known CSS shorthand support for qooxdoo properties. For more information regarding this feature, please have a look at the user manual (understanding_properties). The definition of such a property group reads:
 
     properties :
     {

@@ -2,14 +2,14 @@ Image clipping and combining
 ============================
 
 qooxdoo integrates the support for clipped and combined images in the framework where both features are heavily used, mainly in the different themes like appearance or decoration themes
-\<desktop/ui\_theming\>.
+(desktop/ui_theming).
 
 Configuration
 -------------
 
 > **note**
 >
-> To be able to use image clipping and combining you need a locally installed ImageMagick \<introduction/third\_party\_components\> package. The latest version known to work is 6.6.1.
+> To be able to use image clipping and combining you need a locally installed ImageMagick (introduction/third_party_components) package. The latest version known to work is 6.6.1.
 
 To use the two features you have to configure dedicated generator jobs. the generator to clip or combine images. You can add those jobs to your standard `config.json` file, or, as the configuration for these tasks is fairly self-contained, put them in an own file like `image.json`, as we do in the framework.
 
@@ -69,7 +69,7 @@ Clipping images is needed whenever you have a base image, e.g. a complete image 
 -   The entry `border-width` defines how deep from the border into the image the cut will run. If you look at your source image you can determine the border-width by selecting a rectangle (which your graphic tool) which encloses the corner of the image completely. The edge of the rectangle is your border-width (see further).
 
 See the slice-images reference
-\<pages/tool/generator/generator\_config\_ref\#slice-images\> for all configuration details.
+tool/generator/generator_config_ref.md#slice-images for all configuration details.
 
 #### Visual example
 
@@ -117,7 +117,7 @@ Complementary to image clipping image combining takes multiple images as sources
 
 The layout depends on the sizes of the source images and their intended purpose. Combining images of same sizes saves white space "noise" in the result image, thus decreasing transfer size. If the combined image contains images that need to be stretched *horizontally* by the browser, the images need to be aligned *vertically*, and vice versa. If you are free in this respect the horizontal layout is usually the better choice
 
-For more information see the combine-images \<pages/tool/generator/generator\_config\_ref\#combine-images\> reference section.
+For more information see the combine-images tool/generator/generator_config_ref.md#combine-images reference section.
 
 Running Image Jobs
 ------------------

@@ -1,7 +1,7 @@
 Tutorial Part 2: Finishing the UI
 =================================
 
-In the first part \<tutorial-part-1\> of the tutorial, we built a basic window for our target application, a tweets client. In the second part of the tutorial, we want to finish the UI of the application. So lets get started, we got a lot to do!
+In the first part (tutorial-part-1) of the tutorial, we built a basic window for our target application, a tweets client. In the second part of the tutorial, we want to finish the UI of the application. So lets get started, we got a lot to do!
 
 I hope you remember the layout of the application we are trying to build. If not, here is a little reminder.
 

@@ -18,7 +18,7 @@ Here some screenshots:
 
 ![Indigo theme](theming/window_indigo_theme.png)
 
-While those four themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by extending existing ones \<pages/desktop/ui\_custom\_themes\#extending\_themes\> or they can be created from scratch \<pages/desktop/ui\_custom\_themes\#custom\_themes\>.
+While those four themes run out-of-the-box, it is easy to create your own themes. Those custom themes can either be created by extending existing ones desktop/ui_custom_themes.md#extending_themes or they can be created from scratch desktop/ui_custom_themes.md#custom_themes.
 
 A complete theme (a so-called *meta theme*) consists of several special themes, each designed to play a dedicated role and to setup the different parts of the whole theming. These special themes are described at the subsequent sections followed by a description of how to create own themes.
 
@@ -93,7 +93,7 @@ The color values are set in the class [qx.util.ColorUtil](apps://apiviewer/#qx.u
 Decoration Theme
 ----------------
 
-Each widget can be equipped with an independent decoration which can be used to set a background-color or -image, define a border, add a shadow and much more. In a decoration theme you can use several different decorators depending on the results you wish to achieve. Please take a look at the decorator article \<ui\_decorators\> to get more information.
+Each widget can be equipped with an independent decoration which can be used to set a background-color or -image, define a border, add a shadow and much more. In a decoration theme you can use several different decorators depending on the results you wish to achieve. Please take a look at the decorator article (ui_decorators) to get more information.
 
 > **note**
 >
@@ -156,7 +156,7 @@ What a decoration theme can look like:
         }
     });
 
-Noted the `@asset` at the top and the `aliases` key inside the theme declaration? This is needed to for the images used within the theme. A description of how to work with resources is available here \<pages/ui\_resources\#declaring\_resources\_in\_the\_code\>.
+Noted the `@asset` at the top and the `aliases` key inside the theme declaration? This is needed to for the images used within the theme. A description of how to work with resources is available here ui_resources.md#declaring_resources_in_the_code.
 
 > **note**
 >
@@ -165,7 +165,7 @@ Noted the `@asset` at the top and the `aliases` key inside the theme declaration
 Font Theme
 ----------
 
-This theme is all about the information of the fonts used throughout your application. As the number of types/variants of fonts used with application isn't that big the font theme is normally a compact one. Web fonts are also defined here. See the article on web fonts\<pages/ui\_webfonts\#webfonts\> for details.
+This theme is all about the information of the fonts used throughout your application. As the number of types/variants of fonts used with application isn't that big the font theme is normally a compact one. Web fonts are also defined here. See the article on web fontsui_webfonts.md#webfonts for details.
 
 > **note**
 >
@@ -223,7 +223,7 @@ Appearance Theme
 
 The appearance theme is by far the biggest theme. Its task is to describe every themable widget and their child controls. Since the widgets are styled using decorators, colors, fonts and icons the appearance theme uses the definitions of all the other themes namely the decoration, color, font and icon theme. You can think of the appearance theme as the central meeting point where the other themes (decorator, color, font and icon) get together.
 
-To discover the power of the appearance theme please take a look at the corresponding article \<ui\_appearance\> which should let you get an idea of the whole picture.
+To discover the power of the appearance theme please take a look at the corresponding article (ui_appearance) which should let you get an idea of the whole picture.
 
 Applying Themes
 ---------------
@@ -241,18 +241,18 @@ It is also possible to set a theme *at runtime*:
 
     qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic); 
 
-Having e.g. the qooxdoo modern theme defined in your config.json file, this line of code switches the whole UI to the classic theme. Of course, this can also be a custom theme \<pages/desktop/ui\_custom\_themes\#custom\_themes\>.
+Having e.g. the qooxdoo modern theme defined in your config.json file, this line of code switches the whole UI to the classic theme. Of course, this can also be a custom theme desktop/ui_custom_themes.md#custom_themes.
 
 > **note**
 >
-> Referencing a second theme in the code also adds a dependency to the theme and all the classes and resources necessary. This is only necessary if the theme switch is actively triggered. Parts \<pages/parts\_overview\#parts\_and\_packages\_overview\> offer a convenient way of on demand loading of code, like a second theme.
+> Referencing a second theme in the code also adds a dependency to the theme and all the classes and resources necessary. This is only necessary if the theme switch is actively triggered. Parts parts_overview.md#parts_and_packages_overview offer a convenient way of on demand loading of code, like a second theme.
 
 Multi-theme Applications
 ------------------------
 
 Building up on the previous section, here is how to create an application that provides multiple themes that can be switched at runtime.
 
--   **Configure themes**: Add all meta theme classes of the themes you want to use to the pages/tool/generator/generator\_config\_ref\#include configuration key of the compile jobs. A good way to achieve this is to override the pages/tool/generator/generator\_default\_jobs\#includes job in your config.json:
+-   **Configure themes**: Add all meta theme classes of the themes you want to use to the pages/tool/generator/generator_config_ref#include configuration key of the compile jobs. A good way to achieve this is to override the pages/tool/generator/generator_default_jobs#includes job in your config.json:
 
         "includes" : {
           "include" : [
@@ -262,7 +262,7 @@ Building up on the previous section, here is how to create an application that p
           ]
         }
 
-    If you use third-party themes (like the Aristo or RetroTheme contributions) make sure you also add their libraries to the pages/tool/generator/generator\_default\_jobs\#libraries job, so their classes are actually available.
+    If you use third-party themes (like the Aristo or RetroTheme contributions) make sure you also add their libraries to the pages/tool/generator/generator_default_jobs#libraries job, so their classes are actually available.
 -   **Implement theme switch**: Switch the theme in your application code. E.g. you can use [qx.Theme.getAll()](apps://apiviewer/#qx.Theme~getAll) to retrieve all known theme classes, filter out the "meta" classes, decide which to use, and set it as the current theme, exemplified here through two methods:
 
         _getThemeNames : function() {
@@ -289,7 +289,7 @@ Building up on the previous section, here is how to create an application that p
     2.  your code doesn't "hard-wire" icons but uses aliases. Here are code snippets to illustrate that.
 
     For 1. add macro definitions to your config.json which can later be used in the @asset
-    \<pages/development/api\_jsdoc\_ref\#asset\> hints of class code. E.g.:
+    development/api_jsdoc_ref.md#asset hints of class code. E.g.:
 
         // config.json :
 
@@ -311,8 +311,8 @@ Building up on the previous section, here is how to create an application that p
         // Use an aliased resource id for the icon
         var b = qx.ui.form.Button("My button", "icon/16/apps/utilities-terminal.png");
 
-    This is basically the same when you define your own icon themes (like with `qx.Theme.define("myapp.theme.icon.Foo)`) and define your own asset macros (like `"myapp.iconthemes" : ["Foo", "Bar"]`). For the latter you would just use an explicit pages/tool/generator/generator\_config\_ref\#asset-let in your config.json, rather than using the default QXICONTHEME
-    \<pages/tool/generator/generator\_config\_macros\#qxicontheme\> macro. A suitable alias like *icon* -\> *myapp/icontheme/Foo* can be defined in the theme
-    \<pages/ui\_theming\#icon\_theme\> directly.
+    This is basically the same when you define your own icon themes (like with `qx.Theme.define("myapp.theme.icon.Foo)`) and define your own asset macros (like `"myapp.iconthemes" : ["Foo", "Bar"]`). For the latter you would just use an explicit pages/tool/generator/generator_config_ref#asset-let in your config.json, rather than using the default QXICONTHEME
+    tool/generator/generator_config_macros.md#qxicontheme macro. A suitable alias like *icon* -\> *myapp/icontheme/Foo* can be defined in the theme
+    ui_theming.md#icon_theme directly.
 
 

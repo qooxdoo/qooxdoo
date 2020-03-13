@@ -44,9 +44,9 @@ These events are provided by a mixin named
 These bubbling events are disabled by default because firing an
 additional event for every change is not always necessary. There are two
 ways for enabling the events. The most easy and preferred way is to use
-the `marhsaler<pages/data_binding/models#json_marshaller>` to create the
+the `marhsalerdata_binding/models.md#json_marshaller` to create the
 models. You will find more details about how to do that in the
-`marhsaler section<pages/data_binding/models#json_marshaller>`. A second
+`marhsaler sectiondata_binding/models.md#json_marshaller`. A second
 way is to include the mixin to your own classes. More details on that in
 the [API documentation of that mixin](apps:/apiviewer/#qx.data.marshal.MEventBubbling).
 
@@ -86,7 +86,7 @@ event:
 >     0)
 >   - `old`: `['a']` (An array containing the old value at the index 0)
 >   - `name`: `0` (The name of the changed index)
->   - `item`: *\<array\>* (The array itself)
+>   - `item`: *(array)* (The array itself)
 
 The properties `value` and `old` are always an array because there are
 operations which change several indexes at once like `splice`.

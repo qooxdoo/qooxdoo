@@ -1,23 +1,29 @@
-Mobile Requirements
-======================
+# Mobile Requirements
 
-Qooxdoo Mobile runs on iOS 2.0+, Android 1.6+ and Windows Mobile devices. Working with Mobile requires access to such a mobile device, with a suitable mobile browser, or a mobile emulator for the respective platform that runs on your desktop PC.
+Qooxdoo Mobile runs on iOS 2.0+, Android 1.6+ and Windows Mobile
+devices. Working with Mobile requires access to such a mobile
+device, with a suitable mobile browser, or a mobile emulator
+for the respective platform that runs on your desktop PC.
 
-SDK
-------
+## SDK
 
-Working with Mobile requires downloading and using Qooxdoo's SDK. See here for the [SDK's installation](/docs/#/?id=setup), and follow its *Installation and Setup* section. This requirement applies to the development phase only, the final app is independent of the SDK.
+Working with Mobile requires downloading and using Qooxdoo's SDK.
+See here for the [SDK's installation](../README.md), and follow
+its *Installation and Setup* section. This requirement applies to
+the development phase only, the final app is independent of the SDK.
 
-Mobile Browsers
----------------
+## Mobile Browsers
 
 The following mobile browsers are supported:
 
 Other mobile browsers like Opera Mini might work, but are not officially supported.
 
-Desktop Browsers
-----------------
+## Desktop Browsers
 
-As qooxdoo is based on web technologies, you will need a running instance of a browser (Google Chrome, Apple Safari, Mozilla Firefox or Internet Explorer) on your system to run and test the application. An iOS, Android or Windows Phone 8 device is not necessarily required.
+As qooxdoo is based on web technologies, you will need a running
+instance of a browser (Google Chrome, Apple Safari, Mozilla Firefox
+or Internet Explorer) on your system to run and test the application.
+An iOS, Android or Windows Phone 8 device is not necessarily required.
 
 The following desktop browsers are supported:
+(TODO)
