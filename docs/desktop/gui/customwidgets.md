@@ -89,14 +89,14 @@ This means that even the deepest child control can be easily accessed by theme a
 
 As mentioned, a key always starts with the appearance of the first widget which is not itself a child control. Appearance values of the inner widgets are ignored as long as they are used as a child control. Instead, the ID of the child control is used. The `/` is used to separate the child controls. All widgets added through user code start with their own appearance. For example, the items of the `List` widget have the appearance `list-item`. Their appearance key is also `list-item` and not `list/item`.
 
-For details about styling please refer to the theming article \<ui\_theming\>.
+For details about styling please refer to the theming article (ui_theming).
 
 HTML Elements
 -------------
 
 A normal qooxdoo widget consists of one HTML Element ([API](apps://apiviewer/#qx.html.Element)), the content element.
 
-This elements is an instances of `qx.html.Element` so it come with a cross-browser fixed API to apply styles and attributes to the DOM node. All of these things can be done without the DOM element needing to be created or inserted. For details on `qx.html.Element` please have a look at the technical documentation \<desktop/html\_element\_handling\>.
+This elements is an instances of `qx.html.Element` so it come with a cross-browser fixed API to apply styles and attributes to the DOM node. All of these things can be done without the DOM element needing to be created or inserted. For details on `qx.html.Element` please have a look at the technical documentation (desktop/html_element_handling).
 
 The element is accessible through the functions `getContentElement()` and is stored privately in each widget instance.
 

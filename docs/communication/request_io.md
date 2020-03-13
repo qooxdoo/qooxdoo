@@ -65,7 +65,7 @@ Once a request is sent using the `send()` method, it traverses various
 states. There are two ways to query the current state of the request.
 
 -   **getReadyState()**: An integer (0-4) representing
-UNSENT, OPENED, HEADERS\_RECEIVED, LOADING and DONE.
+UNSENT, OPENED, HEADERS_RECEIVED, LOADING and DONE.
 
 -   **getPhase()**: Symbolic state mapping to deterministic events
 (success, abort, timeout, statusError) and intermediate readyStates.

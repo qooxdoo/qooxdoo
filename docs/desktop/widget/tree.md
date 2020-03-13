@@ -22,12 +22,12 @@ A `Tree` contains items in an hierarchically structure. The first item inside a 
 UML Diagram
 -----------
 
-![tree\_uml.png](tree_uml.png)
+![tree_uml.png](tree_uml.png)
 
 Dependencies
 ------------
 
-![tree\_dependencies\_uml.png](tree_dependencies_uml.png)
+![tree_dependencies_uml.png](tree_dependencies_uml.png)
 
 Demos
 -----

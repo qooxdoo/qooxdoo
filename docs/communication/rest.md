@@ -125,7 +125,7 @@ photo.get();
 
 Data that should be included in the request's body can
 be given as second parameter. All types accepted by
-[qx.io.request.AbstractRequest\#requestData](apps://apiviewer/#qx.io.request.AbstractRequest~requestData)
+[qx.io.request.AbstractRequest#requestData](apps://apiviewer/#qx.io.request.AbstractRequest~requestData)
 are supported.
 
 ```javascript

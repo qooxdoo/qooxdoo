@@ -7,7 +7,7 @@ The implementation of the event layer is inside the
 [qx.event](apps://apiviewer/#qx.event) namespace.
 
 The following features work in all `supported browsers
-<pages/website/requirements#client>`:
+website/requirements.md#client`:
 
   - Canceling events: `stopPropagation()`
   - Skipping the browser's default behavior: `preventDefault()`
@@ -21,4 +21,4 @@ The following features work in all `supported browsers
     the
     [getKeyIdentifier()](apps://apiviewer/#qx.event.type.KeySequence~getKeyIdentifier)
     method documentation of the `qx.event.type.KeySequence` class.
-  - Unified `pointer events <pages/pointer#pointer_events>`
+  - Unified `pointer events pointer.md#pointer_events`
