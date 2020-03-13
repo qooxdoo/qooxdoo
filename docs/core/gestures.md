@@ -1,6 +1,6 @@
 # Gesture Events
 
-Based on the `low-level pointer events <pages/pointer#pointer_events>`,
+Based on the `low-level pointer events pointer.md#pointer_events`,
 the following gesture events are available in all three of qooxdoo's GUI
 toolkits (qx.Desktop, qx.Mobile and qx.Website):
 

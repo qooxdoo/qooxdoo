@@ -36,7 +36,7 @@ These buttons can also be added directly to the toolbar if no parts are needed. 
 Diagram
 -------
 
-![toolbar\_uml.png](toolbar_uml.png)
+![toolbar_uml.png](toolbar_uml.png)
 
 Demos
 -----

@@ -10,5 +10,5 @@ A short summary of the elements used in syntax diagrams.
 | **(** ... **)**   | grouping                                                  |
 | ... **|** ...     | alternative                                               |
 | **'** ... **'**   | literal                                                   |
-| **\<** ... **\>** | placeholder for literal                                   |
+| **(** ... **)** | placeholder for literal                                   |
 | **?** ... **?**   | comment                                                   |

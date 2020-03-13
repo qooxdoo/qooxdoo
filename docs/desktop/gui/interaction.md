@@ -26,12 +26,12 @@ Most of the time only the bubbling phase is used but sometimes the capturing pha
 Pointer Events
 --------------
 
-qooxdoo abstracts mouse and touch events in pointer events. This is the preferred way to react to user input from either a mouse or a touch device. Check out the specified manual page about pointer events \<pages/pointer\#pointer\_events\> for more details on that topic. Mouse and touch events are also supported and can be used.
+qooxdoo abstracts mouse and touch events in pointer events. This is the preferred way to react to user input from either a mouse or a touch device. Check out the specified manual page about pointer events pointer.md#pointer_events for more details on that topic. Mouse and touch events are also supported and can be used.
 
 Mouse Events
 ------------
 
-qooxdoo supports all the typical mouse events: `mousedown`, `mouseup`, `click` and `dblclick` as well as `mouseover` and `mouseout`. For most action-related widgets `execute` is the better choice than `click` (see the section about basic widgets \<pages/ui\_widgets\#widgets\>). All these events behave identically in all supported browsers, even the sequence in which they are fired is identical. All of them come with a usable `target` and sometimes even with a `relatedTarget` for `mouseover` and `mouseout` events.
+qooxdoo supports all the typical mouse events: `mousedown`, `mouseup`, `click` and `dblclick` as well as `mouseover` and `mouseout`. For most action-related widgets `execute` is the better choice than `click` (see the section about basic widgets ui_widgets.md#widgets). All these events behave identically in all supported browsers, even the sequence in which they are fired is identical. All of them come with a usable `target` and sometimes even with a `relatedTarget` for `mouseover` and `mouseout` events.
 
 Every mouse event propagates the screen (e.g. `getScreenLeft()`), document (e.g. `getDocumentLeft()`) or viewport (e.g. `getViewportLeft()`) coordinates through the available getters. The `getWheelDelta()` delta method provides information about the scroll amount of a `mousewheel` event. Some widgets like Spinners or SelectBoxes make use of this event already.
 

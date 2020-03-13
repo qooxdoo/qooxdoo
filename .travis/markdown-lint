@@ -5,14 +5,14 @@
 ERRORS=False
 FILES=${1:-docs/**/*.md}
 for FILENAME in $FILES ; do
-  echo check $FILENAME
-  if [ "$FILENAME" != *"/_coverpage.md" ]; then
+  echo ">>> Checking $FILENAME ..."
+  if [[ -f "$FILENAME"  &&  "$FILENAME" != *"/_coverpage.md" ]]; then
     npx remark \
       -u remark-lint-no-dead-urls \
       -u remark-validate-links \
       --frail \
       --no-stdout \
-      $FILENAME \
+      "$FILENAME" \
       2>&1 >/dev/null \
       || ERRORS=True
   fi

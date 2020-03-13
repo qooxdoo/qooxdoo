@@ -28,7 +28,7 @@ with debug code enabled.
 
 In the most basic form each selector is identical to an appearance ID.
 This appearance ID is the value stored in the `appearance` property
-([API](http://demo.qooxdoo.org/%%7Bversion%7D/apiviewer/#qx.ui.core.Widget~appearance))
+([API](apps://apiviewer/#qx.ui.core.Widget~appearance))
 of each widget.
 
 The child control system ignores this appearance entry for widgets which

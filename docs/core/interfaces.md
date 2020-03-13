@@ -1,7 +1,6 @@
 # Interfaces
 
-
-qooxdoo supports Java like interfaces.
+qooxdoo supports Java-like interfaces.
 
 Interface definitions look very similar to normal class definitions.
 
@@ -38,19 +37,34 @@ Example:
 ## Definition
 
 
-Interfaces are declared using `qx.Interface.define`. Interface names start by convention with an `I` (uppercase "i"). They can inherit from other interfaces using the `extend` key. Multiple inheritance of interfaces is supported.
+Interfaces are declared using `qx.Interface.define`. Interface names start by
+convention with an `I` (uppercase "i"). They can inherit from other interfaces
+using the `extend` key. Multiple inheritance of interfaces is supported.
 
 ### Properties
 
-Properties in interfaces state that each class implementing this interface must have a property of the given name. The property definition \<defining\_properties\> is not evaluated and may be empty.
+Properties in interfaces state that each class implementing this
+interface must have a property of the given name. The property
+definition (defining_properties) is not evaluated and may be empty.
 
 ### Members
 
-The member section of the interface lists all member functions which must be implemented. The function body is used as a precondition of the implementation. By implementing an interface the qooxdoo class definition automatically wraps all methods required by the interface. Before the actual implementation is called, the precondition of the interface is called with the same arguments. The precondition should raise an exception if the arguments are don't meet the expectations. Usually the methods defined in [qx.core.MAssert](apps://apiviewer/#qx.core.MAssert) are used to check the incoming parameters.
+The member section of the interface lists all member functions which
+must be implemented. The function body is used as a precondition of the
+implementation. By implementing an interface the qooxdoo class definition
+automatically wraps all methods required by the interface. Before the
+actual implementation is called, the precondition of the interface
+is called with the same arguments. The precondition should raise an
+exception if the arguments are don't meet the expectations. Usually the
+methods defined in [qx.core.MAssert](apps://apiviewer/#qx.core.MAssert)
+are used to check the incoming parameters.
 
 ### Statics
 
-Statics behave exactly like statics defined in mixins and qooxdoo classes, with the different that only constants are allowed. They are accessible through their fully-qualified name. For example, the static variable `PI` could be used like this:
+Statics behave exactly like statics defined in mixins and qooxdoo
+classes, with the different that only constants are allowed.
+They are accessible through their fully-qualified name. For
+example, the static variable `PI` could be used like this:
 
 ```
     var a = 2 * qx.test.ISample.PI * (r*r);
@@ -58,12 +72,16 @@ Statics behave exactly like statics defined in mixins and qooxdoo classes, with 
 
 ### Events
 
-Each event defined in the interface must be declared in the implementing classes. The syntax matches the `events` key of the class declaration.
+Each event defined in the interface must be declared in the implementing
+classes. The syntax matches the `events` key of the class declaration.
 
 ## Implementation
 
 
-With `implement` key of the class declaration, a list of interfaces can be listed, which the class implements. The class must implement all properties, members and events declared in the interfaces. Otherwise a runtime error will be thrown.
+With `implement` key of the class declaration, a list of
+interfaces can be listed, which the class implements. The class
+must implement all properties, members and events declared
+in the interfaces. Otherwise a runtime error will be thrown.
 
 Example:
 
@@ -95,20 +113,24 @@ Example:
 ## Validation
 
 
-`qx.Class` contains several static methods to check, whether a class or an object implements an interface:
+`qx.Class` contains several static methods to check,
+whether a class or an object implements an interface:
 
-> -   `qx.Class.hasInterface()`: Whether a given class or any of its superclasses includes a given interface.
-> -   `qx.Class.implementsInterface()`: Checks whether all methods defined in the interface are implemented in the class. The class does not need to implement the interface explicitly.
+-   `qx.Class.hasInterface()`: Whether a given class
+or any of its superclasses includes a given interface.
+ 
+-   `qx.Class.implementsInterface()`: Checks whether all methods
+defined in the interface are implemented in the class. The
+class does not need to implement the interface explicitly.
 
 It is further possible to use interfaces as property checks.
 
-Summary
--------
+## Summary
 
 ### Configuration
 
 ### References
 
--   [a syntax quick reference for interfaces](interface_quickref)
+-   [a syntax quick reference for interfaces](interface_quickref.md)
 -   [API Documentation for Interface](apps://apiviewer/#qx.Interface)
 
