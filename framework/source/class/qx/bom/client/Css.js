@@ -64,6 +64,9 @@ qx.Bootstrap.define("qx.bom.client.Css",
      * @internal
      */
     getPlaceholder : function() {
+      if (qx.core.Environment.get("engine.name") === "mshtml") {
+        return false;
+      } 
       var i = document.createElement("input");
       return "placeholder" in i;
     },
