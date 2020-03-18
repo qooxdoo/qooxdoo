@@ -16,12 +16,15 @@
     markdown: {
       gfm: true, tables: true
     },
+    alias: {
+      '/.*/_sidebar.md': '/_sidebar.md',
+    },
     name: '@qooxdoo/framework',
     repo: 'https://github.com/qooxdoo/qooxdoo',
     loadSidebar: '_sidebar.md',
     coverpage: true,
     auto2top: true,
-    subMaxLevel: 2,
+    subMaxLevel: 3,
     mergeNavbar: false,
     namespace: 'qx-manual',
     relativePath: true,
@@ -61,5 +64,6 @@
 <script src="_media/prism-bash.min.js"></script>
 <script src="_media/prism-json.min.js"></script>
 <script src="_media/sidecar.v1.js"></script>
+<script src="_media/docsify-sidebar-collapse.min.js">
 </body>
 </html>
