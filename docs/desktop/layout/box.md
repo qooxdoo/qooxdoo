@@ -16,7 +16,7 @@ Features
 -   Margins with horizontal (HBox) resp. vertical (VBox) collapsing)
 -   Auto sizing (ignoring percent values)
 -   Percent widths (not size hint relevant)
--   Alignment (Children property {@link qx.ui.core.LayoutItem\#alignX} is ignored)
+-   Alignment (Children property {@link qx.ui.core.LayoutItem#alignX} is ignored)
 -   Horizontal (HBox) resp. vertical (VBox) spacing (collapsed with margins)
 -   Property to reverse children ordering (starting from last to first)
 -   Vertical (HBox) resp. horizontal (VBox) children stretching (respecting size hints)
@@ -26,7 +26,7 @@ Description
 
 Both box layouts lay out their children one after the other. This description will discuss the horizontal box layout. Everything said about the horizontal box layout applies equally to the vertical box layout just with a vertical orientation.
 
-In addition to the child widget's own preferred width the width of a child can also be defined as percent \<pages/ui\_layouting\#percent\> values. The percent value is relative to the inner width of the parent widget without any spacings. This means a horizontal box layout with two children of width `50%` and with a spacing will fit exactly in the parent.
+In addition to the child widget's own preferred width the width of a child can also be defined as percent ui_layouting.md#percent values. The percent value is relative to the inner width of the parent widget without any spacings. This means a horizontal box layout with two children of width `50%` and with a spacing will fit exactly in the parent.
 
 The horizontal box layout tries to stretch all children vertically to the height of the box layout. This can be suppressed by setting the child property [allowGrowY](apps://apiviewer/#qx.ui.core.LayoutItem~setAllowGrowY) to false. If a child is smaller than the layout and cannot be stretched it will be aligned according to its [alignY](apps://apiviewer/#qx.ui.core.LayoutItem~setAlignY) value. The [alignX](apps://apiviewer/#qx.ui.layout.HBox~setAlignX) property of the layout itself defines the horizontal alignment of all the children as a whole.
 

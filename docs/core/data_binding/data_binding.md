@@ -88,17 +88,17 @@ The following code demonstrates how to initialize the data store.
 
 ### Combining with controllers
 
-As described in the section above, you can access the model in the property after loading. The best solution is to use the model with a controller and then bind the model properties with Single Value Binding \<single\_value\_binding\> together. The code for this could look something like this.
+As described in the section above, you can access the model in the property after loading. The best solution is to use the model with a controller and then bind the model properties with Single Value Binding (single_value_binding) together. The code for this could look something like this.
 
     store.bind("model", controller, "model");
 
-Using the Single Value Binding \<single\_value\_binding\>, the binding handles all the stuff related with the loading of the model data. That means that the data will be available in the controller as soon as its available in the store.
+Using the Single Value Binding (single_value_binding), the binding handles all the stuff related with the loading of the model data. That means that the data will be available in the controller as soon as its available in the store.
 
 ## Model Component
 
-The model is the centerpiece of data binding. It holds the data and acts as an integration point for the stores\<stores\> and for the controller \<controller\>. Almost all models are plain qooxdoo classes holding the data in simple properties, which are configured to fire events on every change. These change events are the most important part of the models and the reason, why plain %{JS} objects are not enough as models. The same is true for native %{JS} arrays. Since they do not fire events when items are changed as well, a complementary array is added for data binding purposes. More details about that in the data array\_ section.
+The model is the centerpiece of data binding. It holds the data and acts as an integration point for the stores(stores) and for the controller (controller). Almost all models are plain qooxdoo classes holding the data in simple properties, which are configured to fire events on every change. These change events are the most important part of the models and the reason, why plain %{JS} objects are not enough as models. The same is true for native %{JS} arrays. Since they do not fire events when items are changed as well, a complementary array is added for data binding purposes. More details about that in the data array_ section.
 
-Still, there is no need to manually write own model classes for every data source you want to work with. The marshallers provide a smart way to automatically create these classes during runtime. Take a look at the JSON marshaller\_ for details.
+Still, there is no need to manually write own model classes for every data source you want to work with. The marshallers provide a smart way to automatically create these classes during runtime. Take a look at the JSON marshaller_ for details.
 
 In the following sections, we first take a look at the models basics and how they work. After that, we dig into the role of arrays and how that is solved. As a last section, we check out how the model creation is done in qooxdoo, because you don't need to write all the simple models yourself.
 
@@ -357,7 +357,7 @@ Think of the unshift action as something which manipulates the index 0 because i
 > -   `value`: `['X']` (An array containing the new value at the index 0)
 > -   `old`: `['a']` (An array containing the old value at the index 0)
 > -   `name`: `0` (The name of the changed index)
-> -   `item`: *\<array\>* (The array itself)
+> -   `item`: *(array)* (The array itself)
 
 The properties `value` and `old` are always an array because there are operations which change several indexes at once like `splice`.
 

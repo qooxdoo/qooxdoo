@@ -1,15 +1,14 @@
-Debugging Applications
-======================
+# Debugging Applications
 
 You have several options at hand when it comes to debugging a qooxdoo application.
 
-Introspection
--------------
+## Introspection
 
-> -   `qx.io.Json.stringify()`
-> -   `qx.dev.Debug()`
+-   `qx.io.Json.stringify()`
+-   `qx.dev.Debug()`
 
-Included in the latter is qx.dev.Debug.debugObject() which will print out a complete recursive hierarchy (or up to some max level) of an object.
+Included in the latter is qx.dev.Debug.debugObject() which will print out
+a complete recursive hierarchy (or up to some max level) of an object.
 
 This is taken from a firebug interactive session:
 
@@ -24,27 +23,24 @@ This is taken from a firebug interactive session:
     c: 4
     ==================================
 
-Memory leaks
-------------
+## Memory leaks
 
-> -   Setting `qx.debug.dispose.level`
+-   Setting `qx.debug.dispose.level`
 
-AJAX
-----
+## AJAX
 
-> -   Setting `qx.debug.io.remote`
-> -   Setting `qx.debug.io.remote.data`
+-   Setting `qx.debug.io.remote`
+-   Setting `qx.debug.io.remote.data`
 
-Debugging Tools
----------------
+## Debugging Tools
 
 Some browser-specific tools allow for a powerful and often convenient way of
 debugging applications. 
 
-Code Instrumentation Idioms
----------------------------
+## Code Instrumentation Idioms
 
-These are helpful idioms you might want to include in your code, i.e. you use them at *programming time*.
+These are helpful idioms you might want to include in
+your code, i.e. you use them at *programming time*.
 
 ### this.debug()
 
@@ -67,8 +63,7 @@ Will log the current stack trace using the defined logger. This can be useful to
 
     this.trace()
 
-Getting at your Objects
------------------------
+## Getting at your Objects
 
 This section shows you how to access objects of your application at *run time*, i.e. while it executes. Access to those objects is possible through JavaScript, either in the form of another piece of JavaScript code, or - especially interesting for debugging - from an interactive shell, like Firebug or Venkman, that allows for interactive input and execution of JavaScript commands.
 
@@ -78,11 +73,20 @@ In your running app, the singleton `Init` object provides you with the `getAppli
 
     qx.core.Init.getApplication();
 
-Firebug Usage Idioms
---------------------
+## Firebug Usage Idioms
 
 ### "Inspect"
 
-Getting at your application objects fast is a common requirement when debugging. A useful idiom (or usage pattern) with Firebug is to press the *"Inspect"* button and select the visible page element you are interested in. This will take Firebug to its HTML tab in a split-pane view. The left side holds the HTML code underlying your selection (which is probably not very enlightening). The right side though has a *"DOM"* tab, among others. Selecting this will show a display of the underlying DOM node, which features a `qx_Widget` attribute. This attribute is added to the outermost HTML tag representing a qooxdoo widget. For complex widgets that are made up of nested HTML elements, make sure to select the outermost container node that actually has this attribute `qx_Widget`. It takes you straight to the qooxdoo object associated with the selected DOM node.
+Getting at your application objects fast is a common requirement when debugging.
+A useful idiom (or usage pattern) with Firebug is to press the *"Inspect"*
+button and select the visible page element you are interested in. This will
+take Firebug to its HTML tab in a split-pane view. The left side holds the HTML
+code underlying your selection (which is probably not very enlightening). The
+right side though has a *"DOM"* tab, among others. Selecting this will show a
+display of the underlying DOM node, which features a `qx_Widget` attribute. This
+attribute is added to the outermost HTML tag representing a qooxdoo widget. For
+complex widgets that are made up of nested HTML elements, make sure to select
+the outermost container node that actually has this attribute `qx_Widget`. It
+takes you straight to the qooxdoo object associated with the selected DOM node.
 
     Inspect -> Web page element -> HTML tab -> right side -> DOM tab -> qx_Widget link

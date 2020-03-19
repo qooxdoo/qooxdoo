@@ -5,7 +5,7 @@ Ever wanted to style the table widget and missed an overview what can by styled 
 
 By default (talking about the *Modern* theme) the table looks like this:
 
-![table\_default\_styling.png](table_styling/table_default_styling.png)
+![table_default_styling.png](table_styling/table_default_styling.png)
 
 This tutorial takes a look at the several *visible* parts of the table such as
 
@@ -26,7 +26,7 @@ This tutorial takes a look at the several *visible* parts of the table such as
 -   Scrollbar
 -   Editable Cells (controls like Textfield, SelectBox and ComboBox)
 
-This tutorial assumes you're implementing all styling changes of the table widget in your own application theme classes. If you're new to the theming layer of qooxdoo it's a good idea to recap the manual section for the theming layer \<ui\_theming\>.
+This tutorial assumes you're implementing all styling changes of the table widget in your own application theme classes. If you're new to the theming layer of qooxdoo it's a good idea to recap the manual section for the theming layer (ui_theming).
 
 If you're familiar with the theming layer we can dive right into the first topic.
 
@@ -37,11 +37,11 @@ If you're familiar with the theming layer we can dive right into the first topic
 Table Widget
 ------------
 
-Since this widget is the container of all sub-components the styling possibilities are naturally limited. However, limited possibilities does not result in low importance. You can e.g. change the border of the widget which can have a great visual impact. Since the border is a decorator \<ui\_decorators\> you can use all possibilities like different kind of borders, shadows and the like.
+Since this widget is the container of all sub-components the styling possibilities are naturally limited. However, limited possibilities does not result in low importance. You can e.g. change the border of the widget which can have a great visual impact. Since the border is a decorator (ui_decorators) you can use all possibilities like different kind of borders, shadows and the like.
 
 Sample of a table widget using a decorator with shadow:
 
-![table\_widget\_styling.png](table_styling/table_widget_styling.png)
+![table_widget_styling.png](table_styling/table_widget_styling.png)
 
 To achieve this you can re-define the `table` decorator in your application theme as following:
 
@@ -101,7 +101,7 @@ The header widget is a simple widget containing the header cells and the column 
 
 This code snippet will result in the following:
 
-![table\_header\_styling.png](table_styling/table_header_styling.png)
+![table_header_styling.png](table_styling/table_header_styling.png)
 
 Additionally you can change the height of the whole header by using the `headerCellHeight` property. Changing this property might make sense if you also want to customize the appearance of the header cells (e.g. using a larger font).
 
@@ -125,7 +125,7 @@ You want to get rid off the whole header? That's also possible by setting two ad
 
 to get the following result
 
-![table\_without\_header.png](table_styling/table_without_header.png)
+![table_without_header.png](table_styling/table_without_header.png)
 
 ### Header Cells
 
@@ -164,7 +164,7 @@ The default decorator for the hover effect does show a 1 pixel border at the bot
 
 to get a result like this
 
-![table\_header\_cell\_hover.png](table_styling/table_header_cell_hover.png)
+![table_header_cell_hover.png](table_styling/table_header_cell_hover.png)
 
 A bigger change of the header cells might be to change the background color at hovering. To do so you can simply modify the existing `table-header-cell-hovered` decorator like
 
@@ -178,7 +178,7 @@ A bigger change of the header cells might be to change the background color at h
 
 and you're done!
 
-![table\_header\_cell\_decorator\_hover.png](table_styling/table_header_cell_decorator_hover.png)
+![table_header_cell_decorator_hover.png](table_styling/table_header_cell_decorator_hover.png)
 
 Additionally, you can change the styling of the different child controls (label, icon and sort icon) of the header cells. So if you want to change the font you can simply customize the label child control of the header cell to change the alignment, existing padding and the like.
 
@@ -225,7 +225,7 @@ The default appearance of the child controls are defined as
 
 With the minor change above to the decorator and a font setting of the label you can achieve the following:
 
-![table\_header\_cell\_styling.png](table_styling/table_header_cell_styling.png)
+![table_header_cell_styling.png](table_styling/table_header_cell_styling.png)
 
 Pane
 ----
@@ -236,7 +236,7 @@ The pane itself is only styled using a background color and it is recommended to
 
 One picture says more than thousand words :) The pane with red background color to demonstrate:
 
-![table\_pane\_styling.png](table_styling/table_pane_styling.png)
+![table_pane_styling.png](table_styling/table_pane_styling.png)
 
 The corresponding code in the color theme of your application is a simple one-liner:
 
@@ -281,7 +281,7 @@ Customizing these colors is as easy as hiding the grid lines. You can adapt the 
 
 By changing one or more of these colors you can e.g. achieve this:
 
-![table\_pane\_cell\_backgrounds.png](table_styling/table_pane_cell_backgrounds.png)
+![table_pane_cell_backgrounds.png](table_styling/table_pane_cell_backgrounds.png)
 
 by defining these colors:
 
@@ -310,11 +310,11 @@ To better visualize this the following example does use colors which are easy to
 
 This shows an active selection:
 
-![table\_pane\_cell\_selection.png](table_styling/table_pane_cell_selection.png)
+![table_pane_cell_selection.png](table_styling/table_pane_cell_selection.png)
 
 The same with an inactive selection:
 
-![table\_pane\_cell\_selection2.png](table_styling/table_pane_cell_selection2.png)
+![table_pane_cell_selection2.png](table_styling/table_pane_cell_selection2.png)
 
 #### Cell Styling
 
@@ -357,7 +357,7 @@ The first possibility is the fast way for customization if you decided to keep t
       }
     },
 
-![table\_focus\_indicator.png](table_styling/table_focus_indicator.png)
+![table_focus_indicator.png](table_styling/table_focus_indicator.png)
 
 Look's really weird, but for demonstration purpose is quite good enough :)
 
@@ -384,7 +384,7 @@ This is a minor topic, since it only can be customized by its color. You may ask
        }
      },
 
-![table\_resize\_line.png](table_styling/table_resize_line.png)
+![table_resize_line.png](table_styling/table_resize_line.png)
 
 Statusbar
 ---------
@@ -431,7 +431,7 @@ As you can see there is no additional background and no other fancy stuff. If yo
 
 The result of this little demo looks like:
 
-![table\_statusbar.png](table_styling/table_statusbar.png)
+![table_statusbar.png](table_styling/table_statusbar.png)
 
 Editable Cells
 --------------
@@ -467,7 +467,7 @@ As you can see: only minor changes to the existing appearances. And that's also 
 
 Here's a little example with an editable textfield with `orange` background color:
 
-![table\_editable\_cells.png](table_styling/table_editable_cells.png)
+![table_editable_cells.png](table_styling/table_editable_cells.png)
 
 Scrollbars
 ----------
@@ -481,4 +481,4 @@ so the scrollbars of the `table-scroller` widget integrates the scrollbars as ch
 
 Here's a quick reminder how the table does look like with themed scrollbars:
 
-![table\_scrollbars.png](table_styling/table_scrollbars.png)
+![table_scrollbars.png](table_styling/table_scrollbars.png)

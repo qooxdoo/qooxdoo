@@ -5,7 +5,7 @@ data binding and a runtime environment
 - [Qooxdoo UI](gui/)
 - [Layouts](layout/)
 - [Qooxdoo Widgets](widget/)
-- Testing (tbd)
+- [Testing](development/testing/)
 - [Communication](communication/)
 - Deployment (tbd)
 - Qooxdoo Tools

@@ -21,7 +21,7 @@ Take a look at the online demos to see the use of inline widgets in action.
 Set Up An Inline Application
 ----------------------------
 
-An inline application is set up by using the `create-application` script described in the Hello World \<pages/getting\_started/helloworld\#create\_your\_application\> section. You just have to add the additional option `-t` with the value `inline` and you're done.
+An inline application is set up by using the `create-application` script described in the Hello World getting_started/helloworld.md#create_your_application section. You just have to add the additional option `-t` with the value `inline` and you're done.
 
     /opt/qooxdoo-sdk/tool/bin/create-application.py -n myapp -t inline
 

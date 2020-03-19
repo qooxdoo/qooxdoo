@@ -4,31 +4,33 @@
   - [Qooxdoo Apps](/apps.md)
   - [About](/about.md)
 
-- [**Qooxdoo Core**](/core/)
-
-  - [Introduction](/core/oo_introduction.md)
-  - [Feature summery](/core/oo_feature_summary.md)
+- Qooxdoo Core
+  - [Overview](/core/)
+  - [Introduction into OO](/core/oo_introduction.md)
+  - [Feature summary](/core/oo_feature_summary.md)
   
   - Object Orientation
-    - [Classes](/core/classes.md)
-      - [Quickref](/core/class_quickref.md)
-    - [Interfaces](/core/interfaces.md)
-      - [Quickref](/core/interface_quickref.md)
-    - [Mixins](/core/mixins.md)
-      - [Quickref](/core/mixin_quickref.md)
+    - [Classes](/core/classes.md)     
+    - [Interfaces](/core/interfaces.md) 
+    - [Mixins](/core/mixins.md) 
     - [Annotations](/core/annotations.md)
     - [Arrays](/core/array.md)
     - [Data binding](/core/data_binding/)
     - [Promises](/core/promises.md)
+    - Class system quickrefs:
+        - [Classes](/core/class_quickref.md)
+        - [Interfaces](/core/interface_quickref.md)
+        - [Mixins](/core/mixin_quickref.md)
 
   - Properties
-    - [Properties](/core/understanding_properties.md)
-      - [Quickref](/core/properties_quickref.md)
+    - [Overview](/core/understanding_properties.md)
     - [Defining properties](/core/defining_properties.md)
     - [Behavior](/core/property_behavior.md)
     - [Features](/core/property_features.md)
+    - [Property Quickref](/core/properties_quickref.md)
   
-  - [Environent](/core/environment.md)
+  - Environment
+    - [Overview](/core/environment.md)
   
   - Interaction Events
     - [Pointer](/core/pointer.md)
@@ -44,7 +46,7 @@
     - [Drag'n'Drop](/desktop/gui/dragdrop.md)
     - [Forms](/desktop/gui/forms.md)
     - [Menus](/desktop/gui/menus.md)
-    - [Window Managment](/desktop/gui/window_management.md)
+    - [Window Management](/desktop/gui/window_management.md)
     - [Table Styling](/desktop/gui/table_styling.md)
 
  - Themes
@@ -69,7 +71,6 @@
     - [HTML element handling](/desktop/gui/html.md)
     - [Focus handling](/desktop/gui/focus.md)  
 
-
 - Qooxdoo for Node
   - [Introduction](/server/)
   - [Getting Started](/server/getting_started.md)
@@ -86,18 +87,15 @@
   - [Resolution and Pixel Density](/mobile/resolution.md)
   - [Theming](/mobile/theming.md)
 
-
 - Communication
-
+  - [Overview](/communication/)
   - [REST](/communication/rest.md)
-  - [Server Wirter Guide](/communication/rpc_server_writer_guide.md)
-  - [Fake Server](/communication/fake_server.md)
   - [Remote IO](/communication/remote_io.md)
   - [Request IO](/communication/request_io.md)
   - [JSON RPC](/communication/rpc.md)
 
-
 - Development
+  - [Migrating to the `qx` toolchain](/compiler/migration.md)
   - ["qx" CLI commands](/compiler/cli/commands.md)
   - [Package system](/compiler/cli/packages.md)
   - [Compiler Configuration](/compiler/configuration/overview.md)
@@ -105,12 +103,13 @@
     - [compile.json](/compiler/configuration/compile.md)
     - [API](/compiler/configuration/api.md)
   - [Advanced compiler topics](/compiler/internals/)
-  - [Migrating from Python to qx toolchain](/compiler/migration.md)
-
-- [**Testing**](/compiler/cli/testing.md)
+  - [Testing](/development/testing/)
+    - [Unit Testing](/development/testing/unit_testing.md)
+    - [Using qx test](/compiler/cli/testing.md)
+    - [Fake Server](/development/testing/fake_server.md)
+    - [Testing qooxdoo forks](/development/testing/framework_tests.md)
 
 - Deployment (tbd)
-
 
 - Tutorials
 

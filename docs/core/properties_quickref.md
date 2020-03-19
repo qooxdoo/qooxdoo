@@ -5,7 +5,7 @@ qooxdoo.
 
 Properties are declared in the constructor map of the class as a
 dedicated key-value pair (here called `properties_decl`). This is the
-quick reference for properties_decl (expressed in an [EBNF-like syntax](</ebnf_like.md>) way):
+quick reference for properties_decl (expressed in an [EBNF-like syntax](../ebnf_like.md) way):
 
     properties_decl  := 'properties' ':' properites_map
     

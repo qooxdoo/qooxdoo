@@ -60,7 +60,7 @@ the change event for the selection property which holds the selection
 array.
 
 For more details about the data array, check out the `models page
-<pages/data_binding/models#data_array>`.
+data_binding/models.md#data_array`.
 
 ## Delegate
 
@@ -218,7 +218,7 @@ array of the controller.
 
 Also forms do have a special controller. The form controller uses a
 `qx.ui.form.Form` as target and a `Object controller
-<pages/data_binding/controller#object_controller>` for the bidirectional
+data_binding/controller.md#object_controller` for the bidirectional
 bindings. The usage equals to the usage of all other controllers. The
 main properties of it are the model and target property. Given both, the
 controller connects the model and the target. An additional feature of
@@ -234,7 +234,7 @@ form. See the following code to get an idea of using it.
 ```
 
 If you nee additional information on forms, see `form handling
-documentation <pages/desktop/ui_form_handling#form_object>`. After
+documentation desktop/ui_form_handling.md#form_object`. After
 executing this code, the controller and the model variable do have the
 model available and therefore, the controller can set up the bindings.
 

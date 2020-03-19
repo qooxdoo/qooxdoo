@@ -76,7 +76,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
       // IE Support
       if (qx.bom.client.Plugin.getActiveX()) {
        try {
-         new ActiveXObject("Skype.Detection");
+         new window.ActiveXObject("Skype.Detection");
          return true;
        } catch (e) {}
       }
@@ -312,7 +312,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
         (qx.bom.client.Browser.getDocumentMode() < 11 || forceActiveX))
       {
         try {
-          var obj = new ActiveXObject(activeXName);
+          var obj = new window.ActiveXObject(activeXName);
           var version;
 
           // pdf version detection

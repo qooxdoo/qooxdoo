@@ -70,7 +70,7 @@ properties : {
 
 The properties `icon`, `time` and `post` contain the data from a tweet. In this definition you'll also find a property `appearance`. This property is needed for the theming, it tells the appearance system that the `TweetView` should be styled like the `ListItem`. We could also use a new appearance id, but than we'd have to define an appearance for it and that's not part of this tutorial.
 
-How to define properties was explained in tutorial part 3 \<tutorial-part-3\>, so we don't repeat it. But we use some unfamiliar keys for definition and I will explain them:
+How to define properties was explained in tutorial part 3 (tutorial-part-3), so we don't repeat it. But we use some unfamiliar keys for definition and I will explain them:
 
 -   **check**: check ensures that the incoming value is of this type. But be careful, the check is only done in the source version.
 -   **apply**: here you can define which method should be called when the value changes.
@@ -80,7 +80,7 @@ How to define properties was explained in tutorial part 3 \<tutorial-part-3\>, s
 Using Child Control
 -------------------
 
-qooxdoo has a special system to realize combined widgets like in our case. This system is called child controls and you can find a detailed documentation in our manual \<desktop/ui\_develop\>.
+qooxdoo has a special system to realize combined widgets like in our case. This system is called child controls and you can find a detailed documentation in our manual (desktop/ui_develop).
 
 Okay, back to our problem. To achieve the requirements we need an [Image](apps://apiviewer/#qx.ui.basic.Image) for the photo, a Label for the post and another [Label](apps://apiviewer/#qx.ui.basic.Label) for the creation time. So three widgets, also called sub widgets, are needed for our custom widget. And last but not least the familiar [Grid](apps://apiviewer/#qx.ui.layout.Grid) layout for layouting, but that's not created in the child control implementation. We just need to keep it in mind when adding the child control with `_add`.
 
@@ -147,7 +147,7 @@ layout.setColumnFlex(1, 1);
 this._setLayout(layout);
 ```
 
-Now we create a layout for our custom widget. This should be known from tutorial part 2 \<tutorial-part-2\>.
+Now we create a layout for our custom widget. This should be known from tutorial part 2 (tutorial-part-2).
 
 ```javascript
 // create the widgets
@@ -279,7 +279,7 @@ converter: function(data) {
 }
 ```
 
-The converter method creates a date object from the given number (time in milliseconds). The `configureItem` method should be known from tutorial part 3 \<tutorial-part-3\>, there are only some improvements to keep the same behavior as before.
+The converter method creates a date object from the given number (time in milliseconds). The `configureItem` method should be known from tutorial part 3 (tutorial-part-3), there are only some improvements to keep the same behavior as before.
 
 Great, now we've got it! Run `generate.py` to create the application.
 

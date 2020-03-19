@@ -28,7 +28,7 @@ The grid arranges the child widgets in a two dimensional grid. Each child is ass
 
 The grid computes the preferred with/height of each column/row based on the preferred size of the child widgets. The computed column widths and row heights can be overridden by explicitly setting them using [setColumnWidth](apps://apiviewer/#qx.ui.layout.Grid~setColumnWidth) and [setRowHeight](apps://apiviewer/#qx.ui.layout.Grid~setRowHeight). Minimum and maximum sizes for columns/rows can be set as well.
 
-By default no column or row is stretched if the available space is larger/smaller than the needed space. To allow certain rows/columns to be stretched each row/column can have a flex \<pages/ui\_layouting\#flex\> value.
+By default no column or row is stretched if the available space is larger/smaller than the needed space. To allow certain rows/columns to be stretched each row/column can have a flex ui_layouting.md#flex value.
 
 Layout properties
 -----------------

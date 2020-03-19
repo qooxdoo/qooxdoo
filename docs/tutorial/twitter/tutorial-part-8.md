@@ -50,7 +50,7 @@ All test classes share the same basic structure:
 -   Individual tests must be defined as member functions with names beginning with `test`. Apart from that, they can contain other member functions, properties and so on. Usually, test functions instantiate classes of the tested application, invoke their methods and compare the results with expected values.
 -   Exceptions are used to communicate the test results back to the Testrunner. No exception means the test went fine, throwing any exception from the test method signals a failure. Return values from the test methods are not evaluated.
 
-`qx.dev.unit.TestCase` includes the assertion functions from [qx.core.Assert](http://demo.qooxdoo.org/%{release_tag}/apiviewer/#qx.core.Assert). These can be used to check values, e.g. by comparing a tested method's return value to an expected value. If the assertion fails, a [qx.core.AssertionError](http://demo.qooxdoo.org/%{release_tag}/apiviewer/#qx.core.AssertionError) is thrown.
+`qx.dev.unit.TestCase` includes the assertion functions from [qx.core.Assert](apps://apiviewer/#qx.core.Assert). These can be used to check values, e.g. by comparing a tested method's return value to an expected value. If the assertion fails, a [qx.core.AssertionError](http://demo.qooxdoo.org/%{release_tag}/apiviewer/#qx.core.AssertionError) is thrown.
 
 Building and running the tests
 ------------------------------
@@ -178,7 +178,7 @@ While we could use a simple `window.setTimeout` for this, it's preferable to use
 Requirements
 ------------
 
-Finally, let's take a quick look at test requirements \<pages/frame\_apps\_testrunner\#requirements\>. This is a way to define preconditions that must be satisfied before a test can be run. If a requirement isn't met, the test will be skipped (and marked as such in the Testrunner GUI). Common requirements are:
+Finally, let's take a quick look at test requirements frame_apps_testrunner.md#requirements. This is a way to define preconditions that must be satisfied before a test can be run. If a requirement isn't met, the test will be skipped (and marked as such in the Testrunner GUI). Common requirements are:
 
 -   The test checks browser-specific behavior, so it should only be run in selected browsers
 -   The tested class performs secure backend communication, so the test should only execute if the AUT was loaded over HTTPS

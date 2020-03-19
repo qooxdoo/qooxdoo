@@ -1,7 +1,7 @@
 # Migrate your application from qooxdoo 5.0 to qooxdoo 6.0 toolchain
 
   - create new desktop or mobile application with `qx create oldName` using the information provided in old/Manifest.json
-  - replace some folders in the new application with the conterparts of the old application
+  - replace some folders in the new application with the counterparts of the old application
       - old/source/class -> new/source/class
       - old/source/resource -> new/source/resource
       - old/source/translation -> new/source/translation
