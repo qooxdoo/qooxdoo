@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     {
       if (e.isLeftPressed()) {
         this.execute();
-        qx.event.Timer.once(qx.ui.menu.Manager.getInstance().hideAll,this, 100);
+        qx.event.Timer.once(qx.ui.menu.Manager.getInstance().hideAll, qx.ui.menu.Manager.getInstance(), 0);
       }
 
       // right click
