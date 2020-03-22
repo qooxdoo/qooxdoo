@@ -1255,7 +1255,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "16/actions/window-close.png"
+          icon : "icon/16/actions/window-close.png"
         };
       }
     },
