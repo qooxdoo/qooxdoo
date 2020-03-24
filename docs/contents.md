@@ -12,7 +12,7 @@ data binding and a runtime environment
   - ["qx" CLI commands](cli/commands.md)
   - [Package system](cli/packages.md)
   - [Compiler Configuration](configuration/overview.md)
-  - [Compiler API](compiler/API.md)
+  - [Compiler API](development/compiler/API.md)
 - [Qooxdoo for Node](server/)
 - [Qooxdoo for Mobile](mobile/)
 - [Tutorials](tutorial/)

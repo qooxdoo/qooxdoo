@@ -235,7 +235,7 @@ settings.
 
 #### In the Compiler Config
 
-see [here](../compiler/configuration/compile.md#environment-settings).
+see [here](../development/compiler/configuration/compile.md#environment-settings).
 
 #### During compilation
 
