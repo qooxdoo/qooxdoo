@@ -3,12 +3,12 @@
 This page is an overview of Qoodoo's server capabilities. It
 shows which parts of Qooxdoo can be used in a server environment
 or comparable scenario. It also serves as an introduction to all
-interested in using %{qooxdoo} on a %{JS} server environment.
+interested in using Qooxdoo in a server environment.
 
 ## Included Features
 
 This listing shows the core features of the *Qooxdoo Server* package. If
-you build your own package with the skeleton way of using %{qooxdoo},
+you build your own package with the skeleton way of using Qoxdoo,
 the feature set might be extended depending on your application code.
 
 -   Object Orientation (core/oo_introduction)
@@ -22,8 +22,8 @@ the feature set might be extended depending on your application code.
 -   Events (desktop/event_layer_impl)
 -   Single Value Binding (data_binding/single_value_binding)
 
-Most of the features can be found in %{qooxdoo}'s core
-layer and should be familiar to %{qooxdoo} developers.
+Most of the features can be found in Qooxdoo's core
+layer and should be familiar to Qooxdoo developers.
 
 ## Supported Runtimes
 
@@ -34,7 +34,8 @@ We currently support two types of runtimes:
 
 ## Installation
 
-See Requirements requirements.md for details on how to obtain and install Qooxdoo Server
+See [Requirements](requirements.md) for details
+on how to obtain and install Qooxdoo Server
 
 ## Basic Example
 
@@ -81,7 +82,7 @@ the documentation about [Object Orientation](../core/oo_introduction.md).
 
 The *Qooxdoo Server* package does not contain any server-dependent
 code so it can also be used in a browser e.g. to have the features
-described above without the need to use the rest of %{qooxdoo}.
+described above without the need to use the rest of Qooxdoo.
 Another interesting scenario might be to use the package in a
 [web worker](https://developer.mozilla.org/en/Using_web_workers),
 which is also a DOM-less environment.

@@ -1,10 +1,10 @@
 # Server Requirements
 
-qooxdoo server is a basic component that runs in many different contexts and
-environments, as it has very little dependencies to the underlying runtime. For
-use in command-line tools and programs you will need a corresponding JavaScript
-interpreter like Node.js or Mozilla Rhino. For use in HTML5 Web Workers you will
-need a browser that supports this technology.
+qooxdoo server is a basic component that runs in many different contexts
+and environments, as it has very little dependencies to the underlying
+runtime. For use in command-line tools and programs you will need a
+corresponding JavaScript interpreter like Node.js or Mozilla Rhino. For use
+in HTML5 Web Workers you will need a browser that supports this technology.
 
 # Installation via NPM
 
