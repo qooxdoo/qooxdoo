@@ -456,26 +456,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
         // this.assertInRange(height, this.getMinHeight() || -1, this.getMaxHeight() || 32000);
       }
 
-
-
-      // Height for width support
-      // Results into a relayout which means that width/height is applied in the next iteration.
-      var flowHeight = null;
-      if (this.getHeight() == null && this._hasHeightForWidth()) {
-        var flowHeight = this._getHeightForWidth(width);
-      }
-
-      if (flowHeight != null && flowHeight !== this.__computedHeightForWidth)
-      {
-        // This variable is used in the next computation of the size hint
-        this.__computedHeightForWidth = flowHeight;
-
-        // Re-add to layout queue
-        qx.ui.core.queue.Layout.add(this);
-
-        return null;
-      }
-
       // Detect size changes
 
       // Dynamically create data structure for computed layout
@@ -514,6 +494,29 @@ qx.Class.define("qx.ui.core.LayoutItem",
       {
         changes.margin = true;
         delete this.__updateMargin;
+      }
+
+      /*
+       * Height for width support
+       * 
+       * Results into a re-layout which means that width/height is applied in the next iteration.
+       * 
+       * Note that it is important that this happens after the above first pass at calculating a 
+       * computed size because otherwise getBounds() will return null, and this will cause an
+       * issue where the existing size is expected to have already been applied by the layout.
+       * See https://github.com/qooxdoo/qooxdoo/issues/9553  
+       */
+      if (this.getHeight() == null && this._hasHeightForWidth()) {
+        var flowHeight = this._getHeightForWidth(width);
+        
+        if (flowHeight != null && flowHeight !== this.__computedHeightForWidth)
+        {
+          // This variable is used in the next computation of the size hint
+          this.__computedHeightForWidth = flowHeight;
+
+          // Re-add to layout queue
+          qx.ui.core.queue.Layout.add(this);
+        }
       }
 
       // Returns changes, especially for deriving classes
