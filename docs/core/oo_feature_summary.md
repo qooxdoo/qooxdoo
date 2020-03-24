@@ -38,7 +38,7 @@ to the super class is provided by the key `extend`: :
 ## Constructor
 
 The constructor of a regular class is provided as a function declaration
-in key `construct`: :
+in key `construct`:
 
     qx.Class.define("my.cool.Class",
     {
@@ -54,7 +54,7 @@ Static members (often called "class" members) are also part of the class
 definition and declared in a map to the `statics` key. Static *methods*
 are given by providing a function declaration, while all other values
 declare static *attributes*. Typically they are given in uppercase to
-distinguish them from instance members: :
+distinguish them from instance members:
 
     qx.Class.define("my.cool.Class",
     {
@@ -66,7 +66,7 @@ distinguish them from instance members: :
     });
 
 Static members, both methods and attributes, can be accessed by using
-the fully-qualified class name: :
+the fully-qualified class name:
 
     my.cool.Class.FOO = 3.141;
     my.cool.Class.BAR();
@@ -87,7 +87,7 @@ the run time\!\!
 ## Instance Members
 
 Similar to static members, instance members are also part of the class
-definition. For them the `members` key is used: :
+definition. For them the `members` key is used:
 
     qx.Class.define("my.cool.Class",
     {
@@ -99,7 +99,7 @@ definition. For them the `members` key is used: :
     });
 
 The instance members can be accessed by using an actual instance of a
-class: :
+class:
 
     var myClass1 = new my.cool.Class;
     myClass1.foo = 3.141;
@@ -108,7 +108,7 @@ class: :
 ## Accessing Static Members
 
 Generic form. Requires no updates if class name changes. This code can
-optionally be optimized for performance in build versions. :
+optionally be optimized for performance in build versions.
 
     qx.Class.define("my.cool.Class",
     {
