@@ -7,10 +7,10 @@ CHANGED_FILES=`git diff --name-only HEAD origin/master`
 CONTAINS_MD=False
 CONTAINS_CODE=False
 MARKDOWN_FILES=""
-MD=".md"
+DOCFILE_REGEX="\.(md|rst)$"
 
 for CHANGED_FILE in $CHANGED_FILES; do
-  if [[ $CHANGED_FILE =~ $MD ]]; then
+  if [[ $CHANGED_FILE =~ $DOCFILE_REGEX ]]; then
     CONTAINS_MD=True
     MARKDOWN_FILES="$MARKDOWN_FILES $CHANGED_FILE"
   else
