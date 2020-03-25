@@ -7,6 +7,6 @@ Until there is more exensive documentation,
 please refer to the following resources:
 
  - [Unit Testing](unit_testing.md)
- - [Testrunner](../../../compiler/cli/testing.md)
+ - [Testrunner](../../../development/cli/testing.md)
  - [Framework Tests](framework_tests.md)
  - [Fake Server](fake_server.md)
