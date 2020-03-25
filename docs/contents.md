@@ -11,22 +11,21 @@ runtime environment.
 
 ## [Qooxdoo UI](gui/)
 
-The UI layer of Qooxdoo, providing a rich set of widget which can be used to
+The UI layer of Qooxdoo, providing a rich set of widgets which can be used to
 create professional web-based applications.
 
 ## [Communication](communication/)
 
-Qooxdoo provides tree different communication APIs with a rich feature set: 
+Qooxdoo provides three different communication APIs with a rich feature set: 
 HTTP Request APIs, a REST Interface which support databinding, and a JSONRPC 
 Client.
 
 ## [Qooxdoo on the Server](server/)
 
 If you like to use the same development paradigm for the client and the server,
-Qooxdoo has you covered - Use Qooxdoo's class system and tooling with NodeJS or 
-Rhino.
+Qooxdoo has you covered - Use Qooxdoo's class system and tooling with NodeJS.
 
-## [Development Tools & Topics](development)
+## [Development Tools & Topics](development/)
 
 Qooxdoo comes with a sophisticated tool chain including a compiler which 
 transforms your code into highly optimized source bundles that are loaded by 

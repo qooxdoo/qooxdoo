@@ -2,17 +2,16 @@
 
 This page is an overview of Qoodoo's server capabilities. It
 shows which parts of Qooxdoo can be used in a server environment
-or comparable scenario. It also serves as an introduction to all
+or comparable scenario. It also serves as an introduction to those
 interested in using Qooxdoo in a server environment.
 
 ## Included Features
 
 This listing shows the core features of the *Qooxdoo Server* package. If
-you build your own package with the skeleton way of using Qoxdoo,
+you build your own package with the skeleton way of using Qooxdoo,
 the feature set might be extended depending on your application code.
 
 -   Object Orientation (core/oo_introduction)
-
     -   Classes (core/classes)
     -   Mixins (core/mixins)
     -   Interfaces (core/interfaces)
