@@ -108,7 +108,7 @@
     - [Using qx test](/development/cli/testing.md)
     - [Fake Server](/development/testing/fake_server.md)
     - [Testing qooxdoo forks](/development/testing/framework_tests.md)
-  - [How to ...](/development/howto)
+  - [How to ...](/development/howto/)
     - [Best Practices](/development/howto/best_practices.md)
     - [Avoiding Antipatterns](/development/howto/antipatterns.md)
     - [Logging](/development/howto/logging.md)
