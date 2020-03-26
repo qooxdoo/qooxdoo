@@ -108,6 +108,15 @@
     - [Using qx test](/development/cli/testing.md)
     - [Fake Server](/development/testing/fake_server.md)
     - [Testing qooxdoo forks](/development/testing/framework_tests.md)
+  - [How to ...](/development/howto)
+    - [Best Practices](/development/howto/best_practices.md)
+    - [Avoiding Antipatterns](/development/howto/antipatterns.md)
+    - [Logging](/development/howto/logging.md)
+    - [Internationalization](/development/howto/internationalization.md)
+    - [Using Icon Fonts](/development/howto/icon_fonts.md)
+    - [Memory Management](/development/howto/memory_management.md)
+    - [Application Parts](/development/howto/parts.md)
+    - [Using non-qooxdoo libraries](/development/howto/using_non_qx_libs.md)
 
 - Deployment (tbd)
 
