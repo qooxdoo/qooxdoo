@@ -28,14 +28,14 @@
  * The most often used method should be {@link #get}, which returns the
  * current value for a given environment check.
  *
- * All qooxdoo settings can be changed via the generator's config. See the manual
+ * All qooxdoo settings can be changed at compile time. See the manual
  * for more details about the environment key in the config. As you can see
  * from the methods API, there is no way to override an existing key. So if you
- * need to change a qooxdoo setting, you have to use the generator to do so.
+ * need to change a qooxdoo setting, you have to use the compiler to do so.
  *
- * The generator is also responsible for requiring the necessary implementation
+ * The compiler is also responsible for requiring the necessary implementation
  * classes for each check. When using a check of a new category, make sure to
- * rebuild you application and let the generator include the necessary files.
+ * rebuild you application and let the compiler include the necessary files.
  *
  * The following table shows the available checks. If you are
  * interested in more details, check the reference to the implementation of
@@ -959,10 +959,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
       // debug flag
       if (qx.Bootstrap.DEBUG) {
-        qx.Bootstrap.warn(
-          key + " is not a valid key. Please see the API-doc of " +
-          "qx.core.Environment for a list of predefined keys."
-        );
+        qx.Bootstrap.warn("The environment key '" + key + "' is undefined.");
         qx.Bootstrap.trace(this);
       }
     },
@@ -1039,10 +1036,7 @@ qx.Bootstrap.define("qx.core.Environment",
 
       // debug flag
       if (qx.Bootstrap.DEBUG) {
-        qx.Bootstrap.warn(
-          key + " is not a valid key. Please see the API-doc of " +
-          "qx.core.Environment for a list of predefined keys."
-        );
+        qx.Bootstrap.warn("The environment key '" + key + "' is undefined.");
         qx.Bootstrap.trace(this);
       }
     },
