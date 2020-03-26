@@ -4,22 +4,24 @@
 git config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
 git fetch -q
 CHANGED_FILES=`git diff --name-only HEAD origin/master`
-CONTAINS_MD=False
+CONTAINS_DOC=False
 CONTAINS_CODE=False
 MARKDOWN_FILES=""
-MD=".md"
+DOCFILE_REGEX="\.(md|rst|png)$"
 
 for CHANGED_FILE in $CHANGED_FILES; do
-  if [[ $CHANGED_FILE =~ $MD ]]; then
-    CONTAINS_MD=True
-    MARKDOWN_FILES="$MARKDOWN_FILES $CHANGED_FILE"
+  if [[ $CHANGED_FILE =~ $DOCFILE_REGEX ]]; then
+    CONTAINS_DOC=True
+    if [[ $CHANGED_FILE =~ \.md$ ]]; then
+      MARKDOWN_FILES="$MARKDOWN_FILES $CHANGED_FILE"
+    fi
   else
     CONTAINS_CODE=True
   fi
 done
 echo $MARKDOWN_FILES
 
-if [[ $CONTAINS_MD == True ]] && [[ $CONTAINS_CODE == False ]]; then
+if [[ $CONTAINS_DOC == True ]] && [[ $CONTAINS_CODE == False ]]; then
   exit 1
 fi
 exit 0
