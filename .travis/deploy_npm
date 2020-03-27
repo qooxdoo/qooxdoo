@@ -45,7 +45,8 @@ exe npx qx pkg install -v
 exe npx qx compile compileServer.json --target build 
 exe npx qx compile compile.json       --target build 
 #remove unnecessary stuff
-exe rm -rf ./apps/transpiled
+exe rm ./apps/transpiled/*.map
+exe rm ./apps/transpiled/*.js
 exe find ./apps -type f -name '*.map' -delete 
 #copy source
 exe mkdir -p source
