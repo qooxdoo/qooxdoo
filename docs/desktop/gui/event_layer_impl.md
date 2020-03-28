@@ -6,8 +6,7 @@ provides a per-document wrapper for cross-browser DOM event handling.
 The implementation of the event layer is inside the
 [qx.event](apps://apiviewer/#qx.event) namespace.
 
-The following features work in all `supported browsers
-website/requirements.md#client`:
+The following features work in all `supported browsers`:
 
   - Canceling events: `stopPropagation()`
   - Skipping the browser's default behavior: `preventDefault()`
@@ -21,4 +20,4 @@ website/requirements.md#client`:
     the
     [getKeyIdentifier()](apps://apiviewer/#qx.event.type.KeySequence~getKeyIdentifier)
     method documentation of the `qx.event.type.KeySequence` class.
-  - Unified `pointer events pointer.md#pointer_events`
+  - Unified [pointer events](pointer.md#pointer_events)
