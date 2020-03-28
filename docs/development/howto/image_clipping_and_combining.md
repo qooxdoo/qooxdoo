@@ -1,8 +1,8 @@
-Image clipping and combining
-============================
+# Image clipping and combining
 
-qooxdoo integrates the support for clipped and combined images in the framework where both features are heavily used, mainly in the different themes like appearance or decoration themes
-(desktop/ui_theming).
+qooxdoo integrates the support for clipped and combined images in the
+framework where both features are heavily used, mainly in the different
+themes like appearance or decoration themes (desktop/ui_theming).
 
 Configuration
 -------------

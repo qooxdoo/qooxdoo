@@ -1,6 +1,6 @@
 # Communication
 
-qooxdoo provides tree different communication APIs with a rich feature set:
+qooxdoo provides three different communication APIs with a rich feature set:
 
 ## HTTP Requests
 

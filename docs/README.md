@@ -9,7 +9,11 @@ large, well structured class library composed from both graphical and non
 graphical element you can use to build your applications. The following guide
 will show how this works in practice.
 
-This guide takes less than 10 minutes to complete.
+If you have worked with Qooxdoo and its Python-based tool chain before,
+please also have a look at the [our guide to migrate your applications
+to the new NodeJS-based tooling](development/compiler/migration.md).
+
+The following introduction to Qooxdoo takes less than 10 minutes to complete.
 
 ## Setup
 

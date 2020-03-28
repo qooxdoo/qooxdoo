@@ -328,68 +328,78 @@ qx.Class.define("qx.test.core.Property",
     testWrongPropertyDefinitions : function()
     {
       if (qx.core.Environment.get("qx.debug")) {
+
+        // class config maps must be separately defined to not produce compiler errors
+
         // date
         this.assertException(function() {
-          qx.Class.define("qx.test.clName", {
+          var config = {
             extend : qx.core.Object,
             properties : new Date()
-          });
+          };
+          qx.Class.define("qx.test.clName", config);
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
 
         // array
         this.assertException(function() {
-          qx.Class.define("qx.test.clName", {
+          var config = {
             extend : qx.core.Object,
             properties : [1,2,3]
-          });
+          };
+          qx.Class.define("qx.test.clName", config);
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
 
         // qooxdoo class
         var o = new qx.core.Object();
         this.assertException(function() {
-          qx.Class.define("qx.test.clName", {
+          var config = {
             extend : qx.core.Object,
             properties : o
-          });
+          };
+          qx.Class.define("qx.test.clName", config);
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
         o.dispose();
 
         // RegExp
         this.assertException(function() {
-          qx.Class.define("qx.test.clName", {
+          var config = {
             extend : qx.core.Object,
             properties : new RegExp()
-          });
+          };
+          qx.Class.define("qx.test.clName", config);
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
 
         // null
         this.assertException(function() {
-          qx.Class.define("qx.test.clName", {
+          var config = {
             extend : qx.core.Object,
             properties : null
-          });
+          };
+          qx.Class.define("qx.test.clName", config);
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
 
         // boolean
         this.assertException(function() {
-          qx.Class.define("qx.test.clName", {
+          var config = {
             extend : qx.core.Object,
             properties : true
-          });
+          };
+          qx.Class.define("qx.test.clName", config);
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
 
         // number
         this.assertException(function() {
-          qx.Class.define("qx.test.clName", {
+          var config = {
             extend : qx.core.Object,
             properties : 123
-          });
+          };
+          qx.Class.define("qx.test.clName", config);
         }, Error, new RegExp(".*Invalid.*"), "123");
         delete qx.test.clName;
       }
@@ -893,8 +903,8 @@ qx.Class.define("qx.test.core.Property",
 
       object.dispose();
     },
-    
-    
+
+
     testTransform : function ()
     {
       qx.Class.define("qx.TestProperty", {
