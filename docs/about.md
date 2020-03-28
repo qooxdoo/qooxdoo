@@ -3,8 +3,8 @@
 **Qooxdoo v.${qooxdoo.version}**
 
 qooxdoo (pronounced ['kuksdu:]) is a universal JavaScript framework for creating
-enterprise-grade single-page web applications. With its class based
-object orientation, qooxdoo allows to keep even the code of the most complex
+enterprise-grade single-page web applications. With its class-based
+object orientation, qooxdoo allows the code of even the most complex
 applications well organized and manageable. The integrated compiler produces
 single file applications ready for deployment.
 
@@ -12,7 +12,7 @@ single file applications ready for deployment.
 
 The qooxdoo framework enhances the javascript language with a full fledged class
 based oo system, including a powerful properties system and mixins. Qooxdoo is
-largely based on namespaces to allow for easy integration with other libraries
+largely based on namespaces to allow easy integration with other libraries
 and existing user code. It comes with a [comprehensive API
 reference](apps://apiviewer) that is auto-generated from Javadoc-like
 comments in the framework sourcecode.
@@ -23,7 +23,7 @@ javascript abilities. In order to create an application that can be loaded by
 the browser, the qooxdoo source code has to be processed by the qooxdoo
 compiler.
 
-The qooxdoo compilers is a NodeJS-based application written in qooxdoo itself. It
+The qooxdoo compiler is a NodeJS-based application written in qooxdoo itself. It
 loads qooxdoo source code and adds all the required framework components
 necessary to create an application that is executable in the browser.
 
@@ -59,21 +59,21 @@ Qooxdoo is not only a library, but also comes with a set of sophisticated tools.
 help with the development workflow, such as the [command line interface](cli/commands.md). 
 Others let you quickly get to know the widgets (such as the [widget browser](apps://widgetbrowser)),
 become fluent in the qooxdoo API (such as the [API Viewer](apps://apiviewer)), or
-to debug code (such as the ["Playground"](apps://playground)).
+to debug or demonstrate code snippets (such as the ["Playground"](apps://playground)).
 
 ## Package system
 
 A versatile web framework wouldn't be complete without a package system which allows
-to modularize and reuse code. Qooxdoo's [package system](cli/packages.md) is based
+modularizing and reusing code. Qooxdoo's [package system](cli/packages.md) is based
 on GitHub repos. Packages can be installed and published very easily with the 
 qooxdoo CLI. 
 
 ## History
 
 qooxdoo was originally developed by one of the world's leading web hosters: 1&1
-Internet (now part United Internet AG). In late 2015 the qooxdoo framework with
-all its assets was turned over to the qooxdoo association, located in
-Switzerland. Qooxdoo development has since then been lead by a group of
+Internet (now part of United Internet AG). In late 2015, the qooxdoo framework with
+all its assets, was turned over to the qooxdoo association, located in
+Switzerland. Qooxdoo development has, since then, been lead by a group of
 dedicated developers congregating on [gitter](https://gitter.im/qooxdoo/qooxdoo)
 and [github](https://github.com/qooxdoo/qooxdoo). Contributions are always
 welcome.
