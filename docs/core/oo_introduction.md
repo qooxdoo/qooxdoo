@@ -10,10 +10,10 @@ The main actors of qooxdoo OO are:
   - **Interfaces**
   - **Mixins**
 
-When trying to get a grip of the framework code, you should probably
-understand all those three concepts. As a regular application developer
-you often get by with ignoring interfaces and mixins when starting and
-just getting familiar with *classes*.
+When trying to get a grip on the framework code, you should probably
+understand all three concepts. As a regular application developer, however,
+you can often get by ignoring interfaces and mixins initially, and
+just get familiar with *classes*.
 
 ## Classes
 
@@ -30,7 +30,8 @@ There are several types of classes available, which are specified by the
   - **regular class**: May contain *class* variables/methods (in a
     `statics` section) and *instance* variables/methods (in a `members`
     section). An instance of the class can be created using the `new`
-    keyword, so a constructor needs to be given in `construct`.
+    keyword. A superclass is specified with `extends`. A constructor 
+    may be provided with `construct`. `type` is omitted in this case.
   - **static class**: Only contains class variables and class methods.
     Often a helper or utility class. Use `type : "static"`.
   - **abstract class**: Does not allow an instance to be created.
@@ -42,20 +43,19 @@ There are several types of classes available, which are specified by the
 
 ## Interfaces
 
-qooxdoo's interfaces are similar to the ones in Java. Similar to the
-declaration of class they are created by `qx.Interface.define(name,
-config)`. They specify an "interface" (typically a set of empty
-methods), that classes must implement.
+qooxdoo's interfaces are similar to the ones in Java. They are created with
+`qx.Interface.define(name, config)`, and specify an "interface" (typically a
+set of empty methods), that classes must implement.
 
 ## Mixins
 
 Mixins are a very practical concept that not all programming languages
 provide. Unlike interfaces, which require a class to provide concrete
-implementations to fulfill the interface contract, mixins do include
-code. This code needs to be generic, if it is "mixed into" different
+implementations to fulfill the interface contract, mixins include
+code which must be generic, as it is "mixed into" other
 existing classes. Mixins usually cover only a single aspect of
-functionality and therefore tend to be small. They are declared by
-`qx.Mixin.define(name, config)`.
+functionality and therefore tend to be small, but may be "mixed into" 
+multiple other classes. They are declared by `qx.Mixin.define(name, config)`.
 
 ## Inheritance
 
