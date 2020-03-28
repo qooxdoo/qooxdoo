@@ -3,7 +3,7 @@ Core
 
 qooxdoo Core is not a component on its own, but encompasses central features of
 the qooxdoo class library. The elements described here are available in all
-qooxdoo components, be it Desktop, Mobile, Website or Server. Among these
+qooxdoo components, be it Desktop, Mobile, or Server. Among these
 features are a dedicated class system with custom class properties, data binding
 and a runtime environment.
 
