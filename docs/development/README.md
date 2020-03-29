@@ -50,7 +50,7 @@ efficiency. But it will be much less amenable to development.
 
 ## Solving common app development requirements
 
-See [here](howto/) for a list of tasks that typically need to be solved
+See [the HOWTO](howto/) for a list of tasks that typically need to be solved
 during the development of a Qooxdoo application.  
 
 ## Dos and Donts
