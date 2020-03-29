@@ -9,7 +9,7 @@ A class is defined by providing its name as a string:
 This example only creates a trivial class `my.cool.Class`. A typical
 class declaration contains OO features like constructor, instance
 members, static members, etc. This additional information is provided as
-a second parameter in form of a map. Since the entire class definition
+a second argument in the form of a map. Since the entire class definition
 is given in `qx.Class.define()`, it is called a "closed form" of class
 declaration: :
 
@@ -20,7 +20,7 @@ declaration: :
 A regular (non-static) class can simply be instantiated using the `new`
 keyword: :
 
-    var myClass = new my.cool.Class;
+    var myClass = new my.cool.Class();
 
 ## Inheritance
 
@@ -51,7 +51,7 @@ in key `construct`:
 ## Static members
 
 Static members (often called "class" members) are also part of the class
-definition and declared in a map to the `statics` key. Static *methods*
+definition and declared in a map with the `statics` key. Static *methods*
 are given by providing a function declaration, while all other values
 declare static *attributes*. Typically they are given in uppercase to
 distinguish them from instance members:
@@ -79,15 +79,15 @@ Note
 
 </div>
 
-You can use static members as constants, but the value can be changed in
-the run time\!\!
+You can use static members as constants, but the value can be changed at
+run time\!\!
 
 </div>
 
 ## Instance Members
 
 Similar to static members, instance members are also part of the class
-definition. For them the `members` key is used:
+definition, in the map referenced by the `members` key:
 
     qx.Class.define("my.cool.Class",
     {
@@ -101,7 +101,7 @@ definition. For them the `members` key is used:
 The instance members can be accessed by using an actual instance of a
 class:
 
-    var myClass1 = new my.cool.Class;
+    var myClass1 = new my.cool.Class();
     myClass1.foo = 3.141;
     myClass1.bar();
 
@@ -117,7 +117,7 @@ optionally be optimized for performance in build versions.
       },
       members : {
         circumference : function(radius) {
-          return 2 * this.self(arguments).PI * radius;
+          return 2 * this.constructor.PI * radius;
         }
       }
     });
@@ -130,7 +130,7 @@ Note
 
 </div>
 
-For `this.self` to be available, the class must have as a direct or
+For `this.constructor` to be available, the class must have as a direct or
 indirect base class `qx.core.Object`.
 
 </div>
@@ -143,8 +143,8 @@ Note
 
 </div>
 
-Static members aren't inherited. For calling a superclass static method,
-use `this.superclass`, like in this example:
+Static members aren't inherited. To call a superclass static method,
+use `this.superclass`, as in this example:
 
     qx.Class.define('A', {
       statics: {
@@ -214,8 +214,8 @@ As a logical match to any existing constructor given by the key
 
 ## Properties
 
-qooxdoo comes with a very powerful feature called dynamic `properties
-<understanding_properties>`. A concise declaration of an `age` property
+qooxdoo comes with a very powerful feature called dynamic 
+[properties](understanding_properties.md). A concise declaration of an `age` property
 may look like the following:
 
     qx.Class.define(
@@ -227,7 +227,7 @@ may look like the following:
 
 This declaration generates not only a corresponding accessor method
 `getAge()` and a mutator method `setAge()`, but would allow for many
-more `features <property_features>`.
+more [features](property_features.md).
 
 ## Interfaces
 
@@ -238,16 +238,19 @@ A leading uppercase `I` is used as a naming convention for `interfaces
 
 ## Mixins
 
-Leading uppercase `M` as a naming convention. A `mixin <mixins>` can
+Leading uppercase `M` as a naming convention. A [mixin](mixins.md) can
 have all the things a class can have, like properties, constructor,
 destructor and members. :
 
-    qx.Mixin.define("my.cool.MMixin");
+    qx.Mixin.define("my.cool.MMixin",
+    {
+      // Mixin definition
+    });
 
 ## Attaching mixins to a class
 
-The `include` key contains either a reference to an single mixin, or an
-array of multiple mixins: :
+The `include` key contains either a reference to a single mixin, or an
+array of mixins: :
 
     qx.Class.define("my.cool.Class",
     {
@@ -261,10 +264,10 @@ array of multiple mixins: :
 
 ## Access
 
-By the following naming convention. Goal is to be as consistent as
+The following naming convention is used. The goal is to be as consistent as
 possible. During the build process private members can optionally be
-renamed to random names in order to ensure that they cannot be called
-from outside the class. :
+renamed to random names (obfuscated) to prevent inadvertently calling them
+from outside of the class. :
 
     publicMember
     _protectedMember
@@ -273,7 +276,7 @@ from outside the class. :
 ## Static classes
 
 Explicit declaration allows for useful checks during development. For
-example. `construct` or `members` are not allowed for such a purely
+example. `construct` or `members` keys are not allowed in a purely
 static class. :
 
     qx.Class.define("my.cool.Class", {
@@ -282,8 +285,8 @@ static class. :
 
 ## Abstract classes
 
-Declaration allows for useful checks during development and does not
-require explicit code. :
+Declaring a class as "abstract" allows for useful checks during development
+and does not require explicit code. :
 
     qx.Class.define("my.cool.Class", {
       type : "abstract"
@@ -291,9 +294,8 @@ require explicit code. :
 
 ## Singletons
 
-Declaration allows for useful checks during development and does not
-require explicit code. A method `getInstance()` is added to such a
-singleton class. :
+A "singleton" declaration allows does not require explicit code. A
+`getInstance()` method is added automatically to each singleton class. :
 
     qx.Class.define("my.cool.Class",
     {
@@ -309,7 +311,7 @@ themselves. While it is typically not a feature used very often, it
 nonetheless needs to be supported by the new class declaration. Instead
 of some trailing code outside the closed form of the class declaration,
 an optional `defer` method is called after the other parts of the class
-definition have been finished. It allows access to all previously
+definition have been processed. It allows access to all previously
 declared `statics`, `members` and dynamic `properties`.
 
 <div class="note">
@@ -345,13 +347,13 @@ build process (documentation, optimization, etc.).
 
 ## Browser specific methods
 
-To maintain the closed form, browser switches on method level is done
-using `environment settings </pages/core/environment>`. Since the
+To maintain the closed form, browser switches at the method level is done
+using [environment settings](../core/environment.md). Since the
 generator knows about environment settings it is (optionally) possible
 to only keep the code for each specific browser and remove the
 implementation for all other browsers from the code and thus generate
-highly-optimized browser-specific builds. It is possible to use an
-logical "or" directly inside a environment key. If none of the keys
+highly-optimized browser-specific builds. It is possible to use a
+logical _or_ directly inside a environment key. If none of the keys
 matches the variant, the "default" key is used: :
 
     members:
@@ -372,7 +374,7 @@ matches the variant, the "default" key is used: :
 qooxdoo's class definition has a special `events` key. The value of the
 key is a map, which maps each distinct event name to the name of the
 event class whose instances are passed to the event listeners. The event
-system can now (optionally) check whether an event type is supported by
+system can (optionally) check whether an event type is supported by
 the class and issue a warning if an event type is unknown. This ensures
 that each supported event must be listed in the event map. :
 
