@@ -48,6 +48,11 @@ a *build* version of it. This version will be compressed and
 optimized, and will be all geared towards deployment and runtime
 efficiency. But it will be much less amenable to development.
 
+## Solving common app development requirements
+
+See [the HOWTO](howto/) for a list of tasks that typically need to be solved
+during the development of a Qooxdoo application.  
+
 ## Dos and Donts
 
 Once you have a good sense on how to work with Qooxdoo,
