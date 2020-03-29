@@ -1,4 +1,5 @@
-transpiled/
+transpiled/**.map
+transpiled/**.js
 db.json
 resource-db.json
 versions.json

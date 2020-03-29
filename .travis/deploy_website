@@ -50,6 +50,11 @@ ln -s $(cat ../version.txt)/docs docs
 # global /apps shows apps of current master, needed for /docs
 rm -f apps                             
 ln -s $(cat ../version.txt)/apps apps
+# devel/playground should be linked to 6.0.0-beta/apps/playground 
+# because travis will not build pyhton sass
+# https://github.com/qooxdoo/qooxdoo/issues/9892
+rm -f devel/playground                             
+ln -s $(cat ../version.txt)/apps/playground devel/playground
 
 touch .nojekyll
 touch .
