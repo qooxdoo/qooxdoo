@@ -59,7 +59,7 @@ things like hidden tab pages or not yet opened dialogs.
 time, it is a good idea to load functionality only when needed ("on demand").
 
 -   The Compiler makes it possible to
-easily split application logic into so-called ["parts"](parts_overview.md).
+easily split application logic into so-called ["parts"](howto/parts.md).
 
 -   To allow such a functionality, it is a good idea to separate application
 parts from each other as good as possible. It is still possible to connect
