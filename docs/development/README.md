@@ -19,7 +19,7 @@ tooling](compiler/migration.md).
 Our [getting started guide](../README.md) should give you a first impression on
 how to quickly create an application skeleton which then can be adapted and extended
 to arrive at a first prototype of your application. Before you start working on a
-larger project, make sure to reviuew the following points.
+larger project, make sure to review the following points.
 
 ## Development tools
 
