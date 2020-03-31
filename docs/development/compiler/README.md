@@ -50,7 +50,7 @@ qx compile
 Now use your favourite web browser to open the `compiled/source/index.html` - that's it, your first
 Qooxdoo application is working!
 
-(BTW did you see that first command had `--noninteractive`?  That just means to take the defaults; if you miss it off, then
+(BTW did you see that first command had `--noninteractive`?  That just means to take the defaults; if you leave it off, then
 `qx` will just ask you a series of questions about how you want your new application to look like.  Try it :) ) 
 
 `qx compile` incorporates Babel and will transpile your code from the latest ES6 (or ES7 etc) into ES5 that works across all web 
@@ -111,6 +111,7 @@ then on, all you have to do is to use `npx` to execute `qx` commands.
 mkdir myFirstApp
 cd myFirstApp
 npm init             # answer npm's questions
+npm i -g @qooxdoo/compiler
 npx qx create myFirstApp --noninteractive --out=.
 npx qx compile
 ```
