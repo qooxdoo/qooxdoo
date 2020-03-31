@@ -3,17 +3,23 @@
 In this section, we provide guidance how to
 go about developing a Qooxdoo application.
 
-> If you are an experienced Qooxdoo developer who has worked with version 5
-of the framework: You can reuse almost all of your previous knowledge since
-the framework is, with some small exceptions, fully backwards-compatible.
-The major change concerns the tooling, which has changed fromf the Python-based
-`generator.py` script to a NodeJS-based `qx` CLI. Please review [our guide to migrate your applications
-to the new NodeJS-based tooling](compiler/migration.md).
+> If you are an experienced Qooxdoo developer who has worked with 
+version 5 of the framework: You can reuse almost all of your previous 
+knowledge since version 6 of the framework is, with some small exceptions, 
+fully backwards-compatible.
+The major change concerns the tooling, which has changed from the 
+Python-based `generator.py` script to a NodeJS-based `qx` CLI. The python 
+tool chain will still work for all 6.* releases. However, it has been marked 
+deprectated and will be removed in version 7.0.0. Since we won't be able to
+maintain the old toolchain or provide support for it, we strongly recommend 
+to use the new one for your projects. To convert your existing applications, 
+please review [our guide to migrate your applications to the new NodeJS-based 
+tooling](compiler/migration.md).
 
 Our [getting started guide](../README.md) should give you a first impression on
 how to quickly create an application skeleton which then can be adapted and extended
-to arrive at a first prototype of your application. Before you start, make sure to 
-take the following points into consideration. 
+to arrive at a first prototype of your application. Before you start working on a
+larger project, make sure to reviuew the following points.
 
 ## Development tools
 
