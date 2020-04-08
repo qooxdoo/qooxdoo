@@ -14,7 +14,7 @@ exe npm i --no-save @adobe/jsonschema2md@3.3.1 @qooxdoo/compiler mkdirp@^1.0.0
 
 # build apps  
 exe npx qx pkg upgrade --prereleases
-exe npx qx compile compile.json --target build  --feedback=0 --verbose
+exe npx qx compile -f compile.json --target build  --feedback=0 --verbose
 #restore .npmignore 
 exe git checkout .
 # copy to website target
