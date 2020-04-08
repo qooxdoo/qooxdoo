@@ -42,8 +42,8 @@ exe npm install --no-save @qooxdoo/compiler
 exe npx qx --version
 exe npx qx pkg install -v 
 #compile everything
-exe npx qx compile -f compileServer.json --target build 
-exe npx qx compile -f compile.json       --target build 
+exe npx qx compile --config-file=compileServer.json --target=build 
+exe npx qx compile --config-file=compile.json       --target=build 
 #remove unnecessary stuff
 exe find ./apps/transpiled -type f -name '*.map' -delete
 exe find ./apps/transpiled -type f -name '*.js'  -delete
