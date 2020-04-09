@@ -85,7 +85,7 @@ To compile a qooxdoo project into a state that can be opened in a browser, use
 The command has the following options: 
 
 ```
-qx compile [options] [configFile]
+qx compile [options]
 
 Options:
   --target                  Set the target type: source or build or class
@@ -124,7 +124,7 @@ Options:
   --fix              runs eslint with --fix
   --cache            operate only on changed files (default: `false`).
   --warnAsError, -w  handle warnings as error
-  --config, -c       prints the eslint configuration
+  --print-config, -p prints the eslint configuration
   --format, -f       format of the output (default: `codeframe`, options: `codeframe`, `checkstyle`)
   --outputFile, -o   output the results to the specified file
   --verbose, -v      enables additional progress output to console
