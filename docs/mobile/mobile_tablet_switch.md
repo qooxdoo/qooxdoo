@@ -6,7 +6,7 @@ Tablet support out of the box
 
 On tablet devices you have a bigger screen size and more layout space than on mobile devices. An application in a tablet device context may even provide additional/other functions than on mobile device context.
 
-%{Mobile} provides mobile and tablet distinction out of the box. It provides a detection of device type the application runs on.
+Mobile provides mobile and tablet distinction out of the box. It provides a detection of device type the application runs on.
 
 Based upon this distinction, you can tell our page manager whether it should layout its navigation pages optimized for device class mobile (intended for mobile, 7'' tablets), class tablet or device class desktop.
 
@@ -49,7 +49,7 @@ The device type is detected by resolving user agent strings. Device class mappin
 How to enable device-based layouting
 ------------------------------------
 
-The device-based layouting is handled by `qx.ui.mobile.page.Manager`. In our examples at mobile playground and the tutorial, we always make usage of this manager to create a %{Mobile} application.
+The device-based layouting is handled by `qx.ui.mobile.page.Manager`. In our examples at mobile playground and the tutorial, we always make usage of this manager to create a Mobile application.
 
     var isTablet = false;
     var manager = new qx.ui.mobile.page.Manager(isTablet);
@@ -109,10 +109,10 @@ MasterPages are added to a `PortraitMasterContainer`. This container is hidden a
 
 ![Tablet Layout in Portrait Mode](tabletLayoutPortrait.png)
 
-Example for a %{Mobile} application with tablet support
+Example for a Mobile application with tablet support
 -------------------------------------------------------
 
-Now, that you gained this knowledge about %{Mobile} tablet support, you surely want to create an application using this feature.
+Now, that you gained this knowledge about Mobile tablet support, you surely want to create an application using this feature.
 
     var manager = new qx.ui.mobile.page.Manager();
 
