@@ -97,7 +97,7 @@ widgets, e.g. their border radius, etc. See the section below on custom theming.
 If you want to use our Flat theme instead of the Indigo
 theme, you have to copy the content of the following file:
 
-`node-modules/@qooxdoo/framework/framework/source/resource/qx/mobile/scss/theme/flat/_styles.scss`
+`node-modules/@qooxdoo/framework/source/resource/qx/mobile/scss/theme/flat/_styles.scss`
 
 Into your project's theme file:
 
@@ -105,7 +105,7 @@ Into your project's theme file:
 
 After changing this, you have to run the source job in your application's root:
 
-    ./generate.py source
+    qx compile
 
 ## Adjusting the custom theme
 
@@ -133,7 +133,7 @@ For customization, please follow these steps:
 
         $navigationbar-background: green;
 
-    Your customized theme is compiled automatically by the watch job to: `<APP_ROOT>/source/resource/<APP_NAME>/css/custom.css`
+    Your customized theme is compiled automatically by the watch job to: `<APP_ROOT>/compile/resource/<APP_NAME>/css/custom.css`
 
 4.  Reload your qx.Mobile application and check your changes. The NavigationBar should look like this:
 
