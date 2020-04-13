@@ -17,9 +17,17 @@ please review [our guide to migrate your applications to the new NodeJS-based
 tooling](compiler/migration.md).
 
 Our [getting started guide](../README.md) should give you a first impression on
-how to quickly create an application skeleton which then can be adapted and extended
-to arrive at a first prototype of your application. Before you start working on a
-larger project, make sure to review the following points.
+how to quickly create an application skeleton. We suggest you play with this 
+skeleton application and, with the help of the [Demo Browser](http://www.qooxdoo.org/apps/demobrowser), 
+the [Widget Browser](http://www.qooxdoo.org/apps/demobrowser/) and the 
+[API Viewer](http://www.qooxdoo.org/apps/apiviewer), add some widgets to get 
+a feel for how qooxdoo works. Before you start working on a first prototype 
+of your application, we encourage you to review the following points.
+
+## Compiler and CLI
+
+Read this more detailed [introduction to the compiler and the CLI](./compiler) and
+[in-depth information on the CLI commands](./cli/commands).
 
 ## Development tools
 
@@ -53,6 +61,13 @@ Once you are satisfied with your application, you will create
 a *build* version of it. This version will be compressed and
 optimized, and will be all geared towards deployment and runtime
 efficiency. But it will be much less amenable to development.
+
+## Testing your code
+
+Qooxdoo supports a Test-Driven-Development paradigm as unit tests can be 
+easily added as normal Qooxdoo classes alongside your library classes. It comes with 
+a testrunner application which executes these tests either on the command line 
+or in a browser. See the [documentation on testing](testing/).
 
 ## Solving common app development requirements
 

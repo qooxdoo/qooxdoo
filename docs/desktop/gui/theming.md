@@ -223,7 +223,7 @@ Appearance Theme
 
 The appearance theme is by far the biggest theme. Its task is to describe every themable widget and their child controls. Since the widgets are styled using decorators, colors, fonts and icons the appearance theme uses the definitions of all the other themes namely the decoration, color, font and icon theme. You can think of the appearance theme as the central meeting point where the other themes (decorator, color, font and icon) get together.
 
-To discover the power of the appearance theme please take a look at the corresponding article (ui_appearance) which should let you get an idea of the whole picture.
+To discover the power of the appearance theme please take a look at the [corresponding article](appearance.md) which should let you get an idea of the whole picture.
 
 Applying Themes
 ---------------
