@@ -21,7 +21,7 @@ After you installed cordova, and followed the introductions of [Cordova Getting 
 
 Follow these steps:
 
-1.  Build your application with `generate.py build`.
+1.  Build your application with `qx compile —-target=build`.
 2.  Duplicate content of your Mobile build folder, into Cordova deploy folder `assets/www` including the `index.html`.
 3.  Paste the following line in head part of `assets/www/index.html`:
 

@@ -1,7 +1,7 @@
 # Getting Started with Qooxdoo Mobile
 
-Working with Mobile requires downloading and using Qooxdoo's SDK. See
-here for the [SDK's requirements](../README.md), and
+Working with Mobile requires downloading and using Qooxdoo's compiler tolchain. See
+here for the [Qooxdoo requirements](../README.md), and
 follow its *Installation and Setup* section. This requirement applies
 to the development phase only, the final app is independent of the SDK.
 

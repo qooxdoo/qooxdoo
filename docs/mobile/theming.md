@@ -70,34 +70,13 @@ application to see the effect. Using SCSS you would need to
 compile the SCSS file after each change of your stylesheet files.
 
 To automatically compile the SCSS files on
-change/save, you can use the generator watch-scss job:
+change/save, you can use the compiler watch job:
 
-    ./generate.py watch-scss
+    qx compile —watch
 
 It recognizes any changes made to the SCSS files in your qx.Mobile
 application and triggers the compilation to CSS automatically.
 
-This is the job configuration of your app-specific `config.json`:
-
-    "watch-scss" :
-    {
-      "desc"   : "Watch and compile the theme scss",
-      "extend" : ["cache"],
-      "let" :
-      {
-        "QX_MOBILE_THEME_PATH"      : "${QOOXDOO_PATH}/framework/source/resource/qx/mobile/scss",
-        "QX_SHARED_THEME_PATH"      : "${QOOXDOO_PATH}/framework/source/resource/qx/scss",
-        "APPLICATION_THEME_PATH"    : "source/theme/${APPLICATION}",
-        "APPLICATION_RESOURCE_PATH" : "source/resource/${APPLICATION}"
-      },
-      "shell" :
-      {
-        "command" : "sass -C -t compressed -I ${QX_MOBILE_THEME_PATH} -I ${QX_SHARED_THEME_PATH} --watch ${APPLICATION_THEME_PATH}/scss:${APPLICATION_RESOURCE_PATH}/css",
-        "command-not-found" : "It seems that Sass (http://sass-lang.com/) is not installed and/or executable, which is needed for the SCSS-compilation."
-      }
-    }
-
-As mentioned before, it needs the official Sass compiler installed on your system.
 
 ## qx.Mobile Themes
 
@@ -118,7 +97,7 @@ widgets, e.g. their border radius, etc. See the section below on custom theming.
 If you want to use our Flat theme instead of the Indigo
 theme, you have to copy the content of the following file:
 
-`qooxdoo/framework/source/resource/qx/mobile/scss/theme/flat/_styles.scss`
+`node-modules/@qooxdoo/framework/source/resource/qx/mobile/scss/theme/flat/_styles.scss`
 
 Into your project's theme file:
 
@@ -126,7 +105,7 @@ Into your project's theme file:
 
 After changing this, you have to run the source job in your application's root:
 
-    ./generate.py source
+    qx compile
 
 ## Adjusting the custom theme
 
@@ -136,9 +115,9 @@ will become the starting point for your custom theme.
 
 For customization, please follow these steps:
 
-1.  Start the SCSS watch job by running
+1.  Start the watch job by running
 
-        ./generate.py watch-scss
+        qx compile —watch
 
     in your application's root.
 
@@ -154,7 +133,7 @@ For customization, please follow these steps:
 
         $navigationbar-background: green;
 
-    Your customized theme is compiled automatically by the SCSS watch job to: `<APP_ROOT>/source/resource/<APP_NAME>/css/custom.css`
+    Your customized theme is compiled automatically by the watch job to: `<APP_ROOT>/compile/resource/<APP_NAME>/css/custom.css`
 
 4.  Reload your qx.Mobile application and check your changes. The NavigationBar should look like this:
 
