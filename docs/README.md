@@ -137,7 +137,7 @@ your application a distinctive look.
 Try editing the file a bit. You will notice that the server detects your
 modifications and recompiles the application automatically.
 
-If you look at the files that are created by the compiler (in the `compiled/` directory, 
+If you look at the files that are created by the compiler (in the `compiled/` directory), 
 you might notice that the resulting code is quite heavy in size. This is because even
 the tiniest application makes use of qooxdoo's core classes, and the compiler produces
 a large number of artefacts that are needed for quick recompilation, but not for the
