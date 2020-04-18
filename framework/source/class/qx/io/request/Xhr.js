@@ -241,7 +241,8 @@ qx.Class.define("qx.io.request.Xhr",
     // overridden
     _getConfiguredRequestHeaders: function() {
       var headers = {},
-          isAllowsBody = qx.util.Request.methodAllowsRequestBody(this.getMethod());
+          isAllowsBody = qx.util.Request.methodAllowsRequestBody(this.getMethod()),
+          isFormData = (qx.Bootstrap.getClass(this.getRequestData()) == "FormData");
 
       // Follow convention to include X-Requested-With header when same origin
       if (!qx.util.Request.isCrossDomain(this.getUrl())) {
@@ -254,7 +255,7 @@ qx.Class.define("qx.io.request.Xhr",
       }
 
       // By default, set content-type urlencoded for requests with body
-      if (this.getRequestData() && isAllowsBody) {
+      if (this.getRequestData() && isAllowsBody && !isFormData) {
         headers["Content-Type"] = "application/x-www-form-urlencoded";
       }
 
