@@ -560,8 +560,8 @@ code automatically removed and where the Javascript source code is minified and 
 files as possible.
 
 This "build target" compilation is the version you can do final testing on before publishing it to your users; but
-while this is minified and stripped down, there are still a number of temporary which you do not want to copy onto 
-your webserver.
+while this is minified and stripped down, there are still a number of temporary files which you do not want to copy 
+onto your webserver.
 
 When you're ready to distribute the application(s) to your web server, use `qx deploy`, EG:
 
