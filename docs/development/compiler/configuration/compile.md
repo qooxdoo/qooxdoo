@@ -16,6 +16,7 @@
  - [Linting](#eslint)
  - [Built-in web server](#web-server)
  - [Running server applications](#running-applications)
+ - [Building for Production and Deployment](#building-for-production-and-deployment)
  - [Schema definition](compile-1-0-0.md)
  
 ## Basics
@@ -429,6 +430,31 @@ Qooxdoo applications are by default compiled only using the "en" locale for tran
 
 By default, only translation strings which are used by the classes are included - if you want to copy *all* translation strings you can include `writeAllTranslations: true` at the top level.
 
+Also by default, the locales and translation data are loaded automatically when the application starts; this is helpful,
+but sometimes the translation data can be quite large and if you support a lot of languages, your application would be
+loading all translations for all languages.  If you set the `"i18AsParts": true`, this behaviour changes so that 
+each locale has its own part and none of the locales are loaded automatically.  Your application code will need to determine
+the locale to load during startup and then load the appropriate locale, EG:
+
+```json5
+{
+    /* ... in your compile.json ... */
+    "locales": [
+        "en",
+        "fr"
+    ],
+    "i18nAsParts": true
+}
+```
+
+```
+    // ...Somewhere in your Application.main()
+    //
+    qx.io.PartLoader.require("fr", () => {
+      qx.core.Assert.assertTrue(this.tr("hello") == "bonjour");
+    });
+```
+
 
 ## Path Mappings
 In many circumstances, you do not need to worry about path mappings because the compiler will copy (or transpile) source code and resources from all libraries into the one output directory.  In production, your application will never need to load files outside of the output directory, but during development your browser will need to have access to the original, untranspiled source files in order to be able to debug your original code.
@@ -523,3 +549,29 @@ For example:
 In this example, the application with the "my-server-app" is run, with a command line similar to: 
 `node compiled/source/my-server-app/my-server-app.js my command line arguments`
 
+
+## Building for Production and Deployment
+When you compile your application using `qx compile`, you'll notice that there's quite a lot of files generated
+and the total application size is quite large; most of these files are temporary files needed only during development,
+either because they speed up compilation to keep them around or because it's easier for you to debug.
+
+By using `qx compile --target=build`, the compiler will produce a completely seperate compilation with all debug
+code automatically removed and where the Javascript source code is minified and reduced to as small a number of
+files as possible.
+
+This "build target" compilation is the version you can do final testing on before publishing it to your users; but
+while this is minified and stripped down, there are still a number of temporary files which you do not want to copy 
+onto your webserver.
+
+When you're ready to distribute the application(s) to your web server, use `qx deploy`, EG:
+
+```
+  $ qx deploy --out=/var/www --source-maps
+```
+
+Note that by default source maps are not copied - this is to make sure that information is about filing systems
+is not leaked, but this will make it hard to debug any problems when in production.  If you want to include source
+maps, use the `--source-maps` parameter
+ 
+
+ 
