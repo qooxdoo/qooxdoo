@@ -70,7 +70,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://manual.qooxdoo.org/${qxversion}/pages/layout/grid.html'>
+ * <a href='http://qooxdoo.org/docs/#layout/grid.md'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo manual.
  */
 qx.Class.define("qx.ui.layout.Grid",
@@ -141,13 +141,13 @@ qx.Class.define("qx.ui.layout.Grid",
       init : 0,
       apply : "_applyLayoutChange"
     },
-    
-    
+
+
     /**
      * Allow growing of spanning cells' widths beyond the accumulated widths of the columns.
-     * The default behavior (init value false) is that the width of the spanning cell is 
-     * determined by the accumulated width of the columns (plus spacing). 
-     * Setting this property to true lets the cell width grow as needed to show 
+     * The default behavior (init value false) is that the width of the spanning cell is
+     * determined by the accumulated width of the columns (plus spacing).
+     * Setting this property to true lets the cell width grow as needed to show
      * the widget in the spanning cell, which also enlarges the width of the spanned columns.
      */
     allowGrowSpannedCellWidth :
@@ -967,7 +967,7 @@ qx.Class.define("qx.ui.layout.Grid",
     {
       var hSpacing = this.getSpacingX();
       var colSpans = this._getColSpans();
-      
+
       for (var i=0, l=colSpans.length; i<l; i++)
       {
         var widget = colSpans[i];
@@ -1028,11 +1028,11 @@ qx.Class.define("qx.ui.layout.Grid",
           } else {
             var totalSpacing = hSpacing * (widgetProps.colSpan - 1);
             var availableWidth = hint.width - totalSpacing;
-            
+
             // get the col width which every child would need to share the
             // available width equally
             var avgColWidth = Math.floor(availableWidth / widgetProps.colSpan);
-            
+
             // get the width already used and the number of children which do
             // not have at least that avg col width
             var usedWidth = 0;
@@ -1048,7 +1048,7 @@ qx.Class.define("qx.ui.layout.Grid",
             // the difference of available and used needs to be shared among
             // those not having the min size
             var additionalColWidth = Math.floor((availableWidth - usedWidth) / colsNeedAddition);
-            
+
             // add the extra width to the too small children
             for (var k = 0; k < widgetProps.colSpan; k++) {
               if (colWidths[widgetColumn + k].width < avgColWidth) {
@@ -1320,9 +1320,9 @@ qx.Class.define("qx.ui.layout.Grid",
      * @return {Array} the __colSpans array
      */
     _getColSpans : function() {
-      return this.__colSpans;  
+      return this.__colSpans;
     },
-    
+
 
     // overridden
     renderLayout : function(availWidth, availHeight, padding)
