@@ -75,7 +75,7 @@
  *
  * *External Documentation*
  *
- * See <a href='http://manual.qooxdoo.org/${qxversion}/pages/layout/box.html'>extended documentation</a>
+ * See <a href='http://qooxdoo.org/docs/#layout/box.md'>extended documentation</a>
  * and links to demos for this layout.
  *
  */
@@ -333,7 +333,7 @@ qx.Class.define("qx.ui.layout.VBox",
       {
         percent = this.__heights[i];
         hint = children[i].getSizeHint();
-        
+
         height = percent != null ?
           Math.floor((availHeight - gaps) * percent) :
           hint.height;
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.layout.VBox",
         } else if (height > hint.maxHeight) {
           height = hint.maxHeight;
         }
-        
+
         heights.push(height);
         allocatedHeight += height;
       }

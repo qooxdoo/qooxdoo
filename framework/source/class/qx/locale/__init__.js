@@ -1,4 +1,4 @@
-/** 
+/**
  * This package provides support for internationalization (*I18N*) and
  * localization (*L10N*).
  *
@@ -51,7 +51,7 @@
  * preferences for formatting and other properties with regard to such data.
  *
  * For more information about how to deploy I18N and L10N in qooxdoo
- * applications see the corresponding 
- * <a href="http://manual.qooxdoo.org/${qxversion}/pages/development/internationalization.html">
+ * applications see the corresponding
+ * <a href="http://qooxdoo.org/docs/#development/howto/internationalization.md">
  * manual section</a>.
  */
