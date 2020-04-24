@@ -16,7 +16,7 @@
     "grunt-notify": "~0.2.16"
   },
   "dependencies": {
-    "clean-css": "^2.2.16",
+    "clean-css": "^4.2.3",
     "grunt-text-replace": "^0.3.12"
   }
 }
