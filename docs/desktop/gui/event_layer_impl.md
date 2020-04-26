@@ -6,7 +6,7 @@ provides a per-document wrapper for cross-browser DOM event handling.
 The implementation of the event layer is inside the
 [qx.event](apps://apiviewer/#qx.event) namespace.
 
-The following features work in all `supported browsers`:
+The following features work in all supported browsers:
 
   - Canceling events: `stopPropagation()`
   - Skipping the browser's default behavior: `preventDefault()`
