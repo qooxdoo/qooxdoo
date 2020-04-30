@@ -1360,9 +1360,10 @@ qx.Class.define("qx.ui.core.Widget",
       var contentWidth = width - insetX;
 
       // Compute height
+      var contentHeight =  0;
       var layout = this._getLayout();
       if (layout && layout.hasHeightForWidth()) {
-        var contentHeight =  layout.getHeightForWidth(contentWidth);
+        contentHeight = layout.getHeightForWidth(contentWidth);
       } else {
         contentHeight = this._getContentHeightForWidth(contentWidth);
       }
