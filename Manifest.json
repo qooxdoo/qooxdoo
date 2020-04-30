@@ -87,9 +87,5 @@
     "class": "source/class",
     "resource": "source/resource",
     "translation": "source/translation"
-  },
-  "requires": {
-    "@qooxdoo/compiler": "^1.0.0-beta",
-    "@qooxdoo/framework": "^6.0.0-beta"
   }
 }
