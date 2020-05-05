@@ -82,10 +82,6 @@ jobs:
       before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/test EdgeSL
 
-    - stage: Deploy
-      name: Deploy to website
-      addons:
-      script: ../.travis/deploy_website
     - # parallel
       name: Deploy to npm
       addons:
