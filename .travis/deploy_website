@@ -15,7 +15,7 @@ git config user.name "Travis CI deploy"
 git config user.email "no-reply@qooxdoo.org"
 git config push.default simple
 
-GIT_IO_URL="https://$GH_TOKEN@github.com/qooxdoo/qooxdoo.github.io.git"
+GIT_IO_URL="https://$GH_TOKEN@github.com/qooxdoo/website.io.git"
 git remote add upstream $GIT_IO_URL
 git fetch --depth 10 upstream
 git merge upstream/master
@@ -32,7 +32,7 @@ if [ "$TRAVIS_TAG" != "" ]; then
 fi
 
 cd $TRAVIS_BUILD_DIR
-.travis/build-site
+# .travis/build-site
 .travis/build-site-v6
 
 cd deploy
