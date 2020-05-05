@@ -426,18 +426,20 @@ qx.Bootstrap.define("qx.bom.client.Css",
     __isFilterSupported : function(filterClass, initParams)
     {
       var supported = false;
-      var value = "progid:" + filterClass + "(" + initParams + ");";
-      var el = document.createElement("div");
-      document.body.appendChild(el);
-      el.style.filter = value;
-
-      if (el.filters && el.filters.length > 0 &&
-        el.filters.item(filterClass).enabled == true)
+      if (qx.core.Environment.get("browser.name") != "firefox")
       {
-        supported = true;
-      }
-      document.body.removeChild(el);
+        var value = "progid:" + filterClass + "(" + initParams + ");";
+        var el = document.createElement("div");
+        document.body.appendChild(el);
+        el.style.filter = value;
 
+        if (el.filters && el.filters.length > 0 &&
+          el.filters.item(filterClass).enabled == true)
+        {
+          supported = true;
+        }
+        document.body.removeChild(el);
+      }
       return supported;
     },
 
