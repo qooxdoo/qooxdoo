@@ -20,8 +20,7 @@ jobs:
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          deploy_key: ${{ secrets.WEBSITE_DEPLOY_PK }}
-          external_repository: qooxdoo/qooxdoo.github.io
+          deploy_key: ${{ secrets.DOCS_DEPLOY_PK }}
+          external_repository: qooxdoo/documentation
           publish_branch: master          
-          publish_dir: ./docs/
-          keep_files: true
+          publish_dir: ./docs
