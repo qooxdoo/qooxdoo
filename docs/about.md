@@ -10,10 +10,10 @@ single file applications ready for deployment.
 
 ## Framework
 
-The qooxdoo framework enhances the javascript language with a full fledged class
-based oo system, including a powerful properties system and mixins. Qooxdoo is
-largely based on namespaces to allow easy integration with other libraries
-and existing user code. It comes with a [comprehensive API
+The qooxdoo framework enhances the javascript language with a full-fledged, class-based 
+object-oriented system, including a powerful properties system, interfaces, and mixins. 
+Qooxdoo code is based on namespaces to allow rigorous and scalable code structure, 
+asy integration with other libraries and existing user code. It comes with a [comprehensive API
 reference](apps://apiviewer) that is auto-generated from Javadoc-like
 comments in the framework sourcecode.
 
