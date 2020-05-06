@@ -23,5 +23,5 @@ jobs:
           deploy_key: ${{ secrets.WEBSITE_DEPLOY_PK }}
           external_repository: qooxdoo/qooxdoo.github.io
           publish_branch: master          
-          publish_dir: ./
+          publish_dir: ./docs/
           keep_files: true
