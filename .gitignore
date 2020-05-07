@@ -3,6 +3,9 @@
 #
 # Please comment on purpose.
 
+# Deployment temporary directory
+tmp/
+
 # Emacs backup files
 *~
 
