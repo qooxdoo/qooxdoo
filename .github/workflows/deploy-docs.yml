@@ -19,4 +19,4 @@ jobs:
 
       - name: Deploy
         run: |
-          ./.github/workflows/deploy-docs.sh "${{ secrets.DOCS_DEPLOY_PK }}"
+          ./.github/workflows/deploy-docs.sh "${{ secrets.WEBSITE_DEPLOY_PK }}"
