@@ -10,7 +10,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-18.04
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    if: "!contains(github.event.head_commit.message, 'ci skip') && github.repository == 'qooxdoo/qooxdoo'"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -18,9 +18,5 @@ jobs:
           persist-credentials: false
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.DOCS_DEPLOY_PK }}
-          external_repository: qooxdoo/documentation
-          publish_branch: master          
-          publish_dir: ./docs
+        run: |
+          ./.github/workflows/deploy-docs.sh "${{ secrets.WEBSITE_DEPLOY_PK }}"
