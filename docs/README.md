@@ -11,7 +11,7 @@ will show how this works in practice.
 
 If you have worked with Qooxdoo and its Python-based tool chain before,
 please also have a look at the [our guide to migrate your applications
-to the new NodeJS-based tooling](development/compiler/migration.md).
+to the new NodeJS-based tooling](development/compiler/migra0tion.md).
 
 The following introduction to Qooxdoo takes less than 10 minutes to complete.
 
@@ -156,6 +156,3 @@ system works or you can try some more hands-on by working through the
 
 If you ever get stuck, feel free to open the chat window by pressing the button
 in the bottom right hand corner of the documentation.
-
-
-..
