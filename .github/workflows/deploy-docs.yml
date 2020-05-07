@@ -18,9 +18,5 @@ jobs:
           persist-credentials: false
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          deploy_key: ${{ secrets.DOCS_DEPLOY_PK }}
-          external_repository: qooxdoo/documentation
-          publish_branch: master          
-          publish_dir: ./docs
+        run: |
+          ./.github/workflows/deploy-docs.sh "${{ secrets.DOCS_DEPLOY_PK }}"
