@@ -1,0 +1,22 @@
+name: Deploy docs folder to documentation repo if something changed
+on:
+  # run only when files in the docs folder of the master branch are updated
+  push:
+    branches:
+      - master
+    paths:
+      - 'docs/**'      
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-18.04
+    if: "!contains(github.event.head_commit.message, 'ci skip') && github.repository == 'qooxdoo/qooxdoo'"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Deploy
+        run: |
+          ./.github/workflows/deploy-docs.sh "${{ secrets.WEBSITE_DEPLOY_PK }}"
