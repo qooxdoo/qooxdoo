@@ -38,6 +38,7 @@ qx.Class.define("qx.event.message.Bus",
 
     /**
      * Shorthand method for {@link qx.event.message.Bus.getSubscription}
+     * @return {Object}
      */
     getSubscriptions : function() {
       return this.getInstance().getSubscriptions();
@@ -45,15 +46,32 @@ qx.Class.define("qx.event.message.Bus",
 
     /**
      * Shorthand method for {@link qx.event.message.Bus.subscribe}
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Success
      */
     subscribe : function(topic, subscriber, context)
     {
       return this.getInstance().subscribe(topic, subscriber, context);
+    },
 
+    /**
+     * Shorthand method for {@link qx.event.message.Bus.subscribeOnce}
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Success
+     */
+    subscribeOnce : function(topic, subscriber, context)
+    {
+      return this.getInstance().subscribeOnce(topic, subscriber, context);
     },
 
     /**
      * Shorthand method for {@link qx.event.message.Bus.checkSubscription}
+     * @param topic {String|RegExp} The topic that has been used when subscribing
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Whether a subscription was removed
      */
     checkSubscription : function(message, subscriber, context)
     {
@@ -62,6 +80,10 @@ qx.Class.define("qx.event.message.Bus",
 
     /**
      * Shorthand method for {@link qx.event.message.Bus.unsubscribe}
+     * @param topic {String|RegExp} The topic that has been used when subscribing
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Whether a subscription was removed
      */
     unsubscribe : function(message, subscriber, context)
     {
@@ -70,6 +92,8 @@ qx.Class.define("qx.event.message.Bus",
 
     /**
      * Shorthand method for {@link qx.event.message.Bus.dispatch}
+     * @param message {qx.event.message.Message} Message which is being dispatched
+     * @return {Boolean} If the message could be dispatched
      */
     dispatch : function(msg)
     {
@@ -78,6 +102,9 @@ qx.Class.define("qx.event.message.Bus",
 
     /**
      * Shorthand method for {@link qx.event.message.Bus.dispatchByName}
+     * @param name {String} name of the message
+     * @param data {var} Any type of data to attach
+     * @return {Boolean} If the message was dispatched
      */
     dispatchByName : function(name, data)
     {
@@ -103,11 +130,11 @@ qx.Class.define("qx.event.message.Bus",
     __subscriptions : null,
 
     /**
-     * Returns the map of message subscriptions
-     *
-     * @return {Map} with registered subscriptions. The key is
+     * Returns the map of message subscriptions with registered subscriptions. The key is
      * the topic and the value is a map with <code>{subscriber:
      * {Function}, context: {Object|null}}</code>.
+     *
+     * @return {Object}
      */
     getSubscriptions : function() {
       return this.__subscriptions;
@@ -328,9 +355,7 @@ qx.Class.define("qx.event.message.Bus",
      *
      * @param name {String} name of the message
      * @param data {var} Any type of data to attach
-     *
-     * @return {Boolean} <code>true</code> if the message was dispatched,
-     *    <code>false</code> otherwise.
+     * @return {Boolean} If the message was dispatched
      */
     dispatchByName : function(name, data)
     {
