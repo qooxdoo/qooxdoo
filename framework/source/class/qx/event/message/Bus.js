@@ -375,6 +375,15 @@ qx.Class.define("qx.event.message.Bus",
       return ret;
     },
 
+    /**
+     * Removes all subscriptions
+     */
+    removeAllSubscriptions : function() {
+      var subscriptions = this.getSubscriptions();
+      for (var key in subscriptions) {
+        delete subscriptions[key];
+      }
+    },
 
     /**
      * Call subscribers with passed message.
@@ -386,9 +395,9 @@ qx.Class.define("qx.event.message.Bus",
      * processed.
      *
      * @param subscribers {Array} subscribers to call
-     * @param msg {qx.event.message.Message} message for subscribers
+     * @param message {qx.event.message.Message} message for subscribers
      */
-    __callSubscribers : function(subscribers, msg)
+    __callSubscribers : function(subscribers, message)
     {
       // (Shallow) clone the subscribers array in case one of them alters the
       // list, e.g., by unsubscribing
@@ -409,12 +418,12 @@ qx.Class.define("qx.event.message.Bus",
           }
           else
           {
-            subscriber.call(context, msg);
+            subscriber.call(context, message);
           }
         }
         else
         {
-          subscriber.call(context, msg);
+          subscriber.call(context, message);
         }
       }
     }
