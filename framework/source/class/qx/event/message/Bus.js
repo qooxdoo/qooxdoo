@@ -24,7 +24,7 @@
  * The message bus registers subscriptions to topics and notifies subscribers when
  * a matching message is dispatched. A topic acts as a filter to select only those
  * messages which match the filter. It can be the name of a message, which can
- * be truncated with a `*` wildcard, or a regular expression.
+ * terminated with a trailing `*` as a wildcard, or a regular expression.
  */
 qx.Class.define("qx.event.message.Bus",
 {
@@ -45,24 +45,26 @@ qx.Class.define("qx.event.message.Bus",
 
     /**
      * Shorthand method for {@link qx.event.message.Bus.subscribe}
+     * @param topic {String|RegExp}
      * @param subscriber {Function} Message handler function
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Success
      */
     subscribe : function(topic, subscriber, context)
     {
-      return this.getInstance().subscribe(topic, subscriber, context);
+      return this.getInstance().subscribe.apply(this.getInstance(), arguments);
     },
 
     /**
      * Shorthand method for {@link qx.event.message.Bus.subscribeOnce}
+     * @param topic {String|RegExp}
      * @param subscriber {Function} Message handler function
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Success
      */
     subscribeOnce : function(topic, subscriber, context)
     {
-      return this.getInstance().subscribeOnce(topic, subscriber, context);
+      return this.getInstance().subscribeOnce.apply(this.getInstance(), arguments);
     },
 
     /**
@@ -74,7 +76,7 @@ qx.Class.define("qx.event.message.Bus",
      */
     checkSubscription : function(message, subscriber, context)
     {
-      return this.getInstance().checkSubscription(message, subscriber, context);
+      return this.getInstance().checkSubscription.apply(this.getInstance(), arguments);
     },
 
     /**
@@ -86,7 +88,7 @@ qx.Class.define("qx.event.message.Bus",
      */
     unsubscribe : function(message, subscriber, context)
     {
-      return this.getInstance().unsubscribe(message, subscriber, context);
+      return this.getInstance().unsubscribe.apply(this.getInstance(), arguments);
     },
 
     /**
@@ -94,7 +96,7 @@ qx.Class.define("qx.event.message.Bus",
      * @param message {qx.event.message.Message} Message which is being dispatched
      * @return {Boolean} If the message could be dispatched
      */
-    dispatch : function(msg)
+    dispatch : function(message)
     {
       return this.getInstance().dispatch.apply(this.getInstance(), arguments);
     },
@@ -143,13 +145,13 @@ qx.Class.define("qx.event.message.Bus",
     /**
      * Subscribes to a topic
      *
-     * @param topic {String|RegExp} Either a string, which can be truncated
-     * by `*` to match all message names that start with the prefix, or
-     * a regular expression object, which the message name has to match.
-     * If you use regular expressions, you cannot use message names that
-     * start and end with a slash ("/") at the same time, because regular
-     * expressions are converted to their string representation when stored.
-     *
+     * @param topic {String|RegExp} Either a string, which can be
+     * terminated with a trailing `*` as a wildcard to match all message
+     * names that start with the prefix, or a regular expression
+     * object, which the message name has to match. If you use regular
+     * expressions, you cannot use message names that start and end
+     * with a slash ("/") at the same time, because regular expressions
+     * are converted to their string representation when stored.
      * @param subscriber {Function} Message handler function
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Success
@@ -200,7 +202,9 @@ qx.Class.define("qx.event.message.Bus",
 
     /**
      * Subscribes to a topic just for one dispatch and automatically unsubscribes
-     * after executing the message handler.
+     * after executing the message handler. This subscription cannot be unsubscribed
+     * from after it has been registered.
+
      *
      * @param topic {String|RegExp} Topic to subscribe to. see {@link qx.event.message.Bus#subscribe}
      * for details
@@ -211,11 +215,11 @@ qx.Class.define("qx.event.message.Bus",
     subscribeOnce : function(topic, subscriber, context)
     {
       var that = this;
-      var modified_subscriber = function(msg) {
-        subscriber.call(context, msg);
+      var modified_subscriber = function(message) {
+        subscriber.call(context, message);
         that.unsubscribe(topic, modified_subscriber, context);
       }
-      this.subscribe(topic, modified_subscriber, context);
+      return this.subscribe(topic, modified_subscriber, context);
     },
 
     /**
@@ -320,11 +324,11 @@ qx.Class.define("qx.event.message.Bus",
 
       for (var topic in sub)
       {
-        var l = topic.length;
-        if (topic[l-1] === "*")
+        var len = topic.length;
+        if (topic[len-1] === "*")
         {
           // use of wildcard, only allowed as "*" or at the end of the topic
-          if (l === 1 || topic.substr(0, l-2) === msgName.substr(0, l-2))
+          if (len === 1 || topic.substr(0, len-2) === msgName.substr(0, len-2))
           {
             this.__callSubscribers(sub[topic], message);
             dispatched = true;
