@@ -24,8 +24,7 @@
  * The message bus registers subscriptions to topics and notifies subscribers when
  * a matching message is dispatched. A topic acts as a filter to select only those
  * messages which match the filter. It can be the name of a message, which can
- * be truncated with a `*` wildcard, or a regular expression which or a
- * string ending icontain a `*` as a wild
+ * be truncated with a `*` wildcard, or a regular expression.
  */
 qx.Class.define("qx.event.message.Bus",
 {
