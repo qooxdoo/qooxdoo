@@ -199,8 +199,8 @@ qx.Class.define("qx.event.message.Bus",
     },
 
     /**
-     * Subscribes to a topic just for one dispach and automatically unsubscribe
-     * afterwards.
+     * Subscribes to a topic just for one dispatch and automatically unsubscribes
+     * after executing the message handler.
      *
      * @param topic {String|RegExp} Topic to subscribe to. see {@link qx.event.message.Bus#subscribe}
      * for details
