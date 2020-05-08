@@ -12,7 +12,10 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Christian Boulanger
+     * Christian Boulanger (cboulanger)
+     * Sebastian Werner (wpbasti)
+     * Christian Hagendorn (chris_schmidt)
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
@@ -169,6 +172,25 @@ qx.Class.define("qx.event.message.Bus",
       }
     },
 
+    /**
+     * Subscribes to a topic just for one dispach and automatically unsubscribe
+     * afterwards.
+     *
+     * @param topic {String|RegExp} Topic to subscribe to. see {@link qx.event.message.Bus#subscribe}
+     * for details
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Success
+     */
+    subscribeOnce : function(topic, subscriber, context)
+    {
+      var that = this;
+      var modified_subscriber = function(msg) {
+        subscriber.call(context, msg);
+        that.unsubscribe(topic, modified_subscriber, context);
+      }
+      this.subscribe(topic, modified_subscriber, context);
+    },
 
     /**
      * Checks if subscription is already present. If you supply
@@ -272,20 +294,23 @@ qx.Class.define("qx.event.message.Bus",
 
       for (var topic in sub)
       {
-        if (topic[topic.length-1] === "*")
+        var l = topic.length;
+        if (topic[l-1] === "*")
         {
-          // use of wildcard, only allowed at the last character of the topic
-          if (pos === 0 || topic.substr(0, pos) === msgName.substr(0, pos))
+          // use of wildcard, only allowed as "*" or at the end of the topic
+          if (l === 1 || topic.substr(0, l-2) === msgName.substr(0, l-2))
           {
             this.__callSubscribers(sub[topic], message);
             dispatched = true;
           }
         }
-        else if (sub[topic][0].regex && message.getName().match(sub[topic][0].regex))
+        else if (sub[topic][0].regex)
         {
           // regular expression
-          this.__callSubscribers(sub[topic], message);
-          dispatched = true;
+          if (message.getName().match(sub[topic][0].regex)) {
+            this.__callSubscribers(sub[topic], message);
+            dispatched = true;
+          }
         }
         else if (topic === msgName)
         {
@@ -294,7 +319,6 @@ qx.Class.define("qx.event.message.Bus",
           dispatched = true;
         }
       }
-
       return dispatched;
     },
 
