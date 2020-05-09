@@ -37,7 +37,3 @@ testing framework. Plus a whole suite of [useful applications](apps.md).
 Mobile is Qooxdoo's mobile framework. It provides specific UI classes for
 touch devices, handling of mobile events like swiping, and specific styling.
 
-## [Tutorials](tutorial/)
-
-Our tutorials on how to create a [Desktop App](tutorial/twitter/) and a 
-[Mobile App](mobile/tutorial.md).
