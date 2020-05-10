@@ -999,7 +999,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
         transport.dispose();
       }, 0);
     }
-    this._transport = null;
     this.__response = null;
   }
 });
