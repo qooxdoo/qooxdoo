@@ -14,6 +14,8 @@
    Authors:
      * Fabian Jakobs (fjakobs)
      * Sebastian Werner (wpbasti)
+     * John Spackman (johnspackman)
+     * Christian Boulanger (cboulanger)
 
 ************************************************************************ */
 
