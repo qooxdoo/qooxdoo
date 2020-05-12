@@ -43,6 +43,20 @@ qx.Class.define("qx.ui.core.FocusHandler",
   },
 
 
+  /*
+  ***********************************************
+    PROPERTIES
+  ***********************************************
+  */
+  properties: {
+    /**
+     * Activate changing focus with the tab key (default: true)
+     */
+    useTabNavigation: {
+      check: 'Boolean',
+      init: true
+    }
+  },
 
 
   /*
@@ -237,7 +251,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      */
     __onKeyPress : function(e)
     {
-      if (e.getKeyIdentifier() != "Tab") {
+      if (e.getKeyIdentifier() != "Tab" || !this.isUseTabNavigation()) {
         return;
       }
 
