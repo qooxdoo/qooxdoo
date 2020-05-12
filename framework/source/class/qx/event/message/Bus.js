@@ -74,7 +74,7 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Whether a subscription was removed
      */
-    checkSubscription : function(message, subscriber, context)
+    checkSubscription : function(topic, subscriber, context)
     {
       return this.getInstance().checkSubscription.apply(this.getInstance(), arguments);
     },
@@ -86,7 +86,7 @@ qx.Class.define("qx.event.message.Bus",
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Whether a subscription was removed
      */
-    unsubscribe : function(message, subscriber, context)
+    unsubscribe : function(topic, subscriber, context)
     {
       return this.getInstance().unsubscribe.apply(this.getInstance(), arguments);
     },
