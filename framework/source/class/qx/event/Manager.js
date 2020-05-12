@@ -101,29 +101,71 @@ qx.Class.define("qx.event.Manager",
     getNextUniqueId : function() {
       return (this.__lastUnique++) + "";
     },
-    
-    
-    /** @type {Function} global event monitor, called with parameters of target and event */
-    __globalEventMonitor: null,
-    
-    
+
+
     /**
-     * Returns the global event monitor
-     * 
+     * @type {Array} private list of global event monitor functions
+     */
+    __globalEventMonitors: [],
+
+    /**
+     * Adds a global event monitor function which is called for each event fired
+     * anywhere in the application. The function is called with the signature
+     * (target: {@link qx.core.Object}, event: {@link qx.event.type.Event}).
+     * Since for performance reasons, the original event object is passed,
+     * the monitor function must not change this event in any way.
+     *
+     * @param fn {Function} Monitor function
+     * @param context {Object?} Optional execution context of the function
+     */
+    addGlobalEventMonitor: function(fn, context) {
+      qx.core.Assert.assertFunction(fn);
+      fn.$$context = context;
+      this.__globalEventMonitors.push(fn);
+    },
+
+    /**
+     * Removes a global event monitor function that had
+     * previously been added.
+     * @param fn {Function} The global monitor function
+     */
+    removeGlobalEventMonitor: function(fn) {
+      qx.core.Assert.assertFunction(fn);
+      qx.lang.Array.remove(this.__globalEventMonitors, fn);
+    },
+
+
+    /**
+     * Remove all registered event monitors
+     */
+    resetGlobalEventMonitors: function() {
+      qx.event.Manager.__globalEventMonitors = [];
+    },
+
+
+    /**
+     * Returns the global event monitor. Not compatible with the {@link
+     * qx.event.Manager.addGlobalEventMonitor} API. Will be removed in v7.0.0
+     *
+     * @deprecated since 6.0.0
      * @return {Function?} the global monitor function
      */
     getGlobalEventMonitor: function() {
-      return this.__globalEventMonitor;
+      return this.__globalEventMonitors[0];
     },
-    
-    
+
+
     /**
-     * Sets the global event monitor
-     * 
-     * @param cb {Function?} the global monitor function
+     * Sets the global event monitor. Not compatible with the {@link
+     * qx.event.Manager.addGlobalEventMonitor} API. Will be removed in
+     * v7.0.0. Use {@link qx.event.Manager.addGlobalEventMonitor} instead.
+     *
+     * @deprecated since 6.0.0
+     * @param fn {Function?} the global monitor function
      */
-    setGlobalEventMonitor: function(cb) {
-      this.__globalEventMonitor = cb;
+    setGlobalEventMonitor: function(fn) {
+      qx.core.Assert.assertFunction(fn);
+      this.__globalEventMonitors[0]=fn;
     }
   },
 
@@ -472,7 +514,7 @@ qx.Class.define("qx.event.Manager",
           qx.core.Assert.assertBoolean(capture, "Invalid capture flag.");
         }
       }
-      
+
       var targetKey = target.$$hash || qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
@@ -880,16 +922,23 @@ qx.Class.define("qx.event.Manager",
         qx.core.Assert.assertNotNull(target, msg + "Invalid event target.");
         qx.core.Assert.assertInstance(event, qx.event.type.Event, msg + "Invalid event object.");
       }
-      
-      if (qx.event.Manager.__globalEventMonitor) {
-        try {
+
+      // Show the decentrally fired events to one or more global monitor functions
+      var monitors = qx.event.Manager.__globalEventMonitors;
+      if (monitors.length) {
+        for (var i=0; i < monitors.length; i++) {
           var preventDefault = event.getDefaultPrevented();
-          qx.event.Manager.__globalEventMonitor(target, event);
-          if (preventDefault != event.getDefaultPrevented()) {
-            qx.log.Logger.error("Unexpected change by GlobalEventMonitor, modifications to events: ");
+          try {
+            monitors[i].call(monitors[i].$$context, target, event);
+          } catch (ex) {
+            qx.log.Logger.error("Error in global event monitor function " + monitors[i].toString().slice(0,50) + "..." );
+            // since 6.0.0-beta-2020051X: throw a real error to stop execution instead of just a warning
+            throw ex;
           }
-        }catch (ex) {
-          qx.log.Logger.error("Error in GlobalEventMonitor: " + ex);
+          if (preventDefault != event.getDefaultPrevented()) {
+            // since 6.0.0-beta-2020051X: throw a real error to stop execution instead of just a warning
+            throw new Error("Unexpected change by global event monitor function, modifications to event " + event.getType() + " is not allowed.");
+          }
         }
       }
 
@@ -938,10 +987,10 @@ qx.Class.define("qx.event.Manager",
       return qx.event.Utils.then(tracker, function() {
         // check whether "preventDefault" has been called
         var preventDefault = event.getDefaultPrevented();
-  
+
         // Release the event instance to the event pool
         qx.event.Pool.getInstance().poolObject(event);
-  
+
         return !preventDefault;
       });
     },
@@ -971,7 +1020,7 @@ qx.Class.define("qx.event.Manager",
     __addToBlacklist : function(uid) {
       if (this.__blacklist === null) {
         this.__blacklist = {};
-        this.__clearBlackList.schedule();        
+        this.__clearBlackList.schedule();
       }
       this.__blacklist[uid] = true;
     },
