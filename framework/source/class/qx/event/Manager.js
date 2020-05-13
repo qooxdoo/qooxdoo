@@ -149,7 +149,7 @@ qx.Class.define("qx.event.Manager",
      * Returns the global event monitor. Not compatible with the {@link
      * qx.event.Manager.addGlobalEventMonitor} API. Will be removed in v7.0.0
      *
-     * @deprecated since 6.0.0
+     * @deprecated {6.0}
      * @return {Function?} the global monitor function
      */
     getGlobalEventMonitor: function() {
@@ -162,7 +162,7 @@ qx.Class.define("qx.event.Manager",
      * qx.event.Manager.addGlobalEventMonitor} API. Will be removed in
      * v7.0.0. Use {@link qx.event.Manager.addGlobalEventMonitor} instead.
      *
-     * @deprecated since 6.0.0
+     * @deprecated {6.0}
      * @param fn {Function?} the global monitor function
      */
     setGlobalEventMonitor: function(fn) {
