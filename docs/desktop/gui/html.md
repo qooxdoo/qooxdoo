@@ -76,7 +76,7 @@ an HTML string which the server can pass to the client; this is useful because i
 defining and manipulating the DOM before it reaches the browser.
 
 However, rather than simply creating instances of `qx.html.Element`, you can derive classes from it and this has a  
-particular advantage in that you code can be used on the client and the server, and will be able to connect to the
+particular advantage in that your code can be used on the client and the server and will be able to connect to the
 browser's "real" DOM nodes.
 
 For example, consider this class:
@@ -171,4 +171,3 @@ Even things like focus handling or scrolling may be queued. It depends on if the
 determine whether these are queued. `focus` often makes more sense when it is directly executed, as the following code 
 may make assumptions that the changes are applied already. Generally Qooxdoo allows it to apply most changes without 
 the queue, as well, using a `direct` flag which is part of most setters offered by `qx.html.Element`.
-
