@@ -132,6 +132,9 @@ qx.Class.define("mypackage.MySignupForm", {
 });
 ```
 
+(The above example uses JSX to embed HTML inside Javascript - this will not work with the Python toolchain, you *must*
+use the new compiler)
+
 Note that this class does *not* use the `qx.ui.*` classes - it is just about manipulating the DOM, and is
 the sort of lightweight code you might use as part of the interaction with a user long before they are able to start
 a full blown Desktop or Mobile Qooxdoo application. 
