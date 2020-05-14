@@ -6,11 +6,11 @@ This document describes the ideas and concepts behind the classes in the `qx.htm
 Idea
 ----
 
-The classes in `qx.html` are wrappers around native DOM elements, which were created primarily to solve one major issue:
+The classes in `qx.html` form a Virtual DOM, which on the the server allow DOM-like manipulation and then serialization
+into HTML text, and on the browser the Virtual DOM is wrappers around native DOM elements which are created only when
+absolutely necessary.
 
-**Automatically keeping care of DOM manipulation and creation while dealing with large number of elements.**
-
-In details this means:
+This solves a number of problems:
 
 > -   **Automatic performance**: Programmatically constructing DOM hierarchies is hard to get fast because the order in which elements are nested can heavily influence the runtime performance. What `qx.html.Element` tries to do is keep the number of element instances to the minimum actually needed (DOM nodes are expensive, in terms of both performance and memory) and to insert the DOM nodes in an efficient manner. Further, all changes to the DOM are cached and applied in batch mode, which improves the performance even more.
 > -   **Normalized API**: Working with HTML DOM elements usually involves many browser differences, especially when it comes to reading and setting of attributes or styles. For each style, one has to remember whether a normalization method should be called or if the value can be set directly. `qx.html.Element` does this kind of normalization transparently. The browser normalization is based on the [existing low-level APIs](../../core/tech_website_apis.md).
@@ -21,8 +21,10 @@ Typical Use Cases
 
 > -   Building a widget system on top
 > -   Massively building DOM elements from data structures
+> -   Sharing DOM-specific code between client and server
 
-It may be used for smaller things as well, but incurs a large overhead. The size of the API, additional to a basic low-level package of qooxdoo is about 20 KB (5 KB gzipped). Also it consumes a bit more memory when all underlying DOM elements are created. Keep in mind that the instances are around all the time. Even when all jobs for a instance are done at the moment.
+It may be used for smaller things as well, but incurs a large overhead.  Also it consumes a bit more memory when all 
+underlying DOM elements are created. 
 
 Features
 --------
@@ -31,7 +33,8 @@ Features
 > -   Full cross-browser support through usage of low-level APIs e.g. `setStyle()`, `getAttribute()`, ...
 > -   Advanced children handling with a lot of convenience methods e.g. `addAfter()`, ...
 > -   Reuse existing markup as a base of any element via `useMarkup()`
-> -   Reuse an existing DOM node via `useElement()`
+> -   Reuse an existing DOM node via `useNode()`
+> -   Serialize into an HTML string
 > -   Powerful visibility handling to `include()` or `exclude()` specific sub trees
 > -   Support for scrolling and scroll into view (`scrollTo()`, `scrollIntoView()`, ...)
 > -   Integration of text selection APIs (`setSelection()`, `getSelection()`, ...)
@@ -65,9 +68,107 @@ This element is used to create iframes to embed content from other sources to th
 
 Renders a [HTML5 Canvas](https://html.spec.whatwg.org/multipage/scripting.html#the-canvas-element) to the DOM. Has methods to access the render context as well to configure the dimensions of the Canvas.
 
+
+Code Sharing
+------------
+When you create instances of `qx.html.Element` on the server, at some point you can call `serialize()` to convert it into
+an HTML string which the server can pass to the client; this is useful because it provides a structured mechanism for
+defining and manipulating the DOM before it reaches the browser.
+
+However, rather than simply creating instances of `qx.html.Element`, you can derive classes from it and this has a  
+particular advantage in that you code can be used on the client and the server, and will be able to connect to the
+browser's "real" DOM nodes.
+
+For example, consider this class:
+
+```
+qx.Class.define("mypackage.MySignupForm", {
+  extend: qx.html.Element,
+  
+  construct() {
+    this.base(arguments, "div");
+    this.setCaption("Login");
+    let body = this.getBody();
+    body.add(<h1>Welcome to My Corporate Website</h1>);
+    body.add(
+        <p>This website is for internal use by authorised personnel only
+      );
+    body.add(this.getQxObject("form"));
+    body.add(
+        <p><a href="#">Click here if you have <b>forgotten your password</b></a></p>
+      );
+    this.setStyle("max-width", "600px");
+  },
+  
+  members: {
+    _createQxObjectImpl(id) {
+      switch(id) {
+      case "form":
+        let form = <form method="post" action="#"></form>;
+        form.add(this.getQxObject("edtEmail"));
+        form.add(this.getQxObject("edtPassword"));
+        form.add(this.getQxObject("btnLogin"));
+        form.addListener("submit", evt => evt.preventDefault());
+        return form;
+        
+      case "edtEmail":
+        return new qx.html.Input("text");
+        
+      case "edtPassword":
+        return new qx.html.Input("password");
+        
+      case "btnLogin":
+        var btn = new qx.html.Element("button");
+        btn.addListener("click", async evt => {
+          let email = this.getQxObject("edtEmail").getValue();
+          let password = this.getQxObject("edtPassword").getValue();
+          this.fireDataEvent("login", { email, password });
+        });
+        return btn;
+      }
+      return this.base(arguments, id);
+    }
+  }
+});
+```
+
+Note that this class does *not* use the `qx.ui.*` classes - it is just about manipulating the DOM, and is
+the sort of lightweight code you might use as part of the interaction with a user long before they are able to start
+a full blown Desktop or Mobile Qooxdoo application. 
+
+The class above is quite obviously all about defining the DOM elements needed for a simple signup form,
+and you can see that it attaches event listeners to those (Virtual) DOM elements as well as set CSS styles etc.
+The Login button (`btnLogin`) performs an action when it is clicked, and you could add some validation, an AJAX
+call, etc.
+
+You could use this class on the browser and create an instance of it - the Virtual DOM will create the "real" DOM
+when it is needed and you have a working signup form.  However, the disadvantage of that approach is that if the
+DOM you are trying to create is supposed to be on the page from the beginning, the page will appear empty to the 
+user until your code is downloaded and run.  The page will "flash" and re-layout as the new DOM is added in, and this
+looks ugly.  Worse, if there is any kind of runtime error, your page will simply remain blank. 
+
+However - this class can be used on both the server and the client, because on the server you would be able to
+create an instance and then call `.serialize()` in order to output the form as HTML text, which would be included
+in the .html page that the browser's requesting.  This allows the browser to render the entire DOM, including 
+the DOM for your form, in one pass - there is no delay or awkward flashing/relayout of the page.
+
+In order for your event handlers (eg the Login button's click event) to work, you have to create an instance of
+this class on the browser and then immediately attach it to the "real" DOM.    
+
+When you have a tree of Virtual DOM instances (eg in the form above, there are input fields and a button) the
+Virtual DOM can automatically join them to the "real" DOM as well, provided that you identify each one individually 
+via the QxObjectID mechanism.
+
+
 The Queue
 ---------
 
-Internally, most actions applied to the instances of `qx.html.Element` are applied lazily to the DOM. All style or attribute changes are queued, for example, to set at one time. This is especially useful to allow bumping out changes at once to the browser even when these happen in multi places, and more importantly, on more than one element.
+Internally, most actions applied to the instances of `qx.html.Element` are applied lazily to the DOM. All style or 
+attribute changes are queued, for example, to set at one time. This is especially useful to allow bumping out changes 
+at once to the browser even when these happen in multi places, and more importantly, on more than one element.
 
-Even things like focus handling or scrolling may be queued. It depends on if the element is currently visible, etc., to determine whether these are queued. `focus` often makes more sense when it is directly executed, as the following code may make assumptions that the changes are applied already. Generally Qooxdoo allows it to apply most changes without the queue, as well, using a `direct` flag which is part of most setters offered by `qx.html.Element`.
+Even things like focus handling or scrolling may be queued. It depends on if the element is currently visible, etc., to 
+determine whether these are queued. `focus` often makes more sense when it is directly executed, as the following code 
+may make assumptions that the changes are applied already. Generally Qooxdoo allows it to apply most changes without 
+the queue, as well, using a `direct` flag which is part of most setters offered by `qx.html.Element`.
+
