@@ -2,17 +2,18 @@
   "targets": [
     {
       "type": "build",
-      "outputPath": "lib",
+      "outputPath": "compiled/build",
       "minify": "off",
       "babelOptions": {
         "targets": "node >= 10"
-      }
+      },
+      "deployPath": "lib"
     }
   ],
   "defaultTarget": "build",
   "locales": [
     "en"
-  ],  
+  ],
   "libraries": [
     "./framework"
   ],
@@ -66,5 +67,6 @@
         "qx.event.handler.PointerCore"
       ]
     }
-  ]
+  ],
+  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json"
 }
