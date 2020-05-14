@@ -51,8 +51,9 @@ qx.Class.define("qx.html.Factory", {
      */
     registerFactory: function(tagName, factory) {
       tagName = tagName.toLowerCase();
-      if (this.__factoriesByTagName[tagName] === undefined)
+      if (this.__factoriesByTagName[tagName] === undefined) {
         this.__factoriesByTagName[tagName] = [];
+      }
       this.__factoriesByTagName[tagName].push(factory);
     },
     
@@ -81,8 +82,9 @@ qx.Class.define("qx.html.Factory", {
             var pos = seg.indexOf(":");
             var key = seg.substring(0, pos);
             var value = seg.substring(pos + 1).trim();
-            if (key)
+            if (key) {
               styles[key] = value;
+            }
           });
           delete attributes.style;
         }

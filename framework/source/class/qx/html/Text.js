@@ -100,7 +100,7 @@ qx.Class.define("qx.html.Text", {
      * @Override
      */
     _serializeImpl: function(writer) {
-      if (this.__nodeValue !== null) {
+      if (this.__text !== null) {
         writer(this.__text);
       }
     },

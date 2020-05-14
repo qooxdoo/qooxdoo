@@ -146,6 +146,9 @@ qx.Class.define("qx.html.Node",
 
     _propertyJobs : null,
     _properties : null,
+    
+    /** @type {Map} map of event handlers */
+    __eventValues: null,
 
 
     /**
@@ -316,9 +319,6 @@ qx.Class.define("qx.html.Node",
             var child = null;
             if (domChild.nodeType == window.Node.ELEMENT_NODE) {
               var id = domChild.getAttribute("data-qx-object-id");
-              if (domChild.nodeName == "INPUT") {
-                console.log("Convert INPUT: " + id);
-              }
               if (id) {
                 var owningQxObjectId = null;
                 var qxObjectId = null;
@@ -336,8 +336,9 @@ qx.Class.define("qx.html.Node",
                 }
               }
             }
-            if (!child)
+            if (!child) {
               child = qx.html.Factory.getInstance().createElement(domChild.nodeName, domChild.attributes);
+            }
             return {
               htmlNode: child,
               domNode: domChild,
@@ -352,9 +353,6 @@ qx.Class.define("qx.html.Node",
           install(mapEntry);
           return mapEntry.htmlNode;
         });
-        if (map.domNode.nodeName == "INPUT") {
-          console.log("Install INPUT: " + map.domNode.getAttribute("data-qx-object-id"));
-        }
         map.htmlNode._useNodeImpl(map.domNode, htmlChildren);
       }
       
@@ -406,8 +404,9 @@ qx.Class.define("qx.html.Node",
       if (oldChildren) {
         oldChildren.forEach(function(child) {
           if (!lookup[child.toHashCode()]) {
-            if (child._domNode && child._domNode.parentElement)
+            if (child._domNode && child._domNode.parentElement) {
               child._domNode.parentElement.removeChild(child._domNode);
+            }
             child._parent = null;
           }
         });
@@ -598,8 +597,9 @@ qx.Class.define("qx.html.Node",
     isInRoot: function() {
       var tmp = this;
       while (tmp) {
-        if (tmp.isRoot())
+        if (tmp.isRoot()) {
           return true;
+        }
         tmp = tmp._parent;
       }
       return false;
@@ -828,8 +828,6 @@ qx.Class.define("qx.html.Node",
      */
     _syncData : function()
     {
-      var elem = this._domNode;
-
       // Sync misc
       var jobs = this._propertyJobs;
       if (jobs && this._properties) {
@@ -1754,8 +1752,9 @@ qx.Class.define("qx.html.Node",
       }
 
       if (this._domNode) {
-        if (qx.event.Registration.hasListener(this._domNode, type, capture))
+        if (qx.event.Registration.hasListener(this._domNode, type, capture)) {
           return true;
+        }
         
       } else {
         var values = this.__eventValues;

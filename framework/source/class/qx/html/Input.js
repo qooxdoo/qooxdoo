@@ -85,7 +85,6 @@ qx.Class.define("qx.html.Input",
     
     _useNodeImpl: function(domNode, newChildren) {
       this.base(arguments, domNode, newChildren);
-      domNode.addEventListener('input', () => console.log("Changing INPUT Value"));
     },
 
     //overridden
@@ -98,7 +97,7 @@ qx.Class.define("qx.html.Input",
      * 
      * @param value {String?} value to set
      */
-    _setValueProperty(value) {
+    _setValueProperty: function(value) {
       var element = this.getDomElement();
       qx.bom.Input.setValue(element, value);
     },
@@ -108,7 +107,7 @@ qx.Class.define("qx.html.Input",
      * 
      * @return {String?} value on the dom
      */
-    _getValueProperty() {
+    _getValueProperty: function() {
       var element = this.getDomElement();
       var value = qx.bom.Input.getValue(element);
       return value;
@@ -119,7 +118,7 @@ qx.Class.define("qx.html.Input",
      * 
      * @param value {String?} value to set
      */
-    _setWrapProperty(value) {
+    _setWrapProperty: function(value) {
       var element = this.getDomElement();
       qx.bom.Input.setWrap(element, value);
 

@@ -69,10 +69,11 @@ qx.Class.define("qx.html.Element",
     this.__styleValues = styles || null;
     this.__attribValues = attributes || null;
     if (attributes) {
-      for (var key in attributes)
+      for (var key in attributes) {
         if (!key) {
           throw new Error("Invalid unnamed attribute in " + this.classname);
         }
+      }
     }
     this.initCssClass();
     
@@ -549,7 +550,6 @@ qx.Class.define("qx.html.Element",
      */
     _serializeImpl: function(writer) {
       writer("<", this._nodeName);
-      var elem = this._domNode;
       
       // Copy attributes
       var data = this.__attribValues;
@@ -649,8 +649,9 @@ qx.Class.define("qx.html.Element",
         var Attribute = qx.bom.element.Attribute;
         if (fromMarkup) {
           var str = Attribute.get(elem, "class");
-          if (str instanceof window.SVGAnimatedString)
+          if (str instanceof window.SVGAnimatedString) {
             str = str.baseVal;
+          }
           var segs = str ? str.split(" ") : [];
           if (segs.length) {
             this.setCssClass(segs[0]);
