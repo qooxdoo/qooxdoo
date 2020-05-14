@@ -27,6 +27,7 @@
  *
  * @require(qx.event.handler.UserAction)
  * @ignore(qx.event.handler.DragDrop)
+ * @ignore(performance.now)
  */
 qx.Class.define("qx.event.handler.Mouse",
 {
@@ -203,10 +204,11 @@ qx.Class.define("qx.event.handler.Mouse",
         if (type == "mousewheel") {
           var end = (window.performance && performance.now) ? (performance.now() + qx.bom.AnimationFrame.__start) : Date.now();
           var diff = Math.round(end - start);
-          if (diff > 500)
+          if (diff > 500) {
             this.error("'mousewheel' event took " + diff + "ms - this may have a significant effect on UI experience");
-          else if (diff > 100)
+          } else if (diff > 100) {
             this.warn("'mousewheel' event took " + diff + "ms - consider refactoring for smoother UI experience");
+          }
         }
       }
     },
