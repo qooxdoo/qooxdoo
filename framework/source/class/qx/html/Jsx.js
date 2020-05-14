@@ -36,40 +36,43 @@ qx.Class.define("qx.html.Jsx", {
      * 
      * @param tagname {String} the name of the tag
      * @param attributes {Map?} map of attribute values
-     * @param ...children {qx.html.Node[]} array of children
+     * @param children {qx.html.Node[]} array of children
      * @return {qx.html.Element | qx.data.Array}
      */
-    createElement(tagname, attributes, ...children) {
+    createElement: function(tagname, attributes) {
+      var children = qx.lang.Array.fromArguments(arguments, 2);
+      var self = this;
       if (typeof tagname === "function") { 
         throw new Error("Custom tags are not supported");
       }
       if (tagname == qx.html.Jsx.FRAGMENT) {
         var arr = new qx.data.Array();
-        const addChildren = children => {
-          children.forEach(child => {
-            if (child instanceof qx.data.Array || qx.lang.Type.isArray(child))
-              addChildren(child);
-            else
+        function addChildrenFragment(children) {
+          children.forEach(function(child) {
+            if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
+              addChildrenFragment(child);
+            } else {
               arr.push(child);
+            }
           });
         }
-        addChildren(children);
+        addChildrenFragment(children);
         return arr;
       }
-      let newAttrs = {};
-      let eventHandlers = {};
-      let innerHtml = null;
-      let refs = [];
+      var newAttrs = {};
+      var eventHandlers = {};
+      var innerHtml = null;
+      var refs = [];
       
       if (attributes) {
-        const RENAME = {
+        var RENAME = {
             "className": "class",
             "htmlFor": "for",
             "xlinkHref": "xlink:href"
         };
         
-        Object.keys(attributes).forEach(prop => {
-          let renameTo = RENAME[prop];
+        Object.keys(attributes).forEach(function(prop) {
+          var renameTo = RENAME[prop];
           if (renameTo) {
             newAttrs[renameTo] = attributes[prop]; 
             return;
@@ -79,7 +82,7 @@ qx.Class.define("qx.html.Jsx", {
             if (attributes.ref instanceof qx.html.JsxRef || typeof attributes.ref === "function") {
               refs.push(attributes.ref);
             } else {
-              this.warn("Unsupported type of `ref` argument: " + typeof attributes.ref);
+              self.warn("Unsupported type of `ref` argument: " + typeof attributes.ref);
             }
             
           } else if (prop === "dangerouslySetInnerHTML") {
@@ -87,7 +90,7 @@ qx.Class.define("qx.html.Jsx", {
             innerHtml = attributes[prop].__html;
             
           } else if (qx.html.Jsx.SYNTETIC_EVENTS[prop]) {
-            const eventName = prop.replace(/^on/, "").toLowerCase();
+            var eventName = prop.replace(/^on/, "").toLowerCase();
             eventHandlers[eventName] = attributes[prop];
             
           } else {
@@ -97,10 +100,10 @@ qx.Class.define("qx.html.Jsx", {
         });
       }
       
-      let element = qx.html.Factory.getInstance().createElement(tagname, newAttrs);
+      var element = qx.html.Factory.getInstance().createElement(tagname, newAttrs);
       if (children) {
-        const addChildren = children => {
-          children.forEach(child => {
+        function addChildren(children) {
+          children.forEach(function(child) {
             if (child instanceof qx.data.Array || qx.lang.Type.isArray(child)) {
               addChildren(child);
               
@@ -117,10 +120,10 @@ qx.Class.define("qx.html.Jsx", {
       if (innerHtml) {
         element.setProperty("innerHtml", innerHtml);
       }
-      for (let eventName in eventHandlers) {
+      for (var eventName in eventHandlers) {
         element.addListener(eventName, eventHandlers[eventName]);
       }
-      refs.forEach(ref => {
+      refs.forEach(function(ref) {
         if (ref instanceof qx.html.JsxRef) {
           ref.setValue(element);
         } else { 
@@ -138,8 +141,8 @@ qx.Class.define("qx.html.Jsx", {
     FRAGMENT: "$$fragment"
   },
   
-  defer(statics) {
-    const MOUSE_EVENTS = [
+  defer: function(statics) {
+    var MOUSE_EVENTS = [
       "onClick",
       "onContextMenu",
       "onDoubleClick",
@@ -160,30 +163,34 @@ qx.Class.define("qx.html.Jsx", {
       "onMouseUp",
     ];
 
-    const TOUCH_EVENTS = ["onTouchCancel", "onTouchEnd", "onTouchMove", "onTouchStart"];
+    var TOUCH_EVENTS = ["onTouchCancel", "onTouchEnd", "onTouchMove", "onTouchStart"];
 
-    const KEYBOARD_EVENTS = ["onKeyDown", "onKeyPress", "onKeyUp"];
+    var KEYBOARD_EVENTS = ["onKeyDown", "onKeyPress", "onKeyUp"];
 
-    const FOCUS_EVENTS = ["onFocus", "onBlur"];
+    var FOCUS_EVENTS = ["onFocus", "onBlur"];
 
-    const FORM_EVENTS = ["onChange", "onInput", "onInvalid", "onSubmit"];
+    var FORM_EVENTS = ["onChange", "onInput", "onInvalid", "onSubmit"];
 
-    const UI_EVENTS = ["onScroll"];
+    var UI_EVENTS = ["onScroll"];
 
-    const IMAGE_EVENTS = ["onLoad", "onError"];
+    var IMAGE_EVENTS = ["onLoad", "onError"];
 
-    const synteticEvents = [
-      ...MOUSE_EVENTS,
-      ...TOUCH_EVENTS,
-      ...KEYBOARD_EVENTS,
-      ...FOCUS_EVENTS,
-      ...FORM_EVENTS,
-      ...UI_EVENTS,
-      ...IMAGE_EVENTS,
+    var synteticEvents = [
+      MOUSE_EVENTS,
+      TOUCH_EVENTS,
+      KEYBOARD_EVENTS,
+      FOCUS_EVENTS,
+      FORM_EVENTS,
+      UI_EVENTS,
+      IMAGE_EVENTS,
     ];
     
-    let SYNTETIC_EVENTS = qx.html.Jsx.SYNTETIC_EVENTS = {};
-    synteticEvents.forEach(key => SYNTETIC_EVENTS[key] = true);
+    var SYNTETIC_EVENTS = qx.html.Jsx.SYNTETIC_EVENTS = {};
+    synteticEvents.forEach(function(arr) {
+      arr.forEach(function(key) {
+        SYNTETIC_EVENTS[key] = true;
+      });
+    });
     
   }
 });
