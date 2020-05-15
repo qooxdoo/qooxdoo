@@ -119,6 +119,10 @@ that setting if you plan to support locale switching during run time.
 If the string given to `tr` does not have a translation
 under the current locale, the string itself will be returned.
 
+If the string given to `tr` is the empty string, the header of the
+.po file is returned (which can be a bit confusing if done
+accidentally, but is correct according to the [PO specs](https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html#PO-Files PO specs).
+
 There is one exception to the simple rule that all strings can just be
 replaced by wrapping them in an appropriate `this.tr()` function call:
 If init values of dynamic properties (core/understanding_properties)
