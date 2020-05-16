@@ -41,7 +41,7 @@ var list = new qx.ui.form.List();
 this.add(list, {row: 1, column: 0});
 ```
 
-Now its time to see our work in the browser. But again, we have added new class dependencies so we need to invoke the generator with `npx qx serve`. After that, we can see the result in the browser. I guess it's not the way we like it to be. You cannot see any toolbar, the list has too much padding against the window border and doesn't fit the whole window. That's something we should take care of now.
+Now its time to see our work in the browser. But again, we have added new class dependencies so we need to invoke the compiler with `npx qx serve`. After that, we can see the result in the browser. It's not quite the way we'd like it to look. You cannot see any toolbar, the list has too much padding against the window border and it doesn't fit the whole window. These are things we should take care of now.
 
 First, get rid of that padding we don't need. The window object has a default content padding which we just to set to `0`.
 
@@ -156,7 +156,7 @@ textarea.setPlaceholder("Enter your message here...");
 postButton.setToolTipText("Post this message on identi.ca");
 ```
 
-Another nice tweak could be a identica logo in the windows caption bar. Just download this [logo](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step2/source/resource/qxl/tweets/logo.png) and save it in the `source/resource/tweets` folder of your application. Adding the logo is easy because the window has also a property for an icon, which can be set in the constructor. Adding the reference to the icon in the base call should do the job.
+Another nice tweak could be an Identica logo in the windows caption bar. Just download this [logo](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step2/source/resource/qxl/tweets/logo.png) and save it in the `source/resource/tweets` folder of your application. Adding the logo is easy because the window also has a property for an icon, which can be set in the constructor. Adding the reference to the icon in the base call should do the job.
 
 ```javascript
 this.base(arguments, "tweets", "logo.png");
@@ -191,4 +191,4 @@ Now go back to the browser and test your new tweaks. It should look like this.
 
 ![step 2](step21.png)
 
-That's it for building the UI. Again, if you want to take a [look at the code](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step2), fork the project on github. Next time we take care of getting the data. If you have feedback on this post, just let us know!
+That's it for building the UI. Again, if you want to take a [look at the code](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step2), fork the project on github. Next time we will take care of getting the data. If you have feedback on this post, just let us know!

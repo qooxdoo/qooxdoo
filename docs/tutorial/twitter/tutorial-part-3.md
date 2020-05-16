@@ -6,7 +6,7 @@ After we created the application and the main window in the first tutorial part 
 Pre-Evaluation
 --------------
 
-First, we need to specify what's the data we need to transfer. For that, we need to take a look what tasks our application can handle:
+First, we need to specify what data we need to transfer. For that, we need to take a look at what tasks our application can handle:
 
 1.  Show the public timeline.
 2.  Post a message.
@@ -16,7 +16,7 @@ So it's clear that we need to fetch the public timeline, and we need to post a m
 Creating the Data Access Class
 ------------------------------
 
-Now, that we know how we want to communicate, we can tackle the first task, fetching the public timeline. The following URL returns the public timeline wrapped in a JavaScript method call (that's what JSONP is about):
+Now, that we know how we want to communicate, we can tackle the first task: fetching the public timeline. The following URL returns the public timeline wrapped in a JavaScript method call (that's what JSONP is about):
 
 ```javascript
 callback([
@@ -204,8 +204,7 @@ Now it should be the way we like it to be. Sure it's not perfect because it has 
 Posting tweets
 --------------
 
-As you have seen in the last paragraphs, creating the data access layer is not that hard using qooxdoo's data binding. That is why we want you to implement the rest of the application: Posting of tweets. 
-
+As you have seen previously, creating the data access layer is easy with qooxdoo's data binding. We believe, using what you learned of data binding, that you now have what you need to implement the remainder of the application: posting of tweets.
 
 That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the [code on github](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step3) or fork the project.
 

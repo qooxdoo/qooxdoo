@@ -1,7 +1,7 @@
 Tutorial Part 6: Theming
 ==================================
 
-This time, we continue with a very exciting topic for the tutorials: Theming. As you might already know, the theming system in qooxdoo is not based on CSS which means you, as an application developer, don't have to bother with cross browser CSS. The qooxdoo framework takes care of all that for you. As a base for theming an app, we use the already known tweets client we built in the former tutorials. On the left is a picture how it should look to get you started. The the code of the tutorial [on GitHub](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.2.1).
+This time, we continue with a very exciting topic for the tutorials: Theming. As you might already know, the theming system in qooxdoo is not based on CSS, which means you, as an application developer, don't have to bother with cross browser CSS. The qooxdoo framework takes care of all that for you. As a base for theming an app, we use the already known tweets client we built in the former tutorials. On the left is a picture how it should look to get you started. The the code of the tutorial [on GitHub](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.2.1).
 
 ![image](step42.png)
 
