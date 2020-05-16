@@ -71,39 +71,8 @@ the fully-qualified class name:
     my.cool.Class.FOO = 3.141;
     my.cool.Class.BAR();
 
-<div class="note">
-
-<div class="admonition-title">
-
-Note
-
-</div>
-
-You can use static members as constants, but the value can be changed at
-run time\!\!
-
-</div>
-
-## Instance Members
-
-Similar to static members, instance members are also part of the class
-definition, in the map referenced by the `members` key:
-
-    qx.Class.define("my.cool.Class",
-    {
-      members:
-      {
-        foo : VALUE,
-        bar : function() { ... }
-      }
-    });
-
-The instance members can be accessed by using an actual instance of a
-class:
-
-    var myClass1 = new my.cool.Class();
-    myClass1.foo = 3.141;
-    myClass1.bar();
+> :warning: Note that you can use static members as constants, but there is nothing
+to prevent their value from being changed at run time!
 
 ## Accessing Static Members
 
@@ -122,26 +91,8 @@ optionally be optimized for performance in build versions.
       }
     });
 
-<div class="note">
-
-<div class="admonition-title">
-
-Note
-
-</div>
-
-For `this.constructor` to be available, the class must have as a direct or
+> :warning: For `this.constructor` to be available, the class must have as a direct or
 indirect base class `qx.core.Object`.
-
-</div>
-
-<div class="note">
-
-<div class="admonition-title">
-
-Note
-
-</div>
 
 Static members aren't inherited. To call a superclass static method,
 use `this.superclass`, as in this example:
@@ -164,7 +115,27 @@ use `this.superclass`, as in this example:
 Static functions can access other static functions directly through the
 `this` keyword.
 
-</div>
+## Instance Members
+
+Similar to static members, instance members are also part of the class
+definition, in the map referenced by the `members` key:
+
+    qx.Class.define("my.cool.Class",
+    {
+      members:
+      {
+        foo : VALUE,
+        bar : function() { ... }
+      }
+    });
+
+The instance members can be accessed by using an actual instance of a
+class:
+
+    var myClass1 = new my.cool.Class();
+    myClass1.foo = 3.141;
+    myClass1.bar();
+
 
 ## Calling the Superclass Constructor
 
@@ -314,21 +285,11 @@ an optional `defer` method is called after the other parts of the class
 definition have been processed. It allows access to all previously
 declared `statics`, `members` and dynamic `properties`.
 
-<div class="note">
-
-<div class="admonition-title">
-
-Note
-
-</div>
-
-If the feature of accessing previously defined members is not absolutely
+> :warning: If the feature of accessing previously defined members is not absolutely
 necessary, `defer` **should not be used** in the class definition. It is
 missing some important capabilities compared to the regular members
 definition and it cannot take advantage of many crucial features of the
 build process (documentation, optimization, etc.).
-
-</div>
 
     qx.Class.define("my.cool.Class",
     {
