@@ -5,7 +5,7 @@ This tutorial covers many practical aspects of developing desktop-like qooxdoo a
 
 As the headline of this tutorial says, we are building a simple tweets application. 
 
-[Twitter](http://twitter.com) itself made its authorization scheme more complex, as it starts requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the [Github demo](apps://demobrowser/#data~Github.html).
+[Twitter](http://twitter.com) itself made its authorization scheme more complex, as it started requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the [Github demo](apps://demobrowser/#data~Github.html).
 
 So we decided to provide a simple example which dellivers some static text.
 
@@ -30,7 +30,7 @@ callback([
 ```
 
 
-The following mockup shows you how the application should look like at the end.
+The following mockup shows you how the application should look at the end.
 
 ![image](identicamockup1.png)
 
