@@ -3,7 +3,7 @@ Tutorial Part 4: Handling Forms
 
 In the previous steps of this tutorial, we laid the groundwork for a tweets client application, gave it a neat UI and implemented a communication layer. One thing this application still lacks is a nice way for users to input their identica user name and password in order to post a status update. Fortunately, qooxdoo comes with a forms API that takes the pain out of creating form elements and handling user input.
 
-Before we get started, make sure you're working on the version of the tweets tutorial application tagged with ["Step 3" in the GitHub repository](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step3). This includes the posting part of the communication layer that we'll be using in this tutorial.
+Before we get started, make sure you're working on the version of the tweets tutorial application tagged with ["Step 3" in the GitHub repository](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step3). This includes the posting part of the communication layer that we'll be using in this tutorial.
 
 The plan
 --------
@@ -138,4 +138,4 @@ OK, time to run `generate.py` and load the application in a browser to make sure
 
 Tweets client application with login window
 
-And that's it for the form handling chapter. As usual, you'll find the tutorial [code on GitHub](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.1). Watch out for the next chapter, which will focus on developing your own custom widgets.
+And that's it for the form handling chapter. As usual, you'll find the tutorial [code on GitHub](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.1). Watch out for the next chapter, which will focus on developing your own custom widgets.

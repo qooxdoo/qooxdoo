@@ -80,5 +80,6 @@ At this point, your application should look like this.
 
 ![step 1](step11.png)
 
-That's it for the first part. If you want to have the 
-[code from the tutorial](https://github.com/qooxdoo/qooxdoo/blob/master/docs/tutorial/twitter/tutorial-part-1.md), take a look at the project at Github and just fork the project. The next part of the tutorial will contain the building of the other parts of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
+That's it for the first part. 
+If you if you want to take a [look at the code](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step1). 
+If you want to have the [code from the tutorial](https://github.com/qooxdoo/qxl.tweet-tutorial), take a look at the project at Github and just fork the project. The next part of the tutorial will contain the building of the other parts of the UI. If you have feedback or want to see something special in further tutorials, just let us know!
