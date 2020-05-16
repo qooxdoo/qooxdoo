@@ -2,83 +2,83 @@
   "libraries": [
     {
       "library_name": "Playground",
-      "library_version": "1.0.0-beta.8",
-      "path": "qx_packages/qooxdoo_qxl_playground_v1_0_0-beta_8",
+      "library_version": "1.0.0",
+      "path": "qx_packages/qooxdoo_qxl_playground_v1_0_0",
       "uri": "qooxdoo/qxl.playground",
       "repo_name": "qooxdoo/qxl.playground",
-      "repo_tag": "v1.0.0-beta.8"
+      "repo_tag": "v1.0.0"
     },
     {
       "library_name": "logpane",
-      "library_version": "1.0.0-beta.3",
-      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_0-beta_3",
+      "library_version": "1.0.0",
+      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_0",
       "uri": "qooxdoo/qxl.logpane",
       "repo_name": "qooxdoo/qxl.logpane",
-      "repo_tag": "v1.0.0-beta.3"
+      "repo_tag": "v1.0.0"
     },
     {
       "library_name": "versionlabel",
-      "library_version": "1.0.0-beta.3",
-      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_0-beta_3",
+      "library_version": "1.0.0",
+      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_0",
       "uri": "qooxdoo/qxl.versionlabel",
       "repo_name": "qooxdoo/qxl.versionlabel",
-      "repo_tag": "v1.0.0-beta.3"
+      "repo_tag": "v1.0.0"
     },
     {
       "library_name": "DemoBrowser",
-      "library_version": "1.0.0-beta.15",
-      "path": "qx_packages/qooxdoo_qxl_demobrowser_v1_0_0-beta_15",
+      "library_version": "1.0.1",
+      "path": "qx_packages/qooxdoo_qxl_demobrowser_v1_0_1",
       "uri": "qooxdoo/qxl.demobrowser",
       "repo_name": "qooxdoo/qxl.demobrowser",
-      "repo_tag": "v1.0.0-beta.15"
+      "repo_tag": "v1.0.1"
     },
     {
       "library_name": "Qooxdoo API Viewer",
-      "library_version": "1.0.0-beta.7",
-      "path": "qx_packages/qooxdoo_qxl_apiviewer_v1_0_0-beta_7",
+      "library_version": "1.0.1",
+      "path": "qx_packages/qooxdoo_qxl_apiviewer_v1_0_1",
       "uri": "qooxdoo/qxl.apiviewer",
       "repo_name": "qooxdoo/qxl.apiviewer",
-      "repo_tag": "v1.0.0-beta.7"
+      "repo_tag": "v1.0.1"
     },
     {
       "library_name": "widgetbrowser",
-      "library_version": "1.0.0-beta.0",
-      "path": "qx_packages/qooxdoo_qxl_widgetbrowser_v1_0_0-beta_0",
+      "library_version": "1.0.0",
+      "path": "qx_packages/qooxdoo_qxl_widgetbrowser_v1_0_0",
       "uri": "qooxdoo/qxl.widgetbrowser",
       "repo_name": "qooxdoo/qxl.widgetbrowser",
-      "repo_tag": "v1.0.0-beta.0"
+      "repo_tag": "v1.0.0"
     },
     {
       "library_name": "formdemo",
-      "library_version": "1.0.0-beta.1",
-      "path": "qx_packages/qooxdoo_qxl_formdemo_v1_0_0-beta_1",
+      "library_version": "1.0.0",
+      "path": "qx_packages/qooxdoo_qxl_formdemo_v1_0_0",
       "uri": "qooxdoo/qxl.formdemo",
       "repo_name": "qooxdoo/qxl.formdemo",
-      "repo_tag": "v1.0.0-beta.1"
+      "repo_tag": "v1.0.0"
     },
     {
       "library_name": "mobileshowcase",
-      "library_version": "1.0.0-beta.1",
-      "path": "qx_packages/qooxdoo_qxl_mobileshowcase_v1_0_0-beta_1",
+      "library_version": "1.0.0",
+      "path": "qx_packages/qooxdoo_qxl_mobileshowcase_v1_0_0",
       "uri": "qooxdoo/qxl.mobileshowcase",
       "repo_name": "qooxdoo/qxl.mobileshowcase",
-      "repo_tag": "v1.0.0-beta.1"
+      "repo_tag": "v1.0.0"
     },
     {
       "library_name": "datademo",
-      "library_version": "1.0.0-beta.2",
-      "path": "qx_packages/qooxdoo_qxl_datademo_v1_0_0-beta_2",
+      "library_version": "1.0.0",
+      "path": "qx_packages/qooxdoo_qxl_datademo_v1_0_0",
       "uri": "qooxdoo/qxl.datademo",
       "repo_name": "qooxdoo/qxl.datademo",
-      "repo_tag": "v1.0.0-beta.2"
+      "repo_tag": "v1.0.0"
     },
     {
       "library_name": "Commandline Testrunner for Qooxdoo Apps",
-      "library_version": "0.4.9",
-      "path": "qx_packages/qooxdoo_qxl_testtapper_v0_4_9",
+      "library_version": "0.5.1",
+      "path": "qx_packages/qooxdoo_qxl_testtapper_v0_5_1",
       "uri": "qooxdoo/qxl.testtapper",
       "repo_name": "qooxdoo/qxl.testtapper",
-      "repo_tag": "v0.4.9"
+      "repo_tag": "v0.5.1"
     }
   ],
   "version": "2.1.0"
