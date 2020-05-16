@@ -12,14 +12,19 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Christian Boulanger
+     * Christian Boulanger (cboulanger)
+     * Sebastian Werner (wpbasti)
+     * Christian Hagendorn (chris_schmidt)
+     * Derrell Lipman (derrell)
 
 ************************************************************************ */
 
 /**
  * A simple message bus singleton.
- * The message bus registers subscriptions and notifies subscribers when
- * a matching message is dispatched
+ * The message bus registers subscriptions to topics and notifies subscribers when
+ * a matching message is dispatched. A topic acts as a filter to select only those
+ * messages which match the filter. It can be the name of a message, which can
+ * terminated with a trailing `*` as a wildcard, or a regular expression.
  */
 qx.Class.define("qx.event.message.Bus",
 {
@@ -31,83 +36,76 @@ qx.Class.define("qx.event.message.Bus",
   {
 
     /**
-     * gets the hash map of message subscriptions
-     *
-     * @return {Map} with registered subscriptions. The key is the
-     *    <code>message</code> and the value is a map with <code>{subscriber: {Function},
-     *    context: {Object|null}}</code>.
+     * Shorthand method for {@link qx.event.message.Bus.getSubscription}
+     * @return {Object}
      */
     getSubscriptions : function() {
       return this.getInstance().getSubscriptions();
     },
 
-
     /**
-     * subscribes to a message
-     *
-     * @param message {String} name of message, can be truncated by *
-     * @param subscriber {Function} subscribing callback function
+     * Shorthand method for {@link qx.event.message.Bus.subscribe}
+     * @param topic {String|RegExp}
+     * @param subscriber {Function} Message handler function
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Success
      */
-    subscribe : function(message, subscriber, context)
+    subscribe : function(topic, subscriber, context)
     {
-      return this.getInstance().subscribe(message, subscriber, context);
-
+      return this.getInstance().subscribe.apply(this.getInstance(), arguments);
     },
 
     /**
-     * checks if subscription is already present
-     * if you supply the callback function, match only the exact message monitor
-     * otherwise match all monitors that have the given message
-     *
-     * @param message {String} Name of message, can be truncated by *
-     * @param subscriber {Function} Callback Function
-     * @param context {Object} execution context
-     * @return {Boolean} Whether monitor is present or not
+     * Shorthand method for {@link qx.event.message.Bus.subscribeOnce}
+     * @param topic {String|RegExp}
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Success
      */
-    checkSubscription : function(message, subscriber, context)
+    subscribeOnce : function(topic, subscriber, context)
     {
-      return this.getInstance().checkSubscription(message, subscriber, context);
+      return this.getInstance().subscribeOnce.apply(this.getInstance(), arguments);
     },
 
     /**
-     * unsubscribe a listening method
-     * if you supply the callback function and execution context,
-     * remove only this exact subscription
-     * otherwise remove all subscriptions
-     *
-     * @param message {String} Name of message, can be truncated by *
-     * @param subscriber {Function} Callback Function
-     * @param context {Object} execution context
-     * @return {Boolean} Whether monitor was removed or not
+     * Shorthand method for {@link qx.event.message.Bus.checkSubscription}
+     * @param topic {String|RegExp} The topic that has been used when subscribing
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Whether a subscription was removed
      */
-    unsubscribe : function(message, subscriber, context)
+    checkSubscription : function(topic, subscriber, context)
     {
-      return this.getInstance().unsubscribe(message, subscriber, context);
+      return this.getInstance().checkSubscription.apply(this.getInstance(), arguments);
     },
 
     /**
-     * dispatch message and call subscribed functions
-     *
-     * @param msg {qx.event.message.Message} message which is being dispatched
-     * @return {Boolean} <code>true</code> if the message was dispatched,
-     *    <code>false</code> otherwise.
+     * Shorthand method for {@link qx.event.message.Bus.unsubscribe}
+     * @param topic {String|RegExp} The topic that has been used when subscribing
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Whether a subscription was removed
      */
-    dispatch : function(msg)
+    unsubscribe : function(topic, subscriber, context)
+    {
+      return this.getInstance().unsubscribe.apply(this.getInstance(), arguments);
+    },
+
+    /**
+     * Shorthand method for {@link qx.event.message.Bus.dispatch}
+     * @param message {qx.event.message.Message} Message which is being dispatched
+     * @return {Boolean} If the message could be dispatched
+     */
+    dispatch : function(message)
     {
       return this.getInstance().dispatch.apply(this.getInstance(), arguments);
     },
 
     /**
-     * Dispatches a new message by supplying the name of the
-     * message and its data.
-     *
+     * Shorthand method for {@link qx.event.message.Bus.dispatchByName}
      * @param name {String} name of the message
      * @param data {var} Any type of data to attach
-     *
-     * @return {Boolean} <code>true</code> if the message was dispatched,
-     *    <code>false</code> otherwise.
+     * @return {Boolean} If the message was dispatched
      */
     dispatchByName : function(name, data)
     {
@@ -120,23 +118,24 @@ qx.Class.define("qx.event.message.Bus",
    */
   construct : function()
   {
-    /*
-     * message subscriptions database
-     */
+    this.base(arguments);
     this.__subscriptions = {};
   },
 
   members :
   {
+    /**
+     * Subscriptions cache
+     * @var {Object}
+     */
     __subscriptions : null,
 
-
     /**
-     * gets the hash map of message subscriptions
+     * Returns the map of message subscriptions with registered subscriptions. The key is
+     * the topic and the value is a map with <code>{subscriber:
+     * {Function}, context: {Object|null}}</code>.
      *
-     * @return {Map} with registered subscriptions. The key is the
-     *    <code>message</code> and the value is a map with <code>{subscriber: {Function},
-     *    context: {Object|null}}</code>.
+     * @return {Object}
      */
     getSubscriptions : function() {
       return this.__subscriptions;
@@ -144,35 +143,44 @@ qx.Class.define("qx.event.message.Bus",
 
 
     /**
-     * subscribes to a message
+     * Subscribes to a topic
      *
-     * @param message {String} name of message, can be truncated by *
-     * @param subscriber {Function} subscribing callback function
+     * @param topic {String|RegExp} Either a string, which can be
+     * terminated with a trailing `*` as a wildcard to match all message
+     * names that start with the prefix, or a regular expression
+     * object, which the message name has to match. If you use regular
+     * expressions, you cannot use message names that start and end
+     * with a slash ("/") at the same time, because regular expressions
+     * are converted to their string representation when stored.
+     * @param subscriber {Function} Message handler function
      * @param context {Object} The execution context of the callback (i.e. "this")
      * @return {Boolean} Success
      */
-    subscribe : function(message, subscriber, context)
+    subscribe : function(topic, subscriber, context)
     {
-      if (!message || typeof subscriber != "function")
+      if (!topic || typeof subscriber != "function")
       {
-        this.error("Invalid parameters! "+ [message, subscriber, context]);
-
-        return false;
+        throw new Error("Invalid parameters! "+ [topic, subscriber, context]); // since v6.0.0
       }
+
+      // handle regexes
+      var regex = topic instanceof RegExp ? topic : null;
+      topic = topic.toString();
 
       var sub = this.getSubscriptions();
 
-      if (this.checkSubscription(message))
+      if (this.checkSubscription(topic))
       {
-        if (this.checkSubscription(message, subscriber, context))
+        if (this.checkSubscription(topic, subscriber, context))
         {
-          this.warn("Object method already subscribed to " + message);
+          this.warn("Object method already subscribed to " + topic);
           return false;
         }
 
         // add a subscription
-        sub[message].push(
+        sub[topic].push(
         {
+          regex      : regex,
           subscriber : subscriber,
           context    : context || null
         });
@@ -182,7 +190,8 @@ qx.Class.define("qx.event.message.Bus",
       else
       {
         // create a subscription
-        sub[message] = [ {
+        sub[topic] = [ {
+          regex      : regex,
           subscriber : subscriber,
           context    : context || null
         } ];
@@ -191,30 +200,54 @@ qx.Class.define("qx.event.message.Bus",
       }
     },
 
+    /**
+     * Subscribes to a topic just for one dispatch and automatically unsubscribes
+     * after executing the message handler. This subscription cannot be unsubscribed
+     * from after it has been registered.
+
+     *
+     * @param topic {String|RegExp} Topic to subscribe to. see {@link qx.event.message.Bus#subscribe}
+     * for details
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Success
+     */
+    subscribeOnce : function(topic, subscriber, context)
+    {
+      var that = this;
+      var modified_subscriber = function(message) {
+        subscriber.call(context, message);
+        that.unsubscribe(topic, modified_subscriber, context);
+      }
+      return this.subscribe(topic, modified_subscriber, context);
+    },
 
     /**
-     * checks if subscription is already present
-     * if you supply the callback function, match only the exact message monitor
-     * otherwise match all monitors that have the given message
+     * Checks if subscription is already present. If you supply
+     * the message handler function, match only this exact subscription,
+     * otherwise any topic subscription will match.
      *
-     * @param message {String} Name of message, can be truncated by *
-     * @param subscriber {Function} Callback Function
-     * @param context {Object} execution context
-     * @return {Boolean} Whether monitor is present or not
+     * @param topic {String|RegExp} Either a string, which can be truncated by `*`
+     * to match all message names that start with the prefix, or a regular expression
+     * object, which the message name has to match.
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Whether a subscription exists for the topic
      */
-    checkSubscription : function(message, subscriber, context)
+    checkSubscription : function(topic, subscriber, context)
     {
+      var topic = topic.toString();
       var sub = this.getSubscriptions();
 
-      if (!sub[message] || sub[message].length === 0) {
+      if (!sub[topic] || sub[topic].length === 0) {
         return false;
       }
 
       if (subscriber)
       {
-        for (var i=0; i<sub[message].length; i++)
+        for (var i=0; i<sub[topic].length; i++)
         {
-          if (sub[message][i].subscriber === subscriber && sub[message][i].context === (context || null)) {
+          if (sub[topic][i].subscriber === subscriber && sub[topic][i].context === (context || null)) {
             return true;
           }
         }
@@ -227,24 +260,32 @@ qx.Class.define("qx.event.message.Bus",
 
 
     /**
-     * unsubscribe a listening method
-     * if you supply the callback function and execution context,
-     * remove only this exact subscription
-     * otherwise remove all subscriptions
+     * Unsubscribe from a topic.
      *
-     * @param message {String} Name of message, can be truncated by *
-     * @param subscriber {Function} Callback Function
-     * @param context {Object} execution context
-     * @return {Boolean} Whether monitor was removed or not
+     * If a "wildcard" topic was subscribed to with a trailing asterisk,
+     * because the subscriber wanted to receive messages for any topic
+     * with the given prefix, that same "wildcard" topic should be used to
+     * unsubscribe. It is not possible to unsubscribe using any topic other
+     * than one exactly matching one that has previously been subscribed to.
+     *
+     * If you supply the callback function and execution context, only this
+     * exact subscription is removed. Otherwise, all subscriptions to this topic
+     * will be removed.
+     *
+     * @param topic {String|RegExp} The topic that has been used when subscribing
+     * @param subscriber {Function} Message handler function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Whether a subscription was removed
      */
-    unsubscribe : function(message, subscriber, context)
+    unsubscribe : function(topic, subscriber, context)
     {
+       var topic = topic.toString();
        var sub = this.getSubscriptions();
-       var subscrList = sub[message];
+       var subscrList = sub[topic];
        if (subscrList) {
          if (!subscriber) {
-           sub[message] = null;
-           delete sub[message];
+           sub[topic] = null;
+           delete sub[topic];
            return true;
          } else {
            if (! context) {
@@ -257,8 +298,8 @@ qx.Class.define("qx.event.message.Bus",
              if (subscription.subscriber === subscriber && subscription.context === context) {
                subscrList.splice(i, 1);
                if (subscrList.length === 0) {
-                 sub[message] = null;
-                 delete sub[message];
+                 sub[topic] = null;
+                 delete sub[topic];
                }
                return true;
              }
@@ -269,42 +310,45 @@ qx.Class.define("qx.event.message.Bus",
     },
 
     /**
-     * dispatch message and call subscribed functions
+     * Dispatch message, which calls subscribers
      *
-     * @param msg {qx.event.message.Message} message which is being dispatched
-     * @return {Boolean} <code>true</code> if the message was dispatched,
-     *    <code>false</code> otherwise.
+     * @param message {qx.event.message.Message} Message which is being dispatched
+     * @return {Boolean} If the message could be dispatched, i.e. if subscribers
+     * exist which have received the message
      */
-    dispatch : function(msg)
+    dispatch : function(message)
     {
       var sub = this.getSubscriptions();
-      var msgName = msg.getName();
+      var msgName = message.getName();
       var dispatched = false;
 
-      for (var key in sub)
+      for (var topic in sub)
       {
-        var pos = key.indexOf("*");
-
-        if (pos > -1)
+        var len = topic.length;
+        if (topic[len-1] === "*")
         {
-          // use of wildcard
-          if (pos === 0 || key.substr(0, pos) === msgName.substr(0, pos))
+          // use of wildcard, only allowed as "*" or at the end of the topic
+          if (len === 1 || topic.substr(0, len-2) === msgName.substr(0, len-2))
           {
-            this.__callSubscribers(sub[key], msg);
+            this.__callSubscribers(sub[topic], message);
             dispatched = true;
           }
         }
-        else
+        else if (sub[topic][0].regex)
+        {
+          // regular expression
+          if (message.getName().match(sub[topic][0].regex)) {
+            this.__callSubscribers(sub[topic], message);
+            dispatched = true;
+          }
+        }
+        else if (topic === msgName)
         {
           // exact match
-          if (key === msgName)
-          {
-            this.__callSubscribers(sub[msgName], msg);
-            dispatched = true;
-          }
+          this.__callSubscribers(sub[topic], message);
+          dispatched = true;
         }
       }
-
       return dispatched;
     },
 
@@ -314,9 +358,7 @@ qx.Class.define("qx.event.message.Bus",
      *
      * @param name {String} name of the message
      * @param data {var} Any type of data to attach
-     *
-     * @return {Boolean} <code>true</code> if the message was dispatched,
-     *    <code>false</code> otherwise.
+     * @return {Boolean} If the message was dispatched
      */
     dispatchByName : function(name, data)
     {
@@ -333,6 +375,15 @@ qx.Class.define("qx.event.message.Bus",
       return ret;
     },
 
+    /**
+     * Removes all subscriptions
+     */
+    removeAllSubscriptions : function() {
+      var subscriptions = this.getSubscriptions();
+      for (var key in subscriptions) {
+        delete subscriptions[key];
+      }
+    },
 
     /**
      * Call subscribers with passed message.
@@ -344,9 +395,9 @@ qx.Class.define("qx.event.message.Bus",
      * processed.
      *
      * @param subscribers {Array} subscribers to call
-     * @param msg {qx.event.message.Message} message for subscribers
+     * @param message {qx.event.message.Message} message for subscribers
      */
-    __callSubscribers : function(subscribers, msg)
+    __callSubscribers : function(subscribers, message)
     {
       // (Shallow) clone the subscribers array in case one of them alters the
       // list, e.g., by unsubscribing
@@ -357,7 +408,7 @@ qx.Class.define("qx.event.message.Bus",
         var subscriber = subscribers[i].subscriber;
         var context = subscribers[i].context;
 
-        // call message monitor subscriber
+        // call topic subscriber
         if (context && context.isDisposed)
         {
           if (context.isDisposed())
@@ -367,12 +418,12 @@ qx.Class.define("qx.event.message.Bus",
           }
           else
           {
-            subscriber.call(context, msg);
+            subscriber.call(context, message);
           }
         }
         else
         {
-          subscriber.call(context, msg);
+          subscriber.call(context, message);
         }
       }
     }

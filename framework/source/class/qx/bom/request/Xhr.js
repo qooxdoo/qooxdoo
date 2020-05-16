@@ -705,6 +705,7 @@ qx.Bootstrap.define("qx.bom.request.Xhr",
 
       // Remove reference to native XHR
       this.__nativeXhr = null;
+      this.responseText = null;
 
       this.__disposed = true;
       return true;

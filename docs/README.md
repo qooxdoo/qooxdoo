@@ -126,7 +126,7 @@ qx.Class.define("myapp.Application", {
 If you have worked with javascript before you may find that it looks like
 javascript but also different from most javascript you have seen to date. This
 is because qooxdoo introduces both a rich set of widgets as well as class based
-object orientation into the language. There is quote a lot of documentation on
+object orientation into the language. There is quite a lot of documentation on
 these toppics in the next few sections.
 
 And yes, this is the complete program, there is neither HTML nor CSS. The
@@ -137,14 +137,12 @@ your application a distinctive look.
 Try editing the file a bit. You will notice that the server detects your
 modifications and recompiles the application automatically.
 
-If you look at the files that are created by the compiler (in the `compiled/` directory), 
+If you look at the files that are created by the compiler (in the `compiled/source` directory), 
 you might notice that the resulting code is quite large in size. This is because even
 the tiniest application makes use of qooxdoo's core classes, and the compiler produces
-a large number of artefacts that are needed for quick recompilation, but not for the
-functioning of your app. What you will finally deploy is much smaller (in our case, it is
-in the `compiled/source/myapp` folder). As your app grows, the size of that folder will grow 
-linearly with your new code (and with whatever additional features of qooxdoo 
-your code uses).
+a large number of artefacts that are needed for quick recompilation and debugging.
+The compiler can also produce a deployable version of your app wich will be much smaller
+and not contain any of the debugging support. More on that later.
 
 ## Reading on
 
