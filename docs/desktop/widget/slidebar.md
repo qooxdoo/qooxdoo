@@ -24,10 +24,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [SlideBar demo](apps://demobrowser/index.html#widget-SlideBar.html)
+-   [SlideBar demo](apps://demobrowser/#widget-SlideBar.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.container.SlideBar](apps://apiviewer/index.html#qx.ui.container.SlideBar)
+[qx.ui.container.SlideBar](apps://apiviewer/#qx.ui.container.SlideBar)

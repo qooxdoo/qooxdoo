@@ -59,4 +59,4 @@ API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Grid](apps://apiviewer/index.html#qx.ui.layout.Grid)
+[qx.ui.layout.Grid](apps://apiviewer/#qx.ui.layout.Grid)

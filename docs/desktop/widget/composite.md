@@ -27,4 +27,4 @@ API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.container.Composite](apps://apiviewer/index.html#qx.ui.container.Composite)
+[qx.ui.container.Composite](apps://apiviewer/#qx.ui.container.Composite)

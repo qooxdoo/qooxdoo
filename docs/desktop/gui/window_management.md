@@ -80,5 +80,5 @@ windows to a root widget.
 
 ## Demos and API
 
-To find out more, you can check the [desktop demo](apps://demobrowser/index.html#widget~Desktop.html)
-and the [API reference](apps://apiviewer/index.html#qx.ui.window).
+To find out more, you can check the [desktop demo](apps://demobrowser/#widget~Desktop.html)
+and the [API reference](apps://apiviewer/#qx.ui.window).
