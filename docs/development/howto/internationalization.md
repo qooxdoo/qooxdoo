@@ -219,7 +219,7 @@ of the application may be specified in `compile.json`, in the
 
 This would add a German and a French translation to
 the project. For a more exhaustive list of available
-locales see [here](http://unicode.org/cldr/apps/survey).
+locales see [here](http:/cldr.unicode.org/index/survey-tool).
 
 A run of `npx qx compile --update-po-files` or its shorthand `npx qx
 compile -u` will generate a `.po` file for each configured locale,
