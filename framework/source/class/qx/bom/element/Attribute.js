@@ -334,8 +334,7 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
 
 
     /**
-     * Serializes an HTML attribute into a writer; the `writer` function accepts
-     *  an varargs, which can be joined with an empty string or streamed.
+     * Serializes an HTML attribute into a writert
      *
      * @param writer {Function} The writer to serialize to
      * @param name {String} Name of the attribute
