@@ -30,7 +30,7 @@ echo "-------------------------------------------------------------------------"
 cd $BASE_DIR
 if [ "{TRAVIS_TAG:-}" != "$FRAMEWORK_VERSION" ]; then
     echo "Bump version ..."
-    #exe tool/admin/bin/bumpqxversion.py $TAG_VERSION
+    exe tool/admin/bin/bumpqxversion.py $TAG_VERSION
 fi
 
 exe node -v
@@ -44,12 +44,12 @@ exe [ -d ./qooxdoo-compiler ] && exe rm -rf ./qooxdoo-compiler
 exe git clone https://github.com/qooxdoo/qooxdoo-compiler.git --depth=1 --single-branch ./qooxdoo-compiler
 exe cd ./qooxdoo-compiler
 exe npm install
-exe npm link
+QX=`pwd`/qx
 exe cd ..
-exe qx --version
+exe $QX --version
 
 echo ">>> Compiling & deploying server library with the compiler master using current qx_server library from NPM..."
-exe qx compile --config-file=compile-server.json --target=build
+exe $QX compile --config-file=compile-server.json --target=build
 exe mkdir -p ./lib
 exe rm -rf ./lib/*
 exe cp -R compiled/build/qx_server ./lib
@@ -58,24 +58,28 @@ echo ">>> Compiling & deploying server library with compiler master using the ne
 exe rm -rf ./qooxdoo-compiler/node_modules/@qooxdoo/framework/lib
 exe cp -fR lib ./qooxdoo-compiler/node_modules/@qooxdoo/framework
 exe cp -f package.json Manifest.json ./qooxdoo-compiler/node_modules/@qooxdoo/framework
-exe qx compile --config-file=compile-server.json --target=build
-exe qx deploy
+exe rm -rf compiled
+exe $QX compile --config-file=compile-server.json --target=build
+exe $QX deploy --config-file=compile-server.json
 
 echo ">>> Compiling & deploying API Viewer..."
-exe qx compile --config-file=compile.json --target=build
-exe qx deploy
+exe $QX compile --config-file=compile.json --target=build
+exe $QX deploy --config-file=compile.json
 
 echo ">>> Deploying Qooxdoo source"
 exe mkdir -p source
 exe rm -rf ./source/*
 exe cp -rf ./framework/source/* ./source
 
-# we're not deplyoing anything, just testing
-exit 0;
+# we're not deploying anything, just testing
+# exit 0;
 
 
 echo ">>> Publishing to NPM"
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN:-}" > ~/.npmrc
 exe npm publish --access public
+
+
+
 
