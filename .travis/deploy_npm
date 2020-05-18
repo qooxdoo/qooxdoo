@@ -40,7 +40,7 @@ echo ">>> Installing dependencies..."
 exe npm install
 
 echo ">>> Installing github.com/qooxdoo/qooxdoo-compiler"
-exe [ -d ./qooxdoo-compiler ] && exe rm -rf ./qooxdoo-compiler
+exe rm -rf ./qooxdoo-compiler
 exe git clone https://github.com/qooxdoo/qooxdoo-compiler.git --depth=1 --single-branch ./qooxdoo-compiler
 exe cd ./qooxdoo-compiler
 exe npm install
@@ -53,6 +53,11 @@ exe $QX compile --config-file=compile-server.json --target=build
 exe mkdir -p ./lib
 exe rm -rf ./lib/*
 exe cp -R compiled/build/qx_server ./lib
+
+echo ">>> Running Compiler Tests"
+exe cd ./qooxdoo-compiler
+exe test/test.linux.sh
+exe cd ..
 
 echo ">>> Compiling & deploying server library with compiler master using the newly built qx_server library..."
 exe rm -rf ./qooxdoo-compiler/node_modules/@qooxdoo/framework/lib
@@ -81,5 +86,6 @@ echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN:-}" > ~/.npmrc
 exe npm publish --access public
 
 
-
+echo ">>> Cleaning up"
+rm -rf qooxdoo-compiler source
 
