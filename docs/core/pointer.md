@@ -31,7 +31,7 @@ The following events are available in all of qooxdoo's GUI toolkits:
   - pointercancel
 
 [Pointer event API
-documentation](apps://apiviewer/index.html#qx.event.type.Pointer)
+documentation](apps://apiviewer/#qx.event.type.Pointer)
 
 Note that not all events mentioned in the specification are listed here.
 We chose to only implement the event types required for qooxdoo's

@@ -25,10 +25,10 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Demonstrates regular and shared ToolTips](apps://demobrowser/index.html#widget-Tooltip.html)
+-   [Demonstrates regular and shared ToolTips](apps://demobrowser/#widget-Tooltip.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[complete package and classname](apps://apiviewer/index.html#qx.ui.tooltip)
+[complete package and classname](apps://apiviewer/#qx.ui.tooltip)
