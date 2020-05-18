@@ -51,7 +51,7 @@ For the next step, we need to tell the compiler what languages we want to suppor
   ],
 ```
 
-The next time you generate your project the compiler will extract all the text strings you marked up and will put them into the `source/translation` folder. There you'll find the created files ending in `.po`. You may be familiar with that file format from [GNU gettext](http://en.wikipedia.org/wiki/GNU_gettext) which is quite popular.
+Then you have to generate the tranlation files with ```qx compile --update-po-files```. The compiler will extract all the text strings you marked up and will put them into the `source/translation` folder. There you'll find the created files ending in `.po`. You may be familiar with that file format from [GNU gettext](http://en.wikipedia.org/wiki/GNU_gettext) which is quite popular.
 
 You should see two files, one for the default language, English (`en.po`), and one for the language you added, in this case German (`de.po`). For now, we just need the file for our alternative language because English is already used in the application so this should work right out of the box. Opening the second file, you'll notice some details about it at the top of the document. The important part starts with the following text.
 
@@ -193,4 +193,4 @@ Now you can edit the `po` files again and add the new translations. Don't forget
 
 After compiling the application again you should be set up for testing and all should run as expected.
 
- As always, you can find the entire [code on GitHub](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.3).
+ As always, you can find the entire [code on GitHub](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.3).

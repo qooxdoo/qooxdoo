@@ -11,7 +11,7 @@ You can see that one tweet consists of a photo, a text and a creation date, but 
 
 > **note**
 >
-> The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on [github](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.1).
+> The code in this tutorial should also work when you haven't completed the 4.1 tutorial because it doesn't depend on the code changes from tutorial 4.1. But if you have any problems to run the tutorial, you can also checkout the code from tutorial 4.1 on [github](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.1).
 
 The plan
 --------
@@ -281,8 +281,8 @@ converter: function(data) {
 
 The converter method creates a date object from the given number (time in milliseconds). The `configureItem` method should be known from tutorial part 3 (tutorial-part-3), there are only some improvements to keep the same behavior as before.
 
-Great, now we've got it! Run `generate.py` to create the application.
+Great, now we've got it! Run `qx serve` to create and run the application.
 
 ![Step 4-2](step42.png)
 
-Again, if you want to take a [look at the code](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.2), fork the project on github.
+Again, if you want to take a [look at the code](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.2), fork the project on github.
