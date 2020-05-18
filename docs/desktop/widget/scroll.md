@@ -35,4 +35,4 @@ API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.container.Scroll](apps://apiviewer/index.html#qx.ui.container.Scroll)
+[qx.ui.container.Scroll](apps://apiviewer/#qx.ui.container.Scroll)

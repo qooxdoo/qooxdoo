@@ -72,5 +72,5 @@ API
 
 Here is a link to the API of the layout manager:
 
-[qx.ui.layout.HBox](apps://apiviewer/index.html#qx.ui.layout.HBox)
-[qx.ui.layout.VBox](apps://apiviewer/index.html#qx.ui.layout.VBox)
+[qx.ui.layout.HBox](apps://apiviewer/#qx.ui.layout.HBox)
+[qx.ui.layout.VBox](apps://apiviewer/#qx.ui.layout.VBox)

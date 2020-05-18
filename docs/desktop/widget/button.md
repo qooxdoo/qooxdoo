@@ -32,4 +32,4 @@ API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.form.Button](apps://apiviewer/index.html#qx.ui.form.Button)
+[qx.ui.form.Button](apps://apiviewer/#qx.ui.form.Button)

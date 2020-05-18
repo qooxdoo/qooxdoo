@@ -26,4 +26,4 @@ API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.container.Stack](apps://apiviewer/index.html#qx.ui.container.Stack)
+[qx.ui.container.Stack](apps://apiviewer/#qx.ui.container.Stack)
