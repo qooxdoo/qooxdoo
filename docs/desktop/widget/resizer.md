@@ -31,4 +31,4 @@ API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.container.Resizer](apps://apiviewer/index.html#qx.ui.container.Resizer)
+[qx.ui.container.Resizer](apps://apiviewer/#qx.ui.container.Resizer)

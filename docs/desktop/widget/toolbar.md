@@ -51,4 +51,4 @@ API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.toolbar](apps://apiviewer/index.html#qx.ui.toolbar)
+[qx.ui.toolbar](apps://apiviewer/#qx.ui.toolbar)
