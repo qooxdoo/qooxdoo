@@ -3,11 +3,34 @@ Tutorial: Tweets App
 
 This tutorial covers many practical aspects of developing desktop-like qooxdoo apps.
 
-As the headline of this tutorial says, we are building a simple tweets application. [identica](http://identi.ca) is a twitter-like service for reading and posting public short messages - called "tweets". It has a [twitter-compatible API](http://status.net/wiki/Twitter-compatible_API) for accessing data.
+As the headline of this tutorial says, we are building a simple tweets application. 
 
-[Twitter](http://twitter.com) itself made its authorization scheme more complex, as it starts requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the [Github demo](apps://demobrowser/#data~Github.html).
+[Twitter](http://twitter.com) itself made its authorization scheme more complex, as it started requiring OAuth even to read public tweets. For this basic tutorial it would be too complex to handle such advanced authorization. If your are interested in OAuth, check out how you could handle that in a qooxdoo app by looking at the [Github demo](apps://demobrowser/#data~Github.html).
 
-The following mockup shows you how the application should look like at the end.
+So we decided to provide a simple example which dellivers some static text.
+
+```javascript
+callback([
+  {
+    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore", 
+    user: {profile_image_url : "http://www.gravatar.com/avatar/7c366401a0b7a57c50e5c38913ddc135.png"},
+    created_at: 1373541470150
+  },
+  {
+    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", 
+    user: {profile_image_url : "http://www.gravatar.com/avatar/00000000000000000000000000000000.png"},
+    created_at: 1373541361356
+  },
+  {
+    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor", 
+    user: {profile_image_url : "http://www.gravatar.com/avatar/74e78850f9d01ddce817dd5f83f3ac0d.png"},
+    created_at: 1373541270150
+  }
+]);
+```
+
+
+The following mockup shows you how the application should look at the end.
 
 ![image](identicamockup1.png)
 

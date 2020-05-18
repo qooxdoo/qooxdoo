@@ -96,4 +96,4 @@ Now we only need to run the generator to resolve the new dependencies:
 
 ![image](tutorial_4_5-2.png)
 
-The virtual List supports some more features like grouping, for additional details have a look at the [virtual demos](apps://demobrowser/#virtual~List.html). As always, the [code of the tutorial](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.5/) is on github.
+The virtual List supports some more features like grouping, for additional details have a look at the [virtual demos](apps://demobrowser/#virtual~List.html). As always, the [code of the tutorial](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.5) is on github.

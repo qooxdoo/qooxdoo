@@ -20,4 +20,4 @@ API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.core.Spacer](apps://apiviewer/index.html#qx.ui.core.Spacer)
+[qx.ui.core.Spacer](apps://apiviewer/#qx.ui.core.Spacer)

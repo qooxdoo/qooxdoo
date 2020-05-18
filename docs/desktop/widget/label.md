@@ -34,4 +34,4 @@ API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.basic.Label](apps://apiviewer/index.html#qx.ui.basic.Label)
+[qx.ui.basic.Label](apps://apiviewer/#qx.ui.basic.Label)
