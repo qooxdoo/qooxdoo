@@ -3,7 +3,7 @@ Tutorial Part 4: Handling Forms
 
 In the previous steps of this tutorial, we laid the groundwork for a tweets client application, gave it a neat UI and implemented a communication layer. One thing this application still lacks is a nice way for users to input their identica user name and password in order to post a status update. Fortunately, qooxdoo comes with a forms API that takes the pain out of creating form elements and handling user input.
 
-Before we get started, make sure you're working on the version of the tweets tutorial application tagged with ["Step 3" in the GitHub repository](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step3). This includes the posting part of the communication layer that we'll be using in this tutorial.
+Before we get started, make sure you're working on the version of the tweets tutorial application tagged with ["Step 3" in the GitHub repository](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step3). This includes the posting part of the communication layer that we'll be using in this tutorial.
 
 The plan
 --------
@@ -13,7 +13,7 @@ We want to create a new window with user name and password fields that pops up w
 Creating the login window
 -------------------------
 
-We start by creating a new class called tweets.LoginWindow that inherits from [qx.ui.window.Window](apps://apiviewer/index.html#qx.ui.window.Window), similar to the MainWindow class from the first part of this tutorial:
+We start by creating a new class called tweets.LoginWindow that inherits from [qx.ui.window.Window](apps://apiviewer/#qx.ui.window.Window), similar to the MainWindow class from the first part of this tutorial:
 
 ```javascript
 qx.Class.define("tweets.LoginWindow", {
@@ -58,7 +58,7 @@ var controller = new qx.data.controller.Form(null, form);
 var model = controller.createModel();
 ```
 
-Just like in the previous tutorial, we create a [controller](apps://apiviewer/index.html#qx.data.controller.Form) without a model. Then, we ask the controller to create a model from the form's elements. This model will be used to serialize the form data.
+Just like in the previous tutorial, we create a [controller](apps://apiviewer/#qx.data.controller.Form) without a model. Then, we ask the controller to create a model from the form's elements. This model will be used to serialize the form data.
 
 The form still needs a "submit" button, so we'll add one, plus a "cancel" button to close the window:
 
@@ -73,14 +73,14 @@ cancelbutton.addListener("execute", function() {
 }, this);
 ```
 
-That's all the elements we need, let's get them displayed. We'll let one of qooxdoo's built-in [form renderer](apps://apiviewer/index.html#qx.ui.form.renderer) classes worry about the form's layout:
+That's all the elements we need, let's get them displayed. We'll let one of qooxdoo's built-in [form renderer](apps://apiviewer/#qx.ui.form.renderer) classes worry about the form's layout:
 
 ```javascript
 var renderer = new qx.ui.form.renderer.Single(form);
 this.add(renderer);
 ```
 
-The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a custom renderer by subclassing [qx.ui.form.renderer.AbstractRenderer](apps://apiviewer/index.html#qx.ui.form.renderer.AbstractRenderer), though that's outside the scope of this tutorial.
+The renderer is a widget, so we can just add it to the window. In addition to the standard renderers, it's fairly simple to create a custom renderer by subclassing [qx.ui.form.renderer.AbstractRenderer](apps://apiviewer/#qx.ui.form.renderer.AbstractRenderer), though that's outside the scope of this tutorial.
 
 Accessing the form values
 -------------------------
@@ -138,4 +138,4 @@ OK, time to run `generate.py` and load the application in a browser to make sure
 
 Tweets client application with login window
 
-And that's it for the form handling chapter. As usual, you'll find the tutorial [code on GitHub](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.1). Watch out for the next chapter, which will focus on developing your own custom widgets.
+And that's it for the form handling chapter. As usual, you'll find the tutorial [code on GitHub](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.1). Watch out for the next chapter, which will focus on developing your own custom widgets.
