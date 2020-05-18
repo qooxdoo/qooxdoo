@@ -54,15 +54,17 @@ exe mkdir -p ./lib
 exe rm -rf ./lib/*
 exe cp -R compiled/build/qx_server ./lib
 
+echo ">>> Installing the newly built qx_server library..."
+exe rm -rf ./qooxdoo-compiler/node_modules/@qooxdoo/framework/lib
+exe cp -fR lib ./qooxdoo-compiler/node_modules/@qooxdoo/framework
+exe cp -f package.json Manifest.json ./qooxdoo-compiler/node_modules/@qooxdoo/framework
+
 echo ">>> Running Compiler Tests"
 exe cd ./qooxdoo-compiler
 exe test/test.linux.sh
 exe cd ..
 
-echo ">>> Compiling & deploying server library with compiler master using the newly built qx_server library..."
-exe rm -rf ./qooxdoo-compiler/node_modules/@qooxdoo/framework/lib
-exe cp -fR lib ./qooxdoo-compiler/node_modules/@qooxdoo/framework
-exe cp -f package.json Manifest.json ./qooxdoo-compiler/node_modules/@qooxdoo/framework
+echo ">>> Recompiling & deploying server library..."
 exe rm -rf compiled
 exe $QX compile --config-file=compile-server.json --target=build
 exe $QX deploy --config-file=compile-server.json
