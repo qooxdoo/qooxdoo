@@ -183,7 +183,7 @@ qx.Class.define("qx.event.handler.Mouse",
       // an empty object as "srcElement"
       if (target && target.nodeType)
       {
-        var notPrevented = qx.event.Registration.fireEvent(
+        var prevented = !qx.event.Registration.fireEvent(
           target,
           type||domEvent.type,
           type == "mousewheel" ? qx.event.type.MouseWheel : qx.event.type.Mouse,
@@ -191,7 +191,7 @@ qx.Class.define("qx.event.handler.Mouse",
         );
         
         if (qx.core.Environment.get("qx.debug")) {
-          if (type == "mousewheel" && !notPrevented) {
+          if (type == "mousewheel" && prevented) {
             this.warn("'mousewheel' event was prevented, consider refactoring to allow for passive event handling");
           }
         }

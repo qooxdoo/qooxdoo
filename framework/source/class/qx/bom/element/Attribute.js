@@ -334,7 +334,8 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
 
 
     /**
-     * Serializes an HTML attribute into a writert
+     * Serializes an HTML attribute into a writer; the `writer` function accepts
+     *  an varargs, which can be joined with an empty string or streamed.
      *
      * @param writer {Function} The writer to serialize to
      * @param name {String} Name of the attribute
@@ -348,7 +349,7 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
 
       var hints = this.__hints;
 
-      // Skip unserialization Qooxdoo state properties
+      // Skip serialization of hidden Qooxdoo state properties
       if (hints.qxProperties[name]) {
         return;
       }

@@ -182,7 +182,7 @@ qx.Class.define("qx.html.Element",
           focusHandler.blur(focusedDomElement);
         }
   
-        // decativate elements, which will be removed
+        // deactivate elements, which will be removed
         var activeDomElement = focusHandler.getActive();
         if (activeDomElement && this.__willBecomeInvisible(activeDomElement)) {
           qx.bom.Element.deactivate(activeDomElement);
@@ -447,7 +447,7 @@ qx.Class.define("qx.html.Element",
      *
      * @param domElement {DOM} the DOM element
      * @return {qx.ui.core.Widget} the Widget that created the DOM element
-     * @deprecated {6.0} see qx.html.Node.fromDomNode
+     * @deprecated {6.1} see qx.html.Node.fromDomNode
      */
     fromDomElement: function(domElement) {
       return qx.html.Node.fromDomNode(domElement);
@@ -606,7 +606,7 @@ qx.Class.define("qx.html.Element",
      * remain associated until disposed or disconnectWidget is called
      *
      * @param widget {qx.ui.core.Widget} the widget to associate
-     * @deprecated {6.0} see connectObject
+     * @deprecated {6.1} see connectObject
      */
     connectWidget : function(widget) {
       return this.connectObject(widget);
@@ -617,7 +617,7 @@ qx.Class.define("qx.html.Element",
      * untouched, except that it can no longer be used to find the Widget.
      *
      * @param qxObject {qx.core.Object} the Widget
-     * @deprecated {6.0} see disconnectObject
+     * @deprecated {6.1} see disconnectObject
      */
     disconnectWidget: function(widget) {
       return this.disconnectObject(widget);
@@ -649,8 +649,10 @@ qx.Class.define("qx.html.Element",
         var Attribute = qx.bom.element.Attribute;
         if (fromMarkup) {
           var str = Attribute.get(elem, "class");
-          if (str instanceof window.SVGAnimatedString) {
-            str = str.baseVal;
+          if (!qx.core.Environment.get("qx.headless")) {
+            if (str instanceof window.SVGAnimatedString) {
+              str = str.baseVal;
+            }
           }
           var segs = str ? str.split(" ") : [];
           if (segs.length) {
@@ -821,7 +823,7 @@ qx.Class.define("qx.html.Element",
      * when the DOM element is directly needed to add content etc.
      *
      * @param elem {Element} Element to reuse
-     * @deprecated {6.0} see useNode
+     * @deprecated {6.1} see useNode
      */
     useElement : function(elem)
     {

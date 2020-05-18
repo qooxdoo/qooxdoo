@@ -87,7 +87,6 @@ qx.Class.define("mypackage.MySignupForm", {
   
   construct() {
     this.base(arguments, "div");
-    this.setCaption("Login");
     let body = this.getBody();
     body.add(<h1>Welcome to My Corporate Website</h1>);
     body.add(
