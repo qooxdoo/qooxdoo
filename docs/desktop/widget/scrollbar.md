@@ -23,12 +23,12 @@ Demos
 
 Here are some links that demonstrate the usage of the widget:
 
--   [Scroll bar demo](apps://demobrowser/index.html#widget~ScrollBar.html)
+-   [Scroll bar demo](apps://demobrowser/#widget~ScrollBar.html)
 -   [A simple scroll container demo](apps://demobrowser/#ui~ScrollContainer_Simple.html)
 
 API
 ---
 
 Here is a link to the API of the Widget:
-[qx.ui.core.ScrollBar](apps://apiviewer/index.html#qx.ui.core.scroll.ScrollBar)
-[qx.ui.core.NativeScrollBar](apps://apiviewer/index.html#qx.ui.core.scroll.NativeScrollBar)
+[qx.ui.core.ScrollBar](apps://apiviewer/#qx.ui.core.scroll.ScrollBar)
+[qx.ui.core.NativeScrollBar](apps://apiviewer/#qx.ui.core.scroll.NativeScrollBar)

@@ -53,4 +53,4 @@ API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Canvas](apps://apiviewer/index.html#qx.ui.layout.Canvas)
+[qx.ui.layout.Canvas](apps://apiviewer/#qx.ui.layout.Canvas)

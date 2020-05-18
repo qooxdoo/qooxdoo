@@ -48,4 +48,4 @@ API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Basic](apps://apiviewer/index.html#qx.ui.layout.Basic)
+[qx.ui.layout.Basic](apps://apiviewer/#qx.ui.layout.Basic)
