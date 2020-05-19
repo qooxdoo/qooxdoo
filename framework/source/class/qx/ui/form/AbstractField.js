@@ -537,7 +537,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     // property transform
     _string2RegExp: function(value, old) {
         if (qx.lang.Type.isString(value)) {
-            value = RegExp(value);
+            value = new RegExp(value);
         }
         return value;
     },
