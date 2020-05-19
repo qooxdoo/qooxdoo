@@ -603,10 +603,12 @@ qx.Class.define("qx.ui.form.AbstractField",
         if (this.getLiveUpdate()) {
           this.__fireChangeValueEvent(value);
         }
-        // check for the fireChangeValueOnRxMatch change event
-        var fireRx = this.getLiveUpdateOnRxMatch();
-        if (fireRx && value.match(fireRx)) {
-            this.__fireChangeValueEvent(value);
+        // check for the liveUpdateOnRxMatch change event
+        else {
+            var fireRx = this.getLiveUpdateOnRxMatch();
+            if (fireRx && value.match(fireRx)) {
+                this.__fireChangeValueEvent(value);
+            }
         }
       }
     },
