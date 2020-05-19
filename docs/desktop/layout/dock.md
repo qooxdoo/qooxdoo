@@ -57,4 +57,4 @@ API
 ---
 
 Here is a link to the API of the layout manager:
-[qx.ui.layout.Dock](apps://apiviewer/index.html#qx.ui.layout.Dock)
+[qx.ui.layout.Dock](apps://apiviewer/#qx.ui.layout.Dock)

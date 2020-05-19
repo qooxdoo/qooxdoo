@@ -6,21 +6,41 @@ After we created the application and the main window in the first tutorial part 
 Pre-Evaluation
 --------------
 
-First, we need to specify what's the data we need to transfer. For that, we need to take a look what tasks our application can handle:
+First, we need to specify what data we need to transfer. For that, we need to take a look at what tasks our application can handle:
 
-1.  Show the public identica timeline.
+1.  Show the public timeline.
 2.  Post a message.
 
-So it's clear that we need to fetch the public timeline (that's how it is called by identica), and we need to post a message to identica. It's time to take a look at the [identica API](http://status.net/wiki/Twitter-compatible_API) so that we know what we need to do to communicate with the service. But keep in mind that we are still on a website so we can't just send some `POST` or `GET` requests due to cross-site scripting restrictions. The one thing we can and should do is take advantage of JSONP. If you have never heard of JSONP, take some time to read the [article on ajaxian](http://ajaxian.com/archives/jsonp-json-with-padding) to get further details. In this tutorial, we won't use the service itself due to API changes and availability of the service. Instead we use a simple JavaScript file which will fake the JSON-P call.
+So it's clear that we need to fetch the public timeline, and we need to post a message. It's time to take a look at the api so that we know what we need to do to communicate with the service. But keep in mind that we are still on a website so we can't just send some `POST` or `GET` requests due to cross-site scripting restrictions. The one thing we can and should do is take advantage of JSONP. If you have never heard of JSONP, take some time to read the [article on ajaxian](http://ajaxian.com/archives/jsonp-json-with-padding) to get further details. In this tutorial, we won't use the service itself. Instead we use a simple JavaScript file which will fake the JSON-P call.
 
 Creating the Data Access Class
 ------------------------------
 
-Now, that we know how we want to communicate, we can tackle the first task, fetching the public timeline. identica offers a [JSONP service for that](http://status.net/wiki/Twitter-compatible_API#Timeline_resources) which we can use. Luckily, there is no login process on the server side so we don't need to bother with that in the client. The following URL returns the public timeline wrapped in a JavaScript method call (that's what JSONP is about):
+Now, that we know how we want to communicate, we can tackle the first task: fetching the public timeline. The following URL returns the public timeline wrapped in a JavaScript method call (that's what JSONP is about):
 
-    https://raw.githubusercontent.com/qooxdoo/qooxdoo/%{release_tag}/component/tutorials/tweets/step4.5/source/resource/tweets/service.js
+```javascript
+callback([
+  {
+    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore", 
+    user: {profile_image_url : "http://www.gravatar.com/avatar/7c366401a0b7a57c50e5c38913ddc135.png"},
+    created_at: 1373541470150
+  },
+  {
+    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam", 
+    user: {profile_image_url : "http://www.gravatar.com/avatar/00000000000000000000000000000000.png"},
+    created_at: 1373541361356
+  },
+  {
+    text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor", 
+    user: {profile_image_url : "http://www.gravatar.com/avatar/74e78850f9d01ddce817dd5f83f3ac0d.png"},
+    created_at: 1373541270150
+  }
+]);
+```
 
-Now we know how to get the data from identica. Its time for us to go back to the qooxdoo code. It is, like in the case of the UI, a good idea to create a separate class for the communication layer. Therefore, we create a class named `IdenticaService`. We don't want to inherit from any advanced qooxdoo class so we extend straight from `qx.core.Object`. The code for that class should looks like this:
+This service script is part of the projects resources and therefore acessible through the web server with `qx serve` and the url `http://localhost:8080/resource/qxl/tweets/service.js`.
+
+Now we know how to get the data. Its time for us to go back to the qooxdoo code. It is, like in the case of the UI, a good idea to create a separate class for the communication layer. Therefore, we create a class named `IdenticaService`. We don't want to inherit from any advanced qooxdoo class so we extend straight from `qx.core.Object`. The code for that class should looks like this:
 
 ```javascript
 qx.Class.define("tweets.IdenticaService",{
@@ -44,7 +64,7 @@ Now it's time to get this method working. But how do we load the data in qooxdoo
 
 ```javascript
 if (this.__store == null) {
-  var url = "https://raw.githubusercontent.com/qooxdoo/qooxdoo/%{release_tag}/component/tutorials/tweets/step4.5/source/resource/tweets/service.js";
+  var url = "http://localhost:8080/resource/qxl/tweets/service.js";
   this.__store = new qx.data.store.Jsonp();
   this.__store.setCallbackName("callback");
   this.__store.setUrl(url);
@@ -184,10 +204,8 @@ Now it should be the way we like it to be. Sure it's not perfect because it has 
 Posting tweets
 --------------
 
-As you have seen in the last paragraphs, creating the data access layer is not that hard using qooxdoo's data binding. That is why we want you to implement the rest of the application: Posting of tweets. But we will give you some hints so it does not take that much time for you.
+As you have seen previously, creating the data access layer is easy with qooxdoo's data binding. We believe, using what you learned of data binding, that you now have what you need to implement the remainder of the application: posting of tweets.
 
--   identica uses OAuth authentication for postings. Don't make yourself too much work by implementing the whole OAuth thing. Invoking an alert should be enough.
-
-That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the [code on github](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step3) or fork the project.
+That should be possible for you right now! If you need to take a look at an implementation, you can always take a look at the [code on github](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step3) or fork the project.
 
 That's it for the third part of the tutorial. With this tutorial, the application should be ready and we can continue our next tutorial lines based on this state of the application. As always, if you have any feedback, please let us know!

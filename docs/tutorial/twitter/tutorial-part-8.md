@@ -1,7 +1,7 @@
 Tutorial Part 8: Unit Testing
 ===============================
 
-In this tutorial, we'll be taking a closer look at qooxdoo's integrated unit testing framework. Armed with this new knowledge, we'll then define a few unit tests for the tweets application created in previous tutorials, generate the test runner application, and watch the tests in action. As usual, the code can be found on [GitHub](https://github.com/qooxdoo/qooxdoo/tree/%{release_tag}/component/tutorials/tweets/step4.4).
+In this tutorial, we'll be taking a closer look at qooxdoo's integrated unit testing framework. Armed with this new knowledge, we'll then define a few unit tests for the tweets application created in previous tutorials, generate the test runner application, and watch the tests in action. As usual, the code can be found on [GitHub](https://github.com/qooxdoo/qxl.tweet-tutorial/tree/master/tweets/step4.4).
 
 Background
 ----------
