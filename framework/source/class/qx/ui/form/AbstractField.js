@@ -213,7 +213,17 @@ qx.Class.define("qx.ui.form.AbstractField",
       check : "Boolean",
       init : false
     },
-
+    /**
+     * Fire a {@link #changeValue} event whenever the content of the
+     * field matches the given regular expression. Accepts both regular
+     * expression objects as well as strings for input.
+     */
+    liveUpdateOnRxMatch :
+    {
+      check : "RegExp",
+      transform : "_string2RegExp",
+      init : null
+    },
     /**
      * String value which will be shown as a hint if the field is all of:
      * unset, unfocused and enabled. Set to null to not show a placeholder
@@ -524,6 +534,13 @@ qx.Class.define("qx.ui.form.AbstractField",
       }
     },
 
+    // property transform
+    _string2RegExp: function(value, old) {
+        if (qx.lang.Type.isString(value)) {
+            value = RegExp(value);
+        }
+        return value;
+    },
 
     // overridden
     tabFocus : function() {
@@ -585,6 +602,11 @@ qx.Class.define("qx.ui.form.AbstractField",
         // check for the live change event
         if (this.getLiveUpdate()) {
           this.__fireChangeValueEvent(value);
+        }
+        // check for the fireChangeValueOnRxMatch change event
+        var fireRx = this.getLiveUpdateOnRxMatch();
+        if (fireRx && value.match(fireRx)) {
+            this.__fireChangeValueEvent(value);
         }
       }
     },
