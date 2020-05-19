@@ -204,6 +204,9 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     // Set the data row renderer.
     this.setDataRowRenderer(custom.dataRowRenderer);
 
+    // Set the editor for the tree column, for use if allowNodeEdit is true
+    tcm.setCellEditorFactory(treeCol, new qx.ui.treevirtual.celleditor.NodeEditor());
+
     // Move the focus with the mouse.  This controls the ROW focus indicator.
     this.setFocusCellOnPointerMove(true);
 
@@ -339,6 +342,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     {
       refine : true,
       init : "treevirtual"
+    },
+
+    allowNodeEdit :
+    {
+      check: "Boolean",
+      init: false
     }
   },
 
