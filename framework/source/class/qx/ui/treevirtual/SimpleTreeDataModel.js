@@ -241,7 +241,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     // overridden
     isColumnEditable : function(columnIndex)
     {
-      // The tree column is not editable
       if (columnIndex == this._treeColumn)
       {
         return this.__tree.getAllowNodeEdit();

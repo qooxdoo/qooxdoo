@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.treevirtual.celleditor.NodeEditor",
       var cellEditor = this._createEditor();
 
       // The value in the case of a Tree is a Node and we want the label
-      if (cellInfo.value === null || cellInfo.value === undefined) {
+      if (cellInfo.value === null || typeof cellInfo.value != "object") {
         cellInfo.value = {label: ""};
       }
 
