@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
           width: this.__imageData.width + "px",
           height: this.__imageData.height + "px",
           display: qx.core.Environment.get("css.inlineblock"),
-          verticalAlign: "top",
+          verticalAlign: "middle",
           position: "static"
         }
         if (qx.util.ResourceManager.getInstance().getCombinedFormat(this.__imageData.url) === "") {
