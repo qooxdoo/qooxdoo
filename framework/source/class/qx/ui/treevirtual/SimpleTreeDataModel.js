@@ -74,6 +74,7 @@
  *   children       : [ ],  // each value is an index into _nodeArr
  *
  *   level          : 2,    // The indentation level of this tree node
+ *   labelPos       : 40,   // The left position of the label text - stored when the cell is rendered
  *
  *   bFirstChild    : true,
  *   lastChild      : [ false ],  // Array where the index is the column of

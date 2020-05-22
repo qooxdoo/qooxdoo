@@ -50,13 +50,15 @@ qx.Class.define("qx.ui.treevirtual.celleditor.NodeEditor",
 
       // The value in the case of a Tree is a Node and we want the label
       if (cellInfo.value === null || typeof cellInfo.value != "object") {
-        cellInfo.value = {label: ""};
+        cellInfo.value = {label: "", labelPos: 0};
       }
 
       var label = cellInfo.value.label;
       cellEditor.originalValue = cellInfo.value;
       cellEditor.originalLabel = label;
       cellEditor.setValue("" + label);
+      // dynamically pad to the position of the node label - calculated in CellRenderer
+      cellEditor.setPaddingLeft(cellInfo.value.labelPos);
 
       cellEditor.addListener("appear", function() {
         cellEditor.selectAllText();
@@ -68,7 +70,6 @@ qx.Class.define("qx.ui.treevirtual.celleditor.NodeEditor",
     _createEditor: function _createEditor() {
       var cellEditor = new qx.ui.form.TextField();
       cellEditor.setAppearance("treevirtual-node-editor-textfield");
-      // cellEditor.setPaddingLeft(38);  // dynamically pad to the position of the node label
       return cellEditor;
     }
   }
