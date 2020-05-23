@@ -29,9 +29,12 @@ qx.Class.define("qx.test.renderer.Color",
         "red" : [255,0,0], //named
         "black" : [0,0,0], //named
         "#FFF" : [255,255,255], //hex3
+        "#fffa" : [255,255,255,0.667], //hex4
         "#Ff1" : [255,255,17], //hex3
         "#0101FF" : [1,1,255], //hex6
+        "#0101FFef" : [1,1,255,0.937], //hex8
         "rgb(123,11,1)" : [123, 11, 1] //rgb
+        "rgba(123,11,1,0.4)" : [123, 11, 1,0.4] //rgba
       };
 
       for (var color in validColors) {
@@ -45,7 +48,7 @@ qx.Class.define("qx.test.renderer.Color",
         "blau",
         "1234",
         "#ff",
-        "#ffff",
+        "#fffff",
         "rgb(12,13)"
       ];
 

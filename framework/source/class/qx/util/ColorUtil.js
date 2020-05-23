@@ -34,10 +34,12 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      */
     REGEXP :
     {
-      hex3 : /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
-      hex6 : /^#([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})([0-9a-fA-F]{1})$/,
+      hexShort : /^#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])?$/,
+      hexLong : /^#([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})([0-9a-fA-F]{2})?$/,
+      hex3 : /^#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/,
+      hex6 : /^#([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])([0-9a-fA-F])$/,
       rgb : /^rgb\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*\)$/,
-      rgba : /^rgba\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*\)$/
+      rgba : /^rgba\(\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,1}[0-9]*)\s*,\s*([0-9]{1,3}\.{0,2}[0-9]*)\s*\)$/
     },
 
 
@@ -164,12 +166,12 @@ qx.Bootstrap.define("qx.util.ColorUtil",
 
 
     /**
-     * Try to convert an incoming string to an RGB array.
-     * Supports themed, named and system colors, but also RGB strings,
-     * hex3 and hex6 values.
+     * Try to convert an incoming string to an RGBA array.
+     * Supports themed, named and system colors, but also RGBA strings,
+     * hex[3468] values.
      *
      * @param str {String} any string
-     * @return {Array} returns an array of red, green, blue on a successful transformation
+     * @return {Array} returns an array of red, green, blue and optional alpha on a successful transformation
      * @throws {Error} if the string could not be parsed
      */
     stringToRgb : function(str)
@@ -177,38 +179,12 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       if (this.supportsThemes() && this.isThemedColor(str)) {
         str = qx.theme.manager.Color.getInstance().resolveDynamic(str);
       }
-
-      if (this.isNamedColor(str))
-      {
-        return this.NAMED[str].concat();
-      }
-      else if (this.isSystemColor(str))
-      {
-        throw new Error("Could not convert system colors to RGB: " + str);
-      }
-      else if (this.isRgbaString(str)) {
-        return this.__rgbaStringToRgb(str);
-      }
-      else if (this.isRgbString(str))
-      {
-        return this.__rgbStringToRgb();
-      }
-      else if (this.isHex3String(str))
-      {
-        return this.__hex3StringToRgb();
-      }
-      else if (this.isHex6String(str))
-      {
-        return this.__hex6StringToRgb();
-      }
-
-      throw new Error("Could not parse color: " + str);
+      return this.cssStringToRgb(str);
     },
 
-
     /**
-     * Try to convert an incoming string to an RGB array.
-     * Support named colors, RGB strings, hex3 and hex6 values.
+     * Try to convert an incoming string to an RGB array with optional alpha.
+     * Support named colors, RGB strings, RGBA strings, hex[3468] values.
      *
      * @param str {String} any string
      * @return {Array} returns an array of red, green, blue on a successful transformation
@@ -216,31 +192,37 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      */
     cssStringToRgb : function(str)
     {
+      var color;
       if (this.isNamedColor(str))
       {
-        return this.NAMED[str];
+        color = this.NAMED[str].concat();
       }
       else if (this.isSystemColor(str))
       {
-        throw new Error("Could not convert system colors to RGB: " + str);
+          throw new Error("Could not convert system colors to RGB: " + str);
+      }
+      else if (this.isRgbaString(str)) {
+        color = this.__rgbaStringToRgb(str);
       }
       else if (this.isRgbString(str))
       {
-        return this.__rgbStringToRgb();
+        color = this.__rgbStringToRgb();
       }
-      else if (this.isRgbaString(str))
+      else if (this.ishexShortString(str))
       {
-        return this.__rgbaStringToRgb();
+        color = this.__hexShortStringToRgb();
       }
-      else if (this.isHex3String(str))
+      else if (this.ishexLongString(str))
       {
-        return this.__hex3StringToRgb();
+        color = this.__hexLongStringToRgba();
       }
-      else if (this.isHex6String(str))
-      {
-        return this.__hex6StringToRgb();
+      if (color) {
+        // don't mention alpha if the color is opaque
+        if (color.length === 3 && color[3] == 1) {
+          color.pop();
+        }
+        return color;
       }
-
       throw new Error("Could not parse color: " + str);
     },
 
@@ -249,7 +231,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * Try to convert an incoming string to an RGB string, which can be used
      * for all color properties.
      * Supports themed, named and system colors, but also RGB strings,
-     * hex3 and hex6 values.
+     * hexShort and hexLong values.
      *
      * @param str {String} any string
      * @return {String} a RGB string
@@ -268,15 +250,15 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @return {String} an RGB string
      */
     rgbToRgbString : function(rgb) {
-      return "rgb" + (rgb[3] !== undefined ? "a" : "") +  "(" + rgb.join(",") + ")";
+      return "rgb" + (rgb.length === 4 ? "a" : "") +  "(" + rgb.map(function(v){return Math.round(v*1000)/1000 }).join(", ") + ")";
     },
 
 
     /**
-     * Converts a RGB array to an hex6 string
+     * Converts a RGB array to a hex[68] string
      *
-     * @param rgb {Array} an array with red, green and blue
-     * @return {String} a hex6 string (#xxxxxx)
+     * @param rgb {Array} an array with red, green, blue and optional alpha
+     * @return {String} a hex[68] string (#xxxxxx)
      */
     rgbToHexString : function(rgb)
     {
@@ -284,7 +266,13 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         "#" +
         qx.lang.String.pad(rgb[0].toString(16).toUpperCase(), 2) +
         qx.lang.String.pad(rgb[1].toString(16).toUpperCase(), 2) +
-        qx.lang.String.pad(rgb[2].toString(16).toUpperCase(), 2)
+        qx.lang.String.pad(rgb[2].toString(16).toUpperCase(), 2) +
+        ( rgb.length === 4 && rgb[3] !== 1
+          ? qx.lang.String.pad(
+              Math.int(rgb[2]*255).toString(16).toUpperCase(),2
+            )
+          : ""
+        )
       );
     },
 
@@ -299,8 +287,8 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       return (
         this.isThemedColor(str) ||
         this.isNamedColor(str) ||
-        this.isHex3String(str) ||
-        this.isHex6String(str) ||
+        this.ishexShortString(str) ||
+        this.ishexLongString(str) ||
         this.isRgbString(str) ||
         this.isRgbaString(str));
     },
@@ -316,13 +304,21 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       return (
         this.isSystemColor(str) ||
         this.isNamedColor(str) ||
-        this.isHex3String(str) ||
-        this.isHex6String(str) ||
+        this.ishexShortString(str) ||
+        this.ishexLongString(str) ||
         this.isRgbString(str) ||
         this.isRgbaString(str));
     },
 
-
+    /**
+     * Detects if a string is a valid hexShort string
+     *
+     * @param str {String} any string
+     * @return {Boolean} true when the incoming value is a valid hexShort string
+     */
+    ishexShortString : function(str) {
+      return this.REGEXP.hexShort.test(str);
+    },
     /**
      * Detects if a string is a valid hex3 string
      *
@@ -332,7 +328,6 @@ qx.Bootstrap.define("qx.util.ColorUtil",
     isHex3String : function(str) {
       return this.REGEXP.hex3.test(str);
     },
-
 
     /**
      * Detects if a string is a valid hex6 string
@@ -344,6 +339,15 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       return this.REGEXP.hex6.test(str);
     },
 
+    /**
+     * Detects if a string is a valid hex6/8 string
+     *
+     * @param str {String} any string
+     * @return {Boolean} true when the incoming value is a valid hex8 string
+     */
+    ishexLongString : function(str) {
+      return this.REGEXP.hexLong.test(str);
+    },
 
     /**
      * Detects if a string is a valid RGB string
@@ -367,11 +371,11 @@ qx.Bootstrap.define("qx.util.ColorUtil",
     },
 
 
-    /**
-     * Converts a regexp object match of a rgb string to an RGB array.
-     *
-     * @return {Array} an array with red, green, blue
-     */
+   /**
+    * Converts a regexp object match of a rgb string to an RGBA array.
+    *
+    * @return {Array} an array with red, green, blue
+    */
     __rgbStringToRgb : function()
     {
       var red = parseInt(RegExp.$1, 10);
@@ -381,7 +385,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       return [red, green, blue];
     },
 
-   /**
+    /**
     * Converts a regexp object match of a rgba string to an RGB array.
     *
     * @return {Array} an array with red, green, blue
@@ -393,11 +397,28 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var blue = parseInt(RegExp.$3, 10);
       var alpha = parseFloat(RegExp.$4, 10);
 
+      // what is the purpose of this ?
       if (red === 0 && green === 0 & blue === 0 && alpha === 0) {
-        return [-1, -1, -1];
+        return [1, 1, 1, 0];
       }
 
-      return [red, green, blue];
+      return alpha == 1 ? [red,green,blue] : [red, green, blue, alpha];
+    },
+
+
+
+    /**
+     * Converts a regexp object match of a hexShort string to an RGB array.
+     *
+     * @return {Array} an array with red, green, blue
+     */
+    __hexShortStringToRgb : function()
+    {
+      var red = parseInt(RegExp.$1, 16) * 17;
+      var green = parseInt(RegExp.$2, 16) * 17;
+      var blue = parseInt(RegExp.$3, 16) * 17;
+      var alpha = parseInt(( RegExp.$4 || 'f' ), 16) / 15;
+      return alpha == 1 ? [red,green,blue] : [red, green, blue, alpha];
     },
 
 
@@ -428,6 +449,21 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var blue = (parseInt(RegExp.$5, 16) * 16) + parseInt(RegExp.$6, 16);
 
       return [red, green, blue];
+    },
+
+
+    /**
+     * Converts a regexp object match of a hexLong string to an RGB array.
+     *
+     * @return {Array} an array with red, green, blue
+     */
+    __hexLongStringToRgba : function()
+    {
+      var red = parseInt(RegExp.$1, 16);
+      var green = parseInt(RegExp.$2, 16);
+      var blue = parseInt(RegExp.$3, 16);
+      var alpha = parseInt((RegExp.$4 || 'ff'), 16) / 255;
+      return alpha == 1 ? [red,green,blue] : [red, green, blue, alpha];
     },
 
 
@@ -482,17 +518,17 @@ qx.Bootstrap.define("qx.util.ColorUtil",
     /**
      * Converts a hex string to an RGB array
      *
-     * @param value {String} a hex3 (#xxx) or hex6 (#xxxxxx) string
-     * @return {Array} an array with red, green, blue
+     * @param value {String} a hexShort (#rgb/#rgba) or hexLong (#rrggbb/#rrggbbaa) string
+     * @return {Array} an array with red, green, blue and alpha
      */
     hexStringToRgb : function(value)
     {
-      if (this.isHex3String(value)) {
-        return this.__hex3StringToRgb(value);
+      if (this.ishexShortString(value)) {
+        return this.__hexShortStringToRgb(value);
       }
 
-      if (this.isHex6String(value)) {
-        return this.__hex6StringToRgb(value);
+      if (this.ishexLongString(value)) {
+        return this.__hexLongStringToRgb(value);
       }
 
       throw new Error("Invalid hex value: " + value);
@@ -650,7 +686,78 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       return [rgb.red, rgb.green, rgb.blue];
     },
 
-
+    /**
+     * Convert RGB colors to HSV
+     *
+     * @param rgb {Number[]} red, blue and green as array
+     * @return {Array} an array with hue, saturation and brightness
+     */
+    rgbToHsv: function(rgb){
+      var r = rgb[0];
+      var g = rgb[1];
+      var b = rgb[2];
+      // implementation from
+      // https://stackoverflow.com/questions/8022885/rgb-to-hsv-color-in-javascript/54070620#54070620
+      var v = Math.max(r,g,b);
+      var n = v-Math.min(r,g,b);
+      var h = n && ((v==r) ? (g-b)/n : ((v==g) ? 2+(b-r)/n : 4+(r-g)/n));
+      return [60*(h<0?h+6:h), v&&n/v, v];
+    },
+    /**
+     * Convert HSV colors to RGB
+     *
+     * @param hsv {Number[]} an array with hue, saturation and value
+     * @return {Integer[]} an array with red, green, blue
+     */
+    hsvToRgb: function(hsv){
+      var h = hsv[0];
+      var s = hsv[1];
+      var v = hsv[2];
+      // implementation from
+      // https://stackoverflow.com/questions/17242144/javascript-convert-hsb-hsv-color-to-rgb-accurately/54024653#54024653
+      var f = function(n){
+        var k=(n+h/60)%6;
+        return v - v*s*Math.max( Math.min(k,4-k,1), 0);
+      };
+      return [f(5),f(3),f(1)];
+    },
+    /**
+     * Convert RGB colors to HSL
+     *
+     * @param rgb {Number[]} red, blue and green as array
+     * @return {Array} an array with hue, saturation and lightness
+     */
+    rgbToHsl: function(rgb){
+      var r = rgb[0];
+      var g = rgb[1];
+      var b = rgb[2];
+      // implementation from
+      // https://stackoverflow.com/questions/2348597/why-doesnt-this-javascript-rgb-to-hsl-code-work/54071699#54071699
+      var a = Math.max(r,g,b);
+      var n = a-Math.min(r,g,b);
+      var f = (1-Math.abs(a+a-n-1));
+      var h = n && ((a==r) ? (g-b)/n : ((a==g) ? 2+(b-r)/n : 4+(r-g)/n));
+      return [60*(h<0?h+6:h), f ? n/f : 0, (a+a-n)/2];
+    },
+    /**
+     * Convert HSL colors to RGB
+     *
+     * @param hsl {Number[]} an array with hue, saturation and lightness
+     * @return {Integer[]} an array with red, green, blue
+     */
+    hslToRgb: function(hsl){
+      var h = hsl[0];
+      var s = hsl[1];
+      var l = hsl[2];
+      // implementation from
+      // https://stackoverflow.com/questions/36721830/convert-hsl-to-rgb-and-hex/54014428#54014428
+      var a = s*Math.min(l,1-l);
+      var f = function(n){
+        var k = (n+h/30)%12;
+        return l - a*Math.max(Math.min(k-3,9-k,1),-1);
+      };
+      return [f(0),f(8),f(4)];
+    },
     /**
      * Creates a random color.
      *
@@ -663,6 +770,158 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var b = Math.round(Math.random() * 255);
 
       return this.rgbToRgbString([r, g, b]);
+    },
+
+    /**
+     * Tune a color string according to the tuneMap
+     *
+     * @param color {String} a valid qooxdoo/CSS rgb color string
+     * @param scaleMap {Map}  as described above
+     * @param tuner {Function}  function
+     * @param hue_tuner {Function}  function
+     * @return {String} a valid CSS rgb color string.*
+     */
+    __tuner: function(color,tuneMap,tuner,hue_tuner){
+      var rgba = this.stringToRgb(color);
+      for (var key in tuneMap) {
+        switch (key) {
+          case 'red':
+            rgba[0] = tuner(rgba[0],tuneMap[key],255);
+            break;
+          case 'green':
+            rgba[1] = tuner(rgba[1],tuneMap[key],255);
+            break;
+          case 'blue':
+            rgba[2] = tuner(rgba[2],tuneMap[key],255);
+            break;
+          case 'alpha':
+            rgba[3] = tuner(rgba[3]||1,tuneMap[key],1);
+            break;
+          case 'hue':
+            if (hue_tuner){
+              var hsb = this.rgbToHsb(rgba);
+              hsb[0] = hue_tuner(hsb[0],tuneMap[key]);
+              var rgb = this.hsbToRgb(hsb);
+              rgb[3] = rgba[3];
+              rgba = rgb;
+            }
+            else {
+              throw new Error("Invalid key in map: " + key);
+            }
+            break;
+          case 'saturation':
+            var hsb = this.rgbToHsb(rgba);
+            hsb[1] = tuner(hsb[1],tuneMap[key],100);
+            rgb = this.hsbToRgb(hsb);
+            rgb[3] = rgba[3];
+            rgba = rgb;
+            break;
+          case 'brightness':
+            var hsb = this.rgbToHsb(rgba);
+            hsb[2] = tuner(hsb[2],tuneMap[key],100);
+            rgb = this.hsbToRgb(hsb);
+            rgb[3] = rgba[3];
+            rgba = rgb;
+            break;
+          case 'value':
+            var hsv = this.rgbToHsv(rgba);
+            hsv[2] = tuner(hsv[2],tuneMap[key],100);
+            rgb = this.hsvToRgb(hsv);
+            rgb[3] = rgba[3];
+            rgba = rgb;
+            break;
+          case 'lightness':
+            var hsl = this.rgbToHsl(rgba);
+            hsl[2] = tuner(hsl[2],tuneMap[key],100);
+            rgb = this.hslToRgb(hsl);
+            rgb[3] = rgba[3];
+            rgba = rgb;
+            break;
+          default:
+            throw new Error("Invalid key in tune map: " + key);
+        }
+      }
+      if (rgba.length === 4 && rgba[3] === undefined || rgba[3] === 1){
+        rgba.pop();
+      }
+      return this.rgbToRgbString(rgba);
+    },
+    /**
+     * Scale
+     *
+
+     * Scale the given properties of the input color according to the
+     * configuration given in the `scaleMap`. Each key argument must point to a
+     * number between -100% and 100% (inclusive). This indicates how far the
+     * corresponding property should be moved from its original position
+     * towards the maximum (if the argument is positive) or the minimum (if the
+     * argument is negative). This means that, for example, `lightness: "50%"`
+     * will make all colors 50% closer to maximum lightness without making them
+     * fully white.
+     *
+     * Supported keys are:
+     * `red`, `green`, `blue`, `alpha`, `saturation`,
+     * `brightness`, `value`, `lightness`.
+     *
+     * @param color {String}  a valid qooxdoo/CSS rgb color string
+     * @param scaleMap {Map}  as described above
+     * @return {String} a valid CSS rgb color string.
+     */
+    scale: function(color,scaleMap){
+      return this.__tuner(color,scaleMap,function(value,scale,max) {
+        if (value > max){
+          value = max;
+        }
+        if (scale > 0){
+          if (scale > 100){
+            scale = 100;
+          }
+          return value + (max - value) * scale / 100;
+        }
+        // scale < 0
+        if (scale < -100){
+          scale = -100;
+        }
+        return value + value * scale / 100;
+      });
+    },
+    /**
+     * Adjust
+     *
+     * Increases or decreases one or more properties of the input color
+     * by fixed amounts according to the configuration given in the
+     * `adjustMap`. The value of the corresponding key is added to the
+     * original value and the final result is adjusted to stay within legal
+     * bounds. Hue values can go full circle.a1
+     *
+     * Supported keys are:
+     * `red`, `green`, `blue`, `alpha`, `hue`, `saturation`, `brightness`,
+     * `value`, `lightness`
+     *
+     * @param color {String} a valid qooxdoo/CSS rgb color string
+     * @param scaleMap {Map} as described above
+     * @return {String} a valid CSS rgb color string.
+     */
+    adjust: function(color,adjustMap){
+      return this.__tuner(color,adjustMap, function(value,offset,max) {
+        value += offset;
+        if (value > max){
+          return max;
+        }
+        if (value < 0){
+          return 0;
+        }
+        return value;
+      },
+      function(value,offset) {
+        value += offset;
+        while (value > 360){
+          value -= 360;
+        }
+        while (value < 0){
+          value += 360;
+        }
+      });
     }
   }
 });
