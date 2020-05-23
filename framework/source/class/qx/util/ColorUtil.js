@@ -457,7 +457,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      *
      * @return {Array} an array with red, green, blue
      */
-    __hexLongStringToRgba : function()
+    __hexLongStringToRgb : function()
     {
       var red = parseInt(RegExp.$1, 16);
       var green = parseInt(RegExp.$2, 16);
