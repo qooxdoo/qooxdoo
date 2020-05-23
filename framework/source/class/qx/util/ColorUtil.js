@@ -214,7 +214,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       }
       else if (this.ishexLongString(str))
       {
-        color = this.__hexLongStringToRgba();
+        color = this.__hexLongStringToRgb();
       }
       if (color) {
         // don't mention alpha if the color is opaque
