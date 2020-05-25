@@ -36,22 +36,58 @@ fi
 exe node -v
 exe npm  -v
 
+echo ">>> Installing dependencies..."
 exe npm install
-exe npm install --no-save @qooxdoo/compiler
 
-exe npx qx --version
-exe npx qx pkg install -v 
-#compile everything
-exe npx qx compile --config-file=compileServer.json --target=build 
-#exe npx qx compile --config-file=compile.json       --target=build 
-#remove unnecessary stuff
-#exe find ./apps/transpiled -type f -name '*.map' -delete
-#exe find ./apps/transpiled -type f -name '*.js'  -delete
-#copy source
+echo ">>> Installing github.com/qooxdoo/qooxdoo-compiler"
+exe rm -rf ./qooxdoo-compiler
+exe git clone https://github.com/qooxdoo/qooxdoo-compiler.git --depth=1 --single-branch ./qooxdoo-compiler
+exe cd ./qooxdoo-compiler
+exe npm install
+QX=`pwd`/qx
+exe cd ..
+exe $QX --version
+
+echo ">>> Compiling & deploying server library with the compiler master using current qx_server library from NPM..."
+exe $QX compile --config-file=compile-server.json --target=build
+exe mkdir -p ./lib
+exe rm -rf ./lib/*
+exe cp -R compiled/build/qx_server ./lib
+
+echo ">>> Installing the newly built qx_server library..."
+exe rm -rf ./qooxdoo-compiler/node_modules/@qooxdoo/framework/lib
+exe cp -fR lib ./qooxdoo-compiler/node_modules/@qooxdoo/framework
+exe cp -f package.json Manifest.json ./qooxdoo-compiler/node_modules/@qooxdoo/framework
+
+echo ">>> Running Compiler Tests"
+exe cd ./qooxdoo-compiler
+exe test/test.linux.sh
+exe cd ..
+
+echo ">>> Recompiling & deploying server library..."
+exe rm -rf compiled
+exe $QX compile --config-file=compile-server.json --target=build
+exe $QX deploy --config-file=compile-server.json
+
+echo ">>> Compiling & deploying API Viewer..."
+exe $QX compile --config-file=compile.json --target=build
+exe $QX deploy --config-file=compile.json
+
+echo ">>> Deploying Qooxdoo source"
 exe mkdir -p source
+exe rm -rf ./source/*
 exe cp -rf ./framework/source/* ./source
+
+# we're not deploying anything, just testing
+# exit 0;
+
+
+echo ">>> Publishing to NPM"
 # fill .npmrc with access token
 echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN:-}" > ~/.npmrc
-# publish to npm
-exe npm publish --access public 
+exe npm publish --access public
+
+
+echo ">>> Cleaning up"
+rm -rf qooxdoo-compiler source
 
