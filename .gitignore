@@ -35,6 +35,8 @@ tmp/
 /deploy
 /build
 /qx_packages
+/qooxdoo-compiler
+/source
 
 # CSS compiler
 /framework/source/resource/qx/mobile/scss/.sass-cache/
