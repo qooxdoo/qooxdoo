@@ -7,7 +7,7 @@ To use this you have to generate a compile.js file as
 described [here](../compiler/configuration/api.md#compile.js).
 
 Here is an example for running a browser test based on
-[playwright](https://www.npmjs.com/package/playwright). Remember
+[playwright](https://www.npmjs.com/package/playwright). Note
 you have to prepare the runtime environment in your
 build scripts yourself (such as installing required libraries and
 npm modules), since they are not included in qooxdoo (see [this
