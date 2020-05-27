@@ -8,7 +8,7 @@ described [here](../compiler/configuration/api.md#compile.js).
 
 Here is an example for running a browser test based on
 [playwright](https://www.npmjs.com/package/playwright). Remember
-you have to make sure to prepare the runtime environment in your
+you have to prepare the runtime environment in your
 build scripts yourself (such as installing required libraries and
 npm modules), since they are not included in qooxdoo (see [this
 example](https://github.com/qooxdoo/qxl.apiviewer/blob/master/.github/workflows/build-and-deploy.yml)).
