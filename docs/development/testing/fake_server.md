@@ -1,10 +1,19 @@
 # FakeServer
 
-qx.dev.FakeServer provides a simple way to define a mock HTTP server in the browser. This can be used to test and develop applications that communicate with an HTTP backend even if the actual service is unavailable. It is based on the excellent [Sinon.JS](http://sinonjs.org/) mocking library, in particular its FakeXMLHttpRequest interface which wraps the browser's XHR implementation, and is thus completely transparent: No modifications to the client code are required.
+qx.dev.FakeServer provides a simple way to define a mock HTTP server
+in the browser. This can be used to test and develop applications
+that communicate with an HTTP backend even if the actual service is
+unavailable. It is based on the excellent [Sinon.JS](http://sinonjs.org/)
+mocking library, in particular its FakeXMLHttpRequest interface
+which wraps the browser's XHR implementation, and is thus completely
+transparent: No modifications to the client code are required.
 
 ## Configuration
 
-FakeServer is configured by defining responses to HTTP method/request URL pairs. Only matching requests will receive a mock response, other requests will be processed by the browser as usual. Here is an example configuration that defines mock responses for two different requests:
+FakeServer is configured by defining responses to HTTP method/request
+URL pairs. Only matching requests will receive a mock response, other
+requests will be processed by the browser as usual. Here is an example
+configuration that defines mock responses for two different requests:
 
 ```javascript
 var responseData = [

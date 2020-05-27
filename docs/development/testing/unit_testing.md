@@ -1,12 +1,12 @@
 # Unit Testing
 
-qooxdoo comes with its own, nicely integrated unit testing environment.
-While being similar to JSUnit, the solution that ships with the qooxdoo SDK does not require any
-additional software.
+qooxdoo comes with its own, nicely integrated unit testing
+environment, similar to JSUnit and based on the [Sinon library (v1.9.1)](https://sinonjs.org/releases/v1.17.7).
+See Qooxdoo's [testing API](https://api.qooxdoo.org/#qx.dev.unit).
 
 ## Writing a test class
 
-```
+```javascript
 qx.Class.define("MyApp.test.DemoTest",
 {
   extend : qx.dev.unit.TestCase,
@@ -50,22 +50,23 @@ To run browser based test you have to
   - install testapper with `qx package install qooxdoo/qxl.testtapper --save=0`
   - prepare testapper application in your `compile.json` by adding your test namespace:
   
-```
+```json
       "environment": {
         "testtapper.testNameSpace": "myapp.test"
       },
-```	  
+```
 
    - include your test classes
 
-```	  
+```json
       "include": [
         "myapp.test.*"
       ],
-```	  
+```
 
    - write some tests:
-```
+   
+```javascript
 qx.Class.define("myapp.test.MyTest",
 {
   extend : qx.dev.unit.TestCase,
@@ -81,6 +82,9 @@ qx.Class.define("myapp.test.MyTest",
 
 ## Hints   
 
-   - to run a single test you can use `qx test --class myapp.test.MyTest --method testOne`
+   - to run a single test, you can use `qx test --class myapp.test.MyTest
+   --method testOne` 
    
+   - if your application makes HTTP requests,
+   you should use the built-in [Fake Server](fake_server.md).
 
