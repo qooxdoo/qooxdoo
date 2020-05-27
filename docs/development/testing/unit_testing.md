@@ -1,8 +1,13 @@
 # Unit Testing
 
-qooxdoo comes with its own, nicely integrated unit testing
+qooxdoo comes with its own, nicely integrated [Unit Testing](https://en.wikipedia.org/wiki/Unit_testing)
 environment, similar to JSUnit and based on the [Sinon library (v1.9.1)](https://sinonjs.org/releases/v1.17.7).
-See Qooxdoo's [testing API](https://api.qooxdoo.org/#qx.dev.unit).
+See Qooxdoo's [unit testing API](https://api.qooxdoo.org/#qx.dev.unit).
+
+Unit Testing is best suited for isolated pieces of functionality without side effects, such as
+libraries. If you want to test the business logic of your application which involves change of
+application state, we recommend to use Qooxdoo's [GUI Testing](gui_testing.md) infrastructure, 
+which uses an external testrunner.
 
 ## Writing a test class
 
@@ -77,14 +82,24 @@ qx.Class.define("myapp.test.MyTest",
   }
 });
 ```
+
+## Mocking a server backend
    
-   - run `qx test` and check result.
+If you want to test behavior of your application that depends on making HTTP requests 
+to a backend, you can use the built-in [Fake Server](fake_server.md) to mock server responses. 
+ 
+## Running the tests
 
-## Hints   
+The unit tests can be run using the [TestTapper application](https://github.com/qooxdoo/qxl.testtapper/blob/master/README.md),
+which you can easily install by executing `npx qx package install --save=0 qooxdoo/qxl.testtapper`.
+(`--save=0` ensures that this test runner is not registered as a permanent dependency of your
+application). 
 
-   - to run a single test, you can use `qx test --class myapp.test.MyTest
-   --method testOne` 
-   
-   - if your application makes HTTP requests,
-   you should use the built-in [Fake Server](fake_server.md).
-
+ -  If you want to see the results of your tests in the browsers, execute `npx qx serve -S`. 
+ This will run the built-in server. Open the link that is printed to the console, which opens
+ the Qooxdoo application server startpage. There, click on "TestTapper" to start the visual testrunner.
+ 
+ - To see the test results as output of a command line script (in the syntax of the 
+ [TAP protocol](https://node-tap.org/tap-protocol/)), execute `npx qx test`. 
+ This will run the server similarly to `npx qx serve`, and run the tests in a headless browser. 
+ To run a single test, you can use `qx test --class myapp.test.MyTest --method testOne` 
