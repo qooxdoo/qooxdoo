@@ -179,5 +179,5 @@ each parameter in turn, and if one of them matches the key applies.
 
 For a detailed list of tags and their usage, please refer to the [qooxdoo v5
 JSDoc reference list](http://archive.qooxdoo.org/5.0.2/pages/development/api_jsdoc_ref.html#section-reference).
-Note that the tags `@group`,` @cldr`, `@attach`, `@attachStatic`, `@tag`, and 
-`@signature` described in this list are no longer supported.
+Note that the tags `@lint`, `@group`,` @cldr`, `@attach`, `@attachStatic`, `@tag`, and 
+`@signature` described in this list are no longer supported and will be ignored.
