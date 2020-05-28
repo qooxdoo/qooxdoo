@@ -1,6 +1,6 @@
 # Dependencies
 
-The main task of QxCompiler (and generate.py) is to read the code and figure out the correct load order for the javascript
+The main task of the Compiler is to read the code and figure out the correct load order for the javascript
 files.  Once you have a parser and can recognise symbol references it is quite straightforward to determine what classes
 are required, but the order in which they must be loaded is more complex because if you simply assume that any reference
 means the class referred must be loaded first then you quickly find a recursive dependency order that cannot be satisfied.

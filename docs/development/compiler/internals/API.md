@@ -13,7 +13,7 @@ A Library is a collection of code, in a namespace with a Manifest.json - i.e. th
 sees the concept of a Library.
 
 Note that your application is also a Library - it has a namespace, classes in JS files, and a Manifest.json; both
-QxCompiler and generate.py see these as just libraries.  You know that one of the classes in your library is the
+Compiler and the legacy Generator see these as just libraries. You know that one of the classes in your library is the
 main "Application" class but QxCompiler just sees a library.
 
 ## Application (``qxcompiler.Application``)
@@ -25,8 +25,8 @@ their dependency information until it has a complete set of classes to output.
 
 ## Target (``qxcompiler.targets.*``)
 
-When creating an Application, QxCompiler assembles the code according to a Target - currently these are SourceTarget and
-BuildTarget and they correspond to the "build" and "source" targets in generate.py.
+When creating an Application, the Compiler assembles the code according to a Target - currently these are SourceTarget and
+BuildTarget and they correspond to the "build" and "source" targets in qooxdoo v5.
 
 **NOTE** that Hybrid targets do not exist any more - please see the `bundles` setting in `compile.json`
 

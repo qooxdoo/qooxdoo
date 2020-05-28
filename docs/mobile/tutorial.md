@@ -529,8 +529,7 @@ corresponding tweet from the data. Finally we show our "TweetDetail" page. :
       tweetPage.show();
     }, this);
 
-Rebuild the source code (or the `./generate.py build` version), refresh the
-application in your browser and enjoy your application! We are done here.
+Rebuild, refresh the application in your browser and enjoy your application! We are done here.
 
 ![image](tutorial_details.png)
 

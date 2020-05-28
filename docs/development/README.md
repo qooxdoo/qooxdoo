@@ -62,6 +62,13 @@ a *build* version of it. This version will be compressed and
 optimized, and will be all geared towards deployment and runtime
 efficiency. But it will be much less amenable to development.
 
+## Writing API documentation
+
+If you follow [Qooxdoo's API documentation rules](documentation/write_api_documentation.md),
+you get Qooxdoo's attractive [API Viewer](apps://apiviewer/) for your own code,
+too. 
+
+
 ## Testing your code
 
 Qooxdoo supports a Test-Driven-Development paradigm as unit tests can be 
