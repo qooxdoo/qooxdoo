@@ -7,7 +7,8 @@
       "babelOptions": {
         "targets": "node >= 10"
       },
-      "deployPath": "lib"
+      "deployPath": "lib",
+      "writeCompileInfo": true
     }
   ],
   "defaultTarget": "build",
@@ -38,7 +39,14 @@
         "qx.debug": false
       },
       "include": [
-        "qx.*",
+        "qx.core.*",
+        "qx.data.*",
+        "qx.io.*",
+        "qx.lang.*",
+        "qx.locale.*",
+        "qx.log.*",
+        "qx.type.*",
+        "qx.util.*",
         "qx.dev.unit.TestLoaderBasic",
         "qx.dev.unit.Sinon"
       ],
