@@ -35,7 +35,7 @@ qx.Class.define("qx.test.util.ColorUtil",
     testCssStringToRgb : function()
     {
       this.assertEquals("255,0,0", qx.util.ColorUtil.cssStringToRgb("rgba(255,0,0,1)"));
-      this.assertEquals("201,23,120", qx.util.ColorUtil.cssStringToRgb("rgba(201,23,120,0.3)"));
+      this.assertEquals("201,23,120,0.3", qx.util.ColorUtil.cssStringToRgb("rgba(201,23,120,0.3)"));
 
       this.assertEquals("255,0,0", qx.util.ColorUtil.cssStringToRgb("rgb(255,0,0)"));
       this.assertEquals("201,23,120", qx.util.ColorUtil.cssStringToRgb("rgb(201,23,120)"));
@@ -45,11 +45,9 @@ qx.Class.define("qx.test.util.ColorUtil",
     testHex3StringToHex6String : function()
     {
       this.assertEquals("#FFFFFF", qx.util.ColorUtil.hex3StringToHex6String("#fff"));
-      this.assertEquals("#FFFFFF", qx.util.ColorUtil.hex3StringToHex6String("#ffff"));
-      this.assertEquals("#FFFFFFEE", qx.util.ColorUtil.hex3StringToHex6String("#fffe"));
+      this.assertEquals("#ffff", qx.util.ColorUtil.hex3StringToHex6String("#ffff"));
       this.assertEquals("#FFFFFF", qx.util.ColorUtil.hex3StringToHex6String("#ffFFff"));
       this.assertEquals("#FFFFFF", qx.util.ColorUtil.hex3StringToHex6String("#ffffffFF"));
-      this.assertEquals("#FFFFFF1E", qx.util.ColorUtil.hex3StringToHex6String("#ffffff1e"));
     },
 
 
@@ -63,7 +61,7 @@ qx.Class.define("qx.test.util.ColorUtil",
 
     testStringToRgbString : function()
     {
-      this.assertEquals("rgb(0,0,0)", qx.util.ColorUtil.stringToRgbString("rgba(0,0,0,0.5)"));
+      this.assertEquals("rgb(0,0,0,0.5)", qx.util.ColorUtil.stringToRgbString("rgba(0,0,0,0.5)"));
       this.assertEquals("rgb(-1,-1,-1)", qx.util.ColorUtil.stringToRgbString("rgba(0,0,0,0)"));
       this.assertEquals("rgba(11,0,0,0.5)", qx.util.ColorUtil.stringToRgbString("rgba(11,0,0,0.5)"));
     },
