@@ -269,7 +269,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         qx.lang.String.pad(rgb[2].toString(16).toUpperCase(), 2) +
         ( rgb.length === 4 && rgb[3] !== 1
           ? qx.lang.String.pad(
-              Math.int(rgb[2]*255).toString(16).toUpperCase(),2
+              Math.round(rgb[3]*255).toString(16).toUpperCase(),2
             )
           : ""
         )
@@ -892,7 +892,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       },
       function(value,offset) {
         value += offset;
-        while (value > 360){
+        while (value >= 360){
           value -= 360;
         }
         while (value < 0){
