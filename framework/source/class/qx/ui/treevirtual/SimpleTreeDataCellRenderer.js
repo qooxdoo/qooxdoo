@@ -232,6 +232,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       html += extra.html;
       pos = extra.pos;
 
+      // store this position on the node so we can use it for the NodeEditor without recalculation
+      cellInfo.value.labelPos = pos;
       // Add the node's label
       html += this._addLabel(cellInfo, pos);
 

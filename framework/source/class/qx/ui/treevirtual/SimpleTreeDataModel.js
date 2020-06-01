@@ -74,6 +74,7 @@
  *   children       : [ ],  // each value is an index into _nodeArr
  *
  *   level          : 2,    // The indentation level of this tree node
+ *   labelPos       : 40,   // The left position of the label text - stored when the cell is rendered
  *
  *   bFirstChild    : true,
  *   lastChild      : [ false ],  // Array where the index is the column of
@@ -241,10 +242,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     // overridden
     isColumnEditable : function(columnIndex)
     {
-      // The tree column is not editable
       if (columnIndex == this._treeColumn)
       {
-        return false;
+        return this.__tree.getAllowNodeEdit();
       }
 
       return(this.__editableColArr
@@ -371,33 +371,33 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     // overridden
     setValue : function(columnIndex, rowIndex, value)
     {
-      if (columnIndex == this._treeColumn)
-      {
-        // Ignore requests to set the tree column data using this method
-        return;
-      }
-
       // convert from rowArr to nodeArr, and get the requested node
       var node = this.getNodeFromRow(rowIndex);
 
-      if (node.columnData[columnIndex] != value)
+      if (columnIndex === this._treeColumn)
       {
-        node.columnData[columnIndex] = value;
-        this.setData();
-
-        // Inform the listeners
-        if (this.hasListener("dataChanged"))
-        {
-          var data =
-          {
-            firstRow    : rowIndex,
-            lastRow     : rowIndex,
-            firstColumn : columnIndex,
-            lastColumn  : columnIndex
-          };
-
-          this.fireDataEvent("dataChanged", data);
+        if (!this.__tree.getAllowNodeEdit() || value["label"] === undefined) {
+          return;
         }
+        // only allow to set the node label via this method
+        node.label = value.label;
+      } else {
+        if (node.columnData[columnIndex] == value) {
+          return;
+        }
+        node.columnData[columnIndex] = value;
+      }
+      this.setData();
+      // Inform the listeners
+      if (this.hasListener("dataChanged"))
+      {
+        var data = {
+          firstRow: rowIndex,
+          lastRow: rowIndex,
+          firstColumn: columnIndex,
+          lastColumn: columnIndex
+        };
+        this.fireDataEvent("dataChanged", data);
       }
     },
 
