@@ -46,8 +46,10 @@ qx.Class.define("qx.test.util.ColorUtil",
     {
       this.assertEquals("#FFFFFF", qx.util.ColorUtil.hex3StringToHex6String("#fff"));
       this.assertEquals("#ffff", qx.util.ColorUtil.hex3StringToHex6String("#ffff"));
-      this.assertEquals("#FFFFFF", qx.util.ColorUtil.hex3StringToHex6String("#ffFFff"));
-      this.assertEquals("#FFFFFF", qx.util.ColorUtil.hex3StringToHex6String("#ffffffFF"));
+      this.assertEquals("#ffffffe1", qx.util.ColorUtil.hex3StringToHex6String("#ffffffe1"));
+      this.assertEquals("#FFFFFFE1", qx.util.ColorUtil.hex3StringToHex6String("#ffffffe1"));
+      this.assertEquals("#FFFFFFA1", qx.util.ColorUtil.rgbToHexString(qx.util.ColorUtil.hexStringToRgb("#ffFFffa1")));
+      this.assertEquals("#FFFFFFEE", qx.util.ColorUtil.rgbToHexString(qx.util.ColorUtil.hexStringToRgb("#fffe")));
     },
 
 
