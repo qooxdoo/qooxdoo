@@ -569,6 +569,19 @@ qx.Theme.define("qx.theme.simple.Appearance",
     },
 
 
+    "treevirtual-node-editor-textfield": {
+      include : "textfield",
+
+      style : function(states)
+      {
+        return {
+          decorator : undefined,
+          padding : [ 2, 2 ]
+        };
+      }
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       RESIZER
