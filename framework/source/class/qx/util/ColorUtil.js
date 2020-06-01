@@ -536,10 +536,10 @@ qx.Bootstrap.define("qx.util.ColorUtil",
 
 
     /**
-     * Convert RGB colors to HSB
+     * Convert RGB colors to HSB/HSV
      *
      * @param rgb {Number[]} red, blue and green as array
-     * @return {Array} an array with hue, saturation and brightness
+     * @return {Array} an array with hue, saturation and brightness/value
      */
     rgbToHsb : function(rgb)
     {
@@ -599,9 +599,9 @@ qx.Bootstrap.define("qx.util.ColorUtil",
 
 
     /**
-     * Convert HSB colors to RGB
+     * Convert HSB/HSV colors to RGB
      *
-     * @param hsb {Number[]} an array with hue, saturation and brightness
+     * @param hsb {Number[]} an array with hue, saturation and brightness/value
      * @return {Integer[]} an array with red, green, blue
      */
     hsbToRgb : function(hsb)
@@ -687,57 +687,22 @@ qx.Bootstrap.define("qx.util.ColorUtil",
     },
 
     /**
-     * Convert RGB colors to HSV
-     *
-     * @param rgb {Number[]} red, blue and green as array
-     * @return {Array} an array with hue, saturation and brightness
-     */
-    rgbToHsv: function(rgb){
-      var r = rgb[0];
-      var g = rgb[1];
-      var b = rgb[2];
-      // implementation from
-      // https://stackoverflow.com/questions/8022885/rgb-to-hsv-color-in-javascript/54070620#54070620
-      var v = Math.max(r,g,b);
-      var n = v-Math.min(r,g,b);
-      var h = n && ((v==r) ? (g-b)/n : ((v==g) ? 2+(b-r)/n : 4+(r-g)/n));
-      return [60*(h<0?h+6:h), v&&n/v, v];
-    },
-    /**
-     * Convert HSV colors to RGB
-     *
-     * @param hsv {Number[]} an array with hue, saturation and value
-     * @return {Integer[]} an array with red, green, blue
-     */
-    hsvToRgb: function(hsv){
-      var h = hsv[0];
-      var s = hsv[1];
-      var v = hsv[2];
-      // implementation from
-      // https://stackoverflow.com/questions/17242144/javascript-convert-hsb-hsv-color-to-rgb-accurately/54024653#54024653
-      var f = function(n){
-        var k=(n+h/60)%6;
-        return v - v*s*Math.max( Math.min(k,4-k,1), 0);
-      };
-      return [f(5),f(3),f(1)];
-    },
-    /**
      * Convert RGB colors to HSL
      *
      * @param rgb {Number[]} red, blue and green as array
      * @return {Array} an array with hue, saturation and lightness
      */
     rgbToHsl: function(rgb){
-      var r = rgb[0];
-      var g = rgb[1];
-      var b = rgb[2];
+      var r = rgb[0]/255;
+      var g = rgb[1]/255;
+      var b = rgb[2]/255;
       // implementation from
       // https://stackoverflow.com/questions/2348597/why-doesnt-this-javascript-rgb-to-hsl-code-work/54071699#54071699
       var a = Math.max(r,g,b);
       var n = a-Math.min(r,g,b);
       var f = (1-Math.abs(a+a-n-1));
       var h = n && ((a==r) ? (g-b)/n : ((a==g) ? 2+(b-r)/n : 4+(r-g)/n));
-      return [60*(h<0?h+6:h), f ? n/f : 0, (a+a-n)/2];
+      return [60*(h<0?h+6:h), 100 * (f ? n/f : 0), 100*(a+a-n)/2];
     },
     /**
      * Convert HSL colors to RGB
@@ -747,8 +712,8 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      */
     hslToRgb: function(hsl){
       var h = hsl[0];
-      var s = hsl[1];
-      var l = hsl[2];
+      var s = hsl[1]/100;
+      var l = hsl[2]/100;
       // implementation from
       // https://stackoverflow.com/questions/36721830/convert-hsl-to-rgb-and-hex/54014428#54014428
       var a = s*Math.min(l,1-l);
@@ -756,7 +721,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         var k = (n+h/30)%12;
         return l - a*Math.max(Math.min(k-3,9-k,1),-1);
       };
-      return [f(0),f(8),f(4)];
+      return [f(0),f(8),f(4)].map(function(v){ return Math.round(v*2550)/10});
     },
     /**
      * Creates a random color.
@@ -784,6 +749,9 @@ qx.Bootstrap.define("qx.util.ColorUtil",
     __tuner: function(color,tuneMap,tuner,hue_tuner){
       var rgba = this.stringToRgb(color);
       for (var key in tuneMap) {
+        if (tuneMap[key] == 0) {
+            continue;
+        }
         switch (key) {
           case 'red':
             rgba[0] = tuner(rgba[0],tuneMap[key],255);
@@ -823,13 +791,6 @@ qx.Bootstrap.define("qx.util.ColorUtil",
             rgb[3] = rgba[3];
             rgba = rgb;
             break;
-          case 'value':
-            var hsv = this.rgbToHsv(rgba);
-            hsv[2] = tuner(hsv[2],tuneMap[key],100);
-            rgb = this.hsvToRgb(hsv);
-            rgb[3] = rgba[3];
-            rgba = rgb;
-            break;
           case 'lightness':
             var hsl = this.rgbToHsl(rgba);
             hsl[2] = tuner(hsl[2],tuneMap[key],100);
@@ -841,9 +802,24 @@ qx.Bootstrap.define("qx.util.ColorUtil",
             throw new Error("Invalid key in tune map: " + key);
         }
       }
-      if (rgba.length === 4 && rgba[3] === undefined || rgba[3] === 1){
-        rgba.pop();
+      if (rgba.length === 4){
+          if ( rgba[3] === undefined || rgba[3] >= 1){
+            rgba.pop();
+          }
+          else if ( rgba[3] < 0){
+            rgba[3] = 0
+          }
       }
+      [0,1,2].forEach(function(i){
+        if (rgba[i] < 0){
+          rgba[i] = 0;
+          return;
+        }
+        if (rgba[i] > 255){
+          rgba[i] = 255;
+          return;
+        }
+      });
       return this.rgbToRgbString(rgba);
     },
     /**
@@ -921,6 +897,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         while (value < 0){
           value += 360;
         }
+        return value;
       });
     }
   }
