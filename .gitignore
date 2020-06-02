@@ -32,6 +32,7 @@ tmp/
 /lib
 /compiled
 /apps
+/docs
 /deploy
 /build
 /qx_packages

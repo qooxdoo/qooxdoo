@@ -250,7 +250,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
      * @return {String} an RGB string
      */
     rgbToRgbString : function(rgb) {
-      return "rgb" + (rgb.length === 4 ? "a" : "") +  "(" + rgb.map(function(v){return Math.round(v*1000)/1000 }).join(", ") + ")";
+      return "rgb" + (rgb.length === 4 ? "a" : "") +  "(" + rgb.map(function(v){return Math.round(v*1000)/1000 }).join(",") + ")";
     },
 
 
@@ -269,7 +269,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
         qx.lang.String.pad(rgb[2].toString(16).toUpperCase(), 2) +
         ( rgb.length === 4 && rgb[3] !== 1
           ? qx.lang.String.pad(
-              Math.int(rgb[2]*255).toString(16).toUpperCase(),2
+              Math.round(rgb[3]*255).toString(16).toUpperCase(),2
             )
           : ""
         )
@@ -397,9 +397,10 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var blue = parseInt(RegExp.$3, 10);
       var alpha = parseFloat(RegExp.$4, 10);
 
-      // what is the purpose of this ?
       if (red === 0 && green === 0 & blue === 0 && alpha === 0) {
-        return [1, 1, 1, 0];
+        // this is the (pre-alpha) representation of transparency
+        // in qooxdoo
+        return [-1, -1, -1];
       }
 
       return alpha == 1 ? [red,green,blue] : [red, green, blue, alpha];
@@ -417,7 +418,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var red = parseInt(RegExp.$1, 16) * 17;
       var green = parseInt(RegExp.$2, 16) * 17;
       var blue = parseInt(RegExp.$3, 16) * 17;
-      var alpha = parseInt(( RegExp.$4 || 'f' ), 16) / 15;
+      var alpha = Math.round(parseInt(( RegExp.$4 || 'f' ), 16) / 15*1000)/1000;
       return alpha == 1 ? [red,green,blue] : [red, green, blue, alpha];
     },
 
@@ -462,7 +463,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       var red = parseInt(RegExp.$1, 16);
       var green = parseInt(RegExp.$2, 16);
       var blue = parseInt(RegExp.$3, 16);
-      var alpha = parseInt((RegExp.$4 || 'ff'), 16) / 255;
+      var alpha = Math.round(parseInt((RegExp.$4 || 'ff'), 16) / 255 * 1000)/1000;
       return alpha == 1 ? [red,green,blue] : [red, green, blue, alpha];
     },
 
@@ -891,7 +892,7 @@ qx.Bootstrap.define("qx.util.ColorUtil",
       },
       function(value,offset) {
         value += offset;
-        while (value > 360){
+        while (value >= 360){
           value -= 360;
         }
         while (value < 0){

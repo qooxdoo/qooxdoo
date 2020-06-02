@@ -2,11 +2,10 @@ version: 3
 
 # see https://docs.pullapprove.com/config/groups/
 groups:
-  # documentation and tests: only 2 approvals necessary
+  # source code documentation change only: 2 approvals necessary
   documentation:
     conditions:
-      - "files.include('docs/*') or files.include('documentation/*') or files.include('*.md')"
-      - "not (files.exclude('docs/*') and files.exclude('documentation/*') and files.exclude('*.md'))"
+      - "'documentation' in labels"
     reviews:
       required: 2  # 2 approvals from this group are required
       request: 5  # 5 review request will be sent at a time
@@ -14,7 +13,8 @@ groups:
       teams:
         - pr-mergers
 
-  # emergency hotfix: only 2 approvals necessary
+
+  # emergency hotfix:  2 approvals necessary
   hotfix:
     conditions:
       - "'hotfix' in labels"
