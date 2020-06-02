@@ -86,7 +86,7 @@ echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN:-}" > ~/.npmrc
 exe npm publish --access public
 
 echo ">>> Cleaning up"
-rm -rf qooxdoo-compiler source docs
+exe rm -rf qooxdoo-compiler source docs
 exe git reset HEAD --hard
 
 
