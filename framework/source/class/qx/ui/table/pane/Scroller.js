@@ -322,6 +322,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       init : true
     },
 
+    /**
+     * Whether to reset the selection when the unpopulated table area is tapped.
+     * The default is false which keeps the behaviour as before
+     */
+    resetSelectionOnTapBelowRows :
+    {
+      check : "Boolean",
+      init : false
+    },
+
 
     /**
      * Interval time (in milliseconds) for the table update timer.
@@ -687,7 +697,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         if (this.getFocusedRow() === null && rowCount > 0 && colCount > 0)
         {
           this.setFocusedCell(this.getFocusedColumn()||0, 0);
-        } 
+        }
         else if (this.getFocusedRow() >= rowCount)
         {
           if (rowCount == 0) {
@@ -1530,6 +1540,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
                          [this, e, row, col],
                          true);
           this.__firedTapEvent = true;
+        }
+      } else {
+        if (row == null && this.getResetSelectionOnTapBelowRows()) {
+          table.getSelectionModel().resetSelection();
         }
       }
     },
