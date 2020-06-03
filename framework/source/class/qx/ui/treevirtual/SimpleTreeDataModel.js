@@ -379,8 +379,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         if (!this.__tree.getAllowNodeEdit() || value["label"] === undefined) {
           return;
         }
-        // only allow to set the node label via this method
-        node.label = value.label;
+        // only allow to set the node label via this method, clone the original node
+        var updatedNode = qx.lang.Object.clone(node);
+        updatedNode.label = value.label;
+        this._nodeArr[node.nodeId] = updatedNode;
       } else {
         if (node.columnData[columnIndex] == value) {
           return;
