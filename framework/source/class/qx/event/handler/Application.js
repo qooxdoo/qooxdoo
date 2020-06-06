@@ -251,6 +251,7 @@ qx.Class.define("qx.event.handler.Application",
      */
     _initObserver : function()
     {
+ 
       // in Firefox the loader script sets the ready state
       if (qx.$$domReady || document.readyState == "complete" || document.readyState == "ready")
       {
@@ -260,7 +261,6 @@ qx.Class.define("qx.event.handler.Application",
       else
       {
         this._onNativeLoadWrapped = qx.lang.Function.bind(this._onNativeLoad, this);
-
         if (
           qx.core.Environment.get("engine.name") == "gecko" ||
           qx.core.Environment.get("engine.name") == "opera" ||
@@ -296,7 +296,9 @@ qx.Class.define("qx.event.handler.Application",
         // Additional load listener as fallback
         qx.bom.Event.addNativeListener(this._window, "load", this._onNativeLoadWrapped);
       }
-
+      if ((qx.core.Environment.get("runtime.name") == "rhino") || (qx.core.Environment.get("runtime.name") == "node.js")) {
+        return;
+      }  
       this._onNativeUnloadWrapped = qx.lang.Function.bind(this._onNativeUnload, this);
       qx.bom.Event.addNativeListener(this._window, "unload", this._onNativeUnloadWrapped);
     },
