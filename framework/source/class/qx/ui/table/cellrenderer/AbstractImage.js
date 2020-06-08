@@ -44,7 +44,6 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       clazz.stylesheet = qx.bom.Stylesheet.createElement(
         ".qooxdoo-table-cell-icon {" +
         "  text-align:center;" +
-        "  padding-top:1px;" +
         "}"
       );
     }
