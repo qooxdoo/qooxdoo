@@ -393,7 +393,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
         }
 
         try {
-          new ActiveXObject(activeXName);
+          new window.ActiveXObject(activeXName);
         } catch(ex) {
           return false;
         }
