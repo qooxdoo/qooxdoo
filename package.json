@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
   },
-  "main": "./lib/qx_server/boot.js",
+  "main": "./lib/qx_server/index.js",
   "files": [
     "version.txt",
     "LICENSE",
