@@ -120,10 +120,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 
 
     // overridden
-    _insetY : 5,
-
-
-    // overridden
     _identifyImage : function(cellInfo)
     {
       var w;

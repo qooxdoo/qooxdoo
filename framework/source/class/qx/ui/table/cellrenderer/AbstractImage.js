@@ -103,8 +103,6 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     __defaultHeight : 16,
     __imageData : null,
 
-    // overridden
-    _insetY : 2,
 
     /**
      * Identifies the Image to show. This is a template method, which must be
