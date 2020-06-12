@@ -137,8 +137,8 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
      */
     _resizeColumns : function(e)
     {
-      var width =
-        this.getBounds().width - qx.bom.element.Scroll.getScrollbarWidth();
+      var insets = this.getInsets();
+      var width = this.getBounds().width - qx.bom.element.Scroll.getScrollbarWidth() - insets.left - insets.right;
 
       // Compute the column widths
       this.__bCalculateWidths = true;
