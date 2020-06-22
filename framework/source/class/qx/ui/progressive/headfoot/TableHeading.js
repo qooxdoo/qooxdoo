@@ -15,7 +15,6 @@
      * Derrell Lipman (derrell)
 
 ************************************************************************ */
-
 /**
  * A header for a standard table.
  */
