@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     this.__tm = qx.theme.manager.Appearance.getInstance();
 
     // Base URL used for indentation
-    this.BLANK = this.__rm.toUri(this.__am.resolve("static/blank.gif"));
+    this.BLANK = this.__rm.toUri(this.__am.resolve("static/blank.png"));
   },
 
 
