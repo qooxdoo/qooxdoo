@@ -123,21 +123,27 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
 
           var firstRow = this.__scroller.getTablePane().getFirstVisibleRow();
           var rowHeight = table.getRowHeight();
-          var deco = this.getDecorator();
-          if (deco) {
-            deco=qx.theme.manager.Decoration.getInstance().resolve(deco);
-            var wt = deco.getWidthTop();
-            var wr = deco.getWidthRight();
-            var wb = deco.getWidthBottom();
-            var wl = deco.getWidthLeft();
-            this.setUserBounds(
-                paneModel.getColumnLeft(col) - (wt - 1) ,
-                (row - firstRow) * rowHeight - (wr - 1),
-                columnModel.getColumnWidth(col) + (wt+wb-3),
-                rowHeight + (wl+wr-2),
-            );
-            this.show();
+          var wt=0;
+          var wr=0;
+          var wb=0;
+          var wl=0;
+          var decoKey = this.getDecorator();
+          if (decoKey) {
+            var deco=qx.theme.manager.Decoration.getInstance().resolve(decoKey);
+            if (deco) {
+              wt = deco.getWidthTop();
+              wr = deco.getWidthRight();
+              wb = deco.getWidthBottom();
+              wl = deco.getWidthLeft();
+            }
           }
+          this.setUserBounds(
+              paneModel.getColumnLeft(col) - (wt - 1) ,
+              (row - firstRow) * rowHeight - (wr - 1),
+              columnModel.getColumnWidth(col) + (wt+wb-3),
+              rowHeight + (wl+wr-2),
+          );
+          this.show();
           this.setRow(row);
           this.setColumn(col);
         }
