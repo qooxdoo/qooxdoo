@@ -19,7 +19,7 @@
 
 /**
  * Manager for font themes
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  * @ignore(qx.$$fontBootstrap)
@@ -198,7 +198,7 @@ qx.Class.define("qx.theme.manager.Font",
     // apply method
     _applyTheme : function(value)
     {
-      var dest = this._dynamic;
+      var dest = this._dynamic = {};
 
       for (var key in dest)
       {
