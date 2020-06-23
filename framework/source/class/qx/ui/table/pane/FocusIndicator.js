@@ -123,15 +123,21 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
 
           var firstRow = this.__scroller.getTablePane().getFirstVisibleRow();
           var rowHeight = table.getRowHeight();
-
-          this.setUserBounds(
-              paneModel.getColumnLeft(col) - 2,
-              (row - firstRow) * rowHeight - 2,
-              columnModel.getColumnWidth(col) + 3,
-              rowHeight + 3
-          );
-          this.show();
-
+          var deco = this.getDecorator();
+          if (deco) {
+            deco=qx.theme.manager.Decoration.getInstance().resolve(deco);
+            var wt = deco.getWidthTop();
+            var wr = deco.getWidthRight();
+            var wb = deco.getWidthBottom();
+            var wl = deco.getWidthLeft();
+            this.setUserBounds(
+                paneModel.getColumnLeft(col) - (wt - 1) ,
+                (row - firstRow) * rowHeight - (wr - 1),
+                columnModel.getColumnWidth(col) + (wt+wb-3),
+                rowHeight + (wl+wr-2),
+            );
+            this.show();
+          }
           this.setRow(row);
           this.setColumn(col);
         }
