@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
               paneModel.getColumnLeft(col) - (wt - 1) ,
               (row - firstRow) * rowHeight - (wr - 1),
               columnModel.getColumnWidth(col) + (wt+wb-3),
-              rowHeight + (wl+wr-2),
+              rowHeight + (wl+wr-2)
           );
           this.show();
           this.setRow(row);
