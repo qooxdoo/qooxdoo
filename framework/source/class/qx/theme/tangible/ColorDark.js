@@ -20,7 +20,7 @@
  * Simple color theme
  */
 qx.Theme.define("qx.theme.tangible.ColorDark", {
-  extend : qx.theme.tangible.ColorLight,
+  extend : qx.theme.tangible.ColorEngine,
   colors: {
     // theme colors
     "primary": "#26a69a",
