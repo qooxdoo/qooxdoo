@@ -153,11 +153,6 @@ Files = {
     "./index.html"  : [
         r'var qxversion = "(%s)"'    % qxversion_regexp
         ],
-    "./README.md"  : [
-        r'manual.qooxdoo.org/(%s)\b' % qxversion_regexp,
-        r'api.qooxdoo.org/(%s)\b' % qxversion_regexp,
-        r'qooxdoo.org/project/release_notes/(%s)\b' % qxversion_regexp
-        ],
     "./tool/admin/release/index.html" : [
         r'qx-oo-(%s).js' % qxversion_regexp,
         r'qx-oo-(%s).min.js' % qxversion_regexp,

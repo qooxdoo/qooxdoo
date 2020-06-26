@@ -556,6 +556,18 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
+    /**
+     * Whether to reset the selection when the unpopulated table area is tapped.
+     * The default is false which keeps the behaviour as before
+     */
+    resetSelectionOnTapBelowRows :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyResetSelectionOnTapBelowRows"
+    },
+
+
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
     {
@@ -1177,6 +1189,17 @@ qx.Class.define("qx.ui.table.Table",
 
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i].setResetSelectionOnHeaderTap(value);
+      }
+    },
+
+
+    // property modifier
+    _applyResetSelectionOnTapBelowRows : function(value, old)
+    {
+      var scrollerArr = this._getPaneScrollerArr();
+
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i].setResetSelectionOnTapBelowRows(value);
       }
     },
 
@@ -2045,7 +2068,7 @@ qx.Class.define("qx.ui.table.Table",
       var verNeeded = false;
       var excludeScrollerScrollbarsIfNotNeeded;
 
-      
+
       // Determine whether we need to render horizontal scrollbars for meta
       // columns that don't themselves actually require it
       excludeScrollerScrollbarsIfNotNeeded =
