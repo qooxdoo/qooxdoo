@@ -16,7 +16,13 @@
     This theme is based in large parts on the osparc.theme
 ************************************************************************ */
 /**
- * Simple Theme
+ * Tangible Theme (Dark)
+ *
+ * The tangible theme is inspired by ideas from material design. A lot of work went into designing a higly automated color
+ * system. In order to customize the theme to your taste, simply create your own color system. Use qx.theme.tangible.ColorDark for inspiration.
+ *
+ * The Tangible Theme is very new and still in a state of flux. PRs highly welcome. Use https://material.io as a visual guide.
+ * 
  */
 qx.Theme.define("qx.theme.TangibleDark", {
   title: "Tangible Dark Theme",
