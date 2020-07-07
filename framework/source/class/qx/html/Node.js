@@ -789,20 +789,6 @@ qx.Class.define("qx.html.Node",
     {
       var elem = this._domNode;
       
-      // Copy properties
-      if (this._properties) {
-        for (var key in this._properties) {
-          var prop = this._properties[key];
-          if (propertiesFromDom) {
-            if (prop.get) {
-              prop.value = prop.get.call(this, key);
-            }
-          } else if (prop.value !== undefined) {
-            prop.set.call(this, prop.value, key);
-          }
-        }
-      }
-
       // Attach events
       var data = this.__eventValues;
       if (data)
@@ -816,6 +802,20 @@ qx.Class.define("qx.html.Node",
         // handling of styles and attributes where queuing happens
         // through the complete runtime of the application.
         delete this.__eventValues;
+      }
+      
+      // Copy properties
+      if (this._properties) {
+        for (var key in this._properties) {
+          var prop = this._properties[key];
+          if (propertiesFromDom) {
+            if (prop.get) {
+              prop.value = prop.get.call(this, key);
+            }
+          } else if (prop.value !== undefined) {
+            prop.set.call(this, prop.value, key);
+          }
+        }
       }
     },
 
@@ -1605,35 +1605,42 @@ qx.Class.define("qx.html.Node",
         }
       }
       
-      if (qx.Class.supportsEvent(this, type)) {
-        return this.base(arguments, type, listener, self, capture);
-      }
+      const registerDomEvent = () => {
+        if (this._domNode) {
+          return qx.event.Registration.addListener(this._domNode, type, listener, self, capture);
+        }
 
-      if (this._domNode) {
-        return qx.event.Registration.addListener(this._domNode, type, listener, self, capture);
-      }
+        if (!this.__eventValues) {
+          this.__eventValues = {};
+        }
 
-      if (!this.__eventValues) {
-        this.__eventValues = {};
-      }
+        if (capture == null) {
+          capture = false;
+        }
 
-      if (capture == null) {
-        capture = false;
-      }
+        var unique = qx.event.Manager.getNextUniqueId();
+        var id = type + (capture ? "|capture|" : "|bubble|") + unique;
 
-      var unique = qx.event.Manager.getNextUniqueId();
-      var id = type + (capture ? "|capture|" : "|bubble|") + unique;
+        this.__eventValues[id] =
+        {
+          type : type,
+          listener : listener,
+          self : self,
+          capture : capture,
+          unique : unique
+        };
 
-      this.__eventValues[id] =
-      {
-        type : type,
-        listener : listener,
-        self : self,
-        capture : capture,
-        unique : unique
+        return id;
       };
+      
+      if (qx.Class.supportsEvent(this, type)) {
+        let id = this.base(arguments, type, listener, self, capture);
+        id.domEventId = registerDomEvent();
+        return id;
+      }
+      
+      return registerDomEvent();
 
-      return id;
     },
 
 
@@ -1668,9 +1675,9 @@ qx.Class.define("qx.html.Node",
           this.assertBoolean(capture, "Invalid capture flag.");
         }
       }
-
+      
       if (qx.Class.supportsEvent(this, type)) {
-        return this.base(arguments, type, listener, self, capture);
+        this.base(arguments, type, listener, self, capture);
       }
 
       if (this._domNode)
@@ -1720,13 +1727,20 @@ qx.Class.define("qx.html.Node",
       if (this.$$disposed) {
         return null;
       }
-
-      this.base(arguments, id);
-
-      if (this._domNode) {
-        qx.event.Registration.removeListenerById(this._domNode, id);
+      
+      if (id.domEventId) {
+        if (this._domNode) {
+          qx.event.Registration.removeListenerById(this._domNode, id.domEventId);
+        }
+        delete id.domEventId;
+        this.base(arguments, id);
+        
       } else {
-        delete this.__eventValues[id];
+        if (this._domNode) {
+          qx.event.Registration.removeListenerById(this._domNode, id);
+        } else {
+          delete this.__eventValues[id];
+        }
       }
 
       return this;
@@ -1748,7 +1762,10 @@ qx.Class.define("qx.html.Node",
       }
 
       if (qx.Class.supportsEvent(this, type)) {
-        return this.base(arguments, type, capture);
+        let has = this.base(arguments, type, capture);
+        if (has) {
+          return true;
+        }
       }
 
       if (this._domNode) {
@@ -1795,11 +1812,12 @@ qx.Class.define("qx.html.Node",
         return null;
       }
 
+      var listeners = [];
+      qx.lang.Array.append(listeners, qx.event.Registration.serializeListeners(this)||[]);
       if (this._domNode) {
-        return qx.event.Registration.getManager(this._domNode).serializeListeners(this._domNode);
+        qx.lang.Array.append(listeners, qx.event.Registration.serializeListeners(this._domNode)||[]);
       }
 
-      var listeners = [];
       for (var id in this.__eventValues) {
         var listenerData = this.__eventValues[id];
         listeners.push({

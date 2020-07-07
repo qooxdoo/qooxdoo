@@ -122,7 +122,7 @@ qx.Class.define("qx.html.Iframe",
 
     // overridden
     _createDomElement : function() {
-      return qx.bom.Iframe.create(this._content);
+      return qx.bom.Iframe.create();
     },
 
 
