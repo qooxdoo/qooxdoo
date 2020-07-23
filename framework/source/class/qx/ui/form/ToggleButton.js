@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
     appearance:
     {
       refine: true,
-      init: "button"
+      init: "toggle-button"
     },
 
     // overridden

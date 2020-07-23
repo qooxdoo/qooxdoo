@@ -1583,6 +1583,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
         };
       }
     },
+    "toggle-button" : "button",
 
     "hover-button" :
     {
