@@ -298,6 +298,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    "toggle-button" : "button",
 
     "hover-button" :
     {

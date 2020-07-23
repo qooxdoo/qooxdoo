@@ -61,7 +61,7 @@ qx.Class.define("qx.theme.manager.Color",
     _applyTheme : function(value)
     {
       var dest = {};
-
+      this._setDynamic({}); // reset dynamic cache
       if (value) {
         var colors = value.colors;
 
@@ -97,9 +97,11 @@ qx.Class.define("qx.theme.manager.Color",
 
       } else if (color instanceof Array) {
         return qx.util.ColorUtil.rgbToRgbString(color);
+      } else if (color instanceof Function) {
+        return this.__parseColor(colors,color(name));
       }
-
-      throw new Error("Could not parse color: " + color);
+      // this is might already be a rgb or hex color
+      return name;
     },
 
 
