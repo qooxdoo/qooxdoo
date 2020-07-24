@@ -78,7 +78,7 @@ jobs:
       before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/test EdgeSL
 
-#    - # disabled, NPM deployment is now in the deployment repo
+#     - # disabled, NPM deployment is now in the deployment repo
 #      name: Deploy to npm
 #      addons:
 #      script: ../.travis/deploy_npm
