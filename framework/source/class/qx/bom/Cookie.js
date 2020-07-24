@@ -89,8 +89,9 @@ qx.Bootstrap.define("qx.bom.Cookie",
      * @param path {String?null} Path value.
      * @param domain {String?null} Domain value.
      * @param secure {Boolean?null} Secure flag.
+     * @param sameSite {String?null} sameSite value. (Lax, Strict, None)
      */
-    set : function(key, value, expires, path, domain, secure)
+    set : function(key, value, expires, path, domain, secure, sameSite)
     {
       // Generate cookie
       var cookie = [ key, "=", encodeURIComponent(value) ];
@@ -113,6 +114,10 @@ qx.Bootstrap.define("qx.bom.Cookie",
 
       if (secure) {
         cookie.push(";secure");
+      }
+      
+      if (sameSite) {
+        cookie.push(";sameSite=", sameSite);
       }
 
       // Store cookie
