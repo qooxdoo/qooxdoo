@@ -62,6 +62,16 @@ qx.Class.define("qx.ui.popup.Manager",
   {
     __objects : null,
 
+    __containsFunction : qx.ui.core.Widget.contains,
+
+    /**
+     * Replace the default contains function.
+     * 
+     * @param func {Function|qx.ui.core.Widget.contains}
+     */
+    setContainsFunction: function(func){
+      this.__containsFunction = func;
+    },
 
     /**
      * Registers a visible popup.
@@ -167,7 +177,7 @@ qx.Class.define("qx.ui.popup.Manager",
       {
         var obj = reg[i];
 
-        if (!obj.getAutoHide() || target == obj || qx.ui.core.Widget.contains(obj, target)) {
+        if (!obj.getAutoHide() || target == obj || this.__containsFunction(obj, target)) {
           continue;
         }
 
