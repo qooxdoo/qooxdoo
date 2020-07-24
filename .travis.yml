@@ -78,11 +78,12 @@ jobs:
       before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/test EdgeSL
 
-    - # parallel
-      name: Deploy to npm
-      addons:
-      script: ../.travis/deploy_npm
-    - # parallel
+#    - # disabled, NPM deployment is now in the deployment repo
+#      name: Deploy to npm
+#      addons:
+#      script: ../.travis/deploy_npm
+
+- # parallel
       name: Deploy to GitHub
       addons:
       script: ../.travis/make-release-sdk || true
