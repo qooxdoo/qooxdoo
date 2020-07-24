@@ -77,7 +77,9 @@
         "qxl.demobrowser.*",
         "qx.theme.Modern",
         "qx.theme.Simple",
-        "qx.theme.Classic"
+        "qx.theme.Classic",
+        "qx.theme.TangibleLight",
+        "qx.theme.TangibleDark"
       ],
       "environment": {
         "qx.allowUrlVariants": true,
@@ -91,13 +93,15 @@
     },
     {
       "class": "qxl.widgetbrowser.Application",
-      "theme": "qx.theme.Indigo",
+      "theme": "qx.theme.TangibleLight",
       "name": "widgetbrowser",
       "title": "Widgetbrowser",
       "include": [
         "qx.theme.Modern",
         "qx.theme.Simple",
         "qx.theme.Classic",
+        "qx.theme.TangibleDark",
+        "qx.theme.TangibleLight",
         "qxl.widgetbrowser.pages.Tree",
         "qxl.widgetbrowser.pages.List",
         "qxl.widgetbrowser.pages.Table",
@@ -122,7 +126,7 @@
     {
       "class": "qxl.testtapper.Application",
       "name": "testtapper",
-      "theme": "qx.theme.Simple",
+      "theme": "qx.theme.TangibleLight",
       "title": "Qooxdoo TestTAPper",
       "environment": {
         "qx.icontheme": "Tango",
