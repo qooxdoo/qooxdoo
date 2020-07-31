@@ -608,7 +608,7 @@ qx.Class.define("qx.ui.tree.VirtualTree",
     
     // Interface implementation
     isShowTopLevelOpenCloseIcons : function() {
-      return true;
+      return this.getShowTopLevelOpenCloseIcons();
     },
 
 
