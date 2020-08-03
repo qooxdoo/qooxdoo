@@ -1,0 +1,17 @@
+name: Test and Deploy
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: dispatch to deploy
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.ACTION_TOKEN }}
+          repository: qooxdoo/deployment
+          event-type: deploy
