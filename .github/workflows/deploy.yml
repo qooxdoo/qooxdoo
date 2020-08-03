@@ -8,6 +8,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"    
     steps:
       - name: dispatch to deploy
         uses: peter-evans/repository-dispatch@v1
