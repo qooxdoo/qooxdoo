@@ -1053,6 +1053,11 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
           break;
 
         case "bOpened":
+          // Don't do anything if this is a leaf, leaf has no opened/closed
+          if (node.type === qx.ui.treevirtual.MTreePrimitive.Type.LEAF) {
+            break;
+          }
+
           // Don't do anything if the requested state is the same as the
           // current state.
           if (attributes[attribute] == node.bOpened)
