@@ -140,8 +140,10 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
 
           if (x >= buttonPos - latitude && x <= buttonPos + rowHeight + 3 + latitude)
           {
-            // Yup.  Toggle the opened state for this node.
-            dataModel.setState(node, { bOpened : ! node.bOpened });
+            // Yup.  Toggle the opened state for this node if open/close is allowed
+            if (!node.bHideOpenClose && node.type !== qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF) {
+              dataModel.setState(node, {bOpened: !node.bOpened});
+            }
             return tree.getOpenCloseClickSelectsRow() ? false : true;
           }
           else
