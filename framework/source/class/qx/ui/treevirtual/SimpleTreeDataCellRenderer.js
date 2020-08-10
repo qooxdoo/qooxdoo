@@ -734,6 +734,29 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       }
 
       return { icon : this.BLANK };
+    },
+
+    /**
+     * Determine the position in the cell of the open/close button image
+     *
+     * @param table {Table}
+     *   The column of indentation being requested, zero-relative
+     *
+     * @param node {Node}
+     *   The node being displayed in the row.  The properties of a node are
+     *   described in {@link qx.ui.treevirtual.SimpleTreeDataModel}
+     *
+     * @return {Object} Position of the Open/Close Button
+     */
+    getOpenCloseButtonPosition: function(table, node) {
+      var padding = 2;
+      var width = table.getRowHeight() + 3;
+      return {
+        top: 0,
+        left: (node.level - 1) * width + padding,
+        width: width,
+        height: table.getRowHeight()
+      };
     }
   },
 

@@ -95,6 +95,17 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
    *           return new qx.ui.table.columnmodel.Resize(obj);
    *         }
    *       </pre></dd>
+   *     <dt>tablePaneScroller</dt>
+   *       <dd>
+   *         Instance of {@link qx.ui.treevirtual.pane.Scroller}.
+   *         Custom table pane scroller for the tree
+   *         <pre class='javascript'>
+   *         function(obj)
+   *         {
+   *           return new qx.ui.table.columnmodel.Resize(obj);
+   *         }
+   *       </pre>
+   *       </dd>
    *   </dl>
    */
   construct : function(headings, custom)
@@ -153,6 +164,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         {
           return new qx.ui.table.columnmodel.Resize(obj);
         };
+    }
+
+    if (!custom.tablePaneScroller) {
+      custom.tablePaneScroller = function(obj) {
+        return new qx.ui.treevirtual.pane.Scroller(obj);
+      };
     }
 
     // Specify the column headings.  We accept a single string (one single
@@ -516,6 +533,31 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       var treeCol = this.getDataModel().getTreeColumn();
       var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
       return dcr.getAlwaysShowOpenCloseSymbol();
+    },
+
+
+    /**
+     * Returns the position of the open/close button for a node
+     *
+     * @return {Object} The position of the open/close button within the tree row
+     */
+    getOpenCloseButtonPosition : function(node)
+    {
+      var treeCol = this.getDataModel().getTreeColumn();
+      var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
+      var rowPos = dcr.getOpenCloseButtonPosition(this, node);
+
+      // Get the order of the columns
+      var tcm = this.getTableColumnModel();
+      var columnPositions = tcm._getColToXPosMap();
+
+      // Calculate the position of the beginning of the tree column
+      var left = qx.bom.element.Location.getLeft(this.getContentElement().getDomElement());
+      for (var i=0; i<columnPositions[treeCol].visX; i++) {
+        left += tcm.getColumnWidth(columnPositions[i].visX);
+      }
+      rowPos.left += left;
+      return rowPos;
     },
 
 
