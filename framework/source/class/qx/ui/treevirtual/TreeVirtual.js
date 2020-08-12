@@ -683,7 +683,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *   The event.
      *
      */
-    _onKeyPress : function(evt)
+    _onKeyDown : function(evt)
     {
       if (!this.getEnabled())
       {
