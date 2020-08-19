@@ -1062,10 +1062,11 @@ qx.Class.define("qx.event.handler.Focus",
           focusedElement.nodeName.toLowerCase() === "textarea") {
           return focusedElement;
         }
-        // Check compound widgets
-        var widget = qx.ui.core.Widget.getWidgetByElement(focusedElement),
-          textField = widget && widget.getChildControl && widget.getChildControl("textfield", true);
-
+        if( qx.Class.isClass("qx.ui.core.Widget") ) {
+          // Check compound widgets
+          var widget = qx.ui.core.Widget.getWidgetByElement(focusedElement),
+            textField = widget && widget.getChildControl && widget.getChildControl("textfield", true);
+        }
         if (textField) {
           return textField.getContentElement().getDomElement();
         }
