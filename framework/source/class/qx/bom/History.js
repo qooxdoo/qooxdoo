@@ -328,7 +328,7 @@ qx.Class.define("qx.bom.History",
      * Simulates a back button click.
      */
      navigateBack : function() {
-       qx.event.Timer.once(function() {history.back();}, this, 100);
+       qx.event.Timer.once(function() {window.history.back();}, this, 100);
      },
 
 
@@ -337,7 +337,7 @@ qx.Class.define("qx.bom.History",
      * Simulates a forward button click.
      */
      navigateForward : function() {
-       qx.event.Timer.once(function() {history.forward();}, this, 100);
+       qx.event.Timer.once(function() {window.history.forward();}, this, 100);
      },
 
 
