@@ -18,13 +18,13 @@
 
 /**
  * A mixin providing objects by ID and owners.
- * 
+ *
  * The typical use of IDs is to override the `_createQxObjectImpl` method and create
  * new instances on demand; all code should access these instances by calling
  * `getQxObject`.
  */
 qx.Mixin.define("qx.core.MObjectId", {
-  
+
   /*
    * ****************************************************************************
    * PROPERTIES
@@ -58,7 +58,7 @@ qx.Mixin.define("qx.core.MObjectId", {
    */
 
   members: {
-    
+
     __ownedQxObjects: null,
     __changingQxOwner: false,
 
@@ -70,7 +70,7 @@ qx.Mixin.define("qx.core.MObjectId", {
         throw new Error("Please use API methods to change owner, not the property");
       }
     },
-    
+
     /**
      * Apply objectId
      */
@@ -83,7 +83,7 @@ qx.Mixin.define("qx.core.MObjectId", {
         this._cascadeQxObjectIdChanges();
       }
     },
-    
+
     /**
      * Called when a child's objectId changes
      */
@@ -91,7 +91,7 @@ qx.Mixin.define("qx.core.MObjectId", {
       delete this.__ownedQxObjects[oldId];
       this.__ownedQxObjects[newId] = obj;
     },
-    
+
     /**
      * Reflect changes to IDs or owners
      */
@@ -111,22 +111,21 @@ qx.Mixin.define("qx.core.MObjectId", {
         }
       }
     },
-    
+
     /**
      * Returns the object with the specified ID
-     * 
-     * @param id
-     *          {String} ID of the object
+     *
+     * @param id {String} ID of the object
      * @return {qx.core.Object?} the found object
      */
-    getQxObject: function(id) {
+    getQxObject: function(id, owner) {
       if (this.__ownedQxObjects) {
         var obj = this.__ownedQxObjects[id];
         if (obj !== undefined) {
           return obj;
         }
       }
-      
+
       // Separate out the child control ID
       var controlId = null;
       var pos = id.indexOf('#');
@@ -134,9 +133,9 @@ qx.Mixin.define("qx.core.MObjectId", {
         controlId = id.substring(pos + 1);
         id = id.substring(0, pos);
       }
-      
+
       var result = undefined;
-      
+
       // Handle paths
       if (id.indexOf('/') > -1) {
         var segs = id.split('/');
@@ -157,51 +156,70 @@ qx.Mixin.define("qx.core.MObjectId", {
         if (found) {
           result = target;
         }
-        
+
       } else {
         // No object, creating the object
         result = this._createQxObject(id);
       }
-      
+
       if (result && controlId) {
         var childControl = result.getChildControl(controlId);
         return childControl;
       }
-      
+
       return result;
     },
-    
+
     /**
      * Creates the object and adds it to a list; most classes are expected to
-     * override `_createQxObjectImpl` NOT this method.
-     * 
+     * override `_createQxObjectImpl` NOT this method. If `_createQxObjectImpl`
+     * returns `undefined`, this is almost always the result of a misconfiguration
+     * (such as a typo in the id), since `null` is used if you explicitly do
+     * not want to return a value from `_createQxObjectImpl`. To address
+     * this, a warning is emitted if the environment variable `"qx.debug"` is
+     * `true`. In order to make the source of the problem easier to locate,
+     * set the environment variable `"module.objectId.debugger”`
+     * to `true` to trigger the browser debugger.
+     *
      * @param id {String} ID of the object
+     * @param owner {qx.core.Object?} If given, the owner object to which the
+     * created object is attached. Otherwise, the current instance (`this`) is used.
      * @return {qx.core.Object?} the created object
      */
-    _createQxObject: function(id) {
+    _createQxObject: function(id, owner) {
+      if (owner === undefined) {
+        owner = this;
+      } else if (!(owner instanceof qx.core.Object)) {
+        throw new Error("Owner must be instance of qx.core.Object or undefined.");
+      }
       var result = this._createQxObjectImpl(id);
       if (result !== undefined) {
-        this.addOwnedQxObject(result, id);
+        owner.addOwnedQxObject(result, id);
+      } else if (qx.core.Environment.get("qx.debug")) {
+        this.warn("Object Id '" + id + "' cannot be resolved.");
+        if (qx.core.Environment.get("module.objectId.debugger")) {
+          debugger;
+        }
       }
       return result;
     },
-    
+
     /**
      * Creates the object, intended to be overridden. Null is a valid return
      * value and will be cached by `getQxObject`, however `undefined` is NOT a
      * valid value and so will not be cached meaning that `_createQxObjectImpl`
      * will be called multiple times until a valid value is returned.
-     * 
+     *
      * @param id {String} ID of the object
      * @return {qx.core.Object?} the created object
      */
     _createQxObjectImpl: function(id) {
       return undefined;
     },
-    
+
     /**
      * Adds an object as owned by this object
-     * 
+     *
      * @param obj {qx.core.Object} the object to register
      * @param id {String?} the id to set when registering the object
      */
@@ -209,7 +227,7 @@ qx.Mixin.define("qx.core.MObjectId", {
       if (!this.__ownedQxObjects) {
         this.__ownedQxObjects = {};
       }
-      
+
       if (!(obj instanceof qx.core.Object)) {
         if (!id) {
           throw new Error("Cannot register an object that has no ID, obj=" + obj);
@@ -220,7 +238,7 @@ qx.Mixin.define("qx.core.MObjectId", {
         this.__ownedQxObjects[id] = obj;
         return;
       }
-      
+
       var thatOwner = obj.getQxOwner();
       if (thatOwner === this) {
         return;
@@ -254,14 +272,14 @@ qx.Mixin.define("qx.core.MObjectId", {
     /**
      * Discards an object from the list of owned objects; note that this does
      * not dispose of the object, simply forgets it if it exists.
-     * 
+     *
      * @param args {String|Object} the ID of the object to discard, or the object itself
      */
     removeOwnedQxObject: function(args) {
       if (!this.__ownedQxObjects) {
         throw new Error("Cannot discard object because it is not owned by this, this=" + this + ", object=" + obj);
       }
-      
+
       var id;
       var obj;
       if (typeof args === "string") {
@@ -299,10 +317,10 @@ qx.Mixin.define("qx.core.MObjectId", {
         }
       }
     },
-    
+
     /**
      * Removes an owned object
-     * 
+     *
      * @param obj {qx.core.Object} the object
      */
     __removeOwnedQxObjectImpl: function(obj) {
@@ -316,9 +334,9 @@ qx.Mixin.define("qx.core.MObjectId", {
     /**
      * Returns an array of objects that are owned by this object, or an empty
      * array if none exists.
-     * 
+     *
      * @return {Array}
-     */    
+     */
     getOwnedQxObjects : function(){
       return this.__ownedQxObjects ? Object.values(this.__ownedQxObjects) : [];
     }
