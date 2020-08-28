@@ -116,7 +116,7 @@ qx.Mixin.define("qx.core.MObjectId", {
      * Returns the object with the specified ID
      *
      * @param id {String} ID of the object
-     * @param {Boolean} onlyIfExists If true, the method will only return the
+     * @param onlyIfExists {Boolean} If true, the method will only return the
      * object if it already exists (i.e. will not create it on demand) and otherwise
      * will return undefined
      * @return {qx.core.Object|null|undefined} The found or created object,
@@ -192,30 +192,16 @@ qx.Mixin.define("qx.core.MObjectId", {
      * to `true` to trigger the browser debugger.
      *
      * @param id {String} ID of the object
-     * @param owner {qx.core.Object?} If given, the owner object to which the
-     * created object is attached. Otherwise, the current instance (`this`) is used.
      * @return {qx.core.Object?} the created object
      */
-    _createQxObject: function(id, owner) {
-      if (owner === undefined) {
-        owner = this;
-      } else if (!(owner instanceof qx.core.Object)) {
-        throw new Error("Owner must be instance of qx.core.Object or undefined.");
-      }
-      var result;
-      if (typeof this.createQxObject == "function") {
-        // more user-friendly method name
-        result = this.createQxObject(id);
-      } else {
-        // method name of the original implementation
-        result = this._createQxObjectImpl(id);
-      }
+    _createQxObject: function(id) {
+      var result = this._createQxObjectImpl(id);
       if (result !== undefined) {
         owner.addOwnedQxObject(result, id);
       } else if (qx.core.Environment.get("qx.debug")) {
         this.warn("Object Id '" + id + "' cannot be resolved.");
         if (qx.core.Environment.get("module.objectId.debugger")) {
-          debugger;
+          window.debugger;
         }
       }
       return result;
