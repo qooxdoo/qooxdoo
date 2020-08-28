@@ -32,6 +32,7 @@
  *   bSelected      : true,  // true if node is selected; false otherwise.
  *   bOpened        : true,  // true (-), false (+)
  *   bHideOpenClose : false, // whether to hide the open/close button
+ *   bCanEdit       : true,  // true if the node label can be edited, false to prevent edit
  *   icon           : "images/folder.gif",
  *   iconSelected   : "images/folder_selected.gif",
  *
@@ -1200,6 +1201,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     _applyFilter : function(value, old)
     {
       this.setData();
+    },
+
+    /**
+     * This checks whether a node label is editable
+     * Used in the NodeEditor to check if edit is permitted
+     *
+     * @param rowIndex {Integer} zero-based row index.
+     * @return {Boolean} If the node has edit permitted
+     */
+    isNodeEditable : function(rowIndex)
+    {
+      return this.__tree.getAllowNodeEdit() && this.getNodeFromRow(rowIndex).bCanEdit;
     }
   },
 
