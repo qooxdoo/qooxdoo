@@ -197,7 +197,7 @@ qx.Mixin.define("qx.core.MObjectId", {
     _createQxObject: function(id) {
       var result = this._createQxObjectImpl(id);
       if (result !== undefined) {
-        owner.addOwnedQxObject(result, id);
+        this.addOwnedQxObject(result, id);
       } else if (qx.core.Environment.get("qx.debug")) {
         this.warn("Object Id '" + id + "' cannot be resolved.");
         if (qx.core.Environment.get("module.objectId.debugger")) {
