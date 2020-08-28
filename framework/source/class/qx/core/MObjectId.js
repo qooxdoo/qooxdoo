@@ -116,14 +116,14 @@ qx.Mixin.define("qx.core.MObjectId", {
      * Returns the object with the specified ID
      *
      * @param id {String} ID of the object
-     * @param {Boolean} onlyIfResolvable If true, the method will only return the
+     * @param {Boolean} onlyIfExists If true, the method will only return the
      * object if it already exists (i.e. will not create it on demand) and otherwise
      * will return undefined
      * @return {qx.core.Object|null|undefined} The found or created object,
      * a null value if no object should be created, or undefined if the object
      * id cannot be resolved.
      */
-    getQxObject: function(id, onlyIfResolvable) {
+    getQxObject: function(id, onlyIfExists) {
       if (this.__ownedQxObjects) {
         var obj = this.__ownedQxObjects[id];
         if (obj !== undefined) {
@@ -132,7 +132,7 @@ qx.Mixin.define("qx.core.MObjectId", {
       }
 
       // do not create the widget
-      if (onlyIfResolvable) {
+      if (onlyIfExists) {
         return undefined;
       }
 
