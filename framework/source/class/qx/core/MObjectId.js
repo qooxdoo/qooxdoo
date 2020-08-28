@@ -116,14 +116,24 @@ qx.Mixin.define("qx.core.MObjectId", {
      * Returns the object with the specified ID
      *
      * @param id {String} ID of the object
-     * @return {qx.core.Object?} the found object
+     * @param {Boolean} onlyIfResolvable If true, the method will only return the
+     * object if it already exists (i.e. will not create it on demand) and otherwise
+     * will return undefined
+     * @return {qx.core.Object|null|undefined} The found or created object,
+     * a null value if no object should be created, or undefined if the object
+     * id cannot be resolved.
      */
-    getQxObject: function(id, owner) {
+    getQxObject: function(id, onlyIfResolvable) {
       if (this.__ownedQxObjects) {
         var obj = this.__ownedQxObjects[id];
         if (obj !== undefined) {
           return obj;
         }
+      }
+
+      // do not create the widget
+      if (onlyIfResolvable) {
+        return undefined;
       }
 
       // Separate out the child control ID
@@ -192,7 +202,14 @@ qx.Mixin.define("qx.core.MObjectId", {
       } else if (!(owner instanceof qx.core.Object)) {
         throw new Error("Owner must be instance of qx.core.Object or undefined.");
       }
-      var result = this._createQxObjectImpl(id);
+      var result;
+      if (typeof this.createQxObject == "function") {
+        // more user-friendly method name
+        result = this.createQxObject(id);
+      } else {
+        // method name of the original implementation
+        result = this._createQxObjectImpl(id);
+      }
       if (result !== undefined) {
         owner.addOwnedQxObject(result, id);
       } else if (qx.core.Environment.get("qx.debug")) {
