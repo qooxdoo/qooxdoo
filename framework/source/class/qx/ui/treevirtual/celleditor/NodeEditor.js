@@ -46,6 +46,10 @@ qx.Class.define("qx.ui.treevirtual.celleditor.NodeEditor",
     // interface implementation
     createCellEditor : function(cellInfo)
     {
+      if (!cellInfo.table.getTableModel().isNodeEditable(cellInfo.row)) {
+        return null;
+      }
+
       var cellEditor = this._createEditor();
 
       // The value in the case of a Tree is a Node and we want the label

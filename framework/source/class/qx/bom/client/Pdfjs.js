@@ -51,6 +51,7 @@
  *
  * @internal
  * @asset(qx/static/empty.pdf)
+ * @ignore($.browser)
  */
 qx.Bootstrap.define("qx.bom.client.Pdfjs",
 {
