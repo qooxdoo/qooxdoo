@@ -42,7 +42,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
      * Little helper to check if the global error handling is enabled.
      * @return {Boolean} <code>true</code>, if it is enabled.
      */
-    __isGlobaErrorHandlingEnabled : function() {
+    __isGlobalErrorHandlingEnabled : function() {
       if (qx.core && qx.core.Environment) {
         return qx.core.Environment.get("qx.globalErrorHandling");
       } else {
@@ -63,7 +63,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
       this.__callback = callback || null;
       this.__context = context || window;
 
-      if (this.__isGlobaErrorHandlingEnabled())
+      if (this.__isGlobalErrorHandlingEnabled())
       {
         // wrap the original onerror
         if (callback && window.onerror) {
@@ -124,7 +124,7 @@ qx.Bootstrap.define("qx.event.GlobalError",
      */
     observeMethod : function(method)
     {
-      if (this.__isGlobaErrorHandlingEnabled())
+      if (this.__isGlobalErrorHandlingEnabled())
       {
         var self = this;
         return function()
