@@ -567,6 +567,16 @@ qx.Class.define("qx.ui.table.Table",
       apply : "_applyResetSelectionOnTapBelowRows"
     },
 
+    /**
+     * If set then defines the minimum height of the focus indicator when editing
+     */
+    minCellEditHeight: {
+      check: "Integer",
+      nullable: true,
+      init: null,
+      apply: "_applyMinCellEditHeight"
+    },
+
 
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
@@ -844,6 +854,16 @@ qx.Class.define("qx.ui.table.Table",
 
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i].getHeader().setHeight(value);
+      }
+    },
+
+
+    // property modifier
+    _applyMinCellEditHeight: function(value) {
+      var scrollerArr = this._getPaneScrollerArr();
+
+      for (var i=0; i<scrollerArr.length; i++) {
+        scrollerArr[i].setMinCellEditHeight(value);
       }
     },
 
