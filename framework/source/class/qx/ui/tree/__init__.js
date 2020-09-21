@@ -19,11 +19,11 @@
   *   width : 200,
   *   height : 400
   * });
-  * 
+  *
   * // Create a folder and set it the root folder
   * var root = new qx.ui.tree.TreeFolder("root");
   * tree.setRoot(root);
-  * 
+  *
   * // Create some folders:
   * var te1_1 = new qx.ui.tree.TreeFolder("Files");
   * var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
@@ -34,18 +34,18 @@
   * var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)");
   * var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)");
   * te1_2.add(te1_2_1, te1_2_2);
-  * 
+  *
   * // Add the content to the root folder
   * root.add(te1_1, te1_2, te1_3, te1_4);
-  * 
+  *
   * // Add the root widget to the application
   * this.getRoot().add(tree);
   * </pre>
   *
   * This example creates a tree with four folders inside it's root folder.
-  * 
+  *
   * *External Documentation*
   *
-  * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/tree.html' target='_blank'>
+  * <a href='http://qooxdoo.org/docs/#desktop/widget/tree.md' target='_blank'>
   * Documentation of this widget in the qooxdoo manual.</a>
   */

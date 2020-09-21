@@ -298,6 +298,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    "toggle-button" : "button",
 
     "hover-button" :
     {
@@ -1255,7 +1256,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "qx/icon/Tango/16/actions/window-close.png"
+          icon : "icon/16/actions/window-close.png"
         };
       }
     },

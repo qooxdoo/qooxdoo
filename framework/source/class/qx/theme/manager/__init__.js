@@ -1,4 +1,4 @@
 /**
  * Managers for the theming support.
- * http://manual.qooxdoo.org/${qxversion}/pages/desktop/ui_theming.html
+ * http://qooxdoo.org/docs/#desktop/gui/theming.md
  */

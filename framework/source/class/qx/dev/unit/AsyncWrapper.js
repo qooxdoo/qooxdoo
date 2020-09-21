@@ -41,14 +41,21 @@ qx.Class.define("qx.dev.unit.AsyncWrapper",
    */
   construct : function(delay, deferredFunction, context)
   {
-    for (var i=0; i<2; i++) {
-      if (qx.lang.Type.isFunction(arguments[i])) {
-        this.setDeferredFunction(arguments[i]);
-      } else if (qx.lang.Type.isNumber(arguments[i])) {
-        if (qx.core.Environment.get("qx.test.delay.scale")) {
-          this.setDelay(arguments[i] * parseInt(qx.core.Environment.get("qx.test.delay.scale"), 10));
-        } else {
-          this.setDelay(arguments[i]);
+    if (delay === undefined && deferredFunction === undefined) {
+      // scale default delay if wait() is called without arguments
+      if (qx.core.Environment.get("qx.test.delay.scale")) {
+        this.setDelay(this.getDelay() * parseInt(qx.core.Environment.get("qx.test.delay.scale"), 10));
+      }
+    } else {
+      for (var i=0; i<2; i++) {
+        if (qx.lang.Type.isFunction(arguments[i])) {
+          this.setDeferredFunction(arguments[i]);
+        } else if (qx.lang.Type.isNumber(arguments[i])) {
+          if (qx.core.Environment.get("qx.test.delay.scale")) {
+            this.setDelay(arguments[i] * parseInt(qx.core.Environment.get("qx.test.delay.scale"), 10));
+          } else {
+            this.setDelay(arguments[i]);
+          }
         }
       }
     }

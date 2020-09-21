@@ -30,7 +30,7 @@
  * }, this);
  * </pre>
  *
- * Make sure you also check the <a href="http://manual.qooxdoo.org/current/pages/tool/getting_started.html">"hello world" tutorial</a> for a minimal working application with GUI elements.
+ * Make sure you also check the <a href="http://www.qooxdoo.org/docs/#/README?id=getting-started">"hello world" tutorial</a> for a minimal working application with GUI elements.
  *
  * Here is a <strong>topical grouping</strong> of useful widgets and packages for GUI creation:
  * <ul>

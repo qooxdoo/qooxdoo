@@ -1,0 +1,80 @@
+{
+  "targets": [
+    {
+      "type": "build",
+      "outputPath": "compiled/build",
+      "minify": "off",
+      "babelOptions": {
+        "targets": "node >= 10"
+      },
+      "deployPath": "lib",
+      "writeCompileInfo": true
+    }
+  ],
+  "defaultTarget": "build",
+  "locales": [
+    "en"
+  ],
+  "libraries": [
+    "./framework"
+  ],
+  "ignores" : [
+    "XPathResult",
+    "XMLHttpRequest",
+    "XMLSerializer",
+    "XPathEvaluator",
+    "history.*",
+    "ActiveXObject",
+    "DOMParser",
+    "ImageHtml",
+    "alert",
+    "Image"
+  ],
+  "applications": [
+    {
+      "class": "qx.application.Native",
+      "name": "qx_server",
+	  "type": "node",
+      "environment": {
+        "qx.debug": false
+      },
+      "include": [
+        "qx.core.*",
+        "qx.data.*",
+        "qx.io.*",
+        "qx.lang.*",
+        "qx.locale.*",
+        "qx.log.*",
+        "qx.type.*",
+        "qx.util.*",
+        "qx.dev.unit.TestLoaderBasic",
+        "qx.dev.unit.Sinon"
+      ],
+      "exclude": [
+        "q",
+        "qx.test.*",
+        "qxWeb",
+        "qx.module.*",
+        "qx.dev.unit.TestLoader",
+        "qx.dev.unit.TestLoaderInline",
+        "qx.dev.unit.TestLoaderMobile",
+        "qx.dev.unit.TestLoaderNative",
+        "qx.ui.*",
+        "qx.log.appender.Native",
+        "qx.log.appender.Element",
+        "qx.bom.Stylesheet",
+        "qx.bom.Selector",
+        "qx.bom.MediaQuery",
+        "qx.bom.Flash",
+        "qx.bom.Vml",
+        "qx.bom.client.Html",
+        "qx.bom.client.Plugin",
+        "qx.bom.client.Pdfjs",
+        "qx.event.handler.Pointer",
+        "qx.event.handler.Gesture",
+        "qx.event.handler.PointerCore"
+      ]
+    }
+  ],
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json"
+}

@@ -74,9 +74,6 @@
  * (qx.io.remote.Rpc.callAsync) and async with results via an event listener
  * (qx.io.remote.Rpc.callAsyncListeners).
  * <p>
- * You may also find the server writer's guide helpful:
- *   http://manual.qooxdoo.org/${qxversion}/pages/communication/rpc_server_writer_guide.html
- *
  * @ignore(qx.core.ServerSettings.*)
 */
 
@@ -390,7 +387,7 @@ qx.Class.define("qx.io.remote.Rpc",
      */
     protocol :
     {
-      init : "qx1",
+      init : "2.0",
       check : function(val) { return val == "qx1" || val == "2.0"; }
     }
   },

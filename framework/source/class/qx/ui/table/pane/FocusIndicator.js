@@ -83,8 +83,9 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
      *
      * @param col {Integer?null} The table column
      * @param row {Integer?null} The table row
+     * @param editing {Boolean?null} Whether or not the cell is being edited
      */
-    moveToCell : function(col, row)
+    moveToCell : function(col, row, editing)
     {
       // check if the focus indicator is shown and if the new column is
       // editable. if not, just exclude the indicator because the pointer events
@@ -109,7 +110,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
       {
         var xPos = this.__scroller.getTablePaneModel().getX(col);
 
-        if (xPos == -1)
+        if (xPos === -1)
         {
           this.hide();
           this.setRow(null);
@@ -123,15 +124,34 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
 
           var firstRow = this.__scroller.getTablePane().getFirstVisibleRow();
           var rowHeight = table.getRowHeight();
+          var wt=0;
+          var wr=0;
+          var wb=0;
+          var wl=0;
+          var decoKey = this.getDecorator();
+          if (decoKey) {
+            var deco=qx.theme.manager.Decoration.getInstance().resolve(decoKey);
+            if (deco) {
+              wt = deco.getWidthTop();
+              wr = deco.getWidthRight();
+              wb = deco.getWidthBottom();
+              wl = deco.getWidthLeft();
+            }
+          }
+          var userHeight = rowHeight + (wl+wr-2);
+          var userTop = (row - firstRow) * rowHeight - (wr - 1);
+          if (editing && this.__scroller.getMinCellEditHeight() && this.__scroller.getMinCellEditHeight() > userHeight) {
+            userTop -= Math.floor((this.__scroller.getMinCellEditHeight() - userHeight) / 2);
+            userHeight = this.__scroller.getMinCellEditHeight();
+          }
 
           this.setUserBounds(
-              paneModel.getColumnLeft(col) - 2,
-              (row - firstRow) * rowHeight - 2,
-              columnModel.getColumnWidth(col) + 3,
-              rowHeight + 3
+            paneModel.getColumnLeft(col) - (wt - 1),
+            userTop,
+            columnModel.getColumnWidth(col) + (wt+wb-3),
+            userHeight
           );
           this.show();
-
           this.setRow(row);
           this.setColumn(col);
         }

@@ -26,7 +26,7 @@
  * themes.
  *
  * For more details, take a look at the
- * <a href='http://manual.qooxdoo.org/${qxversion}/pages/desktop/ui_theming.html' target='_blank'>
+ * <a href='http://qooxdoo.org/docs/#desktop/gui/theming.md' target='_blank'>
  * documentation of the theme system in the qooxdoo manual.</a>
  */
 qx.Bootstrap.define("qx.Theme",
@@ -63,7 +63,7 @@ qx.Bootstrap.define("qx.Theme",
      * </pre>
      *
      * For more details, take a look at the
-     * <a href='http://manual.qooxdoo.org/${qxversion}/pages/desktop/ui_theming.html' target='_blank'>
+     * <a href='http://qooxdoo.org/docs/#desktop/gui/theming.md' target='_blank'>
      * documentation of the theme system in the qooxdoo manual.</a>
      *
      * @param name {String} name of the mixin
@@ -118,7 +118,7 @@ qx.Bootstrap.define("qx.Theme",
       for (var i=0, a=config.patch, l=a.length; i<l; i++) {
         this.patch(theme, a[i]);
       }
-      
+
       // Run boot code
       if (config.boot) {
       	config.boot();

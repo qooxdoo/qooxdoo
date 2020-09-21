@@ -3,6 +3,9 @@
 #
 # Please comment on purpose.
 
+# Deployment temporary directory
+tmp/
+
 # Emacs backup files
 *~
 
@@ -29,9 +32,12 @@
 /lib
 /compiled
 /apps
+/docs
 /deploy
 /build
 /qx_packages
+/qooxdoo-compiler
+/source
 
 # CSS compiler
 /framework/source/resource/qx/mobile/scss/.sass-cache/
