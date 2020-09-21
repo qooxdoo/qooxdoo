@@ -315,12 +315,12 @@ qx.Class.define("qx.ui.layout.VBox",
 
 
       // Compute gaps
-      var spacing = this.getSpacing();
+      var spacing = this.getSpacing(), gaps;
       var separator = this.getSeparator();
       if (separator) {
-        var gaps = util.computeVerticalSeparatorGaps(children, spacing, separator);
+        gaps = util.computeVerticalSeparatorGaps(children, spacing, separator);
       } else {
-        var gaps = util.computeVerticalGaps(children, spacing, true);
+        gaps = util.computeVerticalGaps(children, spacing, true);
       }
 
 
@@ -521,12 +521,12 @@ qx.Class.define("qx.ui.layout.VBox",
       minHeight += percentMinHeight;
 
       // Respect gaps
-      var spacing = this.getSpacing();
+      var spacing = this.getSpacing(), gaps;
       var separator = this.getSeparator();
       if (separator) {
-        var gaps = util.computeVerticalSeparatorGaps(children, spacing, separator);
+        gaps = util.computeVerticalSeparatorGaps(children, spacing, separator);
       } else {
-        var gaps = util.computeVerticalGaps(children, spacing, true);
+        gaps = util.computeVerticalGaps(children, spacing, true);
       }
 
       // Return hint
