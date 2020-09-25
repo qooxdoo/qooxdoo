@@ -283,7 +283,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
       if (lastRow == -1 || lastRow >= paneFirstRow && firstRow < paneFirstRow + rowCount)
       {
         // The change intersects this pane
-        this.updateContent();
+        if (firstRow === lastRow) {
+          this.updateContent(false, null, firstRow, false);
+        } else {
+          this.updateContent();
+        }
       }
     },
 
@@ -379,6 +383,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this._scrollContent(scrollOffset);
       } else if (onlySelectionOrFocusChanged && !this.getTable().getAlwaysUpdateCells()) {
         this._updateRowStyles(onlyRow);
+      } else if (onlyRow) {
+        this._updateSingleRow(onlyRow);
       } else {
         this._updateAllRows();
       }
@@ -655,6 +661,44 @@ qx.Class.define("qx.ui.table.pane.Pane",
       this.fireEvent("paneUpdated");
     },
 
+    _updateSingleRow: function(row) {
+      var elem = this.getContentElement().getDomElement();
+      if (!elem) {
+        // pane has not yet been rendered, just exit
+        return;
+      }
+      var visibleRowCount = this.getVisibleRowCount();
+      var firstRow = this.getFirstVisibleRow();
+
+      if (row < firstRow || row > firstRow+visibleRowCount) {
+        // No need to redraw it
+        return;
+      }
+
+      var modelRowCount = this.getTable().getTableModel().getRowCount();
+
+      if (row > modelRowCount) {
+        this._updateAllRows();
+        return;
+      }
+      var tableBody = elem.firstChild;
+      var tableChildNodes = tableBody.childNodes;
+      var rowElem = tableChildNodes[row];
+
+      // render new lines
+      if (!this.__tableContainer) {
+        this.__tableContainer = document.createElement("div");
+      }
+      this.__tableContainer.innerHTML = "<div>" + this._getRowsHtml(row, 1) + "</div>";
+      var newTableRows = this.__tableContainer.firstChild.childNodes;
+
+      tableBody.replaceChild(newTableRows[0], rowElem);
+
+      // update focus indicator
+      this._updateRowStyles(null);
+
+      this.fireEvent("paneUpdated");
+    },
 
     /**
      * Updates the content of the pane (implemented using array joins).
