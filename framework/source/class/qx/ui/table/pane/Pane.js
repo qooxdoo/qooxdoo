@@ -677,13 +677,14 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       var modelRowCount = this.getTable().getTableModel().getRowCount();
 
-      if (row > modelRowCount) {
-        this._updateAllRows();
-        return;
-      }
       var tableBody = elem.firstChild;
       var tableChildNodes = tableBody.childNodes;
       var rowElem = tableChildNodes[row];
+
+      if (row > modelRowCount || rowElem == null) {
+        this._updateAllRows();
+        return;
+      }
 
       // render new lines
       if (!this.__tableContainer) {
