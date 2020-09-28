@@ -282,8 +282,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       if (lastRow == -1 || lastRow >= paneFirstRow && firstRow < paneFirstRow + rowCount)
       {
-        // The change intersects this pane
-        if (firstRow === lastRow) {
+        // The change intersects this pane, check if a full or partial update is required
+        if (firstRow === lastRow && this.getTable().getTableModel().getRowCount() > 1) {
           this.updateContent(false, null, firstRow, false);
         } else {
           this.updateContent();
@@ -383,7 +383,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this._scrollContent(scrollOffset);
       } else if (onlySelectionOrFocusChanged && !this.getTable().getAlwaysUpdateCells()) {
         this._updateRowStyles(onlyRow);
-      } else if (onlyRow) {
+      } else if (typeof onlyRow == "number" && onlyRow >= 0) {
         this._updateSingleRow(onlyRow);
       } else {
         this._updateAllRows();
