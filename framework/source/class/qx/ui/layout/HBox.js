@@ -483,7 +483,7 @@ qx.Class.define("qx.ui.layout.HBox",
       // Initialize
       var minWidth=0, width=0, percentMinWidth=0;
       var minHeight=0, height=0;
-      var child, hint, margin, gaps;
+      var child, hint, margin;
 
       // Iterate over children
       for (var i=0, l=children.length; i<l; i+=1)
@@ -524,6 +524,7 @@ qx.Class.define("qx.ui.layout.HBox",
       // Respect gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
+      var gaps;
       if (separator) {
         gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
       } else {
