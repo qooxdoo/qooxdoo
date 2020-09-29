@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
   /*
   *****************************************************************************
-     PROPERTIES
+     EVENTS
   *****************************************************************************
   */
 
@@ -349,6 +349,15 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       refine : true,
       init : "table-scroller"
+    },
+
+    /**
+     * If set then defines the minimum height of the focus indicator when editing
+     */
+    minCellEditHeight: {
+      check: "Integer",
+      init: null,
+      nullable: true
     }
   },
 
@@ -1957,6 +1966,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
             e.stopPropagation();
           }, this);
 
+          this._updateFocusIndicator(true);
           this.__focusIndicator.add(this._cellEditor);
           this.__focusIndicator.addState("editing");
           this.__focusIndicator.setKeepActive(false);
@@ -1993,8 +2003,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     /**
      * Writes the editor's value to the model
-     * 
-     * @param cancel {Boolean ? false} Whether to also cancel 
+     *
+     * @param cancel {Boolean ? false} Whether to also cancel
      *      editing before firing the 'dateEdited' event.
      */
     flushEditor : function(cancel)
@@ -2039,6 +2049,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 						this.__focusIndicator.removeListenerById(this.__focusIndicatorPointerDownListener);
 						this.__focusIndicatorPointerDownListener = null;
 					}
+					this._updateFocusIndicator();
         }
         this._cellEditor.destroy();
         this._cellEditor = null;
@@ -2441,8 +2452,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Updates the location and the visibility of the focus indicator.
      *
+     * @param editing {Boolean ? false} True if editing the cell
      */
-    _updateFocusIndicator : function()
+    _updateFocusIndicator : function(editing)
     {
       var table = this.getTable();
 
@@ -2450,7 +2462,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      this.__focusIndicator.moveToCell(this.__focusedCol, this.__focusedRow);
+      this.__focusIndicator.moveToCell(this.__focusedCol, this.__focusedRow, editing);
     }
   },
 

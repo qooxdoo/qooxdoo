@@ -86,6 +86,63 @@
     "encoding": "utf-8",
     "class": "source/class",
     "resource": "source/resource",
-    "translation": "source/translation"
+    "translation": "source/translation",
+    "webfonts":[
+      {
+        "name": "MaterialIcons",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialicons-v50.eot",
+          "qx/iconfont/MaterialIcons/materialicons-v50.woff2",
+          "qx/iconfont/MaterialIcons/materialicons-v50.woff",
+          "qx/iconfont/MaterialIcons/materialicons-v50.ttf"
+        ]
+      },
+      {
+        "name": "MaterialIconsOutlined",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.eot",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.woff",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.otf"
+        ]
+      },
+      {
+        "name": "MaterialIconsRound",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconsround-v18.eot",
+          "qx/iconfont/MaterialIcons/materialiconsround-v18.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsround-v18.woff",
+          "qx/iconfont/MaterialIcons/materialiconsround-v18.otf"
+        ]
+      },
+      {
+        "name": "MaterialIconsSharp",
+        "comparisonString": "\ue1fe\uef39",
+        "defaultSize": 32,
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconssharp-v19.eot",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v19.woff2",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v19.woff",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v19.otf"
+        ]
+      },
+      {
+        "name": "MaterialIconsDuoTone",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.eot",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.woff2",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.woff",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.otf"
+        ]
+      }
+    ]
   }
 }

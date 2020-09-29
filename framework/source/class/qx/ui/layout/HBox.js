@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.layout.HBox",
       {
         this.assert(name === "flex" || name === "width", "The property '"+name+"' is not supported by the HBox layout!");
 
-        if (name =="width")
+        if (name === "width")
         {
           this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
         }
@@ -316,10 +316,11 @@ qx.Class.define("qx.ui.layout.HBox",
       // Compute gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
+      var gaps;
       if (separator) {
-        var gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
+        gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
       } else {
-        var gaps = util.computeHorizontalGaps(children, spacing, true);
+        gaps = util.computeHorizontalGaps(children, spacing, true);
       }
 
 
@@ -523,10 +524,11 @@ qx.Class.define("qx.ui.layout.HBox",
       // Respect gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
+      var gaps;
       if (separator) {
-        var gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
+        gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
       } else {
-        var gaps = util.computeHorizontalGaps(children, spacing, true);
+        gaps = util.computeHorizontalGaps(children, spacing, true);
       }
 
       // Return hint
