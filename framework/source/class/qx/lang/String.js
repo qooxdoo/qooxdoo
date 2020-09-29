@@ -299,7 +299,7 @@ qx.Bootstrap.define("qx.lang.String",
     format : function(pattern, args)
     {
       var str = pattern;
-      var regexp = /%(\d+)|%{(\S*)}/g;
+      var regexp = /%(\d+)|%{(\S[^}\s]*)}/g;
       if (!Array.isArray(args)) {
         args = [args];
       }

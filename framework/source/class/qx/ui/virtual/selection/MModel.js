@@ -46,14 +46,16 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
   construct : function()
   {
     this._initSelectionManager();
-    this.__defaultSelection = new qx.data.Array();
-    this.initSelection(this.__defaultSelection);
+    this.__selection = new qx.data.Array();
+    this.__selection.addListener("change", this._onChangeSelection, this); 
+    this._applySelection(this.__selection, null);
   },
 
 
   properties :
   {
     /** Current selected items */
+    /* psuedo property - implemented manually in code below
     selection :
     {
       check : "qx.data.Array",
@@ -62,6 +64,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
       nullable : false,
       deferredInit : true
     },
+    */
 
 
     /**
@@ -135,7 +138,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     /** @type {Boolean} flag to ignore the selection change from <code>_manager</code> */
     __ignoreManagerChangeSelection : false,
 
-    __defaultSelection : null,
+    __selection : null,
 
 
     /**
@@ -251,16 +254,55 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
     ---------------------------------------------------------------------------
     */
 
-
-    // apply method
-    _applySelection : function(value, old)
-    {
-      value.addListener("change", this._onChangeSelection, this);
-
-      if (old != null) {
-        old.removeListener("change", this._onChangeSelection, this);
+    /**
+     * Setter for selection property; takes the selection on, and does not change the
+     * array instance in `this.selection`
+     * 
+     * @param value {qx.data.Array} the new selection
+     */
+    setSelection: function(value) {
+      if (value) {
+        this.__selection.replace(value);
       }
+      else {
+        this.__selection.removeAll();
+      }
+    },
+    
+    /**
+     * Getter for selection property
+     * 
+     * @return {qx.data.Array}
+     */
+    getSelection: function() {
+      return this.__selection;
+    },
+    
+    /**
+     * Reset for selection property
+     */
+    resetSelection : function() {
+      this.__selection.removeAll();
+    },
+    
+    /**
+     * Init for selection property; takes the selection on, and does not change the
+     * array instance in `this.selection`
+     * 
+     * @param value {qx.data.Array} the new selection
+     */
+    initSelection : function(value) {
+      this.warn("Using initSelection on " + this.classname + " is probably not what you intended - the selection instance does not change");
+      this.setSelection(value);
+    },
 
+    /**
+     * Apply method for selection property
+     * 
+     * @param value {qx.data.Array} new value
+     * @param old {qx.data.Array} old value
+     */
+    _applySelection : function(value, old) {
       this._onChangeSelection();
     },
 
@@ -463,8 +505,8 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
   {
     this._manager.dispose();
     this._manager = null;
-    if (this.__defaultSelection) {
-      this.__defaultSelection.dispose();
+    if (this.__selection) {
+      this.__selection.dispose();
     }
   }
 });

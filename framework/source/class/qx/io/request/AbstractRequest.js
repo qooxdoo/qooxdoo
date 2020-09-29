@@ -999,5 +999,6 @@ qx.Class.define("qx.io.request.AbstractRequest",
         transport.dispose();
       }, 0);
     }
+    this.__response = null;
   }
 });

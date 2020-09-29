@@ -349,6 +349,8 @@ qx.Bootstrap.define("qx.bom.client.Html",
      * @internal
      * @param callback {Function} The function which should be executed as
      *   soon as the check is done.
+     * 
+     * @ignore(Image)
      */
     getDataUrl : function(callback) {
       var data = new Image();

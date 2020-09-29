@@ -137,6 +137,46 @@ qx.Class.define("qx.test.event.message.Bus",
 
     },
 
+    testRegex : function()
+    {
+      var flag1 = false;
+      function handler1() {
+        flag1 = true;
+      }
+      var messageBus = qx.event.message.Bus.getInstance();
+      messageBus.subscribe(/^test\.[a-z]+$/, handler1, this);
+      var msg1 = new qx.event.message.Message("test.abc", true);
+      this.assertTrue(messageBus.dispatch(msg1), "Message not dispatched");
+      this.assertTrue(flag1, "Handler1 (filter /^test\\.[a-z]+$/) was not called for message '" + msg1.getName() +"'");
+
+      var msg2 = new qx.event.message.Message("test.123", true);
+      this.assertFalse(messageBus.dispatch(msg2), "Message was dispatched and shouldn't have been");
+
+      msg1.dispose();
+      msg2.dispose();
+    },
+
+    testSubscribeOnce : function()
+    {
+      var flag1 = false;
+      function handler1() {
+        flag1 = true;
+      }
+      var messageBus = qx.event.message.Bus.getInstance();
+      messageBus.subscribeOnce("testSubscribeOnce", handler1, this);
+      var msg1 = new qx.event.message.Message("testSubscribeOnce", true);
+      this.assertTrue(messageBus.dispatch(msg1), "Message not dispatched");
+      this.assertTrue(flag1, "Handler (filter \"testSubscribeOnce\") was not called for message '" + msg1.getName() +"'");
+
+      flag1 = false;
+      var msg2 = new qx.event.message.Message("testSubscribeOnce", true);
+      this.assertFalse(messageBus.dispatch(msg2), "Message was dispatched but shouldn't have been.");
+
+      msg1.dispose();
+      msg2.dispose();
+    },
+
+
     // see http://bugzilla.qooxdoo.org/show_bug.cgi?id=2996
     testUnsubscribe : function()
     {

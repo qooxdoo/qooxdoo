@@ -63,7 +63,7 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
     /**
      * @type {Integer} The time delta in milliseconds to fire a long tap event.
      */
-    LONGTAP_TIME : 500
+    LONGTAP_TIME : qx.core.Environment.get("device.touch")? 500: 99999
   },
 
 
@@ -439,7 +439,6 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       }
     },
 
-
     /**
      * Dispose this object
      */
@@ -449,4 +448,5 @@ qx.Bootstrap.define("qx.event.handler.TouchCore", {
       this.__originalTarget = this.__target = this.__touchEventNames = this.__pointers = this.__emitter = this.__beginScalingDistance = this.__beginRotation = null;
     }
   }
+
 });

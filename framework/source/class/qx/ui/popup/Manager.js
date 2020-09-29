@@ -50,7 +50,17 @@ qx.Class.define("qx.ui.popup.Manager",
   },
 
 
-
+  properties :
+  {
+    /**
+     * Function that is used to determine if a widget is contained within another one.
+     **/
+    containsFunction :
+    {
+      check : "Function",
+      init : qx.ui.core.Widget.contains
+    }
+  },
 
   /*
   *****************************************************************************
@@ -61,7 +71,6 @@ qx.Class.define("qx.ui.popup.Manager",
   members :
   {
     __objects : null,
-
 
     /**
      * Registers a visible popup.
@@ -167,7 +176,7 @@ qx.Class.define("qx.ui.popup.Manager",
       {
         var obj = reg[i];
 
-        if (!obj.getAutoHide() || target == obj || qx.ui.core.Widget.contains(obj, target)) {
+        if (!obj.getAutoHide() || target == obj || this.getContainsFunction()(obj, target)) {
           continue;
         }
 

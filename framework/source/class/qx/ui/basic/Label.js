@@ -52,9 +52,9 @@
  *
  * *External Documentation*
  *
- * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/label.html' target='_blank'>
+ * <a href='http://qooxdoo.org/docs/#desktop/widget/label.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
- * 
+ *
  * NOTE: Instances of this class must be disposed of after use
  *
  */
@@ -123,14 +123,14 @@ qx.Class.define("qx.ui.basic.Label",
       init : true,
       apply : "_applyWrap"
     },
-    
-    
+
+
     /**
      * Controls whether line wrapping can occur in the middle of a word; this is
      * typically only useful when there is a restricted amount of horizontal space
      * and words would otherwise overflow beyond the width of the element.  Words
-     * are typically considered as separated by spaces, so "abc/def/ghi" is a 11 
-     * character word that would not be split without `breakWithWords` set to true. 
+     * are typically considered as separated by spaces, so "abc/def/ghi" is a 11
+     * character word that would not be split without `breakWithWords` set to true.
      */
     breakWithinWords :
     {
@@ -505,7 +505,7 @@ qx.Class.define("qx.ui.basic.Label",
         this.getContentElement().setStyle("whiteSpace", whiteSpace);
       }
     },
-    
+
     // property apply
     _applyBreakWithinWords : function(value, old) {
       if (this.isRich()) {

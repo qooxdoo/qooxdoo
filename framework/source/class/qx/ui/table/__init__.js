@@ -35,7 +35,7 @@
  * fixed columns that stay always visible on the left (or right) while the
  * other columns can be scrolled away.
  *
- * Take the demo http://demo.qooxdoo.org/${qxversion}/demobrowser/#table~Table.html
+ * Take the demo http://qooxdoo.org/apps/demobrowser/#table~Table.html
  * as example: If you make your browser window
  * very small (or make one of the columns very wide) so the table needs
  * horizontal scrolling, then the left column stays always visible. This is

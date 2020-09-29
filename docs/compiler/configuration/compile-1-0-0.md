@@ -1,1 +1,0 @@
-# DUMMY - file will be generated during doc build process

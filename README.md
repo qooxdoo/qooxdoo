@@ -4,8 +4,7 @@
 [![SauceLab Build][saucelab-image]][saucelab-url]
 [![Gitter][gitter-image]][gitter-url]
 
-About
-=====
+# Qooxdoo JavasScript Framework 
 
 qooxdoo is a universal JavaScript framework that enables you to create 
 applications for a wide range of platforms. With its object-oriented 
@@ -22,31 +21,19 @@ community.
 
 For more information please see http://qooxdoo.org .
 
-License
-=======
+## License
 
 qooxdoo may be used under the terms of the MIT License.
 
-For more information please see http://qooxdoo.org/license .
+For more information please see http://qooxdoo.org/LICENCSE .
 
-
-Quick start
-===========
+## Quick start
 
 It is easy to get started with qooxdoo. For detailed information please
-see [github.com/qooxdoo/qooxdoo/docs](https://github.com/qooxdoo/qooxdoo/tree/master/docs).
+see [our Get Started Guide](https://qooxdoo.org/documentation/#/?id=getting-started).
 
 
-API Reference
-==============
-
-You might also want to open the API viewer in a separate browser window,
-which offers the qooxdoo framework API in a convenient way (See the
-top-level 'index.html' file next to this readme).
-
-
-Contributing
-=============
+## Contributing
 
 There are many ways you can contribute to qooxdoo, ranging from providing
 feedback, making translations, providing a custom library to full-blown patches
@@ -59,30 +46,22 @@ we use the standard [Issue Tracker](https://github.com/qooxdoo/qooxdoo/issues) a
 [Pull Requests feature](https://github.com/qooxdoo/qooxdoo/pulls).
 
 
-Community
-=========
+## Community
 
 Online chat is available via Gitter at https://gitter.im/qooxdoo/qooxdoo (or using
 one of the Gitter desktop or mobile clients) - the core team hang out there, as do
 other developers who use Qooxdoo.
 
-Learn more
-===========
+## Learn more
 
-* About qooxdoo
-  http://www.qooxdoo.org/
+* Documentation
+  http://www.qooxdoo.org/documentation
 
 * Online Demos
-  http://www.qooxdoo.org/demos.html
-
-* Release Notes
-  https://github.com/qooxdoo/qooxdoo/releases
-
-* User Manual
-  [github.com/qooxdoo/qooxdoo/docs](https://github.com/qooxdoo/qooxdoo/tree/master/docs)
+  http://www.qooxdoo.org/demos
 
 * API Documentation
-  http://www.qooxdoo.org/devel/api/
+  http://www.qooxdoo.org/api
 
 
 [npm-image]: https://badge.fury.io/js/%40qooxdoo%2Fframework.svg

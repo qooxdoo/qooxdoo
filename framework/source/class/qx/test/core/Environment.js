@@ -416,7 +416,6 @@ qx.Class.define("qx.test.core.Environment",
       this.assertBoolean(qx.core.Environment.get("css.opacity"));
       var linearGradient = qx.core.Environment.get("css.gradient.linear");
       this.assert(typeof linearGradient == "string" || linearGradient === null);
-      this.assertBoolean(qx.core.Environment.get("css.gradient.filter"));
       var radialGradient = qx.core.Environment.get("css.gradient.radial");
       this.assert(typeof radialGradient == "string" || radialGradient === null);
       this.assertBoolean(qx.core.Environment.get("css.gradient.legacywebkit"));

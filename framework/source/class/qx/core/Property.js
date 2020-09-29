@@ -23,7 +23,7 @@
  * through the methods provided by {@link qx.Class}.
  *
  * For a complete documentation of properties take a look at
- * http://manual.qooxdoo.org/${qxversion}/pages/core.html#properties.
+ * http://qooxdoo.org/docs/#core/property_features.md.
  *
  *
  * *Normal properties*
@@ -574,7 +574,7 @@ qx.Bootstrap.define("qx.core.Property",
           delete config.check;
         }
       }
-      
+
       // Check for method name conflicts
       if (qx.core.Environment.get("qx.debug")) {
       	// Exclude qx.data.model.* because that's from marshalling and will cause conflicts to be reported
@@ -629,9 +629,9 @@ qx.Bootstrap.define("qx.core.Property",
       var getName = method.get[name] = "get" + upname;
       members[method.get[name]] = new Function(
           "this." + getName + ".$$install && this." + getName + ".$$install();" +
-          "return this." + getName + ".apply(this, arguments);"); 
+          "return this." + getName + ".apply(this, arguments);");
       if (config.async) {
-        
+
       	if (qx.core.Environment.get("qx.debug")) {
       		if (members.hasOwnProperty(getName + "Async")) {
       			this.error("Asynchronous property " + clazz.classname +"." + name + " is replacing " + getName + "Async() method in same class");
@@ -825,7 +825,7 @@ qx.Bootstrap.define("qx.core.Property",
       }
     },
 
-    
+
     /**
      * Takes a string builder object, converts it into a function, and installs it as
      * a property accessor
@@ -886,8 +886,8 @@ qx.Bootstrap.define("qx.core.Property",
       var members = clazz.prototype;
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code);
     },
-    
-    
+
+
     /**
      * Installs a getter into the class prototype, without executing it
      * Supported variants: get
@@ -901,8 +901,8 @@ qx.Bootstrap.define("qx.core.Property",
       var code = this.__compileGetter(clazz, name, variant);
       this.__installFunctionFromCode(clazz, name, variant, code);
     },
-    
-    
+
+
     /**
      * Compiles a getter into a string builder array
      * Supported variants: get
@@ -917,7 +917,7 @@ qx.Bootstrap.define("qx.core.Property",
       var config = clazz.$$properties[name];
       var code = [];
       var store = this.$$store;
-      
+
       if (variant == "getAsync") {
       	code.push("return qx.Promise.resolve(this." + this.$$method.get[name] + "());");
       	return code;
@@ -994,8 +994,8 @@ qx.Bootstrap.define("qx.core.Property",
       var members = clazz.prototype;
       return this.__unwrapFunctionFromCode(instance, members, name, variant, code, args);
     },
-    
-    
+
+
     /**
      * Installs a setter into the class prototype, without executing it
      * Supported variants: set
@@ -1010,8 +1010,8 @@ qx.Bootstrap.define("qx.core.Property",
     	var code = this.__compileSetter(clazz, name, variant);
       return this.__installFunctionFromCode(clazz, name, variant, code);
     },
-    
-    
+
+
     /**
      * Compiles a setter into a string builder array
      * Supported variants: set, setThemed, setRuntime, init
@@ -1026,24 +1026,24 @@ qx.Bootstrap.define("qx.core.Property",
       var config = clazz.$$properties[name];
       var members = clazz.prototype;
       var code = [];
-      
+
       var upname = qx.lang.String.firstUp(name);
       if (variant == "setAsync") {
         code.push('return qx.Promise.resolve(this.$$set' + upname + "Impl.apply(this, arguments));");
         return code;
-        
+
       } else if (variant == "set") {
         code.push(
             'this.$$set' + upname + "Impl.apply(this, arguments);",
             'return value;');
         return code;
-        
+
       }
-      
-      var incomingValue = 
+
+      var incomingValue =
         variant === "setImpl" ||
-        variant === "setThemed" || 
-        variant === "setRuntime" || 
+        variant === "setThemed" ||
+        variant === "setRuntime" ||
         (variant === "init" && config.init === undefined);
       var hasCallback = config.apply || config.event || config.inheritable;
 
@@ -1053,7 +1053,7 @@ qx.Bootstrap.define("qx.core.Property",
       this.__emitIsEqualFunction(code, clazz, config, name);
 
       this.__emitSetterPreConditions(code, config, name, variant, incomingValue);
-      
+
       if (incomingValue || hasCallback) {
         this.__emitOldValue(code, config, name);
       }
@@ -1117,7 +1117,7 @@ qx.Bootstrap.define("qx.core.Property",
               'return value;');
         }
       }
-      
+
       return code;
     },
 
@@ -1695,14 +1695,14 @@ qx.Bootstrap.define("qx.core.Property",
         code.push('else if(this.', this.$$store.user[name], '!==undefined){');
         code.push('old=this.', this.$$store.user[name], ';');
         code.push('}');
-        
+
         // OLD = THEMED VALUE
         if (config.themeable) {
           code.push('else if(this.', this.$$store.theme[name], '!==undefined){');
           code.push('old=this.', this.$$store.theme[name], ';');
           code.push('}');
         }
-        
+
         // OLD = INIT VALUE
         code.push('else if(this.', this.$$store.useinit[name], '){');
         code.push('old=this.', this.$$store.init[name], ';');
@@ -1815,14 +1815,14 @@ qx.Bootstrap.define("qx.core.Property",
       if (config.apply) {
         code.push('promise = this.', config.apply, '(computed, old, "', name, '", "', variant, '");');
       }
-      
+
       if (config.async) {
         code.push(
         		"function fire() {",
               "var promiseData = qx.Promise.resolve(computed);",
               "var promise = promiseData;"
         		);
-        
+
         // Fire event
         if (config.event) {
           code.push(
@@ -1837,7 +1837,7 @@ qx.Bootstrap.define("qx.core.Property",
                   "}, this);"
               );
         }
-        
+
         // Emit code to update the inherited values of child objects
         if (refresh) {
           code.push(
@@ -1848,7 +1848,7 @@ qx.Bootstrap.define("qx.core.Property",
                   'a[i].', this.$$method.refresh[name], '(backup);',
               '}');
         }
-        
+
         code.push(
             "return promise;",
           "}");
@@ -1856,12 +1856,12 @@ qx.Bootstrap.define("qx.core.Property",
         code.push(
           "function fire() {",
           "  var tracker={};");
-            
+
         // Fire event
         if (config.event) {
           code.push(
               "var reg=qx.event.Registration;",
-              
+
               "if(reg.hasListener(this, '", config.event, "'))",
                 "qx.event.Utils.track(tracker, reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", "));");
           if (qx.core.Environment.get("qx.promise")) {
@@ -1883,14 +1883,14 @@ qx.Bootstrap.define("qx.core.Property",
                   'a[i].', this.$$method.refresh[name], '(backup);',
               '}');
         }
-        
+
         code.push(
             "if (tracker.promise)\n",
             "  return tracker.promise.then(function() { return computed; });",
             "return computed;",
           "}");
       }
-      
+
       if (qx.core.Environment.get("qx.promise")) {
         code.push(
             "if(promise instanceof qx.Promise) " +

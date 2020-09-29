@@ -48,7 +48,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://manual.qooxdoo.org/${qxversion}/pages/widget/composite.html' target='_blank'>
+ * <a href='http://qooxdoo.org/docs/#desktop/widget/composite.md' target='_blank'>
  * Documentation of this widget in the qooxdoo manual.</a>
  */
 qx.Class.define("qx.ui.container.Composite",
