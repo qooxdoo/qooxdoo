@@ -395,12 +395,16 @@ var PluginDetect = {
       }
     },
     detectIE: function () {
-      var init = this,
-        $ = init.$,
-        browser = $.browser,
-        doc = document,
-        e, x, tmp, userAgent = window.navigator ? navigator.userAgent || "" : "",
-        progid, progid1, progid2;
+      var init = this;
+      var $ = init.$;
+      var browser = $.browser;
+      var doc = document;
+      var x;
+      var tmp;
+      var userAgent = window.navigator ? navigator.userAgent || "" : "";
+      var progid;
+      var progid1;
+      var progid2;
       browser.ActiveXFilteringEnabled = !1;
       browser.ActiveXEnabled = !1;
       try {

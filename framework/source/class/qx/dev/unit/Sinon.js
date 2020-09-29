@@ -3998,8 +3998,11 @@ if (typeof sinon == "undefined") {
     });
 
     // Borrowed from JSpec
-    // @ignore(DOMParser)
-    // @ignore(ActiveXObject)
+    /**
+     * @ignore(DOMParser)
+     * @ignore(ActiveXObject)
+     */ 
+    // 
     FakeXMLHttpRequest.parseXML = function parseXML(text) {
         var xmlDoc;
  
