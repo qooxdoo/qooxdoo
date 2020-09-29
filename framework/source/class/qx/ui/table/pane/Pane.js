@@ -663,7 +663,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     _updateSingleRow: function(row) {
       var elem = this.getContentElement().getDomElement();
-      if (!elem) {
+      if (!elem || !elem.firstChild) {
         // pane has not yet been rendered, just exit
         return;
       }
@@ -679,9 +679,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
       var tableBody = elem.firstChild;
       var tableChildNodes = tableBody.childNodes;
-      var rowElem = tableChildNodes[row];
+      var offset = row - firstRow;
+      var rowElem = tableChildNodes[offset];
 
-      if (row > modelRowCount || rowElem == null) {
+      if (row > modelRowCount || rowElem === undefined) {
         this._updateAllRows();
         return;
       }
