@@ -314,8 +314,9 @@ qx.Class.define("qx.ui.layout.HBox",
 
 
       // Compute gaps
-      var spacing = this.getSpacing(), gaps;
+      var spacing = this.getSpacing();
       var separator = this.getSeparator();
+      var gaps;
       if (separator) {
         gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
       } else {
