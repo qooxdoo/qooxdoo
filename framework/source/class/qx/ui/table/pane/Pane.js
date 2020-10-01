@@ -682,7 +682,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var offset = row - firstRow;
       var rowElem = tableChildNodes[offset];
 
-      if (row > modelRowCount || rowElem === undefined) {
+      if (row > modelRowCount || typeof rowElem == "undefined") {
         this._updateAllRows();
         return;
       }
