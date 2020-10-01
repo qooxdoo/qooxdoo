@@ -77,7 +77,7 @@ qx.Class.define("qx.util.ResourceManager",
       // Calculate the optimal ratio, based on the rem scale factor of the application and the device pixel ratio.
       if (!factor) {
         factor = parseFloat(qx.bom.client.Device.getDevicePixelRatio().toFixed(2));
-      }  
+      }
       if (factor <= 1) {
         return false;
       }
@@ -138,18 +138,9 @@ qx.Class.define("qx.util.ResourceManager",
       if(!registry) {
         return null;
       }
-
-      var ids = [];
-      for (var id in registry) {
-        if (registry.hasOwnProperty(id)) {
-          if(pathfragment && id.indexOf(pathfragment) == -1) {
-            continue;
-          }
-          ids.push(id);
-        }
-      }
-
-      return ids;
+      return Object.keys(registry).filter(function(key){
+        return !pathfragment || key.indexOf(pathfragment) != -1;
+      });
     },
 
     /**
