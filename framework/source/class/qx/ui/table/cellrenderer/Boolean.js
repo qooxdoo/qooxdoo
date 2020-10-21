@@ -120,15 +120,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 
 
     // overridden
-    _insetY : 5,
-
-    // overridden
-    _getCellStyle : function(cellInfo) {
-      return this.base(arguments, cellInfo) + ";padding-top:4px;";
-    },
-
-
-    // overridden
     _identifyImage : function(cellInfo)
     {
       var w;
@@ -140,13 +131,18 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 
       // Retrieve the ID
       rm = qx.util.ResourceManager.getInstance();
-      ids = rm.getIds(this.__iconUrlTrue);
 
-      // If ID was found, we'll use its first (likely only) element here.
-      if (ids)
-      {
-        id = ids[0];
+      if (rm.has(this.__iconUrlTrue)) {
+        id = this.__iconUrlTrue;
+      } else {
+        ids = rm.getIds(this.__iconUrlTrue);
+        // If ID was found, we'll use its first (likely only) element here.
+        if (ids) {
+          id = ids[0];
+        }
+      }
 
+      if (id) {
         // Get the natural size of the image
         w = rm.getImageWidth(id);
         h = rm.getImageHeight(id);

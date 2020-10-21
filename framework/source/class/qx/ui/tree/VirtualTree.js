@@ -605,12 +605,6 @@ qx.Class.define("qx.ui.tree.VirtualTree",
       return this.__lookupTable;
     },
     
-    
-    // Interface implementation
-    isShowTopLevelOpenCloseIcons : function() {
-      return true;
-    },
-
 
     /**
      * Performs a lookup from model index to row.

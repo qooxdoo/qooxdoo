@@ -66,7 +66,7 @@ qx.Bootstrap.define("qx.bom.client.Css",
     getPlaceholder : function() {
       if (qx.core.Environment.get("engine.name") === "mshtml") {
         return false;
-      } 
+      }
       var i = document.createElement("input");
       return "placeholder" in i;
     },
@@ -264,22 +264,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns <code>true</code> if the browser supports setting gradients
-     * using the filter style. This usually only applies for IE browsers
-     * starting from IE5.5.
-     * http://msdn.microsoft.com/en-us/library/ms532997(v=vs.85).aspx
-     *
-     * @return {Boolean} <code>true</code> if supported.
-     * @internal
-     */
-    getFilterGradient : function() {
-      return qx.bom.client.Css.__isFilterSupported(
-        "DXImageTransform.Microsoft.Gradient",
-        "startColorStr=#550000FF, endColorStr=#55FFFF00");
-    },
-
-
-    /**
      * Returns the (possibly vendor-prefixed) name this client uses for
      * <code>radial-gradient</code>.
      *
@@ -401,48 +385,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
 
 
     /**
-     * Returns <code>true</code> if the browser supports setting text shadow
-     * using the filter style. This usually only applies for IE browsers
-     * starting from IE5.5.
-     *
-     * @internal
-     * @return {Boolean} <code>true</code> if textShadow is supported
-     */
-    getFilterTextShadow : function()
-    {
-      return qx.bom.client.Css.__isFilterSupported(
-        "DXImageTransform.Microsoft.Shadow",
-        "color=#666666,direction=45");
-    },
-
-
-    /**
-     * Checks if the given filter is supported.
-     *
-     * @param filterClass {String} The name of the filter class
-     * @param initParams {String} Init values for the filter
-     * @return {Boolean} <code>true</code> if the given filter is supported
-     */
-    __isFilterSupported : function(filterClass, initParams)
-    {
-      var supported = false;
-      var value = "progid:" + filterClass + "(" + initParams + ");";
-      var el = document.createElement("div");
-      document.body.appendChild(el);
-      el.style.filter = value;
-
-      if (el.filters && el.filters.length > 0 &&
-        el.filters.item(filterClass).enabled == true)
-      {
-        supported = true;
-      }
-      document.body.removeChild(el);
-
-      return supported;
-    },
-
-
-    /**
      * Checks if the Alpha Image Loader must be used to display transparent PNGs.
      *
      * @return {Boolean} <code>true</code> if the Alpha Image Loader is required
@@ -529,7 +471,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.borderradius", statics.getBorderRadius);
     qx.core.Environment.add("css.boxshadow", statics.getBoxShadow);
     qx.core.Environment.add("css.gradient.linear", statics.getLinearGradient);
-    qx.core.Environment.add("css.gradient.filter", statics.getFilterGradient);
     qx.core.Environment.add("css.gradient.radial", statics.getRadialGradient);
     qx.core.Environment.add("css.gradient.legacywebkit", statics.getLegacyWebkitGradient);
     qx.core.Environment.add("css.boxmodel", statics.getBoxModel);
@@ -545,7 +486,6 @@ qx.Bootstrap.define("qx.bom.client.Css",
     qx.core.Environment.add("css.inlineblock", statics.getInlineBlock);
     qx.core.Environment.add("css.opacity", statics.getOpacity);
     qx.core.Environment.add("css.textShadow", statics.getTextShadow);
-    qx.core.Environment.add("css.textShadow.filter", statics.getFilterTextShadow);
     qx.core.Environment.add("css.alphaimageloaderneeded", statics.getAlphaImageLoaderNeeded);
     qx.core.Environment.add("css.pointerevents", statics.getPointerEvents);
     qx.core.Environment.add("css.flexboxSyntax", statics.getFlexboxSyntax);

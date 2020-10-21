@@ -3998,9 +3998,14 @@ if (typeof sinon == "undefined") {
     });
 
     // Borrowed from JSpec
+    /**
+     * @ignore(DOMParser)
+     * @ignore(ActiveXObject)
+     */ 
+    // 
     FakeXMLHttpRequest.parseXML = function parseXML(text) {
         var xmlDoc;
-
+ 
         if (typeof DOMParser != "undefined") {
             var parser = new DOMParser();
             xmlDoc = parser.parseFromString(text, "text/xml");

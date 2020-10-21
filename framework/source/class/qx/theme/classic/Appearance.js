@@ -225,6 +225,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "toggle-button" : "button",
+
     "hover-button" :
     {
       alias : "atom",

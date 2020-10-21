@@ -223,6 +223,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         'left:', cellInfo.styleLeft, 'px;',
         this._getCellSizeStyle(cellInfo.styleWidth, cellInfo.styleHeight, this._insetX, this._insetY),
         this._getCellStyle(cellInfo), '" ',
+        'data-qx-table-cell-row="', cellInfo.row, '" ',
+        'data-qx-table-cell-col="', cellInfo.col, '" ',
         this._getCellAttributes(cellInfo),
         '>' +
         this._getContentHtml(cellInfo),

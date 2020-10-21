@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.splitpane.Splitter",
     }
 
     // create knob child control
-    if (this.getVisible()) {
+    if (this.isKnobVisible()) {
       this._createChildControl("knob");
     }
   },
@@ -84,16 +84,19 @@ qx.Class.define("qx.ui.splitpane.Splitter",
       refine : true,
       init : false
     },
+
+
     /**
-     * The visibility of the splitter.
-     * Allows to remove the splitter in favor of other visual separation means like background color differences.
+     * The visibility of the splitter button.
+     * Allows to remove the splitter button in favor of other visual separation
+     * means like background color differences.
      */
-    visible :
+    knobVisible :
     {
-      init: true,
-      check: "Boolean",
-      themeable: true,
-      apply: "_applyVisible"
+      check     : "Boolean",
+      init      : true,
+      themeable : true,
+      apply     : "_applyKnobVisible"
     }
   },
 
@@ -125,8 +128,10 @@ qx.Class.define("qx.ui.splitpane.Splitter",
       return control || this.base(arguments, id);
     },
 
-    _applyVisible: function(visible, old) {
-      this.getChildControl("knob").setVisibility(visible ? "visible" : "excluded");
+
+    // property apply
+    _applyKnobVisible : function (value, old) {
+      this.getChildControl("knob").setVisibility(value ? "visible" : "excluded");
     }
   }
 });
