@@ -593,6 +593,15 @@ qx.Class.define("qx.ui.form.DateField",
     {
       this.base(arguments);
       this.getChildControl("textfield").getFocusElement().focus();
+    },
+
+    // overridden
+    tabFocus : function()
+    {
+      var field = this.getChildControl("textfield");
+
+      field.getFocusElement().focus();
+      field.selectAllText();
     }
   },
 
