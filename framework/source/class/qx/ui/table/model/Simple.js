@@ -71,6 +71,11 @@ qx.Class.define("qx.ui.table.model.Simple",
           return result;
         }
       }
+      if ((obj1 == null) && (obj2 !== null)) {
+        return -1;
+      } else if ((obj2 == null) && (obj1 !== null)) {
+        return 1;
+      }
       return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     },
 
@@ -96,6 +101,11 @@ qx.Class.define("qx.ui.table.model.Simple",
           return result;
         }
       }
+      if ((obj1 == null) && (obj2 !== null)) {
+        return -1;
+      } else if ((obj2 == null) && (obj1 !== null)) {
+        return 1;
+      }
       return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     },
 
@@ -118,6 +128,11 @@ qx.Class.define("qx.ui.table.model.Simple",
         if (result != null) {
           return result;
         }
+      }
+      if ((obj1 == null) && (obj2 !== null)) {
+        return 1;
+      } else if ((obj2 == null) && (obj1 !== null)) {
+        return -1;
       }
       return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     },
@@ -142,6 +157,11 @@ qx.Class.define("qx.ui.table.model.Simple",
         if (result != null) {
           return result;
         }
+      }
+      if ((obj1 == null) && (obj2 !== null)) {
+        return 1;
+      } else if ((obj2 == null) && (obj1 !== null)) {
+        return -1;
       }
       return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
     }
