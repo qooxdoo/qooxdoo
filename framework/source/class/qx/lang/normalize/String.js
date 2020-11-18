@@ -80,8 +80,50 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
       position -= searchString.length;
       var lastIndex = subjectString.indexOf(searchString, position);
       return lastIndex !== -1 && lastIndex === position;
-    }
+    },
+    
 
+    /**
+     * Returns a non-negative integer that is the Unicode code point value.
+     *   see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/codePointAt
+     *
+     * @param position {Integer} Position of an element in the string to 
+     *   return the code point value from.
+     * @return {Integer} A number representing the code point value of 
+     *   the character at the given pos. If there is no element at pos, 
+     *   returns undefined..
+     */
+    codePointAt : function (position)
+    {
+      if (this == null) {
+        throw TypeError();
+      }
+      var string = String(this);
+      var size = string.length;
+      // `ToInteger`
+      var index = position ? Number(position) : 0;
+      if (index != index) { // better `isNaN`
+        index = 0;
+      }
+      // Account for out-of-bounds indices:
+      if (index < 0 || index >= size) {
+        return undefined;
+      }
+      // Get the first code unit
+      var first = string.charCodeAt(index);
+      var second;
+      if ( // check if it’s the start of a surrogate pair
+        first >= 0xD800 && first <= 0xDBFF && // high surrogate
+        size > index + 1 // there is a next code unit
+      ) {
+        second = string.charCodeAt(index + 1);
+        if (second >= 0xDC00 && second <= 0xDFFF) { // low surrogate
+          // https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae
+          return (first - 0xD800) * 0x400 + second - 0xDC00 + 0x10000;
+        }
+      }
+      return first;
+    }
   },
 
   defer : function(statics)
@@ -97,6 +139,10 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
     // endsWith
     if (!qx.core.Environment.get("ecmascript.string.endsWith")) {
       String.prototype.endsWith = statics.endsWith;
+    }
+    // codePointAt
+    if (!qx.core.Environment.get("ecmascript.string.codePointAt")) {
+      String.prototype.codePointAt = statics.codePointAt;
     }
   }
 });
