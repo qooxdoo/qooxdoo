@@ -143,8 +143,9 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
         // correctly handles all cases including `NaN`, `-Infinity`, `+Infinity`
         // The surrounding `!(...)` is required to correctly handle `NaN` cases
         // The (codePoint>>>0) === codePoint clause handles decimals and negatives
-        if (!(codePoint < 0x10FFFF && (codePoint>>>0) === codePoint))
+        if (!(codePoint < 0x10FFFF && (codePoint>>>0) === codePoint)) {
           throw RangeError("Invalid code point: " + codePoint);
+        }
         if (codePoint <= 0xFFFF) { // BMP code point
           codeLen = codeUnits.push(codePoint);
         } else { // Astral code point; split in surrogate halves
