@@ -223,6 +223,18 @@ qx.Class.define("qx.test.lang.String",
       this.assertIdentical(qx.lang.String.trimRight(str), "     foo bar");
     },
 
+    testCodePointAt : function()
+    {
+      this.assertTrue("abc".codePointAt(0), 97));
+      this.assertTrue("abc".codePointAt(1), 98));
+      this.assertTrue("abc".codePointAt(2), 99));
+      this.assertTrue("abc".codePointAt(3), undefined));
+      this.assertTrue("☃★♲".codePointAt(0), 9731);
+      this.assertTrue("☃★♲".codePointAt(1), 9733);
+      this.assertTrue("☃★♲".codePointAt(2), 9842);
+      this.assertTrue("☃★♲".codePointAt(3), undefined);
+    },
+
     testStripScripts : function()
     {
       var str = "This is a <script>foobar</script>test";
