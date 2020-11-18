@@ -235,6 +235,17 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("☃★♲".codePointAt(3), undefined);
     },
 
+    testFromCodePoint : function()
+    {
+      this.assertEquals(String.fromCodePoint(42), "*");
+      this.assertEquals(String.fromCodePoint(65, 90), "AZ");
+      this.assertEquals(String.fromCodePoint(0x404), "Є");
+      this.assertEquals(String.fromCodePoint(0x2F804), "\uD87E\uDC04");
+      this.assertEquals(String.fromCodePoint(194564), "\uD87E\uDC04");
+      this.assertEquals(String.fromCodePoint(0x1D306, 0x61, 0x1D307), "\uD834\uDF06a\uD834\uDF07");
+      this.assertEquals(String.fromCodePoint(9731, 9733, 9842), "☃★♲");
+    },
+
     testStripScripts : function()
     {
       var str = "This is a <script>foobar</script>test";
