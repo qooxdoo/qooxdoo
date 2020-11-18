@@ -225,14 +225,14 @@ qx.Class.define("qx.test.lang.String",
 
     testCodePointAt : function()
     {
-      this.assertTrue("abc".codePointAt(0), 97);
-      this.assertTrue("abc".codePointAt(1), 98);
-      this.assertTrue("abc".codePointAt(2), 99);
-      this.assertTrue("abc".codePointAt(3), undefined);
-      this.assertTrue("☃★♲".codePointAt(0), 9731);
-      this.assertTrue("☃★♲".codePointAt(1), 9733);
-      this.assertTrue("☃★♲".codePointAt(2), 9842);
-      this.assertTrue("☃★♲".codePointAt(3), undefined);
+      this.assertEquals("abc".codePointAt(0), 97);
+      this.assertEquals("abc".codePointAt(1), 98);
+      this.assertEquals("abc".codePointAt(2), 99);
+      this.assertEquals("abc".codePointAt(3), undefined);
+      this.assertEquals("☃★♲".codePointAt(0), 9731);
+      this.assertEquals("☃★♲".codePointAt(1), 9733);
+      this.assertEquals("☃★♲".codePointAt(2), 9842);
+      this.assertEquals("☃★♲".codePointAt(3), undefined);
     },
 
     testStripScripts : function()
