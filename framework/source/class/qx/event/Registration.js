@@ -369,7 +369,7 @@ qx.Class.define("qx.event.Registration",
       if (qx.core.Environment.get("qx.promise")) {
         return qx.Promise.resolve(this.fireEvent(target, type, clazz, args));
       } else {
-        throw new Error(this.classname + ".fireNonBubblingEventAsync not supported because qx.promise==false");
+        throw new Error(this.classname + ".fireEventAsync not supported because qx.promise==false");
       }
     },
 

@@ -118,34 +118,30 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         // Was this a mouse event?
         if (evt instanceof qx.event.type.Mouse)
         {
-          // Yup.  Get the order of the columns
-          var tcm = tree.getTableColumnModel();
-          var columnPositions = tcm._getColToXPosMap();
-
-          // Calculate the position of the beginning of the tree column
-          var left = qx.bom.element.Location.getLeft(
-            tree.getContentElement().getDomElement());
-
-          for (var i=0; i<columnPositions[treeCol].visX; i++) {
-            left += tcm.getColumnWidth(columnPositions[i].visX);
-          }
-
-          // Was the click on the open/close button?  That button begins at
-          // (node.level - 1) * (rowHeight + 3) + 2 (the latter for padding),
-          // and has width (rowHeight + 3). We add a bit of latitude to that.
+          // Was the click on the open/close button? We get the position and add a bit of
+          // latitude to that
           var x = evt.getViewportLeft();
           var latitude = 2;
-          var rowHeight = _this.__table.getRowHeight();
-          var buttonPos = left + (node.level - 1) * (rowHeight + 3) + 2;
-
-          if (x >= buttonPos - latitude && x <= buttonPos + rowHeight + 3 + latitude)
+          var buttonPos = tree.getOpenCloseButtonPosition(node);
+          if (x >= buttonPos.left - latitude && x <= buttonPos.left + buttonPos.width + latitude)
           {
-            // Yup.  Toggle the opened state for this node.
-            dataModel.setState(node, { bOpened : ! node.bOpened });
+            // Yup.  Toggle the opened state for this node if open/close is allowed
+            if (!node.bHideOpenClose && node.type !== qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF) {
+              dataModel.setState(node, {bOpened: !node.bOpened});
+            }
             return tree.getOpenCloseClickSelectsRow() ? false : true;
           }
           else
           {
+            // Yup.  Get the order of the columns
+            var tcm = tree.getTableColumnModel();
+            var columnPositions = tcm._getColToXPosMap();
+
+            // Calculate the position of the beginning of the tree column
+            var left = qx.bom.element.Location.getLeft(tree.getContentElement().getDomElement());
+            for (var i=0; i<columnPositions[treeCol].visX; i++) {
+              left += tcm.getColumnWidth(columnPositions[i].visX);
+            }
             return _this._handleExtendedClick(tree, evt, node, left);
           }
         }

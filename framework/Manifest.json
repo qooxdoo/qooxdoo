@@ -1,16 +1,16 @@
 {
-  "info" : 
+  "info" :
   {
     "name" : "qooxdoo framework",
 
     "summary" : "The qooxdoo framework library",
     "description" : "This library contains the qooxdoo Javascript framework classes for website, mobile, desktop and server.",
-    
+
     "keywords" : ["qooxdoo", "framework", "widget", "cross-browser", "ajax"],
     "homepage" : "http://qooxdoo.org",
 
     "license" : "MIT",
-    "authors" : 
+    "authors" :
     [
      {
        "name" : "Alexander Steitz (asteitz)",
@@ -63,41 +63,97 @@
 
     "sourceViewUri" : "https://github.com/qooxdoo/qooxdoo/blob/%{qxGitBranch}/framework/source/class/%{classFilePath}#L%{lineNumber}"
   },
-  
-  "provides" : 
+
+  "provides" :
   {
     "namespace"   : "qx",
     "encoding"    : "utf-8",
     "class"       : "source/class",
     "resource"    : "source/resource",
     "translation" : "source/translation",
-    "type"        : "library"
+    "type"        : "library",
+    "webfonts":[
+      {
+        "name": "MaterialIcons",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialicons-v50.eot",
+          "qx/iconfont/MaterialIcons/materialicons-v50.woff2",
+          "qx/iconfont/MaterialIcons/materialicons-v50.woff",
+          "qx/iconfont/MaterialIcons/materialicons-v50.ttf"
+        ]
+      },
+      {
+        "name": "MaterialIconsOutlined",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.eot",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.woff",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.otf"
+        ]
+      },
+      {
+        "name": "MaterialIconsRound",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconsround-v18.eot",
+          "qx/iconfont/MaterialIcons/materialiconsround-v18.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsround-v18.woff",
+          "qx/iconfont/MaterialIcons/materialiconsround-v18.otf"
+        ]
+      },
+      {
+        "name": "MaterialIconsSharp",
+        "comparisonString": "\ue1fe\uef39",
+        "defaultSize": 32,
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconssharp-v19.eot",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v19.woff2",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v19.woff",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v19.otf"
+        ]
+      },
+      {
+        "name": "MaterialIconsDuoTone",
+        "defaultSize": 32,
+        "comparisonString": "\ue1fe\uef39",
+        "resources": [
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.eot",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.woff2",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.woff",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.otf"
+        ]
+      }
+    ]
   },
-  
+
   "setup" :
   {
-    "qx.debug" : 
+    "qx.debug" :
     {
       "values" : [ "on", "off" ],
-      "default" : "on"  
+      "default" : "on"
     },
-    
-    "qx.aspects" : 
+
+    "qx.aspects" :
     {
       "values" : [ "on", "off" ],
-      "default" : "off"  
+      "default" : "off"
     },
-    
-    "qx.dynlocale" : 
+
+    "qx.dynlocale" :
     {
       "values" : [ "on", "off" ],
-      "default" : "off"  
+      "default" : "off"
     },
-    
+
     "qx.theme" :
     {
       "default" : "qx.theme.Modern"
     }
   }
 }
-

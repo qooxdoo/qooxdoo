@@ -1,4 +1,0 @@
-Reporting Bugs
-==============
-
-(todo)

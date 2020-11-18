@@ -50,10 +50,6 @@ jobs:
       install: npm install
       before_script: skip
       script:
-        - ./.travis/check-if-docs-only > md_files || export CONTAINS_MD_ONLY=1;
-        - export MD_FILES=$(cat md_files)
-        - if [[ "$MD_FILES" != "" ]] ; then ./.travis/markdown-lint $MD_FILES ; fi
-        - if [[ $CONTAINS_MD_ONLY == 1 ]] ; then echo "Markdown commit only, terminating build."; travis_terminate 0 ; fi
         - cd framework && ../.travis/lint
     - # parallel
       name: Coverage
@@ -68,7 +64,7 @@ jobs:
       name: Chrome
       before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
       script: ../.travis/test Chrome_travis_ci
-      
+
     - stage: SL-Browser-Tests
       name: SL Chrome
       before_install: ./.travis/check-github-label ci-skip-browser-tests && exit 0 || true
@@ -83,14 +79,6 @@ jobs:
       script: ../.travis/test EdgeSL
 
     - stage: Deploy
-      name: Deploy to website
-      addons:
-      script: ../.travis/deploy_website
-    - # parallel
-      name: Deploy to npm
-      addons:
-      script: ../.travis/deploy_npm
-    - # parallel
       name: Deploy to GitHub
       addons:
       script: ../.travis/make-release-sdk || true

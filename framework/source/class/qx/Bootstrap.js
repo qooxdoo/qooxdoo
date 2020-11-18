@@ -74,7 +74,7 @@ qx.Bootstrap = {
     {
       var value = functionMap[name];
       if (value instanceof Function) {
-        value.displayName = classname + "." + name + "()";
+        value.displayName = classname + "." + (value.name || name) + "()";
       }
     }
   },

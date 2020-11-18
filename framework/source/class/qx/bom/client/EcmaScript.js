@@ -249,6 +249,15 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     },
 
     /**
+     * Checks if 'assign' is supported on the Object object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getObjectAssign : function() {
+      return !!Object.assign;
+    },
+
+    /**
      * Checks if 'now' is supported on the Date object.
      * @internal
      * @return {Boolean} <code>true</code>, if the method is available.
@@ -389,6 +398,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.object.keys", statics.getObjectKeys);
     qx.core.Environment.add("ecmascript.object.values", statics.getObjectValues);
     qx.core.Environment.add("ecmascript.object.is", statics.getObjectIs);
+    qx.core.Environment.add("ecmascript.object.assign", statics.getObjectAssign);
 
     // number polyfill
     qx.core.Environment.add("ecmascript.number.EPSILON", statics.getEpsilon);

@@ -77,7 +77,7 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/docs/#layout/canvas.md'>
+ * <a href='https://qooxdoo.org/documentation/#/desktop/layout/canvas.md'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo manual.
  */
 qx.Class.define("qx.ui.layout.Canvas",
@@ -253,13 +253,26 @@ qx.Class.define("qx.ui.layout.Canvas",
             }
           }
 
+          // AlignX support.
+          if (left == null && right == null) {
+            switch (child.getAlignX()) {
+              case "center":
+                left = (availWidth - size.width) / 2 - marginRight;
+                break;
+              case "right":
+                right = 0;
+                break;
+            }
+          }
+
           if (right != null) {
-            left = availWidth - width - right - marginRight - marginLeft;
+            left = availWidth - width - right - marginRight;
           } else if (left == null) {
             left = marginLeft;
           } else {
             left += marginLeft;
           }
+
         }
 
         // Stretching has higher priority than dimension data
@@ -298,8 +311,20 @@ qx.Class.define("qx.ui.layout.Canvas",
             }
           }
 
+          // AlignY support.
+          if (top == null && bottom == null) {
+            switch (child.getAlignY()) {
+              case "middle":
+                top = (availHeight - size.height) / 2 - marginBottom;
+                break;
+              case "bottom":
+                bottom = 0;
+                break;
+            }
+          }
+
           if (bottom != null) {
-            top = availHeight - height - bottom - marginBottom - marginTop;
+            top = availHeight - height - bottom - marginBottom;
           } else if (top == null) {
             top = marginTop;
           } else {

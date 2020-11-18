@@ -44,7 +44,6 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       clazz.stylesheet = qx.bom.Stylesheet.createElement(
         ".qooxdoo-table-cell-icon {" +
         "  text-align:center;" +
-        "  padding-top:1px;" +
         "}"
       );
     }
@@ -104,8 +103,6 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     __defaultHeight : 16,
     __imageData : null,
 
-    // overridden
-    _insetY : 2,
 
     /**
      * Identifies the Image to show. This is a template method, which must be
@@ -242,7 +239,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
           width: this.__imageData.width + "px",
           height: this.__imageData.height + "px",
           display: qx.core.Environment.get("css.inlineblock"),
-          verticalAlign: "top",
+          verticalAlign: "middle",
           position: "static"
         }
         if (qx.util.ResourceManager.getInstance().getCombinedFormat(this.__imageData.url) === "") {
