@@ -183,5 +183,9 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
     if (!qx.core.Environment.get("ecmascript.string.codePointAt")) {
       String.prototype.codePointAt = statics.codePointAt;
     }
+    // fromCodePoint
+    if (!qx.core.Environment.get("ecmascript.string.fromCodePoint")) {
+      String.fromCodePoint = statics.fromCodePoint;
+    }
   }
 });
