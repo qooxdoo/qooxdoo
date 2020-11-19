@@ -4,7 +4,7 @@
 [![SauceLab Build][saucelab-image]][saucelab-url]
 [![Gitter][gitter-image]][gitter-url]
 
-# Qooxdoo JavasScript Framework 
+# Qooxdoo JavaScript Framework 
 
 qooxdoo is a universal JavaScript framework that enables you to create 
 applications for a wide range of platforms. With its object-oriented 

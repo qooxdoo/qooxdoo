@@ -122,6 +122,8 @@ qx.Class.define("qx.test.lang.String",
 
       this.assertEquals("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;", qx.bom.String.escape("<div id='1'>&nbsp; €</div>"));
 
+      this.assertEquals("&#127774; 1", qx.bom.String.escape("🌞 1"));
+
       // textToHtml
       this.assertEquals("&lt;div id='1'&gt;<br> &nbsp;&amp;nbsp; &euro;&lt;/div&gt;", qx.bom.String.fromText("<div id='1'>\n  &nbsp; €</div>"));
 
@@ -134,6 +136,8 @@ qx.Class.define("qx.test.lang.String",
       this.assertEquals("juhu <>", qx.bom.String.unescape("juhu &lt;&gt;"));
 
       this.assertEquals("<div id='1'>&nbsp; €</div>", qx.bom.String.unescape("&lt;div id='1'&gt;&amp;nbsp; &euro;&lt;/div&gt;"));
+
+      this.assertEquals("🌞 1", qx.bom.String.unescape("&#127774; 1"));
 
       this.assertEquals(">&zzzz;x", qx.bom.String.unescape("&gt;&zzzz;x"));
 
@@ -223,19 +227,42 @@ qx.Class.define("qx.test.lang.String",
       this.assertIdentical(qx.lang.String.trimRight(str), "     foo bar");
     },
 
+    testCodePointAt : function()
+    {
+      this.assertEquals("abc".codePointAt(0), 97);
+      this.assertEquals("abc".codePointAt(1), 98);
+      this.assertEquals("abc".codePointAt(2), 99);
+      this.assertEquals("abc".codePointAt(3), undefined);
+      this.assertEquals("☃★♲".codePointAt(0), 9731);
+      this.assertEquals("☃★♲".codePointAt(1), 9733);
+      this.assertEquals("☃★♲".codePointAt(2), 9842);
+      this.assertEquals("☃★♲".codePointAt(3), undefined);
+    },
+
+    testFromCodePoint : function()
+    {
+      this.assertEquals(String.fromCodePoint(42), "*");
+      this.assertEquals(String.fromCodePoint(65, 90), "AZ");
+      this.assertEquals(String.fromCodePoint(0x404), "Є");
+      this.assertEquals(String.fromCodePoint(0x2F804), "\uD87E\uDC04");
+      this.assertEquals(String.fromCodePoint(194564), "\uD87E\uDC04");
+      this.assertEquals(String.fromCodePoint(0x1D306, 0x61, 0x1D307), "\uD834\uDF06a\uD834\uDF07");
+      this.assertEquals(String.fromCodePoint(9731, 9733, 9842), "☃★♲");
+    },
+
     testStripScripts : function()
     {
       var str = "This is a <script>foobar</script>test";
 
       this.assertIdentical(qx.lang.String.stripScripts(str), "This is a test");
-      
+
       var spy = this.spy(qx.lang.Function, "globalEval");
 
       str = "This is a test with<script>console.log('foobar');</script> script";
 
       this.assertIdentical(qx.lang.String.stripScripts(str, true), "This is a test with script");
       this.assertCalledOnce(spy);
-      
+
       spy.restore();
     }
   }

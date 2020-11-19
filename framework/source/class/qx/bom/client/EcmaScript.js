@@ -315,6 +315,26 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
 
 
     /**
+     * Checks if 'codePointAt' is supported on the String object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getStringCodePointAt : function() {
+      return typeof String.prototype.codePointAt === "function";
+    },
+
+
+    /**
+     * Checks if 'fromCodePoint' is supported on the String object.
+     * @internal
+     * @return {Boolean} <code>true</code>, if the method is available.
+     */
+    getStringFromCodePoint : function() {
+      return !!String.fromCodePoint;
+    },
+
+
+    /**
      * Checks if 'BigInt' type is supported.
      * @internal
      * @ignore(BigInt)
@@ -397,6 +417,8 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
     qx.core.Environment.add("ecmascript.string.startsWith", statics.getStringStartsWith);
     qx.core.Environment.add("ecmascript.string.endsWith", statics.getStringEndsWith);
     qx.core.Environment.add("ecmascript.string.trim", statics.getStringTrim);
+    qx.core.Environment.add("ecmascript.string.codePointAt", statics.getStringCodePointAt);
+    qx.core.Environment.add("ecmascript.string.fromCodePoint", statics.getStringFromCodePoint);
 
     // ES7 async function support
     qx.core.Environment.add("ecmascript.function.async", statics.getAsyncFunction);
