@@ -64,7 +64,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataRowRenderer",
       {
         // Ensure that the selection model knows it's selected
         var row = rowInfo.row;
-        tree.getSelectionModel()._addSelectionInterval(row, row);
+        var selModel = tree.getSelectionModel();
+        if (!selModel.isSelectedIndex(row)) {
+          selModel._addSelectionInterval(row, row);
+        }
       }
 
       // Now call our superclass
