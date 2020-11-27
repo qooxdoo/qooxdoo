@@ -389,8 +389,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
           return;
         }
         node.columnData[columnIndex] = value;
+        this._rowArr[rowIndex][columnIndex] = value;
       }
-      this.setData();
       // Inform the listeners
       if (this.hasListener("dataChanged"))
       {
