@@ -141,7 +141,7 @@ It is pretty easy to get this kind of information. You surely know how to contin
 
 ::
   
-  // mark this for translation (should hold the langauge name)
+  // mark this for translation (should hold the language name)
   this.marktr("$$languagename");
   
 We will use this key as the label for our radio buttons and then go on, as you would have expected, with a loop for all available locales.

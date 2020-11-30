@@ -16,7 +16,7 @@ qx.Class.define("tweets.SettingsWindow",
     var locales = localeManager.getAvailableLocales();
     var currentLocale = localeManager.getLocale();
 
-    // mark this for translation (should hold the langauge name)
+    // mark this for translation (should hold the language name)
     this.marktr("$$languagename");
 
     // create a radio button for every available locale
