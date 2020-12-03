@@ -128,7 +128,35 @@
           "qx/iconfont/MaterialIcons/materialiconstwotone-v17.otf"
         ]
       }
-    ]
+    ],
+    "environmentChecks": {
+      "browser.*": "qx.bom.client.Browser",
+      "css.*": "qx.bom.client.Css",
+      "css.animation": "qx.bom.client.CssAnimation",
+      "css.animation.requestframe": "qx.bom.client.CssAnimation",
+      "css.transform": "qx.bom.client.CssTransform",
+      "css.transform.3d": "qx.bom.client.CssTransform",
+      "css.transition": "qx.bom.client.CssTransition",
+      "device.*": "qx.bom.client.Device",
+      "ecmascript.*": "qx.bom.client.EcmaScript",
+      "engine.*": "qx.bom.client.Engine",
+      "event.*": "qx.bom.client.Event",
+      "html.stylesheet.*": "qx.bom.client.Stylesheet",
+      "html.*": "qx.bom.client.Html",
+      "io.*": "qx.bom.client.Transport",
+      "locale": "qx.bom.client.Locale",
+      "locale.*": "qx.bom.client.Locale",
+      "os.*": "qx.bom.client.OperatingSystem",
+      "os.scrollBarOverlayed": "qx.bom.client.Scroll",
+      "phonegap*": "qx.bom.client.PhoneGap",
+      "plugin.flash*": "qx.bom.client.Flash",
+      "plugin.*": "qx.bom.client.Plugin",
+      "qx.globalErrorHandling": "qx.event.GlobalError",
+      "qx.mobile.nativescroll": "qx.bom.client.Scroll",
+      "qx.promise.*": "qx.Promise",
+      "runtime.name": "qx.bom.client.Runtime",
+      "xml.*": "qx.bom.client.Xml"
+    }
   },
 
   "setup" :
