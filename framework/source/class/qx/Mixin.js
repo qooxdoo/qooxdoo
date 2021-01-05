@@ -300,6 +300,29 @@ qx.Bootstrap.define("qx.Mixin",
     },
     
     
+    /**
+     * This method is used to determine the base method to call at runtime, and is used
+     * by Mixins where the mixin method calls `this.base()`.  It is only required by the
+     * compiler, and not the generator.
+     *
+     * The problem is that while Mixin's cannot override the same methods in a single class,
+     * they can override methods that were implemented in a base base - but the compiler
+     * cannot emit compile-time code which knows the base class method because that depends
+     * on the class that the mixin is mixed-into.
+     *
+     * This method will search the hierarchy of the class at runtime, and figure out the 
+     * nearest superclass method to call; the result is cached, and it is acceptable for
+     * a mixin's method to override a method mixed into a superclass.
+     *
+     * Technically, this method should be private - it is internal and no notification will
+     * be given if the API changes.  However, because it needs to be called by generated code
+     * in any class, it has to appear as public.  Do not use it directly.
+     *
+     * @param clazz {Class} the class that is to be examined
+     * @param mixin {Mixin} the mixin that is calling `this.base`
+     * @param methodName {String} the name of the method in `mixin` that is calling `this.base`
+     * @return {Function} the base class function to call
+     */
     baseClassMethod : function(clazz, mixin, methodName) {
       if (!qx.core.Environment.get("qx.compiler")) {
         qx.log.Logger.error("qx.Mixin.baseClassMethod should not be used except with code compiled by the compiler (ie NOT the generator / python toolchain)");
