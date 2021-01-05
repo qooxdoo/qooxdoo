@@ -1450,12 +1450,12 @@ qx.Bootstrap.define("qx.Class",
         // classes which are function like as well.
         if (base !== false && member instanceof Function && member.$$type == null)
         {
-          if (wrap == true)
+          if (!qx.core.Environment.get("qx.compiler") && wrap == true)
           {
             // wrap "patched" mixin member
             member = this.__mixinMemberWrapper(member, proto[key]);
           }
-          else
+          else if (wrap != true)
           {
             // Configure extend (named base here)
             // Hint: proto[key] is not yet overwritten here
@@ -1489,20 +1489,25 @@ qx.Bootstrap.define("qx.Class",
      */
     __mixinMemberWrapper : function(member, base)
     {
-      if (base)
-      {
-        return function()
+      if (qx.core.Environment.get("qx.compiler")) {
+        throw new Error("This function should not be used except with code compiled by the generator (ie python toolchain)");
+        
+      } else {
+        if (base)
         {
-          var oldBase = member.base;
-          member.base = base;
-          var retval = member.apply(this, arguments);
-          member.base = oldBase;
-          return retval;
-        };
-      }
-      else
-      {
-        return member;
+          return function()
+          {
+            var oldBase = member.base;
+            member.base = base;
+            var retval = member.apply(this, arguments);
+            member.base = oldBase;
+            return retval;
+          };
+        }
+        else
+        {
+          return member;
+        }
       }
     },
 

@@ -298,7 +298,63 @@ qx.Bootstrap.define("qx.Mixin",
 
       return list;
     },
-
+    
+    
+    baseClassMethod : function(clazz, mixin, methodName) {
+      if (!qx.core.Environment.get("qx.compiler")) {
+        qx.log.Logger.error("qx.Mixin.baseClassMethod should not be used except with code compiled by the compiler (ie NOT the generator / python toolchain)");
+        
+      } else {
+        if (clazz.$$mixinBaseClassMethods && 
+            clazz.$$mixinBaseClassMethods[mixin.name] !== undefined && 
+            clazz.$$mixinBaseClassMethods[mixin.name][methodName] !== undefined) {
+          return clazz.$$mixinBaseClassMethods[mixin.name][methodName];
+        }
+  
+        var mixedInAt = null;
+        var mixedInIndex = -1;
+        for (var searchClass = clazz; searchClass; searchClass = searchClass.superclass) {
+          if (searchClass.$$flatIncludes) {
+            var pos = searchClass.$$flatIncludes.indexOf(mixin);
+            if (pos > -1) {
+              mixedInAt = searchClass;
+              mixedInIndex = pos;
+            }
+          }
+        }
+        
+        var fn = null;
+        
+        if (mixedInAt) {
+          for (var i = mixedInIndex - 1; i > -1; i--) {
+            var peerMixin = mixedInAt.$$flatIncludes[i];
+            if (peerMixin.$$members[methodName]) {
+              fn = peerMixin.$$members[methodName];
+              break;
+            }
+          }
+          if (!fn && mixedInAt.superclass) {
+            fn = mixedInAt.superclass.prototype[methodName];
+          }
+        }
+        
+        if (fn) {
+          if (!clazz.$$mixinBaseClassMethods) {
+            clazz.$$mixinBaseClassMethods = {};
+          }
+          if (!clazz.$$mixinBaseClassMethods[mixin.name]) {
+            clazz.$$mixinBaseClassMethods[mixin.name] = {};
+          }
+          clazz.$$mixinBaseClassMethods[mixin.name][methodName] = fn;
+          
+        } else if (qx.core.Environment.get("qx.debug")) {
+          throw new Error("Cannot find base class method called " + methodName + 
+            " for mixin " + mixin.name + ", when viewed from " + clazz.classname);
+        }
+        
+        return fn;
+      }
+    },
 
 
 
