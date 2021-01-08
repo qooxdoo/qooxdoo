@@ -472,7 +472,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /*
     ---------------------------------------------------------------------------
-      FILTERING
+      INCREMENTAL SEARCH
     ---------------------------------------------------------------------------
     */
 
@@ -608,8 +608,8 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         this.__initIncrementalSearch();
       }
       else {
-        this.__searchTimer.setEnabled(false);
         this.getChildControl('atom').setRich(this.__lastRich);
+        this.__searchTimer.setEnabled(true);
       }
     }
   },
