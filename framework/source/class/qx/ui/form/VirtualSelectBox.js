@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     highlightStyle :
     {
         nullable : true,
-        apply : '__applyMarkHighlightStyle',
+        apply : '__applyHighlightStyle',
         init : {
             color      : '#FF0000',
             fontWeight : 'bold'
@@ -519,7 +519,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }, this);
     },
 
-    __applyMarkHighlightStyle : function(value, old) {
+    __applyHighlightStyle : function(value, old) {
       var styles = [];
       if (value != null) {
         var keys = Object.keys(value);
@@ -582,7 +582,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       this.__lastRich = this.getChildControl('atom').getRich();
       this.getChildControl('atom').setRich(true);
       this.__addFilterInput();
-      this.__applyMarkHighlightStyle(this.getHighlightStyle());
+      this.__applyHighlightStyle(this.getHighlightStyle());
       var that = this;
       var labelOptions = this.getLabelOptions() || {};
       labelOptions.converter = function(data, model, source, target) {
