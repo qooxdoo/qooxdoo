@@ -106,6 +106,48 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     ---------------------------------------------------------------------------
     */
 
+
+    // overridden
+    _getFirstVisibleSelectable : function()
+    {
+      var selectables = this.getSelectables();
+      var widget = this._getWidget();
+      var scrollTop = widget.getScrollY();
+      
+      for (var i = 0; i < selectables.length; i++) {
+        var bottom = widget.getItemBottom(selectables[i]);
+        if (bottom > scrollTop) {
+          return selectables[i];
+        }
+      }
+      
+      return null;
+    },
+
+    // overridden
+    _getLastVisibleSelectable : function()
+    {
+      var selectables = this.getSelectables();
+      var widget = this._getWidget();
+      var scrollTop = widget.getScrollY();
+      var innerHeight = widget.getInnerSize().height;
+      var scrollBottom = scrollTop + innerHeight; 
+      
+      var last = null;
+      for (var i = 0; i < selectables.length; i++) {
+        var top = widget.getItemTop(selectables[i]);
+        if (top > scrollBottom) {
+          break;
+        }
+        var bottom = widget.getItemBottom(selectables[i]);
+        if (bottom > scrollTop) {
+          last = selectables[i];
+        }
+      }
+      
+      return last;
+    },
+
     // overridden
     _getPage : function(lead, up)
     {

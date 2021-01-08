@@ -109,6 +109,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       check : "Boolean",
       init : false
+    },
+    
+    
+    /**
+     * Whether the selection can be changed by user interaction
+     */
+    readOnly: {
+      check: "Boolean",
+      init: false
     }
   },
 
@@ -750,6 +759,26 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
+     * Returns the first visible and selectable item.
+     *
+     * @return {var} The first visible and selectable item
+     */
+    _getFirstVisibleSelectable : function() {
+      throw new Error("Abstract method call: _getFirstVisibleSelectable()");
+    },
+
+
+    /**
+     * Returns the last visible and selectable item.
+     *
+     * @return {var} The last visible and selectable item
+     */
+    _getLastVisibleSelectable : function() {
+      throw new Error("Abstract method call: _getLastVisibleSelectable()");
+    },
+
+
+    /**
      * Returns a selectable item which is related to the given
      * <code>item</code> through the value of <code>relation</code>.
      *
@@ -975,51 +1004,53 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Action depends on selected mode
-      switch(this.getMode())
-      {
-        case "single":
-        case "one":
-          this._setSelectedItem(item);
-          break;
-
-        case "additive":
-          this._setLeadItem(item);
-          this._setAnchorItem(item);
-          this._toggleInSelection(item);
-          break;
-
-        case "multi":
-          // Update lead item
-          this._setLeadItem(item);
-
-          // Create/Update range selection
-          if (isShiftPressed)
-          {
-            var anchor = this._getAnchorItem();
-            if (anchor === null)
-            {
-              anchor = this._getFirstSelectable();
-              this._setAnchorItem(anchor);
-            }
-
-            this._selectItemRange(anchor, item, isCtrlPressed);
-          }
-
-          // Toggle in selection
-          else if (isCtrlPressed)
-          {
+      if (!this.isReadOnly()) {
+        switch(this.getMode())
+        {
+          case "single":
+          case "one":
+            this._setSelectedItem(item);
+            break;
+  
+          case "additive":
+            this._setLeadItem(item);
             this._setAnchorItem(item);
             this._toggleInSelection(item);
-          }
-
-          // Replace current selection
-          else
-          {
-            this._setAnchorItem(item);
-            this._setSelectedItem(item);
-          }
-
-          break;
+            break;
+  
+          case "multi":
+            // Update lead item
+            this._setLeadItem(item);
+  
+            // Create/Update range selection
+            if (isShiftPressed)
+            {
+              var anchor = this._getAnchorItem();
+              if (anchor === null)
+              {
+                anchor = this._getFirstSelectable();
+                this._setAnchorItem(anchor);
+              }
+  
+              this._selectItemRange(anchor, item, isCtrlPressed);
+            }
+  
+            // Toggle in selection
+            else if (isCtrlPressed)
+            {
+              this._setAnchorItem(item);
+              this._toggleInSelection(item);
+            }
+  
+            // Replace current selection
+            else
+            {
+              this._setAnchorItem(item);
+              this._setSelectedItem(item);
+            }
+  
+            break;
+        }
       }
 
       // Cleanup operation
@@ -1368,8 +1399,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var isShiftPressed = event.isShiftPressed();
 
       var consumed = false;
+      var readOnly = this.isReadOnly();
 
-      if (key === "A" && isCtrlPressed)
+      if (key === "A" && isCtrlPressed && !readOnly)
       {
         if (mode !== "single" && mode !== "one")
         {
@@ -1377,7 +1409,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           consumed = true;
         }
       }
-      else if (key === "Escape")
+      else if (key === "Escape" && !readOnly)
       {
         if (mode !== "single" && mode !== "one")
         {
@@ -1385,7 +1417,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           consumed = true;
         }
       }
-      else if (key === "Space")
+      else if (key === "Space" && !readOnly)
       {
         var lead = this.getLeadItem();
         if (lead != null && !isShiftPressed)
@@ -1396,6 +1428,48 @@ qx.Class.define("qx.ui.core.selection.Abstract",
             this._setSelectedItem(lead);
           }
           consumed = true;
+        }
+      }
+      else if (this.__navigationKeys[key] && readOnly) {
+        switch(key)
+        {
+          case "Home":
+            next = this._getFirstSelectable();
+            break;
+
+          case "End":
+            next = this._getLastSelectable();
+            break;
+
+          case "Up":
+            next = this._getRelatedSelectable(this._getFirstVisibleSelectable(), "above");
+            break;
+
+          case "Down":
+            next = this._getRelatedSelectable(this._getLastVisibleSelectable(), "under");
+            break;
+
+          case "Left":
+            next = this._getRelatedSelectable(this._getFirstVisibleSelectable(), "left");
+            break;
+
+          case "Right":
+            next = this._getRelatedSelectable(this._getLastVisibleSelectable(), "right");
+            break;
+
+          case "PageUp":
+            next = this._getPage(this._getFirstVisibleSelectable(), true);
+            break;
+
+          case "PageDown":
+            next = this._getPage(this._getLastVisibleSelectable(), false);
+            break;
+        }
+        
+        if (next) {
+          consumed = true;
+          this.__oldScrollTop = this._getScroll().top;
+          this._scrollItemIntoView(next);
         }
       }
       else if (this.__navigationKeys[key])

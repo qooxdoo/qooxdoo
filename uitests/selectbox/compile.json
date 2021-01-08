@@ -23,10 +23,11 @@
       "class": "selectbox.Issue9569Application",
       "theme": "qx.theme.Simple",
       "name": "issue-9569"
+    },
+    {
+      "class": "selectbox.ListDemoApplication",
+      "theme": "qx.theme.Simple",
+      "name": "listdemo"
     }
-  ],
-  "libraries": [
-    "../../framework",
-    "."
   ]
 }

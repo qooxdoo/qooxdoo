@@ -309,6 +309,20 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
 
     // overridden
+    _getFirstVisibleSelectable : function()
+    {
+      return this._getFirstSelectable();
+    },
+
+
+    // overridden
+    _getLastVisibleSelectable : function()
+    {
+      return this._getLastSelectable();
+    },
+
+
+    // overridden
     _getRelatedSelectable : function(item, relation)
     {
       var vertical = this.__widget.getOrientation() === "vertical";

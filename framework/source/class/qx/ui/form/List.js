@@ -166,6 +166,15 @@ qx.Class.define("qx.ui.form.List",
     {
       check : "Boolean",
       init : true
+    },
+    
+    /** Whether the list is read only when enabled */
+    readOnly: 
+    {
+      check: "Boolean",
+      init: false,
+      event: "changeReadOnly",
+      apply: "_applyReadOnly"
     }
   },
 
@@ -293,6 +302,61 @@ qx.Class.define("qx.ui.form.List",
     // property apply
     _applySpacing : function(value, old) {
       this.__content.getLayout().setSpacing(value);
+    },
+    
+    // property readOnly
+    _applyReadOnly : function(value) {
+      this._getManager().setReadOnly(value);
+      if (value) {
+        this.addState("readonly");
+        this.addState("disabled");
+        
+        // Remove draggable
+        if (this.isDraggable()) {
+          this._applyDraggable(false, true);
+        }
+
+        // Remove droppable
+        if (this.isDroppable()) {
+          this._applyDroppable(false, true);
+        }
+      } else {
+        this.removeState("readonly");
+        
+        if (this.isEnabled()) {
+          this.removeState("disabled");
+          
+          // Re-add draggable
+          if (this.isDraggable()) {
+            this._applyDraggable(true, false);
+          }
+  
+          // Re-add droppable
+          if (this.isDroppable()) {
+            this._applyDroppable(true, false);
+          }
+        }
+      }
+    },
+    
+    // override
+    _applyEnabled : function(value, old) {
+      this.base(arguments, value, old);
+      
+      // If editable has just been turned on, we need to correct for readOnly status 
+      if (value && this.isReadOnly()) {
+        this.addState("disabled");
+        
+        // Remove draggable
+        if (this.isDraggable()) {
+          this._applyDraggable(false, true);
+        }
+
+        // Remove droppable
+        if (this.isDroppable()) {
+          this._applyDroppable(false, true);
+        }
+      }
     },
 
 
