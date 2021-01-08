@@ -87,7 +87,7 @@ qx.Class.define("qx.util.Validate",
     checkNumber : function(value, formItem, errorMessage)
     {
       errorMessage = errorMessage ||
-        qx.locale.Manager.tr("%1 is not a number.", qx.bom.String.escape(value));
+        qx.locale.Manager.tr("%1 is not a number.", (value ? qx.bom.String.escape(value) : value));
 
       if ((typeof value !== "number" && (!(value instanceof Number)))
         || (!(isFinite(value))))
@@ -126,7 +126,7 @@ qx.Class.define("qx.util.Validate",
     checkEmail : function(value, formItem, errorMessage)
     {
       errorMessage = errorMessage ||
-        qx.locale.Manager.tr("'%1' is not an email address.", (qx.bom.String.escape(value) || ""));
+        qx.locale.Manager.tr("'%1' is not an email address.", (value ? qx.bom.String.escape(value) : ""));
 
       var reg = /^([A-Za-z0-9_\-.+])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,})$/;
       if (reg.test(value) === false) {
@@ -163,7 +163,7 @@ qx.Class.define("qx.util.Validate",
     checkString : function(value, formItem, errorMessage)
     {
       errorMessage = errorMessage ||
-        qx.locale.Manager.tr("%1 is not a string.", qx.bom.String.escape(value));
+        qx.locale.Manager.tr("%1 is not a string.", (value ? qx.bom.String.escape(value) : value));
 
       if (typeof value !== "string" && (!(value instanceof String))) {
         throw new qx.core.ValidationError("Validation Error", errorMessage);
@@ -199,7 +199,7 @@ qx.Class.define("qx.util.Validate",
     checkUrl : function(value, formItem, errorMessage)
     {
       errorMessage = errorMessage ||
-        qx.locale.Manager.tr("%1 is not an url.", qx.bom.String.escape(value));
+        qx.locale.Manager.tr("%1 is not an url.", (value ? qx.bom.String.escape(value) : value));
 
       var reg =  /([A-Za-z0-9])+:\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
       if (!reg.test(value)) {
@@ -240,7 +240,7 @@ qx.Class.define("qx.util.Validate",
         qx.util.ColorUtil.stringToRgb(value);
       } catch (e) {
         var message = errorMessage ||
-          qx.locale.Manager.tr("%1 is not a color! %2", qx.bom.String.escape(value), e);
+          qx.locale.Manager.tr("%1 is not a color! %2", (value ? qx.bom.String.escape(value) : value), e);
         throw new qx.core.ValidationError("Validation Error", message);
       }
     },
@@ -264,7 +264,7 @@ qx.Class.define("qx.util.Validate",
       return function(value)
       {
         var message = errorMessage ||
-          qx.locale.Manager.tr("%1 is not in the range from [%2, %3].", qx.bom.String.escape(value), from, to);
+          qx.locale.Manager.tr("%1 is not in the range from [%2, %3].", (value ? qx.bom.String.escape(value) : value), from, to);
 
         if (value < from || value > to) {
           throw new qx.core.ValidationError("Validation Error", message);
@@ -287,7 +287,7 @@ qx.Class.define("qx.util.Validate",
       return function(value)
       {
         var message = errorMessage ||
-          qx.locale.Manager.tr("%1 is not in %2", qx.bom.String.escape(value), array);
+          qx.locale.Manager.tr("%1 is not in %2", (value ? qx.bom.String.escape(value) : value), array);
 
         if (array.indexOf(value) === -1) {
           throw new qx.core.ValidationError("Validation Error", message);
@@ -311,7 +311,7 @@ qx.Class.define("qx.util.Validate",
       return function(value)
       {
         var message = errorMessage ||
-          qx.locale.Manager.tr("%1 does not fit %2.", qx.bom.String.escape(value), reg);
+          qx.locale.Manager.tr("%1 does not fit %2.", (value ? qx.bom.String.escape(value) : value), reg);
 
         if (!reg.test(value)) {
           throw new qx.core.ValidationError("Validation Error", message);
