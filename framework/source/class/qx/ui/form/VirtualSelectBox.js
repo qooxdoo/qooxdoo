@@ -537,7 +537,8 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     _highlightFilterValue : function (item)
     {
-      return this.__highlightStyle ? item.replace(item, '<span style="' + this.__highlightStyle + '">' + this.__filterValue+'</span>') : item;
+      return this.__highlightStyle ? item.replace(item, '<span style="' + this.__highlightStyle + '">' + qx.module.util.String.escapeHtml(this.__filterValue) + '</span>')
+                                   : item;
     },
 
     __updateDelegate : function(lastFilterValue)
