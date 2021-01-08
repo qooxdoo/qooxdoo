@@ -50,6 +50,10 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     this.__searchTimer.addListener("interval", this.__preselect, this);
 
     this.getSelection().addListener("change", this._updateSelectionValue, this);
+
+    if (this.isIncrementalSearch()) {
+      this.__initIncrementalSearch();
+    }
   },
 
 
@@ -70,6 +74,22 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       init : 120
     },
 
+    incrementalSearch :
+    {
+      apply : '__applyIncrementalSearch',
+      init : false,
+      check : "Boolean"
+    },
+
+    highlightStyle :
+    {
+        nullable : true,
+        apply : '__applyMarkHighlightStyle',
+        init : {
+            color      : '#FF0000',
+            fontWeight : 'bold'
+        }
+    },
 
     /** Current selected items. */
     selection :
@@ -275,8 +295,10 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       switch(action)
       {
         case "search":
-          this.__searchValue += this.__convertKeyIdentifier(event.getKeyIdentifier());
-          this.__searchTimer.restart();
+          if (!this.isIncrementalSearch()) {
+            this.__searchValue += this.__convertKeyIdentifier(event.getKeyIdentifier());
+            this.__searchTimer.restart();
+          }
           break;
 
         default:
@@ -445,6 +467,150 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       var d = event.getData();
       var old = (d.removed.length ? d.removed[0] : null);
       this.fireDataEvent("changeValue", d.added[0], old);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FILTERING
+    ---------------------------------------------------------------------------
+    */
+
+    __filterValue : null,
+    __lastMatch : '',
+    __filterUpdateRunning : 0,
+    __filterInput : null,
+    __highlightStyle : null,
+    __lastRich : false,
+
+
+     __addFilterInput : function()
+    {
+      var input = this.__filterInput = new qx.ui.form.TextField().set({
+          appearance : 'widget',
+          liveUpdate : true,
+          height     : 0,
+          width      : 1 // must be > 0
+      });
+      this._add(input);
+      input.addListener("focus", function(e) {
+          // reopen after focus loss
+          this.open();
+      }, this);
+      this.addListener("focus", function(e) {
+          // move focus into TextField
+          input.focus();
+      }, this);
+      input.addListener('changeValue', function(e) {
+          if (this.__filterUpdateRunning === 0) this.__updateDelegate();
+      }, this);
+      input.addListener("keypress", function(e) {
+          switch (e.getKeyIdentifier()) {
+          case 'Enter':
+          case 'Escape':
+              this.__updateDelegate();
+              break;
+          // prevent cursor from being moved to beginning/end of input field
+          case 'Down':
+          case 'Up':
+              e.preventDefault();
+              break;
+          }
+      }, this);
+    },
+
+    __applyMarkHighlightStyle : function(value, old) {
+      var styles = [];
+      if (value != null) {
+        var keys = Object.keys(value);
+        var k;
+        for (k=0; k< keys.length; k++) {
+          var key = keys[k].replace(/[A-Z]/g, m => "-" + m.toLowerCase());
+          styles.push(key + ':' + value[keys[k]]);
+        }
+        this.__highlightStyle = styles.join(';');
+      }
+      else {
+        this.__highlightStyle = '';
+      }
+    },
+
+    _highlightFilterValue : function (item)
+    {
+      return this.__highlightStyle ? item.replace(item, '<span style="' + this.__highlightStyle + '">' + this.__filterValue+'</span>') : item;
+    },
+
+    __updateDelegate : function(lastFilterValue)
+    {
+      this.__filterUpdateRunning++;
+      var filterValue = (lastFilterValue !== undefined) ? lastFilterValue : this.__filterInput.getValue();
+      this.__filterValue = filterValue;
+      // create and apply new filter
+      var delegate = {
+          filter : function(item) {
+              return item.match(filterValue);
+          },
+          configureItem : function(item) {
+              item.setRich(true);
+          }
+      };
+      this.setDelegate(delegate);
+
+      // update selection if there is at least one item left,
+      // otherwise shorten filterValue and re-run filtering
+      // This deals with multi-char input like for ü on MacOS where
+      // where this is entered as option-: followed by u on a keyboard
+      // without a separat key for it.
+      var item = this.getModel().getItem(this.getChildControl('dropdown').getChildControl('list')._lookup(0));
+      if (item) {
+          this.__lastMatch = filterValue;
+          this.getSelection().setItem(0, item);
+      }
+      else {
+          var len  = filterValue.length;
+          var last = ( len > this.__lastMatch.length+1) ? this.__filterInput.getValue().charAt(len-1) : '';
+          filterValue = this.__lastMatch + last;
+          this.__updateDelegate(filterValue);
+      }
+      // make sure length of dropdown is updated
+      this.open();
+      this.__filterUpdateRunning--;
+    },
+
+    __initIncrementalSearch : function()
+    {
+      this.__lastRich = this.getChildControl('atom').getRich();
+      this.getChildControl('atom').setRich(true);
+      this.__addFilterInput();
+      this.__applyMarkHighlightStyle(this.getHighlightStyle());
+      var that = this;
+      var labelOptions = this.getLabelOptions() || {};
+      labelOptions.converter = function(data, model, source, target) {
+          var filterValue = that.__filterValue;
+          if (filterValue && data && (data.toLowerCase().indexOf(filterValue.toLowerCase() != -1))) {
+              data = data.replace(filterValue, that._highlightFilterValue(data));
+          }
+          return data;
+      };
+      this.setLabelOptions(labelOptions);
+        var delegate = {
+          configureItem : function(item) {
+              item.setRich(true);
+          }
+      };
+      this.setDelegate(delegate);
+    },
+
+    __applyIncrementalSearch : function(value, old) {
+      if (value) {
+        this.__searchTimer.stop();
+        this.__searchTimer.setEnabled(false);
+        this.__initIncrementalSearch();
+      }
+      else {
+        this.__searchTimer.setEnabled(false);
+        this.getChildControl('atom').setRich(this.__lastRich);
+      }
     }
   },
 
