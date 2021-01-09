@@ -24,6 +24,7 @@
  *
  * @require(qx.event.dispatch.Direct)
  * @require(qx.locale.LocalizedString)
+ * @require(qx.bom.client.Locale)
  *
  * Note: "translating" the empty string, e.g. tr("") will return the header
  * of the respective .po file. See also https://www.gnu.org/software/gettext/manual/html_node/PO-Files.html#PO-Files
