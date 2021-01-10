@@ -1234,18 +1234,6 @@ qx.Theme.define("qx.theme.simple.Decoration",
       {
         color : "invalid"
       }
-    },
-
-    /*
-      --------------------
-      VIRTUAL SELECTBOX 
-      --------------------
-    */
-      
-    highlightStyle :
-    {
-      color      : '#FF0000',
-      fontWeight : 'bold'
     }
   }
 });

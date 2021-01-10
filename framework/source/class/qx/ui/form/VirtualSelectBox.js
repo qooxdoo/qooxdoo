@@ -482,8 +482,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __filterInput : null,
     __lastRich : false,
 
-
-     __addFilterInput : function()
+    __addFilterInput : function()
     {
       var input = this.__filterInput = new qx.ui.form.TextField().set({
           appearance : 'widget',
@@ -521,22 +520,22 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __getHighlightStyle : function() {
       var highlightAppearance =
         qx.theme.manager.Appearance.getInstance().styleFrom("list-search-highlight");
-          
+      console.log('__getHighlightStyle=', highlightAppearance);
       var highlightStyle = '', styles = [];
       if (highlightAppearance != null) {
-        var keys = Object.keys(highLightAppearance);
+        var keys = Object.keys(highlightAppearance);
         for (var k=0; k< keys.length; k++) {
           var key = keys[k].replace(/[A-Z]/g, m => "-" + m.toLowerCase());
-          styles.push(key + ':' + value[keys[k]]);
+          styles.push(key + ':' + highlightAppearance[keys[k]]);
         }
         highlightStyle = styles.join(';');
       }
       return highlightStyle;
     },
 
-    _highlightFilterValue : function (item)
+    _highlightFilterValue : function(item)
     {
-      var highlightStyle = this.__getHighlightStyle();
+      var highlightStyle = this.__highlightStyle;
       return (
         highlightStyle
           ? item.replace(
@@ -596,7 +595,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       this.__lastRich = this.getChildControl('atom').getRich();
       this.getChildControl('atom').setRich(true);
       this.__addFilterInput();
-      this.__applyHighlightStyle(this.getHighlightStyle());
+      this.__highlightStyle = this.__getHighlightStyle();
       var that = this;
       var labelOptions = this.getLabelOptions() || {};
       labelOptions.converter = function(data, model, source, target) {

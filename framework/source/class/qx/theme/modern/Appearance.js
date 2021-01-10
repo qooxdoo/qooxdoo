@@ -3043,6 +3043,21 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator: (states.disabled ? "group-item" : "selected")
         };
       }
+    },
+
+    /*
+      --------------------
+      VIRTUAL SELECTBOX 
+      --------------------
+    */
+      
+    "list-search-highlight" : {
+      style : function(states) {
+        return {
+          color      : '#FF0000',
+          fontWeight : 'bold'
+        };
+      }
     }
   }
 });

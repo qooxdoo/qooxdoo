@@ -1102,18 +1102,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
         startColor : "groupitem-start",
         endColor : "groupitem-end"
       }
-    },
-
-    /*
-      --------------------
-      VIRTUAL SELECTBOX 
-      --------------------
-    */
-      
-    highlightStyle :
-    {
-      color      : '#FF0000',
-      fontWeight : 'bold'
     }
   }
 });
