@@ -97,6 +97,18 @@ qx.Theme.define("qx.theme.indigo.Decoration",
 
         backgroundColor : "#323335"
       }
+    },
+
+      /*
+      --------------------
+      VIRTUAL SELECTBOX 
+      --------------------
+    */
+      
+    highlightStyle :
+    {
+      color      : '#FF0000',
+      fontWeight : 'bold'
     }
   }
 });

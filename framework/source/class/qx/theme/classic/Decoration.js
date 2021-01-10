@@ -536,6 +536,18 @@ qx.Theme.define("qx.theme.classic.Decoration",
         width: 1,
         color: "border-separator"
       }
+    },
+      
+    /*
+      --------------------
+      VIRTUAL SELECTBOX 
+      --------------------
+    */
+      
+    highlightStyle :
+    {
+      color      : '#FF0000',
+      fontWeight : 'bold'
     }
   }
 });

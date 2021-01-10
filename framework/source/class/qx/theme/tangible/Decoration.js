@@ -1307,5 +1307,18 @@ qx.Theme.define("qx.theme.tangible.Decoration",
             style:
               {color: "text-primary-on-surface"}
           }
-    }
+      },
+
+      /*
+        --------------------
+        VIRTUAL SELECTBOX 
+        --------------------
+      */
+      
+      highlightStyle :
+      {
+        color      : '#FF0000',
+        fontWeight : 'bold'
+      }
+
   });

@@ -480,7 +480,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __lastMatch : '',
     __filterUpdateRunning : 0,
     __filterInput : null,
-    __highlightStyle : null,
     __lastRich : false,
 
 
@@ -519,26 +518,40 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }, this);
     },
 
-    __applyHighlightStyle : function(value, old) {
-      var styles = [];
-      if (value != null) {
-        var keys = Object.keys(value);
-        var k;
-        for (k=0; k< keys.length; k++) {
+    __getHighlightStyle : function() {
+      var highlightAppearance =
+        qx.theme.manager.Appearance.getInstance().styleFrom("list-search-highlight");
+          
+      var highlightStyle = '', styles = [];
+      if (highlightAppearance != null) {
+        var keys = Object.keys(highLightAppearance);
+        for (var k=0; k< keys.length; k++) {
           var key = keys[k].replace(/[A-Z]/g, m => "-" + m.toLowerCase());
           styles.push(key + ':' + value[keys[k]]);
         }
-        this.__highlightStyle = styles.join(';');
+        highlightStyle = styles.join(';');
       }
-      else {
-        this.__highlightStyle = '';
-      }
+      return highlightStyle;
     },
 
     _highlightFilterValue : function (item)
     {
-      return this.__highlightStyle ? item.replace(item, '<span style="' + this.__highlightStyle + '">' + qx.module.util.String.escapeHtml(this.__filterValue) + '</span>')
-                                   : item;
+      var highlightStyle = this.__getHighlightStyle();
+      return (
+        highlightStyle
+          ? item.replace(
+            item,
+            [
+              '<span style="',
+              highlightStyle,
+              '">',
+              this.__lastRich
+                ? qx.module.util.String.escapeHtml(this.__filterValue)
+                : this.__filterValue,
+              '</span>'
+            ].join(""))
+          : item
+      );
     },
 
     __updateDelegate : function(lastFilterValue)
