@@ -155,7 +155,9 @@
       "qx.mobile.nativescroll": "qx.bom.client.Scroll",
       "qx.promise.*": "qx.Promise",
       "runtime.name": "qx.bom.client.Runtime",
-      "xml.*": "qx.bom.client.Xml"
+      "xml.*": "qx.bom.client.Xml",
+      "client.idle": "qx.bom.client.Idle",
+      "qx.debug.io": "qx.bom.request.Script"
     }
   },
 
