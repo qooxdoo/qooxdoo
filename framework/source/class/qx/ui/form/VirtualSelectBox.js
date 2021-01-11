@@ -74,6 +74,13 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       init : 120
     },
 
+    /**
+     * Whether or not to use incremental search.
+     * NOTE: enabling incremental search automatically sets both the child control 'atom' and
+     *       the list item labels to rich. If the atom was not set to rich before, the label
+     *       parts before and after the incremental search match and the match itself will be
+     *       HTML-escaped. If the atom was set to rich before, only the match will be escaped.
+     */
     incrementalSearch :
     {
       apply : '__applyIncrementalSearch',
@@ -475,46 +482,47 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __addFilterInput : function()
     {
       var input = this.__filterInput = new qx.ui.form.TextField().set({
-          appearance : 'widget',
-          liveUpdate : true,
-          height     : 0,
-          width      : 1 // must be > 0
+        appearance : 'widget',
+        liveUpdate : true,
+        height     : 0,
+        width      : 1 // must be > 0
       });
       this._add(input);
       input.addListener("focus", function(e) {
-          // reopen after focus loss
-          this.open();
+        // reopen after focus loss
+        this.open();
       }, this);
       this.addListener("focus", function(e) {
-          // move focus into TextField
-          input.focus();
+        // move focus into TextField
+        input.focus();
       }, this);
       input.addListener('changeValue', function(e) {
           if (this.__filterUpdateRunning === 0) this.__updateDelegate();
       }, this);
       input.addListener("keypress", function(e) {
-          switch (e.getKeyIdentifier()) {
-          case 'Enter':
-          case 'Escape':
-              this.__updateDelegate();
-              break;
-          // prevent cursor from being moved to beginning/end of input field
-          case 'Down':
-          case 'Up':
-              e.preventDefault();
-              break;
-          }
+        switch (e.getKeyIdentifier()) {
+        case 'Enter':
+        case 'Escape':
+          this.__updateDelegate();
+          break;
+        // prevent cursor from being moved to beginning/end of input field
+        case 'Down':
+        case 'Up':
+          e.preventDefault();
+            break;
+        }
       }, this);
     },
 
-    __getHighlightStyle : function() {
+    __getHighlightStyle : function()
+    {
       var highlightAppearance =
         qx.theme.manager.Appearance.getInstance().styleFrom("list-search-highlight");
       var highlightStyle = '', styles = [];
       if (highlightAppearance != null) {
         var keys = Object.keys(highlightAppearance);
         for (var k=0; k< keys.length; k++) {
-          var key = keys[k].replace(/[A-Z]/g, m => "-" + m.toLowerCase());
+          var key = qx.module.util.String.hyphenate(keys[k]);
           styles.push(key + ':' + highlightAppearance[keys[k]]);
         }
         highlightStyle = styles.join(';');
@@ -525,21 +533,20 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     _highlightFilterValue : function(item)
     {
       var highlightStyle = this.__highlightStyle;
-      return (
-        highlightStyle
-          ? item.replace(
-            item,
-            [
-              '<span style="',
-              highlightStyle,
-              '">',
-              this.__lastRich
-                ? qx.module.util.String.escapeHtml(this.__filterValue)
-                : this.__filterValue,
-              '</span>'
-            ].join(""))
-          : item
-      );
+      if (! highlightStyle) return item;
+
+      var filterValue = this.__filterValue;
+      var parts = item.split(filterValue);
+      if (!this.__lastRich) {
+        parts[0] = qx.module.util.String.escapeHtml(parts[0]);
+        parts[1] = qx.module.util.String.escapeHtml(parts[1]);
+      }
+      filterValue = qx.module.util.String.escapeHtml(this.__filterValue);
+      return parts[0]
+        + '<span style="' + highlightStyle + '">'
+        + filterValue
+        + '</span>'
+        + parts[1];
     },
 
     __updateDelegate : function(lastFilterValue)
@@ -549,12 +556,12 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       this.__filterValue = filterValue;
       // create and apply new filter
       var delegate = {
-          filter : function(item) {
-              return item.match(filterValue);
-          },
-          configureItem : function(item) {
-              item.setRich(true);
-          }
+        filter : function(item) {
+          return item.match(qx.module.util.String.escapeRegexpChars(filterValue));
+        },
+        configureItem : function(item) {
+          item.setRich(true);
+        }
       };
       this.setDelegate(delegate);
 
@@ -565,14 +572,14 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       // without a separat key for it.
       var item = this.getModel().getItem(this.getChildControl('dropdown').getChildControl('list')._lookup(0));
       if (item) {
-          this.__lastMatch = filterValue;
-          this.getSelection().setItem(0, item);
+        this.__lastMatch = filterValue;
+        this.getSelection().setItem(0, item);
       }
       else {
-          var len  = filterValue.length;
-          var last = ( len > this.__lastMatch.length+1) ? this.__filterInput.getValue().charAt(len-1) : '';
-          filterValue = this.__lastMatch + last;
-          this.__updateDelegate(filterValue);
+        var len  = filterValue.length;
+        var last = ( len > this.__lastMatch.length+1) ? this.__filterInput.getValue().charAt(len-1) : '';
+        filterValue = this.__lastMatch + last;
+        this.__updateDelegate(filterValue);
       }
       // make sure length of dropdown is updated
       this.open();
@@ -588,22 +595,23 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       var that = this;
       var labelOptions = this.getLabelOptions() || {};
       labelOptions.converter = function(data, model, source, target) {
-          var filterValue = that.__filterValue;
-          if (filterValue && data && (data.toLowerCase().indexOf(filterValue.toLowerCase() != -1))) {
-              data = data.replace(filterValue, that._highlightFilterValue(data));
-          }
-          return data;
+        var filterValue = that.__filterValue;
+        if (filterValue && data && (data.toLowerCase().indexOf(filterValue.toLowerCase() != -1))) {
+          data = that._highlightFilterValue(data);
+        }
+        return data;
       };
       this.setLabelOptions(labelOptions);
         var delegate = {
           configureItem : function(item) {
-              item.setRich(true);
+            item.setRich(true);
           }
       };
       this.setDelegate(delegate);
     },
 
-    __applyIncrementalSearch : function(value, old) {
+    __applyIncrementalSearch : function(value, old)
+    {
       if (value) {
         this.__searchTimer.stop();
         this.__searchTimer.setEnabled(false);
