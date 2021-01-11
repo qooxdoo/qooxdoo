@@ -520,7 +520,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __getHighlightStyle : function() {
       var highlightAppearance =
         qx.theme.manager.Appearance.getInstance().styleFrom("list-search-highlight");
-      console.log('__getHighlightStyle=', highlightAppearance);
       var highlightStyle = '', styles = [];
       if (highlightAppearance != null) {
         var keys = Object.keys(highlightAppearance);
