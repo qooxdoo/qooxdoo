@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
      */
     incrementalSearch :
     {
-      apply : '__applyIncrementalSearch',
+      apply : '_applyIncrementalSearch',
       init : false,
       check : "Boolean"
     },
@@ -610,7 +610,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       this.setDelegate(delegate);
     },
 
-    __applyIncrementalSearch : function(value, old)
+    _applyIncrementalSearch : function(value, old)
     {
       if (value) {
         this.__searchTimer.stop();
