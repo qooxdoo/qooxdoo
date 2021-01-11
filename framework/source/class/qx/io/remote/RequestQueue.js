@@ -28,6 +28,7 @@
  * NOTE: Instances of this class must be disposed of after use
  *
  * @internal
+ * @require(qx.bom.client.Transport)
  */
 qx.Class.define("qx.io.remote.RequestQueue",
 {
