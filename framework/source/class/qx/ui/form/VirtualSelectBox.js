@@ -477,6 +477,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __lastMatch : '',
     __filterUpdateRunning : 0,
     __filterInput : null,
+    __highlightStyle : null,
     __lastRich : false,
 
     __addFilterInput : function()
@@ -497,7 +498,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         input.focus();
       }, this);
       input.addListener('changeValue', function(e) {
-          if (this.__filterUpdateRunning === 0) this.__updateDelegate();
+        if (this.__filterUpdateRunning === 0) {
+          this.__updateDelegate();
+        }
       }, this);
       input.addListener("keypress", function(e) {
         switch (e.getKeyIdentifier()) {
@@ -533,7 +536,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     _highlightFilterValue : function(item)
     {
       var highlightStyle = this.__highlightStyle;
-      if (! highlightStyle) return item;
+      if (! highlightStyle) {
+        return item;
+      }
 
       var filterValue = this.__filterValue;
       var parts = item.split(filterValue);
