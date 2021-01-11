@@ -81,16 +81,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       check : "Boolean"
     },
 
-    highlightStyle :
-    {
-        nullable : true,
-        apply : '__applyHighlightStyle',
-        init : {
-            color      : '#FF0000',
-            fontWeight : 'bold'
-        }
-    },
-
     /** Current selected items. */
     selection :
     {
