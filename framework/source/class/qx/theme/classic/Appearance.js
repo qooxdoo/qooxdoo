@@ -2704,7 +2704,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-,
       
     /*
       --------------------
