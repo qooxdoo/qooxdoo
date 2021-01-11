@@ -2783,6 +2783,21 @@ qx.Theme.define("qx.theme.simple.Appearance",
           backgroundColor: "light-background"
         };
       }
+    },
+
+    /*
+      --------------------
+      VIRTUAL SELECTBOX 
+      --------------------
+    */
+      
+    "list-search-highlight" : {
+      style : function(states) {
+        return {
+          color      : '#FF0000',
+          fontWeight : 'bold'
+        };
+      }
     }
   }
 });

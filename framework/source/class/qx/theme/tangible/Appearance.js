@@ -2650,5 +2650,20 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
         };
       }
     }
+  },
+
+  /*
+    --------------------
+    VIRTUAL SELECTBOX 
+    --------------------
+  */
+     
+  "list-search-highlight" : {
+    style : function(states) {
+      return {
+        color      : '#FF0000',
+        fontWeight : 'bold'
+      };
+    }
   }
 });
