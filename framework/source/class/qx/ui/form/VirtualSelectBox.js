@@ -479,6 +479,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __filterInput : null,
     __highlightStyle : null,
     __lastRich : false,
+    __delegate : null,
 
     __addFilterInput : function()
     {
@@ -541,34 +542,41 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }
 
       var filterValue = this.__filterValue;
-      var parts = item.split(filterValue);
+      var parts = item.match(new RegExp('(.*)' +  qx.module.util.String.escapeRegexpChars(filterValue) + '(.*)', 'i'));
+      parts[1] = parts[1] ? parts[1] : '';
+      parts[2] = parts[2] ? parts[2] : '';
       if (!this.__lastRich) {
-        parts[0] = qx.module.util.String.escapeHtml(parts[0]);
-        parts[1] = qx.module.util.String.escapeHtml(parts[1]);
+          parts[1] = qx.module.util.String.escapeHtml(parts[1]);
+          parts[2] = qx.module.util.String.escapeHtml(parts[2]);
       }
       filterValue = qx.module.util.String.escapeHtml(this.__filterValue);
-      return parts[0]
+      return parts[1]
         + '<span style="' + highlightStyle + '">'
         + filterValue
         + '</span>'
-        + parts[1];
+        + parts[2];
     },
 
     __updateDelegate : function(lastFilterValue)
     {
       this.__filterUpdateRunning++;
       var filterValue = (lastFilterValue !== undefined) ? lastFilterValue : this.__filterInput.getValue();
+      var filterRegExp = new RegExp(qx.module.util.String.escapeRegexpChars(filterValue), 'i');
       this.__filterValue = filterValue;
       // create and apply new filter
+      var that = this;
       var delegate = {
         filter : function(item) {
-          return item.match(qx.module.util.String.escapeRegexpChars(filterValue));
-        },
-        configureItem : function(item) {
-          item.setRich(true);
+          if (that.getLabelPath() != null)
+          {
+            item = qx.data.SingleValueBinding.resolvePropertyChain(item, that.getLabelPath());
+          }
+          return item.match(filterRegExp);
         }
       };
-      this.setDelegate(delegate);
+      if (this.__delegate && this.__delegate.bindItem) {
+        delegate.bindItem = this.__delegate.bindItem;
+      }
 
       // update selection if there is at least one item left,
       // otherwise shorten filterValue and re-run filtering
@@ -591,6 +599,15 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       this.__filterUpdateRunning--;
     },
 
+    _applyDelegate : function(value, old) {
+      if (old && old.configureItem && !value.configureItem) {
+        value.configureItem = function(item) {
+          item.setRich(true);
+        };
+      }
+      this.getChildControl("dropdown").getChildControl("list").setDelegate(value);
+    },
+
     __initIncrementalSearch : function()
     {
       this.__lastRich = this.getChildControl('atom').getRich();
@@ -604,15 +621,23 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         if (filterValue && data && (data.toLowerCase().indexOf(filterValue.toLowerCase() != -1))) {
           data = that._highlightFilterValue(data);
         }
+        if (data === undefined) {
+          data = '';
+        }
         return data;
       };
       this.setLabelOptions(labelOptions);
-        var delegate = {
+      this.__delegate = this.getDelegate();
+      if (this.__delegate && this.__delegate.configureItem) {
+        this.debug('WARNING: delegate.configureItem already set. Highlighting search string will only work if item label is set to rich');
+      }
+      if (! this.__delegate || ! this.__delegate.configureItem) {
+        this.setDelegate({
           configureItem : function(item) {
             item.setRich(true);
           }
-      };
-      this.setDelegate(delegate);
+        });
+      }
     },
 
     _applyIncrementalSearch : function(value, old)
