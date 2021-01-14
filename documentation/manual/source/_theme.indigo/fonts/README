@@ -1,8 +1,0 @@
-THESE FILES ARE COPIES - DO NOT EDIT
-====================================
-
-The files here are copies from a central store (currently under
-tool/admin/www/resources/fonts). The only reason they are not stored in
-../copies is that the .css files there (which are used elsewhere) address them
-under a ../fonts/* path.  To keep this relative reference was the only reason
-to retain the fonts/ path.
