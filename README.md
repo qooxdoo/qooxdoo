@@ -54,14 +54,14 @@ other developers who use Qooxdoo.
 
 ## Learn more
 
-* Documentation
-  http://www.qooxdoo.org/documentation
+* Documentation (v6)
+  http://qooxdoo.org/documentation
 
 * Online Demos
-  http://www.qooxdoo.org/demos
+  http://qooxdoo.org/demos
 
 * API Documentation
-  http://www.qooxdoo.org/api
+  http://qooxdoo.org/api
 
 
 [npm-image]: https://badge.fury.io/js/%40qooxdoo%2Fframework.svg
