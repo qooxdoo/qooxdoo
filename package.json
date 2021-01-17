@@ -24,5 +24,8 @@
     "tool/data/cldr",
     "docs",
     "apps"
-  ]
+  ],
+  "dependencies": {
+    "@qooxdoo/compiler": "^1.0.0-beta-20210115-1240"
+  }
 }
