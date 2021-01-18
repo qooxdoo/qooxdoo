@@ -1,8 +1,0 @@
-transpiled/**.map
-transpiled/**.js
-db.json
-resource-db.json
-versions.json
-build-data.json
-*.map
-.*
