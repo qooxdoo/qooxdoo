@@ -183,8 +183,8 @@ qx.Theme.define("qx.theme.indigo.Appearance",
     "list-search-highlight" : {
       style : function(states) {
         return {
-          textDecorationStyle: "dotted",
-          textDecorationLine: "underline"
+          textDecorationStyle: 'dotted',
+          textDecorationLine: 'underline'
         };
       }
     }
