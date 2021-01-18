@@ -32,7 +32,7 @@
     "en"
   ],
   "libraries": [
-    "../../../framework"
+    "../../framework"
   ],
   "applications": [
     {
