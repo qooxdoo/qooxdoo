@@ -3054,8 +3054,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "list-search-highlight" : {
       style : function(states) {
         return {
-          color      : '#FF0000',
-          fontWeight : 'bold'
+          textDecorationStyle: 'dotted',
+          textDecorationLine: 'underline'
         };
       }
     }
