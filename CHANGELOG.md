@@ -18,6 +18,11 @@ break some cookies. There are no issues with special characters like
 `~!@#$%^&*(){}[]=:/,;?+\'"\\` but some unicode characters like `äëíöü`
 (etc) are encoded different by `escape()` and `encodeURIComponent()`,
 so you must take care of this change if you use unicode characters.
+Also, by default cookies are created with `SameSite=Strict`, whereas
+previously they were created without `SameSite` unless you specified
+it explicitly; recent browsers block cookies without `SameSite`, so
+in most cases this will save you from having to make changes to your
+code.
 
 - `qx.bom.client.Css`: Removed obsolete IE-Feature check
 methods `getFilterGradient` and `getFilterTextShadow`. If used

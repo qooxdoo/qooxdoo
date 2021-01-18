@@ -116,9 +116,7 @@ qx.Bootstrap.define("qx.bom.Cookie",
         cookie.push(";secure");
       }
       
-      if (sameSite) {
-        cookie.push(";sameSite=", sameSite);
-      }
+      cookie.push(";sameSite=", sameSite||"Strict");
 
       // Store cookie
       document.cookie = cookie.join("");
