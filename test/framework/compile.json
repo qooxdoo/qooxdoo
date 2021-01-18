@@ -1,12 +1,13 @@
 {
   "environment": {
+    "qx.compiler": "",
     "qx.serve.appspath": "/apps/",
     "qx.serve.docspath": "/"
   },
   "targets": [
     {
       "type": "source",
-      "outputPath": "apps",
+      "outputPath": "compiled/source",
       "bundle": {
         "include": [
           "qx.*",
@@ -23,7 +24,7 @@
     },
     {
       "type": "build",
-      "outputPath": "apps"
+      "outputPath": "compiled/build"
     }
   ],
   "defaultTarget": "source",
@@ -31,7 +32,7 @@
     "en"
   ],
   "libraries": [
-    "./framework"
+    "../../framework"
   ],
   "applications": [
     {
