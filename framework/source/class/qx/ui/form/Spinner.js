@@ -627,20 +627,24 @@ qx.Class.define("qx.ui.form.Spinner",
       switch(e.getKeyIdentifier())
       {
         case "PageUp":
+          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
           this.getChildControl("upbutton").release();
           this.__pageUpMode = false;
           break;
 
         case "Up":
+          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
           this.getChildControl("upbutton").release();
           break;
 
         case "PageDown":
+          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
           this.getChildControl("downbutton").release();
           this.__pageDownMode = false;
           break;
 
         case "Down":
+          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
           this.getChildControl("downbutton").release();
           break;
       }
