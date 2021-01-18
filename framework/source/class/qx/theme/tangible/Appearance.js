@@ -2649,21 +2649,21 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           padding: [0, 10, 10, 10]
         };
       }
-    }
-  },
+    },
 
-  /*
-    --------------------
-    VIRTUAL SELECTBOX 
-    --------------------
-  */
+    /*
+      --------------------
+      VIRTUAL SELECTBOX
+      --------------------
+    */
      
-  "list-search-highlight" : {
-    style : function(states) {
-      return {
-        color      : '#FF0000',
-        fontWeight : 'bold'
-      };
+    "list-search-highlight" : {
+      style : function(states) {
+        return {
+          textDecorationStyle: 'dotted',
+          textDecorationLine: 'underline'
+        };
+      }
     }
   }
 });
