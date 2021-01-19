@@ -78,10 +78,10 @@
         "defaultSize": 32,
         "comparisonString": "\ue1fe\uef39",
         "resources": [
-          "qx/iconfont/MaterialIcons/materialicons-v50.eot",
-          "qx/iconfont/MaterialIcons/materialicons-v50.woff2",
-          "qx/iconfont/MaterialIcons/materialicons-v50.woff",
-          "qx/iconfont/MaterialIcons/materialicons-v50.ttf"
+          "qx/iconfont/MaterialIcons/materialicons-v70.eot",
+          "qx/iconfont/MaterialIcons/materialicons-v70.woff2",
+          "qx/iconfont/MaterialIcons/materialicons-v70.woff",
+          "qx/iconfont/MaterialIcons/materialicons-v70.ttf"
         ]
       },
       {
@@ -89,10 +89,10 @@
         "defaultSize": 32,
         "comparisonString": "\ue1fe\uef39",
         "resources": [
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.eot",
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.woff2",
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.woff",
-          "qx/iconfont/MaterialIcons/materialiconsoutlined-v18.otf"
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.eot",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.woff",
+          "qx/iconfont/MaterialIcons/materialiconsoutlined-v38.otf"
         ]
       },
       {
@@ -100,10 +100,10 @@
         "defaultSize": 32,
         "comparisonString": "\ue1fe\uef39",
         "resources": [
-          "qx/iconfont/MaterialIcons/materialiconsround-v18.eot",
-          "qx/iconfont/MaterialIcons/materialiconsround-v18.woff2",
-          "qx/iconfont/MaterialIcons/materialiconsround-v18.woff",
-          "qx/iconfont/MaterialIcons/materialiconsround-v18.otf"
+          "qx/iconfont/MaterialIcons/materialiconsround-v37.eot",
+          "qx/iconfont/MaterialIcons/materialiconsround-v37.woff2",
+          "qx/iconfont/MaterialIcons/materialiconsround-v37.woff",
+          "qx/iconfont/MaterialIcons/materialiconsround-v37.otf"
         ]
       },
       {
@@ -111,10 +111,10 @@
         "comparisonString": "\ue1fe\uef39",
         "defaultSize": 32,
         "resources": [
-          "qx/iconfont/MaterialIcons/materialiconssharp-v19.eot",
-          "qx/iconfont/MaterialIcons/materialiconssharp-v19.woff2",
-          "qx/iconfont/MaterialIcons/materialiconssharp-v19.woff",
-          "qx/iconfont/MaterialIcons/materialiconssharp-v19.otf"
+          "qx/iconfont/MaterialIcons/materialiconssharp-v38.eot",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v38.woff2",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v38.woff",
+          "qx/iconfont/MaterialIcons/materialiconssharp-v38.otf"
         ]
       },
       {
@@ -122,10 +122,10 @@
         "defaultSize": 32,
         "comparisonString": "\ue1fe\uef39",
         "resources": [
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.eot",
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.woff2",
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.woff",
-          "qx/iconfont/MaterialIcons/materialiconstwotone-v17.otf"
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.eot",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.woff2",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.woff",
+          "qx/iconfont/MaterialIcons/materialiconstwotone-v36.otf"
         ]
       }
     ],
