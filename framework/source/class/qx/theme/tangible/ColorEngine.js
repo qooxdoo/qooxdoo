@@ -61,7 +61,7 @@ var helper = {
         primary: "rgba(0,0,0,0.87)",
         secondary: "rgba(0,0,0,0.54)",
         hint: "rgba(0,0,0,0.38)",
-        disabled: "rgba(0,0,0,0,0.38)",
+        disabled: "rgba(0,0,0,0.38)",
         icon: "rgba(0,0,0,0.38)"
       },
       light: {
@@ -124,9 +124,14 @@ var helper = {
 
   setAlpha: function(key) {
     var splitKey = key.split('-');
+    if (splitKey.length == 4) {
+      splitKey[1] = splitKey[0] + "-" + splitKey[1];
+      splitKey.shift();
+    }
     var baseColor = splitKey[0];
     var alphaPercent = splitKey[2];
-    var rgba = qx.util.ColorUtil.stringToRgb(baseColor);
+    var actualColor = qx.theme.manager.Color.getInstance().resolve(baseColor);
+    var rgba = qx.util.ColorUtil.stringToRgb(actualColor);
     rgba[3] = alphaPercent/100;
     return qx.util.ColorUtil.rgbToRgbString(rgba);
   }
