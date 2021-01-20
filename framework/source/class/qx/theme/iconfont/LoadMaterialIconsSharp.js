@@ -20,9 +20,9 @@
  * A dummy class to trigger the compiler to copy the MaterialIconsSharpe font files
  */
 /**
- * @asset(qx/iconfont/MaterialIcons/materialiconssharp-v19.otf)
- * @asset(qx/iconfont/MaterialIcons/materialiconssharp-v19.woff2)
- * @asset(qx/iconfont/MaterialIcons/materialiconssharp-v19.woff)
- * @asset(qx/iconfont/MaterialIcons/materialiconssharp-v19.eot)
+ * @asset(qx/iconfont/MaterialIcons/materialiconssharp-v38.otf)
+ * @asset(qx/iconfont/MaterialIcons/materialiconssharp-v38.woff2)
+ * @asset(qx/iconfont/MaterialIcons/materialiconssharp-v38.woff)
+ * @asset(qx/iconfont/MaterialIcons/materialiconssharp-v38.eot)
  */
 qx.Class.define("qx.theme.iconfont.LoadMaterialIconsSharp", {});
