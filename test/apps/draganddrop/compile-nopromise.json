@@ -27,5 +27,6 @@
   "libraries": [
     "../../framework",
     "."
-  ]
+  ],
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json"
 }

@@ -2,11 +2,11 @@
   "targets": [
     {
       "type": "source",
-      "outputPath": "output/source"
+      "outputPath": "compiled/source"
     },
     {
       "type": "build",
-      "outputPath": "output/build",
+      "outputPath": "compiled/build",
       "addCreatedAt": true
     }
   ],
@@ -24,5 +24,6 @@
   "libraries": [
     "../../framework",
     "."
-  ]
+  ],
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json"
 }
