@@ -592,16 +592,24 @@ qx.Class.define("qx.ui.form.Spinner",
         case "PageUp":
           // mark that the spinner is in page mode and process further
           this.__pageUpMode = true;
+          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
+          this.getChildControl("upbutton").press();
+          break;
 
         case "Up":
+          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
           this.getChildControl("upbutton").press();
           break;
 
         case "PageDown":
           // mark that the spinner is in page mode and process further
           this.__pageDownMode = true;
+          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
+          this.getChildControl("downbutton").press();
+          break;
 
         case "Down":
+          this.getChildControl("textfield").fireNonBubblingEvent("changeValue", qx.event.type.Data);
           this.getChildControl("downbutton").press();
           break;
 
