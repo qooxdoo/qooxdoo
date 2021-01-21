@@ -61,16 +61,16 @@ qx.Class.define("qx.theme.manager.Color",
     _applyTheme : function(value)
     {
       var dest = {};
-      this._setDynamic({}); // reset dynamic cache
+      this._setDynamic(dest); // reset dynamic cache
       if (value) {
         var colors = value.colors;
 
         for (var name in colors) {
-          dest[name] = this.__parseColor(colors, name);
+          if (!dest[name]) {
+            dest[name] = this.__parseColor(colors, name);
+          }
         }
       }
-
-      this._setDynamic(dest);
     },
 
 
@@ -129,7 +129,7 @@ qx.Class.define("qx.theme.manager.Color",
       var theme = this.getTheme();
       if (theme !== null && theme.colors[value])
       {
-        return cache[value] = theme.colors[value];
+        return cache[value] = this.__parseColor(theme.colors, value);
       }
 
       return value;
@@ -157,7 +157,7 @@ qx.Class.define("qx.theme.manager.Color",
       var theme = this.getTheme();
       if (theme !== null && value && (theme.colors[value] !== undefined))
       {
-        cache[value] = theme.colors[value];
+        cache[value] = this.__parseColor(theme.colors, value);
         return true;
       }
 

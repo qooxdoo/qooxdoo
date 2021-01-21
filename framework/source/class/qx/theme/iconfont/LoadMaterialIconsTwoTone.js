@@ -20,9 +20,9 @@
  * A dummy class to trigger the compiler to copy the MaterialIconsTwoTone font files
  */
 /**
- * @asset(qx/iconfont/MaterialIcons/materialiconstwotone-v17.otf)
- * @asset(qx/iconfont/MaterialIcons/materialiconstwotone-v17.woff2)
- * @asset(qx/iconfont/MaterialIcons/materialiconstwotone-v17.woff)
- * @asset(qx/iconfont/MaterialIcons/materialiconstwotone-v17.eot)
+ * @asset(qx/iconfont/MaterialIcons/materialiconstwotone-v36.otf)
+ * @asset(qx/iconfont/MaterialIcons/materialiconstwotone-v36.woff2)
+ * @asset(qx/iconfont/MaterialIcons/materialiconstwotone-v36.woff)
+ * @asset(qx/iconfont/MaterialIcons/materialiconstwotone-v36.eot)
  */
 qx.Class.define("qx.theme.iconfont.LoadMaterialIconsTwoTone", {});
