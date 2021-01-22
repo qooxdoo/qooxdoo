@@ -282,17 +282,16 @@ qx.Class.define("qx.ui.layout.VBox",
     {
       "true" : function(item, name, value)
       {
-        this.assert(name === "flex" || name === "height", "The property '"+name+"' is not supported by the VBox layout!");
-
-        if (name =="height")
-        {
+        if (name =="height") {
           this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
-        }
-        else
-        {
+        } else if (name == "flex") {
           // flex
           this.assertNumber(value);
           this.assert(value >= 0);
+        } else if (name == "flexShrink") {
+          this.assertBoolean(value);
+        } else {
+          this.assert(false, "The property '"+name+"' is not supported by the VBox layout!");
         }
       },
 
@@ -356,6 +355,7 @@ qx.Class.define("qx.ui.layout.VBox",
       {
         var flexibles = {};
         var flex, offset;
+        var notEnoughSpace = allocatedHeight > availHeight;
 
         for (i=0; i<length; i+=1)
         {
@@ -372,6 +372,12 @@ qx.Class.define("qx.ui.layout.VBox",
               max : hint.maxHeight,
               flex : flex
             };
+            if (notEnoughSpace) {
+              var props = children[i].getLayoutProperties();
+              if (props && props.flexShrink) {
+                flexibles[i].min = 0;
+              }
+            }
           }
         }
 
