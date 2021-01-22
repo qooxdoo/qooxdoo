@@ -106,8 +106,9 @@ qx.Class.define("qx.ui.core.queue.Layout",
           // This is an inner item of layout changes. Do a relayout of its
           // children without changing its position and size.
           var bounds = widget.getBounds();
-          if (bounds)
+          if (bounds) {
             widget.renderLayout(bounds.left, bounds.top, bounds.width, bounds.height);
+          }
         }
       }
     },
