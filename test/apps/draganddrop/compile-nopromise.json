@@ -2,11 +2,11 @@
   "targets": [
     {
       "type": "source",
-      "outputPath": "output-nopromise/source"
+      "outputPath": "compiled-nopromise/source"
     },
     {
       "type": "build",
-      "outputPath": "output-nopromise/build",
+      "outputPath": "compiled-nopromise/build",
       "addCreatedAt": true
     }
   ],
@@ -24,9 +24,5 @@
     }
   ],
 
-  "libraries": [
-    "../../framework",
-    "."
-  ],
   "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json"
 }
