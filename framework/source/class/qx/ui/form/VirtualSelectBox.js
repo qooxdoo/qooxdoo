@@ -76,10 +76,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /**
      * Whether or not to use incremental search.
-     * NOTE: enabling incremental search automatically sets both the child control 'atom' and
-     *       the list item labels to rich. If the atom was not set to rich before, the label
-     *       parts before and after the incremental search match and the match itself will be
-     *       HTML-escaped. If the atom was set to rich before, only the match will be escaped.
      */
     incrementalSearch :
     {
@@ -88,6 +84,12 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       check : "Boolean"
     },
 
+    /**
+     * Setting rich to true sets both the select box atom and the list items to rich.
+     *
+     * If incremental search is enabled, a themable highlighting of the search string
+     * is used if set to true, otherwise the search string is put between vertical bars.
+     */
     rich :
     {
       apply : '_applyRich',
