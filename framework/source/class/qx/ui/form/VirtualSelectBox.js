@@ -529,6 +529,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         qx.theme.manager.Appearance.getInstance().styleFrom("list-search-highlight");
       // default style        
       if (!highlightAppearance) {
+        this.debug('The current theme is missing the "list-search-highlight" appearance setting, using default.');
         highlightAppearance = {
           backgroundColor: 'rgba(255, 251, 0, 0.53)',
           textDecorationStyle: 'dotted',
