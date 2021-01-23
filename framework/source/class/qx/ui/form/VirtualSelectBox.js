@@ -88,6 +88,13 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       check : "Boolean"
     },
 
+    rich :
+    {
+      apply : '_applyRich',
+      init : false,
+      check : "Boolean"
+    },
+
     /** Current selected items. */
     selection :
     {
@@ -522,6 +529,14 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     {
       var highlightAppearance =
         qx.theme.manager.Appearance.getInstance().styleFrom("list-search-highlight");
+      // default style        
+      if (!highlightAppearance) {
+        highlightAppearance = {
+          backgroundColor: 'rgba(255, 251, 0, 0.53)',
+          textDecorationStyle: 'dotted',
+          textDecorationLine: 'underline'
+        };
+      }
       var highlightStyle = '', styles = [];
       if (highlightAppearance != null) {
         var keys = Object.keys(highlightAppearance);
@@ -537,24 +552,29 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     _highlightFilterValue : function(item)
     {
       var highlightStyle = this.__highlightStyle;
-      if (! highlightStyle) {
-        return item;
-      }
 
       var filterValue = this.__filterValue;
-      var parts = item.match(new RegExp('(.*)' +  qx.module.util.String.escapeRegexpChars(filterValue) + '(.*)', 'i'));
+        var parts = item.match(new RegExp('(.*)' +  qx.module.util.String.escapeRegexpChars(filterValue) + '(.*)', 'i'));
       parts[1] = parts[1] ? parts[1] : '';
       parts[2] = parts[2] ? parts[2] : '';
-      if (!this.__lastRich) {
-          parts[1] = qx.module.util.String.escapeHtml(parts[1]);
-          parts[2] = qx.module.util.String.escapeHtml(parts[2]);
+      var label;
+      if (highlightStyle) {
+        filterValue = qx.module.util.String.escapeHtml(this.__filterValue);
+        label = parts[1]
+              + '<span style="' + highlightStyle + '">'
+              + filterValue
+              + '</span>'
+              + parts[2];
       }
-      filterValue = qx.module.util.String.escapeHtml(this.__filterValue);
-      return parts[1]
-        + '<span style="' + highlightStyle + '">'
-        + filterValue
-        + '</span>'
-        + parts[2];
+      else {
+        label = parts[1]
+              + '|'
+              + filterValue
+              + '|'
+              + parts[2];
+      }
+        console.log('parts=', parts, ', label=', label);
+      return label;
     },
 
     __updateDelegate : function(lastFilterValue)
@@ -563,6 +583,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       var filterValue = (lastFilterValue !== undefined) ? lastFilterValue : this.__filterInput.getValue();
       var filterRegExp = new RegExp(qx.module.util.String.escapeRegexpChars(filterValue), 'i');
       this.__filterValue = filterValue;
+//      console.log('__updateDelegate(): filterValue=', filterValue, ', lastFilterValue=', lastFilterValue);
       // create and apply new filter
       var that = this;
       var delegate = {
@@ -571,12 +592,14 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           {
             item = qx.data.SingleValueBinding.resolvePropertyChain(item, that.getLabelPath());
           }
+//          console.log('  filter: item=', item, ', filterRegExp=', filterRegExp);
           return item.match(filterRegExp);
         }
       };
       if (this.__delegate && this.__delegate.bindItem) {
         delegate.bindItem = this.__delegate.bindItem;
       }
+      this.setDelegate(delegate);
 
       // update selection if there is at least one item left,
       // otherwise shorten filterValue and re-run filtering
@@ -599,21 +622,10 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       this.__filterUpdateRunning--;
     },
 
-    _applyDelegate : function(value, old) {
-      if (old && old.configureItem && !value.configureItem) {
-        value.configureItem = function(item) {
-          item.setRich(true);
-        };
-      }
-      this.getChildControl("dropdown").getChildControl("list").setDelegate(value);
-    },
-
     __initIncrementalSearch : function()
     {
-      this.__lastRich = this.getChildControl('atom').getRich();
-      this.getChildControl('atom').setRich(true);
       this.__addFilterInput();
-      this.__highlightStyle = this.__getHighlightStyle();
+      this.__highlightStyle = this.isRich() ? this.__getHighlightStyle() : null;
       var that = this;
       var labelOptions = this.getLabelOptions() || {};
       labelOptions.converter = function(data, model, source, target) {
@@ -640,9 +652,22 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }
     },
 
-    _applyIncrementalSearch : function(value, old)
+    _applyRich : function(value, old)
+    {
+      console('_applyRich(): value=', value);
+      this.getChildControl('atom').setRich(value);
+      this.setDelegate({
+        configureItem : function(item) {
+          item.setRich(value);
+        }
+      });
+      this.__highlightStyle = value ? this.__getHighlightStyle() : null;
+    },
+
+      _applyIncrementalSearch : function(value, old)
     {
       if (value) {
+        console.log('Enabling incremental search');
         this.__searchTimer.stop();
         this.__searchTimer.setEnabled(false);
         this.__initIncrementalSearch();
