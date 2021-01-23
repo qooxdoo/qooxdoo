@@ -2660,7 +2660,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
     "list-search-highlight" : {
       style : function(states) {
         return {
-          background-color: rgba(255, 251, 0, 0.53),
+          backgroundColor: 'rgba(255, 251, 0, 0.53)',
           textDecorationStyle: 'dotted',
           textDecorationLine: 'underline'
         };
