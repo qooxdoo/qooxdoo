@@ -57,7 +57,7 @@ qx.Class.define("qx.test.ui.core.AbstractScrollArea",
       });
 
       this.__outer = new qx.ui.container.Composite(new qx.ui.layout.Grow());
-      this.__outer.set({maxWidth: 100, maxHeight: 100});
+      this.__outer.set({maxWidth: 100, maxHeight: 100, width: 100, height: 100 });
 
       this.__widget = new qx.test.ui.core.AbstractScrollArea.fixture.CustomWidget();
       this.__outer.add(this.__widget);
