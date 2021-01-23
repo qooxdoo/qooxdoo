@@ -538,14 +538,12 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         };
       }
       var highlightStyle = '', styles = [];
-      if (highlightAppearance != null) {
-        var keys = Object.keys(highlightAppearance);
-        for (var k=0; k< keys.length; k++) {
-          var key = qx.module.util.String.hyphenate(keys[k]);
-          styles.push(key + ':' + highlightAppearance[keys[k]]);
-        }
-        highlightStyle = styles.join(';');
+      var keys = Object.keys(highlightAppearance);
+      for (var k=0; k< keys.length; k++) {
+        var key = qx.module.util.String.hyphenate(keys[k]);
+        styles.push(key + ':' + highlightAppearance[keys[k]]);
       }
+      highlightStyle = styles.join(';') + ';';
       return highlightStyle;
     },
 
@@ -573,7 +571,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
               + '|'
               + parts[2];
       }
-        console.log('parts=', parts, ', label=', label);
       return label;
     },
 
@@ -583,7 +580,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       var filterValue = (lastFilterValue !== undefined) ? lastFilterValue : this.__filterInput.getValue();
       var filterRegExp = new RegExp(qx.module.util.String.escapeRegexpChars(filterValue), 'i');
       this.__filterValue = filterValue;
-//      console.log('__updateDelegate(): filterValue=', filterValue, ', lastFilterValue=', lastFilterValue);
       // create and apply new filter
       var that = this;
       var delegate = {
@@ -592,12 +588,17 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           {
             item = qx.data.SingleValueBinding.resolvePropertyChain(item, that.getLabelPath());
           }
-//          console.log('  filter: item=', item, ', filterRegExp=', filterRegExp);
           return item.match(filterRegExp);
         }
       };
       if (this.__delegate && this.__delegate.bindItem) {
         delegate.bindItem = this.__delegate.bindItem;
+      }
+      // needed for newly created items on filtervalue backspacing
+      if (this.isRich()) {
+        delegate.configureItem = function(item) {
+          item.setRich(true);
+        }
       }
       this.setDelegate(delegate);
 
@@ -654,7 +655,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     _applyRich : function(value, old)
     {
-      console('_applyRich(): value=', value);
       this.getChildControl('atom').setRich(value);
       this.setDelegate({
         configureItem : function(item) {
@@ -664,10 +664,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       this.__highlightStyle = value ? this.__getHighlightStyle() : null;
     },
 
-      _applyIncrementalSearch : function(value, old)
+    _applyIncrementalSearch : function(value, old)
     {
       if (value) {
-        console.log('Enabling incremental search');
         this.__searchTimer.stop();
         this.__searchTimer.setEnabled(false);
         this.__initIncrementalSearch();
