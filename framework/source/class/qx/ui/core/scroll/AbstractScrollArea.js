@@ -111,6 +111,19 @@ qx.Class.define("qx.ui.core.scroll.AbstractScrollArea",
       init : "scrollarea"
     },
 
+    // overridden
+    width :
+    {
+      refine : true,
+      init : 0
+    },
+
+    // overridden
+    height :
+    {
+      refine : true,
+      init : 0
+    },
 
     /**
      * The policy, when the horizontal scrollbar should be shown.
