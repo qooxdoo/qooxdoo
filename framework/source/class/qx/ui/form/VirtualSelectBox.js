@@ -485,8 +485,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     __filterUpdateRunning : 0,
     __filterInput : null,
     __highlightStyle : null,
-    __lastRich : false,
-    __delegate : null,
 
     __addFilterInput : function()
     {
@@ -591,9 +589,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           return item.match(filterRegExp);
         }
       };
-      if (this.__delegate && this.__delegate.bindItem) {
-        delegate.bindItem = this.__delegate.bindItem;
-      }
       // needed for newly created items on filtervalue backspacing
       if (this.isRich()) {
         delegate.configureItem = function(item) {
@@ -640,17 +635,23 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         return data;
       };
       this.setLabelOptions(labelOptions);
-      this.__delegate = this.getDelegate();
-      if (this.__delegate && this.__delegate.configureItem) {
-        this.debug('WARNING: delegate.configureItem already set. Highlighting search string will only work if item label is set to rich');
+      this.setDelegate({
+        configureItem : function(item) {
+          item.setRich(true);
+        }
+      });
+    },
+
+    _applyDelegate : function(value, old)
+    {
+      // we assume that if the user sets configureItem himself
+      // he keeps this consistent with rich
+      if (this.isRich() && ! value.configureItem) {
+        value.configureItem = function(item) {
+          item.setRich(true);
+        };
       }
-      if (! this.__delegate || ! this.__delegate.configureItem) {
-        this.setDelegate({
-          configureItem : function(item) {
-            item.setRich(true);
-          }
-        });
-      }
+      this.base(arguments, value, old);
     },
 
     _applyRich : function(value, old)
@@ -672,7 +673,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         this.__initIncrementalSearch();
       }
       else {
-        this.getChildControl('atom').setRich(this.__lastRich);
         this.__searchTimer.setEnabled(true);
       }
     }
