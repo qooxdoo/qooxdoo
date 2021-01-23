@@ -638,11 +638,13 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         return data;
       };
       this.setLabelOptions(labelOptions);
-      this.setDelegate({
-        configureItem : function(item) {
-          item.setRich(true);
-        }
-      });
+      if (this.isRich()) {
+        this.setDelegate({
+          configureItem : function(item) {
+            item.setRich(true);
+          }
+        });
+      }
     },
 
     _applyDelegate : function(value, old)
