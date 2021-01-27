@@ -336,7 +336,7 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       }
 
       if (!this.__validators[fontLookupKey]) {
-        this.__validators[fontLookupKey] = new qx.bom.webfonts.Validator(familyName, fontWeight, fontStyle, comparisonString);
+        this.__validators[fontLookupKey] = new qx.bom.webfonts.Validator(familyName, comparisonString, fontWeight, fontStyle);
         this.__validators[fontLookupKey].setTimeout(qx.bom.webfonts.Manager.VALIDATION_TIMEOUT);
         this.__validators[fontLookupKey].addListenerOnce("changeStatus", this.__onFontChangeStatus, this);
       }
