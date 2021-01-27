@@ -39,6 +39,9 @@ qx.Class.define("qx.test.io.part.ClosurePart",
 
     setUp : function()
     {
+      if (qx.core.Environment.get("qx.compiler")) {
+        this.skip();
+      }
       qx.test.PART_FILES = [];
       qx.test.Part.LOAD_ORDER = [];
       this.__dummyLoader = new qx.test.io.part.MockLoader();

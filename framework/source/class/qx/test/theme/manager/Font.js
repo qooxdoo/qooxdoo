@@ -40,7 +40,7 @@ qx.Class.define("qx.test.theme.manager.Font",
     {
       qx.Theme.define("qx.test.Theme.themes.A",
       {
-        extend : qx.theme.modern.Font,
+        extend : qx.theme.simple.Font,
 
         fonts :
         {
@@ -63,12 +63,10 @@ qx.Class.define("qx.test.theme.manager.Font",
       var fontTheme = this.manager.getTheme();
 
       this.assertKeyInMap("size", fontTheme.fonts.myfont, "Including font theme failed");
-      this.assertKeyInMap("lineHeight", fontTheme.fonts.myfont, "Including font theme failed");
       this.assertKeyInMap("family", fontTheme.fonts.myfont, "Including font theme failed");
       this.assertKeyInMap("bold", fontTheme.fonts.myfont, "Including font theme failed");
 
       this.assertKeyInMap("size", fontTheme.fonts.mysecondfont, "Including font theme failed");
-      this.assertKeyInMap("lineHeight", fontTheme.fonts.mysecondfont, "Including font theme failed");
       this.assertKeyInMap("family", fontTheme.fonts.mysecondfont, "Including font theme failed");
       this.assertKeyInMap("bold", fontTheme.fonts.mysecondfont, "Including font theme failed");
       this.assertKeyInMap("italic", fontTheme.fonts.mysecondfont, "Including font theme failed");

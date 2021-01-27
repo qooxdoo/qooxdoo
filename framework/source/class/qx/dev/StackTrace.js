@@ -243,24 +243,27 @@ qx.Bootstrap.define("qx.dev.StackTrace",
           return this.__formatStackTrace(trace);
         }
         /*
-         * Chrome trace info comes in two flavors:
+         * Chrome trace info comes in three flavors:
          * at [jsObject].function (fileUrl:line:char)
+         * at [jsObject].function() [as something] (fileUrl:line:char)
          * at fileUrl:line:char
          */
         lineRe = /at (.*)/gm;
-        var fileReParens = /\((.*?)(:[\d:]+)\)/;
+        var fileReParens = /(\(\) \[as [^\]]+\]\s)?\((.*?)(:[\d:]+)\)/;
         var fileRe = /(.*?)(:[\d:]+$)/;
         while ((hit = lineRe.exec(error.stack)) != null) {
           var fileMatch = fileReParens.exec(hit[1]);
-          if (!fileMatch) {
-            fileMatch = fileRe.exec(hit[1]);
-          }
-
           if (fileMatch) {
-            className = this.__fileNameToClassName(fileMatch[1]);
-            trace.push(className + fileMatch[2]);
+            className = this.__fileNameToClassName(fileMatch[2]);
+            trace.push(className + fileMatch[3]);
           } else {
-            trace.push(hit[1]);
+            fileMatch = fileRe.exec(hit[1]);
+            if (fileMatch) {
+              className = this.__fileNameToClassName(fileMatch[1]);
+              trace.push(className + fileMatch[2]);
+            } else {
+              trace.push(hit[1]);
+            }
           }
         }
       }
@@ -356,6 +359,10 @@ qx.Bootstrap.define("qx.dev.StackTrace",
     {
       var scriptDir = "/source/class/";
       var jsPos = fileName.indexOf(scriptDir);
+      if (jsPos < 0) {
+        scriptDir = "/transpiled/";
+        jsPos = fileName.indexOf(scriptDir);
+      }
       var paramPos = fileName.indexOf("?");
       if (paramPos >= 0) {
         fileName = fileName.substring(0, paramPos);

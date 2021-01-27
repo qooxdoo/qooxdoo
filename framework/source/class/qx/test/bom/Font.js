@@ -155,19 +155,13 @@ qx.Class.define("qx.test.bom.Font",
       this.__font.setColor("#ff0000");
 
       var label= new qx.ui.basic.Label("myLabel");
+      label.setAppearance("test-font-label");
       label.setFont(this.__font);
 
       this.getRoot().add(label);
       this.flush();
 
-      var useRgbValue = true;
-
-      if (qx.core.Environment.get("browser.name") == "ie" &&
-          qx.core.Environment.get("browser.documentmode") < 9) {
-        useRgbValue = false;
-      }
-
-      var checkValue = useRgbValue ? "rgb(26, 26, 26)" : "#1a1a1a";
+      var checkValue = "blue";
       var color = label.getContentElement().getDomElement().style["color"];
 
       // the current implementation has a higher priority for the color which is

@@ -1,6 +1,6 @@
 qx.Theme.define("qx.test.theme.manager.mock.Decoration",
 {
-  extend : qx.theme.modern.Decoration,
+  extend : qx.theme.simple.Decoration,
 
   decorations :
   {
@@ -15,6 +15,15 @@ qx.Theme.define("qx.test.theme.manager.mock.Decoration",
         endColor: "button-end",
         startColorPosition: 35,
         endColorPosition: 100
+      }
+    }, 
+    "test-button-gradient": {
+      style: {
+        radius: 10,
+        color: "border-button",
+        width: 2,
+        startColor: "red",
+        endColor: "blue"
       }
     }
   }

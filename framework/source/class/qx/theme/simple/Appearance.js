@@ -35,6 +35,8 @@
  */
 qx.Theme.define("qx.theme.simple.Appearance",
 {
+  include: [ qx.test.MAppearance ],
+  
   appearances :
   {
     /*
@@ -1248,7 +1250,14 @@ qx.Theme.define("qx.theme.simple.Appearance",
     {
       style : function(states)
       {
+        var decorator;
+
+        if (!!states.invalid && !states.disabled) {
+          decorator = "border-invalid";
+        }
+
         return {
+          decorator : decorator,
           textColor : states.disabled ? "text-disabled" : undefined
         };
       }
@@ -1350,7 +1359,19 @@ qx.Theme.define("qx.theme.simple.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "combobox" :{},
+    "combobox": {
+      style : function(states) {
+        var decorator;
+
+        if (!!states.invalid && !states.disabled) {
+          decorator = "border-invalid";
+        }
+
+        return {
+          decorator : decorator
+        };
+      }
+    },
 
     "combobox/button" :
     {
