@@ -108,6 +108,24 @@ qx.Class.define("qx.ui.basic.Image",
       apply : "_applyScale"
     },
 
+    /**
+     * Whether to preserve the image ratio (ie prevent distortion), and which dimension
+     * to prioritise
+     */
+    forceRatio : {
+      init : 'auto',
+      check : [ 'disabled', 'height', 'width', 'auto' ],
+      apply : '_applyDimension'
+    },
+
+    /**
+     * Whether to allow scaling the image up
+     */
+    allowScaleUp : {
+      init : false,
+      check : "Boolean",
+      apply : "_applyDimension"
+    },
 
     // overridden
     appearance :
@@ -824,6 +842,8 @@ qx.Class.define("qx.ui.basic.Image",
             el.setStyle("fontSize", font.getSize() + "px");
           }
         }
+      } else {
+        this.__updateContentHint();
       }
     },
 
@@ -1046,16 +1066,90 @@ qx.Class.define("qx.ui.basic.Image",
      * @param width {Integer} width of the image
      * @param height {Integer} height of the image
      */
-    __updateContentHint : function(width, height)
-    {
-      // Compare with old sizes and relayout if necessary
-      if (width !== this.__width || height !== this.__height)
-      {
-        this.__width = width;
-        this.__height = height;
-
+    __updateContentHint : function(width, height) {
+      if (width === undefined || height === undefined) {
+        width = this.__width;
+        height = this.__height;
+      }
+      if (this._recalc(width, height)) {
         qx.ui.core.queue.Layout.add(this);
       }
+    },
+    
+    
+    /**
+     * Recalculates the size of the image, according to scaling parameters
+     * @param maxWidth {Integer?} maximum width restriction
+     * @param maxHeight {Integer?} minimum height restriction
+     */
+    _recalc: function(originalWidth, originalHeight) {
+      var maxWidth = this.getMaxWidth();
+      var maxHeight = this.getMaxHeight();
+      var minWidth = this.getMinWidth();
+      var minHeight = this.getMinHeight();
+      
+      var width = originalWidth;
+      var height = originalHeight;
+      
+      var ratio = originalHeight / originalWidth;
+
+      switch(this.getForceRatio()) {
+      case 'height':
+        if (maxHeight !== null && height > maxHeight) {
+          height = maxHeight;
+          width = height / ratio;
+        } else if (height < minHeight) {
+          height = minHeight;
+          width = height / ratio;
+        }
+        if (height < maxHeight && this.isAllowScaleUp()) {
+          height = maxHeight;
+          width = height / ratio;
+        }
+        break;
+        
+      case 'width':
+        if (maxWidth !== null && width > maxWidth) {
+          width = maxWidth;
+          height = width * ratio;
+        } else if (width < minWidth) {
+          width = minWidth;
+          height = width * ratio;
+        }
+        if (width < maxWidth && this.isAllowScaleUp()) {
+          width = maxWidth;
+          height = width * ratio;
+        }
+        break;
+      
+      case 'auto':
+      case 'bestfit':
+        if (maxWidth !== null && width > maxWidth) {
+          width = maxWidth;
+          height = width * ratio;
+        } else if (width < minWidth) {
+          width = minWidth;
+          height = width * ratio;
+        }
+        if (width < maxWidth && this.isAllowScaleUp()) {
+          width = maxWidth;
+          height = width * ratio;
+        }
+        if (maxHeight !== null && height > maxHeight) {
+          height = maxHeight;
+          width = height / ratio;
+        }
+        break;
+      }
+      
+      width = Math.round(width);
+      height = Math.round(height);
+      if (width != this.__width || height != this.__height) {
+        this.__width = width;
+        this.__height = height;
+        return true;
+      }
+      return false;
     }
   },
 
