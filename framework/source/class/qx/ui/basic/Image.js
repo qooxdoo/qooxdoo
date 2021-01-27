@@ -113,9 +113,9 @@ qx.Class.define("qx.ui.basic.Image",
      * to prioritise
      */
     forceRatio : {
-      init : 'auto',
-      check : [ 'disabled', 'height', 'width', 'auto' ],
-      apply : '_applyDimension'
+      init : "auto",
+      check : [ "disabled", "height", "width", "auto" ],
+      apply : "_applyDimension"
     },
 
     /**
@@ -1067,8 +1067,10 @@ qx.Class.define("qx.ui.basic.Image",
      * @param height {Integer} height of the image
      */
     __updateContentHint : function(width, height) {
-      if (width === undefined || height === undefined) {
+      if (width === undefined ) {
         width = this.__width;
+      }
+      if (height === undefined) {
         height = this.__height;
       }
       if (this._recalc(width, height)) {
