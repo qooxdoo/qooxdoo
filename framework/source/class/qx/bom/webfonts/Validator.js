@@ -33,10 +33,12 @@ qx.Class.define("qx.bom.webfonts.Validator", {
 
   /**
    * @param fontFamily {String} The name of the font to be verified
+   * @param fontWeight {String} the weight of the font to be verified
+   * @param fontStyle {String} the style of the font to be verified
    * @param comparisonString {String?} String to be used to detect whether a font was loaded or not
    * whether the font has loaded properly
    */
-  construct : function(fontFamily, comparisonString)
+  construct : function(fontFamily, fontWeight, fontStyle, comparisonString)
   {
     this.base(arguments);
 
@@ -44,6 +46,12 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       this.setComparisonString(comparisonString);
     }
 
+    if (fontWeight) {
+      this.setFontWeight(fontWeight);
+    }
+    if (fontStyle) {
+      this.setFontStyle(fontStyle);
+    }
     if (fontFamily) {
       this.setFontFamily(fontFamily);
       this.__requestedHelpers = this._getRequestedHelpers();
@@ -133,6 +141,20 @@ qx.Class.define("qx.bom.webfonts.Validator", {
       nullable : true,
       init : null,
       apply : "_applyFontFamily"
+    },
+
+    /** The font weight to check */    
+    fontWeight: {
+      nullable: true,
+      check: "String",
+      apply: "_applyFontWeight"
+    },
+    
+    /** The font style to check */    
+    fontStyle: {
+      nullable: true,
+      check: "String",
+      apply: "_applyFontStyle"
     },
 
     /**
@@ -312,6 +334,12 @@ qx.Class.define("qx.bom.webfonts.Validator", {
           styleMap.fontFamily = fontFamily.join(",");
         }
       }
+      if (this.getFontWeight()) {
+        styleMap.fontWeight = this.getFontWeight();
+      }
+      if (this.getFontStyle()) {
+        styleMap.fontStyle = this.getFontStyle();
+      }
 
       var elem = document.createElement("span");
       elem.innerHTML = comparisonString || qx.bom.webfonts.Validator.COMPARISON_STRING;
@@ -323,6 +351,22 @@ qx.Class.define("qx.bom.webfonts.Validator", {
 
     // property apply
     _applyFontFamily : function(value, old)
+    {
+      if (value !== old) {
+        this._reset();
+      }
+    },
+
+    // property apply
+    _applyFontWeight : function(value, old)
+    {
+      if (value !== old) {
+        this._reset();
+      }
+    },
+
+    // property apply
+    _applyFontStyle : function(value, old)
     {
       if (value !== old) {
         this._reset();

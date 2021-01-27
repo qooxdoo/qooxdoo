@@ -198,9 +198,9 @@ qx.Class.define("qx.bom.webfonts.Manager", {
       if (index !== null) {
         qx.lang.Array.removeAt(this.__createdStyles, index);
       }
-      if (familyName in this.__validators) {
-        this.__validators[familyName].dispose();
-        delete this.__validators[familyName];
+      if (fontLookupKey in this.__validators) {
+        this.__validators[fontLookupKey].dispose();
+        delete this.__validators[fontLookupKey];
       }
     },
 
@@ -335,18 +335,18 @@ qx.Class.define("qx.bom.webfonts.Manager", {
         this.__createdStyles.push(fontLookupKey);
       }
 
-      if (!this.__validators[familyName]) {
-        this.__validators[familyName] = new qx.bom.webfonts.Validator(familyName, comparisonString);
-        this.__validators[familyName].setTimeout(qx.bom.webfonts.Manager.VALIDATION_TIMEOUT);
-        this.__validators[familyName].addListenerOnce("changeStatus", this.__onFontChangeStatus, this);
+      if (!this.__validators[fontLookupKey]) {
+        this.__validators[fontLookupKey] = new qx.bom.webfonts.Validator(familyName, fontWeight, fontStyle, comparisonString);
+        this.__validators[fontLookupKey].setTimeout(qx.bom.webfonts.Manager.VALIDATION_TIMEOUT);
+        this.__validators[fontLookupKey].addListenerOnce("changeStatus", this.__onFontChangeStatus, this);
       }
 
       if (callback) {
         var cbContext = context || window;
-        this.__validators[familyName].addListenerOnce("changeStatus", callback, cbContext);
+        this.__validators[fontLookupKey].addListenerOnce("changeStatus", callback, cbContext);
       }
 
-      this.__validators[familyName].validate();
+      this.__validators[fontLookupKey].validate();
     },
 
 
