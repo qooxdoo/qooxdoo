@@ -54,10 +54,10 @@ msgid "Details"
 msgstr "Подробно"
 
 msgid "HSB"
-msgstr ""
+msgstr "HSB"
 
 msgid "Hex"
-msgstr ""
+msgstr "Hex"
 
 msgid "Last month"
 msgstr "Прошлый месяц"
@@ -84,7 +84,7 @@ msgid "Preview (Old/New)"
 msgstr "Предпросмотр (До/После)"
 
 msgid "RGB"
-msgstr ""
+msgstr "RGB"
 
 msgid "Recent Colors"
 msgstr "Недавние"
@@ -99,166 +99,166 @@ msgid "Visual"
 msgstr "Визуально"
 
 msgid "key_full_Alt"
-msgstr ""
+msgstr "Alt"
 
 msgid "key_full_Apps"
 msgstr "Контекстное меню"
 
 msgid "key_full_Backspace"
-msgstr ""
+msgstr "Backspace"
 
 msgid "key_full_CapsLock"
-msgstr ""
+msgstr "Caps Lock"
 
 msgid "key_full_Control"
-msgstr ""
+msgstr "Control"
 
 msgid "key_full_Control_Mac"
-msgstr ""
+msgstr "Ctrl"
 
 msgid "key_full_Delete"
-msgstr ""
+msgstr "Delete"
 
 msgid "key_full_Down"
 msgstr "Стрелка Вниз"
 
 msgid "key_full_End"
-msgstr ""
+msgstr "End"
 
 msgid "key_full_Enter"
-msgstr ""
+msgstr "Enter"
 
 msgid "key_full_Escape"
-msgstr ""
+msgstr "Escape"
 
 msgid "key_full_Home"
-msgstr ""
+msgstr "Home"
 
 msgid "key_full_Insert"
-msgstr ""
+msgstr "Insert"
 
 msgid "key_full_Left"
 msgstr "Стрелка Влево"
 
 msgid "key_full_Meta"
-msgstr ""
+msgstr "Meta"
 
 msgid "key_full_NumLock"
-msgstr ""
+msgstr "NumLock"
 
 msgid "key_full_PageDown"
-msgstr ""
+msgstr "PageDown"
 
 msgid "key_full_PageUp"
-msgstr ""
+msgstr "PageUp"
 
 msgid "key_full_Pause"
-msgstr ""
+msgstr "Pause"
 
 msgid "key_full_PrintScreen"
-msgstr ""
+msgstr "PrintScreen"
 
 msgid "key_full_Right"
 msgstr "Стрелка Вправо"
 
 msgid "key_full_Scroll"
-msgstr ""
+msgstr "Scroll Lock"
 
 msgid "key_full_Shift"
-msgstr ""
+msgstr "Shift"
 
 msgid "key_full_Space"
-msgstr ""
+msgstr "Пробел"
 
 msgid "key_full_Tab"
-msgstr "Tab"
+msgstr "Табулятор"
 
 msgid "key_full_Up"
 msgstr "Стрелка Вверх"
 
 msgid "key_full_Win"
-msgstr ""
+msgstr "Windows"
 
 msgid "key_short_Alt"
-msgstr ""
+msgstr "Alt"
 
 msgid "key_short_Apps"
 msgstr "Контекст"
 
 msgid "key_short_Backspace"
-msgstr ""
+msgstr "Backspace"
 
 msgid "key_short_CapsLock"
-msgstr ""
+msgstr "Caps"
 
 msgid "key_short_Control"
-msgstr ""
+msgstr "Ctrl"
 
 msgid "key_short_Control_Mac"
-msgstr ""
+msgstr "Ctrl"
 
 msgid "key_short_Delete"
-msgstr ""
+msgstr "Del"
 
 msgid "key_short_Down"
 msgstr "Вниз"
 
 msgid "key_short_End"
-msgstr ""
+msgstr "End"
 
 msgid "key_short_Enter"
-msgstr ""
+msgstr "Enter"
 
 msgid "key_short_Escape"
-msgstr ""
+msgstr "Esc"
 
 msgid "key_short_Home"
-msgstr ""
+msgstr "Home"
 
 msgid "key_short_Insert"
-msgstr ""
+msgstr "Ins"
 
 msgid "key_short_Left"
 msgstr "Стрелка Влево"
 
 msgid "key_short_Meta"
-msgstr ""
+msgstr "Meta"
 
 msgid "key_short_NumLock"
-msgstr ""
+msgstr "Num"
 
 msgid "key_short_PageDown"
-msgstr ""
+msgstr "PgDn"
 
 msgid "key_short_PageUp"
-msgstr ""
+msgstr "PgUp"
 
 msgid "key_short_Pause"
-msgstr ""
+msgstr "Pause"
 
 msgid "key_short_PrintScreen"
-msgstr ""
+msgstr "Print Screen"
 
 msgid "key_short_Right"
 msgstr "Вправо"
 
 msgid "key_short_Scroll"
-msgstr ""
+msgstr "Scroll"
 
 msgid "key_short_Shift"
-msgstr ""
+msgstr "Shift"
 
 msgid "key_short_Space"
 msgstr "Пробел"
 
 msgid "key_short_Tab"
-msgstr ""
+msgstr "Tab"
 
 msgid "key_short_Up"
 msgstr "Вверх"
 
 msgid "key_short_Win"
-msgstr ""
+msgstr "Win"
 
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
