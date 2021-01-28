@@ -1,0 +1,7 @@
+# .gitignore template for skeleton-based apps
+/compiled/
+/db.json
+/resource-db.json
+/qooxdoo/
+/qx_packages/
+/node_modules/
