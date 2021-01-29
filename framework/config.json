@@ -17,7 +17,6 @@
     "api",
     "api-data",
     "api-verify",
-    //"build-all",
     "dependencies",
     "clean",
     "clean-cache",
