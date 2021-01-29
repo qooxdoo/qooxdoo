@@ -38,3 +38,6 @@ visibility of the splitter's button. Property `visible` toggles
 visibility of the whole splitte widget (no change from v5.0.x).
 
 - `qx.ui.table.cellrenderer.AbstractImage`: change vertical alignment from top to middle.
+
+- `qx.ui.basic.Image` adds a new scaling feature to preserve the size ratio of the image (ie scaling without stretching); if you enable scaling, the ratio is now preserved by default - if you actually want to stretch an image, you will have to set the image's `forceRatio` setting to `disabled`
+
