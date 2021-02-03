@@ -740,7 +740,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         return;
       }
       this.getChildControl('atom').setRich(value);
-      let configureItemFunction = value ? this._configureItemRich : this._configureItemPlain;
+      var configureItemFunction = value ? this._configureItemRich : this._configureItemPlain;
       this.setDelegate({
         configureItem : configureItemFunction
       });
