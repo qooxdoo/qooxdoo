@@ -33,7 +33,7 @@
  * <code>highlightMode</code>. BEWARE that html highlighting sets property <code>rich</code>
  * automatically to <code>true</code>.
  *
- * With <code>highlightMode==true</code> item label parts and search value are all HTML-escaped.
+ * With <code>highlightMode=='html'</code> item label parts and search value are all HTML-escaped.
  * If HTML-formatted item labels are used, this might lead to unexpected or undesirable (but save)
  * results. In this case you might want to override the various protected methods involved.
  *
@@ -557,23 +557,23 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         height     : 0,
         width      : 1 // must be > 0
       });
-
+      // we don't want the browser to set this
+      input.getContentElement.setAttribute('autocomplete', 'off');
       this._add(input);
 
       var dropdown = this.getChildControl("dropdown");
       dropdown.addListener('appear', function() {
-        input.focus();
+        // we must delay so that the focus is only set once the list is ready
+        window.setTimeout(function() {
+          input.focus();
+        }, 0);
       }, this);
       dropdown.addListener('disappear', function() {
-          input.blur();
-      }, this);
-
-      input.addListener("focus", function(e) {
-        console.log('input.focus');
+        input.blur();
       }, this);
 
       input.addListener("blur", function(e) {
-        console.log('input.blur');
+        this.close();
       }, this);
 
       input.addListener('changeValue', function(e) {
@@ -747,7 +747,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     _applyRich : function(value, old)
     {
       if (!value && this.getHighlightMode() == 'html') {
-        console.warn('highlightMode html requires rich==true, ignoring setting it to false');
+        this.debug('highlightMode html requires rich==true, ignoring setting it to false');
         return;
       }
       this.getChildControl('atom').setRich(value);
