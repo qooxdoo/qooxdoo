@@ -23,8 +23,20 @@
  *
  * @childControl spacer {qx.ui.core.Spacer} Flexible spacer widget.
  * @childControl atom {qx.ui.basic.Atom} Shows the text and icon of the content.
- * @childControl arrow {qx.ui.basic.Image} Shows the arrow to open the drop-down
- *   list.
+ * @childControl arrow {qx.ui.basic.Image} Shows the arrow to open the drop-down list.
+ *
+ * Item labels are plain text by default. Property <code>rich</code> can be used
+ * to enable HTML formatting.
+ *
+ * Incremental search can be enabled by setting property <code>incrementalSearch</code>
+ * to <code>true</code>. Highlightung of the search string is controlled by property
+ * <code>highlightMode</code>. BEWARE that html highlighting sets property <code>rich</code>
+ * automatically to <code>true</code>.
+ *
+ * With <code>highlightMode=='html'</code> item label parts and search value are all HTML-escaped.
+ * If HTML-formatted item labels are used, this might lead to unexpected or undesirable (but save)
+ * results. In this case you might want to override the various protected methods involved.
+ *
  */
 qx.Class.define("qx.ui.form.VirtualSelectBox",
 {
@@ -54,6 +66,11 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     if (this.isIncrementalSearch()) {
       this.__initIncrementalSearch();
     }
+
+    this.initHtmlMarkers([
+      '<span style="' + this.__getHighlightStyleFromAppearance() + '">',
+      '</span>'
+    ]);
   },
 
 
@@ -76,16 +93,58 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     /**
      * Whether or not to use incremental search.
-     * NOTE: enabling incremental search automatically sets both the child control 'atom' and
-     *       the list item labels to rich. If the atom was not set to rich before, the label
-     *       parts before and after the incremental search match and the match itself will be
-     *       HTML-escaped. If the atom was set to rich before, only the match will be escaped.
      */
     incrementalSearch :
     {
       apply : '_applyIncrementalSearch',
       init : false,
       check : "Boolean"
+    },
+
+    /**
+     * Array of non-HTML strings for opening an closing marker for incremental search highlighting
+     */
+    plainMarkers :
+    {
+      apply : '__applyMarkers',
+      init : [ '|', '|' ],
+      check : "Array"
+    },
+
+    /**
+     * Array of HTML strings for opening an closing marker for incremental search highlighting.
+     * Initialized from 'list-search-highlight' theme if not set explicitly.
+     */
+    htmlMarkers :
+    {
+      apply : '__applyMarkers',
+      deferredInit : true,
+      check : "Array"
+    },
+
+    /**
+     * Setting rich to true sets both the select box atom and the list items to rich.
+     */
+    rich :
+    {
+      apply : '_applyRich',
+      init : null,
+      check : "Boolean"
+    },
+
+    /**
+     * Define how to highlight the incremental search string.
+     *
+     * none: no highlighting (this is the default)
+     * plain: use characters from plainMarkers property
+     * html: use HTML for highlighting; this automatically calls <code>this.setRich(true)</code> and thus sets item labels to rich as well.
+     *
+     */
+    highlightMode :
+    {
+      apply : '_applyHighlightMode',
+      init  : "none",
+      check : [ "plain", "html", "none" ]
     },
 
     /** Current selected items. */
@@ -272,6 +331,12 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     ---------------------------------------------------------------------------
     */
 
+    _onBlur: function()
+    {
+      if (! this.isIncrementalSearch()) {
+        this.close();
+      }
+    },
 
     // overridden
     _handlePointer : function(event)
@@ -475,10 +540,14 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     __filterValue : null,
     __lastMatch : '',
+    // prevent recursion problems when deleting unsucessful filtering
     __filterUpdateRunning : 0,
     __filterInput : null,
-    __highlightStyle : null,
-    __lastRich : false,
+    __highlightMarkers  : null,
+
+    _highlightFilterValueFunction : null,
+    _searchRegExp : null,
+
 
     __addFilterInput : function()
     {
@@ -488,70 +557,96 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         height     : 0,
         width      : 1 // must be > 0
       });
+      // we don't want the browser to set this
+      // works with Chrome even
+      input.getContentElement().setAttribute('autocomplete', 'new-password');
       this._add(input);
-      input.addListener("focus", function(e) {
-        // reopen after focus loss
-        this.open();
+
+      var dropdown = this.getChildControl("dropdown");
+      dropdown.addListener('appear', function() {
+        // we must delay so that the focus is only set once the list is ready
+        window.setTimeout(function() {
+          input.focus();
+        }, 0);
       }, this);
-      this.addListener("focus", function(e) {
-        // move focus into TextField
-        input.focus();
+      dropdown.addListener('disappear', function() {
+        input.blur();
+        // clear filter
+        var sel = this.getValue();
+        input.resetValue();
+        this.setValue(sel);
       }, this);
+
+      input.addListener("blur", function(e) {
+        this.close();
+      }, this);
+
       input.addListener('changeValue', function(e) {
         if (this.__filterUpdateRunning === 0) {
           this.__updateDelegate();
         }
       }, this);
-      input.addListener("keypress", function(e) {
-        switch (e.getKeyIdentifier()) {
-        case 'Enter':
-        case 'Escape':
-          this.__updateDelegate();
-          break;
-        // prevent cursor from being moved to beginning/end of input field
-        case 'Down':
-        case 'Up':
-          e.preventDefault();
-            break;
-        }
-      }, this);
+
     },
 
-    __getHighlightStyle : function()
+    __getHighlightStyleFromAppearance : function()
     {
       var highlightAppearance =
         qx.theme.manager.Appearance.getInstance().styleFrom("list-search-highlight");
-      var highlightStyle = '', styles = [];
-      if (highlightAppearance != null) {
-        var keys = Object.keys(highlightAppearance);
-        for (var k=0; k< keys.length; k++) {
-          var key = qx.module.util.String.hyphenate(keys[k]);
-          styles.push(key + ':' + highlightAppearance[keys[k]]);
-        }
-        highlightStyle = styles.join(';');
+      // default style        
+      if (!highlightAppearance) {
+        this.debug('The current theme is missing the "list-search-highlight" appearance setting, using default.');
+        highlightAppearance = {
+          backgroundColor: 'rgba(255, 251, 0, 0.53)',
+          textDecorationStyle: 'dotted',
+          textDecorationLine: 'underline'
+        };
       }
+      var highlightStyle = '', styles = [];
+      var keys = Object.keys(highlightAppearance);
+      for (var k=0; k< keys.length; k++) {
+        var key = qx.module.util.String.hyphenate(keys[k]);
+        styles.push(key + ':' + highlightAppearance[keys[k]]);
+      }
+      highlightStyle = styles.join(';') + ';';
       return highlightStyle;
     },
 
-    _highlightFilterValue : function(item)
-    {
-      var highlightStyle = this.__highlightStyle;
-      if (! highlightStyle) {
-        return item;
-      }
+    // filterValue is passed below to allow usage in overridden _searchMatch
+    // we use _searchRegExp here for efficiency
+    _searchMatch : function(item, filterValue) {
+      return item.match(this._searchRegExp);
+    },
 
-      var filterValue = this.__filterValue;
-      var parts = item.split(filterValue);
-      if (!this.__lastRich) {
-        parts[0] = qx.module.util.String.escapeHtml(parts[0]);
-        parts[1] = qx.module.util.String.escapeHtml(parts[1]);
-      }
-      filterValue = qx.module.util.String.escapeHtml(this.__filterValue);
-      return parts[0]
-        + '<span style="' + highlightStyle + '">'
-        + filterValue
-        + '</span>'
-        + parts[1];
+    // highlight plain
+    _highlightFilterValuePlainFunction : function(parts)
+    {
+      // the array elements will contain '' if empty
+      return parts[1]
+           + this.__highlightMarkers[0]
+           + parts[2]
+           + this.__highlightMarkers[1]
+           + parts[3];
+    },
+
+    // htmlEscape all label parts
+    _highlightFilterValueHtmlFunction : function(parts)
+    {
+      // the array elements will contain '' if empty
+      // the markers will be HTML strings
+      return qx.module.util.String.escapeHtml(parts[1])
+           + this.__highlightMarkers[0]
+           + qx.module.util.String.escapeHtml(parts[2])
+           + this.__highlightMarkers[1]
+           + qx.module.util.String.escapeHtml(parts[3]);
+    },
+
+    _configureItemRich : function(item) {
+      item.setRich(true);
+    },
+
+    _configureItemPlain : function(item) {
+      item.setRich(false);
     },
 
     __updateDelegate : function(lastFilterValue)
@@ -559,15 +654,28 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       this.__filterUpdateRunning++;
       var filterValue = (lastFilterValue !== undefined) ? lastFilterValue : this.__filterInput.getValue();
       this.__filterValue = filterValue;
+
+      // _searchRegExp is used in default _searchMatch function to avoid recreation of regexp object
+      // for each list item
+      var filterValueEscaped = (filterValue != null) ? qx.module.util.String.escapeRegexpChars(filterValue) : '';
+      this._searchRegExp = new RegExp('(.*?)(' + filterValueEscaped + ')(.*)', 'i');
+
       // create and apply new filter
+      var that = this;
       var delegate = {
         filter : function(item) {
-          return item.match(qx.module.util.String.escapeRegexpChars(filterValue));
-        },
-        configureItem : function(item) {
-          item.setRich(true);
+          if (that.getLabelPath() != null)
+          {
+            item = qx.data.SingleValueBinding.resolvePropertyChain(item, that.getLabelPath());
+          }
+          // we pass filterValue in case _searchMatch() is overridden and wants to use it.
+          return that._searchMatch(item, filterValue);
         }
       };
+      // needed for newly created items on filterValue backspacing
+      if (this.isRich()) {
+        delegate.configureItem = this._configureItemRich;
+      }
       this.setDelegate(delegate);
 
       // update selection if there is at least one item left,
@@ -587,32 +695,87 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         this.__updateDelegate(filterValue);
       }
       // make sure length of dropdown is updated
-      this.open();
       this.__filterUpdateRunning--;
     },
 
     __initIncrementalSearch : function()
     {
-      this.__lastRich = this.getChildControl('atom').getRich();
-      this.getChildControl('atom').setRich(true);
+      // add search input field
       this.__addFilterInput();
-      this.__highlightStyle = this.__getHighlightStyle();
+
+      // set label converter
       var that = this;
       var labelOptions = this.getLabelOptions() || {};
       labelOptions.converter = function(data, model, source, target) {
         var filterValue = that.__filterValue;
-        if (filterValue && data && (data.toLowerCase().indexOf(filterValue.toLowerCase() != -1))) {
-          data = that._highlightFilterValue(data);
+        if (filterValue && data && that._highlightFilterValueFunction) {
+          var match = that._searchMatch(data, filterValue);
+          if (match) {
+              data = that._highlightFilterValueFunction(match);
+          }
+        }
+        if (data === undefined) {
+          data = '';
         }
         return data;
       };
       this.setLabelOptions(labelOptions);
-        var delegate = {
-          configureItem : function(item) {
-            item.setRich(true);
-          }
-      };
-      this.setDelegate(delegate);
+    },
+
+    _applyDelegate : function(value, old)
+    {
+      // we assume that if the user sets configureItem himself
+      // he keeps this consistent with rich
+      if (this.isRich() && ! value.configureItem) {
+        value.configureItem = this._configureItemRich;
+      }
+      this.base(arguments, value, old);
+    },
+
+    _applyRich : function(value, old)
+    {
+      if (!value && this.getHighlightMode() == 'html') {
+        this.debug('highlightMode html requires rich==true, ignoring setting it to false');
+        return;
+      }
+      this.getChildControl('atom').setRich(value);
+      var configureItemFunction = value ? this._configureItemRich : this._configureItemPlain;
+      this.setDelegate({
+        configureItem : configureItemFunction
+      });
+    },
+
+    _applyHighlightMode : function(value, old)
+    {
+      switch(value) {
+      case 'html':
+        // set rich item labels
+        this.setRich(true);
+        this._highlightFilterValueFunction = this._highlightFilterValueHtmlFunction;
+        this.__highlightMarkers = this.getHtmlMarkers();
+        break;
+      case 'plain':
+        this._highlightFilterValueFunction = this._highlightFilterValuePlainFunction;
+        this.__highlightMarkers = this.getPlainMarkers();
+        break;
+      default:
+        this._highlightFilterValueFunction = null;
+        break;
+      }
+    },
+
+    __applyMarkers : function(value, old)
+    {
+      this.__highlightMarkers = value;
+
+      // make sure we have strings for both markers
+      if (value.length < 1) {
+        this.__highlightMarkers[0] = '';
+      }
+      // this most likely won't work for HTML highlighting
+      if (value.length < 2) {
+        this.__highlightMarkers[1] = this.__highlightMarkers[0];
+      }
     },
 
     _applyIncrementalSearch : function(value, old)
@@ -623,7 +786,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         this.__initIncrementalSearch();
       }
       else {
-        this.getChildControl('atom').setRich(this.__lastRich);
         this.__searchTimer.setEnabled(true);
       }
     }
