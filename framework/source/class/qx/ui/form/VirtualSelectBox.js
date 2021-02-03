@@ -274,10 +274,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       var keyIdentifier = event.getKeyIdentifier();
       var isOpen = this.getChildControl("dropdown").isVisible();
       var isModifierPressed = this._isModifierPressed(event);
-      var listIsOpen = this.getChildControl("dropdown").getChildControl("list").isVisible();
 
       if (
-        !isOpen && !isModifierPressed && // !listIsOpen &&
+        !isOpen && !isModifierPressed &&
         (keyIdentifier === "Enter" || keyIdentifier === "Space")
       ) {
         return "open";
@@ -544,7 +543,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     // prevent recursion problems when deleting unsucessful filtering
     __filterUpdateRunning : 0,
     __filterInput : null,
-    __hightlightMarkers  : null,
+    __highlightMarkers  : null,
 
     _highlightFilterValueFunction : null,
     _searchRegExp : null,
