@@ -541,6 +541,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     __filterValue : null,
     __lastMatch : '',
+    // prevent recursion problems when deleting unsucessful filtering
     __filterUpdateRunning : 0,
     __filterInput : null,
     __hightlightMarkers  : null,
@@ -558,7 +559,8 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         width      : 1 // must be > 0
       });
       // we don't want the browser to set this
-      input.getContentElement.setAttribute('autocomplete', 'off');
+      // works with Chrome even
+      input.getContentElement().setAttribute('autocomplete', 'new-password');
       this._add(input);
 
       var dropdown = this.getChildControl("dropdown");
@@ -570,6 +572,10 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }, this);
       dropdown.addListener('disappear', function() {
         input.blur();
+        // clear filter
+        var sel = this.getValue();
+        input.resetValue();
+        this.setValue(sel);
       }, this);
 
       input.addListener("blur", function(e) {
@@ -582,21 +588,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         }
       }, this);
 
-      // make sure those keys do the right thing
-      input.addListener("keypress", function(e) {
-        switch (e.getKeyIdentifier()) {
-        // finish search
-        case 'Escape':
-          this.__updateDelegate();
-          e.preventDefault();
-          break;
-        // prevent cursor from being moved to beginning/end of input field
-        case 'Down':
-        case 'Up':
-          e.preventDefault();
-          break;
-        }
-      }, this);
     },
 
     __getHighlightStyleFromAppearance : function()
@@ -702,11 +693,9 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
         var len  = filterValue.length;
         var last = ( len > this.__lastMatch.length+1) ? this.__filterInput.getValue().charAt(len-1) : '';
         filterValue = this.__lastMatch + last;
-        this.refresh();
         this.__updateDelegate(filterValue);
       }
       // make sure length of dropdown is updated
-      this.refresh();
       this.__filterUpdateRunning--;
     },
 
