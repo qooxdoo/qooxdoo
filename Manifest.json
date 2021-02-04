@@ -79,7 +79,7 @@
         "email": "dietrich.streifert@visionet.de"
       }
     ],
-    "version": "6.0.0-beta"
+    "version": "7.0.0-beta"
   },
   "provides": {
     "namespace": "qx",
