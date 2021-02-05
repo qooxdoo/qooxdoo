@@ -1,8 +1,0 @@
-\b"css\.overflowxy"\b=The envionment key "css.overflowxy" is deprecated.
-\bqx\.ui\.mobile\.navigation\.Manager\b=The class 'qx.ui.mobile.navigation.Manager' has been replaced with 'qx.application.Routing' including some minor API changes (added an init method).
-\bqx\.util\.format\.DateFormat\.LOGGING_DATE_TIME__format\b=The constant 'LOGGING_DATE_TIME__format' of qx.util.format.DateFormat will be removed.
-\bqx\.lang\.Generics=qx.lang.Generics is deprecated. Please use the methods attached to the prototypes instead.
-\bqx\.lang\.Object\.merge\b=qx.lang.Object.merge is deprecated. Please use qx.lang.Object.mergeWith instead.
-\bqx\.lang\.Object\.getLength\b='qx.lang.Object.getLength' has changed. It ignores attributes from the prototype now.
-\bqx\.Bootstrap\.objectGetLength\b='qx.lang.Object.getLength' has changed. It ignores attributes from the prototype now.
-\bqx\.bom\.Collection\b='qx.bom.Collection' is deprecated. Please check out the class qxWeb instead.

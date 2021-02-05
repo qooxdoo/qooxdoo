@@ -1,3 +1,0 @@
-\b\.setTimeout\((\d\d?|[a-zA-Z_]+[\w_\.]*)(?!\s*,)\)=Timeout interval changed from seconds to milliseconds.
-Stylesheet\.includeFile\(\s*?(?:"|')(?:(?!http)[a-zA-Z])=Resource IDs will no longer be resolved, first argument must be a valid URI.
-(get|select)\(\s*?('|")ecmascript\.objectcount('|")=This key is deprecated since  Object.__count__ is no longer supported in any current browser. 

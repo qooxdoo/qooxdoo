@@ -1,3 +1,0 @@
-\.getShownPageIndex\(=.getCurrentIndex(
-\bqx\.core\.Environment\.get\("event.pointer"\)=qx.core.Environment.get("css.pointerevents")
-^(\s)*\*?(\s)*[@#]asset\(qx/mobile/icon/(android|ios|common)/\*\)=

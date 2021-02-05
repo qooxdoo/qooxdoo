@@ -1,1 +1,0 @@
-\bqx\.ui\.core\.Command\b=qx.ui.core.Command was moved to qx.ui.command.Command. Behavior of execute() method has been changed. Please see release notes.

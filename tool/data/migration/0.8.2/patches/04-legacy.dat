@@ -1,3 +1,0 @@
-\.getDbKey\b=.toHashCode
-\bqx\.legacy\.Theme\.define\b=qx.Theme.define
-\bqx\.core\.Init\.getInstance\(\)=qx.core.Init

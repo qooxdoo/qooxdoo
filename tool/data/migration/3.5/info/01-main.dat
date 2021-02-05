@@ -1,8 +1,0 @@
-\bqx\.io\.ScriptLoader\b=The experimental ScriptLoader has been removed. Please use 'qx.bom.request.Script' instead.
-\b_getOffsetForKnob\b=The method '_getOffsetForKnob()' is not available anymore.
-\b_addInSeparateLines\b=The method '_addInSeparateLines()' is deprecated. Please use this._addRow(item, name, new qx.ui.mobile.layout.VBox()) instead.
-\b_addInOneLine\b=The method '_addInOneLine()' is deprecated. Please use 'this._addRow(item, name, new qx.ui.mobile.layout.HBox())' instead.
-\b_getBlocker\b=The method '_getBlocker()' is deprecated. Please use 'qx.ui.mobile.core.Blocker.getInstance()' instead.
-
-
-

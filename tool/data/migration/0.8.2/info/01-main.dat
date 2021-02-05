@@ -1,6 +1,0 @@
-\bqx\.core\.Package.loadScript\b=This method has been removed. Use qx.io2.ScriptLoader instead
-\bsetCellFocusAttributes\b=This method in qx.ui.treevirtual.TreeVirtual no longer does anything and will be removed.
-\bqx\.List\b=Use qx.Class.define() instead and derive from qx.type.BaseArray
-
-\bqx\.lang\.Array\.getFirst=This method has been removed! Please use array[0] instead.
-\bqx\.lang\.Array\.getLast=This method has been removed! Please use array[array.length-1] instead.
