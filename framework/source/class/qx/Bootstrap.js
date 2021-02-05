@@ -120,9 +120,7 @@ qx.Bootstrap = {
 
       clazz = config.construct || new Function;
 
-      if (config.extend) {
-        this.extendClass(clazz, clazz, config.extend, name, basename);
-      }
+      this.extendClass(clazz, clazz, config.extend, name, basename);
 
       var statics = config.statics || {};
       // use keys to include the shadowed in IE
@@ -417,7 +415,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      */
     extendClass : function(clazz, construct, superClass, name, basename)
     {
-      var superproto = superClass.prototype;
+      var superproto = superClass ? superClass.prototype : null;
 
       // Use helper function/class to save the unnecessary constructor call while
       // setting up inheritance.

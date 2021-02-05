@@ -1,6 +1,6 @@
 qx.Theme.define("qx.test.theme.manager.mock.Color",
 {
-  extend : qx.theme.modern.Color,
+  extend : qx.theme.simple.Color,
 
   colors :
   {

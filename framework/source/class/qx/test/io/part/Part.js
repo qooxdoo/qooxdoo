@@ -36,6 +36,9 @@ qx.Class.define("qx.test.io.part.Part",
 
     setUp : function()
     {
+      if (qx.core.Environment.get("qx.compiler")) {
+        this.skip();
+      }
       qx.test.Part.LOAD_ORDER = [];
       this.__dummyLoader = new qx.test.io.part.MockLoader();
       this.__loader      = new qx.Part(this.__dummyLoader);

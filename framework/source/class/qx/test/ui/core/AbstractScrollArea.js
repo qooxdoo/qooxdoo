@@ -23,7 +23,7 @@ qx.Class.define("qx.test.ui.core.AbstractScrollArea",
 {
   extend : qx.test.ui.LayoutTestCase,
   include : qx.dev.unit.MMock,
-
+  
   members :
   {
     /** @type {qx.test.ui.core.AbstractScrollArea.fixture.CustomWidget} */

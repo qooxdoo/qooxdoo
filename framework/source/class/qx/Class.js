@@ -302,7 +302,10 @@ qx.Bootstrap.define("qx.Class",
       for (var i = objects.length - 1; i >= 1; i--) {
         var last = objects[i];
         var parent = objects[i - 1];
-        if (qx.Bootstrap.isFunction(last) || qx.Bootstrap.objectGetLength(last) === 0) {
+        if (
+            // The class being undefined, but parent classes in case it is a nested class that is being undefined
+            (i == objects.length - 1 && qx.Bootstrap.isFunction(last)) || 
+            qx.Bootstrap.objectGetLength(last) === 0) {
           delete parent[ns[i - 1]];
         } else {
           break;

@@ -22,8 +22,10 @@ qx.Class.define("qx.test.ui.form.Slider",
   members :
   {
     setUp : function() {
-      this.__slider = new qx.ui.form.Slider();
-      this.__slider.setWidth(100);
+      this.__slider = new qx.ui.form.Slider().set({
+        width: 100,
+        appearance: "test-slider"
+      });
       this.getRoot().add(this.__slider);
       this.flush();
     },

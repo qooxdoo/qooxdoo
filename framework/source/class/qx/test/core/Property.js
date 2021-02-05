@@ -800,11 +800,11 @@ qx.Class.define("qx.test.core.Property",
             check : "Number",
             nullable : true,
             event : "changeProp",
-            isEqual : "(this.__checkCtx(a,b))"
+            isEqual : "(this._checkCtx(a,b))"
           }
         },
         members : {
-          __checkCtx : function (foo, bar) {
+          _checkCtx : function (foo, bar) {
             context = this;
           }
         }

@@ -37,6 +37,9 @@ qx.Class.define("qx.test.io.part.Package",
 
 
     setUp : function() {
+      if (qx.core.Environment.get("qx.compiler")) {
+        this.skip();
+      }
       qx.test.PART_FILES = [];
       this.__dummyLoader = new qx.test.io.part.MockLoader();
     },

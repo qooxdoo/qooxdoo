@@ -104,13 +104,14 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
       this.flush();
       this.__toolbar.setOverflowHandling(true);
 
+      var bounds = this.__b3.getBounds();
       var self = this;
       this.assertEventFired(this.__toolbar, "hideItem", function() {
-        self.__container.setWidth(60);
+        self.__container.setWidth(bounds.left + 10);
         self.flush();
       }, function(e) {
-        self.assertEquals(self.__b3, e.getData());
-        self.assertEquals("excluded", self.__b3.getVisibility());
+        self.assertTrue(self.__b3 === e.getData());
+        self.assertTrue("excluded" === self.__b3.getVisibility());
       });
     },
 
@@ -127,8 +128,8 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
         self.__container.setWidth(100);
         self.flush();
       }, function(e) {
-        self.assertEquals(self.__b3, e.getData());
-        self.assertEquals("visible", self.__b3.getVisibility());
+        self.assertTrue(self.__b3 === e.getData() || self.__b2 === e.getData());
+        self.assertTrue("visible" === e.getData().getVisibility());
       });
     },
 
@@ -140,9 +141,10 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
       this.__toolbar.setOverflowHandling(true);
       this.__toolbar.setRemovePriority(this.__b2, 2);
 
+      var bounds = this.__b3.getBounds();
       var self = this;
       this.assertEventFired(this.__toolbar, "hideItem", function() {
-        self.__container.setWidth(60);
+        self.__container.setWidth(bounds.left + 10);
         self.flush();
       }, function(e) {
         self.assertEquals(self.__b2, e.getData());
@@ -156,12 +158,13 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
       this.flush();
       this.__toolbar.setOverflowHandling(true);
       this.__toolbar.setRemovePriority(this.__b2, 2);
-      this.__container.setWidth(60);
+      var bounds = this.__b3.getBounds();
+      this.__container.setWidth(bounds.left + 10);
       this.flush();
 
       var self = this;
       this.assertEventFired(this.__toolbar, "showItem", function() {
-        self.__container.setWidth(100);
+        self.__container.setWidth(200);
         self.flush();
       }, function(e) {
         self.assertEquals(self.__b2, e.getData());
@@ -256,7 +259,8 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
 
       var self = this;
       this.assertEventNotFired(this.__toolbar, "hideItem", function() {
-        self.__container.setWidth(60);
+        var bounds = self.__b3.getBounds();
+        self.__container.setWidth(bounds.left + 10);
         self.flush();
       });
     },
@@ -264,19 +268,36 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
 
     testShowItemRemoved : function() {
       this.__addButtons();
+      this.__container.setWidth(200);
       this.flush();
       this.__toolbar.setOverflowHandling(true);
-      this.__container.setWidth(60);
+      var bounds = this.__b3.getBounds();
+      this.__container.setWidth(bounds.left + 40);
       this.flush();
-
+      
       var self = this;
-      this.assertEventFired(this.__toolbar, "showItem", function() {
-        self.__toolbar.remove(self.__b3);
-        self.flush();
-      }, function(e) {
-        self.assertEquals(self.__b3, e.getData());
-        self.assertEquals("visible", self.__b3.getVisibility());
-      });
+      setTimeout(function() {
+        self.resume(function() {
+          console.log("1: " + JSON.stringify(self.__b1.getBounds()));
+          console.log("2: " + JSON.stringify(self.__b2.getBounds()));
+          console.log("3: " + JSON.stringify(self.__b3.getBounds()));
+
+          var bounds = self.__b3.getBounds();
+          console.log(JSON.stringify(bounds));
+          self.__container.setWidth(bounds.left + 10);
+          
+          this.assertEventFired(this.__toolbar, "showItem", function() {
+            self.__toolbar.remove(self.__b2);
+            self.flush();
+          }, function(e) {
+            self.assertEquals(self.__b3, e.getData());
+            self.assertEquals("visible", self.__b3.getVisibility());
+          });
+          
+        });
+      }, 100);
+      this.wait();
+
     },
 
     testAddItem : function() {
