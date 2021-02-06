@@ -33,5 +33,8 @@ in production code, consider them as being a `false` value.
 in production code, consider them as being a `false` value.
 
 - `qx.ui.splitpane.Splitter`: New Property `knobVisible` toggles
+
 visibility of the splitter's button. Property `visible` toggles
 visibility of the whole splitte widget (no change from v5.0.x).
+
+- `qx.ui.table.cellrenderer.AbstractImage`: change vertical alignment from top to middle.
