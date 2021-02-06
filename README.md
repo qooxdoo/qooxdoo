@@ -1,7 +1,4 @@
 [![NPM Version][npm-image]][npm-url]
-[![Test Coverage][coveralls-image]][coveralls-url]
-[![Travis Build][travis-image]][travis-url]
-[![SauceLab Build][saucelab-image]][saucelab-url]
 [![Gitter][gitter-image]][gitter-url]
 
 # Qooxdoo JavaScript Framework 

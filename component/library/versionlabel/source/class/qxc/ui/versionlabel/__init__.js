@@ -1,4 +1,0 @@
-/**
- * qxc.ui.versionlabel package
- *
- */

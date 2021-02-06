@@ -1,0 +1,294 @@
+# Russian
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: qooxdoo framework\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-19 10:11+0200\n"
+"PO-Revision-Date: 2021-01-28 17:53+0300\n"
+"Last-Translator: Дмитрий Золотов <zolotovdy@yandex.ru>\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: Russian\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+msgid "%1 does not fit %2."
+msgstr "%1 не подходит %2."
+
+msgid "%1 is not a color! %2"
+msgstr "%1 не является цветом! %2"
+
+msgid "%1 is not a number."
+msgstr "%1 не является числом."
+
+msgid "%1 is not a string."
+msgstr "%1 не является строкой."
+
+msgid "%1 is not an url."
+msgstr "%1 не является допустимым URL."
+
+msgid "%1 is not in %2"
+msgstr "%1 не входит в %2"
+
+msgid "%1 is not in the range from [%2, %3]."
+msgstr "%1 не входит в диапазон [%2, %3]."
+
+msgid "'%1' is not an email address."
+msgstr "'%1' не является эл. почтовым адресом."
+
+msgid "Automatic"
+msgstr "Авто"
+
+msgid "Basic Colors"
+msgstr "Основные цвета"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Color Selector"
+msgstr "Выбор цвета"
+
+msgid "Details"
+msgstr "Подробно"
+
+msgid "HSB"
+msgstr "HSB"
+
+msgid "Hex"
+msgstr "Hex"
+
+msgid "Last month"
+msgstr "Прошлый месяц"
+
+msgid "Last year"
+msgstr "Прошлый год"
+
+msgid "Next month"
+msgstr "Следующий месяц"
+
+msgid "Next year"
+msgstr "Следующий год"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Open ColorSelector"
+msgstr "Открыть диалог Выбор цвета"
+
+msgid "Presets"
+msgstr "Наборы"
+
+msgid "Preview (Old/New)"
+msgstr "Предпросмотр (До/После)"
+
+msgid "RGB"
+msgstr "RGB"
+
+msgid "Recent Colors"
+msgstr "Недавние"
+
+msgid "Reset column widths"
+msgstr "Сбросить длины столбцов"
+
+msgid "This field is required"
+msgstr "Заполните это поле"
+
+msgid "Visual"
+msgstr "Визуально"
+
+msgid "key_full_Alt"
+msgstr "Alt"
+
+msgid "key_full_Apps"
+msgstr "Контекстное меню"
+
+msgid "key_full_Backspace"
+msgstr "Backspace"
+
+msgid "key_full_CapsLock"
+msgstr "Caps Lock"
+
+msgid "key_full_Control"
+msgstr "Control"
+
+msgid "key_full_Control_Mac"
+msgstr "Ctrl"
+
+msgid "key_full_Delete"
+msgstr "Delete"
+
+msgid "key_full_Down"
+msgstr "Стрелка Вниз"
+
+msgid "key_full_End"
+msgstr "End"
+
+msgid "key_full_Enter"
+msgstr "Enter"
+
+msgid "key_full_Escape"
+msgstr "Escape"
+
+msgid "key_full_Home"
+msgstr "Home"
+
+msgid "key_full_Insert"
+msgstr "Insert"
+
+msgid "key_full_Left"
+msgstr "Стрелка Влево"
+
+msgid "key_full_Meta"
+msgstr "Meta"
+
+msgid "key_full_NumLock"
+msgstr "NumLock"
+
+msgid "key_full_PageDown"
+msgstr "PageDown"
+
+msgid "key_full_PageUp"
+msgstr "PageUp"
+
+msgid "key_full_Pause"
+msgstr "Pause"
+
+msgid "key_full_PrintScreen"
+msgstr "PrintScreen"
+
+msgid "key_full_Right"
+msgstr "Стрелка Вправо"
+
+msgid "key_full_Scroll"
+msgstr "Scroll Lock"
+
+msgid "key_full_Shift"
+msgstr "Shift"
+
+msgid "key_full_Space"
+msgstr "Пробел"
+
+msgid "key_full_Tab"
+msgstr "Табулятор"
+
+msgid "key_full_Up"
+msgstr "Стрелка Вверх"
+
+msgid "key_full_Win"
+msgstr "Windows"
+
+msgid "key_short_Alt"
+msgstr "Alt"
+
+msgid "key_short_Apps"
+msgstr "Контекст"
+
+msgid "key_short_Backspace"
+msgstr "Backspace"
+
+msgid "key_short_CapsLock"
+msgstr "Caps"
+
+msgid "key_short_Control"
+msgstr "Ctrl"
+
+msgid "key_short_Control_Mac"
+msgstr "Ctrl"
+
+msgid "key_short_Delete"
+msgstr "Del"
+
+msgid "key_short_Down"
+msgstr "Вниз"
+
+msgid "key_short_End"
+msgstr "End"
+
+msgid "key_short_Enter"
+msgstr "Enter"
+
+msgid "key_short_Escape"
+msgstr "Esc"
+
+msgid "key_short_Home"
+msgstr "Home"
+
+msgid "key_short_Insert"
+msgstr "Ins"
+
+msgid "key_short_Left"
+msgstr "Стрелка Влево"
+
+msgid "key_short_Meta"
+msgstr "Meta"
+
+msgid "key_short_NumLock"
+msgstr "Num"
+
+msgid "key_short_PageDown"
+msgstr "PgDn"
+
+msgid "key_short_PageUp"
+msgstr "PgUp"
+
+msgid "key_short_Pause"
+msgstr "Pause"
+
+msgid "key_short_PrintScreen"
+msgstr "Print Screen"
+
+msgid "key_short_Right"
+msgstr "Вправо"
+
+msgid "key_short_Scroll"
+msgstr "Scroll"
+
+msgid "key_short_Shift"
+msgstr "Shift"
+
+msgid "key_short_Space"
+msgstr "Пробел"
+
+msgid "key_short_Tab"
+msgstr "Tab"
+
+msgid "key_short_Up"
+msgstr "Вверх"
+
+msgid "key_short_Win"
+msgstr "Win"
+
+msgid "one of one row"
+msgid_plural "%1 of %2 rows"
+msgstr[0] "%1 из %2 строки"
+msgstr[1] "%1 из %2 строк"
+msgstr[2] "%1 из %2 строк"
+
+msgid "one row"
+msgid_plural "%1 rows"
+msgstr[0] "%1 строка"
+msgstr[1] "%1 строки"
+msgstr[2] "%1 строк"
+
+msgid "test Hello %1!"
+msgstr "Тест Привет %1!"
+
+msgid "test Jonny"
+msgstr "тест Джонни"
+
+msgid "test One car"
+msgid_plural "test %1 cars"
+msgstr[0] "тест %1 машина"
+msgstr[1] "тест %1 машины"
+msgstr[2] "тест %1 машин"
+
+msgid "test affe"
+msgstr "тест аффект"
+
+msgid "test one"
+msgstr "тест один"
+
+msgid "test two"
+msgstr "тест два"

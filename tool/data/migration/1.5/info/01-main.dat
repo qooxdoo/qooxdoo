@@ -1,8 +1,0 @@
-\bconfigureRequest\b=Called in changed context. Now receives qx.io.request.* request.
-\bqx\.bom\.Request\b=Please use qx.bom.request.Xhr instead.
-\bqx\.dev\.Pollution\b=The pollution detection will be removed.
-\bqx\.ui\.virtual\.form\.IListDelegate\b=Please use qx.ui.list.List instead.
-\bqx\.ui\.virtual\.form\.List\b=Please use qx.ui.list.List instead.
-\bqx\.ui\.virtual\.form\.ListController\b=Please use qx.ui.list.List instead.
-\bqx\.ui\.virtual\.form\.ListItemCell\b=Please use qx.ui.list.List instead.
-\bqx\.util\.Json\b=Please use qx.lang.Json instead.

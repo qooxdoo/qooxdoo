@@ -1,6 +1,6 @@
 {
   "name": "@qooxdoo/framework",
-  "version": "7.0.0-beta",
+  "version": "6.0.0-beta",
   "description": "The JS Framework for Coders",
   "author": "The qooxdoo project",
   "license": "MIT",
@@ -9,11 +9,10 @@
     "type": "git",
     "url": "https://github.com/qooxdoo/qooxdoo"
   },
-  "files": [
-    "LICENSE",
-    "CHANGELOG.md",
-    "README.md",
-    "Manifest.json",
-    "source"
-  ]
+  "devDependencies": {
+    "@qooxdoo/compiler": "^1.0.0-beta-20210126-0913",
+    "nyc": "^15.1.0",
+    "puppeteer": "^5.5.0",
+    "puppeteer-to-istanbul": "^1.4.0"
+  }
 }

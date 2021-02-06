@@ -1,60 +1,80 @@
 {
-  "environment": {
-    "qx.serve.appspath": "/apps/",
-    "qx.serve.docspath": "/"
-  },
   "targets": [
-    {
-      "type": "source",
-      "outputPath": "compiled/source",
-      "bundle": {
-        "include": [
-          "qx.*",
-          "qxWeb",
-          "qxl.*"
-        ]
-      },
-      "babelOptions": {
-        "targets": "edge >=18, chrome >= 73, firefox >= 66"
-      }
-    },
     {
       "type": "build",
       "outputPath": "compiled/build",
-      "deployPath": "apps"
+      "minify": "off",
+      "babelOptions": {
+        "targets": "node >= 10"
+      },
+      "deployPath": "lib",
+      "writeCompileInfo": true
     }
   ],
-  "defaultTarget": "source",
+  "defaultTarget": "build",
   "locales": [
     "en"
   ],
   "libraries": [
     "./framework"
   ],
+  "ignores" : [
+    "XPathResult",
+    "XMLHttpRequest",
+    "XMLSerializer",
+    "XPathEvaluator",
+    "history.*",
+    "ActiveXObject",
+    "DOMParser",
+    "ImageHtml",
+    "alert",
+    "Image"
+  ],
   "applications": [
     {
-      "class": "qxl.apiviewer.Application",
-      "theme": "qxl.apiviewer.Theme",
-      "name": "apiviewer",
-      "title": "API Viewer",
+      "class": "qx.application.Native",
+      "name": "qx_server",
+	  "type": "node",
       "environment": {
-        "qx.icontheme": "Tango",
-        "excludeFromAPIViewer": [
-          "qxl.*"
-        ]
+        "qx.debug": false
       },
       "include": [
-        "qx.*"
+        "qx.core.*",
+        "qx.data.*",
+        "qx.io.*",
+        "qx.lang.*",
+        "qx.locale.*",
+        "qx.log.*",
+        "qx.type.*",
+        "qx.util.*",
+        "qx.dev.unit.TestLoaderBasic",
+        "qx.dev.unit.Sinon"
       ],
       "exclude": [
+        "q",
         "qx.test.*",
-        "qx.module.Blocker",
-        "qx.module.Placement"
+        "qxWeb",
+        "qx.module.*",
+        "qx.dev.unit.TestLoader",
+        "qx.dev.unit.TestLoaderInline",
+        "qx.dev.unit.TestLoaderMobile",
+        "qx.dev.unit.TestLoaderNative",
+        "qx.ui.*",
+        "qx.log.appender.Native",
+        "qx.log.appender.Element",
+        "qx.bom.Stylesheet",
+        "qx.bom.Selector",
+        "qx.bom.MediaQuery",
+        "qx.bom.Flash",
+        "qx.bom.Vml",
+        "qx.bom.client.Html",
+        "qx.bom.client.Plugin",
+        "qx.bom.client.Pdfjs",
+        "qx.event.handler.Pointer",
+        "qx.event.handler.Gesture",
+        "qx.event.handler.PointerCore"
       ]
     }
   ],
-  "sass": {
-    "compiler": "legacy"
-  },
   "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json"
 }

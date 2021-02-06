@@ -1,6 +1,0 @@
-\bsetShowInvalidTooltips\b=setShowInvalidToolTips
-\bgetShowInvalidTooltips\b=getShowInvalidToolTips
-\bresetShowInvalidTooltips\b=resetShowInvalidToolTips
-\bisShowInvalidTooltips\b=isShowInvalidToolTips
-\binitShowInvalidTooltips\b=initShowInvalidToolTips
-\btoggleShowInvalidTooltips\b=toggleShowInvalidToolTips
