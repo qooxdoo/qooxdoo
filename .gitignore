@@ -47,3 +47,4 @@ node_modules/
 npm-debug.log
 
 .nyc*
+/.vscode
