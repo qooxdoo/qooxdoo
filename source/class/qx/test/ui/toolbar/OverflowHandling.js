@@ -274,7 +274,7 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
       var bounds = this.__b3.getBounds();
       this.__container.setWidth(bounds.left + 40);
       this.flush();
-      
+
       var self = this;
       setTimeout(function() {
         self.resume(function() {
@@ -282,13 +282,15 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
           console.log("2: " + JSON.stringify(self.__b2.getBounds()));
           console.log("3: " + JSON.stringify(self.__b3.getBounds()));
 
-          var bounds = self.__b3.getBounds();
+          var bounds = self.__b2.getBounds();
           console.log(JSON.stringify(bounds));
-          self.__container.setWidth(bounds.left + 10);
-          
+          self.__container.setWidth(bounds.left + 40);
+          self.flush();
+
           this.assertEventFired(this.__toolbar, "showItem", function() {
             self.__toolbar.remove(self.__b2);
             self.flush();
+            var i = 10;
           }, function(e) {
             self.assertEquals(self.__b3, e.getData());
             self.assertEquals("visible", self.__b3.getVisibility());

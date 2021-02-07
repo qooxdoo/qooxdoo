@@ -38,7 +38,7 @@ qx.Class.define("qx.test.Theme",
       testExtendTheme: function () {
         qx.Theme.define("qx.test.Theme.themes.A", {
           decorations: {
-            "basic": {
+            "main": {
               style: {}
             }
           }
@@ -51,14 +51,14 @@ qx.Class.define("qx.test.Theme",
 
         var decorationManager = qx.theme.manager.Decoration.getInstance();
         decorationManager.setTheme(qx.test.Theme.themes.B);
-        this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Decorator);
+        this.assertInstance(decorationManager.resolve("main"), qx.ui.decoration.Decorator);
       },
 
 
       testIncludeTheme: function () {
         qx.Theme.define("qx.test.Theme.themes.A", {
           decorations: {
-            "basic": {
+            "main": {
               style: {}
             }
           }
@@ -71,14 +71,14 @@ qx.Class.define("qx.test.Theme",
 
         var decorationManager = qx.theme.manager.Decoration.getInstance();
         decorationManager.setTheme(qx.test.Theme.themes.B);
-        this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Decorator);
+        this.assertInstance(decorationManager.resolve("main"), qx.ui.decoration.Decorator);
       },
 
 
       testIncludeInvalidTheme: function () {
         qx.Theme.define("qx.test.Theme.themes.A", {
           decorations: {
-            "basic": {
+            "main": {
               style: {}
             }
           }
@@ -102,7 +102,7 @@ qx.Class.define("qx.test.Theme",
       testPatchTheme: function () {
         qx.Theme.define("qx.test.Theme.themes.A", {
           decorations: {
-            "basic": {
+            "main": {
               style: {}
             }
           }
@@ -111,7 +111,7 @@ qx.Class.define("qx.test.Theme",
         qx.Theme.define("qx.test.Theme.themes.B", {
           patch: qx.test.Theme.themes.A,
           decorations: {
-            "basic": {
+            "main": {
               style: {}
             }
           }
@@ -119,14 +119,14 @@ qx.Class.define("qx.test.Theme",
 
         var decorationManager = qx.theme.manager.Decoration.getInstance();
         decorationManager.setTheme(qx.test.Theme.themes.B);
-        this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Decorator);
+        this.assertInstance(decorationManager.resolve("main"), qx.ui.decoration.Decorator);
       },
 
 
       testPatchInvalidTheme: function () {
         qx.Theme.define("qx.test.Theme.themes.A", {
           decorations: {
-            "basic": {
+            "main": {
               style: {}
             }
           }
@@ -150,7 +150,7 @@ qx.Class.define("qx.test.Theme",
       testIncludeThemeWithIncludes: function () {
         qx.Theme.define("qx.test.Theme.themes.A", {
           decorations: {
-            "basic": {
+            "main": {
               style: {}
             }
           }
@@ -168,14 +168,14 @@ qx.Class.define("qx.test.Theme",
 
         var decorationManager = qx.theme.manager.Decoration.getInstance();
         decorationManager.setTheme(qx.test.Theme.themes.C);
-        this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Decorator);
+        this.assertInstance(decorationManager.resolve("main"), qx.ui.decoration.Decorator);
       },
 
 
       testDoubleExtend: function () {
         qx.Theme.define("qx.test.Theme.themes.A", {
           decorations: {
-            "basic": {
+            "main": {
               style: {}
             }
           }
@@ -193,14 +193,14 @@ qx.Class.define("qx.test.Theme",
 
         var decorationManager = qx.theme.manager.Decoration.getInstance();
         decorationManager.setTheme(qx.test.Theme.themes.C);
-        this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Decorator);
+        this.assertInstance(decorationManager.resolve("main"), qx.ui.decoration.Decorator);
       },
 
 
       testExtendThemeWithIncludes: function () {
         qx.Theme.define("qx.test.Theme.themes.A", {
           decorations: {
-            "basic": {
+            "main": {
               style: {}
             }
           }
@@ -218,7 +218,7 @@ qx.Class.define("qx.test.Theme",
 
         var decorationManager = qx.theme.manager.Decoration.getInstance();
         decorationManager.setTheme(qx.test.Theme.themes.C);
-        this.assertInstance(decorationManager.resolve("basic"), qx.ui.decoration.Decorator);
+        this.assertInstance(decorationManager.resolve("main"), qx.ui.decoration.Decorator);
       }
     }
   });

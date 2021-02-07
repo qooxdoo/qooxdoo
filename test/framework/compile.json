@@ -24,7 +24,20 @@
   ],
   "defaultTarget": "source",
   "locales": [
-    "en"
+    "cs",
+    "de",
+    "en",
+    "es",
+    "fr",
+    "it",
+    "nb",
+    "nl",
+    "pl",
+    "pt",
+    "ro",
+    "ru",
+    "sl",
+    "sv"
   ],
   "libraries": [
     "../.."
@@ -43,7 +56,8 @@
         "qx.test.*"
       ],
       "exclude": []
-    }  ],
+    }
+  ],
   "sass": {
     "compiler": "legacy"
   },
