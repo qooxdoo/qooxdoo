@@ -1,3 +1,4 @@
+name: When a tag is pushed, send it to all repos
 on:
   push:
     tags:
@@ -29,14 +30,14 @@ jobs:
       repos: ${{ steps.transform.outputs.repos }}
 
   debug:
-    name: Debug results of previous job
+    name: Log needed values for debugging (can be disabled)
     runs-on: ubuntu-latest
     needs:
       - provide_repository_names
     steps:
       - run: |
           echo "repos: ${{ needs.provide_repository_names.outputs.repos }}"
-          echo "ref: $GITHUB_REF"
+          echo "ref: ${{ github.ref }}"
 
   dispatch:
     name: Send repository_dispatch
@@ -53,4 +54,4 @@ jobs:
           token: ${{ secrets.REPOSITORY_DISPATCH }}
           repository: ${{ github.repository_owner }}/${{ matrix.repo }}
           event-type: "push-tag"
-          client-payload: '{ "ref": "$GITHUB_REF" }'
+          client-payload: '{ "ref": "${{ github.ref }}" }'
