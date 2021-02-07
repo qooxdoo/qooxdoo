@@ -17,8 +17,6 @@ jobs:
             } }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - id: get_tag_name
-        run: echo "::set-output name=tag::$(echo $GITHUB_REF | cut -d / -f 3)"
       - id: transform
         run: |
           node << HEREDOC > data.json
@@ -29,7 +27,6 @@ jobs:
           echo "::set-output name=repos::$(cat data.json)"
     outputs:
       repos: ${{ steps.transform.outputs.repos }}
-      tag:   ${{ steps.get_tag_name.outputs.tag }}
 
   debug:
     name: Debug results of previous job
@@ -39,7 +36,7 @@ jobs:
     steps:
       - run: |
           echo "repos: ${{ needs.provide_repository_names.outputs.repos }}"
-          echo "tag: ${{ needs.provide_repository_names.outputs.tag }}"
+          echo "ref: $GITHUB_REF"
 
   dispatch:
     name: Send repository_dispatch
@@ -56,4 +53,4 @@ jobs:
           token: ${{ secrets.REPOSITORY_DISPATCH }}
           repository: ${{ github.repository_owner }}/${{ matrix.repo }}
           event-type: "push-tag"
-          client-payload: '{ "tag": ${{ toJson(needs.provide_repository_names.outputs.tag) }} }'
+          client-payload: '{ "ref": "$GITHUB_REF" }'

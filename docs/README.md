@@ -162,7 +162,7 @@ in the bottom right hand corner of the documentation.
 You can help improve this manual by fixing individual pages (Click on the "Edit
 this page on GitHub" button). For more extensive changes that involve more than
 one page, please clone
-[the documentation repository](https://github.com/qooxdoo/documentation) and do
+[the repository](https://github.com/qooxdoo/qooxdoo) and do
 your edits. Before creating a PR with your changes, make sure to `npm install`
 and `npm test`. This will check your markdown and enforce certain style rules.
 
