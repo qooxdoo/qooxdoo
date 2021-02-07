@@ -1,0 +1,57 @@
+on:
+  push:
+    tags:
+      - "*"
+jobs:
+  provide_repository_names:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v2
+      - uses: octokit/graphql-action@v2.x
+        id: get_repo_names
+        with:
+          query: |
+            query { search(query: "org:${{ github.repository_owner }}", type: REPOSITORY, first: 100) {
+              edges { node { ... on Repository { name } } }
+            } }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - id: get_tag_name
+        run: echo "::set-output name=tag::$(echo $GITHUB_REF | cut -d / -f 3)"
+      - id: transform
+        run: |
+          node << HEREDOC > data.json
+          let d=${{ steps.get_repo_names.outputs.data }};
+          d = d.search.edges.map(item=>item.node.name);
+          console.log(JSON.stringify(d,null,0));
+          HEREDOC
+          echo "::set-output name=repos::$(cat data.json)"
+    outputs:
+      repos: ${{ steps.transform.outputs.repos }}
+      tag:   ${{ steps.get_tag_name.outputs.tag }}
+
+  debug:
+    runs-on: ubuntu-latest
+    needs:
+      - provide_repository_names
+    steps:
+      - run: |
+          echo "repos: ${{ needs.provide_repository_names.outputs.repos }}"
+          echo "tag: ${{ needs.provide_repository_names.outputs.tag }}"
+
+  dispatch:
+    needs:
+      - provide_repository_names
+    if: github.event.base_ref == 'refs/heads/master'
+    strategy:
+      matrix:
+        repo: ${{ fromJson(needs.provide_repository_names.outputs.repos) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v1
+        with:
+          token: ${{ secrets.REPOSITORY_DISPATCH }}
+          repository: ${{ github.repository_owner }}/${{ matrix.repo }}
+          event-type: "push-tag"
+          client-payload: '{ "tag": ${{ toJson(needs.provide_repository_names.outputs.tag) }} }'
