@@ -4,6 +4,7 @@ on:
       - "*"
 jobs:
   provide_repository_names:
+    name: Get repo names in ${{ github.repository_owner }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v2
@@ -31,6 +32,7 @@ jobs:
       tag:   ${{ steps.get_tag_name.outputs.tag }}
 
   debug:
+    name: Debug results of previous job
     runs-on: ubuntu-latest
     needs:
       - provide_repository_names
@@ -40,6 +42,7 @@ jobs:
           echo "tag: ${{ needs.provide_repository_names.outputs.tag }}"
 
   dispatch:
+    name: Send repository_dispatch
     needs:
       - provide_repository_names
     if: github.event.base_ref == 'refs/heads/master'
@@ -48,8 +51,7 @@ jobs:
         repo: ${{ fromJson(needs.provide_repository_names.outputs.repos) }}
     runs-on: ubuntu-latest
     steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v1
+      - uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.REPOSITORY_DISPATCH }}
           repository: ${{ github.repository_owner }}/${{ matrix.repo }}
