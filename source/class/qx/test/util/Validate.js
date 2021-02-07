@@ -112,32 +112,32 @@ qx.Class.define("qx.test.util.Validate",
     testRange : function()
     {
       //The value is valid if it's in the range
-      qx.util.Validate.range(2,4)(3);
+      qx.util.Validate.range(2, 4)(3);
 
       //ValidationError raised if the value isn't in the range
       this.assertException(function() {
-        qx.util.Validate.range(2,4)(5);
+        qx.util.Validate.range(2, 4)(5);
       }, qx.core.ValidationError);
 
       // ValidationError raised with a custom message
       this.assertException(function() {
-        qx.util.Validate.range(2,4,"Custom Error Message")(5);
+        qx.util.Validate.range(2, 4, "Custom Error Message")(5);
       }, qx.core.ValidationError, "Custom Error Message");
     },
 
     testInArray : function()
     {
       //The value is valid if it's in the range
-      qx.util.Validate.inArray([2,3])(3);
+      qx.util.Validate.inArray([2, 3])(3);
 
       //ValidationError raised if the value isn't in array
       this.assertException(function() {
-        qx.util.Validate.inArray([2,3])(4);
+        qx.util.Validate.inArray([2, 3])(4);
       }, qx.core.ValidationError);
 
       // ValidationError raised with a custom message
       this.assertException(function() {
-        qx.util.Validate.inArray([2,3],"Custom Error Message")(4);
+        qx.util.Validate.inArray([2, 3], "Custom Error Message")(4);
       }, qx.core.ValidationError, "Custom Error Message");
     },
 
@@ -158,7 +158,7 @@ qx.Class.define("qx.test.util.Validate",
 
       // ValidationError raised with a custom message
       this.assertException(function() {
-        qx.util.Validate.regExp(/^\dand\d$/,"Custom Error Message")("oneandone");
+        qx.util.Validate.regExp(/^\dand\d$/, "Custom Error Message")("oneandone");
       }, qx.core.ValidationError, "Custom Error Message");
     }
   }

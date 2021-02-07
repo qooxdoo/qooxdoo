@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
   {
     this.base(arguments);
 
-    if(typeof value != undefined) {
+    if (typeof value != undefined) {
       this._state = value;
     }
 
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.mobile.form.CheckBox",
      * @param value {Boolean} the new value of the checkbox
      */
     _setValue : function(value) {
-      if(value == true) {
+      if (value == true) {
         this.addCssClass("checked");
       } else {
         this.removeCssClass("checked");

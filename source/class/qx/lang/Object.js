@@ -138,7 +138,6 @@ qx.Bootstrap.define("qx.lang.Object",
           }
         }
         return clone;
-
       } else if (qx.lang.Type.isArray(source)) {
         var clone = [];
         for (var i=0; i < source.length; i++) {
@@ -149,7 +148,6 @@ qx.Bootstrap.define("qx.lang.Object",
           }
         };
         return clone;
-
       }
       return source;
     },
@@ -162,7 +160,7 @@ qx.Bootstrap.define("qx.lang.Object",
    * @param object2 {Object} the object that is compared with
    * @return {Boolean} The result of the comparison
    */
-    equals : function(object1, object2){
+    equals : function(object1, object2) {
       return qx.lang.Object.__equals(object1, object2, [], []);
     },
 
@@ -176,19 +174,19 @@ qx.Bootstrap.define("qx.lang.Object",
     * @return {Boolean} The result of the comparison
     *
     */
-    __equals : function(object1, object2, aStack, bStack){
+    __equals : function(object1, object2, aStack, bStack) {
       // Identical objects are equal. `0 === -0`, but they aren't identical.
       // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
-      if (object1 === object2){
+      if (object1 === object2) {
         return object1 !== 0 || 1 / object1 == 1 / object2;
       }
       // A strict comparison is necessary because `null == undefined`.
-      if (object1 == null || object2 == null){
+      if (object1 == null || object2 == null) {
         return object1 === object2;
       }
       // Compare `[[Class]]` names.
       var className = Object.prototype.toString.call(object1);
-      if (className != Object.prototype.toString.call(object2)){ return false; }
+      if (className != Object.prototype.toString.call(object2)) { return false; }
       switch (className) {
         // Strings, numbers, dates, and booleans are compared by value.
         case '[object String]':
@@ -212,14 +210,14 @@ qx.Bootstrap.define("qx.lang.Object",
             object1.multiline == object2.multiline &&
             object1.ignoreCase == object2.ignoreCase;
       }
-      if (typeof object1 != 'object' || typeof object2 != 'object'){ return false; }
+      if (typeof object1 != 'object' || typeof object2 != 'object') { return false; }
       // Assume equality for cyclic structures. The algorithm for detecting cyclic
       // structures is adapted from ES 5.1 section 15.12.3, abstract operation `JO`.
       var length = aStack.length;
       while (length--) {
         // Linear search. Performance is inversely proportional to the number of
         // unique nested structures.
-        if (aStack[length] == object1){ return bStack[length] == object2; }
+        if (aStack[length] == object1) { return bStack[length] == object2; }
       }
       // Objects with different constructors are not equivalent, but `Object`s
       // from different frames are.
@@ -242,7 +240,7 @@ qx.Bootstrap.define("qx.lang.Object",
         if (result) {
           // Deep compare the contents, ignoring non-numeric properties.
           while (size--) {
-            if (!(result = qx.lang.Object.__equals(object1[size], object2[size], aStack, bStack))){ break; }
+            if (!(result = qx.lang.Object.__equals(object1[size], object2[size], aStack, bStack))) { break; }
           }
         }
       } else {
@@ -252,13 +250,13 @@ qx.Bootstrap.define("qx.lang.Object",
             // Count the expected number of properties.
             size++;
             // Deep compare each member.
-            if (!(result = Object.prototype.hasOwnProperty.call(object2, key) && qx.lang.Object.__equals(object1[key], object2[key], aStack, bStack))){ break; }
+            if (!(result = Object.prototype.hasOwnProperty.call(object2, key) && qx.lang.Object.__equals(object1[key], object2[key], aStack, bStack))) { break; }
           }
         }
         // Ensure that both objects contain the same number of properties.
         if (result) {
           for (key in object2) {
-            if (Object.prototype.hasOwnProperty.call(object2, key) && !(size--)){ break; }
+            if (Object.prototype.hasOwnProperty.call(object2, key) && !(size--)) { break; }
           }
           result = !size;
         }
@@ -361,7 +359,7 @@ qx.Bootstrap.define("qx.lang.Object",
       {
         if (qx.core.Environment.get("qx.debug"))
         {
-          switch(typeof array[i])
+          switch (typeof array[i])
           {
             case "object":
             case "function":

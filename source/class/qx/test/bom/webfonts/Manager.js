@@ -65,7 +65,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
       };
 
 
-      for (var i=0,l=document.styleSheets.length; i<l; i++) {
+      for (var i=0, l=document.styleSheets.length; i<l; i++) {
         var sheet = document.styleSheets[i];
         if (sheet.cssText) {
           if (helper(sheet.cssText)) {
@@ -73,7 +73,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
           }
         }
         else if (sheet.cssRules) {
-          for (var j=0,m=sheet.cssRules.length; j<m; j++) {
+          for (var j=0, m=sheet.cssRules.length; j<m; j++) {
             if (helper(sheet.cssRules[j].cssText)) {
               return true;
             }
@@ -135,7 +135,6 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
           var foundRule = this.__findRule(this.__fontDefinitions.invalid.family);
           this.assertFalse(foundRule, "@font-face rule for invalid font found in document styles!");
         }, that);
-
       }, 2000);
 
       this.wait(3000);
@@ -157,7 +156,6 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
           var foundRule = this.__findRule(this.__fontDefinitions.fontawesome.family);
           this.assertTrue(foundRule, "@font-face rule for custom comparisonString font not found in document styles!");
         }, that);
-
       }, 2000);
 
       this.wait(3000);
@@ -177,12 +175,11 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
           var foundRule = false;
           // it is browser dependent which type of font is loaded (woff, eot or ttf) so we have to
           // check all given types, stopping the loop if the font rule was found
-          for(var n=0; n<this.__fontDefinitions.finelinerScript.source.length && foundRule === false; n++) {
+          for (var n=0; n<this.__fontDefinitions.finelinerScript.source.length && foundRule === false; n++) {
             foundRule = this.__findRule(this.__fontDefinitions.finelinerScript.source[n] + "\\?1\\.0");
           }
           this.assertTrue(foundRule, "@font-face rule for custom version not found in document styles!");
         }, this);
-
       }, this, 2000);
 
       this.wait(3000);

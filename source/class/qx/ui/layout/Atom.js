@@ -249,7 +249,7 @@ qx.Class.define("qx.ui.layout.Atom",
           }
 
           var align = "middle";
-          if(iconPosition == "top-left" || iconPosition == "top-right"){
+          if (iconPosition == "top-left" || iconPosition == "top-right") {
             align = "top";
           } else if (iconPosition == "bottom-left" || iconPosition == "bottom-right") {
             align = "bottom";
@@ -291,8 +291,10 @@ qx.Class.define("qx.ui.layout.Atom",
       }
       else
       {
-        var minWidth=0, width=0;
-        var minHeight=0, height=0;
+        var minWidth=0, 
+width=0;
+        var minHeight=0, 
+height=0;
 
         var iconPosition = this.getIconPosition();
         var gap = this.getGap();

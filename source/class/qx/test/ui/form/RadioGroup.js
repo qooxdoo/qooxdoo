@@ -23,7 +23,7 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
   {
     setUp : function()
     {
-      this.__radioGroup = new qx.ui.form.RadioGroup;
+      this.__radioGroup = new qx.ui.form.RadioGroup();
       this.__radioGroup.setAllowEmptySelection(true);
 
       this.__radioButtons = [];
@@ -55,7 +55,7 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
 
     testHiddenRadioButtons : function()
     {
-      var composite = new qx.ui.container.Composite;
+      var composite = new qx.ui.container.Composite();
       for (var i=0, j=this.__radioButtons.length; i<j; i++) {
         composite.add(this.__radioButtons[i]);
       }
@@ -63,7 +63,7 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
       this.getRoot().add(composite, { left : 100, top  : 50 });
 
       // check the 'modelSelection' with all radio buttons visible
-      this.__radioGroup.setModelSelection( [this.__radioButtons[1].getModel()] );
+      this.__radioGroup.setModelSelection([this.__radioButtons[1].getModel()]);
 
       this.assertEquals(this.__radioButtons[1].getModel(), this.__radioGroup.getModelSelection().getItem(0), "Model selection does not work correctly!");
       this.assertTrue(this.__radioGroup.isSelected(this.__radioButtons[1]), "Wrong radio button selected!");
@@ -73,7 +73,7 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
         this.__radioButtons[i].exclude();
       }
 
-      this.__radioGroup.setModelSelection( [this.__radioButtons[0].getModel()] );
+      this.__radioGroup.setModelSelection([this.__radioButtons[0].getModel()]);
       this.assertEquals(this.__radioButtons[0].getModel(), this.__radioGroup.getModelSelection().getItem(0), "Model selection does not work correctly!");
       this.assertTrue(this.__radioGroup.isSelected(this.__radioButtons[0]), "Hidden radio button not selected!");
       composite.destroy();
@@ -109,7 +109,7 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
       });
 
       var rg;
-      var testObj1, testObj2, testObj3
+      var testObj1, testObj2, testObj3;
 
       rg = new qx.ui.form.RadioGroup();
       rg.set(
@@ -132,7 +132,7 @@ qx.Class.define("qx.test.ui.form.RadioGroup",
       this.assertFalse(testObj3.getLocked());
 
       // Select the second one.
-      rg.setSelection( [ testObj2 ] );
+      rg.setSelection([ testObj2 ]);
 
       // Ensure it's now on and the other ones are off
       this.assertTrue(testObj2.getLocked());

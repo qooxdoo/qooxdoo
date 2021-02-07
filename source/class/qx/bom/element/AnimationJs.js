@@ -302,7 +302,6 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
             }
 
             delta[i][name] = qx.util.ColorUtil.rgbToHexString(stepValue);
-
           } else if (!isNaN(parseFloat(nItem))) {
             var x = calculationIndex / stepsToNext;
             delta[i][name] = this.__getNextValue(nItem, last[name], timing, x);
@@ -535,7 +534,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
 
       var stepTime = duration * minDiff / 100;
       while (stepTime > this.__maxStepTime) {
-        stepTime = stepTime / 2;
+        stepTime /= 2;
       }
       return Math.round(stepTime);
     },
@@ -551,7 +550,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       for (var i=0; i < keys.length; i++) {
         keys[i] = parseInt(keys[i], 10);
       };
-      keys.sort(function(a,b) {return a-b;});
+      keys.sort(function(a, b) { return a-b; });
       return keys;
     }
   }

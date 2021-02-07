@@ -235,7 +235,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
       for (var i = 0, l = changedTouches.length; i < l; i++) {
         var touch = changedTouches[i];
 
-        var touchTarget = domEvent.view.document.elementFromPoint(touch.clientX,touch.clientY) || domEvent.target;
+        var touchTarget = domEvent.view.document.elementFromPoint(touch.clientX, touch.clientY) || domEvent.target;
 
         var touchProps = {
           clientX: touch.clientX,
@@ -438,7 +438,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         qx.event.type.dom.Pointer.normalize(gestureEvent);
         try {
           gestureEvent.srcElement = target;
-        }catch(ex) {
+        } catch (ex) {
           // Nothing - strict mode prevents writing to read only properties
         }
       }
@@ -460,7 +460,7 @@ qx.Bootstrap.define("qx.event.handler.PointerCore", {
         // ensure compatibility with native events for IE8
         try {
           domEvent.srcElement = target;
-        }catch(ex) {
+        } catch (ex) {
           // Nothing - strict mode prevents writing to read only properties
         }
 

@@ -43,7 +43,7 @@ qx.Class.define("qx.test.event.GlobalEventMonitors",
 
     "test: add and call global event monitors" : function()
     {
-      qx.event.Manager.addGlobalEventMonitor(function(target, event){
+      qx.event.Manager.addGlobalEventMonitor(function(target, event) {
         this.assertEquals(this, target);
         this.assertEquals("test", event.getType());
         this.called = true;
@@ -55,8 +55,8 @@ qx.Class.define("qx.test.event.GlobalEventMonitors",
     "test: remove global event monitor" : function()
     {
       this.value = false;
-      var fn1 = function(){ this.value = true};
-      var fn2 = function(){ this.value = false};
+      var fn1 = function() { this.value = true; };
+      var fn2 = function() { this.value = false; };
       qx.event.Manager.addGlobalEventMonitor(fn1, this);
       this.fireEvent("test");
       this.assertTrue(this.value, "Value should be true after adding fn1");

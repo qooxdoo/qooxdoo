@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.form.List",
      * @return {qx.ui.container.Composite} Container for the list item widgets
      */
     _createListItemContainer : function() {
-      return new qx.ui.container.Composite;
+      return new qx.ui.container.Composite();
     },
 
     /*
@@ -294,7 +294,7 @@ qx.Class.define("qx.ui.form.List",
       this._applySpacing(this.getSpacing());
       
       // dispose old layout
-      if(oldLayout) {
+      if (oldLayout) {
         oldLayout.dispose();
       }
     },
@@ -416,7 +416,7 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Reset string after a second of non pressed key
-      if (((new Date).valueOf() - this.__lastKeyPress) > 1000) {
+      if (((new Date()).valueOf() - this.__lastKeyPress) > 1000) {
         this.__pressedString = "";
       }
 
@@ -432,7 +432,7 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Store timestamp
-      this.__lastKeyPress = (new Date).valueOf();
+      this.__lastKeyPress = (new Date()).valueOf();
     },
 
     /**
@@ -504,7 +504,6 @@ qx.Class.define("qx.ui.form.List",
               label = qx.bom.element.Attribute.get(labelNode, "text");
             }
           }
-
         } else {
           label = item.getLabel();
         }

@@ -747,7 +747,6 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       element.id = value;
       // Register the widget
       qx.ui.mobile.core.Widget.registerWidget(this);
-
     },
 
     /**
@@ -756,17 +755,17 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * @param old {Boolean?}, the old value of the widget
      *
      */
-    _applyEnabled : function(value,old)
+    _applyEnabled : function(value, old)
     {
-      if(value)
+      if (value)
       {
         this.removeCssClass("disabled");
-        this._setStyle('anonymous',this.getAnonymous());
+        this._setStyle('anonymous', this.getAnonymous());
       }
       else
       {
         this.addCssClass("disabled");
-        this._setStyle('anonymous',true);
+        this._setStyle('anonymous', true);
       }
     },
 
@@ -1177,11 +1176,11 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      */
     _transform : function() {
       var propertyValue = "";
-      if(this.getRotation() != null) {
+      if (this.getRotation() != null) {
         propertyValue = propertyValue + "rotate("+this.getRotation()+"deg) ";
       }
 
-      if(this.getScaleX() != null && this.getScaleY() != null) {
+      if (this.getScaleX() != null && this.getScaleY() != null) {
         propertyValue = propertyValue + "scale("+this.getScaleX()+","+this.getScaleY()+") ";
       }
 
@@ -1199,7 +1198,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
         }
       }
 
-      qx.bom.element.Style.set(this.getContainerElement(),"transform", propertyValue);
+      qx.bom.element.Style.set(this.getContainerElement(), "transform", propertyValue);
     },
 
 
@@ -1365,7 +1364,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * @param cssClasses {String[]} The CSS classes to add, wrapped by an array.
      */
     addCssClasses : function(cssClasses) {
-      if(cssClasses){
+      if (cssClasses) {
         qx.bom.element.Class.addClasses(this.getContainerElement(), cssClasses);
         this._domUpdated();
       }
@@ -1391,7 +1390,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
      * @param cssClasses {String[]} The CSS classes to remove from widget.
      */
     removeCssClasses : function(cssClasses) {
-       if(cssClasses){
+       if (cssClasses) {
          qx.bom.element.Class.removeClasses(this.getContainerElement(), cssClasses);
          this._domUpdated();
        }
@@ -1436,7 +1435,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
       if (value == "excluded") {
         this.addCssClass("exclude");
       }
-      else if(value == "visible")
+      else if (value == "visible")
       {
         this.removeCssClass("exclude");
         this._setStyle("visibility", "visible");
@@ -1656,7 +1655,7 @@ qx.Class.define("qx.ui.mobile.core.Widget",
     }
 
     this.__layoutParent = this.__containerElement = this.__contentElement = null;
-    if(this.__layoutManager) {
+    if (this.__layoutManager) {
       this.__layoutManager.dispose();
     }
     this.__layoutManager = null;

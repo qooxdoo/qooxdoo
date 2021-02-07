@@ -117,7 +117,7 @@ qx.Class.define("qx.theme.manager.Font",
       if (theme !== null && theme.fonts[value])
       {
         var font = this.__getFontClass(theme.fonts[value]);
-        var fo = (new font);
+        var fo = (new font());
 
         // Inject information about custom charcter set tests before we apply the
         // complete blob in one.
@@ -155,7 +155,7 @@ qx.Class.define("qx.theme.manager.Font",
       if (theme !== null && value && theme.fonts[value])
       {
         var font = this.__getFontClass(theme.fonts[value]);
-        var fo = (new font);
+        var fo = (new font());
 
         // Inject information about custom charcter set tests before we apply the
         // complete blob in one.
@@ -220,7 +220,7 @@ qx.Class.define("qx.theme.manager.Font",
           }
 
           var font = this.__getFontClass(source[key]);
-          var fo = (new font);
+          var fo = (new font());
 
           // Inject information about custom charcter set tests before we apply the
           // complete blob in one.

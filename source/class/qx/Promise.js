@@ -100,7 +100,7 @@ qx.Class.define("qx.Promise", {
             } else if (reason && !(reason instanceof Error)) {
               self.error("Calling reject with non-error object, createdAt=" + JSON.stringify(self.$$createdAt || null));
             }
-            reject.apply(this, args)
+            reject.apply(this, args);
           });
         };
       }
@@ -990,10 +990,8 @@ qx.Class.define("qx.Promise", {
       args.forEach(function(arg) {
         if (arg instanceof qx.data.Array) {
           dest.push(arg.toArray());
-
         } else if (arg instanceof qx.Promise) {
           dest.push(arg.toPromise());
-
         } else {
           dest.push(arg);
         }
@@ -1083,38 +1081,38 @@ qx.Class.define("qx.Promise", {
    * bluebird build version 3.4.5
    * Features enabled: core, race, call_get, generators, map, nodeify, promisify, props, reduce, settle, some, using, timers, filter, any, each
    */
-  !function(e){
+  !(function(e) {
     qx.Promise.__attachBluebird(e());
-  }
-  (function(){
-    var define,module,exports;
-    return (function e(t,n,r){
-      function s(o,u){
-        if(!n[o]){
-          if(!t[o]){
+  })
+  (function() {
+    var define, module, exports;
+    return (function e(t, n, r) {
+      function s(o, u) {
+        if (!n[o]) {
+          if (!t[o]) {
             var a=typeof _dereq_=="function"&&_dereq_;
-            if(!u&&a)
-              return a(o,!0);
-            if(i)
-              return i(o,!0);
+            if (!u&&a)
+              { return a(o, !0); }
+            if (i)
+              { return i(o, !0); }
             var f=new Error("Cannot find module '"+o+"'");
-            throw f.code="MODULE_NOT_FOUND",f
+            throw f.code="MODULE_NOT_FOUND", f;
           }
           var l=n[o]={exports:{}};
-          t[o][0].call(l.exports, function(e){
+          t[o][0].call(l.exports, function(e) {
             var n=t[o][1][e];
-            return s(n?n:e)
-          },l,l.exports,e,t,n,r)
+            return s(n?n:e);
+          }, l, l.exports, e, t, n, r);
         }
-        return n[o].exports
+        return n[o].exports;
       }
       var i=typeof _dereq_=="function"&&_dereq_;
-      for(var o=0;o<r.length;o++)
-        s(r[o]);
-      return s
+      for (var o=0; o<r.length; o++)
+        { s(r[o]); }
+      return s;
     })({
       1:[
-        function(_dereq_,module,exports){
+        function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             var SomePromiseArray = Promise._SomePromiseArray;
@@ -1134,13 +1132,11 @@ qx.Class.define("qx.Promise", {
             Promise.prototype.any = function () {
               return any(this);
             };
-
           };
-
-        },{}],2:[function(_dereq_,module,exports){
+        }, {}], 2:[function(_dereq_, module, exports) {
           "use strict";
           var firstLineError;
-          try {throw new Error(); } catch (e) {firstLineError = e;}
+          try { throw new Error(); } catch (e) { firstLineError = e; }
           var schedule = _dereq_("./schedule");
           var Queue = _dereq_("./queue");
           var util = _dereq_("./util");
@@ -1204,13 +1200,13 @@ qx.Class.define("qx.Promise", {
               setTimeout(function() {
                 fn(arg);
               }, 0);
-            } else try {
+            } else { try {
               this._schedule(function() {
                 fn(arg);
               });
             } catch (e) {
               throw new Error("No async scheduler available\u000a\u000a    See http://goo.gl/MqrFmX\u000a");
-            }
+            } }
           };
 
           function AsyncInvokeLater(fn, receiver, arg) {
@@ -1304,8 +1300,7 @@ qx.Class.define("qx.Promise", {
 
           module.exports = Async;
           module.exports.firstLineError = firstLineError;
-
-        },{"./queue":26,"./schedule":29,"./util":36}],3:[function(_dereq_,module,exports){
+        }, {"./queue":26, "./schedule":29, "./util":36}], 3:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL, tryConvertToPromise, debug) {
             var calledBind = false;
@@ -1325,7 +1320,7 @@ qx.Class.define("qx.Promise", {
             };
 
             var bindingRejected = function(e, context) {
-              if (!context.promiseRejectionQueued) this._reject(e);
+              if (!context.promiseRejectionQueued) { this._reject(e); }
             };
 
             Promise.prototype.bind = function (thisArg) {
@@ -1373,21 +1368,19 @@ qx.Class.define("qx.Promise", {
               return Promise.resolve(value).bind(thisArg);
             };
           };
-
-        },{}],4:[function(_dereq_,module,exports){
+        }, {}], 4:[function(_dereq_, module, exports) {
           "use strict";
           var old;
-          if (typeof Promise !== "undefined") old = Promise;
+          if (typeof Promise !== "undefined") { old = Promise; }
           function noConflict() {
-            try { if (Promise === bluebird) Promise = old; }
+            try { if (Promise === bluebird) { Promise = old; } }
             catch (e) {}
             return bluebird;
           }
           var bluebird = _dereq_("./promise")();
           bluebird.noConflict = noConflict;
           module.exports = bluebird;
-
-        },{"./promise":22}],5:[function(_dereq_,module,exports){
+        }, {"./promise":22}], 5:[function(_dereq_, module, exports) {
           "use strict";
           var cr = Object.create;
           if (cr) {
@@ -1440,7 +1433,7 @@ qx.Class.define("qx.Promise", {
                   cache[" size"]++;
                   if (cache[" size"] > 512) {
                     var keys = Object.keys(cache);
-                    for (var i = 0; i < 256; ++i) delete cache[keys[i]];
+                    for (var i = 0; i < 256; ++i) { delete cache[keys[i]]; }
                     cache[" size"] = keys.length - 256;
                   }
                 }
@@ -1458,7 +1451,7 @@ qx.Class.define("qx.Promise", {
 
             function ensureMethod(obj, methodName) {
               var fn;
-              if (obj != null) fn = obj[methodName];
+              if (obj != null) { fn = obj[methodName]; }
               if (typeof fn !== "function") {
                 var message = "Object " + util.classString(obj) + " has no method '" +
                 util.toString(methodName) + "'";
@@ -1473,7 +1466,7 @@ qx.Class.define("qx.Promise", {
               return fn.apply(obj, this);
             }
             Promise.prototype.call = function (methodName) {
-              var args = [].slice.call(arguments, 1);;
+              var args = [].slice.call(arguments, 1); ;
               if (!true) {
                 if (canEvaluate) {
                   var maybeCaller = getMethodCaller(methodName);
@@ -1492,7 +1485,7 @@ qx.Class.define("qx.Promise", {
             }
             function indexedGetter(obj) {
               var index = +this;
-              if (index < 0) index = Math.max(0, index + obj.length);
+              if (index < 0) { index = Math.max(0, index + obj.length); }
               return obj[index];
             }
             Promise.prototype.get = function (propertyName) {
@@ -1511,8 +1504,7 @@ qx.Class.define("qx.Promise", {
               return this._then(getter, undefined, undefined, propertyName, undefined);
             };
           };
-
-        },{"./util":36}],6:[function(_dereq_,module,exports){
+        }, {"./util":36}], 6:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, PromiseArray, apiRejection, debug) {
             var util = _dereq_("./util");
@@ -1521,7 +1513,7 @@ qx.Class.define("qx.Promise", {
             var async = Promise._async;
 
             Promise.prototype["break"] = Promise.prototype.cancel = function() {
-              if (!debug.cancellation()) return this._warn("cancellation is disabled");
+              if (!debug.cancellation()) { return this._warn("cancellation is disabled"); }
 
               var promise = this;
               var child = promise;
@@ -1544,7 +1536,7 @@ qx.Class.define("qx.Promise", {
                   }
                   break;
                 } else {
-                  if (promise._isFollowing()) promise._followee().cancel();
+                  if (promise._isFollowing()) { promise._followee().cancel(); }
                   promise._setWillBeCancelled();
                   child = promise;
                   promise = parent;
@@ -1583,13 +1575,13 @@ qx.Class.define("qx.Promise", {
             };
 
             Promise.prototype._cancel = function() {
-              if (!this._isCancellable()) return;
+              if (!this._isCancellable()) { return; }
               this._setCancelled();
               async.invoke(this._cancelPromises, this, undefined);
             };
 
             Promise.prototype._cancelPromises = function() {
-              if (this._length() > 0) this._settlePromises();
+              if (this._length() > 0) { this._settlePromises(); }
             };
 
             Promise.prototype._unsetOnCancel = function() {
@@ -1640,10 +1632,8 @@ qx.Class.define("qx.Promise", {
             Promise.prototype._resultCancelled = function() {
               this.cancel();
             };
-
           };
-
-        },{"./util":36}],7:[function(_dereq_,module,exports){
+        }, {"./util":36}], 7:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(NEXT_FILTER) {
             var util = _dereq_("./util");
@@ -1686,8 +1676,7 @@ qx.Class.define("qx.Promise", {
 
             return catchFilter;
           };
-
-        },{"./es5":13,"./util":36}],8:[function(_dereq_,module,exports){
+        }, {"./es5":13, "./util":36}], 8:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             var longStackTraces = false;
@@ -1695,7 +1684,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype._promiseCreated = function() {};
             Promise.prototype._pushContext = function() {};
-            Promise.prototype._popContext = function() {return null;};
+            Promise.prototype._popContext = function() { return null; };
             Promise._peekContext = Promise.prototype._peekContext = function() {};
 
             function Context() {
@@ -1719,7 +1708,7 @@ qx.Class.define("qx.Promise", {
             };
 
             function createContext() {
-              if (longStackTraces) return new Context();
+              if (longStackTraces) { return new Context(); }
             }
 
             function peekContext() {
@@ -1752,13 +1741,12 @@ qx.Class.define("qx.Promise", {
               Promise._peekContext = Promise.prototype._peekContext = peekContext;
               Promise.prototype._promiseCreated = function() {
                 var ctx = this._peekContext();
-                if (ctx && ctx._promiseCreated == null) ctx._promiseCreated = this;
+                if (ctx && ctx._promiseCreated == null) { ctx._promiseCreated = this; }
               };
             };
             return Context;
           };
-
-        },{}],9:[function(_dereq_,module,exports){
+        }, {}], 9:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, Context) {
             var getDomain = Promise._getDomain;
@@ -1797,7 +1785,7 @@ qx.Class.define("qx.Promise", {
             };
 
             Promise.prototype._ensurePossibleRejectionHandled = function () {
-              if ((this._bitField & 524288) !== 0) return;
+              if ((this._bitField & 524288) !== 0) { return; }
               this._setRejectionIsUnhandled();
               async.invokeLater(this._notifyUnhandledRejection, this, undefined);
             };
@@ -1955,7 +1943,7 @@ qx.Class.define("qx.Promise", {
                 return function(name) {
                   var methodName = "on" + name.toLowerCase();
                   var method = util.global[methodName];
-                  if (!method) return false;
+                  if (!method) { return false; }
                   method.apply(util.global, [].slice.call(arguments, 1));
                   return true;
                 };
@@ -2091,7 +2079,7 @@ qx.Class.define("qx.Promise", {
             }
 
             function cancellationAttachCancellationCallback(onCancel) {
-              if (!this._isCancellable()) return this;
+              if (!this._isCancellable()) { return this; }
 
               var previousOnCancel = this._onCancel();
               if (previousOnCancel !== undefined) {
@@ -2161,7 +2149,7 @@ qx.Class.define("qx.Promise", {
               if (canAttachTrace(error)) {
                 var trace = this._trace;
                 if (trace !== undefined) {
-                  if (ignoreSelf) trace = trace._parent;
+                  if (ignoreSelf) { trace = trace._parent; }
                 }
                 if (trace !== undefined) {
                   trace.attachExtraTrace(error);
@@ -2178,10 +2166,10 @@ qx.Class.define("qx.Promise", {
                 parent) {
               if (returnValue === undefined && promiseCreated !== null &&
                   wForgottenReturn) {
-                if (parent !== undefined && parent._returnedNonUndefined()) return;
-                if ((promise._bitField & 65535) === 0) return;
+                if (parent !== undefined && parent._returnedNonUndefined()) { return; }
+                if ((promise._bitField & 65535) === 0) { return; }
 
-                if (name) name = name + " ";
+                if (name) { name += " "; }
                 var handlerLine = "";
                 var creatorLine = "";
                 if (promiseCreated._trace) {
@@ -2202,7 +2190,6 @@ qx.Class.define("qx.Promise", {
                   if (stack.length > 0) {
                     var firstUserLine = stack[0];
                     for (var i = 0; i < traceLines.length; ++i) {
-
                       if (traceLines[i] === firstUserLine) {
                         if (i > 0) {
                           creatorLine = "\n" + traceLines[i - 1];
@@ -2210,7 +2197,6 @@ qx.Class.define("qx.Promise", {
                         break;
                       }
                     }
-
                   }
                 }
                 var msg = "a promise was created in a " + name +
@@ -2224,12 +2210,12 @@ qx.Class.define("qx.Promise", {
             function deprecated(name, replacement) {
               var message = name +
               " is deprecated and will be removed in a future version.";
-              if (replacement) message += " Use " + replacement + " instead.";
+              if (replacement) { message += " Use " + replacement + " instead."; }
               return warn(message);
             }
 
             function warn(message, shouldUseOwnTrace, promise) {
-              if (!config.warnings) return;
+              if (!config.warnings) { return; }
               var warning = new Warning(message);
               var ctx;
               if (shouldUseOwnTrace) {
@@ -2299,7 +2285,7 @@ qx.Class.define("qx.Promise", {
               var ret = [];
               for (var i = 0; i < stack.length; ++i) {
                 var line = stack[i];
-                var isTraceLine = "    (No stack trace)" === line ||
+                var isTraceLine = line === "    (No stack trace)" ||
                 stackFramePattern.test(line);
                 var isInternalFrame = isTraceLine && shouldIgnore(line);
                 if (isTraceLine && !isInternalFrame) {
@@ -2316,7 +2302,7 @@ qx.Class.define("qx.Promise", {
               var stack = error.stack.replace(/\s+$/g, "").split("\n");
               for (var i = 0; i < stack.length; ++i) {
                 var line = stack[i];
-                if ("    (No stack trace)" === line || stackFramePattern.test(line)) {
+                if (line === "    (No stack trace)" || stackFramePattern.test(line)) {
                   break;
                 }
               }
@@ -2394,7 +2380,7 @@ qx.Class.define("qx.Promise", {
                       var newStr = JSON.stringify(obj);
                       str = newStr;
                     }
-                    catch(e) {
+                    catch (e) {
 
                     }
                   }
@@ -2430,7 +2416,7 @@ qx.Class.define("qx.Promise", {
             }
 
             function setBounds(firstLineError, lastLineError) {
-              if (!longStackTracesIsSupported()) return;
+              if (!longStackTracesIsSupported()) { return; }
               var firstStackLines = firstLineError.stack.split("\n");
               var lastStackLines = lastLineError.stack.split("\n");
               var firstIndex = -1;
@@ -2459,7 +2445,7 @@ qx.Class.define("qx.Promise", {
               }
 
               shouldIgnore = function(line) {
-                if (bluebirdFramePattern.test(line)) return true;
+                if (bluebirdFramePattern.test(line)) { return true; }
                 var info = parseLineInfo(line);
                 if (info) {
                   if (info.fileName === firstFileName &&
@@ -2476,14 +2462,14 @@ qx.Class.define("qx.Promise", {
               this._promisesCreated = 0;
               var length = this._length = 1 + (parent === undefined ? 0 : parent._length);
               captureStackTrace(this, CapturedTrace);
-              if (length > 32) this.uncycle();
+              if (length > 32) { this.uncycle(); }
             }
             util.inherits(CapturedTrace, Error);
             Context.CapturedTrace = CapturedTrace;
 
             CapturedTrace.prototype.uncycle = function() {
               var length = this._length;
-              if (length < 2) return;
+              if (length < 2) { return; }
               var nodes = [];
               var stackToIndex = {};
 
@@ -2530,7 +2516,7 @@ qx.Class.define("qx.Promise", {
             };
 
             CapturedTrace.prototype.attachExtraTrace = function(error) {
-              if (error.__stackCleaned__) return;
+              if (error.__stackCleaned__) { return; }
               this.uncycle();
               var parsed = parseStackAndMessage(error);
               var message = parsed.message;
@@ -2550,7 +2536,7 @@ qx.Class.define("qx.Promise", {
             var captureStackTrace = (function stackDetection() {
               var v8stackFramePattern = /^\s*at\s*/;
               var v8stackFormatter = function(stack, error) {
-                if (typeof stack === "string") return stack;
+                if (typeof stack === "string") { return stack; }
 
                 if (error.name !== undefined &&
                     error.message !== undefined) {
@@ -2589,7 +2575,7 @@ qx.Class.define("qx.Promise", {
 
               var hasStackAfterThrow;
               try { throw new Error(); }
-              catch(e) {
+              catch (e) {
                 hasStackAfterThrow = ("stack" in e);
               }
               if (!("stack" in err) && hasStackAfterThrow &&
@@ -2599,13 +2585,13 @@ qx.Class.define("qx.Promise", {
                 return function captureStackTrace(o) {
                   Error.stackTraceLimit += 6;
                   try { throw new Error(); }
-                  catch(e) { o.stack = e.stack; }
+                  catch (e) { o.stack = e.stack; }
                   Error.stackTraceLimit -= 6;
                 };
               }
 
               formatStack = function(stack, error) {
-                if (typeof stack === "string") return stack;
+                if (typeof stack === "string") { return stack; }
 
                 if ((typeof error === "object" ||
                     typeof error === "function") &&
@@ -2617,7 +2603,6 @@ qx.Class.define("qx.Promise", {
               };
 
               return null;
-
             })([]);
 
             if (typeof console !== "undefined" && typeof console.warn !== "undefined") {
@@ -2644,7 +2629,7 @@ qx.Class.define("qx.Promise", {
                 monitoring: false
             };
 
-            if (longStackTraces) Promise.longStackTraces();
+            if (longStackTraces) { Promise.longStackTraces(); }
 
             return {
               longStackTraces: function() {
@@ -2674,8 +2659,7 @@ qx.Class.define("qx.Promise", {
               fireGlobalEvent: fireGlobalEvent
             };
           };
-
-        },{"./errors":12,"./util":36}],10:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./util":36}], 10:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             function returner() {
@@ -2687,7 +2671,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype["return"] =
               Promise.prototype.thenReturn = function (value) {
-              if (value instanceof Promise) value.suppressUnhandledRejections();
+              if (value instanceof Promise) { value.suppressUnhandledRejections(); }
               return this._then(
                   returner, undefined, undefined, {value: value}, undefined);
             };
@@ -2704,26 +2688,25 @@ qx.Class.define("qx.Promise", {
                     undefined, thrower, undefined, {reason: reason}, undefined);
               } else {
                 var _reason = arguments[1];
-                var handler = function() {throw _reason;};
+                var handler = function() { throw _reason; };
                 return this.caught(reason, handler);
               }
             };
 
             Promise.prototype.catchReturn = function (value) {
               if (arguments.length <= 1) {
-                if (value instanceof Promise) value.suppressUnhandledRejections();
+                if (value instanceof Promise) { value.suppressUnhandledRejections(); }
                 return this._then(
                     undefined, returner, undefined, {value: value}, undefined);
               } else {
                 var _value = arguments[1];
-                if (_value instanceof Promise) _value.suppressUnhandledRejections();
-                var handler = function() {return _value;};
+                if (_value instanceof Promise) { _value.suppressUnhandledRejections(); }
+                var handler = function() { return _value; };
                 return this.caught(value, handler);
               }
             };
           };
-
-        },{}],11:[function(_dereq_,module,exports){
+        }, {}], 11:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL) {
             var PromiseReduce = Promise.reduce;
@@ -2753,9 +2736,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.mapSeries = PromiseMapSeries;
           };
-
-
-        },{}],12:[function(_dereq_,module,exports){
+        }, {}], 12:[function(_dereq_, module, exports) {
           "use strict";
           var es5 = _dereq_("./es5");
           var Objectfreeze = es5.freeze;
@@ -2765,7 +2746,7 @@ qx.Class.define("qx.Promise", {
 
           function subError(nameProperty, defaultMessage) {
             function SubError(message) {
-              if (!(this instanceof SubError)) return new SubError(message);
+              if (!(this instanceof SubError)) { return new SubError(message); }
               notEnumerableProp(this, "message",
                   typeof message === "string" ? message : defaultMessage);
               notEnumerableProp(this, "name", nameProperty);
@@ -2787,7 +2768,7 @@ qx.Class.define("qx.Promise", {
           try {
             _TypeError = TypeError;
             _RangeError = RangeError;
-          } catch(e) {
+          } catch (e) {
             _TypeError = subError("TypeError", "type error");
             _RangeError = subError("RangeError", "range error");
           }
@@ -2829,7 +2810,7 @@ qx.Class.define("qx.Promise", {
 
           function OperationalError(message) {
             if (!(this instanceof OperationalError))
-              return new OperationalError(message);
+              { return new OperationalError(message); }
             notEnumerableProp(this, "name", "OperationalError");
             notEnumerableProp(this, "message", message);
             this.cause = message;
@@ -2841,7 +2822,6 @@ qx.Class.define("qx.Promise", {
             } else if (Error.captureStackTrace) {
               Error.captureStackTrace(this, this.constructor);
             }
-
           }
           inherits(OperationalError, Error);
 
@@ -2872,9 +2852,8 @@ qx.Class.define("qx.Promise", {
               AggregateError: errorTypes.AggregateError,
               Warning: Warning
           };
-
-        },{"./es5":13,"./util":36}],13:[function(_dereq_,module,exports){
-          var isES5 = (function(){
+        }, {"./es5":13, "./util":36}], 13:[function(_dereq_, module, exports) {
+          var isES5 = (function() {
             "use strict";
             return this === undefined;
           })();
@@ -2935,7 +2914,7 @@ qx.Class.define("qx.Promise", {
               try {
                 return str.call(obj) === "[object Array]";
               }
-              catch(e) {
+              catch (e) {
                 return false;
               }
             };
@@ -2954,8 +2933,7 @@ qx.Class.define("qx.Promise", {
                 }
             };
           }
-
-        },{}],14:[function(_dereq_,module,exports){
+        }, {}], 14:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL) {
             var PromiseMap = Promise.map;
@@ -2968,8 +2946,7 @@ qx.Class.define("qx.Promise", {
               return PromiseMap(promises, fn, options, INTERNAL);
             };
           };
-
-        },{}],15:[function(_dereq_,module,exports){
+        }, {}], 15:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, tryConvertToPromise) {
             var util = _dereq_("./util");
@@ -3013,7 +2990,7 @@ qx.Class.define("qx.Promise", {
               return finallyHandler.call(this, this.promise._target()._settledValue());
             }
             function fail(reason) {
-              if (checkCancel(this, reason)) return;
+              if (checkCancel(this, reason)) { return; }
               errorObj.e = reason;
               return errorObj;
             }
@@ -3059,7 +3036,7 @@ qx.Class.define("qx.Promise", {
             }
 
             Promise.prototype._passThrough = function(handler, type, success, fail) {
-              if (typeof handler !== "function") return this.then();
+              if (typeof handler !== "function") { return this.then(); }
               return this._then(success,
                   fail,
                   undefined,
@@ -3081,8 +3058,7 @@ qx.Class.define("qx.Promise", {
 
             return PassThroughHandlerContext;
           };
-
-        },{"./util":36}],16:[function(_dereq_,module,exports){
+        }, {"./util":36}], 16:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise,
               apiRejection,
@@ -3109,7 +3085,7 @@ qx.Class.define("qx.Promise", {
                   return ret;
                 }
                 var maybePromise = tryConvertToPromise(result, traceParent);
-                if (maybePromise instanceof Promise) return maybePromise;
+                if (maybePromise instanceof Promise) { return maybePromise; }
               }
               return null;
             }
@@ -3152,7 +3128,7 @@ qx.Class.define("qx.Promise", {
             };
 
             PromiseSpawn.prototype._promiseCancelled = function() {
-              if (this._isResolved()) return;
+              if (this._isResolved()) { return; }
               var implementsReturn = typeof this._generator["return"] !== "undefined";
 
               var result;
@@ -3306,8 +3282,7 @@ qx.Class.define("qx.Promise", {
               return ret;
             };
           };
-
-        },{"./errors":12,"./util":36}],17:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./util":36}], 17:[function(_dereq_, module, exports) {
           "use strict";
           module.exports =
             function(Promise, PromiseArray, tryConvertToPromise, INTERNAL, async,
@@ -3416,7 +3391,7 @@ qx.Class.define("qx.Promise", {
                 reject = function (reason) {
                   this._reject(reason);
                 };
-              }}
+              } }
 
             Promise.join = function () {
               var last = arguments.length - 1;
@@ -3469,15 +3444,13 @@ qx.Class.define("qx.Promise", {
                   }
                 }
               }
-              var args = [].slice.call(arguments);;
-              if (fn) args.pop();
+              var args = [].slice.call(arguments); ;
+              if (fn) { args.pop(); }
               var ret = new PromiseArray(args).promise();
               return fn !== undefined ? ret.spread(fn) : ret;
             };
-
           };
-
-        },{"./util":36}],18:[function(_dereq_,module,exports){
+        }, {"./util":36}], 18:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise,
               PromiseArray,
@@ -3519,7 +3492,7 @@ qx.Class.define("qx.Promise", {
                 if (limit >= 1) {
                   this._inFlight--;
                   this._drainQueue();
-                  if (this._isResolved()) return true;
+                  if (this._isResolved()) { return true; }
                 }
               } else {
                 if (limit >= 1 && this._inFlight >= limit) {
@@ -3527,7 +3500,7 @@ qx.Class.define("qx.Promise", {
                   this._queue.push(index);
                   return false;
                 }
-                if (preservedValues !== null) preservedValues[index] = value;
+                if (preservedValues !== null) { preservedValues[index] = value; }
 
                 var promise = this._promise;
                 var callback = this._callback;
@@ -3552,7 +3525,7 @@ qx.Class.define("qx.Promise", {
                   var bitField = maybePromise._bitField;
                   ;
                   if (((bitField & 50397184) === 0)) {
-                    if (limit >= 1) this._inFlight++;
+                    if (limit >= 1) { this._inFlight++; }
                     values[index] = maybePromise;
                     maybePromise._proxy(this, (index + 1) * -1);
                     return false;
@@ -3585,7 +3558,7 @@ qx.Class.define("qx.Promise", {
               var limit = this._limit;
               var values = this._values;
               while (queue.length > 0 && this._inFlight < limit) {
-                if (this._isResolved()) return;
+                if (this._isResolved()) { return; }
                 var index = queue.pop();
                 this._promiseFulfilled(values[index], index);
               }
@@ -3596,7 +3569,7 @@ qx.Class.define("qx.Promise", {
               var ret = new Array(len);
               var j = 0;
               for (var i = 0; i < len; ++i) {
-                if (booleans[i]) ret[j++] = values[i];
+                if (booleans[i]) { ret[j++] = values[i]; }
               }
               ret.length = j;
               this._resolve(ret);
@@ -3638,11 +3611,8 @@ qx.Class.define("qx.Promise", {
             Promise.map = function (promises, fn, options, _filter) {
               return map(promises, fn, options, _filter);
             };
-
-
           };
-
-        },{"./util":36}],19:[function(_dereq_,module,exports){
+        }, {"./util":36}], 19:[function(_dereq_, module, exports) {
           "use strict";
           module.exports =
             function(Promise, INTERNAL, tryConvertToPromise, apiRejection, debug) {
@@ -3698,8 +3668,7 @@ qx.Class.define("qx.Promise", {
               }
             };
           };
-
-        },{"./util":36}],20:[function(_dereq_,module,exports){
+        }, {"./util":36}], 20:[function(_dereq_, module, exports) {
           "use strict";
           var util = _dereq_("./util");
           var maybeWrapAsError = util.maybeWrapAsError;
@@ -3735,7 +3704,7 @@ qx.Class.define("qx.Promise", {
 
           function nodebackForPromise(promise, multiArgs) {
             return function(err, value) {
-              if (promise === null) return;
+              if (promise === null) { return; }
               if (err) {
                 var wrapped = wrapAsOperationalError(maybeWrapAsError(err));
                 promise._attachExtraTrace(wrapped);
@@ -3743,7 +3712,7 @@ qx.Class.define("qx.Promise", {
               } else if (!multiArgs) {
                 promise._fulfill(value);
               } else {
-                var args = [].slice.call(arguments, 1);;
+                var args = [].slice.call(arguments, 1); ;
                 promise._fulfill(args);
               }
               promise = null;
@@ -3751,8 +3720,7 @@ qx.Class.define("qx.Promise", {
           }
 
           module.exports = nodebackForPromise;
-
-        },{"./errors":12,"./es5":13,"./util":36}],21:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./es5":13, "./util":36}], 21:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             var util = _dereq_("./util");
@@ -3762,7 +3730,7 @@ qx.Class.define("qx.Promise", {
 
             function spreadAdapter(val, nodeback) {
               var promise = this;
-              if (!util.isArray(val)) return successAdapter.call(promise, val, nodeback);
+              if (!util.isArray(val)) { return successAdapter.call(promise, val, nodeback); }
               var ret =
                 tryCatch(nodeback).apply(promise._boundValue(), [null].concat(val));
               if (ret === errorObj) {
@@ -3811,8 +3779,7 @@ qx.Class.define("qx.Promise", {
               return this;
             };
           };
-
-        },{"./util":36}],22:[function(_dereq_,module,exports){
+        }, {"./util":36}], 22:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function() {
             var makeSelfResolutionError = function () {
@@ -3832,7 +3799,7 @@ qx.Class.define("qx.Promise", {
             if (util.isNode) {
               getDomain = function() {
                 var ret = process.domain;
-                if (ret === undefined) ret = null;
+                if (ret === undefined) { ret = null; }
                 return ret;
               };
             } else {
@@ -3854,7 +3821,7 @@ qx.Class.define("qx.Promise", {
             Promise.OperationalError = errors.OperationalError;
             Promise.RejectionError = errors.OperationalError;
             Promise.AggregateError = errors.AggregateError;
-            var INTERNAL = function(){};
+            var INTERNAL = function() {};
             var APPLY = {};
             var NEXT_FILTER = {};
             var tryConvertToPromise = _dereq_("./thenables")(Promise, INTERNAL);
@@ -3903,7 +3870,8 @@ qx.Class.define("qx.Promise", {
               var len = arguments.length;
               if (len > 1) {
                 var catchInstances = new Array(len - 1),
-                j = 0, i;
+                j = 0, 
+i;
                 for (i = 0; i < len - 1; ++i) {
                   var item = arguments[i];
                   if (util.isObject(item)) {
@@ -3995,7 +3963,7 @@ qx.Class.define("qx.Promise", {
               if (result === errorObj) {
                 ret._rejectCallback(result.e, true);
               }
-              if (!ret._isFateSealed()) ret._setAsyncGuaranteed();
+              if (!ret._isFateSealed()) { ret._setAsyncGuaranteed(); }
               return ret;
             };
 
@@ -4057,7 +4025,8 @@ qx.Class.define("qx.Promise", {
 
               var domain = getDomain();
               if (!((bitField & 50397184) === 0)) {
-                var handler, value, settler = target._settlePromiseCtx;
+                var handler, value, 
+settler = target._settlePromiseCtx;
                 if (((bitField & 33554432) !== 0)) {
                   value = target._rejectionHandler0;
                   handler = didFulfill;
@@ -4141,7 +4110,7 @@ qx.Class.define("qx.Promise", {
             };
 
             Promise.prototype._setAsyncGuaranteed = function() {
-              if (async.hasCustomScheduler()) return;
+              if (async.hasCustomScheduler()) { return; }
               this._bitField = this._bitField | 134217728;
             };
 
@@ -4179,7 +4148,7 @@ qx.Class.define("qx.Promise", {
               var reject = follower._rejectionHandler0;
               var promise = follower._promise0;
               var receiver = follower._receiverAt(0);
-              if (receiver === undefined) receiver = UNDEFINED_BINDING;
+              if (receiver === undefined) { receiver = UNDEFINED_BINDING; }
               this._addCallbacks(fulfill, reject, promise, receiver, null);
             };
 
@@ -4188,7 +4157,7 @@ qx.Class.define("qx.Promise", {
               var reject = follower._rejectionHandlerAt(index);
               var promise = follower._promiseAt(index);
               var receiver = follower._receiverAt(index);
-              if (receiver === undefined) receiver = UNDEFINED_BINDING;
+              if (receiver === undefined) { receiver = UNDEFINED_BINDING; }
               this._addCallbacks(fulfill, reject, promise, receiver, null);
             };
 
@@ -4239,13 +4208,13 @@ qx.Class.define("qx.Promise", {
             };
 
             Promise.prototype._resolveCallback = function(value, shouldBind) {
-              if (((this._bitField & 117506048) !== 0)) return;
+              if (((this._bitField & 117506048) !== 0)) { return; }
               if (value === this)
-                return this._rejectCallback(makeSelfResolutionError(), false);
+                { return this._rejectCallback(makeSelfResolutionError(), false); }
               var maybePromise = tryConvertToPromise(value, this);
-              if (!(maybePromise instanceof Promise)) return this._fulfill(value);
+              if (!(maybePromise instanceof Promise)) { return this._fulfill(value); }
 
-              if (shouldBind) this._propagateFrom(maybePromise, 2);
+              if (shouldBind) { this._propagateFrom(maybePromise, 2); }
 
               var promise = maybePromise._target();
 
@@ -4257,7 +4226,7 @@ qx.Class.define("qx.Promise", {
               var bitField = promise._bitField;
               if (((bitField & 50397184) === 0)) {
                 var len = this._length();
-                if (len > 0) promise._migrateCallback0(this);
+                if (len > 0) { promise._migrateCallback0(this); }
                 for (var i = 1; i < len; ++i) {
                   promise._migrateCallbackAt(this, i);
                 }
@@ -4310,7 +4279,7 @@ qx.Class.define("qx.Promise", {
                 handler, receiver, value, promise
             ) {
               var bitField = promise._bitField;
-              if (((bitField & 65536) !== 0)) return;
+              if (((bitField & 65536) !== 0)) { return; }
               promise._pushContext();
               var x;
               if (receiver === APPLY) {
@@ -4326,7 +4295,7 @@ qx.Class.define("qx.Promise", {
               }
               var promiseCreated = promise._popContext();
               bitField = promise._bitField;
-              if (((bitField & 65536) !== 0)) return;
+              if (((bitField & 65536) !== 0)) { return; }
 
               if (x === NEXT_FILTER) {
                 promise._reject(value);
@@ -4340,7 +4309,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype._target = function() {
               var ret = this;
-              while (ret._isFollowing()) ret = ret._followee();
+              while (ret._isFollowing()) { ret = ret._followee(); }
               return ret;
             };
 
@@ -4357,7 +4326,7 @@ qx.Class.define("qx.Promise", {
               var bitField = this._bitField;
               var asyncGuaranteed = ((bitField & 134217728) !== 0);
               if (((bitField & 65536) !== 0)) {
-                if (isPromise) promise._invokeInternalOnCancel();
+                if (isPromise) { promise._invokeInternalOnCancel(); }
 
                 if (receiver instanceof PassThroughHandlerContext &&
                     receiver.isFinallyHandler()) {
@@ -4378,7 +4347,7 @@ qx.Class.define("qx.Promise", {
                 if (!isPromise) {
                   handler.call(receiver, value, promise);
                 } else {
-                  if (asyncGuaranteed) promise._setAsyncGuaranteed();
+                  if (asyncGuaranteed) { promise._setAsyncGuaranteed(); }
                   this._settlePromiseFromHandler(handler, receiver, value, promise);
                 }
               } else if (receiver instanceof Proxyable) {
@@ -4390,7 +4359,7 @@ qx.Class.define("qx.Promise", {
                   }
                 }
               } else if (isPromise) {
-                if (asyncGuaranteed) promise._setAsyncGuaranteed();
+                if (asyncGuaranteed) { promise._setAsyncGuaranteed(); }
                 if (((bitField & 33554432) !== 0)) {
                   promise._fulfill(value);
                 } else {
@@ -4437,7 +4406,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype._fulfill = function (value) {
               var bitField = this._bitField;
-              if (((bitField & 117506048) >>> 16)) return;
+              if (((bitField & 117506048) >>> 16)) { return; }
               if (value === this) {
                 var err = makeSelfResolutionError();
                 this._attachExtraTrace(err);
@@ -4457,7 +4426,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.prototype._reject = function (reason) {
               var bitField = this._bitField;
-              if (((bitField & 117506048) >>> 16)) return;
+              if (((bitField & 117506048) >>> 16)) { return; }
               this._setRejected();
               this._fulfillmentHandler0 = reason;
 
@@ -4520,8 +4489,8 @@ qx.Class.define("qx.Promise", {
               }
             };
 
-            function deferResolve(v) {this.promise._resolveCallback(v);}
-            function deferReject(v) {this.promise._rejectCallback(v, false);}
+            function deferResolve(v) { this.promise._resolveCallback(v); }
+            function deferReject(v) { this.promise._rejectCallback(v, false); }
 
             Promise.defer = Promise.pending = function() {
               debug.deprecated("Promise.defer", "new Promise");
@@ -4578,16 +4547,14 @@ qx.Class.define("qx.Promise", {
             fillTypes({b: 2});                                                       
             fillTypes({c: 3});                                                       
             fillTypes(1);                                                            
-            fillTypes(function(){});                                                 
+            fillTypes(function() {});                                                 
             fillTypes(undefined);                                                    
             fillTypes(false);                                                        
             fillTypes(new Promise(INTERNAL));                                        
             debug.setBounds(Async.firstLineError, util.lastLineError);               
-            return Promise;                                                          
-
+            return Promise;
           };
-
-        },{"./any.js":1,"./async":2,"./bind":3,"./call_get.js":5,"./cancel":6,"./catch_filter":7,"./context":8,"./debuggability":9,"./direct_resolve":10,"./each.js":11,"./errors":12,"./es5":13,"./filter.js":14,"./finally":15,"./generators.js":16,"./join":17,"./map.js":18,"./method":19,"./nodeback":20,"./nodeify.js":21,"./promise_array":23,"./promisify.js":24,"./props.js":25,"./race.js":27,"./reduce.js":28,"./settle.js":30,"./some.js":31,"./synchronous_inspection":32,"./thenables":33,"./timers.js":34,"./using.js":35,"./util":36}],23:[function(_dereq_,module,exports){
+        }, {"./any.js":1, "./async":2, "./bind":3, "./call_get.js":5, "./cancel":6, "./catch_filter":7, "./context":8, "./debuggability":9, "./direct_resolve":10, "./each.js":11, "./errors":12, "./es5":13, "./filter.js":14, "./finally":15, "./generators.js":16, "./join":17, "./map.js":18, "./method":19, "./nodeback":20, "./nodeify.js":21, "./promise_array":23, "./promisify.js":24, "./props.js":25, "./race.js":27, "./reduce.js":28, "./settle.js":30, "./some.js":31, "./synchronous_inspection":32, "./thenables":33, "./timers.js":34, "./using.js":35, "./util":36}], 23:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL, tryConvertToPromise,
               apiRejection, Proxyable) {
@@ -4595,7 +4562,7 @@ qx.Class.define("qx.Promise", {
             var isArray = util.isArray;
 
             function toResolutionValue(val) {
-              switch(val) {
+              switch (val) {
               case -2: return [];
               case -3: return {};
               }
@@ -4703,7 +4670,7 @@ qx.Class.define("qx.Promise", {
                   isResolved = this._promiseFulfilled(maybePromise, i);
                 }
               }
-              if (!isResolved) result._setAsyncGuaranteed();
+              if (!isResolved) { result._setAsyncGuaranteed(); }
             };
 
             PromiseArray.prototype._isResolved = function () {
@@ -4716,7 +4683,7 @@ qx.Class.define("qx.Promise", {
             };
 
             PromiseArray.prototype._cancel = function() {
-              if (this._isResolved() || !this._promise._isCancellable()) return;
+              if (this._isResolved() || !this._promise._isCancellable()) { return; }
               this._values = null;
               this._promise._cancel();
             };
@@ -4748,7 +4715,7 @@ qx.Class.define("qx.Promise", {
             };
 
             PromiseArray.prototype._resultCancelled = function() {
-              if (this._isResolved()) return;
+              if (this._isResolved()) { return; }
               var values = this._values;
               this._cancel();
               if (values instanceof Promise) {
@@ -4772,8 +4739,7 @@ qx.Class.define("qx.Promise", {
 
             return PromiseArray;
           };
-
-        },{"./util":36}],24:[function(_dereq_,module,exports){
+        }, {"./util":36}], 24:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL) {
             var THIS = {};
@@ -4863,10 +4829,10 @@ qx.Class.define("qx.Promise", {
               var switchCaseArgumentOrder = function(likelyArgumentCount) {
                 var ret = [likelyArgumentCount];
                 var min = Math.max(0, likelyArgumentCount - 1 - 3);
-                for(var i = likelyArgumentCount - 1; i >= min; --i) {
+                for (var i = likelyArgumentCount - 1; i >= min; --i) {
                   ret.push(i);
                 }
-                for(var i = likelyArgumentCount + 1; i <= 3; ++i) {
+                for (var i = likelyArgumentCount + 1; i <= 3; ++i) {
                   ret.push(i);
                 }
                 return ret;
@@ -4982,14 +4948,14 @@ qx.Class.define("qx.Promise", {
             }
 
             function makeNodePromisifiedClosure(callback, receiver, _, fn, __, multiArgs) {
-              var defaultThis = (function() {return this;})();
+              var defaultThis = (function() { return this; })();
               var method = callback;
               if (typeof method === "string") {
                 callback = fn;
               }
               function promisified() {
                 var _receiver = receiver;
-                if (receiver === THIS) _receiver = this;
+                if (receiver === THIS) { _receiver = this; }
                 var promise = new Promise(INTERNAL);
                 promise._captureStackTrace();
                 var cb = typeof method === "string" && this !== defaultThis
@@ -4997,10 +4963,10 @@ qx.Class.define("qx.Promise", {
                 var fn = nodebackForPromise(promise, multiArgs);
                 try {
                   cb.apply(_receiver, withAppended(arguments, fn));
-                } catch(e) {
+                } catch (e) {
                   promise._rejectCallback(maybeWrapAsError(e), true, true);
                 }
-                if (!promise._isFateSealed()) promise._setAsyncGuaranteed();
+                if (!promise._isFateSealed()) { promise._setAsyncGuaranteed(); }
                 return promise;
               }
               util.notEnumerableProp(promisified, "__isPromisified__", true);
@@ -5063,11 +5029,11 @@ qx.Class.define("qx.Promise", {
               options = Object(options);
               var multiArgs = !!options.multiArgs;
               var suffix = options.suffix;
-              if (typeof suffix !== "string") suffix = defaultSuffix;
+              if (typeof suffix !== "string") { suffix = defaultSuffix; }
               var filter = options.filter;
-              if (typeof filter !== "function") filter = defaultFilter;
+              if (typeof filter !== "function") { filter = defaultFilter; }
               var promisifier = options.promisifier;
-              if (typeof promisifier !== "function") promisifier = makeNodePromisified;
+              if (typeof promisifier !== "function") { promisifier = makeNodePromisified; }
 
               if (!util.isIdentifier(suffix)) {
                 throw new RangeError("suffix must be a valid identifier\u000a\u000a    See http://goo.gl/MqrFmX\u000a");
@@ -5087,9 +5053,7 @@ qx.Class.define("qx.Promise", {
               return promisifyAll(target, suffix, filter, promisifier, multiArgs);
             };
           };
-
-
-        },{"./errors":12,"./nodeback":20,"./util":36}],25:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./nodeback":20, "./util":36}], 25:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(
               Promise, PromiseArray, tryConvertToPromise, apiRejection) {
@@ -5097,7 +5061,7 @@ qx.Class.define("qx.Promise", {
             var isObject = util.isObject;
             var es5 = _dereq_("./es5");
             var Es6Map;
-            if (typeof Map === "function") Es6Map = Map;
+            if (typeof Map === "function") { Es6Map = Map; }
 
             var mapToEntries = (function() {
               var index = 0;
@@ -5208,8 +5172,7 @@ qx.Class.define("qx.Promise", {
               return props(promises);
             };
           };
-
-        },{"./es5":13,"./util":36}],26:[function(_dereq_,module,exports){
+        }, {"./es5":13, "./util":36}], 26:[function(_dereq_, module, exports) {
           "use strict";
           function arrayMove(src, srcIndex, dst, dstIndex, len) {
             for (var j = 0; j < len; ++j) {
@@ -5240,8 +5203,8 @@ qx.Class.define("qx.Promise", {
             var capacity = this._capacity;
             this._checkCapacity(this.length() + 1);
             var front = this._front;
-            var i = (((( front - 1 ) &
-                ( capacity - 1) ) ^ capacity ) - capacity );
+            var i = ((((front - 1) &
+                (capacity - 1)) ^ capacity) - capacity);
             this[i] = value;
             this._front = i;
             this._length = this.length() + 1;
@@ -5300,8 +5263,7 @@ qx.Class.define("qx.Promise", {
           };
 
           module.exports = Queue;
-
-        },{}],27:[function(_dereq_,module,exports){
+        }, {}], 27:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(
               Promise, INTERNAL, tryConvertToPromise, apiRejection) {
@@ -5321,7 +5283,7 @@ qx.Class.define("qx.Promise", {
               } else {
                 promises = util.asArray(promises);
                 if (promises === null)
-                  return apiRejection("expecting an array or an iterable object but got " + util.classString(promises));
+                  { return apiRejection("expecting an array or an iterable object but got " + util.classString(promises)); }
               }
 
               var ret = new Promise(INTERNAL);
@@ -5349,10 +5311,8 @@ qx.Class.define("qx.Promise", {
             Promise.prototype.race = function () {
               return race(this, undefined);
             };
-
           };
-
-        },{"./util":36}],28:[function(_dereq_,module,exports){
+        }, {"./util":36}], 28:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise,
               PromiseArray,
@@ -5374,7 +5334,7 @@ qx.Class.define("qx.Promise", {
               }
               this._initialValue = initialValue;
               this._currentCancellable = null;
-              if(_each === INTERNAL) {
+              if (_each === INTERNAL) {
                 this._eachValues = Array(this._length);
               } else if (_each === 0) {
                 this._eachValues = null;
@@ -5418,8 +5378,8 @@ qx.Class.define("qx.Promise", {
             };
 
             ReductionPromiseArray.prototype._resultCancelled = function(sender) {
-              if (sender === this._initialValue) return this._cancel();
-              if (this._isResolved()) return;
+              if (sender === this._initialValue) { return this._cancel(); }
+              if (this._isResolved()) { return; }
               this._resultCancelled$();
               if (this._currentCancellable instanceof Promise) {
                 this._currentCancellable.cancel();
@@ -5525,8 +5485,7 @@ qx.Class.define("qx.Promise", {
               return ret;
             }
           };
-
-        },{"./util":36}],29:[function(_dereq_,module,exports){
+        }, {"./util":36}], 29:[function(_dereq_, module, exports) {
           "use strict";
           var util = _dereq_("./util");
           var schedule;
@@ -5562,7 +5521,7 @@ qx.Class.define("qx.Promise", {
               o2.observe(div2, opts);
 
               var scheduleToggle = function() {
-                if (toggleScheduled) return;
+                if (toggleScheduled) { return; }
                 toggleScheduled = true;
                 div2.classList.toggle("foo");
               };
@@ -5588,8 +5547,7 @@ qx.Class.define("qx.Promise", {
             schedule = noAsyncScheduler;
           }
           module.exports = schedule;
-
-        },{"./util":36}],30:[function(_dereq_,module,exports){
+        }, {"./util":36}], 30:[function(_dereq_, module, exports) {
           "use strict";
           module.exports =
             function(Promise, PromiseArray, debug) {
@@ -5633,8 +5591,7 @@ qx.Class.define("qx.Promise", {
               return Promise.settle(this);
             };
           };
-
-        },{"./util":36}],31:[function(_dereq_,module,exports){
+        }, {"./util":36}], 31:[function(_dereq_, module, exports) {
           "use strict";
           module.exports =
             function(Promise, PromiseArray, apiRejection) {
@@ -5699,7 +5656,6 @@ qx.Class.define("qx.Promise", {
                 return true;
               }
               return false;
-
             };
             SomePromiseArray.prototype._promiseRejected = function (reason) {
               this._addRejected(reason);
@@ -5783,8 +5739,7 @@ qx.Class.define("qx.Promise", {
 
             Promise._SomePromiseArray = SomePromiseArray;
           };
-
-        },{"./errors":12,"./util":36}],32:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./util":36}], 32:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise) {
             function PromiseInspection(promise) {
@@ -5888,8 +5843,7 @@ qx.Class.define("qx.Promise", {
 
             Promise.PromiseInspection = PromiseInspection;
           };
-
-        },{}],33:[function(_dereq_,module,exports){
+        }, {}], 33:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL) {
             var util = _dereq_("./util");
@@ -5898,12 +5852,12 @@ qx.Class.define("qx.Promise", {
 
             function tryConvertToPromise(obj, context) {
               if (isObject(obj)) {
-                if (obj instanceof Promise) return obj;
+                if (obj instanceof Promise) { return obj; }
                 var then = getThen(obj);
                 if (then === errorObj) {
-                  if (context) context._pushContext();
+                  if (context) { context._pushContext(); }
                   var ret = Promise.reject(then.e);
-                  if (context) context._popContext();
+                  if (context) { context._popContext(); }
                   return ret;
                 } else if (typeof then === "function") {
                   if (isAnyBluebirdPromise(obj)) {
@@ -5948,9 +5902,9 @@ qx.Class.define("qx.Promise", {
             function doThenable(x, then, context) {
               var promise = new Promise(INTERNAL);
               var ret = promise;
-              if (context) context._pushContext();
+              if (context) { context._pushContext(); }
               promise._captureStackTrace();
-              if (context) context._popContext();
+              if (context) { context._popContext(); }
               var synchronous = true;
               var result = util.tryCatch(then).call(x, resolve, reject);
               synchronous = false;
@@ -5961,13 +5915,13 @@ qx.Class.define("qx.Promise", {
               }
 
               function resolve(value) {
-                if (!promise) return;
+                if (!promise) { return; }
                 promise._resolveCallback(value);
                 promise = null;
               }
 
               function reject(reason) {
-                if (!promise) return;
+                if (!promise) { return; }
                 promise._rejectCallback(reason, synchronous, true);
                 promise = null;
               }
@@ -5976,8 +5930,7 @@ qx.Class.define("qx.Promise", {
 
             return tryConvertToPromise;
           };
-
-        },{"./util":36}],34:[function(_dereq_,module,exports){
+        }, {"./util":36}], 34:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function(Promise, INTERNAL, debug) {
             var util = _dereq_("./util");
@@ -6069,10 +6022,8 @@ qx.Class.define("qx.Promise", {
 
               return ret;
             };
-
           };
-
-        },{"./util":36}],35:[function(_dereq_,module,exports){
+        }, {"./util":36}], 35:[function(_dereq_, module, exports) {
           "use strict";
           module.exports = function (Promise, apiRejection, tryConvertToPromise,
               createContext, INTERNAL, debug) {
@@ -6084,7 +6035,7 @@ qx.Class.define("qx.Promise", {
             var NULL = {};
 
             function thrower(e) {
-              setTimeout(function(){throw e;}, 0);
+              setTimeout(function() { throw e; }, 0);
             }
 
             function castPreservingDisposable(thenable) {
@@ -6102,7 +6053,7 @@ qx.Class.define("qx.Promise", {
               var len = resources.length;
               var ret = new Promise(INTERNAL);
               function iterator() {
-                if (i >= len) return ret._fulfill();
+                if (i >= len) { return ret._fulfill(); }
                 var maybePromise = castPreservingDisposable(resources[i++]);
                 if (maybePromise instanceof Promise &&
                     maybePromise._isDisposable()) {
@@ -6148,10 +6099,10 @@ qx.Class.define("qx.Promise", {
             Disposer.prototype.tryDispose = function(inspection) {
               var resource = this.resource();
               var context = this._context;
-              if (context !== undefined) context._pushContext();
+              if (context !== undefined) { context._pushContext(); }
               var ret = resource !== NULL
               ? this.doDispose(resource, inspection) : null;
-              if (context !== undefined) context._popContext();
+              if (context !== undefined) { context._popContext(); }
               this._promise._unsetDisposable();
               this._data = null;
               return ret;
@@ -6199,8 +6150,8 @@ qx.Class.define("qx.Promise", {
 
             Promise.using = function () {
               var len = arguments.length;
-              if (len < 2) return apiRejection(
-              "you must pass at least 2 arguments to Promise.using");
+              if (len < 2) { return apiRejection(
+              "you must pass at least 2 arguments to Promise.using"); }
               var fn = arguments[len - 1];
               if (typeof fn !== "function") {
                 return apiRejection("expecting a function but got " + util.classString(fn));
@@ -6297,10 +6248,8 @@ qx.Class.define("qx.Promise", {
               }
               throw new TypeError();
             };
-
           };
-
-        },{"./errors":12,"./util":36}],36:[function(_dereq_,module,exports){
+        }, {"./errors":12, "./util":36}], 36:[function(_dereq_, module, exports) {
           "use strict";
           var es5 = _dereq_("./es5");
           var canEvaluate = typeof navigator == "undefined";
@@ -6350,7 +6299,6 @@ qx.Class.define("qx.Promise", {
           function isPrimitive(val) {
             return val == null || val === true || val === false ||
             typeof val === "string" || typeof val === "number";
-
           }
 
           function isObject(value) {
@@ -6359,7 +6307,7 @@ qx.Class.define("qx.Promise", {
           }
 
           function maybeWrapAsError(maybeError) {
-            if (!isPrimitive(maybeError)) return maybeError;
+            if (!isPrimitive(maybeError)) { return maybeError; }
 
             return new Error(safeToString(maybeError));
           }
@@ -6390,7 +6338,7 @@ qx.Class.define("qx.Promise", {
           }
 
           function notEnumerableProp(obj, name, value) {
-            if (isPrimitive(obj)) return obj;
+            if (isPrimitive(obj)) { return obj; }
             var descriptor = {
                 value: value,
                 configurable: true,
@@ -6435,7 +6383,7 @@ qx.Class.define("qx.Promise", {
                   }
                   for (var i = 0; i < keys.length; ++i) {
                     var key = keys[i];
-                    if (visitedKeys[key]) continue;
+                    if (visitedKeys[key]) { continue; }
                     visitedKeys[key] = true;
                     var desc = Object.getOwnPropertyDescriptor(obj, key);
                     if (desc != null && desc.get == null && desc.set == null) {
@@ -6449,7 +6397,7 @@ qx.Class.define("qx.Promise", {
             } else {
               var hasProp = {}.hasOwnProperty;
               return function(obj) {
-                if (isExcludedProto(obj)) return [];
+                if (isExcludedProto(obj)) { return []; }
                 var ret = [];
 
                 /*jshint forin:false */
@@ -6468,7 +6416,6 @@ qx.Class.define("qx.Promise", {
                 return ret;
               };
             }
-
           })();
 
           var thisAssignmentPattern = /this\s*\.\s*\S+\s*=/;
@@ -6499,7 +6446,7 @@ qx.Class.define("qx.Promise", {
             function FakeConstructor() {}
             FakeConstructor.prototype = obj;
             var l = 8;
-            while (l--) new FakeConstructor();
+            while (l--) { new FakeConstructor(); }
             return obj;
             eval(obj);
           }
@@ -6511,7 +6458,7 @@ qx.Class.define("qx.Promise", {
 
           function filledRange(count, prefix, suffix) {
             var ret = new Array(count);
-            for(var i = 0; i < count; ++i) {
+            for (var i = 0; i < count; ++i) {
               ret[i] = prefix + i + suffix;
             }
             return ret;
@@ -6536,11 +6483,11 @@ qx.Class.define("qx.Promise", {
             try {
               notEnumerableProp(e, "isOperational", true);
             }
-            catch(ignore) {}
+            catch (ignore) {}
           }
 
           function originatesFromRejection(e) {
-            if (e == null) return false;
+            if (e == null) { return false; }
             return ((e instanceof Error["__BluebirdErrorTypes__"].OperationalError) ||
                 e["isOperational"] === true);
           }
@@ -6552,13 +6499,13 @@ qx.Class.define("qx.Promise", {
           var ensureErrorObject = (function() {
             if (!("stack" in new Error())) {
               return function(value) {
-                if (canAttachTrace(value)) return value;
-                try {throw new Error(safeToString(value));}
-                catch(err) {return err;}
+                if (canAttachTrace(value)) { return value; }
+                try { throw new Error(safeToString(value)); }
+                catch (err) { return err; }
               };
             } else {
               return function(value) {
-                if (canAttachTrace(value)) return value;
+                if (canAttachTrace(value)) { return value; }
                 return new Error(safeToString(value));
               };
             }
@@ -6620,7 +6567,7 @@ qx.Class.define("qx.Promise", {
           function getNativePromise() {
             if (typeof Promise === "function") {
               try {
-                var promise = new Promise(function(){});
+                var promise = new Promise(function() {});
                 if ({}.toString.call(promise) === "[object Promise]") {
                   return Promise;
                 }
@@ -6672,13 +6619,10 @@ qx.Class.define("qx.Promise", {
             return (version[0] === 0 && version[1] > 10) || (version[0] > 0);
           })();
 
-          if (ret.isNode) ret.toFastProperties(process);
+          if (ret.isNode) { ret.toFastProperties(process); }
 
-          try {throw new Error(); } catch (e) {ret.lastLineError = e;}
+          try { throw new Error(); } catch (e) { ret.lastLineError = e; }
           module.exports = ret;
-
-        },{"./es5":13}]},{},[4])(4)
+        }, {"./es5":13}]}, {}, [4])(4);
   });
-
-
 })();

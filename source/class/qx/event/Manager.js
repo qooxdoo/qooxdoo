@@ -563,7 +563,10 @@ qx.Class.define("qx.event.Manager",
      */
     findHandler : function(target, type)
     {
-      var isDomNode=false, isWindow=false, isObject=false, isDocument = false;
+      var isDomNode=false, 
+isWindow=false, 
+isObject=false, 
+isDocument = false;
       var key;
 
       if (target.nodeType === 1)
@@ -933,7 +936,7 @@ qx.Class.define("qx.event.Manager",
           try {
             monitors[i].call(monitors[i].$$context, target, event);
           } catch (ex) {
-            qx.log.Logger.error("Error in global event monitor function " + monitors[i].toString().slice(0,50) + "..." );
+            qx.log.Logger.error("Error in global event monitor function " + monitors[i].toString().slice(0, 50) + "...");
             // since 6.0.0-beta-2020051X: throw a real error to stop execution instead of just a warning
             throw ex;
           }

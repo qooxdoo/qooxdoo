@@ -76,7 +76,7 @@ qx.Class.define("qx.xml.Element",
     selectSingleNode : function(element, query, namespaces)
     {
       if (qx.core.Environment.get("html.xpath")) {
-        if(!this.__xpe) {
+        if (!this.__xpe) {
           this.__xpe = new XPathEvaluator();
         }
 
@@ -84,8 +84,8 @@ qx.Class.define("qx.xml.Element",
 
         var resolver;
 
-        if(namespaces) {
-          resolver = function(prefix){
+        if (namespaces) {
+          resolver = function(prefix) {
             return namespaces[prefix] || null;
           };
         }
@@ -95,7 +95,7 @@ qx.Class.define("qx.xml.Element",
 
         try {
           return xpe.evaluate(query, element, resolver, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
-        } catch(err) {
+        } catch (err) {
           throw new Error("selectSingleNode: query: " + query + ", element: " + element + ", error: " + err);
         }
       }
@@ -115,7 +115,6 @@ qx.Class.define("qx.xml.Element",
           else {
             element.setProperty("SelectionNamespaces", namespaceString);
           }
-
         }
 
         return element.selectSingleNode(query);
@@ -138,14 +137,14 @@ qx.Class.define("qx.xml.Element",
       if (qx.core.Environment.get("html.xpath")) {
         var xpe = this.__xpe;
 
-        if(!xpe) {
+        if (!xpe) {
           this.__xpe = xpe = new XPathEvaluator();
         }
 
         var resolver;
 
-        if(namespaces) {
-          resolver = function(prefix){
+        if (namespaces) {
+          resolver = function(prefix) {
             return namespaces[prefix] || null;
           };
         }
@@ -155,7 +154,7 @@ qx.Class.define("qx.xml.Element",
 
         try {
           var result = xpe.evaluate(query, element, resolver, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-        } catch(err) {
+        } catch (err) {
           throw new Error("selectNodes: query: " + query + ", element: " + element + ", error: " + err);
         }
 
@@ -182,7 +181,6 @@ qx.Class.define("qx.xml.Element",
           else {
             element.setProperty("SelectionNamespaces", namespaceString);
           }
-
         }
 
         return element.selectNodes(query);
@@ -284,10 +282,10 @@ qx.Class.define("qx.xml.Element",
       if (qx.core.Environment.get("xml.getqualifieditem")) {
         var attributes = element.attributes;
         var value = null;
-        if(attributes)
+        if (attributes)
         {
-          var attribute = attributes.getQualifiedItem(name,namespaceUri);
-          if(attribute)
+          var attribute = attributes.getQualifiedItem(name, namespaceUri);
+          if (attribute)
           {
             value = attribute.nodeValue;
           }
@@ -341,7 +339,7 @@ qx.Class.define("qx.xml.Element",
   defer : function(statics)
   {
     statics.XML_SERIALIZER = (window.XMLSerializer &&
-     !( qx.core.Environment.get("engine.name") == "mshtml" &&
+     !(qx.core.Environment.get("engine.name") == "mshtml" &&
      qx.core.Environment.get("engine.version") >= 9 &&
      qx.core.Environment.get("browser.documentmode") >= 9));
   }

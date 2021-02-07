@@ -37,7 +37,6 @@ qx.Class.define("qx.test.ui.container.Stack",
       c1.set({ backgroundColor : "#F00", width : 200, height : 200 });
       c2.set({ backgroundColor : "#0F0", width : 200, height : 200 });
       c3.set({ backgroundColor : "#00F", width : 200, height : 200 });
-
     },
 
 
@@ -54,7 +53,7 @@ qx.Class.define("qx.test.ui.container.Stack",
     */
     testAddAndSelectChild: function() {
       this.__stack.add(this.__c1);
-      this.assertIdentical( this.__c1, this.__stack.getSelection()[0]);
+      this.assertIdentical(this.__c1, this.__stack.getSelection()[0]);
     },
 
 

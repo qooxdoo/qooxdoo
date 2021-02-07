@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.layout.Util",
       }
 
       var value = 0;
-      switch(align)
+      switch (align)
       {
         case "left":
           value = marginLeft;
@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.layout.Util",
       }
 
       var value = 0;
-      switch(align)
+      switch (align)
       {
         case "top":
           value = marginTop;
@@ -256,7 +256,8 @@ qx.Class.define("qx.ui.layout.Util",
      */
     collapseMargins : function(varargs)
     {
-      var max=0, min=0;
+      var max=0, 
+min=0;
       for (var i=0, l=arguments.length; i<l; i++)
       {
         var value = arguments[i];

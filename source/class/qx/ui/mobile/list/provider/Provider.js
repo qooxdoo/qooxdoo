@@ -212,6 +212,6 @@ qx.Class.define("qx.ui.mobile.list.provider.Provider",
 
   destruct : function()
   {
-    this._disposeObjects("__itemRenderer","__groupRenderer");
+    this._disposeObjects("__itemRenderer", "__groupRenderer");
   }
 });

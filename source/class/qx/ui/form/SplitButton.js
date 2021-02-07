@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.form.SplitButton",
   {
     this.base(arguments);
 
-    this._setLayout(new qx.ui.layout.HBox);
+    this._setLayout(new qx.ui.layout.HBox());
 
     // Force arrow creation
     this._createChildControl("arrow");
@@ -172,10 +172,10 @@ qx.Class.define("qx.ui.form.SplitButton",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "button":
-          control = new qx.ui.form.Button;
+          control = new qx.ui.form.Button();
           control.addListener("execute", this._onButtonExecute, this);
           control.setFocusable(false);
           this._addAt(control, 0, {flex: 1});
@@ -329,7 +329,7 @@ qx.Class.define("qx.ui.form.SplitButton",
     _onKeyDown : function(e)
     {
       var button = this.getChildControl("button");
-      switch(e.getKeyIdentifier())
+      switch (e.getKeyIdentifier())
       {
         case "Enter":
         case "Space":
@@ -347,7 +347,7 @@ qx.Class.define("qx.ui.form.SplitButton",
     _onKeyUp : function(e)
     {
       var button = this.getChildControl("button");
-      switch(e.getKeyIdentifier())
+      switch (e.getKeyIdentifier())
       {
         case "Enter":
         case "Space":

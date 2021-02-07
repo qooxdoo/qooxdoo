@@ -91,7 +91,7 @@ qx.Class.define("qx.test.event.GlobalError",
     {
       this.require(["GlobalErrorHandling"]);
 
-      var fcn = function(a,b,c) {
+      var fcn = function(a, b, c) {
         var args = [a, b, c];
         return args;
       };

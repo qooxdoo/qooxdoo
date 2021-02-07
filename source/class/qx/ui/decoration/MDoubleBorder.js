@@ -240,7 +240,6 @@ qx.Mixin.define("qx.ui.decoration.MDoubleBorder",
         innerWidth.bottom > 0 ||
         innerWidth.left > 0
       ) {
-
         var borderTop = (innerWidth.top || 0) + "px solid " + innerColor.top;
         var borderRight = (innerWidth.right || 0) + "px solid " + innerColor.right;
         var borderBottom = (innerWidth.bottom || 0) + "px solid " + innerColor.bottom;

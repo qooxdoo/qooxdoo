@@ -272,7 +272,6 @@ qx.Class.define("qx.ui.layout.Canvas",
           } else {
             left += marginLeft;
           }
-
         }
 
         // Stretching has higher priority than dimension data
@@ -344,8 +343,10 @@ qx.Class.define("qx.ui.layout.Canvas",
     // overridden
     _computeSizeHint : function()
     {
-      var neededWidth=0, neededMinWidth=0;
-      var neededHeight=0, neededMinHeight=0;
+      var neededWidth=0, 
+neededMinWidth=0;
+      var neededHeight=0, 
+neededMinHeight=0;
 
       var width, minWidth;
       var height, minHeight;
@@ -356,7 +357,7 @@ qx.Class.define("qx.ui.layout.Canvas",
 
       var left, top, right, bottom;
 
-      for (var i=0,l=children.length; i<l; i++)
+      for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         props = child.getLayoutProperties();

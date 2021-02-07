@@ -32,7 +32,7 @@ qx.Class.define("qx.test.ui.table.selection.Model",
 
       selectionModel.setSelectionInterval(0, 1);
       this.assertJsonEquals([{minIndex: 0, maxIndex: 1}], selectionModel._getSelectedRangeArr());
-      selectionModel.removeSelectionInterval(0,1);
+      selectionModel.removeSelectionInterval(0, 1);
       this.assertIdentical(0, selectionModel._getSelectedRangeArr().length);
 
       selectionModel.setSelectionInterval(0, 1);

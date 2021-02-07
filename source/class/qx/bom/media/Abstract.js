@@ -499,7 +499,7 @@ qx.Class.define("qx.bom.media.Abstract",
     try {
       // IE9 sometimes throws an can't access error
       this.pause();
-    } catch(ex) {}
+    } catch (ex) {}
 
     this.setSource("");
     this._media = null;

@@ -285,12 +285,12 @@ qx.Class.define("qx.ui.embed.Flash",
       var flashFE = this.getFlashElement();
 
       // First make sure the movie is defined and has received a non-zero object id.
-      if(typeof(flashFE) != "undefined" && flashFE != null)
+      if (typeof (flashFE) != "undefined" && flashFE != null)
       {
         try {
           return flashFE.PercentLoaded();
         }
-        catch(err)
+        catch (err)
         {
           // Not an accessible function yet.
           return 0;
@@ -319,17 +319,17 @@ qx.Class.define("qx.ui.embed.Flash",
     _checkLoading : function()
     {
       var source = this.getSource();
-      if(source != "" && source != null && source != "undefined")
+      if (source != "" && source != null && source != "undefined")
       {
-        if(!this.isLoaded())
+        if (!this.isLoaded())
         {
-          if(!this.__time) {
+          if (!this.__time) {
             this.__time = new Date().getTime();
           }
 
           var timeDiff = new Date().getTime() - this.__time;
 
-          if(this.getLoadTimeout() > timeDiff)
+          if (this.getLoadTimeout() > timeDiff)
           {
             var timer = qx.util.TimerManager.getInstance();
             timer.start(this._checkLoading, 0, this, null, 10);

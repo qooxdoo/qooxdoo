@@ -157,7 +157,6 @@ qx.Mixin.define("qx.core.MObjectId", {
         if (found) {
           result = target;
         }
-        
       } else {
         // No object, creating the object
         result = this._createQxObject(id);
@@ -319,7 +318,7 @@ qx.Mixin.define("qx.core.MObjectId", {
      * 
      * @return {Array}
      */    
-    getOwnedQxObjects : function(){
+    getOwnedQxObjects : function() {
       return this.__ownedQxObjects ? Object.values(this.__ownedQxObjects) : [];
     }
   }

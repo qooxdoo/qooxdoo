@@ -259,7 +259,7 @@ qx.Bootstrap.define("qx.bom.Label",
       value = value || "";
 
       if (element.useHtml) {
-        if (qx.bom.Label.__sanitizer && typeof(qx.bom.Label.__sanitizer) === "function") {
+        if (qx.bom.Label.__sanitizer && typeof (qx.bom.Label.__sanitizer) === "function") {
           value = qx.bom.Label.__sanitizer(value);
         }
         element.innerHTML = value;

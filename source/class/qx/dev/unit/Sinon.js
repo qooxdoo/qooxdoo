@@ -80,7 +80,6 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
  * @lint ignoreJsdocKey(author, license, depend)
  */
 (function() {
-
 /**
  * Below is the original Sinon.JS code with some minor changes:
  *
@@ -197,7 +196,8 @@ define.amd = true;
      * Return an array of own property names.
      */
     function keys(object) {
-        var ks = [], prop;
+        var ks = [], 
+prop;
         for (prop in object) {
             if (o.hasOwnProperty.call(object, prop)) { ks.push(prop); }
         }
@@ -258,7 +258,6 @@ define.amd = true;
      * Supports cyclic objects.
      */
     function deepEqualCyclic(obj1, obj2) {
-
         // used for cyclic comparison
         // contain already visited objects
         var objects1 = [],
@@ -278,14 +277,12 @@ define.amd = true;
          * only needed for cyclic logic
          */
         function isObject(value) {
-
             if (typeof value === 'object' && value !== null &&
                     !(value instanceof Boolean) &&
                     !(value instanceof Date)    &&
                     !(value instanceof Number)  &&
                     !(value instanceof RegExp)  &&
                     !(value instanceof String)) {
-
                 return true;
             }
 
@@ -298,7 +295,6 @@ define.amd = true;
          * only needed for cyclic logic
          */
         function getIndex(objects, obj) {
-
             var i;
             for (i = 0; i < objects.length; i++) {
                 if (objects[i] === obj) {
@@ -319,14 +315,14 @@ define.amd = true;
                     isNaN(obj1) || isNaN(obj2) ||
                     obj1 == null || obj2 == null ||
                     type1 !== "object" || type2 !== "object") {
-
                 return identical(obj1, obj2);
             }
 
             // Elements are only equal if identical(expected, actual)
             if (isElement(obj1) || isElement(obj2)) { return false; }
 
-            var isDate1 = isDate(obj1), isDate2 = isDate(obj2);
+            var isDate1 = isDate(obj1), 
+isDate2 = isDate(obj2);
             if (isDate1 || isDate2) {
                 if (!isDate1 || !isDate2 || obj1.getTime() !== obj2.getTime()) {
                     return false;
@@ -419,8 +415,7 @@ define.amd = true;
             }
 
             return true;
-
-        }(obj1, obj2, '$1', '$2'));
+        })(obj1, obj2, '$1', '$2');
     }
 
     var match;
@@ -504,7 +499,6 @@ define.amd = true;
     module.exports = m(require("samsam"));
 }) || function (m) { this.formatio = m(this.samsam); }
 )(function (samsam) {
-
     var formatio = {
         excludeConstructors: ["Object", /^.$/],
         quoteStrings: true
@@ -602,7 +596,8 @@ define.amd = true;
     ascii.array = function (array, processed) {
         processed = processed || [];
         processed.push(array);
-        var i, l, pieces = [];
+        var i, l, 
+pieces = [];
         for (i = 0, l = array.length; i < l; ++i) {
             pieces.push(ascii(this, array[i], processed));
         }
@@ -613,7 +608,8 @@ define.amd = true;
         processed = processed || [];
         processed.push(object);
         indent = indent || 0;
-        var pieces = [], properties = samsam.keys(object).sort();
+        var pieces = [], 
+properties = samsam.keys(object).sort();
         var length = 3;
         var prop, str, obj, i, l;
 
@@ -646,14 +642,17 @@ define.amd = true;
 
     ascii.element = function (element) {
         var tagName = element.tagName.toLowerCase();
-        var attrs = element.attributes, attr, pairs = [], attrName, i, l, val;
+        var attrs = element.attributes, 
+attr, 
+pairs = [], 
+attrName, i, l, val;
 
         for (i = 0, l = attrs.length; i < l; ++i) {
             attr = attrs.item(i);
             attrName = attr.nodeName.toLowerCase().replace("html:", "");
             val = attr.nodeValue;
             if (attrName !== "contenteditable" || val !== "inherit") {
-                if (!!val) { pairs.push(attrName + "=\"" + val + "\""); }
+                if (val) { pairs.push(attrName + "=\"" + val + "\""); }
             }
         }
 
@@ -775,7 +774,7 @@ var sinon = (function (formatio) {
             }
 
             if (wrappedMethod.calledBefore) {
-                var verb = !!wrappedMethod.returns ? "stubbed" : "spied on";
+                var verb = wrappedMethod.returns ? "stubbed" : "spied on";
                 error = new TypeError("Attempted to wrap " + property + " which is already " + verb);
             }
 
@@ -876,7 +875,9 @@ var sinon = (function (formatio) {
                 return a.valueOf() === b.valueOf();
             }
 
-            var prop, aLength = 0, bLength = 0;
+            var prop, 
+aLength = 0, 
+bLength = 0;
 
             if (aString == "[object Array]" && a.length !== b.length) {
                 return false;
@@ -914,7 +915,8 @@ var sinon = (function (formatio) {
 
         functionToString: function toString() {
             if (this.getCall && this.callCount) {
-                var thisValue, prop, i = this.callCount;
+                var thisValue, prop, 
+i = this.callCount;
 
                 while (i--) {
                     thisValue = this.getCall(i).thisValue;
@@ -1034,7 +1036,7 @@ var sinon = (function (formatio) {
     var isAMD = typeof define === 'function' && typeof define.amd === 'object' && define.amd;
 
     if (isAMD) {
-        define(function(){
+        define(function() {
             return sinon;
         });
     } else if (isNode) {
@@ -1074,7 +1076,7 @@ var sinon = (function (formatio) {
     }
 
     return sinon;
-}(typeof formatio == "object" && formatio));
+})(typeof formatio == "object" && formatio);
 
 /* @depend ../sinon.js */
 /*jslint eqeqeq: false, onevar: false, plusplus: false*/
@@ -1317,7 +1319,7 @@ var sinon = (function (formatio) {
     } else {
         sinon.match = match;
     }
-}(typeof sinon == "object" && sinon || null));
+})(typeof sinon == "object" && sinon || null);
 
 /**
   * @depend ../sinon.js
@@ -1519,7 +1521,7 @@ var sinon = (function (formatio) {
     } else {
         sinon.spyCall = createSpyCall;
     }
-}(typeof sinon == "object" && sinon || null));
+})(typeof sinon == "object" && sinon || null);
 
 
 /**
@@ -1927,7 +1929,7 @@ var sinon = (function (formatio) {
     } else {
         sinon.spy = spy;
     }
-}(typeof sinon == "object" && sinon || null));
+})(typeof sinon == "object" && sinon || null);
 
 /**
  * @depend ../sinon.js
@@ -2259,7 +2261,7 @@ var sinon = (function (formatio) {
     } else {
         sinon.behavior = proto;
     }
-}(typeof sinon == "object" && sinon || null));
+})(typeof sinon == "object" && sinon || null);
 /**
  * @depend ../sinon.js
  * @depend spy.js
@@ -2405,19 +2407,19 @@ var sinon = (function (formatio) {
                         this.defaultBehavior[behaviorMethod].apply(this.defaultBehavior, arguments);
                         return this;
                     };
-                }(method));
+                })(method);
             }
         }
 
         return proto;
-    }()));
+    })());
 
     if (commonJSModule) {
         module.exports = stub;
     } else {
         sinon.stub = stub;
     }
-}(typeof sinon == "object" && sinon || null));
+})(typeof sinon == "object" && sinon || null);
 
 /**
  * @depend ../sinon.js
@@ -2526,7 +2528,8 @@ var sinon = (function (formatio) {
 
             verify: function verify() {
                 var expectations = this.expectations || {};
-                var messages = [], met = [];
+                var messages = [], 
+met = [];
 
                 each(this.proxies, function (proxy) {
                     each(expectations[proxy], function (expectation) {
@@ -2551,7 +2554,8 @@ var sinon = (function (formatio) {
 
             invokeMethod: function invokeMethod(method, thisValue, args) {
                 var expectations = this.expectations && this.expectations[method];
-                var length = expectations && expectations.length || 0, i;
+                var length = expectations && expectations.length || 0, 
+i;
 
                 for (i = 0; i < length; i += 1) {
                     if (!expectations[i].met() &&
@@ -2560,7 +2564,9 @@ var sinon = (function (formatio) {
                     }
                 }
 
-                var messages = [], available, exhausted = 0;
+                var messages = [], 
+available, 
+exhausted = 0;
 
                 for (i = 0; i < length; i += 1) {
                     if (expectations[i].allowsCall(thisValue, args)) {
@@ -2583,7 +2589,7 @@ var sinon = (function (formatio) {
                 sinon.expectation.fail(messages.join("\n"));
             }
         };
-    }()));
+    })());
 
     var times = sinon.timesInWords;
 
@@ -2638,7 +2644,7 @@ var sinon = (function (formatio) {
             return expectation.callCount == expectation.maxCalls;
         }
 
-        function verifyMatcher(possibleMatcher, arg){
+        function verifyMatcher(possibleMatcher, arg) {
             if (match && match.isMatcher(possibleMatcher)) {
                 return possibleMatcher.test(arg);
             } else {
@@ -2755,8 +2761,7 @@ var sinon = (function (formatio) {
                 }
 
                 for (var i = 0, l = this.expectedArguments.length; i < l; i += 1) {
-
-                    if (!verifyMatcher(this.expectedArguments[i],args[i])) {
+                    if (!verifyMatcher(this.expectedArguments[i], args[i])) {
                         sinon.expectation.fail(this.method + " received wrong arguments " + sinon.format(args) +
                             ", didn't match " + this.expectedArguments.toString());
                     }
@@ -2793,7 +2798,7 @@ var sinon = (function (formatio) {
                 }
 
                 for (var i = 0, l = this.expectedArguments.length; i < l; i += 1) {
-                    if (!verifyMatcher(this.expectedArguments[i],args[i])) {
+                    if (!verifyMatcher(this.expectedArguments[i], args[i])) {
                         return false;
                     }
 
@@ -2864,14 +2869,14 @@ var sinon = (function (formatio) {
                 throw exception;
             }
         };
-    }());
+    })();
 
     if (commonJSModule) {
         module.exports = mock;
     } else {
         sinon.mock = mock;
     }
-}(typeof sinon == "object" && sinon || null));
+})(typeof sinon == "object" && sinon || null);
 
 /**
  * @depend ../sinon.js
@@ -3024,7 +3029,7 @@ var sinon = (function (formatio) {
     } else {
         sinon.collection = collection;
     }
-}(typeof sinon == "object" && sinon || null));
+})(typeof sinon == "object" && sinon || null);
 
 /*jslint eqeqeq: false, plusplus: false, evil: true, onevar: false, browser: true, forin: false*/
 /*global module, require, window*/
@@ -3105,8 +3110,10 @@ if (typeof sinon == "undefined") {
         }
 
         var strings = str.split(":");
-        var l = strings.length, i = l;
-        var ms = 0, parsed;
+        var l = strings.length, 
+i = l;
+        var ms = 0, 
+parsed;
 
         if (l > 3 || !/^(\d\d:){0,2}\d\d?$/.test(str)) {
             throw new Error("tick only understands numbers and 'h:m:s'");
@@ -3191,7 +3198,9 @@ if (typeof sinon == "undefined") {
 
         tick: function tick(ms) {
             ms = typeof ms == "number" ? ms : parseTime(ms);
-            var tickFrom = this.now, tickTo = this.now + ms, previous = this.now;
+            var tickFrom = this.now, 
+tickTo = this.now + ms, 
+previous = this.now;
             var timer = this.firstTimerInRange(tickFrom, tickTo);
 
             var firstException;
@@ -3219,7 +3228,9 @@ if (typeof sinon == "undefined") {
         },
 
         firstTimerInRange: function (from, to) {
-            var timer, smallest = null, originalTimer;
+            var timer, 
+smallest = null, 
+originalTimer;
 
             for (var id in this.timeouts) {
                 if (this.timeouts.hasOwnProperty(id)) {
@@ -3306,7 +3317,7 @@ if (typeof sinon == "undefined") {
             }
 
             return mirrorDateProperties(ClockDate, NativeDate);
-        }())
+        })()
     };
 
     function mirrorDateProperties(target, source) {
@@ -3414,7 +3425,7 @@ if (typeof sinon == "undefined") {
 
         return clock;
     };
-}(typeof global != "undefined" && typeof global !== "function" ? global : this));
+})(typeof global != "undefined" && typeof global !== "function" ? global : this);
 
 sinon.timers = {
     setTimeout: setTimeout,
@@ -3522,7 +3533,7 @@ if (typeof sinon == "undefined") {
             return !!event.defaultPrevented;
         }
     };
-}());
+})();
 
 /**
  * @depend ../../sinon.js
@@ -3554,7 +3565,7 @@ if (typeof sinon == "undefined") {
     xhr.supportsActiveX = typeof xhr.GlobalActiveXObject != "undefined";
     xhr.supportsXHR = typeof xhr.GlobalXMLHttpRequest != "undefined";
     xhr.workingXHR = xhr.supportsXHR ? xhr.GlobalXMLHttpRequest : xhr.supportsActiveX
-                                     ? function() { return new xhr.GlobalActiveXObject("MSXML2.XMLHTTP.3.0") } : false;
+                                     ? function() { return new xhr.GlobalActiveXObject("MSXML2.XMLHTTP.3.0"); } : false;
     xhr.supportsCORS = sinon.xhr.GlobalXMLHttpRequest && ('withCredentials' in (new sinon.xhr.GlobalXMLHttpRequest()));
 
     /*jsl:ignore*/
@@ -3624,7 +3635,7 @@ if (typeof sinon == "undefined") {
             "load": [],
             "abort": [],
             "error": []
-        }
+        };
     }
 
     UploadProgress.prototype.addEventListener = function(event, listener) {
@@ -3662,80 +3673,80 @@ if (typeof sinon == "undefined") {
     // filtering to enable a white-list version of Sinon FakeXhr,
     // where whitelisted requests are passed through to real XHR
     function each(collection, callback) {
-        if (!collection) return;
+        if (!collection) { return; }
         for (var i = 0, l = collection.length; i < l; i += 1) {
             callback(collection[i]);
         }
     }
     function some(collection, callback) {
         for (var index = 0; index < collection.length; index++) {
-            if(callback(collection[index]) === true) return true;
+            if (callback(collection[index]) === true) { return true; }
         }
         return false;
     }
     // largest arity in XHR is 5 - XHR#open
-    var apply = function(obj,method,args) {
-        switch(args.length) {
+    var apply = function(obj, method, args) {
+        switch (args.length) {
         case 0: return obj[method]();
         case 1: return obj[method](args[0]);
-        case 2: return obj[method](args[0],args[1]);
-        case 3: return obj[method](args[0],args[1],args[2]);
-        case 4: return obj[method](args[0],args[1],args[2],args[3]);
-        case 5: return obj[method](args[0],args[1],args[2],args[3],args[4]);
+        case 2: return obj[method](args[0], args[1]);
+        case 3: return obj[method](args[0], args[1], args[2]);
+        case 4: return obj[method](args[0], args[1], args[2], args[3]);
+        case 5: return obj[method](args[0], args[1], args[2], args[3], args[4]);
         }
     };
 
     FakeXMLHttpRequest.filters = [];
     FakeXMLHttpRequest.addFilter = function(fn) {
-        this.filters.push(fn)
+        this.filters.push(fn);
     };
     var IE6Re = /MSIE 6/;
-    FakeXMLHttpRequest.defake = function(fakeXhr,xhrArgs) {
+    FakeXMLHttpRequest.defake = function(fakeXhr, xhrArgs) {
         var xhr = new sinon.xhr.workingXHR();
-        each(["open","setRequestHeader","send","abort","getResponseHeader",
-              "getAllResponseHeaders","addEventListener","overrideMimeType","removeEventListener"],
+        each(["open", "setRequestHeader", "send", "abort", "getResponseHeader",
+              "getAllResponseHeaders", "addEventListener", "overrideMimeType", "removeEventListener"],
              function(method) {
                  fakeXhr[method] = function() {
-                   return apply(xhr,method,arguments);
+                   return apply(xhr, method, arguments);
                  };
              });
 
         var copyAttrs = function(args) {
             each(args, function(attr) {
               try {
-                fakeXhr[attr] = xhr[attr]
-              } catch(e) {
-                if(!IE6Re.test(navigator.userAgent)) throw e;
+                fakeXhr[attr] = xhr[attr];
+              } catch (e) {
+                if (!IE6Re.test(navigator.userAgent)) { throw e; }
               }
             });
         };
 
         var stateChange = function() {
             fakeXhr.readyState = xhr.readyState;
-            if(xhr.readyState >= FakeXMLHttpRequest.HEADERS_RECEIVED) {
-                copyAttrs(["status","statusText"]);
+            if (xhr.readyState >= FakeXMLHttpRequest.HEADERS_RECEIVED) {
+                copyAttrs(["status", "statusText"]);
             }
-            if(xhr.readyState >= FakeXMLHttpRequest.LOADING) {
+            if (xhr.readyState >= FakeXMLHttpRequest.LOADING) {
                 copyAttrs(["responseText"]);
             }
-            if(xhr.readyState === FakeXMLHttpRequest.DONE) {
+            if (xhr.readyState === FakeXMLHttpRequest.DONE) {
                 copyAttrs(["responseXML"]);
             }
-            if(fakeXhr.onreadystatechange) fakeXhr.onreadystatechange.call(fakeXhr, { target: fakeXhr });
+            if (fakeXhr.onreadystatechange) { fakeXhr.onreadystatechange.call(fakeXhr, { target: fakeXhr }); }
         };
-        if(xhr.addEventListener) {
-          for(var event in fakeXhr.eventListeners) {
-              if(fakeXhr.eventListeners.hasOwnProperty(event)) {
-                  each(fakeXhr.eventListeners[event],function(handler) {
+        if (xhr.addEventListener) {
+          for (var event in fakeXhr.eventListeners) {
+              if (fakeXhr.eventListeners.hasOwnProperty(event)) {
+                  each(fakeXhr.eventListeners[event], function(handler) {
                       xhr.addEventListener(event, handler);
                   });
               }
           }
-          xhr.addEventListener("readystatechange",stateChange);
+          xhr.addEventListener("readystatechange", stateChange);
         } else {
           xhr.onreadystatechange = stateChange;
         }
-        apply(xhr,"open",xhrArgs);
+        apply(xhr, "open", xhrArgs);
     };
     FakeXMLHttpRequest.useFilters = false;
 
@@ -3779,13 +3790,13 @@ if (typeof sinon == "undefined") {
             this.responseXML = null;
             this.requestHeaders = {};
             this.sendFlag = false;
-            if(sinon.FakeXMLHttpRequest.useFilters === true) {
+            if (sinon.FakeXMLHttpRequest.useFilters === true) {
                 var xhrArgs = arguments;
-                var defake = some(FakeXMLHttpRequest.filters,function(filter) {
-                    return filter.apply(this,xhrArgs)
+                var defake = some(FakeXMLHttpRequest.filters, function(filter) {
+                    return filter.apply(this, xhrArgs);
                 });
                 if (defake) {
-                  return sinon.FakeXMLHttpRequest.defake(this,arguments);
+                  return sinon.FakeXMLHttpRequest.defake(this, arguments);
                 }
             }
             this.readyStateChange(FakeXMLHttpRequest.OPENED);
@@ -4085,7 +4096,6 @@ if (typeof sinon == "undefined") {
         if (xhr.supportsActiveX) {
             global.ActiveXObject = function ActiveXObject(objId) {
                 if (objId == "Microsoft.XMLHTTP" || /^Msxml2\.XMLHTTP/i.test(objId)) {
-
                     return new sinon.FakeXMLHttpRequest();
                 }
 
@@ -4097,7 +4107,6 @@ if (typeof sinon == "undefined") {
     };
 
     sinon.FakeXMLHttpRequest = FakeXMLHttpRequest;
-
 })(typeof global === "object" ? global : this);
 
 if (typeof module !== 'undefined' && module.exports && !qx) {
@@ -4224,7 +4233,7 @@ sinon.fakeServer = (function () {
         getHTTPMethod: function getHTTPMethod(request) {
             if (this.fakeHTTPMethods && /post/i.test(request.method)) {
                 var matches = (request.requestBody || "").match(/_method=([^\b;]+)/);
-                return !!matches ? matches[1] : request.method;
+                return matches ? matches[1] : request.method;
             }
 
             return request.method;
@@ -4269,12 +4278,12 @@ sinon.fakeServer = (function () {
         },
 
         respond: function respond() {
-            if (arguments.length > 0) this.respondWith.apply(this, arguments);
+            if (arguments.length > 0) { this.respondWith.apply(this, arguments); }
             var queue = this.queue || [];
             var requests = queue.splice(0, queue.length);
             var request;
 
-            while(request = requests.shift()) {
+            while (request = requests.shift()) {
                 this.processRequest(request);
             }
         },
@@ -4310,7 +4319,7 @@ sinon.fakeServer = (function () {
             return this.xhr.restore && this.xhr.restore.apply(this.xhr, arguments);
         }
     };
-}());
+})();
 
 if (typeof module !== 'undefined' && module.exports && !qx) {
     module.exports = sinon;
@@ -4397,7 +4406,7 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
 
         return sinon.fakeServer.restore.apply(this, arguments);
     };
-}());
+})();
 
 /**
  * @depend ../sinon.js
@@ -4518,7 +4527,8 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
             sandbox.args = sandbox.args || [];
             sandbox.injectedKeys = [];
             sandbox.injectInto = config.injectInto;
-            var prop, value, exposed = sandbox.inject({});
+            var prop, value, 
+exposed = sandbox.inject({});
 
             if (config.properties) {
                 for (var i = 0, l = config.properties.length; i < l; i++) {
@@ -4539,7 +4549,7 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
     if (typeof module !== 'undefined' && module.exports && !qx) {
         module.exports = sinon.sandbox;
     }
-}());
+})();
 
 /**
  * @depend ../sinon.js
@@ -4614,7 +4624,7 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
     } else {
         sinon.test = test;
     }
-}(typeof sinon == "object" && sinon || null));
+})(typeof sinon == "object" && sinon || null);
 
 /**
  * @depend ../sinon.js
@@ -4677,7 +4687,8 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
 
         prefix = prefix || "test";
         var rPrefix = new RegExp("^" + prefix);
-        var methods = {}, testName, property, method;
+        var methods = {}, 
+testName, property, method;
         var setUp = tests.setUp;
         var tearDown = tests.tearDown;
 
@@ -4711,7 +4722,7 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
     } else {
         sinon.testCase = testCase;
     }
-}(typeof sinon == "object" && sinon || null));
+})(typeof sinon == "object" && sinon || null);
 
 /**
  * @depend ../sinon.js
@@ -4813,7 +4824,8 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
 
         callOrder: function assertCallOrder() {
             verifyIsStub.apply(null, arguments);
-            var expected = "", actual = "";
+            var expected = "", 
+actual = "";
 
             if (!sinon.calledInOrder(arguments)) {
                 try {
@@ -4876,7 +4888,7 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
                     "expected value to match",
                     "    expected = " + sinon.format(expectation),
                     "    actual = " + sinon.format(actual)
-                ]
+                ];
                 failAssertion(this, formatted.join("\n"));
             }
         }
@@ -4908,9 +4920,9 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
     } else {
         sinon.assert = assert;
     }
-}(typeof sinon == "object" && sinon || null, typeof window != "undefined" ? window : global));
+})(typeof sinon == "object" && sinon || null, typeof window != "undefined" ? window : global);
 
-return sinon;}.call(typeof window != 'undefined' && window || {}));
+return sinon; }.call(typeof window != 'undefined' && window || {}));
 /**
  * End of original code.
  */
@@ -4941,6 +4953,4 @@ return sinon;}.call(typeof window != 'undefined' && window || {}));
   Sinon.getSinon = function() {
     return origSinon;
   };
-
-
 }).call(window);

@@ -278,7 +278,6 @@ qx.Bootstrap.define("qx.Part",
 
       var partsPreloaded = 0;
       for (var i=0; i<partNames.length; i++) {
-
         this.__parts[partNames[i]].preload(function() {
           partsPreloaded++;
 

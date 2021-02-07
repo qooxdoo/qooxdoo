@@ -141,7 +141,6 @@ qx.Bootstrap.define("qx.bom.FullScreen",
       } else if (this.__doc["exitFullscreen"]) {
         this.__cancelMethodName = "exitFullscreen";
       }
-
     },
 
 

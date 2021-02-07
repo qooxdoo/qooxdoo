@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.mobile.form.TextField",
     */
     _onKeyPress : function(evt) {
       // On return
-      if(evt.getKeyCode() == 13) {
+      if (evt.getKeyCode() == 13) {
         this.blur();
       }
     }

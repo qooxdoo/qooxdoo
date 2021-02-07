@@ -453,7 +453,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             icon = "checkbox-focused";
           } else if (states.pressed) {
             icon = "checkbox-pressed";
-          } else if (states.hovered ) {
+          } else if (states.hovered) {
             icon = "checkbox-hovered";
           }
         }
@@ -880,7 +880,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
+        var marginTop=0, 
+marginRight=0, 
+marginBottom=0, 
+marginLeft=0;
 
         if (states.barTop) {
           marginBottom = -2;
@@ -969,12 +972,21 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var decorator;
-        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
+        var marginTop=0, 
+marginRight=0, 
+marginBottom=0, 
+marginLeft=0;
 
         if (states.barTop || states.barBottom) {
-          var paddingTop=2, paddingBottom=2, paddingLeft=6, paddingRight=6;
+          var paddingTop=2, 
+paddingBottom=2, 
+paddingLeft=6, 
+paddingRight=6;
         } else {
-          var paddingTop=6, paddingBottom=6, paddingLeft=6, paddingRight=6;
+          var paddingTop=6, 
+paddingBottom=6, 
+paddingLeft=6, 
+paddingRight=6;
         }
 
         if (states.barTop)
@@ -1413,7 +1425,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon        : "decoration/treevirtual/end_minus.gif"
-        }
+        };
       }
     },
 
@@ -1423,7 +1435,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon        : "decoration/treevirtual/end_plus.gif"
-        }
+        };
       }
     },
 
@@ -1433,7 +1445,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon        : "decoration/treevirtual/cross_minus.gif"
-        }
+        };
       }
     },
 
@@ -1443,7 +1455,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon        : "decoration/treevirtual/cross_plus.gif"
-        }
+        };
       }
     },
 
@@ -1454,7 +1466,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon        : "decoration/treevirtual/end.gif"
-        }
+        };
       }
     },
 
@@ -1464,7 +1476,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon        : "decoration/treevirtual/cross.gif"
-        }
+        };
       }
     },
 
@@ -1723,7 +1735,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : "outset"
-        }
+        };
       }
     },
 
@@ -2006,7 +2018,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           marginBottom: 4,
           marginLeft : 2,
           marginRight : 2
-        }
+        };
       }
     },
 
@@ -2087,7 +2099,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           icon : !states.checked ? undefined :
             states.selected ? "decoration/menu/checkbox-invert.gif" :
               "decoration/menu/checkbox.gif"
-        }
+        };
       }
     },
 
@@ -2102,7 +2114,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           icon : !states.checked ? undefined :
             states.selected ? "decoration/menu/radiobutton-invert.gif" :
               "decoration/menu/radiobutton.gif"
-        }
+        };
       }
     },
 
@@ -2163,7 +2175,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator : "inset-thin",
           width : 16,
           height : 16
-        }
+        };
       }
     },
 
@@ -2174,7 +2186,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function() {
         return {
           paddingTop: 12
-        }
+        };
       }
     },
 
@@ -2184,7 +2196,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function() {
         return {
           paddingTop: 12
-        }
+        };
       }
     },
 
@@ -2209,7 +2221,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator : "inset-thin",
           width : 50,
           height : 10
-        }
+        };
       }
     },
 
@@ -2222,7 +2234,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : "white",
           width : 50,
           height : 10
-        }
+        };
       }
     },
 
@@ -2233,7 +2245,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           decorator : "inset-thin",
           margin : 5
-        }
+        };
       }
     },
 
@@ -2244,7 +2256,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           decorator : "inset-thin",
           margin : [5, 7]
-        }
+        };
       }
     },
 
@@ -2320,7 +2332,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon : "icon/16/actions/view-refresh.png"
-        }
+        };
       }
     },
 
@@ -2386,7 +2398,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           sortIcon : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
               : undefined
-        }
+        };
       }
     },
 
@@ -2396,7 +2408,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           marginRight: 4,
           opacity : states.disabled ? 0.3 : 1
-        }
+        };
       }
     },
 
@@ -2406,7 +2418,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           alignY : "middle",
           opacity : states.disabled ? 0.3 : 1
-        }
+        };
       }
     },
 
@@ -2482,7 +2494,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator : "outset",
           padding : 5,
           backgroundColor : "background"
-        }
+        };
       }
     },
 
@@ -2496,7 +2508,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           width : 14,
           height : 14,
           backgroundColor : "background"
-        }
+        };
       }
     },
 
@@ -2515,7 +2527,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           marginLeft : 4,
           decorator : "inset-thin",
           allowGrowX : true
-        }
+        };
       }
     },
 
@@ -2529,7 +2541,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           marginRight : 4,
           decorator : "inset-thin",
           allowGrowX : true
-        }
+        };
       }
     },
 
@@ -2624,7 +2636,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             "table-row-background-even",
           textColor: states.selected ? "text-selected" : "text",
           padding: [3, 6]
-        }
+        };
       }
     },
 
@@ -2636,7 +2648,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           textAlign : "right"
-        }
+        };
       }
     },
     "cell-image" : "cell",
@@ -2660,7 +2672,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor: "white",
           width : 200,
           height : 20
-        }
+        };
       }
     },
 
@@ -2669,7 +2681,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style: function(states) {
         return {
           backgroundColor: states.disabled ? "background-disabled" : "background-selected"
-        }
+        };
       }
     },
 
@@ -2701,7 +2713,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           padding: [0, 10, 10, 10],
           backgroundColor: "light-background"
-        }
+        };
       }
     },
       

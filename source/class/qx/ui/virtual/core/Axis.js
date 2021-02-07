@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.virtual.core.Axis",
         return ranges;
       }
 
-      indexes.sort(function(a,b) { return a > b ? 1 : -1;});
+      indexes.sort(function(a, b) { return a > b ? 1 : -1; });
 
       var ranges = [];
       var correctionSum = 0;

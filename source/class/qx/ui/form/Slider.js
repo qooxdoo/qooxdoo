@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.form.Slider",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "knob":
           control = new qx.ui.core.Widget();
@@ -362,7 +362,7 @@ qx.Class.define("qx.ui.form.Slider",
       var backward = isHorizontal ? "Left" : "Up";
       var forward = isHorizontal ? "Right" : "Down";
 
-      switch(e.getKeyIdentifier())
+      switch (e.getKeyIdentifier())
       {
         case forward:
           this.slideForward();
@@ -436,7 +436,7 @@ qx.Class.define("qx.ui.form.Slider",
       {
         // Switch into drag mode
         this.__dragMode = true;
-        if (!this.__dragTimer){
+        if (!this.__dragTimer) {
           // create a timer to fire delayed dragging events if dragging stops.
           this.__dragTimer = new qx.event.Timer(100);
           this.__dragTimer.addListener("interval", this._fireValue, this);
@@ -539,7 +539,6 @@ qx.Class.define("qx.ui.form.Slider",
             this.getChildControl("knob").removeState("hovered");
           }
         }
-
       }
       else if (this.__trackingMode)
       {
@@ -1079,9 +1078,9 @@ qx.Class.define("qx.ui.form.Slider",
       if (value != null) {
         this._updateKnobPosition();
         if (this.__dragMode) {
-          this.__dragValue = [value,old];
+          this.__dragValue = [value, old];
         } else {
-          this.fireEvent("changeValue", qx.event.type.Data, [value,old]);
+          this.fireEvent("changeValue", qx.event.type.Data, [value, old]);
         }
       } else {
         this.resetValue();
@@ -1092,8 +1091,8 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Helper for applyValue which fires the changeValue event.
      */
-    _fireValue: function(){
-      if (!this.__dragValue){
+    _fireValue: function() {
+      if (!this.__dragValue) {
         return;
       }
       var tmp = this.__dragValue;

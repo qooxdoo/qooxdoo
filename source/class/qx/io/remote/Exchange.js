@@ -262,7 +262,7 @@ qx.Class.define("qx.io.remote.Exchange",
     {
       if (vIsLocal)
       {
-        switch(vStatusCode)
+        switch (vStatusCode)
         {
           case null:
           case 0:
@@ -279,7 +279,7 @@ qx.Class.define("qx.io.remote.Exchange",
       }
       else
       {
-        switch(vStatusCode)
+        switch (vStatusCode)
         {
           case -1: // Not Available (OK for readystates: MSXML<4=1-3, MSXML>3=1-2, Gecko=1)
             if (qx.core.Environment.get("qx.debug"))
@@ -395,7 +395,7 @@ qx.Class.define("qx.io.remote.Exchange",
      */
     statusCodeToString : function(vStatusCode)
     {
-      switch(vStatusCode)
+      switch (vStatusCode)
       {
         case -1:
           return "Not available";
@@ -665,7 +665,7 @@ qx.Class.define("qx.io.remote.Exchange",
               }
             }
 
-            vTransport = new vTransportImpl;
+            vTransport = new vTransportImpl();
             this.setImplementation(vTransport);
 
             vTransport.setUseBasicHttpAuth(vRequest.getUseBasicHttpAuth());
@@ -673,7 +673,7 @@ qx.Class.define("qx.io.remote.Exchange",
             vTransport.send();
             return true;
           }
-          catch(ex)
+          catch (ex)
           {
             this.error("Request handler throws error");
             this.error(ex);
@@ -880,7 +880,7 @@ qx.Class.define("qx.io.remote.Exchange",
 
         // Set the parseJson property which is currently only supported for XmlHttp transport
         // (which is the only transport supporting JSON parsing so far).
-        if (value instanceof qx.io.remote.transport.XmlHttp){
+        if (value instanceof qx.io.remote.transport.XmlHttp) {
           value.setParseJson(vRequest.getParseJson());
         }
 
@@ -948,7 +948,7 @@ qx.Class.define("qx.io.remote.Exchange",
         }
       }
 
-      switch(value)
+      switch (value)
       {
         case "sending":
           this.fireEvent("sending");
@@ -1011,7 +1011,6 @@ qx.Class.define("qx.io.remote.Exchange",
             vResponse.setResponseHeaders(vImpl.getResponseHeaders());
 
             this.dispatchEvent(vResponse);
-
           }
 
           // Disconnect and dispose implementation

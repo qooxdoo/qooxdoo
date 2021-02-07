@@ -106,7 +106,6 @@ qx.Bootstrap.define("qx.bom.client.Pdfjs",
  * @lint ignoreDeprecated(eval)
  */
 (function() {
-
 /**
  * Below is the original minified PluginDetect code with some minor changes:
  *
@@ -182,7 +181,8 @@ var PluginDetect = {
   },
   compareNums: function (h, f, d) {
     var e = this,
-      c, b, a, g = parseInt;
+      c, b, a, 
+g = parseInt;
     if (e.isStrNum(h) && e.isStrNum(f)) {
       if (e.isDefined(d) && d.compareNums) {
         return d.compareNums(h, f);
@@ -240,7 +240,9 @@ var PluginDetect = {
           Find2: d.isString(h.find2) ? new RegExp(h.find2, "i") : h.find2,
           Avoid: h.avoid ? (d.isString(h.avoid) ? new RegExp(h.avoid, "i") : h.avoid) : 0,
           Num: h.num ? /\d/ : 0
-        }, f, c, g, j, m, l, b, a = navigator.mimeTypes,
+        }, 
+f, c, g, j, m, l, b, 
+a = navigator.mimeTypes,
         k = navigator.plugins,
         o = null;
       if (h.mimes && a) {
@@ -319,7 +321,8 @@ var PluginDetect = {
   getVersionDelimiter: ",",
   findPlugin: function (d) {
     var c = this,
-      b, d, a = {
+      b, d, 
+a = {
         status: -3,
         plugin: 0
       };
@@ -348,34 +351,36 @@ var PluginDetect = {
   })(),
   getAXO: function (a) {
     var d = null,
-      c, b = this;
+      c, 
+b = this;
     try {
       d = new b.AXO(a);
     } catch (ex) {};
     if (d) {
-      b.browser.ActiveXEnabled = !0
+      b.browser.ActiveXEnabled = !0;
     }
-    return d
+    return d;
   },
   browser: {},
   INIT: function () {
-    this.init.library(this)
+    this.init.library(this);
   },
   init: {
     $: 1,
     hasRun: 0,
     objProperties: function (d, e, c) {
-      var a, b = {};
+      var a, 
+b = {};
       if (e && c) {
         if (e[c[0]] === 1 && d.hasOwn(e, c[0]) && d.isPlainObject(e)) {
-          for (a = 0; a < c.length; a = a + 2) {
+          for (a = 0; a < c.length; a += 2) {
             e[c[a]] = c[a + 1];
-            b[c[a]] = 1
+            b[c[a]] = 1;
           }
         }
         for (a in e) {
           if (e[a] && e[a][c[0]] === 1 && d.hasOwn(e, a) && !d.hasOwn(b, a)) {
-            this.objProperties(d, e[a], c)
+            this.objProperties(d, e[a], c);
           }
         }
       }
@@ -389,9 +394,9 @@ var PluginDetect = {
           a.version = null;
           a.version0 = null;
           a.getVersionDone = null;
-          a.pluginName = c
+          a.pluginName = c;
         }
-        d.objProperties(b, a, ["$", b, "$$", a])
+        d.objProperties(b, a, ["$", b, "$$", a]);
       }
     },
     detectIE: function () {
@@ -408,42 +413,43 @@ var PluginDetect = {
       browser.ActiveXFilteringEnabled = !1;
       browser.ActiveXEnabled = !1;
       try {
-        browser.ActiveXFilteringEnabled = !! window.external.msActiveXFilteringEnabled()
+        browser.ActiveXFilteringEnabled = !!window.external.msActiveXFilteringEnabled();
       } catch (ex) {}
       progid1 = ["Msxml2.XMLHTTP", "Msxml2.DOMDocument", "Microsoft.XMLDOM", "TDCCtl.TDCCtl", "Shell.UIHelper", "HtmlDlgSafeHelper.HtmlDlgSafeHelper", "Scripting.Dictionary"];
       progid2 = ["WMPlayer.OCX", "ShockwaveFlash.ShockwaveFlash", "AgControl.AgControl"];
       progid = progid1.concat(progid2);
       for (x = 0; x < progid.length; x++) {
         if ($.getAXO(progid[x]) && !$.dbug) {
-          break
+          break;
         }
       }
       if (browser.ActiveXEnabled && browser.ActiveXFilteringEnabled) {
         for (x = 0; x < progid2.length; x++) {
           if ($.getAXO(progid2[x])) {
             browser.ActiveXFilteringEnabled = !1;
-            break
+            break;
           }
         }
       };
       tmp = doc.documentMode;
       try {
-        doc.documentMode = ""
+        doc.documentMode = "";
       } catch (ex) {}
       browser.isIE = browser.ActiveXEnabled || $.isNum(doc.documentMode) || eval("/*@cc_on!@*/!1");
       try {
-        doc.documentMode = tmp
+        doc.documentMode = tmp;
       } catch (ex) {};
       browser.verIE = null;
       if (browser.isIE) {
-        browser.verIE = ($.isNum(doc.documentMode) && doc.documentMode >= 7 ? doc.documentMode : 0) || ((/^(?:.*?[^a-zA-Z])??(?:MSIE|rv\s*\:)\s*(\d+\.?\d*)/i).test(userAgent) ? parseFloat(RegExp.$1, 10) : 7)
+        browser.verIE = ($.isNum(doc.documentMode) && doc.documentMode >= 7 ? doc.documentMode : 0) || ((/^(?:.*?[^a-zA-Z])??(?:MSIE|rv\s*\:)\s*(\d+\.?\d*)/i).test(userAgent) ? parseFloat(RegExp.$1, 10) : 7);
       }
     },
     detectNonIE: function () {
       var f = this,
         d = this.$,
         a = d.browser,
-        e = window.navigator ? navigator : {}, c = a.isIE ? "" : e.userAgent || "",
+        e = window.navigator ? navigator : {}, 
+c = a.isIE ? "" : e.userAgent || "",
         g = e.vendor || "",
         b = e.product || "";
       a.isGecko = (/Gecko/i).test(b) && (/Gecko\s*\/\s*\d/i).test(c);
@@ -453,19 +459,20 @@ var PluginDetect = {
       a.isSafari = !a.isChrome && ((/Apple/i).test(g) || !g) && (/Safari\s*\/\s*(\d[\d\.]*)/i).test(c);
       a.verSafari = a.isSafari && (/Version\s*\/\s*(\d[\d\.]*)/i).test(c) ? d.formatNum(RegExp.$1) : null;
       a.isOpera = (/Opera\s*[\/]?\s*(\d+\.?\d*)/i).test(c);
-      a.verOpera = a.isOpera && ((/Version\s*\/\s*(\d+\.?\d*)/i).test(c) || 1) ? parseFloat(RegExp.$1, 10) : null
+      a.verOpera = a.isOpera && ((/Version\s*\/\s*(\d+\.?\d*)/i).test(c) || 1) ? parseFloat(RegExp.$1, 10) : null;
     },
     detectPlatform: function () {
       var e = this,
         d = e.$,
-        b, a = window.navigator ? navigator.platform || "" : "";
+        b, 
+a = window.navigator ? navigator.platform || "" : "";
       d.OS = 100;
       if (a) {
         var c = ["Win", 1, "Mac", 2, "Linux", 3, "FreeBSD", 4, "iPhone", 21.1, "iPod", 21.2, "iPad", 21.3, "Win.*CE", 22.1, "Win.*Mobile", 22.2, "Pocket\\s*PC", 22.3, "", 100];
-        for (b = c.length - 2; b >= 0; b = b - 2) {
+        for (b = c.length - 2; b >= 0; b -= 2) {
           if (c[b] && new RegExp(c[b], "i").test(a)) {
             d.OS = c[b + 1];
-            break
+            break;
           }
         }
       }
@@ -477,7 +484,7 @@ var PluginDetect = {
       d.objProperties(b, b, ["$", b]);
       for (a in b.Plugins) {
         if (b.hasOwn(b.Plugins, a)) {
-          d.plugin(b.Plugins[a], a)
+          d.plugin(b.Plugins[a], a);
         }
       };
       b.PUBLIC.init();
@@ -486,21 +493,21 @@ var PluginDetect = {
       d.detectPlatform();
       d.detectIE();
       d.detectNonIE();
-      d.hasRun = 1
+      d.hasRun = 1;
     }
   },
   ev: {
     $: 1,
     handler: function (d, c, b, a) {
       return function () {
-        d(c, b, a)
-      }
+        d(c, b, a);
+      };
     },
     fPush: function (b, a) {
       var c = this,
         d = c.$;
       if (d.isArray(a) && (d.isFunc(b) || (d.isArray(b) && b.length > 0 && d.isFunc(b[0])))) {
-        a.push(b)
+        a.push(b);
       }
     },
     call0: function (d) {
@@ -508,10 +515,10 @@ var PluginDetect = {
         c = b.$,
         a = c.isArray(d) ? d.length : -1;
       if (a > 0 && c.isFunc(d[0])) {
-        d[0](c, a > 1 ? d[1] : 0, a > 2 ? d[2] : 0, a > 3 ? d[3] : 0)
+        d[0](c, a > 1 ? d[1] : 0, a > 2 ? d[2] : 0, a > 3 ? d[3] : 0);
       } else {
         if (c.isFunc(d)) {
-          d(c)
+          d(c);
         }
       }
     },
@@ -523,19 +530,19 @@ var PluginDetect = {
         while (a.length) {
           c = a[0];
           a.splice(0, 1);
-          b.call0(c)
+          b.call0(c);
         }
       }
     },
     call: function (b) {
       var a = this;
       a.call0(b);
-      a.ifDetectDoneCallHndlrs()
+      a.ifDetectDoneCallHndlrs();
     },
     callArray: function (a) {
       var b = this;
       b.callArray0(a);
-      b.ifDetectDoneCallHndlrs()
+      b.ifDetectDoneCallHndlrs();
     },
     allDoneHndlrs: [],
     ifDetectDoneCallHndlrs: function () {
@@ -543,11 +550,11 @@ var PluginDetect = {
         d = c.$,
         a, b;
       if (!c.allDoneHndlrs.length) {
-        return
+        return;
       }
       if (d.win) {
         if (!d.win.loaded || d.win.loadPrvtHndlrs.length || d.win.loadPblcHndlrs.length) {
-          return
+          return;
         }
       }
       if (d.Plugins) {
@@ -555,12 +562,12 @@ var PluginDetect = {
           b = d.Plugins[a];
           if (d.hasOwn(d.Plugins, a) && b && d.isFunc(b.getVersion)) {
             if (b.OTF == 3 || (b.DoneHndlrs && b.DoneHndlrs.length)) {
-              return
+              return;
             }
           }
         }
       };
-      c.callArray0(c.allDoneHndlrs)
+      c.callArray0(c.allDoneHndlrs);
     }
   },
   PUBLIC: {
@@ -571,97 +578,99 @@ var PluginDetect = {
         a;
       for (a in c) {
         if (a !== "init" && b.hasOwn(c, a) && b.isFunc(c[a])) {
-          b[a] = c[a](b)
+          b[a] = c[a](b);
         }
       }
     },
     isMinVersion: function (b) {
       var a = function (j, h, e, d) {
         var f = b.findPlugin(j),
-          g, c = -1;
+          g, 
+c = -1;
         if (f.status < 0) {
-          return f.status
+          return f.status;
         }
         g = f.plugin;
         h = b.formatNum(b.isNum(h) ? h.toString() : (b.isStrNum(h) ? b.getNum(h) : "0"));
         if (g.getVersionDone != 1) {
           g.getVersion(h, e, d);
           if (g.getVersionDone === null) {
-            g.getVersionDone = 1
+            g.getVersionDone = 1;
           }
         }
         if (g.installed !== null) {
-          c = g.installed <= 0.5 ? g.installed : (g.installed == 0.7 ? 1 : (g.version === null ? 0 : (b.compareNums(g.version, h, g) >= 0 ? 1 : -0.1)))
+          c = g.installed <= 0.5 ? g.installed : (g.installed == 0.7 ? 1 : (g.version === null ? 0 : (b.compareNums(g.version, h, g) >= 0 ? 1 : -0.1)));
         };
-        return c
+        return c;
       };
-      return a
+      return a;
     },
     getVersion: function (b) {
       var a = function (h, e, d) {
         var f = b.findPlugin(h),
           g, c;
         if (f.status < 0) {
-          return null
+          return null;
         };
         g = f.plugin;
         if (g.getVersionDone != 1) {
           g.getVersion(null, e, d);
           if (g.getVersionDone === null) {
-            g.getVersionDone = 1
+            g.getVersionDone = 1;
           }
         }
         c = (g.version || g.version0);
         c = c ? c.replace(b.splitNumRegx, b.getVersionDelimiter) : c;
-        return c
+        return c;
       };
-      return a
+      return a;
     },
     onDetectionDone: function (b) {
       var a = function (j, h, d, c) {
         var e = b.findPlugin(j),
           k, g;
         if (e.status == -3) {
-          return -1
+          return -1;
         }
         g = e.plugin;
         if (!b.isArray(g.DoneHndlrs)) {
-          g.DoneHndlrs = []
+          g.DoneHndlrs = [];
         };
         if (g.getVersionDone != 1) {
-          k = b.getVersion ? b.getVersion(j, d, c) : b.isMinVersion(j, "0", d, c)
+          k = b.getVersion ? b.getVersion(j, d, c) : b.isMinVersion(j, "0", d, c);
         }
         if (g.installed != -0.5 && g.installed != 0.5) {
           b.ev.call(h);
-          return 1
+          return 1;
         }
         b.ev.fPush(h, g.DoneHndlrs);
-        return 0
+        return 0;
       };
-      return a
+      return a;
     },
     hasMimeType: function (b) {
       var a = function (h) {
         if (h && window.navigator && navigator.mimeTypes) {
-          var l, k, d, j, g, c = navigator.mimeTypes,
+          var l, k, d, j, g, 
+c = navigator.mimeTypes,
             f = b.isArray(h) ? [].concat(h) : (b.isString(h) ? [h] : []);
           g = f.length;
           for (d = 0; d < g; d++) {
             l = 0;
             try {
               if (b.isString(f[d]) && /[^\s]/.test(f[d])) {
-                l = c[f[d]]
+                l = c[f[d]];
               }
             } catch (ex) {}
             k = l ? l.enabledPlugin : 0;
             if (k && (k.name || k.description)) {
-              return l
+              return l;
             }
           }
         };
-        return null
+        return null;
       };
-      return a
+      return a;
     },
     z: 0
   },
@@ -677,7 +686,7 @@ var PluginDetect = {
         b.onLoad = a.ev.handler(b.$$onLoad, a);
         b.onUnload = a.ev.handler(b.$$onUnload, a);
         b.addEvent("load", b.onLoad);
-        b.addEvent("unload", b.onUnload)
+        b.addEvent("unload", b.onUnload);
       }
     },
     addEvent: function (c, b) {
@@ -686,12 +695,12 @@ var PluginDetect = {
         a = window;
       if (d.isFunc(b)) {
         if (a.addEventListener) {
-          a.addEventListener(c, b, false)
+          a.addEventListener(c, b, false);
         } else {
           if (a.attachEvent) {
-            a.attachEvent("on" + c, b)
+            a.attachEvent("on" + c, b);
           } else {
-            a["on" + c] = e.concatFn(b, a["on" + c])
+            a["on" + c] = e.concatFn(b, a["on" + c]);
           }
         }
       }
@@ -700,9 +709,9 @@ var PluginDetect = {
       return function () {
         d();
         if (typeof c == "function") {
-          c()
+          c();
         }
-      }
+      };
     },
     loadPrvtHndlrs: [],
     loadPblcHndlrs: [],
@@ -711,9 +720,9 @@ var PluginDetect = {
       if (b && b.win) {
         b.ev.callArray(b.win.unloadHndlrs);
         for (var a in b) {
-          b[a] = 0
+          b[a] = 0;
         }
-        b = 0
+        b = 0;
       }
     },
     count: 0,
@@ -721,17 +730,17 @@ var PluginDetect = {
     intervalLength: 10,
     $$onLoad: function (a) {
       if (!a || a.win.loaded) {
-        return
+        return;
       }
       var b = a.win;
       if (b.count < b.countMax && b.loadPrvtHndlrs.length) {
-        setTimeout(b.onLoad, b.intervalLength)
+        setTimeout(b.onLoad, b.intervalLength);
       } else {
         b.loaded = true;
         a.ev.callArray(b.loadPrvtHndlrs);
-        a.ev.callArray(b.loadPblcHndlrs)
+        a.ev.callArray(b.loadPblcHndlrs);
       }
-      b.count++
+      b.count++;
     }
   },
   DOM: {
@@ -740,14 +749,14 @@ var PluginDetect = {
       $: 1,
       objectTag: function () {
         var a = this.$;
-        return a.browser.isIE ? a.browser.ActiveXEnabled : 1
+        return a.browser.isIE ? a.browser.ActiveXEnabled : 1;
       },
       objectTagUsingActiveX: function () {
-        return this.$.browser.ActiveXEnabled
+        return this.$.browser.ActiveXEnabled;
       },
       objectProperty: function () {
         var a = this.$;
-        return a.browser.isIE && a.browser.verIE >= 7 ? 1 : 0
+        return a.browser.isIE && a.browser.verIE >= 7 ? 1 : 0;
       }
     },
     div: null,
@@ -755,7 +764,7 @@ var PluginDetect = {
     divWidth: 300,
     getDiv: function () {
       var a = this;
-      return a.div || document.getElementById(a.divID) || null
+      return a.div || document.getElementById(a.divID) || null;
     },
     initDiv: function () {
       var b = this,
@@ -764,14 +773,14 @@ var PluginDetect = {
       if (!b.div) {
         a = b.getDiv();
         if (a) {
-          b.div = a
+          b.div = a;
         } else {
           b.div = document.createElement("div");
           b.div.id = b.divID;
           b.setStyle(b.div, b.getStyle.div());
-          b.insertDivInBody(b.div)
+          b.insertDivInBody(b.div);
         }
-        c.ev.fPush([b.onWinUnloadEmptyDiv, b], c.win.unloadHndlrs)
+        c.ev.fPush([b.onWinUnloadEmptyDiv, b], c.win.unloadHndlrs);
       }
     },
     pluginSize: 1,
@@ -782,10 +791,10 @@ var PluginDetect = {
         a;
       if (c && (/div|span/i).test(c.tagName || "")) {
         if (d.browser.isIE) {
-          b.setStyle(c, ["display", "none"])
+          b.setStyle(c, ["display", "none"]);
         }
         try {
-          c.innerHTML = ""
+          c.innerHTML = "";
         } catch (ex) {}
       }
     },
@@ -796,18 +805,18 @@ var PluginDetect = {
         if (b.childNodes) {
           for (a = b.childNodes.length - 1; a >= 0; a--) {
             c = b.childNodes[a];
-            d.emptyNode(c)
+            d.emptyNode(c);
           }
           try {
-            b.innerHTML = ""
+            b.innerHTML = "";
           } catch (ex) {}
         }
         if (b.parentNode) {
           try {
-            b.parentNode.removeChild(b)
+            b.parentNode.removeChild(b);
           } catch (ex) {}
           b = null;
-          d.div = null
+          d.div = null;
         }
       }
     },
@@ -816,21 +825,22 @@ var PluginDetect = {
         e = g.DOM,
         f = e.$,
         d = g.span,
-        b, c, a = -1;
+        b, c, 
+a = -1;
       b = d && f.isNum(d.scrollWidth) ? d.scrollWidth : a;
       c = d && f.isNum(d.offsetWidth) ? d.offsetWidth : a;
-      return c > 0 ? c : (b > 0 ? b : Math.max(c, b))
+      return c > 0 ? c : (b > 0 ? b : Math.max(c, b));
     },
     obj: function (b) {
       var d = this,
         c = d.span,
         a = c && c.firstChild ? c.firstChild : null;
-      return a
+      return a;
     },
     readyState: function () {
       var b = this,
         a = b.DOM.$;
-      return a.browser.isIE && a.isDefined(a.getPROP(b.span, "readyState")) ? a.getPROP(b.obj(), "readyState") : b.undefined
+      return a.browser.isIE && a.isDefined(a.getPROP(b.span, "readyState")) ? a.getPROP(b.obj(), "readyState") : b.undefined;
     },
     objectProperty: function () {
       var d = this,
@@ -838,70 +848,70 @@ var PluginDetect = {
         c = b.$,
         a;
       if (b.isEnabled.objectProperty()) {
-        a = c.getPROP(d.obj(), "object")
+        a = c.getPROP(d.obj(), "object");
       }
-      return a
+      return a;
     },
     getTagStatus: function (b, m, r, p, f, h) {
       var s = this,
         d = s.$;
       if (!b || !b.span) {
-        return -2
+        return -2;
       }
       var k = b.width(),
         c = b.readyState(),
         a = b.objectProperty();
       if (a) {
-        return 1.5
+        return 1.5;
       }
       var g = /clsid\s*\:/i,
         o = r && g.test(r.outerHTML || "") ? r : (p && g.test(p.outerHTML || "") ? p : 0),
         i = r && !g.test(r.outerHTML || "") ? r : (p && !g.test(p.outerHTML || "") ? p : 0),
         l = b && g.test(b.outerHTML || "") ? o : i;
       if (!m || !m.span || !l || !l.span) {
-        return 0
+        return 0;
       }
       var j = l.width(),
         n = m.width(),
         t = l.readyState();
       if (k < 0 || j < 0 || n <= s.pluginSize) {
-        return 0
+        return 0;
       }
       if (h && !b.pi && d.isDefined(a) && d.browser.isIE && b.tagName == l.tagName && b.time <= l.time && k === j && c === 0 && t !== 0) {
-        b.pi = 1
+        b.pi = 1;
       }
       if (j < n) {
-        return b.pi ? -0.1 : 0
+        return b.pi ? -0.1 : 0;
       }
       if (k >= n) {
         if (!b.winLoaded && d.win.loaded) {
-          return b.pi ? -0.5 : -1
+          return b.pi ? -0.5 : -1;
         }
         if (d.isNum(f)) {
           if (!d.isNum(b.count2)) {
-            b.count2 = f
+            b.count2 = f;
           }
           if (f - b.count2 > 0) {
-            return b.pi ? -0.5 : -1
+            return b.pi ? -0.5 : -1;
           }
         }
       }
       try {
         if (k == s.pluginSize && (!d.browser.isIE || c === 4)) {
           if (!b.winLoaded && d.win.loaded) {
-            return 1
+            return 1;
           }
           if (b.winLoaded && d.isNum(f)) {
             if (!d.isNum(b.count)) {
-              b.count = f
+              b.count = f;
             }
             if (f - b.count >= 5) {
-              return 1
+              return 1;
             }
           }
         }
       } catch (ex) {}
-      return b.pi ? -0.1 : 0
+      return b.pi ? -0.1 : 0;
     },
     setStyle: function (b, h) {
       var c = this,
@@ -909,9 +919,9 @@ var PluginDetect = {
         g = b.style,
         a;
       if (g && h) {
-        for (a = 0; a < h.length; a = a + 2) {
+        for (a = 0; a < h.length; a += 2) {
           try {
-            g[h[a]] = h[a + 1]
+            g[h[a]] = h[a + 1];
           } catch (ex) {}
         }
       }
@@ -920,15 +930,15 @@ var PluginDetect = {
       $: 1,
       span: function () {
         var a = this.$.DOM;
-        return [].concat(this.Default).concat(["display", "inline", "fontSize", (a.pluginSize + 3) + "px", "lineHeight", (a.pluginSize + 3) + "px"])
+        return [].concat(this.Default).concat(["display", "inline", "fontSize", (a.pluginSize + 3) + "px", "lineHeight", (a.pluginSize + 3) + "px"]);
       },
       div: function () {
         var a = this.$.DOM;
-        return [].concat(this.Default).concat(["display", "block", "width", a.divWidth + "px", "height", (a.pluginSize + 3) + "px", "fontSize", (a.pluginSize + 3) + "px", "lineHeight", (a.pluginSize + 3) + "px", "position", "absolute", "right", "9999px", "top", "-9999px"])
+        return [].concat(this.Default).concat(["display", "block", "width", a.divWidth + "px", "height", (a.pluginSize + 3) + "px", "fontSize", (a.pluginSize + 3) + "px", "lineHeight", (a.pluginSize + 3) + "px", "position", "absolute", "right", "9999px", "top", "-9999px"]);
       },
       plugin: function (b) {
         var a = this.$.DOM;
-        return "background-color:transparent;background-image:none;vertical-align:baseline;outline-style:none;border-style:none;padding:0px;margin:0px;visibility:" + (b ? "hidden;" : "visible;") + "display:inline;font-size:" + (a.pluginSize + 3) + "px;line-height:" + (a.pluginSize + 3) + "px;"
+        return "background-color:transparent;background-image:none;vertical-align:baseline;outline-style:none;border-style:none;padding:0px;margin:0px;visibility:" + (b ? "hidden;" : "visible;") + "display:inline;font-size:" + (a.pluginSize + 3) + "px;line-height:" + (a.pluginSize + 3) + "px;";
       },
       Default: ["backgroundColor", "transparent", "backgroundImage", "none", "verticalAlign", "baseline", "outlineStyle", "none", "borderStyle", "none", "padding", "0px", "margin", "0px", "visibility", "visible"]
     },
@@ -942,14 +952,14 @@ var PluginDetect = {
       if (!f) {
         try {
           i.write('<div id="' + b + '">.' + d.openTag + "/div>");
-          c = i.getElementById(b)
+          c = i.getElementById(b);
         } catch (ex) {}
       }
       f = i.getElementsByTagName("body")[0] || i.body;
       if (f) {
         f.insertBefore(a, f.firstChild);
         if (c) {
-          f.removeChild(c)
+          f.removeChild(c);
         }
       }
     },
@@ -957,10 +967,11 @@ var PluginDetect = {
       var r = this,
         f = r.$,
         s = document,
-        u, l, o = s.createElement("span"),
+        u, l, 
+o = s.createElement("span"),
         j, a;
       if (!f.isDefined(h)) {
-        h = ""
+        h = "";
       }
       if (f.isString(b) && (/[^\s]/).test(b)) {
         b = b.toLowerCase().replace(/\s/g, "");
@@ -968,30 +979,30 @@ var PluginDetect = {
         u += 'style="' + r.getStyle.plugin(p) + '" ';
         var k = 1,
           t = 1;
-        for (j = 0; j < i.length; j = j + 2) {
+        for (j = 0; j < i.length; j += 2) {
           if (/[^\s]/.test(i[j + 1])) {
-            u += i[j] + '="' + i[j + 1] + '" '
+            u += i[j] + '="' + i[j + 1] + '" ';
           }
           if ((/width/i).test(i[j])) {
-            k = 0
+            k = 0;
           }
           if ((/height/i).test(i[j])) {
-            t = 0
+            t = 0;
           }
         }
         u += (k ? 'width="' + r.pluginSize + '" ' : "") + (t ? 'height="' + r.pluginSize + '" ' : "");
         u += ">";
-        for (j = 0; j < g.length; j = j + 2) {
+        for (j = 0; j < g.length; j += 2) {
           if (/[^\s]/.test(g[j + 1])) {
-            u += f.openTag + 'param name="' + g[j] + '" value="' + g[j + 1] + '" />'
+            u += f.openTag + 'param name="' + g[j] + '" value="' + g[j + 1] + '" />';
           }
         }
-        u += h + f.openTag + "/" + b + ">"
+        u += h + f.openTag + "/" + b + ">";
       } else {
         b = "";
-        u = h
+        u = h;
       } if (!n) {
-        r.initDiv()
+        r.initDiv();
       }
       var m = n || r.getDiv();
       l = {
@@ -1010,12 +1021,12 @@ var PluginDetect = {
         r.setStyle(o, r.getStyle.span());
         m.appendChild(o);
         try {
-          o.innerHTML = u
+          o.innerHTML = u;
         } catch (ex) {};
         l.span = o;
-        l.winLoaded = f.win.loaded
+        l.winLoaded = f.win.loaded;
       }
-      return l
+      return l;
     }
   },
   file: {
@@ -1028,36 +1039,36 @@ var PluginDetect = {
         a;
       if (d && e.isDefined(c)) {
         if (!d[b.any]) {
-          d[b.any] = []
+          d[b.any] = [];
         }
         if (!d[b.valid]) {
-          d[b.valid] = []
+          d[b.valid] = [];
         }
         d[b.any].push(c);
         a = b.split(f, c);
         if (a) {
-          d[b.valid].push(a)
+          d[b.valid].push(a);
         }
       }
     },
     getValidLength: function (a) {
-      return a && a[this.valid] ? a[this.valid].length : 0
+      return a && a[this.valid] ? a[this.valid].length : 0;
     },
     getAnyLength: function (a) {
-      return a && a[this.any] ? a[this.any].length : 0
+      return a && a[this.any] ? a[this.any].length : 0;
     },
     getValid: function (c, a) {
       var b = this;
-      return c && c[b.valid] ? b.get(c[b.valid], a) : null
+      return c && c[b.valid] ? b.get(c[b.valid], a) : null;
     },
     getAny: function (c, a) {
       var b = this;
-      return c && c[b.any] ? b.get(c[b.any], a) : null
+      return c && c[b.any] ? b.get(c[b.any], a) : null;
     },
     get: function (d, a) {
       var c = d.length - 1,
         b = this.$.isNum(a) ? a : c;
-      return (b < 0 || b > c) ? null : d[b]
+      return (b < 0 || b > c) ? null : d[b];
     },
     split: function (g, c) {
       var b = this,
@@ -1074,9 +1085,9 @@ var PluginDetect = {
           full: c
         };
         a[a.length - 1] = "";
-        f.path = a.join("/")
+        f.path = a.join("/");
       }
-      return f
+      return f;
     },
     z: 0
   },
@@ -1091,14 +1102,14 @@ var PluginDetect = {
           a = b.OTF;
         b.version = null;
         if (a == 3) {
-          b.installed = -0.5
+          b.installed = -0.5;
         } else {
-          b.installed = d > 0 ? 0 : -1
+          b.installed = d > 0 ? 0 : -1;
         } if (b.verify && b.verify.isEnabled()) {
-          b.getVersionDone = 0
+          b.getVersionDone = 0;
         } else {
           if (b.getVersionDone != 1) {
-            b.getVersionDone = (b.installed == -0.5 || (b.installed == -1 && b.doc.isDisabled() < 2)) ? 0 : 1
+            b.getVersionDone = (b.installed == -0.5 || (b.installed == -1 && b.doc.isDisabled() < 2)) ? 0 : 1;
           }
         }
       },
@@ -1112,19 +1123,19 @@ var PluginDetect = {
         if (d.getVersionDone === null) {
           d.OTF = 0;
           if (g) {
-            g.init()
+            g.init();
           }
         }
         e.file.save(d, ".pdf", b);
         if (d.getVersionDone === 0) {
           if (g && g.isEnabled() && e.isNum(d.installed) && d.installed >= 0) {
-            return
+            return;
           }
         }
         if ((!a || e.dbug) && f.insertHTMLQuery() > 0) {
-          a = true
+          a = true;
         }
-        d.setPluginStatus()
+        d.setPluginStatus();
       },
       doc: {
         $: 1,
@@ -1142,20 +1153,20 @@ var PluginDetect = {
             a = e.browser,
             b;
           if (d.OTF >= 2) {
-            c = 2
+            c = 2;
           } else {
             if (!e.DOM.isEnabled.objectTag() || !a.isGecko || e.compareNums(a.verGecko, e.formatNum("10")) < 0 || (e.compareNums(a.verGecko, e.formatNum("19")) < 0 && e.hasMimeType(f.mimeType))) {
               if (!e.dbug) {
-                c = 2
+                c = 2;
               }
             }
           } if (c < 2) {
             b = e.file.getValid(d);
             if (!b || !b.full) {
-              c = 1
+              c = 1;
             }
           }
-          return c
+          return c;
         },
         tabIndex: null,
         method: "",
@@ -1164,62 +1175,64 @@ var PluginDetect = {
             f = j.$,
             g = j.$$,
             d = j.HTML ? j.HTML.obj() : 0,
-            a, l, c, i, k = f.dbug && !f.win.loaded ? 0 : 1;
+            a, l, c, i, 
+k = f.dbug && !f.win.loaded ? 0 : 1;
           a = f.DOM.getTagStatus(j.HTML, j.DummySpanTagHTML, j.DummyObjTagHTML1, 0, b);
           if ((!j.result || f.dbug) && a < 0) {
             if (k) {
-              j.result = -1
+              j.result = -1;
             }
-            j.method += "1,"
+            j.method += "1,";
           }
           if ((!j.result || f.dbug) && a > 0 && !f.hasMimeType(j.mimeType)) {
             if (k) {
-              j.result = 1
+              j.result = 1;
             }
-            j.method += "2,"
+            j.method += "2,";
           }
           try {
-            l = d ? d.tabIndex : null
+            l = d ? d.tabIndex : null;
           } catch (ex) {}
           if (!f.isNum(j.tabIndex) && f.isNum(l)) {
-            j.tabIndex = l
+            j.tabIndex = l;
           }
           if ((!j.result || f.dbug) && a > 0 && f.isNum(l) && f.isNum(j.tabIndex) && j.tabIndex !== l) {
             if (k) {
-              j.result = 1
+              j.result = 1;
             }
-            j.method += "4,"
+            j.method += "4,";
           };
-          return j.result
+          return j.result;
         },
         insertHTMLQuery: function () {
           var g = this,
             f = g.$,
             d = g.$$,
-            c, b, e = 1,
+            c, b, 
+e = 1,
             a = f.DOM.altHTML;
           if (g.isDisabled()) {
-            return g.result
+            return g.result;
           }
           if (d.OTF < 2) {
-            d.OTF = 2
+            d.OTF = 2;
           }
           b = f.file.getValid(d).full;
           if (!g.DummySpanTagHTML) {
-            g.DummySpanTagHTML = f.DOM.insert("", [], [], a, d, e)
+            g.DummySpanTagHTML = f.DOM.insert("", [], [], a, d, e);
           }
           if (!g.HTML) {
-            g.HTML = f.DOM.insert("object", ["type", g.mimeType, "data", b], ["src", b], a, d, e)
+            g.HTML = f.DOM.insert("object", ["type", g.mimeType, "data", b], ["src", b], a, d, e);
           }
           if (!g.DummyObjTagHTML1) {
-            g.DummyObjTagHTML1 = f.DOM.insert("object", ["type", g.mimeType_dummy], [], a, d, e)
+            g.DummyObjTagHTML1 = f.DOM.insert("object", ["type", g.mimeType_dummy], [], a, d, e);
           }
           g.queryObject();
           if ((g.result > 0 || g.result < 0) && !f.dbug) {
-            return g.result
+            return g.result;
           }
           d.NOTF.init();
-          return g.result
+          return g.result;
         }
       },
       NOTF: {
@@ -1236,9 +1249,9 @@ var PluginDetect = {
             a.OTF = 3;
             d.onIntervalQuery = b.ev.handler(d.$$onIntervalQuery, d);
             if (!b.win.loaded) {
-              b.win.loadPrvtHndlrs.push([d.onWinLoadQuery, d])
+              b.win.loadPrvtHndlrs.push([d.onWinLoadQuery, d]);
             }
-            setTimeout(d.onIntervalQuery, d.intervalLength)
+            setTimeout(d.onIntervalQuery, d.intervalLength);
           }
         },
         $$onIntervalQuery: function (d) {
@@ -1248,12 +1261,12 @@ var PluginDetect = {
           if (a.OTF == 3) {
             c.queryObject(d.count);
             if (c.result || (b.win.loaded && d.count > d.countMax)) {
-              d.queryCompleted()
+              d.queryCompleted();
             }
           }
           d.count++;
           if (a.OTF == 3) {
-            setTimeout(d.onIntervalQuery, d.intervalLength)
+            setTimeout(d.onIntervalQuery, d.intervalLength);
           }
         },
         onWinLoadQuery: function (b, d) {
@@ -1261,7 +1274,7 @@ var PluginDetect = {
             c = a.doc;
           if (a.OTF == 3) {
             c.queryObject(d.count);
-            d.queryCompleted()
+            d.queryCompleted();
           }
         },
         queryCompleted: function () {
@@ -1270,12 +1283,12 @@ var PluginDetect = {
             a = d.$$,
             c = a.doc;
           if (a.OTF == 4) {
-            return
+            return;
           }
           a.OTF = 4;
           a.setPluginStatus();
           if (b.onDetectionDone && a.DoneHndlrs) {
-            b.ev.callArray(a.DoneHndlrs)
+            b.ev.callArray(a.DoneHndlrs);
           }
         }
       },
@@ -1295,6 +1308,5 @@ PluginDetect.INIT();
   qx.bom.client.Pdfjs.__getPluginDetect = function() {
     return origPluginDetect;
   };
-
 }).call(this);
 

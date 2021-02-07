@@ -55,9 +55,9 @@ qx.Class.define("qx.test.util.ColorUtil",
     testRgbToHexString : function()
     {
       this.assertEquals("#FFFFFF", qx.util.ColorUtil.rgbToHexString([255, 255, 255]));
-      this.assertEquals("#FFFFFF", qx.util.ColorUtil.rgbToHexString([255, 255, 255,1]));
+      this.assertEquals("#FFFFFF", qx.util.ColorUtil.rgbToHexString([255, 255, 255, 1]));
       this.assertEquals("#000000", qx.util.ColorUtil.rgbToHexString([0, 0, 0]));
-      this.assertEquals("#00000066", qx.util.ColorUtil.rgbToHexString([0, 0, 0,0.4]));
+      this.assertEquals("#00000066", qx.util.ColorUtil.rgbToHexString([0, 0, 0, 0.4]));
     },
 
     testStringToRgbString : function()
@@ -69,7 +69,7 @@ qx.Class.define("qx.test.util.ColorUtil",
 
     testScale : function()
     {
-      this.assertEquals("rgba(64,191.5,255,0.5)", qx.util.ColorUtil.scale("rgba(128,128,40,0.5)",{
+      this.assertEquals("rgba(64,191.5,255,0.5)", qx.util.ColorUtil.scale("rgba(128,128,40,0.5)", {
         red: -50,
         green: 50,
         blue: 100
@@ -77,7 +77,7 @@ qx.Class.define("qx.test.util.ColorUtil",
     },
     testAdjust : function()
     {
-      this.assertEquals("rgba(65,193,33,0.6)", qx.util.ColorUtil.adjust("rgba(64,194,32,0.5)",{
+      this.assertEquals("rgba(65,193,33,0.6)", qx.util.ColorUtil.adjust("rgba(64,194,32,0.5)", {
         red: 1,
         green: -1,
         blue: 1,

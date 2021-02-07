@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
   {
     this.base(arguments);
 
-    if(wrapContentByGroup != null) {
+    if (wrapContentByGroup != null) {
       this._wrapContentByGroup = wrapContentByGroup;
     }
   },
@@ -391,7 +391,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
      * @param widget {qx.ui.mobile.core.Widget} The widget to add, after NavigationBar.
      */
     addAfterNavigationBar : function(widget) {
-      if(widget && this.__scrollContainer) {
+      if (widget && this.__scrollContainer) {
         this.addBefore(widget, this.__scrollContainer);
       }
     },
@@ -517,7 +517,7 @@ qx.Class.define("qx.ui.mobile.page.NavigationPage",
       var content = new qx.ui.mobile.container.Composite();
       content.setDefaultCssClass(this.getContentCssClass());
 
-      if(this._wrapContentByGroup == true) {
+      if (this._wrapContentByGroup == true) {
         content.addCssClass("group");
       }
 

@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
     {
       for (var key in map)
       {
-        switch(key)
+        switch (key)
         {
         case "width":
           this.setWidth(column, map[key]);

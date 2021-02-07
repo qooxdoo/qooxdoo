@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "textfield":
           control = new qx.ui.form.TextField();
@@ -313,7 +313,7 @@ qx.Class.define("qx.ui.form.ComboBox",
         // and configure the new value when closing the popup afterwards
         var list = this.getChildControl("list");
         var ctx = list.getSelectionContext();
-        if (ctx == "quick" || ctx == "key" )
+        if (ctx == "quick" || ctx == "key")
         {
           this.__preSelectedItem = current[0];
         }

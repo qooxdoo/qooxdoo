@@ -205,31 +205,31 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @param row {Integer} The row index.
      */
     configureItem: function(item, data, row) {
-      if(typeof data.image != "undefined") {
+      if (typeof data.image != "undefined") {
         item.setImage(data.image);
       }
-      if(typeof data.subtitle != "undefined") {
+      if (typeof data.subtitle != "undefined") {
         item.setSubtitle(data.subtitle);
       }
-      if(typeof data.title != "undefined") {
+      if (typeof data.title != "undefined") {
         item.setTitle(data.title);
       }
-      if(typeof data.enabled != "undefined") {
+      if (typeof data.enabled != "undefined") {
         item.setEnabled(data.enabled);
       }
-      if(typeof data.removable != "undefined") {
+      if (typeof data.removable != "undefined") {
         item.setRemovable(data.removable);
       }
-      if(typeof data.selectable != "undefined") {
+      if (typeof data.selectable != "undefined") {
         item.setSelectable(data.selectable);
       }
-      if(typeof data.activatable != "undefined") {
+      if (typeof data.activatable != "undefined") {
         item.setActivatable(data.activatable);
       }
-      if(typeof data.arrow != "undefined") {
+      if (typeof data.arrow != "undefined") {
         item.setShowArrow(data.arrow);
       }
-      if(typeof data.selected != "undefined") {
+      if (typeof data.selected != "undefined") {
         item.setSelected(data.selected);
       }
     },
@@ -242,9 +242,8 @@ qx.Class.define("qx.ui.mobile.list.List",
      */
     _onTap : function(evt)
     {
-
       var element = this._getElement(evt);
-      if(!element) {
+      if (!element) {
         return;
       }
 
@@ -299,7 +298,7 @@ qx.Class.define("qx.ui.mobile.list.List",
 
       var deltaX = Math.round(delta.x * 0.1) / 0.1;
 
-      if(this.__isScrollingBlocked === null) {
+      if (this.__isScrollingBlocked === null) {
         this.__isScrollingBlocked = (delta.axis == "x");
       }
 
@@ -335,7 +334,7 @@ qx.Class.define("qx.ui.mobile.list.List",
           qx.bom.element.Style.set(element, "transform", "translate3d(0,0,0)");
           qx.bom.element.Style.set(element, "opacity", "1");
           qx.bom.element.Class.remove(element, "track");
-        }.bind(this));
+        });
       }
     },
 
@@ -349,7 +348,7 @@ qx.Class.define("qx.ui.mobile.list.List",
       var element = evt.getOriginalTarget();
 
       // Click on border: do nothing.
-      if(element.tagName == "UL") {
+      if (element.tagName == "UL") {
         return null;
       }
 
@@ -426,7 +425,7 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @param evt {qx.event.type.Data} data event which contains model change data.
      */
     __onModelChange : function(evt) {
-      if(evt && evt.getData() && evt.getData().type == "order") {
+      if (evt && evt.getData() && evt.getData().type == "order") {
         this.__render();
       }
     },
@@ -438,7 +437,7 @@ qx.Class.define("qx.ui.mobile.list.List",
      */
     __onModelChangeBubble : function(evt)
     {
-      if(evt) {
+      if (evt) {
         var data = evt.getData();
         var isArray = (qx.lang.Type.isArray(data.old) && qx.lang.Type.isArray(data.value));
         if (!isArray || (isArray && data.old.length == data.value.length)) {
@@ -463,30 +462,30 @@ qx.Class.define("qx.ui.mobile.list.List",
     _extractRowsToRender : function(name) {
       var rows = [];
 
-      if(!name) {
+      if (!name) {
         return rows;
       }
 
       // "[0-2].propertyName" | "[0].propertyName" | "0"
       var containsPoint = (name.indexOf(".")!=-1);
-      if(containsPoint) {
+      if (containsPoint) {
         // "[0-2].propertyName" | "[0].propertyName"
         var candidate = name.split(".")[0];
 
         // Normalize
-        candidate = candidate.replace("[","");
-        candidate = candidate.replace("]","");
+        candidate = candidate.replace("[", "");
+        candidate = candidate.replace("]", "");
         // "[0-2]" | "[0]"
         var isRange = (candidate.indexOf("-") != -1);
 
-        if(isRange) {
+        if (isRange) {
           var rangeMembers = candidate.split("-");
           // 0
-          var startRange = parseInt(rangeMembers[0],10);
+          var startRange = parseInt(rangeMembers[0], 10);
           // 2
-          var endRange = parseInt(rangeMembers[1],10);
+          var endRange = parseInt(rangeMembers[1], 10);
 
-          for(var i = startRange; i <= endRange; i++) {
+          for (var i = startRange; i <= endRange; i++) {
             rows.push(i);
           }
         } else {
@@ -496,7 +495,7 @@ qx.Class.define("qx.ui.mobile.list.List",
       } else {
         // "0"
         var match = name.match(/\d+/);
-        if(match.length == 1) {
+        if (match.length == 1) {
           rows.push(parseInt(match[0], 10));
         }
       }
@@ -510,7 +509,7 @@ qx.Class.define("qx.ui.mobile.list.List",
      * @param index {Integer} index of the row which should be rendered.
      */
     __renderRow : function(index) {
-      var renderedItems = qx.bom.Selector.query(".list-item",this.getContentElement());
+      var renderedItems = qx.bom.Selector.query(".list-item", this.getContentElement());
       var oldNode = renderedItems[index];
       var newNode = this.__provider.getItemElement(this.getModel().getItem(index), index);
 

@@ -35,7 +35,8 @@ qx.Bootstrap.define("qx.util.StringEscape",
      */
     escape : function(str, charCodeToEntities)
     {
-      var entity, result = "";
+      var entity, 
+result = "";
 
       for (var i=0, l=str.length; i<l; i++)
       {

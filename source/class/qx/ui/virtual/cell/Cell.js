@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.virtual.cell.Cell",
       this.__themableProperties = [];
 
       var clazz = this.constructor;
-      while(clazz)
+      while (clazz)
       {
         var properties = PropertyUtil.getProperties(clazz);
         for (var prop in properties) {

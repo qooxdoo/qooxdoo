@@ -426,7 +426,7 @@ qx.Class.define("qx.ui.layout.Dock",
         heights[i] = height;
 
         // Update allocated width
-        switch(edges[i])
+        switch (edges[i])
         {
           // north+south
           case 1:
@@ -478,7 +478,7 @@ qx.Class.define("qx.ui.layout.Dock",
         {
           child = children[i];
 
-          switch(edges[i])
+          switch (edges[i])
           {
             case 3:
             case 4:
@@ -532,7 +532,7 @@ qx.Class.define("qx.ui.layout.Dock",
         {
           child = children[i];
 
-          switch(edges[i])
+          switch (edges[i])
           {
             case 1:
             case 2:
@@ -581,9 +581,11 @@ qx.Class.define("qx.ui.layout.Dock",
       this._clearSeparators();
 
       // Prepare loop
-      var separatorX=this.getSeparatorX(), separatorY=this.getSeparatorY();
+      var separatorX=this.getSeparatorX(), 
+separatorY=this.getSeparatorY();
       var connectSeparators=this.getConnectSeparators();
-      var nextTop=0, nextLeft=0;
+      var nextTop=0, 
+nextLeft=0;
       var left, top, width, height, used, edge;
       var separatorLeft, separatorTop, separatorWidth, separatorHeight;
       var marginTop, marginBottom, marginLeft, marginRight;
@@ -603,7 +605,7 @@ qx.Class.define("qx.ui.layout.Dock",
         marginRight = child.getMarginRight();
 
         // Calculate child layout
-        switch(edge)
+        switch (edge)
         {
           // north + south
           case 1:
@@ -776,7 +778,8 @@ qx.Class.define("qx.ui.layout.Dock",
      */
     _getSeparatorWidths : function()
     {
-      var separatorX=this.getSeparatorX(), separatorY=this.getSeparatorY();
+      var separatorX=this.getSeparatorX(), 
+separatorY=this.getSeparatorY();
       if (separatorX || separatorY) {
         var decorationManager = qx.theme.manager.Decoration.getInstance();
       }
@@ -817,14 +820,20 @@ qx.Class.define("qx.ui.layout.Dock",
       var hint, child;
       var marginX, marginY;
 
-      var widthX=0, minWidthX=0;
-      var heightX=0, minHeightX=0;
-      var widthY=0, minWidthY=0;
-      var heightY=0, minHeightY=0;
+      var widthX=0, 
+minWidthX=0;
+      var heightX=0, 
+minHeightX=0;
+      var widthY=0, 
+minWidthY=0;
+      var heightY=0, 
+minHeightY=0;
 
       var separatorWidths = this._getSeparatorWidths();
-      var spacingX=this.getSpacingX(), spacingY=this.getSpacingY();
-      var spacingSumX=-spacingX, spacingSumY=-spacingY;
+      var spacingX=this.getSpacingX(), 
+spacingY=this.getSpacingY();
+      var spacingSumX=-spacingX, 
+spacingSumY=-spacingY;
 
       if (separatorWidths.x) {
         spacingSumX -= separatorWidths.x + spacingX;
@@ -845,7 +854,7 @@ qx.Class.define("qx.ui.layout.Dock",
         marginY = child.getMarginTop() + child.getMarginBottom();
 
         // Ok, this part is a bit complicated :)
-        switch(edges[i])
+        switch (edges[i])
         {
           case 1:
           case 2:

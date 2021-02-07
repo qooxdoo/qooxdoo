@@ -148,7 +148,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
      * @return {null} The status of this operation.
      */
     setValue : function(selection) {
-      if (null === selection) {
+      if (selection === null) {
         this.resetSelection();
       } else {
         this.setSelection(selection);
@@ -374,7 +374,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
           this._manager.replaceSelection(newSelection);
         }
       }
-      catch(ex)
+      catch (ex)
       {
         this._manager.selectItem(newSelection[newSelection.length - 1]);
       }

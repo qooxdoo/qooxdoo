@@ -507,15 +507,17 @@ qx.Bootstrap.define("qx.module.Traversing", {
     * @return {Boolean} Returns true if at least one element of the current collection is child of the parent collection
     *
     */
-    isChildOf : function(parent){
-      if(this.length == 0){
+    isChildOf : function(parent) {
+      if (this.length == 0) {
         return false;
       }
-      var ancestors = null, parentCollection = qxWeb(parent), isChildOf = false;
-      for(var i = 0, l = this.length; i < l && !isChildOf; i++){
+      var ancestors = null, 
+parentCollection = qxWeb(parent), 
+isChildOf = false;
+      for (var i = 0, l = this.length; i < l && !isChildOf; i++) {
         ancestors = qxWeb(this[i]).getAncestors();
-        for(var j = 0, len = parentCollection.length; j < len; j++){
-          if(ancestors.indexOf(parentCollection[j]) != -1){
+        for (var j = 0, len = parentCollection.length; j < len; j++) {
+          if (ancestors.indexOf(parentCollection[j]) != -1) {
             isChildOf = true;
             break;
           }
@@ -577,7 +579,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           closest.push(found[0]);
         } else {
           current = current.getParents(); // One up
-          if(current[0] && current[0].parentNode) {
+          if (current[0] && current[0].parentNode) {
             findClosest(current);
           }
         }

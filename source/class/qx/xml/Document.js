@@ -168,7 +168,7 @@ qx.Bootstrap.define("qx.xml.Document",
           new ActiveXObject(domDoc[i]);
           new ActiveXObject(httpReq[i]);
         }
-        catch(ex) {
+        catch (ex) {
           continue;
         }
 

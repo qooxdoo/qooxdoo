@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.container.Stack",
   {
     this.base(arguments);
 
-    this._setLayout(new qx.ui.layout.Grow);
+    this._setLayout(new qx.ui.layout.Grow());
 
     this.addListener("changeSelection", this.__onChangeSelection, this);
   },

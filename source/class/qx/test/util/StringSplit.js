@@ -59,7 +59,7 @@ qx.Class.define("qx.test.util.StringSplit",
         ["qx.util.StringSplit.split('111', 1)",                 ["", "", "", ""]],
         ["qx.util.StringSplit.split('test', /(?:)/, 2)",        ["t", "e"]],
         ["qx.util.StringSplit.split('test', /(?:)/, -1)",       ["t", "e", "s", "t"]],
-        ["qx.util.StringSplit.split('test', /(?:)/, undefined)",["t", "e", "s", "t"]],
+        ["qx.util.StringSplit.split('test', /(?:)/, undefined)", ["t", "e", "s", "t"]],
         ["qx.util.StringSplit.split('test', /(?:)/, null)",     []],
         ["qx.util.StringSplit.split('test', /(?:)/, NaN)",      []],
         ["qx.util.StringSplit.split('test', /(?:)/, true)",     ["t"]],
@@ -111,7 +111,6 @@ qx.Class.define("qx.test.util.StringSplit",
       var ecmaSampleRe = /<(\/)?([^<>]+)>/;
       this.assertArrayEquals(["A", undefined, "B", "bold", "/", "B", "and", undefined, "CODE", "coded", "/", "CODE", ""],
                              qx.util.StringSplit.split('A<B>bold</B>and<CODE>coded</CODE>', ecmaSampleRe));
-
     }
   }
 });

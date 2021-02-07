@@ -29,15 +29,15 @@ qx.Class.define("qx.test.ui.Insets",
 
       this.assertPadding(widget, 0, 0, 0, 0);
 
-      widget.setPadding(1,2,3,4);
-      this.assertPadding(widget, 1,2,3,4);
+      widget.setPadding(1, 2, 3, 4);
+      this.assertPadding(widget, 1, 2, 3, 4);
 
       // shorthand mode
       widget.setPadding(1);
-      this.assertPadding(widget, 1,1,1,1);
+      this.assertPadding(widget, 1, 1, 1, 1);
 
       widget.setPadding(2, 5);
-      this.assertPadding(widget, 2,5,2,5);
+      this.assertPadding(widget, 2, 5, 2, 5);
 
       this.getRoot().remove(widget);
       widget.dispose();

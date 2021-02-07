@@ -39,7 +39,7 @@ qx.Class.define("qx.data.store.Rest",
     try {
       this.setResource(resource);
       this.setActionName(actionName);
-    } catch(e) {
+    } catch (e) {
       this.dispose();
       throw e;
     }
@@ -126,7 +126,6 @@ qx.Class.define("qx.data.store.Rest",
 
       // Skip if data is empty
       if (data) {
-
         // Manipulate received data
         if (delegate && delegate.manipulateData) {
           data = delegate.manipulateData(data);

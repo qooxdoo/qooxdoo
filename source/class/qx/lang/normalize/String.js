@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
      * @return {String} The trimmed string
      */
     trim : function() {
-      return this.replace(/^\s+|\s+$/g,'');
+      return this.replace(/^\s+|\s+$/g, '');
     },
 
 
@@ -71,10 +71,10 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
     endsWith : function (searchString, position)
     {
       var subjectString = this.toString();
-      if (  typeof position !== 'number'
+      if (typeof position !== 'number'
          || !isFinite(position)
          || Math.floor(position) !== position
-         || position > subjectString.length ) {
+         || position > subjectString.length) {
         position = subjectString.length;
       }
       position -= searchString.length;
@@ -137,7 +137,9 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
      */
     fromCodePoint : function (_)
     {
-      var codeUnits = [], codeLen = 0, result = "";
+      var codeUnits = [], 
+codeLen = 0, 
+result = "";
       for (var index=0, len = arguments.length; index !== len; ++index) {
         var codePoint = +arguments[index];
         // correctly handles all cases including `NaN`, `-Infinity`, `+Infinity`

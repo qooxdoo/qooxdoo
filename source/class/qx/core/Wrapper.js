@@ -25,7 +25,6 @@ qx.Bootstrap.define("qx.core.Wrapper", {
 
     var firstItem = arguments[0];
     for (var name in firstItem) {
-
       if (this[name] !== undefined) {
         continue;
       }

@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
   {
     this.base(arguments);
 
-    if(qx.ui.mobile.core.Blocker.ROOT == null) {
+    if (qx.ui.mobile.core.Blocker.ROOT == null) {
       qx.ui.mobile.core.Blocker.ROOT = qx.core.Init.getApplication().getRoot();
     }
     this.forceHide();
@@ -120,14 +120,14 @@ qx.Class.define("qx.ui.mobile.core.Blocker",
      */
     _updateSize : function()
     {
-      if(qx.ui.mobile.core.Blocker.ROOT == this.getLayoutParent())
+      if (qx.ui.mobile.core.Blocker.ROOT == this.getLayoutParent())
       {
         this.getContainerElement().style.top = qx.bom.Viewport.getScrollTop() + "px";
         this.getContainerElement().style.left = qx.bom.Viewport.getScrollLeft() + "px";
         this.getContainerElement().style.width = qx.bom.Viewport.getWidth() + "px";
         this.getContainerElement().style.height = qx.bom.Viewport.getHeight()  + "px";
       }
-      else if(this.getLayoutParent() != null)
+      else if (this.getLayoutParent() != null)
       {
         var dimension = qx.bom.element.Dimension.getSize(this.getLayoutParent().getContainerElement());
         this.getContainerElement().style.width = dimension.width + "px";

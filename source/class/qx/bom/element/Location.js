@@ -82,7 +82,8 @@ qx.Bootstrap.define("qx.bom.element.Location",
      */
     __computeScroll : function(elem)
     {
-      var left = 0, top = 0;
+      var left = 0, 
+top = 0;
       // Find window
       var win = qx.dom.Node.getWindow(elem);
 
@@ -279,7 +280,7 @@ qx.Bootstrap.define("qx.bom.element.Location",
           }
         }
 
-        switch(mode)
+        switch (mode)
         {
           case "padding":
             left += this.__num(elem, "paddingLeft");

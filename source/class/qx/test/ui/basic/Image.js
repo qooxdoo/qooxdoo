@@ -38,7 +38,7 @@ qx.Class.define("qx.test.ui.basic.Image",
 
     testSwitchScaling : function()
     {
-      var image = new qx.ui.basic.Image;
+      var image = new qx.ui.basic.Image();
       this.addAutoDispose(image);
       image.set({ source: "qx/icon/Tango/48/places/folder.png", scale: false });
       this.getRoot().add(image);
@@ -286,12 +286,12 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.setSource(source);
 
       // load second time
-      image.addListenerOnce("loaded", function(){
+      image.addListenerOnce("loaded", function() {
         image.resetSource();
         image.setSource(source);
       }, this);
 
-      this.wait(500, function(){
+      this.wait(500, function() {
         this.assertCalledTwice(spyhandler);
         // use a timeout to dispose the image because it needs to
         // end its processing after the event has been fired.
@@ -315,12 +315,12 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.setSource(source);
 
       // load second time
-      image.addListenerOnce("loaded", function(){
+      image.addListenerOnce("loaded", function() {
         image.resetSource();
         image.setSource(source);
       }, this);
 
-      this.wait(500, function(){
+      this.wait(500, function() {
         this.assertCalledTwice(spyhandler);
         // use a timeout to dispose the image because it needs to
         // end its processing after the event has been fired.
@@ -351,7 +351,7 @@ qx.Class.define("qx.test.ui.basic.Image",
       image.setSource(source);
 
       // load second time
-      image.addListenerOnce("loaded", function(){
+      image.addListenerOnce("loaded", function() {
         image.resetSource();
         image.setSource(source);
 
@@ -360,7 +360,7 @@ qx.Class.define("qx.test.ui.basic.Image",
         image.setSource(source);
       }, this);
 
-      this.wait(500, function(){
+      this.wait(500, function() {
         //even if we called setSource thrice, the loaded event must be called only twice
         this.assertCalledOnce(spyhandler);
         // use a timeout to dispose the image because it needs to
@@ -539,7 +539,7 @@ qx.Class.define("qx.test.ui.basic.Image",
               {
                 family: "FontAwesome",
                 source: [
-                  "qx/test/webfonts/fontawesome-webfont.ttf" , "qx/test/webfonts/fontawesome-webfont.woff"
+                  "qx/test/webfonts/fontawesome-webfont.ttf", "qx/test/webfonts/fontawesome-webfont.woff"
                 ]
               }
             ]

@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollBar",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "slider":
           control = new qx.ui.core.scroll.ScrollSlider();

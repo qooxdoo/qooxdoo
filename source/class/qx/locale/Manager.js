@@ -183,7 +183,7 @@ qx.Class.define("qx.locale.Manager",
       event : "changeLocale",
       init : (function() { 
         var locale = qx.core.Environment.get("locale");
-        if(!locale || locale === "") {
+        if (!locale || locale === "") {
           return qx.core.Environment.get("locale.default");
         }
         var variant = qx.core.Environment.get("locale.variant");
@@ -456,7 +456,7 @@ qx.Class.define("qx.locale.Manager",
       if (args.length > 0)
       {
         var translatedArgs = [];
-        for ( var i = 0; i < args.length; i++)
+        for (var i = 0; i < args.length; i++)
         {
           var arg = args[i];
           if (arg && arg.translate) {

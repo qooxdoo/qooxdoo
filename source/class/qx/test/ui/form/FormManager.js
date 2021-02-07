@@ -140,7 +140,6 @@ qx.Class.define("qx.test.ui.form.FormManager",
       // check the items
       this.assertEquals(view.groups[0].items[0], this.__tf2);
       view.dispose();
-
     },
 
 
@@ -334,7 +333,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
     },
 
 
-    testAddTwoWithOptions: function(){
+    testAddTwoWithOptions: function() {
       // add the widgets
       this.__form.add(this.__tf1, "TF1", null, "tf1", null, {a:1});
       this.__form.add(this.__tf2, "TF2", null, "tf2", null, {a:2});
@@ -372,7 +371,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
     },
 
 
-    testAddTwoWithHeaderOptions: function(){
+    testAddTwoWithHeaderOptions: function() {
       this.__form.addGroupHeader("affe", {a:1});
       this.__form.add(this.__tf1, "TF1");
       this.__form.addGroupHeader("affee", {a:2});
@@ -582,7 +581,7 @@ qx.Class.define("qx.test.ui.form.FormManager",
       this.assertIdentical(f2, this.__form.getItem("c"));
       this.assertNull(this.__form.getItem("label"));
       this.assertIdentical(f3, this.__form.getItem("x"));
-      [f1, f2, f3].forEach(function(o) {o.dispose();});
+      [f1, f2, f3].forEach(function(o) { o.dispose(); });
     }
 
   }

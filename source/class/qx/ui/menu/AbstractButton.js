@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     this.base(arguments);
 
     // Use hard coded layout
-    this._setLayout(new qx.ui.menu.ButtonLayout);
+    this._setLayout(new qx.ui.menu.ButtonLayout());
 
     // Add listeners
     this.addListener("tap", this._onTap);
@@ -131,22 +131,22 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "icon":
-          control = new qx.ui.basic.Image;
+          control = new qx.ui.basic.Image();
           control.setAnonymous(true);
           this._add(control, {column:0});
           break;
 
         case "label":
-          control = new qx.ui.basic.Label;
+          control = new qx.ui.basic.Label();
           control.setAnonymous(true);
           this._add(control, {column:1});
           break;
 
         case "shortcut":
-          control = new qx.ui.basic.Label;
+          control = new qx.ui.basic.Label();
           control.setAnonymous(true);
           if (!this.getShowCommandLabel()) {
             control.exclude();
@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
           break;
 
         case "arrow":
-          control = new qx.ui.basic.Image;
+          control = new qx.ui.basic.Image();
           control.setAnonymous(true);
           this._add(control, {column:3});
           break;
@@ -189,7 +189,10 @@ qx.Class.define("qx.ui.menu.AbstractButton",
      */
     getChildrenSizes : function()
     {
-      var iconWidth=0, labelWidth=0, shortcutWidth=0, arrowWidth=0;
+      var iconWidth=0, 
+labelWidth=0, 
+shortcutWidth=0, 
+arrowWidth=0;
 
       if (this._isChildControlVisible("icon"))
       {

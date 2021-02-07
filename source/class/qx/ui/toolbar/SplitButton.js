@@ -106,16 +106,16 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "button":
-          control = new qx.ui.toolbar.Button;
+          control = new qx.ui.toolbar.Button();
           control.addListener("execute", this._onButtonExecute, this);
           this._addAt(control, 0);
           break;
 
         case "arrow":
-          control = new qx.ui.toolbar.MenuButton;
+          control = new qx.ui.toolbar.MenuButton();
           this._addAt(control, 1);
           break;
       }

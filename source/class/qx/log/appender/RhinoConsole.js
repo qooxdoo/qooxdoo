@@ -114,7 +114,7 @@ qx.Class.define("qx.log.appender.RhinoConsole", {
 
   defer : function()
   {
-    if (typeof(java) !== "undefined" && typeof(java.lang) !== "undefined") {
+    if (typeof (java) !== "undefined" && typeof (java.lang) !== "undefined") {
       qx.log.appender.RhinoConsole.__OUT = java.lang.System.out;
       qx.log.appender.RhinoConsole.__ERR = java.lang.System.err;
     }

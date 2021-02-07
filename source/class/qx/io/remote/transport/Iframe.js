@@ -54,7 +54,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     this.base(arguments);
 
     // Unique identifiers for iframe and form
-    var vUniqueId = (new Date).valueOf();
+    var vUniqueId = (new Date()).valueOf();
     var vFrameName = "frame_" + vUniqueId;
     var vFormName = "form_" + vUniqueId;
 
@@ -280,7 +280,6 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      */
     _onload : qx.event.GlobalError.observeMethod(function(e)
     {
-
       // Timing-issue in Opera
       // Do not switch state to complete in case load event fires before content
       // of iframe was updated
@@ -315,7 +314,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     _switchReadyState : function(vReadyState)
     {
       // Ignoring already stopped requests
-      switch(this.getState())
+      switch (this.getState())
       {
         case "completed":
         case "aborted":
@@ -528,7 +527,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
       var vText = this.getIframeTextContent();
 
-      switch(this.getResponseType())
+      switch (this.getResponseType())
       {
         case "text/plain":
           if (qx.core.Environment.get("qx.debug"))
@@ -563,7 +562,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
           try {
             return vText && vText.length > 0 ? qx.lang.Json.parse(vText) : null;
-          } catch(ex) {
+          } catch (ex) {
             return this.error("Could not execute json: (" + vText + ")", ex);
           }
 
@@ -579,7 +578,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
           try {
             return vText && vText.length > 0 ? window.eval(vText) : null;
-          } catch(ex) {
+          } catch (ex) {
             return this.error("Could not execute javascript: (" + vText + ")", ex);
           }
 

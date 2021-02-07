@@ -88,7 +88,7 @@ qx.Class.define("qx.bom.Iframe",
     {
       try {
         return iframe.contentWindow;
-      } catch(ex) {
+      } catch (ex) {
         return null;
       }
     },
@@ -105,7 +105,7 @@ qx.Class.define("qx.bom.Iframe",
       if ("contentDocument" in iframe) {
         try {
           return iframe.contentDocument;
-        } catch(ex) {
+        } catch (ex) {
           return null;
         }
       }
@@ -113,7 +113,7 @@ qx.Class.define("qx.bom.Iframe",
       try {
         var win = this.getWindow(iframe);
         return win ? win.document : null;
-      } catch(ex) {
+      } catch (ex) {
         return null;
       }
     },
@@ -132,7 +132,7 @@ qx.Class.define("qx.bom.Iframe",
         var doc = this.getDocument(iframe);
         return doc ? doc.getElementsByTagName("body")[0] : null;
       }
-      catch(ex)
+      catch (ex)
       {
         return null;
       }
@@ -175,7 +175,7 @@ qx.Class.define("qx.bom.Iframe",
             }
             this.getWindow(iframe).location.replace(source);
           }
-          catch(ex)
+          catch (ex)
           {
             iframe.src = source;
           }
@@ -189,9 +189,8 @@ qx.Class.define("qx.bom.Iframe",
       // for later comparison with current URL. The current URL can diverge
       // if the end-user navigates in the Iframe.
       this.__rememberUrl(iframe);
-
       }
-      catch(ex) {
+      catch (ex) {
         qx.log.Logger.warn("Iframe source could not be set!");
       }
     },
@@ -213,7 +212,7 @@ qx.Class.define("qx.bom.Iframe",
           return doc.location.href;
         }
       }
-      catch(ex) {};
+      catch (ex) {};
 
       return "";
     },
@@ -226,7 +225,6 @@ qx.Class.define("qx.bom.Iframe",
     */
     __rememberUrl: function(iframe)
     {
-
       // URL can only be detected after load. Retrieve and store URL once.
       var callback = function() {
         qx.bom.Event.removeNativeListener(iframe, "load", callback);

@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
         return !!(element.compareDocumentPosition(target) & 16);
       }
       else {
-        while(target)
+        while (target)
         {
           if (element == target) {
             return true;
@@ -210,7 +210,7 @@ qx.Bootstrap.define("qx.dom.Hierarchy",
         return !!(doc.compareDocumentPosition(element) & 16);
       }
       else {
-        while(element)
+        while (element)
         {
           if (element == doc.body) {
             return true;

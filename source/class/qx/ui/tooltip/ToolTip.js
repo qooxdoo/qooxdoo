@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "atom":
           control = new qx.ui.basic.Atom();

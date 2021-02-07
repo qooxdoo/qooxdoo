@@ -54,7 +54,7 @@ qx.Class.define("qx.test.event.Timer",
         if (runCount === 2) {
           timer.stop();
         }
-      })
+      });
       timer.start();
 
       // 250ms should be sufficient for exactly two runs of an 50ms timer. We
@@ -96,7 +96,7 @@ qx.Class.define("qx.test.event.Timer",
 
       qx.event.Timer.once(function() {
         runCount++;
-      }, this, 1)
+      }, this, 1);
 
       this.wait(250, function() {
           this.assertIdentical(1, runCount, 'Static method once() is expected to start automatically and to run exactly once');

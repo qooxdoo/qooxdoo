@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.layout.Flow",
     {
       "true" : function(item, name, value) {
         var validProperties = ["lineBreak", "stretch"];
-        this.assertInArray(name, validProperties, "The property '"+name+"' is not supported by the flow layout!" );
+        this.assertInArray(name, validProperties, "The property '"+name+"' is not supported by the flow layout!");
       },
 
       "false" : null

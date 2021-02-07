@@ -86,7 +86,6 @@ qx.Bootstrap.define("qx.module.util.Object", {
      * @return {Object} the merged object
      */
     merge : function(target, varargs) {
-
       var varargs = qxWeb.array.fromArguments(arguments);
       var target = varargs.shift();
 

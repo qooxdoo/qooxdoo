@@ -186,7 +186,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
       this.useFakeXMLHttpRequest();
       var nxhr = window.XMLHttpRequest;
-      new nxhr;
+      new nxhr();
       var req = this.getRequests()[0];
 
       this.assertFunction(nxhr.restore, "restore");
@@ -206,7 +206,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
       this.useFakeServer();
       var nxhr = window.XMLHttpRequest,
-          req = new nxhr,
+          req = new nxhr(),
           server = this.getServer();
 
       server.respondWith("GET", "found", [200, {}, "FOUND"]);
@@ -223,7 +223,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
 
       this.useFakeXMLHttpRequest();
       var nxhr = window.XMLHttpRequest,
-      req = new nxhr,
+      req = new nxhr(),
       fakeReq = this.getRequests()[0];
 
       req.open();
@@ -288,7 +288,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
     },
 
     "test: inject custom stub": function() {
-      this.injectStub(qx.test, "Affe", this.stub({ dance: function(){} }));
+      this.injectStub(qx.test, "Affe", this.stub({ dance: function() {} }));
       var affe = new qx.test.Affe();
 
       affe.dance();
@@ -296,7 +296,7 @@ qx.Class.define("qx.test.dev.unit.Sinon",
     },
 
     "test: inject custom stub and return": function() {
-      var stub = this.injectStub(qx.test, "Affe", this.stub({ dance: function(){} })),
+      var stub = this.injectStub(qx.test, "Affe", this.stub({ dance: function() {} })),
           affe = new qx.test.Affe();
 
       affe.dance();

@@ -285,7 +285,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
 
         this._showPage(null, button);
         this.__activateTransition(page);
-
       }.bind(this));
 
       if (orientation == "vertical" && container.length == 1 && container.getChildren().length === 0) {
@@ -452,7 +451,6 @@ qx.Bootstrap.define("qx.ui.website.Tabs", {
           this._switchPages(page, null);
         }
         this.__activateTransition(page);
-
       }.bind(this));
 
       this.setEnabled(this.getEnabled());

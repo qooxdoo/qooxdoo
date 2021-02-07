@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.table.columnmenu.Button",
     // Documented in qx.ui.table.IColumnMenu
     factory : function(item, options)
     {
-      switch(item)
+      switch (item)
       {
         case "menu":
           var menu = new qx.ui.menu.Menu();
@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.table.columnmenu.Button",
       var menu = this.getMenu();
       var entries = menu.getChildren();
 
-      for (var i=0,l=entries.length; i<l; i++)
+      for (var i=0, l=entries.length; i<l; i++)
       {
         entries[0].destroy();
       }

@@ -299,7 +299,7 @@ qx.Class.define("qx.ui.form.RadioButtonGroup",
      * @return {null|Error} The status of this operation.
      */
     setValue : function(item) {
-      if (item && 'object' === typeof item && item instanceof qx.ui.form.IRadioItem) {
+      if (item && typeof item === 'object' && item instanceof qx.ui.form.IRadioItem) {
         return this.__radioGroup.setValue(item);
       } else {
         return new Error("can not select radio item from value");

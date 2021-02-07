@@ -123,11 +123,11 @@ qx.Bootstrap.define("qx.bom.Event",
         try {
           target.detachEvent("on" + type, listener);
         }
-        catch(e)
+        catch (e)
         {
           // IE7 sometimes dispatches "unload" events on protected windows
           // Ignore the "permission denied" errors.
-          if(e.number !== -2146828218) {
+          if (e.number !== -2146828218) {
             throw e;
           };
         }
@@ -210,7 +210,7 @@ qx.Bootstrap.define("qx.bom.Event",
           // this allows us to prevent some key press events in IE.
           // See bug #1049
           e.keyCode = 0;
-        } catch(ex) {}
+        } catch (ex) {}
 
         e.returnValue = false;
       }

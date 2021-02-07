@@ -47,7 +47,7 @@ qx.Class.define("qx.event.type.Mouse",
       // Fix for #9619 pointermove/mousemove events return wrong result in isLeftPressed()
       // button only valid in button events. Undefined otherwise.
       // see https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button
-      switch(nativeEvent.type) {
+      switch (nativeEvent.type) {
         case "mousemove":
         case "mouseenter":
         case "mouseleave":
@@ -158,7 +158,7 @@ qx.Class.define("qx.event.type.Mouse",
      */
     getButton : function()
     {
-      switch(this._type)
+      switch (this._type)
       {
         case "contextmenu":
           return "right";

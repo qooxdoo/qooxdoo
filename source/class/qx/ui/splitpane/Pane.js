@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         // Create and add slider
         case "slider":
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       // Create new layout
       var newLayout = value === "vertical" ?
-        new qx.ui.splitpane.VLayout : new qx.ui.splitpane.HLayout;
+        new qx.ui.splitpane.VLayout() : new qx.ui.splitpane.HLayout();
       this._setLayout(newLayout);
 
       // Update states for splitter and slider
@@ -405,7 +405,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var paneLocation = this.getContentLocation();
       this.__splitterOffset = this.__isHorizontal ?
         e.getDocumentLeft() - splitterLocation.left + paneLocation.left :
-        e.getDocumentTop() - splitterLocation.top + paneLocation.top ;
+        e.getDocumentTop() - splitterLocation.top + paneLocation.top;
 
       // Synchronize slider to splitter size and show it
       var slider = this.getChildControl("slider");
@@ -445,7 +445,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         var slider = this.getChildControl("slider");
         var pos = this.__beginSize;
 
-        if(this.__isHorizontal) {
+        if (this.__isHorizontal) {
           slider.setDomLeft(pos);
           this.__blocker.setStyle("left", (pos - this.getOffset()) + "px");
         } else {
@@ -524,7 +524,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var secondFlexValue = secondWidget.getLayoutProperties().flex;
 
       // Both widgets have flex values
-      if((firstFlexValue != 0) && (secondFlexValue != 0))
+      if ((firstFlexValue != 0) && (secondFlexValue != 0))
       {
         firstWidget.setLayoutProperties({ flex : beginSize });
         secondWidget.setLayoutProperties({ flex : endSize });
@@ -554,9 +554,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
     __computeSizes : function()
     {
       if (this.__isHorizontal) {
-        var min="minWidth", size="width", max="maxWidth", pointer=this.__lastPointerX;
+        var min="minWidth", 
+size="width", 
+max="maxWidth", 
+pointer=this.__lastPointerX;
       } else {
-        var min="minHeight", size="height", max="maxHeight", pointer=this.__lastPointerY;
+        var min="minHeight", 
+size="height", 
+max="maxHeight", 
+pointer=this.__lastPointerY;
       }
 
       var children = this._getChildren();

@@ -565,7 +565,6 @@ qx.Class.define("qx.data.controller.List",
         this.__changeModelListenerId =
           model.addListener("change", this.__changeModel, this);
       }
-
     },
 
 

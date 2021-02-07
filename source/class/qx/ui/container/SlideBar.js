@@ -171,17 +171,17 @@ qx.Class.define("qx.ui.container.SlideBar",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "button-forward":
-          control = new qx.ui.form.RepeatButton;
+          control = new qx.ui.form.RepeatButton();
           control.addListener("execute", this._onExecuteForward, this);
           control.setFocusable(false);
           this._addAt(control, 2);
           break;
 
         case "button-backward":
-          control = new qx.ui.form.RepeatButton;
+          control = new qx.ui.form.RepeatButton();
           control.addListener("execute", this._onExecuteBackward, this);
           control.setFocusable(false);
           this._addAt(control, 0);

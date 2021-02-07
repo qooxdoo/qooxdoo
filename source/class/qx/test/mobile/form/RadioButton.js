@@ -27,7 +27,7 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
       var radio1 = new qx.ui.mobile.form.RadioButton();
       var radio2 = new qx.ui.mobile.form.RadioButton();
       var radio3 = new qx.ui.mobile.form.RadioButton();
-      var group = new qx.ui.mobile.form.RadioGroup(radio1,radio2,radio3);
+      var group = new qx.ui.mobile.form.RadioGroup(radio1, radio2, radio3);
 
       this.getRoot().add(radio1);
       this.getRoot().add(radio2);
@@ -35,9 +35,9 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
 
       // Verify: allow empty selection can only be false in this case,
       // so radio1 has to be true.
-      this.assertEquals(true, radio1.getValue(),"Radio1 is expected to be true.");
-      this.assertEquals(false, radio2.getValue(),"Radio2 is expected to be false.");
-      this.assertEquals(false, radio3.getValue(),"Radio3 is expected to be false.");
+      this.assertEquals(true, radio1.getValue(), "Radio1 is expected to be true.");
+      this.assertEquals(false, radio2.getValue(), "Radio2 is expected to be false.");
+      this.assertEquals(false, radio3.getValue(), "Radio3 is expected to be false.");
 
       this.assertEquals(3, group.getItems().length);
 
@@ -56,7 +56,7 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
 
       var group = new qx.ui.mobile.form.RadioGroup();
       group.setAllowEmptySelection(true);
-      group.add(radio1,radio2,radio3);
+      group.add(radio1, radio2, radio3);
 
       this.getRoot().add(radio1);
       this.getRoot().add(radio2);
@@ -103,7 +103,7 @@ qx.Class.define("qx.test.mobile.form.RadioButton",
       radio1.setEnabled(false);
 
       this.assertEquals(false, radio1.getEnabled());
-      this.assertEquals(true, qx.bom.element.Class.has(radio1.getContainerElement(),'disabled'));
+      this.assertEquals(true, qx.bom.element.Class.has(radio1.getContainerElement(), 'disabled'));
 
       radio1.destroy();
     }

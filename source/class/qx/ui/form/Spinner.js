@@ -86,8 +86,8 @@ qx.Class.define("qx.ui.form.Spinner",
     // MAIN LAYOUT
     var layout = new qx.ui.layout.Grid();
     layout.setColumnFlex(0, 1);
-    layout.setRowFlex(0,1);
-    layout.setRowFlex(1,1);
+    layout.setRowFlex(0, 1);
+    layout.setRowFlex(1, 1);
     this._setLayout(layout);
 
     // EVENTS
@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "textfield":
           control = new qx.ui.form.TextField();
@@ -587,7 +587,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onKeyDown: function(e)
     {
-      switch(e.getKeyIdentifier())
+      switch (e.getKeyIdentifier())
       {
         case "PageUp":
           // mark that the spinner is in page mode and process further
@@ -632,7 +632,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onKeyUp: function(e)
     {
-      switch(e.getKeyIdentifier())
+      switch (e.getKeyIdentifier())
       {
         case "PageUp":
           this.getChildControl("upbutton").release();
@@ -702,7 +702,7 @@ qx.Class.define("qx.ui.form.Spinner",
         // try to parse the current number using the number format
         try {
           value = this.getNumberFormat().parse(textField.getValue());
-        } catch(ex) {
+        } catch (ex) {
           // otherwise, process further
         }
       }

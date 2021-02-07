@@ -33,7 +33,7 @@ qx.Class.define("qx.test.lang.Function",
 
       try {
         delete window.JUHU;
-      } catch(e) {
+      } catch (e) {
         window.JUHU = null;
       }
     },
@@ -106,7 +106,7 @@ qx.Class.define("qx.test.lang.Function",
 
       var onError = function() { this.resume(function() {
         qx.event.GlobalError.setErrorHandler(null, null);
-      });};
+      }); };
       qx.event.GlobalError.setErrorHandler(onError, this);
 
       var delayed = qx.lang.Function.create(fail, {

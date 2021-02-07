@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.toolbar.Part",
     this.base(arguments);
 
     // Hard coded HBox layout
-    this._setLayout(new qx.ui.layout.HBox);
+    this._setLayout(new qx.ui.layout.HBox());
 
     // Force creation of the handle
     this._createChildControl("handle");
@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.toolbar.Part",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "handle":
           control = new qx.ui.basic.Image();
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.toolbar.Part",
      * Adds a separator to the toolbar part.
      */
     addSeparator : function() {
-      this.add(new qx.ui.toolbar.Separator);
+      this.add(new qx.ui.toolbar.Separator());
     },
 
 

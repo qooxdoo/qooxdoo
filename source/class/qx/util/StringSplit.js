@@ -67,7 +67,7 @@ qx.Bootstrap.define("qx.util.StringSplit",
           separator2, match, lastIndex, lastLength,
           compliantExecNpcg = /()??/.exec("")[1] === undefined; // NPCG: nonparticipating capturing group
 
-      str = str + ""; // type conversion
+      str += ""; // type conversion
 
       if (!compliantExecNpcg) {
         separator2 = RegExp("^" + separator.source + "$(?!\\s)", flags); // doesn't need /g or /y, but they don't hurt

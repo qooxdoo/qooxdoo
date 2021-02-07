@@ -188,8 +188,7 @@ var define;
      global.Mustache = {};
      factory(global.Mustache); // script, wsh, asp
    }
- }(this, function mustacheFactory (mustache) {
-
+ })(this, function mustacheFactory (mustache) {
    var objectToString = Object.prototype.toString;
    var isArray = Array.isArray || function isArrayPolyfill (object) {
      return objectToString.call(object) === '[object Array]';
@@ -278,7 +277,7 @@ var define;
     */
    function parseTemplate (template, tags) {
      if (!template)
-       return [];
+       { return []; }
 
      var sections = [];     // Stack to hold section tokens
      var tokens = [];       // Buffer to hold the tokens
@@ -291,7 +290,7 @@ var define;
      function stripSpace () {
        if (hasTag && !nonSpace) {
          while (spaces.length)
-           delete tokens[spaces.pop()];
+           { delete tokens[spaces.pop()]; }
        } else {
          spaces = [];
        }
@@ -303,10 +302,10 @@ var define;
      var openingTagRe, closingTagRe, closingCurlyRe;
      function compileTags (tagsToCompile) {
        if (typeof tagsToCompile === 'string')
-         tagsToCompile = tagsToCompile.split(spaceRe, 2);
+         { tagsToCompile = tagsToCompile.split(spaceRe, 2); }
 
        if (!isArray(tagsToCompile) || tagsToCompile.length !== 2)
-         throw new Error('Invalid tags: ' + tagsToCompile);
+         { throw new Error('Invalid tags: ' + tagsToCompile); }
 
        openingTagRe = new RegExp(escapeRegExp(tagsToCompile[0]) + '\\s*');
        closingTagRe = new RegExp('\\s*' + escapeRegExp(tagsToCompile[1]));
@@ -339,13 +338,13 @@ var define;
 
            // Check for whitespace on the current line.
            if (chr === '\n')
-             stripSpace();
+             { stripSpace(); }
          }
        }
 
        // Match the opening tag.
        if (!scanner.scan(openingTagRe))
-         break;
+         { break; }
 
        hasTag = true;
 
@@ -369,7 +368,7 @@ var define;
 
        // Match the closing tag.
        if (!scanner.scan(closingTagRe))
-         throw new Error('Unclosed tag at ' + scanner.pos);
+         { throw new Error('Unclosed tag at ' + scanner.pos); }
 
        token = [ type, value, start, scanner.pos ];
        tokens.push(token);
@@ -381,10 +380,10 @@ var define;
          openSection = sections.pop();
 
          if (!openSection)
-           throw new Error('Unopened section "' + value + '" at ' + start);
+           { throw new Error('Unopened section "' + value + '" at ' + start); }
 
          if (openSection[1] !== value)
-           throw new Error('Unclosed section "' + openSection[1] + '" at ' + start);
+           { throw new Error('Unclosed section "' + openSection[1] + '" at ' + start); }
        } else if (type === 'name' || type === '{' || type === '&') {
          nonSpace = true;
        } else if (type === '=') {
@@ -397,7 +396,7 @@ var define;
      openSection = sections.pop();
 
      if (openSection)
-       throw new Error('Unclosed section "' + openSection[1] + '" at ' + scanner.pos);
+       { throw new Error('Unclosed section "' + openSection[1] + '" at ' + scanner.pos); }
 
      return nestTokens(squashTokens(tokens));
    }
@@ -487,7 +486,7 @@ var define;
      var match = this.tail.match(re);
 
      if (!match || match.index !== 0)
-       return '';
+       { return ''; }
 
      var string = match[0];
 
@@ -502,7 +501,8 @@ var define;
     * the skipped string, which is the entire tail if no match can be made.
     */
    Scanner.prototype.scanUntil = function scanUntil (re) {
-     var index = this.tail.search(re), match;
+     var index = this.tail.search(re), 
+match;
 
      switch (index) {
        case -1:
@@ -551,7 +551,9 @@ var define;
      if (cache.hasOwnProperty(name)) {
        value = cache[name];
      } else {
-       var context = this, names, index, lookupHit = false;
+       var context = this, 
+names, index, 
+lookupHit = false;
 
        while (context) {
          if (name.indexOf('.') > 0) {
@@ -572,7 +574,7 @@ var define;
             **/
            while (value != null && index < names.length) {
              if (index === names.length - 1)
-               lookupHit = hasProperty(value, names[index]);
+               { lookupHit = hasProperty(value, names[index]); }
 
              value = value[names[index++]];
            }
@@ -582,7 +584,7 @@ var define;
          }
 
          if (lookupHit)
-           break;
+           { break; }
 
          context = context.parent;
        }
@@ -591,7 +593,7 @@ var define;
      }
 
      if (isFunction(value))
-       value = value.call(this.view);
+       { value = value.call(this.view); }
 
      return value;
    };
@@ -621,7 +623,7 @@ var define;
      var tokens = cache[template];
 
      if (tokens == null)
-       tokens = cache[template] = parseTemplate(template, tags);
+       { tokens = cache[template] = parseTemplate(template, tags); }
 
      return tokens;
    };
@@ -659,15 +661,15 @@ var define;
        token = tokens[i];
        symbol = token[0];
 
-       if (symbol === '#') value = this.renderSection(token, context, partials, originalTemplate);
-       else if (symbol === '^') value = this.renderInverted(token, context, partials, originalTemplate);
-       else if (symbol === '>') value = this.renderPartial(token, context, partials, originalTemplate);
-       else if (symbol === '&') value = this.unescapedValue(token, context);
-       else if (symbol === 'name') value = this.escapedValue(token, context);
-       else if (symbol === 'text') value = this.rawValue(token);
+       if (symbol === '#') { value = this.renderSection(token, context, partials, originalTemplate); }
+       else if (symbol === '^') { value = this.renderInverted(token, context, partials, originalTemplate); }
+       else if (symbol === '>') { value = this.renderPartial(token, context, partials, originalTemplate); }
+       else if (symbol === '&') { value = this.unescapedValue(token, context); }
+       else if (symbol === 'name') { value = this.escapedValue(token, context); }
+       else if (symbol === 'text') { value = this.rawValue(token); }
 
        if (value !== undefined)
-         buffer += value;
+         { buffer += value; }
      }
 
      return buffer;
@@ -684,7 +686,7 @@ var define;
        return self.render(template, context, partials);
      }
 
-     if (!value) return;
+     if (!value) { return; }
 
      if (isArray(value)) {
        for (var j = 0, valueLength = value.length; j < valueLength; ++j) {
@@ -694,13 +696,13 @@ var define;
        buffer += this.renderTokens(token[4], context.push(value), partials, originalTemplate);
      } else if (isFunction(value)) {
        if (typeof originalTemplate !== 'string')
-         throw new Error('Cannot use higher-order sections without the original template');
+         { throw new Error('Cannot use higher-order sections without the original template'); }
 
        // Extract the portion of the original template that the section contains.
        value = value.call(context.view, originalTemplate.slice(token[3], token[5]), subRender);
 
        if (value != null)
-         buffer += value;
+         { buffer += value; }
      } else {
        buffer += this.renderTokens(token[4], context, partials, originalTemplate);
      }
@@ -713,27 +715,27 @@ var define;
      // Use JavaScript's definition of falsy. Include empty arrays.
      // See https://github.com/janl/mustache.js/issues/186
      if (!value || (isArray(value) && value.length === 0))
-       return this.renderTokens(token[4], context, partials, originalTemplate);
+       { return this.renderTokens(token[4], context, partials, originalTemplate); }
    };
 
    Writer.prototype.renderPartial = function renderPartial (token, context, partials) {
-     if (!partials) return;
+     if (!partials) { return; }
 
      var value = isFunction(partials) ? partials(token[1]) : partials[token[1]];
      if (value != null)
-       return this.renderTokens(this.parse(value), context, partials, value);
+       { return this.renderTokens(this.parse(value), context, partials, value); }
    };
 
    Writer.prototype.unescapedValue = function unescapedValue (token, context) {
      var value = context.lookup(token[1]);
      if (value != null)
-       return value;
+       { return value; }
    };
 
    Writer.prototype.escapedValue = function escapedValue (token, context) {
      var value = context.lookup(token[1]);
      if (value != null)
-       return mustache.escape(value);
+       { return mustache.escape(value); }
    };
 
    Writer.prototype.rawValue = function rawValue (token) {
@@ -799,8 +801,7 @@ var define;
    mustache.Scanner = Scanner;
    mustache.Context = Context;
    mustache.Writer = Writer;
-
- }));
+ });
  /**
  * Above is the original mustache code.
  */
@@ -808,5 +809,4 @@ var define;
 // EXPOSE qooxdoo variant
 qx.bom.Template.version = this.Mustache.version;
 qx.bom.Template.render = this.Mustache.render;
-
 }).call({});

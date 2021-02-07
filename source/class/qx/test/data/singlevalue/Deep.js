@@ -322,7 +322,6 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
       qx.data.SingleValueBinding.bind(this.__a, "child.name", this.__label, "value");
 
       qx.data.SingleValueBinding.removeAllBindings();
-
     },
 
 
@@ -411,7 +410,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
       qx.data.SingleValueBinding.bind(
         this.__a, "name", this.__b1, "lab.value",
-        {converter : function(data) {return data + "...";}}
+        {converter : function(data) { return data + "..."; }}
       );
 
       this.__b1.setLab(newLabel);
@@ -478,7 +477,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
     testDeepTargetChangeArray : function()
     {
-      qx.data.SingleValueBinding.bind(this.__label, "value", this.__a,"array[0]");
+      qx.data.SingleValueBinding.bind(this.__label, "value", this.__a, "array[0]");
 
       this.__label.setValue("123");
       this.assertEquals("123", this.__a.getArray().getItem(0));
@@ -499,7 +498,7 @@ qx.Class.define("qx.test.data.singlevalue.Deep",
 
     testDeepTargetChangeArrayLast : function()
     {
-      qx.data.SingleValueBinding.bind(this.__label, "value", this.__a,"array[last]");
+      qx.data.SingleValueBinding.bind(this.__label, "value", this.__a, "array[last]");
 
       this.__label.setValue("123");
       this.assertEquals("123", this.__a.getArray().getItem(2));

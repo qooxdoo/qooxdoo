@@ -421,7 +421,7 @@ qx.Class.define("qx.io.remote.Request",
      */
     reset : function()
     {
-      switch(this.getState())
+      switch (this.getState())
       {
         case "sending":
         case "receiving":
@@ -700,7 +700,7 @@ qx.Class.define("qx.io.remote.Request",
     // property apply
     _applyProhibitCaching : function(value, old)
     {
-      if (! value)
+      if (!value)
       {
         this.removeParameter("nocache");
         this.removeRequestHeader("Pragma");

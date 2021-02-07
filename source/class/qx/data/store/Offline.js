@@ -43,7 +43,7 @@ qx.Class.define("qx.data.store.Offline",
       if (qx.core.Environment.get("qx.debug")) {
         this.assertNotUndefined(key);
       }
-    } catch(e) {
+    } catch (e) {
       this.dispose();
       throw e;
     }

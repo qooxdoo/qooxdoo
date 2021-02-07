@@ -541,7 +541,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
       // Get array of child elements of root expect the filtered one
       var expected = this.getVisibleItemsFrom(root, [root]);
       for (var i=0; i < expected.length; i++) {
-        if (expected[i].getName() == filterNode){
+        if (expected[i].getName() == filterNode) {
           expected.splice(i, 1);
         }
       };

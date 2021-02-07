@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     // configures the list item.
     this.__selectionList = this._createSelectionList();
 
-    if(itemsModel) {
+    if (itemsModel) {
       this.__selectionList.setModel(itemsModel);
     }
 
@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
     this.base(arguments, this.__menuContainer, anchor);
 
-    if(anchor) {
+    if (anchor) {
       this.setModal(false);
     } else {
       this.setModal(true);
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     _updatePosition : function() {
       var parentHeight = qx.ui.mobile.dialog.Popup.ROOT.getHeight();
       var listScrollerHeight = parseInt(parentHeight, 10) * 0.75;
-      listScrollerHeight = parseInt(listScrollerHeight,10);
+      listScrollerHeight = parseInt(listScrollerHeight, 10);
 
       if (this.getVisibleListItems() !== null) {
         var newListScrollerHeight = this.__selectionList.getListItemHeight() * this.getVisibleListItems();
@@ -262,7 +262,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
           var isItemSelected = (self.getSelectedIndex() == row);
 
-          if(isItemSelected) {
+          if (isItemSelected) {
             item.removeCssClass(self.getUnselectedItemClass());
             item.addCssClass(self.getSelectedItemClass());
           } else {
@@ -299,7 +299,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
      * @param itemsModel {qx.data.Array}, the model of choosable items in the menu.
      */
     setItems : function (itemsModel) {
-      if(this.__selectionList) {
+      if (this.__selectionList) {
         this.__selectionList.setModel(null);
         this.__selectionList.setModel(itemsModel);
       }
@@ -328,7 +328,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
     _applySelectedIndex : function(value, old) {
       var listModel = this.__selectionList.getModel();
 
-      if(listModel !== null) {
+      if (listModel !== null) {
         var selectedItem = listModel.getItem(value);
         this.fireDataEvent("changeSelection", {index: value, item: selectedItem});
       }
@@ -339,7 +339,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
 
     // property apply
     _applyNullable : function(value, old) {
-      if(value){
+      if (value) {
         this.__clearButton.setVisibility("visible");
       } else {
         this.__clearButton.setVisibility("excluded");
@@ -380,7 +380,7 @@ qx.Class.define("qx.ui.mobile.dialog.Menu",
   destruct : function()
   {
     this.__selectionList.removeListener("tap", this._onSelectionListTap, this);
-    this._disposeObjects("__selectionList","__clearButton","__listScroller","__menuContainer");
+    this._disposeObjects("__selectionList", "__clearButton", "__listScroller", "__menuContainer");
   }
 
 });

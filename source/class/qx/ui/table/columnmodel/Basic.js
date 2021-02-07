@@ -313,7 +313,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       }
 
       this.__columnDataArr[col].headerRenderer = renderer;
-      if (! this.__internalChange) {
+      if (!this.__internalChange) {
         this.fireDataEvent("headerCellRendererChanged", {col:col});
       }
     },
@@ -747,7 +747,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         {
           var visible = this.isColumnVisible(colIdx);
           isVisible[colIdx] = visible; //Remember, as this relies on this.__colToXPosMap which is cleared below
-          if (visible){
+          if (visible) {
             this.setColumnVisible(colIdx, false);
           }
         }
@@ -759,7 +759,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         this.__colToXPosMap = null;
 
         // Go through each column an switch invisible ones back to visible
-        for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++){
+        for (var colIdx = 0; colIdx < this.__overallColumnArr.length; colIdx++) {
           if (isVisible[colIdx]) {
             this.setColumnVisible(colIdx, true);
           }
@@ -770,7 +770,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
         // only take this event to mean "total repaint necesscary". Fabian will look
         // after deprecating the data part of the orderChanged - event
         this.fireDataEvent("orderChanged");
-
       } else {
         throw new Error("setColumnsOrder: Invalid number of column positions given, expected "
                         + this.__overallColumnArr.length + ", got " + newPositions.length);

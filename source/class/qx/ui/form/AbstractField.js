@@ -353,7 +353,6 @@ qx.Class.define("qx.ui.form.AbstractField",
         });
 
         this._renderContentElement(innerHeight, input);
-
       }
 
       if (changes.position) {
@@ -976,8 +975,8 @@ qx.Class.define("qx.ui.form.AbstractField",
         var index = value.search(filter);
         var processedValue = value;
 
-        while((index >= 0) && (processedValue.length > 0)) {
-          filteredValue = filteredValue + (processedValue.charAt(index));
+        while ((index >= 0) && (processedValue.length > 0)) {
+          filteredValue += (processedValue.charAt(index));
           processedValue = processedValue.substring(index + 1, processedValue.length);
           index = processedValue.search(filter);
         }

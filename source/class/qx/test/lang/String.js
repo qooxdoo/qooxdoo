@@ -92,7 +92,7 @@ qx.Class.define("qx.test.lang.String",
 
       try {
         qx.lang.Array.append(a, 1);
-      } catch(ex) {
+      } catch (ex) {
         error = true;
       }
 

@@ -183,7 +183,7 @@ qx.Bootstrap.define("qx.bom.client.Browser",
      * @return {Boolean} <code>true</code>, if the environment is in quirks mode
      */
     getQuirksMode : function() {
-      if(qx.bom.client.Engine.getName() == "mshtml" &&
+      if (qx.bom.client.Engine.getName() == "mshtml" &&
         parseFloat(qx.bom.client.Engine.getVersion()) >= 8)
       {
         return qx.bom.client.Engine.DOCUMENT_MODE === 5;

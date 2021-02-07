@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
      */
     __createImage : function(imageData)
     {
-      if (typeof(imageData) == "string") {
+      if (typeof (imageData) == "string") {
         imageData = {url: imageData};
       }
 

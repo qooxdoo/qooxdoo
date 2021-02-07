@@ -56,7 +56,7 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
       this.__toolbar.destroy();
       this.__container.destroy();
 
-      if (self.__indicator) {this.__indicator.destroy();}
+      if (self.__indicator) { this.__indicator.destroy(); }
     },
 
 
@@ -111,7 +111,7 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
         self.flush();
       }, function(e) {
         self.assertTrue(self.__b3 === e.getData());
-        self.assertTrue("excluded" === self.__b3.getVisibility());
+        self.assertTrue(self.__b3.getVisibility() === "excluded");
       });
     },
 
@@ -129,7 +129,7 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
         self.flush();
       }, function(e) {
         self.assertTrue(self.__b3 === e.getData() || self.__b2 === e.getData());
-        self.assertTrue("visible" === e.getData().getVisibility());
+        self.assertTrue(e.getData().getVisibility() === "visible");
       });
     },
 
@@ -293,11 +293,9 @@ qx.Class.define("qx.test.ui.toolbar.OverflowHandling",
             self.assertEquals(self.__b3, e.getData());
             self.assertEquals("visible", self.__b3.getVisibility());
           });
-          
         });
       }, 100);
       this.wait();
-
     },
 
     testAddItem : function() {

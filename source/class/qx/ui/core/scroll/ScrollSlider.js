@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.core.scroll.ScrollSlider",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "knob":
           control = this.base(arguments, id);

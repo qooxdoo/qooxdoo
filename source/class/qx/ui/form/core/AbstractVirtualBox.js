@@ -267,7 +267,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "dropdown":
           control = new qx.ui.form.core.VirtualDropDownList(this);
@@ -388,7 +388,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
       var action = this._getAction(event);
       var isOpen = this.getChildControl("dropdown").isVisible();
 
-      switch(action)
+      switch (action)
       {
         case "open":
           this.open();
@@ -420,7 +420,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
      *
      * @param event {qx.event.type.Data} Data event.
      */
-    _onResize : function(event){
+    _onResize : function(event) {
       this.getChildControl("dropdown").setMinWidth(event.getData().width);
     },
 

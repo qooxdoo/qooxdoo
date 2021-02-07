@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.menu.Menu",
     this.base(arguments);
 
     // Use hard coded layout
-    this._setLayout(new qx.ui.menu.Layout);
+    this._setLayout(new qx.ui.menu.Layout());
 
     // Automatically add to application's root
     var root = this.getApplicationRoot();
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.menu.Menu",
       if (this.getOpener() != null)
       {
         var isPlaced = this.placeToWidget(this.getOpener(), true);
-        if(isPlaced) {
+        if (isPlaced) {
           this.__updateSlideBar();
           this.show();
 
@@ -334,7 +334,7 @@ qx.Class.define("qx.ui.menu.Menu",
      * Convenience method to add a separator to the menu
      */
     addSeparator : function() {
-      this.add(new qx.ui.menu.Separator);
+      this.add(new qx.ui.menu.Separator());
     },
 
 
@@ -536,7 +536,7 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "slidebar":
           var control = new qx.ui.menu.MenuSlideBar();

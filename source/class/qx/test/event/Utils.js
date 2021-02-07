@@ -37,7 +37,7 @@ qx.Class.define("qx.test.event.Utils", {
       var str = "";
       var self = this;
       var finished = false;
-      Utils.catch(tracker, function() { self.assertTrue(false); })
+      Utils.catch(tracker, function() { self.assertTrue(false); });
       Utils.then(tracker, function() { return str += "A"; });
       Utils.then(tracker, function(value) { self.assertEquals("A", value); return str += "B"; });
       Utils.then(tracker, function() { str += "C"; });
@@ -61,7 +61,7 @@ qx.Class.define("qx.test.event.Utils", {
               str += "B";
               resolve(str);
             }, 200);
-          })
+          });
         });
         Utils.then(tracker, function(value) { self.assertEquals("AB", value); str += "C"; });
         Utils.then(tracker, function() {
@@ -113,7 +113,7 @@ qx.Class.define("qx.test.event.Utils", {
               str += "C";
               resolve(str);
             }, 200);
-          })
+          });
         });
         Utils.then(tracker, function(value) {
             self.assertEquals("ABC", value);
@@ -159,7 +159,7 @@ qx.Class.define("qx.test.event.Utils", {
             setTimeout(function() {
               reject();
             }, 200);
-          })
+          });
         });
         Utils.then(tracker, function() { str += "C"; });
         Utils.then(tracker, function() {
@@ -216,7 +216,7 @@ qx.Class.define("qx.test.event.Utils", {
         var tracker = {};
         var str = "";
         var self = this;
-        Utils.catch(tracker, function() { self.assertTrue(false); })
+        Utils.catch(tracker, function() { self.assertTrue(false); });
         Utils.then(tracker, function() {
           return Utils.series(["A", "B", "C", "D"], function(value) {
             if (value === "C") {

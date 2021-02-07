@@ -134,10 +134,10 @@ qx.Class.define("qx.ui.control.ColorPopup",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "field":
-          control = new qx.ui.core.Widget;
+          control = new qx.ui.core.Widget();
           control.addListener("pointerdown", this._onFieldPointerDown, this);
           control.addListener("pointerover", this._onFieldPointerOver, this);
           control.addListener("pointerout", this._onFieldPointerOut, this);
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
         case "preview-pane":
           control = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
-          control.setLayout(new qx.ui.layout.HBox);
+          control.setLayout(new qx.ui.layout.HBox());
 
           control.add(this._createChildControl("selected-preview", true), {flex : 1});
           control.add(this._createChildControl("current-preview", true), {flex : 1});
@@ -169,11 +169,11 @@ qx.Class.define("qx.ui.control.ColorPopup",
           break;
 
         case "selected-preview":
-          control = new qx.ui.container.Composite(new qx.ui.layout.Basic);
+          control = new qx.ui.container.Composite(new qx.ui.layout.Basic());
           break;
 
         case "current-preview":
-          control = new qx.ui.container.Composite(new qx.ui.layout.Basic);
+          control = new qx.ui.container.Composite(new qx.ui.layout.Basic());
           break;
 
         case "colorselector-okbutton":
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
         table = tables[tableId];
 
         box = new qx.ui.groupbox.GroupBox(table.label);
-        box.setLayout(new qx.ui.layout.HBox);
+        box.setLayout(new qx.ui.layout.HBox());
 
         this.__boxes[tableId] = box;
         this.add(box);
@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
      */
     _rotatePreviousColors : function()
     {
-      if(!this._tables){
+      if (!this._tables) {
         return;
       }
 

@@ -132,7 +132,7 @@ qx.Class.define("qx.dev.unit.TestResult",
      */
     run : function(test, testFunction, self, resume)
     {
-      if(!this._timeout) {
+      if (!this._timeout) {
         this._timeout = {};
       }
 
@@ -174,12 +174,10 @@ qx.Class.define("qx.dev.unit.TestResult",
         try {
           test.setUp();
         }
-        catch(ex)
+        catch (ex)
         {
-
           if (ex instanceof qx.dev.unit.AsyncWrapper)
           {
-
             if (this._timeout[test.getFullName()]) {
               // Do nothing if there's already a timeout for this test
               return;
@@ -202,7 +200,6 @@ qx.Class.define("qx.dev.unit.TestResult",
             }
             return undefined;
           } else {
-
             try {
               this.tearDown(test);
             }
@@ -236,12 +233,11 @@ qx.Class.define("qx.dev.unit.TestResult",
       try {
         returnValue = testFunction.call(self || window);
       }
-      catch(ex)
+      catch (ex)
       {
         var error = true;
         if (ex instanceof qx.dev.unit.AsyncWrapper)
         {
-
           if (this._timeout[test.getFullName()]) {
             // Do nothing if there's already a timeout for this test
             return;
@@ -262,14 +258,13 @@ qx.Class.define("qx.dev.unit.TestResult",
             }, that, ex.getDelay());
             this.fireDataEvent("wait", test);
           }
-
         } else if (ex instanceof qx.dev.unit.MeasurementResult) {
           error = false;
           this._createError("endMeasurement", [ex], test);
         } else {
           try {
             this.tearDown(test);
-          } catch(except) {}
+          } catch (except) {}
           if (ex.classname == "qx.core.AssertionError") {
             this._createError("failure", [ex], test);
             this.fireDataEvent("endTest", test);
@@ -288,7 +283,7 @@ qx.Class.define("qx.dev.unit.TestResult",
         try {
           this.tearDown(test);
           this.fireDataEvent("endTest", test);
-        } catch(ex) {
+        } catch (ex) {
           if (ex instanceof qx.type.BaseError &&
             ex.message == qx.type.BaseError.DEFAULTMESSAGE)
           {
@@ -323,7 +318,7 @@ qx.Class.define("qx.dev.unit.TestResult",
     _createError : function(eventName, exceptions, test)
     {
       var errors = [];
-      for (var i=0,l=exceptions.length; i<l; i++) {
+      for (var i=0, l=exceptions.length; i<l; i++) {
         // WebKit and Opera
         errors.push({
           exception : exceptions[i],
@@ -352,8 +347,8 @@ qx.Class.define("qx.dev.unit.TestResult",
         qx.event.Registration.addListener = function(target, type, listener, self, capture) {
           var listenerId =  qx.event.Registration.addListenerOriginal(target, type, listener, self, capture);
           var store = true;
-          if ( (target.classname && target.classname.indexOf("testrunner.unit") == 0)
-               || (self && self.classname && self.classname.indexOf("testrunner.unit") == 0) ) {
+          if ((target.classname && target.classname.indexOf("testrunner.unit") == 0)
+               || (self && self.classname && self.classname.indexOf("testrunner.unit") == 0)) {
             store = false;
           }
           if (store) {
@@ -375,12 +370,12 @@ qx.Class.define("qx.dev.unit.TestResult",
       // remove listeners added during test execution
       if (testFunction._addedListeners) {
         var listeners = testFunction._addedListeners;
-        for (var i=0,l=listeners.length; i<l; i++) {
+        for (var i=0, l=listeners.length; i<l; i++) {
           var target = listeners[i][0];
           var id = listeners[i][1];
           try {
             qx.event.Registration.removeListenerById(target, id);
-          } catch(ex) {}
+          } catch (ex) {}
         }
       }
     },

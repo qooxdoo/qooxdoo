@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _isInMenu : function(widget)
     {
-      while(widget)
+      while (widget)
       {
         if (widget instanceof qx.ui.menu.Menu) {
           return true;
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _getMenuButton : function(widget)
     {
-      while(widget)
+      while (widget)
       {
         if (widget instanceof qx.ui.menu.AbstractButton) {
           return widget;
@@ -578,7 +578,7 @@ qx.Class.define("qx.ui.menu.Manager",
 
       if (navigation)
       {
-        switch(iden)
+        switch (iden)
         {
           case "Up":
             this._onKeyPressUp(menu);
@@ -610,7 +610,7 @@ qx.Class.define("qx.ui.menu.Manager",
         var button = menu.getSelectedButton();
         if (button)
         {
-          switch(iden)
+          switch (iden)
           {
             case "Enter":
               this._onKeyPressEnter(menu, button, e);
@@ -709,7 +709,7 @@ qx.Class.define("qx.ui.menu.Manager",
         for (var i = 1; i <= length; i++)
         {
           var button = buttons[(index - i + length) % length];
-          if(button.isEnabled() && button.isVisible()) {
+          if (button.isEnabled() && button.isVisible()) {
             prevButton = button;
             break;
           }
@@ -815,7 +815,7 @@ qx.Class.define("qx.ui.menu.Manager",
         for (var i = 1; i <= length; i++)
         {
           var button = buttons[(index + i) % length];
-          if(button.isEnabled() && button.isVisible()) {
+          if (button.isEnabled() && button.isVisible()) {
             nextButton = button;
             break;
           }

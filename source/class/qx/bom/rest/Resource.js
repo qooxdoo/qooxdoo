@@ -83,7 +83,7 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
         }
         this.__mapFromDescription(description);
       }
-    } catch(e) {
+    } catch (e) {
       this.dispose();
       throw e;
     }
@@ -536,14 +536,12 @@ qx.Bootstrap.define("qx.bom.rest.Resource",
      * @param check {Map} Checks.
      */
     __checkParameters: function(params, check) {
-      if(typeof check !== "undefined") {
-
+      if (typeof check !== "undefined") {
         if (qx.core.Environment.get("qx.debug")) {
           qx.core.Assert.assertObject(check, "Check must be object with params as keys");
         }
 
         Object.keys(check).forEach(function(param) {
-
           // Warn about invalid check
           if (qx.core.Environment.get("qx.debug")) {
             if (check[param] !== true) {

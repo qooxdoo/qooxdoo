@@ -407,7 +407,7 @@ qx.Class.define("qx.ui.form.DateField",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "textfield":
           control = new qx.ui.form.TextField();
@@ -435,7 +435,7 @@ qx.Class.define("qx.ui.form.DateField",
           break;
 
         case "popup":
-          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
+          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox());
           control.setAutoHide(false);
           control.add(this.getChildControl("list"));
           control.addListener("pointerup", this._onChangeDate, this);

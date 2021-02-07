@@ -172,11 +172,11 @@ qx.Class.define("qx.test.html.Element",
       // BASICS
       //
 
-      var el1 = new qx.html.Element;
-      var el2a = new qx.html.Element;
-      var el2b = new qx.html.Element;
-      var el3a = new qx.html.Element;
-      var el3b = new qx.html.Element;
+      var el1 = new qx.html.Element();
+      var el2a = new qx.html.Element();
+      var el2b = new qx.html.Element();
+      var el3a = new qx.html.Element();
+      var el3b = new qx.html.Element();
 
       this.assertQxObject(el1);
       this.assertQxObject(el2a);
@@ -238,11 +238,11 @@ qx.Class.define("qx.test.html.Element",
 
       this.assertIdentical(this._doc.getChildren()[0], el1);
 
-      var before1 = new qx.html.Element;
+      var before1 = new qx.html.Element();
       before1.setAttribute("id", "before1");
       before1.insertBefore(el1);
 
-      var after1 = new qx.html.Element;
+      var after1 = new qx.html.Element();
       after1.setAttribute("id", "after1");
       after1.insertAfter(el1);
 
@@ -263,11 +263,11 @@ qx.Class.define("qx.test.html.Element",
       // POSITIONED INSERT #2
       //
 
-      var before2 = new qx.html.Element;
+      var before2 = new qx.html.Element();
       before2.setAttribute("id", "before2");
       this._doc.addAt(before2, 0);
 
-      var after2 = new qx.html.Element;
+      var after2 = new qx.html.Element();
       after2.setAttribute("id", "after2");
       this._doc.addAt(after2, 10);
 
@@ -489,7 +489,6 @@ qx.Class.define("qx.test.html.Element",
       this.assertIdentical(this._doc.getDomElement().childNodes[2], before1.getDomElement());
       this.assertIdentical(this._doc.getDomElement().childNodes[3], after1.getDomElement());
       this.assertIdentical(this._doc.getDomElement().childNodes[4], el1.getDomElement());
-
     },
 
 
@@ -498,19 +497,19 @@ qx.Class.define("qx.test.html.Element",
     {
       this.info("Create five elements (2 hidden)");
 
-      var el1 = new qx.html.Element;
+      var el1 = new qx.html.Element();
       el1.setAttribute("id", "el1");
 
-      var el2 = new qx.html.Element;
+      var el2 = new qx.html.Element();
       el2.setAttribute("id", "el2");
 
-      var el3 = new qx.html.Element;
+      var el3 = new qx.html.Element();
       el3.setAttribute("id", "el3");
 
-      var el4 = new qx.html.Element;
+      var el4 = new qx.html.Element();
       el4.setAttribute("id", "el4");
 
-      var el5 = new qx.html.Element;
+      var el5 = new qx.html.Element();
       el5.setAttribute("id", "el5");
 
 
@@ -566,16 +565,16 @@ qx.Class.define("qx.test.html.Element",
 
       this.info("Make complex hidden element visible");
 
-      var el4_1 = new qx.html.Element;
+      var el4_1 = new qx.html.Element();
       el4_1.setAttribute("id", "el4_1");
 
-      var el4_2 = new qx.html.Element;
+      var el4_2 = new qx.html.Element();
       el4_2.setAttribute("id", "el4_2");
       el4_2.setStyle("color", "red");
       el4_2.setAttribute("text", "el4_2");
       el4_2.exclude();
 
-      var el4_3 = new qx.html.Element;
+      var el4_3 = new qx.html.Element();
       el4_3.setAttribute("id", "el4_3");
 
       el4.add(el4_1, el4_2, el4_3);
@@ -718,19 +717,19 @@ qx.Class.define("qx.test.html.Element",
     {
       this.info("Create five elements (2 hidden)");
 
-      var el1 = new qx.html.Element;
+      var el1 = new qx.html.Element();
       el1.setAttribute("id", "el1");
 
-      var el2 = new qx.html.Element;
+      var el2 = new qx.html.Element();
       el2.setAttribute("id", "el2");
 
-      var el3 = new qx.html.Element;
+      var el3 = new qx.html.Element();
       el3.setAttribute("id", "el3");
 
-      var el4 = new qx.html.Element;
+      var el4 = new qx.html.Element();
       el4.setAttribute("id", "el4");
 
-      var el5 = new qx.html.Element;
+      var el5 = new qx.html.Element();
       el5.setAttribute("id", "el5");
 
 

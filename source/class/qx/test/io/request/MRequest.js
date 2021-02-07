@@ -539,7 +539,7 @@ qx.Mixin.define("qx.test.io.request.MRequest",
     },
 
     noCache: function(url) {
-      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date).valueOf());
+      return qx.util.Uri.appendParamsToUrl(url, "nocache=" + (new Date()).valueOf());
     },
 
     respond: function(status, error) {

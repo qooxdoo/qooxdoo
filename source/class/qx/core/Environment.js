@@ -971,14 +971,13 @@ qx.Bootstrap.define("qx.core.Environment",
      *  the corresponding implementation.
      */
     _getClassNameFromEnvKey : function (key) {
-
       var envmappings = this._checksMap;
       if (envmappings[key] != undefined) {
         var implementation = envmappings[key];
         // separate class from method
         var lastdot = implementation.lastIndexOf(".");
         if (lastdot > -1) {
-          var classname = implementation.slice(0,lastdot);
+          var classname = implementation.slice(0, lastdot);
           var methodname= implementation.slice(lastdot+1);
           var clazz = qx.Bootstrap.getByName(classname);
           if (clazz != undefined) {

@@ -165,13 +165,13 @@ qx.Class.define("qx.dev.Tokenizer",
         else if (token.match(re_doublequote)) {
           tokens.push({type: "qqstr", value: token});
         }
-        else if(keywords[token]) {
+        else if (keywords[token]) {
           tokens.push({type: "keyword", value: token});
         }
-        else if(atoms[token]) {
+        else if (atoms[token]) {
           tokens.push({type: "atom", value: token});
         }
-        else if(qxkeys[token]) {
+        else if (qxkeys[token]) {
           tokens.push({type: "qxkey", value: token});
         }
         else if (token.match(re_ident)) {
@@ -229,7 +229,7 @@ qx.Class.define("qx.dev.Tokenizer",
       for (var i=0; i<tokens.length; i++) {
         var token = tokens[i];
         var htmlValue = qx.bom.String.escape(token.value);
-        switch(token.type) {
+        switch (token.type) {
           case "regexp":
             js.add("<span class='regexp'>", htmlValue, "</span>");
             break;

@@ -63,7 +63,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     createRequestObject : qx.core.Environment.select("engine.name",
     {
       "default" : function() {
-        return new XMLHttpRequest;
+        return new XMLHttpRequest();
       },
 
       // IE7's native XmlHttp does not care about trusted zones. To make this
@@ -83,7 +83,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         }
 
         if (window.XMLHttpRequest) {
-          return new XMLHttpRequest;
+          return new XMLHttpRequest();
         }
       }
     }),
@@ -325,7 +325,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           vRequest.open(vMethod, vUrl, vAsynchronous);
         }
       }
-      catch(ex)
+      catch (ex)
       {
         this.error("Failed with exception: " + ex);
         this.failed();
@@ -378,7 +378,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           vRequest.send(this.getData());
         }
       }
-      catch(ex)
+      catch (ex)
       {
         if (vLocalRequest) {
           this.failedLocally();
@@ -439,7 +439,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     _onreadystatechange : qx.event.GlobalError.observeMethod(function(e)
     {
       // Ignoring already stopped requests
-      switch(this.getState())
+      switch (this.getState())
       {
         case "completed":
         case "aborted":
@@ -510,7 +510,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       try {
         vReadyState = this.getRequest().readyState;
-      } catch(ex) {}
+      } catch (ex) {}
 
       return vReadyState;
     },
@@ -566,7 +566,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       try {
         vResponseHeader = this.getRequest().getResponseHeader(vLabel) || null;
-      } catch(ex) {}
+      } catch (ex) {}
 
       return vResponseHeader;
     },
@@ -589,7 +589,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           vSourceHeader = vLoadHeader;
         }
       }
-      catch(ex) {}
+      catch (ex) {}
 
       return vSourceHeader;
     },
@@ -648,8 +648,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         if (vStatusCode === 1223) {
           vStatusCode = 204;
         }
-
-      } catch(ex) {}
+      } catch (ex) {}
 
       return vStatusCode;
     },
@@ -667,7 +666,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       try {
         vStatusText = this.getRequest().statusText;
-      } catch(ex) {}
+      } catch (ex) {}
 
       return vStatusText;
     },
@@ -696,7 +695,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       {
         vResponseText = this.getRequest().responseText;
       }
-      catch(ex)
+      catch (ex)
       {
         vResponseText = null;
       }
@@ -724,7 +723,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       {
         try {
           vResponseXML = this.getRequest().responseXML;
-        } catch(ex) {}
+        } catch (ex) {}
       }
 
       // Typical behaviour on file:// on mshtml
@@ -813,7 +812,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           return vText;
       }
 
-      switch(this.getResponseType())
+      switch (this.getResponseType())
       {
         case "text/plain":
         case "text/html":
@@ -840,7 +839,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
             if (vText && vText.length > 0)
             {
               var ret;
-              if (this.getParseJson()){
+              if (this.getParseJson()) {
                 ret = qx.lang.Json.parse(vText);
                 ret = (ret === 0 ? 0 : (ret || null));
               } else {
@@ -853,7 +852,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
               return null;
             }
           }
-          catch(ex)
+          catch (ex)
           {
             this.error("Could not execute json: [" + vText + "]", ex);
             return "<pre>Could not execute json: \n" + vText + "\n</pre>";
@@ -869,7 +868,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
           }
 
           try {
-            if(vText && vText.length > 0)
+            if (vText && vText.length > 0)
             {
               var ret = window.eval(vText);
               return (ret === 0 ? 0 : (ret || null));
@@ -878,7 +877,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
             {
               return null;
             }
-          } catch(ex) {
+          } catch (ex) {
             this.error("Could not execute javascript: [" + vText + "]", ex);
             return null;
           }
@@ -927,7 +926,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         }
       }
 
-      switch(value)
+      switch (value)
       {
         case "created":
           this.fireEvent("created");
@@ -1002,7 +1001,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       // http://groups.google.com/group/Google-Web-Toolkit-Contributors/browse_thread/thread/7e7ee67c191a6324
       vRequest.onreadystatechange = (function() {});
       // Aborting
-      switch(vRequest.readyState)
+      switch (vRequest.readyState)
       {
         case 1:
         case 2:

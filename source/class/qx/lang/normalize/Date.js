@@ -75,7 +75,7 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
         //   https://github.com/qooxdoo/qooxdoo/issues/9451
         //
         var time = Date.originalParse(dateString);
-        if(isNaN(time) || isNaN((new Date()).setTime(time))) {
+        if (isNaN(time) || isNaN((new Date()).setTime(time))) {
           return NaN;
         }
         return time;
@@ -96,9 +96,9 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
       // No timezone offset given and *not* just a date (without time)
       if (captureGroups[8] !== "Z" && captureGroups[9] === undefined && !noTime)
       { // => Treat as local
-        return new Date( captureGroups[1], captureGroups[2], captureGroups[3],
+        return new Date(captureGroups[1], captureGroups[2], captureGroups[3],
                          captureGroups[4], captureGroups[5], captureGroups[6],
-                         captureGroups[7] ).getTime();
+                         captureGroups[7]).getTime();
       }
 
       // Handle timezone offsets
@@ -107,14 +107,14 @@ qx.Bootstrap.define("qx.lang.normalize.Date", {
       {
         minutesOffset = captureGroups[10] * 60 + captureGroups[11];
         if (captureGroups[9] === "+") {
-          minutesOffset = - minutesOffset;
+          minutesOffset = -minutesOffset;
         }
       }
 
       // Return the number of milliseconds since Epoch
-      return Date.UTC( captureGroups[1], captureGroups[2], captureGroups[3],
+      return Date.UTC(captureGroups[1], captureGroups[2], captureGroups[3],
                        captureGroups[4], captureGroups[5] + minutesOffset,
-                       captureGroups[6], captureGroups[7] );
+                       captureGroups[6], captureGroups[7]);
     }
   },
 

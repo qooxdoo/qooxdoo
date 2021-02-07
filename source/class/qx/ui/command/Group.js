@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.command.Group",
     // property apply
     _applyActive : function(value)
     {
-      for(var cmdkey in this._cmds){
+      for (var cmdkey in this._cmds) {
         this._cmds[cmdkey].setActive(value);
       }
     },
@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.command.Group",
         );
       }
 
-      if (this.has(key)){
+      if (this.has(key)) {
         if (qx.core.Environment.get("qx.debug")) {
           this.debug("Command with key: '" + key +  "' already exists!");
         }

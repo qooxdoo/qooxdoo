@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
      * @returns {null|TypeError} The status of this operation.
      */
     setValue : function(selected) {
-      if (null === selected) {
+      if (selected === null) {
         this.getSelection().removeAll();
         return null;
       }
@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     {
       var control;
 
-      switch(id)
+      switch (id)
       {
         case "spacer":
           control = new qx.ui.core.Spacer();
@@ -333,7 +333,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     _onBlur: function()
     {
-      if (! this.isIncrementalSearch()) {
+      if (!this.isIncrementalSearch()) {
         this.close();
       }
     },
@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     _handleKeyboard : function(event) {
       var action = this._getAction(event);
 
-      switch(action)
+      switch (action)
       {
         case "search":
           if (!this.isIncrementalSearch()) {
@@ -493,7 +493,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           }
         }
 
-        if ( value.toLowerCase().startsWith(searchValue.toLowerCase()) )
+        if (value.toLowerCase().startsWith(searchValue.toLowerCase()))
         {
           selection.push(item);
           break;
@@ -586,7 +586,6 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           this.__updateDelegate();
         }
       }, this);
-
     },
 
     __getHighlightStyleFromAppearance : function()
@@ -602,7 +601,8 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
           textDecorationLine: 'underline'
         };
       }
-      var highlightStyle = '', styles = [];
+      var highlightStyle = '', 
+styles = [];
       var keys = Object.keys(highlightAppearance);
       for (var k=0; k< keys.length; k++) {
         var key = qx.module.util.String.hyphenate(keys[k]);
@@ -690,7 +690,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
       }
       else {
         var len  = filterValue.length;
-        var last = ( len > this.__lastMatch.length+1) ? this.__filterInput.getValue().charAt(len-1) : '';
+        var last = (len > this.__lastMatch.length+1) ? this.__filterInput.getValue().charAt(len-1) : '';
         filterValue = this.__lastMatch + last;
         this.__updateDelegate(filterValue);
       }
@@ -726,7 +726,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
     {
       // we assume that if the user sets configureItem himself
       // he keeps this consistent with rich
-      if (this.isRich() && ! value.configureItem) {
+      if (this.isRich() && !value.configureItem) {
         value.configureItem = this._configureItemRich;
       }
       this.base(arguments, value, old);
@@ -747,7 +747,7 @@ qx.Class.define("qx.ui.form.VirtualSelectBox",
 
     _applyHighlightMode : function(value, old)
     {
-      switch(value) {
+      switch (value) {
       case 'html':
         // set rich item labels
         this.setRich(true);

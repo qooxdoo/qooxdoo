@@ -117,7 +117,6 @@ qx.Class.define("qx.ui.tabview.TabButton",
 
     _applyIconPosition : function(value, old)
     {
-
       var children = {
         icon : this.getChildControl("icon"),
         label : this.getChildControl("label"),
@@ -166,7 +165,6 @@ qx.Class.define("qx.ui.tabview.TabButton",
           }
           break;
       }
-
     },
 
 
@@ -175,7 +173,7 @@ qx.Class.define("qx.ui.tabview.TabButton",
     {
       var control;
 
-      switch(id) {
+      switch (id) {
         case "label":
           var control = new qx.ui.basic.Label(this.getLabel());
           control.setAnonymous(true);
@@ -247,7 +245,6 @@ qx.Class.define("qx.ui.tabview.TabButton",
       } else {
         layout.setColumnAlign(2, "left", "middle");
       }
-
     }
 
   }

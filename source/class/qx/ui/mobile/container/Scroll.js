@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
   {
     this.base(arguments);
 
-    if(scrollProperties) {
+    if (scrollProperties) {
       this._scrollProperties = scrollProperties;
     }
 
@@ -283,7 +283,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
         waypoints = this._calculatedWaypointsX;
       }
 
-      if(waypoints === null) {
+      if (waypoints === null) {
         return;
       }
 
@@ -291,7 +291,6 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       for (var i = 0; i < waypoints.length; i++) {
         var waypoint = waypoints[i];
         if (waypoint.offset !== null) {
-
           if ((value > -1 && value >= waypoint.offset) ||
            (value < 0 && waypoint.offset < 0 && value <= waypoint.offset)) {
             nextWaypoint = waypoint;
@@ -429,7 +428,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       var contentWidth = this.getContentElement().scrollWidth;
 
       var scrollContentElement = this._getScrollContentElement();
-      if(scrollContentElement) {
+      if (scrollContentElement) {
         contentWidth = qx.bom.element.Dimension.getWidth(scrollContentElement);
       }
 
@@ -450,7 +449,7 @@ qx.Class.define("qx.ui.mobile.container.Scroll",
       var contentHeight = this.getContentElement().scrollHeight;
 
       var scrollContentElement = this._getScrollContentElement();
-      if(scrollContentElement) {
+      if (scrollContentElement) {
         contentHeight = qx.bom.element.Dimension.getHeight(scrollContentElement);
       }
 

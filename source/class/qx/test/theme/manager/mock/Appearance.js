@@ -6,9 +6,9 @@ qx.Theme.define("qx.test.theme.manager.mock.Appearance",
   {
     "test-button-gradient": {
       alias: "button",
-      style: function(states){
+      style: function(states) {
         return {
-          padding: [30,80],
+          padding: [30, 80],
           decorator: "test-button-gradient"
         };        
       }

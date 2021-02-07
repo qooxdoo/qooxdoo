@@ -150,7 +150,7 @@ qx.Class.define("qx.test.ui.selection.AbstractMultiSelectonTest",
       var selection = this._selection;
       var itemToRemove = selection[selection.length - 1];
       delete selection[selection.length - 1];
-      selection.length = selection.length - 1;
+      selection.length -= 1;
 
       // Tests event and removes the item
       var widget = this._widget;

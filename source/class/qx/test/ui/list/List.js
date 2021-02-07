@@ -88,7 +88,7 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.assertModelEqualsRowData(this._model, this._list);
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount());
-      this.assertEquals("new item", this._list._layer.getRenderedCellWidget(0,0).getLabel());
+      this.assertEquals("new item", this._list._layer.getRenderedCellWidget(0, 0).getLabel());
     },
 
 
@@ -129,8 +129,8 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.assertModelEqualsRowData(model, this._list);
       this.assertEquals(model.getLength(), this._list.getPane().getRowConfig().getItemCount());
-      this.assertEquals("Item 5", this._list._layer.getRenderedCellWidget(5,0).getLabel());
-      this.assertEquals("icon/16/places/folder.png", this._list._layer.getRenderedCellWidget(0,0).getIcon());
+      this.assertEquals("Item 5", this._list._layer.getRenderedCellWidget(5, 0).getLabel());
+      this.assertEquals("icon/16/places/folder.png", this._list._layer.getRenderedCellWidget(0, 0).getIcon());
       model.dispose();
     },
 
@@ -147,13 +147,13 @@ qx.Class.define("qx.test.ui.list.List",
 
       this.flush();
 
-      var widget = this._list._layer.getRenderedCellWidget(0,0);
+      var widget = this._list._layer.getRenderedCellWidget(0, 0);
       widget.setLabel("abcde");
 
       this.flush();
 
       this.assertEquals(this._model.getLength(), this._list.getPane().getRowConfig().getItemCount(), "Model size <-> pane size");
-      this.assertEquals("abcde", this._list._layer.getRenderedCellWidget(0,0).getLabel(), "Widget value");
+      this.assertEquals("abcde", this._list._layer.getRenderedCellWidget(0, 0).getLabel(), "Widget value");
       this.assertEquals("abcde", this._list.getModel().getItem(0), "Model value");
     },
 
@@ -264,7 +264,7 @@ qx.Class.define("qx.test.ui.list.List",
       this.flush();
 
       for (var i = 0; i < 10; i++) {
-        var widget = this._list._layer.getRenderedCellWidget(i,0);
+        var widget = this._list._layer.getRenderedCellWidget(i, 0);
 
         if (widget == null) {
           // row is not rendered
@@ -320,7 +320,7 @@ qx.Class.define("qx.test.ui.list.List",
       var sizes = [ 16, 32, 48, 16, 32, 48, 16, 32, 48, 16, 32, 48 ];
       var rawData = [];
       for (var i = 0; i < sizes.length; i++) {
-        rawData[i] = {label: "Item "+sizes[i]+"px", icon: "icon/"+sizes[i]+"/places/folder.png"}
+        rawData[i] = {label: "Item "+sizes[i]+"px", icon: "icon/"+sizes[i]+"/places/folder.png"};
       }      
       
       var model = qx.data.marshal.Json.createModel(rawData);
@@ -341,13 +341,12 @@ qx.Class.define("qx.test.ui.list.List",
 
       qx.event.Timer.once(function() {
         this.resume(function() {
-        
           var rowConfig = this._list.getPane().getRowConfig();
 
           var testedWidgets = 0;
           
           for (var i = 0; i < rawData.length; i++) {
-            var widget = this._list._layer.getRenderedCellWidget(i,0);
+            var widget = this._list._layer.getRenderedCellWidget(i, 0);
     
             if (widget == null) {
               // row is not rendered

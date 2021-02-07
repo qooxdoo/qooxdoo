@@ -44,8 +44,7 @@ qx.Class.define("qx.util.Uuid", {
  * @ignore(require)
  */
 
-(function(){
-
+(function() {
   var
     buf,
     bufIdx = 0,
@@ -84,7 +83,7 @@ qx.Class.define("qx.util.Uuid", {
   var crypt0;
   if (typeof crypto !== 'undefined') {
     crypt0 = crypto;
-  } else if( (typeof window !== 'undefined') && (typeof window.msCrypto !== 'undefined')) {
+  } else if ((typeof window !== 'undefined') && (typeof window.msCrypto !== 'undefined')) {
     crypt0 = window.msCrypto; // IE11
   }
 
@@ -95,7 +94,7 @@ qx.Class.define("qx.util.Uuid", {
 
   // Use best available PRNG
   // Also expose this so you can override it.
-  uuid.randomBytes = (function(){
+  uuid.randomBytes = (function() {
     if (crypt0) {
       if (crypt0.randomBytes) {
         return crypt0.randomBytes;
@@ -109,7 +108,8 @@ qx.Class.define("qx.util.Uuid", {
       }
     }
     return function(n) {
-      var i, r = [];
+      var i, 
+r = [];
       for (i = 0; i < n; i++) {
         r.push(Math.floor(Math.random() * 256));
       }
@@ -147,5 +147,4 @@ qx.Class.define("qx.util.Uuid", {
       hexBytes[b[14]] + hexBytes[b[15]]
     ;
   }
-
 })();

@@ -251,7 +251,6 @@ qx.Class.define("qx.event.handler.Application",
      */
     _initObserver : function()
     {
- 
       // in Firefox the loader script sets the ready state
       if (qx.$$domReady || document.readyState == "complete" || document.readyState == "ready")
       {
@@ -285,7 +284,7 @@ qx.Class.define("qx.event.handler.Application",
                 self._onNativeLoadWrapped();
               }
             }
-            catch(error) {
+            catch (error) {
               window.setTimeout(timer, 100);
             }
           };

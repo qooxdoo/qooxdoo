@@ -50,11 +50,11 @@ qx.Bootstrap.define("qx.bom.Range",
         // gathered via the selection object.
         if (qx.dom.Node.isElement(node))
         {
-          switch(node.nodeName.toLowerCase())
+          switch (node.nodeName.toLowerCase())
           {
             case "input":
 
-              switch(node.type)
+              switch (node.type)
               {
                 case "text":
                 case "password":

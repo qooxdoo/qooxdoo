@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.window.Manager",
     {
       this.__desktop = desktop;
         
-      if(desktop) {
+      if (desktop) {
         this.updateStack();
       }
       else {
@@ -125,11 +125,9 @@ qx.Class.define("qx.ui.window.Manager",
           zIndexModal +=2;
           //just activate it if it's modal
           active = win;
-
         } else if (win.isAlwaysOnTop()) {
           win.setZIndex(zIndexOnTop);
           zIndexOnTop +=2;
-
         } else {
           win.setZIndex(zIndex);
           zIndex +=2;

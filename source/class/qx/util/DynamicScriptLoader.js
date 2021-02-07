@@ -190,13 +190,13 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       var loader;
 
       script = this.__QUEUE.shift();
-      if (!script){
-        this.fireEvent("ready")
+      if (!script) {
+        this.fireEvent("ready");
         return;
       }
 
-      if (DynamicScriptLoader.__LOADED[script]){
-        this.fireDataEvent('loaded',{
+      if (DynamicScriptLoader.__LOADED[script]) {
+        this.fireDataEvent('loaded', {
           script: script,
           status: 'preloaded'
         });
@@ -205,33 +205,32 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
       }           
 
       dynLoader = DynamicScriptLoader.__IN_PROGRESS[script];
-      if (dynLoader){
-
-          id1 = dynLoader.addListener('loaded',function (e) {
+      if (dynLoader) {
+          id1 = dynLoader.addListener('loaded', function (e) {
             if (this.isDisposed()) {
               return;
             }
             var data = e.getData();
-            if (data.script === script){
+            if (data.script === script) {
               dynLoader.removeListenerById(id2);
               dynLoader.removeListenerById(id1);
-              this.fireDataEvent('loaded',data);
+              this.fireDataEvent('loaded', data);
               this.__loadScripts();
             }
-          },this);
+          }, this);
 
-          id2 = dynLoader.addListener('failed',function (e) {
+          id2 = dynLoader.addListener('failed', function (e) {
             if (this.isDisposed()) {
               return;
             }
             var data = e.getData();
             dynLoader.removeListenerById(id1);
             dynLoader.removeListenerById(id2);              
-            this.fireDataEvent('failed',{
+            this.fireDataEvent('failed', {
               script: script,
               status: 'loading of ' + data.script + ' failed while waiting for ' + script
             });
-          },this);
+          }, this);
 
           return;
       }
@@ -251,7 +250,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
           status: request.status
         });
         this.__loadScripts();
-      },this);
+      }, this);
 
       var onError = function(request) {
         if (this.isDisposed()) {
@@ -264,8 +263,8 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
         });
       };
 
-      loader.on("error", onError,this);
-      loader.on("timeout", onError,this);
+      loader.on("error", onError, this);
+      loader.on("timeout", onError, this);
 
       // this.debug("Loading " + script + " started");
       loader.open("GET", uri);
@@ -275,7 +274,7 @@ qx.Class.define("qx.util.DynamicScriptLoader", {
   },
   destruct : function() {
     var DynamicScriptLoader = qx.util.DynamicScriptLoader;
-    for (var key in DynamicScriptLoader.__IN_PROGRESS){
+    for (var key in DynamicScriptLoader.__IN_PROGRESS) {
       if (DynamicScriptLoader.__IN_PROGRESS[key] === this) {
         delete DynamicScriptLoader.__IN_PROGRESS[key];
       }

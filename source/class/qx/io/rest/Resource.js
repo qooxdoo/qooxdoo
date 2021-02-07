@@ -156,7 +156,7 @@ qx.Class.define("qx.io.rest.Resource",
         }
         this.__mapFromDescription(description);
       }
-    } catch(e) {
+    } catch (e) {
       this.dispose();
       throw e;
     }
@@ -394,7 +394,6 @@ qx.Class.define("qx.io.rest.Resource",
 
       // Method is safe to overwrite
       this[action].action = true;
-
     },
 
     /**

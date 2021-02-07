@@ -83,7 +83,7 @@ qx.Bootstrap.define("qx.lang.Array",
 
 
       // Create from given constructor
-      var ret = new constructor;
+      var ret = new constructor();
 
       // Some collections in mshtml are not able to be sliced.
       // These lines are a special workaround for this client.
@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.lang.Array",
       var result = qx.lang.Array.clone(input);
 
       // Copy Values (according to the length)
-      switch(len)
+      switch (len)
       {
         case 1:
           result[1] = result[2] = result[3] = result[0];
@@ -441,7 +441,9 @@ qx.Bootstrap.define("qx.lang.Array",
         qx.core.Assert && qx.core.Assert.assertArray(arr, "Parameter must be an array.");
       }
 
-      var i, len=arr.length, result = arr[0];
+      var i, 
+len=arr.length, 
+result = arr[0];
 
       for (i = 1; i < len; i++)
       {
@@ -467,7 +469,9 @@ qx.Bootstrap.define("qx.lang.Array",
         qx.core.Assert && qx.core.Assert.assertArray(arr, "Parameter must be an array.");
       }
 
-      var i, len=arr.length, result = arr[0];
+      var i, 
+len=arr.length, 
+result = arr[0];
 
       for (i = 1; i < len; i++)
       {
@@ -492,10 +496,16 @@ qx.Bootstrap.define("qx.lang.Array",
      */
     unique: function(arr)
     {
-      var ret=[], doneStrings={}, doneNumbers={}, doneObjects={};
-      var value, count=0;
+      var ret=[], 
+doneStrings={}, 
+doneNumbers={}, 
+doneObjects={};
+      var value, 
+count=0;
       var key = "qx" + Date.now();
-      var hasNull=false, hasFalse=false, hasTrue=false;
+      var hasNull=false, 
+hasFalse=false, 
+hasTrue=false;
 
       // Rebuild array and omit duplicates
       for (var i=0, len=arr.length; i<len; i++)
@@ -570,13 +580,13 @@ qx.Bootstrap.define("qx.lang.Array",
         {
           delete doneObjects[hash][key];
         }
-        catch(ex)
+        catch (ex)
         {
           try
           {
             doneObjects[hash][key] = null;
           }
-          catch(ex1)
+          catch (ex1)
           {
             throw new Error("Cannot clean-up map entry doneObjects[" + hash + "][" + key + "]");
           }

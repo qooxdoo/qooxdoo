@@ -120,9 +120,12 @@ qx.Class.define("qx.ui.layout.Grow",
     {
       var children = this._getLayoutChildren();
       var child, size;
-      var neededWidth=0, neededHeight=0;
-      var minWidth=0, minHeight=0;
-      var maxWidth=Infinity, maxHeight=Infinity;
+      var neededWidth=0, 
+neededHeight=0;
+      var minWidth=0, 
+minHeight=0;
+      var maxWidth=Infinity, 
+maxHeight=Infinity;
 
       // Iterate over children
       for (var i=0, l=children.length; i<l; i++)

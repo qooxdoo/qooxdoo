@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Default",
       }
       else if (typeof value == "number")
       {
-        if (! qx.ui.progressive.renderer.table.Row._numberFormat)
+        if (!qx.ui.progressive.renderer.table.Row._numberFormat)
         {
           var numberFormat = new qx.util.format.NumberFormat();
           numberFormat.setMaximumFractionDigits(2);

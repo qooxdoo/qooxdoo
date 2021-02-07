@@ -443,7 +443,7 @@ qx.Bootstrap.define("qx.bom.element.Style",
       }
 
       // switch to right mode
-      switch(mode)
+      switch (mode)
       {
         case this.LOCAL_MODE:
           return element.style[name] || "";

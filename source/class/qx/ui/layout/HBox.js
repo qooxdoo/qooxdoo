@@ -293,14 +293,11 @@ qx.Class.define("qx.ui.layout.HBox",
       {
         if (name === "width") {
           this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
-          
         } else if (name === "flex") {
           this.assertNumber(value);
           this.assert(value >= 0);
-          
         } else if (name === "flexShrink") {
           this.assertBoolean(value);
-          
         } else {
           this.assert(false, "The property '"+name+"' is not supported by the HBox layout!");
         }
@@ -337,7 +334,8 @@ qx.Class.define("qx.ui.layout.HBox",
 
       // First run to cache children data and compute allocated width
       var i, child, width, percent;
-      var widths = [], hint;
+      var widths = [], 
+hint;
       var allocatedWidth = gaps;
 
       for (i=0; i<length; i+=1)
@@ -499,8 +497,11 @@ qx.Class.define("qx.ui.layout.HBox",
       var children = this.__children;
 
       // Initialize
-      var minWidth=0, width=0, percentMinWidth=0;
-      var minHeight=0, height=0;
+      var minWidth=0, 
+width=0, 
+percentMinWidth=0;
+      var minHeight=0, 
+height=0;
       var child, hint, margin;
 
       // Iterate over children

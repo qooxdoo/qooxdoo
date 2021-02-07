@@ -34,7 +34,7 @@ qx.Class.define("qx.test.EditDistance",
       {
         job = operations[i];
 
-        switch(job.operation)
+        switch (job.operation)
         {
           case qx.util.EditDistance.OPERATION_DELETE:
             qx.lang.Array.removeAt(arrA, job.pos);
