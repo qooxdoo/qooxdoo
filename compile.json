@@ -141,7 +141,6 @@
       "no-alert": "off",
       "no-duplicate-case": "off",
       "no-new-object": "off",
-      "no-new-wrappers": "off",
       "no-proto": "off",
       "no-extend-native": "off",
       "func-call-spacing": "off",
