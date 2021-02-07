@@ -1,0 +1,24 @@
+name: Check markdown in documentation changes
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+  pull_request:
+    paths:
+      - 'docs/**'
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+      - name: Install dependencies
+        run: npm install glob prettier remark remark-lint-no-dead-urls \
+            remark-normalize-headings remark-parse remark-stringify \
+            remark-validate-links vfile-reporter
+      - id: file_changes
+        name: Track file changes
+        uses: trilom/file-changes-action@v1.2.4
+      - name: Check markdown on changed files
+        run: .github/workflows/markdown-lint lint
