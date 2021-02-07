@@ -1,4 +1,4 @@
-﻿/* ************************************************************************
+/* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -196,11 +196,11 @@ qx.Bootstrap.define("qx.bom.client.Event",
 
       return {type: type, target: target};
     },
-    
+
     /**
      * Detects if the engine/browser supports auxclick events
-     * 
-     * See https://github.com/qooxdoo/qooxdoo/issues/9268 
+     *
+     * See https://github.com/qooxdoo/qooxdoo/issues/9268
      *
      * @return {Boolean} <code>true</code> if auxclick events are supported.
      */
@@ -210,7 +210,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
         hasAuxclick = ("onauxclick" in document.documentElement);
       }
       catch(ex) {};
-      
+
       return (hasAuxclick ? true : false);
     },
 
