@@ -442,13 +442,6 @@ qx.Class.define("qx.test.theme.simple.Appearance",
       this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-cross"], style.icon);
     },
 
-    testTreeVirtualCross : function()
-    {
-      var style = this.__obj["treevirtual-cross"].style();
-
-      this.assertIdentical(qx.theme.simple.Image.URLS["treevirtual-cross"], style.icon);
-    },
-
     testResizer : function()
     {
       var style = this.__obj["resizer"].style();

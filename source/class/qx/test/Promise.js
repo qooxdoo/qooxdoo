@@ -17,7 +17,7 @@ qx.Class.define("qx.test.Promise", {
         this.assertIdentical(this, self);
         this.assertEquals(value, "ok");
         this.resume();
-      }, function (err) {
+      }, function () {
         this.assertTrue(false);
         this.resume();
       });
