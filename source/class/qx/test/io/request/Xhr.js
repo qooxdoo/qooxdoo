@@ -24,6 +24,7 @@
  * @ignore(Klass)
  * @asset(qx/test/xmlhttp/*)
  */
+/* global Klass */
 
 /**
  * Tests asserting behavior

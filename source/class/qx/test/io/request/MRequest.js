@@ -24,6 +24,7 @@
  * @asset(qx/test/xmlhttp/*)
  */
 
+/* global Klass */
 /**
  * Tests asserting shared behavior of io.request.* classes. Also provides
  * common helpers.

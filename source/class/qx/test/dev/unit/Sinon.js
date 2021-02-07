@@ -19,7 +19,6 @@
 /**
  * @ignore(qx.test.PROP, qx.test.Affe, qx.test.Gibbon)
  */
-
 /**
  * Rudimentary tests to check that Sinon.JS is integrated correctly.
  *

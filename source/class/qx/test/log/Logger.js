@@ -15,7 +15,7 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-
+/* global test */
 qx.Class.define("qx.test.log.Logger",
 {
   extend : qx.dev.unit.TestCase,

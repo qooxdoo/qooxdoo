@@ -18,35 +18,35 @@
  ************************************************************************ */
 
 /**
- * This class adds Promise/A+ support to Qooxdoo, as specified at 
+ * This class adds Promise/A+ support to Qooxdoo, as specified at
  * https://github.com/promises-aplus/promises-spec and using the Bluebird Promise
- * library (http://bluebirdjs.com/) to implement it.  The official Promise/A+ API) 
- * is mirrored exactly, and a number of extension methods are added with the BluebirdJS 
+ * library (http://bluebirdjs.com/) to implement it.  The official Promise/A+ API)
+ * is mirrored exactly, and a number of extension methods are added with the BluebirdJS
  * API for inspiration (many/most of the extension functions are taken verbatim).
- * 
+ *
  * There are two ways to bind a 'this' value to callbacks - the first is to
  * append a context method to methods like then(), and the second is to specify
  * the context as the second parameter to the constructor and all callbacks will
  * be bound to that value.
- * 
+ *
  * For example:
- * 
+ *
  * <pre class="javascript">
  *   var promise = new qx.Promise(myAsyncFunction, this);
  *   promise.then(function() {
  *     // 'this' is preserved from the outer scope
  *   });
- *   
+ *
  *   // ... is the same as: ...
  *   var promise = new qx.Promise(myAsyncFunction);
  *   promise.then(function() {
  *     // 'this' is preserved from the outer scope
  *   }, this);
  * </pre>
- * 
+ *
  * If you have an existing qx.Promise and want to bind all callbacks, use the
  * bind() method - but note that it returns a new promise:
- * 
+ *
  *  <pre class="javascript">
  *    var promise = someMethodThatReturnsAPromise();
  *    var boundPromise = promise.bind(this);
@@ -54,28 +54,30 @@
  *      // 'this' is preserved from the outer scope
  *    }, this);
  *  </pre>
- * 
+ *
  */
 
-/* 
+/*
  @ignore(process.*)
  @ignore(global.*)
  @ignore(Symbol.*)
  @ignore(chrome.*)
- 
-*/ 
+
+*/
+
+/* global global, setImmediate, chrome */
 
 qx.Class.define("qx.Promise", {
   extend: qx.core.Object,
 
   /**
    * Constructor.
-   * 
+   *
    * The promise function is called with two parameters, functions which are to be called
    * when the promise is fulfilled or rejected respectively.  If you do not provide any
    * parameters, the promise can be externally resolved or rejected by calling the
    * <code>resolve()</code> or <code>reject()</code> methods.
-   * 
+   *
    * @param fn {Function} the promise function called with <code>(resolve, reject)</code>
    * @param context {Object?} optional context for all callbacks
    */
@@ -133,18 +135,18 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Promise API methods
-     * 
+     *
      */
 
     /**
      * Returns a promise which is determined by the functions <code>onFulfilled</code>
      * and <code>onRejected</code>.
-     * 
-     * @param onFulfilled {Function} called when the Promise is fulfilled. This function 
+     *
+     * @param onFulfilled {Function} called when the Promise is fulfilled. This function
      *  has one argument, the fulfillment value.
-     * @param onRejected {Function?} called when the Promise is rejected. This function 
+     * @param onRejected {Function?} called when the Promise is rejected. This function
      *  has one argument, the rejection reason.
      * @return {qx.Promise}
      */
@@ -153,13 +155,13 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Appends a rejection handler callback to the promise, and returns a new promise 
-     * resolving to the return value of the callback if it is called, or to its original 
+     * Appends a rejection handler callback to the promise, and returns a new promise
+     * resolving to the return value of the callback if it is called, or to its original
      * fulfillment value if the promise is instead fulfilled.
-     * 
-     * @param onRejected {Function?} called when the Promise is rejected. This function 
+     *
+     * @param onRejected {Function?} called when the Promise is rejected. This function
      *  has one argument, the rejection reason.
-     * @return {qx.Promise} a qx.Promise is rejected if onRejected throws an error or 
+     * @return {qx.Promise} a qx.Promise is rejected if onRejected throws an error or
      *  returns a Promise which is itself rejected; otherwise, it is resolved.
      */
     "catch": function(onRejected) {
@@ -169,14 +171,14 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Extension Promise methods
-     * 
+     *
      */
 
     /**
      * Creates a new qx.Promise with the 'this' set to a different context
-     * 
+     *
      * @param context {Object} the 'this' context for the new Promise
      * @return {qx.Promise} the new promise
      */
@@ -185,9 +187,9 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Like calling <code>.then</code>, but the fulfillment value must be an array, which is flattened 
+     * Like calling <code>.then</code>, but the fulfillment value must be an array, which is flattened
      * to the formal parameters of the fulfillment handler.
-     * 
+     *
      * For example:
      * <pre>
      * qx.Promise.all([
@@ -202,7 +204,7 @@ qx.Class.define("qx.Promise", {
      *   }
      * });
      * </pre>
-     * 
+     *
      * @param fulfilledHandler {Function} called when the Promises are fulfilled.
      * @return {qx.Promise}
      */
@@ -213,8 +215,8 @@ qx.Class.define("qx.Promise", {
     /**
      * Appends a handler that will be called regardless of this promise's fate. The handler
      * is not allowed to modify the value of the promise
-     * 
-     * @param handler {Function?} called when the Promise is fulfilled or rejected. This function 
+     *
+     * @param handler {Function?} called when the Promise is fulfilled or rejected. This function
      *  has no arguments, but can return a promise
      * @return {qx.Promise} a qx.Promise chained from this promise
      */
@@ -231,10 +233,10 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.all} except that it iterates over the value of this promise, when
-     * it is fulfilled; for example, if this Promise resolves to an Iterable (eg an Array), 
-     * <code>.all</code> will return a Promise that waits for all promises in that Iterable to be 
+     * it is fulfilled; for example, if this Promise resolves to an Iterable (eg an Array),
+     * <code>.all</code> will return a Promise that waits for all promises in that Iterable to be
      * fullfilled.  The Iterable can be a mix of values and Promises
-     * 
+     *
      * @return {qx.Promise}
      */
     all: function() {
@@ -243,10 +245,10 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.race} except that it iterates over the value of this promise, when
-     * it is fulfilled; for example, if this Promise resolves to an Iterable (eg an Array), 
-     * <code>.race</code> will return a Promise that waits until the first promise in that Iterable 
+     * it is fulfilled; for example, if this Promise resolves to an Iterable (eg an Array),
+     * <code>.race</code> will return a Promise that waits until the first promise in that Iterable
      * has been fullfilled.  The Iterable can be a mix of values and Promises
-     * 
+     *
      * @return {qx.Promise}
      */
     race: function(iterable) {
@@ -255,9 +257,9 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.some} except that it iterates over the value of this promise, when
-     * it is fulfilled.  Like <code>some</code>, with 1 as count. However, if the promise fulfills, 
+     * it is fulfilled.  Like <code>some</code>, with 1 as count. However, if the promise fulfills,
      * the fulfillment value is not an array of 1 but the value directly.
-     * 
+     *
      * @return {qx.Promise}
      */
     any: function(iterable) {
@@ -266,9 +268,9 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.some} except that it iterates over the value of this promise, when
-     * it is fulfilled; return a promise that is fulfilled as soon as count promises are fulfilled 
+     * it is fulfilled; return a promise that is fulfilled as soon as count promises are fulfilled
      * in the array. The fulfillment value is an array with count values in the order they were fulfilled.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param count {Integer}
      * @return {qx.Promise}
@@ -279,14 +281,14 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.forEach} except that it iterates over the value of this promise, when
-     * it is fulfilled; iterates over the values with the given <code>iterator</code> function with the signature 
-     * <code>(value, index, length)</code> where <code>value</code> is the resolved value. Iteration happens 
+     * it is fulfilled; iterates over the values with the given <code>iterator</code> function with the signature
+     * <code>(value, index, length)</code> where <code>value</code> is the resolved value. Iteration happens
      * serially. If any promise is rejected the returned promise is rejected as well.
-     * 
-     * Resolves to the original array unmodified, this method is meant to be used for side effects. If the iterator 
-     * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with 
+     *
+     * Resolves to the original array unmodified, this method is meant to be used for side effects. If the iterator
+     * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with
      * next iteration.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
@@ -296,9 +298,9 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Same as {@link qx.Promise.filter} except that it iterates over the value of this promise, when it is fulfilled; 
+     * Same as {@link qx.Promise.filter} except that it iterates over the value of this promise, when it is fulfilled;
      * iterates over all the values into an array and filter the array to another using the given filterer function.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
@@ -310,18 +312,18 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Same as {@link qx.Promise.map} except that it iterates over the value of this promise, when it is fulfilled; 
+     * Same as {@link qx.Promise.map} except that it iterates over the value of this promise, when it is fulfilled;
      * iterates over all the values into an array and map the array to another using the given mapper function.
-     * 
-     * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill 
-     * until all mapped promises have fulfilled as well. If any promise in the array is rejected, or 
+     *
+     * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill
+     * until all mapped promises have fulfilled as well. If any promise in the array is rejected, or
      * any promise returned by the mapper function is rejected, the returned promise is rejected as well.
-     * 
-     * The mapper function for a given item is called as soon as possible, that is, when the promise 
-     * for that item's index in the input array is fulfilled. This doesn't mean that the result array 
-     * has items in random order, it means that .map can be used for concurrency coordination unlike 
+     *
+     * The mapper function for a given item is called as soon as possible, that is, when the promise
+     * for that item's index in the input array is fulfilled. This doesn't mean that the result array
+     * has items in random order, it means that .map can be used for concurrency coordination unlike
      * .all.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
@@ -334,17 +336,17 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.mapSeries} except that it iterates over the value of this promise, when
-     * it is fulfilled; iterates over all the values into an array and iterate over the array serially, 
+     * it is fulfilled; iterates over all the values into an array and iterate over the array serially,
      * in-order.
-     * 
-     * Returns a promise for an array that contains the values returned by the iterator function in their 
-     * respective positions. The iterator won't be called for an item until its previous item, and the 
-     * promise returned by the iterator for that item are fulfilled. This results in a mapSeries kind of 
+     *
+     * Returns a promise for an array that contains the values returned by the iterator function in their
+     * respective positions. The iterator won't be called for an item until its previous item, and the
+     * promise returned by the iterator for that item are fulfilled. This results in a mapSeries kind of
      * utility but it can also be used simply as a side effect iterator similar to Array#forEach.
-     * 
-     * If any promise in the input array is rejected or any promise returned by the iterator function is 
+     *
+     * If any promise in the input array is rejected or any promise returned by the iterator function is
      * rejected, the result will be rejected as well.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
@@ -355,21 +357,21 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Same as {@link qx.Promise.reduce} except that it iterates over the value of this promise, when
-     * it is fulfilled; iterates over all the values in the <code>Iterable</code> into an array and 
+     * it is fulfilled; iterates over all the values in the <code>Iterable</code> into an array and
      * reduce the array to a value using the given reducer function.
-     * 
-     * If the reducer function returns a promise, then the result of the promise is awaited, before 
-     * continuing with next iteration. If any promise in the array is rejected or a promise returned 
+     *
+     * If the reducer function returns a promise, then the result of the promise is awaited, before
+     * continuing with next iteration. If any promise in the array is rejected or a promise returned
      * by the reducer function is rejected, the result is rejected as well.
-     * 
-     * If initialValue is undefined (or a promise that resolves to undefined) and the iterable contains 
-     * only 1 item, the callback will not be called and the iterable's single item is returned. If the 
-     * iterable is empty, the callback will not be called and initialValue is returned (which may be 
+     *
+     * If initialValue is undefined (or a promise that resolves to undefined) and the iterable contains
+     * only 1 item, the callback will not be called and the iterable's single item is returned. If the
+     * iterable is empty, the callback will not be called and initialValue is returned (which may be
      * undefined).
-     * 
-     * qx.Promise.reduce will start calling the reducer as soon as possible, this is why you might want to 
+     *
+     * qx.Promise.reduce will start calling the reducer as soon as possible, this is why you might want to
      * use it over qx.Promise.all (which awaits for the entire array before you can call Array#reduce on it).
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param reducer {Function} the callback, with <code>(value, index, length)</code>
      * @param initialValue {Object?} optional initial value
@@ -419,9 +421,9 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Utility methods
-     * 
+     *
      */
 
     /**
@@ -445,12 +447,12 @@ qx.Class.define("qx.Promise", {
 
     /**
      * Returns the actual Promise implementation.
-     * 
-     * Note that Bluebird is the current implementation, and may change without 
-     * notice in the future; if you use this API you accept that this is a private 
+     *
+     * Note that Bluebird is the current implementation, and may change without
+     * notice in the future; if you use this API you accept that this is a private
      * implementation detail exposed for debugging or diagnosis purposes only.  For
      * this reason, the toPromise() method is listed as deprecated starting from the
-     * first release  
+     * first release
      * @deprecated {6.0} this API method is subject to change
      */
     toPromise: function() {
@@ -468,7 +470,7 @@ qx.Class.define("qx.Promise", {
 
     /** Promise library, either the Native one or a Polyfill; reliable choice for native Promises */
     Promise: null,
-    
+
     /** This is used to suppress warnings about rejections without an Error object, only used if
      * the reason is undefined
      */
@@ -476,18 +478,18 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Promise API methods
-     * 
+     *
      */
 
     /**
-     * Returns a Promise object that is resolved with the given value. If the value is a thenable (i.e. 
-     * has a then method), the returned promise will "follow" that thenable, adopting its eventual 
-     * state; otherwise the returned promise will be fulfilled with the value. Generally, if you 
-     * don't know if a value is a promise or not, Promise.resolve(value) it instead and work with 
+     * Returns a Promise object that is resolved with the given value. If the value is a thenable (i.e.
+     * has a then method), the returned promise will "follow" that thenable, adopting its eventual
+     * state; otherwise the returned promise will be fulfilled with the value. Generally, if you
+     * don't know if a value is a promise or not, Promise.resolve(value) it instead and work with
      * the return value as a promise.
-     * 
+     *
      * @param value {Object}
      * @param context {Object?} optional context for callbacks to be bound to
      * @return {qx.Promise}
@@ -527,10 +529,10 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Returns a promise that resolves when all of the promises in the object properties have resolved, 
+     * Returns a promise that resolves when all of the promises in the object properties have resolved,
      * or rejects with the reason of the first passed promise that rejects.  The result of each property
      * is placed back in the object, replacing the promise.  Note that non-promise values are untouched.
-     * 
+     *
      * @param value {var} An object
      * @return {qx.Promise}
      */
@@ -546,20 +548,20 @@ qx.Class.define("qx.Promise", {
         }
         return qx.Promise.all(arr)
           .then(function(arr) {
-            arr.forEach(function(item, index) { 
-              value[names[index]] = item; 
+            arr.forEach(function(item, index) {
+              value[names[index]] = item;
             });
             return value;
           });
       }
       return value instanceof qx.Promise ? value.then(action) : action(value);
     },
-    
+
     /**
-     * Returns a promise that resolves when all of the promises in the iterable argument have resolved, 
-     * or rejects with the reason of the first passed promise that rejects.  Note that non-promise values 
+     * Returns a promise that resolves when all of the promises in the iterable argument have resolved,
+     * or rejects with the reason of the first passed promise that rejects.  Note that non-promise values
      * are untouched.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
      */
@@ -568,7 +570,7 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves 
+     * Returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves
      * or rejects, with the value or reason from that promise.
      * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
@@ -580,15 +582,15 @@ qx.Class.define("qx.Promise", {
 
 
     /* *********************************************************************************
-     * 
+     *
      * Extension API methods
-     * 
+     *
      */
 
     /**
-     * Like Promise.some, with 1 as count. However, if the promise fulfills, the fulfillment value is not an 
+     * Like Promise.some, with 1 as count. However, if the promise fulfills, the fulfillment value is not an
      * array of 1 but the value directly.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @return {qx.Promise}
      */
@@ -597,11 +599,11 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an Iterable (arrays are Iterable), or a promise of an Iterable, which produces promises (or a mix 
-     * of promises and values), iterate over all the values in the Iterable into an array and return a promise 
-     * that is fulfilled as soon as count promises are fulfilled in the array. The fulfillment value is an 
+     * Given an Iterable (arrays are Iterable), or a promise of an Iterable, which produces promises (or a mix
+     * of promises and values), iterate over all the values in the Iterable into an array and return a promise
+     * that is fulfilled as soon as count promises are fulfilled in the array. The fulfillment value is an
      * array with count values in the order they were fulfilled.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param count {Integer}
      * @return {qx.Promise}
@@ -611,15 +613,15 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Iterate over an array, or a promise of an array, which contains promises (or a mix of promises and values) 
-     * with the given <code>iterator</code> function with the signature <code>(value, index, length)</code> where 
-     * <code>value</code> is the resolved value of a respective promise in the input array. Iteration happens 
+     * Iterate over an array, or a promise of an array, which contains promises (or a mix of promises and values)
+     * with the given <code>iterator</code> function with the signature <code>(value, index, length)</code> where
+     * <code>value</code> is the resolved value of a respective promise in the input array. Iteration happens
      * serially. If any promise in the input array is rejected the returned promise is rejected as well.
-     * 
-     * Resolves to the original array unmodified, this method is meant to be used for side effects. If the iterator 
-     * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with 
+     *
+     * Resolves to the original array unmodified, this method is meant to be used for side effects. If the iterator
+     * function returns a promise or a thenable, then the result of the promise is awaited, before continuing with
      * next iteration.
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
@@ -629,10 +631,10 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an Iterable(arrays are Iterable), or a promise of an Iterable, which produces promises (or a mix of 
-     * promises and values), iterate over all the values in the Iterable into an array and filter the array to 
+     * Given an Iterable(arrays are Iterable), or a promise of an Iterable, which produces promises (or a mix of
+     * promises and values), iterate over all the values in the Iterable into an array and filter the array to
      * another using the given filterer function.
-     * 
+     *
      * It is essentially an efficient shortcut for doing a .map and then Array#filter:
      * <pre>
      *   qx.Promise.map(valuesToBeFiltered, function(value, index, length) {
@@ -645,7 +647,7 @@ qx.Class.define("qx.Promise", {
      *       });
      *   });
      * </pre>
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
@@ -657,22 +659,22 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an <code>Iterable</code> (arrays are <code>Iterable</code>), or a promise of an 
-     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate over 
-     * all the values in the <code>Iterable</code> into an array and map the array to another using 
+     * Given an <code>Iterable</code> (arrays are <code>Iterable</code>), or a promise of an
+     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate over
+     * all the values in the <code>Iterable</code> into an array and map the array to another using
      * the given mapper function.
-     * 
-     * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill 
-     * until all mapped promises have fulfilled as well. If any promise in the array is rejected, or 
+     *
+     * Promises returned by the mapper function are awaited for and the returned promise doesn't fulfill
+     * until all mapped promises have fulfilled as well. If any promise in the array is rejected, or
      * any promise returned by the mapper function is rejected, the returned promise is rejected as well.
-     * 
-     * The mapper function for a given item is called as soon as possible, that is, when the promise 
-     * for that item's index in the input array is fulfilled. This doesn't mean that the result array 
-     * has items in random order, it means that .map can be used for concurrency coordination unlike 
+     *
+     * The mapper function for a given item is called as soon as possible, that is, when the promise
+     * for that item's index in the input array is fulfilled. This doesn't mean that the result array
+     * has items in random order, it means that .map can be used for concurrency coordination unlike
      * .all.
-     * 
+     *
      * A common use of Promise.map is to replace the .push+Promise.all boilerplate:
-     * 
+     *
      * <pre>
      *   var promises = [];
      *   for (var i = 0; i < fileNames.length; ++i) {
@@ -681,7 +683,7 @@ qx.Class.define("qx.Promise", {
      *   qx.Promise.all(promises).then(function() {
      *       console.log("done");
      *   });
-     *   
+     *
      *   // Using Promise.map:
      *   qx.Promise.map(fileNames, function(fileName) {
      *       // Promise.map awaits for returned promises as well.
@@ -690,7 +692,7 @@ qx.Class.define("qx.Promise", {
      *       console.log("done");
      *   });
      * </pre>
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @param options {Object?} options; can be:
@@ -702,21 +704,21 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an <code>Iterable</code>(arrays are <code>Iterable</code>), or a promise of an 
-     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate over 
-     * all the values in the <code>Iterable</code> into an array and iterate over the array serially, 
+     * Given an <code>Iterable</code>(arrays are <code>Iterable</code>), or a promise of an
+     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate over
+     * all the values in the <code>Iterable</code> into an array and iterate over the array serially,
      * in-order.
-     * 
-     * Returns a promise for an array that contains the values returned by the iterator function in their 
-     * respective positions. The iterator won't be called for an item until its previous item, and the 
-     * promise returned by the iterator for that item are fulfilled. This results in a mapSeries kind of 
+     *
+     * Returns a promise for an array that contains the values returned by the iterator function in their
+     * respective positions. The iterator won't be called for an item until its previous item, and the
+     * promise returned by the iterator for that item are fulfilled. This results in a mapSeries kind of
      * utility but it can also be used simply as a side effect iterator similar to Array#forEach.
-     * 
-     * If any promise in the input array is rejected or any promise returned by the iterator function is 
+     *
+     * If any promise in the input array is rejected or any promise returned by the iterator function is
      * rejected, the result will be rejected as well.
-     * 
+     *
      * Example where .mapSeries(the instance method) is used for iterating with side effects:
-     * 
+     *
      * <pre>
      * // Source: http://jakearchibald.com/2014/es7-async-functions/
      * function loadStory() {
@@ -731,7 +733,7 @@ qx.Class.define("qx.Promise", {
      *     .then(function() { document.querySelector('.spinner').style.display = 'none'; });
      * }
      * </pre>
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param iterator {Function} the callback, with <code>(value, index, length)</code>
      * @return {qx.Promise}
@@ -741,18 +743,18 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Given an <code>Iterable</code> (arrays are <code>Iterable</code>), or a promise of an 
-     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate 
-     * over all the values in the <code>Iterable</code> into an array and reduce the array to a 
+     * Given an <code>Iterable</code> (arrays are <code>Iterable</code>), or a promise of an
+     * <code>Iterable</code>, which produces promises (or a mix of promises and values), iterate
+     * over all the values in the <code>Iterable</code> into an array and reduce the array to a
      * value using the given reducer function.
-     * 
-     * If the reducer function returns a promise, then the result of the promise is awaited, before 
-     * continuing with next iteration. If any promise in the array is rejected or a promise returned 
+     *
+     * If the reducer function returns a promise, then the result of the promise is awaited, before
+     * continuing with next iteration. If any promise in the array is rejected or a promise returned
      * by the reducer function is rejected, the result is rejected as well.
-     * 
-     * Read given files sequentially while summing their contents as an integer. Each file contains 
+     *
+     * Read given files sequentially while summing their contents as an integer. Each file contains
      * just the text 10.
-     * 
+     *
      * <pre>
      *   qx.Promise.reduce(["file1.txt", "file2.txt", "file3.txt"], function(total, fileName) {
      *       return fs.readFileAsync(fileName, "utf8").then(function(contents) {
@@ -762,15 +764,15 @@ qx.Class.define("qx.Promise", {
      *       //Total is 30
      *   });
      * </pre>
-     * 
-     * If initialValue is undefined (or a promise that resolves to undefined) and the iterable contains 
-     * only 1 item, the callback will not be called and the iterable's single item is returned. If the 
-     * iterable is empty, the callback will not be called and initialValue is returned (which may be 
+     *
+     * If initialValue is undefined (or a promise that resolves to undefined) and the iterable contains
+     * only 1 item, the callback will not be called and the iterable's single item is returned. If the
+     * iterable is empty, the callback will not be called and initialValue is returned (which may be
      * undefined).
-     * 
-     * Promise.reduce will start calling the reducer as soon as possible, this is why you might want to 
+     *
+     * Promise.reduce will start calling the reducer as soon as possible, this is why you might want to
      * use it over Promise.all (which awaits for the entire array before you can call Array#reduce on it).
-     * 
+     *
      * @param iterable {Iterable} An iterable object, such as an Array
      * @param reducer {Function} the callback, with <code>(value, index, length)</code>
      * @param initialValue {Object?} optional initial value
@@ -781,7 +783,7 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Returns a new function that wraps the given function fn. The new function will always return a promise that is 
+     * Returns a new function that wraps the given function fn. The new function will always return a promise that is
      * fulfilled with the original functions return values or rejected with thrown exceptions from the original function.
      * @param cb {Function}
      * @return {Function}
@@ -794,16 +796,16 @@ qx.Class.define("qx.Promise", {
     },
 
     /**
-     * Like .all but for object properties or Maps* entries instead of iterated values. Returns a promise that 
-     * is fulfilled when all the properties of the object or the Map's' values** are fulfilled. The promise's 
-     * fulfillment value is an object or a Map with fulfillment values at respective keys to the original object 
-     * or a Map. If any promise in the object or Map rejects, the returned promise is rejected with the rejection 
+     * Like .all but for object properties or Maps* entries instead of iterated values. Returns a promise that
+     * is fulfilled when all the properties of the object or the Map's' values** are fulfilled. The promise's
+     * fulfillment value is an object or a Map with fulfillment values at respective keys to the original object
+     * or a Map. If any promise in the object or Map rejects, the returned promise is rejected with the rejection
      * reason.
-     * 
-     * If object is a trusted Promise, then it will be treated as a promise for object rather than for its 
-     * properties. All other objects (except Maps) are treated for their properties as is returned by 
+     *
+     * If object is a trusted Promise, then it will be treated as a promise for object rather than for its
+     * properties. All other objects (except Maps) are treated for their properties as is returned by
      * Object.keys - the object's own enumerable properties.
-     * 
+     *
      * @param input {Object} An Object
      * @return {qx.Promise}
      */
@@ -862,19 +864,19 @@ qx.Class.define("qx.Promise", {
      *   The sole user option in this map is <code>context</code>, which may
      *   be specified to arrange for the provided callback function to be
      *   called in the specified context.
-     *   
+     *
      * @return {qx.Promise}
      */
     promisify : function(f, options) {
       return qx.Promise.__callStaticMethod('promisify', arguments);
     },
-    
-    
+
+
 
     /* *********************************************************************************
-     * 
+     *
      * Internal API methods
-     * 
+     *
      */
 
     /**
@@ -997,7 +999,7 @@ qx.Class.define("qx.Promise", {
         }
       });
       return dest;
-    }    
+    }
   },
 
   defer: function(statics, members) {
@@ -1049,25 +1051,25 @@ qx.Class.define("qx.Promise", {
  * @ignore(process.versions.node.split)
  * @ignore(promise)
  * @ignore(Promise)
- * @ignore(self) 
+ * @ignore(self)
  * @ignore(setImmediate)
  */
 (function() {
   /* @preserve
    * The MIT License (MIT)
-   * 
+   *
    * Copyright (c) 2013-2015 Petka Antonov
-   * 
+   *
    * Permission is hereby granted, free of charge, to any person obtaining a copy
    * of this software and associated documentation files (the "Software"), to deal
    * in the Software without restriction, including without limitation the rights
    * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
    * copies of the Software, and to permit persons to whom the Software is
    * furnished to do so, subject to the following conditions:
-   * 
+   *
    * The above copyright notice and this permission notice shall be included in
    * all copies or substantial portions of the Software.
-   * 
+   *
    * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
    * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
    * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL THE
@@ -1075,7 +1077,7 @@ qx.Class.define("qx.Promise", {
    * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
    * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
    * THE SOFTWARE.
-   * 
+   *
    */
   /**
    * bluebird build version 3.4.5
@@ -3870,7 +3872,7 @@ qx.Class.define("qx.Promise", {
               var len = arguments.length;
               if (len > 1) {
                 var catchInstances = new Array(len - 1),
-                j = 0, 
+                j = 0,
 i;
                 for (i = 0; i < len - 1; ++i) {
                   var item = arguments[i];
@@ -4025,7 +4027,7 @@ i;
 
               var domain = getDomain();
               if (!((bitField & 50397184) === 0)) {
-                var handler, value, 
+                var handler, value,
 settler = target._settlePromiseCtx;
                 if (((bitField & 33554432) !== 0)) {
                   value = target._rejectionHandler0;
@@ -4532,26 +4534,26 @@ settler = target._settlePromiseCtx;
             _dereq_('./each.js')(Promise, INTERNAL);
             _dereq_('./any.js')(Promise);
 
-            util.toFastProperties(Promise);                                          
-            util.toFastProperties(Promise.prototype);                                
-            function fillTypes(value) {                                              
-              var p = new Promise(INTERNAL);                                       
-              p._fulfillmentHandler0 = value;                                      
-              p._rejectionHandler0 = value;                                        
-              p._promise0 = value;                                                 
-              p._receiver0 = value;                                                
-            }                                                                        
-            // Complete slack tracking, opt out of field-type tracking and           
-            // stabilize map                                                         
-            fillTypes({a: 1});                                                       
-            fillTypes({b: 2});                                                       
-            fillTypes({c: 3});                                                       
-            fillTypes(1);                                                            
-            fillTypes(function() {});                                                 
-            fillTypes(undefined);                                                    
-            fillTypes(false);                                                        
-            fillTypes(new Promise(INTERNAL));                                        
-            debug.setBounds(Async.firstLineError, util.lastLineError);               
+            util.toFastProperties(Promise);
+            util.toFastProperties(Promise.prototype);
+            function fillTypes(value) {
+              var p = new Promise(INTERNAL);
+              p._fulfillmentHandler0 = value;
+              p._rejectionHandler0 = value;
+              p._promise0 = value;
+              p._receiver0 = value;
+            }
+            // Complete slack tracking, opt out of field-type tracking and
+            // stabilize map
+            fillTypes({a: 1});
+            fillTypes({b: 2});
+            fillTypes({c: 3});
+            fillTypes(1);
+            fillTypes(function() {});
+            fillTypes(undefined);
+            fillTypes(false);
+            fillTypes(new Promise(INTERNAL));
+            debug.setBounds(Async.firstLineError, util.lastLineError);
             return Promise;
           };
         }, {"./any.js":1, "./async":2, "./bind":3, "./call_get.js":5, "./cancel":6, "./catch_filter":7, "./context":8, "./debuggability":9, "./direct_resolve":10, "./each.js":11, "./errors":12, "./es5":13, "./filter.js":14, "./finally":15, "./generators.js":16, "./join":17, "./map.js":18, "./method":19, "./nodeback":20, "./nodeify.js":21, "./promise_array":23, "./promisify.js":24, "./props.js":25, "./race.js":27, "./reduce.js":28, "./settle.js":30, "./some.js":31, "./synchronous_inspection":32, "./thenables":33, "./timers.js":34, "./using.js":35, "./util":36}], 23:[function(_dereq_, module, exports) {
@@ -5347,8 +5349,8 @@ settler = target._settlePromiseCtx;
             util.inherits(ReductionPromiseArray, PromiseArray);
 
             ReductionPromiseArray.prototype._gotAccum = function(accum) {
-              if (this._eachValues !== undefined && 
-                  this._eachValues !== null && 
+              if (this._eachValues !== undefined &&
+                  this._eachValues !== null &&
                   accum !== INTERNAL) {
                 this._eachValues.push(accum);
               }

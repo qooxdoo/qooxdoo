@@ -48,11 +48,12 @@
  *
  * @internal
  * @ignore(module, require, global, ProgressEvent, CustomEvent, clearImmediate)
- * @ignore(process.*) 
+ * @ignore(process.*)
  * @lint ignoreDeprecated(eval)
  * @ignore(module.exports.*)
  *
  */
+/* global global, clearImmediate */
 qx.Bootstrap.define("qx.dev.unit.Sinon",
 {
   statics :
@@ -74,8 +75,8 @@ qx.Bootstrap.define("qx.dev.unit.Sinon",
  * @ignore(msSetImmediate)
  * @lint ignoreUnused(alen, requestMethod, index)
  * @lint ignoreNoLoopBlock()
- * @ignore (process.*)  
- * @ignore (setTimeout.*) 
+ * @ignore (process.*)
+ * @ignore (setTimeout.*)
  *
  * @lint ignoreJsdocKey(author, license, depend)
  */
@@ -196,7 +197,7 @@ define.amd = true;
      * Return an array of own property names.
      */
     function keys(object) {
-        var ks = [], 
+        var ks = [],
 prop;
         for (prop in object) {
             if (o.hasOwnProperty.call(object, prop)) { ks.push(prop); }
@@ -321,7 +322,7 @@ prop;
             // Elements are only equal if identical(expected, actual)
             if (isElement(obj1) || isElement(obj2)) { return false; }
 
-            var isDate1 = isDate(obj1), 
+            var isDate1 = isDate(obj1),
 isDate2 = isDate(obj2);
             if (isDate1 || isDate2) {
                 if (!isDate1 || !isDate2 || obj1.getTime() !== obj2.getTime()) {
@@ -596,7 +597,7 @@ isDate2 = isDate(obj2);
     ascii.array = function (array, processed) {
         processed = processed || [];
         processed.push(array);
-        var i, l, 
+        var i, l,
 pieces = [];
         for (i = 0, l = array.length; i < l; ++i) {
             pieces.push(ascii(this, array[i], processed));
@@ -608,7 +609,7 @@ pieces = [];
         processed = processed || [];
         processed.push(object);
         indent = indent || 0;
-        var pieces = [], 
+        var pieces = [],
 properties = samsam.keys(object).sort();
         var length = 3;
         var prop, str, obj, i, l;
@@ -642,9 +643,9 @@ properties = samsam.keys(object).sort();
 
     ascii.element = function (element) {
         var tagName = element.tagName.toLowerCase();
-        var attrs = element.attributes, 
-attr, 
-pairs = [], 
+        var attrs = element.attributes,
+attr,
+pairs = [],
 attrName, i, l, val;
 
         for (i = 0, l = attrs.length; i < l; ++i) {
@@ -875,8 +876,8 @@ var sinon = (function (formatio) {
                 return a.valueOf() === b.valueOf();
             }
 
-            var prop, 
-aLength = 0, 
+            var prop,
+aLength = 0,
 bLength = 0;
 
             if (aString == "[object Array]" && a.length !== b.length) {
@@ -915,7 +916,7 @@ bLength = 0;
 
         functionToString: function toString() {
             if (this.getCall && this.callCount) {
-                var thisValue, prop, 
+                var thisValue, prop,
 i = this.callCount;
 
                 while (i--) {
@@ -2528,7 +2529,7 @@ i = this.callCount;
 
             verify: function verify() {
                 var expectations = this.expectations || {};
-                var messages = [], 
+                var messages = [],
 met = [];
 
                 each(this.proxies, function (proxy) {
@@ -2554,7 +2555,7 @@ met = [];
 
             invokeMethod: function invokeMethod(method, thisValue, args) {
                 var expectations = this.expectations && this.expectations[method];
-                var length = expectations && expectations.length || 0, 
+                var length = expectations && expectations.length || 0,
 i;
 
                 for (i = 0; i < length; i += 1) {
@@ -2564,8 +2565,8 @@ i;
                     }
                 }
 
-                var messages = [], 
-available, 
+                var messages = [],
+available,
 exhausted = 0;
 
                 for (i = 0; i < length; i += 1) {
@@ -3110,9 +3111,9 @@ if (typeof sinon == "undefined") {
         }
 
         var strings = str.split(":");
-        var l = strings.length, 
+        var l = strings.length,
 i = l;
-        var ms = 0, 
+        var ms = 0,
 parsed;
 
         if (l > 3 || !/^(\d\d:){0,2}\d\d?$/.test(str)) {
@@ -3198,8 +3199,8 @@ parsed;
 
         tick: function tick(ms) {
             ms = typeof ms == "number" ? ms : parseTime(ms);
-            var tickFrom = this.now, 
-tickTo = this.now + ms, 
+            var tickFrom = this.now,
+tickTo = this.now + ms,
 previous = this.now;
             var timer = this.firstTimerInRange(tickFrom, tickTo);
 
@@ -3228,8 +3229,8 @@ previous = this.now;
         },
 
         firstTimerInRange: function (from, to) {
-            var timer, 
-smallest = null, 
+            var timer,
+smallest = null,
 originalTimer;
 
             for (var id in this.timeouts) {
@@ -4012,11 +4013,11 @@ if (typeof sinon == "undefined") {
     /**
      * @ignore(DOMParser)
      * @ignore(ActiveXObject)
-     */ 
-    // 
+     */
+    //
     FakeXMLHttpRequest.parseXML = function parseXML(text) {
         var xmlDoc;
- 
+
         if (typeof DOMParser != "undefined") {
             var parser = new DOMParser();
             xmlDoc = parser.parseFromString(text, "text/xml");
@@ -4527,7 +4528,7 @@ if (typeof module !== 'undefined' && module.exports && !qx) {
             sandbox.args = sandbox.args || [];
             sandbox.injectedKeys = [];
             sandbox.injectInto = config.injectInto;
-            var prop, value, 
+            var prop, value,
 exposed = sandbox.inject({});
 
             if (config.properties) {
@@ -4687,7 +4688,7 @@ exposed = sandbox.inject({});
 
         prefix = prefix || "test";
         var rPrefix = new RegExp("^" + prefix);
-        var methods = {}, 
+        var methods = {},
 testName, property, method;
         var setUp = tests.setUp;
         var tearDown = tests.tearDown;
@@ -4824,7 +4825,7 @@ testName, property, method;
 
         callOrder: function assertCallOrder() {
             verifyIsStub.apply(null, arguments);
-            var expected = "", 
+            var expected = "",
 actual = "";
 
             if (!sinon.calledInOrder(arguments)) {

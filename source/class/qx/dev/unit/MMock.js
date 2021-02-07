@@ -91,6 +91,7 @@
  * Note that sinon.assert.xyz() translates as assertXyz().
  *
  */
+/* global sinon */
 qx.Mixin.define("qx.dev.unit.MMock",
 {
   construct: function()

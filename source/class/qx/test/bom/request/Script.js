@@ -24,6 +24,7 @@
  * @ignore(SCRIPT_LOADED)
  */
 
+ /* global SCRIPT_LOADED */
 qx.Class.define("qx.test.bom.request.Script",
 {
   extend : qx.dev.unit.TestCase,

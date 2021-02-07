@@ -21,6 +21,7 @@
  * @ignore(qx.TestProperty, qx.Super)
  */
 
+ /* global demo */
 qx.Class.define("qx.test.core.Property",
   {
     extend: qx.dev.unit.TestCase,

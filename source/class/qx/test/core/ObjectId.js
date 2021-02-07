@@ -19,6 +19,8 @@
 /**
  * @ignore(demo.MyClass)
  */
+/* global demo */
+
 qx.Class.define("qx.test.core.ObjectId", {
   extend: qx.dev.unit.TestCase,
   include: qx.dev.unit.MMock,
@@ -37,7 +39,7 @@ qx.Class.define("qx.test.core.ObjectId", {
           }
         }
       });
-      
+
       var obj = new demo.MyClass();
       var Id = qx.core.Id.getInstance();
       Id.register(obj, "test");
@@ -46,12 +48,12 @@ qx.Class.define("qx.test.core.ObjectId", {
       this.assertTrue(txt.getQxObjectId() === "txt");
       this.assertTrue(Id.getQxObject("test") === obj);
       this.assertTrue(Id.getQxObject("test/txt") === txt);
-      
+
       obj.removeOwnedQxObject(txt);
       var txt2 = obj.getQxObject("txt");
       this.assertTrue(txt !== txt2);
       this.assertTrue(txt2 === obj.getQxObject("txt"));
-      
+
       txt.setQxObjectId("txt-orig");
       obj.addOwnedQxObject(txt);
       this.assertTrue(txt === obj.getQxObject("txt-orig"));
@@ -60,7 +62,7 @@ qx.Class.define("qx.test.core.ObjectId", {
       obj2.addOwnedQxObject(txt);
       this.assertTrue(obj.getQxObject("txt-orig") === undefined);
       this.assertTrue(obj2.getQxObject("txt-orig") === txt);
-      
+
       Id.unregister("test");
       this.assertTrue(!Id.getQxObject("test"));
     }

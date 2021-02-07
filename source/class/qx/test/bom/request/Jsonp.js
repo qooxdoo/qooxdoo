@@ -32,7 +32,7 @@
  *
  * @ignore(myExistingCallback)
  */
-
+/* global myExistingCallback */
 qx.Class.define("qx.test.bom.request.Jsonp",
 {
   extend : qx.dev.unit.TestCase,
