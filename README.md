@@ -51,8 +51,9 @@ other developers who use Qooxdoo.
 
 ## Learn more
 
-* Documentation (v6)
-  http://qooxdoo.org/documentation
+* Documentation
+  http://qooxdoo.org/documentation (latest stable)
+  http://qooxdoo.org/qooxdoo/docs (master)
 
 * Online Demos
   http://qooxdoo.org/demos
