@@ -203,7 +203,7 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     //
     "test Play Event": function()
     {
-      if(navigator.plugins.length == 0) {
+      if (navigator.plugins.length == 0) {
         this.skip("Headless browser HTML5 audio/video play event test disabled on headless browsers");
       }
       // Disabled on travis because of events not being fired reliable
