@@ -1,0 +1,104 @@
+#!/usr/bin/env node
+
+/*
+Usage:
+markdown-lint [[lint|fix] ["all" | file1, [file2, ... ]]]
+
+If no file is given, the script checks if there is a list of added and changed
+files as JSON-encoded data in $HOME/files_(added|modified).json as part of a
+Github CI workflow. Otherwise, it relies on git to get a list of added and
+changed files.
+
+If the second argument is "all", all markdown files in the repository are
+linted/fixed.
+
+If the second argument is "fix", the files are additionally reformatted
+*/
+
+const remark = require('remark');
+const fsPromises = require('fs').promises;
+const process = require('process');
+const util = require('util');
+const glob = util.promisify(require('glob'));
+const report = require('vfile-reporter');
+const stringify = require('remark-stringify');
+const exec = util.promisify(require('child_process').exec);
+
+// linters
+const noDeadUrls = require('remark-lint-no-dead-urls');
+const validateLinks = require('remark-validate-links');
+
+// transformers
+const normalizeHeadings = require('remark-normalize-headings');
+const prettier = require("prettier");
+const prettierOptions = {
+  parser: "markdown",
+  printWidth: 80,
+  proseWrap: "always",
+  trailingComma: "none"
+};
+
+// create processor
+const markdownProcessor = remark()
+  .use(validateLinks)
+  .use(noDeadUrls,  { skipOffline: true });
+
+const fix = process.argv[2] === "fix";
+if (fix) {
+  markdownProcessor
+    .use(stringify, {
+      fences: true
+    })
+    .use(normalizeHeadings);
+}
+
+// take file list from arguments
+let files = process.argv.slice(3);
+
+// process the files
+(async ()=>{
+
+  // if no file names have been passed, take file list  ...
+  if (files.length === 0) {
+    if (process.env.CI) {
+      // ... a) from list of changed and added files if this is a GitHub Action triggered by a PR, or ...
+      try {
+        files = JSON.parse(await fsPromises.readFile(process.env.HOME + "/files_modified.json"))
+          .concat(JSON.parse(await fsPromises.readFile(process.env.HOME + "/files_added.json")))
+          .filter(file => file.endsWith(".md"));
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      // ... b) from a list of all added or changed files since the last commit
+      const { stdout } = await exec('git diff --name-only');
+      files = String(stdout).split("\n").filter(file => file.endsWith(".md"));
+    }
+  } else if (files[0] === "all") {
+    files = await glob("**/*.md", {
+      ignore: ["node_modules/**/*.md","_*" ]
+    });
+  }
+  if (files.length === 0) {
+    console.info("Nothing to do: no markdown files to lint.");
+    process.exit(0);
+  }
+  for (let file of files) {
+    console.info(`>>> Checking ${fix ? "and fixing ":""}${file} ...`);
+    let vFile;
+    try {
+      vFile = await markdownProcessor.process(await fsPromises.readFile(file, "utf-8"));
+    } catch (e) {
+      console.error(e);
+      process.exit(1);
+    }
+    let result = report(vFile);
+    if (result !== "no issues found") {
+      console.warn(result);
+      process.exit(2);
+    } else if (fix) {
+      let content = prettier.format(String(vFile), prettierOptions);
+      await fsPromises.writeFile(file, content , "utf-8");
+    }
+  }
+})();
