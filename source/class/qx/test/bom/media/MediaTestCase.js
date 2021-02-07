@@ -196,13 +196,16 @@ qx.Class.define("qx.test.bom.media.MediaTestCase",
     // test and the test run succeeds.
     //
     // Note that the tests in qx.test.bom.media.MediaTestCase
-    // are started seperately or this test is restarted after 
+    // are started seperately or this test is restarted after
     // it failed, then it succeeds.
     // This is some weird timing or caching issue which could
     // not be solved otherwise.
     //
     "test Play Event": function()
     {
+      if(navigator.plugins.length == 0) {
+        this.skip("Headless browser HTML5 audio/video play event test disabled on headless browsers");
+      }
       // Disabled on travis because of events not being fired reliable
       if (qx.core.Environment.get("qx.test.travis") == "true") {
         this.skip("HTML5 audio/video play event test disabled on travis");
