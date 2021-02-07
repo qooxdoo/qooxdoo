@@ -15,5 +15,8 @@
     "README.md",
     "Manifest.json",
     "source"
-  ]
+  ],
+  "devDependencies": {
+    "@qooxdoo/compiler": "^1.0.0"
+  }
 }

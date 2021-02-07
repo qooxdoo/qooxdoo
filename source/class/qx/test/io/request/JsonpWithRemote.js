@@ -35,7 +35,7 @@ qx.Class.define("qx.test.io.request.JsonpWithRemote",
   members :
   {
     setUp: function() {
-      this.require(["http"]);
+      this.require(["http", "php"]);
     },
 
     tearDown: function() {

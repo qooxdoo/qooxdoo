@@ -1,9 +1,4 @@
 {
-  "environment": {
-    "qx.compiler": "",
-    "qx.serve.appspath": "/apps/",
-    "qx.serve.docspath": "/"
-  },
   "targets": [
     {
       "type": "source",
@@ -32,7 +27,7 @@
     "en"
   ],
   "libraries": [
-    "../../framework"
+    "../.."
   ],
   "applications": [
     {
@@ -42,15 +37,13 @@
       "title": "Qooxdoo TestTAPper",
       "environment": {
         "qx.icontheme": "Tango",
-        "testtapper.testNameSpace": "qx.test"
+        "qxl.testtapper.testNameSpace": "qx.test"
       },
       "include": [
         "qx.test.*"
       ],
-      "exclude": [
-      ]
-    }
-  ],
+      "exclude": []
+    }  ],
   "sass": {
     "compiler": "legacy"
   },

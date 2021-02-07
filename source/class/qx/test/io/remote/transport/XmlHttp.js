@@ -26,6 +26,9 @@ Authors:
 qx.Class.define("qx.test.io.remote.transport.XmlHttp",
 {
   extend : qx.dev.unit.TestCase,
+  include : [
+    qx.dev.unit.MRequirements
+  ],
 
   members :
   {
@@ -84,6 +87,7 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
         this.needsPHPWarning();
         return;
       }
+      this.require(["php"]);
 
       this.request.setUrl(this.getUrl("qx/test/xmlhttp/echo_header.php"));
 
@@ -110,6 +114,7 @@ qx.Class.define("qx.test.io.remote.transport.XmlHttp",
         this.needsPHPWarning();
         return;
       }
+      this.require(["php"]);
 
       this.request.setUrl(this.getUrl("qx/test/xmlhttp/send_known_header.php"));
 

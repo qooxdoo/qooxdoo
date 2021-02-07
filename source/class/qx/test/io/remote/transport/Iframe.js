@@ -26,7 +26,10 @@ Authors:
 qx.Class.define("qx.test.io.remote.transport.Iframe",
 {
   extend : qx.dev.unit.TestCase,
-  include : qx.test.io.MRemoteTest,
+  include : [
+    qx.test.io.MRemoteTest,
+    qx.dev.unit.MRequirements
+  ],
 
   members :
   {
@@ -40,6 +43,7 @@ qx.Class.define("qx.test.io.remote.transport.Iframe",
         this.needsPHPWarning();
         return;
       }
+      this.require(["php"]);
 
       this.request.addListener("completed", function() {
         this.resume(function() {

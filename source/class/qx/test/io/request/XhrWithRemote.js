@@ -27,7 +27,7 @@ qx.Class.define("qx.test.io.request.XhrWithRemote",
   {
     setUp: function() {
       this.req = new qx.io.request.Xhr();
-      this.require(["http"]);
+      this.require(["http", "php"]);
     },
 
     tearDown: function() {

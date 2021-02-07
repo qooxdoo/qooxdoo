@@ -2,19 +2,35 @@
   "libraries": [
     {
       "library_name": "Commandline Testrunner for Qooxdoo Apps",
-      "library_version": "0.5.3",
-      "path": "qx_packages/qooxdoo_qxl_testtapper_v0_5_3",
+      "library_version": "1.0.2",
+      "path": "qx_packages/qooxdoo_qxl_testtapper_v1_0_2",
       "uri": "qooxdoo/qxl.testtapper",
       "repo_name": "qooxdoo/qxl.testtapper",
-      "repo_tag": "v0.5.3"
+      "repo_tag": "v1.0.2"
+    },
+    {
+      "library_name": "testrunner",
+      "library_version": "6.0.1",
+      "path": "qx_packages/qooxdoo_qxl_testrunner_v6_0_1",
+      "uri": "qooxdoo/qxl.testrunner",
+      "repo_name": "qooxdoo/qxl.testrunner",
+      "repo_tag": "v6.0.1"
     },
     {
       "library_name": "logpane",
-      "library_version": "1.0.1",
-      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_1",
+      "library_version": "1.0.2",
+      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_2",
       "uri": "qooxdoo/qxl.logpane",
       "repo_name": "qooxdoo/qxl.logpane",
-      "repo_tag": "v1.0.1"
+      "repo_tag": "v1.0.2"
+    },
+    {
+      "library_name": "versionlabel",
+      "library_version": "1.0.4",
+      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_4",
+      "uri": "qooxdoo/qxl.versionlabel",
+      "repo_name": "qooxdoo/qxl.versionlabel",
+      "repo_tag": "v1.0.4"
     }
   ],
   "version": "2.1.0"
