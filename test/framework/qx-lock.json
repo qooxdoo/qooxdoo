@@ -2,11 +2,11 @@
   "libraries": [
     {
       "library_name": "Commandline Testrunner for Qooxdoo Apps",
-      "library_version": "1.0.2",
-      "path": "qx_packages/qooxdoo_qxl_testtapper_v1_0_2",
+      "library_version": "1.0.4",
+      "path": "qx_packages/qooxdoo_qxl_testtapper_v1_0_4",
       "uri": "qooxdoo/qxl.testtapper",
       "repo_name": "qooxdoo/qxl.testtapper",
-      "repo_tag": "v1.0.2"
+      "repo_tag": "v1.0.4"
     },
     {
       "library_name": "testrunner",
@@ -18,19 +18,19 @@
     },
     {
       "library_name": "logpane",
-      "library_version": "1.0.2",
-      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_2",
+      "library_version": "1.0.3",
+      "path": "qx_packages/qooxdoo_qxl_logpane_v1_0_3",
       "uri": "qooxdoo/qxl.logpane",
       "repo_name": "qooxdoo/qxl.logpane",
-      "repo_tag": "v1.0.2"
+      "repo_tag": "v1.0.3"
     },
     {
       "library_name": "versionlabel",
-      "library_version": "1.0.4",
-      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_4",
+      "library_version": "1.0.5",
+      "path": "qx_packages/qooxdoo_qxl_versionlabel_v1_0_5",
       "uri": "qooxdoo/qxl.versionlabel",
       "repo_name": "qooxdoo/qxl.versionlabel",
-      "repo_tag": "v1.0.4"
+      "repo_tag": "v1.0.5"
     }
   ],
   "version": "2.1.0"
