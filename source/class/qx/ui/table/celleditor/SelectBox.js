@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
             item.setUserData("row", row);
           }
           cellEditor.add(item);
-        };
+        }
       }
 
       if (label != null) {

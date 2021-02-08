@@ -31,11 +31,11 @@ qx.Class.define("qx.test.lang.normalize.Object",
     {
       function ObjectA() {
         this.A = 10;
-      };
+      }
 
       function ObjectB() {
         this.B = 11;
-      };
+      }
 
       ObjectB.prototype = new ObjectA();
 

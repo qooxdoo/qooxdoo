@@ -207,9 +207,9 @@ qx.Class.define("qx.test.event.message.Bus",
       var flag = false;
       function handler() {
          flag = true;
-      };
+      }
 
-      function anotherHandler() {};
+      function anotherHandler() {}
 
       var messageBus = qx.event.message.Bus.getInstance();
       messageBus.subscribe("message", handler, this);

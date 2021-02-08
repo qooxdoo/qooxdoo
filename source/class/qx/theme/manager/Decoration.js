@@ -167,7 +167,7 @@ qx.Class.define("qx.theme.manager.Decoration",
       for (var i=0; i < this.__rules.length; i++) {
         var selector = this.__rules[i];
         qx.ui.style.Stylesheet.getInstance().removeRule(selector);
-      };
+      }
       this.__rules = [];
     },
 

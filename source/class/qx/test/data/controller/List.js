@@ -1065,7 +1065,7 @@ qx.Class.define("qx.test.data.controller.List",
       var labels = [];
       for (var i = 0; i < selList.getChildren().length; i++) {
         labels.push(selList.getChildren()[i].getLabel());
-      };
+      }
 
       // check if the second list is filled right
       this.assertNotEquals(-1, labels.indexOf("e"), "e is not in the selection list.");

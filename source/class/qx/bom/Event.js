@@ -129,7 +129,7 @@ qx.Bootstrap.define("qx.bom.Event",
           // Ignore the "permission denied" errors.
           if (e.number !== -2146828218) {
             throw e;
-          };
+          }
         }
       }
       else if (typeof target["on" + type] != "undefined")

@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.bom.element.Animation",
           }
           return false;
         }
-      };
+      }
       return true;
     }
   }

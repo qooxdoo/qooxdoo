@@ -146,7 +146,7 @@ qx.Bootstrap.define("qx.lang.Object",
           } else {
             clone[i] = source[i];
           }
-        };
+        }
         return clone;
       }
       return source;

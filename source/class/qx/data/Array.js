@@ -1106,7 +1106,7 @@ qx.Class.define("qx.data.Array",
     __updateEventPropagation : function(from, to) {
       for (var i=from; i < to; i++) {
         this._registerEventChaining(this.__array[i], this.__array[i], i);
-      };
+      }
     }
   },
 

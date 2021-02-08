@@ -417,7 +417,7 @@ qx.Class.define("qx.data.controller.List",
           var length = target.getChildren().length;
           for (var i = 0; i < length; i++) {
             this.__removeItem();
-          };
+          }
         }
       }
     },
@@ -646,7 +646,7 @@ qx.Class.define("qx.data.controller.List",
         var items = target.getChildren();
         for (var i = 0; i < items.length; i++) {
           visibleModels.push(items[i].getModel());
-        };
+        }
       }
 
       return new qx.data.Array(visibleModels);
@@ -844,7 +844,7 @@ qx.Class.define("qx.data.controller.List",
           item.removeBinding(id);
           item.getUserData(this.__boundPropertiesReverse[i] + "ReverseBindingId", null);
         }
-      };
+      }
     },
 
 

@@ -179,7 +179,7 @@ qx.Class.define("qx.data.controller.website.List",
         var el = target.children[i];
         el.$$model = null;
         qx.dom.Element.remove(el);
-      };
+      }
       target.innerHTML = "";
     },
 
@@ -253,7 +253,7 @@ qx.Class.define("qx.data.controller.website.List",
         template.$$model = item;
 
         qx.dom.Element.insertEnd(template, target);
-      };
+      }
     }
   }
 });

@@ -449,7 +449,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           found = qx.bom.Selector.matches(selector, found);
         }
         children = children.concat(found);
-      };
+      }
       return qxWeb.$init(children, qxWeb);
     },
 
@@ -470,7 +470,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
     forEach : function(fn, ctx) {
       for (var i=0; i < this.length; i++) {
         fn.call(ctx, this[i], i, this);
-      };
+      }
       return this;
     },
 
@@ -493,7 +493,7 @@ qx.Bootstrap.define("qx.module.Traversing", {
           found = qx.bom.Selector.matches(selector, [found]);
         }
         parents = parents.concat(found);
-      };
+      }
       return qxWeb.$init(parents, qxWeb);
     },
 
@@ -521,7 +521,7 @@ isChildOf = false;
             isChildOf = true;
             break;
           }
-        };
+        }
       }
       return isChildOf;
     },
@@ -587,7 +587,7 @@ isChildOf = false;
 
       for (var i=0; i < this.length; i++) {
         findClosest(qxWeb(this[i]));
-      };
+      }
 
       return qxWeb.$init(closest, qxWeb);
     },
@@ -606,7 +606,7 @@ isChildOf = false;
       var found = [];
       for (var i=0; i < this.length; i++) {
         found = found.concat(qx.bom.Selector.query(selector, this[i]));
-      };
+      }
       return qxWeb.$init(found, qxWeb);
     },
 

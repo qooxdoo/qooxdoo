@@ -212,7 +212,7 @@ qx.Class.define("qx.bom.Iframe",
           return doc.location.href;
         }
       }
-      catch (ex) {};
+      catch (ex) {}
 
       return "";
     },

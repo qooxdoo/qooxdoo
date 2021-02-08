@@ -87,7 +87,7 @@ qx.Bootstrap.define("qx.bom.PageVisibility",
           this.__eventName = prefix[i].toLowerCase() + "visibilitychange";
           break;
         }
-      };
+      }
 
       // check for the visibilityState attribute name
       for (var i=0; i < prefix.length; i++) {
@@ -96,7 +96,7 @@ qx.Bootstrap.define("qx.bom.PageVisibility",
           this.__visibilityAttr = attr;
           break;
         }
-      };
+      }
 
       // use the non prefixed if not supported prefixed
       if (this.__hiddenAttr == null) {

@@ -80,7 +80,7 @@ qx.Bootstrap.define("qx.io.part.ClosurePart",
     {
       if (this._checkCompleteLoading(callback, self)) {
         return;
-      };
+      }
 
       this._readyState = "loading";
 

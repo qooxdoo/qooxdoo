@@ -71,13 +71,20 @@
        "@qooxdoo/jsdoc-disable"
     ],
     "rules": {
+//      "no-control-regex": "off",
+//      "no-alert": "off",
+//      "no-self-compare": "off",
+//"no-script-url": "off",
+//"no-void": "off",
+//      "no-undef-init": "off",
+//      "no-self-assign": "off",
+//      "no-caller": "off",
+//      "no-sequences": "off",
+
       "no-new": "off",
       "no-unused-vars": "off",
-      "no-alert": "off",
       "no-eval": "off",
       "new-cap": "off",
-      "no-control-regex": "off",
-      "no-self-compare": "off",
 
       "brace-style": "allman",
       "no-warning-comments": "off",
@@ -92,11 +99,9 @@
       "no-eq-null": "off",
       "no-useless-call": "off",
       "consistent-return": "off",
-      "no-script-url": "off",
       "max-statements-per-line": "off",
       "no-prototype-builtins": "off",
       "array-callback-return": "off",
-      "no-undef-init": "off",
       "no-constant-condition": "off",
       "no-empty": "off",
       "no-fallthrough": "off",
@@ -106,17 +111,12 @@
       "no-else-return": "off",
       "no-unneeded-ternary": "off",
       "one-var": "off",
-      "no-extra-semi": "off",
       "no-useless-concat": "off",
-      "no-sequences": "off",
       "no-unmodified-loop-condition": "off",
-      "no-self-assign": "off",
       "func-call-spacing": "off",
       "no-unexpected-multiline": "off",
       "no-labels": "off",
-      "no-void": "off",
-      "no-inner-declarations": "off",
-      "no-caller": "off"
+      "no-inner-declarations": "off"
     }
   },
   "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json"

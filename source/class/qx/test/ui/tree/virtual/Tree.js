@@ -544,7 +544,7 @@ qx.Class.define("qx.test.ui.tree.virtual.Tree",
         if (expected[i].getName() == filterNode) {
           expected.splice(i, 1);
         }
-      };
+      }
 
       qx.lang.Array.insertAt(expected, root, 0);
 

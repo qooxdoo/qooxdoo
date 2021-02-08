@@ -108,7 +108,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       for (var i = 0; i < items.length; i++) {
         this.__model.setItem(i, "abc" + i);
         this.assertEquals("abc" + i, items[i].getLabel());
-      };
+      }
 
       // check for the binding target(label) --> model
       for (var i = 0; i < items.length; i++) {
@@ -154,7 +154,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       var items = this.__list.getChildren();
       for (var i = 0; i < items.length; i++) {
         this.assertEquals("item" + i, items[i].getIcon());
-      };
+      }
     },
 
 
@@ -176,7 +176,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       var items = this.__list.getChildren();
       for (var i = 0; i < items.length; i++) {
         this.assertEquals("icon", items[i].getIcon());
-      };
+      }
     },
 
 
@@ -203,7 +203,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       for (var i = 0; i < items.length; i++) {
         this.__model.setItem(i, "abc" + i);
         this.assertEquals("abc" + i, items[i].getChild().getLabel());
-      };
+      }
 
       // check for the binding target(label) --> model
       for (var i = 0; i < items.length; i++) {
@@ -215,7 +215,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       for (var i = 0; i < items.length; i++) {
         items[i].getChild().dispose();
         items[i].setChild(null);
-      };
+      }
     },
 
 
@@ -243,7 +243,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
       for (var i = 0; i < items.length; i++) {
         this.__model.setItem(i, "abc" + i);
         this.assertEquals("abc" + i, items[i].getChildren().getItem(0).getLabel());
-      };
+      }
 
       // check for the binding target(label) --> model
       for (var i = 0; i < items.length; i++) {
@@ -268,7 +268,7 @@ qx.Class.define("qx.test.data.controller.ListReverse",
         }
         items[i].getChildren().setItem(1, null);
         items[i].setChildren(null);
-      };
+      }
     }
   }
 });

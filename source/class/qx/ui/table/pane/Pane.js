@@ -448,7 +448,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         cellInfo.rowData = tableModel.getRowData(row);
 
         rowRenderer.updateDataRowElement(cellInfo, rowNodes[y]);
-      };
+      }
     },
 
 

@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         if (item && item.getVisibility && item.getVisibility() == "visible") {
           return item;
         }
-      };
+      }
 
       // if there is non found by priority, check all available widgets
       var children = this._getChildren();
@@ -363,7 +363,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         if (child.getVisibility && child.getVisibility() == "visible") {
           return child;
         }
-      };
+      }
     },
 
 
@@ -422,7 +422,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         // set all buttons back to visible
         for (var i = 0; i < this.__removedItems.length; i++) {
           this.__removedItems[i].setVisibility("visible");
-        };
+        }
         // reset the removed items
         this.__removedItems = [];
       }
@@ -499,7 +499,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
         if (children[i].setShow) {
           children[i].setShow(value);
         }
-      };
+      }
     },
 
 

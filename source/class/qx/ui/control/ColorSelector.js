@@ -1128,7 +1128,7 @@ members :
         var rgb = qx.util.ColorUtil.hexStringToRgb("#" + hexField.getValue());
       } catch (ex) {
         return;
-      };
+      }
 
       this.__updateContext = "hexField";
       this.setRed(rgb[0]);

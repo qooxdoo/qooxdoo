@@ -166,7 +166,7 @@ qx.Bootstrap.define("qx.module.Placeholder", {
           }
 
           qx.module.Placeholder.__syncStyles(item);
-        };
+        }
       }
       return this;
     }

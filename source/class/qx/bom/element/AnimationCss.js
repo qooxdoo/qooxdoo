@@ -307,7 +307,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationCss",
           if (!(possibleKeys.indexOf(name) != -1)) {
             qx.Bootstrap.warn("Unknown key '" + name + "' in the animation description.");
           }
-        };
+        }
 
         if (desc.keyFrames == null) {
           qx.Bootstrap.warn("No 'keyFrames' given > 0");
