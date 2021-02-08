@@ -165,7 +165,6 @@
       "os.*": "qx.bom.client.OperatingSystem",
       "os.scrollBarOverlayed": "qx.bom.client.Scroll",
       "phonegap*": "qx.bom.client.PhoneGap",
-      "plugin.flash*": "qx.bom.client.Flash",
       "plugin.*": "qx.bom.client.Plugin",
       "qx.globalErrorHandling": "qx.event.GlobalError",
       "qx.mobile.nativescroll": "qx.bom.client.Scroll",
