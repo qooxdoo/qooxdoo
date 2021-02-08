@@ -26,7 +26,6 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
 
   include: [qx.dev.unit.MRequirements],
   construct: function () {
-    this.base(arguments);
     this.__fontDefinitions = {
       finelinerScript:
       {
@@ -50,6 +49,7 @@ qx.Class.define("qx.test.bom.webfonts.Manager", {
           "404.eot"]
       }
     };
+    this.base(arguments);
   },
 
   members:
