@@ -65,7 +65,7 @@
 
 */
 
-/* global global, setImmediate, chrome */
+/* global global, setImmediate, chrome, _dereq_ */
 
 qx.Class.define("qx.Promise", {
   extend: qx.core.Object,

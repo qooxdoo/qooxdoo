@@ -82,17 +82,11 @@
        "@qooxdoo/qx",
        "@qooxdoo/jsdoc-disable"
     ],
-    "globals": {
-      "BigInt": "readonly",
-      "ActiveXObject": "readonly",
-      "Packages": "readonly",
-      "Titanium": "readonly",
-      "debug": "readonly",
-      "java": "readonly",
-      "_dereq_": "readonly"
-    },
     "rules": {
       "@qooxdoo/qx/no-refs-in-members": "off",
+      "no-unused-vars": "off",
+      "no-array-constructor": "off",
+
       "brace-style": "allman",
       "no-warning-comments": "off",
       "no-lonely-if": "off",
@@ -112,7 +106,6 @@
       "no-eval": "off",
       "new-cap": "off",
       "no-new": "off",
-      "no-unused-vars": "off",
       "max-statements-per-line": "off",
       "no-prototype-builtins": "off",
       "array-callback-return": "off",
@@ -133,7 +126,6 @@
       "no-useless-concat": "off",
       "no-sequences": "off",
       "no-unmodified-loop-condition": "off",
-      "no-array-constructor": "off",
       "no-self-assign": "off",
       "no-alert": "off",
       "no-duplicate-case": "off",

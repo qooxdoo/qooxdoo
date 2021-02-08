@@ -28,6 +28,7 @@
  * @ignore(process)
  * @ignore(Titanium.*)
  */
+/* global Packages, enviroment, process, Titanium */
 qx.Bootstrap.define("qx.bom.client.Runtime",
 {
   statics :
@@ -38,7 +39,6 @@ qx.Bootstrap.define("qx.bom.client.Runtime",
      * to the browser name defined by {@link qx.bom.client.Browser#getName}.
      * @return {String} The name of the current runtime.
      * @internal
-     * @ignore(environment, process, Titanium.*, Packages)
      */
     getName : function() {
       var name = "";

@@ -24,6 +24,7 @@
  *
  * @internal
  */
+/* global BigInt */
 qx.Bootstrap.define("qx.bom.client.EcmaScript",
 {
   statics :
