@@ -71,13 +71,11 @@
        "@qooxdoo/jsdoc-disable"
     ],
     "rules": {
-      "no-debugger": "off",
       "no-unused-vars": "off",
       "no-array-constructor": "off",
       "no-new-object": "off",
       "no-new-wrappers": "off",
       "no-alert": "off",
-      "no-proto": "off",
       "no-eval": "off",
       "new-cap": "off",
       "no-new": "off",
