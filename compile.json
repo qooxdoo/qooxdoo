@@ -71,16 +71,6 @@
        "@qooxdoo/jsdoc-disable"
     ],
     "rules": {
-//      "no-control-regex": "off",
-//      "no-alert": "off",
-//      "no-self-compare": "off",
-//"no-script-url": "off",
-//"no-void": "off",
-//      "no-undef-init": "off",
-//      "no-self-assign": "off",
-//      "no-caller": "off",
-//      "no-sequences": "off",
-
       "no-new": "off",
       "no-unused-vars": "off",
       "no-eval": "off",
