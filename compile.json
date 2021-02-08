@@ -116,7 +116,6 @@
       "no-sequences": "off",
       "no-unmodified-loop-condition": "off",
       "no-self-assign": "off",
-      "no-extend-native": "off",
       "func-call-spacing": "off",
       "no-unexpected-multiline": "off",
       "no-labels": "off",

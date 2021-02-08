@@ -26,6 +26,7 @@
  * @group (Polyfill)
  * @require(qx.bom.client.EcmaScript)
  */
+/* eslint-disable no-extend-native */
 qx.Bootstrap.define("qx.lang.normalize.Array", {
 
   statics : {
@@ -251,9 +252,9 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
 
       return true;
     },
-    
+
     /**
-     * The <code>find()</code> method returns a value in the array, if an element in the 
+     * The <code>find()</code> method returns a value in the array, if an element in the
      * array satisfies the provided testing function. Otherwise undefined is returned.
      *
      * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">MDN documentation</a> |
@@ -266,7 +267,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertFunction(callback);
       }
-      
+
       var l = this.length;
       for (var i = 0; i < l; i++) {
         var value = this[i];
@@ -274,12 +275,12 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
           return value;
         }
       }
-      
+
       return undefined;
     },
 
     /**
-     * The <code>findIndex()</code> method returns an index in the array, if an element in the 
+     * The <code>findIndex()</code> method returns an index in the array, if an element in the
      * array satisfies the provided testing function. Otherwise -1 is returned.
      *
      * <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/findIndex">MDN documentation</a> |
@@ -292,7 +293,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
       if (qx.core.Environment.get("qx.debug")) {
         qx.core.Assert.assertFunction(callback);
       }
-      
+
       var l = this.length;
       for (var i = 0; i < l; i++) {
         var value = this[i];
@@ -300,7 +301,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
           return i;
         }
       }
-      
+
       return -1;
     },
 
@@ -433,7 +434,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
         if (sameValueZero(o[k], searchElement)) {
           return true;
         }
-        // c. Increase k by 1. 
+        // c. Increase k by 1.
         k++;
       }
 
@@ -454,7 +455,7 @@ qx.Bootstrap.define("qx.lang.normalize.Array", {
         });
       }
     };
-    
+
     install("ecmascript.array.indexof", "indexOf");
     install("ecmascript.array.lastindexof", "lastIndexOf");
     install("ecmascript.array.foreach", "forEach");
