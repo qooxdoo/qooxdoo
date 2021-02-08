@@ -110,8 +110,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       check : "Boolean",
       init : false
     },
-    
-    
+
+
     /**
      * Whether the selection can be changed by user interaction
      */
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __scrollStepX : 0,
@@ -1011,17 +1011,17 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           case "one":
             this._setSelectedItem(item);
             break;
-  
+
           case "additive":
             this._setLeadItem(item);
             this._setAnchorItem(item);
             this._toggleInSelection(item);
             break;
-  
+
           case "multi":
             // Update lead item
             this._setLeadItem(item);
-  
+
             // Create/Update range selection
             if (isShiftPressed)
             {
@@ -1031,30 +1031,30 @@ qx.Class.define("qx.ui.core.selection.Abstract",
                 anchor = this._getFirstSelectable();
                 this._setAnchorItem(anchor);
               }
-  
+
               this._selectItemRange(anchor, item, isCtrlPressed);
             }
-  
+
             // Toggle in selection
             else if (isCtrlPressed)
             {
               this._setAnchorItem(item);
               this._toggleInSelection(item);
             }
-  
+
             // Replace current selection
             else
             {
               this._setAnchorItem(item);
               this._setSelectedItem(item);
             }
-  
+
             break;
         }
       }
 
       // Cleanup operation
-      this._userInteraction = false;      
+      this._userInteraction = false;
       this._cleanup();
     },
 
@@ -1465,7 +1465,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
             next = this._getPage(this._getLastVisibleSelectable(), false);
             break;
         }
-        
+
         if (next) {
           consumed = true;
           this.__oldScrollTop = this._getScroll().top;

@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.menu.CheckBox",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     // overridden (from MExecutable to keep the icon out of the binding)

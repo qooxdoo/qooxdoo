@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.control.DateChooser",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __weekdayLabelArr : null,

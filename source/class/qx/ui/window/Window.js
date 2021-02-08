@@ -391,7 +391,7 @@ qx.Class.define("qx.ui.window.Window",
       apply : "_applyCenterOnAppear"
     },
 
-    /** 
+    /**
      * Whether this window should be automatically centered when its container
      * is resized.
      */
@@ -410,11 +410,11 @@ qx.Class.define("qx.ui.window.Window",
     ---------------------------------------------------------------------------
     */
 
-    /** 
+    /**
      * Should the window be automatically destroyed when it is closed.
      *
      * When false, closing the window behaves like hiding the window.
-     * 
+     *
      * When true, the window is removed from its container (the root), all
      * listeners are removed, the window's widgets are removed, and the window
      * is destroyed.
@@ -439,7 +439,8 @@ qx.Class.define("qx.ui.window.Window",
   *****************************************************************************
   */
 
-  members :
+   /* eslint-disable @qooxdoo/qx/no-refs-in-members */
+    members :
   {
     /** @type {Integer} Original top value before maximation had occurred */
     __restoredTop : null,
@@ -700,7 +701,7 @@ qx.Class.define("qx.ui.window.Window",
      * Close the current window instance.
      *
      * Simply calls the {@link qx.ui.core.Widget#hide} method if the
-     * {@link qx.ui.win.Window#autoDestroy} property is false; otherwise 
+     * {@link qx.ui.win.Window#autoDestroy} property is false; otherwise
      * removes and destroys the window.
      */
     close : function()

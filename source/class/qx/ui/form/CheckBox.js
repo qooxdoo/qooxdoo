@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.form.CheckBox",
       init : false
     }
   },
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     /**

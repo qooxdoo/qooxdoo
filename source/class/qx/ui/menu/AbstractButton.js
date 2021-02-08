@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     /*
@@ -189,9 +189,9 @@ qx.Class.define("qx.ui.menu.AbstractButton",
      */
     getChildrenSizes : function()
     {
-      var iconWidth=0, 
-labelWidth=0, 
-shortcutWidth=0, 
+      var iconWidth=0,
+labelWidth=0,
+shortcutWidth=0,
 arrowWidth=0;
 
       if (this._isChildControlVisible("icon"))

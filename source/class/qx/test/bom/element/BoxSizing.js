@@ -17,73 +17,69 @@
 ************************************************************************ */
 
 qx.Class.define("qx.test.bom.element.BoxSizing",
-{
-  extend : qx.dev.unit.TestCase,
-
-  include : [qx.dev.unit.MRequirements],
-
-  members :
   {
-    __support :
-    {
-      mshtml : ["border-box", "content-box"],
-      opera : ["border-box", "content-box"],
-      gecko : ["border-box", "content-box"],
-      webkit : ["border-box", "content-box"]
+    extend: qx.dev.unit.TestCase,
+
+    include: [qx.dev.unit.MRequirements],
+    construct: function () {
+      this.base(arguments);
+      this.__fontDefinitions = {
+        mshtml: ["border-box", "content-box"],
+        opera: ["border-box", "content-box"],
+        gecko: ["border-box", "content-box"],
+        webkit: ["border-box", "content-box"]
+      };
     },
 
-    __el : null,
-
-    setUp : function()
+    members:
     {
-      this.__el = document.createElement("div");
-      document.body.appendChild(this.__el);
-    },
+      __support: null,
+      __el: null,
 
-    tearDown : function()
-    {
-      document.body.removeChild(this.__el);
-      delete this.__el;
-    },
+      setUp: function () {
+        this.__el = document.createElement("div");
+        document.body.appendChild(this.__el);
+      },
 
-    hasBoxsizing : function()
-    {
-      return !!qx.core.Environment.get("css.boxsizing");
-    },
+      tearDown: function () {
+        document.body.removeChild(this.__el);
+        delete this.__el;
+      },
 
-    testGet : function()
-    {
-      this.require(["boxsizing"]);
+      hasBoxsizing: function () {
+        return !!qx.core.Environment.get("css.boxsizing");
+      },
 
-      var supported = this.__support[qx.core.Environment.get("engine.name")] || [];
-      this.assertInArray(qx.bom.element.BoxSizing.get(this.__el), supported);
-    },
+      testGet: function () {
+        this.require(["boxsizing"]);
 
-    testSet : function()
-    {
-      this.require(["boxsizing"]);
+        var supported = this.__support[qx.core.Environment.get("engine.name")] || [];
+        this.assertInArray(qx.bom.element.BoxSizing.get(this.__el), supported);
+      },
 
-      var allValues = this.__support["gecko"];
-      var supported = this.__support[qx.core.Environment.get("engine.name")] || [];
-      for (var i=0, l=allValues.length; i<l; i++) {
-        qx.bom.element.BoxSizing.set(this.__el, allValues[i]);
-        if (supported.includes(allValues[i])) {
-          this.assertEquals(supported[i], qx.bom.element.BoxSizing.get(this.__el),
-            "supported boxSizing value was not applied!");
+      testSet: function () {
+        this.require(["boxsizing"]);
+
+        var allValues = this.__support["gecko"];
+        var supported = this.__support[qx.core.Environment.get("engine.name")] || [];
+        for (var i = 0, l = allValues.length; i < l; i++) {
+          qx.bom.element.BoxSizing.set(this.__el, allValues[i]);
+          if (supported.includes(allValues[i])) {
+            this.assertEquals(supported[i], qx.bom.element.BoxSizing.get(this.__el),
+              "supported boxSizing value was not applied!");
+          }
+          else {
+            this.assertNotEquals(supported[i], qx.bom.element.BoxSizing.get(this.__el),
+              "boxSizing value was unexpectedly applied, maybe browser support has changed?");
+          }
         }
-        else {
-          this.assertNotEquals(supported[i], qx.bom.element.BoxSizing.get(this.__el),
-            "boxSizing value was unexpectedly applied, maybe browser support has changed?");
-        }
+      },
+
+      testCompile: function () {
+        this.require(["boxsizing"]);
+
+        var css = qx.bom.element.BoxSizing.compile("border-box");
+        this.assertMatch(css, /box-sizing/);
       }
-    },
-
-    testCompile : function()
-    {
-      this.require(["boxsizing"]);
-
-      var css = qx.bom.element.BoxSizing.compile("border-box");
-      this.assertMatch(css, /box-sizing/);
     }
-  }
-});
+  });

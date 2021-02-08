@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.form.core.AbstractVirtualBox",
     }
   },
 
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     /** @type {qx.data.Array} The initial model array of this virtual box. */

@@ -83,9 +83,12 @@
        "@qooxdoo/jsdoc-disable"
     ],
     "rules": {
-      "@qooxdoo/qx/no-refs-in-members": "off",
+//      "@qooxdoo/qx/no-refs-in-members": "off",
       "no-unused-vars": "off",
       "no-array-constructor": "off",
+      "no-duplicate-case": "off",
+      "no-new-object": "off",
+      "no-new-wrappers": "off",
 
       "brace-style": "allman",
       "no-warning-comments": "off",
@@ -128,8 +131,6 @@
       "no-unmodified-loop-condition": "off",
       "no-self-assign": "off",
       "no-alert": "off",
-      "no-duplicate-case": "off",
-      "no-new-object": "off",
       "no-proto": "off",
       "no-extend-native": "off",
       "func-call-spacing": "off",
@@ -138,7 +139,6 @@
       "no-void": "off",
       "no-inner-declarations": "off",
       "no-throw-literal": "off",
-      "no-new-wrappers": "off",
       "no-caller": "off"
     }
   },

@@ -236,7 +236,7 @@ qx.Class.define("qx.ui.basic.Label",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __font : null,

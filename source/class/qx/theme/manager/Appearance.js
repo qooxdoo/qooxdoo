@@ -71,7 +71,7 @@ qx.Class.define("qx.theme.manager.Appearance",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     /**

@@ -124,7 +124,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     // overridden

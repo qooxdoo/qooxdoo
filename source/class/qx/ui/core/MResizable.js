@@ -123,7 +123,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __dragDropHandler : null,
@@ -621,7 +621,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     if (this.getCursor()) {
       this.getApplicationRoot().resetGlobalCursor();
     }
-    
+
     if (this.__resizeFrame != null && !qx.core.ObjectRegistry.inShutDown)
     {
       this.__resizeFrame.destroy();

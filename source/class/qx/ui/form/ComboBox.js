@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __preSelectedItem : null,

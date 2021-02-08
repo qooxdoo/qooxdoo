@@ -175,8 +175,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
      MEMBERS
   *****************************************************************************
   */
-
-  members :
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
+members :
   {
     /*
     ---------------------------------------------------------------------------

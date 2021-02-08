@@ -240,8 +240,8 @@ qx.Class.define("qx.ui.form.AbstractField",
     /**
      * RegExp responsible for filtering the value of the textfield. the RegExp
      * gives the range of valid values.
-     * Note: The regexp specified is applied to each character in turn, 
-     * NOT to the entire string. So only regular expressions matching a 
+     * Note: The regexp specified is applied to each character in turn,
+     * NOT to the entire string. So only regular expressions matching a
      * single character make sense in the context.
      * The following example only allows digits in the textfield.
      * <pre class='javascript'>field.setFilter(/[0-9]/);</pre>
@@ -262,7 +262,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __nullValue : true,
@@ -660,7 +660,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       if (this.isDisposed()) {
         return null;
       }
-      
+
       // handle null values
       if (value === null) {
         // just do nothing if null is already set
@@ -961,7 +961,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     /**
      * Validates the the input value.
-     * 
+     *
      * @param value {Object} The value to check
      * @returns The checked value
      */
