@@ -18,18 +18,6 @@
   "libraries": [
     "."
   ],
-  "ignores": [
-    "XPathResult",
-    "XMLHttpRequest",
-    "XMLSerializer",
-    "XPathEvaluator",
-    "history.*",
-    "ActiveXObject",
-    "DOMParser",
-    "ImageHtml",
-    "alert",
-    "Image"
-  ],
   "applications": [
     {
       "class": "qx.application.Native",
@@ -83,16 +71,20 @@
        "@qooxdoo/jsdoc-disable"
     ],
     "rules": {
+      "no-debugger": "off",
       "no-unused-vars": "off",
       "no-array-constructor": "off",
       "no-new-object": "off",
       "no-new-wrappers": "off",
       "no-alert": "off",
       "no-proto": "off",
-      "no-throw-literal": "off",
       "no-eval": "off",
       "new-cap": "off",
       "no-new": "off",
+      "no-control-regex": "off",
+      "no-self-compare": "off",
+      "no-global-assign": "off",
+      "no-console": "off",
 
       "brace-style": "allman",
       "no-warning-comments": "off",
@@ -100,8 +92,6 @@
       "guard-for-in": "off",
       "max-params": "off",
       "no-nested-ternary": "off",
-      "no-console": "off",
-      "no-debugger": "off",
       "no-multi-spaces": "off",
       "quotes": "off",
       "no-redeclare": "off",
@@ -116,9 +106,6 @@
       "no-undef-init": "off",
       "no-constant-condition": "off",
       "no-empty": "off",
-      "no-control-regex": "off",
-      "no-self-compare": "off",
-      "no-global-assign": "off",
       "no-fallthrough": "off",
       "no-unreachable": "off",
       "valid-typeof": "off",

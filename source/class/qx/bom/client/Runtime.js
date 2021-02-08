@@ -27,6 +27,7 @@
  * @ignore(environment)
  * @ignore(process)
  * @ignore(Titanium.*)
+ * @ignore(Packages)
  */
 /* global Packages, enviroment, process, Titanium */
 qx.Bootstrap.define("qx.bom.client.Runtime",

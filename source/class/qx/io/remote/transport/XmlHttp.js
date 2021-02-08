@@ -59,6 +59,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * @return {Object} native XMLHttpRequest object
      * @signature function()
+     * @ignore(XMLHttpRequest)
      */
     createRequestObject : qx.core.Environment.select("engine.name",
     {

@@ -12,7 +12,6 @@
   },
   "requires": {
     "@qooxdoo/compiler": "^1.0.0-beta",
-    "@qooxdoo/framework": "^6.0.0-beta",
-    "qooxdoo/qxl.versionlabel": "^1.0.4"
+    "@qooxdoo/framework": "^6.0.0-beta"
   }
 }
