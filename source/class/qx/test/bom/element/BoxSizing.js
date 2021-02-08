@@ -23,7 +23,7 @@ qx.Class.define("qx.test.bom.element.BoxSizing",
     include: [qx.dev.unit.MRequirements],
     construct: function () {
       this.base(arguments);
-      this.__fontDefinitions = {
+      this.__support = {
         mshtml: ["border-box", "content-box"],
         opera: ["border-box", "content-box"],
         gecko: ["border-box", "content-box"],
