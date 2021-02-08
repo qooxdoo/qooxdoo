@@ -211,8 +211,6 @@ qx.Bootstrap.define("qx.bom.request.SimpleXhr",
       } else {
         return (this._transport.responseXML !== null) ? this._transport.responseXML : this._transport.responseText;
       }
-
-      return null;
     },
 
     /**

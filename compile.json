@@ -95,7 +95,6 @@
       "no-constant-condition": "off",
       "no-empty": "off",
       "no-fallthrough": "off",
-      "no-unreachable": "off",
       "valid-typeof": "off",
       "no-cond-assign": "off",
       "no-else-return": "off",
