@@ -649,8 +649,7 @@ qx.Class.define("qx.io.remote.Rpc",
 
       var makeException = function(origin, code, message)
       {
-        var ex = new Object();
-
+        var ex = {};
         if (protocol == "qx1")
         {
           ex.origin = origin;
@@ -658,7 +657,6 @@ qx.Class.define("qx.io.remote.Rpc",
         ex.code = code;
         ex.message = message;
         addToStringToObject(ex);
-
         return ex;
       };
 

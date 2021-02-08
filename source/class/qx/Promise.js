@@ -66,7 +66,7 @@
 */
 
 /* global global, setImmediate, chrome, _dereq_ */
-
+/* eslint-disable no-global-assign */
 qx.Class.define("qx.Promise", {
   extend: qx.core.Object,
 

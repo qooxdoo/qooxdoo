@@ -71,18 +71,13 @@
        "@qooxdoo/jsdoc-disable"
     ],
     "rules": {
+      "no-new": "off",
       "no-unused-vars": "off",
-      "no-array-constructor": "off",
-      "no-new-object": "off",
-      "no-new-wrappers": "off",
       "no-alert": "off",
       "no-eval": "off",
       "new-cap": "off",
-      "no-new": "off",
       "no-control-regex": "off",
       "no-self-compare": "off",
-      "no-global-assign": "off",
-      "no-console": "off",
 
       "brace-style": "allman",
       "no-warning-comments": "off",

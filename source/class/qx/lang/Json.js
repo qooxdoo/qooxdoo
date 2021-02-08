@@ -301,8 +301,10 @@ stringifySupported = typeof stringify === "function" && isExtended;
               stringify(0) === "0" &&
               // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
               // literals.
+              /* eslint-disable no-new-wrappers */
               stringify(new Number()) === "0" &&
               stringify(new String()) === '""' &&
+              /* eslint-enable no-new-wrappers */
               // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
               // does not define a canonical JSON representation (this applies to
               // objects with `toJSON` properties as well, *unless* they are nested

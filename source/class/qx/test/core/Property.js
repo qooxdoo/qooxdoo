@@ -81,6 +81,7 @@ qx.Class.define("qx.test.core.Property",
         this.assertIdentical(obj, inst.getObjectProp(), "object property, get");
 
         // Type checks: Object, new
+        /* eslint-disable-next-line no-new-object */
         var obj = new Object();
         this.assertIdentical(obj, inst.setObjectProp(obj), "object property, set");
         this.assertIdentical(obj, inst.getObjectProp(), "object property, get");
@@ -91,6 +92,7 @@ qx.Class.define("qx.test.core.Property",
         this.assertIdentical(arr, inst.getArrayProp(), "array property, get");
 
         // Type checks: Array, new
+        /* eslint-disable-next-line no-array-constructor */
         var arr = new Array();
         this.assertIdentical(arr, inst.setArrayProp(arr), "array property, set");
         this.assertIdentical(arr, inst.getArrayProp(), "array property, get");
