@@ -762,7 +762,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
         else
         {
-          var border = undefined;
+          var border;
           var padding = [ 3, 4 ];
         }
 
@@ -880,9 +880,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        var marginTop=0, 
-marginRight=0, 
-marginBottom=0, 
+        var marginTop=0,
+marginRight=0,
+marginBottom=0,
 marginLeft=0;
 
         if (states.barTop) {
@@ -972,20 +972,20 @@ marginLeft=0;
       style : function(states)
       {
         var decorator;
-        var marginTop=0, 
-marginRight=0, 
-marginBottom=0, 
+        var marginTop=0,
+marginRight=0,
+marginBottom=0,
 marginLeft=0;
 
         if (states.barTop || states.barBottom) {
-          var paddingTop=2, 
-paddingBottom=2, 
-paddingLeft=6, 
+          var paddingTop=2,
+paddingBottom=2,
+paddingLeft=6,
 paddingRight=6;
         } else {
-          var paddingTop=6, 
-paddingBottom=6, 
-paddingLeft=6, 
+          var paddingTop=6,
+paddingBottom=6,
+paddingLeft=6,
 paddingRight=6;
         }
 
@@ -2716,13 +2716,13 @@ paddingRight=6;
         };
       }
     },
-      
+
     /*
       --------------------
-      VIRTUAL SELECTBOX 
+      VIRTUAL SELECTBOX
       --------------------
     */
-      
+
     "list-search-highlight" : {
       style : function(states) {
         return {

@@ -61,6 +61,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     // This is to prevent the "mixed secure and insecure content" warning in IE with https
     var vFrameSource;
     if ((qx.core.Environment.get("engine.name") == "mshtml")) {
+      /* eslint-disable-next-line no-script-url */
       vFrameSource = "javascript:void(0)";
     }
 

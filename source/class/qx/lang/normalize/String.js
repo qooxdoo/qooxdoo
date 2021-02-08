@@ -103,7 +103,7 @@ qx.Bootstrap.define("qx.lang.normalize.String", {
       var size = string.length;
       // `ToInteger`
       var index = position ? Number(position) : 0;
-      if (index != index) { // better `isNaN`
+      if (isNaN(index)) {
         index = 0;
       }
       // Account for out-of-bounds indices:

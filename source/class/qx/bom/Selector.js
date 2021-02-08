@@ -302,6 +302,7 @@ var i,
 		// NaN means non-codepoint
 		// Support: Firefox<24
 		// Workaround erroneous numeric interpretation of +"0x"
+    /* eslint-disable-next-line no-self-compare */
 		return high !== high || escapedWhitespace ?
 			escaped :
 			high < 0 ?
@@ -313,6 +314,7 @@ var i,
 
 	// CSS string/identifier serialization
 	// https://drafts.csswg.org/cssom/#common-serializing-idioms
+  /* eslint-disable-next-line no-control-regex */
 	rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\x80-\uFFFF\w-]/g,
 	fcssescape = function(ch, asCodePoint) {
 		if (asCodePoint) {

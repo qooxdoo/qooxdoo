@@ -246,7 +246,7 @@ qx.Class.define("qx.test.theme.simple.Appearance",
 
       this.assertIdentical("pointer", style.cursor);
 
-      states.first = false,
+      states.first = false;
       style = styleFunc(states);
 
       this.assertIdentical("table-header-cell", style.decorator);

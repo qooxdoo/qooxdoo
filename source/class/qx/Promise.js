@@ -1098,6 +1098,7 @@ qx.Class.define("qx.Promise", {
             if (i)
               { return i(o, !0); }
             var f=new Error("Cannot find module '"+o+"'");
+            /* eslint-disable-next-line no-sequences */
             throw f.code="MODULE_NOT_FOUND", f;
           }
           var l=n[o]={exports:{}};
@@ -5179,7 +5180,7 @@ settler = target._settlePromiseCtx;
           function arrayMove(src, srcIndex, dst, dstIndex, len) {
             for (var j = 0; j < len; ++j) {
               dst[j + dstIndex] = src[j + srcIndex];
-              src[j + srcIndex] = void 0;
+              src[j + srcIndex] = undefined;
             }
           }
 

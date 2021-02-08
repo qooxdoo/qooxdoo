@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.event.Messaging",
 {
   construct : function()
   {
-    this._listener = {},
+    this._listener = {};
     this.__listenerIdCount = 0;
     this.__channelToIdMapping = {};
   },

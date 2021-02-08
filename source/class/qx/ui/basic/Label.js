@@ -433,6 +433,7 @@ qx.Class.define("qx.ui.basic.Label",
       {
         var domEl = this.getContentElement().getDomElement();
         if (domEl) {
+          /* eslint-disable-next-line no-self-assign */
           domEl.innerHTML = domEl.innerHTML;
         }
       }

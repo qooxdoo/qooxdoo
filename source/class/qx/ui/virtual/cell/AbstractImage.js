@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.virtual.cell.AbstractImage",
       // Detect if the image registry knows this image
       if (ResourceManager.has(source))
       {
-        width = ResourceManager.getImageWidth(source),
+        width = ResourceManager.getImageWidth(source);
         height = ResourceManager.getImageHeight(source);
       }
       else if (ImageLoader.isLoaded(source))

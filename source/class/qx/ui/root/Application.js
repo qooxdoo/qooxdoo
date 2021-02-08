@@ -129,6 +129,7 @@ qx.Class.define("qx.ui.root.Application",
         // contain a body tag explicitly. Unfortunately, it cannot be added
         // here dynamically.
         if (!doc.body) {
+          /* eslint-disable-next-line no-alert */
           window.alert("The application could not be started due to a missing body tag in the HTML file!");
         }
       }
@@ -236,7 +237,7 @@ qx.Class.define("qx.ui.root.Application",
 
       qx.dom.Element.remove(this.getContentElement().getDomElement());
       this.base(arguments);
-    } 
+    }
   },
 
 
