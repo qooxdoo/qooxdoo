@@ -407,6 +407,7 @@ qx.Bootstrap.define("qxWeb", {
      */
     debug : function() {
       if (qx.core.Environment.get("qx.debug")) {
+        /* eslint-disable-next-line no-debugger */
         debugger;
       }
       return this;

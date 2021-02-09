@@ -176,7 +176,7 @@ qx.Class.define("qx.test.mobile.list.List",
       list.getModel().setItem(0, {title: newTitleText, subtitle: newSubtitleText, image: newImageSrc});
       this.__assertItemsAndModelLength(list, 5);
 
-      var titleText = this.getTitleElement(list, 0).innerHTML; ;
+      var titleText = this.getTitleElement(list, 0).innerHTML; 
       var subtitleText = this.getSubtitleElement(list, 0).innerHTML;
       var imageSrc = this.getImageElement(list, 0).src;
 

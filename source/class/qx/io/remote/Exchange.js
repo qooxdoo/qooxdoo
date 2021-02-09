@@ -417,7 +417,6 @@ qx.Class.define("qx.io.remote.Exchange",
             return ("Unknown status code. " +
                     "Possibly due to a cross-domain request?");
           }
-          break;
 
         case 200:
           return "Ok";

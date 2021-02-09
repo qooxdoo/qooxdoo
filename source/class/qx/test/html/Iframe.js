@@ -128,7 +128,7 @@ qx.Class.define("qx.test.html.Iframe",
       frame.addListener("load", function() {
         origSetSource = qx.bom.Iframe.setSource;
         qx.bom.Iframe.setSource = function() {
-          throw "setSource";
+          throw new Error("setSource");
         };
 
         try {

@@ -482,7 +482,7 @@ qx.Class.define("qx.ui.form.List",
       // lowercase search
       if (ignoreCase !== false) {
         search = search.toLowerCase();
-      };
+      }
 
       // get all items of the list
       var items = this.getChildren();

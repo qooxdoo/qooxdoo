@@ -175,8 +175,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
      MEMBERS
   *****************************************************************************
   */
-
-  members :
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
+members :
   {
     /*
     ---------------------------------------------------------------------------
@@ -1128,7 +1128,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         var rgb = qx.util.ColorUtil.hexStringToRgb("#" + hexField.getValue());
       } catch (ex) {
         return;
-      };
+      }
 
       this.__updateContext = "hexField";
       this.setRed(rgb[0]);

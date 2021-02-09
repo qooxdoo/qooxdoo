@@ -91,9 +91,9 @@ qx.Class.define("qx.test.util.Uri",
     },
 
     "test: appendParamsToUrl() with undefined": function() {
-      var url = "http://example.com/path",
-          params = undefined,
-          result = this.Uri.appendParamsToUrl(url, params);
+      var url = "http://example.com/path";
+      var params;
+      var result = this.Uri.appendParamsToUrl(url, params);
 
       this.assertEquals(url, result);
     },

@@ -38,6 +38,7 @@
  * @require(qx.log.appender.Formatter)
  * @ignore(debug.*)
  */
+/* global debug */
 qx.Class.define("qx.log.appender.PhoneGap",
 {
   /*

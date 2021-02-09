@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.form.validation.Manager",
       var items = [];
       for (var i=0; i < this.__formItems.length; i++) {
         items.push(this.__formItems[i].item);
-      };
+      }
       return items;
     },
 

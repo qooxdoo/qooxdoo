@@ -194,7 +194,7 @@ qx.Theme.define("qx.theme.tangible.Appearance", {
           return {
             textColor: undefined
           };
-        };
+        }
         return {
           textColor: undefined
         };

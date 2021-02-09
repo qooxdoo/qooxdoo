@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       refine : true,
       init : "selectbox"
     },
-    
+
     rich: {
       init: false,
       check: "Boolean",
@@ -107,8 +107,7 @@ qx.Class.define("qx.ui.form.SelectBox",
      MEMBERS
   *****************************************************************************
   */
-
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     /** @type {qx.ui.form.ListItem} instance */
@@ -124,7 +123,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     _applyRich: function(value, oldValue) {
       this.getChildControl("atom").setRich(value);
     },
-    
+
     // overridden
     _defaultFormat: function(item) {
       if (item) {

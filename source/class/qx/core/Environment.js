@@ -1096,7 +1096,7 @@ qx.Bootstrap.define("qx.core.Environment",
             if (ids[i] == key) {
               return values[id];
             }
-          };
+          }
         }
       }
 

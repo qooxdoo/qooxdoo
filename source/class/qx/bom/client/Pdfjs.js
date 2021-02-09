@@ -258,7 +258,7 @@ a = navigator.mimeTypes,
             g = d.findNavPlugin_(c, n);
             if (g.obj) {
               o = g.obj;
-            };
+            }
             if (o && !d.dbug) {
               return o;
             }
@@ -278,7 +278,7 @@ a = navigator.mimeTypes,
             g = d.findNavPlugin_(c, n);
             if (g.obj) {
               o = g.obj;
-            };
+            }
             if (o && !d.dbug) {
               return o;
             }
@@ -295,7 +295,7 @@ a = navigator.mimeTypes,
               g = d.findNavPlugin_(c, n);
               if (g.obj) {
                 o = g.obj;
-              };
+              }
               if (o && !d.dbug) {
                 return o;
               }
@@ -355,7 +355,7 @@ a = {
 b = this;
     try {
       d = new b.AXO(a);
-    } catch (ex) {};
+    } catch (ex) {}
     if (d) {
       b.browser.ActiveXEnabled = !0;
     }
@@ -430,7 +430,7 @@ b = {};
             break;
           }
         }
-      };
+      }
       tmp = doc.documentMode;
       try {
         doc.documentMode = "";
@@ -438,7 +438,7 @@ b = {};
       browser.isIE = browser.ActiveXEnabled || $.isNum(doc.documentMode) || eval("/*@cc_on!@*/!1");
       try {
         doc.documentMode = tmp;
-      } catch (ex) {};
+      } catch (ex) {}
       browser.verIE = null;
       if (browser.isIE) {
         browser.verIE = ($.isNum(doc.documentMode) && doc.documentMode >= 7 ? doc.documentMode : 0) || ((/^(?:.*?[^a-zA-Z])??(?:MSIE|rv\s*\:)\s*(\d+\.?\d*)/i).test(userAgent) ? parseFloat(RegExp.$1, 10) : 7);
@@ -486,7 +486,7 @@ a = window.navigator ? navigator.platform || "" : "";
         if (b.hasOwn(b.Plugins, a)) {
           d.plugin(b.Plugins[a], a);
         }
-      };
+      }
       b.PUBLIC.init();
       b.win.init();
       b.head = c.getElementsByTagName("head")[0] || c.getElementsByTagName("body")[0] || c.body || null;
@@ -566,7 +566,7 @@ a = window.navigator ? navigator.platform || "" : "";
             }
           }
         }
-      };
+      }
       c.callArray0(c.allDoneHndlrs);
     }
   },
@@ -600,7 +600,7 @@ c = -1;
         }
         if (g.installed !== null) {
           c = g.installed <= 0.5 ? g.installed : (g.installed == 0.7 ? 1 : (g.version === null ? 0 : (b.compareNums(g.version, h, g) >= 0 ? 1 : -0.1)));
-        };
+        }
         return c;
       };
       return a;
@@ -611,7 +611,7 @@ c = -1;
           g, c;
         if (f.status < 0) {
           return null;
-        };
+        }
         g = f.plugin;
         if (g.getVersionDone != 1) {
           g.getVersion(null, e, d);
@@ -635,7 +635,7 @@ c = -1;
         g = e.plugin;
         if (!b.isArray(g.DoneHndlrs)) {
           g.DoneHndlrs = [];
-        };
+        }
         if (g.getVersionDone != 1) {
           k = b.getVersion ? b.getVersion(j, d, c) : b.isMinVersion(j, "0", d, c);
         }
@@ -667,7 +667,7 @@ c = navigator.mimeTypes,
               return l;
             }
           }
-        };
+        }
         return null;
       };
       return a;
@@ -1022,7 +1022,7 @@ o = s.createElement("span"),
         m.appendChild(o);
         try {
           o.innerHTML = u;
-        } catch (ex) {};
+        } catch (ex) {}
         l.span = o;
         l.winLoaded = f.win.loaded;
       }
@@ -1201,7 +1201,7 @@ k = f.dbug && !f.win.loaded ? 0 : 1;
               j.result = 1;
             }
             j.method += "4,";
-          };
+          }
           return j.result;
         },
         insertHTMLQuery: function () {

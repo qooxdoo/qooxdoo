@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.core.SingleSelectionManager",
           if (!result[i].getEnabled()) {
             result.splice(i, 1);
           }
-        };
+        }
       }
 
       return result;

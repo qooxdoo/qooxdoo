@@ -149,6 +149,7 @@ qx.Class.define("qx.bom.Window",
     {
       var newWindow = null;
       if (url == null) {
+        /* eslint-disable-next-line no-script-url */
         url = "javascript:/";
       }
 

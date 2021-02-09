@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __minZIndex : 1e5,

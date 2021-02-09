@@ -169,7 +169,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
               units[name] = "";
             }
           }
-        };
+        }
       }
       // add all missing keys
       for (var percent in keyFrames) {
@@ -191,8 +191,8 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
               frame[name] = "0" + units[name];
             }
           }
-        };
-      };
+        }
+      }
     },
 
 
@@ -213,7 +213,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
           transforms[name] = frame[name];
           delete frame[name];
         }
-      };
+      }
       if (transforms) {
         var transformStyle = qx.bom.element.Transform.getCss(transforms).split(":");
         if (transformStyle.length > 1) {
@@ -530,7 +530,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       var minDiff = 100;
       for (var i=0; i < keys.length - 1; i++) {
         minDiff = Math.min(minDiff, keys[i+1] - keys[i]);
-      };
+      }
 
       var stepTime = duration * minDiff / 100;
       while (stepTime > this.__maxStepTime) {
@@ -549,7 +549,7 @@ qx.Bootstrap.define("qx.bom.element.AnimationJs",
       var keys = Object.keys(keyFrames);
       for (var i=0; i < keys.length; i++) {
         keys[i] = parseInt(keys[i], 10);
-      };
+      }
       keys.sort(function(a, b) { return a-b; });
       return keys;
     }

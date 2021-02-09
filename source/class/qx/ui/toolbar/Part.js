@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.toolbar.Part",
           children[i].removeState("right");
           children[i].removeState("left");
         }
-      };
+      }
     },
 
 

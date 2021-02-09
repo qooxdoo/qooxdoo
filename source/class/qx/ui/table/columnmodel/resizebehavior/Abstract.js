@@ -134,7 +134,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
       var scrollerArr = table._getPaneScrollerArr();
       if (!scrollerArr[0] || !scrollerArr[0].getLayoutParent().getBounds()) {
         return null;
-      };
+      }
       var scrollerParentWidth = scrollerArr[0].getLayoutParent().getBounds().width;
 
       var lastScroller = scrollerArr[scrollerArr.length-1];

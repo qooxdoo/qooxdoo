@@ -244,6 +244,7 @@ qx.Class.define("qx.test.lang.Object",
       var objConstructor = ({}).constructor;
 
       this.assertIdentical(({a: 12}).constructor, objConstructor);
+      /* eslint-disable-next-line no-new-object */
       this.assertIdentical(new Object().constructor, objConstructor);
 
       var qxObj = new qx.core.Object();

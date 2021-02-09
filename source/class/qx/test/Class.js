@@ -222,7 +222,7 @@ qx.Class.define("qx.test.Class",
           this.assertException(function () {
             new qx.Single1();
           }, Error, new RegExp("The class .* is a singleton"));
-        };
+        }
 
         this.assertEquals(qx.Single1.getInstance()._date, qx.Single1.getInstance()._date, "getInstance should always return the same object!");
 

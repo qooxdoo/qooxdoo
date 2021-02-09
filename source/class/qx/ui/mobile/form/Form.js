@@ -107,6 +107,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
             }
             else
             {
+              /* eslint-disable-next-line no-alert */
               alert('error '+item.getInvalidMessage());
             }
           }

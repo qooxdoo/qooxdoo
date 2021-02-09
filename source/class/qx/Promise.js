@@ -65,8 +65,8 @@
 
 */
 
-/* global global, setImmediate, chrome */
-
+/* global global, setImmediate, chrome, _dereq_ */
+/* eslint-disable no-global-assign */
 qx.Class.define("qx.Promise", {
   extend: qx.core.Object,
 
@@ -1098,6 +1098,7 @@ qx.Class.define("qx.Promise", {
             if (i)
               { return i(o, !0); }
             var f=new Error("Cannot find module '"+o+"'");
+            /* eslint-disable-next-line no-sequences */
             throw f.code="MODULE_NOT_FOUND", f;
           }
           var l=n[o]={exports:{}};
@@ -1468,7 +1469,7 @@ qx.Class.define("qx.Promise", {
               return fn.apply(obj, this);
             }
             Promise.prototype.call = function (methodName) {
-              var args = [].slice.call(arguments, 1); ;
+              var args = [].slice.call(arguments, 1);
               if (!true) {
                 if (canEvaluate) {
                   var maybeCaller = getMethodCaller(methodName);
@@ -2053,16 +2054,16 @@ qx.Class.define("qx.Promise", {
               }
             };
             Promise.prototype._onCancel = function () {};
-            Promise.prototype._setOnCancel = function (handler) { ; };
+            Promise.prototype._setOnCancel = function (handler) {  };
             Promise.prototype._attachCancellationCallback = function(onCancel) {
-              ;
+
             };
             Promise.prototype._captureStackTrace = function () {};
             Promise.prototype._attachExtraTrace = function () {};
             Promise.prototype._clearCancellationData = function() {};
             Promise.prototype._propagateFrom = function (parent, flags) {
-              ;
-              ;
+
+
             };
 
             function cancellationExecute(executor, resolve, reject) {
@@ -3230,7 +3231,7 @@ qx.Class.define("qx.Promise", {
                 }
                 maybePromise = maybePromise._target();
                 var bitField = maybePromise._bitField;
-                ;
+
                 if (((bitField & 50397184) === 0)) {
                   this._yieldedPromise = maybePromise;
                   maybePromise._proxy(this, null);
@@ -3413,7 +3414,7 @@ qx.Class.define("qx.Promise", {
                       if (maybePromise instanceof Promise) {
                         maybePromise = maybePromise._target();
                         var bitField = maybePromise._bitField;
-                        ;
+
                         if (((bitField & 50397184) === 0)) {
                           maybePromise._then(callbacks[i], reject,
                               undefined, ret, holder);
@@ -3446,7 +3447,7 @@ qx.Class.define("qx.Promise", {
                   }
                 }
               }
-              var args = [].slice.call(arguments); ;
+              var args = [].slice.call(arguments);
               if (fn) { args.pop(); }
               var ret = new PromiseArray(args).promise();
               return fn !== undefined ? ret.spread(fn) : ret;
@@ -3525,7 +3526,7 @@ qx.Class.define("qx.Promise", {
                 if (maybePromise instanceof Promise) {
                   maybePromise = maybePromise._target();
                   var bitField = maybePromise._bitField;
-                  ;
+
                   if (((bitField & 50397184) === 0)) {
                     if (limit >= 1) { this._inFlight++; }
                     values[index] = maybePromise;
@@ -3714,7 +3715,7 @@ qx.Class.define("qx.Promise", {
               } else if (!multiArgs) {
                 promise._fulfill(value);
               } else {
-                var args = [].slice.call(arguments, 1); ;
+                var args = [].slice.call(arguments, 1);
                 promise._fulfill(args);
               }
               promise = null;
@@ -4596,7 +4597,7 @@ settler = target._settlePromiseCtx;
               if (values instanceof Promise) {
                 values = values._target();
                 var bitField = values._bitField;
-                ;
+
                 this._values = values;
 
                 if (((bitField & 50397184) === 0)) {
@@ -5179,7 +5180,7 @@ settler = target._settlePromiseCtx;
           function arrayMove(src, srcIndex, dst, dstIndex, len) {
             for (var j = 0; j < len; ++j) {
               dst[j + dstIndex] = src[j + srcIndex];
-              src[j + srcIndex] = void 0;
+              src[j + srcIndex] = undefined;
             }
           }
 
@@ -6450,7 +6451,6 @@ settler = target._settlePromiseCtx;
             var l = 8;
             while (l--) { new FakeConstructor(); }
             return obj;
-            eval(obj);
           }
 
           var rident = /^[a-z$_][a-z$_0-9]*$/i;

@@ -54,7 +54,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
     PRIORITY : qx.event.Registration.PRIORITY_FIRST
   },
 
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members:
   {
     __registration : null,

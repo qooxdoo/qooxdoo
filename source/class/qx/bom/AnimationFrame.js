@@ -154,7 +154,7 @@ qx.Bootstrap.define("qx.bom.AnimationFrame",
       var y = 0;
       for (var i=0; i < a.length; i++) {
         y += a[i] * Math.pow(x, i);
-      };
+      }
       return y;
     },
 

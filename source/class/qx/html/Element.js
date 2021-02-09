@@ -547,7 +547,7 @@ qx.Class.define("qx.html.Element",
           qx.core.Assert.assertTrue(!this.__element || this.__element === domElement);
           qx.core.Assert.assertTrue((domElement.$$elementObject === this && domElement.$$element === this.toHashCode()) ||
             (!domElement.$$elementObject && !domElement.$$element));
-        };
+        }
 
         this.__element = domElement;
         domElement.$$elementObject = this;

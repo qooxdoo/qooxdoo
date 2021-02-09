@@ -123,6 +123,7 @@ qx.Class.define("qx.ui.tabview.Page",
      MEMBERS
   *****************************************************************************
   */
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
 
   members :
   {

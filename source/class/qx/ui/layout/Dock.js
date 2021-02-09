@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.layout.Dock",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     __children : null,
@@ -581,10 +581,10 @@ qx.Class.define("qx.ui.layout.Dock",
       this._clearSeparators();
 
       // Prepare loop
-      var separatorX=this.getSeparatorX(), 
+      var separatorX=this.getSeparatorX(),
 separatorY=this.getSeparatorY();
       var connectSeparators=this.getConnectSeparators();
-      var nextTop=0, 
+      var nextTop=0,
 nextLeft=0;
       var left, top, width, height, used, edge;
       var separatorLeft, separatorTop, separatorWidth, separatorHeight;
@@ -778,7 +778,7 @@ nextLeft=0;
      */
     _getSeparatorWidths : function()
     {
-      var separatorX=this.getSeparatorX(), 
+      var separatorX=this.getSeparatorX(),
 separatorY=this.getSeparatorY();
       if (separatorX || separatorY) {
         var decorationManager = qx.theme.manager.Decoration.getInstance();
@@ -820,19 +820,19 @@ separatorY=this.getSeparatorY();
       var hint, child;
       var marginX, marginY;
 
-      var widthX=0, 
+      var widthX=0,
 minWidthX=0;
-      var heightX=0, 
+      var heightX=0,
 minHeightX=0;
-      var widthY=0, 
+      var widthY=0,
 minWidthY=0;
-      var heightY=0, 
+      var heightY=0,
 minHeightY=0;
 
       var separatorWidths = this._getSeparatorWidths();
-      var spacingX=this.getSpacingX(), 
+      var spacingX=this.getSpacingX(),
 spacingY=this.getSpacingY();
-      var spacingSumX=-spacingX, 
+      var spacingSumX=-spacingX,
 spacingSumY=-spacingY;
 
       if (separatorWidths.x) {

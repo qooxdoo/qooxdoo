@@ -130,7 +130,7 @@ qx.Bootstrap.define("qx.io.part.Part",
     {
        if (this._checkCompleteLoading(callback, self)) {
          return;
-       };
+       }
 
       this._readyState = "loading";
 

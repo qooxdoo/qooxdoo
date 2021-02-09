@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     // overridden

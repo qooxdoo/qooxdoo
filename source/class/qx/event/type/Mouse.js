@@ -37,7 +37,7 @@ qx.Class.define("qx.event.type.Mouse",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     // overridden

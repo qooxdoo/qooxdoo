@@ -484,7 +484,7 @@ qx.Mixin.define("qx.ui.virtual.selection.MModel",
 
         if (row !== managerSelection[i]) {
           return false;
-        };
+        }
       }
       return true;
     },

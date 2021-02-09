@@ -472,7 +472,7 @@ qx.Class.define("qx.test.data.controller.ListWithObjects",
       for (var i = 0; i < this.__list.getChildren().length; i++) {
         var child = this.__list.getChildren()[i];
         this.assertEquals("icon" + i, child.getModel());
-      };
+      }
 
       // test selection
       this.__controller.getSelection().push("icon1");

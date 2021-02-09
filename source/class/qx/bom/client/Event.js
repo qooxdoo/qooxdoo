@@ -192,7 +192,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
           target = targets[i];
           break;
         }
-      };
+      }
 
       return {type: type, target: target};
     },
@@ -209,7 +209,7 @@ qx.Bootstrap.define("qx.bom.client.Event",
       try {
         hasAuxclick = ("onauxclick" in document.documentElement);
       }
-      catch (ex) {};
+      catch (ex) {}
 
       return (hasAuxclick ? true : false);
     },

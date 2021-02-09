@@ -650,7 +650,7 @@ qx.Bootstrap.define("qx.ui.website.Table", {
       var filterFunc = columnName == qx.ui.website.Table.__allColumnSelector ? this.getRowFilter() : this.getColumnFilter(columnName);
       filterFunc = filterFunc || this.__defaultColumnFilter;
 
-      var rows = this.__getDataRows(), 
+      var rows = this.__getDataRows(),
 data = {};
 
       for (var i = 0; i < rows.length; i++) {
@@ -711,7 +711,7 @@ data = {};
         case "none":
           qxWeb("." + qx.ui.website.Table.__internalSelectionClass).remove();
           break;
-        case "multiple": case "single":
+        case "multiple":
           this.__createInputs("checkbox");
           break;
 
@@ -825,9 +825,9 @@ data = {};
       this.__addClassToHeaderAndFooter(this[0].tHead);
       this.__addClassToHeaderAndFooter(this[0].tFoot);
 
-      var data = {}, 
-cells = null, 
-colName = null, 
+      var data = {},
+cells = null,
+colName = null,
 cell = null;
       var headerRow = this.__getHeaderRow();
 
@@ -982,7 +982,7 @@ cell = null;
     * @return {Map} Map containing the event data
     */
     __fireEvent : function(eventType, cell, target) {
-      var row = cell[0].parentNode, 
+      var row = cell[0].parentNode,
 cells = row.cells;
       var colNumber = qx.ui.website.Table.__getIndex(cells, cell[0]);
       var tHead = this.__getHeaderRow();
@@ -1098,7 +1098,7 @@ cells = row.cells;
       if (model && model.length > 0) {
         var cell, row;
         var tHead = this.__getHeaderRow();
-        var createdRow = null, 
+        var createdRow = null,
 colMeta = null;
         var renderedRow = null;
 
@@ -1108,7 +1108,7 @@ colMeta = null;
           this.__deleteRows(model.length);
         }
 
-        var renderedColIndex = 0, 
+        var renderedColIndex = 0,
 templateApplied = false;
         var coltemplate = this.getTemplate("columnDefault");
         var colName = null;
@@ -1373,9 +1373,9 @@ templateApplied = false;
      * @return {Array} Array containing the rows of the table
      */
     __getDataRows : function() {
-      var rows = this.find("tbody")[0].rows, 
-model = [], 
-cell=null,  
+      var rows = this.find("tbody")[0].rows,
+model = [],
+cell=null,
 cells = [];
 
       for (var i = 0, l = rows.length; i < l; i++) {

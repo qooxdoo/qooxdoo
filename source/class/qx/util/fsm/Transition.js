@@ -344,8 +344,6 @@ qx.Class.define("qx.util.fsm.Transition",
                           "or one of the Fsm.StateChange constants");
         }
 
-        break;
-
       default:
         throw new Error("Invalid transition nextState type: " +
                         typeof (value));

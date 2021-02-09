@@ -22,6 +22,7 @@
  *
  * @ignore(java.*)
  */
+/* global java */
 qx.Class.define("qx.log.appender.RhinoConsole", {
 
   statics:

@@ -56,13 +56,13 @@ qx.Class.define("qx.test.ui.table.Table",
       var data = model.getData();
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][0] >= data[i+1][0]);
-      };
+      }
 
       // sort ascending
       model.sortByColumn(0, true);
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][0] <= data[i+1][0]);
-      };
+      }
 
       table.destroy();
       model.dispose();
@@ -88,7 +88,7 @@ qx.Class.define("qx.test.ui.table.Table",
         } else {
           this.assertTrue(data[i][1] >= data[i+1][1]);
         }
-      };
+      }
 
       // sort ascending
       model.sortByColumn(1, true);
@@ -103,7 +103,7 @@ qx.Class.define("qx.test.ui.table.Table",
         } else {
           this.assertTrue(data[i][1] <= data[i+1][1]);
         }
-      };
+      }
 
       table.destroy();
       model.dispose();
@@ -130,7 +130,7 @@ qx.Class.define("qx.test.ui.table.Table",
         } else {
           this.assertTrue(data[i][1] >= data[i+1][1]);
         }
-      };
+      }
 
       // sort ascending
       model.sortByColumn(1, true);
@@ -145,7 +145,7 @@ qx.Class.define("qx.test.ui.table.Table",
         } else {
           this.assertTrue(data[i][1] <= data[i+1][1]);
         }
-      };
+      }
 
       table.destroy();
       model.dispose();
@@ -164,13 +164,13 @@ qx.Class.define("qx.test.ui.table.Table",
       var data = model.getData();
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][2] >= data[i+1][2]);
-      };
+      }
 
       // sort ascending
       model.sortByColumn(2, true);
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][2] <= data[i+1][2]);
-      };
+      }
 
       table.destroy();
       model.dispose();
@@ -188,13 +188,13 @@ qx.Class.define("qx.test.ui.table.Table",
       var data = model.getData();
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][2] >= data[i+1][2]);
-      };
+      }
 
       // sort ascending
       model.sortByColumn(2, true);
       for (var i = 0; i < data.length - 1; i++) {
         this.assertTrue(data[i][2] <= data[i+1][2]);
-      };
+      }
 
       table.destroy();
       model.dispose();

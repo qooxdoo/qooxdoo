@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.form.ListItem",
     }
   },
 
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     // overridden

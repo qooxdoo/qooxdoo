@@ -68,7 +68,6 @@ qx.Bootstrap.define("qx.bom.Range",
                 default:
                   return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
               }
-            break;
 
             case "textarea":
             case "body":

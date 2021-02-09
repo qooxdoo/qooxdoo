@@ -93,7 +93,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
           if (desc.type.indexOf("skype.click2call") != -1) {
             return true;
           }
-        };
+        }
       }
 
       return false;

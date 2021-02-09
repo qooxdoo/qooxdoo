@@ -82,6 +82,7 @@ qx.Class.define("qx.ui.menu.Manager",
      MEMBERS
   *****************************************************************************
   */
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
 
   members :
   {

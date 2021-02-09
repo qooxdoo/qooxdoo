@@ -226,6 +226,7 @@ qx.Class.define("qx.ui.mobile.core.Root",
       // Force relayout - important for new Android devices and Firefox.
       setTimeout(function() {
         docElement.style.display = "none";
+        /* eslint-disable-next-line no-self-assign */
         docElement.clientWidth = docElement.clientWidth;
         docElement.style.display = "";
       }, 0);

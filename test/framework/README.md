@@ -5,7 +5,7 @@
 git clone https://github.com/qooxdoo/qooxdoo.git
 cd qooxdoo
 npm install
-cd cd test/framework
+cd test/framework
 npx qx test
 ```
 

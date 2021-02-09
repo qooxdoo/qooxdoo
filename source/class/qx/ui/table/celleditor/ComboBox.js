@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
             item = new qx.ui.form.ListItem(row, null);
           }
           cellEditor.add(item);
-        };
+        }
       }
 
       cellEditor.setValue("" + value);

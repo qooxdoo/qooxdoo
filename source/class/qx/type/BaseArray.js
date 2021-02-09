@@ -445,7 +445,7 @@ function createStackConstructor(stack)
     for (var length = args.length; length;) {
       Stack.prototype[args[--length]] = Array.prototype[args[length]];
     }
-  };
+  }
 
   // Remember Array's slice method
   var slice = Array.prototype.slice;
@@ -550,9 +550,9 @@ function Stack(length)
   } else if (arguments.length) {
     this.push.apply(this, arguments);
   }
-};
+}
 
-function PseudoArray() {};
+function PseudoArray() {}
 PseudoArray.prototype = [];
 Stack.prototype = new PseudoArray();
 Stack.prototype.length = 0;

@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      MEMBERS
   *****************************************************************************
   */
-
+  /* eslint-disable @qooxdoo/qx/no-refs-in-members */
   members :
   {
     /*

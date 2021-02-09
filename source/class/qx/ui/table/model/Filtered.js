@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       if (this.__filterTypes[filter] === "between" && target != null)
       {
         if (value1 != null && value2 != null) {
-          var temp = new Array(filter, value1, value2, target);
+          var temp = [filter, value1, value2, target];
         }
       }
 
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       }
 
       if (regex != null && target != null) {
-        var temp = new Array("regex", regex, target, regexarg);
+        var temp = ["regex", regex, target, regexarg];
       }
 
       if (temp != null) {
@@ -271,7 +271,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       }
 
       if (regex != null && target != null) {
-        var temp = new Array("notregex", regex, target, regexarg);
+        var temp = ["notregex", regex, target, regexarg];
       }
 
       if (temp != null) {

@@ -925,7 +925,7 @@ qx.Class.define("qx.ui.core.Widget",
        MEMBERS
     *****************************************************************************
     */
-
+    /* eslint-disable @qooxdoo/qx/no-refs-in-members */
     members:
     {
       __contentElement: null,
