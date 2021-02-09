@@ -358,25 +358,23 @@ qx.Class.define("qx.ui.form.Slider",
      */
     _onKeyPress : function(e)
     {
-      var isHorizontal = this.getOrientation() === "horizontal";
-      var backward = isHorizontal ? "Left" : "Up";
-      var forward = isHorizontal ? "Right" : "Down";
-
       switch (e.getKeyIdentifier())
       {
-        case forward:
+        case "Right":
+        case "Up":
           this.slideForward();
           break;
 
-        case backward:
+        case "Left":
+        case "Down":
           this.slideBack();
           break;
 
-        case "PageDown":
+        case "PageUp":
           this.slidePageForward(100);
           break;
 
-        case "PageUp":
+        case "PageDown":
           this.slidePageBack(100);
           break;
 
@@ -740,8 +738,10 @@ qx.Class.define("qx.ui.form.Slider",
       // Compute range
       var range = this.getMaximum() - this.getMinimum();
 
-      // Compute value
-      return this.getMinimum() + Math.round(range * percent);
+      // If horizontal, value is the minimum value (left) + the percent calculated from left position of the knob
+      // If Verical, value is the maximum value (top) - the percent calculated from top position of the knob
+      var value = this.__isHorizontal ? this.getMinimum() + Math.round(range * percent) : this.getMaximum() - Math.round(range * percent) ;
+      return value;
     },
 
 
@@ -768,8 +768,9 @@ qx.Class.define("qx.ui.form.Slider",
         return 0;
       }
 
-      // Translating value to distance from minimum
-      var value = value - this.getMinimum();
+      // Translating value to distance from minimum for horizontal and distance from maximum for vertical
+      // This allow to have for vertical the max value to the top and the min value to the bottom
+      var value = this.__isHorizontal ? value - this.getMinimum() : this.getMaximum() - value;
 
       // Compute and limit percent
       var percent = value / range;
