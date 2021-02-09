@@ -41,3 +41,4 @@ visibility of the whole splitte widget (no change from v5.0.x).
 
 - `qx.ui.basic.Image` adds a new scaling feature to preserve the size ratio of the image (ie scaling without stretching); if you enable scaling, the ratio is now preserved by default - if you actually want to stretch an image, you will have to set the image's `forceRatio` setting to `disabled`
 
+- `qx.ui.form.Slider` now works correctly in vertical orientation. The maximum value is at the top of the slider and the minimal value at the bottom. Before that, the 2 values were reversed
