@@ -31,6 +31,7 @@ tmp/
 /compiled
 /qx_packages
 /tmp
+/bootstrap
 
 # CSS compiler
 /source/resource/qx/mobile/scss/.sass-cache/

@@ -148,8 +148,8 @@ async function bootstrapCompiler(options) {
   let target = options.target || "build";
     
   if (options.clean === undefined || options.clean) {
-    console.log("Deleting previous temporary compiler");
-    await deleteRecursive("tmp");
+    console.log("Deleting previous bootstrap compiler");
+    await deleteRecursive("bootstrap");
   }
   
   let cls = 
@@ -179,22 +179,22 @@ qx.Class.define("qx.tool.compiler.Version", {
   
   // Use the compiler in node_modules to compile a temporary version  
   console.log("Creating temporary compiler with known-good one");
-  result = await runCommand(".", "node", "./bin/known-good/qx", "compile", "--target=" + target, "--output-path-prefix=tmp", "--app-name=compiler");
+  result = await runCommand(".", "node", "./bin/known-good/qx", "compile", "--target=" + target, "--output-path-prefix=bootstrap", "--app-name=compiler");
   if (result.exitCode) {
     process.exit(result.exitCode);
   }
   
   // Create a handy `qx` binary for that version
-  await fsPromises.writeFile("tmp/qx", 
+  await fsPromises.writeFile("bootstrap/qx", 
 `#!/usr/bin/env node
 const path=require("path");
 require(path.join(__dirname, "compiled", "node", "${target}", "compiler"));
 `, "utf8");
-fs.chmodSync("tmp/qx", "777");
-fs.copyFileSync("bin/build/qx.cmd", "tmp/qx.cmd");
+fs.chmodSync("bootstrap/qx", "777");
+fs.copyFileSync("bin/build/qx.cmd", "bootstrap/qx.cmd");
   
   /*
-   * Now use the new ./tmp/ compiler to compile itself again; the output goes into the 
+   * Now use the new ./bootstrap/ compiler to compile itself again; the output goes into the 
    *  normal `compiled` directory, ready for use.
    *
    * Note that we compile both source and build targets; this is because some of 
@@ -202,13 +202,13 @@ fs.copyFileSync("bin/build/qx.cmd", "tmp/qx.cmd");
    *  it does not matter if they use source or build, just make sure it is up to date
    */
   console.log("Compiling source version");
-  result = await runCommand(".", "node", "./tmp/qx", "compile", "--clean", "--verbose");
+  result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--clean", "--verbose");
   if (result.exitCode) {
     process.exit(result.exitCode);
   }
 
   console.log("Compiling build version");
-  result = await runCommand(".", "node", "./tmp/qx", "compile", "--target=build", "--clean", "--verbose");
+  result = await runCommand(".", "node", "./bootstrap/qx", "compile", "--target=build", "--clean", "--verbose");
   if (result.exitCode) {
     process.exit(result.exitCode);
   }
