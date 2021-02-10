@@ -34,7 +34,6 @@
     ]
  },
   "requires": {
-    "@qooxdoo/framework": "^6.0.0-beta",
-    "@qooxdoo/compiler" : "^1.0.0-beta"
+    "@qooxdoo/framework": "^7.0.0-beta"
   }
 }

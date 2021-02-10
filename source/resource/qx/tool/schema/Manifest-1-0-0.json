@@ -186,9 +186,9 @@
       }
     },
     "requires": {
-      "description": "a list of of needed libraries and contribs. the keys `qooxdoo-sdk` and `qooxdoo-compiler` are also recognized to descript the respective versions of these components",
+      "description": "a list of of needed libraries and contribs. the keys `@qooxdoo/framework` is recognized to descript the respective versions of these components",
       "type": "object",
-      "required": ["@qooxdoo/framework","@qooxdoo/compiler"],
+      "required": ["@qooxdoo/framework"],
       "patternProperties": {
         "^.*$": {
           "description": "semver compatible range pattern",

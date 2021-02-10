@@ -190,22 +190,23 @@ qx.Class.define("qx.tool.cli.commands.package.Migrate", {
             }
           }
         }
+        
+        if (manifestModel.getValue("requires.@qooxdoo/compiler")) {
+          qx.tool.compiler.Console.warn(`*** Your Manifest.json lists a dependency on @qooxdoo/compiler but this has been merged into the framework from v7.0.0 onwards`);
+        }
         // check framework and compiler dependencies
         // if none are given in the Manifest, use the present framework and compiler
-        const compiler_version = qx.tool.compiler.Version.VERSION;
-        const compiler_range = manifestModel.getValue("requires.@qooxdoo/compiler") || compiler_version;
-        const framework_version = await this.getLibraryVersion(await this.getGlobalQxPath());
+        const frameworkDir = await this.getGlobalQxPath();
+        const framework_version = await this.getLibraryVersion(frameworkDir);
         const framework_range = manifestModel.getValue("requires.@qooxdoo/framework") || framework_version;
 
         if (
-          !semver.satisfies(compiler_version, compiler_range) ||
           !semver.satisfies(framework_version, framework_range)) {
           needFix = true;
           if (announceOnly) {
-            qx.tool.compiler.Console.warn(`*** Mismatch between installed framework version (${framework_version}) and/or compiler version (${compiler_version}) and the declared dependencies in the Manifest.`);
+            qx.tool.compiler.Console.warn(`*** Mismatch between installed framework version (${framework_version} in ${frameworkDir}) and the declared dependencies in the Manifest.`);
           } else {
             manifestModel
-              .setValue("requires.@qooxdoo/compiler", "^" + compiler_version)
               .setValue("requires.@qooxdoo/framework", "^" + framework_version);
             manifestModel.setWarnOnly(false);
             // now model should validate

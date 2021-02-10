@@ -1,6 +1,5 @@
 const test = require("tape");
 const fs = require("fs");
-const qx = require("@qooxdoo/framework");
 const testUtils = require("./utils");
 const fsPromises = testUtils.fsPromises;
 
