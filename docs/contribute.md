@@ -20,6 +20,7 @@ $ git clone https://github.com/qooxdoo/qooxdoo.git
 $ cd qooxdoo
 $ npm install
 $ ./bootstrap-compiler
+$ ./bootstrap/qx config set qx.library `pwd`
 ```
 
 Once that's completed, you will have a bootstrap compiler in `./bootstrap/qx` and two versions of the compiler that were compiled using the bootstrap compiler - one compiled as a `source` target (in `./bin/source/qx`) and one compiled as a `build` target (in `./bin/build/qx`).  
