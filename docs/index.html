@@ -42,19 +42,16 @@
               /`(qx\.[a-zA-Z0-9._]+)(#?)([a-zA-Z0-9._]+)?`/g,
               (m, $1, $2, $3) => '[`' + $1+ '`](apps://apiviewer/#' + $1 + ($2 ? '~':"") + ($3 || '')  + ')'
             );
-          // resolve links with pseudo-protocol "apps:" to relative path to apps, if exists,
-          // otherwise to app on the qooxdoo website
-          let app_dir = window.location.pathname.split('/').slice(0, -2).concat(['apps', '']).join('/');
+          // resolve links with pseudo-protocol "apps:" to relative path to app on the qooxdoo website
           let app_url = 'http://qooxdoo.org/apps/';
-          let localApiViewer = location.hostname === "qooxdoo.org"; // needs to also cover "qx serve"
-          html = html.replace(/apps:\/\//g, () => localApiViewer ? app_dir : app_url);
+          html = html.replace(/apps:\/\//g, app_url);
           // insert edit links
           if (/githubusercontent\.com/.test(vm.route.file)) {
             url = vm.route.file
               .replace('raw.githubusercontent.com', 'github.com')
               .replace(/\/master/, '/blob/master')
           } else {
-            url = `https://github.com/qooxdoo/qooxdoo/edit/master/docs/${vm.route.file}`;
+            url = 'https://github.com/qooxdoo/qooxdoo/edit/master/docs/' + vm.route.file
           }
           var editHtml = "\n\n-----\n" + '[:memo: Edit Document on GitHub](' + url + ')';
           return html + editHtml;
