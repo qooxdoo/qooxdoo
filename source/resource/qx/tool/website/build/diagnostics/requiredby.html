@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/abel.css" >
+    <link rel="icon" href="/assets/favicon.png" type="image/png">
+
+    <!-- Github buttons -->
+    <script src="/assets/buttons.js"></script>
+    <script src="/assets/fontawesome-all.js"></script>
+
+    <title>Qooxdoo Application Server</title>
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="/qooxdoo.css">
+    <script type="text/javascript" src="/assets/bluebird.min.js"></script>
+    <script type="text/javascript" src="/assets/jquery.js"></script>
+    <script type="text/javascript" src="/scripts/serve.js"></script>
+</head>
+
+
+  <body>
+
+        <div class="container-fluid pt-0">
+      <nav class="navbar fixed-top navbar-expand-sm pl-1" id="navigatopnBar">
+        <a class="navbar-brand invisible" href="#" style="width: 0" id="navigationLogo">
+          <img src="/assets/logo.svg" width="auto" height="30" alt="">
+        </a>
+        <button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse navbar-dark" id="navbarNav">
+          <ul class="navbar-nav">
+            
+                
+                <li class="nav-item active">
+                    <a class="nav-link text-light" href="/">Home Page</a>
+                </li>
+                
+            
+                
+                <li class="nav-item active">
+                    <a class="nav-link text-light" href="about.html">About</a>
+                </li>
+                
+            
+            <li class="nav-item">
+              <a class="nav-link text-light" target="docs" href="/docs">Documentation</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" target="api" href="/apps/apiviewer">API</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Github star -->
+        <span class="d-none d-md-block">
+          <a class="github-button" target="github" href="https://github.com/qooxdoo/qooxdoo" data-show-count="true" aria-label="Star qooxdoo/qooxdoo on GitHub">Star</a>
+        </span>
+      </nav>
+    </div>
+
+
+    <div class="container-fluid py-5" style="background:
+         radial-gradient(black 15%, transparent 16%) 0 0,
+         radial-gradient(black 15%, transparent 16%) 4px 4px,
+         radial-gradient(rgba(0,255,169,.1) 15%, transparent 20%) 0 1px,
+         radial-gradient(rgba(0,255,169,.1) 15%, transparent 20%) 4px 5px;
+         background-color:#002838;
+         background-size:8px 8px;
+         box-shadow: inset 0 -10px 25px -10px #000000;">
+      <img class="img-fluid mx-auto d-block mt-5 pt-5 pb-3" src="/assets/logo.svg">
+      <h3 class="text-white text-center pb-5 d-none d-sm-block" style="font-family: 'Abel', sans-serif;">&raquo;The JS Framework for Coders&laquo;</h3>
+      <h5 class="text-white text-center pb-5 d-block d-sm-none" style="font-family: 'Abel', sans-serif;">&raquo;The JS Framework for Coders&laquo;</h5>
+    </div>
+
+
+
+
+
+    <!-- Content -->
+    <div class="container py-5">
+        
+<script type="text/javascript" src="requiredby.js"></script>
+
+<select id="show">
+    <option value="both" selected>runtime and loadtime</option>
+    <option value="runtime">runtime</option>
+    <option value="load">load</option>
+</select>
+
+<style>
+    li {
+        cursor: pointer;
+    }
+</style>
+
+<div id="root">
+</div>
+
+
+    </div> 
+
+    
+    <!-- Footer -->
+    <div class="container-fluid py-5" style="background-color: #555; color: #BBB">
+      <div class="container py-4">
+        <div class="row">
+          <div class="col pb-5">
+            <div class="row">
+              <div class="col">
+                <h5 style="color: #EEE">About</h5>
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="extern" href="https://opensource.org/licenses/MIT">License</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="extern" href="https://github.com/qooxdoo/qooxdoo">Source</a>
+                  </li>
+<!---
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" href="#">Team</a>
+                  </li>
+-->
+                </ul>
+              </div>
+              <div class="col">
+                <h5 style="color: #EEE">Learn &amp; Code</h5>
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="docs" href="/docs">Documentation</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="apiviewer" href="/apps/apiviewer">API Viewer</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="demobrowser" href="https://qooxdoo.org/qxl.demobrowser">Demobrowser</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="playground" href="https://qooxdoo.org/qxl.playground">Playground</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="widgetbrowser" href="https://qooxdoo.org/qxl.widgetbrowser">Widgetbrowser</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="mobileshowcase" href="https://qooxdoo.org/qxl.mobileshowcase">Mobileshowcase</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="extern" href="https://qooxdoo.org/qxl.packagebrowser">Browse packages</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" target="extern" href="https://news.qooxdoo.org">Blog</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="col">
+                <h5 style="color: #EEE">Support</h5>
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link p-0 text-nowrap" style="color: #BBB" target="extern" href="https://github.com/qooxdoo/qooxdoo/issues">GitHub Issues</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0 text-nowrap" style="color: #BBB" target="extern" href="https://gitter.im/qooxdoo/qooxdoo">Chat on Gitter</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0 text-nowrap" style="color: #BBB" target="extern" href=https://stackoverflow.com/questions/tagged/qooxdoo">Q/A</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link p-0" style="color: #BBB" href="#">FAQ</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md text-center pb-5">
+            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://github.com/qooxdoo/qooxdoo" data-original-title="Qooxdoo on GitHub">
+              <i class="fab fa-2x fa-github mx-1"></i>
+            </a>
+            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://gitter.im/qooxdoo/qooxdoo" data-original-title="Chat with us on Gitter">
+              <i class="fab fa-2x fa-gitter mx-1"></i>
+            </a>
+            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://news.qooxdoo.org" data-original-title="Qooxdoo Blog">
+              <i class="fab fa-2x fa-medium mx-1"></i>
+            </a>
+            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://twitter.com/qooxdoo" data-original-title="Qooxdoo on Twitter">
+              <i class="fab fa-2x fa-twitter mx-1"></i>
+            </a>
+            <a class="btn btn-link p-0 mx-1 text-light" data-toggle="tooltip" data-placement="top" title="" target="extern" href="https://stackoverflow.com/questions/tagged/qooxdoo" data-original-title="Qooxdoo Q/A">
+              <i class="fab fa-2x fa-stack-overflow mx-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="container text-center d-none d-sm-block p-4">
+        <img class="img p-4" src="/assets/qx-white.svg">
+        <span class="text-light">&copy; 2005-2018 Qooxdoo Contributors</span>
+      </div>
+      <div class="container text-center d-block d-sm-none p-4">
+        <img class="img-fluid p-4" src="/assets/qx-white.svg">
+        <p>&copy; 2005-2017 Qooxdoo Contributors</p>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
+        var scroll = (function (event) {
+          var scroll = $(window).scrollTop();
+          if (scroll < 250) {
+            $(navigatopnBar).css('background-color', 'transparent');
+            $(navigationLogo).css('width', '0');
+            $(navigationLogo).addClass('invisible');
+          } else {
+            $(navigatopnBar).css('background-color', 'rgba(0, 40, 56, 0.9)');
+            $(navigationLogo).css('width', '');
+            $(navigationLogo).removeClass('invisible');
+          }
+        });
+        $(window).scroll(scroll);
+        scroll();
+    </script>
+
+
+
+  </body>
+
+</html>

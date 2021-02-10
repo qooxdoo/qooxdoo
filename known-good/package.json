@@ -1,0 +1,14 @@
+{
+  "name": "known-good",
+  "version": "1.0.0",
+  "description": "Known Good compiler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@qooxdoo/compiler": "^1.0.0-beta-20210111-1639"
+  }
+}

@@ -1,0 +1,31 @@
+{
+ "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json",
+  "info" :
+  {
+    "name" : "issue553",
+
+    "summary" : "undefined",
+    "description" : "undefined",
+
+    "homepage" : "undefined",
+
+    "license" : "MIT license",
+    "authors" : [],
+
+    "version" : "1.0.0"
+  },
+
+  "provides" :
+  {
+    "namespace"   : "issue553",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation"
+  },
+
+  "requires": {
+    "@qooxdoo/framework": "^6.0.0-beta",
+    "@qooxdoo/compiler" : "^1.0.0-beta"
+  }
+}

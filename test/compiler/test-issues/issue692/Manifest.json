@@ -1,0 +1,23 @@
+{
+	"$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json",
+	"info": {
+		"name": "issue692",
+		"summary": "Issue 692 reproduction & unit test",
+		"description": "Issue 692 reproduction & unit test",
+		"homepage": "undefined",
+		"license": "MIT license",
+		"authors": [],
+		"version": "1.0.0"
+	},
+	"provides": {
+		"namespace": "issue692",
+		"encoding": "utf-8",
+		"class": "source/class",
+		"resource": "source/resource",
+		"translation": "source/translation"
+	},
+	"requires": {
+		"@qooxdoo/framework": "^6.0.0-beta",
+		"@qooxdoo/compiler": "^1.0.0-beta"
+	}
+}

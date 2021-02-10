@@ -1,0 +1,37 @@
+{
+  "$schema": "https://qooxdoo.org/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source",
+      "bundle": {
+        "include": "qx.*"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "compiled/build"
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ${locales},
+
+  "applications": [
+    {
+      "class": "${namespace}.Application",
+      "theme": "",
+      "name": "${namespace}",
+      "type" : "node",
+      "include" : [
+         "qx.core.BaseInit"
+      ],
+      "exclude" : [
+         "qx.bom.Selector",
+         "qx.bom.client.Html",
+         "qx.event.handler.Pointer",
+         "qx.event.handler.Gesture",
+         "qx.event.handler.PointerCore"
+      ]
+    }
+  ]
+}

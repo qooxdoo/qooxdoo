@@ -1,0 +1,33 @@
+{
+  "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/compile-1-0-0.json",
+  "targets": [
+    {
+      "type": "source",
+      "outputPath": "compiled/source",
+      "application-types": [ "node" ],
+      "babelOptions" : {
+        "targets":"node >= 11"
+      }
+    },
+    {
+      "type": "build",
+      "outputPath": "compiled/build",
+      "application-types": [ "node" ],
+      "babelOptions" : {
+        "targets":"node >= 11"
+      }
+    }
+  ],
+  "defaultTarget": "source",
+  "locales": ["en"],
+  "environment": {
+    "qx.icontheme": "Tango"
+  },
+  "applications": [
+    {
+      "class": "issue715.Application",
+      "name": "issue715",
+      "type": "node"
+    }
+  ]
+}

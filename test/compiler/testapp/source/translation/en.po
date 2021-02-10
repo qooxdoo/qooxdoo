@@ -1,0 +1,15 @@
+#: testapp/Application.js
+msgid "translatedString"
+msgstr "en: translatedString"
+
+#: testapp/Application.js
+msgid "Call \"me\""
+msgstr "en: Call \"me\""
+
+#: testapp/Application.js
+msgid "This has\nsome\nnewlines"
+msgstr "en: This has\nsome\nnewlines"
+
+#. NO LONGER USED
+msgid "This hasnsomennewlines"
+msgstr ""

@@ -1,0 +1,40 @@
+{
+ "$schema": "https://raw.githubusercontent.com/qooxdoo/qooxdoo-compiler/master/source/resource/qx/tool/schema/Manifest-1-0-0.json",
+  "info" :
+  {
+    "name" : "testLegalSCSS",
+    "summary" : "",
+    "description" : "",
+    "homepage" : "",
+    "license" : "MIT license",
+    "authors" : [
+      {
+      "name": "",
+      "email": ""
+      }
+    ],
+    "version" : "1.0.0"
+  },
+  "provides" :
+  {
+    "namespace"   : "testLegalSCSS",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation"
+  },
+  "externalResources": {
+    "script": [
+    ],
+    "css": [
+       "testLegalSCSS/css/test_css.css",
+       "testLegalSCSS/scss/test_scss.scss",
+       "testLegalSCSS/scss/test_theme_scss.scss"
+	   
+    ]
+ },
+  "requires": {
+    "@qooxdoo/framework": "^6.0.0-beta",
+    "@qooxdoo/compiler" : "^1.0.0-beta"
+  }
+}
