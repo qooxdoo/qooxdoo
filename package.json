@@ -23,7 +23,7 @@
   "scripts": {
     "devtools": "node source/resource/qx/tool/bin/build-devtools",
     "website": "node source/resource/qx/tool/bin/build-website",
-    "pretest": "node bootstrap-compiler --upgrade-framework",
+    "pretest": "node bootstrap-compiler",
     "test": "node ./bin/build/qx lint --warnAsError && node ./bin/build/qx --block-global-framework test"
   },
   "files": [
@@ -106,29 +106,5 @@
     "source-map-support": "^0.5.19",
     "tape": "^5.1.1"
   },
-  "eslintConfig": {
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "@qooxdoo/qx"
-    ],
-    "parserOptions": {
-      "ecmaVersion": 2017
-    },
-    "rules": {
-      "@qooxdoo/qx/no-illegal-private-usage": "off",
-      "jsdoc/require-jsdoc": "off",
-      "jsdoc/require-param": "off",
-      "jsdoc/require-returns-type": "off",
-      "indent": [
-        "error",
-        2,
-        {
-          "SwitchCase": 1
-        }
-      ]
-    }
-  },
-  "engine": "node >= 8"
+  "engine": "node >= 12"
 }

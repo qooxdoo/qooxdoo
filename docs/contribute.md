@@ -18,17 +18,13 @@ So if you don't have a compiler, how do you compile the compiler?  Well, there i
 ```
 $ git clone https://github.com/qooxdoo/qooxdoo.git
 $ cd qooxdoo
+$ npm install
 $ ./bootstrap-compiler
 ```
 
 Once that's completed, you will have a bootstrap compiler in `./bootstrap/qx` and two versions of the compiler that were compiled using the bootstrap compiler - one compiled as a `source` target (in `./bin/source/qx`) and one compiled as a `build` target (in `./bin/build/qx`).  
 
 Next, add `./bin/source/qx` into your PATH, either as a symlink or by modifying the PATH environment variable; your goal here is to make sure that any of the test scripts can run your new compiler.
-
-If you just want to be able to work on the framework itself and not the compiler, then that is all you have to do.
-
-
-### Coding the Compiler
 
 If you are editing the compiler code, you'll need to recompile it in order to test the new compiled code; you can do this at any time with this command:
 
@@ -37,5 +33,23 @@ $ ./bootstrap/qx compile --watch
 ```
 
 You can leave that command running and it will constantly recompile the `source` target of the compiler in `./bin/source/qx` (the bootstrap compiler is a full version of the compiler, so you can use the `--target=build` command line option if you would prefer, but if you do, just remember to put the `./bin/build/qx` on the PATH instead of the `./bin/source/qx`).
+
+By default, the compiler compiles all the applications, but if you are only working on the compiler you can speed this up by adding `--app-name=compiler` so that only the compiler is compiled.
+
+If you are only working on the framework, then you do not need to constantly compile the compiler with the bootstrap, unless you want to check the impact that your changes have on the compiler.  IE if you are developing browser-based changes, then you just need to use the `./bin/source/qx` in your test app.
+
+
+## Testing
+
+Before you submit a PR, you should check that your code passes the lint tests by running `npm test` in the framework repo directory; this will automatically run lint against the codebase.
+
+However, note that the `npm test` command expects to use `./bin/build/qx` command to run its tests - this means that you will need to run this command first if you have been modifying the compiler code:
+
+```
+$ ./bootstrap/qx compile --target=build
+```
+
+
+
 
 

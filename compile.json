@@ -66,32 +66,6 @@
   ],
   "applications": [
     {
-      "class": "qxl.apiviewer.Application",
-      "theme": "qxl.apiviewer.Theme",
-      "name": "apiviewer",
-      "title": "Qooxdoo compiler API",
-      "bootPath": "source/boot",
-      "default": true,
-      "deploy": true,
-      "environment": {
-        "qx.icontheme": "Tango",
-        "qxl.apiviewer.applicationName": "compiler",
-        "qxl.apiviewer.exclude": [
-           "qx.*",
-           "qxl.*",
-           "qxWeb"       
-        ],
-        "qxl.apiviewer.include": [
-           "qx.tool.*"
-        ]
-      },
-      "include": [
-      ],
-      "exclude": [
-        "qx.test.*"
-      ]
-    },
-    {
       "class": "qx.tool.cli.Application",
       "name": "compiler",
       "title": "Qooxdoo Compiler",
@@ -241,13 +215,24 @@
        "@qooxdoo/qx",
        "@qooxdoo/jsdoc-disable"
     ],
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
     "rules": {
+      "@qooxdoo/qx/no-illegal-private-usage": "off",
+      "jsdoc/require-jsdoc": "off",
+      "jsdoc/require-param": "off",
+      "jsdoc/require-returns-type": "off",
+      
       "no-new": "off",
       "no-unused-vars": "off",
       "no-eval": "off",
       "new-cap": "off",
 
-      "brace-style": "allman",
+      "@qooxdoo/qx/brace-style": "off",
+      "brace-style": "off",
+      "@qooxdoo/qx/indent": "off",
+      "indent": "off",
       "no-warning-comments": "off",
       "no-lonely-if": "off",
       "guard-for-in": "off",

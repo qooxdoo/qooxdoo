@@ -2,11 +2,11 @@
   "libraries": [
     {
       "library_name": "Qooxdoo API Viewer",
-      "library_version": "1.0.15",
-      "path": "qx_packages/qooxdoo_qxl_apiviewer_v1_0_15",
+      "library_version": "1.0.18",
+      "path": "qx_packages/qooxdoo_qxl_apiviewer_v1_0_18",
       "uri": "qooxdoo/qxl.apiviewer",
       "repo_name": "qooxdoo/qxl.apiviewer",
-      "repo_tag": "v1.0.15"
+      "repo_tag": "v1.0.18"
     },
     {
       "library_name": "versionlabel",

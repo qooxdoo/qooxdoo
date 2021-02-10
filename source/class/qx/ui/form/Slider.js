@@ -740,7 +740,7 @@ qx.Class.define("qx.ui.form.Slider",
 
       // If horizontal, value is the minimum value (left) + the percent calculated from left position of the knob
       // If Verical, value is the maximum value (top) - the percent calculated from top position of the knob
-      var value = this.__isHorizontal ? this.getMinimum() + Math.round(range * percent) : this.getMaximum() - Math.round(range * percent) ;
+      var value = this.__isHorizontal ? this.getMinimum() + Math.round(range * percent) : this.getMaximum() - Math.round(range * percent);
       return value;
     },
 
