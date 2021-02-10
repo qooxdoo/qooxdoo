@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.progressive.model.Default",
       if (this.__elements.length > 0)
       {
         // Yup.  Give 'em the first one and remove it from our queue.
-        return (
+        return(
           {
             element   : this.__elements.shift(),
             remaining : this.__elements.length

@@ -290,17 +290,17 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      */
     addMaster : function(pages) {
       if (this.__isTablet) {
-        if (pages) {
-          if (!qx.lang.Type.isArray(pages)) {
+        if(pages) {
+          if(!qx.lang.Type.isArray(pages)) {
             pages = [pages];
           }
 
-          for (var i = 0; i < pages.length; i++) {
+          for(var i = 0; i < pages.length; i++) {
             var masterPage = pages[i];
             masterPage.addListener("start", this._onMasterPageStart, this);
           }
 
-          if (this.__masterPages) {
+          if(this.__masterPages) {
             this.__masterPages.concat(pages);
           } else {
             this.__masterPages = pages;
@@ -321,17 +321,17 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     addDetail : function(pages) {
       this._add(pages, this.__detailNavigation);
 
-      if (pages && this.__isTablet) {
+      if(pages && this.__isTablet) {
         if (!qx.lang.Type.isArray(pages)) {
           pages = [pages];
         }
 
-        for (var i = 0; i < pages.length; i++) {
+        for(var i = 0; i < pages.length; i++) {
           var detailPage = pages[i];
           detailPage.addListener("start", this._onDetailPageStart, this);
         }
 
-        if (this.__detailPages) {
+        if(this.__detailPages) {
           this.__detailPages.concat(pages);
         } else {
           this.__detailPages = pages;
@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
      * @param evt {qx.event.type.Event} source event.
      */
     _onDetailPageStart : function(evt) {
-      if (qx.bom.Viewport.isPortrait() && this.isHideMasterOnDetailStart()) {
+      if(qx.bom.Viewport.isPortrait() && this.isHideMasterOnDetailStart()) {
         this.__masterContainer.hide();
       }
     },
@@ -380,7 +380,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
           this.assertInstance(page, qx.ui.mobile.page.NavigationPage);
         }
 
-        if (this.__isTablet && !page.getShowBackButtonOnTablet()) {
+        if(this.__isTablet && !page.getShowBackButtonOnTablet()) {
           page.setShowBackButton(false);
         }
 
@@ -434,7 +434,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     * @param evt {qx.event.type.Data} the change event.
     */
     _onMasterChangeVisibility: function(evt) {
-      var isMasterVisible = (evt.getData() === "visible");
+      var isMasterVisible = ("visible" === evt.getData());
 
       if (qx.bom.Viewport.isLandscape()) {
         if (this.isAllowMasterHideOnLandscape()) {
@@ -514,7 +514,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     * @param old {String} previous caption
     */
     _applyHideMasterButtonCaption : function(value, old) {
-      if (this.__isTablet) {
+      if(this.__isTablet) {
         this.__hideMasterButton.setLabel(value);
       }
     },
@@ -526,7 +526,7 @@ qx.Class.define("qx.ui.mobile.page.Manager",
     * @param old {String} previous title
     */
     _applyMasterTitle : function(value, old) {
-      if (this.__isTablet) {
+      if(this.__isTablet) {
         this.__masterButton.setLabel(value);
       }
     }
@@ -541,22 +541,22 @@ qx.Class.define("qx.ui.mobile.page.Manager",
 
   destruct : function()
   {
-    if (this.__masterPages) {
-      for (var i = 0; i < this.__masterPages.length; i++) {
+    if(this.__masterPages) {
+      for(var i = 0; i < this.__masterPages.length; i++) {
         var masterPage = this.__masterPages[i];
 
         masterPage.removeListener("start", this._onMasterPageStart, this);
       }
     }
-    if (this.___detailPages) {
-      for (var j = 0; j < this.___detailPages.length; j++) {
+    if(this.___detailPages) {
+      for(var j = 0; j < this.___detailPages.length; j++) {
         var detailPage = this.___detailPages[j];
 
         detailPage.removeListener("start", this._onDetailPageStart, this);
       }
     }
 
-    if (this.__isTablet) {
+    if(this.__isTablet) {
       this.__masterContainer.removeListener("changeVisibility", this._onMasterChangeVisibility, this);
       this.__masterContainer.removeListener("resize", this._onLayoutChange, this);
       qx.event.Registration.removeListener(window, "orientationchange", this._onLayoutChange, this);

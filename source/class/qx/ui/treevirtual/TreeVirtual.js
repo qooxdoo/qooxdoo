@@ -113,12 +113,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     //
     // Allocate default objects if custom objects are not specified
     //
-    if (!custom)
+    if (! custom)
     {
       custom = { };
     }
 
-    if (!custom.dataModel)
+    if (! custom.dataModel)
     {
       custom.dataModel =
         new qx.ui.treevirtual.SimpleTreeDataModel();
@@ -130,25 +130,25 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       custom.dataModel.setTreeColumn(custom.treeColumn);
     }
 
-    if (!custom.treeDataCellRenderer)
+    if (! custom.treeDataCellRenderer)
     {
       custom.treeDataCellRenderer =
         new qx.ui.treevirtual.SimpleTreeDataCellRenderer();
     }
 
-    if (!custom.defaultDataCellRenderer)
+    if (! custom.defaultDataCellRenderer)
     {
       custom.defaultDataCellRenderer =
         new qx.ui.treevirtual.DefaultDataCellRenderer();
     }
 
-    if (!custom.dataRowRenderer)
+    if (! custom.dataRowRenderer)
     {
       custom.dataRowRenderer =
         new qx.ui.treevirtual.SimpleTreeDataRowRenderer();
     }
 
-    if (!custom.selectionManager)
+    if (! custom.selectionManager)
     {
       custom.selectionManager =
         function(obj)
@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         };
     }
 
-    if (!custom.tableColumnModel)
+    if (! custom.tableColumnModel)
     {
       custom.tableColumnModel =
         function(obj)
@@ -623,12 +623,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       var node;
       var nodeId;
 
-      if (typeof (nodeReference) == "object")
+      if (typeof(nodeReference) == "object")
       {
         node = nodeReference;
         nodeId = node.nodeId;
       }
-      else if (typeof (nodeReference) == "number")
+      else if (typeof(nodeReference) == "number")
       {
         nodeId = nodeReference;
       }
@@ -640,10 +640,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       function addHierarchy(nodeId)
       {
         // If we're at the root...
-        if (!nodeId)
+        if (! nodeId)
         {
           // ... then we're done
-          return;
+          return ;
         }
 
         // Get the requested node
@@ -697,7 +697,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
       if (modifiers == 0)
       {
-        switch (identifier)
+        switch(identifier)
         {
           case "Enter":
             // Get the data model
@@ -712,10 +712,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
               var focusedRow = this.getFocusedRow();
               var node = dm.getNode(focusedRow);
 
-              if (!node.bHideOpenClose &&
+              if (! node.bHideOpenClose &&
                   node.type != qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
               {
-                dm.setState(node, { bOpened : !node.bOpened });
+                dm.setState(node, { bOpened : ! node.bOpened });
               }
 
               consumed = true;
@@ -733,7 +733,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       }
       else if (modifiers == qx.event.type.Dom.CTRL_MASK)
       {
-        switch (identifier)
+        switch(identifier)
         {
           case "Left":
             // Get the data model
@@ -747,11 +747,11 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             // If it's an open branch and open/close is allowed...
             if ((node.type ==
                  qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
-                !node.bHideOpenClose &&
+                ! node.bHideOpenClose &&
                 node.bOpened)
             {
               // ... then close it
-              dm.setState(node, { bOpened : !node.bOpened });
+              dm.setState(node, { bOpened : ! node.bOpened });
             }
 
             // Reset the focus to the current node
@@ -772,11 +772,11 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             // If it's a closed branch and open/close is allowed...
             if ((node.type ==
                  qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
-                !node.bHideOpenClose &&
-                !node.bOpened)
+                ! node.bHideOpenClose &&
+                ! node.bOpened)
             {
               // ... then open it
-              dm.setState(node, { bOpened : !node.bOpened });
+              dm.setState(node, { bOpened : ! node.bOpened });
             }
 
             // Reset the focus to the current node
@@ -788,7 +788,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
       }
       else if (modifiers == qx.event.type.Dom.SHIFT_MASK)
       {
-        switch (identifier)
+        switch(identifier)
         {
           case "Left":
             // Get the data model
@@ -824,12 +824,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             // If we're on a branch and open/close is allowed...
             if ((node.type ==
                  qx.ui.treevirtual.SimpleTreeDataModel.Type.BRANCH) &&
-                !node.bHideOpenClose)
+                ! node.bHideOpenClose)
             {
               // ... then first ensure the branch is open
-              if (!node.bOpened)
+              if (! node.bOpened)
               {
-                dm.setState(node, { bOpened : !node.bOpened });
+                dm.setState(node, { bOpened : ! node.bOpened });
               }
 
               // If this node has children...

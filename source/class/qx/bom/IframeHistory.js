@@ -71,7 +71,7 @@ qx.Class.define("qx.bom.IframeHistory",
     addToHistory : function(state, newTitle)
     {
       if (!qx.lang.Type.isString(state)) {
-        state += "";
+        state = state + "";
       }
 
       if (qx.lang.Type.isString(newTitle))
@@ -114,7 +114,7 @@ qx.Class.define("qx.bom.IframeHistory",
     //overridden
     _applyState : function(value, old)
     {
-      if (this.__dontApplyState) {
+      if (this.__dontApplyState){
         return;
       }
       this._writeState(value);
@@ -147,7 +147,7 @@ qx.Class.define("qx.bom.IframeHistory",
     {
       if (!this.__iframeReady) {
         this.__clearWriteSateTimer();
-        this.__writeStateTimner = qx.event.Timer.once(function() { this._writeState(state); }, this, 50);
+        this.__writeStateTimner = qx.event.Timer.once(function(){this._writeState(state);}, this, 50);
         return;
       }
       this.__clearWriteSateTimer();
@@ -155,7 +155,7 @@ qx.Class.define("qx.bom.IframeHistory",
       var state = this._encode(state);
 
       // IE8 is sometimes recognizing a hash change as history entry. Cause of sporadic surface of this behavior, we have to prevent setting hash.
-      if (qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") != 8) {
+      if (qx.core.Environment.get("engine.name") == "mshtml" && qx.core.Environment.get("browser.version") != 8){
         this._setHash(state);
       }
 
@@ -171,7 +171,7 @@ qx.Class.define("qx.bom.IframeHistory",
      */
     __clearWriteSateTimer : function()
     {
-      if (this.__writeStateTimner) {
+      if (this.__writeStateTimner){
         this.__writeStateTimner.stop();
         this.__writeStateTimner.dispose();
       }
@@ -295,7 +295,7 @@ qx.Class.define("qx.bom.IframeHistory",
         retry = 0;
       }
 
-      if (!this.__iframe.contentWindow || !this.__iframe.contentWindow.document)
+      if ( !this.__iframe.contentWindow || !this.__iframe.contentWindow.document )
       {
         if (retry > 20) {
           throw new Error("can't initialize iframe");
@@ -317,7 +317,7 @@ qx.Class.define("qx.bom.IframeHistory",
   destruct : function()
   {
     this.__iframe = null;
-    if (this.__writeStateTimner) {
+    if (this.__writeStateTimner){
       this.__writeStateTimner.dispose();
       this.__writeStateTimner = null;
     }

@@ -106,7 +106,7 @@ qx.Mixin.define("qx.data.MBinding",
      * @param id {var} The id of the binding.
      * @throws {Error} If the binding could not be found.
      */
-    removeBinding: function(id) {
+    removeBinding: function(id){
       qx.data.SingleValueBinding.removeBindingFromObject(this, id);
     },
 

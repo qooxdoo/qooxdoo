@@ -168,7 +168,7 @@ qx.Class.define("qx.util.fsm.State",
     for (var field in stateInfo)
     {
       // If we find one of our properties, call its setter.
-      switch (field)
+      switch(field)
       {
       case "onentry":
         this.setOnentry(
@@ -321,7 +321,7 @@ qx.Class.define("qx.util.fsm.State",
         var functionRequest = value[f];
 
         // The function request value should be an object
-        if (!(functionRequest instanceof Array)) {
+        if (!functionRequest instanceof Array) {
           throw new Error("Invalid function request type: " +
                           "expected array, found " +
                           typeof (functionRequest));
@@ -357,7 +357,7 @@ qx.Class.define("qx.util.fsm.State",
           else
           {
             // otherwise, ensure we got an array
-            if (!(params instanceof Array)) {
+            if (!params instanceof Array) {
               throw new Error("Invalid function parameters: " +
                               "expected array, found " +
                               typeof (params));
@@ -407,7 +407,7 @@ qx.Class.define("qx.util.fsm.State",
             // Nope.  Simplify code by creating an empty array.
             a = [];
           }
-          else if (!(a instanceof Array))
+          else if (!a instanceof Array)
           {
             throw new Error("Invalid 'objects' list: expected array, got " +
                             typeof (a));
@@ -432,7 +432,7 @@ qx.Class.define("qx.util.fsm.State",
           if (g)
           {
             // Yup.  Ensure it's an array.
-            if (!(g instanceof Array))
+            if (!g instanceof Array)
             {
               throw new Error("Invalid 'groups' list: expected array, got " +
                               typeof (g));
@@ -699,7 +699,7 @@ qx.Class.define("qx.util.fsm.State",
     __transformOnentry : function(value)
     {
       // Validate the onentry function
-      switch (typeof (value))
+      switch(typeof (value))
       {
         case "undefined":
           // None provided.  Convert it to a null function
@@ -725,7 +725,7 @@ qx.Class.define("qx.util.fsm.State",
     __transformOnexit : function(value)
     {
       // Validate the onexit function
-      switch (typeof (value))
+      switch(typeof (value))
       {
         case "undefined":
           // None provided.  Convert it to a null function
@@ -892,7 +892,7 @@ qx.Class.define("qx.util.fsm.State",
     __bindIfFunction : function(f, context)
     {
       // Is the first parameter a function?
-      if (typeof (f) == "function")
+      if (typeof(f) == "function")
       {
         // Yup. Bind it to the specified context.
         f = qx.lang.Function.bind(f, context);
@@ -914,7 +914,7 @@ qx.Class.define("qx.util.fsm.State",
     addTransition : function(trans)
     {
       // Ensure that we got valid transition info
-      if (!(trans instanceof qx.util.fsm.Transition)) {
+      if (!trans instanceof qx.util.fsm.Transition) {
         throw new Error("Invalid transition: not an instance of " +
                         "qx.util.fsm.Transition");
       }

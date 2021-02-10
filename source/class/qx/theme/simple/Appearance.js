@@ -1481,7 +1481,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       {
         var padding = [3, 5, 3, 5];
         if (states.lead) {
-          padding = [ 2, 4, 2, 4];
+          padding = [ 2, 4 , 2, 4];
         }
         if (states.dragover) {
           padding[2] -= 2;
@@ -2182,7 +2182,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
       style : function(states)
       {
         return {
-          margin : [0, 15]
+          margin : [0 , 15]
         };
       }
     },
@@ -2378,10 +2378,7 @@ qx.Theme.define("qx.theme.simple.Appearance",
 
       style : function(states)
       {
-        var marginTop=0, 
-marginRight=0, 
-marginBottom=0, 
-marginLeft=0;
+        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
         if (states.barTop) {
           marginBottom -= 1;

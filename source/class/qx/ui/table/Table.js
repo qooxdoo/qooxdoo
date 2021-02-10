@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.table.Table",
 
     // If the table model has an init() method...
     tableModel = this.getTableModel();
-    if (tableModel.init && typeof (tableModel.init) == "function")
+    if (tableModel.init && typeof(tableModel.init) == "function")
     {
       // ... then call it now to allow the table model to affect table
       // properties.
@@ -769,7 +769,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
       case "statusbar":
         control = new qx.ui.basic.Label();
@@ -841,7 +841,7 @@ qx.Class.define("qx.ui.table.Table",
         }
       }
       // also hide the column visibility button
-      if (this.getColumnVisibilityButtonVisible()) {
+      if(this.getColumnVisibilityButtonVisible()) {
         this._applyColumnVisibilityButtonVisible(value);
       }
     },
@@ -927,7 +927,7 @@ qx.Class.define("qx.ui.table.Table",
       // call it if this is the initial setting of the table model, as the
       // scrollers are not yet initialized. In that case, the init method is
       // called explicitly by the Table constructor.
-      if (old && value.init && typeof (value.init) == "function")
+      if (old && value.init && typeof(value.init) == "function")
       {
         value.init(this);
       }
@@ -1063,7 +1063,7 @@ qx.Class.define("qx.ui.table.Table",
           {
             // On first setting of meta columns (constructing phase), there
             // are no handlers to deal with yet.
-            if (!handlers[evName])
+            if (! handlers[evName])
             {
               break;
             }
@@ -1081,7 +1081,7 @@ qx.Class.define("qx.ui.table.Table",
                 // to be this new pane scroller.  Otherwise leave the context
                 // as it was set.
                 var context = capture[j].context;
-                if (!context)
+                if (! context)
                 {
                   context = this;
                 }
@@ -1111,7 +1111,7 @@ qx.Class.define("qx.ui.table.Table",
                 // to be this new pane scroller.  Otherwise leave the context
                 // as it was set.
                 var context = bubble[j].context;
-                if (!context)
+                if (! context)
                 {
                   context = this;
                 }
@@ -1461,7 +1461,7 @@ qx.Class.define("qx.ui.table.Table",
         // Editing mode
         if (evt.getModifiers() == 0)
         {
-          switch (identifier)
+          switch(identifier)
           {
             case "Enter":
               this.stopEditing();
@@ -1484,6 +1484,7 @@ qx.Class.define("qx.ui.table.Table",
               break;
           }
         }
+
       }
       else
       {
@@ -1493,7 +1494,7 @@ qx.Class.define("qx.ui.table.Table",
         {
           // Handle keys that depend on modifiers
 
-          switch (identifier)
+          switch(identifier)
           {
             case "A": // Ctrl + A
               var rowCount = this.getTableModel().getRowCount();
@@ -1512,7 +1513,7 @@ qx.Class.define("qx.ui.table.Table",
         else
         {
           // Handle keys that are independent from the modifiers
-          switch (identifier)
+          switch(identifier)
           {
             case "Space":
               this.__selectionManager.handleSelectKeyDown(this.__focusedRow, evt);
@@ -1769,14 +1770,14 @@ qx.Class.define("qx.ui.table.Table",
      */
     clearFocusedRowHighlight : function(evt)
     {
-      if (evt)
+      if(evt)
       {
         var relatedTarget = evt.getRelatedTarget();
         if (
           relatedTarget instanceof qx.ui.table.pane.Pane ||
           relatedTarget instanceof qx.ui.table.pane.FocusIndicator
          ) {
-           return;
+           return ;
          }
       }
 
@@ -2093,7 +2094,7 @@ qx.Class.define("qx.ui.table.Table",
       excludeScrollerScrollbarsIfNotNeeded =
         this.getExcludeScrollerScrollbarsIfNotNeeded();
 
-      if (!excludeScrollerScrollbarsIfNotNeeded)
+      if (! excludeScrollerScrollbarsIfNotNeeded)
       {
         for (var i=0; i<scrollerArr.length; i++)
         {
@@ -2122,7 +2123,7 @@ qx.Class.define("qx.ui.table.Table",
         if (excludeScrollerScrollbarsIfNotNeeded)
         {
           horNeeded =
-            !!(scrollerArr[i].getNeededScrollBars(false, !isLast) & horBar);
+            !! (scrollerArr[i].getNeededScrollBars(false, !isLast) & horBar);
 
           // Show the horizontal scrollbar if needed. Specify null to indicate
           // that the scrollbar should be hidden rather than excluded.
@@ -2139,7 +2140,7 @@ qx.Class.define("qx.ui.table.Table",
         {
           // ... then get the current (old) use of vertical scroll bar
           verNeeded =
-            !!(scrollerArr[i].getNeededScrollBars(false, false) & verBar);
+            !! (scrollerArr[i].getNeededScrollBars(false, false) & verBar);
           if (this.__hadVerticalScrollBar == null) {
             this.__hadVerticalScrollBar = scrollerArr[i].getVerticalScrollBarVisible();
             this.__timer = qx.event.Timer.once(function()

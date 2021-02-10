@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.basic.Atom",
     iconPosition :
     {
       init   : "left",
-      check : ["top", "right", "bottom", "left", "top-left", "bottom-left", "top-right", "bottom-right"],
+      check : ["top", "right", "bottom", "left", "top-left", "bottom-left" , "top-right", "bottom-right"],
       themeable : true,
       apply : "_applyIconPosition"
     },
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.basic.Atom",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         case "label":
           control = new qx.ui.basic.Label(this.getLabel());

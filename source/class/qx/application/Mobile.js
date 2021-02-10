@@ -105,7 +105,7 @@ qx.Class.define("qx.application.Mobile",
      * @return {qx.application.Routing} The application's routing.
      */
     getRouting : function() {
-      if (!this.__routing) {
+      if(!this.__routing) {
         this.__routing = new qx.application.Routing();
       }
       return this.__routing;

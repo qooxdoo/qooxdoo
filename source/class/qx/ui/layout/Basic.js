@@ -118,8 +118,7 @@ qx.Class.define("qx.ui.layout.Basic",
     {
       var children = this._getLayoutChildren();
       var child, size, props;
-      var neededWidth=0, 
-neededHeight=0;
+      var neededWidth=0, neededHeight=0;
       var localWidth, localHeight;
 
 

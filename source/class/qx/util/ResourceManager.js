@@ -120,7 +120,7 @@ qx.Class.define("qx.util.ResourceManager",
         var pixelRatioIdentifier = "@" + pixelRatio + "x";
         var candidate = source.slice(0, fileExtIndex) + pixelRatioIdentifier + source.slice(fileExtIndex);
 
-        if (this.has(candidate)) {
+        if(this.has(candidate)) {
           return candidate;
         }
       }
@@ -135,10 +135,10 @@ qx.Class.define("qx.util.ResourceManager",
      */
     getIds : function(pathfragment) {
       var registry = this.self(arguments).__registry;
-      if (!registry) {
+      if(!registry) {
         return null;
       }
-      return Object.keys(registry).filter(function(key) {
+      return Object.keys(registry).filter(function(key){
         return !pathfragment || key.indexOf(pathfragment) != -1;
       });
     },
@@ -178,7 +178,7 @@ qx.Class.define("qx.util.ResourceManager",
       var size;
       if (id && id.startsWith("@")) {
         var part = id.split("/");
-        size = parseInt(part[2], 10);
+        size = parseInt(part[2],10);
         if (size) {
           id = part[0]+"/"+part[1];
         }
@@ -204,7 +204,7 @@ qx.Class.define("qx.util.ResourceManager",
     {
       if (id && id.startsWith("@")) {
         var part = id.split("/");
-        var size = parseInt(part[2], 10);
+        var size = parseInt(part[2],10);
         if (size) {
           return size;
         }
@@ -244,9 +244,9 @@ qx.Class.define("qx.util.ResourceManager",
     {
       var clippedtype = "";
       var entry = this.self(arguments).__registry[id];
-      var isclipped = entry && entry.length > 4 && typeof (entry[4]) == "string"
+      var isclipped = entry && entry.length > 4 && typeof(entry[4]) == "string"
         && this.constructor.__registry[entry[4]];
-      if (isclipped) {
+      if (isclipped){
         var combId  = entry[4];
         var combImg = this.constructor.__registry[combId];
         clippedtype = combImg[2];

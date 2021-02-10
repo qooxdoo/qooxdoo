@@ -53,6 +53,7 @@ qx.Bootstrap.define("qx.module.event.PointerHandler", {
      */
     register : function(element, type) {
       if (!element.$$pointerHandler) {
+
         if (!qx.core.Environment.get("event.dispatchevent")) {
           if (!element.$$emitter) {
             element.$$emitter = new qx.event.Emitter();

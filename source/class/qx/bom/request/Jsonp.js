@@ -136,11 +136,13 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
 
       // Default callback
       if (!this.__callbackName) {
+
         // Store globally available reference to this object
         this.constructor[this.__id] = this;
 
       // Custom callback
       } else {
+
         // Dynamically create globally available callback (if it does not
         // exist yet) with user defined name. Delegate to this object’s
         // callback method.
@@ -155,6 +157,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
               this.__callbackName + " already exists");
           }
         }
+
       }
 
       if (qx.core.Environment.get("qx.debug.io")) {
@@ -278,6 +281,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
      * Handle native load.
      */
     _onNativeLoad: function() {
+
       // Indicate erroneous status (500) if callback was not called.
       //
       // Why 500? 5xx belongs to the range of server errors. If the callback was
@@ -315,7 +319,7 @@ qx.Bootstrap.define("qx.bom.request.Jsonp",
     __generateId: function() {
       // Add random digits to date to allow immediately following requests
       // that may be send at the same time
-      this.__id = "qx" + (new Date().valueOf()) + ("" + Math.random()).substring(2, 5);
+      this.__id = "qx" + (new Date().valueOf()) + ("" + Math.random()).substring(2,5);
     }
   }
 });

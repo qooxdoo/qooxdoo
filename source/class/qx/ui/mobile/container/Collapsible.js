@@ -125,7 +125,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
     * @param layoutProperties {Map?} (default:null) Optional layout data for widget.
     */
     add : function(child, layoutProperties) {
-      if (child && this._content instanceof qx.ui.mobile.container.Composite) {
+      if(child && this._content instanceof qx.ui.mobile.container.Composite) {
         this._content.add(child, layoutProperties);
       }
     },
@@ -136,7 +136,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
     * @param title {String} the Collapsible's title.
     */
     setTitle : function(title) {
-      if (title && this._header instanceof qx.ui.mobile.basic.Label) {
+      if(title && this._header instanceof qx.ui.mobile.basic.Label) {
         this._header.setValue(title);
       }
     },
@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
 
     // property apply
     _applyCollapsed : function(value, old) {
-      if (value === true) {
+      if(value === true) {
         this._content.exclude();
         this.addCssClass("collapsed");
       } else {
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
 
     // property apply
     _applyCombined : function(value, old) {
-      if (value === true) {
+      if(value === true) {
         this.addCssClass("combined");
       }
       else {
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.mobile.container.Collapsible",
 
   destruct : function()
   {
-    this._header.removeListener("tap", this.toggleCollapsed, this);
+    this._header.removeListener("tap", this.toggleCollapsed,this);
     this._disposeObjects("_header", "_content");
   }
 });

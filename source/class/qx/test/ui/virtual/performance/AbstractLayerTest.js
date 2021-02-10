@@ -86,7 +86,7 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
       this.profile("fullUpdate (scroll)", function()
       {
         this.layer.fullUpdate(startRow, 0, this.rowSizes, this.colSizes);
-        startRow++;
+        startRow ++;
       }, this, this.ITERATIONS);
     },
 
@@ -130,10 +130,10 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
 
     profile : function(name, fcn, context, count)
     {
-      if (window.console && window.console.profile) { console.profile(name + "; " + this.classname); }
+      if (window.console && window.console.profile) console.profile(name + "; " + this.classname);
 
       var times = [];
-      for (var i=0, l=count; i<l; i++)
+      for (var i=0,l=count; i<l; i++)
       {
         var start = new Date();
 
@@ -143,12 +143,12 @@ qx.Class.define("qx.test.ui.virtual.performance.AbstractLayerTest",
         var duration = new Date() - start;
         times.push(duration);
       }
-      times.sort(function(a, b) { return a < b ? -1 : 1; });
+      times.sort(function(a, b) { return a < b ? -1 : 1;});
       var avg = Math.round(qx.lang.Array.sum(times.slice(1, -1)) / (times.length-2));
       //this.warn(";" + name + "; avg(" + avg + "ms); " + times.join("ms; ") + "ms;");
       this.warn(";" + name + ";avg:" + avg + ";" + times.join(";"));
 
-      if (window.console && window.console.profile) { console.profileEnd(name + " " + this.classname); }
+      if (window.console && window.console.profile) console.profileEnd(name + " " + this.classname);
     }
   }
 

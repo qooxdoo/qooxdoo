@@ -209,7 +209,7 @@ qx.Class.define("qx.data.controller.Form",
      * do nothing because updates will be synced automatically on every
      * change.
      */
-    updateModel: function() {
+    updateModel: function(){
       // only do stuff if self update is enabled and a model or target is set
       if (!this._selfUpdate || !this.getModel() || !this.getTarget()) {
         return;
@@ -252,6 +252,7 @@ qx.Class.define("qx.data.controller.Form",
 
     // apply method
     _applyModel : function(value, old) {
+
       // set the model to null to reset all items before removing them
       if (this.__objectController != null && value == null) {
         this.__objectController.setModel(null);

@@ -251,7 +251,7 @@ qx.Class.define("qx.locale.Date",
         return localizedFormat;
       }
 
-      switch (size)
+      switch(size)
       {
         case "short":
         case "medium":
@@ -490,7 +490,7 @@ qx.Class.define("qx.locale.Date",
     __localizeWithFallback : function(context, fallbackContext, key, locale)
     {
       var localizedString = this.__mgr.localize(key, [], locale);
-      if (localizedString == key)
+      if(localizedString == key)
       {
         var newKey = key.replace('_' + context + '_', '_' + fallbackContext + '_');
         return this.__mgr.localize(newKey, [], locale);

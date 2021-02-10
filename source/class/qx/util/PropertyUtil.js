@@ -50,6 +50,7 @@ qx.Class.define("qx.util.PropertyUtil",
      */
     getAllProperties : function(clazz)
     {
+
       var properties = {};
       var superclass = clazz;
       // go threw the class hierarchy
@@ -100,7 +101,7 @@ qx.Class.define("qx.util.PropertyUtil",
     * @param propertyName {String} The name of the property
     */
     deleteUserValue : function(object, propertyName) {
-      delete (object["$$user_" + propertyName]);
+      delete(object["$$user_" + propertyName]);
     },
 
 
@@ -139,7 +140,7 @@ qx.Class.define("qx.util.PropertyUtil",
     * @param propertyName {String} The name of the property
     */
     deleteInitValue : function(object, propertyName) {
-      delete (object["$$init_" + propertyName]);
+      delete(object["$$init_" + propertyName]);
     },
 
 
@@ -178,7 +179,7 @@ qx.Class.define("qx.util.PropertyUtil",
     * @param propertyName {String} The name of the property
     */
     deleteThemeValue : function(object, propertyName) {
-      delete (object["$$theme_" + propertyName]);
+      delete(object["$$theme_" + propertyName]);
     },
 
 

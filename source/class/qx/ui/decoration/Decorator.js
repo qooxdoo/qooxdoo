@@ -111,9 +111,9 @@ qx.Class.define("qx.ui.decoration.Decorator", {
           this[name](styles);
         }
       }
-      for (var name in styles)
+      for(var name in styles)
       {
-        if (qx.lang.Type.isArray(styles[name])) {
+        if(qx.lang.Type.isArray(styles[name])) {
           styles[name] = styles[name].join(', ');
         }
       }
@@ -171,7 +171,7 @@ qx.Class.define("qx.ui.decoration.Decorator", {
       // transform non-array values to an array containing that value
       var propertyValues = propertyNames.map(function(propName) {
         var value = this.get(propName);
-        if (!qx.lang.Type.isArray(value)) {
+        if(!qx.lang.Type.isArray(value)) {
           value = [value];
         }
         return value;
@@ -182,7 +182,7 @@ qx.Class.define("qx.ui.decoration.Decorator", {
       // Extend the value arrays by repeating existing values until all
       // arrays match in length.
       var items = Math.max.apply(Math, propertyValues.map(function(prop) { return prop.length; }));
-      for (var i = 0; i < propertyValues.length; i++) {
+      for(var i = 0; i < propertyValues.length; i++) {
         this.__extendArray(propertyValues[i], items);
       }
 
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.decoration.Decorator", {
     */
     __extendArray: function(array, to) {
       var initial = array.length;
-      while (array.length < to) {
+      while(array.length < to) {
         array.push(array[array.length%initial]);
       }
     }

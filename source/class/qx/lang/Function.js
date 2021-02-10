@@ -74,7 +74,7 @@ qx.Bootstrap.define("qx.lang.Function",
       if (fcn.$$mixin)
       {
         //members
-        for (var key in fcn.$$mixin.$$members)
+        for(var key in fcn.$$mixin.$$members)
         {
           if (fcn.$$mixin.$$members[key] == fcn) {
             return fcn.$$mixin.name + ".prototype." + key + "()";
@@ -82,7 +82,7 @@ qx.Bootstrap.define("qx.lang.Function",
         }
 
         // statics
-        for (var key in fcn.$$mixin)
+        for(var key in fcn.$$mixin)
         {
           if (fcn.$$mixin[key] == fcn) {
             return fcn.$$mixin.name + "." + key + "()";
@@ -96,14 +96,14 @@ qx.Bootstrap.define("qx.lang.Function",
         if (clazz)
         {
           // members
-          for (var key in clazz.prototype)
+          for(var key in clazz.prototype)
           {
             if (clazz.prototype[key] == fcn) {
               return clazz.classname + ".prototype." + key + "()";
             }
           }
           // statics
-          for (var key in clazz)
+          for(var key in clazz)
           {
             if (clazz[key] == fcn) {
               return clazz.classname + "." + key + "()";
@@ -223,7 +223,7 @@ qx.Bootstrap.define("qx.lang.Function",
 
           try {
             ret = func.apply(options.self||this, args);
-          } catch (ex) {}
+          } catch(ex) {}
 
           return ret;
         }

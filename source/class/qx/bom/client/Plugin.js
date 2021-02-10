@@ -60,7 +60,7 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
           (typeof (new window.ActiveXObject("Microsoft.XMLHTTP")) === "object" ||
            typeof (new window.ActiveXObject("MSXML2.DOMDocument.6.0")) === "object"
           );
-      } catch (ex) {
+      } catch(ex) {
         return false;
       }
     },
@@ -387,19 +387,21 @@ qx.Bootstrap.define("qx.bom.client.Plugin",
       if (qx.bom.client.Engine.getName() == "mshtml" &&
         (qx.bom.client.Browser.getDocumentMode() < 11 || forceActiveX))
       {
+
         if (!this.getActiveX()) {
           return false;
         }
 
         try {
           new window.ActiveXObject(activeXName);
-        } catch (ex) {
+        } catch(ex) {
           return false;
         }
 
         return true;
       // all other
       } else {
+
         var plugins = navigator.plugins;
         if (!plugins) {
           return false;

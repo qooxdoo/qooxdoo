@@ -430,7 +430,7 @@ qx.Class.define("qx.ui.core.Blocker",
         this.__appearListener = null;
       }
 
-      if (!this.isBlocked()) {
+      if (!this.isBlocked()){
         return;
       }
 
@@ -453,7 +453,7 @@ qx.Class.define("qx.ui.core.Blocker",
         this.__appearListener = null;
       }
 
-      if (!this.isBlocked()) {
+      if (!this.isBlocked()){
         return;
       }
 

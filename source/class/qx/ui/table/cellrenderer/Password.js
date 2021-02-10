@@ -45,8 +45,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Password",
     _getContentHtml : function(cellInfo)
     {
       var value = cellInfo.value;
-      if (value === null) { value = ""; }
-      cellInfo.value = value.replace(/./g, "*");
+      if ( value === null ){value = "";}
+      cellInfo.value = value.replace(/./g,"*");
       return qx.bom.String.escape(this._formatValue(cellInfo));
     }
   }

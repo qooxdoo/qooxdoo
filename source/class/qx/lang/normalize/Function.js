@@ -99,6 +99,7 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
       // 14. Set the [[HasInstance]] internal property of F as described in
       //   15.3.4.5.3.
       var bound = function () {
+
         if (this instanceof bound) {
           // 15.3.4.5.2 [[Construct]]
           // When the [[Construct]] internal method of a function object,
@@ -116,9 +117,9 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
           // 5. Return the result of calling the [[Construct]] internal
           //   method of target providing args as the arguments.
 
-          var F = function() {};
+          var F = function(){};
           F.prototype = target.prototype;
-          var self = new F();
+          var self = new F;
 
           var result = target.apply(
             self,
@@ -128,6 +129,7 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
             return result;
           }
           return self;
+
         } else {
           // 15.3.4.5.1 [[Call]]
           // When the [[Call]] internal method of a function object, F,
@@ -152,7 +154,9 @@ qx.Bootstrap.define("qx.lang.normalize.Function", {
               that,
               args.concat(slice.call(arguments))
           );
+
         }
+
       };
       // XXX bound.length is never writable, so don't even try
       //

@@ -103,6 +103,7 @@ qx.Class.define("qx.test.io.rest.ResourceWithRemote",
         if (count >= 10) {
           this.resume();
         }
+
       }, this);
 
       res.poll("get", 100);

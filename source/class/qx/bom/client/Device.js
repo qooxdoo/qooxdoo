@@ -84,9 +84,9 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @return {String} The device type name of determined device: "mobile","desktop","tablet"
      */
     detectDeviceType : function(userAgentString) {
-      if (qx.bom.client.Device.detectTabletDevice(userAgentString)) {
+      if(qx.bom.client.Device.detectTabletDevice(userAgentString)){
         return "tablet";
-      } else if (qx.bom.client.Device.detectMobileDevice(userAgentString)) {
+      } else if (qx.bom.client.Device.detectMobileDevice(userAgentString)){
         return "mobile";
       }
 
@@ -99,7 +99,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @param userAgentString {String} userAgent parameter, needed for decision.
      * @return {Boolean} Flag which indicates whether it is a mobile device.
      */
-    detectMobileDevice : function(userAgentString) {
+    detectMobileDevice : function(userAgentString){
       return /android.+mobile|ip(hone|od)|bada\/|blackberry|BB10|maemo|opera m(ob|in)i|fennec|NetFront|phone|psp|symbian|IEMobile|windows (ce|phone)|xda/i.test(userAgentString);
     },
 
@@ -109,7 +109,7 @@ qx.Bootstrap.define("qx.bom.client.Device",
      * @param userAgentString {String} userAgent parameter, needed for decision.
      * @return {Boolean} Flag which indicates whether it is a tablet device.
      */
-    detectTabletDevice : function(userAgentString) {
+    detectTabletDevice : function(userAgentString){
       var isIE10Tablet = (/MSIE 10/i.test(userAgentString)) && (/ARM/i.test(userAgentString)) && !(/windows phone/i.test(userAgentString));
       var isCommonTablet = (!(/android.+mobile|Tablet PC/i.test(userAgentString)) && (/Android|ipad|tablet|playbook|silk|kindle|psp/i.test(userAgentString)));
 

@@ -147,7 +147,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
         if (resourceManager.has(source)) {
           var highResSource = resourceManager.findHighResolutionSource(source, qx.ui.mobile.basic.Image.ROOT.getAppScale());
           if (highResSource) {
-            this._createHighResolutionOverlay(highResSource, source);
+            this._createHighResolutionOverlay(highResSource,source);
             source = qx.ui.mobile.basic.Image.PLACEHOLDER_IMAGE;
             uri = resourceManager.toUri(highResSource);
           } else {
@@ -184,10 +184,10 @@ qx.Class.define("qx.ui.mobile.basic.Image",
     _createHighResolutionOverlay : function(highResSource, lowResSource) {
       // Replace the source through transparent pixel for making the high-resolution background image visible.
       var resourceManager = qx.util.ResourceManager.getInstance();
-      this._setStyle("backgroundImage", "url("+resourceManager.toUri(highResSource)+")");
-      this._setStyle("backgroundSize", "100%");
-      this._setStyle("backgroundRepeat", "no-repeat");
-      this._setStyle("backgroundPosition", "50% 50%");
+      this._setStyle("backgroundImage","url("+resourceManager.toUri(highResSource)+")");
+      this._setStyle("backgroundSize","100%");
+      this._setStyle("backgroundRepeat","no-repeat");
+      this._setStyle("backgroundPosition","50% 50%");
       this._setStyle("width", resourceManager.getImageWidth(lowResSource) / 16 + "rem");
       this._setStyle("height", resourceManager.getImageHeight(lowResSource) / 16 + "rem");
     },
@@ -241,7 +241,7 @@ qx.Class.define("qx.ui.mobile.basic.Image",
      * @param isDraggable {Boolean} target value.
      */
     setDraggable : function(isDraggable) {
-      if (isDraggable) {
+      if(isDraggable){
         this._setAttribute("draggable", "true");
       } else {
         this._setAttribute("draggable", "false");

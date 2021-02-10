@@ -121,7 +121,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     {
       var spyBinding = this.spy(this.provider, "_bindItem");
       var spySelection = this.spy(this.provider, "_styleUnselectabled");
-      var widget = this.provider.getCellWidget(0, 0);
+      var widget = this.provider.getCellWidget(0,0);
 
       this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
       this.assertTrue(widget.hasChildren());
@@ -143,7 +143,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     {
       var spyBinding = this.spy(this.provider, "_bindItem");
       var spySelection = this.spy(this.provider, "_styleUnselectabled");
-      var widget = this.provider.getCellWidget(1, 0);
+      var widget = this.provider.getCellWidget(1,0);
 
       this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
       this.assertFalse(widget.hasChildren());
@@ -164,7 +164,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
     {
       var spyBinding = this.spy(this.provider, "_bindItem");
       var spySelection = this.spy(this.provider, "_styleUnselectabled");
-      var widget = this.provider.getCellWidget(3, 0);
+      var widget = this.provider.getCellWidget(3,0);
 
       this.assertInstance(widget, qx.ui.tree.VirtualTreeItem);
       this.assertFalse(widget.hasChildren());
@@ -183,7 +183,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
 
     testPoolWidget : function()
     {
-      var widget = this.provider.getCellWidget(3, 0);
+      var widget = this.provider.getCellWidget(3,0);
 
       var spyPool = this.spy(this.provider._renderer, "pool");
       var spyBinding = this.spy(this.provider, "_removeBindingsFrom");
@@ -323,7 +323,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var spy = this.spy(delegate, "createItem");
       this.provider.setDelegate(delegate);
 
-      var widget = this.provider.getCellWidget(4, 0);
+      var widget = this.provider.getCellWidget(4,0);
       this.assertCalledOnce(spy);
       widget.dispose();
     },
@@ -337,7 +337,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var spy = this.spy(delegate, "configureItem");
       this.provider.setDelegate(delegate);
 
-      var widget = this.provider.getCellWidget(4, 0);
+      var widget = this.provider.getCellWidget(4,0);
       this.assertCalledOnce(spy);
       this.assertCalledWith(spy, widget);
       widget.dispose();
@@ -352,7 +352,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var spy = this.spy(delegate, "bindItem");
       this.provider.setDelegate(delegate);
 
-      var widget = this.provider.getCellWidget(4, 0);
+      var widget = this.provider.getCellWidget(4,0);
       this.assertCalledOnce(spy);
       this.assertCalledWith(spy, this.provider, widget, 4);
       widget.dispose();
@@ -367,7 +367,7 @@ qx.Class.define("qx.test.ui.tree.virtual.WidgetProvider",
       var spy = this.spy(delegate, "onPool");
       this.provider.setDelegate(delegate);
 
-      var widget = this.provider.getCellWidget(4, 0);
+      var widget = this.provider.getCellWidget(4,0);
       this.provider.poolCellWidget(widget);
       this.assertCalledOnce(spy);
       this.assertCalledWith(spy, widget);

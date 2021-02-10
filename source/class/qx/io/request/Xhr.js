@@ -307,9 +307,9 @@ qx.Class.define("qx.io.request.Xhr",
 
       try {
         parsedResponse = this._parser.parse(response, contentType);
-        this._parserFailed = false;
-      } catch (e) {
-        this._parserFailed = true;
+        this._parserFailed = false
+      } catch(e) {
+        this._parserFailed = true
         this.fireDataEvent("parseError", {
           error: e,
           response: response

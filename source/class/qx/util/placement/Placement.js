@@ -150,7 +150,7 @@ qx.Class.define("qx.util.placement.Placement",
      */
     __getAxis : function(mode)
     {
-      switch (mode)
+      switch(mode)
       {
         case "direct":
           this.__direct = this.__direct || qx.util.placement.DirectAxis;

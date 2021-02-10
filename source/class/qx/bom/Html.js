@@ -110,8 +110,7 @@ qx.Bootstrap.define("qx.bom.Html",
       var tags = html.replace(/^\s+/, "").substring(0, 5).toLowerCase();
 
       // Auto-wrap content into required DOM structure
-      var wrap, 
-map = this.__convertMap;
+      var wrap, map = this.__convertMap;
       if (!tags.indexOf("<opt")) {
         wrap = map.opt;
       } else if (!tags.indexOf("<leg")) {
@@ -158,7 +157,7 @@ map = this.__convertMap;
           wrap[1] == "<table>" && !hasBody ? div.childNodes :
           [];
 
-        for (var j=tbody.length-1; j>=0; --j)
+        for (var j=tbody.length-1; j>=0 ; --j)
         {
           if (tbody[j].tagName.toLowerCase() === "tbody" && !tbody[j].childNodes.length) {
             tbody[j].parentNode.removeChild(tbody[j]);
@@ -215,8 +214,7 @@ map = this.__convertMap;
       }
 
       // Iterate through items in incoming array
-      var obj, 
-ret=[];
+      var obj, ret=[];
       for (var i=0, l=objs.length; i<l; i++)
       {
         obj = objs[i];
@@ -259,8 +257,7 @@ ret=[];
      * @return {Element[]} Array containing the script elements
      */
     extractScripts : function(elements, fragment) {
-      var scripts=[], 
-elem;
+      var scripts=[], elem;
       for (var i=0; elements[i]; i++) {
         elem = elements[i];
 

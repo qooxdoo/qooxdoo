@@ -33,7 +33,7 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
         var contextMenu = this.getContextMenu();
 
         // Dispose of any previously existing context menu
-        if (contextMenu && !contextMenu.isDisposed())
+        if (contextMenu && ! contextMenu.isDisposed())
         {
           // Dispose of the context menu.
           contextMenu.hide();
@@ -83,7 +83,7 @@ qx.Mixin.define("qx.ui.table.MTableContextMenu",
         );
 
         // If we were told not to display the context menu...
-        if (!bShowContextMenu)
+        if (! bShowContextMenu)
         {
           // ... then we're all done here.
           contextMenu.dispose();

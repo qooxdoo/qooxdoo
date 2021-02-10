@@ -39,7 +39,7 @@ qx.Class.define("qx.test.dev.unit.Requirements", {
       try {
         this.require(["fulfilledReq"]);
       }
-      catch (ex) {
+      catch(ex) {
         this.fail("Check for fulfilled requirement failed!");
       }
     },
@@ -69,7 +69,7 @@ qx.Class.define("qx.test.dev.unit.Requirements", {
       try {
         this.require(["fulfilledReq", "qx.test.requirement.syncTrue"]);
       }
-      catch (ex) {
+      catch(ex) {
         this.fail("Check for environment key failed!");
       }
 

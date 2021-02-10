@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
      */
     removeCell : function(id)
     {
-      delete (this._cells[id]);
+      delete(this._cells[id]);
       this._invalidateSortCache();
     },
 
@@ -207,6 +207,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
           verticalInWindow,
           this._findCellsInRange("lastRow", firstRow, lastRow)
         );
+
       }
 
       var horizontalInWindow = {};
@@ -222,6 +223,7 @@ qx.Class.define("qx.ui.virtual.layer.CellSpanManager",
             horizontalInWindow,
             this._findCellsInRange("lastColumn", firstColumn, lastColumn)
         );
+
       }
 
       return this.__intersectionAsArray(horizontalInWindow, verticalInWindow);

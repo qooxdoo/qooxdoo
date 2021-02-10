@@ -24,7 +24,6 @@
  *
  * @internal
  */
-/* global BigInt */
 qx.Bootstrap.define("qx.bom.client.EcmaScript",
 {
   statics :
@@ -47,7 +46,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
       if (!propName) {
         try {
           throw e;
-        } catch (ex) {
+        } catch(ex) {
           e = ex;
         }
       }
@@ -218,7 +217,7 @@ qx.Bootstrap.define("qx.bom.client.EcmaScript",
      */
     getAsyncFunction : function() {
       var f;
-      try { eval("f = async function(){};"); } catch (e) { return false; }
+      try { eval("f = async function(){};") } catch(e) { return false; };
       return qx.Bootstrap.getClass(f) === "AsyncFunction";
     },
 

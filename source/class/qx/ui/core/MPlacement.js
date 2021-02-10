@@ -299,6 +299,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
       // if we have an always visible element
       if (visible) {
+
         var bounds = this.getBounds();
         var elemLocation = visible.getContentLocation();
 
@@ -356,6 +357,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      */
     placeToWidget : function(target, liveupdate)
     {
+
       // Use the idle event to make sure that the widget's position gets
       // updated automatically (e.g. the widget gets scrolled).
       if (liveupdate)
@@ -374,11 +376,12 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         };
 
         this.addListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
+
       }
 
       var coords = target.getContentLocation() || this.getLayoutLocation(target);
 
-      if (coords != null) {
+      if(coords != null) {
         this._place(coords);
         return true;
       } else {
@@ -398,10 +401,11 @@ qx.Mixin.define("qx.ui.core.MPlacement",
         this.__ptwLiveUpdater = null;
       }
 
-      if (this.__ptwLiveUpdateDisappearListener) {
+      if (this.__ptwLiveUpdateDisappearListener){
         this.removeListener("disappear", this.__ptwLiveUpdateDisappearListener, this);
         this.__ptwLiveUpdateDisappearListener = null;
       }
+
     },
 
 

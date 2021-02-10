@@ -238,7 +238,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     {
       var control;
 
-      switch (id)
+      switch(id)
       {
         // NAVIGATION BAR STUFF
         case "navigation-bar":
@@ -461,7 +461,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       var year = this.getShownYear();
       var month = this.getShownMonth();
 
-      switch (evt.getCurrentTarget())
+      switch(evt.getCurrentTarget())
       {
         case this.getChildControl("last-year-button"):
           year--;
@@ -531,7 +531,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
       if (evt.getModifiers() == 0)
       {
-        switch (evt.getKeyIdentifier())
+        switch(evt.getKeyIdentifier())
         {
           case "Left":
             dayIncrement = -1;
@@ -577,7 +577,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       }
       else if (evt.isShiftPressed())
       {
-        switch (evt.getKeyIdentifier())
+        switch(evt.getKeyIdentifier())
         {
           case "PageUp":
             yearIncrement = -1;
@@ -602,9 +602,9 @@ qx.Class.define("qx.ui.control.DateChooser",
         }
         else
         {
-          if (dayIncrement != null) { date.setDate(date.getDate() + dayIncrement); }
-          if (monthIncrement != null) { date.setMonth(date.getMonth() + monthIncrement); }
-          if (yearIncrement != null) { date.setFullYear(date.getFullYear() + yearIncrement); }
+          if (dayIncrement != null){date.setDate(date.getDate() + dayIncrement);}
+          if (monthIncrement != null){date.setMonth(date.getMonth() + monthIncrement);}
+          if (yearIncrement != null){date.setFullYear(date.getFullYear() + yearIncrement);}
         }
 
         this.setValue(date);

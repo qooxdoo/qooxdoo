@@ -508,7 +508,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
 
     // Async self contained //////////
 
-    testAsyncSelfContained1NotNullFail: function() {
+    testAsyncSelfContained1NotNullFail: function(){
       var asyncValidator = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
       this.__manager.add(this.__username, asyncValidator);
@@ -528,7 +528,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     },
 
 
-    testAsyncSelfContained1NotNull: function() {
+    testAsyncSelfContained1NotNull: function(){
       var asyncValidator = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
       this.__manager.add(this.__username, asyncValidator);
@@ -548,7 +548,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     },
 
 
-    testAsyncSelfContained3NotNullFail: function() {
+    testAsyncSelfContained3NotNullFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
@@ -580,7 +580,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     },
 
 
-    testAsyncSelfContained3NotNull: function() {
+    testAsyncSelfContained3NotNull: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
@@ -651,7 +651,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     },
 
 
-    testAsyncSelfContained3NotNullHalfFail: function() {
+    testAsyncSelfContained3NotNullHalfFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
@@ -687,7 +687,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
 
     // Async related //////////
 
-    testAsyncRelated3NotNullFail: function() {
+    testAsyncRelated3NotNullFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
@@ -724,7 +724,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     },
 
 
-    testAsyncRelated3NotNull: function() {
+    testAsyncRelated3NotNull: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator2 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
@@ -740,6 +740,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
           this.assertTrue(this.__username.getValid());
           this.assertTrue(this.__password1.getValid());
           this.assertTrue(this.__password2.getValid());
+
         }, this);
       }, this);
 
@@ -765,7 +766,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
 
 
     // Mixed self contained //////////
-    testMixedSelfContained3NotNullAsyncFail: function() {
+    testMixedSelfContained3NotNullAsyncFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
       this.__manager.add(this.__username, asyncValidator1);
@@ -791,7 +792,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     },
 
 
-    testMixedSelfContained3NotNullSyncFail: function() {
+    testMixedSelfContained3NotNullSyncFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
       this.__manager.add(this.__username, asyncValidator1);
@@ -817,7 +818,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     },
 
 
-    testMixedSelfContained3NotNullSync: function() {
+    testMixedSelfContained3NotNullSync: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
       this.__manager.add(this.__username, asyncValidator1);
@@ -871,7 +872,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
 
 
     // Mixed related //////////
-    testMixedRelated3NotNull: function() {
+    testMixedRelated3NotNull: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
@@ -886,6 +887,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
           this.assertTrue(this.__username.getValid());
           this.assertTrue(this.__password1.getValid());
           this.assertTrue(this.__password2.getValid());
+
         }, this);
       }, this);
 
@@ -907,7 +909,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
     },
 
 
-    testMixedRelated3NotNullSyncFail: function() {
+    testMixedRelated3NotNullSyncFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
@@ -922,6 +924,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
           this.assertTrue(this.__username.getValid());
           this.assertFalse(this.__password1.getValid());
           this.assertTrue(this.__password2.getValid());
+
         }, this);
       }, this);
 
@@ -941,7 +944,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.wait();
     },
 
-    testMixedRelated3NotNullAsyncFail: function() {
+    testMixedRelated3NotNullAsyncFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
@@ -956,6 +959,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
           this.assertFalse(this.__username.getValid());
           this.assertTrue(this.__password1.getValid());
           this.assertTrue(this.__password2.getValid());
+
         }, this);
       }, this);
 
@@ -975,7 +979,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.wait();
     },
 
-    testMixedRelated3NotNullAsyncFormFail: function() {
+    testMixedRelated3NotNullAsyncFormFail: function(){
       var asyncValidator1 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
       var asyncValidator3 = new qx.ui.form.validation.AsyncValidator(this.__asyncValidator);
 
@@ -990,6 +994,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
           this.assertTrue(this.__username.getValid());
           this.assertTrue(this.__password1.getValid());
           this.assertTrue(this.__password2.getValid());
+
         }, this);
       }, this);
 
@@ -1023,6 +1028,7 @@ qx.Class.define("qx.test.ui.form.FormValidator",
       this.assertException(function() {
         this.__manager.add({});
       });
+
     },
 
     testAddSelectBoxWithValidator : function() {

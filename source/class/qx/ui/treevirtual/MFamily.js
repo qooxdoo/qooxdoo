@@ -38,11 +38,11 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
     {
       var node;
 
-      if (typeof (nodeReference) == "object")
+      if (typeof(nodeReference) == "object")
       {
         node = nodeReference;
       }
-      else if (typeof (nodeReference) == "number")
+      else if (typeof(nodeReference) == "number")
       {
         node = this.getTableModel().getData()[nodeReference];
       }
@@ -75,11 +75,11 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
     {
       var node;
 
-      if (typeof (nodeReference) == "object")
+      if (typeof(nodeReference) == "object")
       {
         node = nodeReference;
       }
-      else if (typeof (nodeReference) == "number")
+      else if (typeof(nodeReference) == "number")
       {
         node = this.getTableModel().getData()[nodeReference];
       }
@@ -114,11 +114,11 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
       var nodeId;
       var nodes = this.getTableModel().getData();
 
-      if (typeof (nodeReference) == "object")
+      if (typeof(nodeReference) == "object")
       {
         node = nodeReference;
       }
-      else if (typeof (nodeReference) == "number")
+      else if (typeof(nodeReference) == "number")
       {
         nodeId = nodeReference;
         node = nodes[nodeId];
@@ -168,11 +168,11 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
       var nodeId;
       var nodes = this.getTableModel().getData();
 
-      if (typeof (nodeReference) == "object")
+      if (typeof(nodeReference) == "object")
       {
         node = nodeReference;
       }
-      else if (typeof (nodeReference) == "number")
+      else if (typeof(nodeReference) == "number")
       {
         nodeId = nodeReference;
         node = nodes[nodeId];

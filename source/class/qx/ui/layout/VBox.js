@@ -326,8 +326,7 @@ qx.Class.define("qx.ui.layout.VBox",
 
       // First run to cache children data and compute allocated height
       var i, child, height, percent;
-      var heights = [], 
-hint;
+      var heights = [], hint;
       var allocatedHeight = gaps;
 
       for (i=0; i<length; i+=1)
@@ -488,11 +487,8 @@ hint;
       var children = this.__children;
 
       // Initialize
-      var minHeight=0, 
-height=0, 
-percentMinHeight=0;
-      var minWidth=0, 
-width=0;
+      var minHeight=0, height=0, percentMinHeight=0;
+      var minWidth=0, width=0;
       var child, hint, margin;
 
       // Iterate over children

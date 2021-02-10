@@ -119,7 +119,7 @@ qx.Class.define("qx.log.appender.NodeConsole", {
    */
   defer : function(statics)
   {
-    if (typeof (process) !== "undefined") {
+    if (typeof(process) !== "undefined") {
       statics.__OUT = process.stdout;
       statics.__ERR = process.stderr;
     }

@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         return this.__tree.getAllowNodeEdit();
       }
 
-      return (this.__editableColArr
+      return(this.__editableColArr
              ? this.__editableColArr[columnIndex] == true
              : false);
     },
@@ -537,12 +537,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       var node;
       var nodeId;
 
-      if (typeof (nodeReference) == "object")
+      if (typeof(nodeReference) == "object")
       {
         node = nodeReference;
         nodeId = node.nodeId;
       }
-      else if (typeof (nodeReference) == "number")
+      else if (typeof(nodeReference) == "number")
       {
         nodeId = nodeReference;
       }
@@ -607,12 +607,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       // Replace null parent with node id 0
       parentNodeReference = parentNodeReference || 0;
 
-      if (typeof (moveNodeReference) == "object")
+      if (typeof(moveNodeReference) == "object")
       {
         moveNode = moveNodeReference;
         moveNodeId = moveNode.nodeId;
       }
-      else if (typeof (moveNodeReference) == "number")
+      else if (typeof(moveNodeReference) == "number")
       {
         moveNodeId = moveNodeReference;
         moveNode = this._nodeArr[moveNodeId];
@@ -622,12 +622,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         throw new Error("Expected move node object or node id");
       }
 
-      if (typeof (parentNodeReference) == "object")
+      if (typeof(parentNodeReference) == "object")
       {
         parentNode = parentNodeReference;
         parentNodeId = parentNode.nodeId;
       }
-      else if (typeof (parentNodeReference) == "number")
+      else if (typeof(parentNodeReference) == "number")
       {
         parentNodeId = parentNodeReference;
         parentNode = this._nodeArr[parentNodeId];
@@ -1000,12 +1000,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       var node;
       var nodeId;
 
-      if (typeof (nodeReference) == "object")
+      if (typeof(nodeReference) == "object")
       {
         node = nodeReference;
         nodeId = node.nodeId;
       }
-      else if (typeof (nodeReference) == "number")
+      else if (typeof(nodeReference) == "number")
       {
         nodeId = nodeReference;
         node = this._nodeArr[nodeId];
@@ -1018,14 +1018,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       for (var attribute in attributes)
       {
         // Do any attribute-specific processing
-        switch (attribute)
+        switch(attribute)
         {
         case "bSelected":
           var nRowIndex = this.getRowFromNodeId(nodeId);
           var selectionModel = this.getTree().getSelectionModel();
           var TV = qx.ui.treevirtual.TreeVirtual;
           var bChangeSelection =
-            (typeof (nRowIndex) === "number" &&
+            (typeof(nRowIndex) === "number" &&
              this.getTree().getSelectionMode() != TV.SelectionMode.NONE);
 
           // The selected state is changing. Keep track of what is selected
@@ -1035,7 +1035,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
             // Add selection range for node
             if (bChangeSelection &&
-                !selectionModel.isSelectedIndex(nRowIndex))
+                ! selectionModel.isSelectedIndex(nRowIndex))
             {
               selectionModel.setSelectionInterval(nRowIndex, nRowIndex);
             }

@@ -453,7 +453,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             icon = "checkbox-focused";
           } else if (states.pressed) {
             icon = "checkbox-pressed";
-          } else if (states.hovered) {
+          } else if (states.hovered ) {
             icon = "checkbox-hovered";
           }
         }
@@ -762,7 +762,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
         else
         {
-          var border;
+          var border = undefined;
           var padding = [ 3, 4 ];
         }
 
@@ -880,10 +880,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        var marginTop=0,
-marginRight=0,
-marginBottom=0,
-marginLeft=0;
+        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
         if (states.barTop) {
           marginBottom = -2;
@@ -972,21 +969,12 @@ marginLeft=0;
       style : function(states)
       {
         var decorator;
-        var marginTop=0,
-marginRight=0,
-marginBottom=0,
-marginLeft=0;
+        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
         if (states.barTop || states.barBottom) {
-          var paddingTop=2,
-paddingBottom=2,
-paddingLeft=6,
-paddingRight=6;
+          var paddingTop=2, paddingBottom=2, paddingLeft=6, paddingRight=6;
         } else {
-          var paddingTop=6,
-paddingBottom=6,
-paddingLeft=6,
-paddingRight=6;
+          var paddingTop=6, paddingBottom=6, paddingLeft=6, paddingRight=6;
         }
 
         if (states.barTop)
@@ -1425,7 +1413,7 @@ paddingRight=6;
       {
         return {
           icon        : "decoration/treevirtual/end_minus.gif"
-        };
+        }
       }
     },
 
@@ -1435,7 +1423,7 @@ paddingRight=6;
       {
         return {
           icon        : "decoration/treevirtual/end_plus.gif"
-        };
+        }
       }
     },
 
@@ -1445,7 +1433,7 @@ paddingRight=6;
       {
         return {
           icon        : "decoration/treevirtual/cross_minus.gif"
-        };
+        }
       }
     },
 
@@ -1455,7 +1443,7 @@ paddingRight=6;
       {
         return {
           icon        : "decoration/treevirtual/cross_plus.gif"
-        };
+        }
       }
     },
 
@@ -1466,7 +1454,7 @@ paddingRight=6;
       {
         return {
           icon        : "decoration/treevirtual/end.gif"
-        };
+        }
       }
     },
 
@@ -1476,7 +1464,7 @@ paddingRight=6;
       {
         return {
           icon        : "decoration/treevirtual/cross.gif"
-        };
+        }
       }
     },
 
@@ -1735,7 +1723,7 @@ paddingRight=6;
       {
         return {
           decorator : "outset"
-        };
+        }
       }
     },
 
@@ -2018,7 +2006,7 @@ paddingRight=6;
           marginBottom: 4,
           marginLeft : 2,
           marginRight : 2
-        };
+        }
       }
     },
 
@@ -2099,7 +2087,7 @@ paddingRight=6;
           icon : !states.checked ? undefined :
             states.selected ? "decoration/menu/checkbox-invert.gif" :
               "decoration/menu/checkbox.gif"
-        };
+        }
       }
     },
 
@@ -2114,7 +2102,7 @@ paddingRight=6;
           icon : !states.checked ? undefined :
             states.selected ? "decoration/menu/radiobutton-invert.gif" :
               "decoration/menu/radiobutton.gif"
-        };
+        }
       }
     },
 
@@ -2175,7 +2163,7 @@ paddingRight=6;
           decorator : "inset-thin",
           width : 16,
           height : 16
-        };
+        }
       }
     },
 
@@ -2186,7 +2174,7 @@ paddingRight=6;
       style : function() {
         return {
           paddingTop: 12
-        };
+        }
       }
     },
 
@@ -2196,7 +2184,7 @@ paddingRight=6;
       style : function() {
         return {
           paddingTop: 12
-        };
+        }
       }
     },
 
@@ -2221,7 +2209,7 @@ paddingRight=6;
           decorator : "inset-thin",
           width : 50,
           height : 10
-        };
+        }
       }
     },
 
@@ -2234,7 +2222,7 @@ paddingRight=6;
           backgroundColor : "white",
           width : 50,
           height : 10
-        };
+        }
       }
     },
 
@@ -2245,7 +2233,7 @@ paddingRight=6;
         return {
           decorator : "inset-thin",
           margin : 5
-        };
+        }
       }
     },
 
@@ -2256,7 +2244,7 @@ paddingRight=6;
         return {
           decorator : "inset-thin",
           margin : [5, 7]
-        };
+        }
       }
     },
 
@@ -2332,7 +2320,7 @@ paddingRight=6;
       {
         return {
           icon : "icon/16/actions/view-refresh.png"
-        };
+        }
       }
     },
 
@@ -2398,7 +2386,7 @@ paddingRight=6;
           sortIcon : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
               : undefined
-        };
+        }
       }
     },
 
@@ -2408,7 +2396,7 @@ paddingRight=6;
         return {
           marginRight: 4,
           opacity : states.disabled ? 0.3 : 1
-        };
+        }
       }
     },
 
@@ -2418,7 +2406,7 @@ paddingRight=6;
         return {
           alignY : "middle",
           opacity : states.disabled ? 0.3 : 1
-        };
+        }
       }
     },
 
@@ -2494,7 +2482,7 @@ paddingRight=6;
           decorator : "outset",
           padding : 5,
           backgroundColor : "background"
-        };
+        }
       }
     },
 
@@ -2508,7 +2496,7 @@ paddingRight=6;
           width : 14,
           height : 14,
           backgroundColor : "background"
-        };
+        }
       }
     },
 
@@ -2527,7 +2515,7 @@ paddingRight=6;
           marginLeft : 4,
           decorator : "inset-thin",
           allowGrowX : true
-        };
+        }
       }
     },
 
@@ -2541,7 +2529,7 @@ paddingRight=6;
           marginRight : 4,
           decorator : "inset-thin",
           allowGrowX : true
-        };
+        }
       }
     },
 
@@ -2636,7 +2624,7 @@ paddingRight=6;
             "table-row-background-even",
           textColor: states.selected ? "text-selected" : "text",
           padding: [3, 6]
-        };
+        }
       }
     },
 
@@ -2648,7 +2636,7 @@ paddingRight=6;
       {
         return {
           textAlign : "right"
-        };
+        }
       }
     },
     "cell-image" : "cell",
@@ -2672,7 +2660,7 @@ paddingRight=6;
           backgroundColor: "white",
           width : 200,
           height : 20
-        };
+        }
       }
     },
 
@@ -2681,7 +2669,7 @@ paddingRight=6;
       style: function(states) {
         return {
           backgroundColor: states.disabled ? "background-disabled" : "background-selected"
-        };
+        }
       }
     },
 
@@ -2713,16 +2701,16 @@ paddingRight=6;
         return {
           padding: [0, 10, 10, 10],
           backgroundColor: "light-background"
-        };
+        }
       }
     },
-
+      
     /*
       --------------------
-      VIRTUAL SELECTBOX
+      VIRTUAL SELECTBOX 
       --------------------
     */
-
+      
     "list-search-highlight" : {
       style : function(states) {
         return {

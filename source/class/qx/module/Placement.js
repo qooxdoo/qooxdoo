@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.module.Placement", {
      */
     _getAxis : function(mode)
     {
-      switch (mode)
+      switch(mode)
       {
         case "keep-align":
           return qx.util.placement.KeepAlignAxis;
@@ -241,8 +241,8 @@ qx.Bootstrap.define("qx.module.Placement", {
       var align = split[1];
 
       var newPosition = {
-        x : qx.module.Placement._getPositionX(edge, align),
-        y : qx.module.Placement._getPositionY(edge, align)
+        x : qx.module.Placement._getPositionX(edge,align),
+        y : qx.module.Placement._getPositionY(edge,align)
       };
 
       var targetLocation;
@@ -262,7 +262,7 @@ qx.Bootstrap.define("qx.module.Placement", {
       var newLocation = qx.module.Placement._computePlacement(axes, size, area, targetLocation, offsets, newPosition);
 
       while (parent.length > 0) {
-        if (parent.getStyle("position") == "relative") {
+        if (parent.getStyle("position") == "relative" ) {
           var offset = parent.getOffset();
           var borderTop = parseInt(parent.getStyle("border-top-width")) || 0;
           var borderLeft = parseInt(parent.getStyle("border-left-width")) || 0;

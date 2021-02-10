@@ -51,7 +51,7 @@ qx.Bootstrap.define("qx.event.type.dom.Custom", {
         // exception when trying to access its properties.
         try {
           this._original.returnValue = false;
-        } catch (ex) {}
+        } catch(ex) {}
       }
     };
 
@@ -116,10 +116,11 @@ qx.Bootstrap.define("qx.event.type.dom.Custom", {
       for (var prop in properties) {
         try {
           this._event[prop] = properties[prop];
-        } catch (ex) {
+        }catch(ex) {
           //Nothing - strict mode prevents writing to read only properties
         }
       }
+
     }
   }
 });

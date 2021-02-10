@@ -48,7 +48,7 @@ qx.Class.define("qx.core.Id", {
         }
       }
 
-      switch (id) {
+      switch(id) {
         case "application":
           return qx.core.Init.getApplication() || undefined;
       }

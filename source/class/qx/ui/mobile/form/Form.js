@@ -87,21 +87,21 @@ qx.Class.define("qx.ui.mobile.form.Form",
 
       this.__invalidItems = [];
 
-      if (this.__renderer != null) {
+      if(this.__renderer != null) {
         this.__renderer.resetForm();
       }
       var groups = this.getGroups();
       for (var i = 0; i < groups.length; i++)
       {
         var group = groups[i];
-        for (var j=0; j < group.items.length; j++)
+        for(var j=0; j < group.items.length; j++)
         {
           var item = group.items[j];
-          if (!item.isValid())
+          if(!item.isValid())
           {
             this.__invalidItems.push(item);
 
-            if (this.__renderer != null)
+            if(this.__renderer != null)
             {
               this.__renderer.showErrorForItem(item);
             }
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
         }
       }
 
-      if (this.__renderer != null) {
+      if(this.__renderer != null) {
         this.__renderer._domUpdated();
       }
 
@@ -127,9 +127,9 @@ qx.Class.define("qx.ui.mobile.form.Form",
      * @param groupIndex {Integer} the index of the group to which the row belongs to
      * @param rowIndex {Integer} the index of the row inside the target group
      */
-    showRow : function(groupIndex, rowIndex) {
+    showRow : function(groupIndex,rowIndex) {
       var item = this._getItemByIndex(groupIndex, rowIndex);
-      if (item) {
+      if(item) {
         this.__renderer.showItem(item);
       }
     },
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
      */
     hideRow : function(groupIndex, rowIndex) {
       var item = this._getItemByIndex(groupIndex, rowIndex);
-      if (item) {
+      if(item) {
         this.__renderer.hideItem(item);
       }
     },
@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.mobile.form.Form",
     _getItemByIndex : function(groupIndex, rowIndex) {
       var groups = this.getGroups();
       var group = groups[groupIndex];
-      if (group) {
+      if(group) {
         var item = group.items[rowIndex];
         return item;
       }

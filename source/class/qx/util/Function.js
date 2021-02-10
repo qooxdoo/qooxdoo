@@ -64,6 +64,7 @@ qx.Bootstrap.define("qx.util.Function", {
         if (intervalId === null) {
           // setup the interval for the first run
           intervalId = window.setInterval(function () {
+
             // if the 'wrapperFunction' was *not* called during the last
             // interval then can call the provided callback and clear the interval
             if (!fired) {

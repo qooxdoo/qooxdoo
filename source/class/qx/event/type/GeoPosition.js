@@ -115,7 +115,7 @@ qx.Class.define("qx.event.type.GeoPosition",
      * this property must be null.
      */
     speed : {
-      check : function(data) { return qx.lang.Type.isNumber(data); },
+      check : function(data) {return qx.lang.Type.isNumber(data);},
       nullable : true
     }
   },

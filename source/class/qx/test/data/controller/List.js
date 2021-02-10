@@ -336,7 +336,7 @@ qx.Class.define("qx.test.data.controller.List",
     },
 
 
-    testResetSelectionSingle: function() {
+    testResetSelectionSingle: function(){
       this.__setUpString();
 
       var box = new qx.ui.form.SelectBox();
@@ -357,6 +357,7 @@ qx.Class.define("qx.test.data.controller.List",
         model.dispose();
         box.destroy();
       }, this);
+
     },
 
 
@@ -692,6 +693,7 @@ qx.Class.define("qx.test.data.controller.List",
           this.assertEquals(1, this.__controller.getSelection().length, "Selection has a wrong length.");
           this.assertEquals("1", this.__controller.getSelection().getItem(0), "Selection does not work.");
           selectBox.dispose();
+
         }, this);
       }, this);
 

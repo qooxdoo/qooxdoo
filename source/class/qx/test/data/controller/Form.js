@@ -110,7 +110,7 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
-    testUnidirectionalSelectionOptions: function() {
+    testUnidirectionalSelectionOptions: function(){
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form, true);
 
@@ -123,8 +123,8 @@ qx.Class.define("qx.test.data.controller.Form",
       this.__form.add(sb, "Sb");
       c.setModel(null);
       c.addBindingOptions("Sb",
-        {converter : function(data) { return data && data.substr(0, 1); }},
-        {converter : function(data) { return data + "-item"; }}
+        {converter : function(data) { return data && data.substr(0, 1);}},
+        {converter : function(data) { return data + "-item";}}
       );
       var m = c.createModel();
 
@@ -144,13 +144,13 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
-    testUnidirectionalOptions: function() {
+    testUnidirectionalOptions: function(){
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form, true);
 
       c.addBindingOptions("tf1",
-        {converter : function(data) { return data && data.substr(0, data.length - 1); }},
-        {converter : function(data) { return data + "a"; }}
+        {converter : function(data) { return data && data.substr(0, data.length - 1);}},
+        {converter : function(data) { return data + "a";}}
       );
 
       // check if the other direction does not work
@@ -166,7 +166,7 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
-    testUnidirectionalSelection: function() {
+    testUnidirectionalSelection: function(){
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form, true);
 
@@ -195,7 +195,7 @@ qx.Class.define("qx.test.data.controller.Form",
     },
 
 
-    testUnidirectional: function() {
+    testUnidirectional: function(){
       // just create the controller
       var c = new qx.data.controller.Form(this.__model, this.__form, true);
 

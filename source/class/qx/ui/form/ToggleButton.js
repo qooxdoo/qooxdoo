@@ -64,6 +64,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
 
     // register execute event
     this.addListener("execute", this._onExecute, this);
+
   },
 
 
@@ -303,7 +304,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      */
     _onKeyDown : function(e)
     {
-      switch (e.getKeyIdentifier())
+      switch(e.getKeyIdentifier())
       {
         case "Enter":
         case "Space":
@@ -328,7 +329,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
         return;
       }
 
-      switch (e.getKeyIdentifier())
+      switch(e.getKeyIdentifier())
       {
         case "Enter":
         case "Space":

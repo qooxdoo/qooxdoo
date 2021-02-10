@@ -53,9 +53,9 @@ qx.Class.define("qx.test.mobile.form.Form",
       var username = this.__username = new qx.ui.mobile.form.TextField().set({placeholder:"Username"});
       username.setRequired(true);
       form.add(username, "Username: ");
-      validationManager.add(username, function(value, item) {
+      validationManager.add(username, function(value, item){
         var valid = value != null && value.length>3;
-        if (!valid) {
+        if(!valid) {
           item.setInvalidMessage("username should have more than 3 characters!");
         }
         return valid;

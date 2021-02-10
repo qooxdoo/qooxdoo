@@ -136,7 +136,7 @@ qx.Class.define("qx.core.Object",
      * @param uuid {String} an ID which is unique across the whole application
      */
     setExplicitUuid : function(uuid) {
-      if (this.$$uuid) {
+      if (Boolean(this.$$uuid)) {
         throw new Error("Cannot change the UUID of an object once set");
       }
       this.$$uuid = uuid;
@@ -215,7 +215,7 @@ qx.Class.define("qx.core.Object",
       }
 
       var clazz = this.constructor;
-      var clone = new clazz();
+      var clone = new clazz;
       var props = qx.Class.getProperties(clazz);
       var user = this.__Property.$$store.user;
       var setter = this.__Property.$$method.set;
@@ -498,7 +498,7 @@ qx.Class.define("qx.core.Object",
       var storeUseinit = store.useinit;
       var storeInit = store.init;
 
-      while (clazz)
+      while(clazz)
       {
         properties = clazz.$$properties;
         if (properties)

@@ -31,7 +31,7 @@ qx.Class.define("qx.test.core.ObjectId", {
         extend: qx.core.Object,
         members: {
           _createQxObjectImpl: function(id) {
-            switch (id) {
+            switch(id) {
             case "txt":
               return new qx.ui.form.TextField();
             }

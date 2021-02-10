@@ -256,7 +256,7 @@ qx.Bootstrap.define("qx.bom.element.Attribute",
 
         // All modern browsers interpret "" as true but not IE8, which set the property to "" reset
         if (hints.bools[name] && !(qx.core.Environment.get("engine.name") == "mshtml" &&
-        parseInt(qx.core.Environment.get("browser.documentmode"), 10) <= 8)) {
+        parseInt(qx.core.Environment.get("browser.documentmode"), 10) <= 8 )) {
           return qx.Bootstrap.isString(value); // also respect empty strings as true
         }
       }

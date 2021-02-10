@@ -45,7 +45,7 @@ qx.Class.define("qx.test.bom.Selector",
 
       elements.forEach(function(el) {
         document.body.removeChild(el);
-      });
+      })
     }
   }
 });

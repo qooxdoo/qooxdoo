@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.virtual.selection.CellRectangle",
         column: item.column
       };
 
-      switch (relation)
+      switch(relation)
       {
         case "above":
           for (var row=item.row-1; row>=0; row--)

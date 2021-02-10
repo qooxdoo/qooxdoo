@@ -140,11 +140,11 @@ qx.Bootstrap.define("qx.bom.element.Class",
      */
     get : function(element) {
       var className = element.className;
-      if (typeof className.split !== 'function')
+      if(typeof className.split !== 'function')
       {
-        if (typeof className === 'object')
+        if(typeof className === 'object')
         {
-          if (qx.Bootstrap.getClass(className) == 'SVGAnimatedString')
+          if(qx.Bootstrap.getClass(className) == 'SVGAnimatedString')
           {
             className = className.baseVal;
           }
@@ -156,7 +156,7 @@ qx.Bootstrap.define("qx.bom.element.Class",
             className = '';
           }
         }
-        if (typeof className === 'undefined')
+        if(typeof className === 'undefined')
         {
           if (qx.core.Environment.get("qx.debug")) {
             qx.log.Logger.warn(this, "className for element " + element + " is undefined");

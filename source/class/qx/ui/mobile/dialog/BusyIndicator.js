@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
     // overridden
     _createIconWidget : function(iconUrl)
     {
-      var iconWidget = this.base(arguments, iconUrl);
+      var iconWidget = this.base(arguments,iconUrl);
       iconWidget.addCssClass(this.getSpinnerClass());
       return iconWidget;
     },
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
       if (old) {
         this.getIconWidget().removeCssClass(old);
       }
-      if (value) {
+      if(value) {
         this.getIconWidget().addCssClass(value);
       }
     }
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.mobile.dialog.BusyIndicator",
     this.removeListener("appear", this._onAppear, this);
     this.removeListener("disappear", this._onDisappear, this);
 
-    if (this.__animationHandle) {
+    if(this.__animationHandle) {
       this.__animationHandle.stop();
     }
 

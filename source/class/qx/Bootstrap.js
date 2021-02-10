@@ -118,7 +118,7 @@ qx.Bootstrap = {
     {
       qx.Bootstrap.setDisplayNames(config.members, name + ".prototype");
 
-      clazz = config.construct || new Function();
+      clazz = config.construct || new Function;
 
       this.extendClass(clazz, clazz, config.extend, name, basename);
 
@@ -190,7 +190,7 @@ qx.Bootstrap = {
     if (!isStrictMode()) {
       try {
         clazz.name = name;
-      } catch (ex) {
+      } catch(ex) {
         // Nothing
       }
     }
@@ -491,7 +491,7 @@ qx.Bootstrap.define("qx.Bootstrap",
             executeForClassName(key);
           }
         }
-      };
+      }
 
       var executeForClassName = function (className) {
         var clazz = getByName(className);
@@ -506,7 +506,7 @@ qx.Bootstrap.define("qx.Bootstrap",
           executeForDbClassInfo(dbClassInfo);
         }
         execute(clazz);
-      };
+      }
 
       var execute = function (clazz) {
         var cb = clazz.$$pendingDefer;
@@ -515,7 +515,7 @@ qx.Bootstrap.define("qx.Bootstrap",
           clazz.$$deferComplete = true;
           cb.call(clazz);
         }
-      };
+      }
 
       var getByName = function (name) {
         var clazz = qx.Bootstrap.getByName(name);
@@ -533,7 +533,7 @@ qx.Bootstrap.define("qx.Bootstrap",
           }
         }
         return clazz;
-      };
+      }
 
       if (!dbClassInfo) {
         var pendingDefers = this.__pendingDefers;
@@ -682,8 +682,8 @@ qx.Bootstrap.define("qx.Bootstrap",
         return arr;
       }
     })[
-      typeof (Object.keys) === "function" ? "ES5" :
-        (function() { for (var key in {toString : 1}) { return key; } })() !== "toString" ? "BROKEN_IE" : "default"
+      typeof(Object.keys) === "function" ? "ES5" :
+        (function() {for (var key in {toString : 1}) { return key; }})() !== "toString" ? "BROKEN_IE" : "default"
     ],
 
 
@@ -799,9 +799,9 @@ qx.Bootstrap.define("qx.Bootstrap",
     getClass : function(value)
     {
       // The typeof null and undefined is "object" under IE8
-      if (value === undefined) {
+      if(value === undefined) {
         return "Undefined";
-      } else if (value === null) {
+      }else if(value === null) {
         return "Null";
       }
       var classString = Object.prototype.toString.call(value);
@@ -851,7 +851,7 @@ qx.Bootstrap.define("qx.Bootstrap",
       return (
         value !== null && (
         value instanceof Array ||
-        (value && qx.data && qx.data.IListData && qx.util.OOUtil.hasInterface(value.constructor, qx.data.IListData)) ||
+        (value && qx.data && qx.data.IListData && qx.util.OOUtil.hasInterface(value.constructor, qx.data.IListData) ) ||
         qx.Bootstrap.getClass(value) === "Array" ||
         (!!value && !!value.$$isArray))
       );
@@ -892,7 +892,7 @@ qx.Bootstrap.define("qx.Bootstrap",
      * @return {Boolean} Whether the value is a function.
      */
     isFunctionOrAsyncFunction : function(value) {
-      var name = qx.Bootstrap.getClass(value);
+      var name = qx.Bootstrap.getClass(value)
       return ((name === "Function")||(name === "AsyncFunction"));
     },
 

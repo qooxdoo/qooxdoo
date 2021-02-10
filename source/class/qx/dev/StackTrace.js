@@ -67,7 +67,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       try {
         throw new Error();
       }
-      catch (ex) {
+      catch(ex) {
         if (qx.dev.StackTrace.hasEnvironmentCheck &&
             qx.core.Environment.get("ecmascript.error.stacktrace"))
         {
@@ -155,7 +155,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
       if (!isStrictMode()) {
         try {
           fcn = qx.lang.Function.getCaller(args);
-        } catch (ex) {
+        }catch(ex) {
           // Nothing
         }
       }
@@ -167,7 +167,7 @@ qx.Bootstrap.define("qx.dev.StackTrace",
 
         try {
           fcn = fcn.caller;
-        } catch (ex) {
+        } catch(ex) {
           break;
         }
 

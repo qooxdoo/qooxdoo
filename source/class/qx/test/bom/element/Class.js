@@ -42,10 +42,10 @@ qx.Class.define("qx.test.bom.element.Class",
 
     "test: get should return the className for svg element" : function()
     {
-      if (document.createElementNS) {
+      if(document.createElementNS){
         var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        svg.setAttribute('id', 'svgEl');
-        svg.setAttribute('class', 'svgclassname');
+        svg.setAttribute('id','svgEl');
+        svg.setAttribute('class','svgclassname');
         document.body.appendChild(svg);
         var Class = qx.bom.element.Class;
         this.assertEquals("svgclassname", Class.get(svg));

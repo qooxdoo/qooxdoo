@@ -96,7 +96,7 @@ qx.Bootstrap.define("qx.module.Event", {
               wrappedCallback();
             }
           }
-          catch (error) {
+          catch(error) {
             window.setTimeout(timer, 100);
           }
         };
@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.module.Event", {
         types = [types];
       }
       var registry = qx.module.Event.__normalizations;
-      for (var i=0, l=types.length; i<l; i++) {
+      for (var i=0,l=types.length; i<l; i++) {
         var type = types[i];
         if (qx.lang.Type.isFunction(normalizer)) {
           if (!registry[type]) {
@@ -150,7 +150,7 @@ qx.Bootstrap.define("qx.module.Event", {
         types = [types];
       }
       var registry = qx.module.Event.__normalizations;
-      for (var i=0, l=types.length; i<l; i++) {
+      for (var i=0,l=types.length; i<l; i++) {
         var type = types[i];
         if (registry[type]) {
           qx.lang.Array.remove(registry[type], normalizer);
@@ -186,7 +186,7 @@ qx.Bootstrap.define("qx.module.Event", {
         types = [types];
       }
       var onHooks = qx.module.Event.__hooks.on;
-      for (var i=0, l=types.length; i<l; i++) {
+      for (var i=0,l=types.length; i<l; i++) {
         var type = types[i];
         if (qx.lang.Type.isFunction(registerHook)) {
           if (!onHooks[type]) {
@@ -199,7 +199,7 @@ qx.Bootstrap.define("qx.module.Event", {
         return;
       }
       var offHooks = qx.module.Event.__hooks.off;
-      for (var i=0, l=types.length; i<l; i++) {
+      for (var i=0,l=types.length; i<l; i++) {
         var type = types[i];
         if (qx.lang.Type.isFunction(unregisterHook)) {
           if (!offHooks[type]) {
@@ -226,7 +226,7 @@ qx.Bootstrap.define("qx.module.Event", {
         types = [types];
       }
       var onHooks = qx.module.Event.__hooks.on;
-      for (var i=0, l=types.length; i<l; i++) {
+      for (var i=0,l=types.length; i<l; i++) {
         var type = types[i];
         if (onHooks[type]) {
           qx.lang.Array.remove(onHooks[type], registerHook);
@@ -236,7 +236,7 @@ qx.Bootstrap.define("qx.module.Event", {
         return;
       }
       var offHooks = qx.module.Event.__hooks.off;
-      for (var i=0, l=types.length; i<l; i++) {
+      for (var i=0,l=types.length; i<l; i++) {
         var type = types[i];
         if (offHooks[type]) {
           qx.lang.Array.remove(offHooks[type], unregisterHook);
@@ -418,6 +418,7 @@ qx.Bootstrap.define("qx.module.Event", {
             typeHooks[k](el, type, listener, context);
           }
         }
+
       }
 
       return this;
@@ -599,6 +600,7 @@ qx.Bootstrap.define("qx.module.Event", {
      * @return {qxWeb} The collection for chaining
      */
     hover : function(callbackIn, callbackOut) {
+
       this.on("pointerover", callbackIn, this);
 
       if (qx.lang.Type.isFunction(callbackOut)) {
@@ -624,16 +626,18 @@ qx.Bootstrap.define("qx.module.Event", {
      * @return {qxWeb} The collection for chaining
      */
     onMatchTarget : function(eventType, target, callback, context) {
+
       context = context !== undefined ? context : this;
 
-      var listener = function(e) {
+      var listener = function(e){
+
         var eventTarget = qxWeb(e.getTarget());
         if (eventTarget.is(target)) {
           callback.call(context, eventTarget, qxWeb.object.clone(e));
         } else {
           var targetToMatch = typeof target == "string" ? this.find(target) : qxWeb(target);
-          for (var i = 0, l = targetToMatch.length; i < l; i++) {
-            if (eventTarget.isChildOf(qxWeb(targetToMatch[i]))) {
+          for(var i = 0, l = targetToMatch.length; i < l; i++) {
+            if(eventTarget.isChildOf(qxWeb(targetToMatch[i]))) {
               callback.call(context, eventTarget, qxWeb.object.clone(e));
               break;
             }
@@ -676,20 +680,26 @@ qx.Bootstrap.define("qx.module.Event", {
      * @return {qxWeb} The collection for chaining
      */
     offMatchTarget : function(eventType, target, callback, context) {
+
       context = context !== undefined ? context : this;
 
       this.forEach(function(el) {
+
         if (el.$$matchTargetInfo && qxWeb.type.get(el.$$matchTargetInfo) == "Array") {
+
           var infos = el.$$matchTargetInfo;
 
           for (var i=infos.length - 1; i>=0; i--) {
+
             var entry = infos[i];
             if (entry.type == eventType &&
                 entry.callback == callback &&
                 entry.context == context) {
+
               this.off(eventType, entry.listener);
               infos.splice(i, 1);
             }
+
           }
 
           if (infos.length === 0) {

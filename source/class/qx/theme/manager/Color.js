@@ -94,10 +94,11 @@ qx.Class.define("qx.theme.manager.Color",
           throw new Error("Could not parse color: " + color);
         }
         return color;
+
       } else if (color instanceof Array) {
         return qx.util.ColorUtil.rgbToRgbString(color);
       } else if (color instanceof Function) {
-        return this.__parseColor(colors, color(name));
+        return this.__parseColor(colors,color(name));
       }
       // this is might already be a rgb or hex color
       return name;

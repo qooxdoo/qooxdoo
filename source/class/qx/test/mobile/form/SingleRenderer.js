@@ -59,31 +59,31 @@ qx.Class.define("qx.test.mobile.form.SingleRenderer",
     testShowHideRow : function() {
       this.__renderer.hideItem(this.__b);
       var isHidden = this.__b.getLayoutParent().hasCssClass("exclude");
-      this.assertTrue(isHidden, "Buttons parent is expected to contain 'exclude' class");
+      this.assertTrue(isHidden,"Buttons parent is expected to contain 'exclude' class");
 
       this.__renderer.showItem(this.__b);
       isHidden = this.__b.getLayoutParent().hasCssClass("exclude");
-      this.assertFalse(isHidden, "Button parent is expected to not contain 'exclude' class anymore");
+      this.assertFalse(isHidden,"Button parent is expected to not contain 'exclude' class anymore");
     },
 
 
     testItemRow : function() {
       this.assertNotNull(this.__renderer._getChildren()[0]);
-      this.assertTrue(this.__renderer._getChildren()[1]._getChildren().length=== 2); // we have a label and a form element in the row
+      this.assertTrue(2=== this.__renderer._getChildren()[1]._getChildren().length); // we have a label and a form element in the row
     },
 
 
     testButtonRow : function() {
       this.assertNotNull(this.__renderer._getChildren()[5]);
       var buttonRowLength = this.__renderer._getChildren()[5]._getChildren().length;
-      this.assertTrue(buttonRowLength === 1); // we have only the button in the row
+      this.assertTrue(1 === buttonRowLength); // we have only the button in the row
     },
 
 
     testTwoLinesRow : function() {
       this.assertNotNull(this.__renderer._getChildren()[3]);
       var rowLength = this.__renderer._getChildren()[3]._getChildren().length;
-      this.assertTrue(rowLength === 2);
+      this.assertTrue(2 === rowLength);
     }
   }
 });

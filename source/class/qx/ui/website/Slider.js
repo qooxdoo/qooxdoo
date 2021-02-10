@@ -342,7 +342,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
 
       var stepCount = 0;
 
-      for (var i=1, j=step.length-1; i<j; i++) {
+      for(var i=1, j=step.length-1; i<j; i++){
         stepCount = step[i] - step[0];
         pixel.push(Math.round(stepCount*stepWidth) + dragBoundaries.min);
       }
@@ -362,6 +362,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
     _getNearestValue : function(position) {
       var pixels = this._getPixels();
       if (pixels.length === 0) {
+
         var dragBoundaries = this._getDragBoundaries();
         var availableWidth = dragBoundaries.max - dragBoundaries.min;
         var relativePosition = position - dragBoundaries.min;
@@ -382,9 +383,7 @@ qx.Bootstrap.define("qx.ui.website.Slider",
         return result;
       }
 
-      var currentIndex = 0, 
-before = 0, 
-after = 0;
+      var currentIndex = 0, before = 0, after = 0;
       for (var i=0, j=pixels.length; i<j; i++) {
         if (position >= pixels[i]) {
           currentIndex = i;

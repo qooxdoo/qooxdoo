@@ -113,7 +113,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     _onTrackEnd: function(evt) {
       this._onTrack = false;
 
-      if (this._snapTimeoutId) {
+      if(this._snapTimeoutId) {
         clearTimeout(this._snapTimeoutId);
       }
       this._snapTimeoutId = setTimeout(function() {
@@ -134,11 +134,11 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
       this._setCurrentX(scrollLeft);
       this._setCurrentY(scrollTop);
 
-      if (this._snapTimeoutId) {
+      if(this._snapTimeoutId) {
         clearTimeout(this._snapTimeoutId);
       }
       this._snapTimeoutId = setTimeout(function() {
-        if (!this._onTrack) {
+        if(!this._onTrack) {
           this._snap();
         }
       }.bind(this), 100);
@@ -198,7 +198,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
       this.fireEvent("scrollEnd");
       var element = this.getContentElement();
 
-      if (element.scrollTop < 1 || element.scrollTop > this._getScrollHeight()) {
+      if(element.scrollTop < 1 || element.scrollTop > this._getScrollHeight()) {
         return;
       }
       var current = this._getPosition();
@@ -253,7 +253,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     * @return {Number} the scrolling height.
     */
     _getScrollHeight : function() {
-      if (!this.getContentElement()) {
+      if(!this.getContentElement()) {
         return 0;
       }
 
@@ -266,7 +266,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
     * @return {Number} the scrolling width.
     */
     _getScrollWidth : function() {
-      if (!this.getContentElement()) {
+      if(!this.getContentElement()) {
         return 0;
       }
 
@@ -283,7 +283,7 @@ qx.Mixin.define("qx.ui.mobile.container.MNativeScroll",
      */
     _scrollTo: function(x, y, time) {
       var element = this.getContentElement();
-      if (!time) {
+      if(!time) {
         element.scrollLeft = x;
         element.scrollTop = y;
         return;

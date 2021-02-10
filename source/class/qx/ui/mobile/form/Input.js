@@ -77,7 +77,7 @@ qx.Class.define("qx.ui.mobile.form.Input",
       }
 
       var scrollContainer = this._getParentScrollContainer();
-      if (scrollContainer === null) {
+      if(scrollContainer === null) {
         return;
       }
 
@@ -85,9 +85,9 @@ qx.Class.define("qx.ui.mobile.form.Input",
         scrollContainer.scrollToWidget(this.getLayoutParent(), 0);
 
         // Refresh caret position after scrolling.
-        this._setStyle("position", "relative");
+        this._setStyle("position","relative");
         qx.bom.AnimationFrame.request(function() {
-          this._setStyle("position", null);
+          this._setStyle("position",null);
         }, this);
       }.bind(this), 300);
     }

@@ -26,7 +26,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
 
     setUp : function()
     {
-      var button = this.__button = new qx.ui.form.ToggleButton();
+      var button = this.__button = new qx.ui.form.ToggleButton;
       this.getRoot().add(button);
       this.flush();
     },
@@ -35,13 +35,13 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
     // 2-state button
     //
 
-    testInitial: function() {
+    testInitial: function(){
       var button = this.__button;
 
       this.assertNotState(button, "checked");
     },
 
-    testCheck: function() {
+    testCheck: function(){
       var button = this.__button;
       button.setValue(true);
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       this.assertState(button, "undetermined");
     },
 
-    testCheckTri: function() {
+    testCheckTri: function(){
       var button = this.__button;
       button.setTriState(true);
       button.setValue(null);
@@ -93,7 +93,7 @@ qx.Class.define("qx.test.ui.form.ToggleButton",
       this.assertNotState(button, "undetermined");
     },
 
-    testUncheckTri: function() {
+    testUncheckTri: function(){
       var button = this.__button;
       button.setTriState(true);
       button.setValue(null);
