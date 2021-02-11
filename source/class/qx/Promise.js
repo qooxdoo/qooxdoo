@@ -1100,12 +1100,8 @@ qx.Class.define("qx.Promise", {
             if(i)
               return i(o,!0);
             var f=new Error("Cannot find module '"+o+"'");
-<<<<<<< HEAD
             /* eslint-disable-next-line no-sequences */
             throw f.code="MODULE_NOT_FOUND", f;
-=======
-            throw f.code="MODULE_NOT_FOUND",f
->>>>>>> parent of 7e05968908... fix lint whitespace issues
           }
           var l=n[o]={exports:{}};
           t[o][0].call(l.exports, function(e){
@@ -1480,11 +1476,7 @@ qx.Class.define("qx.Promise", {
               return fn.apply(obj, this);
             }
             Promise.prototype.call = function (methodName) {
-<<<<<<< HEAD
               var args = [].slice.call(arguments, 1);
-=======
-              var args = [].slice.call(arguments, 1);;
->>>>>>> parent of 7e05968908... fix lint whitespace issues
               if (!true) {
                 if (canEvaluate) {
                   var maybeCaller = getMethodCaller(methodName);
@@ -3480,13 +3472,8 @@ qx.Class.define("qx.Promise", {
                   }
                 }
               }
-<<<<<<< HEAD
               var args = [].slice.call(arguments);
               if (fn) { args.pop(); }
-=======
-              var args = [].slice.call(arguments);;
-              if (fn) args.pop();
->>>>>>> parent of 7e05968908... fix lint whitespace issues
               var ret = new PromiseArray(args).promise();
               return fn !== undefined ? ret.spread(fn) : ret;
             };
@@ -3759,11 +3746,7 @@ qx.Class.define("qx.Promise", {
               } else if (!multiArgs) {
                 promise._fulfill(value);
               } else {
-<<<<<<< HEAD
                 var args = [].slice.call(arguments, 1);
-=======
-                var args = [].slice.call(arguments, 1);;
->>>>>>> parent of 7e05968908... fix lint whitespace issues
                 promise._fulfill(args);
               }
               promise = null;
@@ -3923,12 +3906,8 @@ qx.Class.define("qx.Promise", {
               var len = arguments.length;
               if (len > 1) {
                 var catchInstances = new Array(len - 1),
-<<<<<<< HEAD
                 j = 0,
-i;
-=======
-                j = 0, i;
->>>>>>> parent of 7e05968908... fix lint whitespace issues
+                i;
                 for (i = 0; i < len - 1; ++i) {
                   var item = arguments[i];
                   if (util.isObject(item)) {
@@ -4082,12 +4061,9 @@ i;
 
               var domain = getDomain();
               if (!((bitField & 50397184) === 0)) {
-<<<<<<< HEAD
-                var handler, value,
-settler = target._settlePromiseCtx;
-=======
-                var handler, value, settler = target._settlePromiseCtx;
->>>>>>> parent of 7e05968908... fix lint whitespace issues
+                var handler,
+                  value,
+                  settler = target._settlePromiseCtx;
                 if (((bitField & 33554432) !== 0)) {
                   value = target._rejectionHandler0;
                   handler = didFulfill;
@@ -4593,7 +4569,6 @@ settler = target._settlePromiseCtx;
             _dereq_('./each.js')(Promise, INTERNAL);
             _dereq_('./any.js')(Promise);
 
-<<<<<<< HEAD
             util.toFastProperties(Promise);
             util.toFastProperties(Promise.prototype);
             function fillTypes(value) {
@@ -4615,30 +4590,6 @@ settler = target._settlePromiseCtx;
             fillTypes(new Promise(INTERNAL));
             debug.setBounds(Async.firstLineError, util.lastLineError);
             return Promise;
-=======
-            util.toFastProperties(Promise);                                          
-            util.toFastProperties(Promise.prototype);                                
-            function fillTypes(value) {                                              
-              var p = new Promise(INTERNAL);                                       
-              p._fulfillmentHandler0 = value;                                      
-              p._rejectionHandler0 = value;                                        
-              p._promise0 = value;                                                 
-              p._receiver0 = value;                                                
-            }                                                                        
-            // Complete slack tracking, opt out of field-type tracking and           
-            // stabilize map                                                         
-            fillTypes({a: 1});                                                       
-            fillTypes({b: 2});                                                       
-            fillTypes({c: 3});                                                       
-            fillTypes(1);                                                            
-            fillTypes(function(){});                                                 
-            fillTypes(undefined);                                                    
-            fillTypes(false);                                                        
-            fillTypes(new Promise(INTERNAL));                                        
-            debug.setBounds(Async.firstLineError, util.lastLineError);               
-            return Promise;                                                          
-
->>>>>>> parent of 7e05968908... fix lint whitespace issues
           };
 
         },{"./any.js":1,"./async":2,"./bind":3,"./call_get.js":5,"./cancel":6,"./catch_filter":7,"./context":8,"./debuggability":9,"./direct_resolve":10,"./each.js":11,"./errors":12,"./es5":13,"./filter.js":14,"./finally":15,"./generators.js":16,"./join":17,"./map.js":18,"./method":19,"./nodeback":20,"./nodeify.js":21,"./promise_array":23,"./promisify.js":24,"./props.js":25,"./race.js":27,"./reduce.js":28,"./settle.js":30,"./some.js":31,"./synchronous_inspection":32,"./thenables":33,"./timers.js":34,"./using.js":35,"./util":36}],23:[function(_dereq_,module,exports){

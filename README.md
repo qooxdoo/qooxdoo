@@ -29,6 +29,28 @@ For more information please see http://qooxdoo.org/LICENCSE .
 It is easy to get started with qooxdoo. For detailed information please
 see [our Get Started Guide](https://qooxdoo.org/documentation/#/?id=getting-started).
 
+## Development
+
+If you develop *with* qooxdoo, you would normally use a stable
+[NPM release](https://www.npmjs.com/package/@qooxdoo/qx) and a
+compiler called with `npx qx ...`. 
+
+In contrast, when hacking qooxdoo itself, you
+need to first execute the following steps:
+
+```bash
+git clone https://github.com/qooxdoo/qooxdoo.git
+cd qooxdoo
+npm install
+./bootstrap-compiler
+
+```
+This compiles the compiler you will be using to compile your code from the sources
+of this repository, which makes sure that you are using the latest version of the
+compiler. 
+
+If you work on the compiler itself, you will then use `./bin/source/qx`. In order
+to compile modified framework code, use the optimized `./bin/build/qx` executable. 
 
 ## Contributing
 
